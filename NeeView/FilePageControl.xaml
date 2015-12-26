@@ -7,7 +7,7 @@
              mc:Ignorable="d" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" d:DesignWidth="305" d:DesignHeight="400">
     <Grid Background="White" Margin="4,0" >
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-               <TextBlock x:Name="IconTextBlock" Text="2" FontFamily="Wingdings" FontSize="100" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="DarkGray"/>
+               <TextBlock x:Name="IconTextBlock" Text="2" FontFamily="Wingdings" FontSize="64" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="DarkGray"/>
             <TextBlock x:Name="FileNameTextBlock" Text="FileName" FontSize="16" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,8"/>
             <TextBlock x:Name="MessageTextBlock" Text="Message Message Message" HorizontalAlignment="Center" TextWrapping="Wrap"/>
         </StackPanel>

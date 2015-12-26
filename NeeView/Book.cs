@@ -163,7 +163,8 @@ namespace NeeView
         [DataMember]
         public bool IsEnableHistory { get; set; }
 
-
+        [DataMember]
+        public bool IsEnableNoSupportFile { get; set; }
 
         //
         private void Constructor()
@@ -178,6 +179,7 @@ namespace NeeView
             IsFirstOrderSusieImage = false;
             IsFirstOrderSusieArchive = false;
             IsEnableHistory = true;
+            IsEnableNoSupportFile = false;
         }
 
         public BookSetting()
@@ -196,31 +198,27 @@ namespace NeeView
         {
             BookParamSetting.Store(book);
 
-            //PageMode = book.PageMode;
-            //IsViewStartPositionCenter = book.IsViewStartPositionCenter;
-
             StretchMode = book.StretchMode;
             Background = book.Background;
             IsEnableAnimatedGif = book.IsEnableAnimatedGif;
+            IsEnableHistory = book.IsEnableHistory;
+            IsEnableNoSupportFile = book.IsEnableNoSupportFile;
 
             IsEnableSusie = book.IsEnableSusie;
             SusiePluginPath = book.SusiePluginPath;
             IsFirstOrderSusieImage = book.IsFirstOrderSusieImage;
             IsFirstOrderSusieArchive = book.IsFirstOrderSusieArchive;
-            IsEnableHistory = book.IsEnableHistory;
         }
 
         public void Restore(Book book)
         {
             BookParamSetting.Restore(book);
 
-            //book.PageMode = PageMode;
-            //book.IsViewStartPositionCenter = IsViewStartPositionCenter;
-
             book.StretchMode = StretchMode;
             book.Background = Background;
             book.IsEnableAnimatedGif = IsEnableAnimatedGif;
             book.IsEnableHistory = IsEnableHistory;
+            book.IsEnableNoSupportFile = IsEnableNoSupportFile;
 
             RestoreSusieSetting(book);
 
@@ -323,7 +321,8 @@ namespace NeeView
                 Susie.SearchPath.Add(_SusiePluginPath);
                 Susie.Initialize();
                 // Susie対応拡張子更新
-                _ArchiverManager.UpdateSusieSupprtedFileTypes(Susie);
+                ModelContext.ArchiverManager.UpdateSusieSupprtedFileTypes(Susie);
+                ModelContext.BitmapLoaderManager.UpdateSusieSupprtedFileTypes(Susie);
             }
         }
 
@@ -347,7 +346,7 @@ namespace NeeView
             {
                 if (_IsFirstOrderSusieArchive == value) return;
                 _IsFirstOrderSusieArchive = value;
-                ArchiverManager.OrderType = _IsFirstOrderSusieArchive ? ArchiverType.SusieArchiver : ArchiverType.DefaultArchiver;
+                ModelContext.ArchiverManager.OrderType = _IsFirstOrderSusieArchive ? ArchiverType.SusieArchiver : ArchiverType.DefaultArchiver;
             }
         }
 
@@ -370,7 +369,26 @@ namespace NeeView
         }
         #endregion
 
+        // 履歴から設定を復元する
         public bool IsEnableHistory { get; set; } = true;
+
+        // 非対応拡張子ファイルを読み込む
+        private bool _IsEnableNoSupportFile;
+        public bool IsEnableNoSupportFile
+        {
+            get { return _IsEnableNoSupportFile; }
+            set
+            {
+                if (_IsEnableNoSupportFile != value)
+                {
+                    _IsEnableNoSupportFile = value;
+                    if (_Place != null)
+                    {
+                        this.Load(_Place); // 再読み込み
+                    }
+                }
+            }
+        }
 
         // 最初のページはタイトル
         private bool _IsSupportedTitlePage;
@@ -559,8 +577,8 @@ namespace NeeView
         private object _Lock = new object();
 
 
-        private ArchiverManager _ArchiverManager = new ArchiverManager();
-        public ArchiverManager ArchiverManager => _ArchiverManager;
+        //private ArchiverManager _ArchiverManager = new ArchiverManager();
+        //public ArchiverManager ArchiverManager => _ArchiverManager;
 
         //
         public Book()
@@ -576,7 +594,8 @@ namespace NeeView
             Susie.Initialize();
 
             //SusieArchiver.UpdateSupportExtensions(Susie);
-            _ArchiverManager.UpdateSusieSupprtedFileTypes(Susie);
+            ModelContext.ArchiverManager.UpdateSusieSupprtedFileTypes(Susie);
+            ModelContext.BitmapLoaderManager.UpdateSusieSupprtedFileTypes(Susie);
 
             Pages = new List<Page>();
 
@@ -916,29 +935,24 @@ namespace NeeView
 
             if (Directory.Exists(path))
             {
-                archiver = _ArchiverManager.CreateArchiver(path);
+                archiver = ModelContext.ArchiverManager.CreateArchiver(path);
             }
             else if (File.Exists(path))
             {
-                if (_ArchiverManager.IsSupported(path))
+                if (ModelContext.ArchiverManager.IsSupported(path))
                 {
-                    archiver = _ArchiverManager.CreateArchiver(path);
+                    archiver = ModelContext.ArchiverManager.CreateArchiver(path);
                     option |= LoadFolderOption.Recursive; // 圧縮ファイルはリカーシブ標準
                 }
                 else
                 {
-                    archiver = _ArchiverManager.CreateArchiver(Path.GetDirectoryName(path));
+                    archiver = ModelContext.ArchiverManager.CreateArchiver(Path.GetDirectoryName(path));
                     start = Path.GetFileName(path);
                 }
             }
             else
             {
                 throw new FileNotFoundException("ファイルが見つかりません", path);
-            }
-
-            if (IsRecursiveFolder)
-            {
-                option |= LoadFolderOption.Recursive;
             }
 
             //
@@ -954,6 +968,12 @@ namespace NeeView
                     start = start ?? setting.BookMark;
                 }
             }
+
+            if (IsRecursiveFolder)
+            {
+                option |= LoadFolderOption.Recursive;
+            }
+
 
             LoadArchive(archiver, start, option);
         }
@@ -1027,12 +1047,12 @@ namespace NeeView
             foreach (var entry in entries)
             {
                 // 再帰設定、もしくは単一ファイルの場合、再帰を行う
-                if ((isRecursive || entries.Count == 1) && _ArchiverManager.IsSupported(entry.Path))
+                if ((isRecursive || entries.Count == 1) && ModelContext.ArchiverManager.IsSupported(entry.Path))
                 {
                     if (archiver is FolderFiles)
                     {
                         var ff = (FolderFiles)archiver;
-                        ReadArchive(_ArchiverManager.CreateArchiver(ff.GetFullPath(entry.Path)), LoosePath.Combine(place, entry.Path), isRecursive);
+                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(ff.GetFullPath(entry.Path)), LoosePath.Combine(place, entry.Path), isRecursive);
                     }
                     else
                     {
@@ -1040,14 +1060,31 @@ namespace NeeView
                         string tempFileName = Temporary.CreateTempFileName(Path.GetFileName(entry.Path));
                         archiver.ExtractToFile(entry.Path, tempFileName);
                         _TempArchives.Add(tempFileName);
-                        ReadArchive(_ArchiverManager.CreateArchiver(tempFileName), LoosePath.Combine(place, entry.Path), isRecursive);
+                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName), LoosePath.Combine(place, entry.Path), isRecursive);
                     }
                 }
                 else
                 {
-                    var page = new BitmapPage(entry, archiver, place); // ここで place を活用すべき
-                    //Debug.WriteLine("> " + page.FullPath);
-                    Pages.Add(page);
+                    if (ModelContext.BitmapLoaderManager.IsSupported(entry.Path))
+                    {
+                        var page = new BitmapPage(entry, archiver, place);
+                        Pages.Add(page);
+                    }
+                    else if (IsEnableNoSupportFile)
+                    {
+                        switch (ModelContext.ArchiverManager.GetSupportedType(entry.Path))
+                        {
+                            case ArchiverType.None:
+                                Pages.Add(new FilePage(entry, FilePageIcon.File, place));
+                                break;
+                            case ArchiverType.FolderFiles:
+                                Pages.Add(new FilePage(entry, FilePageIcon.Folder, place));
+                                break;
+                            default:
+                                Pages.Add(new FilePage(entry, FilePageIcon.Archive, place));
+                                break;
+                        }
+                    }
                 }
             }
         }
@@ -1231,7 +1268,7 @@ namespace NeeView
                 var entries = Directory.GetFileSystemEntries(Path.GetDirectoryName(_Place)).ToList();
 
                 // ディレクトリ、アーカイブ以外は除外
-                var directories = entries.Where(e => Directory.Exists(e) || _ArchiverManager.IsSupported(e)).ToList();
+                var directories = entries.Where(e => Directory.Exists(e) || ModelContext.ArchiverManager.IsSupported(e)).ToList();
 
                 // TODO: ディレクトリの並び順ソート
 

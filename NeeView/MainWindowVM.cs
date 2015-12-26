@@ -52,10 +52,6 @@ namespace NeeView
     }
 
 
-    public static class ModelContext
-    {
-        public static BookHistory BookHistory { get; set; }
-    }
 
     public class DispPage
     {
@@ -156,6 +152,7 @@ namespace NeeView
 
         public ObservableCollection<FrameworkElement> Contents { get; private set; }
         public ObservableCollection<double> ContentsWidth { get; private set; }
+        public ObservableCollection<double> ContentsHeight { get; private set; }
 
         public Brush _PageColor = Brushes.Black;
 
@@ -171,9 +168,11 @@ namespace NeeView
 
         public MainWindowVM()
         {
+            ModelContext.Initialize();
+
             _Book = new Book();
 
-            ModelContext.BookHistory = new BookHistory();
+            //ModelContext.BookHistory = new BookHistory();
 
             _Commands = new BookCommandCollection();
             _Commands.Initialize(_Book, null);
@@ -220,7 +219,9 @@ namespace NeeView
             ContentsWidth = new ObservableCollection<double>();
             ContentsWidth.Add(0);
             ContentsWidth.Add(0);
-
+            ContentsHeight = new ObservableCollection<double>();
+            ContentsHeight.Add(0);
+            ContentsHeight.Add(0);
 
             // title
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
@@ -266,14 +267,14 @@ namespace NeeView
             UpdateLastFiles();
         }
 
-#region Property: BackgroundBrush
+        #region Property: BackgroundBrush
         private Brush _BackgroundBrush;
         public Brush BackgroundBrush
         {
             get { return _BackgroundBrush; }
             set { if (_BackgroundBrush != value) { _BackgroundBrush = value; OnPropertyChanged(); } }
         }
-#endregion
+        #endregion
 
 
         private void OnBackgroundChanged(object sender, EventArgs e)
@@ -403,9 +404,21 @@ namespace NeeView
                 Contents[index] = image;
 #endif
                 }
+                else if (content.Content is FilePageContext)
+                {
+                    var control = new FilePageControl(content.Content as FilePageContext);
+                    Contents[index] = control;
+                }
                 else if (content.Content is string)
                 {
-                    var textBlock = new TextBlock();
+#if true
+                    var context = new FilePageContext() { Icon = FilePageIcon.File, Message = (string)content.Content };
+                    var control = new FilePageControl(context);
+                    //control.Width = content.Width;
+                    //control.Height = content.Height;
+                    Contents[index] = control;
+#else
+                        var textBlock = new TextBlock();
                     textBlock.Text = (string)content.Content;
                     textBlock.VerticalAlignment = VerticalAlignment.Center;
                     textBlock.HorizontalAlignment = HorizontalAlignment.Center;
@@ -413,6 +426,7 @@ namespace NeeView
                     textBlock.Background = Brushes.Orange;
                     textBlock.Padding = new Thickness(16);
                     Contents[index] = textBlock;
+#endif
                 }
                 else
                 {
@@ -457,9 +471,110 @@ namespace NeeView
         {
             for (int i = 0; i < 2; ++i)
             {
-                ContentsWidth[i] = CalcContentWidth(i, _ViewWidth, _ViewHeight);
+                //ContentsWidth[i] = CalcContentWidth(i, _ViewWidth, _ViewHeight);
+                var scale = CalcContentScale(i, _ViewWidth, _ViewHeight);
+                Point size = GetContentSize(_Book.NowPages[i]);
+                ContentsWidth[i] = size.X * scale;
+                ContentsHeight[i] = size.Y * scale;
             }
         }
+
+        //
+        private double CalcContentScale(int contentId, double width, double height)
+        {
+            Point c0 = GetContentSize(_Book.NowPages[0]);
+            Point c1 = GetContentSize(_Book.NowPages[1]);
+
+            if (_Book.StretchMode == PageStretchMode.None)
+            {
+                return 1.0; // (contentId == 0) ? c0.X : c1.X;
+            }
+
+
+            double rate0 = 1.0;
+            double rate1 = 1.0;
+
+            Point content;
+
+
+            //if (_Book.PageMode == 1)
+            if (_Book.NowPages[1] == null)
+            {
+                content = c0;
+            }
+            else
+            {
+                // どちらもImageでない
+                if (c0.X == 0 && c1.X == 0) return 1.0; //  width * 0.5;
+
+                if (c0.X == 0) c0 = c1;
+                if (c1.X == 0) c1 = c0;
+
+                // c1 の高さを c0 に合わせる
+                rate1 = c0.Y / c1.Y;
+
+                // 高さをあわせたときの幅の合計
+                content = new Point(c0.X * rate0 + c1.X * rate1, c0.Y);
+            }
+
+            //
+            double rateW = width / content.X;
+            double rateH = height / content.Y;
+
+
+            // 拡大はしない
+            if (_Book.StretchMode == PageStretchMode.Inside)
+            {
+                if (rateW > 1.0) rateW = 1.0;
+                if (rateH > 1.0) rateH = 1.0;
+            }
+            // 縮小はしない
+            else if (_Book.StretchMode == PageStretchMode.Outside)
+            {
+                if (rateW < 1.0) rateW = 1.0;
+                if (rateH < 1.0) rateH = 1.0;
+            }
+
+            // 枠いっぱいに広げる
+            if (_Book.StretchMode == PageStretchMode.UniformToFill)
+            {
+                if (rateW > rateH)
+                {
+                    rate0 *= rateW;
+                    rate1 *= rateW;
+                }
+                else
+                {
+                    rate0 *= rateH;
+                    rate1 *= rateH;
+                }
+            }
+            // 枠に収めるように広げる
+            else
+            {
+                if (rateW < rateH)
+                {
+                    rate0 *= rateW;
+                    rate1 *= rateW;
+                }
+                else
+                {
+                    rate0 *= rateH;
+                    rate1 *= rateH;
+                }
+            }
+
+            // 計算された幅を返す
+            if (contentId == 0)
+            {
+                return rate0; // c0.X * rate0;
+            }
+            else
+            {
+                return rate1; // c1.X * rate1;
+            }
+        }
+
 
         //
         private double CalcContentWidth(int contentId, double width, double height)

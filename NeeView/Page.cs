@@ -182,6 +182,56 @@ namespace NeeView
         }
     }
 
+    //
+    public enum FilePageIcon
+    {
+        File,
+        Archive,
+        Folder,
+        Alart,
+    }
+
+
+    public class FilePageContext
+    {
+        public FilePageIcon Icon { get; set; }
+        public string FileName { get; set; }
+        public string Message { get; set; }
+    }
+
+    //
+    public class FilePage : Page
+    {
+        string _Path;
+        public override string Path { get { return _Path; } }
+
+        string _Place;
+        public override string FullPath { get { return LoosePath.Combine(_Place, _Path); } }
+
+        FilePageIcon _Icon;
+
+        public FilePage(PageFileInfo fileInfo, FilePageIcon icon, string place)
+        {
+            _Place = place;
+            _Path = fileInfo.Path;
+            _Icon = icon;
+            UpdateTime = fileInfo.UpdateTime;
+        }
+
+        protected override object OpenContent()
+        {
+            Width = 320;
+            Height = 320 * 1.25;
+            Color = Colors.Black;
+
+            return new FilePageContext()
+            {
+                Icon = _Icon,
+                FileName = _Path
+            };
+        }
+    }
+
 
     //
     public class BitmapPage : Page
@@ -232,6 +282,8 @@ namespace NeeView
             foreach (var loaderType in LoaderOrderList)
             {
                 stream.Seek(0, SeekOrigin.Begin);
+
+                exception = null;
 
                 try
                 {
@@ -289,10 +341,16 @@ namespace NeeView
             catch (Exception e)
             {
                 SetMessage("Exception: " + e.Message);
-                Width = 512.0;
-                Height = 512.0;
+                Width = 320;
+                Height = 320 * 1.25;
                 Color = Colors.Black;
-                return $"{System.IO.Path.GetFileName(_Path)}\n{e.Message}";
+
+                return new FilePageContext()
+                {
+                    Icon = FilePageIcon.Alart,
+                    FileName = _Path,
+                    Message = e.Message
+                };
             }
         }
     }

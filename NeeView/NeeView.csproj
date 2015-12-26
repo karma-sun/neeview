@@ -82,9 +82,13 @@
     <Compile Include="FilenameBox.xaml.cs">
       <DependentUpon>FilenameBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FilePageControl.xaml.cs">
+      <DependentUpon>FilePageControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InputGestureSettingWindow.xaml.cs">
       <DependentUpon>InputGestureSettingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ModelContext.cs" />
     <Compile Include="MouseDragController.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="JobEngine.cs" />
@@ -114,6 +118,10 @@
     <Page Include="FilenameBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FilePageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InputGestureSettingWindow.xaml">
       <SubType>Designer</SubType>

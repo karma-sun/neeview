@@ -39,6 +39,7 @@ namespace NeeView
         public void Add(Book book)
         {
             if (book.Place == null) return;
+            if (book.Pages.Count <= 0) return;
 
             var item = _History.FirstOrDefault(e => e.Place == book.Place);
             if (item != null) _History.Remove(item);

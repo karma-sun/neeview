@@ -1,0 +1,51 @@
+﻿<!--
+    Copyright (c) 2015 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+<UserControl x:Class="NeeView.FilenameBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <local:NotBoolToVisiblityConverter x:Key="NotBoolToVisiblityConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <TextBox x:Name="PathTextBox" Padding="0,0,22,0" Text="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilenameBox}}}" Height="20" VerticalAlignment="Center" PreviewDragOver="PathTextBox_PreviewDragOver" Drop="PathTextBox_Drop">
+            <!--
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsValid, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilenameBox}}}" Value="False">
+                            <Setter Property="Background" Value="#FFFFEEAA"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+            -->
+        </TextBox>
+
+        <TextBlock Text="パスを入力してください" VerticalAlignment="Center" Margin="4,0" Foreground="Gray" IsHitTestVisible="False">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=PathTextBox, Path=Text}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <Button x:Name="ButtonOpenDialog" Content="..." Width="20" Height="{Binding ElementName=PathTextBox, Path=Height}" Click="ButtonOpenDialog_Click" HorizontalAlignment="Right"/>
+    </Grid>
+
+
+</UserControl>

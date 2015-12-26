@@ -1,0 +1,142 @@
+﻿<Window x:Class="NeeView.SettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeeView"
+        mc:Ignorable="d"
+        Title="SettingWindow" Height="480" Width="640">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    <Grid>
+        <TabControl x:Name="tabControl" Margin="10,10,10,43">
+            <TabItem Header="一般設定">
+                <StackPanel Margin="4">
+                    <TextBlock Text="表示モード" Margin="2,8,2,2"/>
+                    <DockPanel Margin="2" LastChildFill="False">
+                        <TextBlock Text="背景色" Width="auto" VerticalAlignment="Center" Margin="2"/>
+                        <ComboBox Width="100" ItemsSource="{Binding Path=BackgroundStyleList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.BookSetting.Background}" />
+                    </DockPanel>
+                    <CheckBox DockPanel.Dock="Top" Margin="2" Content="GIFをメディアとして再生する(アニメーションGIF)"
+                              IsChecked="{Binding Setting.BookSetting.IsEnableAnimatedGif}" />
+                    <!--
+                    <CheckBox DockPanel.Dock="Top" Margin="2" Content="横長ページを２ページ分とみなす"
+                              IsChecked="{Binding Setting.BookSetting.IsEnableWidePage}" />
+                    -->
+                    <TextBlock Text="ビュー操作" Margin="2,8,2,2"/>
+                    <CheckBox Margin="2" Content="移動をウィンドウ内に制限する"
+                              IsChecked="{Binding Setting.ViewSetting.IsLimitMove}" />
+                    <CheckBox Margin="2" Content="表示開始時の基準を画像の中心にする"
+                              ToolTip="OFFの時は、見開きモードによって右上基準、左上基準になります。"
+                              IsChecked="{Binding Setting.ViewSetting.IsViewStartPositionCenter}" />
+                    <CheckBox Margin="2" Content="回転、拡縮の基準を画像の中心にする"
+                              IsChecked="{Binding Setting.ViewSetting.IsControlCenterImage}" />
+                    <CheckBox Margin="2" Content="回転を45度単位にする"
+                              IsChecked="{Binding Setting.ViewSetting.IsAngleSnap}" />
+                </StackPanel>
+                
+            </TabItem>
+            <TabItem x:Name="SusieSettingTab" Header="Susie設定">
+                <TabItem.Resources>
+                    <CollectionViewSource x:Key="PluginSource" Source="{Binding SusiePluginList}">
+                        <CollectionViewSource.GroupDescriptions>
+                            <PropertyGroupDescription PropertyName="ApiVersion" />
+                        </CollectionViewSource.GroupDescriptions>
+                    </CollectionViewSource>
+
+                </TabItem.Resources>
+                <DockPanel Margin="4">
+                    <CheckBox DockPanel.Dock="Top" Margin="2" Content="Susieプラグインを使用する" IsChecked="{Binding Setting.BookSetting.IsEnableSusie}" />
+                    <DockPanel IsEnabled="{Binding Setting.BookSetting.IsEnableSusie}">
+                        <local:FilenameBox DockPanel.Dock="Top" Margin="0,2" Text ="{Binding SusiePluginPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="画像表示でSusieプラグインを優先する" IsChecked ="{Binding Setting.BookSetting.IsFirstOrderSusieImage}"/>
+                        <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="圧縮ファイル展開でSusieプラグインを優先する" IsChecked ="{Binding Setting.BookSetting.IsFirstOrderSusieArchive}"/>
+
+                        <ListBox x:Name="PluginListView" ItemsSource="{Binding Source={StaticResource PluginSource}}" Margin="0,8" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                            <ListBox.Resources>
+                                <local:ApiVersionToApiTextConverter x:Key="AipVersionConverter"/>
+                                <DataTemplate x:Key="HeaderTemplate">
+                                    <TextBlock Text="{Binding Name, Converter={StaticResource AipVersionConverter}}" FontWeight="Bold" Margin="0,8,0,4" />
+                                </DataTemplate>
+                            </ListBox.Resources>
+
+                            <ListBox.GroupStyle>
+                                <GroupStyle HeaderTemplate="{StaticResource HeaderTemplate}">
+                                </GroupStyle>
+                            </ListBox.GroupStyle>
+
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Grid Width="20" VerticalAlignment="Center">
+                                            <Button Content="🔧" Command="{x:Static local:SettingWindow.SusiePluginConfigCommand}" CommandParameter="{Binding}" Visibility="{Binding HasConfigurationDlg, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                        </Grid>
+                                        <TextBlock Text="{Binding PluginVersion}" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Header="操作設定">
+                <TabItem.Resources>
+                    <CollectionViewSource x:Key="CommandSource" Source="{Binding BookCommandCollection}">
+                        <CollectionViewSource.GroupDescriptions>
+                            <PropertyGroupDescription PropertyName="Group" />
+                        </CollectionViewSource.GroupDescriptions>
+                    </CollectionViewSource>
+                </TabItem.Resources>
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Bottom">
+                        <Grid DockPanel.Dock="Top">
+                            <TextBlock Text="{Binding ElementName=CommandListView, Path=SelectedValue.Header}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8"/>
+                            <DockPanel LastChildFill="False" HorizontalAlignment="Right">
+                                <DockPanel.Style>
+                                    <Style TargetType="DockPanel">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=CommandListView, Path=SelectedValue}" Value="{x:Null}">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DockPanel.Style>
+                                <Button x:Name="ShortCutSettingButton" Content="ショートカットキー設定" Width="120" Height="30" Margin="8" Click="ShortCutSettingButton_Click"/>
+                                <Button x:Name="MouseGestureSettingButton" Content="マウスジェスチャー設定" Width="120" Height="30" Margin="8" Click="MouseGestureSettingButton_Click"/>
+                            </DockPanel>
+                                <Button x:Name="ResetGestureSettingButton" Content="全設定初期化" Width="120" Height="30" Margin="10,8,476,8" Click="ResetGestureSettingButton_Click"/>
+                        </Grid>
+
+                    </DockPanel>
+
+                    <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}">
+                        <ListView.Resources>
+                            <DataTemplate x:Key="listGroupTemplate">
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="0,8,0,4" />
+                            </DataTemplate>
+                        </ListView.Resources>
+                        <ListView.GroupStyle>
+                            <GroupStyle HeaderTemplate="{StaticResource listGroupTemplate}"/>
+                        </ListView.GroupStyle>
+                            <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="コマンド" Width="200" DisplayMemberBinding="{Binding Header}"/>
+                                <GridViewColumn Header="ショートカットキー" Width="100" DisplayMemberBinding="{Binding ShortCut}"/>
+                                <GridViewColumn Header="マウスジェスチャー" Width="100" DisplayMemberBinding="{Binding MouseGesture}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </DockPanel>
+                
+            </TabItem>
+        </TabControl>
+
+        <Button x:Name="OkButton" Content="OK" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="80" Margin="0,0,95,10" Click="OkButton_Click"/>
+        <Button x:Name="CancelButton" Content="Cancel" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="80" Margin="0,0,10,10" Click="CancelButton_Click"/>
+    </Grid>
+</Window>

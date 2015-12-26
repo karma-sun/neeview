@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace NeeView
+{
+    /// <summary>
+    /// MouseGestureSettingWindow.xaml の相互作用ロジック
+    /// </summary>
+    public partial class MouseGestureSettingWindow : Window
+    {
+        public MouseGestureEx _MouseGesture;
+
+        public SettingWindow.BookCommand Command { get; set; }
+
+        public MouseGestureSettingWindow(SettingWindow.BookCommand command)
+        {
+            Command = command;
+
+            InitializeComponent();
+            DataContext = this;
+
+            _MouseGesture = new MouseGestureEx(this.GestureBox);
+            this.GestureText.SetBinding(TextBox.TextProperty, new Binding("GestureText") { Source = _MouseGesture });
+        }
+
+        private void OkButton_Click(object sender, RoutedEventArgs e)
+        {
+            Command.MouseGesture = this.GestureText.Text;
+
+            this.DialogResult = true;
+            this.Close();
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+    }
+}

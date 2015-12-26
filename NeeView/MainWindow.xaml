@@ -1,0 +1,188 @@
+﻿<Window x:Class="NeeView.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeeView"
+        mc:Ignorable="d"
+        Title="{Binding CurrentPage}" Height="768" Width="1024" AllowDrop="True" Icon="App.ico"
+        Loaded="MainWindow_Loaded" PreviewDragOver="MainWindow_PreviewDragOver" Drop="MainWindow_Drop" Closed="Window_Closed" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized">
+
+    <Window.Resources>
+
+        <Style x:Key="VisibleContent" TargetType="FrameworkElement">
+            <Setter Property="Opacity" Value="1"/>
+        </Style>
+
+        <Style x:Key="AutoHideContent" TargetType="FrameworkElement">
+            <Setter Property="Opacity" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+    </Window.Resources>
+
+
+    <DockPanel>
+
+        <!-- 開発用 ページリスト -->
+        <ListView x:Name="DevPageList" DockPanel.Dock="Right" ItemsSource="{Binding PageList}" Panel.ZIndex="100"
+                  Visibility="{Binding ElementName=MenuItemDevPageList, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID"  DisplayMemberBinding="{Binding ID}" Width="50"/>
+                    <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding Name}" Width="150"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- 開発用 表示領域-->
+        <DockPanel x:Name="DevInfo" DockPanel.Dock="Bottom" Panel.ZIndex="100" Background="White"
+                  Visibility="{Binding ElementName=MenuItemDevInfo, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <TextBlock x:Name="GestureTextBlock" />
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.Index}"/>
+                <TextBlock DockPanel.Dock="Top" Text="/"/>
+                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.MaxPage}"/>
+            </StackPanel>
+            <TextBlock DockPanel.Dock="Top" Text="{Binding JobCount}"/>
+            <!--<TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Message}"/>-->
+
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.CurrentPage}"/>
+                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.CurrentPage.Message}" Margin="8,0"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.ViewPage}"/>
+                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.ViewPage.Message}" Margin="8,0"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.NowPage}"/>
+                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.NowPage.Message}" Margin="8,0"/>
+            </StackPanel>
+        </DockPanel>
+
+        <!-- 製品表示領域 -->
+        <Grid x:Name="Root" Background="{Binding BackgroundBrush}">
+
+            <!-- メインビュー -->
+            <Grid x:Name="MainView"  Background="{Binding BackgroundBrush}" SizeChanged="MainView_SizeChanged" >
+                <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel x:Name="MainContent" Orientation="Horizontal">
+                        <ContentControl x:Name="Content1" Content="{Binding Contents[1]}" Width="{Binding ContentsWidth[1]}" />
+                        <ContentControl x:Name="Content0" Content="{Binding Contents[0]}" Width="{Binding ContentsWidth[0]}" />
+                    </StackPanel>
+                </Canvas>
+                <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="32" Foreground="White" Background="#88000000" Padding="16,8" Margin="0,0,0,48" FontFamily="Meiryo">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
+            <!-- メニューエリア-->
+            <Menu x:Name="MenuArea" VerticalAlignment="Top">
+                <Menu.Resources>
+                    <local:PageModeToBooleanConverter x:Key="PageModeToBooleanConverter"/>
+                    <local:StretchModeToBooleanConverter x:Key="StretchModeToBooleanConverter"/>
+                    <local:SortModeToBooleanConverter x:Key="SortModeToBooleanConverter"/>
+                    <local:BookReadOrderToBooleanConverter x:Key="BookReadOrderToBooleanConverter"/>
+                </Menu.Resources>
+
+                <MenuItem Header="ファイル(_F)">
+                    <MenuItem Header="ファイルを開く..." Command="{Binding BookCommands[LoadAs]}"/>
+                </MenuItem>
+                <MenuItem Header="表示(_V)">
+
+                    <MenuItem Header="ウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeUniform]}"
+                              IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=Uniform,Mode=OneWay}" />
+                    <MenuItem Header="ウィンドウいっぱいに広げる" Command="{Binding BookCommands[SetStretchModeUniformToFill]}"
+                              IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=UniformToFill,Mode=OneWay}" />
+                    <MenuItem Header="大きい場合はウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeInside]}"
+                              IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=Inside,Mode=OneWay}" />
+                    <MenuItem Header="小さい場合はウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeOutside]}"
+                              IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=Outside,Mode=OneWay}" />
+                    <MenuItem Header="元のサイズで表示" Command="{Binding BookCommands[SetStretchModeNone]}"
+                              IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=None,Mode=OneWay}" />
+                    <Separator/>
+                    <MenuItem Header="全画面表示" Command="{Binding BookCommands[FullScreen]}" />
+                </MenuItem>
+                <MenuItem Header="移動(_J)">
+                    <MenuItem Header="前のページに戻る"  Command="{Binding BookCommands[PrevPage]}"/>
+                    <MenuItem Header="次のページへ進む"  Command="{Binding BookCommands[NextPage]}"/>
+                    <Separator/>
+                    <MenuItem Header="前のフォルダ(書庫)に戻る"  Command="{Binding BookCommands[PrevFolder]}"/>
+                    <MenuItem Header="次のフォルダ(書庫)へ進む"  Command="{Binding BookCommands[NextFolder]}"/>
+                </MenuItem>
+                <MenuItem Header="本(_B)">
+                    <MenuItem x:Name="PageMode1MenuItem" Header="1ページ表示" Command="{Binding BookCommands[SetPageMode1]}"
+                              IsChecked="{Binding PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=1,Mode=OneWay}" />
+                    <MenuItem x:Name="PageMode2MenuItem" Header="2ページ表示" Command="{Binding BookCommands[SetPageMode2]}"
+                              IsChecked="{Binding PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=2,Mode=OneWay}" />
+                    <Separator/>
+                    <MenuItem Header="右開き" Command="{Binding BookCommands[SetBookReadOrderRight]}"
+                              IsChecked="{Binding BookReadOrder,Converter={StaticResource BookReadOrderToBooleanConverter},ConverterParameter=RightToLeft,Mode=OneWay}" />
+                    <MenuItem Header="左開き" Command="{Binding BookCommands[SetBookReadOrderLeft]}"
+                              IsChecked="{Binding BookReadOrder,Converter={StaticResource BookReadOrderToBooleanConverter},ConverterParameter=LeftToRight,Mode=OneWay}" />
+                    <Separator/>
+                    <MenuItem Header="最初のページは表紙" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
+                              Command="{Binding BookCommands[ToggleIsSupportedTitlePage]}"
+                              IsChecked="{Binding IsSupportedTitlePage, Mode=OneWay}" />
+                    <MenuItem Header="横長ページを２ページとみなす" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
+                              Command="{Binding BookCommands[ToggleIsSupportedWidePage]}"
+                              IsChecked="{Binding IsSupportedWidePage, Mode=OneWay}" />
+                    <Separator />
+                    <MenuItem Header="サブフォルダ(書庫)も読み込む" Command="{Binding BookCommands[ToggleIsRecursiveFolder]}"
+                              IsChecked="{Binding IsRecursiveFolder,Mode=OneWay}" />
+                    <Separator />
+                    <MenuItem Header="ファイル名順にする" Command="{Binding BookCommands[SetSortModeFileName]}"
+                              IsChecked="{Binding SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=FileName,Mode=OneWay}" />
+                    <MenuItem Header="ファイル名(辞書)順にする" Command="{Binding BookCommands[SetSortModeFileNameDictionary]}"
+                              IsChecked="{Binding SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=FileNameDictionary,Mode=OneWay}" />
+                    <MenuItem Header="日付順にする" Command="{Binding BookCommands[SetSortModeTimeStamp]}"
+                              IsChecked="{Binding SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=TimeStamp,Mode=OneWay}" />
+                    <MenuItem Header="ランダムに並べる" Command="{Binding BookCommands[SetSortModeRandom]}"
+                              IsChecked="{Binding SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=Random,Mode=OneWay}" />
+                    <Separator/>
+                    <MenuItem Header="逆順にする" Command="{Binding BookCommands[ToggleIsReverseSort]}"
+                              IsChecked="{Binding IsReverseSort, Mode=OneWay}" />
+
+
+
+                </MenuItem>
+                <MenuItem Header="設定(_O)">
+                    <MenuItem Header="設定..." Command="{Binding BookCommands[OpenSettingWindow]}"/>
+                </MenuItem>
+                <MenuItem Header="開発(_D)">
+                    <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" />
+                    <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" />
+                    <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダを開く" Click="MenuItemDevTempFolder_Click" />
+                </MenuItem>
+            </Menu>
+
+            <!-- ステータスエリア -->
+            <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom">
+                <Slider Maximum="{Binding MaxPage}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="True" Focusable="False"
+                        local:SliderTools.MoveToPointOnDrag="True"/>
+                <!--MouseMove="Slider_MouseMove"-->
+            </DockPanel>
+
+        </Grid>
+
+    </DockPanel>
+</Window>

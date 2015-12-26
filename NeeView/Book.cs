@@ -51,8 +51,8 @@ namespace NeeView
     [DataContract]
     public class BookParamSetting
     {
-        //[DataMember]
-        //public string Place;
+        [DataMember]
+        public string Place { get; set; }
 
         [DataMember]
         public string BookMark;
@@ -99,7 +99,7 @@ namespace NeeView
         //
         public void Store(Book book)
         {
-            //Place = book.Place;
+            Place = book.Place;
             BookMark = book.CurrentPage?.FullPath;
 
             PageMode = book.PageMode;
@@ -132,11 +132,6 @@ namespace NeeView
         [DataMember]
         public BookParamSetting BookParamSetting;
 
-        //[DataMember]
-        //public int PageMode;
-
-        //[DataMember]
-        //public bool IsViewStartPositionCenter;
 
 
 
@@ -165,6 +160,9 @@ namespace NeeView
         [DataMember]
         public bool IsFirstOrderSusieArchive { get; set; }
 
+        [DataMember]
+        public bool IsEnableHistory { get; set; }
+
 
 
         //
@@ -179,6 +177,7 @@ namespace NeeView
             SusiePluginPath = null;
             IsFirstOrderSusieImage = false;
             IsFirstOrderSusieArchive = false;
+            IsEnableHistory = true;
         }
 
         public BookSetting()
@@ -208,6 +207,7 @@ namespace NeeView
             SusiePluginPath = book.SusiePluginPath;
             IsFirstOrderSusieImage = book.IsFirstOrderSusieImage;
             IsFirstOrderSusieArchive = book.IsFirstOrderSusieArchive;
+            IsEnableHistory = book.IsEnableHistory;
         }
 
         public void Restore(Book book)
@@ -220,6 +220,7 @@ namespace NeeView
             book.StretchMode = StretchMode;
             book.Background = Background;
             book.IsEnableAnimatedGif = IsEnableAnimatedGif;
+            book.IsEnableHistory = IsEnableHistory;
 
             RestoreSusieSetting(book);
 
@@ -368,6 +369,8 @@ namespace NeeView
             set { _IsEnableAnimatedGif = value; Page.IsEnableAnimatedGif = value; }
         }
         #endregion
+
+        public bool IsEnableHistory { get; set; } = true;
 
         // 最初のページはタイトル
         private bool _IsSupportedTitlePage;
@@ -942,11 +945,14 @@ namespace NeeView
             _Place = null;
 
             // 設定の復元
-            var setting = ModelContext.BookHistory.Search(archiver.Path);
-            if (setting != null)
+            if (IsEnableHistory)
             {
-                setting.Restore(this);
-                start = start ?? setting.BookMark;
+                var setting = ModelContext.BookHistory.Find(archiver.Path);
+                if (setting != null)
+                {
+                    setting.Restore(this);
+                    start = start ?? setting.BookMark;
+                }
             }
 
             LoadArchive(archiver, start, option);

@@ -51,28 +51,6 @@ namespace NeeView
         }
     }
 
-    [DataContract]
-    public class BookHistory
-    {
-        [DataMember]
-        private Dictionary<string, BookParamSetting> _BookParamSettings = new Dictionary<string, BookParamSetting>();
-
-        public void Add(Book book)
-        {
-            if (book.Place == null) return;
-
-            var setting = new BookParamSetting();
-            setting.Store(book);
-            _BookParamSettings[book.Place] = setting;
-        }
-
-        public BookParamSetting Search(string place)
-        {
-            BookParamSetting setting;
-            _BookParamSettings.TryGetValue(place, out setting);
-            return setting;
-        }
-    }
 
     public static class ModelContext
     {
@@ -126,7 +104,7 @@ namespace NeeView
             get
             {
                 if (_Book?.Place == null || _Book?.CurrentPage == null) return _DefaultWindowTitle;
-                string name = _Book.CurrentPage.FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " / ");
+                string name = _Book.CurrentPage.FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ");
                 string place = LoosePath.GetFileName(_Book.Place);
                 return $"{place} ({Index}/{MaxPage}) - {name}";
             }
@@ -163,6 +141,18 @@ namespace NeeView
             get { return _Book.Index; }
             set { _Book.Index = value; }
         }
+
+        #region Property: LastFiles
+        private List<BookParamSetting> _LastFiles;
+        public List<BookParamSetting> LastFiles
+        {
+            get { return _LastFiles; }
+            set { _LastFiles = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+
+
 
         public ObservableCollection<FrameworkElement> Contents { get; private set; }
         public ObservableCollection<double> ContentsWidth { get; private set; }
@@ -247,8 +237,9 @@ namespace NeeView
 
         private void OnBookChanged(object sender, EventArgs e)
         {
+#if false // 結局ページリストは却下
             PageList.Clear();
-            foreach(var page in _Book.Pages)
+            foreach (var page in _Book.Pages)
             {
                 PageList.Add(new DispPage()
                 {
@@ -256,19 +247,33 @@ namespace NeeView
                     Name = LoosePath.GetFileName(page.Path)
                 });
             }
+#endif
+            InfoText = LoosePath.GetFileName(_Book.Place);
+            OnPropertyChanged(nameof(MaxPage));
 
-                InfoText = LoosePath.GetFileName(_Book.Place);
-                OnPropertyChanged(nameof(MaxPage));
+            UpdateLastFiles();
         }
 
-        #region Property: BackgroundBrush
+        private void UpdateLastFiles()
+        {
+            // 最近使ったファイル
+            LastFiles = ModelContext.BookHistory.ListUp(10);
+        }
+
+        public void ClearHistor()
+        {
+            ModelContext.BookHistory.Clear();
+            UpdateLastFiles();
+        }
+
+#region Property: BackgroundBrush
         private Brush _BackgroundBrush;
         public Brush BackgroundBrush
         {
             get { return _BackgroundBrush; }
             set { if (_BackgroundBrush != value) { _BackgroundBrush = value; OnPropertyChanged(); } }
         }
-        #endregion
+#endregion
 
 
         private void OnBackgroundChanged(object sender, EventArgs e)
@@ -327,6 +332,7 @@ namespace NeeView
                 _Setting.GestureSetting.Restore(_Commands);
 
                 ModelContext.BookHistory = _Setting.BookHistory;
+                UpdateLastFiles();
 
                 InputGestureChanged?.Invoke(this, null);
             }
@@ -591,7 +597,7 @@ namespace NeeView
                 foreach (var key in _Commands[type].ShortCutKey.Split(','))
                 {
                     InputGestureConverter converter = new InputGestureConverter();
-                    InputGesture inputGesture =converter.ConvertFromString(key);
+                    InputGesture inputGesture = converter.ConvertFromString(key);
                     if (inputGesture != null)
                     {
                         list.Add(inputGesture);

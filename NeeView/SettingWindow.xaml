@@ -36,6 +36,10 @@
                               IsChecked="{Binding Setting.ViewSetting.IsControlCenterImage}" />
                     <CheckBox Margin="2" Content="回転を45度単位にする"
                               IsChecked="{Binding Setting.ViewSetting.IsAngleSnap}" />
+
+                    <TextBlock Text="履歴" Margin="2,8,2,2"/>
+                    <CheckBox Margin="2" Content="履歴から本の設定を復元する"
+                              IsChecked="{Binding Setting.BookSetting.IsEnableHistory}" />
                 </StackPanel>
                 
             </TabItem>

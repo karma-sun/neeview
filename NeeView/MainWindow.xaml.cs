@@ -98,6 +98,8 @@ namespace NeeView
         // new!
         public Dictionary<BookCommandType, RoutedCommand> BookCommands { get; set; } = new Dictionary<BookCommandType, RoutedCommand>();
 
+        public static readonly RoutedCommand LoadCommand = new RoutedCommand("LoadCommand", typeof(MainWindow));
+
 #if false
         // old!
         public static readonly RoutedCommand OpenSettingWindowCommand = new RoutedCommand("OpenSettingWindowCommand", typeof(MainWindow));
@@ -163,12 +165,17 @@ namespace NeeView
                 BookCommands.Add(type, new RoutedCommand(type.ToString(), typeof(MainWindow)));
             }
 
+            // スタティックコマンド
+            this.CommandBindings.Add(new CommandBinding(LoadCommand, Load));
+
             // カスタムコマンドバインドを先に作成する
             this.CommandBindings.Add(new CommandBinding(BookCommands[BookCommandType.OpenSettingWindow],
                 (t, e) => OpenSettingWindow()));
             this.CommandBindings.Add(new CommandBinding(BookCommands[BookCommandType.LoadAs],
                 (t, e) => LoadAs()));
-            this.CommandBindings.Add(new CommandBinding(BookCommands[BookCommandType.FullScreen],
+            this.CommandBindings.Add(new CommandBinding(BookCommands[BookCommandType.ClearHistory],
+                (t, e) => _VM.ClearHistor()));
+            this.CommandBindings.Add(new CommandBinding(BookCommands[BookCommandType.ToggleFullScreen],
                 (t, e) => _WindowMode.Toggle()));
             this.CommandBindings.Add(new CommandBinding(BookCommands[BookCommandType.ViewScrollUp],
                 (t, e) => _MouseDragController.ScrollUp()));
@@ -184,79 +191,8 @@ namespace NeeView
             {
                 this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type)));
             }
-
-#if false
-
-            // create command setting list
-            _CommandSetting = new CommandSettingCollection();
-            _CommandSetting.Add(OpenSettingWindowCommand, BookCommandType.OpenSettingWindow);
-            _CommandSetting.Add(LoadAsCommand, BookCommandType.LoadAs);
-            _CommandSetting.Add(PrevPageCommand, BookCommandType.PrevPage);
-            _CommandSetting.Add(NextPageCommand, BookCommandType.NextPage);
-            _CommandSetting.Add(PrevFolderCommand, BookCommandType.PrevFolder);
-            _CommandSetting.Add(NextFolderCommand, BookCommandType.NextFolder);
-            _CommandSetting.Add(FullScreenCommand, BookCommandType.FullScreen);
-            _CommandSetting.Add(ToggleStretchModeCommand, BookCommandType.ToggleStretchMode);
-            _CommandSetting.Add(SetStretchModeNoneCommand, BookCommandType.SetStretchModeNone);
-            _CommandSetting.Add(SetStretchModeInsideCommand, BookCommandType.SetStretchModeInside);
-            _CommandSetting.Add(SetStretchModeOutsideCommand, BookCommandType.SetStretchModeOutside);
-            _CommandSetting.Add(SetStretchModeUniformCommand, BookCommandType.SetStretchModeUniform);
-            _CommandSetting.Add(SetStretchModeUniformToFillCommand, BookCommandType.SetStretchModeUniformToFill);
-            _CommandSetting.Add(TogglePageModeCommand, BookCommandType.TogglePageMode);
-            _CommandSetting.Add(SetPageMode1Command, BookCommandType.SetPageMode1);
-            _CommandSetting.Add(SetPageMode2Command, BookCommandType.SetPageMode2);
-            _CommandSetting.Add(ToggleSortModeCommand, BookCommandType.ToggleSortMode);
-            _CommandSetting.Add(SetSortModeFileNameCommand, BookCommandType.SetSortModeFileName);
-            _CommandSetting.Add(SetSortModeFileNameDictionaryCommand, BookCommandType.SetSortModeFileNameDictionary);
-            _CommandSetting.Add(SetSortModeTimeStampCommand, BookCommandType.SetSortModeTimeStamp);
-            _CommandSetting.Add(SetSortModeRandomCommand, BookCommandType.SetSortModeRandom);
-            _CommandSetting.Add(ToggleIsReverseSortCommand, BookCommandType.ToggleIsReverseSort);
-            _CommandSetting.Add(SetIsReverseSortFalseCommand, BookCommandType.SetIsReverseSortFalse);
-            _CommandSetting.Add(SetIsReverseSortTrueCommand, BookCommandType.SetIsReverseSortTrue);
-            _CommandSetting.Add(ViewScrollUpCommand, BookCommandType.ViewScrollUp);
-            _CommandSetting.Add(ViewScrollDownCommand, BookCommandType.ViewScrollDown);
-            _CommandSetting.Add(ViewScaleUpCommand, BookCommandType.ViewScaleUp);
-            _CommandSetting.Add(ViewScaleDownCommand, BookCommandType.ViewScaleDown);
-
-            // add command binding
-            this.CommandBindings.Add(new CommandBinding(OpenSettingWindowCommand, (t, e) => OpenSettingWindow()));
-            this.CommandBindings.Add(new CommandBinding(LoadAsCommand, (t, e) => LoadAs()));
-            this.CommandBindings.Add(DefaultCommandBinding(PrevPageCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(NextPageCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(PrevFolderCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(NextFolderCommand));
-            this.CommandBindings.Add(new CommandBinding(FullScreenCommand, (t, e) => _WindowMode.Toggle()));
-            this.CommandBindings.Add(DefaultCommandBinding(ToggleStretchModeCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(SetStretchModeNoneCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(SetStretchModeInsideCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(SetStretchModeOutsideCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(SetStretchModeUniformCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(SetStretchModeUniformToFillCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(TogglePageModeCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(SetPageMode1Command));
-            this.CommandBindings.Add(DefaultCommandBinding(SetPageMode2Command));
-            this.CommandBindings.Add(DefaultCommandBinding(ToggleSortModeCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(SetSortModeFileNameCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(SetSortModeFileNameDictionaryCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(SetSortModeTimeStampCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(SetSortModeRandomCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(ToggleIsReverseSortCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(SetIsReverseSortFalseCommand));
-            this.CommandBindings.Add(DefaultCommandBinding(SetIsReverseSortTrueCommand));
-            this.CommandBindings.Add(new CommandBinding(ViewScrollUpCommand, (t, e) => _MouseDragController.ScrollUp()));
-            this.CommandBindings.Add(new CommandBinding(ViewScrollDownCommand, (t, e) => _MouseDragController.ScrollDown()));
-            this.CommandBindings.Add(new CommandBinding(ViewScaleUpCommand, (t, e) => _MouseDragController.ScaleUp()));
-            this.CommandBindings.Add(new CommandBinding(ViewScaleDownCommand, (t, e) => _MouseDragController.ScaleDown()));
-
-#endif
         }
 
-#if false
-        public CommandBinding DefaultCommandBinding(RoutedCommand command)
-        {
-            return new CommandBinding(command, (t, e) => _VM.Execute(_CommandSetting[command].Type));
-        }
-#endif
 
         // ダイアログでファイル選択して画像を読み込む
         private void LoadAs()
@@ -265,9 +201,14 @@ namespace NeeView
 
             if (dialog.ShowDialog(this) == true)
             {
-                //_VM.Execute(_CommandSetting[LoadAsCommand].Type, dialog.FileName);
                 _VM.Execute(BookCommandType.LoadAs, dialog.FileName);
             }
+        }
+
+        private void Load(object sender, ExecutedRoutedEventArgs e)
+        {
+            var path = e.Parameter as string;
+            _VM.Execute(BookCommandType.LoadAs, path);
         }
 
         // 設定ウィンドウを開く
@@ -284,53 +225,6 @@ namespace NeeView
                 _VM.SetSettingContext(setting);
             }
         }
-
-#if false
-        // InputGesture設定
-        public void InitializeInputGestures_()
-        {
-            _MouseDragController.ClearClickEventHandler();
-
-            _MouseGesture.ClearClickEventHandler();
-            _MouseGesture.CommandBinding.Clear();
-
-            foreach (var pair in _CommandSetting)
-            {
-                var e = pair.Value;
-
-                // shortcut key
-                e.Command.InputGestures.Clear();
-                var inputGestures = _VM.GetShortCutCollection(e.Type);
-                foreach (var gesture in inputGestures)
-                {
-                    // マウスクリックはドラッグ系処理のイベントとして登録
-                    if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.LeftClick)
-                    {
-                        _MouseDragController.MouseClickEventHandler += (s, x) => e.Command.Execute(null, this);
-                    }
-                    else if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.RightClick)
-                    {
-                        _MouseGesture.MouseClickEventHandler += (s, x) => e.Command.Execute(null, this);
-                    }
-                    else
-                    {
-                        e.Command.InputGestures.Add(gesture);
-                    }
-                }
-
-                // mouse gesture
-                var mouseGesture = _VM.GetMouseGesture(e.Type);
-                if (mouseGesture != null)
-                {
-                    _MouseGesture.CommandBinding.Add(mouseGesture, e.Command);
-                }
-            }
-
-            // Update Menu ...
-            this.MenuArea.UpdateInputGestureText();
-        }
-#endif
-
 
 
         // InputGesture設定
@@ -375,6 +269,7 @@ namespace NeeView
 
             // Update Menu ...
             this.MenuArea.UpdateInputGestureText();
+
         }
 
         // ページ変更でマウスドラッグによる変形を初期化する
@@ -555,6 +450,21 @@ namespace NeeView
             BookReadOrder mode0 = (BookReadOrder)value;
             BookReadOrder mode1 = (BookReadOrder)Enum.Parse(typeof(BookReadOrder), parameter as string);
             return (mode0 == mode1);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(string), typeof(string))]
+    public class FullPathToFileNameConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            string path = (string)value;
+            return LoosePath.GetFileName(path);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

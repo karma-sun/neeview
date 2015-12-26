@@ -17,13 +17,15 @@ namespace NeeView
 
         LoadAs,
 
+        ClearHistory,
+
         PrevPage,
         NextPage,
 
         PrevFolder,
         NextFolder,
 
-        FullScreen,
+        ToggleFullScreen,
 
         ToggleStretchMode,
         SetStretchModeNone,
@@ -80,13 +82,14 @@ namespace NeeView
             [BookCommandType.OpenSettingWindow] = new Header("設定", "設定ウィンドウを開く"),
 
             [BookCommandType.LoadAs] = new Header("ファイル", "ファイルを開く"),
+            [BookCommandType.ClearHistory] = new Header("ファイル", "履歴を消去する"),
 
             [BookCommandType.PrevPage] = new Header("移動", "前のページに戻る"),
             [BookCommandType.NextPage] = new Header("移動", "次のページへ進む"),
             [BookCommandType.PrevFolder] = new Header("移動", "前のフォルダ(書庫)に戻る"),
             [BookCommandType.NextFolder] = new Header("移動", "次のフォルダ(書庫)へ進む"),
 
-            [BookCommandType.FullScreen] = new Header("ウィンドウ", "フルスクリーンにする"),
+            [BookCommandType.ToggleFullScreen] = new Header("ウィンドウ", "フルスクリーン切り替え"),
 
             [BookCommandType.ToggleStretchMode] = new Header("スケール", "スケール方法を切り替える"),
             [BookCommandType.SetStretchModeNone] = new Header("スケール", "元のサイズで表示する"),
@@ -136,11 +139,12 @@ namespace NeeView
         {
             Add(BookCommandType.OpenSettingWindow, new BookCommand(null));
             Add(BookCommandType.LoadAs, new BookCommand(e => book.Load((string)e)));
+            Add(BookCommandType.ClearHistory, new BookCommand(null));
             Add(BookCommandType.PrevPage, new BookCommand(e => book.PrevPage()));
             Add(BookCommandType.NextPage, new BookCommand(e => book.NextPage()));
             Add(BookCommandType.PrevFolder, new BookCommand(e => book.PrevFolder()));
             Add(BookCommandType.NextFolder, new BookCommand(e => book.NextFolder()));
-            Add(BookCommandType.FullScreen, new BookCommand(null));
+            Add(BookCommandType.ToggleFullScreen, new BookCommand(null));
             Add(BookCommandType.ToggleStretchMode, new BookCommand(e => book.StretchMode = book.StretchMode.GetToggle()));
             Add(BookCommandType.SetStretchModeNone, new BookCommand(e => book.StretchMode = PageStretchMode.None));
             Add(BookCommandType.SetStretchModeInside, new BookCommand(e => book.StretchMode = PageStretchMode.Inside));
@@ -229,7 +233,7 @@ namespace NeeView
             Add(BookCommandType.NextPage, new BookCommandIntpuGesture("Left,LeftClick", "L"));
             Add(BookCommandType.PrevFolder, new BookCommandIntpuGesture("Shift+Right", "UR"));
             Add(BookCommandType.NextFolder, new BookCommandIntpuGesture("Shift+Left", "UL"));
-            Add(BookCommandType.FullScreen, new BookCommandIntpuGesture("F12", "U"));
+            Add(BookCommandType.ToggleFullScreen, new BookCommandIntpuGesture("F12", "U"));
             Add(BookCommandType.TogglePageMode, new BookCommandIntpuGesture("LeftButton+WheelUp", null));
             Add(BookCommandType.SetPageMode1, new BookCommandIntpuGesture("Ctrl+1", null));
             Add(BookCommandType.SetPageMode2, new BookCommandIntpuGesture("Ctrl+2", null));

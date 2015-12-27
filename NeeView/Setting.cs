@@ -23,6 +23,9 @@ namespace NeeView
         public SusieSetting SusieSetting { get; set; }
 
         [DataMember]
+        public BookCommonSetting BookCommonSetting { set; get; }
+
+        [DataMember]
         public BookSetting BookSetting { set; get; }
 
         [DataMember]
@@ -36,6 +39,7 @@ namespace NeeView
         {
             ViewSetting = new ViewSetting();
             SusieSetting = new SusieSetting();
+            BookCommonSetting = new BookCommonSetting();
             BookSetting = new BookSetting();
             GestureSetting = new BookCommandShortcutSource();
             BookHistory = new BookHistory();

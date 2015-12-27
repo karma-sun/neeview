@@ -100,6 +100,7 @@ namespace NeeView
         #endregion
 
         public event EventHandler ViewModeChanged;
+
         public void OnViewModeChanged()
         {
             ViewModeChanged?.Invoke(this, null);
@@ -117,7 +118,16 @@ namespace NeeView
         public JobEngine JobEngine { get { return ModelContext.JobEngine; } }
         public int JobCount { get { return ModelContext.JobEngine.Context.JobList.Count; } }
 
-        public int MaxPage { get { return _Book.Pages.Count - 1; } }
+        public int Index
+        {
+            get { return _Book.GetPageIndex(); }
+            set { _Book.SetPageIndex(value); }
+        }
+
+        public int IndexMax
+        {
+            get { return _Book.GetPageCount(); }
+        }
 
         public ObservableCollection<DispPage> PageList { get; private set; } = new ObservableCollection<DispPage>();
 
@@ -125,10 +135,10 @@ namespace NeeView
         {
             get
             {
-                if (_Book?.Place == null || _Book?.CurrentPage == null) return _DefaultWindowTitle;
-                string name = _Book.CurrentPage.FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ");
-                string place = LoosePath.GetFileName(_Book.Place);
-                return $"{place} ({Index}/{MaxPage}) - {name}";
+                if (BookProxy.Current?.Place == null || BookProxy.Current?.CurrentPage == null) return _DefaultWindowTitle;
+                string name = BookProxy.Current.CurrentPage.FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ");
+                string place = LoosePath.GetFileName(BookProxy.Current.Place);
+                return $"{place} ({Index+1}/{IndexMax}) - {name}";
             }
         }
 
@@ -141,16 +151,16 @@ namespace NeeView
         }
         #endregion
 
+        public BookSetting BookSetting => _Book.BookSetting;
 
-        public int PageMode { get { return _Book.PageMode; } }
-        //public PageStretchMode StretchMode { get { return _Book.StretchMode; } }
-        public BookSortMode SortMode { get { return _Book.SortMode; } }
-        public bool IsReverseSort { get { return _Book.IsReverseSort; } }
+        //public int PageMode { get { return _Book.BookSetting.PageMode; } }
+        //public BookSortMode SortMode { get { return _Book.BookSetting.SortMode; } }
+        //public bool IsReverseSort { get { return _Book.BookSetting.IsReverseSort; } }
         public bool IsViewStartPositionCenter { get; set; }
-        public bool IsSupportedTitlePage => _Book.IsSupportedTitlePage;
-        public bool IsSupportedWidePage => _Book.IsSupportedWidePage;
-        public BookReadOrder BookReadOrder => _Book.BookReadOrder;
-        public bool IsRecursiveFolder => _Book.IsRecursiveFolder;
+        //public bool IsSupportedTitlePage => _Book.BookSetting.IsSupportedTitlePage;
+        //public bool IsSupportedWidePage => _Book.BookSetting.IsSupportedWidePage;
+        //public BookReadOrder BookReadOrder => _Book.BookSetting.BookReadOrder;
+        //public bool IsRecursiveFolder => _Book.BookSetting.IsRecursiveFolder;
 
         public event EventHandler<bool> Loaded
         {
@@ -158,15 +168,11 @@ namespace NeeView
             remove { _Book.Loaded -= value; }
         }
 
-        public int Index
-        {
-            get { return _Book.Index; }
-            set { _Book.Index = value; }
-        }
+
 
         #region Property: LastFiles
-        private List<BookParamSetting> _LastFiles;
-        public List<BookParamSetting> LastFiles
+        private List<BookSetting> _LastFiles;
+        public List<BookSetting> LastFiles
         {
             get { return _LastFiles; }
             set { _LastFiles = value; OnPropertyChanged(); }
@@ -185,7 +191,7 @@ namespace NeeView
                     _StretchMode = value;
                     OnPropertyChanged();
                     UpdateContentsWidth();
-                    PageChanged?.Invoke(this, null);
+                    ViewChanged?.Invoke(this, null);
                     ViewModeChanged?.Invoke(this, null);
                 }
             }
@@ -200,11 +206,10 @@ namespace NeeView
         public Brush _PageColor = Brushes.Black;
 
 
-        public event EventHandler PageChanged;
+        public event EventHandler ViewChanged;
         public event EventHandler InputGestureChanged;
 
-        private Book _Book;
-        //private Book _Book;
+        private BookProxy _Book;
         //private Dictionary<string, BookParamSetting> _BookParamSettings;
         private BookCommandCollection _Commands;
 
@@ -214,7 +219,7 @@ namespace NeeView
         {
             ModelContext.Initialize();
 
-            _Book = new Book();
+            _Book = new BookProxy();
 
             //ModelContext.BookHistory = new BookHistory();
 
@@ -229,30 +234,38 @@ namespace NeeView
 
             _Book.PageChanged +=
                 OnPageChanged;
+
+            /*
             _Book.ModeChanged +=
                 (s, e) =>
                 {
                     UpdateContentsWidth();
-                    OnPropertyChanged(nameof(PageMode));
+                    OnPropertyChanged(nameof(BookSetting));
+                    //OnPropertyChanged(nameof(PageMode));
                     OnPropertyChanged(nameof(StretchMode));
-                    OnPropertyChanged(nameof(SortMode));
-                    OnPropertyChanged(nameof(IsReverseSort));
+                    //OnPropertyChanged(nameof(SortMode));
+                    //OnPropertyChanged(nameof(IsReverseSort));
                     PageChanged?.Invoke(this, null);
                     ViewModeChanged?.Invoke(this, null);
                 };
-            _Book.NowPagesChanged += OnContentsCollectionChanged;
+                */
+
+            _Book.ViewContentsChanged += OnViewContentsChanged;
             //_Book.BackgroundChanged += OnBackgroundChanged;
-            _Book.PropertyChanged +=
+            _Book.SettingChanged +=
                 (s, e) =>
                 {
-                    OnPropertyChanged(nameof(IsSupportedTitlePage));
-                    OnPropertyChanged(nameof(IsSupportedWidePage));
-                    OnPropertyChanged(nameof(BookReadOrder));
-                    OnPropertyChanged(nameof(IsRecursiveFolder));
+                    OnPropertyChanged(nameof(BookSetting));
+                    //OnPropertyChanged(nameof(IsSupportedTitlePage));
+                    //OnPropertyChanged(nameof(IsSupportedWidePage));
+                    //OnPropertyChanged(nameof(BookReadOrder));
+                    //OnPropertyChanged(nameof(IsRecursiveFolder));
+                    /*
                     if (e == "BookReadOrder")
                     {
                         ViewModeChanged?.Invoke(this, null);
                     }
+                    */
                 };
             _Book.InfoMessage +=
                 (s, e) => InfoText = e;
@@ -280,21 +293,11 @@ namespace NeeView
 
         }
 
-        private void OnBookChanged(object sender, EventArgs e)
+        // 本が変更された
+        private void OnBookChanged(object sender, Book book)
         {
-#if false // 結局ページリストは却下
-            PageList.Clear();
-            foreach (var page in _Book.Pages)
-            {
-                PageList.Add(new DispPage()
-                {
-                    ID = PageList.Count + 1,
-                    Name = LoosePath.GetFileName(page.Path)
-                });
-            }
-#endif
-            InfoText = LoosePath.GetFileName(_Book.Place);
-            OnPropertyChanged(nameof(MaxPage));
+            InfoText = LoosePath.GetFileName(book.Place);
+            OnPropertyChanged(nameof(IndexMax));
 
             UpdateLastFiles();
         }
@@ -358,7 +361,8 @@ namespace NeeView
             var setting = new Setting();
             setting.ViewSetting.Store(this);
             setting.SusieSetting.Store(ModelContext.SusieContext);
-            setting.BookSetting.Store(_Book);
+            setting.BookCommonSetting = BookCommonSetting.Store(_Book);
+            setting.BookSetting = BookSetting.Store(_Book);
             setting.GestureSetting.Store(_Commands);
 
             return setting;
@@ -368,6 +372,7 @@ namespace NeeView
         {
             setting.ViewSetting.Restore(this);
             setting.SusieSetting.Restore(ModelContext.SusieContext);
+            setting.BookCommonSetting.Restore(_Book);
             setting.BookSetting.Restore(_Book);
             setting.GestureSetting.Restore(_Commands);
 
@@ -379,11 +384,23 @@ namespace NeeView
             // 設定の読み込み
             if (System.IO.File.Exists(_SettingFileName))
             {
-                _Setting = Setting.Load(_SettingFileName);
+                try
+                {
+                    _Setting = Setting.Load(_SettingFileName);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    Debug.WriteLine("設定復元に失敗しました");
+                    _Setting = new Setting();
+                }
+
                 _Setting.WindowPlacement?.Restore(window);
+
 
                 _Setting.ViewSetting.Restore(this);
                 _Setting.SusieSetting.Restore(ModelContext.SusieContext);
+                _Setting.BookCommonSetting.Restore(_Book);
                 _Setting.BookSetting.Restore(_Book);
                 _Setting.GestureSetting.Restore(_Commands);
 
@@ -401,30 +418,34 @@ namespace NeeView
 
             _Setting.ViewSetting.Store(this);
             _Setting.SusieSetting.Store(ModelContext.SusieContext);
-            _Setting.BookSetting.Store(_Book);
+            _Setting.BookCommonSetting = BookCommonSetting.Store(_Book);
+            _Setting.BookSetting = BookSetting.Store(_Book);
             _Setting.GestureSetting.Store(_Commands);
 
-            ModelContext.BookHistory.Add(_Book);
+            ModelContext.BookHistory.Add(BookProxy.Current);
             _Setting.BookHistory = ModelContext.BookHistory;
 
             _Setting.Save(_SettingFileName);
         }
 
-        private void OnContentsCollectionChanged(object sender, EventArgs e)
+        private void OnViewContentsChanged(object sender, EventArgs e)
         {
+            var book = BookProxy.Current;
+
             for (int index = 0; index < 2; ++index)
             {
-                //int id = (BookReadOrder == BookReadOrder.RightToLeft) ? index : 1 - index;
-                ViewContent content = _Book.NowPages[index];
+                int cid = (book.BookReadOrder == BookReadOrder.RightToLeft) ? index : 1 - index;
 
-                if (string.IsNullOrEmpty(_Book.Place))
+                ViewContent content = book.NowPages[cid];
+
+                if (string.IsNullOrEmpty(book.Place))
                 {
                     Contents[index] = null;
                 }
                 else if (index == 0 && content == null)
                 {
                     var textBlock = new TextBlock();
-                    textBlock.Text = $"{_Book.Place}\n読み込めるファイルがありません";
+                    textBlock.Text = $"{book.Place}\n読み込めるファイルがありません";
                     textBlock.VerticalAlignment = VerticalAlignment.Center;
                     textBlock.HorizontalAlignment = HorizontalAlignment.Center;
                     textBlock.TextAlignment = TextAlignment.Center;
@@ -440,6 +461,7 @@ namespace NeeView
                 {
                     var image = new Image();
                     image.Source = (BitmapSource)content.Content;
+                    image.Stretch = Stretch.Fill;
                     RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
                     Contents[index] = image;
                 }
@@ -467,22 +489,9 @@ namespace NeeView
                 }
                 else if (content.Content is string)
                 {
-#if true
                     var context = new FilePageContext() { Icon = FilePageIcon.File, Message = (string)content.Content };
                     var control = new FilePageControl(context);
-                    //control.Width = content.Width;
-                    //control.Height = content.Height;
                     Contents[index] = control;
-#else
-                        var textBlock = new TextBlock();
-                    textBlock.Text = (string)content.Content;
-                    textBlock.VerticalAlignment = VerticalAlignment.Center;
-                    textBlock.HorizontalAlignment = HorizontalAlignment.Center;
-                    textBlock.TextAlignment = TextAlignment.Center;
-                    textBlock.Background = Brushes.Orange;
-                    textBlock.Padding = new Thickness(16);
-                    Contents[index] = textBlock;
-#endif
                 }
                 else
                 {
@@ -499,15 +508,14 @@ namespace NeeView
 
             UpdateContentsWidth();
 
-            PageChanged?.Invoke(this, null);
+            ViewChanged?.Invoke(this, null);
         }
 
+        // ページ番号の更新
         private void OnPageChanged(object sender, int e)
         {
             OnPropertyChanged(nameof(Index));
             OnPropertyChanged(nameof(CurrentPage));
-            OnPropertyChanged(nameof(PageMode));
-            //PageChanged?.Invoke(this, null);
         }
 
 
@@ -525,23 +533,28 @@ namespace NeeView
 
         private void UpdateContentsWidth()
         {
+            if (BookProxy.Current == null) return;
+
             var scales = CalcContentScale(_ViewWidth, _ViewHeight);
 
             for (int i = 0; i < 2; ++i)
             {
+
+                int cid = (BookProxy.Current.BookReadOrder == BookReadOrder.RightToLeft) ? i : 1 - i;
+
                 //ContentsWidth[i] = CalcContentWidth(i, _ViewWidth, _ViewHeight);
                 //var scale = CalcContentScale(i, _ViewWidth, _ViewHeight);
-                var size = GetContentSize(_Book.NowPages[i]);
-                ContentsWidth[i] = size.Width * scales[i];
-                ContentsHeight[i] = size.Height * scales[i];
+                var size = GetContentSize(BookProxy.Current.NowPages[cid]);
+                ContentsWidth[i] = size.Width * scales[cid];
+                ContentsHeight[i] = size.Height * scales[cid];
             }
         }
 
         //
         private double[] CalcContentScale(double width, double height)
         {
-            var c0 = GetContentSize(_Book.NowPages[0]);
-            var c1 = GetContentSize(_Book.NowPages[1]);
+            var c0 = GetContentSize(BookProxy.Current.NowPages[0]);
+            var c1 = GetContentSize(BookProxy.Current.NowPages[1]);
 
             if (this.StretchMode == PageStretchMode.None)
             {
@@ -555,7 +568,7 @@ namespace NeeView
             Size content;
 
             //if (_Book.PageMode == 1)
-            if (_Book.NowPages[1] == null)
+            if (BookProxy.Current.NowPages[1] == null)
             {
                 content = c0;
             }

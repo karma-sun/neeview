@@ -49,34 +49,34 @@ namespace NeeView
 
     // 本単位の保存される設定
     [DataContract]
-    public class BookParamSetting
+    public class BookSetting
     {
         [DataMember]
         public string Place { get; set; }
 
         [DataMember]
-        public string BookMark;
+        public string BookMark { get; set; }
 
         [DataMember]
-        public int PageMode;
+        public int PageMode { get; set; }
 
         [DataMember]
-        public BookReadOrder ReadOrder;
+        public BookReadOrder BookReadOrder { get; set; }
 
         [DataMember]
-        public bool IsSupportedTitlePage;
+        public bool IsSupportedTitlePage { get; set; }
 
         [DataMember]
-        public bool IsSupportedWidePage;
+        public bool IsSupportedWidePage { get; set; }
 
         [DataMember]
-        public bool IsRecursiveFolder;
+        public bool IsRecursiveFolder { get; set; }
 
         [DataMember]
-        public BookSortMode SortMode;
+        public BookSortMode SortMode { get; set; }
 
         [DataMember]
-        public bool IsReverseSort;
+        public bool IsReverseSort { get; set; }
 
 
         //
@@ -85,7 +85,7 @@ namespace NeeView
             PageMode = 1;
         }
 
-        public BookParamSetting()
+        public BookSetting()
         {
             Constructor();
         }
@@ -103,7 +103,7 @@ namespace NeeView
             BookMark = book.CurrentPage?.FullPath;
 
             PageMode = book.PageMode;
-            ReadOrder = book.BookReadOrder;
+            BookReadOrder = book.BookReadOrder;
             IsSupportedTitlePage = book.IsSupportedTitlePage;
             IsSupportedWidePage = book.IsSupportedWidePage;
             IsRecursiveFolder = book.IsRecursiveFolder;
@@ -111,26 +111,50 @@ namespace NeeView
             IsReverseSort = book.IsReverseSort;
         }
 
+
         public void Restore(Book book)
         {
-            // Place, BookMark は復元しない
+            if (book == null) return;
 
             book.PageMode = PageMode;
-            book.BookReadOrder = ReadOrder;
+            book.BookReadOrder = BookReadOrder;
             book.IsSupportedTitlePage = IsSupportedTitlePage;
             book.IsSupportedWidePage = IsSupportedWidePage;
             book.IsRecursiveFolder = IsRecursiveFolder;
             book.SortMode = SortMode;
             book.IsReverseSort = book.IsReverseSort;
         }
+
+        public static BookSetting Store(BookProxy book)
+        {
+            if (BookProxy.Current != null)
+            {
+                book.BookSetting.Store(BookProxy.Current);
+            }
+            return book.BookSetting.Clone();
+        }
+
+        public void Restore(BookProxy book)
+        {
+            book.BookSetting = this.Clone();
+            if (BookProxy.Current != null)
+            {
+                book.BookSetting.Restore(BookProxy.Current);
+            }
+        }
+
+        public BookSetting Clone()
+        {
+            return (BookSetting)this.MemberwiseClone();
+        }
     }
 
     [DataContract]
-    public class BookSetting
+    public class BookCommonSetting
     {
         // 本単位の設定
-        [DataMember]
-        public BookParamSetting BookParamSetting;
+        //[DataMember]
+        //public BookSetting BookParamSetting;
 
 
         // すべての本に共通の設定
@@ -147,13 +171,13 @@ namespace NeeView
         //
         private void Constructor()
         {
-            BookParamSetting = new BookParamSetting();
+            //BookParamSetting = new BookSetting();
 
             IsEnableHistory = true;
             IsEnableNoSupportFile = false;
         }
 
-        public BookSetting()
+        public BookCommonSetting()
         {
             Constructor();
         }
@@ -167,22 +191,72 @@ namespace NeeView
 
         public void Store(Book book)
         {
-            BookParamSetting.Store(book);
+            //BookParamSetting.Store(book);
 
             IsEnableAnimatedGif = book.IsEnableAnimatedGif;
             IsEnableHistory = book.IsEnableHistory;
             IsEnableNoSupportFile = book.IsEnableNoSupportFile;
         }
 
+        /*
+        public void Store(BookProxy book)
+        {
+            if (BookProxy.Current != null)
+            {
+                Store(BookProxy.Current);
+            }
+            else if (book.BookCommonSetting != null)
+            {
+                IsEnableAnimatedGif = book.BookCommonSetting.IsEnableAnimatedGif;
+                IsEnableHistory = book.BookCommonSetting.IsEnableHistory;
+                IsEnableNoSupportFile = book.BookCommonSetting.IsEnableNoSupportFile;
+            }
+        }
+        */
+
         public void Restore(Book book)
         {
-            BookParamSetting.Restore(book);
+            //BookParamSetting.Restore(book);
 
             book.IsEnableAnimatedGif = IsEnableAnimatedGif;
             book.IsEnableHistory = IsEnableHistory;
             book.IsEnableNoSupportFile = IsEnableNoSupportFile;
 
             book.Reflesh();
+        }
+
+        /*
+        public void Restore(BookProxy book)
+        {
+            book.BookCommonSetting = this;
+            if (BookProxy.Current != null)
+            {
+                Restore(BookProxy.Current);
+            }
+        }
+        */
+
+        public static BookCommonSetting Store(BookProxy book)
+        {
+            if (BookProxy.Current != null)
+            {
+                book.BookCommonSetting.Store(BookProxy.Current);
+            }
+            return book.BookCommonSetting.Clone();
+        }
+
+        public void Restore(BookProxy book)
+        {
+            book.BookCommonSetting = this.Clone();
+            if (BookProxy.Current != null)
+            {
+                book.BookCommonSetting.Restore(BookProxy.Current);
+            }
+        }
+
+        public BookCommonSetting Clone()
+        {
+            return (BookCommonSetting)this.MemberwiseClone();
         }
     }
 
@@ -194,7 +268,7 @@ namespace NeeView
         Auto,
         Check
     };
-    
+
     public enum BookReadOrder
     {
         RightToLeft,
@@ -232,20 +306,28 @@ namespace NeeView
     /// <summary>
     /// 
     /// </summary>
-    public class Book
+    public class Book : IDisposable
     {
-        public List<IDisposable> TrashBox { get; private set; } = new List<IDisposable>();
+        public List<IDisposable> _TrashBox { get; private set; } = new List<IDisposable>();
 
-
-        public event EventHandler BookChanged;
+        // 現在ページ変更(ページ番号)
+        // タイトル、スライダーの更新を要求
         public event EventHandler<int> PageChanged;
-        public event EventHandler ModeChanged;
-        public event EventHandler<string> PropertyChanged;
-        public event EventHandler<bool> Loaded;
-        public event EventHandler<string> InfoMessage;
-        public event EventHandler NowPagesChanged;
+
+        // 表示コンテンツ変更
+        // 表示の更新を要求
+        public event EventHandler ViewContentsChanged;
+
+        // ページ終端を超えて移動しようとした
+        // 次の本への移動を要求
+        public event EventHandler<int> PageTerminated;
+
+        // 再読み込みを要求
+        public event EventHandler DartyBook;
 
 
+
+        // アニメGIF：ここか？違うでしょ。
         #region Property: IsEnableAnimatedGif
         private bool _IsEnableAnimatedGif;
         public bool IsEnableAnimatedGif
@@ -253,7 +335,7 @@ namespace NeeView
             get { return _IsEnableAnimatedGif; }
             set { _IsEnableAnimatedGif = value; Page.IsEnableAnimatedGif = value; }
         }
-#endregion
+        #endregion
 
         // 履歴から設定を復元する
         public bool IsEnableHistory { get; set; } = true;
@@ -268,10 +350,7 @@ namespace NeeView
                 if (_IsEnableNoSupportFile != value)
                 {
                     _IsEnableNoSupportFile = value;
-                    if (_Place != null)
-                    {
-                        this.Load(_Place); // 再読み込み
-                    }
+                        DartyBook?.Invoke(this, null);
                 }
             }
         }
@@ -286,10 +365,6 @@ namespace NeeView
                 if (_IsSupportedTitlePage != value)
                 {
                     _IsSupportedTitlePage = value;
-                    if (_Place != null)
-                    {
-                        PropertyChanged?.Invoke(this, null);
-                    }
                 }
             }
         }
@@ -304,27 +379,24 @@ namespace NeeView
                 if (_IsSupportedWidePage != value)
                 {
                     _IsSupportedWidePage = value;
-                    if (_Place != null)
-                    {
-                        PropertyChanged?.Invoke(this, null);
-                    }
                 }
             }
         }
 
         // 右開き、左開き
-        private BookReadOrder _ReadOrder;
+        private BookReadOrder _BookReadOrder;
         public BookReadOrder BookReadOrder
         {
-            get { return _ReadOrder; }
+            get { return _BookReadOrder; }
             set
             {
-                if (_ReadOrder != value)
+                if (_BookReadOrder != value)
                 {
-                    _ReadOrder = value;
-                    if (_Place != null)
+                    _BookReadOrder = value;
+                    if (Place != null)
                     {
-                        PropertyChanged?.Invoke(this, nameof(BookReadOrder));
+                        ViewContentsChanged?.Invoke(this, null);
+                        // TODO: もっと必要
                     }
                 }
             }
@@ -340,11 +412,7 @@ namespace NeeView
                 if (_IsRecursiveFolder != value)
                 {
                     _IsRecursiveFolder = value;
-                    if (_Place != null)
-                    {
-                        Load(_Place);
-                        PropertyChanged?.Invoke(this, nameof(IsRecursiveFolder));
-                    }
+                        DartyBook?.Invoke(this, null);
                 }
             }
         }
@@ -370,8 +438,57 @@ namespace NeeView
         }
 
 
+        private BookSortMode _SortMode = BookSortMode.FileName;
+        public BookSortMode SortMode
+        {
+            get { return _SortMode; }
+            set
+            {
+                if (_SortMode != value)
+                {
+                    _SortMode = value;
+                    Sort();
+                }
+            }
+        }
+
+        // ランダムソートの場合はソートを必ず実行する
+        public void SetSortMode(BookSortMode mode)
+        {
+             if (_SortMode != mode || mode == BookSortMode.Random)
+            {
+                _SortMode = mode;
+                Sort();
+            }
+        }
+
+
+        private bool _IsReverseSort;
+        public bool IsReverseSort
+        {
+            get { return _IsReverseSort; }
+            set
+            {
+                if (_IsReverseSort == value) return;
+                _IsReverseSort = value;
+                if (_SortMode == BookSortMode.Random)
+                {
+                    Pages.Reverse();
+                    SetIndex(0, 1);
+                }
+                else
+                {
+                    Sort();
+                }
+            }
+        }
+
+
+
+
         public List<Page> Pages { get; private set; }
 
+        private int _OldIndex;
         private int _Index;
         public int Index
         {
@@ -385,9 +502,14 @@ namespace NeeView
 
         public void SetIndex(int value, int direction)
         {
+            if (Place == null) return;
             if (value > Pages.Count - _PageMode) value = Pages.Count - _PageMode;
             if (value < 0) value = 0;
 
+            if (_Index != value)
+            {
+                _OldIndex = _Index;
+            }
             _Index = value;
             _Direction = direction;
 
@@ -405,9 +527,23 @@ namespace NeeView
             {
                 UpdateViewPage();
                 UpdateNowPages();
+                //UpdateViewPage();
             }
             PageChanged?.Invoke(this, _Index);
         }
+
+        // この本の場所
+        public string Place { get; private set; }
+
+        [Flags]
+        public enum LoadFolderOption
+        {
+            None = 0,
+            Recursive = (1 << 0),
+            FirstPage = (1 << 1),
+            LastPage = (1 << 2)
+        };
+
 
         // 読む方向
         private int _Direction;
@@ -494,19 +630,18 @@ namespace NeeView
                 if (isDartyNowPages)
                 {
                     ValidateWidePage();
-                    //ValidateReadOrder();
                     ForceUpdateNowPages();
                 }
+
+                //UpdateViewPage();
             }
 
-            if (isDartyNowPages && NowPagesChanged != null)
+            if (isDartyNowPages && ViewContentsChanged != null)
             {
-                App.Current.Dispatcher.Invoke(() => NowPagesChanged(this, null));
+                App.Current.Dispatcher.Invoke(() => ViewContentsChanged(this, null));
             }
         }
-
-        //bool _IsDartyVewPages;
-
+        
         private bool IsDartyViewPages()
         {
             if (_ViewPages[0] == null) return true;
@@ -515,10 +650,18 @@ namespace NeeView
 
             if (CurrentPage.Content != null) return true;
 
-            foreach (var page in _ViewPages)
+            // ViewPageが表示済であるならtrue
+            //foreach (var page in _ViewPages)
+            //{
+            //    if (page != null && page.Content == null) return false;
+            //}
+
+            for (int i = 0; i < 2; i++)
             {
-                if (page != null && page.Content == null) return false;
+                if (_ViewPages[i] == null) continue;
+                if (_ViewPages[i].Content == null || _ViewPages[i].Content != NowPages[i].Content) return false;
             }
+
             return true;
         }
 
@@ -536,7 +679,7 @@ namespace NeeView
                     }
 
                     _ViewPages[0] = ViewPage(0);
-                    _ViewPages[0]?.Open(JobPriority.Hi);
+                    _ViewPages[0]?.Open(JobPriority.Top);
                 }
             }
 
@@ -548,7 +691,7 @@ namespace NeeView
                 }
 
                 _ViewPages[1] = ViewPage(1);
-                _ViewPages[1]?.Open(JobPriority.Hi);
+                _ViewPages[1]?.Open(JobPriority.Top);
             }
 
             if (_PageMode <= 1 && _ViewPages[1] != null)
@@ -565,7 +708,7 @@ namespace NeeView
             {
                 ValidateWidePage();
                 ForceUpdateNowPages();
-                NowPagesChanged(this, null);
+                ViewContentsChanged?.Invoke(this, null);
             }
         }
 
@@ -582,8 +725,9 @@ namespace NeeView
             {
                 if (i < _CurrentViewPageCount)
                 {
-                    int cid = (BookReadOrder == BookReadOrder.RightToLeft) ? i : _CurrentViewPageCount - 1 - i;
-                    NowPages[i] = _ViewPages[i] != null ? new ViewContent(_ViewPages[cid]) : null;
+                    //int cid = (BookReadOrder == BookReadOrder.RightToLeft) ? i : _CurrentViewPageCount - 1 - i;
+                    //NowPages[i] = _ViewPages[i] != null ? new ViewContent(_ViewPages[cid]) : null;
+                    NowPages[i] = _ViewPages[i] != null ? new ViewContent(_ViewPages[i]) : null;
                 }
                 else
                 {
@@ -611,15 +755,22 @@ namespace NeeView
                 _CurrentViewPageCount = 1;
 
                 // 進行方向がマイナスの場合、ページの計算からやりなおし？
-                if (_Direction < 0)
+                if (_Direction < 0 && _Index + 1 != _OldIndex)
                 {
                     _Index = _Index + 1;
 
+                    if (_ViewPages[0] != null && !_KeepPages.Contains(_ViewPages[0]))
+                    {
+                        _ViewPages[0].Close();
+                    }
+                    _ViewPages[0] = _ViewPages[1];
+                    _ViewPages[1] = null;
+
                     // swap ... ン？
                     // TODO: ViewPagesの順番を入れ替えることに疑問。他の処理で戻ってしまわないのか？
-                    var temp = _ViewPages[0];
-                    _ViewPages[0] = _ViewPages[1];
-                    _ViewPages[1] = temp;
+                    // var temp = _ViewPages[0];
+                    //_ViewPages[0] = _ViewPages[1];
+                    //_ViewPages[1] = temp;
                 }
             }
         }
@@ -704,55 +855,27 @@ namespace NeeView
         }
 
 
+
         //
         List<Archiver> _Archivers = new List<Archiver>();
         List<string> _TempArchives = new List<string>();
 
-        // Book初期化
-        // 全ページクリア
-        private void ClearPages()
-        {
-            lock (_Lock)
-            {
-                Pages.ForEach(e => e?.Close());
-                Pages.Clear();
-
-                for (int i = 0; i < _ViewPages.Count; ++i)
-                {
-                    _ViewPages[i] = null;
-                }
-                _ViewPageIndex = 0;
-
-                _KeepPages.Clear();
-
-
-
-                _Archivers.ForEach(e => e.Dispose());
-                _Archivers.Clear();
-
-                _TempArchives.ForEach(e => File.Delete(e));
-                _TempArchives.Clear();
-
-                TrashBox.ForEach(e => e.Dispose());
-                TrashBox.Clear();
-            }
-        }
-
 
         // ファイル読み込み
-        public void Load(string path, LoadFolderOption option = LoadFolderOption.None)
+        public async Task Load(string path, string start = null, LoadFolderOption option = LoadFolderOption.None)
         {
-            // 履歴保存
-            if (Place != null)
+            Debug.Assert(Place == null);
+
+            // ランダムソートの場合はブックマーク無効
+            if (SortMode == BookSortMode.Random)
             {
-                ModelContext.BookHistory.Add(this);
+                start = null;
             }
 
             Archiver archiver = null;
-            string start = null;
 
             // アーカイバの選択
-#region SelectArchiver
+            #region SelectArchiver
             if (Directory.Exists(path))
             {
                 archiver = ModelContext.ArchiverManager.CreateArchiver(path);
@@ -774,48 +897,28 @@ namespace NeeView
             {
                 throw new FileNotFoundException("ファイルが見つかりません", path);
             }
-#endregion
+            #endregion
 
-            // 本無効化
-            _Place = null;
-
-            // 設定の復元
-            if (IsEnableHistory)
-            {
-                var setting = ModelContext.BookHistory.Find(archiver.Path);
-                if (setting != null)
-                {
-                    setting.Restore(this);
-                    start = start ?? setting.BookMark;
-                }
-            }
 
             if (IsRecursiveFolder)
             {
                 option |= LoadFolderOption.Recursive;
             }
 
-            LoadArchive(archiver, start, option);
+            await LoadArchive(archiver, start, option);
         }
 
 
         // アーカイブ読み込み
-        private async void LoadArchive(Archiver archiver, string start, LoadFolderOption option)
+        private async Task LoadArchive(Archiver archiver, string start, LoadFolderOption option)
         {
             try
             {
-                ClearPages(); // ページクリア。タイミングどうなの？
-
-                // 読み込み。非同期で行う。
-                Loaded?.Invoke(this, true);
-
                 await Task.Run(() =>
                     {
                         _Archivers.Add(archiver);
                         ReadArchive(archiver, "", (option & LoadFolderOption.Recursive) == LoadFolderOption.Recursive);
                     });
-
-                Loaded?.Invoke(this, false);
 
                 // 初期ソート
                 Sort();
@@ -831,22 +934,25 @@ namespace NeeView
                     startIndex = Pages.Count - 1;
                 }
 
+                _StartIndex = startIndex;
+
                 // 本有効化
-                _Place = archiver.Path;
-
-                // イベント発行
-                PropertyChanged?.Invoke(this, null);
-                BookChanged?.Invoke(this, null);
-
-                SetIndex(startIndex, 1);
-
-                ResetViewPages();
+                Place = archiver.Path;
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
                 Debug.WriteLine(e.StackTrace);
             }
+        }
+
+        int _StartIndex;
+
+        public void Start()
+        {
+            Debug.Assert(Place != null);
+
+            SetIndex(_StartIndex, 1);
         }
 
         private void ReadArchive(Archiver archiver, string place, bool isRecursive)
@@ -909,50 +1015,8 @@ namespace NeeView
         }
 
 
-
-        private BookSortMode _SortMode = BookSortMode.FileName;
-        public BookSortMode SortMode
-        {
-            get { return _SortMode; }
-            set
-            {
-                if (_SortMode == value && value != BookSortMode.Random) return;
-                _SortMode = value;
-                if (_Place != null)
-                {
-                    Sort();
-                    SetIndex(0, 1);
-                    ModeChanged?.Invoke(this, null); // モード変更通知
-                }
-            }
-        }
-
-        private bool _IsReverseSort;
-        public bool IsReverseSort
-        {
-            get { return _IsReverseSort; }
-            set
-            {
-                if (_IsReverseSort == value) return;
-                _IsReverseSort = value;
-                //Page current = CurrentPage;
-                if (_SortMode == BookSortMode.Random)
-                {
-                    Pages.Reverse();
-                }
-                else
-                {
-                    Sort();
-                }
-                //_IsDartyVewPages = true;
-                //SetIndex(Pages.IndexOf(current), _Direction); // ページ番号更新
-                SetIndex(0, 1);
-                ModeChanged?.Invoke(this, null); // モード変更通知
-            }
-        }
-
-        // ファイル名：辞書順ソート
-        void Sort()
+        // ページの並び替え
+        public void Sort()
         {
             if (Pages.Count <= 0) return;
 
@@ -981,6 +1045,8 @@ namespace NeeView
                 Pages.Reverse();
             }
 
+            SetIndex(0, 1);
+
             //Debug.WriteLine("--");
             //Pages.ForEach(e => Debug.WriteLine(e.FullPath));
         }
@@ -1005,7 +1071,7 @@ namespace NeeView
         // 表示の安定状態チェック
         private bool IsStable()
         {
-            return (_Place != null && _ViewPages[0] == CurrentPage && _ViewPages.All(e => e == null || e.Content != null));
+            return (_ViewPages[0] == CurrentPage && _ViewPages.All(e => e == null || e.Content != null));
         }
 
         // 前のページに戻る
@@ -1018,7 +1084,8 @@ namespace NeeView
             if (index < 0) index = 0;
             if (Index == index)
             {
-                PrevFolder(LoadFolderOption.LastPage);
+                PageTerminated?.Invoke(this, -1);
+                //PrevFolder(LoadFolderOption.LastPage);
             }
             else
             {
@@ -1042,7 +1109,8 @@ namespace NeeView
             }
             if (Index == index)
             {
-                NextFolder(LoadFolderOption.FirstPage);
+                PageTerminated?.Invoke(this, +1);
+                //NextFolder(LoadFolderOption.FirstPage);
             }
             else
             {
@@ -1091,62 +1159,42 @@ namespace NeeView
         }
 
 
-        string _Place;
-        public string Place => _Place;
 
-        [Flags]
-        public enum LoadFolderOption
+        // 全ページクリア
+        private void Close()
         {
-            None = 0,
-            Recursive = (1 << 0),
-            FirstPage = (1 << 1),
-            LastPage = (1 << 2)
-        };
-
-        // 次のフォルダに移動
-        public bool MoveFolder(int direction, LoadFolderOption option)
-        {
-            if (_Place == null) return false;
-
-            string place = File.Exists(_Place) ? Path.GetDirectoryName(_Place) : _Place;
-
-            if (Directory.Exists(place))
+            lock (_Lock)
             {
-                var entries = Directory.GetFileSystemEntries(Path.GetDirectoryName(_Place)).ToList();
+                Pages.ForEach(e => e?.Close());
+                Pages.Clear();
 
-                // ディレクトリ、アーカイブ以外は除外
-                var directories = entries.Where(e => Directory.Exists(e) || ModelContext.ArchiverManager.IsSupported(e)).ToList();
+                /*
+                for (int i = 0; i < _ViewPages.Count; ++i)
+                {
+                    _ViewPages[i] = null;
+                }
+                _ViewPageIndex = 0;
 
-                // TODO: ディレクトリの並び順ソート
+                _KeepPages.Clear();
+                */
 
-                int index = directories.IndexOf(_Place);
-                if (index < 0) return false;
+                _Archivers.ForEach(e => e.Dispose());
+                _Archivers.Clear();
 
-                int next = index + direction;
-                if (next < 0 || next >= directories.Count) return false;
+                _TempArchives.ForEach(e => File.Delete(e));
+                _TempArchives.Clear();
 
-                Load(directories[next], option);
-            }
-
-            return true;
-        }
-
-        public void NextFolder(LoadFolderOption option = LoadFolderOption.None)
-        {
-            bool result = MoveFolder(+1, option);
-            if (!result)
-            {
-                InfoMessage?.Invoke(this, "次のフォルダはありません");
+                _TrashBox.ForEach(e => e.Dispose());
+                _TrashBox.Clear();
             }
         }
 
-        public void PrevFolder(LoadFolderOption option = LoadFolderOption.None)
+
+
+        public void Dispose()
         {
-            bool result = MoveFolder(-1, option);
-            if (!result)
-            {
-                InfoMessage?.Invoke(this, "前のフォルダはありません");
-            }
+            Page.ContentChanged -= Page_ContentChanged;
+            Close();
         }
     }
 

@@ -57,8 +57,8 @@ namespace NeeView
         SetSortModeRandom,
 
         ToggleIsReverseSort,
-        SetIsReverseSortFalse,
-        SetIsReverseSortTrue,
+        //SetIsReverseSortFalse,
+        //SetIsReverseSortTrue,
 
         ViewScrollUp,
         ViewScrollDown,
@@ -123,8 +123,8 @@ namespace NeeView
             [BookCommandType.SetSortModeRandom] = new Header("ページ整列", "ランダムに並べる"),
 
             [BookCommandType.ToggleIsReverseSort] = new Header("ページ整列", "正順逆順を切り替える"),
-            [BookCommandType.SetIsReverseSortFalse] = new Header("ページ整列", "正順にする"),
-            [BookCommandType.SetIsReverseSortTrue] = new Header("ページ整列", "逆順にする"),
+            //[BookCommandType.SetIsReverseSortFalse] = new Header("ページ整列", "正順にする"),
+            //[BookCommandType.SetIsReverseSortTrue] = new Header("ページ整列", "逆順にする"),
 
             [BookCommandType.ViewScrollUp] = new Header("ビュー操作", "スクロール↑"),
             [BookCommandType.ViewScrollDown] = new Header("ビュー操作", "スクロール↓"),
@@ -140,7 +140,7 @@ namespace NeeView
     {
         public BookCommandShortcutSource ShortcutSource { get; private set; }
 
-        public void Initialize(MainWindowVM vm, Book book, BookCommandShortcutSource source)
+        public void Initialize(MainWindowVM vm, BookProxy book, BookCommandShortcutSource source)
         {
             Add(BookCommandType.OpenSettingWindow, new BookCommand(null));
             Add(BookCommandType.LoadAs, new BookCommand(e => book.Load((string)e)));
@@ -158,23 +158,23 @@ namespace NeeView
             Add(BookCommandType.SetStretchModeOutside, new BookCommand(e => vm.StretchMode = PageStretchMode.Outside));
             Add(BookCommandType.SetStretchModeUniform, new BookCommand(e => vm.StretchMode = PageStretchMode.Uniform));
             Add(BookCommandType.SetStretchModeUniformToFill, new BookCommand(e => vm.StretchMode = PageStretchMode.UniformToFill));
-            Add(BookCommandType.TogglePageMode, new BookCommand(e => book.PageMode = 3 - book.PageMode));
-            Add(BookCommandType.SetPageMode1, new BookCommand(e => book.PageMode = 1));
-            Add(BookCommandType.SetPageMode2, new BookCommand(e => book.PageMode = 2));
-            Add(BookCommandType.ToggleBookReadOrder, new BookCommand(e => book.BookReadOrder = book.BookReadOrder.GetToggle()));
-            Add(BookCommandType.SetBookReadOrderRight, new BookCommand(e => book.BookReadOrder = BookReadOrder.RightToLeft));
-            Add(BookCommandType.SetBookReadOrderLeft, new BookCommand(e => book.BookReadOrder = BookReadOrder.LeftToRight));
-            Add(BookCommandType.ToggleIsSupportedTitlePage, new BookCommand(e => book.IsSupportedTitlePage = !book.IsSupportedTitlePage));
-            Add(BookCommandType.ToggleIsSupportedWidePage, new BookCommand(e => book.IsSupportedWidePage = !book.IsSupportedWidePage));
-            Add(BookCommandType.ToggleIsRecursiveFolder, new BookCommand(e => book.IsRecursiveFolder = !book.IsRecursiveFolder));
-            Add(BookCommandType.ToggleSortMode, new BookCommand(e => book.SortMode = book.SortMode.GetToggle()));
-            Add(BookCommandType.SetSortModeFileName, new BookCommand(e => book.SortMode = BookSortMode.FileName));
-            Add(BookCommandType.SetSortModeFileNameDictionary, new BookCommand(e => book.SortMode = BookSortMode.FileNameDictionary));
-            Add(BookCommandType.SetSortModeTimeStamp, new BookCommand(e => book.SortMode = BookSortMode.TimeStamp));
-            Add(BookCommandType.SetSortModeRandom, new BookCommand(e => book.SortMode = BookSortMode.Random));
-            Add(BookCommandType.ToggleIsReverseSort, new BookCommand(e => book.IsReverseSort = !book.IsReverseSort));
-            Add(BookCommandType.SetIsReverseSortFalse, new BookCommand(e => book.IsReverseSort = false));
-            Add(BookCommandType.SetIsReverseSortTrue, new BookCommand(e => book.IsReverseSort = true));
+            Add(BookCommandType.TogglePageMode, new BookCommand(e => book.TogglePageMode()));
+            Add(BookCommandType.SetPageMode1, new BookCommand(e => book.SetPageMode(1)));
+            Add(BookCommandType.SetPageMode2, new BookCommand(e => book.SetPageMode(2)));
+            Add(BookCommandType.ToggleBookReadOrder, new BookCommand(e => book.ToggleBookReadOrder()));
+            Add(BookCommandType.SetBookReadOrderRight, new BookCommand(e => book.SetBookReadOrder(BookReadOrder.RightToLeft)));
+            Add(BookCommandType.SetBookReadOrderLeft, new BookCommand(e => book.SetBookReadOrder(BookReadOrder.LeftToRight)));
+            Add(BookCommandType.ToggleIsSupportedTitlePage, new BookCommand(e => book.ToggleIsSupportedTitlePage()));
+            Add(BookCommandType.ToggleIsSupportedWidePage, new BookCommand(e => book.ToggleIsSupportedWidePage()));
+            Add(BookCommandType.ToggleIsRecursiveFolder, new BookCommand(e => book.ToggleIsRecursiveFolder()));
+            Add(BookCommandType.ToggleSortMode, new BookCommand(e => book.ToggleSortMode()));
+            Add(BookCommandType.SetSortModeFileName, new BookCommand(e => book.SetSortMode(BookSortMode.FileName)));
+            Add(BookCommandType.SetSortModeFileNameDictionary, new BookCommand(e => book.SetSortMode(BookSortMode.FileNameDictionary)));
+            Add(BookCommandType.SetSortModeTimeStamp, new BookCommand(e => book.SetSortMode(BookSortMode.TimeStamp)));
+            Add(BookCommandType.SetSortModeRandom, new BookCommand(e => book.SetSortMode(BookSortMode.Random)));
+            Add(BookCommandType.ToggleIsReverseSort, new BookCommand(e => book.ToggleIsReverseSort()));
+            //Add(BookCommandType.SetIsReverseSortFalse, new BookCommand(e => book.IsReverseSort = false));
+            //Add(BookCommandType.SetIsReverseSortTrue, new BookCommand(e => book.IsReverseSort = true));
             Add(BookCommandType.ViewScrollUp, new BookCommand(null));
             Add(BookCommandType.ViewScrollDown, new BookCommand(null));
             Add(BookCommandType.ViewScaleUp, new BookCommand(null));

@@ -11,13 +11,13 @@ namespace NeeView
     public class BookHistory
     {
         [DataMember]
-        private LinkedList<BookParamSetting> _History;
+        private LinkedList<BookSetting> _History;
 
         private const int _LimitCount = 100;
 
         private void Constructor()
         {
-            _History = new LinkedList<BookParamSetting>();
+            _History = new LinkedList<BookSetting>();
         }
 
         public BookHistory()
@@ -38,13 +38,13 @@ namespace NeeView
 
         public void Add(Book book)
         {
-            if (book.Place == null) return;
+            if (book?.Place == null) return;
             if (book.Pages.Count <= 0) return;
 
             var item = _History.FirstOrDefault(e => e.Place == book.Place);
             if (item != null) _History.Remove(item);
 
-            var setting = new BookParamSetting();
+            var setting = new BookSetting();
             setting.Store(book);
             _History.AddFirst(setting);
 
@@ -54,14 +54,14 @@ namespace NeeView
             }
         }
 
-        public BookParamSetting Find(string place)
+        public BookSetting Find(string place)
         {
             return _History.FirstOrDefault(e => e.Place == place);
         }
 
-        public List<BookParamSetting> ListUp(int size)
+        public List<BookSetting> ListUp(int size)
         {
-            var list = new List<BookParamSetting>();
+            var list = new List<BookSetting>();
             foreach(var item in _History)
             {
                 if (list.Count >= size) break;

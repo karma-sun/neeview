@@ -22,7 +22,7 @@
                         <TextBlock Text="にする" Width="auto" VerticalAlignment="Center" Margin="2"/>
                     </DockPanel>
                     <CheckBox DockPanel.Dock="Top" Margin="2" Content="GIFをメディアとして再生する(アニメーションGIF)"
-                              IsChecked="{Binding Setting.BookSetting.IsEnableAnimatedGif}" />
+                              IsChecked="{Binding Setting.BookCommonSetting.IsEnableAnimatedGif}" />
                     <!--
                     <CheckBox DockPanel.Dock="Top" Margin="2" Content="横長ページを２ページ分とみなす"
                               IsChecked="{Binding Setting.BookSetting.IsEnableWidePage}" />
@@ -42,11 +42,11 @@
                     <DockPanel>
                         <Button DockPanel.Dock="Right" Content="履歴を削除する" Padding="16,8" Click="ClearHistoryButton_Click"/>
                         <CheckBox Margin="2" Content="履歴から本の設定を復元する"
-                              IsChecked="{Binding Setting.BookSetting.IsEnableHistory}" />
+                              IsChecked="{Binding Setting.BookCommonSetting.IsEnableHistory}" />
                     </DockPanel>
                     <TextBlock Text="その他" Margin="2,8,2,2"/>
                     <CheckBox Margin="2" Content="サポート外ファイルもページにする"
-                              IsChecked="{Binding Setting.BookSetting.IsEnableNoSupportFile}" />
+                              IsChecked="{Binding Setting.BookCommonSetting.IsEnableNoSupportFile}" />
                 </StackPanel>
                 
             </TabItem>

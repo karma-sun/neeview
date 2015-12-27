@@ -323,7 +323,6 @@ namespace NeeView
             {
                 var bitmapSource = Load();
                 if (bitmapSource == null) throw new ApplicationException("cannot load by BitmapImge.");
-
                 Width = bitmapSource.PixelWidth;
                 Height = bitmapSource.PixelHeight;
                 Color = bitmapSource.GetBaseColor();

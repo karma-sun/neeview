@@ -35,9 +35,9 @@ namespace NeeView
             InitializeComponent();
 
             _VM = new MainWindowVM();
-            _VM.PageChanged += OnChangePage;
-            _VM.InputGestureChanged += (s, e) => InitializeInputGestures();
+            _VM.ViewChanged += OnViewChanged;
             _VM.ViewModeChanged += OnViewModeChanged;
+            _VM.InputGestureChanged += (s, e) => InitializeInputGestures();
             _VM.PropertyChanged += OnPropertyChanged;
             _VM.Loaded += (s, e) =>
             {
@@ -78,8 +78,11 @@ namespace NeeView
                 AutoFade(InfoTextBlock, 1.0, 0.5);
             }
             //throw new NotImplementedException();
+
+            //this.MenuArea.Items.Refresh();
         }
 
+        // ドラッグでのビュー操作の設定変更
         private void OnViewModeChanged(object sender, EventArgs e)
         {
             _MouseDragController.IsLimitMove = _VM.IsLimitMove;
@@ -87,7 +90,7 @@ namespace NeeView
             _MouseDragController.SnapAngle = _VM.IsAngleSnap ? 45 : 0;
             //_MouseDragController.IsStartPositionCenter = _VM.IsViewStartPositionCenter;
             _MouseDragController.ViewOrigin = _VM.IsViewStartPositionCenter ? ViewOrigin.Center :
-                _VM.BookReadOrder == BookReadOrder.LeftToRight ? ViewOrigin.LeftTop : ViewOrigin.RightTop;
+                _VM.BookSetting.BookReadOrder == BookReadOrder.LeftToRight ? ViewOrigin.LeftTop : ViewOrigin.RightTop;
 
 
             // ここはあまりよくない
@@ -272,8 +275,8 @@ namespace NeeView
 
         }
 
-        // ページ変更でマウスドラッグによる変形を初期化する
-        private void OnChangePage(object sender, EventArgs e)
+        // 表示変更でマウスドラッグによる変形を初期化する
+        private void OnViewChanged(object sender, EventArgs e)
         {
             _MouseDragController.Reset();
         }

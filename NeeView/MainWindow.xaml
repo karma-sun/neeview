@@ -146,36 +146,36 @@
 
                 <MenuItem Header="本(_B)">
                     <MenuItem x:Name="PageMode1MenuItem" Header="1ページ表示" Command="{Binding BookCommands[SetPageMode1]}"
-                              IsChecked="{Binding PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=1,Mode=OneWay}" />
+                              IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=1,Mode=OneWay}" />
                     <MenuItem x:Name="PageMode2MenuItem" Header="2ページ表示" Command="{Binding BookCommands[SetPageMode2]}"
-                              IsChecked="{Binding PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=2,Mode=OneWay}" />
+                              IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=2,Mode=OneWay}" />
                     <Separator/>
                     <MenuItem Header="右開き" Command="{Binding BookCommands[SetBookReadOrderRight]}"
-                              IsChecked="{Binding BookReadOrder,Converter={StaticResource BookReadOrderToBooleanConverter},ConverterParameter=RightToLeft,Mode=OneWay}" />
+                              IsChecked="{Binding BookSetting.BookReadOrder,Converter={StaticResource BookReadOrderToBooleanConverter},ConverterParameter=RightToLeft,Mode=OneWay}" />
                     <MenuItem Header="左開き" Command="{Binding BookCommands[SetBookReadOrderLeft]}"
-                              IsChecked="{Binding BookReadOrder,Converter={StaticResource BookReadOrderToBooleanConverter},ConverterParameter=LeftToRight,Mode=OneWay}" />
+                              IsChecked="{Binding BookSetting.BookReadOrder,Converter={StaticResource BookReadOrderToBooleanConverter},ConverterParameter=LeftToRight,Mode=OneWay}" />
                     <Separator/>
                     <MenuItem Header="最初のページは表紙" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
                               Command="{Binding BookCommands[ToggleIsSupportedTitlePage]}"
-                              IsChecked="{Binding IsSupportedTitlePage, Mode=OneWay}" />
+                              IsChecked="{Binding BookSetting.IsSupportedTitlePage, Mode=OneWay}" />
                     <MenuItem Header="横長ページを２ページとみなす" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
                               Command="{Binding BookCommands[ToggleIsSupportedWidePage]}"
-                              IsChecked="{Binding IsSupportedWidePage, Mode=OneWay}" />
+                              IsChecked="{Binding BookSetting.IsSupportedWidePage, Mode=OneWay}" />
                     <Separator />
                     <MenuItem Header="サブフォルダ(書庫)も読み込む" Command="{Binding BookCommands[ToggleIsRecursiveFolder]}"
-                              IsChecked="{Binding IsRecursiveFolder,Mode=OneWay}" />
+                              IsChecked="{Binding BookSetting.IsRecursiveFolder,Mode=OneWay}" />
                     <Separator />
                     <MenuItem Header="ファイル名順にする" Command="{Binding BookCommands[SetSortModeFileName]}"
-                              IsChecked="{Binding SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=FileName,Mode=OneWay}" />
+                              IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=FileName,Mode=OneWay}" />
                     <MenuItem Header="ファイル名(辞書)順にする" Command="{Binding BookCommands[SetSortModeFileNameDictionary]}"
-                              IsChecked="{Binding SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=FileNameDictionary,Mode=OneWay}" />
+                              IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=FileNameDictionary,Mode=OneWay}" />
                     <MenuItem Header="日付順にする" Command="{Binding BookCommands[SetSortModeTimeStamp]}"
-                              IsChecked="{Binding SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=TimeStamp,Mode=OneWay}" />
+                              IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=TimeStamp,Mode=OneWay}" />
                     <MenuItem Header="ランダムに並べる" Command="{Binding BookCommands[SetSortModeRandom]}"
-                              IsChecked="{Binding SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=Random,Mode=OneWay}" />
+                              IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=Random,Mode=OneWay}" />
                     <Separator/>
                     <MenuItem Header="逆順にする" Command="{Binding BookCommands[ToggleIsReverseSort]}"
-                              IsChecked="{Binding IsReverseSort, Mode=OneWay}" />
+                              IsChecked="{Binding BookSetting.IsReverseSort, Mode=OneWay}" />
                 </MenuItem>
 
                 <MenuItem Header="設定(_O)">
@@ -190,8 +190,18 @@
 
             <!-- ステータスエリア -->
             <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom">
-                <Slider Maximum="{Binding MaxPage}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="True" Focusable="False"
-                        local:SliderTools.MoveToPointOnDrag="True"/>
+                <Slider Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="True" Focusable="False"
+                        local:SliderTools.MoveToPointOnDrag="True">
+                    <Slider.Style>
+                        <Style TargetType="Slider">
+                            <Style.Triggers>
+                                <Trigger Property="Maximum" Value="0">
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Slider.Style>
+                </Slider>
                 <!--MouseMove="Slider_MouseMove"-->
             </DockPanel>
 

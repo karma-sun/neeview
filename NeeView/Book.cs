@@ -1231,6 +1231,17 @@ namespace NeeView
             }
         }
 
+        //
+        public void FirstPage()
+        {
+            Index = 0;
+        }
+
+        //
+        public void LastPage()
+        {
+            Index = Pages.Count - 1;
+        }
 
         // 表示数変更によるViewPages作り直し
         private void ResetViewPages()

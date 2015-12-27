@@ -22,6 +22,9 @@ namespace NeeView
         PrevPage,
         NextPage,
 
+        FirstPage,
+        LastPage,
+
         PrevFolder,
         NextFolder,
 
@@ -86,6 +89,8 @@ namespace NeeView
 
             [BookCommandType.PrevPage] = new Header("移動", "前のページに戻る"),
             [BookCommandType.NextPage] = new Header("移動", "次のページへ進む"),
+            [BookCommandType.FirstPage] = new Header("移動", "最初のページに戻る"),
+            [BookCommandType.LastPage] = new Header("移動", "最後のページへ進む"),
             [BookCommandType.PrevFolder] = new Header("移動", "前のフォルダ(書庫)に戻る"),
             [BookCommandType.NextFolder] = new Header("移動", "次のフォルダ(書庫)へ進む"),
 
@@ -142,6 +147,8 @@ namespace NeeView
             Add(BookCommandType.ClearHistory, new BookCommand(null));
             Add(BookCommandType.PrevPage, new BookCommand(e => book.PrevPage()));
             Add(BookCommandType.NextPage, new BookCommand(e => book.NextPage()));
+            Add(BookCommandType.FirstPage, new BookCommand(e => book.FirstPage()));
+            Add(BookCommandType.LastPage, new BookCommand(e => book.LastPage()));
             Add(BookCommandType.PrevFolder, new BookCommand(e => book.PrevFolder()));
             Add(BookCommandType.NextFolder, new BookCommand(e => book.NextFolder()));
             Add(BookCommandType.ToggleFullScreen, new BookCommand(null));

@@ -137,6 +137,8 @@
                 <MenuItem Header="移動(_J)">
                     <MenuItem Header="前のページに戻る"  Command="{Binding BookCommands[PrevPage]}"/>
                     <MenuItem Header="次のページへ進む"  Command="{Binding BookCommands[NextPage]}"/>
+                    <MenuItem Header="最初のページに戻る" Command="{Binding BookCommands[FirstPage]}"/>
+                    <MenuItem Header="最後のページへ進む" Command="{Binding BookCommands[LastPage]}"/>
                     <Separator/>
                     <MenuItem Header="前のフォルダ(書庫)に戻る"  Command="{Binding BookCommands[PrevFolder]}"/>
                     <MenuItem Header="次のフォルダ(書庫)へ進む"  Command="{Binding BookCommands[NextFolder]}"/>

@@ -32,12 +32,36 @@ namespace NeeView
         [DataMember]
         public bool IsViewStartPositionCenter { get; set; }
 
+        [DataMember]
+        public PageStretchMode StretchMode { get; set; }
+
+        [DataMember]
+        public BackgroundStyle Background { get; set; }
+
+        void Constructor()
+        {
+            IsLimitMove = true;
+        }
+
+        public ViewSetting()
+        {
+            Constructor();
+        }
+
+        [OnDeserializing]
+        private void Deserializing(StreamingContext c)
+        {
+            Constructor();
+        }
+
         public void Store(MainWindowVM vm)
         {
             IsLimitMove = vm.IsLimitMove;
             IsControlCenterImage = vm.IsControlCenterImage;
             IsAngleSnap = vm.IsAngleSnap;
             IsViewStartPositionCenter = vm.IsViewStartPositionCenter;
+            StretchMode = vm.StretchMode;
+            Background = vm.Background;
         }
 
         public void Restore(MainWindowVM vm)
@@ -46,6 +70,8 @@ namespace NeeView
             vm.IsControlCenterImage = IsControlCenterImage;
             vm.IsAngleSnap = IsAngleSnap;
             vm.IsViewStartPositionCenter = IsViewStartPositionCenter;
+            vm.StretchMode = StretchMode;
+            vm.Background = Background;
 
             vm.OnViewModeChanged();
         }
@@ -88,8 +114,8 @@ namespace NeeView
 
         public Dictionary<BookCommandType, RoutedCommand> BookCommands { get; set; }
 
-        public JobEngine JobEngine { get { return Book.JobEngine; } }
-        public int JobCount { get { return Book.JobEngine.Context.JobList.Count; } }
+        public JobEngine JobEngine { get { return ModelContext.JobEngine; } }
+        public int JobCount { get { return ModelContext.JobEngine.Context.JobList.Count; } }
 
         public int MaxPage { get { return _Book.Pages.Count - 1; } }
 
@@ -117,7 +143,7 @@ namespace NeeView
 
 
         public int PageMode { get { return _Book.PageMode; } }
-        public PageStretchMode StretchMode { get { return _Book.StretchMode; } }
+        //public PageStretchMode StretchMode { get { return _Book.StretchMode; } }
         public BookSortMode SortMode { get { return _Book.SortMode; } }
         public bool IsReverseSort { get { return _Book.IsReverseSort; } }
         public bool IsViewStartPositionCenter { get; set; }
@@ -147,7 +173,24 @@ namespace NeeView
         }
         #endregion
 
-
+        #region Property: StretchMode
+        private PageStretchMode _StretchMode = PageStretchMode.Uniform;
+        public PageStretchMode StretchMode
+        {
+            get { return _StretchMode; }
+            set
+            {
+                if (_StretchMode != value)
+                {
+                    _StretchMode = value;
+                    OnPropertyChanged();
+                    UpdateContentsWidth();
+                    PageChanged?.Invoke(this, null);
+                    ViewModeChanged?.Invoke(this, null);
+                }
+            }
+        }
+        #endregion
 
 
         public ObservableCollection<FrameworkElement> Contents { get; private set; }
@@ -161,6 +204,7 @@ namespace NeeView
         public event EventHandler InputGestureChanged;
 
         private Book _Book;
+        //private Book _Book;
         //private Dictionary<string, BookParamSetting> _BookParamSettings;
         private BookCommandCollection _Commands;
 
@@ -175,10 +219,10 @@ namespace NeeView
             //ModelContext.BookHistory = new BookHistory();
 
             _Commands = new BookCommandCollection();
-            _Commands.Initialize(_Book, null);
+            _Commands.Initialize(this, _Book, null);
 
-            Book.JobEngine.Context.AddEvent += JobEngineEvent;
-            Book.JobEngine.Context.RemoveEvent += JobEngineEvent;
+            ModelContext.JobEngine.Context.AddEvent += JobEngineEvent;
+            ModelContext.JobEngine.Context.RemoveEvent += JobEngineEvent;
 
             _Book.BookChanged +=
                 OnBookChanged;
@@ -197,7 +241,7 @@ namespace NeeView
                     ViewModeChanged?.Invoke(this, null);
                 };
             _Book.NowPagesChanged += OnContentsCollectionChanged;
-            _Book.BackgroundChanged += OnBackgroundChanged;
+            //_Book.BackgroundChanged += OnBackgroundChanged;
             _Book.PropertyChanged +=
                 (s, e) =>
                 {
@@ -276,10 +320,18 @@ namespace NeeView
         }
         #endregion
 
+        #region Property: Background
+        private BackgroundStyle _Background;
+        public BackgroundStyle Background
+        {
+            get { return _Background; }
+            set { _Background = value; OnPropertyChanged(); }
+        }
+        #endregion
 
         private void OnBackgroundChanged(object sender, EventArgs e)
         {
-            switch (_Book.Background)
+            switch (this.Background)
             {
                 default:
                 case BackgroundStyle.Black:
@@ -305,6 +357,7 @@ namespace NeeView
         {
             var setting = new Setting();
             setting.ViewSetting.Store(this);
+            setting.SusieSetting.Store(ModelContext.SusieContext);
             setting.BookSetting.Store(_Book);
             setting.GestureSetting.Store(_Commands);
 
@@ -314,6 +367,7 @@ namespace NeeView
         public void SetSettingContext(Setting setting)
         {
             setting.ViewSetting.Restore(this);
+            setting.SusieSetting.Restore(ModelContext.SusieContext);
             setting.BookSetting.Restore(_Book);
             setting.GestureSetting.Restore(_Commands);
 
@@ -329,6 +383,7 @@ namespace NeeView
                 _Setting.WindowPlacement?.Restore(window);
 
                 _Setting.ViewSetting.Restore(this);
+                _Setting.SusieSetting.Restore(ModelContext.SusieContext);
                 _Setting.BookSetting.Restore(_Book);
                 _Setting.GestureSetting.Restore(_Commands);
 
@@ -345,6 +400,7 @@ namespace NeeView
             _Setting.WindowPlacement.Store(window);
 
             _Setting.ViewSetting.Store(this);
+            _Setting.SusieSetting.Store(ModelContext.SusieContext);
             _Setting.BookSetting.Store(_Book);
             _Setting.GestureSetting.Store(_Commands);
 
@@ -469,33 +525,34 @@ namespace NeeView
 
         private void UpdateContentsWidth()
         {
+            var scales = CalcContentScale(_ViewWidth, _ViewHeight);
+
             for (int i = 0; i < 2; ++i)
             {
                 //ContentsWidth[i] = CalcContentWidth(i, _ViewWidth, _ViewHeight);
-                var scale = CalcContentScale(i, _ViewWidth, _ViewHeight);
-                Point size = GetContentSize(_Book.NowPages[i]);
-                ContentsWidth[i] = size.X * scale;
-                ContentsHeight[i] = size.Y * scale;
+                //var scale = CalcContentScale(i, _ViewWidth, _ViewHeight);
+                var size = GetContentSize(_Book.NowPages[i]);
+                ContentsWidth[i] = size.Width * scales[i];
+                ContentsHeight[i] = size.Height * scales[i];
             }
         }
 
         //
-        private double CalcContentScale(int contentId, double width, double height)
+        private double[] CalcContentScale(double width, double height)
         {
-            Point c0 = GetContentSize(_Book.NowPages[0]);
-            Point c1 = GetContentSize(_Book.NowPages[1]);
+            var c0 = GetContentSize(_Book.NowPages[0]);
+            var c1 = GetContentSize(_Book.NowPages[1]);
 
-            if (_Book.StretchMode == PageStretchMode.None)
+            if (this.StretchMode == PageStretchMode.None)
             {
-                return 1.0; // (contentId == 0) ? c0.X : c1.X;
+                return new double[] { 1.0, 1.0 }; // ; // (contentId == 0) ? c0.X : c1.X;
             }
 
 
             double rate0 = 1.0;
             double rate1 = 1.0;
 
-            Point content;
-
+            Size content;
 
             //if (_Book.PageMode == 1)
             if (_Book.NowPages[1] == null)
@@ -505,38 +562,41 @@ namespace NeeView
             else
             {
                 // どちらもImageでない
-                if (c0.X == 0 && c1.X == 0) return 1.0; //  width * 0.5;
+                if (c0.Width == 0 && c1.Width == 0)
+                {
+                    return new double[] { 1.0, 1.0 }; // 1.0; //  width * 0.5;
+                }
 
-                if (c0.X == 0) c0 = c1;
-                if (c1.X == 0) c1 = c0;
+                if (c0.Width == 0) c0 = c1;
+                if (c1.Width == 0) c1 = c0;
 
                 // c1 の高さを c0 に合わせる
-                rate1 = c0.Y / c1.Y;
+                rate1 = c0.Height / c1.Height;
 
                 // 高さをあわせたときの幅の合計
-                content = new Point(c0.X * rate0 + c1.X * rate1, c0.Y);
+                content = new Size(c0.Width * rate0 + c1.Width * rate1, c0.Height);
             }
 
             //
-            double rateW = width / content.X;
-            double rateH = height / content.Y;
+            double rateW = width / content.Width;
+            double rateH = height / content.Height;
 
 
             // 拡大はしない
-            if (_Book.StretchMode == PageStretchMode.Inside)
+            if (this.StretchMode == PageStretchMode.Inside)
             {
                 if (rateW > 1.0) rateW = 1.0;
                 if (rateH > 1.0) rateH = 1.0;
             }
             // 縮小はしない
-            else if (_Book.StretchMode == PageStretchMode.Outside)
+            else if (this.StretchMode == PageStretchMode.Outside)
             {
                 if (rateW < 1.0) rateW = 1.0;
                 if (rateH < 1.0) rateH = 1.0;
             }
 
             // 枠いっぱいに広げる
-            if (_Book.StretchMode == PageStretchMode.UniformToFill)
+            if (this.StretchMode == PageStretchMode.UniformToFill)
             {
                 if (rateW > rateH)
                 {
@@ -564,7 +624,12 @@ namespace NeeView
                 }
             }
 
+            //
+            return new double[] { rate0, rate1 };
+
+            /*
             // 計算された幅を返す
+
             if (contentId == 0)
             {
                 return rate0; // c0.X * rate0;
@@ -573,119 +638,23 @@ namespace NeeView
             {
                 return rate1; // c1.X * rate1;
             }
-        }
-
-
-        //
-        private double CalcContentWidth(int contentId, double width, double height)
-        {
-            Point c0 = GetContentSize(_Book.NowPages[0]);
-            Point c1 = GetContentSize(_Book.NowPages[1]);
-
-            if (_Book.StretchMode == PageStretchMode.None)
-            {
-                return (contentId == 0) ? c0.X : c1.X;
-            }
-
-
-            double rate0 = 1.0;
-            double rate1 = 1.0;
-
-            Point content;
-
-
-            //if (_Book.PageMode == 1)
-            if (_Book.NowPages[1] == null)
-            {
-                content = c0;
-            }
-            else
-            {
-                // どちらもImageでない
-                if (c0.X == 0 && c1.X == 0) return width * 0.5;
-
-                if (c0.X == 0) c0 = c1;
-                if (c1.X == 0) c1 = c0;
-
-                // c1 の高さを c0 に合わせる
-                rate1 = c0.Y / c1.Y;
-
-                // 高さをあわせたときの幅の合計
-                content = new Point(c0.X * rate0 + c1.X * rate1, c0.Y);
-            }
-
-            //
-            double rateW = width / content.X;
-            double rateH = height / content.Y;
-
-
-            // 拡大はしない
-            if (_Book.StretchMode == PageStretchMode.Inside)
-            {
-                if (rateW > 1.0) rateW = 1.0;
-                if (rateH > 1.0) rateH = 1.0;
-            }
-            // 縮小はしない
-            else if (_Book.StretchMode == PageStretchMode.Outside)
-            {
-                if (rateW < 1.0) rateW = 1.0;
-                if (rateH < 1.0) rateH = 1.0;
-            }
-
-            // 枠いっぱいに広げる
-            if (_Book.StretchMode == PageStretchMode.UniformToFill)
-            {
-                if (rateW > rateH)
-                {
-                    rate0 *= rateW;
-                    rate1 *= rateW;
-                }
-                else
-                {
-                    rate0 *= rateH;
-                    rate1 *= rateH;
-                }
-            }
-            // 枠に収めるように広げる
-            else
-            {
-                if (rateW < rateH)
-                {
-                    rate0 *= rateW;
-                    rate1 *= rateW;
-                }
-                else
-                {
-                    rate0 *= rateH;
-                    rate1 *= rateH;
-                }
-            }
-
-            // 計算された幅を返す
-            if (contentId == 0)
-            {
-                return c0.X * rate0;
-            }
-            else
-            {
-                return c1.X * rate1;
-            }
+            */
         }
 
         //
-        private Point GetContentSize(ViewContent content)
+        private Size GetContentSize(ViewContent content)
         {
-            var size = new Point();
+            var size = new Size();
 
             if (content?.Content == null)
             {
-                size.X = 0;
-                size.Y = 0;
+                size.Width = 0;
+                size.Height = 0;
             }
             else
             {
-                size.X = content.Width;
-                size.Y = content.Height;
+                size.Width = content.Width;
+                size.Height = content.Height;
             }
             return size;
         }

@@ -39,7 +39,7 @@ namespace NeeView
         public string SusiePluginPath
         {
             get { return _SusiePluginPath; }
-            set { _SusiePluginPath = value; Setting.BookSetting.SusiePluginPath = value; UpdateSusiePluginSetting(); }
+            set { _SusiePluginPath = value; Setting.SusieSetting.SusiePluginPath = value; UpdateSusiePluginSetting(); }
         }
         #endregion
 
@@ -71,28 +71,17 @@ namespace NeeView
 
         public ObservableCollection<BookCommand> BookCommandCollection { get; set; }
 
-        public SettingWindow(Setting setting)
+        public MainWindowVM VM { get; set; }
+
+        public SettingWindow(MainWindowVM  vm, Setting setting)
         {
+            VM = vm;
             Setting = setting;
 
-            _SusiePluginPath = Setting.BookSetting.SusiePluginPath;
+            _SusiePluginPath = Setting.SusieSetting.SusiePluginPath;
 
             BookCommandCollection = new ObservableCollection<BookCommand>();
             CreateCommandList();
-            /*
-            foreach (var header in BookCommandExtension.Headers)
-            {
-                var item = new BookCommand()
-                {
-                    Key = header.Key,
-                    Group = header.Value.Group,
-                    Header = header.Value.Text,
-                    ShortCut = Setting.GestureSetting[header.Key].ShortCutKey,
-                    MouseGesture = Setting.GestureSetting[header.Key].MouseGesture,
-                };
-                BookCommandCollection.Add(item);
-            }
-            */
 
             InitializeComponent();
 
@@ -137,21 +126,21 @@ namespace NeeView
 
         private void SusiePluginUpdateCommand_Executed(object source, ExecutedRoutedEventArgs e)
         {
-            Setting.BookSetting.RestoreSusieSetting(Book.Current);
+            Setting.SusieSetting.Restore(ModelContext.SusieContext);
             UpdateSusiePluginList();
         }
 
         private void UpdateSusiePluginSetting()
         {
-            Setting.BookSetting.RestoreSusieSetting(Book.Current);
+            Setting.SusieSetting.Restore(ModelContext.SusieContext);
             UpdateSusiePluginList();
         }
 
         public void UpdateSusiePluginList()
         {
             SusiePluginList.Clear();
-            Book.Susie.AMPlgunList.ForEach(e => SusiePluginList.Add(e));
-            Book.Susie.INPlgunList.ForEach(e => SusiePluginList.Add(e));
+            ModelContext.Susie.AMPlgunList.ForEach(e => SusiePluginList.Add(e));
+            ModelContext.Susie.INPlgunList.ForEach(e => SusiePluginList.Add(e));
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
@@ -204,6 +193,12 @@ namespace NeeView
             Setting.GestureSetting = BookCommandShortcutSource.CreateDefaultShortcutSource();
             CreateCommandList();
             this.CommandListView.Items.Refresh();
+        }
+
+        private void ClearHistoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            //VM.BookCommands[BookCommandType.ClearHistory].Execute(this, null);
+            VM.ClearHistor();
         }
     }
 

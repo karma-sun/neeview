@@ -140,7 +140,7 @@ namespace NeeView
     {
         public BookCommandShortcutSource ShortcutSource { get; private set; }
 
-        public void Initialize(Book book, BookCommandShortcutSource source)
+        public void Initialize(MainWindowVM vm, Book book, BookCommandShortcutSource source)
         {
             Add(BookCommandType.OpenSettingWindow, new BookCommand(null));
             Add(BookCommandType.LoadAs, new BookCommand(e => book.Load((string)e)));
@@ -152,12 +152,12 @@ namespace NeeView
             Add(BookCommandType.PrevFolder, new BookCommand(e => book.PrevFolder()));
             Add(BookCommandType.NextFolder, new BookCommand(e => book.NextFolder()));
             Add(BookCommandType.ToggleFullScreen, new BookCommand(null));
-            Add(BookCommandType.ToggleStretchMode, new BookCommand(e => book.StretchMode = book.StretchMode.GetToggle()));
-            Add(BookCommandType.SetStretchModeNone, new BookCommand(e => book.StretchMode = PageStretchMode.None));
-            Add(BookCommandType.SetStretchModeInside, new BookCommand(e => book.StretchMode = PageStretchMode.Inside));
-            Add(BookCommandType.SetStretchModeOutside, new BookCommand(e => book.StretchMode = PageStretchMode.Outside));
-            Add(BookCommandType.SetStretchModeUniform, new BookCommand(e => book.StretchMode = PageStretchMode.Uniform));
-            Add(BookCommandType.SetStretchModeUniformToFill, new BookCommand(e => book.StretchMode = PageStretchMode.UniformToFill));
+            Add(BookCommandType.ToggleStretchMode, new BookCommand(e => vm.StretchMode = vm.StretchMode.GetToggle()));
+            Add(BookCommandType.SetStretchModeNone, new BookCommand(e => vm.StretchMode = PageStretchMode.None));
+            Add(BookCommandType.SetStretchModeInside, new BookCommand(e => vm.StretchMode = PageStretchMode.Inside));
+            Add(BookCommandType.SetStretchModeOutside, new BookCommand(e => vm.StretchMode = PageStretchMode.Outside));
+            Add(BookCommandType.SetStretchModeUniform, new BookCommand(e => vm.StretchMode = PageStretchMode.Uniform));
+            Add(BookCommandType.SetStretchModeUniformToFill, new BookCommand(e => vm.StretchMode = PageStretchMode.UniformToFill));
             Add(BookCommandType.TogglePageMode, new BookCommand(e => book.PageMode = 3 - book.PageMode));
             Add(BookCommandType.SetPageMode1, new BookCommand(e => book.PageMode = 1));
             Add(BookCommandType.SetPageMode2, new BookCommand(e => book.PageMode = 2));

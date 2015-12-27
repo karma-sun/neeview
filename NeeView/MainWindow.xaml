@@ -179,7 +179,6 @@
                 </MenuItem>
 
                 <MenuItem Header="設定(_O)">
-                    <MenuItem Header="履歴の消去" Command="{Binding BookCommands[ClearHistory]}"/>
                     <MenuItem Header="設定..." Command="{Binding BookCommands[OpenSettingWindow]}"/>
                 </MenuItem>
                 <MenuItem Header="開発(_D)">

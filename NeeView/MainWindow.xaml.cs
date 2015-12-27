@@ -216,7 +216,7 @@ namespace NeeView
         {
             var setting = _VM.CreateSettingContext();
 
-            var dialog = new SettingWindow(setting);
+            var dialog = new SettingWindow(_VM, setting);
             dialog.Owner = this;
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = dialog.ShowDialog();

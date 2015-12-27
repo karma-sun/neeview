@@ -99,6 +99,7 @@ namespace NeeView
         public override void Dispose()
         {
             CloseArchive();
+            base.Dispose();
         }
     }
 

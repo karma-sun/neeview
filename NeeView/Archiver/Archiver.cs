@@ -134,8 +134,12 @@ namespace NeeView
         public abstract Stream OpenEntry(string entryName);
         public abstract void ExtractToFile(string entryName, string exportFileName);
 
+        public List<IDisposable> TrashBox { get; private set; } = new List<IDisposable>();
+
         public virtual void Dispose()
         {
+            TrashBox.ForEach(e => e.Dispose());
+            TrashBox.Clear();
         }
     }
 

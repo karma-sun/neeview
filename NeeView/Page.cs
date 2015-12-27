@@ -129,7 +129,7 @@ namespace NeeView
             }
 
             Message = $"Open... ({priority})";
-            _JobRequest = Book.JobEngine.Add(OpenJob, OpenCancel, priority);
+            _JobRequest = ModelContext.JobEngine.Add(OpenJob, OpenCancel, priority);
         }
 
         //
@@ -373,7 +373,7 @@ namespace NeeView
                 archiver.ExtractToFile(entryName, FileName);
                 _IsTempFile = true;
 
-                Book.Current.TrashBox.Add(this);
+                archiver.TrashBox.Add(this);
             }
         }
 

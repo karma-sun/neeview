@@ -155,7 +155,7 @@ namespace NeeView
                     buff = ms.GetBuffer();
                 }
             }
-            return Book.Susie.GetPicture(fileName, buff); // ファイル名は識別用
+            return ModelContext.Susie.GetPicture(fileName, buff); // ファイル名は識別用
         }
     }
 }

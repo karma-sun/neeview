@@ -133,32 +133,10 @@ namespace NeeView
         public BookParamSetting BookParamSetting;
 
 
-
-
-        // View?
-
-        [DataMember]
-        public PageStretchMode StretchMode;
-
-        [DataMember]
-        public BackgroundStyle Background { get; set; }
-
-        // Book
+        // すべての本に共通の設定
 
         [DataMember]
         public bool IsEnableAnimatedGif { get; set; }
-
-        [DataMember]
-        public bool IsEnableSusie { get; set; }
-
-        [DataMember]
-        public string SusiePluginPath { get; set; }
-
-        [DataMember]
-        public bool IsFirstOrderSusieImage { get; set; }
-
-        [DataMember]
-        public bool IsFirstOrderSusieArchive { get; set; }
 
         [DataMember]
         public bool IsEnableHistory { get; set; }
@@ -171,13 +149,6 @@ namespace NeeView
         {
             BookParamSetting = new BookParamSetting();
 
-            StretchMode = PageStretchMode.Uniform;
-            //PageMode = 1;
-
-            IsEnableSusie = false;
-            SusiePluginPath = null;
-            IsFirstOrderSusieImage = false;
-            IsFirstOrderSusieArchive = false;
             IsEnableHistory = true;
             IsEnableNoSupportFile = false;
         }
@@ -198,41 +169,23 @@ namespace NeeView
         {
             BookParamSetting.Store(book);
 
-            StretchMode = book.StretchMode;
-            Background = book.Background;
             IsEnableAnimatedGif = book.IsEnableAnimatedGif;
             IsEnableHistory = book.IsEnableHistory;
             IsEnableNoSupportFile = book.IsEnableNoSupportFile;
-
-            IsEnableSusie = book.IsEnableSusie;
-            SusiePluginPath = book.SusiePluginPath;
-            IsFirstOrderSusieImage = book.IsFirstOrderSusieImage;
-            IsFirstOrderSusieArchive = book.IsFirstOrderSusieArchive;
         }
 
         public void Restore(Book book)
         {
             BookParamSetting.Restore(book);
 
-            book.StretchMode = StretchMode;
-            book.Background = Background;
             book.IsEnableAnimatedGif = IsEnableAnimatedGif;
             book.IsEnableHistory = IsEnableHistory;
             book.IsEnableNoSupportFile = IsEnableNoSupportFile;
 
-            RestoreSusieSetting(book);
-
             book.Reflesh();
         }
-
-        public void RestoreSusieSetting(Book book)
-        {
-            book.IsEnableSusie = IsEnableSusie;
-            book.SusiePluginPath = SusiePluginPath;
-            book.IsFirstOrderSusieImage = IsFirstOrderSusieImage;
-            book.IsFirstOrderSusieArchive = IsFirstOrderSusieArchive;
-        }
     }
+
 
     public enum BackgroundStyle
     {
@@ -241,8 +194,7 @@ namespace NeeView
         Auto,
         Check
     };
-
-
+    
     public enum BookReadOrder
     {
         RightToLeft,
@@ -274,91 +226,25 @@ namespace NeeView
         }
     }
 
+
+
+
     /// <summary>
     /// 
     /// </summary>
     public class Book
     {
-        public static Book Current { get; private set; }
-
-        public static JobEngine JobEngine { get; private set; }
-
-        public static Susie.Susie Susie { get; private set; }
-
         public List<IDisposable> TrashBox { get; private set; } = new List<IDisposable>();
 
 
         public event EventHandler BookChanged;
         public event EventHandler<int> PageChanged;
         public event EventHandler ModeChanged;
-        public event EventHandler BackgroundChanged;
         public event EventHandler<string> PropertyChanged;
         public event EventHandler<bool> Loaded;
         public event EventHandler<string> InfoMessage;
+        public event EventHandler NowPagesChanged;
 
-        public bool _IsEnableSusie;
-        public bool IsEnableSusie
-        {
-            get { return _IsEnableSusie; }
-            set
-            {
-                if (_IsEnableSusie == value) return;
-                _IsEnableSusie = value;
-                SusieBitmapLoader.IsEnable = _IsEnableSusie;
-            }
-        }
-
-        public string _SusiePluginPath;
-        public string SusiePluginPath
-        {
-            get { return _SusiePluginPath; }
-            set
-            {
-                if (_SusiePluginPath == value) return;
-                _SusiePluginPath = value;
-                // Susie 再起動
-                Susie = new Susie.Susie();
-                Susie.SearchPath.Add(_SusiePluginPath);
-                Susie.Initialize();
-                // Susie対応拡張子更新
-                ModelContext.ArchiverManager.UpdateSusieSupprtedFileTypes(Susie);
-                ModelContext.BitmapLoaderManager.UpdateSusieSupprtedFileTypes(Susie);
-            }
-        }
-
-        public bool _IsFirstOrderSusieImage = (Page.LoaderOrder == BitmapLoaderType.Susie);
-        public bool IsFirstOrderSusieImage
-        {
-            get { return _IsFirstOrderSusieImage; }
-            set
-            {
-                if (_IsFirstOrderSusieImage == value) return;
-                _IsFirstOrderSusieImage = value;
-                Page.LoaderOrder = _IsFirstOrderSusieImage ? BitmapLoaderType.Susie : BitmapLoaderType.Default;
-            }
-        }
-
-        public bool _IsFirstOrderSusieArchive;
-        public bool IsFirstOrderSusieArchive
-        {
-            get { return _IsFirstOrderSusieArchive; }
-            set
-            {
-                if (_IsFirstOrderSusieArchive == value) return;
-                _IsFirstOrderSusieArchive = value;
-                ModelContext.ArchiverManager.OrderType = _IsFirstOrderSusieArchive ? ArchiverType.SusieArchiver : ArchiverType.DefaultArchiver;
-            }
-        }
-
-
-        #region Property: Background
-        private BackgroundStyle _Background;
-        public BackgroundStyle Background
-        {
-            get { return _Background; }
-            set { _Background = value; BackgroundChanged?.Invoke(this, null); }
-        }
-        #endregion
 
         #region Property: IsEnableAnimatedGif
         private bool _IsEnableAnimatedGif;
@@ -367,7 +253,7 @@ namespace NeeView
             get { return _IsEnableAnimatedGif; }
             set { _IsEnableAnimatedGif = value; Page.IsEnableAnimatedGif = value; }
         }
-        #endregion
+#endregion
 
         // 履歴から設定を復元する
         public bool IsEnableHistory { get; set; } = true;
@@ -426,7 +312,6 @@ namespace NeeView
             }
         }
 
-
         // 右開き、左開き
         private BookReadOrder _ReadOrder;
         public BookReadOrder BookReadOrder
@@ -464,6 +349,25 @@ namespace NeeView
             }
         }
 
+        // ページモード
+        private int _PageMode;
+        public int PageMode
+        {
+            get { return _PageMode; }
+            set
+            {
+                Debug.Assert(value == 1 || value == 2);
+                if (_PageMode != value)
+                {
+                    _PageMode = value;
+                    _CurrentViewPageCount = _PageMode;
+                    if (Place != null)
+                    {
+                        ResetViewPages();
+                    }
+                }
+            }
+        }
 
 
         public List<Page> Pages { get; private set; }
@@ -505,6 +409,7 @@ namespace NeeView
             PageChanged?.Invoke(this, _Index);
         }
 
+        // 読む方向
         private int _Direction;
 
         public Page CurrentPage
@@ -526,77 +431,18 @@ namespace NeeView
         }
 
 
-        // 拡縮設定
-        private PageStretchMode _StretchMode = PageStretchMode.Uniform;
-        public PageStretchMode StretchMode
-        {
-            get { return _StretchMode; }
-            set { if (_StretchMode != value) { _StretchMode = value; ModeChanged?.Invoke(this, null); } }
-        }
-
-#if false
-        // 拡大はしない
-        private bool _IsIgnoreScaleUp;
-        public bool IsIgnoreScaleUp
-        {
-            get { return _IsIgnoreScaleUp; }
-            set { if (_IsIgnoreScaleUp != value) { _IsIgnoreScaleUp = value; ModeChanged?.Invoke(this, null); } }
-        }
-#endif
-
-
-        private readonly int _MaxPageMode = 2;
-
-        private int _PageMode;
-        public int PageMode
-        {
-            get { return _PageMode; }
-            set
-            {
-                Debug.Assert(value == 1 || value == 2);
-                if (_PageMode != value)
-                {
-                    _PageMode = value;
-                    _CurrentViewPageCount = _PageMode;
-                    if (Place != null)
-                    {
-                        ResetViewPages();
-                    }
-                }
-            }
-        }
-
-
 
         private List<Page> _KeepPages; // リソースを開放しないページ
         private volatile List<Page> _ViewPages; // 表示するべきページ
         public volatile List<ViewContent> NowPages; // 実際に表示されているページ
 
-        public event EventHandler NowPagesChanged;
 
         private object _Lock = new object();
 
 
-        //private ArchiverManager _ArchiverManager = new ArchiverManager();
-        //public ArchiverManager ArchiverManager => _ArchiverManager;
-
         //
         public Book()
         {
-            Current = this;
-
-            JobEngine = new JobEngine();
-            JobEngine.Start();
-
-            //global::Susie.SusiePluginApi.TemporaryFolderPath = Temporary.TempDirectory;
-            Susie = new Susie.Susie();
-            //Susie.SearchPath.Add(@"E:\Bin\susie347b");
-            Susie.Initialize();
-
-            //SusieArchiver.UpdateSupportExtensions(Susie);
-            ModelContext.ArchiverManager.UpdateSusieSupprtedFileTypes(Susie);
-            ModelContext.BitmapLoaderManager.UpdateSusieSupprtedFileTypes(Susie);
-
             Pages = new List<Page>();
 
             _KeepPages = new List<Page>();
@@ -611,7 +457,7 @@ namespace NeeView
             _ViewPageIndex = 0;
 
             NowPages = new List<ViewContent>();
-            for (int i = 0; i < _MaxPageMode; ++i)
+            for (int i = 0; i < 2; ++i)
             {
                 NowPages.Add(null);
             }
@@ -692,21 +538,6 @@ namespace NeeView
                     _ViewPages[0] = ViewPage(0);
                     _ViewPages[0]?.Open(JobPriority.Hi);
                 }
-#if false
-                for (int i = 0; i < _PageMode; ++i)
-                {
-                    var page = GetOffsetPage(i);
-                    if (_ViewPages[i] == page) continue;
-
-                    if (_ViewPages[i] != null && !_KeepPages.Contains(_ViewPages[i]))
-                    {
-                        _ViewPages[i].Close();
-                    }
-
-                    _ViewPages[i] = page;
-                    _ViewPages[i].Open(JobPriority.Hi);
-                }
-#endif
             }
 
             if (_PageMode >= 2 && _ViewPages[1] != ViewPage(1))
@@ -733,7 +564,6 @@ namespace NeeView
             if (IsDartyNowPages())
             {
                 ValidateWidePage();
-                //ValidateReadOrder();
                 ForceUpdateNowPages();
                 NowPagesChanged(this, null);
             }
@@ -793,19 +623,6 @@ namespace NeeView
                 }
             }
         }
-
-#if false
-        void ValidateReadOrder()
-        { 
-            // 2ページ左開きの場合、左右を入れ替える
-            if (_CurrentViewPageCount == 2 && BookReadOrder == BookReadOrder.LeftToRight && _ViewPages[0] != null)
-            {
-                var temp = _ViewPages[0];
-                _ViewPages[0] = _ViewPages[1];
-                _ViewPages[1] = temp;
-            }
-        }
-#endif
 
         private void UpdateActivePages()
         {
@@ -921,6 +738,7 @@ namespace NeeView
             }
         }
 
+
         // ファイル読み込み
         public void Load(string path, LoadFolderOption option = LoadFolderOption.None)
         {
@@ -933,6 +751,8 @@ namespace NeeView
             Archiver archiver = null;
             string start = null;
 
+            // アーカイバの選択
+#region SelectArchiver
             if (Directory.Exists(path))
             {
                 archiver = ModelContext.ArchiverManager.CreateArchiver(path);
@@ -954,8 +774,9 @@ namespace NeeView
             {
                 throw new FileNotFoundException("ファイルが見つかりません", path);
             }
+#endregion
 
-            //
+            // 本無効化
             _Place = null;
 
             // 設定の復元
@@ -974,7 +795,6 @@ namespace NeeView
                 option |= LoadFolderOption.Recursive;
             }
 
-
             LoadArchive(archiver, start, option);
         }
 
@@ -984,13 +804,9 @@ namespace NeeView
         {
             try
             {
-                Debug.WriteLine("LoadArchive: " + archiver.Path);
+                ClearPages(); // ページクリア。タイミングどうなの？
 
-                ClearPages();
-
-                Debug.WriteLine("LoadArchive.CleaPages-Done.");
-
-
+                // 読み込み。非同期で行う。
                 Loaded?.Invoke(this, true);
 
                 await Task.Run(() =>
@@ -1001,9 +817,10 @@ namespace NeeView
 
                 Loaded?.Invoke(this, false);
 
+                // 初期ソート
                 Sort();
 
-
+                // スタートページ取得
                 int startIndex = (start != null) ? Pages.FindIndex(e => e.FullPath == start) : 0;
                 if ((option & LoadFolderOption.FirstPage) == LoadFolderOption.FirstPage)
                 {
@@ -1014,8 +831,10 @@ namespace NeeView
                     startIndex = Pages.Count - 1;
                 }
 
+                // 本有効化
                 _Place = archiver.Path;
 
+                // イベント発行
                 PropertyChanged?.Invoke(this, null);
                 BookChanged?.Invoke(this, null);
 
@@ -1260,13 +1079,13 @@ namespace NeeView
                 }
 
                 // 余分なコンテンツは破棄
-                for (int i = _PageMode; i < _MaxPageMode; ++i)
+                for (int i = _PageMode; i < 2; ++i)
                 {
                     NowPages[i] = null;
                 }
             }
 
-            Book.JobEngine.ChangeWorkerSize(_PageMode);
+            ModelContext.JobEngine.ChangeWorkerSize(_PageMode);
 
             SetIndex(Index, _Direction);
         }

@@ -85,7 +85,9 @@ namespace NeeView
         public string Name { get; set; }
     }
 
-    public class MainWindowVM : INotifyPropertyChanged
+
+
+        public class MainWindowVM : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -167,7 +169,6 @@ namespace NeeView
             add { _Book.Loaded += value; }
             remove { _Book.Loaded -= value; }
         }
-
 
 
         #region Property: LastFiles

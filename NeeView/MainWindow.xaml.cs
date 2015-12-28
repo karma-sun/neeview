@@ -60,6 +60,10 @@ namespace NeeView
             InitializeInputGestures();
 
             _VM.BookCommands = BookCommands;
+
+            // messenger
+            Messenger.Initialize();
+            Messenger.AddReciever("MessageBox", CallMessageBox);
         }
 
         private void OnMouseGestureUpdate(object sender, MouseGestureCollection e)
@@ -372,6 +376,34 @@ namespace NeeView
         {
             System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + Temporary.TempDirectory + "\"");
         }
+
+
+
+
+        private void CallMessageBox(object sender, MessageEventArgs e)
+        {
+            var param = (MessageBoxParams)e.Parameter;
+
+            var dialog = new MessageBoxEx(param);
+            dialog.Owner = this;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+            this.AllowDrop = false;
+
+            e.Result = dialog.ShowDialog();
+
+            this.AllowDrop = true;
+
+#if false
+            var result = MessageBox.Show(this, param.MessageBoxText, param.Caption, param.Button, param.Icon);
+            if (result == MessageBoxResult.Yes || result == MessageBoxResult.OK)
+            {
+                e.Result = true;
+            }
+#endif
+        }
+
+
 
         /// <summary>
         /// UI要素を自動的にフェイドアウトさせる

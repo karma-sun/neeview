@@ -62,8 +62,14 @@ namespace NeeView
             BookCommonSetting.Restore(book);
 
             // 設定の復元
-            if (BookCommonSetting.IsEnableHistory)
+            if ((option & Book.LoadFolderOption.ReLoad) == Book.LoadFolderOption.ReLoad)
             {
+                // リロード時は設定そのまま
+                BookSetting.Restore(book);
+            }
+            else if (BookCommonSetting.IsEnableHistory)
+            {
+                // 履歴が有るときはそれを使用する
                 var setting = ModelContext.BookHistory.Find(path);
                 if (setting != null)
                 {
@@ -72,6 +78,19 @@ namespace NeeView
                     start = setting.BookMark;
                 }
             }
+            else
+            {
+                // 履歴がないときは設定はそのまま。再帰設定のみOFFにする。
+                BookSetting.Restore(book);
+                book.IsRecursiveFolder = false;
+            }
+
+            // リカーシブ設定
+            if ((option & Book.LoadFolderOption.Recursive) == Book.LoadFolderOption.Recursive)
+            {
+                book.IsRecursiveFolder = true;
+            }
+
 
             // 読み込み。非同期で行う。
             Loaded?.Invoke(this, true);
@@ -81,9 +100,7 @@ namespace NeeView
             Loaded?.Invoke(this, false);
 
             book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
-            //book.PropertyChanged += (s, e) => PropertyChanged?.Invoke(s, e);
             book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
-
             book.PageTerminated += Book_PageTerminated;
             book.DartyBook += Book_DartyBook;
 
@@ -93,13 +110,35 @@ namespace NeeView
             // 開始
             Current.Start();
 
-            BookChanged?.Invoke(this, Current);
+            BookSetting.Store(book);
             SettingChanged?.Invoke(this, null);
+
+            BookChanged?.Invoke(this, Current);
+
+
+            // サブフォルダ確認
+            if ((option & Book.LoadFolderOption.ReLoad) == 0 && Current.Pages.Count <= 0 && !Current.IsRecursiveFolder && Current.SubFolderCount > 0)
+            {
+                var message = new MessageEventArgs("MessageBox");
+                message.Parameter = new MessageBoxParams()
+                {
+                    MessageBoxText = $"\"{Current.Place}\" には読み込めるファイルがありません。\n\nサブフォルダ(書庫)も読み込みますか？",
+                    Caption = "確認",
+                    Button = System.Windows.MessageBoxButton.YesNo,
+                    Icon = System.Windows.MessageBoxImage.Question
+                };
+                Messenger.Send(this, message);
+
+                if (message.Result == true)
+                {
+                    Load(Current.Place, Book.LoadFolderOption.Recursive | Book.LoadFolderOption.ReLoad);
+                }
+            }
         }
 
         private void Book_DartyBook(object sender, EventArgs e)
         {
-            Load(Current.Place);
+            Load(Current.Place, Book.LoadFolderOption.ReLoad);
         }
 
         //

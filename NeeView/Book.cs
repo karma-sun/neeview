@@ -96,7 +96,8 @@ namespace NeeView
             Constructor();
         }
 
-        //
+
+        // bookの設定を取得する
         public void Store(Book book)
         {
             Place = book.Place;
@@ -111,7 +112,7 @@ namespace NeeView
             IsReverseSort = book.IsReverseSort;
         }
 
-
+        // bookに設定を反映させる
         public void Restore(Book book)
         {
             if (book == null) return;
@@ -350,7 +351,7 @@ namespace NeeView
                 if (_IsEnableNoSupportFile != value)
                 {
                     _IsEnableNoSupportFile = value;
-                        DartyBook?.Invoke(this, null);
+                    DartyBook?.Invoke(this, null);
                 }
             }
         }
@@ -412,7 +413,7 @@ namespace NeeView
                 if (_IsRecursiveFolder != value)
                 {
                     _IsRecursiveFolder = value;
-                        DartyBook?.Invoke(this, null);
+                    DartyBook?.Invoke(this, null);
                 }
             }
         }
@@ -455,7 +456,7 @@ namespace NeeView
         // ランダムソートの場合はソートを必ず実行する
         public void SetSortMode(BookSortMode mode)
         {
-             if (_SortMode != mode || mode == BookSortMode.Random)
+            if (_SortMode != mode || mode == BookSortMode.Random)
             {
                 _SortMode = mode;
                 Sort();
@@ -541,7 +542,8 @@ namespace NeeView
             None = 0,
             Recursive = (1 << 0),
             FirstPage = (1 << 1),
-            LastPage = (1 << 2)
+            LastPage = (1 << 2),
+            ReLoad = (1 << 3),
         };
 
 
@@ -641,7 +643,7 @@ namespace NeeView
                 App.Current.Dispatcher.Invoke(() => ViewContentsChanged(this, null));
             }
         }
-        
+
         private bool IsDartyViewPages()
         {
             if (_ViewPages[0] == null) return true;
@@ -872,6 +874,12 @@ namespace NeeView
                 start = null;
             }
 
+            // リカーシブフラグ
+            if (IsRecursiveFolder)
+            {
+                option |= LoadFolderOption.Recursive;
+            }
+
             Archiver archiver = null;
 
             // アーカイバの選択
@@ -898,12 +906,6 @@ namespace NeeView
                 throw new FileNotFoundException("ファイルが見つかりません", path);
             }
             #endregion
-
-
-            if (IsRecursiveFolder)
-            {
-                option |= LoadFolderOption.Recursive;
-            }
 
             await LoadArchive(archiver, start, option);
         }
@@ -946,7 +948,8 @@ namespace NeeView
             }
         }
 
-        int _StartIndex;
+        public int SubFolderCount;
+        private int _StartIndex;
 
         public void Start()
         {
@@ -995,19 +998,27 @@ namespace NeeView
                         var page = new BitmapPage(entry, archiver, place);
                         Pages.Add(page);
                     }
-                    else if (IsEnableNoSupportFile)
+                    else
                     {
-                        switch (ModelContext.ArchiverManager.GetSupportedType(entry.Path))
+                        var type = ModelContext.ArchiverManager.GetSupportedType(entry.Path);
+                        if (IsEnableNoSupportFile)
                         {
-                            case ArchiverType.None:
-                                Pages.Add(new FilePage(entry, FilePageIcon.File, place));
-                                break;
-                            case ArchiverType.FolderFiles:
-                                Pages.Add(new FilePage(entry, FilePageIcon.Folder, place));
-                                break;
-                            default:
-                                Pages.Add(new FilePage(entry, FilePageIcon.Archive, place));
-                                break;
+                            switch (type)
+                            {
+                                case ArchiverType.None:
+                                    Pages.Add(new FilePage(entry, FilePageIcon.File, place));
+                                    break;
+                                case ArchiverType.FolderFiles:
+                                    Pages.Add(new FilePage(entry, FilePageIcon.Folder, place));
+                                    break;
+                                default:
+                                    Pages.Add(new FilePage(entry, FilePageIcon.Archive, place));
+                                    break;
+                            }
+                        }
+                        else if (type != ArchiverType.None)
+                        {
+                            SubFolderCount++;
                         }
                     }
                 }

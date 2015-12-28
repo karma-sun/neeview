@@ -178,12 +178,15 @@ namespace NeeView
 
             if (Directory.Exists(place))
             {
-                var entries = Directory.GetFileSystemEntries(Path.GetDirectoryName(Current.Place)).ToList();
+                var entries = Directory.GetFileSystemEntries(Path.GetDirectoryName(Current.Place)); //.ToList();
 
                 // ディレクトリ、アーカイブ以外は除外
-                var directories = entries.Where(e => Directory.Exists(e) || ModelContext.ArchiverManager.IsSupported(e)).ToList();
+                var directories = entries.Where(e => Directory.Exists(e)).ToList();
+                directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
+                var archives = entries.Where(e => ModelContext.ArchiverManager.IsSupported(e)).ToList();
+                archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
 
-                // TODO: ディレクトリの並び順ソート
+                directories.AddRange(archives);
 
                 int index = directories.IndexOf(Current.Place);
                 if (index < 0) return false;
@@ -192,9 +195,11 @@ namespace NeeView
                 if (next < 0 || next >= directories.Count) return false;
 
                 Load(directories[next], option);
+
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         public void PrevPage()

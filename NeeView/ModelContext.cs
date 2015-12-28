@@ -1,12 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NeeView
 {
+    public static partial class Win32Api
+    {
+        // 参考：自然順ソート？
+        [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
+        public static extern int StrCmpLogicalW(string psz1, string psz2);
+    }
+
+    //
     public static class ModelContext
     {
         public static JobEngine JobEngine { get; set; }

@@ -1034,11 +1034,9 @@ namespace NeeView
             switch (SortMode)
             {
                 case BookSortMode.FileName:
-                    //Pages.Sort((a, b) => StrCmpLogicalW(a.FullPath, b.FullPath));
-                    Pages.Sort((a, b) => ComparePath(a.FullPath, b.FullPath, StrCmpLogicalW));
+                    Pages.Sort((a, b) => ComparePath(a.FullPath, b.FullPath, Win32Api.StrCmpLogicalW));
                     break;
                 case BookSortMode.FileNameDictionary:
-                    //Pages = Pages.OrderBy(e => e.FullPath).ToList();
                     Pages.Sort((a, b) => ComparePath(a.FullPath, b.FullPath, string.Compare));
                     break;
                 case BookSortMode.TimeStamp:
@@ -1061,10 +1059,6 @@ namespace NeeView
             //Debug.WriteLine("--");
             //Pages.ForEach(e => Debug.WriteLine(e.FullPath));
         }
-
-        // 参考：自然順ソート？
-        [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
-        private static extern int StrCmpLogicalW(string psz1, string psz2);
 
         private int ComparePath(string s1, string s2, Func<string, string, int> compare)
         {

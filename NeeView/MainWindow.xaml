@@ -190,7 +190,7 @@
 
             <!-- ステータスエリア -->
             <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom">
-                <Slider Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="True" Focusable="False"
+                <Slider x:Name="PageSlider" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
                         local:SliderTools.MoveToPointOnDrag="True">
                     <Slider.Style>
                         <Style TargetType="Slider">

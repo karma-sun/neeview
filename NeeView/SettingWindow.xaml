@@ -14,7 +14,7 @@
         <TabControl x:Name="tabControl" Margin="10,10,10,43">
             <TabItem Header="一般設定">
                 <StackPanel Margin="4">
-                    <TextBlock Text="表示モード" Margin="2,8,2,2"/>
+                    <TextBlock Text="表示" Margin="2,8,2,2"/>
                     <DockPanel Margin="2" LastChildFill="False">
                         <TextBlock Text="背景を" Width="auto" VerticalAlignment="Center" Margin="2"/>
                         <ComboBox Width="100" ItemsSource="{Binding Path=BackgroundStyleList}" SelectedValuePath="Key" DisplayMemberPath="Value"
@@ -23,6 +23,8 @@
                     </DockPanel>
                     <CheckBox DockPanel.Dock="Top" Margin="2" Content="GIFをメディアとして再生する(アニメーションGIF)"
                               IsChecked="{Binding Setting.BookCommonSetting.IsEnableAnimatedGif}" />
+                    <CheckBox DockPanel.Dock="Top" Margin="2" Content="スライダーを右基準にする"
+                              IsChecked="{Binding Setting.ViewSetting.IsSliderDirectionReversed}" />
                     <!--
                     <CheckBox DockPanel.Dock="Top" Margin="2" Content="横長ページを２ページ分とみなす"
                               IsChecked="{Binding Setting.BookSetting.IsEnableWidePage}" />
@@ -47,6 +49,7 @@
                     <TextBlock Text="その他" Margin="2,8,2,2"/>
                     <CheckBox Margin="2" Content="サポート外ファイルもページにする"
                               IsChecked="{Binding Setting.BookCommonSetting.IsEnableNoSupportFile}" />
+                    
                 </StackPanel>
                 
             </TabItem>

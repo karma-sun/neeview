@@ -77,10 +77,19 @@ namespace NeeView
 
         private void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "InfoText")
+            switch (e.PropertyName)
             {
-                AutoFade(InfoTextBlock, 1.0, 0.5);
+                case "InfoText":
+                    AutoFade(InfoTextBlock, 1.0, 0.5);
+                    break;
+                case "IsSliderDirectionReversed":
+                    // Retrieve the Track from the Slider control
+                    var track = this.PageSlider.Template.FindName("PART_Track", this.PageSlider) as System.Windows.Controls.Primitives.Track;
+                    // Force it to rerender
+                    track.InvalidateVisual();
+                    break;
             }
+
             //throw new NotImplementedException();
 
             //this.MenuArea.Items.Refresh();

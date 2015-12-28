@@ -21,7 +21,7 @@ namespace NeeView
     public class ViewSetting
     {
         [DataMember]
-        public bool IsLimitMove { get; set; } = true;
+        public bool IsLimitMove { get; set; }
 
         [DataMember]
         public bool IsControlCenterImage { get; set; }
@@ -38,9 +38,13 @@ namespace NeeView
         [DataMember]
         public BackgroundStyle Background { get; set; }
 
+        [DataMember]
+        public bool IsSliderDirectionReversed { get; set; }
+
         void Constructor()
         {
             IsLimitMove = true;
+            IsSliderDirectionReversed = true;
         }
 
         public ViewSetting()
@@ -62,6 +66,7 @@ namespace NeeView
             IsViewStartPositionCenter = vm.IsViewStartPositionCenter;
             StretchMode = vm.StretchMode;
             Background = vm.Background;
+            IsSliderDirectionReversed = vm.IsSliderDirectionReversed;
         }
 
         public void Restore(MainWindowVM vm)
@@ -72,6 +77,7 @@ namespace NeeView
             vm.IsViewStartPositionCenter = IsViewStartPositionCenter;
             vm.StretchMode = StretchMode;
             vm.Background = Background;
+            vm.IsSliderDirectionReversed = IsSliderDirectionReversed;
 
             vm.OnViewModeChanged();
         }
@@ -113,6 +119,23 @@ namespace NeeView
         public bool IsControlCenterImage { get; set; }
 
         public bool IsAngleSnap { get; set; }
+
+        #region Property: IsSliderDirectionReversed
+        private bool _IsSliderDirectionReversed;
+        public bool IsSliderDirectionReversed
+        {
+            get { return _IsSliderDirectionReversed; }
+            set
+            {
+                if (_IsSliderDirectionReversed != value)
+                {
+                    _IsSliderDirectionReversed = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        #endregion
+
 
 
         public Dictionary<BookCommandType, RoutedCommand> BookCommands { get; set; }

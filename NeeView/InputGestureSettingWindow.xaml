@@ -82,7 +82,7 @@
 
                     <TextBlock  Margin="10,0,10,79" TextWrapping="Wrap" Text="マウス入力" Grid.ColumnSpan="2" Height="16" VerticalAlignment="Bottom" />
                     <Grid Margin="10,0,10,34" Height="40" VerticalAlignment="Bottom" Grid.ColumnSpan="2" >
-                        <TextBox x:Name="MouseGestureBox" Style="{StaticResource InputBox}" PreviewMouseDown="MouseGestureBox_PreviewMouseDown" >
+                        <TextBox x:Name="MouseGestureBox" Style="{StaticResource InputBox}" PreviewMouseDown="MouseGestureBox_PreviewMouseDown" PreviewMouseWheel="MouseGestureBox_PreviewMouseWheel" >
                         </TextBox>
                         <TextBlock x:Name="MouseGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False"/>
                         <TextBlock Text="ここでマウス入力" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">

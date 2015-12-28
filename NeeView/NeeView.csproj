@@ -92,6 +92,7 @@
     <Compile Include="InputGestureSettingWindow.xaml.cs">
       <DependentUpon>InputGestureSettingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="KeyExGesture.cs" />
     <Compile Include="MessageBoxEx.xaml.cs">
       <DependentUpon>MessageBoxEx.xaml</DependentUpon>
     </Compile>
@@ -101,10 +102,12 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="JobEngine.cs" />
     <Compile Include="MediaPage.cs" />
+    <Compile Include="MouseExGesture.cs" />
     <Compile Include="MouseGestureController.cs" />
     <Compile Include="MouseGestureSettingWindow.xaml.cs">
       <DependentUpon>MouseGestureSettingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MouseWheelGesture.cs" />
     <Compile Include="Page.cs" />
     <Compile Include="FileReaders.cs" />
     <Compile Include="Archiver\SevenZipArchiver.cs" />

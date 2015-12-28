@@ -249,7 +249,7 @@ namespace NeeView
             Add(BookCommandType.ViewScaleUp, new BookCommandIntpuGesture("RightButton+WheelUp", null));
             Add(BookCommandType.ViewScaleDown, new BookCommandIntpuGesture("RightButton+WheelDown", null));
 
-            foreach(BookCommandType type in Enum.GetValues(typeof(BookCommandType)))
+            foreach (BookCommandType type in Enum.GetValues(typeof(BookCommandType)))
             {
                 if (!this.ContainsKey(type))
                 {
@@ -293,15 +293,6 @@ namespace NeeView
         public string ShortCutKey { get; set; }
         public string MouseGesture { get; set; }
 
-        /*
-        public BookCommand(Action<object> command, string shotcut, string mouseGesture)
-        {
-            Command = command;
-            ShortCutKey = shotcut;
-            MouseGesture = mouseGesture;
-        }
-        */
-
         public BookCommand(Action<object> command)
         {
             Command = command;
@@ -314,38 +305,7 @@ namespace NeeView
     }
 
 
-#if false
-    public class MouseGestureCustom : MouseGesture
-    {
-        public MouseGestureCustom()
-        { }
 
-        public override bool Matches(object targetElement, InputEventArgs inputEventArgs)
-        {
-            var mouseEventArgs = inputEventArgs as MouseEventArgs;
-            if (mouseEventArgs == null)
-                return false;
-
-           
-            if (!IsDefinedKey(mouseEventArgs.))
-                return false;
-
-            return this.Key == mouseEventArgs.Key;
-        }
-    }
-#endif
-
-    /*
-    public class MouseWheelEventArgs : InputEventArgs
-    {
-        public MouseWheelEventArgs(InputDevice inputDevice, int timestamp) : base(inputDevice, timestamp)
-        {
-        }
-    }
-    */
-
-    //MouseGestureConverter converter = new MouseGestureConverter();
-    //MouseGesture mouseGesture = (MouseGesture)converter.ConvertFromString(key);
 
     public class InputGestureConverter
     {
@@ -365,9 +325,25 @@ namespace NeeView
             }
             catch { }
 
+            // 以下、拡張キーバインド
+
             try
             {
-                CustomGestureConverter converter = new CustomGestureConverter();
+                KeyExGestureConverter converter = new KeyExGestureConverter();
+                return (InputGesture)converter.ConvertFromString(source);
+            }
+            catch { }
+
+            try
+            {
+                MouseWheelGestureConverter converter = new MouseWheelGestureConverter();
+                return (InputGesture)converter.ConvertFromString(source);
+            }
+            catch { }
+
+            try
+            {
+                MouseExGestureConverter converter = new MouseExGestureConverter();
                 return (InputGesture)converter.ConvertFromString(source);
             }
             catch { }
@@ -377,141 +353,6 @@ namespace NeeView
         }
     }
 
-    public class CustomGestureConverter
-    {
-        public InputGesture ConvertFromString(string source)
-        {
-            var keys = source.Split('+');
 
-            MouseWheelAction action = MouseWheelAction.None;
-            ModifierKeys modifierKeys = ModifierKeys.None;
-            ModifierMouseButtons modifierMouseButtons = ModifierMouseButtons.None;
-
-            if (!Enum.TryParse(keys.Last(), out action))
-            {
-                throw new NotSupportedException();
-            }
-
-            for(int i=0; i<keys.Length-1; ++i)
-            {
-                var key = keys[i];
-
-                ModifierKeys modifierKeysOne;
-                if (Enum.TryParse<ModifierKeys>(key, out modifierKeysOne))
-                {
-                    modifierKeys |= modifierKeysOne;
-                    continue;
-                }
-
-                ModifierMouseButtons modifierMouseButtonsOne;
-                if (Enum.TryParse<ModifierMouseButtons>(key, out modifierMouseButtonsOne))
-                {
-                    modifierMouseButtons |= modifierMouseButtonsOne;
-                    continue;
-                }
-
-                throw new NotSupportedException();
-            }
-
-            return new MouseWheelGesture(action, modifierKeys, modifierMouseButtons);
-        }
-    }
-
-
-    public enum MouseWheelAction
-    {
-        None,
-        WheelUp,
-        WheelDown,
-    }
-
-    [Flags]
-    public enum ModifierMouseButtons
-    {
-        None = 0,
-        LeftButton = (1<<0),
-        MiddleButton = (1<<1),
-        RightButton = (1<<2),
-        XButton1 = (1<<3),
-        XButton2 = (1<<4),
-    }
-
-    public class MouseWheelGesture : InputGesture
-    {
-        public MouseWheelAction MouseWheelAction { get; private set; }
-        public ModifierKeys ModifierKeys { get; private set; }
-        public ModifierMouseButtons ModifierMouseButtons { get; private set; }
-
-
-        public MouseWheelGesture(MouseWheelAction wheelAction, ModifierKeys modifierKeys, ModifierMouseButtons modifierMouseButtons)
-        {
-            this.MouseWheelAction = wheelAction;
-            this.ModifierKeys = modifierKeys;
-            this.ModifierMouseButtons = modifierMouseButtons;
-        }
-
-        public override bool Matches(object targetElement, InputEventArgs inputEventArgs)
-        {
-            var mouseEventArgs = inputEventArgs as MouseWheelEventArgs;
-            if (mouseEventArgs == null) return false;
-
-            MouseWheelAction wheelAction = MouseWheelAction.None;
-            if (mouseEventArgs.Delta > 0)
-            {
-                wheelAction = MouseWheelAction.WheelUp;
-            }
-            else if (mouseEventArgs.Delta < 0)
-            {
-                wheelAction = MouseWheelAction.WheelDown;
-            }
-
-            ModifierMouseButtons modifierMouseButtons = ModifierMouseButtons.None;
-            if (mouseEventArgs.LeftButton == MouseButtonState.Pressed)
-                modifierMouseButtons |= ModifierMouseButtons.LeftButton;
-            if (mouseEventArgs.RightButton == MouseButtonState.Pressed)
-                modifierMouseButtons |= ModifierMouseButtons.RightButton;
-            if (mouseEventArgs.MiddleButton == MouseButtonState.Pressed)
-                modifierMouseButtons |= ModifierMouseButtons.MiddleButton;
-            if (mouseEventArgs.XButton1 == MouseButtonState.Pressed)
-                modifierMouseButtons |= ModifierMouseButtons.XButton1;
-            if (mouseEventArgs.XButton2 == MouseButtonState.Pressed)
-                modifierMouseButtons |= ModifierMouseButtons.XButton2;
-
-            return this.MouseWheelAction == wheelAction && ModifierKeys == Keyboard.Modifiers && ModifierMouseButtons == modifierMouseButtons;
-        }
-    }
-
-    public class KeyGestureNoModifier : KeyGesture
-    {
-        // baseクラスのコンストラクタにはダミーのModifierKeys.Controlを渡す。
-        // そうしないと修飾キー無しでははじかれるキーがあるため。
-        public KeyGestureNoModifier(Key key) : base(key, ModifierKeys.Control)
-        {
-        }
-
-        public override bool Matches(object targetElement, InputEventArgs inputEventArgs)
-        {
-            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)
-                    || Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)
-                    || Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt)
-                    || Keyboard.IsKeyDown(Key.LWin) || Keyboard.IsKeyDown(Key.RWin))
-            {
-                return false;
-            }
-
-            var keyEventArgs = inputEventArgs as KeyEventArgs;
-            if (keyEventArgs == null)
-                return false;
-            if (!IsDefinedKey(keyEventArgs.Key))
-                return false;
-
-            return this.Key == keyEventArgs.Key;
-        }
-
-        private bool IsDefinedKey(Key key)
-        {
-            return Key.None <= key && key <= Key.OemClear;
-        }
-    }
 
 }

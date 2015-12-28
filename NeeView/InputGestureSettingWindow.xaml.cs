@@ -73,7 +73,22 @@ namespace NeeView
             }
             else
             {
-                this.KeyGestureText.Text = null;
+                KeyExGesture keyExGesture = null;
+                try
+                {
+                    keyExGesture = new KeyExGesture(e.Key, Keyboard.Modifiers);
+                }
+                catch { }
+
+                if (keyExGesture != null)
+                {
+                    var converter = new KeyExGestureConverter();
+                    this.KeyGestureText.Text = converter.ConvertToString(keyExGesture);
+                }
+                else
+                {
+                    this.KeyGestureText.Text = null;
+                }
             }
         }
 
@@ -98,11 +113,13 @@ namespace NeeView
 
         private void MouseGestureBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            // TODO: ホイール
-            // TODO: 拡張ボタン
-            // TODO: チルドボタン
+            // [v] TODO: ホイール
+            // [v] TODO: 拡張ボタン
+            // [?]TODO: チルトボタン .. WinProcの監視が必要なようなので、後回しです。
 
+            bool isDefaultMouseAction = true;
             MouseAction action = MouseAction.None;
+            MouseExAction exAction = MouseExAction.None;
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
@@ -114,18 +131,91 @@ namespace NeeView
                 case MouseButton.Middle:
                     action = e.ClickCount >= 2 ? MouseAction.MiddleDoubleClick : MouseAction.MiddleClick;
                     break;
+                case MouseButton.XButton1:
+                    exAction = MouseExAction.XButton1Click;
+                    isDefaultMouseAction = false;
+                    break;
+                case MouseButton.XButton2:
+                    exAction = MouseExAction.XButton2Click;
+                    isDefaultMouseAction = false;
+                    break;
             }
 
-            MouseGesture mouseGesture = null;
+            if (isDefaultMouseAction)
+            {
+                MouseGesture mouseGesture = null;
+                try
+                {
+                    mouseGesture = new MouseGesture(action, Keyboard.Modifiers);
+                }
+                catch { }
+
+                if (mouseGesture != null)
+                {
+                    var converter = new MouseGestureConverter();
+                    this.MouseGestureText.Text = converter.ConvertToString(mouseGesture);
+                }
+                else
+                {
+                    this.MouseGestureText.Text = null;
+                }
+            }
+            else
+            {
+                MouseExGesture mouseGesture = null;
+                try
+                {
+                    mouseGesture = new MouseExGesture(exAction, Keyboard.Modifiers);
+                }
+                catch { }
+
+                if (mouseGesture != null)
+                {
+                    var converter = new MouseExGestureConverter();
+                    this.MouseGestureText.Text = converter.ConvertToString(mouseGesture);
+                }
+                else
+                {
+                    this.MouseGestureText.Text = null;
+                }
+            }
+        }
+
+        private void MouseGestureBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            MouseWheelAction wheelAction = MouseWheelAction.None;
+            if (e.Delta > 0)
+            {
+                wheelAction = MouseWheelAction.WheelUp;
+            }
+            else if (e.Delta < 0)
+            {
+                wheelAction = MouseWheelAction.WheelDown;
+            }
+
+            ModifierMouseButtons modifierMouseButtons = ModifierMouseButtons.None;
+            if (e.LeftButton == MouseButtonState.Pressed)
+                modifierMouseButtons |= ModifierMouseButtons.LeftButton;
+            if (e.RightButton == MouseButtonState.Pressed)
+                modifierMouseButtons |= ModifierMouseButtons.RightButton;
+            if (e.MiddleButton == MouseButtonState.Pressed)
+                modifierMouseButtons |= ModifierMouseButtons.MiddleButton;
+            if (e.XButton1 == MouseButtonState.Pressed)
+                modifierMouseButtons |= ModifierMouseButtons.XButton1;
+            if (e.XButton2 == MouseButtonState.Pressed)
+                modifierMouseButtons |= ModifierMouseButtons.XButton2;
+
+
+            MouseWheelGesture mouseGesture = null;
             try
             {
-                mouseGesture = new MouseGesture(action, Keyboard.Modifiers);
+                mouseGesture = new MouseWheelGesture(wheelAction, Keyboard.Modifiers, modifierMouseButtons);
             }
             catch { }
 
             if (mouseGesture != null)
             {
-                var converter = new MouseGestureConverter();
+                var converter = new MouseWheelGestureConverter();
                 this.MouseGestureText.Text = converter.ConvertToString(mouseGesture);
             }
             else
@@ -165,5 +255,6 @@ namespace NeeView
         {
             this.Close();
         }
+
     }
 }

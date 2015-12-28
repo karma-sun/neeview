@@ -25,7 +25,8 @@ namespace NeeView
             if (control == null) return;
 
             KeyGestureConverter kgc = new KeyGestureConverter();
-            MouseGestureConverter mgc = new MouseGestureConverter();
+            KeyExGestureConverter kxgc = new KeyExGestureConverter();
+            //MouseGestureConverter mgc = new MouseGestureConverter();
             foreach (var item in control.Items.OfType<MenuItem>())
             {
                 var command = item.Command as RoutedCommand;
@@ -34,14 +35,14 @@ namespace NeeView
                     string text = "";
                     foreach (InputGesture gesture in command.InputGestures)
                     {
-                        if (gesture is MouseGesture)
-                        {
-                            //マウス操作は表示しない
-                            //text += ((text.Length > 0) ? ", " : "") + mgc.ConvertToString(gesture);
-                        }
-                        else
+                        // キーショートカットのみ
+                        if (gesture is KeyGesture)
                         {
                             text += ((text.Length > 0) ? ", " : "") + kgc.ConvertToString(gesture);
+                        }
+                        else if (gesture is KeyExGesture)
+                        {
+                            text += ((text.Length > 0) ? ", " : "") + kxgc.ConvertToString(gesture);
                         }
                     }
                     item.InputGestureText = text;

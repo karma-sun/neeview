@@ -50,7 +50,7 @@ namespace NeeView
             _WindowMode = new WindowMode(this);
             _WindowMode.NotifyWindowModeChanged += (s, e) => OnWindowModeChanged(e);
 
-            _MouseDragController = new MouseDragController(this.MainView, this.MainContent);
+            _MouseDragController = new MouseDragController(this.MainView, this.MainContent, this.MainContentShadow);
 
             _MouseGesture = new MouseGestureEx(this.MainView);
             this.GestureTextBlock.SetBinding(TextBlock.TextProperty, new Binding("GestureText") { Source = _MouseGesture });
@@ -116,44 +116,7 @@ namespace NeeView
 
         public static readonly RoutedCommand LoadCommand = new RoutedCommand("LoadCommand", typeof(MainWindow));
 
-#if false
-        // old!
-        public static readonly RoutedCommand OpenSettingWindowCommand = new RoutedCommand("OpenSettingWindowCommand", typeof(MainWindow));
-        public static readonly RoutedCommand LoadAsCommand = new RoutedCommand("LoadAsCommand", typeof(MainWindow));
 
-        public static readonly RoutedCommand PrevPageCommand = new RoutedCommand("PrevPageCommand", typeof(MainWindow));
-        public static readonly RoutedCommand NextPageCommand = new RoutedCommand("NextPageCommand", typeof(MainWindow));
-        public static readonly RoutedCommand PrevFolderCommand = new RoutedCommand("PrevFolderCommand", typeof(MainWindow));
-        public static readonly RoutedCommand NextFolderCommand = new RoutedCommand("NextFolderCommand", typeof(MainWindow));
-
-        public static readonly RoutedCommand FullScreenCommand = new RoutedCommand("FullScreenCommand", typeof(MainWindow));
-
-        public static readonly RoutedCommand ToggleStretchModeCommand = new RoutedCommand("ToggleStretchModeCommand", typeof(MainWindow));
-        public static readonly RoutedCommand SetStretchModeNoneCommand = new RoutedCommand("SetStretchModeNoneCommand", typeof(MainWindow));
-        public static readonly RoutedCommand SetStretchModeInsideCommand = new RoutedCommand("SetStretchModeInsideCommand", typeof(MainWindow));
-        public static readonly RoutedCommand SetStretchModeOutsideCommand = new RoutedCommand("SetStretchModeOutsideCommand", typeof(MainWindow));
-        public static readonly RoutedCommand SetStretchModeUniformCommand = new RoutedCommand("SetStretchModeUniformCommand", typeof(MainWindow));
-        public static readonly RoutedCommand SetStretchModeUniformToFillCommand = new RoutedCommand("SetStretchModeUniformToFillCommand", typeof(MainWindow));
-
-        public static readonly RoutedCommand TogglePageModeCommand = new RoutedCommand("TogglePageModeCommand", typeof(MainWindow));
-        public static readonly RoutedCommand SetPageMode1Command = new RoutedCommand("SetPageMode1Command", typeof(MainWindow));
-        public static readonly RoutedCommand SetPageMode2Command = new RoutedCommand("SetPageMode2Command", typeof(MainWindow));
-
-        public static readonly RoutedCommand ToggleSortModeCommand = new RoutedCommand(nameof(ToggleSortModeCommand), typeof(MainWindow));
-        public static readonly RoutedCommand SetSortModeFileNameCommand = new RoutedCommand(nameof(SetSortModeFileNameCommand), typeof(MainWindow));
-        public static readonly RoutedCommand SetSortModeFileNameDictionaryCommand = new RoutedCommand(nameof(SetSortModeFileNameDictionaryCommand), typeof(MainWindow));
-        public static readonly RoutedCommand SetSortModeTimeStampCommand = new RoutedCommand(nameof(SetSortModeTimeStampCommand), typeof(MainWindow));
-        public static readonly RoutedCommand SetSortModeRandomCommand = new RoutedCommand(nameof(SetSortModeRandomCommand), typeof(MainWindow));
-
-        public static readonly RoutedCommand ToggleIsReverseSortCommand = new RoutedCommand(nameof(ToggleIsReverseSortCommand), typeof(MainWindow));
-        public static readonly RoutedCommand SetIsReverseSortFalseCommand = new RoutedCommand(nameof(SetIsReverseSortFalseCommand), typeof(MainWindow));
-        public static readonly RoutedCommand SetIsReverseSortTrueCommand = new RoutedCommand(nameof(SetIsReverseSortTrueCommand), typeof(MainWindow));
-
-        public static readonly RoutedCommand ViewScrollUpCommand = new RoutedCommand(nameof(ViewScrollUpCommand), typeof(MainWindow));
-        public static readonly RoutedCommand ViewScrollDownCommand = new RoutedCommand(nameof(ViewScrollDownCommand), typeof(MainWindow));
-        public static readonly RoutedCommand ViewScaleUpCommand = new RoutedCommand(nameof(ViewScaleUpCommand), typeof(MainWindow));
-        public static readonly RoutedCommand ViewScaleDownCommand = new RoutedCommand(nameof(ViewScaleDownCommand), typeof(MainWindow));
-#endif
 
 
 

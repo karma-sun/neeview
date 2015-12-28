@@ -82,6 +82,14 @@
                         <ContentControl x:Name="Content0" Content="{Binding Contents[0]}" Width="{Binding ContentsWidth[0]}" Height="{Binding ContentsHeight[0]}"/>
                     </StackPanel>
                 </Canvas>
+                <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
+                        <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding ContentsWidth[1]}" Height="{Binding ContentsHeight[1]}"/>
+                        <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding ContentsWidth[0]}" Height="{Binding ContentsHeight[0]}"/>
+                    </StackPanel>
+                </Canvas>
+
                 <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="32" Foreground="White" Background="#88000000" Padding="16,8" Margin="0,0,0,48" FontFamily="Meiryo">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">

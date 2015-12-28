@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace NeeView
 {
@@ -40,14 +41,59 @@ namespace NeeView
         }
         #endregion
 
+
+        private bool _IsEnableTranslateAnimation;
+        private bool _IsTranslateAnimated;
+
+        private TranslateTransform _TranslateTransform;
+
         #region Property: Position
         private Point _Position;
         public Point Position
         {
             get { return _Position; }
-            set { _Position = value; OnPropertyChanged(); }
+            set
+            {
+                if (_IsEnableTranslateAnimation)
+                {
+                    Duration duration = TimeSpan.FromMilliseconds(100); // 100msアニメ
+
+                    if (!_IsTranslateAnimated)
+                    {
+                        // 開始
+                        _IsTranslateAnimated = true;
+                        _TranslateTransform.BeginAnimation(TranslateTransform.XProperty,
+                            new DoubleAnimation(_Position.X, value.X, duration), HandoffBehavior.SnapshotAndReplace);
+                        _TranslateTransform.BeginAnimation(TranslateTransform.YProperty,
+                            new DoubleAnimation(_Position.Y, value.Y, duration), HandoffBehavior.SnapshotAndReplace);
+                    }
+                    else
+                    {
+                        // 継続
+                        _TranslateTransform.BeginAnimation(TranslateTransform.XProperty,
+                            new DoubleAnimation(value.X, duration), HandoffBehavior.Compose);
+                        _TranslateTransform.BeginAnimation(TranslateTransform.YProperty,
+                            new DoubleAnimation(value.Y, duration), HandoffBehavior.Compose);
+                    }
+                }
+                else
+                {
+                    if (_IsTranslateAnimated)
+                    {
+                        // 解除
+                        _TranslateTransform.ApplyAnimationClock(TranslateTransform.XProperty, null);
+                        _TranslateTransform.ApplyAnimationClock(TranslateTransform.YProperty, null);
+                        _IsTranslateAnimated = false;
+                    }
+                }
+
+                _Position = value;
+                OnPropertyChanged();
+            }
         }
         #endregion
+
+
 
         #region Property: Angle
         private double _Angle;
@@ -96,6 +142,7 @@ namespace NeeView
 
         private FrameworkElement _Sender;
         private FrameworkElement _Target;
+        private FrameworkElement _TargetView;
 
         private bool _IsButtonDown = false;
         private bool _IsDragging = false;
@@ -114,17 +161,24 @@ namespace NeeView
         private Point _Center;
 
 
-        public MouseDragController(FrameworkElement sender, FrameworkElement target)
+        public MouseDragController(FrameworkElement sender, FrameworkElement targetView, FrameworkElement targetShadow)
         {
             _Sender = sender;
-            _Target = target;
+            _Target = targetShadow;
+            _TargetView = targetView;
 
             _Sender.PreviewMouseLeftButtonDown += OnMouseLeftButtonDown;
             _Sender.PreviewMouseLeftButtonUp += OnMouseLeftButtonUp;
             _Sender.PreviewMouseWheel += OnMouseWheel;
             _Sender.PreviewMouseMove += OnMouseMove;
 
-            _Target.RenderTransformOrigin = new Point(0.5, 0.5);
+            BindTransform(_Target, false);
+            BindTransform(_TargetView, true);
+        }
+
+        private void BindTransform(FrameworkElement element, bool isView)
+        {
+            element.RenderTransformOrigin = new Point(0.5, 0.5);
 
             var scaleTransform = new ScaleTransform();
             BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleXProperty, new Binding("Scale") { Source = this });
@@ -142,7 +196,12 @@ namespace NeeView
             transformGroup.Children.Add(rotateTransform);
             transformGroup.Children.Add(translateTransform);
 
-            _Target.RenderTransform = transformGroup;
+            element.RenderTransform = transformGroup;
+
+            if (isView)
+            {
+                _TranslateTransform = translateTransform;
+            }
         }
 
         public void ClearClickEventHandler()
@@ -332,6 +391,9 @@ namespace NeeView
             //DispatcherTimer ... なめらかスクロール
 
             //Debug.WriteLine("ScrollUp");
+
+            _IsEnableTranslateAnimation = true;
+
             UpdateLock();
             if (!_LockMoveY)
             {
@@ -341,11 +403,15 @@ namespace NeeView
             {
                 DoMove(new Vector(_Sender.ActualWidth * 0.25 * ViewHorizontalDirection, 0));
             }
+
+            _IsEnableTranslateAnimation = false;
         }
 
         public void ScrollDown()
         {
             //Debug.WriteLine("ScrollDown");
+
+            _IsEnableTranslateAnimation = true;
 
             UpdateLock();
             if (!_LockMoveY)
@@ -356,6 +422,8 @@ namespace NeeView
             {
                 DoMove(new Vector(_Sender.ActualWidth * -0.25 * ViewHorizontalDirection, 0));
             }
+
+            _IsEnableTranslateAnimation = false;
         }
 
         public void ScaleUp()

@@ -19,7 +19,7 @@ namespace NeeView
     /// </summary>
     public partial class MouseGestureSettingWindow : Window
     {
-        public MouseGestureEx _MouseGesture;
+        public MouseGestureEx MouseGesture { get; set; }
 
         public SettingWindow.BookCommand Command { get; set; }
 
@@ -30,13 +30,21 @@ namespace NeeView
             InitializeComponent();
             DataContext = this;
 
-            _MouseGesture = new MouseGestureEx(this.GestureBox);
-            this.GestureText.SetBinding(TextBox.TextProperty, new Binding("GestureText") { Source = _MouseGesture });
+            MouseGesture = new MouseGestureEx(this.GestureBox);
+
+            /*
+            this.GestureText.SetBinding(TextBox.TextProperty,
+                new Binding("GestureText")
+                {
+                    Source = MouseGesture,
+                    Converter = new MouseGestureToDispTextConverter()
+                });
+                */
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            Command.MouseGesture = this.GestureText.Text;
+            Command.MouseGesture = MouseGesture.GestureText; // this.GestureText.Text;
 
             this.DialogResult = true;
             this.Close();

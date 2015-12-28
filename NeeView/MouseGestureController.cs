@@ -187,7 +187,7 @@ namespace NeeView
 
     public class MouseGestureController : INotifyPropertyChanged
     {
-        #region NotifyPropertyChanged
+#region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
@@ -197,7 +197,7 @@ namespace NeeView
                 PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
             }
         }
-        #endregion
+#endregion
 
 
         private FrameworkElement _Sender;
@@ -222,14 +222,14 @@ namespace NeeView
         };
 
 
-        #region Property: Gesture
+#region Property: Gesture
         private MouseGestureCollection _Gesture;
         public MouseGestureCollection Gesture
         {
             get { return _Gesture; }
             set { _Gesture = value; OnPropertyChanged(); }
         }
-        #endregion
+#endregion
 
 
         public MouseGestureController(FrameworkElement sender)

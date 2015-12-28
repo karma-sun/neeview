@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="SettingWindow" Height="480" Width="640">
+        Title="SettingWindow" Height="480" Width="640" >
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter"/>
     </Window.Resources>
     <Grid>
         <TabControl x:Name="tabControl" Margin="10,10,10,43">
@@ -98,7 +99,7 @@
                 </DockPanel>
             </TabItem>
 
-            <TabItem Header="操作設定">
+            <TabItem Header="操作設定" >
                 <TabItem.Resources>
                     <CollectionViewSource x:Key="CommandSource" Source="{Binding BookCommandCollection}">
                         <CollectionViewSource.GroupDescriptions>
@@ -128,7 +129,7 @@
 
                     </DockPanel>
 
-                    <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}">
+                    <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}" Foreground="Black">
                         <ListView.Resources>
                             <DataTemplate x:Key="listGroupTemplate">
                                 <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="0,8,0,4" />
@@ -139,9 +140,31 @@
                         </ListView.GroupStyle>
                             <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="コマンド" Width="200" DisplayMemberBinding="{Binding Header}"/>
-                                <GridViewColumn Header="ショートカットキー" Width="100" DisplayMemberBinding="{Binding ShortCut}"/>
-                                <GridViewColumn Header="マウスジェスチャー" Width="100" DisplayMemberBinding="{Binding MouseGesture}"/>
+
+                                <GridViewColumn Header="コマンド" Width="200">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Header}" TextTrimming="WordEllipsis" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <GridViewColumn Header="ショートカットキー" Width="200">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ShortCut}" TextTrimming="WordEllipsis" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <GridViewColumn Header="マウスジェスチャー" Width="150">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding MouseGesture, Converter={StaticResource MouseGestureToDispTextConverter}}" TextTrimming="WordEllipsis" FontFamily="Meiryo" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
                             </GridView>
                         </ListView.View>
                     </ListView>

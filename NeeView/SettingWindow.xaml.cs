@@ -226,4 +226,34 @@ namespace NeeView
         }
     }
 
+
+    [ValueConversion(typeof(string), typeof(string))]
+    public class MouseGestureToDispTextConverter : IValueConverter
+    {
+        private static Dictionary<char, char> _Table = new Dictionary<char, char>
+        {
+            ['U'] = '↑',
+            ['R'] = '→',
+            ['D'] = '↓',
+            ['L'] = '←',
+        };
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null) return null;
+
+            string text = "";
+            foreach (char c in (string)value)
+            {
+                text += _Table[c];
+            }
+            return text;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

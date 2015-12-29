@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="Caption"  FontSize="16" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+        Title="Caption"  FontSize="16" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Icon="App.ico">
 
     <Window.Resources>
         <Style TargetType="Button">

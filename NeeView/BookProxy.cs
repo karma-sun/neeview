@@ -91,14 +91,27 @@ namespace NeeView
                 book.IsRecursiveFolder = true;
             }
 
+            try
+            {
+                // 読み込み。非同期で行う。
+                Loaded?.Invoke(this, true);
+                await book.Load(path, start, option);
+            }
+            catch
+            {
+                // ファイル読み込み失敗通知
+                Messenger.MessageBox(this, $"{path} の読み込みに失敗しました。", "通知", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
 
-            // 読み込み。非同期で行う。
-            Loaded?.Invoke(this, true);
+                // 履歴から消去
+                ModelContext.BookHistory.Remove(path);
+                Messenger.Send(this, "UpdateLastFiles");
 
-            await book.Load(path, start, option);
-
-            Loaded?.Invoke(this, false);
-
+                return;
+            }
+            finally
+            {
+                Loaded?.Invoke(this, false);
+            }
             book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
             book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
             book.PageTerminated += Book_PageTerminated;

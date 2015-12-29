@@ -57,6 +57,13 @@ namespace NeeView
             }
 
             // TODO: icon
+            switch (param.Icon)
+            {
+                case MessageBoxImage.Exclamation:
+                    System.Media.SystemSounds.Exclamation.Play();
+                    break;
+            }
+                
         }
 
         private void YesButton_Click(object sender, RoutedEventArgs e)

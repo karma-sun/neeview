@@ -36,6 +36,11 @@ namespace NeeView
             MessageEventHandler?.Invoke(sender, message);
         }
 
+        public static void Send(object sender, string messageId)
+        {
+            MessageEventHandler?.Invoke(sender, new MessageEventArgs(messageId));
+        }
+
         public static void Initialize()
         {
             MessageEventHandler += Sender;
@@ -53,6 +58,23 @@ namespace NeeView
         public static void AddReciever(string key, MessageEventHandler handle)
         {
             _Handles[key] = handle;
+        }
+
+        //
+        public static bool? MessageBox(object sender, string messageBoxText, string caption = "", MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None)
+        {
+            var message = new MessageEventArgs("MessageBox");
+            message.Parameter = new MessageBoxParams()
+            {
+                MessageBoxText = messageBoxText,
+                Caption = caption,
+                Button = button,
+                Icon = icon
+            };
+
+            Send(sender, message);
+
+            return message.Result;
         }
     }
 

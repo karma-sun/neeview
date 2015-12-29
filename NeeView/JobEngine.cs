@@ -254,9 +254,9 @@ namespace NeeView
 
         public void ChangeWorkerSize(int size)
         {
-            Debug.Assert(1 <= size && size <= _MaxWorkerSize); 
+            Debug.Assert(1 <= size && size <= _MaxWorkerSize);
 
-            for(int i=0; i<_MaxWorkerSize; ++i)
+            for (int i = 0; i < _MaxWorkerSize; ++i)
             {
                 if (i < size)
                 {
@@ -358,7 +358,22 @@ namespace NeeView
 
         public void Run()
         {
-            Task.Run(() => WorkerExecute(), _CancellationTokenSource.Token);
+            var task = Task.Run(() =>
+            {
+                try
+                {
+                    WorkerExecute();
+                }
+                catch (OperationCanceledException)
+                {
+                }
+                catch (Exception e)
+                {
+                    Action<Exception> action = (exception) => { throw exception; };
+                    App.Current.Dispatcher.BeginInvoke(action, e);
+                }
+            },
+            _CancellationTokenSource.Token);
         }
 
         public void Cancel()
@@ -387,7 +402,7 @@ namespace NeeView
                     continue;
                 }
 
-                
+
                 if (job.CancellationToken.IsCancellationRequested)
                 {
                     job.CancelAction?.Invoke();
@@ -399,6 +414,8 @@ namespace NeeView
                     job.Action(job.CancellationToken);
                     Message = $"Job({job.SerialNumber}) execute done.";
                 }
+
+                //throw new ApplicationException("なんちゃって例外発生");
 
                 _Context.NotifyRemoveEvent(job);
             }

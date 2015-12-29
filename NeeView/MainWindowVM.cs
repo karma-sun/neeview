@@ -160,10 +160,17 @@ namespace NeeView
         {
             get
             {
-                if (BookProxy.Current?.Place == null || BookProxy.Current?.CurrentPage == null) return _DefaultWindowTitle;
-                string name = BookProxy.Current.CurrentPage.FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ");
-                string place = LoosePath.GetFileName(BookProxy.Current.Place);
-                return $"{place} ({Index+1}/{IndexMax}) - {name}";
+                if (BookProxy.Current?.Place == null) return _DefaultWindowTitle;
+
+                string text = LoosePath.GetFileName(BookProxy.Current.Place);
+
+                if (BookProxy.Current?.CurrentPage != null)
+                {
+                    string name = BookProxy.Current.CurrentPage.FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ");
+                    text += $" ({Index + 1}/{IndexMax}) - {name}";
+                }
+
+                return text;
             }
         }
 
@@ -315,6 +322,8 @@ namespace NeeView
             // setting filename
             _SettingFileName = System.IO.Path.GetDirectoryName(assembly.Location) + "\\UserSetting.xml";
 
+            // messenger
+            Messenger.AddReciever("UpdateLastFiles", (s, e) => UpdateLastFiles());
         }
 
         // 本が変更された
@@ -339,7 +348,7 @@ namespace NeeView
         }
 
         #region Property: BackgroundBrush
-        private Brush _BackgroundBrush;
+        private Brush _BackgroundBrush = Brushes.Black;
         public Brush BackgroundBrush
         {
             get { return _BackgroundBrush; }
@@ -352,7 +361,7 @@ namespace NeeView
         public BackgroundStyle Background
         {
             get { return _Background; }
-            set { _Background = value; OnPropertyChanged(); }
+            set { _Background = value; OnBackgroundChanged(this, null); OnPropertyChanged(); }
         }
         #endregion
 
@@ -415,12 +424,11 @@ namespace NeeView
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
-                    Debug.WriteLine("設定復元に失敗しました");
+                    Messenger.MessageBox(this, "設定の読み込みに失敗しました。初期設定で起動します。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
                     _Setting = new Setting();
                 }
 
                 _Setting.WindowPlacement?.Restore(window);
-
 
                 _Setting.ViewSetting.Restore(this);
                 _Setting.SusieSetting.Restore(ModelContext.SusieContext);
@@ -452,9 +460,13 @@ namespace NeeView
             _Setting.Save(_SettingFileName);
         }
 
+
+        // 表示コンテンツ更新
         private void OnViewContentsChanged(object sender, EventArgs e)
         {
             var book = BookProxy.Current;
+
+            Brush pageColor = Brushes.Black;
 
             for (int index = 0; index < 2; ++index)
             {
@@ -468,6 +480,9 @@ namespace NeeView
                 }
                 else if (index == 0 && content == null)
                 {
+                    // ページがない場合の表示をもうちょっとなんとかする
+                    Contents[index] = null;
+#if false
                     var textBlock = new TextBlock();
                     textBlock.Text = $"{book.Place}\n読み込めるファイルがありません";
                     textBlock.VerticalAlignment = VerticalAlignment.Center;
@@ -476,6 +491,7 @@ namespace NeeView
                     textBlock.Background = Brushes.Orange;
                     textBlock.Padding = new Thickness(16);
                     Contents[index] = textBlock;
+#endif
                 }
                 else if (content?.Content == null)
                 {
@@ -522,12 +538,14 @@ namespace NeeView
                     Contents[index] = null;
                 }
 
-                if (content != null)
+                //
+                if (content?.Color != null)
                 {
-                    _PageColor = (content.Color != null) ? new SolidColorBrush(content.Color) : Brushes.Black;
+                    pageColor = new SolidColorBrush(content.Color);
                 }
             }
 
+            _PageColor = pageColor;
             OnBackgroundChanged(sender, null);
 
             UpdateContentsWidth();
@@ -563,7 +581,6 @@ namespace NeeView
 
             for (int i = 0; i < 2; ++i)
             {
-
                 int cid = (BookProxy.Current.BookReadOrder == BookReadOrder.RightToLeft) ? i : 1 - i;
 
                 //ContentsWidth[i] = CalcContentWidth(i, _ViewWidth, _ViewHeight);

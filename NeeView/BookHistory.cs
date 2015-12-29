@@ -14,6 +14,7 @@ namespace NeeView
         private LinkedList<BookSetting> _History;
 
         private const int _LimitCount = 100;
+     
 
         private void Constructor()
         {
@@ -52,6 +53,12 @@ namespace NeeView
             {
                 _History.RemoveLast();
             }
+        }
+
+        public void Remove(string place)
+        {
+            var item = _History.FirstOrDefault(e => e.Place == place);
+            if (item != null) _History.Remove(item);
         }
 
         public BookSetting Find(string place)

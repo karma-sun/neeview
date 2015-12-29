@@ -20,6 +20,7 @@ namespace NeeView
         private string _ArchiveFileName;
         public override string Path => _ArchiveFileName;
 
+        private static object _Lock = new object();
 
         public SevenZipArchiver(string archiveFileName)
         {
@@ -31,17 +32,20 @@ namespace NeeView
         {
             List<PageFileInfo> entries = new List<PageFileInfo>();
 
-            using (var archive = new SevenZipExtractor(_ArchiveFileName))
+            lock (_Lock)
             {
-                foreach (var entry in archive.ArchiveFileData)
+                using (var archive = new SevenZipExtractor(_ArchiveFileName))
                 {
-                    if (!entry.IsDirectory)
+                    foreach (var entry in archive.ArchiveFileData)
                     {
-                        entries.Add(new PageFileInfo()
+                        if (!entry.IsDirectory)
                         {
-                            Path = entry.FileName,
-                            UpdateTime = entry.LastWriteTime,
-                        });
+                            entries.Add(new PageFileInfo()
+                            {
+                                Path = entry.FileName,
+                                UpdateTime = entry.LastWriteTime,
+                            });
+                        }
                     }
                 }
             }
@@ -53,24 +57,46 @@ namespace NeeView
         // エントリーのストリームを得る
         public override Stream OpenEntry(string entryName)
         {
-            using (var archive = new SevenZipExtractor(_ArchiveFileName))
+            SevenZipExtractor archive = null;
+
+            try
             {
+                lock (_Lock)
+                {
+                    archive = new SevenZipExtractor(_ArchiveFileName);
+                }
+
                 var ms = new MemoryStream();
                 archive.ExtractFile(entryName, ms);
                 ms.Seek(0, SeekOrigin.Begin);
                 return ms;
+            }
+            finally
+            {
+                archive?.Dispose();
             }
         }
 
 
         public override void ExtractToFile(string entryName, string exportFileName)
         {
-            using (var archive = new SevenZipExtractor(_ArchiveFileName))
+            SevenZipExtractor archive = null;
+
+            try
             {
+                lock (_Lock)
+                {
+                    archive = new SevenZipExtractor(_ArchiveFileName);
+                }
+
                 using (Stream fs = new FileStream(exportFileName, FileMode.Create, FileAccess.Write))
                 {
                     archive.ExtractFile(entryName, fs);
                 }
+            }
+            finally
+            {
+                archive?.Dispose();
             }
         }
     }

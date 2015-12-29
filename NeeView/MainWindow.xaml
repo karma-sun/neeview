@@ -25,6 +25,9 @@
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
+        <local:IsGreaterThanConverter x:Key="IsGreaterThanConverter"/>
+        <local:IsLessThanConverter x:Key="IsLessThanConverter"/>
+
     </Window.Resources>
 
 
@@ -48,16 +51,12 @@
                 <TextBlock x:Name="GestureTextBlock" />
             </StackPanel>
 
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.Index}"/>
-                <TextBlock DockPanel.Dock="Top" Text="/"/>
-                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.MaxPage}"/>
-            </StackPanel>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobCount}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Message}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[0].Message}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[1].Message}"/>
 
+            <!--
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.CurrentPage}"/>
                 <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.CurrentPage.Message}" Margin="8,0"/>
@@ -70,6 +69,7 @@
                 <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.NowPage}"/>
                 <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.NowPage.Message}" Margin="8,0"/>
             </StackPanel>
+            -->
         </DockPanel>
 
         <!-- 製品表示領域 -->
@@ -77,6 +77,8 @@
 
             <!-- メインビュー -->
             <Grid x:Name="MainView"  Background="{Binding BackgroundBrush}" SizeChanged="MainView_SizeChanged" >
+
+                <!-- Pages -->
                 <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel x:Name="MainContent" Orientation="Horizontal">
@@ -84,6 +86,8 @@
                         <ContentControl x:Name="Content0" Content="{Binding Contents[0]}" Width="{Binding ContentsWidth[0]}" Height="{Binding ContentsHeight[0]}"/>
                     </StackPanel>
                 </Canvas>
+
+                <!-- Pages Shadow -->
                 <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
@@ -92,17 +96,6 @@
                     </StackPanel>
                 </Canvas>
 
-                <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="32" Foreground="White" Background="#88000000" Padding="16,8" Margin="0,0,0,48" FontFamily="Meiryo">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Style.Triggers>
-                                <Trigger Property="Text" Value="">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
             </Grid>
 
             <!-- メニューエリア-->
@@ -143,7 +136,7 @@
                     <Separator/>
                     <MenuItem Header="全画面表示" Command="{Binding BookCommands[FullScreen]}" />
                 </MenuItem>
-                
+
                 <MenuItem Header="移動(_J)">
                     <MenuItem Header="前のページに戻る"  Command="{Binding BookCommands[PrevPage]}"/>
                     <MenuItem Header="次のページへ進む"  Command="{Binding BookCommands[NextPage]}"/>
@@ -214,6 +207,50 @@
                 </Slider>
                 <!--MouseMove="Slider_MouseMove"-->
             </DockPanel>
+
+            <!-- Now Loading -->
+            <Grid x:Name="NowLoading" Background="Black" Opacity="0">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=NowLoading, Path=Opacity, Converter={StaticResource IsLessThanConverter}, ConverterParameter=0.01}" Value="True">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+                    <TextBlock  Text="Now Loading" TextAlignment="Center" VerticalAlignment="Center"
+                           Foreground="White" FontFamily="Meiryo" FontSize="32" Margin="8"/>
+                    <Grid Width="50" Height="50">
+                        <Rectangle Width="5" Height="25" Fill="#FF00B5FF" RenderTransformOrigin="0.5,0.5">
+                            <Rectangle.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform x:Name="NowLoadingMarkAngle" Angle="45"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+            <!-- Message -->
+            <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="32" Foreground="White" Background="#88000000" Padding="16,8" Margin="0,0,0,48" FontFamily="Meiryo">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
 
         </Grid>
 

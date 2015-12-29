@@ -43,6 +43,7 @@ namespace NeeView
             {
                 this.Cursor = e ? Cursors.Wait : null;
                 this.Root.IsEnabled = !e;
+                DispNowLoading(e);
             };
 
             this.DataContext = _VM;
@@ -64,6 +65,7 @@ namespace NeeView
             // messenger
             Messenger.Initialize();
             Messenger.AddReciever("MessageBox", CallMessageBox);
+            //Messenger.AddReciever("NowLoading", CallNowLoading);
         }
 
         private void OnMouseGestureUpdate(object sender, MouseGestureCollection e)
@@ -395,6 +397,63 @@ namespace NeeView
             var ani = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(fadeSec));
             ani.BeginTime = TimeSpan.FromSeconds(beginSec);
             element.BeginAnimation(UIElement.OpacityProperty, ani);
+        }
+
+
+        private void DispNowLoading(bool isDisp)
+        {
+            if (isDisp)
+            {
+                this.NowLoading.Opacity = 0.0;
+
+                var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
+                ani.BeginTime = TimeSpan.FromSeconds(1.0);
+                this.NowLoading.BeginAnimation(UIElement.OpacityProperty, ani);
+
+                var aniRotate = new DoubleAnimation();
+                aniRotate.By = 360;
+                aniRotate.Duration = TimeSpan.FromSeconds(2.0);
+                aniRotate.RepeatBehavior = RepeatBehavior.Forever;
+                this.NowLoadingMarkAngle.BeginAnimation(RotateTransform.AngleProperty, aniRotate);
+            }
+            else
+            {
+                var ani = new DoubleAnimation(0, TimeSpan.FromSeconds(0.5));
+                this.NowLoading.BeginAnimation(UIElement.OpacityProperty, ani, HandoffBehavior.Compose);
+
+                var aniRotate = new DoubleAnimation();
+                aniRotate.By = 90;
+                aniRotate.Duration = TimeSpan.FromSeconds(0.5);
+                this.NowLoadingMarkAngle.BeginAnimation(RotateTransform.AngleProperty, aniRotate);
+            }
+        }
+    }
+
+    public class IsGreaterThanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var v = System.Convert.ToDouble(value);
+            var compareValue = double.Parse(parameter as string);
+            return v > compareValue;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class IsLessThanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var v = System.Convert.ToDouble(value);
+            var compareValue = double.Parse(parameter as string);
+            return v < compareValue;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 

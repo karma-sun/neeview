@@ -95,6 +95,7 @@ namespace NeeView
             {
                 // 読み込み。非同期で行う。
                 Loaded?.Invoke(this, true);
+
                 await book.Load(path, start, option);
             }
             catch

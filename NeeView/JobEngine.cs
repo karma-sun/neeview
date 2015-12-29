@@ -193,13 +193,13 @@ namespace NeeView
         public Object Lock { get; private set; }
 
         // ワーカースレッド起動イベント
-        public AutoResetEvent Event { get; private set; }
+        public ManualResetEvent Event { get; private set; }
 
         public JobContext()
         {
             JobList = new JobList<Job>();
             Lock = new Object();
-            Event = new AutoResetEvent(false);
+            Event = new ManualResetEvent(false);
         }
     }
 
@@ -239,6 +239,7 @@ namespace NeeView
 
         public readonly int _MaxWorkerSize = 2;
         private JobWorker[] _Workers;
+        public JobWorker[] Workers => _Workers;
 
         public JobEngine()
         {
@@ -249,7 +250,7 @@ namespace NeeView
 
         public void Start()
         {
-            ChangeWorkerSize(1);
+            ChangeWorkerSize(_MaxWorkerSize);
         }
 
         public void ChangeWorkerSize(int size)
@@ -264,6 +265,7 @@ namespace NeeView
                     {
                         _Workers[i] = new JobWorker(Context);
                         _Workers[i].Run();
+                        Message = $"Create Worker[{i}]";
                     }
                 }
                 else
@@ -272,9 +274,12 @@ namespace NeeView
                     {
                         _Workers[i].Cancel();
                         _Workers[i] = null;
+                        Message = $"Delete Worker[{i}]";
                     }
                 }
             }
+
+            OnPropertyChanged(nameof(Workers));
         }
 
 
@@ -290,10 +295,11 @@ namespace NeeView
             lock (Context.Lock)
             {
                 Context.JobList.Add(job, priority);
+                Context.Event.Set();
+                Message = $"Add Job. {job.SerialNumber}";
             }
 
             Context.NotifyAddEvent(job);
-            Context.Event.Set();
 
             return source;
         }
@@ -358,6 +364,8 @@ namespace NeeView
 
         public void Run()
         {
+            Message = $"Run";
+
             var task = Task.Run(() =>
             {
                 try
@@ -393,8 +401,15 @@ namespace NeeView
                 {
                     // ジョブ取り出し
                     job = _Context.JobList.Decueue();
+
+                    // ジョブが無い場合はイベントリセット
+                    if (job == null)
+                    {
+                        _Context.Event.Reset();
+                    }
                 }
 
+                // イベント待ち
                 if (job == null)
                 {
                     Message = $"wait event ...";
@@ -410,7 +425,7 @@ namespace NeeView
                 }
                 else
                 {
-                    Message = $"Job({job.SerialNumber}) execute ...";
+                    Message = $"Job({job.SerialNumber}) execute ... {job.Priority}";
                     job.Action(job.CancellationToken);
                     Message = $"Job({job.SerialNumber}) execute done.";
                 }

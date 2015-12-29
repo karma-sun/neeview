@@ -179,7 +179,7 @@ namespace NeeView
 
         public int GetPageCount()
         {
-            return Current == null ? 0 : Current.Pages.Count - 1;
+            return Current == null ? 0 : Current.Pages.Count-1;
         }
 
         // 次のフォルダに移動

@@ -93,7 +93,7 @@ namespace NeeView
 
 
 
-        public class MainWindowVM : INotifyPropertyChanged
+    public class MainWindowVM : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -167,7 +167,7 @@ namespace NeeView
                 if (BookProxy.Current?.CurrentPage != null)
                 {
                     string name = BookProxy.Current.CurrentPage.FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ");
-                    text += $" ({Index + 1}/{IndexMax}) - {name}";
+                    text += $" ({Index + 1}/{IndexMax + 1}) - {name}";
                 }
 
                 return text;

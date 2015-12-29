@@ -54,7 +54,9 @@
                 <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.MaxPage}"/>
             </StackPanel>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobCount}"/>
-            <!--<TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Message}"/>-->
+            <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Message}"/>
+            <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[0].Message}"/>
+            <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[1].Message}"/>
 
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.CurrentPage}"/>

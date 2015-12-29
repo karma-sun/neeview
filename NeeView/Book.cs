@@ -504,8 +504,14 @@ namespace NeeView
         public void SetIndex(int value, int direction)
         {
             if (Place == null) return;
-            if (value > Pages.Count - _PageMode) value = Pages.Count - _PageMode;
+            if (value > Pages.Count - 1) value = Pages.Count - 1;
             if (value < 0) value = 0;
+
+            // 2ページ表示最終ページの場合の補正
+            if (_PageMode == 2 && value == Pages.Count - 1)
+            {
+                if (direction < 0) value = Pages.Count - _PageMode;
+            }
 
             if (_Index != value)
             {
@@ -661,7 +667,7 @@ namespace NeeView
             for (int i = 0; i < 2; i++)
             {
                 if (_ViewPages[i] == null) continue;
-                if (_ViewPages[i].Content == null || _ViewPages[i].Content != NowPages[i].Content) return false;
+                if (_ViewPages[i].Content == null || _ViewPages[i].Content != NowPages[i]?.Content) return false;
             }
 
             return true;
@@ -767,6 +773,8 @@ namespace NeeView
                     }
                     _ViewPages[0] = _ViewPages[1];
                     _ViewPages[1] = null;
+
+                    PageChanged?.Invoke(this, _Index);
 
                     // swap ... ン？
                     // TODO: ViewPagesの順番を入れ替えることに疑問。他の処理で戻ってしまわないのか？
@@ -930,10 +938,12 @@ namespace NeeView
                 if ((option & LoadFolderOption.FirstPage) == LoadFolderOption.FirstPage)
                 {
                     startIndex = 0;
+                    _Direction = 1;
                 }
                 else if ((option & LoadFolderOption.LastPage) == LoadFolderOption.LastPage)
                 {
                     startIndex = Pages.Count - 1;
+                    _Direction = -1;
                 }
 
                 _StartIndex = startIndex;
@@ -955,7 +965,7 @@ namespace NeeView
         {
             Debug.Assert(Place != null);
 
-            SetIndex(_StartIndex, 1);
+            SetIndex(_StartIndex, _Direction);
         }
 
         private void ReadArchive(Archiver archiver, string place, bool isRecursive)
@@ -1107,9 +1117,9 @@ namespace NeeView
             if (!IsStable()) return;
 
             int index = Index + _CurrentViewPageCount; // _PageMode;
-            if (index > Pages.Count - _PageMode)
+            if (index > Pages.Count - 1)
             {
-                index = Pages.Count - _PageMode;
+                index = Pages.Count - 1;
                 if (index < 0) index = 0;
             }
             if (Index == index)
@@ -1158,7 +1168,7 @@ namespace NeeView
                 }
             }
 
-            ModelContext.JobEngine.ChangeWorkerSize(_PageMode);
+            //ModelContext.JobEngine.ChangeWorkerSize(_PageMode);
 
             SetIndex(Index, _Direction);
         }

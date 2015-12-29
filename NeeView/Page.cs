@@ -325,7 +325,7 @@ namespace NeeView
                 if (bitmapSource == null) throw new ApplicationException("cannot load by BitmapImge.");
                 Width = bitmapSource.PixelWidth;
                 Height = bitmapSource.PixelHeight;
-                Color = bitmapSource.GetBaseColor();
+                Color = bitmapSource.GetOneColor();
 
                 if (IsEnableAnimatedGif && LoosePath.GetExtension(_Path) == ".gif")
                 {
@@ -386,85 +386,5 @@ namespace NeeView
         }
     }
 
-    public static class BitmapSourceExtension
-    {
-        public static Color GetBaseColor(this BitmapSource bmp)
-        {
-            if (bmp == null) return Colors.Black;
-
-            var pixels = new int[1];
-            bmp.CopyPixels(new System.Windows.Int32Rect(0, 0, 1, 1), pixels, bmp.PixelWidth * 4, 0);
-
-#if false
-            var bmp2 = BitmapSource.Create(1, 1, 96.0, 96.0, bmp.Format, bmp.Palette, pixels, 4);
-
-            var bmp3 = new FormatConvertedBitmap(bmp2, PixelFormats.Bgra32, null, 0);
-
-            var pixels3 = new int[1];
-            bmp.CopyPixels(new System.Windows.Int32Rect(0, 0, 1, 1), pixels3, bmp3.PixelWidth * 4, 0);
-
-            int pixel = pixels3[0];
-            var color = new Color();
-
-            color.A = (byte)(pixel & 0xff); pixel = pixel >> 8;
-            color.R = (byte)(pixel & 0xff); pixel = pixel >> 8;
-            color.G = (byte)(pixel & 0xff); pixel = pixel >> 8;
-            color.B = (byte)(pixel & 0xff); pixel = pixel >> 8;
-
-            return color;
-
-#else
-            int pixel = pixels[0];
-            var color = new Color();
-            color.B = (byte)(pixel & 0xff); pixel = pixel >> 8;
-            color.G = (byte)(pixel & 0xff); pixel = pixel >> 8;
-            color.R = (byte)(pixel & 0xff); pixel = pixel >> 8;
-            color.A = (byte)(pixel & 0xff); pixel = pixel >> 8;
-
-            if (bmp.Format == PixelFormats.Bgra32)
-            {
-                color.A = color.A;// nop.
-            }
-            else if (bmp.Format == PixelFormats.Bgr32)
-            {
-                color.A = 0xff;
-            }
-            else if (bmp.Format == PixelFormats.Gray8)
-            {
-                color.R = color.B;
-                color.G = color.B;
-                color.B = color.B;
-                color.A = 0xff;
-            }
-            else if (bmp.Format == PixelFormats.Indexed8)
-            {
-                color = bmp.Palette.Colors[color.B];
-            }
-            else
-            {
-                // Get the collection of masks associated with this format.
-                IList<PixelFormatChannelMask> myChannelMaskCollection = bmp.Format.Masks;
-
-                // Capture the mask info in a string.
-                String stringOfValues = " ";
-                foreach (PixelFormatChannelMask myMask in myChannelMaskCollection)
-                {
-                    IList<byte> myBytesCollection = myMask.Mask;
-                    foreach (byte myByte in myBytesCollection)
-                    {
-                        stringOfValues = stringOfValues + myByte.ToString();
-                    }
-                }
-
-                Debug.WriteLine($"no support format: {bmp.Format.ToString()}: {stringOfValues}");
-                color = Colors.Black;
-            }
-
-            color.A = 0xff; // 背景色なので透過なし
-
-            return color;
-#endif
-        }
-    }
 
 }

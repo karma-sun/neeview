@@ -241,8 +241,7 @@ namespace NeeView
         public event EventHandler InputGestureChanged;
 
         private BookProxy _Book;
-        //private Dictionary<string, BookParamSetting> _BookParamSettings;
-        private BookCommandCollection _Commands;
+        public  BookCommandCollection CommandCollection; // TODO:定義位置とか
 
         private Setting _Setting;
 
@@ -254,8 +253,8 @@ namespace NeeView
 
             //ModelContext.BookHistory = new BookHistory();
 
-            _Commands = new BookCommandCollection();
-            _Commands.Initialize(this, _Book, null);
+            CommandCollection = new BookCommandCollection();
+            CommandCollection.Initialize(this, _Book, null);
 
             ModelContext.JobEngine.Context.AddEvent += JobEngineEvent;
             ModelContext.JobEngine.Context.RemoveEvent += JobEngineEvent;
@@ -396,7 +395,7 @@ namespace NeeView
             setting.SusieSetting.Store(ModelContext.SusieContext);
             setting.BookCommonSetting = BookCommonSetting.Store(_Book);
             setting.BookSetting = BookSetting.Store(_Book);
-            setting.GestureSetting.Store(_Commands);
+            setting.GestureSetting.Store(CommandCollection);
 
             return setting;
         }
@@ -407,7 +406,7 @@ namespace NeeView
             setting.SusieSetting.Restore(ModelContext.SusieContext);
             setting.BookCommonSetting.Restore(_Book);
             setting.BookSetting.Restore(_Book);
-            setting.GestureSetting.Restore(_Commands);
+            setting.GestureSetting.Restore(CommandCollection);
 
             InputGestureChanged?.Invoke(this, null);
         }
@@ -434,7 +433,7 @@ namespace NeeView
                 _Setting.SusieSetting.Restore(ModelContext.SusieContext);
                 _Setting.BookCommonSetting.Restore(_Book);
                 _Setting.BookSetting.Restore(_Book);
-                _Setting.GestureSetting.Restore(_Commands);
+                _Setting.GestureSetting.Restore(CommandCollection);
 
                 ModelContext.BookHistory = _Setting.BookHistory;
                 UpdateLastFiles();
@@ -452,7 +451,7 @@ namespace NeeView
             _Setting.SusieSetting.Store(ModelContext.SusieContext);
             _Setting.BookCommonSetting = BookCommonSetting.Store(_Book);
             _Setting.BookSetting = BookSetting.Store(_Book);
-            _Setting.GestureSetting.Store(_Commands);
+            _Setting.GestureSetting.Store(CommandCollection);
 
             ModelContext.BookHistory.Add(BookProxy.Current);
             _Setting.BookHistory = ModelContext.BookHistory;
@@ -716,23 +715,26 @@ namespace NeeView
 
 
         // 
+        /*
         public void Execute(BookCommandType type)
         {
             _Commands[type].Execute(null);
         }
+        */
 
         // 
         public void Execute(BookCommandType type, object param)
         {
-            _Commands[type].Execute(param);
+            InfoText = BookCommandExtension.Headers[type].Text;
+            CommandCollection[type].Execute(param);
         }
 
         public List<InputGesture> GetShortCutCollection(BookCommandType type)
         {
             var list = new List<InputGesture>();
-            if (_Commands[type].ShortCutKey != null)
+            if (CommandCollection[type].ShortCutKey != null)
             {
-                foreach (var key in _Commands[type].ShortCutKey.Split(','))
+                foreach (var key in CommandCollection[type].ShortCutKey.Split(','))
                 {
                     InputGestureConverter converter = new InputGestureConverter();
                     InputGesture inputGesture = converter.ConvertFromString(key);
@@ -774,7 +776,7 @@ namespace NeeView
 
         public string GetMouseGesture(BookCommandType type)
         {
-            return _Commands[type].MouseGesture;
+            return CommandCollection[type].MouseGesture;
         }
 
 
@@ -790,6 +792,10 @@ namespace NeeView
         }
         */
 
+        public void Load(string path)
+        {
+            _Book.Load(path);
+        }
 
     }
 }

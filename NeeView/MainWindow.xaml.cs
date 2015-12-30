@@ -136,8 +136,6 @@ namespace NeeView
             }
         }
 
-        //CommandSettingCollection _CommandSetting;
-
         public void InitializeCommandBindings()
         {
             // コマンドインスタンス作成
@@ -149,28 +147,28 @@ namespace NeeView
             // スタティックコマンド
             this.CommandBindings.Add(new CommandBinding(LoadCommand, Load));
 
-            // カスタムコマンドバインドを先に作成する
-            this.CommandBindings.Add(new CommandBinding(BookCommands[BookCommandType.OpenSettingWindow],
-                (t, e) => OpenSettingWindow()));
-            this.CommandBindings.Add(new CommandBinding(BookCommands[BookCommandType.LoadAs],
-                (t, e) => LoadAs()));
-            this.CommandBindings.Add(new CommandBinding(BookCommands[BookCommandType.ClearHistory],
-                (t, e) => _VM.ClearHistor()));
-            this.CommandBindings.Add(new CommandBinding(BookCommands[BookCommandType.ToggleFullScreen],
-                (t, e) => _WindowMode.Toggle()));
-            this.CommandBindings.Add(new CommandBinding(BookCommands[BookCommandType.ViewScrollUp],
-                (t, e) => _MouseDragController.ScrollUp()));
-            this.CommandBindings.Add(new CommandBinding(BookCommands[BookCommandType.ViewScrollDown],
-                (t, e) => _MouseDragController.ScrollDown()));
-            this.CommandBindings.Add(new CommandBinding(BookCommands[BookCommandType.ViewScaleUp],
-                (t, e) => _MouseDragController.ScaleUp()));
-            this.CommandBindings.Add(new CommandBinding(BookCommands[BookCommandType.ViewScaleDown],
-                (t, e) => _MouseDragController.ScaleDown()));
+            // View系コマンド登録
+            _VM.CommandCollection[BookCommandType.OpenSettingWindow].Command =
+                (e) => OpenSettingWindow();
+            _VM.CommandCollection[BookCommandType.LoadAs].Command =
+                (e) => LoadAs();
+            _VM.CommandCollection[BookCommandType.ClearHistory].Command =
+                (e) => _VM.ClearHistor();
+            _VM.CommandCollection[BookCommandType.ToggleFullScreen].Command =
+                (e) => _WindowMode.Toggle();
+            _VM.CommandCollection[BookCommandType.ViewScrollUp].Command =
+                (e) => _MouseDragController.ScrollUp();
+            _VM.CommandCollection[BookCommandType.ViewScrollDown].Command =
+                (e) => _MouseDragController.ScrollDown();
+            _VM.CommandCollection[BookCommandType.ViewScaleUp].Command =
+                (e) => _MouseDragController.ScaleUp();
+            _VM.CommandCollection[BookCommandType.ViewScaleDown].Command =
+                (e) => _MouseDragController.ScaleDown();
 
-            // 標準コマンドバインド作成
+            // コマンドバインド作成
             foreach (BookCommandType type in Enum.GetValues(typeof(BookCommandType)))
             {
-                this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type)));
+                this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Parameter)));
             }
         }
 
@@ -182,14 +180,14 @@ namespace NeeView
 
             if (dialog.ShowDialog(this) == true)
             {
-                _VM.Execute(BookCommandType.LoadAs, dialog.FileName);
+                _VM.Load(dialog.FileName);
             }
         }
 
         private void Load(object sender, ExecutedRoutedEventArgs e)
         {
             var path = e.Parameter as string;
-            _VM.Execute(BookCommandType.LoadAs, path);
+            _VM.Load(path);
         }
 
         // 設定ウィンドウを開く
@@ -309,7 +307,7 @@ namespace NeeView
             string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
             if (files != null)
             {
-                _VM.Execute(BookCommandType.LoadAs, files[0]);
+                _VM.Load(files[0]);
             }
         }
 

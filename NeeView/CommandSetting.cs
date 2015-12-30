@@ -143,7 +143,7 @@ namespace NeeView
         public void Initialize(MainWindowVM vm, BookProxy book, BookCommandShortcutSource source)
         {
             Add(BookCommandType.OpenSettingWindow, new BookCommand(null));
-            Add(BookCommandType.LoadAs, new BookCommand(e => book.Load((string)e)));
+            Add(BookCommandType.LoadAs, new BookCommand(null)); // e => book.Load((string)e)));
             Add(BookCommandType.ClearHistory, new BookCommand(null));
             Add(BookCommandType.PrevPage, new BookCommand(e => book.PrevPage()));
             Add(BookCommandType.NextPage, new BookCommand(e => book.NextPage()));

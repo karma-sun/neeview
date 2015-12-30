@@ -928,25 +928,25 @@ namespace NeeView
                     {
                         _Archivers.Add(archiver);
                         ReadArchive(archiver, "", (option & LoadFolderOption.Recursive) == LoadFolderOption.Recursive);
+
+                        // 初期ソート
+                        Sort();
+
+                        // スタートページ取得
+                        int startIndex = (start != null) ? Pages.FindIndex(e => e.FullPath == start) : 0;
+                        if ((option & LoadFolderOption.FirstPage) == LoadFolderOption.FirstPage)
+                        {
+                            startIndex = 0;
+                            _Direction = 1;
+                        }
+                        else if ((option & LoadFolderOption.LastPage) == LoadFolderOption.LastPage)
+                        {
+                            startIndex = Pages.Count - 1;
+                            _Direction = -1;
+                        }
+
+                        _StartIndex = startIndex;
                     });
-
-                // 初期ソート
-                Sort();
-
-                // スタートページ取得
-                int startIndex = (start != null) ? Pages.FindIndex(e => e.FullPath == start) : 0;
-                if ((option & LoadFolderOption.FirstPage) == LoadFolderOption.FirstPage)
-                {
-                    startIndex = 0;
-                    _Direction = 1;
-                }
-                else if ((option & LoadFolderOption.LastPage) == LoadFolderOption.LastPage)
-                {
-                    startIndex = Pages.Count - 1;
-                    _Direction = -1;
-                }
-
-                _StartIndex = startIndex;
 
                 // 本有効化
                 Place = archiver.Path;

@@ -21,6 +21,8 @@ namespace NeeView
 
         PrevPage,
         NextPage,
+        PrevOnePage,
+        NextOnePage,
 
         FirstPage,
         LastPage,
@@ -88,6 +90,8 @@ namespace NeeView
 
             [BookCommandType.PrevPage] = new Header("移動", "前のページに戻る"),
             [BookCommandType.NextPage] = new Header("移動", "次のページへ進む"),
+            [BookCommandType.PrevOnePage] = new Header("移動", "1ページ戻る"),
+            [BookCommandType.NextOnePage] = new Header("移動", "1ページ進む"),
             [BookCommandType.FirstPage] = new Header("移動", "最初のページに戻る"),
             [BookCommandType.LastPage] = new Header("移動", "最後のページへ進む"),
             [BookCommandType.PrevFolder] = new Header("移動", "前のフォルダに移動"),
@@ -141,10 +145,12 @@ namespace NeeView
         public void Initialize(MainWindowVM vm, BookProxy book, BookCommandShortcutSource source)
         {
             Add(BookCommandType.OpenSettingWindow, new BookCommand(null));
-            Add(BookCommandType.LoadAs, new BookCommand(null)); // e => book.Load((string)e)));
+            Add(BookCommandType.LoadAs, new BookCommand(null));
             Add(BookCommandType.ClearHistory, new BookCommand(null));
             Add(BookCommandType.PrevPage, new BookCommand(e => book.PrevPage()));
             Add(BookCommandType.NextPage, new BookCommand(e => book.NextPage()));
+            Add(BookCommandType.PrevOnePage, new BookCommand(e => book.PrevOnePage()));
+            Add(BookCommandType.NextOnePage, new BookCommand(e => book.NextOnePage()));
             Add(BookCommandType.FirstPage, new BookCommand(e => book.FirstPage()));
             Add(BookCommandType.LastPage, new BookCommand(e => book.LastPage()));
             Add(BookCommandType.PrevFolder, new BookCommand(e => book.PrevFolder()));

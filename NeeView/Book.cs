@@ -79,6 +79,8 @@ namespace NeeView
         public bool IsReverseSort { get; set; }
 
 
+
+
         //
         private void Constructor()
         {
@@ -168,6 +170,9 @@ namespace NeeView
 
         [DataMember]
         public bool IsEnableNoSupportFile { get; set; }
+
+        [DataMember]
+        public bool IsEnabledAutoNextFolder { get; set; }
 
         //
         private void Constructor()
@@ -1091,17 +1096,15 @@ namespace NeeView
         }
 
         // 前のページに戻る
-        public void PrevPage()
+        public void PrevPage(int step=0)
         {
-            // if (Pages.Count <= 0) return;
             if (!IsStable()) return;
 
-            int index = Index - _PageMode;
+            int index = Index - ((step == 0) ? _PageMode : step);
             if (index < 0) index = 0;
             if (Index == index)
             {
                 PageTerminated?.Invoke(this, -1);
-                //PrevFolder(LoadFolderOption.LastPage);
             }
             else
             {
@@ -1112,12 +1115,11 @@ namespace NeeView
         private int _CurrentViewPageCount = 1;
 
         // 次のページへ進む
-        public void NextPage()
+        public void NextPage(int step=0)
         {
-            //if (Pages.Count <= 0) return;
             if (!IsStable()) return;
 
-            int index = Index + _CurrentViewPageCount; // _PageMode;
+            int index = Index + ((step == 0) ? _CurrentViewPageCount : step);
             if (index > Pages.Count - 1)
             {
                 index = Pages.Count - 1;
@@ -1126,13 +1128,13 @@ namespace NeeView
             if (Index == index)
             {
                 PageTerminated?.Invoke(this, +1);
-                //NextFolder(LoadFolderOption.FirstPage);
             }
             else
             {
                 Index = index;
             }
         }
+
 
         //
         public void FirstPage()

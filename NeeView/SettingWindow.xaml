@@ -14,6 +14,7 @@
     <Grid>
         <TabControl x:Name="tabControl" Margin="10,10,10,43">
             <TabItem Header="一般設定">
+                <ScrollViewer>
                 <StackPanel Margin="4">
                     <TextBlock Text="表示" Margin="2,8,2,2"/>
                     <DockPanel Margin="2" LastChildFill="False">
@@ -48,6 +49,8 @@
                               IsChecked="{Binding Setting.BookCommonSetting.IsEnableHistory}" />
                     </DockPanel>
                     <TextBlock Text="その他" Margin="2,8,2,2"/>
+                    <CheckBox Margin="2" Content="ページが終わったら次のフォルダに移動する"
+                              IsChecked="{Binding Setting.BookCommonSetting.IsEnabledAutoNextFolder}" />
                     <CheckBox Margin="2" Content="サポート外ファイルもページにする"
                               IsChecked="{Binding Setting.BookCommonSetting.IsEnableNoSupportFile}" />
 
@@ -64,7 +67,7 @@
                     </DockPanel>
 
                 </StackPanel>
-                
+                </ScrollViewer>
             </TabItem>
             <TabItem x:Name="SusieSettingTab" Header="Susie設定">
                 <TabItem.Resources>

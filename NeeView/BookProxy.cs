@@ -158,13 +158,27 @@ namespace NeeView
         //
         private void Book_PageTerminated(object sender, int e)
         {
-            if (e < 0)
+            if (BookCommonSetting.IsEnabledAutoNextFolder)
             {
-                PrevFolder(Book.LoadFolderOption.LastPage);
+                if (e < 0)
+                {
+                    PrevFolder(Book.LoadFolderOption.LastPage);
+                }
+                else
+                {
+                    NextFolder(Book.LoadFolderOption.FirstPage);
+                }
             }
             else
             {
-                NextFolder(Book.LoadFolderOption.FirstPage);
+                if (e < 0)
+                {
+                    InfoMessage?.Invoke(this, "最初のページです");
+                }
+                else
+                {
+                    InfoMessage?.Invoke(this, "最後のページです");
+                }
             }
         }
 
@@ -235,6 +249,16 @@ namespace NeeView
         public void NextPage()
         {
             Current?.NextPage();
+        }
+
+        public void PrevOnePage()
+        {
+            Current?.PrevPage(1);
+        }
+
+        public void NextOnePage()
+        {
+            Current?.NextPage(1);
         }
 
         public void FirstPage()

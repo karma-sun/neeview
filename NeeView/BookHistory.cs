@@ -11,14 +11,20 @@ namespace NeeView
     public class BookHistory
     {
         [DataMember]
-        private LinkedList<BookSetting> _History;
+        public LinkedList<BookSetting> History { get; private set; }
 
-        private const int _LimitCount = 100;
-     
+        [DataMember]
+        private int _MaxHistoryCount;
+        public int MaxHistoryCount
+        {
+            get { return _MaxHistoryCount; }
+            set { _MaxHistoryCount = value; Resize(); }
+        }
 
         private void Constructor()
         {
-            _History = new LinkedList<BookSetting>();
+            History = new LinkedList<BookSetting>();
+            MaxHistoryCount = 100;
         }
 
         public BookHistory()
@@ -34,7 +40,15 @@ namespace NeeView
 
         public void Clear()
         {
-            _History.Clear();
+            History.Clear();
+        }
+
+        private void Resize()
+        {
+            while (History.Count > MaxHistoryCount)
+            {
+                History.RemoveLast();
+            }
         }
 
         public void Add(Book book)
@@ -42,34 +56,31 @@ namespace NeeView
             if (book?.Place == null) return;
             if (book.Pages.Count <= 0) return;
 
-            var item = _History.FirstOrDefault(e => e.Place == book.Place);
-            if (item != null) _History.Remove(item);
+            var item = History.FirstOrDefault(e => e.Place == book.Place);
+            if (item != null) History.Remove(item);
 
             var setting = new BookSetting();
             setting.Store(book);
-            _History.AddFirst(setting);
+            History.AddFirst(setting);
 
-            while (_History.Count > _LimitCount)
-            {
-                _History.RemoveLast();
-            }
+            Resize();
         }
 
         public void Remove(string place)
         {
-            var item = _History.FirstOrDefault(e => e.Place == place);
-            if (item != null) _History.Remove(item);
+            var item = History.FirstOrDefault(e => e.Place == place);
+            if (item != null) History.Remove(item);
         }
 
         public BookSetting Find(string place)
         {
-            return _History.FirstOrDefault(e => e.Place == place);
+            return History.FirstOrDefault(e => e.Place == place);
         }
 
         public List<BookSetting> ListUp(int size)
         {
             var list = new List<BookSetting>();
-            foreach(var item in _History)
+            foreach (var item in History)
             {
                 if (list.Count >= size) break;
                 list.Add(item);

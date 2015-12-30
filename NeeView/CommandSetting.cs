@@ -98,7 +98,6 @@ namespace NeeView
             [BookCommandType.NextFolder] = new Header("移動", "次のフォルダへ移動"),
             [BookCommandType.RandomFolder] = new Header("移動", "ランダムなフォルダに移動"),
 
-            [BookCommandType.ToggleFullScreen] = new Header("ウィンドウ", "フルスクリーン切り替え"),
 
             [BookCommandType.ToggleStretchMode] = new Header("スケール", "サイズを切り替える"),
             [BookCommandType.SetStretchModeNone] = new Header("スケール", "元のサイズで表示する"),
@@ -107,9 +106,9 @@ namespace NeeView
             [BookCommandType.SetStretchModeUniform] = new Header("スケール", "ウィンドウサイズに合わせる"),
             [BookCommandType.SetStretchModeUniformToFill] = new Header("スケール", "ウィンドウいっぱいに広げる"),
 
-            [BookCommandType.TogglePageMode] = new Header("ページ表示", "1ページ/2ページ表示を切り替える"),
-            [BookCommandType.SetPageMode1] = new Header("ページ表示", "１ページ表示にする"),
-            [BookCommandType.SetPageMode2] = new Header("ページ表示", "２ページ表示にする"),
+            [BookCommandType.TogglePageMode] = new Header("ページ数", "1ページ/2ページ表示を切り替える"),
+            [BookCommandType.SetPageMode1] = new Header("ページ数", "１ページ表示にする"),
+            [BookCommandType.SetPageMode2] = new Header("ページ数", "２ページ表示にする"),
 
             [BookCommandType.ToggleBookReadOrder] = new Header("２ページ設定", "右開き、左開きを切り替える"),
             [BookCommandType.SetBookReadOrderRight] = new Header("２ページ設定", "右開きにする"),
@@ -118,16 +117,16 @@ namespace NeeView
             [BookCommandType.ToggleIsSupportedTitlePage] = new Header("２ページ設定", "最初のページをタイトルとみなす"),
             [BookCommandType.ToggleIsSupportedWidePage] = new Header("２ページ設定", "横長のページを２ページ分とみなす"),
 
-            [BookCommandType.ToggleIsRecursiveFolder] = new Header("ブック設定", "サブフォルダ読み込みON/OFF"),
+            [BookCommandType.ToggleIsRecursiveFolder] = new Header("フォルダ", "サブフォルダ読み込みON/OFF"),
 
-            [BookCommandType.ToggleSortMode] = new Header("ページ整列", "ページ並び順を切り替える"),
-            [BookCommandType.SetSortModeFileName] = new Header("ページ整列", "ファイル名順にする"),
-            [BookCommandType.SetSortModeFileNameDictionary] = new Header("ページ整列", "ファイル名(辞書)順にする"),
-            [BookCommandType.SetSortModeTimeStamp] = new Header("ページ整列", "ファイル日付順にする"),
-            [BookCommandType.SetSortModeRandom] = new Header("ページ整列", "ランダムに並べる"),
+            [BookCommandType.ToggleSortMode] = new Header("ソート", "ソート方法を切り替える"),
+            [BookCommandType.SetSortModeFileName] = new Header("ソート", "ファイル名順にする"),
+            [BookCommandType.SetSortModeFileNameDictionary] = new Header("ソート", "ファイル名辞書順にする"),
+            [BookCommandType.SetSortModeTimeStamp] = new Header("ソート", "ファイル日付順にする"),
+            [BookCommandType.SetSortModeRandom] = new Header("ソート", "ランダムに並べる"),
+            [BookCommandType.ToggleIsReverseSort] = new Header("ソート", "正順、逆順を切り替える"),
 
-            [BookCommandType.ToggleIsReverseSort] = new Header("ページ整列", "正順、逆順を切り替える"),
-
+            [BookCommandType.ToggleFullScreen] = new Header("ビュー操作", "フルスクリーン切り替え"),
             [BookCommandType.ViewScrollUp] = new Header("ビュー操作", "スクロール↑"),
             [BookCommandType.ViewScrollDown] = new Header("ビュー操作", "スクロール↓"),
             [BookCommandType.ViewScaleUp] = new Header("ビュー操作", "拡大"),

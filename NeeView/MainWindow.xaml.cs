@@ -65,7 +65,6 @@ namespace NeeView
             // messenger
             Messenger.Initialize();
             Messenger.AddReciever("MessageBox", CallMessageBox);
-            //Messenger.AddReciever("NowLoading", CallNowLoading);
         }
 
         private void OnMouseGestureUpdate(object sender, MouseGestureCollection e)
@@ -115,12 +114,12 @@ namespace NeeView
         // new!
         public Dictionary<BookCommandType, RoutedCommand> BookCommands { get; set; } = new Dictionary<BookCommandType, RoutedCommand>();
 
-        public static readonly RoutedCommand LoadCommand = new RoutedCommand("LoadCommand", typeof(MainWindow));
+        //public static readonly RoutedCommand LoadCommand = new RoutedCommand("LoadCommand", typeof(MainWindow));
 
 
 
 
-
+#if false
         class CommandSetting
         {
             public RoutedCommand Command { set; get; }
@@ -134,6 +133,7 @@ namespace NeeView
                 Add(command, new CommandSetting() { Command = command, Type = type });
             }
         }
+#endif
 
         public void InitializeCommandBindings()
         {
@@ -144,13 +144,13 @@ namespace NeeView
             }
 
             // スタティックコマンド
-            this.CommandBindings.Add(new CommandBinding(LoadCommand, Load));
+            //this.CommandBindings.Add(new CommandBinding(LoadCommand, Load));
 
             // View系コマンド登録
             _VM.CommandCollection[BookCommandType.OpenSettingWindow].Command =
                 (e) => OpenSettingWindow();
             _VM.CommandCollection[BookCommandType.LoadAs].Command =
-                (e) => LoadAs();
+                (e) => LoadAs(e);
             _VM.CommandCollection[BookCommandType.ClearHistory].Command =
                 (e) => _VM.ClearHistor();
             _VM.CommandCollection[BookCommandType.ToggleFullScreen].Command =
@@ -173,21 +173,34 @@ namespace NeeView
 
 
         // ダイアログでファイル選択して画像を読み込む
-        private void LoadAs()
+        private void LoadAs(object param)
         {
-            var dialog = new OpenFileDialog();
+            string path = param as string;
 
-            if (dialog.ShowDialog(this) == true)
+            if (path == null)
             {
-                _VM.Load(dialog.FileName);
+                var dialog = new OpenFileDialog();
+
+                if (dialog.ShowDialog(this) == true)
+                {
+                    path = dialog.FileName;
+                }
+                else
+                {
+                    return;
+                }
             }
+
+            _VM.Load(path);
         }
 
+        /*
         private void Load(object sender, ExecutedRoutedEventArgs e)
         {
             var path = e.Parameter as string;
             _VM.Load(path);
         }
+        */
 
         // 設定ウィンドウを開く
         private void OpenSettingWindow()

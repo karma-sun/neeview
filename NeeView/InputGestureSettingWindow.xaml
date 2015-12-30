@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="{Binding Command.Header, StringFormat={}\&quot;{0}\&quot; のキー設定}" Height="300" Width="500">
+        Title="{Binding Command.Header, StringFormat={}\&quot;{0}\&quot; のキー設定}" Height="360" Width="500" Icon="App.ico">
 
     <Window.Resources>
         <Style x:Key="InputBox" TargetType="TextBox">
@@ -27,9 +27,9 @@
                     <ColumnDefinition Width="64*"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0">
-                    <ListBox x:Name="InputGestureList" ItemsSource="{Binding InputGestureCollection}" Margin="10,10,9,35"/>
-                    <Button x:Name="DeleteButton" Content="削除" HorizontalAlignment="Left" Margin="10,0,0,10" Width="75" Height="20" VerticalAlignment="Bottom" Click="DeleteButton_Click">
+                <Grid Grid.Column="1">
+                    <ListBox x:Name="InputGestureList" ItemsSource="{Binding InputGestureCollection}" Margin="10,10,10,45"/>
+                    <Button x:Name="DeleteButton" Content="削除" HorizontalAlignment="Right" Margin="10,0,10,10" Width="85" Height="30" VerticalAlignment="Bottom" Click="DeleteButton_Click">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Style.Triggers>
@@ -42,75 +42,73 @@
                     </Button>
                 </Grid>
 
-                <Grid Grid.Column="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="123*"/>
-                        <ColumnDefinition Width="122*"/>
-                    </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
 
-                    <TextBlock x:Name="textBlock" Margin="10,10,10,0" TextWrapping="Wrap" Text="ショートカットキー" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-
-                    <Grid Height="40" VerticalAlignment="Top" Margin="10,31,10,0" Grid.ColumnSpan="2" >
-                        <TextBox x:Name="KeyGestureBox" Style="{StaticResource InputBox}" PreviewKeyDown="KeyGestureBox_PreviewKeyDown" >
-                        </TextBox>
-                        <TextBlock x:Name="KeyGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False"/>
-                        <TextBlock Text="ここでキー入力" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Hidden"/>
+                    <StackPanel VerticalAlignment="Top">
+                        <TextBlock x:Name="textBlock" Margin="10" TextWrapping="Wrap" Text="ショートカットキー" VerticalAlignment="Top" />
+                        <Grid Height="40" VerticalAlignment="Top" Margin="10,0" >
+                            <TextBox x:Name="KeyGestureBox" Style="{StaticResource InputBox}" PreviewKeyDown="KeyGestureBox_PreviewKeyDown" >
+                            </TextBox>
+                            <TextBlock x:Name="KeyGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False"/>
+                            <TextBlock Text="ここでキー入力" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=KeyGestureText, Path=Text}" Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                        <Button x:Name="AddKeyGestureButton" Content="追加" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Width="76" Height="30" Click="AddKeyGestureButton_Click" >
+                            <Button.Style>
+                                <Style TargetType="Button">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ElementName=KeyGestureText, Path=Text}" Value="">
-                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Setter Property="IsEnabled" Value="False"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Grid>
-                    <Button x:Name="AddKeyGestureButton" Content="&lt;&lt; 追加" HorizontalAlignment="Right" Margin="0,76,10,0" VerticalAlignment="Top" Width="76" Click="AddKeyGestureButton_Click" Grid.Column="1">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=KeyGestureText, Path=Text}" Value="">
-                                        <Setter Property="IsEnabled" Value="False"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
 
+                    <StackPanel>
+                        <TextBlock  Margin="10" TextWrapping="Wrap" Text="マウス入力" Height="16" />
+                        <Grid Margin="10,0" Height="40" >
+                            <TextBox x:Name="MouseGestureBox" Style="{StaticResource InputBox}" PreviewMouseDown="MouseGestureBox_PreviewMouseDown" PreviewMouseWheel="MouseGestureBox_PreviewMouseWheel" >
+                            </TextBox>
+                            <TextBlock x:Name="MouseGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False"/>
+                            <TextBlock Text="ここでマウス入力" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=MouseGestureText, Path=Text}" Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
 
-                    <TextBlock  Margin="10,0,10,79" TextWrapping="Wrap" Text="マウス入力" Grid.ColumnSpan="2" Height="16" VerticalAlignment="Bottom" />
-                    <Grid Margin="10,0,10,34" Height="40" VerticalAlignment="Bottom" Grid.ColumnSpan="2" >
-                        <TextBox x:Name="MouseGestureBox" Style="{StaticResource InputBox}" PreviewMouseDown="MouseGestureBox_PreviewMouseDown" PreviewMouseWheel="MouseGestureBox_PreviewMouseWheel" >
-                        </TextBox>
-                        <TextBlock x:Name="MouseGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False"/>
-                        <TextBlock Text="ここでマウス入力" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Hidden"/>
+                        <Button x:Name="AddMouseGestureButton" Content="追加" HorizontalAlignment="Right" Margin="10" Height="30" Width="76" Click="AddMouseGestureButton_Click" >
+                            <Button.Style>
+                                <Style TargetType="Button">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ElementName=MouseGestureText, Path=Text}" Value="">
-                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Setter Property="IsEnabled" Value="False"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Grid>
-
-                    <Button x:Name="AddMouseGestureButton" Content="&lt;&lt; 追加" HorizontalAlignment="Right" Margin="0,0,10,9" Width="76" Click="AddMouseGestureButton_Click" Height="20" VerticalAlignment="Bottom" Grid.Column="1" >
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=MouseGestureText, Path=Text}" Value="">
-                                        <Setter Property="IsEnabled" Value="False"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </Grid>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
             </Grid>
         </Border>
         <Button x:Name="ButtonOk" Content="OK" HorizontalAlignment="Right" Margin="0,0,96,10" VerticalAlignment="Bottom" Width="75" Height="28" Click="ButtonOk_Click"/>

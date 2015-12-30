@@ -414,6 +414,8 @@ namespace NeeView
             setting.BookSetting = BookSetting.Store(_Book);
             setting.GestureSetting.Store(CommandCollection);
 
+            setting.BookHistory = ModelContext.BookHistory;
+
             return setting;
         }
 
@@ -424,6 +426,9 @@ namespace NeeView
             setting.BookCommonSetting.Restore(_Book);
             setting.BookSetting.Restore(_Book);
             setting.GestureSetting.Restore(CommandCollection);
+
+            ModelContext.BookHistory = setting.BookHistory;
+            UpdateLastFiles();
 
             InputGestureChanged?.Invoke(this, null);
         }
@@ -444,7 +449,6 @@ namespace NeeView
                     _Setting = new Setting();
                 }
 
-                _Setting.WindowPlacement?.Restore(window);
 
                 _Setting.ViewSetting.Restore(this);
                 _Setting.SusieSetting.Restore(ModelContext.SusieContext);
@@ -456,6 +460,8 @@ namespace NeeView
                 UpdateLastFiles();
 
                 InputGestureChanged?.Invoke(this, null);
+
+                _Setting.WindowPlacement?.Restore(window);
             }
         }
 

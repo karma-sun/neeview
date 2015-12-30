@@ -67,6 +67,14 @@ namespace NeeView
             [ShowMessageType.Tiny] = "小さく表示する",
         };
 
+        public static List<int> MaxHistoryCountList { get; } = new List<int>
+        {
+            10,
+            100,
+            1000,
+            10000
+        };
+
         public class BookCommand
         {
             public BookCommandType Key { get; set; }
@@ -208,7 +216,9 @@ namespace NeeView
         private void ClearHistoryButton_Click(object sender, RoutedEventArgs e)
         {
             //VM.BookCommands[BookCommandType.ClearHistory].Execute(this, null);
-            VM.ClearHistor();
+            //VM.ClearHistor();
+            Setting.BookHistory.Clear();
+            OnPropertyChanged("Setting");
         }
     }
 

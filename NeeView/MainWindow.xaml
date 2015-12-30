@@ -111,12 +111,13 @@
                 <MenuItem Header="ファイル(_F)">
                     <MenuItem Header="ファイルを開く..." Command="{Binding BookCommands[LoadAs]}"/>
                     <Separator/>
-                    <MenuItem Header="最近使ったフォルダ(書庫)" ItemsSource="{Binding LastFiles}">
+                    <MenuItem Header="最近使ったフォルダ" ItemsSource="{Binding LastFiles}">
                         <MenuItem.ItemContainerStyle>
                             <Style TargetType="MenuItem">
                                 <Setter Property="Header" Value="{Binding Path=Place, Converter={StaticResource FullPathToFileNameConverter}}"/>
-                                <Setter Property="Command" Value="{x:Static local:MainWindow.LoadCommand}" />
+                                <Setter Property="Command" Value="{Binding BookCommands[LoadAs], RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
                                 <Setter Property="CommandParameter" Value="{Binding Path=Place}" />
+                                <Setter Property="InputGestureText" Value=""/>
                             </Style>
                         </MenuItem.ItemContainerStyle>
                     </MenuItem>
@@ -140,14 +141,17 @@
                 <MenuItem Header="移動(_J)">
                     <MenuItem Header="前のページに戻る"  Command="{Binding BookCommands[PrevPage]}"/>
                     <MenuItem Header="次のページへ進む"  Command="{Binding BookCommands[NextPage]}"/>
+                    <MenuItem Header="1ページ戻る"  Command="{Binding BookCommands[PrevOnePage]}"/>
+                    <MenuItem Header="1ページ進む"  Command="{Binding BookCommands[NextOnePage]}"/>
                     <MenuItem Header="最初のページに戻る" Command="{Binding BookCommands[FirstPage]}"/>
                     <MenuItem Header="最後のページへ進む" Command="{Binding BookCommands[LastPage]}"/>
                     <Separator/>
-                    <MenuItem Header="前のフォルダ(書庫)に戻る"  Command="{Binding BookCommands[PrevFolder]}"/>
-                    <MenuItem Header="次のフォルダ(書庫)へ進む"  Command="{Binding BookCommands[NextFolder]}"/>
+                    <MenuItem Header="前のフォルダに戻る"  Command="{Binding BookCommands[PrevFolder]}"/>
+                    <MenuItem Header="次のフォルダへ進む"  Command="{Binding BookCommands[NextFolder]}"/>
+                    <MenuItem Header="ランダムなフォルダに移動する"  Command="{Binding BookCommands[RandomFolder]}"/>
                 </MenuItem>
 
-                <MenuItem Header="本(_B)">
+                <MenuItem Header="ページ(_P)">
                     <MenuItem x:Name="PageMode1MenuItem" Header="1ページ表示" Command="{Binding BookCommands[SetPageMode1]}"
                               IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=1,Mode=OneWay}" />
                     <MenuItem x:Name="PageMode2MenuItem" Header="2ページ表示" Command="{Binding BookCommands[SetPageMode2]}"
@@ -165,12 +169,12 @@
                               Command="{Binding BookCommands[ToggleIsSupportedWidePage]}"
                               IsChecked="{Binding BookSetting.IsSupportedWidePage, Mode=OneWay}" />
                     <Separator />
-                    <MenuItem Header="サブフォルダ(書庫)も読み込む" Command="{Binding BookCommands[ToggleIsRecursiveFolder]}"
+                    <MenuItem Header="サブフォルダも読み込む" Command="{Binding BookCommands[ToggleIsRecursiveFolder]}"
                               IsChecked="{Binding BookSetting.IsRecursiveFolder,Mode=OneWay}" />
                     <Separator />
                     <MenuItem Header="ファイル名順にする" Command="{Binding BookCommands[SetSortModeFileName]}"
                               IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=FileName,Mode=OneWay}" />
-                    <MenuItem Header="ファイル名(辞書)順にする" Command="{Binding BookCommands[SetSortModeFileNameDictionary]}"
+                    <MenuItem Header="ファイル名辞書順にする" Command="{Binding BookCommands[SetSortModeFileNameDictionary]}"
                               IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=FileNameDictionary,Mode=OneWay}" />
                     <MenuItem Header="日付順にする" Command="{Binding BookCommands[SetSortModeTimeStamp]}"
                               IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=TimeStamp,Mode=OneWay}" />

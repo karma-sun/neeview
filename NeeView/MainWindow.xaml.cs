@@ -41,8 +41,8 @@ namespace NeeView
             _VM.PropertyChanged += OnPropertyChanged;
             _VM.Loaded += (s, e) =>
             {
-                this.Cursor = e ? Cursors.Wait : null;
-                this.Root.IsEnabled = !e;
+                this.Cursor = e != null ? Cursors.Wait : null;
+                this.Root.IsEnabled = e == null;
                 DispNowLoading(e);
             };
 
@@ -70,11 +70,7 @@ namespace NeeView
 
         private void OnMouseGestureUpdate(object sender, MouseGestureCollection e)
         {
-            string text = _MouseGesture.GetGestureText();
-            if (!string.IsNullOrEmpty(text))
-            {
-                _VM.InfoText = text;
-            }
+            _VM.ShowGesture(_MouseGesture.GetGestureString(), _MouseGesture.GetGestureCommandName());
         }
 
         private void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -83,6 +79,9 @@ namespace NeeView
             {
                 case "InfoText":
                     AutoFade(InfoTextBlock, 1.0, 0.5);
+                    break;
+                case "TinyInfoText":
+                    AutoFade(TinyInfoTextBlock, 1.0, 0.5);
                     break;
                 case "IsSliderDirectionReversed":
                     // Retrieve the Track from the Slider control
@@ -271,8 +270,10 @@ namespace NeeView
             {
                 this.MenuArea.Style = null;
                 this.StatusArea.Style = null;
-                this.MainView.Margin = new Thickness(0, this.StatusArea.ActualHeight, 0, this.StatusArea.ActualHeight);
+                this.MainView.Margin = new Thickness(0, this.MenuArea.ActualHeight, 0, this.StatusArea.ActualHeight);
             }
+
+            this.TinyInfoTextBlock.Margin = new Thickness(0, 0, 0, this.StatusArea.ActualHeight);
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e)
@@ -350,8 +351,6 @@ namespace NeeView
         }
 
 
-
-
         private void CallMessageBox(object sender, MessageEventArgs e)
         {
             var param = (MessageBoxParams)e.Parameter;
@@ -398,11 +397,12 @@ namespace NeeView
         }
 
 
-        private void DispNowLoading(bool isDisp)
+        private void DispNowLoading(string loadPath)
         {
-            if (isDisp)
+            if (loadPath != null)
             {
                 this.NowLoading.Opacity = 0.0;
+                //this.NowLoadingText.Text = $"Now Loading\n{System.IO.Path.GetFileName(loadPath)}";
 
                 var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
                 ani.BeginTime = TimeSpan.FromSeconds(1.0);

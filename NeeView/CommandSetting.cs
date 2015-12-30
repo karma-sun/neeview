@@ -27,6 +27,7 @@ namespace NeeView
 
         PrevFolder,
         NextFolder,
+        RandomFolder,
 
         ToggleFullScreen,
 
@@ -57,8 +58,6 @@ namespace NeeView
         SetSortModeRandom,
 
         ToggleIsReverseSort,
-        //SetIsReverseSortFalse,
-        //SetIsReverseSortTrue,
 
         ViewScrollUp,
         ViewScrollDown,
@@ -91,19 +90,20 @@ namespace NeeView
             [BookCommandType.NextPage] = new Header("移動", "次のページへ進む"),
             [BookCommandType.FirstPage] = new Header("移動", "最初のページに戻る"),
             [BookCommandType.LastPage] = new Header("移動", "最後のページへ進む"),
-            [BookCommandType.PrevFolder] = new Header("移動", "前のフォルダ(書庫)に戻る"),
-            [BookCommandType.NextFolder] = new Header("移動", "次のフォルダ(書庫)へ進む"),
+            [BookCommandType.PrevFolder] = new Header("移動", "前のフォルダに移動"),
+            [BookCommandType.NextFolder] = new Header("移動", "次のフォルダへ移動"),
+            [BookCommandType.RandomFolder] = new Header("移動", "ランダムなフォルダに移動"),
 
             [BookCommandType.ToggleFullScreen] = new Header("ウィンドウ", "フルスクリーン切り替え"),
 
-            [BookCommandType.ToggleStretchMode] = new Header("スケール", "スケール方法を切り替える"),
+            [BookCommandType.ToggleStretchMode] = new Header("スケール", "サイズを切り替える"),
             [BookCommandType.SetStretchModeNone] = new Header("スケール", "元のサイズで表示する"),
             [BookCommandType.SetStretchModeInside] = new Header("スケール", "大きい場合、ウィンドウサイズに合わせる"),
             [BookCommandType.SetStretchModeOutside] = new Header("スケール", "小さい場合、ウィンドウサイズに広げる"),
             [BookCommandType.SetStretchModeUniform] = new Header("スケール", "ウィンドウサイズに合わせる"),
             [BookCommandType.SetStretchModeUniformToFill] = new Header("スケール", "ウィンドウいっぱいに広げる"),
 
-            [BookCommandType.TogglePageMode] = new Header("ページ表示", "ページ表示を切り替える"),
+            [BookCommandType.TogglePageMode] = new Header("ページ表示", "1ページ/2ページ表示を切り替える"),
             [BookCommandType.SetPageMode1] = new Header("ページ表示", "１ページ表示にする"),
             [BookCommandType.SetPageMode2] = new Header("ページ表示", "２ページ表示にする"),
 
@@ -114,7 +114,7 @@ namespace NeeView
             [BookCommandType.ToggleIsSupportedTitlePage] = new Header("２ページ設定", "最初のページをタイトルとみなす"),
             [BookCommandType.ToggleIsSupportedWidePage] = new Header("２ページ設定", "横長のページを２ページ分とみなす"),
 
-            [BookCommandType.ToggleIsRecursiveFolder] = new Header("本設定", "サブフォルダ読み込みON/OFF"),
+            [BookCommandType.ToggleIsRecursiveFolder] = new Header("ブック設定", "サブフォルダ読み込みON/OFF"),
 
             [BookCommandType.ToggleSortMode] = new Header("ページ整列", "ページ並び順を切り替える"),
             [BookCommandType.SetSortModeFileName] = new Header("ページ整列", "ファイル名順にする"),
@@ -122,9 +122,7 @@ namespace NeeView
             [BookCommandType.SetSortModeTimeStamp] = new Header("ページ整列", "ファイル日付順にする"),
             [BookCommandType.SetSortModeRandom] = new Header("ページ整列", "ランダムに並べる"),
 
-            [BookCommandType.ToggleIsReverseSort] = new Header("ページ整列", "正順逆順を切り替える"),
-            //[BookCommandType.SetIsReverseSortFalse] = new Header("ページ整列", "正順にする"),
-            //[BookCommandType.SetIsReverseSortTrue] = new Header("ページ整列", "逆順にする"),
+            [BookCommandType.ToggleIsReverseSort] = new Header("ページ整列", "正順、逆順を切り替える"),
 
             [BookCommandType.ViewScrollUp] = new Header("ビュー操作", "スクロール↑"),
             [BookCommandType.ViewScrollDown] = new Header("ビュー操作", "スクロール↓"),
@@ -151,6 +149,7 @@ namespace NeeView
             Add(BookCommandType.LastPage, new BookCommand(e => book.LastPage()));
             Add(BookCommandType.PrevFolder, new BookCommand(e => book.PrevFolder()));
             Add(BookCommandType.NextFolder, new BookCommand(e => book.NextFolder()));
+            Add(BookCommandType.RandomFolder, new BookCommand(e => book.RandomFolder()));
             Add(BookCommandType.ToggleFullScreen, new BookCommand(null));
             Add(BookCommandType.ToggleStretchMode, new BookCommand(e => vm.StretchMode = vm.StretchMode.GetToggle()));
             Add(BookCommandType.SetStretchModeNone, new BookCommand(e => vm.StretchMode = PageStretchMode.None));
@@ -206,20 +205,23 @@ namespace NeeView
         public string ShortCutKey;
         [DataMember]
         public string MouseGesture;
+        [DataMember]
+        public bool IsShowMessage;
 
         public BookCommandIntpuGesture()
         {
         }
 
-        public BookCommandIntpuGesture(string shortCutKey, string mouseGesture)
+        public BookCommandIntpuGesture(string shortCutKey, string mouseGesture, bool isShowMessage=true)
         {
             ShortCutKey = shortCutKey;
             MouseGesture = mouseGesture;
+            IsShowMessage = isShowMessage;
         }
 
         public BookCommandIntpuGesture Clone()
         {
-            return new BookCommandIntpuGesture(ShortCutKey, MouseGesture);
+            return new BookCommandIntpuGesture(ShortCutKey, MouseGesture, IsShowMessage);
         }
     }
 
@@ -235,19 +237,19 @@ namespace NeeView
 
         private void ResetToDefault()
         {
-            Add(BookCommandType.LoadAs, new BookCommandIntpuGesture("Ctrl+O", null));
-            Add(BookCommandType.PrevPage, new BookCommandIntpuGesture("Right,RightClick", "R"));
-            Add(BookCommandType.NextPage, new BookCommandIntpuGesture("Left,LeftClick", "L"));
+            Add(BookCommandType.LoadAs, new BookCommandIntpuGesture("Ctrl+O", null, false));
+            Add(BookCommandType.PrevPage, new BookCommandIntpuGesture("Right,RightClick", "R", false));
+            Add(BookCommandType.NextPage, new BookCommandIntpuGesture("Left,LeftClick", "L", false));
             Add(BookCommandType.PrevFolder, new BookCommandIntpuGesture("Shift+Right", "UR"));
             Add(BookCommandType.NextFolder, new BookCommandIntpuGesture("Shift+Left", "UL"));
             Add(BookCommandType.ToggleFullScreen, new BookCommandIntpuGesture("F12", "U"));
             Add(BookCommandType.TogglePageMode, new BookCommandIntpuGesture("LeftButton+WheelUp", null));
             Add(BookCommandType.SetPageMode1, new BookCommandIntpuGesture("Ctrl+1", null));
             Add(BookCommandType.SetPageMode2, new BookCommandIntpuGesture("Ctrl+2", null));
-            Add(BookCommandType.ViewScrollUp, new BookCommandIntpuGesture("WheelUp", null));
-            Add(BookCommandType.ViewScrollDown, new BookCommandIntpuGesture("WheelDown", null));
-            Add(BookCommandType.ViewScaleUp, new BookCommandIntpuGesture("RightButton+WheelUp", null));
-            Add(BookCommandType.ViewScaleDown, new BookCommandIntpuGesture("RightButton+WheelDown", null));
+            Add(BookCommandType.ViewScrollUp, new BookCommandIntpuGesture("WheelUp", null, false));
+            Add(BookCommandType.ViewScrollDown, new BookCommandIntpuGesture("WheelDown", null, false));
+            Add(BookCommandType.ViewScaleUp, new BookCommandIntpuGesture("RightButton+WheelUp", null, false));
+            Add(BookCommandType.ViewScaleDown, new BookCommandIntpuGesture("RightButton+WheelDown", null, false));
 
             foreach (BookCommandType type in Enum.GetValues(typeof(BookCommandType)))
             {

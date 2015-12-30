@@ -60,6 +60,13 @@ namespace NeeView
             [BackgroundStyle.Check] = "チェック模様",
         };
 
+        public static Dictionary<ShowMessageType, string> ShowMessageTypeList { get; } = new Dictionary<ShowMessageType, string>
+        {
+            [ShowMessageType.None] = "表示しない",
+            [ShowMessageType.Normal] = "表示する",
+            [ShowMessageType.Tiny] = "小さく表示する",
+        };
+
         public class BookCommand
         {
             public BookCommandType Key { get; set; }
@@ -67,6 +74,7 @@ namespace NeeView
             public string Header { get; set; }
             public string ShortCut { get; set; }
             public string MouseGesture { get; set; }
+            public bool IsShowMessage { get; set; }
         }
 
         public ObservableCollection<BookCommand> BookCommandCollection { get; set; }
@@ -106,6 +114,7 @@ namespace NeeView
                     Header = header.Value.Text,
                     ShortCut = Setting.GestureSetting[header.Key].ShortCutKey,
                     MouseGesture = Setting.GestureSetting[header.Key].MouseGesture,
+                    IsShowMessage = Setting.GestureSetting[header.Key].IsShowMessage,
                 };
                 BookCommandCollection.Add(item);
             }
@@ -149,6 +158,7 @@ namespace NeeView
             {
                 Setting.GestureSetting[command.Key].ShortCutKey = command.ShortCut;
                 Setting.GestureSetting[command.Key].MouseGesture = command.MouseGesture;
+                Setting.GestureSetting[command.Key].IsShowMessage = command.IsShowMessage;
             }
 
             this.DialogResult = true;

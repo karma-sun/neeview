@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="{Binding CurrentPage}" Height="768" Width="1024" AllowDrop="True" Icon="App.ico"
+        Title="{Binding WindowTitle}" Height="768" Width="1024" AllowDrop="True" Icon="App.ico"
         Loaded="MainWindow_Loaded" PreviewDragOver="MainWindow_PreviewDragOver" Drop="MainWindow_Drop" Closed="Window_Closed" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized">
 
     <Window.Resources>
@@ -123,18 +123,18 @@
                 </MenuItem>
 
                 <MenuItem Header="表示(_V)">
-                    <MenuItem Header="ウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeUniform]}"
-                              IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=Uniform,Mode=OneWay}" />
-                    <MenuItem Header="ウィンドウいっぱいに広げる" Command="{Binding BookCommands[SetStretchModeUniformToFill]}"
-                              IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=UniformToFill,Mode=OneWay}" />
+                    <MenuItem Header="元のサイズで表示" Command="{Binding BookCommands[SetStretchModeNone]}"
+                              IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=None,Mode=OneWay}" />
                     <MenuItem Header="大きい場合はウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeInside]}"
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=Inside,Mode=OneWay}" />
                     <MenuItem Header="小さい場合はウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeOutside]}"
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=Outside,Mode=OneWay}" />
-                    <MenuItem Header="元のサイズで表示" Command="{Binding BookCommands[SetStretchModeNone]}"
-                              IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=None,Mode=OneWay}" />
+                    <MenuItem Header="ウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeUniform]}"
+                              IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=Uniform,Mode=OneWay}" />
+                    <MenuItem Header="ウィンドウいっぱいに広げる" Command="{Binding BookCommands[SetStretchModeUniformToFill]}"
+                              IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=UniformToFill,Mode=OneWay}" />
                     <Separator/>
-                    <MenuItem Header="全画面表示" Command="{Binding BookCommands[FullScreen]}" />
+                    <MenuItem Header="全画面表示" Command="{Binding BookCommands[ToggleFullScreen]}" />
                 </MenuItem>
 
                 <MenuItem Header="移動(_J)">
@@ -193,7 +193,8 @@
 
             <!-- ステータスエリア -->
             <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom">
-                <Slider x:Name="PageSlider" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
+ 
+                <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
                         local:SliderTools.MoveToPointOnDrag="True">
                     <Slider.Style>
                         <Style TargetType="Slider">
@@ -205,6 +206,7 @@
                         </Style>
                     </Slider.Style>
                 </Slider>
+
                 <!--MouseMove="Slider_MouseMove"-->
             </DockPanel>
 
@@ -221,8 +223,8 @@
                 </Grid.Style>
 
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
-                    <TextBlock  Text="Now Loading" TextAlignment="Center" VerticalAlignment="Center"
-                           Foreground="White" FontFamily="Meiryo" FontSize="32" Margin="8"/>
+                    <TextBlock x:Name="NowLoadingText" Text="Now Loading"  TextAlignment="Center" VerticalAlignment="Center"
+                           Foreground="White" FontFamily="Meiryo" FontSize="32" Margin="8" TextTrimming="CharacterEllipsis"/>
                     <Grid Width="50" Height="50">
                         <Rectangle Width="5" Height="25" Fill="#FF00B5FF" RenderTransformOrigin="0.5,0.5">
                             <Rectangle.RenderTransform>
@@ -238,8 +240,21 @@
                 </StackPanel>
             </Grid>
 
+            <!-- Message Tiny -->
+            <TextBlock x:Name="TinyInfoTextBlock" Text="{Binding TinyInfoText}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White" Background="#88000000" Padding="20,5" >
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
             <!-- Message -->
-            <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="32" Foreground="White" Background="#88000000" Padding="16,8" Margin="0,0,0,48" FontFamily="Meiryo">
+            <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="32" Foreground="White" Background="#88000000" Padding="20,10" Margin="0,0,0,60" FontFamily="Meiryo" TextTrimming="CharacterEllipsis">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Style.Triggers>

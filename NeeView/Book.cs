@@ -550,6 +550,7 @@ namespace NeeView
             FirstPage = (1 << 1),
             LastPage = (1 << 2),
             ReLoad = (1 << 3),
+            RandomFolder = (1<<4),
         };
 
 

@@ -18,7 +18,7 @@
                     <TextBlock Text="表示" Margin="2,8,2,2"/>
                     <DockPanel Margin="2" LastChildFill="False">
                         <TextBlock Text="背景を" Width="auto" VerticalAlignment="Center" Margin="2"/>
-                        <ComboBox Width="100" ItemsSource="{Binding Path=BackgroundStyleList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                        <ComboBox ItemsSource="{Binding Path=BackgroundStyleList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewSetting.Background}" />
                         <TextBlock Text="にする" Width="auto" VerticalAlignment="Center" Margin="2"/>
                     </DockPanel>
@@ -50,7 +50,19 @@
                     <TextBlock Text="その他" Margin="2,8,2,2"/>
                     <CheckBox Margin="2" Content="サポート外ファイルもページにする"
                               IsChecked="{Binding Setting.BookCommonSetting.IsEnableNoSupportFile}" />
-                    
+
+                    <DockPanel Margin="2" LastChildFill="False">
+                        <TextBlock Text="コマンド実行を" VerticalAlignment="Center" Margin="2"/>
+                        <ComboBox ItemsSource="{Binding Path=ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.ViewSetting.CommandShowMessageType}" />
+                    </DockPanel>
+
+                    <DockPanel Margin="2" LastChildFill="False">
+                        <TextBlock Text="マウスジェスチャーを" VerticalAlignment="Center" Margin="2"/>
+                        <ComboBox ItemsSource="{Binding Path=ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.ViewSetting.GestureShowMessageType}" />
+                    </DockPanel>
+
                 </StackPanel>
                 
             </TabItem>
@@ -140,6 +152,14 @@
                         </ListView.GroupStyle>
                             <ListView.View>
                             <GridView>
+
+                                <GridViewColumn Header="表示" >
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsShowMessage}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
 
                                 <GridViewColumn Header="コマンド" Width="200">
                                     <GridViewColumn.CellTemplate>

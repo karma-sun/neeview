@@ -13,7 +13,7 @@ namespace NeeView
         public event EventHandler<Book> BookChanged;
         public event EventHandler<int> PageChanged;
         public event EventHandler<string> SettingChanged;
-        public event EventHandler<bool> Loaded;
+        public event EventHandler<string> Loaded;
         public event EventHandler<string> InfoMessage;
         public event EventHandler ViewContentsChanged;
 
@@ -94,7 +94,7 @@ namespace NeeView
             try
             {
                 // 読み込み。非同期で行う。
-                Loaded?.Invoke(this, true);
+                Loaded?.Invoke(this, path);
 
                 await book.Load(path, start, option);
             }
@@ -111,7 +111,7 @@ namespace NeeView
             }
             finally
             {
-                Loaded?.Invoke(this, false);
+                Loaded?.Invoke(this, null);
             }
             book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
             book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
@@ -180,7 +180,7 @@ namespace NeeView
 
         public int GetPageCount()
         {
-            return Current == null ? 0 : Current.Pages.Count-1;
+            return Current == null ? 0 : Current.Pages.Count - 1;
         }
 
         // 次のフォルダに移動
@@ -205,8 +205,19 @@ namespace NeeView
                 int index = directories.IndexOf(Current.Place);
                 if (index < 0) return false;
 
-                int next = index + direction;
-                if (next < 0 || next >= directories.Count) return false;
+                int next = 0;
+
+                if ((option & Book.LoadFolderOption.RandomFolder) == Book.LoadFolderOption.RandomFolder)
+                {
+                    directories.RemoveAt(index);
+                    if (directories.Count <= 0) return false;
+                    next = new Random().Next(directories.Count);
+                }
+                else
+                {
+                    next = index + direction;
+                    if (next < 0 || next >= directories.Count) return false;
+                }
 
                 Load(directories[next], option);
 
@@ -251,6 +262,15 @@ namespace NeeView
             if (!result)
             {
                 InfoMessage?.Invoke(this, "前のフォルダはありません");
+            }
+        }
+
+        public void RandomFolder(Book.LoadFolderOption option = Book.LoadFolderOption.None)
+        {
+            bool result = MoveFolder(0, option | Book.LoadFolderOption.RandomFolder);
+            if (!result)
+            {
+                InfoMessage?.Invoke(this, "次のフォルダはありません");
             }
         }
 

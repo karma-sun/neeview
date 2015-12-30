@@ -17,6 +17,13 @@ using System.Runtime.Serialization;
 
 namespace NeeView
 {
+    public enum ShowMessageType
+    {
+        None,
+        Normal,
+        Tiny,
+    }
+
     [DataContract]
     public class ViewSetting
     {
@@ -41,10 +48,18 @@ namespace NeeView
         [DataMember]
         public bool IsSliderDirectionReversed { get; set; }
 
+        [DataMember]
+        public ShowMessageType CommandShowMessageType { get; set; }
+
+        [DataMember]
+        public ShowMessageType GestureShowMessageType { get; set; }
+
         void Constructor()
         {
             IsLimitMove = true;
             IsSliderDirectionReversed = true;
+            CommandShowMessageType = ShowMessageType.Normal;
+            GestureShowMessageType = ShowMessageType.Normal;
         }
 
         public ViewSetting()
@@ -67,6 +82,8 @@ namespace NeeView
             StretchMode = vm.StretchMode;
             Background = vm.Background;
             IsSliderDirectionReversed = vm.IsSliderDirectionReversed;
+            CommandShowMessageType = vm.CommandShowMessageType;
+            GestureShowMessageType = vm.GestureShowMessageType;
         }
 
         public void Restore(MainWindowVM vm)
@@ -78,6 +95,8 @@ namespace NeeView
             vm.StretchMode = StretchMode;
             vm.Background = Background;
             vm.IsSliderDirectionReversed = IsSliderDirectionReversed;
+            vm.CommandShowMessageType = CommandShowMessageType;
+            vm.GestureShowMessageType = GestureShowMessageType;
 
             vm.OnViewModeChanged();
         }
@@ -120,6 +139,9 @@ namespace NeeView
 
         public bool IsAngleSnap { get; set; }
 
+        public ShowMessageType CommandShowMessageType { get; set; }
+        public ShowMessageType GestureShowMessageType { get; set; }
+
         #region Property: IsSliderDirectionReversed
         private bool _IsSliderDirectionReversed;
         public bool IsSliderDirectionReversed
@@ -156,11 +178,15 @@ namespace NeeView
 
         public ObservableCollection<DispPage> PageList { get; private set; } = new ObservableCollection<DispPage>();
 
-        public string CurrentPage
+        public string WindowTitle
         {
             get
             {
-                if (BookProxy.Current?.Place == null) return _DefaultWindowTitle;
+                if (LoadingPath != null)
+                    return LoadingPath + " - Loading";
+
+                if (BookProxy.Current?.Place == null)
+                    return _DefaultWindowTitle;
 
                 string text = LoosePath.GetFileName(BookProxy.Current.Place);
 
@@ -174,6 +200,13 @@ namespace NeeView
             }
         }
 
+        private string _LoadingPath;
+        public string LoadingPath
+        {
+            get { return _LoadingPath; }
+            set { _LoadingPath = value; OnPropertyChanged("WindowTitle"); }
+        }
+
         #region Property: InfoText
         private string _InfoText;
         public string InfoText
@@ -183,18 +216,23 @@ namespace NeeView
         }
         #endregion
 
+
+        #region Property: TinyInfoText
+        private string _TinyInfoText;
+        public string TinyInfoText
+        {
+            get { return _TinyInfoText; }
+            set { _TinyInfoText = value; OnPropertyChanged(); }
+        }
+        #endregion
+
         public BookSetting BookSetting => _Book.BookSetting;
 
-        //public int PageMode { get { return _Book.BookSetting.PageMode; } }
-        //public BookSortMode SortMode { get { return _Book.BookSetting.SortMode; } }
-        //public bool IsReverseSort { get { return _Book.BookSetting.IsReverseSort; } }
-        public bool IsViewStartPositionCenter { get; set; }
-        //public bool IsSupportedTitlePage => _Book.BookSetting.IsSupportedTitlePage;
-        //public bool IsSupportedWidePage => _Book.BookSetting.IsSupportedWidePage;
-        //public BookReadOrder BookReadOrder => _Book.BookSetting.BookReadOrder;
-        //public bool IsRecursiveFolder => _Book.BookSetting.IsRecursiveFolder;
 
-        public event EventHandler<bool> Loaded
+        public bool IsViewStartPositionCenter { get; set; }
+
+
+        public event EventHandler<string> Loaded
         {
             add { _Book.Loaded += value; }
             remove { _Book.Loaded -= value; }
@@ -241,7 +279,7 @@ namespace NeeView
         public event EventHandler InputGestureChanged;
 
         private BookProxy _Book;
-        public  BookCommandCollection CommandCollection; // TODO:定義位置とか
+        public BookCommandCollection CommandCollection; // TODO:定義位置とか
 
         private Setting _Setting;
 
@@ -259,43 +297,22 @@ namespace NeeView
             ModelContext.JobEngine.Context.AddEvent += JobEngineEvent;
             ModelContext.JobEngine.Context.RemoveEvent += JobEngineEvent;
 
+            _Book.Loaded +=
+                (s, e) => LoadingPath = e;
+
             _Book.BookChanged +=
                 OnBookChanged;
 
             _Book.PageChanged +=
                 OnPageChanged;
+            
+            _Book.ViewContentsChanged +=
+                OnViewContentsChanged;
 
-            /*
-            _Book.ModeChanged +=
-                (s, e) =>
-                {
-                    UpdateContentsWidth();
-                    OnPropertyChanged(nameof(BookSetting));
-                    //OnPropertyChanged(nameof(PageMode));
-                    OnPropertyChanged(nameof(StretchMode));
-                    //OnPropertyChanged(nameof(SortMode));
-                    //OnPropertyChanged(nameof(IsReverseSort));
-                    PageChanged?.Invoke(this, null);
-                    ViewModeChanged?.Invoke(this, null);
-                };
-                */
-
-            _Book.ViewContentsChanged += OnViewContentsChanged;
-            //_Book.BackgroundChanged += OnBackgroundChanged;
             _Book.SettingChanged +=
                 (s, e) =>
                 {
                     OnPropertyChanged(nameof(BookSetting));
-                    //OnPropertyChanged(nameof(IsSupportedTitlePage));
-                    //OnPropertyChanged(nameof(IsSupportedWidePage));
-                    //OnPropertyChanged(nameof(BookReadOrder));
-                    //OnPropertyChanged(nameof(IsRecursiveFolder));
-                    /*
-                    if (e == "BookReadOrder")
-                    {
-                        ViewModeChanged?.Invoke(this, null);
-                    }
-                    */
                 };
             _Book.InfoMessage +=
                 (s, e) => InfoText = e;
@@ -556,7 +573,7 @@ namespace NeeView
         private void OnPageChanged(object sender, int e)
         {
             OnPropertyChanged(nameof(Index));
-            OnPropertyChanged(nameof(CurrentPage));
+            OnPropertyChanged(nameof(WindowTitle));
         }
 
 
@@ -725,9 +742,40 @@ namespace NeeView
         // 
         public void Execute(BookCommandType type, object param)
         {
-            InfoText = BookCommandExtension.Headers[type].Text;
+            // 通知
+            if (CommandCollection.ShortcutSource[type].IsShowMessage)
+            {
+                switch (CommandShowMessageType)
+                {
+                    case ShowMessageType.Normal:
+                        InfoText = BookCommandExtension.Headers[type].Text;
+                        break;
+                    case ShowMessageType.Tiny:
+                        TinyInfoText = BookCommandExtension.Headers[type].Text;
+                        break;
+                }
+            }
+
+            // 実行
             CommandCollection[type].Execute(param);
         }
+
+        //
+        public void ShowGesture(string gesture, string commandName)
+        {
+            if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
+
+            switch (GestureShowMessageType)
+            {
+                case ShowMessageType.Normal:
+                    InfoText = ((commandName != null) ? commandName + "\n" : "") + gesture;
+                    break;
+                case ShowMessageType.Tiny:
+                    TinyInfoText = gesture + ((commandName != null) ? " " + commandName : "");
+                    break;
+            }
+        }
+
 
         public List<InputGesture> GetShortCutCollection(BookCommandType type)
         {

@@ -70,21 +70,30 @@ namespace NeeView
             GestureText = e.ToString();
         }
 
-        public string GetGestureText()
+        public string GetGestureCommandName()
         {
-            string text = "";
-
             var command = CommandBinding.GetCommand(Controller.Gesture);
             if (command != null)
             {
                 BookCommandType commandType;
                 if (Enum.TryParse<BookCommandType>(command.Name, out commandType))
                 {
-                    text = BookCommandExtension.Headers[commandType].Text + "\n";
+                    return BookCommandExtension.Headers[commandType].Text;
                 }
             }
 
-            return text + Controller.Gesture.ToDispString();
+            return null;
+        }
+
+        public string GetGestureString()
+        {
+            return Controller.Gesture.ToDispString();
+        }
+
+        public string GetGestureText()
+        {
+            string commandName = GetGestureCommandName();
+            return ((commandName != null) ? commandName + "\n" : "")  + Controller.Gesture.ToDispString();
         }
     }
 

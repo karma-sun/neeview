@@ -99,101 +99,107 @@
             </Grid>
 
             <!-- メニューエリア-->
-            <Menu x:Name="MenuArea" VerticalAlignment="Top">
-                <Menu.Resources>
-                    <local:PageModeToBooleanConverter x:Key="PageModeToBooleanConverter"/>
-                    <local:StretchModeToBooleanConverter x:Key="StretchModeToBooleanConverter"/>
-                    <local:SortModeToBooleanConverter x:Key="SortModeToBooleanConverter"/>
-                    <local:BookReadOrderToBooleanConverter x:Key="BookReadOrderToBooleanConverter"/>
-                    <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
-                </Menu.Resources>
+            <Grid x:Name="MenuArea" VerticalAlignment="Top">
+                <Menu x:Name="MainMenu" VerticalAlignment="Top">
+                    <Menu.Resources>
+                        <local:PageModeToBooleanConverter x:Key="PageModeToBooleanConverter"/>
+                        <local:StretchModeToBooleanConverter x:Key="StretchModeToBooleanConverter"/>
+                        <local:SortModeToBooleanConverter x:Key="SortModeToBooleanConverter"/>
+                        <local:BookReadOrderToBooleanConverter x:Key="BookReadOrderToBooleanConverter"/>
+                        <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
+                    </Menu.Resources>
 
-                <MenuItem Header="ファイル(_F)">
-                    <MenuItem Header="ファイルを開く..." Command="{Binding BookCommands[LoadAs]}"/>
-                    <Separator/>
-                    <MenuItem Header="最近使ったフォルダ" ItemsSource="{Binding LastFiles}">
-                        <MenuItem.ItemContainerStyle>
-                            <Style TargetType="MenuItem">
-                                <Setter Property="Header" Value="{Binding Path=Place, Converter={StaticResource FullPathToFileNameConverter}}"/>
-                                <Setter Property="Command" Value="{Binding BookCommands[LoadAs], RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
-                                <Setter Property="CommandParameter" Value="{Binding Path=Place}" />
-                                <Setter Property="InputGestureText" Value=""/>
-                            </Style>
-                        </MenuItem.ItemContainerStyle>
+                    <MenuItem Header="ファイル(_F)">
+                        <MenuItem Header="ファイルを開く..." Command="{Binding BookCommands[LoadAs]}"/>
+                        <Separator/>
+                        <MenuItem Header="最近使ったフォルダ" ItemsSource="{Binding LastFiles}">
+                            <MenuItem.ItemContainerStyle>
+                                <Style TargetType="MenuItem">
+                                    <Setter Property="Header" Value="{Binding Path=Place, Converter={StaticResource FullPathToFileNameConverter}}"/>
+                                    <Setter Property="Command" Value="{Binding BookCommands[LoadAs], RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+                                    <Setter Property="CommandParameter" Value="{Binding Path=Place}" />
+                                    <Setter Property="InputGestureText" Value=""/>
+                                </Style>
+                            </MenuItem.ItemContainerStyle>
+                        </MenuItem>
                     </MenuItem>
-                </MenuItem>
 
-                <MenuItem Header="表示(_V)">
-                    <MenuItem Header="元のサイズで表示" Command="{Binding BookCommands[SetStretchModeNone]}"
+                    <MenuItem Header="表示(_V)">
+                        <MenuItem Header="元のサイズで表示" Command="{Binding BookCommands[SetStretchModeNone]}"
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=None,Mode=OneWay}" />
-                    <MenuItem Header="大きい場合はウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeInside]}"
+                        <MenuItem Header="大きい場合はウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeInside]}"
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=Inside,Mode=OneWay}" />
-                    <MenuItem Header="小さい場合はウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeOutside]}"
+                        <MenuItem Header="小さい場合はウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeOutside]}"
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=Outside,Mode=OneWay}" />
-                    <MenuItem Header="ウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeUniform]}"
+                        <MenuItem Header="ウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeUniform]}"
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=Uniform,Mode=OneWay}" />
-                    <MenuItem Header="ウィンドウいっぱいに広げる" Command="{Binding BookCommands[SetStretchModeUniformToFill]}"
+                        <MenuItem Header="ウィンドウいっぱいに広げる" Command="{Binding BookCommands[SetStretchModeUniformToFill]}"
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=UniformToFill,Mode=OneWay}" />
-                    <Separator/>
-                    <MenuItem Header="全画面表示" Command="{Binding BookCommands[ToggleFullScreen]}" />
-                </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="全画面表示" Command="{Binding BookCommands[ToggleFullScreen]}" />
+                    </MenuItem>
 
-                <MenuItem Header="移動(_J)">
-                    <MenuItem Header="前のページに戻る"  Command="{Binding BookCommands[PrevPage]}"/>
-                    <MenuItem Header="次のページへ進む"  Command="{Binding BookCommands[NextPage]}"/>
-                    <MenuItem Header="1ページ戻る"  Command="{Binding BookCommands[PrevOnePage]}"/>
-                    <MenuItem Header="1ページ進む"  Command="{Binding BookCommands[NextOnePage]}"/>
-                    <MenuItem Header="最初のページに戻る" Command="{Binding BookCommands[FirstPage]}"/>
-                    <MenuItem Header="最後のページへ進む" Command="{Binding BookCommands[LastPage]}"/>
-                    <Separator/>
-                    <MenuItem Header="前のフォルダに戻る"  Command="{Binding BookCommands[PrevFolder]}"/>
-                    <MenuItem Header="次のフォルダへ進む"  Command="{Binding BookCommands[NextFolder]}"/>
-                    <MenuItem Header="ランダムなフォルダに移動する"  Command="{Binding BookCommands[RandomFolder]}"/>
-                </MenuItem>
+                    <MenuItem Header="移動(_J)">
+                        <MenuItem Header="前のページに戻る"  Command="{Binding BookCommands[PrevPage]}"/>
+                        <MenuItem Header="次のページへ進む"  Command="{Binding BookCommands[NextPage]}"/>
+                        <MenuItem Header="1ページ戻る"  Command="{Binding BookCommands[PrevOnePage]}"/>
+                        <MenuItem Header="1ページ進む"  Command="{Binding BookCommands[NextOnePage]}"/>
+                        <MenuItem Header="最初のページに戻る" Command="{Binding BookCommands[FirstPage]}"/>
+                        <MenuItem Header="最後のページへ進む" Command="{Binding BookCommands[LastPage]}"/>
+                        <Separator/>
+                        <MenuItem Header="前のフォルダに戻る"  Command="{Binding BookCommands[PrevFolder]}"/>
+                        <MenuItem Header="次のフォルダへ進む"  Command="{Binding BookCommands[NextFolder]}"/>
+                        <MenuItem Header="ランダムなフォルダに移動する"  Command="{Binding BookCommands[RandomFolder]}"/>
+                    </MenuItem>
 
-                <MenuItem Header="ページ(_P)">
-                    <MenuItem x:Name="PageMode1MenuItem" Header="1ページ表示" Command="{Binding BookCommands[SetPageMode1]}"
+                    <MenuItem Header="ページ(_P)">
+                        <MenuItem x:Name="PageMode1MenuItem" Header="1ページ表示" Command="{Binding BookCommands[SetPageMode1]}"
                               IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=1,Mode=OneWay}" />
-                    <MenuItem x:Name="PageMode2MenuItem" Header="2ページ表示" Command="{Binding BookCommands[SetPageMode2]}"
+                        <MenuItem x:Name="PageMode2MenuItem" Header="2ページ表示" Command="{Binding BookCommands[SetPageMode2]}"
                               IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=2,Mode=OneWay}" />
-                    <Separator/>
-                    <MenuItem Header="右開き" Command="{Binding BookCommands[SetBookReadOrderRight]}"
+                        <Separator/>
+                        <MenuItem Header="右開き" Command="{Binding BookCommands[SetBookReadOrderRight]}"
                               IsChecked="{Binding BookSetting.BookReadOrder,Converter={StaticResource BookReadOrderToBooleanConverter},ConverterParameter=RightToLeft,Mode=OneWay}" />
-                    <MenuItem Header="左開き" Command="{Binding BookCommands[SetBookReadOrderLeft]}"
+                        <MenuItem Header="左開き" Command="{Binding BookCommands[SetBookReadOrderLeft]}"
                               IsChecked="{Binding BookSetting.BookReadOrder,Converter={StaticResource BookReadOrderToBooleanConverter},ConverterParameter=LeftToRight,Mode=OneWay}" />
-                    <Separator/>
-                    <MenuItem Header="最初のページは表紙" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
+                        <Separator/>
+                        <MenuItem Header="最初のページは表紙" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
                               Command="{Binding BookCommands[ToggleIsSupportedTitlePage]}"
                               IsChecked="{Binding BookSetting.IsSupportedTitlePage, Mode=OneWay}" />
-                    <MenuItem Header="横長ページを２ページとみなす" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
+                        <MenuItem Header="横長ページを２ページとみなす" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
                               Command="{Binding BookCommands[ToggleIsSupportedWidePage]}"
                               IsChecked="{Binding BookSetting.IsSupportedWidePage, Mode=OneWay}" />
-                    <Separator />
-                    <MenuItem Header="サブフォルダも読み込む" Command="{Binding BookCommands[ToggleIsRecursiveFolder]}"
+                        <Separator />
+                        <MenuItem Header="サブフォルダも読み込む" Command="{Binding BookCommands[ToggleIsRecursiveFolder]}"
                               IsChecked="{Binding BookSetting.IsRecursiveFolder,Mode=OneWay}" />
-                    <Separator />
-                    <MenuItem Header="ファイル名順にする" Command="{Binding BookCommands[SetSortModeFileName]}"
+                        <Separator />
+                        <MenuItem Header="ファイル名順にする" Command="{Binding BookCommands[SetSortModeFileName]}"
                               IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=FileName,Mode=OneWay}" />
-                    <MenuItem Header="ファイル名辞書順にする" Command="{Binding BookCommands[SetSortModeFileNameDictionary]}"
+                        <MenuItem Header="ファイル名辞書順にする" Command="{Binding BookCommands[SetSortModeFileNameDictionary]}"
                               IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=FileNameDictionary,Mode=OneWay}" />
-                    <MenuItem Header="日付順にする" Command="{Binding BookCommands[SetSortModeTimeStamp]}"
+                        <MenuItem Header="日付順にする" Command="{Binding BookCommands[SetSortModeTimeStamp]}"
                               IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=TimeStamp,Mode=OneWay}" />
-                    <MenuItem Header="ランダムに並べる" Command="{Binding BookCommands[SetSortModeRandom]}"
+                        <MenuItem Header="ランダムに並べる" Command="{Binding BookCommands[SetSortModeRandom]}"
                               IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=Random,Mode=OneWay}" />
-                    <Separator/>
-                    <MenuItem Header="逆順にする" Command="{Binding BookCommands[ToggleIsReverseSort]}"
+                        <Separator/>
+                        <MenuItem Header="逆順にする" Command="{Binding BookCommands[ToggleIsReverseSort]}"
                               IsChecked="{Binding BookSetting.IsReverseSort, Mode=OneWay}" />
-                </MenuItem>
+                    </MenuItem>
 
-                <MenuItem Header="設定(_O)">
-                    <MenuItem Header="設定..." Command="{Binding BookCommands[OpenSettingWindow]}"/>
-                </MenuItem>
-                <MenuItem Header="開発(_D)">
-                    <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" />
-                    <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" />
-                    <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダを開く" Click="MenuItemDevTempFolder_Click" />
-                </MenuItem>
-            </Menu>
+                    <MenuItem Header="設定(_O)">
+                        <MenuItem Header="設定..." Command="{Binding BookCommands[OpenSettingWindow]}"/>
+                    </MenuItem>
+                    <MenuItem Header="開発(_D)">
+                        <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" />
+                        <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" />
+                        <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダを開く" Click="MenuItemDevTempFolder_Click" />
+                    </MenuItem>
+                </Menu>
+
+                <Button x:Name="HelpButton" Style="{StaticResource IconButton}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0" Click="HelpButton_Click">
+                    <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
+                </Button>
+            </Grid>
 
             <!-- ステータスエリア -->
             <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom">

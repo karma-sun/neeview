@@ -34,5 +34,47 @@
         </DrawingBrush>
 
 
+        <!-- Material design icons by Google -->
+        <!-- http://www.google.com/design/spec/style/icons.html#icons-system-icons -->
+
+        <DrawingImage x:Key="ic_help_24px">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="#FF4488FF" Pen="{x:Null}">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M11,17L11,19 13,19 13,17 11,17z M12,5C9.78999996185303,5,8,6.78999996185303,8,9L10,9C10,7.90000009536743 10.8999996185303,7 12,7 13.1000003814697,7 14,7.90000009536743 14,9 14,9.55000019073486 13.7799997329712,10.0500001907349 13.4099998474121,10.4099998474121L12.1700000762939,11.6700000762939C11.4499998092651,12.3999996185303,11,13.3999996185303,11,14.5L11,15 13,15C13,13.5,13.4499998092651,12.8999996185303,14.1700000762939,12.1700000762939L15.0699996948242,11.25C15.6400003433228,10.6800003051758 16,9.88000011444092 16,9 16,6.78999996185303 14.210000038147,5 12,5z M12,2C17.5200004577637,2 22,6.48000001907349 22,12 22,17.5200004577637 17.5200004577637,22 12,22 6.48000001907349,22 2,17.5200004577637 2,12 2,6.48000001907349 6.48000001907349,2 12,2z" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <!-- IconButton Style -->
+        <Style x:Key="IconButton" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Rectangle x:Name="baseRectangle" RadiusY="0" RadiusX="0" StrokeThickness="1" Fill="{x:Null}"/>
+                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Fill" TargetName="baseRectangle" Value="#88BBDDFF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Fill" TargetName="baseRectangle" Value="#FFBBDDFF"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Application.Resources>
 </Application>

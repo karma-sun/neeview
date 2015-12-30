@@ -259,7 +259,7 @@ namespace NeeView
             }
 
             // Update Menu ...
-            this.MenuArea.UpdateInputGestureText();
+            this.MainMenu.UpdateInputGestureText();
 
         }
 
@@ -437,6 +437,11 @@ namespace NeeView
                 aniRotate.Duration = TimeSpan.FromSeconds(0.5);
                 this.NowLoadingMarkAngle.BeginAnimation(RotateTransform.AngleProperty, aniRotate);
             }
+        }
+
+        private void HelpButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://bitbucket.org/neelabo/neeview/wiki/");
         }
     }
 

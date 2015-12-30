@@ -56,6 +56,7 @@ namespace NeeView
             for (int i = 0; i < keys.Length - 1; ++i)
             {
                 var key = keys[i];
+                if (key == "Ctrl") key = "Control";
 
                 ModifierKeys modifierKeysOne;
                 if (Enum.TryParse<ModifierKeys>(key, out modifierKeysOne))
@@ -81,7 +82,7 @@ namespace NeeView
             {
                 if ((keyExGesture.ModifierKeys & key) != ModifierKeys.None)
                 {
-                    text += "+" + key.ToString();
+                    text += "+" + ((key == ModifierKeys.Control) ? "Ctrl" : key.ToString());
                 }
             }
 

@@ -1199,7 +1199,17 @@ namespace NeeView
                 _Archivers.ForEach(e => e.Dispose());
                 _Archivers.Clear();
 
-                _TempArchives.ForEach(e => File.Delete(e));
+                foreach (var temp in _TempArchives)
+                {
+                    try
+                    {
+                        File.Delete(temp);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e);
+                    }
+                }
                 _TempArchives.Clear();
 
                 _TrashBox.ForEach(e => e.Dispose());

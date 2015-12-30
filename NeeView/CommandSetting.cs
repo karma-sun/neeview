@@ -92,8 +92,8 @@ namespace NeeView
             [BookCommandType.NextPage] = new Header("移動", "次のページへ進む"),
             [BookCommandType.PrevOnePage] = new Header("移動", "1ページ戻る"),
             [BookCommandType.NextOnePage] = new Header("移動", "1ページ進む"),
-            [BookCommandType.FirstPage] = new Header("移動", "最初のページに戻る"),
-            [BookCommandType.LastPage] = new Header("移動", "最後のページへ進む"),
+            [BookCommandType.FirstPage] = new Header("移動", "先頭のページに移動"),
+            [BookCommandType.LastPage] = new Header("移動", "最後のページへ移動"),
             [BookCommandType.PrevFolder] = new Header("移動", "前のフォルダに移動"),
             [BookCommandType.NextFolder] = new Header("移動", "次のフォルダへ移動"),
             [BookCommandType.RandomFolder] = new Header("移動", "ランダムなフォルダに移動"),
@@ -245,8 +245,10 @@ namespace NeeView
             Add(BookCommandType.LoadAs, new BookCommandIntpuGesture("Ctrl+O", null, false));
             Add(BookCommandType.PrevPage, new BookCommandIntpuGesture("Right,RightClick", "R", false));
             Add(BookCommandType.NextPage, new BookCommandIntpuGesture("Left,LeftClick", "L", false));
-            Add(BookCommandType.PrevFolder, new BookCommandIntpuGesture("Shift+Right", "UR"));
-            Add(BookCommandType.NextFolder, new BookCommandIntpuGesture("Shift+Left", "UL"));
+            Add(BookCommandType.FirstPage, new BookCommandIntpuGesture("Ctrl+Right", "UR"));
+            Add(BookCommandType.LastPage, new BookCommandIntpuGesture("Ctrl+Left", "UL"));
+            Add(BookCommandType.PrevFolder, new BookCommandIntpuGesture("Up", "LU", false));
+            Add(BookCommandType.NextFolder, new BookCommandIntpuGesture("Down", "LD", false));
             Add(BookCommandType.ToggleFullScreen, new BookCommandIntpuGesture("F12", "U"));
             Add(BookCommandType.TogglePageMode, new BookCommandIntpuGesture("LeftButton+WheelUp", null));
             Add(BookCommandType.SetPageMode1, new BookCommandIntpuGesture("Ctrl+1", null));

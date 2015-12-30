@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace NeeView
     public class BookProxy
     {
         // いろんなイベントをするー
-        public event EventHandler<Book> BookChanged;
+        public event EventHandler<bool> BookChanged;
         public event EventHandler<int> PageChanged;
         public event EventHandler<string> SettingChanged;
         public event EventHandler<string> Loaded;
@@ -42,111 +43,135 @@ namespace NeeView
             return BookSetting.Clone();
         }
 
+        private bool _IsLoading = false;
 
         // いろんなメソッドは置き換え
         public async void Load(string path, Book.LoadFolderOption option = Book.LoadFolderOption.None)
         {
-            // 履歴の保存
-            ModelContext.BookHistory.Add(Current);
-
-            // 後始末
-            Current?.Dispose();
-            Current = null;
-
-            // 新しい本
-            var book = new Book();
-
-            string start = null;
-
-            // 設定の復元
-            BookCommonSetting.Restore(book);
-
-            // 設定の復元
-            if ((option & Book.LoadFolderOption.ReLoad) == Book.LoadFolderOption.ReLoad)
+            if (_IsLoading)
             {
-                // リロード時は設定そのまま
-                BookSetting.Restore(book);
-            }
-            else if (BookCommonSetting.IsEnableHistory)
-            {
-                // 履歴が有るときはそれを使用する
-                var setting = ModelContext.BookHistory.Find(path);
-                if (setting != null)
-                {
-                    setting.Restore(this);
-                    setting.Restore(book);
-                    start = setting.BookMark;
-                }
-            }
-            else
-            {
-                // 履歴がないときは設定はそのまま。再帰設定のみOFFにする。
-                BookSetting.Restore(book);
-                book.IsRecursiveFolder = false;
-            }
-
-            // リカーシブ設定
-            if ((option & Book.LoadFolderOption.Recursive) == Book.LoadFolderOption.Recursive)
-            {
-                book.IsRecursiveFolder = true;
+                Debug.WriteLine("Already Loading.");
+                return;
             }
 
             try
             {
-                // 読み込み。非同期で行う。
-                Loaded?.Invoke(this, path);
+                _IsLoading = true;
 
-                await book.Load(path, start, option);
-            }
-            catch
-            {
-                // ファイル読み込み失敗通知
-                Messenger.MessageBox(this, $"{path} の読み込みに失敗しました。", "通知", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                var current = Current;
+                Current = null;
 
-                // 履歴から消去
-                ModelContext.BookHistory.Remove(path);
-                Messenger.Send(this, "UpdateLastFiles");
+                // 履歴の保存
+                ModelContext.BookHistory.Add(current);
 
-                return;
+                // 後始末
+                current?.Dispose();
+
+                // 新しい本
+                var book = new Book();
+
+                string start = null;
+
+                bool isBookamrk = false;
+
+                // 設定の復元
+                BookCommonSetting.Restore(book);
+
+                // 設定の復元
+                if ((option & Book.LoadFolderOption.ReLoad) == Book.LoadFolderOption.ReLoad)
+                {
+                    // リロード時は設定そのまま
+                    BookSetting.Restore(book);
+                }
+                else
+                {
+                    if (BookCommonSetting.IsEnableHistory)
+                    {
+                        // 履歴が有るときはそれを使用する
+                        var setting = ModelContext.BookHistory.Find(path);
+                        if (setting != null && BookCommonSetting.IsEnableHistory)
+                        {
+                            setting.Restore(this);
+                            setting.Restore(book);
+                            start = setting.BookMark;
+                            isBookamrk = true;
+                        }
+                        // 履歴がないときは設定はそのまま。再帰設定のみOFFにする。
+                        else
+                        {
+                            BookSetting.Restore(book);
+                            book.IsRecursiveFolder = false;
+                        }
+                    }
+                }
+
+                // リカーシブ設定
+                if ((option & Book.LoadFolderOption.Recursive) == Book.LoadFolderOption.Recursive)
+                {
+                    book.IsRecursiveFolder = true;
+                }
+
+                try
+                {
+                    // 読み込み。非同期で行う。
+                    Loaded?.Invoke(this, path);
+
+                    await book.Load(path, start, option);
+                }
+                catch
+                {
+                    // ファイル読み込み失敗通知
+                    Messenger.MessageBox(this, $"{path} の読み込みに失敗しました。", "通知", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+
+                    // 履歴から消去
+                    ModelContext.BookHistory.Remove(path);
+                    Messenger.Send(this, "UpdateLastFiles");
+                    return;
+                }
+                finally
+                {
+                    Loaded?.Invoke(this, null);
+                }
+                book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
+                book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
+                book.PageTerminated += Book_PageTerminated;
+                book.DartyBook += Book_DartyBook;
+
+                // カレント切り替え
+                Current = book;
+
+                // 開始
+                Current.Start();
+
+                BookSetting.Store(book);
+                SettingChanged?.Invoke(this, null);
+
+                BookChanged?.Invoke(this, isBookamrk);
+
+
+                // サブフォルダ確認
+                if ((option & Book.LoadFolderOption.ReLoad) == 0 && Current.Pages.Count <= 0 && !Current.IsRecursiveFolder && Current.SubFolderCount > 0)
+                {
+                    var message = new MessageEventArgs("MessageBox");
+                    message.Parameter = new MessageBoxParams()
+                    {
+                        MessageBoxText = $"\"{Current.Place}\" には読み込めるファイルがありません。\n\nサブフォルダ(書庫)も読み込みますか？",
+                        Caption = "確認",
+                        Button = System.Windows.MessageBoxButton.YesNo,
+                        Icon = System.Windows.MessageBoxImage.Question
+                    };
+                    Messenger.Send(this, message);
+
+                    if (message.Result == true)
+                    {
+                        _IsLoading = false;
+                        Load(Current.Place, Book.LoadFolderOption.Recursive | Book.LoadFolderOption.ReLoad);
+                    }
+                }
             }
             finally
             {
-                Loaded?.Invoke(this, null);
-            }
-            book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
-            book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
-            book.PageTerminated += Book_PageTerminated;
-            book.DartyBook += Book_DartyBook;
-
-            // カレント切り替え
-            Current = book;
-
-            // 開始
-            Current.Start();
-
-            BookSetting.Store(book);
-            SettingChanged?.Invoke(this, null);
-
-            BookChanged?.Invoke(this, Current);
-
-
-            // サブフォルダ確認
-            if ((option & Book.LoadFolderOption.ReLoad) == 0 && Current.Pages.Count <= 0 && !Current.IsRecursiveFolder && Current.SubFolderCount > 0)
-            {
-                var message = new MessageEventArgs("MessageBox");
-                message.Parameter = new MessageBoxParams()
-                {
-                    MessageBoxText = $"\"{Current.Place}\" には読み込めるファイルがありません。\n\nサブフォルダ(書庫)も読み込みますか？",
-                    Caption = "確認",
-                    Button = System.Windows.MessageBoxButton.YesNo,
-                    Icon = System.Windows.MessageBoxImage.Question
-                };
-                Messenger.Send(this, message);
-
-                if (message.Result == true)
-                {
-                    Load(Current.Place, Book.LoadFolderOption.Recursive | Book.LoadFolderOption.ReLoad);
-                }
+                _IsLoading = false;
             }
         }
 

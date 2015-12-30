@@ -96,6 +96,9 @@
                     </StackPanel>
                 </Canvas>
 
+                <TextBlock x:Name="EmptyPageMessage" Text="読み込めるファイルがありません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="32" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"
+                           Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"/>
+
             </Grid>
 
             <!-- メニューエリア-->
@@ -144,11 +147,11 @@
                         <MenuItem Header="次のページへ進む"  Command="{Binding BookCommands[NextPage]}"/>
                         <MenuItem Header="1ページ戻る"  Command="{Binding BookCommands[PrevOnePage]}"/>
                         <MenuItem Header="1ページ進む"  Command="{Binding BookCommands[NextOnePage]}"/>
-                        <MenuItem Header="最初のページに戻る" Command="{Binding BookCommands[FirstPage]}"/>
-                        <MenuItem Header="最後のページへ進む" Command="{Binding BookCommands[LastPage]}"/>
+                        <MenuItem Header="先頭のページに移動" Command="{Binding BookCommands[FirstPage]}"/>
+                        <MenuItem Header="最後のページへ移動" Command="{Binding BookCommands[LastPage]}"/>
                         <Separator/>
-                        <MenuItem Header="前のフォルダに戻る"  Command="{Binding BookCommands[PrevFolder]}"/>
-                        <MenuItem Header="次のフォルダへ進む"  Command="{Binding BookCommands[NextFolder]}"/>
+                        <MenuItem Header="前のフォルダに移動"  Command="{Binding BookCommands[PrevFolder]}"/>
+                        <MenuItem Header="次のフォルダへ移動"  Command="{Binding BookCommands[NextFolder]}"/>
                         <MenuItem Header="ランダムなフォルダに移動する"  Command="{Binding BookCommands[RandomFolder]}"/>
                     </MenuItem>
 
@@ -264,17 +267,20 @@
             </TextBlock>
 
             <!-- Message -->
-            <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="32" Foreground="White" Background="#88000000" Padding="20,10" Margin="0,0,0,60" FontFamily="Meiryo" TextTrimming="CharacterEllipsis">
-                <TextBlock.Style>
-                    <Style TargetType="TextBlock">
+            <StackPanel x:Name="InfoTextArea" Orientation="Horizontal" Margin="0,0,0,60" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" MaxWidth="{Binding ElementName=MainView, Path=ActualWidth}">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
                         <Style.Triggers>
-                            <Trigger Property="Text" Value="">
+                            <DataTrigger Binding="{Binding ElementName=InfoTextBlock, Path=Text}" Value="">
                                 <Setter Property="Visibility" Value="Collapsed"/>
-                            </Trigger>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </TextBlock.Style>
-            </TextBlock>
+                </StackPanel.Style>
+                <Image x:Name="InfoBookmark" Width="36" Height="36" Margin="20,0,0,0" Source="{StaticResource ic_bookmark_24px}" />
+                <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="32" Foreground="White" Margin="20,10" FontFamily="Meiryo" TextTrimming="CharacterEllipsis">
+                </TextBlock>
+            </StackPanel>
 
 
         </Grid>

@@ -149,7 +149,12 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Grid Width="20" VerticalAlignment="Center">
-                                            <Button Content="🔧" Command="{x:Static local:SettingWindow.SusiePluginConfigCommand}" CommandParameter="{Binding}" Visibility="{Binding HasConfigurationDlg, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                            <Button Style="{StaticResource IconButton}"
+                                                    Command="{x:Static local:SettingWindow.SusiePluginConfigCommand}" CommandParameter="{Binding}"
+                                                    Visibility="{Binding HasConfigurationDlg, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                                                <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}"/>
+                                            </Button>
+
                                         </Grid>
                                         <TextBlock Text="{Binding PluginVersion}" VerticalAlignment="Center" Margin="4,0,0,0"/>
                                     </StackPanel>

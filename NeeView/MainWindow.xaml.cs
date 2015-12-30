@@ -15,6 +15,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace NeeView
 {
@@ -41,7 +42,7 @@ namespace NeeView
             _VM.PropertyChanged += OnPropertyChanged;
             _VM.Loaded += (s, e) =>
             {
-                this.Cursor = e != null ? Cursors.Wait : null;
+                //this.Cursor = e != null ? Cursors.Wait : null;
                 this.Root.IsEnabled = e == null;
                 DispNowLoading(e);
             };
@@ -65,6 +66,67 @@ namespace NeeView
             // messenger
             Messenger.Initialize();
             Messenger.AddReciever("MessageBox", CallMessageBox);
+            Messenger.AddReciever("MessageShow", CallMessageShow);
+
+            this.MainView.PreviewMouseMove += MainView_PreviewMouseMove;
+
+            // タイマーを作成する
+            _Timer = new DispatcherTimer(DispatcherPriority.Normal, this.Dispatcher);
+            _Timer.Interval = TimeSpan.FromSeconds(0.5);
+            _Timer.Tick += new EventHandler(DispatcherTimer_Tick);
+            // タイマーの実行開始
+            _Timer.Start();
+        }
+
+        DispatcherTimer _Timer;
+
+        DateTime _LastActionTime;
+        Point _LastActionPoint;
+
+
+        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed || Mouse.RightButton == MouseButtonState.Pressed)
+            {
+                _LastActionTime = DateTime.Now;
+                return;
+            }
+
+            var sec = (DateTime.Now - _LastActionTime).TotalSeconds;
+            if (sec > 2.0)
+            {
+                SetMouseVisible(false);
+            }
+        }
+
+        private void MainView_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            var nowPoint = e.GetPosition(this.MainView);
+
+            if (Math.Abs(nowPoint.X - _LastActionPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(nowPoint.Y - _LastActionPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+            {
+                _LastActionTime = DateTime.Now;
+                _LastActionPoint = nowPoint;
+                SetMouseVisible(true);
+            }
+        }
+
+        public void SetMouseVisible(bool isVisible)
+        {
+            if (isVisible)
+            {
+                if (this.MainView.Cursor == Cursors.None)
+                {
+                    this.MainView.Cursor = null;
+                }
+            }
+            else
+            {
+                if (this.MainView.Cursor == null)
+                {
+                    this.MainView.Cursor = Cursors.None;
+                }
+            }
         }
 
         private void OnMouseGestureUpdate(object sender, MouseGestureCollection e)
@@ -76,9 +138,9 @@ namespace NeeView
         {
             switch (e.PropertyName)
             {
-                case "InfoText":
-                    AutoFade(InfoTextBlock, 1.0, 0.5);
-                    break;
+                //case "InfoText":
+                //    AutoFade(InfoTextArea, 1.0, 0.5);
+                //    break;
                 case "TinyInfoText":
                     AutoFade(TinyInfoTextBlock, 1.0, 0.5);
                     break;
@@ -387,6 +449,15 @@ namespace NeeView
 #endif
         }
 
+
+        private void CallMessageShow(object sender, MessageEventArgs e)
+        {
+            var param = (MessageShowParams)e.Parameter;
+
+            _VM.InfoText = param.Text;
+            this.InfoBookmark.Visibility = param.IsBookmark ? Visibility.Visible : Visibility.Collapsed;
+            AutoFade(this.InfoTextArea, param.DispTime, 0.5);
+        }
 
 
         /// <summary>

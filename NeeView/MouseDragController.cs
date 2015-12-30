@@ -322,7 +322,10 @@ namespace NeeView
 
             _Sender.ReleaseMouseCapture();
 
-            _Sender.Cursor = null;
+            if (_Sender.Cursor != Cursors.None)
+            {
+                _Sender.Cursor = null;
+            }
 
             if (_IsEnableClickEvent && !_IsDragging && MouseClickEventHandler != null)
             {

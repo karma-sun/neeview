@@ -5,11 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" d:DesignWidth="305" d:DesignHeight="400">
-    <Grid Background="White" Margin="4,0" >
+    <Grid Margin="4,0" >
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-               <TextBlock x:Name="IconTextBlock" Text="2" FontFamily="Wingdings" FontSize="64" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="DarkGray"/>
-            <TextBlock x:Name="FileNameTextBlock" Text="FileName" FontSize="16" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,8"/>
-            <TextBlock x:Name="MessageTextBlock" Text="Message Message Message" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Ellipse Width="100" Height="100" Fill="Gray" />
+                <TextBlock x:Name="IconTextBlock" Text="2" FontFamily="Wingdings" FontSize="64" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFFFFFFF"/>
+            </Grid>
+            <TextBlock x:Name="FileNameTextBlock" Text="FileName" FontSize="16" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,8"
+                       Foreground="{Binding DefaultBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilePageControl}}}"/>
+            <TextBlock x:Name="MessageTextBlock" Text="Message Message Message" HorizontalAlignment="Center" TextWrapping="Wrap"
+                       Foreground="{Binding DefaultBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilePageControl}}}"/>
         </StackPanel>
     </Grid>
 </UserControl>

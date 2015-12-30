@@ -20,11 +20,29 @@ namespace NeeView
     /// </summary>
     public partial class FilePageControl : UserControl
     {
+        public static readonly DependencyProperty DefaultBrushProperty =
+            DependencyProperty.Register(
+            "DefaultBrush",
+            typeof(Brush),
+            typeof(FilePageControl),
+            new FrameworkPropertyMetadata(Brushes.White, new PropertyChangedCallback(OnDefaultBrushChanged)));
+
+        public Brush DefaultBrush
+        {
+            get { return (Brush)GetValue(DefaultBrushProperty); }
+            set { SetValue(DefaultBrushProperty, value); }
+        }
+
+        private static void OnDefaultBrushChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+
         public FilePageControl(FilePageContext context)
         {
             InitializeComponent();
 
-            switch(context.Icon)
+            switch (context.Icon)
             {
                 case FilePageIcon.Folder:
                     this.IconTextBlock.Text = "0";

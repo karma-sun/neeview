@@ -86,4 +86,16 @@ namespace NeeView
         public MessageBoxButton Button;
         public MessageBoxImage Icon;
     }
+
+    public class MessageShowParams
+    {
+        public string Text;
+        public bool IsBookmark = false;
+        public double DispTime = 1.0;
+
+        public MessageShowParams(string text)
+        {
+            Text = text;
+        }
+    }
 }

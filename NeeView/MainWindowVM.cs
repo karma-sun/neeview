@@ -159,6 +159,14 @@ namespace NeeView
         #endregion
 
 
+        #region Property: IsVisibleEmptyPageMessage
+        private bool _IsVisibleEmptyPageMessage = false;
+        public bool IsVisibleEmptyPageMessage
+        {
+            get { return _IsVisibleEmptyPageMessage; }
+            set { if (_IsVisibleEmptyPageMessage != value) { _IsVisibleEmptyPageMessage = value; OnPropertyChanged(); } }
+        }
+        #endregion
 
         public Dictionary<BookCommandType, RoutedCommand> BookCommands { get; set; }
 
@@ -315,7 +323,7 @@ namespace NeeView
                     OnPropertyChanged(nameof(BookSetting));
                 };
             _Book.InfoMessage +=
-                (s, e) => InfoText = e;
+                (s, e) => Messenger.Send(this, new MessageEventArgs("MessageShow") { Parameter = new MessageShowParams(e) });
 
             Contents = new ObservableCollection<FrameworkElement>();
             Contents.Add(null);
@@ -343,9 +351,17 @@ namespace NeeView
         }
 
         // 本が変更された
-        private void OnBookChanged(object sender, Book book)
+        private void OnBookChanged(object sender, bool isBookmark)
         {
-            InfoText = LoosePath.GetFileName(book.Place);
+            Messenger.Send(this, new MessageEventArgs("MessageShow")
+            {
+                Parameter = new MessageShowParams(LoosePath.GetFileName(BookProxy.Current.Place))
+                {
+                    IsBookmark = isBookmark,
+                    DispTime = 2.0
+                }
+            });
+
             OnPropertyChanged(nameof(IndexMax));
 
             UpdateLastFiles();
@@ -363,12 +379,37 @@ namespace NeeView
             UpdateLastFiles();
         }
 
+        private Brush _ForegroundBrush = Brushes.White;
+        public Brush ForegroundBrush
+        {
+            get { return _ForegroundBrush; }
+            set { if (_ForegroundBrush != value) { _ForegroundBrush = value; OnPropertyChanged(); } }
+        }
+
+        private void UpdateForegroundBrush()
+        {
+            var solidColorBrush = BackgroundBrush as SolidColorBrush;
+            if (solidColorBrush != null)
+            {
+                double y =
+                    (double)solidColorBrush.Color.R * 0.299 +
+                    (double)solidColorBrush.Color.G * 0.587 +
+                    (double)solidColorBrush.Color.B * 0.114;
+
+                ForegroundBrush = (y < 0.25) ? Brushes.White : Brushes.Black;
+            }
+            else
+            {
+                ForegroundBrush = Brushes.Black;
+            }
+        }
+
         #region Property: BackgroundBrush
         private Brush _BackgroundBrush = Brushes.Black;
         public Brush BackgroundBrush
         {
             get { return _BackgroundBrush; }
-            set { if (_BackgroundBrush != value) { _BackgroundBrush = value; OnPropertyChanged(); } }
+            set { if (_BackgroundBrush != value) { _BackgroundBrush = value; OnPropertyChanged(); UpdateForegroundBrush(); } }
         }
         #endregion
 
@@ -490,6 +531,10 @@ namespace NeeView
 
             Brush pageColor = Brushes.Black;
 
+            //
+            IsVisibleEmptyPageMessage = book.NowPages.All(content => content == null);
+
+            //
             for (int index = 0; index < 2; ++index)
             {
                 int cid = (book.BookReadOrder == BookReadOrder.RightToLeft) ? index : 1 - index;
@@ -499,21 +544,6 @@ namespace NeeView
                 if (string.IsNullOrEmpty(book.Place))
                 {
                     Contents[index] = null;
-                }
-                else if (index == 0 && content == null)
-                {
-                    // ページがない場合の表示をもうちょっとなんとかする
-                    Contents[index] = null;
-#if false
-                    var textBlock = new TextBlock();
-                    textBlock.Text = $"{book.Place}\n読み込めるファイルがありません";
-                    textBlock.VerticalAlignment = VerticalAlignment.Center;
-                    textBlock.HorizontalAlignment = HorizontalAlignment.Center;
-                    textBlock.TextAlignment = TextAlignment.Center;
-                    textBlock.Background = Brushes.Orange;
-                    textBlock.Padding = new Thickness(16);
-                    Contents[index] = textBlock;
-#endif
                 }
                 else if (content?.Content == null)
                 {
@@ -547,6 +577,8 @@ namespace NeeView
                 else if (content.Content is FilePageContext)
                 {
                     var control = new FilePageControl(content.Content as FilePageContext);
+                    control.DefaultBrush = Brushes.Red;
+                    control.SetBinding(FilePageControl.DefaultBrushProperty, new System.Windows.Data.Binding("ForegroundBrush") { Source = this });
                     Contents[index] = control;
                 }
                 else if (content.Content is string)
@@ -754,7 +786,11 @@ namespace NeeView
                 switch (CommandShowMessageType)
                 {
                     case ShowMessageType.Normal:
-                        InfoText = BookCommandExtension.Headers[type].Text;
+                        //InfoText = BookCommandExtension.Headers[type].Text;
+                        Messenger.Send(this, new MessageEventArgs("MessageShow")
+                        {
+                            Parameter = new MessageShowParams(BookCommandExtension.Headers[type].Text)
+                        });
                         break;
                     case ShowMessageType.Tiny:
                         TinyInfoText = BookCommandExtension.Headers[type].Text;
@@ -774,7 +810,11 @@ namespace NeeView
             switch (GestureShowMessageType)
             {
                 case ShowMessageType.Normal:
-                    InfoText = ((commandName != null) ? commandName + "\n" : "") + gesture;
+                    //InfoText = ((commandName != null) ? commandName + "\n" : "") + gesture;
+                    Messenger.Send(this, new MessageEventArgs("MessageShow")
+                    {
+                        Parameter = new MessageShowParams(((commandName != null) ? commandName + "\n" : "") + gesture)
+                    });
                     break;
                 case ShowMessageType.Tiny:
                     TinyInfoText = gesture + ((commandName != null) ? " " + commandName : "");

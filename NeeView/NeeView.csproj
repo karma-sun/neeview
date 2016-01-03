@@ -80,7 +80,7 @@
     <Compile Include="BitmapSourceExtension.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="BookHistory.cs" />
-    <Compile Include="BookProxy.cs" />
+    <Compile Include="BookHub.cs" />
     <Compile Include="CommandSetting.cs" />
     <Compile Include="Archiver\FolderFiles.cs" />
     <Compile Include="Archiver\LoosePath.cs" />

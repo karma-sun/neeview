@@ -39,7 +39,7 @@ namespace NeeView
         public string SusiePluginPath
         {
             get { return _SusiePluginPath; }
-            set { _SusiePluginPath = value; Setting.SusieSetting.SusiePluginPath = value; UpdateSusiePluginSetting(); }
+            set { _SusiePluginPath = value; Setting.SusieMemento.SusiePluginPath = value; UpdateSusiePluginSetting(); }
         }
         #endregion
 
@@ -94,7 +94,7 @@ namespace NeeView
             VM = vm;
             Setting = setting;
 
-            _SusiePluginPath = Setting.SusieSetting.SusiePluginPath;
+            _SusiePluginPath = Setting.SusieMemento.SusiePluginPath;
 
             BookCommandCollection = new ObservableCollection<BookCommand>();
             CreateCommandList();
@@ -143,13 +143,13 @@ namespace NeeView
 
         private void SusiePluginUpdateCommand_Executed(object source, ExecutedRoutedEventArgs e)
         {
-            Setting.SusieSetting.Restore(ModelContext.SusieContext);
+            ModelContext.SusieContext.Restore(Setting.SusieMemento);
             UpdateSusiePluginList();
         }
 
         private void UpdateSusiePluginSetting()
         {
-            Setting.SusieSetting.Restore(ModelContext.SusieContext);
+            ModelContext.SusieContext.Restore(Setting.SusieMemento);
             UpdateSusiePluginList();
         }
 
@@ -217,7 +217,7 @@ namespace NeeView
         {
             //VM.BookCommands[BookCommandType.ClearHistory].Execute(this, null);
             //VM.ClearHistor();
-            Setting.BookHistory.Clear();
+            Setting.BookHistoryMemento.History.Clear();
             OnPropertyChanged("Setting");
         }
     }

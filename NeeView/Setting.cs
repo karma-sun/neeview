@@ -17,32 +17,32 @@ namespace NeeView
         public WindowPlacement WindowPlacement { set; get; }
 
         [DataMember]
-        public ViewSetting ViewSetting { set; get; }
+        public MainWindowVM.Memento ViewMemento { set; get; }
 
         [DataMember]
-        public SusieSetting SusieSetting { get; set; }
+        public SusieContext.SusieSetting SusieMemento { get; set; }
 
         [DataMember]
-        public BookCommonSetting BookCommonSetting { set; get; }
+        public BookHub.Memento BookHubMemento { set; get; }
 
-        [DataMember]
-        public BookSetting BookSetting { set; get; }
+        //[DataMember]
+        //public BookSetting BookSetting { set; get; }
 
         [DataMember]
         public BookCommandShortcutSource GestureSetting { set; get; }
 
         [DataMember]
-        public BookHistory BookHistory { set; get; }
+        public BookHistory.Memento BookHistoryMemento { set; get; }
 
 
         private void Constructor()
         {
-            ViewSetting = new ViewSetting();
-            SusieSetting = new SusieSetting();
-            BookCommonSetting = new BookCommonSetting();
-            BookSetting = new BookSetting();
+            ViewMemento = new MainWindowVM.Memento();
+            SusieMemento = new SusieContext.SusieSetting();
+            BookHubMemento = new BookHub.Memento();
+            //BookSetting = new BookSetting();
             GestureSetting = new BookCommandShortcutSource();
-            BookHistory = new BookHistory();
+            BookHistoryMemento = new BookHistory.Memento();
         }
 
         public Setting()

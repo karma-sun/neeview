@@ -47,226 +47,6 @@ namespace NeeView
     }
 
 
-    // 本単位の保存される設定
-    [DataContract]
-    public class BookSetting
-    {
-        [DataMember]
-        public string Place { get; set; }
-
-        [DataMember]
-        public string BookMark { get; set; }
-
-        [DataMember]
-        public int PageMode { get; set; }
-
-        [DataMember]
-        public BookReadOrder BookReadOrder { get; set; }
-
-        [DataMember]
-        public bool IsSupportedTitlePage { get; set; }
-
-        [DataMember]
-        public bool IsSupportedWidePage { get; set; }
-
-        [DataMember]
-        public bool IsRecursiveFolder { get; set; }
-
-        [DataMember]
-        public BookSortMode SortMode { get; set; }
-
-        [DataMember]
-        public bool IsReverseSort { get; set; }
-
-
-
-
-        //
-        private void Constructor()
-        {
-            PageMode = 1;
-        }
-
-        public BookSetting()
-        {
-            Constructor();
-        }
-
-        [OnDeserializing]
-        private void Deserializing(StreamingContext c)
-        {
-            Constructor();
-        }
-
-
-        // bookの設定を取得する
-        public void Store(Book book)
-        {
-            Place = book.Place;
-            BookMark = book.CurrentPage?.FullPath;
-
-            PageMode = book.PageMode;
-            BookReadOrder = book.BookReadOrder;
-            IsSupportedTitlePage = book.IsSupportedTitlePage;
-            IsSupportedWidePage = book.IsSupportedWidePage;
-            IsRecursiveFolder = book.IsRecursiveFolder;
-            SortMode = book.SortMode;
-            IsReverseSort = book.IsReverseSort;
-        }
-
-        // bookに設定を反映させる
-        public void Restore(Book book)
-        {
-            if (book == null) return;
-
-            book.PageMode = PageMode;
-            book.BookReadOrder = BookReadOrder;
-            book.IsSupportedTitlePage = IsSupportedTitlePage;
-            book.IsSupportedWidePage = IsSupportedWidePage;
-            book.IsRecursiveFolder = IsRecursiveFolder;
-            book.SortMode = SortMode;
-            book.IsReverseSort = book.IsReverseSort;
-        }
-
-        public static BookSetting Store(BookProxy book)
-        {
-            if (BookProxy.Current != null)
-            {
-                book.BookSetting.Store(BookProxy.Current);
-            }
-            return book.BookSetting.Clone();
-        }
-
-        public void Restore(BookProxy book)
-        {
-            book.BookSetting = this.Clone();
-            if (BookProxy.Current != null)
-            {
-                book.BookSetting.Restore(BookProxy.Current);
-            }
-        }
-
-        public BookSetting Clone()
-        {
-            return (BookSetting)this.MemberwiseClone();
-        }
-    }
-
-    [DataContract]
-    public class BookCommonSetting
-    {
-        // 本単位の設定
-        //[DataMember]
-        //public BookSetting BookParamSetting;
-
-
-        // すべての本に共通の設定
-
-        [DataMember]
-        public bool IsEnableAnimatedGif { get; set; }
-
-        [DataMember]
-        public bool IsEnableHistory { get; set; }
-
-        [DataMember]
-        public bool IsEnableNoSupportFile { get; set; }
-
-        [DataMember]
-        public bool IsEnabledAutoNextFolder { get; set; }
-
-        //
-        private void Constructor()
-        {
-            //BookParamSetting = new BookSetting();
-
-            IsEnableHistory = true;
-            IsEnableNoSupportFile = false;
-        }
-
-        public BookCommonSetting()
-        {
-            Constructor();
-        }
-
-        [OnDeserializing]
-        private void Deserializing(StreamingContext c)
-        {
-            Constructor();
-        }
-
-
-        public void Store(Book book)
-        {
-            //BookParamSetting.Store(book);
-
-            IsEnableAnimatedGif = book.IsEnableAnimatedGif;
-            IsEnableHistory = book.IsEnableHistory;
-            IsEnableNoSupportFile = book.IsEnableNoSupportFile;
-        }
-
-        /*
-        public void Store(BookProxy book)
-        {
-            if (BookProxy.Current != null)
-            {
-                Store(BookProxy.Current);
-            }
-            else if (book.BookCommonSetting != null)
-            {
-                IsEnableAnimatedGif = book.BookCommonSetting.IsEnableAnimatedGif;
-                IsEnableHistory = book.BookCommonSetting.IsEnableHistory;
-                IsEnableNoSupportFile = book.BookCommonSetting.IsEnableNoSupportFile;
-            }
-        }
-        */
-
-        public void Restore(Book book)
-        {
-            //BookParamSetting.Restore(book);
-
-            book.IsEnableAnimatedGif = IsEnableAnimatedGif;
-            book.IsEnableHistory = IsEnableHistory;
-            book.IsEnableNoSupportFile = IsEnableNoSupportFile;
-
-            book.Reflesh();
-        }
-
-        /*
-        public void Restore(BookProxy book)
-        {
-            book.BookCommonSetting = this;
-            if (BookProxy.Current != null)
-            {
-                Restore(BookProxy.Current);
-            }
-        }
-        */
-
-        public static BookCommonSetting Store(BookProxy book)
-        {
-            if (BookProxy.Current != null)
-            {
-                book.BookCommonSetting.Store(BookProxy.Current);
-            }
-            return book.BookCommonSetting.Clone();
-        }
-
-        public void Restore(BookProxy book)
-        {
-            book.BookCommonSetting = this.Clone();
-            if (BookProxy.Current != null)
-            {
-                book.BookCommonSetting.Restore(BookProxy.Current);
-            }
-        }
-
-        public BookCommonSetting Clone()
-        {
-            return (BookCommonSetting)this.MemberwiseClone();
-        }
-    }
-
-
     public enum BackgroundStyle
     {
         Black,
@@ -332,34 +112,6 @@ namespace NeeView
         public event EventHandler DartyBook;
 
 
-
-        // アニメGIF：ここか？違うでしょ。
-        #region Property: IsEnableAnimatedGif
-        private bool _IsEnableAnimatedGif;
-        public bool IsEnableAnimatedGif
-        {
-            get { return _IsEnableAnimatedGif; }
-            set { _IsEnableAnimatedGif = value; Page.IsEnableAnimatedGif = value; }
-        }
-        #endregion
-
-        // 履歴から設定を復元する
-        public bool IsEnableHistory { get; set; } = true;
-
-        // 非対応拡張子ファイルを読み込む
-        private bool _IsEnableNoSupportFile;
-        public bool IsEnableNoSupportFile
-        {
-            get { return _IsEnableNoSupportFile; }
-            set
-            {
-                if (_IsEnableNoSupportFile != value)
-                {
-                    _IsEnableNoSupportFile = value;
-                    DartyBook?.Invoke(this, null);
-                }
-            }
-        }
 
         // 最初のページはタイトル
         private bool _IsSupportedTitlePage;
@@ -552,10 +304,11 @@ namespace NeeView
         {
             None = 0,
             Recursive = (1 << 0),
-            FirstPage = (1 << 1),
-            LastPage = (1 << 2),
-            ReLoad = (1 << 3),
-            RandomFolder = (1<<4),
+            SupportAllFile = (1 << 1),
+            FirstPage = (1 << 2),
+            LastPage = (1 << 3),
+            ReLoad = (1 << 4),
+            RandomFolder = (1 << 5),
         };
 
 
@@ -933,7 +686,7 @@ namespace NeeView
                 await Task.Run(() =>
                     {
                         _Archivers.Add(archiver);
-                        ReadArchive(archiver, "", (option & LoadFolderOption.Recursive) == LoadFolderOption.Recursive);
+                        ReadArchive(archiver, "", option); // (option & LoadFolderOption.Recursive) == LoadFolderOption.Recursive);
 
                         // 初期ソート
                         Sort();
@@ -974,7 +727,7 @@ namespace NeeView
             SetIndex(_StartIndex, _Direction);
         }
 
-        private void ReadArchive(Archiver archiver, string place, bool isRecursive)
+        private void ReadArchive(Archiver archiver, string place, LoadFolderOption option)
         {
             List<PageFileInfo> entries = null;
 
@@ -991,12 +744,13 @@ namespace NeeView
             foreach (var entry in entries)
             {
                 // 再帰設定、もしくは単一ファイルの場合、再帰を行う
+                bool isRecursive = (option & LoadFolderOption.Recursive) == LoadFolderOption.Recursive;
                 if ((isRecursive || entries.Count == 1) && ModelContext.ArchiverManager.IsSupported(entry.Path))
                 {
                     if (archiver is FolderFiles)
                     {
                         var ff = (FolderFiles)archiver;
-                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(ff.GetFullPath(entry.Path)), LoosePath.Combine(place, entry.Path), isRecursive);
+                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(ff.GetFullPath(entry.Path)), LoosePath.Combine(place, entry.Path), option);
                     }
                     else
                     {
@@ -1004,7 +758,7 @@ namespace NeeView
                         string tempFileName = Temporary.CreateTempFileName(Path.GetFileName(entry.Path));
                         archiver.ExtractToFile(entry.Path, tempFileName);
                         _TempArchives.Add(tempFileName);
-                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName), LoosePath.Combine(place, entry.Path), isRecursive);
+                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName), LoosePath.Combine(place, entry.Path), option);
                     }
                 }
                 else
@@ -1017,7 +771,8 @@ namespace NeeView
                     else
                     {
                         var type = ModelContext.ArchiverManager.GetSupportedType(entry.Path);
-                        if (IsEnableNoSupportFile)
+                        bool isSupportAllFile = (option & LoadFolderOption.SupportAllFile) == LoadFolderOption.SupportAllFile;
+                        if (isSupportAllFile)
                         {
                             switch (type)
                             {
@@ -1096,7 +851,7 @@ namespace NeeView
         }
 
         // 前のページに戻る
-        public void PrevPage(int step=0)
+        public void PrevPage(int step = 0)
         {
             if (!IsStable()) return;
 
@@ -1115,7 +870,7 @@ namespace NeeView
         private int _CurrentViewPageCount = 1;
 
         // 次のページへ進む
-        public void NextPage(int step=0)
+        public void NextPage(int step = 0)
         {
             if (!IsStable()) return;
 
@@ -1224,6 +979,117 @@ namespace NeeView
             Page.ContentChanged -= Page_ContentChanged;
             Close();
         }
+
+
+
+        // 本単位の保存される設定
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public string Place { get; set; }
+
+            [DataMember]
+            public string BookMark { get; set; }
+
+            [DataMember]
+            public int PageMode { get; set; }
+
+            [DataMember]
+            public BookReadOrder BookReadOrder { get; set; }
+
+            [DataMember]
+            public bool IsSupportedTitlePage { get; set; }
+
+            [DataMember]
+            public bool IsSupportedWidePage { get; set; }
+
+            [DataMember]
+            public bool IsRecursiveFolder { get; set; }
+
+            [DataMember]
+            public BookSortMode SortMode { get; set; }
+
+            [DataMember]
+            public bool IsReverseSort { get; set; }
+
+
+
+
+            //
+            private void Constructor()
+            {
+                PageMode = 1;
+            }
+
+            public Memento()
+            {
+                Constructor();
+            }
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                Constructor();
+            }
+
+            public Memento Clone()
+            {
+                return (Memento)this.MemberwiseClone();
+            }
+        }
+
+        // bookの設定を取得する
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+
+            memento.Place = Place;
+
+            memento.BookMark = CurrentPage?.FullPath;
+
+            memento.PageMode = PageMode;
+            memento.BookReadOrder = BookReadOrder;
+            memento.IsSupportedTitlePage = IsSupportedTitlePage;
+            memento.IsSupportedWidePage = IsSupportedWidePage;
+            memento.IsRecursiveFolder = IsRecursiveFolder;
+            memento.SortMode = SortMode;
+            memento.IsReverseSort = IsReverseSort;
+
+            return memento;
+        }
+
+        // bookに設定を反映させる
+        public void Restore(Memento memento)
+        {
+            PageMode = memento.PageMode;
+            BookReadOrder = memento.BookReadOrder;
+            IsSupportedTitlePage = memento.IsSupportedTitlePage;
+            IsSupportedWidePage = memento.IsSupportedWidePage;
+            IsRecursiveFolder = memento.IsRecursiveFolder;
+            SortMode = memento.SortMode;
+            IsReverseSort = memento.IsReverseSort;
+        }
+
+        /*
+        public static BookSetting Store(BookHub book)
+        {
+            if (BookHub.Current != null)
+            {
+                book.BookSetting.Store(BookHub.Current);
+            }
+            return book.BookSetting.Clone();
+        }
+
+        public void Restore(BookHub book)
+        {
+            book.BookSetting = this.Clone();
+            if (BookHub.Current != null)
+            {
+                book.BookSetting.Restore(BookHub.Current);
+            }
+        }
+        */
     }
 
 

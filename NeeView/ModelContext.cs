@@ -43,38 +43,6 @@ namespace NeeView
         }
     }
 
-    [DataContract]
-    public class SusieSetting
-    {
-        [DataMember]
-        public bool IsEnableSusie { get; set; }
-
-        [DataMember]
-        public string SusiePluginPath { get; set; }
-
-        [DataMember]
-        public bool IsFirstOrderSusieImage { get; set; }
-
-        [DataMember]
-        public bool IsFirstOrderSusieArchive { get; set; }
-
-
-        public void Store(SusieContext source)
-        {
-            IsEnableSusie = source.IsEnableSusie;
-            SusiePluginPath = source.SusiePluginPath;
-            IsFirstOrderSusieImage = source.IsFirstOrderSusieImage;
-            IsFirstOrderSusieArchive = source.IsFirstOrderSusieArchive;
-        }
-
-        public void Restore(SusieContext source)
-        {
-            source.IsEnableSusie = IsEnableSusie;
-            source.SusiePluginPath = SusiePluginPath;
-            source.IsFirstOrderSusieImage = IsFirstOrderSusieImage;
-            source.IsFirstOrderSusieArchive = IsFirstOrderSusieArchive;
-        }
-    }
 
     public class SusieContext
     {
@@ -147,5 +115,41 @@ namespace NeeView
             ModelContext.ArchiverManager.UpdateSusieSupprtedFileTypes(Susie);
             ModelContext.BitmapLoaderManager.UpdateSusieSupprtedFileTypes(Susie);
         }
+
+
+        [DataContract]
+        public class SusieSetting
+        {
+            [DataMember]
+            public bool IsEnableSusie { get; set; }
+
+            [DataMember]
+            public string SusiePluginPath { get; set; }
+
+            [DataMember]
+            public bool IsFirstOrderSusieImage { get; set; }
+
+            [DataMember]
+            public bool IsFirstOrderSusieArchive { get; set; }
+        }
+
+        public SusieSetting CreateMemento()
+        {
+            var memento = new SusieSetting();
+            memento.IsEnableSusie = IsEnableSusie;
+            memento.SusiePluginPath = SusiePluginPath;
+            memento.IsFirstOrderSusieImage = IsFirstOrderSusieImage;
+            memento.IsFirstOrderSusieArchive = IsFirstOrderSusieArchive;
+            return memento;
+        }
+
+        public void Restore(SusieSetting memento)
+        {
+            IsEnableSusie = memento.IsEnableSusie;
+            SusiePluginPath = memento.SusiePluginPath;
+            IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
+            IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
+        }
     }
 }
+

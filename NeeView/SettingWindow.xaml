@@ -30,49 +30,49 @@
                         <DockPanel Margin="2" LastChildFill="False">
                             <TextBlock Text="背景を" Width="auto" VerticalAlignment="Center" Margin="2"/>
                             <ComboBox ItemsSource="{Binding Path=BackgroundStyleList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewSetting.Background}" />
+                                  SelectedValue="{Binding Setting.ViewMemento.Background}" />
                             <TextBlock Text="にする" Width="auto" VerticalAlignment="Center" Margin="2"/>
                         </DockPanel>
 
                         <DockPanel Margin="2" LastChildFill="False">
                             <TextBlock Text="コマンド実行を" VerticalAlignment="Center" Margin="2"/>
                             <ComboBox ItemsSource="{Binding Path=ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewSetting.CommandShowMessageType}" />
+                                  SelectedValue="{Binding Setting.ViewMemento.CommandShowMessageType}" />
                         </DockPanel>
 
                         <DockPanel Margin="2" LastChildFill="False">
                             <TextBlock Text="マウスジェスチャーを" VerticalAlignment="Center" Margin="2"/>
                             <ComboBox ItemsSource="{Binding Path=ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewSetting.GestureShowMessageType}" />
+                                  SelectedValue="{Binding Setting.ViewMemento.GestureShowMessageType}" />
                         </DockPanel>
 
                         <CheckBox DockPanel.Dock="Top" Margin="2" Content="GIFをメディアとして再生する(アニメーションGIF)"
-                              IsChecked="{Binding Setting.BookCommonSetting.IsEnableAnimatedGif}" />
+                              IsChecked="{Binding Setting.BookHubMemento.IsEnableAnimatedGif}" />
                         <CheckBox DockPanel.Dock="Top" Margin="2" Content="スライダーを右基準にする"
-                              IsChecked="{Binding Setting.ViewSetting.IsSliderDirectionReversed}" />
+                              IsChecked="{Binding Setting.ViewMemento.IsSliderDirectionReversed}" />
                     </StackPanel>
 
                     <TextBlock Text="ビュー操作" Style="{StaticResource Header}"/>
                     <StackPanel Style="{StaticResource Phrase}">
 
                         <CheckBox Margin="2" Content="移動をウィンドウ内に制限する"
-                              IsChecked="{Binding Setting.ViewSetting.IsLimitMove}" />
+                              IsChecked="{Binding Setting.ViewMemento.IsLimitMove}" />
                         <CheckBox Margin="2" Content="表示開始位置を画像の中心基準にする"
                               ToolTip="OFFの時は、見開きモードによって右上基準、左上基準になります。"
-                              IsChecked="{Binding Setting.ViewSetting.IsViewStartPositionCenter}" />
+                              IsChecked="{Binding Setting.ViewMemento.IsViewStartPositionCenter}" />
                         <CheckBox Margin="2" Content="回転、拡縮の基準を画像の中心にする"
-                              IsChecked="{Binding Setting.ViewSetting.IsControlCenterImage}" />
+                              IsChecked="{Binding Setting.ViewMemento.IsControlCenterImage}" />
                         <CheckBox Margin="2" Content="回転を45度単位にする"
-                              IsChecked="{Binding Setting.ViewSetting.IsAngleSnap}" />
+                              IsChecked="{Binding Setting.ViewMemento.IsAngleSnap}" />
                     </StackPanel>
 
                     <TextBlock Text="その他" Style="{StaticResource Header}"/>
 
                     <StackPanel Style="{StaticResource Phrase}">
                         <CheckBox Margin="2" Content="ページが終わったら次のフォルダに移動する"
-                              IsChecked="{Binding Setting.BookCommonSetting.IsEnabledAutoNextFolder}" />
+                              IsChecked="{Binding Setting.BookHubMemento.IsEnabledAutoNextFolder}" />
                         <CheckBox Margin="2" Content="サポート外ファイルもページに数える"
-                              IsChecked="{Binding Setting.BookCommonSetting.IsEnableNoSupportFile}" />
+                              IsChecked="{Binding Setting.BookHubMemento.IsEnableNoSupportFile}" />
                     </StackPanel>
 
                 </StackPanel>
@@ -84,7 +84,7 @@
                         <TextBlock Text="設定" Style="{StaticResource Header}"/> 
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Margin="2" Content="履歴からページ設定を復元する"
-                              IsChecked="{Binding Setting.BookCommonSetting.IsEnableHistory}" />
+                              IsChecked="{Binding Setting.BookHubMemento.IsEnableHistory}" />
 
                         </StackPanel>
                         <TextBlock Text="履歴保持数" Style="{StaticResource Header}"/>
@@ -92,19 +92,19 @@
                             <DockPanel Margin="2" LastChildFill="False">
                                 <TextBlock Text="最大履歴保持数：" VerticalAlignment="Center" Margin="2,0,10,0"/>
                                 <ComboBox ItemsSource="{Binding MaxHistoryCountList}"
-                                  SelectedValue="{Binding Setting.BookHistory.MaxHistoryCount}" />
+                                  SelectedValue="{Binding Setting.BookHistoryMemento.MaxHistoryCount}" />
                             </DockPanel>
                             
                             <DockPanel Margin="2" LastChildFill="False">
                                 <TextBlock Text="現在の履歴数：" VerticalAlignment="Center" Margin="2"/>
-                                <TextBlock Text="{Binding Setting.BookHistory.History.Count}" VerticalAlignment="Center" Margin="2"/>
+                                <TextBlock Text="{Binding Setting.BookHistoryMemento.History.Count}" VerticalAlignment="Center" Margin="2"/>
                             </DockPanel>
 
                             <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" DockPanel.Dock="Right" Content="履歴を削除する" Padding="16,8" Margin="10,0" Click="ClearHistoryButton_Click">
                                 <Button.Style>
                                     <Style TargetType="Button">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Setting.BookHistory.History.Count}" Value="0">
+                                            <DataTrigger Binding="{Binding Setting.BookHistoryMemento.History.Count}" Value="0">
                                                 <Setter Property="IsEnabled" Value="False"/>
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -125,11 +125,11 @@
 
                 </TabItem.Resources>
                 <DockPanel Margin="4">
-                    <CheckBox DockPanel.Dock="Top" Margin="2" Content="Susieプラグインを使用する" IsChecked="{Binding Setting.SusieSetting.IsEnableSusie}" />
-                    <DockPanel IsEnabled="{Binding Setting.SusieSetting.IsEnableSusie}">
+                    <CheckBox DockPanel.Dock="Top" Margin="2" Content="Susieプラグインを使用する" IsChecked="{Binding Setting.SusieMemento.IsEnableSusie}" />
+                    <DockPanel IsEnabled="{Binding Setting.SusieMemento.IsEnableSusie}">
                         <local:FilenameBox DockPanel.Dock="Top" Margin="0,2" Text ="{Binding SusiePluginPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                        <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="画像表示でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieSetting.IsFirstOrderSusieImage}"/>
-                        <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="圧縮ファイル展開でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieSetting.IsFirstOrderSusieArchive}"/>
+                        <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="画像表示でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieImage}"/>
+                        <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="圧縮ファイル展開でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieArchive}"/>
 
                         <ListBox x:Name="PluginListView" ItemsSource="{Binding Source={StaticResource PluginSource}}" Margin="0,8" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 

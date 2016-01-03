@@ -141,7 +141,7 @@ namespace NeeView
     {
         public BookCommandShortcutSource ShortcutSource { get; private set; }
 
-        public void Initialize(MainWindowVM vm, BookProxy book, BookCommandShortcutSource source)
+        public void Initialize(MainWindowVM vm, BookHub book, BookCommandShortcutSource source)
         {
             Add(BookCommandType.OpenSettingWindow, new BookCommand(null));
             Add(BookCommandType.LoadAs, new BookCommand(null));
@@ -201,6 +201,31 @@ namespace NeeView
                 pair.Value.MouseGesture = source[pair.Key].MouseGesture;
             }
         }
+
+
+
+        /*
+        public BookCommandShortcutSource CreateMemento()
+        {
+            var memento = new BookCommandShortcutSource();
+            this.ShortcutSource.CopyTo(memento);
+            return memento;
+        }
+
+        public void Restore(BookCommandShortcutSource memento)
+        {
+            //var source = commands.ShortcutSource;
+
+            // 上書き
+            foreach (var pair in memento)
+            {
+                ShortcutSource[pair.Key] = pair.Value;
+            }
+
+            SetShortcut();
+        }
+        */
+
     }
 
     [DataContract]
@@ -266,6 +291,7 @@ namespace NeeView
                 }
             }
         }
+
 
         public void Store(BookCommandCollection commands)
         {

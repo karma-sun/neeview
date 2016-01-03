@@ -24,84 +24,6 @@ namespace NeeView
         Tiny,
     }
 
-    [DataContract]
-    public class ViewSetting
-    {
-        [DataMember]
-        public bool IsLimitMove { get; set; }
-
-        [DataMember]
-        public bool IsControlCenterImage { get; set; }
-
-        [DataMember]
-        public bool IsAngleSnap { get; set; }
-
-        [DataMember]
-        public bool IsViewStartPositionCenter { get; set; }
-
-        [DataMember]
-        public PageStretchMode StretchMode { get; set; }
-
-        [DataMember]
-        public BackgroundStyle Background { get; set; }
-
-        [DataMember]
-        public bool IsSliderDirectionReversed { get; set; }
-
-        [DataMember]
-        public ShowMessageType CommandShowMessageType { get; set; }
-
-        [DataMember]
-        public ShowMessageType GestureShowMessageType { get; set; }
-
-        void Constructor()
-        {
-            IsLimitMove = true;
-            IsSliderDirectionReversed = true;
-            CommandShowMessageType = ShowMessageType.Normal;
-            GestureShowMessageType = ShowMessageType.Normal;
-        }
-
-        public ViewSetting()
-        {
-            Constructor();
-        }
-
-        [OnDeserializing]
-        private void Deserializing(StreamingContext c)
-        {
-            Constructor();
-        }
-
-        public void Store(MainWindowVM vm)
-        {
-            IsLimitMove = vm.IsLimitMove;
-            IsControlCenterImage = vm.IsControlCenterImage;
-            IsAngleSnap = vm.IsAngleSnap;
-            IsViewStartPositionCenter = vm.IsViewStartPositionCenter;
-            StretchMode = vm.StretchMode;
-            Background = vm.Background;
-            IsSliderDirectionReversed = vm.IsSliderDirectionReversed;
-            CommandShowMessageType = vm.CommandShowMessageType;
-            GestureShowMessageType = vm.GestureShowMessageType;
-        }
-
-        public void Restore(MainWindowVM vm)
-        {
-            vm.IsLimitMove = IsLimitMove;
-            vm.IsControlCenterImage = IsControlCenterImage;
-            vm.IsAngleSnap = IsAngleSnap;
-            vm.IsViewStartPositionCenter = IsViewStartPositionCenter;
-            vm.StretchMode = StretchMode;
-            vm.Background = Background;
-            vm.IsSliderDirectionReversed = IsSliderDirectionReversed;
-            vm.CommandShowMessageType = CommandShowMessageType;
-            vm.GestureShowMessageType = GestureShowMessageType;
-
-            vm.OnViewModeChanged();
-        }
-    }
-
 
 
     public class DispPage
@@ -175,13 +97,13 @@ namespace NeeView
 
         public int Index
         {
-            get { return _Book.GetPageIndex(); }
-            set { _Book.SetPageIndex(value); }
+            get { return _BookHub.GetPageIndex(); }
+            set { _BookHub.SetPageIndex(value); }
         }
 
         public int IndexMax
         {
-            get { return _Book.GetPageCount(); }
+            get { return _BookHub.GetPageCount(); }
         }
 
         public ObservableCollection<DispPage> PageList { get; private set; } = new ObservableCollection<DispPage>();
@@ -193,14 +115,14 @@ namespace NeeView
                 if (LoadingPath != null)
                     return LoadingPath + " - Loading";
 
-                if (BookProxy.Current?.Place == null)
+                if (BookHub.Current?.Place == null)
                     return _DefaultWindowTitle;
 
-                string text = LoosePath.GetFileName(BookProxy.Current.Place);
+                string text = LoosePath.GetFileName(BookHub.Current.Place);
 
-                if (BookProxy.Current?.CurrentPage != null)
+                if (BookHub.Current?.CurrentPage != null)
                 {
-                    string name = BookProxy.Current.CurrentPage.FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ");
+                    string name = BookHub.Current.CurrentPage.FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ");
                     text += $" ({Index + 1}/{IndexMax + 1}) - {name}";
                 }
 
@@ -234,7 +156,7 @@ namespace NeeView
         }
         #endregion
 
-        public BookSetting BookSetting => _Book.BookSetting;
+        public Book.Memento BookSetting => _BookHub.BookMemento;
 
 
         public bool IsViewStartPositionCenter { get; set; }
@@ -242,14 +164,14 @@ namespace NeeView
 
         public event EventHandler<string> Loaded
         {
-            add { _Book.Loaded += value; }
-            remove { _Book.Loaded -= value; }
+            add { _BookHub.Loaded += value; }
+            remove { _BookHub.Loaded -= value; }
         }
 
 
         #region Property: LastFiles
-        private List<BookSetting> _LastFiles;
-        public List<BookSetting> LastFiles
+        private List<Book.Memento> _LastFiles;
+        public List<Book.Memento> LastFiles
         {
             get { return _LastFiles; }
             set { _LastFiles = value; OnPropertyChanged(); }
@@ -286,7 +208,7 @@ namespace NeeView
         public event EventHandler ViewChanged;
         public event EventHandler InputGestureChanged;
 
-        private BookProxy _Book;
+        private BookHub _BookHub;
         public BookCommandCollection CommandCollection; // TODO:定義位置とか
 
         private Setting _Setting;
@@ -295,34 +217,34 @@ namespace NeeView
         {
             ModelContext.Initialize();
 
-            _Book = new BookProxy();
+            _BookHub = new BookHub();
 
             //ModelContext.BookHistory = new BookHistory();
 
             CommandCollection = new BookCommandCollection();
-            CommandCollection.Initialize(this, _Book, null);
+            CommandCollection.Initialize(this, _BookHub, null);
 
             ModelContext.JobEngine.Context.AddEvent += JobEngineEvent;
             ModelContext.JobEngine.Context.RemoveEvent += JobEngineEvent;
 
-            _Book.Loaded +=
+            _BookHub.Loaded +=
                 (s, e) => LoadingPath = e;
 
-            _Book.BookChanged +=
+            _BookHub.BookChanged +=
                 OnBookChanged;
 
-            _Book.PageChanged +=
+            _BookHub.PageChanged +=
                 OnPageChanged;
             
-            _Book.ViewContentsChanged +=
+            _BookHub.ViewContentsChanged +=
                 OnViewContentsChanged;
 
-            _Book.SettingChanged +=
+            _BookHub.SettingChanged +=
                 (s, e) =>
                 {
                     OnPropertyChanged(nameof(BookSetting));
                 };
-            _Book.InfoMessage +=
+            _BookHub.InfoMessage +=
                 (s, e) => Messenger.Send(this, new MessageEventArgs("MessageShow") { Parameter = new MessageShowParams(e) });
 
             Contents = new ObservableCollection<FrameworkElement>();
@@ -355,7 +277,7 @@ namespace NeeView
         {
             Messenger.Send(this, new MessageEventArgs("MessageShow")
             {
-                Parameter = new MessageShowParams(LoosePath.GetFileName(BookProxy.Current.Place))
+                Parameter = new MessageShowParams(LoosePath.GetFileName(BookHub.Current.Place))
                 {
                     IsBookmark = isBookmark,
                     DispTime = 2.0
@@ -449,26 +371,24 @@ namespace NeeView
         public Setting CreateSettingContext()
         {
             var setting = new Setting();
-            setting.ViewSetting.Store(this);
-            setting.SusieSetting.Store(ModelContext.SusieContext);
-            setting.BookCommonSetting = BookCommonSetting.Store(_Book);
-            setting.BookSetting = BookSetting.Store(_Book);
+            setting.ViewMemento = this.CreateMemento();
+            setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
+            setting.BookHubMemento = _BookHub.CreateMemento();
             setting.GestureSetting.Store(CommandCollection);
 
-            setting.BookHistory = ModelContext.BookHistory;
+            setting.BookHistoryMemento = ModelContext.BookHistory.CreateMemento();
 
             return setting;
         }
 
         public void SetSettingContext(Setting setting)
         {
-            setting.ViewSetting.Restore(this);
-            setting.SusieSetting.Restore(ModelContext.SusieContext);
-            setting.BookCommonSetting.Restore(_Book);
-            setting.BookSetting.Restore(_Book);
+            this.Restore(setting.ViewMemento);
+            ModelContext.SusieContext.Restore(setting.SusieMemento);
+            _BookHub.Restore(setting.BookHubMemento);
             setting.GestureSetting.Restore(CommandCollection);
 
-            ModelContext.BookHistory = setting.BookHistory;
+            ModelContext.BookHistory.Restore(setting.BookHistoryMemento);
             UpdateLastFiles();
 
             InputGestureChanged?.Invoke(this, null);
@@ -491,13 +411,12 @@ namespace NeeView
                 }
 
 
-                _Setting.ViewSetting.Restore(this);
-                _Setting.SusieSetting.Restore(ModelContext.SusieContext);
-                _Setting.BookCommonSetting.Restore(_Book);
-                _Setting.BookSetting.Restore(_Book);
+                this.Restore(_Setting.ViewMemento);
+                ModelContext.SusieContext.Restore(_Setting.SusieMemento);
+                _BookHub.Restore(_Setting.BookHubMemento);
                 _Setting.GestureSetting.Restore(CommandCollection);
 
-                ModelContext.BookHistory = _Setting.BookHistory;
+                ModelContext.BookHistory.Restore(_Setting.BookHistoryMemento);
                 UpdateLastFiles();
 
                 InputGestureChanged?.Invoke(this, null);
@@ -511,14 +430,13 @@ namespace NeeView
             _Setting = new Setting();
             _Setting.WindowPlacement.Store(window);
 
-            _Setting.ViewSetting.Store(this);
-            _Setting.SusieSetting.Store(ModelContext.SusieContext);
-            _Setting.BookCommonSetting = BookCommonSetting.Store(_Book);
-            _Setting.BookSetting = BookSetting.Store(_Book);
+            _Setting.ViewMemento = this.CreateMemento();
+            _Setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
+            _Setting.BookHubMemento = _BookHub.CreateMemento();
             _Setting.GestureSetting.Store(CommandCollection);
 
-            ModelContext.BookHistory.Add(BookProxy.Current);
-            _Setting.BookHistory = ModelContext.BookHistory;
+            ModelContext.BookHistory.Add(BookHub.Current);
+            _Setting.BookHistoryMemento = ModelContext.BookHistory.CreateMemento();
 
             _Setting.Save(_SettingFileName);
         }
@@ -527,7 +445,7 @@ namespace NeeView
         // 表示コンテンツ更新
         private void OnViewContentsChanged(object sender, EventArgs e)
         {
-            var book = BookProxy.Current;
+            var book = BookHub.Current;
 
             Brush pageColor = Brushes.Black;
 
@@ -629,17 +547,17 @@ namespace NeeView
 
         private void UpdateContentsWidth()
         {
-            if (BookProxy.Current == null) return;
+            if (BookHub.Current == null) return;
 
             var scales = CalcContentScale(_ViewWidth, _ViewHeight);
 
             for (int i = 0; i < 2; ++i)
             {
-                int cid = (BookProxy.Current.BookReadOrder == BookReadOrder.RightToLeft) ? i : 1 - i;
+                int cid = (BookHub.Current.BookReadOrder == BookReadOrder.RightToLeft) ? i : 1 - i;
 
                 //ContentsWidth[i] = CalcContentWidth(i, _ViewWidth, _ViewHeight);
                 //var scale = CalcContentScale(i, _ViewWidth, _ViewHeight);
-                var size = GetContentSize(BookProxy.Current.NowPages[cid]);
+                var size = GetContentSize(BookHub.Current.NowPages[cid]);
                 ContentsWidth[i] = size.Width * scales[cid];
                 ContentsHeight[i] = size.Height * scales[cid];
             }
@@ -648,8 +566,8 @@ namespace NeeView
         //
         private double[] CalcContentScale(double width, double height)
         {
-            var c0 = GetContentSize(BookProxy.Current.NowPages[0]);
-            var c1 = GetContentSize(BookProxy.Current.NowPages[1]);
+            var c0 = GetContentSize(BookHub.Current.NowPages[0]);
+            var c1 = GetContentSize(BookHub.Current.NowPages[1]);
 
             if (this.StretchMode == PageStretchMode.None)
             {
@@ -663,7 +581,7 @@ namespace NeeView
             Size content;
 
             //if (_Book.PageMode == 1)
-            if (BookProxy.Current.NowPages[1] == null)
+            if (BookHub.Current.NowPages[1] == null)
             {
                 content = c0;
             }
@@ -888,8 +806,91 @@ namespace NeeView
 
         public void Load(string path)
         {
-            _Book.Load(path);
+            _BookHub.Load(path);
         }
 
+
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public bool IsLimitMove { get; set; }
+
+            [DataMember]
+            public bool IsControlCenterImage { get; set; }
+
+            [DataMember]
+            public bool IsAngleSnap { get; set; }
+
+            [DataMember]
+            public bool IsViewStartPositionCenter { get; set; }
+
+            [DataMember]
+            public PageStretchMode StretchMode { get; set; }
+
+            [DataMember]
+            public BackgroundStyle Background { get; set; }
+
+            [DataMember]
+            public bool IsSliderDirectionReversed { get; set; }
+
+            [DataMember]
+            public ShowMessageType CommandShowMessageType { get; set; }
+
+            [DataMember]
+            public ShowMessageType GestureShowMessageType { get; set; }
+
+            void Constructor()
+            {
+                IsLimitMove = true;
+                IsSliderDirectionReversed = true;
+                CommandShowMessageType = ShowMessageType.Normal;
+                GestureShowMessageType = ShowMessageType.Normal;
+            }
+
+            public Memento()
+            {
+                Constructor();
+            }
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                Constructor();
+            }
+        }
+
+
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+
+            memento.IsLimitMove = this.IsLimitMove;
+            memento.IsControlCenterImage = this.IsControlCenterImage;
+            memento.IsAngleSnap = this.IsAngleSnap;
+            memento.IsViewStartPositionCenter = this.IsViewStartPositionCenter;
+            memento.StretchMode = this.StretchMode;
+            memento.Background = this.Background;
+            memento.IsSliderDirectionReversed = this.IsSliderDirectionReversed;
+            memento.CommandShowMessageType = this.CommandShowMessageType;
+            memento.GestureShowMessageType = this.GestureShowMessageType;
+
+            return memento;
+        }
+
+        public void Restore(Memento memento)
+        {
+            this.IsLimitMove = memento.IsLimitMove;
+            this.IsControlCenterImage = memento.IsControlCenterImage;
+            this.IsAngleSnap = memento.IsAngleSnap;
+            this.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
+            this.StretchMode = memento.StretchMode;
+            this.Background = memento.Background;
+            this.IsSliderDirectionReversed = memento.IsSliderDirectionReversed;
+            this.CommandShowMessageType = memento.CommandShowMessageType;
+            this.GestureShowMessageType = memento.GestureShowMessageType;
+
+            this.OnViewModeChanged();
+        }
     }
 }

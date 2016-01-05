@@ -43,10 +43,12 @@ namespace NeeView
                     ex = ex.InnerException;
                 }
             }
-
+#if DEBUG
+#else
             e.Handled = true;
 
             this.Shutdown();
+#endif
         }
     }
 }

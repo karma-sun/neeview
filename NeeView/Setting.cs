@@ -25,11 +25,8 @@ namespace NeeView
         [DataMember]
         public BookHub.Memento BookHubMemento { set; get; }
 
-        //[DataMember]
-        //public BookSetting BookSetting { set; get; }
-
         [DataMember]
-        public BookCommandShortcutSource GestureSetting { set; get; }
+        public BookCommandMemento BookCommandMemento { set; get; }
 
         [DataMember]
         public BookHistory.Memento BookHistoryMemento { set; get; }
@@ -40,8 +37,7 @@ namespace NeeView
             ViewMemento = new MainWindowVM.Memento();
             SusieMemento = new SusieContext.SusieSetting();
             BookHubMemento = new BookHub.Memento();
-            //BookSetting = new BookSetting();
-            GestureSetting = new BookCommandShortcutSource();
+            BookCommandMemento = new BookCommandMemento();
             BookHistoryMemento = new BookHistory.Memento();
         }
 

@@ -68,250 +68,295 @@ namespace NeeView
     }
 
 
+    public class BookCommandHeader
+    {
+        public string Group { get; set; }
+        public string Text { get; set; }
+        public BookCommandHeader(string group, string text)
+        {
+            Group = group;
+            Text = text;
+        }
+    }
+
     public static class BookCommandExtension
     {
-        public class Header
+        public static Dictionary<BookCommandType, BookCommandHeader> Headers { get; } = new Dictionary<BookCommandType, BookCommandHeader>
         {
-            public string Group { get; set; }
-            public string Text { get; set; }
-            public Header(string group, string text)
-            {
-                Group = group;
-                Text = text;
-            }
-        }
+            [BookCommandType.OpenSettingWindow] = new BookCommandHeader("設定", "設定ウィンドウを開く"),
 
-        public static Dictionary<BookCommandType, Header> Headers { get; } = new Dictionary<BookCommandType, Header>
-        {
-            [BookCommandType.OpenSettingWindow] = new Header("設定", "設定ウィンドウを開く"),
+            [BookCommandType.LoadAs] = new BookCommandHeader("ファイル", "ファイルを開く"),
+            [BookCommandType.ClearHistory] = new BookCommandHeader("ファイル", "履歴を消去する"),
 
-            [BookCommandType.LoadAs] = new Header("ファイル", "ファイルを開く"),
-            [BookCommandType.ClearHistory] = new Header("ファイル", "履歴を消去する"),
-
-            [BookCommandType.PrevPage] = new Header("移動", "前のページに戻る"),
-            [BookCommandType.NextPage] = new Header("移動", "次のページへ進む"),
-            [BookCommandType.PrevOnePage] = new Header("移動", "1ページ戻る"),
-            [BookCommandType.NextOnePage] = new Header("移動", "1ページ進む"),
-            [BookCommandType.FirstPage] = new Header("移動", "先頭のページに移動"),
-            [BookCommandType.LastPage] = new Header("移動", "最後のページへ移動"),
-            [BookCommandType.PrevFolder] = new Header("移動", "前のフォルダに移動"),
-            [BookCommandType.NextFolder] = new Header("移動", "次のフォルダへ移動"),
-            [BookCommandType.RandomFolder] = new Header("移動", "ランダムなフォルダに移動"),
+            [BookCommandType.PrevPage] = new BookCommandHeader("移動", "前のページに戻る"),
+            [BookCommandType.NextPage] = new BookCommandHeader("移動", "次のページへ進む"),
+            [BookCommandType.PrevOnePage] = new BookCommandHeader("移動", "1ページ戻る"),
+            [BookCommandType.NextOnePage] = new BookCommandHeader("移動", "1ページ進む"),
+            [BookCommandType.FirstPage] = new BookCommandHeader("移動", "先頭のページに移動"),
+            [BookCommandType.LastPage] = new BookCommandHeader("移動", "最後のページへ移動"),
+            [BookCommandType.PrevFolder] = new BookCommandHeader("移動", "前のフォルダに移動"),
+            [BookCommandType.NextFolder] = new BookCommandHeader("移動", "次のフォルダへ移動"),
+            [BookCommandType.RandomFolder] = new BookCommandHeader("移動", "ランダムなフォルダに移動"),
 
 
-            [BookCommandType.ToggleStretchMode] = new Header("スケール", "サイズを切り替える"),
-            [BookCommandType.SetStretchModeNone] = new Header("スケール", "元のサイズで表示する"),
-            [BookCommandType.SetStretchModeInside] = new Header("スケール", "大きい場合、ウィンドウサイズに合わせる"),
-            [BookCommandType.SetStretchModeOutside] = new Header("スケール", "小さい場合、ウィンドウサイズに広げる"),
-            [BookCommandType.SetStretchModeUniform] = new Header("スケール", "ウィンドウサイズに合わせる"),
-            [BookCommandType.SetStretchModeUniformToFill] = new Header("スケール", "ウィンドウいっぱいに広げる"),
+            [BookCommandType.ToggleStretchMode] = new BookCommandHeader("スケール", "サイズを切り替える"),
+            [BookCommandType.SetStretchModeNone] = new BookCommandHeader("スケール", "元のサイズで表示する"),
+            [BookCommandType.SetStretchModeInside] = new BookCommandHeader("スケール", "大きい場合、ウィンドウサイズに合わせる"),
+            [BookCommandType.SetStretchModeOutside] = new BookCommandHeader("スケール", "小さい場合、ウィンドウサイズに広げる"),
+            [BookCommandType.SetStretchModeUniform] = new BookCommandHeader("スケール", "ウィンドウサイズに合わせる"),
+            [BookCommandType.SetStretchModeUniformToFill] = new BookCommandHeader("スケール", "ウィンドウいっぱいに広げる"),
 
-            [BookCommandType.TogglePageMode] = new Header("ページ数", "1ページ/2ページ表示を切り替える"),
-            [BookCommandType.SetPageMode1] = new Header("ページ数", "１ページ表示にする"),
-            [BookCommandType.SetPageMode2] = new Header("ページ数", "２ページ表示にする"),
+            [BookCommandType.TogglePageMode] = new BookCommandHeader("ページ数", "1ページ/2ページ表示を切り替える"),
+            [BookCommandType.SetPageMode1] = new BookCommandHeader("ページ数", "１ページ表示にする"),
+            [BookCommandType.SetPageMode2] = new BookCommandHeader("ページ数", "２ページ表示にする"),
 
-            [BookCommandType.ToggleBookReadOrder] = new Header("２ページ設定", "右開き、左開きを切り替える"),
-            [BookCommandType.SetBookReadOrderRight] = new Header("２ページ設定", "右開きにする"),
-            [BookCommandType.SetBookReadOrderLeft] = new Header("２ページ設定", "左開きにする"),
+            [BookCommandType.ToggleBookReadOrder] = new BookCommandHeader("２ページ設定", "右開き、左開きを切り替える"),
+            [BookCommandType.SetBookReadOrderRight] = new BookCommandHeader("２ページ設定", "右開きにする"),
+            [BookCommandType.SetBookReadOrderLeft] = new BookCommandHeader("２ページ設定", "左開きにする"),
 
-            [BookCommandType.ToggleIsSupportedTitlePage] = new Header("２ページ設定", "最初のページをタイトルとみなす"),
-            [BookCommandType.ToggleIsSupportedWidePage] = new Header("２ページ設定", "横長のページを２ページ分とみなす"),
+            [BookCommandType.ToggleIsSupportedTitlePage] = new BookCommandHeader("２ページ設定", "最初のページをタイトルとみなす"),
+            [BookCommandType.ToggleIsSupportedWidePage] = new BookCommandHeader("２ページ設定", "横長のページを２ページ分とみなす"),
 
-            [BookCommandType.ToggleIsRecursiveFolder] = new Header("フォルダ", "サブフォルダ読み込みON/OFF"),
+            [BookCommandType.ToggleIsRecursiveFolder] = new BookCommandHeader("フォルダ", "サブフォルダ読み込みON/OFF"),
 
-            [BookCommandType.ToggleSortMode] = new Header("ソート", "ソート方法を切り替える"),
-            [BookCommandType.SetSortModeFileName] = new Header("ソート", "ファイル名順にする"),
-            [BookCommandType.SetSortModeFileNameDictionary] = new Header("ソート", "ファイル名辞書順にする"),
-            [BookCommandType.SetSortModeTimeStamp] = new Header("ソート", "ファイル日付順にする"),
-            [BookCommandType.SetSortModeRandom] = new Header("ソート", "ランダムに並べる"),
-            [BookCommandType.ToggleIsReverseSort] = new Header("ソート", "正順、逆順を切り替える"),
+            [BookCommandType.ToggleSortMode] = new BookCommandHeader("ソート", "ソート方法を切り替える"),
+            [BookCommandType.SetSortModeFileName] = new BookCommandHeader("ソート", "ファイル名順にする"),
+            [BookCommandType.SetSortModeFileNameDictionary] = new BookCommandHeader("ソート", "ファイル名辞書順にする"),
+            [BookCommandType.SetSortModeTimeStamp] = new BookCommandHeader("ソート", "ファイル日付順にする"),
+            [BookCommandType.SetSortModeRandom] = new BookCommandHeader("ソート", "ランダムに並べる"),
+            [BookCommandType.ToggleIsReverseSort] = new BookCommandHeader("ソート", "正順、逆順を切り替える"),
 
-            [BookCommandType.ToggleFullScreen] = new Header("ビュー操作", "フルスクリーン切り替え"),
-            [BookCommandType.ViewScrollUp] = new Header("ビュー操作", "スクロール↑"),
-            [BookCommandType.ViewScrollDown] = new Header("ビュー操作", "スクロール↓"),
-            [BookCommandType.ViewScaleUp] = new Header("ビュー操作", "拡大"),
-            [BookCommandType.ViewScaleDown] = new Header("ビュー操作", "縮小"),
+            [BookCommandType.ToggleFullScreen] = new BookCommandHeader("ビュー操作", "フルスクリーン切り替え"),
+            [BookCommandType.ViewScrollUp] = new BookCommandHeader("ビュー操作", "スクロール↑"),
+            [BookCommandType.ViewScrollDown] = new BookCommandHeader("ビュー操作", "スクロール↓"),
+            [BookCommandType.ViewScaleUp] = new BookCommandHeader("ビュー操作", "拡大"),
+            [BookCommandType.ViewScaleDown] = new BookCommandHeader("ビュー操作", "縮小"),
         };
     }
 
+
+    //
+    public class BookCommand
+    {
+        public BookCommandHeader Header { get; set; }
+        public Action<object> Command { get; set; }
+        public BookCommandSetting Setting { get; set; }
+
+        public string ShortCutKey => Setting.ShortCutKey;
+        public string MouseGesture => Setting.MouseGesture;
+
+        public void Execute(object param)
+        {
+            Command(param);
+        }
+    }
 
 
     //
     public class BookCommandCollection : Dictionary<BookCommandType, BookCommand>
     {
-        public BookCommandShortcutSource ShortcutSource { get; private set; }
+        private Dictionary<BookCommandType, Action<object>> _Actions;
 
-        public void Initialize(MainWindowVM vm, BookHub book, BookCommandShortcutSource source)
+        private void InitializeActions(MainWindowVM vm, BookHub book)
         {
-            Add(BookCommandType.OpenSettingWindow, new BookCommand(null));
-            Add(BookCommandType.LoadAs, new BookCommand(null));
-            Add(BookCommandType.ClearHistory, new BookCommand(null));
-            Add(BookCommandType.PrevPage, new BookCommand(e => book.PrevPage()));
-            Add(BookCommandType.NextPage, new BookCommand(e => book.NextPage()));
-            Add(BookCommandType.PrevOnePage, new BookCommand(e => book.PrevOnePage()));
-            Add(BookCommandType.NextOnePage, new BookCommand(e => book.NextOnePage()));
-            Add(BookCommandType.FirstPage, new BookCommand(e => book.FirstPage()));
-            Add(BookCommandType.LastPage, new BookCommand(e => book.LastPage()));
-            Add(BookCommandType.PrevFolder, new BookCommand(e => book.PrevFolder()));
-            Add(BookCommandType.NextFolder, new BookCommand(e => book.NextFolder()));
-            Add(BookCommandType.RandomFolder, new BookCommand(e => book.RandomFolder()));
-            Add(BookCommandType.ToggleFullScreen, new BookCommand(null));
-            Add(BookCommandType.ToggleStretchMode, new BookCommand(e => vm.StretchMode = vm.StretchMode.GetToggle()));
-            Add(BookCommandType.SetStretchModeNone, new BookCommand(e => vm.StretchMode = PageStretchMode.None));
-            Add(BookCommandType.SetStretchModeInside, new BookCommand(e => vm.StretchMode = PageStretchMode.Inside));
-            Add(BookCommandType.SetStretchModeOutside, new BookCommand(e => vm.StretchMode = PageStretchMode.Outside));
-            Add(BookCommandType.SetStretchModeUniform, new BookCommand(e => vm.StretchMode = PageStretchMode.Uniform));
-            Add(BookCommandType.SetStretchModeUniformToFill, new BookCommand(e => vm.StretchMode = PageStretchMode.UniformToFill));
-            Add(BookCommandType.TogglePageMode, new BookCommand(e => book.TogglePageMode()));
-            Add(BookCommandType.SetPageMode1, new BookCommand(e => book.SetPageMode(1)));
-            Add(BookCommandType.SetPageMode2, new BookCommand(e => book.SetPageMode(2)));
-            Add(BookCommandType.ToggleBookReadOrder, new BookCommand(e => book.ToggleBookReadOrder()));
-            Add(BookCommandType.SetBookReadOrderRight, new BookCommand(e => book.SetBookReadOrder(BookReadOrder.RightToLeft)));
-            Add(BookCommandType.SetBookReadOrderLeft, new BookCommand(e => book.SetBookReadOrder(BookReadOrder.LeftToRight)));
-            Add(BookCommandType.ToggleIsSupportedTitlePage, new BookCommand(e => book.ToggleIsSupportedTitlePage()));
-            Add(BookCommandType.ToggleIsSupportedWidePage, new BookCommand(e => book.ToggleIsSupportedWidePage()));
-            Add(BookCommandType.ToggleIsRecursiveFolder, new BookCommand(e => book.ToggleIsRecursiveFolder()));
-            Add(BookCommandType.ToggleSortMode, new BookCommand(e => book.ToggleSortMode()));
-            Add(BookCommandType.SetSortModeFileName, new BookCommand(e => book.SetSortMode(BookSortMode.FileName)));
-            Add(BookCommandType.SetSortModeFileNameDictionary, new BookCommand(e => book.SetSortMode(BookSortMode.FileNameDictionary)));
-            Add(BookCommandType.SetSortModeTimeStamp, new BookCommand(e => book.SetSortMode(BookSortMode.TimeStamp)));
-            Add(BookCommandType.SetSortModeRandom, new BookCommand(e => book.SetSortMode(BookSortMode.Random)));
-            Add(BookCommandType.ToggleIsReverseSort, new BookCommand(e => book.ToggleIsReverseSort()));
-            //Add(BookCommandType.SetIsReverseSortFalse, new BookCommand(e => book.IsReverseSort = false));
-            //Add(BookCommandType.SetIsReverseSortTrue, new BookCommand(e => book.IsReverseSort = true));
-            Add(BookCommandType.ViewScrollUp, new BookCommand(null));
-            Add(BookCommandType.ViewScrollDown, new BookCommand(null));
-            Add(BookCommandType.ViewScaleUp, new BookCommand(null));
-            Add(BookCommandType.ViewScaleDown, new BookCommand(null));
+            _Actions = new Dictionary<BookCommandType, Action<object>>();
 
-            SetShortcut(source ?? BookCommandShortcutSource.CreateDefaultShortcutSource());
+            _Actions.Add(BookCommandType.OpenSettingWindow, null);
+            _Actions.Add(BookCommandType.LoadAs, null);
+            _Actions.Add(BookCommandType.ClearHistory, null);
+            _Actions.Add(BookCommandType.PrevPage, e => book.PrevPage());
+            _Actions.Add(BookCommandType.NextPage, e => book.NextPage());
+            _Actions.Add(BookCommandType.PrevOnePage, e => book.PrevOnePage());
+            _Actions.Add(BookCommandType.NextOnePage, e => book.NextOnePage());
+            _Actions.Add(BookCommandType.FirstPage, e => book.FirstPage());
+            _Actions.Add(BookCommandType.LastPage, e => book.LastPage());
+            _Actions.Add(BookCommandType.PrevFolder, e => book.PrevFolder());
+            _Actions.Add(BookCommandType.NextFolder, e => book.NextFolder());
+            _Actions.Add(BookCommandType.RandomFolder, e => book.RandomFolder());
+            _Actions.Add(BookCommandType.ToggleFullScreen, null);
+            _Actions.Add(BookCommandType.ToggleStretchMode, e => vm.StretchMode = vm.StretchMode.GetToggle());
+            _Actions.Add(BookCommandType.SetStretchModeNone, e => vm.StretchMode = PageStretchMode.None);
+            _Actions.Add(BookCommandType.SetStretchModeInside, e => vm.StretchMode = PageStretchMode.Inside);
+            _Actions.Add(BookCommandType.SetStretchModeOutside, e => vm.StretchMode = PageStretchMode.Outside);
+            _Actions.Add(BookCommandType.SetStretchModeUniform, e => vm.StretchMode = PageStretchMode.Uniform);
+            _Actions.Add(BookCommandType.SetStretchModeUniformToFill, e => vm.StretchMode = PageStretchMode.UniformToFill);
+            _Actions.Add(BookCommandType.TogglePageMode, e => book.TogglePageMode());
+            _Actions.Add(BookCommandType.SetPageMode1, e => book.SetPageMode(1));
+            _Actions.Add(BookCommandType.SetPageMode2, e => book.SetPageMode(2));
+            _Actions.Add(BookCommandType.ToggleBookReadOrder, e => book.ToggleBookReadOrder());
+            _Actions.Add(BookCommandType.SetBookReadOrderRight, e => book.SetBookReadOrder(BookReadOrder.RightToLeft));
+            _Actions.Add(BookCommandType.SetBookReadOrderLeft, e => book.SetBookReadOrder(BookReadOrder.LeftToRight));
+            _Actions.Add(BookCommandType.ToggleIsSupportedTitlePage, e => book.ToggleIsSupportedTitlePage());
+            _Actions.Add(BookCommandType.ToggleIsSupportedWidePage, e => book.ToggleIsSupportedWidePage());
+            _Actions.Add(BookCommandType.ToggleIsRecursiveFolder, e => book.ToggleIsRecursiveFolder());
+            _Actions.Add(BookCommandType.ToggleSortMode, e => book.ToggleSortMode());
+            _Actions.Add(BookCommandType.SetSortModeFileName, e => book.SetSortMode(BookSortMode.FileName));
+            _Actions.Add(BookCommandType.SetSortModeFileNameDictionary, e => book.SetSortMode(BookSortMode.FileNameDictionary));
+            _Actions.Add(BookCommandType.SetSortModeTimeStamp, e => book.SetSortMode(BookSortMode.TimeStamp));
+            _Actions.Add(BookCommandType.SetSortModeRandom, e => book.SetSortMode(BookSortMode.Random));
+            _Actions.Add(BookCommandType.ToggleIsReverseSort, e => book.ToggleIsReverseSort());
+            _Actions.Add(BookCommandType.ViewScrollUp, null);
+            _Actions.Add(BookCommandType.ViewScrollDown, null);
+            _Actions.Add(BookCommandType.ViewScaleUp, null);
+            _Actions.Add(BookCommandType.ViewScaleDown, null);
         }
 
 
-        public void SetShortcut(BookCommandShortcutSource source)
+        public void Initialize(MainWindowVM vm, BookHub book, BookCommandMemento settings)
         {
-            if (source == null) throw new ArgumentNullException(nameof(source));
+            InitializeActions(vm, book);
 
-            ShortcutSource = source;
+            settings = settings ?? new BookCommandMemento(true);
 
-            foreach (var pair in this)
+            foreach (BookCommandType type in Enum.GetValues(typeof(BookCommandType)))
             {
-                var a = source[pair.Key].ShortCutKey;
-                pair.Value.ShortCutKey = a;
-                pair.Value.MouseGesture = source[pair.Key].MouseGesture;
+                var item = new BookCommand();
+                item.Header = BookCommandExtension.Headers[type];
+                item.Command = _Actions[type];
+                item.Setting = settings[type];
+
+                this.Add(type, item);
             }
         }
 
-
-
-        /*
-        public BookCommandShortcutSource CreateMemento()
+        //
+        public BookCommandMemento CreateMemento()
         {
-            var memento = new BookCommandShortcutSource();
-            this.ShortcutSource.CopyTo(memento);
+            var memento = new BookCommandMemento(false);
+            foreach (BookCommandType type in Enum.GetValues(typeof(BookCommandType)))
+            {
+                memento.Add(type, this[type].Setting.Clone());
+            }
             return memento;
         }
 
-        public void Restore(BookCommandShortcutSource memento)
+        //
+        public void Restore(BookCommandMemento memento)
         {
-            //var source = commands.ShortcutSource;
-
-            // 上書き
-            foreach (var pair in memento)
+            foreach (BookCommandType type in Enum.GetValues(typeof(BookCommandType)))
             {
-                ShortcutSource[pair.Key] = pair.Value;
+                this[type].Setting = memento[type];
             }
-
-            SetShortcut();
         }
-        */
+
+
 
     }
 
     [DataContract]
-    public class BookCommandIntpuGesture
+    public class BookCommandSetting
     {
         [DataMember]
-        public string ShortCutKey;
+        public string ShortCutKey { get; set; }
         [DataMember]
-        public string MouseGesture;
+        public string MouseGesture { get; set; }
         [DataMember]
-        public bool IsShowMessage;
+        public bool IsShowMessage { get; set; }
 
-        public BookCommandIntpuGesture()
+        public BookCommandSetting()
         {
         }
 
-        public BookCommandIntpuGesture(string shortCutKey, string mouseGesture, bool isShowMessage=true)
+        public BookCommandSetting(string shortCutKey, string mouseGesture, bool isShowMessage = true)
         {
             ShortCutKey = shortCutKey;
             MouseGesture = mouseGesture;
             IsShowMessage = isShowMessage;
         }
 
-        public BookCommandIntpuGesture Clone()
+        public BookCommandSetting Clone()
         {
-            return new BookCommandIntpuGesture(ShortCutKey, MouseGesture, IsShowMessage);
+            return new BookCommandSetting(ShortCutKey, MouseGesture, IsShowMessage);
         }
     }
 
+
+
     //
-    public class BookCommandShortcutSource : Dictionary<BookCommandType, BookCommandIntpuGesture>
+    [DataContract]
+    public class BookCommandMemento
     {
-        public static BookCommandShortcutSource CreateDefaultShortcutSource()
+        [DataMember]
+        Dictionary<BookCommandType, BookCommandSetting> _Settings;
+
+        public BookCommandSetting this[BookCommandType type]
         {
-            var source = new BookCommandShortcutSource();
-            source.ResetToDefault();
-            return source;
+            set { _Settings[type] = value; }
+            get { return _Settings[type]; }
         }
 
-        private void ResetToDefault()
+        public void Add(BookCommandType key, BookCommandSetting value)
         {
-            Add(BookCommandType.LoadAs, new BookCommandIntpuGesture("Ctrl+O", null, false));
-            Add(BookCommandType.PrevPage, new BookCommandIntpuGesture("Right,RightClick", "R", false));
-            Add(BookCommandType.NextPage, new BookCommandIntpuGesture("Left,LeftClick", "L", false));
-            Add(BookCommandType.FirstPage, new BookCommandIntpuGesture("Ctrl+Right", "UR"));
-            Add(BookCommandType.LastPage, new BookCommandIntpuGesture("Ctrl+Left", "UL"));
-            Add(BookCommandType.PrevFolder, new BookCommandIntpuGesture("Up", "LU", false));
-            Add(BookCommandType.NextFolder, new BookCommandIntpuGesture("Down", "LD", false));
-            Add(BookCommandType.ToggleFullScreen, new BookCommandIntpuGesture("F12", "U"));
-            Add(BookCommandType.TogglePageMode, new BookCommandIntpuGesture("LeftButton+WheelUp", null));
-            Add(BookCommandType.SetPageMode1, new BookCommandIntpuGesture("Ctrl+1", null));
-            Add(BookCommandType.SetPageMode2, new BookCommandIntpuGesture("Ctrl+2", null));
-            Add(BookCommandType.ViewScrollUp, new BookCommandIntpuGesture("WheelUp", null, false));
-            Add(BookCommandType.ViewScrollDown, new BookCommandIntpuGesture("WheelDown", null, false));
-            Add(BookCommandType.ViewScaleUp, new BookCommandIntpuGesture("RightButton+WheelUp", null, false));
-            Add(BookCommandType.ViewScaleDown, new BookCommandIntpuGesture("RightButton+WheelDown", null, false));
+            _Settings.Add(key, value);
+        }
+
+
+        private void Constructor()
+        {
+            _Settings = new Dictionary<BookCommandType, BookCommandSetting>();
+        }
+
+        public BookCommandMemento()
+        {
+            Constructor();
+            Validate();
+        }
+
+        [OnDeserializing]
+        private void Deserializing(StreamingContext c)
+        {
+            Constructor();
+        }
+
+        [OnDeserialized]
+        private void Deserialized(StreamingContext c)
+        {
+            Validate();
+        }
+
+        public BookCommandMemento(bool isDefault)
+        {
+            Constructor();
+            if (isDefault) Validate();
+        }
+
+        private void Validate()
+        {
+            AddWeak(BookCommandType.LoadAs, new BookCommandSetting("Ctrl+O", null, false));
+            AddWeak(BookCommandType.PrevPage, new BookCommandSetting("Right,RightClick", "R", false));
+            AddWeak(BookCommandType.NextPage, new BookCommandSetting("Left,LeftClick", "L", false));
+            AddWeak(BookCommandType.FirstPage, new BookCommandSetting("Ctrl+Right", "UR"));
+            AddWeak(BookCommandType.LastPage, new BookCommandSetting("Ctrl+Left", "UL"));
+            AddWeak(BookCommandType.PrevFolder, new BookCommandSetting("Up", "LU", false));
+            AddWeak(BookCommandType.NextFolder, new BookCommandSetting("Down", "LD", false));
+            AddWeak(BookCommandType.ToggleFullScreen, new BookCommandSetting("F12", "U"));
+            AddWeak(BookCommandType.TogglePageMode, new BookCommandSetting("LeftButton+WheelUp", null));
+            AddWeak(BookCommandType.SetPageMode1, new BookCommandSetting("Ctrl+1", null));
+            AddWeak(BookCommandType.SetPageMode2, new BookCommandSetting("Ctrl+2", null));
+            AddWeak(BookCommandType.ViewScrollUp, new BookCommandSetting("WheelUp", null, false));
+            AddWeak(BookCommandType.ViewScrollDown, new BookCommandSetting("WheelDown", null, false));
+            AddWeak(BookCommandType.ViewScaleUp, new BookCommandSetting("RightButton+WheelUp", null, false));
+            AddWeak(BookCommandType.ViewScaleDown, new BookCommandSetting("RightButton+WheelDown", null, false));
 
             foreach (BookCommandType type in Enum.GetValues(typeof(BookCommandType)))
             {
-                if (!this.ContainsKey(type))
+                if (!_Settings.ContainsKey(type))
                 {
-                    Add(type, new BookCommandIntpuGesture(null, null));
+                    _Settings.Add(type, new BookCommandSetting(null, null));
                 }
             }
         }
 
-
-        public void Store(BookCommandCollection commands)
+        private void AddWeak(BookCommandType key, BookCommandSetting value)
         {
-            commands.ShortcutSource.CopyTo(this);
-        }
-
-        public void Restore(BookCommandCollection commands)
-        {
-            var source = commands.ShortcutSource;
-
-            // 上書き
-            foreach (var pair in this)
+            if (!_Settings.ContainsKey(key))
             {
-                source[pair.Key] = pair.Value;
+                _Settings.Add(key, value);
             }
-
-            commands.SetShortcut(source);
         }
 
-        public void CopyTo(BookCommandShortcutSource target)
+        /*
+        public void CopyTo(BookCommandMemento target)
         {
             target.Clear();
             foreach (var pair in this)
@@ -319,24 +364,7 @@ namespace NeeView
                 target.Add(pair.Key, pair.Value.Clone());
             }
         }
-    }
-
-    //
-    public class BookCommand
-    {
-        public Action<object> Command { get; set; }
-        public string ShortCutKey { get; set; }
-        public string MouseGesture { get; set; }
-
-        public BookCommand(Action<object> command)
-        {
-            Command = command;
-        }
-
-        public void Execute(object param)
-        {
-            Command(param);
-        }
+        */
     }
 
 

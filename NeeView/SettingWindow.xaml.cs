@@ -120,9 +120,9 @@ namespace NeeView
                     Key = header.Key,
                     Group = header.Value.Group,
                     Header = header.Value.Text,
-                    ShortCut = Setting.GestureSetting[header.Key].ShortCutKey,
-                    MouseGesture = Setting.GestureSetting[header.Key].MouseGesture,
-                    IsShowMessage = Setting.GestureSetting[header.Key].IsShowMessage,
+                    ShortCut = Setting.BookCommandMemento[header.Key].ShortCutKey,
+                    MouseGesture = Setting.BookCommandMemento[header.Key].MouseGesture,
+                    IsShowMessage = Setting.BookCommandMemento[header.Key].IsShowMessage,
                 };
                 BookCommandCollection.Add(item);
             }
@@ -164,9 +164,9 @@ namespace NeeView
         {
             foreach (var command in BookCommandCollection)
             {
-                Setting.GestureSetting[command.Key].ShortCutKey = command.ShortCut;
-                Setting.GestureSetting[command.Key].MouseGesture = command.MouseGesture;
-                Setting.GestureSetting[command.Key].IsShowMessage = command.IsShowMessage;
+                Setting.BookCommandMemento[command.Key].ShortCutKey = command.ShortCut;
+                Setting.BookCommandMemento[command.Key].MouseGesture = command.MouseGesture;
+                Setting.BookCommandMemento[command.Key].IsShowMessage = command.IsShowMessage;
             }
 
             this.DialogResult = true;
@@ -208,7 +208,7 @@ namespace NeeView
 
         private void ResetGestureSettingButton_Click(object sender, RoutedEventArgs e)
         {
-            Setting.GestureSetting = BookCommandShortcutSource.CreateDefaultShortcutSource();
+            Setting.BookCommandMemento = new BookCommandMemento(true);
             CreateCommandList();
             this.CommandListView.Items.Refresh();
         }

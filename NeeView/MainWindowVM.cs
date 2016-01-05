@@ -235,7 +235,7 @@ namespace NeeView
 
             _BookHub.PageChanged +=
                 OnPageChanged;
-            
+
             _BookHub.ViewContentsChanged +=
                 OnViewContentsChanged;
 
@@ -374,7 +374,7 @@ namespace NeeView
             setting.ViewMemento = this.CreateMemento();
             setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
             setting.BookHubMemento = _BookHub.CreateMemento();
-            setting.GestureSetting.Store(CommandCollection);
+            setting.BookCommandMemento = CommandCollection.CreateMemento();
 
             setting.BookHistoryMemento = ModelContext.BookHistory.CreateMemento();
 
@@ -386,7 +386,8 @@ namespace NeeView
             this.Restore(setting.ViewMemento);
             ModelContext.SusieContext.Restore(setting.SusieMemento);
             _BookHub.Restore(setting.BookHubMemento);
-            setting.GestureSetting.Restore(CommandCollection);
+            CommandCollection.Restore(setting.BookCommandMemento);
+            //setting.GestureSetting.Restore(CommandCollection);
 
             ModelContext.BookHistory.Restore(setting.BookHistoryMemento);
             UpdateLastFiles();
@@ -414,7 +415,7 @@ namespace NeeView
                 this.Restore(_Setting.ViewMemento);
                 ModelContext.SusieContext.Restore(_Setting.SusieMemento);
                 _BookHub.Restore(_Setting.BookHubMemento);
-                _Setting.GestureSetting.Restore(CommandCollection);
+                CommandCollection.Restore(_Setting.BookCommandMemento);
 
                 ModelContext.BookHistory.Restore(_Setting.BookHistoryMemento);
                 UpdateLastFiles();
@@ -433,7 +434,7 @@ namespace NeeView
             _Setting.ViewMemento = this.CreateMemento();
             _Setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
             _Setting.BookHubMemento = _BookHub.CreateMemento();
-            _Setting.GestureSetting.Store(CommandCollection);
+            _Setting.BookCommandMemento = CommandCollection.CreateMemento();
 
             ModelContext.BookHistory.Add(BookHub.Current);
             _Setting.BookHistoryMemento = ModelContext.BookHistory.CreateMemento();
@@ -699,7 +700,8 @@ namespace NeeView
         public void Execute(BookCommandType type, object param)
         {
             // 通知
-            if (CommandCollection.ShortcutSource[type].IsShowMessage)
+            //if (CommandCollection.ShortcutSource[type].IsShowMessage)
+            if (CommandCollection[type].Setting.IsShowMessage)
             {
                 switch (CommandShowMessageType)
                 {
@@ -707,11 +709,11 @@ namespace NeeView
                         //InfoText = BookCommandExtension.Headers[type].Text;
                         Messenger.Send(this, new MessageEventArgs("MessageShow")
                         {
-                            Parameter = new MessageShowParams(BookCommandExtension.Headers[type].Text)
+                            Parameter = new MessageShowParams(CommandCollection[type].Header.Text)
                         });
                         break;
                     case ShowMessageType.Tiny:
-                        TinyInfoText = BookCommandExtension.Headers[type].Text;
+                        TinyInfoText = CommandCollection[type].Header.Text;
                         break;
                 }
             }
@@ -846,6 +848,8 @@ namespace NeeView
                 IsSliderDirectionReversed = true;
                 CommandShowMessageType = ShowMessageType.Normal;
                 GestureShowMessageType = ShowMessageType.Normal;
+                StretchMode = PageStretchMode.Uniform;
+                Background = BackgroundStyle.Auto;
             }
 
             public Memento()

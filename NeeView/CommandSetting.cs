@@ -350,7 +350,7 @@ namespace NeeView
             AddWeak(BookCommandType.NextFolder, new BookCommandSetting("Down", "LD", false));
             AddWeak(BookCommandType.ToggleFullScreen, new BookCommandSetting("F12", "U", false));
             AddWeak(BookCommandType.CancelFullScreen, new BookCommandSetting("Escape", null, false));
-            AddWeak(BookCommandType.ToggleSlideShow, new BookCommandSetting("F5", null, false));
+            AddWeak(BookCommandType.ToggleSlideShow, new BookCommandSetting("F5", null));
             AddWeak(BookCommandType.TogglePageMode, new BookCommandSetting("LeftButton+WheelUp", null));
             AddWeak(BookCommandType.SetPageMode1, new BookCommandSetting("Ctrl+1", null));
             AddWeak(BookCommandType.SetPageMode2, new BookCommandSetting("Ctrl+2", null));

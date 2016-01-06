@@ -15,10 +15,10 @@ namespace NeeView
     public static partial class Win32Api
     {
         [DllImport("user32.dll")]
-        public static extern bool SetWindowPlacement(            IntPtr hWnd,            [In] ref WINDOWPLACEMENT lpwndpl);
+        public static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);
 
         [DllImport("user32.dll")]
-        public static extern bool GetWindowPlacement(            IntPtr hWnd,            out WINDOWPLACEMENT lpwndpl);
+        public static extern bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl);
 
         [Serializable]
         [StructLayout(LayoutKind.Sequential)]
@@ -105,7 +105,43 @@ namespace NeeView
             var hwnd = new WindowInteropHelper(window).Handle;
             Win32Api.GetWindowPlacement(hwnd, out placement);
 
+            // スナップウィンドウサイズを保存
+            if (placement.showCmd == Win32Api.SW.SHOWNORMAL)
+            {
+                var dpiScale = GetDpiScaleFactor(window);
+                placement.normalPosition.Left = (int)(window.Left * dpiScale.X);
+                placement.normalPosition.Top = (int)(window.Top * dpiScale.Y);
+                placement.normalPosition.Right = (int)((window.Left + window.Width) * dpiScale.X);
+                placement.normalPosition.Bottom = (int)((window.Top + window.Height) * dpiScale.Y);
+            }
+
             _WindowPlacement = placement;
+
         }
+
+
+
+        // from http://grabacr.net/archives/1105
+        /// <summary>
+        /// 現在の <see cref="T:System.Windows.Media.Visual"/> から、DPI 倍率を取得します。
+        /// </summary>
+        /// <returns>
+        /// X 軸 および Y 軸それぞれの DPI 倍率を表す <see cref="T:System.Windows.Point"/>
+        /// 構造体。取得に失敗した場合、(1.0, 1.0) を返します。
+        /// </returns>
+        public static Point GetDpiScaleFactor(System.Windows.Media.Visual visual)
+        {
+            var source = PresentationSource.FromVisual(visual);
+            if (source != null && source.CompositionTarget != null)
+            {
+                return new Point(
+                    source.CompositionTarget.TransformToDevice.M11,
+                    source.CompositionTarget.TransformToDevice.M22);
+            }
+
+            return new Point(1.0, 1.0);
+        }
+
     }
+
 }

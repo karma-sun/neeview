@@ -156,6 +156,9 @@ namespace NeeView
         }
         #endregion
 
+        public double InfoTextFontSize { get; set; } = 24.0;
+
+
         public Book.Memento BookSetting => BookHub.BookMemento;
 
 

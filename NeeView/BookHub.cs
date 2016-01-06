@@ -282,7 +282,12 @@ namespace NeeView
             }
             else
             {
-                if (e < 0)
+                if (IsEnableSlideShow)
+                {
+                    ToggleSlideShow(); // スライドショー解除
+                }
+
+                else if (e < 0)
                 {
                     InfoMessage?.Invoke(this, "最初のページです");
                 }

@@ -528,6 +528,11 @@ namespace NeeView
         {
             System.Diagnostics.Process.Start("https://bitbucket.org/neelabo/neeview/wiki/");
         }
+
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 
     public class IsGreaterThanConverter : IValueConverter

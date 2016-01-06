@@ -450,40 +450,43 @@ namespace NeeView
 
             Brush pageColor = Brushes.Black;
 
-            //
-            IsVisibleEmptyPageMessage = book.NowPages.All(content => content == null);
-
-            //
-            for (int index = 0; index < 2; ++index)
+            if (book != null)
             {
-                int cid = (book.BookReadOrder == BookReadOrder.RightToLeft) ? index : 1 - index;
 
-                ViewContent content = book.NowPages[cid];
 
-                if (string.IsNullOrEmpty(book.Place))
+                //
+                IsVisibleEmptyPageMessage = book.NowPages.All(content => content == null);
+
+                //
+                for (int index = 0; index < 2; ++index)
                 {
-                    Contents[index] = null;
-                }
-                else if (content?.Content == null)
-                {
-                    Contents[index] = null;
-                }
-                else if (content.Content is BitmapSource)
-                {
-                    var image = new Image();
-                    image.Source = (BitmapSource)content.Content;
-                    image.Stretch = Stretch.Fill;
-                    RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
-                    Contents[index] = image;
-                }
-                else if (content.Content is Uri)
-                {
+                    int cid = (book.BookReadOrder == BookReadOrder.RightToLeft) ? index : 1 - index;
+
+                    ViewContent content = book.NowPages[cid];
+
+                    if (string.IsNullOrEmpty(book.Place))
+                    {
+                        Contents[index] = null;
+                    }
+                    else if (content?.Content == null)
+                    {
+                        Contents[index] = null;
+                    }
+                    else if (content.Content is BitmapSource)
+                    {
+                        var image = new Image();
+                        image.Source = (BitmapSource)content.Content;
+                        image.Stretch = Stretch.Fill;
+                        RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
+                        Contents[index] = image;
+                    }
+                    else if (content.Content is Uri)
+                    {
 #if true
-                    var media = new MediaElement();
-                    media.Source = (Uri)content.Content;
-                    media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
-                    //RenderOptions.SetBitmapScalingMode(media, BitmapScalingMode.HighQuality);
-                    Contents[index] = media;
+                        var media = new MediaElement();
+                        media.Source = (Uri)content.Content;
+                        media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
+                        Contents[index] = media;
 #else
                 // 高速切替でゾンビプロセスが残るのでNG
                 var image = new Image();
@@ -492,30 +495,36 @@ namespace NeeView
                 //XamlAnimatedGif.AnimationBehavior.AddErrorHandler(image, AnimationBehavior_OnError);
                 Contents[index] = image;
 #endif
-                }
-                else if (content.Content is FilePageContext)
-                {
-                    var control = new FilePageControl(content.Content as FilePageContext);
-                    control.DefaultBrush = Brushes.Red;
-                    control.SetBinding(FilePageControl.DefaultBrushProperty, new System.Windows.Data.Binding("ForegroundBrush") { Source = this });
-                    Contents[index] = control;
-                }
-                else if (content.Content is string)
-                {
-                    var context = new FilePageContext() { Icon = FilePageIcon.File, Message = (string)content.Content };
-                    var control = new FilePageControl(context);
-                    Contents[index] = control;
-                }
-                else
-                {
-                    Contents[index] = null;
-                }
+                    }
+                    else if (content.Content is FilePageContext)
+                    {
+                        var control = new FilePageControl(content.Content as FilePageContext);
+                        control.DefaultBrush = Brushes.Red;
+                        control.SetBinding(FilePageControl.DefaultBrushProperty, new System.Windows.Data.Binding("ForegroundBrush") { Source = this });
+                        Contents[index] = control;
+                    }
+                    else if (content.Content is string)
+                    {
+                        var context = new FilePageContext() { Icon = FilePageIcon.File, Message = (string)content.Content };
+                        var control = new FilePageControl(context);
+                        Contents[index] = control;
+                    }
+                    else
+                    {
+                        Contents[index] = null;
+                    }
 
-                //
-                if (content?.Color != null)
-                {
-                    pageColor = new SolidColorBrush(content.Color);
+                    //
+                    if (content?.Color != null)
+                    {
+                        pageColor = new SolidColorBrush(content.Color);
+                    }
                 }
+            }
+            else
+            {
+                Contents[0] = null;
+                Contents[1] = null;
             }
 
             _PageColor = pageColor;

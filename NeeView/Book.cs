@@ -662,10 +662,14 @@ namespace NeeView
                     archiver = ModelContext.ArchiverManager.CreateArchiver(path);
                     option |= LoadFolderOption.Recursive; // 圧縮ファイルはリカーシブ標準
                 }
-                else
+                else if (ModelContext.BitmapLoaderManager.IsSupported(path) || (option & LoadFolderOption.SupportAllFile) == LoadFolderOption.SupportAllFile)
                 {
                     archiver = ModelContext.ArchiverManager.CreateArchiver(Path.GetDirectoryName(path));
                     start = Path.GetFileName(path);
+                }
+                else
+                {
+                    throw new FileFormatException("サポート外ファイルです");
                 }
             }
             else

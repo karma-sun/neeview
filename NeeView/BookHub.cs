@@ -163,10 +163,13 @@ namespace NeeView
 
                     await book.Load(path, start, option);
                 }
-                catch
+                catch (Exception e)
                 {
                     // ファイル読み込み失敗通知
-                    Messenger.MessageBox(this, $"{path} の読み込みに失敗しました。", "通知", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                    Messenger.MessageBox(this, $"{path} の読み込みに失敗しました。\n\n理由：{e.Message}", "通知", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+
+                    // 現在表示されているコンテンツを無効
+                    ViewContentsChanged?.Invoke(this, null);
 
                     // 履歴から消去
                     ModelContext.BookHistory.Remove(path);

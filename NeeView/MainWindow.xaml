@@ -109,6 +109,7 @@
                         <local:StretchModeToBooleanConverter x:Key="StretchModeToBooleanConverter"/>
                         <local:SortModeToBooleanConverter x:Key="SortModeToBooleanConverter"/>
                         <local:BookReadOrderToBooleanConverter x:Key="BookReadOrderToBooleanConverter"/>
+                        <local:FolderOrderToBooleanConverter x:Key="FolderOrderToBooleanConverter"/>
                         <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
                     </Menu.Resources>
 
@@ -152,7 +153,13 @@
                         <Separator/>
                         <MenuItem Header="前のフォルダに移動"  Command="{Binding BookCommands[PrevFolder]}"/>
                         <MenuItem Header="次のフォルダへ移動"  Command="{Binding BookCommands[NextFolder]}"/>
-                        <MenuItem Header="ランダムなフォルダに移動する"  Command="{Binding BookCommands[RandomFolder]}"/>
+                        <Separator/>
+                        <MenuItem Header="フォルダはファイル名順" Command="{Binding BookCommands[SetFolderOrderByFileName]}"
+                              IsChecked="{Binding FolderOrder,Converter={StaticResource FolderOrderToBooleanConverter},ConverterParameter=FileName,Mode=OneWay}" />
+                        <MenuItem Header="フォルダは日付順" Command="{Binding BookCommands[SetFolderOrderByTimeStamp]}"
+                              IsChecked="{Binding FolderOrder,Converter={StaticResource FolderOrderToBooleanConverter},ConverterParameter=TimeStamp,Mode=OneWay}" />
+                        <MenuItem Header="フォルダはランダムな並び" Command="{Binding BookCommands[SetFolderOrderByRandom]}"
+                              IsChecked="{Binding FolderOrder,Converter={StaticResource FolderOrderToBooleanConverter},ConverterParameter=Random,Mode=OneWay}" />
                     </MenuItem>
 
                     <MenuItem Header="ページ(_P)">
@@ -178,8 +185,6 @@
                         <Separator />
                         <MenuItem Header="ファイル名順にする" Command="{Binding BookCommands[SetSortModeFileName]}"
                               IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=FileName,Mode=OneWay}" />
-                        <MenuItem Header="ファイル名辞書順にする" Command="{Binding BookCommands[SetSortModeFileNameDictionary]}"
-                              IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=FileNameDictionary,Mode=OneWay}" />
                         <MenuItem Header="日付順にする" Command="{Binding BookCommands[SetSortModeTimeStamp]}"
                               IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=TimeStamp,Mode=OneWay}" />
                         <MenuItem Header="ランダムに並べる" Command="{Binding BookCommands[SetSortModeRandom]}"

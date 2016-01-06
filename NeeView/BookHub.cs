@@ -9,8 +9,20 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    public enum FolderOrder
+    {
+        FileName,
+        TimeStamp,
+        Random,
+    }
 
-
+    public static class FolderOrderByExtension
+    {
+        public static FolderOrder GetToggle(this FolderOrder mode)
+        {
+            return (FolderOrder)(((int)mode + 1) % Enum.GetNames(typeof(FolderOrder)).Length);
+        }
+    }
 
 
     public class BookHub
@@ -57,18 +69,20 @@ namespace NeeView
 
 
 
+        // フォルダの並び順
+        public FolderOrder FolderOrder { get; set; }
+
+
         // いろんなパラメータをするー？
         // カレントでいいんじゃ？
 
         public static Book Current { get; private set; }
 
         // デフォルト本設定
-        //public BookCommonSetting BookCommonSetting { get; set; }
         public Book.Memento BookMemento { get; set; }
 
         public BookHub()
         {
-            //BookCommonSetting = new BookCommonSetting();
             BookMemento = new Book.Memento();
         }
 
@@ -275,8 +289,10 @@ namespace NeeView
             return Current == null ? 0 : Current.Pages.Count - 1;
         }
 
+
+
         // 次のフォルダに移動
-        public bool MoveFolder(int direction, Book.LoadFolderOption option)
+        private bool MoveFolder(int direction, FolderOrder folderOrder, Book.LoadFolderOption option)
         {
             if (Current == null) return false;
 
@@ -288,18 +304,38 @@ namespace NeeView
 
                 // ディレクトリ、アーカイブ以外は除外
                 var directories = entries.Where(e => Directory.Exists(e)).ToList();
-                directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
+                if (folderOrder == FolderOrder.TimeStamp)
+                {
+                    directories = directories.OrderBy((e) => Directory.GetLastWriteTime(e)).ToList();
+                }
+                else
+                {
+                    directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
+                }
                 var archives = entries.Where(e => ModelContext.ArchiverManager.IsSupported(e)).ToList();
-                archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
+                if (folderOrder == FolderOrder.TimeStamp)
+                {
+                    archives = archives.OrderBy((e) => File.GetLastWriteTime(e)).ToList();
+                }
+                else
+                {
+                    archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
+                }
 
                 directories.AddRange(archives);
 
-                int index = directories.IndexOf(Current.Place);
+                // 日付順は逆順にする
+                if (folderOrder == FolderOrder.TimeStamp)
+                {
+                    directories.Reverse();
+                }
+
+                    int index = directories.IndexOf(Current.Place);
                 if (index < 0) return false;
 
                 int next = 0;
 
-                if ((option & Book.LoadFolderOption.RandomFolder) == Book.LoadFolderOption.RandomFolder)
+                if (folderOrder == FolderOrder.Random)
                 {
                     directories.RemoveAt(index);
                     if (directories.Count <= 0) return false;
@@ -351,7 +387,7 @@ namespace NeeView
 
         public void NextFolder(Book.LoadFolderOption option = Book.LoadFolderOption.None)
         {
-            bool result = MoveFolder(+1, option);
+            bool result = MoveFolder(+1, FolderOrder, option);
             if (!result)
             {
                 InfoMessage?.Invoke(this, "次のフォルダはありません");
@@ -360,20 +396,24 @@ namespace NeeView
 
         public void PrevFolder(Book.LoadFolderOption option = Book.LoadFolderOption.None)
         {
-            bool result = MoveFolder(-1, option);
+            bool result = MoveFolder(-1, FolderOrder, option);
             if (!result)
             {
                 InfoMessage?.Invoke(this, "前のフォルダはありません");
             }
         }
 
-        public void RandomFolder(Book.LoadFolderOption option = Book.LoadFolderOption.None)
+
+        public void ToggleFolderOrder()
         {
-            bool result = MoveFolder(0, option | Book.LoadFolderOption.RandomFolder);
-            if (!result)
-            {
-                InfoMessage?.Invoke(this, "次のフォルダはありません");
-            }
+            FolderOrder = FolderOrder.GetToggle();
+            SettingChanged?.Invoke(this, null);
+        }
+
+        public void SetFolderOrder(FolderOrder order)
+        {
+            FolderOrder = order;
+            SettingChanged?.Invoke(this, null);
         }
 
 
@@ -382,7 +422,6 @@ namespace NeeView
             Current?.Restore(BookMemento); //.Restore(Current);
             SettingChanged?.Invoke(this, null);
         }
-
 
         public void ToggleIsSupportedTitlePage()
         {
@@ -467,6 +506,9 @@ namespace NeeView
             public bool IsEnabledAutoNextFolder { get; set; }
 
             [DataMember]
+            public FolderOrder FolderOrder { get; set; }
+
+            [DataMember]
             public Book.Memento BookMemento { get; set; }
 
             //
@@ -474,6 +516,7 @@ namespace NeeView
             {
                 IsEnableHistory = true;
                 IsEnableNoSupportFile = false;
+                FolderOrder = FolderOrder.FileName;
                 BookMemento = new Book.Memento();
             }
 
@@ -498,6 +541,7 @@ namespace NeeView
             memento.IsEnableHistory = IsEnableHistory;
             memento.IsEnableNoSupportFile = IsEnableNoSupportFile;
             memento.IsEnabledAutoNextFolder = IsEnabledAutoNextFolder;
+            memento.FolderOrder = FolderOrder;
             memento.BookMemento = BookMemento.Clone();
 
             return memento;
@@ -510,6 +554,7 @@ namespace NeeView
             IsEnableHistory = memento.IsEnableHistory;
             IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
             IsEnabledAutoNextFolder = memento.IsEnabledAutoNextFolder;
+            FolderOrder = memento.FolderOrder;
             BookMemento = memento.BookMemento.Clone();
 
             // これは・・・要検証

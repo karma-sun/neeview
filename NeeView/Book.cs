@@ -33,7 +33,7 @@ namespace NeeView
     public enum BookSortMode
     {
         FileName,
-        FileNameDictionary,
+        //FileNameDictionary,
         TimeStamp,
         Random,
     }
@@ -308,7 +308,6 @@ namespace NeeView
             FirstPage = (1 << 2),
             LastPage = (1 << 3),
             ReLoad = (1 << 4),
-            RandomFolder = (1 << 5),
         };
 
 
@@ -811,9 +810,9 @@ namespace NeeView
                 case BookSortMode.FileName:
                     Pages.Sort((a, b) => ComparePath(a.FullPath, b.FullPath, Win32Api.StrCmpLogicalW));
                     break;
-                case BookSortMode.FileNameDictionary:
-                    Pages.Sort((a, b) => ComparePath(a.FullPath, b.FullPath, string.Compare));
-                    break;
+                //case BookSortMode.FileNameDictionary:
+                //    Pages.Sort((a, b) => ComparePath(a.FullPath, b.FullPath, string.Compare));
+                //    break;
                 case BookSortMode.TimeStamp:
                     Pages = Pages.OrderBy(e => e.UpdateTime).ToList();
                     break;

@@ -29,7 +29,11 @@ namespace NeeView
 
         PrevFolder,
         NextFolder,
-        RandomFolder,
+
+        ToggleFolderOrder,
+        SetFolderOrderByFileName,
+        SetFolderOrderByTimeStamp,
+        SetFolderOrderByRandom,
 
         ToggleFullScreen,
         CancelFullScreen,
@@ -56,7 +60,7 @@ namespace NeeView
 
         ToggleSortMode,
         SetSortModeFileName,
-        SetSortModeFileNameDictionary,
+        //SetSortModeFileNameDictionary,
         SetSortModeTimeStamp,
         SetSortModeRandom,
 
@@ -97,8 +101,11 @@ namespace NeeView
             [BookCommandType.LastPage] = new BookCommandHeader("移動", "最後のページへ移動"),
             [BookCommandType.PrevFolder] = new BookCommandHeader("移動", "前のフォルダに移動"),
             [BookCommandType.NextFolder] = new BookCommandHeader("移動", "次のフォルダへ移動"),
-            [BookCommandType.RandomFolder] = new BookCommandHeader("移動", "ランダムなフォルダに移動"),
 
+            [BookCommandType.ToggleFolderOrder] = new BookCommandHeader("フォルダ列", "フォルダの並び順を切り替える"),
+            [BookCommandType.SetFolderOrderByFileName] = new BookCommandHeader("フォルダ列", "フォルダ列はファイル名順"),
+            [BookCommandType.SetFolderOrderByTimeStamp] = new BookCommandHeader("フォルダ列", "フォルダ列は日付順"),
+            [BookCommandType.SetFolderOrderByRandom] = new BookCommandHeader("フォルダ列", "フォルダ列はランダム"),
 
             [BookCommandType.ToggleStretchMode] = new BookCommandHeader("スケール", "サイズを切り替える"),
             [BookCommandType.SetStretchModeNone] = new BookCommandHeader("スケール", "元のサイズで表示する"),
@@ -120,12 +127,12 @@ namespace NeeView
 
             [BookCommandType.ToggleIsRecursiveFolder] = new BookCommandHeader("フォルダ", "サブフォルダ読み込みON/OFF"),
 
-            [BookCommandType.ToggleSortMode] = new BookCommandHeader("ソート", "ソート方法を切り替える"),
-            [BookCommandType.SetSortModeFileName] = new BookCommandHeader("ソート", "ファイル名順にする"),
-            [BookCommandType.SetSortModeFileNameDictionary] = new BookCommandHeader("ソート", "ファイル名辞書順にする"),
-            [BookCommandType.SetSortModeTimeStamp] = new BookCommandHeader("ソート", "ファイル日付順にする"),
-            [BookCommandType.SetSortModeRandom] = new BookCommandHeader("ソート", "ランダムに並べる"),
-            [BookCommandType.ToggleIsReverseSort] = new BookCommandHeader("ソート", "正順、逆順を切り替える"),
+            [BookCommandType.ToggleSortMode] = new BookCommandHeader("ページ列", "ソート方法を切り替える"),
+            [BookCommandType.SetSortModeFileName] = new BookCommandHeader("ページ列", "ファイル名順にする"),
+            //[BookCommandType.SetSortModeFileNameDictionary] = new BookCommandHeader("ページ列", "ファイル名辞書順にする"),
+            [BookCommandType.SetSortModeTimeStamp] = new BookCommandHeader("ページ列", "ファイル日付順にする"),
+            [BookCommandType.SetSortModeRandom] = new BookCommandHeader("ページ列", "ランダムに並べる"),
+            [BookCommandType.ToggleIsReverseSort] = new BookCommandHeader("ページ列", "正順、逆順を切り替える"),
 
             [BookCommandType.ToggleFullScreen] = new BookCommandHeader("ビュー操作", "フルスクリーン切り替え"),
             [BookCommandType.CancelFullScreen] = new BookCommandHeader("ビュー操作", "フルスクリーン解除"),
@@ -174,7 +181,12 @@ namespace NeeView
             _Actions.Add(BookCommandType.LastPage, e => book.LastPage());
             _Actions.Add(BookCommandType.PrevFolder, e => book.PrevFolder());
             _Actions.Add(BookCommandType.NextFolder, e => book.NextFolder());
-            _Actions.Add(BookCommandType.RandomFolder, e => book.RandomFolder());
+
+            _Actions.Add(BookCommandType.ToggleFolderOrder, e => book.ToggleFolderOrder());
+            _Actions.Add(BookCommandType.SetFolderOrderByFileName, e => book.SetFolderOrder(FolderOrder.FileName));
+            _Actions.Add(BookCommandType.SetFolderOrderByTimeStamp, e => book.SetFolderOrder(FolderOrder.TimeStamp));
+            _Actions.Add(BookCommandType.SetFolderOrderByRandom, e => book.SetFolderOrder(FolderOrder.Random));
+
             _Actions.Add(BookCommandType.ToggleFullScreen, null);
             _Actions.Add(BookCommandType.CancelFullScreen, null);
             _Actions.Add(BookCommandType.ToggleStretchMode, e => vm.StretchMode = vm.StretchMode.GetToggle());
@@ -194,7 +206,7 @@ namespace NeeView
             _Actions.Add(BookCommandType.ToggleIsRecursiveFolder, e => book.ToggleIsRecursiveFolder());
             _Actions.Add(BookCommandType.ToggleSortMode, e => book.ToggleSortMode());
             _Actions.Add(BookCommandType.SetSortModeFileName, e => book.SetSortMode(BookSortMode.FileName));
-            _Actions.Add(BookCommandType.SetSortModeFileNameDictionary, e => book.SetSortMode(BookSortMode.FileNameDictionary));
+            //_Actions.Add(BookCommandType.SetSortModeFileNameDictionary, e => book.SetSortMode(BookSortMode.FileNameDictionary));
             _Actions.Add(BookCommandType.SetSortModeTimeStamp, e => book.SetSortMode(BookSortMode.TimeStamp));
             _Actions.Add(BookCommandType.SetSortModeRandom, e => book.SetSortMode(BookSortMode.Random));
             _Actions.Add(BookCommandType.ToggleIsReverseSort, e => book.ToggleIsReverseSort());

@@ -211,7 +211,12 @@ namespace NeeView
         private BookHub _BookHub;
         public BookCommandCollection CommandCollection; // TODO:定義位置とか
 
+        public FolderOrder FolderOrder => _BookHub.FolderOrder;
+
         private Setting _Setting;
+
+
+
 
         public MainWindowVM()
         {
@@ -243,6 +248,7 @@ namespace NeeView
                 (s, e) =>
                 {
                     OnPropertyChanged(nameof(BookSetting));
+                    OnPropertyChanged(nameof(FolderOrder));
                 };
             _BookHub.InfoMessage +=
                 (s, e) => Messenger.Send(this, new MessageEventArgs("MessageShow") { Parameter = new MessageShowParams(e) });

@@ -247,10 +247,29 @@ namespace NeeView
             }
         }
 
+        public bool IsEnableSlideShow { get; set; }
+
+        private bool IsSlideShowByLoop { get; set; } = true;
+
+        public double SlideShowInterval { get; set; } = 5.0;
+
+        public void NextSlide()
+        {
+            if (IsEnableSlideShow)
+            {
+                NextPage();
+            }
+        }
+
         //
         private void Book_PageTerminated(object sender, int e)
         {
-            if (IsEnabledAutoNextFolder)
+            if (IsEnableSlideShow && IsSlideShowByLoop)
+            {
+                FirstPage();
+            }
+
+            else if (IsEnabledAutoNextFolder)
             {
                 if (e < 0)
                 {
@@ -403,6 +422,11 @@ namespace NeeView
             }
         }
 
+        public void ToggleSlideShow()
+        {
+            IsEnableSlideShow = !IsEnableSlideShow;
+            SettingChanged?.Invoke(this, null);
+        }
 
         public void ToggleFolderOrder()
         {
@@ -509,6 +533,12 @@ namespace NeeView
             public FolderOrder FolderOrder { get; set; }
 
             [DataMember]
+            public bool IsSlideShowByLoop { get; set; }
+
+            [DataMember]
+            public double SlideShowInterval { get; set; }
+
+            [DataMember]
             public Book.Memento BookMemento { get; set; }
 
             //
@@ -517,6 +547,8 @@ namespace NeeView
                 IsEnableHistory = true;
                 IsEnableNoSupportFile = false;
                 FolderOrder = FolderOrder.FileName;
+                IsSlideShowByLoop = true;
+                SlideShowInterval = 5.0;
                 BookMemento = new Book.Memento();
             }
 
@@ -542,6 +574,8 @@ namespace NeeView
             memento.IsEnableNoSupportFile = IsEnableNoSupportFile;
             memento.IsEnabledAutoNextFolder = IsEnabledAutoNextFolder;
             memento.FolderOrder = FolderOrder;
+            memento.IsSlideShowByLoop = IsSlideShowByLoop;
+            memento.SlideShowInterval = SlideShowInterval;
             memento.BookMemento = BookMemento.Clone();
 
             return memento;
@@ -555,6 +589,8 @@ namespace NeeView
             IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
             IsEnabledAutoNextFolder = memento.IsEnabledAutoNextFolder;
             FolderOrder = memento.FolderOrder;
+            IsSlideShowByLoop = memento.IsSlideShowByLoop;
+            SlideShowInterval = memento.SlideShowInterval;
             BookMemento = memento.BookMemento.Clone();
 
             // これは・・・要検証

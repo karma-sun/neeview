@@ -97,13 +97,13 @@ namespace NeeView
 
         public int Index
         {
-            get { return _BookHub.GetPageIndex(); }
-            set { _BookHub.SetPageIndex(value); }
+            get { return BookHub.GetPageIndex(); }
+            set { BookHub.SetPageIndex(value); }
         }
 
         public int IndexMax
         {
-            get { return _BookHub.GetPageCount(); }
+            get { return BookHub.GetPageCount(); }
         }
 
         public ObservableCollection<DispPage> PageList { get; private set; } = new ObservableCollection<DispPage>();
@@ -156,7 +156,7 @@ namespace NeeView
         }
         #endregion
 
-        public Book.Memento BookSetting => _BookHub.BookMemento;
+        public Book.Memento BookSetting => BookHub.BookMemento;
 
 
         public bool IsViewStartPositionCenter { get; set; }
@@ -164,8 +164,8 @@ namespace NeeView
 
         public event EventHandler<string> Loaded
         {
-            add { _BookHub.Loaded += value; }
-            remove { _BookHub.Loaded -= value; }
+            add { BookHub.Loaded += value; }
+            remove { BookHub.Loaded -= value; }
         }
 
 
@@ -208,10 +208,11 @@ namespace NeeView
         public event EventHandler ViewChanged;
         public event EventHandler InputGestureChanged;
 
-        private BookHub _BookHub;
+        public BookHub BookHub { get; private set; }
+
         public BookCommandCollection CommandCollection; // TODO:定義位置とか
 
-        public FolderOrder FolderOrder => _BookHub.FolderOrder;
+        //public FolderOrder FolderOrder => BookHub.FolderOrder;
 
         private Setting _Setting;
 
@@ -222,35 +223,35 @@ namespace NeeView
         {
             ModelContext.Initialize();
 
-            _BookHub = new BookHub();
+            BookHub = new BookHub();
 
             //ModelContext.BookHistory = new BookHistory();
 
             CommandCollection = new BookCommandCollection();
-            CommandCollection.Initialize(this, _BookHub, null);
+            CommandCollection.Initialize(this, BookHub, null);
 
             ModelContext.JobEngine.Context.AddEvent += JobEngineEvent;
             ModelContext.JobEngine.Context.RemoveEvent += JobEngineEvent;
 
-            _BookHub.Loaded +=
+            BookHub.Loaded +=
                 (s, e) => LoadingPath = e;
 
-            _BookHub.BookChanged +=
+            BookHub.BookChanged +=
                 OnBookChanged;
 
-            _BookHub.PageChanged +=
+            BookHub.PageChanged +=
                 OnPageChanged;
 
-            _BookHub.ViewContentsChanged +=
+            BookHub.ViewContentsChanged +=
                 OnViewContentsChanged;
 
-            _BookHub.SettingChanged +=
+            BookHub.SettingChanged +=
                 (s, e) =>
                 {
                     OnPropertyChanged(nameof(BookSetting));
-                    OnPropertyChanged(nameof(FolderOrder));
+                    OnPropertyChanged(nameof(BookHub));
                 };
-            _BookHub.InfoMessage +=
+            BookHub.InfoMessage +=
                 (s, e) => Messenger.Send(this, new MessageEventArgs("MessageShow") { Parameter = new MessageShowParams(e) });
 
             Contents = new ObservableCollection<FrameworkElement>();
@@ -379,7 +380,7 @@ namespace NeeView
             var setting = new Setting();
             setting.ViewMemento = this.CreateMemento();
             setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
-            setting.BookHubMemento = _BookHub.CreateMemento();
+            setting.BookHubMemento = BookHub.CreateMemento();
             setting.BookCommandMemento = CommandCollection.CreateMemento();
 
             setting.BookHistoryMemento = ModelContext.BookHistory.CreateMemento();
@@ -391,7 +392,7 @@ namespace NeeView
         {
             this.Restore(setting.ViewMemento);
             ModelContext.SusieContext.Restore(setting.SusieMemento);
-            _BookHub.Restore(setting.BookHubMemento);
+            BookHub.Restore(setting.BookHubMemento);
             CommandCollection.Restore(setting.BookCommandMemento);
             //setting.GestureSetting.Restore(CommandCollection);
 
@@ -420,7 +421,7 @@ namespace NeeView
 
                 this.Restore(_Setting.ViewMemento);
                 ModelContext.SusieContext.Restore(_Setting.SusieMemento);
-                _BookHub.Restore(_Setting.BookHubMemento);
+                BookHub.Restore(_Setting.BookHubMemento);
                 CommandCollection.Restore(_Setting.BookCommandMemento);
 
                 ModelContext.BookHistory.Restore(_Setting.BookHistoryMemento);
@@ -439,7 +440,7 @@ namespace NeeView
 
             _Setting.ViewMemento = this.CreateMemento();
             _Setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
-            _Setting.BookHubMemento = _BookHub.CreateMemento();
+            _Setting.BookHubMemento = BookHub.CreateMemento();
             _Setting.BookCommandMemento = CommandCollection.CreateMemento();
 
             ModelContext.BookHistory.Add(BookHub.Current);
@@ -814,16 +815,20 @@ namespace NeeView
             OnPropertyChanged(nameof(JobCount));
         }
 
-        /*
-        public void SetViewSize(double width, double height)
-        {
-            _Book.SetViewSize(width, height);
-        }
-        */
+        //
+        public double SlideShowInterval => BookHub.SlideShowInterval;
 
+        public void NextSlide()
+        {
+            BookHub.NextSlide();
+        }
+
+
+        //
         public void Load(string path)
         {
-            _BookHub.Load(path);
+            BookHub.IsEnableSlideShow = false; // スライドショウ停止
+            BookHub.Load(path);
         }
 
 

@@ -75,6 +75,24 @@ namespace NeeView
             10000
         };
 
+        public static List<double> SlideShowIntervalList { get; } = new List<double>
+        {
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            15,
+            20,
+            30,
+            60,
+        };
+
         public class BookCommand
         {
             public BookCommandType Key { get; set; }

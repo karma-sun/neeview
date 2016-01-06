@@ -38,6 +38,8 @@ namespace NeeView
         ToggleFullScreen,
         CancelFullScreen,
 
+        ToggleSlideShow,
+
         ToggleStretchMode,
         SetStretchModeNone,
         SetStretchModeInside,
@@ -136,6 +138,7 @@ namespace NeeView
 
             [BookCommandType.ToggleFullScreen] = new BookCommandHeader("ビュー操作", "フルスクリーン切り替え"),
             [BookCommandType.CancelFullScreen] = new BookCommandHeader("ビュー操作", "フルスクリーン解除"),
+            [BookCommandType.ToggleSlideShow] = new BookCommandHeader("ビュー操作", "スライドショーON/OFF"),
             [BookCommandType.ViewScrollUp] = new BookCommandHeader("ビュー操作", "スクロール↑"),
             [BookCommandType.ViewScrollDown] = new BookCommandHeader("ビュー操作", "スクロール↓"),
             [BookCommandType.ViewScaleUp] = new BookCommandHeader("ビュー操作", "拡大"),
@@ -189,6 +192,7 @@ namespace NeeView
 
             _Actions.Add(BookCommandType.ToggleFullScreen, null);
             _Actions.Add(BookCommandType.CancelFullScreen, null);
+            _Actions.Add(BookCommandType.ToggleSlideShow, e => book.ToggleSlideShow());
             _Actions.Add(BookCommandType.ToggleStretchMode, e => vm.StretchMode = vm.StretchMode.GetToggle());
             _Actions.Add(BookCommandType.SetStretchModeNone, e => vm.StretchMode = PageStretchMode.None);
             _Actions.Add(BookCommandType.SetStretchModeInside, e => vm.StretchMode = PageStretchMode.Inside);
@@ -346,6 +350,7 @@ namespace NeeView
             AddWeak(BookCommandType.NextFolder, new BookCommandSetting("Down", "LD", false));
             AddWeak(BookCommandType.ToggleFullScreen, new BookCommandSetting("F12", "U", false));
             AddWeak(BookCommandType.CancelFullScreen, new BookCommandSetting("Escape", null, false));
+            AddWeak(BookCommandType.ToggleSlideShow, new BookCommandSetting("F5", null, false));
             AddWeak(BookCommandType.TogglePageMode, new BookCommandSetting("LeftButton+WheelUp", null));
             AddWeak(BookCommandType.SetPageMode1, new BookCommandSetting("Ctrl+1", null));
             AddWeak(BookCommandType.SetPageMode2, new BookCommandSetting("Ctrl+2", null));

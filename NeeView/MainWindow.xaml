@@ -140,6 +140,9 @@
                         <MenuItem Header="ウィンドウいっぱいに広げる" Command="{Binding BookCommands[SetStretchModeUniformToFill]}"
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=UniformToFill,Mode=OneWay}" />
                         <Separator/>
+                        <MenuItem Header="スライドショー" Command="{Binding BookCommands[ToggleSlideShow]}"
+                            IsChecked="{Binding BookHub.IsEnableSlideShow,Mode=OneWay}" />
+                        <Separator/>
                         <MenuItem Header="全画面表示" Command="{Binding BookCommands[ToggleFullScreen]}" />
                     </MenuItem>
 
@@ -155,11 +158,11 @@
                         <MenuItem Header="次のフォルダへ移動"  Command="{Binding BookCommands[NextFolder]}"/>
                         <Separator/>
                         <MenuItem Header="フォルダはファイル名順" Command="{Binding BookCommands[SetFolderOrderByFileName]}"
-                              IsChecked="{Binding FolderOrder,Converter={StaticResource FolderOrderToBooleanConverter},ConverterParameter=FileName,Mode=OneWay}" />
+                              IsChecked="{Binding BookHub.FolderOrder,Converter={StaticResource FolderOrderToBooleanConverter},ConverterParameter=FileName,Mode=OneWay}" />
                         <MenuItem Header="フォルダは日付順" Command="{Binding BookCommands[SetFolderOrderByTimeStamp]}"
-                              IsChecked="{Binding FolderOrder,Converter={StaticResource FolderOrderToBooleanConverter},ConverterParameter=TimeStamp,Mode=OneWay}" />
+                              IsChecked="{Binding BookHub.FolderOrder,Converter={StaticResource FolderOrderToBooleanConverter},ConverterParameter=TimeStamp,Mode=OneWay}" />
                         <MenuItem Header="フォルダはランダムな並び" Command="{Binding BookCommands[SetFolderOrderByRandom]}"
-                              IsChecked="{Binding FolderOrder,Converter={StaticResource FolderOrderToBooleanConverter},ConverterParameter=Random,Mode=OneWay}" />
+                              IsChecked="{Binding BookHub.FolderOrder,Converter={StaticResource FolderOrderToBooleanConverter},ConverterParameter=Random,Mode=OneWay}" />
                     </MenuItem>
 
                     <MenuItem Header="ページ(_P)">
@@ -204,9 +207,13 @@
                     </MenuItem>
                 </Menu>
 
-                <Button x:Name="HelpButton" Style="{StaticResource IconButton}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0" Click="HelpButton_Click">
-                    <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
-                </Button>
+                <DockPanel LastChildFill="False" VerticalAlignment="Center" Margin="0,0,10,0">
+
+                    <Button DockPanel.Dock="Right"  x:Name="HelpButton" Style="{StaticResource IconButton}" VerticalAlignment="Center" Click="HelpButton_Click">
+                        <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
+                    </Button>
+                    
+                </DockPanel>
             </Grid>
 
             <!-- ステータスエリア -->

@@ -76,7 +76,7 @@ namespace NeeView
 
             // タイマーを作成する
             _Timer = new DispatcherTimer(DispatcherPriority.Normal, this.Dispatcher);
-            _Timer.Interval = TimeSpan.FromSeconds(0.5);
+            _Timer.Interval = TimeSpan.FromSeconds(0.2);
             _Timer.Tick += new EventHandler(DispatcherTimer_Tick);
             // タイマーの実行開始
             _Timer.Start();
@@ -87,19 +87,32 @@ namespace NeeView
         DateTime _LastActionTime;
         Point _LastActionPoint;
 
+        DateTime _LastShowTime;
+
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
+           //Debug.WriteLine($"Interval: {DateTime.Now.Second}.{DateTime.Now.Millisecond}");
+
             if (Mouse.LeftButton == MouseButtonState.Pressed || Mouse.RightButton == MouseButtonState.Pressed)
             {
                 _LastActionTime = DateTime.Now;
+                _LastShowTime = DateTime.Now;
                 return;
             }
 
-            var sec = (DateTime.Now - _LastActionTime).TotalSeconds;
-            if (sec > 2.0)
+            if ((DateTime.Now - _LastActionTime).TotalSeconds > 2.0)
             {
                 SetMouseVisible(false);
+                _LastActionTime = DateTime.Now;
+            }
+
+
+            if ((DateTime.Now - _LastShowTime).TotalSeconds > _VM.SlideShowInterval)
+            {
+                //Debug.WriteLine($"SlideShow: {DateTime.Now.Second}.{DateTime.Now.Millisecond}");
+                if (!_NowLoading) _VM.NextSlide();
+                _LastShowTime = DateTime.Now;
             }
         }
 
@@ -110,6 +123,7 @@ namespace NeeView
             if (Math.Abs(nowPoint.X - _LastActionPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(nowPoint.Y - _LastActionPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
                 _LastActionTime = DateTime.Now;
+                _LastShowTime = DateTime.Now;
                 _LastActionPoint = nowPoint;
                 SetMouseVisible(true);
             }

@@ -206,6 +206,8 @@ namespace NeeView
                 (e) => _VM.ClearHistor();
             _VM.CommandCollection[BookCommandType.ToggleFullScreen].Command =
                 (e) => _WindowMode.Toggle();
+            _VM.CommandCollection[BookCommandType.CancelFullScreen].Command =
+                (e) => _WindowMode.Cancel();
             _VM.CommandCollection[BookCommandType.ViewScrollUp].Command =
                 (e) => _MouseDragController.ScrollUp();
             _VM.CommandCollection[BookCommandType.ViewScrollDown].Command =

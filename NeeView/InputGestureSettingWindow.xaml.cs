@@ -35,6 +35,9 @@ namespace NeeView
 
             InitializeComponent();
             this.DataContext = this;
+
+            // ESCでウィンドウを閉じる
+            this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
         }
 
         public SettingWindow.BookCommand Command { get; set; }

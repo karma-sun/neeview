@@ -42,6 +42,12 @@ namespace NeeView
         }
 
         //
+        public void Cancel()
+        {
+            Restore();
+        }
+
+        //
         private void ToFullScreen()
         {
             if (_IsFullScreened) return;

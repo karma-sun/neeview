@@ -32,14 +32,8 @@ namespace NeeView
 
             MouseGesture = new MouseGestureEx(this.GestureBox);
 
-            /*
-            this.GestureText.SetBinding(TextBox.TextProperty,
-                new Binding("GestureText")
-                {
-                    Source = MouseGesture,
-                    Converter = new MouseGestureToDispTextConverter()
-                });
-                */
+            // ESCでウィンドウを閉じる
+            this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)

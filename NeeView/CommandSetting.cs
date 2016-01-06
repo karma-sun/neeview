@@ -32,6 +32,7 @@ namespace NeeView
         RandomFolder,
 
         ToggleFullScreen,
+        CancelFullScreen,
 
         ToggleStretchMode,
         SetStretchModeNone,
@@ -127,6 +128,7 @@ namespace NeeView
             [BookCommandType.ToggleIsReverseSort] = new BookCommandHeader("ソート", "正順、逆順を切り替える"),
 
             [BookCommandType.ToggleFullScreen] = new BookCommandHeader("ビュー操作", "フルスクリーン切り替え"),
+            [BookCommandType.CancelFullScreen] = new BookCommandHeader("ビュー操作", "フルスクリーン解除"),
             [BookCommandType.ViewScrollUp] = new BookCommandHeader("ビュー操作", "スクロール↑"),
             [BookCommandType.ViewScrollDown] = new BookCommandHeader("ビュー操作", "スクロール↓"),
             [BookCommandType.ViewScaleUp] = new BookCommandHeader("ビュー操作", "拡大"),
@@ -174,6 +176,7 @@ namespace NeeView
             _Actions.Add(BookCommandType.NextFolder, e => book.NextFolder());
             _Actions.Add(BookCommandType.RandomFolder, e => book.RandomFolder());
             _Actions.Add(BookCommandType.ToggleFullScreen, null);
+            _Actions.Add(BookCommandType.CancelFullScreen, null);
             _Actions.Add(BookCommandType.ToggleStretchMode, e => vm.StretchMode = vm.StretchMode.GetToggle());
             _Actions.Add(BookCommandType.SetStretchModeNone, e => vm.StretchMode = PageStretchMode.None);
             _Actions.Add(BookCommandType.SetStretchModeInside, e => vm.StretchMode = PageStretchMode.Inside);
@@ -329,7 +332,8 @@ namespace NeeView
             AddWeak(BookCommandType.LastPage, new BookCommandSetting("Ctrl+Left", "UL"));
             AddWeak(BookCommandType.PrevFolder, new BookCommandSetting("Up", "LU", false));
             AddWeak(BookCommandType.NextFolder, new BookCommandSetting("Down", "LD", false));
-            AddWeak(BookCommandType.ToggleFullScreen, new BookCommandSetting("F12", "U"));
+            AddWeak(BookCommandType.ToggleFullScreen, new BookCommandSetting("F12", "U", false));
+            AddWeak(BookCommandType.CancelFullScreen, new BookCommandSetting("Escape", null, false));
             AddWeak(BookCommandType.TogglePageMode, new BookCommandSetting("LeftButton+WheelUp", null));
             AddWeak(BookCommandType.SetPageMode1, new BookCommandSetting("Ctrl+1", null));
             AddWeak(BookCommandType.SetPageMode2, new BookCommandSetting("Ctrl+2", null));

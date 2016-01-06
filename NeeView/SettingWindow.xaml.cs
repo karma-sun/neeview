@@ -89,6 +89,7 @@ namespace NeeView
 
         public MainWindowVM VM { get; set; }
 
+
         public SettingWindow(MainWindowVM  vm, Setting setting)
         {
             VM = vm;
@@ -107,6 +108,9 @@ namespace NeeView
             this.SusieSettingTab.CommandBindings.Add(new CommandBinding(SusiePluginUpdateCommand, SusiePluginUpdateCommand_Executed));
 
             UpdateSusiePluginList();
+
+            // ESCでウィンドウを閉じる
+            this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
         }
 
 

@@ -330,8 +330,8 @@ namespace NeeView
         {
             var v1 = _EndPoint - _StartPoint;
 
-            double lengthX = SystemParameters.MinimumHorizontalDragDistance;
-            double lengthY = SystemParameters.MinimumVerticalDragDistance;
+            double lengthX = SystemParameters.MinimumHorizontalDragDistance * 2.0;
+            double lengthY = SystemParameters.MinimumVerticalDragDistance * 2.0;
             //double length = 8;
 
             // 一定距離未満は判定しない
@@ -340,7 +340,7 @@ namespace NeeView
             // 方向を決める
             // 斜め方向は以前の方向とする
 
-            if (_Direction != MouseGestureDirection.None && Math.Abs(Vector.AngleBetween(GestureDirectionVector[_Direction], v1)) < 45)
+            if (_Direction != MouseGestureDirection.None && Math.Abs(Vector.AngleBetween(GestureDirectionVector[_Direction], v1)) < 60)
             {
                 // そのまま
             }
@@ -350,7 +350,7 @@ namespace NeeView
                 {
                     var v0 = GestureDirectionVector[direction];
                     var angle = Vector.AngleBetween(GestureDirectionVector[direction], v1);
-                    if (direction != MouseGestureDirection.None && Math.Abs(Vector.AngleBetween(GestureDirectionVector[direction], v1)) < 30)
+                    if (direction != MouseGestureDirection.None && Math.Abs(Vector.AngleBetween(GestureDirectionVector[direction], v1)) < 45)
                     {
                         _Direction = direction;
                         _Gesture.Add(_Direction);

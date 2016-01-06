@@ -31,6 +31,8 @@ namespace NeeView
         public MouseDragController _MouseDragController;
         public MouseGestureEx _MouseGesture;
 
+        bool _NowLoading = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -43,9 +45,11 @@ namespace NeeView
             _VM.Loaded += (s, e) =>
             {
                 //this.Cursor = e != null ? Cursors.Wait : null;
-                this.Root.IsEnabled = e == null;
+                _NowLoading = e != null;
+                //this.Root.IsEnabled = e == null;
                 DispNowLoading(e);
             };
+
 
             this.DataContext = _VM;
 
@@ -181,21 +185,6 @@ namespace NeeView
 
 
 
-#if false
-        class CommandSetting
-        {
-            public RoutedCommand Command { set; get; }
-            public BookCommandType Type { set; get; }
-        }
-
-        class CommandSettingCollection : Dictionary<RoutedCommand, CommandSetting>
-        {
-            public void Add(RoutedCommand command, BookCommandType type)
-            {
-                Add(command, new CommandSetting() { Command = command, Type = type });
-            }
-        }
-#endif
 
         public void InitializeCommandBindings()
         {
@@ -229,9 +218,16 @@ namespace NeeView
             // コマンドバインド作成
             foreach (BookCommandType type in Enum.GetValues(typeof(BookCommandType)))
             {
-                this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Parameter)));
+                this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Parameter), CanExecute));
             }
         }
+
+        //
+        private void CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !_NowLoading;
+        }
+
 
 
         // ダイアログでファイル選択して画像を読み込む
@@ -369,7 +365,7 @@ namespace NeeView
         //
         private void MainWindow_PreviewDragOver(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, true) && !_NowLoading)
                 e.Effects = DragDropEffects.Copy;
             else
                 e.Effects = DragDropEffects.None;
@@ -383,7 +379,9 @@ namespace NeeView
             string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
             if (files != null)
             {
-                _VM.Load(files[0]);
+                //_VM.Load(files[0]);
+                //_VM.CommandCollection[BookCommandType.LoadAs].Execute(files[0]);
+                BookCommands[BookCommandType.LoadAs].Execute(files[0], this);
             }
         }
 

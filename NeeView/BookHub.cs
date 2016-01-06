@@ -81,146 +81,148 @@ namespace NeeView
             return BookMemento.Clone();
         }
 
-        private bool _IsLoading = false;
+        //private bool _IsLoading = false;
 
         // いろんなメソッドは置き換え
         public async void Load(string path, Book.LoadFolderOption option = Book.LoadFolderOption.None)
         {
+            /*
             if (_IsLoading)
             {
                 Debug.WriteLine("Already Loading.");
                 return;
             }
+            */
+
+            //try
+            //{
+            // _IsLoading = true;
+
+            var current = Current;
+            Current = null;
+
+            // 履歴の保存
+            ModelContext.BookHistory.Add(current);
+
+            // 後始末
+            current?.Dispose();
+
+            // 新しい本
+            var book = new Book();
+
+            string start = null;
+
+            bool isBookamrk = false;
+
+            // 設定の復元
+            //BookCommonSetting.Restore(book);
+
+            //
+            if (IsEnableNoSupportFile)
+            {
+                option |= Book.LoadFolderOption.SupportAllFile;
+            }
+
+            // 設定の復元
+            if ((option & Book.LoadFolderOption.ReLoad) == Book.LoadFolderOption.ReLoad)
+            {
+                // リロード時は設定そのまま
+                book.Restore(BookMemento); //.Restore(book);
+            }
+            else
+            {
+                if (IsEnableHistory)
+                {
+                    // 履歴が有るときはそれを使用する
+                    var setting = ModelContext.BookHistory.Find(path);
+                    if (setting != null && IsEnableHistory)
+                    {
+                        BookMemento = setting.Clone(); // setting.Restore(this);
+                        book.Restore(BookMemento); // setting.Restore(book);
+                        start = setting.BookMark;
+                        isBookamrk = true;
+                    }
+                    // 履歴がないときは設定はそのまま。再帰設定のみOFFにする。
+                    else
+                    {
+                        book.Restore(BookMemento); //.Restore(book);
+                        book.IsRecursiveFolder = false;
+                    }
+                }
+            }
+
+            // リカーシブ設定
+            if ((option & Book.LoadFolderOption.Recursive) == Book.LoadFolderOption.Recursive)
+            {
+                book.IsRecursiveFolder = true;
+            }
+
 
             try
             {
-                _IsLoading = true;
+                // 読み込み。非同期で行う。
+                Loaded?.Invoke(this, path);
 
-                var current = Current;
-                Current = null;
+                await book.Load(path, start, option);
+            }
+            catch (Exception e)
+            {
+                // ファイル読み込み失敗通知
+                Messenger.MessageBox(this, $"{path} の読み込みに失敗しました。\n\n理由：{e.Message}", "通知", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
 
-                // 履歴の保存
-                ModelContext.BookHistory.Add(current);
+                // 現在表示されているコンテンツを無効
+                ViewContentsChanged?.Invoke(this, null);
 
-                // 後始末
-                current?.Dispose();
-
-                // 新しい本
-                var book = new Book();
-
-                string start = null;
-
-                bool isBookamrk = false;
-
-                // 設定の復元
-                //BookCommonSetting.Restore(book);
-
-                //
-                if (IsEnableNoSupportFile)
-                {
-                    option |= Book.LoadFolderOption.SupportAllFile;
-                }
-
-                // 設定の復元
-                if ((option & Book.LoadFolderOption.ReLoad) == Book.LoadFolderOption.ReLoad)
-                {
-                    // リロード時は設定そのまま
-                    book.Restore(BookMemento); //.Restore(book);
-                }
-                else
-                {
-                    if (IsEnableHistory)
-                    {
-                        // 履歴が有るときはそれを使用する
-                        var setting = ModelContext.BookHistory.Find(path);
-                        if (setting != null && IsEnableHistory)
-                        {
-                            BookMemento = setting.Clone(); // setting.Restore(this);
-                            book.Restore(BookMemento); // setting.Restore(book);
-                            start = setting.BookMark;
-                            isBookamrk = true;
-                        }
-                        // 履歴がないときは設定はそのまま。再帰設定のみOFFにする。
-                        else
-                        {
-                            book.Restore(BookMemento); //.Restore(book);
-                            book.IsRecursiveFolder = false;
-                        }
-                    }
-                }
-
-                // リカーシブ設定
-                if ((option & Book.LoadFolderOption.Recursive) == Book.LoadFolderOption.Recursive)
-                {
-                    book.IsRecursiveFolder = true;
-                }
-
-
-                try
-                {
-                    // 読み込み。非同期で行う。
-                    Loaded?.Invoke(this, path);
-
-                    await book.Load(path, start, option);
-                }
-                catch (Exception e)
-                {
-                    // ファイル読み込み失敗通知
-                    Messenger.MessageBox(this, $"{path} の読み込みに失敗しました。\n\n理由：{e.Message}", "通知", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
-
-                    // 現在表示されているコンテンツを無効
-                    ViewContentsChanged?.Invoke(this, null);
-
-                    // 履歴から消去
-                    ModelContext.BookHistory.Remove(path);
-                    Messenger.Send(this, "UpdateLastFiles");
-                    return;
-                }
-                finally
-                {
-                    Loaded?.Invoke(this, null);
-                }
-                book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
-                book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
-                book.PageTerminated += Book_PageTerminated;
-                book.DartyBook += Book_DartyBook;
-
-                // カレント切り替え
-                Current = book;
-
-                // 開始
-                Current.Start();
-
-                BookMemento = book.CreateMemento(); // Store(book);
-                SettingChanged?.Invoke(this, null);
-
-                BookChanged?.Invoke(this, isBookamrk);
-
-
-                // サブフォルダ確認
-                if ((option & Book.LoadFolderOption.ReLoad) == 0 && Current.Pages.Count <= 0 && !Current.IsRecursiveFolder && Current.SubFolderCount > 0)
-                {
-                    var message = new MessageEventArgs("MessageBox");
-                    message.Parameter = new MessageBoxParams()
-                    {
-                        MessageBoxText = $"\"{Current.Place}\" には読み込めるファイルがありません。\n\nサブフォルダ(書庫)も読み込みますか？",
-                        Caption = "確認",
-                        Button = System.Windows.MessageBoxButton.YesNo,
-                        Icon = System.Windows.MessageBoxImage.Question
-                    };
-                    Messenger.Send(this, message);
-
-                    if (message.Result == true)
-                    {
-                        _IsLoading = false;
-                        Load(Current.Place, Book.LoadFolderOption.Recursive | Book.LoadFolderOption.ReLoad);
-                    }
-                }
+                // 履歴から消去
+                ModelContext.BookHistory.Remove(path);
+                Messenger.Send(this, "UpdateLastFiles");
+                return;
             }
             finally
             {
-                _IsLoading = false;
+                Loaded?.Invoke(this, null);
             }
+            book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
+            book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
+            book.PageTerminated += Book_PageTerminated;
+            book.DartyBook += Book_DartyBook;
+
+            // カレント切り替え
+            Current = book;
+
+            // 開始
+            Current.Start();
+
+            BookMemento = book.CreateMemento(); // Store(book);
+            SettingChanged?.Invoke(this, null);
+
+            BookChanged?.Invoke(this, isBookamrk);
+
+
+            // サブフォルダ確認
+            if ((option & Book.LoadFolderOption.ReLoad) == 0 && Current.Pages.Count <= 0 && !Current.IsRecursiveFolder && Current.SubFolderCount > 0)
+            {
+                var message = new MessageEventArgs("MessageBox");
+                message.Parameter = new MessageBoxParams()
+                {
+                    MessageBoxText = $"\"{Current.Place}\" には読み込めるファイルがありません。\n\nサブフォルダ(書庫)も読み込みますか？",
+                    Caption = "確認",
+                    Button = System.Windows.MessageBoxButton.YesNo,
+                    Icon = System.Windows.MessageBoxImage.Question
+                };
+                Messenger.Send(this, message);
+
+                if (message.Result == true)
+                {
+                    //_IsLoading = false;
+                    Load(Current.Place, Book.LoadFolderOption.Recursive | Book.LoadFolderOption.ReLoad);
+                }
+            }
+            //}
+            //finally
+            //{
+            //    //_IsLoading = false;
+            //}
         }
 
         private void Book_DartyBook(object sender, EventArgs e)

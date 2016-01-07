@@ -305,7 +305,8 @@ namespace NeeView
         //
         private BitmapSource Load()
         {
-            using (var reader = FileReaderFactory.OpenRead(_FileReaderType, _Path, _Archiver))
+            // リトライを行う
+            using (var reader = FileReaderFactory.OpenReadRetry(_FileReaderType, _Path, _Archiver))
             {
                 return LoadBitmap(reader.Stream);
             }
@@ -362,11 +363,11 @@ namespace NeeView
 
         public ExtractTempFile(string entryName, Archiver archiver)
         {
-           if (archiver is FolderFiles)
+            if (archiver is FolderFiles)
             {
                 FileName = Path.Combine(archiver.Path, entryName);
             }
-           else
+            else
             {
                 FileName = Temporary.CreateTempFileName("anim.gif");
                 archiver.ExtractToFile(entryName, FileName);

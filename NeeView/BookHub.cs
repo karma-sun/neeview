@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeeView
@@ -108,23 +109,12 @@ namespace NeeView
             return BookMemento.Clone();
         }
 
-        //private bool _IsLoading = false;
+
+        private ManualResetEvent _ViewContentEvent = new ManualResetEvent(false);
 
         // いろんなメソッドは置き換え
         public async void Load(string path, Book.LoadFolderOption option = Book.LoadFolderOption.None)
         {
-            /*
-            if (_IsLoading)
-            {
-                Debug.WriteLine("Already Loading.");
-                return;
-            }
-            */
-
-            //try
-            //{
-            // _IsLoading = true;
-
             var current = Current;
             Current = null;
 
@@ -141,9 +131,6 @@ namespace NeeView
 
             bool isBookamrk = false;
 
-            // 設定の復元
-            //BookCommonSetting.Restore(book);
-
             //
             if (IsEnableNoSupportFile)
             {
@@ -154,7 +141,7 @@ namespace NeeView
             if ((option & Book.LoadFolderOption.ReLoad) == Book.LoadFolderOption.ReLoad)
             {
                 // リロード時は設定そのまま
-                book.Restore(BookMemento); //.Restore(book);
+                book.Restore(BookMemento);
             }
             else
             {
@@ -164,8 +151,8 @@ namespace NeeView
                     var setting = ModelContext.BookHistory.Find(path);
                     if (setting != null && IsEnableHistory)
                     {
-                        BookMemento = setting.Clone(); // setting.Restore(this);
-                        book.Restore(BookMemento); // setting.Restore(book);
+                        BookMemento = setting.Clone();
+                        book.Restore(BookMemento);
                         start = setting.BookMark;
                         isBookamrk = true;
                     }
@@ -191,9 +178,31 @@ namespace NeeView
                 Loaded?.Invoke(this, path);
 
                 await book.Load(path, start, option);
+
+                book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
+                book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
+                book.PageTerminated += Book_PageTerminated;
+                book.DartyBook += Book_DartyBook;
+
+                // カレント切り替え
+                Current = book;
+
+                // 最初のコンテンツ表示待ち設定
+                _ViewContentEvent.Reset();
+                book.ViewContentsChanged += (s, e) => _ViewContentEvent.Set();
+
+                // 開始
+                Current.Start();
+
+                // 最初のコンテンツ表示待ち
+                await Task.Run(()=>_ViewContentEvent.WaitOne());
             }
             catch (Exception e)
             {
+                // 後始末
+                Current?.Dispose();
+                Current = null;
+
                 // ファイル読み込み失敗通知
                 Messenger.MessageBox(this, $"{path} の読み込みに失敗しました。\n\n理由：{e.Message}", "通知", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
 
@@ -209,22 +218,11 @@ namespace NeeView
             {
                 Loaded?.Invoke(this, null);
             }
-            book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
-            book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
-            book.PageTerminated += Book_PageTerminated;
-            book.DartyBook += Book_DartyBook;
-
-            // カレント切り替え
-            Current = book;
-
-            // 開始
-            Current.Start();
 
             BookMemento = book.CreateMemento(); // Store(book);
             SettingChanged?.Invoke(this, null);
 
             BookChanged?.Invoke(this, isBookamrk);
-
 
             // サブフォルダ確認
             if ((option & Book.LoadFolderOption.ReLoad) == 0 && Current.Pages.Count <= 0 && !Current.IsRecursiveFolder && Current.SubFolderCount > 0)
@@ -245,11 +243,7 @@ namespace NeeView
                     Load(Current.Place, Book.LoadFolderOption.Recursive | Book.LoadFolderOption.ReLoad);
                 }
             }
-            //}
-            //finally
-            //{
-            //    //_IsLoading = false;
-            //}
+
         }
 
         private void Book_DartyBook(object sender, EventArgs e)

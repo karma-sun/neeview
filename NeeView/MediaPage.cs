@@ -55,7 +55,7 @@ namespace NeeView
         //
         private BitmapSource Load()
         {
-            using (var reader = FileReaderFactory.OpenRead(_FileReaderType, _Path, _Archiver))
+            using (var reader = FileReaderFactory.OpenReadRetry(_FileReaderType, _Path, _Archiver))
             {
                 var bitmapLoader = BitmapLoaderFactory.Create(_BitmapLoaderType);
                 return bitmapLoader.Load(reader.Stream, _Path);

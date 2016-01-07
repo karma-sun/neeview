@@ -34,8 +34,10 @@ namespace Susie
         }
         public List<SupportFileType> SupportFileTypeList { get; private set; }
 
-        public List<string> Extensions { get; private set; } 
+        public List<string> Extensions { get; private set; }
 
+
+        public object Lock = new object();
 
         public static SusiePlugin Create(string fileName)
         {
@@ -105,10 +107,13 @@ namespace Susie
         {
             if (FileName == null) throw new InvalidOperationException();
 
-            using (var api = Open())
+            lock (Lock)
             {
-                IntPtr hwnd = new WindowInteropHelper(parent).Handle;
-                return api.ConfigurationDlg(hwnd, 0);
+                using (var api = Open())
+                {
+                    IntPtr hwnd = new WindowInteropHelper(parent).Handle;
+                    return api.ConfigurationDlg(hwnd, 0);
+                }
             }
         }
 
@@ -117,10 +122,13 @@ namespace Susie
         {
             if (FileName == null) throw new InvalidOperationException();
 
-            using (var api = Open())
+            lock (Lock)
             {
-                IntPtr hwnd = new WindowInteropHelper(parent).Handle;
-                return api.ConfigurationDlg(hwnd, 1);
+                using (var api = Open())
+                {
+                    IntPtr hwnd = new WindowInteropHelper(parent).Handle;
+                    return api.ConfigurationDlg(hwnd, 1);
+                }
             }
         }
 
@@ -132,11 +140,14 @@ namespace Susie
             // サポート拡張子チェック
             if (!Extensions.Contains(GetExtension(fileName))) return null;
 
-            using (var api = Open())
+            lock (Lock)
             {
-                string shortPath = Win32Api.GetShortPathName(fileName);
-                if (!api.IsSupported(shortPath)) return null;
-                return new ArchiveFileInfoCollection(this, fileName, api.GetArchiveInfo(shortPath));
+                using (var api = Open())
+                {
+                    string shortPath = Win32Api.GetShortPathName(fileName);
+                    if (!api.IsSupported(shortPath)) return null;
+                    return new ArchiveFileInfoCollection(this, fileName, api.GetArchiveInfo(shortPath));
+                }
             }
         }
 
@@ -149,11 +160,13 @@ namespace Susie
             // サポート拡張子チェック
             if (!Extensions.Contains(GetExtension(fileName))) return null;
 
-            // SPI
-            using (var api = Open())
+            lock (Lock)
             {
-                if (!api.IsSupported(fileName, buff)) return null;
-                return api.GetPicture(buff);
+                using (var api = Open())
+                {
+                    if (!api.IsSupported(fileName, buff)) return null;
+                    return api.GetPicture(buff);
+                }
             }
         }
 
@@ -206,19 +219,25 @@ namespace Susie
         // メモリ上に解凍
         public byte[] Load()
         {
-            using (var api = _Spi.Open())
+            lock (_Spi.Lock)
             {
-                return api.GetFile(ArchiveShortFileName, _Info);
+                using (var api = _Spi.Open())
+                {
+                    return api.GetFile(ArchiveShortFileName, _Info);
+                }
             }
         }
 
         // ファイルに出力
         public void ExtractToFolder(string extractFolder)
         {
-            using (var api = _Spi.Open())
+            lock (_Spi.Lock)
             {
-                int ret = api.GetFile(ArchiveShortFileName, _Info, extractFolder);
-                if (ret != 0) throw new IOException("抽出に失敗しました");
+                using (var api = _Spi.Open())
+                {
+                    int ret = api.GetFile(ArchiveShortFileName, _Info, extractFolder);
+                    if (ret != 0) throw new IOException("抽出に失敗しました");
+                }
             }
         }
 

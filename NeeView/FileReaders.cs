@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -22,6 +23,28 @@ namespace NeeView
 
     public static class FileReaderFactory
     {
+        //
+        public static IFileReader OpenReadRetry(FileReaderType type, string fileName, Archiver archiver)
+        {
+            Exception exception = null;
+
+            for (int retryCount = 0; retryCount < 2; ++retryCount)
+            { 
+                try
+                {
+                    return OpenRead(type, fileName, archiver);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    exception = e;
+                }
+            }
+
+            throw new ApplicationException("ストリーム作成に失敗しました", exception);
+        }
+
+        //
         public static IFileReader OpenRead(FileReaderType type, string fileName, Archiver archiver)
         {
             switch (type)

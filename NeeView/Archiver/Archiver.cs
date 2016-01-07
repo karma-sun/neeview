@@ -79,12 +79,18 @@ namespace NeeView
             var list = new List<string>();
             foreach (var plugin in susie.AMPlgunList)
             {
-                foreach (var supportType in plugin.SupportFileTypeList)
+                if (plugin.IsEnable)
                 {
-                    foreach (var filter in supportType.Extension.Split(';'))
+                    list.AddRange(plugin.Extensions);
+                    /*
+                    foreach (var supportType in plugin.SupportFileTypeList)
                     {
-                        list.Add(filter.TrimStart('*').ToLower());
+                        foreach (var filter in supportType.Extension.Split(';'))
+                        {
+                            list.Add(filter.TrimStart('*').ToLower());
+                        }
                     }
+                    */
                 }
             }
             _SupprtedFileTypes[ArchiverType.SusieArchiver] = list.Distinct().ToArray();

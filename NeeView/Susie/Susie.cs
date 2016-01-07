@@ -18,7 +18,7 @@ namespace Susie
         public List<SusiePlugin> INPlgunList { get; private set; } = new List<SusiePlugin>();
         public List<SusiePlugin> AMPlgunList { get; private set; } = new List<SusiePlugin>();
 
-        public List<string> SearchPath { get; set; } = new List<string>();
+        //public List<string> SearchPath { get; set; } = new List<string>();
 
         private bool _Initialized;
 
@@ -42,15 +42,8 @@ namespace Susie
             return _SusiePluginInstallPath;
         }
 
-        public Susie()
-        {
-        }
 
-        public Susie(params string[] searchPath)
-        {
-            SearchPath = searchPath.ToList();
-        }
-
+        /*
         public void Initialize()
         {
             if (_Initialized) throw new InvalidOperationException("already initialized.");
@@ -58,34 +51,63 @@ namespace Susie
             SearchPath.ForEach(e => Load(e));
             _Initialized = true;
         }
+        */
+
+        public void Initialize(Dictionary<string, bool> spiFiles)
+        {
+            if (_Initialized) throw new InvalidOperationException("already initialized.");
+
+            Load(spiFiles);
+            _Initialized = true;
+        }
+
 
         //
         private void Load(string folder)
         {
             if (string.IsNullOrEmpty(folder)) return;
             if (!Directory.Exists(folder)) return;
-            
+
             foreach (string s in Directory.GetFiles(folder, "*.spi"))
             {
-                var source = SusiePlugin.Create(s);
-                if (source != null)
+                Load(s, true);
+            }
+        }
+
+        //
+        private void Load(Dictionary<string, bool> spiFiles)
+        {
+            if (spiFiles == null) return;
+
+            foreach (var pair in spiFiles)
+            {
+                Load(pair.Key, pair.Value);
+            }
+        }
+
+        //
+        private void Load(string fileName, bool isEnable)
+        {
+            var source = SusiePlugin.Create(fileName);
+            if (source != null)
+            {
+                if (source.ApiVersion == "00IN" && !INPlgunList.Exists(e => e.PluginVersion == source.PluginVersion))
                 {
-                    if (source.ApiVersion == "00IN" && !INPlgunList.Exists(e => e.PluginVersion == source.PluginVersion))
-                    {
-                        INPlgunList.Add(source);
-                    }
-                    else if (source.ApiVersion == "00AM" && !AMPlgunList.Exists(e => e.PluginVersion == source.PluginVersion))
-                    {
-                        AMPlgunList.Add(source);
-                    }
+                    INPlgunList.Add(source);
                 }
+                else if (source.ApiVersion == "00AM" && !AMPlgunList.Exists(e => e.PluginVersion == source.PluginVersion))
+                {
+                    AMPlgunList.Add(source);
+                }
+
+                source.IsEnable = isEnable;
             }
         }
 
         //
         public ArchiveFileInfoCollection GetArchiveInfo(string fileName)
         {
-            if (!_Initialized) Initialize();
+            if (!_Initialized) Initialize(null);
 
             foreach (var plugin in AMPlgunList)
             {
@@ -105,7 +127,7 @@ namespace Susie
         //
         public BitmapImage GetPicture(string fileName, byte[] buff)
         {
-            if (!_Initialized) Initialize();
+            if (!_Initialized) Initialize(null);
 
             foreach (var plugin in INPlgunList)
             {

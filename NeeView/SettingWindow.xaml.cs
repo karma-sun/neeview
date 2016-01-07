@@ -191,6 +191,8 @@ namespace NeeView
                 Setting.BookCommandMemento[command.Key].IsShowMessage = command.IsShowMessage;
             }
 
+            Setting.SusieMemento.SetSpiFiles(ModelContext.Susie);
+
             this.DialogResult = true;
             this.Close();
         }

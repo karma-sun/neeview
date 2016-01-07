@@ -69,6 +69,11 @@ namespace NeeView
             var list = new List<string>();
             foreach (var plugin in susie.INPlgunList)
             {
+                if (plugin.IsEnable)
+                {
+                    list.AddRange(plugin.Extensions);
+                }
+                /*
                 foreach (var supportType in plugin.SupportFileTypeList)
                 {
                     foreach (var filter in supportType.Extension.Split(';'))
@@ -76,6 +81,7 @@ namespace NeeView
                         list.Add(filter.TrimStart('*').ToLower());
                     }
                 }
+                */
             }
             _SupprtedFileTypes[BitmapLoaderType.Susie] = list.Distinct().ToArray();
         }

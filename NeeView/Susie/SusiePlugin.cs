@@ -18,6 +18,8 @@ namespace Susie
     /// </summary>
     public class SusiePlugin
     {
+        public bool IsEnable { get; set; }
+
         public string FileName { get; private set; }
 
         public string ApiVersion { get; private set; }
@@ -31,6 +33,8 @@ namespace Susie
             public string Note; // ファイルの種類の情報
         }
         public List<SupportFileType> SupportFileTypeList { get; private set; }
+
+        public List<string> Extensions { get; private set; } 
 
 
         public static SusiePlugin Create(string fileName)
@@ -67,6 +71,17 @@ namespace Susie
                 }
 
                 FileName = fileName;
+
+                // create extensions
+                Extensions = new List<string>(); 
+                foreach (var supportType in this.SupportFileTypeList)
+                {
+                    foreach (var filter in supportType.Extension.Split(';'))
+                    {
+                        Extensions.Add(filter.TrimStart('*').ToLower());
+                    }
+                }
+
                 return true;
             }
             catch (Exception e)
@@ -112,6 +127,10 @@ namespace Susie
         public ArchiveFileInfoCollection GetArchiveInfo(string fileName)
         {
             if (FileName == null) throw new InvalidOperationException();
+            if (!IsEnable) return null;
+
+            // サポート拡張子チェック
+            if (!Extensions.Contains(GetExtension(fileName))) return null;
 
             using (var api = Open())
             {
@@ -125,13 +144,24 @@ namespace Susie
         public BitmapImage GetPicture(string fileName, byte[] buff)
         {
             if (FileName == null) throw new InvalidOperationException();
+            if (!IsEnable) return null;
 
+            // サポート拡張子チェック
+            if (!Extensions.Contains(GetExtension(fileName))) return null;
+
+            // SPI
             using (var api = Open())
             {
                 if (!api.IsSupported(fileName, buff)) return null;
                 return api.GetPicture(buff);
             }
         }
+
+        private static string GetExtension(string s)
+        {
+            return "." + s.Split('.').Last().ToLower();
+        }
+
     }
 
 

@@ -61,7 +61,8 @@ namespace NeeView
             lock (_Lock)
             {
                 var info = _ArchiveFileInfoDictionary[entryName];
-                return new MemoryStream(info.Load());
+                byte[] buffer = info.Load();
+                return new MemoryStream(buffer, 0, buffer.Length, false, true);
             }
         }
 

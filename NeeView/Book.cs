@@ -756,8 +756,8 @@ namespace NeeView
         // アーカイブ読み込み
         private async Task LoadArchive(Archiver archiver, string start, LoadFolderOption option)
         {
-            try
-            {
+            //try
+            //{
                 await Task.Run(() =>
                     {
                         _Archivers.Add(archiver);
@@ -784,12 +784,12 @@ namespace NeeView
 
                 // 本有効化
                 Place = archiver.Path;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                Debug.WriteLine(e.StackTrace);
-            }
+            //}
+            //catch (Exception e)
+            //{
+                //Debug.WriteLine(e.Message);
+                //Debug.WriteLine(e.StackTrace);
+            //}
         }
 
         public int SubFolderCount;

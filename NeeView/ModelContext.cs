@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
@@ -74,10 +75,34 @@ namespace NeeView
                 if (_SusiePluginPath != value)
                 {
                     _SusiePluginPath = value;
-                    Initialize(_SusiePluginPath);
+
+                    // SPIファイルのリストアップ
+                    // 有効フィルタリング
+                    ListUpSpiFiles();
+
+                    //Initialize(_SusiePluginPath);
+                    Initialize(SpiFiles);
                 }
             }
         }
+
+        public Dictionary<string, bool> SpiFiles { get; set; } = new Dictionary<string, bool>();
+
+        private void ListUpSpiFiles()
+        {
+            // フィルタ削除
+            SpiFiles = SpiFiles.Where(e => Path.GetDirectoryName(e.Key) == SusiePluginPath).ToDictionary(e => e.Key, e=>e.Value);
+
+            // 新しいSPI追加
+            foreach (string s in Directory.GetFiles(SusiePluginPath, "*.spi"))
+            {
+                if (!SpiFiles.ContainsKey(s))
+                {
+                    SpiFiles.Add(s, true);
+                }
+            }
+        }
+
 
         public bool _IsFirstOrderSusieImage;
         public bool IsFirstOrderSusieImage
@@ -109,12 +134,11 @@ namespace NeeView
 
 
         // Susie s初期化
-        public void Initialize(string pluginPath)
+        public void Initialize(Dictionary<string, bool> spiFiles)
         {
             // 新規
             Susie = new Susie.Susie();
-            if (pluginPath != null) Susie.SearchPath.Add(pluginPath);
-            Susie.Initialize();
+            Susie.Initialize(spiFiles);
 
             // Susie対応拡張子更新
             ModelContext.ArchiverManager.UpdateSusieSupprtedFileTypes(Susie);
@@ -137,10 +161,14 @@ namespace NeeView
             [DataMember]
             public bool IsFirstOrderSusieArchive { get; set; }
 
+            [DataMember]
+            public Dictionary<string, bool> SpiFiles { get; set; }
+
 
             private void Constructor()
             {
                 SusiePluginPath = global::Susie.Susie.GetSusiePluginInstallPath();
+                SpiFiles = new Dictionary<string, bool>();
             }
 
             public SusieSetting()
@@ -153,12 +181,20 @@ namespace NeeView
             {
                 Constructor();
             }
+
+            public void SetSpiFiles(global::Susie.Susie susie)
+            {
+                SpiFiles.Clear();
+                susie.AMPlgunList.ForEach(e => SpiFiles.Add(e.FileName, e.IsEnable));
+                susie.INPlgunList.ForEach(e => SpiFiles.Add(e.FileName, e.IsEnable));
+            }
         }
 
         public SusieSetting CreateMemento()
         {
             var memento = new SusieSetting();
             memento.IsEnableSusie = IsEnableSusie;
+            memento.SpiFiles = SpiFiles;
             memento.SusiePluginPath = SusiePluginPath;
             memento.IsFirstOrderSusieImage = IsFirstOrderSusieImage;
             memento.IsFirstOrderSusieArchive = IsFirstOrderSusieArchive;
@@ -168,9 +204,14 @@ namespace NeeView
         public void Restore(SusieSetting memento)
         {
             IsEnableSusie = memento.IsEnableSusie;
+            SpiFiles = memento.SpiFiles;
             SusiePluginPath = memento.SusiePluginPath;
             IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
             IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
+
+            // Susie対応拡張子更新
+            ModelContext.ArchiverManager.UpdateSusieSupprtedFileTypes(Susie);
+            ModelContext.BitmapLoaderManager.UpdateSusieSupprtedFileTypes(Susie);
         }
     }
 }

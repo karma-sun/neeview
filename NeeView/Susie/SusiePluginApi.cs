@@ -40,9 +40,9 @@ namespace Susie
         {
             if (_hModule != IntPtr.Zero)
             {
+                _ApiDelegateList.Clear();
                 Win32Api.FreeLibrary(_hModule);
                 _hModule = IntPtr.Zero;
-                _ApiDelegateList.Clear();
             }
         }
 
@@ -67,10 +67,11 @@ namespace Susie
         }
 
         // TODO: 上の Dispose(bool disposing) にアンマネージ リソースを解放するコードが含まれる場合にのみ、ファイナライザーをオーバーライドします。
-        // ~Dll() {
-        //   // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
-        //   Dispose(false);
-        // }
+        ~SusiePluginApi()
+        {
+            // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
+            Dispose(false);
+        }
 
         // このコードは、破棄可能なパターンを正しく実装できるように追加されました。
         public void Dispose()
@@ -193,12 +194,15 @@ namespace Susie
                 {
                     var list = new List<ArchiveFileInfoRaw>();
 
-                    IntPtr p = hInfo;
+                    IntPtr p = Win32Api.LocalLock(hInfo);
                     while (true)
                     {
                         ArchiveFileInfoRaw fileInfo = Marshal.PtrToStructure<ArchiveFileInfoRaw>(p);
                         if (String.IsNullOrEmpty(fileInfo.method)) break;
-                        list.Add(fileInfo);
+                        if (fileInfo.filesize > 0)
+                        {
+                            list.Add(fileInfo);
+                        }
                         p += Marshal.SizeOf<ArchiveFileInfoRaw>();
                     }
 
@@ -207,6 +211,7 @@ namespace Susie
             }
             finally
             {
+                Win32Api.LocalUnlock(hInfo);
                 Win32Api.LocalFree(hInfo);
             }
 
@@ -231,14 +236,16 @@ namespace Susie
                 int ret = getFile(file, (int)entry.position, out hBuff, 0x0100, 0, 0); // 0x0100 > File To Memory
                 if (ret == 0)
                 {
+                    IntPtr pBuff = Win32Api.LocalLock(hBuff);
                     byte[] buf = new byte[entry.filesize];
-                    Marshal.Copy(hBuff, buf, (int)0, (int)entry.filesize);
+                    Marshal.Copy(pBuff, buf, (int)0, (int)entry.filesize);
                     return buf;
                 }
                 return null;
             }
             finally
             {
+                Win32Api.LocalUnlock(hBuff);
                 Win32Api.LocalFree(hBuff);
             }
 

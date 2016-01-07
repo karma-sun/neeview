@@ -487,6 +487,8 @@ namespace NeeView
                         var image = new Image();
                         image.Source = (BitmapSource)content.Content;
                         image.Stretch = Stretch.Fill;
+                        //image.UseLayoutRounding = true;
+                        //image.SnapsToDevicePixels = true;
                         RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
                         Contents[index] = image;
                     }
@@ -722,17 +724,19 @@ namespace NeeView
             //if (CommandCollection.ShortcutSource[type].IsShowMessage)
             if (CommandCollection[type].Setting.IsShowMessage)
             {
+                string message = CommandCollection[type].GetExecuteMessage(param);
+
                 switch (CommandShowMessageType)
                 {
                     case ShowMessageType.Normal:
                         //InfoText = BookCommandExtension.Headers[type].Text;
                         Messenger.Send(this, new MessageEventArgs("MessageShow")
                         {
-                            Parameter = new MessageShowParams(CommandCollection[type].Header.Text)
+                            Parameter = new MessageShowParams(message)
                         });
                         break;
                     case ShowMessageType.Tiny:
-                        TinyInfoText = CommandCollection[type].Header.Text;
+                        TinyInfoText = message;
                         break;
                 }
             }

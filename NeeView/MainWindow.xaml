@@ -81,7 +81,7 @@
                 <!-- Pages -->
                 <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel x:Name="MainContent" Orientation="Horizontal">
+                    <StackPanel x:Name="MainContent" Orientation="Horizontal"  >
                         <ContentControl x:Name="Content1" Content="{Binding Contents[1]}" Width="{Binding ContentsWidth[1]}" Height="{Binding ContentsHeight[1]}"/>
                         <ContentControl x:Name="Content0" Content="{Binding Contents[0]}" Width="{Binding ContentsWidth[0]}" Height="{Binding ContentsHeight[0]}"/>
                     </StackPanel>
@@ -139,7 +139,7 @@
                     </MenuItem>
 
                     <MenuItem Header="表示(_V)">
-                        <MenuItem Header="元のサイズで表示" Command="{Binding BookCommands[SetStretchModeNone]}"
+                        <MenuItem Header="オリジナルサイズ" Command="{Binding BookCommands[SetStretchModeNone]}"
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=None,Mode=OneWay}" />
                         <MenuItem Header="大きい場合はウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeInside]}"
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=Inside,Mode=OneWay}" />

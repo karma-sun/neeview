@@ -27,13 +27,26 @@ namespace NeeView
         {
             return (PageStretchMode)(((int)mode + 1) % Enum.GetNames(typeof(PageStretchMode)).Length);
         }
+
+        private static Dictionary<PageStretchMode, string> _DispStrings = new Dictionary<PageStretchMode, string>
+        {
+            [PageStretchMode.None] = "オリジナルサイズ",
+            [PageStretchMode.Inside] = "大きい場合、ウィンドウサイズに合わせる",
+            [PageStretchMode.Outside] = "小さい場合、ウィンドウサイズに合わせる",
+            [PageStretchMode.Uniform] = "ウィンドウサイズに合わせる",
+            [PageStretchMode.UniformToFill] = "ウィンドウいっぱいに広げる",
+        };
+
+        public static string ToDispString(this PageStretchMode mode)
+        {
+            return _DispStrings[mode];
+        }
     }
 
 
     public enum BookSortMode
     {
         FileName,
-        //FileNameDictionary,
         TimeStamp,
         Random,
     }
@@ -44,6 +57,18 @@ namespace NeeView
         {
             return (BookSortMode)(((int)mode + 1) % Enum.GetNames(typeof(BookSortMode)).Length);
         }
+
+        public static string ToDispString(this BookSortMode mode)
+        {
+            switch (mode)
+            {
+                case BookSortMode.FileName: return "ファイル名順";
+                case BookSortMode.TimeStamp: return "日付順";
+                case BookSortMode.Random: return "ランダムに並べる";
+                default:
+                    throw new NotSupportedException();
+            }
+        } 
     }
 
 
@@ -66,6 +91,17 @@ namespace NeeView
         public static BookReadOrder GetToggle(this BookReadOrder mode)
         {
             return (BookReadOrder)(((int)mode + 1) % Enum.GetNames(typeof(BookReadOrder)).Length);
+        }
+
+        public static string ToDispString(this BookReadOrder mode)
+        {
+            switch (mode)
+            {
+                case BookReadOrder.RightToLeft: return "右開き";
+                case BookReadOrder.LeftToRight: return "左開き";
+                default:
+                    throw new NotSupportedException();
+            }
         }
     }
 

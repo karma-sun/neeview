@@ -99,7 +99,7 @@ namespace NeeView
 
 
             [BookCommandType.ToggleStretchMode] = new BookCommandHeader("表示サイズ", "サイズを切り替える"),
-            [BookCommandType.SetStretchModeNone] = new BookCommandHeader("表示サイズ", "元のサイズで表示する"),
+            [BookCommandType.SetStretchModeNone] = new BookCommandHeader("表示サイズ", "オリジナルサイズで表示する"),
             [BookCommandType.SetStretchModeInside] = new BookCommandHeader("表示サイズ", "大きい場合、ウィンドウサイズに合わせる"),
             [BookCommandType.SetStretchModeOutside] = new BookCommandHeader("表示サイズ", "小さい場合、ウィンドウサイズに広げる"),
             [BookCommandType.SetStretchModeUniform] = new BookCommandHeader("表示サイズ", "ウィンドウサイズに合わせる"),
@@ -157,10 +157,23 @@ namespace NeeView
     {
         public BookCommandHeader Header { get; set; }
         public Action<object> Command { get; set; }
+        public Func<object, string> CommandMessage { get; set; }
         public BookCommandSetting Setting { get; set; }
 
         public string ShortCutKey => Setting.ShortCutKey;
         public string MouseGesture => Setting.MouseGesture;
+
+        public string GetExecuteMessage(object param)
+        {
+            if (CommandMessage != null)
+            {
+                return CommandMessage(param);
+            }
+            else
+            {
+                return Header.Text;
+            }
+        }
 
         public void Execute(object param)
         {
@@ -173,6 +186,7 @@ namespace NeeView
     public class BookCommandCollection : Dictionary<BookCommandType, BookCommand>
     {
         private Dictionary<BookCommandType, Action<object>> _Actions;
+        private Dictionary<BookCommandType, Func<object, string>> _CommandMessage;
 
         private void InitializeActions(MainWindowVM vm, BookHub book)
         {
@@ -225,6 +239,19 @@ namespace NeeView
             _Actions.Add(BookCommandType.ViewScaleDown, null);
             _Actions.Add(BookCommandType.ViewRotateLeft, null);
             _Actions.Add(BookCommandType.ViewRotateRight, null);
+
+            // execute message
+            _CommandMessage = new Dictionary<BookCommandType, Func<object, string>>();
+            _CommandMessage.Add(BookCommandType.ToggleFolderOrder, e => book.FolderOrder.GetToggle().ToDispString());
+            _CommandMessage.Add(BookCommandType.ToggleSlideShow, e => book.IsEnableSlideShow ? "スライドショー停止" : "スライドショー開始");
+            _CommandMessage.Add(BookCommandType.ToggleStretchMode, e => vm.StretchMode.GetToggle().ToDispString());
+            _CommandMessage.Add(BookCommandType.TogglePageMode, e => book.GetTogglePageMode() == 1 ? "単ページ表示" : "見開き表示");
+            _CommandMessage.Add(BookCommandType.ToggleBookReadOrder, e => book.BookMemento.BookReadOrder.GetToggle().ToDispString());
+            _CommandMessage.Add(BookCommandType.ToggleIsSupportedTitlePage, e => book.BookMemento.IsSupportedTitlePage ? "最初のページを区別しない" : "最初のページを単ページ表示");
+            _CommandMessage.Add(BookCommandType.ToggleIsSupportedWidePage, e => book.BookMemento.IsSupportedWidePage ? "横長ページの区別をしない" : "横長ページを見開きとみなす");
+            _CommandMessage.Add(BookCommandType.ToggleIsRecursiveFolder, e => book.BookMemento.IsRecursiveFolder ? "サブフォルダは読み込まない" : "サブフォルダも読み込む");
+            _CommandMessage.Add(BookCommandType.ToggleSortMode, e => book.BookMemento.SortMode.GetToggle().ToDispString());
+            _CommandMessage.Add(BookCommandType.ToggleIsReverseSort, e => book.BookMemento.IsReverseSort ? "正順にする" : "逆順にする");
         }
 
 
@@ -239,6 +266,7 @@ namespace NeeView
                 var item = new BookCommand();
                 item.Header = BookCommandExtension.Headers[type];
                 item.Command = _Actions[type];
+                item.CommandMessage = _CommandMessage.ContainsKey(type) ? _CommandMessage[type] : null;
                 item.Setting = settings[type];
 
                 this.Add(type, item);

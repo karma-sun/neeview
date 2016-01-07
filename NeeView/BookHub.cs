@@ -22,6 +22,18 @@ namespace NeeView
         {
             return (FolderOrder)(((int)mode + 1) % Enum.GetNames(typeof(FolderOrder)).Length);
         }
+
+        public static string ToDispString(this FolderOrder mode)
+        {
+            switch (mode)
+            {
+                case FolderOrder.FileName: return "フォルダ列はファイル名順";
+                case FolderOrder.TimeStamp: return "フォルダ列は日付順";
+                case FolderOrder.Random: return "フォルダ列はランダム";
+                default:
+                    throw new NotSupportedException();
+            }
+        }
     }
 
 
@@ -354,7 +366,7 @@ namespace NeeView
                     directories.Reverse();
                 }
 
-                    int index = directories.IndexOf(Current.Place);
+                int index = directories.IndexOf(Current.Place);
                 if (index < 0) return false;
 
                 int next = 0;
@@ -490,9 +502,14 @@ namespace NeeView
             RefleshBookSetting(); //BookSetting.Restore(Current);
         }
 
+        public int GetTogglePageMode()
+        {
+            return 3 - BookMemento.PageMode;
+        }
+
         public void TogglePageMode()
         {
-            BookMemento.PageMode = 3 - BookMemento.PageMode;
+            BookMemento.PageMode = GetTogglePageMode();
             RefleshBookSetting(); //BookSetting.Restore(Current);
         }
 

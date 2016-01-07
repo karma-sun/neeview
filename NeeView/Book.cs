@@ -123,6 +123,10 @@ namespace NeeView
                 if (_IsSupportedTitlePage != value)
                 {
                     _IsSupportedTitlePage = value;
+                    if (Place != null)
+                    {
+                        ResetViewPages();
+                    }
                 }
             }
         }
@@ -137,6 +141,10 @@ namespace NeeView
                 if (_IsSupportedWidePage != value)
                 {
                     _IsSupportedWidePage = value;
+                    if (Place != null)
+                    {
+                        ResetViewPages();
+                    }
                 }
             }
         }
@@ -189,6 +197,7 @@ namespace NeeView
                     _CurrentViewPageCount = _PageMode;
                     if (Place != null)
                     {
+                        //ReloadViewPage();
                         ResetViewPages();
                     }
                 }
@@ -277,11 +286,11 @@ namespace NeeView
             _Index = value;
             _Direction = direction;
 
-            if (IsSupportedTitlePage)
-            {
-                _CurrentViewPageCount = _Index == 0 ? 1 : PageMode;
-            }
-            else
+            //if (IsSupportedTitlePage)
+            //{
+            //    _CurrentViewPageCount = _Index == 0 ? 1 : PageMode;
+            //}
+            //else
             {
                 _CurrentViewPageCount = PageMode;
             }
@@ -431,6 +440,8 @@ namespace NeeView
             return true;
         }
 
+
+
         private void UpdateViewPage()
         {
             if (IsDartyViewPages())
@@ -508,8 +519,18 @@ namespace NeeView
             // IsDartyNowPageが確定してから処理される
             // すなわち１度だけの処理
 
-            // ワイドページ非対応、もしくはもともと1ページ表示であるなら処理不要
-            if (!IsSupportedWidePage || _CurrentViewPageCount <= 1)
+            // もともと単独ページであれば処理不要
+            if (_CurrentViewPageCount <= 1) return;
+
+            // 先頭ページは強制単独ページ処理
+            if (IsSupportedTitlePage && _ViewPageIndex == 0)
+            {
+                ToSingleViewPage();
+                return;
+            }
+
+            // ワイドページ非対応なら処理不要
+            if (!IsSupportedWidePage)
             {
                 return;
             }
@@ -518,30 +539,36 @@ namespace NeeView
             if ((_ViewPages[0] != null && _ViewPages[0].Width > _ViewPages[0].Height) ||
                 (_ViewPages[1] != null && _ViewPages[1].Width > _ViewPages[1].Height))
             {
-                _CurrentViewPageCount = 1;
-
-                // 進行方向がマイナスの場合、ページの計算からやりなおし？
-                if (_Direction < 0 && _Index + 1 != _OldIndex)
-                {
-                    _Index = _Index + 1;
-
-                    if (_ViewPages[0] != null && !_KeepPages.Contains(_ViewPages[0]))
-                    {
-                        _ViewPages[0].Close();
-                    }
-                    _ViewPages[0] = _ViewPages[1];
-                    _ViewPages[1] = null;
-
-                    PageChanged?.Invoke(this, _Index);
-
-                    // swap ... ン？
-                    // TODO: ViewPagesの順番を入れ替えることに疑問。他の処理で戻ってしまわないのか？
-                    // var temp = _ViewPages[0];
-                    //_ViewPages[0] = _ViewPages[1];
-                    //_ViewPages[1] = temp;
-                }
+                ToSingleViewPage();
             }
         }
+
+        private void ToSingleViewPage()
+        {
+            _CurrentViewPageCount = 1;
+
+            // 進行方向がマイナスの場合、ページの計算からやりなおし？
+            if (_Direction < 0 && _Index + 1 != _OldIndex)
+            {
+                _Index = _Index + 1;
+
+                if (_ViewPages[0] != null && !_KeepPages.Contains(_ViewPages[0]))
+                {
+                    _ViewPages[0].Close();
+                }
+                _ViewPages[0] = _ViewPages[1];
+                _ViewPages[1] = null;
+
+                PageChanged?.Invoke(this, _Index);
+            }
+
+            // swap ... ン？
+            // TODO: ViewPagesの順番を入れ替えることに疑問。他の処理で戻ってしまわないのか？
+            // var temp = _ViewPages[0];
+            //_ViewPages[0] = _ViewPages[1];
+            //_ViewPages[1] = temp;
+        }
+
 
         private void UpdateActivePages()
         {
@@ -858,7 +885,10 @@ namespace NeeView
         {
             if (!IsStable()) return;
 
-            int index = Index - ((step == 0) ? _PageMode : step);
+            //step = (step != 0) ? step : ((_IsSupportedTitlePage && Index <= 2) ? 1 : _PageMode);
+            step = (step != 0) ? step : _PageMode;
+
+            int index = Index - step;
             if (index < 0) index = 0;
             if (Index == index)
             {
@@ -876,6 +906,13 @@ namespace NeeView
         public void NextPage(int step = 0)
         {
             if (!IsStable()) return;
+
+            // 既に最終ページ?
+            if (Index + _CurrentViewPageCount >= Pages.Count)
+            {
+                PageTerminated?.Invoke(this, +1);
+                return;
+            }
 
             int index = Index + ((step == 0) ? _CurrentViewPageCount : step);
             if (index > Pages.Count - 1)
@@ -906,9 +943,27 @@ namespace NeeView
             Index = Pages.Count - 1;
         }
 
+
+        // ページの再読み込み
+        private void ReloadViewPage()
+        {
+            if (Place == null) return;
+
+            lock (_Lock)
+            {
+                if (_ViewPages[0] != null)
+                {
+                    _ViewPages[0].Close();
+                    _ViewPages[0].Open(JobPriority.Top);
+                }
+            }
+        }
+
         // 表示数変更によるViewPages作り直し
         private void ResetViewPages()
         {
+            if (Place == null) return;
+
             lock (_Lock)
             {
                 foreach (var page in _ViewPages)

@@ -95,11 +95,27 @@ namespace NeeView
             [BookCommandType.LoadAs] = new BookCommandHeader("ファイル", "ファイルを開く"),
             [BookCommandType.ClearHistory] = new BookCommandHeader("ファイル", "履歴を消去する"),
 
+
+            [BookCommandType.ToggleStretchMode] = new BookCommandHeader("表示サイズ", "サイズを切り替える"),
+            [BookCommandType.SetStretchModeNone] = new BookCommandHeader("表示サイズ", "元のサイズで表示する"),
+            [BookCommandType.SetStretchModeInside] = new BookCommandHeader("表示サイズ", "大きい場合、ウィンドウサイズに合わせる"),
+            [BookCommandType.SetStretchModeOutside] = new BookCommandHeader("表示サイズ", "小さい場合、ウィンドウサイズに広げる"),
+            [BookCommandType.SetStretchModeUniform] = new BookCommandHeader("表示サイズ", "ウィンドウサイズに合わせる"),
+            [BookCommandType.SetStretchModeUniformToFill] = new BookCommandHeader("表示サイズ", "ウィンドウいっぱいに広げる"),
+
+            [BookCommandType.ToggleFullScreen] = new BookCommandHeader("ビュー操作", "フルスクリーン切り替え"),
+            [BookCommandType.CancelFullScreen] = new BookCommandHeader("ビュー操作", "フルスクリーン解除"),
+            [BookCommandType.ToggleSlideShow] = new BookCommandHeader("ビュー操作", "スライドショーON/OFF"),
+            [BookCommandType.ViewScrollUp] = new BookCommandHeader("ビュー操作", "スクロール↑"),
+            [BookCommandType.ViewScrollDown] = new BookCommandHeader("ビュー操作", "スクロール↓"),
+            [BookCommandType.ViewScaleUp] = new BookCommandHeader("ビュー操作", "拡大"),
+            [BookCommandType.ViewScaleDown] = new BookCommandHeader("ビュー操作", "縮小"),
+
             [BookCommandType.PrevPage] = new BookCommandHeader("移動", "前のページに戻る"),
             [BookCommandType.NextPage] = new BookCommandHeader("移動", "次のページへ進む"),
             [BookCommandType.PrevOnePage] = new BookCommandHeader("移動", "1ページ戻る"),
             [BookCommandType.NextOnePage] = new BookCommandHeader("移動", "1ページ進む"),
-            [BookCommandType.FirstPage] = new BookCommandHeader("移動", "先頭のページに移動"),
+            [BookCommandType.FirstPage] = new BookCommandHeader("移動", "最初のページに移動"),
             [BookCommandType.LastPage] = new BookCommandHeader("移動", "最後のページへ移動"),
             [BookCommandType.PrevFolder] = new BookCommandHeader("移動", "前のフォルダに移動"),
             [BookCommandType.NextFolder] = new BookCommandHeader("移動", "次のフォルダへ移動"),
@@ -109,23 +125,15 @@ namespace NeeView
             [BookCommandType.SetFolderOrderByTimeStamp] = new BookCommandHeader("フォルダ列", "フォルダ列は日付順"),
             [BookCommandType.SetFolderOrderByRandom] = new BookCommandHeader("フォルダ列", "フォルダ列はランダム"),
 
-            [BookCommandType.ToggleStretchMode] = new BookCommandHeader("スケール", "サイズを切り替える"),
-            [BookCommandType.SetStretchModeNone] = new BookCommandHeader("スケール", "元のサイズで表示する"),
-            [BookCommandType.SetStretchModeInside] = new BookCommandHeader("スケール", "大きい場合、ウィンドウサイズに合わせる"),
-            [BookCommandType.SetStretchModeOutside] = new BookCommandHeader("スケール", "小さい場合、ウィンドウサイズに広げる"),
-            [BookCommandType.SetStretchModeUniform] = new BookCommandHeader("スケール", "ウィンドウサイズに合わせる"),
-            [BookCommandType.SetStretchModeUniformToFill] = new BookCommandHeader("スケール", "ウィンドウいっぱいに広げる"),
+            [BookCommandType.TogglePageMode] = new BookCommandHeader("ページ表示", "単ページ/見開き表示を切り替える"),
+            [BookCommandType.SetPageMode1] = new BookCommandHeader("ページ表示", "単ページ表示にする"),
+            [BookCommandType.SetPageMode2] = new BookCommandHeader("ページ表示", "見開き表示にする"),
+            [BookCommandType.ToggleBookReadOrder] = new BookCommandHeader("ページ表示", "右開き、左開きを切り替える"),
+            [BookCommandType.SetBookReadOrderRight] = new BookCommandHeader("ページ表示", "右開きにする"),
+            [BookCommandType.SetBookReadOrderLeft] = new BookCommandHeader("ページ表示", "左開きにする"),
 
-            [BookCommandType.TogglePageMode] = new BookCommandHeader("ページ数", "1ページ/2ページ表示を切り替える"),
-            [BookCommandType.SetPageMode1] = new BookCommandHeader("ページ数", "１ページ表示にする"),
-            [BookCommandType.SetPageMode2] = new BookCommandHeader("ページ数", "２ページ表示にする"),
-
-            [BookCommandType.ToggleBookReadOrder] = new BookCommandHeader("２ページ設定", "右開き、左開きを切り替える"),
-            [BookCommandType.SetBookReadOrderRight] = new BookCommandHeader("２ページ設定", "右開きにする"),
-            [BookCommandType.SetBookReadOrderLeft] = new BookCommandHeader("２ページ設定", "左開きにする"),
-
-            [BookCommandType.ToggleIsSupportedTitlePage] = new BookCommandHeader("２ページ設定", "最初のページをタイトルとみなす"),
-            [BookCommandType.ToggleIsSupportedWidePage] = new BookCommandHeader("２ページ設定", "横長のページを２ページ分とみなす"),
+            [BookCommandType.ToggleIsSupportedTitlePage] = new BookCommandHeader("見開き設定", "最初のページを単ページ表示"),
+            [BookCommandType.ToggleIsSupportedWidePage] = new BookCommandHeader("見開き設定", "横長ページを見開きとみなす"),
 
             [BookCommandType.ToggleIsRecursiveFolder] = new BookCommandHeader("フォルダ", "サブフォルダ読み込みON/OFF"),
 
@@ -136,13 +144,6 @@ namespace NeeView
             [BookCommandType.SetSortModeRandom] = new BookCommandHeader("ページ列", "ランダムに並べる"),
             [BookCommandType.ToggleIsReverseSort] = new BookCommandHeader("ページ列", "正順、逆順を切り替える"),
 
-            [BookCommandType.ToggleFullScreen] = new BookCommandHeader("ビュー操作", "フルスクリーン切り替え"),
-            [BookCommandType.CancelFullScreen] = new BookCommandHeader("ビュー操作", "フルスクリーン解除"),
-            [BookCommandType.ToggleSlideShow] = new BookCommandHeader("ビュー操作", "スライドショーON/OFF"),
-            [BookCommandType.ViewScrollUp] = new BookCommandHeader("ビュー操作", "スクロール↑"),
-            [BookCommandType.ViewScrollDown] = new BookCommandHeader("ビュー操作", "スクロール↓"),
-            [BookCommandType.ViewScaleUp] = new BookCommandHeader("ビュー操作", "拡大"),
-            [BookCommandType.ViewScaleDown] = new BookCommandHeader("ビュー操作", "縮小"),
         };
     }
 
@@ -352,6 +353,7 @@ namespace NeeView
             AddWeak(BookCommandType.CancelFullScreen, new BookCommandSetting("Escape", null, false));
             AddWeak(BookCommandType.ToggleSlideShow, new BookCommandSetting("F5", null));
             AddWeak(BookCommandType.TogglePageMode, new BookCommandSetting("LeftButton+WheelUp", null));
+            AddWeak(BookCommandType.ToggleStretchMode, new BookCommandSetting("LeftButton+WheelDown", null));
             AddWeak(BookCommandType.SetPageMode1, new BookCommandSetting("Ctrl+1", null));
             AddWeak(BookCommandType.SetPageMode2, new BookCommandSetting("Ctrl+2", null));
             AddWeak(BookCommandType.ViewScrollUp, new BookCommandSetting("WheelUp", null, false));

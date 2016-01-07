@@ -161,7 +161,7 @@
                         <MenuItem Header="次のページへ進む"  Command="{Binding BookCommands[NextPage]}"/>
                         <MenuItem Header="1ページ戻る"  Command="{Binding BookCommands[PrevOnePage]}"/>
                         <MenuItem Header="1ページ進む"  Command="{Binding BookCommands[NextOnePage]}"/>
-                        <MenuItem Header="先頭のページに移動" Command="{Binding BookCommands[FirstPage]}"/>
+                        <MenuItem Header="最初のページに移動" Command="{Binding BookCommands[FirstPage]}"/>
                         <MenuItem Header="最後のページへ移動" Command="{Binding BookCommands[LastPage]}"/>
                         <Separator/>
                         <MenuItem Header="前のフォルダに移動"  Command="{Binding BookCommands[PrevFolder]}"/>
@@ -176,9 +176,9 @@
                     </MenuItem>
 
                     <MenuItem Header="ページ(_P)">
-                        <MenuItem x:Name="PageMode1MenuItem" Header="1ページ表示" Command="{Binding BookCommands[SetPageMode1]}"
+                        <MenuItem x:Name="PageMode1MenuItem" Header="単ページ表示" Command="{Binding BookCommands[SetPageMode1]}"
                               IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=1,Mode=OneWay}" />
-                        <MenuItem x:Name="PageMode2MenuItem" Header="2ページ表示" Command="{Binding BookCommands[SetPageMode2]}"
+                        <MenuItem x:Name="PageMode2MenuItem" Header="見開き表示" Command="{Binding BookCommands[SetPageMode2]}"
                               IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=2,Mode=OneWay}" />
                         <Separator/>
                         <MenuItem Header="右開き" Command="{Binding BookCommands[SetBookReadOrderRight]}"
@@ -186,10 +186,10 @@
                         <MenuItem Header="左開き" Command="{Binding BookCommands[SetBookReadOrderLeft]}"
                               IsChecked="{Binding BookSetting.BookReadOrder,Converter={StaticResource BookReadOrderToBooleanConverter},ConverterParameter=LeftToRight,Mode=OneWay}" />
                         <Separator/>
-                        <MenuItem Header="最初のページは表紙" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
+                        <MenuItem Header="最初のページを単独表示" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
                               Command="{Binding BookCommands[ToggleIsSupportedTitlePage]}"
                               IsChecked="{Binding BookSetting.IsSupportedTitlePage, Mode=OneWay}" />
-                        <MenuItem Header="横長ページを２ページとみなす" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
+                        <MenuItem Header="横長ページを見開きとみなす" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
                               Command="{Binding BookCommands[ToggleIsSupportedWidePage]}"
                               IsChecked="{Binding BookSetting.IsSupportedWidePage, Mode=OneWay}" />
                         <Separator />

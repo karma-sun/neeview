@@ -92,7 +92,7 @@ namespace NeeView
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-           //Debug.WriteLine($"Interval: {DateTime.Now.Second}.{DateTime.Now.Millisecond}");
+            //Debug.WriteLine($"Interval: {DateTime.Now.Second}.{DateTime.Now.Millisecond}");
 
             if (Mouse.LeftButton == MouseButtonState.Pressed || Mouse.RightButton == MouseButtonState.Pressed)
             {
@@ -230,6 +230,10 @@ namespace NeeView
                 (e) => _MouseDragController.ScaleUp();
             _VM.CommandCollection[BookCommandType.ViewScaleDown].Command =
                 (e) => _MouseDragController.ScaleDown();
+            _VM.CommandCollection[BookCommandType.ViewRotateLeft].Command =
+                (e) => _MouseDragController.Rotate(-45);
+            _VM.CommandCollection[BookCommandType.ViewRotateRight].Command =
+                (e) => _MouseDragController.Rotate(+45);
 
             // コマンドバインド作成
             foreach (BookCommandType type in Enum.GetValues(typeof(BookCommandType)))

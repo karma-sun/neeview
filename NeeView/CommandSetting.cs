@@ -72,6 +72,8 @@ namespace NeeView
         ViewScrollDown,
         ViewScaleUp,
         ViewScaleDown,
+        ViewRotateLeft,
+        ViewRotateRight,
     }
 
 
@@ -110,6 +112,8 @@ namespace NeeView
             [BookCommandType.ViewScrollDown] = new BookCommandHeader("ビュー操作", "スクロール↓"),
             [BookCommandType.ViewScaleUp] = new BookCommandHeader("ビュー操作", "拡大"),
             [BookCommandType.ViewScaleDown] = new BookCommandHeader("ビュー操作", "縮小"),
+            [BookCommandType.ViewRotateLeft] = new BookCommandHeader("ビュー操作", "左回転"),
+            [BookCommandType.ViewRotateRight] = new BookCommandHeader("ビュー操作", "右回転"),
 
             [BookCommandType.PrevPage] = new BookCommandHeader("移動", "前のページに戻る"),
             [BookCommandType.NextPage] = new BookCommandHeader("移動", "次のページへ進む"),
@@ -219,6 +223,8 @@ namespace NeeView
             _Actions.Add(BookCommandType.ViewScrollDown, null);
             _Actions.Add(BookCommandType.ViewScaleUp, null);
             _Actions.Add(BookCommandType.ViewScaleDown, null);
+            _Actions.Add(BookCommandType.ViewRotateLeft, null);
+            _Actions.Add(BookCommandType.ViewRotateRight, null);
         }
 
 
@@ -360,6 +366,8 @@ namespace NeeView
             AddWeak(BookCommandType.ViewScrollDown, new BookCommandSetting("WheelDown", null, false));
             AddWeak(BookCommandType.ViewScaleUp, new BookCommandSetting("RightButton+WheelUp", null, false));
             AddWeak(BookCommandType.ViewScaleDown, new BookCommandSetting("RightButton+WheelDown", null, false));
+            AddWeak(BookCommandType.ViewRotateLeft, new BookCommandSetting(null, null, false));
+            AddWeak(BookCommandType.ViewRotateRight, new BookCommandSetting(null, null, false));
 
             foreach (BookCommandType type in Enum.GetValues(typeof(BookCommandType)))
             {

@@ -445,6 +445,13 @@ namespace NeeView
             DoScale(0.8 * _BaseScale);
         }
 
+        public void Rotate(double angle)
+        {
+            _BaseAngle = Angle;
+            _BasePosition = Position;
+            DoRotate(NormalizeLoopRange(_BaseAngle + angle, -180, 180));
+        }
+
         // 移動
         private void DragMove(Point start, Point end)
         {
@@ -552,22 +559,25 @@ namespace NeeView
             var v0 = start - _Center;
             var v1 = end - _Center;
 
-            double angle1 = NormalizeLoopRange(_BaseAngle + Vector.AngleBetween(v0, v1), -180, 180);
+            double angle = NormalizeLoopRange(_BaseAngle + Vector.AngleBetween(v0, v1), -180, 180);
 
+            DoRotate(angle);
+        }
+
+        private void DoRotate(double angle)
+        {
             if (SnapAngle > 0)
             {
-                angle1 = Math.Floor((angle1 + SnapAngle * 0.5) / SnapAngle) * SnapAngle;
+                angle = Math.Floor((angle + SnapAngle * 0.5) / SnapAngle) * SnapAngle;
             }
 
-            Angle = angle1;
+            Angle = angle;
 
             if (DragControlCenter == DragControlCenter.View)
             {
-                double angle = Angle - _BaseAngle;
-                RotateTransform m = new RotateTransform(angle);
+                RotateTransform m = new RotateTransform(Angle - _BaseAngle);
                 Position = m.Transform(_BasePosition);
             }
-
         }
 
         // 角度の正規化

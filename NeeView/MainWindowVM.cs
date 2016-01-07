@@ -34,7 +34,7 @@ namespace NeeView
 
 
 
-    public class MainWindowVM : INotifyPropertyChanged
+    public class MainWindowVM : INotifyPropertyChanged, IDisposable
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -139,10 +139,16 @@ namespace NeeView
 
                 string text = LoosePath.GetFileName(BookHub.Current.Place);
 
-                if (BookHub.Current?.CurrentPage != null)
+                if (BookHub.Current.CurrentPage != null)
                 {
                     string name = BookHub.Current.CurrentPage.FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ");
                     text += $" ({Index + 1}/{IndexMax + 1}) - {name}";
+                }
+
+                if (BookHub.Current.CurrentViewPageCount >= 2 && BookHub.Current.CurrentNextPage != null)
+                {
+                    string name = LoosePath.GetFileName(BookHub.Current.CurrentNextPage.Path);
+                    text += $" | {name}";
                 }
 
                 return text;
@@ -444,20 +450,23 @@ namespace NeeView
                     Messenger.MessageBox(this, "設定の読み込みに失敗しました。初期設定で起動します。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
                     _Setting = new Setting();
                 }
-
-
-                this.Restore(_Setting.ViewMemento);
-                ModelContext.SusieContext.Restore(_Setting.SusieMemento);
-                BookHub.Restore(_Setting.BookHubMemento);
-                CommandCollection.Restore(_Setting.BookCommandMemento);
-
-                ModelContext.BookHistory.Restore(_Setting.BookHistoryMemento);
-                UpdateLastFiles();
-
-                InputGestureChanged?.Invoke(this, null);
-
-                _Setting.WindowPlacement?.Restore(window);
             }
+            else
+            {
+                _Setting = new Setting();
+            }
+
+            this.Restore(_Setting.ViewMemento);
+            ModelContext.SusieContext.Restore(_Setting.SusieMemento);
+            BookHub.Restore(_Setting.BookHubMemento);
+            CommandCollection.Restore(_Setting.BookCommandMemento);
+
+            ModelContext.BookHistory.Restore(_Setting.BookHistoryMemento);
+            UpdateLastFiles();
+
+            InputGestureChanged?.Invoke(this, null);
+
+            _Setting.WindowPlacement?.Restore(window);
         }
 
         public void SaveSetting(Window window)
@@ -946,6 +955,11 @@ namespace NeeView
             this.GestureShowMessageType = memento.GestureShowMessageType;
 
             this.OnViewModeChanged();
+        }
+
+        public void Dispose()
+        {
+            ModelContext.Terminate();
         }
     }
 }

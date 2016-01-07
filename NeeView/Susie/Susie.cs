@@ -22,10 +22,24 @@ namespace Susie
 
         private bool _Initialized;
 
+        private static bool _SusiePluginInstallPathInitialized;
+        private static string _SusiePluginInstallPath;
         public static string GetSusiePluginInstallPath()
         {
-            RegistryKey regkey = Registry.CurrentUser.OpenSubKey(@"Software\Takechin\Susie\Plug-in", false);
-            return (string)regkey.GetValue("Path");
+            if (!_SusiePluginInstallPathInitialized)
+            {
+                try
+                {
+                    RegistryKey regkey = Registry.CurrentUser.OpenSubKey(@"Software\Takechin\Susie\Plug-in", false);
+                    _SusiePluginInstallPath = (string)regkey?.GetValue("Path");
+                }
+                catch
+                {
+                }
+                _SusiePluginInstallPathInitialized = true;
+            }
+
+            return _SusiePluginInstallPath;
         }
 
         public Susie()

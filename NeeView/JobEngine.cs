@@ -206,7 +206,7 @@ namespace NeeView
     /// <summary>
     /// 
     /// </summary>
-    public class JobEngine : INotifyPropertyChanged
+    public class JobEngine : INotifyPropertyChanged, IDisposable
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -255,7 +255,7 @@ namespace NeeView
 
         public void ChangeWorkerSize(int size)
         {
-            Debug.Assert(1 <= size && size <= _MaxWorkerSize);
+            Debug.Assert(0 <= size && size <= _MaxWorkerSize);
 
             for (int i = 0; i < _MaxWorkerSize; ++i)
             {
@@ -278,6 +278,9 @@ namespace NeeView
                     }
                 }
             }
+
+            // イベント待ち解除
+            Context.Event.Set();
 
             OnPropertyChanged(nameof(Workers));
         }
@@ -320,6 +323,11 @@ namespace NeeView
         private void __Delay(int ms)
         {
             Thread.Sleep(ms);
+        }
+
+        public void Dispose()
+        {
+            ChangeWorkerSize(0);
         }
     }
 
@@ -377,7 +385,7 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
-                    Action<Exception> action = (exception) => { throw exception; };
+                    Action<Exception> action = (exception) => { throw new ApplicationException("タスク内部エラー", exception); };
                     App.Current.Dispatcher.BeginInvoke(action, e);
                 }
             },

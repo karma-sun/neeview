@@ -35,6 +35,8 @@ namespace NeeView
 
         public MainWindow()
         {
+            App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+
             InitializeComponent();
 
             _VM = new MainWindowVM();
@@ -431,6 +433,9 @@ namespace NeeView
         private void Window_Closed(object sender, EventArgs e)
         {
             Temporary.RemoveTempFolder();
+            _VM.Dispose();
+
+            Debug.WriteLine("Window.Closed done.");
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

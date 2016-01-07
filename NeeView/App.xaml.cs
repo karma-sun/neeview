@@ -16,8 +16,17 @@ namespace NeeView
     /// </summary>
     public partial class App : Application
     {
+        private int _ExceptionCount = 0;
+
         public void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
+            if (++_ExceptionCount >= 2)
+            {
+                Debug.WriteLine($"AfterException({_ExceptionCount}): {e.Exception.Message}");
+                e.Handled = true;
+                return;
+            }
+
             string message = $"エラーが発生しました。アプリを終了します。\n\n理由 : {e.Exception.Message}";
             MessageBox.Show(message, "強制終了", MessageBoxButton.OK, MessageBoxImage.Error);
 

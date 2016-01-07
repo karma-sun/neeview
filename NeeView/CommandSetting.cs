@@ -97,7 +97,6 @@ namespace NeeView
             [BookCommandType.LoadAs] = new BookCommandHeader("ファイル", "ファイルを開く"),
             [BookCommandType.ClearHistory] = new BookCommandHeader("ファイル", "履歴を消去する"),
 
-
             [BookCommandType.ToggleStretchMode] = new BookCommandHeader("表示サイズ", "サイズを切り替える"),
             [BookCommandType.SetStretchModeNone] = new BookCommandHeader("表示サイズ", "オリジナルサイズで表示する"),
             [BookCommandType.SetStretchModeInside] = new BookCommandHeader("表示サイズ", "大きい場合、ウィンドウサイズに合わせる"),

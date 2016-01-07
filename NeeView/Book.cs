@@ -230,7 +230,7 @@ namespace NeeView
                 if (_PageMode != value)
                 {
                     _PageMode = value;
-                    _CurrentViewPageCount = _PageMode;
+                    CurrentViewPageCount = _PageMode;
                     if (Place != null)
                     {
                         //ReloadViewPage();
@@ -312,7 +312,11 @@ namespace NeeView
             // 2ページ表示最終ページの場合の補正
             if (_PageMode == 2 && value == Pages.Count - 1)
             {
-                if (direction < 0) value = Pages.Count - _PageMode;
+                if (direction < 0)
+                {
+                    value = Pages.Count - _PageMode;
+                    if (value < 0) value = 0;
+                }
             }
 
             if (_Index != value)
@@ -328,7 +332,7 @@ namespace NeeView
             //}
             //else
             {
-                _CurrentViewPageCount = PageMode;
+                CurrentViewPageCount = PageMode;
             }
 
             UpdateActivePages();
@@ -362,6 +366,11 @@ namespace NeeView
         public Page CurrentPage
         {
             get { return Pages.Count > 0 ? Pages[Index] : null; }
+        }
+
+        public Page CurrentNextPage
+        {
+            get { return GetOffsetPage(1); }
         }
 
         private Page GetOffsetPage(int offset)
@@ -536,7 +545,7 @@ namespace NeeView
         {
             for (int i = 0; i < NowPages.Count; ++i)
             {
-                if (i < _CurrentViewPageCount)
+                if (i < CurrentViewPageCount)
                 {
                     //int cid = (BookReadOrder == BookReadOrder.RightToLeft) ? i : _CurrentViewPageCount - 1 - i;
                     //NowPages[i] = _ViewPages[i] != null ? new ViewContent(_ViewPages[cid]) : null;
@@ -556,7 +565,7 @@ namespace NeeView
             // すなわち１度だけの処理
 
             // もともと単独ページであれば処理不要
-            if (_CurrentViewPageCount <= 1) return;
+            if (CurrentViewPageCount <= 1) return;
 
             // 先頭ページは強制単独ページ処理
             if (IsSupportedTitlePage && _ViewPageIndex == 0)
@@ -581,7 +590,7 @@ namespace NeeView
 
         private void ToSingleViewPage()
         {
-            _CurrentViewPageCount = 1;
+            CurrentViewPageCount = 1;
 
             // 進行方向がマイナスの場合、ページの計算からやりなおし？
             if (_Direction < 0 && _Index + 1 != _OldIndex)
@@ -936,7 +945,7 @@ namespace NeeView
             }
         }
 
-        private int _CurrentViewPageCount = 1;
+        public int CurrentViewPageCount { get; private set; } = 1;
 
         // 次のページへ進む
         public void NextPage(int step = 0)
@@ -944,13 +953,13 @@ namespace NeeView
             if (!IsStable()) return;
 
             // 既に最終ページ?
-            if (Index + _CurrentViewPageCount >= Pages.Count)
+            if (Index + CurrentViewPageCount >= Pages.Count)
             {
                 PageTerminated?.Invoke(this, +1);
                 return;
             }
 
-            int index = Index + ((step == 0) ? _CurrentViewPageCount : step);
+            int index = Index + ((step == 0) ? CurrentViewPageCount : step);
             if (index > Pages.Count - 1)
             {
                 index = Pages.Count - 1;

@@ -41,6 +41,11 @@ namespace NeeView
             SusieContext = new SusieContext();
             SusieContext.Initialize(null);
         }
+
+        public static void Terminate()
+        {
+            JobEngine.Dispose();
+        }
     }
 
 
@@ -131,6 +136,23 @@ namespace NeeView
 
             [DataMember]
             public bool IsFirstOrderSusieArchive { get; set; }
+
+
+            private void Constructor()
+            {
+                SusiePluginPath = global::Susie.Susie.GetSusiePluginInstallPath();
+            }
+
+            public SusieSetting()
+            {
+                Constructor();
+            }
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                Constructor();
+            }
         }
 
         public SusieSetting CreateMemento()

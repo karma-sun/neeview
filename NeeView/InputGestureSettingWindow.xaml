@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="{Binding Command.Header, StringFormat={}\&quot;{0}\&quot; のキー設定}" Height="360" Width="500" Icon="App.ico">
+        Title="{Binding Command.Header, StringFormat={}\&quot;{0}\&quot; のキー設定}" Height="360" Width="500">
 
     <Window.Resources>
         <Style x:Key="InputBox" TargetType="TextBox">

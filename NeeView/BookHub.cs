@@ -46,6 +46,7 @@ namespace NeeView
         public event EventHandler<string> Loaded;
         public event EventHandler<string> InfoMessage;
         public event EventHandler ViewContentsChanged;
+        public event EventHandler<bool> SlideShowModeChanged;
 
         // アニメGIF
         #region Property: IsEnableAnimatedGif
@@ -259,7 +260,19 @@ namespace NeeView
             }
         }
 
-        public bool IsEnableSlideShow { get; set; }
+        private bool _IsEnableSlideShow;
+        public bool IsEnableSlideShow
+        {
+            get
+            {
+                return _IsEnableSlideShow;
+            }
+            set
+            {
+                _IsEnableSlideShow = value;
+                SlideShowModeChanged?.Invoke(this, _IsEnableSlideShow);
+            }
+        }
 
         private bool IsSlideShowByLoop { get; set; } = true;
 

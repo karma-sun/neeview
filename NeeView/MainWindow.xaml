@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="768" Width="1024" AllowDrop="True" Icon="App.ico"
+        Title="{Binding WindowTitle}" Icon="{Binding WindowIcon}" Height="768" Width="1024" AllowDrop="True"
         Loaded="MainWindow_Loaded" PreviewDragOver="MainWindow_PreviewDragOver" Drop="MainWindow_Drop" Closed="Window_Closed" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized">
 
     <Window.Resources>

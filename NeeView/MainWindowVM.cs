@@ -108,6 +108,25 @@ namespace NeeView
 
         public ObservableCollection<DispPage> PageList { get; private set; } = new ObservableCollection<DispPage>();
 
+
+        private ImageSource _WindowIconDefault;
+        private ImageSource _WindowIconPlay;
+
+        private void InitializeWindowIcons()
+        {
+            _WindowIconDefault = null; // BitmapFrame.Create(new Uri("pack://application:,,,/App.ico", UriKind.RelativeOrAbsolute));
+            _WindowIconPlay = BitmapFrame.Create(new Uri("pack://application:,,,/Play.ico", UriKind.RelativeOrAbsolute));
+        }
+
+        public ImageSource WindowIcon
+        {
+            get
+            {
+                return BookHub.IsEnableSlideShow ? _WindowIconPlay : _WindowIconDefault;
+            }
+        }
+
+
         public string WindowTitle
         {
             get
@@ -224,6 +243,8 @@ namespace NeeView
 
         public MainWindowVM()
         {
+            InitializeWindowIcons();
+
             ModelContext.Initialize();
 
             BookHub = new BookHub();
@@ -256,6 +277,9 @@ namespace NeeView
                 };
             BookHub.InfoMessage +=
                 (s, e) => Messenger.Send(this, new MessageEventArgs("MessageShow") { Parameter = new MessageShowParams(e) });
+
+            BookHub.SlideShowModeChanged +=
+                (s, e) => OnPropertyChanged(nameof(WindowIcon));
 
             Contents = new ObservableCollection<FrameworkElement>();
             Contents.Add(null);

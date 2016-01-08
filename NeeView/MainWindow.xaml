@@ -246,7 +246,7 @@
             </DockPanel>
 
             <!-- Now Loading -->
-            <Grid x:Name="NowLoading" Background="Black" Opacity="0">
+            <Grid x:Name="NowLoading" Background="Black" Opacity="0" IsHitTestVisible="False">
                 <Grid.Style>
                     <Style TargetType="Grid">
                         <Style.Triggers>

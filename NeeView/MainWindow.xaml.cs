@@ -240,7 +240,15 @@ namespace NeeView
             // コマンドバインド作成
             foreach (BookCommandType type in Enum.GetValues(typeof(BookCommandType)))
             {
-                this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Parameter), CanExecute));
+                // フルスクリーン系コマンドは常に有効
+                if (type == BookCommandType.ToggleFullScreen || type == BookCommandType.CancelFullScreen)
+                {
+                    this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Parameter)));
+                }
+                else
+                {
+                    this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Parameter), CanExecute));
+                }
             }
         }
 

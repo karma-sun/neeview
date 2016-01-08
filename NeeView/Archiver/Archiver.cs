@@ -1,15 +1,17 @@
-﻿using SevenZip;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NeeView
 {
+    /// <summary>
+    /// アーカイバの種類
+    /// </summary>
     public enum ArchiverType
     {
         None,
@@ -22,131 +24,41 @@ namespace NeeView
 
         DefaultArchiver = ZipArchiver
     }
-
-    public class ArchiverManager
-    {
-        Dictionary<ArchiverType, string[]> _SupprtedFileTypes = new Dictionary<ArchiverType, string[]>()
-        {
-            [ArchiverType.ZipArchiver] = new string[] { ".zip" },
-            [ArchiverType.SevenZipArchiver] = new string[] { ".7z", ".rar", ".lzh", ".tar", ".z", ".gz" },
-            [ArchiverType.SusieArchiver] = new string[] { }
-        };
-
-        Dictionary<ArchiverType, List<ArchiverType>> _OrderList = new Dictionary<ArchiverType, List<ArchiverType>>()
-        {
-            [ArchiverType.DefaultArchiver] = new List<ArchiverType>()
-            {
-                ArchiverType.ZipArchiver,
-                ArchiverType.SevenZipArchiver,
-                ArchiverType.SusieArchiver
-            },
-            [ArchiverType.SusieArchiver] = new List<ArchiverType>()
-            {
-                ArchiverType.SusieArchiver,
-                ArchiverType.ZipArchiver,
-                ArchiverType.SevenZipArchiver,
-            },
-        };
-
-        public ArchiverType OrderType { set; get; } = ArchiverType.DefaultArchiver;
-
-        public bool IsSupported(string fileName)
-        {
-            return GetSupportedType(fileName) != ArchiverType.None;
-        }
-
-        public ArchiverType GetSupportedType(string fileName)
-        {
-            if (fileName.Last() == '\\') // &&  Directory.Exists(fileName))
-            {
-                return ArchiverType.FolderFiles;
-            }
-
-            string ext = LoosePath.GetExtension(fileName);
-
-            foreach (var type in _OrderList[OrderType])
-            {
-                if (_SupprtedFileTypes[type].Contains(ext))
-                {
-                    return type;
-                }
-            }
-            return ArchiverType.None;
-        }
-
-        public void UpdateSusieSupprtedFileTypes(Susie.Susie susie)
-        {
-            var list = new List<string>();
-            foreach (var plugin in susie.AMPlgunList)
-            {
-                if (plugin.IsEnable)
-                {
-                    list.AddRange(plugin.Extensions);
-                    /*
-                    foreach (var supportType in plugin.SupportFileTypeList)
-                    {
-                        foreach (var filter in supportType.Extension.Split(';'))
-                        {
-                            list.Add(filter.TrimStart('*').ToLower());
-                        }
-                    }
-                    */
-                }
-            }
-            _SupprtedFileTypes[ArchiverType.SusieArchiver] = list.Distinct().ToArray();
-        }
-
-        public Archiver CreateArchiver(ArchiverType type, string path)
-        {
-            switch (type)
-            {
-                case ArchiverType.FolderFiles:
-                    return new FolderFiles(path);
-                case ArchiverType.ZipArchiver:
-                    return new ZipArchiver(path);
-                case ArchiverType.ZipArchiverKeepOpened:
-                    return new ZipArchiverKeepOpened(path);
-                case ArchiverType.SevenZipArchiver:
-                    return new SevenZipArchiver(path);
-                case ArchiverType.SusieArchiver:
-                    return new SusieArchiver(path);
-                default:
-                    throw new ArgumentException("no support ArchvierType.", nameof(type));
-            }
-        }
-
-        public Archiver CreateArchiver(string path)
-        {
-            if (Directory.Exists(path))
-            {
-                return CreateArchiver(ArchiverType.FolderFiles, path);
-            }
-
-            return CreateArchiver(GetSupportedType(path), path);
-        }
-    }
-
-
-    public class PageFileInfo
+    
+    /// <summary>
+    /// アーカイブエントリ
+    /// </summary>
+    public class ArchiveEntry
     {
         public string Path { get; set; }
         public DateTime UpdateTime { get; set; }
     }
 
+    /// <summary>
+    /// アーカイバ基底クラス
+    /// </summary>
     public abstract class Archiver : IDisposable
     {
-        public abstract string Path { get; }
-        public abstract List<PageFileInfo> GetEntries();
+        // アーカイブのパス
+        public abstract string FileName { get; }
+
+        // エントリリストを取得
+        public abstract List<ArchiveEntry> GetEntries();
+
+        // エントリのストリームを取得
         public abstract Stream OpenEntry(string entryName);
+
+        // エントリをファイルとして出力
         public abstract void ExtractToFile(string entryName, string exportFileName);
 
+        // 廃棄用ゴミ箱
         public List<IDisposable> TrashBox { get; private set; } = new List<IDisposable>();
 
+        // 廃棄処理
         public virtual void Dispose()
         {
             TrashBox.ForEach(e => e.Dispose());
             TrashBox.Clear();
         }
     }
-
 }

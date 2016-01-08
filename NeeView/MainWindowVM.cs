@@ -17,6 +17,15 @@ using System.Runtime.Serialization;
 
 namespace NeeView
 {
+    // 背景の種類
+    public enum BackgroundStyle
+    {
+        Black,
+        White,
+        Auto,
+        Check
+    };
+
     public enum ShowMessageType
     {
         None,
@@ -498,14 +507,14 @@ namespace NeeView
 
 
                 //
-                IsVisibleEmptyPageMessage = book.NowPages.All(content => content == null);
+                IsVisibleEmptyPageMessage = book.ViewContents.All(content => content == null);
 
                 //
                 for (int index = 0; index < 2; ++index)
                 {
-                    int cid = (book.BookReadOrder == BookReadOrder.RightToLeft) ? index : 1 - index;
+                    int cid = (book.BookReadOrder == PageReadOrder.RightToLeft) ? index : 1 - index;
 
-                    ViewContent content = book.NowPages[cid];
+                    ViewContent content = book.ViewContents[cid];
 
                     if (string.IsNullOrEmpty(book.Place))
                     {
@@ -608,11 +617,11 @@ namespace NeeView
 
             for (int i = 0; i < 2; ++i)
             {
-                int cid = (BookHub.Current.BookReadOrder == BookReadOrder.RightToLeft) ? i : 1 - i;
+                int cid = (BookHub.Current.BookReadOrder == PageReadOrder.RightToLeft) ? i : 1 - i;
 
                 //ContentsWidth[i] = CalcContentWidth(i, _ViewWidth, _ViewHeight);
                 //var scale = CalcContentScale(i, _ViewWidth, _ViewHeight);
-                var size = GetContentSize(BookHub.Current.NowPages[cid]);
+                var size = GetContentSize(BookHub.Current.ViewContents[cid]);
                 ContentsWidth[i] = size.Width * scales[cid];
                 ContentsHeight[i] = size.Height * scales[cid];
             }
@@ -621,8 +630,8 @@ namespace NeeView
         //
         private double[] CalcContentScale(double width, double height)
         {
-            var c0 = GetContentSize(BookHub.Current.NowPages[0]);
-            var c1 = GetContentSize(BookHub.Current.NowPages[1]);
+            var c0 = GetContentSize(BookHub.Current.ViewContents[0]);
+            var c1 = GetContentSize(BookHub.Current.ViewContents[1]);
 
             if (this.StretchMode == PageStretchMode.None)
             {
@@ -636,7 +645,7 @@ namespace NeeView
             Size content;
 
             //if (_Book.PageMode == 1)
-            if (BookHub.Current.NowPages[1] == null)
+            if (BookHub.Current.ViewContents[1] == null)
             {
                 content = c0;
             }
@@ -867,8 +876,8 @@ namespace NeeView
         //
         public void Load(string path)
         {
-            BookHub.IsEnableSlideShow = false; // スライドショウ停止
-            BookHub.Load(path);
+            //BookHub.IsEnableSlideShow = false; // スライドショウ停止
+            BookHub.Load(path, BookLoadOption.None);
         }
 
 
@@ -909,7 +918,7 @@ namespace NeeView
                 CommandShowMessageType = ShowMessageType.Normal;
                 GestureShowMessageType = ShowMessageType.Normal;
                 StretchMode = PageStretchMode.Uniform;
-                Background = BackgroundStyle.Auto;
+                Background = BackgroundStyle.Black;
             }
 
             public Memento()

@@ -140,7 +140,7 @@ namespace NeeView
 
             [BookCommandType.ToggleIsRecursiveFolder] = new BookCommandHeader("フォルダ", "サブフォルダ読み込みON/OFF"),
 
-            [BookCommandType.ToggleSortMode] = new BookCommandHeader("ページ列", "ソート方法を切り替える"),
+            [BookCommandType.ToggleSortMode] = new BookCommandHeader("ページ列", "ページの並び順を切り替える"),
             [BookCommandType.SetSortModeFileName] = new BookCommandHeader("ページ列", "ファイル名順にする"),
             //[BookCommandType.SetSortModeFileNameDictionary] = new BookCommandHeader("ページ列", "ファイル名辞書順にする"),
             [BookCommandType.SetSortModeTimeStamp] = new BookCommandHeader("ページ列", "ファイル日付順にする"),
@@ -221,16 +221,16 @@ namespace NeeView
             _Actions.Add(BookCommandType.SetPageMode1, e => book.SetPageMode(1));
             _Actions.Add(BookCommandType.SetPageMode2, e => book.SetPageMode(2));
             _Actions.Add(BookCommandType.ToggleBookReadOrder, e => book.ToggleBookReadOrder());
-            _Actions.Add(BookCommandType.SetBookReadOrderRight, e => book.SetBookReadOrder(BookReadOrder.RightToLeft));
-            _Actions.Add(BookCommandType.SetBookReadOrderLeft, e => book.SetBookReadOrder(BookReadOrder.LeftToRight));
+            _Actions.Add(BookCommandType.SetBookReadOrderRight, e => book.SetBookReadOrder(PageReadOrder.RightToLeft));
+            _Actions.Add(BookCommandType.SetBookReadOrderLeft, e => book.SetBookReadOrder(PageReadOrder.LeftToRight));
             _Actions.Add(BookCommandType.ToggleIsSupportedTitlePage, e => book.ToggleIsSupportedTitlePage());
             _Actions.Add(BookCommandType.ToggleIsSupportedWidePage, e => book.ToggleIsSupportedWidePage());
             _Actions.Add(BookCommandType.ToggleIsRecursiveFolder, e => book.ToggleIsRecursiveFolder());
             _Actions.Add(BookCommandType.ToggleSortMode, e => book.ToggleSortMode());
-            _Actions.Add(BookCommandType.SetSortModeFileName, e => book.SetSortMode(BookSortMode.FileName));
+            _Actions.Add(BookCommandType.SetSortModeFileName, e => book.SetSortMode(PageSortMode.FileName));
             //_Actions.Add(BookCommandType.SetSortModeFileNameDictionary, e => book.SetSortMode(BookSortMode.FileNameDictionary));
-            _Actions.Add(BookCommandType.SetSortModeTimeStamp, e => book.SetSortMode(BookSortMode.TimeStamp));
-            _Actions.Add(BookCommandType.SetSortModeRandom, e => book.SetSortMode(BookSortMode.Random));
+            _Actions.Add(BookCommandType.SetSortModeTimeStamp, e => book.SetSortMode(PageSortMode.TimeStamp));
+            _Actions.Add(BookCommandType.SetSortModeRandom, e => book.SetSortMode(PageSortMode.Random));
             _Actions.Add(BookCommandType.ToggleIsReverseSort, e => book.ToggleIsReverseSort());
             _Actions.Add(BookCommandType.ViewScrollUp, null);
             _Actions.Add(BookCommandType.ViewScrollDown, null);

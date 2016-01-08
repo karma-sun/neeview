@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -10,6 +15,7 @@ namespace Susie
     public static class Win32Api
     {
         const string KERNEL32 = "kernel32";
+
         [DllImport(KERNEL32)]
         public extern static IntPtr LoadLibrary(string lpFileName);
 
@@ -30,7 +36,6 @@ namespace Susie
 
         [DllImport(KERNEL32, CharSet = CharSet.Auto)]
         public extern static int GetShortPathName(string longPath, StringBuilder shortPathBuffer, int bufferSize);
-
 
         // ショートパス名を求める
         public static string GetShortPathName(string longPath)
@@ -69,6 +74,4 @@ namespace Susie
         public uint biClrUsed;
         public uint biClrImportant;
     }
-
-
 }

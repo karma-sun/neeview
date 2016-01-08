@@ -1,4 +1,9 @@
-﻿using SevenZip;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using SevenZip;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,8 +13,18 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    /// <summary>
+    /// アーカイバ：7z.dll
+    /// </summary>
     public class SevenZipArchiver : Archiver
     {
+        private string _ArchiveFileName;
+        public override string FileName => _ArchiveFileName;
+
+        private static object _Lock = new object();
+
+
+        //
         static SevenZipArchiver()
         {
             SevenZipExtractor.SetLibraryPath("7z.dll");
@@ -17,20 +32,18 @@ namespace NeeView
             //Console.WriteLine(((uint)features).ToString("X6"));
         }
 
-        private string _ArchiveFileName;
-        public override string Path => _ArchiveFileName;
 
-        private static object _Lock = new object();
-
+        //
         public SevenZipArchiver(string archiveFileName)
         {
             _ArchiveFileName = archiveFileName;
         }
 
+
         // エントリーリストを得る
-        public override List<PageFileInfo> GetEntries()
+        public override List<ArchiveEntry> GetEntries()
         {
-            List<PageFileInfo> entries = new List<PageFileInfo>();
+            List<ArchiveEntry> entries = new List<ArchiveEntry>();
 
             lock (_Lock)
             {
@@ -40,7 +53,7 @@ namespace NeeView
                     {
                         if (!entry.IsDirectory)
                         {
-                            entries.Add(new PageFileInfo()
+                            entries.Add(new ArchiveEntry()
                             {
                                 Path = entry.FileName,
                                 UpdateTime = entry.LastWriteTime,
@@ -78,6 +91,7 @@ namespace NeeView
         }
 
 
+        //
         public override void ExtractToFile(string entryName, string exportFileName)
         {
             SevenZipExtractor archive = null;

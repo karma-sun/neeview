@@ -1,10 +1,13 @@
-﻿using Microsoft.Win32;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,19 +17,26 @@ using System.Windows.Media.Imaging;
 namespace Susie
 {
     /// <summary>
-    /// 
+    /// Susie Plugin Accessor
     /// </summary>
     public class SusiePlugin
     {
-        public bool IsEnable { get; set; }
+        // 有効/無効
+        public bool IsEnable { get; set; } = true;
 
+        // プラグインファイルのパス
         public string FileName { get; private set; }
 
+        // APIバージョン
         public string ApiVersion { get; private set; }
+
+        // プラグインバージョン
         public string PluginVersion { get; private set; }
 
+        // 設定ダイアログの有無
         public bool HasConfigurationDlg { get; private set; }
 
+        // サポートするファイルの種類
         public class SupportFileType
         {
             public string Extension; // ファイルの種類の拡張子
@@ -34,17 +44,30 @@ namespace Susie
         }
         public List<SupportFileType> SupportFileTypeList { get; private set; }
 
+        // サポートするファイルの拡張子リスト
         public List<string> Extensions { get; private set; }
 
-
+        // 排他処理用ロックオブジェクト
         public object Lock = new object();
 
+
+        /// <summary>
+        /// プラグインアクセサ作成
+        /// </summary>
+        /// <param name="fileName">プラグインファイルのパス</param>
+        /// <returns>プラグイン。失敗したらnullを返す</returns>
         public static SusiePlugin Create(string fileName)
         {
-            var spis = new SusiePlugin();
-            return spis.Initialize(fileName) ? spis : null;
+            var spi = new SusiePlugin();
+            return spi.Initialize(fileName) ? spi : null;
         }
 
+
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        /// <param name="fileName">プラグインファイルのパス</param>
+        /// <returns>成功したらtrue</returns>
         public bool Initialize(string fileName)
         {
             if (FileName != null) throw new InvalidOperationException();
@@ -94,7 +117,11 @@ namespace Susie
         }
 
 
-        //
+        /// <summary>
+        /// SusiePluginAPIを開く
+        /// LoadLibraryを行うため、使用後はDisposeしなければいけない
+        /// </summary>
+        /// <returns>SusiePluginAPI</returns>
         public SusiePluginApi Open()
         {
             if (FileName == null) throw new InvalidOperationException();
@@ -102,7 +129,11 @@ namespace Susie
         }
 
 
-        //
+        /// <summary>
+        /// 情報ダイアログを開く
+        /// </summary>
+        /// <param name="parent">親ウィンドウ</param>
+        /// <returns>成功した場合は0</returns>
         public int AboutDlg(Window parent)
         {
             if (FileName == null) throw new InvalidOperationException();
@@ -117,7 +148,12 @@ namespace Susie
             }
         }
 
-        //
+
+        /// <summary>
+        /// 設定ダイアログを開く
+        /// </summary>
+        /// <param name="parent">親ウィンドウ</param>
+        /// <returns>成功した場合は0</returns>
         public int ConfigurationDlg(Window parent)
         {
             if (FileName == null) throw new InvalidOperationException();
@@ -132,7 +168,13 @@ namespace Susie
             }
         }
 
-        public ArchiveFileInfoCollection GetArchiveInfo(string fileName)
+
+        /// <summary>
+        /// アーカイブ情報取得
+        /// </summary>
+        /// <param name="fileName">アーカイブファイル名</param>
+        /// <returns>アーカイブ情報。失敗した場合はnull</returns>
+        public ArchiveEntryCollection GetArchiveInfo(string fileName)
         {
             if (FileName == null) throw new InvalidOperationException();
             if (!IsEnable) return null;
@@ -146,12 +188,18 @@ namespace Susie
                 {
                     string shortPath = Win32Api.GetShortPathName(fileName);
                     if (!api.IsSupported(shortPath)) return null;
-                    return new ArchiveFileInfoCollection(this, fileName, api.GetArchiveInfo(shortPath));
+                    return new ArchiveEntryCollection(this, fileName, api.GetArchiveInfo(shortPath));
                 }
             }
         }
 
 
+        /// <summary>
+        /// 画像取得(メモリ版)
+        /// </summary>
+        /// <param name="fileName">画像ファイル名(サポート判定用)</param>
+        /// <param name="buff">画像データ</param>
+        /// <returns>BitmapImage。失敗した場合はnull</returns>
         public BitmapImage GetPicture(string fileName, byte[] buff)
         {
             if (FileName == null) throw new InvalidOperationException();
@@ -170,83 +218,11 @@ namespace Susie
             }
         }
 
+        //
         private static string GetExtension(string s)
         {
             return "." + s.Split('.').Last().ToLower();
         }
-
     }
-
-
-    /// <summary>
-    /// アーカイブ内ファイル情報 リスト
-    /// </summary>
-    public class ArchiveFileInfoCollection : List<ArchiveFileInfo>
-    {
-        public ArchiveFileInfoCollection(SusiePlugin spi, string archiveFileName, List<ArchiveFileInfoRaw> entries)
-        {
-            string shortPath = Win32Api.GetShortPathName(archiveFileName);
-            foreach (var entry in entries)
-            {
-                this.Add(new ArchiveFileInfo(spi, shortPath, entry));
-            }
-        }
-    }
-
-
-    /// <summary>
-    /// アーカイブ内ファイル情報
-    /// </summary>
-    public class ArchiveFileInfo
-    {
-        private SusiePlugin _Spi;
-        ArchiveFileInfoRaw _Info; // Raw情報
-
-        public string ArchiveShortFileName { get; private set; }
-
-        public string Path => _Info.path;
-        public string FileName => _Info.filename;
-        public uint FileSize => _Info.filesize;
-        public DateTime TimeStamp => Time_T2DateTime(_Info.timestamp);
-
-        public ArchiveFileInfo(SusiePlugin spi, string archiveFileName, ArchiveFileInfoRaw info)
-        {
-            _Spi = spi;
-            ArchiveShortFileName = archiveFileName;
-            _Info = info;
-        }
-
-        // メモリ上に解凍
-        public byte[] Load()
-        {
-            lock (_Spi.Lock)
-            {
-                using (var api = _Spi.Open())
-                {
-                    return api.GetFile(ArchiveShortFileName, _Info);
-                }
-            }
-        }
-
-        // ファイルに出力
-        public void ExtractToFolder(string extractFolder)
-        {
-            lock (_Spi.Lock)
-            {
-                using (var api = _Spi.Open())
-                {
-                    int ret = api.GetFile(ArchiveShortFileName, _Info, extractFolder);
-                    if (ret != 0) throw new IOException("抽出に失敗しました");
-                }
-            }
-        }
-
-        private static DateTime Time_T2DateTime(uint time_t)
-        {
-            long win32FileTime = 10000000 * (long)time_t + 116444736000000000;
-            return DateTime.FromFileTimeUtc(win32FileTime);
-        }
-    }
-
 
 }

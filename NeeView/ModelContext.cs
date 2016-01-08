@@ -40,7 +40,6 @@ namespace NeeView
             BitmapLoaderManager = new BitmapLoaderManager();
 
             SusieContext = new SusieContext();
-            SusieContext.Initialize(null);
         }
 
         public static void Terminate()
@@ -138,7 +137,17 @@ namespace NeeView
         {
             // 新規
             Susie = new Susie.Susie();
-            Susie.Initialize(spiFiles);
+            Susie.Load(spiFiles.Keys);
+
+            // プラグイン有効/無効反映
+            foreach (var pair in spiFiles)
+            {
+                var plugin = Susie.GetPlugin(pair.Key);
+                if (plugin != null)
+                {
+                    plugin.IsEnable = pair.Value;
+                }
+            }
 
             // Susie対応拡張子更新
             ModelContext.ArchiverManager.UpdateSusieSupprtedFileTypes(Susie);
@@ -185,8 +194,11 @@ namespace NeeView
             public void SetSpiFiles(global::Susie.Susie susie)
             {
                 SpiFiles.Clear();
-                susie.AMPlgunList.ForEach(e => SpiFiles.Add(e.FileName, e.IsEnable));
-                susie.INPlgunList.ForEach(e => SpiFiles.Add(e.FileName, e.IsEnable));
+
+                foreach (var plugin in susie.PluginCollection)
+                {
+                    SpiFiles.Add(plugin.FileName, plugin.IsEnable);
+                }
             }
         }
 

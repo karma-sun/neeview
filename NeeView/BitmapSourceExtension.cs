@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -27,7 +32,7 @@ namespace NeeView
             return BitCount((~bits) & (bits - 1));
         }
 
-        //
+        // GetOneColor()のサポートフォーマット
         private static PixelFormat[] SupportedFormats = new PixelFormat[]
         {
             PixelFormats.Bgra32,
@@ -40,6 +45,7 @@ namespace NeeView
             PixelFormats.Gray2,
         };
 
+        // GetOneColor()のサポートフォーマット (インデックスカラー)
         private static PixelFormat[] SupportedIndexFormats = new PixelFormat[]
         {
             PixelFormats.Indexed8,
@@ -48,6 +54,7 @@ namespace NeeView
             PixelFormats.Indexed1,
         };
 
+        // 画像の最初の1ピクセルのカラーを取得
         public static Color GetOneColor(this BitmapSource bmp)
         {
             if (bmp == null) return Colors.Black;
@@ -72,7 +79,6 @@ namespace NeeView
 
                 elements.Add((byte)((pixels[0] & bits) >> shift));
             }
-
 
             var color = new Color();
 

@@ -77,7 +77,7 @@
 
                 </StackPanel>
             </TabItem>
-
+           
             <TabItem Header="履歴設定">
                 <Grid Margin="4">
                     <StackPanel>

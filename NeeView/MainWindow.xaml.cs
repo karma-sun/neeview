@@ -185,7 +185,7 @@ namespace NeeView
             _MouseDragController.SnapAngle = _VM.IsAngleSnap ? 45 : 0;
             //_MouseDragController.IsStartPositionCenter = _VM.IsViewStartPositionCenter;
             _MouseDragController.ViewOrigin = _VM.IsViewStartPositionCenter ? ViewOrigin.Center :
-                _VM.BookSetting.BookReadOrder == BookReadOrder.LeftToRight ? ViewOrigin.LeftTop : ViewOrigin.RightTop;
+                _VM.BookSetting.BookReadOrder == PageReadOrder.LeftToRight ? ViewOrigin.LeftTop : ViewOrigin.RightTop;
 
 
             // ここはあまりよくない
@@ -606,13 +606,13 @@ namespace NeeView
 
 
 
-    [ValueConversion(typeof(BookSortMode), typeof(bool))]
+    [ValueConversion(typeof(PageSortMode), typeof(bool))]
     public class SortModeToBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            BookSortMode mode0 = (BookSortMode)value;
-            BookSortMode mode1 = (BookSortMode)Enum.Parse(typeof(BookSortMode), parameter as string);
+            PageSortMode mode0 = (PageSortMode)value;
+            PageSortMode mode1 = (PageSortMode)Enum.Parse(typeof(PageSortMode), parameter as string);
             return (mode0 == mode1);
         }
 
@@ -623,13 +623,13 @@ namespace NeeView
     }
 
 
-    [ValueConversion(typeof(BookReadOrder), typeof(bool))]
+    [ValueConversion(typeof(PageReadOrder), typeof(bool))]
     public class BookReadOrderToBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            BookReadOrder mode0 = (BookReadOrder)value;
-            BookReadOrder mode1 = (BookReadOrder)Enum.Parse(typeof(BookReadOrder), parameter as string);
+            PageReadOrder mode0 = (PageReadOrder)value;
+            PageReadOrder mode1 = (PageReadOrder)Enum.Parse(typeof(PageReadOrder), parameter as string);
             return (mode0 == mode1);
         }
 

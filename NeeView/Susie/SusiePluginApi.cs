@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,11 +14,16 @@ using System.Windows.Media.Imaging;
 
 namespace Susie
 {
+    /// <summary>
+    /// Susie Plugin API
+    /// アンマネージなDLLアクセスを行います。
+    /// </summary>
     public class SusiePluginApi : IDisposable
     {
-        private IntPtr _hModule = IntPtr.Zero;
-        public IntPtr hModule { get { return _hModule; } }
+        // DLLハンドル
+        public IntPtr hModule { get; private set; } = IntPtr.Zero;
 
+        // APIデリゲートリスト
         private Dictionary<Type, object> _ApiDelegateList = new Dictionary<Type, object>();
 
         /// <summary>
@@ -29,26 +39,35 @@ namespace Susie
             return lib;
         }
 
+        /// <summary>
+        /// DLLロードし、使用可能状態にする
+        /// </summary>
+        /// <param name="fileName">spiファイル名</param>
+        /// <returns>DLLハンドル</returns>
         private IntPtr Open(string fileName)
         {
             Close();
-            _hModule = Win32Api.LoadLibrary(fileName);
-            return _hModule;
+            hModule = Win32Api.LoadLibrary(fileName);
+            return hModule;
         }
 
+        /// <summary>
+        /// DLLをアンロードする
+        /// </summary>
         private void Close()
         {
-            if (_hModule != IntPtr.Zero)
+            if (hModule != IntPtr.Zero)
             {
                 _ApiDelegateList.Clear();
-                Win32Api.FreeLibrary(_hModule);
-                _hModule = IntPtr.Zero;
+                Win32Api.FreeLibrary(hModule);
+                hModule = IntPtr.Zero;
             }
         }
 
         #region IDisposable Support
         private bool disposedValue = false; // 重複する呼び出しを検出するには
 
+        //
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -66,7 +85,7 @@ namespace Susie
             }
         }
 
-        // TODO: 上の Dispose(bool disposing) にアンマネージ リソースを解放するコードが含まれる場合にのみ、ファイナライザーをオーバーライドします。
+        // 上の Dispose(bool disposing) にアンマネージ リソースを解放するコードが含まれる場合にのみ、ファイナライザーをオーバーライドします。
         ~SusiePluginApi()
         {
             // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
@@ -78,16 +97,16 @@ namespace Susie
         {
             // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
             Dispose(true);
-            // TODO: 上のファイナライザーがオーバーライドされる場合は、次の行のコメントを解除してください。
-            // GC.SuppressFinalize(this);
+            // 上のファイナライザーがオーバーライドされる場合は、次の行のコメントを解除してください。
+            GC.SuppressFinalize(this);
         }
         #endregion
 
 
         /// <summary>
-        /// 関数の存在確認
+        /// APIの存在確認
         /// </summary>
-        /// <param name="name">関数名</param>
+        /// <param name="name">API名</param>
         /// <returns>trueなら存在する</returns>
         public bool IsExistFunction(string name)
         {
@@ -97,8 +116,13 @@ namespace Susie
             return (add != IntPtr.Zero);
         }
 
-
-
+    
+        /// <summary>
+        /// API取得
+        /// </summary>
+        /// <typeparam name="T">APIのデリゲート</typeparam>
+        /// <param name="procName">API名</param>
+        /// <returns></returns>
         public T GetApiDelegate<T>(string procName)
         {
             if (!_ApiDelegateList.ContainsKey(typeof(T)))
@@ -156,6 +180,11 @@ namespace Susie
         delegate bool IsSupportedFromFileDelegate(string filename, IntPtr dw);
         delegate bool IsSupportedFromMemoryDelegate(string filename, [In]byte[] dw);
 
+        /// <summary>
+        /// サポート判定(ファイル版)
+        /// </summary>
+        /// <param name="filename">ファイル名</param>
+        /// <returns>サポートしていればtrue</returns>
         public bool IsSupported(string filename)
         {
             if (hModule == null) throw new InvalidOperationException();
@@ -167,6 +196,12 @@ namespace Susie
             }
         }
 
+        /// <summary>
+        /// サポート判定(メモリ版)
+        /// </summary>
+        /// <param name="filename">ファイル名(判定用)</param>
+        /// <param name="buff">対象データ</param>
+        /// <returns>サポートしていればtrue</returns>
         public bool IsSupported(string filename, byte[] buff)
         {
             if (hModule == null) throw new InvalidOperationException();
@@ -180,11 +215,15 @@ namespace Susie
         #region 00AM 必須 GetArchiveInfo()
         delegate int GetArchiveInfoFromFileDelegate(string filename, int offset, uint flag, out IntPtr hInfo);
 
+        /// <summary>
+        /// アーカイブ情報取得
+        /// </summary>
+        /// <param name="file">アーカイブファイル名</param>
+        /// <returns>アーカイブエントリ情報(RAW)。失敗した場合はnull</returns>
         public List<ArchiveFileInfoRaw> GetArchiveInfo(string file)
         {
             if (hModule == null) throw new InvalidOperationException();
             var getArchiveInfo = GetApiDelegate<GetArchiveInfoFromFileDelegate>("GetArchiveInfo");
-
 
             IntPtr hInfo = IntPtr.Zero;
             try
@@ -219,12 +258,19 @@ namespace Susie
         }
         #endregion
 
+
         // TODO: フラグ指定とか
         // TODO: コールバックとか
         #region 00AM 必須 GetFile()
         delegate int GetFileFromFileHandler(string filename, int position, out IntPtr hBuff, uint flag, int lpPrgressCallback, int lData);
         delegate int GetFileFromFileToFileHandler(string filename, int position, string dest, uint flag, int lpPrgressCallback, int lData);
 
+        /// <summary>
+        /// アーカイブエントリ取得(メモリ版)
+        /// </summary>
+        /// <param name="file">アーカイブファイル名</param>
+        /// <param name="entry">アーカイブエントリ名</param>
+        /// <returns>出力されたバッファ。失敗した場合はnull</returns>
         public byte[] GetFile(string file, ArchiveFileInfoRaw entry)
         {
             if (hModule == null) throw new InvalidOperationException();
@@ -248,10 +294,15 @@ namespace Susie
                 Win32Api.LocalUnlock(hBuff);
                 Win32Api.LocalFree(hBuff);
             }
-
         }
 
-
+        /// <summary>
+        /// アーカイブエントリ取得(ファイル版)
+        /// </summary>
+        /// <param name="file">アーカイブファイル名</param>
+        /// <param name="entry">アーカイブエントリ名</param>
+        /// <param name="extractFolder">出力フォルダ</param>
+        /// <returns>成功した場合は0</returns>
         public int GetFile(string file, ArchiveFileInfoRaw entry, string extractFolder)
         {
             if (hModule == null) throw new InvalidOperationException();
@@ -266,11 +317,15 @@ namespace Susie
         #region 00IN 必須 GetPicture()
         delegate int GetPictureFromMemoryDelegate([In]byte[] buf, int len, uint flag, out IntPtr pHBInfo, out IntPtr pHBm, int lpProgressCallback, int lData);
 
+        /// <summary>
+        /// 画像取得(メモリ版)
+        /// </summary>
+        /// <param name="buff">入力画像データ</param>
+        /// <returns>BitmapImage。失敗した場合はnull</returns>
         public BitmapImage GetPicture(byte[] buff)
         {
             if (hModule == null) throw new InvalidOperationException();
             var getPicture = GetApiDelegate<GetPictureFromMemoryDelegate>("GetPicture");
-
 
             IntPtr pHBInfo = IntPtr.Zero;
             IntPtr pHBm = IntPtr.Zero;
@@ -316,6 +371,7 @@ namespace Susie
             }
         }
 
+        // BitmaiFileHeader作成
         private BitmapFileHeader CreateBitmapFileHeader(BitmapInfoHeader bi)
         {
             var bf = new BitmapFileHeader();
@@ -340,7 +396,7 @@ namespace Susie
 
 
     /// <summary>
-    /// アーカイブ内ファイル情報(Raw)
+    /// アーカイブエントリ情報(Raw)
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
     public struct ArchiveFileInfoRaw

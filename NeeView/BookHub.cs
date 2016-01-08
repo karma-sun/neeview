@@ -113,7 +113,7 @@ namespace NeeView
         private ManualResetEvent _ViewContentEvent = new ManualResetEvent(false);
 
         // いろんなメソッドは置き換え
-        public async void Load(string path, Book.LoadFolderOption option = Book.LoadFolderOption.None)
+        public async void Load(string path, BookLoadOption option)
         {
             var current = Current;
             Current = null;
@@ -134,11 +134,11 @@ namespace NeeView
             //
             if (IsEnableNoSupportFile)
             {
-                option |= Book.LoadFolderOption.SupportAllFile;
+                option |= BookLoadOption.SupportAllFile;
             }
 
             // 設定の復元
-            if ((option & Book.LoadFolderOption.ReLoad) == Book.LoadFolderOption.ReLoad)
+            if ((option & BookLoadOption.ReLoad) == BookLoadOption.ReLoad)
             {
                 // リロード時は設定そのまま
                 book.Restore(BookMemento);
@@ -166,7 +166,7 @@ namespace NeeView
             }
 
             // リカーシブ設定
-            if ((option & Book.LoadFolderOption.Recursive) == Book.LoadFolderOption.Recursive)
+            if ((option & BookLoadOption.Recursive) == BookLoadOption.Recursive)
             {
                 book.IsRecursiveFolder = true;
             }
@@ -177,8 +177,10 @@ namespace NeeView
                 // 読み込み。非同期で行う。
                 Loaded?.Invoke(this, path);
 
+                // ロード
                 await book.Load(path, start, option);
 
+                // ロード後にイベント設定
                 book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
                 book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
                 book.PageTerminated += Book_PageTerminated;
@@ -225,7 +227,7 @@ namespace NeeView
             BookChanged?.Invoke(this, isBookamrk);
 
             // サブフォルダ確認
-            if ((option & Book.LoadFolderOption.ReLoad) == 0 && Current.Pages.Count <= 0 && !Current.IsRecursiveFolder && Current.SubFolderCount > 0)
+            if ((option & BookLoadOption.ReLoad) == 0 && Current.Pages.Count <= 0 && !Current.IsRecursiveFolder && Current.SubFolderCount > 0)
             {
                 var message = new MessageEventArgs("MessageBox");
                 message.Parameter = new MessageBoxParams()
@@ -240,7 +242,7 @@ namespace NeeView
                 if (message.Result == true)
                 {
                     //_IsLoading = false;
-                    Load(Current.Place, Book.LoadFolderOption.Recursive | Book.LoadFolderOption.ReLoad);
+                    Load(Current.Place, BookLoadOption.Recursive | BookLoadOption.ReLoad);
                 }
             }
 
@@ -250,7 +252,7 @@ namespace NeeView
         {
             if (Current != null)
             {
-                Load(Current.Place, Book.LoadFolderOption.ReLoad);
+                Load(Current.Place, BookLoadOption.ReLoad);
             }
         }
 
@@ -292,11 +294,11 @@ namespace NeeView
             {
                 if (e < 0)
                 {
-                    PrevFolder(Book.LoadFolderOption.LastPage);
+                    PrevFolder(BookLoadOption.LastPage);
                 }
                 else
                 {
-                    NextFolder(Book.LoadFolderOption.FirstPage);
+                    NextFolder(BookLoadOption.FirstPage);
                 }
             }
             else
@@ -335,7 +337,7 @@ namespace NeeView
 
 
         // 次のフォルダに移動
-        private bool MoveFolder(int direction, FolderOrder folderOrder, Book.LoadFolderOption option)
+        private bool MoveFolder(int direction, FolderOrder folderOrder, BookLoadOption option)
         {
             if (Current == null) return false;
 
@@ -428,7 +430,7 @@ namespace NeeView
             Current?.LastPage();
         }
 
-        public void NextFolder(Book.LoadFolderOption option = Book.LoadFolderOption.None)
+        public void NextFolder(BookLoadOption option = BookLoadOption.None)
         {
             bool result = MoveFolder(+1, FolderOrder, option);
             if (!result)
@@ -437,7 +439,7 @@ namespace NeeView
             }
         }
 
-        public void PrevFolder(Book.LoadFolderOption option = Book.LoadFolderOption.None)
+        public void PrevFolder(BookLoadOption option = BookLoadOption.None)
         {
             bool result = MoveFolder(-1, FolderOrder, option);
             if (!result)
@@ -490,7 +492,7 @@ namespace NeeView
         }
 
 
-        public void SetBookReadOrder(BookReadOrder order)
+        public void SetBookReadOrder(PageReadOrder order)
         {
             BookMemento.BookReadOrder = order;
             RefleshBookSetting(); //BookSetting.Restore(Current);
@@ -528,7 +530,7 @@ namespace NeeView
             RefleshBookSetting(); //BookSetting.Restore(Current);
         }
 
-        public void SetSortMode(BookSortMode mode)
+        public void SetSortMode(PageSortMode mode)
         {
             Current?.SetSortMode(mode);
             BookMemento.SortMode = mode;

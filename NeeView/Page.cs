@@ -210,12 +210,12 @@ namespace NeeView
 
         FilePageIcon _Icon;
 
-        public FilePage(PageFileInfo fileInfo, FilePageIcon icon, string place)
+        public FilePage(ArchiveEntry entry, FilePageIcon icon, string place)
         {
             _Place = place;
-            _Path = fileInfo.Path;
+            _Path = entry.Path;
             _Icon = icon;
-            UpdateTime = fileInfo.UpdateTime;
+            UpdateTime = entry.UpdateTime;
         }
 
         protected override object OpenContent()
@@ -249,10 +249,10 @@ namespace NeeView
             return LoosePath.GetFileName(_Path);
         }
 
-        public BitmapPage(PageFileInfo fileInfo, Archiver archiver, string place)
+        public BitmapPage(ArchiveEntry entry, Archiver archiver, string place)
         {
-            _Path = fileInfo.Path;
-            UpdateTime = fileInfo.UpdateTime;
+            _Path = entry.Path;
+            UpdateTime = entry.UpdateTime;
             _Archiver = archiver;
             _Place = place;
 
@@ -287,7 +287,7 @@ namespace NeeView
 
                 try
                 {
-                    var bitmapLoader = BitmapLoaderFactory.Create(loaderType);
+                    var bitmapLoader = BitmapLoaderManager.Create(loaderType);
                     var bmp = bitmapLoader.Load(stream, _Path);
                     if (bmp != null) return bmp;
                 }
@@ -365,14 +365,15 @@ namespace NeeView
         {
             if (archiver is FolderFiles)
             {
-                FileName = Path.Combine(archiver.Path, entryName);
+                FileName = Path.Combine(archiver.FileName, entryName);
             }
             else
             {
-                FileName = Temporary.CreateTempFileName("anim.gif");
+                FileName = Temporary.CreateCountedTempFileName("img", ".gif");
                 archiver.ExtractToFile(entryName, FileName);
                 _IsTempFile = true;
 
+                // テンポラリファイルはアーカイバの廃棄と同時に削除されるようにする
                 archiver.TrashBox.Add(this);
             }
         }

@@ -57,7 +57,7 @@ namespace NeeView
         {
             using (var reader = FileReaderFactory.OpenReadRetry(_FileReaderType, _Path, _Archiver))
             {
-                var bitmapLoader = BitmapLoaderFactory.Create(_BitmapLoaderType);
+                var bitmapLoader = BitmapLoaderManager.Create(_BitmapLoaderType);
                 return bitmapLoader.Load(reader.Stream, _Path);
             }
         }

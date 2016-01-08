@@ -56,7 +56,7 @@ namespace NeeView
         {
             [BackgroundStyle.Black] = "黒色",
             [BackgroundStyle.White] = "白色",
-            [BackgroundStyle.Auto] = "自動",
+            [BackgroundStyle.Auto] = "画像に合わせた色",
             [BackgroundStyle.Check] = "チェック模様",
         };
 
@@ -178,8 +178,11 @@ namespace NeeView
         public void UpdateSusiePluginList()
         {
             SusiePluginList.Clear();
-            ModelContext.Susie.AMPlgunList.ForEach(e => SusiePluginList.Add(e));
-            ModelContext.Susie.INPlgunList.ForEach(e => SusiePluginList.Add(e));
+
+            foreach(var plugin in ModelContext.Susie.PluginCollection)
+            {
+                SusiePluginList.Add(plugin);
+            }
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)

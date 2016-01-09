@@ -1,20 +1,27 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using System.Runtime.Serialization;
 using System.Xml;
-using System.Windows;
 
 namespace NeeView
 {
+    /// <summary>
+    /// ユーザー設定
+    /// このデータがユーザ設定として保存されます。
+    /// </summary>
     [DataContract]
     public class Setting
     {
         [DataMember]
-        public WindowPlacement WindowPlacement { set; get; }
+        public WindowPlacement.Memento WindowPlacement { set; get; }
 
         [DataMember]
         public MainWindowVM.Memento ViewMemento { set; get; }
@@ -32,8 +39,10 @@ namespace NeeView
         public BookHistory.Memento BookHistoryMemento { set; get; }
 
 
+        //
         private void Constructor()
         {
+            WindowPlacement = new WindowPlacement.Memento();
             ViewMemento = new MainWindowVM.Memento();
             SusieMemento = new SusieContext.SusieSetting();
             BookHubMemento = new BookHub.Memento();
@@ -41,20 +50,21 @@ namespace NeeView
             BookHistoryMemento = new BookHistory.Memento();
         }
 
+        //
         public Setting()
         {
-            WindowPlacement = new WindowPlacement();
             Constructor();
         }
 
-
+        //
         [OnDeserializing]
         private void Deserializing(StreamingContext c)
         {
             Constructor();
         }
 
-        //
+
+        // ファイルに保存
         public void Save(string path)
         {
             XmlWriterSettings settings = new XmlWriterSettings();
@@ -67,7 +77,7 @@ namespace NeeView
             }
         }
 
-        //
+        // ファイルから読み込み
         public static Setting Load(string path)
         {
             using (XmlReader xr = XmlReader.Create(path))
@@ -76,18 +86,6 @@ namespace NeeView
                 Setting setting = (Setting)serializer.ReadObject(xr);
                 return setting;
             }
-        }
-
-        //
-        public void Store(Window window)
-        {
-            WindowPlacement.Store(window);
-        }
-
-        //
-        public void Restore(Window window)
-        {
-            WindowPlacement.Restore(window);
         }
     }
 }

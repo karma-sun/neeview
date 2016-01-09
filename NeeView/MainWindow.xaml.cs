@@ -26,10 +26,10 @@ namespace NeeView
     {
         MainWindowVM _VM;
 
-        public WindowMode _WindowMode;
+        public FullScreen _WindowMode;
 
         public MouseDragController _MouseDragController;
-        public MouseGestureEx _MouseGesture;
+        public MouseGestureManager _MouseGesture;
 
         bool _NowLoading = false;
 
@@ -55,12 +55,12 @@ namespace NeeView
 
             this.DataContext = _VM;
 
-            _WindowMode = new WindowMode(this);
+            _WindowMode = new FullScreen(this);
             _WindowMode.NotifyWindowModeChanged += (s, e) => OnWindowModeChanged(e);
 
             _MouseDragController = new MouseDragController(this.MainView, this.MainContent, this.MainContentShadow);
 
-            _MouseGesture = new MouseGestureEx(this.MainView);
+            _MouseGesture = new MouseGestureManager(this.MainView);
             this.GestureTextBlock.SetBinding(TextBlock.TextProperty, new Binding("GestureText") { Source = _MouseGesture });
             _MouseGesture.Controller.MouseGestureUpdateEventHandler += OnMouseGestureUpdate;
 
@@ -70,7 +70,6 @@ namespace NeeView
             _VM.BookCommands = BookCommands;
 
             // messenger
-            Messenger.Initialize();
             Messenger.AddReciever("MessageBox", CallMessageBox);
             Messenger.AddReciever("MessageShow", CallMessageShow);
 
@@ -149,7 +148,7 @@ namespace NeeView
             }
         }
 
-        private void OnMouseGestureUpdate(object sender, MouseGestureCollection e)
+        private void OnMouseGestureUpdate(object sender, MouseGestureSequence e)
         {
             _VM.ShowGesture(_MouseGesture.GetGestureString(), _MouseGesture.GetGestureCommandName());
         }
@@ -221,8 +220,10 @@ namespace NeeView
                 (e) => _VM.ClearHistor();
             _VM.CommandCollection[CommandType.ToggleFullScreen].Execute =
                 (e) => _WindowMode.Toggle();
+            _VM.CommandCollection[CommandType.SetFullScreen].Execute =
+                (e) => _WindowMode.IsFullScreened = true;
             _VM.CommandCollection[CommandType.CancelFullScreen].Execute =
-                (e) => _WindowMode.Cancel();
+                (e) => _WindowMode.IsFullScreened = false;
             _VM.CommandCollection[CommandType.ViewScrollUp].Execute =
                 (e) => _MouseDragController.ScrollUp();
             _VM.CommandCollection[CommandType.ViewScrollDown].Execute =
@@ -281,13 +282,6 @@ namespace NeeView
             _VM.Load(path);
         }
 
-        /*
-        private void Load(object sender, ExecutedRoutedEventArgs e)
-        {
-            var path = e.Parameter as string;
-            _VM.Load(path);
-        }
-        */
 
         // 設定ウィンドウを開く
         private void OpenSettingWindow()
@@ -311,7 +305,7 @@ namespace NeeView
             _MouseDragController.ClearClickEventHandler();
 
             _MouseGesture.ClearClickEventHandler();
-            _MouseGesture.CommandBinding.Clear();
+            _MouseGesture.CommandCollection.Clear();
 
             foreach (var e in BookCommands)
             {
@@ -341,7 +335,7 @@ namespace NeeView
                 var mouseGesture = _VM.GetMouseGesture(e.Key);
                 if (mouseGesture != null)
                 {
-                    _MouseGesture.CommandBinding.Add(mouseGesture, e.Value);
+                    _MouseGesture.CommandCollection.Add(mouseGesture, e.Value);
                 }
             }
 

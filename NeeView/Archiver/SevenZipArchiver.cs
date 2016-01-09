@@ -55,7 +55,7 @@ namespace NeeView
                         {
                             entries.Add(new ArchiveEntry()
                             {
-                                Path = entry.FileName,
+                                FileName = entry.FileName,
                                 UpdateTime = entry.LastWriteTime,
                             });
                         }

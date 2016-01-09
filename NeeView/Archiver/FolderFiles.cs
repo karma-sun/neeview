@@ -38,7 +38,7 @@ namespace NeeView
             {
                 entries.Add(new ArchiveEntry()
                 {
-                    Path = path.Substring(prefixLen).TrimStart('\\', '/'),
+                    FileName = path.Substring(prefixLen).TrimStart('\\', '/'),
                     UpdateTime = File.GetLastWriteTime(path),
                 });
             }
@@ -46,7 +46,7 @@ namespace NeeView
             {
                 entries.Add(new ArchiveEntry()
                 {
-                    Path = path.Substring(prefixLen).TrimStart('\\', '/') + "\\",
+                    FileName = path.Substring(prefixLen).TrimStart('\\', '/') + "\\",
                     UpdateTime = File.GetLastWriteTime(path),
                 });
             }

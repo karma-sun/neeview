@@ -49,6 +49,11 @@ namespace NeeView
         // ローダー優先順位の種類
         public BitmapLoaderType OrderType { set; get; } = BitmapLoaderType.Default;
 
+        // ローダー優先リストを取得
+        public List<BitmapLoaderType> OrderList
+        {
+            get { return _OrderList[OrderType]; }
+        }
 
         // サポートしているローダーがあるか判定
         public bool IsSupported(string fileName)

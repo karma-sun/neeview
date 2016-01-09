@@ -685,45 +685,45 @@ namespace NeeView
             {
                 // 再帰設定、もしくは単一ファイルの場合、再帰を行う
                 bool isRecursive = (option & BookLoadOption.Recursive) == BookLoadOption.Recursive;
-                if ((isRecursive || entries.Count == 1) && ModelContext.ArchiverManager.IsSupported(entry.Path))
+                if ((isRecursive || entries.Count == 1) && ModelContext.ArchiverManager.IsSupported(entry.FileName))
                 {
                     if (archiver is FolderFiles)
                     {
                         var ff = (FolderFiles)archiver;
-                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(ff.GetFullPath(entry.Path)), LoosePath.Combine(place, entry.Path), option);
+                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(ff.GetFullPath(entry.FileName)), LoosePath.Combine(place, entry.FileName), option);
                     }
                     else
                     {
                         // テンポラリにアーカイブを解凍する
-                        string tempFileName = Temporary.CreateTempFileName(Path.GetFileName(entry.Path));
-                        archiver.ExtractToFile(entry.Path, tempFileName);
+                        string tempFileName = Temporary.CreateTempFileName(Path.GetFileName(entry.FileName));
+                        archiver.ExtractToFile(entry.FileName, tempFileName);
                         _TrashBox.Add(new TrashFile(tempFileName));
-                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName), LoosePath.Combine(place, entry.Path), option);
+                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName), LoosePath.Combine(place, entry.FileName), option);
                     }
                 }
                 else
                 {
-                    if (ModelContext.BitmapLoaderManager.IsSupported(entry.Path))
+                    if (ModelContext.BitmapLoaderManager.IsSupported(entry.FileName))
                     {
-                        var page = new BitmapPage(entry, archiver, place);
+                        var page = new BitmapPage(archiver, entry, place);
                         Pages.Add(page);
                     }
                     else
                     {
-                        var type = ModelContext.ArchiverManager.GetSupportedType(entry.Path);
+                        var type = ModelContext.ArchiverManager.GetSupportedType(entry.FileName);
                         bool isSupportAllFile = (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile;
                         if (isSupportAllFile)
                         {
                             switch (type)
                             {
                                 case ArchiverType.None:
-                                    Pages.Add(new FilePage(entry, FilePageIcon.File, place));
+                                    Pages.Add(new FilePage(archiver, entry, place, FilePageIcon.File));
                                     break;
                                 case ArchiverType.FolderFiles:
-                                    Pages.Add(new FilePage(entry, FilePageIcon.Folder, place));
+                                    Pages.Add(new FilePage(archiver, entry, place, FilePageIcon.Folder));
                                     break;
                                 default:
-                                    Pages.Add(new FilePage(entry, FilePageIcon.Archive, place));
+                                    Pages.Add(new FilePage(archiver, entry, place, FilePageIcon.Archive));
                                     break;
                             }
                         }
@@ -747,9 +747,6 @@ namespace NeeView
                 case PageSortMode.FileName:
                     Pages.Sort((a, b) => ComparePath(a.FullPath, b.FullPath, Win32Api.StrCmpLogicalW));
                     break;
-                //case BookSortMode.FileNameDictionary:
-                //    Pages.Sort((a, b) => ComparePath(a.FullPath, b.FullPath, string.Compare));
-                //    break;
                 case PageSortMode.TimeStamp:
                     Pages = Pages.OrderBy(e => e.UpdateTime).ToList();
                     break;
@@ -921,7 +918,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         /// <summary>
         /// 保存設定
@@ -1016,5 +1013,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

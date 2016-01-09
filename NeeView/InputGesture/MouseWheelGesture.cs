@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +12,7 @@ using System.Windows.Input;
 
 namespace NeeView
 {
+    // ホイールアクション
     public enum MouseWheelAction
     {
         None,
@@ -14,6 +20,7 @@ namespace NeeView
         WheelDown,
     }
 
+    // 修飾マウスボタン
     [Flags]
     public enum ModifierMouseButtons
     {
@@ -25,13 +32,21 @@ namespace NeeView
         XButton2 = (1 << 4),
     }
 
+    /// <summary>
+    /// マウスホイールアクション
+    /// </summary>
     public class MouseWheelGesture : InputGesture
     {
+        // マウスホイールアクション
         public MouseWheelAction MouseWheelAction { get; private set; }
+
+        // 修飾キー
         public ModifierKeys ModifierKeys { get; private set; }
+
+        // 修飾マウスボタン
         public ModifierMouseButtons ModifierMouseButtons { get; private set; }
 
-
+        // コンストラクタ
         public MouseWheelGesture(MouseWheelAction wheelAction, ModifierKeys modifierKeys, ModifierMouseButtons modifierMouseButtons)
         {
             this.MouseWheelAction = wheelAction;
@@ -39,6 +54,7 @@ namespace NeeView
             this.ModifierMouseButtons = modifierMouseButtons;
         }
 
+        // 入力判定
         public override bool Matches(object targetElement, InputEventArgs inputEventArgs)
         {
             var mouseEventArgs = inputEventArgs as MouseWheelEventArgs;
@@ -70,10 +86,17 @@ namespace NeeView
         }
     }
 
-
+    /// <summary>
+    /// マウスホイールアクション コンバータ
+    /// </summary>
     public class MouseWheelGestureConverter
     {
-        public InputGesture ConvertFromString(string source)
+        /// <summary>
+        ///  文字列からマウスホイールアクションに変換する
+        /// </summary>
+        /// <param name="source">ジェスチャ文字列</param>
+        /// <returns>MouseWheelGesture。変換に失敗したときは NotSupportedException 例外が発生</returns>
+        public MouseWheelGesture ConvertFromString(string source)
         {
             var keys = source.Split('+');
 
@@ -111,6 +134,10 @@ namespace NeeView
             return new MouseWheelGesture(action, modifierKeys, modifierMouseButtons);
         }
 
+
+        /// <summary>
+        ///  マウスホイールアクションから文字列に変換する
+        /// </summary>
         public string ConvertToString(MouseWheelGesture gesture)
         {
             string text = "";
@@ -136,5 +163,4 @@ namespace NeeView
             return text.TrimStart('+');
         }
     }
-
 }

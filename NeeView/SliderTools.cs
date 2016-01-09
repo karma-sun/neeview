@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +14,6 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-
     // from http://youku.io/questions/313305/c-sharp-wpf-slider-issue-with-ismovetopointenabled
     public class SliderTools : DependencyObject
     {

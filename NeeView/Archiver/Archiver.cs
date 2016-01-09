@@ -30,7 +30,7 @@ namespace NeeView
     /// </summary>
     public class ArchiveEntry
     {
-        public string Path { get; set; }
+        public string FileName { get; set; }
         public DateTime UpdateTime { get; set; }
     }
 
@@ -52,13 +52,12 @@ namespace NeeView
         public abstract void ExtractToFile(string entryName, string exportFileName);
 
         // 廃棄用ゴミ箱
-        public List<IDisposable> TrashBox { get; private set; } = new List<IDisposable>();
+        public TrashBox TrashBox { get; private set; } = new TrashBox();
 
         // 廃棄処理
         public virtual void Dispose()
         {
-            TrashBox.ForEach(e => e.Dispose());
-            TrashBox.Clear();
+            TrashBox.Dispose();
         }
     }
 }

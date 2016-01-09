@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Runtime.Serialization;
+using System.Windows.Data;
 //using System.Drawing;
 
 namespace NeeView
@@ -101,8 +102,8 @@ namespace NeeView
 
         public Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; }
 
-        public JobEngine JobEngine { get { return ModelContext.JobEngine; } }
-        public int JobCount { get { return ModelContext.JobEngine.Context.JobList.Count; } }
+        public JobEngine JobEngine => ModelContext.JobEngine;
+        //public int JobCount { get { return ModelContext.JobEngine.Context.JobQueue.Count; } }
 
         public int Index
         {
@@ -115,7 +116,10 @@ namespace NeeView
             get { return BookHub.GetPageCount(); }
         }
 
-        public ObservableCollection<DispPage> PageList { get; private set; } = new ObservableCollection<DispPage>();
+        // 開発用：ページリスト
+        public List<Page> PageList => BookHub.Current?.Pages;
+
+
 
 
         private ImageSource _WindowIconDefault;
@@ -141,7 +145,7 @@ namespace NeeView
             get
             {
                 if (LoadingPath != null)
-                    return LoadingPath + " - Loading";
+                    return LoosePath.GetFileName(LoadingPath) + " (読込中)";
 
                 if (BookHub.Current?.Place == null)
                     return _DefaultWindowTitle;
@@ -156,7 +160,7 @@ namespace NeeView
 
                 if (BookHub.Current.CurrentViewPageCount >= 2 && BookHub.Current.CurrentNextPage != null)
                 {
-                    string name = LoosePath.GetFileName(BookHub.Current.CurrentNextPage.Path);
+                    string name = LoosePath.GetFileName(BookHub.Current.CurrentNextPage.FileName);
                     text += $" | {name}";
                 }
 
@@ -270,9 +274,8 @@ namespace NeeView
             //CommandCollection.Initialize(this, BookHub, null);
             CommandCollection.SetTarget(this, BookHub);
 
-
-            ModelContext.JobEngine.Context.AddEvent += JobEngineEvent;
-            ModelContext.JobEngine.Context.RemoveEvent += JobEngineEvent;
+            ModelContext.JobEngine.StatusChanged +=
+                (s, e) => OnPropertyChanged(nameof(JobEngine));
 
             BookHub.Loading +=
                 (s, e) => LoadingPath = e;
@@ -338,6 +341,15 @@ namespace NeeView
             OnPropertyChanged(nameof(IndexMax));
 
             UpdateLastFiles();
+
+            UpdatePageList();
+        }
+
+        // 開発用：ページ更新
+        [Conditional("DEBUG")]
+        private void UpdatePageList()
+        {
+            //OnPropertyChanged(nameof(PageList));
         }
 
         private void UpdateLastFiles()
@@ -477,13 +489,13 @@ namespace NeeView
 
             InputGestureChanged?.Invoke(this, null);
 
-            _Setting.WindowPlacement?.Restore(window);
+            WindowPlacement.Restore(window, _Setting.WindowPlacement);
         }
 
         public void SaveSetting(Window window)
         {
             _Setting = new Setting();
-            _Setting.WindowPlacement.Store(window);
+            _Setting.WindowPlacement = WindowPlacement.CreateMemento(window);
 
             _Setting.ViewMemento = this.CreateMemento();
             _Setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
@@ -506,8 +518,6 @@ namespace NeeView
 
             if (book != null)
             {
-
-
                 //
                 IsVisibleEmptyPageMessage = book.ViewContents.All(content => content == null);
 
@@ -518,57 +528,15 @@ namespace NeeView
 
                     ViewContent content = book.ViewContents[cid];
 
-                    if (string.IsNullOrEmpty(book.Place))
+                    if (string.IsNullOrEmpty(book.Place) || content == null)
                     {
                         Contents[index] = null;
-                    }
-                    else if (content?.Content == null)
-                    {
-                        Contents[index] = null;
-                    }
-                    else if (content.Content is BitmapSource)
-                    {
-                        var image = new Image();
-                        image.Source = (BitmapSource)content.Content;
-                        image.Stretch = Stretch.Fill;
-                        //image.UseLayoutRounding = true;
-                        //image.SnapsToDevicePixels = true;
-                        RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
-                        Contents[index] = image;
-                    }
-                    else if (content.Content is Uri)
-                    {
-#if true
-                        var media = new MediaElement();
-                        media.Source = (Uri)content.Content;
-                        media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
-                        Contents[index] = media;
-#else
-                // 高速切替でゾンビプロセスが残るのでNG
-                var image = new Image();
-                XamlAnimatedGif.AnimationBehavior.SetSourceUri(image, (Uri)page.Content);
-                //XamlAnimatedGif.AnimationBehavior.AddLoadedHandler(image, AnimationBehavior_OnLoaded);
-                //XamlAnimatedGif.AnimationBehavior.AddErrorHandler(image, AnimationBehavior_OnError);
-                Contents[index] = image;
-#endif
-                    }
-                    else if (content.Content is FilePageContext)
-                    {
-                        var control = new FilePageControl(content.Content as FilePageContext);
-                        control.DefaultBrush = Brushes.Red;
-                        control.SetBinding(FilePageControl.DefaultBrushProperty, new System.Windows.Data.Binding("ForegroundBrush") { Source = this });
-                        Contents[index] = control;
-                    }
-                    else if (content.Content is string)
-                    {
-                        var context = new FilePageContext() { Icon = FilePageIcon.File, Message = (string)content.Content };
-                        var control = new FilePageControl(context);
-                        Contents[index] = control;
                     }
                     else
                     {
-                        Contents[index] = null;
+                        Contents[index] = content.CreateControl(new Binding("ForegroundBrush") { Source = this });
                     }
+
 
                     //
                     if (content?.Color != null)
@@ -590,6 +558,7 @@ namespace NeeView
 
             ViewChanged?.Invoke(this, null);
         }
+
 
         // ページ番号の更新
         private void OnPageChanged(object sender, int e)
@@ -859,11 +828,12 @@ namespace NeeView
             return CommandCollection[type].MouseGesture;
         }
 
-
+        /*
         private void JobEngineEvent(object sender, Job e)
         {
             OnPropertyChanged(nameof(JobCount));
         }
+        */
 
         //
         public double SlideShowInterval => BookHub.SlideShowInterval;

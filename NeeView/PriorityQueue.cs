@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,22 +26,16 @@ namespace NeeView
     /// <typeparam name="T">要素の型</typeparam>
     public class PriorityQueue<T>
     {
-        struct Element
-        {
-            public QueueElementPriority Priority;
-            public T Value;
-        }
-
         // 優先度毎の待機リスト
-        private volatile Dictionary<QueueElementPriority, LinkedList<T>> _ListCollection;
+        private volatile Dictionary<QueueElementPriority, LinkedList<T>> _Queue;
 
         // コンストラクタ
         public PriorityQueue()
         {
-            _ListCollection = new Dictionary<QueueElementPriority, LinkedList<T>>();
+            _Queue = new Dictionary<QueueElementPriority, LinkedList<T>>();
             foreach (QueueElementPriority priority in Enum.GetValues(typeof(QueueElementPriority)))
             {
-                _ListCollection[priority] = new LinkedList<T>();
+                _Queue[priority] = new LinkedList<T>();
             }
         }
 
@@ -51,7 +46,7 @@ namespace NeeView
         /// <param name="priority">優先度</param>
         public void Enqueue(T element, QueueElementPriority priority)
         {
-            _ListCollection[priority].AddLast(element);
+            _Queue[priority].AddLast(element);
         }
 
 
@@ -63,8 +58,9 @@ namespace NeeView
                 int sum = 0;
                 foreach (QueueElementPriority priority in Enum.GetValues(typeof(QueueElementPriority)))
                 {
-                    sum += _ListCollection[priority].Count;
+                    sum += _Queue[priority].Count;
                 }
+
                 return sum;
             }
         }
@@ -74,7 +70,7 @@ namespace NeeView
         {
             foreach (QueueElementPriority priority in Enum.GetValues(typeof(QueueElementPriority)))
             {
-                if (_ListCollection[priority].Count > 0) return _ListCollection[priority].First();
+                if (_Queue[priority].Count > 0) return _Queue[priority].First();
             }
             return default(T);
         }
@@ -84,9 +80,9 @@ namespace NeeView
         {
             foreach (QueueElementPriority priority in Enum.GetValues(typeof(QueueElementPriority)))
             {
-                if (_ListCollection[priority].Count > 0)
+                if (_Queue[priority].Count > 0)
                 {
-                    _ListCollection[priority].RemoveFirst();
+                    _Queue[priority].RemoveFirst();
                     return;
                 }
             }
@@ -97,10 +93,10 @@ namespace NeeView
         {
             foreach (QueueElementPriority priority in Enum.GetValues(typeof(QueueElementPriority)))
             {
-                if (_ListCollection[priority].Count > 0)
+                if (_Queue[priority].Count > 0)
                 {
-                    var item = _ListCollection[priority].First();
-                    _ListCollection[priority].RemoveFirst();
+                    var item = _Queue[priority].First();
+                    _Queue[priority].RemoveFirst();
                     return item;
                 }
             }
@@ -115,7 +111,7 @@ namespace NeeView
             {
                 if (priority == newPriority) continue;
 
-                if (_ListCollection[priority].Remove(element))
+                if (_Queue[priority].Remove(element))
                 {
                     Enqueue(element, newPriority);
                     return;

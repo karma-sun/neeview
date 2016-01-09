@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +13,9 @@ using System.Windows;
 namespace NeeView
 {
     /// <summary>
-    /// 
+    /// フルスクリーン切り替え
     /// </summary>
-    public class WindowMode
+    public class FullScreen
     {
         private Window _Window;
         private bool _IsFullScreened;
@@ -19,35 +24,29 @@ namespace NeeView
         private WindowStyle _WindowStyle;
         private WindowState _WindowState;
 
-        //
+        // モードが変化した時の通知
         public event EventHandler<bool> NotifyWindowModeChanged;
 
-        //
+        // フルスクリーン設定
         public bool IsFullScreened
         {
             get { return _IsFullScreened; }
-            set { if (value) ToFullScreen(); else Restore(); }
+            set { if (value) ToFullScreen(); else Cancel(); }
         }
 
-        //
-        public WindowMode(Window window)
+        // コンストラクタ
+        public FullScreen(Window window)
         {
             _Window = window;
         }
 
-        //
+        // フルスクリーン トグル切り替え
         public void Toggle()
         {
-            if (!_IsFullScreened) ToFullScreen(); else Restore();
+            if (!_IsFullScreened) ToFullScreen(); else Cancel();
         }
 
-        //
-        public void Cancel()
-        {
-            Restore();
-        }
-
-        //
+        // フルスクリーン設定
         private void ToFullScreen()
         {
             if (_IsFullScreened) return;
@@ -65,8 +64,8 @@ namespace NeeView
             NotifyWindowModeChanged?.Invoke(this, _IsFullScreened);
         }
 
-        //
-        private void Restore()
+        // フルスクリーン解除
+        private void Cancel()
         {
             if (!_IsFullScreened) return;
 

@@ -14,14 +14,37 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace NeeView
-{ 
-    //
+{
+    /// <summary>
+    /// ジョブ
+    /// </summary>
+    public class Job
+    {
+        // シリアル番号(開発用)
+        public int SerialNumber { get; set; }
+
+        // 処理
+        public Action<CancellationToken> Execute { get; set; }
+
+        // キャンセル時の処理
+        public Action Cancel { get; set; }
+
+        // キャンセルトークン
+        public CancellationToken CancellationToken { get; set; }
+    }
+
+
+    /// <summary>
+    /// 登録済みジョブ情報
+    /// 登録後はこのインスタンスを介して制御する
+    /// </summary>
     public class JobRequest
     {
         private JobEngine _JobEngine;
         private Job _Job;
         private CancellationTokenSource _CancellationTokenSource;
 
+        // コンストラクタ
         public JobRequest(JobEngine jobEngine, Job job)
         {
             _CancellationTokenSource = new CancellationTokenSource();
@@ -31,130 +54,105 @@ namespace NeeView
             _Job.CancellationToken = _CancellationTokenSource.Token;
         }
 
+        // キャンセル
         public void Cancel()
         {
             _CancellationTokenSource.Cancel();
         }
 
+        // キャンセルリクエスト判定
         public bool IsCancellationRequested
         {
             get { return _CancellationTokenSource.IsCancellationRequested; }
         }
 
+        // プライオリティ変更
         public void ChangePriority(QueueElementPriority priority)
         {
-            //if (_Job.Priority != priority)
-            //{
-                _JobEngine.ChangePriority(_Job, priority);
-            //}
+            _JobEngine.ChangePriority(_Job, priority);
         }
     }
 
-    // job base
-    public class Job
+
+    /// <summary>
+    /// Job環境
+    /// Jobワーカータスクで共通のコンテキスト
+    /// </summary>
+    public class JobContext
     {
-        public int SerialNumber { get; set; }
-        //public JobPriority Priority; // これ違和感
-        public Action<CancellationToken> Action;
-        public Action CancelAction;
-        public CancellationToken CancellationToken;
-    }
-
-
-    public class JobContext : INotifyPropertyChanged
-    {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
-        public event EventHandler<Job> AddEvent;
-        public event EventHandler<Job> RemoveEvent;
-
-        public void NotifyAddEvent(Job job)
-        {
-            AddEvent?.Invoke(this, job);
-        }
-
-        public void NotifyRemoveEvent(Job job)
-        {
-            RemoveEvent?.Invoke(this, job);
-        }
-
         // ジョブリスト
-        public PriorityQueue<Job> JobList { get; private set; }
+        public PriorityQueue<Job> JobQueue { get; private set; }
 
         // 排他処理用ロック
-        public Object Lock { get; private set; }
+        public object Lock { get; private set; }
 
         // ワーカースレッド起動イベント
         public ManualResetEvent Event { get; private set; }
 
+        // コンストラクト
         public JobContext()
         {
-            JobList = new PriorityQueue<Job>();
-            Lock = new Object();
+            JobQueue = new PriorityQueue<Job>();
+            Lock = new object();
             Event = new ManualResetEvent(false);
         }
     }
 
     /// <summary>
-    /// 
+    /// JobEngine
     /// </summary>
-    public class JobEngine : INotifyPropertyChanged, IDisposable
+    public class JobEngine : IDisposable
     {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        #region 開発用
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        // 状態変化通知
+        public event EventHandler StatusChanged;
+
+        [Conditional("DEBUG")]
+        public void NotifyStatusChanged()
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
+            StatusChanged?.Invoke(this, null);
         }
-        #endregion
 
-
+        // 状態メッセージ
         #region Property: Message
         private string _Message;
         public string Message
         {
             get { return _Message; }
-            set { _Message = value; OnPropertyChanged(); }
+            set { _Message = value; NotifyStatusChanged(); }
         }
         #endregion
 
-
+        #endregion
 
         // ジョブの製造番号用カウンタ
         private int _SerialNumber;
 
-        public JobContext Context { get; private set; }
+        // コンテキスト
+        private JobContext _Context;
 
+        // 最大ワーカー数
         public readonly int _MaxWorkerSize = 2;
-        private JobWorker[] _Workers;
-        public JobWorker[] Workers => _Workers;
 
+        // ワーカー
+        public JobWorker[] Workers { get; set; }
+
+
+        // コンストラクタ
         public JobEngine()
         {
-            Context = new JobContext();
-            _Workers = new JobWorker[_MaxWorkerSize];
+            _Context = new JobContext();
+            Workers = new JobWorker[_MaxWorkerSize];
         }
 
-
+        // 開始
         public void Start()
         {
             ChangeWorkerSize(_MaxWorkerSize);
         }
 
+        // 稼働ワーカー数変更
         public void ChangeWorkerSize(int size)
         {
             Debug.Assert(0 <= size && size <= _MaxWorkerSize);
@@ -163,62 +161,73 @@ namespace NeeView
             {
                 if (i < size)
                 {
-                    if (_Workers[i] == null)
+                    if (Workers[i] == null)
                     {
-                        _Workers[i] = new JobWorker(Context);
-                        _Workers[i].Run();
+                        Workers[i] = new JobWorker(_Context);
+                        Workers[i].StatusChanged += (s, e) => StatusChanged?.Invoke(s, e);
+                        Workers[i].Run();
                         Message = $"Create Worker[{i}]";
                     }
                 }
                 else
                 {
-                    if (_Workers[i] != null)
+                    if (Workers[i] != null)
                     {
-                        _Workers[i].Cancel();
-                        _Workers[i] = null;
+                        Workers[i].Cancel();
+                        Workers[i] = null;
                         Message = $"Delete Worker[{i}]";
                     }
                 }
             }
 
             // イベント待ち解除
-            Context.Event.Set();
+            _Context.Event.Set();
 
-            OnPropertyChanged(nameof(Workers));
+            NotifyStatusChanged();
         }
 
-
+        /// <summary>
+        /// Job登録
+        /// </summary>
+        /// <param name="action">処理</param>
+        /// <param name="cancelAction">キャンセル時の処理</param>
+        /// <param name="priority">優先度</param>
+        /// <returns>JobRequest</returns>
         public JobRequest Add(Action<CancellationToken> action, Action cancelAction, QueueElementPriority priority)
         {
             var job = new Job();
             job.SerialNumber = _SerialNumber++;
-            job.Action = action;
-            job.CancelAction = cancelAction;
-            //job.Priority = priority;
-            var source = new JobRequest(this, job);
+            job.Execute = action;
+            job.Cancel = cancelAction;
 
-            lock (Context.Lock)
+            var request = new JobRequest(this, job);
+
+            lock (_Context.Lock)
             {
-                Context.JobList.Enqueue(job, priority);
-                Context.Event.Set();
+                _Context.JobQueue.Enqueue(job, priority);
+                _Context.Event.Set();
                 Message = $"Add Job. {job.SerialNumber}";
             }
 
-            Context.NotifyAddEvent(job);
+            NotifyStatusChanged();
 
-            return source;
+            return request;
         }
 
-
+        // 優先度変更
         public void ChangePriority(Job job, QueueElementPriority priority)
         {
-            lock (Context.Lock)
+            lock (_Context.Lock)
             {
-                Context.JobList.ChangePriority(job, priority);
-                //job.Priority = priority;
+                _Context.JobQueue.ChangePriority(job, priority);
             }
         }
 
+        // 待機ジョブ数
+        public int JobCount
+        {
+            get { return _Context.JobQueue.Count; }
+        }
 
         // 開発用遅延
         [Conditional("DEBUG")]
@@ -227,6 +236,7 @@ namespace NeeView
             Thread.Sleep(ms);
         }
 
+        // 廃棄処理
         public void Dispose()
         {
             ChangeWorkerSize(0);
@@ -234,44 +244,50 @@ namespace NeeView
     }
 
 
-
-
     /// <summary>
-    /// 
+    /// ジョブワーカー
     /// </summary>
-    public class JobWorker : INotifyPropertyChanged
+    public class JobWorker
     {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        #region 開発用
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        // 状態変化通知
+        public event EventHandler StatusChanged;
+
+        [Conditional("DEBUG")]
+        public void NotifyStatusChanged()
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
+            StatusChanged?.Invoke(this, null);
         }
-        #endregion
 
+        // 状態メッセージ
         #region Property: Message
         private string _Message;
         public string Message
         {
             get { return _Message; }
-            set { _Message = value; OnPropertyChanged(); }
+            set { _Message = value; NotifyStatusChanged(); }
         }
         #endregion
 
+        #endregion
+
+        // コンテキスト
         JobContext _Context;
 
+        // ワーカータスクのキャンセルトークン
         CancellationTokenSource _CancellationTokenSource;
 
+
+        // コンストラクタ
         public JobWorker(JobContext context)
         {
             _Context = context;
             _CancellationTokenSource = new CancellationTokenSource();
         }
 
+
+        // ワーカータスク開始
         public void Run()
         {
             Message = $"Run";
@@ -287,6 +303,7 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
+                    Message = e.Message;
                     Action<Exception> action = (exception) => { throw new ApplicationException("タスク内部エラー", exception); };
                     App.Current.Dispatcher.BeginInvoke(action, e);
                 }
@@ -294,12 +311,15 @@ namespace NeeView
             _CancellationTokenSource.Token);
         }
 
+
+        // ワーカータスク廃棄
         public void Cancel()
         {
             _CancellationTokenSource.Cancel();
         }
 
-        // ワーカータスク
+
+        // ワーカータスクメイン
         private void WorkerExecute()
         {
             while (!_CancellationTokenSource.Token.IsCancellationRequested)
@@ -310,7 +330,7 @@ namespace NeeView
                 lock (_Context.Lock)
                 {
                     // ジョブ取り出し
-                    job = _Context.JobList.Decueue();
+                    job = _Context.JobQueue.Decueue();
 
                     // ジョブが無い場合はイベントリセット
                     if (job == null)
@@ -327,22 +347,18 @@ namespace NeeView
                     continue;
                 }
 
-
-                if (job.CancellationToken.IsCancellationRequested)
-                {
-                    job.CancelAction?.Invoke();
-                    Message = $"Job({job.SerialNumber}) canceled.";
-                }
-                else
+                if (!job.CancellationToken.IsCancellationRequested)
                 {
                     Message = $"Job({job.SerialNumber}) execute ...";
-                    job.Action(job.CancellationToken);
+                    job.Execute(job.CancellationToken);
                     Message = $"Job({job.SerialNumber}) execute done.";
                 }
 
-                //throw new ApplicationException("なんちゃって例外発生");
-
-                _Context.NotifyRemoveEvent(job);
+                if (job.CancellationToken.IsCancellationRequested)
+                {
+                    job.Cancel?.Invoke();
+                    Message = $"Job({job.SerialNumber}) canceled.";
+                }
             }
 
             Debug.WriteLine("Task: Exit.");

@@ -19,7 +19,7 @@ namespace NeeView
     /// </summary>
     public partial class MouseGestureSettingWindow : Window
     {
-        public MouseGestureEx MouseGesture { get; set; }
+        public MouseGestureManager MouseGesture { get; set; }
 
         public SettingWindow.CommandParam Command { get; set; }
 
@@ -30,7 +30,7 @@ namespace NeeView
             InitializeComponent();
             DataContext = this;
 
-            MouseGesture = new MouseGestureEx(this.GestureBox);
+            MouseGesture = new MouseGestureManager(this.GestureBox);
 
             // ESCでウィンドウを閉じる
             this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));

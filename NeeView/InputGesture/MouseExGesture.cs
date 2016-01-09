@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +12,7 @@ using System.Windows.Input;
 
 namespace NeeView
 {
+    // 拡張マウスアクション
     public enum MouseExAction
     {
         None,
@@ -14,18 +20,27 @@ namespace NeeView
         XButton2Click,
     }
 
+    /// <summary>
+    /// 拡張マウスアクション
+    /// 拡張ボタン対応
+    /// </summary>
     public class MouseExGesture : InputGesture
     {
+        // メインアクション
         public MouseExAction MouseExAction { get; private set; }
+
+        // 修飾キー
         public ModifierKeys ModifierKeys { get; private set; }
 
 
+        // コンストラクタ
         public MouseExGesture(MouseExAction action, ModifierKeys modifierKeys)
         {
             this.MouseExAction = action;
             this.ModifierKeys = modifierKeys;
         }
 
+        // 入力判定
         public override bool Matches(object targetElement, InputEventArgs inputEventArgs)
         {
             var mouseEventArgs = inputEventArgs as MouseEventArgs;
@@ -33,7 +48,6 @@ namespace NeeView
 
             MouseExAction action = MouseExAction.None;
 
-            // 不完全だが、ひとまずこれで。
             if (mouseEventArgs.XButton1 == MouseButtonState.Pressed)
             {
                 action = MouseExAction.XButton1Click;
@@ -47,8 +61,17 @@ namespace NeeView
         }
     }
 
+
+    /// <summary>
+    /// 拡張マウスアクション コンバータ
+    /// </summary>
     public class MouseGestureExConverter
     {
+        /// <summary>
+        ///  文字列から拡張マウスアクションに変換する
+        /// </summary>
+        /// <param name="source">ジェスチャ文字列</param>
+        /// <returns>MouseExGesture。変換に失敗したときは NotSupportedException 例外が発生</returns>
         public MouseExGesture ConvertFromString(string source)
         {
             var keys = source.Split('+');
@@ -80,6 +103,9 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        ///  拡張マウスアクションから文字列に変換する
+        /// </summary>
         public string ConvertToString(MouseExGesture gesture)
         {
             string text = "";
@@ -97,6 +123,4 @@ namespace NeeView
             return text.TrimStart('+');
         }
     }
-
-
 }

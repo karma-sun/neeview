@@ -64,10 +64,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="XamlAnimatedGif, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\XamlAnimatedGif.1.0.7\lib\net45\XamlAnimatedGif.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -78,6 +74,10 @@
     <Compile Include="Archiver\ArchiverManager.cs" />
     <Compile Include="BitmapImageLoaders.cs" />
     <Compile Include="BitmapLoaderManager.cs" />
+    <Compile Include="MouseGesture\MouseGestureCommandCollection.cs" />
+    <Compile Include="MouseGesture\MouseGestureManager.cs" />
+    <Compile Include="MouseGesture\MouseGestureSequence.cs" />
+    <Compile Include="Page\BitmapPage.cs" />
     <Compile Include="BitmapSourceExtension.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="BookHistory.cs" />
@@ -90,15 +90,17 @@
     <Compile Include="DirectoryNameBox.xaml.cs">
       <DependentUpon>DirectoryNameBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Page\FilePage.cs" />
+    <Compile Include="Page\FilePageContext.cs" />
     <Compile Include="FilePageControl.xaml.cs">
       <DependentUpon>FilePageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="FolderOrder.cs" />
-    <Compile Include="InputGestureConverter.cs" />
+    <Compile Include="InputGesture\InputGestureConverter.cs" />
     <Compile Include="InputGestureSettingWindow.xaml.cs">
       <DependentUpon>InputGestureSettingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KeyExGesture.cs" />
+    <Compile Include="InputGesture\KeyExGesture.cs" />
     <Compile Include="MenuExtensions.cs" />
     <Compile Include="MessageBoxEx.xaml.cs">
       <DependentUpon>MessageBoxEx.xaml</DependentUpon>
@@ -108,14 +110,13 @@
     <Compile Include="MouseDragController.cs" />
     <Compile Include="CommonExtensions.cs" />
     <Compile Include="JobEngine.cs" />
-    <Compile Include="MediaPage.cs" />
-    <Compile Include="MouseExGesture.cs" />
-    <Compile Include="MouseGestureController.cs" />
+    <Compile Include="InputGesture\MouseExGesture.cs" />
+    <Compile Include="MouseGesture\MouseGestureController.cs" />
     <Compile Include="MouseGestureSettingWindow.xaml.cs">
       <DependentUpon>MouseGestureSettingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MouseWheelGesture.cs" />
-    <Compile Include="Page.cs" />
+    <Compile Include="InputGesture\MouseWheelGesture.cs" />
+    <Compile Include="Page\Page.cs" />
     <Compile Include="Archiver\SevenZipArchiver.cs" />
     <Compile Include="PageReadOrder.cs" />
     <Compile Include="PageSortMode.cs" />
@@ -128,6 +129,7 @@
     </Compile>
     <Compile Include="SliderTools.cs" />
     <Compile Include="Archiver\SusieArchiver.cs" />
+    <Compile Include="SusieContext.cs" />
     <Compile Include="Susie\Susie.cs" />
     <Compile Include="Susie\SusieArchiveEntry.cs" />
     <Compile Include="Susie\SusiePlugin.cs" />
@@ -136,9 +138,9 @@
     <Compile Include="Temporary.cs" />
     <Compile Include="TrashBox.cs" />
     <Compile Include="ViewContent.cs" />
-    <Compile Include="WindowMode.cs" />
+    <Compile Include="Win32Api.cs" />
+    <Compile Include="FullScreen.cs" />
     <Compile Include="WindowPlacement.cs" />
-    <Compile Include="XamlAnimatedGifPage.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
     <Compile Include="Archiver\ZipArchiverKeepOpened.cs" />
     <Page Include="DirectoryNameBox.xaml">

@@ -34,15 +34,17 @@
     <DockPanel>
 
         <!-- 開発用 ページリスト -->
-        <ListView x:Name="DevPageList" DockPanel.Dock="Right" ItemsSource="{Binding PageList}" Panel.ZIndex="100"
-                  Visibility="{Binding ElementName=MenuItemDevPageList, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="ID"  DisplayMemberBinding="{Binding ID}" Width="50"/>
-                    <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding Name}" Width="150"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <ScrollViewer x:Name="DevPageList" DockPanel.Dock="Right" Width="300" Panel.ZIndex="100" HorizontalScrollBarVisibility="Auto"
+            Visibility="{Binding ElementName=MenuItemDevPageList, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ListView ItemsSource="{Binding PageList}" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="名前"  DisplayMemberBinding="{Binding FileName}" Width="100"/>
+                        <GridViewColumn Header="状態"  DisplayMemberBinding="{Binding Message}" Width="150"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
 
         <!-- 開発用 表示領域-->
         <DockPanel x:Name="DevInfo" DockPanel.Dock="Bottom" Panel.ZIndex="100" Background="White"
@@ -51,25 +53,10 @@
                 <TextBlock x:Name="GestureTextBlock" />
             </StackPanel>
 
-            <TextBlock DockPanel.Dock="Top" Text="{Binding JobCount}"/>
+            <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.JobCount}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Message}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[0].Message}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[1].Message}"/>
-
-            <!--
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.CurrentPage}"/>
-                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.CurrentPage.Message}" Margin="8,0"/>
-            </StackPanel>
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.ViewPage}"/>
-                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.ViewPage.Message}" Margin="8,0"/>
-            </StackPanel>
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.NowPage}"/>
-                <TextBlock DockPanel.Dock="Top" Text="{Binding Viewer.Book.NowPage.Message}" Margin="8,0"/>
-            </StackPanel>
-            -->
         </DockPanel>
 
         <!-- 製品表示領域 -->

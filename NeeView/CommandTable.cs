@@ -131,6 +131,12 @@ namespace NeeView
                     MouseGesture = "U",
                     IsShowMessage = false,
                 },
+                [CommandType.SetFullScreen] = new CommandElement
+                {
+                    Group = "ビュー操作",
+                    Text = "フルスクリーンにする",
+                    IsShowMessage = false,
+                },
                 [CommandType.CancelFullScreen] = new CommandElement
                 {
                     Group = "ビュー操作",

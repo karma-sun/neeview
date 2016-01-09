@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,11 +12,20 @@ using System.Windows.Input;
 
 namespace NeeView
 {
+    /// <summary>
+    /// 拡張キージェスチャ
+    /// 単キー対応
+    /// </summary>
     public class KeyExGesture : InputGesture
     {
+        // メインキー
         public Key Key { get; private set; }
+
+        // 修飾キー
         public ModifierKeys ModifierKeys { get; private set; }
 
+
+        // コンストラクタ
         public KeyExGesture(Key key, ModifierKeys modifierKeys)
         {
             if (!IsDefinedKey(key)) throw new NotSupportedException();
@@ -19,6 +33,7 @@ namespace NeeView
             ModifierKeys = modifierKeys;
         }
 
+        // 入力判定
         public override bool Matches(object targetElement, InputEventArgs inputEventArgs)
         {
             var keyEventArgs = inputEventArgs as KeyEventArgs;
@@ -27,6 +42,7 @@ namespace NeeView
             return this.Key == keyEventArgs.Key && this.ModifierKeys == Keyboard.Modifiers;
         }
 
+        // 
         private bool IsDefinedKey(Key key)
         {
             return Key.None <= key && key <= Key.OemClear;
@@ -34,8 +50,16 @@ namespace NeeView
     }
 
 
+    /// <summary>
+    /// 拡張キージェスチャ コンバータ
+    /// </summary>
     public class KeyGestureExConverter
     {
+        /// <summary>
+        ///  文字列から拡張キージェスチャに変換する
+        /// </summary>
+        /// <param name="source">キージェスチャ文字列</param>
+        /// <returns>KeyExGesture。変換に失敗したときは NotSupportedException 例外が発生</returns>
         public KeyExGesture ConvertFromString(string source)
         {
             var keys = source.Split('+');
@@ -71,6 +95,11 @@ namespace NeeView
             return new KeyExGesture(action, modifierKeys);
         }
 
+        /// <summary>
+        /// 拡張キージェスチャを文字列に変換
+        /// </summary>
+        /// <param name="gesture"></param>
+        /// <returns></returns>
         public string ConvertToString(InputGesture gesture)
         {
             var keyExGesture = gesture as KeyExGesture;
@@ -108,5 +137,4 @@ namespace NeeView
             return text.TrimStart('+');
         }
     }
-
 }

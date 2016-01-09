@@ -1,4 +1,7 @@
-﻿// from http://grabacr.net/archives/1585
+﻿// Copyright(c) 2016 Mitsuhiro Ito(nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
 
 using System;
 using System.Collections.Generic;
@@ -80,17 +83,27 @@ namespace NeeView
         }
     }
 
-    [DataContract]
-    public class WindowPlacement
+
+    /// <summary>
+    /// ウィンドウ状態
+    /// </summary>
+    public static class WindowPlacement
     {
-        [DataMember]
-        Win32Api.WINDOWPLACEMENT? _WindowPlacement;
-
-        public void Restore(Window window)
+        // memento
+        [DataContract]
+        public class Memento
         {
-            if (_WindowPlacement == null) return;
+            [DataMember]
+            public Win32Api.WINDOWPLACEMENT? WindowPlacement { get; set; }
+        }
 
-            var placement = (Win32Api.WINDOWPLACEMENT)_WindowPlacement;
+        // ウィンドウ状態反映
+        public static void Restore(Window window, Memento memento)
+        {
+            if (memento?.WindowPlacement == null) return;
+
+            // from http://grabacr.net/archives/1585
+            var placement = (Win32Api.WINDOWPLACEMENT)memento.WindowPlacement;
             placement.length = Marshal.SizeOf(typeof(Win32Api.WINDOWPLACEMENT));
             placement.flags = 0;
             placement.showCmd = (placement.showCmd == Win32Api.SW.SHOWMINIMIZED) ? Win32Api.SW.SHOWNORMAL : placement.showCmd;
@@ -99,13 +112,15 @@ namespace NeeView
             Win32Api.SetWindowPlacement(hwnd, ref placement);
         }
 
-        public void Store(Window window)
+        // ウィンドウ状態保存
+        public static Memento CreateMemento(Window window)
         {
+            // from http://grabacr.net/archives/1585
             Win32Api.WINDOWPLACEMENT placement;
             var hwnd = new WindowInteropHelper(window).Handle;
             Win32Api.GetWindowPlacement(hwnd, out placement);
 
-            // スナップウィンドウサイズを保存
+            // スナップウィンドウサイズを保存 by nee
             if (placement.showCmd == Win32Api.SW.SHOWNORMAL)
             {
                 var dpiScale = GetDpiScaleFactor(window);
@@ -115,11 +130,10 @@ namespace NeeView
                 placement.normalPosition.Bottom = (int)((window.Top + window.Height) * dpiScale.Y);
             }
 
-            _WindowPlacement = placement;
-
+            var memento = new Memento();
+            memento.WindowPlacement = placement;
+            return memento;
         }
-
-
 
         // from http://grabacr.net/archives/1105
         /// <summary>
@@ -138,10 +152,7 @@ namespace NeeView
                     source.CompositionTarget.TransformToDevice.M11,
                     source.CompositionTarget.TransformToDevice.M22);
             }
-
             return new Point(1.0, 1.0);
         }
-
     }
-
 }

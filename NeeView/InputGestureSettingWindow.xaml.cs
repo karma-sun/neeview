@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +26,15 @@ namespace NeeView
     /// </summary>
     public partial class InputGestureSettingWindow : Window
     {
-        public InputGestureSettingWindow(SettingWindow.BookCommand command)
+        // 編集するコマンド
+        public SettingWindow.CommandParam Command { get; set; }
+
+        // ショートカットテキストのリスト
+        public ObservableCollection<string> InputGestureCollection { get; set; } = new ObservableCollection<string>();
+
+
+        // コンストラクタ
+        public InputGestureSettingWindow(SettingWindow.CommandParam command)
         {
             Command = command;
 
@@ -40,13 +53,11 @@ namespace NeeView
             this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
         }
 
-        public SettingWindow.BookCommand Command { get; set; }
-        public ObservableCollection<string> InputGestureCollection { get; set; } = new ObservableCollection<string>();
 
+        // キー入力処理
+        // 押されているキーの状態からショートカットテキスト作成
         private void KeyGestureBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            // TODO: 単キーサポート
-
             if (e.IsRepeat) return;
             if (e.Key == Key.Tab) return;
 
@@ -85,7 +96,7 @@ namespace NeeView
 
                 if (keyExGesture != null)
                 {
-                    var converter = new KeyExGestureConverter();
+                    var converter = new KeyGestureExConverter();
                     this.KeyGestureText.Text = converter.ConvertToString(keyExGesture);
                 }
                 else
@@ -95,6 +106,7 @@ namespace NeeView
             }
         }
 
+        // 追加ボタン処理
         private void AddKeyGestureButton_Click(object sender, RoutedEventArgs e)
         {
             var key = this.KeyGestureText.Text;
@@ -109,15 +121,17 @@ namespace NeeView
             this.KeyGestureText.Text = null;
          }
 
+        // 削除ボタン処理
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             InputGestureCollection.Remove(this.InputGestureList.SelectedValue as string);
         }
 
+
+        // マウス入力処理
+        // マウスの状態からショートカットテキスト作成
         private void MouseGestureBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            // [v] TODO: ホイール
-            // [v] TODO: 拡張ボタン
             // [?]TODO: チルトボタン .. WinProcの監視が必要なようなので、後回しです。
 
             bool isDefaultMouseAction = true;
@@ -174,7 +188,7 @@ namespace NeeView
 
                 if (mouseGesture != null)
                 {
-                    var converter = new MouseExGestureConverter();
+                    var converter = new MouseGestureExConverter();
                     this.MouseGestureText.Text = converter.ConvertToString(mouseGesture);
                 }
                 else
@@ -184,6 +198,9 @@ namespace NeeView
             }
         }
 
+
+        // マウスホイール入力処理
+        // マウスの状態からショートカットテキスト作成
         private void MouseGestureBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             MouseWheelAction wheelAction = MouseWheelAction.None;
@@ -208,7 +225,6 @@ namespace NeeView
             if (e.XButton2 == MouseButtonState.Pressed)
                 modifierMouseButtons |= ModifierMouseButtons.XButton2;
 
-
             MouseWheelGesture mouseGesture = null;
             try
             {
@@ -227,6 +243,7 @@ namespace NeeView
             }
         }
 
+        // マウスショートカット追加ボタン処理
         private void AddMouseGestureButton_Click(object sender, RoutedEventArgs e)
         {
             var key = this.MouseGestureText.Text;
@@ -241,6 +258,7 @@ namespace NeeView
             this.MouseGestureText.Text = null;
         }
 
+        // OKボタン処理
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
         {
             string shortcut = null;
@@ -254,10 +272,10 @@ namespace NeeView
             this.Close();
         }
 
+        // キャンセルボタン処理
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
     }
 }

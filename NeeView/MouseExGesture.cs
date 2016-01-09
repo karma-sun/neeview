@@ -47,7 +47,7 @@ namespace NeeView
         }
     }
 
-    public class MouseExGestureConverter
+    public class MouseGestureExConverter
     {
         public MouseExGesture ConvertFromString(string source)
         {
@@ -58,7 +58,7 @@ namespace NeeView
 
             if (!Enum.TryParse(keys.Last(), out action))
             {
-                throw new NotSupportedException();
+                throw new NotSupportedException($"'{source}' キーと修飾キーの組み合わせは、MouseExGesture ではサポートされていません。");
             }
 
             for (int i = 0; i < keys.Length - 1; ++i)
@@ -73,7 +73,7 @@ namespace NeeView
                     continue;
                 }
 
-                throw new NotSupportedException();
+                throw new NotSupportedException($"'{source}' キーと修飾キーの組み合わせは、MouseExGesture ではサポートされていません。");
             }
 
             return new MouseExGesture(action, modifierKeys);

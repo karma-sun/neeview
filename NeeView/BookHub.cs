@@ -1,6 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -10,52 +13,51 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-    public enum FolderOrder
-    {
-        FileName,
-        TimeStamp,
-        Random,
-    }
-
-    public static class FolderOrderByExtension
-    {
-        public static FolderOrder GetToggle(this FolderOrder mode)
-        {
-            return (FolderOrder)(((int)mode + 1) % Enum.GetNames(typeof(FolderOrder)).Length);
-        }
-
-        public static string ToDispString(this FolderOrder mode)
-        {
-            switch (mode)
-            {
-                case FolderOrder.FileName: return "フォルダ列はファイル名順";
-                case FolderOrder.TimeStamp: return "フォルダ列は日付順";
-                case FolderOrder.Random: return "フォルダ列はランダム";
-                default:
-                    throw new NotSupportedException();
-            }
-        }
-    }
-
-
+    /// <summary>
+    /// 本の管理
+    /// ロード、本の操作はここを通す
+    /// </summary>
     public class BookHub
     {
-        // いろんなイベントをするー
+        #region Events
+
+        // 本の変更通知
         public event EventHandler<bool> BookChanged;
+
+        // ページ番号の変更通知
         public event EventHandler<int> PageChanged;
+
+        // 設定の変更通知
         public event EventHandler<string> SettingChanged;
-        public event EventHandler<string> Loaded;
+
+        // ロード中通知
+        public event EventHandler<string> Loading;
+
+        // メッセージ通知
         public event EventHandler<string> InfoMessage;
+
+        // ViewContentsの変更通知
         public event EventHandler ViewContentsChanged;
+
+        // スライドショーモード変更通知
         public event EventHandler<bool> SlideShowModeChanged;
 
-        // アニメGIF
+        #endregion
+
+
+        // アニメGIF 有効/無効
         #region Property: IsEnableAnimatedGif
-        private bool _IsEnableAnimatedGif;
         public bool IsEnableAnimatedGif
         {
-            get { return _IsEnableAnimatedGif; }
-            set { _IsEnableAnimatedGif = value; Page.IsEnableAnimatedGif = value; }
+            get { return Page.IsEnableAnimatedGif; }
+            set
+            {
+                if (Page.IsEnableAnimatedGif != value)
+                {
+                    Page.IsEnableAnimatedGif = value;
+                    Current?.Reflesh(); // 表示更新
+                }
+            }
         }
         #endregion
 
@@ -72,8 +74,7 @@ namespace NeeView
                 if (_IsEnableNoSupportFile != value)
                 {
                     _IsEnableNoSupportFile = value;
-                    //DartyBook?.Invoke(this, null);
-                    Book_DartyBook(this, null); // ##
+                    ReLoad();
                 }
             }
         }
@@ -81,61 +82,65 @@ namespace NeeView
         // 履歴から設定を復元する
         public bool IsEnabledAutoNextFolder { get; set; } = false;
 
-
-
         // フォルダの並び順
         public FolderOrder FolderOrder { get; set; }
 
-
-        // いろんなパラメータをするー？
-        // カレントでいいんじゃ？
-
-        public static Book Current { get; private set; }
-
-        // デフォルト本設定
-        public Book.Memento BookMemento { get; set; }
-
-        public BookHub()
+        // スライドショー再生フラグ
+        private bool _IsEnableSlideShow;
+        public bool IsEnableSlideShow
         {
-            BookMemento = new Book.Memento();
-        }
-
-        public Book.Memento StoreBookSetting()
-        {
-            if (Current != null)
+            get
             {
-                return Current.CreateMemento();
+                return _IsEnableSlideShow;
             }
-            return BookMemento.Clone();
+            set
+            {
+                _IsEnableSlideShow = value;
+                SlideShowModeChanged?.Invoke(this, _IsEnableSlideShow);
+            }
         }
 
+        // スライドショー設定：ループ再生
+        private bool IsSlideShowByLoop { get; set; } = true;
 
+        // スライドショー設定：切り替わる時間(秒)
+        public double SlideShowInterval { get; set; } = 5.0;
+
+
+
+        // 現在の本
+        public Book Current { get; private set; }
+
+        // 本の設定、引き継ぎ用
+        public Book.Memento BookMemento { get; set; } = new Book.Memento();
+
+
+        // ページ表示開始スレッドイベント
         private ManualResetEvent _ViewContentEvent = new ManualResetEvent(false);
 
-        // いろんなメソッドは置き換え
+
+        /// <summary>
+        /// 本を読み込む
+        /// </summary>
+        /// <param name="path">本のパス</param>
+        /// <param name="option">読み込みオプション</param>
         public async void Load(string path, BookLoadOption option)
         {
-            var current = Current;
+            // 履歴の保存
+            ModelContext.BookHistory.Add(Current);
+
+            // 現在の本を開放
+            Current?.Dispose();
             Current = null;
 
-            // 履歴の保存
-            ModelContext.BookHistory.Add(current);
-
-            // 後始末
-            current?.Dispose();
-
-            // 新しい本
+            // 新しい本を作成
             var book = new Book();
 
-            string start = null;
+            // 開始エントリ
+            string startEntry = null;
 
+            // 履歴を使用したか
             bool isBookamrk = false;
-
-            //
-            if (IsEnableNoSupportFile)
-            {
-                option |= BookLoadOption.SupportAllFile;
-            }
 
             // 設定の復元
             if ((option & BookLoadOption.ReLoad) == BookLoadOption.ReLoad)
@@ -153,7 +158,7 @@ namespace NeeView
                     {
                         BookMemento = setting.Clone();
                         book.Restore(BookMemento);
-                        start = setting.BookMark;
+                        startEntry = setting.BookMark;
                         isBookamrk = true;
                     }
                     // 履歴がないときは設定はそのまま。再帰設定のみOFFにする。
@@ -165,6 +170,12 @@ namespace NeeView
                 }
             }
 
+            // 全種類ファイルサポート設定
+            if (IsEnableNoSupportFile)
+            {
+                option |= BookLoadOption.SupportAllFile;
+            }
+
             // リカーシブ設定
             if ((option & BookLoadOption.Recursive) == BookLoadOption.Recursive)
             {
@@ -174,26 +185,24 @@ namespace NeeView
 
             try
             {
-                // 読み込み。非同期で行う。
-                Loaded?.Invoke(this, path);
+                // Now Loading ON
+                Loading?.Invoke(this, path);
 
-                // ロード
-                await book.Load(path, start, option);
+                // ロード。非同期で行う
+                await book.Load(path, startEntry, option);
 
                 // ロード後にイベント設定
                 book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
                 book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
-                book.PageTerminated += Book_PageTerminated;
-                book.DartyBook += Book_DartyBook;
-
-                // カレント切り替え
-                Current = book;
+                book.PageTerminated += OnPageTerminated;
+                book.DartyBook += (s, e) => ReLoad();
 
                 // 最初のコンテンツ表示待ち設定
                 _ViewContentEvent.Reset();
                 book.ViewContentsChanged += (s, e) => _ViewContentEvent.Set();
 
-                // 開始
+                // カレントを設定し、開始する
+                Current = book;
                 Current.Start();
 
                 // 最初のコンテンツ表示待ち
@@ -205,26 +214,31 @@ namespace NeeView
                 Current?.Dispose();
                 Current = null;
 
-                // ファイル読み込み失敗通知
-                Messenger.MessageBox(this, $"{path} の読み込みに失敗しました。\n\n理由：{e.Message}", "通知", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
-
                 // 現在表示されているコンテンツを無効
                 ViewContentsChanged?.Invoke(this, null);
+
+                // ファイル読み込み失敗通知
+                Messenger.MessageBox(this, $"{path} の読み込みに失敗しました。\n\n理由：{e.Message}", "通知", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
 
                 // 履歴から消去
                 ModelContext.BookHistory.Remove(path);
                 Messenger.Send(this, "UpdateLastFiles");
+
                 return;
             }
             finally
             {
-                Loaded?.Invoke(this, null);
+                // Now Loading OFF
+                Loading?.Invoke(this, null);
             }
 
-            BookMemento = book.CreateMemento(); // Store(book);
+            // 本の設定を退避
+            BookMemento = book.CreateMemento();
             SettingChanged?.Invoke(this, null);
 
+            // 本の変更通知
             BookChanged?.Invoke(this, isBookamrk);
+
 
             // サブフォルダ確認
             if ((option & BookLoadOption.ReLoad) == 0 && Current.Pages.Count <= 0 && !Current.IsRecursiveFolder && Current.SubFolderCount > 0)
@@ -241,14 +255,14 @@ namespace NeeView
 
                 if (message.Result == true)
                 {
-                    //_IsLoading = false;
                     Load(Current.Place, BookLoadOption.Recursive | BookLoadOption.ReLoad);
                 }
             }
-
         }
 
-        private void Book_DartyBook(object sender, EventArgs e)
+
+        // 再読み込み
+        private void ReLoad()
         {
             if (Current != null)
             {
@@ -256,34 +270,10 @@ namespace NeeView
             }
         }
 
-        private bool _IsEnableSlideShow;
-        public bool IsEnableSlideShow
-        {
-            get
-            {
-                return _IsEnableSlideShow;
-            }
-            set
-            {
-                _IsEnableSlideShow = value;
-                SlideShowModeChanged?.Invoke(this, _IsEnableSlideShow);
-            }
-        }
 
-        private bool IsSlideShowByLoop { get; set; } = true;
 
-        public double SlideShowInterval { get; set; } = 5.0;
-
-        public void NextSlide()
-        {
-            if (IsEnableSlideShow)
-            {
-                NextPage();
-            }
-        }
-
-        //
-        private void Book_PageTerminated(object sender, int e)
+        // ページ終端を超えて移動しようとするときの処理
+        private void OnPageTerminated(object sender, int e)
         {
             if (IsEnableSlideShow && IsSlideShowByLoop)
             {
@@ -319,24 +309,32 @@ namespace NeeView
             }
         }
 
+        // 現在ページ番号取得
         public int GetPageIndex()
         {
             return Current == null ? 0 : Current.Index;
         }
 
+        // 現在ページ番号設定
         public void SetPageIndex(int index)
         {
             if (Current != null) Current.Index = index;
         }
 
+        // 総ページ数取得
         public int GetPageCount()
         {
             return Current == null ? 0 : Current.Pages.Count - 1;
         }
 
 
-
-        // 次のフォルダに移動
+        /// <summary>
+        /// フォルダ移動
+        /// </summary>
+        /// <param name="direction">移動方向</param>
+        /// <param name="folderOrder">フォルダの並び</param>
+        /// <param name="option">ロードオプション</param>
+        /// <returns></returns>
         private bool MoveFolder(int direction, FolderOrder folderOrder, BookLoadOption option)
         {
             if (Current == null) return false;
@@ -369,7 +367,7 @@ namespace NeeView
 
                 directories.AddRange(archives);
 
-                // 日付順は逆順にする
+                // 日付順は逆順にする (エクスプローラー標準にあわせる)
                 if (folderOrder == FolderOrder.TimeStamp)
                 {
                     directories.Reverse();
@@ -400,36 +398,49 @@ namespace NeeView
             return false;
         }
 
+        // 前のページに移動
         public void PrevPage()
         {
             Current?.PrevPage();
         }
 
+        // 次のページに移動
         public void NextPage()
         {
             Current?.NextPage();
         }
 
+        // 1ページ前に移動
         public void PrevOnePage()
         {
             Current?.PrevPage(1);
         }
 
+        // 1ページ後に移動
         public void NextOnePage()
         {
             Current?.NextPage(1);
         }
 
+        // 最初のページに移動
         public void FirstPage()
         {
             Current?.FirstPage();
         }
 
+        // 最後のページに移動
         public void LastPage()
         {
             Current?.LastPage();
         }
 
+        // スライドショー用：次のページへ移動
+        public void NextSlide()
+        {
+            if (IsEnableSlideShow) NextPage();
+        }
+
+        // 次のフォルダに移動
         public void NextFolder(BookLoadOption option = BookLoadOption.None)
         {
             bool result = MoveFolder(+1, FolderOrder, option);
@@ -439,6 +450,7 @@ namespace NeeView
             }
         }
 
+        // 前のフォルダに移動
         public void PrevFolder(BookLoadOption option = BookLoadOption.None)
         {
             bool result = MoveFolder(-1, FolderOrder, option);
@@ -448,18 +460,22 @@ namespace NeeView
             }
         }
 
+
+        // スライドショーON/OFF
         public void ToggleSlideShow()
         {
             IsEnableSlideShow = !IsEnableSlideShow;
             SettingChanged?.Invoke(this, null);
         }
 
+        // フォルダの並びの変更
         public void ToggleFolderOrder()
         {
             FolderOrder = FolderOrder.GetToggle();
             SettingChanged?.Invoke(this, null);
         }
 
+        // フォルダの並びの設定
         public void SetFolderOrder(FolderOrder order)
         {
             FolderOrder = order;
@@ -467,84 +483,99 @@ namespace NeeView
         }
 
 
+        // 本の設定を更新
         private void RefleshBookSetting()
         {
-            Current?.Restore(BookMemento); //.Restore(Current);
+            Current?.Restore(BookMemento);
             SettingChanged?.Invoke(this, null);
         }
 
+        // 先頭ページの単ページ表示ON/OFF 
         public void ToggleIsSupportedTitlePage()
         {
             BookMemento.IsSupportedTitlePage = !BookMemento.IsSupportedTitlePage;
-            RefleshBookSetting(); // BookSetting.Restore(Current);
+            RefleshBookSetting();
         }
 
+        // 横長ページの見開き判定ON/OFF
         public void ToggleIsSupportedWidePage()
         {
             BookMemento.IsSupportedWidePage = !BookMemento.IsSupportedWidePage;
-            RefleshBookSetting(); //BookSetting.Restore(Current);
+            RefleshBookSetting();
         }
 
+        // フォルダ再帰読み込みON/OFF
         public void ToggleIsRecursiveFolder()
         {
             BookMemento.IsRecursiveFolder = !BookMemento.IsRecursiveFolder;
-            RefleshBookSetting(); //BookSetting.Restore(Current);
+            RefleshBookSetting();
         }
 
-
+        // 見開き方向設定
         public void SetBookReadOrder(PageReadOrder order)
         {
             BookMemento.BookReadOrder = order;
-            RefleshBookSetting(); //BookSetting.Restore(Current);
+            RefleshBookSetting();
         }
 
+        // 見開き方向変更
         public void ToggleBookReadOrder()
         {
             BookMemento.BookReadOrder = BookMemento.BookReadOrder.GetToggle();
-            RefleshBookSetting(); //BookSetting.Restore(Current);
+            RefleshBookSetting();
         }
 
-
+        // 単ページ/見開き表示設定
         public void SetPageMode(int mode)
         {
             BookMemento.PageMode = mode;
-            RefleshBookSetting(); //BookSetting.Restore(Current);
+            RefleshBookSetting();
         }
 
+        // 単ページ/見開き表示トグル取得
         public int GetTogglePageMode()
         {
             return 3 - BookMemento.PageMode;
         }
 
+        // 単ページ/見開き表示トグル
         public void TogglePageMode()
         {
             BookMemento.PageMode = GetTogglePageMode();
-            RefleshBookSetting(); //BookSetting.Restore(Current);
+            RefleshBookSetting(); 
         }
 
+        // ページ並び変更
         public void ToggleSortMode()
         {
             var mode = BookMemento.SortMode.GetToggle();
             Current?.SetSortMode(mode);
             BookMemento.SortMode = mode;
-            RefleshBookSetting(); //BookSetting.Restore(Current);
+            RefleshBookSetting();
         }
 
+        // ページ並び設定
         public void SetSortMode(PageSortMode mode)
         {
             Current?.SetSortMode(mode);
             BookMemento.SortMode = mode;
-            RefleshBookSetting(); //BookSetting.Restore(Current);
+            RefleshBookSetting(); 
         }
 
+        // ページ並び逆順設定
         public void ToggleIsReverseSort()
         {
             BookMemento.IsReverseSort = !BookMemento.IsReverseSort;
-            RefleshBookSetting(); //BookSetting.Restore(Current);
+            RefleshBookSetting();
         }
 
 
-        // すべての本に共通の設定
+
+        #region Memento
+
+        /// <summary>
+        /// BookHub Memento
+        /// </summary>
         [DataContract]
         public class Memento
         {
@@ -595,7 +626,7 @@ namespace NeeView
             }
         }
 
-
+        // memento作成
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -612,7 +643,7 @@ namespace NeeView
             return memento;
         }
 
-
+        // memento反映
         public void Restore(Memento memento)
         {
             IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
@@ -623,13 +654,9 @@ namespace NeeView
             IsSlideShowByLoop = memento.IsSlideShowByLoop;
             SlideShowInterval = memento.SlideShowInterval;
             BookMemento = memento.BookMemento.Clone();
-
-            // これは・・・要検証
-            if (BookHub.Current != null)
-            {
-                BookHub.Current.Reflesh();
-            }
         }
+
+        #endregion
     }
 }
 

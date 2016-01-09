@@ -99,7 +99,7 @@ namespace NeeView
         }
         #endregion
 
-        public Dictionary<BookCommandType, RoutedCommand> BookCommands { get; set; }
+        public Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; }
 
         public JobEngine JobEngine { get { return ModelContext.JobEngine; } }
         public int JobCount { get { return ModelContext.JobEngine.Context.JobList.Count; } }
@@ -199,10 +199,10 @@ namespace NeeView
         public bool IsViewStartPositionCenter { get; set; }
 
 
-        public event EventHandler<string> Loaded
+        public event EventHandler<string> Loading
         {
-            add { BookHub.Loaded += value; }
-            remove { BookHub.Loaded -= value; }
+            add { BookHub.Loading += value; }
+            remove { BookHub.Loading -= value; }
         }
 
 
@@ -247,7 +247,7 @@ namespace NeeView
 
         public BookHub BookHub { get; private set; }
 
-        public BookCommandCollection CommandCollection; // TODO:定義位置とか
+        public CommandTable CommandCollection => ModelContext.CommandTable; // TODO:定義位置とか
 
         //public FolderOrder FolderOrder => BookHub.FolderOrder;
 
@@ -266,13 +266,15 @@ namespace NeeView
 
             //ModelContext.BookHistory = new BookHistory();
 
-            CommandCollection = new BookCommandCollection();
-            CommandCollection.Initialize(this, BookHub, null);
+            //CommandCollection = new CommandTable(this, BookHub);
+            //CommandCollection.Initialize(this, BookHub, null);
+            CommandCollection.SetTarget(this, BookHub);
+
 
             ModelContext.JobEngine.Context.AddEvent += JobEngineEvent;
             ModelContext.JobEngine.Context.RemoveEvent += JobEngineEvent;
 
-            BookHub.Loaded +=
+            BookHub.Loading +=
                 (s, e) => LoadingPath = e;
 
             BookHub.BookChanged +=
@@ -423,7 +425,7 @@ namespace NeeView
             setting.ViewMemento = this.CreateMemento();
             setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
             setting.BookHubMemento = BookHub.CreateMemento();
-            setting.BookCommandMemento = CommandCollection.CreateMemento();
+            setting.CommandMememto = CommandCollection.CreateMemento();
 
             setting.BookHistoryMemento = ModelContext.BookHistory.CreateMemento();
 
@@ -435,7 +437,7 @@ namespace NeeView
             this.Restore(setting.ViewMemento);
             ModelContext.SusieContext.Restore(setting.SusieMemento);
             BookHub.Restore(setting.BookHubMemento);
-            CommandCollection.Restore(setting.BookCommandMemento);
+            CommandCollection.Restore(setting.CommandMememto);
             //setting.GestureSetting.Restore(CommandCollection);
 
             ModelContext.BookHistory.Restore(setting.BookHistoryMemento);
@@ -468,7 +470,7 @@ namespace NeeView
             this.Restore(_Setting.ViewMemento);
             ModelContext.SusieContext.Restore(_Setting.SusieMemento);
             BookHub.Restore(_Setting.BookHubMemento);
-            CommandCollection.Restore(_Setting.BookCommandMemento);
+            CommandCollection.Restore(_Setting.CommandMememto);
 
             ModelContext.BookHistory.Restore(_Setting.BookHistoryMemento);
             UpdateLastFiles();
@@ -486,7 +488,7 @@ namespace NeeView
             _Setting.ViewMemento = this.CreateMemento();
             _Setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
             _Setting.BookHubMemento = BookHub.CreateMemento();
-            _Setting.BookCommandMemento = CommandCollection.CreateMemento();
+            _Setting.CommandMememto = CommandCollection.CreateMemento();
 
             ModelContext.BookHistory.Add(BookHub.Current);
             _Setting.BookHistoryMemento = ModelContext.BookHistory.CreateMemento();
@@ -760,13 +762,13 @@ namespace NeeView
         */
 
         // 
-        public void Execute(BookCommandType type, object param)
+        public void Execute(CommandType type, object param)
         {
             // 通知
             //if (CommandCollection.ShortcutSource[type].IsShowMessage)
-            if (CommandCollection[type].Setting.IsShowMessage)
+            if (CommandCollection[type].IsShowMessage)
             {
-                string message = CommandCollection[type].GetExecuteMessage(param);
+                string message = CommandCollection[type].ExecuteMessage(param);
 
                 switch (CommandShowMessageType)
                 {
@@ -808,15 +810,14 @@ namespace NeeView
         }
 
 
-        public List<InputGesture> GetShortCutCollection(BookCommandType type)
+        public List<InputGesture> GetShortCutCollection(CommandType type)
         {
             var list = new List<InputGesture>();
             if (CommandCollection[type].ShortCutKey != null)
             {
                 foreach (var key in CommandCollection[type].ShortCutKey.Split(','))
                 {
-                    InputGestureConverter converter = new InputGestureConverter();
-                    InputGesture inputGesture = converter.ConvertFromString(key);
+                    InputGesture inputGesture = InputGestureConverter.ConvertFromString(key);
                     if (inputGesture != null)
                     {
                         list.Add(inputGesture);
@@ -853,7 +854,7 @@ namespace NeeView
             return list;
         }
 
-        public string GetMouseGesture(BookCommandType type)
+        public string GetMouseGesture(CommandType type)
         {
             return CommandCollection[type].MouseGesture;
         }

@@ -71,23 +71,33 @@ namespace NeeView
         public override Stream OpenEntry(string entryName)
         {
             SevenZipExtractor archive = null;
+            Exception exception = null;
 
-            try
+            for (int retryCount = 0; retryCount < 2; ++retryCount) // retry
             {
-                lock (_Lock)
+                try
                 {
-                    archive = new SevenZipExtractor(_ArchiveFileName);
-                }
+                    lock (_Lock)
+                    {
+                        archive = new SevenZipExtractor(_ArchiveFileName);
+                    }
 
-                var ms = new MemoryStream();
-                archive.ExtractFile(entryName, ms);
-                ms.Seek(0, SeekOrigin.Begin);
-                return ms;
+                    var ms = new MemoryStream();
+                    archive.ExtractFile(entryName, ms);
+                    ms.Seek(0, SeekOrigin.Begin);
+                    return ms;
+                }
+                catch (Exception e)
+                {
+                    exception = e;
+                }
+                finally
+                {
+                    archive?.Dispose();
+                }
             }
-            finally
-            {
-                archive?.Dispose();
-            }
+
+            throw new ApplicationException("ストリーム作成に失敗しました", exception);
         }
 
 

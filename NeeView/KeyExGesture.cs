@@ -34,7 +34,7 @@ namespace NeeView
     }
 
 
-    public class KeyExGestureConverter
+    public class KeyGestureExConverter
     {
         public KeyExGesture ConvertFromString(string source)
         {
@@ -49,7 +49,7 @@ namespace NeeView
             Key action = Key.None;
             if (!Enum.TryParse(code, out action))
             {
-                throw new NotSupportedException();
+                throw new NotSupportedException($"'{source}' キーと修飾キーの組み合わせは、KeyGestureEx ではサポートされていません。");
             }
 
             ModifierKeys modifierKeys = ModifierKeys.None;
@@ -65,7 +65,7 @@ namespace NeeView
                     continue;
                 }
 
-                throw new NotSupportedException();
+                throw new NotSupportedException($"'{source}' キーと修飾キーの組み合わせは、KeyGestureEx ではサポートされていません。");
             }
 
             return new KeyExGesture(action, modifierKeys);

@@ -219,16 +219,16 @@
 
                 <DockPanel LastChildFill="False" VerticalAlignment="Center" Margin="0,0,10,0">
 
-                    <Button DockPanel.Dock="Right"  x:Name="HelpButton" Style="{StaticResource IconButton}" VerticalAlignment="Center" Click="HelpButton_Click">
+                    <Button DockPanel.Dock="Right"  x:Name="HelpButton" Style="{StaticResource IconButton}" VerticalAlignment="Center" Click="HelpButton_Click" ToolTip="オンラインヘルプ">
                         <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
                     </Button>
-                    
+
                 </DockPanel>
             </Grid>
 
             <!-- ステータスエリア -->
             <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom">
- 
+
                 <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
                         local:SliderTools.MoveToPointOnDrag="True">
                     <Slider.Style>

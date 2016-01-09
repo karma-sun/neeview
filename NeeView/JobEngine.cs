@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,110 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace NeeView
-{
-    public enum JobPriority
-    {
-        Top,
-        Hi,
-        Default
-    }
-
-    //
-    public class JobList<T>
-    {
-        private volatile Dictionary<JobPriority, List<T>> _Lists;
-
-        public JobList()
-        {
-            _Lists = new Dictionary<JobPriority, List<T>>();
-            foreach (JobPriority priority in Enum.GetValues(typeof(JobPriority)))
-            {
-                _Lists[priority] = new List<T>();
-            }
-        }
-
-        public void Add(T item, JobPriority priority)
-        {
-            _Lists[priority].Add(item);
-        }
-
-        public void RemoveAt(int index, JobPriority priority)
-        {
-            _Lists[priority].RemoveAt(index);
-        }
-
-        public T this[int index, JobPriority priority]
-        {
-            set { _Lists[priority][index] = value; }
-            get { return _Lists[priority][index]; }
-        }
-
-        public int Count
-        {
-            get
-            {
-                int sum = 0;
-                foreach (JobPriority priority in Enum.GetValues(typeof(JobPriority)))
-                {
-                    sum += _Lists[priority].Count;
-                }
-                return sum;
-            }
-        }
-
-        public T First()
-        {
-            foreach (JobPriority priority in Enum.GetValues(typeof(JobPriority)))
-            {
-                if (_Lists[priority].Count > 0) return _Lists[priority][0];
-            }
-            return default(T);
-        }
-
-        public void RemoveFirst()
-        {
-            foreach (JobPriority priority in Enum.GetValues(typeof(JobPriority)))
-            {
-                if (_Lists[priority].Count > 0)
-                {
-                    _Lists[priority].RemoveAt(0);
-                    return;
-                }
-            }
-        }
-
-        public T Decueue()
-        {
-            foreach (JobPriority priority in Enum.GetValues(typeof(JobPriority)))
-            {
-                if (_Lists[priority].Count > 0)
-                {
-                    var item = _Lists[priority][0];
-                    _Lists[priority].RemoveAt(0);
-                    return item;
-                }
-            }
-            return default(T);
-        }
-
-        public void ChangePriority(T item, JobPriority newPriority)
-        {
-            foreach (JobPriority priority in Enum.GetValues(typeof(JobPriority)))
-            {
-                if (priority == newPriority) continue;
-
-                int index = _Lists[priority].IndexOf(item);
-                if (index >= 0)
-                {
-                    _Lists[priority].RemoveAt(index);
-                    this.Add(item, newPriority);
-                    return;
-                }
-            }
-        }
-    }
-
-
+{ 
     //
     public class JobRequest
     {
@@ -139,12 +41,12 @@ namespace NeeView
             get { return _CancellationTokenSource.IsCancellationRequested; }
         }
 
-        public void ChangePriority(JobPriority priority)
+        public void ChangePriority(QueueElementPriority priority)
         {
-            if (_Job.Priority != priority)
-            {
+            //if (_Job.Priority != priority)
+            //{
                 _JobEngine.ChangePriority(_Job, priority);
-            }
+            //}
         }
     }
 
@@ -152,7 +54,7 @@ namespace NeeView
     public class Job
     {
         public int SerialNumber { get; set; }
-        public JobPriority Priority; // これ違和感
+        //public JobPriority Priority; // これ違和感
         public Action<CancellationToken> Action;
         public Action CancelAction;
         public CancellationToken CancellationToken;
@@ -187,7 +89,7 @@ namespace NeeView
         }
 
         // ジョブリスト
-        public JobList<Job> JobList { get; private set; }
+        public PriorityQueue<Job> JobList { get; private set; }
 
         // 排他処理用ロック
         public Object Lock { get; private set; }
@@ -197,7 +99,7 @@ namespace NeeView
 
         public JobContext()
         {
-            JobList = new JobList<Job>();
+            JobList = new PriorityQueue<Job>();
             Lock = new Object();
             Event = new ManualResetEvent(false);
         }
@@ -286,18 +188,18 @@ namespace NeeView
         }
 
 
-        public JobRequest Add(Action<CancellationToken> action, Action cancelAction, JobPriority priority)
+        public JobRequest Add(Action<CancellationToken> action, Action cancelAction, QueueElementPriority priority)
         {
             var job = new Job();
             job.SerialNumber = _SerialNumber++;
             job.Action = action;
             job.CancelAction = cancelAction;
-            job.Priority = priority;
+            //job.Priority = priority;
             var source = new JobRequest(this, job);
 
             lock (Context.Lock)
             {
-                Context.JobList.Add(job, priority);
+                Context.JobList.Enqueue(job, priority);
                 Context.Event.Set();
                 Message = $"Add Job. {job.SerialNumber}";
             }
@@ -308,12 +210,12 @@ namespace NeeView
         }
 
 
-        public void ChangePriority(Job job, JobPriority priority)
+        public void ChangePriority(Job job, QueueElementPriority priority)
         {
             lock (Context.Lock)
             {
                 Context.JobList.ChangePriority(job, priority);
-                job.Priority = priority;
+                //job.Priority = priority;
             }
         }
 
@@ -433,7 +335,7 @@ namespace NeeView
                 }
                 else
                 {
-                    Message = $"Job({job.SerialNumber}) execute ... {job.Priority}";
+                    Message = $"Job({job.SerialNumber}) execute ...";
                     job.Action(job.CancellationToken);
                     Message = $"Job({job.SerialNumber}) execute done.";
                 }

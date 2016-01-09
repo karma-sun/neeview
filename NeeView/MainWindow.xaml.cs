@@ -44,7 +44,7 @@ namespace NeeView
             _VM.ViewModeChanged += OnViewModeChanged;
             _VM.InputGestureChanged += (s, e) => InitializeInputGestures();
             _VM.PropertyChanged += OnPropertyChanged;
-            _VM.Loaded += (s, e) =>
+            _VM.Loading += (s, e) =>
             {
                 //this.Cursor = e != null ? Cursors.Wait : null;
                 _NowLoading = e != null;
@@ -194,9 +194,8 @@ namespace NeeView
 
 
         // new!
-        public Dictionary<BookCommandType, RoutedCommand> BookCommands { get; set; } = new Dictionary<BookCommandType, RoutedCommand>();
+        public Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; } = new Dictionary<CommandType, RoutedUICommand>();
 
-        //public static readonly RoutedCommand LoadCommand = new RoutedCommand("LoadCommand", typeof(MainWindow));
 
 
 
@@ -205,43 +204,43 @@ namespace NeeView
         public void InitializeCommandBindings()
         {
             // コマンドインスタンス作成
-            foreach (BookCommandType type in Enum.GetValues(typeof(BookCommandType)))
+            foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
             {
-                BookCommands.Add(type, new RoutedCommand(type.ToString(), typeof(MainWindow)));
+                BookCommands.Add(type, new RoutedUICommand(_VM.CommandCollection[type].Text, type.ToString(), typeof(MainWindow)));
             }
 
             // スタティックコマンド
             //this.CommandBindings.Add(new CommandBinding(LoadCommand, Load));
 
             // View系コマンド登録
-            _VM.CommandCollection[BookCommandType.OpenSettingWindow].Command =
+            _VM.CommandCollection[CommandType.OpenSettingWindow].Execute =
                 (e) => OpenSettingWindow();
-            _VM.CommandCollection[BookCommandType.LoadAs].Command =
+            _VM.CommandCollection[CommandType.LoadAs].Execute =
                 (e) => LoadAs(e);
-            _VM.CommandCollection[BookCommandType.ClearHistory].Command =
+            _VM.CommandCollection[CommandType.ClearHistory].Execute =
                 (e) => _VM.ClearHistor();
-            _VM.CommandCollection[BookCommandType.ToggleFullScreen].Command =
+            _VM.CommandCollection[CommandType.ToggleFullScreen].Execute =
                 (e) => _WindowMode.Toggle();
-            _VM.CommandCollection[BookCommandType.CancelFullScreen].Command =
+            _VM.CommandCollection[CommandType.CancelFullScreen].Execute =
                 (e) => _WindowMode.Cancel();
-            _VM.CommandCollection[BookCommandType.ViewScrollUp].Command =
+            _VM.CommandCollection[CommandType.ViewScrollUp].Execute =
                 (e) => _MouseDragController.ScrollUp();
-            _VM.CommandCollection[BookCommandType.ViewScrollDown].Command =
+            _VM.CommandCollection[CommandType.ViewScrollDown].Execute =
                 (e) => _MouseDragController.ScrollDown();
-            _VM.CommandCollection[BookCommandType.ViewScaleUp].Command =
+            _VM.CommandCollection[CommandType.ViewScaleUp].Execute =
                 (e) => _MouseDragController.ScaleUp();
-            _VM.CommandCollection[BookCommandType.ViewScaleDown].Command =
+            _VM.CommandCollection[CommandType.ViewScaleDown].Execute =
                 (e) => _MouseDragController.ScaleDown();
-            _VM.CommandCollection[BookCommandType.ViewRotateLeft].Command =
+            _VM.CommandCollection[CommandType.ViewRotateLeft].Execute =
                 (e) => _MouseDragController.Rotate(-45);
-            _VM.CommandCollection[BookCommandType.ViewRotateRight].Command =
+            _VM.CommandCollection[CommandType.ViewRotateRight].Execute =
                 (e) => _MouseDragController.Rotate(+45);
 
             // コマンドバインド作成
-            foreach (BookCommandType type in Enum.GetValues(typeof(BookCommandType)))
+            foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
             {
                 // フルスクリーン系コマンドは常に有効
-                if (type == BookCommandType.ToggleFullScreen || type == BookCommandType.CancelFullScreen)
+                if (type == CommandType.ToggleFullScreen || type == CommandType.CancelFullScreen)
                 {
                     this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Parameter)));
                 }
@@ -295,7 +294,7 @@ namespace NeeView
         {
             var setting = _VM.CreateSettingContext();
 
-            var dialog = new SettingWindow(_VM, setting);
+            var dialog = new SettingWindow(setting);
             dialog.Owner = this;
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = dialog.ShowDialog();
@@ -411,7 +410,7 @@ namespace NeeView
             {
                 //_VM.Load(files[0]);
                 //_VM.CommandCollection[BookCommandType.LoadAs].Execute(files[0]);
-                BookCommands[BookCommandType.LoadAs].Execute(files[0], this);
+                BookCommands[CommandType.LoadAs].Execute(files[0], this);
             }
         }
 

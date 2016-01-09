@@ -5,19 +5,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace NeeView
 {
 
+    /// <summary>
+    /// ロードオプションフラグ
+    /// </summary>
     [Flags]
     public enum BookLoadOption
     {
@@ -26,7 +25,7 @@ namespace NeeView
         SupportAllFile = (1 << 1), // すべてのファイルをページとみなす
         FirstPage = (1 << 2), // 初期ページを先頭ページにする
         LastPage = (1 << 3), // 初期ページを最終ページにする
-        ReLoad = (1 << 4), // 再読み込みフラグ
+        ReLoad = (1 << 4), // 再読み込みフラグ(BookHubで使用)
     };
 
 
@@ -324,16 +323,6 @@ namespace NeeView
         }
 
 
-        // ページの再読み込み
-        public void Reflesh()
-        {
-            lock (_Lock)
-            {
-                _KeepPages.ForEach(e => e.Close());
-                UpdateActivePages();
-            }
-        }
-
 
         // ページのコンテンツロード完了イベント処理
         // 注意：ジョブワーカーから呼ばれることがあるので別スレッドの可能性があります。
@@ -402,7 +391,7 @@ namespace NeeView
                     }
 
                     _ViewPages[0] = GetViewPage(0);
-                    _ViewPages[0]?.Open(JobPriority.Top);
+                    _ViewPages[0]?.Open(QueueElementPriority.Top);
                 }
             }
 
@@ -414,7 +403,7 @@ namespace NeeView
                 }
 
                 _ViewPages[1] = GetViewPage(1);
-                _ViewPages[1]?.Open(JobPriority.Top);
+                _ViewPages[1]?.Open(QueueElementPriority.Top);
             }
 
             if (_PageMode <= 1 && _ViewPages[1] != null)
@@ -566,15 +555,15 @@ namespace NeeView
             // 読み込み設定
             foreach (var page in _ViewPages)
             {
-                page?.Open(JobPriority.Top);
+                page?.Open(QueueElementPriority.Top);
             }
             foreach (var page in currentPages)
             {
-                page.Open(JobPriority.Hi);
+                page.Open(QueueElementPriority.Hi);
             }
             foreach (var page in preLoadPages)
             {
-                page.Open(JobPriority.Default);
+                page.Open(QueueElementPriority.Default);
             }
 
             // 保持ページ更新
@@ -864,9 +853,30 @@ namespace NeeView
         }
 
 
-        // 表示数変更によるViewPages作り直し
+
+        // ページの再読み込み
+        public void Reflesh()
+        {
+            if (Place == null) return;
+
+            lock (_Lock)
+            {
+                _KeepPages.ForEach(e => e?.Close());
+                _ViewPages.ForEach(e => e?.Close());
+            }
+
+            SetIndex(Index, _Direction);
+        }
+
+
+        // ViewPages作り直し
         private void ResetViewPages()
         {
+            Reflesh();
+            return;
+
+            // 様子見：2016-01-09
+#if false
             if (Place == null) return;
 
             lock (_Lock)
@@ -889,6 +899,7 @@ namespace NeeView
             }
 
             SetIndex(Index, _Direction);
+#endif
         }
 
 
@@ -910,7 +921,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         /// <summary>
         /// 保存設定
@@ -1005,5 +1016,5 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 }

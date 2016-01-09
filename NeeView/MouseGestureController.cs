@@ -75,11 +75,15 @@ namespace NeeView
             var command = CommandBinding.GetCommand(Controller.Gesture);
             if (command != null)
             {
+                return command.Text;
+                /*
                 BookCommandType commandType;
                 if (Enum.TryParse<BookCommandType>(command.Name, out commandType))
                 {
-                    return BookCommandExtension.Headers[commandType].Text;
+                    //return BookCommandExtension.Headers[commandType].Text;
+                    return "(工事中)";
                 }
+                */
             }
 
             return null;
@@ -99,11 +103,11 @@ namespace NeeView
 
     public class MouseGestureCommandBinding
     {
-        Dictionary<string, RoutedCommand> _Commands;
+        Dictionary<string, RoutedUICommand> _Commands;
 
         public MouseGestureCommandBinding()
         {
-            _Commands = new Dictionary<string, RoutedCommand>();
+            _Commands = new Dictionary<string, RoutedUICommand>();
         }
 
         public void Clear()
@@ -111,13 +115,13 @@ namespace NeeView
             _Commands.Clear();
         }
 
-        public void Add(string gestureText, RoutedCommand command)
+        public void Add(string gestureText, RoutedUICommand command)
         {
             _Commands[gestureText] = command;
         }
 
 
-        public RoutedCommand GetCommand(MouseGestureCollection gesture)
+        public RoutedUICommand GetCommand(MouseGestureCollection gesture)
         {
             string key = gesture.ToString();
 

@@ -33,20 +33,20 @@ namespace NeeView
             Setting(); // ##
         }
 
-        FileReaderType _FileReaderType;
+        //FileReaderType _FileReaderType;
         BitmapLoaderType _BitmapLoaderType;
 
         // 設定テスト
         public void Setting()
         {
-            if (_Archiver != null)
-            {
-                _FileReaderType = FileReaderType.ZipArchiveEntry;
-            }
-            else
-            {
-                _FileReaderType = FileReaderType.File;
-            }
+            //if (_Archiver != null)
+            //{
+            //    _FileReaderType = FileReaderType.ZipArchiveEntry;
+            //}
+            //else
+            //{
+            //    _FileReaderType = FileReaderType.File;
+            //}
 
             _BitmapLoaderType = BitmapLoaderType.Default;
         }
@@ -55,10 +55,11 @@ namespace NeeView
         //
         private BitmapSource Load()
         {
-            using (var reader = FileReaderFactory.OpenReadRetry(_FileReaderType, _Path, _Archiver))
+            //using (var reader = FileReaderFactory.OpenReadRetry(_FileReaderType, _Path, _Archiver))
+            using (var stream = _Archiver.OpenEntry(_Path))
             {
                 var bitmapLoader = BitmapLoaderManager.Create(_BitmapLoaderType);
-                return bitmapLoader.Load(reader.Stream, _Path);
+                return bitmapLoader.Load(stream, _Path);
             }
         }
 

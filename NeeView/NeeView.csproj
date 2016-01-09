@@ -82,26 +82,31 @@
     <Compile Include="Book.cs" />
     <Compile Include="BookHistory.cs" />
     <Compile Include="BookHub.cs" />
-    <Compile Include="CommandSetting.cs" />
+    <Compile Include="CommandElement.cs" />
+    <Compile Include="CommandType.cs" />
     <Compile Include="Archiver\FolderFiles.cs" />
     <Compile Include="Archiver\LoosePath.cs" />
-    <Compile Include="FilenameBox.xaml.cs">
-      <DependentUpon>FilenameBox.xaml</DependentUpon>
+    <Compile Include="CommandTable.cs" />
+    <Compile Include="DirectoryNameBox.xaml.cs">
+      <DependentUpon>DirectoryNameBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="FilePageControl.xaml.cs">
       <DependentUpon>FilePageControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FolderOrder.cs" />
+    <Compile Include="InputGestureConverter.cs" />
     <Compile Include="InputGestureSettingWindow.xaml.cs">
       <DependentUpon>InputGestureSettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="KeyExGesture.cs" />
+    <Compile Include="MenuExtensions.cs" />
     <Compile Include="MessageBoxEx.xaml.cs">
       <DependentUpon>MessageBoxEx.xaml</DependentUpon>
     </Compile>
     <Compile Include="Messenger.cs" />
     <Compile Include="ModelContext.cs" />
     <Compile Include="MouseDragController.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="CommonExtensions.cs" />
     <Compile Include="JobEngine.cs" />
     <Compile Include="MediaPage.cs" />
     <Compile Include="MouseExGesture.cs" />
@@ -111,11 +116,11 @@
     </Compile>
     <Compile Include="MouseWheelGesture.cs" />
     <Compile Include="Page.cs" />
-    <Compile Include="FileReaders.cs" />
     <Compile Include="Archiver\SevenZipArchiver.cs" />
     <Compile Include="PageReadOrder.cs" />
     <Compile Include="PageSortMode.cs" />
     <Compile Include="PageStretchMode.cs" />
+    <Compile Include="PriorityQueue.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Setting.cs" />
     <Compile Include="SettingWindow.xaml.cs">
@@ -136,7 +141,7 @@
     <Compile Include="XamlAnimatedGifPage.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
     <Compile Include="Archiver\ZipArchiverKeepOpened.cs" />
-    <Page Include="FilenameBox.xaml">
+    <Page Include="DirectoryNameBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

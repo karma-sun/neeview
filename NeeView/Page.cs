@@ -117,7 +117,7 @@ namespace NeeView
         }
 
         //
-        public void Open(JobPriority priority = JobPriority.Default)
+        public void Open(QueueElementPriority priority = QueueElementPriority.Default)
         {
             if (_Content != null) return;
 
@@ -256,23 +256,23 @@ namespace NeeView
             _Archiver = archiver;
             _Place = place;
 
-            Setting();
+            //Setting();
         }
 
-        FileReaderType _FileReaderType;
+        //FileReaderType _FileReaderType;
 
         // 設定テスト
-        public void Setting()
-        {
-            if (_Archiver != null)
-            {
-                _FileReaderType = FileReaderType.ZipArchiveEntry;
-            }
-            else
-            {
-                _FileReaderType = FileReaderType.File;
-            }
-        }
+        //public void Setting()
+        //{
+        //    if (_Archiver != null)
+        //    {
+        //        _FileReaderType = FileReaderType.ZipArchiveEntry;
+        //    }
+        //    else
+        //    {
+        //        _FileReaderType = FileReaderType.File;
+        //    }
+        //}
 
         //
         private BitmapSource LoadBitmap(Stream stream)
@@ -305,10 +305,9 @@ namespace NeeView
         //
         private BitmapSource Load()
         {
-            // リトライを行う
-            using (var reader = FileReaderFactory.OpenReadRetry(_FileReaderType, _Path, _Archiver))
+            using (var stream = _Archiver.OpenEntry(_Path))
             {
-                return LoadBitmap(reader.Stream);
+                return LoadBitmap(stream);
             }
         }
 

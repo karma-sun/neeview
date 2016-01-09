@@ -21,9 +21,9 @@ namespace NeeView
     {
         public MouseGestureEx MouseGesture { get; set; }
 
-        public SettingWindow.BookCommand Command { get; set; }
+        public SettingWindow.CommandParam Command { get; set; }
 
-        public MouseGestureSettingWindow(SettingWindow.BookCommand command)
+        public MouseGestureSettingWindow(SettingWindow.CommandParam command)
         {
             Command = command;
 

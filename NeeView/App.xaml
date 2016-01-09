@@ -6,117 +6,131 @@
              DispatcherUnhandledException="Application_DispatcherUnhandledException">
     <Application.Resources>
 
-        <!-- CheckerBrush -->
-        <DrawingBrush x:Key="CheckerBrush" Viewport="0,0,16,16" ViewportUnits="Absolute" TileMode="Tile" >
-            <DrawingBrush.Drawing>
-                <DrawingGroup>
-                    <GeometryDrawing>
-                        <GeometryDrawing.Geometry>
-                            <RectangleGeometry Rect="0,0,8,8"/>
-                        </GeometryDrawing.Geometry>
-                        <GeometryDrawing.Brush>
-                            <SolidColorBrush Color="#FFF8F8F8"  />
-                        </GeometryDrawing.Brush>
-                    </GeometryDrawing>
-                    <GeometryDrawing>
-                        <GeometryDrawing.Geometry>
-                            <GeometryGroup>
-                                <RectangleGeometry Rect="0,0,4,4"/>
-                                <RectangleGeometry Rect="4,4,4,4"/>
-                            </GeometryGroup>
-                        </GeometryDrawing.Geometry>
-                        <GeometryDrawing.Brush>
-                            <SolidColorBrush Color="#FFF0F0F0"  />
-                        </GeometryDrawing.Brush>
-                    </GeometryDrawing>
-                </DrawingGroup>
-            </DrawingBrush.Drawing>
-        </DrawingBrush>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+                <!-- Theme Test -->
+                <!--
+                <ResourceDictionary Source="/presentationframework.Aero;component/themes/aero.normalcolor.xaml" />
+                -->
+                
+                <ResourceDictionary>
+
+                    <!-- CheckerBrush -->
+                    <DrawingBrush x:Key="CheckerBrush" Viewport="0,0,16,16" ViewportUnits="Absolute" TileMode="Tile" >
+                        <DrawingBrush.Drawing>
+                            <DrawingGroup>
+                                <GeometryDrawing>
+                                    <GeometryDrawing.Geometry>
+                                        <RectangleGeometry Rect="0,0,8,8"/>
+                                    </GeometryDrawing.Geometry>
+                                    <GeometryDrawing.Brush>
+                                        <SolidColorBrush Color="#FFF8F8F8"  />
+                                    </GeometryDrawing.Brush>
+                                </GeometryDrawing>
+                                <GeometryDrawing>
+                                    <GeometryDrawing.Geometry>
+                                        <GeometryGroup>
+                                            <RectangleGeometry Rect="0,0,4,4"/>
+                                            <RectangleGeometry Rect="4,4,4,4"/>
+                                        </GeometryGroup>
+                                    </GeometryDrawing.Geometry>
+                                    <GeometryDrawing.Brush>
+                                        <SolidColorBrush Color="#FFF0F0F0"  />
+                                    </GeometryDrawing.Brush>
+                                </GeometryDrawing>
+                            </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
 
 
-        <!-- Material design icons by Google -->
-        <!-- http://www.google.com/design/spec/style/icons.html#icons-system-icons -->
+                    <!-- Material design icons by Google -->
+                    <!-- http://www.google.com/design/spec/style/icons.html#icons-system-icons -->
 
-        <DrawingImage x:Key="ic_help_24px">
-            <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="#FF4488FF" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M11,17L11,19 13,19 13,17 11,17z M12,5C9.78999996185303,5,8,6.78999996185303,8,9L10,9C10,7.90000009536743 10.8999996185303,7 12,7 13.1000003814697,7 14,7.90000009536743 14,9 14,9.55000019073486 13.7799997329712,10.0500001907349 13.4099998474121,10.4099998474121L12.1700000762939,11.6700000762939C11.4499998092651,12.3999996185303,11,13.3999996185303,11,14.5L11,15 13,15C13,13.5,13.4499998092651,12.8999996185303,14.1700000762939,12.1700000762939L15.0699996948242,11.25C15.6400003433228,10.6800003051758 16,9.88000011444092 16,9 16,6.78999996185303 14.210000038147,5 12,5z M12,2C17.5200004577637,2 22,6.48000001907349 22,12 22,17.5200004577637 17.5200004577637,22 12,22 6.48000001907349,22 2,17.5200004577637 2,12 2,6.48000001907349 6.48000001907349,2 12,2z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+                    <DrawingImage x:Key="ic_help_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="#FF4488FF" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M11,17L11,19 13,19 13,17 11,17z M12,5C9.78999996185303,5,8,6.78999996185303,8,9L10,9C10,7.90000009536743 10.8999996185303,7 12,7 13.1000003814697,7 14,7.90000009536743 14,9 14,9.55000019073486 13.7799997329712,10.0500001907349 13.4099998474121,10.4099998474121L12.1700000762939,11.6700000762939C11.4499998092651,12.3999996185303,11,13.3999996185303,11,14.5L11,15 13,15C13,13.5,13.4499998092651,12.8999996185303,14.1700000762939,12.1700000762939L15.0699996948242,11.25C15.6400003433228,10.6800003051758 16,9.88000011444092 16,9 16,6.78999996185303 14.210000038147,5 12,5z M12,2C17.5200004577637,2 22,6.48000001907349 22,12 22,17.5200004577637 17.5200004577637,22 12,22 6.48000001907349,22 2,17.5200004577637 2,12 2,6.48000001907349 6.48000001907349,2 12,2z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
 
-        <DrawingImage x:Key="ic_bookmark_24px">
-            <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="Orange" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M7,3.00000023841858L17,3.00000023841858C18.1000003814697,3,19,3.90000009536743,19,5L19,21 12,18 5,21 5.01000022888184,5C5.01000022888184,3.90000009536743,5.90000009536743,3,7,3.00000023841858z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+                    <DrawingImage x:Key="ic_bookmark_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="Orange" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M7,3.00000023841858L17,3.00000023841858C18.1000003814697,3,19,3.90000009536743,19,5L19,21 12,18 5,21 5.01000022888184,5C5.01000022888184,3.90000009536743,5.90000009536743,3,7,3.00000023841858z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
 
-        <DrawingImage x:Key="ic_setting_24px">
-            <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="#FF444444" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M12,8.5C10.0699996948242,8.5 8.5,10.0699996948242 8.5,12 8.5,13.9300003051758 10.0699996948242,15.5 12,15.5 13.9300003051758,15.5 15.5,13.9300003051758 15.5,12 15.5,10.0699996948242 13.9300003051758,8.5 12,8.5z M10,2L14,2C14.25,2,14.460000038147,2.1800000667572,14.4899997711182,2.42000007629395L14.8699998855591,5.07000017166138C15.4799995422363,5.32000017166138,16.0400009155273,5.65000009536743,16.5599994659424,6.05000019073486L19.0499992370605,5.05000019073486C19.2700004577637,4.96999979019165,19.5400009155273,5.05000019073486,19.6599998474121,5.26999998092651L21.6599998474121,8.72999954223633C21.7800006866455,8.94999980926514,21.7299995422363,9.22000026702881,21.5400009155273,9.36999988555908L19.4300003051758,11.0200004577637C19.4699993133545,11.3400001525879 19.5,11.6599998474121 19.5,12 19.5,12.3400001525879 19.4699993133545,12.6599998474121 19.4300003051758,12.9799995422363L21.5400009155273,14.6300001144409C21.7299995422363,14.7799997329712,21.7800006866455,15.0500001907349,21.6599998474121,15.2700004577637L19.6599998474121,18.7299995422363C19.5400009155273,18.9500007629395,19.2800006866455,19.0400009155273,19.0499992370605,18.9500007629395L16.5599994659424,17.9500007629395C16.0400009155273,18.3400001525879,15.4799995422363,18.6800003051758,14.8699998855591,18.9300003051758L14.4899997711182,21.5799999237061C14.460000038147,21.8199996948242,14.25,22,14,22L10,22C9.75,22,9.53999996185303,21.8199996948242,9.51000022888184,21.5799999237061L9.13000011444092,18.9300003051758C8.52000045776367,18.6800003051758,7.96000003814697,18.3500003814697,7.44000005722046,17.9500007629395L4.94999980926514,18.9500007629395C4.73000001907349,19.0300006866455,4.46000003814697,18.9500007629395,4.34000015258789,18.7299995422363L2.33999991416931,15.2700004577637C2.22000002861023,15.0500001907349,2.26999998092651,14.7799997329712,2.46000003814697,14.6300001144409L4.57000017166138,12.9799995422363C4.53000020980835,12.6599998474121 4.5,12.3299999237061 4.5,12 4.5,11.6700000762939 4.53000020980835,11.3400001525879 4.57000017166138,11.0200004577637L2.46000003814697,9.36999988555908C2.26999998092651,9.22000026702881,2.21000003814697,8.94999980926514,2.33999991416931,8.72999954223633L4.34000015258789,5.26999998092651C4.46000003814697,5.05000019073486,4.71999979019165,4.96000003814697,4.94999980926514,5.05000019073486L7.44000005722046,6.05000019073486C7.96000003814697,5.65999984741211,8.52000045776367,5.32000017166138,9.13000011444092,5.07000017166138L9.51000022888184,2.42000007629395C9.53999996185303,2.1800000667572,9.75,2,10,2z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+                    <DrawingImage x:Key="ic_setting_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="#FF444444" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M12,8.5C10.0699996948242,8.5 8.5,10.0699996948242 8.5,12 8.5,13.9300003051758 10.0699996948242,15.5 12,15.5 13.9300003051758,15.5 15.5,13.9300003051758 15.5,12 15.5,10.0699996948242 13.9300003051758,8.5 12,8.5z M10,2L14,2C14.25,2,14.460000038147,2.1800000667572,14.4899997711182,2.42000007629395L14.8699998855591,5.07000017166138C15.4799995422363,5.32000017166138,16.0400009155273,5.65000009536743,16.5599994659424,6.05000019073486L19.0499992370605,5.05000019073486C19.2700004577637,4.96999979019165,19.5400009155273,5.05000019073486,19.6599998474121,5.26999998092651L21.6599998474121,8.72999954223633C21.7800006866455,8.94999980926514,21.7299995422363,9.22000026702881,21.5400009155273,9.36999988555908L19.4300003051758,11.0200004577637C19.4699993133545,11.3400001525879 19.5,11.6599998474121 19.5,12 19.5,12.3400001525879 19.4699993133545,12.6599998474121 19.4300003051758,12.9799995422363L21.5400009155273,14.6300001144409C21.7299995422363,14.7799997329712,21.7800006866455,15.0500001907349,21.6599998474121,15.2700004577637L19.6599998474121,18.7299995422363C19.5400009155273,18.9500007629395,19.2800006866455,19.0400009155273,19.0499992370605,18.9500007629395L16.5599994659424,17.9500007629395C16.0400009155273,18.3400001525879,15.4799995422363,18.6800003051758,14.8699998855591,18.9300003051758L14.4899997711182,21.5799999237061C14.460000038147,21.8199996948242,14.25,22,14,22L10,22C9.75,22,9.53999996185303,21.8199996948242,9.51000022888184,21.5799999237061L9.13000011444092,18.9300003051758C8.52000045776367,18.6800003051758,7.96000003814697,18.3500003814697,7.44000005722046,17.9500007629395L4.94999980926514,18.9500007629395C4.73000001907349,19.0300006866455,4.46000003814697,18.9500007629395,4.34000015258789,18.7299995422363L2.33999991416931,15.2700004577637C2.22000002861023,15.0500001907349,2.26999998092651,14.7799997329712,2.46000003814697,14.6300001144409L4.57000017166138,12.9799995422363C4.53000020980835,12.6599998474121 4.5,12.3299999237061 4.5,12 4.5,11.6700000762939 4.53000020980835,11.3400001525879 4.57000017166138,11.0200004577637L2.46000003814697,9.36999988555908C2.26999998092651,9.22000026702881,2.21000003814697,8.94999980926514,2.33999991416931,8.72999954223633L4.34000015258789,5.26999998092651C4.46000003814697,5.05000019073486,4.71999979019165,4.96000003814697,4.94999980926514,5.05000019073486L7.44000005722046,6.05000019073486C7.96000003814697,5.65999984741211,8.52000045776367,5.32000017166138,9.13000011444092,5.07000017166138L9.51000022888184,2.42000007629395C9.53999996185303,2.1800000667572,9.75,2,10,2z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
 
-        <DrawingImage x:Key="ic_build_24px">
-            <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="#FF3377CC" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M6.58750009536743,1.15781271457672C8.53750038146973,0.900000035762787 10.6000003814697,1.5 12.1000003814697,3 14,4.90000009536743 14.5,7.59999990463257 13.6000003814697,9.89999961853027L22.7000007629395,19C23.1000003814697,19.2999992370605,23.1000003814697,20,22.6000003814697,20.3999996185303L20.2999992370605,22.7000007629395C19.8999996185303,23.1000003814697,19.2999992370605,23.1000003814697,18.8999996185303,22.7000007629395L9.80000019073486,13.6000003814697C7.5,14.5 4.80000019073486,14 2.90000009536743,12.1000003814697 0.899999976158142,10.1000003814697 0.400000005960464,7.09999990463257 1.60000002384186,4.69999980926514L6,9 9,6 4.69999980926514,1.70000016689301C5.29999971389771,1.42500007152557,5.9375,1.24375009536743,6.58750009536743,1.15781271457672z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+                    <DrawingImage x:Key="ic_build_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="#FF3377CC" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M6.58750009536743,1.15781271457672C8.53750038146973,0.900000035762787 10.6000003814697,1.5 12.1000003814697,3 14,4.90000009536743 14.5,7.59999990463257 13.6000003814697,9.89999961853027L22.7000007629395,19C23.1000003814697,19.2999992370605,23.1000003814697,20,22.6000003814697,20.3999996185303L20.2999992370605,22.7000007629395C19.8999996185303,23.1000003814697,19.2999992370605,23.1000003814697,18.8999996185303,22.7000007629395L9.80000019073486,13.6000003814697C7.5,14.5 4.80000019073486,14 2.90000009536743,12.1000003814697 0.899999976158142,10.1000003814697 0.400000005960464,7.09999990463257 1.60000002384186,4.69999980926514L6,9 9,6 4.69999980926514,1.70000016689301C5.29999971389771,1.42500007152557,5.9375,1.24375009536743,6.58750009536743,1.15781271457672z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
 
-        <!-- IconButton Style -->
-        <Style x:Key="IconButton" TargetType="{x:Type Button}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid>
-                            <Rectangle x:Name="baseRectangle" RadiusY="0" RadiusX="0" StrokeThickness="1" Fill="{x:Null}"/>
-                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Fill" TargetName="baseRectangle" Value="#88BBDDFF"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Fill" TargetName="baseRectangle" Value="#FFBBDDFF"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+                    <!-- IconButton Style -->
+                    <Style x:Key="IconButton" TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Grid>
+                                        <Rectangle x:Name="baseRectangle" RadiusY="0" RadiusX="0" StrokeThickness="1" Fill="{x:Null}"/>
+                                        <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Fill" TargetName="baseRectangle" Value="#88BBDDFF"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Fill" TargetName="baseRectangle" Value="#FFBBDDFF"/>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
 
     </Application.Resources>
 </Application>

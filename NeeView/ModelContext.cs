@@ -29,6 +29,9 @@ namespace NeeView
         public static ArchiverManager ArchiverManager { get; set; }
         public static BitmapLoaderManager BitmapLoaderManager { get; set; }
 
+        public static CommandTable CommandTable { get; private set; }
+
+
         public static void Initialize()
         {
             JobEngine = new JobEngine();
@@ -38,6 +41,8 @@ namespace NeeView
 
             ArchiverManager = new ArchiverManager();
             BitmapLoaderManager = new BitmapLoaderManager();
+
+            CommandTable = new CommandTable();
 
             SusieContext = new SusieContext();
         }

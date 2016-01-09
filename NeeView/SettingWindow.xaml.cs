@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -39,19 +44,43 @@ namespace NeeView
         public string SusiePluginPath
         {
             get { return _SusiePluginPath; }
-            set { _SusiePluginPath = value; Setting.SusieMemento.SusiePluginPath = value; UpdateSusiePluginSetting(); }
+            set
+            {
+                _SusiePluginPath = value;
+                Setting.SusieMemento.SusiePluginPath = value;
+                UpdateSusiePluginSetting();
+            }
         }
         #endregion
 
+
+        // 設定
         public Setting Setting { get; set; }
 
+        // Susieプラグインリスト
         public ObservableCollection<Susie.SusiePlugin> SusiePluginList { get; private set; } = new ObservableCollection<Susie.SusiePlugin>();
 
-        public static readonly RoutedCommand SusiePluginConfigCommand = new RoutedCommand("SusiePluginConfigCommand", typeof(MainWindow));
-        public static readonly RoutedCommand SusiePluginUpdateCommand = new RoutedCommand("SusiePluginUpdateCommand", typeof(MainWindow));
 
-        public static BackgroundStyle[] BackgroundStyleEnum { get; } = (BackgroundStyle[])Enum.GetValues(typeof(BackgroundStyle));
+        // コマンド一覧用パラメータ
+        public class CommandParam
+        {
+            public CommandType Key { get; set; }
+            public string Group { get; set; }
+            public string Header { get; set; }
+            public string ShortCut { get; set; }
+            public string MouseGesture { get; set; }
+            public bool IsShowMessage { get; set; }
+        }
 
+        // コマンド一覧
+        public ObservableCollection<CommandParam> CommandCollection { get; set; }
+
+
+        // Susieプラグイン コンフィグコマンド
+        public static readonly RoutedCommand SusiePluginConfigCommand = new RoutedCommand("SusiePluginConfigCommand", typeof(SettingWindow));
+ 
+
+        // 背景タイプリスト
         public static Dictionary<BackgroundStyle, string> BackgroundStyleList { get; } = new Dictionary<BackgroundStyle, string>
         {
             [BackgroundStyle.Black] = "黒色",
@@ -60,6 +89,7 @@ namespace NeeView
             [BackgroundStyle.Check] = "チェック模様",
         };
 
+        // 通知表示タイプリスト
         public static Dictionary<ShowMessageType, string> ShowMessageTypeList { get; } = new Dictionary<ShowMessageType, string>
         {
             [ShowMessageType.None] = "表示しない",
@@ -67,6 +97,7 @@ namespace NeeView
             [ShowMessageType.Tiny] = "小さく表示する",
         };
 
+        // 履歴MAXリスト
         public static List<int> MaxHistoryCountList { get; } = new List<int>
         {
             10,
@@ -75,6 +106,7 @@ namespace NeeView
             10000
         };
 
+        // スライドショー切り替え時間リスト
         public static List<double> SlideShowIntervalList { get; } = new List<double>
         {
             1,
@@ -93,64 +125,54 @@ namespace NeeView
             60,
         };
 
-        public class BookCommand
+
+
+        public SettingWindow(Setting setting)
         {
-            public BookCommandType Key { get; set; }
-            public string Group { get; set; }
-            public string Header { get; set; }
-            public string ShortCut { get; set; }
-            public string MouseGesture { get; set; }
-            public bool IsShowMessage { get; set; }
-        }
-
-        public ObservableCollection<BookCommand> BookCommandCollection { get; set; }
-
-        public MainWindowVM VM { get; set; }
-
-
-        public SettingWindow(MainWindowVM  vm, Setting setting)
-        {
-            VM = vm;
-            Setting = setting;
-
-            _SusiePluginPath = Setting.SusieMemento.SusiePluginPath;
-
-            BookCommandCollection = new ObservableCollection<BookCommand>();
-            CreateCommandList();
-
             InitializeComponent();
 
+            Setting = setting;
+            
+            // コマンド一覧作成
+            CommandCollection = new ObservableCollection<CommandParam>();
+            UpdateCommandList();
+
+            // プラグイン一覧作成
+            _SusiePluginPath = Setting.SusieMemento.SusiePluginPath;
+            UpdateSusiePluginList();
+            
+            // 自身をコンテキストにする
             this.DataContext = this;
 
+            // コマンド設定
             this.PluginListView.CommandBindings.Add(new CommandBinding(SusiePluginConfigCommand, SusiePluginConfigCommand_Executed));
-            this.SusieSettingTab.CommandBindings.Add(new CommandBinding(SusiePluginUpdateCommand, SusiePluginUpdateCommand_Executed));
-
-            UpdateSusiePluginList();
 
             // ESCでウィンドウを閉じる
             this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
         }
 
 
-        private void CreateCommandList()
+        // コマンド一覧 更新
+        private void UpdateCommandList()
         {
-            BookCommandCollection.Clear();
-            foreach (var header in BookCommandExtension.Headers)
+            CommandCollection.Clear();
+            foreach (var element in ModelContext.CommandTable)
             {
-                var item = new BookCommand()
+                var item = new CommandParam()
                 {
-                    Key = header.Key,
-                    Group = header.Value.Group,
-                    Header = header.Value.Text,
-                    ShortCut = Setting.BookCommandMemento[header.Key].ShortCutKey,
-                    MouseGesture = Setting.BookCommandMemento[header.Key].MouseGesture,
-                    IsShowMessage = Setting.BookCommandMemento[header.Key].IsShowMessage,
+                    Key = element.Key,
+                    Group = element.Value.Group,
+                    Header = element.Value.Text,
+                    ShortCut = Setting.CommandMememto[element.Key].ShortCutKey,
+                    MouseGesture = Setting.CommandMememto[element.Key].MouseGesture,
+                    IsShowMessage = Setting.CommandMememto[element.Key].IsShowMessage,
                 };
-                BookCommandCollection.Add(item);
+                CommandCollection.Add(item);
             }
         }
 
-    private void SusiePluginConfigCommand_Executed(object source, ExecutedRoutedEventArgs e)
+        // Susieプラグイン コンフィグ実行
+        private void SusiePluginConfigCommand_Executed(object source, ExecutedRoutedEventArgs e)
         {
             var plugin = (Susie.SusiePlugin)e.Parameter;
 
@@ -163,51 +185,52 @@ namespace NeeView
             }
         }
 
-        private void SusiePluginUpdateCommand_Executed(object source, ExecutedRoutedEventArgs e)
-        {
-            ModelContext.SusieContext.Restore(Setting.SusieMemento);
-            UpdateSusiePluginList();
-        }
-
+        // Susie環境 更新
         private void UpdateSusiePluginSetting()
         {
             ModelContext.SusieContext.Restore(Setting.SusieMemento);
             UpdateSusiePluginList();
         }
 
+        // Susieプラグイン一覧 更新
         public void UpdateSusiePluginList()
         {
             SusiePluginList.Clear();
 
-            foreach(var plugin in ModelContext.Susie.PluginCollection)
+            foreach (var plugin in ModelContext.Susie.PluginCollection)
             {
                 SusiePluginList.Add(plugin);
             }
         }
 
+        // 決定ボタン処理
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var command in BookCommandCollection)
+            // コマンド設定反映
+            foreach (var command in CommandCollection)
             {
-                Setting.BookCommandMemento[command.Key].ShortCutKey = command.ShortCut;
-                Setting.BookCommandMemento[command.Key].MouseGesture = command.MouseGesture;
-                Setting.BookCommandMemento[command.Key].IsShowMessage = command.IsShowMessage;
+                Setting.CommandMememto[command.Key].ShortCutKey = command.ShortCut;
+                Setting.CommandMememto[command.Key].MouseGesture = command.MouseGesture;
+                Setting.CommandMememto[command.Key].IsShowMessage = command.IsShowMessage;
             }
 
+            // Susie設定反映
             Setting.SusieMemento.SetSpiFiles(ModelContext.Susie);
 
             this.DialogResult = true;
             this.Close();
         }
 
+        // キャンセルボタン処理
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+        // ショートカットキー設定ボタン処理
         private void ShortCutSettingButton_Click(object sender, RoutedEventArgs e)
         {
-            var value = (BookCommand)this.CommandListView.SelectedValue;
+            var value = (CommandParam)this.CommandListView.SelectedValue;
 
             var dialog = new InputGestureSettingWindow(value);
             dialog.Owner = this;
@@ -219,9 +242,10 @@ namespace NeeView
             }
         }
 
+        // マウスジェスチャー設定ボタン処理
         private void MouseGestureSettingButton_Click(object sender, RoutedEventArgs e)
         {
-            var value = (BookCommand)this.CommandListView.SelectedValue;
+            var value = (CommandParam)this.CommandListView.SelectedValue;
 
             var dialog = new MouseGestureSettingWindow(value);
             dialog.Owner = this;
@@ -233,24 +257,24 @@ namespace NeeView
             }
         }
 
+        // キーバインド初期化ボタン処理
         private void ResetGestureSettingButton_Click(object sender, RoutedEventArgs e)
         {
-            Setting.BookCommandMemento = new BookCommandMemento(true);
-            CreateCommandList();
+            Setting.CommandMememto = CommandTable.CreateDefaultMemento();
+            UpdateCommandList();
             this.CommandListView.Items.Refresh();
         }
 
+        // 履歴クリアボタン処理
         private void ClearHistoryButton_Click(object sender, RoutedEventArgs e)
         {
-            //VM.BookCommands[BookCommandType.ClearHistory].Execute(this, null);
-            //VM.ClearHistor();
             Setting.BookHistoryMemento.History.Clear();
-            OnPropertyChanged("Setting");
+            OnPropertyChanged(nameof(Setting));
         }
     }
 
 
-
+    // プラグイングループ分け用
     [ValueConversion(typeof(string), typeof(string))]
     public class ApiVersionToApiTextConverter : IValueConverter
     {
@@ -273,7 +297,7 @@ namespace NeeView
         }
     }
 
-
+    // ジェスチャー表示用コンバータ
     [ValueConversion(typeof(string), typeof(string))]
     public class MouseGestureToDispTextConverter : IValueConverter
     {

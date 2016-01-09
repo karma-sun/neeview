@@ -1,39 +1,30 @@
-﻿/*
-Copyright (c) 2015 Mitsuhiro Ito (nee)
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
 
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
-
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-//using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace NeeView
 {
     /// <summary>
     /// FilenameBox.xaml の相互作用ロジック
     /// </summary>
-    public partial class FilenameBox : UserControl
+    public partial class DirectoryNameBox : UserControl
     {
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(
             "Text",
             typeof(string),
-            typeof(FilenameBox),
+            typeof(DirectoryNameBox),
             new FrameworkPropertyMetadata("", new PropertyChangedCallback(OnTextChanged)));
 
         public string Text
@@ -46,32 +37,12 @@ namespace NeeView
         {
         }
 
-
-        //
-        public static readonly DependencyProperty OpenFileDialogProperty =
-            DependencyProperty.Register(
-            "OpenFileDialog",
-            typeof(OpenFileDialog),
-            typeof(FilenameBox),
-            new FrameworkPropertyMetadata(new OpenFileDialog(), new PropertyChangedCallback(OnOpenFileDialogChanged)));
-
-        public OpenFileDialog OpenFileDialog
-        {
-            get { return (OpenFileDialog)GetValue(OpenFileDialogProperty); }
-            set { SetValue(OpenFileDialogProperty, value); }
-        }
-
-        private static void OnOpenFileDialogChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-        }
-
-
         //
         public static readonly DependencyProperty IsValidProperty =
             DependencyProperty.Register(
             "IsValid",
             typeof(bool),
-            typeof(FilenameBox),
+            typeof(DirectoryNameBox),
             new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsValidChanged)));
 
         public bool IsValid
@@ -85,30 +56,14 @@ namespace NeeView
         }
 
 
-
-
         //
-        public FilenameBox()
+        public DirectoryNameBox()
         {
             InitializeComponent();
         }
 
         private void ButtonOpenDialog_Click(object sender, RoutedEventArgs e)
         {
-#if false
-            var dialog = OpenFileDialog;
-
-            //dialog.InitialDirectory = VM.ProjectFolder;
-            //dialog.Title = "プロジェクトファイルの読み込み";
-            //dialog.DefaultExt = "*.png";
-            //dialog.Filter = "PNG File|*.png";
-
-            var result = dialog.ShowDialog();
-            if (result == true)
-            {
-                Text = dialog.FileName;
-            }
-#else
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
             dialog.Description = "フォルダ選択";
             dialog.SelectedPath = Text;
@@ -118,7 +73,6 @@ namespace NeeView
             {
                 Text = dialog.SelectedPath;
             }
-#endif
         }
 
         private void PathTextBox_PreviewDragOver(object sender, DragEventArgs e)
@@ -139,7 +93,15 @@ namespace NeeView
         {
             var dropFiles = e.Data.GetData(System.Windows.DataFormats.FileDrop) as string[];
             if (dropFiles == null) return;
-            Text = dropFiles[0];
+
+            if (Directory.Exists(dropFiles[0]))
+            {
+                Text = dropFiles[0];
+            }
+            else
+            {
+                Text = Path.GetDirectoryName(dropFiles[0]);
+            }
         }
     }
 

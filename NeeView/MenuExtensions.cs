@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,25 +13,15 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-    public static class CommonExtensions
-    {
-        public static void Swap<T>(ref T lhs, ref T rhs)
-        {
-            T temp = lhs;
-            lhs = rhs;
-            rhs = temp;
-        }
-    }
-
     public static partial class MenuExtensions
     {
+        // メニューコントロールのジェスチャーテキスト更新
         public static void UpdateInputGestureText(this ItemsControl control)
         {
             if (control == null) return;
 
             KeyGestureConverter kgc = new KeyGestureConverter();
-            KeyExGestureConverter kxgc = new KeyExGestureConverter();
-            //MouseGestureConverter mgc = new MouseGestureConverter();
+            KeyGestureExConverter kgxc = new KeyGestureExConverter();
             foreach (var item in control.Items.OfType<MenuItem>())
             {
                 var command = item.Command as RoutedCommand;
@@ -35,14 +30,14 @@ namespace NeeView
                     string text = "";
                     foreach (InputGesture gesture in command.InputGestures)
                     {
-                        // キーショートカットのみ
+                        // キーショートカットのみ対応
                         if (gesture is KeyGesture)
                         {
                             text += ((text.Length > 0) ? ", " : "") + kgc.ConvertToString(gesture);
                         }
                         else if (gesture is KeyExGesture)
                         {
-                            text += ((text.Length > 0) ? ", " : "") + kxgc.ConvertToString(gesture);
+                            text += ((text.Length > 0) ? ", " : "") + kgxc.ConvertToString(gesture);
                         }
                     }
                     item.InputGestureText = text;

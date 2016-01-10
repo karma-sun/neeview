@@ -27,7 +27,7 @@
 ------------
 
   MITライセンスのオープンソースなフリーソフトです。
-  詳細は同梱されている LICENSE.txt を参照してください。
+  詳細は同梱されている LICENSE.txt を参照してください。  
   外部ライブラリを使用しています。そのライセンスは LICENSE_THIRDPARTY.txt を参照してください
 
 ----------
@@ -51,4 +51,4 @@
 ----------
 
   * [ヨクアルナニカ](http://yokuarunanika.blogspot.jp/p/soft.html)
-  * [プロジェクトページ](https://bitbucket.org/neelabo/neeview/)
+  * [NeeView プロジェクトページ](https://bitbucket.org/neelabo/neeview/)

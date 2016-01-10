@@ -30,6 +30,7 @@ namespace NeeView
             {
                 if (_IsEnableSusie == value) return;
                 _IsEnableSusie = value;
+                SusieArchiver.IsEnable = _IsEnableSusie;
                 SusieBitmapLoader.IsEnable = _IsEnableSusie;
             }
         }

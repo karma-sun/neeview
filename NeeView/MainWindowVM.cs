@@ -663,8 +663,15 @@ namespace NeeView
                 if (c0.Width == 0) c0 = c1;
                 if (c1.Width == 0) c1 = c0;
 
-                // c1 の高さを c0 に合わせる
-                rate1 = c0.Height / c1.Height;
+                // 高さを 高い方に合わせる
+                if (c0.Height > c1.Height)
+                {
+                    rate1 = c0.Height / c1.Height;
+                }
+                else
+                {
+                    rate0 = c1.Height / c0.Height;
+                }
 
                 // 高さをあわせたときの幅の合計
                 content = new Size(c0.Width * rate0 + c1.Width * rate1, c0.Height);

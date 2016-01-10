@@ -46,7 +46,7 @@ namespace NeeView
     /// </summary>
     public class SusieBitmapLoader : IBitmapLoader
     {
-        public static bool IsEnable;
+        public static bool IsEnable { get; set; }
 
         public BitmapSource Load(Stream stream, string fileName)
         {

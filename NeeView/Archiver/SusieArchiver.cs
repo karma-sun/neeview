@@ -18,6 +18,8 @@ namespace NeeView
     /// </summary>
     public class SusieArchiver : Archiver
     {
+        public static bool IsEnable { get; set; }
+
         private string _ArchiveFileName;
         public override string FileName => _ArchiveFileName;
 

@@ -69,6 +69,11 @@ namespace NeeView
 
             foreach (var type in _OrderList[OrderType])
             {
+                if (type == BitmapLoaderType.Susie && !SusieBitmapLoader.IsEnable)
+                {
+                    continue;
+                }
+
                 if (_SupprtedFileTypes[type].Contains(ext))
                 {
                     return type;

@@ -90,11 +90,11 @@ namespace NeeView
         };
 
         // 通知表示タイプリスト
-        public static Dictionary<ShowMessageType, string> ShowMessageTypeList { get; } = new Dictionary<ShowMessageType, string>
+        public static Dictionary<ShowMessageStyle, string> ShowMessageTypeList { get; } = new Dictionary<ShowMessageStyle, string>
         {
-            [ShowMessageType.None] = "表示しない",
-            [ShowMessageType.Normal] = "表示する",
-            [ShowMessageType.Tiny] = "小さく表示する",
+            [ShowMessageStyle.None] = "表示しない",
+            [ShowMessageStyle.Normal] = "表示する",
+            [ShowMessageStyle.Tiny] = "小さく表示する",
         };
 
         // 履歴MAXリスト

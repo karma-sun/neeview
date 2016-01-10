@@ -1,20 +1,23 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Windows.Input;
-using Microsoft.Win32;
 using System.Windows;
-using System.Diagnostics;
-using System.Collections.ObjectModel;
-using System.Windows.Media.Imaging;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Runtime.Serialization;
 using System.Windows.Data;
-//using System.Drawing;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+
 
 namespace NeeView
 {
@@ -27,7 +30,8 @@ namespace NeeView
         Check
     };
 
-    public enum ShowMessageType
+    // 通知表示の種類
+    public enum ShowMessageStyle
     {
         None,
         Normal,
@@ -35,17 +39,13 @@ namespace NeeView
     }
 
 
-
-    public class DispPage
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-    }
-
-
-
+    /// <summary>
+    /// ViewModel
+    /// </summary>
     public class MainWindowVM : INotifyPropertyChanged, IDisposable
     {
+        #region Events
+
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
@@ -58,22 +58,41 @@ namespace NeeView
         }
         #endregion
 
+        // ビューモデルの設定変更通知
+        // マウスドラッグ情報のリセット等に使用されます。
         public event EventHandler ViewModeChanged;
 
-        public void OnViewModeChanged()
-        {
-            ViewModeChanged?.Invoke(this, null);
-        }
+        // ロード中通知
+        public event EventHandler<string> Loading;
 
+        // 表示変更を通知
+        public event EventHandler ViewChanged;
+
+        // ショートカット変更を通知
+        public event EventHandler InputGestureChanged;
+
+        #endregion
+
+
+        // 移動制限モード
         public bool IsLimitMove { get; set; }
 
+        // 回転、拡縮をコンテンツの中心基準にする
         public bool IsControlCenterImage { get; set; }
 
+        // 回転スナップ
         public bool IsAngleSnap { get; set; }
 
-        public ShowMessageType CommandShowMessageType { get; set; }
-        public ShowMessageType GestureShowMessageType { get; set; }
+        // 表示開始時の基準
+        public bool IsViewStartPositionCenter { get; set; }
 
+        // 通知表示スタイル
+        public ShowMessageStyle CommandShowMessageStyle { get; set; }
+
+        // ゼスチャ表示スタイル
+        public ShowMessageStyle GestureShowMessageStyle { get; set; }
+
+        // スライダー方向
         #region Property: IsSliderDirectionReversed
         private bool _IsSliderDirectionReversed;
         public bool IsSliderDirectionReversed
@@ -90,7 +109,44 @@ namespace NeeView
         }
         #endregion
 
+        // スケールモード
+        #region Property: StretchMode
+        private PageStretchMode _StretchMode = PageStretchMode.Uniform;
+        public PageStretchMode StretchMode
+        {
+            get { return _StretchMode; }
+            set
+            {
+                if (_StretchMode != value)
+                {
+                    _StretchMode = value;
+                    OnPropertyChanged();
+                    UpdateContentSize();
+                    ViewChanged?.Invoke(this, null);
+                    ViewModeChanged?.Invoke(this, null);
+                }
+            }
+        }
+        #endregion
 
+        // 背景スタイル
+        #region Property: Background
+        private BackgroundStyle _Background;
+        public BackgroundStyle Background
+        {
+            get { return _Background; }
+            set { _Background = value; UpdateBackgroundBrush(); OnPropertyChanged(); }
+        }
+        #endregion
+
+
+
+
+        // コマンドバインド用
+        // View側で定義されます
+        public Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; }
+
+        // 空フォルダ通知表示のON/OFF
         #region Property: IsVisibleEmptyPageMessage
         private bool _IsVisibleEmptyPageMessage = false;
         public bool IsVisibleEmptyPageMessage
@@ -100,37 +156,35 @@ namespace NeeView
         }
         #endregion
 
-        public Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; }
-
-        public JobEngine JobEngine => ModelContext.JobEngine;
-        //public int JobCount { get { return ModelContext.JobEngine.Context.JobQueue.Count; } }
-
+        // 現在ページ番号
         public int Index
         {
             get { return BookHub.GetPageIndex(); }
             set { BookHub.SetPageIndex(value); }
         }
 
+        // 最大ページ番号
         public int IndexMax
         {
             get { return BookHub.GetPageCount(); }
         }
 
-        // 開発用：ページリスト
-        public List<Page> PageList => BookHub.Current?.Pages;
+        #region Window Icon
 
-
-
-
+        // ウィンドウアイコン：標準
         private ImageSource _WindowIconDefault;
+
+        // ウィンドウアイコン：スライドショー再生中
         private ImageSource _WindowIconPlay;
 
+        // ウィンドウアイコン初期化
         private void InitializeWindowIcons()
         {
-            _WindowIconDefault = null; // BitmapFrame.Create(new Uri("pack://application:,,,/App.ico", UriKind.RelativeOrAbsolute));
-            _WindowIconPlay = BitmapFrame.Create(new Uri("pack://application:,,,/Play.ico", UriKind.RelativeOrAbsolute));
+            _WindowIconDefault = null;
+            _WindowIconPlay = BitmapFrame.Create(new Uri("pack://application:,,,/Resources/Play.ico", UriKind.RelativeOrAbsolute));
         }
 
+        // 現在のウィンドウアイコン取得
         public ImageSource WindowIcon
         {
             get
@@ -139,7 +193,11 @@ namespace NeeView
             }
         }
 
+        #endregion
 
+        #region Window Title
+
+        // ウィンドウタイトル
         public string WindowTitle
         {
             get
@@ -168,6 +226,7 @@ namespace NeeView
             }
         }
 
+        // ロード中パス
         private string _LoadingPath;
         public string LoadingPath
         {
@@ -175,6 +234,9 @@ namespace NeeView
             set { _LoadingPath = value; OnPropertyChanged("WindowTitle"); }
         }
 
+        #endregion
+
+        // 通知テキスト(標準)
         #region Property: InfoText
         private string _InfoText;
         public string InfoText
@@ -182,9 +244,13 @@ namespace NeeView
             get { return _InfoText; }
             set { _InfoText = value; OnPropertyChanged(); }
         }
+
+        // 通知テキストフォントサイズ
+        public double InfoTextFontSize { get; set; } = 24.0;
+
         #endregion
 
-
+        // 通知テキスト(控えめ)
         #region Property: TinyInfoText
         private string _TinyInfoText;
         public string TinyInfoText
@@ -194,22 +260,10 @@ namespace NeeView
         }
         #endregion
 
-        public double InfoTextFontSize { get; set; } = 24.0;
-
-
+        // 本設定 公開
         public Book.Memento BookSetting => BookHub.BookMemento;
 
-
-        public bool IsViewStartPositionCenter { get; set; }
-
-
-        public event EventHandler<string> Loading
-        {
-            add { BookHub.Loading += value; }
-            remove { BookHub.Loading -= value; }
-        }
-
-
+        // 最近使ったフォルダ
         #region Property: LastFiles
         private List<Book.Memento> _LastFiles;
         public List<Book.Memento> LastFiles
@@ -219,66 +273,69 @@ namespace NeeView
         }
         #endregion
 
-        #region Property: StretchMode
-        private PageStretchMode _StretchMode = PageStretchMode.Uniform;
-        public PageStretchMode StretchMode
+        // コンテンツ
+        public ObservableCollection<ViewContent> Contents { get; private set; }
+
+        // Foregroudh Brush：ファイルページのフォントカラー用
+        private Brush _ForegroundBrush = Brushes.White;
+        public Brush ForegroundBrush
         {
-            get { return _StretchMode; }
-            set
-            {
-                if (_StretchMode != value)
-                {
-                    _StretchMode = value;
-                    OnPropertyChanged();
-                    UpdateContentsWidth();
-                    ViewChanged?.Invoke(this, null);
-                    ViewModeChanged?.Invoke(this, null);
-                }
-            }
+            get { return _ForegroundBrush; }
+            set { if (_ForegroundBrush != value) { _ForegroundBrush = value; OnPropertyChanged(); } }
+        }
+
+        // Backgroud Brush
+        #region Property: BackgroundBrush
+        private Brush _BackgroundBrush = Brushes.Black;
+        public Brush BackgroundBrush
+        {
+            get { return _BackgroundBrush; }
+            set { if (_BackgroundBrush != value) { _BackgroundBrush = value; OnPropertyChanged(); UpdateForegroundBrush(); } }
         }
         #endregion
 
 
-        public ObservableCollection<FrameworkElement> Contents { get; private set; }
-        public ObservableCollection<double> ContentsWidth { get; private set; }
-        public ObservableCollection<double> ContentsHeight { get; private set; }
-
-        public Brush _PageColor = Brushes.Black;
-
-
-        public event EventHandler ViewChanged;
-        public event EventHandler InputGestureChanged;
-
+        // 本管理
         public BookHub BookHub { get; private set; }
 
-        public CommandTable CommandCollection => ModelContext.CommandTable; // TODO:定義位置とか
 
-        //public FolderOrder FolderOrder => BookHub.FolderOrder;
+        // 標準ウィンドウタイトル
+        private string _DefaultWindowTitle;
 
-        private Setting _Setting;
+        // ユーザー設定ファイル名
+        private string _UserSettingFileName;
 
 
+        #region 開発用
+
+        // 開発用：JobEndine公開
+        public JobEngine JobEngine => ModelContext.JobEngine;
+
+        // 開発用：ページリスト
+        public List<Page> PageList => BookHub.Current?.Pages;
+
+        #endregion
 
 
+        // コンストラクタ
         public MainWindowVM()
         {
             InitializeWindowIcons();
 
+            // ModelContext
             ModelContext.Initialize();
-
-            BookHub = new BookHub();
-
-            //ModelContext.BookHistory = new BookHistory();
-
-            //CommandCollection = new CommandTable(this, BookHub);
-            //CommandCollection.Initialize(this, BookHub, null);
-            CommandCollection.SetTarget(this, BookHub);
-
             ModelContext.JobEngine.StatusChanged +=
                 (s, e) => OnPropertyChanged(nameof(JobEngine));
 
+            // BookHub
+            BookHub = new BookHub();
+
             BookHub.Loading +=
-                (s, e) => LoadingPath = e;
+                (s, e) =>
+                {
+                    LoadingPath = e;
+                    Loading?.Invoke(s, e);
+                };
 
             BookHub.BookChanged +=
                 OnBookChanged;
@@ -295,23 +352,23 @@ namespace NeeView
                     OnPropertyChanged(nameof(BookSetting));
                     OnPropertyChanged(nameof(BookHub));
                 };
+
             BookHub.InfoMessage +=
                 (s, e) => Messenger.Send(this, new MessageEventArgs("MessageShow") { Parameter = new MessageShowParams(e) });
 
             BookHub.SlideShowModeChanged +=
                 (s, e) => OnPropertyChanged(nameof(WindowIcon));
 
-            Contents = new ObservableCollection<FrameworkElement>();
-            Contents.Add(null);
-            Contents.Add(null);
-            ContentsWidth = new ObservableCollection<double>();
-            ContentsWidth.Add(0);
-            ContentsWidth.Add(0);
-            ContentsHeight = new ObservableCollection<double>();
-            ContentsHeight.Add(0);
-            ContentsHeight.Add(0);
 
-            // title
+            // CommandTable
+            ModelContext.CommandTable.SetTarget(this, BookHub);
+
+            // Contents
+            Contents = new ObservableCollection<ViewContent>();
+            Contents.Add(new ViewContent());
+            Contents.Add(new ViewContent());
+
+            // Window title
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
             _DefaultWindowTitle = $"{assembly.GetName().Name} {ver.FileMajorPart}.{ver.ProductMinorPart}";
@@ -319,12 +376,13 @@ namespace NeeView
             _DefaultWindowTitle += " [Debug]";
 #endif
 
-            // setting filename
-            _SettingFileName = System.IO.Path.GetDirectoryName(assembly.Location) + "\\UserSetting.xml";
+            // UserSetting filename
+            _UserSettingFileName = System.IO.Path.GetDirectoryName(assembly.Location) + "\\UserSetting.xml";
 
             // messenger
             Messenger.AddReciever("UpdateLastFiles", (s, e) => UpdateLastFiles());
         }
+
 
         // 本が変更された
         private void OnBookChanged(object sender, bool isBookmark)
@@ -338,11 +396,12 @@ namespace NeeView
                 }
             });
 
+            OnPropertyChanged(nameof(Index));
             OnPropertyChanged(nameof(IndexMax));
 
             UpdateLastFiles();
 
-            UpdatePageList();
+            UpdatePageList(); // 開発用(重い)
         }
 
         // 開発用：ページ更新
@@ -352,25 +411,20 @@ namespace NeeView
             //OnPropertyChanged(nameof(PageList));
         }
 
+        // 最近使ったファイル 更新
         private void UpdateLastFiles()
         {
-            // 最近使ったファイル
             LastFiles = ModelContext.BookHistory.ListUp(10);
         }
 
+        // 履歴削除
         public void ClearHistor()
         {
             ModelContext.BookHistory.Clear();
             UpdateLastFiles();
         }
 
-        private Brush _ForegroundBrush = Brushes.White;
-        public Brush ForegroundBrush
-        {
-            get { return _ForegroundBrush; }
-            set { if (_ForegroundBrush != value) { _ForegroundBrush = value; OnPropertyChanged(); } }
-        }
-
+        // Foregroud Brush 更新
         private void UpdateForegroundBrush()
         {
             var solidColorBrush = BackgroundBrush as SolidColorBrush;
@@ -389,25 +443,8 @@ namespace NeeView
             }
         }
 
-        #region Property: BackgroundBrush
-        private Brush _BackgroundBrush = Brushes.Black;
-        public Brush BackgroundBrush
-        {
-            get { return _BackgroundBrush; }
-            set { if (_BackgroundBrush != value) { _BackgroundBrush = value; OnPropertyChanged(); UpdateForegroundBrush(); } }
-        }
-        #endregion
-
-        #region Property: Background
-        private BackgroundStyle _Background;
-        public BackgroundStyle Background
-        {
-            get { return _Background; }
-            set { _Background = value; OnBackgroundChanged(this, null); OnPropertyChanged(); }
-        }
-        #endregion
-
-        private void OnBackgroundChanged(object sender, EventArgs e)
+        // Background Brush 更新
+        private void UpdateBackgroundBrush()
         {
             switch (this.Background)
             {
@@ -419,7 +456,7 @@ namespace NeeView
                     BackgroundBrush = Brushes.White;
                     break;
                 case BackgroundStyle.Auto:
-                    BackgroundBrush = _PageColor;
+                    BackgroundBrush = Contents[Contents[1].IsValid ? 1 : 0].Color;
                     break;
                 case BackgroundStyle.Check:
                     BackgroundBrush = (DrawingBrush)App.Current.Resources["CheckerBrush"];
@@ -427,86 +464,85 @@ namespace NeeView
             }
         }
 
+        #region アプリ設定
 
-        private string _DefaultWindowTitle;
-        private string _SettingFileName;
-
-        public Setting CreateSettingContext()
+        // アプリ設定作成
+        public Setting CreateSetting()
         {
             var setting = new Setting();
+
             setting.ViewMemento = this.CreateMemento();
             setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
             setting.BookHubMemento = BookHub.CreateMemento();
-            setting.CommandMememto = CommandCollection.CreateMemento();
-
+            setting.CommandMememto = ModelContext.CommandTable.CreateMemento();
             setting.BookHistoryMemento = ModelContext.BookHistory.CreateMemento();
 
             return setting;
         }
 
-        public void SetSettingContext(Setting setting)
+        // アプリ設定反映
+        public void RestoreSetting(Setting setting)
         {
             this.Restore(setting.ViewMemento);
             ModelContext.SusieContext.Restore(setting.SusieMemento);
             BookHub.Restore(setting.BookHubMemento);
-            CommandCollection.Restore(setting.CommandMememto);
-            //setting.GestureSetting.Restore(CommandCollection);
+
+            ModelContext.CommandTable.Restore(setting.CommandMememto);
+            InputGestureChanged?.Invoke(this, null);
 
             ModelContext.BookHistory.Restore(setting.BookHistoryMemento);
             UpdateLastFiles();
-
-            InputGestureChanged?.Invoke(this, null);
         }
 
+
+        // アプリ設定読み込み
         public void LoadSetting(Window window)
         {
+            Setting setting;
+
             // 設定の読み込み
-            if (System.IO.File.Exists(_SettingFileName))
+            if (System.IO.File.Exists(_UserSettingFileName))
             {
                 try
                 {
-                    _Setting = Setting.Load(_SettingFileName);
+                    setting = Setting.Load(_UserSettingFileName);
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
                     Messenger.MessageBox(this, "設定の読み込みに失敗しました。初期設定で起動します。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
-                    _Setting = new Setting();
+                    setting = new Setting();
                 }
             }
             else
             {
-                _Setting = new Setting();
+                setting = new Setting();
             }
 
-            this.Restore(_Setting.ViewMemento);
-            ModelContext.SusieContext.Restore(_Setting.SusieMemento);
-            BookHub.Restore(_Setting.BookHubMemento);
-            CommandCollection.Restore(_Setting.CommandMememto);
+            // 設定反映
+            RestoreSetting(setting);
 
-            ModelContext.BookHistory.Restore(_Setting.BookHistoryMemento);
-            UpdateLastFiles();
-
-            InputGestureChanged?.Invoke(this, null);
-
-            WindowPlacement.Restore(window, _Setting.WindowPlacement);
+            // ウィンドウ座標復元
+            WindowPlacement.Restore(window, setting.WindowPlacement);
         }
 
+
+        // アプリ設定保存
         public void SaveSetting(Window window)
         {
-            _Setting = new Setting();
-            _Setting.WindowPlacement = WindowPlacement.CreateMemento(window);
-
-            _Setting.ViewMemento = this.CreateMemento();
-            _Setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
-            _Setting.BookHubMemento = BookHub.CreateMemento();
-            _Setting.CommandMememto = CommandCollection.CreateMemento();
-
+            // 現在の本を履歴に登録
             ModelContext.BookHistory.Add(BookHub.Current);
-            _Setting.BookHistoryMemento = ModelContext.BookHistory.CreateMemento();
 
-            _Setting.Save(_SettingFileName);
+            var setting = CreateSetting();
+
+            // ウィンドウ座標保存
+            setting.WindowPlacement = WindowPlacement.CreateMemento(window);
+
+            // 設定をファイルに保存
+            setting.Save(_UserSettingFileName);
         }
+
+        #endregion
 
 
         // 表示コンテンツ更新
@@ -514,48 +550,47 @@ namespace NeeView
         {
             var book = BookHub.Current;
 
-            Brush pageColor = Brushes.Black;
-
             if (book != null)
             {
-                //
-                IsVisibleEmptyPageMessage = book.ViewContents.All(content => content == null);
+                // ページが存在しない場合、専用メッセージを表示する
+                IsVisibleEmptyPageMessage = book.ViewContentSources.All(content => content == null);
 
-                //
+                // コンテンツのコントロール作成
                 for (int index = 0; index < 2; ++index)
                 {
                     int cid = (book.BookReadOrder == PageReadOrder.RightToLeft) ? index : 1 - index;
 
-                    ViewContent content = book.ViewContents[cid];
+                    ViewContentSource source = book.ViewContentSources[cid];
 
-                    if (string.IsNullOrEmpty(book.Place) || content == null)
+                    if (string.IsNullOrEmpty(book.Place) || source == null)
                     {
-                        Contents[index] = null;
+                        Contents[index].Content = null;
                     }
                     else
                     {
-                        Contents[index] = content.CreateControl(new Binding("ForegroundBrush") { Source = this });
+                        Contents[index].Content = source.CreateControl(new Binding("ForegroundBrush") { Source = this });
+                        Contents[index].Size = new Size(source.Width, source.Height);
                     }
 
-
-                    //
-                    if (content?.Color != null)
+                    if (source?.Color != null)
                     {
-                        pageColor = new SolidColorBrush(content.Color);
+                        Contents[index].Color = new SolidColorBrush(source.Color);
                     }
                 }
             }
             else
             {
-                Contents[0] = null;
-                Contents[1] = null;
+                Contents[0].Content = null;
+                Contents[1].Content = null;
             }
 
-            _PageColor = pageColor;
-            OnBackgroundChanged(sender, null);
+            // 背景色更新
+            UpdateBackgroundBrush();
 
-            UpdateContentsWidth();
+            // コンテンツサイズ更新
+            UpdateContentSize();
 
+            // 表示更新を通知
             ViewChanged?.Invoke(this, null);
         }
 
@@ -568,64 +603,61 @@ namespace NeeView
         }
 
 
-
+        // ビューエリアサイズ
         private double _ViewWidth;
         private double _ViewHeight;
 
+        // ビューエリアサイズを更新
         public void SetViewSize(double width, double height)
         {
             _ViewWidth = width;
             _ViewHeight = height;
 
-            UpdateContentsWidth();
+            UpdateContentSize();
         }
 
-        private void UpdateContentsWidth()
+        // コンテンツ表示サイズを更新
+        private void UpdateContentSize()
         {
-            if (BookHub.Current == null) return;
+            if (!Contents.Any(e => e.IsValid)) return;
 
             var scales = CalcContentScale(_ViewWidth, _ViewHeight);
 
             for (int i = 0; i < 2; ++i)
             {
-                int cid = (BookHub.Current.BookReadOrder == PageReadOrder.RightToLeft) ? i : 1 - i;
-
-                //ContentsWidth[i] = CalcContentWidth(i, _ViewWidth, _ViewHeight);
-                //var scale = CalcContentScale(i, _ViewWidth, _ViewHeight);
-                var size = GetContentSize(BookHub.Current.ViewContents[cid]);
-                ContentsWidth[i] = size.Width * scales[cid];
-                ContentsHeight[i] = size.Height * scales[cid];
+                var size = Contents[i].Size;
+                Contents[i].Width = Math.Floor(size.Width * scales[i]);
+                Contents[i].Height = Math.Floor(size.Height * scales[i]);
             }
         }
 
-        //
+        // ストレッチモードに合わせて各コンテンツのスケールを計算する
         private double[] CalcContentScale(double width, double height)
         {
-            var c0 = GetContentSize(BookHub.Current.ViewContents[0]);
-            var c1 = GetContentSize(BookHub.Current.ViewContents[1]);
+            var c0 = Contents[0].Size;
+            var c1 = Contents[1].Size;
 
+            // オリジナルサイズ
             if (this.StretchMode == PageStretchMode.None)
             {
-                return new double[] { 1.0, 1.0 }; // ; // (contentId == 0) ? c0.X : c1.X;
+                return new double[] { 1.0, 1.0 };
             }
-
 
             double rate0 = 1.0;
             double rate1 = 1.0;
 
+            // 2ページ合わせたコンテンツの表示サイズを求める
             Size content;
-
-            //if (_Book.PageMode == 1)
-            if (BookHub.Current.ViewContents[1] == null)
+            if (!Contents[1].IsValid)
             {
                 content = c0;
             }
             else
             {
                 // どちらもImageでない
-                if (c0.Width == 0 && c1.Width == 0)
+                if (c0.Width < 0.1 && c1.Width < 0.1)
                 {
-                    return new double[] { 1.0, 1.0 }; // 1.0; //  width * 0.5;
+                    return new double[] { 1.0, 1.0 };
                 }
 
                 if (c0.Width == 0) c0 = c1;
@@ -638,10 +670,9 @@ namespace NeeView
                 content = new Size(c0.Width * rate0 + c1.Width * rate1, c0.Height);
             }
 
-            //
+            // ビューエリアサイズに合わせる場合のスケール
             double rateW = width / content.Width;
             double rateH = height / content.Height;
-
 
             // 拡大はしない
             if (this.StretchMode == PageStretchMode.Inside)
@@ -685,172 +716,86 @@ namespace NeeView
                 }
             }
 
-            //
             return new double[] { rate0, rate1 };
-
-            /*
-            // 計算された幅を返す
-
-            if (contentId == 0)
-            {
-                return rate0; // c0.X * rate0;
-            }
-            else
-            {
-                return rate1; // c1.X * rate1;
-            }
-            */
-        }
-
-        //
-        private Size GetContentSize(ViewContent content)
-        {
-            var size = new Size();
-
-            if (content?.Content == null)
-            {
-                size.Width = 0;
-                size.Height = 0;
-            }
-            else
-            {
-                size.Width = content.Width;
-                size.Height = content.Height;
-            }
-            return size;
         }
 
 
 
-        // 
-        /*
-        public void Execute(BookCommandType type)
-        {
-            _Commands[type].Execute(null);
-        }
-        */
-
-        // 
+        // コマンド実行 
         public void Execute(CommandType type, object param)
         {
             // 通知
-            //if (CommandCollection.ShortcutSource[type].IsShowMessage)
-            if (CommandCollection[type].IsShowMessage)
+            if (ModelContext.CommandTable[type].IsShowMessage)
             {
-                string message = CommandCollection[type].ExecuteMessage(param);
+                string message = ModelContext.CommandTable[type].ExecuteMessage(param);
 
-                switch (CommandShowMessageType)
+                switch (CommandShowMessageStyle)
                 {
-                    case ShowMessageType.Normal:
-                        //InfoText = BookCommandExtension.Headers[type].Text;
+                    case ShowMessageStyle.Normal:
                         Messenger.Send(this, new MessageEventArgs("MessageShow")
                         {
                             Parameter = new MessageShowParams(message)
                         });
                         break;
-                    case ShowMessageType.Tiny:
+                    case ShowMessageStyle.Tiny:
                         TinyInfoText = message;
                         break;
                 }
             }
 
             // 実行
-            CommandCollection[type].Execute(param);
+            ModelContext.CommandTable[type].Execute(param);
         }
 
-        //
+
+        // ゼスチャ表示
         public void ShowGesture(string gesture, string commandName)
         {
             if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
 
-            switch (GestureShowMessageType)
+            switch (GestureShowMessageStyle)
             {
-                case ShowMessageType.Normal:
-                    //InfoText = ((commandName != null) ? commandName + "\n" : "") + gesture;
+                case ShowMessageStyle.Normal:
                     Messenger.Send(this, new MessageEventArgs("MessageShow")
                     {
                         Parameter = new MessageShowParams(((commandName != null) ? commandName + "\n" : "") + gesture)
                     });
                     break;
-                case ShowMessageType.Tiny:
+                case ShowMessageStyle.Tiny:
                     TinyInfoText = gesture + ((commandName != null) ? " " + commandName : "");
                     break;
             }
         }
 
 
-        public List<InputGesture> GetShortCutCollection(CommandType type)
-        {
-            var list = new List<InputGesture>();
-            if (CommandCollection[type].ShortCutKey != null)
-            {
-                foreach (var key in CommandCollection[type].ShortCutKey.Split(','))
-                {
-                    InputGesture inputGesture = InputGestureConverter.ConvertFromString(key);
-                    if (inputGesture != null)
-                    {
-                        list.Add(inputGesture);
-                    }
-                    else
-                    {
-                        Debug.WriteLine("no support gesture: " + key);
-                    }
 
-#if false
-                    try
-                    {
-                        KeyGestureConverter converter = new KeyGestureConverter();
-                        KeyGesture keyGesture = (KeyGesture)converter.ConvertFromString(key);
-                        list.Add(keyGesture);
-                        continue;
-                    }
-                    catch { }
 
-                    try
-                    {
-                        MouseGestureConverter converter = new MouseGestureConverter();
-                        MouseGesture mouseGesture = (MouseGesture)converter.ConvertFromString(key);
-                        list.Add(mouseGesture);
-                        continue;
-                    }
-                    catch { }
-
-                    Debug.WriteLine("no support gesture: " + key);
-#endif
-                }
-            }
-
-            return list;
-        }
-
-        public string GetMouseGesture(CommandType type)
-        {
-            return CommandCollection[type].MouseGesture;
-        }
-
-        /*
-        private void JobEngineEvent(object sender, Job e)
-        {
-            OnPropertyChanged(nameof(JobCount));
-        }
-        */
-
-        //
+        // スライドショーの表示間隔
         public double SlideShowInterval => BookHub.SlideShowInterval;
 
+        // スライドショー：次のスライドへ
         public void NextSlide()
         {
             BookHub.NextSlide();
         }
 
 
-        //
+
+        // フォルダ読み込み
         public void Load(string path)
         {
-            //BookHub.IsEnableSlideShow = false; // スライドショウ停止
             BookHub.Load(path, BookLoadOption.None);
         }
 
+
+        // 廃棄処理
+        public void Dispose()
+        {
+            ModelContext.Terminate();
+        }
+
+
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -877,17 +822,17 @@ namespace NeeView
             public bool IsSliderDirectionReversed { get; set; }
 
             [DataMember]
-            public ShowMessageType CommandShowMessageType { get; set; }
+            public ShowMessageStyle CommandShowMessageStyle { get; set; }
 
             [DataMember]
-            public ShowMessageType GestureShowMessageType { get; set; }
+            public ShowMessageStyle GestureShowMessageStyle { get; set; }
 
             void Constructor()
             {
                 IsLimitMove = true;
                 IsSliderDirectionReversed = true;
-                CommandShowMessageType = ShowMessageType.Normal;
-                GestureShowMessageType = ShowMessageType.Normal;
+                CommandShowMessageStyle = ShowMessageStyle.Normal;
+                GestureShowMessageStyle = ShowMessageStyle.Normal;
                 StretchMode = PageStretchMode.Uniform;
                 Background = BackgroundStyle.Black;
             }
@@ -904,7 +849,7 @@ namespace NeeView
             }
         }
 
-
+        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -916,12 +861,13 @@ namespace NeeView
             memento.StretchMode = this.StretchMode;
             memento.Background = this.Background;
             memento.IsSliderDirectionReversed = this.IsSliderDirectionReversed;
-            memento.CommandShowMessageType = this.CommandShowMessageType;
-            memento.GestureShowMessageType = this.GestureShowMessageType;
+            memento.CommandShowMessageStyle = this.CommandShowMessageStyle;
+            memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
 
             return memento;
         }
 
+        //
         public void Restore(Memento memento)
         {
             this.IsLimitMove = memento.IsLimitMove;
@@ -931,15 +877,13 @@ namespace NeeView
             this.StretchMode = memento.StretchMode;
             this.Background = memento.Background;
             this.IsSliderDirectionReversed = memento.IsSliderDirectionReversed;
-            this.CommandShowMessageType = memento.CommandShowMessageType;
-            this.GestureShowMessageType = memento.GestureShowMessageType;
+            this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
+            this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
 
-            this.OnViewModeChanged();
+            ViewModeChanged?.Invoke(this, null);
         }
 
-        public void Dispose()
-        {
-            ModelContext.Terminate();
-        }
+        #endregion
+
     }
 }

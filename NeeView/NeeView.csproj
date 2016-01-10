@@ -36,7 +36,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>App.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\App.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>App.manifest</ApplicationManifest>
@@ -138,6 +138,7 @@
     <Compile Include="Temporary.cs" />
     <Compile Include="TrashBox.cs" />
     <Compile Include="ViewContent.cs" />
+    <Compile Include="ViewContentSource.cs" />
     <Compile Include="Win32Api.cs" />
     <Compile Include="FullScreen.cs" />
     <Compile Include="WindowPlacement.cs" />
@@ -211,13 +212,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="App.ico" />
+    <Resource Include="Resources\App.ico" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="7z.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Play.ico" />
+    <Resource Include="Resources\Play.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

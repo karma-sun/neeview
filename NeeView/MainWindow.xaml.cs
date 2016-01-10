@@ -1,4 +1,9 @@
-﻿using Microsoft.Win32;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,75 +31,101 @@ namespace NeeView
     {
         MainWindowVM _VM;
 
-        public FullScreen _WindowMode;
+        private FullScreen _FullScreen;
+        private MouseDragController _MouseDrag;
+        private MouseGestureManager _MouseGesture;
 
-        public MouseDragController _MouseDragController;
-        public MouseGestureManager _MouseGesture;
+        private bool _NowLoading = false;
 
-        bool _NowLoading = false;
 
+        // コンストラクタ
         public MainWindow()
         {
             App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
             InitializeComponent();
 
-            _VM = new MainWindowVM();
-            _VM.ViewChanged += OnViewChanged;
-            _VM.ViewModeChanged += OnViewModeChanged;
-            _VM.InputGestureChanged += (s, e) => InitializeInputGestures();
-            _VM.PropertyChanged += OnPropertyChanged;
-            _VM.Loading += (s, e) =>
-            {
-                //this.Cursor = e != null ? Cursors.Wait : null;
-                _NowLoading = e != null;
-                //this.Root.IsEnabled = e == null;
-                DispNowLoading(e);
-            };
+#if DEBUG
+#else
+            this.MenuItemDev.Visibility = Visibility.Collapsed;
+#endif
 
+
+            // ViewModel
+            _VM = new MainWindowVM();
+
+            _VM.ViewChanged +=
+                (s, e) => _MouseDrag.Reset();
+
+            _VM.ViewModeChanged +=
+                (s, e) => UpdateMouseDragSetting();
+
+            _VM.InputGestureChanged +=
+                (s, e) => InitializeInputGestures();
+
+            _VM.PropertyChanged +=
+                OnPropertyChanged;
+
+            _VM.Loading +=
+                (s, e) =>
+                {
+                    _NowLoading = e != null;
+                    DispNowLoading(_NowLoading);
+                };
 
             this.DataContext = _VM;
 
-            _WindowMode = new FullScreen(this);
-            _WindowMode.NotifyWindowModeChanged += (s, e) => OnWindowModeChanged(e);
+            // full screen
+            _FullScreen = new FullScreen(this);
+            _FullScreen.NotifyWindowModeChanged += (s, e) => OnWindowModeChanged(e);
 
-            _MouseDragController = new MouseDragController(this.MainView, this.MainContent, this.MainContentShadow);
+            // mouse drag
+            _MouseDrag = new MouseDragController(this.MainView, this.MainContent, this.MainContentShadow);
 
+            // mouse gesture
             _MouseGesture = new MouseGestureManager(this.MainView);
-            this.GestureTextBlock.SetBinding(TextBlock.TextProperty, new Binding("GestureText") { Source = _MouseGesture });
             _MouseGesture.Controller.MouseGestureUpdateEventHandler += OnMouseGestureUpdate;
 
+            // initialize routed commands
             InitializeCommandBindings();
             InitializeInputGestures();
 
+            // publish routed commands
             _VM.BookCommands = BookCommands;
 
             // messenger
             Messenger.AddReciever("MessageBox", CallMessageBox);
             Messenger.AddReciever("MessageShow", CallMessageShow);
 
+            // mouse event capture for active check
             this.MainView.PreviewMouseMove += MainView_PreviewMouseMove;
+            this.MainView.PreviewMouseDown += MainView_PreviewMouseAction;
+            this.MainView.PreviewMouseUp += MainView_PreviewMouseAction;
+            this.MainView.PreviewMouseWheel += MainView_PreviewMouseAction;
 
-            // タイマーを作成する
+            // timer for slideshow
             _Timer = new DispatcherTimer(DispatcherPriority.Normal, this.Dispatcher);
             _Timer.Interval = TimeSpan.FromSeconds(0.2);
             _Timer.Tick += new EventHandler(DispatcherTimer_Tick);
-            // タイマーの実行開始
             _Timer.Start();
         }
 
+
+#region Timer
+
+        // タイマーディスパッチ
         DispatcherTimer _Timer;
 
+        // 非アクティブ時間チェック用
         DateTime _LastActionTime;
         Point _LastActionPoint;
 
+        // スライドショー表示間隔用
         DateTime _LastShowTime;
 
-
+        // タイマー処理
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            //Debug.WriteLine($"Interval: {DateTime.Now.Second}.{DateTime.Now.Millisecond}");
-
             if (Mouse.LeftButton == MouseButtonState.Pressed || Mouse.RightButton == MouseButtonState.Pressed)
             {
                 _LastActionTime = DateTime.Now;
@@ -102,21 +133,22 @@ namespace NeeView
                 return;
             }
 
+            // 非アクティブ時間が続いたらマウスカーソルを非表示にする
             if ((DateTime.Now - _LastActionTime).TotalSeconds > 2.0)
             {
                 SetMouseVisible(false);
                 _LastActionTime = DateTime.Now;
             }
 
-
+            // スライドショーのインターバルを非アクティブ時間で求める
             if ((DateTime.Now - _LastShowTime).TotalSeconds > _VM.SlideShowInterval)
             {
-                //Debug.WriteLine($"SlideShow: {DateTime.Now.Second}.{DateTime.Now.Millisecond}");
                 if (!_NowLoading) _VM.NextSlide();
                 _LastShowTime = DateTime.Now;
             }
         }
 
+        // マウス移動で非アクティブ時間リセット
         private void MainView_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             var nowPoint = e.GetPosition(this.MainView);
@@ -130,6 +162,15 @@ namespace NeeView
             }
         }
 
+        // マウスアクションで非アクティブ時間リセット
+        private void MainView_PreviewMouseAction(object sender, MouseEventArgs e)
+        {
+            _LastActionTime = DateTime.Now;
+            _LastShowTime = DateTime.Now;
+            SetMouseVisible(true);
+        }
+
+        // マウスカーソル表示ON/OFF
         public void SetMouseVisible(bool isVisible)
         {
             if (isVisible)
@@ -148,18 +189,20 @@ namespace NeeView
             }
         }
 
+#endregion
+
+
+        // マウスジェスチャー更新時の処理
         private void OnMouseGestureUpdate(object sender, MouseGestureSequence e)
         {
             _VM.ShowGesture(_MouseGesture.GetGestureString(), _MouseGesture.GetGestureCommandName());
         }
 
+        // VMプロパティ監視
         private void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
-                //case "InfoText":
-                //    AutoFade(InfoTextArea, 1.0, 0.5);
-                //    break;
                 case "TinyInfoText":
                     AutoFade(TinyInfoTextBlock, 1.0, 0.5);
                     break;
@@ -170,78 +213,62 @@ namespace NeeView
                     track.InvalidateVisual();
                     break;
             }
-
-            //throw new NotImplementedException();
-
-            //this.MenuArea.Items.Refresh();
         }
 
-        // ドラッグでのビュー操作の設定変更
-        private void OnViewModeChanged(object sender, EventArgs e)
+        // ドラッグでビュー操作設定の更新
+        private void UpdateMouseDragSetting()
         {
-            _MouseDragController.IsLimitMove = _VM.IsLimitMove;
-            _MouseDragController.DragControlCenter = _VM.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
-            _MouseDragController.SnapAngle = _VM.IsAngleSnap ? 45 : 0;
-            //_MouseDragController.IsStartPositionCenter = _VM.IsViewStartPositionCenter;
-            _MouseDragController.ViewOrigin = _VM.IsViewStartPositionCenter ? ViewOrigin.Center :
+            _MouseDrag.IsLimitMove = _VM.IsLimitMove;
+            _MouseDrag.DragControlCenter = _VM.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
+            _MouseDrag.SnapAngle = _VM.IsAngleSnap ? 45 : 0;
+            _MouseDrag.ViewOrigin = _VM.IsViewStartPositionCenter ? ViewOrigin.Center :
                 _VM.BookSetting.BookReadOrder == PageReadOrder.LeftToRight ? ViewOrigin.LeftTop : ViewOrigin.RightTop;
-
-
-            // ここはあまりよくない
-            // _MouseDragController.Reset();
         }
 
 
-        // new!
+
+        // RoutedCommand辞書
         public Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; } = new Dictionary<CommandType, RoutedUICommand>();
 
 
-
-
-
-
+        // RoutedCommand バインディング
         public void InitializeCommandBindings()
         {
-            // コマンドインスタンス作成
+            // RoutedCommand作成
             foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
             {
-                BookCommands.Add(type, new RoutedUICommand(_VM.CommandCollection[type].Text, type.ToString(), typeof(MainWindow)));
+                BookCommands.Add(type, new RoutedUICommand(ModelContext.CommandTable[type].Text, type.ToString(), typeof(MainWindow)));
             }
 
-            // スタティックコマンド
-            //this.CommandBindings.Add(new CommandBinding(LoadCommand, Load));
-
             // View系コマンド登録
-            _VM.CommandCollection[CommandType.OpenSettingWindow].Execute =
+            ModelContext.CommandTable[CommandType.OpenSettingWindow].Execute =
                 (e) => OpenSettingWindow();
-            _VM.CommandCollection[CommandType.LoadAs].Execute =
+            ModelContext.CommandTable[CommandType.LoadAs].Execute =
                 (e) => LoadAs(e);
-            _VM.CommandCollection[CommandType.ClearHistory].Execute =
-                (e) => _VM.ClearHistor();
-            _VM.CommandCollection[CommandType.ToggleFullScreen].Execute =
-                (e) => _WindowMode.Toggle();
-            _VM.CommandCollection[CommandType.SetFullScreen].Execute =
-                (e) => _WindowMode.IsFullScreened = true;
-            _VM.CommandCollection[CommandType.CancelFullScreen].Execute =
-                (e) => _WindowMode.IsFullScreened = false;
-            _VM.CommandCollection[CommandType.ViewScrollUp].Execute =
-                (e) => _MouseDragController.ScrollUp();
-            _VM.CommandCollection[CommandType.ViewScrollDown].Execute =
-                (e) => _MouseDragController.ScrollDown();
-            _VM.CommandCollection[CommandType.ViewScaleUp].Execute =
-                (e) => _MouseDragController.ScaleUp();
-            _VM.CommandCollection[CommandType.ViewScaleDown].Execute =
-                (e) => _MouseDragController.ScaleDown();
-            _VM.CommandCollection[CommandType.ViewRotateLeft].Execute =
-                (e) => _MouseDragController.Rotate(-45);
-            _VM.CommandCollection[CommandType.ViewRotateRight].Execute =
-                (e) => _MouseDragController.Rotate(+45);
+            ModelContext.CommandTable[CommandType.ToggleFullScreen].Execute =
+                (e) => _FullScreen.Toggle();
+            ModelContext.CommandTable[CommandType.SetFullScreen].Execute =
+                (e) => _FullScreen.IsFullScreened = true;
+            ModelContext.CommandTable[CommandType.CancelFullScreen].Execute =
+                (e) => _FullScreen.IsFullScreened = false;
+            ModelContext.CommandTable[CommandType.ViewScrollUp].Execute =
+                (e) => _MouseDrag.ScrollUp();
+            ModelContext.CommandTable[CommandType.ViewScrollDown].Execute =
+                (e) => _MouseDrag.ScrollDown();
+            ModelContext.CommandTable[CommandType.ViewScaleUp].Execute =
+                (e) => _MouseDrag.ScaleUp();
+            ModelContext.CommandTable[CommandType.ViewScaleDown].Execute =
+                (e) => _MouseDrag.ScaleDown();
+            ModelContext.CommandTable[CommandType.ViewRotateLeft].Execute =
+                (e) => _MouseDrag.Rotate(-45);
+            ModelContext.CommandTable[CommandType.ViewRotateRight].Execute =
+                (e) => _MouseDrag.Rotate(+45);
 
             // コマンドバインド作成
             foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
             {
                 // フルスクリーン系コマンドは常に有効
-                if (type == CommandType.ToggleFullScreen || type == CommandType.CancelFullScreen)
+                if (ModelContext.CommandTable[type].Group == "フルスクリーン")
                 {
                     this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Parameter)));
                 }
@@ -252,10 +279,53 @@ namespace NeeView
             }
         }
 
-        //
+        // ロード中のコマンドを無効にする CanExecute
         private void CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = !_NowLoading;
+        }
+
+
+
+        // InputGesture設定
+        public void InitializeInputGestures()
+        {
+            _MouseDrag.ClearClickEventHandler();
+
+            _MouseGesture.ClearClickEventHandler();
+            _MouseGesture.CommandCollection.Clear();
+
+            foreach (var e in BookCommands)
+            {
+                e.Value.InputGestures.Clear();
+                var inputGestures = ModelContext.CommandTable[e.Key].GetInputGestureCollection();
+                foreach (var gesture in inputGestures)
+                {
+                    // マウスクリックはドラッグ系処理のイベントとして登録
+                    if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.LeftClick)
+                    {
+                        _MouseDrag.MouseClickEventHandler += (s, x) => e.Value.Execute(null, this);
+                    }
+                    else if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.RightClick)
+                    {
+                        _MouseGesture.MouseClickEventHandler += (s, x) => e.Value.Execute(null, this);
+                    }
+                    else
+                    {
+                        e.Value.InputGestures.Add(gesture);
+                    }
+                }
+
+                // mouse gesture
+                var mouseGesture = ModelContext.CommandTable[e.Key].MouseGesture;
+                if (mouseGesture != null)
+                {
+                    _MouseGesture.CommandCollection.Add(mouseGesture, e.Value);
+                }
+            }
+
+            // Update Menu ...
+            this.MainMenu.UpdateInputGestureText();
         }
 
 
@@ -286,7 +356,7 @@ namespace NeeView
         // 設定ウィンドウを開く
         private void OpenSettingWindow()
         {
-            var setting = _VM.CreateSettingContext();
+            var setting = _VM.CreateSetting();
 
             var dialog = new SettingWindow(setting);
             dialog.Owner = this;
@@ -294,60 +364,8 @@ namespace NeeView
             var result = dialog.ShowDialog();
             if (result == true)
             {
-                _VM.SetSettingContext(setting);
+                _VM.RestoreSetting(setting);
             }
-        }
-
-
-        // InputGesture設定
-        public void InitializeInputGestures()
-        {
-            _MouseDragController.ClearClickEventHandler();
-
-            _MouseGesture.ClearClickEventHandler();
-            _MouseGesture.CommandCollection.Clear();
-
-            foreach (var e in BookCommands)
-            {
-                //var e = pair.Value;
-
-                // shortcut key
-                e.Value.InputGestures.Clear();
-                var inputGestures = _VM.GetShortCutCollection(e.Key);
-                foreach (var gesture in inputGestures)
-                {
-                    // マウスクリックはドラッグ系処理のイベントとして登録
-                    if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.LeftClick)
-                    {
-                        _MouseDragController.MouseClickEventHandler += (s, x) => e.Value.Execute(null, this);
-                    }
-                    else if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.RightClick)
-                    {
-                        _MouseGesture.MouseClickEventHandler += (s, x) => e.Value.Execute(null, this);
-                    }
-                    else
-                    {
-                        e.Value.InputGestures.Add(gesture);
-                    }
-                }
-
-                // mouse gesture
-                var mouseGesture = _VM.GetMouseGesture(e.Key);
-                if (mouseGesture != null)
-                {
-                    _MouseGesture.CommandCollection.Add(mouseGesture, e.Value);
-                }
-            }
-
-            // Update Menu ...
-            this.MainMenu.UpdateInputGestureText();
-
-        }
-
-        // 表示変更でマウスドラッグによる変形を初期化する
-        private void OnViewChanged(object sender, EventArgs e)
-        {
-            _MouseDragController.Reset();
         }
 
         // スクリーンモード切り替えによるコントロール設定の変更
@@ -370,6 +388,7 @@ namespace NeeView
             this.TinyInfoTextBlock.Margin = new Thickness(0, 0, 0, this.StatusArea.ActualHeight);
         }
 
+        //
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
             // 設定読み込み
@@ -379,8 +398,6 @@ namespace NeeView
         //
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            //_VM.LoadSetting(this);
-
             // 標準ウィンドウモードで初期化
             OnWindowModeChanged(false);
         }
@@ -402,8 +419,6 @@ namespace NeeView
             string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
             if (files != null)
             {
-                //_VM.Load(files[0]);
-                //_VM.CommandCollection[BookCommandType.LoadAs].Execute(files[0]);
                 BookCommands[CommandType.LoadAs].Execute(files[0], this);
             }
         }
@@ -414,23 +429,16 @@ namespace NeeView
             _VM.SetViewSize(this.MainView.ActualWidth, this.MainView.ActualHeight);
 
             // スナップ
-            _MouseDragController.SnapView();
+            _MouseDrag.SnapView();
         }
 
-        private void Slider_MouseMove(object sender, MouseEventArgs e)
+        //
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            double margin = 5;
-
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                var slider = (Slider)sender;
-                Point position = e.GetPosition(slider);
-                double d = 1.0d / (slider.ActualWidth - margin * 2) * (position.X - margin);
-                var p = slider.Maximum * (1.0 - d);
-                slider.Value = p;
-            }
+            _VM.SaveSetting(this); // ウィンドウサイズ保存のためこのタイミングで行う
         }
 
+        //
         private void Window_Closed(object sender, EventArgs e)
         {
             Temporary.RemoveTempFolder();
@@ -439,17 +447,21 @@ namespace NeeView
             Debug.WriteLine("Window.Closed done.");
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            _VM.SaveSetting(this);
-        }
 
+        // 開発用コマンド：テンポラリフォルダを開く
         private void MenuItemDevTempFolder_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + Temporary.TempDirectory + "\"");
         }
 
+        // 開発用コマンド：アプリケーションフォルダを開く
+        private void MenuItemDevApplicationFolder_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + System.Reflection.Assembly.GetEntryAssembly().Location + "\"");
+        }
 
+
+        // メッセージ処理：メッセージボックス表示
         private void CallMessageBox(object sender, MessageEventArgs e)
         {
             var param = (MessageBoxParams)e.Parameter;
@@ -463,17 +475,9 @@ namespace NeeView
             e.Result = dialog.ShowDialog();
 
             this.AllowDrop = true;
-
-#if false
-            var result = MessageBox.Show(this, param.MessageBoxText, param.Caption, param.Button, param.Icon);
-            if (result == MessageBoxResult.Yes || result == MessageBoxResult.OK)
-            {
-                e.Result = true;
-            }
-#endif
         }
 
-
+        // メッセージ処理：通知表示
         private void CallMessageShow(object sender, MessageEventArgs e)
         {
             var param = (MessageShowParams)e.Parameter;
@@ -504,13 +508,15 @@ namespace NeeView
             element.BeginAnimation(UIElement.OpacityProperty, ani);
         }
 
-
-        private void DispNowLoading(string loadPath)
+        /// <summary>
+        /// NowLoadinの表示/非表示
+        /// </summary>
+        /// <param name="isDisp"></param>
+        private void DispNowLoading(bool isDisp)
         {
-            if (loadPath != null)
+            if (isDisp)
             {
                 this.NowLoading.Opacity = 0.0;
-                //this.NowLoadingText.Text = $"Now Loading\n{System.IO.Path.GetFileName(loadPath)}";
 
                 var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
                 ani.BeginTime = TimeSpan.FromSeconds(1.0);
@@ -534,17 +540,23 @@ namespace NeeView
             }
         }
 
+        // オンラインヘルプ
         private void HelpButton_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://bitbucket.org/neelabo/neeview/wiki/");
         }
 
+        // アプリ終了コマンド
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
     }
 
+
+#region Convertes
+
+    // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -559,6 +571,7 @@ namespace NeeView
         }
     }
 
+    // コンバータ：より小さい値ならTrue
     public class IsLessThanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -573,6 +586,7 @@ namespace NeeView
         }
     }
 
+    // コンバータ：ページモードフラグ
     [ValueConversion(typeof(int), typeof(bool))]
     public class PageModeToBooleanConverter : IValueConverter
     {
@@ -589,6 +603,7 @@ namespace NeeView
         }
     }
 
+    // コンバータ：ストレッチモードフラグ
     [ValueConversion(typeof(PageStretchMode), typeof(bool))]
     public class StretchModeToBooleanConverter : IValueConverter
     {
@@ -605,8 +620,7 @@ namespace NeeView
         }
     }
 
-
-
+    // コンバータ：ソートモードフラグ
     [ValueConversion(typeof(PageSortMode), typeof(bool))]
     public class SortModeToBooleanConverter : IValueConverter
     {
@@ -624,6 +638,7 @@ namespace NeeView
     }
 
 
+    // コンバータ：右開き、左開きフラグ
     [ValueConversion(typeof(PageReadOrder), typeof(bool))]
     public class BookReadOrderToBooleanConverter : IValueConverter
     {
@@ -640,6 +655,7 @@ namespace NeeView
         }
     }
 
+    // コンバータ：フルパスのファイル名取得
     [ValueConversion(typeof(string), typeof(string))]
     public class FullPathToFileNameConverter : IValueConverter
     {
@@ -655,7 +671,7 @@ namespace NeeView
         }
     }
 
-
+    // コンバータ：フォルダの並びフラグ
     [ValueConversion(typeof(FolderOrder), typeof(bool))]
     public class FolderOrderToBooleanConverter : IValueConverter
     {
@@ -672,4 +688,5 @@ namespace NeeView
         }
     }
 
+#endregion
 }

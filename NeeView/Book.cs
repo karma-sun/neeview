@@ -292,7 +292,7 @@ namespace NeeView
         private volatile List<Page> _ViewPages;
 
         // 表示されているコンテンツ
-        public volatile List<ViewContent> ViewContents;
+        public volatile List<ViewContentSource> ViewContentSources;
 
 
         // 排他処理用ロックオブジェクト
@@ -315,10 +315,10 @@ namespace NeeView
             }
             _ViewPageIndex = 0;
 
-            ViewContents = new List<ViewContent>();
+            ViewContentSources = new List<ViewContentSource>();
             for (int i = 0; i < 2; ++i)
             {
-                ViewContents.Add(null);
+                ViewContentSources.Add(null);
             }
         }
 
@@ -368,7 +368,7 @@ namespace NeeView
             for (int i = 0; i < 2; i++)
             {
                 if (_ViewPages[i] == null) continue;
-                if (_ViewPages[i].Content == null || _ViewPages[i].Content != ViewContents[i]?.Content) return false;
+                if (_ViewPages[i].Content == null || _ViewPages[i].Content != ViewContentSources[i]?.Source) return false;
             }
 
             return true;
@@ -437,15 +437,15 @@ namespace NeeView
         // 表示コンテンツの更新実行
         private void SetViewContents()
         {
-            for (int i = 0; i < ViewContents.Count; ++i)
+            for (int i = 0; i < ViewContentSources.Count; ++i)
             {
                 if (i < CurrentViewPageCount)
                 {
-                    ViewContents[i] = _ViewPages[i] != null ? new ViewContent(_ViewPages[i]) : null;
+                    ViewContentSources[i] = _ViewPages[i] != null ? new ViewContentSource(_ViewPages[i]) : null;
                 }
                 else
                 {
-                    ViewContents[i] = null;
+                    ViewContentSources[i] = null;
                 }
             }
         }

@@ -52,7 +52,7 @@ namespace NeeView
         private static Memento _DefaultMemento;
 
         // 初期設定取得
-        public static  Memento CreateDefaultMemento()
+        public static Memento CreateDefaultMemento()
         {
             return _DefaultMemento.Clone();
         }
@@ -66,7 +66,7 @@ namespace NeeView
 
         // コンストラクタ
         public CommandTable()
-        { 
+        {
             // コマンドの設定定義
             _Elements = new Dictionary<CommandType, CommandElement>
             {
@@ -82,6 +82,7 @@ namespace NeeView
                 {
                     Group = "ファイル",
                     Text = "履歴を消去",
+                    Execute = e => _VM.ClearHistor()
                 },
 
                 [CommandType.ToggleStretchMode] = new CommandElement
@@ -125,7 +126,7 @@ namespace NeeView
 
                 [CommandType.ToggleFullScreen] = new CommandElement
                 {
-                    Group = "ビュー操作",
+                    Group = "フルスクリーン",
                     Text = "フルスクリーン切り替え",
                     ShortCutKey = "F12",
                     MouseGesture = "U",
@@ -133,13 +134,13 @@ namespace NeeView
                 },
                 [CommandType.SetFullScreen] = new CommandElement
                 {
-                    Group = "ビュー操作",
+                    Group = "フルスクリーン",
                     Text = "フルスクリーンにする",
                     IsShowMessage = false,
                 },
                 [CommandType.CancelFullScreen] = new CommandElement
                 {
-                    Group = "ビュー操作",
+                    Group = "フルスクリーン",
                     Text = "フルスクリーン解除",
                     ShortCutKey = "Escape",
                     IsShowMessage = false,

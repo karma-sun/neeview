@@ -21,7 +21,7 @@ namespace NeeView
         Dictionary<ArchiverType, string[]> _SupprtedFileTypes = new Dictionary<ArchiverType, string[]>()
         {
             [ArchiverType.ZipArchiver] = new string[] { ".zip" },
-            [ArchiverType.SevenZipArchiver] = new string[] { ".7z", ".rar", ".lzh", ".tar", ".z", ".gz" },
+            [ArchiverType.SevenZipArchiver] = new string[] { ".7z", ".rar", ".lzh" },
             [ArchiverType.SusieArchiver] = new string[] { }
         };
 

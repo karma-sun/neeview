@@ -5,79 +5,74 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
-    // 表示コンテンツ
-    public class ViewContent
+    /// <summary>
+    /// ページ表示用コンテンツ
+    /// </summary>
+    public class ViewContent : INotifyPropertyChanged
     {
-        // コンテンツ
-        public object Content { get; set; }
+        #region NotifyPropertyChanged
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion
+
+        // コンテンツ コントロール
+        #region Property: Content
+        private FrameworkElement _Content;
+        public FrameworkElement Content
+        {
+            get { return _Content; }
+            set { _Content = value; OnPropertyChanged(); }
+        }
+        #endregion
 
         // コンテンツの幅
-        public double Width { get; set; }
+        #region Property: Width
+        private double _Width;
+        public double Width
+        {
+            get { return _Width; }
+            set { _Width = value; OnPropertyChanged(); }
+        }
+        #endregion
 
         // コンテンツの高さ
-        public double Height { get; set; }
+        #region Property: Height
+        private double _Height;
+        public double Height
+        {
+            get { return _Height; }
+            set { _Height = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+        // コンテンツのオリジナルサイズ
+        private Size _Size;
+        public Size Size
+        {
+            get { return IsValid ? _Size : new Size(0,0); }
+            set { _Size = value; }
+        }
 
         // コンテンツの色
-        public Color Color { get; set; }
+        public Brush Color { get; set; } = Brushes.Black;
 
-
-        // コンストラクタ
-        // Pageから作成
-        public ViewContent(Page page)
-        {
-            Content = page.Content;
-            Width = page.Width;
-            Height = page.Height;
-            Color = page.Color;
-        }
-
-        // コントロール作成
-        public FrameworkElement CreateControl(Binding foregroundBinding)
-        {
-            if (Content is BitmapSource)
-            {
-                var image = new Image();
-                image.Source = (BitmapSource)Content;
-                image.Stretch = Stretch.Fill;
-                RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
-                return image;
-            }
-            else if (Content is Uri)
-            {
-                var media = new MediaElement();
-                media.Source = (Uri)Content;
-                media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
-                return media;
-            }
-            else if (Content is FilePageContext)
-            {
-                var control = new FilePageControl(Content as FilePageContext);
-                control.SetBinding(FilePageControl.DefaultBrushProperty, foregroundBinding);
-                return control;
-            }
-            else if (Content is string)
-            {
-                var context = new FilePageContext() { Icon = FilePageIcon.File, Message = (string)Content };
-                var control = new FilePageControl(context);
-                control.SetBinding(FilePageControl.DefaultBrushProperty, foregroundBinding);
-                return control;
-            }
-            else
-            {
-                return null;
-            }
-        }
+        public bool IsValid => (Content != null);
     }
 
 }

@@ -1,4 +1,11 @@
-﻿<Window x:Class="NeeView.MainWindow"
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+
+<Window x:Class="NeeView.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -34,6 +41,7 @@
     <DockPanel>
 
         <!-- 開発用 ページリスト -->
+        <!--
         <ScrollViewer x:Name="DevPageList" DockPanel.Dock="Right" Width="300" Panel.ZIndex="100" HorizontalScrollBarVisibility="Auto"
             Visibility="{Binding ElementName=MenuItemDevPageList, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
             <ListView ItemsSource="{Binding PageList}" >
@@ -45,20 +53,18 @@
                 </ListView.View>
             </ListView>
         </ScrollViewer>
-
+        -->
+        
         <!-- 開発用 表示領域-->
         <DockPanel x:Name="DevInfo" DockPanel.Dock="Bottom" Panel.ZIndex="100" Background="White"
                   Visibility="{Binding ElementName=MenuItemDevInfo, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                <TextBlock x:Name="GestureTextBlock" />
-            </StackPanel>
-
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.JobCount}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Message}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[0].Message}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[1].Message}"/>
         </DockPanel>
 
+        
         <!-- 製品表示領域 -->
         <Grid x:Name="Root" Background="{Binding BackgroundBrush}">
 
@@ -68,21 +74,22 @@
                 <!-- Pages -->
                 <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel x:Name="MainContent" Orientation="Horizontal"  >
-                        <ContentControl x:Name="Content1" Content="{Binding Contents[1]}" Width="{Binding ContentsWidth[1]}" Height="{Binding ContentsHeight[1]}"/>
-                        <ContentControl x:Name="Content0" Content="{Binding Contents[0]}" Width="{Binding ContentsWidth[0]}" Height="{Binding ContentsHeight[0]}"/>
+                    <StackPanel x:Name="MainContent" Orientation="Horizontal" SnapsToDevicePixels="True" >
+                        <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
+                        <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}"/>
                     </StackPanel>
                 </Canvas>
 
-                <!-- Pages Shadow -->
+                <!-- Pages Shadow (表示領域計算用) -->
                 <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
-                        <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding ContentsWidth[1]}" Height="{Binding ContentsHeight[1]}"/>
-                        <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding ContentsWidth[0]}" Height="{Binding ContentsHeight[0]}"/>
+                    <StackPanel x:Name="MainContentShadow" Orientation="Horizontal" SnapsToDevicePixels="True">
+                        <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
+                        <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}"/>
                     </StackPanel>
                 </Canvas>
 
+                <!-- empty pages message -->
                 <TextBlock x:Name="EmptyPageMessage" Text="読み込めるファイルがありません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"
                            Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"/>
 
@@ -197,25 +204,26 @@
                     <MenuItem Header="設定(_O)">
                         <MenuItem Header="設定..." Command="{Binding BookCommands[OpenSettingWindow]}"/>
                     </MenuItem>
-                    <MenuItem Header="開発(_D)">
+                    
+                    <!-- 開発用メニュー -->
+                    <MenuItem x:Name="MenuItemDev" Header="開発(_D)">
                         <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" />
                         <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" />
+                        <MenuItem x:Name="MenuItemDevApplicationFolder" Header="アプリのフォルダを開く" Click="MenuItemDevApplicationFolder_Click" />
                         <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダを開く" Click="MenuItemDevTempFolder_Click" />
                     </MenuItem>
                 </Menu>
 
+                <!-- Help button -->
                 <DockPanel LastChildFill="False" VerticalAlignment="Center" Margin="0,0,10,0">
-
                     <Button DockPanel.Dock="Right"  x:Name="HelpButton" Style="{StaticResource IconButton}" VerticalAlignment="Center" Click="HelpButton_Click" ToolTip="オンラインヘルプ">
                         <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
                     </Button>
-
                 </DockPanel>
             </Grid>
 
             <!-- ステータスエリア -->
             <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom">
-
                 <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
                         local:SliderTools.MoveToPointOnDrag="True">
                     <Slider.Style>
@@ -228,8 +236,6 @@
                         </Style>
                     </Slider.Style>
                 </Slider>
-
-                <!--MouseMove="Slider_MouseMove"-->
             </DockPanel>
 
             <!-- Now Loading -->
@@ -291,7 +297,6 @@
                     <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" Foreground="White" FontFamily="Meiryo" TextTrimming="CharacterEllipsis"/>
                 </StackPanel>
             </StackPanel>
-
 
         </Grid>
 

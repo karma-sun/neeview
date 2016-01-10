@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace NeeView
 {
@@ -44,6 +45,26 @@ namespace NeeView
         {
             IsShowMessage = true;
             ExecuteMessage = e => Text;
+        }
+
+
+        // ショートカットキー を InputGestureのコレクションに変換
+        public List<InputGesture> GetInputGestureCollection()
+        {
+            var list = new List<InputGesture>();
+            if (ShortCutKey != null)
+            {
+                foreach (var key in ShortCutKey.Split(','))
+                {
+                    InputGesture inputGesture = InputGestureConverter.ConvertFromString(key);
+                    if (inputGesture != null)
+                    {
+                        list.Add(inputGesture);
+                    }
+                }
+            }
+
+            return list;
         }
 
 

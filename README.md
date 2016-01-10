@@ -53,4 +53,4 @@
 ----------
 
   * [ヨクアルナニカ](http://yokuarunanika.blogspot.jp/p/soft.html)
-  * [NeeView Project Page](https://bitbucket.org/neelabo/neeview/)
+  * [プロジェクトページ](https://bitbucket.org/neelabo/neeview/)

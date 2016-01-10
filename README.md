@@ -11,16 +11,16 @@
   * 多重圧縮ファイル対応
   * マウスジェスチャー対応
   * キーカスタマイズ、ジェスチャ設定可能
-  * UNICODEファイル名対応
-  * 見開き表示対応
+  * ドラッグによる移動、回転、拡縮
+  * 見開き表示モード
   * フルスクリーンモード
   * スライドショー機能
-  * Susieプラグイン対応
+  * Susieプラグイン対応(UNICODEファイル名可)
   * マルチスレッド、先読み対応
 
   詳細は以下のページを参照してください。
   
-  * [NeeView Project Wiki](https://bitbucket.org/neelabo/neeview/wiki/)
+  * [NeeView プロジェクトWiki](https://bitbucket.org/neelabo/neeview/wiki/)
 
 ------------
 ライセンス

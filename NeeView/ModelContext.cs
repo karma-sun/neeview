@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -46,6 +47,9 @@ namespace NeeView
             CommandTable = new CommandTable();
 
             SusieContext = new SusieContext();
+
+            // SevenZip対応拡張子設定
+            ArchiverManager.UpdateSevenZipSupprtedFileTypes(ConfigurationManager.AppSettings.Get("SevenZipSupportFileType"));
         }
 
 

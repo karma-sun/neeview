@@ -44,13 +44,13 @@
                         <DockPanel Margin="2" LastChildFill="False">
                             <TextBlock Text="コマンド実行を" VerticalAlignment="Center" Margin="2"/>
                             <ComboBox ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewMemento.CommandShowMessageType}" />
+                                  SelectedValue="{Binding Setting.ViewMemento.CommandShowMessageStyle}" />
                         </DockPanel>
 
                         <DockPanel Margin="2" LastChildFill="False">
                             <TextBlock Text="マウスジェスチャーを" VerticalAlignment="Center" Margin="2"/>
                             <ComboBox ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewMemento.GestureShowMessageType}" />
+                                  SelectedValue="{Binding Setting.ViewMemento.GestureShowMessageStyle}" />
                         </DockPanel>
 
                         <CheckBox DockPanel.Dock="Top" Margin="2" Content="GIFをメディアとして再生する(アニメーションGIF)"

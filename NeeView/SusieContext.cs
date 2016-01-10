@@ -194,10 +194,6 @@ namespace NeeView
             SusiePluginPath = memento.SusiePluginPath;
             IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
             IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
-
-            // Susie対応拡張子更新
-            ModelContext.ArchiverManager.UpdateSusieSupprtedFileTypes(Susie);
-            ModelContext.BitmapLoaderManager.UpdateSusieSupprtedFileTypes(Susie);
         }
 
         #endregion

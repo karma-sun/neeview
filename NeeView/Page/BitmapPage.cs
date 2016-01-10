@@ -23,9 +23,9 @@ namespace NeeView
     {
         // アーカイバ
         private Archiver _Archiver;
-        
+
         // GIFアニメーション用に展開したテンポラリファイル
-        private string _TempFile;
+        private Uri _GifFileUri;
 
 
         // ToString
@@ -93,13 +93,21 @@ namespace NeeView
                 // GIFアニメ用にファイル展開
                 if (IsEnableAnimatedGif && LoosePath.GetExtension(FileName) == ".gif")
                 {
-                    if (_TempFile == null)
+                    if (_GifFileUri == null)
                     {
-                        _TempFile = Temporary.CreateCountedTempFileName("img", ".gif");
-                        _Archiver.ExtractToFile(FileName, _TempFile);
-                        _Archiver.TrashBox.Add(new TrashFile(_TempFile));
+                        if (_Archiver is FolderFiles)
+                        {
+                            _GifFileUri = new Uri(((FolderFiles)_Archiver).GetFullPath(FileName));
+                        }
+                        else
+                        {
+                            var tempFile = Temporary.CreateCountedTempFileName("img", ".gif");
+                            _Archiver.ExtractToFile(FileName, tempFile);
+                            _Archiver.TrashBox.Add(new TrashFile(tempFile));
+                            _GifFileUri = new Uri(tempFile);
+                        }
                     }
-                    return new Uri(_TempFile);
+                    return _GifFileUri;
                 }
                 else
                 {

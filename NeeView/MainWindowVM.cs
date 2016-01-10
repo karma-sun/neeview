@@ -674,7 +674,7 @@ namespace NeeView
                 }
 
                 // 高さをあわせたときの幅の合計
-                content = new Size(c0.Width * rate0 + c1.Width * rate1, c0.Height);
+                content = new Size(c0.Width * rate0 + c1.Width * rate1, c0.Height * rate0);
             }
 
             // ビューエリアサイズに合わせる場合のスケール

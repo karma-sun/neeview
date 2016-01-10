@@ -197,6 +197,10 @@ namespace NeeView
         // 1つ前のページ番号
         private int _OldIndex;
 
+        // 先読み有効
+        // ページ切替時に自動で有効に戻される
+        public bool IsEnablePreLoad { get; set; } = true;
+
         // 現在のページ番号
         private int _Index;
         public int Index
@@ -238,9 +242,11 @@ namespace NeeView
             CurrentViewPageCount = PageMode;
 
             // ページ状態更新
-            UpdateActivePages();
             lock (_Lock)
             {
+                UpdateActivePages(IsEnablePreLoad);
+                IsEnablePreLoad = true; // 通常、先読み有効
+
                 UpdateViewPage();
                 UpdateViewContents();
             }
@@ -346,6 +352,7 @@ namespace NeeView
                 {
                     ValidateWidePage();
                     SetViewContents();
+                    UpdateViewPage();
                 }
             }
 
@@ -355,6 +362,9 @@ namespace NeeView
             }
         }
 
+        // ViewContentSourceに反映されたらONになる
+        bool _IsDartyViewPages = false;
+
         // 表示ページの更新が必要かチェックをする
         // 表示ページが実際に表示されていれば更新を許可する
         private bool IsDartyViewPages()
@@ -363,15 +373,7 @@ namespace NeeView
 
             if (_ViewPages[0] == CurrentPage) return false;
 
-            if (CurrentPage.Content != null) return true;
-
-            for (int i = 0; i < 2; i++)
-            {
-                if (_ViewPages[i] == null) continue;
-                if (_ViewPages[i].Content == null || _ViewPages[i].Content != ViewContentSources[i]?.Source) return false;
-            }
-
-            return true;
+            return _IsDartyViewPages;
         }
 
 
@@ -393,6 +395,8 @@ namespace NeeView
                     _ViewPages[0] = GetViewPage(0);
                     _ViewPages[0]?.Open(QueueElementPriority.Top);
                 }
+
+                _IsDartyViewPages = false;
             }
 
             if (_PageMode >= 2 && _ViewPages[1] != GetViewPage(1))
@@ -422,6 +426,7 @@ namespace NeeView
                 ValidateWidePage();
                 SetViewContents();
                 ViewContentsChanged?.Invoke(this, null);
+                UpdateViewPage();
             }
         }
 
@@ -442,12 +447,15 @@ namespace NeeView
                 if (i < CurrentViewPageCount)
                 {
                     ViewContentSources[i] = _ViewPages[i] != null ? new ViewContentSource(_ViewPages[i]) : null;
+                    ////if (_ViewPages[i] != null) Debug.WriteLine($"View: {_ViewPages[i].FileName}");
                 }
                 else
                 {
                     ViewContentSources[i] = null;
                 }
             }
+
+            _IsDartyViewPages = true;
         }
 
         // ワイドページ処理
@@ -503,7 +511,7 @@ namespace NeeView
 
         // ページコンテンツの準備
         // 先読み、不要ページコンテンツの削除を行う
-        private void UpdateActivePages()
+        private void UpdateActivePages(bool preLoad)
         {
             // カレントページ収集
             var currentPages = new List<Page>();
@@ -557,13 +565,18 @@ namespace NeeView
             {
                 page?.Open(QueueElementPriority.Top);
             }
-            foreach (var page in currentPages)
+
+            // 先読み
+            if (preLoad)
             {
-                page.Open(QueueElementPriority.Hi);
-            }
-            foreach (var page in preLoadPages)
-            {
-                page.Open(QueueElementPriority.Default);
+                foreach (var page in currentPages)
+                {
+                    page.Open(QueueElementPriority.Hi);
+                }
+                foreach (var page in preLoadPages)
+                {
+                    page.Open(QueueElementPriority.Default);
+                }
             }
 
             // 保持ページ更新

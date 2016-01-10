@@ -315,10 +315,15 @@ namespace NeeView
             return Current == null ? 0 : Current.Index;
         }
 
-        // 現在ページ番号設定
+        // 現在ページ番号設定 (先読み無し)
         public void SetPageIndex(int index)
         {
-            if (Current != null) Current.Index = index;
+            if (Current != null)
+            {
+                Current.IsEnablePreLoad = false;
+                Current.Index = index;
+                Current.IsEnablePreLoad = true;
+            }
         }
 
         // 総ページ数取得

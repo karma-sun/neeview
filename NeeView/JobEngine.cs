@@ -43,15 +43,17 @@ namespace NeeView
         private JobEngine _JobEngine;
         private Job _Job;
         private CancellationTokenSource _CancellationTokenSource;
+        public QueueElementPriority Priority { get; private set; }
 
         // コンストラクタ
-        public JobRequest(JobEngine jobEngine, Job job)
+        public JobRequest(JobEngine jobEngine, Job job, QueueElementPriority priority)
         {
             _CancellationTokenSource = new CancellationTokenSource();
 
             _JobEngine = jobEngine;
             _Job = job;
             _Job.CancellationToken = _CancellationTokenSource.Token;
+            Priority = priority;
         }
 
         // キャンセル
@@ -69,7 +71,11 @@ namespace NeeView
         // プライオリティ変更
         public void ChangePriority(QueueElementPriority priority)
         {
-            _JobEngine.ChangePriority(_Job, priority);
+            if (Priority != priority)
+            {
+                _JobEngine.ChangePriority(_Job, priority);
+                Priority = priority;
+            }
         }
     }
 
@@ -200,7 +206,7 @@ namespace NeeView
             job.Execute = action;
             job.Cancel = cancelAction;
 
-            var request = new JobRequest(this, job);
+            var request = new JobRequest(this, job, priority);
 
             lock (_Context.Lock)
             {

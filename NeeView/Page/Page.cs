@@ -123,6 +123,8 @@ namespace NeeView
         // JOB: メイン処理
         private void OnExecute(CancellationToken cancel)
         {
+            ////Debug.WriteLine($"Job.{_JobRequest?.Priority.ToString()}: {FileName}..");
+
             var content = LoadContent();
 
             if (!cancel.IsCancellationRequested)

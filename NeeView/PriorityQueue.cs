@@ -15,9 +15,9 @@ namespace NeeView
     // 待ち行列優先度
     public enum QueueElementPriority
     {
-        Top, // 再優先
+        Top, // 最優先
         Hi,
-        Default // 標準
+        Default
     }
 
     /// <summary>

@@ -37,7 +37,12 @@ namespace NeeView
         public static void Initialize()
         {
             JobEngine = new JobEngine();
-            JobEngine.Start();
+            int jobWorkerSize;
+            if (!int.TryParse(ConfigurationManager.AppSettings.Get("ThreadSize"), out jobWorkerSize))
+            {
+                jobWorkerSize = 2; // 標準サイズ
+            }
+            JobEngine.Start(jobWorkerSize);
 
             BookHistory = new BookHistory();
 

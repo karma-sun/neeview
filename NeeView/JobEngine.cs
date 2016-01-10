@@ -139,7 +139,7 @@ namespace NeeView
         private JobContext _Context;
 
         // 最大ワーカー数
-        public readonly int _MaxWorkerSize = 2;
+        public readonly int _MaxWorkerSize = 4;
 
         // ワーカー
         public JobWorker[] Workers { get; set; }
@@ -153,15 +153,19 @@ namespace NeeView
         }
 
         // 開始
-        public void Start()
+        public void Start(int workerSize)
         {
-            ChangeWorkerSize(_MaxWorkerSize);
+            if (workerSize < 1) workerSize = 1;
+            if (workerSize > _MaxWorkerSize) workerSize = _MaxWorkerSize;
+
+            ChangeWorkerSize(workerSize);
         }
 
         // 稼働ワーカー数変更
         public void ChangeWorkerSize(int size)
         {
             Debug.Assert(0 <= size && size <= _MaxWorkerSize);
+            Debug.WriteLine("JobWorker: " + size);
 
             for (int i = 0; i < _MaxWorkerSize; ++i)
             {

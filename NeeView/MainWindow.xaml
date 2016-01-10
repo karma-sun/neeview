@@ -62,6 +62,8 @@
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Message}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[0].Message}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[1].Message}"/>
+            <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[2].Message}"/>
+            <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[3].Message}"/>
         </DockPanel>
 
         

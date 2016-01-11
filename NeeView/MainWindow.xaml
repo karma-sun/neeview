@@ -183,12 +183,15 @@
                         <MenuItem Header="左開き" Command="{Binding BookCommands[SetBookReadOrderLeft]}"
                               IsChecked="{Binding BookSetting.BookReadOrder,Converter={StaticResource BookReadOrderToBooleanConverter},ConverterParameter=LeftToRight,Mode=OneWay}" />
                         <Separator/>
-                        <MenuItem Header="最初のページを単独表示" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
-                              Command="{Binding BookCommands[ToggleIsSupportedTitlePage]}"
-                              IsChecked="{Binding BookSetting.IsSupportedTitlePage, Mode=OneWay}" />
                         <MenuItem Header="横長ページを見開きとみなす" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
                               Command="{Binding BookCommands[ToggleIsSupportedWidePage]}"
                               IsChecked="{Binding BookSetting.IsSupportedWidePage, Mode=OneWay}" />
+                        <MenuItem Header="最初のページを単独表示" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
+                              Command="{Binding BookCommands[ToggleIsSupportedSingleFirstPage]}"
+                              IsChecked="{Binding BookSetting.IsSupportedSingleFirstPage, Mode=OneWay}" />
+                        <MenuItem Header="最後のページを単独表示" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
+                              Command="{Binding BookCommands[ToggleIsSupportedSingleLastPage]}"
+                              IsChecked="{Binding BookSetting.IsSupportedSingleLastPage, Mode=OneWay}" />
                         <Separator />
                         <MenuItem Header="サブフォルダも読み込む" Command="{Binding BookCommands[ToggleIsRecursiveFolder]}"
                               IsChecked="{Binding BookSetting.IsRecursiveFolder,Mode=OneWay}" />

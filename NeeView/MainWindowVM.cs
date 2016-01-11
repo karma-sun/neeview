@@ -210,16 +210,20 @@ namespace NeeView
 
                 string text = LoosePath.GetFileName(BookHub.Current.Place);
 
-                if (BookHub.Current.CurrentPage != null)
+                if (_MainContent != null)
                 {
-                    string name = BookHub.Current.CurrentPage.FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ");
-                    text += $" ({Index + 1}/{IndexMax + 1}) - {name}";
-                }
+                    text += $" ({_MainContent.Index + 1}/{IndexMax + 1})";
 
-                if (BookHub.Current.CurrentViewPageCount >= 2 && BookHub.Current.CurrentNextPage != null)
-                {
-                    string name = LoosePath.GetFileName(BookHub.Current.CurrentNextPage.FileName);
-                    text += $" | {name}";
+                    if (Contents[1].IsValid)
+                    {
+                        string name = Contents[1].FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ");
+                        text += $" - {name} | {LoosePath.GetFileName(Contents[0].FullPath)}";
+                    }
+                    else if (Contents[0].IsValid)
+                    {
+                        string name = Contents[0].FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ");
+                        text += $" - {name}";
+                    }
                 }
 
                 return text;
@@ -275,6 +279,8 @@ namespace NeeView
 
         // コンテンツ
         public ObservableCollection<ViewContent> Contents { get; private set; }
+        // 見開き時のメインとなるコンテンツ
+        private ViewContent _MainContent;
 
         // Foregroudh Brush：ファイルページのフォントカラー用
         private Brush _ForegroundBrush = Brushes.White;
@@ -550,38 +556,50 @@ namespace NeeView
         {
             var book = BookHub.Current;
 
-            if (book != null)
+            if (book?.Place != null)
             {
-                // ページが存在しない場合、専用メッセージを表示する
-                IsVisibleEmptyPageMessage = book.ViewContentSources.All(content => content == null);
+                var contents = new List<ViewContent>();
+                
+                // ViewContent作成
+                foreach (var source in book.ViewContentSources)
+                {
+                    if (source != null)
+                    {
+                        contents.Add(new ViewContent()
+                        {
+                            Content = source.CreateControl(new Binding("ForegroundBrush") { Source = this }),
+                            Size = new Size(source.Width, source.Height),
+                            Color = new SolidColorBrush(source.Color),
+                            FullPath = source.FullPath,
+                            Index = source.Index,
+                        });
+                    }
+                }
 
-                // コンテンツのコントロール作成
+                // ページが存在しない場合、専用メッセージを表示する
+                IsVisibleEmptyPageMessage = contents.Count == 0;
+
+                // メインとなるコンテンツを指定
+                _MainContent = contents.Count > 0 ? contents[0] : null;
+
+                // 左開きの場合は反転
+                if (book.BookReadOrder == PageReadOrder.LeftToRight)
+                {
+                    contents.Reverse();
+                }
+
+                // ViewModelプロパティに反映
                 for (int index = 0; index < 2; ++index)
                 {
-                    int cid = (book.BookReadOrder == PageReadOrder.RightToLeft) ? index : 1 - index;
-
-                    ViewContentSource source = book.ViewContentSources[cid];
-
-                    if (string.IsNullOrEmpty(book.Place) || source == null)
-                    {
-                        Contents[index].Content = null;
-                    }
-                    else
-                    {
-                        Contents[index].Content = source.CreateControl(new Binding("ForegroundBrush") { Source = this });
-                        Contents[index].Size = new Size(source.Width, source.Height);
-                    }
-
-                    if (source?.Color != null)
-                    {
-                        Contents[index].Color = new SolidColorBrush(source.Color);
-                    }
+                    Contents[index] = index < contents.Count ? contents[index] : new ViewContent();
                 }
             }
             else
             {
-                Contents[0].Content = null;
-                Contents[1].Content = null;
+                // 空欄設定
+                _MainContent = null;
+                Contents[0] = new ViewContent();
+                Contents[1] = new ViewContent();
             }
 
             // 背景色更新
@@ -592,6 +610,7 @@ namespace NeeView
 
             // 表示更新を通知
             ViewChanged?.Invoke(this, null);
+            OnPropertyChanged(nameof(WindowTitle));
         }
 
 
@@ -599,7 +618,7 @@ namespace NeeView
         private void OnPageChanged(object sender, int e)
         {
             OnPropertyChanged(nameof(Index));
-            OnPropertyChanged(nameof(WindowTitle));
+            OnPropertyChanged(nameof(IndexMax));
         }
 
 

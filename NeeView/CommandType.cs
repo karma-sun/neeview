@@ -53,8 +53,9 @@ namespace NeeView
         SetBookReadOrderRight,
         SetBookReadOrderLeft,
 
-        ToggleIsSupportedTitlePage,
         ToggleIsSupportedWidePage,
+        ToggleIsSupportedSingleFirstPage,
+        ToggleIsSupportedSingleLastPage,
 
         ToggleIsRecursiveFolder,
 

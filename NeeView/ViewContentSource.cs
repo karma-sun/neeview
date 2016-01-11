@@ -31,15 +31,22 @@ namespace NeeView
         // コンテンツの色
         public Color Color { get; set; }
 
+        // 表示名
+        public string FullPath { get; set; }
+
+        // ページ番号
+        public int Index { get; set; }
 
         // コンストラクタ
         // Pageから作成
-        public ViewContentSource(Page page)
+        public ViewContentSource(Page page, int index)
         {
             Source = page.Content;
             Width = page.Width;
             Height = page.Height;
             Color = page.Color;
+            FullPath = page.FullPath;
+            Index = index;
         }
 
         // コントロール作成

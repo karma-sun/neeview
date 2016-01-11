@@ -54,17 +54,32 @@ namespace NeeView
         public event EventHandler DartyBook;
 
 
-        // 最初のページはタイトル
-        private bool _IsSupportedTitlePage;
-        public bool IsSupportedTitlePage
+        // 最初のページは単独表示
+        private bool _IsSupportedSingleFirstPage;
+        public bool IsSupportedSingleFirstPage
         {
-            get { return _IsSupportedTitlePage; }
+            get { return _IsSupportedSingleFirstPage; }
             set
             {
-                if (_IsSupportedTitlePage != value)
+                if (_IsSupportedSingleFirstPage != value)
                 {
-                    _IsSupportedTitlePage = value;
-                    ResetViewPages();
+                    _IsSupportedSingleFirstPage = value;
+                    Reflesh();
+                }
+            }
+        }
+
+        // 最後のページは単独表示
+        private bool _IsSupportedSingleLastPage;
+        public bool IsSupportedSingleLastPage
+        {
+            get { return _IsSupportedSingleLastPage; }
+            set
+            {
+                if (_IsSupportedSingleLastPage != value)
+                {
+                    _IsSupportedSingleLastPage = value;
+                    Reflesh();
                 }
             }
         }
@@ -79,7 +94,7 @@ namespace NeeView
                 if (_IsSupportedWidePage != value)
                 {
                     _IsSupportedWidePage = value;
-                    ResetViewPages();
+                    Reflesh();
                 }
             }
         }
@@ -125,8 +140,9 @@ namespace NeeView
                 if (_PageMode != value)
                 {
                     _PageMode = value;
-                    CurrentViewPageCount = _PageMode;
-                    ResetViewPages();
+
+                    int start = (CurrentViewPageCount >= 2 && _ViewPageDirection < 0) ? Index - 1 : Index;
+                    Reflesh(start, 1);
                 }
             }
         }
@@ -194,9 +210,6 @@ namespace NeeView
         // ページ コレクション
         public List<Page> Pages { get; private set; }
 
-        // 1つ前のページ番号
-        private int _OldIndex;
-
         // 先読み有効
         // ページ切替時に自動で有効に戻される
         public bool IsEnablePreLoad { get; set; } = true;
@@ -216,25 +229,13 @@ namespace NeeView
         // 現在ページ番号設定
         public void SetIndex(int value, int direction)
         {
+            Debug.Assert(direction == 1 || direction == -1);
+
             if (Place == null) return;
             if (value > Pages.Count - 1) value = Pages.Count - 1;
             if (value < 0) value = 0;
 
-            // 2ページ表示最終ページの場合の補正
-            if (_PageMode == 2 && value == Pages.Count - 1)
-            {
-                if (direction < 0)
-                {
-                    value = Pages.Count - _PageMode;
-                    if (value < 0) value = 0;
-                }
-            }
-
             // 現在ページ更新
-            if (_Index != value)
-            {
-                _OldIndex = _Index;
-            }
             _Index = value;
             _Direction = direction;
 
@@ -257,7 +258,7 @@ namespace NeeView
 
 
         // 読み進めている方向
-        private int _Direction;
+        private int _Direction = 1;
 
         // 現在ページ
         public Page CurrentPage
@@ -289,7 +290,6 @@ namespace NeeView
             int index = _ViewPageIndex + offset;
             return (0 <= index && index < Pages.Count) ? Pages[index] : null;
         }
-
 
         // リソースを保持しておくページ
         private List<Page> _KeepPages;
@@ -371,19 +371,32 @@ namespace NeeView
         {
             if (_ViewPages[0] == null) return true;
 
+            if (_Direction != _ViewPageDirection) return true;
+
             if (_ViewPages[0] == CurrentPage) return false;
 
             return _IsDartyViewPages;
         }
 
 
+        int _ViewPageDirection = 1;
+
         // 表示ページの更新
         // 表示ページコンテンツは最優先でロードを行う
         private void UpdateViewPage()
         {
+            // over viewpage
+            if (_PageMode <= 1 && _ViewPages[1] != null)
+            {
+                _ViewPages[1].Close();
+                _ViewPages[1] = null;
+            }
+
+            // Main ViewPage
             if (IsDartyViewPages())
             {
                 _ViewPageIndex = Index;
+                _ViewPageDirection = _Direction;
 
                 if (_ViewPages[0] != GetViewPage(0))
                 {
@@ -399,24 +412,18 @@ namespace NeeView
                 _IsDartyViewPages = false;
             }
 
-            if (_PageMode >= 2 && _ViewPages[1] != GetViewPage(1))
+            // Sub ViewPage
+            if (_PageMode >= 2 && _ViewPages[0] != null && _ViewPages[1] != GetViewPage(_ViewPageDirection))
             {
                 if (_ViewPages[1] != null && !_KeepPages.Contains(_ViewPages[1]))
                 {
                     _ViewPages[1].Close();
                 }
 
-                _ViewPages[1] = GetViewPage(1);
+                _ViewPages[1] = GetViewPage(_ViewPageDirection);
                 _ViewPages[1]?.Open(QueueElementPriority.Top);
             }
-
-            if (_PageMode <= 1 && _ViewPages[1] != null)
-            {
-                _ViewPages[1].Close();
-                _ViewPages[1] = null;
-            }
         }
-
 
         // 表示コンテンツの更新
         private void UpdateViewContents()
@@ -444,15 +451,21 @@ namespace NeeView
         {
             for (int i = 0; i < ViewContentSources.Count; ++i)
             {
-                if (i < CurrentViewPageCount)
+                if (i < CurrentViewPageCount && _ViewPages[i] != null)
                 {
-                    ViewContentSources[i] = _ViewPages[i] != null ? new ViewContentSource(_ViewPages[i]) : null;
+                    ViewContentSources[i] = new ViewContentSource(_ViewPages[i], _ViewPageIndex + _ViewPageDirection * i);
                     ////if (_ViewPages[i] != null) Debug.WriteLine($"View: {_ViewPages[i].FileName}");
                 }
                 else
                 {
                     ViewContentSources[i] = null;
                 }
+            }
+
+            // ２ページ表示で方向が逆なら入れ替える
+            if (_ViewPageDirection < 0 && ViewContentSources.All(e => e != null))
+            {
+                ViewContentSources.Reverse();
             }
 
             _IsDartyViewPages = true;
@@ -467,8 +480,15 @@ namespace NeeView
             // もともと単独ページであれば処理不要
             if (CurrentViewPageCount <= 1) return;
 
-            // 先頭ページは強制単独ページ処理
-            if (IsSupportedTitlePage && _ViewPageIndex == 0)
+            // 先頭ページの強制単独ページ処理
+            if (IsSupportedSingleFirstPage && (_ViewPageIndex == 0 || _ViewPageIndex + _ViewPageDirection == 0))
+            {
+                ToSingleViewPage();
+                return;
+            }
+
+            // 最終ページの強制単独ページ処理
+            if (IsSupportedSingleLastPage && (_ViewPageIndex == Pages.Count - 1 || _ViewPageIndex + _ViewPageDirection == Pages.Count - 1))
             {
                 ToSingleViewPage();
                 return;
@@ -492,21 +512,6 @@ namespace NeeView
         private void ToSingleViewPage()
         {
             CurrentViewPageCount = 1;
-
-            // 進行方向がマイナスの場合、ページの計算からやりなおし？
-            if (_Direction < 0 && _Index + 1 != _OldIndex)
-            {
-                _Index = _Index + 1;
-
-                if (_ViewPages[0] != null && !_KeepPages.Contains(_ViewPages[0]))
-                {
-                    _ViewPages[0].Close();
-                }
-                _ViewPages[0] = _ViewPages[1];
-                _ViewPages[1] = null;
-
-                PageChanged?.Invoke(this, _Index);
-            }
         }
 
         // ページコンテンツの準備
@@ -806,8 +811,19 @@ namespace NeeView
         {
             if (!IsStable()) return;
 
-            step = (step != 0) ? step : _PageMode;
+            // ページ移動量調整
+            step = (step == 0) ? CurrentViewPageCount : step;
+            if (_Direction > 0) step = 1; // 読む方向が反転する場合、移動量は1
 
+            // 既に先頭ページ?
+            if (Index - step < 0)
+            {
+                PageTerminated?.Invoke(this, -1);
+                //if (Index > 0) FirstPage();
+                return;
+            }
+
+            //
             int index = Index - step;
             if (index < 0) index = 0;
             if (Index == index)
@@ -826,14 +842,20 @@ namespace NeeView
         {
             if (!IsStable()) return;
 
+            // ページ移動量調整
+            step = (step == 0) ? CurrentViewPageCount : step;
+            if (_Direction < 0) step = 1; // 読む方向が反転する場合、移動量は1
+
             // 既に最終ページ?
-            if (Index + CurrentViewPageCount >= Pages.Count)
+            if (Index + step >= Pages.Count)
             {
                 PageTerminated?.Invoke(this, +1);
+                //if (Index < Pages.Count - 1) LastPage();
                 return;
             }
 
-            int index = Index + ((step == 0) ? CurrentViewPageCount : step);
+            //
+            int index = Index + step;
             if (index > Pages.Count - 1)
             {
                 index = Pages.Count - 1;
@@ -853,19 +875,25 @@ namespace NeeView
         // 最初のページに移動
         public void FirstPage()
         {
-            Index = 0;
+            if (Index > 0)
+            {
+                SetIndex(0, +1);
+            }
         }
 
         // 最後のページに移動
         public void LastPage()
         {
-            Index = Pages.Count - 1;
+            if (Index < Pages.Count - 1)
+            {
+                SetIndex(Pages.Count - 1, -1);
+            }
         }
 
 
 
         // ページの再読み込み
-        public void Reflesh()
+        public void Reflesh(int index, int direction)
         {
             if (Place == null) return;
 
@@ -875,41 +903,14 @@ namespace NeeView
                 _ViewPages.ForEach(e => e?.Close());
             }
 
-            SetIndex(Index, _Direction);
+            SetIndex(index, direction);
         }
 
 
-        // ViewPages作り直し
-        private void ResetViewPages()
+        // ページの再読み込み
+        public void Reflesh()
         {
-            Reflesh();
-            return;
-
-            // 様子見：2016-01-09
-#if false
-            if (Place == null) return;
-
-            lock (_Lock)
-            {
-                foreach (var page in _ViewPages)
-                {
-                    if (page != null && !_KeepPages.Contains(page)) page.Close();
-                }
-
-                for (int i = 0; i < _ViewPages.Count; ++i)
-                {
-                    _ViewPages[i] = null;
-                }
-
-                // 余分なコンテンツは破棄
-                for (int i = _PageMode; i < 2; ++i)
-                {
-                    ViewContents[i] = null;
-                }
-            }
-
-            SetIndex(Index, _Direction);
-#endif
+            Reflesh(Index, _Direction);
         }
 
 
@@ -952,7 +953,10 @@ namespace NeeView
             public PageReadOrder BookReadOrder { get; set; }
 
             [DataMember]
-            public bool IsSupportedTitlePage { get; set; }
+            public bool IsSupportedSingleFirstPage { get; set; }
+
+            [DataMember]
+            public bool IsSupportedSingleLastPage { get; set; }
 
             [DataMember]
             public bool IsSupportedWidePage { get; set; }
@@ -1004,7 +1008,8 @@ namespace NeeView
 
             memento.PageMode = PageMode;
             memento.BookReadOrder = BookReadOrder;
-            memento.IsSupportedTitlePage = IsSupportedTitlePage;
+            memento.IsSupportedSingleFirstPage = IsSupportedSingleFirstPage;
+            memento.IsSupportedSingleLastPage = IsSupportedSingleLastPage;
             memento.IsSupportedWidePage = IsSupportedWidePage;
             memento.IsRecursiveFolder = IsRecursiveFolder;
             memento.SortMode = SortMode;
@@ -1018,7 +1023,8 @@ namespace NeeView
         {
             PageMode = memento.PageMode;
             BookReadOrder = memento.BookReadOrder;
-            IsSupportedTitlePage = memento.IsSupportedTitlePage;
+            IsSupportedSingleFirstPage = memento.IsSupportedSingleFirstPage;
+            IsSupportedSingleLastPage = memento.IsSupportedSingleLastPage;
             IsSupportedWidePage = memento.IsSupportedWidePage;
             IsRecursiveFolder = memento.IsRecursiveFolder;
             SortMode = memento.SortMode;

@@ -300,10 +300,12 @@ namespace NeeView
 
                 else if (e < 0)
                 {
+                    FirstPage();
                     InfoMessage?.Invoke(this, "最初のページです");
                 }
                 else
                 {
+                    LastPage();
                     InfoMessage?.Invoke(this, "最後のページです");
                 }
             }
@@ -496,9 +498,16 @@ namespace NeeView
         }
 
         // 先頭ページの単ページ表示ON/OFF 
-        public void ToggleIsSupportedTitlePage()
+        public void ToggleIsSupportedSingleFirstPage()
         {
-            BookMemento.IsSupportedTitlePage = !BookMemento.IsSupportedTitlePage;
+            BookMemento.IsSupportedSingleFirstPage = !BookMemento.IsSupportedSingleFirstPage;
+            RefleshBookSetting();
+        }
+
+        // 最終ページの単ページ表示ON/OFF 
+        public void ToggleIsSupportedSingleLastPage()
+        {
+            BookMemento.IsSupportedSingleLastPage = !BookMemento.IsSupportedSingleLastPage;
             RefleshBookSetting();
         }
 

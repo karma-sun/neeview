@@ -72,6 +72,13 @@ namespace NeeView
         // コンテンツの色
         public Brush Color { get; set; } = Brushes.Black;
 
+        // 表示名
+        public string FullPath { get; set; }
+
+        // ページ番号
+        public int Index { get; set; }
+
+        // 有効判定
         public bool IsValid => (Content != null);
     }
 

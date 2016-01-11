@@ -329,19 +329,26 @@ namespace NeeView
                     Execute = e => _Book.SetBookReadOrder(PageReadOrder.LeftToRight),
                 },
 
-                [CommandType.ToggleIsSupportedTitlePage] = new CommandElement
-                {
-                    Group = "見開き設定",
-                    Text = "最初のページを単ページ表示",
-                    Execute = e => _Book.ToggleIsSupportedTitlePage(),
-                    ExecuteMessage = e => _Book.BookMemento.IsSupportedTitlePage ? "最初のページを区別しない" : "最初のページを単ページ表示"
-                },
                 [CommandType.ToggleIsSupportedWidePage] = new CommandElement
                 {
                     Group = "見開き設定",
                     Text = "横長ページを見開きとみなす",
                     Execute = e => _Book.ToggleIsSupportedWidePage(),
                     ExecuteMessage = e => _Book.BookMemento.IsSupportedWidePage ? "横長ページの区別をしない" : "横長ページを見開きとみなす"
+                },
+                [CommandType.ToggleIsSupportedSingleFirstPage] = new CommandElement
+                {
+                    Group = "見開き設定",
+                    Text = "最初のページを単ページ表示",
+                    Execute = e => _Book.ToggleIsSupportedSingleFirstPage(),
+                    ExecuteMessage = e => _Book.BookMemento.IsSupportedSingleFirstPage ? "最初のページを区別しない" : "最初のページを単ページ表示"
+                },
+                [CommandType.ToggleIsSupportedSingleLastPage] = new CommandElement
+                {
+                    Group = "見開き設定",
+                    Text = "最後のページを単ページ表示",
+                    Execute = e => _Book.ToggleIsSupportedSingleLastPage(),
+                    ExecuteMessage = e => _Book.BookMemento.IsSupportedSingleLastPage ? "最後のページを区別しない" : "最後のページを単ページ表示"
                 },
 
                 [CommandType.ToggleIsRecursiveFolder] = new CommandElement

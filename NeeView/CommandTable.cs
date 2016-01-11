@@ -199,7 +199,6 @@ namespace NeeView
                     Group = "移動",
                     Text = "前のページに戻る",
                     ShortCutKey = "Right,RightClick",
-                    MouseGesture = "R",
                     IsShowMessage = false,
                     Execute = e => _Book.PrevPage(),
                 },
@@ -208,7 +207,6 @@ namespace NeeView
                     Group = "移動",
                     Text = "次のページへ進む",
                     ShortCutKey = "Left,LeftClick",
-                    MouseGesture = "L",
                     IsShowMessage = false,
                     Execute = e => _Book.NextPage(),
                 },
@@ -216,6 +214,7 @@ namespace NeeView
                 {
                     Group = "移動",
                     Text = "1ページ戻る",
+                    MouseGesture = "R",
                     IsShowMessage = false,
                     Execute = e => _Book.PrevOnePage(),
                 },
@@ -224,6 +223,7 @@ namespace NeeView
                     Group = "移動",
                     Text = "1ページ進む",
                     IsShowMessage = false,
+                    MouseGesture = "L",
                     Execute = e => _Book.NextOnePage(),
                 },
                 [CommandType.FirstPage] = new CommandElement

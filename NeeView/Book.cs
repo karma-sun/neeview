@@ -975,6 +975,7 @@ namespace NeeView
             private void Constructor()
             {
                 PageMode = 1;
+                IsSupportedWidePage = true;
             }
 
             //

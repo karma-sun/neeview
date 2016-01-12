@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,9 +68,27 @@ namespace NeeView
         }
         #endregion
 
+        // ゼスチャー判定用最低ドラッグ距離
+        private double GestureMinimumDistanceX;
+        private double GestureMinimumDistanceY;
+
+        private void InitializeGestureMinimumDistance()
+        {
+            double.TryParse(ConfigurationManager.AppSettings.Get("GestureMinimumDistanceX"), out GestureMinimumDistanceX);
+            double.TryParse(ConfigurationManager.AppSettings.Get("GestureMinimumDistanceY"), out GestureMinimumDistanceY);
+
+            if (GestureMinimumDistanceX < SystemParameters.MinimumHorizontalDragDistance)
+                GestureMinimumDistanceX = SystemParameters.MinimumHorizontalDragDistance;
+            if (GestureMinimumDistanceY < SystemParameters.MinimumVerticalDragDistance)
+                GestureMinimumDistanceY = SystemParameters.MinimumVerticalDragDistance;
+        }
+
+
         // コンストラクタ
         public MouseGestureController(FrameworkElement sender)
         {
+            InitializeGestureMinimumDistance();
+
             _Sender = sender;
 
             _Gesture = new MouseGestureSequence();
@@ -121,13 +140,16 @@ namespace NeeView
 
             _Sender.ReleaseMouseCapture();
 
-            if (_IsEnableClickEvent && _IsDragging && _Gesture.Count > 0)
+            if (_IsEnableClickEvent)
             {
-                MouseGestureExecuteEventHandler?.Invoke(this, _Gesture);
-            }
-            else if (_IsEnableClickEvent)
-            {
-                MouseClickEventHandler(sender, e);
+                if (_Gesture.Count > 0)
+                {
+                    MouseGestureExecuteEventHandler?.Invoke(this, _Gesture);
+                }
+                else if (!_IsDragging)
+                {
+                    MouseClickEventHandler(sender, e);
+                }
             }
         }
 
@@ -166,11 +188,8 @@ namespace NeeView
         {
             var v1 = _EndPoint - _StartPoint;
 
-            double lengthX = SystemParameters.MinimumHorizontalDragDistance * 2.0; // ２倍
-            double lengthY = SystemParameters.MinimumVerticalDragDistance * 2.0;
-
             // 一定距離未満は判定しない
-            if (Math.Abs(v1.X) < lengthX && Math.Abs(v1.Y) < lengthY) return;
+            if (Math.Abs(v1.X) < GestureMinimumDistanceX && Math.Abs(v1.Y) < GestureMinimumDistanceY) return;
 
             // 方向を決める
             // 斜め方向は以前の方向とする

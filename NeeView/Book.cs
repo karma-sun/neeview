@@ -805,6 +805,12 @@ namespace NeeView
             return (_ViewPages[0] == CurrentPage && _ViewPages.All(e => e == null || e.Content != null));
         }
 
+        // 表示がワイドページ単独表示であるチェック
+        private bool IsCurrentWidePage()
+        {
+            return (PageMode == 2 && CurrentViewPageCount == 1 && CurrentPage != null && CurrentPage.Width > CurrentPage.Height);
+        }
+
 
         // 前のページに戻る
         public void PrevPage(int step = 0)
@@ -813,26 +819,20 @@ namespace NeeView
 
             // ページ移動量調整
             step = (step == 0) ? CurrentViewPageCount : step;
-            if (_Direction > 0) step = 1; // 読む方向が反転する場合、移動量は1
+            if (PageMode == 2)
+            {
+                if (_Direction > 0 && step > 0) step -= 1; // 読む方向が反転する場合、移動量-1
+                if (step == 0 && IsCurrentWidePage()) step = 1; // ワイドページ補正
+            }
 
             // 既に先頭ページ?
             if (Index - step < 0)
             {
                 PageTerminated?.Invoke(this, -1);
-                //if (Index > 0) FirstPage();
-                return;
-            }
-
-            //
-            int index = Index - step;
-            if (index < 0) index = 0;
-            if (Index == index)
-            {
-                PageTerminated?.Invoke(this, -1);
             }
             else
             {
-                Index = index;
+                SetIndex(Index - step, -1);
             }
         }
 
@@ -844,30 +844,21 @@ namespace NeeView
 
             // ページ移動量調整
             step = (step == 0) ? CurrentViewPageCount : step;
-            if (_Direction < 0) step = 1; // 読む方向が反転する場合、移動量は1
+            if (PageMode == 2)
+            {
+                if (_Direction < 0 && step > 0) step -= 1; // 読む方向が反転する場合、移動量-1
+                if (step == 0 && IsCurrentWidePage()) step = 1; // ワイドページ補正
+            }
+
 
             // 既に最終ページ?
             if (Index + step >= Pages.Count)
             {
                 PageTerminated?.Invoke(this, +1);
-                //if (Index < Pages.Count - 1) LastPage();
-                return;
-            }
-
-            //
-            int index = Index + step;
-            if (index > Pages.Count - 1)
-            {
-                index = Pages.Count - 1;
-                if (index < 0) index = 0;
-            }
-            if (Index == index)
-            {
-                PageTerminated?.Invoke(this, +1);
             }
             else
             {
-                Index = index;
+                SetIndex(Index + step, +1);
             }
         }
 

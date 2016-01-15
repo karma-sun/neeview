@@ -559,7 +559,7 @@ namespace NeeView
             if (book?.Place != null)
             {
                 var contents = new List<ViewContent>();
-                
+
                 // ViewContent作成
                 foreach (var source in book.ViewContentSources)
                 {
@@ -640,18 +640,17 @@ namespace NeeView
         {
             if (!Contents.Any(e => e.IsValid)) return;
 
-            var scales = CalcContentScale(_ViewWidth, _ViewHeight);
+            var sizes = CalcContentSize(_ViewWidth, _ViewHeight);
 
             for (int i = 0; i < 2; ++i)
             {
-                var size = Contents[i].Size;
-                Contents[i].Width = Math.Floor(size.Width * scales[i]);
-                Contents[i].Height = Math.Floor(size.Height * scales[i]);
+                Contents[i].Width = sizes[i].Width;
+                Contents[i].Height = sizes[i].Height;
             }
         }
 
         // ストレッチモードに合わせて各コンテンツのスケールを計算する
-        private double[] CalcContentScale(double width, double height)
+        private Size[] CalcContentSize(double width, double height)
         {
             var c0 = Contents[0].Size;
             var c1 = Contents[1].Size;
@@ -659,7 +658,7 @@ namespace NeeView
             // オリジナルサイズ
             if (this.StretchMode == PageStretchMode.None)
             {
-                return new double[] { 1.0, 1.0 };
+                return new Size[] { c0, c1 };
             }
 
             double rate0 = 1.0;
@@ -676,7 +675,7 @@ namespace NeeView
                 // どちらもImageでない
                 if (c0.Width < 0.1 && c1.Width < 0.1)
                 {
-                    return new double[] { 1.0, 1.0 };
+                    return new Size[] { c0, c1 };
                 }
 
                 if (c0.Width == 0) c0 = c1;
@@ -742,7 +741,12 @@ namespace NeeView
                 }
             }
 
-            return new double[] { rate0, rate1 };
+            // 整数にしたサイズを求める
+            var s0 = new Size(Math.Floor(c0.Width * rate0 + 0.5), Math.Floor(c0.Height * rate0 + 0.5));
+            var s1Width = Math.Floor(c0.Width * rate0 + c1.Width * rate1 + 0.5) - s0.Width;
+            var s1 = new Size(s1Width > 0 ? s1Width : 0, s0.Height);
+
+            return new Size[] { s0, s1 };
         }
 
 

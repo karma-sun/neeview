@@ -300,12 +300,12 @@ namespace NeeView
 
                 else if (e < 0)
                 {
-                    FirstPage();
+                    //FirstPage();
                     InfoMessage?.Invoke(this, "最初のページです");
                 }
                 else
                 {
-                    LastPage();
+                    //LastPage();
                     InfoMessage?.Invoke(this, "最後のページです");
                 }
             }
@@ -314,7 +314,7 @@ namespace NeeView
         // 現在ページ番号取得
         public int GetPageIndex()
         {
-            return Current == null ? 0 : Current.Index;
+            return Current == null ? 0 : Current.Index.Index;
         }
 
         // 現在ページ番号設定 (先読み無し)
@@ -323,7 +323,7 @@ namespace NeeView
             if (Current != null)
             {
                 Current.IsEnablePreLoad = false;
-                Current.Index = index;
+                Current.SetIndex(new PageValue(index, 0), 1);
                 Current.IsEnablePreLoad = true;
             }
         }

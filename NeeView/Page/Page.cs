@@ -53,6 +53,9 @@ namespace NeeView
         // コンテンツ更新イベント
         public static event EventHandler ContentChanged;
 
+        // コンテンツ更新イベント
+        public event EventHandler<bool> Loaded;
+
         // 場所
         public string Place { get; protected set; }
 
@@ -71,6 +74,9 @@ namespace NeeView
         // コンテンツ高
         public double Height { get; protected set; }
 
+        // ワイド判定
+        public bool IsWide => Width > Height;
+
         // コンテンツ色
         public Color Color { get; protected set; }
 
@@ -85,9 +91,35 @@ namespace NeeView
                 {
                     _Content = value;
                     ContentChanged?.Invoke(this, null);
+                    Loaded?.Invoke(this, _Content != null);
                 }
             }
         }
+
+        // 待つ
+        public async Task LoadAsync(QueueElementPriority priority)
+        {
+            try
+            {
+                if (_Content != null) return;
+
+                var waitEvent = new TaskCompletionSource<bool>();
+                EventHandler<bool> a = (s, e) => waitEvent.SetResult(e);
+
+                Loaded += a;
+
+                Open(priority);
+                await waitEvent.Task;
+
+                Loaded -= a;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                throw e;
+            }
+        }
+
 
         // アニメーションGIF有効/無効フラグ
         public static bool IsEnableAnimatedGif { get; set; }
@@ -123,7 +155,7 @@ namespace NeeView
         // JOB: メイン処理
         private void OnExecute(CancellationToken cancel)
         {
-            ////Debug.WriteLine($"Job.{_JobRequest?.Priority.ToString()}: {FileName}..");
+            Debug.WriteLine($"Job.{_JobRequest?.Priority.ToString()}: {FileName}..");
 
             var content = LoadContent();
 

@@ -210,3 +210,9 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+
+# UserLocal
+*.improj
+PublishToZip/NeeView*/
+PublishToZip/*.zip
+

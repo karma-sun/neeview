@@ -290,24 +290,31 @@ namespace NeeView
                 [CommandType.TogglePageMode] = new CommandElement
                 {
                     Group = "ページ表示",
-                    Text = "単ページ/見開き表示を切り替える",
+                    Text = "ページ表示モードを切り替える",
                     ShortCutKey = "LeftButton+WheelUp",
                     Execute = e => _Book.TogglePageMode(),
-                    ExecuteMessage = e => _Book.GetTogglePageMode() == 1 ? "単ページ表示" : "見開き表示"
+                    ExecuteMessage = e => _Book.BookMemento.PageMode.GetToggle().ToDispString(),
+                },
+                [CommandType.SetPageMode0] = new CommandElement
+                {
+                    Group = "ページ表示",
+                    Text = "分割表示にする",
+                    ShortCutKey = "Ctrl+0",
+                    Execute = e => _Book.SetPageMode(PageMode.DividePage)
                 },
                 [CommandType.SetPageMode1] = new CommandElement
                 {
                     Group = "ページ表示",
                     Text = "単ページ表示にする",
                     ShortCutKey = "Ctrl+1",
-                    Execute = e => _Book.SetPageMode(1)
+                    Execute = e => _Book.SetPageMode(PageMode.SinglePage)
                 },
                 [CommandType.SetPageMode2] = new CommandElement
                 {
                     Group = "ページ表示",
                     Text = "見開き表示にする",
                     ShortCutKey = "Ctrl+2",
-                    Execute = e => _Book.SetPageMode(2)
+                    Execute = e => _Book.SetPageMode(PageMode.WidePage)
                 },
                 [CommandType.ToggleBookReadOrder] = new CommandElement
                 {

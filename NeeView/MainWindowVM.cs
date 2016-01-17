@@ -157,6 +157,7 @@ namespace NeeView
         #endregion
 
         // 現在ページ番号
+        //private int _Index;
         public int Index
         {
             get { return BookHub.GetPageIndex(); }
@@ -212,16 +213,25 @@ namespace NeeView
 
                 if (_MainContent != null)
                 {
-                    text += $" ({_MainContent.Index + 1}/{IndexMax + 1})";
+                    if (_MainContent.PartSize == 2)
+                    {
+                        text += $" ({_MainContent.Position.Index + 1}/{IndexMax + 1})";
+                    }
+                    else
+                    {
+                        string pageNum = (_MainContent.Position.Index + 1).ToString() + (_MainContent.Position.Part == 1 ? ".5" : "");
+                        text += $" ({pageNum}/{IndexMax + 1})";
+                    }
 
                     if (Contents[1].IsValid)
                     {
-                        string name = Contents[1].FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ");
-                        text += $" - {name} | {LoosePath.GetFileName(Contents[0].FullPath)}";
+                        string name1 = Contents[1].FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ") + Contents[1].GetPartString();
+                        string name0 = LoosePath.GetFileName(Contents[0].FullPath) + Contents[0].GetPartString();
+                        text += $" - {name1} | {name0}";
                     }
                     else if (Contents[0].IsValid)
                     {
-                        string name = Contents[0].FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ");
+                        string name = Contents[0].FullPath?.TrimEnd('\\').Replace('/', '\\').Replace("\\", " > ") + Contents[0].GetPartString();
                         text += $" - {name}";
                     }
                 }
@@ -552,16 +562,14 @@ namespace NeeView
 
 
         // 表示コンテンツ更新
-        private void OnViewContentsChanged(object sender, EventArgs e)
+        private void OnViewContentsChanged(object sender, IEnumerable<ViewContentSource> e)
         {
-            var book = BookHub.Current;
+            var contents = new List<ViewContent>();
 
-            if (book?.Place != null)
+            // ViewContent作成
+            if (e != null)
             {
-                var contents = new List<ViewContent>();
-
-                // ViewContent作成
-                foreach (var source in book.ViewContentSources)
+                foreach (var source in e)
                 {
                     if (source != null)
                     {
@@ -571,35 +579,24 @@ namespace NeeView
                             Size = new Size(source.Width, source.Height),
                             Color = new SolidColorBrush(source.Color),
                             FullPath = source.FullPath,
-                            Index = source.Index,
+                            Position = source.Position,
+                            PartSize = source.PartSize,
+                            ReadOrder = source.ReadOrder,
                         });
                     }
                 }
-
-                // ページが存在しない場合、専用メッセージを表示する
-                IsVisibleEmptyPageMessage = contents.Count == 0;
-
-                // メインとなるコンテンツを指定
-                _MainContent = contents.Count > 0 ? contents[0] : null;
-
-                // 左開きの場合は反転
-                if (book.BookReadOrder == PageReadOrder.LeftToRight)
-                {
-                    contents.Reverse();
-                }
-
-                // ViewModelプロパティに反映
-                for (int index = 0; index < 2; ++index)
-                {
-                    Contents[index] = index < contents.Count ? contents[index] : new ViewContent();
-                }
             }
-            else
+
+            // ページが存在しない場合、専用メッセージを表示する
+            IsVisibleEmptyPageMessage = contents.Count == 0;
+
+            // メインとなるコンテンツを指定
+            _MainContent = contents.Count > 0 ? contents[0] : null;
+
+            // ViewModelプロパティに反映
+            for (int index = 0; index < 2; ++index)
             {
-                // 空欄設定
-                _MainContent = null;
-                Contents[0] = new ViewContent();
-                Contents[1] = new ViewContent();
+                Contents[index] = index < contents.Count ? contents[index] : new ViewContent();
             }
 
             // 背景色更新

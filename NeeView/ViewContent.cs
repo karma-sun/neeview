@@ -75,11 +75,32 @@ namespace NeeView
         // 表示名
         public string FullPath { get; set; }
 
-        // ページ番号
-        public int Index { get; set; }
+        // ページの場所
+        public PagePosition Position { get; set; }
+
+        // 表示パーツサイズ
+        public int PartSize { get; set; }
+
+        // 方向
+        public PageReadOrder ReadOrder { get; set; }
 
         // 有効判定
         public bool IsValid => (Content != null);
-    }
+        
 
+        // ページパーツ文字
+        public string GetPartString()
+        {
+            if (PartSize == 1)
+            {
+                int part = ReadOrder == PageReadOrder.LeftToRight ? 1 - Position.Part : Position.Part;
+                return part == 0 ? "(R)" : "(L)";
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+    }
 }

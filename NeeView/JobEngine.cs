@@ -330,7 +330,7 @@ namespace NeeView
 
 
         // ワーカータスクメイン
-        private void WorkerExecute()
+        private async void WorkerExecute()
         {
             while (!_CancellationTokenSource.Token.IsCancellationRequested)
             {
@@ -353,7 +353,7 @@ namespace NeeView
                 if (job == null)
                 {
                     Message = $"wait event ...";
-                    _Context.Event.WaitOne();
+                    await Task.Run(()=>_Context.Event.WaitOne());
                     continue;
                 }
 

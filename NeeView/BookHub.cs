@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -37,7 +38,7 @@ namespace NeeView
         public event EventHandler<string> InfoMessage;
 
         // ViewContentsの変更通知
-        public event EventHandler ViewContentsChanged;
+        public event EventHandler<IEnumerable<ViewContentSource>> ViewContentsChanged;
 
         // スライドショーモード変更通知
         public event EventHandler<bool> SlideShowModeChanged;
@@ -55,7 +56,7 @@ namespace NeeView
                 if (Page.IsEnableAnimatedGif != value)
                 {
                     Page.IsEnableAnimatedGif = value;
-                    Current?.Reflesh(); // 表示更新
+                    Current?.RequestReflesh(); // 表示更新
                 }
             }
         }
@@ -314,7 +315,7 @@ namespace NeeView
         // 現在ページ番号取得
         public int GetPageIndex()
         {
-            return Current == null ? 0 : Current.Index.Index;
+            return Current == null ? 0 : Current.OrderIndex; // GetPosition().Index;
         }
 
         // 現在ページ番号設定 (先読み無し)
@@ -323,7 +324,7 @@ namespace NeeView
             if (Current != null)
             {
                 Current.IsEnablePreLoad = false;
-                Current.SetIndex(new PageValue(index, 0), 1);
+                Current.SetPosition(new PagePosition(index, 0), 1);
                 Current.IsEnablePreLoad = true;
             }
         }
@@ -539,23 +540,25 @@ namespace NeeView
             RefleshBookSetting();
         }
 
-        // 単ページ/見開き表示設定
-        public void SetPageMode(int mode)
+        // ページモード設定
+        public void SetPageMode(PageMode mode)
         {
             BookMemento.PageMode = mode;
             RefleshBookSetting();
         }
 
-        // 単ページ/見開き表示トグル取得
+        // ページモードトグル取得
+        /*
         public int GetTogglePageMode()
         {
-            return 3 - BookMemento.PageMode;
+            return (BookMemento.PageMode + 1) % 3;
         }
+        */
 
         // 単ページ/見開き表示トグル
         public void TogglePageMode()
         {
-            BookMemento.PageMode = GetTogglePageMode();
+            BookMemento.PageMode = BookMemento.PageMode.GetToggle();
             RefleshBookSetting(); 
         }
 

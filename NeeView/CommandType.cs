@@ -46,6 +46,7 @@ namespace NeeView
         SetStretchModeUniformToFill,
 
         TogglePageMode,
+        SetPageMode0,
         SetPageMode1,
         SetPageMode2,
 

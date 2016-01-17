@@ -173,6 +173,8 @@
                     </MenuItem>
 
                     <MenuItem Header="ページ(_P)">
+                        <MenuItem x:Name="PageMode0MenuItem" Header="分割ページ表示" Command="{Binding BookCommands[SetPageMode0]}"
+                              IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=0,Mode=OneWay}" />
                         <MenuItem x:Name="PageMode1MenuItem" Header="単ページ表示" Command="{Binding BookCommands[SetPageMode1]}"
                               IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=1,Mode=OneWay}" />
                         <MenuItem x:Name="PageMode2MenuItem" Header="見開き表示" Command="{Binding BookCommands[SetPageMode2]}"

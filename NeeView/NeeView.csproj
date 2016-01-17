@@ -122,6 +122,7 @@
     <Compile Include="PageReadOrder.cs" />
     <Compile Include="PageSortMode.cs" />
     <Compile Include="PageStretchMode.cs" />
+    <Compile Include="PageMode.cs" />
     <Compile Include="PriorityQueue.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Setting.cs" />

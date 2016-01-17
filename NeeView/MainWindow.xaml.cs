@@ -55,7 +55,11 @@ namespace NeeView
             _VM = new MainWindowVM();
 
             _VM.ViewChanged +=
-                (s, e) => _MouseDrag.Reset();
+                (s, e) =>
+                {
+                    UpdateMouseDragSetting();
+                    _MouseDrag.Reset();
+                };
 
             _VM.ViewModeChanged +=
                 (s, e) => UpdateMouseDragSetting();

@@ -295,13 +295,6 @@ namespace NeeView
                     Execute = e => _Book.TogglePageMode(),
                     ExecuteMessage = e => _Book.BookMemento.PageMode.GetToggle().ToDispString(),
                 },
-                [CommandType.SetPageMode0] = new CommandElement
-                {
-                    Group = "ページ表示",
-                    Text = "分割表示にする",
-                    ShortCutKey = "Ctrl+0",
-                    Execute = e => _Book.SetPageMode(PageMode.DividePage)
-                },
                 [CommandType.SetPageMode1] = new CommandElement
                 {
                     Group = "ページ表示",
@@ -334,6 +327,14 @@ namespace NeeView
                     Group = "ページ表示",
                     Text = "左開きにする",
                     Execute = e => _Book.SetBookReadOrder(PageReadOrder.LeftToRight),
+                },
+
+                [CommandType.ToggleIsSupportedDividePage] = new CommandElement
+                {
+                    Group = "見開き設定",
+                    Text = "横長ページを分割する",
+                    Execute = e => _Book.ToggleIsSupportedDividePage(),
+                    ExecuteMessage = e => _Book.BookMemento.IsSupportedDividePage ? "横長ページの区別をしない" : "横長ページを分割する"
                 },
 
                 [CommandType.ToggleIsSupportedWidePage] = new CommandElement

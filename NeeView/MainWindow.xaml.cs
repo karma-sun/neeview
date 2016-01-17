@@ -591,13 +591,13 @@ namespace NeeView
     }
 
     // コンバータ：ページモードフラグ
-    [ValueConversion(typeof(int), typeof(bool))]
+    [ValueConversion(typeof(PageMode), typeof(bool))]
     public class PageModeToBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            int mode0 = (int)value;
-            int mode1 = int.Parse(parameter as string);
+            PageMode mode0 = (PageMode)value;
+            PageMode mode1 = (PageMode)Enum.Parse(typeof(PageMode), parameter as string);
             return (mode0 == mode1);
         }
 

@@ -53,7 +53,7 @@ namespace NeeView
             if (item != null) History.Remove(item);
 
             var setting = new Book.Memento();
-            setting = book.CreateMemento(); //.Store(book);
+            setting = book.CreateMemento();
             History.AddFirst(setting);
 
             Resize();

@@ -315,7 +315,7 @@ namespace NeeView
         // 現在ページ番号取得
         public int GetPageIndex()
         {
-            return Current == null ? 0 : Current.OrderIndex; // GetPosition().Index;
+            return Current == null ? 0 : Current.DisplayIndex; // GetPosition().Index;
         }
 
         // 現在ページ番号設定 (先読み無し)
@@ -324,7 +324,7 @@ namespace NeeView
             if (Current != null)
             {
                 Current.IsEnablePreLoad = false;
-                Current.SetPosition(new PagePosition(index, 0), 1);
+                Current.RequestSetPosition(new PagePosition(index, 0), 1);
                 Current.IsEnablePreLoad = true;
             }
         }
@@ -509,6 +509,13 @@ namespace NeeView
         public void ToggleIsSupportedSingleLastPage()
         {
             BookMemento.IsSupportedSingleLastPage = !BookMemento.IsSupportedSingleLastPage;
+            RefleshBookSetting();
+        }
+
+        // 横長ページの分割ON/OFF
+        public void ToggleIsSupportedDividePage()
+        {
+            BookMemento.IsSupportedDividePage = !BookMemento.IsSupportedDividePage;
             RefleshBookSetting();
         }
 

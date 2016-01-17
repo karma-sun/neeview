@@ -219,7 +219,7 @@ namespace NeeView
                     }
                     else
                     {
-                        string pageNum = (_MainContent.Position.Index + 1).ToString() + (_MainContent.Position.Part == 1 ? ".5" : "");
+                        string pageNum = (_MainContent.Position.Index + 1).ToString() + (_MainContent.Position.Part == 1 ? ".5" : ".0");
                         text += $" ({pageNum}/{IndexMax + 1})";
                     }
 

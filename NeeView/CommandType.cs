@@ -46,7 +46,6 @@ namespace NeeView
         SetStretchModeUniformToFill,
 
         TogglePageMode,
-        SetPageMode0,
         SetPageMode1,
         SetPageMode2,
 
@@ -54,6 +53,7 @@ namespace NeeView
         SetBookReadOrderRight,
         SetBookReadOrderLeft,
 
+        ToggleIsSupportedDividePage,
         ToggleIsSupportedWidePage,
         ToggleIsSupportedSingleFirstPage,
         ToggleIsSupportedSingleLastPage,

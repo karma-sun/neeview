@@ -12,140 +12,8 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
-/*
-    TODO:
-
-    - [v] 新しいフラグ：「横長ページを分割」
-    - [v] 左開きのときのページ順。分割での順番をVMで調整
-    - [v] タイトル表示。11.5 .... > L とか？
-    - [v] 不要パラメータ削除
-    - [v] まだまだ削れる、ViewContentSource とかローカルにできそう
-    - [v] 現在状態をまとめられないか
-    - [v] タスクキャンセルの出力メッセージの抑制
-    - [v] 見開きページを２ページ分とみなす、のあつかい
-    - [v] 最初、最後のページ単独表示
-    - [v] 名前どうにか、ViewPage:Index とか、 Contextとか、おかしいでしょ。 -- Contextはそのまま
-    - [v] Sort, Reflesh, Dispose のコマンド化
-    - [v] ワイド分割はページモード０にする？
-    - [v] PageModeのenum化
-    - [v] PagePart を数値にする。0(R),1(L) と サイズ(1-2)で領域を表す
-
-    - やっぱページモードは1と2だけにして、ページ分割はモード1のときの拡張設定でいいんじゃね？
-    - Bookコマンドの整備。名前とか範囲とか。定義場所とか。
-
-    - 操作不能になるバグを再現させる
-*/
-
 namespace NeeView
 {
-    public struct PagePosition
-    {
-        public int Value { get; set; }
-
-        public int Index
-        {
-            get { return Value / 2; }
-            set { Value = value * 2; }
-        }
-
-        public int Part
-        {
-            get { return Value % 2; }
-            set { Value = Index * 2 + value; }
-        }
-
-        // constructor
-        public PagePosition(int index, int part)
-        {
-            Value = index * 2 + part;
-        }
-
-        //
-        public override string ToString()
-        {
-            return Index.ToString() + (Part == 1 ? ".5" : "");
-        }
-
-        // add
-        public static PagePosition operator +(PagePosition a, PagePosition b)
-        {
-            return new PagePosition() { Value = a.Value + b.Value };
-        }
-
-        public static PagePosition operator +(PagePosition a, int b)
-        {
-            return new PagePosition() { Value = a.Value + b };
-        }
-
-        public static PagePosition operator -(PagePosition a, PagePosition b)
-        {
-            return new PagePosition() { Value = a.Value - b.Value };
-        }
-
-        public static PagePosition operator -(PagePosition a, int b)
-        {
-            return new PagePosition() { Value = a.Value - b };
-        }
-
-        // compare
-        public override bool Equals(object obj)
-        {
-            if (obj == null) return false;
-            if (!(obj is PagePosition)) return false;
-            return Value == ((PagePosition)obj).Value;
-        }
-
-        public override int GetHashCode()
-        {
-            return Value;
-        }
-
-        public static bool operator ==(PagePosition a, PagePosition b)
-        {
-            return a.Value == b.Value;
-        }
-
-        public static bool operator !=(PagePosition a, PagePosition b)
-        {
-            return a.Value != b.Value;
-        }
-
-        public static bool operator <(PagePosition a, PagePosition b)
-        {
-            return a.Value < b.Value;
-        }
-
-        public static bool operator >(PagePosition a, PagePosition b)
-        {
-            return a.Value > b.Value;
-        }
-
-        public static bool operator <=(PagePosition a, PagePosition b)
-        {
-            return a.Value <= b.Value;
-        }
-
-        public static bool operator >=(PagePosition a, PagePosition b)
-        {
-            return a.Value >= b.Value;
-        }
-
-        // clamp
-        public PagePosition Clamp(PagePosition min, PagePosition max)
-        {
-            if (min.Value > max.Value) throw new ArgumentOutOfRangeException();
-
-            int value = Value;
-            if (value < min.Value) value = min.Value;
-            if (value > max.Value) value = max.Value;
-
-            return new PagePosition() { Value = value };
-        }
-    }
-
-
-
-
     /// <summary>
     /// ロードオプションフラグ
     /// </summary>
@@ -185,6 +53,21 @@ namespace NeeView
         // 再読み込みを要求
         public event EventHandler DartyBook;
 
+
+        // 横長ページを分割する
+        private bool _IsSupportedDividePage;
+        public bool IsSupportedDividePage
+        {
+            get { return _IsSupportedDividePage; }
+            set
+            {
+                if (_IsSupportedDividePage != value)
+                {
+                    _IsSupportedDividePage = value;
+                    RequestReflesh();
+                }
+            }
+        }
 
         // 最初のページは単独表示
         private bool _IsSupportedSingleFirstPage;
@@ -335,20 +218,17 @@ namespace NeeView
         // ページ切替時に自動で有効に戻される
         public bool IsEnablePreLoad { get; set; } = true;
 
-        // 予約されているページ番号
-        public int OrderIndex { get; set; }
+        // 表示されるページ番号(スライダー用)
+        public int DisplayIndex { get; set; }
 
-        // ページコンテキスト
-        ViewPageContext _Context = new ViewPageContext();
+        // 表示ページコンテキスト
+        ViewPageContext _ViewContext = new ViewPageContext();
 
-        // 在ページ番号取得
-        /*
-        public PagePosition GetPosition()
-        {
-            return _Context.Position;
-        }
-        */
+        // 先頭ページの場所
+        PagePosition _FirstPosition => new PagePosition(0, 0);
 
+        // 最終ページの場所
+        PagePosition _LastPosition => Pages.Count > 0 ? new PagePosition(Pages.Count - 1, 1) : _FirstPosition;
 
         // リソースを保持しておくページ
         private List<Page> _KeepPages = new List<Page>();
@@ -358,517 +238,11 @@ namespace NeeView
         private object _Lock = new object();
 
 
-
-        // ページ指定移動
-        public void SetPosition(PagePosition position, int direction)
-        {
-            Debug.Assert(direction == 1 || direction == -1);
-
-            if (Place == null) return;
-
-            OrderIndex = position.Index;
-            RequestViewPage(new SetPageCommand(this, position, direction, PageMode.Size()));
-        }
-
-        // ページ相対移動
-        public void MovePosition(int step)
-        {
-            if (Place == null) return;
-            RequestViewPage(new MovePageCommand(this, step));
-        }
-
-        // リフレッシュ
-        public void RequestReflesh()
-        {
-            if (Place == null) return;
-            RequestViewPage(new RefleshCommand(this));
-        }
-
-        // ソート
-        public void RequestSort()
-        {
-            if (Place == null) return;
-            RequestViewPage(new SortCommand(this));
-        }
-
-        // 終了
-        public void RequestDispose()
-        {
-            if (Place == null) return;
-            RequestViewPage(new DisposeCommand(this));
-        }
-
-
-
-        // 現在ページ
-        public Page CurrentPage
-        {
-            get { return Pages.Count > 0 ? Pages[_Context.Position.Index] : null; }
-        }
-
-
-
-
-        //
-        public class ViewInfo
-        {
-            public PagePosition Position;
-            public int Size;
-        }
-
-        //
-        public class ViewPageContext
-        {
-            public PagePosition Position { get; set; }
-            public int Direction { get; set; } = 1;
-            public int Size { get; set; }
-
-            public List<ViewInfo> ViewInfoList { get; set; }
-            public List<ViewContentSource> ViewContentsSource { get; set; }
-        }
-
-        //
-        public abstract class ViewPageCommand
-        {
-            protected Book _Book;
-            public abstract int Priority { get; }
-
-            public ViewPageCommand(Book book)
-            {
-                _Book = book;
-            }
-
-            public virtual async Task Execute() { await Task.Yield(); }
-        }
-
-        //
-        public class DisposeCommand : ViewPageCommand
-        {
-            public override int Priority => 3;
-
-            public DisposeCommand(Book book) : base(book)
-            {
-            }
-
-            public override async Task Execute()
-            {
-                _Book.Terminate();
-                _Book._CancellationTokenSource.Cancel(); // task cancel
-                await Task.Yield();
-            }
-        }
-
-        //
-        public class SortCommand : ViewPageCommand
-        {
-            public override int Priority => 2;
-
-            public SortCommand(Book book) : base(book)
-            {
-            }
-
-            public override async Task Execute()
-            {
-                _Book.Sort();
-                await Task.Yield();
-            }
-        }
-
-        //
-        public class RefleshCommand : ViewPageCommand
-        {
-            public override int Priority => 1;
-
-            public RefleshCommand(Book book) : base(book)
-            {
-            }
-
-            public override async Task Execute()
-            {
-                _Book.Reflesh();
-                await Task.Yield();
-            }
-        }
-
-
-        //
-        public interface ISetPageCommand
-        {
-            ViewPageContext GetViewPageContext();
-        }
-
-
-        //
-        public class SetPageCommand : ViewPageCommand, ISetPageCommand
-        {
-            public override int Priority => 0;
-
-            ViewPageContext Context { get; set; }
-
-            public SetPageCommand(Book book, PagePosition position, int direction, int size) : base(book)
-            {
-                Context = new ViewPageContext()
-                {
-                    Position = position,
-                    Direction = direction,
-                    Size = size,
-                };
-            }
-
-            public ViewPageContext GetViewPageContext()
-            {
-                return Context;
-            }
-
-            public override async Task Execute()
-            {
-                await _Book.UpdateViewPageAsync(GetViewPageContext());
-            }
-        }
-
-
-        //
-        public class MovePageCommand : ViewPageCommand, ISetPageCommand
-        {
-            public override int Priority => 0;
-
-            public int Step { get; set; }
-
-
-            public MovePageCommand(Book book, int step) : base(book)
-            {
-                Step = step;
-            }
-
-            public ViewPageContext GetViewPageContext()
-            {
-                int size = 0;
-                if (Step > 0)
-                {
-                    for (int i = 0; i < Step && i < _Book._Context.ViewInfoList.Count; ++i)
-                    {
-                        size += _Book._Context.ViewInfoList[i].Size;
-                    }
-                }
-                else if (_Book._Context.Size == 2)
-                {
-                    size = Step + 1;
-                }
-                else
-                {
-                    size = Step;
-                }
-
-                return new ViewPageContext()
-                {
-                    Position = _Book._Context.Position + size,
-                    Direction = Step < 0 ? -1 : 1,
-                    Size = _Book._Context.Size,
-                };
-            }
-
-            public override async Task Execute()
-            {
-                await _Book.UpdateViewPageAsync(GetViewPageContext());
-                _Book.OrderIndex = _Book._Context.Position.Index;
-            }
-
-        }
-
-
-
-
-        CancellationTokenSource _CancellationTokenSource;
-
-        ViewPageCommand _Command;
-
-        public AutoResetEvent _WaitEvent { get; private set; } = new AutoResetEvent(false);
-
-        private void RequestViewPage(ViewPageCommand command)
-        {
-            lock (_Lock)
-            {
-                if (_Command == null || _Command.Priority <= command.Priority)
-                {
-                    _Command = command;
-                }
-            }
-            _WaitEvent.Set();
-        }
-
-        private void StartUpdateViewPageTask()
-        {
-            _CancellationTokenSource = new CancellationTokenSource();
-            Task.Run(() => UpdateViewPageTask(), _CancellationTokenSource.Token);
-        }
-
-        private void BreakUpdateViewPageTask()
-        {
-            _CancellationTokenSource.Cancel();
-            _WaitEvent.Set();
-        }
-
-
-        private async Task UpdateViewPageTask()
-        {
-            try
-            {
-                Debug.WriteLine("Bookタスクの開始");
-                while (!_CancellationTokenSource.Token.IsCancellationRequested)
-                {
-                    await Task.Run(() => _WaitEvent.WaitOne());
-                    _CancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                    ViewPageCommand command;
-                    lock (_Lock)
-                    {
-                        command = _Command;
-                        _Command = null;
-                    }
-
-                    if (command != null)
-                    {
-                        await command.Execute();
-                        //await UpdateViewPageAsync(command);
-                    }
-                }
-            }
-            catch (OperationCanceledException)
-            {
-            }
-            catch (Exception e)
-            {
-                Action<Exception> action = (exception) => { throw new ApplicationException("Bookタスク内部エラー", exception); };
-                await App.Current.Dispatcher.BeginInvoke(action, e);
-            }
-            finally
-            {
-                Debug.WriteLine("Bookタスクの終了: " + Place);
-            }
-        }
-
-        private int ClampPageNumber(int index)
-        {
-            if (index < 0) index = 0;
-            if (index > Pages.Count - 1) index = Pages.Count - 1;
-            return index;
-        }
-
-        private bool IsValidPosition(PagePosition position)
-        {
-            return (new PagePosition(0, 0) <= position && position < new PagePosition(Pages.Count, 0));
-        }
-
-
-        private async void UpdateViewPage(ViewPageContext context)
-        {
-            await UpdateViewPageAsync(context);
-        }
-
-
-        private async Task UpdateViewPageAsync(ViewPageContext context)
-        {
-            if (Pages.Count == 0)
-            {
-                App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
-                return;
-            }
-
-            //
-            //if (command is ISetPageCommand)
-            {
-                //var context = ((ISetPageCommand)command).GetViewPageContext();
-
-                if (!IsValidPosition(context.Position))
-                {
-                    if (context.Position < new PagePosition(0, 0))
-                    {
-                        App.Current.Dispatcher.Invoke(() => PageTerminated?.Invoke(this, -1));
-                    }
-                    else
-                    {
-                        App.Current.Dispatcher.Invoke(() => PageTerminated?.Invoke(this, +1));
-                    }
-                    return;
-                }
-
-                // view pages
-                var viewPages = new List<Page>();
-                for (int i = 0; i < context.Size; ++i)
-                {
-                    var page = Pages[ClampPageNumber(context.Position.Index + context.Direction * i)];
-                    if (!viewPages.Contains(page))
-                    {
-                        viewPages.Add(page);
-                    }
-                }
-
-                // load wait
-                var tlist = new List<Task>();
-                foreach (var page in viewPages)
-                {
-                    tlist.Add(page.LoadAsync(QueueElementPriority.Top));
-                }
-                await Task.WhenAll(tlist);
-
-                // update contents
-                _Context = CreateFixedContext(context);
-
-                // cancel?
-                _CancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                // notice update
-                App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, _Context.ViewContentsSource));
-
-                // PropertyChanged
-                PageChanged?.Invoke(this, _Context.Position.Index);
-
-                // cleanup pages
-                _KeepPages.AddRange(viewPages.Where(e => !_KeepPages.Contains(e)));
-                CleanupPages();
-
-                // pre load
-                if (_Command == null) PreLoad();
-            }
-        }
-
-        private bool IsSoloPage(int index)
-        {
-            if (IsSupportedWidePage && Pages[index].IsWide) return true;
-            if (IsSupportedSingleFirstPage && index == 0) return true;
-            if (IsSupportedSingleLastPage && index == Pages.Count - 1) return true;
-            return false;
-        }
-
-        // 表示コンテンツソースと、それに対応したコンテキスト作成
-        // 入力と出力の関係が・・
-        private ViewPageContext CreateFixedContext(ViewPageContext context)
-        {
-            var vinfo = new List<ViewInfo>();
-
-            {
-                PagePosition position = context.Position;
-
-                for (int id = 0; id < context.Size; ++id)
-                {
-                    if (position < new PagePosition(0, 0) || position > new PagePosition(Pages.Count - 1, 1)) break;
-                    if (Pages[position.Index] == null) break; // 本当ならpageも渡したいよ？
-
-                    int size = 2;
-                    if (PageMode == 0 && Pages[position.Index].IsWide && !Page.IsEnableAnimatedGif)
-                    {
-                        size = 1;
-                    }
-                    else
-                    {
-                        position.Part = 0;
-                    }
-
-                    vinfo.Add(new ViewInfo() { Position = position, Size = size });
-
-                    position = position + ((context.Direction > 0) ? size : -1);
-                }
-            }
-
-            // 見開き補正
-            if (PageMode == PageMode.WidePage && vinfo.Count >= 2)
-            {
-                if (IsSoloPage(vinfo[0].Position.Index) || IsSoloPage(vinfo[1].Position.Index))
-                {
-                    vinfo.RemoveAt(1);
-                }
-            }
-
-
-            // create contents source
-            var contentsSource = new List<ViewContentSource>();
-            foreach (var v in vinfo)
-            {
-                contentsSource.Add(new ViewContentSource(Pages[v.Position.Index], v.Position, v.Size, BookReadOrder));
-            }
-
-            // 並び順補正
-            if (context.Direction < 0 && vinfo.Count >= 2)
-            {
-                contentsSource.Reverse();
-                vinfo.Reverse();
-            }
-
-            // 左開き
-            if (BookReadOrder == PageReadOrder.LeftToRight)
-            {
-                contentsSource.Reverse();
-            }
-
-            // 単一ソースならコンテンツは１つにまとめる
-            if (vinfo.Count == 2 && vinfo[0].Position.Index == vinfo[1].Position.Index)
-            {
-                var position = new PagePosition(vinfo[0].Position.Index, 0);
-                var source = new ViewContentSource(Pages[position.Index], position, 2, BookReadOrder);
-
-                contentsSource.Clear();
-                contentsSource.Add(source);
-            }
-
-            // 新しいコンテキスト
-            context.Position = vinfo[0].Position;
-            context.ViewInfoList = vinfo;
-            context.ViewContentsSource = contentsSource;
-
-            return context;
-        }
-
-
-        // ページコンテンツの準備
-        // 先読み、不要ページコンテンツの削除を行う
-        private void CleanupPages()
-        {
-            // コンテンツを保持するページ収集
-            var keepPages = new List<Page>();
-            for (int offset = -_PageMode.Size(); offset <= _PageMode.Size() * 2 - 1; ++offset)
-            {
-                int index = _Context.Position.Index + offset;
-                if (0 <= index && index < Pages.Count)
-                {
-                    keepPages.Add(Pages[index]);
-                }
-            }
-
-            // 不要コンテンツ破棄
-            foreach (var page in _KeepPages)
-            {
-                if (!keepPages.Contains(page))
-                {
-                    page.Close();
-                }
-            }
-
-            // 保持ページ更新
-            _KeepPages = keepPages;
-        }
-
-
-
-
-
-
-        // 先読み
-        private void PreLoad()
-        {
-            for (int offset = 1; offset <= _PageMode.Size(); ++offset)
-            {
-                int index = (_Context.Direction >= 0) ? _Context.Position.Index + (_PageMode.Size() - 1) + offset : _Context.Position.Index - offset;
-
-                if (0 <= index && index < Pages.Count)
-                {
-                    // 念のため
-                    Debug.Assert(_KeepPages.Contains(Pages[index]));
-
-                    Pages[index].Open(QueueElementPriority.Default);
-                }
-            }
-        }
-
+        // 本の読み込み
+        #region LoadBook
+
+        // 読み込み対象外サブフォルダ数。リカーシブ確認に使用します。
+        public int SubFolderCount { get; private set; }
 
         // 本読み込み
         public async Task Load(string path, string start = null, BookLoadOption option = BookLoadOption.None)
@@ -918,7 +292,7 @@ namespace NeeView
             #endregion
 
 
-            PagePosition position = new PagePosition(0, 0);
+            PagePosition position = _FirstPosition;
             int direction = 1;
 
             // 読み込み(非同期タスク)
@@ -932,18 +306,18 @@ namespace NeeView
                 // スタートページ取得
                 if ((option & BookLoadOption.FirstPage) == BookLoadOption.FirstPage)
                 {
-                    position = new PagePosition(0, 0);
+                    position = _FirstPosition;
                     direction = 1;
                 }
                 else if ((option & BookLoadOption.LastPage) == BookLoadOption.LastPage)
                 {
-                    position = new PagePosition(Pages.Count - 1, 1);
+                    position = _LastPosition;
                     direction = -1;
                 }
                 else
                 {
                     int index = (start != null) ? Pages.FindIndex(e => e.FullPath == start) : 0;
-                    position = index >= 0 ? new PagePosition(index, 0) : new PagePosition(0, 0);
+                    position = index >= 0 ? new PagePosition(index, 0) : _FirstPosition;
                     direction = 1;
                 }
             });
@@ -952,21 +326,8 @@ namespace NeeView
             Place = archiver.FileName;
 
             // 初期ページ設定
-            SetPosition(position, direction);
+            RequestSetPosition(position, direction);
         }
-
-        // 読み込み対象外サブフォルダ数。リカーシブ確認に使用します。
-        public int SubFolderCount { get; private set; }
-
-
-        // 開始
-        // ページ設定を行うとコンテンツ読み込みが始まるため、ロードと分離した
-        public void Start()
-        {
-            Debug.Assert(Place != null);
-            StartUpdateViewPageTask();
-        }
-
 
         // アーカイブからページ作成(再帰)
         private void ReadArchive(Archiver archiver, string place, BookLoadOption option)
@@ -1040,10 +401,558 @@ namespace NeeView
             }
         }
 
+        // 開始
+        // ページ設定を行うとコンテンツ読み込みが始まるため、ロードと分離した
+        public void Start()
+        {
+            Debug.Assert(Place != null);
+            StartCommandWorker();
+        }
+
+        #endregion
+
+
+        // 廃棄処理
+        public void Dispose()
+        {
+            RequestDispose();
+        }
+
+        // 前のページに戻る
+        public void PrevPage(int step = 0)
+        {
+            var s = (step == 0) ? PageMode.Size() : step;
+            RequestMovePosition(-s);
+        }
+
+        // 次のページへ進む
+        public void NextPage(int step = 0)
+        {
+            var s = (step == 0) ? PageMode.Size() : step;
+            RequestMovePosition(+s);
+        }
+
+        // 最初のページに移動
+        public void FirstPage()
+        {
+            RequestSetPosition(_FirstPosition, 1);
+        }
+
+        // 最後のページに移動
+        public void LastPage()
+        {
+            RequestSetPosition(_LastPosition, -1);
+        }
+
+
+
+
+        // ページ指定移動
+        public void RequestSetPosition(PagePosition position, int direction)
+        {
+            Debug.Assert(direction == 1 || direction == -1);
+
+            if (Place == null) return;
+
+            DisplayIndex = position.Index;
+            RegistCommand(new SetPageCommand(this, position, direction, PageMode.Size()));
+        }
+
+        // ページ相対移動
+        public void RequestMovePosition(int step)
+        {
+            if (Place == null) return;
+            RegistCommand(new MovePageCommand(this, step));
+        }
+
+        // リフレッシュ
+        public void RequestReflesh()
+        {
+            if (Place == null) return;
+            RegistCommand(new RefleshCommand(this));
+        }
+
+        // ソート
+        public void RequestSort()
+        {
+            if (Place == null) return;
+            RegistCommand(new SortCommand(this));
+        }
+
+        // 終了処理
+        public void RequestDispose()
+        {
+            if (Place == null) return;
+            RegistCommand(new DisposeCommand(this));
+        }
+
+
+
+
+        // 表示ページ情報
+        public class PageInfo
+        {
+            public PagePosition Position;
+            public int Size;
+        }
+
+        // 表示ページコンテキスト
+        public class ViewPageContext
+        {
+            // 基準となるページの場所
+            public PagePosition Position { get; set; }
+
+            // 進行方向
+            public int Direction { get; set; } = 1;
+
+            // 表示ページ数
+            public int Size { get; set; }
+
+            // 表示ページ情報
+            public List<PageInfo> Infos { get; set; }
+
+            // 表示ページコンテンツソース
+            public List<ViewContentSource> ViewContentsSource { get; set; }
+        }
+
+        // 表示ページコンテキストのソース
+        public class ViewPageContextSource
+        {
+            public PagePosition Position { get; set; }
+            public int Direction { get; set; } = 1;
+            public int Size { get; set; }
+        }
+
+
+        // コマンド基底
+        private abstract class ViewPageCommand
+        {
+            protected Book _Book;
+            public abstract int Priority { get; }
+
+            public ViewPageCommand(Book book)
+            {
+                _Book = book;
+            }
+
+            public virtual async Task Execute() { await Task.Yield(); }
+        }
+
+        // 廃棄処理コマンド
+        private class DisposeCommand : ViewPageCommand
+        {
+            public override int Priority => 3;
+
+            public DisposeCommand(Book book) : base(book)
+            {
+            }
+
+            public override async Task Execute()
+            {
+                _Book.Terminate();
+                _Book.BreakCommandWorker();
+                await Task.Yield();
+            }
+        }
+
+        // ソートコマンド
+        private class SortCommand : ViewPageCommand
+        {
+            public override int Priority => 2;
+
+            public SortCommand(Book book) : base(book)
+            {
+            }
+
+            public override async Task Execute()
+            {
+                _Book.Sort();
+                await Task.Yield();
+            }
+        }
+
+        // リフレッシュコマンド
+        private class RefleshCommand : ViewPageCommand
+        {
+            public override int Priority => 1;
+
+            public RefleshCommand(Book book) : base(book)
+            {
+            }
+
+            public override async Task Execute()
+            {
+                _Book.Reflesh();
+                await Task.Yield();
+            }
+        }
+
+        // ページ指定移動コマンド
+        private class SetPageCommand : ViewPageCommand
+        {
+            public override int Priority => 0;
+
+            ViewPageContextSource _Source { get; set; }
+
+            public SetPageCommand(Book book, PagePosition position, int direction, int size) : base(book)
+            {
+                _Source = new ViewPageContextSource()
+                {
+                    Position = position,
+                    Direction = direction,
+                    Size = size,
+                };
+            }
+
+            public override async Task Execute()
+            {
+                await _Book.UpdateViewPageAsync(_Source);
+            }
+        }
+
+        // ページ相対移動コマンド
+        private class MovePageCommand : ViewPageCommand
+        {
+            public override int Priority => 0;
+
+            public int Step { get; set; }
+
+
+            public MovePageCommand(Book book, int step) : base(book)
+            {
+                Step = step;
+            }
+
+            private ViewPageContextSource GetViewPageContextSource()
+            {
+                int step = 0;
+
+                if (_Book.Pages.Count == 0)
+                {
+                    step = Step < 0 ? -1 : 1;
+                }
+                else if (Step > 0)
+                {
+                    for (int i = 0; i < Step && i < _Book._ViewContext.Infos.Count; ++i)
+                    {
+                        step += _Book._ViewContext.Infos[i].Size;
+                    }
+                }
+                else if (_Book._ViewContext.Size == 2)
+                {
+                    step = Step + 1;
+                }
+                else
+                {
+                    step = Step;
+                }
+
+                return new ViewPageContextSource()
+                {
+                    Position = _Book._ViewContext.Position + step,
+                    Direction = Step < 0 ? -1 : 1,
+                    Size = _Book.PageMode.Size(),
+                };
+            }
+
+            public override async Task Execute()
+            {
+                await _Book.UpdateViewPageAsync(GetViewPageContextSource());
+                _Book.DisplayIndex = _Book._ViewContext.Position.Index;
+            }
+        }
+
+
+        // ワーカータスクのキャンセルトークン
+        private CancellationTokenSource _CommandWorkerCancellationTokenSource;
+
+        // 予約されているコマンド
+        private ViewPageCommand _ReadyCommand;
+
+        // 予約コマンド存在イベント
+        public AutoResetEvent _ReadyCommandEvent { get; private set; } = new AutoResetEvent(false);
+
+
+        // コマンドの予約
+        private void RegistCommand(ViewPageCommand command)
+        {
+            lock (_Lock)
+            {
+                if (_ReadyCommand == null || _ReadyCommand.Priority <= command.Priority)
+                {
+                    _ReadyCommand = command;
+                }
+            }
+            _ReadyCommandEvent.Set();
+        }
+
+        // ワーカータスクの起動
+        private void StartCommandWorker()
+        {
+            _CommandWorkerCancellationTokenSource = new CancellationTokenSource();
+            Task.Run( () => CommandWorker(), _CommandWorkerCancellationTokenSource.Token);
+        }
+
+        // ワーカータスクの終了
+        private void BreakCommandWorker()
+        {
+            _CommandWorkerCancellationTokenSource.Cancel();
+            _ReadyCommandEvent.Set();
+        }
+
+        // ワーカータスク
+        private async void CommandWorker()
+        {
+            try
+            {
+                ////Debug.WriteLine("Bookタスクの開始");
+                while (!_CommandWorkerCancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    await Task.Run(() => _ReadyCommandEvent.WaitOne());
+                    _CommandWorkerCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                    ViewPageCommand command;
+                    lock (_Lock)
+                    {
+                        command = _ReadyCommand;
+                        _ReadyCommand = null;
+                    }
+
+                    if (command != null)
+                    {
+                        await command.Execute();
+                    }
+                }
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception e)
+            {
+                Action<Exception> action = (exception) => { throw new ApplicationException("Bookタスク内部エラー", exception); };
+                await App.Current.Dispatcher.BeginInvoke(action, e);
+            }
+            finally
+            {
+                ////Debug.WriteLine("Bookタスクの終了: " + Place);
+            }
+        }
+
+
+        // ページ番号のクランプ
+        private int ClampPageNumber(int index)
+        {
+            if (index > Pages.Count - 1) index = Pages.Count - 1;
+            if (index < 0) index = 0;
+            return index;
+        }
+
+        // ページ場所の有効判定
+        private bool IsValidPosition(PagePosition position)
+        {
+            return (_FirstPosition <= position && position <= _LastPosition);
+        }
+
+        // 表示ページ更新
+        private async Task UpdateViewPageAsync(ViewPageContextSource source)
+        {
+            // ページ終端を越えたか判定
+            if (source.Position < _FirstPosition)
+            {
+                App.Current.Dispatcher.Invoke(() => PageTerminated?.Invoke(this, -1));
+                return;
+            }
+            else if (source.Position > _LastPosition)
+            {
+                App.Current.Dispatcher.Invoke(() => PageTerminated?.Invoke(this, +1));
+                return;
+            }
+
+            // ページ数０の場合は表示コンテンツなし
+            if (Pages.Count == 0)
+            {
+                App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
+                return;
+            }
+
+            // view pages
+            var viewPages = new List<Page>();
+            for (int i = 0; i < source.Size; ++i)
+            {
+                var page = Pages[ClampPageNumber(source.Position.Index + source.Direction * i)];
+                if (!viewPages.Contains(page))
+                {
+                    viewPages.Add(page);
+                }
+            }
+
+            // load wait
+            var tlist = new List<Task>();
+            foreach (var page in viewPages)
+            {
+                tlist.Add(page.LoadAsync(QueueElementPriority.Top));
+            }
+            await Task.WhenAll(tlist);
+
+            // update contents
+            _ViewContext = CreateViewPageContext(source);
+
+            // task cancel?
+            _CommandWorkerCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+            // notice ViewContentsChanged
+            App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, _ViewContext.ViewContentsSource));
+
+            // notice PropertyChanged
+            PageChanged?.Invoke(this, _ViewContext.Position.Index);
+
+            // cleanup pages
+            _KeepPages.AddRange(viewPages.Where(e => !_KeepPages.Contains(e)));
+            CleanupPages();
+
+            // pre load
+            if (_ReadyCommand == null) PreLoad();
+        }
+
+        // 見開きモードでも単独表示するべきか判定
+        private bool IsSoloPage(int index)
+        {
+            if (IsSupportedWidePage && Pages[index].IsWide) return true;
+            if (IsSupportedSingleFirstPage && index == 0) return true;
+            if (IsSupportedSingleLastPage && index == Pages.Count - 1) return true;
+            return false;
+        }
+
+        // 分割モード有効判定
+        private bool IsEnableDividePage()
+        {
+            return IsSupportedDividePage && PageMode == PageMode.SinglePage && !Page.IsEnableAnimatedGif;
+        }
+
+        // 表示コンテンツソースと、それに対応したコンテキスト作成
+        private ViewPageContext CreateViewPageContext(ViewPageContextSource source)
+        {
+            var infos = new List<PageInfo>();
+
+            {
+                PagePosition position = source.Position;
+
+                for (int id = 0; id < source.Size; ++id)
+                {
+                    if (!IsValidPosition(position) || Pages[position.Index] == null) break;
+
+                    int size = 2;
+                    if (IsEnableDividePage() && Pages[position.Index].IsWide)
+                    {
+                        size = 1;
+                    }
+                    else
+                    {
+                        position.Part = 0;
+                    }
+
+                    infos.Add(new PageInfo() { Position = position, Size = size });
+
+                    position = position + ((source.Direction > 0) ? size : -1);
+                }
+            }
+
+            // 見開き補正
+            if (PageMode == PageMode.WidePage && infos.Count >= 2)
+            {
+                if (IsSoloPage(infos[0].Position.Index) || IsSoloPage(infos[1].Position.Index))
+                {
+                    infos = infos.GetRange(0, 1);
+                }
+            }
+
+            // コンテンツソース作成
+            var contentsSource = new List<ViewContentSource>();
+            foreach (var v in infos)
+            {
+                contentsSource.Add(new ViewContentSource(Pages[v.Position.Index], v.Position, v.Size, BookReadOrder));
+            }
+
+            // 並び順補正
+            if (source.Direction < 0 && infos.Count >= 2)
+            {
+                contentsSource.Reverse();
+                infos.Reverse();
+            }
+
+            // 左開き
+            if (BookReadOrder == PageReadOrder.LeftToRight)
+            {
+                contentsSource.Reverse();
+            }
+
+            // 単一ソースならコンテンツは１つにまとめる
+            if (infos.Count == 2 && infos[0].Position.Index == infos[1].Position.Index)
+            {
+                var position = new PagePosition(infos[0].Position.Index, 0);
+                contentsSource.Clear();
+                contentsSource.Add(new ViewContentSource(Pages[position.Index], position, 2, BookReadOrder));
+            }
+
+            // 新しいコンテキスト
+            var context = new ViewPageContext();
+            context.Position = infos[0].Position;
+            context.Size = infos.Count;
+            context.Direction = source.Direction;
+            context.Infos = infos;
+            context.ViewContentsSource = contentsSource;
+
+            return context;
+        }
+
+
+        // 不要ページコンテンツの削除を行う
+        private void CleanupPages()
+        {
+            // コンテンツを保持するページ収集
+            var keepPages = new List<Page>();
+            for (int offset = -_PageMode.Size(); offset <= _PageMode.Size() * 2 - 1; ++offset)
+            {
+                int index = _ViewContext.Position.Index + offset;
+                if (0 <= index && index < Pages.Count)
+                {
+                    keepPages.Add(Pages[index]);
+                }
+            }
+
+            // 不要コンテンツ破棄
+            foreach (var page in _KeepPages)
+            {
+                if (!keepPages.Contains(page))
+                {
+                    page.Close();
+                }
+            }
+
+            // 保持ページ更新
+            _KeepPages = keepPages;
+        }
+
+
+        // 先読み
+        private void PreLoad()
+        {
+            for (int offset = 1; offset <= _PageMode.Size(); ++offset)
+            {
+                int index = (_ViewContext.Direction >= 0) ? _ViewContext.Position.Index + (_PageMode.Size() - 1) + offset : _ViewContext.Position.Index - offset;
+
+                if (0 <= index && index < Pages.Count)
+                {
+                    // 念のため
+                    Debug.Assert(_KeepPages.Contains(Pages[index]));
+
+                    Pages[index].Open(QueueElementPriority.Default);
+                }
+            }
+        }
 
         // ページの並び替え
-        // あー、これ、コマンドにしないと。
-        public void Sort()
+        private void Sort()
         {
             if (Pages.Count <= 0) return;
 
@@ -1068,7 +977,7 @@ namespace NeeView
                 Pages.Reverse();
             }
 
-            SetPosition(new PagePosition(0, 0), 1);
+            RequestSetPosition(_FirstPosition, 1);
         }
 
 
@@ -1086,38 +995,8 @@ namespace NeeView
         }
 
 
-        // 前のページに戻る
-        public void PrevPage(int step = 0)
-        {
-            var s = (step == 0) ? PageMode.Size() : step;
-            MovePosition(-s);
-        }
-
-
-        // 次のページへ進む
-        public void NextPage(int step = 0)
-        {
-            var s = (step == 0) ? PageMode.Size() : step;
-            MovePosition(+s);
-        }
-
-
-        // 最初のページに移動
-        public void FirstPage()
-        {
-            SetPosition(new PagePosition(0, 0), 1);
-        }
-
-        // 最後のページに移動
-        public void LastPage()
-        {
-            SetPosition(new PagePosition(Pages.Count - 1, 1), -1);
-        }
-
-
-        // ページの再読み込み
-        // あー、これ、コマンドにしないと。
-        public void Reflesh(PagePosition position, int direction)
+        // 表示の再構築
+        private void Reflesh()
         {
             if (Place == null) return;
 
@@ -1126,39 +1005,20 @@ namespace NeeView
                 _KeepPages.ForEach(e => e?.Close());
             }
 
-            SetPosition(position, direction);
-        }
-
-
-        // ページの再読み込み
-        public void Reflesh()
-        {
-            Reflesh(_Context.Position, 1);
+            RequestSetPosition(_ViewContext.Position, 1);
         }
 
 
         // 廃棄処理
-        // んー、これもコマンドにしてしまうか？
-        // そうすれば排他の問題はなくなる
-        public void Dispose()
-        {
-            RequestDispose();
-        }
-
         private void Terminate()
-        { 
-            //BreakUpdateViewPageTask();
+        {
+            Pages.ForEach(e => e?.Close());
+            Pages.Clear();
 
-            lock (_Lock)
-            {
-                Pages.ForEach(e => e?.Close());
-                Pages.Clear();
+            _Archivers.ForEach(e => e.Dispose());
+            _Archivers.Clear();
 
-                _Archivers.ForEach(e => e.Dispose());
-                _Archivers.Clear();
-
-                _TrashBox.Clear();
-            }
+            _TrashBox.Clear();
         }
 
 
@@ -1181,6 +1041,9 @@ namespace NeeView
 
             [DataMember]
             public PageReadOrder BookReadOrder { get; set; }
+
+            [DataMember]
+            public bool IsSupportedDividePage { get; set; }
 
             [DataMember]
             public bool IsSupportedSingleFirstPage { get; set; }
@@ -1235,11 +1098,11 @@ namespace NeeView
             var memento = new Memento();
 
             memento.Place = Place;
-
-            memento.BookMark = CurrentPage?.FullPath;
+            memento.BookMark = Pages.Count > 0 ? Pages[_ViewContext.Position.Index].FullPath : null;
 
             memento.PageMode = PageMode;
             memento.BookReadOrder = BookReadOrder;
+            memento.IsSupportedDividePage = IsSupportedDividePage;
             memento.IsSupportedSingleFirstPage = IsSupportedSingleFirstPage;
             memento.IsSupportedSingleLastPage = IsSupportedSingleLastPage;
             memento.IsSupportedWidePage = IsSupportedWidePage;
@@ -1255,6 +1118,7 @@ namespace NeeView
         {
             PageMode = memento.PageMode;
             BookReadOrder = memento.BookReadOrder;
+            IsSupportedDividePage = memento.IsSupportedDividePage;
             IsSupportedSingleFirstPage = memento.IsSupportedSingleFirstPage;
             IsSupportedSingleLastPage = memento.IsSupportedSingleLastPage;
             IsSupportedWidePage = memento.IsSupportedWidePage;

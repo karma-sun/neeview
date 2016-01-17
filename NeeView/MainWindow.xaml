@@ -173,17 +173,19 @@
                     </MenuItem>
 
                     <MenuItem Header="ページ(_P)">
-                        <MenuItem x:Name="PageMode0MenuItem" Header="分割ページ表示" Command="{Binding BookCommands[SetPageMode0]}"
-                              IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=0,Mode=OneWay}" />
                         <MenuItem x:Name="PageMode1MenuItem" Header="単ページ表示" Command="{Binding BookCommands[SetPageMode1]}"
-                              IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=1,Mode=OneWay}" />
+                              IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=SinglePage,Mode=OneWay}" />
                         <MenuItem x:Name="PageMode2MenuItem" Header="見開き表示" Command="{Binding BookCommands[SetPageMode2]}"
-                              IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=2,Mode=OneWay}" />
+                              IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=WidePage,Mode=OneWay}" />
                         <Separator/>
                         <MenuItem Header="右開き" Command="{Binding BookCommands[SetBookReadOrderRight]}"
                               IsChecked="{Binding BookSetting.BookReadOrder,Converter={StaticResource BookReadOrderToBooleanConverter},ConverterParameter=RightToLeft,Mode=OneWay}" />
                         <MenuItem Header="左開き" Command="{Binding BookCommands[SetBookReadOrderLeft]}"
                               IsChecked="{Binding BookSetting.BookReadOrder,Converter={StaticResource BookReadOrderToBooleanConverter},ConverterParameter=LeftToRight,Mode=OneWay}" />
+                        <Separator/>
+                        <MenuItem Header="横長ページを分割する" IsEnabled="{Binding ElementName=PageMode1MenuItem, Path=IsChecked}"
+                              Command="{Binding BookCommands[ToggleIsSupportedDividePage]}"
+                              IsChecked="{Binding BookSetting.IsSupportedDividePage, Mode=OneWay}" />
                         <Separator/>
                         <MenuItem Header="横長ページを見開きとみなす" IsEnabled="{Binding ElementName=PageMode2MenuItem, Path=IsChecked}"
                               Command="{Binding BookCommands[ToggleIsSupportedWidePage]}"

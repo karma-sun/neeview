@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    // ページ表示モード
     public enum PageMode
     {
-        DividePage = 0,
-        SinglePage = 1,
-        WidePage = 2,
+        SinglePage,
+        WidePage,
     }
 
     public static class PageModeExtension
@@ -24,7 +29,6 @@ namespace NeeView
         {
             switch (mode)
             {
-                case PageMode.DividePage: return "分割ページ表示";
                 case PageMode.SinglePage: return "単ページ表示";
                 case PageMode.WidePage: return "見開き表示";
                 default:

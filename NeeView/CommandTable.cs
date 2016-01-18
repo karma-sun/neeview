@@ -106,13 +106,13 @@ namespace NeeView
                 [CommandType.SetStretchModeInside] = new CommandElement
                 {
                     Group = "表示サイズ",
-                    Text = "大きい場合、ウィンドウサイズに合わせる",
+                    Text = "大きい場合ウィンドウサイズに合わせる",
                     Execute = e => _VM.StretchMode = PageStretchMode.Inside
                 },
                 [CommandType.SetStretchModeOutside] = new CommandElement
                 {
                     Group = "表示サイズ",
-                    Text = "小さい場合、ウィンドウサイズに広げる",
+                    Text = "小さい場合ウィンドウサイズに広げる",
                     Execute = e => _VM.StretchMode = PageStretchMode.Outside
                 },
                 [CommandType.SetStretchModeUniform] = new CommandElement
@@ -126,6 +126,15 @@ namespace NeeView
                     Group = "表示サイズ",
                     Text = "ウィンドウいっぱいに広げる",
                     Execute = e => _VM.StretchMode = PageStretchMode.UniformToFill
+                },
+
+            
+                [CommandType.ToggleIsEnabledNearestNeighbor] = new CommandElement
+                {
+                    Group = "拡大モード",
+                    Text = "ドットのまま拡大ON/OFF",
+                    Execute = e => _VM.IsEnabledNearestNeighbor = !_VM.IsEnabledNearestNeighbor,
+                    ExecuteMessage = e => _VM.IsEnabledNearestNeighbor ? "高品質に拡大する" : "ドットのまま拡大する"
                 },
 
                 [CommandType.ToggleFullScreen] = new CommandElement
@@ -302,14 +311,14 @@ namespace NeeView
                 [CommandType.SetPageMode1] = new CommandElement
                 {
                     Group = "ページ表示",
-                    Text = "単ページ表示にする",
+                    Text = "1ページ表示にする",
                     ShortCutKey = "Ctrl+1",
                     Execute = e => _Book.SetPageMode(PageMode.SinglePage)
                 },
                 [CommandType.SetPageMode2] = new CommandElement
                 {
                     Group = "ページ表示",
-                    Text = "見開き表示にする",
+                    Text = "2ページ表示にする",
                     ShortCutKey = "Ctrl+2",
                     Execute = e => _Book.SetPageMode(PageMode.WidePage)
                 },
@@ -335,7 +344,7 @@ namespace NeeView
 
                 [CommandType.ToggleIsSupportedDividePage] = new CommandElement
                 {
-                    Group = "見開き設定",
+                    Group = "1ページ表示設定",
                     Text = "横長ページを分割する",
                     Execute = e => _Book.ToggleIsSupportedDividePage(),
                     ExecuteMessage = e => _Book.BookMemento.IsSupportedDividePage ? "横長ページの区別をしない" : "横長ページを分割する"
@@ -343,24 +352,24 @@ namespace NeeView
 
                 [CommandType.ToggleIsSupportedWidePage] = new CommandElement
                 {
-                    Group = "見開き設定",
-                    Text = "横長ページを見開きとみなす",
+                    Group = "2ページ表示設定",
+                    Text = "横長ページを2ページとみなす",
                     Execute = e => _Book.ToggleIsSupportedWidePage(),
-                    ExecuteMessage = e => _Book.BookMemento.IsSupportedWidePage ? "横長ページの区別をしない" : "横長ページを見開きとみなす"
+                    ExecuteMessage = e => _Book.BookMemento.IsSupportedWidePage ? "横長ページの区別をしない" : "横長ページを2ページとみなす"
                 },
                 [CommandType.ToggleIsSupportedSingleFirstPage] = new CommandElement
                 {
-                    Group = "見開き設定",
-                    Text = "最初のページを単ページ表示",
+                    Group = "2ページ表示設定",
+                    Text = "最初のページを単独表示",
                     Execute = e => _Book.ToggleIsSupportedSingleFirstPage(),
-                    ExecuteMessage = e => _Book.BookMemento.IsSupportedSingleFirstPage ? "最初のページを区別しない" : "最初のページを単ページ表示"
+                    ExecuteMessage = e => _Book.BookMemento.IsSupportedSingleFirstPage ? "最初のページを区別しない" : "最初のページを単独表示"
                 },
                 [CommandType.ToggleIsSupportedSingleLastPage] = new CommandElement
                 {
-                    Group = "見開き設定",
-                    Text = "最後のページを単ページ表示",
+                    Group = "2ページ表示設定",
+                    Text = "最後のページを単独表示",
                     Execute = e => _Book.ToggleIsSupportedSingleLastPage(),
-                    ExecuteMessage = e => _Book.BookMemento.IsSupportedSingleLastPage ? "最後のページを区別しない" : "最後のページを単ページ表示"
+                    ExecuteMessage = e => _Book.BookMemento.IsSupportedSingleLastPage ? "最後のページを区別しない" : "最後のページを単独表示"
                 },
 
                 [CommandType.ToggleIsRecursiveFolder] = new CommandElement

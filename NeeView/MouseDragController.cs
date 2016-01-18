@@ -128,7 +128,12 @@ namespace NeeView
         public double Scale
         {
             get { return _Scale; }
-            set { _Scale = value; OnPropertyChanged(); }
+            set
+            {
+                _Scale = value;
+                OnPropertyChanged();
+                ScaleChanged?.Invoke(this, _Scale);
+            }
         }
         #endregion
 
@@ -184,6 +189,10 @@ namespace NeeView
         // クリックイベント
         // ドラッグされずにマウスボタンが離された時にに発行する
         public event EventHandler<MouseButtonEventArgs> MouseClickEventHandler;
+
+        // スケール変更イベント
+        public event EventHandler<double> ScaleChanged;
+
 
         bool _IsEnableClickEvent;
 

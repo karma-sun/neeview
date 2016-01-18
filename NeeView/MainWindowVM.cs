@@ -13,11 +13,12 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-
+using System.Windows.Shapes;
 
 namespace NeeView
 {
@@ -139,7 +140,24 @@ namespace NeeView
         }
         #endregion
 
-
+        // ドットのまま拡大
+        #region Property: IsEnabledNearestNeighbor
+        private bool _IsEnabledNearestNeighbor;
+        public bool IsEnabledNearestNeighbor
+        {
+            get { return _IsEnabledNearestNeighbor; }
+            set
+            {
+                if (_IsEnabledNearestNeighbor != value)
+                {
+                    _IsEnabledNearestNeighbor = value;
+                    OnPropertyChanged();
+                    UpdateContentScalingMode();
+                }
+            }
+        }
+        #endregion
+        
 
 
         // コマンドバインド用
@@ -644,6 +662,34 @@ namespace NeeView
                 Contents[i].Width = sizes[i].Width;
                 Contents[i].Height = sizes[i].Height;
             }
+
+            UpdateContentScalingMode();
+        }
+
+        // ビュースケール
+        private double _ViewScale;
+
+        // ビュースケールを更新
+        public void SetViewScale(double scale)
+        {
+            _ViewScale = scale;
+
+            UpdateContentScalingMode();
+        }
+
+        // コンテンツスケーリングモードを更新
+        private void UpdateContentScalingMode()
+        {
+            foreach (var content in Contents)
+            {
+                if (content.Content != null && (content.Content is Rectangle || content.Content is MediaElement))
+                {
+                    if (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _ViewScale)
+                        RenderOptions.SetBitmapScalingMode(content.Content, BitmapScalingMode.NearestNeighbor);
+                    else
+                        RenderOptions.SetBitmapScalingMode(content.Content, BitmapScalingMode.HighQuality);
+                }
+            }
         }
 
         // ストレッチモードに合わせて各コンテンツのスケールを計算する
@@ -854,6 +900,10 @@ namespace NeeView
             [DataMember]
             public ShowMessageStyle GestureShowMessageStyle { get; set; }
 
+            [DataMember (Order = 101)]
+            public bool IsEnabledNearestNeighbor { get; set; }
+
+
             void Constructor()
             {
                 IsLimitMove = true;
@@ -890,6 +940,7 @@ namespace NeeView
             memento.IsSliderDirectionReversed = this.IsSliderDirectionReversed;
             memento.CommandShowMessageStyle = this.CommandShowMessageStyle;
             memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
+            memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
 
             return memento;
         }
@@ -906,6 +957,7 @@ namespace NeeView
             this.IsSliderDirectionReversed = memento.IsSliderDirectionReversed;
             this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
             this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
+            this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
 
             ViewModeChanged?.Invoke(this, null);
         }

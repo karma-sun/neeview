@@ -147,6 +147,9 @@
                         <MenuItem Header="ウィンドウいっぱいに広げる" Command="{Binding BookCommands[SetStretchModeUniformToFill]}"
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=UniformToFill,Mode=OneWay}" />
                         <Separator/>
+                        <MenuItem Header="ドットのまま拡大する" Command="{Binding BookCommands[ToggleIsEnabledNearestNeighbor]}"
+                            IsChecked="{Binding IsEnabledNearestNeighbor,Mode=OneWay}" />
+                        <Separator/>
                         <MenuItem Header="スライドショー" Command="{Binding BookCommands[ToggleSlideShow]}"
                             IsChecked="{Binding BookHub.IsEnableSlideShow,Mode=OneWay}" />
                         <Separator/>
@@ -173,9 +176,9 @@
                     </MenuItem>
 
                     <MenuItem Header="ページ(_P)">
-                        <MenuItem x:Name="PageMode1MenuItem" Header="単ページ表示" Command="{Binding BookCommands[SetPageMode1]}"
+                        <MenuItem x:Name="PageMode1MenuItem" Header="1ページ表示" Command="{Binding BookCommands[SetPageMode1]}"
                               IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=SinglePage,Mode=OneWay}" />
-                        <MenuItem x:Name="PageMode2MenuItem" Header="見開き表示" Command="{Binding BookCommands[SetPageMode2]}"
+                        <MenuItem x:Name="PageMode2MenuItem" Header="2ページ表示" Command="{Binding BookCommands[SetPageMode2]}"
                               IsChecked="{Binding BookSetting.PageMode,Converter={StaticResource PageModeToBooleanConverter},ConverterParameter=WidePage,Mode=OneWay}" />
                         <Separator/>
                         <MenuItem Header="右開き" Command="{Binding BookCommands[SetBookReadOrderRight]}"

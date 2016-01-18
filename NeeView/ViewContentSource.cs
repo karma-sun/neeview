@@ -93,6 +93,7 @@ namespace NeeView
                 var media = new MediaElement();
                 media.Source = (Uri)Source;
                 media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
+                RenderOptions.SetBitmapScalingMode(media, BitmapScalingMode.HighQuality);
                 return media;
             }
             else if (Source is FilePageContext)

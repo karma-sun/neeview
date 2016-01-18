@@ -85,6 +85,8 @@ namespace NeeView
 
             // mouse drag
             _MouseDrag = new MouseDragController(this.MainView, this.MainContent, this.MainContentShadow);
+            _MouseDrag.ScaleChanged +=
+                (s, e) => _VM.SetViewScale(e);
 
             // mouse gesture
             _MouseGesture = new MouseGestureManager(this.MainView);

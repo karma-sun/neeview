@@ -29,8 +29,8 @@ namespace NeeView
         {
             switch (mode)
             {
-                case PageMode.SinglePage: return "単ページ表示";
-                case PageMode.WidePage: return "見開き表示";
+                case PageMode.SinglePage: return "1ページ表示";
+                case PageMode.WidePage: return "2ページ表示";
                 default:
                     throw new NotSupportedException();
             }

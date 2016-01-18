@@ -45,6 +45,8 @@ namespace NeeView
         SetStretchModeUniform,
         SetStretchModeUniformToFill,
 
+        ToggleIsEnabledNearestNeighbor,
+
         TogglePageMode,
         SetPageMode1,
         SetPageMode2,

@@ -33,8 +33,8 @@ namespace NeeView
         private static Dictionary<PageStretchMode, string> _DispStrings = new Dictionary<PageStretchMode, string>
         {
             [PageStretchMode.None] = "オリジナルサイズ",
-            [PageStretchMode.Inside] = "大きい場合、ウィンドウサイズに合わせる",
-            [PageStretchMode.Outside] = "小さい場合、ウィンドウサイズに合わせる",
+            [PageStretchMode.Inside] = "大きい場合ウィンドウサイズに合わせる",
+            [PageStretchMode.Outside] = "小さい場合ウィンドウサイズに合わせる",
             [PageStretchMode.Uniform] = "ウィンドウサイズに合わせる",
             [PageStretchMode.UniformToFill] = "ウィンドウいっぱいに広げる",
         };

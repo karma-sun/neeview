@@ -809,9 +809,16 @@ namespace NeeView
         }
 
         // 分割モード有効判定
-        private bool IsEnableDividePage()
+        private bool IsEnableDividePage(int index)
         {
-            return IsSupportedDividePage && PageMode == PageMode.SinglePage && !Page.IsEnableAnimatedGif;
+            if (PageMode == PageMode.SinglePage && IsSupportedDividePage)
+            {
+                return Pages[index].IsWide && !(Page.IsEnableAnimatedGif && LoosePath.GetExtension(Pages[index].FileName) == ".gif");
+            }
+            else
+            {
+                return false;
+            }
         }
 
         // 表示コンテンツソースと、それに対応したコンテキスト作成
@@ -827,7 +834,7 @@ namespace NeeView
                     if (!IsValidPosition(position) || Pages[position.Index] == null) break;
 
                     int size = 2;
-                    if (IsEnableDividePage() && Pages[position.Index].IsWide)
+                    if (IsEnableDividePage(position.Index))
                     {
                         size = 1;
                     }

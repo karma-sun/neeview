@@ -74,8 +74,11 @@ namespace NeeView
         // コンテンツ高
         public double Height { get; protected set; }
 
+        // ワイド判定用縦横比
+        public static double WideRatio { get; set; }
+
         // ワイド判定
-        public bool IsWide => Width > Height;
+        public bool IsWide => Width > Height * WideRatio;
 
         // コンテンツ色
         public Color Color { get; protected set; }

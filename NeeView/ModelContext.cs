@@ -36,6 +36,7 @@ namespace NeeView
         // 初期化
         public static void Initialize()
         {
+            // Jobワーカーサイズ
             JobEngine = new JobEngine();
             int jobWorkerSize;
             if (!int.TryParse(ConfigurationManager.AppSettings.Get("ThreadSize"), out jobWorkerSize))
@@ -44,6 +45,15 @@ namespace NeeView
             }
             JobEngine.Start(jobWorkerSize);
 
+            // ワイドページ判定用比率
+            double wideRatio;
+            if (!double.TryParse(ConfigurationManager.AppSettings.Get("WideRatio"), out wideRatio))
+            {
+                wideRatio = 1.0;
+            }
+            Page.WideRatio = wideRatio;
+
+            //
             BookHistory = new BookHistory();
 
             ArchiverManager = new ArchiverManager();

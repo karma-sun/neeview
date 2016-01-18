@@ -115,7 +115,7 @@ namespace NeeView
         }
 
 
-#region Timer
+        #region Timer
 
         // タイマーディスパッチ
         DispatcherTimer _Timer;
@@ -193,7 +193,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
 
         // マウスジェスチャー更新時の処理
@@ -558,7 +558,7 @@ namespace NeeView
     }
 
 
-#region Convertes
+    #region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -692,5 +692,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

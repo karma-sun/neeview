@@ -6,6 +6,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -21,7 +22,11 @@ namespace NeeView
         // インテグザ
         public CommandElement this[CommandType key]
         {
-            get { return _Elements[key]; }
+            get
+            {
+                if (!_Elements.ContainsKey(key)) throw new ArgumentOutOfRangeException(key.ToString());
+                return _Elements[key];
+            }
             set { _Elements[key] = value; }
         }
 
@@ -70,7 +75,6 @@ namespace NeeView
             // コマンドの設定定義
             _Elements = new Dictionary<CommandType, CommandElement>
             {
-
                 [CommandType.LoadAs] = new CommandElement
                 {
                     Group = "ファイル",
@@ -377,14 +381,26 @@ namespace NeeView
                 [CommandType.SetSortModeFileName] = new CommandElement
                 {
                     Group = "ページ列",
-                    Text = "ファイル名順にする",
+                    Text = "ファイル名昇順にする",
                     Execute = e => _Book.SetSortMode(PageSortMode.FileName)
+                },
+                [CommandType.SetSortModeFileNameDescending] = new CommandElement
+                {
+                    Group = "ページ列",
+                    Text = "ファイル名降順にする",
+                    Execute = e => _Book.SetSortMode(PageSortMode.FileNameDescending)
                 },
                 [CommandType.SetSortModeTimeStamp] = new CommandElement
                 {
                     Group = "ページ列",
-                    Text = "ファイル日付順にする",
+                    Text = "ファイル日付昇順にする",
                     Execute = e => _Book.SetSortMode(PageSortMode.TimeStamp)
+                },
+                [CommandType.SetSortModeTimeStampDescending] = new CommandElement
+                {
+                    Group = "ページ列",
+                    Text = "ファイル日付降順にする",
+                    Execute = e => _Book.SetSortMode(PageSortMode.TimeStampDescending)
                 },
                 [CommandType.SetSortModeRandom] = new CommandElement
                 {
@@ -392,12 +408,12 @@ namespace NeeView
                     Text = "ランダムに並べる",
                     Execute = e => _Book.SetSortMode(PageSortMode.Random)
                 },
-                [CommandType.ToggleIsReverseSort] = new CommandElement
+
+                [CommandType.ToggleIsReverseSort] = new CommandElement // 欠番
                 {
-                    Group = "ページ列",
-                    Text = "正順、逆順を切り替える",
-                    Execute = e => _Book.ToggleIsReverseSort(),
-                    ExecuteMessage = e => _Book.BookMemento.IsReverseSort ? "正順にする" : "逆順にする"
+                    Group = "dummy",
+                    Text = "dummy",
+                    Execute = e => { return; }
                 },
 
                 [CommandType.OpenSettingWindow] = new CommandElement

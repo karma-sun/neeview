@@ -200,15 +200,16 @@
                         <MenuItem Header="サブフォルダも読み込む" Command="{Binding BookCommands[ToggleIsRecursiveFolder]}"
                               IsChecked="{Binding BookSetting.IsRecursiveFolder,Mode=OneWay}" />
                         <Separator />
-                        <MenuItem Header="ファイル名順にする" Command="{Binding BookCommands[SetSortModeFileName]}"
+                        <MenuItem Header="ファイル名昇順にする" Command="{Binding BookCommands[SetSortModeFileName]}"
                               IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=FileName,Mode=OneWay}" />
-                        <MenuItem Header="日付順にする" Command="{Binding BookCommands[SetSortModeTimeStamp]}"
+                        <MenuItem Header="ファイル名降順にする" Command="{Binding BookCommands[SetSortModeFileNameDescending]}"
+                              IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=FileNameDescending,Mode=OneWay}" />
+                        <MenuItem Header="日付昇順にする" Command="{Binding BookCommands[SetSortModeTimeStamp]}"
                               IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=TimeStamp,Mode=OneWay}" />
+                        <MenuItem Header="日付降順にする" Command="{Binding BookCommands[SetSortModeTimeStampDescending]}"
+                              IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=TimeStampDescending,Mode=OneWay}" />
                         <MenuItem Header="ランダムに並べる" Command="{Binding BookCommands[SetSortModeRandom]}"
                               IsChecked="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToBooleanConverter},ConverterParameter=Random,Mode=OneWay}" />
-                        <Separator/>
-                        <MenuItem Header="逆順にする" Command="{Binding BookCommands[ToggleIsReverseSort]}"
-                              IsChecked="{Binding BookSetting.IsReverseSort, Mode=OneWay}" />
                     </MenuItem>
 
                     <MenuItem Header="設定(_O)">

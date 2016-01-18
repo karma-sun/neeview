@@ -158,6 +158,8 @@ namespace NeeView
             CommandCollection.Clear();
             foreach (var element in ModelContext.CommandTable)
             {
+                if (element.Key.IsDisable()) continue;
+
                 var item = new CommandParam()
                 {
                     Key = element.Key,

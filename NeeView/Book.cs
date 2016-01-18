@@ -187,21 +187,6 @@ namespace NeeView
             }
         }
 
-        // ページ列を逆順にする
-        private bool _IsReverseSort;
-        public bool IsReverseSort
-        {
-            get { return _IsReverseSort; }
-            set
-            {
-                if (_IsReverseSort != value)
-                {
-                    _IsReverseSort = value;
-                    RequestSort();
-                }
-            }
-        }
-
 
         // この本の場所
         // nullの場合、この本は無効
@@ -961,8 +946,16 @@ namespace NeeView
                 case PageSortMode.FileName:
                     Pages.Sort((a, b) => ComparePath(a.FullPath, b.FullPath, Win32Api.StrCmpLogicalW));
                     break;
+                case PageSortMode.FileNameDescending:
+                    Pages.Sort((a, b) => ComparePath(a.FullPath, b.FullPath, Win32Api.StrCmpLogicalW));
+                    Pages.Reverse();
+                    break;
                 case PageSortMode.TimeStamp:
                     Pages = Pages.OrderBy(e => e.UpdateTime).ToList();
+                    break;
+                case PageSortMode.TimeStampDescending:
+                    Pages = Pages.OrderBy(e => e.UpdateTime).ToList();
+                    Pages.Reverse();
                     break;
                 case PageSortMode.Random:
                     var random = new Random();
@@ -970,11 +963,6 @@ namespace NeeView
                     break;
                 default:
                     throw new NotImplementedException();
-            }
-
-            if (IsReverseSort)
-            {
-                Pages.Reverse();
             }
 
             RequestSetPosition(_FirstPosition, 1);
@@ -1061,9 +1049,6 @@ namespace NeeView
             [DataMember]
             public PageSortMode SortMode { get; set; }
 
-            [DataMember]
-            public bool IsReverseSort { get; set; }
-
 
             //
             private void Constructor()
@@ -1108,7 +1093,6 @@ namespace NeeView
             memento.IsSupportedWidePage = IsSupportedWidePage;
             memento.IsRecursiveFolder = IsRecursiveFolder;
             memento.SortMode = SortMode;
-            memento.IsReverseSort = IsReverseSort;
 
             return memento;
         }
@@ -1124,7 +1108,6 @@ namespace NeeView
             IsSupportedWidePage = memento.IsSupportedWidePage;
             IsRecursiveFolder = memento.IsRecursiveFolder;
             SortMode = memento.SortMode;
-            IsReverseSort = memento.IsReverseSort;
         }
     }
 

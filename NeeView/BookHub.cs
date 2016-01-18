@@ -586,13 +586,6 @@ namespace NeeView
             RefleshBookSetting(); 
         }
 
-        // ページ並び逆順設定
-        public void ToggleIsReverseSort()
-        {
-            BookMemento.IsReverseSort = !BookMemento.IsReverseSort;
-            RefleshBookSetting();
-        }
-
 
 
         #region Memento

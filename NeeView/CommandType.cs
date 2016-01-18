@@ -62,10 +62,12 @@ namespace NeeView
 
         ToggleSortMode,
         SetSortModeFileName,
+        SetSortModeFileNameDescending,
         SetSortModeTimeStamp,
+        SetSortModeTimeStampDescending,
         SetSortModeRandom,
 
-        ToggleIsReverseSort,
+        ToggleIsReverseSort, // 欠番
 
         ViewScrollUp,
         ViewScrollDown,
@@ -73,5 +75,13 @@ namespace NeeView
         ViewScaleDown,
         ViewRotateLeft,
         ViewRotateRight,
+    }
+
+    public static class CommandTypeExtensions
+    {
+        public static bool IsDisable(this CommandType type)
+        {
+            return (type == CommandType.ToggleIsReverseSort);
+        }
     }
 }

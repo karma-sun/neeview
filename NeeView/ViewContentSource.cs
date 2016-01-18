@@ -42,7 +42,7 @@ namespace NeeView
         public int PartSize { get; set; }
 
         // 方向
-        public PageReadOrder ReadOrder { get; set; } 
+        public PageReadOrder ReadOrder { get; set; }
 
 
 
@@ -75,7 +75,7 @@ namespace NeeView
 
 
         // コントロール作成
-        public FrameworkElement CreateControl(Binding foregroundBinding)
+        public FrameworkElement CreateControl(Binding foregroundBinding, Binding bitmapScalingModeBinding)
         {
             if (Source is BitmapSource)
             {
@@ -83,9 +83,10 @@ namespace NeeView
                 brush.ImageSource = (BitmapSource)Source;
                 brush.Stretch = Stretch.Fill;
                 brush.Viewbox = GetViewBox();
+
                 var rectangle = new Rectangle();
                 rectangle.Fill = brush;
-                RenderOptions.SetBitmapScalingMode(rectangle, BitmapScalingMode.HighQuality);
+                rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
                 return rectangle;
             }
             else if (Source is Uri)
@@ -93,8 +94,16 @@ namespace NeeView
                 var media = new MediaElement();
                 media.Source = (Uri)Source;
                 media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
-                RenderOptions.SetBitmapScalingMode(media, BitmapScalingMode.HighQuality);
-                return media;
+                media.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
+
+                var brush = new VisualBrush();
+                brush.Visual = media;
+                brush.Stretch = Stretch.Fill;
+                brush.Viewbox = GetViewBox();
+
+                var rectangle = new Rectangle();
+                rectangle.Fill = brush;
+                return rectangle;
             }
             else if (Source is FilePageContext)
             {

@@ -811,14 +811,7 @@ namespace NeeView
         // 分割モード有効判定
         private bool IsEnableDividePage(int index)
         {
-            if (PageMode == PageMode.SinglePage && IsSupportedDividePage)
-            {
-                return Pages[index].IsWide && !(Page.IsEnableAnimatedGif && LoosePath.GetExtension(Pages[index].FileName) == ".gif");
-            }
-            else
-            {
-                return false;
-            }
+            return (PageMode == PageMode.SinglePage && IsSupportedDividePage && Pages[index].IsWide);
         }
 
         // 表示コンテンツソースと、それに対応したコンテキスト作成

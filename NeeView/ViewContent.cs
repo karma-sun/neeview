@@ -84,9 +84,19 @@ namespace NeeView
         // 方向
         public PageReadOrder ReadOrder { get; set; }
 
+        // スケールモード
+        #region Property: BitmapScalingMode
+        private BitmapScalingMode _BitmapScalingMode = BitmapScalingMode.HighQuality;
+        public BitmapScalingMode BitmapScalingMode
+        {
+            get { return _BitmapScalingMode; }
+            set { _BitmapScalingMode = value; OnPropertyChanged(); }
+        }
+        #endregion
+
         // 有効判定
         public bool IsValid => (Content != null);
-        
+
 
         // ページパーツ文字
         public string GetPartString()

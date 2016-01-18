@@ -157,7 +157,7 @@ namespace NeeView
             }
         }
         #endregion
-        
+
 
 
         // コマンドバインド用
@@ -591,16 +591,16 @@ namespace NeeView
                 {
                     if (source != null)
                     {
-                        contents.Add(new ViewContent()
-                        {
-                            Content = source.CreateControl(new Binding("ForegroundBrush") { Source = this }),
-                            Size = new Size(source.Width, source.Height),
-                            Color = new SolidColorBrush(source.Color),
-                            FullPath = source.FullPath,
-                            Position = source.Position,
-                            PartSize = source.PartSize,
-                            ReadOrder = source.ReadOrder,
-                        });
+                        var content = new ViewContent();
+                        content.Content = source.CreateControl(new Binding("ForegroundBrush") { Source = this }, new Binding("BitmapScalingMode") { Source = content });
+                        content.Size = new Size(source.Width, source.Height);
+                        content.Color = new SolidColorBrush(source.Color);
+                        content.FullPath = source.FullPath;
+                        content.Position = source.Position;
+                        content.PartSize = source.PartSize;
+                        content.ReadOrder = source.ReadOrder;
+
+                        contents.Add(content);
                     }
                 }
             }
@@ -682,12 +682,9 @@ namespace NeeView
         {
             foreach (var content in Contents)
             {
-                if (content.Content != null && (content.Content is Rectangle || content.Content is MediaElement))
+                if (content.Content != null && content.Content is Rectangle)
                 {
-                    if (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _ViewScale)
-                        RenderOptions.SetBitmapScalingMode(content.Content, BitmapScalingMode.NearestNeighbor);
-                    else
-                        RenderOptions.SetBitmapScalingMode(content.Content, BitmapScalingMode.HighQuality);
+                    content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _ViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
                 }
             }
         }
@@ -900,7 +897,7 @@ namespace NeeView
             [DataMember]
             public ShowMessageStyle GestureShowMessageStyle { get; set; }
 
-            [DataMember (Order = 101)]
+            [DataMember(Order = 101)]
             public bool IsEnabledNearestNeighbor { get; set; }
 
 

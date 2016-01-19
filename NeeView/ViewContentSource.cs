@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -94,6 +95,7 @@ namespace NeeView
                 var media = new MediaElement();
                 media.Source = (Uri)Source;
                 media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
+                media.MediaFailed += (s, e_) => { throw new ApplicationException("MediaElementで致命的エラー", e_.ErrorException); };
                 media.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
 
                 var brush = new VisualBrush();

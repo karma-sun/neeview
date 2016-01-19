@@ -22,14 +22,9 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
-    // 背景の種類
-    public enum BackgroundStyle
-    {
-        Black,
-        White,
-        Auto,
-        Check
-    };
+
+
+
 
     // 通知表示の種類
     public enum ShowMessageStyle

@@ -108,6 +108,7 @@
                         <local:BookReadOrderToBooleanConverter x:Key="BookReadOrderToBooleanConverter"/>
                         <local:FolderOrderToBooleanConverter x:Key="FolderOrderToBooleanConverter"/>
                         <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
+                        <local:BackgroundStyleToBooleanConverter x:Key="BackgroundStyleToBooleanConverter"/>
                     </Menu.Resources>
 
                     <MenuItem Header="ファイル(_F)">
@@ -149,6 +150,16 @@
                         <Separator/>
                         <MenuItem Header="ドットのまま拡大する" Command="{Binding BookCommands[ToggleIsEnabledNearestNeighbor]}"
                             IsChecked="{Binding IsEnabledNearestNeighbor,Mode=OneWay}" />
+                        <Separator/>
+                        <MenuItem Header="背景を黒色にする" Command="{Binding BookCommands[SetBackgroundBlack]}"
+                              IsChecked="{Binding Background,Converter={StaticResource BackgroundStyleToBooleanConverter},ConverterParameter=Black,Mode=OneWay}" />
+                        <MenuItem Header="背景を白色にする" Command="{Binding BookCommands[SetBackgroundWhite]}"
+                              IsChecked="{Binding Background,Converter={StaticResource BackgroundStyleToBooleanConverter},ConverterParameter=White,Mode=OneWay}" />
+                        <MenuItem Header="背景を画像に合わせた色にする" Command="{Binding BookCommands[SetBackgroundAuto]}"
+                              IsChecked="{Binding Background,Converter={StaticResource BackgroundStyleToBooleanConverter},ConverterParameter=Auto,Mode=OneWay}" />
+                        <MenuItem Header="背景をチェック模様にする" Command="{Binding BookCommands[SetBackgroundCheck]}"
+                              IsChecked="{Binding Background,Converter={StaticResource BackgroundStyleToBooleanConverter},ConverterParameter=Check,Mode=OneWay}" />
+
                         <Separator/>
                         <MenuItem Header="スライドショー" Command="{Binding BookCommands[ToggleSlideShow]}"
                             IsChecked="{Binding BookHub.IsEnableSlideShow,Mode=OneWay}" />

@@ -27,7 +27,8 @@ namespace NeeView
                 return;
             }
 
-            string message = $"エラーが発生しました。アプリを終了します。\n\n理由 : {e.Exception.Message}";
+            string exceptionMessage = e.Exception is System.Reflection.TargetInvocationException ? e.Exception.InnerException?.Message : e.Exception.Message;
+            string message = $"エラーが発生しました。アプリを終了します。\n\n理由 : {exceptionMessage}";
             MessageBox.Show(message, "強制終了", MessageBoxButton.OK, MessageBoxImage.Error);
 
             using (var stream = new FileStream("ErrorLog.txt", FileMode.Create, FileAccess.Write))

@@ -73,6 +73,7 @@
     </ApplicationDefinition>
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
+    <Compile Include="BackgroundStyle.cs" />
     <Compile Include="BitmapImageLoaders.cs" />
     <Compile Include="BitmapLoaderManager.cs" />
     <Compile Include="MouseGesture\MouseGestureCommandCollection.cs" />

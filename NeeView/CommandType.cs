@@ -47,6 +47,12 @@ namespace NeeView
 
         ToggleIsEnabledNearestNeighbor,
 
+        ToggleBackground,
+        SetBackgroundBlack,
+        SetBackgroundWhite,
+        SetBackgroundAuto,
+        SetBackgroundCheck,
+
         TogglePageMode,
         SetPageMode1,
         SetPageMode2,

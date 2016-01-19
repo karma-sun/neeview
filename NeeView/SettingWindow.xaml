@@ -34,13 +34,14 @@
                 <StackPanel Margin="4">
                     <TextBlock Text="表示" Style="{StaticResource Header}"/>
                     <StackPanel Style="{StaticResource Phrase}">
+                        <!--
                         <DockPanel Margin="2" LastChildFill="False">
                             <TextBlock Text="背景を" Width="auto" VerticalAlignment="Center" Margin="2"/>
                             <ComboBox ItemsSource="{Binding BackgroundStyleList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.Background}" />
                             <TextBlock Text="にする" Width="auto" VerticalAlignment="Center" Margin="2"/>
                         </DockPanel>
-
+                        -->
                         <DockPanel Margin="2" LastChildFill="False">
                             <TextBlock Text="コマンド実行を" VerticalAlignment="Center" Margin="2"/>
                             <ComboBox ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"

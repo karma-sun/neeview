@@ -127,7 +127,6 @@ namespace NeeView
                     Text = "ウィンドウいっぱいに広げる",
                     Execute = e => _VM.StretchMode = PageStretchMode.UniformToFill
                 },
-
             
                 [CommandType.ToggleIsEnabledNearestNeighbor] = new CommandElement
                 {
@@ -135,7 +134,45 @@ namespace NeeView
                     Text = "ドットのまま拡大ON/OFF",
                     Execute = e => _VM.IsEnabledNearestNeighbor = !_VM.IsEnabledNearestNeighbor,
                     ExecuteMessage = e => _VM.IsEnabledNearestNeighbor ? "高品質に拡大する" : "ドットのまま拡大する"
+
                 },
+
+                [CommandType.ToggleBackground] = new CommandElement
+                {
+                    Group = "背景",
+                    Text = "背景を切り替える",
+                    Execute = e => _VM.Background = _VM.Background.GetToggle(),
+                    ExecuteMessage = e => _VM.Background.GetToggle().ToDispString(),
+                },
+
+                [CommandType.SetBackgroundBlack] = new CommandElement
+                {
+                    Group = "背景",
+                    Text = "背景を黒色にする",
+                    Execute = e => _VM.Background = BackgroundStyle.Black,
+                },
+
+                [CommandType.SetBackgroundWhite] = new CommandElement
+                {
+                    Group = "背景",
+                    Text = "背景を白色にする",
+                    Execute = e => _VM.Background = BackgroundStyle.White,
+                },
+
+                [CommandType.SetBackgroundAuto] = new CommandElement
+                {
+                    Group = "背景",
+                    Text = "背景を画像に合わせた色にする",
+                    Execute = e => _VM.Background = BackgroundStyle.Auto,
+                },
+
+                [CommandType.SetBackgroundCheck] = new CommandElement
+                {
+                    Group = "背景",
+                    Text = "背景をチェック模様にする",
+                    Execute = e => _VM.Background = BackgroundStyle.Check,
+                },
+
 
                 [CommandType.ToggleFullScreen] = new CommandElement
                 {

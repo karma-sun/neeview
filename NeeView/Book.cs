@@ -44,7 +44,7 @@ namespace NeeView
 
         // 表示コンテンツ変更
         // 表示の更新を要求
-        public event EventHandler<IEnumerable<ViewContentSource>> ViewContentsChanged;
+        public event EventHandler<ViewSource> ViewContentsChanged;
 
         // ページ終端を超えて移動しようとした
         // 次の本への移動を要求
@@ -591,7 +591,7 @@ namespace NeeView
 
             public override async Task Execute()
             {
-                await _Book.UpdateViewPageAsync(_Source);
+                await _Book.UpdateViewPageAsync(_Source, false);
             }
         }
 
@@ -642,7 +642,7 @@ namespace NeeView
 
             public override async Task Execute()
             {
-                await _Book.UpdateViewPageAsync(GetViewPageContextSource());
+                await _Book.UpdateViewPageAsync(GetViewPageContextSource(), true);
                 _Book.DisplayIndex = _Book._ViewContext.Position.Index;
             }
         }
@@ -739,7 +739,7 @@ namespace NeeView
         }
 
         // 表示ページ更新
-        private async Task UpdateViewPageAsync(ViewPageContextSource source)
+        private async Task UpdateViewPageAsync(ViewPageContextSource source, bool isPreLoad)
         {
             // ページ終端を越えたか判定
             if (source.Position < _FirstPosition)
@@ -786,7 +786,7 @@ namespace NeeView
             _CommandWorkerCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
             // notice ViewContentsChanged
-            App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, _ViewContext.ViewContentsSource));
+            App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource() { Sources = _ViewContext.ViewContentsSource, Direction = _ViewContext.Direction }));
 
             // notice PropertyChanged
             PageChanged?.Invoke(this, _ViewContext.Position.Index);
@@ -796,7 +796,7 @@ namespace NeeView
             CleanupPages();
 
             // pre load
-            if (_ReadyCommand == null) PreLoad();
+            if (isPreLoad) PreLoad();
         }
 
         // 見開きモードでも単独表示するべきか判定

@@ -22,10 +22,6 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
-
-
-
-
     // 通知表示の種類
     public enum ShowMessageStyle
     {
@@ -54,15 +50,11 @@ namespace NeeView
         }
         #endregion
 
-        // ビューモデルの設定変更通知
-        // マウスドラッグ情報のリセット等に使用されます。
-        public event EventHandler ViewModeChanged;
-
         // ロード中通知
         public event EventHandler<string> Loading;
 
         // 表示変更を通知
-        public event EventHandler ViewChanged;
+        public event EventHandler<int> ViewChanged;
 
         // ショートカット変更を通知
         public event EventHandler InputGestureChanged;
@@ -118,8 +110,7 @@ namespace NeeView
                     _StretchMode = value;
                     OnPropertyChanged();
                     UpdateContentSize();
-                    ViewChanged?.Invoke(this, null);
-                    ViewModeChanged?.Invoke(this, null);
+                    ViewChanged?.Invoke(this, 0);
                 }
             }
         }
@@ -575,14 +566,14 @@ namespace NeeView
 
 
         // 表示コンテンツ更新
-        private void OnViewContentsChanged(object sender, IEnumerable<ViewContentSource> e)
+        private void OnViewContentsChanged(object sender, ViewSource e)
         {
             var contents = new List<ViewContent>();
 
             // ViewContent作成
-            if (e != null)
+            if (e?.Sources != null)
             {
-                foreach (var source in e)
+                foreach (var source in e.Sources)
                 {
                     if (source != null)
                     {
@@ -619,7 +610,7 @@ namespace NeeView
             UpdateContentSize();
 
             // 表示更新を通知
-            ViewChanged?.Invoke(this, null);
+            ViewChanged?.Invoke(this, e != null ? e.Direction : 0);
             OnPropertyChanged(nameof(WindowTitle));
         }
 
@@ -747,8 +738,14 @@ namespace NeeView
                 if (rateH < 1.0) rateH = 1.0;
             }
 
+            // 高さを合わせる
+            if (this.StretchMode == PageStretchMode.UniformToVertical)
+            {
+                rate0 *= rateH;
+                rate1 *= rateH;
+            }
             // 枠いっぱいに広げる
-            if (this.StretchMode == PageStretchMode.UniformToFill)
+            else if (this.StretchMode == PageStretchMode.UniformToFill)
             {
                 if (rateW > rateH)
                 {
@@ -951,7 +948,7 @@ namespace NeeView
             this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
             this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
 
-            ViewModeChanged?.Invoke(this, null);
+            ViewChanged?.Invoke(this, 0);
         }
 
         #endregion

@@ -20,6 +20,8 @@ namespace NeeView
         NextPage,
         PrevOnePage,
         NextOnePage,
+        PrevScrollPage,
+        NextScrollPage,
 
         FirstPage,
         LastPage,
@@ -44,6 +46,7 @@ namespace NeeView
         SetStretchModeOutside,
         SetStretchModeUniform,
         SetStretchModeUniformToFill,
+        SetStretchModeUniformToVertical,
 
         ToggleIsEnabledNearestNeighbor,
 

@@ -76,6 +76,8 @@
     <Compile Include="BackgroundStyle.cs" />
     <Compile Include="BitmapImageLoaders.cs" />
     <Compile Include="BitmapLoaderManager.cs" />
+    <Compile Include="DragArea.cs" />
+    <Compile Include="DragViewOrigin.cs" />
     <Compile Include="MouseGesture\MouseGestureCommandCollection.cs" />
     <Compile Include="MouseGesture\MouseGestureManager.cs" />
     <Compile Include="MouseGesture\MouseGestureSequence.cs" />

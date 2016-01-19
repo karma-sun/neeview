@@ -26,13 +26,6 @@ namespace NeeView
         Target, // コンテンツの中心
     }
 
-    // 開始時の基準座標
-    public enum ViewOrigin
-    {
-        Center, // コンテンツの中心
-        LeftTop, // コンテンツの左上
-        RightTop, // コンテンツの右上
-    }
 
     /// <summary>
     /// マウスドラッグ管理
@@ -138,7 +131,7 @@ namespace NeeView
         #endregion
 
         // 開始時の基準
-        public ViewOrigin ViewOrigin { get; set; }
+        public DragViewOrigin ViewOrigin { get; set; }
 
         // ウィンドウ枠内の移動に制限するフラグ
         private bool _IsLimitMove;
@@ -262,7 +255,7 @@ namespace NeeView
 
         // 水平スクロールの正方向
         // 基準座標に依存する
-        double ViewHorizontalDirection => (ViewOrigin == ViewOrigin.LeftTop) ? 1.0 : -1.0;
+        double ViewHorizontalDirection => (ViewOrigin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
 
         // 初期化
         // コンテンツ切り替わり時等
@@ -274,7 +267,7 @@ namespace NeeView
             Angle = 0;
             Scale = 1.0;
 
-            if (ViewOrigin == ViewOrigin.Center)
+            if (ViewOrigin == DragViewOrigin.Center)
             {
                 Position = new Point(0, 0);
             }
@@ -283,17 +276,15 @@ namespace NeeView
                 // レイアウト更新
                 _Sender.UpdateLayout();
 
-                var rect = GetRealSize(_TargetShadow, _Sender);
-                var view = new Size(_Sender.ActualWidth, _Sender.ActualHeight);
-
+                var area = GetArea();
                 var pos = new Point(0, 0);
-                if (rect.Height > view.Height)
+                if (area.Target.Height > area.View.Height)
                 {
-                    pos.Y = (rect.Height - view.Height) * 0.5;
+                    pos.Y = (area.Target.Height - area.View.Height) * 0.5;
                 }
-                if (rect.Width > view.Width)
+                if (area.Target.Width > area.View.Width)
                 {
-                    pos.X = (rect.Width - view.Width) * 0.5 * ViewHorizontalDirection;
+                    pos.X = (area.Target.Width - area.View.Width) * 0.5 * ViewHorizontalDirection;
                 }
                 Position = pos;
             }
@@ -307,20 +298,22 @@ namespace NeeView
             // レイアウト更新
             _Sender.UpdateLayout();
 
-            var rect = GetRealSize(_TargetShadow, _Sender);
-            var view = new Size(_Sender.ActualWidth, _Sender.ActualHeight);
-
             double margin = 1.0;
-
+            var area = GetArea();
             var pos = Position;
 
             // ウィンドウサイズ変更直後はrectのスクリーン座標がおかしい可能性があるのでPositionから計算しなおす
-            rect.X = pos.X - rect.Width * 0.5 + view.Width * 0.5;
-            rect.Y = pos.Y - rect.Height * 0.5 + view.Height * 0.5;
-
-            if (rect.Width <= view.Width + margin)
+            var rect = new Rect()
             {
-                pos.X = 0.0;
+                X = pos.X - area.Target.Width * 0.5 + area.View.Width * 0.5,
+                Y = pos.Y - area.Target.Height * 0.5 + area.View.Height * 0.5,
+                Width = area.Target.Width,
+                Height = area.Target.Height,
+            };
+
+            if (rect.Width <= area.View.Width + margin)
+            {
+                pos.X = 0;
             }
             else
             {
@@ -328,15 +321,15 @@ namespace NeeView
                 {
                     pos.X -= rect.Left;
                 }
-                else if (rect.Right < view.Width)
+                else if (rect.Right < area.View.Width)
                 {
-                    pos.X += view.Width - rect.Right;
+                    pos.X += area.View.Width - rect.Right;
                 }
             }
 
-            if (rect.Height <= view.Height + margin)
+            if (rect.Height <= area.View.Height + margin)
             {
-                pos.Y = 0.0;
+                pos.Y = 0;
             }
             else
             {
@@ -344,9 +337,9 @@ namespace NeeView
                 {
                     pos.Y -= rect.Top;
                 }
-                else if (rect.Bottom < view.Height)
+                else if (rect.Bottom < area.View.Height)
                 {
-                    pos.Y += view.Height - rect.Bottom;
+                    pos.Y += area.View.Height - rect.Bottom;
                 }
             }
 
@@ -393,6 +386,50 @@ namespace NeeView
 
             _IsEnableTranslateAnimation = false;
         }
+
+        // スクロール←
+        public bool ScrollLeft()
+        {
+            var area = GetArea();
+            if (area.Over.Left < 0)
+            {
+                double dx = Math.Abs(area.Over.Left);
+                if (dx > area.View.Width) dx = area.View.Width;
+
+                UpdateLock();
+
+                //_IsEnableTranslateAnimation = true;
+                DoMove(new Vector(dx, 0));
+                //_IsEnableTranslateAnimation = false;
+
+                return true;
+            }
+
+            return false;
+        }
+
+
+        // スクロール→
+        public bool ScrollRight()
+        {
+            var area = GetArea();
+            if (area.Over.Right > 0)
+            {
+                double dx = Math.Abs(area.Over.Right);
+                if (dx > area.View.Width) dx = area.View.Width;
+
+                UpdateLock();
+
+                //_IsEnableTranslateAnimation = true;
+                DoMove(new Vector(-dx, 0));
+                //_IsEnableTranslateAnimation = false;
+
+                return true;
+            }
+
+            return false;
+        }
+
 
         // 拡大コマンド
         public void ScaleUp()
@@ -525,25 +562,29 @@ namespace NeeView
             DoMove(move);
         }
 
+        private DragArea GetArea()
+        {
+            return new DragArea(_Sender, _TargetShadow);
+        }
+
         // 移動制限更新
         // ビューエリアサイズを超える場合、制限をOFFにする
         private void UpdateLock()
         {
-            var rect = GetRealSize(_TargetShadow, _Sender);
-            var view = new Size(_Sender.ActualWidth, _Sender.ActualHeight);
+            var area = GetArea();
 
             double margin = 0.1;
 
             if (_LockMoveX)
             {
-                if (rect.Left < 0 - margin || rect.Right > view.Width + margin)
+                if (area.Over.Left + margin < 0 || area.Over.Right - margin > 0)
                 {
                     _LockMoveX = false;
                 }
             }
             if (_LockMoveY)
             {
-                if (rect.Top < 0 - margin || rect.Bottom > view.Height + margin)
+                if (area.Over.Top + margin < 0 || area.Over.Bottom - margin > 0)
                 {
                     _LockMoveY = false;
                 }
@@ -553,14 +594,13 @@ namespace NeeView
         // 移動実行
         private void DoMove(Vector move)
         {
-            var rect = GetRealSize(_TargetShadow, _Sender);
+            var area = GetArea();
             var pos0 = Position;
             var pos1 = Position + move;
-            var view = new Size(_Sender.ActualWidth, _Sender.ActualHeight);
 
             var margin = new Point(
-                rect.Width < view.Width ? 0 : rect.Width - view.Width,
-                rect.Height < view.Height ? 0 : rect.Height - view.Height);
+                area.Target.Width < area.View.Width ? 0 : area.Target.Width - area.View.Width,
+                area.Target.Height < area.View.Height ? 0 : area.Target.Height - area.View.Height);
 
             UpdateLock();
 
@@ -575,24 +615,24 @@ namespace NeeView
 
             if (IsLimitMove)
             {
-                if (move.X < 0 && rect.Left + move.X < -margin.X)
+                if (move.X < 0 && area.Target.Left + move.X < -margin.X)
                 {
-                    move.X = -margin.X - rect.Left;
+                    move.X = -margin.X - area.Target.Left;
                     if (move.X > 0) move.X = 0;
                 }
-                else if (move.X > 0 && rect.Right + move.X > view.Width + margin.X)
+                else if (move.X > 0 && area.Target.Right + move.X > area.View.Width + margin.X)
                 {
-                    move.X = view.Width + margin.X - rect.Right;
+                    move.X = area.View.Width + margin.X - area.Target.Right;
                     if (move.X < 0) move.X = 0;
                 }
-                if (move.Y < 0 && rect.Top + move.Y < -margin.Y)
+                if (move.Y < 0 && area.Target.Top + move.Y < -margin.Y)
                 {
-                    move.Y = -margin.Y - rect.Top;
+                    move.Y = -margin.Y - area.Target.Top;
                     if (move.Y > 0) move.Y = 0;
                 }
-                else if (move.Y > 0 && rect.Bottom + move.Y > view.Height + margin.Y)
+                else if (move.Y > 0 && area.Target.Bottom + move.Y > area.View.Height + margin.Y)
                 {
-                    move.Y = view.Height + margin.Y - rect.Bottom;
+                    move.Y = area.View.Height + margin.Y - area.Target.Bottom;
                     if (move.Y < 0) move.Y = 0;
                 }
             }
@@ -600,24 +640,6 @@ namespace NeeView
             Position = pos0 + move;
 
             _StartPoint += pos1 - Position;
-        }
-
-        // コントロールの表示RECTを取得
-        public static Rect GetRealSize(FrameworkElement target, FrameworkElement parent)
-        {
-            Point[] pos = new Point[4];
-            double width = target.ActualWidth;
-            double height = target.ActualHeight;
-
-            pos[0] = target.TranslatePoint(new Point(0, 0), parent);
-            pos[1] = target.TranslatePoint(new Point(width, 0), parent);
-            pos[2] = target.TranslatePoint(new Point(0, height), parent);
-            pos[3] = target.TranslatePoint(new Point(width, height), parent);
-
-            Point min = new Point(pos.Min(e => e.X), pos.Min(e => e.Y));
-            Point max = new Point(pos.Max(e => e.X), pos.Max(e => e.Y));
-
-            return new Rect(min, max);
         }
 
         // 回転

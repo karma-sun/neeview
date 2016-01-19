@@ -127,7 +127,13 @@ namespace NeeView
                     Text = "ウィンドウいっぱいに広げる",
                     Execute = e => _VM.StretchMode = PageStretchMode.UniformToFill
                 },
-            
+                [CommandType.SetStretchModeUniformToVertical] = new CommandElement
+                {
+                    Group = "表示サイズ",
+                    Text = "高さをウィンドウに合わせる",
+                    Execute = e => _VM.StretchMode = PageStretchMode.UniformToVertical
+                },
+
                 [CommandType.ToggleIsEnabledNearestNeighbor] = new CommandElement
                 {
                     Group = "拡大モード",
@@ -276,6 +282,19 @@ namespace NeeView
                     IsShowMessage = false,
                     Execute = e => _Book.NextOnePage(),
                 },
+                [CommandType.PrevScrollPage] = new CommandElement
+                {
+                    Group = "移動",
+                    Text = "スクロール＋前のページに戻る",
+                    IsShowMessage = false,
+                },
+                [CommandType.NextScrollPage] = new CommandElement
+                {
+                    Group = "移動",
+                    Text = "スクロール＋次のページへ進む",
+                    IsShowMessage = false,
+                },
+
                 [CommandType.FirstPage] = new CommandElement
                 {
                     Group = "移動",

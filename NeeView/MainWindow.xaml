@@ -147,6 +147,8 @@
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=Uniform,Mode=OneWay}" />
                         <MenuItem Header="ウィンドウいっぱいに広げる" Command="{Binding BookCommands[SetStretchModeUniformToFill]}"
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=UniformToFill,Mode=OneWay}" />
+                        <MenuItem Header="高さをウィンドウに合わせる" Command="{Binding BookCommands[SetStretchModeUniformToVertical]}"
+                              IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=UniformToVertical,Mode=OneWay}" />
                         <Separator/>
                         <MenuItem Header="ドットのまま拡大する" Command="{Binding BookCommands[ToggleIsEnabledNearestNeighbor]}"
                             IsChecked="{Binding IsEnabledNearestNeighbor,Mode=OneWay}" />

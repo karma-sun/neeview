@@ -18,7 +18,7 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
-    // 表示コンテンツソース
+    // 表示コンテンツソース 1ページ分
     public class ViewContentSource
     {
         // コンテンツソース
@@ -44,7 +44,6 @@ namespace NeeView
 
         // 方向
         public PageReadOrder ReadOrder { get; set; }
-
 
 
         // コンストラクタ
@@ -125,6 +124,14 @@ namespace NeeView
                 return null;
             }
         }
+    }
+
+
+    // 表示コンテンツソース
+    public class ViewSource
+    {
+        public List<ViewContentSource> Sources { get; set; }
+        public int Direction { get; set; }
     }
 
 }

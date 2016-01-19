@@ -57,12 +57,9 @@ namespace NeeView
             _VM.ViewChanged +=
                 (s, e) =>
                 {
-                    UpdateMouseDragSetting();
+                    UpdateMouseDragSetting(e);
                     _MouseDrag.Reset();
                 };
-
-            _VM.ViewModeChanged +=
-                (s, e) => UpdateMouseDragSetting();
 
             _VM.InputGestureChanged +=
                 (s, e) => InitializeInputGestures();
@@ -221,14 +218,16 @@ namespace NeeView
             }
         }
 
+
         // ドラッグでビュー操作設定の更新
-        private void UpdateMouseDragSetting()
+        private void UpdateMouseDragSetting(int direction)
         {
             _MouseDrag.IsLimitMove = _VM.IsLimitMove;
             _MouseDrag.DragControlCenter = _VM.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
             _MouseDrag.SnapAngle = _VM.IsAngleSnap ? 45 : 0;
-            _MouseDrag.ViewOrigin = _VM.IsViewStartPositionCenter ? ViewOrigin.Center :
-                _VM.BookSetting.BookReadOrder == PageReadOrder.LeftToRight ? ViewOrigin.LeftTop : ViewOrigin.RightTop;
+
+            var origin = _VM.IsViewStartPositionCenter ? DragViewOrigin.Center : _VM.BookSetting.BookReadOrder == PageReadOrder.LeftToRight ? DragViewOrigin.LeftTop : DragViewOrigin.RightTop;
+            _MouseDrag.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
         }
 
 
@@ -269,6 +268,10 @@ namespace NeeView
                 (e) => _MouseDrag.Rotate(-45);
             ModelContext.CommandTable[CommandType.ViewRotateRight].Execute =
                 (e) => _MouseDrag.Rotate(+45);
+            ModelContext.CommandTable[CommandType.PrevScrollPage].Execute =
+                (e) => PrevScrollPage();
+            ModelContext.CommandTable[CommandType.NextScrollPage].Execute =
+                (e) => NextScrollPage();
 
             // コマンドバインド作成
             foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
@@ -357,6 +360,30 @@ namespace NeeView
 
             _VM.Load(path);
         }
+
+
+        // スクロール＋前のページに戻る
+        private void PrevScrollPage()
+        {
+            bool isScrolled = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? _MouseDrag.ScrollRight() : _MouseDrag.ScrollLeft();
+
+            if (!isScrolled)
+            {
+                _VM.BookHub.PrevPage();
+            }
+        }
+
+        // スクロール＋次のページに進む
+        private void NextScrollPage()
+        {
+            bool isScrolled = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? _MouseDrag.ScrollLeft() : _MouseDrag.ScrollRight();
+
+            if (!isScrolled)
+            {
+                _VM.BookHub.NextPage();
+            }
+        }
+
 
 
         // 設定ウィンドウを開く

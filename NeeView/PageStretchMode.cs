@@ -19,6 +19,7 @@ namespace NeeView
         Outside, // もとの大きさ、小さい場合はウィンドウサイズに合わせる
         Uniform, // ウィンドウサイズに合わせる
         UniformToFill, // ウィンドウいっぱいに広げる
+        UniformToVertical, // 高さをウィンドウに合わせる
     }
 
     public static class PageStretchModeExtension
@@ -37,6 +38,7 @@ namespace NeeView
             [PageStretchMode.Outside] = "小さい場合ウィンドウサイズに合わせる",
             [PageStretchMode.Uniform] = "ウィンドウサイズに合わせる",
             [PageStretchMode.UniformToFill] = "ウィンドウいっぱいに広げる",
+            [PageStretchMode.UniformToVertical] = "高さをウィンドウに合わせる",
         };
 
         // 表示名取得

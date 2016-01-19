@@ -38,7 +38,7 @@ namespace NeeView
         public event EventHandler<string> InfoMessage;
 
         // ViewContentsの変更通知
-        public event EventHandler<IEnumerable<ViewContentSource>> ViewContentsChanged;
+        public event EventHandler<ViewSource> ViewContentsChanged;
 
         // スライドショーモード変更通知
         public event EventHandler<bool> SlideShowModeChanged;

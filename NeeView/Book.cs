@@ -771,12 +771,21 @@ namespace NeeView
                 }
             }
 
-            // load wait
+            // cleanup pages
+            _KeepPages.AddRange(viewPages.Where(e => !_KeepPages.Contains(e)));
+            CleanupPages(source);
+
+            // start load
             var tlist = new List<Task>();
             foreach (var page in viewPages)
             {
                 tlist.Add(page.LoadAsync(QueueElementPriority.Top));
             }
+
+            // pre load
+            if (isPreLoad) PreLoad(source);
+
+            // wait load
             await Task.WhenAll(tlist);
 
             // update contents
@@ -791,12 +800,6 @@ namespace NeeView
             // notice PropertyChanged
             PageChanged?.Invoke(this, _ViewContext.Position.Index);
 
-            // cleanup pages
-            _KeepPages.AddRange(viewPages.Where(e => !_KeepPages.Contains(e)));
-            CleanupPages();
-
-            // pre load
-            if (isPreLoad) PreLoad();
         }
 
         // 見開きモードでも単独表示するべきか判定
@@ -892,13 +895,13 @@ namespace NeeView
 
 
         // 不要ページコンテンツの削除を行う
-        private void CleanupPages()
+        private void CleanupPages(ViewPageContextSource source)
         {
-            // コンテンツを保持するページ収集
+            // コンテンツを保持するページ収集 (前後2ページ分)
             var keepPages = new List<Page>();
-            for (int offset = -_PageMode.Size(); offset <= _PageMode.Size() * 2 - 1; ++offset)
+            for (int offset = -3; offset < 4; ++offset)
             {
-                int index = _ViewContext.Position.Index + offset;
+                int index = source.Position.Index + offset;
                 if (0 <= index && index < Pages.Count)
                 {
                     keepPages.Add(Pages[index]);
@@ -920,18 +923,22 @@ namespace NeeView
 
 
         // 先読み
-        private void PreLoad()
+        private void PreLoad(ViewPageContextSource source)
         {
-            for (int offset = 1; offset <= _PageMode.Size(); ++offset)
-            {
-                int index = (_ViewContext.Direction >= 0) ? _ViewContext.Position.Index + (_PageMode.Size() - 1) + offset : _ViewContext.Position.Index - offset;
+            var preLoadPages = new List<Page>();
 
+            for (int offset = 0; offset < 4; ++offset)
+            {
+                int index = source.Position.Index + (source.Direction < 0 ? -offset : offset);
                 if (0 <= index && index < Pages.Count)
                 {
-                    // 念のため
-                    Debug.Assert(_KeepPages.Contains(Pages[index]));
+                    Debug.Assert(_KeepPages.Contains(Pages[index])); // 念のため
+                    Pages[index].Open(QueueElementPriority.Default, Page.OpenOption.WeakPriority);
 
-                    Pages[index].Open(QueueElementPriority.Default);
+                    if (!_KeepPages.Contains(Pages[index]))
+                    {
+                        _KeepPages.Add(Pages[index]);
+                    }
                 }
             }
         }

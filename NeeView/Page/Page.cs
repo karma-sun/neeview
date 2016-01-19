@@ -134,10 +134,17 @@ namespace NeeView
         // ジョブリクエスト
         private JobRequest _JobRequest;
 
+        // Openフラグ
+        [Flags]
+        public enum OpenOption
+        {
+            None = 0,
+            WeakPriority = (1 << 0), // 高優先度の場合のみ上書き
+        };
 
 
         // コンテンツを開く(非同期)
-        public void Open(QueueElementPriority priority = QueueElementPriority.Default)
+        public void Open(QueueElementPriority priority, OpenOption option = OpenOption.None)
         {
             // 既にロード済の場合は何もしない
             if (_Content != null) return;
@@ -145,8 +152,11 @@ namespace NeeView
             // ジョブ登録済の場合、優先度変更
             if (_JobRequest != null && !_JobRequest.IsCancellationRequested)
             {
-                Message = $"Open... ({priority})";
-                _JobRequest.ChangePriority(priority);
+                if ((option & OpenOption.WeakPriority) != OpenOption.WeakPriority || priority < _JobRequest.Priority)
+                {
+                    Message = $"ReOpen... ({priority})";
+                    _JobRequest.ChangePriority(priority);
+                }
                 return;
             }
 
@@ -158,7 +168,7 @@ namespace NeeView
         // JOB: メイン処理
         private void OnExecute(CancellationToken cancel)
         {
-            ////Debug.WriteLine($"Job.{_JobRequest?.Priority.ToString()}: {FileName}..");
+            //Debug.WriteLine($"Job.{_JobRequest?.Priority.ToString()}: {FileName}..");
 
             var content = LoadContent();
 

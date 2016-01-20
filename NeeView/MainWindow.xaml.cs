@@ -228,6 +228,7 @@ namespace NeeView
 
             var origin = _VM.IsViewStartPositionCenter ? DragViewOrigin.Center : _VM.BookSetting.BookReadOrder == PageReadOrder.LeftToRight ? DragViewOrigin.LeftTop : DragViewOrigin.RightTop;
             _MouseDrag.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
+            _MouseDrag.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
         }
 
 

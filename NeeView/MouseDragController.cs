@@ -254,8 +254,7 @@ namespace NeeView
         }
 
         // 水平スクロールの正方向
-        // 基準座標に依存する
-        double ViewHorizontalDirection => (ViewOrigin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
+        public double ViewHorizontalDirection { get; set; } = 1.0;
 
         // 初期化
         // コンテンツ切り替わり時等
@@ -284,7 +283,8 @@ namespace NeeView
                 }
                 if (area.Target.Width > area.View.Width)
                 {
-                    pos.X = (area.Target.Width - area.View.Width) * 0.5 * ViewHorizontalDirection;
+                    var horizontalDirection = (ViewOrigin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
+                    pos.X = (area.Target.Width - area.View.Width) * 0.5 * horizontalDirection;
                 }
                 Position = pos;
             }

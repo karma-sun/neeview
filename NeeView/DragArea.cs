@@ -35,7 +35,7 @@ namespace NeeView
             Over = new Rect()
             {
                 X = Target.Left < 0 ? Target.Left : 0,
-                Y = Target.Left < Target.Top ? Target.Top : 0,
+                Y = Target.Top < 0 ? Target.Top : 0,
                 Width = Target.Right > View.Width ? Target.Right - View.Width : 0,
                 Height = Target.Bottom > View.Height ? Target.Bottom - View.Height : 0,
             };

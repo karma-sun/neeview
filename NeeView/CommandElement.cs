@@ -39,6 +39,9 @@ namespace NeeView
         // コマンド実行時表示デリゲート
         public Func<object, string> ExecuteMessage { get; set; }
 
+        // コマンド実行可能判定
+        public Func<bool> CanExecute { get; set; }
+
 
         // constructor
         public CommandElement()

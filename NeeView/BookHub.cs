@@ -207,7 +207,7 @@ namespace NeeView
                 Current.Start();
 
                 // 最初のコンテンツ表示待ち
-                await Task.Run(()=>_ViewContentEvent.WaitOne());
+                await Task.Run(() => _ViewContentEvent.WaitOne());
             }
             catch (Exception e)
             {
@@ -566,7 +566,7 @@ namespace NeeView
         public void TogglePageMode()
         {
             BookMemento.PageMode = BookMemento.PageMode.GetToggle();
-            RefleshBookSetting(); 
+            RefleshBookSetting();
         }
 
         // ページ並び変更
@@ -583,9 +583,27 @@ namespace NeeView
         {
             Current?.SetSortMode(mode);
             BookMemento.SortMode = mode;
-            RefleshBookSetting(); 
+            RefleshBookSetting();
         }
 
+        // ファイルの場所を開くことが可能？
+        public bool CanOpenFilePlace()
+        {
+            return Current?.GetViewPage() != null;
+        }
+
+        // ファイルの場所を開く
+        public void OpenFilePlace()
+        {
+            if (CanOpenFilePlace())
+            {
+                string place = Current.GetViewPage()?.GetFilePlace();
+                if (place != null)
+                {
+                    System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + place + "\"");
+                }
+            }
+        }
 
 
         #region Memento

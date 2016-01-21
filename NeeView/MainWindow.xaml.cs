@@ -277,14 +277,15 @@ namespace NeeView
             // コマンドバインド作成
             foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
             {
-                // フルスクリーン系コマンドは常に有効
-                if (ModelContext.CommandTable[type].Group == "フルスクリーン")
+                if (ModelContext.CommandTable[type].CanExecute != null)
                 {
-                    this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Parameter)));
+                    this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Parameter),
+                        (t, e) => e.CanExecute = ModelContext.CommandTable[type].CanExecute()));
                 }
                 else
                 {
-                    this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Parameter), CanExecute));
+                    this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Parameter),
+                        CanExecute));
                 }
             }
         }
@@ -294,7 +295,6 @@ namespace NeeView
         {
             e.CanExecute = !_NowLoading;
         }
-
 
 
         // InputGesture設定

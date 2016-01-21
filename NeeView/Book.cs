@@ -115,7 +115,6 @@ namespace NeeView
         }
 
 
-
         // 右開き、左開き
         private PageReadOrder _BookReadOrder = PageReadOrder.RightToLeft;
         public PageReadOrder BookReadOrder
@@ -209,6 +208,12 @@ namespace NeeView
         // 表示ページコンテキスト
         ViewPageContext _ViewContext = new ViewPageContext();
 
+        // 表示ページ
+        public Page GetViewPage() => GetPage(_ViewContext.Position.Index);
+
+        // ページ
+        public Page GetPage(int index) => Pages.Count > 0 ? Pages[ClampPageNumber(index)] : null;
+
         // 先頭ページの場所
         PagePosition _FirstPosition => new PagePosition(0, 0);
 
@@ -217,7 +222,6 @@ namespace NeeView
 
         // リソースを保持しておくページ
         private List<Page> _KeepPages = new List<Page>();
-
 
         // 排他処理用ロックオブジェクト
         private object _Lock = new object();
@@ -251,18 +255,18 @@ namespace NeeView
             Archiver archiver = null;
             if (Directory.Exists(path))
             {
-                archiver = ModelContext.ArchiverManager.CreateArchiver(path);
+                archiver = ModelContext.ArchiverManager.CreateArchiver(path, null);
             }
             else if (File.Exists(path))
             {
                 if (ModelContext.ArchiverManager.IsSupported(path))
                 {
-                    archiver = ModelContext.ArchiverManager.CreateArchiver(path);
+                    archiver = ModelContext.ArchiverManager.CreateArchiver(path, null);
                     option |= BookLoadOption.Recursive; // 圧縮ファイルはリカーシブ標準
                 }
                 else if (ModelContext.BitmapLoaderManager.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
                 {
-                    archiver = ModelContext.ArchiverManager.CreateArchiver(Path.GetDirectoryName(path));
+                    archiver = ModelContext.ArchiverManager.CreateArchiver(Path.GetDirectoryName(path), null);
                     start = Path.GetFileName(path);
                 }
                 else
@@ -340,7 +344,7 @@ namespace NeeView
                     if (archiver is FolderFiles)
                     {
                         var ff = (FolderFiles)archiver;
-                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(ff.GetFullPath(entry.FileName)), LoosePath.Combine(place, entry.FileName), option);
+                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(ff.GetFullPath(entry.FileName), archiver), LoosePath.Combine(place, entry.FileName), option);
                     }
                     else
                     {
@@ -348,7 +352,7 @@ namespace NeeView
                         string tempFileName = Temporary.CreateTempFileName(Path.GetFileName(entry.FileName));
                         archiver.ExtractToFile(entry.FileName, tempFileName);
                         _TrashBox.Add(new TrashFile(tempFileName));
-                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName), LoosePath.Combine(place, entry.FileName), option);
+                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName, archiver), LoosePath.Combine(place, entry.FileName), option);
                     }
                 }
                 else
@@ -1090,7 +1094,7 @@ namespace NeeView
             var memento = new Memento();
 
             memento.Place = Place;
-            memento.BookMark = Pages.Count > 0 ? Pages[_ViewContext.Position.Index].FullPath : null;
+            memento.BookMark = GetViewPage()?.FullPath;
 
             memento.PageMode = PageMode;
             memento.BookReadOrder = BookReadOrder;

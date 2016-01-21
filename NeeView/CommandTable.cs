@@ -82,6 +82,13 @@ namespace NeeView
                     ShortCutKey = "Ctrl+O",
                     IsShowMessage = false,
                 },
+                [CommandType.OpenFilePlace] = new CommandElement
+                {
+                    Group = "ファイル",
+                    Text = "ファイルの場所を開く",
+                    Execute = e => _Book.OpenFilePlace(),
+                    CanExecute = () => _Book.CanOpenFilePlace()
+                },
                 [CommandType.ClearHistory] = new CommandElement
                 {
                     Group = "ファイル",
@@ -187,12 +194,14 @@ namespace NeeView
                     ShortCutKey = "F12",
                     MouseGesture = "U",
                     IsShowMessage = false,
+                    CanExecute = () => true,
                 },
                 [CommandType.SetFullScreen] = new CommandElement
                 {
                     Group = "フルスクリーン",
                     Text = "フルスクリーンにする",
                     IsShowMessage = false,
+                    CanExecute = () => true,
                 },
                 [CommandType.CancelFullScreen] = new CommandElement
                 {
@@ -200,6 +209,7 @@ namespace NeeView
                     Text = "フルスクリーン解除",
                     ShortCutKey = "Escape",
                     IsShowMessage = false,
+                    CanExecute = () => true,
                 },
                 [CommandType.ToggleSlideShow] = new CommandElement
                 {

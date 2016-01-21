@@ -108,34 +108,34 @@ namespace NeeView
         }
 
         // アーカイバ作成
-        public Archiver CreateArchiver(ArchiverType type, string path)
+        public Archiver CreateArchiver(ArchiverType type, string path, Archiver parent)
         {
             switch (type)
             {
                 case ArchiverType.FolderFiles:
-                    return new FolderFiles(path);
+                    return new FolderFiles(path) { Parent = parent };
                 case ArchiverType.ZipArchiver:
-                    return new ZipArchiver(path);
+                    return new ZipArchiver(path) { Parent = parent };
                 case ArchiverType.ZipArchiverKeepOpened:
-                    return new ZipArchiverKeepOpened(path);
+                    return new ZipArchiverKeepOpened(path) { Parent = parent };
                 case ArchiverType.SevenZipArchiver:
-                    return new SevenZipArchiver(path);
+                    return new SevenZipArchiver(path) { Parent = parent };
                 case ArchiverType.SusieArchiver:
-                    return new SusieArchiver(path);
+                    return new SusieArchiver(path) { Parent = parent };
                 default:
                     throw new ArgumentException("no support ArchvierType.", nameof(type));
             }
         }
 
         // アーカイバ作成
-        public Archiver CreateArchiver(string path)
+        public Archiver CreateArchiver(string path, Archiver parent)
         {
             if (Directory.Exists(path))
             {
-                return CreateArchiver(ArchiverType.FolderFiles, path);
+                return CreateArchiver(ArchiverType.FolderFiles, path, parent);
             }
 
-            return CreateArchiver(GetSupportedType(path), path);
+            return CreateArchiver(GetSupportedType(path), path, parent);
         }
     }
 

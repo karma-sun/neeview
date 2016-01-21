@@ -283,13 +283,16 @@ namespace NeeView
 
         // 最近使ったフォルダ
         #region Property: LastFiles
-        private List<Book.Memento> _LastFiles;
+        private List<Book.Memento> _LastFiles = new List<Book.Memento>();
         public List<Book.Memento> LastFiles
         {
             get { return _LastFiles; }
-            set { _LastFiles = value; OnPropertyChanged(); }
+            set { _LastFiles = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsEnableLastFiles)); }
         }
         #endregion
+
+        // 最近使ったフォルダの有効フラグ
+        public bool IsEnableLastFiles { get { return LastFiles.Count > 0; } }
 
         // コンテンツ
         public ObservableCollection<ViewContent> Contents { get; private set; }

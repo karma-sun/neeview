@@ -22,7 +22,7 @@ namespace NeeView
     public class BitmapPage : Page
     {
         // アーカイバ
-        private Archiver _Archiver;
+        //private Archiver _Archiver;
 
         // GIFアニメーション用に展開したテンポラリファイル
         private Uri _GifFileUri;

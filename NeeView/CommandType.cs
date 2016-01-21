@@ -13,6 +13,7 @@ namespace NeeView
         OpenSettingWindow,
 
         LoadAs,
+        OpenFilePlace,
 
         ClearHistory,
 

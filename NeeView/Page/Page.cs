@@ -56,6 +56,9 @@ namespace NeeView
         // コンテンツ更新イベント
         public event EventHandler<bool> Loaded;
 
+        // 所属アーカイバ
+        protected Archiver _Archiver;
+
         // 場所
         public string Place { get; protected set; }
 
@@ -205,6 +208,22 @@ namespace NeeView
             }
 
             Message = "Closed.";
+        }
+
+
+        // ファイルの場所を取得
+        public string GetFilePlace()
+        {
+            Debug.Assert(_Archiver != null);
+
+            if (_Archiver is FolderFiles)
+            {
+                return LoosePath.Combine(_Archiver.FileName, FileName);
+            }
+            else
+            {
+                return _Archiver.GetPlace();
+            }
         }
     }
 }

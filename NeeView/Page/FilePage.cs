@@ -27,6 +27,7 @@ namespace NeeView
             FileName = entry.FileName;
             UpdateTime = entry.UpdateTime;
 
+            _Archiver = archiver;
             _Icon = icon;
         }
 

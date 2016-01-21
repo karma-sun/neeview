@@ -42,6 +42,9 @@ namespace NeeView
         // アーカイブのパス
         public abstract string FileName { get; }
 
+        // 親アーカイブ
+        public Archiver Parent { get; set; }
+
         // エントリリストを取得
         public abstract List<ArchiveEntry> GetEntries();
 
@@ -50,6 +53,18 @@ namespace NeeView
 
         // エントリをファイルとして出力
         public abstract void ExtractToFile(string entryName, string exportFileName);
+
+        public string GetPlace()
+        {
+            if (Parent == null || Parent is FolderFiles)
+            {
+                return FileName;
+            }
+            else
+            {
+                return Parent.GetPlace();
+            }
+        }
 
         // 廃棄用ゴミ箱
         public TrashBox TrashBox { get; private set; } = new TrashBox();

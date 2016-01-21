@@ -130,6 +130,8 @@ namespace NeeView
         // アニメーションGIF有効/無効フラグ
         public static bool IsEnableAnimatedGif { get; set; }
 
+        // EXIF情報有効/無効フラグ
+        public static bool IsEnableExif { get; set; }
 
         // コンテンツロード
         protected abstract object LoadContent();

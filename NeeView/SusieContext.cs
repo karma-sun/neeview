@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -61,12 +62,19 @@ namespace NeeView
             SpiFiles = SpiFiles.Where(e => Path.GetDirectoryName(e.Key) == SusiePluginPath).ToDictionary(e => e.Key, e => e.Value);
 
             // 新しいSPI追加
-            foreach (string s in Directory.GetFiles(SusiePluginPath, "*.spi"))
+            try
             {
-                if (!SpiFiles.ContainsKey(s))
+                foreach (string s in Directory.GetFiles(SusiePluginPath, "*.spi"))
                 {
-                    SpiFiles.Add(s, true);
+                    if (!SpiFiles.ContainsKey(s))
+                    {
+                        SpiFiles.Add(s, true);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SKIP: " + e.Message);
             }
         }
 

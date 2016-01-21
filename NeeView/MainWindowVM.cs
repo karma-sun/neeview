@@ -892,7 +892,7 @@ namespace NeeView
             [DataMember]
             public ShowMessageStyle GestureShowMessageStyle { get; set; }
 
-            [DataMember(Order = 101)]
+            [DataMember(Order = 1)]
             public bool IsEnabledNearestNeighbor { get; set; }
 
 

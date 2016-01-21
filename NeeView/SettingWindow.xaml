@@ -56,6 +56,8 @@
 
                         <CheckBox DockPanel.Dock="Top" Margin="2" Content="GIFをメディアとして再生する(アニメーションGIF)"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnableAnimatedGif}" />
+                        <CheckBox DockPanel.Dock="Top" Margin="2" Content="EXIFの回転情報を反映させる"
+                              IsChecked="{Binding Setting.BookHubMemento.IsEnableExif}" />
                         <CheckBox DockPanel.Dock="Top" Margin="2" Content="スライダーを右基準にする"
                               IsChecked="{Binding Setting.ViewMemento.IsSliderDirectionReversed}" />
                     </StackPanel>

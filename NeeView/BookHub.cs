@@ -62,6 +62,23 @@ namespace NeeView
         }
         #endregion
 
+
+        #region Property: IsEnableExif
+        public bool IsEnableExif
+        {
+            get { return Page.IsEnableExif; }
+            set
+            {
+                if (Page.IsEnableExif != value)
+                {
+                    Page.IsEnableExif = value;
+                    Current?.RequestReflesh(); // 表示更新
+                }
+            }
+        }
+        #endregion
+
+
         // 履歴から設定を復元する
         public bool IsEnableHistory { get; set; } = true;
 
@@ -554,13 +571,6 @@ namespace NeeView
             RefleshBookSetting();
         }
 
-        // ページモードトグル取得
-        /*
-        public int GetTogglePageMode()
-        {
-            return (BookMemento.PageMode + 1) % 3;
-        }
-        */
 
         // 単ページ/見開き表示トグル
         public void TogglePageMode()
@@ -617,6 +627,9 @@ namespace NeeView
             [DataMember]
             public bool IsEnableAnimatedGif { get; set; }
 
+            [DataMember(Order=1)]
+            public bool IsEnableExif { get; set; }
+
             [DataMember]
             public bool IsEnableHistory { get; set; }
 
@@ -667,6 +680,7 @@ namespace NeeView
             var memento = new Memento();
 
             memento.IsEnableAnimatedGif = IsEnableAnimatedGif;
+            memento.IsEnableExif = IsEnableExif;
             memento.IsEnableHistory = IsEnableHistory;
             memento.IsEnableNoSupportFile = IsEnableNoSupportFile;
             memento.IsEnabledAutoNextFolder = IsEnabledAutoNextFolder;
@@ -682,6 +696,7 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
+            IsEnableExif = memento.IsEnableExif;
             IsEnableHistory = memento.IsEnableHistory;
             IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
             IsEnabledAutoNextFolder = memento.IsEnabledAutoNextFolder;

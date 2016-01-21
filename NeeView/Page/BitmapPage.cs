@@ -55,7 +55,7 @@ namespace NeeView
                     {
                         var bitmapLoader = BitmapLoaderManager.Create(loaderType);
                         stream.Seek(0, SeekOrigin.Begin);
-                        var bmp = bitmapLoader.Load(stream, FileName);
+                        var bmp = IsEnableExif ? bitmapLoader.LoadWithExif(stream, FileName) : bitmapLoader.Load(stream, FileName);
                         if (bmp != null) return bmp;
                     }
                     catch (Exception e)

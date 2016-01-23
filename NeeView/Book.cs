@@ -64,7 +64,7 @@ namespace NeeView
                 if (_IsSupportedDividePage != value)
                 {
                     _IsSupportedDividePage = value;
-                    RequestReflesh();
+                    RequestReflesh(false);
                 }
             }
         }
@@ -79,7 +79,7 @@ namespace NeeView
                 if (_IsSupportedSingleFirstPage != value)
                 {
                     _IsSupportedSingleFirstPage = value;
-                    RequestReflesh();
+                    RequestReflesh(false);
                 }
             }
         }
@@ -94,7 +94,7 @@ namespace NeeView
                 if (_IsSupportedSingleLastPage != value)
                 {
                     _IsSupportedSingleLastPage = value;
-                    RequestReflesh();
+                    RequestReflesh(false);
                 }
             }
         }
@@ -109,7 +109,7 @@ namespace NeeView
                 if (_IsSupportedWidePage != value)
                 {
                     _IsSupportedWidePage = value;
-                    RequestReflesh();
+                    RequestReflesh(false);
                 }
             }
         }
@@ -125,7 +125,7 @@ namespace NeeView
                 if (_BookReadOrder != value)
                 {
                     _BookReadOrder = value;
-                    RequestReflesh();
+                    RequestReflesh(false);
                 }
             }
         }
@@ -155,7 +155,7 @@ namespace NeeView
                 if (_PageMode != value)
                 {
                     _PageMode = value;
-                    RequestReflesh();
+                    RequestReflesh(false);
                 }
             }
         }
@@ -197,10 +197,6 @@ namespace NeeView
 
         // ページ コレクション
         public List<Page> Pages { get; private set; } = new List<Page>();
-
-        // 先読み有効
-        // ページ切替時に自動で有効に戻される
-        public bool IsEnablePreLoad { get; set; } = true;
 
         // 表示されるページ番号(スライダー用)
         public int DisplayIndex { get; set; }
@@ -315,7 +311,7 @@ namespace NeeView
             Place = archiver.FileName;
 
             // 初期ページ設定
-            RequestSetPosition(position, direction);
+            RequestSetPosition(position, direction, true);
         }
 
         // アーカイブからページ作成(再帰)
@@ -424,27 +420,27 @@ namespace NeeView
         // 最初のページに移動
         public void FirstPage()
         {
-            RequestSetPosition(_FirstPosition, 1);
+            RequestSetPosition(_FirstPosition, 1, true);
         }
 
         // 最後のページに移動
         public void LastPage()
         {
-            RequestSetPosition(_LastPosition, -1);
+            RequestSetPosition(_LastPosition, -1, true);
         }
 
 
 
 
         // ページ指定移動
-        public void RequestSetPosition(PagePosition position, int direction)
+        public void RequestSetPosition(PagePosition position, int direction, bool isPreLoad)
         {
             Debug.Assert(direction == 1 || direction == -1);
 
             if (Place == null) return;
 
             DisplayIndex = position.Index;
-            RegistCommand(new SetPageCommand(this, position, direction, PageMode.Size()));
+            RegistCommand(new SetPageCommand(this, position, direction, PageMode.Size(), isPreLoad));
         }
 
         // ページ相対移動
@@ -455,10 +451,10 @@ namespace NeeView
         }
 
         // リフレッシュ
-        public void RequestReflesh()
+        public void RequestReflesh(bool isClear)
         {
             if (Place == null) return;
-            RegistCommand(new RefleshCommand(this));
+            RegistCommand(new RefleshCommand(this, isClear));
         }
 
         // ソート
@@ -565,13 +561,16 @@ namespace NeeView
         {
             public override int Priority => 1;
 
-            public RefleshCommand(Book book) : base(book)
+            private bool _IsClear;
+
+            public RefleshCommand(Book book, bool isClear) : base(book)
             {
+                _IsClear = isClear;
             }
 
             public override async Task Execute()
             {
-                _Book.Reflesh();
+                _Book.Reflesh(_IsClear);
                 await Task.Yield();
             }
         }
@@ -581,10 +580,14 @@ namespace NeeView
         {
             public override int Priority => 0;
 
+            bool _IsPreLoad;
+
             ViewPageContextSource _Source { get; set; }
 
-            public SetPageCommand(Book book, PagePosition position, int direction, int size) : base(book)
+            public SetPageCommand(Book book, PagePosition position, int direction, int size, bool isPreLoad) : base(book)
             {
+                _IsPreLoad = isPreLoad;
+
                 _Source = new ViewPageContextSource()
                 {
                     Position = position,
@@ -595,7 +598,7 @@ namespace NeeView
 
             public override async Task Execute()
             {
-                await _Book.UpdateViewPageAsync(_Source, false);
+                await _Book.UpdateViewPageAsync(_Source, _IsPreLoad);
             }
         }
 
@@ -976,7 +979,7 @@ namespace NeeView
                     throw new NotImplementedException();
             }
 
-            RequestSetPosition(_FirstPosition, 1);
+            RequestSetPosition(_FirstPosition, 1, true);
         }
 
 
@@ -995,16 +998,16 @@ namespace NeeView
 
 
         // 表示の再構築
-        private void Reflesh()
+        private void Reflesh(bool clear)
         {
             if (Place == null) return;
 
-            lock (_Lock)
+            if (clear)
             {
                 _KeepPages.ForEach(e => e?.Close());
             }
 
-            RequestSetPosition(_ViewContext.Position, 1);
+            RequestSetPosition(_ViewContext.Position, 1, true);
         }
 
 

@@ -56,7 +56,7 @@ namespace NeeView
                 if (Page.IsEnableAnimatedGif != value)
                 {
                     Page.IsEnableAnimatedGif = value;
-                    Current?.RequestReflesh(); // 表示更新
+                    Current?.RequestReflesh(true); // 表示更新
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace NeeView
                 if (Page.IsEnableExif != value)
                 {
                     Page.IsEnableExif = value;
-                    Current?.RequestReflesh(); // 表示更新
+                    Current?.RequestReflesh(true); // 表示更新
                 }
             }
         }
@@ -338,12 +338,7 @@ namespace NeeView
         // 現在ページ番号設定 (先読み無し)
         public void SetPageIndex(int index)
         {
-            if (Current != null)
-            {
-                Current.IsEnablePreLoad = false;
-                Current.RequestSetPosition(new PagePosition(index, 0), 1);
-                Current.IsEnablePreLoad = true;
-            }
+            Current?.RequestSetPosition(new PagePosition(index, 0), 1, false);
         }
 
         // 総ページ数取得
@@ -627,7 +622,7 @@ namespace NeeView
             [DataMember]
             public bool IsEnableAnimatedGif { get; set; }
 
-            [DataMember(Order=1)]
+            [DataMember(Order = 1)]
             public bool IsEnableExif { get; set; }
 
             [DataMember]

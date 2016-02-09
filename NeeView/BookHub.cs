@@ -171,7 +171,7 @@ namespace NeeView
                 if (IsEnableHistory)
                 {
                     // 履歴が有るときはそれを使用する
-                    var setting = ModelContext.BookHistory.Find(path);
+                    var setting = ModelContext.BookHistory.Find(GetArchivePath(path));
                     if (setting != null && IsEnableHistory)
                     {
                         BookMemento = setting.Clone();
@@ -278,6 +278,18 @@ namespace NeeView
             }
         }
 
+        //
+        public string GetArchivePath(string path)
+        {
+            if (File.Exists(path) && !ModelContext.ArchiverManager.IsSupported(path))
+            {
+                return Path.GetDirectoryName(path);
+            }
+            else
+            {
+                return path;
+            }
+        }
 
         // 再読み込み
         private void ReLoad()

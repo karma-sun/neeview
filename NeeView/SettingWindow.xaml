@@ -74,6 +74,10 @@
                               IsChecked="{Binding Setting.ViewMemento.IsControlCenterImage}" />
                         <CheckBox Margin="2" Content="回転を45度単位にする"
                               IsChecked="{Binding Setting.ViewMemento.IsAngleSnap}" />
+                        <CheckBox Margin="2" Content="ページを変更しても拡縮をキープする"
+                              IsChecked="{Binding Setting.ViewMemento.IsKeepScale}" />
+                        <CheckBox Margin="2" Content="ページを変更しても回転をキープする"
+                              IsChecked="{Binding Setting.ViewMemento.IsKeepAngle}" />
                     </StackPanel>
 
                     <TextBlock Text="その他" Style="{StaticResource Header}"/>

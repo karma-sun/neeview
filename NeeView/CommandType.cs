@@ -87,6 +87,7 @@ namespace NeeView
         ViewScaleDown,
         ViewRotateLeft,
         ViewRotateRight,
+        ViewReset,
     }
 
     public static class CommandTypeExtensions

@@ -259,6 +259,12 @@ namespace NeeView
                     Text = "右回転",
                     IsShowMessage = false
                 },
+                [CommandType.ViewReset] = new CommandElement
+                {
+                    Group = "ビュー操作",
+                    Text = "ビューリセット",
+                    IsShowMessage = false
+                },
 
                 [CommandType.PrevPage] = new CommandElement
                 {

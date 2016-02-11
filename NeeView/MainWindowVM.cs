@@ -30,6 +30,13 @@ namespace NeeView
         Tiny,
     }
 
+    // ViewChangedイベント引数
+    public class ViewChangeArgs
+    {
+        public int PageDirection { get; set; }
+        public bool ResetViewTransform { get; set; }
+    }
+
 
     /// <summary>
     /// ViewModel
@@ -54,7 +61,7 @@ namespace NeeView
         public event EventHandler<string> Loading;
 
         // 表示変更を通知
-        public event EventHandler<int> ViewChanged;
+        public event EventHandler<ViewChangeArgs> ViewChanged;
 
         // ショートカット変更を通知
         public event EventHandler InputGestureChanged;
@@ -110,7 +117,7 @@ namespace NeeView
                     _StretchMode = value;
                     OnPropertyChanged();
                     UpdateContentSize();
-                    ViewChanged?.Invoke(this, 0);
+                    ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
                 }
             }
         }
@@ -144,7 +151,11 @@ namespace NeeView
         }
         #endregion
 
+        // 拡大率キープ
+        public bool IsKeepScale { get; set; }
 
+        // 回転キープ
+        public bool IsKeepAngle { get; set; }
 
         // コマンドバインド用
         // View側で定義されます
@@ -613,7 +624,7 @@ namespace NeeView
             UpdateContentSize();
 
             // 表示更新を通知
-            ViewChanged?.Invoke(this, e != null ? e.Direction : 0);
+            ViewChanged?.Invoke(this, new ViewChangeArgs() { PageDirection = e != null ? e.Direction : 0 });
             OnPropertyChanged(nameof(WindowTitle));
         }
 
@@ -895,6 +906,12 @@ namespace NeeView
             [DataMember(Order = 1)]
             public bool IsEnabledNearestNeighbor { get; set; }
 
+            [DataMember(Order = 2)]
+            public bool IsKeepScale { get; set; }
+
+            [DataMember(Order = 2)]
+            public bool IsKeepAngle { get; set; }
+
 
             void Constructor()
             {
@@ -933,6 +950,8 @@ namespace NeeView
             memento.CommandShowMessageStyle = this.CommandShowMessageStyle;
             memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
             memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
+            memento.IsKeepScale = this.IsKeepScale;
+            memento.IsKeepAngle = this.IsKeepAngle;
 
             return memento;
         }
@@ -950,8 +969,10 @@ namespace NeeView
             this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
             this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
             this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
+            this.IsKeepScale = memento.IsKeepScale;
+            this.IsKeepAngle = memento.IsKeepAngle;
 
-            ViewChanged?.Invoke(this, 0);
+            ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }
 
         #endregion

@@ -250,6 +250,9 @@ namespace NeeView
                 Loading?.Invoke(this, null);
             }
 
+            // ビュー初期化
+            ModelContext.CommandTable[CommandType.ViewReset].Execute(null);
+
             // 本の設定を退避
             BookMemento = book.CreateMemento();
             SettingChanged?.Invoke(this, null);

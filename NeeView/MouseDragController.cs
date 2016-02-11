@@ -258,13 +258,19 @@ namespace NeeView
 
         // 初期化
         // コンテンツ切り替わり時等
-        public void Reset()
+        public void Reset(bool IsResetScale, bool IsResetAngle)
         {
             _LockMoveX = IsLimitMove;
             _LockMoveY = IsLimitMove;
 
-            Angle = 0;
-            Scale = 1.0;
+            if (IsResetAngle)
+            {
+                Angle = 0;
+            }
+            if (IsResetScale)
+            {
+                Scale = 1.0;
+            }
 
             if (ViewOrigin == DragViewOrigin.Center)
             {

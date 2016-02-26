@@ -46,12 +46,9 @@ namespace NeeView
             get { return _SusiePluginPath; }
             set
             {
-                if (_SusiePluginPath != value)
-                {
-                    _SusiePluginPath = value;
-                    ListUpSpiFiles();
-                    Initialize();
-                }
+                _SusiePluginPath = value;
+                ListUpSpiFiles();
+                Initialize();
             }
         }
 

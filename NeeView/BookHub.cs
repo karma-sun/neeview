@@ -101,7 +101,15 @@ namespace NeeView
         public bool IsEnabledAutoNextFolder { get; set; } = false;
 
         // フォルダの並び順
-        public FolderOrder FolderOrder { get; set; }
+        public FolderOrder _FolderOrder;
+        public FolderOrder FolderOrder
+        {
+            get { return _FolderOrder; }
+            set { _FolderOrder = value; _FolderOrderSeed = new Random().Next(); }
+        }
+
+        // フォルダのランダムな並び用シード
+        public int _FolderOrderSeed;
 
         // スライドショー再生フラグ
         private bool _IsEnableSlideShow;
@@ -402,28 +410,29 @@ namespace NeeView
 
                 directories.AddRange(archives);
 
+                // １フォルダしかない場合は移動不可
+                if (directories.Count <= 1) return false;
+
                 // 日付順は逆順にする (エクスプローラー標準にあわせる)
                 if (folderOrder == FolderOrder.TimeStamp)
                 {
                     directories.Reverse();
                 }
+                // ランダムに並べる
+                else if (folderOrder == FolderOrder.Random)
+                {
+                    var random = new Random(_FolderOrderSeed);
+                    directories = directories.OrderBy(e => random.Next()).ToList();
+                }
 
                 int index = directories.IndexOf(Current.Place);
                 if (index < 0) return false;
 
-                int next = 0;
+                int next = (folderOrder == FolderOrder.Random)
+                    ? (index + directories.Count + direction) % directories.Count
+                    : index + direction;
 
-                if (folderOrder == FolderOrder.Random)
-                {
-                    directories.RemoveAt(index);
-                    if (directories.Count <= 0) return false;
-                    next = new Random().Next(directories.Count);
-                }
-                else
-                {
-                    next = index + direction;
-                    if (next < 0 || next >= directories.Count) return false;
-                }
+                if (next < 0 || next >= directories.Count) return false;
 
                 Load(directories[next], option);
 

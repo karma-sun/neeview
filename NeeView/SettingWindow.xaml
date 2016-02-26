@@ -87,6 +87,8 @@
                               IsChecked="{Binding Setting.BookHubMemento.IsEnabledAutoNextFolder}" />
                         <CheckBox Margin="2" Content="サポート外ファイルもページに数える"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnableNoSupportFile}" />
+                        <CheckBox Margin="2" Content="「ファイルを開く」の初期フォルダを現在開いているフォルダ基準にする"
+                              IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
                     </StackPanel>
 
                 </StackPanel>

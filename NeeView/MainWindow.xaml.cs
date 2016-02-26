@@ -356,6 +356,7 @@ namespace NeeView
             if (path == null)
             {
                 var dialog = new OpenFileDialog();
+                dialog.InitialDirectory = _VM.BookHub.GetDefaultFolder();
 
                 if (dialog.ShowDialog(this) == true)
                 {

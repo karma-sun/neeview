@@ -132,6 +132,9 @@ namespace NeeView
         // スライドショー設定：切り替わる時間(秒)
         public double SlideShowInterval { get; set; } = 5.0;
 
+        //「ファイルを開く」の初期フォルダを現在開いているフォルダ基準にする
+        public bool IsEnarbleCurrentDirectory { get; set; }
+
 
 
         // 現在の本
@@ -634,13 +637,28 @@ namespace NeeView
             }
         }
 
+        // ファイルを開く基準となるフォルダを取得
+        public string GetDefaultFolder()
+        {
+            // 既に開いている場合、その場所を起点とする
+            if (IsEnarbleCurrentDirectory && Current != null)
+            {
+                return Path.GetDirectoryName(Current.Place);
+            }
+            else
+            {
+                return "";
+            }
+        }
 
-        #region Memento
 
-        /// <summary>
-        /// BookHub Memento
-        /// </summary>
-        [DataContract]
+
+    #region Memento
+
+    /// <summary>
+    /// BookHub Memento
+    /// </summary>
+    [DataContract]
         public class Memento
         {
             [DataMember]
@@ -669,6 +687,9 @@ namespace NeeView
 
             [DataMember]
             public Book.Memento BookMemento { get; set; }
+
+            [DataMember(Order = 2)]
+            public bool IsEnarbleCurrentDirectory { get; set; }
 
             //
             private void Constructor()
@@ -707,6 +728,7 @@ namespace NeeView
             memento.IsSlideShowByLoop = IsSlideShowByLoop;
             memento.SlideShowInterval = SlideShowInterval;
             memento.BookMemento = BookMemento.Clone();
+            memento.IsEnarbleCurrentDirectory = IsEnarbleCurrentDirectory;
 
             return memento;
         }
@@ -723,6 +745,7 @@ namespace NeeView
             IsSlideShowByLoop = memento.IsSlideShowByLoop;
             SlideShowInterval = memento.SlideShowInterval;
             BookMemento = memento.BookMemento.Clone();
+            IsEnarbleCurrentDirectory = memento.IsEnarbleCurrentDirectory;
         }
 
         #endregion

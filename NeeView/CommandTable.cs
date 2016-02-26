@@ -513,8 +513,15 @@ namespace NeeView
 
                 [CommandType.OpenSettingWindow] = new CommandElement
                 {
-                    Group = "設定",
+                    Group = "その他",
                     Text = "設定ウィンドウを開く",
+                    IsShowMessage = false,
+                },
+                [CommandType.CloseApplication] = new CommandElement
+                {
+                    Group = "その他",
+                    Text = "アプリを終了する",
+                    ShortCutKey = "Alt+F4",
                     IsShowMessage = false,
                 },
             };

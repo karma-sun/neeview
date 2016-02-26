@@ -136,7 +136,7 @@
                         <Separator/>
                         <MenuItem Header="ファイルの場所を開く" Command="{Binding BookCommands[OpenFilePlace]}"/>
                         <Separator/>
-                        <MenuItem Header="終了(_X)" x:Name="ExitMenuItem" InputGestureText="Alt+F4" Click="ExitMenuItem_Click" />
+                        <MenuItem Header="終了(_X)" x:Name="ExitMenuItem" InputGestureText="Alt+F4" Command="{Binding BookCommands[CloseApplication]}" />
                     </MenuItem>
 
                     <MenuItem Header="表示(_V)">

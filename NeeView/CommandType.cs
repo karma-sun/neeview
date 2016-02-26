@@ -11,6 +11,7 @@ namespace NeeView
     public enum CommandType
     {
         OpenSettingWindow,
+        CloseApplication,
 
         LoadAs,
         OpenFilePlace,

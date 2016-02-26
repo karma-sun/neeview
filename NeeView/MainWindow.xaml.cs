@@ -253,6 +253,8 @@ namespace NeeView
             // View系コマンド登録
             ModelContext.CommandTable[CommandType.OpenSettingWindow].Execute =
                 (e) => OpenSettingWindow();
+            ModelContext.CommandTable[CommandType.CloseApplication].Execute =
+                (e) => Close();
             ModelContext.CommandTable[CommandType.LoadAs].Execute =
                 (e) => LoadAs(e);
             ModelContext.CommandTable[CommandType.ToggleFullScreen].Execute =
@@ -587,12 +589,6 @@ namespace NeeView
         private void HelpButton_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://bitbucket.org/neelabo/neeview/wiki/");
-        }
-
-        // アプリ終了コマンド
-        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
     }
 

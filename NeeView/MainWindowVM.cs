@@ -66,6 +66,9 @@ namespace NeeView
         // ショートカット変更を通知
         public event EventHandler InputGestureChanged;
 
+        // ウィンドウモード変更通知
+        public event EventHandler NotifyMenuVisibilityChanged;
+
         #endregion
 
 
@@ -156,6 +159,38 @@ namespace NeeView
 
         // 回転キープ
         public bool IsKeepAngle { get; set; }
+
+        // メニューを自動的に隠す
+        #region Property: IsHideMenu
+        private bool _IsHideMenu;
+        public bool IsHideMenu
+        {
+            get { return _IsHideMenu; }
+            set { _IsHideMenu = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+        }
+        public bool ToggleHideMenu()
+        {
+            IsHideMenu = !IsHideMenu;
+            return IsHideMenu;
+        }
+        #endregion
+
+
+        // 常に手前に表示
+        #region Property: IsTopmost
+        private bool _IsTopmost;
+        public bool IsTopmost
+        {
+            get { return _IsTopmost; }
+            set { _IsTopmost = value; OnPropertyChanged(); }
+        }
+        public bool ToggleTopmost()
+        {
+            IsTopmost = !IsTopmost;
+            return IsTopmost;
+        }
+        #endregion
+
 
         // コマンドバインド用
         // View側で定義されます

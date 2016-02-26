@@ -13,6 +13,7 @@
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
         Title="{Binding WindowTitle}" Icon="{Binding WindowIcon}" Height="768" Width="1024" AllowDrop="True"
+        Topmost="{Binding IsTopmost}"
         Loaded="MainWindow_Loaded" PreviewDragOver="MainWindow_PreviewDragOver" Drop="MainWindow_Drop" Closed="Window_Closed" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized">
 
     <Window.Resources>
@@ -168,6 +169,10 @@
                         <MenuItem Header="スライドショー" Command="{Binding BookCommands[ToggleSlideShow]}"
                             IsChecked="{Binding BookHub.IsEnableSlideShow,Mode=OneWay}" />
                         <Separator/>
+                        <MenuItem Header="メニューを自動的に隠す" Command="{Binding BookCommands[ToggleHideMenu]}"
+                            IsChecked="{Binding IsHideMenu}"/>
+                        <MenuItem Header="常に手前に表示" Command="{Binding BookCommands[ToggleTopmost]}"
+                            IsChecked="{Binding IsTopmost}"/>
                         <MenuItem Header="全画面表示" Command="{Binding BookCommands[ToggleFullScreen]}" />
                     </MenuItem>
 

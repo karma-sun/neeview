@@ -35,6 +35,9 @@ namespace NeeView
         SetFolderOrderByTimeStamp,
         SetFolderOrderByRandom,
 
+        ToggleTopmost,
+        ToggleHideMenu,
+
         ToggleFullScreen,
         SetFullScreen,
         CancelFullScreen,

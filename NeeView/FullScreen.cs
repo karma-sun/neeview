@@ -25,7 +25,7 @@ namespace NeeView
         private WindowState _WindowState;
 
         // モードが変化した時の通知
-        public event EventHandler<bool> NotifyWindowModeChanged;
+        public event EventHandler NotifyMenuVisibilityChanged;
 
         // フルスクリーン設定
         public bool IsFullScreened
@@ -61,7 +61,7 @@ namespace NeeView
             if (_Window.WindowState == WindowState.Maximized) _Window.WindowState = WindowState.Normal;
             _Window.WindowState = WindowState.Maximized;
 
-            NotifyWindowModeChanged?.Invoke(this, _IsFullScreened);
+            NotifyMenuVisibilityChanged?.Invoke(this, null);
         }
 
         // フルスクリーン解除
@@ -77,7 +77,7 @@ namespace NeeView
 
             _IsFullScreened = false;
 
-            NotifyWindowModeChanged?.Invoke(this, _IsFullScreened);
+            NotifyMenuVisibilityChanged?.Invoke(this, null);
         }
     }
 }

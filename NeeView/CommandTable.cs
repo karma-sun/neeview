@@ -186,10 +186,23 @@ namespace NeeView
                     Execute = e => _VM.Background = BackgroundStyle.Check,
                 },
 
-
+                [CommandType.ToggleTopmost] = new CommandElement
+                {
+                    Group = "ウィンドウ",
+                    Text = "「常に手前に表示」切り替え",
+                    Execute = e => _VM.ToggleTopmost(),
+                    ExecuteMessage = e => _VM.IsTopmost ? "「常に手前に表示」を解除" : "常に手前に表示する"
+                },
+                [CommandType.ToggleHideMenu] = new CommandElement
+                {
+                    Group = "ウィンドウ",
+                    Text = "「メニューを自動的に隠す」切り替え",
+                    Execute = e => _VM.ToggleHideMenu(),
+                    ExecuteMessage = e => _VM.IsHideMenu ? "メニューを表示する": "メニューを自動的に隠す"
+                },
                 [CommandType.ToggleFullScreen] = new CommandElement
                 {
-                    Group = "フルスクリーン",
+                    Group = "ウィンドウ",
                     Text = "フルスクリーン切り替え",
                     ShortCutKey = "F12",
                     MouseGesture = "U",
@@ -198,19 +211,20 @@ namespace NeeView
                 },
                 [CommandType.SetFullScreen] = new CommandElement
                 {
-                    Group = "フルスクリーン",
+                    Group = "ウィンドウ",
                     Text = "フルスクリーンにする",
                     IsShowMessage = false,
                     CanExecute = () => true,
                 },
                 [CommandType.CancelFullScreen] = new CommandElement
                 {
-                    Group = "フルスクリーン",
+                    Group = "ウィンドウ",
                     Text = "フルスクリーン解除",
                     ShortCutKey = "Escape",
                     IsShowMessage = false,
                     CanExecute = () => true,
                 },
+
                 [CommandType.ToggleSlideShow] = new CommandElement
                 {
                     Group = "ビュー操作",

@@ -76,11 +76,13 @@ namespace NeeView
                     DispNowLoading(_NowLoading);
                 };
 
+            _VM.NotifyMenuVisibilityChanged += (s, e) => OnMenuVisibilityChanged();
+
             this.DataContext = _VM;
 
             // full screen
             _FullScreen = new FullScreen(this);
-            _FullScreen.NotifyWindowModeChanged += (s, e) => OnWindowModeChanged(e);
+            _FullScreen.NotifyMenuVisibilityChanged += (s, e) => OnMenuVisibilityChanged();
 
             // mouse drag
             _MouseDrag = new MouseDragController(this.MainView, this.MainContent, this.MainContentShadow);
@@ -406,10 +408,11 @@ namespace NeeView
             }
         }
 
+
         // スクリーンモード切り替えによるコントロール設定の変更
-        private void OnWindowModeChanged(bool isFullScreened)
+        private void OnMenuVisibilityChanged()
         {
-            if (isFullScreened)
+            if (_FullScreen.IsFullScreened || _VM.IsHideMenu)
             {
                 var autoHideStyle = (Style)this.Resources["AutoHideContent"];
                 this.MenuArea.Style = autoHideStyle;
@@ -426,6 +429,8 @@ namespace NeeView
             this.TinyInfoTextBlock.Margin = new Thickness(0, 0, 0, this.StatusArea.ActualHeight);
         }
 
+
+
         //
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
@@ -437,7 +442,7 @@ namespace NeeView
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // 標準ウィンドウモードで初期化
-            OnWindowModeChanged(false);
+            OnMenuVisibilityChanged();
         }
 
         //

@@ -24,10 +24,46 @@ namespace NeeView
 
     public static class PageStretchModeExtension
     {
+        private static Dictionary<PageStretchMode, CommandType> _CommandTable = new Dictionary<PageStretchMode, CommandType>
+        {
+            [PageStretchMode.None] = CommandType.SetStretchModeNone,
+            [PageStretchMode.Inside] = CommandType.SetStretchModeInside,
+            [PageStretchMode.Outside] = CommandType.SetStretchModeOutside,
+            [PageStretchMode.Uniform] = CommandType.SetStretchModeUniform,
+            [PageStretchMode.UniformToFill] = CommandType.SetStretchModeUniformToFill,
+            [PageStretchMode.UniformToVertical] = CommandType.SetStretchModeUniformToVertical,
+        };
+
+        public static bool IsEnabled(this PageStretchMode mode)
+        {
+            return ModelContext.CommandTable[_CommandTable[mode]].IsToggled;
+        }
+
+
         // トグル
         public static PageStretchMode GetToggle(this PageStretchMode mode)
         {
-            return (PageStretchMode)(((int)mode + 1) % Enum.GetNames(typeof(PageStretchMode)).Length);
+            int length = Enum.GetNames(typeof(PageStretchMode)).Length;
+            int count = 0;
+            do
+            {
+                mode = (PageStretchMode)(((int)mode + 1) % length);
+            }
+            while (!mode.IsEnabled() && count++ < length);
+            return mode;
+        }
+
+        // 逆トグル
+        public static PageStretchMode GetToggleReverse(this PageStretchMode mode)
+        {
+            int length = Enum.GetNames(typeof(PageStretchMode)).Length;
+            int count = 0;
+            do
+            {
+                mode = (PageStretchMode)(((int)mode + length - 1) % length);
+            }
+            while (!mode.IsEnabled() && count++ < length);
+            return mode;
         }
 
         // 表示名

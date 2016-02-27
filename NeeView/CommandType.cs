@@ -46,6 +46,7 @@ namespace NeeView
         ToggleSlideShow,
 
         ToggleStretchMode,
+        ToggleStretchModeReverse,
         SetStretchModeNone,
         SetStretchModeInside,
         SetStretchModeOutside,

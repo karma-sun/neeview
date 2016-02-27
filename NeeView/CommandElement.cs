@@ -13,6 +13,14 @@ using System.Windows.Input;
 
 namespace NeeView
 {
+    [Flags]
+    public enum CommandAttribute
+    {
+        None = 0,
+        ToggleEditable = (1 << 0),
+        ToggleLocked = (1 << 1)
+    }
+
     /// <summary>
     /// コマンド設定
     /// </summary>
@@ -20,7 +28,7 @@ namespace NeeView
     {
         // コマンドのグループ
         public string Group { get; set; }
-        
+
         // コマンド表示名
         public string Text { get; set; }
 
@@ -42,12 +50,18 @@ namespace NeeView
         // コマンド実行可能判定
         public Func<bool> CanExecute { get; set; }
 
+        // トグル候補
+        public bool IsToggled { get; set; }
+
+        // 属性
+        public CommandAttribute Attribute { get; set; }
 
         // constructor
         public CommandElement()
         {
             IsShowMessage = true;
             ExecuteMessage = e => Text;
+            IsToggled = true;
         }
 
 
@@ -82,6 +96,28 @@ namespace NeeView
             public string MouseGesture { get; set; }
             [DataMember]
             public bool IsShowMessage { get; set; }
+            [DataMember(Order = 2)]
+            public bool IsToggled { get; set; }
+
+
+            //
+            private void Constructor()
+            {
+                IsToggled = true;
+            }
+
+            //
+            public Memento()
+            {
+                Constructor();
+            }
+
+            //
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                Constructor();
+            }
 
             //
             public Memento Clone()
@@ -97,6 +133,7 @@ namespace NeeView
             memento.ShortCutKey = ShortCutKey;
             memento.MouseGesture = MouseGesture;
             memento.IsShowMessage = IsShowMessage;
+            memento.IsToggled = IsToggled;
             return memento;
         }
 
@@ -105,7 +142,8 @@ namespace NeeView
         {
             ShortCutKey = element.ShortCutKey;
             MouseGesture = element.MouseGesture;
-            MouseGesture = element.MouseGesture;
+            IsShowMessage = element.IsShowMessage;
+            IsToggled = element.IsToggled;
         }
 
         #endregion

@@ -70,6 +70,9 @@ namespace NeeView
             public string ShortCut { get; set; }
             public string MouseGesture { get; set; }
             public bool IsShowMessage { get; set; }
+            public bool IsToggled { get; set; }
+            public bool IsToggleEditable { get; set; }
+            public Visibility ToggleVisibility { get; set; }
         }
 
         // コマンド一覧
@@ -168,6 +171,9 @@ namespace NeeView
                     ShortCut = Setting.CommandMememto[element.Key].ShortCutKey,
                     MouseGesture = Setting.CommandMememto[element.Key].MouseGesture,
                     IsShowMessage = Setting.CommandMememto[element.Key].IsShowMessage,
+                    IsToggled = Setting.CommandMememto[element.Key].IsToggled,
+                    ToggleVisibility = (element.Value.Attribute & CommandAttribute.ToggleEditable) == CommandAttribute.ToggleEditable ? Visibility.Visible : Visibility.Hidden,
+                    IsToggleEditable = (element.Value.Attribute & CommandAttribute.ToggleLocked) != CommandAttribute.ToggleLocked,
                 };
                 CommandCollection.Add(item);
             }
@@ -214,6 +220,7 @@ namespace NeeView
                 Setting.CommandMememto[command.Key].ShortCutKey = command.ShortCut;
                 Setting.CommandMememto[command.Key].MouseGesture = command.MouseGesture;
                 Setting.CommandMememto[command.Key].IsShowMessage = command.IsShowMessage;
+                Setting.CommandMememto[command.Key].IsToggled = command.IsToggled;
             }
 
             // Susie設定反映

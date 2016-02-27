@@ -12,7 +12,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="設定" Height="512" Width="640" >
+        Title="設定" Height="550" Width="700" >
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -247,6 +247,14 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
+                                <GridViewColumn Header="トグル" >
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsToggled}" Visibility="{Binding ToggleVisibility}" IsEnabled="{Binding IsToggleEditable}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                
                                 <GridViewColumn Header="コマンド" Width="200">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>

@@ -104,41 +104,54 @@ namespace NeeView
                     Execute = e => _VM.StretchMode = _VM.StretchMode.GetToggle(),
                     ExecuteMessage = e => _VM.StretchMode.GetToggle().ToDispString()
                 },
+                [CommandType.ToggleStretchModeReverse] = new CommandElement
+                {
+                    Group = "表示サイズ",
+                    Text = "表示サイズを切り替える(逆方向)",
+                    Execute = e => _VM.StretchMode = _VM.StretchMode.GetToggleReverse(),
+                    ExecuteMessage = e => _VM.StretchMode.GetToggleReverse().ToDispString()
+                },
                 [CommandType.SetStretchModeNone] = new CommandElement
                 {
                     Group = "表示サイズ",
                     Text = "オリジナルサイズで表示する",
-                    Execute = e => _VM.StretchMode = PageStretchMode.None
+                    Execute = e => _VM.StretchMode = PageStretchMode.None,
+                    Attribute = CommandAttribute.ToggleEditable | CommandAttribute.ToggleLocked,
                 },
                 [CommandType.SetStretchModeInside] = new CommandElement
                 {
                     Group = "表示サイズ",
                     Text = "大きい場合ウィンドウサイズに合わせる",
-                    Execute = e => _VM.StretchMode = PageStretchMode.Inside
+                    Execute = e => _VM.StretchMode = PageStretchMode.Inside,
+                    Attribute = CommandAttribute.ToggleEditable,
                 },
                 [CommandType.SetStretchModeOutside] = new CommandElement
                 {
                     Group = "表示サイズ",
                     Text = "小さい場合ウィンドウサイズに広げる",
-                    Execute = e => _VM.StretchMode = PageStretchMode.Outside
+                    Execute = e => _VM.StretchMode = PageStretchMode.Outside,
+                    Attribute = CommandAttribute.ToggleEditable,
                 },
                 [CommandType.SetStretchModeUniform] = new CommandElement
                 {
                     Group = "表示サイズ",
                     Text = "ウィンドウサイズに合わせる",
-                    Execute = e => _VM.StretchMode = PageStretchMode.Uniform
+                    Execute = e => _VM.StretchMode = PageStretchMode.Uniform,
+                    Attribute = CommandAttribute.ToggleEditable,
                 },
                 [CommandType.SetStretchModeUniformToFill] = new CommandElement
                 {
                     Group = "表示サイズ",
                     Text = "ウィンドウいっぱいに広げる",
-                    Execute = e => _VM.StretchMode = PageStretchMode.UniformToFill
+                    Execute = e => _VM.StretchMode = PageStretchMode.UniformToFill,
+                    Attribute = CommandAttribute.ToggleEditable,
                 },
                 [CommandType.SetStretchModeUniformToVertical] = new CommandElement
                 {
                     Group = "表示サイズ",
                     Text = "高さをウィンドウに合わせる",
-                    Execute = e => _VM.StretchMode = PageStretchMode.UniformToVertical
+                    Execute = e => _VM.StretchMode = PageStretchMode.UniformToVertical,
+                    Attribute = CommandAttribute.ToggleEditable,
                 },
 
                 [CommandType.ToggleIsEnabledNearestNeighbor] = new CommandElement
@@ -189,16 +202,18 @@ namespace NeeView
                 [CommandType.ToggleTopmost] = new CommandElement
                 {
                     Group = "ウィンドウ",
-                    Text = "「常に手前に表示」切り替え",
+                    Text = "常に手前に表示ON/OFF",
                     Execute = e => _VM.ToggleTopmost(),
-                    ExecuteMessage = e => _VM.IsTopmost ? "「常に手前に表示」を解除" : "常に手前に表示する"
+                    ExecuteMessage = e => _VM.IsTopmost ? "「常に手前に表示」を解除" : "常に手前に表示する",
+                    CanExecute = () => true,
                 },
                 [CommandType.ToggleHideMenu] = new CommandElement
                 {
                     Group = "ウィンドウ",
-                    Text = "「メニューを自動的に隠す」切り替え",
+                    Text = "メニューを自動的に隠すON/OFF",
                     Execute = e => _VM.ToggleHideMenu(),
-                    ExecuteMessage = e => _VM.IsHideMenu ? "メニューを表示する": "メニューを自動的に隠す"
+                    ExecuteMessage = e => _VM.IsHideMenu ? "メニューを表示する": "メニューを自動的に隠す",
+                    CanExecute = () => true,
                 },
                 [CommandType.ToggleFullScreen] = new CommandElement
                 {
@@ -523,6 +538,7 @@ namespace NeeView
                     Text = "アプリを終了する",
                     ShortCutKey = "Alt+F4",
                     IsShowMessage = false,
+                    CanExecute = () => true,
                 },
             };
 

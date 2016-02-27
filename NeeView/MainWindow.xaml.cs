@@ -459,8 +459,16 @@ namespace NeeView
             // 設定読み込み
             _VM.LoadSetting(this);
 
-            // 最後に開いたフォルダを復元する
-            _VM.LoadLastFolder();
+            if (App.StartupPlace != null)
+            {
+                // 起動引数の場所で開く
+                LoadAs(App.StartupPlace);
+            }
+            else
+            {
+                // 最後に開いたフォルダを復元する
+                _VM.LoadLastFolder();
+            }
         }
 
         //

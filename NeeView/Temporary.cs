@@ -26,8 +26,17 @@ namespace NeeView
             //AssemblyProductの取得
             var asmprd = (AssemblyProductAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyProductAttribute));
 
-            TempDirectory = Path.Combine(Path.GetTempPath(), asmcmp.Company + "." + asmprd.Product);
+            //ProcessIDの取得
+            var processId = Process.GetCurrentProcess().Id;
+            //Process名の取得
+            var processName = Process.GetCurrentProcess().ProcessName;
+
+            TempDirectoryBaseName = asmcmp.Company + "." + processName; //  asmprd.Product;
+            TempDirectory = Path.Combine(Path.GetTempPath(), TempDirectoryBaseName) + processId.ToString();
         }
+
+        // アプリのテンポラリフォルダ(BaseName)
+        public static string TempDirectoryBaseName { get; private set; }
 
         // アプリのテンポラリフォルダ
         public static string TempDirectory { get; private set; }
@@ -85,7 +94,22 @@ namespace NeeView
         {
             try
             {
-                Directory.Delete(TempDirectory, true);
+                var name = Process.GetCurrentProcess().ProcessName;
+                var processes = Process.GetProcessesByName(name);
+
+                // 最後のプロセスであればすべてのテンポラリを削除する
+                if (processes.Length <= 1)
+                {
+                    foreach (var path in Directory.GetDirectories(Path.GetDirectoryName(TempDirectory), TempDirectoryBaseName + "*"))
+                    {
+                        Directory.Delete(path, true);
+                    }
+                }
+                // 自プロセスのテンポラリのみ削除する
+                else
+                {
+                    Directory.Delete(TempDirectory, true);
+                }
             }
             catch
             {

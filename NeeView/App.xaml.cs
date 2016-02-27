@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -18,6 +19,9 @@ namespace NeeView
     {
         private int _ExceptionCount = 0;
 
+        public static string StartupPlace { get; set; }
+
+        //
         public void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             if (++_ExceptionCount >= 2)
@@ -60,6 +64,20 @@ namespace NeeView
 
             this.Shutdown();
 #endif
+        }
+
+        //
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            // カレントフォルダをアプリの場所に再設定
+            var myAssembly = Assembly.GetEntryAssembly();
+            Environment.CurrentDirectory = System.IO.Path.GetDirectoryName(myAssembly.Location);
+
+            // 引数チェック
+            foreach (string arg in e.Args)
+            {
+                StartupPlace = arg.Trim();
+            }
         }
     }
 }

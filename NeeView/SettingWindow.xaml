@@ -89,6 +89,8 @@
                               IsChecked="{Binding Setting.BookHubMemento.IsEnableNoSupportFile}" />
                         <CheckBox Margin="2" Content="「ファイルを開く」の初期フォルダを現在開いているフォルダ基準にする"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
+                        <CheckBox Margin="2" Content="起動時に前回開いていたフォルダを開く"
+                              IsChecked="{Binding Setting.ViewMemento.IsLoadLastFolder}" />
                     </StackPanel>
 
                 </StackPanel>

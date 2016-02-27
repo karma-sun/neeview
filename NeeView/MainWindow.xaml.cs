@@ -458,6 +458,9 @@ namespace NeeView
         {
             // 設定読み込み
             _VM.LoadSetting(this);
+
+            // 最後に開いたフォルダを復元する
+            _VM.LoadLastFolder();
         }
 
         //

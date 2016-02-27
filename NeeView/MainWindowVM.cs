@@ -192,6 +192,10 @@ namespace NeeView
         #endregion
 
 
+        // 最後のフォルダを開く
+        public bool IsLoadLastFolder { get; set; }
+
+
         // コマンドバインド用
         // View側で定義されます
         public Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; }
@@ -614,6 +618,20 @@ namespace NeeView
         #endregion
 
 
+        // 最後に開いたフォルダを開く
+        public void LoadLastFolder()
+        {
+            if (!IsLoadLastFolder) return;
+
+            var list = ModelContext.BookHistory.ListUp(1);
+            if (list.Count > 0)
+            {
+                string place = list[0].Place;
+                if (System.IO.Directory.Exists(place) || System.IO.File.Exists(place))
+                Load(place);
+            }
+        }
+
         // 表示コンテンツ更新
         private void OnViewContentsChanged(object sender, ViewSource e)
         {
@@ -947,6 +965,8 @@ namespace NeeView
             [DataMember(Order = 2)]
             public bool IsKeepAngle { get; set; }
 
+            [DataMember(Order =2)]
+            public bool IsLoadLastFolder { get; set; }
 
             void Constructor()
             {
@@ -987,6 +1007,7 @@ namespace NeeView
             memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
             memento.IsKeepScale = this.IsKeepScale;
             memento.IsKeepAngle = this.IsKeepAngle;
+            memento.IsLoadLastFolder = this.IsLoadLastFolder;
 
             return memento;
         }
@@ -1006,6 +1027,7 @@ namespace NeeView
             this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
             this.IsKeepScale = memento.IsKeepScale;
             this.IsKeepAngle = memento.IsKeepAngle;
+            this.IsLoadLastFolder = memento.IsLoadLastFolder;
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }

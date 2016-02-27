@@ -260,7 +260,7 @@
                                 <GridViewColumn Header="コマンド" Width="200">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Header}" TextTrimming="WordEllipsis" />
+                                            <TextBlock Text="{Binding Header}" TextTrimming="WordEllipsis" ToolTip="{Binding Tips}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

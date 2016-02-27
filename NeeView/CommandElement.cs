@@ -53,6 +53,9 @@ namespace NeeView
         // トグル候補
         public bool IsToggled { get; set; }
 
+        // コマンド説明
+        public string Tips { get; set; }
+
         // 属性
         public CommandAttribute Attribute { get; set; }
 

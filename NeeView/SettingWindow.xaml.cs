@@ -73,6 +73,7 @@ namespace NeeView
             public bool IsToggled { get; set; }
             public bool IsToggleEditable { get; set; }
             public Visibility ToggleVisibility { get; set; }
+            public string Tips { get; set; }
         }
 
         // コマンド一覧
@@ -174,6 +175,7 @@ namespace NeeView
                     IsToggled = Setting.CommandMememto[element.Key].IsToggled,
                     ToggleVisibility = (element.Value.Attribute & CommandAttribute.ToggleEditable) == CommandAttribute.ToggleEditable ? Visibility.Visible : Visibility.Hidden,
                     IsToggleEditable = (element.Value.Attribute & CommandAttribute.ToggleLocked) != CommandAttribute.ToggleLocked,
+                    Tips = element.Value.Tips
                 };
                 CommandCollection.Add(item);
             }

@@ -86,6 +86,7 @@ namespace NeeView
                 {
                     Group = "ファイル",
                     Text = "ファイルの場所を開く",
+                    Tips = "現在表示している画像のファイルをエクスプローラーで開く",
                     Execute = e => _Book.OpenFilePlace(),
                     CanExecute = () => _Book.CanOpenFilePlace()
                 },
@@ -252,6 +253,7 @@ namespace NeeView
                 {
                     Group = "ビュー操作",
                     Text = "スクロール↑",
+                    Tips = "縦スクロールできないときは横スクロールになります",
                     ShortCutKey = "WheelUp",
                     IsShowMessage = false
                 },
@@ -259,6 +261,7 @@ namespace NeeView
                 {
                     Group = "ビュー操作",
                     Text = "スクロール↓",
+                    Tips = "縦スクロールできないときは横スクロールになります",
                     ShortCutKey = "WheelDown",
                     IsShowMessage = false
                 },
@@ -292,6 +295,7 @@ namespace NeeView
                 {
                     Group = "ビュー操作",
                     Text = "ビューリセット",
+                    Tips = "ビュー操作での回転、拡縮、移動を初期化する",
                     IsShowMessage = false
                 },
 
@@ -331,18 +335,21 @@ namespace NeeView
                 {
                     Group = "移動",
                     Text = "スクロール＋前のページに戻る",
+                    Tips = "前ページ方向にスクロールする\nスクロールできないときは前のページに戻る",
                     IsShowMessage = false,
                 },
                 [CommandType.NextScrollPage] = new CommandElement
                 {
                     Group = "移動",
                     Text = "スクロール＋次のページへ進む",
+                    Tips = "次ページ方向にスクロールする\nスクロールできないときは次のページへ進む",
                     IsShowMessage = false,
                 },
                 [CommandType.MovePageWithCursor] = new CommandElement
                 {
                     Group = "移動",
                     Text = "マウス位置依存でページを前後させる",
+                    Tips = "左にカーソルがあるときは次のページへ進む\n右にカーソルがあるときは前のページに戻る",
                     IsShowMessage = false,
                 },
 
@@ -392,18 +399,21 @@ namespace NeeView
                 {
                     Group = "フォルダ列",
                     Text = "フォルダ列はファイル名順",
+                    Tips = "フォルダ列をファイル名順(昇順)に並べる",
                     Execute = e => _Book.SetFolderOrder(FolderOrder.FileName)
                 },
                 [CommandType.SetFolderOrderByTimeStamp] = new CommandElement
                 {
                     Group = "フォルダ列",
                     Text = "フォルダ列は日付順",
+                    Tips = "フォルダ列を日付順(降順)に並べる",
                     Execute = e => _Book.SetFolderOrder(FolderOrder.TimeStamp)
                 },
                 [CommandType.SetFolderOrderByRandom] = new CommandElement
                 {
                     Group = "フォルダ列",
                     Text = "フォルダ列はランダム",
+                    Tips = "フォルダ列をランダムに並べる",
                     Execute = e => _Book.SetFolderOrder(FolderOrder.Random)
                 },
 

@@ -281,6 +281,9 @@ namespace NeeView
                 (e) => PrevScrollPage();
             ModelContext.CommandTable[CommandType.NextScrollPage].Execute =
                 (e) => NextScrollPage();
+            ModelContext.CommandTable[CommandType.MovePageWithCursor].Execute =
+                (e) => MovePageWithCursor();
+
 
             // コマンドバインド作成
             foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
@@ -391,6 +394,22 @@ namespace NeeView
             if (!isScrolled)
             {
                 _VM.BookHub.NextPage();
+            }
+        }
+
+
+        // マウスの位置でページを送る
+        private void MovePageWithCursor()
+        {
+            var point = Mouse.GetPosition(this);
+
+            if (point.X < this.Width * 0.5)
+            {
+                _VM.BookHub.NextPage();
+            }
+            else
+            {
+                _VM.BookHub.PrevPage();
             }
         }
 

@@ -339,6 +339,12 @@ namespace NeeView
                     Text = "スクロール＋次のページへ進む",
                     IsShowMessage = false,
                 },
+                [CommandType.MovePageWithCursor] = new CommandElement
+                {
+                    Group = "移動",
+                    Text = "マウス位置依存でページを前後させる",
+                    IsShowMessage = false,
+                },
 
                 [CommandType.FirstPage] = new CommandElement
                 {

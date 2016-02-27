@@ -27,10 +27,6 @@ namespace NeeView
                 return;
             }
 
-            string exceptionMessage = e.Exception is System.Reflection.TargetInvocationException ? e.Exception.InnerException?.Message : e.Exception.Message;
-            string message = $"エラーが発生しました。アプリを終了します。\n\n理由 : {exceptionMessage}";
-            MessageBox.Show(message, "強制終了", MessageBoxButton.OK, MessageBoxImage.Error);
-
             using (var stream = new FileStream("ErrorLog.txt", FileMode.Create, FileAccess.Write))
             using (var writer = new StreamWriter(stream))
             {
@@ -53,6 +49,11 @@ namespace NeeView
                     ex = ex.InnerException;
                 }
             }
+
+            string exceptionMessage = e.Exception is System.Reflection.TargetInvocationException ? e.Exception.InnerException?.Message : e.Exception.Message;
+            string message = $"エラーが発生しました。アプリを終了します。\n\n理由 : {exceptionMessage}\n\nErrorLog.txtにエラーの詳細が出力されています。この内容を開発者に報告してください。";
+            MessageBox.Show(message, "強制終了", MessageBoxButton.OK, MessageBoxImage.Error);
+
 #if DEBUG
 #else
             e.Handled = true;

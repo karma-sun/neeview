@@ -82,7 +82,7 @@ namespace NeeView
 
         // Susieプラグイン コンフィグコマンド
         public static readonly RoutedCommand SusiePluginConfigCommand = new RoutedCommand("SusiePluginConfigCommand", typeof(SettingWindow));
- 
+
 
         // 背景タイプリスト
         public static Dictionary<BackgroundStyle, string> BackgroundStyleList { get; } = new Dictionary<BackgroundStyle, string>
@@ -136,15 +136,15 @@ namespace NeeView
             InitializeComponent();
 
             Setting = setting;
-            
+
             // コマンド一覧作成
             CommandCollection = new ObservableCollection<CommandParam>();
             UpdateCommandList();
 
             // プラグイン一覧作成
-            _SusiePluginPath = Setting.SusieMemento.SusiePluginPath;
+            _SusiePluginPath = Setting.SusieMemento.SusiePluginPath ?? "";
             UpdateSusiePluginList();
-            
+
             // 自身をコンテキストにする
             this.DataContext = this;
 

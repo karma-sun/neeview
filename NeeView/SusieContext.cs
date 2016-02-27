@@ -58,6 +58,12 @@ namespace NeeView
             // フィルタ削除
             SpiFiles = SpiFiles.Where(e => Path.GetDirectoryName(e.Key) == SusiePluginPath).ToDictionary(e => e.Key, e => e.Value);
 
+            // nullや空白は無効
+            if (string.IsNullOrWhiteSpace(SusiePluginPath)) return;
+
+            // ディテクトリが存在しない場合も無効
+            if (!System.IO.Directory.Exists(SusiePluginPath)) return;
+
             // 新しいSPI追加
             try
             {

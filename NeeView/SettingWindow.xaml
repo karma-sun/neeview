@@ -200,7 +200,7 @@
                 </DockPanel>
             </TabItem>
 
-            <TabItem Header="キー設定" >
+            <TabItem Header="コマンド設定" >
                 <TabItem.Resources>
                     <CollectionViewSource x:Key="CommandSource" Source="{Binding CommandCollection}">
                         <CollectionViewSource.GroupDescriptions>
@@ -224,7 +224,7 @@
                                 <Button x:Name="ShortCutSettingButton" Content="ショートカットキー設定" MinWidth="120" Height="30" Margin="8" Click="ShortCutSettingButton_Click"/>
                                 <Button x:Name="MouseGestureSettingButton" Content="マウスジェスチャー設定" MinWidth="120" Height="30" Margin="8" Click="MouseGestureSettingButton_Click"/>
                             </DockPanel>
-                            <Button x:Name="ResetGestureSettingButton" Content="全キー設定期化" MinWidth="120" Height="30" Margin="8" HorizontalAlignment="Right" Click="ResetGestureSettingButton_Click"/>
+                            <Button x:Name="ResetGestureSettingButton" Content="全コマンド設定期化" MinWidth="120" Height="30" Margin="8" HorizontalAlignment="Right" Click="ResetGestureSettingButton_Click"/>
                         </Grid>
 
                     </DockPanel>

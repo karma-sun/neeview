@@ -46,7 +46,7 @@ namespace Susie
                 try
                 {
                     RegistryKey regkey = Registry.CurrentUser.OpenSubKey(@"Software\Takechin\Susie\Plug-in", false);
-                    _SusiePluginInstallPath = (string)regkey?.GetValue("Path");
+                    _SusiePluginInstallPath = (string)regkey?.GetValue("Path") ?? "";
                 }
                 catch
                 {

@@ -249,7 +249,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn Header="トグル" >
+                                <GridViewColumn Header="切替" >
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <CheckBox IsChecked="{Binding IsToggled}" Visibility="{Binding ToggleVisibility}" IsEnabled="{Binding IsToggleEditable}"/>

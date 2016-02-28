@@ -207,9 +207,12 @@ namespace NeeView
         {
             SusiePluginList.Clear();
 
-            foreach (var plugin in ModelContext.Susie.PluginCollection)
+            if (ModelContext.Susie?.PluginCollection != null)
             {
-                SusiePluginList.Add(plugin);
+                foreach (var plugin in ModelContext.Susie.PluginCollection)
+                {
+                    SusiePluginList.Add(plugin);
+                }
             }
         }
 

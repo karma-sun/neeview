@@ -91,6 +91,8 @@
                               IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
                         <CheckBox Margin="2" Content="起動時に前回開いていたフォルダを開く"
                               IsChecked="{Binding Setting.ViewMemento.IsLoadLastFolder}" />
+                        <CheckBox Margin="2" Content="多重起動を禁止する"
+                              IsChecked="{Binding Setting.ViewMemento.IsDisableMultiBoot}" />
                     </StackPanel>
 
                 </StackPanel>

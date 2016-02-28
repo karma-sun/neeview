@@ -191,9 +191,11 @@ namespace NeeView
         }
         #endregion
 
-
         // 最後のフォルダを開く
         public bool IsLoadLastFolder { get; set; }
+
+        // マルチブートを禁止する
+        public bool IsDisableMultiBoot { get; set; }
 
 
         // コマンドバインド用
@@ -211,7 +213,6 @@ namespace NeeView
         #endregion
 
         // 現在ページ番号
-        //private int _Index;
         public int Index
         {
             get { return BookHub.GetPageIndex(); }
@@ -375,9 +376,6 @@ namespace NeeView
         // 標準ウィンドウタイトル
         private string _DefaultWindowTitle;
 
-        // ユーザー設定ファイル名
-        private string _UserSettingFileName;
-
 
         #region 開発用
 
@@ -448,9 +446,6 @@ namespace NeeView
 #if DEBUG
             _DefaultWindowTitle += " [Debug]";
 #endif
-
-            // UserSetting filename
-            _UserSettingFileName = System.IO.Path.GetDirectoryName(assembly.Location) + "\\UserSetting.xml";
 
             // messenger
             Messenger.AddReciever("UpdateLastFiles", (s, e) => UpdateLastFiles());
@@ -574,11 +569,11 @@ namespace NeeView
             Setting setting;
 
             // 設定の読み込み
-            if (System.IO.File.Exists(_UserSettingFileName))
+            if (System.IO.File.Exists(App.UserSettingFileName))
             {
                 try
                 {
-                    setting = Setting.Load(_UserSettingFileName);
+                    setting = Setting.Load(App.UserSettingFileName);
                 }
                 catch (Exception e)
                 {
@@ -611,8 +606,12 @@ namespace NeeView
             // ウィンドウ座標保存
             setting.WindowPlacement = WindowPlacement.CreateMemento(window);
 
-            // 設定をファイルに保存
-            setting.Save(_UserSettingFileName);
+            try
+            {
+                // 設定をファイルに保存
+                setting.Save(App.UserSettingFileName);
+            }
+            catch { }
         }
 
         #endregion
@@ -628,7 +627,7 @@ namespace NeeView
             {
                 string place = list[0].Place;
                 if (System.IO.Directory.Exists(place) || System.IO.File.Exists(place))
-                Load(place);
+                    Load(place);
             }
         }
 
@@ -965,8 +964,15 @@ namespace NeeView
             [DataMember(Order = 2)]
             public bool IsKeepAngle { get; set; }
 
-            [DataMember(Order =2)]
+            [DataMember(Order = 2)]
             public bool IsLoadLastFolder { get; set; }
+
+            [DataMember(Order = 2)]
+            public bool IsDisableMultiBoot { get; set; }
+
+            [DataMember(Order=2)]
+            public bool IsHideMenu { get; set; }
+
 
             void Constructor()
             {
@@ -1008,6 +1014,8 @@ namespace NeeView
             memento.IsKeepScale = this.IsKeepScale;
             memento.IsKeepAngle = this.IsKeepAngle;
             memento.IsLoadLastFolder = this.IsLoadLastFolder;
+            memento.IsDisableMultiBoot = this.IsDisableMultiBoot;
+            memento.IsHideMenu = this.IsHideMenu;
 
             return memento;
         }
@@ -1028,6 +1036,8 @@ namespace NeeView
             this.IsKeepScale = memento.IsKeepScale;
             this.IsKeepAngle = memento.IsKeepAngle;
             this.IsLoadLastFolder = memento.IsLoadLastFolder;
+            this.IsDisableMultiBoot = memento.IsDisableMultiBoot;
+            this.IsHideMenu = memento.IsHideMenu;
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }

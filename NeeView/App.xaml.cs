@@ -6,8 +6,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Ipc;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace NeeView
@@ -17,11 +21,84 @@ namespace NeeView
     /// </summary>
     public partial class App : Application
     {
+        // 例外発生数
         private int _ExceptionCount = 0;
 
+        // 起動持の引数として渡されたパス
         public static string StartupPlace { get; set; }
 
-        //
+        // ユーザー設定ファイル名
+        public static string UserSettingFileName { get; set; }
+
+
+        /// <summary>
+        /// Startup
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            // カレントフォルダをアプリの場所に再設定
+            var assembly = Assembly.GetEntryAssembly();
+            Environment.CurrentDirectory = Path.GetDirectoryName(assembly.Location);
+
+            // 引数チェック
+            foreach (string arg in e.Args)
+            {
+                StartupPlace = arg.Trim();
+            }
+
+
+            // 設定ファイル名
+            UserSettingFileName = Path.Combine(Environment.CurrentDirectory, "UserSetting.xml");
+
+            // 設定読み込み
+            bool isDisableMultiBoot = false;
+            try
+            {
+                var setting = Setting.Load(UserSettingFileName);
+                isDisableMultiBoot = setting.ViewMemento.IsDisableMultiBoot;
+            }
+            catch { }
+
+            // 多重起動チェック
+            Process currentProcess = Process.GetCurrentProcess();
+            if (isDisableMultiBoot && (Keyboard.Modifiers & ModifierKeys.Shift) != ModifierKeys.Shift)
+            {
+                // 自身と異なるプロセスを見つけ、サーバとする
+                Process[] processes = Process.GetProcessesByName(currentProcess.ProcessName);
+
+#if DEBUG
+                processes = processes.Concat(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(currentProcess.ProcessName))).ToArray();
+#endif
+
+                var serverProcess = processes.OrderBy((p) => p.StartTime).Reverse().FirstOrDefault((p) => p.Id != currentProcess.Id);
+
+                if (serverProcess != null)
+                {
+                    // IPCクライアント送信
+                    IpcRemote.LoadAs(serverProcess.Id, StartupPlace);
+
+                    // 起動を中止してプログラムを終了
+                    this.Shutdown();
+                    return;
+                }
+            }
+
+            // IPCサーバ起動
+            IpcRemote.BootServer(currentProcess.Id);
+
+            // メインウィンドウ起動
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
+        }
+
+
+        /// <summary>
+        /// クリティカルなエラーの処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             if (++_ExceptionCount >= 2)
@@ -64,20 +141,6 @@ namespace NeeView
 
             this.Shutdown();
 #endif
-        }
-
-        //
-        private void Application_Startup(object sender, StartupEventArgs e)
-        {
-            // カレントフォルダをアプリの場所に再設定
-            var myAssembly = Assembly.GetEntryAssembly();
-            Environment.CurrentDirectory = System.IO.Path.GetDirectoryName(myAssembly.Location);
-
-            // 引数チェック
-            foreach (string arg in e.Args)
-            {
-                StartupPlace = arg.Trim();
-            }
         }
     }
 }

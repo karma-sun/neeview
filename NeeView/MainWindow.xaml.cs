@@ -427,6 +427,7 @@ namespace NeeView
             if (result == true)
             {
                 _VM.RestoreSetting(setting);
+                _VM.SaveSetting(this);
             }
         }
 

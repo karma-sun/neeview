@@ -67,9 +67,9 @@ namespace NeeView
             // 新しいSPI追加
             try
             {
-                foreach (string s in Directory.GetFiles(SusiePluginPath, "*.spi"))
+                foreach (string s in Directory.GetFiles(SusiePluginPath))
                 {
-                    if (!SpiFiles.ContainsKey(s))
+                    if (Path.GetExtension(s).ToLower() == ".spi" && !SpiFiles.ContainsKey(s))
                     {
                         SpiFiles.Add(s, true);
                     }
@@ -119,6 +119,8 @@ namespace NeeView
             Susie = new Susie.Susie();
             Susie.Load(SpiFiles.Keys);
 
+            var removeList = new List<string>();
+
             // プラグイン有効/無効反映
             foreach (var pair in SpiFiles)
             {
@@ -127,7 +129,18 @@ namespace NeeView
                 {
                     plugin.IsEnable = pair.Value;
                 }
+                else
+                {
+                    removeList.Add(pair.Key);
+                }
             }
+
+            // 使用できないブラグイン削除
+            foreach(var key in removeList)
+            {
+                SpiFiles.Remove(key);
+            }
+
 
             // Susie対応拡張子更新
             ModelContext.ArchiverManager.UpdateSusieSupprtedFileTypes(Susie);

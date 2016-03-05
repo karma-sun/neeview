@@ -20,6 +20,24 @@ namespace Susie
     /// </summary>
     public class SusiePluginApi : IDisposable
     {
+        [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern static uint _controlfp(uint newcw, uint mask);
+
+        const uint _MCW_EM = 0x0008001f;
+        public const uint EM_INVALID = 0x00000010;
+        public const uint EM_DENORMAL = 0x00080000;
+        public const uint EM_ZERODIVIDE = 0x00000008;
+        public const uint EM_OVERFLOW = 0x00000004;
+        public const uint EM_UNDERFLOW = 0x00000002;
+        public const uint EM_INEXACT = 0x00000001;
+
+        // FPUのリセット
+        static void FixFPU()
+        {
+            // add desired values
+            _controlfp(_MCW_EM, EM_INVALID);
+        }
+
         // DLLハンドル
         public IntPtr hModule { get; private set; } = IntPtr.Zero;
 
@@ -61,6 +79,8 @@ namespace Susie
                 _ApiDelegateList.Clear();
                 Win32Api.FreeLibrary(hModule);
                 hModule = IntPtr.Zero;
+
+                FixFPU();
             }
         }
 

@@ -76,6 +76,14 @@ namespace Susie
                     {
                         AMPlgunList.Add(fileName, source);
                     }
+                    else
+                    {
+                        Debug.WriteLine("no support SPI (wrong API version): " + Path.GetFileName(fileName));
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("no support SPI (Exception): " + Path.GetFileName(fileName));
                 }
             }
         }

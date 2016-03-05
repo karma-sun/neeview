@@ -33,6 +33,9 @@ namespace Susie
         // プラグインバージョン
         public string PluginVersion { get; private set; }
 
+        // 詳細テキスト
+        public string DetailText { get { return Path.GetFileName(FileName) + " / " + string.Join(" ", Extensions); } }
+
         // 設定ダイアログの有無
         public bool HasConfigurationDlg { get; private set; }
 
@@ -79,6 +82,15 @@ namespace Susie
                     ApiVersion = api.GetPluginInfo(0);
                     PluginVersion = api.GetPluginInfo(1);
 
+                    if (string.IsNullOrEmpty(PluginVersion))
+                    {
+                        PluginVersion = Path.GetFileName(fileName);
+                    }
+
+                    // プラグインバージョンの改行、空白削除
+                    var regex = new System.Text.RegularExpressions.Regex(@"\s+");
+                    PluginVersion = regex.Replace(PluginVersion, " ").Trim();
+
                     SupportFileTypeList = new List<SupportFileType>();
                     while (true)
                     {
@@ -98,7 +110,7 @@ namespace Susie
                 FileName = fileName;
 
                 // create extensions
-                Extensions = new List<string>(); 
+                Extensions = new List<string>();
                 foreach (var supportType in this.SupportFileTypeList)
                 {
                     foreach (var filter in supportType.Extension.Split(';'))

@@ -249,7 +249,7 @@ namespace NeeView
         private double _BaseAngle;
         private double _BaseScale;
         private Point _Center;
-
+        private Point _BaseFlipPoint;
 
         /// <summary>
         ///  コンストラクタ
@@ -523,7 +523,13 @@ namespace NeeView
         // 反転コマンド
         public void ToggleFlipHorizontal()
         {
-            IsFlipHorizontal = !IsFlipHorizontal;
+            DoFlipHorizontal(!IsFlipHorizontal);
+        }
+
+        // 反転コマンド
+        public void FlipHorizontal(bool isFlip)
+        {
+            DoFlipHorizontal(isFlip);
         }
 
         // マウス左ボタンが押された時の処理
@@ -586,6 +592,7 @@ namespace NeeView
                     _IsDragging = true;
 
                     _StartPoint = e.GetPosition(_Sender);
+                    _BaseFlipPoint = _StartPoint;
 
                     if (DragControlCenter == DragControlCenter.View)
                     {
@@ -618,7 +625,7 @@ namespace NeeView
             }
             else if (_IsDragMirror)
             {
-                DragMirror(_StartPoint, _EndPoint);
+                DragFlipHorizontal(_StartPoint, _EndPoint);
             }
             else
             {
@@ -795,9 +802,38 @@ namespace NeeView
 
 
         // 反転
-        public void DragMirror(Point start, Point end)
+        public void DragFlipHorizontal(Point start, Point end)
         {
-            IsFlipHorizontal = start.X < end.X;
+            const double margin = 16;
+
+            if (_BaseFlipPoint.X + margin < end.X)
+            {
+                DoFlipHorizontal(true);
+                _BaseFlipPoint.X = end.X - margin;
+            }
+            else if (_BaseFlipPoint.X - margin > end.X)
+            {
+                DoFlipHorizontal(false);
+                _BaseFlipPoint.X = end.X + margin;
+            }
+        }
+
+        // 反転実行
+        private void DoFlipHorizontal(bool isFlip)
+        {
+            if (IsFlipHorizontal != isFlip)
+            {
+                IsFlipHorizontal = isFlip;
+
+                // 角度を反転
+                Angle = -NormalizeLoopRange(Angle, -180, 180);
+
+                // 座標を反転
+                if (DragControlCenter == DragControlCenter.View)
+                {
+                    Position = new Point(-Position.X, Position.Y);
+                }
+            }
         }
 
     }

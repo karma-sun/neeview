@@ -70,7 +70,7 @@
                         <CheckBox Margin="2" Content="表示開始位置を画像の中心基準にする"
                               ToolTip="OFFの時は、見開きモードによって右上基準、左上基準になります。"
                               IsChecked="{Binding Setting.ViewMemento.IsViewStartPositionCenter}" />
-                        <CheckBox Margin="2" Content="回転、拡縮の基準を画像の中心にする"
+                        <CheckBox Margin="2" Content="回転、拡縮、反転の基準を画像の中心にする"
                               IsChecked="{Binding Setting.ViewMemento.IsControlCenterImage}" />
                         <CheckBox Margin="2" Content="回転を45度単位にする"
                               IsChecked="{Binding Setting.ViewMemento.IsAngleSnap}" />

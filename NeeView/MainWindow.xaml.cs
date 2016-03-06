@@ -279,9 +279,9 @@ namespace NeeView
             ModelContext.CommandTable[CommandType.ToggleViewFlipHorizontal].Execute =
                 (e) => _MouseDrag.ToggleFlipHorizontal();
             ModelContext.CommandTable[CommandType.ViewFlipHorizontalOn].Execute =
-                (e) => _MouseDrag.IsFlipHorizontal = true;
+                (e) => _MouseDrag.FlipHorizontal(true);
             ModelContext.CommandTable[CommandType.ViewFlipHorizontalOff].Execute =
-                (e) => _MouseDrag.IsFlipHorizontal = false;
+                (e) => _MouseDrag.FlipHorizontal(false);
             ModelContext.CommandTable[CommandType.ViewReset].Execute =
                 (e) => _MouseDrag.Reset(true, true, true);
             ModelContext.CommandTable[CommandType.PrevScrollPage].Execute =

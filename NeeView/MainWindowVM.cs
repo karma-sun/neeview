@@ -160,6 +160,9 @@ namespace NeeView
         // 回転キープ
         public bool IsKeepAngle { get; set; }
 
+        // 反転キープ
+        public bool IsKeepFlip { get; set; }
+
         // メニューを自動的に隠す
         #region Property: IsHideMenu
         private bool _IsHideMenu;
@@ -964,6 +967,9 @@ namespace NeeView
             [DataMember(Order = 2)]
             public bool IsKeepAngle { get; set; }
 
+            [DataMember(Order = 4)]
+            public bool IsKeepFlip { get; set; }
+
             [DataMember(Order = 2)]
             public bool IsLoadLastFolder { get; set; }
 
@@ -1013,6 +1019,7 @@ namespace NeeView
             memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
             memento.IsKeepScale = this.IsKeepScale;
             memento.IsKeepAngle = this.IsKeepAngle;
+            memento.IsKeepFlip = this.IsKeepFlip;
             memento.IsLoadLastFolder = this.IsLoadLastFolder;
             memento.IsDisableMultiBoot = this.IsDisableMultiBoot;
             memento.IsHideMenu = this.IsHideMenu;
@@ -1035,6 +1042,7 @@ namespace NeeView
             this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
             this.IsKeepScale = memento.IsKeepScale;
             this.IsKeepAngle = memento.IsKeepAngle;
+            this.IsKeepFlip = memento.IsKeepFlip;
             this.IsLoadLastFolder = memento.IsLoadLastFolder;
             this.IsDisableMultiBoot = memento.IsDisableMultiBoot;
             this.IsHideMenu = memento.IsHideMenu;

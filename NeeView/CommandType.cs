@@ -93,6 +93,9 @@ namespace NeeView
         ViewScaleDown,
         ViewRotateLeft,
         ViewRotateRight,
+        ToggleViewFlipHorizontal,
+        ViewFlipHorizontalOn,
+        ViewFlipHorizontalOff,
         ViewReset,
     }
 

@@ -125,10 +125,63 @@ namespace NeeView
             {
                 _Scale = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(ScaleX));
+                OnPropertyChanged(nameof(ScaleY));
                 ScaleChanged?.Invoke(this, _Scale);
             }
         }
         #endregion
+
+        // コンテンツのScaleX
+        public double ScaleX
+        {
+            get { return _IsFlipHorizontal ? -_Scale : _Scale; }
+        }
+
+        // コンテンツのScaleY
+        public double ScaleY
+        {
+            get { return _IsFlipVertical ? -_Scale : _Scale; }
+        }
+
+        // 左右反転
+        #region Property: IsFlipHorizontal
+        private bool _IsFlipHorizontal;
+        public bool IsFlipHorizontal
+        {
+            get { return _IsFlipHorizontal; }
+            set
+            {
+                if (_IsFlipHorizontal != value)
+                {
+                    _IsFlipHorizontal = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(ScaleX));
+                }
+            }
+        }
+
+        // 上下反転
+        #region Property: IsFlipVertical
+        private bool _IsFlipVertical;
+        public bool IsFlipVertical
+        {
+            get { return _IsFlipVertical; }
+            set
+            {
+                if (_IsFlipVertical != value)
+                {
+                    _IsFlipVertical = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(ScaleY));
+                }
+            }
+        }
+        #endregion
+
+        #endregion
+
+
 
         // 開始時の基準
         public DragViewOrigin ViewOrigin { get; set; }
@@ -177,6 +230,7 @@ namespace NeeView
         private bool _IsDragging = false;
         private bool _IsDragAngle { get { return _DragMode == (1 << 0); } }
         private bool _IsDragScale { get { return _DragMode == (1 << 1); } }
+        private bool _IsDragMirror { get { return _DragMode == (1 << 2); } }
         private int _DragMode;
 
         // クリックイベント
@@ -224,11 +278,11 @@ namespace NeeView
             element.RenderTransformOrigin = new Point(0.5, 0.5);
 
             var scaleTransform = new ScaleTransform();
-            BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleXProperty, new Binding("Scale") { Source = this });
-            BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleYProperty, new Binding("Scale") { Source = this });
+            BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleXProperty, new Binding(nameof(ScaleX)) { Source = this });
+            BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleYProperty, new Binding(nameof(ScaleY)) { Source = this });
 
             var rotateTransform = new RotateTransform();
-            BindingOperations.SetBinding(rotateTransform, RotateTransform.AngleProperty, new Binding("Angle") { Source = this });
+            BindingOperations.SetBinding(rotateTransform, RotateTransform.AngleProperty, new Binding(nameof(Angle)) { Source = this });
 
             var translateTransform = new TranslateTransform();
             BindingOperations.SetBinding(translateTransform, TranslateTransform.XProperty, new Binding("Position.X") { Source = this });
@@ -258,18 +312,23 @@ namespace NeeView
 
         // 初期化
         // コンテンツ切り替わり時等
-        public void Reset(bool IsResetScale, bool IsResetAngle)
+        public void Reset(bool isResetScale, bool isResetAngle, bool isResetFlip)
         {
             _LockMoveX = IsLimitMove;
             _LockMoveY = IsLimitMove;
 
-            if (IsResetAngle)
+            if (isResetAngle)
             {
                 Angle = 0;
             }
-            if (IsResetScale)
+            if (isResetScale)
             {
                 Scale = 1.0;
+            }
+            if (isResetFlip)
+            {
+                IsFlipHorizontal = false;
+                IsFlipVertical = false;
             }
 
             if (ViewOrigin == DragViewOrigin.Center)
@@ -461,6 +520,11 @@ namespace NeeView
             DoRotate(NormalizeLoopRange(_BaseAngle + angle, -180, 180));
         }
 
+        // 反転コマンド
+        public void ToggleFlipHorizontal()
+        {
+            IsFlipHorizontal = !IsFlipHorizontal;
+        }
 
         // マウス左ボタンが押された時の処理
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -472,8 +536,9 @@ namespace NeeView
             _IsEnableClickEvent = true;
 
             _DragMode = 0;
-            if ((Keyboard.Modifiers & ModifierKeys.Shift) > 0) _DragMode |= (1 << 0);
-            if ((Keyboard.Modifiers & ModifierKeys.Control) > 0) _DragMode |= (1 << 1);
+            if ((Keyboard.Modifiers & ModifierKeys.Shift) != 0) _DragMode |= (1 << 0);
+            if ((Keyboard.Modifiers & ModifierKeys.Control) != 0) _DragMode |= (1 << 1);
+            if ((Keyboard.Modifiers & ModifierKeys.Alt) != 0) _DragMode |= (1 << 2);
 
             _Sender.CaptureMouse();
         }
@@ -550,6 +615,10 @@ namespace NeeView
             else if (_IsDragScale)
             {
                 DragScale(_StartPoint, _EndPoint);
+            }
+            else if (_IsDragMirror)
+            {
+                DragMirror(_StartPoint, _EndPoint);
             }
             else
             {
@@ -723,5 +792,13 @@ namespace NeeView
                 Position = new Point(_BasePosition.X * rate, _BasePosition.Y * rate);
             }
         }
+
+
+        // 反転
+        public void DragMirror(Point start, Point end)
+        {
+            IsFlipHorizontal = start.X < end.X;
+        }
+
     }
 }

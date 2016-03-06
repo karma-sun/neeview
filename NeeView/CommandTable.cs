@@ -291,6 +291,25 @@ namespace NeeView
                     Text = "右回転",
                     IsShowMessage = false
                 },
+                [CommandType.ToggleViewFlipHorizontal] = new CommandElement
+                {
+                    Group = "ビュー操作",
+                    Text = "左右反転の切り替え",
+                    IsShowMessage = false
+                },
+                [CommandType.ViewFlipHorizontalOn] = new CommandElement
+                {
+                    Group = "ビュー操作",
+                    Text = "左右反転ON",
+                    IsShowMessage = false
+                },
+                [CommandType.ViewFlipHorizontalOff] = new CommandElement
+                {
+                    Group = "ビュー操作",
+                    Text = "左右反転OFF",
+                    IsShowMessage = false
+                },
+
                 [CommandType.ViewReset] = new CommandElement
                 {
                     Group = "ビュー操作",

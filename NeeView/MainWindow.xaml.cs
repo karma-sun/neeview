@@ -60,7 +60,8 @@ namespace NeeView
                     UpdateMouseDragSetting(e.PageDirection);
                     bool isResetScale = e.ResetViewTransform || !_VM.IsKeepScale;
                     bool isResetAngle = e.ResetViewTransform || !_VM.IsKeepAngle;
-                    _MouseDrag.Reset(isResetScale, isResetAngle);
+                    bool isResetFlip = e.ResetViewTransform || !_VM.IsKeepFlip;
+                    _MouseDrag.Reset(isResetScale, isResetAngle, isResetFlip);
                 };
 
             _VM.InputGestureChanged +=
@@ -275,8 +276,14 @@ namespace NeeView
                 (e) => _MouseDrag.Rotate(-45);
             ModelContext.CommandTable[CommandType.ViewRotateRight].Execute =
                 (e) => _MouseDrag.Rotate(+45);
+            ModelContext.CommandTable[CommandType.ToggleViewFlipHorizontal].Execute =
+                (e) => _MouseDrag.ToggleFlipHorizontal();
+            ModelContext.CommandTable[CommandType.ViewFlipHorizontalOn].Execute =
+                (e) => _MouseDrag.IsFlipHorizontal = true;
+            ModelContext.CommandTable[CommandType.ViewFlipHorizontalOff].Execute =
+                (e) => _MouseDrag.IsFlipHorizontal = false;
             ModelContext.CommandTable[CommandType.ViewReset].Execute =
-                (e) => _MouseDrag.Reset(true, true);
+                (e) => _MouseDrag.Reset(true, true, true);
             ModelContext.CommandTable[CommandType.PrevScrollPage].Execute =
                 (e) => PrevScrollPage();
             ModelContext.CommandTable[CommandType.NextScrollPage].Execute =

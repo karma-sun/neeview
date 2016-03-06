@@ -12,7 +12,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="設定" Height="550" Width="700" >
+        Title="設定" Height="600" Width="700" >
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -78,6 +78,8 @@
                               IsChecked="{Binding Setting.ViewMemento.IsKeepScale}" />
                         <CheckBox Margin="2" Content="ページを変更しても回転をキープする"
                               IsChecked="{Binding Setting.ViewMemento.IsKeepAngle}" />
+                        <CheckBox Margin="2" Content="ページを変更しても反転をキープする"
+                              IsChecked="{Binding Setting.ViewMemento.IsKeepFlip}" />
                     </StackPanel>
 
                     <TextBlock Text="その他" Style="{StaticResource Header}"/>
@@ -294,7 +296,7 @@
             </TabItem>
         </TabControl>
 
-        <Button x:Name="OkButton" Content="OK" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="80" Margin="0,0,95,10" Click="OkButton_Click"/>
+        <Button x:Name="OkButton" Content="OK" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="80" Margin="0,0,95,10" Click="OkButton_Click" RenderTransformOrigin="0.5,0.5"/>
         <Button x:Name="CancelButton" Content="Cancel" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="80" Margin="0,0,10,10" Click="CancelButton_Click"/>
     </Grid>
 </Window>

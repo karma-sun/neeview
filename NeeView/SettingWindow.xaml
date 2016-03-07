@@ -11,6 +11,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
+        xmlns:susie="clr-namespace:Susie"
+        xmlns:drag="clr-namespace:DragExtensions"
         mc:Ignorable="d"
         Title="設定" Height="600" Width="700" >
 
@@ -26,6 +28,7 @@
             <Setter Property="Margin" Value="0,10,0,5"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
+
 
     </Window.Resources>
     <Grid>
@@ -156,13 +159,49 @@
 
             <TabItem x:Name="SusieSettingTab" Header="Susie設定">
                 <TabItem.Resources>
+
                     <CollectionViewSource x:Key="PluginSource" Source="{Binding SusiePluginList}">
                         <CollectionViewSource.GroupDescriptions>
                             <PropertyGroupDescription PropertyName="ApiVersion" />
                         </CollectionViewSource.GroupDescriptions>
                     </CollectionViewSource>
 
+                    <DataTemplate DataType="{x:Type susie:SusiePlugin}" x:Key="SusiePlugin">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsEnable}"/>
+                            <Grid Width="20" VerticalAlignment="Center" Margin="2">
+                                <Button Style="{StaticResource IconButton}"
+                                                    Command="{x:Static local:SettingWindow.SusiePluginConfigCommand}" CommandParameter="{Binding}"
+                                                    Visibility="{Binding HasConfigurationDlg, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                                    <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}"/>
+                                </Button>
+                            </Grid>
+                            <StackPanel>
+                                <TextBlock Text="{Binding DetailText}" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding PluginVersion}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+
+                    <Style TargetType="ListBox">
+                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="ItemTemplate" Value="{StaticResource SusiePlugin}"/>
+                        <Setter Property="Margin" Value="0,4,0,0"/>
+                        <Setter Property="AllowDrop" Value="True"/>
+                        <EventSetter Event="PreviewDragOver"  Handler="PluginListView_PreviewDragOver"/>
+                        <EventSetter Event="Drop" Handler="PluginListView_Drop"/>
+                        <Setter Property="ItemContainerStyle">
+                            <Setter.Value>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="drag:DragBehavior.IsEnable" Value="True"/>
+                                </Style>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
                 </TabItem.Resources>
+
                 <DockPanel Margin="4">
                     <CheckBox DockPanel.Dock="Top" Margin="2" Content="Susieプラグインを使用する" IsChecked="{Binding Setting.SusieMemento.IsEnableSusie}" />
                     <DockPanel IsEnabled="{Binding Setting.SusieMemento.IsEnableSusie}">
@@ -170,39 +209,19 @@
                         <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="画像表示でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieImage}"/>
                         <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="圧縮ファイル展開でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieArchive}"/>
 
-                        <ListBox x:Name="PluginListView" ItemsSource="{Binding Source={StaticResource PluginSource}}" Margin="0,8" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <TabControl Margin="0,4">
 
-                            <ListBox.Resources>
-                                <local:ApiVersionToApiTextConverter x:Key="AipVersionConverter"/>
-                                <DataTemplate x:Key="HeaderTemplate">
-                                    <TextBlock Text="{Binding Name, Converter={StaticResource AipVersionConverter}}" FontWeight="Bold" Margin="0,8,0,4" />
-                                </DataTemplate>
-                            </ListBox.Resources>
+                            <TabItem Header="画像表示用">
+                                <ListBox x:Name="INPluginListView" ItemsSource="{Binding INPluginList}" >
+                                </ListBox>
+                            </TabItem>
 
-                            <ListBox.GroupStyle>
-                                <GroupStyle HeaderTemplate="{StaticResource HeaderTemplate}">
-                                </GroupStyle>
-                            </ListBox.GroupStyle>
+                            <TabItem Header="圧縮ファイル展開用">
+                                <ListBox x:Name="AMPluginListView" ItemsSource="{Binding AMPluginList}" >
+                                </ListBox>
+                            </TabItem>
 
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsEnable}"/>
-                                        <Grid Width="20" VerticalAlignment="Center" Margin="2">
-                                            <Button Style="{StaticResource IconButton}"
-                                                    Command="{x:Static local:SettingWindow.SusiePluginConfigCommand}" CommandParameter="{Binding}"
-                                                    Visibility="{Binding HasConfigurationDlg, Converter={StaticResource BooleanToVisibilityConverter}}" >
-                                                <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}"/>
-                                            </Button>
-                                        </Grid>
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding DetailText}" VerticalAlignment="Center" />
-                                            <TextBlock Text="{Binding PluginVersion}" VerticalAlignment="Center" />
-                                        </StackPanel>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                        </TabControl>
                     </DockPanel>
                 </DockPanel>
             </TabItem>
@@ -263,7 +282,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                
+
                                 <GridViewColumn Header="コマンド" Width="200">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>

@@ -21,17 +21,17 @@ namespace Susie
     public class Susie
     {
         // 書庫プラグインリスト
-        public Dictionary<string, SusiePlugin> AMPlgunList { get; private set; } = new Dictionary<string, SusiePlugin>();
+        public List<SusiePlugin> AMPlgunList { get; private set; } = new List<SusiePlugin>();
         // 画像プラグインリスト
-        public Dictionary<string, SusiePlugin> INPlgunList { get; private set; } = new Dictionary<string, SusiePlugin>();
+        public List<SusiePlugin> INPlgunList { get; private set; } = new List<SusiePlugin>();
 
         // すべてのプラグインのEnumerator
         public IEnumerable<SusiePlugin> PluginCollection
         {
             get
             {
-                foreach (var plugin in AMPlgunList.Values) yield return plugin;
-                foreach (var plugin in INPlgunList.Values) yield return plugin;
+                foreach (var plugin in AMPlgunList) yield return plugin;
+                foreach (var plugin in INPlgunList) yield return plugin;
             }
         }
 
@@ -57,7 +57,7 @@ namespace Susie
             return _SusiePluginInstallPath;
         }
 
-        
+
         // プラグインロード
         public void Load(IEnumerable<string> spiFiles)
         {
@@ -68,13 +68,13 @@ namespace Susie
                 var source = SusiePlugin.Create(fileName);
                 if (source != null)
                 {
-                    if (source.ApiVersion == "00IN" && !INPlgunList.ContainsKey(fileName))
+                    if (source.ApiVersion == "00IN" && !INPlgunList.Any(e => e.FileName == fileName))
                     {
-                        INPlgunList.Add(fileName, source);
+                        INPlgunList.Add(source);
                     }
-                    else if (source.ApiVersion == "00AM" && !AMPlgunList.ContainsKey(fileName))
+                    else if (source.ApiVersion == "00AM" && !AMPlgunList.Any(e => e.FileName == fileName))
                     {
-                        AMPlgunList.Add(fileName, source);
+                        AMPlgunList.Add(source);
                     }
                     else
                     {
@@ -92,12 +92,9 @@ namespace Susie
         // ロード済プラグイン取得
         public SusiePlugin GetPlugin(string fileName)
         {
-            SusiePlugin plugin;
-            if (AMPlgunList.TryGetValue(fileName, out plugin)) return plugin;
-            if (INPlgunList.TryGetValue(fileName, out plugin)) return plugin;
-            return null;
+            return PluginCollection.FirstOrDefault(e => e.FileName == fileName);
         }
-        
+
 
         /// <summary>
         /// アーカイブ情報取得
@@ -106,7 +103,7 @@ namespace Susie
         /// <returns>アーカイブ情報</returns>
         public ArchiveEntryCollection GetArchiveInfo(string fileName)
         {
-            foreach (var plugin in AMPlgunList.Values)
+            foreach (var plugin in AMPlgunList)
             {
                 try
                 {
@@ -130,7 +127,7 @@ namespace Susie
         /// <returns>BitmapImage</returns>
         public BitmapImage GetPicture(string fileName, byte[] buff)
         {
-            foreach (var plugin in INPlgunList.Values)
+            foreach (var plugin in INPlgunList)
             {
                 try
                 {

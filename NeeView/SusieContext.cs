@@ -136,7 +136,7 @@ namespace NeeView
             }
 
             // 使用できないブラグイン削除
-            foreach(var key in removeList)
+            foreach (var key in removeList)
             {
                 SpiFiles.Remove(key);
             }
@@ -172,7 +172,7 @@ namespace NeeView
 
             private void Constructor()
             {
-                SusiePluginPath = global::Susie.Susie.GetSusiePluginInstallPath();
+                SusiePluginPath = "";
                 SpiFiles = new Dictionary<string, bool>();
             }
 

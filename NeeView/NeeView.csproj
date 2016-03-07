@@ -77,6 +77,10 @@
     <Compile Include="BackgroundStyle.cs" />
     <Compile Include="BitmapImageLoaders.cs" />
     <Compile Include="BitmapLoaderManager.cs" />
+    <Compile Include="DragBehaviour\DragAdorner.cs" />
+    <Compile Include="DragBehaviour\DragBehavior.cs" />
+    <Compile Include="ListBoxDragSortExtensions.cs" />
+    <Compile Include="DragBehaviour\WPFUtil.cs" />
     <Compile Include="DragArea.cs" />
     <Compile Include="DragViewOrigin.cs" />
     <Compile Include="IpcRemote.cs" />

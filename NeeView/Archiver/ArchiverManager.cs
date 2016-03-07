@@ -96,7 +96,7 @@ namespace NeeView
         public void UpdateSusieSupprtedFileTypes(Susie.Susie susie)
         {
             var list = new List<string>();
-            foreach (var plugin in susie.AMPlgunList.Values)
+            foreach (var plugin in susie.AMPlgunList)
             {
                 if (plugin.IsEnable)
                 {

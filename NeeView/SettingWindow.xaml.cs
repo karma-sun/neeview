@@ -58,8 +58,8 @@ namespace NeeView
         public Setting Setting { get; set; }
 
         // Susieプラグインリスト
-        public ObservableCollection<Susie.SusiePlugin> SusiePluginList { get; private set; } = new ObservableCollection<Susie.SusiePlugin>();
-
+        public List<Susie.SusiePlugin> AMPluginList { get; private set; }
+        public List<Susie.SusiePlugin> INPluginList { get; private set; }
 
         // コマンド一覧用パラメータ
         public class CommandParam
@@ -149,7 +149,8 @@ namespace NeeView
             this.DataContext = this;
 
             // コマンド設定
-            this.PluginListView.CommandBindings.Add(new CommandBinding(SusiePluginConfigCommand, SusiePluginConfigCommand_Executed));
+            this.AMPluginListView.CommandBindings.Add(new CommandBinding(SusiePluginConfigCommand, SusiePluginConfigCommand_Executed));
+            this.INPluginListView.CommandBindings.Add(new CommandBinding(SusiePluginConfigCommand, SusiePluginConfigCommand_Executed));
 
             // ESCでウィンドウを閉じる
             this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
@@ -205,15 +206,13 @@ namespace NeeView
         // Susieプラグイン一覧 更新
         public void UpdateSusiePluginList()
         {
-            SusiePluginList.Clear();
+            INPluginList = ModelContext.Susie?.INPlgunList;
+            OnPropertyChanged(nameof(INPluginList));
+            this.INPluginListView.Items.Refresh();
 
-            if (ModelContext.Susie?.PluginCollection != null)
-            {
-                foreach (var plugin in ModelContext.Susie.PluginCollection)
-                {
-                    SusiePluginList.Add(plugin);
-                }
-            }
+            AMPluginList = ModelContext.Susie?.AMPlgunList;
+            OnPropertyChanged(nameof(AMPluginList));
+            this.AMPluginListView.Items.Refresh();
         }
 
         // 決定ボタン処理
@@ -284,6 +283,18 @@ namespace NeeView
         {
             Setting.BookHistoryMemento.History.Clear();
             OnPropertyChanged(nameof(Setting));
+        }
+
+        // プラグインリスト：ドロップ受付判定
+        private void PluginListView_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            ListBoxDragSortExtension.PreviewDragOver(sender, e);
+        }
+
+        // プラグインリスト：ドロップ
+        private void PluginListView_Drop(object sender, DragEventArgs e)
+        {
+            ListBoxDragSortExtension.Drop<Susie.SusiePlugin>(sender, e);
         }
     }
 

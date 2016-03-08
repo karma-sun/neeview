@@ -34,7 +34,7 @@ namespace Susie
         public string PluginVersion { get; private set; }
 
         // 詳細テキスト
-        public string DetailText { get { return Path.GetFileName(FileName) + " / " + string.Join(" ", Extensions); } }
+        public string DetailText { get { return $"{Path.GetFileName(FileName)} ( {string.Join(" ", Extensions)} )"; } }
 
         // 設定ダイアログの有無
         public bool HasConfigurationDlg { get; private set; }
@@ -86,10 +86,6 @@ namespace Susie
                     {
                         PluginVersion = Path.GetFileName(fileName);
                     }
-
-                    // プラグインバージョンの改行、空白削除
-                    var regex = new System.Text.RegularExpressions.Regex(@"\s+");
-                    PluginVersion = regex.Replace(PluginVersion, " ").Trim();
 
                     SupportFileTypeList = new List<SupportFileType>();
                     while (true)

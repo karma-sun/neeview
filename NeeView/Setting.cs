@@ -27,7 +27,7 @@ namespace NeeView
         public MainWindowVM.Memento ViewMemento { set; get; }
 
         [DataMember]
-        public SusieContext.SusieSetting SusieMemento { get; set; }
+        public SusieContext.Memento SusieMemento { get; set; }
 
         [DataMember]
         public BookHub.Memento BookHubMemento { set; get; }
@@ -44,7 +44,7 @@ namespace NeeView
         {
             WindowPlacement = new WindowPlacement.Memento();
             ViewMemento = new MainWindowVM.Memento();
-            SusieMemento = new SusieContext.SusieSetting();
+            SusieMemento = new SusieContext.Memento();
             BookHubMemento = new BookHub.Memento();
             CommandMememto = new CommandTable.Memento();
             BookHistoryMemento = new BookHistory.Memento();

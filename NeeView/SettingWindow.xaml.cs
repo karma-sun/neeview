@@ -47,8 +47,7 @@ namespace NeeView
             set
             {
                 _SusiePluginPath = value;
-                Setting.SusieMemento.SusiePluginPath = value;
-                UpdateSusiePluginSetting();
+                UpdateSusiePluginSetting(value);
             }
         }
         #endregion
@@ -56,6 +55,10 @@ namespace NeeView
 
         // 設定
         public Setting Setting { get; set; }
+        public SusieContext.Memento OldSusieSetting { get; set; }
+
+        //
+        private bool IsDartySusieSetting;
 
         // Susieプラグインリスト
         public List<Susie.SusiePlugin> AMPluginList { get; private set; }
@@ -136,6 +139,8 @@ namespace NeeView
             InitializeComponent();
 
             Setting = setting;
+            OldSusieSetting = setting.SusieMemento.Clone();
+            IsDartySusieSetting = false;
 
             // コマンド一覧作成
             CommandCollection = new ObservableCollection<CommandParam>();
@@ -154,6 +159,9 @@ namespace NeeView
 
             // ESCでウィンドウを閉じる
             this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
+
+            // デフォルトのプラグインパス設定
+            this.PluginPathTextBox.DefaultDirectory = Susie.Susie.GetSusiePluginInstallPath();
         }
 
 
@@ -197,8 +205,12 @@ namespace NeeView
         }
 
         // Susie環境 更新
-        private void UpdateSusiePluginSetting()
+        private void UpdateSusiePluginSetting(string path)
         {
+            // 現在のSusieプラグイン情報保存
+            Setting.SusieMemento.SusiePluginPath = path;
+            Setting.SusieMemento.SpiFiles = SusieContext.Memento.CreateSpiFiles(ModelContext.Susie);
+
             ModelContext.SusieContext.Restore(Setting.SusieMemento);
             UpdateSusiePluginList();
         }
@@ -218,18 +230,6 @@ namespace NeeView
         // 決定ボタン処理
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            // コマンド設定反映
-            foreach (var command in CommandCollection)
-            {
-                Setting.CommandMememto[command.Key].ShortCutKey = command.ShortCut;
-                Setting.CommandMememto[command.Key].MouseGesture = command.MouseGesture;
-                Setting.CommandMememto[command.Key].IsShowMessage = command.IsShowMessage;
-                Setting.CommandMememto[command.Key].IsToggled = command.IsToggled;
-            }
-
-            // Susie設定反映
-            Setting.SusieMemento.SetSpiFiles(ModelContext.Susie);
-
             this.DialogResult = true;
             this.Close();
         }
@@ -295,6 +295,40 @@ namespace NeeView
         private void PluginListView_Drop(object sender, DragEventArgs e)
         {
             ListBoxDragSortExtension.Drop<Susie.SusiePlugin>(sender, e);
+        }
+
+        // 設定画面終了処理
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if (this.DialogResult == true)
+            {
+                // コマンド設定反映
+                foreach (var command in CommandCollection)
+                {
+                    Setting.CommandMememto[command.Key].ShortCutKey = command.ShortCut;
+                    Setting.CommandMememto[command.Key].MouseGesture = command.MouseGesture;
+                    Setting.CommandMememto[command.Key].IsShowMessage = command.IsShowMessage;
+                    Setting.CommandMememto[command.Key].IsToggled = command.IsToggled;
+                }
+
+                // Susie プラグインリスト保存
+                Setting.SusieMemento.SpiFiles = SusieContext.Memento.CreateSpiFiles(ModelContext.Susie);
+            }
+            else
+            {
+                // Susie設定を元に戻す
+                if (IsDartySusieSetting)
+                {
+                    Setting.SusieMemento = OldSusieSetting;
+                    ModelContext.SusieContext.Restore(Setting.SusieMemento);
+                }
+            }
+        }
+
+        // Susie設定のタブが選択された
+        private void SusieSettingTab_Selected(object sender, RoutedEventArgs e)
+        {
+            IsDartySusieSetting = true;
         }
     }
 

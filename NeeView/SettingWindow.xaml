@@ -14,7 +14,7 @@
         xmlns:susie="clr-namespace:Susie"
         xmlns:drag="clr-namespace:DragExtensions"
         mc:Ignorable="d"
-        Title="設定" Height="600" Width="700" >
+        Title="設定" Height="600" Width="700" Closed="Window_Closed" >
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -157,7 +157,7 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem x:Name="SusieSettingTab" Header="Susie設定">
+            <TabItem x:Name="SusieSettingTab" Header="Susie設定" Selector.Selected="SusieSettingTab_Selected">
                 <TabItem.Resources>
 
                     <CollectionViewSource x:Key="PluginSource" Source="{Binding SusiePluginList}">
@@ -176,10 +176,17 @@
                                     <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}"/>
                                 </Button>
                             </Grid>
-                            <StackPanel>
-                                <TextBlock Text="{Binding DetailText}" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding PluginVersion}" VerticalAlignment="Center" />
-                            </StackPanel>
+                            <TextBlock Text="{Binding DetailText}" ToolTip="{Binding PluginVersion}" VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEnable}" Value="False">
+                                                <Setter Property="Foreground" Value="Gray"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
                         </StackPanel>
                     </DataTemplate>
 
@@ -205,18 +212,18 @@
                 <DockPanel Margin="4">
                     <CheckBox DockPanel.Dock="Top" Margin="2" Content="Susieプラグインを使用する" IsChecked="{Binding Setting.SusieMemento.IsEnableSusie}" />
                     <DockPanel IsEnabled="{Binding Setting.SusieMemento.IsEnableSusie}">
-                        <local:DirectoryNameBox DockPanel.Dock="Top" Margin="0,2" Text ="{Binding SusiePluginPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <local:DirectoryNameBox x:Name="PluginPathTextBox" DockPanel.Dock="Top" Margin="0,2" Text ="{Binding SusiePluginPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="画像表示でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieImage}"/>
                         <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="圧縮ファイル展開でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieArchive}"/>
 
                         <TabControl Margin="0,4">
 
-                            <TabItem Header="画像表示用">
+                            <TabItem Header="画像プラグイン">
                                 <ListBox x:Name="INPluginListView" ItemsSource="{Binding INPluginList}" >
                                 </ListBox>
                             </TabItem>
 
-                            <TabItem Header="圧縮ファイル展開用">
+                            <TabItem Header="書庫プラグイン">
                                 <ListBox x:Name="AMPluginListView" ItemsSource="{Binding AMPluginList}" >
                                 </ListBox>
                             </TabItem>

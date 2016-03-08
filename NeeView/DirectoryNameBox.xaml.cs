@@ -20,6 +20,7 @@ namespace NeeView
     /// </summary>
     public partial class DirectoryNameBox : UserControl
     {
+        // Text
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(
             "Text",
@@ -37,7 +38,27 @@ namespace NeeView
         {
         }
 
-        //
+
+        // DefaultDirectory
+        public static readonly DependencyProperty DefaultDirectoryProperty =
+            DependencyProperty.Register(
+            "DefaultDirectory",
+            typeof(string),
+            typeof(DirectoryNameBox),
+            new FrameworkPropertyMetadata("", new PropertyChangedCallback(OnDefaultDirectoryChanged)));
+
+        public string DefaultDirectory
+        {
+            get { return (string)GetValue(DefaultDirectoryProperty); }
+            set { SetValue(DefaultDirectoryProperty, value); }
+        }
+
+        private static void OnDefaultDirectoryChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+
+        // IsValid
         public static readonly DependencyProperty IsValidProperty =
             DependencyProperty.Register(
             "IsValid",
@@ -56,17 +77,24 @@ namespace NeeView
         }
 
 
+
         //
         public DirectoryNameBox()
         {
             InitializeComponent();
         }
 
+        //
         private void ButtonOpenDialog_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
             dialog.Description = "フォルダ選択";
             dialog.SelectedPath = Text;
+
+            if (string.IsNullOrWhiteSpace(dialog.SelectedPath))
+            {
+                dialog.SelectedPath = DefaultDirectory;
+            }
 
             var result = dialog.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
@@ -75,6 +103,7 @@ namespace NeeView
             }
         }
 
+        //
         private void PathTextBox_PreviewDragOver(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(System.Windows.DataFormats.FileDrop, true))
@@ -88,7 +117,7 @@ namespace NeeView
             e.Handled = true;
         }
 
-
+        //
         private void PathTextBox_Drop(object sender, DragEventArgs e)
         {
             var dropFiles = e.Data.GetData(System.Windows.DataFormats.FileDrop) as string[];
@@ -105,7 +134,7 @@ namespace NeeView
         }
     }
 
-
+    //
     [System.Windows.Data.ValueConversion(typeof(bool), typeof(Visibility))]
     public class NotBoolToVisiblityConverter : System.Windows.Data.IValueConverter
     {

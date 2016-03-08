@@ -13,34 +13,34 @@ namespace DragExtensions
 {
     public class DragAdorner : Adorner
     {
-        private Rectangle _ghost;
-        protected Vector _move;
+        private Rectangle _Ghost;
+        protected Vector _Move;
 
         public DragAdorner(UIElement element, double opacity, Point point) : base(element)
         {
             Rect bounds = VisualTreeHelper.GetDescendantBounds(element);
-            _ghost = new Rectangle() 
+            _Ghost = new Rectangle() 
             {
                 Height = bounds.Height,
                 Width = bounds.Width, 
                 Fill = new VisualBrush(element) { Opacity = opacity }
             };
 
-            _move = (Vector)Window.GetWindow(element).PointFromScreen(element.PointToScreen(point));
-            _move.Negate();
+            _Move = (Vector)Window.GetWindow(element).PointFromScreen(element.PointToScreen(point));
+            _Move.Negate();
 
             AdornerLayer adorner = AdornerLayer.GetAdornerLayer((Visual)WPFUtil.FindVisualParent<Window>(this.AdornedElement).Content);
             if (adorner != null) adorner.Add(this);
         }
 
-        private Point _position;
+        private Point _Position;
 
         public Point Position
         {
-            get { return _position; }
+            get { return _Position; }
             set
             {
-                _position = (Point)(value + _move);
+                _Position = (Point)(value + _Move);
                 UpdatePosition();
             }
         }
@@ -59,7 +59,7 @@ namespace DragExtensions
 
         protected override Visual GetVisualChild(int index)
         {
-            return _ghost;
+            return _Ghost;
         }
 
         protected override int VisualChildrenCount
@@ -69,14 +69,14 @@ namespace DragExtensions
 
         protected override Size MeasureOverride(Size finalSize)
         {
-            _ghost.Measure(finalSize);
-            return _ghost.DesiredSize;
+            _Ghost.Measure(finalSize);
+            return _Ghost.DesiredSize;
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
 
-            _ghost.Arrange(new Rect(_ghost.DesiredSize));
+            _Ghost.Arrange(new Rect(_Ghost.DesiredSize));
             return finalSize;
         }
 

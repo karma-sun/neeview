@@ -38,7 +38,7 @@ namespace NeeView
         // エントリーリストを得る
         public override List<ArchiveEntry> GetEntries()
         {
-            var infoCollection = ModelContext.Susie.GetArchiveInfo(_ArchiveFileName);
+            var infoCollection = ModelContext.Susie?.GetArchiveInfo(_ArchiveFileName);
 
             if (infoCollection == null) throw new NotSupportedException();
 

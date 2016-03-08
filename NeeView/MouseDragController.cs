@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -33,6 +34,7 @@ namespace NeeView
     /// * 左クリック＋ドラッグ  -> 移動
     /// * Shift+左クリック＋ドラッグ -> 拡縮
     /// * Ctrl+左クリック＋ドラッグ -> 回転
+    /// * Alt+左クリック＋ドラッグ -> 反転
     /// </summary>
     public class MouseDragController : INotifyPropertyChanged
     {
@@ -181,7 +183,62 @@ namespace NeeView
 
         #endregion
 
+        // アクションテーブル
+        public Dictionary<DragActionType, DragAction> ActionTable;
 
+        // アクションキーテーブル
+        private Dictionary<ModifierKeys, DragActionType> KeyBindings;
+
+        // アクションテーブル初期化
+        public void InitializeActions()
+        {
+            ActionTable = new Dictionary<DragActionType, DragAction>()
+            {
+                [DragActionType.None] = null,
+
+                [DragActionType.Move] = new DragAction
+                {
+                    Name = "移動",
+                    Exec = DragMove,
+                    Group = DragActionGroup.Move,
+                },
+                [DragActionType.MoveScale] = new DragAction
+                {
+                    Name = "移動(スケール依存)",
+                    Exec = DragMoveScale,
+                    Group = DragActionGroup.Move,
+                },
+                [DragActionType.Angle] = new DragAction
+                {
+                    Name = "回転",
+                    Exec = DragAngle,
+                },
+                [DragActionType.Scale] = new DragAction
+                {
+                    Name = "拡大縮小",
+                    Exec = DragScale,
+                },
+                [DragActionType.ScaleSlider] = new DragAction
+                {
+                    Name = "拡大縮小(スライド式)",
+                    Exec = DragScaleSlider,
+                },
+                [DragActionType.FlipHorizontal] = new DragAction
+                {
+                    Name = "左右反転",
+                    Exec = DragFlipHorizontal,
+                },
+                [DragActionType.FlipVertical] = new DragAction
+                {
+                    Name = "上下反転",
+                    Exec = DragFlipVertical,
+                },
+            };
+
+            // keys
+            // 外部から設定されるのでここでは空にする
+            KeyBindings = new Dictionary<ModifierKeys, DragActionType>();
+        }
 
         // 開始時の基準
         public DragViewOrigin ViewOrigin { get; set; }
@@ -228,10 +285,7 @@ namespace NeeView
         //
         private bool _IsButtonDown = false;
         private bool _IsDragging = false;
-        private bool _IsDragAngle { get { return _DragMode == (1 << 0); } }
-        private bool _IsDragScale { get { return _DragMode == (1 << 1); } }
-        private bool _IsDragMirror { get { return _DragMode == (1 << 2); } }
-        private int _DragMode;
+        private DragAction _Action;
 
         // クリックイベント
         // ドラッグされずにマウスボタンが離された時にに発行する
@@ -259,6 +313,8 @@ namespace NeeView
         /// <param name="targetShadow">対象コンテンツの影。計算用</param>
         public MouseDragController(FrameworkElement sender, FrameworkElement targetView, FrameworkElement targetShadow)
         {
+            InitializeActions();
+
             _Sender = sender;
             _Target = targetView;
             _TargetShadow = targetShadow;
@@ -532,6 +588,21 @@ namespace NeeView
             DoFlipHorizontal(isFlip);
         }
 
+        // 入力からアクションを取得
+        private DragAction GetAction(ModifierKeys keys)
+        {
+            DragActionType type;
+            if (KeyBindings.TryGetValue(Keyboard.Modifiers, out type))
+            {
+                return ActionTable[type];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
         // マウス左ボタンが押された時の処理
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -541,10 +612,7 @@ namespace NeeView
             _IsDragging = false;
             _IsEnableClickEvent = true;
 
-            _DragMode = 0;
-            if ((Keyboard.Modifiers & ModifierKeys.Shift) != 0) _DragMode |= (1 << 0);
-            if ((Keyboard.Modifiers & ModifierKeys.Control) != 0) _DragMode |= (1 << 1);
-            if ((Keyboard.Modifiers & ModifierKeys.Alt) != 0) _DragMode |= (1 << 2);
+            _Action = GetAction(Keyboard.Modifiers);
 
             _Sender.CaptureMouse();
         }
@@ -591,21 +659,7 @@ namespace NeeView
                 {
                     _IsDragging = true;
 
-                    _StartPoint = e.GetPosition(_Sender);
-                    _BaseFlipPoint = _StartPoint;
-
-                    if (DragControlCenter == DragControlCenter.View)
-                    {
-                        _Center = new Point(_Sender.ActualWidth * 0.5, _Sender.ActualHeight * 0.5);
-                    }
-                    else
-                    {
-                        _Center = (Point)(_TargetShadow.PointToScreen(new Point(_TargetShadow.ActualWidth * _TargetShadow.RenderTransformOrigin.X, _TargetShadow.ActualHeight * _TargetShadow.RenderTransformOrigin.Y)) - _Sender.PointToScreen(new Point(0, 0)));
-                    }
-
-                    _BasePosition = Position;
-                    _BaseAngle = Angle;
-                    _BaseScale = Scale;
+                    InitializeDragParameter(_EndPoint);
 
                     _Sender.Cursor = Cursors.Hand;
                 }
@@ -615,30 +669,64 @@ namespace NeeView
                 }
             }
 
-            if (_IsDragAngle)
+            // update action
+            var action = GetAction(Keyboard.Modifiers);
+            if (action != null && action != _Action)
             {
-                DragAngle(_StartPoint, _EndPoint);
+                if (Keyboard.Modifiers != ModifierKeys.None || action.IsGroupCompatible(_Action))
+                {
+                    _Action = action;
+                    InitializeDragParameter(_EndPoint);
+                }
             }
-            else if (_IsDragScale)
+
+
+            _Action?.Exec(_StartPoint, _EndPoint);
+        }
+
+        // ドラッグパラメータ初期化
+        void InitializeDragParameter(Point pos)
+        {
+            _StartPoint = pos;
+            _BaseFlipPoint = _StartPoint;
+
+            if (DragControlCenter == DragControlCenter.View)
             {
-                DragScale(_StartPoint, _EndPoint);
-            }
-            else if (_IsDragMirror)
-            {
-                DragFlipHorizontal(_StartPoint, _EndPoint);
+                _Center = new Point(_Sender.ActualWidth * 0.5, _Sender.ActualHeight * 0.5);
             }
             else
             {
-                DragMove(_StartPoint, _EndPoint);
+                _Center = (Point)(_TargetShadow.PointToScreen(new Point(_TargetShadow.ActualWidth * _TargetShadow.RenderTransformOrigin.X, _TargetShadow.ActualHeight * _TargetShadow.RenderTransformOrigin.Y)) - _Sender.PointToScreen(new Point(0, 0)));
             }
+
+            _BasePosition = Position;
+            _BaseAngle = Angle;
+            _BaseScale = Scale;
         }
 
 
         // 移動
         private void DragMove(Point start, Point end)
         {
+            DragMoveEx(start, end, 1.0);
+        }
+
+        // 移動(速度スケール依存)
+        private void DragMoveScale(Point start, Point end)
+        {
+            var area = GetArea();
+            var scaleX = area.Target.Width / area.View.Width;
+            var scaleY = area.Target.Height / area.View.Height;
+            var scale = scaleX > scaleY ? scaleX : scaleY;
+            scale = scale < 1.0 ? 1.0 : scale;
+
+            DragMoveEx(start, end, scale);
+        }
+
+        private void DragMoveEx(Point start, Point end, double scale)
+        {
             var pos0 = Position;
-            var pos1 = _EndPoint - _StartPoint + _BasePosition;
+            var pos1 = (_EndPoint - _StartPoint) * scale + _BasePosition;
             var move = pos1 - pos0;
 
             DoMove(move);
@@ -720,8 +808,6 @@ namespace NeeView
             }
 
             Position = pos0 + move;
-
-            _StartPoint += pos1 - Position;
         }
 
         // 回転
@@ -783,6 +869,16 @@ namespace NeeView
             DoScale(scale1);
         }
 
+
+        // 拡縮
+        public void DragScaleSlider(Point start, Point end)
+        {
+            var scale1 = System.Math.Pow(2, (end.X - start.X) * 0.01) * _BaseScale;
+            DoScale(scale1);
+        }
+
+
+
         // 拡縮実行
         private void DoScale(double scale)
         {
@@ -836,5 +932,46 @@ namespace NeeView
             }
         }
 
+
+        // 反転
+        public void DragFlipVertical(Point start, Point end)
+        {
+            const double margin = 16;
+
+            if (_BaseFlipPoint.Y + margin < end.Y)
+            {
+                DoFlipVertical(true);
+                _BaseFlipPoint.Y = end.Y - margin;
+            }
+            else if (_BaseFlipPoint.Y - margin > end.Y)
+            {
+                DoFlipVertical(false);
+                _BaseFlipPoint.Y = end.Y + margin;
+            }
+        }
+
+        // 反転実行
+        private void DoFlipVertical(bool isFlip)
+        {
+            if (IsFlipVertical != isFlip)
+            {
+                IsFlipVertical = isFlip;
+
+                // 角度を反転
+                Angle = 90 - NormalizeLoopRange(Angle + 90, -180, 180);
+
+                // 座標を反転
+                if (DragControlCenter == DragControlCenter.View)
+                {
+                    Position = new Point(Position.X, -Position.Y);
+                }
+            }
+        }
+
+        // キーバインド設定
+        public void Restore(MouseDragControllerSetting setting)
+        {
+            KeyBindings = setting.KeyBindings;
+        }
     }
 }

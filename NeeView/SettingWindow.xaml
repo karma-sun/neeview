@@ -14,7 +14,7 @@
         xmlns:susie="clr-namespace:Susie"
         xmlns:drag="clr-namespace:DragExtensions"
         mc:Ignorable="d"
-        Title="設定" Height="600" Width="700" Closed="Window_Closed" >
+        Title="設定" Height="530" Width="700" Closed="Window_Closed" >
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -65,6 +65,26 @@
                               IsChecked="{Binding Setting.ViewMemento.IsSliderDirectionReversed}" />
                     </StackPanel>
 
+                    <TextBlock Text="その他" Style="{StaticResource Header}"/>
+
+                    <StackPanel Style="{StaticResource Phrase}">
+                        <CheckBox Margin="2" Content="ページが終わったら次のフォルダに移動する"
+                              IsChecked="{Binding Setting.BookHubMemento.IsEnabledAutoNextFolder}" />
+                        <CheckBox Margin="2" Content="サポート外ファイルもページに数える"
+                              IsChecked="{Binding Setting.BookHubMemento.IsEnableNoSupportFile}" />
+                        <CheckBox Margin="2" Content="「ファイルを開く」の初期フォルダを現在開いているフォルダ基準にする"
+                              IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
+                        <CheckBox Margin="2" Content="起動時に前回開いていたフォルダを開く"
+                              IsChecked="{Binding Setting.ViewMemento.IsLoadLastFolder}" />
+                        <CheckBox Margin="2" Content="多重起動を禁止する"
+                              IsChecked="{Binding Setting.ViewMemento.IsDisableMultiBoot}" />
+                    </StackPanel>
+
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="ビュー操作">
+                <StackPanel Margin="4">
                     <TextBlock Text="ビュー操作" Style="{StaticResource Header}"/>
                     <StackPanel Style="{StaticResource Phrase}">
 
@@ -85,19 +105,39 @@
                               IsChecked="{Binding Setting.ViewMemento.IsKeepFlip}" />
                     </StackPanel>
 
-                    <TextBlock Text="その他" Style="{StaticResource Header}"/>
-
+                    <TextBlock Text="ドラッグ操作" Style="{StaticResource Header}"/>
                     <StackPanel Style="{StaticResource Phrase}">
-                        <CheckBox Margin="2" Content="ページが終わったら次のフォルダに移動する"
-                              IsChecked="{Binding Setting.BookHubMemento.IsEnabledAutoNextFolder}" />
-                        <CheckBox Margin="2" Content="サポート外ファイルもページに数える"
-                              IsChecked="{Binding Setting.BookHubMemento.IsEnableNoSupportFile}" />
-                        <CheckBox Margin="2" Content="「ファイルを開く」の初期フォルダを現在開いているフォルダ基準にする"
-                              IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
-                        <CheckBox Margin="2" Content="起動時に前回開いていたフォルダを開く"
-                              IsChecked="{Binding Setting.ViewMemento.IsLoadLastFolder}" />
-                        <CheckBox Margin="2" Content="多重起動を禁止する"
-                              IsChecked="{Binding Setting.ViewMemento.IsDisableMultiBoot}" />
+                        <StackPanel.Resources>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Orientation" Value="Horizontal"/>
+                                <Setter Property="Margin" Value="2"/>
+                            </Style>                            
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Width" Value="100"/>
+                            </Style>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="ItemsSource" Value="{Binding DragActionTypeList}"/>
+                                <Setter Property="SelectedValuePath" Value="Key"/>
+                                <Setter Property="DisplayMemberPath" Value="Value"/>
+                                <Setter Property="Width" Value="150"/>
+                            </Style>
+                        </StackPanel.Resources>
+                        <StackPanel >
+                            <TextBlock Text="LeftDrag"/>
+                            <ComboBox SelectedValue="{Binding DragActionNone}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Ctrl+LeftDrag"/>
+                            <ComboBox SelectedValue="{Binding DragActionControl}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Shift+LeftDrag"/>
+                            <ComboBox SelectedValue="{Binding DragActionShift}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Alt+LeftDrag"/>
+                            <ComboBox SelectedValue="{Binding DragActionAlt}" />
+                        </StackPanel>
                     </StackPanel>
 
                 </StackPanel>

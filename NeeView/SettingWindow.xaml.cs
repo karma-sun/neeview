@@ -132,8 +132,58 @@ namespace NeeView
             60,
         };
 
+        // ドラッグアクション
+        public static Dictionary<DragActionType, string> DragActionTypeList { get; } = new Dictionary<DragActionType, string>
+        {
+            [DragActionType.None] = "なし",
+            [DragActionType.Move] = "移動",
+            [DragActionType.MoveScale] = "移動(スケール依存)",
+            [DragActionType.Angle] = "回転",
+            [DragActionType.Scale] = "拡大縮小",
+            [DragActionType.ScaleSlider] = "拡大縮小(スライド式)",
+            [DragActionType.FlipHorizontal] = "左右反転",
+            [DragActionType.FlipVertical] = "上下反転",
+        };
 
 
+        private DragActionType GetDragActionType(ModifierKeys key)
+        {
+            return Setting.ViewMemento.ViewDragMemento.KeyBindings[key];
+        }
+        private void SetDragActionType(ModifierKeys key, DragActionType value)
+        {
+            Setting.ViewMemento.ViewDragMemento.KeyBindings[key] = value;
+        }
+
+        public DragActionType DragActionNone
+        {
+            get { return GetDragActionType(ModifierKeys.None); }
+            set { SetDragActionType(ModifierKeys.None, value); }
+        }
+
+        public DragActionType DragActionControl
+        {
+            get { return GetDragActionType(ModifierKeys.Control); }
+            set { SetDragActionType(ModifierKeys.Control, value); }
+        }
+
+        public DragActionType DragActionShift
+        {
+            get { return GetDragActionType(ModifierKeys.Shift); }
+            set { SetDragActionType(ModifierKeys.Shift, value); }
+        }
+
+        public DragActionType DragActionAlt
+        {
+            get { return GetDragActionType(ModifierKeys.Alt); }
+            set { SetDragActionType(ModifierKeys.Alt, value); }
+        }
+
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="setting"></param>
         public SettingWindow(Setting setting)
         {
             InitializeComponent();

@@ -303,7 +303,7 @@
             </Grid>
 
             <!-- Message Tiny -->
-            <TextBlock x:Name="TinyInfoTextBlock" Text="{Binding TinyInfoText}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White" Background="#88000000" Padding="20,5" >
+            <TextBlock x:Name="TinyInfoTextBlock" Text="{Binding TinyInfoText}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Style.Triggers>
@@ -316,7 +316,7 @@
             </TextBlock>
 
             <!-- Message -->
-            <StackPanel x:Name="InfoTextArea" Orientation="Horizontal" Margin="0,0,0,60" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" MaxWidth="{Binding ElementName=MainView, Path=ActualWidth}">
+            <StackPanel x:Name="InfoTextArea" Orientation="Horizontal" Margin="0,0,0,60" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" MaxWidth="{Binding ElementName=MainView, Path=ActualWidth}" IsHitTestVisible="False">
                 <StackPanel.Style>
                     <Style TargetType="StackPanel">
                         <Style.Triggers>

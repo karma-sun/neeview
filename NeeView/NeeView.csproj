@@ -77,6 +77,7 @@
     <Compile Include="BackgroundStyle.cs" />
     <Compile Include="BitmapImageLoaders.cs" />
     <Compile Include="BitmapLoaderManager.cs" />
+    <Compile Include="DragAction.cs" />
     <Compile Include="DragBehaviour\DragAdorner.cs" />
     <Compile Include="DragBehaviour\DragBehavior.cs" />
     <Compile Include="ListBoxDragSortExtensions.cs" />

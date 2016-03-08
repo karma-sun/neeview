@@ -77,7 +77,11 @@ namespace NeeView
                     DispNowLoading(_NowLoading);
                 };
 
-            _VM.NotifyMenuVisibilityChanged += (s, e) => OnMenuVisibilityChanged();
+            _VM.NotifyMenuVisibilityChanged +=
+                (s, e) => OnMenuVisibilityChanged();
+
+            _VM.ViewDragMementoChanged +=
+                (s, e) => _MouseDrag.Restore(_VM.ViewDragMemento);
 
             this.DataContext = _VM;
 

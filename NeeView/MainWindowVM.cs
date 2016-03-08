@@ -69,6 +69,9 @@ namespace NeeView
         // ウィンドウモード変更通知
         public event EventHandler NotifyMenuVisibilityChanged;
 
+        // ビュードラッグ設定変更通知
+        public event EventHandler ViewDragMementoChanged;
+
         #endregion
 
 
@@ -199,6 +202,9 @@ namespace NeeView
 
         // マルチブートを禁止する
         public bool IsDisableMultiBoot { get; set; }
+
+        // ビュードラッグ操作設定
+        public MouseDragControllerSetting ViewDragMemento { get; set; }
 
 
         // コマンドバインド用
@@ -452,6 +458,9 @@ namespace NeeView
 
             // messenger
             Messenger.AddReciever("UpdateLastFiles", (s, e) => UpdateLastFiles());
+
+            //
+            ViewDragMemento = new MouseDragControllerSetting();
         }
 
 
@@ -979,6 +988,8 @@ namespace NeeView
             [DataMember(Order=2)]
             public bool IsHideMenu { get; set; }
 
+            [DataMember(Order =4)]
+            public MouseDragControllerSetting ViewDragMemento { get; set; }
 
             void Constructor()
             {
@@ -988,6 +999,7 @@ namespace NeeView
                 GestureShowMessageStyle = ShowMessageStyle.Normal;
                 StretchMode = PageStretchMode.Uniform;
                 Background = BackgroundStyle.Black;
+                ViewDragMemento = new MouseDragControllerSetting();
             }
 
             public Memento()
@@ -1023,6 +1035,7 @@ namespace NeeView
             memento.IsLoadLastFolder = this.IsLoadLastFolder;
             memento.IsDisableMultiBoot = this.IsDisableMultiBoot;
             memento.IsHideMenu = this.IsHideMenu;
+            memento.ViewDragMemento = this.ViewDragMemento.CreateMemento();
 
             return memento;
         }
@@ -1046,8 +1059,10 @@ namespace NeeView
             this.IsLoadLastFolder = memento.IsLoadLastFolder;
             this.IsDisableMultiBoot = memento.IsDisableMultiBoot;
             this.IsHideMenu = memento.IsHideMenu;
+            this.ViewDragMemento.Restore(memento.ViewDragMemento);
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
+            ViewDragMementoChanged?.Invoke(this, null);
         }
 
         #endregion

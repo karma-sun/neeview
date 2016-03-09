@@ -70,9 +70,9 @@ namespace NeeView
 
 
         //
-        public override void ExtractToFile(string entryName, string exportFileName)
+        public override void ExtractToFile(string entryName, string exportFileName, bool isOverwrite)
         {
-            throw new NotImplementedException();
+            File.Copy(GetFullPath(entryName), exportFileName, isOverwrite);
         }
     }
 

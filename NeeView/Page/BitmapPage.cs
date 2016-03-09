@@ -102,12 +102,12 @@ namespace NeeView
                         else
                         {
                             var tempFile = Temporary.CreateCountedTempFileName("img", ".gif");
-                            _Archiver.ExtractToFile(FileName, tempFile);
+                            _Archiver.ExtractToFile(FileName, tempFile, false);
                             _Archiver.TrashBox.Add(new TrashFile(tempFile));
                             _GifFileUri = new Uri(tempFile);
                         }
                     }
-                    return _GifFileUri;
+                    return new GifResource() { Uri = _GifFileUri, BitmapSource = bitmapSource };
                 }
                 else
                 {
@@ -129,6 +129,18 @@ namespace NeeView
                 };
             }
         }
+
+        // ファイルの出力
+        public override void Export(string path)
+        {
+            _Archiver.ExtractToFile(FileName, path, true);
+        }
     }
 
+    // アニメーションGIF用リソース
+    public class GifResource
+    {
+        public Uri Uri { get; set; }
+        public BitmapSource BitmapSource { get; set; }
+    }
 }

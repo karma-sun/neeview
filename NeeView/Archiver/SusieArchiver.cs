@@ -81,29 +81,39 @@ namespace NeeView
         }
 
 
-        //
-        public override void ExtractToFile(string entryName, string extractFileName)
+        // ファイルに出力する
+        public override void ExtractToFile(string entryName, string extractFileName, bool isOverwrite)
         {
             var info = _ArchiveFileInfoDictionary[entryName];
 
-            // susieプラグインでは出力ファイル名を指定できないので、
-            // テンポラリフォルダに出力してから移動する
-            string tempDirectory = Temporary.CreateCountedTempFileName("Susie", "");
-            Directory.CreateDirectory(tempDirectory);
-
-            info.ExtractToFolder(tempDirectory);
-
             try
             {
+                // susieプラグインでは出力ファイル名を指定できないので、
+                // テンポラリフォルダに出力してから移動する
+                string tempDirectory = Temporary.CreateCountedTempFileName("Susie", "");
+                Directory.CreateDirectory(tempDirectory);
+
+                // 注意：失敗することがよくある
+                info.ExtractToFolder(tempDirectory);
+
+                // 上書き時は移動前に削除
+                if (isOverwrite && File.Exists(extractFileName))
+                {
+                    File.Delete(extractFileName);
+                }
+
                 var files = Directory.GetFiles(tempDirectory);
                 File.Move(files[0], extractFileName);
                 Directory.Delete(tempDirectory, true);
             }
-            catch (Exception e)
+
+            // 失敗したら：メモリ展開からのファイル保存を行う
+            catch (Susie.SpiException e)
             {
                 Debug.WriteLine(e.Message);
+                info.ExtractToFile(extractFileName);
+                return;
             }
         }
     }
-
 }

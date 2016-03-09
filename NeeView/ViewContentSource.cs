@@ -89,10 +89,10 @@ namespace NeeView
                 rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
                 return rectangle;
             }
-            else if (Source is Uri)
+            else if (Source is GifResource)
             {
                 var media = new MediaElement();
-                media.Source = (Uri)Source;
+                media.Source = ((GifResource)Source).Uri;
                 media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
                 media.MediaFailed += (s, e_) => { throw new ApplicationException("MediaElementで致命的エラー", e_.ErrorException); };
                 media.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);

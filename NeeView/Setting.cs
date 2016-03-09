@@ -32,12 +32,14 @@ namespace NeeView
         [DataMember]
         public BookHub.Memento BookHubMemento { set; get; }
 
-        [DataMember]
+        [DataMember(Order = 9998)]
         public CommandTable.Memento CommandMememto { set; get; }
 
-        [DataMember]
+        [DataMember(Order = 9999)]
         public BookHistory.Memento BookHistoryMemento { set; get; }
 
+        [DataMember(Order = 4)]
+        public Exporter.Memento ExporterMemento { set; get; }
 
         //
         private void Constructor()
@@ -48,6 +50,7 @@ namespace NeeView
             BookHubMemento = new BookHub.Memento();
             CommandMememto = new CommandTable.Memento();
             BookHistoryMemento = new BookHistory.Memento();
+            ExporterMemento = new Exporter.Memento();
         }
 
         //

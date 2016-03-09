@@ -73,14 +73,14 @@ namespace NeeView
 
 
         //
-        public override void ExtractToFile(string entryName, string exportFileName)
+        public override void ExtractToFile(string entryName, string exportFileName, bool isOverwrite)
         {
             using (var archiver = ZipFile.OpenRead(_ArchiveFileName))
             {
                 ZipArchiveEntry entry = archiver.GetEntry(entryName);
                 if (entry == null) throw new ArgumentException($"アーカイブエントリ {entryName} が見つかりません");
 
-                entry.ExtractToFile(exportFileName);
+                entry.ExtractToFile(exportFileName, isOverwrite);
             }
         }
     }

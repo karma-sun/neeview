@@ -86,6 +86,12 @@ namespace NeeView
         // コンテンツ色
         public Color Color { get; protected set; }
 
+        // コンテンツのBitmapSourceを取得
+        public BitmapSource GetBitmapSourceContent()
+        {
+            return (Content as GifResource)?.BitmapSource ?? (Content as BitmapSource);
+        }
+
         // コンテンツ
         protected object _Content;
         public object Content
@@ -226,6 +232,12 @@ namespace NeeView
             {
                 return _Archiver.GetPlace();
             }
+        }
+
+        // ファイルを保存する
+        public virtual void Export(string path)
+        {
+            throw new NotImplementedException();
         }
     }
 }

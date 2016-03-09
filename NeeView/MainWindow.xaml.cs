@@ -108,6 +108,7 @@ namespace NeeView
             // messenger
             Messenger.AddReciever("MessageBox", CallMessageBox);
             Messenger.AddReciever("MessageShow", CallMessageShow);
+            Messenger.AddReciever("Export", CallExport);
 
             // mouse event capture for active check
             this.MainView.PreviewMouseMove += MainView_PreviewMouseMove;
@@ -573,6 +574,19 @@ namespace NeeView
             _VM.InfoText = param.Text;
             this.InfoBookmark.Visibility = param.IsBookmark ? Visibility.Visible : Visibility.Collapsed;
             AutoFade(this.InfoTextArea, param.DispTime, 0.5);
+        }
+
+        // メッセージ処理：ファイル出力
+        private void CallExport(object sender, MessageEventArgs e)
+        {
+            var exporter = (Exporter)e.Parameter;
+            exporter.BackgroundBrush = _VM.BackgroundBrush;
+
+            var dialog = new SaveWindow(exporter);
+            dialog.Owner = this;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            var result = dialog.ShowDialog();
+            e.Result = (result == true);
         }
 
 

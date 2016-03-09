@@ -15,6 +15,7 @@ namespace NeeView
 
         LoadAs,
         OpenFilePlace,
+        Export,
 
         ClearHistory,
 

@@ -80,6 +80,7 @@
     <Compile Include="DragAction.cs" />
     <Compile Include="DragBehaviour\DragAdorner.cs" />
     <Compile Include="DragBehaviour\DragBehavior.cs" />
+    <Compile Include="Exporter.cs" />
     <Compile Include="ListBoxDragSortExtensions.cs" />
     <Compile Include="DragBehaviour\WPFUtil.cs" />
     <Compile Include="DragArea.cs" />
@@ -136,6 +137,9 @@
     <Compile Include="PageMode.cs" />
     <Compile Include="PriorityQueue.cs" />
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="SaveWindow.xaml.cs">
+      <DependentUpon>SaveWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Setting.cs" />
     <Compile Include="SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
@@ -186,6 +190,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MouseGestureSettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SaveWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

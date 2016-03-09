@@ -11,6 +11,8 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
@@ -653,12 +655,53 @@ namespace NeeView
 
 
 
-    #region Memento
+        // ファイルに保存する
+        public void Export()
+        {
+            if (Current != null && CanOpenFilePlace())
+            {
+                try
+                {
+                    var pages = Current.GetViewPages();
+                    int index = Current.GetViewPageindex() + 1;
+                    string name = $"{Path.GetFileNameWithoutExtension(Current.Place)}_{index:000}-{index + pages.Count - 1:000}";
+                    var exporter = new Exporter();
+                    exporter.Initialize(pages, Current.BookReadOrder, name);
+                    if (Messenger.Send(this, new MessageEventArgs("Export") { Parameter = exporter }) == true)
+                    {
+                        try
+                        {
+                            exporter.Export();
+                        }
+                        catch (Exception e)
+                        {
+                            Messenger.MessageBox(this, $"ファイル保存に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                        }
+                    }
+                }
+                catch
+                {
+                    Messenger.MessageBox(this, "この画像は出力できません", "警告", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                    return;
+                }
+            }
+        }
 
-    /// <summary>
-    /// BookHub Memento
-    /// </summary>
-    [DataContract]
+        // ファイルの保存
+        public void Save(string path)
+        {
+            if (CanOpenFilePlace())
+            {
+                Current.GetViewPage()?.Export(path);
+            }
+        }
+
+        #region Memento
+
+        /// <summary>
+        /// BookHub Memento
+        /// </summary>
+        [DataContract]
         public class Memento
         {
             [DataMember]
@@ -750,5 +793,7 @@ namespace NeeView
 
         #endregion
     }
+
+
 }
 

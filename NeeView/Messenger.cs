@@ -57,9 +57,10 @@ namespace NeeView
         private static Dictionary<string, MessageEventHandler> _Handles = new Dictionary<string, MessageEventHandler>();
 
         // メッセージ送信
-        public static void Send(object sender, MessageEventArgs message)
+        public static bool? Send(object sender, MessageEventArgs message)
         {
             MessageEventHandler?.Invoke(sender, message);
+            return message.Result;
         }
 
         // メッセージ送信(IDのみ)

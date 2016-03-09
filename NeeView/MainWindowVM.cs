@@ -555,6 +555,7 @@ namespace NeeView
             setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
             setting.BookHubMemento = BookHub.CreateMemento();
             setting.CommandMememto = ModelContext.CommandTable.CreateMemento();
+            setting.ExporterMemento = Exporter.CreateMemento();
             setting.BookHistoryMemento = ModelContext.BookHistory.CreateMemento();
 
             return setting;
@@ -569,6 +570,8 @@ namespace NeeView
 
             ModelContext.CommandTable.Restore(setting.CommandMememto);
             InputGestureChanged?.Invoke(this, null);
+
+            Exporter.Restore(setting.ExporterMemento);
 
             ModelContext.BookHistory.Restore(setting.BookHistoryMemento);
             UpdateLastFiles();

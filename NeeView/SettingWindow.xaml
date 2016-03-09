@@ -46,13 +46,13 @@
                         </DockPanel>
                         -->
                         <DockPanel Margin="2" LastChildFill="False">
-                            <TextBlock Text="コマンド実行を" VerticalAlignment="Center" Margin="2"/>
+                            <TextBlock MinWidth="100" Text="コマンド実行を" VerticalAlignment="Center" Margin="2"/>
                             <ComboBox ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.CommandShowMessageStyle}" />
                         </DockPanel>
 
                         <DockPanel Margin="2" LastChildFill="False">
-                            <TextBlock Text="マウスジェスチャーを" VerticalAlignment="Center" Margin="2"/>
+                            <TextBlock MinWidth="100" Text="マウスジェスチャーを" VerticalAlignment="Center" Margin="2"/>
                             <ComboBox ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.GestureShowMessageStyle}" />
                         </DockPanel>
@@ -65,19 +65,40 @@
                               IsChecked="{Binding Setting.ViewMemento.IsSliderDirectionReversed}" />
                     </StackPanel>
 
-                    <TextBlock Text="その他" Style="{StaticResource Header}"/>
+
+                    <TextBlock Text="ファイル保存" Style="{StaticResource Header}"/>
 
                     <StackPanel Style="{StaticResource Phrase}">
-                        <CheckBox Margin="2" Content="ページが終わったら次のフォルダに移動する"
-                              IsChecked="{Binding Setting.BookHubMemento.IsEnabledAutoNextFolder}" />
-                        <CheckBox Margin="2" Content="サポート外ファイルもページに数える"
-                              IsChecked="{Binding Setting.BookHubMemento.IsEnableNoSupportFile}" />
-                        <CheckBox Margin="2" Content="「ファイルを開く」の初期フォルダを現在開いているフォルダ基準にする"
-                              IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
+                        <CheckBox Margin="2" Content="「名前をつけて保存」の初期フォルダを前回保存したフォルダにする"
+                              IsChecked="{Binding Setting.ExporterMemento.IsEnableExportFolder}" />
+                        <StackPanel Margin="2" Orientation="Horizontal">
+                            <TextBlock Text="JPEG品質：" ToolTip="フォーマットがJPGに変わる時のみ適用されます"/>
+                            <TextBlock Text="{Binding Setting.ExporterMemento.QualityLevel}" Width="20" Margin="10,0" TextAlignment="Right"/>
+                            <Slider x:Name="QualityLevelSlider" Width="200" Value="{Binding Setting.ExporterMemento.QualityLevel}"
+                                    Minimum="5" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"/>
+                        </StackPanel>
+                    </StackPanel>
+
+
+                    <TextBlock Text="起動設定" Style="{StaticResource Header}"/>
+
+                    <StackPanel Style="{StaticResource Phrase}">
                         <CheckBox Margin="2" Content="起動時に前回開いていたフォルダを開く"
                               IsChecked="{Binding Setting.ViewMemento.IsLoadLastFolder}" />
                         <CheckBox Margin="2" Content="多重起動を禁止する"
                               IsChecked="{Binding Setting.ViewMemento.IsDisableMultiBoot}" />
+                    </StackPanel>
+
+                    
+                    <TextBlock Text="その他" Style="{StaticResource Header}"/>
+
+                    <StackPanel Style="{StaticResource Phrase}">
+                        <CheckBox Margin="2" Content="「開く」の初期フォルダを現在開いているフォルダにする"
+                              IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
+                        <CheckBox Margin="2" Content="ページが終わったら次のフォルダに移動する"
+                              IsChecked="{Binding Setting.BookHubMemento.IsEnabledAutoNextFolder}" />
+                        <CheckBox Margin="2" Content="サポート外ファイルもページに数える"
+                              IsChecked="{Binding Setting.BookHubMemento.IsEnableNoSupportFile}" />
                     </StackPanel>
 
                 </StackPanel>
@@ -111,7 +132,7 @@
                             <Style TargetType="StackPanel">
                                 <Setter Property="Orientation" Value="Horizontal"/>
                                 <Setter Property="Margin" Value="2"/>
-                            </Style>                            
+                            </Style>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Width" Value="100"/>
                             </Style>
@@ -189,7 +210,7 @@
                               IsChecked="{Binding Setting.BookHubMemento.IsSlideShowByLoop}" />
                         <DockPanel Margin="2" LastChildFill="False">
                             <TextBlock Text="表示間隔：" VerticalAlignment="Center" Margin="2,0,10,0"/>
-                            <ComboBox ItemsSource="{Binding SlideShowIntervalList}"
+                            <ComboBox Width="80" ItemsSource="{Binding SlideShowIntervalList}"
                                   SelectedValue="{Binding Setting.BookHubMemento.SlideShowInterval}" />
                             <TextBlock Text="秒" VerticalAlignment="Center" Margin="2,0"/>
                         </DockPanel>

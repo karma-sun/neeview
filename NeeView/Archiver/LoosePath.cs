@@ -52,5 +52,18 @@ namespace NeeView
             else
                 return s1.TrimEnd('\\', '/') + "\\" + s2.TrimStart('\\', '/');
         }
+
+        // ファイル名として使えない文字を置換
+        public static string ValidFileName(string s)
+        {
+            string valid = s;
+            char[] invalidch = System.IO.Path.GetInvalidFileNameChars();
+
+            foreach (char c in invalidch)
+            {
+                valid = valid.Replace(c, '_');
+            }
+            return valid;
+        }
     }
 }

@@ -11,6 +11,14 @@ using System.Threading.Tasks;
 
 namespace Susie
 {
+    public class SpiException : ApplicationException
+    {
+        public SpiException(string msg, SusiePlugin spi) : base($"[{System.IO.Path.GetFileName(spi.FileName)}] {msg}")
+        {
+        }
+    }
+
+
     /// <summary>
     /// Susie アーカイブエントリ
     /// </summary>
@@ -56,13 +64,14 @@ namespace Susie
             {
                 using (var api = _Spi.Open())
                 {
-                    return api.GetFile(ArchiveShortFileName, _Info);
+                    var buff = api.GetFile(ArchiveShortFileName, _Info);
+                    if (buff == null) throw new SpiException("抽出に失敗しました(M)", _Spi);
+                    return buff;
                 }
             }
         }
 
-
-        /// ファイルに出力
+        /// フォルダに出力。ファイル名は変更しない
         public void ExtractToFolder(string extractFolder)
         {
             lock (_Spi.Lock)
@@ -70,8 +79,18 @@ namespace Susie
                 using (var api = _Spi.Open())
                 {
                     int ret = api.GetFile(ArchiveShortFileName, _Info, extractFolder);
-                    if (ret != 0) throw new System.IO.IOException("抽出に失敗しました");
+                    if (ret != 0) throw new SpiException($"抽出に失敗しました(F)", _Spi);
                 }
+            }
+        }
+
+        /// ファイルに出力
+        public void ExtractToFile(string extract)
+        {
+            using (var ms = new System.IO.MemoryStream(Load(), false))
+            using (var stream = new System.IO.FileStream(extract, System.IO.FileMode.Create))
+            {
+                ms.WriteTo(stream);
             }
         }
 

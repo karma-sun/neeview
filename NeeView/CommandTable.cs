@@ -88,7 +88,17 @@ namespace NeeView
                     Text = "ファイルの場所を開く",
                     Tips = "現在表示している画像のファイルをエクスプローラーで開く",
                     Execute = e => _Book.OpenFilePlace(),
-                    CanExecute = () => _Book.CanOpenFilePlace()
+                    CanExecute = () => _Book.CanOpenFilePlace(),
+                    IsShowMessage = false
+                },
+                [CommandType.Export] = new CommandElement
+                {
+                    Group = "ファイル",
+                    Text = "名前をつけてファイルに保存",
+                    ShortCutKey = "Ctrl+S",
+                    Execute = e => _Book.Export(),
+                    CanExecute = () => _Book.CanOpenFilePlace(),
+                    IsShowMessage = false
                 },
                 [CommandType.ClearHistory] = new CommandElement
                 {
@@ -510,7 +520,7 @@ namespace NeeView
 
                 [CommandType.ToggleIsRecursiveFolder] = new CommandElement
                 {
-                    Group = "フォルダ",
+                    Group = "ページ読込",
                     Text = "サブフォルダ読み込みON/OFF",
                     Execute = e => _Book.ToggleIsRecursiveFolder(),
                     ExecuteMessage = e => _Book.BookMemento.IsRecursiveFolder ? "サブフォルダは読み込まない" : "サブフォルダも読み込む"

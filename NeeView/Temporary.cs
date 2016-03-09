@@ -74,12 +74,15 @@ namespace NeeView
             // 専用フォルダ作成
             Directory.CreateDirectory(TempDirectory);
 
+            // 名前の修正
+            var validName = LoosePath.ValidFileName(name);
+
             // ファイル名作成
-            string tempFileName = Path.Combine(TempDirectory, name);
+            string tempFileName = Path.Combine(TempDirectory, validName);
             int count = 1;
             while (File.Exists(tempFileName) || Directory.Exists(tempFileName))
             {
-                tempFileName = Path.Combine(TempDirectory, Path.GetFileNameWithoutExtension(name) + $"-{count++}" + Path.GetExtension(name));
+                tempFileName = Path.Combine(TempDirectory, Path.GetFileNameWithoutExtension(validName) + $"-{count++}" + Path.GetExtension(validName));
             }
 
             return tempFileName;

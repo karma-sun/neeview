@@ -113,7 +113,7 @@
                     </Menu.Resources>
 
                     <MenuItem Header="ファイル(_F)">
-                        <MenuItem Header="ファイルを開く..." Command="{Binding BookCommands[LoadAs]}"/>
+                        <MenuItem Header="開く..." Command="{Binding BookCommands[LoadAs]}"/>
                         <MenuItem Header="最近使ったフォルダ" ItemsSource="{Binding LastFiles}" x:Name="LastFilesHeader" IsEnabled="{Binding IsEnableLastFiles}">
                             <MenuItem.ItemContainerStyle>
                                 <Style TargetType="MenuItem">
@@ -134,7 +134,8 @@
                             </MenuItem.Style>
                         </MenuItem>
                         <Separator/>
-                        <MenuItem Header="ファイルの場所を開く" Command="{Binding BookCommands[OpenFilePlace]}"/>
+                        <MenuItem Header="名前をつけて保存..." Command="{Binding BookCommands[Export]}"/>
+                        <MenuItem Header="エクスプローラーで開く" Command="{Binding BookCommands[OpenFilePlace]}"/>
                         <Separator/>
                         <MenuItem Header="終了(_X)" x:Name="ExitMenuItem" InputGestureText="Alt+F4" Command="{Binding BookCommands[CloseApplication]}" />
                     </MenuItem>

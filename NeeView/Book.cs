@@ -204,8 +204,22 @@ namespace NeeView
         // 表示ページコンテキスト
         ViewPageContext _ViewContext = new ViewPageContext();
 
+        // 表示ページ番号
+        public int GetViewPageindex() => _ViewContext.Position.Index;
+
         // 表示ページ
         public Page GetViewPage() => GetPage(_ViewContext.Position.Index);
+
+        // 表示ページ群
+        public List<Page> GetViewPages()
+        {
+            var pages = new List<Page>();
+            for (int i = 0; i < _ViewContext.Size; ++i)
+            {
+                pages.Add(GetPage(_ViewContext.Position.Index + i));
+            }
+            return pages;
+        }
 
         // ページ
         public Page GetPage(int index) => Pages.Count > 0 ? Pages[ClampPageNumber(index)] : null;
@@ -346,7 +360,7 @@ namespace NeeView
                     {
                         // テンポラリにアーカイブを解凍する
                         string tempFileName = Temporary.CreateTempFileName(Path.GetFileName(entry.FileName));
-                        archiver.ExtractToFile(entry.FileName, tempFileName);
+                        archiver.ExtractToFile(entry.FileName, tempFileName, false);
                         _TrashBox.Add(new TrashFile(tempFileName));
                         ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName, archiver), LoosePath.Combine(place, entry.FileName), option);
                     }
@@ -385,6 +399,9 @@ namespace NeeView
                 }
             }
         }
+
+
+
 
         // 開始
         // ページ設定を行うとコンテンツ読み込みが始まるため、ロードと分離した
@@ -682,7 +699,7 @@ namespace NeeView
         private void StartCommandWorker()
         {
             _CommandWorkerCancellationTokenSource = new CancellationTokenSource();
-            Task.Run( () => CommandWorker(), _CommandWorkerCancellationTokenSource.Token);
+            Task.Run(() => CommandWorker(), _CommandWorkerCancellationTokenSource.Token);
         }
 
         // ワーカータスクの終了

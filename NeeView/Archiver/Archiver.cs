@@ -52,8 +52,9 @@ namespace NeeView
         public abstract Stream OpenEntry(string entryName);
 
         // エントリをファイルとして出力
-        public abstract void ExtractToFile(string entryName, string exportFileName);
+        public abstract void ExtractToFile(string entryName, string exportFileName, bool isOverwrite);
 
+        //
         public string GetPlace()
         {
             if (Parent == null || Parent is FolderFiles)

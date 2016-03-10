@@ -481,6 +481,14 @@ namespace NeeView
             RegistCommand(new SortCommand(this));
         }
 
+        // ページ削除
+        public void RequestRemove(Page page)
+        {
+            if (Place == null) return;
+            RegistCommand(new RemoveCommand(this, page));
+        }
+
+
         // 終了処理
         public void RequestDispose()
         {
@@ -543,7 +551,7 @@ namespace NeeView
         // 廃棄処理コマンド
         private class DisposeCommand : ViewPageCommand
         {
-            public override int Priority => 3;
+            public override int Priority => 4;
 
             public DisposeCommand(Book book) : base(book)
             {
@@ -553,6 +561,25 @@ namespace NeeView
             {
                 _Book.Terminate();
                 _Book.BreakCommandWorker();
+                await Task.Yield();
+            }
+        }
+
+        // 削除コマンド
+        private class RemoveCommand : ViewPageCommand
+        {
+            public override int Priority => 3;
+
+            private Page _Page;
+
+            public RemoveCommand(Book book, Page page) : base(book)
+            {
+                _Page = page;
+            }
+
+            public override async Task Execute()
+            {
+                _Book.Remove(_Page);
                 await Task.Yield();
             }
         }
@@ -591,6 +618,7 @@ namespace NeeView
                 await Task.Yield();
             }
         }
+        
 
         // ページ指定移動コマンド
         private class SetPageCommand : ViewPageCommand
@@ -1011,6 +1039,21 @@ namespace NeeView
                 return compare(s1, s2);
             else
                 return compare(d1, d2);
+        }
+
+        // ページの削除
+        private void Remove(Page page)
+        {
+            if (Pages.Count <= 0) return;
+
+            int index = Pages.IndexOf(page);
+            if (index < 0) return;
+
+            Pages.RemoveAt(index);
+
+            index = ClampPageNumber(index);
+
+            RequestSetPosition(new PagePosition(index, 0), 1, true);
         }
 
 

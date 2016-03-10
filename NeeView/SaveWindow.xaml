@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="ファイルに保存" Height="450" Width="450">
+        Title="画像を保存" Height="450" Width="450">
     <Window.Resources>
         <Style TargetType="Canvas">
             <Setter Property="Margin" Value="20"/>

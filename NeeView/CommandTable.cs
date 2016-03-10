@@ -100,6 +100,15 @@ namespace NeeView
                     CanExecute = () => _Book.CanOpenFilePlace(),
                     IsShowMessage = false
                 },
+                [CommandType.DeleteFile] = new CommandElement
+                {
+                    Group = "ファイル",
+                    Text = "ファイルを削除する",
+                    ShortCutKey = "Delete",
+                    Execute = e => _Book.DeleteFile(),
+                    CanExecute = () => _Book.CanDeleteFile(),
+                    IsShowMessage = false
+                },
                 [CommandType.ClearHistory] = new CommandElement
                 {
                     Group = "ファイル",

@@ -131,6 +131,7 @@ namespace NeeView
         public string Caption;
         public MessageBoxButton Button;
         public MessageBoxImage Icon;
+        public FrameworkElement VisualContent;
     }
 
     /// <summary>

@@ -687,14 +687,54 @@ namespace NeeView
             }
         }
 
-        // ファイルの保存
-        public void Save(string path)
+
+        // ファイル削除可能？
+        public bool CanDeleteFile()
         {
-            if (CanOpenFilePlace())
+            var page = Current?.GetViewPage();
+            if (page == null) return false;
+            if (!page.IsFile()) return false;
+            return (File.Exists(page.GetFilePlace()));
+        }
+
+        // ファイルを削除する
+        public void DeleteFile()
+        {
+            if (CanDeleteFile())
             {
-                Current.GetViewPage()?.Export(path);
+                var page = Current?.GetViewPage();
+                var path = page.GetFilePlace();
+
+                // 削除確認
+                var param = new MessageBoxParams()
+                {
+                    Caption = "削除の確認",
+                    MessageBoxText = "このファイルをごみ箱に移動しますか？\n\n" + Path.GetFileName(path),
+                    Button = System.Windows.MessageBoxButton.OKCancel,
+                    Icon = System.Windows.MessageBoxImage.Warning,
+                    VisualContent = new PageVisual(page).CreateVisualContent(new System.Windows.Size(100, 100), true)
+                };
+                var result = Messenger.Send(this, new MessageEventArgs("MessageBox") { Parameter = param });
+
+                // 削除する
+                if (result == true)
+                {
+                    try
+                    {
+                        // ゴミ箱に捨てる
+                        Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(path, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                    }
+                    catch (Exception e)
+                    {
+                        Messenger.MessageBox(this, $"ファイル削除に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                    }
+
+                    // ページを本から削除
+                    Current?.RequestRemove(page);
+                }
             }
         }
+
 
         #region Memento
 

@@ -23,12 +23,17 @@
     </Window.Resources>
 
     <DockPanel x:Name="Root" Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
+
+
+        <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
             <Button DockPanel.Dock="Right" x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" />
             <Button DockPanel.Dock="Right" x:Name="NoButton" Content="No" Click="NoButton_Click" />
             <Button DockPanel.Dock="Right" x:Name="YesButton" Content="Yes" Click="YesButton_Click" />
-            </DockPanel>
-        <TextBlock  x:Name="MessageBoxText" Text="MessageBoxText" TextWrapping="Wrap" MinWidth="350" MaxWidth="600" Margin="0,10,0,30"/>
         </DockPanel>
+
+        <ContentControl DockPanel.Dock="Left" x:Name="IconControl" VerticalAlignment="Center"/>
+        <ContentControl DockPanel.Dock="Left" x:Name="VisualControl" VerticalAlignment="Center"/>
+        <TextBlock  x:Name="MessageBoxText" Text="MessageBoxText" TextWrapping="Wrap" MinWidth="350" MaxWidth="600" Margin="0,10,0,30"/>
+    </DockPanel>
 
 </Window>

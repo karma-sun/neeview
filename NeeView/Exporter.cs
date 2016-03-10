@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -28,14 +29,58 @@ namespace NeeView
 
 
     /// <summary>
-    /// エクスポート画像情報
+    /// ページ画像
     /// </summary>
-    public class ExportImage
+    public class PageVisual
     {
         public Page Page { get; set; } // ページ
         public FrameworkElement VisualContent { get; set; } // 描写用コンテンツ
         public string Name { get; set; } // 名前
         public string DefaultExtension { get; set; } // デフォルト拡張子
+
+        //
+        public PageVisual()
+        {
+        }
+
+        //
+        public PageVisual(Page page)
+        {
+            Page = page;
+            Name = Path.GetFileName(page.FileName);
+            DefaultExtension = Path.GetExtension(page.FileName).ToLower();
+        }
+
+        //
+        public FrameworkElement CreateVisualContent(Size maxSize, bool isShadowEffect)
+        {
+            if (Page == null) return null;
+
+            var image = new Image();
+            image.Source = Page.GetBitmapSourceContent();
+            if (image.Source == null) return null;
+
+            var scaleX = Page.Width > maxSize.Width ? maxSize.Width / Page.Width : 1.0;
+            var scaleY = Page.Height > maxSize.Height ? maxSize.Height / Page.Height : 1.0;
+            var scale = scaleX > scaleY ? scaleY : scaleX;
+
+            image.Width = Page.Width * scale;
+            image.Height = Page.Height * scale;
+            image.Stretch = Stretch.Fill;
+            RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
+
+            if (isShadowEffect)
+            {
+                image.Effect = new DropShadowEffect()
+                {
+                    Opacity = 0.5,
+                    ShadowDepth = 2,
+                    RenderingBias = RenderingBias.Quality
+                };
+            }
+
+            return image;
+        }
     }
 
     /// <summary>
@@ -61,13 +106,13 @@ namespace NeeView
 
 
         // 単ページ
-        public ExportImage SingleImage { get; set; }
+        public PageVisual SingleImage { get; set; }
 
         // 連結ページ
-        public ExportImage DoubleImage { get; set; }
+        public PageVisual DoubleImage { get; set; }
 
         // 設定からどちらのページを使用するか選択して返す
-        public ExportImage CurrentImage => (ExportType == ExportType.Double && DoubleImage != null) ? DoubleImage : SingleImage;
+        public PageVisual CurrentImage => (ExportType == ExportType.Double && DoubleImage != null) ? DoubleImage : SingleImage;
 
         // 生成された画像
         public BitmapSource BitmapSource { get; set; }
@@ -95,7 +140,7 @@ namespace NeeView
 
             // single
             {
-                SingleImage = new ExportImage();
+                SingleImage = new PageVisual();
                 SingleImage.Page = pages[0];
                 SingleImage.Name = System.IO.Path.GetFileName(pages[0].FileName);
                 SingleImage.DefaultExtension = System.IO.Path.GetExtension(SingleImage.Name).ToLower();
@@ -115,7 +160,7 @@ namespace NeeView
             // double
             if (pages.Count > 1)
             {
-                DoubleImage = new ExportImage();
+                DoubleImage = new PageVisual();
                 DoubleImage.Name = doubleImageName;
                 DoubleImage.DefaultExtension = ".png";
 
@@ -303,4 +348,8 @@ namespace NeeView
 
         #endregion
     }
+
+
+
+
 }

@@ -239,5 +239,11 @@ namespace NeeView
         {
             throw new NotImplementedException();
         }
+
+        // ファイルの存在確認
+        public bool IsFile()
+        {
+            return _Archiver != null && _Archiver is FolderFiles;
+        }
     }
 }

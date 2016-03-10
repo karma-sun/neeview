@@ -61,12 +61,21 @@ namespace NeeView
                     throw new NotSupportedException();
             }
 
+            this.YesButton.Focus(); // Yesボタンにフォーカス
+
             // TODO: icon
             switch (param.Icon)
             {
                 case MessageBoxImage.Exclamation:
                     System.Media.SystemSounds.Exclamation.Play();
                     break;
+            }
+
+            // Visual
+            if (param.VisualContent != null)
+            {
+                this.VisualControl.Content = param.VisualContent;
+                this.VisualControl.Margin = new Thickness(20, 10, 20, 10);
             }
                 
         }

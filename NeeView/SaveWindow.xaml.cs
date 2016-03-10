@@ -110,6 +110,8 @@ namespace NeeView
         {
             InitializeComponent();
 
+            this.ButtonSave.Focus();
+
             _Exporter = exporter;
             IsHintClone = _Exporter.IsHintClone;
 

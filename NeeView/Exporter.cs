@@ -183,6 +183,24 @@ namespace NeeView
         }
 
 
+        // クローン保存できる設定かチェックする
+        public bool CanClone(bool checkFilenameExt)
+        {
+            if (IsHintClone) return true;
+
+            bool result = true;
+
+            result = result && ExportType == ExportType.Single && SingleImage != null; // 単ページ設定
+            result = result && !IsHintBackground; // 背景を含めない
+
+            if (checkFilenameExt)
+            {
+                result = result && SingleImage.DefaultExtension == System.IO.Path.GetExtension(Path)?.ToLower();// 拡張子が同じ
+            }
+
+            return result;
+        }
+
         // 画像出力
         public void Export()
         {
@@ -191,10 +209,7 @@ namespace NeeView
             ExportFolder = System.IO.Path.GetDirectoryName(Path);
 
             // ファイルのクローン
-            if (IsHintClone || // クローン指定がある、もしくは
-                (ExportType == ExportType.Single // 単ページで
-                && SingleImage.DefaultExtension == System.IO.Path.GetExtension(Path).ToLower() // 拡張子が同じで
-                && !IsHintBackground)) // 背景を含めない場合
+            if (CanClone(true))
             {
                 SingleImage.Page.Export(Path);
             }

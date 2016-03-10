@@ -142,8 +142,9 @@ namespace NeeView
             dialog.DefaultExt = _Exporter.CurrentImage.DefaultExtension;
 
             // 拡張子は小文字限定
-            dialog.FileName = LoosePath.ValidFileName(System.IO.Path.ChangeExtension(System.IO.Path.GetFileName(_Exporter.CurrentImage.Name), dialog.DefaultExt));
-            
+            var fileName = LoosePath.ValidFileName(System.IO.Path.ChangeExtension(System.IO.Path.GetFileName(_Exporter.CurrentImage.Name), dialog.DefaultExt));
+            dialog.FileName = fileName;
+
             if (!IsHintClone)
             {
                 var pngExt = new string[] { ".png" };
@@ -151,6 +152,15 @@ namespace NeeView
 
                 string filter = "PNG|*.png|JPEG|*.jpg;*.jpeg;*.jpe;*.jfif";
 
+                // クローン保存できない時は標準でPNGにする
+                if (!_Exporter.CanClone(false))
+                {
+                    fileName = System.IO.Path.ChangeExtension(fileName, ".png");
+                    dialog.FileName = fileName;
+                    dialog.DefaultExt = ".png";
+                }
+
+                // filter
                 if (pngExt.Contains(_Exporter.CurrentImage.DefaultExtension))
                 {
                     dialog.FilterIndex = 1;
@@ -159,7 +169,7 @@ namespace NeeView
                 {
                     dialog.FilterIndex = 2;
                 }
-                else
+                else if (_Exporter.CanClone(false))
                 {
                     filter += $"|{dialog.DefaultExt.ToUpper()}|*.{dialog.DefaultExt}";
                     dialog.FilterIndex = 3;

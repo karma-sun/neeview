@@ -1,5 +1,8 @@
 ﻿// from http://mslaboratory.blog.eonet.jp/default/2012/10/behaviordragdro-cee4.html
 
+// WIN32APIの高DPI対応
+// from http://grabacr.net/archives/1105
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -170,7 +173,29 @@ namespace DragExtensions
             IntPtr hwnd = source.Handle;
 
             ScreenToClient(hwnd, ref point);
-            return new Point(point.X, point.Y);
+
+            var dpiScaleFactor = GetDpiScaleFactor(visual);
+            return new Point(point.X / dpiScaleFactor.X, point.Y / dpiScaleFactor.Y);
+        }
+
+        /// <summary>
+        /// 現在の <see cref="T:System.Windows.Media.Visual"/> から、DPI 倍率を取得します。
+        /// </summary>
+        /// <returns>
+        /// X 軸 および Y 軸それぞれの DPI 倍率を表す <see cref="T:System.Windows.Point"/>
+        /// 構造体。取得に失敗した場合、(1.0, 1.0) を返します。
+        /// </returns>
+        public static Point GetDpiScaleFactor(System.Windows.Media.Visual visual)
+        {
+            var source = PresentationSource.FromVisual(visual);
+            if (source != null && source.CompositionTarget != null)
+            {
+                return new Point(
+                    source.CompositionTarget.TransformToDevice.M11,
+                    source.CompositionTarget.TransformToDevice.M22);
+            }
+
+            return new Point(1.0, 1.0);
         }
     }
 }

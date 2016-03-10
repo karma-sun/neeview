@@ -222,8 +222,18 @@ namespace NeeView
                 {
                     Group = "ウィンドウ",
                     Text = "メニューを自動的に隠すON/OFF",
+                    IsShowMessage = false,
                     Execute = e => _VM.ToggleHideMenu(),
                     ExecuteMessage = e => _VM.IsHideMenu ? "メニューを表示する": "メニューを自動的に隠す",
+                    CanExecute = () => true,
+                },
+                [CommandType.ToggleHideTitleBar] = new CommandElement
+                {
+                    Group = "ウィンドウ",
+                    Text = "タイトルバーを消すON/OFF",
+                    IsShowMessage = false,
+                    Execute = e => _VM.ToggleHideTitleBar(),
+                    ExecuteMessage = e => _VM.IsHideTitleBar? "タイトルバーを表示する" : "タイトルバーを消す",
                     CanExecute = () => true,
                 },
                 [CommandType.ToggleFullScreen] = new CommandElement

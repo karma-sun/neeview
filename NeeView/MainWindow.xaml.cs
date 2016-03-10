@@ -447,6 +447,17 @@ namespace NeeView
         // スクリーンモード切り替えによるコントロール設定の変更
         private void OnMenuVisibilityChanged()
         {
+            // window style
+            if (_FullScreen.IsFullScreened || _VM.IsHideTitleBar)
+            {
+                this.WindowStyle = WindowStyle.None;
+            }
+            else
+            {
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+            }
+
+            // menu hide
             if (_FullScreen.IsFullScreened || _VM.IsHideMenu)
             {
                 var autoHideStyle = (Style)this.Resources["AutoHideContent"];

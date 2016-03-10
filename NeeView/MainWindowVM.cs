@@ -181,6 +181,21 @@ namespace NeeView
         }
         #endregion
 
+        // タイトルバーを消す
+        #region Property: IsHideTitleBar
+        private bool _IsHideTitleBar;
+        public bool IsHideTitleBar
+        {
+            get { return _IsHideTitleBar; }
+            set { _IsHideTitleBar = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+        }
+        public bool ToggleHideTitleBar()
+        {
+            IsHideTitleBar = !IsHideTitleBar;
+            return IsHideTitleBar;
+        }
+        #endregion
+
 
         // 常に手前に表示
         #region Property: IsTopmost
@@ -991,6 +1006,9 @@ namespace NeeView
             [DataMember(Order=2)]
             public bool IsHideMenu { get; set; }
 
+            [DataMember(Order = 4)]
+            public bool IsHideTitleBar { get; set; }
+
             [DataMember(Order =4)]
             public MouseDragControllerSetting ViewDragMemento { get; set; }
 
@@ -1038,6 +1056,7 @@ namespace NeeView
             memento.IsLoadLastFolder = this.IsLoadLastFolder;
             memento.IsDisableMultiBoot = this.IsDisableMultiBoot;
             memento.IsHideMenu = this.IsHideMenu;
+            memento.IsHideTitleBar = this.IsHideTitleBar;
             memento.ViewDragMemento = this.ViewDragMemento.CreateMemento();
 
             return memento;
@@ -1062,6 +1081,7 @@ namespace NeeView
             this.IsLoadLastFolder = memento.IsLoadLastFolder;
             this.IsDisableMultiBoot = memento.IsDisableMultiBoot;
             this.IsHideMenu = memento.IsHideMenu;
+            this.IsHideTitleBar = memento.IsHideTitleBar;
             this.ViewDragMemento.Restore(memento.ViewDragMemento);
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

@@ -21,7 +21,6 @@ namespace NeeView
         private bool _IsFullScreened;
 
         private bool _IsMemento;
-        private WindowStyle _WindowStyle;
         private WindowState _WindowState;
 
         // モードが変化した時の通知
@@ -51,17 +50,15 @@ namespace NeeView
         {
             if (_IsFullScreened) return;
 
-            _WindowStyle = _Window.WindowStyle;
+            _IsFullScreened = true;
+
             _WindowState = _Window.WindowState;
             _IsMemento = true;
 
-            _IsFullScreened = true;
+            NotifyMenuVisibilityChanged?.Invoke(this, null);
 
-            _Window.WindowStyle = WindowStyle.None;
             if (_Window.WindowState == WindowState.Maximized) _Window.WindowState = WindowState.Normal;
             _Window.WindowState = WindowState.Maximized;
-
-            NotifyMenuVisibilityChanged?.Invoke(this, null);
         }
 
         // フルスクリーン解除
@@ -71,7 +68,6 @@ namespace NeeView
 
             if (_IsMemento)
             {
-                _Window.WindowStyle = _WindowStyle;
                 _Window.WindowState = _WindowState;
             }
 

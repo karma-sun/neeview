@@ -69,7 +69,7 @@
                     <TextBlock Text="ファイル保存" Style="{StaticResource Header}"/>
 
                     <StackPanel Style="{StaticResource Phrase}">
-                        <CheckBox Margin="2" Content="「名前をつけて保存」の初期フォルダを前回保存したフォルダにする"
+                        <CheckBox Margin="2" Content="前回保存したフォルダを記憶する"
                               IsChecked="{Binding Setting.ExporterMemento.IsEnableExportFolder}" />
                         <StackPanel Margin="2" Orientation="Horizontal">
                             <TextBlock Text="JPEG品質：" ToolTip="フォーマットがJPGに変わる時のみ適用されます"/>
@@ -83,7 +83,7 @@
                     <TextBlock Text="起動設定" Style="{StaticResource Header}"/>
 
                     <StackPanel Style="{StaticResource Phrase}">
-                        <CheckBox Margin="2" Content="起動時に前回開いていたフォルダを開く"
+                        <CheckBox Margin="2" Content="前回開いていたフォルダを開く"
                               IsChecked="{Binding Setting.ViewMemento.IsLoadLastFolder}" />
                         <CheckBox Margin="2" Content="多重起動を禁止する"
                               IsChecked="{Binding Setting.ViewMemento.IsDisableMultiBoot}" />
@@ -93,18 +93,18 @@
                     <TextBlock Text="その他" Style="{StaticResource Header}"/>
 
                     <StackPanel Style="{StaticResource Phrase}">
-                        <CheckBox Margin="2" Content="「開く」の初期フォルダを現在開いているフォルダにする"
+                        <CheckBox Margin="2" Content="「開く」を現在開いているフォルダから始める"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
                         <CheckBox Margin="2" Content="ページが終わったら次のフォルダに移動する"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnabledAutoNextFolder}" />
-                        <CheckBox Margin="2" Content="サポート外ファイルもページに数える"
+                        <CheckBox Margin="2" Content="サポート外ファイルもページに含める"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnableNoSupportFile}" />
                     </StackPanel>
 
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="ビュー操作">
+            <TabItem Header="ビュー設定">
                 <StackPanel Margin="4">
                     <TextBlock Text="ビュー操作" Style="{StaticResource Header}"/>
                     <StackPanel Style="{StaticResource Phrase}">

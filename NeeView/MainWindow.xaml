@@ -134,7 +134,7 @@
                             </MenuItem.Style>
                         </MenuItem>
                         <Separator/>
-                        <MenuItem Header="名前をつけて保存..." Command="{Binding BookCommands[Export]}"/>
+                        <MenuItem Header="画像を保存..." Command="{Binding BookCommands[Export]}"/>
                         <MenuItem Header="エクスプローラーで開く" Command="{Binding BookCommands[OpenFilePlace]}"/>
                         <Separator/>
                         <MenuItem Header="終了(_X)" x:Name="ExitMenuItem" InputGestureText="Alt+F4" Command="{Binding BookCommands[CloseApplication]}" />
@@ -172,6 +172,8 @@
                         <Separator/>
                         <MenuItem Header="メニューを自動的に隠す" Command="{Binding BookCommands[ToggleHideMenu]}"
                             IsChecked="{Binding IsHideMenu}"/>
+                        <MenuItem Header="タイトルバーを消す" Command="{Binding BookCommands[ToggleHideTitleBar]}"
+                            IsChecked="{Binding IsHideTitleBar}"/>
                         <MenuItem Header="常に手前に表示" Command="{Binding BookCommands[ToggleTopmost]}"
                             IsChecked="{Binding IsTopmost}"/>
                         <MenuItem Header="全画面表示" Command="{Binding BookCommands[ToggleFullScreen]}" />

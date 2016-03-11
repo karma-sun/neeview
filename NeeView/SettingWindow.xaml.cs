@@ -179,6 +179,34 @@ namespace NeeView
             set { SetDragActionType(ModifierKeys.Alt, value); }
         }
 
+        #region Property: ExternalApplicationParam
+        public string ExternalApplicationParam
+        {
+            get { return Setting.BookHubMemento.ExternalApplication.Parameter; }
+            set
+            {
+                var validValue = ExternalApplication.ValidateApplicationParam(value);
+                Setting.BookHubMemento.ExternalApplication.Parameter = validValue;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+
+        //
+        public static Dictionary<ExternalApplication.MultiPageOptionType, string> MultiPageOptionTypeList { get; } = new Dictionary<ExternalApplication.MultiPageOptionType, string>
+        {
+            [ExternalApplication.MultiPageOptionType.Once] = "1ページのみ実行する",
+            [ExternalApplication.MultiPageOptionType.Twice] = "2ページとも実行する",
+        };
+
+        //
+        public static Dictionary<ExternalApplication.ArchiveOptionType, string> ArchiveOptionTypeList { get; } = new Dictionary<ExternalApplication.ArchiveOptionType, string>
+        {
+            [ExternalApplication.ArchiveOptionType.None] = "実行しない",
+            [ExternalApplication.ArchiveOptionType.SendArchiveFile] = "圧縮ファイルを渡す",
+            [ExternalApplication.ArchiveOptionType.SendExtractFile] = "出力したファイルを渡す(テンポラリ)",
+        };
+        
 
         /// <summary>
         /// コンストラクタ

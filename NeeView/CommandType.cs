@@ -14,6 +14,7 @@ namespace NeeView
         CloseApplication,
 
         LoadAs,
+        OpenApplication,
         OpenFilePlace,
         Export,
         DeleteFile,

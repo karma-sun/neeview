@@ -82,6 +82,16 @@ namespace NeeView
                     ShortCutKey = "Ctrl+O",
                     IsShowMessage = false,
                 },
+
+                [CommandType.OpenApplication] = new CommandElement
+                {
+                    Group = "ファイル",
+                    Text = "外部アプリで開く",
+                    ShortCutKey = "Enter",
+                    Execute = e => _Book.OpenApplication(),
+                    CanExecute = () => _Book.CanOpenFilePlace(),
+                    IsShowMessage = false
+                },
                 [CommandType.OpenFilePlace] = new CommandElement
                 {
                     Group = "ファイル",

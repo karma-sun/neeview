@@ -38,6 +38,9 @@ namespace NeeView
         /// <param name="e"></param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            ShutdownMode = ShutdownMode.OnMainWindowClose;
+
+
             // カレントフォルダをアプリの場所に再設定
             var assembly = Assembly.GetEntryAssembly();
             Environment.CurrentDirectory = Path.GetDirectoryName(assembly.Location);

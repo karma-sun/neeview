@@ -145,6 +145,9 @@ namespace NeeView
         // 本の設定、引き継ぎ用
         public Book.Memento BookMemento { get; set; } = new Book.Memento();
 
+        // 外部アプリ設定
+        public ExternalApplication ExternalApllication { get; set; } = new ExternalApplication();
+
 
         // ページ表示開始スレッドイベント
         private ManualResetEvent _ViewContentEvent = new ManualResetEvent(false);
@@ -619,6 +622,24 @@ namespace NeeView
             BookMemento.SortMode = mode;
             RefleshBookSetting();
         }
+        
+
+        // 外部アプリで開く
+        public void OpenApplication()
+        {
+            if (CanOpenFilePlace())
+            {
+                try
+                {
+                    ExternalApllication.Call(Current?.GetViewPages());
+                }
+                catch (Exception e)
+                {
+                    Messenger.MessageBox(this, $"外部アプリ実行に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                }
+            }
+        }
+
 
         // ファイルの場所を開くことが可能？
         public bool CanOpenFilePlace()
@@ -774,6 +795,9 @@ namespace NeeView
             [DataMember(Order = 2)]
             public bool IsEnarbleCurrentDirectory { get; set; }
 
+            [DataMember(Order =4)]
+            public ExternalApplication ExternalApplication { get; set; }
+
             //
             private void Constructor()
             {
@@ -783,6 +807,7 @@ namespace NeeView
                 IsSlideShowByLoop = true;
                 SlideShowInterval = 5.0;
                 BookMemento = new Book.Memento();
+                ExternalApplication = new ExternalApplication();
             }
 
             public Memento()
@@ -812,6 +837,7 @@ namespace NeeView
             memento.SlideShowInterval = SlideShowInterval;
             memento.BookMemento = BookMemento.Clone();
             memento.IsEnarbleCurrentDirectory = IsEnarbleCurrentDirectory;
+            memento.ExternalApplication = ExternalApllication.Clone();
 
             return memento;
         }
@@ -829,6 +855,7 @@ namespace NeeView
             SlideShowInterval = memento.SlideShowInterval;
             BookMemento = memento.BookMemento.Clone();
             IsEnarbleCurrentDirectory = memento.IsEnarbleCurrentDirectory;
+            ExternalApllication = memento.ExternalApplication.Clone();
         }
 
         #endregion

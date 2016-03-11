@@ -82,6 +82,7 @@
     <Compile Include="DragBehaviour\DragAdorner.cs" />
     <Compile Include="DragBehaviour\DragBehavior.cs" />
     <Compile Include="Exporter.cs" />
+    <Compile Include="ExternalApplication.cs" />
     <Compile Include="ListBoxDragSortExtensions.cs" />
     <Compile Include="DragBehaviour\WPFUtil.cs" />
     <Compile Include="DragArea.cs" />

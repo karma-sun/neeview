@@ -20,7 +20,7 @@ namespace NeeView
     /// </summary>
     public partial class DirectoryNameBox : UserControl
     {
-        // Text
+        #region Text
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(
             "Text",
@@ -37,9 +37,9 @@ namespace NeeView
         private static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
         }
+        #endregion
 
-
-        // DefaultDirectory
+        #region DefaultDirectory
         public static readonly DependencyProperty DefaultDirectoryProperty =
             DependencyProperty.Register(
             "DefaultDirectory",
@@ -56,9 +56,9 @@ namespace NeeView
         private static void OnDefaultDirectoryChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
         }
+        #endregion
 
-
-        // IsValid
+        #region IsValid
         public static readonly DependencyProperty IsValidProperty =
             DependencyProperty.Register(
             "IsValid",
@@ -75,9 +75,85 @@ namespace NeeView
         private static void OnIsValidChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
         }
+        #endregion
 
+        #region SelectDirectory
+        public static readonly DependencyProperty SelectDirectoryProperty =
+            DependencyProperty.Register(
+            "SelectDirectory",
+            typeof(bool),
+            typeof(DirectoryNameBox),
+            new FrameworkPropertyMetadata(true, new PropertyChangedCallback(OnSelectDirectoryChanged)));
 
+        public bool SelectDirectory
+        {
+            get { return (bool)GetValue(SelectDirectoryProperty); }
+            set { SetValue(SelectDirectoryProperty, value); }
+        }
 
+        private static void OnSelectDirectoryChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+        }
+        #endregion
+
+        #region Title
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register(
+            "Title",
+            typeof(string),
+            typeof(DirectoryNameBox),
+            new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnTitleChanged)));
+
+        public string Title
+        {
+            get { return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        private static void OnTitleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+        }
+        #endregion
+
+        #region Filter
+        public static readonly DependencyProperty FilterProperty =
+            DependencyProperty.Register(
+            "Filter",
+            typeof(string),
+            typeof(DirectoryNameBox),
+            new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnFilterChanged)));
+
+        public string Filter
+        {
+            get { return (string)GetValue(FilterProperty); }
+            set { SetValue(FilterProperty, value); }
+        }
+
+        private static void OnFilterChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+        }
+        #endregion
+
+        #region Note
+        public static readonly DependencyProperty NoteProperty =
+            DependencyProperty.Register(
+            "Note",
+            typeof(string),
+            typeof(DirectoryNameBox),
+            new FrameworkPropertyMetadata("フォルダのパスを入力してください", new PropertyChangedCallback(OnNoteChanged)));
+
+        public string Note
+        {
+            get { return (string)GetValue(NoteProperty); }
+            set { SetValue(NoteProperty, value); }
+        }
+
+        private static void OnNoteChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+        }
+        #endregion
+
+        
         //
         public DirectoryNameBox()
         {
@@ -87,19 +163,35 @@ namespace NeeView
         //
         private void ButtonOpenDialog_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            dialog.Description = "フォルダ選択";
-            dialog.SelectedPath = Text;
-
-            if (string.IsNullOrWhiteSpace(dialog.SelectedPath))
+            if (SelectDirectory)
             {
-                dialog.SelectedPath = DefaultDirectory;
+                var dialog = new System.Windows.Forms.FolderBrowserDialog();
+                dialog.Description = Title ?? "フォルダ選択";
+                dialog.SelectedPath = Text;
+
+                if (string.IsNullOrWhiteSpace(dialog.SelectedPath))
+                {
+                    dialog.SelectedPath = DefaultDirectory;
+                }
+
+                var result = dialog.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    Text = dialog.SelectedPath;
+                }
             }
-
-            var result = dialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            else
             {
-                Text = dialog.SelectedPath;
+                var dialog = new System.Windows.Forms.OpenFileDialog();
+                dialog.Title = Title ?? "ファイル選択";
+                dialog.FileName = Text;
+                dialog.Filter = Filter;
+
+                var result = dialog.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    Text = dialog.FileName;
+                }
             }
         }
 

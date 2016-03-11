@@ -234,6 +234,29 @@ namespace NeeView
             }
         }
 
+        // テンポラリファイル名
+        private string _TempFile;
+
+        // テンポラリファイルの作成
+        public virtual string CreateTempFile()
+        {
+            if (_TempFile != null) return _TempFile;
+
+            if (_Archiver is FolderFiles)
+            {
+                _TempFile = ((FolderFiles)_Archiver).GetFullPath(FileName);
+            }
+            else
+            {
+                var tempFile = Temporary.CreateTempFileName(FileName);
+                _Archiver.ExtractToFile(FileName, tempFile, false);
+                _Archiver.TrashBox.Add(new TrashFile(tempFile)); // ブックの消失とともに消す
+                _TempFile = tempFile;
+            }
+
+            return _TempFile;
+        }
+
         // ファイルを保存する
         public virtual void Export(string path)
         {

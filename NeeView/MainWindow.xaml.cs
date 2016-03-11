@@ -41,8 +41,6 @@ namespace NeeView
         // コンストラクタ
         public MainWindow()
         {
-            App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
-
             InitializeComponent();
 
 #if DEBUG

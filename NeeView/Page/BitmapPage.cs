@@ -21,13 +21,6 @@ namespace NeeView
     /// </summary>
     public class BitmapPage : Page
     {
-        // アーカイバ
-        //private Archiver _Archiver;
-
-        // GIFアニメーション用に展開したテンポラリファイル
-        private Uri _GifFileUri;
-
-
         // ToString
         public override string ToString()
         {
@@ -93,21 +86,11 @@ namespace NeeView
                 // GIFアニメ用にファイル展開
                 if (IsEnableAnimatedGif && LoosePath.GetExtension(FileName) == ".gif")
                 {
-                    if (_GifFileUri == null)
+                    return new GifResource()
                     {
-                        if (_Archiver is FolderFiles)
-                        {
-                            _GifFileUri = new Uri(((FolderFiles)_Archiver).GetFullPath(FileName));
-                        }
-                        else
-                        {
-                            var tempFile = Temporary.CreateCountedTempFileName("img", ".gif");
-                            _Archiver.ExtractToFile(FileName, tempFile, false);
-                            _Archiver.TrashBox.Add(new TrashFile(tempFile));
-                            _GifFileUri = new Uri(tempFile);
-                        }
-                    }
-                    return new GifResource() { Uri = _GifFileUri, BitmapSource = bitmapSource };
+                        Uri = new Uri(CreateTempFile()),
+                        BitmapSource = bitmapSource
+                    };
                 }
                 else
                 {

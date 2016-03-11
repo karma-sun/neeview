@@ -32,7 +32,7 @@
             -->
         </TextBox>
 
-        <TextBlock Text="フォルダのパスを入力してください" VerticalAlignment="Center" Margin="4,0" Foreground="Gray" IsHitTestVisible="False">
+        <TextBlock Text="{Binding Note, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DirectoryNameBox}}}" VerticalAlignment="Center" Margin="4,0" Foreground="Gray" IsHitTestVisible="False">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Setter Property="Visibility" Value="Hidden"/>

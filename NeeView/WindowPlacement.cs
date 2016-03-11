@@ -98,7 +98,7 @@ namespace NeeView
         }
 
         // ウィンドウ状態反映
-        public static void Restore(Window window, Memento memento)
+        public static void Restore(Window window, Memento memento, bool isNormalState)
         {
             if (memento?.WindowPlacement == null) return;
 
@@ -106,7 +106,7 @@ namespace NeeView
             var placement = (Win32Api.WINDOWPLACEMENT)memento.WindowPlacement;
             placement.length = Marshal.SizeOf(typeof(Win32Api.WINDOWPLACEMENT));
             placement.flags = 0;
-            placement.showCmd = (placement.showCmd == Win32Api.SW.SHOWMINIMIZED) ? Win32Api.SW.SHOWNORMAL : placement.showCmd;
+            placement.showCmd = (isNormalState || placement.showCmd == Win32Api.SW.SHOWMINIMIZED) ? Win32Api.SW.SHOWNORMAL : placement.showCmd;
 
             var hwnd = new WindowInteropHelper(window).Handle;
             Win32Api.SetWindowPlacement(hwnd, ref placement);

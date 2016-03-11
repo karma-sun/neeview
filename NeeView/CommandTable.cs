@@ -87,7 +87,6 @@ namespace NeeView
                 {
                     Group = "ファイル",
                     Text = "外部アプリで開く",
-                    ShortCutKey = "Enter",
                     Execute = e => _Book.OpenApplication(),
                     CanExecute = () => _Book.CanOpenFilePlace(),
                     IsShowMessage = false
@@ -95,8 +94,7 @@ namespace NeeView
                 [CommandType.OpenFilePlace] = new CommandElement
                 {
                     Group = "ファイル",
-                    Text = "ファイルの場所を開く",
-                    Tips = "現在表示している画像のファイルをエクスプローラーで開く",
+                    Text = "エクスプローラーで開く",
                     Execute = e => _Book.OpenFilePlace(),
                     CanExecute = () => _Book.CanOpenFilePlace(),
                     IsShowMessage = false
@@ -243,7 +241,7 @@ namespace NeeView
                     Text = "メニューを自動的に隠すON/OFF",
                     IsShowMessage = false,
                     Execute = e => _VM.ToggleHideMenu(),
-                    ExecuteMessage = e => _VM.IsHideMenu ? "メニューを表示する": "メニューを自動的に隠す",
+                    ExecuteMessage = e => _VM.IsHideMenu ? "メニューを表示する" : "メニューを自動的に隠す",
                     CanExecute = () => true,
                 },
                 [CommandType.ToggleHideTitleBar] = new CommandElement
@@ -252,7 +250,7 @@ namespace NeeView
                     Text = "タイトルバーを消すON/OFF",
                     IsShowMessage = false,
                     Execute = e => _VM.ToggleHideTitleBar(),
-                    ExecuteMessage = e => _VM.IsHideTitleBar? "タイトルバーを表示する" : "タイトルバーを消す",
+                    ExecuteMessage = e => _VM.IsHideTitleBar ? "タイトルバーを表示する" : "タイトルバーを消す",
                     CanExecute = () => true,
                 },
                 [CommandType.ToggleFullScreen] = new CommandElement
@@ -262,6 +260,7 @@ namespace NeeView
                     ShortCutKey = "F12",
                     MouseGesture = "U",
                     IsShowMessage = false,
+                    Execute = e => _VM.ToggleFullScreen(),
                     CanExecute = () => true,
                 },
                 [CommandType.SetFullScreen] = new CommandElement
@@ -269,6 +268,7 @@ namespace NeeView
                     Group = "ウィンドウ",
                     Text = "フルスクリーンにする",
                     IsShowMessage = false,
+                    Execute = e => _VM.IsFullScreen = true,
                     CanExecute = () => true,
                 },
                 [CommandType.CancelFullScreen] = new CommandElement
@@ -277,16 +277,17 @@ namespace NeeView
                     Text = "フルスクリーン解除",
                     ShortCutKey = "Escape",
                     IsShowMessage = false,
+                    Execute = e => _VM.IsFullScreen = false,
                     CanExecute = () => true,
                 },
 
                 [CommandType.ToggleSlideShow] = new CommandElement
                 {
                     Group = "ビュー操作",
-                    Text = "スライドショーON/OFF",
+                    Text = "スライドショー再生/停止",
                     ShortCutKey = "F5",
                     Execute = e => _Book.ToggleSlideShow(),
-                    ExecuteMessage = e => _Book.IsEnableSlideShow ? "スライドショー停止" : "スライドショー開始"
+                    ExecuteMessage = e => _Book.IsEnableSlideShow ? "スライドショー停止" : "スライドショー再生"
                 },
                 [CommandType.ViewScrollUp] = new CommandElement
                 {

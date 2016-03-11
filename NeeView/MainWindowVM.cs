@@ -88,10 +88,16 @@ namespace NeeView
         public bool IsViewStartPositionCenter { get; set; }
 
         // 通知表示スタイル
+        public ShowMessageStyle NoticeShowMessageStyle { get; set; }
+
+        // コマンド表示スタイル
         public ShowMessageStyle CommandShowMessageStyle { get; set; }
 
         // ゼスチャ表示スタイル
         public ShowMessageStyle GestureShowMessageStyle { get; set; }
+
+        // NowLoadingの表示
+        public bool IsVisibleNowLoading { get; set; }
 
         // スライダー方向
         #region Property: IsSliderDirectionReversed
@@ -196,6 +202,21 @@ namespace NeeView
         }
         #endregion
 
+        // フルスクリーン
+        #region Property: IsFullScreen
+        private bool _IsFullScreen;
+        public bool IsFullScreen
+        {
+            get { return _IsFullScreen; }
+            set { _IsFullScreen = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+        }
+        public bool ToggleFullScreen()
+        {
+            IsFullScreen = !IsFullScreen;
+            return IsFullScreen;
+        }
+        public bool IsSaveFullScreen { get; set; }
+        #endregion
 
         // 常に手前に表示
         #region Property: IsTopmost
@@ -217,6 +238,9 @@ namespace NeeView
 
         // マルチブートを禁止する
         public bool IsDisableMultiBoot { get; set; }
+
+        // スライドショーの自動開始
+        public bool IsAutoPlaySlideShow { get; set; }
 
         // ビュードラッグ操作設定
         public MouseDragControllerSetting ViewDragMemento { get; set; }
@@ -449,7 +473,21 @@ namespace NeeView
                 };
 
             BookHub.InfoMessage +=
-                (s, e) => Messenger.Send(this, new MessageEventArgs("MessageShow") { Parameter = new MessageShowParams(e) });
+                (s, e) =>
+                {
+                    switch (NoticeShowMessageStyle)
+                    {
+                        case ShowMessageStyle.Normal:
+                            Messenger.Send(this, new MessageEventArgs("MessageShow")
+                            {
+                                Parameter = new MessageShowParams(e)
+                            });
+                            break;
+                        case ShowMessageStyle.Tiny:
+                            TinyInfoText = e;
+                            break;
+                    }
+                };
 
             BookHub.SlideShowModeChanged +=
                 (s, e) => OnPropertyChanged(nameof(WindowIcon));
@@ -482,14 +520,25 @@ namespace NeeView
         // 本が変更された
         private void OnBookChanged(object sender, bool isBookmark)
         {
-            Messenger.Send(this, new MessageEventArgs("MessageShow")
+            var title = LoosePath.GetFileName(BookHub.Current.Place);
+
+            switch (NoticeShowMessageStyle)
             {
-                Parameter = new MessageShowParams(LoosePath.GetFileName(BookHub.Current.Place))
-                {
-                    IsBookmark = isBookmark,
-                    DispTime = 2.0
-                }
-            });
+                case ShowMessageStyle.Normal:
+                    Messenger.Send(this, new MessageEventArgs("MessageShow")
+                    {
+                        Parameter = new MessageShowParams(title)
+                        {
+                            IsBookmark = isBookmark,
+                            DispTime = 2.0
+                        }
+                    });
+                    break;
+                case ShowMessageStyle.Tiny:
+                    TinyInfoText = title;
+                    break;
+            }
+
 
             OnPropertyChanged(nameof(Index));
             OnPropertyChanged(nameof(IndexMax));
@@ -617,11 +666,17 @@ namespace NeeView
                 setting = new Setting();
             }
 
+            // ウィンドウ座標復元
+            WindowPlacement.Restore(window, setting.WindowPlacement, setting.ViewMemento.IsFullScreen);
+
             // 設定反映
             RestoreSetting(setting);
 
-            // ウィンドウ座標復元
-            WindowPlacement.Restore(window, setting.WindowPlacement);
+            // スライドショーの自動再生
+            if (IsAutoPlaySlideShow)
+            {
+                BookHub.IsEnableSlideShow = true;
+            }
         }
 
 
@@ -979,11 +1034,17 @@ namespace NeeView
             [DataMember]
             public bool IsSliderDirectionReversed { get; set; }
 
+            [DataMember(Order = 4)]
+            public ShowMessageStyle NoticeShowMessageStyle { get; set; }
+
             [DataMember]
             public ShowMessageStyle CommandShowMessageStyle { get; set; }
 
             [DataMember]
             public ShowMessageStyle GestureShowMessageStyle { get; set; }
+
+            [DataMember(Order = 4)]
+            public bool IsVisibleNowLoading { get; set; }
 
             [DataMember(Order = 1)]
             public bool IsEnabledNearestNeighbor { get; set; }
@@ -1003,21 +1064,36 @@ namespace NeeView
             [DataMember(Order = 2)]
             public bool IsDisableMultiBoot { get; set; }
 
-            [DataMember(Order=2)]
+            [DataMember(Order = 4)]
+            public bool IsAutoPlaySlideShow { get; set; }
+
+            [DataMember(Order = 2)]
             public bool IsHideMenu { get; set; }
 
             [DataMember(Order = 4)]
             public bool IsHideTitleBar { get; set; }
 
-            [DataMember(Order =4)]
+            [DataMember(Order = 4)]
+            public bool IsFullScreen { get; set; }
+
+            [DataMember(Order = 4)]
+            public bool IsSaveFullScreen { get; set; }
+
+            [DataMember(Order = 4)]
+            public bool IsTopmost { get; set; }
+
+            [DataMember(Order = 4)]
             public MouseDragControllerSetting ViewDragMemento { get; set; }
+
 
             void Constructor()
             {
                 IsLimitMove = true;
                 IsSliderDirectionReversed = true;
+                NoticeShowMessageStyle = ShowMessageStyle.Normal;
                 CommandShowMessageStyle = ShowMessageStyle.Normal;
                 GestureShowMessageStyle = ShowMessageStyle.Normal;
+                IsVisibleNowLoading = true;
                 StretchMode = PageStretchMode.Uniform;
                 Background = BackgroundStyle.Black;
                 ViewDragMemento = new MouseDragControllerSetting();
@@ -1047,16 +1123,22 @@ namespace NeeView
             memento.StretchMode = this.StretchMode;
             memento.Background = this.Background;
             memento.IsSliderDirectionReversed = this.IsSliderDirectionReversed;
+            memento.NoticeShowMessageStyle = this.NoticeShowMessageStyle;
             memento.CommandShowMessageStyle = this.CommandShowMessageStyle;
             memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
+            memento.IsVisibleNowLoading = this.IsVisibleNowLoading;
             memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
             memento.IsKeepScale = this.IsKeepScale;
             memento.IsKeepAngle = this.IsKeepAngle;
             memento.IsKeepFlip = this.IsKeepFlip;
             memento.IsLoadLastFolder = this.IsLoadLastFolder;
             memento.IsDisableMultiBoot = this.IsDisableMultiBoot;
+            memento.IsAutoPlaySlideShow = this.IsAutoPlaySlideShow;
             memento.IsHideMenu = this.IsHideMenu;
             memento.IsHideTitleBar = this.IsHideTitleBar;
+            memento.IsFullScreen = this.IsFullScreen;
+            memento.IsSaveFullScreen = this.IsSaveFullScreen;
+            memento.IsTopmost = this.IsTopmost;
             memento.ViewDragMemento = this.ViewDragMemento.CreateMemento();
 
             return memento;
@@ -1072,16 +1154,22 @@ namespace NeeView
             this.StretchMode = memento.StretchMode;
             this.Background = memento.Background;
             this.IsSliderDirectionReversed = memento.IsSliderDirectionReversed;
+            this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
             this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
             this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
+            this.IsVisibleNowLoading = memento.IsVisibleNowLoading;
             this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
             this.IsKeepScale = memento.IsKeepScale;
             this.IsKeepAngle = memento.IsKeepAngle;
             this.IsKeepFlip = memento.IsKeepFlip;
             this.IsLoadLastFolder = memento.IsLoadLastFolder;
             this.IsDisableMultiBoot = memento.IsDisableMultiBoot;
+            this.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
             this.IsHideMenu = memento.IsHideMenu;
             this.IsHideTitleBar = memento.IsHideTitleBar;
+            this.IsSaveFullScreen = memento.IsSaveFullScreen;
+            if (this.IsSaveFullScreen) this.IsFullScreen = memento.IsFullScreen;
+            this.IsTopmost = memento.IsTopmost;
             this.ViewDragMemento.Restore(memento.ViewDragMemento);
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

@@ -43,6 +43,9 @@ namespace NeeView
             },
         };
 
+        // アーカイバ有効/無効
+        public bool IsEnabled { get; set; } = true;
+
         // アーカイバ優先度リストの種類
         public ArchiverType OrderType { set; get; } = ArchiverType.DefaultArchiver;
 
@@ -60,20 +63,24 @@ namespace NeeView
                 return ArchiverType.FolderFiles;
             }
 
-            string ext = LoosePath.GetExtension(fileName);
-
-            foreach (var type in _OrderList[OrderType])
+            if (IsEnabled)
             {
-                if (type == ArchiverType.SusieArchiver && !SusieArchiver.IsEnable)
-                {
-                    continue;
-                }
+                string ext = LoosePath.GetExtension(fileName);
 
-                if (_SupprtedFileTypes[type].Contains(ext))
+                foreach (var type in _OrderList[OrderType])
                 {
-                    return type;
+                    if (type == ArchiverType.SusieArchiver && !SusieArchiver.IsEnable)
+                    {
+                        continue;
+                    }
+
+                    if (_SupprtedFileTypes[type].Contains(ext))
+                    {
+                        return type;
+                    }
                 }
             }
+
             return ArchiverType.None;
         }
 

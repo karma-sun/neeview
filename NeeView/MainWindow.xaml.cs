@@ -31,7 +31,6 @@ namespace NeeView
     {
         MainWindowVM _VM;
 
-        private FullScreen _FullScreen;
         private MouseDragController _MouseDrag;
         private MouseGestureManager _MouseGesture;
 
@@ -83,9 +82,6 @@ namespace NeeView
 
             this.DataContext = _VM;
 
-            // full screen
-            _FullScreen = new FullScreen(this);
-            _FullScreen.NotifyMenuVisibilityChanged += (s, e) => OnMenuVisibilityChanged();
 
             // mouse drag
             _MouseDrag = new MouseDragController(this.MainView, this.MainContent, this.MainContentShadow);
@@ -261,12 +257,6 @@ namespace NeeView
                 (e) => Close();
             ModelContext.CommandTable[CommandType.LoadAs].Execute =
                 (e) => LoadAs(e);
-            ModelContext.CommandTable[CommandType.ToggleFullScreen].Execute =
-                (e) => _FullScreen.Toggle();
-            ModelContext.CommandTable[CommandType.SetFullScreen].Execute =
-                (e) => _FullScreen.IsFullScreened = true;
-            ModelContext.CommandTable[CommandType.CancelFullScreen].Execute =
-                (e) => _FullScreen.IsFullScreened = false;
             ModelContext.CommandTable[CommandType.ViewScrollUp].Execute =
                 (e) => _MouseDrag.ScrollUp();
             ModelContext.CommandTable[CommandType.ViewScrollDown].Execute =
@@ -441,12 +431,15 @@ namespace NeeView
             }
         }
 
+        // フルスクリーン前の状態保持
+        WindowState _WindowStateMemento = WindowState.Normal;
+        bool _FullScreened;
 
         // スクリーンモード切り替えによるコントロール設定の変更
         private void OnMenuVisibilityChanged()
         {
             // window style
-            if (_FullScreen.IsFullScreened || _VM.IsHideTitleBar)
+            if (_VM.IsFullScreen || _VM.IsHideTitleBar)
             {
                 this.WindowStyle = WindowStyle.None;
             }
@@ -455,8 +448,24 @@ namespace NeeView
                 this.WindowStyle = WindowStyle.SingleBorderWindow;
             }
 
+            // fullscreen 
+            if (_VM.IsFullScreen != _FullScreened)
+            {
+                _FullScreened = _VM.IsFullScreen;
+                if (_VM.IsFullScreen)
+                {
+                    _WindowStateMemento = this.WindowState;
+                    if (this.WindowState == WindowState.Maximized) this.WindowState = WindowState.Normal;
+                    this.WindowState = WindowState.Maximized;
+                }
+                else
+                {
+                    this.WindowState = _WindowStateMemento;
+                }
+            }
+
             // menu hide
-            if (_FullScreen.IsFullScreened || _VM.IsHideMenu)
+            if (_VM.IsFullScreen || _VM.IsHideMenu)
             {
                 var autoHideStyle = (Style)this.Resources["AutoHideContent"];
                 this.MenuArea.Style = autoHideStyle;
@@ -625,7 +634,7 @@ namespace NeeView
         /// <param name="isDisp"></param>
         private void DispNowLoading(bool isDisp)
         {
-            if (isDisp)
+            if (isDisp && _VM.IsVisibleNowLoading)
             {
                 this.NowLoading.Opacity = 0.0;
 

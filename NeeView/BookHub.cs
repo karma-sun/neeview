@@ -137,7 +137,15 @@ namespace NeeView
         //「ファイルを開く」の初期フォルダを現在開いているフォルダ基準にする
         public bool IsEnarbleCurrentDirectory { get; set; }
 
-
+        // 圧縮ファイルの有効/無効
+        #region Property: IsSupportArchiveFile
+        public bool IsSupportArchiveFile
+        {
+            get { return ModelContext.ArchiverManager.IsEnabled; }
+            set { ModelContext.ArchiverManager.IsEnabled = value;}
+        }
+        #endregion
+        
 
         // 現在の本
         public Book Current { get; private set; }
@@ -796,6 +804,9 @@ namespace NeeView
             public bool IsEnarbleCurrentDirectory { get; set; }
 
             [DataMember(Order =4)]
+            public bool IsSupportArchiveFile { get; set; }
+
+            [DataMember(Order =4)]
             public ExternalApplication ExternalApplication { get; set; }
 
             //
@@ -806,6 +817,7 @@ namespace NeeView
                 FolderOrder = FolderOrder.FileName;
                 IsSlideShowByLoop = true;
                 SlideShowInterval = 5.0;
+                IsSupportArchiveFile = true;
                 BookMemento = new Book.Memento();
                 ExternalApplication = new ExternalApplication();
             }
@@ -837,6 +849,7 @@ namespace NeeView
             memento.SlideShowInterval = SlideShowInterval;
             memento.BookMemento = BookMemento.Clone();
             memento.IsEnarbleCurrentDirectory = IsEnarbleCurrentDirectory;
+            memento.IsSupportArchiveFile = IsSupportArchiveFile;
             memento.ExternalApplication = ExternalApllication.Clone();
 
             return memento;
@@ -855,6 +868,7 @@ namespace NeeView
             SlideShowInterval = memento.SlideShowInterval;
             BookMemento = memento.BookMemento.Clone();
             IsEnarbleCurrentDirectory = memento.IsEnarbleCurrentDirectory;
+            IsSupportArchiveFile = memento.IsSupportArchiveFile;
             ExternalApllication = memento.ExternalApplication.Clone();
         }
 

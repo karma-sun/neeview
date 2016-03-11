@@ -215,13 +215,20 @@ namespace NeeView
             var dropFiles = e.Data.GetData(System.Windows.DataFormats.FileDrop) as string[];
             if (dropFiles == null) return;
 
-            if (Directory.Exists(dropFiles[0]))
+            if (SelectDirectory)
             {
-                Text = dropFiles[0];
+                if (Directory.Exists(dropFiles[0]))
+                {
+                    Text = dropFiles[0];
+                }
+                else
+                {
+                    Text = Path.GetDirectoryName(dropFiles[0]);
+                }
             }
             else
             {
-                Text = Path.GetDirectoryName(dropFiles[0]);
+                Text = dropFiles[0];
             }
         }
     }

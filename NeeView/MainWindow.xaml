@@ -173,13 +173,14 @@
                         <MenuItem Header="スライドショー" Command="{Binding BookCommands[ToggleSlideShow]}"
                             IsChecked="{Binding BookHub.IsEnableSlideShow,Mode=OneWay}" />
                         <Separator/>
-                        <MenuItem Header="メニューを自動的に隠す" Command="{Binding BookCommands[ToggleHideMenu]}"
-                            IsChecked="{Binding IsHideMenu}"/>
                         <MenuItem Header="タイトルバーを消す" Command="{Binding BookCommands[ToggleHideTitleBar]}"
                             IsChecked="{Binding IsHideTitleBar}"/>
+                        <MenuItem Header="メニューを自動的に隠す" Command="{Binding BookCommands[ToggleHideMenu]}"
+                            IsChecked="{Binding IsHideMenu}"/>
                         <MenuItem Header="常に手前に表示" Command="{Binding BookCommands[ToggleTopmost]}"
                             IsChecked="{Binding IsTopmost}"/>
-                        <MenuItem Header="全画面表示" Command="{Binding BookCommands[ToggleFullScreen]}" />
+                        <MenuItem Header="全画面表示" Command="{Binding BookCommands[ToggleFullScreen]}"
+                            IsChecked="{Binding IsFullScreen}"/>
                     </MenuItem>
 
                     <MenuItem Header="移動(_J)">

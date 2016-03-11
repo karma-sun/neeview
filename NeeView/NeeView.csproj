@@ -159,7 +159,6 @@
     <Compile Include="ViewContent.cs" />
     <Compile Include="ViewContentSource.cs" />
     <Compile Include="Win32Api.cs" />
-    <Compile Include="FullScreen.cs" />
     <Compile Include="WindowPlacement.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
     <Compile Include="Archiver\ZipArchiverKeepOpened.cs" />

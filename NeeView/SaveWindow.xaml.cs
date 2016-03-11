@@ -141,10 +141,12 @@ namespace NeeView
             dialog.OverwritePrompt = true;
 
             dialog.AddExtension = true;
-            dialog.DefaultExt = _Exporter.CurrentImage.DefaultExtension;
+
+            var defaultExt = _Exporter.CurrentImage.DefaultExtension; 
+            dialog.DefaultExt = defaultExt;
 
             // 拡張子は小文字限定
-            var fileName = LoosePath.ValidFileName(System.IO.Path.ChangeExtension(System.IO.Path.GetFileName(_Exporter.CurrentImage.Name), dialog.DefaultExt));
+            var fileName = LoosePath.ValidFileName(System.IO.Path.ChangeExtension(System.IO.Path.GetFileName(_Exporter.CurrentImage.Name), defaultExt));
             dialog.FileName = fileName;
 
             if (!IsHintClone)
@@ -159,15 +161,16 @@ namespace NeeView
                 {
                     fileName = System.IO.Path.ChangeExtension(fileName, ".png");
                     dialog.FileName = fileName;
-                    dialog.DefaultExt = ".png";
+                    defaultExt = ".png";
+                    dialog.DefaultExt = defaultExt;
                 }
 
                 // filter
-                if (pngExt.Contains(_Exporter.CurrentImage.DefaultExtension))
+                if (pngExt.Contains(defaultExt))
                 {
                     dialog.FilterIndex = 1;
                 }
-                else if (jpgExt.Contains(_Exporter.CurrentImage.DefaultExtension))
+                else if (jpgExt.Contains(defaultExt))
                 {
                     dialog.FilterIndex = 2;
                 }

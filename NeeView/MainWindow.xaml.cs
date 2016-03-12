@@ -77,16 +77,14 @@ namespace NeeView
             _VM.NotifyMenuVisibilityChanged +=
                 (s, e) => OnMenuVisibilityChanged();
 
-            _VM.ViewDragMementoChanged +=
-                (s, e) => _MouseDrag.Restore(_VM.ViewDragMemento);
-
             this.DataContext = _VM;
 
 
             // mouse drag
-            _MouseDrag = new MouseDragController(this.MainView, this.MainContent, this.MainContentShadow);
+            _MouseDrag = new MouseDragController(this, this.MainView, this.MainContent, this.MainContentShadow);
             _MouseDrag.ScaleChanged +=
                 (s, e) => _VM.SetViewScale(e);
+            ModelContext.DragActionTable.SetTarget(_MouseDrag);
 
             // mouse gesture
             _MouseGesture = new MouseGestureManager(this.MainView);
@@ -284,6 +282,9 @@ namespace NeeView
             ModelContext.CommandTable[CommandType.MovePageWithCursor].Execute =
                 (e) => MovePageWithCursor();
 
+            ModelContext.CommandTable[CommandType.MovePageWithCursor].ExecuteMessage =
+                (e) => MovePageWithCursorMessage();
+
 
             // コマンドバインド作成
             foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
@@ -325,11 +326,15 @@ namespace NeeView
                     // マウスクリックはドラッグ系処理のイベントとして登録
                     if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.LeftClick)
                     {
-                        _MouseDrag.MouseClickEventHandler += (s, x) => e.Value.Execute(null, this);
+                        _MouseDrag.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) e.Value.Execute(null, this); };
+                    }
+                    else if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.MiddleClick)
+                    {
+                        _MouseDrag.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) e.Value.Execute(null, this); };
                     }
                     else if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.RightClick)
                     {
-                        _MouseGesture.MouseClickEventHandler += (s, x) => e.Value.Execute(null, this);
+                        _MouseGesture.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) e.Value.Execute(null, this); };
                     }
                     else
                     {
@@ -345,6 +350,9 @@ namespace NeeView
                 }
             }
 
+            // drag key
+            _MouseDrag.SetKeyBindings(ModelContext.DragActionTable.GetKeyBinding());
+            
             // Update Menu ...
             this.MainMenu.UpdateInputGestureText();
         }
@@ -410,6 +418,21 @@ namespace NeeView
             else
             {
                 _VM.BookHub.PrevPage();
+            }
+        }
+
+        // マウスの位置でページを送る(メッセージ)
+        private string MovePageWithCursorMessage()
+        {
+            var point = Mouse.GetPosition(this);
+
+            if (point.X < this.Width * 0.5)
+            {
+                return "次のページ";
+            }
+            else
+            {
+                return "前のページ";
             }
         }
 

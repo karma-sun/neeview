@@ -31,7 +31,7 @@ namespace NeeView
         public static BitmapLoaderManager BitmapLoaderManager { get; set; }
 
         public static CommandTable CommandTable { get; set; }
-
+        public static DragActionTable DragActionTable { get; set; }
 
         // 初期化
         public static void Initialize()
@@ -60,6 +60,7 @@ namespace NeeView
             BitmapLoaderManager = new BitmapLoaderManager();
 
             CommandTable = new CommandTable();
+            DragActionTable = new DragActionTable();
 
             SusieContext = new SusieContext();
 

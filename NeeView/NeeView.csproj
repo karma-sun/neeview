@@ -78,11 +78,12 @@
     <Compile Include="BackgroundStyle.cs" />
     <Compile Include="BitmapImageLoaders.cs" />
     <Compile Include="BitmapLoaderManager.cs" />
-    <Compile Include="DragAction.cs" />
     <Compile Include="DragBehaviour\DragAdorner.cs" />
     <Compile Include="DragBehaviour\DragBehavior.cs" />
+    <Compile Include="DragAction.cs" />
     <Compile Include="Exporter.cs" />
     <Compile Include="ExternalApplication.cs" />
+    <Compile Include="DragActionTable.cs" />
     <Compile Include="ListBoxDragSortExtensions.cs" />
     <Compile Include="DragBehaviour\WPFUtil.cs" />
     <Compile Include="DragArea.cs" />

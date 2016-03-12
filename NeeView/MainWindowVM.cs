@@ -69,9 +69,6 @@ namespace NeeView
         // ウィンドウモード変更通知
         public event EventHandler NotifyMenuVisibilityChanged;
 
-        // ビュードラッグ設定変更通知
-        public event EventHandler ViewDragMementoChanged;
-
         #endregion
 
 
@@ -241,9 +238,6 @@ namespace NeeView
 
         // スライドショーの自動開始
         public bool IsAutoPlaySlideShow { get; set; }
-
-        // ビュードラッグ操作設定
-        public MouseDragControllerSetting ViewDragMemento { get; set; }
 
 
         // コマンドバインド用
@@ -511,9 +505,6 @@ namespace NeeView
 
             // messenger
             Messenger.AddReciever("UpdateLastFiles", (s, e) => UpdateLastFiles());
-
-            //
-            ViewDragMemento = new MouseDragControllerSetting();
         }
 
 
@@ -619,6 +610,7 @@ namespace NeeView
             setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
             setting.BookHubMemento = BookHub.CreateMemento();
             setting.CommandMememto = ModelContext.CommandTable.CreateMemento();
+            setting.DragActionMemento = ModelContext.DragActionTable.CreateMemento();
             setting.ExporterMemento = Exporter.CreateMemento();
             setting.BookHistoryMemento = ModelContext.BookHistory.CreateMemento();
 
@@ -633,6 +625,7 @@ namespace NeeView
             BookHub.Restore(setting.BookHubMemento);
 
             ModelContext.CommandTable.Restore(setting.CommandMememto);
+            ModelContext.DragActionTable.Restore(setting.DragActionMemento);
             InputGestureChanged?.Invoke(this, null);
 
             Exporter.Restore(setting.ExporterMemento);
@@ -1082,9 +1075,6 @@ namespace NeeView
             [DataMember(Order = 4)]
             public bool IsTopmost { get; set; }
 
-            [DataMember(Order = 4)]
-            public MouseDragControllerSetting ViewDragMemento { get; set; }
-
 
             void Constructor()
             {
@@ -1096,7 +1086,6 @@ namespace NeeView
                 IsVisibleNowLoading = true;
                 StretchMode = PageStretchMode.Uniform;
                 Background = BackgroundStyle.Black;
-                ViewDragMemento = new MouseDragControllerSetting();
             }
 
             public Memento()
@@ -1139,7 +1128,6 @@ namespace NeeView
             memento.IsFullScreen = this.IsFullScreen;
             memento.IsSaveFullScreen = this.IsSaveFullScreen;
             memento.IsTopmost = this.IsTopmost;
-            memento.ViewDragMemento = this.ViewDragMemento.CreateMemento();
 
             return memento;
         }
@@ -1170,10 +1158,8 @@ namespace NeeView
             this.IsSaveFullScreen = memento.IsSaveFullScreen;
             if (this.IsSaveFullScreen) this.IsFullScreen = memento.IsFullScreen;
             this.IsTopmost = memento.IsTopmost;
-            this.ViewDragMemento.Restore(memento.ViewDragMemento);
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
-            ViewDragMementoChanged?.Invoke(this, null);
         }
 
         #endregion

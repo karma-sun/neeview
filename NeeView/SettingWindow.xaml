@@ -141,11 +141,13 @@
                     </StackPanel>
 
                     <TextBlock Text="ドラッグ操作" Style="{StaticResource Header}"/>
-                    <StackPanel Style="{StaticResource Phrase}">
+                    <StackPanel Style="{StaticResource Phrase}" Orientation="Horizontal">
                         <StackPanel.Resources>
                             <Style TargetType="StackPanel">
                                 <Setter Property="Orientation" Value="Horizontal"/>
                                 <Setter Property="Margin" Value="2"/>
+                            </Style>
+                            <Style x:Key="DragGroup" TargetType="StackPanel">
                             </Style>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Width" Value="100"/>
@@ -157,24 +159,48 @@
                                 <Setter Property="Width" Value="150"/>
                             </Style>
                         </StackPanel.Resources>
-                        <StackPanel >
-                            <TextBlock Text="LeftDrag"/>
-                            <ComboBox SelectedValue="{Binding DragActionNone}" />
-                        </StackPanel>
-                        <StackPanel>
-                            <TextBlock Text="Ctrl+LeftDrag"/>
-                            <ComboBox SelectedValue="{Binding DragActionControl}" />
-                        </StackPanel>
-                        <StackPanel>
-                            <TextBlock Text="Shift+LeftDrag"/>
-                            <ComboBox SelectedValue="{Binding DragActionShift}" />
-                        </StackPanel>
-                        <StackPanel>
-                            <TextBlock Text="Alt+LeftDrag"/>
-                            <ComboBox SelectedValue="{Binding DragActionAlt}" />
-                        </StackPanel>
-                    </StackPanel>
 
+                        <!-- LeftDrag -->
+                        <StackPanel Style="{StaticResource DragGroup}">
+                            <StackPanel >
+                                <TextBlock Text="LeftDrag"/>
+                                <ComboBox SelectedValue="{Binding DragActionNone}" />
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Ctrl+LeftDrag"/>
+                                <ComboBox SelectedValue="{Binding DragActionControl}" />
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Shift+LeftDrag"/>
+                                <ComboBox SelectedValue="{Binding DragActionShift}" />
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Alt+LeftDrag"/>
+                                <ComboBox SelectedValue="{Binding DragActionAlt}" />
+                            </StackPanel>
+                        </StackPanel>
+                        
+                        <!-- MiddleDrag -->
+                        <StackPanel Style="{StaticResource DragGroup}" Margin="50,0">
+                            <StackPanel>
+                                <TextBlock Text="MiddleDrag"/>
+                                <ComboBox SelectedValue="{Binding DragActionMiddleNone}" />
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Ctrl+MiddleDrag"/>
+                                <ComboBox SelectedValue="{Binding DragActionMiddleControl}" />
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Shift+MiddleDrag"/>
+                                <ComboBox SelectedValue="{Binding DragActionMiddleShift}" />
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Alt+MiddleDrag"/>
+                                <ComboBox SelectedValue="{Binding DragActionMiddleAlt}" />
+                            </StackPanel>
+                        </StackPanel>
+
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
 

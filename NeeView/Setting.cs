@@ -35,6 +35,9 @@ namespace NeeView
         [DataMember(Order = 9998)]
         public CommandTable.Memento CommandMememto { set; get; }
 
+        [DataMember(Order =9998)]
+        public DragActionTable.Memento DragActionMemento { set; get; }
+
         [DataMember(Order = 9999)]
         public BookHistory.Memento BookHistoryMemento { set; get; }
 
@@ -49,6 +52,7 @@ namespace NeeView
             SusieMemento = new SusieContext.Memento();
             BookHubMemento = new BookHub.Memento();
             CommandMememto = new CommandTable.Memento();
+            DragActionMemento = new DragActionTable.Memento();
             BookHistoryMemento = new BookHistory.Memento();
             ExporterMemento = new Exporter.Memento();
         }

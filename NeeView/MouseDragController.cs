@@ -26,15 +26,11 @@ namespace NeeView
         View, // ビューエリアの中心
         Target, // コンテンツの中心
     }
-
+    
 
     /// <summary>
     /// マウスドラッグ管理
     /// マウスドラッグでのコンテンツの表示変換を行う。
-    /// * 左クリック＋ドラッグ  -> 移動
-    /// * Shift+左クリック＋ドラッグ -> 拡縮
-    /// * Ctrl+左クリック＋ドラッグ -> 回転
-    /// * Alt+左クリック＋ドラッグ -> 反転
     /// </summary>
     public class MouseDragController : INotifyPropertyChanged
     {
@@ -183,61 +179,13 @@ namespace NeeView
 
         #endregion
 
-        // アクションテーブル
-        public Dictionary<DragActionType, DragAction> ActionTable;
+        // アクションキーバインド
+        private Dictionary<DragKey, DragAction> KeyBindings;
 
-        // アクションキーテーブル
-        private Dictionary<ModifierKeys, DragActionType> KeyBindings;
-
-        // アクションテーブル初期化
-        public void InitializeActions()
+        // アクションキーバインド設定
+        public void SetKeyBindings(Dictionary<DragKey, DragAction> binding)
         {
-            ActionTable = new Dictionary<DragActionType, DragAction>()
-            {
-                [DragActionType.None] = null,
-
-                [DragActionType.Move] = new DragAction
-                {
-                    Name = "移動",
-                    Exec = DragMove,
-                    Group = DragActionGroup.Move,
-                },
-                [DragActionType.MoveScale] = new DragAction
-                {
-                    Name = "移動(スケール依存)",
-                    Exec = DragMoveScale,
-                    Group = DragActionGroup.Move,
-                },
-                [DragActionType.Angle] = new DragAction
-                {
-                    Name = "回転",
-                    Exec = DragAngle,
-                },
-                [DragActionType.Scale] = new DragAction
-                {
-                    Name = "拡大縮小",
-                    Exec = DragScale,
-                },
-                [DragActionType.ScaleSlider] = new DragAction
-                {
-                    Name = "拡大縮小(スライド式)",
-                    Exec = DragScaleSlider,
-                },
-                [DragActionType.FlipHorizontal] = new DragAction
-                {
-                    Name = "左右反転",
-                    Exec = DragFlipHorizontal,
-                },
-                [DragActionType.FlipVertical] = new DragAction
-                {
-                    Name = "上下反転",
-                    Exec = DragFlipVertical,
-                },
-            };
-
-            // keys
-            // 外部から設定されるのでここでは空にする
-            KeyBindings = new Dictionary<ModifierKeys, DragActionType>();
+            KeyBindings = binding;
         }
 
         // 開始時の基準
@@ -272,6 +220,9 @@ namespace NeeView
         // 拡縮スナップ。0で無効;
         public double SnapScale { get; set; } = 0;
 
+        // ウィンドウ
+        private Window _Window;
+
         // マウス入力イベント受付コントロール。ビューエリア。
         private FrameworkElement _Sender;
 
@@ -285,6 +236,7 @@ namespace NeeView
         //
         private bool _IsButtonDown = false;
         private bool _IsDragging = false;
+        private MouseButton _DragMouseButton;
         private DragAction _Action;
 
         // クリックイベント
@@ -304,6 +256,7 @@ namespace NeeView
         private double _BaseScale;
         private Point _Center;
         private Point _BaseFlipPoint;
+        private Point _StartPointFromWindow;
 
         /// <summary>
         ///  コンストラクタ
@@ -311,16 +264,15 @@ namespace NeeView
         /// <param name="sender">ビューエリア、マウスイベント受付コントロール</param>
         /// <param name="targetView">対象コンテンツ</param>
         /// <param name="targetShadow">対象コンテンツの影。計算用</param>
-        public MouseDragController(FrameworkElement sender, FrameworkElement targetView, FrameworkElement targetShadow)
+        public MouseDragController(Window window, FrameworkElement sender, FrameworkElement targetView, FrameworkElement targetShadow)
         {
-            InitializeActions();
-
+            _Window = window;
             _Sender = sender;
             _Target = targetView;
             _TargetShadow = targetShadow;
 
-            _Sender.PreviewMouseLeftButtonDown += OnMouseLeftButtonDown;
-            _Sender.PreviewMouseLeftButtonUp += OnMouseLeftButtonUp;
+            _Sender.PreviewMouseDown += OnMouseButtonDown;
+            _Sender.PreviewMouseUp += OnMouseButtonUp;
             _Sender.PreviewMouseWheel += OnMouseWheel;
             _Sender.PreviewMouseMove += OnMouseMove;
 
@@ -467,9 +419,7 @@ namespace NeeView
             Position = pos;
         }
 
-
-
-
+        
         // スクロール↑コマンド
         // 縦方向にスクロールできない場合、横方向にスクロールする
         public void ScrollUp()
@@ -588,13 +538,14 @@ namespace NeeView
             DoFlipHorizontal(isFlip);
         }
 
-        // 入力からアクションを取得
-        private DragAction GetAction(ModifierKeys keys)
+        // 入力からアクション取得
+        private DragAction GetAction(MouseButton butto, ModifierKeys keys)
         {
-            DragActionType type;
-            if (KeyBindings.TryGetValue(Keyboard.Modifiers, out type))
+            var key = new DragKey(butto, keys);
+            DragAction command;
+            if (KeyBindings.TryGetValue(key, out command))
             {
-                return ActionTable[type];
+                return command;
             }
             else
             {
@@ -603,25 +554,31 @@ namespace NeeView
         }
 
 
-        // マウス左ボタンが押された時の処理
-        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        // マウスボタンが押された時の処理
+        private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (_IsButtonDown) return;
+
+            if (e.ChangedButton != MouseButton.Left && e.ChangedButton != MouseButton.Middle) return;
+
             _StartPoint = e.GetPosition(_Sender);
 
             _IsButtonDown = true;
+            _DragMouseButton = e.ChangedButton;
             _IsDragging = false;
             _IsEnableClickEvent = true;
 
-            _Action = GetAction(Keyboard.Modifiers);
+            _Action = null;
 
             _Sender.CaptureMouse();
         }
 
-
-        // マウス左ボタンが離された時の処理
-        private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        // マウスボタンが離された時の処理
+        private void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (!_IsButtonDown) return;
+
+            if (e.ChangedButton != _DragMouseButton) return;
 
             _IsButtonDown = false;
 
@@ -637,7 +594,6 @@ namespace NeeView
                 MouseClickEventHandler(sender, e);
             }
         }
-
 
         // マウスホイールの処理
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
@@ -670,8 +626,12 @@ namespace NeeView
             }
 
             // update action
-            var action = GetAction(Keyboard.Modifiers);
-            if (action != null && action != _Action)
+            var action = GetAction(_DragMouseButton, Keyboard.Modifiers);
+            if (_Action == null)
+            {
+                _Action = action;
+            }
+            else if (action != _Action)
             {
                 if (Keyboard.Modifiers != ModifierKeys.None || action.IsGroupCompatible(_Action))
                 {
@@ -689,6 +649,8 @@ namespace NeeView
         {
             _StartPoint = pos;
             _BaseFlipPoint = _StartPoint;
+            var windowDiff = _Window.PointToScreen(new Point(0, 0)) - new Point(_Window.Left, _Window.Top);
+            _StartPointFromWindow = _Sender.TranslatePoint(_StartPoint, _Window) + windowDiff;
 
             if (DragControlCenter == DragControlCenter.View)
             {
@@ -706,13 +668,13 @@ namespace NeeView
 
 
         // 移動
-        private void DragMove(Point start, Point end)
+        public void DragMove(Point start, Point end)
         {
             DragMoveEx(start, end, 1.0);
         }
 
         // 移動(速度スケール依存)
-        private void DragMoveScale(Point start, Point end)
+        public void DragMoveScale(Point start, Point end)
         {
             var area = GetArea();
             var scaleX = area.Target.Width / area.View.Width;
@@ -968,10 +930,16 @@ namespace NeeView
             }
         }
 
-        // キーバインド設定
-        public void Restore(MouseDragControllerSetting setting)
+
+        // ウィンドウ移動
+        public void DragWindowMove(Point start, Point end)
         {
-            KeyBindings = setting.KeyBindings;
+            if (_Window.WindowState == WindowState.Normal)
+            {
+                var pos = _Sender.PointToScreen(_EndPoint) - _StartPointFromWindow;
+                _Window.Left = pos.X;
+                _Window.Top = pos.Y;
+            }
         }
     }
 }

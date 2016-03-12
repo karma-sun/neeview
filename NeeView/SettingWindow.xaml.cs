@@ -143,41 +143,59 @@ namespace NeeView
             [DragActionType.ScaleSlider] = "拡大縮小(スライド式)",
             [DragActionType.FlipHorizontal] = "左右反転",
             [DragActionType.FlipVertical] = "上下反転",
+            [DragActionType.WindowMove] = "ウィンドウ移動",
         };
-
-
-        private DragActionType GetDragActionType(ModifierKeys key)
-        {
-            return Setting.ViewMemento.ViewDragMemento.KeyBindings[key];
-        }
-        private void SetDragActionType(ModifierKeys key, DragActionType value)
-        {
-            Setting.ViewMemento.ViewDragMemento.KeyBindings[key] = value;
-        }
 
         public DragActionType DragActionNone
         {
-            get { return GetDragActionType(ModifierKeys.None); }
-            set { SetDragActionType(ModifierKeys.None, value); }
+            get { return DragKeyTable.Elements["LeftDrag"]; }
+            set { DragKeyTable.Elements["LeftDrag"] = value; }
         }
 
         public DragActionType DragActionControl
         {
-            get { return GetDragActionType(ModifierKeys.Control); }
-            set { SetDragActionType(ModifierKeys.Control, value); }
+            get { return DragKeyTable.Elements["Ctrl+LeftDrag"]; }
+            set { DragKeyTable.Elements["Ctrl+LeftDrag"] = value; }
         }
 
         public DragActionType DragActionShift
         {
-            get { return GetDragActionType(ModifierKeys.Shift); }
-            set { SetDragActionType(ModifierKeys.Shift, value); }
+            get { return DragKeyTable.Elements["Shift+LeftDrag"]; }
+            set { DragKeyTable.Elements["Shift+LeftDrag"] = value; }
         }
 
         public DragActionType DragActionAlt
         {
-            get { return GetDragActionType(ModifierKeys.Alt); }
-            set { SetDragActionType(ModifierKeys.Alt, value); }
+            get { return DragKeyTable.Elements["Alt+LeftDrag"]; }
+            set { DragKeyTable.Elements["Alt+LeftDrag"] = value; }
         }
+
+
+
+        public DragActionType DragActionMiddleNone
+        {
+            get { return DragKeyTable.Elements["MiddleDrag"]; }
+            set { DragKeyTable.Elements["MiddleDrag"] = value; }
+        }
+
+        public DragActionType DragActionMiddleControl
+        {
+            get { return DragKeyTable.Elements["Ctrl+MiddleDrag"]; }
+            set { DragKeyTable.Elements["Ctrl+MiddleDrag"] = value; }
+        }
+
+        public DragActionType DragActionMiddleShift
+        {
+            get { return DragKeyTable.Elements["Shift+MiddleDrag"]; }
+            set { DragKeyTable.Elements["Shift+MiddleDrag"] = value; }
+        }
+
+        public DragActionType DragActionMiddleAlt
+        {
+            get { return DragKeyTable.Elements["Alt+MiddleDrag"]; }
+            set { DragKeyTable.Elements["Alt+MiddleDrag"] = value; }
+        }
+
 
         #region Property: ExternalApplicationParam
         public string ExternalApplicationParam
@@ -207,6 +225,8 @@ namespace NeeView
             [ExternalApplication.ArchiveOptionType.SendExtractFile] = "出力したファイルを渡す(テンポラリ)",
         };
         
+        //
+        public DragActionTable.KeyTable DragKeyTable { get; set; }
 
         /// <summary>
         /// コンストラクタ
@@ -219,6 +239,9 @@ namespace NeeView
             Setting = setting;
             OldSusieSetting = setting.SusieMemento.Clone();
             IsDartySusieSetting = false;
+
+            // ドラッグキーテーブル作成
+            DragKeyTable = new DragActionTable.KeyTable(Setting.DragActionMemento);
 
             // コマンド一覧作成
             CommandCollection = new ObservableCollection<CommandParam>();
@@ -380,6 +403,9 @@ namespace NeeView
         {
             if (this.DialogResult == true)
             {
+                // ドラッグキーバインド反映
+                DragKeyTable.UpdateMemento();
+
                 // コマンド設定反映
                 foreach (var command in CommandCollection)
                 {

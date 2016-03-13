@@ -93,8 +93,8 @@ namespace NeeView
         // ゼスチャ表示スタイル
         public ShowMessageStyle GestureShowMessageStyle { get; set; }
 
-        // NowLoadingの表示
-        public bool IsVisibleNowLoading { get; set; }
+        // NowLoading表示スタイル
+        public ShowMessageStyle NowLoadingShowMessageStyle { get; set; }
 
         // スライダー方向
         #region Property: IsSliderDirectionReversed
@@ -1037,7 +1037,7 @@ namespace NeeView
             public ShowMessageStyle GestureShowMessageStyle { get; set; }
 
             [DataMember(Order = 4)]
-            public bool IsVisibleNowLoading { get; set; }
+            public ShowMessageStyle NowLoadingShowMessageStyle { get; set; }
 
             [DataMember(Order = 1)]
             public bool IsEnabledNearestNeighbor { get; set; }
@@ -1083,7 +1083,7 @@ namespace NeeView
                 NoticeShowMessageStyle = ShowMessageStyle.Normal;
                 CommandShowMessageStyle = ShowMessageStyle.Normal;
                 GestureShowMessageStyle = ShowMessageStyle.Normal;
-                IsVisibleNowLoading = true;
+                NowLoadingShowMessageStyle = ShowMessageStyle.Normal;
                 StretchMode = PageStretchMode.Uniform;
                 Background = BackgroundStyle.Black;
             }
@@ -1115,7 +1115,7 @@ namespace NeeView
             memento.NoticeShowMessageStyle = this.NoticeShowMessageStyle;
             memento.CommandShowMessageStyle = this.CommandShowMessageStyle;
             memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
-            memento.IsVisibleNowLoading = this.IsVisibleNowLoading;
+            memento.NowLoadingShowMessageStyle = this.NowLoadingShowMessageStyle;
             memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
             memento.IsKeepScale = this.IsKeepScale;
             memento.IsKeepAngle = this.IsKeepAngle;
@@ -1145,7 +1145,7 @@ namespace NeeView
             this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
             this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
             this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
-            this.IsVisibleNowLoading = memento.IsVisibleNowLoading;
+            this.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
             this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
             this.IsKeepScale = memento.IsKeepScale;
             this.IsKeepAngle = memento.IsKeepAngle;

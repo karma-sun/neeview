@@ -16,6 +16,16 @@
         Topmost="{Binding IsTopmost}"
         Loaded="MainWindow_Loaded" PreviewDragOver="MainWindow_PreviewDragOver" Drop="MainWindow_Drop" Closed="Window_Closed" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized">
 
+    <!--"{x:Static SystemParameters.CaptionHeight}"-->
+    <!--
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0"
+                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" 
+                      UseAeroCaptionButtons="True"
+                      />
+    </WindowChrome.WindowChrome>
+    -->
+
     <Window.Resources>
 
         <Style x:Key="VisibleContent" TargetType="FrameworkElement">
@@ -55,7 +65,7 @@
             </ListView>
         </ScrollViewer>
         -->
-        
+
         <!-- 開発用 表示領域-->
         <!--
         <DockPanel x:Name="DevInfo" DockPanel.Dock="Bottom" Panel.ZIndex="100" Background="White"
@@ -68,7 +78,7 @@
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[3].Message}"/>
         </DockPanel>
         -->
-        
+
         <!-- 製品表示領域 -->
         <Grid x:Name="Root" Background="{Binding BackgroundBrush}">
 
@@ -139,7 +149,7 @@
                         <Separator/>
                         <MenuItem Header="保存(_S)..." Command="{Binding BookCommands[Export]}"/>
                         <MenuItem Header="削除(_D)" Command="{Binding BookCommands[DeleteFile]}" />
-                        <Separator/> 
+                        <Separator/>
                         <MenuItem Header="終了(_X)" x:Name="ExitMenuItem" InputGestureText="Alt+F4" Command="{Binding BookCommands[CloseApplication]}" />
                     </MenuItem>
 
@@ -245,7 +255,7 @@
                     <MenuItem Header="設定(_O)">
                         <MenuItem Header="設定..." Command="{Binding BookCommands[OpenSettingWindow]}"/>
                     </MenuItem>
-                    
+
                     <!-- 開発用メニュー -->
                     <MenuItem x:Name="MenuItemDev" Header="開発(_D)">
                         <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" />
@@ -280,7 +290,7 @@
             </DockPanel>
 
             <!-- Now Loading -->
-            <Grid x:Name="NowLoading" Background="Black" Opacity="0" IsHitTestVisible="False">
+            <Grid x:Name="NowLoading" Opacity="0" IsHitTestVisible="False">
                 <Grid.Style>
                     <Style TargetType="Grid">
                         <Style.Triggers>
@@ -290,23 +300,26 @@
                         </Style.Triggers>
                     </Style>
                 </Grid.Style>
-
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
-                    <TextBlock x:Name="NowLoadingText" Text="Now Loading"  TextAlignment="Center" VerticalAlignment="Center"
+                <Grid x:Name="NowLoadingNormal" Background="Black">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+                        <TextBlock x:Name="NowLoadingText" Text="Now Loading"  TextAlignment="Center" VerticalAlignment="Center"
                            Foreground="White" FontFamily="Meiryo" FontSize="{Binding InfoTextFontSize}" Margin="8" TextTrimming="CharacterEllipsis"/>
-                    <Grid Width="50" Height="50">
-                        <Rectangle Width="5" Height="25" Fill="#FF00B5FF" RenderTransformOrigin="0.5,0.5">
-                            <Rectangle.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform/>
-                                    <RotateTransform x:Name="NowLoadingMarkAngle" Angle="45"/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </Rectangle.RenderTransform>
-                        </Rectangle>
-                    </Grid>
-                </StackPanel>
+                        <Grid Width="50" Height="50">
+                            <Rectangle Width="5" Height="25" Fill="#FF00B5FF" RenderTransformOrigin="0.5,0.5">
+                                <Rectangle.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform x:Name="NowLoadingMarkAngle" Angle="45"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+
+                <TextBlock x:Name="NowLoadingTiny" Text="Now Loading ..." VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False"/>
             </Grid>
 
             <!-- Message Tiny -->

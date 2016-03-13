@@ -503,6 +503,7 @@ namespace NeeView
             }
 
             this.TinyInfoTextBlock.Margin = new Thickness(0, 0, 0, this.StatusArea.ActualHeight);
+            this.NowLoadingTiny.Margin = new Thickness(0, 0, 0, this.StatusArea.ActualHeight);
         }
 
 
@@ -657,9 +658,20 @@ namespace NeeView
         /// <param name="isDisp"></param>
         private void DispNowLoading(bool isDisp)
         {
-            if (isDisp && _VM.IsVisibleNowLoading)
+            if (isDisp && _VM.NowLoadingShowMessageStyle != ShowMessageStyle.None)
             {
                 this.NowLoading.Opacity = 0.0;
+
+                if (_VM.NowLoadingShowMessageStyle == ShowMessageStyle.Normal)
+                {
+                    this.NowLoadingNormal.Visibility = Visibility.Visible;
+                    this.NowLoadingTiny.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    this.NowLoadingNormal.Visibility = Visibility.Collapsed;
+                    this.NowLoadingTiny.Visibility = Visibility.Visible;
+                }
 
                 var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
                 ani.BeginTime = TimeSpan.FromSeconds(1.0);

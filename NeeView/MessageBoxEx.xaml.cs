@@ -77,7 +77,7 @@ namespace NeeView
                 this.VisualControl.Content = param.VisualContent;
                 this.VisualControl.Margin = new Thickness(20, 10, 20, 10);
             }
-                
+
         }
 
         private void YesButton_Click(object sender, RoutedEventArgs e)

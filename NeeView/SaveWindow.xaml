@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="画像を保存" Height="450" Width="450">
+        Title="画像を保存" Height="300" Width="450">
     <Window.Resources>
         <Style TargetType="Canvas">
             <Setter Property="Margin" Value="20"/>
@@ -32,7 +32,7 @@
                 </WrapPanel.Resources>
                 <CheckBox IsChecked="{Binding IsHintClone}" Content="元ファイルのまま保存" />
                 <CheckBox IsEnabled="{Binding IsEnableDoubleImage}" IsChecked="{Binding IsHintDoubleImage}" Content="2ページを連結する" />
-                <CheckBox IsEnabled="{Binding IsEnableBackground}" IsChecked="{Binding IsHintBackground}" Content="背景を含める"  />
+                <CheckBox IsEnabled="{Binding IsEnableBackground}" IsChecked="{Binding IsHintBackground}" Content="背景を含める" />
             </WrapPanel>
 
             <TextBlock DockPanel.Dock="Bottom" x:Name="Image01Title" Text="{Binding ThumbnailTitle}" TextAlignment="Center" Margin="0,0,0,8"/>

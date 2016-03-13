@@ -48,10 +48,17 @@
                               IsChecked="{Binding Setting.BookHubMemento.IsEnableExif}" />
                             <CheckBox Margin="2" Content="サポート外ファイルもページに含める"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnableNoSupportFile}" />
+                            <CheckBox DockPanel.Dock="Top" Margin="2" Content="スライダーを右基準にする"
+                              IsChecked="{Binding Setting.ViewMemento.IsSliderDirectionReversed}" />
                         </StackPanel>
 
                         <TextBlock Text="表示" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
+                            <StackPanel.Resources>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="MinWidth" Value="120"/>
+                                </Style>
+                            </StackPanel.Resources>
                             <DockPanel Margin="2" LastChildFill="False">
                                 <TextBlock MinWidth="100" Text="通知を" VerticalAlignment="Center" Margin="2"/>
                                 <ComboBox ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
@@ -64,16 +71,19 @@
                                   SelectedValue="{Binding Setting.ViewMemento.CommandShowMessageStyle}" />
                             </DockPanel>
 
+                            
                             <DockPanel Margin="2" LastChildFill="False">
                                 <TextBlock MinWidth="100" Text="マウスジェスチャーを" VerticalAlignment="Center" Margin="2"/>
                                 <ComboBox ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.GestureShowMessageStyle}" />
                             </DockPanel>
 
-                            <CheckBox DockPanel.Dock="Top" Margin="2" Content="Now Loading を表示する"
-                              IsChecked="{Binding Setting.ViewMemento.IsVisibleNowLoading}" />
-                            <CheckBox DockPanel.Dock="Top" Margin="2" Content="スライダーを右基準にする"
-                              IsChecked="{Binding Setting.ViewMemento.IsSliderDirectionReversed}" />
+                            <DockPanel Margin="2" LastChildFill="False">
+                                <TextBlock MinWidth="100" Text="Now Loading を" VerticalAlignment="Center" Margin="2"/>
+                                <ComboBox ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.ViewMemento.NowLoadingShowMessageStyle}" />
+                            </DockPanel>
+
                         </StackPanel>
 
 
@@ -83,7 +93,7 @@
                             <CheckBox Margin="2" Content="前回保存したフォルダを記憶する"
                               IsChecked="{Binding Setting.ExporterMemento.IsEnableExportFolder}" />
                             <StackPanel Margin="2" Orientation="Horizontal">
-                                <TextBlock Text="JPEG品質：" ToolTip="フォーマットがJPGに変わる時のみ適用されます"/>
+                                <TextBlock Text="JPEG品質：" ToolTip="変換が必要な場合にのみ使用されます"/>
                                 <TextBlock Text="{Binding Setting.ExporterMemento.QualityLevel}" Width="20" Margin="10,0" TextAlignment="Right"/>
                                 <Slider x:Name="QualityLevelSlider" Width="200" Value="{Binding Setting.ExporterMemento.QualityLevel}"
                                     Minimum="5" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"/>

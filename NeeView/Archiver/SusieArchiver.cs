@@ -18,11 +18,17 @@ namespace NeeView
     /// </summary>
     public class SusieArchiver : Archiver
     {
+        public override string ToString()
+        {
+            return _SusiePlugin.Name ?? "(none)";
+        }
+        
         public static bool IsEnable { get; set; }
 
         private string _ArchiveFileName;
         public override string FileName => _ArchiveFileName;
 
+        private Susie.SusiePlugin _SusiePlugin;
         Dictionary<string, Susie.ArchiveEntry> _ArchiveFileInfoDictionary;
 
         private object _Lock = new object();
@@ -41,6 +47,8 @@ namespace NeeView
             var infoCollection = ModelContext.Susie?.GetArchiveInfo(_ArchiveFileName);
 
             if (infoCollection == null) throw new NotSupportedException();
+
+            _SusiePlugin = infoCollection.SusiePlugin;
 
             _ArchiveFileInfoDictionary = new Dictionary<string, Susie.ArchiveEntry>();
             List<ArchiveEntry> entries = new List<ArchiveEntry>();

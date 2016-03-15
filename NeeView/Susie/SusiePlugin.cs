@@ -21,11 +21,20 @@ namespace Susie
     /// </summary>
     public class SusiePlugin
     {
+        // 文字列変換
+        public override string ToString()
+        {
+            return Name ?? "(none)";
+        }
+
         // 有効/無効
         public bool IsEnable { get; set; } = true;
 
         // プラグインファイルのパス
         public string FileName { get; private set; }
+
+        // プラグイン名
+        public string Name { get { return FileName != null ? Path.GetFileName(FileName) : null; } }
 
         // APIバージョン
         public string ApiVersion { get; private set; }
@@ -34,7 +43,7 @@ namespace Susie
         public string PluginVersion { get; private set; }
 
         // 詳細テキスト
-        public string DetailText { get { return $"{Path.GetFileName(FileName)} ( {string.Join(" ", Extensions)} )"; } }
+        public string DetailText { get { return $"{Name} ( {string.Join(" ", Extensions)} )"; } }
 
         // 設定ダイアログの有無
         public bool HasConfigurationDlg { get; private set; }
@@ -52,6 +61,7 @@ namespace Susie
 
         // 排他処理用ロックオブジェクト
         public object Lock = new object();
+        public static object GlobalLock = new object();
 
 
         /// <summary>
@@ -109,7 +119,7 @@ namespace Susie
                 Extensions = new List<string>();
                 foreach (var supportType in this.SupportFileTypeList)
                 {
-                    foreach (var filter in supportType.Extension.Split(';'))
+                    foreach (var filter in supportType.Extension.Split(';', ',')) // ifjpeg2k.spi用に","を追加
                     {
                         Extensions.Add(filter.TrimStart('*').ToLower());
                     }
@@ -222,6 +232,30 @@ namespace Susie
                 {
                     if (!api.IsSupported(fileName, buff)) return null;
                     return api.GetPicture(buff);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 画像取得(ファイル版)
+        /// </summary>
+        /// <param name="fileName">画像ファイルパス</param>
+        ///  /// <param name="fileName">ファイルヘッダ2KB</param>
+        /// <returns>BitmapImage。失敗した場合はnull</returns>
+        public BitmapImage GetPictureFromFile(string fileName, byte[] head)
+        {
+            if (FileName == null) throw new InvalidOperationException();
+            if (!IsEnable) return null;
+
+            // サポート拡張子チェック
+            if (!Extensions.Contains(GetExtension(fileName))) return null;
+
+            lock (Lock)
+            {
+                using (var api = Open())
+                {
+                    if (!api.IsSupported(fileName, head)) return null;
+                    return api.GetPicture(fileName);
                 }
             }
         }

@@ -88,9 +88,27 @@
                 <!-- Pages -->
                 <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Canvas.Resources>
+                        <Style TargetType="TextBlock" x:Key="ContentProperty">
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="#80000000"/>
+                            <Setter Property="Padding" Value="10,5"/>
+                        </Style>
+                    </Canvas.Resources>
                     <StackPanel x:Name="MainContent" Orientation="Horizontal" SnapsToDevicePixels="True" >
-                        <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
-                        <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}"/>
+
+                        <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" SnapsToDevicePixels="True"/>
+                        <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" SnapsToDevicePixels="True"/>
+                        <!--
+                        <Canvas x:Name="Canvas1" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" SnapsToDevicePixels="True">
+                            <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
+                            <TextBlock x:Name="Content1Text" Text="{Binding Contents[1].Text}"/>
+                        </Canvas>
+                        <Canvas x:Name="Canvas0" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" SnapsToDevicePixels="True">
+                            <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}"/>
+                            <TextBlock x:Name="Content0Text" Text="{Binding Contents[0].Text}"/>
+                        </Canvas>
+                        -->
                     </StackPanel>
                 </Canvas>
 

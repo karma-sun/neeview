@@ -242,9 +242,9 @@ namespace NeeView
         {
             if (_TempFile != null) return _TempFile;
 
-            if (_Archiver is FolderFiles)
+            if (_Archiver.IsFileSystem)
             {
-                _TempFile = ((FolderFiles)_Archiver).GetFullPath(FileName);
+                _TempFile = _Archiver.GetFileSystemPath(FileName);
             }
             else
             {
@@ -268,5 +268,17 @@ namespace NeeView
         {
             return _Archiver != null && _Archiver is FolderFiles;
         }
+
+        // コンテンツローダー名
+        protected string LoaderName;
+
+        // 詳細
+        public string ContentProperty
+        {
+            get
+            {
+                return $"Archiver: {_Archiver?.ToString()}\nLoader: {LoaderName}";
+            }
+        } 
     }
 }

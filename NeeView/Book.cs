@@ -351,10 +351,9 @@ namespace NeeView
                 bool isRecursive = (option & BookLoadOption.Recursive) == BookLoadOption.Recursive;
                 if ((isRecursive || entries.Count == 1) && ModelContext.ArchiverManager.IsSupported(entry.FileName))
                 {
-                    if (archiver is FolderFiles)
+                    if (archiver.IsFileSystem)
                     {
-                        var ff = (FolderFiles)archiver;
-                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(ff.GetFullPath(entry.FileName), archiver), LoosePath.Combine(place, entry.FileName), option);
+                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(archiver.GetFileSystemPath(entry.FileName), archiver), LoosePath.Combine(place, entry.FileName), option);
                     }
                     else
                     {
@@ -399,8 +398,6 @@ namespace NeeView
                 }
             }
         }
-
-
 
 
         // 開始

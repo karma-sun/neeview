@@ -119,6 +119,8 @@ namespace Susie
         }
 
 
+
+
         /// <summary>
         /// 画像取得 (メモリ版)
         /// </summary>
@@ -127,18 +129,83 @@ namespace Susie
         /// <returns>BitmapImage</returns>
         public BitmapImage GetPicture(string fileName, byte[] buff)
         {
+            SusiePlugin spiDummy;
+            return GetPicture(fileName, buff, out spiDummy);
+        }
+
+        /// <summary>
+        /// 画像取得 (メモリ版)
+        /// </summary>
+        /// <param name="fileName">ォーマット判定に使用される。ファイルアクセスはされません</param>
+        /// <param name="buff">画像データ</param>
+        /// <param name="spi">使用されたプラグイン</param>
+        /// <returns>BitmapImage</returns>
+        public BitmapImage GetPicture(string fileName, byte[] buff, out SusiePlugin spi)
+        {
             foreach (var plugin in INPlgunList)
             {
                 try
                 {
                     var bitmapImage = plugin.GetPicture(fileName, buff);
-                    if (bitmapImage != null) return bitmapImage;
+                    if (bitmapImage != null)
+                    {
+                        spi = plugin;
+                        return bitmapImage;
+                    }
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
                 }
             }
+            spi = null;
+            return null;
+        }
+
+
+        /// <summary>
+        /// 画像取得 (ファイル版)
+        /// </summary>
+        /// <param name="fileName">ファイルパス</param>
+        /// <returns>BitmapImage</returns>
+        public BitmapImage GetPictureFromFile(string fileName)
+        {
+            SusiePlugin spiDummy;
+            return GetPictureFromFile(fileName, out spiDummy);
+        }
+
+        /// <summary>
+        /// 画像取得 (ファイル版)
+        /// </summary>
+        /// <param name="fileName">ファイルパス</param>
+        /// <param name="spi">使用されたプラグイン</param>
+        /// <returns>BitmapImage</returns>
+        public BitmapImage GetPictureFromFile(string fileName, out SusiePlugin spi)
+        {
+            // 先頭の一部をメモリに読み込む
+            var head = new byte[4096];
+            using (FileStream fs = new FileStream(fileName, FileMode.Open))
+            {
+                fs.Read(head, 0, 2048);
+            }
+
+            foreach (var plugin in INPlgunList)
+            {
+                try
+                {
+                    var bitmapImage = plugin.GetPictureFromFile(fileName, head);
+                    if (bitmapImage != null)
+                    {
+                        spi = plugin;
+                        return bitmapImage;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
+            }
+            spi = null;
             return null;
         }
     }

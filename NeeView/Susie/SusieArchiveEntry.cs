@@ -108,8 +108,12 @@ namespace Susie
     /// </summary>
     public class ArchiveEntryCollection : List<ArchiveEntry>
     {
+        public SusiePlugin SusiePlugin { get; set; }
+
         public ArchiveEntryCollection(SusiePlugin spi, string archiveFileName, List<ArchiveFileInfoRaw> entries)
         {
+            SusiePlugin = spi;
+
             string shortPath = Win32Api.GetShortPathName(archiveFileName);
             foreach (var entry in entries)
             {

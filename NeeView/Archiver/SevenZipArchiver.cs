@@ -18,6 +18,11 @@ namespace NeeView
     /// </summary>
     public class SevenZipArchiver : Archiver
     {
+        public override string ToString()
+        {
+            return "7zip.dll";
+        }
+
         private string _ArchiveFileName;
         public override string FileName => _ArchiveFileName;
 

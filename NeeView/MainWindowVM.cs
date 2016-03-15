@@ -729,6 +729,7 @@ namespace NeeView
                         content.Position = source.Position;
                         content.PartSize = source.PartSize;
                         content.ReadOrder = source.ReadOrder;
+                        content.Text = source.Text;
 
                         contents.Add(content);
                     }
@@ -1001,7 +1002,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento
@@ -1162,7 +1163,7 @@ namespace NeeView
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }
 
-        #endregion
+#endregion
 
     }
 }

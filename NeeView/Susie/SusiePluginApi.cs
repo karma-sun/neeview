@@ -136,7 +136,7 @@ namespace Susie
             return (add != IntPtr.Zero);
         }
 
-    
+
         /// <summary>
         /// API取得
         /// </summary>
@@ -210,9 +210,11 @@ namespace Susie
             if (hModule == null) throw new InvalidOperationException();
             var isSupported = GetApiDelegate<IsSupportedFromFileDelegate>("IsSupported");
 
+            string shortPath = Win32Api.GetShortPathName(filename);
+
             using (FileStream fs = new FileStream(filename, FileMode.Open))
             {
-                return isSupported(filename, fs.SafeFileHandle.DangerousGetHandle());
+                return isSupported(shortPath, fs.SafeFileHandle.DangerousGetHandle());
             }
         }
 
@@ -328,7 +330,7 @@ namespace Susie
             if (hModule == null) throw new InvalidOperationException();
             var getFile = GetApiDelegate<GetFileFromFileToFileHandler>("GetFile");
 
-            return getFile(file, (int)entry.position, extractFolder, 0x0000, 0, 0); // 0x0100 > File To File
+            return getFile(file, (int)entry.position, extractFolder, 0x0000, 0, 0); // 0x0000 > File To File
         }
 
         #endregion
@@ -336,6 +338,8 @@ namespace Susie
 
         #region 00IN 必須 GetPicture()
         delegate int GetPictureFromMemoryDelegate([In]byte[] buf, int len, uint flag, out IntPtr pHBInfo, out IntPtr pHBm, int lpProgressCallback, int lData);
+        delegate int GetPictureFromFileDelegate([In]string filename, int offset, uint flag, out IntPtr pHBInfo, out IntPtr pHBm, int lpProgressCallback, int lData);
+
 
         /// <summary>
         /// 画像取得(メモリ版)
@@ -356,38 +360,78 @@ namespace Susie
                 {
                     IntPtr pBInfo = Win32Api.LocalLock(pHBInfo);
                     IntPtr pBm = Win32Api.LocalLock(pHBm);
-
-                    var bi = Marshal.PtrToStructure<BitmapInfoHeader>(pBInfo);
-                    var bf = CreateBitmapFileHeader(bi);
-
-                    byte[] mem = new byte[bf.bfSize];
-                    GCHandle gch = GCHandle.Alloc(mem, GCHandleType.Pinned);
-                    try { Marshal.StructureToPtr<BitmapFileHeader>(bf, gch.AddrOfPinnedObject(), false); }
-                    finally { gch.Free(); }
-                    Marshal.Copy(pBInfo, mem, Marshal.SizeOf(bf), (int)bf.bfOffBits - Marshal.SizeOf(bf));
-                    Marshal.Copy(pBm, mem, (int)bf.bfOffBits, (int)(bf.bfSize - bf.bfOffBits));
-
-                    using (MemoryStream ms = new MemoryStream(mem))
-                    {
-                        BitmapImage bmpImage = new BitmapImage();
-
-                        bmpImage.BeginInit();
-                        bmpImage.CacheOption = BitmapCacheOption.OnLoad;
-                        bmpImage.StreamSource = ms;
-                        bmpImage.EndInit();
-                        bmpImage.Freeze();
-
-                        return bmpImage;
-                    }
+                    return CraeteBitmapImage(pBInfo, pBm);
                 }
                 return null;
             }
             finally
             {
                 Win32Api.LocalUnlock(pHBInfo);
-                Win32Api.LocalFree(pHBInfo);
                 Win32Api.LocalUnlock(pHBm);
+                Win32Api.LocalFree(pHBInfo);
                 Win32Api.LocalFree(pHBm);
+            }
+        }
+
+
+        /// <summary>
+        /// 画像取得(ファイル版)
+        /// </summary>
+        /// <param name="filename">入力ファイル名</param>
+        /// <returns>BitmapImage。失敗した場合はnull</returns>
+        public BitmapImage GetPicture(string filename)
+        {
+            if (hModule == null) throw new InvalidOperationException();
+            var getPicture = GetApiDelegate<GetPictureFromFileDelegate>("GetPicture");
+
+            string shortPath = Win32Api.GetShortPathName(filename);
+
+            IntPtr pHBInfo = IntPtr.Zero;
+            IntPtr pHBm = IntPtr.Zero;
+            try
+            {
+                int ret = getPicture(shortPath, 0, 0x00, out pHBInfo, out pHBm, 0, 0);
+                if (ret == 0)
+                {
+                    IntPtr pBInfo = Win32Api.LocalLock(pHBInfo);
+                    IntPtr pBm = Win32Api.LocalLock(pHBm);
+                    return CraeteBitmapImage(pBInfo, pBm);
+                }
+                return null;
+            }
+            finally
+            {
+                Win32Api.LocalUnlock(pHBInfo);
+                Win32Api.LocalUnlock(pHBm);
+                Win32Api.LocalFree(pHBInfo);
+                Win32Api.LocalFree(pHBm);
+            }
+        }
+
+        // BitmapImage 作成
+        private BitmapImage CraeteBitmapImage(IntPtr pBInfo, IntPtr pBm)
+        {
+            var bi = Marshal.PtrToStructure<BitmapInfoHeader>(pBInfo);
+            var bf = CreateBitmapFileHeader(bi);
+
+            byte[] mem = new byte[bf.bfSize];
+            GCHandle gch = GCHandle.Alloc(mem, GCHandleType.Pinned);
+            try { Marshal.StructureToPtr<BitmapFileHeader>(bf, gch.AddrOfPinnedObject(), false); }
+            finally { gch.Free(); }
+            Marshal.Copy(pBInfo, mem, Marshal.SizeOf(bf), (int)bf.bfOffBits - Marshal.SizeOf(bf));
+            Marshal.Copy(pBm, mem, (int)bf.bfOffBits, (int)(bf.bfSize - bf.bfOffBits));
+
+            using (MemoryStream ms = new MemoryStream(mem))
+            {
+                BitmapImage bmpImage = new BitmapImage();
+
+                bmpImage.BeginInit();
+                bmpImage.CacheOption = BitmapCacheOption.OnLoad;
+                bmpImage.StreamSource = ms;
+                bmpImage.EndInit();
+                bmpImage.Freeze();
+
+                return bmpImage;
             }
         }
 

@@ -18,6 +18,13 @@ namespace NeeView
     /// </summary>
     public class FolderFiles : Archiver
     {
+        public override string ToString()
+        {
+            return "FileSystem";
+        }
+
+        public override bool IsFileSystem { get; } = true;
+
         private string _FolderFileName;
         public override string FileName => _FolderFileName;
 
@@ -62,17 +69,16 @@ namespace NeeView
         }
 
 
-        // フルパスの取得
-        public string GetFullPath(string entryName)
+        // ファイルパス取得
+        public override string GetFileSystemPath(string entryName)
         {
             return System.IO.Path.Combine(_FolderFileName, entryName);
         }
 
-
         //
         public override void ExtractToFile(string entryName, string exportFileName, bool isOverwrite)
         {
-            File.Copy(GetFullPath(entryName), exportFileName, isOverwrite);
+            File.Copy(GetFileSystemPath(entryName), exportFileName, isOverwrite);
         }
     }
 

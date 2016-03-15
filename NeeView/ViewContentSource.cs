@@ -33,6 +33,9 @@ namespace NeeView
         // コンテンツの色
         public Color Color { get; set; }
 
+        // コンテンツテキスト
+        public string Text { get; set; }
+
         // 表示名
         public string FullPath { get; set; }
 
@@ -58,6 +61,7 @@ namespace NeeView
             Position = position;
             PartSize = size;
             ReadOrder = readOrder;
+            Text = page.ContentProperty;
         }
 
 

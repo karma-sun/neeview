@@ -18,6 +18,11 @@ namespace NeeView
     /// </summary>
     public class ZipArchiver : Archiver
     {
+        public override string ToString()
+        {
+            return ".Net ZipArchiver";
+        }
+
         private string _ArchiveFileName;
         public override string FileName => _ArchiveFileName;
 

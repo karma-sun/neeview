@@ -72,6 +72,17 @@ namespace NeeView
         // コンテンツの色
         public Brush Color { get; set; } = Brushes.Black;
 
+        // コンテンツテキスト
+        #region Property: Text
+        private string _Text;
+        public string Text
+        {
+            get { return _Text; }
+            set { _Text = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+
         // 表示名
         public string FullPath { get; set; }
 

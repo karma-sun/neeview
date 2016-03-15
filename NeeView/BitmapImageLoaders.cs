@@ -19,8 +19,8 @@ namespace NeeView
     /// </summary>
     public interface IBitmapLoader
     {
-        BitmapSource Load(Stream stream, string fileName);
-        BitmapSource LoadWithExif(Stream stream, string fileName);
+        BitmapSource Load(Stream stream, string fileName, bool withExif);
+        BitmapSource LoadFromFile(string fileName, bool withExif);
     }
 
     /// <summary>
@@ -28,6 +28,11 @@ namespace NeeView
     /// </summary>
     public class DefaultBitmapLoader : IBitmapLoader
     {
+        public override string ToString()
+        {
+            return ".Net BitmapImage";
+        }
+
         private void DumpMetaData(string prefix, BitmapMetadata metadata)
         {
             foreach (var name in metadata)
@@ -54,18 +59,36 @@ namespace NeeView
         }
 
         // Bitmap読み込み
-        public BitmapSource Load(Stream stream, string fileName)
+        public BitmapSource Load(Stream stream, string fileName, bool withExif)
         {
-            BitmapImage bmpImage = new BitmapImage();
+            if (withExif)
+            {
+                return LoadWithExif(stream, fileName);
+            }
+            else
+            {
+                BitmapImage bmpImage = new BitmapImage();
 
-            bmpImage.BeginInit();
-            bmpImage.CacheOption = BitmapCacheOption.OnLoad;
-            bmpImage.StreamSource = stream;
-            bmpImage.EndInit();
-            bmpImage.Freeze();
+                bmpImage.BeginInit();
+                bmpImage.CacheOption = BitmapCacheOption.OnLoad;
+                bmpImage.StreamSource = stream;
+                bmpImage.EndInit();
+                bmpImage.Freeze();
 
-            return bmpImage;
+                return bmpImage;
+            }
         }
+
+
+        // Bitmap読み込み
+        public BitmapSource LoadFromFile(string fileName, bool withExif)
+        {
+            using (var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            {
+                return Load(stream, fileName, withExif);
+            }
+        }
+
 
         // EXIF対応 Bitmap読み込み
         // 回転を反映させます
@@ -137,8 +160,15 @@ namespace NeeView
     {
         public static bool IsEnable { get; set; }
 
+        private Susie.SusiePlugin _SusiePlugin;
+
+        public override string ToString()
+        {
+            return _SusiePlugin != null ? _SusiePlugin.ToString() : base.ToString();
+        }
+
         // Bitmap読み込み
-        public BitmapSource Load(Stream stream, string fileName)
+        public BitmapSource Load(Stream stream, string fileName, bool withExif)
         {
             if (!IsEnable) return null;
 
@@ -155,14 +185,15 @@ namespace NeeView
                     buff = ms.GetBuffer();
                 }
             }
-            return ModelContext.Susie?.GetPicture(fileName, buff); // ファイル名は識別用
+            return ModelContext.Susie?.GetPicture(fileName, buff, out _SusiePlugin); // ファイル名は識別用
         }
 
-        // EXIF対応 Bitmap読み込み
-        // Susieは未対応
-        public BitmapSource LoadWithExif(Stream stream, string fileName)
+        // Bitmap読み込み(ファイル版)
+        public BitmapSource LoadFromFile(string fileName, bool withExif)
         {
-            return Load(stream, fileName);
+            if (!IsEnable) return null;
+
+            return ModelContext.Susie?.GetPictureFromFile(fileName, out _SusiePlugin);
         }
     }
 }

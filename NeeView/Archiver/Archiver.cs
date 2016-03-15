@@ -42,6 +42,15 @@ namespace NeeView
         // アーカイブのパス
         public abstract string FileName { get; }
 
+        // ファイルシステムの場合はtrue
+        public virtual bool IsFileSystem { get; } = false;
+
+        // ファイルシステムでのパスを取得
+        public virtual string GetFileSystemPath(string entryName)
+        {
+            throw new NotImplementedException();
+        }
+
         // 親アーカイブ
         public Archiver Parent { get; set; }
 

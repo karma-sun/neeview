@@ -37,28 +37,41 @@ namespace NeeView
             _Archiver = archiver;
         }
 
+
         // Bitmapロード
         private BitmapSource LoadBitmap()
         {
-            using (var stream = _Archiver.OpenEntry(FileName))
+            foreach (var loaderType in ModelContext.BitmapLoaderManager.OrderList)
             {
-                foreach (var loaderType in ModelContext.BitmapLoaderManager.OrderList)
+                try
                 {
-                    try
+                    var bitmapLoader = BitmapLoaderManager.Create(loaderType);
+                    BitmapSource bmp;
+                    if (_Archiver.IsFileSystem) 
                     {
-                        var bitmapLoader = BitmapLoaderManager.Create(loaderType);
-                        stream.Seek(0, SeekOrigin.Begin);
-                        var bmp = IsEnableExif ? bitmapLoader.LoadWithExif(stream, FileName) : bitmapLoader.Load(stream, FileName);
-                        if (bmp != null) return bmp;
+                        bmp = bitmapLoader.LoadFromFile(_Archiver.GetFileSystemPath(FileName), IsEnableExif);
                     }
-                    catch (Exception e)
+                    else
                     {
-                        Debug.WriteLine($"{e.Message}\nat '{FileName}' by {loaderType}");
+                        using (var stream = _Archiver.OpenEntry(FileName))
+                        {
+                            bmp = bitmapLoader.Load(stream, FileName, IsEnableExif);
+                        }
+                    }
+
+                    if (bmp != null)
+                    {
+                        LoaderName = bitmapLoader.ToString();
+                        return bmp;
                     }
                 }
-
-                throw new ApplicationException("画像の読み込みに失敗しました");
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"{e.Message}\nat '{FileName}' by {loaderType}");
+                }
             }
+
+            throw new ApplicationException("画像の読み込みに失敗しました");
         }
 
 

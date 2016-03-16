@@ -22,7 +22,7 @@ namespace NeeView
         {
             return _SusiePlugin.Name ?? "(none)";
         }
-        
+
         public static bool IsEnable { get; set; }
 
         private string _ArchiveFileName;
@@ -34,21 +34,36 @@ namespace NeeView
         private object _Lock = new object();
 
 
-        //
+        // コンストラクタ
         public SusieArchiver(string archiveFileName)
         {
             _ArchiveFileName = archiveFileName;
         }
 
+        // サポート判定
+        public override bool IsSupported()
+        {
+            return GetPlugin() != null;
+        }
+
+        // 対応プラグイン取得
+        public Susie.SusiePlugin GetPlugin()
+        {
+            if (_SusiePlugin == null)
+            {
+                _SusiePlugin = ModelContext.Susie?.GetArchivePlugin(_ArchiveFileName);
+            }
+            return _SusiePlugin;
+        }
 
         // エントリーリストを得る
         public override List<ArchiveEntry> GetEntries()
         {
-            var infoCollection = ModelContext.Susie?.GetArchiveInfo(_ArchiveFileName);
+            var plugin = GetPlugin();
+            if (plugin == null) throw new NotSupportedException();
 
+            var infoCollection = plugin.GetArchiveInfo(_ArchiveFileName);
             if (infoCollection == null) throw new NotSupportedException();
-
-            _SusiePlugin = infoCollection.SusiePlugin;
 
             _ArchiveFileInfoDictionary = new Dictionary<string, Susie.ArchiveEntry>();
             List<ArchiveEntry> entries = new List<ArchiveEntry>();
@@ -94,11 +109,12 @@ namespace NeeView
         {
             var info = _ArchiveFileInfoDictionary[entryName];
 
+            string tempDirectory = Temporary.CreateCountedTempFileName("Susie", "");
+
             try
             {
                 // susieプラグインでは出力ファイル名を指定できないので、
                 // テンポラリフォルダに出力してから移動する
-                string tempDirectory = Temporary.CreateCountedTempFileName("Susie", "");
                 Directory.CreateDirectory(tempDirectory);
 
                 // 注意：失敗することがよくある
@@ -121,6 +137,15 @@ namespace NeeView
                 Debug.WriteLine(e.Message);
                 info.ExtractToFile(extractFileName);
                 return;
+            }
+
+            // 後始末
+            finally
+            {
+                if (Directory.Exists(tempDirectory))
+                {
+                    Directory.Delete(tempDirectory, true);
+                }
             }
         }
     }

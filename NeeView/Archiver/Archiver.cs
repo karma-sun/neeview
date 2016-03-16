@@ -51,6 +51,9 @@ namespace NeeView
             throw new NotImplementedException();
         }
 
+        // 対応判定
+        public abstract bool IsSupported();
+
         // 親アーカイブ
         public Archiver Parent { get; set; }
 

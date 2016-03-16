@@ -202,6 +202,7 @@ namespace Susie
 
         /// <summary>
         /// サポート判定(ファイル版)
+        /// 注意：Susie本体はこの関数(ファイル版)を使用していないため、正常に動作しないプラグインが存在します！
         /// </summary>
         /// <param name="filename">ファイル名</param>
         /// <returns>サポートしていればtrue</returns>
@@ -210,11 +211,9 @@ namespace Susie
             if (hModule == null) throw new InvalidOperationException();
             var isSupported = GetApiDelegate<IsSupportedFromFileDelegate>("IsSupported");
 
-            string shortPath = Win32Api.GetShortPathName(filename);
-
             using (FileStream fs = new FileStream(filename, FileMode.Open))
             {
-                return isSupported(shortPath, fs.SafeFileHandle.DangerousGetHandle());
+                return isSupported(filename, fs.SafeFileHandle.DangerousGetHandle());
             }
         }
 
@@ -384,13 +383,11 @@ namespace Susie
             if (hModule == null) throw new InvalidOperationException();
             var getPicture = GetApiDelegate<GetPictureFromFileDelegate>("GetPicture");
 
-            string shortPath = Win32Api.GetShortPathName(filename);
-
             IntPtr pHBInfo = IntPtr.Zero;
             IntPtr pHBm = IntPtr.Zero;
             try
             {
-                int ret = getPicture(shortPath, 0, 0x00, out pHBInfo, out pHBm, 0, 0);
+                int ret = getPicture(filename, 0, 0x00, out pHBInfo, out pHBm, 0, 0);
                 if (ret == 0)
                 {
                     IntPtr pBInfo = Win32Api.LocalLock(pHBInfo);

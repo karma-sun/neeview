@@ -96,19 +96,24 @@ namespace Susie
         }
 
 
-        /// <summary>
-        /// アーカイブ情報取得
-        /// </summary>
-        /// <param name="fileName">アーカイブファイル名</param>
-        /// <returns>アーカイブ情報</returns>
-        public ArchiveEntryCollection GetArchiveInfo(string fileName)
+        // 対応アーカイブプラグイン取得
+        public SusiePlugin GetArchivePlugin(string fileName)
         {
+            // 先頭の一部をメモリに読み込む
+            var head = new byte[4096]; // バッファに余裕をもたせる
+            using (FileStream fs = new FileStream(fileName, FileMode.Open))
+            {
+                fs.Read(head, 0, 2048);
+            }
+
             foreach (var plugin in AMPlgunList)
             {
                 try
                 {
-                    var archiveInfo = plugin.GetArchiveInfo(fileName);
-                    if (archiveInfo != null) return archiveInfo;
+                    if (plugin.IsSupported(fileName, head))
+                    {
+                        return plugin;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -117,8 +122,6 @@ namespace Susie
             }
             return null;
         }
-
-
 
 
         /// <summary>
@@ -136,7 +139,7 @@ namespace Susie
         /// <summary>
         /// 画像取得 (メモリ版)
         /// </summary>
-        /// <param name="fileName">ォーマット判定に使用される。ファイルアクセスはされません</param>
+        /// <param name="fileName">フォーマット判定に使用される。ファイルアクセスはされません</param>
         /// <param name="buff">画像データ</param>
         /// <param name="spi">使用されたプラグイン</param>
         /// <returns>BitmapImage</returns>

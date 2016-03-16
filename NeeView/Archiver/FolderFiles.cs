@@ -28,15 +28,19 @@ namespace NeeView
         private string _FolderFileName;
         public override string FileName => _FolderFileName;
 
-
-        //
+        // コンストラクタ
         public FolderFiles(string folderFileName)
         {
             _FolderFileName = folderFileName;
         }
 
+        // サポート判定
+        public override bool IsSupported()
+        {
+            return true;
+        }
 
-        //
+        // リスト取得
         public override List<ArchiveEntry> GetEntries()
         {
             int prefixLen = _FolderFileName.Length;

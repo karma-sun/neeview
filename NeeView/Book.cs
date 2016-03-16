@@ -261,35 +261,20 @@ namespace NeeView
             }
 
             // アーカイバの選択
-            #region SelectArchiver
-            Archiver archiver = null;
-            if (Directory.Exists(path))
+            Archiver archiver = GetArchiver(path, option);
+            if (archiver.IsFileSystem)
             {
-                archiver = ModelContext.ArchiverManager.CreateArchiver(path, null);
-            }
-            else if (File.Exists(path))
-            {
-                if (ModelContext.ArchiverManager.IsSupported(path))
+                // 入力ファイルを最初のページにする
+                if (path != archiver.GetPlace())
                 {
-                    archiver = ModelContext.ArchiverManager.CreateArchiver(path, null);
-                    option |= BookLoadOption.Recursive; // 圧縮ファイルはリカーシブ標準
-                }
-                else if (ModelContext.BitmapLoaderManager.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
-                {
-                    archiver = ModelContext.ArchiverManager.CreateArchiver(Path.GetDirectoryName(path), null);
                     start = Path.GetFileName(path);
-                }
-                else
-                {
-                    throw new FileFormatException("サポート外ファイルです");
                 }
             }
             else
             {
-                throw new FileNotFoundException("ファイルが見つかりません", path);
+                // 圧縮ファイルは再帰させる
+                option |= BookLoadOption.Recursive;
             }
-            #endregion
-
 
             PagePosition position = _FirstPosition;
             int direction = 1;
@@ -328,32 +313,76 @@ namespace NeeView
             RequestSetPosition(position, direction, true);
         }
 
+
+        // パスから対応するアーカイバを取得する
+        private Archiver GetArchiver(string path, BookLoadOption option)
+        {
+            if (Directory.Exists(path))
+            {
+                return ModelContext.ArchiverManager.CreateArchiver(path, null);
+            }
+
+            if (File.Exists(path))
+            {
+                if (ModelContext.ArchiverManager.IsSupported(path))
+                {
+                    Archiver archiver = ModelContext.ArchiverManager.CreateArchiver(path, null);
+                    if (archiver.IsSupported())
+                    {
+                        return archiver;
+                    }
+                }
+
+                if (ModelContext.BitmapLoaderManager.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
+                {
+                    return ModelContext.ArchiverManager.CreateArchiver(Path.GetDirectoryName(path), null);
+                }
+                else
+                {
+                    throw new FileFormatException("サポート外ファイルです");
+                }
+            }
+
+            throw new FileNotFoundException("ファイルが見つかりません", path);
+        }
+
+
+
         // アーカイブからページ作成(再帰)
-        private void ReadArchive(Archiver archiver, string place, BookLoadOption option)
+        private bool ReadArchive(Archiver archiver, string place, BookLoadOption option)
         {
             List<ArchiveEntry> entries = null;
 
-            _Archivers.Add(archiver);
-
             try
             {
+                if (!archiver.IsSupported())
+                {
+                    archiver.Dispose();
+                    return false;
+                }
                 entries = archiver.GetEntries();
             }
             catch
             {
                 Debug.WriteLine($"{archiver.FileName} の展開に失敗しました");
-                return;
+                archiver.Dispose();
+                return false;
             }
 
+            //
+            _Archivers.Add(archiver);
+
+            //
             foreach (var entry in entries)
             {
                 // 再帰設定、もしくは単一ファイルの場合、再帰を行う
                 bool isRecursive = (option & BookLoadOption.Recursive) == BookLoadOption.Recursive;
                 if ((isRecursive || entries.Count == 1) && ModelContext.ArchiverManager.IsSupported(entry.FileName))
                 {
+                    bool result = false;
                     if (archiver.IsFileSystem)
                     {
-                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(archiver.GetFileSystemPath(entry.FileName), archiver), LoosePath.Combine(place, entry.FileName), option);
+                        result = ReadArchive(ModelContext.ArchiverManager.CreateArchiver(archiver.GetFileSystemPath(entry.FileName), archiver), LoosePath.Combine(place, entry.FileName), option);
                     }
                     else
                     {
@@ -361,43 +390,57 @@ namespace NeeView
                         string tempFileName = Temporary.CreateTempFileName(Path.GetFileName(entry.FileName));
                         archiver.ExtractToFile(entry.FileName, tempFileName, false);
                         _TrashBox.Add(new TrashFile(tempFileName));
-                        ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName, archiver), LoosePath.Combine(place, entry.FileName), option);
+                        result = ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName, archiver), LoosePath.Combine(place, entry.FileName), option);
+                        if (!result)
+                        {
+                            AddPage(archiver, entry, place, option);
+                        }
                     }
                 }
                 else
                 {
-                    if (ModelContext.BitmapLoaderManager.IsSupported(entry.FileName))
+                    // ファイルとして展開
+                    AddPage(archiver, entry, place, option);
+                }
+            }
+            return true;
+        }
+
+
+        // ページを追加する
+        private void AddPage(Archiver archiver, ArchiveEntry entry, string place, BookLoadOption option )
+        {
+            if (ModelContext.BitmapLoaderManager.IsSupported(entry.FileName))
+            {
+                var page = new BitmapPage(archiver, entry, place);
+                Pages.Add(page);
+            }
+            else
+            {
+                var type = ModelContext.ArchiverManager.GetSupportedType(entry.FileName);
+                bool isSupportAllFile = (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile;
+                if (isSupportAllFile)
+                {
+                    switch (type)
                     {
-                        var page = new BitmapPage(archiver, entry, place);
-                        Pages.Add(page);
+                        case ArchiverType.None:
+                            Pages.Add(new FilePage(archiver, entry, place, FilePageIcon.File));
+                            break;
+                        case ArchiverType.FolderFiles:
+                            Pages.Add(new FilePage(archiver, entry, place, FilePageIcon.Folder));
+                            break;
+                        default:
+                            Pages.Add(new FilePage(archiver, entry, place, FilePageIcon.Archive));
+                            break;
                     }
-                    else
-                    {
-                        var type = ModelContext.ArchiverManager.GetSupportedType(entry.FileName);
-                        bool isSupportAllFile = (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile;
-                        if (isSupportAllFile)
-                        {
-                            switch (type)
-                            {
-                                case ArchiverType.None:
-                                    Pages.Add(new FilePage(archiver, entry, place, FilePageIcon.File));
-                                    break;
-                                case ArchiverType.FolderFiles:
-                                    Pages.Add(new FilePage(archiver, entry, place, FilePageIcon.Folder));
-                                    break;
-                                default:
-                                    Pages.Add(new FilePage(archiver, entry, place, FilePageIcon.Archive));
-                                    break;
-                            }
-                        }
-                        else if (type != ArchiverType.None)
-                        {
-                            SubFolderCount++;
-                        }
-                    }
+                }
+                else if (type != ArchiverType.None)
+                {
+                    SubFolderCount++;
                 }
             }
         }
+    
 
 
         // 開始
@@ -408,7 +451,7 @@ namespace NeeView
             StartCommandWorker();
         }
 
-        #endregion
+#endregion
 
 
         // 廃棄処理
@@ -615,7 +658,7 @@ namespace NeeView
                 await Task.Yield();
             }
         }
-        
+
 
         // ページ指定移動コマンド
         private class SetPageCommand : ViewPageCommand
@@ -1081,7 +1124,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         /// <summary>
         /// 保存設定
@@ -1182,5 +1225,5 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 }

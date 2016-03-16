@@ -188,11 +188,52 @@ namespace Susie
 
 
         /// <summary>
+        /// プラグイン対応判定
+        /// </summary>
+        /// <param name="fileName">ファイル名</param>
+        /// <param name="head">ヘッダ(2KB)</param>
+        /// <returns>プラグインが対応していればtrue</returns>
+        public bool IsSupported(string fileName, byte[] head)
+        {
+            if (FileName == null) throw new InvalidOperationException();
+            if (!IsEnable) return false;
+
+            // サポート拡張子チェック
+            if (!Extensions.Contains(GetExtension(fileName))) return false;
+
+            lock (Lock)
+            {
+                using (var api = Open())
+                {
+                    string shortPath = Win32Api.GetShortPathName(fileName);
+                    return api.IsSupported(shortPath, head);
+                }
+            }
+        }
+
+        /// <summary>
         /// アーカイブ情報取得
         /// </summary>
         /// <param name="fileName">アーカイブファイル名</param>
-        /// <returns>アーカイブ情報。失敗した場合はnull</returns>
+        /// <returns></returns>
         public ArchiveEntryCollection GetArchiveInfo(string fileName)
+        {
+            lock (Lock)
+            {
+                using (var api = Open())
+                {
+                    string shortPath = Win32Api.GetShortPathName(fileName);
+                    return new ArchiveEntryCollection(this, fileName, api.GetArchiveInfo(shortPath));
+                }
+            }
+        }
+
+        /// <summary>
+        /// アーカイブ情報取得(IsSupport判定有)
+        /// </summary>
+        /// <param name="fileName">アーカイブファイル名</param>
+        /// <returns>アーカイブ情報。失敗した場合はnull</returns>
+        public ArchiveEntryCollection GetArchiveInfo(string fileName, byte[] head)
         {
             if (FileName == null) throw new InvalidOperationException();
             if (!IsEnable) return null;
@@ -205,7 +246,7 @@ namespace Susie
                 using (var api = Open())
                 {
                     string shortPath = Win32Api.GetShortPathName(fileName);
-                    if (!api.IsSupported(shortPath)) return null;
+                    if (!api.IsSupported(shortPath, head)) return null;
                     return new ArchiveEntryCollection(this, fileName, api.GetArchiveInfo(shortPath));
                 }
             }
@@ -230,7 +271,8 @@ namespace Susie
             {
                 using (var api = Open())
                 {
-                    if (!api.IsSupported(fileName, buff)) return null;
+                    string shortPath = Win32Api.GetShortPathName(fileName);
+                    if (!api.IsSupported(shortPath, buff)) return null;
                     return api.GetPicture(buff);
                 }
             }
@@ -254,8 +296,9 @@ namespace Susie
             {
                 using (var api = Open())
                 {
-                    if (!api.IsSupported(fileName, head)) return null;
-                    return api.GetPicture(fileName);
+                    string shortPath = Win32Api.GetShortPathName(fileName);
+                    if (!api.IsSupported(shortPath, head)) return null;
+                    return api.GetPicture(shortPath);
                 }
             }
         }

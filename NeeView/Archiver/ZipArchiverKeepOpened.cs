@@ -30,12 +30,17 @@ namespace NeeView
 
         private ZipArchive _Archive;
 
-        //
+        // コンストラクタ
         public ZipArchiverKeepOpened(string archiveFileName)
         {
             _ArchiveFileName = archiveFileName;
         }
 
+        // サポート判定
+        public override bool IsSupported()
+        {
+            return true;
+        }
 
         // エントリーリストを得る
         public override List<ArchiveEntry> GetEntries()

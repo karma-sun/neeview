@@ -388,12 +388,21 @@ namespace NeeView
                     {
                         // テンポラリにアーカイブを解凍する
                         string tempFileName = Temporary.CreateTempFileName(Path.GetFileName(entry.FileName));
-                        archiver.ExtractToFile(entry.FileName, tempFileName, false);
-                        _TrashBox.Add(new TrashFile(tempFileName));
-                        result = ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName, archiver), LoosePath.Combine(place, entry.FileName), option);
-                        if (!result)
+                        try
                         {
-                            AddPage(archiver, entry, place, option);
+                            archiver.ExtractToFile(entry.FileName, tempFileName, false);
+                            _TrashBox.Add(new TrashFile(tempFileName));
+
+                            result = ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName, archiver), LoosePath.Combine(place, entry.FileName), option);
+                            if (!result)
+                            {
+                                AddPage(archiver, entry, place, option);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            // 展開に失敗した場合、エラーページとして登録する
+                            Pages.Add(new FilePage(archiver, entry, place, FilePageIcon.Alart) { Text = "ファイルの抽出に失敗しました\n" + e.Message });
                         }
                     }
                 }

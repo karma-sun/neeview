@@ -3,8 +3,10 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -28,10 +30,20 @@ namespace NeeView
     /// </summary>
     public class DefaultBitmapLoader : IBitmapLoader
     {
+        private BitmapCodecInfo _CodecInfo;
+
         public override string ToString()
         {
-            return ".Net BitmapImage";
+            if (_CodecInfo != null)
+            {
+                return $"{_CodecInfo.FriendlyName} (.Net)";
+            }
+            else
+            {
+                return "--";
+            }
         }
+
 
         private void DumpMetaData(string prefix, BitmapMetadata metadata)
         {
@@ -67,6 +79,11 @@ namespace NeeView
             }
             else
             {
+                var decoder = System.Windows.Media.Imaging.BitmapDecoder.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+                decoder.Frames[0].Freeze();
+                _CodecInfo = decoder.CodecInfo;
+                return decoder.Frames[0];
+#if false
                 BitmapImage bmpImage = new BitmapImage();
 
                 bmpImage.BeginInit();
@@ -76,6 +93,7 @@ namespace NeeView
                 bmpImage.Freeze();
 
                 return bmpImage;
+#endif
             }
         }
 
@@ -88,7 +106,6 @@ namespace NeeView
                 return Load(stream, fileName, withExif);
             }
         }
-
 
         // EXIF対応 Bitmap読み込み
         // 回転を反映させます
@@ -150,6 +167,51 @@ namespace NeeView
             source.Freeze();
             return source;
         }
+
+
+
+        // 対応拡張子取得
+        public static Dictionary<string, string> GetExtensions()
+        {
+            var dictionary = new Dictionary<string, string>();
+
+            // 標準
+            dictionary.Add("BMP Decoder", ".bmp,.dib,.rle");
+            dictionary.Add("GIF Decoder", ".gif");
+            dictionary.Add("ICO Decoder", ".ico,.icon");
+            dictionary.Add("JPEG Decoder", ".jpeg,.jpe,.jpg,.jfif,.exif");
+            dictionary.Add("PNG Decoder", ".png");
+            dictionary.Add("TIFF Decoder", ".tiff,.tif");
+            dictionary.Add("WMPhoto Decoder", ".wdp,.jxr");
+            dictionary.Add("DDS Decoder", ".dds"); // (微妙..)
+
+            // from WIC
+            try
+            {
+                //string root = @"SOFTWARE\WOW6432Node\Classes\CLSID\";
+                string root = @"SOFTWARE\Classes\";
+                
+                // WICBitmapDecodersの一覧を開く
+                var decoders = Registry.LocalMachine.OpenSubKey(root + @"CLSID\{7ED96837-96F0-4812-B211-F13C24117ED3}\Instance");
+                foreach (var clsId in decoders.GetSubKeyNames())
+                {
+                    try
+                    {
+                        // コーデックのレジストリを開く
+                        var codec = Registry.LocalMachine.OpenSubKey(root + @"CLSID\" + clsId);
+                        string name = codec.GetValue("FriendlyName").ToString();
+                        string extensions = codec.GetValue("FileExtensions").ToString().ToLower();
+                        dictionary.Add(name, extensions);
+                    }
+                    catch { }
+                }
+            }
+            catch { }
+
+            return dictionary;
+        }
+
+
     }
 
 
@@ -164,7 +226,14 @@ namespace NeeView
 
         public override string ToString()
         {
-            return _SusiePlugin != null ? _SusiePlugin.ToString() : base.ToString();
+            if (_SusiePlugin != null)
+            {
+                return $"{_SusiePlugin} (SusiePlugin)";
+            }
+            else
+            {
+                return "--";
+            }
         }
 
         // Bitmap読み込み

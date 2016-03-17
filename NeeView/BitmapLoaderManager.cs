@@ -27,7 +27,7 @@ namespace NeeView
         // サポート拡張子
         Dictionary<BitmapLoaderType, string[]> _SupprtedFileTypes = new Dictionary<BitmapLoaderType, string[]>()
         {
-            [BitmapLoaderType.Default] = new string[] { ".bmp", ".dib", ".jpg", ".jpeg", ".jpe", ".jfif", ".gif", ".tif", ".tiff", ".png", ".ico" },
+            [BitmapLoaderType.Default] = new string[] { ".bmp", ".dib", ".jpg", ".jpeg", ".jpe", ".jfif", ".gif", ".tif", ".tiff", ".png", ".ico",  },
             [BitmapLoaderType.Susie] = new string[] { },
         };
 
@@ -55,6 +55,14 @@ namespace NeeView
             get { return _OrderList[OrderType]; }
         }
 
+
+        // コンストラクタ
+        public BitmapLoaderManager()
+        {
+            UpdateDefaultSupprtedFileTypes();
+        }
+
+
         // サポートしているローダーがあるか判定
         public bool IsSupported(string fileName)
         {
@@ -80,6 +88,19 @@ namespace NeeView
                 }
             }
             return BitmapLoaderType.None;
+        }
+
+        // デフォルトローダーのサポート拡張子を更新
+        public void UpdateDefaultSupprtedFileTypes()
+        {
+            var list = new List<string>();
+
+            foreach(var pair in DefaultBitmapLoader.GetExtensions())
+            {
+                list.AddRange(pair.Value.Split(','));
+            }
+
+            _SupprtedFileTypes[BitmapLoaderType.Default] = list.ToArray();
         }
 
 

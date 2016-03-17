@@ -156,6 +156,23 @@ namespace Susie
         }
 
 
+
+        // callback delegate
+        delegate int ProgressCallback(int nNum, int nDenom, int lData);
+
+        /// <summary>
+        /// Dummy Callback
+        /// </summary>
+        /// <param name="nNum"></param>
+        /// <param name="nDenom"></param>
+        /// <param name="lData"></param>
+        /// <returns></returns>
+        private static int ProgressCallbackDummy(int nNum, int nDenom, int lData)
+        {
+            return 0;
+        }
+        
+
         #region 00IN,00AM 必須 GetPluginInfo
         delegate int GetPluginInfoDelegate(int infono, StringBuilder buf, int len);
 
@@ -234,7 +251,8 @@ namespace Susie
 
 
         #region 00AM 必須 GetArchiveInfo()
-        delegate int GetArchiveInfoFromFileDelegate(string filename, int offset, uint flag, out IntPtr hInfo);
+        delegate int GetArchiveInfoFromFileDelegate([In]string filename, int offset, uint flag, out IntPtr hInfo);
+        delegate int GetArchiveInfoFromMemoryDelegate([In]byte[] buf, int offset, uint flag, out IntPtr hInfo);
 
         /// <summary>
         /// アーカイブ情報取得
@@ -283,8 +301,8 @@ namespace Susie
         // TODO: フラグ指定とか
         // TODO: コールバックとか
         #region 00AM 必須 GetFile()
-        delegate int GetFileFromFileHandler(string filename, int position, out IntPtr hBuff, uint flag, int lpPrgressCallback, int lData);
-        delegate int GetFileFromFileToFileHandler(string filename, int position, string dest, uint flag, int lpPrgressCallback, int lData);
+        delegate int GetFileFromFileHandler(string filename, int position, out IntPtr hBuff, uint flag, ProgressCallback lpPrgressCallback, int lData);
+        delegate int GetFileFromFileToFileHandler(string filename, int position, string dest, uint flag, ProgressCallback lpPrgressCallback, int lData);
 
         /// <summary>
         /// アーカイブエントリ取得(メモリ版)
@@ -300,7 +318,7 @@ namespace Susie
             IntPtr hBuff = IntPtr.Zero;
             try
             {
-                int ret = getFile(file, (int)entry.position, out hBuff, 0x0100, 0, 0); // 0x0100 > File To Memory
+                int ret = getFile(file, (int)entry.position, out hBuff, 0x0100, ProgressCallbackDummy, 0); // 0x0100 > File To Memory
                 if (ret == 0)
                 {
                     IntPtr pBuff = Win32Api.LocalLock(hBuff);
@@ -329,15 +347,16 @@ namespace Susie
             if (hModule == null) throw new InvalidOperationException();
             var getFile = GetApiDelegate<GetFileFromFileToFileHandler>("GetFile");
 
-            return getFile(file, (int)entry.position, extractFolder, 0x0000, 0, 0); // 0x0000 > File To File
+            return getFile(file, (int)entry.position, extractFolder, 0x0000, ProgressCallbackDummy, 0); // 0x0000 > File To File
         }
 
         #endregion
 
 
         #region 00IN 必須 GetPicture()
-        delegate int GetPictureFromMemoryDelegate([In]byte[] buf, int len, uint flag, out IntPtr pHBInfo, out IntPtr pHBm, int lpProgressCallback, int lData);
-        delegate int GetPictureFromFileDelegate([In]string filename, int offset, uint flag, out IntPtr pHBInfo, out IntPtr pHBm, int lpProgressCallback, int lData);
+        delegate int GetPictureFromMemoryDelegate([In]byte[] buf, int len, uint flag, out IntPtr pHBInfo, out IntPtr pHBm, ProgressCallback lpProgressCallback, int lData);
+        delegate int GetPictureFromFileDelegate([In]string filename, int offset, uint flag, out IntPtr pHBInfo, out IntPtr pHBm, ProgressCallback lpProgressCallback, int lData);
+
 
 
         /// <summary>
@@ -354,7 +373,7 @@ namespace Susie
             IntPtr pHBm = IntPtr.Zero;
             try
             {
-                int ret = getPicture(buff, buff.Length, 0x01, out pHBInfo, out pHBm, 0, 0);
+                int ret = getPicture(buff, buff.Length, 0x01, out pHBInfo, out pHBm, ProgressCallbackDummy, 0);
                 if (ret == 0)
                 {
                     IntPtr pBInfo = Win32Api.LocalLock(pHBInfo);
@@ -387,7 +406,7 @@ namespace Susie
             IntPtr pHBm = IntPtr.Zero;
             try
             {
-                int ret = getPicture(filename, 0, 0x00, out pHBInfo, out pHBm, 0, 0);
+                int ret = getPicture(filename, 0, 0x00, out pHBInfo, out pHBm, ProgressCallbackDummy, 0);
                 if (ret == 0)
                 {
                     IntPtr pBInfo = Win32Api.LocalLock(pHBInfo);

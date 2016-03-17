@@ -20,6 +20,9 @@ namespace NeeView
         // ファイルページアイコン
         FilePageIcon _Icon;
 
+        // 追加テキスト
+        public string Text { get; set; }
+
         // コンストラクタ
         public FilePage(Archiver archiver, ArchiveEntry entry, string place, FilePageIcon icon)
         {
@@ -42,7 +45,8 @@ namespace NeeView
             return new FilePageContext()
             {
                 Icon = _Icon,
-                FileName = FileName
+                FileName = FileName,
+                Message = Text,
             };
         }
     }

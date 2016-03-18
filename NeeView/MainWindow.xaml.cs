@@ -574,8 +574,6 @@ namespace NeeView
         //
         private void Window_Closed(object sender, EventArgs e)
         {
-            ModelContext.Susie?.ClosePluginModules();
-
             Temporary.RemoveTempFolder();
             _VM.Dispose();
 

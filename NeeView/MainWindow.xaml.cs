@@ -45,6 +45,8 @@ namespace NeeView
 #if DEBUG
 #else
             this.MenuItemDev.Visibility = Visibility.Collapsed;
+            this.Content0Text.Visibility = Visibility.Collapsed;
+            this.Content1Text.Visibility = Visibility.Collapsed;
 #endif
 
 
@@ -572,6 +574,8 @@ namespace NeeView
         //
         private void Window_Closed(object sender, EventArgs e)
         {
+            ModelContext.Susie?.ClosePluginModules();
+
             Temporary.RemoveTempFolder();
             _VM.Dispose();
 

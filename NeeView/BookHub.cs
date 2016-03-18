@@ -145,7 +145,21 @@ namespace NeeView
             set { ModelContext.ArchiverManager.IsEnabled = value;}
         }
         #endregion
-        
+
+        // 先読み設定
+        #region Property: AllowPagePreLoad
+        private bool _AllowPagePreLoad = true;
+        public bool AllowPagePreLoad
+        {
+            get { return _AllowPagePreLoad; }
+            set
+            {
+                _AllowPagePreLoad = value;
+                if (Current != null) Current.AllowPreLoad = _AllowPagePreLoad;
+            }
+        }
+        #endregion
+
 
         // 現在の本
         public Book Current { get; private set; }
@@ -211,6 +225,9 @@ namespace NeeView
                     }
                 }
             }
+
+            // 先読み設定
+            book.AllowPreLoad = this.AllowPagePreLoad;
 
             // 全種類ファイルサポート設定
             if (IsEnableNoSupportFile)
@@ -809,6 +826,9 @@ namespace NeeView
             [DataMember(Order =4)]
             public ExternalApplication ExternalApplication { get; set; }
 
+            [DataMember(Order = 5)]
+            public bool AllowPagePreLoad { get; set; }
+
             //
             private void Constructor()
             {
@@ -820,6 +840,7 @@ namespace NeeView
                 IsSupportArchiveFile = true;
                 BookMemento = new Book.Memento();
                 ExternalApplication = new ExternalApplication();
+                AllowPagePreLoad = true;
             }
 
             public Memento()
@@ -851,6 +872,7 @@ namespace NeeView
             memento.IsEnarbleCurrentDirectory = IsEnarbleCurrentDirectory;
             memento.IsSupportArchiveFile = IsSupportArchiveFile;
             memento.ExternalApplication = ExternalApllication.Clone();
+            memento.AllowPagePreLoad = AllowPagePreLoad;
 
             return memento;
         }
@@ -870,6 +892,7 @@ namespace NeeView
             IsEnarbleCurrentDirectory = memento.IsEnarbleCurrentDirectory;
             IsSupportArchiveFile = memento.IsSupportArchiveFile;
             ExternalApllication = memento.ExternalApplication.Clone();
+            AllowPagePreLoad = memento.AllowPagePreLoad;
         }
 
         #endregion

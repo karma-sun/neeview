@@ -42,6 +42,8 @@
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox DockPanel.Dock="Top" Margin="2" Content="圧縮ファイルをサポートする"
                               IsChecked="{Binding Setting.BookHubMemento.IsSupportArchiveFile}" />
+                            <CheckBox DockPanel.Dock="Top" Margin="2" Content="先読みを行う"
+                              IsChecked="{Binding Setting.BookHubMemento.AllowPagePreLoad}" />
                             <CheckBox DockPanel.Dock="Top" Margin="2" Content="GIFをメディアとして再生する(アニメーションGIF)"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnableAnimatedGif}" />
                             <CheckBox DockPanel.Dock="Top" Margin="2" Content="EXIFの回転情報を反映させる"

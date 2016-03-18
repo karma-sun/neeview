@@ -53,6 +53,9 @@ namespace NeeView
         // 再読み込みを要求
         public event EventHandler DartyBook;
 
+        // 先読み許可フラグ
+        public bool AllowPreLoad { get; set; } = true;
+
 
         // 横長ページを分割する
         private bool _IsSupportedDividePage;
@@ -417,7 +420,7 @@ namespace NeeView
 
 
         // ページを追加する
-        private void AddPage(Archiver archiver, ArchiveEntry entry, string place, BookLoadOption option )
+        private void AddPage(Archiver archiver, ArchiveEntry entry, string place, BookLoadOption option)
         {
             if (ModelContext.BitmapLoaderManager.IsSupported(entry.FileName))
             {
@@ -449,7 +452,7 @@ namespace NeeView
                 }
             }
         }
-    
+
 
 
         // 開始
@@ -460,7 +463,7 @@ namespace NeeView
             StartCommandWorker();
         }
 
-#endregion
+        #endregion
 
 
         // 廃棄処理
@@ -1026,6 +1029,8 @@ namespace NeeView
         // 先読み
         private void PreLoad(ViewPageContextSource source)
         {
+            if (!AllowPreLoad) return;
+
             var preLoadPages = new List<Page>();
 
             for (int offset = 0; offset < 4; ++offset)
@@ -1133,7 +1138,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         /// <summary>
         /// 保存設定
@@ -1234,5 +1239,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

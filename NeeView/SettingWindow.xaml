@@ -33,7 +33,7 @@
     </Window.Resources>
     <Grid>
         <TabControl x:Name="tabControl" Margin="10,10,10,43">
-            <TabItem Header="一般設定">
+            <TabItem Header="全般">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="4">
 
@@ -54,7 +54,53 @@
                               IsChecked="{Binding Setting.ViewMemento.IsSliderDirectionReversed}" />
                         </StackPanel>
 
-                        <TextBlock Text="表示" Style="{StaticResource Header}"/>
+
+                        <TextBlock Text="起動設定" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Margin="2" Content="多重起動を禁止する"
+                              IsChecked="{Binding Setting.ViewMemento.IsDisableMultiBoot}" />
+                            <CheckBox Margin="2" Content="フルスクリーン状態を復帰する"
+                              IsChecked="{Binding Setting.ViewMemento.IsSaveFullScreen}" />
+                            <CheckBox Margin="2" Content="前回開いていたフォルダを開く"
+                              IsChecked="{Binding Setting.ViewMemento.IsLoadLastFolder}" />
+                            <CheckBox Margin="2" Content="スライドショーの再生を開始する"
+                              IsChecked="{Binding Setting.ViewMemento.IsAutoPlaySlideShow}" />
+                        </StackPanel>
+
+
+                        <TextBlock Text="ファイル保存" Style="{StaticResource Header}"/>
+
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Margin="2" Content="前回保存したフォルダを記憶する"
+                              IsChecked="{Binding Setting.ExporterMemento.IsEnableExportFolder}" />
+                            <StackPanel Margin="2" Orientation="Horizontal">
+                                <TextBlock Text="JPEG品質：" ToolTip="変換が必要な場合にのみ使用されます"/>
+                                <TextBlock Text="{Binding Setting.ExporterMemento.QualityLevel}" Width="20" Margin="10,0" TextAlignment="Right"/>
+                                <Slider x:Name="QualityLevelSlider" Width="200" Value="{Binding Setting.ExporterMemento.QualityLevel}"
+                                    Minimum="5" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <TextBlock Text="その他" Style="{StaticResource Header}"/>
+
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Margin="2" Content="「開く」を現在開いているフォルダから始める"
+                              IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
+                            <CheckBox Margin="2" Content="ページが終わったら次のフォルダに移動する"
+                              IsChecked="{Binding Setting.BookHubMemento.IsEnabledAutoNextFolder}" />
+                        </StackPanel>
+
+
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="表示設定">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="4">
+
+                        <TextBlock Text="通知表示" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
                             <StackPanel.Resources>
                                 <Style TargetType="ComboBox">
@@ -73,7 +119,7 @@
                                   SelectedValue="{Binding Setting.ViewMemento.CommandShowMessageStyle}" />
                             </DockPanel>
 
-                            
+
                             <DockPanel Margin="2" LastChildFill="False">
                                 <TextBlock MinWidth="100" Text="マウスジェスチャーを" VerticalAlignment="Center" Margin="2"/>
                                 <ComboBox ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
@@ -89,47 +135,26 @@
                         </StackPanel>
 
 
-                        <TextBlock Text="ファイル保存" Style="{StaticResource Header}"/>
+                        <TextBlock Text="ファイル情報表示" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Margin="2" Content="前回保存したフォルダを記憶する"
-                              IsChecked="{Binding Setting.ExporterMemento.IsEnableExportFolder}" />
-                            <StackPanel Margin="2" Orientation="Horizontal">
-                                <TextBlock Text="JPEG品質：" ToolTip="変換が必要な場合にのみ使用されます"/>
-                                <TextBlock Text="{Binding Setting.ExporterMemento.QualityLevel}" Width="20" Margin="10,0" TextAlignment="Right"/>
-                                <Slider x:Name="QualityLevelSlider" Width="200" Value="{Binding Setting.ExporterMemento.QualityLevel}"
-                                    Minimum="5" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"/>
-                            </StackPanel>
-                        </StackPanel>
-
-
-                        <TextBlock Text="起動設定" Style="{StaticResource Header}"/>
-
-                        <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Margin="2" Content="多重起動を禁止する"
-                              IsChecked="{Binding Setting.ViewMemento.IsDisableMultiBoot}" />
-                            <CheckBox Margin="2" Content="フルスクリーン状態を復帰する"
-                              IsChecked="{Binding Setting.ViewMemento.IsSaveFullScreen}" />
-                            <CheckBox Margin="2" Content="前回開いていたフォルダを開く"
-                              IsChecked="{Binding Setting.ViewMemento.IsLoadLastFolder}" />
-                            <CheckBox Margin="2" Content="スライドショーの再生を開始する"
-                              IsChecked="{Binding Setting.ViewMemento.IsAutoPlaySlideShow}" />
-                        </StackPanel>
-
-
-                        <TextBlock Text="その他" Style="{StaticResource Header}"/>
-
-                        <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Margin="2" Content="「開く」を現在開いているフォルダから始める"
-                              IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
-                            <CheckBox Margin="2" Content="ページが終わったら次のフォルダに移動する"
-                              IsChecked="{Binding Setting.BookHubMemento.IsEnabledAutoNextFolder}" />
+                            <DockPanel Margin="2" LastChildFill="False">
+                                <TextBlock MinWidth="100" Text="背景色は" VerticalAlignment="Center" Margin="2"/>
+                                <ComboBox ItemsSource="{Binding FileInfoBackgroundList}" SelectedValuePath="Key" DisplayMemberPath="Value" MinWidth="120"
+                                  SelectedValue="{Binding Setting.ViewMemento.FileInfoSetting.Background}" />
+                            </DockPanel>
+                            <CheckBox Margin="2" Content="EXIFの日時を使用する"
+                              IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsUseExifDateTime}" />
+                            <CheckBox Margin="2" Content="1ピクセルあたりのビット数を表示する"
+                              IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsVisibleBitsPerPixel}" />
+                            <CheckBox Margin="2" Content="ローダー情報を表示する"
+                              IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsVisibleLoader}" />
                         </StackPanel>
 
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-
+            
             <TabItem Header="ビュー設定">
                 <StackPanel Margin="4">
                     <TextBlock Text="ビュー操作" Style="{StaticResource Header}"/>

@@ -43,6 +43,7 @@ namespace NeeView
         ToggleTopmost,
         ToggleHideMenu,
         ToggleHideTitleBar,
+        ToggleVisibleFileInfo,
 
         ToggleFullScreen,
         SetFullScreen,

@@ -29,7 +29,6 @@ namespace NeeView
         public override string FileName => _ArchiveFileName;
 
         private Susie.SusiePlugin _SusiePlugin;
-        Dictionary<string, Susie.ArchiveEntry> _ArchiveFileInfoDictionary;
 
         private object _Lock = new object();
 
@@ -57,7 +56,7 @@ namespace NeeView
         }
 
         // エントリーリストを得る
-        public override List<ArchiveEntry> GetEntries()
+        public override Dictionary<string, ArchiveEntry> GetEntries()
         {
             var plugin = GetPlugin();
             if (plugin == null) throw new NotSupportedException();
@@ -65,30 +64,27 @@ namespace NeeView
             var infoCollection = plugin.GetArchiveInfo(_ArchiveFileName);
             if (infoCollection == null) throw new NotSupportedException();
 
-            _ArchiveFileInfoDictionary = new Dictionary<string, Susie.ArchiveEntry>();
-            List<ArchiveEntry> entries = new List<ArchiveEntry>();
+            Entries.Clear();
             foreach (var entry in infoCollection)
             {
                 try
                 {
                     string name = (entry.Path.TrimEnd('\\', '/') + "\\" + entry.FileName).TrimStart('\\', '/');
-
-                    entries.Add(new ArchiveEntry()
+                    Entries.Add(name, new ArchiveEntry()
                     {
-                        FileName = name, //  entry.FileName,
-                        UpdateTime = entry.TimeStamp,
+                        FileName = name,
+                        FileSize = entry.FileSize,
+                        LastWriteTime = entry.TimeStamp,
+                        Instance = entry,
                     });
-
-                    _ArchiveFileInfoDictionary.Add(name, entry);
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
                 }
-
             }
 
-            return entries;
+            return Entries;
         }
 
 
@@ -97,7 +93,7 @@ namespace NeeView
         {
             lock (_Lock)
             {
-                var info = _ArchiveFileInfoDictionary[entryName];
+                var info = (Susie.ArchiveEntry)Entries[entryName].Instance;
                 byte[] buffer = info.Load();
                 return new MemoryStream(buffer, 0, buffer.Length, false, true);
             }
@@ -107,7 +103,7 @@ namespace NeeView
         // ファイルに出力する
         public override void ExtractToFile(string entryName, string extractFileName, bool isOverwrite)
         {
-            var info = _ArchiveFileInfoDictionary[entryName];
+            var info = (Susie.ArchiveEntry)Entries[entryName].Instance;
 
             string tempDirectory = Temporary.CreateCountedTempFileName("Susie", "");
 

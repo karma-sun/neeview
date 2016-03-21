@@ -31,14 +31,20 @@ namespace NeeView
     public class ArchiveEntry
     {
         public string FileName { get; set; }
-        public DateTime UpdateTime { get; set; }
+        public long FileSize { get; set; }
+        public DateTime LastWriteTime { get; set; }
+        public object Instance { get; set; }
     }
+
 
     /// <summary>
     /// アーカイバ基底クラス
     /// </summary>
     public abstract class Archiver : IDisposable
     {
+        // エントリリスト
+        public Dictionary<string, ArchiveEntry> Entries { get; private set; } = new Dictionary<string, ArchiveEntry>();
+
         // アーカイブのパス
         public abstract string FileName { get; }
 
@@ -58,7 +64,7 @@ namespace NeeView
         public Archiver Parent { get; set; }
 
         // エントリリストを取得
-        public abstract List<ArchiveEntry> GetEntries();
+        public abstract Dictionary<string, ArchiveEntry> GetEntries();
 
         // エントリのストリームを取得
         public abstract Stream OpenEntry(string entryName);

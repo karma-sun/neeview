@@ -24,11 +24,13 @@ namespace NeeView
     /// ファイルページ用コンテンツ
     /// FilePageControl のパラメータとして使用される
     /// </summary>
-    public class FilePageContext
+    public class FilePageContent
     {
         public FilePageIcon Icon { get; set; }
         public string FileName { get; set; }
         public string Message { get; set; }
+
+        public FileBasicInfo Info { get; set; }
     }
 
 }

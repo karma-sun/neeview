@@ -50,6 +50,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Runtime.Remoting" />
@@ -76,14 +77,22 @@
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
     <Compile Include="BackgroundStyle.cs" />
-    <Compile Include="BitmapImageLoaders.cs" />
-    <Compile Include="BitmapLoaderManager.cs" />
+    <Compile Include="BitmapLoader\BitmapContent.cs" />
+    <Compile Include="BitmapLoader\BitmapLoaderManager.cs" />
+    <Compile Include="BitmapLoader\DefaultBitmapLoader.cs" />
     <Compile Include="DragBehaviour\DragAdorner.cs" />
     <Compile Include="DragBehaviour\DragBehavior.cs" />
     <Compile Include="DragAction.cs" />
+    <Compile Include="BitmapLoader\ExifAccessor.cs" />
     <Compile Include="Exporter.cs" />
     <Compile Include="ExternalApplication.cs" />
     <Compile Include="DragActionTable.cs" />
+    <Compile Include="FileInfoControl.xaml.cs">
+      <DependentUpon>FileInfoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FileInfoItem.xaml.cs">
+      <DependentUpon>FileInfoItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ListBoxDragSortExtensions.cs" />
     <Compile Include="DragBehaviour\WPFUtil.cs" />
     <Compile Include="DragArea.cs" />
@@ -94,7 +103,7 @@
     <Compile Include="MouseGesture\MouseGestureSequence.cs" />
     <Compile Include="PagePosition.cs" />
     <Compile Include="Page\BitmapPage.cs" />
-    <Compile Include="BitmapSourceExtension.cs" />
+    <Compile Include="BitmapLoader\BitmapSourceExtension.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="BookHistory.cs" />
     <Compile Include="BookHub.cs" />
@@ -107,7 +116,7 @@
       <DependentUpon>DirectoryNameBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Page\FilePage.cs" />
-    <Compile Include="Page\FilePageContext.cs" />
+    <Compile Include="Page\FilePageContent.cs" />
     <Compile Include="FilePageControl.xaml.cs">
       <DependentUpon>FilePageControl.xaml</DependentUpon>
     </Compile>
@@ -149,6 +158,7 @@
     </Compile>
     <Compile Include="SliderTools.cs" />
     <Compile Include="Archiver\SusieArchiver.cs" />
+    <Compile Include="BitmapLoader\SusieBitmapLoader.cs" />
     <Compile Include="SusieContext.cs" />
     <Compile Include="Susie\Susie.cs" />
     <Compile Include="Susie\SusieArchiveEntry.cs" />
@@ -166,6 +176,14 @@
     <Page Include="DirectoryNameBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FileInfoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FileInfoItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FilePageControl.xaml">
       <SubType>Designer</SubType>

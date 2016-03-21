@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
@@ -65,26 +66,27 @@ namespace NeeView
         private Size _Size;
         public Size Size
         {
-            get { return IsValid ? _Size : new Size(0,0); }
+            get { return IsValid ? _Size : new Size(0, 0); }
             set { _Size = value; }
         }
 
         // コンテンツの色
         public Brush Color { get; set; } = Brushes.Black;
 
-        // コンテンツテキスト
-        #region Property: Text
-        private string _Text;
-        public string Text
-        {
-            get { return _Text; }
-            set { _Text = value; OnPropertyChanged(); }
-        }
-        #endregion
-
-
         // 表示名
         public string FullPath { get; set; }
+
+        // ファイルの場所
+        public string FilePlace { get; set; }
+
+        // ファイル名
+        public string FileName => LoosePath.GetFileName(FullPath.TrimEnd('\\'));
+
+        // 画像ソース(あれば)
+        public BitmapSource Bitmap { get; set; }
+
+        // ファイル情報(あれば)
+        public FileBasicInfo Info { get; set; }
 
         // ページの場所
         public PagePosition Position { get; set; }
@@ -107,7 +109,6 @@ namespace NeeView
 
         // 有効判定
         public bool IsValid => (Content != null);
-
 
         // ページパーツ文字
         public string GetPartString()

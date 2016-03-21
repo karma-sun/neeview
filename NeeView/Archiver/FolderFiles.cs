@@ -20,7 +20,7 @@ namespace NeeView
     {
         public override string ToString()
         {
-            return "FileSystem";
+            return "フォルダー";
         }
 
         public override bool IsFileSystem { get; } = true;
@@ -41,28 +41,34 @@ namespace NeeView
         }
 
         // リスト取得
-        public override List<ArchiveEntry> GetEntries()
+        public override Dictionary<string, ArchiveEntry> GetEntries()
         {
             int prefixLen = _FolderFileName.Length;
-            var entries = new List<ArchiveEntry>();
+            Entries.Clear();
             foreach (var path in Directory.GetFiles(_FolderFileName))
             {
-                entries.Add(new ArchiveEntry()
+                var name = path.Substring(prefixLen).TrimStart('\\', '/');
+                var fileInfo = new FileInfo(path);
+                Entries.Add(name, new ArchiveEntry()
                 {
-                    FileName = path.Substring(prefixLen).TrimStart('\\', '/'),
-                    UpdateTime = File.GetLastWriteTime(path),
+                    FileName = name,
+                    FileSize = fileInfo.Length,
+                    LastWriteTime = fileInfo.LastWriteTime,
                 });
             }
             foreach (var path in Directory.GetDirectories(_FolderFileName))
             {
-                entries.Add(new ArchiveEntry()
+                var name = path.Substring(prefixLen).TrimStart('\\', '/') + "\\";
+                var fileInfo = new DirectoryInfo(path);
+                Entries.Add(name, new ArchiveEntry()
                 {
-                    FileName = path.Substring(prefixLen).TrimStart('\\', '/') + "\\",
-                    UpdateTime = File.GetLastWriteTime(path),
+                    FileName = name,
+                    FileSize = -1,
+                    LastWriteTime = fileInfo.LastWriteTime,
                 });
             }
 
-            return entries;
+            return Entries;
         }
 
 

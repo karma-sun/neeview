@@ -253,11 +253,22 @@ namespace NeeView
                     ExecuteMessage = e => _VM.IsHideTitleBar ? "タイトルバーを表示する" : "タイトルバーを消す",
                     CanExecute = () => true,
                 },
+                [CommandType.ToggleVisibleFileInfo] = new CommandElement
+                {
+                    Group = "ウィンドウ",
+                    Text = "ファイル情報の表示ON/OFF",
+                    ShortCutKey = "I",
+                    IsShowMessage = false,
+                    Execute = e => _VM.ToggleVisibleFileInfo(),
+                    ExecuteMessage = e => _VM.IsVisibleFileInfo ? "ファイル情報を消す" : "ファイル情報を表示する",
+                    CanExecute = () => true,
+                },
+
                 [CommandType.ToggleFullScreen] = new CommandElement
                 {
                     Group = "ウィンドウ",
                     Text = "フルスクリーン切り替え",
-                    ShortCutKey = "F12",
+                    ShortCutKey = "F11",
                     MouseGesture = "U",
                     IsShowMessage = false,
                     Execute = e => _VM.ToggleFullScreen(),

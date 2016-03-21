@@ -51,9 +51,9 @@ namespace NeeView
         }
 
         // エントリーリストを得る
-        public override List<ArchiveEntry> GetEntries()
+        public override Dictionary<string, ArchiveEntry> GetEntries()
         {
-            List<ArchiveEntry> entries = new List<ArchiveEntry>();
+            Entries.Clear();
 
             lock (_Lock)
             {
@@ -63,17 +63,18 @@ namespace NeeView
                     {
                         if (!entry.IsDirectory)
                         {
-                            entries.Add(new ArchiveEntry()
+                            Entries.Add(entry.FileName, new ArchiveEntry()
                             {
                                 FileName = entry.FileName,
-                                UpdateTime = entry.LastWriteTime,
+                                FileSize = (long)entry.Size,
+                                LastWriteTime = entry.LastWriteTime,
                             });
                         }
                     }
                 }
             }
 
-            return entries;
+            return Entries;
         }
 
 

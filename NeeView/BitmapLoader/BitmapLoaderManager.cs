@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,16 @@ namespace NeeView
         Default,
         Susie,
     }
+    
+    /// <summary>
+    /// 画像ローダーのインターフェイス
+    /// </summary>
+    public interface IBitmapLoader
+    {
+        BitmapContent Load(Stream stream, ArchiveEntry entry, bool allowExifOrientation);
+        BitmapContent LoadFromFile(string fileName, ArchiveEntry entry, bool allowExifOrientation);
+    }
+
 
     /// <summary>
     /// BitmapLoader管理

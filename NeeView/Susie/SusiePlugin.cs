@@ -271,8 +271,8 @@ namespace Susie
             {
                 using (var api = Open())
                 {
-                    string shortPath = Win32Api.GetShortPathName(fileName);
-                    if (!api.IsSupported(shortPath, buff)) return null;
+                   // string shortPath = Win32Api.GetShortPathName(fileName);
+                    if (!api.IsSupported(fileName, buff)) return null;
                     return api.GetPicture(buff);
                 }
             }

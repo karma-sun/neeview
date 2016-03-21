@@ -101,21 +101,8 @@
                         </Style>
                     </Canvas.Resources>
                     <StackPanel x:Name="MainContent" Orientation="Horizontal" SnapsToDevicePixels="True" >
-
-                        <!--
                         <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" SnapsToDevicePixels="True"/>
                         <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" SnapsToDevicePixels="True"/>
-                        -->
-                        
-                        <Canvas x:Name="Canvas1" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" SnapsToDevicePixels="True">
-                            <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
-                            <TextBlock Style="{StaticResource ContentProperty}" x:Name="Content1Text" Text="{Binding Contents[1].Text}"/>
-                        </Canvas>
-                        <Canvas x:Name="Canvas0" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" SnapsToDevicePixels="True">
-                            <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}"/>
-                            <TextBlock Style="{StaticResource ContentProperty}" x:Name="Content0Text" Text="{Binding Contents[0].Text}"/>
-                        </Canvas>
-                        
                     </StackPanel>
                 </Canvas>
 
@@ -132,6 +119,11 @@
                 <TextBlock x:Name="EmptyPageMessage" Text="読み込めるファイルがありません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"
                            Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"/>
 
+            </Grid>
+
+            <!-- 情報エリア -->
+            <Grid x:Name="InfoArea" HorizontalAlignment="Left" Width="250">
+                <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}"/>
             </Grid>
 
             <!-- メニューエリア-->
@@ -204,6 +196,9 @@
                         <MenuItem Header="背景をチェック模様にする" Command="{Binding BookCommands[SetBackgroundCheck]}"
                               IsChecked="{Binding Background,Converter={StaticResource BackgroundStyleToBooleanConverter},ConverterParameter=Check,Mode=OneWay}" />
 
+                        <Separator/>
+                        <MenuItem Header="ファイル情報を表示" Command="{Binding BookCommands[ToggleVisibleFileInfo]}"
+                            IsChecked="{Binding IsVisibleFileInfo}"/>
                         <Separator/>
                         <MenuItem Header="スライドショー" Command="{Binding BookCommands[ToggleSlideShow]}"
                             IsChecked="{Binding BookHub.IsEnableSlideShow,Mode=OneWay}" />

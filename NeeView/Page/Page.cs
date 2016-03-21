@@ -69,7 +69,7 @@ namespace NeeView
         public string FullPath { get { return LoosePath.Combine(Place, FileName); } }
 
         // 更新日時
-        public DateTime UpdateTime { get; protected set; }
+        public DateTime LastWriteTime { get; protected set; }
 
         // コンテンツ幅
         public double Width { get; protected set; }
@@ -89,7 +89,7 @@ namespace NeeView
         // コンテンツのBitmapSourceを取得
         public BitmapSource GetBitmapSourceContent()
         {
-            return (Content as GifResource)?.BitmapSource ?? (Content as BitmapSource);
+            return (Content as AnimatedGifContent)?.BitmapContent?.Source ?? (Content as BitmapContent)?.Source;
         }
 
         // コンテンツ
@@ -268,17 +268,5 @@ namespace NeeView
         {
             return _Archiver != null && _Archiver is FolderFiles;
         }
-
-        // コンテンツローダー名
-        protected string LoaderName;
-
-        // 詳細
-        public string ContentProperty
-        {
-            get
-            {
-                return $"Archiver: {_Archiver?.ToString()}\nLoader: {LoaderName}";
-            }
-        } 
     }
 }

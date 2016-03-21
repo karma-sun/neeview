@@ -45,8 +45,6 @@ namespace NeeView
 #if DEBUG
 #else
             this.MenuItemDev.Visibility = Visibility.Collapsed;
-            this.Content0Text.Visibility = Visibility.Collapsed;
-            this.Content1Text.Visibility = Visibility.Collapsed;
 #endif
 
 
@@ -489,24 +487,47 @@ namespace NeeView
                 }
             }
 
+            bool isMenuDock = false;
+            bool isFileInfoDock = false;
+
             // menu hide
             if (_VM.IsFullScreen || _VM.IsHideMenu)
             {
                 var autoHideStyle = (Style)this.Resources["AutoHideContent"];
                 this.MenuArea.Style = autoHideStyle;
                 this.StatusArea.Style = autoHideStyle;
-                this.MainView.Margin = new Thickness(0);
             }
             else
             {
                 this.MenuArea.Style = null;
                 this.StatusArea.Style = null;
-                this.MainView.Margin = new Thickness(0, this.MenuArea.ActualHeight, 0, this.StatusArea.ActualHeight);
+                isMenuDock = true;
             }
+
+            //
+            if (_VM.IsVisibleFileInfo)
+            {
+                isFileInfoDock = true;
+                this.InfoArea.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                isFileInfoDock = false;
+                this.InfoArea.Visibility = Visibility.Collapsed;
+            }
+
+            //
+            this.MainView.Margin = new Thickness(
+                isFileInfoDock ? this.InfoArea.ActualWidth : 0,
+                isMenuDock ? this.MenuArea.ActualHeight : 0,
+                0,
+                isMenuDock ? this.StatusArea.ActualHeight: 0);
+
 
             this.TinyInfoTextBlock.Margin = new Thickness(0, 0, 0, this.StatusArea.ActualHeight);
             this.NowLoadingTiny.Margin = new Thickness(0, 0, 0, this.StatusArea.ActualHeight);
         }
+
 
 
 

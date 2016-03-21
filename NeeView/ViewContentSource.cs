@@ -33,9 +33,6 @@ namespace NeeView
         // コンテンツの色
         public Color Color { get; set; }
 
-        // コンテンツテキスト
-        public string Text { get; set; }
-
         // 表示名
         public string FullPath { get; set; }
 
@@ -61,7 +58,6 @@ namespace NeeView
             Position = position;
             PartSize = size;
             ReadOrder = readOrder;
-            Text = page.ContentProperty;
         }
 
 
@@ -81,10 +77,10 @@ namespace NeeView
         // コントロール作成
         public FrameworkElement CreateControl(Binding foregroundBinding, Binding bitmapScalingModeBinding)
         {
-            if (Source is BitmapSource)
+            if (Source is BitmapContent)
             {
                 var brush = new ImageBrush();
-                brush.ImageSource = (BitmapSource)Source;
+                brush.ImageSource = ((BitmapContent)Source).Source;
                 brush.Stretch = Stretch.Fill;
                 brush.Viewbox = GetViewBox();
 
@@ -93,10 +89,10 @@ namespace NeeView
                 rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
                 return rectangle;
             }
-            else if (Source is GifResource)
+            else if (Source is AnimatedGifContent)
             {
                 var media = new MediaElement();
-                media.Source = ((GifResource)Source).Uri;
+                media.Source = ((AnimatedGifContent)Source).Uri;
                 media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
                 media.MediaFailed += (s, e_) => { throw new ApplicationException("MediaElementで致命的エラー", e_.ErrorException); };
                 media.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
@@ -110,15 +106,15 @@ namespace NeeView
                 rectangle.Fill = brush;
                 return rectangle;
             }
-            else if (Source is FilePageContext)
+            else if (Source is FilePageContent)
             {
-                var control = new FilePageControl(Source as FilePageContext);
+                var control = new FilePageControl(Source as FilePageContent);
                 control.SetBinding(FilePageControl.DefaultBrushProperty, foregroundBinding);
                 return control;
             }
             else if (Source is string)
             {
-                var context = new FilePageContext() { Icon = FilePageIcon.File, Message = (string)Source };
+                var context = new FilePageContent() { Icon = FilePageIcon.File, Message = (string)Source };
                 var control = new FilePageControl(context);
                 control.SetBinding(FilePageControl.DefaultBrushProperty, foregroundBinding);
                 return control;

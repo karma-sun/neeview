@@ -28,7 +28,7 @@ namespace NeeView
         {
             Place = place;
             FileName = entry.FileName;
-            UpdateTime = entry.UpdateTime;
+            LastWriteTime = entry.LastWriteTime;
 
             _Archiver = archiver;
             _Icon = icon;
@@ -42,11 +42,22 @@ namespace NeeView
             Height = 320 * 1.25;
             Color = Colors.Black;
 
-            return new FilePageContext()
+            var info = new FileBasicInfo();
+            info.Archiver = _Archiver.ToString();
+
+            ArchiveEntry entry;
+            if (_Archiver.Entries.TryGetValue(FileName, out entry))
+            {
+                info.FileSize = entry.FileSize;
+                info.LastWriteTime = entry.LastWriteTime;
+            }
+
+            return new FilePageContent()
             {
                 Icon = _Icon,
                 FileName = FileName,
                 Message = Text,
+                Info = info,
             };
         }
     }

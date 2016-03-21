@@ -96,6 +96,15 @@ namespace NeeView
             [BackgroundStyle.Check] = "チェック模様",
         };
 
+        // 背景タイプリスト
+        public static Dictionary<FileInfoBackground, string> FileInfoBackgroundList { get; } = new Dictionary<FileInfoBackground, string>
+        {
+            [FileInfoBackground.Black] = "黒色",
+            [FileInfoBackground.White] = "白色",
+        };
+
+
+
         // 通知表示タイプリスト
         public static Dictionary<ShowMessageStyle, string> ShowMessageTypeList { get; } = new Dictionary<ShowMessageStyle, string>
         {

@@ -32,36 +32,37 @@ namespace NeeView
         {
             Place = place;
             FileName = entry.FileName;
-            UpdateTime = entry.UpdateTime;
+            LastWriteTime = entry.LastWriteTime;
 
             _Archiver = archiver;
         }
 
 
         // Bitmapロード
-        private BitmapSource LoadBitmap()
+        private BitmapContent LoadBitmap()
         {
             foreach (var loaderType in ModelContext.BitmapLoaderManager.OrderList)
             {
                 try
                 {
                     var bitmapLoader = BitmapLoaderManager.Create(loaderType);
-                    BitmapSource bmp;
-                    if (_Archiver.IsFileSystem) 
+                    ArchiveEntry entry = _Archiver.Entries[FileName];
+                    BitmapContent bmp;
+                    if (_Archiver.IsFileSystem)
                     {
-                        bmp = bitmapLoader.LoadFromFile(_Archiver.GetFileSystemPath(FileName), IsEnableExif);
+                        bmp = bitmapLoader.LoadFromFile(_Archiver.GetFileSystemPath(FileName), entry, IsEnableExif);
                     }
                     else
                     {
                         using (var stream = _Archiver.OpenEntry(FileName))
                         {
-                            bmp = bitmapLoader.Load(stream, FileName, IsEnableExif);
+                            bmp = bitmapLoader.Load(stream, entry, IsEnableExif);
                         }
                     }
 
                     if (bmp != null)
                     {
-                        LoaderName = bitmapLoader.ToString();
+                        if (bmp.Info != null) bmp.Info.Archiver = _Archiver.ToString();
                         return bmp;
                     }
                 }
@@ -90,8 +91,9 @@ namespace NeeView
 
             try
             {
-                var bitmapSource = LoadBitmap();
-                if (bitmapSource == null) throw new ApplicationException("cannot load by BitmapImge.");
+                var bitmapContent = LoadBitmap();
+                if (bitmapContent == null) throw new ApplicationException("cannot load by BitmapImge.");
+                var bitmapSource = bitmapContent.Source;
                 Width = bitmapSource.PixelWidth;
                 Height = bitmapSource.PixelHeight;
                 Color = bitmapSource.GetOneColor();
@@ -99,15 +101,15 @@ namespace NeeView
                 // GIFアニメ用にファイル展開
                 if (IsEnableAnimatedGif && LoosePath.GetExtension(FileName) == ".gif")
                 {
-                    return new GifResource()
+                    return new AnimatedGifContent()
                     {
                         Uri = new Uri(CreateTempFile()),
-                        BitmapSource = bitmapSource
+                        BitmapContent = bitmapContent
                     };
                 }
                 else
                 {
-                    return bitmapSource;
+                    return bitmapContent;
                 }
             }
             catch (Exception e)
@@ -117,15 +119,17 @@ namespace NeeView
                 Height = 320 * 1.25;
                 Color = Colors.Black;
 
-                return new FilePageContext()
+                return new FilePageContent()
                 {
                     Icon = FilePageIcon.Alart,
                     FileName = FileName,
-                    Message = e.Message
+                    Message = e.Message,
+
+                    Info = new FileBasicInfo()
                 };
             }
         }
-
+    
         // ファイルの出力
         public override void Export(string path)
         {
@@ -134,9 +138,10 @@ namespace NeeView
     }
 
     // アニメーションGIF用リソース
-    public class GifResource
+    public class AnimatedGifContent
     {
         public Uri Uri { get; set; }
-        public BitmapSource BitmapSource { get; set; }
+        public BitmapContent BitmapContent { get; set; }
     }
+
 }

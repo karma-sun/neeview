@@ -40,9 +40,9 @@ namespace NeeView
         }
 
         // エントリーリストを得る
-        public override List<ArchiveEntry> GetEntries()
+        public override Dictionary<string, ArchiveEntry> GetEntries()
         {
-            List<ArchiveEntry> entries = new List<ArchiveEntry>();
+            Entries.Clear();
 
             using (var archiver = ZipFile.OpenRead(_ArchiveFileName))
             {
@@ -50,17 +50,19 @@ namespace NeeView
                 {
                     if (entry.Length > 0)
                     {
-                        entries.Add(new ArchiveEntry()
+                        Entries.Add(entry.FullName, new ArchiveEntry()
                         {
                             FileName = entry.FullName,
-                            UpdateTime = entry.LastWriteTime.UtcDateTime,
+                            FileSize = entry.Length,
+                            LastWriteTime = entry.LastWriteTime.Date,
                         });
                     }
                 }
             }
 
-            return entries;
+            return Entries;
         }
+
 
 
         // エントリーのストリームを得る

@@ -43,25 +43,26 @@ namespace NeeView
         }
 
         // エントリーリストを得る
-        public override List<ArchiveEntry> GetEntries()
+        public override Dictionary<string, ArchiveEntry> GetEntries()
         {
             _Archive = OpenArchive();
 
-            List<ArchiveEntry> entries = new List<ArchiveEntry>();
+            Entries.Clear();
 
             foreach (var entry in _Archive.Entries)
             {
                 if (entry.Length > 0)
                 {
-                    entries.Add(new ArchiveEntry()
+                    Entries.Add(entry.FullName, new ArchiveEntry()
                     {
                         FileName = entry.FullName,
-                        UpdateTime = entry.LastWriteTime.UtcDateTime,
+                        FileSize = entry.Length,
+                        LastWriteTime = entry.LastWriteTime.Date,
                     });
                 }
             }
 
-            return entries;
+            return Entries;
         }
 
 

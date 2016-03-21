@@ -354,7 +354,7 @@ namespace NeeView
         // アーカイブからページ作成(再帰)
         private bool ReadArchive(Archiver archiver, string place, BookLoadOption option)
         {
-            List<ArchiveEntry> entries = null;
+            Dictionary<string, ArchiveEntry> entries = null;
 
             try
             {
@@ -376,7 +376,7 @@ namespace NeeView
             _Archivers.Add(archiver);
 
             //
-            foreach (var entry in entries)
+            foreach (var entry in entries.Values)
             {
                 // 再帰設定、もしくは単一ファイルの場合、再帰を行う
                 bool isRecursive = (option & BookLoadOption.Recursive) == BookLoadOption.Recursive;
@@ -1064,10 +1064,10 @@ namespace NeeView
                     Pages.Reverse();
                     break;
                 case PageSortMode.TimeStamp:
-                    Pages = Pages.OrderBy(e => e.UpdateTime).ToList();
+                    Pages = Pages.OrderBy(e => e.LastWriteTime).ToList();
                     break;
                 case PageSortMode.TimeStampDescending:
-                    Pages = Pages.OrderBy(e => e.UpdateTime).ToList();
+                    Pages = Pages.OrderBy(e => e.LastWriteTime).ToList();
                     Pages.Reverse();
                     break;
                 case PageSortMode.Random:

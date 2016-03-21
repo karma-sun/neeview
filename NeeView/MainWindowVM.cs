@@ -199,6 +199,27 @@ namespace NeeView
         }
         #endregion
 
+        #region Property: IsVisibleFileInfo
+        private bool _IsVisibleFileInfo;
+        public bool IsVisibleFileInfo
+        {
+            get { return _IsVisibleFileInfo; }
+            set
+            {
+                _IsVisibleFileInfo = value;
+                OnPropertyChanged();
+                UpdateFileInfoContent();
+                NotifyMenuVisibilityChanged?.Invoke(this, null);
+            }
+        }
+        #endregion
+        public bool ToggleVisibleFileInfo()
+        {
+            IsVisibleFileInfo = !IsVisibleFileInfo;
+            return IsVisibleFileInfo;
+        }
+
+
         // フルスクリーン
         #region Property: IsFullScreen
         private bool _IsFullScreen;
@@ -308,15 +329,15 @@ namespace NeeView
 
                 string text = LoosePath.GetFileName(BookHub.Current.Place);
 
-                if (_MainContent != null)
+                if (MainContent != null)
                 {
-                    if (_MainContent.PartSize == 2)
+                    if (MainContent.PartSize == 2)
                     {
-                        text += $" ({_MainContent.Position.Index + 1}/{IndexMax + 1})";
+                        text += $" ({MainContent.Position.Index + 1}/{IndexMax + 1})";
                     }
                     else
                     {
-                        string pageNum = (_MainContent.Position.Index + 1).ToString() + (_MainContent.Position.Part == 1 ? ".5" : ".0");
+                        string pageNum = (MainContent.Position.Index + 1).ToString() + (MainContent.Position.Part == 1 ? ".5" : ".0");
                         text += $" ({pageNum}/{IndexMax + 1})";
                     }
 
@@ -389,8 +410,55 @@ namespace NeeView
 
         // コンテンツ
         public ObservableCollection<ViewContent> Contents { get; private set; }
+
         // 見開き時のメインとなるコンテンツ
+        #region Property: MainContent
         private ViewContent _MainContent;
+        public ViewContent MainContent
+        {
+            get { return _MainContent; }
+            set
+            {
+                _MainContent = value;
+                OnPropertyChanged();
+                UpdateFileInfoContent();
+            }
+        }
+        #endregion
+
+        private void UpdateFileInfoContent()
+        {
+            FileInfoContent = IsVisibleFileInfo ? _MainContent : null;
+        }
+
+        #region Property: FileInfoContent
+        private ViewContent _FileInfoContent;
+        public ViewContent FileInfoContent
+        {
+            get { return _FileInfoContent; }
+            set
+            {
+                if (_FileInfoContent != value)
+                {
+                    _FileInfoContent = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        #endregion
+
+        #region Property: FileInfoSetting
+        private FileInfoSetting _FileInfoSetting;
+        public FileInfoSetting FileInfoSetting
+        {
+            get { return _FileInfoSetting; }
+            set { _FileInfoSetting = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+
+
+
 
         // Foregroudh Brush：ファイルページのフォントカラー用
         private Brush _ForegroundBrush = Brushes.White;
@@ -725,11 +793,31 @@ namespace NeeView
                         content.Content = source.CreateControl(new Binding("ForegroundBrush") { Source = this }, new Binding("BitmapScalingMode") { Source = content });
                         content.Size = new Size(source.Width, source.Height);
                         content.Color = new SolidColorBrush(source.Color);
+                        content.FilePlace = BookHub.Current?.Place;
                         content.FullPath = source.FullPath;
                         content.Position = source.Position;
                         content.PartSize = source.PartSize;
                         content.ReadOrder = source.ReadOrder;
-                        content.Text = source.Text;
+
+                        if (source.Source is BitmapContent)
+                        {
+                            var bitmapContent = source.Source as BitmapContent;
+                            content.Bitmap = bitmapContent.Source;
+                            content.Info = bitmapContent.Info;
+                        }
+                        else if (source.Source is AnimatedGifContent)
+                        {
+                            var gifResource = source.Source as AnimatedGifContent;
+                            content.Bitmap = gifResource.BitmapContent.Source;
+                            content.Info = gifResource.BitmapContent.Info;
+                            content.Info.Decoder = "MediaPlayer";
+                        }
+                        else if (source.Source is FilePageContent)
+                        {
+                            var filePageContext = source.Source as FilePageContent;
+                            content.Info = filePageContext.Info;
+                            content.Info.Decoder = null;
+                        }
 
                         contents.Add(content);
                     }
@@ -740,7 +828,7 @@ namespace NeeView
             IsVisibleEmptyPageMessage = contents.Count == 0;
 
             // メインとなるコンテンツを指定
-            _MainContent = contents.Count > 0 ? contents[0] : null;
+            MainContent = contents.Count > 0 ? contents[0] : null;
 
             // ViewModelプロパティに反映
             for (int index = 0; index < 2; ++index)
@@ -1002,7 +1090,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -1076,6 +1164,11 @@ namespace NeeView
             [DataMember(Order = 4)]
             public bool IsTopmost { get; set; }
 
+            [DataMember(Order = 5)]
+            public bool IsVisibleFileInfo { get; set; }
+
+            [DataMember(Order = 5)]
+            public FileInfoSetting FileInfoSetting { get; set; }
 
             void Constructor()
             {
@@ -1087,6 +1180,7 @@ namespace NeeView
                 NowLoadingShowMessageStyle = ShowMessageStyle.Normal;
                 StretchMode = PageStretchMode.Uniform;
                 Background = BackgroundStyle.Black;
+                FileInfoSetting = new FileInfoSetting();
             }
 
             public Memento()
@@ -1129,6 +1223,8 @@ namespace NeeView
             memento.IsFullScreen = this.IsFullScreen;
             memento.IsSaveFullScreen = this.IsSaveFullScreen;
             memento.IsTopmost = this.IsTopmost;
+            memento.IsVisibleFileInfo = this.IsVisibleFileInfo;
+            memento.FileInfoSetting = this.FileInfoSetting.Clone();
 
             return memento;
         }
@@ -1159,11 +1255,13 @@ namespace NeeView
             this.IsSaveFullScreen = memento.IsSaveFullScreen;
             if (this.IsSaveFullScreen) this.IsFullScreen = memento.IsFullScreen;
             this.IsTopmost = memento.IsTopmost;
+            this.IsVisibleFileInfo = memento.IsVisibleFileInfo;
+            this.FileInfoSetting = memento.FileInfoSetting.Clone();
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }
 
-#endregion
+        #endregion
 
     }
 }

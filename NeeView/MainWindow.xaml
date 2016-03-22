@@ -70,6 +70,10 @@
         <!--
         <DockPanel x:Name="DevInfo" DockPanel.Dock="Bottom" Panel.ZIndex="100" Background="White"
                   Visibility="{Binding ElementName=MenuItemDevInfo, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <Button Content="Update" Width="100" Click="UpdateContentPoint_Click"/>
+                <TextBlock Text="{Binding ContentPosition}" Margin="5"/>
+            </StackPanel>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.JobCount}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Message}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[0].Message}"/>
@@ -100,16 +104,16 @@
                             </Style.Triggers>
                         </Style>
                     </Canvas.Resources>
-                    <StackPanel x:Name="MainContent" Orientation="Horizontal" SnapsToDevicePixels="True" >
-                        <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" SnapsToDevicePixels="True"/>
-                        <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" SnapsToDevicePixels="True"/>
+                    <StackPanel x:Name="MainContent" Orientation="Horizontal">
+                        <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
+                        <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}"/>
                     </StackPanel>
                 </Canvas>
 
                 <!-- Pages Shadow (表示領域計算用) -->
                 <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel x:Name="MainContentShadow" Orientation="Horizontal" SnapsToDevicePixels="True">
+                    <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
                         <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
                         <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}"/>
                     </StackPanel>

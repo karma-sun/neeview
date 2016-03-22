@@ -109,7 +109,12 @@ namespace NeeView
         public double Angle
         {
             get { return _Angle; }
-            set { _Angle = value; OnPropertyChanged(); }
+            set
+            {
+                _Angle = value;
+                OnPropertyChanged();
+                TransformChanged?.Invoke(this, null);
+            }
         }
         #endregion
 
@@ -125,7 +130,7 @@ namespace NeeView
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(ScaleX));
                 OnPropertyChanged(nameof(ScaleY));
-                ScaleChanged?.Invoke(this, _Scale);
+                TransformChanged?.Invoke(this, null);
             }
         }
         #endregion
@@ -243,8 +248,8 @@ namespace NeeView
         // ドラッグされずにマウスボタンが離された時にに発行する
         public event EventHandler<MouseButtonEventArgs> MouseClickEventHandler;
 
-        // スケール変更イベント
-        public event EventHandler<double> ScaleChanged;
+        // 角度、スケール変更イベント
+        public event EventHandler TransformChanged;
 
 
         bool _IsEnableClickEvent;
@@ -507,7 +512,7 @@ namespace NeeView
         {
             _BaseScale = Scale;
             _BasePosition = Position;
-            DoScale(1.2 * _BaseScale);
+            DoScale(_BaseScale * 1.2);
         }
 
         // 縮小コマンド
@@ -515,7 +520,7 @@ namespace NeeView
         {
             _BaseScale = Scale;
             _BasePosition = Position;
-            DoScale(0.8 * _BaseScale);
+            DoScale(_BaseScale / 1.2);
         }
 
         // 回転コマンド

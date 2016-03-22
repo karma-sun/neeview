@@ -495,6 +495,22 @@ namespace NeeView
         // 開発用：ページリスト
         public List<Page> PageList => BookHub.Current?.Pages;
 
+        // 開発用：コンテンツ座標
+        #region Property: ContentPosition
+        private Point _ContentPosition;
+        public Point ContentPosition
+        {
+            get { return _ContentPosition; }
+            set { _ContentPosition = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+        // 開発用：コンテンツ座標情報更新
+        public void UpdateContentPosition()
+        {
+            ContentPosition = MainContent.Content.PointToScreen(new Point(0, 0));
+        }
+
         #endregion
 
 
@@ -885,12 +901,16 @@ namespace NeeView
             UpdateContentScalingMode();
         }
 
+        // ビュー回転
+        private double _ViewAngle;
+
         // ビュースケール
         private double _ViewScale;
 
-        // ビュースケールを更新
-        public void SetViewScale(double scale)
+        // ビュー変換を更新
+        public void SetViewTransform(double scale, double angle)
         {
+            _ViewAngle = angle;
             _ViewScale = scale;
 
             UpdateContentScalingMode();
@@ -903,7 +923,14 @@ namespace NeeView
             {
                 if (content.Content != null && content.Content is Rectangle)
                 {
-                    content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _ViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                    if (content.Size.Width == content.Width && _ViewAngle == 0.0 && _ViewScale == 1.0)
+                    {
+                        content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
+                    }
+                    else
+                    {
+                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _ViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                    }
                 }
             }
         }

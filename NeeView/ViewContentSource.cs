@@ -24,6 +24,9 @@ namespace NeeView
         // コンテンツソース
         public object Source { get; set; }
 
+        // コンテンツソースサイズ
+        public Size SourceSize { get; set; }
+
         // コンテンツの幅
         public double Width { get; set; }
 
@@ -51,7 +54,8 @@ namespace NeeView
         public ViewContentSource(Page page, PagePosition position, int size, PageReadOrder readOrder)
         {
             Source = page.Content;
-            Width = size == 2 ? page.Width : page.Width * 0.5;
+            SourceSize = new Size(page.Width, page.Height);
+            Width = size == 2 ? page.Width : Math.Floor(page.Width * 0.5 + 0.4);
             Height = page.Height;
             Color = page.Color;
             FullPath = page.FullPath;
@@ -64,13 +68,14 @@ namespace NeeView
         // ViewBox取得
         private Rect GetViewBox()
         {
-            if (PartSize == 0) new Rect(0, 0, 0, 1);
-            if (PartSize == 2) return new Rect(0, 0, 1, 1);
+            if (PartSize == 0) return new Rect(0, -0.00001, 0, 0.99999);
+            if (PartSize == 2) return new Rect(-0.00001, -0.00001, 0.99999, 0.99999);
 
             bool isRightPart = Position.Part == 0;
             if (ReadOrder == PageReadOrder.LeftToRight) isRightPart = !isRightPart;
 
-            return isRightPart ? new Rect(0.5, 0, 0.5, 1) : new Rect(0, 0, 0.5, 1);
+            double half = Width / SourceSize.Width;
+            return isRightPart ? new Rect(0.99999 - half, -0.00001, half - 0.00001, 0.99999) : new Rect(-0.00001, -0.00001, half - 0.00001, 0.99999);
         }
 
 
@@ -81,12 +86,17 @@ namespace NeeView
             {
                 var brush = new ImageBrush();
                 brush.ImageSource = ((BitmapContent)Source).Source;
+                brush.AlignmentX = AlignmentX.Left;
+                brush.AlignmentY = AlignmentY.Top;
                 brush.Stretch = Stretch.Fill;
+                brush.TileMode = TileMode.None;
                 brush.Viewbox = GetViewBox();
 
                 var rectangle = new Rectangle();
                 rectangle.Fill = brush;
                 rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
+                rectangle.UseLayoutRounding = true;
+                rectangle.SnapsToDevicePixels = true;
                 return rectangle;
             }
             else if (Source is AnimatedGifContent)

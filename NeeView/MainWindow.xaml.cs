@@ -82,8 +82,8 @@ namespace NeeView
 
             // mouse drag
             _MouseDrag = new MouseDragController(this, this.MainView, this.MainContent, this.MainContentShadow);
-            _MouseDrag.ScaleChanged +=
-                (s, e) => _VM.SetViewScale(e);
+            _MouseDrag.TransformChanged +=
+                (s, e) => _VM.SetViewTransform(_MouseDrag.Scale, _MouseDrag.Angle);
             ModelContext.DragActionTable.SetTarget(_MouseDrag);
 
             // mouse gesture
@@ -613,6 +613,12 @@ namespace NeeView
         private void MenuItemDevApplicationFolder_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + System.Reflection.Assembly.GetEntryAssembly().Location + "\"");
+        }
+
+        // 開発用コマンド：コンテンツ座標更新
+        private void UpdateContentPoint_Click(object sender, RoutedEventArgs e)
+        {
+            _VM.UpdateContentPosition();
         }
 
 

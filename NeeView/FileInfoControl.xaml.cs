@@ -131,13 +131,13 @@ namespace NeeView
             var strings = new StringSet();
 
             var content = (sender as FileInfoControl)?.DataContext as ViewContent;
-            if (content?.Info != null)
+            if (content != null)
             {
                 try
                 {
                     if (content.Bitmap != null)
                     {
-                        strings.Size = string.Format("{0} x {1}", content.Size.Width, content.Size.Height);
+                        strings.Size = string.Format("{0} x {1}", content.Bitmap.PixelWidth, content.Bitmap.PixelHeight);
                         if (Setting.IsVisibleBitsPerPixel) strings.Size += string.Format(" ({0}bit)", content.Bitmap.GetSourceBitsPerPixel());
                     }
                     if (content.Info != null)

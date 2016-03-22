@@ -39,17 +39,25 @@ namespace NeeView
         }
 
         /// <summary>
+        /// IPCサーバ停止
+        /// </summary>
+        public static void Shutdown()
+        {
+            if (_Server != null)
+            {
+                _Server.Shutdown();
+                _Server = null;
+            }
+        }
+
+        /// <summary>
         /// IPCクライアントからの命令：LoadAs
         /// </summary>
         /// <param name="path"></param>
         public static void LoadAs(int id, string path)
         {
-            try
-            {
-                var client = new IpcClient();
-                client.LoadAs(id, path);
-            }
-            catch { }
+            var client = new IpcClient();
+            client.LoadAs(id, path);
         }
 
 
@@ -100,21 +108,37 @@ namespace NeeView
         {
             public IpcRemoteObject RemoteObject { get; set; }
 
+            private IpcServerChannel _Channel;
+
             /// <summary>
             /// コンストラクタ
             /// </summary>
             public void Boot(int id)
             {
                 // サーバーチャンネルの生成
-                IpcServerChannel channel = new IpcServerChannel(PortName + id.ToString());
+                _Channel = new IpcServerChannel(PortName + id.ToString());
 
                 // チャンネルを登録
-                ChannelServices.RegisterChannel(channel, true);
+                ChannelServices.RegisterChannel(_Channel, true);
 
                 // リモートオブジェクトを生成して公開
                 RemoteObject = new IpcRemoteObject();
                 RemotingServices.Marshal(RemoteObject, ObjURI, typeof(IpcRemoteObject));
             }
+
+
+            /// <summary>
+            /// 停止
+            /// </summary>
+            public void Shutdown()
+            {
+                if (_Channel != null)
+                {
+                    ChannelServices.UnregisterChannel(_Channel);
+                    _Channel = null;
+                }
+            }
+
         }
 
 

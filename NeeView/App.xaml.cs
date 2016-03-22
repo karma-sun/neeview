@@ -79,12 +79,19 @@ namespace NeeView
 
                 if (serverProcess != null)
                 {
-                    // IPCクライアント送信
-                    IpcRemote.LoadAs(serverProcess.Id, StartupPlace);
+                    try
+                    {
+                        // IPCクライアント送信
+                        IpcRemote.LoadAs(serverProcess.Id, StartupPlace);
 
-                    // 起動を中止してプログラムを終了
-                    this.Shutdown();
-                    return;
+                        // 起動を中止してプログラムを終了
+                        this.Shutdown();
+                        return;
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("起動を継続します。\n 理由：" + ex.Message);
+                    }
                 }
             }
 
@@ -94,6 +101,29 @@ namespace NeeView
             // メインウィンドウ起動
             var mainWindow = new MainWindow();
             mainWindow.Show();
+        }
+
+
+        /// <summary>
+        /// 終了処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            // IPC シャットダウン
+            Debug.WriteLine("IpcServer_Shutdown");
+            IpcRemote.Shutdown();
+
+            // プロセスを確実に終了させるための保険
+            Task.Run(() =>
+            {
+                System.Threading.Thread.Sleep(5000);
+                Debug.WriteLine("Environment_Exit");
+                Environment.Exit(0);
+            });
+
+            Debug.WriteLine("Application_Exit");
         }
 
 
@@ -145,5 +175,6 @@ namespace NeeView
             this.Shutdown();
 #endif
         }
+
     }
 }

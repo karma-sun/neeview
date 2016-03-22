@@ -53,8 +53,8 @@
         <local:FileInfoItem x:Name="ItemFilePlace" Header="フォルダーのパス" Text="{Binding FilePlace}"/>
 
         <StackPanel x:Name="GroupLoader">
-            <local:FileInfoItem x:Name="ItemArchiver" Header="アーカイバ" Text="{Binding BitmapInfo.Archiver}"/>
-            <local:FileInfoItem x:Name="ItemDecoder" Header="デコーダー" Text="{Binding BitmapInfo.Decoder}"/>
+            <local:FileInfoItem x:Name="ItemArchiver" Header="アーカイバ" Text="{Binding Info.Archiver}"/>
+            <local:FileInfoItem x:Name="ItemDecoder" Header="デコーダー" Text="{Binding Info.Decoder}"/>
         </StackPanel>
 
     </StackPanel>

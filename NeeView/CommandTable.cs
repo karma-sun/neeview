@@ -174,6 +174,13 @@ namespace NeeView
                     Execute = e => _VM.StretchMode = PageStretchMode.UniformToFill,
                     Attribute = CommandAttribute.ToggleEditable,
                 },
+                [CommandType.SetStretchModeUniformToSize] = new CommandElement
+                {
+                    Group = "表示サイズ",
+                    Text = "面積をウィンドウに合わせる",
+                    Execute = e => _VM.StretchMode = PageStretchMode.UniformToSize,
+                    Attribute = CommandAttribute.ToggleEditable,
+                },
                 [CommandType.SetStretchModeUniformToVertical] = new CommandElement
                 {
                     Group = "表示サイズ",

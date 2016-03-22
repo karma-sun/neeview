@@ -971,8 +971,17 @@ namespace NeeView
                 if (rateH < 1.0) rateH = 1.0;
             }
 
+            // 面積をあわせる
+            if (this.StretchMode == PageStretchMode.UniformToSize)
+            {
+                var viewSize = width * height;
+                var contentSize = content.Width * content.Height;
+                var rate = Math.Sqrt(viewSize / contentSize);
+                rate0 *= rate;
+                rate1 *= rate;
+            }
             // 高さを合わせる
-            if (this.StretchMode == PageStretchMode.UniformToVertical)
+            else if (this.StretchMode == PageStretchMode.UniformToVertical)
             {
                 rate0 *= rateH;
                 rate1 *= rateH;

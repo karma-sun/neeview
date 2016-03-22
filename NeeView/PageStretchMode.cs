@@ -19,6 +19,7 @@ namespace NeeView
         Outside, // もとの大きさ、小さい場合はウィンドウサイズに合わせる
         Uniform, // ウィンドウサイズに合わせる
         UniformToFill, // ウィンドウいっぱいに広げる
+        UniformToSize, // 面積をウィンドウに合わせる
         UniformToVertical, // 高さをウィンドウに合わせる
     }
 
@@ -31,6 +32,7 @@ namespace NeeView
             [PageStretchMode.Outside] = CommandType.SetStretchModeOutside,
             [PageStretchMode.Uniform] = CommandType.SetStretchModeUniform,
             [PageStretchMode.UniformToFill] = CommandType.SetStretchModeUniformToFill,
+            [PageStretchMode.UniformToSize] = CommandType.SetStretchModeUniformToSize,
             [PageStretchMode.UniformToVertical] = CommandType.SetStretchModeUniformToVertical,
         };
 
@@ -74,6 +76,7 @@ namespace NeeView
             [PageStretchMode.Outside] = "小さい場合ウィンドウサイズに合わせる",
             [PageStretchMode.Uniform] = "ウィンドウサイズに合わせる",
             [PageStretchMode.UniformToFill] = "ウィンドウいっぱいに広げる",
+            [PageStretchMode.UniformToSize] = "面積をウィンドウに合わせる",
             [PageStretchMode.UniformToVertical] = "高さをウィンドウに合わせる",
         };
 

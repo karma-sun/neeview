@@ -599,6 +599,7 @@ namespace NeeView
             _VM.Dispose();
 
             Debug.WriteLine("Window.Closed done.");
+            //Environment.Exit(0);
         }
 
 

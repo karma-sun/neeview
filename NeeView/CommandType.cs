@@ -58,6 +58,7 @@ namespace NeeView
         SetStretchModeOutside,
         SetStretchModeUniform,
         SetStretchModeUniformToFill,
+        SetStretchModeUniformToSize,
         SetStretchModeUniformToVertical,
 
         ToggleIsEnabledNearestNeighbor,

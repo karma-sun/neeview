@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace NeeView
 {
     /// <summary>
     /// ListBoxのドラッグ&ドロップによる順番入れ替え用ヘルパ
-    /// 使用条件：ItemsSource が List<T>
+    /// 使用条件：ItemsSource が ObservableCollection<T>
     /// </summary>
     public static class ListBoxDragSortExtension
     {
@@ -37,7 +38,7 @@ namespace NeeView
 
 
         // event Drop
-        public static void Drop<T>(object sender, DragEventArgs e) where T : class
+        public static void Drop<T>(object sender, DragEventArgs e, ObservableCollection<T> items) where T : class
         {
             if (!e.Data.GetDataPresent(typeof(ListBoxItem))) return;
 
@@ -47,13 +48,12 @@ namespace NeeView
             var item = (e.Data.GetData(typeof(ListBoxItem)) as ListBoxItem)?.DataContext as T;
             if (item == null) return;
 
-            // ドラッグオブジェクトが所属しているリスト
-            var items = listBox.ItemsSource as List<T>;
-            if (!items.Contains(item)) return;
+            // ドラッグオブジェクトが所属しているリスト判定
+            if (items.Count > 0 && !items.Contains(item)) return;
 
             var dropPos = e.GetPosition(listBox);
-            int indexFrom = items.IndexOf(item);
-            int indexTo = items.Count;
+            int oldIndex = items.IndexOf(item);
+            int newIndex = items.Count - 1;
             for (int i = 0; i < items.Count; i++)
             {
                 var listBoxItem = listBox.ItemContainerGenerator.ContainerFromIndex(i) as ListBoxItem;
@@ -62,13 +62,14 @@ namespace NeeView
                 var pos = listBox.PointFromScreen(listBoxItem.PointToScreen(new Point(0, listBoxItem.ActualHeight / 2)));
                 if (dropPos.Y < pos.Y)
                 {
-                    indexTo = i;
+                    newIndex = i;
                     break;
                 }
             }
-            items.Move(indexFrom, indexTo);
-            listBox.InvalidateProperty(ListBox.ItemsSourceProperty);
-            listBox.Items.Refresh();
+            if (oldIndex != newIndex)
+            {
+                items.Move(oldIndex, newIndex);
+            }
         }
     }
 

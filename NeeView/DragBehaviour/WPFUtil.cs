@@ -160,8 +160,8 @@ namespace DragExtensions
 
         private struct POINT
         {
-            public UInt32 X;
-            public UInt32 Y;
+            public Int32 X;
+            public Int32 Y;
         }
 
         public static Point GetMousePosition(System.Windows.Media.Visual visual)

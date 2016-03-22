@@ -21,9 +21,9 @@ namespace Susie
     public class Susie
     {
         // 書庫プラグインリスト
-        public List<SusiePlugin> AMPlgunList { get; private set; } = new List<SusiePlugin>();
+        public List<SusiePlugin> AMPlgunList { get; set; } = new List<SusiePlugin>();
         // 画像プラグインリスト
-        public List<SusiePlugin> INPlgunList { get; private set; } = new List<SusiePlugin>();
+        public List<SusiePlugin> INPlgunList { get; set; } = new List<SusiePlugin>();
 
         // すべてのプラグインのEnumerator
         public IEnumerable<SusiePlugin> PluginCollection

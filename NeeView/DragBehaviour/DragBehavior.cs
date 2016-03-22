@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Automation;
+using System.Windows.Automation.Peers;
+using System.Windows.Automation.Provider;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace DragExtensions
@@ -58,6 +62,20 @@ namespace DragExtensions
             obj.SetValue(DragAdornerProperty, value);
         }
 
+
+        // ListBox
+        private static readonly DependencyProperty ListBoxProperty = DependencyProperty.RegisterAttached("ListBox", typeof(ListBox), typeof(DragBehavior), new PropertyMetadata(null));
+
+        public static ListBox GetListBox(DependencyObject obj)
+        {
+            return (ListBox)obj.GetValue(ListBoxProperty);
+        }
+        public static void SetListBox(DependencyObject obj, ListBox value)
+        {
+            obj.SetValue(ListBoxProperty, value);
+        }
+
+
         private static void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             //e.Handled = true;
@@ -83,7 +101,8 @@ namespace DragExtensions
 
             if (!IsDragging(startPoint, point)) return;
 
-            DragAdorner adorner = new DragAdorner(element, 0.5, point);
+            var adornerElement = GetListBox(element) ?? element;
+            DragAdorner adorner = new DragAdorner(adornerElement, element, 0.5, point);
             DragBehavior.SetDragAdorner(element, adorner);
 
             DragDrop.DoDragDrop(element, element, DragDropEffects.Copy | DragDropEffects.Move);
@@ -104,6 +123,27 @@ namespace DragExtensions
             UIElement element = sender as UIElement;
             DragAdorner adorner = DragBehavior.GetDragAdorner(element);
             if (adorner != null) adorner.Position = WPFUtil.GetMousePosition(element);
+
+            // ListBox Scroll
+            var listbox = GetListBox(element);
+            if (listbox != null)
+            {
+                var peer = ItemsControlAutomationPeer.CreatePeerForElement(listbox);
+                var scrollProvider = peer.GetPattern(PatternInterface.Scroll) as IScrollProvider;
+
+                if (scrollProvider.VerticallyScrollable)
+                {
+                    var cursor = WPFUtil.GetMousePosition(listbox) - listbox.TranslatePoint(new Point(0, 0), Window.GetWindow(listbox));
+                    if (cursor.Y < 0)
+                    {
+                        scrollProvider.Scroll(ScrollAmount.NoAmount, ScrollAmount.SmallDecrement);
+                    }
+                    else if (cursor.Y > listbox.ActualHeight)
+                    {
+                        scrollProvider.Scroll(ScrollAmount.NoAmount, ScrollAmount.SmallIncrement);
+                    }
+                }
+            }
         }
     }
 

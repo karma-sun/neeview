@@ -396,6 +396,7 @@
                             <Setter.Value>
                                 <Style TargetType="ListBoxItem">
                                     <Setter Property="drag:DragBehavior.IsEnable" Value="True"/>
+                                    <Setter Property="drag:DragBehavior.ListBox" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}"/>
                                 </Style>
                             </Setter.Value>
                         </Setter>
@@ -413,12 +414,12 @@
                         <TabControl Margin="0,4">
 
                             <TabItem Header="画像プラグイン">
-                                <ListBox x:Name="INPluginListView" ItemsSource="{Binding INPluginList}" >
+                                <ListBox x:Name="INPluginListView" ItemsSource="{Binding INPluginList}" Tag="{Binding INPluginList}" >
                                 </ListBox>
                             </TabItem>
 
                             <TabItem Header="書庫プラグイン">
-                                <ListBox x:Name="AMPluginListView" ItemsSource="{Binding AMPluginList}" >
+                                <ListBox x:Name="AMPluginListView" ItemsSource="{Binding AMPluginList}" Tag="{Binding AMPluginList}" >
                                 </ListBox>
                             </TabItem>
 

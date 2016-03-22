@@ -16,14 +16,16 @@ namespace DragExtensions
         private Rectangle _Ghost;
         protected Vector _Move;
 
-        public DragAdorner(UIElement element, double opacity, Point point) : base(element)
+        public DragAdorner(UIElement element, UIElement view, double opacity, Point point) : base(element)
         {
-            Rect bounds = VisualTreeHelper.GetDescendantBounds(element);
+            if (view == null) view = element;
+
+            Rect bounds = VisualTreeHelper.GetDescendantBounds(view);
             _Ghost = new Rectangle() 
             {
                 Height = bounds.Height,
                 Width = bounds.Width, 
-                Fill = new VisualBrush(element) { Opacity = opacity }
+                Fill = new VisualBrush(view) { Opacity = opacity }
             };
 
             _Move = (Vector)Window.GetWindow(element).PointFromScreen(element.PointToScreen(point));

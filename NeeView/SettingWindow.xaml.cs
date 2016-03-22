@@ -61,8 +61,8 @@ namespace NeeView
         private bool IsDartySusieSetting;
 
         // Susieプラグインリスト
-        public List<Susie.SusiePlugin> AMPluginList { get; private set; }
-        public List<Susie.SusiePlugin> INPluginList { get; private set; }
+        public ObservableCollection<Susie.SusiePlugin> AMPluginList { get; private set; }
+        public ObservableCollection<Susie.SusiePlugin> INPluginList { get; private set; }
 
         // コマンド一覧用パラメータ
         public class CommandParam
@@ -317,6 +317,13 @@ namespace NeeView
         // Susie環境 更新
         private void UpdateSusiePluginSetting(string path)
         {
+            // プラグインリスト書き戻し
+            if (ModelContext.Susie != null)
+            {
+                ModelContext.Susie.AMPlgunList = AMPluginList.ToList();
+                ModelContext.Susie.INPlgunList = INPluginList.ToList();
+            }
+
             // 現在のSusieプラグイン情報保存
             Setting.SusieMemento.SusiePluginPath = path;
             Setting.SusieMemento.SpiFiles = SusieContext.Memento.CreateSpiFiles(ModelContext.Susie);
@@ -328,11 +335,11 @@ namespace NeeView
         // Susieプラグイン一覧 更新
         public void UpdateSusiePluginList()
         {
-            INPluginList = ModelContext.Susie?.INPlgunList;
+            INPluginList = new ObservableCollection<Susie.SusiePlugin>(ModelContext.Susie?.INPlgunList);
             OnPropertyChanged(nameof(INPluginList));
             this.INPluginListView.Items.Refresh();
 
-            AMPluginList = ModelContext.Susie?.AMPlgunList;
+            AMPluginList = new ObservableCollection<Susie.SusiePlugin>(ModelContext.Susie?.AMPlgunList);
             OnPropertyChanged(nameof(AMPluginList));
             this.AMPluginListView.Items.Refresh();
         }
@@ -404,7 +411,11 @@ namespace NeeView
         // プラグインリスト：ドロップ
         private void PluginListView_Drop(object sender, DragEventArgs e)
         {
-            ListBoxDragSortExtension.Drop<Susie.SusiePlugin>(sender, e);
+            var list = (sender as ListBox).Tag as ObservableCollection<Susie.SusiePlugin>;
+            if (list != null)
+            {
+                ListBoxDragSortExtension.Drop<Susie.SusiePlugin>(sender, e, list);
+            }
         }
 
         // 設定画面終了処理
@@ -422,6 +433,13 @@ namespace NeeView
                     Setting.CommandMememto[command.Key].MouseGesture = command.MouseGesture;
                     Setting.CommandMememto[command.Key].IsShowMessage = command.IsShowMessage;
                     Setting.CommandMememto[command.Key].IsToggled = command.IsToggled;
+                }
+
+                // プラグインリスト書き戻し
+                if (ModelContext.Susie != null)
+                {
+                    ModelContext.Susie.AMPlgunList = AMPluginList.ToList();
+                    ModelContext.Susie.INPlgunList = INPluginList.ToList();
                 }
 
                 // Susie プラグインリスト保存

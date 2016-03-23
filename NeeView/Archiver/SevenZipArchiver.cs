@@ -6,6 +6,7 @@
 using SevenZip;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -61,14 +62,21 @@ namespace NeeView
                 {
                     foreach (var entry in archive.ArchiveFileData)
                     {
-                        if (!entry.IsDirectory)
+                        try
                         {
-                            Entries.Add(entry.FileName, new ArchiveEntry()
+                            if (!entry.IsDirectory)
                             {
-                                FileName = entry.FileName,
-                                FileSize = (long)entry.Size,
-                                LastWriteTime = entry.LastWriteTime,
-                            });
+                                Entries.Add(entry.FileName, new ArchiveEntry()
+                                {
+                                    FileName = entry.FileName,
+                                    FileSize = (long)entry.Size,
+                                    LastWriteTime = entry.LastWriteTime,
+                                });
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine(e.Message);
                         }
                     }
                 }

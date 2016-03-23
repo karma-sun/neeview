@@ -45,6 +45,9 @@ namespace NeeView
         // スライドショーモード変更通知
         public event EventHandler<bool> SlideShowModeChanged;
 
+        // 空ページメッセージ
+        public event EventHandler<string> EmptyMessage;
+
         #endregion
 
 
@@ -241,7 +244,7 @@ namespace NeeView
                 book.IsRecursiveFolder = true;
             }
 
-
+            //
             try
             {
                 // Now Loading ON
@@ -277,7 +280,7 @@ namespace NeeView
                 ViewContentsChanged?.Invoke(this, null);
 
                 // ファイル読み込み失敗通知
-                Messenger.MessageBox(this, $"{path} の読み込みに失敗しました。\n\n理由：{e.Message}", "通知", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Information);
+                EmptyMessage?.Invoke(this, $"{path} の読み込みに失敗しました。\n{e.Message}");
 
                 // 履歴から消去
                 ModelContext.BookHistory.Remove(path);
@@ -301,6 +304,10 @@ namespace NeeView
             // 本の変更通知
             BookChanged?.Invoke(this, isBookamrk);
 
+            if (Current.Pages.Count <= 0)
+            {
+                EmptyMessage?.Invoke(this, $"\"{Current.Place}\" には読み込めるファイルがありません");
+            }
 
             // サブフォルダ確認
             if ((option & BookLoadOption.ReLoad) == 0 && Current.Pages.Count <= 0 && !Current.IsRecursiveFolder && Current.SubFolderCount > 0)

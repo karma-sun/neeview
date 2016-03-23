@@ -275,6 +275,16 @@ namespace NeeView
         }
         #endregion
 
+        // 空フォルダ通知表示の詳細テキスト
+        #region Property: EmptyPageMessage
+        private string _EmptyPageMessage;
+        public string EmptyPageMessage
+        {
+            get { return _EmptyPageMessage; }
+            set { _EmptyPageMessage = value; OnPropertyChanged(); }
+        }
+        #endregion
+
         // 現在ページ番号
         public int Index
         {
@@ -583,6 +593,8 @@ namespace NeeView
             BookHub.SlideShowModeChanged +=
                 (s, e) => OnPropertyChanged(nameof(WindowIcon));
 
+            BookHub.EmptyMessage +=
+                (s, e) => EmptyPageMessage = e;
 
             // CommandTable
             ModelContext.CommandTable.SetTarget(this, BookHub);

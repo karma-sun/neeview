@@ -365,11 +365,10 @@ namespace NeeView
                 }
                 entries = archiver.GetEntries();
             }
-            catch
+            catch (Exception e)
             {
-                Debug.WriteLine($"{archiver.FileName} の展開に失敗しました");
                 archiver.Dispose();
-                return false;
+                throw new ApplicationException($"圧縮ファイルの展開に失敗しました。{e.Message}");
             }
 
             //

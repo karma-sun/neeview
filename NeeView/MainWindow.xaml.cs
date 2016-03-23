@@ -409,9 +409,9 @@ namespace NeeView
         // マウスの位置でページを送る
         private void MovePageWithCursor()
         {
-            var point = Mouse.GetPosition(this);
+            var point = Mouse.GetPosition(this.MainView);
 
-            if (point.X < this.Width * 0.5)
+            if (point.X < this.MainView.ActualWidth * 0.5)
             {
                 _VM.BookHub.NextPage();
             }
@@ -424,9 +424,9 @@ namespace NeeView
         // マウスの位置でページを送る(メッセージ)
         private string MovePageWithCursorMessage()
         {
-            var point = Mouse.GetPosition(this);
+            var point = Mouse.GetPosition(this.MainView);
 
-            if (point.X < this.Width * 0.5)
+            if (point.X < this.MainView.ActualWidth * 0.5)
             {
                 return "次のページ";
             }

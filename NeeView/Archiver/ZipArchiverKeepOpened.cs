@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -51,14 +52,21 @@ namespace NeeView
 
             foreach (var entry in _Archive.Entries)
             {
-                if (entry.Length > 0)
+                try
                 {
-                    Entries.Add(entry.FullName, new ArchiveEntry()
+                    if (entry.Length > 0)
                     {
-                        FileName = entry.FullName,
-                        FileSize = entry.Length,
-                        LastWriteTime = entry.LastWriteTime.Date,
-                    });
+                        Entries.Add(entry.FullName, new ArchiveEntry()
+                        {
+                            FileName = entry.FullName,
+                            FileSize = entry.Length,
+                            LastWriteTime = entry.LastWriteTime.Date,
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
                 }
             }
 

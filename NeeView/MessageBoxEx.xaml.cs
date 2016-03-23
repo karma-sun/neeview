@@ -19,12 +19,14 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
+
     /// <summary>
     /// MessageBoxEx.xaml の相互作用ロジック
     /// </summary>
     public partial class MessageBoxEx : Window
     {
         MessageBoxParams _Param;
+
 
         public MessageBoxEx(MessageBoxParams param)
         {
@@ -66,8 +68,30 @@ namespace NeeView
             // TODO: メッセージボックスのアイコン
             switch (param.Icon)
             {
-                case MessageBoxImage.Exclamation:
+                case MessageBoxExImage.Warning:
+                    this.IconImage.Source = App.Current.Resources["ic_warning_48px"] as ImageSource;
                     System.Media.SystemSounds.Exclamation.Play();
+                    break;
+
+                case MessageBoxExImage.Error:
+                    this.IconImage.Source = App.Current.Resources["ic_error_48px"] as ImageSource;
+                    System.Media.SystemSounds.Exclamation.Play();
+                    break;
+
+                case MessageBoxExImage.RecycleBin:
+                    this.IconImage.Source = App.Current.Resources["ic_delete_48px"] as ImageSource;
+                    break;
+
+                case MessageBoxExImage.Information:
+                    this.IconImage.Source = App.Current.Resources["ic_warning_48px"] as ImageSource;
+                    break;
+
+                case MessageBoxExImage.Question:
+                    this.IconImage.Source = App.Current.Resources["ic_help_24px"] as ImageSource;
+                    break;
+
+                default:
+                    this.IconImage.Visibility = Visibility.Collapsed;
                     break;
             }
 
@@ -75,7 +99,7 @@ namespace NeeView
             if (param.VisualContent != null)
             {
                 this.VisualControl.Content = param.VisualContent;
-                this.VisualControl.Margin = new Thickness(20, 10, 20, 10);
+                this.VisualControl.Margin = new Thickness(0, 0, 20, 0);
             }
 
         }

@@ -105,7 +105,7 @@ namespace NeeView
         /// <param name="button"></param>
         /// <param name="icon"></param>
         /// <returns></returns>
-        public static bool? MessageBox(object sender, string messageBoxText, string caption = "", MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None)
+        public static bool? MessageBox(object sender, string messageBoxText, string caption = "", MessageBoxButton button = MessageBoxButton.OK, MessageBoxExImage icon = MessageBoxExImage.None)
         {
             var message = new MessageEventArgs("MessageBox");
             message.Parameter = new MessageBoxParams()
@@ -122,6 +122,20 @@ namespace NeeView
         }
     }
 
+
+    /// <summary>
+    /// 拡張メッセージボックス用アイコン
+    /// </summary>
+    public enum MessageBoxExImage
+    {
+        None,
+        Warning,
+        Error,
+        Information,
+        Question,
+        RecycleBin,
+    }
+
     /// <summary>
     /// Messenger用メッセージボックスパラメータ
     /// </summary>
@@ -130,7 +144,7 @@ namespace NeeView
         public string MessageBoxText;
         public string Caption;
         public MessageBoxButton Button;
-        public MessageBoxImage Icon;
+        public MessageBoxExImage Icon;
         public FrameworkElement VisualContent;
     }
 

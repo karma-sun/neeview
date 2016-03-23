@@ -277,7 +277,7 @@ namespace NeeView
                 ViewContentsChanged?.Invoke(this, null);
 
                 // ファイル読み込み失敗通知
-                Messenger.MessageBox(this, $"{path} の読み込みに失敗しました。\n\n理由：{e.Message}", "通知", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                Messenger.MessageBox(this, $"{path} の読み込みに失敗しました。\n\n理由：{e.Message}", "通知", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Information);
 
                 // 履歴から消去
                 ModelContext.BookHistory.Remove(path);
@@ -311,7 +311,7 @@ namespace NeeView
                     MessageBoxText = $"\"{Current.Place}\" には読み込めるファイルがありません。\n\nサブフォルダ(書庫)も読み込みますか？",
                     Caption = "確認",
                     Button = System.Windows.MessageBoxButton.YesNo,
-                    Icon = System.Windows.MessageBoxImage.Question
+                    Icon = MessageBoxExImage.Question
                 };
                 Messenger.Send(this, message);
 
@@ -660,7 +660,7 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
-                    Messenger.MessageBox(this, $"外部アプリ実行に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                    Messenger.MessageBox(this, $"外部アプリ実行に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
                 }
             }
         }
@@ -721,13 +721,13 @@ namespace NeeView
                         }
                         catch (Exception e)
                         {
-                            Messenger.MessageBox(this, $"ファイル保存に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                            Messenger.MessageBox(this, $"ファイル保存に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
                         }
                     }
                 }
                 catch
                 {
-                    Messenger.MessageBox(this, "この画像は出力できません", "警告", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                    Messenger.MessageBox(this, "この画像は出力できません", "警告", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Warning);
                     return;
                 }
             }
@@ -751,14 +751,24 @@ namespace NeeView
                 var page = Current?.GetViewPage();
                 var path = page.GetFilePlace();
 
+                // ビジュアル作成
+                var stackPanel = new StackPanel();
+                stackPanel.Orientation = Orientation.Horizontal;
+                var thumbnail = new PageVisual(page).CreateVisualContent(new System.Windows.Size(100, 100), true);
+                thumbnail.Margin = new System.Windows.Thickness(0, 0, 20, 0);
+                stackPanel.Children.Add(thumbnail);
+                var textblock = new TextBlock();
+                textblock.Text = Path.GetFileName(path);
+                stackPanel.Children.Add(textblock);
+
                 // 削除確認
                 var param = new MessageBoxParams()
                 {
                     Caption = "削除の確認",
-                    MessageBoxText = "このファイルをごみ箱に移動しますか？\n\n" + Path.GetFileName(path),
+                    MessageBoxText = "このファイルをごみ箱に移動しますか？",
                     Button = System.Windows.MessageBoxButton.OKCancel,
-                    Icon = System.Windows.MessageBoxImage.Warning,
-                    VisualContent = new PageVisual(page).CreateVisualContent(new System.Windows.Size(100, 100), true)
+                    Icon = MessageBoxExImage.RecycleBin,
+                    VisualContent = stackPanel,
                 };
                 var result = Messenger.Send(this, new MessageEventArgs("MessageBox") { Parameter = param });
 
@@ -772,7 +782,7 @@ namespace NeeView
                     }
                     catch (Exception e)
                     {
-                        Messenger.MessageBox(this, $"ファイル削除に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                        Messenger.MessageBox(this, $"ファイル削除に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
                     }
 
                     // ページを本から削除

@@ -105,8 +105,8 @@
                         </Style>
                     </Canvas.Resources>
                     <StackPanel x:Name="MainContent" Orientation="Horizontal">
-                        <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
-                        <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}"/>
+                        <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False"/>
+                        <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False"/>
                     </StackPanel>
                 </Canvas>
 

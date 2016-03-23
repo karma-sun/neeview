@@ -352,7 +352,7 @@ namespace NeeView
 
             // drag key
             _MouseDrag.SetKeyBindings(ModelContext.DragActionTable.GetKeyBinding());
-            
+
             // Update Menu ...
             this.MainMenu.UpdateInputGestureText();
         }
@@ -521,7 +521,7 @@ namespace NeeView
                 isFileInfoDock ? this.InfoArea.ActualWidth : 0,
                 isMenuDock ? this.MenuArea.ActualHeight : 0,
                 0,
-                isMenuDock ? this.StatusArea.ActualHeight: 0);
+                isMenuDock ? this.StatusArea.ActualHeight : 0);
 
 
             this.TinyInfoTextBlock.Margin = new Thickness(0, 0, 0, this.StatusArea.ActualHeight);

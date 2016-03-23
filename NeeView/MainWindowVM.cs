@@ -747,7 +747,7 @@ namespace NeeView
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
-                    Messenger.MessageBox(this, "設定の読み込みに失敗しました。初期設定で起動します。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    Messenger.MessageBox(this, "設定の読み込みに失敗しました。初期設定で起動します。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
                     setting = new Setting();
                 }
             }

@@ -103,6 +103,49 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
+                    <DrawingImage x:Key="ic_warning_48px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="Orange" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M22,32L22,36 26,36 26,32 22,32z M22,20L22,28 26,28 26,20 22,20z M24,4L46,42 2.00000023841858,42 24,4z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_error_48px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="Red" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M22,30L22,34 26,34 26,30 22,30z M22,14L22,26 26,26 26,14 22,14z M24,4C35.0400009155273,4 44,12.9499998092651 44,24 44,35.0499992370605 35.0400009155273,44 24,44 12.960000038147,44 4,35.0499992370605 4,24 4,12.9499998092651 12.960000038147,4 24,4z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_delete_48px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="LightGray" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M12,14L36,14 36,38C36,40.2099990844727,34.2099990844727,42,32,42L16,42C13.789999961853,42,12,40.2099990844727,12,38L12,14z M19,6.00000047683716L29,6.00000047683716 31,8 38,8 38,12 10,12 10,8 17,8 19,6.00000047683716z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+
                     <!-- IconButton Style -->
                     <Style x:Key="IconButton" TargetType="{x:Type Button}">
                         <Setter Property="Template">

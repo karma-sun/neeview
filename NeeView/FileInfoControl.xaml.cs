@@ -137,7 +137,14 @@ namespace NeeView
                 {
                     if (content.Bitmap != null)
                     {
-                        strings.Size = string.Format("{0} x {1}", content.Bitmap.PixelWidth, content.Bitmap.PixelHeight);
+                        var pixel = new Size(content.Bitmap.PixelWidth, content.Bitmap.PixelHeight);
+                        var scaleX = pixel.Width > this.Thumbnail.MaxWidth ? this.Thumbnail.MaxWidth / pixel.Width : 1.0;
+                        var scaleY = pixel.Height > this.Thumbnail.MaxHeight ? this.Thumbnail.MaxHeight / pixel.Height : 1.0;
+                        var scale = scaleX > scaleY ? scaleY : scaleX;
+                        this.Thumbnail.Width = pixel.Width * scale;
+                        this.Thumbnail.Height = pixel.Height * scale;
+
+                        strings.Size = string.Format("{0} x {1}", pixel.Width, pixel.Height);
                         if (Setting.IsVisibleBitsPerPixel) strings.Size += string.Format(" ({0}bit)", content.Bitmap.GetSourceBitsPerPixel());
                     }
                     if (content.Info != null)

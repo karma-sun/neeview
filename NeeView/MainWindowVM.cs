@@ -513,6 +513,19 @@ namespace NeeView
 
         #endregion
 
+        // DPI倍率
+        private Point _DpiScaleFactor = new Point(1, 1);
+
+        // DPIのXY比率が等しい？
+        private bool _IsDpiSquare = false;
+
+        // DPI設定
+        public void UpdateDpiScaleFactor(Visual visual)
+        {
+            var dpiScaleFactor = DragExtensions.WPFUtil.GetDpiScaleFactor(visual);
+            _DpiScaleFactor = dpiScaleFactor;
+            _IsDpiSquare = _DpiScaleFactor.X == _DpiScaleFactor.Y;
+        }
 
         // コンストラクタ
         public MainWindowVM()
@@ -890,12 +903,12 @@ namespace NeeView
         {
             if (!Contents.Any(e => e.IsValid)) return;
 
-            var sizes = CalcContentSize(_ViewWidth, _ViewHeight);
+            var sizes = CalcContentSize(_ViewWidth * _DpiScaleFactor.X, _ViewHeight * _DpiScaleFactor.Y);
 
             for (int i = 0; i < 2; ++i)
             {
-                Contents[i].Width = sizes[i].Width;
-                Contents[i].Height = sizes[i].Height;
+                Contents[i].Width = sizes[i].Width / _DpiScaleFactor.X;
+                Contents[i].Height = sizes[i].Height / _DpiScaleFactor.Y;
             }
 
             UpdateContentScalingMode();
@@ -923,13 +936,14 @@ namespace NeeView
             {
                 if (content.Content != null && content.Content is Rectangle)
                 {
-                    if (content.Size.Width == content.Width && _ViewAngle == 0.0 && _ViewScale == 1.0)
+                    double diff = Math.Abs(content.Size.Width - content.Width * _DpiScaleFactor.X);
+                    if (_IsDpiSquare && diff < 0.1 && _ViewAngle == 0.0 && _ViewScale == 1.0)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                     }
                     else
                     {
-                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _ViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _DpiScaleFactor.X * _ViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
                     }
                 }
             }
@@ -1042,11 +1056,8 @@ namespace NeeView
                 }
             }
 
-            // 整数にしたサイズを求める
-            var s0 = new Size(Math.Floor(c0.Width * rate0 + 0.5), Math.Floor(c0.Height * rate0 + 0.5));
-            var s1Width = Math.Floor(c0.Width * rate0 + c1.Width * rate1 + 0.5) - s0.Width;
-            var s1 = new Size(s1Width > 0 ? s1Width : 0, s0.Height);
-
+            var s0 = new Size(c0.Width * rate0, c0.Height * rate0);
+            var s1 = new Size(c1.Width * rate1, c1.Height * rate1);
             return new Size[] { s0, s1 };
         }
 

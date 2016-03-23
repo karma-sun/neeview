@@ -94,11 +94,11 @@ namespace Susie
             {
                 if (disposing)
                 {
-                    // TODO: マネージ状態を破棄します (マネージ オブジェクト)。
+                    // ここで、マネージ状態を破棄します (マネージ オブジェクト)。
                 }
 
-                // TODO: アンマネージ リソース (アンマネージ オブジェクト) を解放し、下のファイナライザーをオーバーライドします。
-                // TODO: 大きなフィールドを null に設定します。
+                // ここで、アンマネージ リソース (アンマネージ オブジェクト) を解放し、下のファイナライザーをオーバーライドします。
+                // ここで、大きなフィールドを null に設定します。
                 Close();
 
                 disposedValue = true;
@@ -298,8 +298,6 @@ namespace Susie
         #endregion
 
 
-        // TODO: フラグ指定とか
-        // TODO: コールバックとか
         #region 00AM 必須 GetFile()
         delegate int GetFileFromFileHandler(string filename, int position, out IntPtr hBuff, uint flag, ProgressCallback lpPrgressCallback, int lData);
         delegate int GetFileFromFileToFileHandler(string filename, int position, string dest, uint flag, ProgressCallback lpPrgressCallback, int lData);

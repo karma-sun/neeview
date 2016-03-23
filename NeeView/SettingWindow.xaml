@@ -14,7 +14,7 @@
         xmlns:susie="clr-namespace:Susie"
         xmlns:drag="clr-namespace:DragExtensions"
         mc:Ignorable="d"
-        Title="設定" Height="700" Width="700" Closed="Window_Closed" >
+        Title="設定" Height="480" Width="640" Closed="Window_Closed" >
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>

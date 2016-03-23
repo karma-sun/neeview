@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,10 +60,10 @@ namespace NeeView
                 var listBoxItem = listBox.ItemContainerGenerator.ContainerFromIndex(i) as ListBoxItem;
                 if (listBoxItem == null) continue;
 
-                var pos = listBox.PointFromScreen(listBoxItem.PointToScreen(new Point(0, listBoxItem.ActualHeight / 2)));
+                var pos = listBoxItem.TranslatePoint(new Point(0, listBoxItem.ActualHeight / 2), listBox);
                 if (dropPos.Y < pos.Y)
                 {
-                    newIndex = i;
+                    newIndex = (i > oldIndex) ? i - 1 : i;
                     break;
                 }
             }

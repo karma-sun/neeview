@@ -552,6 +552,9 @@ namespace NeeView
         //
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // DPI倍率設定
+            _VM.UpdateDpiScaleFactor(this);
+
             // 標準ウィンドウモードで初期化
             OnMenuVisibilityChanged();
         }

@@ -98,6 +98,7 @@ namespace DragExtensions
 
             Point startPoint = (Point)element.GetValue(DragBehavior.StartPointProperty);
             Point point = e.GetPosition(element);
+            if (element is ListBoxItem) point.Y = ((ListBoxItem)element).ActualHeight / 2;
 
             if (!IsDragging(startPoint, point)) return;
 

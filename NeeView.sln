@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3F0B406-5A4A-4550-81BC-CD72DE300125}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE.md = LICENSE.md
+		THIRDPARTY_LICENSES _CODEIN.md = THIRDPARTY_LICENSES _CODEIN.md
 		THIRDPARTY_LICENSES.md = THIRDPARTY_LICENSES.md
 	EndProjectSection
 EndProject

@@ -87,7 +87,7 @@
         <Grid x:Name="Root" Background="{Binding BackgroundBrush}">
 
             <!-- メインビュー -->
-            <Grid x:Name="MainView"  Background="{Binding BackgroundBrush}" SizeChanged="MainView_SizeChanged" >
+            <Grid x:Name="MainView"  Background="{Binding BackgroundBrush}" SizeChanged="MainView_SizeChanged" Focusable="True">
 
                 <!-- Pages -->
                 <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
@@ -125,7 +125,7 @@
                     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                         <TextBlock  Text="読み込めるファイルがありません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
 
-                        <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" >
+                        <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Visibility" Value="Visible"/>
@@ -143,7 +143,7 @@
             </Grid>
 
             <!-- 情報エリア -->
-            <Grid x:Name="InfoArea" HorizontalAlignment="Left" Width="250">
+            <Grid x:Name="InfoArea" HorizontalAlignment="Left" Width="250" MouseLeftButtonDown="InfoArea_MouseLeftButtonDown">
                 <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}"/>
             </Grid>
 
@@ -319,7 +319,7 @@
             <!-- ステータスエリア -->
             <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom">
                 <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
-                        local:SliderTools.MoveToPointOnDrag="True">
+                        local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding ElementName=MainView}">
                     <Slider.Style>
                         <Style TargetType="Slider">
                             <Style.Triggers>

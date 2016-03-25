@@ -187,6 +187,7 @@ namespace NeeView
             dictionary.Add("WMPhoto Decoder", ".wdp,.jxr");
             dictionary.Add("DDS Decoder", ".dds"); // (微妙..)
 
+            // TODO : License
             // from WIC
             try
             {

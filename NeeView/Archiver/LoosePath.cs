@@ -20,7 +20,7 @@ namespace NeeView
         //
         public static string GetFileName(string s)
         {
-            return s.Split('\\', '/').Last();
+            return s.Trim('\\', '/').Split('\\', '/').Last();
         }
 
         //
@@ -41,7 +41,10 @@ namespace NeeView
         //
         public static string GetExtension(string s)
         {
-            return "." + s.Split('.').Last().ToLower();
+            string fileName = GetFileName(s);
+            int index = fileName.LastIndexOf('.');
+
+            return (index >= 0) ? fileName.Substring(index).ToLower() : "";
         }
 
         //

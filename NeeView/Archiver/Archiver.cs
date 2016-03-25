@@ -18,7 +18,6 @@ namespace NeeView
 
         FolderFiles,
         ZipArchiver,
-        ZipArchiverKeepOpened, // 未使用
         SevenZipArchiver,
         SusieArchiver,
 
@@ -32,7 +31,7 @@ namespace NeeView
     {
         public string FileName { get; set; }
         public long FileSize { get; set; }
-        public DateTime LastWriteTime { get; set; }
+        public DateTime? LastWriteTime { get; set; }
         public object Instance { get; set; }
     }
 

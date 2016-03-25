@@ -55,6 +55,7 @@ namespace NeeView
             return GetSupportedType(fileName) != ArchiverType.None;
         }
 
+
         // サポートしているアーカイバを取得
         public ArchiverType GetSupportedType(string fileName)
         {
@@ -123,8 +124,6 @@ namespace NeeView
                     return new FolderFiles(path) { Parent = parent };
                 case ArchiverType.ZipArchiver:
                     return new ZipArchiver(path) { Parent = parent };
-                case ArchiverType.ZipArchiverKeepOpened:
-                    return new ZipArchiverKeepOpened(path) { Parent = parent };
                 case ArchiverType.SevenZipArchiver:
                     return new SevenZipArchiver(path) { Parent = parent };
                 case ArchiverType.SusieArchiver:

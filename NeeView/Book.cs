@@ -368,7 +368,7 @@ namespace NeeView
             catch (Exception e)
             {
                 archiver.Dispose();
-                throw new ApplicationException($"圧縮ファイルの展開に失敗しました。{e.Message}");
+                throw new ApplicationException(e.Message);
             }
 
             //

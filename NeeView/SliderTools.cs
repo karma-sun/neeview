@@ -1,7 +1,4 @@
-﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
+﻿// from http://youku.io/questions/313305/c-sharp-wpf-slider-issue-with-ismovetopointenabled
 
 using System;
 using System.Collections.Generic;
@@ -14,9 +11,12 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-    // from http://youku.io/questions/313305/c-sharp-wpf-slider-issue-with-ismovetopointenabled
     public class SliderTools : DependencyObject
     {
+        public static UIElement GetFocusTo(DependencyObject obj) { return (UIElement)obj.GetValue(FocusToProperty); }
+        public static void SetFocusTo(DependencyObject obj, UIElement value) { obj.SetValue(FocusToProperty, value); }
+        public static readonly DependencyProperty FocusToProperty = DependencyProperty.RegisterAttached("FocusTo", typeof(UIElement), typeof(SliderTools), new PropertyMetadata(null));
+
         public static bool GetMoveToPointOnDrag(DependencyObject obj) { return (bool)obj.GetValue(MoveToPointOnDragProperty); }
         public static void SetMoveToPointOnDrag(DependencyObject obj, bool value) { obj.SetValue(MoveToPointOnDragProperty, value); }
         public static readonly DependencyProperty MoveToPointOnDragProperty = DependencyProperty.RegisterAttached("MoveToPointOnDrag", typeof(bool), typeof(SliderTools), new PropertyMetadata
@@ -29,6 +29,8 @@ namespace NeeView
                     slider.PreviewMouseLeftButtonDown += (s, e) =>
                     {
                         slider.CaptureMouse();
+                        var element = GetFocusTo(obj);
+                        if (element != null) element.Focus();
                     };
                     slider.PreviewMouseLeftButtonUp += (s, e) =>
                     {

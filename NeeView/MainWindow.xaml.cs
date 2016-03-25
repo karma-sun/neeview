@@ -29,10 +29,12 @@ namespace NeeView
     /// </summary>
     public partial class MainWindow : Window
     {
-        MainWindowVM _VM;
+        private MainWindowVM _VM;
 
         private MouseDragController _MouseDrag;
         private MouseGestureManager _MouseGesture;
+        
+        private ContentDropManager _ContentDrop = new ContentDropManager();
 
         private bool _NowLoading = false;
 
@@ -559,10 +561,12 @@ namespace NeeView
             OnMenuVisibilityChanged();
         }
 
-        //
+
+
+        // ドラッグ＆ドロップ前処理
         private void MainWindow_PreviewDragOver(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop, true) && !_NowLoading)
+            if (!_NowLoading && _ContentDrop.CheckDragContent(sender, e))
                 e.Effects = DragDropEffects.Copy;
             else
                 e.Effects = DragDropEffects.None;
@@ -570,15 +574,23 @@ namespace NeeView
             e.Handled = true;
         }
 
-        // ファイルのドラッグ＆ドロップで処理を開始する
-        private void MainWindow_Drop(object sender, DragEventArgs e)
+        // ドラッグ＆ドロップで処理を開始する
+        private async void MainWindow_Drop(object sender, DragEventArgs e)
         {
-            string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
-            if (files != null)
+            if (_NowLoading) return;
+
+            try
             {
-                BookCommands[CommandType.LoadAs].Execute(files[0], this);
+                string path = await _ContentDrop.DropAsync(sender, e, _VM.DownloadPath, (string message) => _VM.OnLoading(this, message));
+                _VM.Load(path);
+            }
+            catch (Exception ex)
+            {
+                _VM.OnLoading(this, null);
+                _VM.LoadError(ex.Message);
             }
         }
+
 
         // ウィンドウサイズが変化したらコンテンツサイズも追従する
         private void MainView_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -733,6 +745,12 @@ namespace NeeView
         {
             System.Diagnostics.Process.Start("https://bitbucket.org/neelabo/neeview/wiki/");
         }
+
+        // 情報エリアクリックでメインビューにフォーカスを移す
+        private void InfoArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.MainView.Focus();
+        }
     }
 
 
@@ -844,7 +862,7 @@ namespace NeeView
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             string path = (string)value;
-            return LoosePath.GetFileName(path);
+            return NVUtility.PlaceToTitle(path);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

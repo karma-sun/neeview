@@ -193,13 +193,13 @@ namespace Susie
         /// <param name="fileName">ファイル名</param>
         /// <param name="head">ヘッダ(2KB)</param>
         /// <returns>プラグインが対応していればtrue</returns>
-        public bool IsSupported(string fileName, byte[] head)
+        public bool IsSupported(string fileName, byte[] head, bool isCheckExtension)
         {
             if (FileName == null) throw new InvalidOperationException();
             if (!IsEnable) return false;
 
             // サポート拡張子チェック
-            if (!Extensions.Contains(GetExtension(fileName))) return false;
+            if (isCheckExtension && !Extensions.Contains(GetExtension(fileName))) return false;
 
             lock (Lock)
             {
@@ -258,20 +258,21 @@ namespace Susie
         /// </summary>
         /// <param name="fileName">画像ファイル名(サポート判定用)</param>
         /// <param name="buff">画像データ</param>
+        /// <param name="isCheckExtension">拡張子をチェックする</param>
         /// <returns>BitmapImage。失敗した場合はnull</returns>
-        public BitmapImage GetPicture(string fileName, byte[] buff)
+        public BitmapImage GetPicture(string fileName, byte[] buff, bool isCheckExtension)
         {
             if (FileName == null) throw new InvalidOperationException();
             if (!IsEnable) return null;
 
             // サポート拡張子チェック
-            if (!Extensions.Contains(GetExtension(fileName))) return null;
+            if (isCheckExtension && !Extensions.Contains(GetExtension(fileName))) return null;
 
             lock (Lock)
             {
                 using (var api = Open())
                 {
-                   // string shortPath = Win32Api.GetShortPathName(fileName);
+                    // string shortPath = Win32Api.GetShortPathName(fileName);
                     if (!api.IsSupported(fileName, buff)) return null;
                     return api.GetPicture(buff);
                 }
@@ -282,15 +283,16 @@ namespace Susie
         /// 画像取得(ファイル版)
         /// </summary>
         /// <param name="fileName">画像ファイルパス</param>
-        ///  /// <param name="fileName">ファイルヘッダ2KB</param>
+        /// <param name="fileName">ファイルヘッダ2KB</param>
+        /// <param name="isCheckExtension">拡張子をチェックする</param>
         /// <returns>BitmapImage。失敗した場合はnull</returns>
-        public BitmapImage GetPictureFromFile(string fileName, byte[] head)
+        public BitmapImage GetPictureFromFile(string fileName, byte[] head, bool isCheckExtension)
         {
             if (FileName == null) throw new InvalidOperationException();
             if (!IsEnable) return null;
 
             // サポート拡張子チェック
-            if (!Extensions.Contains(GetExtension(fileName))) return null;
+            if (isCheckExtension && !Extensions.Contains(GetExtension(fileName))) return null;
 
             lock (Lock)
             {

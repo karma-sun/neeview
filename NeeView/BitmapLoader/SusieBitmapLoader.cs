@@ -41,7 +41,7 @@ namespace NeeView
                 }
             }
 
-            var bmpSource = ModelContext.Susie?.GetPicture(entry.FileName, buff, out _SusiePlugin); // ファイル名は識別用
+            var bmpSource = ModelContext.Susie?.GetPicture(entry.FileName, buff, true, out _SusiePlugin); // ファイル名は識別用
             if (bmpSource == null) return null;
 
             var info = new FileBasicInfo();
@@ -61,7 +61,7 @@ namespace NeeView
         {
             if (!IsEnable) return null;
 
-            var bmpSource = ModelContext.Susie?.GetPictureFromFile(fileName, out _SusiePlugin);
+            var bmpSource = ModelContext.Susie?.GetPictureFromFile(fileName, true, out _SusiePlugin);
             if (bmpSource == null) return null;
 
             var info = new FileBasicInfo();

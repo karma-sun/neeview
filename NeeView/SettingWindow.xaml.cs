@@ -231,7 +231,7 @@ namespace NeeView
         {
             [ExternalApplication.ArchiveOptionType.None] = "実行しない",
             [ExternalApplication.ArchiveOptionType.SendArchiveFile] = "圧縮ファイルを渡す",
-            [ExternalApplication.ArchiveOptionType.SendExtractFile] = "出力したファイルを渡す(テンポラリ)",
+            [ExternalApplication.ArchiveOptionType.SendExtractFile] = "出力したファイルを渡す(一時ファイル)",
         };
         
         //

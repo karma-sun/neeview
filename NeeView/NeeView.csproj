@@ -78,6 +78,9 @@
     </ApplicationDefinition>
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
+    <Compile Include="ContentDropReciever.cs" />
+    <Compile Include="DropFileContents.cs" />
+    <Compile Include="NVUtility.cs" />
     <Compile Include="BackgroundStyle.cs" />
     <Compile Include="BitmapLoader\BitmapContent.cs" />
     <Compile Include="BitmapLoader\BitmapLoaderManager.cs" />
@@ -174,7 +177,6 @@
     <Compile Include="Win32Api.cs" />
     <Compile Include="WindowPlacement.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
-    <Compile Include="Archiver\ZipArchiverKeepOpened.cs" />
     <Page Include="DirectoryNameBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

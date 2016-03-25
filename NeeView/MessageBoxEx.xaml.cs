@@ -65,7 +65,7 @@ namespace NeeView
 
             this.YesButton.Focus(); // Yesボタンにフォーカス
 
-            // TODO: メッセージボックスのアイコン
+            // メッセージボックスのアイコン
             switch (param.Icon)
             {
                 case MessageBoxExImage.Warning:

@@ -562,6 +562,8 @@ namespace NeeView
         // マウスボタンが押された時の処理
         private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
+            _Sender.Focus();
+
             if (_IsButtonDown) return;
 
             if (e.ChangedButton != MouseButton.Left && e.ChangedButton != MouseButton.Middle) return;

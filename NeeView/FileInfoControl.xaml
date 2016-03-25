@@ -25,7 +25,7 @@
         </Style>
     </UserControl.Resources>
 
-    <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
+    <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled" Focusable="False">
         <StackPanel  Margin="10,30">
             <StackPanel.Resources>
                 <Style TargetType="local:FileInfoItem">

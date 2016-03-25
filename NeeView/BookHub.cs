@@ -177,6 +177,25 @@ namespace NeeView
         // ページ表示開始スレッドイベント
         private ManualResetEvent _ViewContentEvent = new ManualResetEvent(false);
 
+        /// <summary>
+        /// 本の開放
+        /// </summary>
+        public void Unload(bool isClearViewContent)
+        {
+            // 履歴の保存
+            ModelContext.BookHistory.Add(Current);
+
+            // 現在の本を開放
+            Current?.Dispose();
+            Current = null;
+
+            // 現在表示されているコンテンツを無効
+            if (isClearViewContent)
+            {
+                ViewContentsChanged?.Invoke(this, null);
+            }
+        }
+
 
         /// <summary>
         /// 本を読み込む
@@ -185,12 +204,8 @@ namespace NeeView
         /// <param name="option">読み込みオプション</param>
         public async void Load(string path, BookLoadOption option)
         {
-            // 履歴の保存
-            ModelContext.BookHistory.Add(Current);
-
             // 現在の本を開放
-            Current?.Dispose();
-            Current = null;
+            Unload(false);
 
             // 新しい本を作成
             var book = new Book();

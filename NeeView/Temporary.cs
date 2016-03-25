@@ -31,8 +31,9 @@ namespace NeeView
             //Process名の取得
             var processName = Process.GetCurrentProcess().ProcessName;
 
-            TempDirectoryBaseName = asmcmp.Company + "." + processName; //  asmprd.Product;
+            TempDirectoryBaseName = processName; //  asmprd.Product;
             TempDirectory = Path.Combine(Path.GetTempPath(), TempDirectoryBaseName) + processId.ToString();
+            TempDownloadDirectory = Path.Combine(Temporary.TempDirectory, "Downloads");
         }
 
         // アプリのテンポラリフォルダ(BaseName)
@@ -40,6 +41,10 @@ namespace NeeView
 
         // アプリのテンポラリフォルダ
         public static string TempDirectory { get; private set; }
+
+        // アプリのダウンロードテンポラリフォルダ
+        public static string TempDownloadDirectory { get; private set; }
+
 
         // テンポラリファイル名用のカウンタ
         public static int _Count = 0;

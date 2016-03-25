@@ -118,10 +118,15 @@ namespace NeeView
         }
 
         // memento作成
-        public Memento CreateMemento()
+        public Memento CreateMemento(bool removeTemporary)
         {
             var memento = new Memento();
             memento.History = this.History.ToList();
+            if (removeTemporary)
+            {
+                memento.History.RemoveAll((e) => e.Place.StartsWith(Temporary.TempDirectory));
+            }
+
             memento.MaxHistoryCount = this.MaxHistoryCount;
             return memento;
         }

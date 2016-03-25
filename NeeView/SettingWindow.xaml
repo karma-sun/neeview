@@ -21,11 +21,11 @@
         <local:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter"/>
 
         <Style TargetType="FrameworkElement" x:Key="Phrase">
-            <Setter Property="Margin" Value="20,0,0,0"/>
+            <Setter Property="Margin" Value="20,0,0,10"/>
         </Style>
 
         <Style TargetType="TextBlock" x:Key="Header">
-            <Setter Property="Margin" Value="0,10,0,5"/>
+            <Setter Property="Margin" Value="0,5,0,5"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
 
@@ -67,19 +67,6 @@
                               IsChecked="{Binding Setting.ViewMemento.IsAutoPlaySlideShow}" />
                         </StackPanel>
 
-
-                        <TextBlock Text="ファイル保存" Style="{StaticResource Header}"/>
-
-                        <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Margin="2" Content="前回保存したフォルダを記憶する"
-                              IsChecked="{Binding Setting.ExporterMemento.IsEnableExportFolder}" />
-                            <StackPanel Margin="2" Orientation="Horizontal">
-                                <TextBlock Text="JPEG品質：" ToolTip="変換が必要な場合にのみ使用されます"/>
-                                <TextBlock Text="{Binding Setting.ExporterMemento.QualityLevel}" Width="20" Margin="10,0" TextAlignment="Right"/>
-                                <Slider x:Name="QualityLevelSlider" Width="200" Value="{Binding Setting.ExporterMemento.QualityLevel}"
-                                    Minimum="5" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"/>
-                            </StackPanel>
-                        </StackPanel>
 
                         <TextBlock Text="その他" Style="{StaticResource Header}"/>
 
@@ -253,7 +240,7 @@
                             Note="指定がない場合は拡張子に関連付けられたアプリを起動します"
                             Text="{Binding Setting.BookHubMemento.ExternalApplication.Command, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         </DockPanel>
-                        <DockPanel Margin="2,2,2,10" LastChildFill="True">
+                        <DockPanel Margin="2,2,2,5" LastChildFill="True">
                             <DockPanel.Style>
                                 <Style TargetType="DockPanel">
                                     <Style.Triggers>
@@ -276,6 +263,7 @@
                             <ComboBox x:Name="ExAppArchiveProcess" ItemsSource="{Binding ArchiveOptionTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.BookHubMemento.ExternalApplication.ArchiveOption}" MinWidth="200" HorizontalAlignment="Left" Margin="0"/>
                         </DockPanel>
+         
                         <!-- 出力フォルダ指定
                     <DockPanel Margin="2" LastChildFill="True">
                         <DockPanel.Style>
@@ -293,6 +281,33 @@
                     </DockPanel>
                     -->
                     </StackPanel>
+
+
+                    <TextBlock Text="ブラウザからのドラッグ&amp;ドロップ" Style="{StaticResource Header}"/>
+
+                    <StackPanel Style="{StaticResource Phrase}">
+                        <DockPanel Margin="2" LastChildFill="True">
+                            <TextBlock MinWidth="100" Text="画像保存フォルダ：" VerticalAlignment="Center" Margin="2"/>
+                            <local:DirectoryNameBox x:Name="DownloadPath" Margin="2" SelectDirectory="True" Title="保存先フォルダの選択" 
+                            Note="指定がない場合は一時フォルダが使用されます"
+                            Text="{Binding Setting.ViewMemento.UserDownloadPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        </DockPanel>
+                    </StackPanel>
+
+
+                    <TextBlock Text="ファイル保存" Style="{StaticResource Header}"/>
+
+                    <StackPanel Style="{StaticResource Phrase}">
+                        <CheckBox Margin="2" Content="前回保存したフォルダを記憶する"
+                              IsChecked="{Binding Setting.ExporterMemento.IsEnableExportFolder}" />
+                        <StackPanel Margin="2" Orientation="Horizontal">
+                            <TextBlock Text="JPEG品質：" ToolTip="変換が必要な場合にのみ使用されます"/>
+                            <TextBlock Text="{Binding Setting.ExporterMemento.QualityLevel}" Width="20" Margin="10,0" TextAlignment="Right"/>
+                            <Slider x:Name="QualityLevelSlider" Width="200" Value="{Binding Setting.ExporterMemento.QualityLevel}"
+                                    Minimum="5" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"/>
+                        </StackPanel>
+                    </StackPanel>
+
                 </StackPanel>
 
             </TabItem>

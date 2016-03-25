@@ -50,7 +50,7 @@ namespace NeeView
         {
             if (_SusiePlugin == null)
             {
-                _SusiePlugin = ModelContext.Susie?.GetArchivePlugin(_ArchiveFileName);
+                _SusiePlugin = ModelContext.Susie?.GetArchivePlugin(_ArchiveFileName, true);
             }
             return _SusiePlugin;
         }

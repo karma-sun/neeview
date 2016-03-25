@@ -337,7 +337,7 @@ namespace NeeView
                 if (BookHub.Current?.Place == null)
                     return _DefaultWindowTitle;
 
-                string text = LoosePath.GetFileName(BookHub.Current.Place);
+                string text = NVUtility.PlaceToTitle(BookHub.Current.Place);
 
                 if (MainContent != null)
                 {
@@ -537,6 +537,11 @@ namespace NeeView
             _IsDpiSquare = _DpiScaleFactor.X == _DpiScaleFactor.Y;
         }
 
+        // ダウンロード画像の保存場所
+        public string UserDownloadPath { get; set; }
+
+        public string DownloadPath => string.IsNullOrWhiteSpace(UserDownloadPath) ? Temporary.TempDownloadDirectory : UserDownloadPath;
+
         // コンストラクタ
         public MainWindowVM()
         {
@@ -551,11 +556,7 @@ namespace NeeView
             BookHub = new BookHub();
 
             BookHub.Loading +=
-                (s, e) =>
-                {
-                    LoadingPath = e;
-                    Loading?.Invoke(s, e);
-                };
+                OnLoading;
 
             BookHub.BookChanged +=
                 OnBookChanged;
@@ -614,6 +615,19 @@ namespace NeeView
 
             // messenger
             Messenger.AddReciever("UpdateLastFiles", (s, e) => UpdateLastFiles());
+
+            // ダウンロードフォルダ生成
+            if (!System.IO.Directory.Exists(Temporary.TempDownloadDirectory))
+            {
+                System.IO.Directory.CreateDirectory(Temporary.TempDownloadDirectory);
+            }
+        }
+
+        // Loading表示状態変更
+        public void OnLoading(object sender, string e)
+        {
+            LoadingPath = e;
+            Loading?.Invoke(sender, e);
         }
 
 
@@ -721,7 +735,7 @@ namespace NeeView
             setting.CommandMememto = ModelContext.CommandTable.CreateMemento();
             setting.DragActionMemento = ModelContext.DragActionTable.CreateMemento();
             setting.ExporterMemento = Exporter.CreateMemento();
-            setting.BookHistoryMemento = ModelContext.BookHistory.CreateMemento();
+            setting.BookHistoryMemento = ModelContext.BookHistory.CreateMemento(true);
 
             return setting;
         }
@@ -1141,6 +1155,14 @@ namespace NeeView
             BookHub.Load(path, BookLoadOption.None);
         }
 
+        // ドラッグ＆ドロップ取り込み失敗
+        public void LoadError(string message)
+        {
+            EmptyPageMessage = message ?? "コンテンツの読み込みに失敗しました";
+            BookHub?.Unload(true);
+        }
+
+
 
         // 廃棄処理
         public void Dispose()
@@ -1229,6 +1251,9 @@ namespace NeeView
             [DataMember(Order = 5)]
             public FileInfoSetting FileInfoSetting { get; set; }
 
+            [DataMember(Order = 5)]
+            public string UserDownloadPath { get; set; }
+
             void Constructor()
             {
                 IsLimitMove = true;
@@ -1284,6 +1309,7 @@ namespace NeeView
             memento.IsTopmost = this.IsTopmost;
             memento.IsVisibleFileInfo = this.IsVisibleFileInfo;
             memento.FileInfoSetting = this.FileInfoSetting.Clone();
+            memento.UserDownloadPath = this.UserDownloadPath;
 
             return memento;
         }
@@ -1316,6 +1342,7 @@ namespace NeeView
             this.IsTopmost = memento.IsTopmost;
             this.IsVisibleFileInfo = memento.IsVisibleFileInfo;
             this.FileInfoSetting = memento.FileInfoSetting.Clone();
+            this.UserDownloadPath = memento.UserDownloadPath;
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }

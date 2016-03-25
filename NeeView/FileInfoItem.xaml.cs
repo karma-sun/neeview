@@ -51,25 +51,31 @@ namespace NeeView
             DependencyProperty.Register("Text", typeof(string), typeof(FileInfoItem), new PropertyMetadata(null));
 
 
-        // copy to clipboard command
-        public static readonly ICommand ClipboardCopyCommand = new RoutedCommand("ClipboardCopyCommand", typeof(FileInfoItem));
-
-        // copy to clipboard command execute
-        private void ClipboardCopyCommand_Executed(object source, ExecutedRoutedEventArgs e)
-        {
-            Clipboard.SetText(Text);
-        }
-
-
         /// <summary>
         /// constructor
         /// </summary>
         public FileInfoItem()
         {
             InitializeComponent();
+        }
 
-            this.CopyMenu.CommandBindings.Add(new CommandBinding(ClipboardCopyCommand, ClipboardCopyCommand_Executed));
+        //
+        private void TextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var t = sender as TextBox;
+
+            if (!t.IsFocused)
+            {
+                t.Focus();
+                e.Handled = true;
+            }
+        }
+
+        //
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var t = sender as TextBox;
+            t.SelectAll();
         }
     }
-
 }

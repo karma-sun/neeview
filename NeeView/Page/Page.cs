@@ -69,7 +69,7 @@ namespace NeeView
         public string FullPath { get { return LoosePath.Combine(Place, FileName); } }
 
         // 更新日時
-        public DateTime LastWriteTime { get; protected set; }
+        public DateTime? LastWriteTime { get; protected set; }
 
         // コンテンツ幅
         public double Width { get; protected set; }

@@ -41,47 +41,40 @@ namespace NeeView
         }
 
         // エントリーリストを得る
-        public override Dictionary<string, ArchiveEntry> GetEntries()
+        public override List<ArchiveEntry> GetEntries()
         {
-            Entries.Clear();
+            var list = new List<ArchiveEntry>();
 
             using (var archiver = ZipFile.OpenRead(_ArchiveFileName))
             {
-                foreach (var entry in archiver.Entries)
+                foreach (var zipEntry in archiver.Entries)
                 {
-                    try
+                    if (zipEntry.Length > 0)
                     {
-                        if (entry.Length > 0)
+                        list.Add(new ArchiveEntry()
                         {
-                            Entries.Add(entry.FullName, new ArchiveEntry()
-                            {
-                                FileName = entry.FullName,
-                                FileSize = entry.Length,
-                                LastWriteTime = entry.LastWriteTime.Date,
-                            });
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine(e.Message);
+                            Archiver = this,
+                            Id = list.Count,
+                            Instance = null,
+                            FileName = zipEntry.FullName,
+                            FileSize = zipEntry.Length,
+                            LastWriteTime = zipEntry.LastWriteTime.Date,
+                        });
                     }
                 }
             }
 
-            return Entries;
+            return list;
         }
 
-
-
         // エントリーのストリームを得る
-        public override Stream OpenEntry(string entryName)
+        public override Stream OpenStream(ArchiveEntry entry)
         {
             using (var archiver = ZipFile.OpenRead(_ArchiveFileName))
             {
-                ZipArchiveEntry entry = archiver.GetEntry(entryName);
-                if (entry == null) throw new ArgumentException($"アーカイブエントリ {entryName} が見つかりません");
+                ZipArchiveEntry zipEntry = archiver.Entries[entry.Id];
 
-                using (var stream = entry.Open())
+                using (var stream = zipEntry.Open())
                 {
                     var ms = new MemoryStream();
                     stream.CopyTo(ms);
@@ -91,16 +84,13 @@ namespace NeeView
             }
         }
 
-
         //
-        public override void ExtractToFile(string entryName, string exportFileName, bool isOverwrite)
+        public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
             using (var archiver = ZipFile.OpenRead(_ArchiveFileName))
             {
-                ZipArchiveEntry entry = archiver.GetEntry(entryName);
-                if (entry == null) throw new ArgumentException($"アーカイブエントリ {entryName} が見つかりません");
-
-                entry.ExtractToFile(exportFileName, isOverwrite);
+                ZipArchiveEntry zipEntry = archiver.Entries[entry.Id];
+                zipEntry.ExtractToFile(exportFileName, isOverwrite);
             }
         }
     }

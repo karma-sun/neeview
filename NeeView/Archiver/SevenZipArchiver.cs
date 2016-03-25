@@ -52,9 +52,9 @@ namespace NeeView
         }
 
         // エントリーリストを得る
-        public override Dictionary<string, ArchiveEntry> GetEntries()
+        public override List<ArchiveEntry> GetEntries()
         {
-            Entries.Clear();
+            var list = new List<ArchiveEntry>();
 
             lock (_Lock)
             {
@@ -62,37 +62,32 @@ namespace NeeView
                 {
                     foreach (var entry in archive.ArchiveFileData)
                     {
-                        try
+                        if (!entry.IsDirectory)
                         {
-                            if (!entry.IsDirectory)
+                            list.Add(new ArchiveEntry()
                             {
-                                Entries.Add(entry.FileName, new ArchiveEntry()
-                                {
-                                    FileName = entry.FileName,
-                                    FileSize = (long)entry.Size,
-                                    LastWriteTime = entry.LastWriteTime,
-                                });
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.WriteLine(e.Message);
+                                Archiver = this,
+                                Id = list.Count,
+                                FileName = entry.FileName,
+                                FileSize = (long)entry.Size,
+                                LastWriteTime = entry.LastWriteTime,
+                            });
                         }
                     }
                 }
             }
 
-            return Entries;
+            return list;
         }
 
 
         // エントリーのストリームを得る
-        public override Stream OpenEntry(string entryName)
+        public override Stream OpenStream(ArchiveEntry entry)
         {
             SevenZipExtractor archive = null;
             Exception exception = null;
 
-            for (int retryCount = 0; retryCount < 2; ++retryCount) // retry
+            for (int retryCount = 0; retryCount < 2; ++retryCount) // retry .. あまり効いてない？
             {
                 try
                 {
@@ -102,7 +97,7 @@ namespace NeeView
                     }
 
                     var ms = new MemoryStream();
-                    archive.ExtractFile(entryName, ms);
+                    archive.ExtractFile(entry.Id, ms);
                     ms.Seek(0, SeekOrigin.Begin);
                     return ms;
                 }
@@ -121,7 +116,7 @@ namespace NeeView
 
 
         //
-        public override void ExtractToFile(string entryName, string exportFileName, bool isOverwrite)
+        public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
             SevenZipExtractor archive = null;
 
@@ -134,7 +129,7 @@ namespace NeeView
 
                 using (Stream fs = new FileStream(exportFileName, FileMode.Create, FileAccess.Write))
                 {
-                    archive.ExtractFile(entryName, fs);
+                    archive.ExtractFile(entry.Id, fs);
                 }
             }
             finally

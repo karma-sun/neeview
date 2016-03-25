@@ -56,7 +56,7 @@ namespace NeeView
         }
 
         // エントリーリストを得る
-        public override Dictionary<string, ArchiveEntry> GetEntries()
+        public override List<ArchiveEntry> GetEntries()
         {
             var plugin = GetPlugin();
             if (plugin == null) throw new NotSupportedException();
@@ -64,85 +64,80 @@ namespace NeeView
             var infoCollection = plugin.GetArchiveInfo(_ArchiveFileName);
             if (infoCollection == null) throw new NotSupportedException();
 
-            Entries.Clear();
+            var list = new List<ArchiveEntry>();
             foreach (var entry in infoCollection)
             {
-                try
+                string name = (entry.Path.TrimEnd('\\', '/') + "\\" + entry.FileName).TrimStart('\\', '/');
+                list.Add(new ArchiveEntry()
                 {
-                    string name = (entry.Path.TrimEnd('\\', '/') + "\\" + entry.FileName).TrimStart('\\', '/');
-                    Entries.Add(name, new ArchiveEntry()
-                    {
-                        FileName = name,
-                        FileSize = entry.FileSize,
-                        LastWriteTime = entry.TimeStamp,
-                        Instance = entry,
-                    });
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                }
+                    Archiver = this,
+                    Id = list.Count,
+                    FileName = name,
+                    FileSize = entry.FileSize,
+                    LastWriteTime = entry.TimeStamp,
+                    Instance = entry,
+                });
             }
 
-            return Entries;
+            return list;
         }
 
 
-        // エントリーのストリームを得る
-        public override Stream OpenEntry(string entryName)
+    // エントリーのストリームを得る
+    public override Stream OpenStream(ArchiveEntry entry)
+    {
+        lock (_Lock)
         {
-            lock (_Lock)
+            var info = (Susie.ArchiveEntry)entry.Instance;
+            byte[] buffer = info.Load();
+            return new MemoryStream(buffer, 0, buffer.Length, false, true);
+        }
+    }
+
+
+    // ファイルに出力する
+    public override void ExtractToFile(ArchiveEntry entry, string extractFileName, bool isOverwrite)
+    {
+        var info = (Susie.ArchiveEntry)entry.Instance;
+
+        string tempDirectory = Temporary.CreateCountedTempFileName("Susie", "");
+
+        try
+        {
+            // susieプラグインでは出力ファイル名を指定できないので、
+            // テンポラリフォルダに出力してから移動する
+            Directory.CreateDirectory(tempDirectory);
+
+            // 注意：失敗することがよくある
+            info.ExtractToFolder(tempDirectory);
+
+            // 上書き時は移動前に削除
+            if (isOverwrite && File.Exists(extractFileName))
             {
-                var info = (Susie.ArchiveEntry)Entries[entryName].Instance;
-                byte[] buffer = info.Load();
-                return new MemoryStream(buffer, 0, buffer.Length, false, true);
+                File.Delete(extractFileName);
             }
+
+            var files = Directory.GetFiles(tempDirectory);
+            File.Move(files[0], extractFileName);
+            Directory.Delete(tempDirectory, true);
         }
 
-
-        // ファイルに出力する
-        public override void ExtractToFile(string entryName, string extractFileName, bool isOverwrite)
+        // 失敗したら：メモリ展開からのファイル保存を行う
+        catch (Susie.SpiException e)
         {
-            var info = (Susie.ArchiveEntry)Entries[entryName].Instance;
+            Debug.WriteLine(e.Message);
+            info.ExtractToFile(extractFileName);
+            return;
+        }
 
-            string tempDirectory = Temporary.CreateCountedTempFileName("Susie", "");
-
-            try
+        // 後始末
+        finally
+        {
+            if (Directory.Exists(tempDirectory))
             {
-                // susieプラグインでは出力ファイル名を指定できないので、
-                // テンポラリフォルダに出力してから移動する
-                Directory.CreateDirectory(tempDirectory);
-
-                // 注意：失敗することがよくある
-                info.ExtractToFolder(tempDirectory);
-
-                // 上書き時は移動前に削除
-                if (isOverwrite && File.Exists(extractFileName))
-                {
-                    File.Delete(extractFileName);
-                }
-
-                var files = Directory.GetFiles(tempDirectory);
-                File.Move(files[0], extractFileName);
                 Directory.Delete(tempDirectory, true);
-            }
-
-            // 失敗したら：メモリ展開からのファイル保存を行う
-            catch (Susie.SpiException e)
-            {
-                Debug.WriteLine(e.Message);
-                info.ExtractToFile(extractFileName);
-                return;
-            }
-
-            // 後始末
-            finally
-            {
-                if (Directory.Exists(tempDirectory))
-                {
-                    Directory.Delete(tempDirectory, true);
-                }
             }
         }
     }
+}
 }

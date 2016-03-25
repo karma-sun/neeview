@@ -354,7 +354,7 @@ namespace NeeView
         // アーカイブからページ作成(再帰)
         private bool ReadArchive(Archiver archiver, string place, BookLoadOption option)
         {
-            Dictionary<string, ArchiveEntry> entries = null;
+            List<ArchiveEntry> entries = null;
 
             try
             {
@@ -375,7 +375,7 @@ namespace NeeView
             _Archivers.Add(archiver);
 
             //
-            foreach (var entry in entries.Values)
+            foreach (var entry in entries)
             {
                 // 再帰設定、もしくは単一ファイルの場合、再帰を行う
                 bool isRecursive = (option & BookLoadOption.Recursive) == BookLoadOption.Recursive;
@@ -384,7 +384,7 @@ namespace NeeView
                     bool result = false;
                     if (archiver.IsFileSystem)
                     {
-                        result = ReadArchive(ModelContext.ArchiverManager.CreateArchiver(archiver.GetFileSystemPath(entry.FileName), archiver), LoosePath.Combine(place, entry.FileName), option);
+                        result = ReadArchive(ModelContext.ArchiverManager.CreateArchiver(archiver.GetFileSystemPath(entry), archiver), LoosePath.Combine(place, entry.FileName), option);
                     }
                     else
                     {
@@ -392,7 +392,7 @@ namespace NeeView
                         string tempFileName = Temporary.CreateTempFileName(Path.GetFileName(entry.FileName));
                         try
                         {
-                            archiver.ExtractToFile(entry.FileName, tempFileName, false);
+                            archiver.ExtractToFile(entry, tempFileName, false);
                             _TrashBox.Add(new TrashFile(tempFileName));
 
                             result = ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName, archiver), LoosePath.Combine(place, entry.FileName), option);
@@ -1053,21 +1053,21 @@ namespace NeeView
         {
             if (Pages.Count <= 0) return;
 
+            // TODO: 再読み込みコマンド
+
             switch (SortMode)
             {
                 case PageSortMode.FileName:
-                    Pages.Sort((a, b) => ComparePath(a.FullPath, b.FullPath, Win32Api.StrCmpLogicalW));
+                    Pages.Sort((a, b) => CompareFileNameOrder(a, b, Win32Api.StrCmpLogicalW));
                     break;
                 case PageSortMode.FileNameDescending:
-                    Pages.Sort((a, b) => ComparePath(a.FullPath, b.FullPath, Win32Api.StrCmpLogicalW));
-                    Pages.Reverse();
+                    Pages.Sort((a, b) => CompareFileNameOrder(b, a, Win32Api.StrCmpLogicalW));
                     break;
                 case PageSortMode.TimeStamp:
-                    Pages = Pages.OrderBy(e => e.LastWriteTime).ToList();
+                    Pages.Sort((a, b) => CompareDateTimeOrder(a, b, Win32Api.StrCmpLogicalW));
                     break;
                 case PageSortMode.TimeStampDescending:
-                    Pages = Pages.OrderBy(e => e.LastWriteTime).ToList();
-                    Pages.Reverse();
+                    Pages.Sort((a, b) => CompareDateTimeOrder(b, a, Win32Api.StrCmpLogicalW));
                     break;
                 case PageSortMode.Random:
                     var random = new Random();
@@ -1080,10 +1080,30 @@ namespace NeeView
             RequestSetPosition(_FirstPosition, 1, true);
         }
 
+        // ファイル名, 日付, ID の順で比較
+        private int CompareFileNameOrder(Page p1, Page p2, Func<string, string, int> compare)
+        {
+            if (p1.FullPath != p2.FullPath)
+                return CompareFileName(p1.FullPath, p2.FullPath, compare);
+            else if (p1.Entry.LastWriteTime != p2.Entry.LastWriteTime)
+                return CompareDateTime(p1.Entry.LastWriteTime, p2.Entry.LastWriteTime);
+            else
+                return p1.Entry.Id - p2.Entry.Id;
+        }
 
-        // ファイル名比較
-        // ディレクトリを優先する
-        private int ComparePath(string s1, string s2, Func<string, string, int> compare)
+        // 日付, ファイル名, ID の順で比較
+        private int CompareDateTimeOrder(Page p1, Page p2, Func<string, string, int> compare)
+        {
+            if (p1.Entry.LastWriteTime != p2.Entry.LastWriteTime)
+                return CompareDateTime(p1.Entry.LastWriteTime, p2.Entry.LastWriteTime);
+            else if (p1.FullPath != p2.FullPath)
+                return CompareFileName(p1.FullPath, p2.FullPath, compare);
+            else
+                return p1.Entry.Id - p2.Entry.Id;
+        }
+
+        // ファイル名比較. ディレクトリを優先する
+        private int CompareFileName(string s1, string s2, Func<string, string, int> compare)
         {
             string d1 = LoosePath.GetDirectoryName(s1);
             string d2 = LoosePath.GetDirectoryName(s2);
@@ -1093,6 +1113,16 @@ namespace NeeView
             else
                 return compare(d1, d2);
         }
+
+        // 日付比較。null対応
+        private int CompareDateTime(DateTime? _t1, DateTime? _t2)
+        {
+            DateTime t1 = _t1 ?? DateTime.MinValue;
+            DateTime t2 = _t2 ?? DateTime.MinValue;
+            return (t1.Ticks - t2.Ticks < 0) ? -1 : 1;
+        }
+
+
 
         // ページの削除
         private void Remove(Page page)

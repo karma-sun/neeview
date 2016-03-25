@@ -31,10 +31,7 @@ namespace NeeView
         public BitmapPage(Archiver archiver, ArchiveEntry entry, string place)
         {
             Place = place;
-            FileName = entry.FileName;
-            LastWriteTime = entry.LastWriteTime;
-
-            _Archiver = archiver;
+            Entry = entry;
         }
 
 
@@ -46,23 +43,22 @@ namespace NeeView
                 try
                 {
                     var bitmapLoader = BitmapLoaderManager.Create(loaderType);
-                    ArchiveEntry entry = _Archiver.Entries[FileName];
                     BitmapContent bmp;
-                    if (_Archiver.IsFileSystem)
+                    if (Entry.IsFileSystem)
                     {
-                        bmp = bitmapLoader.LoadFromFile(_Archiver.GetFileSystemPath(FileName), entry, IsEnableExif);
+                        bmp = bitmapLoader.LoadFromFile(Entry.GetFileSystemPath(), Entry, IsEnableExif);
                     }
                     else
                     {
-                        using (var stream = _Archiver.OpenEntry(FileName))
+                        using (var stream = Entry.OpenEntry())
                         {
-                            bmp = bitmapLoader.Load(stream, entry, IsEnableExif);
+                            bmp = bitmapLoader.Load(stream, Entry, IsEnableExif);
                         }
                     }
 
                     if (bmp != null)
                     {
-                        if (bmp.Info != null) bmp.Info.Archiver = _Archiver.ToString();
+                        if (bmp.Info != null) bmp.Info.Archiver = Entry.Archiver.ToString();
                         return bmp;
                     }
                 }
@@ -133,7 +129,7 @@ namespace NeeView
         // ファイルの出力
         public override void Export(string path)
         {
-            _Archiver.ExtractToFile(FileName, path, true);
+            Entry.ExtractToFile(path, true);
         }
     }
 

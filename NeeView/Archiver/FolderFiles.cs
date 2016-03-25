@@ -41,16 +41,18 @@ namespace NeeView
         }
 
         // リスト取得
-        public override Dictionary<string, ArchiveEntry> GetEntries()
+        public override List<ArchiveEntry> GetEntries()
         {
             int prefixLen = _FolderFileName.Length;
-            Entries.Clear();
+            var list = new List<ArchiveEntry>();
             foreach (var path in Directory.GetFiles(_FolderFileName))
             {
                 var name = path.Substring(prefixLen).TrimStart('\\', '/');
                 var fileInfo = new FileInfo(path);
-                Entries.Add(name, new ArchiveEntry()
+                list.Add(new ArchiveEntry()
                 {
+                    Archiver = this,
+                    Id = list.Count,
                     FileName = name,
                     FileSize = fileInfo.Length,
                     LastWriteTime = fileInfo.LastWriteTime,
@@ -60,35 +62,36 @@ namespace NeeView
             {
                 var name = path.Substring(prefixLen).TrimStart('\\', '/') + "\\";
                 var fileInfo = new DirectoryInfo(path);
-                Entries.Add(name, new ArchiveEntry()
+                list.Add(new ArchiveEntry()
                 {
+                    Archiver = this,
+                    Id = list.Count,
                     FileName = name,
                     FileSize = -1,
                     LastWriteTime = fileInfo.LastWriteTime,
                 });
             }
 
-            return Entries;
+            return list;
         }
 
 
-        //
-        public override Stream OpenEntry(string entryName)
+        // ストリームを開く
+        public override Stream OpenStream(ArchiveEntry entry)
         {
-            return new FileStream(System.IO.Path.Combine(_FolderFileName, entryName), FileMode.Open, FileAccess.Read);
+            return new FileStream(GetFileSystemPath(entry), FileMode.Open, FileAccess.Read);
         }
-
 
         // ファイルパス取得
-        public override string GetFileSystemPath(string entryName)
+        public override string GetFileSystemPath(ArchiveEntry entry)
         {
-            return System.IO.Path.Combine(_FolderFileName, entryName);
+            return Path.Combine(_FolderFileName, entry.FileName);
         }
 
-        //
-        public override void ExtractToFile(string entryName, string exportFileName, bool isOverwrite)
+        // ファイルパス取得
+        public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            File.Copy(GetFileSystemPath(entryName), exportFileName, isOverwrite);
+            File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
         }
     }
 

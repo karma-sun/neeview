@@ -23,17 +23,6 @@ namespace NeeView
 
         DefaultArchiver = ZipArchiver
     }
-    
-    /// <summary>
-    /// アーカイブエントリ
-    /// </summary>
-    public class ArchiveEntry
-    {
-        public string FileName { get; set; }
-        public long FileSize { get; set; }
-        public DateTime? LastWriteTime { get; set; }
-        public object Instance { get; set; }
-    }
 
 
     /// <summary>
@@ -41,9 +30,6 @@ namespace NeeView
     /// </summary>
     public abstract class Archiver : IDisposable
     {
-        // エントリリスト
-        public Dictionary<string, ArchiveEntry> Entries { get; private set; } = new Dictionary<string, ArchiveEntry>();
-
         // アーカイブのパス
         public abstract string FileName { get; }
 
@@ -51,10 +37,7 @@ namespace NeeView
         public virtual bool IsFileSystem { get; } = false;
 
         // ファイルシステムでのパスを取得
-        public virtual string GetFileSystemPath(string entryName)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual string GetFileSystemPath(ArchiveEntry entry) { return null; }
 
         // 対応判定
         public abstract bool IsSupported();
@@ -63,25 +46,22 @@ namespace NeeView
         public Archiver Parent { get; set; }
 
         // エントリリストを取得
-        public abstract Dictionary<string, ArchiveEntry> GetEntries();
+        public abstract List<ArchiveEntry> GetEntries();
 
         // エントリのストリームを取得
-        public abstract Stream OpenEntry(string entryName);
+        public abstract Stream OpenStream(ArchiveEntry entry);
 
         // エントリをファイルとして出力
-        public abstract void ExtractToFile(string entryName, string exportFileName, bool isOverwrite);
+        public abstract void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite);
 
-        //
+        /// <summary>
+        /// 所属している場所を得る
+        /// 再帰圧縮フォルダの場合は最上位のアーカイブの場所になる
+        /// </summary>
+        /// <returns>ファイルパス</returns>
         public string GetPlace()
         {
-            if (Parent == null || Parent is FolderFiles)
-            {
-                return FileName;
-            }
-            else
-            {
-                return Parent.GetPlace();
-            }
+            return (Parent == null || Parent is FolderFiles) ? FileName : Parent.GetPlace();
         }
 
         // 廃棄用ゴミ箱

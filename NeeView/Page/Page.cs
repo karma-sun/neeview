@@ -56,20 +56,17 @@ namespace NeeView
         // コンテンツ更新イベント
         public event EventHandler<bool> Loaded;
 
-        // 所属アーカイバ
-        protected Archiver _Archiver;
+        // アーカイブエントリ
+        public ArchiveEntry Entry { get; protected set; }
 
         // 場所
         public string Place { get; protected set; }
 
         // ページ名
-        public string FileName { get; protected set; }
+        public string FileName => Entry?.FileName;
 
         // ページ名：フルパス
         public string FullPath { get { return LoosePath.Combine(Place, FileName); } }
-
-        // 更新日時
-        public DateTime? LastWriteTime { get; protected set; }
 
         // コンテンツ幅
         public double Width { get; protected set; }
@@ -222,16 +219,8 @@ namespace NeeView
         // ファイルの場所を取得
         public string GetFilePlace()
         {
-            Debug.Assert(_Archiver != null);
-
-            if (_Archiver is FolderFiles)
-            {
-                return LoosePath.Combine(_Archiver.FileName, FileName);
-            }
-            else
-            {
-                return _Archiver.GetPlace();
-            }
+            Debug.Assert(Entry?.Archiver != null);
+            return Entry.GetFileSystemPath() ?? Entry.Archiver.GetPlace();
         }
 
         // テンポラリファイル名
@@ -242,15 +231,15 @@ namespace NeeView
         {
             if (_TempFile != null) return _TempFile;
 
-            if (_Archiver.IsFileSystem)
+            if (Entry.IsFileSystem)
             {
-                _TempFile = _Archiver.GetFileSystemPath(FileName);
+                _TempFile = Entry.GetFileSystemPath();
             }
             else
             {
                 var tempFile = Temporary.CreateTempFileName(FileName);
-                _Archiver.ExtractToFile(FileName, tempFile, false);
-                _Archiver.TrashBox.Add(new TrashFile(tempFile)); // ブックの消失とともに消す
+                Entry.ExtractToFile(tempFile, false);
+                Entry.Archiver.TrashBox.Add(new TrashFile(tempFile)); // ブックの消失とともに消す
                 _TempFile = tempFile;
             }
 
@@ -266,7 +255,7 @@ namespace NeeView
         // ファイルの存在確認
         public bool IsFile()
         {
-            return _Archiver != null && _Archiver is FolderFiles;
+            return Entry?.Archiver != null && Entry.Archiver is FolderFiles;
         }
     }
 }

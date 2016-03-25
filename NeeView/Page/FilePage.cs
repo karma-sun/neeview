@@ -27,10 +27,7 @@ namespace NeeView
         public FilePage(Archiver archiver, ArchiveEntry entry, string place, FilePageIcon icon)
         {
             Place = place;
-            FileName = entry.FileName;
-            LastWriteTime = entry.LastWriteTime;
-
-            _Archiver = archiver;
+            Entry = entry;
             _Icon = icon;
         }
 
@@ -43,14 +40,9 @@ namespace NeeView
             Color = Colors.Black;
 
             var info = new FileBasicInfo();
-            info.Archiver = _Archiver.ToString();
-
-            ArchiveEntry entry;
-            if (_Archiver.Entries.TryGetValue(FileName, out entry))
-            {
-                info.FileSize = entry.FileSize;
-                info.LastWriteTime = entry.LastWriteTime;
-            }
+            info.Archiver = Entry.Archiver.ToString();
+            info.FileSize = Entry.FileSize;
+            info.LastWriteTime = Entry.LastWriteTime;
 
             return new FilePageContent()
             {

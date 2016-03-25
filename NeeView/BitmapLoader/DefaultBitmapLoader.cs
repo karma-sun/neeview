@@ -23,6 +23,7 @@ namespace NeeView
     public class DefaultBitmapLoader : IBitmapLoader
     {
         #region 開発用
+        [Conditional("DEBUG")]
         private void DumpMetaData(string prefix, BitmapMetadata metadata)
         {
             ImageMetadata im = metadata;
@@ -127,7 +128,7 @@ namespace NeeView
         }
 
 
-        //
+        // TODO: 回転情報反映の高速化
         private BitmapSource OrientationWithExif(BitmapSource source, ExifAccessor exif)
         {
             BitmapSource bmp;
@@ -187,29 +188,13 @@ namespace NeeView
             dictionary.Add("WMPhoto Decoder", ".wdp,.jxr");
             dictionary.Add("DDS Decoder", ".dds"); // (微妙..)
 
-            // TODO : License
-            // from WIC
+            // WIC
             try
             {
-                //string root = @"SOFTWARE\WOW6432Node\Classes\CLSID\";
-                string root = @"SOFTWARE\Classes\";
-
-                // WICBitmapDecodersの一覧を開く
-                var decoders = Registry.LocalMachine.OpenSubKey(root + @"CLSID\{7ED96837-96F0-4812-B211-F13C24117ED3}\Instance");
-                foreach (var clsId in decoders.GetSubKeyNames())
-                {
-                    try
-                    {
-                        // コーデックのレジストリを開く
-                        var codec = Registry.LocalMachine.OpenSubKey(root + @"CLSID\" + clsId);
-                        string name = codec.GetValue("FriendlyName").ToString();
-                        string extensions = codec.GetValue("FileExtensions").ToString().ToLower();
-                        dictionary.Add(name, extensions);
-                    }
-                    catch { }
-                }
+                var wics = Utility.WicDecoders.ListUp();
+                dictionary = dictionary.Concat(wics).ToDictionary(x => x.Key, x => x.Value);
             }
-            catch { }
+            catch { } // 失敗しても動くように例外スルー
 
             return dictionary;
         }

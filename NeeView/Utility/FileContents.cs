@@ -17,11 +17,11 @@ using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 using IComDataObject = System.Runtime.InteropServices.ComTypes.IDataObject;
 using STATSTG = System.Runtime.InteropServices.ComTypes.STATSTG;
 
-namespace Sayuri.IO
+namespace NeeView.Utility
 {
-    public class File
+    public class FileContents
     {
-        private File(string name, byte[] bytes)
+        private FileContents(string name, byte[] bytes)
         {
             Name = name;
             Bytes = bytes;
@@ -68,15 +68,15 @@ namespace Sayuri.IO
             public FILEDESCRIPTORW[] fgd;
         }
 
-        public static File[] Get(System.Windows.IDataObject dataObject)
+        public static FileContents[] Get(System.Windows.IDataObject dataObject)
         {
             return Get((IComDataObject)dataObject);
         }
 
-        public static File[] Get(IComDataObject dataObject)
+        public static FileContents[] Get(IComDataObject dataObject)
         {
             var fileDescriptor = GetFileDescriptor(dataObject);
-            return fileDescriptor.fgd.Select((fgd, i) => new File(fgd.cFileName, GetFileContent(dataObject, i))).ToArray();
+            return fileDescriptor.fgd.Select((fgd, i) => new FileContents(fgd.cFileName, GetFileContent(dataObject, i))).ToArray();
         }
 
         static FILEGROUPDESCRIPTORW GetFileDescriptor(IComDataObject dataObject)

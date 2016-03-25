@@ -3,8 +3,6 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
-// TODO: 整備
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,35 +17,34 @@ namespace NeeView
     public static partial class NVUtility
     {
         /// <summary>
-        /// 超手抜きパーサ
-        /// それっぽいimgタグ抜き出し
+        ///  イメージタグ用正規表現
         /// </summary>
-        /// <returns></returns>
+        private static Regex _ImageTagRegex = new Regex(
+            @"<img(?:\s+[^>]*\s+|\s+)src\s*=\s*(?:(?<quot>[""'])(?<url>.*?)\k<quot>|(?<url>[^\s>]+))[^>]*>",
+            RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+        /// <summary>
+        /// imgタグ抜き出し
+        /// </summary>
+        /// <returns>imgタグのURLリスト</returns>
         public static List<string> ParseSourceUrl(string source)
         {
-            //TextBox1.Text内で正規表現と一致する対象をすべて検索
-            System.Text.RegularExpressions.MatchCollection mc =
-                System.Text.RegularExpressions.Regex.Matches(
-                    source,
-                    @"<img(?:\s+[^>]*\s+|\s+)src\s*=\s*(?:(?<quot>[""'])(?<url>.*?)\k<quot>|" +
-                        @"(?<url>[^\s>]+))[^>]*>",
-                    System.Text.RegularExpressions.RegexOptions.IgnoreCase
-                    | System.Text.RegularExpressions.RegexOptions.Singleline);
-
+            var matchCollection = _ImageTagRegex.Matches(source);
             var urls = new List<string>();
-            foreach (System.Text.RegularExpressions.Match m in mc)
+            foreach (System.Text.RegularExpressions.Match match in matchCollection)
             {
-                //正規表現に一致したグループを表示
-                //Debug.WriteLine("URL:{0}", m.Groups["url"].Value);
-                urls.Add(m.Groups["url"].Value);
+                urls.Add(match.Groups["url"].Value);
             }
 
             return urls;
         }
 
 
-
-        // 本の場所をタイトルに変換
+        /// <summary>
+        /// 本の場所をタイトル文字列に整形
+        /// </summary>
+        /// <param name="place"></param>
+        /// <returns></returns>
         public static string PlaceToTitle(string place)
         {
             if (place.StartsWith("http://") || place.StartsWith("https://"))
@@ -65,6 +62,10 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// ドラッグオブジェクトのダンプ
+        /// </summary>
+        /// <param name="data"></param>
         [Conditional("DEBUG")]
         public static void DumpDragData(System.Windows.IDataObject data)
         {
@@ -111,7 +112,7 @@ namespace NeeView
             if (match.Success)
             {
                 filename = match.Groups[1].Value.Trim();
-                count = int.Parse(match.Groups[2].Value); 
+                count = int.Parse(match.Groups[2].Value);
             }
 
             // ファイル名作成

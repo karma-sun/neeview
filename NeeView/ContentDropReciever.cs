@@ -14,9 +14,8 @@ using System.Windows;
 
 namespace NeeView
 {
-    // TODO: 7zからのドロップ対応
     // TODO: エクスプローラーの圧縮zip内からのドロップ対応
-
+    // TODO: 7zからのドロップ対応
 
     /// <summary>
     ///  Drop Exception
@@ -212,10 +211,9 @@ namespace NeeView
             if (e.Data.GetDataPresent("FileContents") && e.Data.GetDataPresent("FileGroupDescriptorW"))
             {
                 var fileNames = new List<string>();
-                foreach (var file in Sayuri.IO.File.Get(e.Data))
+                foreach (var file in Utility.FileContents.Get(e.Data))
                 {
-                    Debug.WriteLine($"{file.Name} : {file.Bytes.Length / 1024} KB");
-                    if (file.Bytes.Length <= 0) continue;
+                    if (file.Bytes == null || file.Bytes.Length <= 0) continue;
 
                     string fileName = await DownloadToFileAsync(file.Bytes, file.Name, downloadPath);
                     if (fileName != null) fileNames.Add(fileName);

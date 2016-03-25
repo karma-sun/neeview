@@ -78,9 +78,10 @@
     </ApplicationDefinition>
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
+    <Compile Include="Utility\WicDecoders.cs" />
     <Compile Include="ContentDropReciever.cs" />
-    <Compile Include="DropFileContents.cs" />
-    <Compile Include="NVUtility.cs" />
+    <Compile Include="Utility\FileContents.cs" />
+    <Compile Include="Utility\NVUtilities.cs" />
     <Compile Include="BackgroundStyle.cs" />
     <Compile Include="BitmapLoader\BitmapContent.cs" />
     <Compile Include="BitmapLoader\BitmapLoaderManager.cs" />

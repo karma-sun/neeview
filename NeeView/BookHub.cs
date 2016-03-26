@@ -97,7 +97,7 @@ namespace NeeView
                 if (_IsEnableNoSupportFile != value)
                 {
                     _IsEnableNoSupportFile = value;
-                    ReLoad();
+                    ReLoad(true);
                 }
             }
         }
@@ -272,7 +272,7 @@ namespace NeeView
                 book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
                 book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
                 book.PageTerminated += OnPageTerminated;
-                book.DartyBook += (s, e) => ReLoad();
+                book.DartyBook += (s, e) => ReLoad(true);
 
                 // 最初のコンテンツ表示待ち設定
                 _ViewContentEvent.Reset();
@@ -358,14 +358,13 @@ namespace NeeView
         }
 
         // 再読み込み
-        private void ReLoad()
+        public void ReLoad(bool isKeepSetting)
         {
             if (Current != null)
             {
-                Load(Current.Place, BookLoadOption.ReLoad);
+                Load(Current.Place, isKeepSetting ? BookLoadOption.ReLoad : BookLoadOption.None);
             }
         }
-
 
 
         // ページ終端を超えて移動しようとするときの処理
@@ -669,7 +668,8 @@ namespace NeeView
             BookMemento.SortMode = mode;
             RefleshBookSetting();
         }
-        
+
+       
 
         // 外部アプリで開く
         public void OpenApplication()

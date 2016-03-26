@@ -83,6 +83,15 @@ namespace NeeView
                     IsShowMessage = false,
                 },
 
+                [CommandType.ReLoad] = new CommandElement
+                {
+                    Group = "ファイル",
+                    Text = "再読み込み",
+                    MouseGesture = "UD",
+                    Execute = e => _Book.ReLoad(false),
+                    IsShowMessage = false,
+                },
+
                 [CommandType.OpenApplication] = new CommandElement
                 {
                     Group = "ファイル",

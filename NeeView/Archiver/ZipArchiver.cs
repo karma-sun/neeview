@@ -47,18 +47,19 @@ namespace NeeView
 
             using (var archiver = ZipFile.OpenRead(_ArchiveFileName))
             {
-                foreach (var zipEntry in archiver.Entries)
+                for (int id = 0; id < archiver.Entries.Count; ++id)
                 {
-                    if (zipEntry.Length > 0)
+                    var entry = archiver.Entries[id];
+                    if (entry.Length > 0)
                     {
                         list.Add(new ArchiveEntry()
                         {
                             Archiver = this,
-                            Id = list.Count,
+                            Id = id,
                             Instance = null,
-                            FileName = zipEntry.FullName,
-                            FileSize = zipEntry.Length,
-                            LastWriteTime = zipEntry.LastWriteTime.Date,
+                            FileName = entry.FullName,
+                            FileSize = entry.Length,
+                            LastWriteTime = entry.LastWriteTime.Date,
                         });
                     }
                 }
@@ -72,9 +73,13 @@ namespace NeeView
         {
             using (var archiver = ZipFile.OpenRead(_ArchiveFileName))
             {
-                ZipArchiveEntry zipEntry = archiver.Entries[entry.Id];
+                ZipArchiveEntry archiveEntry = archiver.Entries[entry.Id];
+                if (archiveEntry.FullName != entry.FileName)
+                {
+                    throw new ApplicationException("ページデータの不整合");
+                }
 
-                using (var stream = zipEntry.Open())
+                using (var stream = archiveEntry.Open())
                 {
                     var ms = new MemoryStream();
                     stream.CopyTo(ms);
@@ -89,8 +94,8 @@ namespace NeeView
         {
             using (var archiver = ZipFile.OpenRead(_ArchiveFileName))
             {
-                ZipArchiveEntry zipEntry = archiver.Entries[entry.Id];
-                zipEntry.ExtractToFile(exportFileName, isOverwrite);
+                ZipArchiveEntry archiveEntry = archiver.Entries[entry.Id];
+                archiveEntry.ExtractToFile(exportFileName, isOverwrite);
             }
         }
     }

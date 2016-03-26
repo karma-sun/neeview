@@ -60,14 +60,15 @@ namespace NeeView
             {
                 using (var archive = new SevenZipExtractor(_ArchiveFileName))
                 {
-                    foreach (var entry in archive.ArchiveFileData)
+                    for (int id = 0; id < archive.ArchiveFileData.Count; ++id)
                     {
+                        var entry = archive.ArchiveFileData[id];
                         if (!entry.IsDirectory)
                         {
                             list.Add(new ArchiveEntry()
                             {
                                 Archiver = this,
-                                Id = list.Count,
+                                Id = id,
                                 FileName = entry.FileName,
                                 FileSize = (long)entry.Size,
                                 LastWriteTime = entry.LastWriteTime,
@@ -94,6 +95,12 @@ namespace NeeView
                     lock (_Lock)
                     {
                         archive = new SevenZipExtractor(_ArchiveFileName);
+                    }
+
+                    var archiveEntry = archive.ArchiveFileData[entry.Id];
+                    if (archiveEntry.FileName != entry.FileName)
+                    {
+                        throw new ApplicationException("ページデータの不整合");
                     }
 
                     var ms = new MemoryStream();

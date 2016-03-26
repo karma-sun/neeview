@@ -98,7 +98,7 @@ namespace Susie
         private static DateTime Time_T2DateTime(uint time_t)
         {
             long win32FileTime = 10000000 * (long)time_t + 116444736000000000;
-            return DateTime.FromFileTimeUtc(win32FileTime);
+            return DateTime.FromFileTime(win32FileTime);
         }
     }
 

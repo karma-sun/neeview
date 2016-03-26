@@ -23,7 +23,7 @@ namespace NeeView
         public object Instance { get; set; }
 
         // エントリ名
-        public string FileName { get; set; }
+        public string EntryName { get; set; }
 
         // ファイルサイズ
         public long FileSize { get; set; }

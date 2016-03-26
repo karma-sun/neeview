@@ -22,16 +22,14 @@ namespace NeeView
         {
             return "フォルダー";
         }
-
+        
+        //
         public override bool IsFileSystem { get; } = true;
-
-        private string _FolderFileName;
-        public override string FileName => _FolderFileName;
 
         // コンストラクタ
         public FolderFiles(string folderFileName)
         {
-            _FolderFileName = folderFileName;
+            FileName = folderFileName;
         }
 
         // サポート判定
@@ -43,9 +41,9 @@ namespace NeeView
         // リスト取得
         public override List<ArchiveEntry> GetEntries()
         {
-            int prefixLen = _FolderFileName.Length;
+            int prefixLen = FileName.Length;
             var list = new List<ArchiveEntry>();
-            foreach (var path in Directory.GetFiles(_FolderFileName))
+            foreach (var path in Directory.GetFiles(FileName))
             {
                 var name = path.Substring(prefixLen).TrimStart('\\', '/');
                 var fileInfo = new FileInfo(path);
@@ -53,12 +51,12 @@ namespace NeeView
                 {
                     Archiver = this,
                     Id = list.Count,
-                    FileName = name,
+                    EntryName = name,
                     FileSize = fileInfo.Length,
                     LastWriteTime = fileInfo.LastWriteTime,
                 });
             }
-            foreach (var path in Directory.GetDirectories(_FolderFileName))
+            foreach (var path in Directory.GetDirectories(FileName))
             {
                 var name = path.Substring(prefixLen).TrimStart('\\', '/') + "\\";
                 var fileInfo = new DirectoryInfo(path);
@@ -66,7 +64,7 @@ namespace NeeView
                 {
                     Archiver = this,
                     Id = list.Count,
-                    FileName = name,
+                    EntryName = name,
                     FileSize = -1,
                     LastWriteTime = fileInfo.LastWriteTime,
                 });
@@ -85,7 +83,7 @@ namespace NeeView
         // ファイルパス取得
         public override string GetFileSystemPath(ArchiveEntry entry)
         {
-            return Path.Combine(_FolderFileName, entry.FileName);
+            return Path.Combine(FileName, entry.EntryName);
         }
 
         // ファイルパス取得

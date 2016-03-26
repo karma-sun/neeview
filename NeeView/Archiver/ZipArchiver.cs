@@ -24,14 +24,10 @@ namespace NeeView
             return ".Net ZipArchiver";
         }
 
-        private string _ArchiveFileName;
-        public override string FileName => _ArchiveFileName;
-
-
         // コンストラクタ
         public ZipArchiver(string archiveFileName)
         {
-            _ArchiveFileName = archiveFileName;
+            FileName = archiveFileName;
         }
 
         // サポート判定
@@ -45,7 +41,7 @@ namespace NeeView
         {
             var list = new List<ArchiveEntry>();
 
-            using (var archiver = ZipFile.OpenRead(_ArchiveFileName))
+            using (var archiver = ZipFile.OpenRead(FileName))
             {
                 for (int id = 0; id < archiver.Entries.Count; ++id)
                 {
@@ -57,7 +53,7 @@ namespace NeeView
                             Archiver = this,
                             Id = id,
                             Instance = null,
-                            FileName = entry.FullName,
+                            EntryName = entry.FullName,
                             FileSize = entry.Length,
                             LastWriteTime = entry.LastWriteTime.Date,
                         });
@@ -71,10 +67,10 @@ namespace NeeView
         // エントリーのストリームを得る
         public override Stream OpenStream(ArchiveEntry entry)
         {
-            using (var archiver = ZipFile.OpenRead(_ArchiveFileName))
+            using (var archiver = ZipFile.OpenRead(FileName))
             {
                 ZipArchiveEntry archiveEntry = archiver.Entries[entry.Id];
-                if (archiveEntry.FullName != entry.FileName)
+                if (archiveEntry.FullName != entry.EntryName)
                 {
                     throw new ApplicationException("ページデータの不整合");
                 }
@@ -92,7 +88,7 @@ namespace NeeView
         //
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            using (var archiver = ZipFile.OpenRead(_ArchiveFileName))
+            using (var archiver = ZipFile.OpenRead(FileName))
             {
                 ZipArchiveEntry archiveEntry = archiver.Entries[entry.Id];
                 archiveEntry.ExtractToFile(exportFileName, isOverwrite);

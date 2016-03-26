@@ -63,7 +63,7 @@ namespace NeeView
         public string Place { get; protected set; }
 
         // ページ名
-        public string FileName => Entry?.FileName;
+        public string FileName => Entry?.EntryName;
 
         // ページ名：フルパス
         public string FullPath { get { return LoosePath.Combine(Place, FileName); } }

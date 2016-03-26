@@ -41,7 +41,7 @@ namespace NeeView
                 }
             }
 
-            var bmpSource = ModelContext.Susie?.GetPicture(entry.FileName, buff, true, out _SusiePlugin); // ファイル名は識別用
+            var bmpSource = ModelContext.Susie?.GetPicture(entry.EntryName, buff, true, out _SusiePlugin); // ファイル名は識別用
             if (bmpSource == null) return null;
 
             var info = new FileBasicInfo();

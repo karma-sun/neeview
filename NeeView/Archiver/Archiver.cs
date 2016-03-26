@@ -31,7 +31,7 @@ namespace NeeView
     public abstract class Archiver : IDisposable
     {
         // アーカイブのパス
-        public abstract string FileName { get; }
+        public string FileName { get; protected set; }
 
         // ファイルシステムの場合はtrue
         public virtual bool IsFileSystem { get; } = false;

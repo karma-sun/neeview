@@ -25,18 +25,14 @@ namespace NeeView
 
         public static bool IsEnable { get; set; }
 
-        private string _ArchiveFileName;
-        public override string FileName => _ArchiveFileName;
-
         private Susie.SusiePlugin _SusiePlugin;
 
         private object _Lock = new object();
 
-
         // コンストラクタ
         public SusieArchiver(string archiveFileName)
         {
-            _ArchiveFileName = archiveFileName;
+            FileName = archiveFileName;
         }
 
         // サポート判定
@@ -50,7 +46,7 @@ namespace NeeView
         {
             if (_SusiePlugin == null)
             {
-                _SusiePlugin = ModelContext.Susie?.GetArchivePlugin(_ArchiveFileName, true);
+                _SusiePlugin = ModelContext.Susie?.GetArchivePlugin(FileName, true);
             }
             return _SusiePlugin;
         }
@@ -61,7 +57,7 @@ namespace NeeView
             var plugin = GetPlugin();
             if (plugin == null) throw new NotSupportedException();
 
-            var infoCollection = plugin.GetArchiveInfo(_ArchiveFileName);
+            var infoCollection = plugin.GetArchiveInfo(FileName);
             if (infoCollection == null) throw new NotSupportedException();
 
             var list = new List<ArchiveEntry>();
@@ -75,7 +71,7 @@ namespace NeeView
                     {
                         Archiver = this,
                         Id = id,
-                        FileName = name,
+                        EntryName = name,
                         FileSize = entry.FileSize,
                         LastWriteTime = entry.TimeStamp,
                         Instance = entry,

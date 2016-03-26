@@ -379,23 +379,23 @@ namespace NeeView
             {
                 // 再帰設定、もしくは単一ファイルの場合、再帰を行う
                 bool isRecursive = (option & BookLoadOption.Recursive) == BookLoadOption.Recursive;
-                if ((isRecursive || entries.Count == 1) && ModelContext.ArchiverManager.IsSupported(entry.FileName))
+                if ((isRecursive || entries.Count == 1) && ModelContext.ArchiverManager.IsSupported(entry.EntryName))
                 {
                     bool result = false;
                     if (archiver.IsFileSystem)
                     {
-                        result = ReadArchive(ModelContext.ArchiverManager.CreateArchiver(archiver.GetFileSystemPath(entry), archiver), LoosePath.Combine(place, entry.FileName), option);
+                        result = ReadArchive(ModelContext.ArchiverManager.CreateArchiver(archiver.GetFileSystemPath(entry), archiver), LoosePath.Combine(place, entry.EntryName), option);
                     }
                     else
                     {
                         // テンポラリにアーカイブを解凍する
-                        string tempFileName = Temporary.CreateTempFileName(Path.GetFileName(entry.FileName));
+                        string tempFileName = Temporary.CreateTempFileName(Path.GetFileName(entry.EntryName));
                         try
                         {
                             archiver.ExtractToFile(entry, tempFileName, false);
                             _TrashBox.Add(new TrashFile(tempFileName));
 
-                            result = ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName, archiver), LoosePath.Combine(place, entry.FileName), option);
+                            result = ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName, archiver), LoosePath.Combine(place, entry.EntryName), option);
                             if (!result)
                             {
                                 AddPage(archiver, entry, place, option);
@@ -421,14 +421,14 @@ namespace NeeView
         // ページを追加する
         private void AddPage(Archiver archiver, ArchiveEntry entry, string place, BookLoadOption option)
         {
-            if (ModelContext.BitmapLoaderManager.IsSupported(entry.FileName))
+            if (ModelContext.BitmapLoaderManager.IsSupported(entry.EntryName))
             {
                 var page = new BitmapPage(archiver, entry, place);
                 Pages.Add(page);
             }
             else
             {
-                var type = ModelContext.ArchiverManager.GetSupportedType(entry.FileName);
+                var type = ModelContext.ArchiverManager.GetSupportedType(entry.EntryName);
                 bool isSupportAllFile = (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile;
                 if (isSupportAllFile)
                 {

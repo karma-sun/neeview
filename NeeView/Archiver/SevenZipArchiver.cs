@@ -24,11 +24,7 @@ namespace NeeView
             return "7zip.dll";
         }
 
-        private string _ArchiveFileName;
-        public override string FileName => _ArchiveFileName;
-
         private static object _Lock = new object();
-
 
         //
         static SevenZipArchiver()
@@ -42,7 +38,7 @@ namespace NeeView
         // コンストラクタ
         public SevenZipArchiver(string archiveFileName)
         {
-            _ArchiveFileName = archiveFileName;
+            FileName = archiveFileName;
         }
 
         // サポート判定
@@ -58,7 +54,7 @@ namespace NeeView
 
             lock (_Lock)
             {
-                using (var archive = new SevenZipExtractor(_ArchiveFileName))
+                using (var archive = new SevenZipExtractor(FileName))
                 {
                     for (int id = 0; id < archive.ArchiveFileData.Count; ++id)
                     {
@@ -69,7 +65,7 @@ namespace NeeView
                             {
                                 Archiver = this,
                                 Id = id,
-                                FileName = entry.FileName,
+                                EntryName = entry.FileName,
                                 FileSize = (long)entry.Size,
                                 LastWriteTime = entry.LastWriteTime,
                             });
@@ -94,11 +90,11 @@ namespace NeeView
                 {
                     lock (_Lock)
                     {
-                        archive = new SevenZipExtractor(_ArchiveFileName);
+                        archive = new SevenZipExtractor(FileName);
                     }
 
                     var archiveEntry = archive.ArchiveFileData[entry.Id];
-                    if (archiveEntry.FileName != entry.FileName)
+                    if (archiveEntry.FileName != entry.EntryName)
                     {
                         throw new ApplicationException("ページデータの不整合");
                     }
@@ -131,7 +127,7 @@ namespace NeeView
             {
                 lock (_Lock)
                 {
-                    archive = new SevenZipExtractor(_ArchiveFileName);
+                    archive = new SevenZipExtractor(FileName);
                 }
 
                 using (Stream fs = new FileStream(exportFileName, FileMode.Create, FileAccess.Write))

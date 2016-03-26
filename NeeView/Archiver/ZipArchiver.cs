@@ -55,7 +55,7 @@ namespace NeeView
                             Instance = null,
                             EntryName = entry.FullName,
                             FileSize = entry.Length,
-                            LastWriteTime = entry.LastWriteTime.Date,
+                            LastWriteTime = entry.LastWriteTime.DateTime,
                         });
                     }
                 }

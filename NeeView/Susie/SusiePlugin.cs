@@ -223,7 +223,9 @@ namespace Susie
                 using (var api = Open())
                 {
                     string shortPath = Win32Api.GetShortPathName(fileName);
-                    return new ArchiveEntryCollection(this, fileName, api.GetArchiveInfo(shortPath));
+                    var entries = api.GetArchiveInfo(shortPath);
+                    if (entries == null) throw new ApplicationException($"{this.Name}: 書庫情報の取得に失敗しました");
+                    return new ArchiveEntryCollection(this, fileName, entries);
                 }
             }
         }
@@ -247,7 +249,9 @@ namespace Susie
                 {
                     string shortPath = Win32Api.GetShortPathName(fileName);
                     if (!api.IsSupported(shortPath, head)) return null;
-                    return new ArchiveEntryCollection(this, fileName, api.GetArchiveInfo(shortPath));
+                    var entries = api.GetArchiveInfo(shortPath);
+                    if (entries == null) throw new ApplicationException($"{this.Name}: 書庫情報の取得に失敗しました");
+                    return new ArchiveEntryCollection(this, fileName, entries);
                 }
             }
         }

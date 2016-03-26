@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +12,6 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-
     /// <summary>
     /// アーカイブエントリ
     /// </summary>

@@ -103,7 +103,7 @@ namespace NeeView
             if (!System.IO.Directory.Exists(SusiePluginPath)) return null;
 
             // 現在のパスで有効なものをリストアップ
-            var spiList = spiListSource.Where(e => Path.GetDirectoryName(e) == SusiePluginPath).ToList();
+            var spiList = spiListSource.Where(e => Path.GetDirectoryName(e) == SusiePluginPath.TrimEnd('\\', '/')).ToList();
 
             // 新しいSPI追加
             try

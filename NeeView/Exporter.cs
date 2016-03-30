@@ -186,7 +186,15 @@ namespace NeeView
                     RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
                     stackPanel.Children.Add(image);
 
-                    stackPanel.Width += image.Width;
+                    if (page == sortedPages[0])
+                    {
+                        stackPanel.Width += image.Width;
+                    }
+                    else
+                    {
+                        image.Margin = new Thickness(-1, 0, 0, 0);
+                        stackPanel.Width += image.Width - 1;
+                    }
                 }
 
                 DoubleImage.VisualContent = stackPanel;

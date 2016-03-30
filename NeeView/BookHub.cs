@@ -732,7 +732,7 @@ namespace NeeView
                 {
                     var pages = Current.GetViewPages();
                     int index = Current.GetViewPageindex() + 1;
-                    string name = $"{Path.GetFileNameWithoutExtension(Current.Place)}_{index:000}-{index + pages.Count - 1:000}";
+                    string name = $"{Path.GetFileNameWithoutExtension(Current.Place)}_{index:000}-{index + pages.Count - 1:000}.png";
                     var exporter = new Exporter();
                     exporter.Initialize(pages, Current.BookReadOrder, name);
                     if (Messenger.Send(this, new MessageEventArgs("Export") { Parameter = exporter }) == true)

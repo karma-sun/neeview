@@ -421,6 +421,17 @@ namespace NeeView
         // コンテンツ
         public ObservableCollection<ViewContent> Contents { get; private set; }
 
+        // コンテンツマージン
+        #region Property: ContentsMargin
+        private Thickness _ContentsMargin;
+        public Thickness ContentsMargin
+        {
+            get { return _ContentsMargin; }
+            set { _ContentsMargin = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+
         // 見開き時のメインとなるコンテンツ
         #region Property: MainContent
         private ViewContent _MainContent;
@@ -924,12 +935,25 @@ namespace NeeView
             UpdateContentSize();
         }
 
+
         // コンテンツ表示サイズを更新
         private void UpdateContentSize()
         {
             if (!Contents.Any(e => e.IsValid)) return;
 
-            var sizes = CalcContentSize(_ViewWidth * _DpiScaleFactor.X, _ViewHeight * _DpiScaleFactor.Y);
+            // 2ページ表示時は重なり補正を行う
+            double offsetWidth = 0;
+            if (Contents[0].Size.Width > 0.5 && Contents[1].Size.Width > 0.5)
+            {
+                offsetWidth = 1.0 / _DpiScaleFactor.X;
+                ContentsMargin = new Thickness(-offsetWidth, 0, 0, 0);
+            }
+            else
+            {
+                ContentsMargin = new Thickness(0);
+            }
+
+            var sizes = CalcContentSize(_ViewWidth * _DpiScaleFactor.X + offsetWidth, _ViewHeight * _DpiScaleFactor.Y);
 
             for (int i = 0; i < 2; ++i)
             {

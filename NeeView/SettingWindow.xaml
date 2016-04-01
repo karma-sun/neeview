@@ -75,6 +75,8 @@
                               IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
                             <CheckBox Margin="2" Content="ページが終わったら次のフォルダに移動する"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnabledAutoNextFolder}" />
+                            <CheckBox Margin="2" Content="ページがない場合、サブフォルダも読み込むか問い合わせる"
+                              IsChecked="{Binding Setting.BookHubMemento.IsConfirmRecursive}" />
                         </StackPanel>
 
 

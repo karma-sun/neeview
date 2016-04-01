@@ -144,7 +144,20 @@
 
             <!-- 情報エリア -->
             <Grid x:Name="InfoArea" HorizontalAlignment="Left" Width="250" MouseLeftButtonDown="InfoArea_MouseLeftButtonDown">
-                <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}"/>
+                <!--
+                <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}" d:IsHidden="True"/>
+-->
+                <ListBox x:Name="FolderList" Margin="0,30" Focusable="False"
+                         ItemsSource="{Binding FolderList}" SelectedIndex="{Binding FolderListIndex}" SelectionChanged="FolderList_SelectionChanged" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="32" Height="32" Fill="Gray"/>
+                                <TextBlock Text="{Binding Name}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
 
             <!-- メニューエリア-->

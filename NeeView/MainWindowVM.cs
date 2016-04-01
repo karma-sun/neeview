@@ -503,6 +503,26 @@ namespace NeeView
         // 本管理
         public BookHub BookHub { get; private set; }
 
+        // フォルダリスト
+        public List<FolderInfo> FolderList
+        {
+            get
+            {
+                return BookHub.FolderCollection.Items;
+            }
+        }
+        private int _FolderListIndex;
+        public int FolderListIndex
+        {
+            get { return _FolderListIndex; }
+            set { _FolderListIndex = value; BookHub.LoadMaybe(_FolderListIndex); }
+        }
+        private void RefleshFolderListIndex()
+        {
+            _FolderListIndex = BookHub.FolderCollection.SelectedIndex;
+            OnPropertyChanged(nameof(FolderListIndex));
+        }
+
 
         // 標準ウィンドウタイトル
         private string _DefaultWindowTitle;
@@ -608,6 +628,16 @@ namespace NeeView
             BookHub.EmptyMessage +=
                 (s, e) => EmptyPageMessage = e;
 
+            BookHub.FolderListChanged +=
+                (s, e) =>
+                {
+                    OnPropertyChanged(nameof(FolderList));
+                    RefleshFolderListIndex();
+                };
+
+            BookHub.FolderListSelectedIndexChanged +=
+                (s, e) => RefleshFolderListIndex();
+
             // CommandTable
             ModelContext.CommandTable.SetTarget(this, BookHub);
 
@@ -645,11 +675,17 @@ namespace NeeView
         // 本が変更された
         private void OnBookChanged(object sender, bool isBookmark)
         {
+            if (BookHub?.Current?.Place == null)
+            {
+                Debug.WriteLine("NULL PO!");
+            }
+
             var title = LoosePath.GetFileName(BookHub.Current.Place);
 
             switch (NoticeShowMessageStyle)
             {
                 case ShowMessageStyle.Normal:
+                    App.Current.Dispatcher.Invoke(() =>
                     Messenger.Send(this, new MessageEventArgs("MessageShow")
                     {
                         Parameter = new MessageShowParams(title)
@@ -657,16 +693,17 @@ namespace NeeView
                             IsBookmark = isBookmark,
                             DispTime = 2.0
                         }
-                    });
+                    }));
+
                     break;
                 case ShowMessageStyle.Tiny:
                     TinyInfoText = title;
                     break;
             }
 
-
             OnPropertyChanged(nameof(Index));
             OnPropertyChanged(nameof(IndexMax));
+            //OnPropertyChanged(nameof(FolderListIndex));
 
             UpdateLastFiles();
 
@@ -1176,7 +1213,7 @@ namespace NeeView
         // フォルダ読み込み
         public void Load(string path)
         {
-            BookHub.Load(path, BookLoadOption.None);
+            BookHub.RequestLoad(path, BookLoadOption.None, true);
         }
 
         // ドラッグ＆ドロップ取り込み失敗

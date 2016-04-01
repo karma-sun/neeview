@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -751,10 +752,28 @@ namespace NeeView
         {
             this.MainView.Focus();
         }
+
+        private void FolderList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+#if false
+            var listBox = sender as ListBox;
+            var item = listBox.SelectedItem as FolderInfo;
+            if (item != null)
+            {
+                BookCommands[CommandType.LoadAs].Execute(item.Path, this);
+                //BookCommands[CommandType.LoadAs].Execute()
+            }
+#endif
+            var listBox = sender as ListBox;
+            if (listBox != null)
+            {
+                listBox.ScrollIntoView(listBox.SelectedItem);
+            }
+        }
     }
 
 
-    #region Convertes
+#region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -905,5 +924,5 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 }

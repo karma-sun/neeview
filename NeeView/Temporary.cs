@@ -33,7 +33,7 @@ namespace NeeView
 
             TempDirectoryBaseName = processName; //  asmprd.Product;
             TempDirectory = Path.Combine(Path.GetTempPath(), TempDirectoryBaseName) + processId.ToString();
-            TempDownloadDirectory = Path.Combine(Temporary.TempDirectory, "Downloads");
+            TempDownloadDirectory = Path.Combine(Temporary.TempDirectory, "(一時フォルダ)");
         }
 
         // アプリのテンポラリフォルダ(BaseName)

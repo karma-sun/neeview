@@ -34,7 +34,7 @@ namespace NeeView
 
         private MouseDragController _MouseDrag;
         private MouseGestureManager _MouseGesture;
-        
+
         private ContentDropManager _ContentDrop = new ContentDropManager();
 
         private bool _NowLoading = false;
@@ -490,8 +490,7 @@ namespace NeeView
                 }
             }
 
-            bool isMenuDock = false;
-            bool isFileInfoDock = false;
+            bool isMenuDock;
 
             // menu hide
             if (_VM.IsFullScreen || _VM.IsHideMenu)
@@ -499,6 +498,7 @@ namespace NeeView
                 var autoHideStyle = (Style)this.Resources["AutoHideContent"];
                 this.MenuArea.Style = autoHideStyle;
                 this.StatusArea.Style = autoHideStyle;
+                isMenuDock = false;
             }
             else
             {
@@ -507,26 +507,17 @@ namespace NeeView
                 isMenuDock = true;
             }
 
-            //
-            if (_VM.IsVisibleFileInfo)
-            {
-                isFileInfoDock = true;
-                this.InfoArea.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                isFileInfoDock = false;
-                this.InfoArea.Visibility = Visibility.Collapsed;
-            }
+            // ウィンドウ表示設定
+            this.FolderListArea.Visibility = _VM.IsVisibleFolderList ? Visibility.Visible : Visibility.Collapsed;
+            this.InfoArea.Visibility = _VM.IsVisibleFileInfo ? Visibility.Visible : Visibility.Collapsed;
 
-            //
-            this.MainView.Margin = new Thickness(
-                isFileInfoDock ? this.InfoArea.ActualWidth : 0,
-                isMenuDock ? this.MenuArea.ActualHeight : 0,
-                0,
-                isMenuDock ? this.StatusArea.ActualHeight : 0);
+            // ビュー領域設定
+            this.ViewArea.Margin = new Thickness(0, isMenuDock ? this.MenuArea.ActualHeight : 0, 0, 0);
 
+            // コンテンツ表示領域設定
+            this.MainView.Margin = new Thickness(0, 0, 0, isMenuDock ? this.StatusArea.ActualHeight : 0);
 
+            // 通知表示位置設定
             this.TinyInfoTextBlock.Margin = new Thickness(0, 0, 0, this.StatusArea.ActualHeight);
             this.NowLoadingTiny.Margin = new Thickness(0, 0, 0, this.StatusArea.ActualHeight);
         }
@@ -698,16 +689,21 @@ namespace NeeView
             element.BeginAnimation(UIElement.OpacityProperty, ani);
         }
 
+
+        // 現在のNowLoading表示状態
+        private bool isDispNowLoading = false;
+
         /// <summary>
         /// NowLoadinの表示/非表示
         /// </summary>
         /// <param name="isDisp"></param>
         private void DispNowLoading(bool isDisp)
         {
+            if (isDispNowLoading == isDisp) return;
+            isDispNowLoading = isDisp;
+
             if (isDisp && _VM.NowLoadingShowMessageStyle != ShowMessageStyle.None)
             {
-                this.NowLoading.Opacity = 0.0;
-
                 if (_VM.NowLoadingShowMessageStyle == ShowMessageStyle.Normal)
                 {
                     this.NowLoadingNormal.Visibility = Visibility.Visible;
@@ -719,9 +715,9 @@ namespace NeeView
                     this.NowLoadingTiny.Visibility = Visibility.Visible;
                 }
 
-                var ani = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
+                var ani = new DoubleAnimation(1, TimeSpan.FromSeconds(0.5));
                 ani.BeginTime = TimeSpan.FromSeconds(1.0);
-                this.NowLoading.BeginAnimation(UIElement.OpacityProperty, ani);
+                this.NowLoading.BeginAnimation(UIElement.OpacityProperty, ani, HandoffBehavior.SnapshotAndReplace);
 
                 var aniRotate = new DoubleAnimation();
                 aniRotate.By = 360;
@@ -732,7 +728,7 @@ namespace NeeView
             else
             {
                 var ani = new DoubleAnimation(0, TimeSpan.FromSeconds(0.5));
-                this.NowLoading.BeginAnimation(UIElement.OpacityProperty, ani, HandoffBehavior.Compose);
+                this.NowLoading.BeginAnimation(UIElement.OpacityProperty, ani, HandoffBehavior.SnapshotAndReplace);
 
                 var aniRotate = new DoubleAnimation();
                 aniRotate.By = 90;
@@ -753,17 +749,9 @@ namespace NeeView
             this.MainView.Focus();
         }
 
+        // フォルダリスト 選択項目変更
         private void FolderList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-#if false
-            var listBox = sender as ListBox;
-            var item = listBox.SelectedItem as FolderInfo;
-            if (item != null)
-            {
-                BookCommands[CommandType.LoadAs].Execute(item.Path, this);
-                //BookCommands[CommandType.LoadAs].Execute()
-            }
-#endif
             var listBox = sender as ListBox;
             if (listBox != null)
             {
@@ -773,7 +761,7 @@ namespace NeeView
     }
 
 
-#region Convertes
+    #region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -924,5 +912,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

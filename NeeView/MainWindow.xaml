@@ -11,6 +11,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
+        xmlns:osc="clr-namespace:OpenSourceControls"
         mc:Ignorable="d"
         Title="{Binding WindowTitle}" Icon="{Binding WindowIcon}" Height="768" Width="1024" AllowDrop="True"
         Topmost="{Binding IsTopmost}"
@@ -41,6 +42,66 @@
             </Style.Triggers>
         </Style>
 
+
+        <!-- Styling the DockPanelSplitter -->
+        <Style x:Key="HorizontalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
+            <Setter Property="Thickness" Value="6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
+                        <Grid ToolTip="Resize" SnapsToDevicePixels="True" Background="LightGray">
+                            <!-- Grip -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Rectangle Width="2" Height="2" Fill="#5A000000"/>
+                                <Rectangle Width="2" Height="2" Margin="2 0 2 0" Fill="#5A000000"/>
+                                <Rectangle Width="2" Height="2" Fill="#5A000000"/>
+                                <!-- (could also use an image or a drawing) -->
+                            </StackPanel>
+                            <!-- Bevels -->
+                            <Border BorderBrush="#5AFFFFFF" BorderThickness="0,1,0,0"/>
+                            <Border BorderBrush="#5A000000" BorderThickness="0,0,0,1"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="VerticalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
+            <Setter Property="Thickness" Value="6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
+                        <Grid ToolTip="Resize" SnapsToDevicePixels="True" Background="LightGray">
+                            <!-- Grip -->
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                <Rectangle Width="2" Height="2" Fill="#5A000000"/>
+                                <Rectangle Width="2" Height="2" Margin="0 2 0 2" Fill="#5A000000"/>
+                                <Rectangle Width="2" Height="2" Fill="#5A000000"/>
+                                <!-- (could also use an image or a drawing) -->
+                            </StackPanel>
+                            <!-- Bevels -->
+                            <!--
+                            <Border BorderBrush="#5AFFFFFF" BorderThickness="1,0,0,0"/>
+                            <Border BorderBrush="#5A000000" BorderThickness="0,0,1,0"/>
+                            -->
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="VerticalBevelGripDark" TargetType="{x:Type osc:DockPanelSplitter}">
+            <Setter Property="Thickness" Value="6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
+                        <Grid ToolTip="Resize" SnapsToDevicePixels="True" Background="#FF101010">
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
         <local:IsGreaterThanConverter x:Key="IsGreaterThanConverter"/>
@@ -86,79 +147,128 @@
         <!-- 製品表示領域 -->
         <Grid x:Name="Root" Background="{Binding BackgroundBrush}">
 
-            <!-- メインビュー -->
-            <Grid x:Name="MainView"  Background="{Binding BackgroundBrush}" SizeChanged="MainView_SizeChanged" Focusable="True">
+            <!--  ビューエリア -->
+            <DockPanel x:Name="ViewArea">
 
-                <!-- Pages -->
-                <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
+                <!-- フォルダリスト -->
+                <DockPanel  x:Name="FolderListArea" DockPanel.Dock="Left"  Width="250">
+                    <!--
+                    <Grid DockPanel.Dock="Bottom" MinWidth="200" Height="250" Background="Gray" >
+                        <TextBlock Text="ここにフォルダ情報を表示予定"/>
+                    </Grid>
+                    -->
+                    <ListBox x:Name="FolderList" Focusable="False" 
+                         ItemsSource="{Binding FolderList}" SelectedIndex="{Binding FolderListIndex}" SelectionChanged="FolderList_SelectionChanged" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="24" Height="24" Source="{Binding Icon}"/>
+                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5,0" VerticalAlignment="Center"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+                <osc:DockPanelSplitter x:Name="FolderListSplitter" DockPanel.Dock="Left" Style="{StaticResource VerticalBevelGrip}" ProportionalResize="False"
+                                       Visibility="{Binding ElementName=FolderListArea, Path=Visibility}" />
+
+                <!-- 情報エリア -->
+                <Grid x:Name="InfoArea" DockPanel.Dock="Right" Width="250" MouseLeftButtonDown="InfoArea_MouseLeftButtonDown">
+                    <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}" d:IsHidden="True"/>
+                </Grid>
+                <osc:DockPanelSplitter x:Name="InfoAreaSplitter" DockPanel.Dock="Right" Style="{StaticResource VerticalBevelGrip}" ProportionalResize="False"
+                                       Visibility="{Binding ElementName=InfoArea, Path=Visibility}" />
+
+                <!-- メインビュー -->
+                <Grid  Panel.ZIndex="-1">
+                    <!-- メインビュー コンテンツ表示領域 -->
+                    <Grid x:Name="MainView" Background="{Binding BackgroundBrush}" SizeChanged="MainView_SizeChanged" Focusable="True" >
+                        <!-- Pages -->
+                        <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Canvas.Resources>
-                        <Style TargetType="TextBlock" x:Key="ContentProperty">
-                            <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="Background" Value="#80000000"/>
-                            <Setter Property="Padding" Value="10,5"/>
-                            <Style.Triggers>
-                                <Trigger Property="Text" Value="">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Canvas.Resources>
-                    <StackPanel x:Name="MainContent" Orientation="Horizontal">
-                        <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
-                        <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
-                    </StackPanel>
-                </Canvas>
-
-                <!-- Pages Shadow (表示領域計算用) -->
-                <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
-                        HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
-                        <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
-                        <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Margin="{Binding ContentsMargin}"/>
-                    </StackPanel>
-                </Canvas>
-
-                <!-- empty pages message -->
-
-                <Grid Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True" >
-                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <TextBlock  Text="読み込めるファイルがありません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
-
-                        <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Visible"/>
+                            <Canvas.Resources>
+                                <Style TargetType="TextBlock" x:Key="ContentProperty">
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="Background" Value="#80000000"/>
+                                    <Setter Property="Padding" Value="10,5"/>
                                     <Style.Triggers>
                                         <Trigger Property="Text" Value="">
                                             <Setter Property="Visibility" Value="Collapsed"/>
                                         </Trigger>
                                     </Style.Triggers>
-
                                 </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </StackPanel>
-                </Grid>
-            </Grid>
-
-            <!-- 情報エリア -->
-            <Grid x:Name="InfoArea" HorizontalAlignment="Left" Width="250" MouseLeftButtonDown="InfoArea_MouseLeftButtonDown">
-                <!--
-                <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}" d:IsHidden="True"/>
--->
-                <ListBox x:Name="FolderList" Margin="0,30" Focusable="False"
-                         ItemsSource="{Binding FolderList}" SelectedIndex="{Binding FolderListIndex}" SelectionChanged="FolderList_SelectionChanged" >
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="32" Height="32" Fill="Gray"/>
-                                <TextBlock Text="{Binding Name}"></TextBlock>
+                            </Canvas.Resources>
+                            <StackPanel x:Name="MainContent" Orientation="Horizontal">
+                                <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
+                                <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
                             </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Grid>
+                        </Canvas>
+                        <!-- Pages Shadow (表示領域計算用) -->
+                        <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
+                                <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
+                                <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Margin="{Binding ContentsMargin}"/>
+                            </StackPanel>
+                        </Canvas>
+                    </Grid>
+
+                    <!-- empty pages message -->
+                    <Grid Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True" >
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock  Text="読み込めるファイルがありません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
+
+                            <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="Text" Value="">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Now Loading -->
+                    <Grid x:Name="NowLoading" Opacity="0" IsHitTestVisible="False">
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=NowLoading, Path=Opacity, Converter={StaticResource IsLessThanConverter}, ConverterParameter=0.01}" Value="True">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <Grid x:Name="NowLoadingNormal" Background="Black">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Name="NowLoadingText" Text="Now Loading"  TextAlignment="Center" VerticalAlignment="Center"
+                           Foreground="White" FontFamily="Meiryo" FontSize="{Binding InfoTextFontSize}" Margin="8" TextTrimming="CharacterEllipsis"/>
+                                <Grid Width="50" Height="50">
+                                    <Rectangle Width="5" Height="25" Fill="#FF00B5FF" RenderTransformOrigin="0.5,0.5">
+                                        <Rectangle.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform/>
+                                                <SkewTransform/>
+                                                <RotateTransform x:Name="NowLoadingMarkAngle" Angle="45"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </Rectangle.RenderTransform>
+                                    </Rectangle>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock x:Name="NowLoadingTiny" Text="Now Loading ..." VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False"/>
+                    </Grid>
+                </Grid>
+
+            </DockPanel>
 
             <!-- メニューエリア-->
             <Grid x:Name="MenuArea" VerticalAlignment="Top">
@@ -233,6 +343,8 @@
                               IsChecked="{Binding Background,Converter={StaticResource BackgroundStyleToBooleanConverter},ConverterParameter=Check,Mode=OneWay}" />
 
                         <Separator/>
+                        <MenuItem Header="フォルダーリストを表示" Command="{Binding BookCommands[ToggleVisibleFolderList]}"
+                            IsChecked="{Binding IsVisibleFolderList}"/>
                         <MenuItem Header="ファイル情報を表示" Command="{Binding BookCommands[ToggleVisibleFileInfo]}"
                             IsChecked="{Binding IsVisibleFileInfo}"/>
                         <Separator/>
@@ -344,39 +456,6 @@
                     </Slider.Style>
                 </Slider>
             </DockPanel>
-
-            <!-- Now Loading -->
-            <Grid x:Name="NowLoading" Opacity="0" IsHitTestVisible="False">
-                <Grid.Style>
-                    <Style TargetType="Grid">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=NowLoading, Path=Opacity, Converter={StaticResource IsLessThanConverter}, ConverterParameter=0.01}" Value="True">
-                                <Setter Property="Visibility" Value="Hidden"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
-                <Grid x:Name="NowLoadingNormal" Background="Black">
-                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
-                        <TextBlock x:Name="NowLoadingText" Text="Now Loading"  TextAlignment="Center" VerticalAlignment="Center"
-                           Foreground="White" FontFamily="Meiryo" FontSize="{Binding InfoTextFontSize}" Margin="8" TextTrimming="CharacterEllipsis"/>
-                        <Grid Width="50" Height="50">
-                            <Rectangle Width="5" Height="25" Fill="#FF00B5FF" RenderTransformOrigin="0.5,0.5">
-                                <Rectangle.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform/>
-                                        <RotateTransform x:Name="NowLoadingMarkAngle" Angle="45"/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
-                        </Grid>
-                    </StackPanel>
-                </Grid>
-
-                <TextBlock x:Name="NowLoadingTiny" Text="Now Loading ..." VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False"/>
-            </Grid>
 
             <!-- Message Tiny -->
             <TextBlock x:Name="TinyInfoTextBlock" Text="{Binding TinyInfoText}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False">

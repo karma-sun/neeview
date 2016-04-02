@@ -17,189 +17,18 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 // v1.6
-// TODO: ファイル情報表示と共存。FキーでON/OFF。DockPanel化？
-// TODO: フォルダアイコン
-// TODO: 背景ダーク
-// TODO: NowLoading表示が激しく切り替わる時の不具合
-// TODO: 本移動のタスクコマンド化
-// TODO: ロード命令：プレースと初期ページ名の２つを渡すように変更
-// TODO: コード整備
 // TODO: 履歴との兼ね合い。ページ送りしなかったブックは履歴に保存しない？
+// TODO: フォルダツリー化
+// TODO: 背景ダーク
+// TODO: 水平スクロールバー非表示
+// TODO: 高速切替でテンポラリが残るバグ
+// TODO: クリックもしくは決定(改行)でロードするように
 // ----------------------------
-// TODO: フォルダサムネイル(非同期) v1.7?～
+// TODO: [v1.7] フォルダ情報表示
+// TODO: [v1.7] フォルダサムネイル(非同期) 
 
 namespace NeeView
 {
-    // フォルダ情報
-    public class FolderInfo
-    {
-        public string Path { get; set; }
-        public BitmapSource Thumbnail { get; set; }
-
-        public string Name { get { return System.IO.Path.GetFileName(Path); } }
-    }
-
-    public class FolderColelction
-    {
-        public event EventHandler ItemsChanged;
-        public event EventHandler SelectedIndexChanged;
-
-        // indexer
-        public FolderInfo this[int index]
-        {
-            get { return Items[index]; }
-            private set { Items[index] = value; }
-        }
-
-        #region Property: Items
-        private List<FolderInfo> _Items;
-        public List<FolderInfo> Items
-        {
-            get { return _Items; }
-            private set
-            {
-                if (_Items != value)
-                {
-                    _Items = value;
-                    ItemsChanged?.Invoke(this, null);
-                }
-            }
-        }
-        #endregion
-
-        #region Property: Place
-        private string _Place;
-        public string Place
-        {
-            get { return _Place; }
-            set
-            {
-                //var path = File.Exists(value) ? Path.GetDirectoryName(value) : value;
-                var path = Path.GetDirectoryName(value);
-                if (_Place != path)
-                {
-                    _Place = path;
-                    _IsDarty = true;
-                }
-            }
-        }
-        #endregion
-
-        #region Property: FolderOrder
-        private FolderOrder _FolderOrder;
-        public FolderOrder FolderOrder
-        {
-            get { return _FolderOrder; }
-            set
-            {
-                if (_FolderOrder != value)
-                {
-                    _FolderOrder = value;
-                    _IsDarty = true;
-                }
-            }
-        }
-        #endregion
-
-        #region Property: RandomSeed
-        private int _RandomSeed;
-        public int RandomSeed
-        {
-            get { return _RandomSeed; }
-            set
-            {
-                if (_RandomSeed != value)
-                {
-                    _RandomSeed = value;
-                    if (FolderOrder == FolderOrder.Random) _IsDarty = true;
-                }
-            }
-        }
-        #endregion
-
-        private bool _IsDarty;
-
-        //
-        public bool IsValid => _Items != null;
-
-        //
-        private string _CurrentPlace;
-
-        //
-        public int SelectedIndex => IndexOfPath(_CurrentPlace);
-
-        //
-        public int IndexOfPath(string path)
-        {
-            return Items.FindIndex(e => e.Path == path);
-        }
-
-        //
-        public void Update(string path, bool isRefleshFolderList, bool isForce)
-        {
-            _CurrentPlace = path ?? _CurrentPlace;
-
-            if (!_IsDarty && !isForce)
-            {
-                if (isRefleshFolderList)
-                {
-                    SelectedIndexChanged?.Invoke(this, null);
-                }
-                return;
-            }
-
-            _IsDarty = false;
-
-            if (Place == null || !Directory.Exists(Place))
-            {
-                Items = null;
-                return;
-            }
-
-            var entries = Directory.GetFileSystemEntries(Place);
-
-            // ディレクトリ、アーカイブ以外は除外
-            var directories = entries.Where(e => Directory.Exists(e) && (new DirectoryInfo(e).Attributes & FileAttributes.Hidden) == 0).ToList();
-            if (FolderOrder == FolderOrder.TimeStamp)
-            {
-                directories = directories.OrderBy((e) => Directory.GetLastWriteTime(e)).ToList();
-            }
-            else
-            {
-                directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
-            }
-            var archives = entries.Where(e => ModelContext.ArchiverManager.IsSupported(e)).ToList();
-            if (FolderOrder == FolderOrder.TimeStamp)
-            {
-                archives = archives.OrderBy((e) => File.GetLastWriteTime(e)).ToList();
-            }
-            else
-            {
-                archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
-            }
-            directories.AddRange(archives);
-
-            // 日付順は逆順にする (エクスプローラー標準にあわせる)
-            if (FolderOrder == FolderOrder.TimeStamp)
-            {
-                directories.Reverse();
-            }
-            // ランダムに並べる
-            else if (FolderOrder == FolderOrder.Random)
-            {
-                var random = new Random(RandomSeed);
-                directories = directories.OrderBy(e => random.Next()).ToList();
-            }
-
-            Items = directories.Select(e => new FolderInfo() { Path = e }).ToList();
-
-            if (isRefleshFolderList)
-            {
-                SelectedIndexChanged?.Invoke(this, null);
-            }
-        }
-    }
-
     /// <summary>
     /// 本の管理
     /// ロード、本の操作はここを通す
@@ -363,12 +192,7 @@ namespace NeeView
 
 
         // 現在の本
-        private Book _Current;
-        public Book Current
-        {
-            get { return _Current; }
-            private set { _Current = value; Debug.WriteLine($"Current = {value?.Place}"); }
-        }
+        public Book Current { get; private set; }
 
         // 本の設定、引き継ぎ用
         public Book.Memento BookMemento { get; set; } = new Book.Memento();
@@ -382,7 +206,7 @@ namespace NeeView
 
 
 
-        //
+        // コンストラクタ
         public BookHub()
         {
             FolderCollection = new FolderColelction();
@@ -408,6 +232,32 @@ namespace NeeView
         }
 
 
+        // フォルダリスト更新コマンド
+        private class UpdateFolderListCommand : BookHubCommand
+        {
+            public override int Priority => 1;
+
+            //
+            public UpdateFolderListCommand(BookHub bookHub) : base(bookHub)
+            {
+            }
+
+            //
+            public override async Task Execute()
+            {
+                _BookHub.FolderCollection.FolderOrder = _BookHub.FolderOrder;
+                _BookHub.FolderCollection.RandomSeed = _BookHub._FolderOrderSeed;
+                _BookHub.FolderCollection.Update(null, true, false);
+                await Task.Yield();
+            }
+        }
+
+        // ロード
+        public void RequestUpdateFolderList()
+        {
+            RegistCommand(new UpdateFolderListCommand(this));
+        }
+
         // ロードコマンド
         private class LoadCommand : BookHubCommand
         {
@@ -428,7 +278,6 @@ namespace NeeView
             public override async Task Execute()
             {
                 await _BookHub.LoadAsync(_Path, _Option, _IsRefleshFolderList);
-                //await Task.Yield();
             }
         }
 
@@ -438,6 +287,7 @@ namespace NeeView
         {
             RegistCommand(new LoadCommand(this, path, option, isRefleshFolderList));
         }
+        
 
 
         // ワーカータスクのキャンセルトークン
@@ -499,9 +349,9 @@ namespace NeeView
 
                     if (command != null)
                     {
-                        Debug.WriteLine("CMD: " + command.ToString());
+                        ////Debug.WriteLine("CMD: " + command.ToString());
                         await command.Execute();
-                        Debug.WriteLine("CMD: " + command.ToString() + " done.");
+                        ////Debug.WriteLine("CMD: " + command.ToString() + " done.");
 
                     }
                 }
@@ -519,9 +369,6 @@ namespace NeeView
                 ////Debug.WriteLine("Bookタスクの終了: " + Place);
             }
         }
-
-
-
 
 
         /// <summary>
@@ -542,7 +389,6 @@ namespace NeeView
                 ViewContentsChanged?.Invoke(this, null);
             }
         }
-
 
 
         // パスから対応するアーカイバを取得する
@@ -578,14 +424,22 @@ namespace NeeView
         }
 
 
-
-
+        /// <summary>
+        /// 本を読み込む
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="option"></param>
+        /// <param name="isRefleshFolderList"></param>
+        /// <returns></returns>
         private async Task LoadAsync(string path, BookLoadOption option, bool isRefleshFolderList)
         {
             try
             {
                 // place
                 string place = GetPlace(path, option);
+
+                // start
+                string startEntry = path == place ? null : Path.GetFileName(path);
 
                 // Now Loading ON
                 App.Current.Dispatcher.Invoke(() => Loading?.Invoke(this, path));
@@ -596,17 +450,8 @@ namespace NeeView
                 FolderCollection.RandomSeed = _FolderOrderSeed;
                 FolderCollection.Update(place, isRefleshFolderList, false);
 
-                //
-                await LoadAsyncCore(path, option);
-
-                if (Current == null)
-                {
-                    Debug.WriteLine("NULLPO");
-                }
-
-                // Now Loading OFF
-                App.Current.Dispatcher.Invoke(() => Loading?.Invoke(this, null));
-
+                // Load本体
+                await LoadAsyncCore(place, startEntry, option);
 
                 // ビュー初期化
                 App.Current.Dispatcher.Invoke(() => ModelContext.CommandTable[CommandType.ViewReset].Execute(null));
@@ -616,8 +461,9 @@ namespace NeeView
 
 
                 // 本の変更通知
-                App.Current.Dispatcher.Invoke(() => BookChanged?.Invoke(this, false)); // ## isBookmark
+                App.Current.Dispatcher.Invoke(() => BookChanged?.Invoke(this, false)); // TODO: isBookmark
 
+                // ページがなかった時の処理
                 if (Current.Pages.Count <= 0)
                 {
                     App.Current.Dispatcher.Invoke(() => EmptyMessage?.Invoke(this, $"\"{Current.Place}\" には読み込めるファイルがありません"));
@@ -627,28 +473,24 @@ namespace NeeView
                         App.Current.Dispatcher.Invoke(() => ConfirmRecursive());
                     }
                 }
-
-
-                Debug.WriteLine(">>");
             }
             catch (Exception e)
             {
                 // 現在表示されているコンテンツを無効
-                App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null)); // ##
+                App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
 
                 // ファイル読み込み失敗通知
                 EmptyMessage?.Invoke(this, e.Message);
             }
             finally
             {
+                // Now Loading OFF
                 App.Current.Dispatcher.Invoke(() => Loading?.Invoke(this, null));
             }
-
         }
 
 
-
-
+        // 再帰読み込み確認
         public void ConfirmRecursive()
         {
             // サブフォルダ確認
@@ -670,14 +512,13 @@ namespace NeeView
 
 
 
-
-
         /// <summary>
-        /// 本を読み込む
+        /// 本を読み込む(本体)
         /// </summary>
         /// <param name="path">本のパス</param>
+        /// <param name="startEntry">開始エントリ</param>
         /// <param name="option">読み込みオプション</param>
-        private async Task LoadAsyncCore(string path, BookLoadOption option)
+        private async Task LoadAsyncCore(string path, string startEntry, BookLoadOption option)
         {
             // 現在の本を開放
             Unload(false);
@@ -685,11 +526,8 @@ namespace NeeView
             // 新しい本を作成
             var book = new Book();
 
-            // 開始エントリ
-            string startEntry = null;
-
             // 履歴を使用したか
-            bool isBookamrk = false;
+            bool isBookamrk = false; // TODO: 利用
 
             // 設定の復元
             if ((option & BookLoadOption.ReLoad) == BookLoadOption.ReLoad)
@@ -702,12 +540,12 @@ namespace NeeView
                 if (IsEnableHistory)
                 {
                     // 履歴が有るときはそれを使用する
-                    var setting = ModelContext.BookHistory.Find(GetArchivePath(path));
+                    var setting = ModelContext.BookHistory.Find(path);
                     if (setting != null && IsEnableHistory)
                     {
                         BookMemento = setting.Clone();
                         book.Restore(BookMemento);
-                        startEntry = setting.BookMark;
+                        startEntry = startEntry ?? setting.BookMark;
                         isBookamrk = true;
                     }
                     // 履歴がないときは設定はそのまま。再帰設定のみOFFにする。
@@ -737,9 +575,6 @@ namespace NeeView
             //
             try
             {
-                // Now Loading ON
-                //Loading?.Invoke(this, path);
-
                 // ロード。非同期で行う
                 await book.Load(path, startEntry, option);
 
@@ -766,81 +601,17 @@ namespace NeeView
                 Current?.Dispose();
                 Current = null;
 
-                // 現在表示されているコンテンツを無効
-                //App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null)); // ##
-
-                // ファイル読み込み失敗通知
-                //EmptyMessage?.Invoke(this, $"{path} の読み込みに失敗しました。\n{e.Message}");
-
                 // 履歴から消去
                 ModelContext.BookHistory.Remove(path);
                 Messenger.Send(this, "UpdateLastFiles");
 
                 throw new ApplicationException($"{path} の読み込みに失敗しました。\n{e.Message}", e);
-                //return;
             }
-            finally
-            {
-                // Now Loading OFF
-                //Loading?.Invoke(this, null);
-            }
-
-            // ビュー初期化
-            //App.Current.Dispatcher.Invoke(() => ModelContext.CommandTable[CommandType.ViewReset].Execute(null));
 
             // 本の設定を退避
             BookMemento = Current.CreateMemento();
-            //SettingChanged?.Invoke(this, null);
-
-            // フォルダリスト更新
-            //FolderCollection.Place = Current?.Place;
-            //FolderCollection.FolderOrder = FolderOrder;
-            //FolderCollection.RandomSeed = _FolderOrderSeed;
-            //FolderCollection.Update(Current?.Place);
-
-            // 本の変更通知
-            //BookChanged?.Invoke(this, isBookamrk);
-
-            //if (Current.Pages.Count <= 0)
-            //{
-            //    EmptyMessage?.Invoke(this, $"\"{Current.Place}\" には読み込めるファイルがありません");
-            //}
-
-            // こいつを表に移動させる
-#if false
-            // サブフォルダ確認
-            if ((option & BookLoadOption.ReLoad) == 0 && Current.Pages.Count <= 0 && !Current.IsRecursiveFolder && Current.SubFolderCount > 0)
-            {
-                var message = new MessageEventArgs("MessageBox");
-                message.Parameter = new MessageBoxParams()
-                {
-                    MessageBoxText = $"\"{Current.Place}\" には読み込めるファイルがありません。\n\nサブフォルダ(書庫)も読み込みますか？",
-                    Caption = "確認",
-                    Button = System.Windows.MessageBoxButton.YesNo,
-                    Icon = MessageBoxExImage.Question
-                };
-                Messenger.Send(this, message);
-
-                if (message.Result == true)
-                {
-                    LoadAsync(Current.Place, BookLoadOption.Recursive | BookLoadOption.ReLoad);
-                }
-            }
-#endif
         }
 
-        //
-        public string GetArchivePath(string path)
-        {
-            if (File.Exists(path) && !ModelContext.ArchiverManager.IsSupported(path))
-            {
-                return Path.GetDirectoryName(path);
-            }
-            else
-            {
-                return path;
-            }
-        }
 
         // 再読み込み
         public void ReLoad(bool isKeepSetting)
@@ -850,7 +621,6 @@ namespace NeeView
                 RequestLoad(Current.Place, isKeepSetting ? BookLoadOption.ReLoad : BookLoadOption.None, true);
             }
         }
-
 
         // ページ終端を超えて移動しようとするときの処理
         private void OnPageTerminated(object sender, int e)
@@ -1019,20 +789,16 @@ namespace NeeView
         public void ToggleFolderOrder()
         {
             FolderOrder = FolderOrder.GetToggle();
-            FolderCollection.FolderOrder = FolderOrder;
-            FolderCollection.RandomSeed = _FolderOrderSeed;
-            FolderCollection.Update(null, true, false);
             SettingChanged?.Invoke(this, null);
+            RequestUpdateFolderList();
         }
 
         // フォルダの並びの設定
         public void SetFolderOrder(FolderOrder order)
         {
             FolderOrder = order;
-            FolderCollection.FolderOrder = FolderOrder;
-            FolderCollection.RandomSeed = _FolderOrderSeed;
-            FolderCollection.Update(null, true, false);
             SettingChanged?.Invoke(this, null);
+            RequestUpdateFolderList();
         }
 
 

@@ -12,7 +12,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="300" >
+             d:DesignHeight="800" d:DesignWidth="300" MinWidth="100" >
 
     <UserControl.Resources>
         <Style x:Key="BlackStyle" TargetType="UserControl">
@@ -26,7 +26,7 @@
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled" Focusable="False">
-        <StackPanel  Margin="10,30">
+        <StackPanel  Margin="5,10">
             <StackPanel.Resources>
                 <Style TargetType="local:FileInfoItem">
                     <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"/>

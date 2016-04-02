@@ -79,6 +79,9 @@
     <Compile Include="Archiver\ArchiveEntry.cs" />
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
+    <Compile Include="FolderCollection.cs" />
+    <Compile Include="Utility\DockPanelSplitter.cs" />
+    <Compile Include="Utility\FileInfo.cs" />
     <Compile Include="Utility\WicDecoders.cs" />
     <Compile Include="ContentDropReciever.cs" />
     <Compile Include="Utility\FileContents.cs" />

@@ -273,10 +273,20 @@ namespace NeeView
                 {
                     Group = "ウィンドウ",
                     Text = "ファイル情報の表示ON/OFF",
-                    ShortCutKey = "I",
+                    ShortCutKey = "F4",
                     IsShowMessage = false,
                     Execute = e => _VM.ToggleVisibleFileInfo(),
                     ExecuteMessage = e => _VM.IsVisibleFileInfo ? "ファイル情報を消す" : "ファイル情報を表示する",
+                    CanExecute = () => true,
+                },
+                [CommandType.ToggleVisibleFolderList] = new CommandElement
+                {
+                    Group = "ウィンドウ",
+                    Text = "フォルダーリストの表示ON/OFF",
+                    ShortCutKey = "F3",
+                    IsShowMessage = false,
+                    Execute = e => _VM.ToggleVisibleFolderList(),
+                    ExecuteMessage = e => _VM.IsVisibleFolderList ? "フォルダーリストを消す" : "フォルダーリストを表示する",
                     CanExecute = () => true,
                 },
 

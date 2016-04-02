@@ -199,6 +199,7 @@ namespace NeeView
         }
         #endregion
 
+        // ファイル情報表示ON/OFF
         #region Property: IsVisibleFileInfo
         private bool _IsVisibleFileInfo;
         public bool IsVisibleFileInfo
@@ -217,6 +218,28 @@ namespace NeeView
         {
             IsVisibleFileInfo = !IsVisibleFileInfo;
             return IsVisibleFileInfo;
+        }
+
+
+        // フォルダリスト表示ON/OFF
+        #region Property: IsVisibleFolderList
+        private bool _IsVisibleFolderList;
+        public bool IsVisibleFolderList
+        {
+            get { return _IsVisibleFolderList; }
+            set
+            {
+                _IsVisibleFolderList = value;
+                OnPropertyChanged();
+                //UpdateFileInfoContent();
+                NotifyMenuVisibilityChanged?.Invoke(this, null);
+            }
+        }
+        #endregion
+        public bool ToggleVisibleFolderList()
+        {
+            IsVisibleFolderList = !IsVisibleFolderList;
+            return IsVisibleFolderList;
         }
 
 
@@ -675,11 +698,6 @@ namespace NeeView
         // 本が変更された
         private void OnBookChanged(object sender, bool isBookmark)
         {
-            if (BookHub?.Current?.Place == null)
-            {
-                Debug.WriteLine("NULL PO!");
-            }
-
             var title = LoosePath.GetFileName(BookHub.Current.Place);
 
             switch (NoticeShowMessageStyle)
@@ -703,7 +721,6 @@ namespace NeeView
 
             OnPropertyChanged(nameof(Index));
             OnPropertyChanged(nameof(IndexMax));
-            //OnPropertyChanged(nameof(FolderListIndex));
 
             UpdateLastFiles();
 
@@ -1315,6 +1332,9 @@ namespace NeeView
             [DataMember(Order = 5)]
             public string UserDownloadPath { get; set; }
 
+            [DataMember(Order = 6)]
+            public bool IsVisibleFolderList { get; set; }
+
             void Constructor()
             {
                 IsLimitMove = true;
@@ -1371,6 +1391,7 @@ namespace NeeView
             memento.IsVisibleFileInfo = this.IsVisibleFileInfo;
             memento.FileInfoSetting = this.FileInfoSetting.Clone();
             memento.UserDownloadPath = this.UserDownloadPath;
+            memento.IsVisibleFolderList = this.IsVisibleFolderList;
 
             return memento;
         }
@@ -1404,6 +1425,7 @@ namespace NeeView
             this.IsVisibleFileInfo = memento.IsVisibleFileInfo;
             this.FileInfoSetting = memento.FileInfoSetting.Clone();
             this.UserDownloadPath = memento.UserDownloadPath;
+            this.IsVisibleFolderList = memento.IsVisibleFolderList;
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }

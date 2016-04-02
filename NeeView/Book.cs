@@ -264,7 +264,7 @@ namespace NeeView
             }
 
             // アーカイバの選択
-            Archiver archiver = GetArchiver(path, option);
+            Archiver archiver = ModelContext.ArchiverManager.CreateArchiver(path, null);
             if (archiver.IsFileSystem)
             {
                 // 入力ファイルを最初のページにする
@@ -315,40 +315,6 @@ namespace NeeView
             // 初期ページ設定
             RequestSetPosition(position, direction, true);
         }
-
-
-        // パスから対応するアーカイバを取得する
-        private Archiver GetArchiver(string path, BookLoadOption option)
-        {
-            if (Directory.Exists(path))
-            {
-                return ModelContext.ArchiverManager.CreateArchiver(path, null);
-            }
-
-            if (File.Exists(path))
-            {
-                if (ModelContext.ArchiverManager.IsSupported(path))
-                {
-                    Archiver archiver = ModelContext.ArchiverManager.CreateArchiver(path, null);
-                    if (archiver.IsSupported())
-                    {
-                        return archiver;
-                    }
-                }
-
-                if (ModelContext.BitmapLoaderManager.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
-                {
-                    return ModelContext.ArchiverManager.CreateArchiver(Path.GetDirectoryName(path), null);
-                }
-                else
-                {
-                    throw new FileFormatException("サポート外ファイルです");
-                }
-            }
-
-            throw new FileNotFoundException("ファイルが見つかりません", path);
-        }
-
 
 
         // アーカイブからページ作成(再帰)
@@ -462,7 +428,7 @@ namespace NeeView
             StartCommandWorker();
         }
 
-        #endregion
+#endregion
 
 
         // 廃棄処理
@@ -1053,8 +1019,6 @@ namespace NeeView
         {
             if (Pages.Count <= 0) return;
 
-            // TODO: 再読み込みコマンド
-
             switch (SortMode)
             {
                 case PageSortMode.FileName:
@@ -1167,7 +1131,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         /// <summary>
         /// 保存設定
@@ -1268,5 +1232,5 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 }

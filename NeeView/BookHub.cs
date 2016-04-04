@@ -775,7 +775,7 @@ namespace NeeView
         {
             FolderOrder = order;
             SettingChanged?.Invoke(this, null);
-            FolderListReflesh?.Invoke(this, null)
+            FolderListReflesh?.Invoke(this, null);
         }
 
 

@@ -523,14 +523,26 @@ namespace NeeView
         }
 
 
-
-
         //
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
             // 設定読み込み
             _VM.LoadSetting(this);
+        }
 
+        //
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // DPI倍率設定
+            _VM.UpdateDpiScaleFactor(this);
+
+            // 標準ウィンドウモードで初期化
+            OnMenuVisibilityChanged();
+
+            // フォルダリスト初期化
+            this.FolderListArea.SetPlace(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), null);
+
+            //
             if (App.StartupPlace != null)
             {
                 // 起動引数の場所で開く
@@ -542,17 +554,6 @@ namespace NeeView
                 _VM.LoadLastFolder();
             }
         }
-
-        //
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            // DPI倍率設定
-            _VM.UpdateDpiScaleFactor(this);
-
-            // 標準ウィンドウモードで初期化
-            OnMenuVisibilityChanged();
-        }
-
 
 
         // ドラッグ＆ドロップ前処理
@@ -748,20 +749,10 @@ namespace NeeView
         {
             this.MainView.Focus();
         }
-
-        // フォルダリスト 選択項目変更
-        private void FolderList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var listBox = sender as ListBox;
-            if (listBox != null)
-            {
-                listBox.ScrollIntoView(listBox.SelectedItem);
-            }
-        }
     }
 
 
-    #region Convertes
+#region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -912,5 +903,5 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 }

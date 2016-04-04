@@ -15,6 +15,10 @@
              d:DesignHeight="800" d:DesignWidth="300" MinWidth="100" >
 
     <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+        
         <Style x:Key="BlackStyle" TargetType="UserControl">
             <Setter Property="Background" Value="#FF101010"/>
             <Setter Property="Foreground" Value="White"/>

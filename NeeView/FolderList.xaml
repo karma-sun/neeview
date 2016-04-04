@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="NeeView.FolderList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="300" >
+
+    <UserControl.Resources>
+
+        <DataTemplate x:Key="NormalFolder">
+            <StackPanel Orientation="Horizontal">
+                <Image DockPanel.Dock="Right" Width="32" Height="32" Source="{Binding Icon}"/>
+                <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="PictureFolder">
+            <DockPanel Height="80" Background="LightGray">
+                <DockPanel DockPanel.Dock="Bottom" Height="20">
+                    <Image DockPanel.Dock="Right" Width="16" Height="16" Source="{Binding IconSmall}"/>
+                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis"/>
+                </DockPanel>
+                <Rectangle Fill="#FFF0F0F0"/>
+            </DockPanel>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <ListBox x:Name="ListBox" Focusable="True"
+             Background="Transparent"
+             Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
+             BorderBrush="Transparent"
+                FocusVisualStyle="{x:Null}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                ItemsSource="{Binding FolderCollection.Items}"
+                SelectedIndex="{Binding SelectedIndex}"
+                SelectionChanged="FolderList_SelectionChanged"
+                Loaded="FolderList_Loaded"
+                KeyDown="FolderList_KeyDown"
+             
+             ItemTemplate="{StaticResource NormalFolder}"
+             >
+
+        <ListBox.Resources>
+            <Style TargetType="ListBoxItem">
+                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="FolderListItem_MouseSingleClick"/>
+                <EventSetter Event="PreviewMouseDoubleClick" Handler="FolderListItem_MouseDoubleClick"/>
+                <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown"/>
+                <EventSetter Event="Loaded" Handler="FolderListItem_Loaded"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            </Style>
+        </ListBox.Resources>
+    </ListBox>
+
+</UserControl>

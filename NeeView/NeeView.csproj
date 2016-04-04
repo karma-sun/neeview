@@ -80,6 +80,12 @@
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
     <Compile Include="FolderCollection.cs" />
+    <Compile Include="FolderList.xaml.cs">
+      <DependentUpon>FolderList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FolderListControl.xaml.cs">
+      <DependentUpon>FolderListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utility\DockPanelSplitter.cs" />
     <Compile Include="Utility\FileInfo.cs" />
     <Compile Include="Utility\WicDecoders.cs" />
@@ -195,6 +201,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FilePageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FolderList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FolderListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

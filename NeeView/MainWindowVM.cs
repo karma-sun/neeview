@@ -526,32 +526,13 @@ namespace NeeView
         // 本管理
         public BookHub BookHub { get; private set; }
 
-        // フォルダリスト
-        public List<FolderInfo> FolderList
-        {
-            get
-            {
-                return BookHub.FolderCollection.Items;
-            }
-        }
-        private int _FolderListIndex;
-        public int FolderListIndex
-        {
-            get { return _FolderListIndex; }
-            set { _FolderListIndex = value; BookHub.LoadMaybe(_FolderListIndex); }
-        }
-        private void RefleshFolderListIndex()
-        {
-            _FolderListIndex = BookHub.FolderCollection.SelectedIndex;
-            OnPropertyChanged(nameof(FolderListIndex));
-        }
 
 
         // 標準ウィンドウタイトル
         private string _DefaultWindowTitle;
 
 
-        #region 開発用
+#region 開発用
 
         // 開発用：JobEndine公開
         public JobEngine JobEngine => ModelContext.JobEngine;
@@ -560,14 +541,14 @@ namespace NeeView
         public List<Page> PageList => BookHub.Current?.Pages;
 
         // 開発用：コンテンツ座標
-        #region Property: ContentPosition
+#region Property: ContentPosition
         private Point _ContentPosition;
         public Point ContentPosition
         {
             get { return _ContentPosition; }
             set { _ContentPosition = value; OnPropertyChanged(); }
         }
-        #endregion
+#endregion
 
         // 開発用：コンテンツ座標情報更新
         public void UpdateContentPosition()
@@ -575,7 +556,7 @@ namespace NeeView
             ContentPosition = MainContent.Content.PointToScreen(new Point(0, 0));
         }
 
-        #endregion
+#endregion
 
         // DPI倍率
         private Point _DpiScaleFactor = new Point(1, 1);
@@ -651,15 +632,6 @@ namespace NeeView
             BookHub.EmptyMessage +=
                 (s, e) => EmptyPageMessage = e;
 
-            BookHub.FolderListChanged +=
-                (s, e) =>
-                {
-                    OnPropertyChanged(nameof(FolderList));
-                    RefleshFolderListIndex();
-                };
-
-            BookHub.FolderListSelectedIndexChanged +=
-                (s, e) => RefleshFolderListIndex();
 
             // CommandTable
             ModelContext.CommandTable.SetTarget(this, BookHub);
@@ -787,7 +759,7 @@ namespace NeeView
             }
         }
 
-        #region アプリ設定
+#region アプリ設定
 
         // アプリ設定作成
         public Setting CreateSetting()
@@ -847,9 +819,6 @@ namespace NeeView
                 setting = new Setting();
             }
 
-            // ウィンドウ座標復元
-            WindowPlacement.Restore(window, setting.WindowPlacement, setting.ViewMemento.IsFullScreen);
-
             // 設定反映
             RestoreSetting(setting);
 
@@ -858,6 +827,9 @@ namespace NeeView
             {
                 BookHub.IsEnableSlideShow = true;
             }
+
+            // ウィンドウ座標復元 (スレッドスリープする)
+            WindowPlacement.Restore(window, setting.WindowPlacement, setting.ViewMemento.IsFullScreen);
         }
 
 
@@ -880,7 +852,7 @@ namespace NeeView
             catch { }
         }
 
-        #endregion
+#endregion
 
 
         // 最後に開いたフォルダを開く
@@ -1241,7 +1213,6 @@ namespace NeeView
         }
 
 
-
         // 廃棄処理
         public void Dispose()
         {
@@ -1249,7 +1220,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento
@@ -1430,7 +1401,7 @@ namespace NeeView
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }
 
-        #endregion
+#endregion
 
     }
 }

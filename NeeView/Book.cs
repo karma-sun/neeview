@@ -26,6 +26,7 @@ namespace NeeView
         FirstPage = (1 << 2), // 初期ページを先頭ページにする
         LastPage = (1 << 3), // 初期ページを最終ページにする
         ReLoad = (1 << 4), // 再読み込みフラグ(BookHubで使用)
+        SelectFoderListMaybe = (1 << 5), // 可能ならばフォルダリストで選択する
     };
 
 
@@ -428,7 +429,7 @@ namespace NeeView
             StartCommandWorker();
         }
 
-#endregion
+        #endregion
 
 
         // 廃棄処理
@@ -1131,7 +1132,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         /// <summary>
         /// 保存設定
@@ -1232,5 +1233,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

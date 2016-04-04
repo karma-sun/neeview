@@ -88,7 +88,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="VerticalBevelGripDark" TargetType="{x:Type osc:DockPanelSplitter}">
+        
+        <Style x:Key="VerticalBevelGripBlack" TargetType="{x:Type osc:DockPanelSplitter}">
             <Setter Property="Thickness" Value="6"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -100,8 +101,20 @@
             </Setter>
         </Style>
 
+        <Style x:Key="VerticalBevelGripWhite" TargetType="{x:Type osc:DockPanelSplitter}">
+            <Setter Property="Thickness" Value="6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
+                        <Grid ToolTip="Resize" SnapsToDevicePixels="True" Background="#FFFFFFFF">
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-        
+
+
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
         <local:IsGreaterThanConverter x:Key="IsGreaterThanConverter"/>
@@ -151,32 +164,50 @@
             <DockPanel x:Name="ViewArea">
 
                 <!-- フォルダリスト -->
+                <local:FolderListControl x:Name="FolderListArea" DockPanel.Dock="Left"  Width="250"
+                                        BookHub="{Binding BookHub}"/>
+
+                <!--
                 <DockPanel  x:Name="FolderListArea" DockPanel.Dock="Left"  Width="250">
-                    <!--
-                    <Grid DockPanel.Dock="Bottom" MinWidth="200" Height="250" Background="Gray" >
-                        <TextBlock Text="ここにフォルダ情報を表示予定"/>
-                    </Grid>
-                    -->
-                    <ListBox x:Name="FolderList" Focusable="False" 
-                         ItemsSource="{Binding FolderList}" SelectedIndex="{Binding FolderListIndex}" SelectionChanged="FolderList_SelectionChanged" >
+                    <StackPanel DockPanel.Dock="Top" Height="30" Background="LightGray" Orientation="Horizontal">
+                        <Button x:Name="FolderUpButton" Content="↑" Width="30" Height="30" Click="FolderUpButton_Click"/>
+                        <Button x:Name="FolderSync" Content="Sync" Width="30" Height="30" Click="FolderSyncButton_Click"/>
+                    </StackPanel>
+
+                    <ListBox x:Name="FolderList" Focusable="True" 
+                             FocusVisualStyle="{x:Null}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ItemsSource="{Binding FolderList}" SelectedIndex="{Binding FolderListIndex}" SelectionChanged="FolderList_SelectionChanged"
+                             Loaded="FolderList_Loaded"
+                        KeyDown="FolderList_KeyDown">
+                        <ListBox.Resources>
+                            <Style TargetType="ListBoxItem">
+                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="FolderListItem_MouseSingleClick"/>
+                                <EventSetter Event="PreviewMouseDoubleClick" Handler="FolderListItem_MouseDoubleClick"/>
+                                <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown"/>
+                                <EventSetter Event="Loaded" Handler="FolderListItem_Loaded"/>
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                            </Style>
+                        </ListBox.Resources>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Width="24" Height="24" Source="{Binding Icon}"/>
+                                    <Image Width="32" Height="32" Source="{Binding Icon}"/>
                                     <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5,0" VerticalAlignment="Center"></TextBlock>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </DockPanel>
-                <osc:DockPanelSplitter x:Name="FolderListSplitter" DockPanel.Dock="Left" Style="{StaticResource VerticalBevelGrip}" ProportionalResize="False"
+                -->
+                <osc:DockPanelSplitter x:Name="FolderListSplitter" DockPanel.Dock="Left" Style="{StaticResource VerticalBevelGripBlack}" ProportionalResize="False"
                                        Visibility="{Binding ElementName=FolderListArea, Path=Visibility}" />
 
                 <!-- 情報エリア -->
                 <Grid x:Name="InfoArea" DockPanel.Dock="Right" Width="250" MouseLeftButtonDown="InfoArea_MouseLeftButtonDown">
                     <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}" d:IsHidden="True"/>
                 </Grid>
-                <osc:DockPanelSplitter x:Name="InfoAreaSplitter" DockPanel.Dock="Right" Style="{StaticResource VerticalBevelGrip}" ProportionalResize="False"
+                <osc:DockPanelSplitter x:Name="InfoAreaSplitter" DockPanel.Dock="Right" Style="{StaticResource VerticalBevelGripBlack}" ProportionalResize="False"
                                        Visibility="{Binding ElementName=InfoArea, Path=Visibility}" />
 
                 <!-- メインビュー -->
@@ -214,7 +245,7 @@
                     </Grid>
 
                     <!-- empty pages message -->
-                    <Grid Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True" >
+                    <Grid Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                             <TextBlock  Text="読み込めるファイルがありません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
 

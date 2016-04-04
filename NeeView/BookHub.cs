@@ -18,17 +18,20 @@ using System.Windows.Media.Imaging;
 
 // v1.6
 // TODO: 履歴との兼ね合い。ページ送りしなかったブックは履歴に保存しない？
-// TODO: フォルダツリー化
 // TODO: 背景ダーク
-// TODO: 水平スクロールバー非表示
 // TODO: 高速切替でテンポラリが残るバグ
-// TODO: クリックもしくは決定(改行)でロードするように
 // ----------------------------
 // TODO: [v1.7] フォルダ情報表示
 // TODO: [v1.7] フォルダサムネイル(非同期) 
 
 namespace NeeView
 {
+    public class FolderListSyncArguments
+    {
+        public string Path { get; set; }
+        public bool isKeepPlace { get; set; }
+    }
+
     /// <summary>
     /// 本の管理
     /// ロード、本の操作はここを通す
@@ -61,11 +64,11 @@ namespace NeeView
         // 空ページメッセージ
         public event EventHandler<string> EmptyMessage;
 
-        // フォルダ列更新
-        public event EventHandler FolderListChanged;
+        // フォルダ列更新要求
+        public event EventHandler<FolderListSyncArguments> FolderListSync;
 
-        // フォルダ選択ID更新
-        public event EventHandler FolderListSelectedIndexChanged;
+        // フォルダ列再作成要求
+        public event EventHandler FolderListReflesh;
 
         #endregion
 
@@ -123,10 +126,6 @@ namespace NeeView
 
         // 履歴から設定を復元する
         public bool IsEnabledAutoNextFolder { get; set; } = false;
-
-
-        // フォルダ列
-        public FolderColelction FolderCollection { get; set; }
 
         // 再帰を確認する
         public bool IsConfirmRecursive { get; set; }
@@ -209,10 +208,6 @@ namespace NeeView
         // コンストラクタ
         public BookHub()
         {
-            FolderCollection = new FolderColelction();
-            FolderCollection.ItemsChanged += (s, e) => FolderListChanged(s, e);
-            FolderCollection.SelectedIndexChanged += (s, e) => FolderListSelectedIndexChanged(s, e);
-
             StartCommandWorker();
         }
 
@@ -231,32 +226,6 @@ namespace NeeView
             public virtual async Task Execute() { await Task.Yield(); }
         }
 
-
-        // フォルダリスト更新コマンド
-        private class UpdateFolderListCommand : BookHubCommand
-        {
-            public override int Priority => 1;
-
-            //
-            public UpdateFolderListCommand(BookHub bookHub) : base(bookHub)
-            {
-            }
-
-            //
-            public override async Task Execute()
-            {
-                _BookHub.FolderCollection.FolderOrder = _BookHub.FolderOrder;
-                _BookHub.FolderCollection.RandomSeed = _BookHub._FolderOrderSeed;
-                _BookHub.FolderCollection.Update(null, true, false);
-                await Task.Yield();
-            }
-        }
-
-        // ロード
-        public void RequestUpdateFolderList()
-        {
-            RegistCommand(new UpdateFolderListCommand(this));
-        }
 
         // ロードコマンド
         private class LoadCommand : BookHubCommand
@@ -287,7 +256,7 @@ namespace NeeView
         {
             RegistCommand(new LoadCommand(this, path, option, isRefleshFolderList));
         }
-        
+
 
 
         // ワーカータスクのキャンセルトークン
@@ -445,10 +414,15 @@ namespace NeeView
                 App.Current.Dispatcher.Invoke(() => Loading?.Invoke(this, path));
 
                 // フォルダリスト更新
-                FolderCollection.Place = place;
-                FolderCollection.FolderOrder = FolderOrder;
-                FolderCollection.RandomSeed = _FolderOrderSeed;
-                FolderCollection.Update(place, isRefleshFolderList, false);
+                if (isRefleshFolderList)
+                {
+                    App.Current.Dispatcher.Invoke(() =>FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = place, isKeepPlace = false }));
+                }
+                else if ((option & BookLoadOption.SelectFoderListMaybe) != 0)
+                {
+                    App.Current.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = place, isKeepPlace = true }));
+                }
+
 
                 // Load本体
                 await LoadAsyncCore(place, startEntry, option);
@@ -679,13 +653,6 @@ namespace NeeView
             return Current == null ? 0 : Current.Pages.Count - 1;
         }
 
-        //
-        public void LoadMaybe(int index)
-        {
-            if (Current?.Place == FolderCollection[index].Path) return;
-            RequestLoad(FolderCollection[index].Path, BookLoadOption.None, false);
-        }
-
 
         /// <summary>
         /// フォルダ移動
@@ -696,18 +663,28 @@ namespace NeeView
         /// <returns></returns>
         private bool MoveFolder(int direction, FolderOrder folderOrder, BookLoadOption option)
         {
-            if (FolderCollection.IsValid)
+            var place = Current?.Place;
+            if (place == null) return false;
+
+            var folders = new FolderCollection();
+
+            folders.SelectedBook = place;
+            folders.FolderOrder = FolderOrder;
+            folders.RandomSeed = _FolderOrderSeed;
+            folders.Update(place, false, false);
+
+            if (folders.IsValid)
             {
-                int index = FolderCollection.IndexOfPath(Current?.Place);
+                int index = folders.IndexOfPath(Current?.Place);
                 if (index < 0) return false;
 
                 int next = (folderOrder == FolderOrder.Random)
-                    ? (index + FolderCollection.Items.Count + direction) % FolderCollection.Items.Count
+                    ? (index + folders.Items.Count + direction) % folders.Items.Count
                     : index + direction;
 
-                if (next < 0 || next >= FolderCollection.Items.Count) return false;
+                if (next < 0 || next >= folders.Items.Count) return false;
 
-                RequestLoad(FolderCollection[next].Path, option, true);
+                RequestLoad(folders[next].Path, option | BookLoadOption.SelectFoderListMaybe, false);
 
                 return true;
             }
@@ -790,7 +767,7 @@ namespace NeeView
         {
             FolderOrder = FolderOrder.GetToggle();
             SettingChanged?.Invoke(this, null);
-            RequestUpdateFolderList();
+            FolderListReflesh?.Invoke(this, null);
         }
 
         // フォルダの並びの設定
@@ -798,7 +775,7 @@ namespace NeeView
         {
             FolderOrder = order;
             SettingChanged?.Invoke(this, null);
-            RequestUpdateFolderList();
+            FolderListReflesh?.Invoke(this, null)
         }
 
 
@@ -1035,7 +1012,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         /// <summary>
         /// BookHub Memento
@@ -1153,7 +1130,7 @@ namespace NeeView
             IsConfirmRecursive = memento.IsConfirmRecursive;
         }
 
-        #endregion
+#endregion
     }
 
 

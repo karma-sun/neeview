@@ -8,17 +8,35 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
+    [Flags]
+    public enum FolderInfoAttribute
+    {
+        None = 0,
+        Directory = (1 << 0),
+        Drive = (1 << 1),
+        Parent = (1 << 2),
+        Empty = (1 << 3)
+    }
+
     // フォルダ情報
     public class FolderInfo
     {
+        public FolderInfoAttribute Attributes { get; set; }
+
         public string Path { get; set; }
+
+        public string ParentPath => System.IO.Path.GetDirectoryName(Path);
+
+
+        public bool IsDirectory => (Attributes & FolderInfoAttribute.Directory) == FolderInfoAttribute.Directory;
+        public bool IsEmpty => (Attributes & FolderInfoAttribute.Empty) == FolderInfoAttribute.Empty;
 
         private BitmapSource _Icon;
         public BitmapSource Icon
         {
             get
             {
-                if (_Icon == null)
+                if (_Icon == null && !IsEmpty)
                 {
                     _Icon = Utility.FileInfo.GetTypeIconSource(Path, Utility.FileInfo.IconSize.Normal);
                 }
@@ -26,10 +44,44 @@ namespace NeeView
             }
         }
 
-        public string Name { get { return System.IO.Path.GetFileName(Path); } }
+        private BitmapSource _IconSmall;
+        public BitmapSource IconSmall
+        {
+            get
+            {
+                if (_IconSmall == null && !IsEmpty)
+                {
+                    _IconSmall = Utility.FileInfo.GetTypeIconSource(Path, Utility.FileInfo.IconSize.Small);
+                }
+                return _IconSmall;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                if ((Attributes & FolderInfoAttribute.Parent) == FolderInfoAttribute.Parent)
+                {
+                    return "..";
+                }
+                else if ((Attributes & FolderInfoAttribute.Drive) == FolderInfoAttribute.Drive)
+                {
+                    return Path;
+                }
+                else if (IsEmpty)
+                {
+                    return "項目はありません";
+                }
+                else
+                {
+                    return System.IO.Path.GetFileName(Path);
+                }
+            }
+        }
     }
 
-    public class FolderColelction
+    public class FolderCollection
     {
         public event EventHandler ItemsChanged;
         public event EventHandler SelectedIndexChanged;
@@ -57,6 +109,25 @@ namespace NeeView
         }
         #endregion
 
+
+        #region Property: SelectedBook
+        private string _SelectedBook;
+        public string SelectedBook
+        {
+            get { return _SelectedBook; }
+            set
+            {
+                if (_SelectedBook != value)
+                {
+                    _SelectedBook = value;
+                    Place = Path.GetDirectoryName(value);
+                    //_IsDarty = true;
+                }
+            }
+        }
+        #endregion
+
+
         #region Property: Place
         private string _Place;
         public string Place
@@ -64,15 +135,24 @@ namespace NeeView
             get { return _Place; }
             set
             {
-                var path = Path.GetDirectoryName(value);
-                if (_Place != path)
+                if (_Place != value)
                 {
-                    _Place = path;
+                    _Place = value;
+                    if (_SelectedBook != null && Path.GetDirectoryName(_SelectedBook) != _Place)
+                    {
+                        _SelectedBook = null;
+                    }
                     _IsDarty = true;
                 }
             }
         }
         #endregion
+
+        //
+        public string ParentPlace
+        {
+            get { return Path.GetDirectoryName(_Place); }
+        }
 
         #region Property: FolderOrder
         private FolderOrder _FolderOrder;
@@ -124,6 +204,15 @@ namespace NeeView
         }
 
         //
+        public bool Contains(string path)
+        {
+            return Items.Any(e => e.Path == path);
+        }
+
+
+
+
+        //
         public void Update(string path, bool isRefleshFolderList, bool isForce)
         {
             _CurrentPlace = path ?? _CurrentPlace;
@@ -141,7 +230,8 @@ namespace NeeView
 
             if (Place == null || !Directory.Exists(Place))
             {
-                Items = null;
+                var drives = DriveInfo.GetDrives().Select(e => e.Name).ToList();
+                Items = drives.Select(e => new FolderInfo() { Attributes = FolderInfoAttribute.Directory | FolderInfoAttribute.Drive, Path = e }).ToList();
                 return;
             }
 
@@ -157,7 +247,7 @@ namespace NeeView
             {
                 directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
             }
-            var archives = entries.Where(e => ModelContext.ArchiverManager.IsSupported(e)).ToList();
+            var archives = entries.Where(e => File.Exists(e) && ModelContext.ArchiverManager.IsSupported(e)).ToList();
             if (FolderOrder == FolderOrder.TimeStamp)
             {
                 archives = archives.OrderBy((e) => File.GetLastWriteTime(e)).ToList();
@@ -166,26 +256,38 @@ namespace NeeView
             {
                 archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
             }
-            directories.AddRange(archives);
+            //directories.AddRange(archives);
 
             // 日付順は逆順にする (エクスプローラー標準にあわせる)
             if (FolderOrder == FolderOrder.TimeStamp)
             {
                 directories.Reverse();
+                archives.Reverse();
             }
             // ランダムに並べる
             else if (FolderOrder == FolderOrder.Random)
             {
                 var random = new Random(RandomSeed);
                 directories = directories.OrderBy(e => random.Next()).ToList();
+                archives = archives.OrderBy(e => random.Next()).ToList();
             }
 
-            Items = directories.Select(e => new FolderInfo() { Path = e }).ToList();
+            var list = directories.Select(e => new FolderInfo() { Path = e, Attributes = FolderInfoAttribute.Directory })
+                .Concat(archives.Select(e => new FolderInfo() { Path = e, }))
+                .ToList();
+            //list.Insert(0, new FolderInfo() { Attributes = FolderInfoAttribute.Parent, Path = ParentPlace });
 
-            if (isRefleshFolderList)
+            if (list.Count <= 0)
             {
-                SelectedIndexChanged?.Invoke(this, null);
+                list.Add(new FolderInfo() { Path = Place + "\\.", Attributes = FolderInfoAttribute.Empty });
             }
+
+            Items = list;
+
+            //if (isRefleshFolderList)
+            //{
+                SelectedIndexChanged?.Invoke(this, null);
+            //}
         }
     }
 

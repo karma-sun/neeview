@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="NeeView.FolderListControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+
+        <Style x:Key="BlackStyle" TargetType="UserControl">
+            <Setter Property="Background" Value="#FF101010"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style x:Key="WhiteStyle" TargetType="UserControl">
+            <Setter Property="Background" Value="#FFF8F8F8"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+    </UserControl.Resources>
+
+
+    <DockPanel x:Name="DockPanel" Margin="0,5">
+
+        <StackPanel DockPanel.Dock="Top" Margin="5">
+            <TextBlock Text="{Binding Place}" Margin="5"/>
+            <StackPanel  Height="30" Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="2,0"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button x:Name="FolderUpButton" Content="↑" Width="30" Height="30" Click="FolderUpButton_Click"/>
+                <Button x:Name="FolderSync" Content="Sync" Width="30" Height="30" Click="FolderSyncButton_Click"/>
+            </StackPanel>
+        </StackPanel>
+
+        <ContentControl x:Name="FolderListContent" Margin="0,0,0,20"/>
+
+
+    </DockPanel>
+</UserControl>

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace NeeView
 {
@@ -42,6 +43,7 @@ namespace NeeView
                 History.RemoveLast();
             }
         }
+
 
         // 履歴追加
         public void Add(Book book)
@@ -115,6 +117,37 @@ namespace NeeView
             {
                 Constructor();
             }
+
+            // 結合
+            public void Merge(Memento memento)
+            {
+                History = History.Concat(memento?.History).Distinct(new Book.MementoPlaceCompare()).ToList();
+                if (MaxHistoryCount < memento.MaxHistoryCount) MaxHistoryCount = memento.MaxHistoryCount;
+            }
+
+            // ファイルに保存
+            public void Save(string path)
+            {
+                XmlWriterSettings settings = new XmlWriterSettings();
+                settings.Encoding = new System.Text.UTF8Encoding(false);
+                settings.Indent = true;
+                using (XmlWriter xw = XmlWriter.Create(path, settings))
+                {
+                    DataContractSerializer serializer = new DataContractSerializer(typeof(Memento));
+                    serializer.WriteObject(xw, this);
+                }
+            }
+
+            // ファイルから読み込み
+            public static Memento Load(string path)
+            {
+                using (XmlReader xr = XmlReader.Create(path))
+                {
+                    DataContractSerializer serializer = new DataContractSerializer(typeof(Memento));
+                    Memento memento = (Memento)serializer.ReadObject(xr);
+                    return memento;
+                }
+            }
         }
 
         // memento作成
@@ -137,6 +170,7 @@ namespace NeeView
             this.History = new LinkedList<Book.Memento>(memento.History);
             this.MaxHistoryCount = memento.MaxHistoryCount;
         }
+
 
         #endregion
     }

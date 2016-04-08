@@ -445,8 +445,9 @@ namespace NeeView
         private void OpenSettingWindow()
         {
             var setting = _VM.CreateSetting();
+            var history = ModelContext.BookHistory.CreateMemento(false);
 
-            var dialog = new SettingWindow(setting);
+            var dialog = new SettingWindow(setting, history);
             dialog.Owner = this;
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = dialog.ShowDialog();
@@ -454,6 +455,7 @@ namespace NeeView
             {
                 _VM.RestoreSetting(setting);
                 _VM.SaveSetting(this);
+                ModelContext.BookHistory.Restore(history);
             }
         }
 

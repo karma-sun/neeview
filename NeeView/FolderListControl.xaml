@@ -38,15 +38,9 @@
         <StackPanel DockPanel.Dock="Top" Margin="5">
             <StackPanel Margin="5">
             <TextBlock Text="場所" Foreground="Gray"/>
-            <TextBlock Text="{Binding PlaceDispString}" />
+                <TextBlock Text="{Binding PlaceDispString}" ToolTip="{Binding PlaceDispString}"/>
             </StackPanel>
-            <DockPanel  Height="30" LastChildFill="False" >
-                <DockPanel.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="Margin" Value="2,0"/>
-                    </Style>
-                </DockPanel.Resources>
-
+            <WrapPanel Orientation="Horizontal" >
                 <Button x:Name="FolderUpButton" Style="{StaticResource IconButton}" Click="FolderUpButton_Click">
                     <TextBlock Margin="8,5" Text="上のフォルダに移動" Foreground="#1188DD"/>
                 </Button>
@@ -54,7 +48,7 @@
                     <TextBlock Margin="8,5" Text="同期" Foreground="#1188DD" ToolTip="表示中のフォルダに移動"/>
                 </Button>
 
-            </DockPanel>
+            </WrapPanel>
         </StackPanel>
 
         <ContentControl x:Name="FolderListContent" Margin="0,0,0,20"/>

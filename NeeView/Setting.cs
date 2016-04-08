@@ -38,7 +38,7 @@ namespace NeeView
         [DataMember(Order =9998)]
         public DragActionTable.Memento DragActionMemento { set; get; }
 
-        [DataMember(Order = 9999)]
+        [DataMember(Order = 9999, EmitDefaultValue = false)]
         public BookHistory.Memento BookHistoryMemento { set; get; }
 
         [DataMember(Order = 4)]
@@ -53,7 +53,6 @@ namespace NeeView
             BookHubMemento = new BookHub.Memento();
             CommandMememto = new CommandTable.Memento();
             DragActionMemento = new DragActionTable.Memento();
-            BookHistoryMemento = new BookHistory.Memento();
             ExporterMemento = new Exporter.Memento();
         }
 

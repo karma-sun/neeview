@@ -334,19 +334,19 @@
                             <DockPanel Margin="2" LastChildFill="False">
                                 <TextBlock Text="最大履歴保持数：" VerticalAlignment="Center" Margin="2,0,10,0"/>
                                 <ComboBox ItemsSource="{Binding MaxHistoryCountList}"
-                                  SelectedValue="{Binding Setting.BookHistoryMemento.MaxHistoryCount}" />
+                                  SelectedValue="{Binding History.MaxHistoryCount}" />
                             </DockPanel>
 
                             <DockPanel Margin="2" LastChildFill="False">
                                 <TextBlock Text="現在の履歴数：" VerticalAlignment="Center" Margin="2"/>
-                                <TextBlock Text="{Binding Setting.BookHistoryMemento.History.Count}" VerticalAlignment="Center" Margin="2"/>
+                                <TextBlock Text="{Binding History.History.Count}" VerticalAlignment="Center" Margin="2"/>
                             </DockPanel>
 
                             <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" DockPanel.Dock="Right" Content="履歴を削除する" Padding="16,8" Margin="10,0" Click="ClearHistoryButton_Click">
                                 <Button.Style>
                                     <Style TargetType="Button">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Setting.BookHistoryMemento.History.Count}" Value="0">
+                                            <DataTrigger Binding="{Binding History.History.Count}" Value="0">
                                                 <Setter Property="IsEnabled" Value="False"/>
                                             </DataTrigger>
                                         </Style.Triggers>

@@ -55,6 +55,7 @@ namespace NeeView
 
         // 設定
         public Setting Setting { get; set; }
+        public BookHistory.Memento History { get; set; }
         public SusieContext.Memento OldSusieSetting { get; set; }
 
         //
@@ -240,11 +241,12 @@ namespace NeeView
         /// コンストラクタ
         /// </summary>
         /// <param name="setting"></param>
-        public SettingWindow(Setting setting)
+        public SettingWindow(Setting setting, BookHistory.Memento history)
         {
             InitializeComponent();
 
             Setting = setting;
+            History = history;
             OldSusieSetting = setting.SusieMemento.Clone();
             IsDartySusieSetting = false;
 
@@ -397,8 +399,8 @@ namespace NeeView
         // 履歴クリアボタン処理
         private void ClearHistoryButton_Click(object sender, RoutedEventArgs e)
         {
-            Setting.BookHistoryMemento.History.Clear();
-            OnPropertyChanged(nameof(Setting));
+            History.History.Clear();
+            OnPropertyChanged(nameof(History));
         }
 
         // プラグインリスト：ドロップ受付判定

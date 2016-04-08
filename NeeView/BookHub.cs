@@ -584,6 +584,7 @@ namespace NeeView
 
             // 本の設定を退避
             BookMemento = Current.CreateMemento();
+            BookMemento.ValidateForDefault();
         }
 
 
@@ -1101,6 +1102,7 @@ namespace NeeView
             memento.IsSlideShowByLoop = IsSlideShowByLoop;
             memento.SlideShowInterval = SlideShowInterval;
             memento.BookMemento = BookMemento.Clone();
+            memento.BookMemento.ValidateForDefault(); // 念のため
             memento.IsEnarbleCurrentDirectory = IsEnarbleCurrentDirectory;
             memento.IsSupportArchiveFile = IsSupportArchiveFile;
             memento.ExternalApplication = ExternalApllication.Clone();

@@ -629,9 +629,13 @@ namespace NeeView
 
         public string DownloadPath => string.IsNullOrWhiteSpace(UserDownloadPath) ? Temporary.TempDownloadDirectory : UserDownloadPath;
 
+        public string HistoryFileName { get; set; }
+
         // コンストラクタ
         public MainWindowVM()
         {
+            HistoryFileName = System.IO.Path.Combine(Environment.CurrentDirectory, "History.xml");
+
             InitializeWindowIcons();
 
             // ModelContext
@@ -824,7 +828,6 @@ namespace NeeView
             setting.CommandMememto = ModelContext.CommandTable.CreateMemento();
             setting.DragActionMemento = ModelContext.DragActionTable.CreateMemento();
             setting.ExporterMemento = Exporter.CreateMemento();
-            setting.BookHistoryMemento = ModelContext.BookHistory.CreateMemento(true);
 
             return setting;
         }
@@ -841,11 +844,7 @@ namespace NeeView
             InputGestureChanged?.Invoke(this, null);
 
             Exporter.Restore(setting.ExporterMemento);
-
-            ModelContext.BookHistory.Restore(setting.BookHistoryMemento);
-            UpdateLastFiles();
         }
-
 
         // アプリ設定読み込み
         public void LoadSetting(Window window)
@@ -874,6 +873,36 @@ namespace NeeView
             // 設定反映
             RestoreSetting(setting);
 
+            // 履歴読み込み
+            BookHistory.Memento bookHistoryMemento;
+            if (System.IO.File.Exists(HistoryFileName))
+            {
+                try
+                {
+                    bookHistoryMemento = BookHistory.Memento.Load(HistoryFileName);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    Messenger.MessageBox(this, "履歴の読み込みに失敗しました。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
+                    bookHistoryMemento = new BookHistory.Memento();
+                }
+            }
+            else
+            {
+                bookHistoryMemento = new BookHistory.Memento();
+            }
+
+            // 設定ファイルに残っている履歴をマージ
+            if (setting.BookHistoryMemento != null)
+            {
+                bookHistoryMemento.Merge(setting.BookHistoryMemento);
+            }
+
+            // 反映
+            ModelContext.BookHistory.Restore(bookHistoryMemento);
+            UpdateLastFiles();
+
             // スライドショーの自動再生
             if (IsAutoPlaySlideShow)
             {
@@ -891,6 +920,7 @@ namespace NeeView
             // 現在の本を履歴に登録
             ModelContext.BookHistory.Add(BookHub.Current);
 
+            // 設定
             var setting = CreateSetting();
 
             // ウィンドウ座標保存
@@ -900,6 +930,14 @@ namespace NeeView
             {
                 // 設定をファイルに保存
                 setting.Save(App.UserSettingFileName);
+            }
+            catch { }
+
+            try
+            {
+                // 履歴をファイルに保存
+                var bookHistoryMemento = ModelContext.BookHistory.CreateMemento(true);
+                bookHistoryMemento.Save(HistoryFileName);
             }
             catch { }
         }

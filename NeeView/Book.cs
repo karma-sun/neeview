@@ -1140,10 +1140,10 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember]
+            [DataMember(EmitDefaultValue = false)]
             public string Place { get; set; }
 
-            [DataMember]
+            [DataMember(EmitDefaultValue = false)]
             public string BookMark { get; set; }
 
             [DataMember(Name = "PageModeV2")]
@@ -1197,7 +1197,37 @@ namespace NeeView
             {
                 return (Memento)this.MemberwiseClone();
             }
+
+            // 保存用バリデート
+            // このmementoは履歴とデフォルト設定の２つに使われるが、デフォルト設定には本の場所やページは不要
+            public void ValidateForDefault()
+            {
+                Place = null;
+                BookMark = null;
+            }
         }
+
+        // 重複チェック用
+        public class MementoPlaceCompare : IEqualityComparer<Memento>
+        {
+            public bool Equals(Memento m1, Memento m2)
+            {
+                if (m1 == null && m2 == null)
+                    return true;
+                else if (m1 == null | m2 == null)
+                    return false;
+                else if (m1.Place == m2.Place)
+                    return true;
+                else
+                    return false;
+            }
+
+            public int GetHashCode(Memento m)
+            {
+                return m.Place.GetHashCode();
+            }
+        }
+
 
         // bookの設定を取得する
         public Memento CreateMemento()

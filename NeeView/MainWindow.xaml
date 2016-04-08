@@ -373,6 +373,8 @@
 
                     <MenuItem Header="設定(_O)">
                         <MenuItem Header="設定..." Command="{Binding BookCommands[OpenSettingWindow]}"/>
+                        <Separator/>
+                        <MenuItem Header="NeeView について..." Command="{Binding BookCommands[OpenVersionWindow]}"/>
                     </MenuItem>
 
                     <!-- 開発用メニュー -->

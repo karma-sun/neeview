@@ -254,6 +254,8 @@ namespace NeeView
             // View系コマンド登録
             ModelContext.CommandTable[CommandType.OpenSettingWindow].Execute =
                 (e) => OpenSettingWindow();
+            ModelContext.CommandTable[CommandType.OpenVersionWindow].Execute =
+                (e) => OpenVersionWindow();
             ModelContext.CommandTable[CommandType.CloseApplication].Execute =
                 (e) => Close();
             ModelContext.CommandTable[CommandType.LoadAs].Execute =
@@ -457,6 +459,15 @@ namespace NeeView
                 _VM.SaveSetting(this);
                 ModelContext.BookHistory.Restore(history);
             }
+        }
+
+        // バージョン情報を表示する
+        private void OpenVersionWindow()
+        {
+            var dialog = new VersionWindow();
+            dialog.Owner = this;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            dialog.ShowDialog();
         }
 
         // フルスクリーン前の状態保持
@@ -757,7 +768,7 @@ namespace NeeView
     }
 
 
-#region Convertes
+    #region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -908,5 +919,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

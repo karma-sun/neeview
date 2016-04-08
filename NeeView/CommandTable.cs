@@ -644,6 +644,12 @@ namespace NeeView
                     Text = "設定ウィンドウを開く",
                     IsShowMessage = false,
                 },
+                [CommandType.OpenVersionWindow] = new CommandElement
+                {
+                    Group = "その他",
+                    Text = "バージョン情報を表示する",
+                    IsShowMessage = false,
+                },
                 [CommandType.CloseApplication] = new CommandElement
                 {
                     Group = "その他",

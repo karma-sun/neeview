@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             Background="{DynamicResource NVBackground}"
+             Foreground="{DynamicResource NVForeground}">
 
     <UserControl.Resources>
 
@@ -27,16 +29,25 @@
     <DockPanel x:Name="DockPanel" Margin="0,5">
 
         <StackPanel DockPanel.Dock="Top" Margin="5">
-            <TextBlock Text="{Binding Place}" Margin="5"/>
-            <StackPanel  Height="30" Orientation="Horizontal">
-                <StackPanel.Resources>
+            <StackPanel Margin="5">
+            <TextBlock Text="場所" Foreground="Gray"/>
+            <TextBlock Text="{Binding PlaceDispString}" />
+            </StackPanel>
+            <DockPanel  Height="30" LastChildFill="False" >
+                <DockPanel.Resources>
                     <Style TargetType="Button">
                         <Setter Property="Margin" Value="2,0"/>
                     </Style>
-                </StackPanel.Resources>
-                <Button x:Name="FolderUpButton" Content="↑" Width="30" Height="30" Click="FolderUpButton_Click"/>
-                <Button x:Name="FolderSync" Content="Sync" Width="30" Height="30" Click="FolderSyncButton_Click"/>
-            </StackPanel>
+                </DockPanel.Resources>
+
+                <Button x:Name="FolderUpButton" Style="{StaticResource IconButton}" Click="FolderUpButton_Click">
+                    <TextBlock Margin="10,5" Text="上のフォルダに移動" Foreground="#FF007ACC"/>
+                </Button>
+                <Button x:Name="FolderSync" Style="{StaticResource IconButton}" Click="FolderSyncButton_Click">
+                    <TextBlock Margin="10,5" Text="同期" Foreground="#FF007ACC" ToolTip="表示中のフォルダに移動"/>
+                </Button>
+
+            </DockPanel>
         </StackPanel>
 
         <ContentControl x:Name="FolderListContent" Margin="0,0,0,20"/>

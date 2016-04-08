@@ -96,13 +96,12 @@ namespace NeeView
             [BackgroundStyle.Check] = "チェック模様",
         };
 
-        // 背景タイプリスト
-        public static Dictionary<FileInfoBackground, string> FileInfoBackgroundList { get; } = new Dictionary<FileInfoBackground, string>
+        // パネルカラーリスト
+        public static Dictionary<PanelColor, string> PanelColorList { get; } = new Dictionary<PanelColor, string>
         {
-            [FileInfoBackground.Black] = "黒色",
-            [FileInfoBackground.White] = "白色",
+            [PanelColor.Dark] = "黒色",
+            [PanelColor.Light] = "白色",
         };
-
 
 
         // 通知表示タイプリスト

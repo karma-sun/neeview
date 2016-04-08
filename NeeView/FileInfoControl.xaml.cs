@@ -24,31 +24,40 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     /// <summary>
-    /// ファイル情報ペインの背景色
-    /// </summary>
-    public enum FileInfoBackground
-    {
-        Black,
-        White,
-    }
-
-    /// <summary>
     /// ファイル情報ペイン設定
     /// </summary>
     [DataContract]
     public class FileInfoSetting
     {
         [DataMember]
-        public bool IsUseExifDateTime { get; set; } = true;
+        public bool IsUseExifDateTime { get; set; }
 
         [DataMember]
-        public bool IsVisibleBitsPerPixel { get; set; } = false;
+        public bool IsVisibleBitsPerPixel { get; set; }
 
         [DataMember]
-        public bool IsVisibleLoader { get; set; } = false;
+        public bool IsVisibleLoader { get; set; }
 
         [DataMember]
-        public FileInfoBackground Background { get; set; }
+        public Dock Dock { get; set; }
+
+        //
+        private void Constructor()
+        {
+            IsUseExifDateTime = true;
+            Dock = Dock.Right;
+        }
+
+        public FileInfoSetting()
+        {
+            Constructor();
+        }
+
+        [OnDeserializing]
+        private void Deserializing(StreamingContext c)
+        {
+            Constructor();
+        }
 
         //
         public FileInfoSetting Clone()
@@ -114,6 +123,7 @@ namespace NeeView
         {
             if (Setting != null)
             {
+#if false
                 switch (Setting.Background)
                 {
                     case FileInfoBackground.White:
@@ -123,7 +133,7 @@ namespace NeeView
                         this.Style = this.Resources["BlackStyle"] as Style;
                         break;
                 }
-
+#endif
                 //this.GroupThumbnail.Visibility = Setting.IsVisibleThumbnail ? Visibility.Visible : Visibility.Collapsed;
                 this.GroupLoader.Visibility = Setting.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed;
             }

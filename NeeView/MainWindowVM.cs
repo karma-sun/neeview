@@ -38,6 +38,14 @@ namespace NeeView
     }
 
 
+    // パネルカラー
+    public enum PanelColor
+    {
+        Dark,
+        Light,
+    }
+
+
     /// <summary>
     /// ViewModel
     /// </summary>
@@ -500,17 +508,25 @@ namespace NeeView
         }
         #endregion
 
-
-
+        #region Property: FolderListSetting
+        private FolderListSetting _FolderListSetting;
+        public FolderListSetting FolderListSetting
+        {
+            get { return _FolderListSetting; }
+            set { _FolderListSetting = value; OnPropertyChanged(); }
+        }
+        #endregion
 
 
         // Foregroudh Brush：ファイルページのフォントカラー用
+        #region Property: ForegroundBrush
         private Brush _ForegroundBrush = Brushes.White;
         public Brush ForegroundBrush
         {
             get { return _ForegroundBrush; }
             set { if (_ForegroundBrush != value) { _ForegroundBrush = value; OnPropertyChanged(); } }
         }
+        #endregion
 
         // Backgroud Brush
         #region Property: BackgroundBrush
@@ -523,6 +539,42 @@ namespace NeeView
         #endregion
 
 
+
+
+        #region Property: MenuColor
+        private PanelColor _MenuColor;
+        public PanelColor PanelColor
+        {
+            get { return _MenuColor; }
+            set { if (_MenuColor != value) { _MenuColor = value; FlushPanelColor(); OnPropertyChanged(); } }
+        }
+        public void FlushPanelColor()
+        {
+            if (_MenuColor == PanelColor.Dark)
+            {
+                App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromRgb(0x11, 0x11, 0x11));
+                App.Current.Resources["NVForeground"] = new SolidColorBrush(Color.FromRgb(0xFF, 0xFF, 0xFF));
+                App.Current.Resources["NVBaseBrush"] = new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22));
+                App.Current.Resources["NVDefaultBrush"] = new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55));
+                App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
+                App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
+            }
+            else
+            {
+                App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromRgb(0xF8, 0xF8, 0xF8));
+                App.Current.Resources["NVForeground"] = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
+                App.Current.Resources["NVBaseBrush"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
+                App.Current.Resources["NVDefaultBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
+                App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88));
+                App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55));
+            }
+        }
+        #endregion
+
+
+
+
+
         // 本管理
         public BookHub BookHub { get; private set; }
 
@@ -532,7 +584,7 @@ namespace NeeView
         private string _DefaultWindowTitle;
 
 
-#region 開発用
+        #region 開発用
 
         // 開発用：JobEndine公開
         public JobEngine JobEngine => ModelContext.JobEngine;
@@ -541,14 +593,14 @@ namespace NeeView
         public List<Page> PageList => BookHub.Current?.Pages;
 
         // 開発用：コンテンツ座標
-#region Property: ContentPosition
+        #region Property: ContentPosition
         private Point _ContentPosition;
         public Point ContentPosition
         {
             get { return _ContentPosition; }
             set { _ContentPosition = value; OnPropertyChanged(); }
         }
-#endregion
+        #endregion
 
         // 開発用：コンテンツ座標情報更新
         public void UpdateContentPosition()
@@ -556,7 +608,7 @@ namespace NeeView
             ContentPosition = MainContent.Content.PointToScreen(new Point(0, 0));
         }
 
-#endregion
+        #endregion
 
         // DPI倍率
         private Point _DpiScaleFactor = new Point(1, 1);
@@ -759,7 +811,7 @@ namespace NeeView
             }
         }
 
-#region アプリ設定
+        #region アプリ設定
 
         // アプリ設定作成
         public Setting CreateSetting()
@@ -852,7 +904,7 @@ namespace NeeView
             catch { }
         }
 
-#endregion
+        #endregion
 
 
         // 最後に開いたフォルダを開く
@@ -1220,7 +1272,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -1306,6 +1358,12 @@ namespace NeeView
             [DataMember(Order = 6)]
             public bool IsVisibleFolderList { get; set; }
 
+            [DataMember(Order = 6)]
+            public FolderListSetting FolderListSetting { get; set; }
+
+            [DataMember(Order = 6)]
+            public PanelColor PanelColor { get; set; }
+
             void Constructor()
             {
                 IsLimitMove = true;
@@ -1317,6 +1375,8 @@ namespace NeeView
                 StretchMode = PageStretchMode.Uniform;
                 Background = BackgroundStyle.Black;
                 FileInfoSetting = new FileInfoSetting();
+                FolderListSetting = new FolderListSetting();
+                PanelColor = PanelColor.Dark;
             }
 
             public Memento()
@@ -1363,6 +1423,8 @@ namespace NeeView
             memento.FileInfoSetting = this.FileInfoSetting.Clone();
             memento.UserDownloadPath = this.UserDownloadPath;
             memento.IsVisibleFolderList = this.IsVisibleFolderList;
+            memento.FolderListSetting = this.FolderListSetting.Clone();
+            memento.PanelColor = this.PanelColor;
 
             return memento;
         }
@@ -1397,11 +1459,13 @@ namespace NeeView
             this.FileInfoSetting = memento.FileInfoSetting.Clone();
             this.UserDownloadPath = memento.UserDownloadPath;
             this.IsVisibleFolderList = memento.IsVisibleFolderList;
+            this.FolderListSetting = memento.FolderListSetting.Clone();
+            this.PanelColor = memento.PanelColor;
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }
 
-#endregion
+        #endregion
 
     }
 }

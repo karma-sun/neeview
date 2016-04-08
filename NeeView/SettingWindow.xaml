@@ -121,17 +121,23 @@
                                   SelectedValue="{Binding Setting.ViewMemento.NowLoadingShowMessageStyle}" />
                             </DockPanel>
 
+
+
                         </StackPanel>
 
+                        <TextBlock Text="情報表示共通" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <DockPanel Margin="2" LastChildFill="False">
+                                <TextBlock MinWidth="100" Text="パネルの色" VerticalAlignment="Center" Margin="2"/>
+                                <ComboBox ItemsSource="{Binding PanelColorList}" SelectedValuePath="Key" DisplayMemberPath="Value" MinWidth="120"
+                                  SelectedValue="{Binding Setting.ViewMemento.PanelColor}" />
+                            </DockPanel>
+                            
+                        </StackPanel>
 
                         <TextBlock Text="ファイル情報表示" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <DockPanel Margin="2" LastChildFill="False">
-                                <TextBlock MinWidth="100" Text="背景色は" VerticalAlignment="Center" Margin="2"/>
-                                <ComboBox ItemsSource="{Binding FileInfoBackgroundList}" SelectedValuePath="Key" DisplayMemberPath="Value" MinWidth="120"
-                                  SelectedValue="{Binding Setting.ViewMemento.FileInfoSetting.Background}" />
-                            </DockPanel>
                             <CheckBox Margin="2" Content="EXIFの日時を使用する"
                               IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsUseExifDateTime}" />
                             <CheckBox Margin="2" Content="1ピクセルあたりのビット数を表示する"

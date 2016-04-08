@@ -18,7 +18,6 @@ using System.Windows.Media.Imaging;
 
 // v1.6
 // TODO: 履歴との兼ね合い。ページ送りしなかったブックは履歴に保存しない？
-// TODO: 背景ダーク
 // TODO: 高速切替でテンポラリが残るバグ
 // ----------------------------
 // TODO: [v1.7] フォルダ情報表示
@@ -416,7 +415,7 @@ namespace NeeView
                 // フォルダリスト更新
                 if (isRefleshFolderList)
                 {
-                    App.Current.Dispatcher.Invoke(() =>FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = place, isKeepPlace = false }));
+                    App.Current.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = place, isKeepPlace = false }));
                 }
                 else if ((option & BookLoadOption.SelectFoderListMaybe) != 0)
                 {
@@ -435,7 +434,7 @@ namespace NeeView
 
 
                 // 本の変更通知
-                App.Current.Dispatcher.Invoke(() => BookChanged?.Invoke(this, false)); // TODO: isBookmark
+                App.Current.Dispatcher.Invoke(() => BookChanged?.Invoke(this, _IsUsedHistory));
 
                 // ページがなかった時の処理
                 if (Current.Pages.Count <= 0)
@@ -484,7 +483,8 @@ namespace NeeView
             }
         }
 
-
+        // 履歴を使用したか
+        bool _IsUsedHistory = false;
 
         /// <summary>
         /// 本を読み込む(本体)
@@ -501,7 +501,7 @@ namespace NeeView
             var book = new Book();
 
             // 履歴を使用したか
-            bool isBookamrk = false; // TODO: 利用
+            _IsUsedHistory = false;
 
             // 設定の復元
             if ((option & BookLoadOption.ReLoad) == BookLoadOption.ReLoad)
@@ -520,7 +520,7 @@ namespace NeeView
                         BookMemento = setting.Clone();
                         book.Restore(BookMemento);
                         startEntry = startEntry ?? setting.BookMark;
-                        isBookamrk = true;
+                        _IsUsedHistory = true;
                     }
                     // 履歴がないときは設定はそのまま。再帰設定のみOFFにする。
                     else
@@ -1012,7 +1012,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         /// <summary>
         /// BookHub Memento
@@ -1130,7 +1130,7 @@ namespace NeeView
             IsConfirmRecursive = memento.IsConfirmRecursive;
         }
 
-#endregion
+        #endregion
     }
 
 

@@ -13,10 +13,48 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace NeeView
 {
     // TODO: SavePlaceを_VMだけで完結できるようにする
+
+    /// <summary>
+    /// ファイル情報ペイン設定
+    /// </summary>
+    [DataContract]
+    public class FolderListSetting
+    {
+        [DataMember]
+        public Dock Dock { get; set; } = Dock.Left;
+
+        //
+        private void Constructor()
+        {
+            Dock = Dock.Left;
+        }
+
+        public FolderListSetting()
+        {
+            Constructor();
+        }
+
+        [OnDeserializing]
+        private void Deserializing(StreamingContext c)
+        {
+            Constructor();
+        }
+
+        //
+        public FolderListSetting Clone()
+        {
+            return (FolderListSetting)MemberwiseClone();
+        }
+    }
+
+
+
+
 
     /// <summary>
     /// FolderListControl.xaml の相互作用ロジック
@@ -52,8 +90,6 @@ namespace NeeView
         public FolderListControl()
         {
             InitializeComponent();
-
-            this.Style = this.Resources["BlackStyle"] as Style;
 
             _VM = new FolderListControlVM();
             _VM.FolderCollectionChanged += OnFolderCollectionChanged;
@@ -171,7 +207,7 @@ namespace NeeView
             {
                 _BookHub = value;
                 _BookHub.FolderListSync += (s, e) => FolderListSync?.Invoke(s, e);
-                _BookHub.FolderListReflesh += (s, e) => FolderListReflesh?.Invoke(s, e); 
+                _BookHub.FolderListReflesh += (s, e) => FolderListReflesh?.Invoke(s, e);
             }
         }
 
@@ -185,6 +221,7 @@ namespace NeeView
                 _FolderCollection = value;
                 FolderCollectionChanged?.Invoke(this, null);
                 OnPropertyChanged(nameof(Place));
+                OnPropertyChanged(nameof(PlaceDispString));
             }
         }
         #endregion
@@ -201,14 +238,11 @@ namespace NeeView
 
         public string Place => _FolderCollection?.Place;
 
+        public string PlaceDispString => string.IsNullOrEmpty(Place) ? "このPC" : Place;
+
         private Dictionary<string, string> LastPlaceDictionary = new Dictionary<string, string>();
 
         private bool _IsDarty;
-
-        //public FolderListControlVM()
-        //{
-        //    SetPlace(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), null);
-        //}
 
 
         //

@@ -533,6 +533,9 @@ namespace NeeView
         //
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // PanelColor
+            _VM.FlushPanelColor();
+
             // DPI倍率設定
             _VM.UpdateDpiScaleFactor(this);
 

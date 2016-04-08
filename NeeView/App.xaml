@@ -14,6 +14,8 @@
                 <ResourceDictionary Source="/presentationframework.Aero;component/themes/aero.normalcolor.xaml" />
                 -->
 
+                <ResourceDictionary Source="Styles/NVStyles.xaml"/>
+
                 <ResourceDictionary>
 
                     <!-- CheckerBrush -->

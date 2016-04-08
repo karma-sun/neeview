@@ -12,7 +12,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="300" MinWidth="100" >
+             d:DesignHeight="800" d:DesignWidth="300" MinWidth="100" 
+             Background="{DynamicResource NVBackground}"
+             Foreground="{DynamicResource NVForeground}"
+             >
 
     <UserControl.Resources>
         <Style TargetType="TextBox">

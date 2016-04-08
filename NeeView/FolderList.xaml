@@ -12,26 +12,25 @@
         <DataTemplate x:Key="NormalFolder">
             <StackPanel Orientation="Horizontal">
                 <Image DockPanel.Dock="Right" Width="32" Height="32" Source="{Binding Icon}"/>
-                <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis"/>
+                <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis" />
             </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="PictureFolder">
-            <DockPanel Height="80" Background="LightGray">
+            <DockPanel Height="80" Background="#808080" Margin="0,1">
                 <DockPanel DockPanel.Dock="Bottom" Height="20">
                     <Image DockPanel.Dock="Right" Width="16" Height="16" Source="{Binding IconSmall}"/>
                     <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis"/>
                 </DockPanel>
-                <Rectangle Fill="#FFF0F0F0"/>
+                <Rectangle Fill="#F0F0F0"/>
             </DockPanel>
         </DataTemplate>
 
     </UserControl.Resources>
 
-    <ListBox x:Name="ListBox" Focusable="True"
-             Background="Transparent"
-             Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
-             BorderBrush="Transparent"
+    <ListBox x:Name="ListBox" Focusable="True" Style="{StaticResource NVListBox}"
+                Background="Transparent"
+                Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 FocusVisualStyle="{x:Null}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 ItemsSource="{Binding FolderCollection.Items}"
@@ -39,9 +38,7 @@
                 SelectionChanged="FolderList_SelectionChanged"
                 Loaded="FolderList_Loaded"
                 KeyDown="FolderList_KeyDown"
-             
-             ItemTemplate="{StaticResource NormalFolder}"
-             >
+                ItemTemplate="{StaticResource NormalFolder}">
 
         <ListBox.Resources>
             <Style TargetType="ListBoxItem">
@@ -50,9 +47,14 @@
                 <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown"/>
                 <EventSetter Event="Loaded" Handler="FolderListItem_Loaded"/>
                 <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+
+                <!--
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                -->
+
             </Style>
         </ListBox.Resources>
+
     </ListBox>
 
 </UserControl>

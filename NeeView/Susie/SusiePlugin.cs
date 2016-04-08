@@ -121,7 +121,11 @@ namespace Susie
                 {
                     foreach (var filter in supportType.Extension.Split(';', ',')) // ifjpeg2k.spi用に","を追加
                     {
-                        Extensions.Add(filter.TrimStart('*').ToLower());
+                        string extension = filter.TrimStart('*').ToLower().Trim();
+                        if (!string.IsNullOrEmpty(extension))
+                        {
+                            Extensions.Add(extension);
+                        }
                     }
                 }
 

@@ -131,7 +131,7 @@
                                        Visibility="{Binding ElementName=InfoArea, Path=Visibility}" />
 
                 <!-- メインビュー -->
-                <Grid  Panel.ZIndex="-1">
+                <Grid Panel.ZIndex="-1">
                     <!-- メインビュー コンテンツ表示領域 -->
                     <Grid x:Name="MainView" Background="{Binding BackgroundBrush}" SizeChanged="MainView_SizeChanged" Focusable="True" >
                         <!-- Pages -->
@@ -422,7 +422,7 @@
             </TextBlock>
 
             <!-- Message -->
-            <StackPanel x:Name="InfoTextArea" Orientation="Horizontal" Margin="0,0,0,60" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" MaxWidth="{Binding ElementName=MainView, Path=ActualWidth}" IsHitTestVisible="False">
+            <StackPanel x:Name="InfoTextArea" Orientation="Horizontal" Margin="0,0,0,60" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" MaxWidth="{Binding ElementName=ViewArea, Path=ActualWidth}" IsHitTestVisible="False">
                 <StackPanel.Style>
                     <Style TargetType="StackPanel">
                         <Style.Triggers>

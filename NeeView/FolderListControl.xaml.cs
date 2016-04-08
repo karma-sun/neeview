@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -267,10 +272,9 @@ namespace NeeView
                 _IsDarty = false;
                 collection = new FolderCollection();
                 collection.Place = place;
-                if (select != null) collection.SelectedBook = select;
-                collection.FolderOrder = BookHub.FolderOrder; // FolderOrder.FileName; // TODO:
-                collection.RandomSeed = BookHub._FolderOrderSeed; // 0; // TODO:
-                collection.Update(select, true, true);
+                collection.FolderOrder = BookHub.FolderOrder;
+                collection.RandomSeed = BookHub._FolderOrderSeed;
+                collection.Update(select);
             }
 
             var index = collection.IndexOfPath(select);

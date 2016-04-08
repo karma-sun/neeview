@@ -1,4 +1,11 @@
-﻿<UserControl x:Class="NeeView.FolderList"
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+
+    <UserControl x:Class="NeeView.FolderList"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,11 +16,22 @@
 
     <UserControl.Resources>
 
+        <local:FolderInfoToIconWingdingsConverter x:Key="FolderInfoToIconWingdingsConverter"/>
+        <local:FolderInfoToIconOverlayWebdingsConverter x:Key="FolderInfoToIconOverlayWebdingsConverter"/>
+        <local:FolderInfoToIconOverlayBrushConverter x:Key="FolderInfoToIconOverlayBrushConverter"/>
+
         <DataTemplate x:Key="NormalFolder">
-            <StackPanel Orientation="Horizontal">
-                <Image DockPanel.Dock="Right" Width="32" Height="32" Source="{Binding Icon}"/>
+            <DockPanel>
+
+                <Grid DockPanel.Dock="Right" Width="24">
+                    <TextBlock Text="{Binding Converter={StaticResource FolderInfoToIconWingdingsConverter}}" FontFamily="Wingdings" VerticalAlignment="Center" FontSize="22"/>
+                    <TextBlock  FontFamily="Webdings" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="12"
+                                Text="{Binding Converter={StaticResource FolderInfoToIconOverlayWebdingsConverter}}"
+                                Foreground="{Binding Converter={StaticResource FolderInfoToIconOverlayBrushConverter}}"/>
+                </Grid>
+                <!-- <Image DockPanel.Dock="Right" Width="32" Height="32" Source="{Binding Icon}"/> -->
                 <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis" />
-            </StackPanel>
+            </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="PictureFolder">
@@ -28,7 +46,8 @@
 
     </UserControl.Resources>
 
-    <ListBox x:Name="ListBox" Focusable="True" Style="{StaticResource NVListBox}"
+    <ListBox x:Name="ListBox" Focusable="True" 
+                Style="{StaticResource NVListBox}"
                 Background="Transparent"
                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 FocusVisualStyle="{x:Null}"
@@ -38,6 +57,7 @@
                 SelectionChanged="FolderList_SelectionChanged"
                 Loaded="FolderList_Loaded"
                 KeyDown="FolderList_KeyDown"
+             HorizontalContentAlignment="Stretch"
                 ItemTemplate="{StaticResource NormalFolder}">
 
         <ListBox.Resources>
@@ -47,11 +67,6 @@
                 <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown"/>
                 <EventSetter Event="Loaded" Handler="FolderListItem_Loaded"/>
                 <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-
-                <!--
-                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                -->
-
             </Style>
         </ListBox.Resources>
 

@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -80,7 +85,7 @@ namespace NeeView
         private void FolderListItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var folderInfo = (sender as ListBoxItem)?.Content as FolderInfo;
-            if (folderInfo != null && folderInfo.IsDirectory)
+            if (folderInfo != null && folderInfo.IsDirectory && folderInfo.IsReady)
             {
                 Moved?.Invoke(this, folderInfo.Path);
             }
@@ -99,7 +104,7 @@ namespace NeeView
                 }
                 else if (e.Key == Key.Right) // →
                 {
-                    if (folderInfo != null && folderInfo.IsDirectory) // && System.IO.Directory.Exists(folderInfo.Path))
+                    if (folderInfo != null && folderInfo.IsDirectory && folderInfo.IsReady)
                     {
                         Moved?.Invoke(this, folderInfo.Path);
                     }
@@ -134,34 +139,74 @@ namespace NeeView
         {
             ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
             lbi?.Focus();
-            //Item.Content = "The contents of the item at index 0 are: " + (lbi.Content.ToString()) + ".";
         }
 
         private void FolderList_Loaded(object sender, RoutedEventArgs e)
         {
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
-
             FolderList_FocusSelectedItem(sender, e);
-
-
-            // ##
-            //GetScrollValue();
         }
 
 
         private void FolderListItem_Loaded(object sender, RoutedEventArgs e)
         {
-            /*
-            if (focusRequest)
+        }
+    }
+
+
+    // コンバータ：アイコンのWingdings
+    [ValueConversion(typeof(FolderInfo), typeof(Brush))]
+    public class FolderInfoToIconWingdingsConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            FolderInfo folderInfo = value as FolderInfo;
+            if (folderInfo != null)
             {
-                ListBoxItem lbi = (ListBoxItem)sender;
-                if (lbi.Content == this.ListBox.SelectedItem)
-                {
-                    lbi.Focus();
-                    focusRequest = false;
-                }
+                if (folderInfo.IsDirectory) return "0";
             }
-            */
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    // コンバータ：アイコンオーバーレイのWebdings
+    [ValueConversion(typeof(FolderInfo), typeof(Brush))]
+    public class FolderInfoToIconOverlayWebdingsConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            FolderInfo folderInfo = value as FolderInfo;
+            if (folderInfo != null)
+            {
+                if (folderInfo.IsDirectory && !folderInfo.IsReady) return "r";
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    // コンバータ：アイコンオーバーレイのブラシ
+    [ValueConversion(typeof(FolderInfo), typeof(Brush))]
+    public class FolderInfoToIconOverlayBrushConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            FolderInfo folderInfo = value as FolderInfo;
+            return new SolidColorBrush(Colors.Red);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 

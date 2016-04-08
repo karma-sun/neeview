@@ -667,11 +667,10 @@ namespace NeeView
             if (place == null) return false;
 
             var folders = new FolderCollection();
-
-            folders.SelectedBook = place;
+            folders.Place = Path.GetDirectoryName(place);
             folders.FolderOrder = FolderOrder;
             folders.RandomSeed = _FolderOrderSeed;
-            folders.Update(place, false, false);
+            folders.Update(place);
 
             if (folders.IsValid)
             {

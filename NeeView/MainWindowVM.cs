@@ -550,22 +550,24 @@ namespace NeeView
         }
         public void FlushPanelColor()
         {
+            int alpha = _PanelOpacity * 0xFF / 100;
+            if (alpha > 0xff) alpha = 0xff;
+            if (alpha < 0x00) alpha = 0x00; 
             if (_MenuColor == PanelColor.Dark)
             {
-                App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromRgb(0x11, 0x11, 0x11));
+                App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0x11, 0x11, 0x11));
                 App.Current.Resources["NVForeground"] = new SolidColorBrush(Color.FromRgb(0xFF, 0xFF, 0xFF));
-                App.Current.Resources["NVBaseBrush"] = new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22));
+                App.Current.Resources["NVBaseBrush"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0x22, 0x22, 0x22));
                 App.Current.Resources["NVDefaultBrush"] = new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55));
                 App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
                 App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
                 App.Current.Resources["NVCheckMarkBrush"] = new SolidColorBrush(Color.FromRgb(0x90, 0xEE, 0x90));
-
             }
             else
             {
-                App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromRgb(0xF8, 0xF8, 0xF8));
+                App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0xF8, 0xF8, 0xF8));
                 App.Current.Resources["NVForeground"] = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
-                App.Current.Resources["NVBaseBrush"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
+                App.Current.Resources["NVBaseBrush"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0xEE, 0xEE, 0xEE));
                 App.Current.Resources["NVDefaultBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
                 App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88));
                 App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55));
@@ -574,6 +576,15 @@ namespace NeeView
         }
         #endregion
 
+
+        #region Property: PanelOpacity
+        private int _PanelOpacity = 100;
+        public int PanelOpacity
+        {
+            get { return _PanelOpacity; }
+            set { _PanelOpacity = value; FlushPanelColor(); OnPropertyChanged(); }
+        }
+        #endregion
 
 
 
@@ -1405,6 +1416,9 @@ namespace NeeView
             [DataMember(Order = 6)]
             public PanelColor PanelColor { get; set; }
 
+            [DataMember(Order = 6)]
+            public int PanelOpacity { get; set; }
+
             void Constructor()
             {
                 IsLimitMove = true;
@@ -1418,6 +1432,7 @@ namespace NeeView
                 FileInfoSetting = new FileInfoSetting();
                 FolderListSetting = new FolderListSetting();
                 PanelColor = PanelColor.Dark;
+                PanelOpacity = 100;
             }
 
             public Memento()
@@ -1466,6 +1481,8 @@ namespace NeeView
             memento.IsVisibleFolderList = this.IsVisibleFolderList;
             memento.FolderListSetting = this.FolderListSetting.Clone();
             memento.PanelColor = this.PanelColor;
+            memento.PanelOpacity = this.PanelOpacity;
+
 
             return memento;
         }
@@ -1502,6 +1519,7 @@ namespace NeeView
             this.IsVisibleFolderList = memento.IsVisibleFolderList;
             this.FolderListSetting = memento.FolderListSetting.Clone();
             this.PanelColor = memento.PanelColor;
+            this.PanelOpacity = memento.PanelOpacity;
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }

@@ -110,7 +110,7 @@
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[3].Message}"/>
         </DockPanel>
         -->
-
+        
         <!-- 製品表示領域 -->
         <Grid x:Name="Root" Background="{Binding BackgroundBrush}">
 

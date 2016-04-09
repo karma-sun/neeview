@@ -967,9 +967,12 @@ namespace NeeView
         // 不要ページコンテンツの削除を行う
         private void CleanupPages(ViewPageContextSource source)
         {
-            // コンテンツを保持するページ収集 (前後2ページ分)
+            //// int keepPageSize = AllowPreLoad ? 3 : (PageMode.Size() - 1);
+            int keepPageSize = 3;
+
+            // コンテンツを保持するページ収集
             var keepPages = new List<Page>();
-            for (int offset = -3; offset < 4; ++offset)
+            for (int offset = -keepPageSize; offset <= keepPageSize; ++offset)
             {
                 int index = source.Position.Index + offset;
                 if (0 <= index && index < Pages.Count)

@@ -31,6 +31,7 @@ namespace NeeView
         public event EventHandler<string> Decided;
         public event EventHandler<string> Moved;
         public event EventHandler<string> MovedParent;
+        public event EventHandler<int> SelectionChanged;
 
         FolderListVM _VM;
 
@@ -67,6 +68,7 @@ namespace NeeView
             {
                 listBox.ScrollIntoView(listBox.SelectedItem);
             }
+            SelectionChanged?.Invoke(this, listBox.SelectedIndex);
         }
 
 
@@ -154,63 +156,6 @@ namespace NeeView
     }
 
 
-    // コンバータ：アイコンのWingdings
-    [ValueConversion(typeof(FolderInfo), typeof(Brush))]
-    public class FolderInfoToIconWingdingsConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            FolderInfo folderInfo = value as FolderInfo;
-            if (folderInfo != null)
-            {
-                if (folderInfo.IsDirectory) return "0";
-            }
-            return null;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    // コンバータ：アイコンオーバーレイのWebdings
-    [ValueConversion(typeof(FolderInfo), typeof(Brush))]
-    public class FolderInfoToIconOverlayWebdingsConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            FolderInfo folderInfo = value as FolderInfo;
-            if (folderInfo != null)
-            {
-                if (folderInfo.IsDirectory && !folderInfo.IsReady) return "r";
-            }
-            return null;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    // コンバータ：アイコンオーバーレイのブラシ
-    [ValueConversion(typeof(FolderInfo), typeof(Brush))]
-    public class FolderInfoToIconOverlayBrushConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            FolderInfo folderInfo = value as FolderInfo;
-            return new SolidColorBrush(Colors.Red);
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-
     /// <summary>
     /// FolderList ViewModel
     /// </summary>
@@ -238,6 +183,5 @@ namespace NeeView
             set { _SelectedIndex = value; OnPropertyChanged(); }
         }
         #endregion
-
     }
 }

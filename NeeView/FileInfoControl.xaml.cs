@@ -123,17 +123,6 @@ namespace NeeView
         {
             if (Setting != null)
             {
-#if false
-                switch (Setting.Background)
-                {
-                    case FileInfoBackground.White:
-                        this.Style = this.Resources["WhiteStyle"] as Style;
-                        break;
-                    case FileInfoBackground.Black:
-                        this.Style = this.Resources["BlackStyle"] as Style;
-                        break;
-                }
-#endif
                 //this.GroupThumbnail.Visibility = Setting.IsVisibleThumbnail ? Visibility.Visible : Visibility.Collapsed;
                 this.GroupLoader.Visibility = Setting.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed;
             }

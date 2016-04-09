@@ -119,6 +119,7 @@
 
                 <!-- フォルダリスト -->
                 <local:FolderListControl x:Name="FolderListArea" DockPanel.Dock="{Binding FolderListSetting.Dock}"  Width="250"
+                                        Setting="{Binding FolderListSetting}"
                                         BookHub="{Binding BookHub}"/>
                 <osc:DockPanelSplitter x:Name="FolderListSplitter" DockPanel.Dock="{Binding FolderListSetting.Dock}" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
                                        Visibility="{Binding ElementName=FolderListArea, Path=Visibility}" />
@@ -435,7 +436,7 @@
                     </Style>
                 </StackPanel.Style>
                 <StackPanel Orientation="Horizontal" Margin="20,10">
-                    <Image x:Name="InfoBookmark" Width="{Binding InfoTextFontSize}" Height="{Binding InfoTextFontSize}" Margin="0,0,10,0" Source="{StaticResource ic_bookmark_24px}" />
+                    <TextBlock x:Name="InfoBookmark"  Margin="0,0,10,0" FontFamily="Webdings" Text="a" FontSize="{Binding InfoTextFontSize}" Foreground="LightGreen" VerticalAlignment="Center"/>
                     <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" Foreground="White" FontFamily="Meiryo" TextTrimming="CharacterEllipsis"/>
                 </StackPanel>
             </StackPanel>

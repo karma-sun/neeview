@@ -5,7 +5,7 @@
     http://opensource.org/licenses/mit-license.php
 -->
 
-    <UserControl x:Class="NeeView.FolderList"
+<UserControl x:Class="NeeView.FolderList"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -16,21 +16,48 @@
 
     <UserControl.Resources>
 
-        <local:FolderInfoToIconWingdingsConverter x:Key="FolderInfoToIconWingdingsConverter"/>
-        <local:FolderInfoToIconOverlayWebdingsConverter x:Key="FolderInfoToIconOverlayWebdingsConverter"/>
-        <local:FolderInfoToIconOverlayBrushConverter x:Key="FolderInfoToIconOverlayBrushConverter"/>
-
         <DataTemplate x:Key="NormalFolder">
             <DockPanel>
 
                 <Grid DockPanel.Dock="Right" Width="24">
-                    <TextBlock Text="{Binding Converter={StaticResource FolderInfoToIconWingdingsConverter}}" FontFamily="Wingdings" VerticalAlignment="Center" FontSize="22"/>
-                    <TextBlock  FontFamily="Webdings" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="12"
-                                Text="{Binding Converter={StaticResource FolderInfoToIconOverlayWebdingsConverter}}"
-                                Foreground="{Binding Converter={StaticResource FolderInfoToIconOverlayBrushConverter}}"/>
+                    <TextBlock FontFamily="Wingdings" VerticalAlignment="Center" FontSize="22">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsDirectory}" Value="True">
+                                        <Setter Property="Text" Value="0"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+                    <TextBlock  FontFamily="Webdings" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IconOverlay}" Value="Disable">
+                                        <Setter Property="Text" Value="r"/>
+                                        <Setter Property="FontSize" Value="16"/>
+                                        <Setter Property="Foreground" Value="Red"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IconOverlay}" Value="Checked">
+                                        <Setter Property="Text" Value="a"/>
+                                        <Setter Property="FontSize" Value="20"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource NVCheckMarkBrush}"/>
+                                        <Setter Property="Margin" Value="0,0,-8,-4"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
                 </Grid>
                 <!-- <Image DockPanel.Dock="Right" Width="32" Height="32" Source="{Binding Icon}"/> -->
-                <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis" />
+                <Grid>
+                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis">
+                    </TextBlock>
+                </Grid>
             </DockPanel>
         </DataTemplate>
 

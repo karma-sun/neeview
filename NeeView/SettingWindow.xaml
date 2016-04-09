@@ -14,7 +14,7 @@
         xmlns:susie="clr-namespace:Susie"
         xmlns:drag="clr-namespace:DragExtensions"
         mc:Ignorable="d"
-        Title="設定" Height="480" Width="640" Closed="Window_Closed" >
+        Title="設定" Height="500" Width="700" Closed="Window_Closed" >
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -71,12 +71,14 @@
                         <TextBlock Text="その他" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Margin="2" Content="「開く」を現在開いているフォルダから始める"
+                            <CheckBox Margin="2" Content="「開く」を現在開いているフォルダから始める" ToolTip="[ファイル(F)]>[開く(O)]で開くフォルダです"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
                             <CheckBox Margin="2" Content="ページが終わったら次のフォルダに移動する"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnabledAutoNextFolder}" />
                             <CheckBox Margin="2" Content="ページがない場合、サブフォルダも読み込むか問い合わせる"
                               IsChecked="{Binding Setting.BookHubMemento.IsConfirmRecursive}" />
+                            <CheckBox Margin="2" Content="新しいフォルダーを開くときにページ設定を標準に戻す" ToolTip="新しいフォルダーを開いた時に[ページ(P)]の設定を初期値に戻します&#x0a;「サブフォルダも読み込む」はこの設定にかかわらずOFFになります"
+                              IsChecked="{Binding Setting.BookHubMemento.IsUseBookMementoDefault}" />
                         </StackPanel>
 
 
@@ -132,7 +134,14 @@
                                 <ComboBox ItemsSource="{Binding PanelColorList}" SelectedValuePath="Key" DisplayMemberPath="Value" MinWidth="120"
                                   SelectedValue="{Binding Setting.ViewMemento.PanelColor}" />
                             </DockPanel>
-                            
+
+                        </StackPanel>
+
+                        <TextBlock Text="フォルダリスト表示" Style="{StaticResource Header}"/>
+
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Margin="2" Content="履歴マークを表示する"
+                              IsChecked="{Binding Setting.ViewMemento.FolderListSetting.IsVisibleHistoryMark}" />
                         </StackPanel>
 
                         <TextBlock Text="ファイル情報表示" Style="{StaticResource Header}"/>
@@ -326,7 +335,21 @@
                         <TextBlock Text="設定" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Margin="2" Content="履歴からページ設定を復元する"
-                              IsChecked="{Binding Setting.BookHubMemento.IsEnableHistory}" />
+                                      IsChecked="{Binding Setting.BookHubMemento.IsEnableHistory}" />
+                            <CheckBox Margin="2" Content="ページ番号のみ復元する"
+                                      IsChecked="{Binding Setting.BookHubMemento.IsRecoveryPageOnly}" >
+                                <CheckBox.Style>
+                                    <Style TargetType="CheckBox">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Setting.BookHubMemento.IsEnableHistory}" Value="True">
+                                                <Setter Property="IsEnabled" Value="True"/>
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+                                </CheckBox.Style>
+                            </CheckBox>
 
                         </StackPanel>
                         <TextBlock Text="履歴保持数" Style="{StaticResource Header}"/>

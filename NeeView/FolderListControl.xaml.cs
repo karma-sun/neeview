@@ -22,8 +22,6 @@ using System.Runtime.Serialization;
 
 namespace NeeView
 {
-    // TODO: SavePlaceを_VMだけで完結できるようにする
-
     /// <summary>
     /// ファイル情報ペイン設定
     /// </summary>
@@ -31,12 +29,16 @@ namespace NeeView
     public class FolderListSetting
     {
         [DataMember]
-        public Dock Dock { get; set; } = Dock.Left;
+        public Dock Dock { get; set; }
+
+        [DataMember]
+        public bool IsVisibleHistoryMark { get; set; }
 
         //
         private void Constructor()
         {
             Dock = Dock.Left;
+            IsVisibleHistoryMark = true;
         }
 
         public FolderListSetting()
@@ -66,6 +68,29 @@ namespace NeeView
     /// </summary>
     public partial class FolderListControl : UserControl
     {
+        public FolderListSetting Setting
+        {
+            get { return (FolderListSetting)GetValue(SettingProperty); }
+            set { SetValue(SettingProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Setting.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SettingProperty =
+            DependencyProperty.Register("Setting", typeof(FolderListSetting), typeof(FolderListControl), new PropertyMetadata(new FolderListSetting(), new PropertyChangedCallback(SettingPropertyChanged)));
+
+        //
+        public static void SettingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            // オブジェクトを取得して処理する
+            FolderListControl ctrl = d as FolderListControl;
+            if (ctrl != null)
+            {
+                ctrl._VM.SetSetting(ctrl.Setting);
+            }
+        }
+
+
+
         FolderListControlVM _VM;
         FolderList _FolderList;
 
@@ -99,76 +124,34 @@ namespace NeeView
             _VM = new FolderListControlVM();
             _VM.FolderCollectionChanged += OnFolderCollectionChanged;
             _VM.SelectedItemChanged += OnSelectedItemChanged;
-            _VM.FolderListSync += OnFolderListSync;
-            _VM.FolderListReflesh += OnFolderListReflesh;
             this.DockPanel.DataContext = _VM;
         }
 
-        private void OnFolderListReflesh(object sender, EventArgs e)
-        {
-            _VM.SavePlace(_FolderList?.SelectedItem);
-            _VM.Reflesh();
-            //throw new NotImplementedException();
-        }
-
-        private void OnFolderListSync(object sender, FolderListSyncArguments e)
-        {
-            if (e.isKeepPlace)
-            {
-                if (!_VM.FolderCollection.Contains(e.Path)) return;
-            }
-
-            _VM.SavePlace(_FolderList?.SelectedItem);
-            _VM.SetPlace(System.IO.Path.GetDirectoryName(e.Path), e.Path);
-        }
-
+        //
         private void OnSelectedItemChanged(object sender, EventArgs e)
         {
             _FolderList?.SetSelectedIndex(_VM.SelectedIndex);
         }
 
         //
-        private void OnFolderCollectionChanged(object sender, EventArgs e)
+        private void OnFolderCollectionChanged(object sender, EventArgs _e)
         {
             var vm = new FolderListVM();
             vm.FolderCollection = _VM.FolderCollection;
             vm.SelectedIndex = _VM.FolderCollection.SelectedIndex < 0 ? 0 : _VM.FolderCollection.SelectedIndex;
             _FolderList = new FolderList(vm);
-            _FolderList.Decided += FolderList_Decided;
-            _FolderList.Moved += FolderList_Moved;
-            _FolderList.MovedParent += FolderList_MovedParent;
-            //_FolderList.Style = this.Resources["BlackStyle"] as Style;
+            _FolderList.Decided += (s, e) => _VM.BookHub.RequestLoad(e, BookLoadOption.None, false);
+            _FolderList.Moved += (s, e) => _VM.SetPlace(e, null);
+            _FolderList.MovedParent += (s, e) => _VM.MoveToParent();
+            _FolderList.SelectionChanged += (s, e) => _VM.SelectedIndex = e;
 
             this.FolderListContent.Content = _FolderList;
         }
 
-        private void FolderList_MovedParent(object sender, string e)
-        {
-            _VM.SavePlace(_FolderList?.SelectedItem);
-            _VM.MoveToParent();
-        }
-
-        private void FolderList_Moved(object sender, string e)
-        {
-            _VM.SavePlace(_FolderList?.SelectedItem);
-            _VM.SetPlace(e, null);
-        }
-
-        private void FolderList_Decided(object sender, string e)
-        {
-            _VM.BookHub.RequestLoad(e, BookLoadOption.None, false);
-        }
-
+        //
         public void SetPlace(string place, string select)
         {
-            _VM.SavePlace(_FolderList?.SelectedItem);
             _VM.SetPlace(place, select);
-        }
-
-        public void Sync()
-        {
-            _VM.SavePlace(_FolderList?.SelectedItem);
-            _VM.Sync();
         }
 
         // フォルダ上階層に移動
@@ -180,7 +163,7 @@ namespace NeeView
         // フォルダ同期
         private void FolderSyncButton_Click(object sender, RoutedEventArgs e)
         {
-            Sync();
+            _VM.Sync();
             _FolderList.FocusSelectedItem();
         }
     }
@@ -201,8 +184,6 @@ namespace NeeView
 
         public event EventHandler FolderCollectionChanged;
         public event EventHandler SelectedItemChanged;
-        public event EventHandler<FolderListSyncArguments> FolderListSync;
-        public event EventHandler FolderListReflesh;
 
         private BookHub _BookHub;
         public BookHub BookHub
@@ -211,8 +192,9 @@ namespace NeeView
             set
             {
                 _BookHub = value;
-                _BookHub.FolderListSync += (s, e) => FolderListSync?.Invoke(s, e);
-                _BookHub.FolderListReflesh += (s, e) => FolderListReflesh?.Invoke(s, e);
+                _BookHub.FolderListSync += (s, e) => SyncWeak(e);
+                _BookHub.FolderListReflesh += (s, e) => Reflesh();
+                _BookHub.HistoryChanged += (s, e) => RefleshIcon(e);
             }
         }
 
@@ -241,6 +223,8 @@ namespace NeeView
         }
         #endregion
 
+        public FolderInfo SelectedItem => (_FolderCollection != null && 0 <= SelectedIndex && SelectedIndex < _FolderCollection.Items.Count) ? _FolderCollection[SelectedIndex] : null; // { get; set; }
+
         public string Place => _FolderCollection?.Place;
 
         public string PlaceDispString => string.IsNullOrEmpty(Place) ? "このPC" : Place;
@@ -249,9 +233,16 @@ namespace NeeView
 
         private bool _IsDarty;
 
+        //
+        public void SetSetting(FolderListSetting setting)
+        {
+            if (setting == null) return;
+            FolderInfo.IsVisibleHistoryMark = setting.IsVisibleHistoryMark;
+            RefleshIcon(null);
+        }
 
         //
-        public void SavePlace(FolderInfo folder)
+        private void SavePlace(FolderInfo folder)
         {
             if (folder == null || folder.ParentPath == null) return;
             LastPlaceDictionary[folder.ParentPath] = folder.Path;
@@ -260,6 +251,8 @@ namespace NeeView
         //
         public void SetPlace(string place, string select)
         {
+            SavePlace(SelectedItem);
+
             if (select == null && place != null)
             {
                 LastPlaceDictionary.TryGetValue(place, out select);
@@ -298,6 +291,17 @@ namespace NeeView
         }
 
         //
+        public void SyncWeak(FolderListSyncArguments e)
+        {
+            if (e != null && e.isKeepPlace)
+            {
+                if (!FolderCollection.Contains(e.Path)) return;
+            }
+
+            SetPlace(System.IO.Path.GetDirectoryName(e.Path), e.Path);
+        }
+
+        //
         public void Sync()
         {
             string place = BookHub?.Current?.Place;
@@ -315,6 +319,12 @@ namespace NeeView
 
             _IsDarty = true;
             SetPlace(FolderCollection.Place, null);
+        }
+
+        //
+        public void RefleshIcon(string path)
+        {
+            FolderCollection?.RefleshIcon(path);
         }
     }
 }

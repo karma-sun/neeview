@@ -8,6 +8,7 @@
     <SolidColorBrush x:Key="NVDefaultBrush" Color="#555" />
     <SolidColorBrush x:Key="NVMouseOverBrush" Color="#AAA" />
     <SolidColorBrush x:Key="NVPressedBrush" Color="#DDD" />
+    <SolidColorBrush x:Key="NVCheckMarkBrush" Color="LightGreen" />
 
     <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
         <Setter Property="SnapsToDevicePixels" Value="True" />

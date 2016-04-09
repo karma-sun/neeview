@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.ComponentModel;
 
 namespace NeeView
 {
@@ -20,12 +21,31 @@ namespace NeeView
         Directory = (1 << 0),
         Drive = (1 << 1),
         DriveNotReady = (1 << 2),
-        Empty = (1 << 3)
+        Empty = (1 << 3),
+    }
+
+    public enum FolderInfoIconOverlay
+    {
+        None,
+        Disable,
+        Checked,
     }
 
     // フォルダ情報
-    public class FolderInfo
+    public class FolderInfo : INotifyPropertyChanged
     {
+        #region NotifyPropertyChanged
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion
+
         public FolderInfoAttribute Attributes { get; set; }
 
         public string Path { get; set; }
@@ -36,6 +56,28 @@ namespace NeeView
         public bool IsEmpty => (Attributes & FolderInfoAttribute.Empty) == FolderInfoAttribute.Empty;
 
         public bool IsReady { get; set; }
+
+        public static bool IsVisibleHistoryMark { get; set; } = true;
+
+        // アイコンオーバーレイの種類を返す
+        public FolderInfoIconOverlay IconOverlay
+        {
+            get
+            {
+                if (IsVisibleHistoryMark && ModelContext.BookHistory.Find(Path) != null)
+                    return FolderInfoIconOverlay.Checked;
+                else if (IsDirectory && !IsReady)
+                    return FolderInfoIconOverlay.Disable;
+                else
+                    return FolderInfoIconOverlay.None;
+            }
+        }
+
+        // アイコンオーバーレイの変更を通知
+        public void NotifyIconOverlayChanged()
+        {
+            OnPropertyChanged(nameof(IconOverlay));
+        }
 
 
         private BitmapSource _Icon;
@@ -112,6 +154,9 @@ namespace NeeView
 
         //
         public int SelectedIndex => IndexOfPath(_CurrentPlace);
+
+        //
+        public string SelectedPath => _CurrentPlace;
 
         //
         public int IndexOfPath(string path)
@@ -192,6 +237,21 @@ namespace NeeView
             }
 
             Items = list;
+        }
+
+        // アイコンの表示更新
+        public void RefleshIcon(string path)
+        {
+            if (path == null)
+            {
+                Items.ForEach(e => e.NotifyIconOverlayChanged());
+            }
+            else
+            {
+                var item = Items.Find(e => e.Path == path);
+                if (item != null)
+                    item.NotifyIconOverlayChanged();
+            }
         }
     }
 

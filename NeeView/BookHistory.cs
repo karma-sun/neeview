@@ -18,6 +18,9 @@ namespace NeeView
     /// </summary>
     public class BookHistory
     {
+        // 履歴に追加、削除された
+        public event EventHandler<string> HistoryChanged;
+
         // 履歴
         public LinkedList<Book.Memento> History { get; private set; } = new LinkedList<Book.Memento>();
 
@@ -33,6 +36,7 @@ namespace NeeView
         public void Clear()
         {
             History.Clear();
+            HistoryChanged?.Invoke(this, null);
         }
 
         // 履歴サイズ調整
@@ -40,7 +44,9 @@ namespace NeeView
         {
             while (History.Count > MaxHistoryCount)
             {
+                var path = History.Last().Place;
                 History.RemoveLast();
+                HistoryChanged?.Invoke(this, path);
             }
         }
 
@@ -54,9 +60,10 @@ namespace NeeView
             var item = History.FirstOrDefault(e => e.Place == book.Place);
             if (item != null) History.Remove(item);
 
-            var setting = new Book.Memento();
-            setting = book.CreateMemento();
+            var setting = book.CreateMemento();
             History.AddFirst(setting);
+
+            HistoryChanged?.Invoke(this, setting.Place);
 
             Resize();
         }
@@ -65,7 +72,11 @@ namespace NeeView
         public void Remove(string place)
         {
             var item = History.FirstOrDefault(e => e.Place == place);
-            if (item != null) History.Remove(item);
+            if (item != null)
+            {
+                History.Remove(item);
+                HistoryChanged?.Invoke(this, item.Place);
+            }
         }
 
         // 履歴検索
@@ -169,6 +180,7 @@ namespace NeeView
         {
             this.History = new LinkedList<Book.Memento>(memento.History);
             this.MaxHistoryCount = memento.MaxHistoryCount;
+            this.HistoryChanged?.Invoke(this, null);
         }
 
 

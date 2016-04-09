@@ -69,6 +69,9 @@ namespace NeeView
         // フォルダ列再作成要求
         public event EventHandler FolderListReflesh;
 
+        // 履歴に追加、削除された
+        public event EventHandler<string> HistoryChanged;
+
         #endregion
 
 
@@ -195,6 +198,15 @@ namespace NeeView
         // 本の設定、引き継ぎ用
         public Book.Memento BookMemento { get; set; } = new Book.Memento();
 
+        // 本の設定、標準
+        public Book.Memento BookMementoDefault { get; set; } = new Book.Memento();
+
+        // 新しい本を開くときに標準設定にする？
+        public bool IsUseBookMementoDefault { get; set; }
+
+        // ページ番号のみ復元する？
+        public bool IsRecoveryPageOnly { get; set; }
+
         // 外部アプリ設定
         public ExternalApplication ExternalApllication { get; set; } = new ExternalApplication();
 
@@ -207,6 +219,8 @@ namespace NeeView
         // コンストラクタ
         public BookHub()
         {
+            ModelContext.BookHistory.HistoryChanged += (s, e) => HistoryChanged?.Invoke(s, e);
+
             StartCommandWorker();
         }
 
@@ -517,15 +531,14 @@ namespace NeeView
                     var setting = ModelContext.BookHistory.Find(path);
                     if (setting != null && IsEnableHistory)
                     {
-                        BookMemento = setting.Clone();
-                        book.Restore(BookMemento);
+                        book.Restore(IsRecoveryPageOnly ? (IsUseBookMementoDefault ? BookMementoDefault : BookMemento) : setting);
                         startEntry = startEntry ?? setting.BookMark;
                         _IsUsedHistory = true;
                     }
                     // 履歴がないときは設定はそのまま。再帰設定のみOFFにする。
                     else
                     {
-                        book.Restore(BookMemento); //.Restore(book);
+                        book.Restore(IsUseBookMementoDefault ? BookMementoDefault : BookMemento);
                         book.IsRecursiveFolder = false;
                     }
                 }
@@ -585,6 +598,9 @@ namespace NeeView
             // 本の設定を退避
             BookMemento = Current.CreateMemento();
             BookMemento.ValidateForDefault();
+
+            // 履歴の保存 その１
+            ModelContext.BookHistory.Add(Current);
         }
 
 
@@ -1062,6 +1078,15 @@ namespace NeeView
             [DataMember(Order = 6)]
             public bool IsConfirmRecursive { get; set; }
 
+            [DataMember(Order = 6)]
+            public Book.Memento BookMementoDefault { get; set; }
+
+            [DataMember(Order = 6)]
+            public bool IsUseBookMementoDefault { get; set; }
+
+            [DataMember(Order = 6)]
+            public bool IsRecoveryPageOnly { get; set; }
+
             //
             private void Constructor()
             {
@@ -1074,6 +1099,9 @@ namespace NeeView
                 BookMemento = new Book.Memento();
                 ExternalApplication = new ExternalApplication();
                 AllowPagePreLoad = true;
+                BookMementoDefault = new Book.Memento();
+                IsUseBookMementoDefault = false;
+                IsRecoveryPageOnly = false;
             }
 
             public Memento()
@@ -1108,6 +1136,11 @@ namespace NeeView
             memento.ExternalApplication = ExternalApllication.Clone();
             memento.AllowPagePreLoad = AllowPagePreLoad;
             memento.IsConfirmRecursive = IsConfirmRecursive;
+            memento.BookMementoDefault = BookMementoDefault.Clone();
+            memento.BookMementoDefault.ValidateForDefault(); // 念のため
+            memento.IsUseBookMementoDefault = IsUseBookMementoDefault;
+            memento.IsRecoveryPageOnly = IsRecoveryPageOnly;
+
 
             return memento;
         }
@@ -1129,6 +1162,9 @@ namespace NeeView
             ExternalApllication = memento.ExternalApplication.Clone();
             AllowPagePreLoad = memento.AllowPagePreLoad;
             IsConfirmRecursive = memento.IsConfirmRecursive;
+            BookMementoDefault = memento.BookMementoDefault.Clone();
+            IsUseBookMementoDefault = memento.IsUseBookMementoDefault;
+            IsRecoveryPageOnly = memento.IsRecoveryPageOnly;
         }
 
         #endregion

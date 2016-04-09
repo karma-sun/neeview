@@ -42,7 +42,7 @@
             </StackPanel>
             <WrapPanel Orientation="Horizontal" >
                 <Button x:Name="FolderUpButton" Style="{StaticResource IconButton}" Click="FolderUpButton_Click">
-                    <TextBlock Margin="8,5" Text="上のフォルダに移動" Foreground="#1188DD"/>
+                    <TextBlock Margin="8,5" Text="上のフォルダーに移動" Foreground="#1188DD"/>
                 </Button>
                 <Button x:Name="FolderSync" Style="{StaticResource IconButton}" Click="FolderSyncButton_Click">
                     <TextBlock Margin="8,5" Text="同期" Foreground="#1188DD" ToolTip="表示中のフォルダに移動"/>

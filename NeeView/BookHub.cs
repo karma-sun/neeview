@@ -70,7 +70,7 @@ namespace NeeView
         public event EventHandler FolderListReflesh;
 
         // 履歴に追加、削除された
-        public event EventHandler<string> HistoryChanged;
+        public event EventHandler<HistoryChangedArgs> HistoryChanged;
 
         #endregion
 

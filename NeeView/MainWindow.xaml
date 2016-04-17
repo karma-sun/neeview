@@ -110,26 +110,58 @@
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[3].Message}"/>
         </DockPanel>
         -->
-        
+
         <!-- 製品表示領域 -->
         <Grid x:Name="Root" Background="{Binding BackgroundBrush}">
 
             <!--  ビューエリア -->
             <DockPanel x:Name="ViewArea">
 
-                <!-- フォルダリスト -->
-                <local:FolderListControl x:Name="FolderListArea" DockPanel.Dock="{Binding FolderListSetting.Dock}"  Width="250"
-                                        Setting="{Binding FolderListSetting}"
-                                        BookHub="{Binding BookHub}"/>
-                <osc:DockPanelSplitter x:Name="FolderListSplitter" DockPanel.Dock="{Binding FolderListSetting.Dock}" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
-                                       Visibility="{Binding ElementName=FolderListArea, Path=Visibility}" />
+                <!-- 左パネル -->
+                <Grid x:Name="LeftPanel" DockPanel.Dock="Left" Width="250">
 
-                <!-- 情報エリア -->
-                <Grid x:Name="InfoArea" DockPanel.Dock="{Binding FileInfoSetting.Dock}" Width="250" MouseLeftButtonDown="InfoArea_MouseLeftButtonDown">
-                    <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}" d:IsHidden="True"/>
+                    <!-- 履歴リスト -->
+                    <local:HistoryControl x:Name="HistoryArea">
+                        <local:HistoryControl.Style>
+                            <Style TargetType="local:HistoryControl">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding LeftPanel}" Value="HistoryList">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </local:HistoryControl.Style>
+                    </local:HistoryControl>
+
+                    <!-- フォルダリスト -->
+                    <local:FolderListControl x:Name="FolderListArea"
+                                        Setting="{Binding FolderListSetting}"
+                                        BookHub="{Binding BookHub}">
+                        <local:FolderListControl.Style>
+                            <Style TargetType="local:FolderListControl">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding LeftPanel}" Value="FolderList">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </local:FolderListControl.Style>
+                    </local:FolderListControl>
                 </Grid>
-                <osc:DockPanelSplitter x:Name="InfoAreaSplitter" DockPanel.Dock="{Binding FileInfoSetting.Dock}" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
-                                       Visibility="{Binding ElementName=InfoArea, Path=Visibility}" />
+                <osc:DockPanelSplitter x:Name="FolderListSplitter" DockPanel.Dock="Left" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
+                                       Visibility="{Binding ElementName=LeftPanel, Path=Visibility}" />
+
+                <!-- 右パネル -->
+                <Grid x:Name="RightPanel" DockPanel.Dock="Right" Width="250">
+                    <!-- 情報エリア -->
+                    <Grid x:Name="InfoArea" MouseLeftButtonDown="InfoArea_MouseLeftButtonDown">
+                        <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}" d:IsHidden="True"/>
+                    </Grid>
+                </Grid>
+                <osc:DockPanelSplitter x:Name="InfoAreaSplitter" DockPanel.Dock="Right" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
+                                       Visibility="{Binding ElementName=RightPanel, Path=Visibility}" />
 
                 <!-- メインビュー -->
                 <Grid Panel.ZIndex="-1">
@@ -297,6 +329,8 @@
                         <Separator/>
                         <MenuItem Header="フォルダーリストを表示" Command="{Binding BookCommands[ToggleVisibleFolderList]}"
                             IsChecked="{Binding IsVisibleFolderList}"/>
+                        <MenuItem Header="履歴を表示" Command="{Binding BookCommands[ToggleVisibleHistoryList]}"
+                            IsChecked="{Binding IsVisibleHistoryList}"/>
                         <MenuItem Header="ファイル情報を表示" Command="{Binding BookCommands[ToggleVisibleFileInfo]}"
                             IsChecked="{Binding IsVisibleFileInfo}"/>
                         <Separator/>

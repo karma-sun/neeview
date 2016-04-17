@@ -194,7 +194,7 @@ namespace NeeView
                 _BookHub = value;
                 _BookHub.FolderListSync += (s, e) => SyncWeak(e);
                 _BookHub.FolderListReflesh += (s, e) => Reflesh();
-                _BookHub.HistoryChanged += (s, e) => RefleshIcon(e);
+                _BookHub.HistoryChanged += (s, e) => RefleshIcon(e.Key);
             }
         }
 

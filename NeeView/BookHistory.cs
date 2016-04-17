@@ -13,13 +13,36 @@ using System.Xml;
 
 namespace NeeView
 {
+    // HistoryChangedイベントの種類
+    public enum HistoryChangedType
+    {
+        Load,
+        Clear,
+        Add,
+        Update,
+        Remove,
+    }
+
+    // HistoryChangedイベントの引数
+    public class HistoryChangedArgs
+    {
+        public HistoryChangedType HistoryChangedType { get; set; }
+        public string Key { get; set; }
+
+        public HistoryChangedArgs(HistoryChangedType type, string key)
+        {
+            HistoryChangedType = type;
+            Key = key;
+        }
+    }
+
     /// <summary>
     /// 履歴
     /// </summary>
     public class BookHistory
     {
         // 履歴に追加、削除された
-        public event EventHandler<string> HistoryChanged;
+        public event EventHandler<HistoryChangedArgs> HistoryChanged;
 
         // 履歴
         public LinkedList<Book.Memento> History { get; private set; } = new LinkedList<Book.Memento>();
@@ -36,7 +59,7 @@ namespace NeeView
         public void Clear()
         {
             History.Clear();
-            HistoryChanged?.Invoke(this, null);
+            HistoryChanged?.Invoke(this, new HistoryChangedArgs(HistoryChangedType.Clear, null));
         }
 
         // 履歴サイズ調整
@@ -46,7 +69,7 @@ namespace NeeView
             {
                 var path = History.Last().Place;
                 History.RemoveLast();
-                HistoryChanged?.Invoke(this, path);
+                HistoryChanged?.Invoke(this, new HistoryChangedArgs(HistoryChangedType.Remove, path));
             }
         }
 
@@ -57,13 +80,18 @@ namespace NeeView
             if (book?.Place == null) return;
             if (book.Pages.Count <= 0) return;
 
+            var changedType = HistoryChangedType.Add;
+
             var item = History.FirstOrDefault(e => e.Place == book.Place);
-            if (item != null) History.Remove(item);
+            if (item != null)
+            {
+                History.Remove(item);
+                changedType = HistoryChangedType.Update;
+            }
 
             var setting = book.CreateMemento();
             History.AddFirst(setting);
-
-            HistoryChanged?.Invoke(this, setting.Place);
+            HistoryChanged?.Invoke(this, new HistoryChangedArgs(changedType, setting.Place));
 
             Resize();
         }
@@ -75,7 +103,7 @@ namespace NeeView
             if (item != null)
             {
                 History.Remove(item);
-                HistoryChanged?.Invoke(this, item.Place);
+                HistoryChanged?.Invoke(this, new HistoryChangedArgs(HistoryChangedType.Remove, item.Place));
             }
         }
 
@@ -180,7 +208,7 @@ namespace NeeView
         {
             this.History = new LinkedList<Book.Memento>(memento.History);
             this.MaxHistoryCount = memento.MaxHistoryCount;
-            this.HistoryChanged?.Invoke(this, null);
+            this.HistoryChanged?.Invoke(this, new HistoryChangedArgs(HistoryChangedType.Load, null));
         }
 
 

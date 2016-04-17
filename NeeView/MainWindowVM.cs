@@ -45,6 +45,15 @@ namespace NeeView
         Light,
     }
 
+    // パネル種類
+    public enum PanelType
+    {
+        None,
+        FileInfo,
+        FolderList,
+        HistoryList,
+    }
+
 
     /// <summary>
     /// ViewModel
@@ -207,21 +216,14 @@ namespace NeeView
         }
         #endregion
 
+
         // ファイル情報表示ON/OFF
-        #region Property: IsVisibleFileInfo
-        private bool _IsVisibleFileInfo;
         public bool IsVisibleFileInfo
         {
-            get { return _IsVisibleFileInfo; }
-            set
-            {
-                _IsVisibleFileInfo = value;
-                OnPropertyChanged();
-                UpdateFileInfoContent();
-                NotifyMenuVisibilityChanged?.Invoke(this, null);
-            }
+            get { return RightPanel == PanelType.FileInfo; }
+            set { RightPanel = value ? PanelType.FileInfo : PanelType.None; }
         }
-        #endregion
+
         public bool ToggleVisibleFileInfo()
         {
             IsVisibleFileInfo = !IsVisibleFileInfo;
@@ -229,27 +231,73 @@ namespace NeeView
         }
 
 
-        // フォルダリスト表示ON/OFF
-        #region Property: IsVisibleFolderList
-        private bool _IsVisibleFolderList;
+        // フォルダーリスト表示ON/OFF
         public bool IsVisibleFolderList
         {
-            get { return _IsVisibleFolderList; }
-            set
-            {
-                _IsVisibleFolderList = value;
-                OnPropertyChanged();
-                //UpdateFileInfoContent();
-                NotifyMenuVisibilityChanged?.Invoke(this, null);
-            }
+            get { return LeftPanel == PanelType.FolderList; }
+            set { LeftPanel = value ? PanelType.FolderList : PanelType.None; }
         }
-        #endregion
+
+        //
         public bool ToggleVisibleFolderList()
         {
             IsVisibleFolderList = !IsVisibleFolderList;
             return IsVisibleFolderList;
         }
 
+
+        // 履歴リスト表示ON/OFF
+        public bool IsVisibleHistoryList
+        {
+            get { return LeftPanel == PanelType.HistoryList; }
+            set { LeftPanel = value ? PanelType.HistoryList : PanelType.None; }
+        }
+
+        //
+        public bool ToggleVisibleHistoryList()
+        {
+            IsVisibleHistoryList = !IsVisibleHistoryList;
+            return IsVisibleHistoryList;
+        }
+
+
+        // 左パネル
+        #region Property: LeftPanel
+        private PanelType _LeftPanel;
+        public PanelType LeftPanel
+        {
+            get { return _LeftPanel; }
+            set
+            {
+                _LeftPanel = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsVisibleFolderList));
+                OnPropertyChanged(nameof(IsVisibleHistoryList));
+                NotifyMenuVisibilityChanged?.Invoke(this, null);
+            }
+        }
+        #endregion
+
+        // 右パネル
+        #region Property: RightPanel
+        private PanelType _RightPanel;
+        public PanelType RightPanel
+        {
+            get { return _RightPanel; }
+            set
+            {
+                _RightPanel = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsVisibleFileInfo));
+                UpdateFileInfoContent();
+                NotifyMenuVisibilityChanged?.Invoke(this, null);
+            }
+            #endregion
+        }
+
+        // パネル幅
+        public double LeftPanelWidth { get; set; } = 250;
+        public double RightPanelWidth { get; set; } = 250;
 
         // フルスクリーン
         #region Property: IsFullScreen
@@ -517,7 +565,6 @@ namespace NeeView
         }
         #endregion
 
-
         // Foregroudh Brush：ファイルページのフォントカラー用
         #region Property: ForegroundBrush
         private Brush _ForegroundBrush = Brushes.White;
@@ -552,7 +599,7 @@ namespace NeeView
         {
             int alpha = _PanelOpacity * 0xFF / 100;
             if (alpha > 0xff) alpha = 0xff;
-            if (alpha < 0x00) alpha = 0x00; 
+            if (alpha < 0x00) alpha = 0x00;
             if (_MenuColor == PanelColor.Dark)
             {
                 App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0x11, 0x11, 0x11));
@@ -861,7 +908,7 @@ namespace NeeView
         }
 
         // アプリ設定読み込み
-        public void LoadSetting(Window window)
+        public void LoadSetting(MainWindow window)
         {
             Setting setting;
 
@@ -923,16 +970,24 @@ namespace NeeView
                 BookHub.IsEnableSlideShow = true;
             }
 
+            // パネル幅復元
+            window.LeftPanel.Width = LeftPanelWidth;
+            window.RightPanel.Width = RightPanelWidth;
+
             // ウィンドウ座標復元 (スレッドスリープする)
             WindowPlacement.Restore(window, setting.WindowPlacement, setting.ViewMemento.IsFullScreen);
         }
 
 
         // アプリ設定保存
-        public void SaveSetting(Window window)
+        public void SaveSetting(MainWindow window)
         {
             // 現在の本を履歴に登録
             ModelContext.BookHistory.Add(BookHub.Current);
+
+            // パネル幅保存
+            LeftPanelWidth = window.LeftPanel.Width;
+            RightPanelWidth = window.RightPanel.Width;
 
             // 設定
             var setting = CreateSetting();
@@ -1408,9 +1463,6 @@ namespace NeeView
             public string UserDownloadPath { get; set; }
 
             [DataMember(Order = 6)]
-            public bool IsVisibleFolderList { get; set; }
-
-            [DataMember(Order = 6)]
             public FolderListSetting FolderListSetting { get; set; }
 
             [DataMember(Order = 6)]
@@ -1418,6 +1470,19 @@ namespace NeeView
 
             [DataMember(Order = 6)]
             public int PanelOpacity { get; set; }
+
+            [DataMember(Order = 7)]
+            public PanelType LeftPanel { get; set; }
+
+            [DataMember(Order = 7)]
+            public PanelType RightPanel { get; set; }
+
+            [DataMember(Order = 7)]
+            public double LeftPanelWidth { get; set; }
+
+            [DataMember(Order = 7)]
+            public double RightPanelWidth { get; set; }
+
 
             void Constructor()
             {
@@ -1433,6 +1498,8 @@ namespace NeeView
                 FolderListSetting = new FolderListSetting();
                 PanelColor = PanelColor.Dark;
                 PanelOpacity = 100;
+                LeftPanelWidth = 250;
+                RightPanelWidth = 250;
             }
 
             public Memento()
@@ -1478,11 +1545,13 @@ namespace NeeView
             memento.IsVisibleFileInfo = this.IsVisibleFileInfo;
             memento.FileInfoSetting = this.FileInfoSetting.Clone();
             memento.UserDownloadPath = this.UserDownloadPath;
-            memento.IsVisibleFolderList = this.IsVisibleFolderList;
             memento.FolderListSetting = this.FolderListSetting.Clone();
             memento.PanelColor = this.PanelColor;
             memento.PanelOpacity = this.PanelOpacity;
-
+            memento.LeftPanel = this.LeftPanel;
+            memento.RightPanel = this.RightPanel;
+            memento.LeftPanelWidth = this.LeftPanelWidth;
+            memento.RightPanelWidth = this.RightPanelWidth;
 
             return memento;
         }
@@ -1516,10 +1585,14 @@ namespace NeeView
             this.IsVisibleFileInfo = memento.IsVisibleFileInfo;
             this.FileInfoSetting = memento.FileInfoSetting.Clone();
             this.UserDownloadPath = memento.UserDownloadPath;
-            this.IsVisibleFolderList = memento.IsVisibleFolderList;
             this.FolderListSetting = memento.FolderListSetting.Clone();
             this.PanelColor = memento.PanelColor;
             this.PanelOpacity = memento.PanelOpacity;
+            this.LeftPanel = memento.LeftPanel;
+            this.RightPanel = memento.RightPanel;
+            this.LeftPanelWidth = memento.LeftPanelWidth;
+            this.RightPanelWidth = memento.RightPanelWidth;
+
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }

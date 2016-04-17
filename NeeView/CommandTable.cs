@@ -289,6 +289,17 @@ namespace NeeView
                     ExecuteMessage = e => _VM.IsVisibleFolderList ? "フォルダーリストを消す" : "フォルダーリストを表示する",
                     CanExecute = () => true,
                 },
+                [CommandType.ToggleVisibleHistoryList] = new CommandElement
+                {
+                    Group = "ウィンドウ",
+                    Text = "履歴の表示ON/OFF",
+                    ShortCutKey = "H",
+                    IsShowMessage = false,
+                    Execute = e => _VM.ToggleVisibleHistoryList(),
+                    ExecuteMessage = e => _VM.IsVisibleHistoryList ? "履歴リストを消す" : "履歴リストを表示する",
+                    CanExecute = () => true,
+                },
+
 
                 [CommandType.ToggleFullScreen] = new CommandElement
                 {

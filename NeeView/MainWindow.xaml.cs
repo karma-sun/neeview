@@ -521,8 +521,8 @@ namespace NeeView
             }
 
             // ウィンドウ表示設定
-            this.FolderListArea.Visibility = _VM.IsVisibleFolderList ? Visibility.Visible : Visibility.Collapsed;
-            this.InfoArea.Visibility = _VM.IsVisibleFileInfo ? Visibility.Visible : Visibility.Collapsed;
+            this.LeftPanel.Visibility = _VM.LeftPanel != PanelType.None ? Visibility.Visible : Visibility.Collapsed;
+            this.RightPanel.Visibility = _VM.RightPanel != PanelType.None ? Visibility.Visible : Visibility.Collapsed;
 
             // ビュー領域設定
             this.ViewArea.Margin = new Thickness(0, isMenuDock ? this.MenuArea.ActualHeight : 0, 0, 0);
@@ -557,6 +557,8 @@ namespace NeeView
 
             // フォルダリスト初期化
             this.FolderListArea.SetPlace(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), null);
+            // 履歴リスト初期化
+            this.HistoryArea.Initialize(_VM.BookHub);
 
             //
             if (App.StartupPlace != null)

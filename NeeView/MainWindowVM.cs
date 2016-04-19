@@ -1037,7 +1037,7 @@ namespace NeeView
         public void SaveSetting(MainWindow window)
         {
             // 現在の本を履歴に登録
-            ModelContext.BookHistory.Add(BookHub.Current);
+            ModelContext.BookHistory.Add(BookHub.Current, BookHub.IsKeepHistoryOrder);
 
             // パネル幅保存
             LeftPanelWidth = window.LeftPanel.Width;

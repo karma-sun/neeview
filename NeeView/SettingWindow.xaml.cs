@@ -399,7 +399,7 @@ namespace NeeView
         // 履歴クリアボタン処理
         private void ClearHistoryButton_Click(object sender, RoutedEventArgs e)
         {
-            History.History.Clear();
+            History.Items.Clear();
             OnPropertyChanged(nameof(History));
         }
 

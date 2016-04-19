@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace NeeView
 {
@@ -81,7 +82,7 @@ namespace NeeView
         private void HistoryList_KeyDown(object sender, KeyEventArgs e)
         {
             // このパネルで使用するキーのイベントを止める
-            if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return)
+            if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return || e.Key == Key.Delete)
             {
                 e.Handled = true;
             }
@@ -107,7 +108,7 @@ namespace NeeView
 
         public BookHub BookHub { get; private set; }
 
-        public LinkedList<Book.Memento> Items { get; private set; }
+        public BookHistory BookHistory => ModelContext.BookHistory;
 
         //
         public HistoryControlVM(BookHub bookHub)
@@ -119,15 +120,12 @@ namespace NeeView
         //
         public void Update()
         {
-            if (ModelContext.BookHistory == null) return;
-            Items = ModelContext.BookHistory.History;
-            OnPropertyChanged(nameof(Items));
         }
 
         //
         public void Load(string path)
         {
-            BookHub?.RequestLoad(path, BookLoadOption.None, false);
+            BookHub?.RequestLoad(path, BookLoadOption.KeepHistoryOrder, false);
         }
     }
 }

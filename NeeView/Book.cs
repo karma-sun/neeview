@@ -27,6 +27,7 @@ namespace NeeView
         LastPage = (1 << 3), // 初期ページを最終ページにする
         ReLoad = (1 << 4), // 再読み込みフラグ(BookHubで使用)
         SelectFoderListMaybe = (1 << 5), // 可能ならばフォルダリストで選択する
+        KeepHistoryOrder = (1 << 6), // 履歴の順番を変更しない
     };
 
 
@@ -1201,6 +1202,21 @@ namespace NeeView
             public Memento Clone()
             {
                 return (Memento)this.MemberwiseClone();
+            }
+
+            //
+            public void CopyTo(Memento target)
+            {
+                target.Place = this.Place;
+                target.BookMark = this.BookMark;
+                target.PageMode = this.PageMode;
+                target.BookReadOrder = this.BookReadOrder;
+                target.IsSupportedDividePage = this.IsSupportedDividePage;
+                target.IsSupportedSingleFirstPage = this.IsSupportedSingleFirstPage;
+                target.IsSupportedSingleLastPage = this.IsSupportedSingleLastPage;
+                target.IsSupportedWidePage = this.IsSupportedWidePage;
+                target.IsRecursiveFolder = this.IsRecursiveFolder;
+                target.SortMode = this.SortMode;
             }
 
             // 保存用バリデート

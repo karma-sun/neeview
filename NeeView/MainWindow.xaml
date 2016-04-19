@@ -343,6 +343,8 @@
                         <Separator/>
                         <MenuItem Header="フォルダーリストを表示" Command="{Binding BookCommands[ToggleVisibleFolderList]}"
                             IsChecked="{Binding IsVisibleFolderList}"/>
+                        <MenuItem Header="ブックマークを表示" Command="{Binding BookCommands[ToggleVisibleBookmarkList]}"
+                            IsChecked="{Binding IsVisibleBookmarkList}"/>
                         <MenuItem Header="履歴を表示" Command="{Binding BookCommands[ToggleVisibleHistoryList]}"
                             IsChecked="{Binding IsVisibleHistoryList}"/>
                         <MenuItem Header="ファイル情報を表示" Command="{Binding BookCommands[ToggleVisibleFileInfo]}"

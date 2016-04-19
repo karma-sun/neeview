@@ -28,7 +28,7 @@ namespace NeeView
         public string Path { get; set; }
         public bool isKeepPlace { get; set; }
     }
-    
+
     public enum BookMementoType
     {
         None,
@@ -249,26 +249,46 @@ namespace NeeView
         }
 
 
+        public class LoadCommandArgs
+        {
+            public string Path { get; set; }
+            public BookLoadOption Option { get; set; }
+            public bool IsRefleshFolderList { get; set; }
+            //public bool IsKeepHistoryOrder { get; set; }
+            //public BookMementoType BookMementoType { get; set; }
+            //public Book.Memento BookMemento { get; set; }
+        }
+
         // ロードコマンド
         private class LoadCommand : BookHubCommand
         {
             public override int Priority => 2;
-            private string _Path;
-            private BookLoadOption _Option;
-            private bool _IsRefleshFolderList;
+
+            private LoadCommandArgs _Args;
 
             //
             public LoadCommand(BookHub bookHub, string path, BookLoadOption option, bool isRefleshFolderList) : base(bookHub)
             {
-                _Path = path;
-                _Option = option;
-                _IsRefleshFolderList = isRefleshFolderList;
+                _Args = new LoadCommandArgs()
+                {
+                    Path = path,
+                    Option = option, // | BookLoadOption.KeepHistoryOrder,
+                    IsRefleshFolderList = isRefleshFolderList,
+                };
             }
+
+            //
+            public LoadCommand(BookHub bookHub, LoadCommandArgs args) : base(bookHub)
+            {
+                _Args = args;
+            }
+
 
             //
             public override async Task Execute()
             {
-                await _BookHub.LoadAsync(_Path, _Option, _IsRefleshFolderList);
+                //await _BookHub.LoadAsync(_Path, _Option, _IsRefleshFolderList);
+                await _BookHub.LoadAsync(_Args);
             }
         }
 
@@ -368,7 +388,7 @@ namespace NeeView
         public void Unload(bool isClearViewContent)
         {
             // 履歴の保存
-            ModelContext.BookHistory.Add(Current);
+            ModelContext.BookHistory.Add(Current, IsKeepHistoryOrder);
 
             // ブックマーク更新
             ModelContext.Bookmarks.Update(Current);
@@ -418,6 +438,47 @@ namespace NeeView
         }
 
 
+        private Book.Memento GetBookMementoDefault() => IsUseBookMementoDefault ? BookMementoDefault : BookMemento;
+
+        private Book.Memento GetSetting(string place)
+        {
+            //
+            var bookmarkMemento = ModelContext.Bookmarks.Find(place);
+            if (bookmarkMemento != null)
+            {
+                _UsedMementoType = BookMementoType.Bookmark;
+                return bookmarkMemento.Clone();
+            }
+
+            //
+            var historyMemento = IsEnableHistory ? ModelContext.BookHistory.Find(place) : null;
+            if (historyMemento != null)
+            {
+                _UsedMementoType = BookMementoType.History;
+                if (IsRecoveryPageOnly)
+                {
+                    var setting = GetBookMementoDefault().Clone();
+                    setting.IsRecursiveFolder = historyMemento.IsRecursiveFolder;
+                    setting.BookMark = historyMemento.BookMark;
+                    return setting;
+                }
+                else
+                {
+                    return historyMemento.Clone();
+                }
+            }
+
+            //
+            {
+                _UsedMementoType = BookMementoType.None;
+                var setting = GetBookMementoDefault().Clone();
+                setting.IsRecursiveFolder = false;
+                setting.BookMark = null;
+                return setting;
+            }
+        }
+
+
         /// <summary>
         /// 本を読み込む
         /// </summary>
@@ -425,32 +486,35 @@ namespace NeeView
         /// <param name="option"></param>
         /// <param name="isRefleshFolderList"></param>
         /// <returns></returns>
-        private async Task LoadAsync(string path, BookLoadOption option, bool isRefleshFolderList)
+        private async Task LoadAsync(LoadCommandArgs args)
         {
             try
             {
                 // place
-                string place = GetPlace(path, option);
+                string place = GetPlace(args.Path, args.Option);
 
                 // start
-                string startEntry = path == place ? null : Path.GetFileName(path);
+                string startEntry = args.Path == place ? null : Path.GetFileName(args.Path);
 
                 // Now Loading ON
-                App.Current.Dispatcher.Invoke(() => Loading?.Invoke(this, path));
+                App.Current.Dispatcher.Invoke(() => Loading?.Invoke(this, args.Path));
 
                 // フォルダリスト更新
-                if (isRefleshFolderList)
+                if (args.IsRefleshFolderList)
                 {
                     App.Current.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = place, isKeepPlace = false }));
                 }
-                else if ((option & BookLoadOption.SelectFoderListMaybe) != 0)
+                else if ((args.Option & BookLoadOption.SelectFoderListMaybe) != 0)
                 {
                     App.Current.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = place, isKeepPlace = true }));
                 }
 
+                // 本の設定
+                var setting = GetSetting(place);
+
 
                 // Load本体
-                await LoadAsyncCore(place, startEntry, option);
+                await LoadAsyncCore(place, startEntry ?? setting.BookMark, args.Option, setting);
 
                 // ビュー初期化
                 App.Current.Dispatcher.Invoke(() => ModelContext.CommandTable[CommandType.ViewReset].Execute(null));
@@ -467,7 +531,7 @@ namespace NeeView
                 {
                     App.Current.Dispatcher.Invoke(() => EmptyMessage?.Invoke(this, $"\"{Current.Place}\" には読み込めるファイルがありません"));
 
-                    if (IsConfirmRecursive && (option & BookLoadOption.ReLoad) == 0 && !Current.IsRecursiveFolder && Current.SubFolderCount > 0)
+                    if (IsConfirmRecursive && (args.Option & BookLoadOption.ReLoad) == 0 && !Current.IsRecursiveFolder && Current.SubFolderCount > 0)
                     {
                         App.Current.Dispatcher.Invoke(() => ConfirmRecursive());
                     }
@@ -510,8 +574,12 @@ namespace NeeView
         }
 
         // 使用した設定の種類
-        BookMementoType _UsedMementoType;
+        private BookMementoType _UsedMementoType;
 
+        private BookLoadOption _BookLoadOption;
+
+        //
+        public bool IsKeepHistoryOrder => (_BookLoadOption & BookLoadOption.KeepHistoryOrder) == BookLoadOption.KeepHistoryOrder;
 
         /// <summary>
         /// 本を読み込む(本体)
@@ -519,13 +587,17 @@ namespace NeeView
         /// <param name="path">本のパス</param>
         /// <param name="startEntry">開始エントリ</param>
         /// <param name="option">読み込みオプション</param>
-        private async Task LoadAsyncCore(string path, string startEntry, BookLoadOption option)
+        private async Task LoadAsyncCore(string path, string startEntry, BookLoadOption option, Book.Memento setting)
         {
             // 現在の本を開放
             Unload(false);
 
             // 新しい本を作成
             var book = new Book();
+
+            // 設定保存
+            _BookLoadOption = option;
+
 
             // 設定の復元
             if ((option & BookLoadOption.ReLoad) == BookLoadOption.ReLoad)
@@ -535,29 +607,7 @@ namespace NeeView
             }
             else
             {
-                // ブックマークか履歴があるときはそれを使用する
-                Book.Memento setting = ModelContext.Bookmarks.Find(path);
-                if (setting != null)
-                {
-                    _UsedMementoType = BookMementoType.Bookmark;
-                }
-                else
-                {
-                    setting = IsEnableHistory ? ModelContext.BookHistory.Find(path) : null;
-                    _UsedMementoType = (setting != null) ? BookMementoType.History : BookMementoType.None;
-                }
-
-                if (setting != null)
-                {
-                    book.Restore(IsRecoveryPageOnly ? (IsUseBookMementoDefault ? BookMementoDefault : BookMemento) : setting);
-                    startEntry = startEntry ?? setting.BookMark;
-                }
-                // 設定はそのまま。再帰設定のみOFFにする。
-                else
-                {
-                    book.Restore(IsUseBookMementoDefault ? BookMementoDefault : BookMemento);
-                    book.IsRecursiveFolder = false;
-                }
+                  book.Restore(setting);
             }
 
             // 先読み設定
@@ -616,7 +666,7 @@ namespace NeeView
             BookMemento.ValidateForDefault();
 
             // 履歴の保存 その１
-            ModelContext.BookHistory.Add(Current);
+            ModelContext.BookHistory.Add(Current, IsKeepHistoryOrder);
         }
 
 

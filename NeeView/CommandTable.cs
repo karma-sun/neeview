@@ -289,16 +289,6 @@ namespace NeeView
                     ExecuteMessage = e => _VM.IsVisibleFolderList ? "フォルダーリストを消す" : "フォルダーリストを表示する",
                     CanExecute = () => true,
                 },
-                [CommandType.ToggleVisibleHistoryList] = new CommandElement
-                {
-                    Group = "ウィンドウ",
-                    Text = "履歴の表示ON/OFF",
-                    ShortCutKey = "H",
-                    IsShowMessage = false,
-                    Execute = e => _VM.ToggleVisibleHistoryList(),
-                    ExecuteMessage = e => _VM.IsVisibleHistoryList ? "履歴リストを消す" : "履歴リストを表示する",
-                    CanExecute = () => true,
-                },
                 [CommandType.ToggleVisibleBookmarkList] = new CommandElement
                 {
                     Group = "ウィンドウ",
@@ -309,6 +299,17 @@ namespace NeeView
                     ExecuteMessage = e => _VM.IsVisibleBookmarkList ? "ブックマークリストを消す" : "ブックマークリストを表示する",
                     CanExecute = () => true,
                 },
+                [CommandType.ToggleVisibleHistoryList] = new CommandElement
+                {
+                    Group = "ウィンドウ",
+                    Text = "履歴の表示ON/OFF",
+                    ShortCutKey = "H",
+                    IsShowMessage = false,
+                    Execute = e => _VM.ToggleVisibleHistoryList(),
+                    ExecuteMessage = e => _VM.IsVisibleHistoryList ? "履歴リストを消す" : "履歴リストを表示する",
+                    CanExecute = () => true,
+                },
+
 
                 [CommandType.ToggleFullScreen] = new CommandElement
                 {
@@ -646,18 +647,19 @@ namespace NeeView
                 },
                 [CommandType.SetSortModeRandom] = new CommandElement
                 {
+                    Group = "ページ列",
+                    Text = "ランダムに並べる",
+                    Execute = e => _Book.SetSortMode(PageSortMode.Random)
+                },
+
+                [CommandType.Bookmark] = new CommandElement
+                {
                     Group = "ブックマーク",
                     Text = "ブックマークに登録する",
                     Execute = e => _Book.Bookmark(),
                     CanExecute = () => _Book.CanBookmark(),
                     ExecuteMessage = e => "ブックマークに登録",
                     ShortCutKey = "Ctrl+D",
-                },
-                [CommandType.Bookmark] = new CommandElement 
-                {
-                    Group = "dummy",
-                    Text = "dummy",
-                    Execute = e => { return; }
                 },
 
 

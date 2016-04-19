@@ -64,21 +64,17 @@ namespace NeeView
         public ObservableCollection<Book.Memento> Items
         {
             get { return _Items; }
-            private set { _Items = value; OnPropertyChanged(); }
-        }
-
-        // 履歴保持最大数
-        private int _MaxHistoryCount = 100;
-        public int MaxHistoryCount
-        {
-            get { return _MaxHistoryCount; }
-            set { _MaxHistoryCount = value; Resize(); }
+            private set
+            {
+                _Items = value;
+                BindingOperations.EnableCollectionSynchronization(_Items, new object());
+                OnPropertyChanged();
+            }
         }
 
         public BookHistory()
         {
             Items = new ObservableCollection<Book.Memento>();
-            BindingOperations.EnableCollectionSynchronization(Items, new object());
         }
 
 
@@ -89,16 +85,6 @@ namespace NeeView
             HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(HistoryChangedType.Clear, null));
         }
 
-        // 履歴サイズ調整
-        private void Resize()
-        {
-            while (Items.Count > MaxHistoryCount)
-            {
-                var path = Items.Last().Place;
-                Items.RemoveAt(Items.Count - 1);
-                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(HistoryChangedType.Remove, path));
-            }
-        }
 
 
         // 履歴追加
@@ -121,7 +107,6 @@ namespace NeeView
             {
                 Items.Insert(0, setting);
                 HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(HistoryChangedType.Add, setting.Place));
-                Resize();
             }
         }
 
@@ -166,13 +151,9 @@ namespace NeeView
             [DataMember(Name = "History")]
             public List<Book.Memento> Items { get; set; }
 
-            [DataMember]
-            public int MaxHistoryCount { get; set; }
-
             private void Constructor()
             {
                 Items = new List<Book.Memento>();
-                MaxHistoryCount = 100;
             }
 
             public Memento()
@@ -190,7 +171,6 @@ namespace NeeView
             public void Merge(Memento memento)
             {
                 Items = Items.Concat(memento?.Items).Distinct(new Book.MementoPlaceCompare()).ToList();
-                if (MaxHistoryCount < memento.MaxHistoryCount) MaxHistoryCount = memento.MaxHistoryCount;
             }
 
             // ファイルに保存
@@ -228,7 +208,6 @@ namespace NeeView
                 memento.Items.RemoveAll((e) => e.Place.StartsWith(Temporary.TempDirectory));
             }
 
-            memento.MaxHistoryCount = this.MaxHistoryCount;
             return memento;
         }
 
@@ -236,8 +215,6 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             this.Items = new ObservableCollection<Book.Memento>(memento.Items);
-            BindingOperations.EnableCollectionSynchronization(this.Items, new object());
-            this.MaxHistoryCount = memento.MaxHistoryCount;
             this.HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(HistoryChangedType.Load, null));
         }
 

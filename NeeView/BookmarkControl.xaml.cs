@@ -35,6 +35,9 @@ namespace NeeView
         {
             InitializeComponent();
 
+            _VM = new BookmarkControlVM();
+            this.DockPanel.DataContext = _VM;
+
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
             this.BookmarkListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
         }
@@ -52,13 +55,13 @@ namespace NeeView
         //
         public void Initialize(BookHub bookHub)
         {
-            _VM = new BookmarkControlVM(bookHub);
-            this.DockPanel.DataContext = _VM;
+            _VM.Initialize(bookHub);
         }
 
         // 同期
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
+            /*
             _VM.Update();
             this.BookmarkListBox.Items.Refresh();
 
@@ -68,6 +71,7 @@ namespace NeeView
             this.BookmarkListBox.UpdateLayout();
             ListBoxItem lbi = (ListBoxItem)(this.BookmarkListBox.ItemContainerGenerator.ContainerFromIndex(this.BookmarkListBox.SelectedIndex));
             lbi?.Focus();
+            */
         }
 
         // 履歴項目決定
@@ -77,6 +81,7 @@ namespace NeeView
             if (historyItem != null)
             {
                 _VM.Load(historyItem.Place);
+                e.Handled = true;
             }
         }
 
@@ -97,7 +102,7 @@ namespace NeeView
         private void BookmarkList_KeyDown(object sender, KeyEventArgs e)
         {
             // このパネルで使用するキーのイベントを止める
-            if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return)
+            if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return || e.Key == Key.Delete)
             {
                 e.Handled = true;
             }
@@ -138,21 +143,13 @@ namespace NeeView
 
         public BookHub BookHub { get; private set; }
 
-        public ObservableCollection<Book.Memento> Items { get; private set; }
+
+        public BookmarkCollection Bookmark => ModelContext.Bookmarks;
 
         //
-        public BookmarkControlVM(BookHub bookHub)
+        public void Initialize(BookHub bookHub)
         {
             BookHub = bookHub;
-            Update();
-        }
-
-        //
-        public void Update()
-        {
-            if (ModelContext.Bookmarks == null) return;
-            Items = ModelContext.Bookmarks.Items;
-            OnPropertyChanged(nameof(Items));
         }
 
         //

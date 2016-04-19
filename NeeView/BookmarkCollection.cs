@@ -7,21 +7,43 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
+using System.ComponentModel;
 
 namespace NeeView
 {
-    public class BookmarkCollection
+    public class BookmarkCollection : INotifyPropertyChanged
     {
+        #region NotifyPropertyChanged
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion
+
         //
         public event EventHandler<BookMementoCollectionChangedArgs> BookmarkChanged;
 
         // ブックマーク
-        public ObservableCollection<Book.Memento> Items { get; private set; }
+        private ObservableCollection<Book.Memento> _Items;
+        public ObservableCollection<Book.Memento> Items
+        {
+            get { return _Items; }
+            private set
+            {
+                _Items = value;
+                BindingOperations.EnableCollectionSynchronization(_Items, new object());
+                OnPropertyChanged();
+            }
+        }
 
         public BookmarkCollection()
         {
             Items = new ObservableCollection<Book.Memento>();
-            BindingOperations.EnableCollectionSynchronization(Items, new object());
         }
 
         // クリア
@@ -43,7 +65,7 @@ namespace NeeView
             if (item != null)
             {
                 int index = Items.IndexOf(item);
-                Items[index] = setting;
+                setting.CopyTo(Items[index]);
                 BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(HistoryChangedType.Update, setting.Place));
 
             }
@@ -164,7 +186,6 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             this.Items = new ObservableCollection<Book.Memento>(memento.Items);
-            BindingOperations.EnableCollectionSynchronization(this.Items, new object());
         }
 
         #endregion

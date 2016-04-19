@@ -64,10 +64,10 @@
                  FocusVisualStyle="{x:Null}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding Items}"
+                 ItemsSource="{Binding Bookmark.Items}"
                  ItemTemplate="{StaticResource NormalBookmark}"
                  KeyDown="BookmarkList_KeyDown"
-                 Tag="{Binding Items}"
+                 Tag="{Binding Bookmark.Items}"
                  AllowDrop="True"
                  PreviewDragOver="BookmarkListBox_PreviewDragOver"
                  Drop="BookmarkListBox_Drop">

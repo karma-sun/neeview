@@ -32,18 +32,21 @@ namespace NeeView
         public HistoryControl()
         {
             InitializeComponent();
+
+            _VM = new HistoryControlVM();
+            this.DockPanel.DataContext = _VM;
         }
 
         //
         public void Initialize(BookHub bookHub)
         {
-            _VM = new HistoryControlVM(bookHub);
-            this.DockPanel.DataContext = _VM;
+            _VM.Initialize(bookHub);
         }
 
         // 同期
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
+            /*
             _VM.Update();
             this.HistoryListBox.Items.Refresh();
 
@@ -53,6 +56,7 @@ namespace NeeView
             this.HistoryListBox.UpdateLayout();
             ListBoxItem lbi = (ListBoxItem)(this.HistoryListBox.ItemContainerGenerator.ContainerFromIndex(this.HistoryListBox.SelectedIndex));
             lbi?.Focus();
+            */
         }
 
         // 履歴項目決定
@@ -62,6 +66,7 @@ namespace NeeView
             if (historyItem != null)
             {
                 _VM.Load(historyItem.Place);
+                e.Handled = true;
             }
         }
 
@@ -111,15 +116,9 @@ namespace NeeView
         public BookHistory BookHistory => ModelContext.BookHistory;
 
         //
-        public HistoryControlVM(BookHub bookHub)
+        public void Initialize(BookHub bookHub)
         {
             BookHub = bookHub;
-            Update();
-        }
-
-        //
-        public void Update()
-        {
         }
 
         //

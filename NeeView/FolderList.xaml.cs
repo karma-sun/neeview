@@ -79,7 +79,7 @@ namespace NeeView
             if (folderInfo != null && !folderInfo.IsEmpty)
             {
                 Decided?.Invoke(this, folderInfo.Path);
-                //e.Handled = true;
+                e.Handled = true;
             }
         }
 

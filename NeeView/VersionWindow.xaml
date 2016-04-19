@@ -12,7 +12,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="NeeView について" Height="230" Width="360" ResizeMode="NoResize">
+        Title="NeeView について" Height="230" Width="360" ResizeMode="NoResize" WindowStyle="ToolWindow">
     <Window.Resources>
 
         <local:VersionToStringConverter x:Key="VersionToStringConverter"/>

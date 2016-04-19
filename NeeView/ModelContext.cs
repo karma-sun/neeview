@@ -26,6 +26,7 @@ namespace NeeView
         public static Susie.Susie Susie => SusieContext.Susie;
 
         public static BookHistory BookHistory { get; set; }
+        public static BookmarkCollection Bookmarks { get; set; }
 
         public static ArchiverManager ArchiverManager { get; set; }
         public static BitmapLoaderManager BitmapLoaderManager { get; set; }
@@ -55,6 +56,7 @@ namespace NeeView
 
             //
             BookHistory = new BookHistory();
+            Bookmarks = new BookmarkCollection();
 
             ArchiverManager = new ArchiverManager();
             BitmapLoaderManager = new BitmapLoaderManager();

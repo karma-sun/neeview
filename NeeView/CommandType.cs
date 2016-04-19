@@ -48,6 +48,7 @@ namespace NeeView
         ToggleVisibleFileInfo,
         ToggleVisibleFolderList,
         ToggleVisibleHistoryList,
+        ToggleVisibleBookmarkList,
 
         ToggleFullScreen,
         SetFullScreen,
@@ -94,6 +95,8 @@ namespace NeeView
         SetSortModeTimeStamp,
         SetSortModeTimeStampDescending,
         SetSortModeRandom,
+
+        Bookmark,
 
         ToggleIsReverseSort, // 欠番
 

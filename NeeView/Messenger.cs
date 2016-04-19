@@ -154,7 +154,7 @@ namespace NeeView
     public class MessageShowParams
     {
         public string Text;
-        public bool IsBookmark = false;
+        public BookMementoType BookmarkType;
         public double DispTime = 1.0;
 
         public MessageShowParams(string text)

@@ -29,6 +29,7 @@ namespace NeeView
         None,
         Disable,
         Checked,
+        Star,
     }
 
     // フォルダ情報
@@ -64,6 +65,8 @@ namespace NeeView
         {
             get
             {
+                if (IsVisibleHistoryMark && ModelContext.Bookmarks.Find(Path) != null)
+                    return FolderInfoIconOverlay.Star;
                 if (IsVisibleHistoryMark && ModelContext.BookHistory.Find(Path) != null)
                     return FolderInfoIconOverlay.Checked;
                 else if (IsDirectory && !IsReady)

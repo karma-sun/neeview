@@ -52,6 +52,7 @@ namespace NeeView
         FileInfo,
         FolderList,
         HistoryList,
+        BookmarkList,
     }
 
 
@@ -261,6 +262,21 @@ namespace NeeView
         }
 
 
+        // ブックマークリスト表示ON/OFF
+        public bool IsVisibleBookmarkList
+        {
+            get { return LeftPanel == PanelType.BookmarkList; }
+            set { LeftPanel = value ? PanelType.BookmarkList : PanelType.None; }
+        }
+
+        //
+        public bool ToggleVisibleBookmarkList()
+        {
+            IsVisibleBookmarkList = !IsVisibleBookmarkList;
+            return IsVisibleBookmarkList;
+        }
+
+
         // 左パネル
         #region Property: LeftPanel
         private PanelType _LeftPanel;
@@ -273,6 +289,7 @@ namespace NeeView
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsVisibleFolderList));
                 OnPropertyChanged(nameof(IsVisibleHistoryList));
+                OnPropertyChanged(nameof(IsVisibleBookmarkList));
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
             }
         }
@@ -468,6 +485,8 @@ namespace NeeView
 
         // 通知テキストフォントサイズ
         public double InfoTextFontSize { get; set; } = 24.0;
+        // 通知テキストフォントサイズ
+        public double InfoTextMarkSize { get; set; } = 30.0;
 
         #endregion
 
@@ -691,11 +710,13 @@ namespace NeeView
         public string DownloadPath => string.IsNullOrWhiteSpace(UserDownloadPath) ? Temporary.TempDownloadDirectory : UserDownloadPath;
 
         public string HistoryFileName { get; set; }
+        public string BookmarkFileName { get; set; }
 
         // コンストラクタ
         public MainWindowVM()
         {
             HistoryFileName = System.IO.Path.Combine(Environment.CurrentDirectory, "History.xml");
+            BookmarkFileName = System.IO.Path.Combine(Environment.CurrentDirectory, "Bookmark.xml");
 
             InitializeWindowIcons();
 
@@ -785,7 +806,7 @@ namespace NeeView
 
 
         // 本が変更された
-        private void OnBookChanged(object sender, bool isBookmark)
+        private void OnBookChanged(object sender, BookMementoType bookmarkType)
         {
             var title = LoosePath.GetFileName(BookHub.Current.Place);
 
@@ -797,7 +818,7 @@ namespace NeeView
                     {
                         Parameter = new MessageShowParams(title)
                         {
-                            IsBookmark = isBookmark,
+                            BookmarkType = bookmarkType,
                             DispTime = 2.0
                         }
                     }));
@@ -934,6 +955,8 @@ namespace NeeView
             // 設定反映
             RestoreSetting(setting);
 
+            #region load history
+
             // 履歴読み込み
             BookHistory.Memento bookHistoryMemento;
             if (System.IO.File.Exists(HistoryFileName))
@@ -963,6 +986,37 @@ namespace NeeView
             // 反映
             ModelContext.BookHistory.Restore(bookHistoryMemento);
             UpdateLastFiles();
+
+            #endregion
+
+
+            #region load bookmark
+
+            // 履歴読み込み
+            BookmarkCollection.Memento bookmarkMemento;
+            if (System.IO.File.Exists(BookmarkFileName))
+            {
+                try
+                {
+                    bookmarkMemento = BookmarkCollection.Memento.Load(BookmarkFileName);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    Messenger.MessageBox(this, "ブックマークの読み込みに失敗しました。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
+                    bookmarkMemento = new BookmarkCollection.Memento();
+                }
+            }
+            else
+            {
+                bookmarkMemento = new BookmarkCollection.Memento();
+            }
+
+            // 反映
+            ModelContext.Bookmarks.Restore(bookmarkMemento);
+
+            #endregion
+
 
             // スライドショーの自動再生
             if (IsAutoPlaySlideShow)
@@ -1007,6 +1061,14 @@ namespace NeeView
                 // 履歴をファイルに保存
                 var bookHistoryMemento = ModelContext.BookHistory.CreateMemento(true);
                 bookHistoryMemento.Save(HistoryFileName);
+            }
+            catch { }
+
+            try
+            {
+                // ブックマークをファイルに保存
+                var bookmarkMemento = ModelContext.Bookmarks.CreateMemento(true);
+                bookmarkMemento.Save(BookmarkFileName);
             }
             catch { }
         }

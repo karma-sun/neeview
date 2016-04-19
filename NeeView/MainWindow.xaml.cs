@@ -559,6 +559,8 @@ namespace NeeView
             this.FolderListArea.SetPlace(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), null);
             // 履歴リスト初期化
             this.HistoryArea.Initialize(_VM.BookHub);
+            // ブックマークリスト初期化
+            this.BookmarkArea.Initialize(_VM.BookHub);
 
             //
             if (App.StartupPlace != null)
@@ -581,8 +583,6 @@ namespace NeeView
                 e.Effects = DragDropEffects.Copy;
             else
                 e.Effects = DragDropEffects.None;
-
-            e.Handled = true;
         }
 
         // ドラッグ＆ドロップで処理を開始する
@@ -670,7 +670,8 @@ namespace NeeView
             var param = (MessageShowParams)e.Parameter;
 
             _VM.InfoText = param.Text;
-            this.InfoBookmark.Visibility = param.IsBookmark ? Visibility.Visible : Visibility.Collapsed;
+            this.InfoUsedBookmark.Visibility = param.BookmarkType == BookMementoType.Bookmark ? Visibility.Visible : Visibility.Collapsed;
+            this.InfoUsedHistory.Visibility = param.BookmarkType == BookMementoType.History ? Visibility.Visible : Visibility.Collapsed;
             AutoFade(this.InfoTextArea, param.DispTime, 0.5);
         }
 

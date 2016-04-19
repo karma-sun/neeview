@@ -144,6 +144,11 @@ namespace NeeView
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
             CurrentVersion = ver.FileMinorPart;
+
+#if DEBUG
+            // for Debug
+            //CurrentVersion = 5;
+#endif
         }
 
         //
@@ -152,7 +157,7 @@ namespace NeeView
             if (_IsChecked || _IsCheching) return;
 
             // チェック開始
-            LastVersion = CurrentVersion;
+            LastVersion = 0; // CurrentVersion;
             Message = "最新バージョンをチェック中...";
             Task.Run(CheckVersion);
         }
@@ -172,16 +177,20 @@ namespace NeeView
                     var regex = new Regex(@"NeeView1\.(\d+)\.zip");
                     var matches = regex.Matches(text);
                     if (matches.Count <= 0) throw new ApplicationException("更新ページのフォーマットが想定されているものと異なります");
-                    foreach(Match match in matches)
+                    foreach (Match match in matches)
                     {
                         var version = int.Parse(match.Groups[1].Value);
                         Debug.WriteLine("NeeView 1.{0}", version);
-                        if (LastVersion < version) LastVersion = version; 
+                        if (LastVersion < version) LastVersion = version;
                     }
 
                     if (LastVersion == CurrentVersion)
                     {
                         Message = "NeeView は最新のバージョンです";
+                    }
+                    else if (LastVersion < CurrentVersion)
+                    {
+                        Message = "NeeView は未知のバージョンです";
                     }
                     else
                     {

@@ -5,17 +5,17 @@
     http://opensource.org/licenses/mit-license.php
 -->
 
-<UserControl x:Class="NeeView.HistoryControl"
+<UserControl x:Class="NeeView.BookmarkControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
+             xmlns:drag="clr-namespace:DragExtensions"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              Background="{DynamicResource NVBackground}"
              Foreground="{DynamicResource NVForeground}">
-
     <UserControl.Resources>
 
         <!-- Default TextBlock -->
@@ -23,13 +23,16 @@
             <Setter Property="FontSize" Value="15"/>
         </Style>
 
-        <!-- Normal History -->
-        <DataTemplate x:Key="NormalHistory">
+        <RoutedCommand x:Key="xRemoveDommand" />
+
+        <!-- Normal Bookmark -->
+        <DataTemplate x:Key="NormalBookmark">
             <DockPanel>
                 <Grid>
                     <TextBlock Text="{Binding Name}" ToolTip="{Binding Place}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis">
                     </TextBlock>
                 </Grid>
+
             </DockPanel>
         </DataTemplate>
 
@@ -40,19 +43,21 @@
 
         <StackPanel DockPanel.Dock="Top" Margin="5">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <TextBlock FontFamily="Webdings" Text="a" FontSize="20" Foreground="{StaticResource NVCheckMarkBrush}" VerticalAlignment="Center" />
-                <TextBlock Text="履歴" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
+                <TextBlock FontFamily="Meyrio" Text="★" FontSize="20" Foreground="{StaticResource NVStarMarkBrush}" VerticalAlignment="Center" />
+                <TextBlock Text="ブックマーク" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
             </StackPanel>
+            <!--
             <WrapPanel>
                 <Button Style="{StaticResource IconButton}" Click="UpdateButton_Click">
-                    <TextBlock Margin="8,5" Text="更新" Foreground="#1188DD"/>
+                    <TextBlock Margin="8,5" Text="新しいフォルダを作成" Foreground="#1188DD"/>
                 </Button>
             </WrapPanel>
+            -->
         </StackPanel>
 
-        <ContentControl x:Name="HistoryContent" Margin="0,0,0,20"/>
+        <ContentControl x:Name="BookmarkContentContent" Margin="0,0,0,20"/>
 
-        <ListBox x:Name="HistoryListBox" Focusable="True" Margin="0,0,0,20"
+        <ListBox x:Name="BookmarkListBox" Focusable="True" Margin="0,0,0,20"
                  Style="{StaticResource NVListBox}"
                  Background="Transparent"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -60,14 +65,30 @@
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding Items}"
-                 ItemTemplate="{StaticResource NormalHistory}"
-                 KeyDown="HistoryList_KeyDown">
+                 ItemTemplate="{StaticResource NormalBookmark}"
+                 KeyDown="BookmarkList_KeyDown"
+                 Tag="{Binding Items}"
+                 AllowDrop="True"
+                 PreviewDragOver="BookmarkListBox_PreviewDragOver"
+                 Drop="BookmarkListBox_Drop">
 
             <ListBox.Resources>
                 <Style TargetType="ListBoxItem">
-                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="HistoryListItem_MouseSingleClick"/>
-                    <EventSetter Event="KeyDown" Handler="HistoryListItem_KeyDown"/>
+                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="BookmarkListItem_MouseSingleClick"/>
+                    <EventSetter Event="KeyDown" Handler="BookmarkListItem_KeyDown"/>
                     <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="削除(D)" Command="{x:Static local:BookmarkControl.RemoveCommand}"/>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Setter Property="drag:DragBehavior.IsEnable" Value="True"/>
+                    <Setter Property="drag:DragBehavior.ListBox" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}"/>
+
                 </Style>
             </ListBox.Resources>
 

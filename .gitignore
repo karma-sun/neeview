@@ -215,4 +215,5 @@ ModelManifest.xml
 *.improj
 PublishToZip/NeeView*/
 PublishToZip/*.zip
+PublishToZip/*.xml
 

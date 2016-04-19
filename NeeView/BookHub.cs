@@ -16,12 +16,10 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
-// v1.6
-// TODO: 履歴との兼ね合い。ページ送りしなかったブックは履歴に保存しない？
 // TODO: 高速切替でテンポラリが残るバグ
 // ----------------------------
-// TODO: [v1.7] フォルダ情報表示
-// TODO: [v1.7] フォルダサムネイル(非同期) 
+// TODO: フォルダ情報表示
+// TODO: フォルダサムネイル(非同期) 
 
 namespace NeeView
 {
@@ -29,6 +27,13 @@ namespace NeeView
     {
         public string Path { get; set; }
         public bool isKeepPlace { get; set; }
+    }
+    
+    public enum BookMementoType
+    {
+        None,
+        Bookmark,
+        History,
     }
 
     /// <summary>
@@ -40,7 +45,7 @@ namespace NeeView
         #region Events
 
         // 本の変更通知
-        public event EventHandler<bool> BookChanged;
+        public event EventHandler<BookMementoType> BookChanged;
 
         // ページ番号の変更通知
         public event EventHandler<int> PageChanged;
@@ -70,7 +75,10 @@ namespace NeeView
         public event EventHandler FolderListReflesh;
 
         // 履歴に追加、削除された
-        public event EventHandler<HistoryChangedArgs> HistoryChanged;
+        public event EventHandler<BookMementoCollectionChangedArgs> HistoryChanged;
+
+        // ブックマークにに追加、削除された
+        public event EventHandler<BookMementoCollectionChangedArgs> BookmarkChanged;
 
         #endregion
 
@@ -220,6 +228,7 @@ namespace NeeView
         public BookHub()
         {
             ModelContext.BookHistory.HistoryChanged += (s, e) => HistoryChanged?.Invoke(s, e);
+            ModelContext.Bookmarks.BookmarkChanged += (s, e) => BookmarkChanged?.Invoke(s, e);
 
             StartCommandWorker();
         }
@@ -361,6 +370,9 @@ namespace NeeView
             // 履歴の保存
             ModelContext.BookHistory.Add(Current);
 
+            // ブックマーク更新
+            ModelContext.Bookmarks.Update(Current);
+
             // 現在の本を開放
             Current?.Dispose();
             Current = null;
@@ -448,7 +460,7 @@ namespace NeeView
 
 
                 // 本の変更通知
-                App.Current.Dispatcher.Invoke(() => BookChanged?.Invoke(this, _IsUsedHistory));
+                App.Current.Dispatcher.Invoke(() => BookChanged?.Invoke(this, _UsedMementoType));
 
                 // ページがなかった時の処理
                 if (Current.Pages.Count <= 0)
@@ -497,8 +509,9 @@ namespace NeeView
             }
         }
 
-        // 履歴を使用したか
-        bool _IsUsedHistory = false;
+        // 使用した設定の種類
+        BookMementoType _UsedMementoType;
+
 
         /// <summary>
         /// 本を読み込む(本体)
@@ -514,9 +527,6 @@ namespace NeeView
             // 新しい本を作成
             var book = new Book();
 
-            // 履歴を使用したか
-            _IsUsedHistory = false;
-
             // 設定の復元
             if ((option & BookLoadOption.ReLoad) == BookLoadOption.ReLoad)
             {
@@ -525,22 +535,28 @@ namespace NeeView
             }
             else
             {
-                if (IsEnableHistory)
+                // ブックマークか履歴があるときはそれを使用する
+                Book.Memento setting = ModelContext.Bookmarks.Find(path);
+                if (setting != null)
                 {
-                    // 履歴が有るときはそれを使用する
-                    var setting = ModelContext.BookHistory.Find(path);
-                    if (setting != null && IsEnableHistory)
-                    {
-                        book.Restore(IsRecoveryPageOnly ? (IsUseBookMementoDefault ? BookMementoDefault : BookMemento) : setting);
-                        startEntry = startEntry ?? setting.BookMark;
-                        _IsUsedHistory = true;
-                    }
-                    // 履歴がないときは設定はそのまま。再帰設定のみOFFにする。
-                    else
-                    {
-                        book.Restore(IsUseBookMementoDefault ? BookMementoDefault : BookMemento);
-                        book.IsRecursiveFolder = false;
-                    }
+                    _UsedMementoType = BookMementoType.Bookmark;
+                }
+                else
+                {
+                    setting = IsEnableHistory ? ModelContext.BookHistory.Find(path) : null;
+                    _UsedMementoType = (setting != null) ? BookMementoType.History : BookMementoType.None;
+                }
+
+                if (setting != null)
+                {
+                    book.Restore(IsRecoveryPageOnly ? (IsUseBookMementoDefault ? BookMementoDefault : BookMemento) : setting);
+                    startEntry = startEntry ?? setting.BookMark;
+                }
+                // 設定はそのまま。再帰設定のみOFFにする。
+                else
+                {
+                    book.Restore(IsUseBookMementoDefault ? BookMementoDefault : BookMemento);
+                    book.IsRecursiveFolder = false;
                 }
             }
 
@@ -682,6 +698,8 @@ namespace NeeView
         {
             var place = Current?.Place;
             if (place == null) return false;
+
+            // TODO: フォルダリストの再利用
 
             var folders = new FolderCollection();
             folders.Place = Path.GetDirectoryName(place);
@@ -898,6 +916,22 @@ namespace NeeView
                 {
                     Messenger.MessageBox(this, $"外部アプリ実行に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
                 }
+            }
+        }
+
+
+        // ブックマーク登録可能？
+        public bool CanBookmark()
+        {
+            return (Current != null);
+        }
+
+        // ブックマーク登録
+        public void Bookmark()
+        {
+            if (CanBookmark())
+            {
+                ModelContext.Bookmarks.Add(Current);
             }
         }
 

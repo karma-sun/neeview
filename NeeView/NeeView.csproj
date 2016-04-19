@@ -79,6 +79,10 @@
     <Compile Include="Archiver\ArchiveEntry.cs" />
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
+    <Compile Include="BookmarkCollection.cs" />
+    <Compile Include="BookmarkControl.xaml.cs">
+      <DependentUpon>BookmarkControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FolderCollection.cs" />
     <Compile Include="FolderList.xaml.cs">
       <DependentUpon>FolderList.xaml</DependentUpon>
@@ -194,6 +198,10 @@
     <Compile Include="Win32Api.cs" />
     <Compile Include="WindowPlacement.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
+    <Page Include="BookmarkControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DirectoryNameBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

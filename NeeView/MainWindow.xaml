@@ -120,6 +120,20 @@
                 <!-- 左パネル -->
                 <Grid x:Name="LeftPanel" DockPanel.Dock="Left" Width="250">
 
+                    <!-- ブックマークリスト -->
+                    <local:BookmarkControl x:Name="BookmarkArea">
+                        <local:BookmarkControl.Style>
+                            <Style TargetType="local:BookmarkControl">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding LeftPanel}" Value="BookmarkList">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </local:BookmarkControl.Style>
+                    </local:BookmarkControl>
+
                     <!-- 履歴リスト -->
                     <local:HistoryControl x:Name="HistoryArea">
                         <local:HistoryControl.Style>
@@ -470,8 +484,9 @@
                     </Style>
                 </StackPanel.Style>
                 <StackPanel Orientation="Horizontal" Margin="20,10">
-                    <TextBlock x:Name="InfoBookmark"  Margin="0,0,10,0" FontFamily="Webdings" Text="a" FontSize="{Binding InfoTextFontSize}" Foreground="LightGreen" VerticalAlignment="Center"/>
-                    <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" Foreground="White" FontFamily="Meiryo" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock x:Name="InfoUsedBookmark"  Margin="0,0,5,0" FontFamily="Wingdings" Text="«" FontSize="{Binding InfoTextMarkSize}" Foreground="{StaticResource NVStarMarkBrush}" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="InfoUsedHistory"  Margin="0,0,5,0" FontFamily="Webdings" Text="a" FontSize="{Binding InfoTextMarkSize}" Foreground="{StaticResource NVCheckMarkBrush}" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" Foreground="White" FontFamily="Meiryo" TextTrimming="CharacterEllipsis" />
                 </StackPanel>
             </StackPanel>
 

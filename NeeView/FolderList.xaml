@@ -32,19 +32,28 @@
                         </TextBlock.Style>
 
                     </TextBlock>
-                    <TextBlock  FontFamily="Webdings" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                    <TextBlock  VerticalAlignment="Bottom" HorizontalAlignment="Right">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IconOverlay}" Value="Disable">
+                                        <Setter Property="FontFamily" Value="Webdings"/>
                                         <Setter Property="Text" Value="r"/>
                                         <Setter Property="FontSize" Value="16"/>
                                         <Setter Property="Foreground" Value="Red"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IconOverlay}" Value="Checked">
+                                        <Setter Property="FontFamily" Value="Webdings"/>
                                         <Setter Property="Text" Value="a"/>
                                         <Setter Property="FontSize" Value="20"/>
                                         <Setter Property="Foreground" Value="{DynamicResource NVCheckMarkBrush}"/>
+                                        <Setter Property="Margin" Value="0,0,-8,-4"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IconOverlay}" Value="Star">
+                                        <Setter Property="FontFamily" Value="Wingdings"/>
+                                        <Setter Property="Text" Value="«"/>
+                                        <Setter Property="FontSize" Value="20"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource NVStarMarkBrush}"/>
                                         <Setter Property="Margin" Value="0,0,-8,-4"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -89,7 +98,7 @@
 
         <ListBox.Resources>
             <Style TargetType="ListBoxItem">
-                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="FolderListItem_MouseSingleClick"/>
+                <EventSetter Event="PreviewMouseLeftButtonUp" Handler="FolderListItem_MouseSingleClick"/>
                 <EventSetter Event="PreviewMouseDoubleClick" Handler="FolderListItem_MouseDoubleClick"/>
                 <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown"/>
                 <EventSetter Event="Loaded" Handler="FolderListItem_Loaded"/>

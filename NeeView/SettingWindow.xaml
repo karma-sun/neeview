@@ -146,7 +146,9 @@
                         <TextBlock Text="フォルダリスト" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Margin="2" Content="履歴マークを表示する"
+                            <CheckBox Margin="2" Content="ブックマーク記号を表示する"
+                              IsChecked="{Binding Setting.ViewMemento.FolderListSetting.IsVisibleBookmarkMark}" />
+                            <CheckBox Margin="2" Content="履歴記号を表示する"
                               IsChecked="{Binding Setting.ViewMemento.FolderListSetting.IsVisibleHistoryMark}" />
                         </StackPanel>
 

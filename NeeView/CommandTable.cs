@@ -504,6 +504,23 @@ namespace NeeView
                     IsShowMessage = false,
                     Execute = e => _Book.NextFolder(),
                 },
+                [CommandType.PrevHistory] = new CommandElement
+                {
+                    Group = "移動",
+                    Text = "前の履歴に戻る",
+                    ShortCutKey = "Back",
+                    IsShowMessage = false,
+                    Execute = e => _Book.PrevHistory(),
+                },
+                [CommandType.NextHistory] = new CommandElement
+                {
+                    Group = "移動",
+                    Text = "次の履歴へ進む",
+                    ShortCutKey = "Shift+Back",
+                    IsShowMessage = false,
+                    Execute = e => _Book.NextHistory(),
+                },
+
 
                 [CommandType.ToggleFolderOrder] = new CommandElement
                 {

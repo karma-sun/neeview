@@ -26,8 +26,9 @@ namespace NeeView
         FirstPage = (1 << 2), // 初期ページを先頭ページにする
         LastPage = (1 << 3), // 初期ページを最終ページにする
         ReLoad = (1 << 4), // 再読み込みフラグ(BookHubで使用)
-        SelectFoderListMaybe = (1 << 5), // 可能ならばフォルダリストで選択する
-        KeepHistoryOrder = (1 << 6), // 履歴の順番を変更しない
+        KeepHistoryOrder = (1 << 5), // 履歴の順番を変更しない
+        SelectFoderListMaybe = (1 << 6), // 可能ならばフォルダリストで選択する
+        SelectHistoryMaybe = (1 << 7), // 可能ならば履歴リストで選択する
     };
 
 

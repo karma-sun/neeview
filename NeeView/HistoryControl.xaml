@@ -43,11 +43,13 @@
                 <TextBlock FontFamily="Webdings" Text="a" FontSize="20" Foreground="{StaticResource NVCheckMarkBrush}" VerticalAlignment="Center" />
                 <TextBlock Text="履歴" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
             </StackPanel>
+            <!--
             <WrapPanel>
                 <Button Style="{StaticResource IconButton}" Click="UpdateButton_Click">
                     <TextBlock Margin="8,5" Text="更新" Foreground="#1188DD"/>
                 </Button>
             </WrapPanel>
+            -->
         </StackPanel>
 
         <ContentControl x:Name="HistoryContent" Margin="0,0,0,20"/>
@@ -61,7 +63,10 @@
                  HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding Items}"
                  ItemTemplate="{StaticResource NormalHistory}"
+                 SelectedItem="{Binding SelectedItem}"
+                 Visibility="{Binding Visibility}"
                  KeyDown="HistoryListBox_KeyDown"
+                 SelectionChanged="HistoryListBox_SelectionChanged" 
                  IsVisibleChanged="HistoryListBox_IsVisibleChanged">
 
             <ListBox.Resources>

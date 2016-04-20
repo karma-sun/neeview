@@ -121,7 +121,7 @@ namespace NeeView
                 {
                     unit.Memento = memento;
 
-                    if (isKeepOrder)
+                    if (isKeepOrder || Items.First == unit.HistoryNode)
                     {
                         HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Place));
                     }

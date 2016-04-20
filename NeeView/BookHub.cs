@@ -70,6 +70,8 @@ namespace NeeView
         public bool IsKeepHistoryOrder
             => (LoadOptions & BookLoadOption.KeepHistoryOrder) == BookLoadOption.KeepHistoryOrder;
 
+        public bool IsValid
+            => Book?.Place != null;
     }
 
     /// <summary>
@@ -109,6 +111,9 @@ namespace NeeView
 
         // フォルダ列再作成要求
         public event EventHandler FolderListReflesh;
+
+        // 履歴リスト更新要求
+        public event EventHandler<string> HistoryListSync;
 
         // 履歴に追加、削除された
         public event EventHandler<BookMementoCollectionChangedArgs> HistoryChanged;
@@ -554,6 +559,12 @@ namespace NeeView
                     App.Current.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = place, isKeepPlace = true }));
                 }
 
+                // 履歴リスト更新
+                if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
+                {
+                    App.Current.Dispatcher.Invoke(() => HistoryListSync?.Invoke(this, place));
+                }
+
                 // 本の設定
                 var unit = ModelContext.BookMementoCollection.Find(place);
                 var setting = GetSetting(unit, place);
@@ -709,7 +720,6 @@ namespace NeeView
             }
         }
 
-
         // 再読み込み
         public void ReLoad(bool isKeepSetting)
         {
@@ -777,6 +787,44 @@ namespace NeeView
         }
 
 
+        // 履歴を戻る
+        public void PrevHistory()
+        {
+            if (CurrentBook?.Place == null) return;
+
+            var unit = ModelContext.BookHistory.Find(CurrentBook.Place);
+            var previous = unit?.HistoryNode?.Next; // リストと履歴の方向は逆
+            if (previous != null)
+            {
+                RequestLoad(previous.Value.Memento.Place, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, false);
+            }
+            else
+            {
+                InfoMessage?.Invoke(this, "これより古い履歴はありません");
+            }
+        }
+
+        // 履歴を進める
+        public void NextHistory()
+        {
+            if (CurrentBook?.Place == null) return;
+
+            var unit = ModelContext.BookHistory.Find(CurrentBook.Place);
+            var next = unit?.HistoryNode?.Previous; // リストと履歴の方向は逆
+            if (next != null)
+            {
+                RequestLoad(next.Value.Memento.Place, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, false);
+            }
+            else
+            {
+                InfoMessage?.Invoke(this, "最新の履歴です");
+            }
+        }
+
+
+        // 移動用フォルダリスト
+        private FolderCollection _FolderList;
+
         /// <summary>
         /// フォルダ移動
         /// </summary>
@@ -789,26 +837,27 @@ namespace NeeView
             var place = CurrentBook?.Place;
             if (place == null) return false;
 
-            // TODO: フォルダリストの再利用
-
-            var folders = new FolderCollection();
-            folders.Place = Path.GetDirectoryName(place);
-            folders.FolderOrder = FolderOrder;
-            folders.RandomSeed = _FolderOrderSeed;
-            folders.Update(place);
-
-            if (folders.IsValid)
+            if (this._FolderList == null || this._FolderList.IsDarty(Path.GetDirectoryName(place), FolderOrder, _FolderOrderSeed))
             {
-                int index = folders.IndexOfPath(CurrentBook?.Place);
+                this._FolderList = new FolderCollection();
+                this._FolderList.Place = Path.GetDirectoryName(place);
+                this._FolderList.FolderOrder = FolderOrder;
+                this._FolderList.RandomSeed = _FolderOrderSeed;
+                this._FolderList.Update(place);
+            }
+
+            if (this._FolderList.IsValid)
+            {
+                int index = _FolderList.IndexOfPath(CurrentBook?.Place);
                 if (index < 0) return false;
 
                 int next = (folderOrder == FolderOrder.Random)
-                    ? (index + folders.Items.Count + direction) % folders.Items.Count
+                    ? (index + _FolderList.Items.Count + direction) % _FolderList.Items.Count
                     : index + direction;
 
-                if (next < 0 || next >= folders.Items.Count) return false;
+                if (next < 0 || next >= _FolderList.Items.Count) return false;
 
-                RequestLoad(folders[next].Path, option | BookLoadOption.SelectFoderListMaybe, false);
+                RequestLoad(_FolderList[next].Path, option | BookLoadOption.SelectFoderListMaybe, false);
 
                 return true;
             }

@@ -37,6 +37,9 @@ namespace NeeView
         PrevFolder,
         NextFolder,
 
+        PrevHistory,
+        NextHistory,
+
         ToggleFolderOrder,
         SetFolderOrderByFileName,
         SetFolderOrderByTimeStamp,

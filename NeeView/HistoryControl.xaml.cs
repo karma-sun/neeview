@@ -102,6 +102,17 @@ namespace NeeView
                 _VM.UpdateItems();
             }
         }
+
+        private void HistoryListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.HistoryListBox.SelectedItem == null || this.HistoryListBox.SelectedIndex < 0) return;
+
+            // フォーカス
+            this.HistoryListBox.ScrollIntoView(this.HistoryListBox.SelectedItem);
+            this.HistoryListBox.UpdateLayout();
+            ListBoxItem lbi = (ListBoxItem)(this.HistoryListBox.ItemContainerGenerator.ContainerFromIndex(this.HistoryListBox.SelectedIndex));
+            lbi?.Focus();
+        }
     }
 
     /// <summary>
@@ -125,6 +136,26 @@ namespace NeeView
 
         public List<BookMementoUnit> Items { get; set; }
 
+        #region Property: SelectedItem
+        private BookMementoUnit _SelectedItem;
+        public BookMementoUnit SelectedItem
+        {
+            get { return _SelectedItem; }
+            set { _SelectedItem = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+        #region Property: Visibility
+        private Visibility _Visibility;
+        public Visibility Visibility
+        {
+            get { return _Visibility; }
+            set { _Visibility = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+
+
         private bool _IsDarty;
 
         //
@@ -136,13 +167,24 @@ namespace NeeView
             if (isVisible) UpdateItems();
 
             BookHub.HistoryChanged += BookHub_HistoryChanged;
+            BookHub.HistoryListSync += BookHub_HistoryListSync;
+        }
+
+        //
+        private void BookHub_HistoryListSync(object sender, string e)
+        {
+            SelectedItem = ModelContext.BookHistory.Find(e);
         }
 
         //
         private void BookHub_HistoryChanged(object sender, BookMementoCollectionChangedArgs e)
         {
-            _IsDarty = e.HistoryChangedType != BookMementoCollectionChangedType.Update;
-       }
+            _IsDarty = _IsDarty || e.HistoryChangedType != BookMementoCollectionChangedType.Update;
+            if (_IsDarty && Visibility == Visibility.Visible)
+            {
+                UpdateItems();
+            }
+        }
 
         //
         public void UpdateItems()
@@ -151,6 +193,7 @@ namespace NeeView
             {
                 _IsDarty = false;
                 Items = ModelContext.BookHistory.Items.ToList();
+                SelectedItem = null;
                 OnPropertyChanged(nameof(Items));
             }
         }

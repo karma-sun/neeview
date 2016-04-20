@@ -34,11 +34,15 @@ namespace NeeView
         [DataMember]
         public bool IsVisibleHistoryMark { get; set; }
 
+        [DataMember]
+        public bool IsVisibleBookmarkMark { get; set; }
+
         //
         private void Constructor()
         {
             Dock = Dock.Left;
             IsVisibleHistoryMark = true;
+            IsVisibleBookmarkMark = true;
         }
 
         public FolderListSetting()
@@ -239,7 +243,7 @@ namespace NeeView
         {
             if (setting == null) return;
             FolderInfo.IsVisibleHistoryMark = setting.IsVisibleHistoryMark;
-            RefleshIcon(null);
+            FolderInfo.IsVisibleBookmarkMark = setting.IsVisibleBookmarkMark;
         }
 
         //

@@ -59,6 +59,7 @@ namespace NeeView
         public bool IsReady { get; set; }
 
         public static bool IsVisibleHistoryMark { get; set; } = true;
+        public static bool IsVisibleBookmarkMark { get; set; } = true;
 
         // アイコンオーバーレイの種類を返す
         public FolderInfoIconOverlay IconOverlay
@@ -67,7 +68,7 @@ namespace NeeView
             {
                 var unit = ModelContext.BookMementoCollection.Find(Path);
 
-                if (IsVisibleHistoryMark && unit?.BookmarkNode != null)
+                if (IsVisibleBookmarkMark && unit?.BookmarkNode != null)
                     return FolderInfoIconOverlay.Star;
                 if (IsVisibleHistoryMark && unit?.HistoryNode != null)
                     return FolderInfoIconOverlay.Checked;
@@ -131,6 +132,8 @@ namespace NeeView
         }
     }
 
+    // TODO: ファイルシステムを監視してフォルダ更新に対応する
+
     //
     public class FolderCollection
     {
@@ -153,6 +156,12 @@ namespace NeeView
 
         //
         public bool IsValid => Items != null;
+
+        //
+        public bool IsDarty(string place, FolderOrder folderOrder, int randomSeed)
+        {
+            return (Place != place || FolderOrder != folderOrder || RandomSeed != randomSeed);
+        }
 
         //
         private string _CurrentPlace;

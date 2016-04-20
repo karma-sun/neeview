@@ -193,7 +193,7 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember(Name = "History")]
+            [DataMember]
             public List<Book.Memento> Items { get; set; }
 
 

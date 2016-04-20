@@ -305,7 +305,7 @@ namespace NeeView
         //
         public void Sync()
         {
-            string place = BookHub?.Current?.Place;
+            string place = BookHub?.CurrentBook?.Place;
             if (place != null)
             {
                 _IsDarty = true;

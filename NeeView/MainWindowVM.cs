@@ -430,10 +430,10 @@ namespace NeeView
                 if (LoadingPath != null)
                     return LoosePath.GetFileName(LoadingPath) + " (読込中)";
 
-                if (BookHub.Current?.Place == null)
+                if (BookHub.CurrentBook?.Place == null)
                     return _DefaultWindowTitle;
 
-                string text = NVUtility.PlaceToTitle(BookHub.Current.Place);
+                string text = NVUtility.PlaceToTitle(BookHub.CurrentBook.Place);
 
                 if (MainContent != null)
                 {
@@ -670,7 +670,7 @@ namespace NeeView
         public JobEngine JobEngine => ModelContext.JobEngine;
 
         // 開発用：ページリスト
-        public List<Page> PageList => BookHub.Current?.Pages;
+        public List<Page> PageList => BookHub.CurrentBook?.Pages;
 
         // 開発用：コンテンツ座標
         #region Property: ContentPosition
@@ -808,7 +808,7 @@ namespace NeeView
         // 本が変更された
         private void OnBookChanged(object sender, BookMementoType bookmarkType)
         {
-            var title = LoosePath.GetFileName(BookHub.Current.Place);
+            var title = LoosePath.GetFileName(BookHub.CurrentBook.Place);
 
             switch (NoticeShowMessageStyle)
             {
@@ -1106,7 +1106,7 @@ namespace NeeView
                         content.Content = source.CreateControl(new Binding("ForegroundBrush") { Source = this }, new Binding("BitmapScalingMode") { Source = content });
                         content.Size = new Size(source.Width, source.Height);
                         content.Color = new SolidColorBrush(source.Color);
-                        content.FilePlace = BookHub.Current?.Place;
+                        content.FilePlace = BookHub.CurrentBook?.Place;
                         content.FullPath = source.FullPath;
                         content.Position = source.Position;
                         content.PartSize = source.PartSize;

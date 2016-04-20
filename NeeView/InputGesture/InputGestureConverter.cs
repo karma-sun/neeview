@@ -50,7 +50,7 @@ namespace NeeView
                     break;
             }
 
-            foreach(var t in order)
+            foreach (var t in order)
             {
                 var gesture = _Converter[t](source);
                 if (gesture != null) return gesture;
@@ -95,14 +95,20 @@ namespace NeeView
                 KeyGestureConverter converter = new KeyGestureConverter();
                 return (KeyGesture)converter.ConvertFromString(source);
             }
-            catch { }
+            catch (Exception e)
+            {
+                Debug.WriteLine("(この例外は無視): " + e.Message);
+            }
 
             try
             {
                 KeyGestureExConverter converter = new KeyGestureExConverter();
                 return (InputGesture)converter.ConvertFromString(source);
             }
-            catch { }
+            catch (Exception e)
+            {
+                Debug.WriteLine("(この例外は無視): " + e.Message);
+            }
 
             return null;
         }
@@ -119,14 +125,20 @@ namespace NeeView
                 MouseGestureConverter converter = new MouseGestureConverter();
                 return (MouseGesture)converter.ConvertFromString(source);
             }
-            catch { }
+            catch (Exception e)
+            {
+                Debug.WriteLine("(この例外は無視): " + e.Message);
+            }
 
             try
             {
                 MouseGestureExConverter converter = new MouseGestureExConverter();
                 return (InputGesture)converter.ConvertFromString(source);
             }
-            catch { }
+            catch (Exception e)
+            {
+                Debug.WriteLine("(この例外は無視): " + e.Message);
+            }
 
             return null;
         }
@@ -143,7 +155,10 @@ namespace NeeView
                 MouseWheelGestureConverter converter = new MouseWheelGestureConverter();
                 return (InputGesture)converter.ConvertFromString(source);
             }
-            catch { }
+            catch (Exception e)
+            {
+                Debug.WriteLine("(この例外は無視): " + e.Message);
+            }
 
             return null;
         }

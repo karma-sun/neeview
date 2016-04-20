@@ -19,6 +19,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace NeeView
 {
@@ -28,6 +29,7 @@ namespace NeeView
     public partial class HistoryControl : UserControl
     {
         HistoryControlVM _VM;
+
 
         public HistoryControl()
         {
@@ -40,14 +42,13 @@ namespace NeeView
         //
         public void Initialize(BookHub bookHub)
         {
-            _VM.Initialize(bookHub);
+            _VM.Initialize(bookHub, this.HistoryListBox.IsVisible);
         }
 
         // 同期
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            _VM.Update();
+            _VM.UpdateItems();
             this.HistoryListBox.Items.Refresh();
 
             // フォーカス
@@ -56,13 +57,13 @@ namespace NeeView
             this.HistoryListBox.UpdateLayout();
             ListBoxItem lbi = (ListBoxItem)(this.HistoryListBox.ItemContainerGenerator.ContainerFromIndex(this.HistoryListBox.SelectedIndex));
             lbi?.Focus();
-            */
         }
 
         // 履歴項目決定
         private void HistoryListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
         {
-            var historyItem = (sender as ListBoxItem)?.Content as Book.Memento;
+            var historyItem = ((sender as ListBoxItem)?.Content as BookMementoUnit).Memento;
+
             if (historyItem != null)
             {
                 _VM.Load(historyItem.Place);
@@ -73,7 +74,7 @@ namespace NeeView
         // 履歴項目決定(キー)
         private void HistoryListItem_KeyDown(object sender, KeyEventArgs e)
         {
-            var historyItem = (sender as ListBoxItem)?.Content as Book.Memento;
+            var historyItem = ((sender as ListBoxItem)?.Content as BookMementoUnit).Memento;
             {
                 if (e.Key == Key.Return)
                 {
@@ -84,12 +85,21 @@ namespace NeeView
         }
 
         // リストのキ入力
-        private void HistoryList_KeyDown(object sender, KeyEventArgs e)
+        private void HistoryListBox_KeyDown(object sender, KeyEventArgs e)
         {
             // このパネルで使用するキーのイベントを止める
             if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return || e.Key == Key.Delete)
             {
                 e.Handled = true;
+            }
+        }
+
+        // 表示/非表示イベント
+        private void HistoryListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue as bool? == true)
+            {
+                _VM.UpdateItems();
             }
         }
     }
@@ -113,12 +123,36 @@ namespace NeeView
 
         public BookHub BookHub { get; private set; }
 
-        public BookHistory BookHistory => ModelContext.BookHistory;
+        public List<BookMementoUnit> Items { get; set; }
+
+        private bool _IsDarty;
 
         //
-        public void Initialize(BookHub bookHub)
+        public void Initialize(BookHub bookHub, bool isVisible)
         {
             BookHub = bookHub;
+
+            _IsDarty = true;
+            if (isVisible) UpdateItems();
+
+            BookHub.HistoryChanged += BookHub_HistoryChanged;
+        }
+
+        //
+        private void BookHub_HistoryChanged(object sender, BookMementoCollectionChangedArgs e)
+        {
+            _IsDarty = e.HistoryChangedType != BookMementoCollectionChangedType.Update;
+       }
+
+        //
+        public void UpdateItems()
+        {
+            if (_IsDarty)
+            {
+                _IsDarty = false;
+                Items = ModelContext.BookHistory.Items.ToList();
+                OnPropertyChanged(nameof(Items));
+            }
         }
 
         //

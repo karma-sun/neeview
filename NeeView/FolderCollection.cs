@@ -65,9 +65,11 @@ namespace NeeView
         {
             get
             {
-                if (IsVisibleHistoryMark && ModelContext.Bookmarks.Find(Path) != null)
+                var unit = ModelContext.BookMementoCollection.Find(Path);
+
+                if (IsVisibleHistoryMark && unit?.BookmarkNode != null)
                     return FolderInfoIconOverlay.Star;
-                if (IsVisibleHistoryMark && ModelContext.BookHistory.Find(Path) != null)
+                if (IsVisibleHistoryMark && unit?.HistoryNode != null)
                     return FolderInfoIconOverlay.Checked;
                 else if (IsDirectory && !IsReady)
                     return FolderInfoIconOverlay.Disable;

@@ -29,7 +29,7 @@
         <DataTemplate x:Key="NormalBookmark">
             <DockPanel>
                 <Grid>
-                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Place}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis">
+                    <TextBlock Text="{Binding Value.Memento.Name}" ToolTip="{Binding Value.Memento.Place}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis">
                     </TextBlock>
                 </Grid>
 

@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -54,7 +55,7 @@ namespace NeeView
         public List<DragKey> GetDragKeyCollection()
         {
             var list = new List<DragKey>();
-            if (Key != null)
+            if (!string.IsNullOrEmpty(Key))
             {
                 var converter = new DragKeyConverter();
                 foreach (var key in Key.Split(','))
@@ -64,7 +65,10 @@ namespace NeeView
                         var dragKey = converter.ConvertFromString(key);
                         list.Add(dragKey);
                     }
-                    catch { }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine("(この例外は無視): " + e.Message);
+                    }
                 }
             }
 

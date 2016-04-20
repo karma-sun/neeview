@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -16,28 +17,6 @@ using System.Xml;
 
 namespace NeeView
 {
-    // HistoryChangedイベントの種類
-    public enum HistoryChangedType
-    {
-        Load,
-        Clear,
-        Add,
-        Update,
-        Remove,
-    }
-
-    // HistoryChangedイベントの引数
-    public class BookMementoCollectionChangedArgs
-    {
-        public HistoryChangedType HistoryChangedType { get; set; }
-        public string Key { get; set; }
-
-        public BookMementoCollectionChangedArgs(HistoryChangedType type, string key)
-        {
-            HistoryChangedType = type;
-            Key = key;
-        }
-    }
 
     /// <summary>
     /// 履歴
@@ -56,36 +35,121 @@ namespace NeeView
         }
         #endregion
 
-        // 履歴に追加、削除された
+        // 履歴変更イベント
         public event EventHandler<BookMementoCollectionChangedArgs> HistoryChanged;
 
-        // 履歴
-        private ObservableCollection<Book.Memento> _Items;
-        public ObservableCollection<Book.Memento> Items
-        {
-            get { return _Items; }
-            private set
-            {
-                _Items = value;
-                BindingOperations.EnableCollectionSynchronization(_Items, new object());
-                OnPropertyChanged();
-            }
-        }
+        // 履歴コレクション
+        // 膨大な数で変更が頻繁に行われるのでLinkedList
+        public LinkedList<BookMementoUnit> Items { get; set; }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
         public BookHistory()
         {
-            Items = new ObservableCollection<Book.Memento>();
+            Items = new LinkedList<BookMementoUnit>();
         }
 
 
         // 履歴クリア
         public void Clear()
         {
+            foreach (var node in Items)
+            {
+                node.HistoryNode = null;
+            }
             Items.Clear();
-            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(HistoryChangedType.Clear, null));
+
+            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Clear, null));
         }
 
 
+        //
+        public void Load(IEnumerable<Book.Memento> items)
+        {
+            // 履歴リストをクリア
+            Clear();
+
+            //
+            foreach (var item in items)
+            {
+                var unit = ModelContext.BookMementoCollection.Find(item.Place);
+
+                if (unit == null)
+                {
+                    unit = new BookMementoUnit();
+
+                    unit.Memento = item;
+                    unit.HistoryNode = new LinkedListNode<BookMementoUnit>(unit);
+                    Items.AddLast(unit.HistoryNode);
+
+                    ModelContext.BookMementoCollection.Add(unit);
+                }
+                else
+                {
+                    unit.Memento = item;
+                    unit.HistoryNode = new LinkedListNode<BookMementoUnit>(unit);
+                    Items.AddLast(unit.HistoryNode);
+                }
+            }
+
+            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Load, null));
+        }
+
+        // 履歴更新
+        public BookMementoUnit Add(BookMementoUnit unit, Book.Memento memento, bool isKeepOrder)
+        {
+            if (memento == null) return unit;
+            Debug.Assert(unit == null || unit.Memento.Place == memento.Place);
+
+            try
+            {
+                if (unit == null)
+                {
+                    unit = new BookMementoUnit();
+
+                    unit.Memento = memento;
+
+                    unit.HistoryNode = new LinkedListNode<BookMementoUnit>(unit);
+                    Items.AddFirst(unit.HistoryNode);
+
+                    ModelContext.BookMementoCollection.Add(unit);
+                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
+                }
+                else if (unit.HistoryNode != null)
+                {
+                    unit.Memento = memento;
+
+                    if (isKeepOrder)
+                    {
+                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Place));
+                    }
+                    else
+                    {
+                        Items.Remove(unit.HistoryNode);
+                        Items.AddFirst(unit.HistoryNode);
+                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
+                    }
+                }
+                else
+                {
+                    unit.Memento = memento;
+
+                    unit.HistoryNode = new LinkedListNode<BookMementoUnit>(unit);
+                    Items.AddFirst(unit.HistoryNode);
+
+                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
+                }
+
+                return unit;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return null;
+            }
+        }
 
         // 履歴追加
         public void Add(Book book, bool isKeepOrder)
@@ -93,50 +157,37 @@ namespace NeeView
             if (book?.Place == null) return;
             if (book.Pages.Count <= 0) return;
 
-            var item = Items.FirstOrDefault(e => e.Place == book.Place);
-            var setting = book.CreateMemento();
-            if (item != null)
-            {
-                int oldIndex = Items.IndexOf(item);
-                int newIndex = isKeepOrder ? oldIndex : 0;
-                if (oldIndex != newIndex) Items.Move(oldIndex, newIndex);
-                setting.CopyTo(Items[newIndex]);
-                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(HistoryChangedType.Update, setting.Place));
-            }
-            else
-            {
-                Items.Insert(0, setting);
-                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(HistoryChangedType.Add, setting.Place));
-            }
+            var memento = book.CreateMemento();
+            var unit = ModelContext.BookMementoCollection.Find(memento.Place);
+
+            Add(unit, memento, isKeepOrder);
         }
+
 
         // 履歴削除
         public void Remove(string place)
         {
-            var item = Items.FirstOrDefault(e => e.Place == place);
-            if (item != null)
+            var unit = ModelContext.BookMementoCollection.Find(place);
+            if (unit != null && unit.HistoryNode != null)
             {
-                Items.Remove(item);
-                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(HistoryChangedType.Remove, item.Place));
+                Items.Remove(unit.HistoryNode);
+                unit.HistoryNode = null;
+                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, unit.Memento.Place));
             }
         }
 
-        // 履歴検索
-        public Book.Memento Find(string place)
+        // 履歴検索 (未使用)
+        public BookMementoUnit Find(string place)
         {
-            return Items.FirstOrDefault(e => e.Place == place);
+            var unit = ModelContext.BookMementoCollection.Find(place);
+            return unit?.HistoryNode != null ? unit : null;
         }
+
 
         // 最近使った履歴のリストアップ
         public List<Book.Memento> ListUp(int size)
         {
-            var list = new List<Book.Memento>();
-            foreach (var item in Items)
-            {
-                if (list.Count >= size) break;
-                list.Add(item);
-            }
-            return list;
+            return Items.Take(size).Select(e => e.Memento).ToList();
         }
 
 
@@ -202,7 +253,8 @@ namespace NeeView
         public Memento CreateMemento(bool removeTemporary)
         {
             var memento = new Memento();
-            memento.Items = this.Items.ToList();
+            memento.Items = this.Items.Select(e => e.Memento).ToList();
+
             if (removeTemporary)
             {
                 memento.Items.RemoveAll((e) => e.Place.StartsWith(Temporary.TempDirectory));
@@ -214,10 +266,11 @@ namespace NeeView
         // memento適用
         public void Restore(Memento memento)
         {
-            this.Items = new ObservableCollection<Book.Memento>(memento.Items);
-            this.HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(HistoryChangedType.Load, null));
+            this.Load(memento.Items);
         }
 
         #endregion
     }
+
+
 }

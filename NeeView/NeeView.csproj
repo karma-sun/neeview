@@ -83,6 +83,7 @@
     <Compile Include="BookmarkControl.xaml.cs">
       <DependentUpon>BookmarkControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BookMementoCollection.cs" />
     <Compile Include="FolderCollection.cs" />
     <Compile Include="FolderList.xaml.cs">
       <DependentUpon>FolderList.xaml</DependentUpon>

@@ -42,12 +42,13 @@ namespace NeeView
             this.BookmarkListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
         }
 
+        //
         public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
         {
-            var item = (sender as ListBox)?.SelectedItem as Book.Memento;
+            var item = (sender as ListBox)?.SelectedItem as BookMementoUnitNode;
             if (item != null)
             {
-                ModelContext.Bookmarks.Remove(item.Place);
+                ModelContext.Bookmarks.Remove(item.Value.Memento.Place);
             }
         }
 
@@ -77,10 +78,10 @@ namespace NeeView
         // 履歴項目決定
         private void BookmarkListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
         {
-            var historyItem = (sender as ListBoxItem)?.Content as Book.Memento;
+            var historyItem = (sender as ListBoxItem)?.Content as BookMementoUnitNode;
             if (historyItem != null)
             {
-                _VM.Load(historyItem.Place);
+                _VM.Load(historyItem.Value.Memento.Place);
                 e.Handled = true;
             }
         }
@@ -88,11 +89,11 @@ namespace NeeView
         // 履歴項目決定(キー)
         private void BookmarkListItem_KeyDown(object sender, KeyEventArgs e)
         {
-            var historyItem = (sender as ListBoxItem)?.Content as Book.Memento;
+            var historyItem = (sender as ListBoxItem)?.Content as BookMementoUnitNode;
             {
                 if (e.Key == Key.Return)
                 {
-                    _VM.Load(historyItem.Place);
+                    _VM.Load(historyItem.Value.Memento.Place);
                     e.Handled = true;
                 }
             }
@@ -115,10 +116,10 @@ namespace NeeView
 
         private void BookmarkListBox_Drop(object sender, DragEventArgs e)
         {
-            var list = (sender as ListBox).Tag as ObservableCollection<Book.Memento>;
+            var list = (sender as ListBox).Tag as ObservableCollection<BookMementoUnitNode>;
             if (list != null)
             {
-                ListBoxDragSortExtension.Drop<Book.Memento>(sender, e, list);
+                ListBoxDragSortExtension.Drop<BookMementoUnitNode>(sender, e, list);
                 e.Handled = true;
             }
         }

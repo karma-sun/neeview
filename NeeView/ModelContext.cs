@@ -25,6 +25,7 @@ namespace NeeView
         public static SusieContext SusieContext { get; set; }
         public static Susie.Susie Susie => SusieContext.Susie;
 
+        public static BookMementoCollection BookMementoCollection { get; set; }
         public static BookHistory BookHistory { get; set; }
         public static BookmarkCollection Bookmarks { get; set; }
 
@@ -55,6 +56,7 @@ namespace NeeView
             Page.WideRatio = wideRatio;
 
             //
+            BookMementoCollection = new BookMementoCollection();
             BookHistory = new BookHistory();
             Bookmarks = new BookmarkCollection();
 

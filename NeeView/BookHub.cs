@@ -600,6 +600,9 @@ namespace NeeView
 
                 // ファイル読み込み失敗通知
                 EmptyMessage?.Invoke(this, e.Message);
+
+                //
+                Unload(false);
             }
             finally
             {

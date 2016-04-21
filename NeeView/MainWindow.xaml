@@ -214,7 +214,7 @@
                     <!-- empty pages message -->
                     <Grid Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock  Text="読み込めるファイルがありません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
+                            <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
 
                             <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
                                 <TextBlock.Style>

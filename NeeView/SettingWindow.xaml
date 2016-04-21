@@ -123,8 +123,43 @@
                                   SelectedValue="{Binding Setting.ViewMemento.NowLoadingShowMessageStyle}" />
                             </DockPanel>
 
+                        </StackPanel>
 
+                        <DockPanel LastChildFill="False">
+                            <TextBlock Text="ウィンドウタイトル" Style="{StaticResource Header}"/>
+                            <ToggleButton DockPanel.Dock="Right" x:Name="WindowTitleFormatHelp" Margin="5,0" Width="20" Height="20" Style="{StaticResource IconToggleButton}">
+                                <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
+                            </ToggleButton>
 
+                        </DockPanel>
+                            <Popup IsOpen="{Binding ElementName=WindowTitleFormatHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowTitleFormatHelp}" Placement="Top" HorizontalAlignment="Right">
+                                <Border BorderBrush="Gray" BorderThickness="1" Background="LightYellow">
+                                <TextBlock Margin="10">
+                                    $Book -- 開いているフォルダ名<LineBreak/>
+                                    $Page -- 現在ページ番号<LineBreak/>
+                                    $PageMax -- 最大ページ番号<LineBreak/>
+                                    $ViewScale -- ビュー操作による表示倍率(%)<LineBreak/>
+                                    $FullName[LR] -- パスを含むファイル名<LineBreak/>
+                                    $Name[LR] -- ファイル名<LineBreak/>
+                                    $Size[LR] -- ファイルサイズ (ex. 100×100)<LineBreak/>
+                                    $SizeEx[LR] -- ファイルサイズ+ピクセル深度 (ex. 100×100×24)<LineBreak/>
+                                    $Scale[LR] -- 画像の表示倍率(%)<LineBreak/>
+                                    <LineBreak/>
+                                    "◯◯◯[LR]" は、1ページ用、2ページ用で変数名が変わることを示します<LineBreak/>
+                                    例えば $Name は1ページ用、 $NameL は２ページ左用、 $NameR は2ページ右用になります
+                                </TextBlock>
+                                </Border>
+                            </Popup>
+
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <DockPanel Margin="2" LastChildFill="True">
+                                <TextBlock MinWidth="100" Text="1ページ用：" VerticalAlignment="Center" Margin="0"/>
+                                <TextBox Text="{Binding Setting.ViewMemento.WindowTitleFormat1}" Margin="0"/>
+                            </DockPanel>
+                            <DockPanel Margin="2" LastChildFill="True">
+                                <TextBlock MinWidth="100" Text="2ページ用：" VerticalAlignment="Center" Margin="0"/>
+                                <TextBox Text="{Binding Setting.ViewMemento.WindowTitleFormat2}" Margin="0"/>
+                            </DockPanel>
                         </StackPanel>
 
                         <TextBlock Text="パネル外観" Style="{StaticResource Header}"/>
@@ -166,7 +201,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            
+
             <TabItem Header="ビュー設定">
                 <StackPanel Margin="4">
                     <TextBlock Text="ビュー操作" Style="{StaticResource Header}"/>
@@ -228,7 +263,7 @@
                                 <ComboBox SelectedValue="{Binding DragActionAlt}" />
                             </StackPanel>
                         </StackPanel>
-                        
+
                         <!-- MiddleDrag -->
                         <StackPanel Style="{StaticResource DragGroup}" Margin="50,0">
                             <StackPanel>
@@ -276,7 +311,7 @@
                                 </Style>
                             </DockPanel.Style>
                             <TextBlock MinWidth="100" Text="パラメーター：" VerticalAlignment="Center" Margin="2"/>
-                            <TextBox Text="{Binding ExternalApplicationParam}" Margin="2" ToolTip="$FILE がファイルパスに置換されます。&#xa;定義されていない場合 &quot;$FILE&quot; が自動追加されます"/>
+                            <TextBox Text="{Binding ExternalApplicationParam}" Margin="2" ToolTip="$File がファイルパスに置換されます。&#xa;定義されていない場合 &quot;$File&quot; が自動追加されます"/>
                         </DockPanel>
                         <DockPanel Margin="2" LastChildFill="True">
                             <TextBlock MinWidth="100" Text="2ページの場合" VerticalAlignment="Center" Margin="2"/>
@@ -288,7 +323,7 @@
                             <ComboBox x:Name="ExAppArchiveProcess" ItemsSource="{Binding ArchiveOptionTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.BookHubMemento.ExternalApplication.ArchiveOption}" MinWidth="200" HorizontalAlignment="Left" Margin="0"/>
                         </DockPanel>
-         
+
                         <!-- 出力フォルダ指定
                     <DockPanel Margin="2" LastChildFill="True">
                         <DockPanel.Style>
@@ -564,6 +599,8 @@
 
             </TabItem>
         </TabControl>
+
+
 
         <Button x:Name="OkButton" Content="OK" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="80" Margin="0,0,95,10" Click="OkButton_Click" RenderTransformOrigin="0.5,0.5"/>
         <Button x:Name="CancelButton" Content="Cancel" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="80" Margin="0,0,10,10" Click="CancelButton_Click"/>

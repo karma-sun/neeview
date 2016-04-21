@@ -94,6 +94,7 @@
     <Compile Include="HistoryControl.xaml.cs">
       <DependentUpon>HistoryControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ReplaceString.cs" />
     <Compile Include="Utility\DockPanelSplitter.cs" />
     <Compile Include="Utility\FileInfo.cs" />
     <Compile Include="Utility\WicDecoders.cs" />

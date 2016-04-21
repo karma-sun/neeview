@@ -26,6 +26,14 @@ namespace NeeView
         View, // ビューエリアの中心
         Target, // コンテンツの中心
     }
+
+    public enum TransformChangeType
+    {
+        None,
+        Position,
+        Angle,
+        Scale,
+    };
     
 
     /// <summary>
@@ -113,7 +121,7 @@ namespace NeeView
             {
                 _Angle = value;
                 OnPropertyChanged();
-                TransformChanged?.Invoke(this, null);
+                TransformChanged?.Invoke(this, TransformChangeType.Angle);
             }
         }
         #endregion
@@ -130,7 +138,7 @@ namespace NeeView
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(ScaleX));
                 OnPropertyChanged(nameof(ScaleY));
-                TransformChanged?.Invoke(this, null);
+                TransformChanged?.Invoke(this, TransformChangeType.Scale);
             }
         }
         #endregion
@@ -249,7 +257,7 @@ namespace NeeView
         public event EventHandler<MouseButtonEventArgs> MouseClickEventHandler;
 
         // 角度、スケール変更イベント
-        public event EventHandler TransformChanged;
+        public event EventHandler<TransformChangeType> TransformChanged;
 
 
         bool _IsEnableClickEvent;

@@ -53,7 +53,7 @@ namespace NeeView
         public bool IsDefaultApplication => string.IsNullOrWhiteSpace(Command);
 
         // コマンドパラメータで使用されるキーワード
-        const string _Keyword = "$FILE";
+        const string _Keyword = "$File";
 
         // コマンドパラメータ文字列のバリデート
         public static string ValidateApplicationParam(string source)
@@ -82,6 +82,15 @@ namespace NeeView
         private void Deserializing(StreamingContext c)
         {
             Constructor();
+        }
+
+        [OnDeserialized]
+        private void Deserialized(StreamingContext c)
+        {
+            if (Parameter != null)
+            {
+                Parameter = Parameter.Replace("$FILE", "$File");
+            } 
         }
 
         // 外部アプリの実行

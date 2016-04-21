@@ -86,7 +86,14 @@ namespace NeeView
             // mouse drag
             _MouseDrag = new MouseDragController(this, this.MainView, this.MainContent, this.MainContentShadow);
             _MouseDrag.TransformChanged +=
-                (s, e) => _VM.SetViewTransform(_MouseDrag.Scale, _MouseDrag.Angle);
+                (s, e) =>
+                {
+                    _VM.SetViewTransform(_MouseDrag.Scale, _MouseDrag.Angle);
+                    if (e == TransformChangeType.Scale)
+                    {
+                        _VM.UpdateWindowTitle();
+                    }
+                };
             ModelContext.DragActionTable.SetTarget(_MouseDrag);
 
             // mouse gesture

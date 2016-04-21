@@ -144,7 +144,7 @@ namespace NeeView
                         this.Thumbnail.Height = pixel.Height * scale;
 
                         strings.Size = string.Format("{0} x {1}", pixel.Width, pixel.Height);
-                        if (Setting.IsVisibleBitsPerPixel) strings.Size += string.Format(" ({0}bit)", content.Bitmap.GetSourceBitsPerPixel());
+                        if (Setting.IsVisibleBitsPerPixel) strings.Size += string.Format(" ({0}bit)", content.BitsPerPixel);
                     }
                     if (content.Info != null)
                     {

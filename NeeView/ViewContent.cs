@@ -124,5 +124,18 @@ namespace NeeView
             }
         }
 
+        // 表示スケール(%)
+        public double Scale =>Width / Size.Width;
+
+        // ピクセル深度
+        private int _BitsPerPixel;
+        public int BitsPerPixel
+        {
+            get
+            {
+                if (_BitsPerPixel == 0) _BitsPerPixel = Bitmap.GetSourceBitsPerPixel();
+                return _BitsPerPixel;
+            }
+        }
     }
 }

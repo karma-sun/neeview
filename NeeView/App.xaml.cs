@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
@@ -25,9 +26,9 @@ namespace NeeView
         // 例外発生数
         private int _ExceptionCount = 0;
 
+        // コマンドラインオプション
         private static OptionParser _OptionParser { get; set; } = new OptionParser();
         public static Dictionary<string, OptionUnit> Options => _OptionParser.Options;
-
 
         // 起動持の引数として渡されたパス
         public static string StartupPlace { get; set; }
@@ -36,23 +37,27 @@ namespace NeeView
         public static string UserSettingFileName { get; set; }
 
 
-        /// <summary>
-        /// Help
-        /// </summary>
-        private void DumpCommandlineOptionHelp()
+        // コマンドラインヘルプ(未使用)
+        private string HelpText
         {
-            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
+            get
+            {
+                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
 
-            string exe = System.IO.Path.GetFileName(assembly.Location);
-            Console.WriteLine();
-            Console.WriteLine($"{ assembly.GetName().Name} { ver.FileMajorPart}.{ ver.FileMinorPart}");
-            Console.WriteLine($"\nUsage: {exe} [options...] [ImageFile]\n");
-            Console.WriteLine(_OptionParser.HelpText);
-            Console.WriteLine($"例:\n\t{exe} --setting=\"C:\\Hoge\\CustomUserSetting.xml\" --new-window");
-            Console.WriteLine($"例:\n\t{exe} --fullscreen=off --slideshow=on");
-            Console.WriteLine();
+                string exe = System.IO.Path.GetFileName(assembly.Location);
+                string text = "\n";
+                text += $"{ assembly.GetName().Name} { ver.FileMajorPart}.{ ver.FileMinorPart}\n";
+                text += $"\nUsage: {exe} [options...] [ImageFile]\n\n";
+                text += _OptionParser.HelpText + "\n";
+                text += $"例:\n  {exe} --setting=\"C:\\Hoge\\CustomUserSetting.xml\" --new-window=off\n";
+                text += $"例:\n  {exe} --fullscreen --slideshow\n";
+                text += "\n";
+
+                return text;
+            }
         }
+
 
         /// <summary>
         /// Startup
@@ -75,18 +80,9 @@ namespace NeeView
                 _OptionParser.AddOption("--fullscreen", OptionType.Bool, "フルスクリーンで起動するかを指定します");
                 _OptionParser.AddOption("--slideshow", OptionType.Bool, "スライドショウを開始するかを指定します");
                 _OptionParser.Parse(e.Args);
-
-                if (_OptionParser.IsHelp)
-                {
-                    DumpCommandlineOptionHelp();
-                    this.Shutdown();
-                    return;
-                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                DumpCommandlineOptionHelp();
                 MessageBox.Show(ex.Message, "起動オプションエラー", MessageBoxButton.OK, MessageBoxImage.Error);
                 this.Shutdown(1);
                 return;

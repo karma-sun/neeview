@@ -126,7 +126,7 @@ namespace NeeView
             Args = new List<string>();
             Options = new Dictionary<string, OptionUnit>();
 
-            AddOption("--help", OptionType.None, "このヘルプを表示します");
+            //AddOption("--help", OptionType.None, "このヘルプを表示します");
         }
 
         public void AddOption(string key, OptionType type, string exception)

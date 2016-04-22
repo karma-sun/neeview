@@ -544,15 +544,29 @@ namespace NeeView
 
 
         //
+        private LoadSettings _LoadSettings;
+
+        //
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
             // 設定読み込み
-            _VM.LoadSetting(this);
+            _LoadSettings = _VM.LoadSettings();
+
+            // ウィンドウ座標復元 (スレッドスリープする)
+            WindowPlacement.Restore(this, _LoadSettings.Setting.WindowPlacement, _LoadSettings.Setting.ViewMemento.IsFullScreen);
         }
 
         //
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // 設定読み込み
+            _VM.RestoreLoadSettings(_LoadSettings);
+            _LoadSettings = null; // 設定はもう不要
+
+            // パネル幅復元
+            this.LeftPanel.Width = _VM.LeftPanelWidth;
+            this.RightPanel.Width = _VM.RightPanelWidth;
+
             // PanelColor
             _VM.FlushPanelColor();
 
@@ -570,15 +584,18 @@ namespace NeeView
             this.BookmarkArea.Initialize(_VM.BookHub);
 
             //
-            if (App.StartupPlace != null)
+            if (!App.Options["--blank"].IsValid)
             {
-                // 起動引数の場所で開く
-                LoadAs(App.StartupPlace);
-            }
-            else
-            {
-                // 最後に開いたフォルダを復元する
-                _VM.LoadLastFolder();
+                if (App.StartupPlace != null)
+                {
+                    // 起動引数の場所で開く
+                    LoadAs(App.StartupPlace);
+                }
+                else
+                {
+                    // 最後に開いたフォルダを復元する
+                    _VM.LoadLastFolder();
+                }
             }
         }
 

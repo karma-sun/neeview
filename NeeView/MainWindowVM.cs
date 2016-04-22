@@ -67,6 +67,16 @@ namespace NeeView
         All = 0xFFFF
     }
 
+
+    //
+    public class LoadSettings
+    {
+        public Setting Setting { get; set; }
+        public BookHistory.Memento BookHistoryMemento { get; set; }
+        public BookmarkCollection.Memento BookmarkMemento { get; set; }
+    }
+
+
     /// <summary>
     /// ViewModel
     /// </summary>
@@ -483,9 +493,7 @@ namespace NeeView
         // ウィンドウタイトル作成
         private string CreateWindowTitle(UpdateWindowTitleMask mask)
         {
-            string format2 = WindowTitleFormat2 ?? WindowTitleFormat2Default;
-            string format1 = WindowTitleFormat1 ?? WindowTitleFormat1Default;
-            string format = Contents[1].IsValid ? format2 : format1;
+            string format = Contents[1].IsValid ? WindowTitleFormat2 : WindowTitleFormat1;
 
             bool isMainContent0 = MainContent == Contents[0];
 
@@ -1010,108 +1018,102 @@ namespace NeeView
             Exporter.Restore(setting.ExporterMemento);
         }
 
-        // アプリ設定読み込み
-        public void LoadSetting(MainWindow window)
+        //
+        public LoadSettings LoadSettings()
         {
-            Setting setting;
+            LoadSettings settings = new LoadSettings(); ;
 
             // 設定の読み込み
             if (System.IO.File.Exists(App.UserSettingFileName))
             {
                 try
                 {
-                    setting = Setting.Load(App.UserSettingFileName);
+                    settings.Setting = Setting.Load(App.UserSettingFileName);
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
                     Messenger.MessageBox(this, "設定の読み込みに失敗しました。初期設定で起動します。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
-                    setting = new Setting();
+                    settings.Setting = new Setting();
                 }
             }
             else
             {
-                setting = new Setting();
+                settings.Setting = new Setting();
             }
 
-            // 設定反映
-            RestoreSetting(setting);
-
-            #region load history
-
             // 履歴読み込み
-            BookHistory.Memento bookHistoryMemento;
             if (System.IO.File.Exists(HistoryFileName))
             {
                 try
                 {
-                    bookHistoryMemento = BookHistory.Memento.Load(HistoryFileName);
+                    settings.BookHistoryMemento = BookHistory.Memento.Load(HistoryFileName);
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
                     Messenger.MessageBox(this, "履歴の読み込みに失敗しました。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
-                    bookHistoryMemento = new BookHistory.Memento();
+                    settings.BookHistoryMemento = new BookHistory.Memento();
                 }
             }
             else
             {
-                bookHistoryMemento = new BookHistory.Memento();
+                settings.BookHistoryMemento = new BookHistory.Memento();
             }
 
             // 設定ファイルに残っている履歴をマージ
-            if (setting.BookHistoryMemento != null)
+            if (settings.BookHistoryMemento != null)
             {
-                bookHistoryMemento.Merge(setting.BookHistoryMemento);
+                settings.BookHistoryMemento.Merge(settings.BookHistoryMemento);
             }
 
-            // 反映
-            ModelContext.BookHistory.Restore(bookHistoryMemento);
-            UpdateLastFiles();
-
-            #endregion
-
-
-            #region load bookmark
-
-            // 履歴読み込み
-            BookmarkCollection.Memento bookmarkMemento;
+            // ブックマーク読み込み
             if (System.IO.File.Exists(BookmarkFileName))
             {
                 try
                 {
-                    bookmarkMemento = BookmarkCollection.Memento.Load(BookmarkFileName);
+                    settings.BookmarkMemento = BookmarkCollection.Memento.Load(BookmarkFileName);
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
                     Messenger.MessageBox(this, "ブックマークの読み込みに失敗しました。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
-                    bookmarkMemento = new BookmarkCollection.Memento();
+                    settings.BookmarkMemento = new BookmarkCollection.Memento();
                 }
             }
             else
             {
-                bookmarkMemento = new BookmarkCollection.Memento();
+                settings.BookmarkMemento = new BookmarkCollection.Memento();
             }
 
-            // 反映
-            ModelContext.Bookmarks.Restore(bookmarkMemento);
+            return settings;
+        }
 
-            #endregion
+        // アプリ設定読み込み
+        public void RestoreLoadSettings(LoadSettings settings)
+        {
+            // 設定反映
+            RestoreSetting(settings.Setting);
 
+            // 履歴反映
+            ModelContext.BookHistory.Restore(settings.BookHistoryMemento);
+            UpdateLastFiles();
+
+            // ブックマーク反映
+            ModelContext.Bookmarks.Restore(settings.BookmarkMemento);
+
+
+            // フルスクリーン
+            if (App.Options["--fullscreen"].IsValid)
+            {
+                IsFullScreen = App.Options["--fullscreen"].Bool;
+            }
 
             // スライドショーの自動再生
-            if (IsAutoPlaySlideShow)
+            if (App.Options["--slideshow"].IsValid ? App.Options["--slideshow"].Bool : IsAutoPlaySlideShow)
             {
                 BookHub.IsEnableSlideShow = true;
             }
-
-            // パネル幅復元
-            window.LeftPanel.Width = LeftPanelWidth;
-            window.RightPanel.Width = RightPanelWidth;
-
-            // ウィンドウ座標復元 (スレッドスリープする)
-            WindowPlacement.Restore(window, setting.WindowPlacement, setting.ViewMemento.IsFullScreen);
         }
 
 
@@ -1659,6 +1661,8 @@ namespace NeeView
                 PanelOpacity = 100;
                 LeftPanelWidth = 250;
                 RightPanelWidth = 250;
+                WindowTitleFormat1 = MainWindowVM.WindowTitleFormat1Default;
+                WindowTitleFormat2 = MainWindowVM.WindowTitleFormat2Default;
             }
 
             public Memento()

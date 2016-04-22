@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -24,12 +25,34 @@ namespace NeeView
         // 例外発生数
         private int _ExceptionCount = 0;
 
+        private static OptionParser _OptionParser { get; set; } = new OptionParser();
+        public static Dictionary<string, OptionUnit> Options => _OptionParser.Options;
+
+
         // 起動持の引数として渡されたパス
         public static string StartupPlace { get; set; }
 
         // ユーザー設定ファイル名
         public static string UserSettingFileName { get; set; }
 
+
+        /// <summary>
+        /// Help
+        /// </summary>
+        private void DumpCommandlineOptionHelp()
+        {
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
+
+            string exe = System.IO.Path.GetFileName(assembly.Location);
+            Console.WriteLine();
+            Console.WriteLine($"{ assembly.GetName().Name} { ver.FileMajorPart}.{ ver.FileMinorPart}");
+            Console.WriteLine($"\nUsage: {exe} [options...] [ImageFile]\n");
+            Console.WriteLine(_OptionParser.HelpText);
+            Console.WriteLine($"例:\n\t{exe} --setting=\"C:\\Hoge\\CustomUserSetting.xml\" --new-window");
+            Console.WriteLine($"例:\n\t{exe} --fullscreen=off --slideshow=on");
+            Console.WriteLine();
+        }
 
         /// <summary>
         /// Startup
@@ -40,20 +63,60 @@ namespace NeeView
         {
             ShutdownMode = ShutdownMode.OnMainWindowClose;
 
-
             // カレントフォルダをアプリの場所に再設定
             var assembly = Assembly.GetEntryAssembly();
             Environment.CurrentDirectory = Path.GetDirectoryName(assembly.Location);
 
-            // 引数チェック
-            foreach (string arg in e.Args)
+            try
+            {
+                _OptionParser.AddOption("--setting", OptionType.FileName, "設定ファイル(UserSetting.xml)のパスを指定します");
+                _OptionParser.AddOption("--blank", OptionType.None, "画像ファイルを開かずに起動します");
+                _OptionParser.AddOption("--new-window", OptionType.Bool, "新しいウィンドウで起動するかを指定します");
+                _OptionParser.AddOption("--fullscreen", OptionType.Bool, "フルスクリーンで起動するかを指定します");
+                _OptionParser.AddOption("--slideshow", OptionType.Bool, "スライドショウを開始するかを指定します");
+                _OptionParser.Parse(e.Args);
+
+                if (_OptionParser.IsHelp)
+                {
+                    DumpCommandlineOptionHelp();
+                    this.Shutdown();
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                DumpCommandlineOptionHelp();
+                MessageBox.Show(ex.Message, "起動オプションエラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.Shutdown(1);
+                return;
+            }
+
+            foreach (string arg in _OptionParser.Args)
             {
                 StartupPlace = arg.Trim();
             }
 
 
             // 設定ファイル名
-            UserSettingFileName = Path.Combine(Environment.CurrentDirectory, "UserSetting.xml");
+            if (Options["--setting"].IsValid)
+            {
+                var filename = _OptionParser.Options["--setting"].Value;
+                if (File.Exists(filename))
+                {
+                    UserSettingFileName = Path.GetFullPath(filename);
+                }
+                else
+                {
+                    MessageBox.Show("指定された設定ファイルが存在しません\n\n" + filename, "起動オプションエラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                    this.Shutdown(1);
+                    return;
+                }
+            }
+            else
+            {
+                UserSettingFileName = Path.Combine(Environment.CurrentDirectory, "UserSetting.xml");
+            }
 
             // 設定読み込み
             bool isDisableMultiBoot = false;
@@ -66,7 +129,11 @@ namespace NeeView
 
             // 多重起動チェック
             Process currentProcess = Process.GetCurrentProcess();
-            if (isDisableMultiBoot && (Keyboard.Modifiers & ModifierKeys.Shift) != ModifierKeys.Shift)
+
+            bool isNewWindow = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift
+                || Options["--new-window"].IsValid ? Options["--new-window"].Bool : !isDisableMultiBoot;
+
+            if (!isNewWindow)
             {
                 // 自身と異なるプロセスを見つけ、サーバとする
                 Process[] processes = Process.GetProcessesByName(currentProcess.ProcessName);

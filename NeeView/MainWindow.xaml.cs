@@ -91,7 +91,7 @@ namespace NeeView
                     _VM.SetViewTransform(_MouseDrag.Scale, _MouseDrag.Angle);
                     if (e == TransformChangeType.Scale)
                     {
-                        _VM.UpdateWindowTitle();
+                        _VM.UpdateWindowTitle(UpdateWindowTitleMask.View);
                     }
                 };
             ModelContext.DragActionTable.SetTarget(_MouseDrag);

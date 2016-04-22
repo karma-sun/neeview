@@ -56,6 +56,16 @@ namespace NeeView
         BookmarkList,
     }
 
+    // ウィンドウタイトル更新項目
+    [Flags]
+    public enum UpdateWindowTitleMask
+    {
+        None = 0,
+        Book = (1 << 0),
+        Page = (1 << 1),
+        View = (1 << 2),
+        All = 0xFFFF
+    }
 
     /// <summary>
     /// ViewModel
@@ -423,88 +433,115 @@ namespace NeeView
 
         #region Window Title
 
-        public void UpdateWindowTitle()
-        {
-            OnPropertyChanged(nameof(WindowTitle));
-        }
-
-        // TODO: プロパティにしてsetで更新するように
-        // TODO: 変更箇所のみ更新するように
-        // TODO: フォーマットで対応している公もこうのみ更新するように
         // ウィンドウタイトル
+        #region Property: WindowTitle
+        private string _WindowTitle;
         public string WindowTitle
         {
-            get
-            {
-                if (LoadingPath != null)
-                    return LoosePath.GetFileName(LoadingPath) + " (読込中)";
+            get { return _WindowTitle; }
+            private set { _WindowTitle = value; OnPropertyChanged(); }
+        }
+        #endregion
 
-                else if (BookHub.CurrentBook?.Place == null)
-                    return _DefaultWindowTitle;
+        // ウィンドウタイトル更新
+        public void UpdateWindowTitle(UpdateWindowTitleMask mask)
+        {
+            if (LoadingPath != null)
+                WindowTitle = LoosePath.GetFileName(LoadingPath) + " (読込中)";
 
-                else if (MainContent == null)
-                    return NVUtility.PlaceToTitle(BookHub.CurrentBook.Place);
+            else if (BookHub.CurrentBook?.Place == null)
+                WindowTitle = _DefaultWindowTitle;
 
-                else
-                    return CreateWindowTitle();
-            }
+            else if (MainContent == null)
+                WindowTitle = NVUtility.PlaceToTitle(BookHub.CurrentBook.Place);
+
+            else
+                WindowTitle = CreateWindowTitle(mask);
         }
 
+        // ウィンドウタイトル用キーワード置換
         ReplaceString _WindowTitleFormatter = new ReplaceString();
 
         public const string WindowTitleFormat1Default = "$Book($Page/$PageMax) - $FullName";
         public const string WindowTitleFormat2Default = "$Book($Page/$PageMax) - $FullNameL | $NameR";
 
-        public string WindowTitleFormat1 { get; set; }
-        public string WindowTitleFormat2 { get; set; }
-
-        //
-        private string CreateWindowTitle()
+        // ウィンドウタイトルフォーマット
+        private string _WindowTitleFormat1;
+        public string WindowTitleFormat1
         {
-            string bookName = NVUtility.PlaceToTitle(BookHub.CurrentBook.Place);
-            _WindowTitleFormatter.Set("$Book", bookName);
+            get { return _WindowTitleFormat1; }
+            set { _WindowTitleFormat1 = value; _WindowTitleFormatter.SetFilter(_WindowTitleFormat1 + " " + _WindowTitleFormat2); }
+        }
 
-            string pageNum = (MainContent.PartSize == 2)
-                ? (MainContent.Position.Index + 1).ToString()
-                : (MainContent.Position.Index + 1).ToString() + (MainContent.Position.Part == 1 ? ".5" : ".0");
-            _WindowTitleFormatter.Set("$PageMax", (IndexMax + 1).ToString());
-            _WindowTitleFormatter.Set("$Page", pageNum);
+        private string _WindowTitleFormat2;
+        public string WindowTitleFormat2
+        {
+            get { return _WindowTitleFormat2; }
+            set { _WindowTitleFormat2 = value; _WindowTitleFormatter.SetFilter(_WindowTitleFormat1 + " " + _WindowTitleFormat2); }
+        }
 
-            string path0 = Contents[0].IsValid ? Contents[0].FullPath.Replace("/", " > ").Replace("\\", " > ") + Contents[0].GetPartString() : "";
-            string path1 = Contents[1].IsValid ? Contents[1].FullPath.Replace("/", " > ").Replace("\\", " > ") + Contents[1].GetPartString() : "";
-            _WindowTitleFormatter.Set("$FullName", path0);
-            _WindowTitleFormatter.Set("$FullNameL", path1);
-            _WindowTitleFormatter.Set("$FullNameR", path0);
-
-            string name0 = Contents[0].IsValid ? LoosePath.GetFileName(Contents[0].FullPath) + Contents[0].GetPartString() : "";
-            string name1 = Contents[1].IsValid ? LoosePath.GetFileName(Contents[1].FullPath) + Contents[1].GetPartString() : "";
-            _WindowTitleFormatter.Set("$Name", name0);
-            _WindowTitleFormatter.Set("$NameL", name1);
-            _WindowTitleFormatter.Set("$NameR", name0);
-
-            string size0 = Contents[0].IsValid ? $"{Contents[0].Size.Width}×{Contents[0].Size.Height}" : "";
-            string size1 = Contents[1].IsValid ? $"{Contents[1].Size.Width}×{Contents[1].Size.Height}" : "";
-            _WindowTitleFormatter.Set("$Size", size0);
-            _WindowTitleFormatter.Set("$SizeL", size1);
-            _WindowTitleFormatter.Set("$SizeR", size0);
-
-            string bpp0 = Contents[0].IsValid ? size0 + "×" + Contents[0].BitsPerPixel.ToString() : "";
-            string bpp1 = Contents[1].IsValid ? size1 + "×" + Contents[1].BitsPerPixel.ToString() : "";
-            _WindowTitleFormatter.Set("$SizeEx", bpp0);
-            _WindowTitleFormatter.Set("$SizeExL", bpp1);
-            _WindowTitleFormatter.Set("$SizeExR", bpp0);
-
-            _WindowTitleFormatter.Set("$ViewScale", $"{(int)(_ViewScale * 100 + 0.1)}");
-
-            string scale0 = Contents[0].IsValid ? $"{(int)(_ViewScale * Contents[0].Scale * 100 + 0.1)}" : "";
-            string scale1 = Contents[1].IsValid ? $"{(int)(_ViewScale * Contents[1].Scale * 100 + 0.1)}" : "";
-            _WindowTitleFormatter.Set("$Scale", scale0);
-            _WindowTitleFormatter.Set("$ScaleL", scale1);
-            _WindowTitleFormatter.Set("$ScaleR", scale0);
-
+        // ウィンドウタイトル作成
+        private string CreateWindowTitle(UpdateWindowTitleMask mask)
+        {
             string format2 = WindowTitleFormat2 ?? WindowTitleFormat2Default;
             string format1 = WindowTitleFormat1 ?? WindowTitleFormat1Default;
             string format = Contents[1].IsValid ? format2 : format1;
+
+            bool isMainContent0 = MainContent == Contents[0];
+
+            if ((mask & UpdateWindowTitleMask.Book) != 0)
+            {
+                string bookName = NVUtility.PlaceToTitle(BookHub.CurrentBook.Place);
+                _WindowTitleFormatter.Set("$Book", bookName);
+            }
+
+            if ((mask & UpdateWindowTitleMask.Page) != 0)
+            {
+                string pageNum = (MainContent.PartSize == 2)
+                ? (MainContent.Position.Index + 1).ToString()
+                : (MainContent.Position.Index + 1).ToString() + (MainContent.Position.Part == 1 ? ".5" : ".0");
+                _WindowTitleFormatter.Set("$PageMax", (IndexMax + 1).ToString());
+                _WindowTitleFormatter.Set("$Page", pageNum);
+
+                string path0 = Contents[0].IsValid ? Contents[0].FullPath.Replace("/", " > ").Replace("\\", " > ") + Contents[0].GetPartString() : "";
+                string path1 = Contents[1].IsValid ? Contents[1].FullPath.Replace("/", " > ").Replace("\\", " > ") + Contents[1].GetPartString() : "";
+                _WindowTitleFormatter.Set("$FullName", isMainContent0 ? path0 : path1);
+                _WindowTitleFormatter.Set("$FullNameL", path1);
+                _WindowTitleFormatter.Set("$FullNameR", path0);
+
+                string name0 = Contents[0].IsValid ? LoosePath.GetFileName(Contents[0].FullPath) + Contents[0].GetPartString() : "";
+                string name1 = Contents[1].IsValid ? LoosePath.GetFileName(Contents[1].FullPath) + Contents[1].GetPartString() : "";
+                _WindowTitleFormatter.Set("$Name", isMainContent0 ? name0 : name1);
+                _WindowTitleFormatter.Set("$NameL", name1);
+                _WindowTitleFormatter.Set("$NameR", name0);
+
+                string size0 = Contents[0].IsValid ? $"{Contents[0].Size.Width}×{Contents[0].Size.Height}" : "";
+                string size1 = Contents[1].IsValid ? $"{Contents[1].Size.Width}×{Contents[1].Size.Height}" : "";
+                _WindowTitleFormatter.Set("$Size", isMainContent0 ? size0 : size1);
+                _WindowTitleFormatter.Set("$SizeL", size1);
+                _WindowTitleFormatter.Set("$SizeR", size0);
+
+                string bpp0 = Contents[0].IsValid ? size0 + "×" + Contents[0].BitsPerPixel.ToString() : "";
+                string bpp1 = Contents[1].IsValid ? size1 + "×" + Contents[1].BitsPerPixel.ToString() : "";
+                _WindowTitleFormatter.Set("$SizeEx", isMainContent0 ? bpp0 : bpp1);
+                _WindowTitleFormatter.Set("$SizeExL", bpp1);
+                _WindowTitleFormatter.Set("$SizeExR", bpp0);
+            }
+
+            if ((mask & UpdateWindowTitleMask.View) != 0)
+            {
+                _WindowTitleFormatter.Set("$ViewScale", $"{(int)(_ViewScale * 100 + 0.1)}");
+            }
+
+            if ((mask & (UpdateWindowTitleMask.Page | UpdateWindowTitleMask.View)) != 0)
+            {
+                string scale0 = Contents[0].IsValid ? $"{(int)(_ViewScale * Contents[0].Scale * 100 + 0.1)}" : "";
+                string scale1 = Contents[1].IsValid ? $"{(int)(_ViewScale * Contents[1].Scale * 100 + 0.1)}" : "";
+                _WindowTitleFormatter.Set("$Scale", isMainContent0 ? scale0 : scale1);
+                _WindowTitleFormatter.Set("$ScaleL", scale1);
+                _WindowTitleFormatter.Set("$ScaleR", scale0);
+            }
+
             return _WindowTitleFormatter.Replace(format);
         }
 
@@ -514,7 +551,7 @@ namespace NeeView
         public string LoadingPath
         {
             get { return _LoadingPath; }
-            set { _LoadingPath = value; OnPropertyChanged("WindowTitle"); }
+            set { _LoadingPath = value; UpdateWindowTitle(UpdateWindowTitleMask.All); }
         }
 
         #endregion
@@ -1186,7 +1223,7 @@ namespace NeeView
             IsVisibleEmptyPageMessage = contents.Count == 0;
 
             // メインとなるコンテンツを指定
-            MainContent = contents.Count > 0 ? contents[0] : null;
+            MainContent = contents.Count > 0 ? (contents.First().Position < contents.Last().Position ? contents.First() : contents.Last()) : null;
 
             // ViewModelプロパティに反映
             for (int index = 0; index < 2; ++index)
@@ -1202,7 +1239,7 @@ namespace NeeView
 
             // 表示更新を通知
             ViewChanged?.Invoke(this, new ViewChangeArgs() { PageDirection = e != null ? e.Direction : 0 });
-            OnPropertyChanged(nameof(WindowTitle));
+            UpdateWindowTitle(UpdateWindowTitleMask.All);
         }
 
 

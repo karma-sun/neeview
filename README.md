@@ -39,7 +39,7 @@
 
  バグや要望がありましたらこちらのブログのコメントにてご連絡ください。
  
-  * [ヨクアルナニカ](http://yokuarunanika.blogspot.jp/p/soft.html)
+  * [ヨクアルナニカ](http://yokuarunanika.blogspot.jp/)
  
  バグ報告はこちらでも受け付けております。`ErrorLog.txt`を添付する場合はこちらがお薦めです。
  

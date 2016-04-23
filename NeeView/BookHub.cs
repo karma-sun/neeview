@@ -214,6 +214,9 @@ namespace NeeView
         // スライドショー設定：切り替わる時間(秒)
         public double SlideShowInterval { get; set; } = 5.0;
 
+        // スライドショー設定：マウス移動でキャンセル
+        public bool IsCancelSlideByMouseMove { get; set; } = true;
+
         //「ファイルを開く」の初期フォルダを現在開いているフォルダ基準にする
         public bool IsEnarbleCurrentDirectory { get; set; }
 
@@ -1243,6 +1246,9 @@ namespace NeeView
             [DataMember]
             public double SlideShowInterval { get; set; }
 
+            [DataMember(Order = 7)]
+            public bool IsCancelSlideByMouseMove { get; set; }
+
             [DataMember]
             public Book.Memento BookMemento { get; set; }
 
@@ -1278,6 +1284,7 @@ namespace NeeView
                 FolderOrder = FolderOrder.FileName;
                 IsSlideShowByLoop = true;
                 SlideShowInterval = 5.0;
+                IsCancelSlideByMouseMove = true;
                 IsSupportArchiveFile = true;
                 BookMemento = new Book.Memento();
                 ExternalApplication = new ExternalApplication();
@@ -1312,6 +1319,7 @@ namespace NeeView
             memento.FolderOrder = FolderOrder;
             memento.IsSlideShowByLoop = IsSlideShowByLoop;
             memento.SlideShowInterval = SlideShowInterval;
+            memento.IsCancelSlideByMouseMove = IsCancelSlideByMouseMove;
             memento.BookMemento = BookMemento.Clone();
             memento.BookMemento.ValidateForDefault(); // 念のため
             memento.IsEnarbleCurrentDirectory = IsEnarbleCurrentDirectory;
@@ -1339,6 +1347,7 @@ namespace NeeView
             FolderOrder = memento.FolderOrder;
             IsSlideShowByLoop = memento.IsSlideShowByLoop;
             SlideShowInterval = memento.SlideShowInterval;
+            IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;
             BookMemento = memento.BookMemento.Clone();
             IsEnarbleCurrentDirectory = memento.IsEnarbleCurrentDirectory;
             IsSupportArchiveFile = memento.IsSupportArchiveFile;

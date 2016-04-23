@@ -14,7 +14,7 @@
         xmlns:susie="clr-namespace:Susie"
         xmlns:drag="clr-namespace:DragExtensions"
         mc:Ignorable="d"
-        Title="設定" Height="500" Width="700" Closed="Window_Closed" >
+        Title="設定" Height="600" Width="700" Closed="Window_Closed" >
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -59,7 +59,9 @@
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Margin="2" Content="多重起動を禁止する"
                               IsChecked="{Binding Setting.ViewMemento.IsDisableMultiBoot}" />
-                            <CheckBox Margin="2" Content="フルスクリーン状態を復帰する"
+                            <CheckBox Margin="2" Content="ウィンドウ座標を復元する"
+                              IsChecked="{Binding Setting.ViewMemento.IsSaveWindowPlacement}" />
+                            <CheckBox Margin="2" Content="フルスクリーン状態を復元する"
                               IsChecked="{Binding Setting.ViewMemento.IsSaveFullScreen}" />
                             <CheckBox Margin="2" Content="前回開いていたフォルダを開く"
                               IsChecked="{Binding Setting.ViewMemento.IsLoadLastFolder}" />
@@ -142,11 +144,12 @@
                                     $FullName[LR] -- パスを含むファイル名<LineBreak/>
                                     $Name[LR] -- ファイル名<LineBreak/>
                                     $Size[LR] -- ファイルサイズ (ex. 100×100)<LineBreak/>
-                                    $SizeEx[LR] -- ファイルサイズ+ピクセル深度 (ex. 100×100×24)<LineBreak/>
+                                    $SizeEx[LR] -- ファイルサイズ+ピクセルビット数 (ex. 100×100×24)<LineBreak/>
                                     $Scale[LR] -- 画像の表示倍率(%)<LineBreak/>
                                     <LineBreak/>
                                     "◯◯◯[LR]" は、1ページ用、2ページ用で変数名が変わることを示します<LineBreak/>
-                                    例えば $Name は1ページ用、 $NameL は２ページ左用、 $NameR は2ページ右用になります
+                                    例えば $Name は1ページ用、 $NameL は２ページ左用、 $NameR は2ページ右用になります<LineBreak/>
+                                    $Name は2ページ表示時には主となるページ(ページ番号の小さい方)になります
                                 </TextBlock>
                                 </Border>
                             </Popup>
@@ -422,8 +425,10 @@
                 <StackPanel Margin="4">
                     <TextBlock Text="設定" Style="{StaticResource Header}"/>
                     <StackPanel Style="{StaticResource Phrase}">
-                        <CheckBox Margin="2" Content="ループ再生"
+                        <CheckBox Margin="2" Content="フォルダーのループ再生"
                               IsChecked="{Binding Setting.BookHubMemento.IsSlideShowByLoop}" />
+                        <CheckBox Margin="2" Content="マウス移動で表示間隔リセット"
+                              IsChecked="{Binding Setting.BookHubMemento.IsCancelSlideByMouseMove}" />
                         <DockPanel Margin="2" LastChildFill="False">
                             <TextBlock Text="表示間隔：" VerticalAlignment="Center" Margin="2,0,10,0"/>
                             <ComboBox Width="80" ItemsSource="{Binding SlideShowIntervalList}"

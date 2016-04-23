@@ -75,6 +75,7 @@ namespace NeeView
             try
             {
                 _OptionParser.AddOption("--setting", OptionType.FileName, "設定ファイル(UserSetting.xml)のパスを指定します");
+                _OptionParser.AddOption("--reset-placement", OptionType.None, "ウィンドウ座標を初期化します");
                 _OptionParser.AddOption("--blank", OptionType.None, "画像ファイルを開かずに起動します");
                 _OptionParser.AddOption("--new-window", OptionType.Bool, "新しいウィンドウで起動するかを指定します");
                 _OptionParser.AddOption("--fullscreen", OptionType.Bool, "フルスクリーンで起動するかを指定します");

@@ -377,6 +377,8 @@ namespace NeeView
         // スライドショーの自動開始
         public bool IsAutoPlaySlideShow { get; set; }
 
+        // ウィンドウ座標を復元する
+        public bool IsSaveWindowPlacement { get; set; }
 
         // コマンドバインド用
         // View側で定義されます
@@ -538,13 +540,13 @@ namespace NeeView
 
             if ((mask & UpdateWindowTitleMask.View) != 0)
             {
-                _WindowTitleFormatter.Set("$ViewScale", $"{(int)(_ViewScale * 100 + 0.1)}");
+                _WindowTitleFormatter.Set("$ViewScale", $"{(int)(_ViewScale * 100 + 0.1)}%");
             }
 
             if ((mask & (UpdateWindowTitleMask.Page | UpdateWindowTitleMask.View)) != 0)
             {
-                string scale0 = Contents[0].IsValid ? $"{(int)(_ViewScale * Contents[0].Scale * 100 + 0.1)}" : "";
-                string scale1 = Contents[1].IsValid ? $"{(int)(_ViewScale * Contents[1].Scale * 100 + 0.1)}" : "";
+                string scale0 = Contents[0].IsValid ? $"{(int)(_ViewScale * Contents[0].Scale * 100 + 0.1)}%" : "";
+                string scale1 = Contents[1].IsValid ? $"{(int)(_ViewScale * Contents[1].Scale * 100 + 0.1)}%" : "";
                 _WindowTitleFormatter.Set("$Scale", isMainContent0 ? scale0 : scale1);
                 _WindowTitleFormatter.Set("$ScaleL", scale1);
                 _WindowTitleFormatter.Set("$ScaleR", scale0);
@@ -1496,6 +1498,9 @@ namespace NeeView
         // スライドショーの表示間隔
         public double SlideShowInterval => BookHub.SlideShowInterval;
 
+        // カーソルでスライドを止める
+        public bool IsCancelSlideByMouseMove => BookHub.IsCancelSlideByMouseMove;
+
         // スライドショー：次のスライドへ
         public void NextSlide()
         {
@@ -1584,6 +1589,9 @@ namespace NeeView
             [DataMember(Order = 4)]
             public bool IsAutoPlaySlideShow { get; set; }
 
+            [DataMember(Order = 7)]
+            public bool IsSaveWindowPlacement { get; set; }
+
             [DataMember(Order = 2)]
             public bool IsHideMenu { get; set; }
 
@@ -1663,6 +1671,7 @@ namespace NeeView
                 RightPanelWidth = 250;
                 WindowTitleFormat1 = MainWindowVM.WindowTitleFormat1Default;
                 WindowTitleFormat2 = MainWindowVM.WindowTitleFormat2Default;
+                IsSaveWindowPlacement = true;
             }
 
             public Memento()
@@ -1700,6 +1709,7 @@ namespace NeeView
             memento.IsLoadLastFolder = this.IsLoadLastFolder;
             memento.IsDisableMultiBoot = this.IsDisableMultiBoot;
             memento.IsAutoPlaySlideShow = this.IsAutoPlaySlideShow;
+            memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
             memento.IsHideMenu = this.IsHideMenu;
             memento.IsHideTitleBar = this.IsHideTitleBar;
             memento.IsFullScreen = this.IsFullScreen;
@@ -1742,6 +1752,7 @@ namespace NeeView
             this.IsLoadLastFolder = memento.IsLoadLastFolder;
             this.IsDisableMultiBoot = memento.IsDisableMultiBoot;
             this.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
+            this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
             this.IsHideMenu = memento.IsHideMenu;
             this.IsHideTitleBar = memento.IsHideTitleBar;
             this.IsSaveFullScreen = memento.IsSaveFullScreen;

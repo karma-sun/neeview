@@ -171,7 +171,10 @@ namespace NeeView
             if (Math.Abs(nowPoint.X - _LastActionPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(nowPoint.Y - _LastActionPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
                 _LastActionTime = DateTime.Now;
-                _LastShowTime = DateTime.Now;
+                if (_VM.IsCancelSlideByMouseMove)
+                {
+                    _LastShowTime = DateTime.Now;
+                }
                 _LastActionPoint = nowPoint;
                 SetMouseVisible(true);
             }
@@ -552,8 +555,11 @@ namespace NeeView
             // 設定読み込み
             _LoadSettings = _VM.LoadSettings();
 
-            // ウィンドウ座標復元 (スレッドスリープする)
-            WindowPlacement.Restore(this, _LoadSettings.Setting.WindowPlacement, _LoadSettings.Setting.ViewMemento.IsFullScreen);
+            if (!App.Options["--reset-placement"].IsValid && _LoadSettings.Setting.ViewMemento.IsSaveWindowPlacement)
+            {
+                // ウィンドウ座標復元 (スレッドスリープする)
+                WindowPlacement.Restore(this, _LoadSettings.Setting.WindowPlacement, _LoadSettings.Setting.ViewMemento.IsFullScreen);
+            }
         }
 
         //

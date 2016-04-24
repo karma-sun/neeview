@@ -254,8 +254,11 @@ namespace NeeView
                 Items = list;
             }
 
-            InitializeWatcher(Place);
-            StartWatch();
+            if (Place != null)
+            {
+                InitializeWatcher(Place);
+                StartWatch();
+            }
         }
 
         // アイコンの表示更新

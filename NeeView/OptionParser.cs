@@ -159,8 +159,8 @@ namespace NeeView
         // 引数チェック
         public void Parse(string[] args)
         {
-            var keyRegex = new Regex(@"^(?<key>[\w-]+)$");
-            var keyValueRegex = new Regex(@"^(?<key>[\w-]+)=(?<value>.+)$");
+            var keyRegex = new Regex(@"^(?<key>--[\w-]+)$");
+            var keyValueRegex = new Regex(@"^(?<key>--[\w-]+)=(?<value>.+)$");
 
             foreach (var arg in args)
             {

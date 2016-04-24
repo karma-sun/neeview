@@ -485,11 +485,11 @@ namespace NeeView
                 }
                 else
                 {
-                    throw new FileFormatException("サポート外ファイルです");
+                    throw new FileFormatException($"\"{path}\" はサポート外ファイルです");
                 }
             }
 
-            throw new FileNotFoundException("ファイルが見つかりません", path);
+            throw new FileNotFoundException($"\"{path}\" が見つかりません", path);
         }
 
         //

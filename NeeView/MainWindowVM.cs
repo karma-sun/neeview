@@ -68,15 +68,6 @@ namespace NeeView
     }
 
 
-    //
-    public class LoadSettings
-    {
-        public Setting Setting { get; set; }
-        public BookHistory.Memento BookHistoryMemento { get; set; }
-        public BookmarkCollection.Memento BookmarkMemento { get; set; }
-    }
-
-
     /// <summary>
     /// ViewModel
     /// </summary>
@@ -1021,101 +1012,79 @@ namespace NeeView
         }
 
         //
-        public LoadSettings LoadSettings()
+        private void LoadHistory(Setting setting)
         {
-            LoadSettings settings = new LoadSettings(); ;
-
-            // 設定の読み込み
-            if (System.IO.File.Exists(App.UserSettingFileName))
-            {
-                try
-                {
-                    settings.Setting = Setting.Load(App.UserSettingFileName);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                    Messenger.MessageBox(this, "設定の読み込みに失敗しました。初期設定で起動します。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
-                    settings.Setting = new Setting();
-                }
-            }
-            else
-            {
-                settings.Setting = new Setting();
-            }
+            BookHistory.Memento memento;
 
             // 履歴読み込み
             if (System.IO.File.Exists(HistoryFileName))
             {
                 try
                 {
-                    settings.BookHistoryMemento = BookHistory.Memento.Load(HistoryFileName);
+                    memento = BookHistory.Memento.Load(HistoryFileName);
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
                     Messenger.MessageBox(this, "履歴の読み込みに失敗しました。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
-                    settings.BookHistoryMemento = new BookHistory.Memento();
+                    memento = new BookHistory.Memento();
                 }
             }
             else
             {
-                settings.BookHistoryMemento = new BookHistory.Memento();
+                memento = new BookHistory.Memento();
             }
 
             // 設定ファイルに残っている履歴をマージ
-            if (settings.BookHistoryMemento != null)
+            if (setting.BookHistoryMemento != null)
             {
-                settings.BookHistoryMemento.Merge(settings.BookHistoryMemento);
+                memento.Merge(setting.BookHistoryMemento);
             }
+
+            // 履歴反映
+            ModelContext.BookHistory.Restore(memento);
+            UpdateLastFiles();
+        }
+
+        // ブックマーク読み込み
+        private void LoadBookmark(Setting setting)
+        {
+            BookmarkCollection.Memento memento;
 
             // ブックマーク読み込み
             if (System.IO.File.Exists(BookmarkFileName))
             {
                 try
                 {
-                    settings.BookmarkMemento = BookmarkCollection.Memento.Load(BookmarkFileName);
+                    memento = BookmarkCollection.Memento.Load(BookmarkFileName);
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
                     Messenger.MessageBox(this, "ブックマークの読み込みに失敗しました。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
-                    settings.BookmarkMemento = new BookmarkCollection.Memento();
+                    memento = new BookmarkCollection.Memento();
                 }
             }
             else
             {
-                settings.BookmarkMemento = new BookmarkCollection.Memento();
+                memento = new BookmarkCollection.Memento();
             }
-
-            return settings;
-        }
-
-        // アプリ設定読み込み
-        public void RestoreLoadSettings(LoadSettings settings)
-        {
-            // 設定反映
-            RestoreSetting(settings.Setting);
-
-            // 履歴反映
-            ModelContext.BookHistory.Restore(settings.BookHistoryMemento);
-            UpdateLastFiles();
 
             // ブックマーク反映
-            ModelContext.Bookmarks.Restore(settings.BookmarkMemento);
+            ModelContext.Bookmarks.Restore(memento);
+        }
 
+        // 設定読み込み
+        public void Load(Setting setting)
+        {
+            // 設定反映
+            RestoreSetting(setting);
 
-            // フルスクリーン
-            if (App.Options["--fullscreen"].IsValid)
-            {
-                IsFullScreen = App.Options["--fullscreen"].Bool;
-            }
+            // 履歴読み込み
+            LoadHistory(setting);
 
-            // スライドショーの自動再生
-            if (App.Options["--slideshow"].IsValid ? App.Options["--slideshow"].Bool : IsAutoPlaySlideShow)
-            {
-                BookHub.IsEnableSlideShow = true;
-            }
+            // ブックマーク読み込み
+            LoadBookmark(setting);
         }
 
 

@@ -36,6 +36,9 @@ namespace NeeView
         // ユーザー設定ファイル名
         public static string UserSettingFileName { get; set; }
 
+        // ユーザ設定
+        public static Setting Setting { get; set; }
+
 
         // コマンドラインヘルプ(未使用)
         private string HelpText
@@ -116,19 +119,13 @@ namespace NeeView
             }
 
             // 設定読み込み
-            bool isDisableMultiBoot = false;
-            try
-            {
-                var setting = Setting.Load(UserSettingFileName);
-                isDisableMultiBoot = setting.ViewMemento.IsDisableMultiBoot;
-            }
-            catch { }
+            LoadSetting();
 
             // 多重起動チェック
             Process currentProcess = Process.GetCurrentProcess();
 
             bool isNewWindow = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift
-                || Options["--new-window"].IsValid ? Options["--new-window"].Bool : !isDisableMultiBoot;
+                || Options["--new-window"].IsValid ? Options["--new-window"].Bool : !Setting.ViewMemento.IsDisableMultiBoot;
 
             if (!isNewWindow)
             {
@@ -166,6 +163,31 @@ namespace NeeView
             var mainWindow = new MainWindow();
             mainWindow.Show();
         }
+
+
+        // 設定ファイル読み込み
+        public static void LoadSetting()
+        {
+            // 設定の読み込み
+            if (System.IO.File.Exists(UserSettingFileName))
+            {
+                try
+                {
+                    Setting = Setting.Load(UserSettingFileName);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    MessageBox.Show("設定の読み込みに失敗しました。初期設定で起動します。", "エラー", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    Setting = new Setting();
+                }
+            }
+            else
+            {
+                Setting = new Setting();
+            }
+        }
+
 
 
         /// <summary>

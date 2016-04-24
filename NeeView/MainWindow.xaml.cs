@@ -547,18 +547,12 @@ namespace NeeView
 
 
         //
-        private LoadSettings _LoadSettings;
-
-        //
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
-            // 設定読み込み
-            _LoadSettings = _VM.LoadSettings();
-
-            if (!App.Options["--reset-placement"].IsValid && _LoadSettings.Setting.ViewMemento.IsSaveWindowPlacement)
+            if (!App.Options["--reset-placement"].IsValid && App.Setting.ViewMemento.IsSaveWindowPlacement)
             {
                 // ウィンドウ座標復元 (スレッドスリープする)
-                WindowPlacement.Restore(this, _LoadSettings.Setting.WindowPlacement, _LoadSettings.Setting.ViewMemento.IsFullScreen);
+                WindowPlacement.Restore(this, App.Setting.WindowPlacement, App.Setting.ViewMemento.IsFullScreen);
             }
         }
 
@@ -566,8 +560,8 @@ namespace NeeView
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // 設定読み込み
-            _VM.RestoreLoadSettings(_LoadSettings);
-            _LoadSettings = null; // 設定はもう不要
+            _VM.Load(App.Setting);
+            App.Setting = null; // ロード設定破棄
 
             // パネル幅復元
             this.LeftPanel.Width = _VM.LeftPanelWidth;
@@ -579,7 +573,13 @@ namespace NeeView
             // DPI倍率設定
             _VM.UpdateDpiScaleFactor(this);
 
-            // 標準ウィンドウモードで初期化
+            // オプションによるフルスクリーン指定
+            if (App.Options["--fullscreen"].IsValid)
+            {
+                _VM.IsFullScreen = App.Options["--fullscreen"].Bool;
+            }
+
+            // ウィンドウモードで初期化
             OnMenuVisibilityChanged();
 
             // フォルダリスト初期化
@@ -589,7 +589,7 @@ namespace NeeView
             // ブックマークリスト初期化
             this.BookmarkArea.Initialize(_VM.BookHub);
 
-            //
+            // フォルダを開く
             if (!App.Options["--blank"].IsValid)
             {
                 if (App.StartupPlace != null)
@@ -602,6 +602,12 @@ namespace NeeView
                     // 最後に開いたフォルダを復元する
                     _VM.LoadLastFolder();
                 }
+            }
+
+            // スライドショーの自動再生
+            if (App.Options["--slideshow"].IsValid ? App.Options["--slideshow"].Bool : _VM.IsAutoPlaySlideShow)
+            {
+                _VM.BookHub.IsEnableSlideShow = true;
             }
         }
 

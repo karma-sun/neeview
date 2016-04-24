@@ -845,6 +845,8 @@ namespace NeeView
 
             if (this._FolderList == null || this._FolderList.IsDarty(Path.GetDirectoryName(place), FolderOrder, _FolderOrderSeed))
             {
+                this._FolderList?.Dispose();
+
                 this._FolderList = new FolderCollection();
                 this._FolderList.Place = Path.GetDirectoryName(place);
                 this._FolderList.FolderOrder = FolderOrder;

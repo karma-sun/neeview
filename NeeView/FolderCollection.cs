@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace NeeView
 {
@@ -85,7 +86,6 @@ namespace NeeView
             OnPropertyChanged(nameof(IconOverlay));
         }
 
-
         private BitmapSource _Icon;
         public BitmapSource Icon
         {
@@ -132,11 +132,11 @@ namespace NeeView
         }
     }
 
-    // TODO: ファイルシステムを監視してフォルダ更新に対応する
-
     //
-    public class FolderCollection
+    public class FolderCollection : IDisposable
     {
+        public event EventHandler Changed;
+
         // indexer
         public FolderInfo this[int index]
         {
@@ -157,10 +157,12 @@ namespace NeeView
         //
         public bool IsValid => Items != null;
 
+
         //
+        private bool _IsDarty;
         public bool IsDarty(string place, FolderOrder folderOrder, int randomSeed)
         {
-            return (Place != place || FolderOrder != folderOrder || RandomSeed != randomSeed);
+            return (_IsDarty || Place != place || FolderOrder != folderOrder || RandomSeed != randomSeed);
         }
 
         //
@@ -201,56 +203,59 @@ namespace NeeView
                     items.Add(folderInfo);
                 }
                 Items = items;
-
-                return;
-            }
-
-            var entries = Directory.GetFileSystemEntries(Place);
-
-            // ディレクトリ、アーカイブ以外は除外
-            var directories = entries.Where(e => Directory.Exists(e) && (new DirectoryInfo(e).Attributes & FileAttributes.Hidden) == 0).ToList();
-            if (FolderOrder == FolderOrder.TimeStamp)
-            {
-                directories = directories.OrderBy((e) => Directory.GetLastWriteTime(e)).ToList();
             }
             else
             {
-                directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
-            }
-            var archives = entries.Where(e => File.Exists(e) && ModelContext.ArchiverManager.IsSupported(e)).ToList();
-            if (FolderOrder == FolderOrder.TimeStamp)
-            {
-                archives = archives.OrderBy((e) => File.GetLastWriteTime(e)).ToList();
-            }
-            else
-            {
-                archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
+                var entries = Directory.GetFileSystemEntries(Place);
+
+                // ディレクトリ、アーカイブ以外は除外
+                var directories = entries.Where(e => Directory.Exists(e) && (new DirectoryInfo(e).Attributes & FileAttributes.Hidden) == 0).ToList();
+                if (FolderOrder == FolderOrder.TimeStamp)
+                {
+                    directories = directories.OrderBy((e) => Directory.GetLastWriteTime(e)).ToList();
+                }
+                else
+                {
+                    directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
+                }
+                var archives = entries.Where(e => File.Exists(e) && ModelContext.ArchiverManager.IsSupported(e)).ToList();
+                if (FolderOrder == FolderOrder.TimeStamp)
+                {
+                    archives = archives.OrderBy((e) => File.GetLastWriteTime(e)).ToList();
+                }
+                else
+                {
+                    archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
+                }
+
+                // 日付順は逆順にする (エクスプローラー標準にあわせる)
+                if (FolderOrder == FolderOrder.TimeStamp)
+                {
+                    directories.Reverse();
+                    archives.Reverse();
+                }
+                // ランダムに並べる
+                else if (FolderOrder == FolderOrder.Random)
+                {
+                    var random = new Random(RandomSeed);
+                    directories = directories.OrderBy(e => random.Next()).ToList();
+                    archives = archives.OrderBy(e => random.Next()).ToList();
+                }
+
+                var list = directories.Select(e => new FolderInfo() { Path = e, Attributes = FolderInfoAttribute.Directory, IsReady = true })
+                    .Concat(archives.Select(e => new FolderInfo() { Path = e, IsReady = true }))
+                    .ToList();
+
+                if (list.Count <= 0)
+                {
+                    list.Add(new FolderInfo() { Path = Place + "\\.", Attributes = FolderInfoAttribute.Empty });
+                }
+
+                Items = list;
             }
 
-            // 日付順は逆順にする (エクスプローラー標準にあわせる)
-            if (FolderOrder == FolderOrder.TimeStamp)
-            {
-                directories.Reverse();
-                archives.Reverse();
-            }
-            // ランダムに並べる
-            else if (FolderOrder == FolderOrder.Random)
-            {
-                var random = new Random(RandomSeed);
-                directories = directories.OrderBy(e => random.Next()).ToList();
-                archives = archives.OrderBy(e => random.Next()).ToList();
-            }
-
-            var list = directories.Select(e => new FolderInfo() { Path = e, Attributes = FolderInfoAttribute.Directory, IsReady = true })
-                .Concat(archives.Select(e => new FolderInfo() { Path = e, IsReady = true }))
-                .ToList();
-
-            if (list.Count <= 0)
-            {
-                list.Add(new FolderInfo() { Path = Place + "\\.", Attributes = FolderInfoAttribute.Empty });
-            }
-
-            Items = list;
+            InitializeWatcher(Place);
+            StartWatch();
         }
 
         // アイコンの表示更新
@@ -267,6 +272,58 @@ namespace NeeView
                     item.NotifyIconOverlayChanged();
             }
         }
+
+        // 廃棄処理
+        public void Dispose()
+        {
+            TerminateWatcher();
+        }
+
+
+        #region FileSystemWatcher
+
+        // ファイル変更監視
+        private FileSystemWatcher _FileSystemWatcher;
+
+        private void InitializeWatcher(string path)
+        {
+            _FileSystemWatcher = new FileSystemWatcher();
+            _FileSystemWatcher.Path = path;
+            _FileSystemWatcher.IncludeSubdirectories = false;
+            _FileSystemWatcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName;
+            _FileSystemWatcher.Created += Watcher_Changed;
+            _FileSystemWatcher.Deleted += Watcher_Changed;
+            _FileSystemWatcher.Renamed += Watcher_Changed;
+        }
+
+        private void TerminateWatcher()
+        {
+            if (_FileSystemWatcher != null)
+            {
+                _FileSystemWatcher.EnableRaisingEvents = false;
+                _FileSystemWatcher.Created -= Watcher_Changed;
+                _FileSystemWatcher.Created -= Watcher_Changed;
+                _FileSystemWatcher.Renamed -= Watcher_Changed;
+                _FileSystemWatcher.Dispose();
+                _FileSystemWatcher = null;
+            }
+        }
+
+        // フォルダ監視開始
+        private void StartWatch()
+        {
+            _FileSystemWatcher.EnableRaisingEvents = true;
+        }
+
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            _IsDarty = true;
+            Changed?.Invoke(this, null);
+        }
     }
+
+    #endregion
+
+
 
 }

@@ -280,7 +280,10 @@ namespace NeeView
 
             if (collection != FolderCollection)
             {
+                FolderCollection?.Dispose();
+
                 FolderCollection = collection;
+                FolderCollection.Changed += (s, e) => App.Current.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(); }));
             }
             else
             {

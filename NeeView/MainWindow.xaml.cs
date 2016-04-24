@@ -559,8 +559,15 @@ namespace NeeView
         //
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // 設定読み込み
-            _VM.Load(App.Setting);
+            // 設定反映
+            _VM.RestoreSetting(App.Setting);
+
+            // 履歴読み込み
+            _VM.LoadHistory(App.Setting);
+
+            // ブックマーク読み込み
+            _VM.LoadBookmark(App.Setting);
+
             App.Setting = null; // ロード設定破棄
 
             // パネル幅復元

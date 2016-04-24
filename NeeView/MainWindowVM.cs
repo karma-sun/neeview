@@ -1011,12 +1011,11 @@ namespace NeeView
             Exporter.Restore(setting.ExporterMemento);
         }
 
-        //
-        private void LoadHistory(Setting setting)
+        // 履歴読み込み
+        public void LoadHistory(Setting setting)
         {
             BookHistory.Memento memento;
 
-            // 履歴読み込み
             if (System.IO.File.Exists(HistoryFileName))
             {
                 try
@@ -1047,7 +1046,7 @@ namespace NeeView
         }
 
         // ブックマーク読み込み
-        private void LoadBookmark(Setting setting)
+        public void LoadBookmark(Setting setting)
         {
             BookmarkCollection.Memento memento;
 
@@ -1072,19 +1071,6 @@ namespace NeeView
 
             // ブックマーク反映
             ModelContext.Bookmarks.Restore(memento);
-        }
-
-        // 設定読み込み
-        public void Load(Setting setting)
-        {
-            // 設定反映
-            RestoreSetting(setting);
-
-            // 履歴読み込み
-            LoadHistory(setting);
-
-            // ブックマーク読み込み
-            LoadBookmark(setting);
         }
 
 

@@ -283,7 +283,7 @@ namespace NeeView
         }
 
 
-        #region FileSystemWatcher
+#region FileSystemWatcher
 
         // ファイル変更監視
         private FileSystemWatcher _FileSystemWatcher;
@@ -325,7 +325,7 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 
 
 

@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -78,8 +79,20 @@ namespace NeeView
     /// 本の管理
     /// ロード、本の操作はここを通す
     /// </summary>
-    public class BookHub
+    public class BookHub : INotifyPropertyChanged
     {
+        #region NotifyPropertyChanged
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion
+
         #region Events
 
         // 本の変更通知
@@ -187,7 +200,14 @@ namespace NeeView
         public FolderOrder FolderOrder
         {
             get { return _FolderOrder; }
-            set { _FolderOrder = value; _FolderOrderSeed = new Random().Next(); }
+            set
+            {
+                _FolderOrder = value;
+                _FolderOrderSeed = new Random().Next();
+                OnPropertyChanged();
+                SettingChanged?.Invoke(this, null);
+                FolderListReflesh?.Invoke(this, null);
+            }
         }
 
         // フォルダのランダムな並び用シード
@@ -947,16 +967,12 @@ namespace NeeView
         public void ToggleFolderOrder()
         {
             FolderOrder = FolderOrder.GetToggle();
-            SettingChanged?.Invoke(this, null);
-            FolderListReflesh?.Invoke(this, null);
         }
 
         // フォルダの並びの設定
         public void SetFolderOrder(FolderOrder order)
         {
             FolderOrder = order;
-            SettingChanged?.Invoke(this, null);
-            FolderListReflesh?.Invoke(this, null);
         }
 
 

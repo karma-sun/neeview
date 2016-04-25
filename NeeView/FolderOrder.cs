@@ -21,7 +21,7 @@ namespace NeeView
         Random,
     }
 
-    public static class FolderOrderByExtension
+    public static class FolderOrderExtension
     {
         public static FolderOrder GetToggle(this FolderOrder mode)
         {
@@ -39,6 +39,13 @@ namespace NeeView
                     throw new NotSupportedException();
             }
         }
+
+        public static Dictionary<FolderOrder, string> FolderOrderList { get; } = new Dictionary<FolderOrder, string>
+        {
+            [FolderOrder.FileName] = "名前順",
+            [FolderOrder.TimeStamp] = "日付順",
+            [FolderOrder.Random] = "ランダム",
+        };
     }
 
 }

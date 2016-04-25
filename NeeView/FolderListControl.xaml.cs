@@ -189,6 +189,8 @@ namespace NeeView
         public event EventHandler FolderCollectionChanged;
         public event EventHandler SelectedItemChanged;
 
+        public Dictionary<FolderOrder, string> FolderOrderList => FolderOrderExtension.FolderOrderList;
+
         private BookHub _BookHub;
         public BookHub BookHub
         {
@@ -200,6 +202,7 @@ namespace NeeView
                 _BookHub.FolderListReflesh += (s, e) => Reflesh();
                 _BookHub.HistoryChanged += (s, e) => RefleshIcon(e.Key);
                 _BookHub.BookmarkChanged += (s, e) => RefleshIcon(e.Key);
+                OnPropertyChanged();
             }
         }
 

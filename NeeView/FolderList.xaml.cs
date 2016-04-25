@@ -64,11 +64,11 @@ namespace NeeView
         private void FolderList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var listBox = sender as ListBox;
-            if (listBox != null)
+            if (listBox != null && listBox.IsLoaded)
             {
                 listBox.ScrollIntoView(listBox.SelectedItem);
+                SelectionChanged?.Invoke(this, listBox.SelectedIndex);
             }
-            SelectionChanged?.Invoke(this, listBox.SelectedIndex);
         }
 
 

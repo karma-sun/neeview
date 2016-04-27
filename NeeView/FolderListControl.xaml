@@ -42,12 +42,12 @@
             </StackPanel>
             <WrapPanel Orientation="Horizontal" >
                 <Button x:Name="FolderUpButton" Style="{StaticResource IconButton}" Click="FolderUpButton_Click">
-                    <TextBlock Margin="8,5" Text="上に移動" Foreground="#1188DD"/>
+                    <TextBlock Margin="8,5" Text="上に移動" Foreground="{StaticResource NVButtonForeground}"/>
                 </Button>
                 <Button x:Name="FolderSync" Style="{StaticResource IconButton}" Click="FolderSyncButton_Click">
-                    <TextBlock Margin="8,5" Text="同期" Foreground="#1188DD" ToolTip="表示中のフォルダに移動"/>
+                    <TextBlock Margin="8,5" Text="同期" Foreground="{StaticResource NVButtonForeground}" ToolTip="表示中のフォルダに移動"/>
                 </Button>
-                <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="#1188DD" Background="{DynamicResource NVBackground}" FontSize="15"
+                <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
                           ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding BookHub.FolderOrder, Delay=1}"
                           VerticalAlignment="Center">
                 </ComboBox>

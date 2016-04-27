@@ -79,6 +79,8 @@ namespace NeeView
     {
         public Dictionary<string, BookMementoUnit> Items { get; set; } = new Dictionary<string, BookMementoUnit>();
 
+        private BookMementoUnit _LastFindUnit;
+
         //
         public void Add(BookMementoUnit unit)
         {
@@ -93,8 +95,14 @@ namespace NeeView
         //
         public BookMementoUnit Find(string place)
         {
+            if (place == null) return null;
+
+            // 最後に検索されたユニットは再度検索される時に高速にする
+            if (place == _LastFindUnit?.Memento.Place) return _LastFindUnit;
+
             BookMementoUnit unit;
             Items.TryGetValue(place, out unit);
+            _LastFindUnit = unit;
             return unit;
         }
     }

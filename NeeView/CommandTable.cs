@@ -88,6 +88,7 @@ namespace NeeView
                     Group = "ファイル",
                     Text = "再読み込み",
                     MouseGesture = "UD",
+                    CanExecute = () => true,
                     Execute = e => _Book.ReLoad(false),
                     IsShowMessage = false,
                 },
@@ -510,6 +511,7 @@ namespace NeeView
                     Text = "前の履歴に戻る",
                     ShortCutKey = "Back",
                     IsShowMessage = false,
+                    CanExecute = () => _Book.CanPrevHistory(),
                     Execute = e => _Book.PrevHistory(),
                 },
                 [CommandType.NextHistory] = new CommandElement
@@ -518,6 +520,7 @@ namespace NeeView
                     Text = "次の履歴へ進む",
                     ShortCutKey = "Shift+Back",
                     IsShowMessage = false,
+                    CanExecute = () => _Book.CanNextHistory(),
                     Execute = e => _Book.NextHistory(),
                 },
 
@@ -556,6 +559,7 @@ namespace NeeView
                     Group = "ページ表示",
                     Text = "ページ表示モードを切り替える",
                     ShortCutKey = "LeftButton+WheelUp",
+                    CanExecute = () => true,
                     Execute = e => _Book.TogglePageMode(),
                     ExecuteMessage = e => _Book.BookMemento.PageMode.GetToggle().ToDispString(),
                 },
@@ -577,6 +581,7 @@ namespace NeeView
                 {
                     Group = "ページ表示",
                     Text = "右開き、左開きを切り替える",
+                    CanExecute = () => true,
                     Execute = e => _Book.ToggleBookReadOrder(),
                     ExecuteMessage = e => _Book.BookMemento.BookReadOrder.GetToggle().ToDispString()
                 },
@@ -635,6 +640,7 @@ namespace NeeView
                 {
                     Group = "ページ列",
                     Text = "ページの並び順を切り替える",
+                    CanExecute = () => true,
                     Execute = e => _Book.ToggleSortMode(),
                     ExecuteMessage = e => _Book.BookMemento.SortMode.GetToggle().ToDispString()
                 },
@@ -678,7 +684,15 @@ namespace NeeView
                     ExecuteMessage = e => "ブックマークに登録",
                     ShortCutKey = "Ctrl+D",
                 },
-
+                [CommandType.ToggleBookmark] = new CommandElement
+                {
+                    Group = "ブックマーク",
+                    Text = "ブックマーク登録/解除切り替え",
+                    Execute = e => _Book.ToggleBookmark(),
+                    CanExecute = () => true,
+                    ExecuteMessage = e => _Book.IsBookmark(null) ? "ブックマーク解除" :"ブックマークに登録",
+                    IsShowMessage = false,
+                },
 
                 [CommandType.ToggleIsReverseSort] = new CommandElement // 欠番
                 {

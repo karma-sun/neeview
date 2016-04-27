@@ -34,7 +34,7 @@ namespace NeeView
             {
                 case FolderOrder.FileName: return "フォルダ列はファイル名順";
                 case FolderOrder.TimeStamp: return "フォルダ列は日付順";
-                case FolderOrder.Random: return "フォルダ列はランダム";
+                case FolderOrder.Random: return "フォルダ列はシャッフル";
                 default:
                     throw new NotSupportedException();
             }
@@ -44,7 +44,7 @@ namespace NeeView
         {
             [FolderOrder.FileName] = "名前順",
             [FolderOrder.TimeStamp] = "日付順",
-            [FolderOrder.Random] = "ランダム",
+            [FolderOrder.Random] = "シャッフル",
         };
     }
 

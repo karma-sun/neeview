@@ -147,6 +147,216 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
+                    <DrawingImage  x:Key="ic_arrow_back_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="#FF000000" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M12,4L13.4200000762939,5.40999984741211 7.82999992370605,11 20,11 20,13 7.82999992370605,13 13.4099998474121,18.5900001525879 12,20 4,12 12,4z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_arrow_forward_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="#FF000000" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M12,4L20,12 12,20 10.5900001525879,18.5900001525879 16.1700000762939,13 4,13 4,11 16.1700000762939,11 10.5900001525879,5.40999984741211 12,4z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage  x:Key="ic_reflesh_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="#FF000000" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M12,4C14.210000038147,4,16.2000007629395,4.90000009536743,17.6499996185303,6.34999990463257L20,4 20,11 13,11 16.2199993133545,7.78000020980835C15.1400003433228,6.69000005722046 13.6599998474121,6 12,6 8.6899995803833,6 6,8.6899995803833 6,12 6,15.3100004196167 8.6899995803833,18 12,18 14.6099996566772,18 16.8299999237061,16.3299999237061 17.6499996185303,14L19.7299995422363,14C18.8400001525879,17.4500007629395 15.7299995422363,20 12,20 7.57999992370605,20 4.01000022888184,16.4200000762939 4.01000022888184,12 4.01000022888184,7.57999992370605 7.57999992370605,4 12,4z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_looks_one_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="#FF000000" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M10,7L10,9 12,9 12,17 14,17 14,7 10,7z M5,3.00000023841858L19,3.00000023841858C20.1000003814697,3,21,3.90000009536743,21,5L21,19C21,20.1000003814697,20.1000003814697,21,19,21L5,21C3.90000009536743,21,3,20.1000003814697,3.00000023841858,19L3.00000023841858,5C3,3.90000009536743,3.90000009536743,3,5,3.00000023841858z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_looks_two_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="#FF000000" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M9,7L9,9 13,9 13,11 11,11C9.89999961853027,11,9,11.8900003433228,9,13L9,17 15,17 15,15 11,15 11,13 13,13C14.1000003814697,13,15,12.1099996566772,15,11L15,9C15,7.8899998664856,14.1000003814697,7,13,7L9,7z M5,3.00000023841858L19,3.00000023841858C20.1000003814697,3,21,3.90000009536743,21,5L21,19C21,20.1000003814697,20.1000003814697,21,19,21L5,21C3.90000009536743,21,3,20.1000003814697,3.00000023841858,19L3.00000023841858,5C3,3.90000009536743,3.90000009536743,3,5,3.00000023841858z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_right_to_left_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="#FF000000" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M6.98999977111816,11L6.98999977111816,14 14,14 14,16 6.98999977111816,16 6.98999977111816,19 3.00000023841858,15 6.98999977111816,11z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                    <GeometryDrawing Brush="#22000000" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M17.0100002288818,5L21,9 17.0100002288818,13 17.0100002288818,10 10,10 10,8 17.0100002288818,8 17.0100002288818,5z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_left_to_right_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="#22000000" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M6.98999977111816,11L6.98999977111816,14 14,14 14,16 6.98999977111816,16 6.98999977111816,19 3.00000023841858,15 6.98999977111816,11z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                    <GeometryDrawing Brush="#FF000000" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M17.0100002288818,5L21,9 17.0100002288818,13 17.0100002288818,10 10,10 10,8 17.0100002288818,8 17.0100002288818,5z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_shuffle_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="#FF000000" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M14.8299999237061,13.4099998474121L17.9599990844727,16.5400009155273 20,14.5 20,20 14.5,20 16.5499992370605,17.9500007629395 13.4200000762939,14.8199996948242 14.8299999237061,13.4099998474121z M14.5,4L20,4 20,9.5 17.9599990844727,7.46000003814697 5.40999984741211,20 4,18.5900001525879 16.5400009155273,6.03999996185303 14.5,4z M5.40999984741211,4L10.5900001525879,9.17000007629395 9.17000007629395,10.5799999237061 4,5.40999984741211 5.40999984741211,4z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+
+                    <!-- NeeView Custom from Material design icons by Google -->
+                    <DrawingImage x:Key="ic_sort_name_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <DrawingGroup Opacity="1">
+                                        <DrawingGroup.Children>
+                                            <GeometryDrawing Brush="#FF000000" Pen="{x:Null}">
+                                                <GeometryDrawing.Geometry>
+                                                    <PathGeometry FillRule="Nonzero" Figures="M7.61549711227417,1035.73388671875L5.26151847839355,1042.01123046875 9.96947574615479,1042.01123046875 7.61549711227417,1035.73388671875z M6.55791521072388,1032.91357421875L8.6730785369873,1032.91357421875 14.4841260910034,1047.69714355469 12.107385635376,1047.69714355469 10.8109884262085,1044.28564453125 4.39724349975586,1044.28564453125 3.12359309196472,1047.69714355469 0.746868014335632,1047.69714355469 6.55791521072388,1032.91357421875z" />
+                                                </GeometryDrawing.Geometry>
+                                            </GeometryDrawing>
+                                        </DrawingGroup.Children>
+                                        <DrawingGroup.Transform>
+                                            <TranslateTransform X="0" Y="-1028.3622" />
+                                        </DrawingGroup.Transform>
+                                    </DrawingGroup>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_sort_time_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <DrawingGroup Opacity="1">
+                                        <DrawingGroup.Children>
+                                            <GeometryDrawing Pen="{x:Null}">
+                                                <GeometryDrawing.Brush>
+                                                    <SolidColorBrush Color="sc#1, 0, 0, 0" Opacity="0.9" />
+                                                </GeometryDrawing.Brush>
+                                                <GeometryDrawing.Geometry>
+                                                    <PathGeometry FillRule="Nonzero" Figures="M6.69443273544312,1036.93115234375L8.25043487548828,1036.93115234375 8.25043487548828,1040.87780761719 11.5193033218384,1042.83581542969 10.7414264678955,1044.08374023438 6.69443273544312,1041.65576171875 6.69443273544312,1036.93115234375z M7.66521549224854,1035.1337890625C4.54277181625366,1035.1337890625 2.01372599601746,1037.66284179688 2.01372265815735,1040.78527832031 2.01372599601746,1043.90783691406 4.54277181625366,1046.43676757813 7.66521549224854,1046.43676757813 10.7876749038696,1046.43676757813 13.3167200088501,1043.90783691406 13.3167247772217,1040.78527832031 13.3167200088501,1037.66284179688 10.7876749038696,1035.1337890625 7.66521549224854,1035.1337890625z M7.6575288772583,1033.0771484375C11.9201307296753,1033.0771484375 15.3733787536621,1036.53039550781 15.3733749389648,1040.78527832031 15.3733787536621,1045.04028320313 11.9201307296753,1048.49353027344 7.6575288772583,1048.49353027344 3.40262603759766,1048.49353027344 -0.0429160892963409,1045.04028320313 -0.0429123789072037,1040.78527832031 -0.0429160892963409,1036.53039550781 3.40262603759766,1033.0771484375 7.6575288772583,1033.0771484375z" />
+                                                </GeometryDrawing.Geometry>
+                                            </GeometryDrawing>
+                                        </DrawingGroup.Children>
+                                        <DrawingGroup.Transform>
+                                            <TranslateTransform X="0" Y="-1028.3622" />
+                                        </DrawingGroup.Transform>
+                                    </DrawingGroup>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_sortex_up_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <DrawingGroup Opacity="1">
+                                        <DrawingGroup.Children>
+                                            <GeometryDrawing Brush="#FF000000" Pen="{x:Null}">
+                                                <GeometryDrawing.Geometry>
+                                                    <PathGeometry FillRule="Nonzero" Figures="M4.42532634735107,1028.63256835938L8.31918430328369,1032.53503417969 7.12042760848999,1033.73376464844 4.42532634735107,1031.03869628906 1.73022568225861,1033.73376464844 0.522965610027313,1032.53503417969 4.42532634735107,1028.63256835938z" />
+                                                </GeometryDrawing.Geometry>
+                                            </GeometryDrawing>
+                                        </DrawingGroup.Children>
+                                        <DrawingGroup.Transform>
+                                            <TranslateTransform X="0" Y="-1028.3622" />
+                                        </DrawingGroup.Transform>
+                                    </DrawingGroup>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_sortex_down_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <DrawingGroup Opacity="1">
+                                        <DrawingGroup.Children>
+                                            <GeometryDrawing Brush="#FF000000" Pen="{x:Null}">
+                                                <GeometryDrawing.Geometry>
+                                                    <PathGeometry FillRule="Nonzero" Figures="M1.73793923854828,1029.32543945313L4.43304347991943,1032.02062988281 7.1281476020813,1029.32543945313 8.33541584014893,1030.52429199219 4.43304347991943,1034.4267578125 0.539180040359497,1030.52429199219 1.73793923854828,1029.32543945313z" />
+                                                </GeometryDrawing.Geometry>
+                                            </GeometryDrawing>
+                                        </DrawingGroup.Children>
+                                        <DrawingGroup.Transform>
+                                            <TranslateTransform X="0" Y="-1028.3622" />
+                                        </DrawingGroup.Transform>
+                                    </DrawingGroup>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
 
                     <!-- IconButton Style -->
                     <Style x:Key="IconButton" TargetType="{x:Type Button}">

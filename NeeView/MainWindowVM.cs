@@ -438,7 +438,7 @@ namespace NeeView
 
         // ウィンドウタイトル
         #region Property: WindowTitle
-        private string _WindowTitle;
+        private string _WindowTitle = "";
         public string WindowTitle
         {
             get { return _WindowTitle; }
@@ -736,6 +736,33 @@ namespace NeeView
         #endregion
 
 
+        #region Property: Address
+        private string _Address;
+        public string Address
+        {
+            get { return _Address; }
+            set
+            {
+                if (_Address != value)
+                {
+                    _Address = value;
+                    OnPropertyChanged();
+                    if (_Address != BookHub.Address)
+                    {
+                        Load(value);
+                    }
+                }
+                OnPropertyChanged(nameof(IsBookmark));
+            }
+        }
+        #endregion
+
+        #region Property: IsBookmark
+        public bool IsBookmark
+        {
+            get { return ModelContext.BookMementoCollection.Find(BookHub.Address)?.BookmarkNode != null; }
+        }
+        #endregion
 
 
         // 本管理
@@ -853,6 +880,16 @@ namespace NeeView
             BookHub.EmptyMessage +=
                 (s, e) => EmptyPageMessage = e;
 
+            BookHub.BookmarkChanged +=
+                (s, e) => OnPropertyChanged(nameof(IsBookmark));
+
+            BookHub.AddressChanged +=
+                (s, e) =>
+                {
+                    _Address = BookHub.Address;
+                    OnPropertyChanged(nameof(Address));
+                    OnPropertyChanged(nameof(IsBookmark));
+                };
 
             // CommandTable
             ModelContext.CommandTable.SetTarget(this, BookHub);
@@ -918,6 +955,9 @@ namespace NeeView
             UpdateLastFiles();
 
             UpdatePageList(); // 開発用(重い)
+
+            //
+            CommandManager.InvalidateRequerySuggested();
         }
 
         // 開発用：ページ更新

@@ -1148,7 +1148,7 @@ namespace NeeView
             [DataMember(EmitDefaultValue = false)]
             public string Place { get; set; }
 
-            public string Name => System.IO.Path.GetFileName(Place);
+            public string Name => Place.EndsWith(@":\") ? Place : System.IO.Path.GetFileName(Place);
 
             [DataMember(EmitDefaultValue = false)]
             public string BookMark { get; set; }

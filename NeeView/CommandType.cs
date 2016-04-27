@@ -100,6 +100,7 @@ namespace NeeView
         SetSortModeRandom,
 
         Bookmark,
+        ToggleBookmark,
 
         ToggleIsReverseSort, // 欠番
 

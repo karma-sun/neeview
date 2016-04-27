@@ -51,6 +51,11 @@ namespace NeeView
             Items = new LinkedList<BookMementoUnit>();
         }
 
+        // 要素数
+        public int Count => Items.Count;
+
+        // 先頭の要素
+        public BookMementoUnit First => Items.First();
 
         // 履歴クリア
         public void Clear()
@@ -176,9 +181,10 @@ namespace NeeView
             }
         }
 
-        // 履歴検索 (未使用)
+        // 履歴検索
         public BookMementoUnit Find(string place)
         {
+            if (place == null) return null;
             var unit = ModelContext.BookMementoCollection.Find(place);
             return unit?.HistoryNode != null ? unit : null;
         }

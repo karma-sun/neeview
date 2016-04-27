@@ -811,6 +811,15 @@ namespace NeeView
         {
             this.MainView.Focus();
         }
+
+        // アドレスバー入力
+        private void AddressTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                _VM.Address = this.AddressTextBox.Text;
+            }
+        }
     }
 
 
@@ -889,6 +898,41 @@ namespace NeeView
             PageSortMode mode0 = (PageSortMode)value;
             PageSortMode mode1 = (PageSortMode)Enum.Parse(typeof(PageSortMode), parameter as string);
             return (mode0 == mode1);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    // コンバータ：ソートモードフラグ
+    [ValueConversion(typeof(PageSortMode), typeof(Visibility))]
+    public class SortModeToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            PageSortMode mode0 = (PageSortMode)value;
+            PageSortMode mode1 = (PageSortMode)Enum.Parse(typeof(PageSortMode), parameter as string);
+            return (mode0 == mode1) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    // コンバータ：ソートモード表示文字列
+    [ValueConversion(typeof(PageSortMode), typeof(string))]
+    public class SortModeToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            PageSortMode mode = (PageSortMode)value;
+            return mode.ToDispString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

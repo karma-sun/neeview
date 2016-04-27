@@ -36,7 +36,7 @@ namespace NeeView
                 case PageSortMode.FileNameDescending: return "ファイル名降順";
                 case PageSortMode.TimeStamp: return "日付昇順";
                 case PageSortMode.TimeStampDescending: return "日付降順";
-                case PageSortMode.Random: return "ランダムに並べる";
+                case PageSortMode.Random: return "シャッフル";
                 default:
                     throw new NotSupportedException();
             }

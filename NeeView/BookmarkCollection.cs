@@ -142,9 +142,21 @@ namespace NeeView
             }
         }
 
+        // ブックマーク状態切り替え
+        public BookMementoUnit Toggle(BookMementoUnit unit, Book.Memento memento)
+        {
+            if (unit == null || unit.BookmarkNode == null)
+            {
+                return Add(unit, memento);
+            }
+            else
+            {
+                return Remove(unit.Memento.Place);
+            }
+        }
 
         // 削除
-        public void Remove(string place)
+        public BookMementoUnit Remove(string place)
         {
             var unit = ModelContext.BookMementoCollection.Find(place);
             if (unit != null && unit.BookmarkNode != null)
@@ -153,6 +165,7 @@ namespace NeeView
                 unit.BookmarkNode = null;
                 BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, place));
             }
+            return unit;
         }
 
         // 更新
@@ -180,6 +193,7 @@ namespace NeeView
         // 検索
         public BookMementoUnit Find(string place)
         {
+            if (place == null) return null;
             var unit = ModelContext.BookMementoCollection.Find(place);
             return unit?.BookmarkNode != null ? unit : null;
         }
@@ -195,7 +209,6 @@ namespace NeeView
         {
             [DataMember]
             public List<Book.Memento> Items { get; set; }
-
 
             private void Constructor()
             {

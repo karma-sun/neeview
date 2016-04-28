@@ -144,7 +144,7 @@ namespace NeeView
             vm.FolderCollection = _VM.FolderCollection;
             vm.SelectedIndex = _VM.FolderCollection.SelectedIndex < 0 ? 0 : _VM.FolderCollection.SelectedIndex;
             _FolderList = new FolderList(vm);
-            _FolderList.Decided += (s, e) => _VM.BookHub.RequestLoad(e, BookLoadOption.None, false);
+            _FolderList.Decided += (s, e) => _VM.BookHub.RequestLoad(e, BookLoadOption.SkipSamePlace, false);
             _FolderList.Moved += (s, e) => _VM.SetPlace(e, null);
             _FolderList.MovedParent += (s, e) => _VM.MoveToParent();
             _FolderList.SelectionChanged += (s, e) => _VM.SelectedIndex = e;

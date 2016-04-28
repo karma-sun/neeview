@@ -74,6 +74,14 @@
                     <EventSetter Event="PreviewMouseLeftButtonUp" Handler="HistoryListItem_MouseSingleClick"/>
                     <EventSetter Event="KeyDown" Handler="HistoryListItem_KeyDown"/>
                     <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="履歴から削除(D)" Command="{x:Static local:HistoryControl.RemoveCommand}"/>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </ListBox.Resources>
 

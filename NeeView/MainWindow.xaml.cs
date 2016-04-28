@@ -530,9 +530,15 @@ namespace NeeView
                 isMenuDock = true;
             }
 
+            // アドレスバー
+            this.AddressBar.Visibility = _VM.IsVisibleAddressBar ? Visibility.Visible : Visibility.Collapsed;
+
             // ウィンドウ表示設定
             this.LeftPanel.Visibility = _VM.LeftPanel != PanelType.None ? Visibility.Visible : Visibility.Collapsed;
             this.RightPanel.Visibility = _VM.RightPanel != PanelType.None ? Visibility.Visible : Visibility.Collapsed;
+
+            // 再計算
+            this.UpdateLayout();
 
             // ビュー領域設定
             this.ViewArea.Margin = new Thickness(0, isMenuDock ? this.MenuArea.ActualHeight : 0, 0, 0);
@@ -819,6 +825,24 @@ namespace NeeView
             {
                 _VM.Address = this.AddressTextBox.Text;
             }
+
+            // 単キーのショートカット無効
+            KeyExGesture.AllowSingleKey = false;
+        }
+
+
+        // (未使用)
+        private void AddressBar_KeyDown(object sender, KeyEventArgs e)
+        {
+            // これ以下にイベントを渡さない
+            e.Handled = true;
+        }
+
+        // 全てのルーテッドイベントの開始
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // 単キーのショートカット有効
+            KeyExGesture.AllowSingleKey = true;
         }
     }
 

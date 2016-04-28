@@ -29,6 +29,7 @@ namespace NeeView
         KeepHistoryOrder = (1 << 5), // 履歴の順番を変更しない
         SelectFoderListMaybe = (1 << 6), // 可能ならばフォルダリストで選択する
         SelectHistoryMaybe = (1 << 7), // 可能ならば履歴リストで選択する
+        SkipSamePlace = (1 << 8), // 同じフォルダならば読み込まない
     };
 
 

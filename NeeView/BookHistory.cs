@@ -110,7 +110,16 @@ namespace NeeView
 
             try
             {
-                if (unit == null)
+                if (isKeepOrder)
+                {
+                    if (unit?.HistoryNode != null)
+                    {
+                        unit.Memento = memento;
+
+                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Place));
+                    }
+                }
+                else if (unit == null)
                 {
                     unit = new BookMementoUnit();
 
@@ -126,16 +135,9 @@ namespace NeeView
                 {
                     unit.Memento = memento;
 
-                    if (isKeepOrder || Items.First == unit.HistoryNode)
-                    {
-                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Place));
-                    }
-                    else
-                    {
-                        Items.Remove(unit.HistoryNode);
-                        Items.AddFirst(unit.HistoryNode);
-                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
-                    }
+                    Items.Remove(unit.HistoryNode);
+                    Items.AddFirst(unit.HistoryNode);
+                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
                 }
                 else
                 {

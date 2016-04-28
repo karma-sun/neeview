@@ -28,6 +28,13 @@ namespace NeeView
     /// </summary>
     public partial class FolderList : UserControl
     {
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkControl));
+
+        static FolderList()
+        {
+            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
+        }
+
         public event EventHandler<string> Decided;
         public event EventHandler<string> Moved;
         public event EventHandler<string> MovedParent;
@@ -44,6 +51,18 @@ namespace NeeView
 
             _VM = vm;
             this.ListBox.DataContext = _VM;
+
+            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+        }
+
+        //
+        public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderInfo;
+            if (item != null)
+            {
+                _VM.Remove(item);
+            }
         }
 
         //
@@ -183,5 +202,27 @@ namespace NeeView
             set { _SelectedIndex = value; OnPropertyChanged(); }
         }
         #endregion
+
+        public void Remove(FolderInfo info)
+        {
+            if (info.IsEmpty) return;
+
+            var stackPanel = new StackPanel();
+            stackPanel.Orientation = Orientation.Horizontal;
+            var thumbnail = new Image();
+            thumbnail.SnapsToDevicePixels = true;
+            thumbnail.Source = info.Icon;
+            thumbnail.Width = 32;
+            thumbnail.Height = 32;
+            thumbnail.Margin = new System.Windows.Thickness(0, 0, 4, 0);
+            stackPanel.Children.Add(thumbnail);
+            var textblock = new TextBlock();
+            textblock.Text = info.Path;
+            textblock.VerticalAlignment = VerticalAlignment.Center;
+            stackPanel.Children.Add(textblock);
+            stackPanel.Margin = new Thickness(0, 0, 0, 20);
+
+            ModelContext.RemoveFile(this, info.Path, stackPanel);
+        }
     }
 }

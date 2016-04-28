@@ -28,6 +28,8 @@ namespace NeeView
     /// </summary>
     public partial class HistoryControl : UserControl
     {
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(HistoryControl));
+
         HistoryControlVM _VM;
 
 
@@ -37,6 +39,19 @@ namespace NeeView
 
             _VM = new HistoryControlVM();
             this.DockPanel.DataContext = _VM;
+
+            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
+            this.HistoryListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+        }
+
+        //
+        public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as BookMementoUnit;
+            if (item != null)
+            {
+                ModelContext.BookHistory.Remove(item.Memento.Place);
+            }
         }
 
         //
@@ -201,7 +216,7 @@ namespace NeeView
         //
         public void Load(string path)
         {
-            BookHub?.RequestLoad(path, BookLoadOption.KeepHistoryOrder, false);
+            BookHub?.RequestLoad(path, BookLoadOption.KeepHistoryOrder | BookLoadOption.SkipSamePlace, false);
         }
     }
 }

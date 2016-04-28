@@ -15,7 +15,9 @@
         mc:Ignorable="d"
         Title="{Binding WindowTitle}" Icon="{Binding WindowIcon}" Height="768" Width="1024" AllowDrop="True"
         Topmost="{Binding IsTopmost}"
-        Loaded="MainWindow_Loaded" PreviewDragOver="MainWindow_PreviewDragOver" Drop="MainWindow_Drop" Closed="Window_Closed" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized">
+        Loaded="MainWindow_Loaded" Closed="Window_Closed" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized"
+        PreviewDragOver="MainWindow_PreviewDragOver" Drop="MainWindow_Drop"
+        PreviewKeyDown="Window_PreviewKeyDown">
 
     <!--"{x:Static SystemParameters.CaptionHeight}"-->
     <!--
@@ -361,6 +363,8 @@
                                 <Separator/>
                                 <MenuItem Header="タイトルバーを消す" Command="{Binding BookCommands[ToggleHideTitleBar]}"
                             IsChecked="{Binding IsHideTitleBar}"/>
+                                <MenuItem Header="アドレスバー" Command="{Binding BookCommands[ToggleVisibleAddressBar]}"
+                            IsChecked="{Binding IsVisibleAddressBar}"/>
                                 <MenuItem Header="メニューを自動的に隠す" Command="{Binding BookCommands[ToggleHideMenu]}"
                             IsChecked="{Binding IsHideMenu}"/>
                                 <MenuItem Header="常に手前に表示" Command="{Binding BookCommands[ToggleTopmost]}"
@@ -452,13 +456,14 @@
                     </Grid>
 
                     <!-- アドレスバー -->
-                    <Grid VerticalAlignment="Top" Height="36">
+                    <Grid x:Name="AddressBar" VerticalAlignment="Top" Height="36">
                         <Grid.Resources>
                             <Style x:Key="AddressIconButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
                                 <Setter Property="Width" Value="26"/>
                                 <Setter Property="Height" Value="26"/>
                                 <Setter Property="Padding" Value="4"/>
                                 <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="IsTabStop" Value="False"/>
                             </Style>
                         </Grid.Resources>
 
@@ -568,7 +573,8 @@
                             <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}">
                                 <Image Source="{StaticResource ic_reflesh_24px}" Width="16" Height="16" />
                             </Button>
-                            <Border BorderThickness="1" BorderBrush="Gray" Background="White" Height="28" Margin="2,0">
+
+                            <Border x:Name="AddressTextBoxBase" BorderThickness="1" BorderBrush="LightGray" Background="White" Height="26" Margin="2,0">
                                 <DockPanel>
                                     <Button DockPanel.Dock="Right" Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleBookmark]}">
                                         <TextBlock FontSize="20" FontFamily="Meyrio">

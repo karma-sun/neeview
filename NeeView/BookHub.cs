@@ -220,7 +220,7 @@ namespace NeeView
                 if (_IsEnableNoSupportFile != value)
                 {
                     _IsEnableNoSupportFile = value;
-                    ReLoad(true);
+                    ReLoad();
                 }
             }
         }
@@ -408,8 +408,10 @@ namespace NeeView
         public void RequestLoad(string path, BookLoadOption option, bool isRefleshFolderList)
         {
             if (path == null) return;
-
             path = GetNormalizePathName(path);
+
+            if (CurrentBook?.Place == path && (option & BookLoadOption.SkipSamePlace) == BookLoadOption.SkipSamePlace) return; 
+
             Address = path;
 
             RegistCommand(new LoadCommand(this, path, option, isRefleshFolderList));
@@ -654,6 +656,9 @@ namespace NeeView
         /// <returns></returns>
         private async Task LoadAsync(LoadCommandArgs args)
         {
+            // 現在の本を開放
+            Unload(false);
+
             try
             {
                 // place
@@ -717,9 +722,6 @@ namespace NeeView
                 // ファイル読み込み失敗通知
                 EmptyMessage?.Invoke(this, e.Message);
 
-                //
-                Unload(false);
-
                 // 履歴リスト更新
                 if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
                 {
@@ -763,9 +765,6 @@ namespace NeeView
         /// <param name="option">読み込みオプション</param>
         private async Task LoadAsyncCore(string path, string startEntry, BookLoadOption option, Book.Memento setting, BookMementoUnit unit)
         {
-            // 現在の本を開放
-            Unload(false);
-
             // 新しい本を作成
             var book = new Book();
 
@@ -805,7 +804,7 @@ namespace NeeView
                 book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
                 book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
                 book.PageTerminated += OnPageTerminated;
-                book.DartyBook += (s, e) => ReLoad(true);
+                book.DartyBook += (s, e) => ReLoad();
 
                 // 最初のコンテンツ表示待ち設定
                 _ViewContentEvent.Reset();
@@ -846,11 +845,18 @@ namespace NeeView
             Address = Current.Book.Place;
         }
 
-        // 再読み込み
-        public void ReLoad(bool isKeepSetting)
+
+        public bool CanReload()
         {
-            if (_IsLoading || CurrentBook == null) return;
-            RequestLoad(CurrentBook.Place, isKeepSetting ? BookLoadOption.ReLoad : BookLoadOption.None, true);
+            return (!string.IsNullOrWhiteSpace(Address));
+        }
+
+        // 再読み込み
+        public void ReLoad()
+        {
+            if (_IsLoading || Address == null) return;
+            
+            RequestLoad(Address, (Current.LoadOptions & BookLoadOption.KeepHistoryOrder), true);
         }
 
         // ページ終端を超えて移動しようとするときの処理
@@ -1357,31 +1363,12 @@ namespace NeeView
                 textblock.Text = Path.GetFileName(path);
                 stackPanel.Children.Add(textblock);
 
-                // 削除確認
-                var param = new MessageBoxParams()
-                {
-                    Caption = "削除の確認",
-                    MessageBoxText = "このファイルをごみ箱に移動しますか？",
-                    Button = System.Windows.MessageBoxButton.OKCancel,
-                    Icon = MessageBoxExImage.RecycleBin,
-                    VisualContent = stackPanel,
-                };
-                var result = Messenger.Send(this, new MessageEventArgs("MessageBox") { Parameter = param });
+                // 削除実行
+                bool isRemoved = ModelContext.RemoveFile(this, path, stackPanel);
 
-                // 削除する
-                if (result == true)
+                // ページを本から削除
+                if (isRemoved)
                 {
-                    try
-                    {
-                        // ゴミ箱に捨てる
-                        Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(path, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
-                    }
-                    catch (Exception e)
-                    {
-                        Messenger.MessageBox(this, $"ファイル削除に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
-                    }
-
-                    // ページを本から削除
                     CurrentBook?.RequestRemove(page);
                 }
             }

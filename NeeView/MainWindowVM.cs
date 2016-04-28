@@ -229,6 +229,22 @@ namespace NeeView
         }
         #endregion
 
+        // アドレスバーON/OFF
+        #region Property: IsVisibleAddressBar
+        private bool _IsVisibleAddressBar;
+        public bool IsVisibleAddressBar
+        {
+            get { return _IsVisibleAddressBar; }
+            set { _IsVisibleAddressBar = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+        }
+        public bool ToggleVisibleAddressBar()
+        {
+            IsVisibleAddressBar = !IsVisibleAddressBar;
+            return IsVisibleAddressBar;
+        }
+        #endregion
+
+
 
         // ファイル情報表示ON/OFF
         public bool IsVisibleFileInfo
@@ -743,6 +759,8 @@ namespace NeeView
             get { return _Address; }
             set
             {
+                if (string.IsNullOrWhiteSpace(value)) return;
+
                 if (_Address != value)
                 {
                     _Address = value;
@@ -1648,6 +1666,9 @@ namespace NeeView
                 set { _WindowTitleFormat2 = string.IsNullOrEmpty(value) ? MainWindowVM.WindowTitleFormat2Default : value; }
             }
 
+            [DataMember(Order = 8)]
+            public bool IsVisibleAddressBar { get; set; }
+
             void Constructor()
             {
                 IsLimitMove = true;
@@ -1722,6 +1743,7 @@ namespace NeeView
             memento.RightPanelWidth = this.RightPanelWidth;
             memento.WindowTitleFormat1 = this.WindowTitleFormat1;
             memento.WindowTitleFormat2 = this.WindowTitleFormat2;
+            memento.IsVisibleAddressBar = this.IsVisibleAddressBar;
 
             return memento;
         }
@@ -1765,6 +1787,7 @@ namespace NeeView
             this.RightPanelWidth = memento.RightPanelWidth;
             this.WindowTitleFormat1 = memento.WindowTitleFormat1;
             this.WindowTitleFormat2 = memento.WindowTitleFormat2;
+            this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }

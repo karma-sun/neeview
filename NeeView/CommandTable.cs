@@ -88,8 +88,8 @@ namespace NeeView
                     Group = "ファイル",
                     Text = "再読み込み",
                     MouseGesture = "UD",
-                    CanExecute = () => true,
-                    Execute = e => _Book.ReLoad(false),
+                    CanExecute = () => _Book.CanReload(),
+                    Execute = e => _Book.ReLoad(),
                     IsShowMessage = false,
                 },
 
@@ -268,6 +268,15 @@ namespace NeeView
                     IsShowMessage = false,
                     Execute = e => _VM.ToggleHideTitleBar(),
                     ExecuteMessage = e => _VM.IsHideTitleBar ? "タイトルバーを表示する" : "タイトルバーを消す",
+                    CanExecute = () => true,
+                },
+                [CommandType.ToggleVisibleAddressBar] = new CommandElement
+                {
+                    Group = "ウィンドウ",
+                    Text = "アドレスバーON/OFF",
+                    IsShowMessage = false,
+                    Execute = e => _VM.ToggleVisibleAddressBar(),
+                    ExecuteMessage = e => _VM.IsVisibleAddressBar ? "アドレスバーを消す" : "アドレスバーを表示する",
                     CanExecute = () => true,
                 },
                 [CommandType.ToggleVisibleFileInfo] = new CommandElement

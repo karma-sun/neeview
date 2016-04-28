@@ -103,6 +103,13 @@
                 <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown"/>
                 <EventSetter Event="Loaded" Handler="FolderListItem_Loaded"/>
                 <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="ContextMenu">
+                    <Setter.Value>
+                        <ContextMenu>
+                            <MenuItem Header="削除(D)" Command="{x:Static local:FolderList.RemoveCommand}"/>
+                        </ContextMenu>
+                    </Setter.Value>
+                </Setter>
             </Style>
         </ListBox.Resources>
 

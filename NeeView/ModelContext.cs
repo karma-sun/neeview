@@ -78,6 +78,57 @@ namespace NeeView
         {
             JobEngine.Dispose();
         }
+
+
+        // ファイルを削除する
+        public static bool RemoveFile(object sender, string path, System.Windows.FrameworkElement visual)
+        {
+            if (visual == null)
+            {
+                var textblock = new System.Windows.Controls.TextBlock();
+                textblock.Text = Path.GetFileName(path);
+
+                visual = textblock;
+            }
+
+            bool isDirectory = System.IO.Directory.Exists(path);
+            string itemType = isDirectory ? "フォルダ" : "ファイル";
+
+            // 削除確認
+            var param = new MessageBoxParams()
+            {
+                Caption = "削除の確認",
+                MessageBoxText = "この" + itemType + "をごみ箱に移動しますか？",
+                Button = System.Windows.MessageBoxButton.OKCancel,
+                Icon = MessageBoxExImage.RecycleBin,
+                VisualContent = visual,
+            };
+            var result = Messenger.Send(sender, new MessageEventArgs("MessageBox") { Parameter = param });
+
+            // 削除する
+            if (result == true)
+            {
+                try
+                {
+                    // ゴミ箱に捨てる
+                    if (isDirectory)
+                    {
+                        Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(path, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                    }
+                    else
+                    {
+                        Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(path, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Messenger.MessageBox(sender, $"{itemType}削除に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
+                }
+            }
+
+            return result == true;
+        }
     }
 
 

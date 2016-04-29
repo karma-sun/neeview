@@ -138,14 +138,14 @@ namespace NeeView
         }
 
         //
-        private void OnFolderCollectionChanged(object sender, EventArgs _e)
+        private void OnFolderCollectionChanged(object sender, bool isFocus)
         {
             var vm = new FolderListVM();
             vm.FolderCollection = _VM.FolderCollection;
             vm.SelectedIndex = _VM.FolderCollection.SelectedIndex < 0 ? 0 : _VM.FolderCollection.SelectedIndex;
-            _FolderList = new FolderList(vm);
+            _FolderList = new FolderList(vm, isFocus);
             _FolderList.Decided += (s, e) => _VM.BookHub.RequestLoad(e, BookLoadOption.SkipSamePlace, false);
-            _FolderList.Moved += (s, e) => _VM.SetPlace(e, null);
+            _FolderList.Moved += (s, e) => _VM.SetPlace(e, null, true);
             _FolderList.MovedParent += (s, e) => _VM.MoveToParent();
             _FolderList.SelectionChanged += (s, e) => _VM.SelectedIndex = e;
 
@@ -153,9 +153,9 @@ namespace NeeView
         }
 
         //
-        public void SetPlace(string place, string select)
+        public void SetPlace(string place, string select, bool isFocus)
         {
-            _VM.SetPlace(place, select);
+            _VM.SetPlace(place, select, isFocus);
         }
 
         // フォルダ上階層に移動
@@ -172,6 +172,18 @@ namespace NeeView
         }
     }
 
+
+
+    //
+    public class MoveFolderParams
+    {
+        public int Distance { get; set; }
+        public BookLoadOption BookLoadOption { get; set; }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public class FolderListControlVM : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
@@ -186,7 +198,7 @@ namespace NeeView
         }
         #endregion
 
-        public event EventHandler FolderCollectionChanged;
+        public event EventHandler<bool> FolderCollectionChanged;
         public event EventHandler SelectedItemChanged;
 
         public Dictionary<FolderOrder, string> FolderOrderList => FolderOrderExtension.FolderOrderList;
@@ -199,7 +211,6 @@ namespace NeeView
             {
                 _BookHub = value;
                 _BookHub.FolderListSync += (s, e) => SyncWeak(e);
-                _BookHub.FolderListReflesh += (s, e) => Reflesh();
                 _BookHub.HistoryChanged += (s, e) => RefleshIcon(e.Key);
                 _BookHub.BookmarkChanged += (s, e) => RefleshIcon(e.Key);
                 OnPropertyChanged();
@@ -214,7 +225,7 @@ namespace NeeView
             private set
             {
                 _FolderCollection = value;
-                FolderCollectionChanged?.Invoke(this, null);
+                OnPropertyChanged();
                 OnPropertyChanged(nameof(Place));
                 OnPropertyChanged(nameof(PlaceDispString));
             }
@@ -242,6 +253,15 @@ namespace NeeView
         private bool _IsDarty;
 
         //
+        public FolderListControlVM()
+        {
+            Messenger.AddReciever("SetFolderOrder", CallSetFolderOrder);
+            Messenger.AddReciever("ToggleFolderOrder", CallToggleFolderOrder);
+            Messenger.AddReciever("MoveFolder", CallMoveFolder);
+        }
+
+
+        //
         public void SetSetting(FolderListSetting setting)
         {
             if (setting == null) return;
@@ -257,7 +277,7 @@ namespace NeeView
         }
 
         //
-        public void SetPlace(string place, string select)
+        public void SetPlace(string place, string select, bool isFocus)
         {
             SavePlace(SelectedItem);
 
@@ -270,14 +290,14 @@ namespace NeeView
 
             if (FolderCollection == null || _IsDarty || place != FolderCollection.Place)
             {
+
                 _IsDarty = false;
                 collection = new FolderCollection();
                 collection.Place = place;
-                collection.FolderOrder = BookHub.FolderOrder;
-                collection.RandomSeed = BookHub._FolderOrderSeed;
+                collection.Folder = new Folder(place);
                 collection.Update(select);
 
-                ModelContext.BookHistory.CurrentFolder = place;
+                ModelContext.BookHistory.LastFolder = place;
             }
 
             var index = collection.IndexOfPath(select);
@@ -288,7 +308,9 @@ namespace NeeView
                 FolderCollection?.Dispose();
 
                 FolderCollection = collection;
-                FolderCollection.Changed += (s, e) => App.Current.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(); }));
+                FolderCollectionChanged?.Invoke(this, isFocus);
+
+                FolderCollection.Changed += (s, e) => App.Current.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true); }));
             }
             else
             {
@@ -300,7 +322,7 @@ namespace NeeView
         public void MoveToParent()
         {
             if (FolderCollection == null) return;
-            SetPlace(FolderCollection.ParentPlace, FolderCollection.Place);
+            SetPlace(FolderCollection.ParentPlace, FolderCollection.Place, true);
         }
 
         //
@@ -311,7 +333,7 @@ namespace NeeView
                 if (!FolderCollection.Contains(e.Path)) return;
             }
 
-            SetPlace(System.IO.Path.GetDirectoryName(e.Path), e.Path);
+            SetPlace(System.IO.Path.GetDirectoryName(e.Path), e.Path, e.IsFocus);
         }
 
         //
@@ -321,17 +343,17 @@ namespace NeeView
             if (place != null)
             {
                 _IsDarty = true;
-                SetPlace(System.IO.Path.GetDirectoryName(place), place);
+                SetPlace(System.IO.Path.GetDirectoryName(place), place, true);
             }
         }
 
         //
-        public void Reflesh()
+        public void Reflesh(bool force)
         {
             if (FolderCollection == null) return;
 
-            _IsDarty = true;
-            SetPlace(FolderCollection.Place, null);
+            _IsDarty = force || FolderCollection.IsDarty();
+            SetPlace(FolderCollection.Place, null, true);
         }
 
         //
@@ -339,5 +361,52 @@ namespace NeeView
         {
             FolderCollection?.RefleshIcon(path);
         }
+
+        //
+        private void CallSetFolderOrder(object sender, MessageEventArgs e)
+        {
+            if (FolderCollection == null) return;
+
+            var param = (FolderOrder)e.Parameter;
+            FolderCollection.Folder.FolderOrder = param;
+        }
+
+        //
+        private void CallToggleFolderOrder(object sender, MessageEventArgs e)
+        {
+            if (FolderCollection == null) return;
+
+            FolderCollection.Folder.FolderOrder = FolderCollection.Folder.FolderOrder.GetToggle();
+        }
+
+
+        //
+        private void CallMoveFolder(object sender, MessageEventArgs e)
+        {
+            var param = (MoveFolderParams)e.Parameter;
+
+            e.Result = MoveFolder(param.Distance, param.BookLoadOption);
+        }
+
+        //
+        private bool MoveFolder(int direction, BookLoadOption option)
+        {
+            if (FolderCollection == null) return false;
+
+            int index = SelectedIndex;
+            if (index < 0) return false;
+
+            int next = (FolderCollection.Folder.FolderOrder == FolderOrder.Random)
+                ? (index + FolderCollection.Items.Count + direction) % FolderCollection.Items.Count
+                : index + direction;
+
+            if (next < 0 || next >= FolderCollection.Items.Count) return false;
+
+            SetPlace(FolderCollection.Place, FolderCollection[next].Path, false);
+            BookHub.RequestLoad(FolderCollection[next].Path, option, false);
+
+            return true;
+        }
+
     }
 }

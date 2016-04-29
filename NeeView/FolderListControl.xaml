@@ -48,7 +48,7 @@
                     <TextBlock Margin="8,5" Text="同期" Foreground="{StaticResource NVButtonForeground}" ToolTip="表示中のフォルダに移動"/>
                 </Button>
                 <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
-                          ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding BookHub.FolderOrder, Delay=1}"
+                          ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderCollection.Folder.FolderOrder, Delay=1}"
                           VerticalAlignment="Center">
                 </ComboBox>
              </WrapPanel>

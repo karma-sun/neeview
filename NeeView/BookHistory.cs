@@ -43,7 +43,37 @@ namespace NeeView
         public LinkedList<BookMementoUnit> Items { get; set; }
 
         // フォルダリストで開いていた場所
-        public string CurrentFolder { get; set; }
+        public string LastFolder { get; set; }
+
+        // フォルダとソートの種類
+        private Dictionary<string, FolderOrder> FolderOrders { get; set; }
+
+        // フォルダ設定
+        public void SetFolderOrder(string path, FolderOrder order)
+        {
+            path = path ?? "<<root>>";
+
+            // 名前順は記憶しない。それ以外の場合記憶する
+            if (order == FolderOrder.FileName)
+            {
+                FolderOrders.Remove(path);
+            }
+            else
+            {
+                FolderOrders[path] = order;
+            }
+        }
+
+        // フォルダ設定取得
+        public FolderOrder GetFolderOrder(string path)
+        {
+            path = path ?? "<<root>>";
+
+            FolderOrder order;
+            FolderOrders.TryGetValue(path, out order);
+            return order;
+        }
+
 
         /// <summary>
         /// 
@@ -51,6 +81,7 @@ namespace NeeView
         public BookHistory()
         {
             Items = new LinkedList<BookMementoUnit>();
+            FolderOrders = new Dictionary<string, FolderOrder>();
         }
 
         // 要素数
@@ -212,15 +243,18 @@ namespace NeeView
             [DataMember(Name = "History")]
             public List<Book.Memento> Items { get; set; }
 
+            [DataMember(Order = 8)]
+            public string LastFolder { get; set; }
 
-            [DataMember]
-            public string CurrentFolder { get; set; }
+            [DataMember(Order = 8)]
+            public Dictionary<string, FolderOrder> FolderOrders { get; set; }
 
 
             private void Constructor()
             {
                 Items = new List<Book.Memento>();
-                CurrentFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                LastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                FolderOrders = new Dictionary<string, FolderOrder>();
             }
 
             public Memento()
@@ -276,7 +310,8 @@ namespace NeeView
                 memento.Items.RemoveAll((e) => e.Place.StartsWith(Temporary.TempDirectory));
             }
 
-            memento.CurrentFolder = this.CurrentFolder;
+            memento.LastFolder = this.LastFolder;
+            memento.FolderOrders = this.FolderOrders;
 
             return memento;
         }
@@ -284,7 +319,8 @@ namespace NeeView
         // memento適用
         public void Restore(Memento memento)
         {
-            this.CurrentFolder = memento.CurrentFolder;
+            this.LastFolder = memento.LastFolder;
+            this.FolderOrders = memento.FolderOrders;
 
             this.Load(memento.Items);
         }

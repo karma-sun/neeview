@@ -41,12 +41,15 @@ namespace NeeView
         public event EventHandler<int> SelectionChanged;
 
         FolderListVM _VM;
+        bool _AutoFocus;
 
         public FolderInfo SelectedItem => this.ListBox.SelectedItem as FolderInfo;
 
         //
-        public FolderList(FolderListVM vm)
+        public FolderList(FolderListVM vm, bool autoFocus)
         {
+            _AutoFocus = autoFocus;
+
             InitializeComponent();
 
             _VM = vm;
@@ -75,7 +78,8 @@ namespace NeeView
         //
         public void FocusSelectedItem()
         {
-            FolderList_FocusSelectedItem(this, null);
+            ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
+            lbi?.Focus();
         }
 
 
@@ -156,19 +160,14 @@ namespace NeeView
             }
         }
 
-        private void FolderList_FocusSelectedItem(object sender, RoutedEventArgs e)
-        {
-            ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
-            lbi?.Focus();
-        }
-
+        //
         private void FolderList_Loaded(object sender, RoutedEventArgs e)
         {
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
-            FolderList_FocusSelectedItem(sender, e);
+            if (_AutoFocus) FocusSelectedItem();
         }
 
-
+        //
         private void FolderListItem_Loaded(object sender, RoutedEventArgs e)
         {
         }

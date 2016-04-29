@@ -156,7 +156,7 @@ namespace NeeView
         //
         public void Load(string path)
         {
-            BookHub?.RequestLoad(path, BookLoadOption.SkipSamePlace, false);
+            BookHub?.RequestLoad(path, BookLoadOption.SkipSamePlace, true);
         }
     }
 }

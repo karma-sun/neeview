@@ -139,6 +139,18 @@ namespace NeeView
     {
         public event EventHandler Changed;
 
+        //
+        private Folder _Folder;
+        public Folder Folder
+        {
+            get { return _Folder; }
+            set
+            {
+                _Folder = value;
+                Folder.PropertyChanged += (s, e) => Changed?.Invoke(s, null);
+            }
+        }
+
         // indexer
         public FolderInfo this[int index]
         {
@@ -152,9 +164,9 @@ namespace NeeView
 
         public string ParentPlace => Path.GetDirectoryName(Place);
 
-        public FolderOrder FolderOrder { get; set; }
+        private FolderOrder FolderOrder => Folder.FolderOrder;
 
-        public int RandomSeed { get; set; }
+        private int RandomSeed => Folder.RandomSeed;
 
         //
         public bool IsValid => Items != null;
@@ -162,10 +174,19 @@ namespace NeeView
 
         //
         private bool _IsDarty;
-        public bool IsDarty(string place, FolderOrder folderOrder, int randomSeed)
+
+        //
+        public bool IsDarty(Folder folder)
         {
-            return (_IsDarty || Place != place || FolderOrder != folderOrder || RandomSeed != randomSeed);
+            return (_IsDarty || Place != folder.Path || FolderOrder != folder.FolderOrder || RandomSeed != folder.RandomSeed);
         }
+
+        //
+        public bool IsDarty()
+        {
+            return IsDarty(new Folder(Place));
+        }
+
 
         //
         private string _CurrentPlace;

@@ -596,7 +596,7 @@ namespace NeeView
             OnMenuVisibilityChanged();
 
             // フォルダリスト初期化
-            this.FolderListArea.SetPlace(ModelContext.BookHistory.CurrentFolder, null);
+            this.FolderListArea.SetPlace(ModelContext.BookHistory.LastFolder, null, false);
             // 履歴リスト初期化
             this.HistoryArea.Initialize(_VM.BookHub);
             // ブックマークリスト初期化

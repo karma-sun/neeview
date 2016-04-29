@@ -383,13 +383,6 @@
                                 <Separator/>
                                 <MenuItem Header="前のフォルダに移動"  Command="{Binding BookCommands[PrevFolder]}"/>
                                 <MenuItem Header="次のフォルダへ移動"  Command="{Binding BookCommands[NextFolder]}"/>
-                                <Separator/>
-                                <MenuItem Header="フォルダ順は名前順" Command="{Binding BookCommands[SetFolderOrderByFileName]}"
-                              IsChecked="{Binding BookHub.FolderOrder,Converter={StaticResource FolderOrderToBooleanConverter},ConverterParameter=FileName,Mode=OneWay}" />
-                                <MenuItem Header="フォルダ順は日付順" Command="{Binding BookCommands[SetFolderOrderByTimeStamp]}"
-                              IsChecked="{Binding BookHub.FolderOrder,Converter={StaticResource FolderOrderToBooleanConverter},ConverterParameter=TimeStamp,Mode=OneWay}" />
-                                <MenuItem Header="フォルダ順はシャッフル" Command="{Binding BookCommands[SetFolderOrderByRandom]}"
-                              IsChecked="{Binding BookHub.FolderOrder,Converter={StaticResource FolderOrderToBooleanConverter},ConverterParameter=Random,Mode=OneWay}" />
                             </MenuItem>
 
                             <MenuItem Header="ページ(_P)">

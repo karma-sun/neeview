@@ -539,7 +539,7 @@ namespace NeeView
                     Group = "フォルダ列",
                     Text = "フォルダの並び順を切り替える",
                     Execute = e => _Book.ToggleFolderOrder(),
-                    ExecuteMessage = e => _Book.FolderOrder.GetToggle().ToDispString()
+                    //ExecuteMessage = e => _Book.FolderOrder.GetToggle().ToDispString() // TODO:
                 },
                 [CommandType.SetFolderOrderByFileName] = new CommandElement
                 {

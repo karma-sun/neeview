@@ -22,16 +22,77 @@ using System.Windows.Media.Imaging;
 // ----------------------------
 // TODO: フォルダサムネイル(非同期) 
 // TODO: コマンド類の何時でも受付。ロード中だから弾く、ではない別の方法を。
+// TODO: フォルダの移動でNextHistoryの矢印表示が表示されることがあるバグ
 
 
 
 
 namespace NeeView
 {
+    // フォルダー情報
+    public class Folder : INotifyPropertyChanged
+    {
+        #region NotifyPropertyChanged
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion
+
+        public string Path { get; set; }
+
+        #region Property: FolderOrder
+        private FolderOrder _FolderOrder;
+        public FolderOrder FolderOrder
+        {
+            get { return _FolderOrder; }
+            set { _FolderOrder = value; Save(); _RandomSeed = new Random().Next(); OnPropertyChanged(); }
+        }
+        #endregion
+
+        public int RandomSeed { get; set; }
+
+        private static int _RandomSeed;
+
+        static Folder()
+        {
+            _RandomSeed = new Random().Next();
+        }
+
+
+        public Folder(string path)
+        {
+            Path = path;
+            Load();
+            RandomSeed = _RandomSeed;
+        }
+
+        public void Save()
+        {
+            ModelContext.BookHistory.SetFolderOrder(Path, _FolderOrder);
+        }
+
+        private void Load()
+        {
+            _FolderOrder = ModelContext.BookHistory.GetFolderOrder(Path);
+        }
+
+        public Folder Clone()
+        {
+            return (Folder)this.MemberwiseClone();
+        }
+    }
+
     public class FolderListSyncArguments
     {
         public string Path { get; set; }
         public bool isKeepPlace { get; set; }
+        public bool IsFocus { get; set; }
     }
 
     public enum BookMementoType
@@ -77,6 +138,9 @@ namespace NeeView
 
         public bool IsValid
             => Book?.Place != null;
+
+        public string Address
+            => Book?.Place;
     }
 
     /// <summary>
@@ -153,9 +217,6 @@ namespace NeeView
         // フォルダ列更新要求
         public event EventHandler<FolderListSyncArguments> FolderListSync;
 
-        // フォルダ列再作成要求
-        public event EventHandler FolderListReflesh;
-
         // 履歴リスト更新要求
         public event EventHandler<string> HistoryListSync;
 
@@ -169,6 +230,13 @@ namespace NeeView
         public event EventHandler AddressChanged;
 
         #endregion
+
+
+        public void SetInfoMessage(string message)
+        {
+            InfoMessage?.Invoke(this, message);
+        }
+
 
         // ロード中フラグ
         private bool _IsLoading;
@@ -231,24 +299,6 @@ namespace NeeView
         // 再帰を確認する
         public bool IsConfirmRecursive { get; set; }
 
-
-        // フォルダの並び順
-        public FolderOrder _FolderOrder;
-        public FolderOrder FolderOrder
-        {
-            get { return _FolderOrder; }
-            set
-            {
-                _FolderOrder = value;
-                _FolderOrderSeed = new Random().Next();
-                OnPropertyChanged();
-                SettingChanged?.Invoke(this, null);
-                FolderListReflesh?.Invoke(this, null);
-            }
-        }
-
-        // フォルダのランダムな並び用シード
-        public int _FolderOrderSeed;
 
         // スライドショー再生フラグ
         private bool _IsEnableSlideShow;
@@ -410,7 +460,7 @@ namespace NeeView
             if (path == null) return;
             path = GetNormalizePathName(path);
 
-            if (CurrentBook?.Place == path && (option & BookLoadOption.SkipSamePlace) == BookLoadOption.SkipSamePlace) return; 
+            if (CurrentBook?.Place == path && (option & BookLoadOption.SkipSamePlace) == BookLoadOption.SkipSamePlace) return;
 
             Address = path;
 
@@ -855,7 +905,7 @@ namespace NeeView
         public void ReLoad()
         {
             if (_IsLoading || Address == null) return;
-            
+
             RequestLoad(Address, (Current.LoadOptions & BookLoadOption.KeepHistoryOrder), true);
         }
 
@@ -972,52 +1022,6 @@ namespace NeeView
             }
         }
 
-
-        // 移動用フォルダリスト
-        private FolderCollection _FolderList;
-
-        /// <summary>
-        /// フォルダ移動
-        /// </summary>
-        /// <param name="direction">移動方向</param>
-        /// <param name="folderOrder">フォルダの並び</param>
-        /// <param name="option">ロードオプション</param>
-        /// <returns></returns>
-        private bool MoveFolder(int direction, FolderOrder folderOrder, BookLoadOption option)
-        {
-            var place = CurrentBook?.Place;
-            if (place == null) return false;
-
-            if (this._FolderList == null || this._FolderList.IsDarty(Path.GetDirectoryName(place), FolderOrder, _FolderOrderSeed))
-            {
-                this._FolderList?.Dispose();
-
-                this._FolderList = new FolderCollection();
-                this._FolderList.Place = Path.GetDirectoryName(place);
-                this._FolderList.FolderOrder = FolderOrder;
-                this._FolderList.RandomSeed = _FolderOrderSeed;
-                this._FolderList.Update(place);
-            }
-
-            if (this._FolderList.IsValid)
-            {
-                int index = _FolderList.IndexOfPath(CurrentBook?.Place);
-                if (index < 0) return false;
-
-                int next = (folderOrder == FolderOrder.Random)
-                    ? (index + _FolderList.Items.Count + direction) % _FolderList.Items.Count
-                    : index + direction;
-
-                if (next < 0 || next >= _FolderList.Items.Count) return false;
-
-                RequestLoad(_FolderList[next].Path, option | BookLoadOption.SelectFoderListMaybe, false);
-
-                return true;
-            }
-
-            return false;
-        }
-
         // 前のページに移動
         public void PrevPage()
         {
@@ -1063,8 +1067,8 @@ namespace NeeView
         // 次のフォルダに移動
         public void NextFolder(BookLoadOption option = BookLoadOption.None)
         {
-            bool result = MoveFolder(+1, FolderOrder, option);
-            if (!result)
+            var result = Messenger.Send(this, new MessageEventArgs("MoveFolder") { Parameter = new MoveFolderParams() { Distance = +1, BookLoadOption = option } });
+            if (result != true)
             {
                 InfoMessage?.Invoke(this, "次のフォルダはありません");
             }
@@ -1073,8 +1077,8 @@ namespace NeeView
         // 前のフォルダに移動
         public void PrevFolder(BookLoadOption option = BookLoadOption.None)
         {
-            bool result = MoveFolder(-1, FolderOrder, option);
-            if (!result)
+            var result = Messenger.Send(this, new MessageEventArgs("MoveFolder") { Parameter = new MoveFolderParams() { Distance = -1, BookLoadOption = option } });
+            if (result != true)
             {
                 InfoMessage?.Invoke(this, "前のフォルダはありません");
             }
@@ -1091,13 +1095,13 @@ namespace NeeView
         // フォルダの並びの変更
         public void ToggleFolderOrder()
         {
-            FolderOrder = FolderOrder.GetToggle();
+            Messenger.Send(this, new MessageEventArgs("ToggleFolderOrder"));
         }
 
         // フォルダの並びの設定
         public void SetFolderOrder(FolderOrder order)
         {
-            FolderOrder = order;
+            Messenger.Send(this, new MessageEventArgs("SetFolderOrder") { Parameter = order });
         }
 
 
@@ -1399,9 +1403,6 @@ namespace NeeView
             public bool IsEnabledAutoNextFolder { get; set; }
 
             [DataMember]
-            public FolderOrder FolderOrder { get; set; }
-
-            [DataMember]
             public bool IsSlideShowByLoop { get; set; }
 
             [DataMember]
@@ -1442,7 +1443,6 @@ namespace NeeView
             {
                 IsEnableHistory = true;
                 IsEnableNoSupportFile = false;
-                FolderOrder = FolderOrder.FileName;
                 IsSlideShowByLoop = true;
                 SlideShowInterval = 5.0;
                 IsCancelSlideByMouseMove = true;
@@ -1477,7 +1477,6 @@ namespace NeeView
             memento.IsEnableHistory = IsEnableHistory;
             memento.IsEnableNoSupportFile = IsEnableNoSupportFile;
             memento.IsEnabledAutoNextFolder = IsEnabledAutoNextFolder;
-            memento.FolderOrder = FolderOrder;
             memento.IsSlideShowByLoop = IsSlideShowByLoop;
             memento.SlideShowInterval = SlideShowInterval;
             memento.IsCancelSlideByMouseMove = IsCancelSlideByMouseMove;
@@ -1505,7 +1504,6 @@ namespace NeeView
             IsEnableHistory = memento.IsEnableHistory;
             IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
             IsEnabledAutoNextFolder = memento.IsEnabledAutoNextFolder;
-            FolderOrder = memento.FolderOrder;
             IsSlideShowByLoop = memento.IsSlideShowByLoop;
             SlideShowInterval = memento.SlideShowInterval;
             IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;

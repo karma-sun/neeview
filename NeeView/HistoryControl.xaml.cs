@@ -216,7 +216,7 @@ namespace NeeView
         //
         public void Load(string path)
         {
-            BookHub?.RequestLoad(path, BookLoadOption.KeepHistoryOrder | BookLoadOption.SkipSamePlace, false);
+            BookHub?.RequestLoad(path, BookLoadOption.KeepHistoryOrder | BookLoadOption.SkipSamePlace, true);
         }
     }
 }

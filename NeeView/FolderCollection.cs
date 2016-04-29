@@ -23,6 +23,7 @@ namespace NeeView
         Drive = (1 << 1),
         DriveNotReady = (1 << 2),
         Empty = (1 << 3),
+        DirectoryNoFound = (1 << 4),
     }
 
     public enum FolderInfoIconOverlay
@@ -56,6 +57,7 @@ namespace NeeView
 
         public bool IsDirectory => (Attributes & FolderInfoAttribute.Directory) == FolderInfoAttribute.Directory;
         public bool IsEmpty => (Attributes & FolderInfoAttribute.Empty) == FolderInfoAttribute.Empty;
+        public bool IsDirectoryNotFound => (Attributes & FolderInfoAttribute.DirectoryNoFound) == FolderInfoAttribute.DirectoryNoFound;
 
         public bool IsReady { get; set; }
 
@@ -122,7 +124,7 @@ namespace NeeView
                 }
                 else if (IsEmpty)
                 {
-                    return "表示できるファイルはありません";
+                    return IsDirectoryNotFound ? "フォルダが存在しません" : "表示できるファイルはありません";
                 }
                 else
                 {
@@ -191,7 +193,7 @@ namespace NeeView
         {
             _CurrentPlace = path ?? _CurrentPlace;
 
-            if (Place == null || !Directory.Exists(Place))
+            if (string.IsNullOrWhiteSpace(Place))
             {
                 var items = new List<FolderInfo>();
                 foreach (var drive in DriveInfo.GetDrives())
@@ -202,6 +204,12 @@ namespace NeeView
                     folderInfo.Path = drive.Name;
                     items.Add(folderInfo);
                 }
+                Items = items;
+            }
+            else if (!Directory.Exists(Place))
+            {
+                var items = new List<FolderInfo>();
+                items.Add(new FolderInfo() { Path = Place + "\\.", Attributes = FolderInfoAttribute.Empty | FolderInfoAttribute.DirectoryNoFound });
                 Items = items;
             }
             else
@@ -283,22 +291,34 @@ namespace NeeView
         }
 
 
-#region FileSystemWatcher
+        #region FileSystemWatcher
 
         // ファイル変更監視
         private FileSystemWatcher _FileSystemWatcher;
 
+        //
         private void InitializeWatcher(string path)
         {
             _FileSystemWatcher = new FileSystemWatcher();
-            _FileSystemWatcher.Path = path;
-            _FileSystemWatcher.IncludeSubdirectories = false;
-            _FileSystemWatcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            _FileSystemWatcher.Created += Watcher_Changed;
-            _FileSystemWatcher.Deleted += Watcher_Changed;
-            _FileSystemWatcher.Renamed += Watcher_Changed;
+
+            try
+            {
+                _FileSystemWatcher.Path = path;
+                _FileSystemWatcher.IncludeSubdirectories = false;
+                _FileSystemWatcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName;
+                _FileSystemWatcher.Created += Watcher_Changed;
+                _FileSystemWatcher.Deleted += Watcher_Changed;
+                _FileSystemWatcher.Renamed += Watcher_Changed;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                _FileSystemWatcher.Dispose();
+                _FileSystemWatcher = null;
+            }
         }
 
+        //
         private void TerminateWatcher()
         {
             if (_FileSystemWatcher != null)
@@ -315,7 +335,10 @@ namespace NeeView
         // フォルダ監視開始
         private void StartWatch()
         {
-            _FileSystemWatcher.EnableRaisingEvents = true;
+            if (_FileSystemWatcher != null)
+            {
+                _FileSystemWatcher.EnableRaisingEvents = true;
+            }
         }
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
@@ -325,7 +348,7 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 
 
 

@@ -276,6 +276,8 @@ namespace NeeView
                 collection.FolderOrder = BookHub.FolderOrder;
                 collection.RandomSeed = BookHub._FolderOrderSeed;
                 collection.Update(select);
+
+                ModelContext.BookHistory.CurrentFolder = place;
             }
 
             var index = collection.IndexOfPath(select);

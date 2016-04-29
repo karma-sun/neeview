@@ -278,7 +278,7 @@
 
                 <StackPanel>
                     <Grid>
-                        <Menu x:Name="MainMenu" VerticalAlignment="Top">
+                        <Menu x:Name="MainMenu" VerticalAlignment="Top" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture">
                             <Menu.Resources>
                                 <local:PageModeToBooleanConverter x:Key="PageModeToBooleanConverter"/>
                                 <local:StretchModeToBooleanConverter x:Key="StretchModeToBooleanConverter"/>

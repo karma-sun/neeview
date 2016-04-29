@@ -596,7 +596,7 @@ namespace NeeView
             OnMenuVisibilityChanged();
 
             // フォルダリスト初期化
-            this.FolderListArea.SetPlace(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), null);
+            this.FolderListArea.SetPlace(ModelContext.BookHistory.CurrentFolder, null);
             // 履歴リスト初期化
             this.HistoryArea.Initialize(_VM.BookHub);
             // ブックマークリスト初期化
@@ -828,14 +828,14 @@ namespace NeeView
 
             // 単キーのショートカット無効
             KeyExGesture.AllowSingleKey = false;
+            //e.Handled = true;
         }
 
 
-        // (未使用)
-        private void AddressBar_KeyDown(object sender, KeyEventArgs e)
+        // 単キーのショートカット無効
+        private void Control_KeyDown_IgnoreSingleKeyGesture(object sender, KeyEventArgs e)
         {
-            // これ以下にイベントを渡さない
-            e.Handled = true;
+            KeyExGesture.AllowSingleKey = false;
         }
 
         // 全てのルーテッドイベントの開始

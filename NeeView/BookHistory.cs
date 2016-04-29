@@ -42,6 +42,8 @@ namespace NeeView
         // 膨大な数で変更が頻繁に行われるのでLinkedList
         public LinkedList<BookMementoUnit> Items { get; set; }
 
+        // フォルダリストで開いていた場所
+        public string CurrentFolder { get; set; }
 
         /// <summary>
         /// 
@@ -210,9 +212,15 @@ namespace NeeView
             [DataMember(Name = "History")]
             public List<Book.Memento> Items { get; set; }
 
+
+            [DataMember]
+            public string CurrentFolder { get; set; }
+
+
             private void Constructor()
             {
                 Items = new List<Book.Memento>();
+                CurrentFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             }
 
             public Memento()
@@ -268,12 +276,16 @@ namespace NeeView
                 memento.Items.RemoveAll((e) => e.Place.StartsWith(Temporary.TempDirectory));
             }
 
+            memento.CurrentFolder = this.CurrentFolder;
+
             return memento;
         }
 
         // memento適用
         public void Restore(Memento memento)
         {
+            this.CurrentFolder = memento.CurrentFolder;
+
             this.Load(memento.Items);
         }
 

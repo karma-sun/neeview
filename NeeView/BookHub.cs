@@ -22,72 +22,11 @@ using System.Windows.Media.Imaging;
 // ----------------------------
 // TODO: フォルダサムネイル(非同期) 
 // TODO: コマンド類の何時でも受付。ロード中だから弾く、ではない別の方法を。
-// TODO: フォルダの移動でNextHistoryの矢印表示が表示されることがあるバグ
-
 
 
 
 namespace NeeView
 {
-    // フォルダー情報
-    public class Folder : INotifyPropertyChanged
-    {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
-        public string Path { get; set; }
-
-        #region Property: FolderOrder
-        private FolderOrder _FolderOrder;
-        public FolderOrder FolderOrder
-        {
-            get { return _FolderOrder; }
-            set { _FolderOrder = value; Save(); _RandomSeed = new Random().Next(); OnPropertyChanged(); }
-        }
-        #endregion
-
-        public int RandomSeed { get; set; }
-
-        private static int _RandomSeed;
-
-        static Folder()
-        {
-            _RandomSeed = new Random().Next();
-        }
-
-
-        public Folder(string path)
-        {
-            Path = path;
-            Load();
-            RandomSeed = _RandomSeed;
-        }
-
-        public void Save()
-        {
-            ModelContext.BookHistory.SetFolderOrder(Path, _FolderOrder);
-        }
-
-        private void Load()
-        {
-            _FolderOrder = ModelContext.BookHistory.GetFolderOrder(Path);
-        }
-
-        public Folder Clone()
-        {
-            return (Folder)this.MemberwiseClone();
-        }
-    }
-
     public class FolderListSyncArguments
     {
         public string Path { get; set; }
@@ -548,7 +487,7 @@ namespace NeeView
         }
 
         //設定の保存
-        public void SaveBootMemento()
+        public void SaveBookMemento()
         {
             // 履歴の保存
             if (Current != null && Current.Book.Pages.Count > 0)
@@ -569,7 +508,7 @@ namespace NeeView
         public void Unload(bool isClearViewContent)
         {
             // 履歴の保存
-            SaveBootMemento();
+            SaveBookMemento();
 
             // 現在の本を開放
             Current?.Dispose();
@@ -815,6 +754,12 @@ namespace NeeView
         /// <param name="option">読み込みオプション</param>
         private async Task LoadAsyncCore(string path, string startEntry, BookLoadOption option, Book.Memento setting, BookMementoUnit unit)
         {
+            // 履歴に登録済の場合は履歴先頭に移動させる
+            if (unit?.HistoryNode != null && (option & BookLoadOption.KeepHistoryOrder) == 0)
+            { 
+                ModelContext.BookHistory.Add(unit, unit.Memento, false);
+            }
+
             // 新しい本を作成
             var book = new Book();
 
@@ -886,8 +831,8 @@ namespace NeeView
             BookMemento = CurrentBook.CreateMemento();
             BookMemento.ValidateForDefault();
 
-            // 履歴の保存 その１
-            if (CurrentBook.Pages.Count > 0)
+            // 新規履歴
+            if (Current.BookMementoUnit?.HistoryNode == null && CurrentBook.Pages.Count > 0 && !Current.IsKeepHistoryOrder)
             {
                 Current.BookMementoUnit = ModelContext.BookHistory.Add(Current.BookMementoUnit, CurrentBook?.CreateMemento(), Current.IsKeepHistoryOrder);
             }

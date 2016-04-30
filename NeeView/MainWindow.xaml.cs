@@ -516,7 +516,7 @@ namespace NeeView
             bool isMenuDock;
 
             // menu hide
-            if (_VM.IsFullScreen || _VM.IsHideMenu)
+            if (_VM.IsHideMenu || _VM.IsFullScreen)
             {
                 var autoHideStyle = (Style)this.Resources["AutoHideContent"];
                 this.MenuArea.Style = autoHideStyle;
@@ -530,12 +530,32 @@ namespace NeeView
                 isMenuDock = true;
             }
 
+            // panel hide
+            if (_VM.CanHidePanel)
+            {
+                if (this.MainViewPanelGrid.Children.Contains(this.MainViewPanel))
+                {
+                    this.MainViewPanelGrid.Children.Remove(this.MainViewPanel);
+                    this.ViewAreaBase.Children.Add(this.MainViewPanel);
+                }
+            }
+            else
+            {
+                if (!this.MainViewPanelGrid.Children.Contains(this.MainViewPanel))
+                {
+                    this.ViewAreaBase.Children.Remove(this.MainViewPanel);
+                    this.MainViewPanelGrid.Children.Add(this.MainViewPanel);
+                }
+
+                this.LeftPanel.Style = null;
+                this.RightPanel.Style = null;
+            }
+
             // アドレスバー
             this.AddressBar.Visibility = _VM.IsVisibleAddressBar ? Visibility.Visible : Visibility.Collapsed;
 
-            // ウィンドウ表示設定
-            this.LeftPanel.Visibility = _VM.LeftPanel != PanelType.None ? Visibility.Visible : Visibility.Collapsed;
-            this.RightPanel.Visibility = _VM.RightPanel != PanelType.None ? Visibility.Visible : Visibility.Collapsed;
+            // パネル表示設定
+            UpdatePanelVisibility(true);
 
             // 再計算
             this.UpdateLayout();
@@ -844,6 +864,102 @@ namespace NeeView
             // 単キーのショートカット有効
             KeyExGesture.AllowSingleKey = true;
         }
+
+
+        // [開発用] テストボタン
+        private void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        #region Panel Visibility
+
+        //
+        bool _IsVisibleLeftPanel;
+        bool _IsVisibleRightPanel;
+
+        // ViewAreaでのマウス移動
+        private void ViewArea_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_VM.CanHidePanel) UpdatePanelVisibility(false);
+        }
+
+        // パネルの表示ON/OFF更新
+        private void UpdatePanelVisibility(bool isForce)
+        {
+            Point point = Mouse.GetPosition(this.ViewArea);
+
+            bool inViewArea = this.ViewArea.IsMouseOver;
+
+            const double visibleMargin = 20;
+            const double hideMargin = 40;
+
+            //
+            bool isVisibleLeftpanel = _IsVisibleLeftPanel;
+            if (point.X < visibleMargin && inViewArea)
+            {
+                isVisibleLeftpanel = true;
+            }
+            else if (point.X > this.LeftPanel.Width + hideMargin || !inViewArea)
+            {
+                isVisibleLeftpanel = false;
+            }
+
+            //
+            bool isVisibleRightPanel = _IsVisibleRightPanel;
+            if (point.X > this.ViewArea.ActualWidth - visibleMargin && inViewArea)
+            {
+                isVisibleRightPanel = true;
+            }
+            else if (point.X < this.ViewArea.ActualWidth - this.RightPanel.Width - hideMargin || !inViewArea)
+            {
+                isVisibleRightPanel = false;
+            }
+
+            //
+            if (isForce || _IsVisibleLeftPanel != isVisibleLeftpanel)
+            {
+                _IsVisibleLeftPanel = isVisibleLeftpanel;
+                UpdateLeftPanelVisibility();
+            }
+
+            //
+            if (isForce || _IsVisibleRightPanel != isVisibleRightPanel)
+            {
+                _IsVisibleRightPanel = isVisibleRightPanel;
+                UpdateRightPanelVisibility();
+            }
+        }
+
+        // 左パネルの表示更新
+        private void UpdateLeftPanelVisibility()
+        {
+            bool isVisible = _VM.LeftPanel != PanelType.None;
+
+            if (_VM.CanHidePanel)
+            {
+                isVisible = isVisible && _IsVisibleLeftPanel;
+            }
+
+            this.LeftPanel.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        // 右パネルの表示更新
+        private void UpdateRightPanelVisibility()
+        {
+            bool isVisible = _VM.RightPanel != PanelType.None;
+
+            if (_VM.CanHidePanel)
+            {
+                isVisible = isVisible && _IsVisibleRightPanel;
+            }
+
+            this.RightPanel.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        #endregion
+
     }
 
 

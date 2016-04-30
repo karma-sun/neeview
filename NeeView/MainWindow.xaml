@@ -120,158 +120,168 @@
         <Grid x:Name="Root" Background="{Binding BackgroundBrush}">
 
             <!--  ビューエリア -->
-            <DockPanel x:Name="ViewArea">
+            <Grid x:Name="ViewArea" MouseMove="ViewArea_MouseMove">
 
-                <!-- 左パネル -->
-                <Grid x:Name="LeftPanel" DockPanel.Dock="Left" Width="250">
+                <!-- ビューエリア ベース -->
+                <Grid x:Name="ViewAreaBase"/>
 
-                    <!-- ブックマークリスト -->
-                    <local:BookmarkControl x:Name="BookmarkArea">
-                        <local:BookmarkControl.Style>
-                            <Style TargetType="local:BookmarkControl">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding LeftPanel}" Value="BookmarkList">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </local:BookmarkControl.Style>
-                    </local:BookmarkControl>
+                <!-- パネル -->
+                <DockPanel x:Name="Panels">
 
-                    <!-- 履歴リスト -->
-                    <local:HistoryControl x:Name="HistoryArea">
-                        <local:HistoryControl.Style>
-                            <Style TargetType="local:HistoryControl">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding LeftPanel}" Value="HistoryList">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </local:HistoryControl.Style>
-                    </local:HistoryControl>
+                    <!-- 左パネル -->
+                    <Grid x:Name="LeftPanel" DockPanel.Dock="Left" Width="250">
 
-                    <!-- フォルダリスト -->
-                    <local:FolderListControl x:Name="FolderListArea"
-                                        Setting="{Binding FolderListSetting}"
-                                        BookHub="{Binding BookHub}">
-                        <local:FolderListControl.Style>
-                            <Style TargetType="local:FolderListControl">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding LeftPanel}" Value="FolderList">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </local:FolderListControl.Style>
-                    </local:FolderListControl>
-                </Grid>
-                <osc:DockPanelSplitter x:Name="FolderListSplitter" DockPanel.Dock="Left" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
-                                       Visibility="{Binding ElementName=LeftPanel, Path=Visibility}" />
-
-                <!-- 右パネル -->
-                <Grid x:Name="RightPanel" DockPanel.Dock="Right" Width="250">
-                    <!-- 情報エリア -->
-                    <Grid x:Name="InfoArea" MouseLeftButtonDown="InfoArea_MouseLeftButtonDown">
-                        <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}" d:IsHidden="True"/>
-                    </Grid>
-                </Grid>
-                <osc:DockPanelSplitter x:Name="InfoAreaSplitter" DockPanel.Dock="Right" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
-                                       Visibility="{Binding ElementName=RightPanel, Path=Visibility}" />
-
-                <!-- メインビュー -->
-                <Grid Panel.ZIndex="-1">
-                    <!-- メインビュー コンテンツ表示領域 -->
-                    <Grid x:Name="MainView" Background="{Binding BackgroundBrush}" SizeChanged="MainView_SizeChanged" Focusable="True" >
-                        <!-- Pages -->
-                        <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
-                        HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Canvas.Resources>
-                                <Style TargetType="TextBlock" x:Key="ContentProperty">
-                                    <Setter Property="Foreground" Value="White"/>
-                                    <Setter Property="Background" Value="#80000000"/>
-                                    <Setter Property="Padding" Value="10,5"/>
+                        <!-- ブックマークリスト -->
+                        <local:BookmarkControl x:Name="BookmarkArea">
+                            <local:BookmarkControl.Style>
+                                <Style TargetType="local:BookmarkControl">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
-                                        <Trigger Property="Text" Value="">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </Trigger>
+                                        <DataTrigger Binding="{Binding LeftPanel}" Value="BookmarkList">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </Canvas.Resources>
-                            <StackPanel x:Name="MainContent" Orientation="Horizontal">
-                                <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
-                                <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
-                            </StackPanel>
-                        </Canvas>
-                        <!-- Pages Shadow (表示領域計算用) -->
-                        <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
-                        HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
-                                <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
-                                <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Margin="{Binding ContentsMargin}"/>
-                            </StackPanel>
-                        </Canvas>
+                            </local:BookmarkControl.Style>
+                        </local:BookmarkControl>
+
+                        <!-- 履歴リスト -->
+                        <local:HistoryControl x:Name="HistoryArea">
+                            <local:HistoryControl.Style>
+                                <Style TargetType="local:HistoryControl">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding LeftPanel}" Value="HistoryList">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </local:HistoryControl.Style>
+                        </local:HistoryControl>
+
+                        <!-- フォルダリスト -->
+                        <local:FolderListControl x:Name="FolderListArea"
+                                        Setting="{Binding FolderListSetting}"
+                                        BookHub="{Binding BookHub}">
+                            <local:FolderListControl.Style>
+                                <Style TargetType="local:FolderListControl">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding LeftPanel}" Value="FolderList">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </local:FolderListControl.Style>
+                        </local:FolderListControl>
                     </Grid>
+                    <osc:DockPanelSplitter x:Name="FolderListSplitter" DockPanel.Dock="Left" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
+                                       Visibility="{Binding ElementName=LeftPanel, Path=Visibility}" />
 
-                    <!-- empty pages message -->
-                    <Grid Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">
-                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
-
-                            <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="Text" Value="">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </StackPanel>
-                    </Grid>
-
-                    <!-- Now Loading -->
-                    <Grid x:Name="NowLoading" Opacity="0" IsHitTestVisible="False">
-                        <Grid.Style>
-                            <Style TargetType="Grid">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=NowLoading, Path=Opacity, Converter={StaticResource IsLessThanConverter}, ConverterParameter=0.01}" Value="True">
-                                        <Setter Property="Visibility" Value="Hidden"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
-                        <Grid x:Name="NowLoadingNormal" Background="Black">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
-                                <TextBlock x:Name="NowLoadingText" Text="Now Loading"  TextAlignment="Center" VerticalAlignment="Center"
-                           Foreground="White" FontFamily="Meiryo" FontSize="{Binding InfoTextFontSize}" Margin="8" TextTrimming="CharacterEllipsis"/>
-                                <Grid Width="50" Height="50">
-                                    <Rectangle Width="5" Height="25" Fill="#FF00B5FF" RenderTransformOrigin="0.5,0.5">
-                                        <Rectangle.RenderTransform>
-                                            <TransformGroup>
-                                                <ScaleTransform/>
-                                                <SkewTransform/>
-                                                <RotateTransform x:Name="NowLoadingMarkAngle" Angle="45"/>
-                                                <TranslateTransform/>
-                                            </TransformGroup>
-                                        </Rectangle.RenderTransform>
-                                    </Rectangle>
-                                </Grid>
-                            </StackPanel>
+                    <!-- 右パネル -->
+                    <Grid x:Name="RightPanel" DockPanel.Dock="Right" Width="250">
+                        <!-- 情報エリア -->
+                        <Grid x:Name="InfoArea" MouseLeftButtonDown="InfoArea_MouseLeftButtonDown">
+                            <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}" d:IsHidden="True"/>
                         </Grid>
-
-                        <TextBlock x:Name="NowLoadingTiny" Text="Now Loading ..." VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False"/>
                     </Grid>
-                </Grid>
+                    <osc:DockPanelSplitter x:Name="InfoAreaSplitter" DockPanel.Dock="Right" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
+                                       Visibility="{Binding ElementName=RightPanel, Path=Visibility}" />
 
-            </DockPanel>
+                    <!-- メインビュー -->
+                    <Grid x:Name="MainViewPanelGrid" Panel.ZIndex="-1">
+                        <Grid x:Name="MainViewPanel">
+                            <!-- メインビュー コンテンツ表示領域 -->
+                            <Grid x:Name="MainView" Background="{Binding BackgroundBrush}" SizeChanged="MainView_SizeChanged" Focusable="True" >
+                                <!-- Pages -->
+                                <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Canvas.Resources>
+                                        <Style TargetType="TextBlock" x:Key="ContentProperty">
+                                            <Setter Property="Foreground" Value="White"/>
+                                            <Setter Property="Background" Value="#80000000"/>
+                                            <Setter Property="Padding" Value="10,5"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Canvas.Resources>
+                                    <StackPanel x:Name="MainContent" Orientation="Horizontal">
+                                        <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
+                                        <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
+                                    </StackPanel>
+                                </Canvas>
+                                <!-- Pages Shadow (表示領域計算用) -->
+                                <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
+                                        <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
+                                        <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Margin="{Binding ContentsMargin}"/>
+                                    </StackPanel>
+                                </Canvas>
+                            </Grid>
+
+                            <!-- empty pages message -->
+                            <Grid Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
+
+                                    <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="Text" Value="">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Now Loading -->
+                            <Grid x:Name="NowLoading" Opacity="0" IsHitTestVisible="False">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NowLoading, Path=Opacity, Converter={StaticResource IsLessThanConverter}, ConverterParameter=0.01}" Value="True">
+                                                <Setter Property="Visibility" Value="Hidden"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <Grid x:Name="NowLoadingNormal" Background="Black">
+                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+                                        <TextBlock x:Name="NowLoadingText" Text="Now Loading"  TextAlignment="Center" VerticalAlignment="Center"
+                           Foreground="White" FontFamily="Meiryo" FontSize="{Binding InfoTextFontSize}" Margin="8" TextTrimming="CharacterEllipsis"/>
+                                        <Grid Width="50" Height="50">
+                                            <Rectangle Width="5" Height="25" Fill="#FF00B5FF" RenderTransformOrigin="0.5,0.5">
+                                                <Rectangle.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform x:Name="NowLoadingMarkAngle" Angle="45"/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </Rectangle.RenderTransform>
+                                            </Rectangle>
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+
+                                <TextBlock x:Name="NowLoadingTiny" Text="Now Loading ..." VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False"/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                </DockPanel>
+
+            </Grid>
 
             <!-- メニューエリア-->
             <Grid x:Name="MenuArea" VerticalAlignment="Top">
@@ -367,6 +377,8 @@
                             IsChecked="{Binding IsVisibleAddressBar}"/>
                                 <MenuItem Header="メニューを自動的に隠す" Command="{Binding BookCommands[ToggleHideMenu]}"
                             IsChecked="{Binding IsHideMenu}"/>
+                                <MenuItem Header="パネルを自動的に隠す" Command="{Binding BookCommands[ToggleHidePanel]}"
+                            IsChecked="{Binding IsHidePanel}"/>
                                 <MenuItem Header="常に手前に表示" Command="{Binding BookCommands[ToggleTopmost]}"
                             IsChecked="{Binding IsTopmost}"/>
                                 <MenuItem Header="全画面表示" Command="{Binding BookCommands[ToggleFullScreen]}"
@@ -437,6 +449,7 @@
                                 <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" />
                                 <MenuItem x:Name="MenuItemDevApplicationFolder" Header="アプリのフォルダを開く" Click="MenuItemDevApplicationFolder_Click" />
                                 <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダを開く" Click="MenuItemDevTempFolder_Click" />
+                                <MenuItem x:Name="MenuItemDevButton" Header="テスト実行" Click="MenuItemDevButton_Click" />
                             </MenuItem>
                         </Menu>
 

@@ -47,6 +47,7 @@ namespace NeeView
 
         ToggleTopmost,
         ToggleHideMenu,
+        ToggleHidePanel,
         ToggleHideTitleBar,
         ToggleVisibleAddressBar,
         ToggleVisibleFileInfo,

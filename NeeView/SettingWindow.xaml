@@ -165,7 +165,7 @@
                             </DockPanel>
                         </StackPanel>
 
-                        <TextBlock Text="パネル外観" Style="{StaticResource Header}"/>
+                        <TextBlock Text="パネル" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
                             <DockPanel Margin="2" LastChildFill="False">
                                 <TextBlock MinWidth="100" Text="パネルの色" VerticalAlignment="Center" Margin="2"/>
@@ -178,6 +178,8 @@
                                 <Slider x:Name="PanelOpacitySlider" Width="200" Value="{Binding Setting.ViewMemento.PanelOpacity}"
                                     Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"/>
                             </StackPanel>
+                            <CheckBox Margin="2" Content="フルスクリーンのときにパネルを自動的に隠す"
+                              IsChecked="{Binding Setting.ViewMemento.IsHidePanelInFullscreen}" />
 
                         </StackPanel>
 

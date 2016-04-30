@@ -134,6 +134,68 @@ namespace NeeView
         }
     }
 
+
+    // フォルダー情報
+    public class Folder : INotifyPropertyChanged
+    {
+        #region NotifyPropertyChanged
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion
+
+        public string Path { get; set; }
+
+        #region Property: FolderOrder
+        private FolderOrder _FolderOrder;
+        public FolderOrder FolderOrder
+        {
+            get { return _FolderOrder; }
+            set { _FolderOrder = value; Save(); _RandomSeed = new Random().Next(); OnPropertyChanged(); }
+        }
+        #endregion
+
+        public int RandomSeed { get; set; }
+
+        private static int _RandomSeed;
+
+        static Folder()
+        {
+            _RandomSeed = new Random().Next();
+        }
+
+
+        public Folder(string path)
+        {
+            Path = path;
+            Load();
+            RandomSeed = _RandomSeed;
+        }
+
+        public void Save()
+        {
+            ModelContext.BookHistory.SetFolderOrder(Path, _FolderOrder);
+        }
+
+        private void Load()
+        {
+            _FolderOrder = ModelContext.BookHistory.GetFolderOrder(Path);
+        }
+
+        public Folder Clone()
+        {
+            return (Folder)this.MemberwiseClone();
+        }
+    }
+
+
+
     //
     public class FolderCollection : IDisposable
     {

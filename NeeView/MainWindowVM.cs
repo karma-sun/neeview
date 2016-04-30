@@ -214,6 +214,28 @@ namespace NeeView
         }
         #endregion
 
+        // パネルを自動的に隠す
+        #region Property: IsHidePanel
+        private bool _IsHidePanel;
+        public bool IsHidePanel
+        {
+            get { return _IsHidePanel; }
+            set { _IsHidePanel = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+        }
+        public bool ToggleHidePanel()
+        {
+            IsHidePanel = !IsHidePanel;
+            return IsHidePanel;
+        }
+
+        // フルスクリーン時にパネルを隠す
+        public bool IsHidePanelInFullscreen { get; set; }
+
+        // パネルを自動的に隠せるか
+        public bool CanHidePanel => IsHidePanel || (IsHidePanelInFullscreen && IsFullScreen);
+
+        #endregion
+
         // タイトルバーを消す
         #region Property: IsHideTitleBar
         private bool _IsHideTitleBar;
@@ -1136,7 +1158,7 @@ namespace NeeView
         public void SaveSetting(MainWindow window)
         {
             // 現在の本を履歴に登録
-            BookHub.SaveBootMemento();
+            BookHub.SaveBookMemento();
 
             // パネル幅保存
             LeftPanelWidth = window.LeftPanel.Width;
@@ -1669,6 +1691,12 @@ namespace NeeView
             [DataMember(Order = 8)]
             public bool IsVisibleAddressBar { get; set; }
 
+            [DataMember(Order = 8)]
+            public bool IsHidePanel { get; set; }
+
+            [DataMember(Order = 8)]
+            public bool IsHidePanelInFullscreen { get; set; }
+
             void Constructor()
             {
                 IsLimitMove = true;
@@ -1688,6 +1716,7 @@ namespace NeeView
                 WindowTitleFormat1 = MainWindowVM.WindowTitleFormat1Default;
                 WindowTitleFormat2 = MainWindowVM.WindowTitleFormat2Default;
                 IsSaveWindowPlacement = true;
+                IsHidePanelInFullscreen = true;
             }
 
             public Memento()
@@ -1744,6 +1773,8 @@ namespace NeeView
             memento.WindowTitleFormat1 = this.WindowTitleFormat1;
             memento.WindowTitleFormat2 = this.WindowTitleFormat2;
             memento.IsVisibleAddressBar = this.IsVisibleAddressBar;
+            memento.IsHidePanel = this.IsHidePanel;
+            memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
 
             return memento;
         }
@@ -1788,6 +1819,8 @@ namespace NeeView
             this.WindowTitleFormat1 = memento.WindowTitleFormat1;
             this.WindowTitleFormat2 = memento.WindowTitleFormat2;
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
+            this.IsHidePanel = memento.IsHidePanel;
+            this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }

@@ -261,6 +261,15 @@ namespace NeeView
                     ExecuteMessage = e => _VM.IsHideMenu ? "メニューを表示する" : "メニューを自動的に隠す",
                     CanExecute = () => true,
                 },
+                [CommandType.ToggleHidePanel] = new CommandElement
+                {
+                    Group = "ウィンドウ",
+                    Text = "パネルを自動的に隠すON/OFF",
+                    IsShowMessage = false,
+                    Execute = e => _VM.ToggleHidePanel(),
+                    ExecuteMessage = e => _VM.IsHidePanel ? "パネルを表示する" : "パネルを自動的に隠す",
+                    CanExecute = () => true,
+                },
                 [CommandType.ToggleHideTitleBar] = new CommandElement
                 {
                     Group = "ウィンドウ",
@@ -558,8 +567,8 @@ namespace NeeView
                 [CommandType.SetFolderOrderByRandom] = new CommandElement
                 {
                     Group = "フォルダ列",
-                    Text = "フォルダ列はランダム",
-                    Tips = "フォルダ列をランダムに並べる",
+                    Text = "フォルダ列はシャッフル",
+                    Tips = "フォルダ列をシャッフルする",
                     Execute = e => _Book.SetFolderOrder(FolderOrder.Random)
                 },
 

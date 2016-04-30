@@ -488,7 +488,7 @@ namespace NeeView
         private void OnMenuVisibilityChanged()
         {
             // window style
-            if (_VM.IsFullScreen || _VM.IsHideTitleBar)
+            if (_VM.IsFullScreen || !_VM.IsVisibleTitleBar)
             {
                 this.WindowStyle = WindowStyle.None;
             }

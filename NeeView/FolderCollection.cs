@@ -64,6 +64,12 @@ namespace NeeView
         public static bool IsVisibleHistoryMark { get; set; } = true;
         public static bool IsVisibleBookmarkMark { get; set; } = true;
 
+        // パスの存在チェック
+        public bool IsExist()
+        {
+            return IsDirectory ? Directory.Exists(Path) : File.Exists(Path);
+        }
+
         // アイコンオーバーレイの種類を返す
         public FolderInfoIconOverlay IconOverlay
         {

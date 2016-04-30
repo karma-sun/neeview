@@ -236,18 +236,18 @@ namespace NeeView
 
         #endregion
 
-        // タイトルバーを消す
-        #region Property: IsHideTitleBar
-        private bool _IsHideTitleBar;
-        public bool IsHideTitleBar
+        // タイトルバーON/OFF
+        #region Property: IsVisibleTitleBar
+        private bool _IsVisibleTitleBar;
+        public bool IsVisibleTitleBar
         {
-            get { return _IsHideTitleBar; }
-            set { _IsHideTitleBar = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            get { return _IsVisibleTitleBar; }
+            set { _IsVisibleTitleBar = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
-        public bool ToggleHideTitleBar()
+        public bool ToggleVisibleTitleBar()
         {
-            IsHideTitleBar = !IsHideTitleBar;
-            return IsHideTitleBar;
+            IsVisibleTitleBar = !IsVisibleTitleBar;
+            return IsVisibleTitleBar;
         }
         #endregion
 
@@ -1630,8 +1630,11 @@ namespace NeeView
             [DataMember(Order = 2)]
             public bool IsHideMenu { get; set; }
 
-            [DataMember(Order = 4)]
-            public bool IsHideTitleBar { get; set; }
+            [DataMember(Order = 4, EmitDefaultValue = false)]
+            public bool IsHideTitleBar { get; set; } // no used
+
+            [DataMember(Order = 8)]
+            public bool IsVisibleTitleBar { get; set; }
 
             [DataMember(Order = 4)]
             public bool IsFullScreen { get; set; }
@@ -1717,6 +1720,7 @@ namespace NeeView
                 WindowTitleFormat2 = MainWindowVM.WindowTitleFormat2Default;
                 IsSaveWindowPlacement = true;
                 IsHidePanelInFullscreen = true;
+                IsVisibleTitleBar = true;
             }
 
             public Memento()
@@ -1728,6 +1732,16 @@ namespace NeeView
             private void Deserializing(StreamingContext c)
             {
                 Constructor();
+            }
+
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
+            {
+                if (IsHideTitleBar)
+                {
+                    IsVisibleTitleBar = false;
+                    IsHideTitleBar = false;
+                }
             }
         }
 
@@ -1756,7 +1770,7 @@ namespace NeeView
             memento.IsAutoPlaySlideShow = this.IsAutoPlaySlideShow;
             memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
             memento.IsHideMenu = this.IsHideMenu;
-            memento.IsHideTitleBar = this.IsHideTitleBar;
+            memento.IsVisibleTitleBar = this.IsVisibleTitleBar;
             memento.IsFullScreen = this.IsFullScreen;
             memento.IsSaveFullScreen = this.IsSaveFullScreen;
             memento.IsTopmost = this.IsTopmost;
@@ -1802,7 +1816,7 @@ namespace NeeView
             this.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
             this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
             this.IsHideMenu = memento.IsHideMenu;
-            this.IsHideTitleBar = memento.IsHideTitleBar;
+            this.IsVisibleTitleBar = memento.IsVisibleTitleBar;
             this.IsSaveFullScreen = memento.IsSaveFullScreen;
             if (this.IsSaveFullScreen) this.IsFullScreen = memento.IsFullScreen;
             this.IsTopmost = memento.IsTopmost;

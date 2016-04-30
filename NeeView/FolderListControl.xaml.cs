@@ -242,7 +242,7 @@ namespace NeeView
         }
         #endregion
 
-        public FolderInfo SelectedItem => (_FolderCollection != null && 0 <= SelectedIndex && SelectedIndex < _FolderCollection.Items.Count) ? _FolderCollection[SelectedIndex] : null; // { get; set; }
+        public FolderInfo SelectedItem => (_FolderCollection != null && 0 <= SelectedIndex && SelectedIndex < _FolderCollection.Items.Count) ? _FolderCollection[SelectedIndex] : null;
 
         public string Place => _FolderCollection?.Place;
 
@@ -277,9 +277,36 @@ namespace NeeView
         }
 
         //
+        private FolderInfo GetExistSelectedItem()
+        {
+            int index = SelectedIndex;
+
+            while (true)
+            {
+                var folder = (_FolderCollection != null && 0 <= index && index < _FolderCollection.Items.Count) ? _FolderCollection[index] : null;
+                if (folder == null || folder.IsExist())
+                {
+                    return folder;
+                }
+                else if (index + 1 < _FolderCollection.Items.Count)
+                {
+                    index++;
+                }
+                else if (index - 1 >= 0)
+                {
+                    index--;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        //
         public void SetPlace(string place, string select, bool isFocus)
         {
-            SavePlace(SelectedItem);
+            SavePlace(GetExistSelectedItem());
 
             if (select == null && place != null)
             {

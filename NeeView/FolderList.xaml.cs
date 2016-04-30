@@ -29,6 +29,7 @@ namespace NeeView
     public partial class FolderList : UserControl
     {
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkControl));
+        public static readonly RoutedCommand OpenExplorerCommand = new RoutedCommand("OpenExplorerCommand", typeof(BookmarkControl));
 
         static FolderList()
         {
@@ -56,6 +57,7 @@ namespace NeeView
             this.ListBox.DataContext = _VM;
 
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Exec));
         }
 
         //
@@ -65,6 +67,16 @@ namespace NeeView
             if (item != null)
             {
                 _VM.Remove(item);
+            }
+        }
+
+        //
+        public void OpenExplorer_Exec(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderInfo;
+            if (item != null)
+            {
+                System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + item.Path + "\"");
             }
         }
 

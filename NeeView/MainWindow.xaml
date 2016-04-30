@@ -331,6 +331,33 @@
                             </MenuItem>
 
                             <MenuItem Header="表示(_V)">
+                                <MenuItem Header="フォルダーリストを表示" Command="{Binding BookCommands[ToggleVisibleFolderList]}"
+                            IsChecked="{Binding IsVisibleFolderList}"/>
+                                <MenuItem Header="ブックマークを表示" Command="{Binding BookCommands[ToggleVisibleBookmarkList]}"
+                            IsChecked="{Binding IsVisibleBookmarkList}"/>
+                                <MenuItem Header="履歴を表示" Command="{Binding BookCommands[ToggleVisibleHistoryList]}"
+                            IsChecked="{Binding IsVisibleHistoryList}"/>
+                                <MenuItem Header="ファイル情報を表示" Command="{Binding BookCommands[ToggleVisibleFileInfo]}"
+                            IsChecked="{Binding IsVisibleFileInfo}"/>
+                                <Separator/>
+                                <MenuItem Header="タイトルバー" Command="{Binding BookCommands[ToggleVisibleTitleBar]}"
+                            IsChecked="{Binding IsVisibleTitleBar}"/>
+                                <MenuItem Header="アドレスバー" Command="{Binding BookCommands[ToggleVisibleAddressBar]}"
+                            IsChecked="{Binding IsVisibleAddressBar}"/>
+                                <MenuItem Header="メニューを自動的に隠す" Command="{Binding BookCommands[ToggleHideMenu]}"
+                            IsChecked="{Binding IsHideMenu}"/>
+                                <MenuItem Header="パネルを自動的に隠す" Command="{Binding BookCommands[ToggleHidePanel]}"
+                            IsChecked="{Binding IsHidePanel}"/>
+                                <MenuItem Header="常に手前に表示" Command="{Binding BookCommands[ToggleTopmost]}"
+                            IsChecked="{Binding IsTopmost}"/>
+                                <MenuItem Header="全画面表示" Command="{Binding BookCommands[ToggleFullScreen]}"
+                            IsChecked="{Binding IsFullScreen}"/>
+                                <Separator/>
+                                <MenuItem Header="スライドショー" Command="{Binding BookCommands[ToggleSlideShow]}"
+                            IsChecked="{Binding BookHub.IsEnableSlideShow,Mode=OneWay}" />
+                            </MenuItem>
+
+                            <MenuItem Header="画像(_I)">
                                 <MenuItem Header="オリジナルサイズ" Command="{Binding BookCommands[SetStretchModeNone]}"
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=None,Mode=OneWay}" />
                                 <MenuItem Header="大きい場合はウィンドウサイズに合わせる" Command="{Binding BookCommands[SetStretchModeInside]}"
@@ -347,7 +374,7 @@
                               IsChecked="{Binding StretchMode,Converter={StaticResource StretchModeToBooleanConverter},ConverterParameter=UniformToVertical,Mode=OneWay}" />
                                 <Separator/>
                                 <MenuItem Header="ドットのまま拡大する" Command="{Binding BookCommands[ToggleIsEnabledNearestNeighbor]}"
-                            IsChecked="{Binding IsEnabledNearestNeighbor,Mode=OneWay}" />
+                              IsChecked="{Binding IsEnabledNearestNeighbor,Mode=OneWay}" />
                                 <Separator/>
                                 <MenuItem Header="背景を黒色にする" Command="{Binding BookCommands[SetBackgroundBlack]}"
                               IsChecked="{Binding Background,Converter={StaticResource BackgroundStyleToBooleanConverter},ConverterParameter=Black,Mode=OneWay}" />
@@ -357,32 +384,6 @@
                               IsChecked="{Binding Background,Converter={StaticResource BackgroundStyleToBooleanConverter},ConverterParameter=Auto,Mode=OneWay}" />
                                 <MenuItem Header="背景をチェック模様にする" Command="{Binding BookCommands[SetBackgroundCheck]}"
                               IsChecked="{Binding Background,Converter={StaticResource BackgroundStyleToBooleanConverter},ConverterParameter=Check,Mode=OneWay}" />
-
-                                <Separator/>
-                                <MenuItem Header="フォルダーリストを表示" Command="{Binding BookCommands[ToggleVisibleFolderList]}"
-                            IsChecked="{Binding IsVisibleFolderList}"/>
-                                <MenuItem Header="ブックマークを表示" Command="{Binding BookCommands[ToggleVisibleBookmarkList]}"
-                            IsChecked="{Binding IsVisibleBookmarkList}"/>
-                                <MenuItem Header="履歴を表示" Command="{Binding BookCommands[ToggleVisibleHistoryList]}"
-                            IsChecked="{Binding IsVisibleHistoryList}"/>
-                                <MenuItem Header="ファイル情報を表示" Command="{Binding BookCommands[ToggleVisibleFileInfo]}"
-                            IsChecked="{Binding IsVisibleFileInfo}"/>
-                                <Separator/>
-                                <MenuItem Header="スライドショー" Command="{Binding BookCommands[ToggleSlideShow]}"
-                            IsChecked="{Binding BookHub.IsEnableSlideShow,Mode=OneWay}" />
-                                <Separator/>
-                                <MenuItem Header="タイトルバーを消す" Command="{Binding BookCommands[ToggleHideTitleBar]}"
-                            IsChecked="{Binding IsHideTitleBar}"/>
-                                <MenuItem Header="アドレスバー" Command="{Binding BookCommands[ToggleVisibleAddressBar]}"
-                            IsChecked="{Binding IsVisibleAddressBar}"/>
-                                <MenuItem Header="メニューを自動的に隠す" Command="{Binding BookCommands[ToggleHideMenu]}"
-                            IsChecked="{Binding IsHideMenu}"/>
-                                <MenuItem Header="パネルを自動的に隠す" Command="{Binding BookCommands[ToggleHidePanel]}"
-                            IsChecked="{Binding IsHidePanel}"/>
-                                <MenuItem Header="常に手前に表示" Command="{Binding BookCommands[ToggleTopmost]}"
-                            IsChecked="{Binding IsTopmost}"/>
-                                <MenuItem Header="全画面表示" Command="{Binding BookCommands[ToggleFullScreen]}"
-                            IsChecked="{Binding IsFullScreen}"/>
                             </MenuItem>
 
                             <MenuItem Header="移動(_J)">

@@ -106,6 +106,8 @@
                 <Setter Property="ContextMenu">
                     <Setter.Value>
                         <ContextMenu>
+                            <MenuItem Header="エクスプローラーで開く" Command="{x:Static local:FolderList.OpenExplorerCommand}"/>
+                            <Separator/>
                             <MenuItem Header="削除(D)" Command="{x:Static local:FolderList.RemoveCommand}"/>
                         </ContextMenu>
                     </Setter.Value>

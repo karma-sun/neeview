@@ -270,13 +270,19 @@ namespace NeeView
                     ExecuteMessage = e => _VM.IsHidePanel ? "パネルを表示する" : "パネルを自動的に隠す",
                     CanExecute = () => true,
                 },
-                [CommandType.ToggleHideTitleBar] = new CommandElement
+                [CommandType.ToggleHideTitleBar] = new CommandElement // 欠番
+                {
+                    Group = "dummy",
+                    Text = "dummy",
+                    Execute = e => { return; }
+                },
+                [CommandType.ToggleVisibleTitleBar] = new CommandElement
                 {
                     Group = "ウィンドウ",
-                    Text = "タイトルバーを消すON/OFF",
+                    Text = "タイトルバーON/OFF",
                     IsShowMessage = false,
-                    Execute = e => _VM.ToggleHideTitleBar(),
-                    ExecuteMessage = e => _VM.IsHideTitleBar ? "タイトルバーを表示する" : "タイトルバーを消す",
+                    Execute = e => _VM.ToggleVisibleTitleBar(),
+                    ExecuteMessage = e => _VM.IsVisibleTitleBar ? "タイトルバーを消す" : "タイトルバー表示する",
                     CanExecute = () => true,
                 },
                 [CommandType.ToggleVisibleAddressBar] = new CommandElement
@@ -708,7 +714,7 @@ namespace NeeView
                     Text = "ブックマーク登録/解除切り替え",
                     Execute = e => _Book.ToggleBookmark(),
                     CanExecute = () => true,
-                    ExecuteMessage = e => _Book.IsBookmark(null) ? "ブックマーク解除" :"ブックマークに登録",
+                    ExecuteMessage = e => _Book.IsBookmark(null) ? "ブックマーク解除" : "ブックマークに登録",
                     IsShowMessage = false,
                 },
 

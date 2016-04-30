@@ -48,7 +48,8 @@ namespace NeeView
         ToggleTopmost,
         ToggleHideMenu,
         ToggleHidePanel,
-        ToggleHideTitleBar,
+        ToggleHideTitleBar, // 欠番
+        ToggleVisibleTitleBar,
         ToggleVisibleAddressBar,
         ToggleVisibleFileInfo,
         ToggleVisibleFolderList,
@@ -122,7 +123,7 @@ namespace NeeView
     {
         public static bool IsDisable(this CommandType type)
         {
-            return (type == CommandType.ToggleIsReverseSort);
+            return (type == CommandType.ToggleIsReverseSort || type == CommandType.ToggleHideTitleBar);
         }
     }
 }

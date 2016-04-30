@@ -207,7 +207,7 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="ビュー設定">
+            <TabItem Header="画像操作">
                 <StackPanel Margin="4">
                     <TextBlock Text="ビュー操作" Style="{StaticResource Header}"/>
                     <StackPanel Style="{StaticResource Phrase}">

@@ -14,6 +14,18 @@ using System.Windows.Input;
 
 namespace NeeView
 {
+
+    public class MouseGestureEventArgs
+    {
+        public MouseGestureSequence MouseGestureSequence { get; set; }
+        public bool Handled { get; set; }
+
+        public MouseGestureEventArgs(MouseGestureSequence sequence)
+        {
+            MouseGestureSequence = sequence;
+        }
+    }
+
     /// <summary>
     /// マウスゼスチャ管理
     /// </summary>
@@ -49,6 +61,13 @@ namespace NeeView
         // クリックイベントハンドラ
         public event EventHandler<MouseButtonEventArgs> MouseClickEventHandler;
 
+        // コンテキストメニュー有効フラグ
+        public ContextMenuSetting ContextMenuSetting
+        {
+            get { return Controller.ContextMenuSetting; }
+            set { Controller.ContextMenuSetting = value; }
+        }
+
 
         /// <summary>
         /// コンストラクタ
@@ -63,7 +82,22 @@ namespace NeeView
             Controller.MouseGestureUpdateEventHandler +=
                 (s, e) => GestureText = e.ToString();
             Controller.MouseGestureExecuteEventHandler +=
-                (s, e) => CommandCollection.Execute(e);
+                (s, e) =>
+                {
+                    var command = CommandCollection.GetCommand(e.MouseGestureSequence);
+                    if (command == _ContextMenuCommand)
+                    {
+                        e.Handled = false;
+                    }
+                    else
+                    {
+                        if (command != null && command.CanExecute(null, null))
+                        {
+                            command.Execute(null, null);
+                        }
+                        e.Handled = true;
+                    }
+                };
             Controller.MouseClickEventHandler +=
                 (s, e) => MouseClickEventHandler?.Invoke(s, e);
         }
@@ -74,16 +108,21 @@ namespace NeeView
             MouseClickEventHandler = null;
         }
 
+        //
+        RoutedUICommand _ContextMenuCommand = new RoutedUICommand("コンテキストメニュー", "OpenContextMenu", typeof(MainWindow));
+
+        // コンテキストメニュー起動用ジェスチャー登録
+        public void AddOpenContextMenuGesture(string gesture)
+        {
+            if (string.IsNullOrWhiteSpace(gesture)) return;
+            CommandCollection.Add(gesture, _ContextMenuCommand);
+        }
+
         // 現在のゼスチャーシーケンスでのコマンド名取得
         public string GetGestureCommandName()
         {
             var command = CommandCollection.GetCommand(Controller.Gesture);
-            if (command != null)
-            {
-                return command.Text;
-            }
-
-            return null;
+            return command?.Text;
         }
 
         // 現在のゼスチャーシーケンス表示文字列取得

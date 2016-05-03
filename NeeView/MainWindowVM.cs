@@ -25,14 +25,6 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
-    //
-    public enum ContextMenuEnabled
-    {
-        Disable,
-        Enable,
-        EnableWithCtrl,
-    }
-
     // 通知表示の種類
     public enum ShowMessageStyle
     {
@@ -818,21 +810,21 @@ namespace NeeView
         #endregion
 
 
-        #region Property: ContextMenuSource
-        private ContextMenu _ContextMenuReady;
-        private MenuTree _ContextMenuSource;
-        public MenuTree ContextMenuSource
+        #region Property: ContextMenuSetting
+        private ContextMenuSetting _ContextMenuSetting;
+        public ContextMenuSetting ContextMenuSetting
         {
-            get { return _ContextMenuSource; }
+            get { return _ContextMenuSetting; }
             set
             {
-                _ContextMenuSource = value;
-                _ContextMenuReady = _ContextMenuSource?.CreateContextMenu();
+                _ContextMenuSetting = value;
                 UpdateContextMenu();
             }
         }
         #endregion
 
+
+        //
         #region Property: ContextMenu
         private ContextMenu _ContextMenu;
         public ContextMenu ContextMenu
@@ -842,27 +834,12 @@ namespace NeeView
         }
         #endregion
 
-        private void UpdateContextMenu()
+        public void UpdateContextMenu()
         {
-            if (_ContextMenuReady != null && _ContextMenuEnabled != ContextMenuEnabled.Disable)
-            {
-                this.ContextMenu = _ContextMenuReady;
-            }
-            else
-            {
-                this.ContextMenu = null;
-            }
+            ContextMenu = ContextMenuSetting.IsEnabled ? ContextMenuSetting.ContextMenu : null;
+            ContextMenuEnableChanged?.Invoke(this, null);
         }
 
-
-        #region Property: ContextMenuEnabled
-        private ContextMenuEnabled _ContextMenuEnabled;
-        public ContextMenuEnabled ContextMenuEnabled
-        {
-            get { return _ContextMenuEnabled; }
-            set { _ContextMenuEnabled = value; UpdateContextMenu(); ContextMenuEnableChanged?.Invoke(this, null); }
-        }
-        #endregion
 
 
         // 本管理
@@ -934,6 +911,9 @@ namespace NeeView
             ModelContext.Initialize();
             ModelContext.JobEngine.StatusChanged +=
                 (s, e) => OnPropertyChanged(nameof(JobEngine));
+
+            // ContextMenuSetting
+            ContextMenuSetting = new ContextMenuSetting();
 
             // BookHub
             BookHub = new BookHub();
@@ -1761,10 +1741,7 @@ namespace NeeView
             public bool IsHidePanelInFullscreen { get; set; }
 
             [DataMember(Order = 8)]
-            public MenuTree ContextMenuSource { get; set; }
-
-            [DataMember(Order = 8)]
-            public ContextMenuEnabled ContextMenuEnabled { get; set; }
+            public ContextMenuSetting ContextMenuSetting { get; set; }
 
             void Constructor()
             {
@@ -1787,7 +1764,7 @@ namespace NeeView
                 IsSaveWindowPlacement = true;
                 IsHidePanelInFullscreen = true;
                 IsVisibleTitleBar = true;
-                ContextMenuSource = MenuTree.CreateDefault();
+                ContextMenuSetting = new ContextMenuSetting();
             }
 
             public Memento()
@@ -1856,8 +1833,7 @@ namespace NeeView
             memento.IsVisibleAddressBar = this.IsVisibleAddressBar;
             memento.IsHidePanel = this.IsHidePanel;
             memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
-            memento.ContextMenuSource = this.ContextMenuSource.Clone();
-            memento.ContextMenuEnabled = this.ContextMenuEnabled;
+            memento.ContextMenuSetting = this.ContextMenuSetting.Clone();
 
             return memento;
         }
@@ -1904,8 +1880,7 @@ namespace NeeView
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
             this.IsHidePanel = memento.IsHidePanel;
             this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
-            this.ContextMenuSource = memento.ContextMenuSource.Clone();
-            this.ContextMenuEnabled = memento.ContextMenuEnabled;
+            this.ContextMenuSetting = memento.ContextMenuSetting.Clone();
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }

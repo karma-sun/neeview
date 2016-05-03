@@ -126,13 +126,13 @@ namespace NeeView
         public event EventHandler<MouseGestureSequence> MouseGestureUpdateEventHandler;
 
         // ジェスチャコマンド実行通知
-        public event EventHandler<MouseGestureSequence> MouseGestureExecuteEventHandler;
+        public event EventHandler<MouseGestureEventArgs> MouseGestureExecuteEventHandler;
 
         // ドラッグされずにクリック判定されたときの通知
         public event EventHandler<MouseButtonEventArgs> MouseClickEventHandler;
 
         // コンテキストメニュー有効フラグ
-        public ContextMenuEnabled ContextMenuEnabled { get; set; }
+        public ContextMenuSetting ContextMenuSetting { get; set; }
 
         // ボタンが離された時の処理
         private void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
@@ -148,15 +148,17 @@ namespace NeeView
             {
                 if (_Gesture.Count > 0)
                 {
-                    MouseGestureExecuteEventHandler?.Invoke(this, _Gesture);
+                    var args = new MouseGestureEventArgs(_Gesture);
+                    MouseGestureExecuteEventHandler?.Invoke(this, args);
+                    e.Handled = args.Handled;
                 }
                 else if (!_IsDragging)
                 {
-                    if (ContextMenuEnabled == ContextMenuEnabled.Enable)
+                    if (ContextMenuSetting.IsEnabled && !ContextMenuSetting.IsOpenByCtrl)
                     {
                         e.Handled = false;
                     }
-                    else if (ContextMenuEnabled == ContextMenuEnabled.EnableWithCtrl && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                    else if (ContextMenuSetting.IsEnabled && ContextMenuSetting.IsOpenByCtrl && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
                     {
                         e.Handled = false;
                     }

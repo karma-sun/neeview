@@ -12,7 +12,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="ContextMenuSettingWindow" Height="360" Width="360">
+        Title="コンテキストメニュー編集" Height="400" Width="400">
 
     <Window.Resources>
 
@@ -22,16 +22,9 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="TreeViewItem" xmlns:s="clr-namespace:System;assembly=mscorlib">
                         <Grid HorizontalAlignment="Stretch">
-                            <!--
-                        <Grid>
-                        -->
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" MinWidth="19" />
                                 <ColumnDefinition Width="*"/>
-                                <!-- Change to expand width of tree items to base TreeView size (expand to right edge)
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                -->
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -118,9 +111,6 @@
                             <Border BorderThickness="{TemplateBinding Border.BorderThickness}" Padding="{TemplateBinding Control.Padding}" BorderBrush="{TemplateBinding Border.BorderBrush}" Background="{TemplateBinding Panel.Background}" Name="Bd" SnapsToDevicePixels="True" Grid.Column="1">
                                 <ContentPresenter Content="{TemplateBinding HeaderedContentControl.Header}" ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}" ContentStringFormat="{TemplateBinding HeaderedItemsControl.HeaderStringFormat}" ContentSource="Header" Name="PART_Header" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
                             </Border>
-                            <!--
-                            <ItemsPresenter Name="ItemsHost" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"/>
-                            -->
                             <ItemsPresenter Name="ItemsHost" Grid.Column="1" Grid.Row="1"/>
                         </Grid>
                         <ControlTemplate.Triggers>
@@ -195,7 +185,6 @@
             </Setter>
         </Style>
 
-
         <Style TargetType="Separator" x:Key="TreeViewItemSeparatorStyle">
             <Setter Property="Visibility" Value="Hidden"/>
             <Style.Triggers>
@@ -212,31 +201,27 @@
                     <Setter Property="Visibility" Value="Hidden"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding MenuElementType}" Value="None">
-                    <Setter Property="Foreground" Value="LightGray"/>
+                    <Setter Property="Foreground" Value="Gray"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
-
         <HierarchicalDataTemplate x:Key="treeViewTemplate" ItemsSource="{Binding Path=Children}">
             <Grid>
                 <Separator Style="{StaticResource TreeViewItemSeparatorStyle}"/>
-                <!--
-                <Border BorderThickness="0,1,0,0" BorderBrush="Gray" Height="1" VerticalAlignment="Center" Style="{StaticResource TreeViewItemSeparatorStyle}"/>
-                -->
                 <TextBlock Text="{Binding Path=Label}" Style="{StaticResource TreeViewItemStyle}"/>
             </Grid>
         </HierarchicalDataTemplate>
     </Window.Resources>
 
     <Grid>
-        <Border BorderBrush="Gray" BorderThickness="0" Margin="10,10,10,45">
+        <Border BorderBrush="Gray" BorderThickness="0" Margin="10,10,10,50">
             <Grid>
 
                 <DockPanel Margin="5">
                     <DockPanel.Resources>
                         <Style TargetType="Button">
-                            <Setter Property="Margin" Value="10,2"/>
+                            <Setter Property="Margin" Value="10,2,0,2"/>
                             <Setter Property="Width" Value="80"/>
                             <Setter Property="Height" Value="28"/>
                         </Style>
@@ -246,7 +231,7 @@
                         <StackPanel DockPanel.Dock="Right">
                             <Button x:Name="AddButton" Content="追加" Click="AddButton_Click"/>
                         </StackPanel>
-                        <ComboBox x:Name="SourceComboBox" Height="20" ItemsSource="{Binding SourceElementList}" DisplayMemberPath="Label" />
+                        <ComboBox x:Name="SourceComboBox" VerticalAlignment="Center" ItemsSource="{Binding SourceElementList}" DisplayMemberPath="Label" />
                     </DockPanel>
                     <DockPanel Margin="0,5,0,0">
                         <DockPanel DockPanel.Dock="Right" LastChildFill="False">
@@ -257,7 +242,7 @@
 
                             <Button DockPanel.Dock="Bottom" x:Name="ResetButton" Content="初期化" Click="ResetButton_Click"/>
                         </DockPanel>
-                        <TreeView x:Name="ContextMenuTreeView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                        <TreeView x:Name="ContextMenuTreeView" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                             ItemsSource="{Binding Root.Children}" ItemTemplate="{StaticResource treeViewTemplate}" Padding="5" >
 
                         </TreeView>
@@ -268,7 +253,7 @@
         </Border>
 
         <Button x:Name="ButtonOk" Content="OK" HorizontalAlignment="Right" Margin="0,0,96,10" VerticalAlignment="Bottom" Width="75" Height="28" Click="ButtonOk_Click"/>
-        <Button x:Name="ButtonCancel" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,10,12" VerticalAlignment="Bottom" Width="75" Height="28" Click="ButtonCancel_Click"/>
+        <Button x:Name="ButtonCancel" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Height="28" Click="ButtonCancel_Click"/>
 
         <Popup x:Name="RenamePopup" MinWidth="100">
             <Grid Background="White">

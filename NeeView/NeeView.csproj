@@ -84,6 +84,7 @@
       <DependentUpon>BookmarkControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="BookMementoCollection.cs" />
+    <Compile Include="ContextMenuSetting.cs" />
     <Compile Include="ContextMenuSettingWindow.xaml.cs">
       <DependentUpon>ContextMenuSettingWindow.xaml</DependentUpon>
     </Compile>

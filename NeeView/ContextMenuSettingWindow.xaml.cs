@@ -161,31 +161,7 @@ namespace NeeView
             }
             SourceElementList = list;
 
-            /*
-            var collection = new MenuElement();
-            collection.Children = new ObservableCollection<MenuElement>();
-            collection.Children.Add(new MenuElement() { MenuElementType = MenuElementType.Command, Command = CommandType.NextOnePage });
-            collection.Children.Add(new MenuElement() { MenuElementType = MenuElementType.Command, Command = CommandType.PrevOnePage });
-            collection.Children.Add(new MenuElement() { MenuElementType = MenuElementType.Separator });
-            collection.Children.Add(new MenuElement() { MenuElementType = MenuElementType.Command, Command = CommandType.ToggleFullScreen });
-            collection.Children.Add(new MenuElement() { MenuElementType = MenuElementType.Separator });
-            var group = new MenuElement() { MenuElementType = MenuElementType.Group, Name = "ファイル(_F)" };
-            group.Children = new ObservableCollection<MenuElement>();
-            group.Children.Add(new MenuElement() { MenuElementType = MenuElementType.Command, Command = CommandType.LoadAs });
-            group.Children.Add(new MenuElement() { MenuElementType = MenuElementType.Command, Command = CommandType.Export });
-            group.Children.Add(new MenuElement() { MenuElementType = MenuElementType.Separator });
-            group.Children.Add(new MenuElement() { MenuElementType = MenuElementType.Command, Command = CommandType.OpenSettingWindow });
-            collection.Children.Add(group);
-            */
-
-            /*
-            if (_ViewMemento.ContextMenuSource == null)
-            {
-                _ViewMemento.ContextMenuSource = MenuElement.CreateDefault();
-            }
-            */
-
-            Root = _ViewMemento.ContextMenuSource.Clone();
+            Root = _ViewMemento.ContextMenuSetting.SourceTree.Clone();
 
             // validate
             Root.MenuElementType = MenuElementType.Group;
@@ -195,7 +171,7 @@ namespace NeeView
 
         public void Decide()
         {
-            _ViewMemento.ContextMenuSource = Root;
+            _ViewMemento.ContextMenuSetting.SourceTree = Root;
         }
 
         public void Reset()

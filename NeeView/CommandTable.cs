@@ -75,6 +75,13 @@ namespace NeeView
             // コマンドの設定定義
             _Elements = new Dictionary<CommandType, CommandElement>
             {
+                [CommandType.None] = new CommandElement // 欠番
+                {
+                    Group = "dummy",
+                    Text = "dummy",
+                    Execute = e => { return; }
+                },
+
                 [CommandType.LoadAs] = new CommandElement
                 {
                     Group = "ファイル",
@@ -816,6 +823,7 @@ namespace NeeView
 
             foreach (var pair in _Elements)
             {
+                if (pair.Key.IsDisable()) continue;
                 memento.Elements.Add(pair.Key, pair.Value.CreateMemento());
             }
 

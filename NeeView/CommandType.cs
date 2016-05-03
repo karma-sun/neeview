@@ -10,6 +10,8 @@ namespace NeeView
     /// </summary>
     public enum CommandType
     {
+        None, // 
+
         OpenSettingWindow,
         OpenVersionWindow,
         CloseApplication,
@@ -123,7 +125,7 @@ namespace NeeView
     {
         public static bool IsDisable(this CommandType type)
         {
-            return (type == CommandType.ToggleIsReverseSort || type == CommandType.ToggleHideTitleBar);
+            return (type == CommandType.None || type == CommandType.ToggleIsReverseSort || type == CommandType.ToggleHideTitleBar);
         }
 
         public static string ToDispString(this CommandType type)

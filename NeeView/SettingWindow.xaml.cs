@@ -142,14 +142,6 @@ namespace NeeView
         };
 
 
-        //
-        public Dictionary<ContextMenuEnabled, string> ContextMenuEnabledList { get; } = new Dictionary<ContextMenuEnabled, string>
-        {
-            [ContextMenuEnabled.Disable] = "使用しない",
-            [ContextMenuEnabled.Enable] = "使用する",
-            [ContextMenuEnabled.EnableWithCtrl] = "使用する(Ctrl+右クリック)",
-        };
-
         // ドラッグアクション
         public static Dictionary<DragActionType, string> DragActionTypeList { get; } = new Dictionary<DragActionType, string>
         {
@@ -481,7 +473,25 @@ namespace NeeView
             var result = dialog.ShowDialog();
             if (result == true)
             {
-                //this.CommandListView.Items.Refresh();
+                // nop.
+            }
+        }
+
+        private void GestureContextMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            var command = new CommandParam()
+            {
+                Header = "コンテキストメニューを開く",
+                MouseGesture = Setting.ViewMemento.ContextMenuSetting.MouseGesture
+            };
+
+            var dialog = new MouseGestureSettingWindow(command);
+            dialog.Owner = this;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            var result = dialog.ShowDialog();
+            if (result == true)
+            {
+                Setting.ViewMemento.ContextMenuSetting.MouseGesture = command.MouseGesture;
             }
         }
     }

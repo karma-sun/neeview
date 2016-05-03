@@ -83,7 +83,7 @@ namespace NeeView
             _VM.ContextMenuEnableChanged +=
                 (s, e) =>
                 {
-                    _MouseGesture.Controller.ContextMenuEnabled = _VM.ContextMenuEnabled;
+                    _MouseGesture.Controller.ContextMenuSetting = _VM.ContextMenuSetting;
                 };
 
             this.DataContext = _VM;
@@ -372,6 +372,12 @@ namespace NeeView
 
             // drag key
             _MouseDrag.SetKeyBindings(ModelContext.DragActionTable.GetKeyBinding());
+
+            // context menu gesture
+            if (_VM.ContextMenuSetting.IsEnabled && _VM.ContextMenuSetting.IsOpenByGesture)
+            {
+                _MouseGesture.AddOpenContextMenuGesture(_VM.ContextMenuSetting.MouseGesture);
+            }
 
             // Update Menu ...
             this.MainMenu.UpdateInputGestureText();

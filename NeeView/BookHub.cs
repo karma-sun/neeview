@@ -97,7 +97,7 @@ namespace NeeView
         private static string GetNormalizePathName(string source)
         {
             // 区切り文字修正
-            source = new System.Text.RegularExpressions.Regex(@"[/\\]+").Replace(source, "\\").TrimEnd('\\');
+            source = new System.Text.RegularExpressions.Regex(@"[/\\]").Replace(source, "\\").TrimEnd('\\');
 
             // ドライブレター修正
             source = new System.Text.RegularExpressions.Regex(@"^[a-z]:").Replace(source, m => m.Value.ToUpper());

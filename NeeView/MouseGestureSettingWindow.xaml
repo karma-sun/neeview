@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="{Binding Command.Header, StringFormat={}\&quot;{0}\&quot; のジェスチャー設定}" Height="300" Width="300">
+        Title="{Binding Command.Header, StringFormat={}\&quot;{0}\&quot; のジェスチャー設定}" Height="400" Width="400">
 
     <Window.Resources>
         <local:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter"/>

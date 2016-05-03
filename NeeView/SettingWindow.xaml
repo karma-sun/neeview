@@ -290,34 +290,6 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <TextBlock Text="コンテキストメニュー" Style="{StaticResource Header}"/>
-                    <StackPanel Style="{StaticResource Phrase}" >
-                        <DockPanel LastChildFill="False">
-
-                            <Button DockPanel.Dock="Right" VerticalAlignment="Top" Content="コンテキストメニュー設定" Padding="16,8" Margin="10,0" Click="EditContextMenuButton_Click">
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="IsEnabled" Value="True"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Setting.ViewMemento.ContextMenuEnabled}" Value="Disable">
-                                                <Setter Property="IsEnabled" Value="False"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                                <TextBlock Text="コンテキストメニューを" MinWidth="100" VerticalAlignment="Center"/>
-                                <ComboBox MinWidth="150" ItemsSource="{Binding ContextMenuEnabledList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Setting.ViewMemento.ContextMenuEnabled}" />
-                            </StackPanel>
-
-
-                        </DockPanel>
-
-
-                    </StackPanel>
-
 
                 </StackPanel>
             </TabItem>
@@ -633,6 +605,38 @@
                     </ListView>
                 </DockPanel>
 
+            </TabItem>
+
+            <TabItem Header="メニュー">
+                <StackPanel Margin="4">
+                    <TextBlock Text="コンテキストメニュー" Style="{StaticResource Header}"/>
+                    <StackPanel Style="{StaticResource Phrase}" >
+                        <CheckBox x:Name="ContextMenuEnableCheckBox" Margin="2" Content="コンテキストメニューを使用する"
+                              IsChecked="{Binding Setting.ViewMemento.ContextMenuSetting.IsEnabled}" />
+                        <StackPanel IsEnabled="{Binding ElementName=ContextMenuEnableCheckBox, Path=IsChecked}">
+                            <Button HorizontalAlignment="Right" Content="コンテキストメニュー編集" Padding="16,8" Margin="10,0" Click="EditContextMenuButton_Click"/>
+                            <CheckBox Margin="2" Content="右クリック単独ではなく、Ctrl+右クリックで開くようにする"
+                              IsChecked="{Binding Setting.ViewMemento.ContextMenuSetting.IsOpenByCtrl}" />
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="ContextMenuGestureCheckBox" Margin="2" Content="マウスジェスチャーで開くようにする" VerticalAlignment="Center"
+                                          IsChecked="{Binding Setting.ViewMemento.ContextMenuSetting.IsOpenByGesture}"/>
+                                <TextBlock Text="{Binding Setting.ViewMemento.ContextMenuSetting.MouseGesture, Converter={StaticResource MouseGestureToDispTextConverter}, StringFormat=: {0}}"
+                                           Margin="2" TextTrimming="WordEllipsis" FontFamily="Meiryo" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <Button HorizontalAlignment="Right" Content="マウスジェスチャー設定" Padding="16,8" Margin="10,0" Click="GestureContextMenuButton_Click"
+                                        IsEnabled="{Binding ElementName=ContextMenuGestureCheckBox, Path=IsChecked}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!--
+                    <TextBlock Text="メインメニュー" Style="{StaticResource Header}"/>
+                    <StackPanel Style="{StaticResource Phrase}" >
+                        <CheckBox Margin="2" Content="コンテキストメニューを使用する"
+                              IsChecked="{Binding Setting.ViewMemento.FolderListSetting.IsVisibleBookmarkMark}" />
+                    </StackPanel>
+                    -->
+
+                </StackPanel>
             </TabItem>
 
         </TabControl>

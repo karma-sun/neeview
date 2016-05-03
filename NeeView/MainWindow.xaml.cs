@@ -80,6 +80,12 @@ namespace NeeView
             _VM.NotifyMenuVisibilityChanged +=
                 (s, e) => OnMenuVisibilityChanged();
 
+            _VM.ContextMenuEnableChanged +=
+                (s, e) =>
+                {
+                    _MouseGesture.Controller.ContextMenuEnabled = _VM.ContextMenuEnabled;
+                };
+
             this.DataContext = _VM;
 
 
@@ -249,9 +255,8 @@ namespace NeeView
 
 
         // RoutedCommand辞書
-        public Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; } = new Dictionary<CommandType, RoutedUICommand>();
-
-
+        public Dictionary<CommandType, RoutedUICommand> BookCommands => ModelContext.BookCommands;
+        
         // RoutedCommand バインディング
         public void InitializeCommandBindings()
         {
@@ -341,15 +346,15 @@ namespace NeeView
                     // マウスクリックはドラッグ系処理のイベントとして登録
                     if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.LeftClick)
                     {
-                        _MouseDrag.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) e.Value.Execute(null, this); };
+                        _MouseDrag.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
                     }
                     else if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.MiddleClick)
                     {
-                        _MouseDrag.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) e.Value.Execute(null, this); };
+                        _MouseDrag.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
                     }
                     else if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.RightClick)
                     {
-                        _MouseGesture.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) e.Value.Execute(null, this); };
+                        _MouseGesture.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
                     }
                     else
                     {

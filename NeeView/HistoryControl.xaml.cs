@@ -21,6 +21,8 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
+// TODO: パフォーマンス改善。リストの更新を表示されている時に限定。それ以外は更新フラグのみにする
+
 namespace NeeView
 {
     /// <summary>

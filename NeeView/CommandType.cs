@@ -125,5 +125,10 @@ namespace NeeView
         {
             return (type == CommandType.ToggleIsReverseSort || type == CommandType.ToggleHideTitleBar);
         }
+
+        public static string ToDispString(this CommandType type)
+        {
+            return ModelContext.CommandTable[type].Text;
+        }
     }
 }

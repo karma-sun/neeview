@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace NeeView
 {
@@ -34,6 +35,9 @@ namespace NeeView
 
         public static CommandTable CommandTable { get; set; }
         public static DragActionTable DragActionTable { get; set; }
+
+        // RoutedCommand辞書
+        public static Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; } = new Dictionary<CommandType, RoutedUICommand>();
 
         // 初期化
         public static void Initialize()

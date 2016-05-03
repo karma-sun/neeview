@@ -155,6 +155,7 @@ namespace NeeView
                     Text = "オリジナルサイズで表示する",
                     Execute = e => _VM.StretchMode = PageStretchMode.None,
                     Attribute = CommandAttribute.ToggleEditable | CommandAttribute.ToggleLocked,
+                    CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.None),
                 },
                 [CommandType.SetStretchModeInside] = new CommandElement
                 {
@@ -162,6 +163,7 @@ namespace NeeView
                     Text = "大きい場合ウィンドウサイズに合わせる",
                     Execute = e => _VM.StretchMode = PageStretchMode.Inside,
                     Attribute = CommandAttribute.ToggleEditable,
+                    CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Inside),
                 },
                 [CommandType.SetStretchModeOutside] = new CommandElement
                 {
@@ -169,6 +171,7 @@ namespace NeeView
                     Text = "小さい場合ウィンドウサイズに広げる",
                     Execute = e => _VM.StretchMode = PageStretchMode.Outside,
                     Attribute = CommandAttribute.ToggleEditable,
+                    CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Outside),
                 },
                 [CommandType.SetStretchModeUniform] = new CommandElement
                 {
@@ -176,6 +179,7 @@ namespace NeeView
                     Text = "ウィンドウサイズに合わせる",
                     Execute = e => _VM.StretchMode = PageStretchMode.Uniform,
                     Attribute = CommandAttribute.ToggleEditable,
+                    CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Uniform),
                 },
                 [CommandType.SetStretchModeUniformToFill] = new CommandElement
                 {
@@ -183,6 +187,7 @@ namespace NeeView
                     Text = "ウィンドウいっぱいに広げる",
                     Execute = e => _VM.StretchMode = PageStretchMode.UniformToFill,
                     Attribute = CommandAttribute.ToggleEditable,
+                    CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToFill),
                 },
                 [CommandType.SetStretchModeUniformToSize] = new CommandElement
                 {
@@ -190,6 +195,7 @@ namespace NeeView
                     Text = "面積をウィンドウに合わせる",
                     Execute = e => _VM.StretchMode = PageStretchMode.UniformToSize,
                     Attribute = CommandAttribute.ToggleEditable,
+                    CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToSize),
                 },
                 [CommandType.SetStretchModeUniformToVertical] = new CommandElement
                 {
@@ -197,6 +203,7 @@ namespace NeeView
                     Text = "高さをウィンドウに合わせる",
                     Execute = e => _VM.StretchMode = PageStretchMode.UniformToVertical,
                     Attribute = CommandAttribute.ToggleEditable,
+                    CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToVertical),
                 },
 
                 [CommandType.ToggleIsEnabledNearestNeighbor] = new CommandElement
@@ -592,14 +599,16 @@ namespace NeeView
                     Group = "ページ表示",
                     Text = "1ページ表示にする",
                     ShortCutKey = "Ctrl+1",
-                    Execute = e => _Book.SetPageMode(PageMode.SinglePage)
+                    Execute = e => _Book.SetPageMode(PageMode.SinglePage),
+                    CreateIsCheckedBinding = () => BindingGenerator.PageMode(PageMode.SinglePage),
                 },
                 [CommandType.SetPageMode2] = new CommandElement
                 {
                     Group = "ページ表示",
                     Text = "2ページ表示にする",
                     ShortCutKey = "Ctrl+2",
-                    Execute = e => _Book.SetPageMode(PageMode.WidePage)
+                    Execute = e => _Book.SetPageMode(PageMode.WidePage),
+                    CreateIsCheckedBinding = () => BindingGenerator.PageMode(PageMode.WidePage),
                 },
                 [CommandType.ToggleBookReadOrder] = new CommandElement
                 {
@@ -614,12 +623,14 @@ namespace NeeView
                     Group = "ページ表示",
                     Text = "右開きにする",
                     Execute = e => _Book.SetBookReadOrder(PageReadOrder.RightToLeft),
+                    CreateIsCheckedBinding = () => BindingGenerator.BookReadOrder(PageReadOrder.RightToLeft),
                 },
                 [CommandType.SetBookReadOrderLeft] = new CommandElement
                 {
                     Group = "ページ表示",
                     Text = "左開きにする",
                     Execute = e => _Book.SetBookReadOrder(PageReadOrder.LeftToRight),
+                    CreateIsCheckedBinding = () => BindingGenerator.BookReadOrder(PageReadOrder.LeftToRight),
                 },
 
                 [CommandType.ToggleIsSupportedDividePage] = new CommandElement
@@ -635,7 +646,8 @@ namespace NeeView
                     Group = "2ページ表示設定",
                     Text = "横長ページを2ページとみなす",
                     Execute = e => _Book.ToggleIsSupportedWidePage(),
-                    ExecuteMessage = e => _Book.BookMemento.IsSupportedWidePage ? "横長ページの区別をしない" : "横長ページを2ページとみなす"
+                    ExecuteMessage = e => _Book.BookMemento.IsSupportedWidePage ? "横長ページの区別をしない" : "横長ページを2ページとみなす",
+                    CreateIsCheckedBinding = () => BindingGenerator.IsSupportedWidePage(),
                 },
                 [CommandType.ToggleIsSupportedSingleFirstPage] = new CommandElement
                 {

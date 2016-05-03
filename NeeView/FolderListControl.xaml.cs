@@ -276,31 +276,29 @@ namespace NeeView
             LastPlaceDictionary[folder.ParentPath] = folder.Path;
         }
 
+        private FolderInfo GetFolderInfo(int index)
+        {
+            return (_FolderCollection != null && 0 <= index && index < _FolderCollection.Items.Count) ? _FolderCollection[index] : null;
+        }
+
         //
         private FolderInfo GetExistSelectedItem()
         {
-            int index = SelectedIndex;
+            if (_FolderCollection == null || FolderCollection.Items.Count <= 0) return null;
 
-            while (true)
+            for (int index = SelectedIndex;  index < _FolderCollection.Items.Count; ++index)
             {
-                var folder = (_FolderCollection != null && 0 <= index && index < _FolderCollection.Items.Count) ? _FolderCollection[index] : null;
-                if (folder == null || folder.IsExist())
-                {
-                    return folder;
-                }
-                else if (index + 1 < _FolderCollection.Items.Count)
-                {
-                    index++;
-                }
-                else if (index - 1 >= 0)
-                {
-                    index--;
-                }
-                else
-                {
-                    return null;
-                }
+                var folder = _FolderCollection[index];
+                if (folder.IsExist()) return folder;
             }
+
+            for (int index = SelectedIndex - 1; index >= 0; --index)
+            {
+                var folder = _FolderCollection[index];
+                if (folder.IsExist()) return folder;
+            }
+
+            return null;
         }
 
         //

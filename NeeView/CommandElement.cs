@@ -50,6 +50,10 @@ namespace NeeView
         // コマンド実行可能判定
         public Func<bool> CanExecute { get; set; }
 
+        // フラグバインディング
+        public Func<System.Windows.Data.Binding> CreateIsCheckedBinding { get; set; }
+
+
         // トグル候補
         public bool IsToggled { get; set; }
 

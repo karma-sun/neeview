@@ -84,6 +84,9 @@
       <DependentUpon>BookmarkControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="BookMementoCollection.cs" />
+    <Compile Include="ContextMenuSettingWindow.xaml.cs">
+      <DependentUpon>ContextMenuSettingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FolderCollection.cs" />
     <Compile Include="FolderList.xaml.cs">
       <DependentUpon>FolderList.xaml</DependentUpon>
@@ -94,7 +97,12 @@
     <Compile Include="HistoryControl.xaml.cs">
       <DependentUpon>HistoryControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BindingGenerator.cs" />
+    <Compile Include="MenuTree.cs" />
     <Compile Include="OptionParser.cs" />
+    <Compile Include="RenameWindow.xaml.cs">
+      <DependentUpon>RenameWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ReplaceString.cs" />
     <Compile Include="Utility\DockPanelSplitter.cs" />
     <Compile Include="Utility\FileInfo.cs" />
@@ -205,6 +213,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ContextMenuSettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DirectoryNameBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -254,6 +266,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MouseGestureSettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RenameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

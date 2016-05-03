@@ -141,6 +141,15 @@ namespace NeeView
             60,
         };
 
+
+        //
+        public Dictionary<ContextMenuEnabled, string> ContextMenuEnabledList { get; } = new Dictionary<ContextMenuEnabled, string>
+        {
+            [ContextMenuEnabled.Disable] = "使用しない",
+            [ContextMenuEnabled.Enable] = "使用する",
+            [ContextMenuEnabled.EnableWithCtrl] = "使用する(Ctrl+右クリック)",
+        };
+
         // ドラッグアクション
         public static Dictionary<DragActionType, string> DragActionTypeList { get; } = new Dictionary<DragActionType, string>
         {
@@ -461,6 +470,19 @@ namespace NeeView
         private void SusieSettingTab_Selected(object sender, RoutedEventArgs e)
         {
             IsDartySusieSetting = true;
+        }
+
+        // コンテキストメニュー編集ボタンが押された
+        private void EditContextMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new ContextMenuSettingWindow(Setting.ViewMemento);
+            dialog.Owner = this;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            var result = dialog.ShowDialog();
+            if (result == true)
+            {
+                //this.CommandListView.Items.Refresh();
+            }
         }
     }
 

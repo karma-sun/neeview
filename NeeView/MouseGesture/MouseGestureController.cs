@@ -131,6 +131,8 @@ namespace NeeView
         // ドラッグされずにクリック判定されたときの通知
         public event EventHandler<MouseButtonEventArgs> MouseClickEventHandler;
 
+        // コンテキストメニュー有効フラグ
+        public ContextMenuEnabled ContextMenuEnabled { get; set; }
 
         // ボタンが離された時の処理
         private void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
@@ -140,6 +142,8 @@ namespace NeeView
 
             _Sender.ReleaseMouseCapture();
 
+            e.Handled = true;
+
             if (_IsEnableClickEvent)
             {
                 if (_Gesture.Count > 0)
@@ -148,7 +152,18 @@ namespace NeeView
                 }
                 else if (!_IsDragging)
                 {
-                    MouseClickEventHandler(sender, e);
+                    if (ContextMenuEnabled == ContextMenuEnabled.Enable)
+                    {
+                        e.Handled = false;
+                    }
+                    else if (ContextMenuEnabled == ContextMenuEnabled.EnableWithCtrl && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                    {
+                        e.Handled = false;
+                    }
+                    else
+                    { 
+                        MouseClickEventHandler(sender, e);
+                    }
                 }
             }
         }

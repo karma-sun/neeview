@@ -134,8 +134,8 @@
                             </ToggleButton>
 
                         </DockPanel>
-                            <Popup IsOpen="{Binding ElementName=WindowTitleFormatHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowTitleFormatHelp}" Placement="Top" HorizontalAlignment="Right">
-                                <Border BorderBrush="Gray" BorderThickness="1" Background="LightYellow">
+                        <Popup IsOpen="{Binding ElementName=WindowTitleFormatHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowTitleFormatHelp}" Placement="Top" HorizontalAlignment="Right">
+                            <Border BorderBrush="Gray" BorderThickness="1" Background="LightYellow">
                                 <TextBlock Margin="10">
                                     $Book -- 開いているフォルダ名<LineBreak/>
                                     $Page -- 現在ページ番号<LineBreak/>
@@ -151,8 +151,8 @@
                                     例えば $Name は1ページ用、 $NameL は２ページ左用、 $NameR は2ページ右用になります<LineBreak/>
                                     $Name は2ページ表示時には主となるページ(ページ番号の小さい方)になります
                                 </TextBlock>
-                                </Border>
-                            </Popup>
+                            </Border>
+                        </Popup>
 
                         <StackPanel Style="{StaticResource Phrase}">
                             <DockPanel Margin="2" LastChildFill="True">
@@ -288,8 +288,37 @@
                                 <ComboBox SelectedValue="{Binding DragActionMiddleAlt}" />
                             </StackPanel>
                         </StackPanel>
+                    </StackPanel>
+
+                    <TextBlock Text="コンテキストメニュー" Style="{StaticResource Header}"/>
+                    <StackPanel Style="{StaticResource Phrase}" >
+                        <DockPanel LastChildFill="False">
+
+                            <Button DockPanel.Dock="Right" VerticalAlignment="Top" Content="コンテキストメニュー設定" Padding="16,8" Margin="10,0" Click="EditContextMenuButton_Click">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="IsEnabled" Value="True"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Setting.ViewMemento.ContextMenuEnabled}" Value="Disable">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                                <TextBlock Text="コンテキストメニューを" MinWidth="100" VerticalAlignment="Center"/>
+                                <ComboBox MinWidth="150" ItemsSource="{Binding ContextMenuEnabledList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Setting.ViewMemento.ContextMenuEnabled}" />
+                            </StackPanel>
+
+
+                        </DockPanel>
+
 
                     </StackPanel>
+
+
                 </StackPanel>
             </TabItem>
 
@@ -605,6 +634,7 @@
                 </DockPanel>
 
             </TabItem>
+
         </TabControl>
 
 

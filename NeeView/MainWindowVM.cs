@@ -21,8 +21,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+// TODO: ランダムページのときにファイルオープン指定ファイルで開かないバグ
+
 namespace NeeView
 {
+    //
+    public enum ContextMenuEnabled
+    {
+        Disable,
+        Enable,
+        EnableWithCtrl,
+    }
+
     // 通知表示の種類
     public enum ShowMessageStyle
     {
@@ -98,6 +108,9 @@ namespace NeeView
 
         // ウィンドウモード変更通知
         public event EventHandler NotifyMenuVisibilityChanged;
+
+        // コンテキストメニュー状態変更
+        public event EventHandler ContextMenuEnableChanged;
 
         #endregion
 
@@ -801,6 +814,53 @@ namespace NeeView
         public bool IsBookmark
         {
             get { return ModelContext.BookMementoCollection.Find(BookHub.Address)?.BookmarkNode != null; }
+        }
+        #endregion
+
+
+        #region Property: ContextMenuSource
+        private ContextMenu _ContextMenuReady;
+        private MenuTree _ContextMenuSource;
+        public MenuTree ContextMenuSource
+        {
+            get { return _ContextMenuSource; }
+            set
+            {
+                _ContextMenuSource = value;
+                _ContextMenuReady = _ContextMenuSource?.CreateContextMenu();
+                UpdateContextMenu();
+            }
+        }
+        #endregion
+
+        #region Property: ContextMenu
+        private ContextMenu _ContextMenu;
+        public ContextMenu ContextMenu
+        {
+            get { return _ContextMenu; }
+            set { _ContextMenu = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+        private void UpdateContextMenu()
+        {
+            if (_ContextMenuReady != null && _ContextMenuEnabled != ContextMenuEnabled.Disable)
+            {
+                this.ContextMenu = _ContextMenuReady;
+            }
+            else
+            {
+                this.ContextMenu = null;
+            }
+        }
+
+
+        #region Property: ContextMenuEnabled
+        private ContextMenuEnabled _ContextMenuEnabled;
+        public ContextMenuEnabled ContextMenuEnabled
+        {
+            get { return _ContextMenuEnabled; }
+            set { _ContextMenuEnabled = value; UpdateContextMenu(); ContextMenuEnableChanged?.Invoke(this, null); }
         }
         #endregion
 
@@ -1700,6 +1760,12 @@ namespace NeeView
             [DataMember(Order = 8)]
             public bool IsHidePanelInFullscreen { get; set; }
 
+            [DataMember(Order = 8)]
+            public MenuTree ContextMenuSource { get; set; }
+
+            [DataMember(Order = 8)]
+            public ContextMenuEnabled ContextMenuEnabled { get; set; }
+
             void Constructor()
             {
                 IsLimitMove = true;
@@ -1721,6 +1787,7 @@ namespace NeeView
                 IsSaveWindowPlacement = true;
                 IsHidePanelInFullscreen = true;
                 IsVisibleTitleBar = true;
+                ContextMenuSource = MenuTree.CreateDefault();
             }
 
             public Memento()
@@ -1789,6 +1856,8 @@ namespace NeeView
             memento.IsVisibleAddressBar = this.IsVisibleAddressBar;
             memento.IsHidePanel = this.IsHidePanel;
             memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
+            memento.ContextMenuSource = this.ContextMenuSource.Clone();
+            memento.ContextMenuEnabled = this.ContextMenuEnabled;
 
             return memento;
         }
@@ -1835,6 +1904,8 @@ namespace NeeView
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
             this.IsHidePanel = memento.IsHidePanel;
             this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
+            this.ContextMenuSource = memento.ContextMenuSource.Clone();
+            this.ContextMenuEnabled = memento.ContextMenuEnabled;
 
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }

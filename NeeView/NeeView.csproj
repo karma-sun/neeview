@@ -84,6 +84,7 @@
       <DependentUpon>BookmarkControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="BookMementoCollection.cs" />
+    <Compile Include="CommandTable.cs" />
     <Compile Include="ContextMenuSetting.cs" />
     <Compile Include="ContextMenuSettingWindow.xaml.cs">
       <DependentUpon>ContextMenuSettingWindow.xaml</DependentUpon>
@@ -146,7 +147,6 @@
     <Compile Include="CommandType.cs" />
     <Compile Include="Archiver\FolderFiles.cs" />
     <Compile Include="Archiver\LoosePath.cs" />
-    <Compile Include="CommandTable.cs" />
     <Compile Include="DirectoryNameBox.xaml.cs">
       <DependentUpon>DirectoryNameBox.xaml</DependentUpon>
     </Compile>

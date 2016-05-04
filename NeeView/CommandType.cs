@@ -118,6 +118,9 @@ namespace NeeView
         ToggleViewFlipHorizontal,
         ViewFlipHorizontalOn,
         ViewFlipHorizontalOff,
+        ToggleViewFlipVertical,
+        ViewFlipVerticalOn,
+        ViewFlipVerticalOff,
         ViewReset,
     }
 

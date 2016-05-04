@@ -480,7 +480,26 @@ namespace NeeView
                     IsShowMessage = false
                 },
 
-                // TODO: ViewFlipVertical
+
+                [CommandType.ToggleViewFlipVertical] = new CommandElement
+                {
+                    Group = "ビュー操作",
+                    Text = "上下反転",
+                    IsShowMessage = false,
+                    CreateIsCheckedBinding = () => BindingGenerator.IsFlipVertical(),
+                },
+                [CommandType.ViewFlipVerticalOn] = new CommandElement
+                {
+                    Group = "ビュー操作",
+                    Text = "上下反転ON",
+                    IsShowMessage = false
+                },
+                [CommandType.ViewFlipVerticalOff] = new CommandElement
+                {
+                    Group = "ビュー操作",
+                    Text = "上下反転OFF",
+                    IsShowMessage = false
+                },
 
                 [CommandType.ViewReset] = new CommandElement
                 {
@@ -603,7 +622,7 @@ namespace NeeView
                     Group = "フォルダ列",
                     Text = "フォルダの並び順を切り替える",
                     Execute = e => _Book.ToggleFolderOrder(),
-                    //ExecuteMessage = e => _Book.FolderOrder.GetToggle().ToDispString() // TODO:
+                    ExecuteMessage = e => _Book.GetFolderOrder().GetToggle().ToDispString(),
                 },
                 [CommandType.SetFolderOrderByFileName] = new CommandElement
                 {
@@ -769,15 +788,6 @@ namespace NeeView
                     CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.Random),
                 },
 
-                [CommandType.Bookmark] = new CommandElement
-                {
-                    Group = "ブックマーク",
-                    Text = "ブックマークに登録する",
-                    Execute = e => _Book.Bookmark(),
-                    CanExecute = () => _Book.CanBookmark(),
-                    ExecuteMessage = e => "ブックマークに登録",
-                    ShortCutKey = "Ctrl+D",
-                },
                 [CommandType.ToggleBookmark] = new CommandElement
                 {
                     Group = "ブックマーク",
@@ -788,6 +798,15 @@ namespace NeeView
                     ExecuteMessage = e => _Book.IsBookmark(null) ? "ブックマーク解除" : "ブックマークに登録",
                     IsShowMessage = false,
                     CreateIsCheckedBinding = () => BindingGenerator.IsBookmark(),
+                },
+                [CommandType.Bookmark] = new CommandElement
+                {
+                    Group = "ブックマーク",
+                    Text = "ブックマークに登録する",
+                    Execute = e => _Book.Bookmark(),
+                    CanExecute = () => _Book.CanBookmark(),
+                    ExecuteMessage = e => "ブックマークに登録",
+                    ShortCutKey = "Ctrl+D",
                 },
 
                 [CommandType.ToggleIsReverseSort] = new CommandElement // 欠番

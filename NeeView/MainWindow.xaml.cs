@@ -261,7 +261,7 @@ namespace NeeView
 
         // RoutedCommand辞書
         public Dictionary<CommandType, RoutedUICommand> BookCommands => ModelContext.BookCommands;
-        
+
         // RoutedCommand バインディング
         public void InitializeCommandBindings()
         {
@@ -298,6 +298,14 @@ namespace NeeView
                 (e) => _MouseDrag.FlipHorizontal(true);
             ModelContext.CommandTable[CommandType.ViewFlipHorizontalOff].Execute =
                 (e) => _MouseDrag.FlipHorizontal(false);
+
+            ModelContext.CommandTable[CommandType.ToggleViewFlipVertical].Execute =
+                (e) => _MouseDrag.ToggleFlipVertical();
+            ModelContext.CommandTable[CommandType.ViewFlipVerticalOn].Execute =
+                (e) => _MouseDrag.FlipVertical(true);
+            ModelContext.CommandTable[CommandType.ViewFlipVerticalOff].Execute =
+                (e) => _MouseDrag.FlipVertical(false);
+
             ModelContext.CommandTable[CommandType.ViewReset].Execute =
                 (e) => _MouseDrag.Reset(true, true, true);
             ModelContext.CommandTable[CommandType.PrevScrollPage].Execute =

@@ -91,12 +91,12 @@ namespace NeeView
                 [DragActionType.Scale] = new DragAction
                 {
                     Name = "拡大縮小",
-                    Key = "Ctrl+LeftDrag",
                     Exec = (s, e) => _Drag.DragScale(s, e),
                 },
                 [DragActionType.ScaleSlider] = new DragAction
                 {
                     Name = "拡大縮小(スライド式)",
+                    Key = "Ctrl+LeftDrag",
                     Exec = (s, e) => _Drag.DragScaleSlider(s, e),
                 },
                 [DragActionType.FlipHorizontal] = new DragAction

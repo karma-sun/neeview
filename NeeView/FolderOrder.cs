@@ -32,7 +32,7 @@ namespace NeeView
         {
             switch (mode)
             {
-                case FolderOrder.FileName: return "フォルダ列はファイル名順";
+                case FolderOrder.FileName: return "フォルダ列は名前順";
                 case FolderOrder.TimeStamp: return "フォルダ列は日付順";
                 case FolderOrder.Random: return "フォルダ列はシャッフル";
                 default:

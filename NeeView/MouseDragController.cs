@@ -551,6 +551,19 @@ namespace NeeView
             DoFlipHorizontal(isFlip);
         }
 
+        // 反転コマンド
+        public void ToggleFlipVertical()
+        {
+            DoFlipVertical(!IsFlipVertical);
+        }
+
+        // 反転コマンド
+        public void FlipVertical(bool isFlip)
+        {
+            DoFlipVertical(isFlip);
+        }
+
+
         // 入力からアクション取得
         private DragAction GetAction(MouseButton butto, ModifierKeys keys)
         {

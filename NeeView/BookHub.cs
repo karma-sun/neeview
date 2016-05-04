@@ -756,7 +756,7 @@ namespace NeeView
         {
             // 履歴に登録済の場合は履歴先頭に移動させる
             if (unit?.HistoryNode != null && (option & BookLoadOption.KeepHistoryOrder) == 0)
-            { 
+            {
                 ModelContext.BookHistory.Add(unit, unit.Memento, false);
             }
 
@@ -1037,6 +1037,10 @@ namespace NeeView
             SettingChanged?.Invoke(this, null);
         }
 
+
+        // 本来ここで実装すべきてはない
+        #region FolderOrder
+
         // フォルダの並びの変更
         public void ToggleFolderOrder()
         {
@@ -1046,8 +1050,18 @@ namespace NeeView
         // フォルダの並びの設定
         public void SetFolderOrder(FolderOrder order)
         {
-            Messenger.Send(this, new MessageEventArgs("SetFolderOrder") { Parameter = order });
+            Messenger.Send(this, new MessageEventArgs("SetFolderOrder") { Parameter = new FolderOrderParams() { FolderOrder = order } });
         }
+
+        // フォルダの並びの取得
+        public FolderOrder GetFolderOrder()
+        {
+            var param = new FolderOrderParams();
+            Messenger.Send(this, new MessageEventArgs("GetFolderOrder") { Parameter = param });
+            return param.FolderOrder;
+        }
+
+        #endregion
 
 
         // 本の設定を更新

@@ -181,6 +181,12 @@ namespace NeeView
         public BookLoadOption BookLoadOption { get; set; }
     }
 
+    //
+    public class FolderOrderParams
+    {
+        public FolderOrder FolderOrder { get; set; }
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -256,6 +262,7 @@ namespace NeeView
         public FolderListControlVM()
         {
             Messenger.AddReciever("SetFolderOrder", CallSetFolderOrder);
+            Messenger.AddReciever("GetFolderOrder", CallGetFolderOrder);
             Messenger.AddReciever("ToggleFolderOrder", CallToggleFolderOrder);
             Messenger.AddReciever("MoveFolder", CallMoveFolder);
         }
@@ -387,13 +394,23 @@ namespace NeeView
             FolderCollection?.RefleshIcon(path);
         }
 
+
         //
         private void CallSetFolderOrder(object sender, MessageEventArgs e)
         {
             if (FolderCollection == null) return;
 
-            var param = (FolderOrder)e.Parameter;
-            FolderCollection.Folder.FolderOrder = param;
+            var param = (FolderOrderParams)e.Parameter;
+            FolderCollection.Folder.FolderOrder = param.FolderOrder;
+        }
+
+        //
+        private void CallGetFolderOrder(object sender, MessageEventArgs e)
+        {
+            if (FolderCollection == null) return;
+
+            var param = (FolderOrderParams)e.Parameter;
+            param.FolderOrder = FolderCollection.Folder.FolderOrder;
         }
 
         //

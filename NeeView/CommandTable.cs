@@ -416,7 +416,7 @@ namespace NeeView
                     ShortCutKey = "F5",
                     Execute = e => _Book.ToggleSlideShow(),
                     ExecuteMessage = e => _Book.IsEnableSlideShow ? "スライドショー停止" : "スライドショー再生",
-                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_Book.IsEnableSlideShow)),
+                    CreateIsCheckedBinding = () => BindingGenerator.BindingBookHub(nameof(_Book.IsEnableSlideShow)),
                 },
                 [CommandType.ViewScrollUp] = new CommandElement
                 {
@@ -463,9 +463,9 @@ namespace NeeView
                 [CommandType.ToggleViewFlipHorizontal] = new CommandElement
                 {
                     Group = "ビュー操作",
-                    Text = "左右反転の切り替え",
+                    Text = "左右反転",
                     IsShowMessage = false,
-                    // TODO: CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsFlipHorizontal)),
+                    CreateIsCheckedBinding = () => BindingGenerator.IsFlipHorizontal(),
                 },
                 [CommandType.ViewFlipHorizontalOn] = new CommandElement
                 {
@@ -611,7 +611,7 @@ namespace NeeView
                     Text = "フォルダ列はファイル名順",
                     Tips = "フォルダ列をファイル名順(昇順)に並べる",
                     Execute = e => _Book.SetFolderOrder(FolderOrder.FileName),
-                    //CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileName),
+                    CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileName),
                 },
                 [CommandType.SetFolderOrderByTimeStamp] = new CommandElement
                 {
@@ -619,7 +619,7 @@ namespace NeeView
                     Text = "フォルダ列は日付順",
                     Tips = "フォルダ列を日付順(降順)に並べる",
                     Execute = e => _Book.SetFolderOrder(FolderOrder.TimeStamp),
-                    //CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStamp),
+                    CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStamp),
                 },
                 [CommandType.SetFolderOrderByRandom] = new CommandElement
                 {
@@ -627,7 +627,7 @@ namespace NeeView
                     Text = "フォルダ列はシャッフル",
                     Tips = "フォルダ列をシャッフルする",
                     Execute = e => _Book.SetFolderOrder(FolderOrder.Random),
-                    //CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Random),
+                    CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Random),
                 },
 
                 [CommandType.TogglePageMode] = new CommandElement
@@ -787,7 +787,7 @@ namespace NeeView
                     CanExecute = () => true,
                     ExecuteMessage = e => _Book.IsBookmark(null) ? "ブックマーク解除" : "ブックマークに登録",
                     IsShowMessage = false,
-                    // TODO: CreateIsCheckedBinding = () => BindingGenerator.BindingBookHub("IsBookmark"),
+                    CreateIsCheckedBinding = () => BindingGenerator.IsBookmark(),
                 },
 
                 [CommandType.ToggleIsReverseSort] = new CommandElement // 欠番

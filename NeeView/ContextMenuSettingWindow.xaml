@@ -229,16 +229,16 @@
 
                     <DockPanel DockPanel.Dock="Top">
                         <StackPanel DockPanel.Dock="Right">
-                            <Button x:Name="AddButton" Content="追加" Click="AddButton_Click"/>
+                            <Button x:Name="AddButton" Content="追加" Command="{x:Static local:ContextMenuSettingWindow.AddCommand}"/>
                         </StackPanel>
                         <ComboBox x:Name="SourceComboBox" VerticalAlignment="Center" ItemsSource="{Binding SourceElementList}" DisplayMemberPath="DefaultLongLabel" />
                     </DockPanel>
                     <DockPanel Margin="0,5,0,0">
                         <DockPanel DockPanel.Dock="Right" LastChildFill="False">
-                            <Button DockPanel.Dock="Top" x:Name="RemoveButton" Content="削除" Click="RemoveButton_Click"/>
-                            <Button DockPanel.Dock="Top" x:Name="MoveUpButton" Content="上へ" Click="MoveUpButton_Click"/>
-                            <Button DockPanel.Dock="Top" x:Name="MoveDownButton" Content="下へ" Click="MoveDownButton_Click"/>
-                            <Button DockPanel.Dock="Top" x:Name="RenameButton" Content="名前変更" Click="RenameButton_Click"/>
+                            <Button DockPanel.Dock="Top" x:Name="RemoveButton" Content="削除" Command="{x:Static local:ContextMenuSettingWindow.RemoveCommand}"/>
+                            <Button DockPanel.Dock="Top" x:Name="MoveUpButton" Content="上へ" Command="{x:Static local:ContextMenuSettingWindow.MoveUpCommand}"/>
+                            <Button DockPanel.Dock="Top" x:Name="MoveDownButton" Content="下へ" Command="{x:Static local:ContextMenuSettingWindow.MoveDownCommand}"/>
+                            <Button DockPanel.Dock="Top" x:Name="RenameButton" Content="名前変更" Command="{x:Static local:ContextMenuSettingWindow.RenameCommand}"/>
 
                             <Button DockPanel.Dock="Bottom" x:Name="ResetButton" Content="初期化" Click="ResetButton_Click"/>
                         </DockPanel>

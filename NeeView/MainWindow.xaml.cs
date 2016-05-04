@@ -39,6 +39,8 @@ namespace NeeView
 
         private bool _NowLoading = false;
 
+        public MouseDragController MouseDragController => _MouseDrag;
+
 
         // コンストラクタ
         public MainWindow()
@@ -112,6 +114,9 @@ namespace NeeView
 
             // publish routed commands
             _VM.BookCommands = BookCommands;
+
+            // MainMenu Initialize
+            _VM.MainMenuInitialize();
 
             // messenger
             Messenger.AddReciever("MessageBox", CallMessageBox);
@@ -379,8 +384,9 @@ namespace NeeView
                 _MouseGesture.AddOpenContextMenuGesture(_VM.ContextMenuSetting.MouseGesture);
             }
 
-            // Update Menu ...
-            this.MainMenu.UpdateInputGestureText();
+            // Update Menu GestureText
+            _VM.MainMenu?.UpdateInputGestureText();
+            _VM.ContextMenu?.UpdateInputGestureText();
         }
 
 

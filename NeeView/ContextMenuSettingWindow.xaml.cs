@@ -27,6 +27,13 @@ namespace NeeView
     /// </summary>
     public partial class ContextMenuSettingWindow : Window
     {
+        public static readonly RoutedCommand AddCommand = new RoutedCommand("AddCommand", typeof(ContextMenuSettingWindow));
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(ContextMenuSettingWindow));
+        public static readonly RoutedCommand RenameCommand = new RoutedCommand("RenameCommand", typeof(ContextMenuSettingWindow));
+        public static readonly RoutedCommand MoveUpCommand = new RoutedCommand("MoveUpCommand", typeof(ContextMenuSettingWindow));
+        public static readonly RoutedCommand MoveDownCommand = new RoutedCommand("MoveDownCommand", typeof(ContextMenuSettingWindow));
+
+
         ContextMenuSettingWindowVM _VM;
 
         public ContextMenuSettingWindow(MainWindowVM.Memento vmemento)
@@ -35,22 +42,18 @@ namespace NeeView
 
             _VM = new ContextMenuSettingWindowVM(vmemento);
             this.DataContext = _VM;
+
+            this.SourceComboBox.SelectedIndex = 0;
+
+            this.CommandBindings.Add(new CommandBinding(AddCommand, Add_Exec));
+            this.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, SelectedItem_CanExec));
+            this.CommandBindings.Add(new CommandBinding(RenameCommand, Rename_Exec, Rename_CanExec));
+            this.CommandBindings.Add(new CommandBinding(MoveUpCommand, MoveUp_Exec, SelectedItem_CanExec));
+            this.CommandBindings.Add(new CommandBinding(MoveDownCommand, MoveDown_Exec, SelectedItem_CanExec));
         }
 
-        private void ButtonOk_Click(object sender, RoutedEventArgs e)
-        {
-            _VM.Decide();
-            this.DialogResult = true;
-            this.Close();
-        }
 
-        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = false;
-            this.Close();
-        }
-
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        private void Add_Exec(object sender, ExecutedRoutedEventArgs e)
         {
             var element = this.SourceComboBox.SelectedItem as MenuTree;
             if (element == null) return;
@@ -60,7 +63,15 @@ namespace NeeView
             _VM.AddNode(MenuTree.Create(element), node);
         }
 
-        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        //
+        private void SelectedItem_CanExec(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var node = this.ContextMenuTreeView.SelectedItem as MenuTree;
+            e.CanExecute = node != null && node.MenuElementType != MenuElementType.None;
+        }
+
+        //
+        private void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
         {
             var node = this.ContextMenuTreeView.SelectedItem as MenuTree;
             if (node == null) return;
@@ -68,7 +79,15 @@ namespace NeeView
             _VM.RemoveNode(node);
         }
 
-        private void RenameButton_Click(object sender, RoutedEventArgs e)
+        //
+        private void Rename_CanExec(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var node = this.ContextMenuTreeView.SelectedItem as MenuTree;
+            e.CanExecute = node != null && node.MenuElementType != MenuElementType.None && node.MenuElementType != MenuElementType.Separator;
+        }
+
+        //
+        private void Rename_Exec(object sender, ExecutedRoutedEventArgs e)
         {
             var node = this.ContextMenuTreeView.SelectedItem as MenuTree;
             if (node == null) return;
@@ -85,7 +104,8 @@ namespace NeeView
             }
         }
 
-        private void MoveUpButton_Click(object sender, RoutedEventArgs e)
+        //
+        private void MoveUp_Exec(object sender, ExecutedRoutedEventArgs e)
         {
             var node = this.ContextMenuTreeView.SelectedItem as MenuTree;
             if (node == null) return;
@@ -93,12 +113,28 @@ namespace NeeView
             _VM.MoveUp(node);
         }
 
-        private void MoveDownButton_Click(object sender, RoutedEventArgs e)
+        //
+        private void MoveDown_Exec(object sender, ExecutedRoutedEventArgs e)
         {
             var node = this.ContextMenuTreeView.SelectedItem as MenuTree;
             if (node == null) return;
 
             _VM.MoveDown(node);
+        }
+
+
+
+        private void ButtonOk_Click(object sender, RoutedEventArgs e)
+        {
+            _VM.Decide();
+            this.DialogResult = true;
+            this.Close();
+        }
+
+        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
+            this.Close();
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
@@ -162,12 +198,13 @@ namespace NeeView
             Root.Validate();
         }
 
-
+        //
         public void Decide()
         {
-            _ViewMemento.ContextMenuSetting.SourceTree = Root;
+            _ViewMemento.ContextMenuSetting.SourceTree = Root.IsEqual(MenuTree.CreateDefault()) ? null : Root;
         }
 
+        //
         public void Reset()
         {
             Root = MenuTree.CreateDefault();
@@ -219,8 +256,12 @@ namespace NeeView
             var parent = target.GetParent(Root);
             if (parent != null)
             {
+                var next = target.GetNext(Root, false) ?? target.GetPrev(Root);
+
                 parent.Children.Remove(target);
                 parent.Validate();
+
+                if (next != null) next.IsSelected = true;
             }
         }
 

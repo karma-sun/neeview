@@ -69,14 +69,12 @@ namespace NeeView
         //
         public static Binding FolderOrder(FolderOrder mode)
         {
-            return null;
-            /* TODO:
-            return new Binding("BookHub.FolderOrder")
+            return new Binding("FolderCollection.Folder.FolderOrder")
             {
+                Source = (App.Current.MainWindow as MainWindow).FolderListArea.DockPanel.DataContext, // 強引だな..
                 Converter = _FolderOrderToBooleanConverter,
                 ConverterParameter = mode.ToString()
             };
-            */
         }
 
 
@@ -107,6 +105,35 @@ namespace NeeView
             {
                 Converter = _SortModeToBooleanConverter,
                 ConverterParameter = mode.ToString(),
+            };
+        }
+
+        //
+        public static Binding IsBookmark()
+        {
+            return new Binding("IsBookmark")
+            {
+                Mode = BindingMode.OneWay
+            };
+        }
+
+        //
+        public static Binding IsFlipHorizontal()
+        {
+            return new Binding("IsFlipHorizontal")
+            {
+                Source = (App.Current.MainWindow as MainWindow).MouseDragController, // 強引だな..
+                Mode = BindingMode.OneWay
+            };
+        }
+
+        //
+        public static Binding IsFlipVertical()
+        {
+            return new Binding("IsFlipVertical")
+            {
+                Source = (App.Current.MainWindow as MainWindow).MouseDragController, // 強引だな..
+                Mode = BindingMode.OneWay
             };
         }
     }

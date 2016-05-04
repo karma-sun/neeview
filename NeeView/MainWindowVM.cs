@@ -841,6 +841,20 @@ namespace NeeView
         }
 
 
+        #region Property: MainMenu
+        private Menu _MainMenu;
+        public Menu MainMenu
+        {
+            get { return _MainMenu; }
+            set { _MainMenu = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+        public void MainMenuInitialize()
+        {
+            MainMenu = MenuTree.CreateDefault().CreateMenu();
+        }
+
 
         // 本管理
         public BookHub BookHub { get; private set; }

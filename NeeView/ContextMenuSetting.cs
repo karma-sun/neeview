@@ -44,8 +44,8 @@ namespace NeeView
         #endregion
 
         #region Property: SourceTree
-        private MenuTree _SourceTree;
         [DataMember]
+        private MenuTree _SourceTree;
         public MenuTree SourceTree
         {
             get { return _SourceTree ?? MenuTree.CreateDefault(); }

@@ -253,6 +253,25 @@ namespace NeeView
             }
         }
 
+        //
+        public bool IsEqual(MenuTree target)
+        {
+            if (this.MenuElementType != target.MenuElementType) return false;
+            if (this.Label != target.Label) return false;
+            if (this.Command != target.Command) return false;
+            if (this.Children != null && target.Children != null)
+            {
+                if (this.Children.Count != target.Children.Count) return false;
+                for (int i = 0; i < this.Children.Count; ++i)
+                {
+                    if (!this.Children[i].IsEqual(target.Children[i])) return false;
+                }
+            }
+            else if (this.Children != null || target.Children != null) return false;
+
+            return true;
+        }
+
 
 
         //
@@ -306,6 +325,7 @@ namespace NeeView
             }
         }
 
+        //
         public ContextMenu CreateContextMenu()
         {
             if (this.Children == null) return null;
@@ -318,6 +338,21 @@ namespace NeeView
             }
 
             return contextMenu.Items.Count > 0 ? contextMenu : null;
+        }
+
+        //
+        public Menu CreateMenu()
+        {
+            if (this.Children == null) return null;
+            var menu = new Menu();
+
+            foreach (var element in this.Children)
+            {
+                var control = element.CreateMenuControl();
+                if (control != null) menu.Items.Add(control);
+            }
+
+            return menu.Items.Count > 0 ? menu : null;
         }
 
 

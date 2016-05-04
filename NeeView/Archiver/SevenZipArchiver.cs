@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// TODO: 読み込み速度改善。特にrar。オープン持続フラグ？
+
 namespace NeeView
 {
     /// <summary>

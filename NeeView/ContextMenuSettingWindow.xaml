@@ -209,7 +209,7 @@
         <HierarchicalDataTemplate x:Key="treeViewTemplate" ItemsSource="{Binding Path=Children}">
             <Grid>
                 <Separator Style="{StaticResource TreeViewItemSeparatorStyle}"/>
-                <TextBlock Text="{Binding Path=Label}" Style="{StaticResource TreeViewItemStyle}"/>
+                <TextBlock Text="{Binding Path=Label}" Style="{StaticResource TreeViewItemStyle}" ToolTip="{Binding DefaultLongLabel}"/>
             </Grid>
         </HierarchicalDataTemplate>
     </Window.Resources>
@@ -231,7 +231,7 @@
                         <StackPanel DockPanel.Dock="Right">
                             <Button x:Name="AddButton" Content="追加" Click="AddButton_Click"/>
                         </StackPanel>
-                        <ComboBox x:Name="SourceComboBox" VerticalAlignment="Center" ItemsSource="{Binding SourceElementList}" DisplayMemberPath="Label" />
+                        <ComboBox x:Name="SourceComboBox" VerticalAlignment="Center" ItemsSource="{Binding SourceElementList}" DisplayMemberPath="DefaultLongLabel" />
                     </DockPanel>
                     <DockPanel Margin="0,5,0,0">
                         <DockPanel DockPanel.Dock="Right" LastChildFill="False">

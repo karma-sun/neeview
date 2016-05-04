@@ -33,7 +33,7 @@
     </Window.Resources>
     <Grid>
         <TabControl x:Name="tabControl" Margin="10,10,10,43">
-            <TabItem Header="全般">
+            <TabItem Header="全般設定">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="4">
 

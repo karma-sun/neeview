@@ -107,13 +107,6 @@ namespace NeeView
         }
     }
 
-    public enum MenuElementType
-    {
-        None,
-        Group,
-        Separator,
-        Command
-    }
 
     /// <summary>
     /// 
@@ -154,6 +147,7 @@ namespace NeeView
             var list = new List<MenuTree>();
             list.Add(new MenuTree() { MenuElementType = MenuElementType.Group });
             list.Add(new MenuTree() { MenuElementType = MenuElementType.Separator });
+            list.Add(new MenuTree() { MenuElementType = MenuElementType.History });
             foreach (CommandType command in Enum.GetValues(typeof(CommandType)))
             {
                 if (command.IsDisable()) continue;
@@ -214,6 +208,7 @@ namespace NeeView
                 }
             }
 
+            element.IsSelected = true;
             Root.Validate();
         }
 

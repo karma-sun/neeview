@@ -79,6 +79,28 @@
         <local:SortModeToVisibilityConverter x:Key="SortModeToVisibilityConverter"/>
         <local:SortModeToStringConverter x:Key="SortModeToStringConverter"/>
 
+
+
+
+        <!-- MenuItem History -->
+
+        <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
+
+        <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
+            <Setter Property="Header" Value="{Binding Path=Place, Converter={StaticResource FullPathToFileNameConverter}}"/>
+            <Setter Property="Command" Value="{Binding BookCommands[LoadAs], RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+            <Setter Property="CommandParameter" Value="{Binding Path=Place}" />
+            <Setter Property="InputGestureText" Value=""/>
+        </Style>
+
+        <Style x:Key="HistoryMenuItemStyle" TargetType="MenuItem">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=LastFilesHeader, Path=ItemsSource.Count}" Value="0" >
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
     </Window.Resources>
 
 
@@ -296,7 +318,6 @@
                                 <local:SortModeToBooleanConverter x:Key="SortModeToBooleanConverter"/>
                                 <local:BookReadOrderToBooleanConverter x:Key="BookReadOrderToBooleanConverter"/>
                                 <local:FolderOrderToBooleanConverter x:Key="FolderOrderToBooleanConverter"/>
-                                <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
                                 <local:BackgroundStyleToBooleanConverter x:Key="BackgroundStyleToBooleanConverter"/>
                             </Menu.Resources>
 

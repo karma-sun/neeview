@@ -32,6 +32,14 @@ namespace NeeView
         // コマンド表示名
         public string Text { get; set; }
 
+        // メニュー表示名
+        private string _MenuText;
+        public string MenuText
+        {
+            get { return _MenuText ?? Text; }
+            set { _MenuText = value; }
+        }
+
         // ショートカットキー
         public string ShortCutKey { get; set; }
 

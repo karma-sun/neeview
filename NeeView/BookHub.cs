@@ -1057,6 +1057,12 @@ namespace NeeView
             SettingChanged?.Invoke(this, null);
         }
 
+        // ページモードごとの設定の可否
+        public bool CanPageModeSubSetting(PageMode mode)
+        {
+            return !_IsLoading && BookMemento.PageMode == mode;
+        }
+
         // 先頭ページの単ページ表示ON/OFF 
         public void ToggleIsSupportedSingleFirstPage()
         {

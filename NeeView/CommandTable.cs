@@ -86,6 +86,7 @@ namespace NeeView
                 {
                     Group = "ファイル",
                     Text = "ファイルを開く",
+                    MenuText = "開く...",
                     ShortCutKey = "Ctrl+O",
                     IsShowMessage = false,
                 },
@@ -120,6 +121,7 @@ namespace NeeView
                 {
                     Group = "ファイル",
                     Text = "名前をつけてファイルに保存",
+                    MenuText = "保存...",
                     ShortCutKey = "Ctrl+S",
                     Execute = e => _Book.Export(),
                     CanExecute = () => _Book.CanOpenFilePlace(),
@@ -129,6 +131,7 @@ namespace NeeView
                 {
                     Group = "ファイル",
                     Text = "ファイルを削除する",
+                    MenuText = "削除...",
                     ShortCutKey = "Delete",
                     Execute = e => _Book.DeleteFile(),
                     CanExecute = () => _Book.CanDeleteFile(),
@@ -159,7 +162,7 @@ namespace NeeView
                 [CommandType.SetStretchModeNone] = new CommandElement
                 {
                     Group = "表示サイズ",
-                    Text = "オリジナルサイズで表示する",
+                    Text = "オリジナルサイズ",
                     Execute = e => _VM.StretchMode = PageStretchMode.None,
                     Attribute = CommandAttribute.ToggleEditable | CommandAttribute.ToggleLocked,
                     CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.None),
@@ -217,9 +220,10 @@ namespace NeeView
                 {
                     Group = "拡大モード",
                     Text = "ドットのまま拡大ON/OFF",
+                    MenuText = "ドットのまま拡大",
                     Execute = e => _VM.IsEnabledNearestNeighbor = !_VM.IsEnabledNearestNeighbor,
-                    ExecuteMessage = e => _VM.IsEnabledNearestNeighbor ? "高品質に拡大する" : "ドットのまま拡大する"
-
+                    ExecuteMessage = e => _VM.IsEnabledNearestNeighbor ? "高品質に拡大する" : "ドットのまま拡大する",
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsEnabledNearestNeighbor))
                 },
 
                 [CommandType.ToggleBackground] = new CommandElement
@@ -235,6 +239,7 @@ namespace NeeView
                     Group = "背景",
                     Text = "背景を黒色にする",
                     Execute = e => _VM.Background = BackgroundStyle.Black,
+                    CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Black),
                 },
 
                 [CommandType.SetBackgroundWhite] = new CommandElement
@@ -242,6 +247,8 @@ namespace NeeView
                     Group = "背景",
                     Text = "背景を白色にする",
                     Execute = e => _VM.Background = BackgroundStyle.White,
+                    CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.White),
+
                 },
 
                 [CommandType.SetBackgroundAuto] = new CommandElement
@@ -249,6 +256,7 @@ namespace NeeView
                     Group = "背景",
                     Text = "背景を画像に合わせた色にする",
                     Execute = e => _VM.Background = BackgroundStyle.Auto,
+                    CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Auto),
                 },
 
                 [CommandType.SetBackgroundCheck] = new CommandElement
@@ -256,33 +264,40 @@ namespace NeeView
                     Group = "背景",
                     Text = "背景をチェック模様にする",
                     Execute = e => _VM.Background = BackgroundStyle.Check,
+                    CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Check),
                 },
 
                 [CommandType.ToggleTopmost] = new CommandElement
                 {
                     Group = "ウィンドウ",
                     Text = "常に手前に表示ON/OFF",
+                    MenuText = "常に手前に表示",
                     Execute = e => _VM.ToggleTopmost(),
                     ExecuteMessage = e => _VM.IsTopmost ? "「常に手前に表示」を解除" : "常に手前に表示する",
                     CanExecute = () => true,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsTopmost)),
                 },
                 [CommandType.ToggleHideMenu] = new CommandElement
                 {
                     Group = "ウィンドウ",
                     Text = "メニューを自動的に隠すON/OFF",
+                    MenuText = "メニューを自動的に隠す",
                     IsShowMessage = false,
                     Execute = e => _VM.ToggleHideMenu(),
                     ExecuteMessage = e => _VM.IsHideMenu ? "メニューを表示する" : "メニューを自動的に隠す",
                     CanExecute = () => true,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHideMenu)),
                 },
                 [CommandType.ToggleHidePanel] = new CommandElement
                 {
                     Group = "ウィンドウ",
                     Text = "パネルを自動的に隠すON/OFF",
+                    MenuText = "パネルを自動的に隠す",
                     IsShowMessage = false,
                     Execute = e => _VM.ToggleHidePanel(),
                     ExecuteMessage = e => _VM.IsHidePanel ? "パネルを表示する" : "パネルを自動的に隠す",
                     CanExecute = () => true,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHidePanel)),
                 },
                 [CommandType.ToggleHideTitleBar] = new CommandElement // 欠番
                 {
@@ -294,71 +309,86 @@ namespace NeeView
                 {
                     Group = "ウィンドウ",
                     Text = "タイトルバーON/OFF",
+                    MenuText = "タイトルバー",
                     IsShowMessage = false,
                     Execute = e => _VM.ToggleVisibleTitleBar(),
                     ExecuteMessage = e => _VM.IsVisibleTitleBar ? "タイトルバーを消す" : "タイトルバー表示する",
                     CanExecute = () => true,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleTitleBar)),
                 },
                 [CommandType.ToggleVisibleAddressBar] = new CommandElement
                 {
                     Group = "ウィンドウ",
                     Text = "アドレスバーON/OFF",
+                    MenuText = "アドレスバー",
                     IsShowMessage = false,
                     Execute = e => _VM.ToggleVisibleAddressBar(),
                     ExecuteMessage = e => _VM.IsVisibleAddressBar ? "アドレスバーを消す" : "アドレスバーを表示する",
                     CanExecute = () => true,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleAddressBar)),
                 },
                 [CommandType.ToggleVisibleFileInfo] = new CommandElement
                 {
-                    Group = "ウィンドウ",
+                    Group = "パネル",
                     Text = "ファイル情報の表示ON/OFF",
+                    MenuText = "ファイル情報",
                     ShortCutKey = "I",
                     IsShowMessage = false,
                     Execute = e => _VM.ToggleVisibleFileInfo(),
                     ExecuteMessage = e => _VM.IsVisibleFileInfo ? "ファイル情報を消す" : "ファイル情報を表示する",
                     CanExecute = () => true,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleFileInfo)),
                 },
                 [CommandType.ToggleVisibleFolderList] = new CommandElement
                 {
-                    Group = "ウィンドウ",
+                    Group = "パネル",
                     Text = "フォルダーリストの表示ON/OFF",
+                    MenuText = "フォルダーリスト",
                     ShortCutKey = "F",
                     IsShowMessage = false,
                     Execute = e => _VM.ToggleVisibleFolderList(),
                     ExecuteMessage = e => _VM.IsVisibleFolderList ? "フォルダーリストを消す" : "フォルダーリストを表示する",
                     CanExecute = () => true,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleFolderList)),
                 },
                 [CommandType.ToggleVisibleBookmarkList] = new CommandElement
                 {
-                    Group = "ウィンドウ",
+                    Group = "パネル",
                     Text = "ブックマークの表示ON/OFF",
+                    MenuText = "ブックマークリスト",
                     ShortCutKey = "B",
                     IsShowMessage = false,
                     Execute = e => _VM.ToggleVisibleBookmarkList(),
                     ExecuteMessage = e => _VM.IsVisibleBookmarkList ? "ブックマークリストを消す" : "ブックマークリストを表示する",
                     CanExecute = () => true,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleBookmarkList)),
                 },
                 [CommandType.ToggleVisibleHistoryList] = new CommandElement
                 {
-                    Group = "ウィンドウ",
+                    Group = "パネル",
                     Text = "履歴の表示ON/OFF",
+                    MenuText = "履歴リスト",
                     ShortCutKey = "H",
                     IsShowMessage = false,
                     Execute = e => _VM.ToggleVisibleHistoryList(),
                     ExecuteMessage = e => _VM.IsVisibleHistoryList ? "履歴リストを消す" : "履歴リストを表示する",
                     CanExecute = () => true,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleHistoryList)),
                 },
 
 
                 [CommandType.ToggleFullScreen] = new CommandElement
                 {
                     Group = "ウィンドウ",
-                    Text = "フルスクリーン切り替え",
+                    Text = "フルスクリーンON/OFF",
+                    MenuText = "フルスクリーン",
                     ShortCutKey = "F11",
                     MouseGesture = "U",
                     IsShowMessage = false,
                     Execute = e => _VM.ToggleFullScreen(),
+                    ExecuteMessage = e => _VM.IsFullScreen ? "フルスクリーンOFF" : "フルスクリーンON",
                     CanExecute = () => true,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsFullScreen)),
                 },
                 [CommandType.SetFullScreen] = new CommandElement
                 {
@@ -382,9 +412,11 @@ namespace NeeView
                 {
                     Group = "ビュー操作",
                     Text = "スライドショー再生/停止",
+                    MenuText = "スライドショー",
                     ShortCutKey = "F5",
                     Execute = e => _Book.ToggleSlideShow(),
-                    ExecuteMessage = e => _Book.IsEnableSlideShow ? "スライドショー停止" : "スライドショー再生"
+                    ExecuteMessage = e => _Book.IsEnableSlideShow ? "スライドショー停止" : "スライドショー再生",
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_Book.IsEnableSlideShow)),
                 },
                 [CommandType.ViewScrollUp] = new CommandElement
                 {
@@ -432,7 +464,8 @@ namespace NeeView
                 {
                     Group = "ビュー操作",
                     Text = "左右反転の切り替え",
-                    IsShowMessage = false
+                    IsShowMessage = false,
+                    // TODO: CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsFlipHorizontal)),
                 },
                 [CommandType.ViewFlipHorizontalOn] = new CommandElement
                 {
@@ -446,6 +479,8 @@ namespace NeeView
                     Text = "左右反転OFF",
                     IsShowMessage = false
                 },
+
+                // TODO: ViewFlipVertical
 
                 [CommandType.ViewReset] = new CommandElement
                 {
@@ -575,21 +610,24 @@ namespace NeeView
                     Group = "フォルダ列",
                     Text = "フォルダ列はファイル名順",
                     Tips = "フォルダ列をファイル名順(昇順)に並べる",
-                    Execute = e => _Book.SetFolderOrder(FolderOrder.FileName)
+                    Execute = e => _Book.SetFolderOrder(FolderOrder.FileName),
+                    //CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileName),
                 },
                 [CommandType.SetFolderOrderByTimeStamp] = new CommandElement
                 {
                     Group = "フォルダ列",
                     Text = "フォルダ列は日付順",
                     Tips = "フォルダ列を日付順(降順)に並べる",
-                    Execute = e => _Book.SetFolderOrder(FolderOrder.TimeStamp)
+                    Execute = e => _Book.SetFolderOrder(FolderOrder.TimeStamp),
+                    //CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStamp),
                 },
                 [CommandType.SetFolderOrderByRandom] = new CommandElement
                 {
                     Group = "フォルダ列",
                     Text = "フォルダ列はシャッフル",
                     Tips = "フォルダ列をシャッフルする",
-                    Execute = e => _Book.SetFolderOrder(FolderOrder.Random)
+                    Execute = e => _Book.SetFolderOrder(FolderOrder.Random),
+                    //CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Random),
                 },
 
                 [CommandType.TogglePageMode] = new CommandElement
@@ -604,7 +642,7 @@ namespace NeeView
                 [CommandType.SetPageMode1] = new CommandElement
                 {
                     Group = "ページ表示",
-                    Text = "1ページ表示にする",
+                    Text = "1ページ表示",
                     ShortCutKey = "Ctrl+1",
                     Execute = e => _Book.SetPageMode(PageMode.SinglePage),
                     CreateIsCheckedBinding = () => BindingGenerator.PageMode(PageMode.SinglePage),
@@ -612,7 +650,7 @@ namespace NeeView
                 [CommandType.SetPageMode2] = new CommandElement
                 {
                     Group = "ページ表示",
-                    Text = "2ページ表示にする",
+                    Text = "2ページ表示",
                     ShortCutKey = "Ctrl+2",
                     Execute = e => _Book.SetPageMode(PageMode.WidePage),
                     CreateIsCheckedBinding = () => BindingGenerator.PageMode(PageMode.WidePage),
@@ -628,14 +666,14 @@ namespace NeeView
                 [CommandType.SetBookReadOrderRight] = new CommandElement
                 {
                     Group = "ページ表示",
-                    Text = "右開きにする",
+                    Text = "右開き",
                     Execute = e => _Book.SetBookReadOrder(PageReadOrder.RightToLeft),
                     CreateIsCheckedBinding = () => BindingGenerator.BookReadOrder(PageReadOrder.RightToLeft),
                 },
                 [CommandType.SetBookReadOrderLeft] = new CommandElement
                 {
                     Group = "ページ表示",
-                    Text = "左開きにする",
+                    Text = "左開き",
                     Execute = e => _Book.SetBookReadOrder(PageReadOrder.LeftToRight),
                     CreateIsCheckedBinding = () => BindingGenerator.BookReadOrder(PageReadOrder.LeftToRight),
                 },
@@ -645,7 +683,9 @@ namespace NeeView
                     Group = "1ページ表示設定",
                     Text = "横長ページを分割する",
                     Execute = e => _Book.ToggleIsSupportedDividePage(),
-                    ExecuteMessage = e => _Book.BookMemento.IsSupportedDividePage ? "横長ページの区別をしない" : "横長ページを分割する"
+                    ExecuteMessage = e => _Book.BookMemento.IsSupportedDividePage ? "横長ページの区別をしない" : "横長ページを分割する",
+                    CanExecute = () => _Book.CanPageModeSubSetting(PageMode.SinglePage),
+                    CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsSupportedDividePage)),
                 },
 
                 [CommandType.ToggleIsSupportedWidePage] = new CommandElement
@@ -654,29 +694,35 @@ namespace NeeView
                     Text = "横長ページを2ページとみなす",
                     Execute = e => _Book.ToggleIsSupportedWidePage(),
                     ExecuteMessage = e => _Book.BookMemento.IsSupportedWidePage ? "横長ページの区別をしない" : "横長ページを2ページとみなす",
-                    CreateIsCheckedBinding = () => BindingGenerator.IsSupportedWidePage(),
+                    CanExecute = () => _Book.CanPageModeSubSetting(PageMode.WidePage),
+                    CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsSupportedWidePage)),
                 },
                 [CommandType.ToggleIsSupportedSingleFirstPage] = new CommandElement
                 {
                     Group = "2ページ表示設定",
                     Text = "最初のページを単独表示",
                     Execute = e => _Book.ToggleIsSupportedSingleFirstPage(),
-                    ExecuteMessage = e => _Book.BookMemento.IsSupportedSingleFirstPage ? "最初のページを区別しない" : "最初のページを単独表示"
+                    ExecuteMessage = e => _Book.BookMemento.IsSupportedSingleFirstPage ? "最初のページを区別しない" : "最初のページを単独表示",
+                    CanExecute = () => _Book.CanPageModeSubSetting(PageMode.WidePage),
+                    CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsSupportedSingleFirstPage)),
                 },
                 [CommandType.ToggleIsSupportedSingleLastPage] = new CommandElement
                 {
                     Group = "2ページ表示設定",
                     Text = "最後のページを単独表示",
                     Execute = e => _Book.ToggleIsSupportedSingleLastPage(),
-                    ExecuteMessage = e => _Book.BookMemento.IsSupportedSingleLastPage ? "最後のページを区別しない" : "最後のページを単独表示"
+                    ExecuteMessage = e => _Book.BookMemento.IsSupportedSingleLastPage ? "最後のページを区別しない" : "最後のページを単独表示",
+                    CanExecute = () => _Book.CanPageModeSubSetting(PageMode.WidePage),
+                    CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsSupportedSingleLastPage)),
                 },
 
                 [CommandType.ToggleIsRecursiveFolder] = new CommandElement
                 {
                     Group = "ページ読込",
-                    Text = "サブフォルダ読み込みON/OFF",
+                    Text = "サブフォルダを読み込む",
                     Execute = e => _Book.ToggleIsRecursiveFolder(),
-                    ExecuteMessage = e => _Book.BookMemento.IsRecursiveFolder ? "サブフォルダは読み込まない" : "サブフォルダも読み込む"
+                    ExecuteMessage = e => _Book.BookMemento.IsRecursiveFolder ? "サブフォルダは読み込まない" : "サブフォルダも読み込む",
+                    CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsRecursiveFolder)),
                 },
 
                 [CommandType.ToggleSortMode] = new CommandElement
@@ -685,37 +731,42 @@ namespace NeeView
                     Text = "ページの並び順を切り替える",
                     CanExecute = () => true,
                     Execute = e => _Book.ToggleSortMode(),
-                    ExecuteMessage = e => _Book.BookMemento.SortMode.GetToggle().ToDispString()
+                    ExecuteMessage = e => _Book.BookMemento.SortMode.GetToggle().ToDispString(),
                 },
                 [CommandType.SetSortModeFileName] = new CommandElement
                 {
                     Group = "ページ列",
-                    Text = "ファイル名昇順にする",
-                    Execute = e => _Book.SetSortMode(PageSortMode.FileName)
+                    Text = "ファイル名昇順",
+                    Execute = e => _Book.SetSortMode(PageSortMode.FileName),
+                    CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.FileName),
                 },
                 [CommandType.SetSortModeFileNameDescending] = new CommandElement
                 {
                     Group = "ページ列",
-                    Text = "ファイル名降順にする",
-                    Execute = e => _Book.SetSortMode(PageSortMode.FileNameDescending)
+                    Text = "ファイル名降順",
+                    Execute = e => _Book.SetSortMode(PageSortMode.FileNameDescending),
+                    CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.FileNameDescending),
                 },
                 [CommandType.SetSortModeTimeStamp] = new CommandElement
                 {
                     Group = "ページ列",
-                    Text = "ファイル日付昇順にする",
-                    Execute = e => _Book.SetSortMode(PageSortMode.TimeStamp)
+                    Text = "ファイル日付昇順",
+                    Execute = e => _Book.SetSortMode(PageSortMode.TimeStamp),
+                    CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.TimeStamp),
                 },
                 [CommandType.SetSortModeTimeStampDescending] = new CommandElement
                 {
                     Group = "ページ列",
-                    Text = "ファイル日付降順にする",
-                    Execute = e => _Book.SetSortMode(PageSortMode.TimeStampDescending)
+                    Text = "ファイル日付降順",
+                    Execute = e => _Book.SetSortMode(PageSortMode.TimeStampDescending),
+                    CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.TimeStampDescending),
                 },
                 [CommandType.SetSortModeRandom] = new CommandElement
                 {
                     Group = "ページ列",
-                    Text = "ランダムに並べる",
-                    Execute = e => _Book.SetSortMode(PageSortMode.Random)
+                    Text = "シャッフル",
+                    Execute = e => _Book.SetSortMode(PageSortMode.Random),
+                    CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.Random),
                 },
 
                 [CommandType.Bookmark] = new CommandElement
@@ -730,11 +781,13 @@ namespace NeeView
                 [CommandType.ToggleBookmark] = new CommandElement
                 {
                     Group = "ブックマーク",
-                    Text = "ブックマーク登録/解除切り替え",
+                    Text = "ブックマーク登録/解除",
+                    MenuText = "ブックマーク",
                     Execute = e => _Book.ToggleBookmark(),
                     CanExecute = () => true,
                     ExecuteMessage = e => _Book.IsBookmark(null) ? "ブックマーク解除" : "ブックマークに登録",
                     IsShowMessage = false,
+                    // TODO: CreateIsCheckedBinding = () => BindingGenerator.BindingBookHub("IsBookmark"),
                 },
 
                 [CommandType.ToggleIsReverseSort] = new CommandElement // 欠番
@@ -748,18 +801,21 @@ namespace NeeView
                 {
                     Group = "その他",
                     Text = "設定ウィンドウを開く",
+                    MenuText = "設定...",
                     IsShowMessage = false,
                 },
                 [CommandType.OpenVersionWindow] = new CommandElement
                 {
                     Group = "その他",
                     Text = "バージョン情報を表示する",
+                    MenuText = "NeeView について...",
                     IsShowMessage = false,
                 },
                 [CommandType.CloseApplication] = new CommandElement
                 {
                     Group = "その他",
                     Text = "アプリを終了する",
+                    MenuText = "アプリを終了",
                     ShortCutKey = "Alt+F4",
                     IsShowMessage = false,
                     CanExecute = () => true,

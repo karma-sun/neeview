@@ -11,10 +11,20 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace NeeView
 {
+    public enum MenuElementType
+    {
+        None,
+        Group,
+        Command,
+        History,
+        Separator,
+    }
 
     /// <summary>
     /// 
@@ -60,6 +70,16 @@ namespace NeeView
         public ObservableCollection<MenuTree> Children { get; set; }
 
 
+        public MenuTree()
+        {
+        }
+
+        public MenuTree(MenuElementType type)
+        {
+            MenuElementType = type;
+        }
+
+
         #region Property: Label
         public string Label
         {
@@ -67,6 +87,28 @@ namespace NeeView
             set { Name = (value == DefaultLabel) ? null : value; OnPropertyChanged(); }
         }
         #endregion
+
+        public string DefaultLongLabel
+        {
+            get
+            {
+                switch (MenuElementType)
+                {
+                    default:
+                    case MenuElementType.None:
+                        return "(なし)";
+                    case MenuElementType.Group:
+                        return "《サブメニュー》";
+                    case MenuElementType.Command:
+                        return Command.ToDispLongString();
+                    case MenuElementType.History:
+                        return "《最近使ったフォルダー》";
+                    case MenuElementType.Separator:
+                        return "《セパレーター》";
+                }
+            }
+        }
+
 
         public string DefaultLabel
         {
@@ -77,12 +119,14 @@ namespace NeeView
                     default:
                     case MenuElementType.None:
                         return "(なし)";
-                    case MenuElementType.Command:
-                        return Command.ToDispString();
                     case MenuElementType.Group:
-                        return "《サブメニュー》";
+                        return "サブメニュー";
+                    case MenuElementType.Command:
+                        return Command.ToMenuString();
+                    case MenuElementType.History:
+                        return "最近使ったフォルダー";
                     case MenuElementType.Separator:
-                        return "《セパレーター》";
+                        return "セパレーター";
                 }
             }
         }
@@ -227,6 +271,7 @@ namespace NeeView
                         }
                         return item;
                     }
+
                 case MenuElementType.Separator:
                     return new Separator();
 
@@ -243,8 +288,21 @@ namespace NeeView
                         return item;
                     }
 
-                default:
+                case MenuElementType.History:
+                    {
+                        var item = new MenuItem();
+                        item.Header = this.Label;
+                        item.SetBinding(MenuItem.ItemsSourceProperty, new Binding("LastFiles"));
+                        item.SetBinding(MenuItem.IsEnabledProperty, new Binding("IsEnableLastFiles"));
+                        item.ItemContainerStyle = App.Current.MainWindow.Resources["HistoryMenuItemContainerStyle"] as Style;
+                        return item;
+                    }
+
+                case MenuElementType.None:
                     return null;
+
+                default:
+                    throw new NotImplementedException();
             }
         }
 
@@ -262,7 +320,8 @@ namespace NeeView
             return contextMenu.Items.Count > 0 ? contextMenu : null;
         }
 
-        //
+
+        // 
         public static MenuTree CreateDefault()
         {
             var tree = new MenuTree()
@@ -270,35 +329,90 @@ namespace NeeView
                 MenuElementType = MenuElementType.Group,
                 Children = new ObservableCollection<MenuTree>()
                 {
-                    new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.ReLoad },
-                    new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.ViewReset },
-                    new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.ToggleFullScreen },
-                    new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.OpenSettingWindow },
-                    new MenuTree() { MenuElementType = MenuElementType.Separator },
-                    new MenuTree() { MenuElementType = MenuElementType.Group, Name="ファイル(_F)", Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name="ファイル(_F)", Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.LoadAs },
-                        new MenuTree() { MenuElementType = MenuElementType.Separator },
-                        new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.OpenApplication },
-                        new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.OpenFilePlace },
-                        new MenuTree() { MenuElementType = MenuElementType.Separator },
-                        new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.Export },
-                        new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.DeleteFile },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.LoadAs, Name="開く(_O)..." },
+                        new MenuTree(MenuElementType.History),
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.OpenApplication },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.OpenFilePlace },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.Export, Name="保存(_S)..." },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.DeleteFile, Name="削除(_D)..." },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.CloseApplication, Name="終了(_X)" }, // Alt+F4
                     }},
-                    new MenuTree() { MenuElementType = MenuElementType.Group, Name="ページモード(_P)", Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name="表示(_V)", Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.SetPageMode1 },
-                        new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.SetPageMode2 },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFolderList },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleBookmarkList },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleHistoryList },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFileInfo },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleTitleBar },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleAddressBar },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleHideMenu },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleHidePanel },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleTopmost },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleFullScreen },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleSlideShow },
                     }},
-                    new MenuTree() { MenuElementType = MenuElementType.Group, Name="スケール(_S)", Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name="画像(_I)", Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.SetStretchModeNone },
-                        new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.SetStretchModeInside },
-                        new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.SetStretchModeOutside },
-                        new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.SetStretchModeUniform },
-                        new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.SetStretchModeUniformToFill },
-                        new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.SetStretchModeUniformToSize },
-                        new MenuTree() { MenuElementType = MenuElementType.Command, Command = CommandType.SetStretchModeUniformToVertical },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeNone },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeInside },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeOutside },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniform },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToFill },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToSize },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToVertical },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsEnabledNearestNeighbor },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundBlack },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundWhite },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundAuto },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundCheck },
+                    }},
+                    new MenuTree(MenuElementType.Group) { Name="移動(_J)", Children = new ObservableCollection<MenuTree>()
+                    {
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevPage },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextPage },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevOnePage },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextOnePage },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.FirstPage },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.LastPage },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevFolder },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextFolder },
+                    }},
+                    new MenuTree(MenuElementType.Group) { Name="ページ(_P)", Children = new ObservableCollection<MenuTree>()
+                    {
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetPageMode1 },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetPageMode2 },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetBookReadOrderRight },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetBookReadOrderLeft },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsSupportedDividePage },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsSupportedWidePage },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsSupportedSingleFirstPage },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsSupportedSingleLastPage },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsRecursiveFolder },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeFileName },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeFileNameDescending },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeTimeStamp },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeTimeStampDescending },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeRandom },
+                    }},
+                    new MenuTree(MenuElementType.Group) { Name="設定(_O)", Children = new ObservableCollection<MenuTree>()
+                    {
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingWindow },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.OpenVersionWindow },
                     }},
                 }
             };

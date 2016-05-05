@@ -366,7 +366,7 @@ namespace NeeView
                 [CommandType.ToggleVisibleHistoryList] = new CommandElement
                 {
                     Group = "パネル",
-                    Text = "履歴の表示ON/OFF",
+                    Text = "履歴リストの表示ON/OFF",
                     MenuText = "履歴リスト",
                     ShortCutKey = "H",
                     IsShowMessage = false,
@@ -374,6 +374,18 @@ namespace NeeView
                     ExecuteMessage = e => _VM.IsVisibleHistoryList ? "履歴リストを消す" : "履歴リストを表示する",
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleHistoryList)),
+                },
+                [CommandType.ToggleVisiblePageList] = new CommandElement
+                {
+                    Group = "パネル",
+                    Text = "ページリストの表示ON/OFF",
+                    MenuText = "ページリスト",
+                    ShortCutKey = "P",
+                    IsShowMessage = false,
+                    Execute = e => _VM.ToggleVisiblePageList(),
+                    ExecuteMessage = e => _VM.IsVisiblePageList ? "ページリストを消す" : "ページリストを表示する",
+                    CanExecute = () => true,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisiblePageList)),
                 },
 
 

@@ -89,6 +89,9 @@
     <Compile Include="ContextMenuSettingWindow.xaml.cs">
       <DependentUpon>ContextMenuSettingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PageListControl.xaml.cs">
+      <DependentUpon>PageListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FolderCollection.cs" />
     <Compile Include="FolderList.xaml.cs">
       <DependentUpon>FolderList.xaml</DependentUpon>
@@ -227,6 +230,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FileInfoItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PageListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

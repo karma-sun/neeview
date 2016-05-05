@@ -380,6 +380,7 @@ namespace NeeView
                     new MenuTree(MenuElementType.Group) { Name="表示(_V)", Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFolderList },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisiblePageList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleBookmarkList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleHistoryList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFileInfo },

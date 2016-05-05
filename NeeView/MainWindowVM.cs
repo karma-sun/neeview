@@ -56,6 +56,7 @@ namespace NeeView
         FolderList,
         HistoryList,
         BookmarkList,
+        PageList,
     }
 
     // ウィンドウタイトル更新項目
@@ -331,6 +332,20 @@ namespace NeeView
             return IsVisibleBookmarkList;
         }
 
+        // ページリスト表示ON/OFF
+        public bool IsVisiblePageList
+        {
+            get { return LeftPanel == PanelType.PageList; }
+            set { LeftPanel = value ? PanelType.PageList : PanelType.None; }
+        }
+
+        //
+        public bool ToggleVisiblePageList()
+        {
+            IsVisiblePageList = !IsVisiblePageList;
+            return IsVisiblePageList;
+        }
+
 
         // 左パネル
         #region Property: LeftPanel
@@ -345,6 +360,7 @@ namespace NeeView
                 OnPropertyChanged(nameof(IsVisibleFolderList));
                 OnPropertyChanged(nameof(IsVisibleHistoryList));
                 OnPropertyChanged(nameof(IsVisibleBookmarkList));
+                OnPropertyChanged(nameof(IsVisiblePageList));
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
             }
         }

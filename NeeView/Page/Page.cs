@@ -62,11 +62,23 @@ namespace NeeView
         // 場所
         public string Place { get; protected set; }
 
-        // ページ名
+        // ページ名 : エントリ名
         public string FileName => Entry?.EntryName;
+
+        // ページ名：ファイル名のみ
+        public string LastName => LoosePath.GetFileName(FileName);
 
         // ページ名：フルパス
         public string FullPath { get { return LoosePath.Combine(Place, FileName); } }
+
+        // ページ名：プレフィックス
+        public string Prefix { get; set; }
+
+        // ページ名：プレフィックスを除いたフルパス
+        public string SmartFullPath => (Prefix == null ? FullPath : FullPath.Substring(Prefix.Length)).Replace('\\', '/').Replace("/", " > ");
+
+        // ページ名：プレフィックスを除いたフルパス のディレクトリ名(整形済)
+        public string SmartDirectoryName => LoosePath.GetDirectoryName(SmartFullPath).Replace('\\', '/');
 
         // コンテンツ幅
         public double Width { get; protected set; }

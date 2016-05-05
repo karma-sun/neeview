@@ -57,6 +57,9 @@ namespace NeeView
         // 再読み込みを要求
         public event EventHandler DartyBook;
 
+        // ソートされた
+        public event EventHandler PagesSorted;
+
         // 先読み許可フラグ
         public bool AllowPreLoad { get; set; } = true;
 
@@ -291,6 +294,13 @@ namespace NeeView
             {
                 ReadArchive(archiver, "", option);
 
+                // Pages Prefix
+                var prefix = GetPagesPrefix();
+                foreach(var page in Pages)
+                {
+                    page.Prefix = prefix;
+                }
+
                 // 初期ソート
                 Sort();
 
@@ -423,6 +433,56 @@ namespace NeeView
         }
 
 
+        // 名前の最長一致文字列取得
+        private string GetPagesPrefix()
+        {
+            if (Pages == null || Pages.Count == 0) return "";
+
+            string s = Pages[0].FullPath;
+            foreach(var page in Pages)
+            {
+                s = GetStartsWith(s, page.FullPath);
+                if (string.IsNullOrEmpty(s)) break;
+            }
+
+            // 最初の区切り記号
+            for (int i=s.Length-1; i>=0; --i)
+            {
+                if (s[i] == '\\' || s[i] == '/')
+                {
+                    return s.Substring(0, i + 1);
+                }
+            }
+
+            // ヘッダとして認識できなかった
+            return "";
+        }
+
+        //
+        private string GetStartsWith(string s0, string s1)
+        {
+            if (s0 == null || s1 == null) return "";
+
+            if (s0.Length > s1.Length)
+            {
+                var temp = s0;
+                s0 = s1;
+                s1 = temp;
+            }
+
+            for (int i=0; i<s0.Length; ++i)
+            {
+                char a0 = s0[i];
+                char a1 = s1[i];
+                if (s0[i] != s1[i])
+                {
+                    return i > 0 ? s0.Substring(0, i) : "";
+                }
+            }
+
+            return s0;
+        }
+
 
         // 開始
         // ページ設定を行うとコンテンツ読み込みが始まるため、ロードと分離した
@@ -467,6 +527,16 @@ namespace NeeView
             RequestSetPosition(_LastPosition, -1, true);
         }
 
+        // 指定ページに移動
+        public void JumpPage(Page page)
+        {
+            int index = Pages.IndexOf(page);
+            if (index >= 0)
+            {
+                var position = new PagePosition(index, 0);
+                RequestSetPosition(position, 1, false);
+            }
+        }
 
 
 
@@ -1047,6 +1117,8 @@ namespace NeeView
                 default:
                     throw new NotImplementedException();
             }
+
+            PagesSorted?.Invoke(this, null);
 
             RequestSetPosition(_FirstPosition, 1, true);
         }

@@ -1,0 +1,103 @@
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+
+<UserControl x:Class="NeeView.PageListControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             Background="{DynamicResource NVBackground}"
+             Foreground="{DynamicResource NVForeground}">
+
+    <UserControl.Resources>
+
+        <!-- Default TextBlock -->
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+
+        <RoutedCommand x:Key="xRemoveDommand" />
+
+        <!-- Normal -->
+        <DataTemplate x:Key="SmartText">
+            <TextBlock Text="{Binding SmartFullPath}" ToolTip="{Binding FullPath}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DefaultText">
+            <TextBlock Text="{Binding FullPath}" ToolTip="{Binding FullPath}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NameOnlyText">
+            <TextBlock Text="{Binding LastName}" ToolTip="{Binding FullPath}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis"/>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+
+    <DockPanel x:Name="DockPanel" Margin="0,5">
+
+        <StackPanel DockPanel.Dock="Top" Margin="5">
+
+            <StackPanel Margin="5">
+                <TextBlock Text="ページリスト" Foreground="Gray"/>
+                <TextBlock Text="{Binding Title}" ToolTip="{Binding Title}" TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
+
+            <WrapPanel>
+                <ComboBox x:Name="FormatComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
+                          ItemsSource="{Binding FormatList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding Format, Delay=1}"
+                          VerticalAlignment="Center">
+                </ComboBox>
+                <ComboBox x:Name="PageSortComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
+                          ItemsSource="{Binding PageSortModeList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding PageSortMode, Delay=1}"
+                          VerticalAlignment="Center">
+                </ComboBox>
+            </WrapPanel>
+        </StackPanel>
+
+        <ContentControl x:Name="PageListContentContent" Margin="0,0,0,20"/>
+
+        <ListBox x:Name="PageListBox" Focusable="True" Margin="0,0,0,20"
+                 Background="Transparent"
+                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                 FocusVisualStyle="{x:Null}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                 HorizontalContentAlignment="Stretch"
+                 ItemsSource="{Binding Pages}"
+                 SelectedItem="{Binding SelectedItem}"
+                 SelectionChanged="PageList_SelectionChanged"
+                 KeyDown="PageList_KeyDown">
+
+            <ListBox.Resources>
+
+                <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
+                    <Setter Property="ItemTemplate" Value="{StaticResource DefaultText}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Format}" Value="Smart">
+                            <Setter Property="ItemTemplate" Value="{StaticResource SmartText}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Format}" Value="NameOnly">
+                            <Setter Property="ItemTemplate" Value="{StaticResource NameOnlyText}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+
+                <Style TargetType="ListBoxItem">
+                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="PageListItem_MouseSingleClick"/>
+                    <EventSetter Event="KeyDown" Handler="PageListItem_KeyDown"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                </Style>
+                
+            </ListBox.Resources>
+            
+        </ListBox>
+    </DockPanel>
+
+</UserControl>

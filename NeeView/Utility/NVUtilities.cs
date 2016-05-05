@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
@@ -181,6 +182,31 @@ namespace NeeView
             }
         }
 
+
+#if false
+        // Win32 APIのインポート
+        [DllImport("USER32.DLL")]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, UInt32 bRevert);
+        [DllImport("USER32.DLL")]
+        private static extern bool AppendMenu(IntPtr hMenu, UInt32 uFlags, UInt32 uIDNewItem, string lpNewItem);
+
+        // オリジナルメニューを追加するための値
+        private const UInt32 MF_BYCOMMAND = 0x00000000;
+        private const UInt32 MF_STRING = 0x00000000;
+        private const UInt32 MF_SEPARATOR = 0x00000800;
+
+        public static void AppendMenu(Window window)
+        {
+            // タイトルバーのコンテキストメニューを取得
+            var hwnd = new System.Windows.Interop.WindowInteropHelper(window).Handle;
+            IntPtr hMenu = GetSystemMenu(hwnd, 0);
+
+            // セパレータとメニューを追加
+            AppendMenu(hMenu, MF_SEPARATOR, 0, string.Empty);
+            AppendMenu(hMenu, MF_STRING, MF_BYCOMMAND, "バージョン情報");
+
+        }
+#endif
     }
 }
 

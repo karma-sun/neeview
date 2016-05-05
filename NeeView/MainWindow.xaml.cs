@@ -646,6 +646,8 @@ namespace NeeView
             this.HistoryArea.Initialize(_VM.BookHub);
             // ブックマークリスト初期化
             this.BookmarkArea.Initialize(_VM.BookHub);
+            // ページリスト初期化
+            this.PageArea.Initialize(_VM.BookHub);
 
             // フォルダを開く
             if (!App.Options["--blank"].IsValid)

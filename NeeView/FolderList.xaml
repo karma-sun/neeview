@@ -20,7 +20,7 @@
             <DockPanel>
 
                 <Grid DockPanel.Dock="Right" Width="24">
-                    <TextBlock FontFamily="Wingdings" VerticalAlignment="Center" FontSize="22">
+                    <TextBlock FontFamily="Wingdings" VerticalAlignment="Center" FontSize="20" Height="18" Margin="0,-1,0,0">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Style.Triggers>
@@ -45,16 +45,16 @@
                                     <DataTrigger Binding="{Binding IconOverlay}" Value="Checked">
                                         <Setter Property="FontFamily" Value="Webdings"/>
                                         <Setter Property="Text" Value="a"/>
-                                        <Setter Property="FontSize" Value="20"/>
+                                        <Setter Property="FontSize" Value="18"/>
                                         <Setter Property="Foreground" Value="{DynamicResource NVCheckMarkBrush}"/>
-                                        <Setter Property="Margin" Value="0,0,-8,-4"/>
+                                        <Setter Property="Margin" Value="0,0,-4,-4"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IconOverlay}" Value="Star">
                                         <Setter Property="FontFamily" Value="Wingdings"/>
                                         <Setter Property="Text" Value="«"/>
-                                        <Setter Property="FontSize" Value="20"/>
+                                        <Setter Property="FontSize" Value="18"/>
                                         <Setter Property="Foreground" Value="{DynamicResource NVStarMarkBrush}"/>
-                                        <Setter Property="Margin" Value="0,0,-8,-4"/>
+                                        <Setter Property="Margin" Value="0,0,-4,-4"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

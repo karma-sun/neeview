@@ -41,6 +41,15 @@ namespace NeeView
                     throw new NotSupportedException();
             }
         }
+
+        public static Dictionary<PageSortMode, string> PageSortModeList { get; } = new Dictionary<PageSortMode, string>
+        {
+            [PageSortMode.FileName] = PageSortMode.FileName.ToDispString(),
+            [PageSortMode.FileNameDescending] = PageSortMode.FileNameDescending.ToDispString(),
+            [PageSortMode.TimeStamp] = PageSortMode.TimeStamp.ToDispString(),
+            [PageSortMode.TimeStampDescending] = PageSortMode.TimeStampDescending.ToDispString(),
+            [PageSortMode.Random] = PageSortMode.Random.ToDispString(),
+        };
     }
 
 

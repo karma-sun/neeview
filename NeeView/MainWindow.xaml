@@ -196,6 +196,21 @@
                                 </Style>
                             </local:FolderListControl.Style>
                         </local:FolderListControl>
+
+                        <!-- ページリスト -->
+                        <local:PageListControl x:Name="PageArea">
+                            <local:PageListControl.Style>
+                                <Style TargetType="local:PageListControl">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding LeftPanel}" Value="PageList">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </local:PageListControl.Style>
+                        </local:PageListControl>
+
                     </Grid>
                     <osc:DockPanelSplitter x:Name="FolderListSplitter" DockPanel.Dock="Left" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
                                        Visibility="{Binding ElementName=LeftPanel, Path=Visibility}" />

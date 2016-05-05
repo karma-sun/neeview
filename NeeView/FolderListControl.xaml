@@ -5,7 +5,7 @@
     http://opensource.org/licenses/mit-license.php
 -->
 
-    <UserControl x:Class="NeeView.FolderListControl"
+<UserControl x:Class="NeeView.FolderListControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -37,7 +37,7 @@
 
         <StackPanel DockPanel.Dock="Top" Margin="5">
             <StackPanel Margin="5">
-            <TextBlock Text="場所" Foreground="Gray"/>
+                <TextBlock Text="場所" Foreground="Gray"/>
                 <TextBlock Text="{Binding PlaceDispString}" ToolTip="{Binding PlaceDispString}"/>
             </StackPanel>
             <WrapPanel Orientation="Horizontal" >
@@ -51,9 +51,9 @@
                           ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderCollection.Folder.FolderOrder, Delay=1}"
                           VerticalAlignment="Center">
                 </ComboBox>
-             </WrapPanel>
+            </WrapPanel>
         </StackPanel>
-        
+
         <ContentControl x:Name="FolderListContent" Margin="0,0,0,20"/>
 
     </DockPanel>

@@ -168,6 +168,9 @@ namespace NeeView
         // アドレスが変更された
         public event EventHandler AddressChanged;
 
+        // ページがソートされた
+        public event EventHandler PagesSorted;
+
         #endregion
 
 
@@ -799,7 +802,8 @@ namespace NeeView
                 book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
                 book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
                 book.PageTerminated += OnPageTerminated;
-                book.DartyBook += (s, e) => ReLoad();
+                book.DartyBook += (s, e) => RequestLoad(Address, BookLoadOption.ReLoad, false);
+                book.PagesSorted += (s, e) => PagesSorted?.Invoke(s, e);
 
                 // 最初のコンテンツ表示待ち設定
                 _ViewContentEvent.Reset();
@@ -1001,6 +1005,12 @@ namespace NeeView
         public void LastPage()
         {
             CurrentBook?.LastPage();
+        }
+
+        // 指定ページに移動
+        public void JumpPage(Page page)
+        {
+            if (!_IsLoading) CurrentBook?.JumpPage(page);
         }
 
         // スライドショー用：次のページへ移動

@@ -21,6 +21,9 @@ namespace NeeView
     // 表示コンテンツソース 1ページ分
     public class ViewContentSource
     {
+        // ページ
+        public Page Page { get; set; }
+
         // コンテンツソース
         public object Source { get; set; }
 
@@ -53,6 +56,7 @@ namespace NeeView
         // Pageから作成
         public ViewContentSource(Page page, PagePosition position, int size, PageReadOrder readOrder)
         {
+            Page = page;
             Source = page.Content;
             SourceSize = new Size(page.Width, page.Height);
             Width = size == 2 ? page.Width : Math.Floor(page.Width * 0.5 + 0.4);

@@ -137,7 +137,12 @@ namespace NeeView
         // ボタンが離された時の処理
         private void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (!_IsButtonDown) return;
+            if (!_IsButtonDown)
+            {
+                e.Handled = true;
+                return;
+            }
+
             _IsButtonDown = false;
 
             _Sender.ReleaseMouseCapture();
@@ -165,6 +170,7 @@ namespace NeeView
                     else
                     { 
                         MouseClickEventHandler(sender, e);
+                        e.Handled = true;
                     }
                 }
             }

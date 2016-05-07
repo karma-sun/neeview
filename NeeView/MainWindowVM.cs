@@ -880,14 +880,61 @@ namespace NeeView
         // 標準ウィンドウタイトル
         private string _DefaultWindowTitle;
 
+        // サムネイル有効リスト
+        private AliveThumbnailList _AliveThumbnailList = new AliveThumbnailList();
+
+        // ページリスト(表示部用)
+        #region Property: PageList
+        private ObservableCollection<Page> _PageList;
+        public ObservableCollection<Page> PageList
+        {
+            get { return _PageList; }
+            set { _PageList = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+        // ページリスト更新
+        private void UpdatePageList()
+        {
+            PageList = new ObservableCollection<Page>(BookHub.CurrentBook?.Pages);
+        }
+
+        // サムネイル有効
+        public bool IsEnableThumbnailList { get; set; }
+
+        // サムネイルを自動的に隠す
+        public bool IsHideThumbnailList { get; set; }
+
+        // サムネイルリストとスライダー
+        // ONのときはスライダーに連結
+        // OFFのときはページ番号に連結
+        public bool IsSliderLinkedThumbnailList { get; set; }
+
+        // サムネイルサイズ
+        #region Property: ThumbnailSize
+        private double _ThumbnailSize = 128.0f;
+        public double ThumbnailSize
+        {
+            get { return _ThumbnailSize; }
+            set
+            {
+                if (_ThumbnailSize != value)
+                {
+                    _ThumbnailSize = value;
+                    ClearThumbnail();
+                    OnPropertyChanged();
+                }
+            }
+        }
+        #endregion
+
+
+
 
         #region 開発用
 
         // 開発用：JobEndine公開
         public JobEngine JobEngine => ModelContext.JobEngine;
-
-        // 開発用：ページリスト
-        public List<Page> PageList => BookHub.CurrentBook?.Pages;
 
         // 開発用：コンテンツ座標
         #region Property: ContentPosition
@@ -1001,6 +1048,18 @@ namespace NeeView
                     OnPropertyChanged(nameof(IsBookmark));
                 };
 
+            BookHub.PagesSorted +=
+                (s, e) =>
+                {
+                    UpdatePageList();
+                };
+
+            BookHub.ThumbnailChanged +=
+                (s, e) =>
+                {
+                    _AliveThumbnailList.Add(e);
+                };
+
             // CommandTable
             ModelContext.CommandTable.SetTarget(this, BookHub);
 
@@ -1062,19 +1121,12 @@ namespace NeeView
             OnPropertyChanged(nameof(Index));
             OnPropertyChanged(nameof(IndexMax));
 
+            ClearThumbnail();
+            UpdatePageList();
             UpdateLastFiles();
-
-            UpdatePageList(); // 開発用(重い)
 
             //
             CommandManager.InvalidateRequerySuggested();
-        }
-
-        // 開発用：ページ更新
-        [Conditional("DEBUG")]
-        private void UpdatePageList()
-        {
-            //OnPropertyChanged(nameof(PageList));
         }
 
         // 最近使ったファイル 更新
@@ -1628,6 +1680,40 @@ namespace NeeView
         }
 
 
+        // サムネイル要求
+        public void RequestThumbnail(int start, int count, int margin)
+        {
+            if (PageList == null) return;
+
+            // サムネイルリストが無効の場合、処理しない
+            if (!IsEnableThumbnailList) return;
+
+            // 未処理の要求を解除
+            ModelContext.JobEngine.Clear(QueueElementPriority.Low);
+
+            // 有効サムネイル数制限 (16MB)
+            int limit = (16 * 1024 * 1024) / ((int)ThumbnailSize * (int)ThumbnailSize * 4);
+            _AliveThumbnailList.Limited(limit);
+
+            // 要求
+            for (int index = start - margin; index < start + count + margin; ++index)
+            {
+                if (index >= 0 && index < PageList.Count)
+                {
+                    Page page = PageList[index];
+                    page.OpenThumbnail(ThumbnailSize);
+                }
+            }
+        }
+
+        // サムネイル破棄
+        public void ClearThumbnail()
+        {
+            _AliveThumbnailList.Clear();
+            GC.Collect();
+        }
+
+
         // 廃棄処理
         public void Dispose()
         {
@@ -1773,6 +1859,16 @@ namespace NeeView
             [DataMember(Order = 8)]
             public ContextMenuSetting ContextMenuSetting { get; set; }
 
+            [DataMember(Order = 8)]
+            public bool IsEnableThumbnailList { get; set; }
+
+            [DataMember(Order = 8)]
+            public bool IsHideThumbnailList { get; set; }
+
+            [DataMember(Order = 8)]
+            public double ThumbnailSize { get; set; }
+
+            //
             void Constructor()
             {
                 IsLimitMove = true;
@@ -1795,6 +1891,8 @@ namespace NeeView
                 IsHidePanelInFullscreen = true;
                 IsVisibleTitleBar = true;
                 ContextMenuSetting = new ContextMenuSetting();
+                IsHideThumbnailList = true;
+                ThumbnailSize = 80;
             }
 
             public Memento()
@@ -1864,6 +1962,9 @@ namespace NeeView
             memento.IsHidePanel = this.IsHidePanel;
             memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
             memento.ContextMenuSetting = this.ContextMenuSetting.Clone();
+            memento.IsEnableThumbnailList = this.IsEnableThumbnailList;
+            memento.IsHideThumbnailList = this.IsHideThumbnailList;
+            memento.ThumbnailSize = this.ThumbnailSize;
 
             return memento;
         }
@@ -1911,7 +2012,11 @@ namespace NeeView
             this.IsHidePanel = memento.IsHidePanel;
             this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
             this.ContextMenuSetting = memento.ContextMenuSetting.Clone();
+            this.IsEnableThumbnailList = memento.IsEnableThumbnailList;
+            this.IsHideThumbnailList = memento.IsHideThumbnailList;
+            this.ThumbnailSize = memento.ThumbnailSize;
 
+            NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }
 

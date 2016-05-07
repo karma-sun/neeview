@@ -11,6 +11,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation;
+using System.Windows.Automation.Peers;
+using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
@@ -240,6 +243,20 @@ namespace NeeView
                     var track = this.PageSlider.Template.FindName("PART_Track", this.PageSlider) as System.Windows.Controls.Primitives.Track;
                     // Force it to rerender
                     track.InvalidateVisual();
+                    break;
+                case "PageList":
+                    App.Current.Dispatcher.Invoke(() =>
+                    {
+                        this.ThumbnailListBox.UpdateLayout();
+                        UpdateThumbnailList();
+                        LoadThumbnailList();
+                    });
+                    break;
+                case "Index":
+                    App.Current.Dispatcher.Invoke(() =>
+                    {
+                        UpdateThumbnailList();
+                    });
                     break;
             }
         }
@@ -509,6 +526,7 @@ namespace NeeView
         WindowState _WindowStateMemento = WindowState.Normal;
         bool _FullScreened;
 
+        // TODO: 呼びだされすぎ
         // スクリーンモード切り替えによるコントロール設定の変更
         private void OnMenuVisibilityChanged()
         {
@@ -579,6 +597,16 @@ namespace NeeView
             // アドレスバー
             this.AddressBar.Visibility = _VM.IsVisibleAddressBar ? Visibility.Visible : Visibility.Collapsed;
 
+            // サムネイルリスト
+            this.ThumbnailListArea.Visibility = _VM.IsEnableThumbnailList ? Visibility.Visible : Visibility.Collapsed;
+            this._ThumbnailListPanel.FlowDirection = _VM.IsSliderDirectionReversed ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+
+            double statusAreaHeight = this.PageSlider.ActualHeight + _VM.ThumbnailSize + 20; // アバウト
+
+            double bottomMargin = (isMenuDock && _VM.IsEnableThumbnailList && !_VM.IsHideThumbnailList ? statusAreaHeight : this.PageSlider.ActualHeight);
+            this.LeftPanelMargin.Height = bottomMargin;
+            this.RightPanelMargin.Height = bottomMargin;
+
             // パネル表示設定
             UpdatePanelVisibility(true);
 
@@ -589,11 +617,12 @@ namespace NeeView
             this.ViewArea.Margin = new Thickness(0, isMenuDock ? this.MenuArea.ActualHeight : 0, 0, 0);
 
             // コンテンツ表示領域設定
-            this.MainView.Margin = new Thickness(0, 0, 0, isMenuDock ? this.StatusArea.ActualHeight : 0);
+            this.MainView.Margin = new Thickness(0, 0, 0, isMenuDock ? bottomMargin : 0);
 
             // 通知表示位置設定
-            this.TinyInfoTextBlock.Margin = new Thickness(0, 0, 0, this.StatusArea.ActualHeight);
-            this.NowLoadingTiny.Margin = new Thickness(0, 0, 0, this.StatusArea.ActualHeight);
+            this.TinyInfoTextBlock.Margin = new Thickness(0, 0, 0, bottomMargin);
+            this.InfoTextAreaBase.Margin = new Thickness(0, 0, 0, bottomMargin);
+            this.NowLoadingTiny.Margin = new Thickness(0, 0, 0, bottomMargin);
         }
 
 
@@ -610,6 +639,9 @@ namespace NeeView
         //
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // パネルコントロール取得
+            _ThumbnailListPanel = FindVisualChild<VirtualizingStackPanel>(this.ThumbnailListBox);
+
             // 設定反映
             _VM.RestoreSetting(App.Setting);
 
@@ -896,8 +928,215 @@ namespace NeeView
         // [開発用] テストボタン
         private void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+
+            double rate = (this.PageSlider.Value - this.PageSlider.Minimum) / (this.PageSlider.Maximum - this.PageSlider.Minimum);
+
+            // ListBoxからAutomationPeerを取得
+            var peer = ItemsControlAutomationPeer.CreatePeerForElement(this.ThumbnailListBox);
+            // GetPatternでIScrollProviderを取得
+            var scrollProvider = peer.GetPattern(PatternInterface.Scroll) as IScrollProvider;
+            scrollProvider.SetScrollPercent(rate * 100.0, scrollProvider.VerticalScrollPercent);
         }
+
+
+        // TODO: クラス化
+        #region thumbnail list
+
+        private void ThumbnailListArea_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateThumbnailList();
+        }
+
+        // サムネイルリストのパネルコントロール
+        private VirtualizingStackPanel _ThumbnailListPanel;
+
+        // TODO: スライダー方向
+        // TODO: 自動非表示、少ない項目、先頭or終端、でロードしたときの表示位置がおかしい
+        private void UpdateThumbnailList()
+        {
+            if (_ThumbnailListPanel == null) return;
+
+            // 非表示時は処理なし
+            if (!this.ThumbnailListArea.IsVisible) return;
+
+            // 項目の幅 取得
+            var listBoxItem = this.ThumbnailListBox.ItemContainerGenerator.ContainerFromIndex((int)_ThumbnailListPanel.HorizontalOffset) as ListBoxItem;
+            double itemWidth = (listBoxItem != null) ? listBoxItem.ActualWidth : 0.0;
+            if (itemWidth <= 0.0) return;
+
+            // 表示領域の幅
+            double panelWidth = this.ThumbnailListArea.ActualWidth;
+
+            // 表示項目数を計算 (なるべく奇数)
+            int itemsCount = (int)(panelWidth / itemWidth) / 2 * 2 + 1;
+            if (itemsCount < 1) itemsCount = 1;
+
+            // 表示先頭項目
+            int topIndex = _VM.Index - itemsCount / 2;
+            if (topIndex < 0) topIndex = 0;
+
+            // 少項目数補正
+            if (_VM.IndexMax + 1 < itemsCount)
+            {
+                itemsCount = _VM.IndexMax + 1;
+                topIndex = 0;
+            }
+
+            // ListBoxの幅を表示項目数にあわせる
+            this.ThumbnailListBox.Width = itemWidth * itemsCount + 18; // TODO: 余裕が必要？
+
+            // 表示項目先頭指定
+            _ThumbnailListPanel.SetHorizontalOffset(topIndex);
+
+            // 選択
+            this.ThumbnailListBox.SelectedIndex = _VM.Index;
+        }
+
+        // TODO: 何度も来るのでいいかんじにする
+        private void ThumbnailListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count <= 0)
+            {
+                this.ThumbnailListBox.SelectedIndex = _VM.Index;
+                return;
+            }
+
+            // 端の表示調整
+            if (this.ThumbnailListBox.Width > this.ThumbnailListArea.ActualWidth)
+            {
+                if (this.ThumbnailListBox.SelectedIndex <= 0)
+                {
+                    this.ThumbnailListBox.HorizontalAlignment = _VM.IsSliderDirectionReversed ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+                }
+                else if (this.ThumbnailListBox.SelectedIndex >= this.ThumbnailListBox.Items.Count - 1)
+                {
+                    this.ThumbnailListBox.HorizontalAlignment = _VM.IsSliderDirectionReversed ? HorizontalAlignment.Left : HorizontalAlignment.Right;
+                }
+                else
+                {
+                    this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Center;
+                }
+            }
+            else
+            {
+                this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Center;
+            }
+        }
+
+        // リストボックスのドラッグ機能を無効化する
+        private void ThumbnailListBox_IsMouseCapturedChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (this.ThumbnailListBox.IsMouseCaptured)
+            {
+                this.ThumbnailListBox.ReleaseMouseCapture();
+            }
+        }
+
+        // リストボックスのカーソルキーによる不意のスクロール抑制
+        private void ThumbnailListBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            e.Handled = (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right);
+        }
+
+        // リストボックスのカーソルキーによる不意のスクロール抑制(固まり回避)
+        private void ThumbnailListBoxPanel_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            e.Handled = (e.Key == Key.Up || e.Key == Key.Down);
+        }
+
+        // 履歴項目決定
+        private void ThumbnailListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
+        {
+            var page = (sender as ListBoxItem)?.Content as Page;
+            if (page != null)
+            {
+                // TODO: サムネイルリストは変化させない?
+                _VM.BookHub.JumpPage(page);
+                e.Handled = true;
+            }
+        }
+
+        // 履歴項目決定(キー)
+        private void ThumbnailListItem_KeyDown(object sender, KeyEventArgs e)
+        {
+            var page = (sender as ListBoxItem)?.Content as Page;
+            {
+                if (e.Key == Key.Return)
+                {
+                    // TODO: サムネイルリストは変化させない?
+                    _VM.BookHub.JumpPage(page);
+                    e.Handled = true;
+                }
+            }
+        }
+
+        // スクロールしたらサムネ更新
+        private void ThumbnailList_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (_ThumbnailListPanel != null && this.ThumbnailListBox.Items.Count > 0)
+            {
+                LoadThumbnailList();
+            }
+        }
+
+        // サムネ更新。表示されているページのサムネの読み込み要求
+        private void LoadThumbnailList()
+        {
+            if (_ThumbnailListPanel != null)
+            {
+                _VM.RequestThumbnail((int)_ThumbnailListPanel.HorizontalOffset, (int)_ThumbnailListPanel.ViewportWidth, 2);
+            }
+        }
+
+        // 子ビジュアルコントロールの検索
+        private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+
+                if (child is T)
+                {
+                    return (T)child;
+                }
+                else
+                {
+                    child = FindVisualChild<T>(child);
+                    if (child != null)
+                    {
+                        return (T)child;
+                    }
+                }
+            }
+            return null;
+        }
+
+        // サムネイルリストの非表示判定
+        private void UpdateThumbnailListVisibility()
+        {
+            if (_VM.IsEnableThumbnailList && _VM.IsHideThumbnailList)
+            {
+                Point point = Mouse.GetPosition(this.StatusArea);
+                if (point.Y < 0.0 - 40.0)
+                {
+                    this.ThumbnailListArea.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        // スライダーに乗ったら表示開始
+        private void PageSlider_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (_VM.IsEnableThumbnailList && !this.ThumbnailListArea.IsVisible)
+            {
+                this.ThumbnailListArea.Visibility = Visibility.Visible;
+                UpdateThumbnailList();
+            }
+        }
+
+        #endregion
+
 
 
         #region Panel Visibility
@@ -910,6 +1149,9 @@ namespace NeeView
         private void ViewArea_MouseMove(object sender, MouseEventArgs e)
         {
             if (_VM.CanHidePanel) UpdatePanelVisibility(false);
+
+            // サムネイルリスト表示状態更新
+            UpdateThumbnailListVisibility();
         }
 
         // パネルの表示ON/OFF更新

@@ -54,7 +54,7 @@
             </WrapPanel>
         </StackPanel>
 
-        <ContentControl x:Name="FolderListContent" Margin="0,0,0,20"/>
+        <ContentControl x:Name="FolderListContent"/>
 
     </DockPanel>
 </UserControl>

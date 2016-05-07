@@ -165,6 +165,25 @@
                             </DockPanel>
                         </StackPanel>
 
+
+                        <TextBlock Text="サムネイルリスト" Style="{StaticResource Header}"/>
+
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Margin="2" Content="サムネイルリストを使用する"
+                              IsChecked="{Binding Setting.ViewMemento.IsEnableThumbnailList}" />
+                            <CheckBox Margin="2" Content="サムネイルリストを自動的に隠す"
+                              IsChecked="{Binding Setting.ViewMemento.IsHideThumbnailList}" IsEnabled="{Binding Setting.ViewMemento.IsEnableThumbnailList}" />
+                            <CheckBox Margin="2" Content="スライダーで動かすのはサムネイルリストのみにする"
+                              IsChecked="{Binding Setting.ViewMemento.IsSliderLinkedThumbnailList}" IsEnabled="{Binding Setting.ViewMemento.IsEnableThumbnailList}" />
+                            <StackPanel Margin="2" Orientation="Horizontal">
+                                <TextBlock Text="サムネイルサイズ："/>
+                                <TextBlock Text="{Binding Setting.ViewMemento.ThumbnailSize, StringFormat={}{0}x{0}}" Width="64" Margin="5,0" TextAlignment="Right"/>
+                                <Slider x:Name="ThumbnailSizeSlider" Width="200" Value="{Binding Setting.ViewMemento.ThumbnailSize}"
+                                    Minimum="64" Maximum="256" TickFrequency="16" IsSnapToTickEnabled="True"/>
+                            </StackPanel>
+                        </StackPanel>
+
+
                         <TextBlock Text="パネル" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
                             <DockPanel Margin="2" LastChildFill="False">

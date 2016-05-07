@@ -171,6 +171,9 @@ namespace NeeView
         // ページがソートされた
         public event EventHandler PagesSorted;
 
+        // サムネイル変更
+        public event EventHandler<Page> ThumbnailChanged;
+
         #endregion
 
 
@@ -804,6 +807,7 @@ namespace NeeView
                 book.PageTerminated += OnPageTerminated;
                 book.DartyBook += (s, e) => RequestLoad(Address, BookLoadOption.ReLoad, false);
                 book.PagesSorted += (s, e) => PagesSorted?.Invoke(s, e);
+                book.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(s, e);
 
                 // 最初のコンテンツ表示待ち設定
                 _ViewContentEvent.Reset();
@@ -1352,7 +1356,6 @@ namespace NeeView
                 }
             }
         }
-
 
         #region Memento
 

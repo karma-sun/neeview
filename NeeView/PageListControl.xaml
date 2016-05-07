@@ -62,9 +62,7 @@
             </WrapPanel>
         </StackPanel>
 
-        <ContentControl x:Name="PageListContentContent" Margin="0,0,0,20"/>
-
-        <ListBox x:Name="PageListBox" Focusable="True" Margin="0,0,0,20"
+        <ListBox x:Name="PageListBox" Focusable="True"
                  Background="Transparent"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                  FocusVisualStyle="{x:Null}"

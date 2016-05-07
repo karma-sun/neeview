@@ -23,6 +23,9 @@ namespace NeeView
         // シリアル番号(開発用)
         public int SerialNumber { get; set; }
 
+        // 発行者
+        public object Sender { get; set; }
+
         // 処理
         public Action<CancellationToken> Execute { get; set; }
 
@@ -197,16 +200,33 @@ namespace NeeView
         }
 
         /// <summary>
+        /// Jobクリア
+        /// </summary>
+        /// <param name="priority">クリアする優先度</param>
+        public void Clear(QueueElementPriority priority)
+        {
+            lock (_Context.Lock)
+            {
+                while (_Context.JobQueue.CountAt(priority) > 0)
+                {
+                    var job = _Context.JobQueue.Dequeue(priority);
+                    job.Cancel();
+                }
+            }
+        }
+
+        /// <summary>
         /// Job登録
         /// </summary>
         /// <param name="action">処理</param>
         /// <param name="cancelAction">キャンセル時の処理</param>
         /// <param name="priority">優先度</param>
         /// <returns>JobRequest</returns>
-        public JobRequest Add(Action<CancellationToken> action, Action cancelAction, QueueElementPriority priority)
+        public JobRequest Add(object sender, Action<CancellationToken> action, Action cancelAction, QueueElementPriority priority, bool reverse=false)
         {
             var job = new Job();
             job.SerialNumber = _SerialNumber++;
+            job.Sender = sender;
             job.Execute = action;
             job.Cancel = cancelAction;
 
@@ -214,7 +234,7 @@ namespace NeeView
 
             lock (_Context.Lock)
             {
-                _Context.JobQueue.Enqueue(job, priority);
+                _Context.JobQueue.Enqueue(job, priority, reverse);
                 _Context.Event.Set();
                 Message = $"Add Job. {job.SerialNumber}";
             }
@@ -340,7 +360,7 @@ namespace NeeView
                 lock (_Context.Lock)
                 {
                     // ジョブ取り出し
-                    job = _Context.JobQueue.Decueue();
+                    job = _Context.JobQueue.Dequeue();
 
                     // ジョブが無い場合はイベントリセット
                     if (job == null)
@@ -353,7 +373,7 @@ namespace NeeView
                 if (job == null)
                 {
                     Message = $"wait event ...";
-                    await Task.Run(()=>_Context.Event.WaitOne());
+                    await Task.Run(() => _Context.Event.WaitOne());
                     continue;
                 }
 

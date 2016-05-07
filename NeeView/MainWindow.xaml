@@ -13,6 +13,7 @@
         xmlns:local="clr-namespace:NeeView"
         xmlns:osc="clr-namespace:OpenSourceControls"
         mc:Ignorable="d"
+        x:Name="RootWindow"
         Title="{Binding WindowTitle}" Icon="{Binding WindowIcon}" Height="768" Width="1024" AllowDrop="True"
         Topmost="{Binding IsTopmost}"
         Loaded="MainWindow_Loaded" Closed="Window_Closed" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized"
@@ -122,7 +123,6 @@
         -->
 
         <!-- 開発用 表示領域-->
-        <!--
         <DockPanel x:Name="DevInfo" DockPanel.Dock="Bottom" Panel.ZIndex="100" Background="White"
                   Visibility="{Binding ElementName=MenuItemDevInfo, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
@@ -136,7 +136,7 @@
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[2].Message}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[3].Message}"/>
         </DockPanel>
-        -->
+
 
         <!-- 製品表示領域 -->
         <Grid x:Name="Root" Background="{Binding BackgroundBrush}">
@@ -151,77 +151,87 @@
                 <DockPanel x:Name="Panels">
 
                     <!-- 左パネル -->
-                    <Grid x:Name="LeftPanel" DockPanel.Dock="Left" Width="250">
+                    <DockPanel x:Name="LeftPanel" DockPanel.Dock="Left" Width="250" Background="{DynamicResource NVBackground}">
 
-                        <!-- ブックマークリスト -->
-                        <local:BookmarkControl x:Name="BookmarkArea">
-                            <local:BookmarkControl.Style>
-                                <Style TargetType="local:BookmarkControl">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding LeftPanel}" Value="BookmarkList">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </local:BookmarkControl.Style>
-                        </local:BookmarkControl>
+                        <Grid x:Name="LeftPanelMargin" DockPanel.Dock="Bottom"/>
 
-                        <!-- 履歴リスト -->
-                        <local:HistoryControl x:Name="HistoryArea">
-                            <local:HistoryControl.Style>
-                                <Style TargetType="local:HistoryControl">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding LeftPanel}" Value="HistoryList">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </local:HistoryControl.Style>
-                        </local:HistoryControl>
+                        <Grid>
 
-                        <!-- フォルダリスト -->
-                        <local:FolderListControl x:Name="FolderListArea"
+                            <!-- ブックマークリスト -->
+                            <local:BookmarkControl x:Name="BookmarkArea">
+                                <local:BookmarkControl.Style>
+                                    <Style TargetType="local:BookmarkControl">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding LeftPanel}" Value="BookmarkList">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </local:BookmarkControl.Style>
+                            </local:BookmarkControl>
+
+                            <!-- 履歴リスト -->
+                            <local:HistoryControl x:Name="HistoryArea">
+                                <local:HistoryControl.Style>
+                                    <Style TargetType="local:HistoryControl">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding LeftPanel}" Value="HistoryList">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </local:HistoryControl.Style>
+                            </local:HistoryControl>
+
+                            <!-- フォルダリスト -->
+                            <local:FolderListControl x:Name="FolderListArea"
                                         Setting="{Binding FolderListSetting}"
                                         BookHub="{Binding BookHub}">
-                            <local:FolderListControl.Style>
-                                <Style TargetType="local:FolderListControl">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding LeftPanel}" Value="FolderList">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </local:FolderListControl.Style>
-                        </local:FolderListControl>
+                                <local:FolderListControl.Style>
+                                    <Style TargetType="local:FolderListControl">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding LeftPanel}" Value="FolderList">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </local:FolderListControl.Style>
+                            </local:FolderListControl>
 
-                        <!-- ページリスト -->
-                        <local:PageListControl x:Name="PageArea">
-                            <local:PageListControl.Style>
-                                <Style TargetType="local:PageListControl">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding LeftPanel}" Value="PageList">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </local:PageListControl.Style>
-                        </local:PageListControl>
+                            <!-- ページリスト -->
+                            <local:PageListControl x:Name="PageArea">
+                                <local:PageListControl.Style>
+                                    <Style TargetType="local:PageListControl">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding LeftPanel}" Value="PageList">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </local:PageListControl.Style>
+                            </local:PageListControl>
 
-                    </Grid>
+                        </Grid>
+                    </DockPanel>
                     <osc:DockPanelSplitter x:Name="FolderListSplitter" DockPanel.Dock="Left" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
                                        Visibility="{Binding ElementName=LeftPanel, Path=Visibility}" />
 
                     <!-- 右パネル -->
-                    <Grid x:Name="RightPanel" DockPanel.Dock="Right" Width="250">
-                        <!-- 情報エリア -->
-                        <Grid x:Name="InfoArea" MouseLeftButtonDown="InfoArea_MouseLeftButtonDown">
-                            <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}" d:IsHidden="True"/>
+                    <DockPanel x:Name="RightPanel" DockPanel.Dock="Right" Width="250" Background="{DynamicResource NVBackground}">
+
+                        <Grid x:Name="RightPanelMargin" DockPanel.Dock="Bottom"/>
+
+                        <Grid>
+                            <!-- 情報エリア -->
+                            <Grid x:Name="InfoArea" MouseLeftButtonDown="InfoArea_MouseLeftButtonDown">
+                                <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}" d:IsHidden="True"/>
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </DockPanel>
                     <osc:DockPanelSplitter x:Name="InfoAreaSplitter" DockPanel.Dock="Right" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
                                        Visibility="{Binding ElementName=RightPanel, Path=Visibility}" />
 
@@ -501,8 +511,10 @@
 
             <!-- ステータスエリア -->
             <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom">
+
                 <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
-                        local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding ElementName=MainView}">
+                        local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding ElementName=MainView}"
+                        MouseEnter="PageSlider_MouseEnter">
                     <Slider.Style>
                         <Style TargetType="Slider">
                             <Style.Triggers>
@@ -513,6 +525,75 @@
                         </Style>
                     </Slider.Style>
                 </Slider>
+
+                <Grid x:Name="ThumbnailListArea" SizeChanged="ThumbnailListArea_SizeChanged">
+                    <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                             
+                             UseLayoutRounding="True"
+                             ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
+                             KeyDown="ThumbnailListBox_KeyDown"
+                             IsMouseCapturedChanged="ThumbnailListBox_IsMouseCapturedChanged"
+                             SelectionChanged="ThumbnailListBox_SelectionChanged"
+                         HorizontalAlignment="Center"
+                             VerticalAlignment="Bottom"
+                         ScrollViewer.CanContentScroll="True"
+                         Background="Transparent" BorderThickness="0">
+                        <ListBox.Resources>
+                            <Style TargetType="Grid" x:Key="ThumbnailGrid">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Thumbnail}" Value="{x:Null}">
+                                        <Setter Property="Background" Value="Gray"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+
+                            <Style TargetType="{x:Type ListBox}">
+                                <Setter Property="Padding" Value="5,0" />
+                                <Setter Property="ItemTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <Grid Width="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailSize}" Height="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailSize}" Margin="5">
+                                                <Ellipse Fill="Gray" Width="8" Height="8">
+                                                    <Ellipse.Style>
+                                                        <Style TargetType="Ellipse">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Thumbnail}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Ellipse.Style>
+                                                </Ellipse>
+                                                <Image Source="{Binding Thumbnail}" UseLayoutRounding="True" Stretch="None" >
+                                                    <Image.Effect>
+                                                        <DropShadowEffect ShadowDepth="2" Opacity="0.5" RenderingBias="Performance" />
+                                                    </Image.Effect>
+                                                </Image>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="ItemsPanel">
+                                    <Setter.Value>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel Orientation="Horizontal" CanHorizontallyScroll="True" CanVerticallyScroll="False" FlowDirection="RightToLeft" Margin="2,0"
+                                                                    KeyDown="ThumbnailListBoxPanel_KeyDown"/>
+                                        </ItemsPanelTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+
+                            <Style TargetType="ListBoxItem">
+                                <EventSetter Event="PreviewMouseLeftButtonUp" Handler="ThumbnailListItem_MouseSingleClick"/>
+                                <EventSetter Event="KeyDown" Handler="ThumbnailListItem_KeyDown"/>
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                            </Style>
+
+                        </ListBox.Resources>
+                    </ListBox>
+                </Grid>
+
             </DockPanel>
 
             <!-- Message Tiny -->
@@ -529,22 +610,24 @@
             </TextBlock>
 
             <!-- Message -->
-            <StackPanel x:Name="InfoTextArea" Orientation="Horizontal" Margin="0,0,0,60" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" MaxWidth="{Binding ElementName=ViewArea, Path=ActualWidth}" IsHitTestVisible="False">
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=InfoTextBlock, Path=Text}" Value="">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-                <StackPanel Orientation="Horizontal" Margin="20,10">
-                    <TextBlock x:Name="InfoUsedBookmark"  Margin="0,0,5,0" FontFamily="Wingdings" Text="«" FontSize="{Binding InfoTextMarkSize}" Foreground="{StaticResource NVStarMarkBrush}" VerticalAlignment="Center"/>
-                    <TextBlock x:Name="InfoUsedHistory"  Margin="0,0,5,0" FontFamily="Webdings" Text="a" FontSize="{Binding InfoTextMarkSize}" Foreground="{StaticResource NVCheckMarkBrush}" VerticalAlignment="Center"/>
-                    <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" Foreground="White" FontFamily="Meiryo" TextTrimming="CharacterEllipsis" />
+            <Grid x:Name="InfoTextAreaBase">
+                <StackPanel x:Name="InfoTextArea" Orientation="Horizontal" Margin="0,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" MaxWidth="{Binding ElementName=ViewArea, Path=ActualWidth}" IsHitTestVisible="False">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=InfoTextBlock, Path=Text}" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <StackPanel Orientation="Horizontal" Margin="20,10">
+                        <TextBlock x:Name="InfoUsedBookmark"  Margin="0,0,5,0" FontFamily="Wingdings" Text="«" FontSize="{Binding InfoTextMarkSize}" Foreground="{StaticResource NVStarMarkBrush}" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="InfoUsedHistory"  Margin="0,0,5,0" FontFamily="Webdings" Text="a" FontSize="{Binding InfoTextMarkSize}" Foreground="{StaticResource NVCheckMarkBrush}" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" Foreground="White" FontFamily="Meiryo" TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
+            </Grid>
 
         </Grid>
 

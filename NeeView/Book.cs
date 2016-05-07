@@ -60,6 +60,9 @@ namespace NeeView
         // ソートされた
         public event EventHandler PagesSorted;
 
+        // サムネイル更新
+        public event EventHandler<Page> ThumbnailChanged;
+
         // 先読み許可フラグ
         public bool AllowPreLoad { get; set; } = true;
 
@@ -296,7 +299,7 @@ namespace NeeView
 
                 // Pages Prefix
                 var prefix = GetPagesPrefix();
-                foreach(var page in Pages)
+                foreach (var page in Pages)
                 {
                     page.Prefix = prefix;
                 }
@@ -401,10 +404,11 @@ namespace NeeView
         // ページを追加する
         private void AddPage(Archiver archiver, ArchiveEntry entry, string place, BookLoadOption option)
         {
+            Page page = null;
+
             if (ModelContext.BitmapLoaderManager.IsSupported(entry.EntryName))
             {
-                var page = new BitmapPage(archiver, entry, place);
-                Pages.Add(page);
+                page = new BitmapPage(archiver, entry, place);
             }
             else
             {
@@ -415,13 +419,13 @@ namespace NeeView
                     switch (type)
                     {
                         case ArchiverType.None:
-                            Pages.Add(new FilePage(archiver, entry, place, FilePageIcon.File));
+                            page = new FilePage(archiver, entry, place, FilePageIcon.File);
                             break;
                         case ArchiverType.FolderFiles:
-                            Pages.Add(new FilePage(archiver, entry, place, FilePageIcon.Folder));
+                            page = new FilePage(archiver, entry, place, FilePageIcon.Folder);
                             break;
                         default:
-                            Pages.Add(new FilePage(archiver, entry, place, FilePageIcon.Archive));
+                            page = new FilePage(archiver, entry, place, FilePageIcon.Archive);
                             break;
                     }
                 }
@@ -429,6 +433,22 @@ namespace NeeView
                 {
                     SubFolderCount++;
                 }
+            }
+
+            if (page != null)
+            {
+                page.ThumbnailChanged += Page_ThumbnailChanged;
+                Pages.Add(page);
+            }
+        }
+
+        //
+        private void Page_ThumbnailChanged(object sender, System.Windows.Media.Imaging.BitmapSource e)
+        {
+            var page = sender as Page;
+            if (page != null && e != null)
+            {
+                ThumbnailChanged?.Invoke(this, page);
             }
         }
 
@@ -439,14 +459,14 @@ namespace NeeView
             if (Pages == null || Pages.Count == 0) return "";
 
             string s = Pages[0].FullPath;
-            foreach(var page in Pages)
+            foreach (var page in Pages)
             {
                 s = GetStartsWith(s, page.FullPath);
                 if (string.IsNullOrEmpty(s)) break;
             }
 
             // 最初の区切り記号
-            for (int i=s.Length-1; i>=0; --i)
+            for (int i = s.Length - 1; i >= 0; --i)
             {
                 if (s[i] == '\\' || s[i] == '/')
                 {
@@ -470,7 +490,7 @@ namespace NeeView
                 s1 = temp;
             }
 
-            for (int i=0; i<s0.Length; ++i)
+            for (int i = 0; i < s0.Length; ++i)
             {
                 char a0 = s0[i];
                 char a1 = s1[i];
@@ -786,7 +806,6 @@ namespace NeeView
             public override async Task Execute()
             {
                 await _Book.UpdateViewPageAsync(GetViewPageContextSource(), true);
-                _Book.DisplayIndex = _Book._ViewContext.Position.Index;
             }
         }
 
@@ -940,9 +959,11 @@ namespace NeeView
             // notice ViewContentsChanged
             App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource() { Sources = _ViewContext.ViewContentsSource, Direction = _ViewContext.Direction }));
 
+            // change page
+            DisplayIndex = _ViewContext.Position.Index;
+
             // notice PropertyChanged
             PageChanged?.Invoke(this, _ViewContext.Position.Index);
-
         }
 
         // 見開きモードでも単独表示するべきか判定

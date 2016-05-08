@@ -168,7 +168,18 @@ namespace NeeView
         private void FolderSyncButton_Click(object sender, RoutedEventArgs e)
         {
             _VM.Sync();
-            _FolderList.FocusSelectedItem();
+            _FolderList.FocusSelectedItem(true);
+        }
+
+
+        //
+        private async void FolderList_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                await Task.Yield();
+                _FolderList.FocusSelectedItem(true);
+            }
         }
     }
 
@@ -293,7 +304,7 @@ namespace NeeView
         {
             if (_FolderCollection == null || FolderCollection.Items.Count <= 0) return null;
 
-            for (int index = SelectedIndex;  index < _FolderCollection.Items.Count; ++index)
+            for (int index = SelectedIndex; index < _FolderCollection.Items.Count; ++index)
             {
                 var folder = _FolderCollection[index];
                 if (folder.IsExist()) return folder;

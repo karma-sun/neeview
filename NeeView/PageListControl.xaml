@@ -41,7 +41,7 @@
     </UserControl.Resources>
 
 
-    <DockPanel x:Name="DockPanel" Margin="0,5">
+    <DockPanel x:Name="DockPanel" Margin="0,5" IsVisibleChanged="PaegList_IsVisibleChanged">
 
         <StackPanel DockPanel.Dock="Top" Margin="5">
 

@@ -123,6 +123,33 @@ namespace NeeView
                 e.Handled = true;
             }
         }
+
+
+        // 表示/非表示イベント
+        private async void BookmarkListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue as bool? == true)
+            {
+                if (this.BookmarkListBox.SelectedIndex < 0)
+                {
+                    this.BookmarkListBox.SelectedIndex = 0;
+                }
+
+                await Task.Yield();
+                FocusSelectedItem(true);
+            }
+        }
+
+        //
+        public void FocusSelectedItem(bool force)
+        {
+            if (this.BookmarkListBox.SelectedIndex < 0) return;
+
+            if (force) this.BookmarkListBox.ScrollIntoView(this.BookmarkListBox.SelectedItem);
+
+            ListBoxItem lbi = (ListBoxItem)(this.BookmarkListBox.ItemContainerGenerator.ContainerFromIndex(this.BookmarkListBox.SelectedIndex));
+            if (lbi != null) lbi.Focus();
+        }
     }
 
     /// <summary>

@@ -1947,6 +1947,7 @@ namespace NeeView
                 ContextMenuSetting = new ContextMenuSetting();
                 IsHideThumbnailList = true;
                 ThumbnailSize = 96;
+                IsSliderLinkedThumbnailList = true;
             }
 
             public Memento()

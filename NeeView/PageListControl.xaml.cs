@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,7 +64,7 @@ namespace NeeView
         private void OnPagesChanged(object sender, EventArgs e)
         {
             this.PageListBox.Items.Refresh();
-            FocusSelectedItem();
+            this.PageListBox.ScrollIntoView(this.PageListBox.SelectedItem);
         }
 
         //
@@ -74,8 +75,12 @@ namespace NeeView
 
 
         //
-        public void FocusSelectedItem()
+        public void FocusSelectedItem(bool force)
         {
+            if (this.PageListBox.SelectedIndex < 0) return;
+
+            if (force) this.PageListBox.ScrollIntoView(this.PageListBox.SelectedItem);
+
             ListBoxItem lbi = (ListBoxItem)(this.PageListBox.ItemContainerGenerator.ContainerFromIndex(this.PageListBox.SelectedIndex));
             lbi?.Focus();
         }
@@ -87,7 +92,6 @@ namespace NeeView
             if (listBox != null && listBox.IsLoaded)
             {
                 listBox.ScrollIntoView(listBox.SelectedItem);
-                //SelectionChanged?.Invoke(this, listBox.SelectedIndex);
             }
         }
 
@@ -123,6 +127,16 @@ namespace NeeView
             if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return || e.Key == Key.Delete)
             {
                 e.Handled = true;
+            }
+        }
+
+        //
+        private async void PaegList_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                await Task.Yield();
+                FocusSelectedItem(true);
             }
         }
     }

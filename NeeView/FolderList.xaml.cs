@@ -84,12 +84,15 @@ namespace NeeView
         public void SetSelectedIndex(int index)
         {
             _VM.SelectedIndex = index;
-            //FolderList_FocusSelectedItem(this, null);
         }
 
         //
-        public void FocusSelectedItem()
+        public void FocusSelectedItem(bool force)
         {
+            if (this.ListBox.SelectedIndex < 0) return;
+
+            if (force) this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
+
             ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
             lbi?.Focus();
         }
@@ -176,7 +179,7 @@ namespace NeeView
         private void FolderList_Loaded(object sender, RoutedEventArgs e)
         {
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
-            if (_AutoFocus) FocusSelectedItem();
+            if (_AutoFocus) FocusSelectedItem(false);
         }
 
         //

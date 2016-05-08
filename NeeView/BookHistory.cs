@@ -168,9 +168,16 @@ namespace NeeView
                 {
                     unit.Memento = memento;
 
-                    Items.Remove(unit.HistoryNode);
-                    Items.AddFirst(unit.HistoryNode);
-                    HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
+                    if (Items.First == unit.HistoryNode)
+                    {
+                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Place));
+                    }
+                    else
+                    {
+                        Items.Remove(unit.HistoryNode);
+                        Items.AddFirst(unit.HistoryNode);
+                        HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
+                    }
                 }
                 else
                 {

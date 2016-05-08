@@ -112,23 +112,36 @@ namespace NeeView
         }
 
         // 表示/非表示イベント
-        private void HistoryListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private async void HistoryListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue as bool? == true)
             {
                 _VM.UpdateItems();
+
+                await Task.Yield();
+                FocusSelectedItem(true);
             }
         }
 
+
+        //
+        public void FocusSelectedItem(bool force)
+        {
+            if (this.HistoryListBox.SelectedIndex < 0) return;
+
+            if (force) this.HistoryListBox.ScrollIntoView(this.HistoryListBox.SelectedItem);
+
+            ListBoxItem lbi = (ListBoxItem)(this.HistoryListBox.ItemContainerGenerator.ContainerFromIndex(this.HistoryListBox.SelectedIndex));
+            if (lbi != null) lbi.Focus();
+        }
+
+        //
         private void HistoryListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (this.HistoryListBox.SelectedItem == null || this.HistoryListBox.SelectedIndex < 0) return;
 
-            // フォーカス
+            // スクロール
             this.HistoryListBox.ScrollIntoView(this.HistoryListBox.SelectedItem);
-            this.HistoryListBox.UpdateLayout();
-            ListBoxItem lbi = (ListBoxItem)(this.HistoryListBox.ItemContainerGenerator.ContainerFromIndex(this.HistoryListBox.SelectedIndex));
-            lbi?.Focus();
         }
     }
 
@@ -210,8 +223,8 @@ namespace NeeView
             {
                 _IsDarty = false;
                 Items = ModelContext.BookHistory.Items.ToList();
-                SelectedItem = null;
                 OnPropertyChanged(nameof(Items));
+                SelectedItem = Items.Count > 0 ? Items[0] : null;
             }
         }
 

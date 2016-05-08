@@ -542,13 +542,6 @@
                          ScrollViewer.CanContentScroll="True"
                          Background="Transparent" BorderThickness="0">
                         <ListBox.Resources>
-                            <Style TargetType="Grid" x:Key="ThumbnailGrid">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Thumbnail}" Value="{x:Null}">
-                                        <Setter Property="Background" Value="Gray"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
 
                             <Style TargetType="{x:Type ListBox}">
                                 <Setter Property="Padding" Value="5,0" />
@@ -598,7 +591,6 @@
 
                             <Style TargetType="ListBoxItem">
                                 <EventSetter Event="PreviewMouseLeftButtonUp" Handler="ThumbnailListItem_MouseSingleClick"/>
-                                <EventSetter Event="KeyDown" Handler="ThumbnailListItem_KeyDown"/>
                                 <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                             </Style>
 

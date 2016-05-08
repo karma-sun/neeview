@@ -1014,7 +1014,7 @@ namespace NeeView
         // 指定ページに移動
         public void JumpPage(Page page)
         {
-            if (!_IsLoading) CurrentBook?.JumpPage(page);
+            if (!_IsLoading && page != null) CurrentBook?.JumpPage(page);
         }
 
         // スライドショー用：次のページへ移動

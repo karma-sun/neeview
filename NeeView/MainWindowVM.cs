@@ -1732,7 +1732,7 @@ namespace NeeView
 
 
         // サムネイル要求
-        public void RequestThumbnail(int start, int count, int margin)
+        public void RequestThumbnail(int start, int count, int margin, int direction)
         {
             if (PageList == null || ThumbnailSize < 8.0) return;
 
@@ -1747,13 +1747,11 @@ namespace NeeView
             _AliveThumbnailList.Limited(limit);
 
             // 要求
-            for (int index = start - margin; index < start + count + margin; ++index)
+            var pages = Enumerable.Range(start - margin, count + margin * 2).Where(i => i >= 0 && i < PageList.Count).Select(e => PageList[e]);
+            if (direction < 0) pages = pages.Reverse();
+            foreach(var page in pages)
             {
-                if (index >= 0 && index < PageList.Count)
-                {
-                    Page page = PageList[index];
-                    page.OpenThumbnail(ThumbnailSize);
-                }
+                page.OpenThumbnail(ThumbnailSize);
             }
         }
 

@@ -162,7 +162,7 @@ namespace NeeView
                 this.ThumbnailListBox.Items.Refresh();
                 this.ThumbnailListBox.UpdateLayout();
                 UpdateThumbnailList(_VM.Index, _VM.IndexMax);
-                LoadThumbnailList();
+                LoadThumbnailList(+1);
             });
         }
 
@@ -613,6 +613,7 @@ namespace NeeView
             // サムネイルリスト
             this.ThumbnailListArea.Visibility = _VM.IsEnableThumbnailList ? Visibility.Visible : Visibility.Collapsed;
             this._ThumbnailListPanel.FlowDirection = _VM.IsSliderDirectionReversed ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+            UpdateThumbnailList();
             UpdateThumbnailListVisibility();
 
             double statusAreaHeight = this.PageSlider.ActualHeight + _VM.ThumbnailItemHeight; // アバウト
@@ -967,20 +968,22 @@ namespace NeeView
         //
         private void UpdateThumbnailList()
         {
-            UpdateThumbnailList(this.ThumbnailListBox.SelectedIndex, this.ThumbnailListBox.Items.Count);
+            //UpdateThumbnailList(this.ThumbnailListBox.SelectedIndex, this.ThumbnailListBox.Items.Count);
+            UpdateThumbnailList(_VM.Index, _VM.IndexMax);
         }
 
-        // TODO: スライダー方向
-        // TODO: 自動非表示、少ない項目、先頭or終端、でロードしたときの表示位置がおかしい
+        //
         private void UpdateThumbnailList(int index, int indexMax)
         {
             if (_ThumbnailListPanel == null) return;
+
+            if (!_VM.IsEnableThumbnailList) return;
 
             // 非表示時は処理なし
             if (!this.ThumbnailListArea.IsVisible) return;
 
             // リストボックス項目と同期がまだ取れていなければ処理しない
-            if (indexMax + 1 != this.ThumbnailListBox.Items.Count) return;
+            //if (indexMax + 1 != this.ThumbnailListBox.Items.Count) return;
 
             // 項目の幅 取得
             var listBoxItem = this.ThumbnailListBox.ItemContainerGenerator.ContainerFromIndex((int)_ThumbnailListPanel.HorizontalOffset) as ListBoxItem;
@@ -1016,6 +1019,9 @@ namespace NeeView
 
             // ##
             //Debug.WriteLine(topIndex + " / " + this.ThumbnailListBox.Items.Count);
+
+            // アライメント更新
+            ThumbnailListBox_UpdateAlignment();
         }
 
         // TODO: 何度も来るのでいいかんじにする
@@ -1027,6 +1033,11 @@ namespace NeeView
                 return;
             }
 
+            ThumbnailListBox_UpdateAlignment();
+        }
+
+        private void ThumbnailListBox_UpdateAlignment()
+        {
             // 端の表示調整
             if (this.ThumbnailListBox.Width > this.ThumbnailListArea.ActualWidth)
             {
@@ -1064,11 +1075,39 @@ namespace NeeView
             e.Handled = (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right);
         }
 
-        // リストボックスのカーソルキーによる不意のスクロール抑制(固まり回避)
+        // リストボックスのカーソルキーによる不意のスクロール抑制
         private void ThumbnailListBoxPanel_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            e.Handled = (e.Key == Key.Up || e.Key == Key.Down);
+            // 決定
+            if (e.Key == Key.Return)
+                _VM.BookHub.JumpPage(this.ThumbnailListBox.SelectedItem as Page);
+            // 左右スクロールは自前で実装
+            else if (e.Key == Key.Right)
+                ThumbnailListBox_MoveSelectedIndex(+1);
+            else if (e.Key == Key.Left)
+                ThumbnailListBox_MoveSelectedIndex(-1);
+
+            e.Handled = (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return);
         }
+
+        //
+        private void ThumbnailListBox_MoveSelectedIndex(int delta)
+        {
+            if (_ThumbnailListPanel == null || this.ThumbnailListBox.SelectedIndex < 0) return;
+
+            if (_ThumbnailListPanel.FlowDirection == FlowDirection.RightToLeft)
+                delta = -delta;
+
+            int index = this.ThumbnailListBox.SelectedIndex + delta;
+            if (index < 0)
+                index = 0;
+            if (index >= this.ThumbnailListBox.Items.Count)
+                index = this.ThumbnailListBox.Items.Count - 1;
+
+            this.ThumbnailListBox.SelectedIndex = index;
+            this.ThumbnailListBox.ScrollIntoView(this.ThumbnailListBox.SelectedItem);
+        }
+
 
         // 履歴項目決定
         private void ThumbnailListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
@@ -1076,41 +1115,27 @@ namespace NeeView
             var page = (sender as ListBoxItem)?.Content as Page;
             if (page != null)
             {
-                // TODO: サムネイルリストは変化させない?
                 _VM.BookHub.JumpPage(page);
                 e.Handled = true;
             }
         }
 
-        // 履歴項目決定(キー)
-        private void ThumbnailListItem_KeyDown(object sender, KeyEventArgs e)
-        {
-            var page = (sender as ListBoxItem)?.Content as Page;
-            {
-                if (e.Key == Key.Return)
-                {
-                    // TODO: サムネイルリストは変化させない?
-                    _VM.BookHub.JumpPage(page);
-                    e.Handled = true;
-                }
-            }
-        }
 
         // スクロールしたらサムネ更新
         private void ThumbnailList_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (_ThumbnailListPanel != null && this.ThumbnailListBox.Items.Count > 0)
             {
-                LoadThumbnailList();
+                LoadThumbnailList(e.HorizontalChange < 0 ? -1 : +1);
             }
         }
 
         // サムネ更新。表示されているページのサムネの読み込み要求
-        private void LoadThumbnailList()
+        private void LoadThumbnailList(int direction)
         {
             if (_ThumbnailListPanel != null)
             {
-                _VM.RequestThumbnail((int)_ThumbnailListPanel.HorizontalOffset, (int)_ThumbnailListPanel.ViewportWidth, 2);
+                _VM.RequestThumbnail((int)_ThumbnailListPanel.HorizontalOffset, (int)_ThumbnailListPanel.ViewportWidth, 2, direction);
             }
         }
 

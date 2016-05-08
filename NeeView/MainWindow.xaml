@@ -153,7 +153,7 @@
                 <DockPanel x:Name="Panels">
 
                     <!-- 左パネル -->
-                    <DockPanel x:Name="LeftPanel" DockPanel.Dock="Left" Width="250" Background="{DynamicResource NVBackground}">
+                    <DockPanel x:Name="LeftPanel" DockPanel.Dock="Left" Width="250" Background="{DynamicResource NVBackground}" KeyDown="LeftPanel_KeyDown">
 
                         <Grid x:Name="LeftPanelMargin" DockPanel.Dock="Bottom"/>
 
@@ -223,7 +223,7 @@
                                        Visibility="{Binding ElementName=LeftPanel, Path=Visibility}" />
 
                     <!-- 右パネル -->
-                    <DockPanel x:Name="RightPanel" DockPanel.Dock="Right" Width="250" Background="{DynamicResource NVBackground}">
+                    <DockPanel x:Name="RightPanel" DockPanel.Dock="Right" Width="250" Background="{DynamicResource NVBackground}" KeyDown="RightPanel_KeyDown">
 
                         <Grid x:Name="RightPanelMargin" DockPanel.Dock="Bottom"/>
 

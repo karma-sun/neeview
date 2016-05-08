@@ -1301,6 +1301,24 @@ namespace NeeView
         {
             //_VM.IsPermitSliderCall = false;
         }
+
+        private void LeftPanel_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                _VM.LeftPanel = PanelType.None;
+                e.Handled = true;
+            }
+        }
+
+        private void RightPanel_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                _VM.RightPanel = PanelType.None;
+                e.Handled = true;
+            }
+        }
     }
 
 

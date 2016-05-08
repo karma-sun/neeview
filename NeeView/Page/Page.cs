@@ -26,20 +26,31 @@ namespace NeeView
     {
         private LinkedList<Page> _List = new LinkedList<Page>();
 
+        private object _Lock = new object();
+
         // サムネイル有効ページを追加
         public void Add(Page page)
         {
-            if (page.Thumbnail != null) _List.AddFirst(page);
+            if (page.Thumbnail != null)
+            {
+                lock (_Lock)
+                {
+                    _List.AddFirst(page);
+                }
+            }
         }
 
         // サムネイル全開放
         public void Clear()
         {
-            foreach (var page in _List)
+            lock (_Lock)
             {
-                page.CloseThumbnail();
+                foreach (var page in _List)
+                {
+                    page.CloseThumbnail();
+                }
+                _List.Clear();
             }
-            _List.Clear();
         }
 
         // 終了処理
@@ -51,12 +62,15 @@ namespace NeeView
         // 有効数を超えるサムネイルは古いものから無効にする
         public void Limited(int limit)
         {
-            while (_List.Count > limit)
+            lock (_Lock)
             {
-                var page = _List.Last();
-                page.CloseThumbnail();
+                while (_List.Count > limit)
+                {
+                    var page = _List.Last();
+                    page.CloseThumbnail();
 
-                _List.RemoveLast();
+                    _List.RemoveLast();
+                }
             }
         }
     }
@@ -154,14 +168,8 @@ namespace NeeView
         {
             if (Thumbnail == null)
             {
-#if true
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    Thumbnail = CreateThumbnail(source, new Size(_ThumbnailSize, _ThumbnailSize));
-                });
-#else
-                Thumbnail = CreateThumbnailByDrawing(source, new Size(_ThumbnailSize, _ThumbnailSize));
-#endif
+                Thumbnail = CreateThumbnail(source, new Size(_ThumbnailSize, _ThumbnailSize));
+                //Thumbnail = CreateThumbnailByDrawing(source, new Size(_ThumbnailSize, _ThumbnailSize));
             }
         }
 
@@ -175,52 +183,67 @@ namespace NeeView
 
 
         // サムネイル作成
-        private static BitmapSource CreateThumbnail(BitmapSource source, Size maxSize)
+        private BitmapSource CreateThumbnail(BitmapSource source, Size maxSize)
         {
             if (source == null) return null;
 
             double width = source.PixelWidth;
             double height = source.PixelHeight;
 
-            var image = new Image();
-            image.Source = source;
             var scaleX = width > maxSize.Width ? maxSize.Width / width : 1.0;
             var scaleY = height > maxSize.Height ? maxSize.Height / height : 1.0;
             var scale = scaleX > scaleY ? scaleY : scaleX;
             if (scale > 1.0) scale = 1.0;
-            image.Width = (int)(width * scale + 0.5) / 2 * 2;
-            image.Height = (int)(height * scale + 0.5) / 2 * 2;
-            if (image.Width < 2.0) image.Width = 2.0;
-            if (image.Height < 2.0) image.Height = 2.0;
-            image.Stretch = Stretch.Fill;
-            RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
-            image.UseLayoutRounding = true;
 
-            // レンダリング
-            var grid = new Grid();
-            grid.Width = image.Width;
-            grid.Height = image.Height;
-            grid.Children.Add(image);
-            if (scale >= 1.0)
+#if false
+            // 非依存なリソースを直接サムネイルにしたかったが表示バグ発生
+            if (scale >= 0.99 && source != GetBitmapSourceContent())
             {
-                grid.Width = maxSize.Width;
-                grid.Height = maxSize.Height;
-                image.Width = width;
-                image.Height = height;
-                image.HorizontalAlignment = HorizontalAlignment.Center;
-                image.VerticalAlignment = VerticalAlignment.Center;
+                Debug.WriteLine("DIRECT:" + LastName);
+                return source;
             }
+#endif
 
-            // ビューツリー外でも正常にレンダリングするようにする処理
-            grid.Measure(new Size(grid.Width, grid.Height));
-            grid.Arrange(new Rect(new Size(grid.Width, grid.Height)));
-            grid.UpdateLayout();
+            RenderTargetBitmap bmp = null;
 
-            double dpi = 96.0;
-            RenderTargetBitmap bmp = new RenderTargetBitmap((int)grid.Width, (int)grid.Height, dpi, dpi, PixelFormats.Pbgra32);
-            bmp.Render(grid);
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                var image = new Image();
+                image.Source = source;
+                image.Width = (int)(width * scale + 0.5) / 2 * 2;
+                image.Height = (int)(height * scale + 0.5) / 2 * 2;
+                if (image.Width < 2.0) image.Width = 2.0;
+                if (image.Height < 2.0) image.Height = 2.0;
+                image.Stretch = Stretch.Fill;
+                RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
+                image.UseLayoutRounding = true;
 
-            grid.Children.Clear();
+                // レンダリング
+                var grid = new Grid();
+                grid.Width = image.Width;
+                grid.Height = image.Height;
+                grid.Children.Add(image);
+                if (scale >= 1.0)
+                {
+                    grid.Width = maxSize.Width;
+                    grid.Height = maxSize.Height;
+                    image.Width = width;
+                    image.Height = height;
+                    image.HorizontalAlignment = HorizontalAlignment.Center;
+                    image.VerticalAlignment = VerticalAlignment.Center;
+                }
+
+                // ビューツリー外でも正常にレンダリングするようにする処理
+                grid.Measure(new Size(grid.Width, grid.Height));
+                grid.Arrange(new Rect(new Size(grid.Width, grid.Height)));
+                grid.UpdateLayout();
+
+                double dpi = 96.0;
+                bmp = new RenderTargetBitmap((int)grid.Width, (int)grid.Height, dpi, dpi, PixelFormats.Pbgra32);
+                bmp.Render(grid);
+
+                grid.Children.Clear();
+            });
 
             return bmp;
         }
@@ -300,6 +323,12 @@ namespace NeeView
         // EXIF情報有効/無効フラグ
         public static bool IsEnableExif { get; set; }
 
+        // サムネイルロード
+        protected virtual BitmapContent LoadThumbnail(int size)
+        {
+            return null;
+        }
+
         // コンテンツロード
         protected abstract object LoadContent();
 
@@ -354,23 +383,33 @@ namespace NeeView
 
                 lock (_Lock)
                 {
-                    if (Content != null)
+                    if (!cancel.IsCancellationRequested)
                     {
-                        source = GetBitmapSourceContent(Content);
-                        //Debug.WriteLine("TB: From Content.");
-                    }
-                    else
-                    {
-                        var content = LoadContent();
-
-                        if (!cancel.IsCancellationRequested)
+                        if (Content != null)
                         {
-                            source = GetBitmapSourceContent(content);
-
-                            if (_JobRequest != null)
+                            source = GetBitmapSourceContent(Content);
+                            //Debug.WriteLine("TB: From Content.");
+                        }
+                        else
+                        {
+#if false
+                            // サムネイル専用読み込み
+                            var thumb = LoadThumbnail((int)_ThumbnailSize);
+                            if (thumb != null)
                             {
-                                Content = content;
-                                //Debug.WriteLine("TB: Keep Content.");
+                                Debug.WriteLine($"{LastName} is TB: {thumb.Source.PixelWidth}x{thumb.Source.PixelHeight}");
+                                source = thumb.Source; // GetBitmapSourceContent(thumb);
+                            }
+                            else
+#endif
+                            {
+                                var content = LoadContent();
+                                source = GetBitmapSourceContent(content);
+                                if (_JobRequest != null)
+                                {
+                                    Content = content;
+                                    //Debug.WriteLine("TB: Keep Content.");
+                                }
                             }
                         }
                     }

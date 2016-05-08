@@ -61,6 +61,74 @@ namespace NeeView
         }
         #endregion
 
+        // Thumbnail読み込み
+        public BitmapContent LoadThmbnail(Stream stream, ArchiveEntry entry, bool allowExifOrientation, int size)
+        {
+            var resource = new BitmapContent();
+
+            BitmapSource source = null;
+            BitmapMetadata metadata = null;
+            FileBasicInfo info = new FileBasicInfo();
+
+            bool isLargeWidth = false;
+
+            try
+            {
+                var frame = BitmapFrame.Create(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
+                source = frame.Thumbnail;
+
+                if (frame.PixelWidth <= size && frame.PixelHeight <= size)
+                {
+                    return null;
+                }
+
+                isLargeWidth = frame.PixelWidth > frame.PixelHeight;
+
+                if (source != null)
+                {
+                    source.Freeze();
+                    metadata = frame.Metadata as BitmapMetadata;
+                    info.Decoder = frame.Decoder.CodecInfo.FriendlyName;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
+            // BitmapFrameが失敗する場合はBitmapImageでデコード
+            if (source == null)
+            {
+                stream.Seek(0, SeekOrigin.Begin);
+                BitmapImage bmpImage = new BitmapImage();
+
+                bmpImage.BeginInit();
+                bmpImage.CacheOption = BitmapCacheOption.OnLoad;
+                bmpImage.StreamSource = stream;
+
+                if (isLargeWidth)
+                    bmpImage.DecodePixelWidth = size;
+                else
+                    bmpImage.DecodePixelHeight = size;
+
+                bmpImage.EndInit();
+                bmpImage.Freeze();
+
+                source = bmpImage;
+                metadata = null;
+                info.Decoder = ".Net BitmapImage";
+            }
+
+            info.FileSize = entry.FileSize;
+            info.LastWriteTime = entry.LastWriteTime;
+            info.Metadata = metadata;
+
+            resource.Source = (allowExifOrientation && metadata != null) ? OrientationWithExif(source, new ExifAccessor(metadata)) : source;
+            resource.Info = info;
+
+            return resource;
+        }
+
         // Bitmap読み込み
         public BitmapContent Load(Stream stream, ArchiveEntry entry, bool allowExifOrientation)
         {

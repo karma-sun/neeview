@@ -34,6 +34,33 @@ namespace NeeView
             Entry = entry;
         }
 
+        // サムネイルロード
+        protected override BitmapContent LoadThumbnail(int size)
+        {
+            try
+            {
+                var bitmapLoader = new DefaultBitmapLoader();
+                BitmapContent bmp;
+
+                using (var stream = Entry.OpenEntry())
+                {
+                    bmp = bitmapLoader.LoadThmbnail(stream, Entry, IsEnableExif, size);
+                }
+
+                if (bmp != null)
+                {
+                    if (bmp.Info != null) bmp.Info.Archiver = Entry.Archiver.ToString();
+                    return bmp;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"{e.Message}\nat '{FileName}' by Thmbnail");
+            }
+
+            return null;
+        }
+
 
         // Bitmapロード
         private BitmapContent LoadBitmap()
@@ -125,7 +152,7 @@ namespace NeeView
                 };
             }
         }
-    
+
         // ファイルの出力
         public override void Export(string path)
         {

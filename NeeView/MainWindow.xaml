@@ -531,16 +531,15 @@
 
                 <Grid x:Name="ThumbnailListArea" SizeChanged="ThumbnailListArea_SizeChanged">
                     <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                             
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
                              KeyDown="ThumbnailListBox_KeyDown"
                              IsMouseCapturedChanged="ThumbnailListBox_IsMouseCapturedChanged"
                              SelectionChanged="ThumbnailListBox_SelectionChanged"
-                         HorizontalAlignment="Center"
+                             HorizontalAlignment="Center"
                              VerticalAlignment="Bottom"
-                         ScrollViewer.CanContentScroll="True"
-                         Background="Transparent" BorderThickness="0">
+                             ScrollViewer.CanContentScroll="True"
+                             Background="Transparent" BorderThickness="0">
                         <ListBox.Resources>
 
                             <Style TargetType="{x:Type ListBox}">
@@ -562,7 +561,7 @@
                                                             </Style>
                                                         </Ellipse.Style>
                                                     </Ellipse>
-                                                    <Image Source="{Binding Thumbnail}" UseLayoutRounding="True" Stretch="None" >
+                                                    <Image Source="{Binding Thumbnail}" UseLayoutRounding="True" Stretch="None">
                                                         <Image.Effect>
                                                             <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
                                                         </Image.Effect>

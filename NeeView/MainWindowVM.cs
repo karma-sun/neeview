@@ -105,6 +105,12 @@ namespace NeeView
         // コンテキストメニュー状態変更
         public event EventHandler ContextMenuEnableChanged;
 
+        // ページリスト更新
+        public event EventHandler PageListChanged;
+
+        // インデックス更新
+        public event EventHandler IndexChanged;
+
         #endregion
 
 
@@ -454,17 +460,48 @@ namespace NeeView
         }
         #endregion
 
+        public bool IsPermitSliderCall { get; set; } = true;
+
         // 現在ページ番号
+        private int _Index;
         public int Index
         {
-            get { return BookHub.GetPageIndex(); }
-            set { BookHub.SetPageIndex(value); }
+            get { return _Index; }
+            set
+            {
+                _Index = value;
+                if (!CanSliderLinkedThumbnailList)
+                {
+                    BookHub.SetPageIndex(_Index);
+                }
+                OnPropertyChanged();
+                IndexChanged?.Invoke(this, null);
+            }
         }
 
         // 最大ページ番号
         public int IndexMax
         {
             get { return BookHub.GetPageCount(); }
+        }
+
+        //
+        private void UpdateIndex()
+        {
+            _Index = BookHub.GetPageIndex();
+            OnPropertyChanged(nameof(Index));
+            OnPropertyChanged(nameof(IndexMax));
+            IndexChanged?.Invoke(this, null);
+        }
+
+        //
+        public void SetIndex(int index)
+        {
+            _Index = index;
+            BookHub.SetPageIndex(_Index);
+            OnPropertyChanged(nameof(Index));
+            OnPropertyChanged(nameof(IndexMax));
+            IndexChanged?.Invoke(this, null);
         }
 
         #region Window Icon
@@ -897,6 +934,7 @@ namespace NeeView
         private void UpdatePageList()
         {
             PageList = new ObservableCollection<Page>(BookHub.CurrentBook?.Pages);
+            PageListChanged?.Invoke(this, null);
         }
 
         // サムネイル有効
@@ -910,9 +948,11 @@ namespace NeeView
         // OFFのときはページ番号に連結
         public bool IsSliderLinkedThumbnailList { get; set; }
 
+        public bool CanSliderLinkedThumbnailList => IsEnableThumbnailList && IsSliderLinkedThumbnailList;
+
         // サムネイルサイズ
         #region Property: ThumbnailSize
-        private double _ThumbnailSize = 128.0f;
+        private double _ThumbnailSize;
         public double ThumbnailSize
         {
             get { return _ThumbnailSize; }
@@ -928,8 +968,21 @@ namespace NeeView
         }
         #endregion
 
+        // ページ番号の表示
+        #region Property: IsVisibleThumbnailNumber
+        private bool _IsVisibleThumbnailNumber;
+        public bool IsVisibleThumbnailNumber
+        {
+            get { return _IsVisibleThumbnailNumber; }
+            set { _IsVisibleThumbnailNumber = value; OnPropertyChanged(nameof(ThumbnailNumberVisibility)); }
+        }
+        #endregion
 
+        // ページ番号の表示
+        public Visibility ThumbnailNumberVisibility => IsVisibleThumbnailNumber ? Visibility.Visible : Visibility.Collapsed;
 
+        // サムネイル項目の高さ
+        public double ThumbnailItemHeight => ThumbnailSize + (IsVisibleThumbnailNumber ? 16 : 0) + 20;
 
         #region 開発用
 
@@ -1118,12 +1171,11 @@ namespace NeeView
                     break;
             }
 
-            OnPropertyChanged(nameof(Index));
-            OnPropertyChanged(nameof(IndexMax));
-
             ClearThumbnail();
             UpdatePageList();
             UpdateLastFiles();
+
+            UpdateIndex();
 
             //
             CommandManager.InvalidateRequerySuggested();
@@ -1407,8 +1459,7 @@ namespace NeeView
         // ページ番号の更新
         private void OnPageChanged(object sender, int e)
         {
-            OnPropertyChanged(nameof(Index));
-            OnPropertyChanged(nameof(IndexMax));
+            UpdateIndex();
         }
 
 
@@ -1683,7 +1734,7 @@ namespace NeeView
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin)
         {
-            if (PageList == null) return;
+            if (PageList == null || ThumbnailSize < 8.0) return;
 
             // サムネイルリストが無効の場合、処理しない
             if (!IsEnableThumbnailList) return;
@@ -1691,8 +1742,8 @@ namespace NeeView
             // 未処理の要求を解除
             ModelContext.JobEngine.Clear(QueueElementPriority.Low);
 
-            // 有効サムネイル数制限 (16MB)
-            int limit = (16 * 1024 * 1024) / ((int)ThumbnailSize * (int)ThumbnailSize * 4);
+            // 有効サムネイル数制限 (64MB)
+            int limit = (64 * 1024 * 1024) / ((int)ThumbnailSize * (int)ThumbnailSize * 4);
             _AliveThumbnailList.Limited(limit);
 
             // 要求
@@ -1710,7 +1761,6 @@ namespace NeeView
         public void ClearThumbnail()
         {
             _AliveThumbnailList.Clear();
-            GC.Collect();
         }
 
 
@@ -1868,6 +1918,12 @@ namespace NeeView
             [DataMember(Order = 8)]
             public double ThumbnailSize { get; set; }
 
+            [DataMember(Order = 8)]
+            public bool IsSliderLinkedThumbnailList { get; set; }
+
+            [DataMember(Order = 8)]
+            public bool IsVisibleThumbnailNumber { get; set; }
+
             //
             void Constructor()
             {
@@ -1892,7 +1948,7 @@ namespace NeeView
                 IsVisibleTitleBar = true;
                 ContextMenuSetting = new ContextMenuSetting();
                 IsHideThumbnailList = true;
-                ThumbnailSize = 80;
+                ThumbnailSize = 96;
             }
 
             public Memento()
@@ -1965,6 +2021,8 @@ namespace NeeView
             memento.IsEnableThumbnailList = this.IsEnableThumbnailList;
             memento.IsHideThumbnailList = this.IsHideThumbnailList;
             memento.ThumbnailSize = this.ThumbnailSize;
+            memento.IsSliderLinkedThumbnailList = this.IsSliderLinkedThumbnailList;
+            memento.IsVisibleThumbnailNumber = this.IsVisibleThumbnailNumber;
 
             return memento;
         }
@@ -2015,6 +2073,8 @@ namespace NeeView
             this.IsEnableThumbnailList = memento.IsEnableThumbnailList;
             this.IsHideThumbnailList = memento.IsHideThumbnailList;
             this.ThumbnailSize = memento.ThumbnailSize;
+            this.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
+            this.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

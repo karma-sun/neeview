@@ -339,6 +339,14 @@ namespace NeeView
                 }
             },
             _CancellationTokenSource.Token);
+ 
+           /*
+            // sample: Thread版
+            Thread t1;
+            t1 = new Thread(new ThreadStart(WorkerExecute));
+            t1.Priority = ThreadPriority.BelowNormal;
+            t1.Start();
+            */
         }
 
 

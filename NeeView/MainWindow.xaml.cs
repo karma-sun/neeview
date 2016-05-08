@@ -91,6 +91,12 @@ namespace NeeView
                     _MouseGesture.Controller.ContextMenuSetting = _VM.ContextMenuSetting;
                 };
 
+            _VM.PageListChanged +=
+                OnPageListChanged;
+
+            _VM.IndexChanged +=
+                OnIndexChanged;
+
             this.DataContext = _VM;
 
 
@@ -137,6 +143,27 @@ namespace NeeView
             _Timer.Interval = TimeSpan.FromSeconds(0.2);
             _Timer.Tick += new EventHandler(DispatcherTimer_Tick);
             _Timer.Start();
+        }
+
+        //
+        private void OnIndexChanged(object sender, EventArgs e)
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                UpdateThumbnailList(_VM.Index, _VM.IndexMax);
+            });
+        }
+
+        //
+        private void OnPageListChanged(object sender, EventArgs e)
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                this.ThumbnailListBox.Items.Refresh();
+                this.ThumbnailListBox.UpdateLayout();
+                UpdateThumbnailList(_VM.Index, _VM.IndexMax);
+                LoadThumbnailList();
+            });
         }
 
 
@@ -243,20 +270,6 @@ namespace NeeView
                     var track = this.PageSlider.Template.FindName("PART_Track", this.PageSlider) as System.Windows.Controls.Primitives.Track;
                     // Force it to rerender
                     track.InvalidateVisual();
-                    break;
-                case "PageList":
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        this.ThumbnailListBox.UpdateLayout();
-                        UpdateThumbnailList();
-                        LoadThumbnailList();
-                    });
-                    break;
-                case "Index":
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        UpdateThumbnailList();
-                    });
                     break;
             }
         }
@@ -600,9 +613,9 @@ namespace NeeView
             // サムネイルリスト
             this.ThumbnailListArea.Visibility = _VM.IsEnableThumbnailList ? Visibility.Visible : Visibility.Collapsed;
             this._ThumbnailListPanel.FlowDirection = _VM.IsSliderDirectionReversed ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+            UpdateThumbnailListVisibility();
 
-            double statusAreaHeight = this.PageSlider.ActualHeight + _VM.ThumbnailSize + 20; // アバウト
-
+            double statusAreaHeight = this.PageSlider.ActualHeight + _VM.ThumbnailItemHeight; // アバウト
             double bottomMargin = (isMenuDock && _VM.IsEnableThumbnailList && !_VM.IsHideThumbnailList ? statusAreaHeight : this.PageSlider.ActualHeight);
             this.LeftPanelMargin.Height = bottomMargin;
             this.RightPanelMargin.Height = bottomMargin;
@@ -943,22 +956,31 @@ namespace NeeView
         // TODO: クラス化
         #region thumbnail list
 
+        // サムネイルリストのパネルコントロール
+        private VirtualizingStackPanel _ThumbnailListPanel;
+
         private void ThumbnailListArea_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateThumbnailList();
         }
 
-        // サムネイルリストのパネルコントロール
-        private VirtualizingStackPanel _ThumbnailListPanel;
+        //
+        private void UpdateThumbnailList()
+        {
+            UpdateThumbnailList(this.ThumbnailListBox.SelectedIndex, this.ThumbnailListBox.Items.Count);
+        }
 
         // TODO: スライダー方向
         // TODO: 自動非表示、少ない項目、先頭or終端、でロードしたときの表示位置がおかしい
-        private void UpdateThumbnailList()
+        private void UpdateThumbnailList(int index, int indexMax)
         {
             if (_ThumbnailListPanel == null) return;
 
             // 非表示時は処理なし
             if (!this.ThumbnailListArea.IsVisible) return;
+
+            // リストボックス項目と同期がまだ取れていなければ処理しない
+            if (indexMax + 1 != this.ThumbnailListBox.Items.Count) return;
 
             // 項目の幅 取得
             var listBoxItem = this.ThumbnailListBox.ItemContainerGenerator.ContainerFromIndex((int)_ThumbnailListPanel.HorizontalOffset) as ListBoxItem;
@@ -973,13 +995,13 @@ namespace NeeView
             if (itemsCount < 1) itemsCount = 1;
 
             // 表示先頭項目
-            int topIndex = _VM.Index - itemsCount / 2;
+            int topIndex = index - itemsCount / 2;
             if (topIndex < 0) topIndex = 0;
 
             // 少項目数補正
-            if (_VM.IndexMax + 1 < itemsCount)
+            if (indexMax + 1 < itemsCount)
             {
-                itemsCount = _VM.IndexMax + 1;
+                itemsCount = indexMax + 1;
                 topIndex = 0;
             }
 
@@ -990,7 +1012,10 @@ namespace NeeView
             _ThumbnailListPanel.SetHorizontalOffset(topIndex);
 
             // 選択
-            this.ThumbnailListBox.SelectedIndex = _VM.Index;
+            this.ThumbnailListBox.SelectedIndex = index;
+
+            // ##
+            //Debug.WriteLine(topIndex + " / " + this.ThumbnailListBox.Items.Count);
         }
 
         // TODO: 何度も来るのでいいかんじにする
@@ -1229,6 +1254,28 @@ namespace NeeView
 
         #endregion
 
+        //
+        private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            //Debug.WriteLine("EVENT: " + e.NewValue);
+        }
+
+        private void PageSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //_VM.IsPermitSliderCall = true;
+            //_VM.Index = (int)this.PageSlider.Value;
+            //Debug.WriteLine("DECIDE");
+
+            if (_VM.CanSliderLinkedThumbnailList)
+            {
+                _VM.SetIndex(_VM.Index);
+            }
+        }
+
+        private void PageSlider_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //_VM.IsPermitSliderCall = false;
+        }
     }
 
 

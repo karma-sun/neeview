@@ -111,6 +111,7 @@
     <Compile Include="ReplaceString.cs" />
     <Compile Include="Utility\DockPanelSplitter.cs" />
     <Compile Include="Utility\FileInfo.cs" />
+    <Compile Include="Utility\Graphics.cs" />
     <Compile Include="Utility\WicDecoders.cs" />
     <Compile Include="ContentDropReciever.cs" />
     <Compile Include="Utility\FileContents.cs" />

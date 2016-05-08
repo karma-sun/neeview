@@ -514,6 +514,9 @@
 
                 <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
                         local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding ElementName=MainView}"
+                        ValueChanged="PageSlider_ValueChanged"
+                        PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"  
+                        PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp"
                         MouseEnter="PageSlider_MouseEnter">
                     <Slider.Style>
                         <Style TargetType="Slider">
@@ -552,25 +555,34 @@
                                 <Setter Property="ItemTemplate">
                                     <Setter.Value>
                                         <DataTemplate>
-                                            <Grid Width="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailSize}" Height="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailSize}" Margin="5">
-                                                <Ellipse Fill="Gray" Width="8" Height="8">
-                                                    <Ellipse.Style>
-                                                        <Style TargetType="Ellipse">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Thumbnail}" Value="{x:Null}">
-                                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Ellipse.Style>
-                                                </Ellipse>
-                                                <Image Source="{Binding Thumbnail}" UseLayoutRounding="True" Stretch="None" >
-                                                    <Image.Effect>
-                                                        <DropShadowEffect ShadowDepth="2" Opacity="0.5" RenderingBias="Performance" />
-                                                    </Image.Effect>
-                                                </Image>
-                                            </Grid>
+                                            <StackPanel Margin="5">
+                                                <Grid Width="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailSize}" Height="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailSize}">
+                                                    <Ellipse Fill="Gray" Width="8" Height="8">
+                                                        <Ellipse.Style>
+                                                            <Style TargetType="Ellipse">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Thumbnail}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Ellipse.Style>
+                                                    </Ellipse>
+                                                    <Image Source="{Binding Thumbnail}" UseLayoutRounding="True" Stretch="None" >
+                                                        <Image.Effect>
+                                                            <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
+                                                        </Image.Effect>
+                                                    </Image>
+                                                </Grid>
+                                                <TextBlock Height="16" FontSize="12" FontFamily="Arial" MinWidth="32" TextAlignment="Center"
+                                                           Visibility="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailNumberVisibility}"
+                                                           VerticalAlignment="Center"  HorizontalAlignment="Center" Text="{Binding IndexPlusOne}" Foreground="White" Padding="5,2">
+                                                    <TextBlock.Effect>
+                                                        <DropShadowEffect ShadowDepth="0" Opacity="1"/>
+                                                    </TextBlock.Effect>
+                                                </TextBlock>
+                                            </StackPanel>
                                         </DataTemplate>
                                     </Setter.Value>
                                 </Setter>

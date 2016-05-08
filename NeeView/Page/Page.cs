@@ -72,7 +72,6 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        [Conditional("DEBUG")]
         protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
@@ -105,6 +104,11 @@ namespace NeeView
 
         // アーカイブエントリ
         public ArchiveEntry Entry { get; protected set; }
+
+        // ページ番号
+        public int Index { get; set; }
+
+        public int IndexPlusOne => Index + 1;
 
         // 場所
         public string Place { get; protected set; }
@@ -150,9 +154,25 @@ namespace NeeView
         {
             if (Thumbnail == null)
             {
-                Thumbnail = CreateThumbnail(source, new Size(_ThumbnailSize, _ThumbnailSize));
+#if true
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    Thumbnail = CreateThumbnail(source, new Size(_ThumbnailSize, _ThumbnailSize));
+                });
+#else
+                Thumbnail = CreateThumbnailByDrawing(source, new Size(_ThumbnailSize, _ThumbnailSize));
+#endif
             }
         }
+
+        // サムネイル作成(Drawing版)
+        private static BitmapSource CreateThumbnailByDrawing(BitmapSource source, Size maxSize)
+        {
+            if (source == null) return null;
+
+            return Utility.NVGraphics.CreateThumbnail(source, maxSize);
+        }
+
 
         // サムネイル作成
         private static BitmapSource CreateThumbnail(BitmapSource source, Size maxSize)
@@ -174,9 +194,7 @@ namespace NeeView
             if (image.Height < 2.0) image.Height = 2.0;
             image.Stretch = Stretch.Fill;
             RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
-
-            // 拡大はしない
-            if (scale > 0.9999) return source;
+            image.UseLayoutRounding = true;
 
             // レンダリング
             var grid = new Grid();
@@ -187,9 +205,10 @@ namespace NeeView
             {
                 grid.Width = maxSize.Width;
                 grid.Height = maxSize.Height;
+                image.Width = width;
+                image.Height = height;
                 image.HorizontalAlignment = HorizontalAlignment.Center;
                 image.VerticalAlignment = VerticalAlignment.Center;
-                image.SnapsToDevicePixels = true;
             }
 
             // ビューツリー外でも正常にレンダリングするようにする処理
@@ -329,12 +348,12 @@ namespace NeeView
         private void OnExecuteThumbnail(CancellationToken cancel)
         {
             //Debug.WriteLine($"OnExecuteTb({LastName})");
-            lock (_Lock)
+            if (_Thumbnail == null)
             {
-                if (_Thumbnail == null)
-                {
-                    BitmapSource source = null;
+                BitmapSource source = null;
 
+                lock (_Lock)
+                {
                     if (Content != null)
                     {
                         source = GetBitmapSourceContent(Content);
@@ -355,18 +374,17 @@ namespace NeeView
                             }
                         }
                     }
-
-                    if (source != null)
-                    {
-                        App.Current.Dispatcher.Invoke(() => UpdateThumbnail(source));
-
-                        source = null;
-                        GC.Collect();
-                    }
                 }
 
-                _ThumbnailJobRequest = null;
+                if (source != null)
+                {
+                    UpdateThumbnail(source);
+                    source = null;
+                }
             }
+
+            _ThumbnailJobRequest = null;
+
             // Debug.WriteLine($"OnExecuteTb({LastName}) done.");
         }
 
@@ -448,7 +466,6 @@ namespace NeeView
             if (_Content != null)
             {
                 _Content = null;
-                GC.Collect();
             }
 
             Message = "Closed.";

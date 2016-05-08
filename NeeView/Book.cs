@@ -1139,6 +1139,8 @@ namespace NeeView
                     throw new NotImplementedException();
             }
 
+            for (int i = 0; i < Pages.Count; ++i) Pages[i].Index = i;
+
             PagesSorted?.Invoke(this, null);
 
             RequestSetPosition(_FirstPosition, 1, true);

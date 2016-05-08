@@ -445,7 +445,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeTimeStampDescending },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeRandom },
                     }},
-                    new MenuTree(MenuElementType.Group) { Name="設定(_O)", Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name="その他(_O)", Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingWindow },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenVersionWindow },

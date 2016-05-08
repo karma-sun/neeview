@@ -81,19 +81,24 @@ namespace NeeView
     /// </summary>
     public abstract class Page : INotifyPropertyChanged
     {
-        #region 開発用
 
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
         }
         #endregion
+
+
+        #region 開発用
+
+        [Conditional("DEBUG")]
+        protected void OnPropertyChangedDebug([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        {
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+        }
 
         // 開発用メッセージ
         #region Property: Message
@@ -101,7 +106,7 @@ namespace NeeView
         public string Message
         {
             get { return _Message; }
-            set { _Message = value; OnPropertyChanged(); }
+            set { _Message = value; OnPropertyChangedDebug(); }
         }
         #endregion
 
@@ -168,86 +173,12 @@ namespace NeeView
         {
             if (Thumbnail == null)
             {
-                Thumbnail = CreateThumbnail(source, new Size(_ThumbnailSize, _ThumbnailSize));
-                //Thumbnail = CreateThumbnailByDrawing(source, new Size(_ThumbnailSize, _ThumbnailSize));
+                Thumbnail = Utility.NVGraphics.CreateThumbnail(source, new Size(_ThumbnailSize, _ThumbnailSize));
+                ////Thumbnail = Utility.NVGraphics.CreateThumbnailByDrawingVisual(source, new Size(_ThumbnailSize, _ThumbnailSize));
+                ////Thumbnail = Utility.NVDrawing.CreateThumbnail(source, new Size(_ThumbnailSize, _ThumbnailSize));
             }
         }
-
-        // サムネイル作成(Drawing版)
-        private static BitmapSource CreateThumbnailByDrawing(BitmapSource source, Size maxSize)
-        {
-            if (source == null) return null;
-
-            return Utility.NVGraphics.CreateThumbnail(source, maxSize);
-        }
-
-
-        // サムネイル作成
-        private BitmapSource CreateThumbnail(BitmapSource source, Size maxSize)
-        {
-            if (source == null) return null;
-
-            double width = source.PixelWidth;
-            double height = source.PixelHeight;
-
-            var scaleX = width > maxSize.Width ? maxSize.Width / width : 1.0;
-            var scaleY = height > maxSize.Height ? maxSize.Height / height : 1.0;
-            var scale = scaleX > scaleY ? scaleY : scaleX;
-            if (scale > 1.0) scale = 1.0;
-
-#if false
-            // 非依存なリソースを直接サムネイルにしたかったが表示バグ発生
-            if (scale >= 0.99 && source != GetBitmapSourceContent())
-            {
-                Debug.WriteLine("DIRECT:" + LastName);
-                return source;
-            }
-#endif
-
-            RenderTargetBitmap bmp = null;
-
-            App.Current.Dispatcher.Invoke(() =>
-            {
-                var image = new Image();
-                image.Source = source;
-                image.Width = (int)(width * scale + 0.5) / 2 * 2;
-                image.Height = (int)(height * scale + 0.5) / 2 * 2;
-                if (image.Width < 2.0) image.Width = 2.0;
-                if (image.Height < 2.0) image.Height = 2.0;
-                image.Stretch = Stretch.Fill;
-                RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
-                image.UseLayoutRounding = true;
-
-                // レンダリング
-                var grid = new Grid();
-                grid.Width = image.Width;
-                grid.Height = image.Height;
-                grid.Children.Add(image);
-                if (scale >= 1.0)
-                {
-                    grid.Width = maxSize.Width;
-                    grid.Height = maxSize.Height;
-                    image.Width = width;
-                    image.Height = height;
-                    image.HorizontalAlignment = HorizontalAlignment.Center;
-                    image.VerticalAlignment = VerticalAlignment.Center;
-                }
-
-                // ビューツリー外でも正常にレンダリングするようにする処理
-                grid.Measure(new Size(grid.Width, grid.Height));
-                grid.Arrange(new Rect(new Size(grid.Width, grid.Height)));
-                grid.UpdateLayout();
-
-                double dpi = 96.0;
-                bmp = new RenderTargetBitmap((int)grid.Width, (int)grid.Height, dpi, dpi, PixelFormats.Pbgra32);
-                bmp.Render(grid);
-
-                grid.Children.Clear();
-            });
-
-            return bmp;
-        }
-
+        
 
         // コンテンツ幅
         public double Width { get; protected set; }

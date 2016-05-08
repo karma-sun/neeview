@@ -1746,9 +1746,13 @@ namespace NeeView
             int limit = (64 * 1024 * 1024) / ((int)ThumbnailSize * (int)ThumbnailSize * 4);
             _AliveThumbnailList.Limited(limit);
 
-            // 要求
-            var pages = Enumerable.Range(start - margin, count + margin * 2).Where(i => i >= 0 && i < PageList.Count).Select(e => PageList[e]);
-            if (direction < 0) pages = pages.Reverse();
+            // 要求. 中央値優先
+            int center = start + count / 2;
+            var pages = Enumerable.Range(start - margin, count + margin * 2 - 1)
+                .Where(i => i >= 0 && i < PageList.Count)
+                .Select(e => PageList[e])
+                .OrderBy(e => Math.Abs(e.Index - center));
+
             foreach(var page in pages)
             {
                 page.OpenThumbnail(ThumbnailSize);

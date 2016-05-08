@@ -1,103 +1,120 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView.Utility
 {
     public static class NVGraphics
     {
-        // サムネイル作成(System.Drawing)
-        public static BitmapSource CreateThumbnail(BitmapSource source, System.Windows.Size maxSize)
+        // サムネイル作成
+        public static BitmapSource CreateThumbnail(BitmapSource source, Size maxSize)
         {
-            Bitmap src = GetBitmap(source);
+            if (source == null) return null;
 
-            //int w = src.Width * 10;
-            //int h = src.Height * 10;
+            double width = source.PixelWidth;
+            double height = source.PixelHeight;
 
-            double srcWidth = src.Width;
-            double srcHeight = src.Height;
-            var scaleX = srcWidth > maxSize.Width ? maxSize.Width / srcWidth : 1.0;
-            var scaleY = srcHeight > maxSize.Height ? maxSize.Height / srcHeight : 1.0;
+            var scaleX = width > maxSize.Width ? maxSize.Width / width : 1.0;
+            var scaleY = height > maxSize.Height ? maxSize.Height / height : 1.0;
             var scale = scaleX > scaleY ? scaleY : scaleX;
             if (scale > 1.0) scale = 1.0;
 
-            int destWidth = (int)(srcWidth * scale + 0.5) / 2 * 2;
-            int destHeight =  (int)(srcHeight * scale + 0.5) / 2 * 2;
-            if (destWidth < 2) destWidth = 2;
-            if (destHeight < 2) destHeight = 2;
-
-
-            Bitmap dest = new Bitmap(destWidth, destHeight);
-
-            Graphics g = Graphics.FromImage(dest);
-            g.InterpolationMode = InterpolationMode.High;
-            g.DrawImage(src, 0, 0, destWidth, destHeight);
-
-            return GetBitmapSource(dest);
-
-            /*
-            foreach (InterpolationMode im in Enum.GetValues(typeof(InterpolationMode)))
+            if (scale < 0.99)
             {
-                if (im == InterpolationMode.Invalid)
-                    continue;
-                g.InterpolationMode = im;
-                g.DrawImage(src, 0, 0, w, h);
-                dest.Save(im.ToString() + ".png", ImageFormat.Png);
+                width = (int)(width * scale + 0.5) / 2 * 2;
+                height = (int)(height * scale + 0.5) / 2 * 2;
+                if (width < 2.0) width = 2.0;
+                if (height < 2.0) height = 2.0;
             }
-            */
-        }
 
+            RenderTargetBitmap bmp = null;
 
-        public static Bitmap GetBitmap(BitmapSource source)
-        {
-            Bitmap bmp = new Bitmap
-            (
-              source.PixelWidth,
-              source.PixelHeight,
-              System.Drawing.Imaging.PixelFormat.Format32bppPArgb
-            );
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                var image = new Image();
+                image.Source = source;
+                image.Width = width;
+                image.Height = height;
+                image.Stretch = Stretch.Fill;
+                RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
+                image.UseLayoutRounding = true;
 
-            BitmapData data = bmp.LockBits
-            (
-                new System.Drawing.Rectangle(System.Drawing.Point.Empty, bmp.Size),
-                ImageLockMode.WriteOnly,
-                System.Drawing.Imaging.PixelFormat.Format32bppPArgb
-            );
+                // ビューツリー外でも正常にレンダリングするようにする処理
+                image.Measure(new Size(image.Width, image.Height));
+                image.Arrange(new Rect(new Size(image.Width, image.Height)));
+                image.UpdateLayout();
 
-            source.CopyPixels
-            (
-              Int32Rect.Empty,
-              data.Scan0,
-              data.Height * data.Stride,
-              data.Stride
-            );
-
-            bmp.UnlockBits(data);
+                double dpi = 96.0;
+                bmp = new RenderTargetBitmap((int)width, (int)height, dpi, dpi, PixelFormats.Pbgra32);
+                bmp.Render(image);
+                bmp.Freeze();
+            });
 
             return bmp;
         }
 
 
-        public static BitmapSource GetBitmapSource(Bitmap bitmap)
+
+        // サムネイル作成(DrawingVisual版)
+        // 完全非同期にできるが、品質が悪い
+        public static BitmapSource CreateThumbnailByDrawingVisual(BitmapSource source, Size maxSize)
         {
-            BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap
-            (
-                bitmap.GetHbitmap(),
-                IntPtr.Zero,
-                Int32Rect.Empty,
-                BitmapSizeOptions.FromEmptyOptions()
-            );
+            if (source == null) return null;
 
-            bitmapSource.Freeze();
+            double width = source.PixelWidth;
+            double height = source.PixelHeight;
 
-            return bitmapSource;
+            var scaleX = width > maxSize.Width ? maxSize.Width / width : 1.0;
+            var scaleY = height > maxSize.Height ? maxSize.Height / height : 1.0;
+            var scale = scaleX > scaleY ? scaleY : scaleX;
+            if (scale > 1.0) scale = 1.0;
+
+            if (scale < 0.99)
+            {
+                width = (int)(width * scale + 0.5) / 2 * 2;
+                height = (int)(height * scale + 0.5) / 2 * 2;
+                if (width < 2.0) width = 2.0;
+                if (height < 2.0) height = 2.0;
+            }
+
+            var visual = new DrawingVisual();
+            RenderOptions.SetBitmapScalingMode(visual, BitmapScalingMode.HighQuality);
+
+            using (var context = visual.RenderOpen())
+            {
+                context.DrawImage(source, new Rect(0, 0, width, height));
+            }
+
+            double dpi = 96.0;
+            var bmp = new RenderTargetBitmap((int)width, (int)height, dpi, dpi, PixelFormats.Pbgra32);
+            bmp.Render(visual);
+            bmp.Freeze();
+
+            return bmp;
         }
+
+
+        // ViewBox取得
+        /*
+        private static Rect GetViewBox()
+        {
+            return new Rect(0, -0.00001, 0, 0.99999);
+
+            if (PartSize == 0) return new Rect(0, -0.00001, 0, 0.99999);
+            if (PartSize == 2) return new Rect(-0.00001, -0.00001, 0.99999, 0.99999);
+
+            bool isRightPart = Position.Part == 0;
+            if (ReadOrder == PageReadOrder.LeftToRight) isRightPart = !isRightPart;
+
+            double half = Width / SourceSize.Width;
+            return isRightPart ? new Rect(0.99999 - half, -0.00001, half - 0.00001, 0.99999) : new Rect(-0.00001, -0.00001, half - 0.00001, 0.99999);
+        }
+        */
     }
 }

@@ -123,6 +123,7 @@
         -->
 
         <!-- 開発用 表示領域-->
+        <!--
         <DockPanel x:Name="DevInfo" DockPanel.Dock="Bottom" Panel.ZIndex="100" Background="White"
                   Visibility="{Binding ElementName=MenuItemDevInfo, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
@@ -136,6 +137,7 @@
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[2].Message}"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[3].Message}"/>
         </DockPanel>
+        -->
 
 
         <!-- 製品表示領域 -->

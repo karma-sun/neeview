@@ -110,6 +110,7 @@
     </Compile>
     <Compile Include="ReplaceString.cs" />
     <Compile Include="Utility\DockPanelSplitter.cs" />
+    <Compile Include="Utility\Drawing.cs" />
     <Compile Include="Utility\FileInfo.cs" />
     <Compile Include="Utility\Graphics.cs" />
     <Compile Include="Utility\WicDecoders.cs" />

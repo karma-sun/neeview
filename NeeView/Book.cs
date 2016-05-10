@@ -964,6 +964,9 @@ namespace NeeView
 
             // notice PropertyChanged
             PageChanged?.Invoke(this, _ViewContext.Position.Index);
+
+            // ページ破棄
+            if (!AllowPreLoad) ClearAllPages();
         }
 
         // 見開きモードでも単独表示するべきか判定
@@ -1061,7 +1064,6 @@ namespace NeeView
         // 不要ページコンテンツの削除を行う
         private void CleanupPages(ViewPageContextSource source)
         {
-            //// int keepPageSize = AllowPreLoad ? 3 : (PageMode.Size() - 1);
             int keepPageSize = 3;
 
             // コンテンツを保持するページ収集
@@ -1086,6 +1088,19 @@ namespace NeeView
 
             // 保持ページ更新
             _KeepPages = keepPages;
+        }
+
+
+        // 全ページコンテンツの削除を行う
+        private void ClearAllPages()
+        {
+            foreach (var page in _KeepPages)
+            {
+                page.Close();
+            }
+
+            // 保持ページ更新
+            _KeepPages = new List<Page>();
         }
 
 

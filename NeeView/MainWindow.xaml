@@ -513,6 +513,29 @@
 
             <!-- ステータスエリア -->
             <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom">
+                <DockPanel.Resources>
+                    <Style x:Key="StatusAreaStyle" TargetType="DockPanel">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsVisibleThumbnailPlate}" Value="True" />
+                                    <Condition Binding="{Binding Visibility, ElementName=ThumbnailListArea}" Value="Visible" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" Value="{DynamicResource NVBackground}"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style x:Key="StatusAreaStyleAutoHide" TargetType="DockPanel" BasedOn="{StaticResource StatusAreaStyle}">
+                        <Setter Property="Opacity" Value="0"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+
+                </DockPanel.Resources>
 
                 <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
                         local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding ElementName=MainView}"
@@ -571,10 +594,23 @@
                                                 </Grid>
                                                 <TextBlock Height="16" FontSize="12" FontFamily="Arial" MinWidth="32" TextAlignment="Center"
                                                            Visibility="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailNumberVisibility}"
-                                                           VerticalAlignment="Center"  HorizontalAlignment="Center" Text="{Binding IndexPlusOne}" Foreground="White" Padding="5,2">
-                                                    <TextBlock.Effect>
-                                                        <DropShadowEffect ShadowDepth="0" Opacity="1"/>
-                                                    </TextBlock.Effect>
+                                                           VerticalAlignment="Center"  HorizontalAlignment="Center" Text="{Binding IndexPlusOne}" Padding="5,2">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding ElementName=RootWindow, Path=DataContext.IsVisibleThumbnailPlate}" Value="False">
+                                                                    <Setter Property="Foreground" Value="White"/>
+                                                                    <Setter Property="Effect">
+                                                                        <Setter.Value>
+                                                                            <DropShadowEffect ShadowDepth="0" Opacity="1"/>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                            
+                                                        </Style>
+                                                    </TextBlock.Style>
                                                 </TextBlock>
                                             </StackPanel>
                                         </DataTemplate>

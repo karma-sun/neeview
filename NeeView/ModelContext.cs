@@ -39,6 +39,15 @@ namespace NeeView
         // RoutedCommand辞書
         public static Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; } = new Dictionary<CommandType, RoutedUICommand>();
 
+        //
+        public static bool IsAutoGC { get; set; } = true;
+
+        //
+        public static void GarbageCollection()
+        {
+            if (!IsAutoGC) GC.Collect();
+        }
+
         // 初期化
         public static void Initialize()
         {

@@ -576,13 +576,13 @@ namespace NeeView
             {
                 var autoHideStyle = (Style)this.Resources["AutoHideContent"];
                 this.MenuArea.Style = autoHideStyle;
-                this.StatusArea.Style = autoHideStyle;
+                this.StatusArea.Style = (Style)this.StatusArea.Resources["StatusAreaStyleAutoHide"];
                 isMenuDock = false;
             }
             else
             {
                 this.MenuArea.Style = null;
-                this.StatusArea.Style = null;
+                this.StatusArea.Style = (Style)this.StatusArea.Resources["StatusAreaStyle"];
                 isMenuDock = true;
             }
 
@@ -615,6 +615,8 @@ namespace NeeView
             this._ThumbnailListPanel.FlowDirection = _VM.IsSliderDirectionReversed ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
             UpdateThumbnailList();
             UpdateThumbnailListVisibility();
+
+            
 
             double statusAreaHeight = this.PageSlider.ActualHeight + _VM.ThumbnailItemHeight; // アバウト
             double bottomMargin = (isMenuDock && _VM.IsEnableThumbnailList && !_VM.IsHideThumbnailList ? statusAreaHeight : this.PageSlider.ActualHeight);

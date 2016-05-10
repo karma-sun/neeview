@@ -25,17 +25,32 @@
 
         <RoutedCommand x:Key="xRemoveDommand" />
 
+        <Style x:Key="ItemStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <!--
+            <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsContentAlived}" Value="True">
+                    <Setter Property="Foreground" Value="Orange"/>
+                </DataTrigger>
+            </Style.Triggers>
+            -->
+        </Style>
+
         <!-- Normal -->
         <DataTemplate x:Key="SmartText">
-            <TextBlock Text="{Binding SmartFullPath}" ToolTip="{Binding FullPath}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis"/>
+            <TextBlock Text="{Binding SmartFullPath}" ToolTip="{Binding FullPath}" Style="{StaticResource ItemStyle}" />
         </DataTemplate>
 
         <DataTemplate x:Key="DefaultText">
-            <TextBlock Text="{Binding FullPath}" ToolTip="{Binding FullPath}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis"/>
+            <TextBlock Text="{Binding FullPath}" ToolTip="{Binding FullPath}" Style="{StaticResource ItemStyle}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="NameOnlyText">
-            <TextBlock Text="{Binding LastName}" ToolTip="{Binding FullPath}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis"/>
+            <TextBlock Text="{Binding LastName}" ToolTip="{Binding FullPath}" Style="{StaticResource ItemStyle}"/>
         </DataTemplate>
 
     </UserControl.Resources>
@@ -92,9 +107,9 @@
                     <EventSetter Event="KeyDown" Handler="PageListItem_KeyDown"/>
                     <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                 </Style>
-                
+
             </ListBox.Resources>
-            
+
         </ListBox>
     </DockPanel>
 

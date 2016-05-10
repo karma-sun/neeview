@@ -460,6 +460,15 @@ namespace NeeView
         }
         #endregion
 
+
+        // オートGC
+        public bool IsAutoGC
+        {
+            get { return ModelContext.IsAutoGC; }
+            set { ModelContext.IsAutoGC = value; }
+        }
+
+
         public bool IsPermitSliderCall { get; set; } = true;
 
         // 現在ページ番号
@@ -968,6 +977,24 @@ namespace NeeView
         }
         #endregion
 
+        #region Property: 
+        private int _ThumbnailMemorySize;
+        public int ThumbnailMemorySize
+        {
+            get { return _ThumbnailMemorySize; }
+            set
+            {
+                if (_ThumbnailMemorySize != value)
+                {
+                    _ThumbnailMemorySize = value;
+                    LimitThumbnail();
+                    ModelContext.GarbageCollection();
+                    OnPropertyChanged();
+                }
+            }
+        }
+        #endregion
+
         // ページ番号の表示
         #region Property: IsVisibleThumbnailNumber
         private bool _IsVisibleThumbnailNumber;
@@ -983,6 +1010,18 @@ namespace NeeView
 
         // サムネイル項目の高さ
         public double ThumbnailItemHeight => ThumbnailSize + (IsVisibleThumbnailNumber ? 16 : 0) + 20;
+
+        // サムネイル台紙の表示
+        #region Property: IsVisibleThumbnailPlate
+        private bool _IsVisibleThumbnailPlate;
+        public bool IsVisibleThumbnailPlate
+        {
+            get { return _IsVisibleThumbnailPlate; }
+            set { _IsVisibleThumbnailPlate = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+
 
         #region 開発用
 
@@ -1454,6 +1493,9 @@ namespace NeeView
             // 表示更新を通知
             ViewChanged?.Invoke(this, new ViewChangeArgs() { PageDirection = e != null ? e.Direction : 0 });
             UpdateWindowTitle(UpdateWindowTitleMask.All);
+
+            // GC
+            //ModelContext.GarbageCollection();
         }
 
 
@@ -1743,9 +1785,8 @@ namespace NeeView
             // 未処理の要求を解除
             ModelContext.JobEngine.Clear(QueueElementPriority.Low);
 
-            // 有効サムネイル数制限 (64MB)
-            int limit = (64 * 1024 * 1024) / ((int)ThumbnailSize * (int)ThumbnailSize * 4);
-            _AliveThumbnailList.Limited(limit);
+            // 有効サムネイル数制限
+            LimitThumbnail();
 
             // 要求. 中央値優先
             int center = start + count / 2;
@@ -1758,6 +1799,13 @@ namespace NeeView
             {
                 page.OpenThumbnail(ThumbnailSize);
             }
+        }
+
+        // 有効サムネイル数制限
+        public void LimitThumbnail()
+        {
+            int limit = (ThumbnailMemorySize * 1024 * 1024) / ((int)ThumbnailSize * (int)ThumbnailSize * 4);
+            _AliveThumbnailList.Limited(limit);
         }
 
         // サムネイル破棄
@@ -1927,6 +1975,15 @@ namespace NeeView
             [DataMember(Order = 8)]
             public bool IsVisibleThumbnailNumber { get; set; }
 
+            [DataMember(Order = 9)]
+            public bool IsAutoGC { get; set; }
+
+            [DataMember(Order = 9)]
+            public int ThumbnailMemorySize { get; set; }
+
+            [DataMember(Order = 9)]
+            public bool IsVisibleThumbnailPlate { get; set; }
+
             //
             void Constructor()
             {
@@ -1953,6 +2010,9 @@ namespace NeeView
                 IsHideThumbnailList = true;
                 ThumbnailSize = 96;
                 IsSliderLinkedThumbnailList = true;
+                IsAutoGC = true;
+                ThumbnailMemorySize = 64;
+                IsVisibleThumbnailPlate = true;
             }
 
             public Memento()
@@ -2027,6 +2087,9 @@ namespace NeeView
             memento.ThumbnailSize = this.ThumbnailSize;
             memento.IsSliderLinkedThumbnailList = this.IsSliderLinkedThumbnailList;
             memento.IsVisibleThumbnailNumber = this.IsVisibleThumbnailNumber;
+            memento.IsAutoGC = this.IsAutoGC;
+            memento.ThumbnailMemorySize = this.ThumbnailMemorySize;
+            memento.IsVisibleThumbnailPlate = this.IsVisibleThumbnailPlate;
 
             return memento;
         }
@@ -2079,6 +2142,9 @@ namespace NeeView
             this.ThumbnailSize = memento.ThumbnailSize;
             this.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
             this.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
+            this.IsAutoGC = memento.IsAutoGC;
+            this.ThumbnailMemorySize = memento.ThumbnailMemorySize;
+            this.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

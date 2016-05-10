@@ -113,9 +113,6 @@ namespace NeeView
         #endregion
 
         // コンテンツ更新イベント
-        public static event EventHandler ContentChanged;
-
-        // コンテンツ更新イベント
         public event EventHandler<bool> Loaded;
 
         // サムネイル更新イベント
@@ -217,11 +214,16 @@ namespace NeeView
                 if (_Content != value)
                 {
                     _Content = value;
-                    ContentChanged?.Invoke(this, null);
-                    Loaded?.Invoke(this, _Content != null);
+                    if (_Content != null) Loaded?.Invoke(this, true);
+                    OnPropertyChangedDebug(nameof(IsContentAlived));
                 }
             }
         }
+
+        #region Property: IsContentAlived
+        public bool IsContentAlived => _Content != null;
+        #endregion
+
 
         // 待つ
         public async Task LoadAsync(QueueElementPriority priority)
@@ -311,6 +313,7 @@ namespace NeeView
             if (_Thumbnail == null)
             {
                 BitmapSource source = null;
+                bool isTempSource = true;
 
                 lock (_Lock)
                 {
@@ -339,6 +342,7 @@ namespace NeeView
                                 if (_JobRequest != null)
                                 {
                                     Content = content;
+                                    isTempSource = false;
                                     //Debug.WriteLine("TB: Keep Content.");
                                 }
                             }
@@ -350,6 +354,7 @@ namespace NeeView
                 {
                     UpdateThumbnail(source);
                     source = null;
+                    if (isTempSource) ModelContext.GarbageCollection();
                 }
             }
 
@@ -433,9 +438,10 @@ namespace NeeView
                 _JobRequest = null;
             }
 
-            if (_Content != null)
+            if (Content != null)
             {
-                _Content = null;
+                Content = null;
+                ModelContext.GarbageCollection();
             }
 
             Message = "Closed.";

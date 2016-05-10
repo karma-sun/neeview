@@ -58,7 +58,19 @@
             <local:FileInfoItem x:Name="ItemShotInfo" Header="撮影情報" />
             <local:FileInfoItem x:Name="ItemISOSpeedRatings" Header="ISO"/>
             <local:FileInfoItem x:Name="ItemModel" Header="デバイス"/>
-            <local:FileInfoItem x:Name="ItemFilePlace" Header="フォルダーのパス" Text="{Binding FilePlace}"/>
+            <local:FileInfoItem x:Name="ItemFilePlace" Header="フォルダーのパス" Text="{Binding FolderPlace}"/>
+            <Button x:Name="OpenPlaceButton" Click="OpenPlaceButton_Click" HorizontalAlignment="Left">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding FolderPlace}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <TextBlock Margin="0" FontSize="15" Text="フォルダーを開く" Foreground="{StaticResource NVButtonForeground}"/>
+            </Button>
 
             <StackPanel x:Name="GroupLoader">
                 <local:FileInfoItem x:Name="ItemArchiver" Header="アーカイバ" Text="{Binding Info.Archiver}"/>

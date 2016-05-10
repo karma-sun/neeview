@@ -1401,7 +1401,8 @@ namespace NeeView
                         content.Content = source.CreateControl(new Binding("ForegroundBrush") { Source = this }, new Binding("BitmapScalingMode") { Source = content });
                         content.Size = new Size(source.Width, source.Height);
                         content.Color = new SolidColorBrush(source.Color);
-                        content.FilePlace = BookHub.CurrentBook?.Place;
+                        content.FolderPlace = source.Page.GetFolderPlace();
+                        content.FilePlace = source.Page.GetFilePlace();
                         content.FullPath = source.FullPath;
                         content.Position = source.Position;
                         content.PartSize = source.PartSize;

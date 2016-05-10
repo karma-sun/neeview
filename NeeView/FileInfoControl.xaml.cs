@@ -173,5 +173,18 @@ namespace NeeView
 
             SetString(strings);
         }
+
+        //
+        private void OpenPlaceButton_Click(object sender, RoutedEventArgs e)
+        {
+            var content = this.DataContext as ViewContent;
+            if (content != null)
+            {
+                if (!string.IsNullOrWhiteSpace(content.FilePlace))
+                {
+                    System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + content.FilePlace + "\"");
+                }
+            }
+        }
     }
 }

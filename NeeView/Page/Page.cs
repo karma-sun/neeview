@@ -449,6 +449,14 @@ namespace NeeView
             return Entry.GetFileSystemPath() ?? Entry.Archiver.GetPlace();
         }
 
+        // フォルダの場所を取得
+        public string GetFolderPlace()
+        {
+            Debug.Assert(Entry?.Archiver != null);
+            string path = Entry.GetFileSystemPath();
+            return path != null ? System.IO.Path.GetDirectoryName(path) : Entry.Archiver.GetPlace();
+        }
+
         // テンポラリファイル名
         private string _TempFile;
 

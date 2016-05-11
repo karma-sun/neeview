@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace NeeView
 {
@@ -100,8 +101,8 @@ namespace NeeView
         // パネルカラーリスト
         public static Dictionary<PanelColor, string> PanelColorList { get; } = new Dictionary<PanelColor, string>
         {
-            [PanelColor.Dark] = "黒色",
-            [PanelColor.Light] = "白色",
+            [PanelColor.Dark] = "ダーク",
+            [PanelColor.Light] = "ライトグレー",
         };
 
 
@@ -112,41 +113,11 @@ namespace NeeView
             [ShowMessageStyle.Normal] = "表示する",
             [ShowMessageStyle.Tiny] = "小さく表示する",
         };
-
-
-        // スライドショー切り替え時間リスト
-        public static List<double> SlideShowIntervalList { get; } = new List<double>
-        {
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            15,
-            20,
-            30,
-            60,
-        };
-
+        
 
         // ドラッグアクション
-        public static Dictionary<DragActionType, string> DragActionTypeList { get; } = new Dictionary<DragActionType, string>
-        {
-            [DragActionType.None] = "なし",
-            [DragActionType.Move] = "移動",
-            [DragActionType.MoveScale] = "移動(スケール依存)",
-            [DragActionType.Angle] = "回転",
-            [DragActionType.Scale] = "拡大縮小",
-            [DragActionType.ScaleSlider] = "拡大縮小(スライド式)",
-            [DragActionType.FlipHorizontal] = "左右反転",
-            [DragActionType.FlipVertical] = "上下反転",
-            [DragActionType.WindowMove] = "ウィンドウ移動",
-        };
+        public static Dictionary<DragActionType, string> DragActionTypeList { get; } = DragActionTypeExtension.LabelList;
+
 
         public DragActionType DragActionNone
         {
@@ -520,6 +491,21 @@ namespace NeeView
         {
             if (value == null) return null;
             return new MouseGestureSequence((string)value).ToDispString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    // ドラッグ操作Tips表示用コンバータ
+    [ValueConversion(typeof(DragActionType), typeof(string))]
+    public class DragActionTypeToTipsConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value is DragActionType ? ((DragActionType)value).ToTips() : null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

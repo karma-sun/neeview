@@ -1430,15 +1430,23 @@ namespace NeeView
             public bool IsRecoveryPageOnly { get; set; }
 
 
-            #region Property: SlideShowIntervalEx
-            private int _SlideShowIntervalEx;
-            public int SlideShowIntervalEx
+            #region Property: SlideShowIntervalIndex
+            private static List<int> _SlideShowIntervalTable = new List<int>()
+                { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 300 };
+
+            public int SlideShowIntervalIndexMax => _SlideShowIntervalTable.Count - 1;
+
+            public int SlideShowIntervalIndex
             {
-                get { return _SlideShowIntervalEx; }
+                get
+                {
+                    int index = _SlideShowIntervalTable.IndexOf((int)SlideShowInterval);
+                    return (index < 0) ? 0 : index;
+                }
                 set
                 {
-                    _SlideShowIntervalEx = value;
-                    SlideShowInterval = Math.Floor((double)(_SlideShowIntervalEx * _SlideShowIntervalEx));
+                    int index = NVUtility.Clamp<int>(value, 0, _SlideShowIntervalTable.Count - 1);
+                    SlideShowInterval = _SlideShowIntervalTable[index];
                     OnPropertyChanged(nameof(SlideShowInterval));
                 }
             }

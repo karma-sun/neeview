@@ -29,6 +29,40 @@ namespace NeeView
         WindowMove,
     }
 
+    public static class DragActionTypeExtension
+    {
+        public static Dictionary<DragActionType, string> LabelList { get; } = new Dictionary<DragActionType, string>
+        {
+            [DragActionType.None] = "なし",
+            [DragActionType.Move] = "移動",
+            [DragActionType.MoveScale] = "移動(スケール依存)",
+            [DragActionType.Angle] = "回転",
+            [DragActionType.Scale] = "拡大縮小",
+            [DragActionType.ScaleSlider] = "拡大縮小(スライド式)",
+            [DragActionType.FlipHorizontal] = "左右反転",
+            [DragActionType.FlipVertical] = "上下反転",
+            [DragActionType.WindowMove] = "ウィンドウ移動",
+        };
+
+        public static Dictionary<DragActionType, string> TipsList = new Dictionary<DragActionType, string>()
+        {
+            [DragActionType.None] = null,
+            [DragActionType.Move] = "ドラッグで画像を移動させます",
+            [DragActionType.MoveScale] = "画像の大きさに応じて移動速度を変えます",
+            [DragActionType.Angle] = "ドラッグで回転させます",
+            [DragActionType.Scale] = "ドラッグで拡縮。中心を基準に拡大率を変化させます",
+            [DragActionType.ScaleSlider] = "左右ドラッグで拡大率を変化させます",
+            [DragActionType.FlipHorizontal] = "左右ドラッグで左右反転させます",
+            [DragActionType.FlipVertical] = "上下ドラッグで上下反転させます",
+            [DragActionType.WindowMove] = "ドラッグでウィンドウを移動させます",
+        };
+
+        public static string ToTips(this DragActionType action)
+        {
+            return TipsList[action];
+        }
+    }
+
     // ドラッグアクショングループ
     public enum DragActionGroup
     {
@@ -36,7 +70,7 @@ namespace NeeView
         Move,
     };
 
-    
+
     // ドラッグアクション
     public class DragAction
     {

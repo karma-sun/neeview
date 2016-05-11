@@ -105,7 +105,7 @@ namespace NeeView
                 {
                     writer.WriteLine($"<h3>{pair.Key}</h3>");
                     writer.WriteLine("<table>");
-                    writer.WriteLine($"<th>名前<th>ショートカットキー<th>マウスゼスチャー<th>説明<tr>");
+                    writer.WriteLine($"<th>コマンド<th>ショートカットキー<th>マウスゼスチャー<th>説明<tr>");
                     foreach (var command in pair.Value)
                     {
                         writer.WriteLine($"<td>{command.Text}<td>{command.ShortCutKey}<td>{new MouseGestureSequence(command.MouseGesture).ToDispString()}<td>{command.Note}<tr>");
@@ -215,8 +215,8 @@ namespace NeeView
                 [CommandType.ToggleStretchModeReverse] = new CommandElement
                 {
                     Group = "表示サイズ",
-                    Text = "表示サイズを切り替える(逆方向)",
-                    Note = "画像の表示サイズを逆方向の順番に切り替えます",
+                    Text = "表示サイズを切り替える(逆順)",
+                    Note = "画像の表示サイズを順番に切り替えます(逆順)",
                     ShortCutKey = "LeftButton+WheelUp",
                     Execute = e => _VM.StretchMode = _VM.StretchMode.GetToggleReverse(),
                     ExecuteMessage = e => _VM.StretchMode.GetToggleReverse().ToDispString()
@@ -270,7 +270,7 @@ namespace NeeView
                 {
                     Group = "表示サイズ",
                     Text = "面積をウィンドウに合わせる",
-                    Note = "ウィンドウの面積とおなじになるように画像を拡大縮小します",
+                    Note = "ウィンドウの面積と等しくなるように画像を拡大縮小します",
                     Execute = e => _VM.StretchMode = PageStretchMode.UniformToSize,
                     Attribute = CommandAttribute.ToggleEditable,
                     CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToSize),
@@ -290,7 +290,7 @@ namespace NeeView
                     Group = "拡大モード",
                     Text = "ドットのまま拡大ON/OFF",
                     MenuText = "ドットのまま拡大",
-                    Note = "ONにすると拡大するときにドットのまま拡大します。OFFではスケーリング処理(Fant)が行われます",
+                    Note = "ONにすると拡大するときにドットのまま拡大します。OFFの時にはスケール変換処理(Fant)が行われます",
                     Execute = e => _VM.IsEnabledNearestNeighbor = !_VM.IsEnabledNearestNeighbor,
                     ExecuteMessage = e => _VM.IsEnabledNearestNeighbor ? "高品質に拡大する" : "ドットのまま拡大する",
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsEnabledNearestNeighbor))

@@ -950,7 +950,7 @@ namespace NeeView
                 {
                     writer.WriteLine($"<h3>{regex.Replace(pair.Key, regexReplace)}</h3>");
                     writer.WriteLine("<table>");
-                    writer.WriteLine($"<th>名前<th>説明<tr>");
+                    writer.WriteLine($"<th>項目<th>説明<tr>");
                     foreach (var item in pair.Value)
                     {
                         string name = new string('　', item.Depth * 2) +  regex.Replace(item.Element.Label, regexReplace);

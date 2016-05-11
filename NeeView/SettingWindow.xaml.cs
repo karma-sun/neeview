@@ -113,14 +113,6 @@ namespace NeeView
             [ShowMessageStyle.Tiny] = "小さく表示する",
         };
 
-        // 履歴MAXリスト
-        public static List<int> MaxHistoryCountList { get; } = new List<int>
-        {
-            10,
-            100,
-            1000,
-            10000
-        };
 
         // スライドショー切り替え時間リスト
         public static List<double> SlideShowIntervalList { get; } = new List<double>

@@ -20,6 +20,11 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter"/>
 
+
+        <Style TargetType="StackPanel" x:Key="BaseStackPanel">
+            <Setter Property="Margin" Value="4"/>
+        </Style>
+
         <Style TargetType="FrameworkElement" x:Key="Phrase">
             <Setter Property="Margin" Value="20,0,0,10"/>
         </Style>
@@ -29,58 +34,99 @@
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
 
+        <Style TargetType="CheckBox" x:Key="ItemCheckBox">
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+
+        <Style TargetType="StackPanel" x:Key="ItemStackPanel">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+
+        <Style TargetType="DockPanel" x:Key="ItemDockPanel">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="LastChildFill" Value="True"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="ItemHeader">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="ComboBox" x:Key="ItemComboBox">
+            <Setter Property="Margin" Value="2,0"/>
+            <Setter Property="MinWidth" Value="200"/>
+        </Style>
+
+        <Style TargetType="Slider" x:Key="ItemSlider">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="IsSnapToTickEnabled" Value="True"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="ItemButton">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="Margin" Value="10,0"/>
+        </Style>
 
     </Window.Resources>
     <Grid>
         <TabControl x:Name="tabControl" Margin="10,10,10,43">
             <TabItem Header="全般設定">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Margin="4">
+                    <StackPanel Style="{StaticResource BaseStackPanel}">
 
                         <TextBlock Text="基本" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox DockPanel.Dock="Top" Margin="2" Content="圧縮ファイルをサポートする"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="圧縮ファイルをサポートする"
+                              ToolTip="圧縮ファイル内のファイルを表示できるようにします"
                               IsChecked="{Binding Setting.BookHubMemento.IsSupportArchiveFile}" />
-                            <CheckBox DockPanel.Dock="Top" Margin="2" Content="GIFをメディアとして再生する(アニメーションGIF)"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="GIFをメディアとして再生する(アニメーションGIF)"
+                              ToolTip="Windows MediaPlayer 相当の機能でアニメーションGIF再生を行います"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnableAnimatedGif}" />
-                            <CheckBox DockPanel.Dock="Top" Margin="2" Content="EXIFの回転情報を反映させる"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="EXIFの回転情報を反映させる"
+                              ToolTip="画像に含まれる拡張情報(EXIF)に回転情報がある場合に反映させます"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnableExif}" />
-                            <CheckBox Margin="2" Content="サポート外ファイルもページに含める"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="サポート外ファイルもページに含める"
+                              ToolTip="画像として表示できないファイルもページとして表示します"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnableNoSupportFile}" />
-                            <CheckBox DockPanel.Dock="Top" Margin="2" Content="スライダーを右基準にする"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="スライダーを右基準にする"
                               IsChecked="{Binding Setting.ViewMemento.IsSliderDirectionReversed}" />
                         </StackPanel>
 
 
                         <TextBlock Text="起動設定" Style="{StaticResource Header}"/>
+
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Margin="2" Content="多重起動を禁止する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="多重起動を禁止する"
                               IsChecked="{Binding Setting.ViewMemento.IsDisableMultiBoot}" />
-                            <CheckBox Margin="2" Content="ウィンドウ座標を復元する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ウィンドウ座標を復元する"
                               IsChecked="{Binding Setting.ViewMemento.IsSaveWindowPlacement}" />
-                            <CheckBox Margin="2" Content="フルスクリーン状態を復元する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーン状態を復元する"
                               IsChecked="{Binding Setting.ViewMemento.IsSaveFullScreen}" />
-                            <CheckBox Margin="2" Content="前回開いていたフォルダを開く"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回開いていたフォルダを開く"
                               IsChecked="{Binding Setting.ViewMemento.IsLoadLastFolder}" />
-                            <CheckBox Margin="2" Content="スライドショーの再生を開始する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="スライドショーの再生を開始する"
                               IsChecked="{Binding Setting.ViewMemento.IsAutoPlaySlideShow}" />
                         </StackPanel>
 
                         <TextBlock Text="メモリ関連" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox DockPanel.Dock="Top" Margin="2" Content="先読みを行う"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="先読みを行う"
                                       ToolTip="3ページ先までの先読み、3ページ前後のページの保持を行います"
                                       IsChecked="{Binding Setting.BookHubMemento.AllowPagePreLoad}" />
-                            <CheckBox DockPanel.Dock="Top" Margin="2" Content="メモリ開放をシステムに任せる"
-                                      ToolTip="メモリ消費が増えるように見えますが、メモリが足りなくなると自動的に開放されるため問題ありません。&#xa;このチェックをはずすと画像開放タイミングでガベージコレクションを実行しますが、動作が重くなる可能性があります。"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="メモリ開放をシステムに任せる"
+                                      ToolTip="メモリ消費が増えるように見えますが、メモリが足りなくなると自動的に開放されるため問題ありません&#xa;このチェックをはずすと画像開放タイミングでガベージコレクションを実行しますが、動作が重くなる可能性があります"
                                       IsChecked="{Binding Setting.ViewMemento.IsAutoGC}" />
-                            <StackPanel Margin="2" Orientation="Horizontal">
-                                <TextBlock Text="サムネイル用最大メモリサイズ："/>
-                                <TextBlock Text="{Binding Setting.ViewMemento.ThumbnailMemorySize, StringFormat={}{0}MB}" MinWidth="40" Margin="5,0" TextAlignment="Right"/>
-                                <Slider x:Name="ThumbnailMemorySizeSlider" Width="200" Value="{Binding Setting.ViewMemento.ThumbnailMemorySize}"
-                                    Minimum="8" Maximum="256" TickFrequency="8" IsSnapToTickEnabled="True"/>
+                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="サムネイル画像で使用される最大容量">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="サムネイル用メモリ"/>
+                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.ThumbnailMemorySize}"
+                                    Minimum="8" Maximum="256" TickFrequency="8" />
+                                <TextBlock Text="{Binding Setting.ViewMemento.ThumbnailMemorySize, StringFormat={}{0}MB}" />
                             </StackPanel>
 
                         </StackPanel>
@@ -89,17 +135,19 @@
                         <TextBlock Text="その他" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Margin="2" Content="「開く」を現在開いているフォルダから始める" ToolTip="[ファイル(F)]>[開く(O)]で開くフォルダです"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="「開く」を現在開いているフォルダの場所から始める"
+                              ToolTip="[ファイル]>[開く]で開くフォルダです&#xa;ドラッグ＆ドロップや履歴から開いた場所も基準になります"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
-                            <CheckBox Margin="2" Content="ページが終わったら次のフォルダに移動する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページが終わったら次のフォルダに移動する"
+                              ToolTip="ページの終端を超えて移動しようとした時にフォルダ移動を行います&#xa;その際の開始ページは履歴によらず、最初のページか最後のページになります"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnabledAutoNextFolder}" />
-                            <CheckBox Margin="2" Content="ページがない場合、サブフォルダも読み込むか問い合わせる"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがない場合、サブフォルダも読み込むか問い合わせる"
+                              ToolTip="フォルダーを開いた時に表示可能なページがなく、かつサブフォルダが存在する場合にサブフォルダも読み込むかを問い合わせるダイアログを表示します"
                               IsChecked="{Binding Setting.BookHubMemento.IsConfirmRecursive}" />
-                            <CheckBox Margin="2" Content="新しいフォルダーを開くときにページ設定を標準に戻す" ToolTip="新しいフォルダーを開いた時に[ページ(P)]の設定を初期値に戻します&#x0a;「サブフォルダも読み込む」はこの設定にかかわらずOFFになります"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="新しいフォルダーを開くときにページ設定を標準に戻す"
+                              ToolTip="新しいフォルダーを開いた時に[ページ]の設定を初期値に戻します&#x0a;「サブフォルダも読み込む」はこの設定にかかわらずOFFになります"
                               IsChecked="{Binding Setting.BookHubMemento.IsUseBookMementoDefault}" />
                         </StackPanel>
-
-
 
                     </StackPanel>
                 </ScrollViewer>
@@ -107,39 +155,36 @@
 
             <TabItem Header="表示設定">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Margin="4">
+                    <StackPanel Style="{StaticResource BaseStackPanel}">
 
                         <TextBlock Text="通知表示" Style="{StaticResource Header}"/>
+
                         <StackPanel Style="{StaticResource Phrase}">
-                            <StackPanel.Resources>
-                                <Style TargetType="ComboBox">
-                                    <Setter Property="MinWidth" Value="120"/>
-                                </Style>
-                            </StackPanel.Resources>
-                            <DockPanel Margin="2" LastChildFill="False">
-                                <TextBlock MinWidth="100" Text="通知を" VerticalAlignment="Center" Margin="2"/>
-                                <ComboBox ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="通知を"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.NoticeShowMessageStyle}" />
-                            </DockPanel>
+                            </StackPanel>
 
-                            <DockPanel Margin="2" LastChildFill="False">
-                                <TextBlock MinWidth="100" Text="コマンド実行を" VerticalAlignment="Center" Margin="2"/>
-                                <ComboBox ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="コマンド実行を"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.CommandShowMessageStyle}" />
-                            </DockPanel>
+                            </StackPanel>
 
 
-                            <DockPanel Margin="2" LastChildFill="False">
-                                <TextBlock MinWidth="100" Text="マウスジェスチャーを" VerticalAlignment="Center" Margin="2"/>
-                                <ComboBox ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="マウスジェスチャーを"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.GestureShowMessageStyle}" />
-                            </DockPanel>
+                            </StackPanel>
 
-                            <DockPanel Margin="2" LastChildFill="False">
-                                <TextBlock MinWidth="100" Text="Now Loading を" VerticalAlignment="Center" Margin="2"/>
-                                <ComboBox ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="Now Loading を"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.NowLoadingShowMessageStyle}" />
-                            </DockPanel>
+                            </StackPanel>
 
                         </StackPanel>
 
@@ -148,7 +193,6 @@
                             <ToggleButton DockPanel.Dock="Right" x:Name="WindowTitleFormatHelp" Margin="5,0" Width="20" Height="20" Style="{StaticResource IconToggleButton}">
                                 <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
                             </ToggleButton>
-
                         </DockPanel>
                         <Popup IsOpen="{Binding ElementName=WindowTitleFormatHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowTitleFormatHelp}" Placement="Top" HorizontalAlignment="Right">
                             <Border BorderBrush="Gray" BorderThickness="1" Background="LightYellow">
@@ -171,13 +215,13 @@
                         </Popup>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <DockPanel Margin="2" LastChildFill="True">
-                                <TextBlock MinWidth="100" Text="1ページ用：" VerticalAlignment="Center" Margin="0"/>
-                                <TextBox Text="{Binding Setting.ViewMemento.WindowTitleFormat1}" Margin="0"/>
+                            <DockPanel Style="{StaticResource ItemDockPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="1ページ用："/>
+                                <TextBox Text="{Binding Setting.ViewMemento.WindowTitleFormat1}"/>
                             </DockPanel>
-                            <DockPanel Margin="2" LastChildFill="True">
-                                <TextBlock MinWidth="100" Text="2ページ用：" VerticalAlignment="Center" Margin="0"/>
-                                <TextBox Text="{Binding Setting.ViewMemento.WindowTitleFormat2}" Margin="0"/>
+                            <DockPanel Style="{StaticResource ItemDockPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="2ページ用："/>
+                                <TextBox Text="{Binding Setting.ViewMemento.WindowTitleFormat2}"/>
                             </DockPanel>
                         </StackPanel>
 
@@ -185,39 +229,40 @@
                         <TextBlock Text="サムネイルリスト" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Margin="2" Content="サムネイルリストを使用する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="サムネイルリストを使用する"
                               IsChecked="{Binding Setting.ViewMemento.IsEnableThumbnailList}" />
-                            <CheckBox Margin="2" Content="サムネイルリストを自動的に隠す"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="サムネイルリストを自動的に隠す"
                               IsChecked="{Binding Setting.ViewMemento.IsHideThumbnailList}" IsEnabled="{Binding Setting.ViewMemento.IsEnableThumbnailList}" />
-                            <CheckBox Margin="2" Content="スライダーでのリアルタイム変化はサムネイルリストにのみ適用"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="スライダーでのリアルタイム変化はサムネイルリストにのみ適用"
                               IsChecked="{Binding Setting.ViewMemento.IsSliderLinkedThumbnailList}" IsEnabled="{Binding Setting.ViewMemento.IsEnableThumbnailList}" />
-                            <CheckBox Margin="2" Content="ページ番号を表示する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ番号を表示する"
                               IsChecked="{Binding Setting.ViewMemento.IsVisibleThumbnailNumber}" IsEnabled="{Binding Setting.ViewMemento.IsEnableThumbnailList}" />
-                            <CheckBox Margin="2" Content="台紙を表示する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="台紙を表示する"
                               IsChecked="{Binding Setting.ViewMemento.IsVisibleThumbnailPlate}" IsEnabled="{Binding Setting.ViewMemento.IsEnableThumbnailList}" />
-                            <StackPanel Margin="2" Orientation="Horizontal" IsEnabled="{Binding Setting.ViewMemento.IsEnableThumbnailList}">
-                                <TextBlock Text="サムネイルサイズ："/>
-                                <TextBlock Text="{Binding Setting.ViewMemento.ThumbnailSize, StringFormat={}{0}x{0}}" MinWidth="50" Margin="5,0" TextAlignment="Right"/>
-                                <Slider x:Name="ThumbnailSizeSlider" Width="200" Value="{Binding Setting.ViewMemento.ThumbnailSize}"
-                                    Minimum="64" Maximum="256" TickFrequency="16" IsSnapToTickEnabled="True"/>
+                            <StackPanel Style="{StaticResource ItemStackPanel}" IsEnabled="{Binding Setting.ViewMemento.IsEnableThumbnailList}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="サムネイルサイズ"/>
+                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.ThumbnailSize}"
+                                    Minimum="64" Maximum="256" TickFrequency="16"/>
+                                <TextBlock Text="{Binding Setting.ViewMemento.ThumbnailSize, StringFormat={}{0}x{0}}"/>
                             </StackPanel>
                         </StackPanel>
 
 
                         <TextBlock Text="パネル" Style="{StaticResource Header}"/>
+
                         <StackPanel Style="{StaticResource Phrase}">
-                            <DockPanel Margin="2" LastChildFill="False">
-                                <TextBlock MinWidth="100" Text="パネルの色" VerticalAlignment="Center" Margin="2"/>
-                                <ComboBox ItemsSource="{Binding PanelColorList}" SelectedValuePath="Key" DisplayMemberPath="Value" MinWidth="120"
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="パネルの色"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PanelColorList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.PanelColor}" />
-                            </DockPanel>
-                            <StackPanel Margin="2" Orientation="Horizontal">
-                                <TextBlock Text="不透明度："/>
-                                <TextBlock Text="{Binding Setting.ViewMemento.PanelOpacity, StringFormat={}{0}%}" Width="32" Margin="5,0" TextAlignment="Right"/>
-                                <Slider x:Name="PanelOpacitySlider" Width="200" Value="{Binding Setting.ViewMemento.PanelOpacity}"
-                                    Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"/>
                             </StackPanel>
-                            <CheckBox Margin="2" Content="フルスクリーンのときにパネルを自動的に隠す"
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="不透明度"/>
+                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.PanelOpacity}"
+                                    Minimum="0" Maximum="100" TickFrequency="5"/>
+                                <TextBlock Text="{Binding Setting.ViewMemento.PanelOpacity, StringFormat={}{0}%}"/>
+                            </StackPanel>
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーンのときにパネルを自動的に隠す"
                               IsChecked="{Binding Setting.ViewMemento.IsHidePanelInFullscreen}" />
 
                         </StackPanel>
@@ -225,20 +270,20 @@
                         <TextBlock Text="フォルダリスト" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Margin="2" Content="ブックマーク記号を表示する"
-                              IsChecked="{Binding Setting.ViewMemento.FolderListSetting.IsVisibleBookmarkMark}" />
-                            <CheckBox Margin="2" Content="履歴記号を表示する"
-                              IsChecked="{Binding Setting.ViewMemento.FolderListSetting.IsVisibleHistoryMark}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ブックマーク記号を表示する"
+                                      IsChecked="{Binding Setting.ViewMemento.FolderListSetting.IsVisibleBookmarkMark}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="履歴記号を表示する"
+                                      IsChecked="{Binding Setting.ViewMemento.FolderListSetting.IsVisibleHistoryMark}" />
                         </StackPanel>
 
                         <TextBlock Text="ファイル情報" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Margin="2" Content="EXIFの日時を使用する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="EXIFの日時を使用する"
                               IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsUseExifDateTime}" />
-                            <CheckBox Margin="2" Content="1ピクセルあたりのビット数を表示する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="1ピクセルあたりのビット数を表示する"
                               IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsVisibleBitsPerPixel}" />
-                            <CheckBox Margin="2" Content="ローダー情報を表示する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ローダー情報を表示する"
                               IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsVisibleLoader}" />
                         </StackPanel>
 
@@ -247,24 +292,24 @@
             </TabItem>
 
             <TabItem Header="画像操作">
-                <StackPanel Margin="4">
+                <StackPanel Style="{StaticResource BaseStackPanel}">
                     <TextBlock Text="ビュー操作" Style="{StaticResource Header}"/>
                     <StackPanel Style="{StaticResource Phrase}">
 
-                        <CheckBox Margin="2" Content="移動をウィンドウ内に制限する"
+                        <CheckBox Style="{StaticResource ItemCheckBox}" Content="移動をウィンドウ内に制限する"
                               IsChecked="{Binding Setting.ViewMemento.IsLimitMove}" />
-                        <CheckBox Margin="2" Content="表示開始位置を画像の中心基準にする"
+                        <CheckBox Style="{StaticResource ItemCheckBox}" Content="表示開始位置を画像の中心基準にする"
                               ToolTip="OFFの時は、見開きモードによって右上基準、左上基準になります。"
                               IsChecked="{Binding Setting.ViewMemento.IsViewStartPositionCenter}" />
-                        <CheckBox Margin="2" Content="回転、拡縮、反転の基準を画像の中心にする"
+                        <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転、拡縮、反転の基準を画像の中心にする"
                               IsChecked="{Binding Setting.ViewMemento.IsControlCenterImage}" />
-                        <CheckBox Margin="2" Content="回転を45度単位にする"
+                        <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転を45度単位にする"
                               IsChecked="{Binding Setting.ViewMemento.IsAngleSnap}" />
-                        <CheckBox Margin="2" Content="ページを変更しても拡縮をキープする"
+                        <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページを変更しても拡縮をキープする"
                               IsChecked="{Binding Setting.ViewMemento.IsKeepScale}" />
-                        <CheckBox Margin="2" Content="ページを変更しても回転をキープする"
+                        <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページを変更しても回転をキープする"
                               IsChecked="{Binding Setting.ViewMemento.IsKeepAngle}" />
-                        <CheckBox Margin="2" Content="ページを変更しても反転をキープする"
+                        <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページを変更しても反転をキープする"
                               IsChecked="{Binding Setting.ViewMemento.IsKeepFlip}" />
                     </StackPanel>
 
@@ -334,20 +379,20 @@
             </TabItem>
 
             <TabItem Header="外部連携">
-                <StackPanel Margin="4">
+                <StackPanel Style="{StaticResource BaseStackPanel}">
 
                     <TextBlock Text="外部アプリ設定" Style="{StaticResource Header}"/>
 
                     <StackPanel Style="{StaticResource Phrase}">
-                        <DockPanel Margin="2" LastChildFill="True">
-                            <TextBlock MinWidth="100" Text="プログラム：" VerticalAlignment="Center" Margin="2"/>
-                            <local:DirectoryNameBox x:Name="ExAppPath" Margin="2" SelectDirectory="False" Title="プログラムの選択" Filter="EXE|*.exe|すべてのファイル|*.*"
+                        <DockPanel Style="{StaticResource ItemDockPanel}">
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="プログラム" />
+                            <local:DirectoryNameBox x:Name="ExAppPath" Margin="2,0" SelectDirectory="False" Title="プログラムの選択" Filter="EXE|*.exe|すべてのファイル|*.*"
                             Note="指定がない場合は拡張子に関連付けられたアプリを起動します"
                             Text="{Binding Setting.BookHubMemento.ExternalApplication.Command, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         </DockPanel>
-                        <DockPanel Margin="2,2,2,5" LastChildFill="True">
+                        <DockPanel>
                             <DockPanel.Style>
-                                <Style TargetType="DockPanel">
+                                <Style TargetType="DockPanel" BasedOn="{StaticResource ItemDockPanel}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding ElementName=ExAppPath, Path=Text}" Value="">
                                             <Setter Property="IsEnabled" Value="False"/>
@@ -355,45 +400,28 @@
                                     </Style.Triggers>
                                 </Style>
                             </DockPanel.Style>
-                            <TextBlock MinWidth="100" Text="パラメーター：" VerticalAlignment="Center" Margin="2"/>
-                            <TextBox Text="{Binding ExternalApplicationParam}" Margin="2" ToolTip="$File がファイルパスに置換されます。&#xa;定義されていない場合 &quot;$File&quot; が自動追加されます"/>
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="パラメーター" />
+                            <TextBox Text="{Binding ExternalApplicationParam}" Margin="2,0" ToolTip="$File がファイルパスに置換されます。&#xa;定義されていない場合 &quot;$File&quot; が自動追加されます"/>
                         </DockPanel>
-                        <DockPanel Margin="2" LastChildFill="True">
-                            <TextBlock MinWidth="100" Text="2ページの場合" VerticalAlignment="Center" Margin="2"/>
-                            <ComboBox ItemsSource="{Binding MultiPageOptionTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.BookHubMemento.ExternalApplication.MultiPageOption}" MinWidth="200" HorizontalAlignment="Left" Margin="0"/>
-                        </DockPanel>
-                        <DockPanel Margin="2" LastChildFill="True">
-                            <TextBlock MinWidth="100" Text="圧縮ファイルの場合" VerticalAlignment="Center" Margin="2"/>
-                            <ComboBox x:Name="ExAppArchiveProcess" ItemsSource="{Binding ArchiveOptionTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.BookHubMemento.ExternalApplication.ArchiveOption}" MinWidth="200" HorizontalAlignment="Left" Margin="0"/>
-                        </DockPanel>
-
-                        <!-- 出力フォルダ指定
-                    <DockPanel Margin="2" LastChildFill="True">
-                        <DockPanel.Style>
-                            <Style TargetType="DockPanel">
-                                <Setter Property="IsEnabled" Value="False" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=ExAppArchiveProcess, Path=SelectedValue}"  Value="SendExtractFile">
-                                        <Setter Property="IsEnabled" Value="True" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DockPanel.Style>
-                        <TextBlock MinWidth="100" Text="    > 出力フォルダ" VerticalAlignment="Center" Margin="2"/>
-                        <local:DirectoryNameBox Margin="2" Text ="{Binding Setting.BookHubMemento.ExternalApplication.ExtractFolderPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                    </DockPanel>
-                    -->
+                        <StackPanel Style="{StaticResource ItemStackPanel}">
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="2ページの場合"/>
+                            <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding MultiPageOptionTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.BookHubMemento.ExternalApplication.MultiPageOption}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource ItemStackPanel}">
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="圧縮ファイルの場合" />
+                            <ComboBox Style="{StaticResource ItemComboBox}" x:Name="ExAppArchiveProcess" ItemsSource="{Binding ArchiveOptionTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.BookHubMemento.ExternalApplication.ArchiveOption}" />
+                        </StackPanel>
                     </StackPanel>
 
 
                     <TextBlock Text="ブラウザからのドラッグ&amp;ドロップ" Style="{StaticResource Header}"/>
 
                     <StackPanel Style="{StaticResource Phrase}">
-                        <DockPanel Margin="2" LastChildFill="True">
-                            <TextBlock MinWidth="100" Text="画像保存フォルダ：" VerticalAlignment="Center" Margin="2"/>
-                            <local:DirectoryNameBox x:Name="DownloadPath" Margin="2" SelectDirectory="True" Title="保存先フォルダの選択" 
+                        <DockPanel Style="{StaticResource ItemDockPanel}">
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="画像保存フォルダ"/>
+                            <local:DirectoryNameBox x:Name="DownloadPath" Margin="2,0" SelectDirectory="True" Title="保存先フォルダの選択" 
                             Note="指定がない場合は一時フォルダが使用されます"
                             Text="{Binding Setting.ViewMemento.UserDownloadPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         </DockPanel>
@@ -403,13 +431,13 @@
                     <TextBlock Text="ファイル保存" Style="{StaticResource Header}"/>
 
                     <StackPanel Style="{StaticResource Phrase}">
-                        <CheckBox Margin="2" Content="前回保存したフォルダを記憶する"
+                        <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回保存したフォルダを記憶する"
                               IsChecked="{Binding Setting.ExporterMemento.IsEnableExportFolder}" />
-                        <StackPanel Margin="2" Orientation="Horizontal">
-                            <TextBlock Text="JPEG品質：" ToolTip="変換が必要な場合にのみ使用されます"/>
-                            <TextBlock Text="{Binding Setting.ExporterMemento.QualityLevel}" Width="20" Margin="10,0" TextAlignment="Right"/>
-                            <Slider x:Name="QualityLevelSlider" Width="200" Value="{Binding Setting.ExporterMemento.QualityLevel}"
-                                    Minimum="5" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True"/>
+                        <StackPanel Style="{StaticResource ItemStackPanel}">
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="JPEG品質" ToolTip="変換が必要な場合にのみ使用されます"/>
+                            <Slider Style="{StaticResource ItemSlider}" x:Name="QualityLevelSlider" Value="{Binding Setting.ExporterMemento.QualityLevel}"
+                                    Minimum="5" Maximum="100" TickFrequency="5" />
+                            <TextBlock Text="{Binding Setting.ExporterMemento.QualityLevel}"/>
                         </StackPanel>
                     </StackPanel>
 
@@ -418,67 +446,64 @@
             </TabItem>
 
             <TabItem Header="履歴設定">
-                <Grid Margin="4">
-                    <StackPanel>
-                        <TextBlock Text="設定" Style="{StaticResource Header}"/>
-                        <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Margin="2" Content="履歴からページ設定を復元する"
+                <StackPanel  Style="{StaticResource BaseStackPanel}">
+                    <TextBlock Text="設定" Style="{StaticResource Header}"/>
+                    <StackPanel Style="{StaticResource Phrase}">
+                        <CheckBox Style="{StaticResource ItemCheckBox}" Content="履歴からページ設定を復元する"
                                       IsChecked="{Binding Setting.BookHubMemento.IsEnableHistory}" />
-                            <CheckBox Margin="2" Content="ページ番号のみ復元する"
+                        <CheckBox Content="ページ番号のみ復元する"
                                       IsChecked="{Binding Setting.BookHubMemento.IsRecoveryPageOnly}" >
-                                <CheckBox.Style>
-                                    <Style TargetType="CheckBox">
-                                        <Setter Property="IsEnabled" Value="False"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Setting.BookHubMemento.IsEnableHistory}" Value="True">
-                                                <Setter Property="IsEnabled" Value="True"/>
-                                            </DataTrigger>
+                            <CheckBox.Style>
+                                <Style TargetType="CheckBox" BasedOn="{StaticResource ItemCheckBox}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Setting.BookHubMemento.IsEnableHistory}" Value="True">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                        </DataTrigger>
 
-                                        </Style.Triggers>
-                                    </Style>
-                                </CheckBox.Style>
-                            </CheckBox>
+                                    </Style.Triggers>
+                                </Style>
+                            </CheckBox.Style>
+                        </CheckBox>
 
-                        </StackPanel>
-                        <TextBlock Text="履歴保持数" Style="{StaticResource Header}"/>
-                        <StackPanel Style="{StaticResource Phrase}">
-                            <DockPanel Margin="2" LastChildFill="False">
-                                <TextBlock Text="現在の履歴数：" VerticalAlignment="Center" Margin="2"/>
-                                <TextBlock Text="{Binding History.Items.Count}" VerticalAlignment="Center" Margin="2"/>
-                            </DockPanel>
-
-                            <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" DockPanel.Dock="Right" Content="履歴を削除する" Padding="16,8" Margin="10,0" Click="ClearHistoryButton_Click">
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding History.Items.Count}" Value="0">
-                                                <Setter Property="IsEnabled" Value="False"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-                        </StackPanel>
                     </StackPanel>
-                </Grid>
+                    <TextBlock Text="履歴保持数" Style="{StaticResource Header}"/>
+                    <StackPanel Style="{StaticResource Phrase}">
+                        <DockPanel Margin="2" LastChildFill="False">
+                            <TextBlock Text="現在の履歴数" VerticalAlignment="Center" Margin="2"/>
+                            <TextBlock Text="{Binding History.Items.Count}" VerticalAlignment="Center" Margin="10,2"/>
+                        </DockPanel>
+                        <Button Content="履歴を削除する" Click="ClearHistoryButton_Click">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource ItemButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding History.Items.Count}" Value="0">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
             </TabItem>
 
             <TabItem Header="スライドショー">
-                <StackPanel Margin="4">
+                <StackPanel Style="{StaticResource BaseStackPanel}">
                     <TextBlock Text="設定" Style="{StaticResource Header}"/>
                     <StackPanel Style="{StaticResource Phrase}">
-                        <CheckBox Margin="2" Content="フォルダーのループ再生"
+                        <CheckBox Style="{StaticResource ItemCheckBox}" Content="フォルダーのループ再生"
                               IsChecked="{Binding Setting.BookHubMemento.IsSlideShowByLoop}" />
-                        <CheckBox Margin="2" Content="マウス移動で表示間隔リセット"
+                        <CheckBox Style="{StaticResource ItemCheckBox}" Content="マウス移動で表示間隔リセット"
                               IsChecked="{Binding Setting.BookHubMemento.IsCancelSlideByMouseMove}" />
-                        
-                        
-                        <DockPanel Margin="2" LastChildFill="False">
-                            <TextBlock Text="表示間隔：" VerticalAlignment="Center" Margin="2,0,10,0"/>
-                            <ComboBox Width="80" ItemsSource="{Binding SlideShowIntervalList}"
+
+
+                        <StackPanel Style="{StaticResource ItemStackPanel}">
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="表示間隔"/>
+                            <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding SlideShowIntervalList}"
                                   SelectedValue="{Binding Setting.BookHubMemento.SlideShowInterval}" />
                             <TextBlock Text="秒" VerticalAlignment="Center" Margin="2,0"/>
-                        </DockPanel>
+                        </StackPanel>
 
                         <!--
                         <StackPanel Margin="2" Orientation="Horizontal">
@@ -549,7 +574,7 @@
                 <DockPanel Margin="4">
                     <CheckBox DockPanel.Dock="Top" Margin="2" Content="Susieプラグインを使用する" IsChecked="{Binding Setting.SusieMemento.IsEnableSusie}" />
                     <DockPanel IsEnabled="{Binding Setting.SusieMemento.IsEnableSusie}">
-                        <local:DirectoryNameBox x:Name="PluginPathTextBox" DockPanel.Dock="Top" Margin="0,2" Text ="{Binding SusiePluginPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <local:DirectoryNameBox x:Name="PluginPathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding SusiePluginPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="画像表示でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieImage}"/>
                         <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="圧縮ファイル展開でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieArchive}"/>
 
@@ -659,22 +684,23 @@
             </TabItem>
 
             <TabItem Header="メニュー">
-                <StackPanel Margin="4">
+                <StackPanel Style="{StaticResource BaseStackPanel}">
                     <TextBlock Text="コンテキストメニュー" Style="{StaticResource Header}"/>
                     <StackPanel Style="{StaticResource Phrase}" >
                         <CheckBox x:Name="ContextMenuEnableCheckBox" Margin="2" Content="コンテキストメニューを使用する"
                               IsChecked="{Binding Setting.ViewMemento.ContextMenuSetting.IsEnabled}" />
                         <StackPanel IsEnabled="{Binding ElementName=ContextMenuEnableCheckBox, Path=IsChecked}">
-                            <Button HorizontalAlignment="Right" Content="コンテキストメニュー編集" Padding="16,8" Margin="10,0" Click="EditContextMenuButton_Click"/>
-                            <CheckBox Margin="2" Content="右クリック単独ではなく、Ctrl+右クリックで開くようにする"
+                            <Button Style="{StaticResource ItemButton}" Content="コンテキストメニュー編集" Click="EditContextMenuButton_Click"/>
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="右クリック単独ではなく、Ctrl+右クリックで開くようにする"
                               IsChecked="{Binding Setting.ViewMemento.ContextMenuSetting.IsOpenByCtrl}" />
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox x:Name="ContextMenuGestureCheckBox" Margin="2" Content="マウスジェスチャーで開くようにする" VerticalAlignment="Center"
+                                <CheckBox Style="{StaticResource ItemCheckBox}" x:Name="ContextMenuGestureCheckBox"  Content="マウスジェスチャーで開くようにする"
+                                          VerticalAlignment="Center"
                                           IsChecked="{Binding Setting.ViewMemento.ContextMenuSetting.IsOpenByGesture}"/>
                                 <TextBlock Text="{Binding Setting.ViewMemento.ContextMenuSetting.MouseGesture, Converter={StaticResource MouseGestureToDispTextConverter}, StringFormat=: {0}}"
                                            Margin="2" TextTrimming="WordEllipsis" FontFamily="Meiryo" VerticalAlignment="Center"/>
                             </StackPanel>
-                            <Button HorizontalAlignment="Right" Content="マウスジェスチャー設定" Padding="16,8" Margin="10,0" Click="GestureContextMenuButton_Click"
+                            <Button  Style="{StaticResource ItemButton}" Content="マウスジェスチャー設定" Click="GestureContextMenuButton_Click"
                                         IsEnabled="{Binding ElementName=ContextMenuGestureCheckBox, Path=IsChecked}"/>
                         </StackPanel>
                     </StackPanel>
@@ -682,7 +708,7 @@
                     <!--
                     <TextBlock Text="メインメニュー" Style="{StaticResource Header}"/>
                     <StackPanel Style="{StaticResource Phrase}" >
-                        <CheckBox Margin="2" Content="コンテキストメニューを使用する"
+                        <CheckBox Style="{StaticResource ItemCheckBox}" Content="コンテキストメニューを使用する"
                               IsChecked="{Binding Setting.ViewMemento.FolderListSetting.IsVisibleBookmarkMark}" />
                     </StackPanel>
                     -->

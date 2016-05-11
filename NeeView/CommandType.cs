@@ -123,6 +123,9 @@ namespace NeeView
         ViewFlipVerticalOn,
         ViewFlipVerticalOff,
         ViewReset,
+
+        HelpCommandList,
+        HelpMainMenu,
     }
 
     public static class CommandTypeExtensions

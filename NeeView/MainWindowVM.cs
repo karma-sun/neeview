@@ -912,10 +912,62 @@ namespace NeeView
         }
         #endregion
 
+        public MenuTree MainMenuSource { get; set; }
+
         public void MainMenuInitialize()
         {
-            MainMenu = MenuTree.CreateDefault().CreateMenu();
+            MainMenuSource = MenuTree.CreateDefault();
+            MainMenu = MainMenuSource.CreateMenu();
         }
+
+        //
+        public void OpenMainMenuHelp()
+        {
+            var groups = new Dictionary<string, List<MenuTree.TableData>>();
+
+            //
+            foreach(var group in MainMenuSource.Children)
+            {
+                groups.Add(group.Label, group.GetTable(0));
+            }
+
+            // 
+            System.IO.Directory.CreateDirectory(Temporary.TempSystemDirectory);
+            string fileName = System.IO.Path.Combine(Temporary.TempSystemDirectory, "MainMenuList.html");
+
+
+            //
+            using (var writer = new System.IO.StreamWriter(fileName, false))
+            {
+                var regex = new Regex(@"\(_(\w)\)");
+                var regexReplace = @"($1)";
+
+                writer.WriteLine(NVUtility.HtmlHelpHeader("NeeView MainMenu List"));
+
+                writer.WriteLine("<body><h1>NeeView メインメニュー</h1>");
+
+                foreach (var pair in groups)
+                {
+                    writer.WriteLine($"<h3>{regex.Replace(pair.Key, regexReplace)}</h3>");
+                    writer.WriteLine("<table>");
+                    writer.WriteLine($"<th>名前<th>説明<tr>");
+                    foreach (var item in pair.Value)
+                    {
+                        string name = new string('　', item.Depth * 2) +  regex.Replace(item.Element.Label, regexReplace);
+
+                        writer.WriteLine($"<td>{name}<td>{item.Element.Note}<tr>");
+                    }
+                    writer.WriteLine("</table>");
+                }
+                writer.WriteLine("</body>");
+
+                writer.WriteLine(NVUtility.HtmlHelpFooter());
+            }
+
+            System.Diagnostics.Process.Start(fileName);
+        }
+
+    
 
 
         // 本管理

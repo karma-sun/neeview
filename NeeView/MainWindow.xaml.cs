@@ -944,15 +944,7 @@ namespace NeeView
         // [開発用] テストボタン
         private void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
         {
-            //throw new NotImplementedException();
-
-            double rate = (this.PageSlider.Value - this.PageSlider.Minimum) / (this.PageSlider.Maximum - this.PageSlider.Minimum);
-
-            // ListBoxからAutomationPeerを取得
-            var peer = ItemsControlAutomationPeer.CreatePeerForElement(this.ThumbnailListBox);
-            // GetPatternでIScrollProviderを取得
-            var scrollProvider = peer.GetPattern(PatternInterface.Scroll) as IScrollProvider;
-            scrollProvider.SetScrollPercent(rate * 100.0, scrollProvider.VerticalScrollPercent);
+            ModelContext.CommandTable.OpenCommandListHelp();
         }
 
 

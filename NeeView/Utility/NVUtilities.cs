@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Resources;
 
 namespace NeeView
 {
@@ -207,6 +208,33 @@ namespace NeeView
 
         }
 #endif
-    }
+
+
+        public static string HtmlHelpHeader(string title)
+        {
+            string stylesheet = "";
+            Uri fileUri = new Uri("/Resources/Style.css", UriKind.Relative);
+            StreamResourceInfo info = System.Windows.Application.GetResourceStream(fileUri);
+            using (StreamReader sr = new StreamReader(info.Stream))
+            {
+                stylesheet = sr.ReadToEnd();
+                stylesheet = new Regex(@"\s+").Replace(stylesheet, " ");
+            }
+
+            string s = "<!DOCTYPE html>\n" +
+                @"<html><head>" +
+                @"<meta charset=""utf-8"">" +
+                "<style>" + stylesheet + "</style>" +
+                @"<title>" + title + "</title></head>";
+
+            return s;
+        }
+
+        public static string HtmlHelpFooter()
+        {
+            return @"</html>";
+        }
+
+        }
 }
 

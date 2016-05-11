@@ -296,7 +296,7 @@ namespace NeeView
                     IsToggled = Setting.CommandMememto[element.Key].IsToggled,
                     ToggleVisibility = (element.Value.Attribute & CommandAttribute.ToggleEditable) == CommandAttribute.ToggleEditable ? Visibility.Visible : Visibility.Hidden,
                     IsToggleEditable = (element.Value.Attribute & CommandAttribute.ToggleLocked) != CommandAttribute.ToggleLocked,
-                    Tips = element.Value.Tips
+                    Tips = element.Value.NoteToTips(),
                 };
                 CommandCollection.Add(item);
             }
@@ -524,24 +524,10 @@ namespace NeeView
     [ValueConversion(typeof(string), typeof(string))]
     public class MouseGestureToDispTextConverter : IValueConverter
     {
-        private static Dictionary<char, char> _Table = new Dictionary<char, char>
-        {
-            ['U'] = '↑',
-            ['R'] = '→',
-            ['D'] = '↓',
-            ['L'] = '←',
-        };
-
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value == null) return null;
-
-            string text = "";
-            foreach (char c in (string)value)
-            {
-                text += _Table[c];
-            }
-            return text;
+            return new MouseGestureSequence((string)value).ToDispString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

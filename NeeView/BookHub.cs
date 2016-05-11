@@ -1363,8 +1363,21 @@ namespace NeeView
         /// BookHub Memento
         /// </summary>
         [DataContract]
-        public class Memento
+        public class Memento : INotifyPropertyChanged
         {
+            #region NotifyPropertyChanged
+            public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+            protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+            {
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+                }
+            }
+            #endregion
+
+
             [DataMember]
             public bool IsEnableAnimatedGif { get; set; }
 
@@ -1415,6 +1428,23 @@ namespace NeeView
 
             [DataMember(Order = 6)]
             public bool IsRecoveryPageOnly { get; set; }
+
+
+            #region Property: SlideShowIntervalEx
+            private int _SlideShowIntervalEx;
+            public int SlideShowIntervalEx
+            {
+                get { return _SlideShowIntervalEx; }
+                set
+                {
+                    _SlideShowIntervalEx = value;
+                    SlideShowInterval = Math.Floor((double)(_SlideShowIntervalEx * _SlideShowIntervalEx));
+                    OnPropertyChanged(nameof(SlideShowInterval));
+                }
+            }
+            #endregion
+
+            
 
             //
             private void Constructor()

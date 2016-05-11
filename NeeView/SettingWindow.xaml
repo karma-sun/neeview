@@ -471,12 +471,24 @@
                               IsChecked="{Binding Setting.BookHubMemento.IsSlideShowByLoop}" />
                         <CheckBox Margin="2" Content="マウス移動で表示間隔リセット"
                               IsChecked="{Binding Setting.BookHubMemento.IsCancelSlideByMouseMove}" />
+                        
+                        
                         <DockPanel Margin="2" LastChildFill="False">
                             <TextBlock Text="表示間隔：" VerticalAlignment="Center" Margin="2,0,10,0"/>
                             <ComboBox Width="80" ItemsSource="{Binding SlideShowIntervalList}"
                                   SelectedValue="{Binding Setting.BookHubMemento.SlideShowInterval}" />
                             <TextBlock Text="秒" VerticalAlignment="Center" Margin="2,0"/>
                         </DockPanel>
+
+                        <!--
+                        <StackPanel Margin="2" Orientation="Horizontal">
+                            <TextBlock Text="表示間隔："/>
+                            <TextBlock Text="{Binding Setting.BookHubMemento.SlideShowInterval, StringFormat={}{0}秒}" Width="50" Margin="5,0" TextAlignment="Right"/>
+                            <Slider x:Name="SlieshowSpanSlider" Width="200" Value="{Binding Setting.BookHubMemento.SlideShowIntervalEx}"
+                                    Minimum="1" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                        </StackPanel>
+                        -->
+
                     </StackPanel>
                 </StackPanel>
             </TabItem>

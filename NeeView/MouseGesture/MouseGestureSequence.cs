@@ -27,6 +27,53 @@ namespace NeeView
     /// </summary>
     public class MouseGestureSequence : ObservableCollection<MouseGestureDirection>
     {
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public MouseGestureSequence()
+        {
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="gestureText">記録用文字列</param>
+        public MouseGestureSequence(string gestureText)
+        {
+            if (!string.IsNullOrEmpty(gestureText))
+            {
+                foreach (char c in gestureText)
+                {
+                    MouseGestureDirection direction;
+                    if (_Table.TryGetValue(c, out direction))
+                    {
+                        this.Add(direction);
+                    }
+                }
+            }
+        }
+
+
+        //
+        private static Dictionary<MouseGestureDirection, string> _DispStrings = new Dictionary<MouseGestureDirection, string>
+        {
+            [MouseGestureDirection.None] = "",
+            [MouseGestureDirection.Up] = "↑",
+            [MouseGestureDirection.Right] = "→",
+            [MouseGestureDirection.Down] = "↓",
+            [MouseGestureDirection.Left] = "←",
+        };
+
+
+        private static Dictionary<char, MouseGestureDirection> _Table = new Dictionary<char, MouseGestureDirection>
+        {
+            ['U'] = MouseGestureDirection.Up,
+            ['R'] = MouseGestureDirection.Right,
+            ['D'] = MouseGestureDirection.Down,
+            ['L'] = MouseGestureDirection.Left,
+        };
+        
+
         // 記録用文字列に変換(U,D,L,Rの組み合わせ)
         public override string ToString()
         {
@@ -39,17 +86,8 @@ namespace NeeView
             return gestureText;
         }
 
-        //
-        private static Dictionary<MouseGestureDirection, string> _DispStrings = new Dictionary<MouseGestureDirection, string>
-        {
-            [MouseGestureDirection.None] = "",
-            [MouseGestureDirection.Up] = "↑",
-            [MouseGestureDirection.Right] = "→",
-            [MouseGestureDirection.Down] = "↓",
-            [MouseGestureDirection.Left] = "←",
-        };
 
-        // 表示文字列に変換
+        // 表示文字列に変換(矢印の組み合わせ)
         public string ToDispString()
         {
             string gestureText = "";

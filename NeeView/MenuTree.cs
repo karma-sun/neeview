@@ -355,6 +355,65 @@ namespace NeeView
             return menu.Items.Count > 0 ? menu : null;
         }
 
+        //
+        public class TableData
+        {
+            public int Depth { get; set; }
+            public MenuTree Element { get; set; }
+
+            public TableData(int depth, MenuTree element)
+            {
+                Depth = depth;
+                Element = element;
+            }
+        }
+
+        //
+        public string Note
+        {
+            get
+            {
+                switch (MenuElementType)
+                {
+                    default:
+                    case MenuElementType.None:
+                        return "";
+                    case MenuElementType.Group:
+                        return "";
+                    case MenuElementType.Command:
+                        return ModelContext.CommandTable[Command].Note;
+                    case MenuElementType.History:
+                        return "最近使ったフォルダーの一覧から開きます";
+                    case MenuElementType.Separator:
+                        return "";
+                }
+            }
+        }
+
+        //
+        public List<TableData> GetTable(int depth)
+        {
+            var list = new List<TableData>();
+
+            foreach (var child in Children)
+            {
+                if (child.MenuElementType == MenuElementType.None)
+                    continue;
+                if (child.MenuElementType == MenuElementType.Separator)
+                    continue;
+
+                list.Add(new TableData(depth, child));
+
+                if (child.MenuElementType == MenuElementType.Group)
+                {
+                    list.AddRange(child.GetTable(depth + 1));
+                }
+            }
+
+            return list;
+        }
+
+
 
         // 
         public static MenuTree CreateDefault()
@@ -447,7 +506,14 @@ namespace NeeView
                     }},
                     new MenuTree(MenuElementType.Group) { Name="その他(_O)", Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingWindow },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingWindow, Name="設定(_O)..." },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Group) { Name="ヘルプ(_H)", Children = new ObservableCollection<MenuTree>()
+                    {
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.HelpMainMenu },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.HelpCommandList },
+                        } },
+                        new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenVersionWindow },
                     }},
                 }

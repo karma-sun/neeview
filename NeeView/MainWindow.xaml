@@ -337,7 +337,7 @@
             <Grid x:Name="MenuArea" VerticalAlignment="Top">
 
                 <StackPanel>
-                    <Grid>
+                    <Grid  KeyDown="Control_KeyDown_IgnoreSingleKeyGesture">
                         <DockPanel>
                             <!-- メインメニュー -->
                             <ContentControl Content="{Binding MainMenu}" IsTabStop="False"/>
@@ -669,6 +669,25 @@
                     </StackPanel>
                 </StackPanel>
             </Grid>
+
+            <!--
+            <StackPanel Orientation="Horizontal">
+                
+            <Rectangle Width="150" Height="180" Margin="10" Stroke="Black">
+                <Rectangle.Fill>
+                    <VisualBrush  Stretch="None" Viewport="0,0,1,1"
+                                  ViewboxUnits="RelativeToBoundingBox"
+                                  Visual="{Binding ElementName=MainViewPanel}"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle Width="150" Height="180" Margin="10" Stroke="Black" >
+                <Rectangle.Fill>
+                        <VisualBrush  Stretch="Uniform" Viewport="0,0,1,1"  Viewbox="0.5,0.5,0.02,0.02"
+                                     Visual="{Binding ElementName=MainViewPanel}"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            </StackPanel>
+            -->
 
         </Grid>
 

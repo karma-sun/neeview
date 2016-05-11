@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -66,7 +67,13 @@ namespace NeeView
         public bool IsToggled { get; set; }
 
         // コマンド説明
-        public string Tips { get; set; }
+        public string Note { get; set; }
+
+        // コマンド説明をTips用文字列に変換
+        public string NoteToTips()
+        {
+            return new Regex(@"<[\w/]+>").Replace(Note, "\"").Replace("。", "\n");
+        }
 
         // 属性
         public CommandAttribute Attribute { get; set; }

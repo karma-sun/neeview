@@ -926,7 +926,7 @@ namespace NeeView
             var groups = new Dictionary<string, List<MenuTree.TableData>>();
 
             //
-            foreach(var group in MainMenuSource.Children)
+            foreach (var group in MainMenuSource.Children)
             {
                 groups.Add(group.Label, group.GetTable(0));
             }
@@ -953,7 +953,7 @@ namespace NeeView
                     writer.WriteLine($"<th>項目<th>説明<tr>");
                     foreach (var item in pair.Value)
                     {
-                        string name = new string('　', item.Depth * 2) +  regex.Replace(item.Element.Label, regexReplace);
+                        string name = new string('　', item.Depth * 2) + regex.Replace(item.Element.Label, regexReplace);
 
                         writer.WriteLine($"<td>{name}<td>{item.Element.Note}<tr>");
                     }
@@ -967,7 +967,7 @@ namespace NeeView
             System.Diagnostics.Process.Start(fileName);
         }
 
-    
+
 
 
         // 本管理
@@ -994,7 +994,8 @@ namespace NeeView
         // ページリスト更新
         private void UpdatePageList()
         {
-            PageList = new ObservableCollection<Page>(BookHub.CurrentBook?.Pages);
+            var pages = BookHub.CurrentBook?.Pages;
+            PageList = pages != null ? new ObservableCollection<Page>(pages) : null;
             PageListChanged?.Invoke(this, null);
         }
 
@@ -1241,7 +1242,7 @@ namespace NeeView
         // 本が変更された
         private void OnBookChanged(object sender, BookMementoType bookmarkType)
         {
-            var title = LoosePath.GetFileName(BookHub.CurrentBook.Place);
+            var title = LoosePath.GetFileName(BookHub.Address);
 
             switch (NoticeShowMessageStyle)
             {
@@ -1847,7 +1848,7 @@ namespace NeeView
                 .Select(e => PageList[e])
                 .OrderBy(e => Math.Abs(e.Index - center));
 
-            foreach(var page in pages)
+            foreach (var page in pages)
             {
                 page.OpenThumbnail(ThumbnailSize);
             }

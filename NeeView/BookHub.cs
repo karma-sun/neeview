@@ -714,6 +714,9 @@ namespace NeeView
                 // 現在表示されているコンテンツを無効
                 App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
 
+                // 本の変更通知
+                App.Current.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookMementoType.None)); //  Current.BookMementoType));
+
                 // ファイル読み込み失敗通知
                 EmptyMessage?.Invoke(this, e.Message);
 
@@ -859,7 +862,8 @@ namespace NeeView
         {
             if (_IsLoading || Address == null) return;
 
-            RequestLoad(Address, (Current.LoadOptions & BookLoadOption.KeepHistoryOrder), true);
+            var options = Current != null ? (Current.LoadOptions & BookLoadOption.KeepHistoryOrder) : BookLoadOption.None;
+            RequestLoad(Address, options, true);
         }
 
         // ページ終端を超えて移動しようとするときの処理

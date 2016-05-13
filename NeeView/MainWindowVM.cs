@@ -111,6 +111,10 @@ namespace NeeView
         // インデックス更新
         public event EventHandler IndexChanged;
 
+        //
+        public event EventHandler LeftPanelVisibled;
+        public event EventHandler RightPanelVisibled;
+
         #endregion
 
 
@@ -289,7 +293,7 @@ namespace NeeView
 
         public bool ToggleVisibleFileInfo()
         {
-            IsVisibleFileInfo = !IsVisibleFileInfo;
+            IsVisibleFileInfo = !(IsVisibleFileInfo && IsVisibleRightPanel);
             return IsVisibleFileInfo;
         }
 
@@ -304,10 +308,9 @@ namespace NeeView
         //
         public bool ToggleVisibleFolderList()
         {
-            IsVisibleFolderList = !IsVisibleFolderList;
+            IsVisibleFolderList = !(IsVisibleFolderList && IsVisibleLeftPanel);
             return IsVisibleFolderList;
         }
-
 
         // 履歴リスト表示ON/OFF
         public bool IsVisibleHistoryList
@@ -319,7 +322,7 @@ namespace NeeView
         //
         public bool ToggleVisibleHistoryList()
         {
-            IsVisibleHistoryList = !IsVisibleHistoryList;
+            IsVisibleHistoryList = !(IsVisibleHistoryList && IsVisibleLeftPanel);
             return IsVisibleHistoryList;
         }
 
@@ -334,7 +337,7 @@ namespace NeeView
         //
         public bool ToggleVisibleBookmarkList()
         {
-            IsVisibleBookmarkList = !IsVisibleBookmarkList;
+            IsVisibleBookmarkList = !(IsVisibleBookmarkList && IsVisibleLeftPanel);
             return IsVisibleBookmarkList;
         }
 
@@ -348,7 +351,7 @@ namespace NeeView
         //
         public bool ToggleVisiblePageList()
         {
-            IsVisiblePageList = !IsVisiblePageList;
+            IsVisiblePageList = !(IsVisiblePageList && IsVisibleLeftPanel);
             return IsVisiblePageList;
         }
 
@@ -368,9 +371,13 @@ namespace NeeView
                 OnPropertyChanged(nameof(IsVisibleBookmarkList));
                 OnPropertyChanged(nameof(IsVisiblePageList));
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
+
+                if (_LeftPanel != PanelType.None) LeftPanelVisibled?.Invoke(this, null);
             }
         }
         #endregion
+
+        public bool IsVisibleLeftPanel { get; set; } = false;
 
         // 右パネル
         #region Property: RightPanel
@@ -385,9 +392,14 @@ namespace NeeView
                 OnPropertyChanged(nameof(IsVisibleFileInfo));
                 UpdateFileInfoContent();
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
+
+                if (_RightPanel != PanelType.None) RightPanelVisibled?.Invoke(this, null);
             }
-            #endregion
         }
+        #endregion
+
+        public bool IsVisibleRightPanel { get; set; } = false;
+
 
         // パネル幅
         public double LeftPanelWidth { get; set; } = 250;
@@ -1004,6 +1016,8 @@ namespace NeeView
 
         // サムネイルを自動的に隠す
         public bool IsHideThumbnailList { get; set; }
+
+        public bool CanHideThumbnailList => IsEnableThumbnailList && IsHideThumbnailList;
 
         // サムネイルリストとスライダー
         // ONのときはスライダーに連結

@@ -17,7 +17,7 @@
         Title="{Binding WindowTitle}" Icon="{Binding WindowIcon}" Height="768" Width="1024" AllowDrop="True"
         Topmost="{Binding IsTopmost}"
         Loaded="MainWindow_Loaded" Closed="Window_Closed" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized"
-        PreviewDragOver="MainWindow_PreviewDragOver" Drop="MainWindow_Drop"
+        PreviewDragOver="MainWindow_PreviewDragOver" Drop="MainWindow_Drop" MouseLeave="MainWindow_MouseLeave"
         PreviewKeyDown="Window_PreviewKeyDown">
 
     <!--"{x:Static SystemParameters.CaptionHeight}"-->
@@ -32,6 +32,7 @@
 
     <Window.Resources>
 
+        <!--
         <Style x:Key="VisibleContent" TargetType="FrameworkElement">
             <Setter Property="Opacity" Value="1"/>
         </Style>
@@ -44,7 +45,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
+        -->
 
         <!-- Styling the DockPanelSplitter -->
         <Style x:Key="NVHorizontalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
@@ -70,6 +71,17 @@
         </Style>
 
 
+        <Style x:Key="StatusAreaStyle" TargetType="DockPanel">
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding IsVisibleThumbnailPlate}" Value="True" />
+                        <Condition Binding="{Binding Visibility, ElementName=ThumbnailListArea}" Value="Visible" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Background" Value="{DynamicResource NVBackground}"/>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
 
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -141,10 +153,10 @@
 
 
         <!-- 製品表示領域 -->
-        <Grid x:Name="Root" Background="{Binding BackgroundBrush}">
+        <Grid x:Name="Root" Background="{Binding BackgroundBrush}" MouseMove="ViewArea_MouseMove">
 
             <!--  ビューエリア -->
-            <Grid x:Name="ViewArea" MouseMove="ViewArea_MouseMove">
+            <Grid x:Name="ViewArea">
 
                 <!-- ビューエリア ベース -->
                 <Grid x:Name="ViewAreaBase"/>
@@ -511,38 +523,15 @@
                 </StackPanel>
             </Grid>
 
+
             <!-- ステータスエリア -->
-            <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom">
-                <DockPanel.Resources>
-                    <Style x:Key="StatusAreaStyle" TargetType="DockPanel">
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsVisibleThumbnailPlate}" Value="True" />
-                                    <Condition Binding="{Binding Visibility, ElementName=ThumbnailListArea}" Value="Visible" />
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Background" Value="{DynamicResource NVBackground}"/>
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-
-                    <Style x:Key="StatusAreaStyleAutoHide" TargetType="DockPanel" BasedOn="{StaticResource StatusAreaStyle}">
-                        <Setter Property="Opacity" Value="0"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="1"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-
-                </DockPanel.Resources>
+            <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom" Style="{StaticResource StatusAreaStyle}">
 
                 <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
                         local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding ElementName=MainView}"
                         ValueChanged="PageSlider_ValueChanged"
                         PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"  
-                        PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp"
-                        MouseEnter="PageSlider_MouseEnter">
+                        PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp">
                     <Slider.Style>
                         <Style TargetType="Slider">
                             <Style.Triggers>
@@ -554,13 +543,14 @@
                     </Slider.Style>
                 </Slider>
 
-                <Grid x:Name="ThumbnailListArea" SizeChanged="ThumbnailListArea_SizeChanged">
+                <Grid x:Name="ThumbnailListArea" SizeChanged="ThumbnailListArea_SizeChanged" MinHeight="32">
                     <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
                              KeyDown="ThumbnailListBox_KeyDown"
                              IsMouseCapturedChanged="ThumbnailListBox_IsMouseCapturedChanged"
                              SelectionChanged="ThumbnailListBox_SelectionChanged"
+                             Loaded="ThumbnailListBox_Loaded"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Bottom"
                              ScrollViewer.CanContentScroll="True"
@@ -608,7 +598,7 @@
                                                                     </Setter>
                                                                 </DataTrigger>
                                                             </Style.Triggers>
-                                                            
+
                                                         </Style>
                                                     </TextBlock.Style>
                                                 </TextBlock>
@@ -620,6 +610,7 @@
                                     <Setter.Value>
                                         <ItemsPanelTemplate>
                                             <VirtualizingStackPanel Orientation="Horizontal" CanHorizontallyScroll="True" CanVerticallyScroll="False" FlowDirection="RightToLeft" Margin="2,0"
+                                                                    Loaded="ThumbnailListBoxPanel_Loaded"
                                                                     KeyDown="ThumbnailListBoxPanel_KeyDown"/>
                                         </ItemsPanelTemplate>
                                     </Setter.Value>

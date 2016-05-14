@@ -118,10 +118,10 @@
 
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="先読みを行う"
-                                      ToolTip="3ページ先までの先読み、3ページ前後のページの保持を行います"
+                                      ToolTip="3ページ先までの先読みと3ページ前後のページの保持を行います"
                                       IsChecked="{Binding Setting.BookHubMemento.AllowPagePreLoad}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="メモリ開放をシステムに任せる"
-                                      ToolTip="メモリ消費が増えるように見えますが、メモリが足りなくなると自動的に開放されるため問題ありません&#xa;このチェックをはずすと画像開放タイミングでガベージコレクションを実行しますが、動作が重くなる可能性があります"
+                                      ToolTip="システムに任せるとメモリ消費が増えるように見えますが、メモリが足りなくなると自動的に開放されるため問題ありません&#xa;このチェックをはずすと使用しなくなった画像のメモリを即時開放しますが、動作が重くなる可能性があります"
                                       IsChecked="{Binding Setting.ViewMemento.IsAutoGC}" />
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="サムネイル画像で使用される最大容量">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="サムネイル用メモリ"/>
@@ -142,13 +142,13 @@
                               ToolTip="ページの終端を超えて移動しようとした時にフォルダ移動を行います&#xa;その際の開始ページは履歴によらず、最初のページか最後のページになります"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnabledAutoNextFolder}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがない場合、サブフォルダも読み込むか問い合わせる"
-                              ToolTip="フォルダーを開いた時に表示可能なページがなく、かつサブフォルダが存在する場合にサブフォルダも読み込むかを問い合わせるダイアログを表示します"
+                              ToolTip="フォルダーを開いた時に表示可能なページがなく、かつサブフォルダが存在する場合に&#xa;サブフォルダも読み込むかを問い合わせるダイアログを表示します"
                               IsChecked="{Binding Setting.BookHubMemento.IsConfirmRecursive}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="新しいフォルダーを開くときにページ設定を標準に戻す"
                               ToolTip="新しいフォルダーを開いた時に[ページ]の設定を初期値に戻します&#x0a;「サブフォルダも読み込む」はこの設定にかかわらずOFFになります"
                               IsChecked="{Binding Setting.BookHubMemento.IsUseBookMementoDefault}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="7z.dllで展開するファイルを開いたままにする"
-                              ToolTip="RAR等を展開する7z.dllを使用する際、ファイルをロックします。&#xa;閲覧中の移動や削除はできなくなりますが、HDDのファイルアクセスが激しい場合等の遅延を改善できます"
+                              ToolTip="RAR等を展開する7z.dllを使用する際にファイルを開いたままにします。&#xa;閲覧中の移動や削除はできなくなりますが、読み込み速度の改善が期待できます"
                               IsChecked="{Binding Setting.BookHubMemento.IsSevenZipAccessLocked}" />
                         </StackPanel>
 

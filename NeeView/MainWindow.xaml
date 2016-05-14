@@ -373,11 +373,13 @@
                         </DockPanel>
 
                         <!-- Help button -->
+                        <!--
                         <DockPanel LastChildFill="False" VerticalAlignment="Center" Margin="0,0,10,0">
                             <Button DockPanel.Dock="Right"  x:Name="HelpButton" Style="{StaticResource IconButton}" VerticalAlignment="Center" Click="HelpButton_Click" ToolTip="オンラインヘルプ" IsTabStop="False">
                                 <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
                             </Button>
                         </DockPanel>
+                        -->
                     </Grid>
 
                     <!-- アドレスバー -->

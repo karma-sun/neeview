@@ -1132,7 +1132,7 @@ namespace NeeView
             this.ThumbnailListBox.SelectedIndex = index;
 
             // ##
-            Debug.WriteLine(topIndex + " / " + this.ThumbnailListBox.Items.Count);
+            ////Debug.WriteLine(topIndex + " / " + this.ThumbnailListBox.Items.Count);
 
             // アライメント更新
             ThumbnailListBox_UpdateAlignment();

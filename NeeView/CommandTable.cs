@@ -72,7 +72,6 @@ namespace NeeView
         }
 
 
-
         // コマンドリストをブラウザで開く
         public void OpenCommandListHelp()
         {
@@ -985,6 +984,18 @@ namespace NeeView
                     Note = "このアプリケーションを終了させます",
                     ShortCutKey = "Alt+F4",
                     IsShowMessage = false,
+                    CanExecute = () => true,
+                },
+
+
+                [CommandType.HelpOnline] = new CommandElement
+                {
+                    Group = "その他",
+                    Text = "オンラインヘルプ",
+                    MenuText = "オンラインヘルプ",
+                    Note = "オンラインヘルプを表示します",
+                    IsShowMessage = false,
+                    Execute = e => _VM.OpenOnlineHelp(),
                     CanExecute = () => true,
                 },
 

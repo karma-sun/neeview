@@ -980,6 +980,14 @@ namespace NeeView
         }
 
 
+        // オンラインヘルプ
+        public void OpenOnlineHelp()
+        {
+            System.Diagnostics.Process.Start("https://bitbucket.org/neelabo/neeview/wiki/");
+        }
+
+
+
 
 
         // 本管理

@@ -124,6 +124,7 @@ namespace NeeView
         ViewFlipVerticalOff,
         ViewReset,
 
+        HelpOnline,
         HelpCommandList,
         HelpMainMenu,
     }

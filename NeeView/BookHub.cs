@@ -1483,6 +1483,7 @@ namespace NeeView
                 BookMementoDefault = new Book.Memento();
                 IsUseBookMementoDefault = false;
                 IsRecoveryPageOnly = false;
+                IsSevenZipAccessLocked = true;
             }
 
             public Memento()

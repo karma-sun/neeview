@@ -372,7 +372,7 @@ namespace NeeView
                 OnPropertyChanged(nameof(IsVisiblePageList));
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
 
-                if (_LeftPanel != PanelType.None) LeftPanelVisibled?.Invoke(this, null);
+                LeftPanelVisibled?.Invoke(this, null);
             }
         }
         #endregion
@@ -393,7 +393,7 @@ namespace NeeView
                 UpdateFileInfoContent();
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
 
-                if (_RightPanel != PanelType.None) RightPanelVisibled?.Invoke(this, null);
+                RightPanelVisibled?.Invoke(this, null);
             }
         }
         #endregion
@@ -1969,8 +1969,8 @@ namespace NeeView
             [DataMember(Order = 4)]
             public bool IsTopmost { get; set; }
 
-            [DataMember(Order = 5)]
-            public bool IsVisibleFileInfo { get; set; }
+            //[DataMember(Order = 5)]
+            //public bool IsVisibleFileInfo { get; set; }
 
             [DataMember(Order = 5)]
             public FileInfoSetting FileInfoSetting { get; set; }
@@ -2133,7 +2133,7 @@ namespace NeeView
             memento.IsFullScreen = this.IsFullScreen;
             memento.IsSaveFullScreen = this.IsSaveFullScreen;
             memento.IsTopmost = this.IsTopmost;
-            memento.IsVisibleFileInfo = this.IsVisibleFileInfo;
+            //memento.IsVisibleFileInfo = this.IsVisibleFileInfo;
             memento.FileInfoSetting = this.FileInfoSetting.Clone();
             memento.UserDownloadPath = this.UserDownloadPath;
             memento.FolderListSetting = this.FolderListSetting.Clone();
@@ -2188,12 +2188,13 @@ namespace NeeView
             this.IsSaveFullScreen = memento.IsSaveFullScreen;
             if (this.IsSaveFullScreen) this.IsFullScreen = memento.IsFullScreen;
             this.IsTopmost = memento.IsTopmost;
-            this.IsVisibleFileInfo = memento.IsVisibleFileInfo;
+            //this.IsVisibleFileInfo = memento.IsVisibleFileInfo;
             this.FileInfoSetting = memento.FileInfoSetting.Clone();
             this.UserDownloadPath = memento.UserDownloadPath;
             this.FolderListSetting = memento.FolderListSetting.Clone();
             this.PanelColor = memento.PanelColor;
             this.PanelOpacity = memento.PanelOpacity;
+            this.IsHidePanel = memento.IsHidePanel;
             this.LeftPanel = memento.LeftPanel;
             this.RightPanel = memento.RightPanel;
             this.LeftPanelWidth = memento.LeftPanelWidth;
@@ -2201,7 +2202,6 @@ namespace NeeView
             this.WindowTitleFormat1 = memento.WindowTitleFormat1;
             this.WindowTitleFormat2 = memento.WindowTitleFormat2;
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
-            this.IsHidePanel = memento.IsHidePanel;
             this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
             this.ContextMenuSetting = memento.ContextMenuSetting.Clone();
             this.IsEnableThumbnailList = memento.IsEnableThumbnailList;

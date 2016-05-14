@@ -119,20 +119,20 @@ namespace NeeView
                 _VM.UpdateItems();
 
                 await Task.Yield();
-                FocusSelectedItem(true);
+                FocusSelectedItem();
             }
         }
 
 
         //
-        public void FocusSelectedItem(bool force)
+        public void FocusSelectedItem()
         {
             if (this.HistoryListBox.SelectedIndex < 0) return;
 
-            if (force) this.HistoryListBox.ScrollIntoView(this.HistoryListBox.SelectedItem);
+            this.HistoryListBox.ScrollIntoView(this.HistoryListBox.SelectedItem);
 
             ListBoxItem lbi = (ListBoxItem)(this.HistoryListBox.ItemContainerGenerator.ContainerFromIndex(this.HistoryListBox.SelectedIndex));
-            if (lbi != null) lbi.Focus();
+            lbi?.Focus();
         }
 
         //

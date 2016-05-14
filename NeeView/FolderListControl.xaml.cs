@@ -353,7 +353,7 @@ namespace NeeView
                 FolderCollection = collection;
                 FolderCollectionChanged?.Invoke(this, isFocus);
 
-                FolderCollection.Changed += (s, e) => App.Current.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true); }));
+                FolderCollection.Changed += (s, e) => App.Current.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true, false); }));
             }
             else
             {
@@ -391,12 +391,12 @@ namespace NeeView
         }
 
         //
-        public void Reflesh(bool force)
+        public void Reflesh(bool force, bool isFocus)
         {
             if (FolderCollection == null) return;
 
             _IsDarty = force || FolderCollection.IsDarty();
-            SetPlace(FolderCollection.Place, null, true);
+            SetPlace(FolderCollection.Place, null, isFocus);
         }
 
         //

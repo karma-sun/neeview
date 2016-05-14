@@ -80,7 +80,7 @@
         <ListBox x:Name="PageListBox" Focusable="True"
                  Background="Transparent"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                 FocusVisualStyle="{x:Null}"
+                 FocusVisualStyle="{StaticResource NVFocusVisual}"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding Pages}"
@@ -105,7 +105,7 @@
                 <Style TargetType="ListBoxItem">
                     <EventSetter Event="PreviewMouseLeftButtonUp" Handler="PageListItem_MouseSingleClick"/>
                     <EventSetter Event="KeyDown" Handler="PageListItem_KeyDown"/>
-                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
                 </Style>
 
             </ListBox.Resources>

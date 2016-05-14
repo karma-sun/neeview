@@ -361,6 +361,7 @@
                     
                     <!-- IconButton Style -->
                     <Style x:Key="IconButton" TargetType="{x:Type Button}">
+                        <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type Button}">
@@ -387,6 +388,7 @@
 
                     <!-- IconToggleButton Style -->
                     <Style x:Key="IconToggleButton" TargetType="{x:Type ToggleButton}">
+                        <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type ToggleButton}">

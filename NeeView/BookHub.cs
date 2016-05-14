@@ -245,6 +245,14 @@ namespace NeeView
         public bool IsConfirmRecursive { get; set; }
 
 
+        // 7z.dll アクセスでファイルをロックする
+        public bool IsSevenZipAccessLocked
+        {
+            get { return SevenZipSource.IsFileLocked; }
+            set { SevenZipSource.IsFileLocked = value; }
+        }
+
+
         // スライドショー再生フラグ
         private bool _IsEnableSlideShow;
         public bool IsEnableSlideShow
@@ -1433,6 +1441,8 @@ namespace NeeView
             [DataMember(Order = 6)]
             public bool IsRecoveryPageOnly { get; set; }
 
+            [DataMember(Order = 9)]
+            public bool IsSevenZipAccessLocked { get; set; }
 
             #region Property: SlideShowIntervalIndex
             private static List<int> _SlideShowIntervalTable = new List<int>()
@@ -1511,6 +1521,7 @@ namespace NeeView
             memento.BookMementoDefault.ValidateForDefault(); // 念のため
             memento.IsUseBookMementoDefault = IsUseBookMementoDefault;
             memento.IsRecoveryPageOnly = IsRecoveryPageOnly;
+            memento.IsSevenZipAccessLocked = IsSevenZipAccessLocked;
 
 
             return memento;
@@ -1536,6 +1547,7 @@ namespace NeeView
             BookMementoDefault = memento.BookMementoDefault.Clone();
             IsUseBookMementoDefault = memento.IsUseBookMementoDefault;
             IsRecoveryPageOnly = memento.IsRecoveryPageOnly;
+            IsSevenZipAccessLocked = memento.IsSevenZipAccessLocked;
         }
 
         #endregion

@@ -132,7 +132,6 @@
 
                         </StackPanel>
 
-
                         <TextBlock Text="その他" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
@@ -148,6 +147,9 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="新しいフォルダーを開くときにページ設定を標準に戻す"
                               ToolTip="新しいフォルダーを開いた時に[ページ]の設定を初期値に戻します&#x0a;「サブフォルダも読み込む」はこの設定にかかわらずOFFになります"
                               IsChecked="{Binding Setting.BookHubMemento.IsUseBookMementoDefault}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="7z.dllで展開するファイルを開いたままにする"
+                              ToolTip="RAR等を展開する7z.dllを使用する際、ファイルをロックします。&#xa;閲覧中の移動や削除はできなくなりますが、HDDのファイルアクセスが激しい場合等の遅延を改善できます"
+                              IsChecked="{Binding Setting.BookHubMemento.IsSevenZipAccessLocked}" />
                         </StackPanel>
 
                     </StackPanel>

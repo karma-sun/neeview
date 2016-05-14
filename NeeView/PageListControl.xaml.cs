@@ -75,11 +75,11 @@ namespace NeeView
 
 
         //
-        public void FocusSelectedItem(bool force)
+        public void FocusSelectedItem()
         {
             if (this.PageListBox.SelectedIndex < 0) return;
 
-            if (force) this.PageListBox.ScrollIntoView(this.PageListBox.SelectedItem);
+            this.PageListBox.ScrollIntoView(this.PageListBox.SelectedItem);
 
             ListBoxItem lbi = (ListBoxItem)(this.PageListBox.ItemContainerGenerator.ContainerFromIndex(this.PageListBox.SelectedIndex));
             lbi?.Focus();
@@ -136,7 +136,7 @@ namespace NeeView
             if ((bool)e.NewValue)
             {
                 await Task.Yield();
-                FocusSelectedItem(true);
+                FocusSelectedItem();
             }
         }
     }

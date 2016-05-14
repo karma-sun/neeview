@@ -16,6 +16,18 @@
     <SolidColorBrush x:Key="NVButtonCheckedBrush" Color="#AABBDDFF" />
     <SolidColorBrush x:Key="NVButtonPressedBrush" Color="#FFBBDDFF" />
 
+    <Style x:Key="NVFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle StrokeThickness="1" Stroke="#881188DD" SnapsToDevicePixels="true" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
     <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -321,6 +333,7 @@
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Background" Value="{DynamicResource NVBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource NVForeground}" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -354,6 +367,7 @@
         <Setter Property="MinWidth" Value="40" />
         <Setter Property="MinHeight" Value="20" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource NVComboBoxItem}"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">

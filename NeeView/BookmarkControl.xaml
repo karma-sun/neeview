@@ -52,7 +52,7 @@
                  Style="{StaticResource NVListBox}"
                  Background="Transparent"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                 FocusVisualStyle="{x:Null}"
+                 FocusVisualStyle="{StaticResource NVFocusVisual}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding Bookmark.Items}"
@@ -68,7 +68,7 @@
                 <Style TargetType="ListBoxItem">
                     <EventSetter Event="PreviewMouseLeftButtonUp" Handler="BookmarkListItem_MouseSingleClick"/>
                     <EventSetter Event="KeyDown" Handler="BookmarkListItem_KeyDown"/>
-                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
 
                     <Setter Property="ContextMenu">
                         <Setter.Value>

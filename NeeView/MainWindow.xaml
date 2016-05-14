@@ -32,6 +32,12 @@
 
     <Window.Resources>
 
+        <!-- コンテキストメニューカウント用 -->
+        <Style TargetType="ContextMenu">
+            <EventSetter Event="Opened" Handler="ContextMenu_Opened"/>
+            <EventSetter Event="Closed" Handler="ContextMenu_Closed"/>
+        </Style>
+
         <!--
         <Style x:Key="VisibleContent" TargetType="FrameworkElement">
             <Setter Property="Opacity" Value="1"/>
@@ -165,7 +171,7 @@
                 <DockPanel x:Name="Panels">
 
                     <!-- 左パネル -->
-                    <DockPanel x:Name="LeftPanel" DockPanel.Dock="Left" Width="250" Background="{DynamicResource NVBackground}" KeyDown="LeftPanel_KeyDown">
+                    <DockPanel x:Name="LeftPanel" DockPanel.Dock="Left" Width="250" Background="{DynamicResource NVBackground}" KeyDown="LeftPanel_KeyDown" IsVisibleChanged="LeftPanel_IsVisibleChanged">
 
                         <Grid x:Name="LeftPanelMargin" DockPanel.Dock="Bottom"/>
 
@@ -232,10 +238,10 @@
                         </Grid>
                     </DockPanel>
                     <osc:DockPanelSplitter x:Name="FolderListSplitter" DockPanel.Dock="Left" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
-                                       Visibility="{Binding ElementName=LeftPanel, Path=Visibility}" />
+                                       Visibility="{Binding ElementName=LeftPanel, Path=Visibility}" IsTabStop="False" />
 
                     <!-- 右パネル -->
-                    <DockPanel x:Name="RightPanel" DockPanel.Dock="Right" Width="250" Background="{DynamicResource NVBackground}" KeyDown="RightPanel_KeyDown">
+                    <DockPanel x:Name="RightPanel" DockPanel.Dock="Right" Width="250" Background="{DynamicResource NVBackground}" KeyDown="RightPanel_KeyDown" IsVisibleChanged="RightPanel_IsVisibleChanged">
 
                         <Grid x:Name="RightPanelMargin" DockPanel.Dock="Bottom"/>
 
@@ -247,7 +253,7 @@
                         </Grid>
                     </DockPanel>
                     <osc:DockPanelSplitter x:Name="InfoAreaSplitter" DockPanel.Dock="Right" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
-                                       Visibility="{Binding ElementName=RightPanel, Path=Visibility}" />
+                                       Visibility="{Binding ElementName=RightPanel, Path=Visibility}" IsTabStop="False"/>
 
                     <!-- メインビュー -->
                     <Grid x:Name="MainViewPanelGrid" Panel.ZIndex="-1">
@@ -346,7 +352,7 @@
             </Grid>
 
             <!-- メニューエリア-->
-            <Grid x:Name="MenuArea" VerticalAlignment="Top">
+            <Grid x:Name="MenuArea" VerticalAlignment="Top" MouseEnter="MenuArea_MouseEnter" MouseLeave="MenuArea_MouseLeave" >
 
                 <StackPanel>
                     <Grid  KeyDown="Control_KeyDown_IgnoreSingleKeyGesture">
@@ -368,7 +374,7 @@
 
                         <!-- Help button -->
                         <DockPanel LastChildFill="False" VerticalAlignment="Center" Margin="0,0,10,0">
-                            <Button DockPanel.Dock="Right"  x:Name="HelpButton" Style="{StaticResource IconButton}" VerticalAlignment="Center" Click="HelpButton_Click" ToolTip="オンラインヘルプ">
+                            <Button DockPanel.Dock="Right"  x:Name="HelpButton" Style="{StaticResource IconButton}" VerticalAlignment="Center" Click="HelpButton_Click" ToolTip="オンラインヘルプ" IsTabStop="False">
                                 <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
                             </Button>
                         </DockPanel>
@@ -536,14 +542,14 @@
                         <Style TargetType="Slider">
                             <Style.Triggers>
                                 <Trigger Property="Maximum" Value="0">
-                                    <Setter Property="Visibility" Value="Hidden"/>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </Slider.Style>
                 </Slider>
 
-                <Grid x:Name="ThumbnailListArea" SizeChanged="ThumbnailListArea_SizeChanged" MinHeight="32">
+                <Grid x:Name="ThumbnailListArea" SizeChanged="ThumbnailListArea_SizeChanged" >
                     <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"

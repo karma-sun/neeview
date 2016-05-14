@@ -87,14 +87,17 @@ namespace NeeView
         }
 
         //
-        public void FocusSelectedItem(bool force)
+        public void FocusSelectedItem(bool isFocus)
         {
             if (this.ListBox.SelectedIndex < 0) return;
 
-            if (force) this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
+            this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
 
-            ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
-            lbi?.Focus();
+            if (isFocus)
+            {
+                ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
+                lbi?.Focus();
+            }
         }
 
 
@@ -175,11 +178,10 @@ namespace NeeView
             }
         }
 
-        //
+        // ロードイベント
         private void FolderList_Loaded(object sender, RoutedEventArgs e)
         {
-            this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
-            if (_AutoFocus) FocusSelectedItem(false);
+            FocusSelectedItem(_AutoFocus);
         }
 
         //

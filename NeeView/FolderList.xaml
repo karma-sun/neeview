@@ -86,14 +86,14 @@
                 Style="{StaticResource NVListBox}"
                 Background="Transparent"
                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                FocusVisualStyle="{x:Null}"
+                FocusVisualStyle="{StaticResource NVFocusVisual}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 ItemsSource="{Binding FolderCollection.Items}"
                 SelectedIndex="{Binding SelectedIndex}"
                 SelectionChanged="FolderList_SelectionChanged"
                 Loaded="FolderList_Loaded"
                 KeyDown="FolderList_KeyDown"
-             HorizontalContentAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
                 ItemTemplate="{StaticResource NormalFolder}">
 
         <ListBox.Resources>
@@ -102,7 +102,7 @@
                 <EventSetter Event="PreviewMouseDoubleClick" Handler="FolderListItem_MouseDoubleClick"/>
                 <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown"/>
                 <EventSetter Event="Loaded" Handler="FolderListItem_Loaded"/>
-                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
                 <Setter Property="ContextMenu">
                     <Setter.Value>
                         <ContextMenu>

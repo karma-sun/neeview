@@ -62,17 +62,7 @@ namespace NeeView
         // 同期
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            _VM.Update();
-            this.BookmarkListBox.Items.Refresh();
-
-            // フォーカス
-            this.BookmarkListBox.SelectedIndex = 0;
-            this.BookmarkListBox.ScrollIntoView(this.BookmarkListBox.SelectedItem);
-            this.BookmarkListBox.UpdateLayout();
-            ListBoxItem lbi = (ListBoxItem)(this.BookmarkListBox.ItemContainerGenerator.ContainerFromIndex(this.BookmarkListBox.SelectedIndex));
-            lbi?.Focus();
-            */
+            // nop.                
         }
 
         // 履歴項目決定
@@ -136,19 +126,19 @@ namespace NeeView
                 }
 
                 await Task.Yield();
-                FocusSelectedItem(true);
+                FocusSelectedItem();
             }
         }
 
         //
-        public void FocusSelectedItem(bool force)
+        public void FocusSelectedItem()
         {
             if (this.BookmarkListBox.SelectedIndex < 0) return;
 
-            if (force) this.BookmarkListBox.ScrollIntoView(this.BookmarkListBox.SelectedItem);
+            this.BookmarkListBox.ScrollIntoView(this.BookmarkListBox.SelectedItem);
 
             ListBoxItem lbi = (ListBoxItem)(this.BookmarkListBox.ItemContainerGenerator.ContainerFromIndex(this.BookmarkListBox.SelectedIndex));
-            if (lbi != null) lbi.Focus();
+            lbi?.Focus();
         }
     }
 

@@ -1303,7 +1303,7 @@ namespace NeeView
             else
             {
                 SetStatusAreaVisibisity(true, true);
-                SetThumbnailListAreaVisibisity(!_VM.CanHideThumbnailList || IsStateAreaMouseOver(), false);
+                SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList && (!_VM.CanHideThumbnailList || IsStateAreaMouseOver()), false);
             }
         }
 

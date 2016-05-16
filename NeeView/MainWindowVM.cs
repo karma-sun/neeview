@@ -388,6 +388,9 @@ namespace NeeView
         public double LeftPanelWidth { get; set; } = 250;
         public double RightPanelWidth { get; set; } = 250;
 
+        public string FolderListGridRow0 { get; set; }
+        public string FolderListGridRow2 { get; set; }
+
         // フルスクリーン
         #region Property: IsFullScreen
         private bool _IsFullScreen;
@@ -1433,6 +1436,9 @@ namespace NeeView
         }
 
 
+
+
+
         // アプリ設定保存
         public void SaveSetting(MainWindow window)
         {
@@ -1442,6 +1448,11 @@ namespace NeeView
             // パネル幅保存
             LeftPanelWidth = window.LeftPanel.Width;
             RightPanelWidth = window.RightPanel.Width;
+
+            // フォルダーリスト分割位置保存
+            var grid = window.FolderListArea;
+            FolderListGridRow0 = grid.RowDefinitions[0].Height.ToString();
+            FolderListGridRow2 = grid.RowDefinitions[2].Height.ToString();
 
             // 設定
             var setting = CreateSetting();
@@ -1983,9 +1994,6 @@ namespace NeeView
             [DataMember(Order = 6)]
             public PanelColor PanelColor { get; set; }
 
-            [DataMember(Order = 6)]
-            public int PanelOpacity { get; set; }
-
             [DataMember(Order = 7)]
             public PanelType LeftPanel { get; set; }
 
@@ -2050,6 +2058,12 @@ namespace NeeView
             [DataMember(Order = 9)]
             public bool IsVisibleThumbnailPlate { get; set; }
 
+            [DataMember(Order = 10)]
+            public string FolderListGridRow0 { get; set; }
+
+            [DataMember(Order = 10)]
+            public string FolderListGridRow2 { get; set; }
+
             //
             void Constructor()
             {
@@ -2064,7 +2078,6 @@ namespace NeeView
                 FileInfoSetting = new FileInfoSetting();
                 FolderListSetting = new FolderListSetting();
                 PanelColor = PanelColor.Dark;
-                PanelOpacity = 100;
                 LeftPanelWidth = 250;
                 RightPanelWidth = 250;
                 WindowTitleFormat1 = MainWindowVM.WindowTitleFormat1Default;
@@ -2136,7 +2149,6 @@ namespace NeeView
             memento.UserDownloadPath = this.UserDownloadPath;
             memento.FolderListSetting = this.FolderListSetting.Clone();
             memento.PanelColor = this.PanelColor;
-            memento.PanelOpacity = this.PanelOpacity;
             memento.LeftPanel = this.LeftPanel;
             memento.RightPanel = this.RightPanel;
             memento.LeftPanelWidth = this.LeftPanelWidth;
@@ -2155,6 +2167,8 @@ namespace NeeView
             memento.IsAutoGC = this.IsAutoGC;
             memento.ThumbnailMemorySize = this.ThumbnailMemorySize;
             memento.IsVisibleThumbnailPlate = this.IsVisibleThumbnailPlate;
+            memento.FolderListGridRow0 = this.FolderListGridRow0;
+            memento.FolderListGridRow2 = this.FolderListGridRow2;
 
             return memento;
         }
@@ -2190,7 +2204,6 @@ namespace NeeView
             this.UserDownloadPath = memento.UserDownloadPath;
             this.FolderListSetting = memento.FolderListSetting.Clone();
             this.PanelColor = memento.PanelColor;
-            this.PanelOpacity = memento.PanelOpacity;
             this.IsHidePanel = memento.IsHidePanel;
             this.LeftPanel = memento.LeftPanel;
             this.RightPanel = memento.RightPanel;
@@ -2209,6 +2222,9 @@ namespace NeeView
             this.IsAutoGC = memento.IsAutoGC;
             this.ThumbnailMemorySize = memento.ThumbnailMemorySize;
             this.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
+            this.FolderListGridRow0 = memento.FolderListGridRow0;
+            this.FolderListGridRow2 = memento.FolderListGridRow2;
+
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

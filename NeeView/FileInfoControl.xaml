@@ -59,7 +59,7 @@
             <local:FileInfoItem x:Name="ItemISOSpeedRatings" Header="ISO"/>
             <local:FileInfoItem x:Name="ItemModel" Header="デバイス"/>
             <local:FileInfoItem x:Name="ItemFilePlace" Header="フォルダーのパス" Text="{Binding FolderPlace}"/>
-            <Button x:Name="OpenPlaceButton" Click="OpenPlaceButton_Click" HorizontalAlignment="Left">
+            <Button x:Name="OpenPlaceButton" Click="OpenPlaceButton_Click" HorizontalAlignment="Left" Margin="-5,-3,0,0">
                 <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
                         <Style.Triggers>
@@ -69,7 +69,7 @@
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
-                <TextBlock Margin="0" FontSize="15" Text="フォルダーを開く" Foreground="{StaticResource NVButtonForeground}"/>
+                <TextBlock Margin="8,5" FontSize="15" Text="フォルダーを開く" Foreground="{StaticResource NVButtonForeground}"/>
             </Button>
 
             <StackPanel x:Name="GroupLoader">

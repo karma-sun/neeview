@@ -616,7 +616,9 @@ namespace NeeView
             var result = dialog.ShowDialog();
             if (result == true)
             {
+                SetUpdateMenuLayoutMode(false);
                 _VM.RestoreSetting(setting);
+                SetUpdateMenuLayoutMode(true);
                 _VM.SaveSetting(this);
                 ModelContext.BookHistory.Restore(history);
             }
@@ -635,10 +637,35 @@ namespace NeeView
         WindowState _WindowStateMemento = WindowState.Normal;
         bool _FullScreened;
 
-        // TODO: 呼びだされすぎ
-        // スクリーンモード切り替えによるコントロール設定の変更
+        // メニューレイアウト更新フラグ
+        public bool _AllowUpdateMenuLayout;
+        public bool _IsDartyMenuLayout;
+
+        // メニューレイアウト更新要求
         private void OnMenuVisibilityChanged()
         {
+            _IsDartyMenuLayout = true;
+            if (_AllowUpdateMenuLayout)
+            {
+                UpdateMenuLayout();
+            }
+        }
+
+        // メニューレイアウト更新許可設定
+        private void SetUpdateMenuLayoutMode(bool allow)
+        {
+            _AllowUpdateMenuLayout = allow;
+            if (_AllowUpdateMenuLayout && _IsDartyMenuLayout)
+            {
+                UpdateMenuLayout();
+            }
+        }
+
+        // メニューレイアウト更新
+        private void UpdateMenuLayout()
+        {
+            _IsDartyMenuLayout = false;
+             
             // window style
             if (_VM.IsFullScreen || !_VM.IsVisibleTitleBar)
             {
@@ -703,8 +730,8 @@ namespace NeeView
             DartyThumbnailList();
             UpdateStateAreaVisibility();
 
-            double statusAreaHeight = this.PageSlider.ActualHeight + _VM.ThumbnailItemHeight; // アバウト
-            double bottomMargin = (isMenuDock && _VM.IsEnableThumbnailList && !_VM.IsHideThumbnailList ? statusAreaHeight : this.PageSlider.ActualHeight);
+            double statusAreaHeight = this.PageSlider.Height + _VM.ThumbnailItemHeight; // アバウト
+            double bottomMargin = (isMenuDock && _VM.IsEnableThumbnailList && !_VM.IsHideThumbnailList ? statusAreaHeight : this.PageSlider.Height);
             this.LeftPanelMargin.Height = bottomMargin;
             this.RightPanelMargin.Height = bottomMargin;
 
@@ -755,11 +782,10 @@ namespace NeeView
         //
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // パネルコントロール取得
-            //_ThumbnailListPanel = FindVisualChild<VirtualizingStackPanel>(this.ThumbnailListBox);
-
             // VMイベント設定
             InitializeViewModelEvents();
+
+            SetUpdateMenuLayoutMode(false);
 
             // 設定反映
             _VM.RestoreSetting(App.Setting);
@@ -771,7 +797,6 @@ namespace NeeView
             _VM.LoadBookmark(App.Setting);
 
             App.Setting = null; // ロード設定破棄
-
 
             // パネル幅復元
             this.LeftPanel.Width = _VM.LeftPanelWidth;
@@ -791,6 +816,8 @@ namespace NeeView
 
             // ウィンドウモードで初期化
             OnMenuVisibilityChanged();
+            SetUpdateMenuLayoutMode(true);
+
 
             // フォルダリスト初期化
             this.FolderList.SetPlace(ModelContext.BookHistory.LastFolder, null, false);

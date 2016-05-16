@@ -535,7 +535,7 @@
             <!-- ステータスエリア -->
             <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom" Style="{StaticResource StatusAreaStyle}">
 
-                <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
+                <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Height="18" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
                         local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding ElementName=MainView}"
                         ValueChanged="PageSlider_ValueChanged"
                         PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"  

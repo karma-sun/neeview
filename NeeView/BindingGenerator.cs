@@ -11,8 +11,6 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 
 
-// TODO: 全てのコマンドに実装
-
 namespace NeeView
 {
     //

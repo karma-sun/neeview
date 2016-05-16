@@ -179,6 +179,9 @@ namespace NeeView
         // サムネイル変更
         public event EventHandler<Page> ThumbnailChanged;
 
+        // ページが削除された
+        public event EventHandler<Page> PageRemoved;
+
         #endregion
 
 
@@ -827,6 +830,7 @@ namespace NeeView
                 book.DartyBook += (s, e) => RequestLoad(Address, BookLoadOption.ReLoad, false);
                 book.PagesSorted += (s, e) => PagesSorted?.Invoke(s, e);
                 book.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(s, e);
+                book.PageRemoved += (s, e) => PageRemoved?.Invoke(s, e);
 
                 // 最初のコンテンツ表示待ち設定
                 _ViewContentEvent.Reset();

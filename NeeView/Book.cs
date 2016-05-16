@@ -66,6 +66,9 @@ namespace NeeView
         // 先読み許可フラグ
         public bool AllowPreLoad { get; set; } = true;
 
+        // ファイル削除された
+        public event EventHandler<Page> PageRemoved;
+
 
         // 横長ページを分割する
         private bool _IsSupportedDividePage;
@@ -1214,9 +1217,9 @@ namespace NeeView
             if (index < 0) return;
 
             Pages.RemoveAt(index);
+            PageRemoved?.Invoke(this, page);
 
             index = ClampPageNumber(index);
-
             RequestSetPosition(new PagePosition(index, 0), 1, true);
         }
 

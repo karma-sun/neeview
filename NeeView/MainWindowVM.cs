@@ -22,7 +22,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 // TODO: ランダムページのときにファイルオープン指定ファイルで開かないバグ
-// TODO: ファイル削除後のページリスト、サムネイル更新
 
 namespace NeeView
 {
@@ -1212,6 +1211,12 @@ namespace NeeView
                 (s, e) =>
                 {
                     _AliveThumbnailList.Add(e);
+                };
+
+            BookHub.PageRemoved +=
+                (s, e) =>
+                {
+                    UpdatePageList();
                 };
 
             // CommandTable

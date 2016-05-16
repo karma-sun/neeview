@@ -206,11 +206,15 @@
                             </local:HistoryControl>
 
                             <!-- フォルダリスト -->
-                            <local:FolderListControl x:Name="FolderListArea"
-                                        Setting="{Binding FolderListSetting}"
-                                        BookHub="{Binding BookHub}">
-                                <local:FolderListControl.Style>
-                                    <Style TargetType="local:FolderListControl">
+                            <Grid x:Name="FolderListArea">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding LeftPanel}" Value="FolderList">
@@ -218,22 +222,18 @@
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
-                                </local:FolderListControl.Style>
-                            </local:FolderListControl>
+                                </Grid.Style>
 
-                            <!-- ページリスト -->
-                            <local:PageListControl x:Name="PageArea">
-                                <local:PageListControl.Style>
-                                    <Style TargetType="local:PageListControl">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding LeftPanel}" Value="PageList">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </local:PageListControl.Style>
-                            </local:PageListControl>
+                                <local:FolderListControl x:Name="FolderList" Grid.Row="0"
+                                        Setting="{Binding FolderListSetting}"
+                                        BookHub="{Binding BookHub}"/>
+
+                                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Height="6" Background="{DynamicResource NVBaseBrush}"/>
+
+                                <local:PageListControl x:Name="PageList" Grid.Row="2"/>
+
+                            </Grid>
+
 
                         </Grid>
                     </DockPanel>

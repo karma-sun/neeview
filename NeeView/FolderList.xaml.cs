@@ -238,7 +238,7 @@ namespace NeeView
             stackPanel.Children.Add(textblock);
             stackPanel.Margin = new Thickness(0, 0, 0, 20);
 
-            ModelContext.RemoveFile(this, info.Path, stackPanel);
+            Messenger.Send(this, new MessageEventArgs("RemoveFile") { Parameter = new RemoveFileParams() { Path = info.Path, Visual = stackPanel } });
         }
     }
 }

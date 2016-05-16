@@ -85,6 +85,12 @@ namespace NeeView
             clone._ContextMenu = null;
             return clone;
         }
+
+        //
+        public void Validate()
+        {
+            _SourceTree?.Validate();
+        }
     }
 
 

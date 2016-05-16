@@ -33,7 +33,7 @@
     </UserControl.Resources>
 
 
-    <DockPanel x:Name="DockPanel" Margin="0,5" IsVisibleChanged="FolderList_IsVisibleChanged">
+    <DockPanel x:Name="DockPanel" Margin="0,5,0,0" IsVisibleChanged="FolderList_IsVisibleChanged">
 
         <StackPanel DockPanel.Dock="Top" Margin="5">
             <StackPanel Margin="5">
@@ -54,7 +54,9 @@
             </WrapPanel>
         </StackPanel>
 
-        <ContentControl x:Name="FolderListContent" Focusable="False"/>
+        <Grid>
+            <ContentControl x:Name="FolderListContent"  Focusable="False" />
+        </Grid>
 
     </DockPanel>
 </UserControl>

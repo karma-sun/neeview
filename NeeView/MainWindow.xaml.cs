@@ -793,15 +793,12 @@ namespace NeeView
             OnMenuVisibilityChanged();
 
             // フォルダリスト初期化
-            this.FolderListArea.SetPlace(ModelContext.BookHistory.LastFolder, null, false);
+            this.FolderList.SetPlace(ModelContext.BookHistory.LastFolder, null, false);
+            this.PageList.Initialize(_VM);
             // 履歴リスト初期化
             this.HistoryArea.Initialize(_VM.BookHub);
             // ブックマークリスト初期化
             this.BookmarkArea.Initialize(_VM.BookHub);
-            // ページリスト初期化
-            this.PageArea.Initialize(_VM.BookHub);
-
-
 
             // フォルダを開く
             if (!App.Options["--blank"].IsValid)

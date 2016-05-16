@@ -25,6 +25,8 @@
 
         <RoutedCommand x:Key="xRemoveDommand" />
 
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
         <Style x:Key="ItemStyle" TargetType="TextBlock">
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="FontSize" Value="15"/>
@@ -56,14 +58,16 @@
     </UserControl.Resources>
 
 
-    <DockPanel x:Name="DockPanel" Margin="0,5" IsVisibleChanged="PaegList_IsVisibleChanged">
+    <DockPanel x:Name="DockPanel" Margin="0,0,0,5" IsVisibleChanged="PaegList_IsVisibleChanged">
 
-        <StackPanel DockPanel.Dock="Top" Margin="5">
+        <StackPanel DockPanel.Dock="Top" Margin="5,2">
 
+            <!--
             <StackPanel Margin="5">
                 <TextBlock Text="ページリスト" Foreground="Gray"/>
                 <TextBlock Text="{Binding Title}" ToolTip="{Binding Title}" TextTrimming="CharacterEllipsis"/>
             </StackPanel>
+            -->
 
             <WrapPanel>
                 <ComboBox x:Name="FormatComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
@@ -83,7 +87,7 @@
                  FocusVisualStyle="{StaticResource NVFocusVisual}"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding Pages}"
+                 ItemsSource="{Binding VM.PageList}"
                  SelectedItem="{Binding SelectedItem}"
                  SelectionChanged="PageList_SelectionChanged"
                  KeyDown="PageList_KeyDown">

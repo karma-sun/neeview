@@ -57,7 +57,7 @@ namespace NeeView
         ToggleVisibleFolderList,
         ToggleVisibleBookmarkList,
         ToggleVisibleHistoryList,
-        ToggleVisiblePageList,
+        ToggleVisiblePageList, // 欠番
 
         ToggleFullScreen,
         SetFullScreen,
@@ -131,9 +131,10 @@ namespace NeeView
 
     public static class CommandTypeExtensions
     {
+        // TODO: 判定法整備
         public static bool IsDisable(this CommandType type)
         {
-            return (type == CommandType.None || type == CommandType.ToggleIsReverseSort || type == CommandType.ToggleHideTitleBar);
+            return (type == CommandType.None || type == CommandType.ToggleIsReverseSort || type == CommandType.ToggleHideTitleBar || type == CommandType.ToggleVisiblePageList);
         }
 
         public static string ToDispString(this CommandType type)

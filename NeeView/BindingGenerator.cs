@@ -71,7 +71,7 @@ namespace NeeView
         {
             return new Binding("FolderCollection.Folder.FolderOrder")
             {
-                Source = (App.Current.MainWindow as MainWindow).FolderListArea.DockPanel.DataContext, // 強引だな..
+                Source = (App.Current.MainWindow as MainWindow).FolderList.DockPanel.DataContext, // 強引だな..
                 Converter = _FolderOrderToBooleanConverter,
                 ConverterParameter = mode.ToString()
             };

@@ -22,6 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 // TODO: ランダムページのときにファイルオープン指定ファイルで開かないバグ
+// TODO: ファイル削除後のページリスト、サムネイル更新
 
 namespace NeeView
 {
@@ -56,7 +57,7 @@ namespace NeeView
         FolderList,
         HistoryList,
         BookmarkList,
-        PageList,
+        PageList, // 廃止
     }
 
     // ウィンドウタイトル更新項目
@@ -341,21 +342,6 @@ namespace NeeView
             return IsVisibleBookmarkList;
         }
 
-        // ページリスト表示ON/OFF
-        public bool IsVisiblePageList
-        {
-            get { return LeftPanel == PanelType.PageList; }
-            set { LeftPanel = value ? PanelType.PageList : PanelType.None; }
-        }
-
-        //
-        public bool ToggleVisiblePageList()
-        {
-            IsVisiblePageList = !(IsVisiblePageList && IsVisibleLeftPanel);
-            return IsVisiblePageList;
-        }
-
-
         // 左パネル
         #region Property: LeftPanel
         private PanelType _LeftPanel;
@@ -365,11 +351,11 @@ namespace NeeView
             set
             {
                 _LeftPanel = value;
+                if (_LeftPanel == PanelType.PageList) _LeftPanel = PanelType.FolderList; // PageList廃止の補正
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsVisibleFolderList));
                 OnPropertyChanged(nameof(IsVisibleHistoryList));
                 OnPropertyChanged(nameof(IsVisibleBookmarkList));
-                OnPropertyChanged(nameof(IsVisiblePageList));
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
 
                 LeftPanelVisibled?.Invoke(this, null);
@@ -892,6 +878,7 @@ namespace NeeView
             set
             {
                 _ContextMenuSetting = value;
+                _ContextMenuSetting.Validate();
                 UpdateContextMenu();
             }
         }
@@ -2141,7 +2128,6 @@ namespace NeeView
             memento.IsFullScreen = this.IsFullScreen;
             memento.IsSaveFullScreen = this.IsSaveFullScreen;
             memento.IsTopmost = this.IsTopmost;
-            //memento.IsVisibleFileInfo = this.IsVisibleFileInfo;
             memento.FileInfoSetting = this.FileInfoSetting.Clone();
             memento.UserDownloadPath = this.UserDownloadPath;
             memento.FolderListSetting = this.FolderListSetting.Clone();
@@ -2196,7 +2182,6 @@ namespace NeeView
             this.IsSaveFullScreen = memento.IsSaveFullScreen;
             if (this.IsSaveFullScreen) this.IsFullScreen = memento.IsFullScreen;
             this.IsTopmost = memento.IsTopmost;
-            //this.IsVisibleFileInfo = memento.IsVisibleFileInfo;
             this.FileInfoSetting = memento.FileInfoSetting.Clone();
             this.UserDownloadPath = memento.UserDownloadPath;
             this.FolderListSetting = memento.FolderListSetting.Clone();

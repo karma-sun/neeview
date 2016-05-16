@@ -145,7 +145,7 @@ namespace NeeView
             return clone;
         }
 
-
+        // 掃除
         public void Validate()
         {
             if (this.MenuElementType == MenuElementType.Group)
@@ -157,7 +157,11 @@ namespace NeeView
                 var removes = new List<MenuTree>();
                 foreach (var child in this.Children)
                 {
-                    if (this.Children.Count >= 2 && child.MenuElementType == MenuElementType.None)
+                    if (child.MenuElementType == MenuElementType.None)
+                    {
+                        removes.Add(child);
+                    }
+                    else if (child.MenuElementType == MenuElementType.Command && child.Command.IsDisable())
                     {
                         removes.Add(child);
                     }
@@ -414,7 +418,6 @@ namespace NeeView
         }
 
 
-
         // 
         public static MenuTree CreateDefault()
         {
@@ -439,7 +442,7 @@ namespace NeeView
                     new MenuTree(MenuElementType.Group) { Name="表示(_V)", Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFolderList },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisiblePageList },
+                        //new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisiblePageList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleBookmarkList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleHistoryList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFileInfo },

@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -63,14 +64,13 @@ namespace NeeView
 
         private void OnPagesChanged(object sender, EventArgs e)
         {
-            this.PageListBox.Items.Refresh();
             this.PageListBox.ScrollIntoView(this.PageListBox.SelectedItem);
         }
 
         //
-        public void Initialize(BookHub bookHub)
+        public void Initialize(MainWindowVM vm)
         {
-            _VM.Initialize(bookHub);
+            _VM.Initialize(vm);
         }
 
 
@@ -81,8 +81,8 @@ namespace NeeView
 
             this.PageListBox.ScrollIntoView(this.PageListBox.SelectedItem);
 
-            ListBoxItem lbi = (ListBoxItem)(this.PageListBox.ItemContainerGenerator.ContainerFromIndex(this.PageListBox.SelectedIndex));
-            lbi?.Focus();
+            //ListBoxItem lbi = (ListBoxItem)(this.PageListBox.ItemContainerGenerator.ContainerFromIndex(this.PageListBox.SelectedIndex));
+            //lbi?.Focus();
         }
 
         // フォルダリスト 選択項目変更
@@ -167,6 +167,23 @@ namespace NeeView
 
         public event EventHandler PagesChanged;
 
+
+        #region Property: VM
+        private MainWindowVM _VM;
+        public MainWindowVM VM
+        {
+            get { return _VM; }
+            set
+            {
+                _VM = value;
+                _VM.PageListChanged += (s, e) => Reflesh();
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+
+
+
         private BookHub _BookHub;
         public BookHub BookHub
         {
@@ -174,11 +191,8 @@ namespace NeeView
             set
             {
                 _BookHub = value;
-                _BookHub.BookChanged += (s, e) => Reflesh();
-                _BookHub.PagesSorted += (s, e) => Reflesh();
                 _BookHub.ViewContentsChanged += BookHub_ViewContentsChanged;
                 OnPropertyChanged();
-                Reflesh();
             }
         }
 
@@ -232,17 +246,6 @@ namespace NeeView
         }
         #endregion
 
-
-
-        #region Property: Pages
-        private List<Page> _Pages;
-        public List<Page> Pages
-        {
-            get { return _Pages; }
-            set { _Pages = value; OnPropertyChanged(); }
-        }
-        #endregion
-
         #region Property: SelectedItem
         private Page _SelectedItem;
         public Page SelectedItem
@@ -260,14 +263,15 @@ namespace NeeView
             _PageSortMode = _BookHub.BookMemento.SortMode;
             OnPropertyChanged(nameof(PageSortMode));
 
-            Pages = _BookHub.CurrentBook?.Pages;
             App.Current.Dispatcher.Invoke(() => PagesChanged?.Invoke(this, null));
         }
 
         //
-        public void Initialize(BookHub bookHub)
+        public void Initialize(MainWindowVM vm)
         {
-            BookHub = bookHub;
+            VM = vm;
+            BookHub = vm.BookHub;
+            Reflesh();
         }
 
         //

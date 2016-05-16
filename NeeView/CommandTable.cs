@@ -458,18 +458,12 @@ namespace NeeView
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleHistoryList)),
                 },
-                [CommandType.ToggleVisiblePageList] = new CommandElement
+                [CommandType.ToggleVisiblePageList] = new CommandElement // 欠番
                 {
-                    Group = "パネル",
-                    Text = "ページリストの表示ON/OFF",
-                    MenuText = "ページリスト",
-                    Note = "ページリストパネルの表示/非表示を切り替えます",
-                    ShortCutKey = "P",
-                    IsShowMessage = false,
-                    Execute = e => _VM.ToggleVisiblePageList(),
-                    ExecuteMessage = e => _VM.IsVisiblePageList ? "ページリストを消す" : "ページリストを表示する",
-                    CanExecute = () => true,
-                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisiblePageList)),
+                    Group = "dummy",
+                    Text = "dummy",
+                    Execute = e => { return; },
+                    CanExecute = () => false
                 },
 
 

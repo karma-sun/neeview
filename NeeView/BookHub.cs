@@ -23,10 +23,15 @@ using System.Windows.Media.Imaging;
 // TODO: フォルダサムネイル(非同期) 
 // TODO: コマンド類の何時でも受付。ロード中だから弾く、ではない別の方法を。
 
-
-
 namespace NeeView
 {
+    //
+    public class RemoveFileParams
+    {
+        public string Path { get; set; }
+        public System.Windows.FrameworkElement Visual { get; set; }
+    }
+
     public class FolderListSyncArguments
     {
         public string Path { get; set; }
@@ -346,6 +351,9 @@ namespace NeeView
         {
             ModelContext.BookHistory.HistoryChanged += (s, e) => HistoryChanged?.Invoke(s, e);
             ModelContext.Bookmarks.BookmarkChanged += (s, e) => BookmarkChanged?.Invoke(s, e);
+
+            // messenger
+            Messenger.AddReciever("RemoveFile", CallRemoveFile);
 
             StartCommandWorker();
         }
@@ -1359,15 +1367,79 @@ namespace NeeView
                 stackPanel.Children.Add(textblock);
 
                 // 削除実行
-                bool isRemoved = ModelContext.RemoveFile(this, path, stackPanel);
+                var isRemoved = Messenger.Send(this, new MessageEventArgs("RemoveFile") { Parameter = new RemoveFileParams() { Path = path, Visual = stackPanel } });
 
                 // ページを本から削除
-                if (isRemoved)
+                if (isRemoved == true)
                 {
                     CurrentBook?.RequestRemove(page);
                 }
             }
         }
+
+
+
+        // ファイルを削除する
+        // RemoveFileメッセージ処理
+        public void CallRemoveFile(object sender, MessageEventArgs e)
+        {
+            var removeParam = (RemoveFileParams)e.Parameter;
+            var path = removeParam.Path;
+            var visual = removeParam.Visual;
+
+            if (visual == null)
+            {
+                var textblock = new System.Windows.Controls.TextBlock();
+                textblock.Text = Path.GetFileName(path);
+
+                visual = textblock;
+            }
+
+            bool isDirectory = System.IO.Directory.Exists(path);
+            string itemType = isDirectory ? "フォルダ" : "ファイル";
+
+            // 削除確認
+            var param = new MessageBoxParams()
+            {
+                Caption = "削除の確認",
+                MessageBoxText = "この" + itemType + "をごみ箱に移動しますか？",
+                Button = System.Windows.MessageBoxButton.OKCancel,
+                Icon = MessageBoxExImage.RecycleBin,
+                VisualContent = visual,
+            };
+            var result = Messenger.Send(sender, new MessageEventArgs("MessageBox") { Parameter = param });
+
+            // 削除する
+            if (result == true)
+            {
+                try
+                {
+                    // 開いている本を閉じる
+                    if (this.Address == path)
+                    {
+                        Unload(true);
+                    }
+
+                    // ゴミ箱に捨てる
+                    if (isDirectory)
+                    {
+                        Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(path, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                    }
+                    else
+                    {
+                        Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(path, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Messenger.MessageBox(sender, $"{itemType}削除に失敗しました\n\n原因: {ex.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
+                }
+            }
+
+            e.Result = result == true;
+        }
+
 
         #region Memento
 
@@ -1466,7 +1538,7 @@ namespace NeeView
             }
             #endregion
 
-            
+
 
             //
             private void Constructor()

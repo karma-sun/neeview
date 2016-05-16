@@ -21,8 +21,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-// TODO: ランダムページのときにファイルオープン指定ファイルで開かないバグ
-
 namespace NeeView
 {
     // 通知表示の種類

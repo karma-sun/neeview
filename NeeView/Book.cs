@@ -264,12 +264,6 @@ namespace NeeView
         {
             Debug.Assert(Place == null);
 
-            // ランダムソートの場合はブックマーク無効
-            if (SortMode == PageSortMode.Random)
-            {
-                start = null;
-            }
-
             // リカーシブフラグ
             if (IsRecursiveFolder)
             {
@@ -710,6 +704,7 @@ namespace NeeView
             public override async Task Execute()
             {
                 _Book.Sort();
+                _Book.RequestSetPosition(_Book._FirstPosition, 1, true);
                 await Task.Yield();
             }
         }
@@ -1160,8 +1155,6 @@ namespace NeeView
             for (int i = 0; i < Pages.Count; ++i) Pages[i].Index = i;
 
             PagesSorted?.Invoke(this, null);
-
-            RequestSetPosition(_FirstPosition, 1, true);
         }
 
         // ファイル名, 日付, ID の順で比較
@@ -1371,7 +1364,7 @@ namespace NeeView
             var memento = new Memento();
 
             memento.Place = Place;
-            memento.BookMark = GetViewPage()?.FullPath;
+            memento.BookMark = SortMode != PageSortMode.Random ? GetViewPage()?.FullPath : null;
 
             memento.PageMode = PageMode;
             memento.BookReadOrder = BookReadOrder;

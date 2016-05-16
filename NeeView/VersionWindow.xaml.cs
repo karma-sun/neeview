@@ -52,10 +52,13 @@ namespace NeeView
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            int? version = value as int?;
-            if (version != null)
+            if (value is int)
             {
-                return $"1.{version}";
+                int version = (int)value;
+                int minor = version / 100;
+                int build = version % 100;
+
+                return $"1.{minor}" + ((build > 0) ? $".{build}" : "");
             }
             return null;
         }
@@ -143,11 +146,11 @@ namespace NeeView
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
-            CurrentVersion = ver.FileMinorPart;
+            CurrentVersion = ver.FileMinorPart * 100 + ver.FileBuildPart;
 
 #if DEBUG
             // for Debug
-            //CurrentVersion = 5;
+            //CurrentVersion = 500 + 1;
 #endif
         }
 
@@ -171,16 +174,20 @@ namespace NeeView
             {
                 using (var wc = new System.Net.WebClient())
                 {
+                    wc.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
+
                     // download
                     var text = await wc.DownloadStringTaskAsync(new Uri(DownloadUri));
 
-                    var regex = new Regex(@"NeeView1\.(\d+)\.zip");
+                    var regex = new Regex(@"NeeView1\.(?<minor>\d+)(\.(?<build>\d+))?\.zip");
                     var matches = regex.Matches(text);
                     if (matches.Count <= 0) throw new ApplicationException("更新ページのフォーマットが想定されているものと異なります");
                     foreach (Match match in matches)
                     {
-                        var version = int.Parse(match.Groups[1].Value);
-                        Debug.WriteLine("NeeView 1.{0}", version);
+                        var minor = int.Parse(match.Groups["minor"].Value);
+                        var build = match.Groups["build"].Success ? int.Parse(match.Groups["build"].Value) : 0;
+                        var version = minor * 100 + build;
+                        Debug.WriteLine($"NeeView 1.{minor}.{build} - {version}");
                         if (LastVersion < version) LastVersion = version;
                     }
 

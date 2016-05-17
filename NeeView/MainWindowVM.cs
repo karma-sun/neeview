@@ -310,6 +310,34 @@ namespace NeeView
             return IsVisibleFolderList;
         }
 
+        // ページリスト表示ON/OFF
+        #region Property: IsVisiblePageList
+        private bool _IsVisiblePageList = true;
+        public bool IsVisiblePageList
+        {
+            get { return _IsVisiblePageList; }
+            set
+            {
+                if (_IsVisiblePageList != value)
+                {
+                    _IsVisiblePageList = value;
+                    if (_IsVisiblePageList)
+                    {
+                        FolderListGridRow0 = "*";
+                        FolderListGridRow2 = "*";
+                    }
+                    else
+                    {
+                        FolderListGridRow2 = "Auto";
+                    }
+                    OnPropertyChanged();
+                }
+            }
+        }
+        #endregion
+
+
+
         // 履歴リスト表示ON/OFF
         public bool IsVisibleHistoryList
         {
@@ -388,8 +416,66 @@ namespace NeeView
         public double LeftPanelWidth { get; set; } = 250;
         public double RightPanelWidth { get; set; } = 250;
 
-        public string FolderListGridRow0 { get; set; }
-        public string FolderListGridRow2 { get; set; }
+        #region Property: FolderListGridLength0
+        private GridLength _FolderListGridLength0;
+        public GridLength FolderListGridLength0
+        {
+            get { return _FolderListGridLength0; }
+            set { _FolderListGridLength0 = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+        #region Property: FolderListGridLength2
+        private GridLength _FolderListGridLength2;
+        public GridLength FolderListGridLength2
+        {
+            get { return _FolderListGridLength2; }
+            set { _FolderListGridLength2 = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+        //
+        public string FolderListGridRow0
+        {
+            get { return FolderListGridLength0.ToString(); }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    try
+                    {
+                        var converter = new GridLengthConverter();
+                        FolderListGridLength0 = (GridLength)converter.ConvertFromString(value);
+                    }
+                    catch(Exception e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+                }
+            }
+        }
+
+        //
+        public string FolderListGridRow2
+        {
+            get { return FolderListGridLength2.ToString(); }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    try
+                    {
+                        var converter = new GridLengthConverter();
+                        FolderListGridLength2 = (GridLength)converter.ConvertFromString(value);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+                }
+            }
+
+        }
 
         // フルスクリーン
         #region Property: IsFullScreen
@@ -1449,10 +1535,6 @@ namespace NeeView
             LeftPanelWidth = window.LeftPanel.Width;
             RightPanelWidth = window.RightPanel.Width;
 
-            // フォルダーリスト分割位置保存
-            var grid = window.FolderListArea;
-            FolderListGridRow0 = grid.RowDefinitions[0].Height.ToString();
-            FolderListGridRow2 = grid.RowDefinitions[2].Height.ToString();
 
             // 設定
             var setting = CreateSetting();
@@ -2064,6 +2146,9 @@ namespace NeeView
             [DataMember(Order = 10)]
             public string FolderListGridRow2 { get; set; }
 
+            [DataMember(Order =10)]
+            public bool IsVisiblePageList { get; set; }
+
             //
             void Constructor()
             {
@@ -2169,6 +2254,7 @@ namespace NeeView
             memento.IsVisibleThumbnailPlate = this.IsVisibleThumbnailPlate;
             memento.FolderListGridRow0 = this.FolderListGridRow0;
             memento.FolderListGridRow2 = this.FolderListGridRow2;
+            memento.IsVisiblePageList = this.IsVisiblePageList;
 
             return memento;
         }
@@ -2224,7 +2310,7 @@ namespace NeeView
             this.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
             this.FolderListGridRow0 = memento.FolderListGridRow0;
             this.FolderListGridRow2 = memento.FolderListGridRow2;
-
+            this.IsVisiblePageList = memento.IsVisiblePageList;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

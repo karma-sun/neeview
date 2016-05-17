@@ -208,9 +208,9 @@
                             <!-- フォルダリスト -->
                             <Grid x:Name="FolderListArea">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition/>
+                                    <RowDefinition Height="{Binding FolderListGridLength0, Mode=TwoWay}" />
                                     <RowDefinition Height="Auto"/>
-                                    <RowDefinition/>
+                                    <RowDefinition Height="{Binding FolderListGridLength2, Mode=TwoWay}" />
                                 </Grid.RowDefinitions>
 
                                 <Grid.Style>
@@ -226,9 +226,9 @@
 
                                 <local:FolderListControl x:Name="FolderList" Grid.Row="0" Setting="{Binding FolderListSetting}" BookHub="{Binding BookHub}"/>
 
-                                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Height="6" Background="{DynamicResource NVBaseBrush}" Focusable="False"/>
+                                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Height="6" Background="{DynamicResource NVBaseBrush}" Focusable="False" Visibility="{Binding ElementName=PageList, Path=Visibility}"/>
 
-                                <local:PageListControl x:Name="PageList" Grid.Row="2"/>
+                                <local:PageListControl x:Name="PageList" Grid.Row="2" Visibility="{Binding IsVisiblePageList, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                             </Grid>
 

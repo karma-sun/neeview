@@ -802,18 +802,6 @@ namespace NeeView
             this.LeftPanel.Width = _VM.LeftPanelWidth;
             this.RightPanel.Width = _VM.RightPanelWidth;
 
-            // フォルダーリスト分割位置復元
-            var grid = this.FolderListArea;
-            try
-            {
-                var converter = new GridLengthConverter();
-                if (!string.IsNullOrEmpty(_VM.FolderListGridRow0)) grid.RowDefinitions[0].Height = (GridLength)converter.ConvertFromString(_VM.FolderListGridRow0);
-                if (!string.IsNullOrEmpty(_VM.FolderListGridRow2)) grid.RowDefinitions[2].Height = (GridLength)converter.ConvertFromString(_VM.FolderListGridRow2);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
 
             // PanelColor
             _VM.FlushPanelColor();

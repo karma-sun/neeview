@@ -271,6 +271,9 @@
                         <TextBlock Text="フォルダリスト" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページリストを表示する"
+                                      ToolTip="ページリストをパネル下部に表示します"
+                                      IsChecked="{Binding Setting.ViewMemento.IsVisiblePageList}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ブックマーク記号を表示する"
                                       ToolTip="ブックマークされているフォルダに★マークを表示します"
                                       IsChecked="{Binding Setting.ViewMemento.FolderListSetting.IsVisibleBookmarkMark}" />

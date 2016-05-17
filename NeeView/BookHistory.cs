@@ -18,8 +18,6 @@ using System.Xml;
 namespace NeeView
 {
 
-    // TODO: 削除時に選択位置をなるべく移動させないようにする
-
     /// <summary>
     /// 履歴
     /// </summary>

@@ -45,7 +45,7 @@
             </StackPanel>
         </StackPanel>
 
-        <ListBox x:Name="HistoryListBox" Focusable="True"
+        <ListBox x:Name="HistoryListBox" Focusable="False"
                  Style="{StaticResource NVListBox}"
                  Background="Transparent"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -55,7 +55,6 @@
                  ItemsSource="{Binding Items}"
                  ItemTemplate="{StaticResource NormalHistory}"
                  SelectedItem="{Binding SelectedItem}"
-                 Visibility="{Binding Visibility}"
                  KeyDown="HistoryListBox_KeyDown"
                  SelectionChanged="HistoryListBox_SelectionChanged" 
                  IsVisibleChanged="HistoryListBox_IsVisibleChanged">

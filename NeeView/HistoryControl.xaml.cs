@@ -21,7 +21,6 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-// TODO: パフォーマンス改善。リストの更新を表示されている時に限定。それ以外は更新フラグのみにする
 
 namespace NeeView
 {
@@ -40,10 +39,34 @@ namespace NeeView
             InitializeComponent();
 
             _VM = new HistoryControlVM();
+            _VM.SelectedItemChanging += OnItemsChanging;
+            _VM.SelectedItemChanged += OnItemsChanged;
             this.DockPanel.DataContext = _VM;
 
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
             this.HistoryListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+        }
+
+        //
+        private void OnItemsChanging(object sender, HistoryControlVM.SelectedItemChangeEventArgs e)
+        {
+            var index = this.HistoryListBox.SelectedIndex;
+
+            ListBoxItem lbi = index >= 0 ? (ListBoxItem)(this.HistoryListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
+            e.IsFocused = lbi != null ? lbi.IsFocused : false;
+        }
+
+        //
+        private void OnItemsChanged(object sender, HistoryControlVM.SelectedItemChangeEventArgs e)
+        {
+            if (e.IsFocused)
+            {
+                this.HistoryListBox.ScrollIntoView(this.HistoryListBox.SelectedItem);
+
+                var index = this.HistoryListBox.SelectedIndex;
+                var lbi = index >= 0 ? (ListBoxItem)(this.HistoryListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
+                lbi?.Focus();
+            }
         }
 
         //
@@ -52,7 +75,7 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as BookMementoUnit;
             if (item != null)
             {
-                ModelContext.BookHistory.Remove(item.Memento.Place);
+                _VM.Remove(item);
             }
         }
 
@@ -62,42 +85,24 @@ namespace NeeView
             _VM.Initialize(bookHub, this.HistoryListBox.IsVisible);
         }
 
-        // 同期
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
-        {
-            _VM.UpdateItems();
-            this.HistoryListBox.Items.Refresh();
-
-            // フォーカス
-            this.HistoryListBox.SelectedIndex = 0;
-            this.HistoryListBox.ScrollIntoView(this.HistoryListBox.SelectedItem);
-            this.HistoryListBox.UpdateLayout();
-            ListBoxItem lbi = (ListBoxItem)(this.HistoryListBox.ItemContainerGenerator.ContainerFromIndex(this.HistoryListBox.SelectedIndex));
-            lbi?.Focus();
-        }
-
         // 履歴項目決定
         private void HistoryListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
         {
             var historyItem = ((sender as ListBoxItem)?.Content as BookMementoUnit).Memento;
 
-            if (historyItem != null)
-            {
-                _VM.Load(historyItem.Place);
-                e.Handled = true;
-            }
+            _VM.Load(historyItem?.Place);
+            e.Handled = true;
         }
 
         // 履歴項目決定(キー)
         private void HistoryListItem_KeyDown(object sender, KeyEventArgs e)
         {
             var historyItem = ((sender as ListBoxItem)?.Content as BookMementoUnit).Memento;
+
+            if (e.Key == Key.Return)
             {
-                if (e.Key == Key.Return)
-                {
-                    _VM.Load(historyItem.Place);
-                    e.Handled = true;
-                }
+                _VM.Load(historyItem?.Place);
+                e.Handled = true;
             }
         }
 
@@ -114,17 +119,20 @@ namespace NeeView
         // 表示/非表示イベント
         private async void HistoryListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue as bool? == true)
+            _VM.Visibility = (bool)e.NewValue ? Visibility.Visible : Visibility.Hidden;
+
+            if (_VM.Visibility == Visibility.Visible)
             {
                 _VM.UpdateItems();
 
                 await Task.Yield();
+                if (this.HistoryListBox.SelectedIndex < 0) this.HistoryListBox.SelectedIndex = 0;
                 FocusSelectedItem();
             }
         }
 
 
-        //
+        // フォーカス
         public void FocusSelectedItem()
         {
             if (this.HistoryListBox.SelectedIndex < 0) return;
@@ -135,7 +143,7 @@ namespace NeeView
             lbi?.Focus();
         }
 
-        //
+        // 選択項目が表示されるようにスクロールする
         private void HistoryListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (this.HistoryListBox.SelectedItem == null || this.HistoryListBox.SelectedIndex < 0) return;
@@ -162,9 +170,28 @@ namespace NeeView
         }
         #endregion
 
+
+        // 項目変更イベント。フォーカス保存用
+        public class SelectedItemChangeEventArgs
+        {
+            public bool IsFocused { get; set; }
+        }
+        public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanging;
+        public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanged;
+
+
         public BookHub BookHub { get; private set; }
 
-        public List<BookMementoUnit> Items { get; set; }
+
+        #region Property: Items
+        private ObservableCollection<BookMementoUnit> _Items;
+        public ObservableCollection<BookMementoUnit> Items
+        {
+            get { return _Items; }
+            set { _Items = value; OnPropertyChanged(); }
+        }
+        #endregion
+
 
         #region Property: SelectedItem
         private BookMementoUnit _SelectedItem;
@@ -175,8 +202,9 @@ namespace NeeView
         }
         #endregion
 
+
         #region Property: Visibility
-        private Visibility _Visibility;
+        private Visibility _Visibility = Visibility.Hidden;
         public Visibility Visibility
         {
             get { return _Visibility; }
@@ -203,7 +231,10 @@ namespace NeeView
         //
         private void BookHub_HistoryListSync(object sender, string e)
         {
+            var args = new SelectedItemChangeEventArgs();
+            SelectedItemChanging?.Invoke(this, args);
             SelectedItem = ModelContext.BookHistory.Find(e);
+            SelectedItemChanged?.Invoke(this, args);
         }
 
         //
@@ -222,16 +253,61 @@ namespace NeeView
             if (_IsDarty)
             {
                 _IsDarty = false;
-                Items = ModelContext.BookHistory.Items.ToList();
-                OnPropertyChanged(nameof(Items));
-                SelectedItem = Items.Count > 0 ? Items[0] : null;
+
+                var args = new SelectedItemChangeEventArgs();
+                App.Current.Dispatcher.Invoke(() => SelectedItemChanging?.Invoke(this, args));
+
+                var item = SelectedItem;
+                Items = new ObservableCollection<BookMementoUnit>(ModelContext.BookHistory.Items);
+                SelectedItem = Items.Count > 0 ? item : null;
+
+                App.Current.Dispatcher.Invoke(() => SelectedItemChanged?.Invoke(this, args));
             }
         }
 
         //
         public void Load(string path)
         {
+            if (path == null) return;
             BookHub?.RequestLoad(path, BookLoadOption.KeepHistoryOrder | BookLoadOption.SkipSamePlace, true);
+        }
+
+
+        // となりを取得
+        public BookMementoUnit GetNeighbor(BookMementoUnit item)
+        {
+            if (Items == null || Items.Count <= 0) return null;
+
+            int index = Items.IndexOf(item);
+            if (index < 0) return Items[0];
+
+            if (index + 1 < Items.Count)
+            {
+                return Items[index + 1];
+            }
+            else if (index > 0)
+            {
+                return Items[index - 1];
+            }
+            else
+            {
+                return item;
+            }
+        }
+
+        //
+        public void Remove(BookMementoUnit item)
+        {
+            if (item == null) return;
+
+            // 位置ずらし
+            var args = new SelectedItemChangeEventArgs();
+            SelectedItemChanging?.Invoke(this, args);
+            SelectedItem = GetNeighbor(item);
+            SelectedItemChanged?.Invoke(this, args);
+
+            // 削除
+            ModelContext.BookHistory.Remove(item.Memento.Place);
         }
     }
 }

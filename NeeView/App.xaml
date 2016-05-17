@@ -371,7 +371,7 @@
                                     </Grid>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Fill" TargetName="baseRectangle" Value="#CCBBDDFF"/>
+                                            <Setter Property="Fill" TargetName="baseRectangle" Value="#44BBDDFF"/>
                                         </Trigger>
                                         <Trigger Property="IsPressed" Value="True">
                                             <Setter Property="Fill" TargetName="baseRectangle" Value="#FFBBDDFF"/>
@@ -398,7 +398,7 @@
                                     </Grid>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Fill" TargetName="baseRectangle" Value="#CCBBDDFF"/>
+                                            <Setter Property="Fill" TargetName="baseRectangle" Value="#44BBDDFF"/>
                                         </Trigger>
                                         <Trigger Property="IsChecked" Value="True">
                                             <Setter Property="Fill" TargetName="baseRectangle" Value="#EEBBDDFF"/>

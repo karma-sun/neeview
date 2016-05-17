@@ -48,7 +48,7 @@
             </StackPanel>
         </StackPanel>
 
-        <ListBox x:Name="BookmarkListBox" Focusable="True"
+        <ListBox x:Name="BookmarkListBox" Focusable="False"
                  Style="{StaticResource NVListBox}"
                  Background="Transparent"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -57,6 +57,7 @@
                  HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding Bookmark.Items}"
                  ItemTemplate="{StaticResource NormalBookmark}"
+                 SelectedItem="{Binding SelectedItem}"
                  KeyDown="BookmarkList_KeyDown"
                  Tag="{Binding Bookmark.Items}"
                  IsVisibleChanged="BookmarkListBox_IsVisibleChanged"

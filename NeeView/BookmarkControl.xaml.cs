@@ -36,6 +36,8 @@ namespace NeeView
             InitializeComponent();
 
             _VM = new BookmarkControlVM();
+            _VM.SelectedItemChanging += OnItemsChanging;
+            _VM.SelectedItemChanged += OnItemsChanged;
             this.DockPanel.DataContext = _VM;
 
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
@@ -48,7 +50,7 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as BookMementoUnitNode;
             if (item != null)
             {
-                ModelContext.Bookmarks.Remove(item.Value.Memento.Place);
+                _VM.Remove(item);
             }
         }
 
@@ -58,6 +60,32 @@ namespace NeeView
         {
             _VM.Initialize(bookHub);
         }
+
+
+        //
+        private void OnItemsChanging(object sender, BookmarkControlVM.SelectedItemChangeEventArgs e)
+        {
+            var index = this.BookmarkListBox.SelectedIndex;
+
+            ListBoxItem lbi = index >= 0 ? (ListBoxItem)(this.BookmarkListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
+            e.IsFocused = lbi != null ? lbi.IsFocused : false;
+        }
+
+        //
+        private void OnItemsChanged(object sender, BookmarkControlVM.SelectedItemChangeEventArgs e)
+        {
+            if (e.IsFocused)
+            {
+                this.BookmarkListBox.ScrollIntoView(this.BookmarkListBox.SelectedItem);
+
+                var index = this.BookmarkListBox.SelectedIndex;
+                var lbi = index >= 0 ? (ListBoxItem)(this.BookmarkListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
+                lbi?.Focus();
+            }
+        }
+
+
+
 
         // 同期
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
@@ -159,10 +187,32 @@ namespace NeeView
         }
         #endregion
 
+
+        // 項目変更イベント。フォーカス保存用
+        public class SelectedItemChangeEventArgs
+        {
+            public bool IsFocused { get; set; }
+        }
+        public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanging;
+        public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanged;
+
+
         public BookHub BookHub { get; private set; }
 
 
         public BookmarkCollection Bookmark => ModelContext.Bookmarks;
+
+
+        #region Property: SelectedItem
+        private BookMementoUnitNode _SelectedItem;
+        public BookMementoUnitNode SelectedItem
+        {
+            get { return _SelectedItem; }
+            set { _SelectedItem = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+
 
         //
         public void Initialize(BookHub bookHub)
@@ -174,6 +224,40 @@ namespace NeeView
         public void Load(string path)
         {
             BookHub?.RequestLoad(path, BookLoadOption.SkipSamePlace, true);
+        }
+
+        // となりを取得
+        public BookMementoUnitNode GetNeighbor(BookMementoUnitNode item)
+        {
+            if (Bookmark?.Items == null || Bookmark.Items.Count <= 0) return null;
+
+            int index = Bookmark.Items.IndexOf(item);
+            if (index < 0) return Bookmark.Items[0];
+
+            if (index + 1 < Bookmark.Items.Count)
+            {
+                return Bookmark.Items[index + 1];
+            }
+            else if (index > 0)
+            {
+                return Bookmark.Items[index - 1];
+            }
+            else
+            {
+                return item;
+            }
+        }
+
+        public void Remove(BookMementoUnitNode item)
+        {
+            if (item == null) return;
+
+            var args = new SelectedItemChangeEventArgs();
+            SelectedItemChanging?.Invoke(this, args);
+            SelectedItem = GetNeighbor(item);
+            SelectedItemChanged?.Invoke(this, args);
+
+            ModelContext.Bookmarks.Remove(item.Value.Memento.Place);
         }
     }
 }

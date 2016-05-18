@@ -22,6 +22,8 @@ namespace NeeView
         OpenFilePlace,
         Export,
         DeleteFile,
+        CopyFile,
+        CopyImage,
 
         ClearHistory,
 

@@ -184,18 +184,18 @@ namespace NeeView
         #endregion
 
         //
-        public static Dictionary<ExternalApplication.MultiPageOptionType, string> MultiPageOptionTypeList { get; } = new Dictionary<ExternalApplication.MultiPageOptionType, string>
+        public static Dictionary<MultiPageOptionType, string> MultiPageOptionTypeList { get; } = new Dictionary<MultiPageOptionType, string>
         {
-            [ExternalApplication.MultiPageOptionType.Once] = "1ページのみ実行する",
-            [ExternalApplication.MultiPageOptionType.Twice] = "2ページとも実行する",
+            [MultiPageOptionType.Once] = "1ページのみ実行する",
+            [MultiPageOptionType.Twice] = "2ページとも実行する",
         };
 
         //
-        public static Dictionary<ExternalApplication.ArchiveOptionType, string> ArchiveOptionTypeList { get; } = new Dictionary<ExternalApplication.ArchiveOptionType, string>
+        public static Dictionary<ArchiveOptionType, string> ArchiveOptionTypeList { get; } = new Dictionary<ArchiveOptionType, string>
         {
-            [ExternalApplication.ArchiveOptionType.None] = "実行しない",
-            [ExternalApplication.ArchiveOptionType.SendArchiveFile] = "圧縮ファイルを渡す",
-            [ExternalApplication.ArchiveOptionType.SendExtractFile] = "出力したファイルを渡す(一時ファイル)",
+            [ArchiveOptionType.None] = "実行しない",
+            [ArchiveOptionType.SendArchiveFile] = "圧縮ファイルを渡す",
+            [ArchiveOptionType.SendExtractFile] = "出力したファイルを渡す(一時ファイル)",
         };
         
         //

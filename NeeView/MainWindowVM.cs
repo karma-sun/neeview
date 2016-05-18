@@ -456,7 +456,7 @@ namespace NeeView
                         var converter = new GridLengthConverter();
                         FolderListGridLength0 = (GridLength)converter.ConvertFromString(value);
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Debug.WriteLine(e.Message);
                     }
@@ -2022,6 +2022,31 @@ namespace NeeView
         }
 
 
+        //
+        public bool CanCopyImageToClipboard()
+        {
+            return this.MainContent?.Bitmap != null;
+        }
+
+
+        // クリップボードに画像をコピー
+        public void CopyImageToClipboard()
+        {
+            try
+            {
+                if (CanCopyImageToClipboard())
+                {
+                    ClipboardUtility.CopyImage(this.MainContent.Bitmap);
+                }
+            }
+            catch (Exception e)
+            {
+                Messenger.MessageBox(this, $"コピーに失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
+            }
+        }
+
+
+
         // 廃棄処理
         public void Dispose()
         {
@@ -2194,7 +2219,7 @@ namespace NeeView
             [DataMember(Order = 10)]
             public string FolderListGridRow2 { get; set; }
 
-            [DataMember(Order =10)]
+            [DataMember(Order = 10)]
             public bool IsVisiblePageList { get; set; }
 
             //

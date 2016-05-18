@@ -186,14 +186,38 @@ namespace NeeView
                 [CommandType.DeleteFile] = new CommandElement
                 {
                     Group = "ファイル",
-                    Text = "ファイルを削除する",
+                    Text = "ファイルを削除",
                     MenuText = "削除...",
-                    Note = "画像ファイルを削除します。圧縮ファイルの場合は削除できません ",
+                    Note = "ファイルを削除します。圧縮ファイルの場合は削除できません ",
                     ShortCutKey = "Delete",
                     Execute = e => _Book.DeleteFile(),
                     CanExecute = () => _Book.CanDeleteFile(),
                     IsShowMessage = false
                 },
+                [CommandType.CopyFile] = new CommandElement
+                {
+                    Group = "ファイル",
+                    Text = "ファイルをコピー",
+                    MenuText = "コピー",
+                    Note = "ファイルをクリップボードにコピーします",
+                    ShortCutKey = "Ctrl+C",
+                    Execute = e => _Book.CopyToClipboard(),
+                    CanExecute = () => _Book.CanOpenFilePlace(),
+                    IsShowMessage = true
+                },
+                [CommandType.CopyImage] = new CommandElement
+                {
+                    Group = "ファイル",
+                    Text = "画像をコピー",
+                    MenuText = "画像コピー",
+                    Note = "画像をクリップボードにコピーします。2ページ表示の場合はメインとなるページのみコピーします",
+                    ShortCutKey = "Ctrl+Shift+C",
+                    Execute = e => _VM.CopyImageToClipboard(),
+                    CanExecute = () => _VM.CanCopyImageToClipboard(),
+                    IsShowMessage = true
+                },
+
+
                 [CommandType.ClearHistory] = new CommandElement
                 {
                     Group = "ファイル",
@@ -1059,6 +1083,7 @@ namespace NeeView
             [DataMember]
             public Dictionary<CommandType, CommandElement.Memento> Elements { get; set; }
 
+            //
             public CommandElement.Memento this[CommandType type]
             {
                 get { return Elements[type]; }

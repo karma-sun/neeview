@@ -420,6 +420,21 @@
                         </StackPanel>
                     </StackPanel>
 
+                    <TextBlock Text="クリップボードへのファイルコピー" Style="{StaticResource Header}"/>
+
+                    <StackPanel Style="{StaticResource Phrase}">
+                        <StackPanel Style="{StaticResource ItemStackPanel}">
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="2ページの場合"/>
+                            <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding MultiPageOptionTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.BookHubMemento.ClipboardUtility.MultiPageOption}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource ItemStackPanel}">
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="圧縮ファイルの場合" />
+                            <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ArchiveOptionTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.BookHubMemento.ClipboardUtility.ArchiveOption}" />
+                        </StackPanel>
+                    </StackPanel>
+
 
                     <TextBlock Text="ブラウザからのドラッグ&amp;ドロップ" Style="{StaticResource Header}" ToolTip="Webブラウザからの画像ドロップに関連する設定です"/>
 
@@ -648,7 +663,7 @@
                                 <GridViewColumn>
                                     <GridViewColumn.Header>
                                         <TextBlock Text="切替" ToolTip="切り替えコマンドに含める/含めない"/>
-                                    </GridViewColumn.Header> 
+                                    </GridViewColumn.Header>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <CheckBox IsChecked="{Binding IsToggled}" Visibility="{Binding ToggleVisibility}" IsEnabled="{Binding IsToggleEditable}"/>

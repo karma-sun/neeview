@@ -343,6 +343,8 @@ namespace NeeView
         // 外部アプリ設定
         public ExternalApplication ExternalApllication { get; set; } = new ExternalApplication();
 
+        // クリップボード設定
+        public ClipboardUtility ClipboardUtility { get; set; } = new ClipboardUtility();
 
         // ページ表示開始スレッドイベント
         private ManualResetEvent _ViewContentEvent = new ManualResetEvent(false);
@@ -1205,7 +1207,6 @@ namespace NeeView
         }
 
 
-
         // 外部アプリで開く
         public void OpenApplication()
         {
@@ -1218,6 +1219,23 @@ namespace NeeView
                 catch (Exception e)
                 {
                     Messenger.MessageBox(this, $"外部アプリ実行に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
+                }
+            }
+        }
+
+
+        // クリップボードにコピー
+        public void CopyToClipboard()
+        {
+            if (CanOpenFilePlace())
+            {
+                try
+                {
+                    ClipboardUtility.Copy(CurrentBook?.GetViewPages());
+                }
+                catch (Exception e)
+                {
+                    Messenger.MessageBox(this, $"コピーに失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
                 }
             }
         }
@@ -1542,6 +1560,8 @@ namespace NeeView
             }
             #endregion
 
+            [DataMember(Order = 10)]
+            public ClipboardUtility ClipboardUtility { get; set; }
 
 
             //
@@ -1560,6 +1580,7 @@ namespace NeeView
                 IsUseBookMementoDefault = false;
                 IsRecoveryPageOnly = false;
                 IsSevenZipAccessLocked = true;
+                ClipboardUtility = new ClipboardUtility();
             }
 
             public Memento()
@@ -1599,7 +1620,7 @@ namespace NeeView
             memento.IsUseBookMementoDefault = IsUseBookMementoDefault;
             memento.IsRecoveryPageOnly = IsRecoveryPageOnly;
             memento.IsSevenZipAccessLocked = IsSevenZipAccessLocked;
-
+            memento.ClipboardUtility = ClipboardUtility.Clone();
 
             return memento;
         }
@@ -1625,6 +1646,7 @@ namespace NeeView
             IsUseBookMementoDefault = memento.IsUseBookMementoDefault;
             IsRecoveryPageOnly = memento.IsRecoveryPageOnly;
             IsSevenZipAccessLocked = memento.IsSevenZipAccessLocked;
+            ClipboardUtility = memento.ClipboardUtility.Clone();
         }
 
         #endregion

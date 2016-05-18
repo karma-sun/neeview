@@ -190,7 +190,7 @@ namespace NeeView
         {
             lock (_Lock)
             {
-                using (var extractor = new SevenZipDescriptor(_Source))
+                using (var extractor = new SevenZipExtractor(FileName)) // 専用extractor
                 using (Stream fs = new FileStream(exportFileName, FileMode.Create, FileAccess.Write))
                 {
                     extractor.ExtractFile(entry.Id, fs);

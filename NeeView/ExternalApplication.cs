@@ -13,25 +13,112 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    // 複数ページのときの動作
+    public enum MultiPageOptionType
+    {
+        Once, // 1ページのみ
+        Twice, // 2ページとも
+    };
+
+    // 圧縮ファイルの時の動作
+    public enum ArchiveOptionType
+    {
+        None, // 実行しない
+        SendArchiveFile, // 圧縮ファイルを渡す
+        SendExtractFile, // 出力したファイルを渡す(テンポラリ)
+    }
+
+    // コピー設定
+    [DataContract]
+    public class ClipboardUtility
+    {
+        // 複数ページのときの動作
+        [DataMember]
+        public MultiPageOptionType MultiPageOption { get; set; }
+
+        // 圧縮ファイルのときの動作
+        [DataMember]
+        public ArchiveOptionType ArchiveOption { get; set; }
+
+
+        // コンストラクタ
+        private void Constructor()
+        {
+            MultiPageOption = MultiPageOptionType.Once;
+            ArchiveOption = ArchiveOptionType.SendExtractFile;
+        }
+
+        // コンストラクタ
+        public ClipboardUtility()
+        {
+            Constructor();
+        }
+
+        //
+        [OnDeserializing]
+        private void Deserializing(StreamingContext c)
+        {
+            Constructor();
+        }
+
+
+        // クリップボードにコピー
+        public void Copy(List<Page> pages)
+        {
+            var files = new List<string>();
+
+            foreach (var page in pages)
+            {
+                // file
+                if (page.IsFile())
+                {
+                    files.Add(page.GetFilePlace());
+                }
+                // in archive
+                else
+                {
+                    switch (ArchiveOption)
+                    {
+                        case ArchiveOptionType.None:
+                            break;
+                        case ArchiveOptionType.SendArchiveFile:
+                            files.Add(page.GetFilePlace());
+                            break;
+                        case ArchiveOptionType.SendExtractFile:
+                            files.Add(page.CreateTempFile());
+                            break;
+                    }
+                }
+                if (MultiPageOption == MultiPageOptionType.Once || ArchiveOption == ArchiveOptionType.SendArchiveFile) break;
+            }
+
+            if (files.Count > 0)
+            {
+                var data = new System.Windows.DataObject();
+                data.SetData(System.Windows.DataFormats.FileDrop, files.ToArray());
+                data.SetData(System.Windows.DataFormats.UnicodeText, string.Join("\r\n", files));
+                System.Windows.Clipboard.SetDataObject(data);
+            }
+        }
+
+        // クリップボードに画像をコピー
+        public static void CopyImage(System.Windows.Media.Imaging.BitmapSource image)
+        {
+            System.Windows.Clipboard.SetImage(image);
+        }
+
+        // インスタンスのクローン
+        public ClipboardUtility Clone()
+        {
+            return (ClipboardUtility)MemberwiseClone();
+        }
+    }
+
+
     // 外部アプリ起動
     [DataContract]
     public class ExternalApplication
     {
-        // 複数ページのときの動作
-        public enum MultiPageOptionType
-        {
-            Once, // 1ページのみ
-            Twice, // 2ページとも
-        };
-
-        // 圧縮ファイルの時の動作
-        public enum ArchiveOptionType
-        {
-            None, // 実行しない
-            SendArchiveFile, // 圧縮ファイルを渡す
-            SendExtractFile, // 出力したファイルを渡す(テンポラリ)
-        }
-
         // コマンド
         [DataMember]
         public string Command { get; set; }
@@ -49,7 +136,7 @@ namespace NeeView
         [DataMember]
         public ArchiveOptionType ArchiveOption { get; set; }
 
-        // 確証しに関連付けられたアプリを起動するかの判定
+        // 拡張子に関連付けられたアプリを起動するかの判定
         public bool IsDefaultApplication => string.IsNullOrWhiteSpace(Command);
 
         // コマンドパラメータで使用されるキーワード
@@ -90,7 +177,7 @@ namespace NeeView
             if (Parameter != null)
             {
                 Parameter = Parameter.Replace("$FILE", "$File");
-            } 
+            }
         }
 
         // 外部アプリの実行
@@ -118,7 +205,7 @@ namespace NeeView
                             break;
                     }
                 }
-                if (MultiPageOption == MultiPageOptionType.Once) break;
+                if (MultiPageOption == MultiPageOptionType.Once || ArchiveOption == ArchiveOptionType.SendArchiveFile) break;
             }
         }
 

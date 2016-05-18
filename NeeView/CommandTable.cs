@@ -458,12 +458,42 @@ namespace NeeView
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleHistoryList)),
                 },
-                [CommandType.ToggleVisiblePageList] = new CommandElement // 欠番
+                [CommandType.ToggleVisiblePageList] = new CommandElement
                 {
-                    Group = "dummy",
-                    Text = "dummy",
-                    Execute = e => { return; },
-                    CanExecute = () => false
+                    Group = "パネル",
+                    Text = "ページリストの表示ON/OFF",
+                    MenuText = "ページリスト",
+                    Note = "フォルダーリストパネルのページリスト表示/非表示を切り替えます",
+                    IsShowMessage = false,
+                    ExecuteMessage = e => _VM.IsVisiblePageList ? "ページリストを消す" : "ページリストを表示する",
+                    Execute = e => _VM.ToggleVisiblePageList(),
+                    CanExecute = () => _VM.IsVisibleFolderList,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisiblePageList)),
+                },
+
+                [CommandType.ToggleVisibleThumbnailList] = new CommandElement
+                {
+                    Group = "サムネイルリスト",
+                    Text = "サムネイルリストの表示ON/OFF",
+                    MenuText = "サムネイルリスト",
+                    Note = "サムネイルリスト表示/非表示を切り替えます",
+                    IsShowMessage = false,
+                    ExecuteMessage = e => _VM.IsEnableThumbnailList ? "サムネイルリストを消す" : "サムネイルリストを表示する",
+                    Execute = e => _VM.ToggleVisibleThumbnailList(),
+                    CanExecute = () => true,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsEnableThumbnailList)),
+                },
+                [CommandType.ToggleHideThumbnailList] = new CommandElement
+                {
+                    Group = "サムネイルリスト",
+                    Text = "サムネイルリストを自動的に隠すON/OFF",
+                    MenuText = "サムネイルリストを自動的に隠す",
+                    Note = "スライダーを使用している時だけサムネイルリストを表示するようにします",
+                    IsShowMessage = false,
+                    ExecuteMessage = e => _VM.IsHideThumbnailList ? "サムネイルリストを表示する" : "サムネイルリストを自動的に隠す",
+                    Execute = e => _VM.ToggleHideThumbnailList(),
+                    CanExecute = () => true,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHideThumbnailList)),
                 },
 
 

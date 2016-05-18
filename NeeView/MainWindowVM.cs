@@ -328,13 +328,22 @@ namespace NeeView
                     }
                     else
                     {
-                        FolderListGridRow2 = "Auto";
+                        FolderListGridRow0 = "*";
+                        FolderListGridRow2 = "0";
                     }
                     OnPropertyChanged();
+                    LeftPanelVisibled?.Invoke(this, null);
                 }
             }
         }
         #endregion
+
+        //
+        public bool ToggleVisiblePageList()
+        {
+            IsVisiblePageList = !IsVisiblePageList;
+            return IsVisiblePageList;
+        }
 
 
 
@@ -417,7 +426,7 @@ namespace NeeView
         public double RightPanelWidth { get; set; } = 250;
 
         #region Property: FolderListGridLength0
-        private GridLength _FolderListGridLength0;
+        private GridLength _FolderListGridLength0 = new GridLength(1, GridUnitType.Star);
         public GridLength FolderListGridLength0
         {
             get { return _FolderListGridLength0; }
@@ -426,7 +435,7 @@ namespace NeeView
         #endregion
 
         #region Property: FolderListGridLength2
-        private GridLength _FolderListGridLength2;
+        private GridLength _FolderListGridLength2 = new GridLength(0, GridUnitType.Pixel);
         public GridLength FolderListGridLength2
         {
             get { return _FolderListGridLength2; }
@@ -1093,10 +1102,49 @@ namespace NeeView
         }
 
         // サムネイル有効
-        public bool IsEnableThumbnailList { get; set; }
+        #region Property: IsEnableThumbnailList
+        private bool _IsEnableThumbnailList;
+        public bool IsEnableThumbnailList
+        {
+            get { return _IsEnableThumbnailList; }
+            set
+            {
+                _IsEnableThumbnailList = value;
+                OnPropertyChanged();
+                NotifyMenuVisibilityChanged?.Invoke(this, null);
+            }
+        }
+        #endregion
+
+        //
+        public bool ToggleVisibleThumbnailList()
+        {
+            IsEnableThumbnailList = !IsEnableThumbnailList;
+            return IsEnableThumbnailList;
+        }
 
         // サムネイルを自動的に隠す
-        public bool IsHideThumbnailList { get; set; }
+        #region Property: IsHideThumbnailList
+        private bool _IsHideThumbnailList;
+        public bool IsHideThumbnailList
+        {
+            get { return _IsHideThumbnailList; }
+            set
+            {
+                _IsHideThumbnailList = value;
+                OnPropertyChanged();
+                NotifyMenuVisibilityChanged?.Invoke(this, null);
+            }
+        }
+        #endregion
+
+
+        //
+        public bool ToggleHideThumbnailList()
+        {
+            IsHideThumbnailList = !IsHideThumbnailList;
+            return IsHideThumbnailList;
+        }
 
         public bool CanHideThumbnailList => IsEnableThumbnailList && IsHideThumbnailList;
 
@@ -2177,6 +2225,8 @@ namespace NeeView
                 IsAutoGC = true;
                 ThumbnailMemorySize = 64;
                 IsVisibleThumbnailPlate = true;
+                FolderListGridRow0 = "*";
+                FolderListGridRow2 = "*";
             }
 
             public Memento()

@@ -406,6 +406,10 @@ namespace NeeView
                 (e) => Close();
             ModelContext.CommandTable[CommandType.LoadAs].Execute =
                 (e) => LoadAs(e);
+            ModelContext.CommandTable[CommandType.Paste].Execute =
+                (e) => LoadFromClipboard();
+            ModelContext.CommandTable[CommandType.Paste].CanExecute =
+                () => CanLoadFromClipboard();
             ModelContext.CommandTable[CommandType.ViewScrollUp].Execute =
                 (e) => _MouseDrag.ScrollUp();
             ModelContext.CommandTable[CommandType.ViewScrollDown].Execute =
@@ -665,7 +669,7 @@ namespace NeeView
         private void UpdateMenuLayout()
         {
             _IsDartyMenuLayout = false;
-             
+
             // window style
             if (_VM.IsFullScreen || !_VM.IsVisibleTitleBar)
             {
@@ -854,7 +858,7 @@ namespace NeeView
         // ドラッグ＆ドロップ前処理
         private void MainWindow_PreviewDragOver(object sender, DragEventArgs e)
         {
-            if (!_NowLoading && _ContentDrop.CheckDragContent(sender, e))
+            if (!_NowLoading && _ContentDrop.CheckDragContent(sender, e.Data))
                 e.Effects = DragDropEffects.Copy;
             else
                 e.Effects = DragDropEffects.None;
@@ -863,11 +867,31 @@ namespace NeeView
         // ドラッグ＆ドロップで処理を開始する
         private async void MainWindow_Drop(object sender, DragEventArgs e)
         {
-            if (_NowLoading) return;
+            await LoadDataObjectAsync(sender, e.Data);
+        }
+
+        // コピー＆ペーストできる？
+        private bool CanLoadFromClipboard()
+        {
+            var data = Clipboard.GetDataObject();
+            return data != null ? !_NowLoading && _ContentDrop.CheckDragContent(this, data) : false;
+        }
+
+        // コピー＆ペーストで処理を開始する
+        private async void LoadFromClipboard()
+        {
+            await LoadDataObjectAsync(this, Clipboard.GetDataObject());
+        }
+
+
+        // データオブジェクトからのロード処理
+        private async Task LoadDataObjectAsync(object sender, IDataObject data)
+        {
+            if (_NowLoading || data == null) return;
 
             try
             {
-                string path = await _ContentDrop.DropAsync(sender, e, _VM.DownloadPath, (string message) => _VM.OnLoading(this, message));
+                string path = await _ContentDrop.DropAsync(this, data, _VM.DownloadPath, (string message) => _VM.OnLoading(this, message));
                 _VM.Load(path);
             }
             catch (Exception ex)

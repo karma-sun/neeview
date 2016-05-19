@@ -216,6 +216,15 @@ namespace NeeView
                     CanExecute = () => _VM.CanCopyImageToClipboard(),
                     IsShowMessage = true
                 },
+                [CommandType.Paste] = new CommandElement
+                {
+                    Group = "ファイル",
+                    Text = "貼り付け",
+                    MenuText = "貼り付け",
+                    Note = "クリップボードのファイルや画像を貼り付けます",
+                    ShortCutKey = "Ctrl+V",
+                    IsShowMessage = false
+                },
 
 
                 [CommandType.ClearHistory] = new CommandElement

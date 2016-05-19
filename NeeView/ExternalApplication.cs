@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -106,6 +107,20 @@ namespace NeeView
         {
             System.Windows.Clipboard.SetImage(image);
         }
+
+
+        // クリップボードからペースト
+        public void Paste()
+        {
+            var data = System.Windows.Clipboard.GetDataObject(); // クリップボードからオブジェクトを取得する。
+            if (data.GetDataPresent(System.Windows.DataFormats.FileDrop)) // テキストデータかどうか確認する。
+            {
+                var files = (string[])data.GetData(System.Windows.DataFormats.FileDrop); // オブジェクトからテキストを取得する。
+                Debug.WriteLine("=> " + files[0]);
+            }
+        }
+
+
 
         // インスタンスのクローン
         public ClipboardUtility Clone()

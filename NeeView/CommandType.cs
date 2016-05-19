@@ -24,6 +24,7 @@ namespace NeeView
         DeleteFile,
         CopyFile,
         CopyImage,
+        Paste,
 
         ClearHistory,
 

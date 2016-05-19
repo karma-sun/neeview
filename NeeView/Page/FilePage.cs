@@ -31,6 +31,12 @@ namespace NeeView
             _Icon = icon;
         }
 
+        //
+        public override Page TinyClone()
+        {
+            return new FilePage(Entry.Archiver, Entry, Place, _Icon);
+        }
+        
         // コンテンツロード
         // FilePageContext を返す
         protected override object LoadContent()

@@ -110,6 +110,13 @@
                     <EventSetter Event="PreviewMouseLeftButtonUp" Handler="PageListItem_MouseSingleClick"/>
                     <EventSetter Event="KeyDown" Handler="PageListItem_KeyDown"/>
                     <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="削除(D)" Command="{x:Static local:PageListControl.RemoveCommand}"/>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
 
             </ListBox.Resources>

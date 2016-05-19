@@ -50,9 +50,20 @@ namespace NeeView
         }
 
 
+        // delete command
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PageListControl));
+
+        // static constructor
+        static PageListControl()
+        {
+            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
+        }
+
+
+        //
         private PageListControlVM _VM;
 
-
+        // constructor
         public PageListControl()
         {
             InitializeComponent();
@@ -60,8 +71,29 @@ namespace NeeView
             _VM = new PageListControlVM();
             _VM.PagesChanged += OnPagesChanged;
             this.DockPanel.DataContext = _VM;
+
+            this.PageListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, Remove_CanExec));
         }
 
+        //
+        private void Remove_CanExec(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as Page;
+            e.CanExecute = item != null ? _VM.CanRemove(item) : false;
+        }
+
+        //
+        private async void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as Page;
+            if (item != null)
+            {
+                await _VM.Remove(item);
+            }
+        }
+
+
+        //
         private void OnPagesChanged(object sender, EventArgs e)
         {
             this.PageListBox.ScrollIntoView(this.PageListBox.SelectedItem);
@@ -278,6 +310,19 @@ namespace NeeView
         public void Jump(Page page)
         {
             _BookHub.JumpPage(page);
+        }
+
+
+        //
+        public bool CanRemove(Page page)
+        {
+            return _BookHub.CanRemoveFile(page);
+        }
+
+        //
+        public async Task Remove(Page page)
+        {
+            await _BookHub.RemoveFile(page);
         }
 
     }

@@ -224,6 +224,8 @@ namespace NeeView
         public bool IsContentAlived => _Content != null;
         #endregion
 
+        // 最小限のクローン
+        public abstract Page TinyClone();
 
         // 待つ
         public async Task LoadAsync(QueueElementPriority priority)
@@ -233,14 +235,14 @@ namespace NeeView
                 if (_Content != null) return;
 
                 var waitEvent = new TaskCompletionSource<bool>();
-                EventHandler<bool> a = (s, e) => waitEvent.SetResult(e);
+                EventHandler<bool> handle = (s, e) => waitEvent.SetResult(e);
 
-                Loaded += a;
+                Loaded += handle;
 
                 Open(priority);
                 await waitEvent.Task;
 
-                Loaded -= a;
+                Loaded -= handle;
             }
             catch (Exception e)
             {
@@ -370,6 +372,27 @@ namespace NeeView
             Message = $"Canceled.";
             _ThumbnailJobRequest = null;
         }
+
+
+#if false
+        // コンテンツを開く。読み込み待ち ,,, 既に実装されてたぞ
+        public async Task LoadAsync(QueueElementPriority priority, OpenOption option = OpenOption.None)
+        {
+            ManualResetEvent waitEvent = new ManualResetEvent(false);
+
+            EventHandler<bool> handle = (s, e) => waitEvent.Set();
+            this.Loaded += handle;
+
+            waitEvent.Reset();
+            this.Open(QueueElementPriority.Hi);
+
+            // 最初のコンテンツ表示待ち
+            await Task.Run(() => waitEvent.WaitOne());
+            this.Loaded -= handle;
+        }
+#endif
+
+
 
 
         // コンテンツを開く(非同期)

@@ -1364,38 +1364,53 @@ namespace NeeView
         // ファイル削除可能？
         public bool CanDeleteFile()
         {
-            var page = CurrentBook?.GetViewPage();
+            return CanRemoveFile(CurrentBook?.GetViewPage());
+        }
+
+        // ファイルを削除する
+        public async void DeleteFile()
+        {
+            if (CanDeleteFile())
+            {
+                await RemoveFile(CurrentBook?.GetViewPage());
+            }
+        }
+
+        // ファイル削除可能？
+        public bool CanRemoveFile(Page page)
+        {
             if (page == null) return false;
             if (!page.IsFile()) return false;
             return (File.Exists(page.GetFilePlace()));
         }
 
         // ファイルを削除する
-        public void DeleteFile()
+        public async Task RemoveFile(Page page)
         {
-            if (CanDeleteFile())
-            {
-                var page = CurrentBook?.GetViewPage();
-                var path = page.GetFilePlace();
+            if (page == null) return;
 
-                // ビジュアル作成
-                var stackPanel = new StackPanel();
-                stackPanel.Orientation = Orientation.Horizontal;
-                var thumbnail = new PageVisual(page).CreateVisualContent(new System.Windows.Size(100, 100), true);
+            var path = page.GetFilePlace();
+
+            // ビジュアル作成
+            var stackPanel = new StackPanel();
+            stackPanel.Orientation = Orientation.Horizontal;
+            var thumbnail = await new PageVisual(page).CreateVisualContentAsync(new System.Windows.Size(100, 100), true);
+            if (thumbnail != null)
+            {
                 thumbnail.Margin = new System.Windows.Thickness(0, 0, 20, 0);
                 stackPanel.Children.Add(thumbnail);
-                var textblock = new TextBlock();
-                textblock.Text = Path.GetFileName(path);
-                stackPanel.Children.Add(textblock);
+            }
+            var textblock = new TextBlock();
+            textblock.Text = Path.GetFileName(path);
+            stackPanel.Children.Add(textblock);
 
-                // 削除実行
-                var isRemoved = Messenger.Send(this, new MessageEventArgs("RemoveFile") { Parameter = new RemoveFileParams() { Path = path, Visual = stackPanel } });
+            // 削除実行
+            var isRemoved = Messenger.Send(this, new MessageEventArgs("RemoveFile") { Parameter = new RemoveFileParams() { Path = path, Visual = stackPanel } });
 
-                // ページを本から削除
-                if (isRemoved == true)
-                {
-                    CurrentBook?.RequestRemove(page);
-                }
+            // ページを本から削除
+            if (isRemoved == true)
+            {
+                CurrentBook?.RequestRemove(page);
             }
         }
 

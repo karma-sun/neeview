@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -51,21 +52,48 @@ namespace NeeView
             DefaultExtension = Path.GetExtension(page.FileName).ToLower();
         }
 
-        //
-        public FrameworkElement CreateVisualContent(Size maxSize, bool isShadowEffect)
+        // コンテンツが読まれていなければ読み込んでからサムネイルを作成する
+        public async Task<FrameworkElement> CreateVisualContentAsync(Size maxSize, bool isShadowEffect)
         {
             if (Page == null) return null;
 
-            var image = new Image();
-            image.Source = Page.GetBitmapSourceContent();
-            if (image.Source == null) return null;
+            BitmapSource source = Page.GetBitmapSourceContent() ?? Page.Thumbnail;
 
-            var scaleX = Page.Width > maxSize.Width ? maxSize.Width / Page.Width : 1.0;
-            var scaleY = Page.Height > maxSize.Height ? maxSize.Height / Page.Height : 1.0;
+            if (source == null)
+            {
+                var clone = Page.TinyClone();
+                await clone.LoadAsync(QueueElementPriority.Top);
+                source = clone.GetBitmapSourceContent();
+                return CreateVisualContent(source, new Size(clone.Width, clone.Height), maxSize, isShadowEffect);
+            }
+            else
+            {
+                return CreateVisualContent(source, new Size(Page.Width, Page.Height), maxSize, isShadowEffect);
+            }
+        }
+
+        // 既に読み込まれている素材を利用してサムネイルを作る
+        public FrameworkElement CreateVisualContent( Size maxSize, bool isShadowEffect)
+        {
+            if (Page == null) return null;
+
+            return CreateVisualContent(Page.GetBitmapSourceContent() ?? Page.Thumbnail, new Size(Page.Width, Page.Height), maxSize, isShadowEffect);
+        }
+
+        // サムネイル作成
+        private static FrameworkElement CreateVisualContent(BitmapSource bitmapSource, Size sourceSize, Size maxSize, bool isShadowEffect)
+        { 
+            if (bitmapSource == null) return null;
+
+            var image = new Image();
+            image.Source = bitmapSource;
+
+            var scaleX = sourceSize.Width > maxSize.Width ? maxSize.Width / sourceSize.Width : 1.0;
+            var scaleY = sourceSize.Height > maxSize.Height ? maxSize.Height / sourceSize.Height : 1.0;
             var scale = scaleX > scaleY ? scaleY : scaleX;
 
-            image.Width = Page.Width * scale;
-            image.Height = Page.Height * scale;
+            image.Width = sourceSize.Width * scale;
+            image.Height = sourceSize.Height * scale;
             image.Stretch = Stretch.Fill;
             RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
 

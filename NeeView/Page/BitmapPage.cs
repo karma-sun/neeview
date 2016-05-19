@@ -34,6 +34,14 @@ namespace NeeView
             Entry = entry;
         }
 
+        //
+        public override Page TinyClone()
+        {
+            return new BitmapPage(Entry.Archiver, Entry, Place);
+        }
+
+
+
         // サムネイルロード
         protected override BitmapContent LoadThumbnail(int size)
         {

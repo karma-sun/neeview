@@ -570,7 +570,7 @@
                                     <Setter.Value>
                                         <DataTemplate>
                                             <StackPanel Margin="5">
-                                                <Grid Width="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailSize}" Height="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailSize}">
+                                                <Grid Width="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailDispSize}" Height="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailDispSize}">
                                                     <Ellipse Fill="Gray" Width="8" Height="8">
                                                         <Ellipse.Style>
                                                             <Style TargetType="Ellipse">
@@ -583,7 +583,7 @@
                                                             </Style>
                                                         </Ellipse.Style>
                                                     </Ellipse>
-                                                    <Image Source="{Binding Thumbnail}" UseLayoutRounding="True" Stretch="None">
+                                                    <Image Source="{Binding Thumbnail}" UseLayoutRounding="True">
                                                         <Image.Effect>
                                                             <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
                                                         </Image.Effect>

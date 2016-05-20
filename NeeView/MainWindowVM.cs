@@ -761,8 +761,8 @@ namespace NeeView
 
             if ((mask & (UpdateWindowTitleMask.Page | UpdateWindowTitleMask.View)) != 0)
             {
-                string scale0 = Contents[0].IsValid ? $"{(int)(_ViewScale * Contents[0].Scale * 100 + 0.1)}%" : "";
-                string scale1 = Contents[1].IsValid ? $"{(int)(_ViewScale * Contents[1].Scale * 100 + 0.1)}%" : "";
+                string scale0 = Contents[0].IsValid ? $"{(int)(_ViewScale * Contents[0].Scale * _DpiScaleFactor.X * 100 + 0.1)}%" : "";
+                string scale1 = Contents[1].IsValid ? $"{(int)(_ViewScale * Contents[1].Scale * _DpiScaleFactor.X * 100 + 0.1)}%" : "";
                 _WindowTitleFormatter.Set("$Scale", isMainContent0 ? scale0 : scale1);
                 _WindowTitleFormatter.Set("$ScaleL", scale1);
                 _WindowTitleFormatter.Set("$ScaleR", scale0);
@@ -1195,10 +1195,14 @@ namespace NeeView
                     _ThumbnailSize = value;
                     ClearThumbnail();
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(ThumbnailDispSize));
                 }
             }
         }
         #endregion
+
+        // サムネイルサイズ(表示サイズ)
+        public double ThumbnailDispSize => _ThumbnailSize / _DpiScaleFactor.X;
 
         #region Property: 
         private int _ThumbnailMemorySize;

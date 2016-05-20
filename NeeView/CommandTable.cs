@@ -1010,6 +1010,31 @@ namespace NeeView
                     ShortCutKey = "Ctrl+D",
                 },
 
+#if false
+                [CommandType.SetEffectNone] = new CommandElement
+                {
+                    Group = "エフェクト",
+                    Text = "エフェクト無効",
+                    MenuText = "エフェクトなし",
+                    Note = "エフェクトを無効にします",
+                    Execute = e => _VM.ShaderEffectType = ShaderEffectType.None,
+                    CanExecute = () => true,
+                    IsShowMessage = false,
+                    CreateIsCheckedBinding = () => BindingGenerator.ShaderEffectType(ShaderEffectType.None),
+                },
+                [CommandType.SetEffectGrayscale] = new CommandElement
+                {
+                    Group = "エフェクト",
+                    Text = "グレイスケール",
+                    MenuText = "グレイスケール",
+                    Note = "画像をグレイスケールにします",
+                    Execute = e => _VM.ShaderEffectType = ShaderEffectType.Grayscale,
+                    CanExecute = () => true,
+                    IsShowMessage = false,
+                    CreateIsCheckedBinding = () => BindingGenerator.ShaderEffectType(ShaderEffectType.Grayscale),
+                },
+#endif
+
                 [CommandType.ToggleIsReverseSort] = new CommandElement // 欠番
                 {
                     Group = "dummy",
@@ -1083,7 +1108,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         // 
         [DataContract]
@@ -1156,6 +1181,6 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 }

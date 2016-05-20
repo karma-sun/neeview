@@ -84,7 +84,7 @@ namespace NeeView
 
 
         // コントロール作成
-        public FrameworkElement CreateControl(Binding foregroundBinding, Binding bitmapScalingModeBinding)
+        public FrameworkElement CreateControl(Binding foregroundBinding, Binding bitmapScalingModeBinding, Binding effectBinding)
         {
             if (Source is BitmapContent)
             {
@@ -96,11 +96,12 @@ namespace NeeView
                 brush.TileMode = TileMode.None;
                 brush.Viewbox = GetViewBox();
 
-                var rectangle = new Rectangle();
+                var rectangle = ModelContext.Recycle.RectanglePool.Allocate();
                 rectangle.Fill = brush;
                 rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
                 rectangle.UseLayoutRounding = true;
                 rectangle.SnapsToDevicePixels = true;
+                ////rectangle.SetBinding(Rectangle.EffectProperty, effectBinding);
                 return rectangle;
             }
             else if (Source is AnimatedGifContent)

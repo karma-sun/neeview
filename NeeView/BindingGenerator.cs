@@ -22,6 +22,7 @@ namespace NeeView
         static BackgroundStyleToBooleanConverter _BackgroundStyleToBooleanConverter = new BackgroundStyleToBooleanConverter();
         static FolderOrderToBooleanConverter _FolderOrderToBooleanConverter = new FolderOrderToBooleanConverter();
         static SortModeToBooleanConverter _SortModeToBooleanConverter = new SortModeToBooleanConverter();
+        static ShaderEffectTypeToBooleanConverter _ShaderEffectTypeToBooleanConverter = new ShaderEffectTypeToBooleanConverter();
 
         //
         public static Binding Binding(string path)
@@ -102,6 +103,16 @@ namespace NeeView
             return new Binding("BookSetting.SortMode")
             {
                 Converter = _SortModeToBooleanConverter,
+                ConverterParameter = mode.ToString(),
+            };
+        }
+
+        //
+        public static Binding ShaderEffectType(ShaderEffectType mode)
+        {
+            return new Binding("ShaderEffectType")
+            {
+                Converter = _ShaderEffectTypeToBooleanConverter,
                 ConverterParameter = mode.ToString(),
             };
         }

@@ -18,6 +18,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -185,6 +186,32 @@ namespace NeeView
             set { _Background = value; UpdateBackgroundBrush(); OnPropertyChanged(); }
         }
         #endregion
+
+
+        #region Property: ShaderEffectType
+        private ShaderEffectType _ShaderEffectType;
+        public ShaderEffectType ShaderEffectType
+        {
+            get { return _ShaderEffectType; }
+            set
+            {
+                _ShaderEffectType = value;
+                OnPropertyChanged();
+                ShaderEffect = _ShaderEffectType.GetStaticEffect();
+            }
+        }
+        #endregion
+
+
+        #region Property: ShaderEffect
+        private Effect _ShaderEffect;
+        public Effect ShaderEffect
+        {
+            get { return _ShaderEffect; }
+            set { _ShaderEffect = value; OnPropertyChanged(); }
+        }
+        #endregion
+
 
         // ドットのまま拡大
         #region Property: IsEnabledNearestNeighbor
@@ -1644,7 +1671,11 @@ namespace NeeView
                     if (source != null)
                     {
                         var content = new ViewContent();
-                        content.Content = source.CreateControl(new Binding("ForegroundBrush") { Source = this }, new Binding("BitmapScalingMode") { Source = content });
+                        content.Content = source.CreateControl(
+                            new Binding("ForegroundBrush") { Source = this },
+                            new Binding("BitmapScalingMode") { Source = content },
+                            new Binding("ShaderEffect") { Source = this }
+                        );
                         content.Size = new Size(source.Width, source.Height);
                         content.Color = new SolidColorBrush(source.Color);
                         content.FolderPlace = source.Page.GetFolderPlace();
@@ -1703,6 +1734,7 @@ namespace NeeView
 
             // GC
             //ModelContext.GarbageCollection();
+            ModelContext.Recycle.CleanUp();
         }
 
 

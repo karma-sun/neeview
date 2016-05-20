@@ -478,6 +478,9 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundWhite },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundAuto },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundCheck },
+                        //new MenuTree(MenuElementType.Separator),
+                        //new MenuTree(MenuElementType.Command) { Command = CommandType.SetEffectNone },
+                        //new MenuTree(MenuElementType.Command) { Command = CommandType.SetEffectGrayscale },
                     }},
                     new MenuTree(MenuElementType.Group) { Name="移動(_J)", Children = new ObservableCollection<MenuTree>()
                     {

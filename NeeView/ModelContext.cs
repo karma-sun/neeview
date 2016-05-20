@@ -39,6 +39,8 @@ namespace NeeView
         // RoutedCommand辞書
         public static Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; } = new Dictionary<CommandType, RoutedUICommand>();
 
+        public static Recycle Recycle { get; set; }
+
         //
         public static bool IsAutoGC { get; set; } = true;
 
@@ -80,6 +82,8 @@ namespace NeeView
             DragActionTable = new DragActionTable();
 
             SusieContext = new SusieContext();
+
+            Recycle = new Recycle();
 
             // SevenZip対応拡張子設定
             ArchiverManager.UpdateSevenZipSupprtedFileTypes(ConfigurationManager.AppSettings.Get("SevenZipSupportFileType"));

@@ -1912,7 +1912,7 @@ namespace NeeView
             throw new NotImplementedException();
         }
     }
-
+    
 
     // コンバータ：ソートモードフラグ
     [ValueConversion(typeof(PageSortMode), typeof(Visibility))]

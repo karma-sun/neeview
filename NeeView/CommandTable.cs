@@ -1010,7 +1010,7 @@ namespace NeeView
                     ShortCutKey = "Ctrl+D",
                 },
 
-#if false
+#if true
                 [CommandType.SetEffectNone] = new CommandElement
                 {
                     Group = "エフェクト",

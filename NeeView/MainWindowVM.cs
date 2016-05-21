@@ -198,6 +198,7 @@ namespace NeeView
                 _ShaderEffectType = value;
                 OnPropertyChanged();
                 ShaderEffect = _ShaderEffectType.GetStaticEffect();
+                UpdateViewContentEffect();
             }
         }
         #endregion
@@ -1676,11 +1677,12 @@ namespace NeeView
                     {
                         var content = new ViewContent();
                         content.Content = source.CreateControl(
-                            new Binding("ForegroundBrush") { Source = this },
-                            new Binding("BitmapScalingMode") { Source = content },
-                            new Binding("ShaderEffect") { Source = this }
+                            new Binding(nameof(ForegroundBrush)) { Source = this },
+                            new Binding(nameof(BitmapScalingMode)) { Source = content },
+                            ShaderEffect //new Binding("ShaderEffect") { Source = this }
                         );
                         content.Size = new Size(source.Width, source.Height);
+                        content.SourceSize = source.SourceSize;
                         content.Color = new SolidColorBrush(source.Color);
                         content.FolderPlace = source.Page.GetFolderPlace();
                         content.FilePlace = source.Page.GetFilePlace();
@@ -1739,6 +1741,23 @@ namespace NeeView
             // GC
             //ModelContext.GarbageCollection();
             ModelContext.Recycle.CleanUp();
+        }
+
+
+        // エフェクトの変更
+        public void UpdateViewContentEffect()
+        {
+            foreach (var content in Contents)
+            {
+                if (content.Content != null && content.Bitmap != null)
+                {
+                    var brush = (content.Content as Rectangle)?.Fill as ImageBrush;
+                    if (brush != null)
+                    {
+                        brush.ImageSource = ViewContentSource.CreateEffectedBitmap(content.Bitmap, content.SourceSize, ShaderEffect);
+                    }
+                }
+            }
         }
 
 

@@ -13,6 +13,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -82,14 +83,39 @@ namespace NeeView
             return isRightPart ? new Rect(0.99999 - half, -0.00001, half - 0.00001, 0.99999) : new Rect(-0.00001, -0.00001, half - 0.00001, 0.99999);
         }
 
+        // エフェクトレンダリング用
+        private static Image _RenderImage;
+
+        //
+        public static BitmapSource CreateEffectedBitmap(BitmapSource source, Size size, Effect effect)
+        {
+            if (effect == null) return source;
+
+            if (_RenderImage == null) _RenderImage = new Image();
+
+            _RenderImage.Source = source;
+            _RenderImage.Width = size.Width;
+            _RenderImage.Height = size.Height;
+            _RenderImage.Effect = effect;
+            _RenderImage.Stretch = Stretch.Fill;
+            RenderOptions.SetBitmapScalingMode(_RenderImage, BitmapScalingMode.NearestNeighbor);
+
+            var effectedBitmapSource = Utility.NVGraphics.CreateRenderBitmap(_RenderImage);
+
+            _RenderImage.Source = null;
+            _RenderImage.Effect = null;
+
+            return effectedBitmapSource;
+        }
+
 
         // コントロール作成
-        public FrameworkElement CreateControl(Binding foregroundBinding, Binding bitmapScalingModeBinding, Binding effectBinding)
+        public FrameworkElement CreateControl(Binding foregroundBinding, Binding bitmapScalingModeBinding, Effect effect)
         {
             if (Source is BitmapContent)
             {
                 var brush = new ImageBrush();
-                brush.ImageSource = ((BitmapContent)Source).Source;
+                brush.ImageSource = CreateEffectedBitmap(((BitmapContent)Source).Source, SourceSize, effect);
                 brush.AlignmentX = AlignmentX.Left;
                 brush.AlignmentY = AlignmentY.Top;
                 brush.Stretch = Stretch.Fill;
@@ -101,7 +127,7 @@ namespace NeeView
                 rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
                 rectangle.UseLayoutRounding = true;
                 rectangle.SnapsToDevicePixels = true;
-                ////rectangle.SetBinding(Rectangle.EffectProperty, effectBinding);
+
                 return rectangle;
             }
             else if (Source is AnimatedGifContent)

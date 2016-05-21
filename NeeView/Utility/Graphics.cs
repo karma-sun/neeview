@@ -12,6 +12,26 @@ namespace NeeView.Utility
 {
     public static class NVGraphics
     {
+        /// <summary>
+        /// ビューコントロールをレンダリングしてBitmapにする
+        /// </summary>
+        /// <param name="visual">Width,Heightが設定されたコントロール</param>
+        /// <returns>レンダリングされた画像</returns>
+        public static BitmapSource CreateRenderBitmap(FrameworkElement visual)
+        {
+            visual.Measure(new Size(visual.Width, visual.Height));
+            visual.Arrange(new Rect(new Size(visual.Width, visual.Height)));
+            visual.UpdateLayout();
+
+            double dpi = 96.0;
+            RenderTargetBitmap bmp = new RenderTargetBitmap((int)visual.Width, (int)visual.Height, dpi, dpi, PixelFormats.Pbgra32);
+            bmp.Render(visual);
+            bmp.Freeze();
+
+            return bmp;
+        }
+
+
         // サムネイル作成
         public static BitmapSource CreateThumbnail(BitmapSource source, Size maxSize)
         {

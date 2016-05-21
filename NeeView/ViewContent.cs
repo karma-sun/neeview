@@ -70,6 +70,9 @@ namespace NeeView
             set { _Size = value; }
         }
 
+        // コンテンツソースサイズ
+        public Size SourceSize { get; set; }
+
         // コンテンツの色
         public Brush Color { get; set; } = Brushes.Black;
 

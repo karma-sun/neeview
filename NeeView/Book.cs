@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -1157,8 +1158,38 @@ namespace NeeView
             PagesSorted?.Invoke(this, null);
         }
 
+        //
+        public static void SortPages(List<Page> pages, PageSortMode sortMode)
+        {
+            if (pages == null || pages.Count <= 0) return;
+
+            switch (sortMode)
+            {
+                case PageSortMode.FileName:
+                    pages.Sort((a, b) => CompareFileNameOrder(a, b, Win32Api.StrCmpLogicalW));
+                    break;
+                case PageSortMode.FileNameDescending:
+                    pages.Sort((a, b) => CompareFileNameOrder(b, a, Win32Api.StrCmpLogicalW));
+                    break;
+                case PageSortMode.TimeStamp:
+                    pages.Sort((a, b) => CompareDateTimeOrder(a, b, Win32Api.StrCmpLogicalW));
+                    break;
+                case PageSortMode.TimeStampDescending:
+                    pages.Sort((a, b) => CompareDateTimeOrder(b, a, Win32Api.StrCmpLogicalW));
+                    break;
+                case PageSortMode.Random:
+                    var random = new Random();
+                    pages = pages.OrderBy(e => random.Next()).ToList();
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            for (int i = 0; i < pages.Count; ++i) pages[i].Index = i;
+        }
+
         // ファイル名, 日付, ID の順で比較
-        private int CompareFileNameOrder(Page p1, Page p2, Func<string, string, int> compare)
+        private static int CompareFileNameOrder(Page p1, Page p2, Func<string, string, int> compare)
         {
             if (p1.FullPath != p2.FullPath)
                 return CompareFileName(p1.FullPath, p2.FullPath, compare);
@@ -1169,7 +1200,7 @@ namespace NeeView
         }
 
         // 日付, ファイル名, ID の順で比較
-        private int CompareDateTimeOrder(Page p1, Page p2, Func<string, string, int> compare)
+        private static int CompareDateTimeOrder(Page p1, Page p2, Func<string, string, int> compare)
         {
             if (p1.Entry.LastWriteTime != p2.Entry.LastWriteTime)
                 return CompareDateTime(p1.Entry.LastWriteTime, p2.Entry.LastWriteTime);
@@ -1180,7 +1211,7 @@ namespace NeeView
         }
 
         // ファイル名比較. ディレクトリを優先する
-        private int CompareFileName(string s1, string s2, Func<string, string, int> compare)
+        private static int CompareFileName(string s1, string s2, Func<string, string, int> compare)
         {
             string d1 = LoosePath.GetDirectoryName(s1);
             string d2 = LoosePath.GetDirectoryName(s2);
@@ -1192,7 +1223,7 @@ namespace NeeView
         }
 
         // 日付比較。null対応
-        private int CompareDateTime(DateTime? _t1, DateTime? _t2)
+        private static int CompareDateTime(DateTime? _t1, DateTime? _t2)
         {
             DateTime t1 = _t1 ?? DateTime.MinValue;
             DateTime t2 = _t2 ?? DateTime.MinValue;
@@ -1374,6 +1405,7 @@ namespace NeeView
             memento.IsSupportedWidePage = IsSupportedWidePage;
             memento.IsRecursiveFolder = IsRecursiveFolder;
             memento.SortMode = SortMode;
+
 
             return memento;
         }

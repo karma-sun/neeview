@@ -511,8 +511,24 @@ namespace NeeView
                     }
                 }
             }
-
         }
+
+        // フォルダーリスト項目表示種類
+        #region Property: FolderListItemStyle
+        private FolderListItemStyle _FolderListItemStyle;
+        public FolderListItemStyle FolderListItemStyle
+        {
+            get { return _FolderListItemStyle; }
+            set
+            {
+                _FolderListItemStyle = value;
+                OnPropertyChanged();
+                PanelContext.FolderListItemStyle = _FolderListItemStyle;
+            }
+        }
+        #endregion
+
+
 
         // フルスクリーン
         #region Property: IsFullScreen
@@ -2045,7 +2061,7 @@ namespace NeeView
             if (!IsEnableThumbnailList) return;
 
             // 未処理の要求を解除
-            ModelContext.JobEngine.Clear(QueueElementPriority.Low);
+            ModelContext.JobEngine.Clear(QueueElementPriority.PageThumbnail);
 
             // 有効サムネイル数制限
             LimitThumbnail();
@@ -2059,7 +2075,7 @@ namespace NeeView
 
             foreach (var page in pages)
             {
-                page.OpenThumbnail(ThumbnailSize);
+                page.OpenThumbnail(QueueElementPriority.PageThumbnail, ThumbnailSize);
             }
         }
 
@@ -2277,6 +2293,9 @@ namespace NeeView
             [DataMember(Order = 10)]
             public bool IsVisiblePageList { get; set; }
 
+            [DataMember(Order = 10)]
+            public FolderListItemStyle FolderListItemStyle { get; set; }
+
             //
             void Constructor()
             {
@@ -2385,6 +2404,7 @@ namespace NeeView
             memento.FolderListGridRow0 = this.FolderListGridRow0;
             memento.FolderListGridRow2 = this.FolderListGridRow2;
             memento.IsVisiblePageList = this.IsVisiblePageList;
+            memento.FolderListItemStyle = this.FolderListItemStyle;
 
             return memento;
         }
@@ -2441,6 +2461,7 @@ namespace NeeView
             this.FolderListGridRow0 = memento.FolderListGridRow0;
             this.FolderListGridRow2 = memento.FolderListGridRow2;
             this.IsVisiblePageList = memento.IsVisiblePageList;
+            this.FolderListItemStyle = memento.FolderListItemStyle;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

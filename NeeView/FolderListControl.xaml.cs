@@ -23,6 +23,15 @@ using System.Runtime.Serialization;
 namespace NeeView
 {
     /// <summary>
+    /// フォルダリストの表示方法
+    /// </summary>
+    public enum FolderListItemStyle
+    {
+        Normal, // テキストのみ
+        Picture, // バナー付き
+    };
+
+    /// <summary>
     /// ファイル情報ペイン設定
     /// </summary>
     [DataContract]
@@ -151,6 +160,7 @@ namespace NeeView
 
             this.FolderListContent.Content = _FolderList;
         }
+
 
         //
         public void SetPlace(string place, string select, bool isFocus)

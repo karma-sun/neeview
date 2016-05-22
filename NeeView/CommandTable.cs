@@ -496,7 +496,8 @@ namespace NeeView
                     Group = "パネル",
                     Text = "ページリストの表示ON/OFF",
                     MenuText = "ページリスト",
-                    Note = "フォルダーリストパネルのページリスト表示/非表示を切り替えます",
+                    Note = "フォルダーリストパネルでのページリスト表示/非表示を切り替えます",
+                    ShortCutKey = "P",
                     IsShowMessage = false,
                     ExecuteMessage = e => _VM.IsVisiblePageList ? "ページリストを消す" : "ページリストを表示する",
                     Execute = e => _VM.ToggleVisiblePageList(),
@@ -1010,7 +1011,7 @@ namespace NeeView
                     ShortCutKey = "Ctrl+D",
                 },
 
-#if true
+#if false
                 [CommandType.SetEffectNone] = new CommandElement
                 {
                     Group = "エフェクト",

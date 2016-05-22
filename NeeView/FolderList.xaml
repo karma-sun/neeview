@@ -16,92 +16,111 @@
 
     <UserControl.Resources>
 
+        <Style TargetType="TextBlock" x:Key="FolderIcon">
+            <Setter Property="FontFamily" Value="Wingdings"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Height" Value="18"/>
+            <Setter Property="Margin" Value="0,-1,0,0"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsDirectory}" Value="True">
+                    <Setter Property="Text" Value="0"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="FolderIconOverlay">
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IconOverlay}" Value="Disable">
+                    <Setter Property="FontFamily" Value="Webdings"/>
+                    <Setter Property="Text" Value="r"/>
+                    <Setter Property="FontSize" Value="16"/>
+                    <Setter Property="Foreground" Value="Red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IconOverlay}" Value="Checked">
+                    <Setter Property="FontFamily" Value="Webdings"/>
+                    <Setter Property="Text" Value="a"/>
+                    <Setter Property="FontSize" Value="18"/>
+                    <Setter Property="Foreground" Value="{DynamicResource NVCheckMarkBrush}"/>
+                    <Setter Property="Margin" Value="0,0,-4,-4"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IconOverlay}" Value="Star">
+                    <Setter Property="FontFamily" Value="Wingdings"/>
+                    <Setter Property="Text" Value="«"/>
+                    <Setter Property="FontSize" Value="18"/>
+                    <Setter Property="Foreground" Value="{DynamicResource NVStarMarkBrush}"/>
+                    <Setter Property="Margin" Value="0,0,-4,-4"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="FolderName">
+            <Setter Property="Text" Value="{Binding Name}"/>
+            <Setter Property="ToolTip" Value="{Binding Name}"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+
         <DataTemplate x:Key="NormalFolder">
             <DockPanel>
-
                 <Grid DockPanel.Dock="Right" Width="24">
-                    <TextBlock FontFamily="Wingdings" VerticalAlignment="Center" FontSize="20" Height="18" Margin="0,-1,0,0">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsDirectory}" Value="True">
-                                        <Setter Property="Text" Value="0"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-
-                    </TextBlock>
-                    <TextBlock  VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IconOverlay}" Value="Disable">
-                                        <Setter Property="FontFamily" Value="Webdings"/>
-                                        <Setter Property="Text" Value="r"/>
-                                        <Setter Property="FontSize" Value="16"/>
-                                        <Setter Property="Foreground" Value="Red"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IconOverlay}" Value="Checked">
-                                        <Setter Property="FontFamily" Value="Webdings"/>
-                                        <Setter Property="Text" Value="a"/>
-                                        <Setter Property="FontSize" Value="18"/>
-                                        <Setter Property="Foreground" Value="{DynamicResource NVCheckMarkBrush}"/>
-                                        <Setter Property="Margin" Value="0,0,-4,-4"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IconOverlay}" Value="Star">
-                                        <Setter Property="FontFamily" Value="Wingdings"/>
-                                        <Setter Property="Text" Value="«"/>
-                                        <Setter Property="FontSize" Value="18"/>
-                                        <Setter Property="Foreground" Value="{DynamicResource NVStarMarkBrush}"/>
-                                        <Setter Property="Margin" Value="0,0,-4,-4"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-
-                    </TextBlock>
+                    <TextBlock Style="{StaticResource FolderIcon}"/>
+                    <TextBlock Style="{StaticResource FolderIconOverlay}"/>
                 </Grid>
-                <!-- <Image DockPanel.Dock="Right" Width="32" Height="32" Source="{Binding Icon}"/> -->
-                <Grid>
-                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis">
-                    </TextBlock>
-                </Grid>
+                <TextBlock Style="{StaticResource FolderName}"/>
             </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="PictureFolder">
-            <DockPanel Height="80" Background="#808080" Margin="0,1">
-                <DockPanel DockPanel.Dock="Bottom" Height="20">
-                    <Image DockPanel.Dock="Right" Width="16" Height="16" Source="{Binding IconSmall}"/>
-                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis"/>
+            <DockPanel Height="80" Margin="0,1" Background="{DynamicResource NVBaseBrush}">
+                <DockPanel DockPanel.Dock="Bottom" Margin="2">
+                    <Grid DockPanel.Dock="Right" Width="24">
+                        <TextBlock Style="{StaticResource FolderIcon}"/>
+                        <TextBlock Style="{StaticResource FolderIconOverlay}"/>
+                    </Grid>
+                    <TextBlock Style="{StaticResource FolderName}"/>
                 </DockPanel>
-                <Rectangle Fill="#F0F0F0"/>
+                <Grid>
+                    <Image Source="{Binding ArchivePage.Thumbnail}" Width="256" HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="UniformToFill" UseLayoutRounding="True"/>
+                </Grid>
             </DockPanel>
         </DataTemplate>
 
     </UserControl.Resources>
 
     <ListBox x:Name="ListBox" Focusable="True" 
-                Style="{StaticResource NVListBox}"
                 Background="Transparent"
                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 FocusVisualStyle="{StaticResource NVFocusVisual}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                ItemsSource="{Binding FolderCollection.Items}"
+                   ItemsSource="{Binding FolderCollection.Items}"
                 SelectedIndex="{Binding SelectedIndex}"
                 SelectionChanged="FolderList_SelectionChanged"
                 Loaded="FolderList_Loaded"
                 KeyDown="FolderList_KeyDown"
                 HorizontalContentAlignment="Stretch"
-                ItemTemplate="{StaticResource NormalFolder}">
+                UseLayoutRounding="True">
+
+        <ListBox.Style>
+            <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
+                <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder}"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding FolderListItemStyle}" Value="Picture">
+                        <Setter Property="ItemTemplate" Value="{StaticResource PictureFolder}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ListBox.Style>
 
         <ListBox.Resources>
             <Style TargetType="ListBoxItem">
                 <EventSetter Event="PreviewMouseLeftButtonUp" Handler="FolderListItem_MouseSingleClick"/>
                 <EventSetter Event="PreviewMouseDoubleClick" Handler="FolderListItem_MouseDoubleClick"/>
                 <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown"/>
-                <EventSetter Event="Loaded" Handler="FolderListItem_Loaded"/>
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
                 <Setter Property="ContextMenu">
                     <Setter.Value>

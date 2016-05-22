@@ -32,6 +32,7 @@ namespace NeeView
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(HistoryControl));
 
         HistoryControlVM _VM;
+        ThumbnailHelper _ThumbnailHelper;
 
 
         public HistoryControl()
@@ -45,6 +46,8 @@ namespace NeeView
 
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
             this.HistoryListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+
+            _ThumbnailHelper = new ThumbnailHelper(this.HistoryListBox, _VM.RequestThumbnail);
         }
 
         //
@@ -67,6 +70,8 @@ namespace NeeView
                 var lbi = index >= 0 ? (ListBoxItem)(this.HistoryListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
                 lbi?.Focus();
             }
+
+            _ThumbnailHelper.UpdateThumbnails(1);
         }
 
         //
@@ -212,7 +217,7 @@ namespace NeeView
         }
         #endregion
 
-
+        public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
 
         private bool _IsDarty;
 
@@ -226,6 +231,9 @@ namespace NeeView
 
             BookHub.HistoryChanged += BookHub_HistoryChanged;
             BookHub.HistoryListSync += BookHub_HistoryListSync;
+
+            OnPropertyChanged(nameof(FolderListItemStyle));
+            PanelContext.FolderListStyleChanged += (s, e) => OnPropertyChanged(nameof(FolderListItemStyle));
         }
 
         //
@@ -308,6 +316,12 @@ namespace NeeView
 
             // 削除
             ModelContext.BookHistory.Remove(item.Memento.Place);
+        }
+
+        // サムネイル要求
+        public void RequestThumbnail(int start, int count, int margin, int direction)
+        {
+            PanelContext.ThumbnailManager.RequestThumbnail(Items, start, count, margin, direction);
         }
     }
 }

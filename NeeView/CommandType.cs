@@ -130,8 +130,8 @@ namespace NeeView
         ViewFlipVerticalOff,
         ViewReset,
 
-        SetEffectNone,
-        SetEffectGrayscale,
+        //SetEffectNone,
+        //SetEffectGrayscale,
 
         HelpOnline,
         HelpCommandList,

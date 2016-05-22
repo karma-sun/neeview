@@ -39,7 +39,7 @@ namespace NeeView
     /// <summary>
     /// BookMementoUnit用ノード
     /// </summary>
-    public class BookMementoUnitNode
+    public class BookMementoUnitNode : IHasPage
     {
         public BookMementoUnit Value { get; set; }
 
@@ -47,13 +47,18 @@ namespace NeeView
         {
             Value = value;
         }
+
+        public Page GetPage()
+        {
+            return Value?.ArchivePage;
+        }
     }
 
     /// <summary>
     /// 高速検索用BookMemento辞書
     /// 履歴、ブックマーク共有の辞書です
     /// </summary>
-    public class BookMementoUnit
+    public class BookMementoUnit : IHasPage
     {
         // 履歴用リンク
         public LinkedListNode<BookMementoUnit> HistoryNode { get; set; }
@@ -68,6 +73,32 @@ namespace NeeView
         public override string ToString()
         {
             return Memento?.Place ?? base.ToString();
+        }
+
+        public static event EventHandler<Page> ThumbnailChanged;
+
+        // サムネイル用。保存しません
+        #region Property: ArchivePage
+        private ArchivePage _ArchivePage;
+        public ArchivePage ArchivePage
+        {
+            get
+            {
+                if (_ArchivePage == null && Memento != null)
+                {
+                    _ArchivePage = new ArchivePage(Memento.Place);
+                    _ArchivePage.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(this, _ArchivePage);
+                }
+                return _ArchivePage;
+            }
+            set { _ArchivePage = value; }
+        }
+        #endregion
+
+        //
+        public Page GetPage()
+        {
+            return ArchivePage;
         }
     }
 

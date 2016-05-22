@@ -21,8 +21,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
+// TODO: サムネイル処理をクラス化して共有する
+
+
 namespace NeeView
 {
+
     /// <summary>
     /// FolderList.xaml の相互作用ロジック
     /// </summary>
@@ -41,6 +46,10 @@ namespace NeeView
         public event EventHandler<string> MovedParent;
         public event EventHandler<int> SelectionChanged;
 
+
+        private ThumbnailHelper _ThumbnailHelper;
+
+
         FolderListVM _VM;
         bool _AutoFocus;
 
@@ -58,6 +67,8 @@ namespace NeeView
 
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Exec));
+
+            _ThumbnailHelper = new ThumbnailHelper(this.ListBox, _VM.RequestThumbnail);
         }
 
         //
@@ -183,11 +194,6 @@ namespace NeeView
         {
             FocusSelectedItem(_AutoFocus);
         }
-
-        //
-        private void FolderListItem_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
     }
 
 
@@ -210,6 +216,9 @@ namespace NeeView
 
         public FolderCollection FolderCollection { get; set; }
 
+        public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
+
+
         #region Property: SelectedIndex
         private int _SelectedIndex;
         public int SelectedIndex
@@ -218,6 +227,13 @@ namespace NeeView
             set { _SelectedIndex = value; OnPropertyChanged(); }
         }
         #endregion
+
+        public FolderListVM()
+        {
+            OnPropertyChanged(nameof(FolderListItemStyle));
+            PanelContext.FolderListStyleChanged += (s, e) => OnPropertyChanged(nameof(FolderListItemStyle));
+        }
+
 
         public void Remove(FolderInfo info)
         {
@@ -240,5 +256,13 @@ namespace NeeView
 
             Messenger.Send(this, new MessageEventArgs("RemoveFile") { Parameter = new RemoveFileParams() { Path = info.Path, Visual = stackPanel } });
         }
+
+
+        // サムネイル要求
+        public void RequestThumbnail(int start, int count, int margin, int direction)
+        {
+            PanelContext.ThumbnailManager.RequestThumbnail(FolderCollection.Items, start, count, margin, direction);
+        }
+
     }
 }

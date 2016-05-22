@@ -30,6 +30,7 @@ namespace NeeView
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkControl));
 
         BookmarkControlVM _VM;
+        ThumbnailHelper _ThumbnailHelper;
 
         public BookmarkControl()
         {
@@ -42,6 +43,8 @@ namespace NeeView
 
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
             this.BookmarkListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+
+            _ThumbnailHelper = new ThumbnailHelper(this.BookmarkListBox, _VM.RequestThumbnail);
         }
 
         //
@@ -212,12 +215,15 @@ namespace NeeView
         }
         #endregion
 
-
+        public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
 
         //
         public void Initialize(BookHub bookHub)
         {
             BookHub = bookHub;
+
+            OnPropertyChanged(nameof(FolderListItemStyle));
+            PanelContext.FolderListStyleChanged += (s, e) => OnPropertyChanged(nameof(FolderListItemStyle));
         }
 
         //
@@ -258,6 +264,12 @@ namespace NeeView
             SelectedItemChanged?.Invoke(this, args);
 
             ModelContext.Bookmarks.Remove(item.Value.Memento.Place);
+        }
+
+        // サムネイル要求
+        public void RequestThumbnail(int start, int count, int margin, int direction)
+        {
+            PanelContext.ThumbnailManager.RequestThumbnail(Bookmark.Items, start, count, margin, direction);
         }
     }
 }

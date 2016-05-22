@@ -25,14 +25,29 @@
 
         <RoutedCommand x:Key="xRemoveDommand" />
 
+        <Style TargetType="TextBlock" x:Key="BookmarkName">
+            <Setter Property="Text" Value="{Binding Value.Memento.Name}"/>
+            <Setter Property="ToolTip" Value="{Binding Value.Memento.Place}"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+
         <!-- Normal Bookmark -->
         <DataTemplate x:Key="NormalBookmark">
-            <DockPanel>
-                <Grid>
-                    <TextBlock Text="{Binding Value.Memento.Name}" ToolTip="{Binding Value.Memento.Place}" Margin="5,0" VerticalAlignment="Center" FontSize="15" TextTrimming="CharacterEllipsis">
-                    </TextBlock>
-                </Grid>
+            <TextBlock Style="{StaticResource BookmarkName}"/>
+        </DataTemplate>
 
+        <!-- Picture Bookmark -->
+        <DataTemplate x:Key="PictureBookmark">
+            <DockPanel Height="80" Margin="0,1" Background="{DynamicResource NVBaseBrush}">
+                <DockPanel DockPanel.Dock="Bottom" Margin="0,2">
+                    <TextBlock Style="{StaticResource BookmarkName}"/>
+                </DockPanel>
+                <Grid>
+                    <Image Source="{Binding Value.ArchivePage.Thumbnail}" Width="256" HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="UniformToFill" UseLayoutRounding="True"/>
+                </Grid>
             </DockPanel>
         </DataTemplate>
 
@@ -49,14 +64,12 @@
         </StackPanel>
 
         <ListBox x:Name="BookmarkListBox" Focusable="False"
-                 Style="{StaticResource NVListBox}"
                  Background="Transparent"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                  FocusVisualStyle="{StaticResource NVFocusVisual}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding Bookmark.Items}"
-                 ItemTemplate="{StaticResource NormalBookmark}"
                  SelectedItem="{Binding SelectedItem}"
                  KeyDown="BookmarkList_KeyDown"
                  Tag="{Binding Bookmark.Items}"
@@ -64,6 +77,17 @@
                  AllowDrop="True"
                  PreviewDragOver="BookmarkListBox_PreviewDragOver"
                  Drop="BookmarkListBox_Drop">
+
+            <ListBox.Style>
+                <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
+                    <Setter Property="ItemTemplate" Value="{StaticResource NormalBookmark}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding FolderListItemStyle}" Value="Picture">
+                            <Setter Property="ItemTemplate" Value="{StaticResource PictureBookmark}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Style>
 
             <ListBox.Resources>
                 <Style TargetType="ListBoxItem">

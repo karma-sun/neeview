@@ -18,7 +18,8 @@ namespace NeeView
         Top, // 最優先
         Hi,
         Default,
-        Low, // サムネイル用
+        PageThumbnail, // サムネイル専用
+        FolderThumbnail, // フォルダサムネイル専用
     }
 
     /// <summary>

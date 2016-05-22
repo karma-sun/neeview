@@ -40,6 +40,9 @@ namespace NeeView.Utility
             double width = source.PixelWidth;
             double height = source.PixelHeight;
 
+            // maxSize.Height が nan のときはバナー
+            bool isBanner = double.IsNaN(maxSize.Height);
+
             var scaleX = width > maxSize.Width ? maxSize.Width / width : 1.0;
             var scaleY = height > maxSize.Height ? maxSize.Height / height : 1.0;
             var scale = scaleX > scaleY ? scaleY : scaleX;
@@ -57,22 +60,40 @@ namespace NeeView.Utility
 
             App.Current.Dispatcher.Invoke(() =>
             {
+                var canvas = new Canvas();
+                canvas.Width = width;
+                canvas.Height = height;
+
                 var image = new Image();
                 image.Source = source;
                 image.Width = width;
                 image.Height = height;
                 image.Stretch = Stretch.Fill;
+
+                double bannerHeight = (int)(width * 0.25);
+                if (isBanner && bannerHeight < height) // && maxSize.Width * 0.25 < height)
+                {
+                    canvas.Height = bannerHeight;
+
+                    double top = -(int)(height * 0.3 - bannerHeight * 0.5);
+                    if (top < -height) top = -height;
+                    if (top > 0) top = 0;
+                    Canvas.SetTop(image, top);
+                }
+
                 RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
                 image.UseLayoutRounding = true;
 
+                canvas.Children.Add(image);
+
                 // ビューツリー外でも正常にレンダリングするようにする処理
-                image.Measure(new Size(image.Width, image.Height));
-                image.Arrange(new Rect(new Size(image.Width, image.Height)));
-                image.UpdateLayout();
+                canvas.Measure(new Size(canvas.Width, canvas.Height));
+                canvas.Arrange(new Rect(new Size(canvas.Width, canvas.Height)));
+                canvas.UpdateLayout();
 
                 double dpi = 96.0;
-                bmp = new RenderTargetBitmap((int)width, (int)height, dpi, dpi, PixelFormats.Pbgra32);
-                bmp.Render(image);
+                bmp = new RenderTargetBitmap((int)canvas.Width, (int)canvas.Height, dpi, dpi, PixelFormats.Pbgra32);
+                bmp.Render(canvas);
                 bmp.Freeze();
             });
 

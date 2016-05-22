@@ -244,6 +244,38 @@ namespace NeeView
             else if (val.CompareTo(max) > 0) return max;
             else return val;
         }
+
+
+        /// <summary>
+        /// 子のビジュアル要素を見つける
+        /// ... どこかからのコピペ。どこだったかな...
+        /// </summary>
+        /// <typeparam name="T">見つけたい要素の型</typeparam>
+        /// <param name="obj">検索の起点</param>
+        /// <returns>見つかった要素。見つからなかった場合はnull</returns>
+        public static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+
+                if (child is T)
+                {
+                    return (T)child;
+                }
+                else
+                {
+                    child = FindVisualChild<T>(child);
+                    if (child != null)
+                    {
+                        return (T)child;
+                    }
+                }
+            }
+            return null;
+        }
+
+
     }
 }
 

@@ -258,13 +258,18 @@
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PanelColorList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.PanelColor}" />
                             </StackPanel>
+                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="フォルダーリスト、履歴リスト、ブックマークリストの項目の表示方法を指定します">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="フォルダーの表示方法"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding FolderListItemStyleList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.ViewMemento.FolderListItemStyle}" />
+                            </StackPanel>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーンのときにパネルを自動的に隠す"
                               IsChecked="{Binding Setting.ViewMemento.IsHidePanelInFullscreen}" />
 
                         </StackPanel>
 
                         <TextBlock Text="フォルダリスト" Style="{StaticResource Header}"/>
-
+                        
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ブックマーク記号を表示する"
                                       ToolTip="ブックマークされているフォルダに★マークを表示します"

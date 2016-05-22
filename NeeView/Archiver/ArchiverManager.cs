@@ -57,9 +57,9 @@ namespace NeeView
 
 
         // サポートしているアーカイバを取得
-        public ArchiverType GetSupportedType(string fileName)
+        public ArchiverType GetSupportedType(string fileName, bool isArrowFileSystem=true)
         {
-            if (fileName.Last() == '\\')
+            if (isArrowFileSystem && fileName.Last() == '\\')
             {
                 return ArchiverType.FolderFiles;
             }

@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// TODO: 書庫内書庫 ストリームによる多重展開が可能？
+
 namespace NeeView
 {
     /// <summary>

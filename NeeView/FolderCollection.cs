@@ -35,7 +35,7 @@ namespace NeeView
     }
 
     // フォルダ情報
-    public class FolderInfo : INotifyPropertyChanged
+    public class FolderInfo : INotifyPropertyChanged, IHasPage
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -55,6 +55,7 @@ namespace NeeView
 
         public string ParentPath => System.IO.Path.GetDirectoryName(Path);
 
+        public bool IsDrive => (Attributes & FolderInfoAttribute.Drive) == FolderInfoAttribute.Drive;
         public bool IsDirectory => (Attributes & FolderInfoAttribute.Directory) == FolderInfoAttribute.Directory;
         public bool IsEmpty => (Attributes & FolderInfoAttribute.Empty) == FolderInfoAttribute.Empty;
         public bool IsDirectoryNotFound => (Attributes & FolderInfoAttribute.DirectoryNoFound) == FolderInfoAttribute.DirectoryNoFound;
@@ -138,10 +139,37 @@ namespace NeeView
                 }
             }
         }
+
+        public static event EventHandler<Page> ThumbnailChanged;
+
+        // サムネイル用
+        #region Property: ArchivePage
+        private ArchivePage _ArchivePage;
+        public ArchivePage ArchivePage
+        {
+            get
+            {
+                if (_ArchivePage == null && !IsDrive && !IsEmpty)
+                {
+                    _ArchivePage = new ArchivePage(Path);
+                    _ArchivePage.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(this, _ArchivePage);
+                }
+                return _ArchivePage;
+            }
+            set { _ArchivePage = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+        public Page GetPage()
+        {
+            return ArchivePage;
+        }
     }
 
 
-    // フォルダー情報
+    /// <summary>
+    /// フォルダー情報
+    /// </summary>
     public class Folder : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
@@ -202,7 +230,9 @@ namespace NeeView
 
 
 
-    //
+    /// <summary>
+    /// 
+    /// </summary>
     public class FolderCollection : IDisposable
     {
         public event EventHandler Changed;

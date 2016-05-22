@@ -115,11 +115,13 @@ namespace NeeView
         }
 
 
-        // コンテンツをロードする
-        protected override object LoadContent()
+        /// <summary>
+        /// 画像ロード処理
+        /// </summary>
+        /// <param name="isUseMediaPlayer">メディアプレイヤーで再生させる</param>
+        /// <returns>ページコンテンツ</returns>
+        protected object LoadContent(bool isUseMediaPlayer)
         {
-            //__Delay(200);
-
             try
             {
                 var bitmapContent = LoadBitmap();
@@ -130,7 +132,7 @@ namespace NeeView
                 Color = bitmapSource.GetOneColor();
 
                 // GIFアニメ用にファイル展開
-                if (IsEnableAnimatedGif && LoosePath.GetExtension(FileName) == ".gif")
+                if (isUseMediaPlayer)
                 {
                     return new AnimatedGifContent()
                     {
@@ -159,6 +161,13 @@ namespace NeeView
                     Info = new FileBasicInfo()
                 };
             }
+        }
+
+
+        // コンテンツをロードする
+        protected override object LoadContent()
+        {
+            return LoadContent(IsEnableAnimatedGif && LoosePath.GetExtension(FileName) == ".gif");
         }
 
         // ファイルの出力

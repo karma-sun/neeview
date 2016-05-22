@@ -113,7 +113,14 @@ namespace NeeView
             [ShowMessageStyle.Normal] = "表示する",
             [ShowMessageStyle.Tiny] = "小さく表示する",
         };
-        
+
+        //
+        public static Dictionary<FolderListItemStyle, string> FolderListItemStyleList { get; } = new Dictionary<FolderListItemStyle, string>
+        {
+            [FolderListItemStyle.Normal] = "テキスト表示",
+            [FolderListItemStyle.Picture] = "バナー表示",
+        };
+
 
         // ドラッグアクション
         public static Dictionary<DragActionType, string> DragActionTypeList { get; } = DragActionTypeExtension.LabelList;

@@ -12,6 +12,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         xmlns:osc="clr-namespace:OpenSourceControls"
+        xmlns:sfx="clr-namespace:Effects"
         mc:Ignorable="d"
         x:Name="RootWindow"
         Title="{Binding WindowTitle}" Icon="{Binding WindowIcon}" Height="768" Width="1024" AllowDrop="True"
@@ -98,6 +99,8 @@
         <local:SortModeToVisibilityConverter x:Key="SortModeToVisibilityConverter"/>
         <local:SortModeToStringConverter x:Key="SortModeToStringConverter"/>
 
+        <local:DpiScaleXInverseConverter x:Key="DpiScaleXInverseConverter"/>
+        <local:DpiScaleYInverseConverter x:Key="DpiScaleYInverseConverter"/>
 
 
 
@@ -257,9 +260,14 @@
                     <!-- メインビュー -->
                     <Grid x:Name="MainViewPanelGrid" Panel.ZIndex="-1">
                         <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}">
+                            <!-- エフェクトを多重にかける場合、厄介かな
+                            <Grid.Effect>
+                                <sfx:GrayscaleEffect/>
+                            </Grid.Effect>
+                            -->
 
                             <!-- メインビュー コンテンツ表示領域 -->
-                            <Grid x:Name="MainView" Background="{Binding BackgroundBrush}" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" >
+                            <Grid x:Name="MainView" Background="{Binding BackgroundBrush}" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True">
                                 <!-- Pages -->
                                 <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                                         HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -583,7 +591,9 @@
                                                             </Style>
                                                         </Ellipse.Style>
                                                     </Ellipse>
-                                                    <Image Source="{Binding Thumbnail}" UseLayoutRounding="True">
+                                                    <Image Source="{Binding Thumbnail}" UseLayoutRounding="True"
+                                                           Width="{Binding Thumbnail.PixelWidth, Converter={StaticResource DpiScaleXInverseConverter}}"
+                                                           Height="{Binding Thumbnail.PixelHeight, Converter={StaticResource DpiScaleYInverseConverter}}">
                                                         <Image.Effect>
                                                             <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
                                                         </Image.Effect>

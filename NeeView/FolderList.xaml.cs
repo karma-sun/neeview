@@ -218,6 +218,11 @@ namespace NeeView
 
         public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
 
+        public double PicturePanelHeight => ThumbnailHeight + 24.0;
+
+        public double ThumbnailWidth => Math.Floor(256.0 / ModelContext.ApplicationInformation.DpiScaleFactor.X);
+        public double ThumbnailHeight => Math.Floor(64.0 / ModelContext.ApplicationInformation.DpiScaleFactor.Y);
+
 
         #region Property: SelectedIndex
         private int _SelectedIndex;

@@ -41,12 +41,14 @@
 
         <!-- Picture Bookmark -->
         <DataTemplate x:Key="PictureBookmark">
-            <DockPanel Height="80" Margin="0,1" Background="{DynamicResource NVBaseBrush}">
+            <DockPanel Height="{Binding ElementName=BookmarkListBox, Path=DataContext.PicturePanelHeight}" Margin="0,1" Background="{DynamicResource NVBaseBrush}">
                 <DockPanel DockPanel.Dock="Bottom" Margin="0,2">
                     <TextBlock Style="{StaticResource BookmarkName}"/>
                 </DockPanel>
                 <Grid>
-                    <Image Source="{Binding Value.ArchivePage.Thumbnail}" Width="256" HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="UniformToFill" UseLayoutRounding="True"/>
+                    <Image Source="{Binding Value.ArchivePage.Thumbnail}"
+                           Width="{Binding ElementName=BookmarkListBox, Path=DataContext.ThumbnailWidth}"
+                           HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="UniformToFill" UseLayoutRounding="True"/>
                 </Grid>
             </DockPanel>
         </DataTemplate>

@@ -12,15 +12,36 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NeeView
 {
+    public class ApplicationInformation
+    {
+        // DPI倍率
+        public Point DpiScaleFactor { get; private set; } = new Point(1, 1);
+
+        // DPIのXY比率が等しい？
+        public bool IsDpiSquare { get; private set; } = false;
+
+        // DPI設定
+        public void UpdateDpiScaleFactor(System.Windows.Media.Visual visual)
+        {
+            var dpiScaleFactor = DragExtensions.WPFUtil.GetDpiScaleFactor(visual);
+            DpiScaleFactor = dpiScaleFactor;
+            IsDpiSquare = DpiScaleFactor.X == DpiScaleFactor.Y;
+        }
+    }
+
+
     /// <summary>
     /// Model 共通コンテキスト (static)
     /// </summary>
     public static class ModelContext
     {
+        public static ApplicationInformation ApplicationInformation { get; set; }
+
         public static JobEngine JobEngine { get; set; }
 
         public static SusieContext SusieContext { get; set; }
@@ -41,6 +62,9 @@ namespace NeeView
 
         public static Recycle Recycle { get; set; }
 
+
+
+
         //
         public static bool IsAutoGC { get; set; } = true;
 
@@ -53,6 +77,8 @@ namespace NeeView
         // 初期化
         public static void Initialize()
         {
+            ApplicationInformation = new ApplicationInformation();
+
             // Jobワーカーサイズ
             JobEngine = new JobEngine();
             int jobWorkerSize;
@@ -84,6 +110,7 @@ namespace NeeView
             SusieContext = new SusieContext();
 
             Recycle = new Recycle();
+
 
             // SevenZip対応拡張子設定
             ArchiverManager.UpdateSevenZipSupprtedFileTypes(ConfigurationManager.AppSettings.Get("SevenZipSupportFileType"));

@@ -202,10 +202,8 @@ namespace NeeView
 
         public BookHub BookHub { get; private set; }
 
-
         public BookmarkCollection Bookmark => ModelContext.Bookmarks;
-
-
+        
         #region Property: SelectedItem
         private BookMementoUnitNode _SelectedItem;
         public BookMementoUnitNode SelectedItem
@@ -216,6 +214,12 @@ namespace NeeView
         #endregion
 
         public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
+
+        public double PicturePanelHeight => ThumbnailHeight + 24.0;
+
+        public double ThumbnailWidth => Math.Floor(256.0 / ModelContext.ApplicationInformation.DpiScaleFactor.X);
+        public double ThumbnailHeight => Math.Floor(64.0 / ModelContext.ApplicationInformation.DpiScaleFactor.Y);
+
 
         //
         public void Initialize(BookHub bookHub)

@@ -1291,18 +1291,11 @@ namespace NeeView
         #endregion
 
         // DPI倍率
-        private Point _DpiScaleFactor = new Point(1, 1);
+        private Point _DpiScaleFactor => ModelContext.ApplicationInformation.DpiScaleFactor;
 
         // DPIのXY比率が等しい？
-        private bool _IsDpiSquare = false;
+        private bool _IsDpiSquare => ModelContext.ApplicationInformation.IsDpiSquare;
 
-        // DPI設定
-        public void UpdateDpiScaleFactor(Visual visual)
-        {
-            var dpiScaleFactor = DragExtensions.WPFUtil.GetDpiScaleFactor(visual);
-            _DpiScaleFactor = dpiScaleFactor;
-            _IsDpiSquare = _DpiScaleFactor.X == _DpiScaleFactor.Y;
-        }
 
         // ダウンロード画像の保存場所
         public string UserDownloadPath { get; set; }
@@ -1524,7 +1517,7 @@ namespace NeeView
             }
         }
 
-        #region アプリ設定
+#region アプリ設定
 
         // アプリ設定作成
         public Setting CreateSetting()
@@ -1662,7 +1655,7 @@ namespace NeeView
             catch { }
         }
 
-        #endregion
+#endregion
 
 
         // 最後に開いたフォルダを開く
@@ -2125,7 +2118,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento
@@ -2467,7 +2460,7 @@ namespace NeeView
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }
 
-        #endregion
+#endregion
 
     }
 }

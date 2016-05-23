@@ -29,10 +29,19 @@ namespace NeeView
 
         private object _Lock = new object();
 
+        private bool _IsDisposed;
+
         // コンストラクタ
         public SusieArchiver(string archiveFileName)
         {
             FileName = archiveFileName;
+        }
+
+        //
+        public override void Dispose()
+        {
+            _IsDisposed = true;
+            base.Dispose();
         }
 
         // サポート判定
@@ -54,6 +63,8 @@ namespace NeeView
         // エントリーリストを得る
         public override List<ArchiveEntry> GetEntries()
         {
+            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+
             var plugin = GetPlugin();
             if (plugin == null) throw new NotSupportedException();
 
@@ -86,6 +97,8 @@ namespace NeeView
         // エントリーのストリームを得る
         public override Stream OpenStream(ArchiveEntry entry)
         {
+            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+
             lock (_Lock)
             {
                 var info = (Susie.ArchiveEntry)entry.Instance;
@@ -98,6 +111,8 @@ namespace NeeView
         // ファイルに出力する
         public override void ExtractToFile(ArchiveEntry entry, string extractFileName, bool isOverwrite)
         {
+            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+
             var info = (Susie.ArchiveEntry)entry.Instance;
 
             string tempDirectory = Temporary.CreateCountedTempFileName("Susie", "");

@@ -78,6 +78,8 @@ namespace NeeView
                 try
                 {
                     var bitmapLoader = BitmapLoaderManager.Create(loaderType);
+                    if (!bitmapLoader.IsEnabled) continue;
+
                     BitmapContent bmp;
                     if (Entry.IsFileSystem)
                     {

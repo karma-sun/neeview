@@ -1296,6 +1296,8 @@ namespace NeeView
         // サムネ更新。表示されているページのサムネの読み込み要求
         private void LoadThumbnailList(int direction)
         {
+            if (!this.ThumbnailListArea.IsVisible) return;
+
             if (_ThumbnailListPanel != null)
             {
                 _VM.RequestThumbnail((int)_ThumbnailListPanel.HorizontalOffset, (int)_ThumbnailListPanel.ViewportWidth, 2, direction);
@@ -1826,6 +1828,11 @@ namespace NeeView
         private void MenuArea_MouseLeave(object sender, MouseEventArgs e)
         {
             // nop.
+        }
+
+        private void ThumbnailListArea_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            LoadThumbnailList(1);
         }
     }
 

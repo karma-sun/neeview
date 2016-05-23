@@ -61,6 +61,9 @@ namespace NeeView
         }
         #endregion
 
+        // 有効判定
+        public bool IsEnabled => true;
+
         // Thumbnail読み込み
         public BitmapContent LoadThmbnail(Stream stream, ArchiveEntry entry, bool allowExifOrientation, int size)
         {

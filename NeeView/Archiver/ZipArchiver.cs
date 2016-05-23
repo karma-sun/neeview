@@ -21,6 +21,8 @@ namespace NeeView
     /// </summary>
     public class ZipArchiver : Archiver
     {
+        private bool _IsDisposed;
+
         public override string ToString()
         {
             return ".Net ZipArchiver";
@@ -32,15 +34,25 @@ namespace NeeView
             FileName = archiveFileName;
         }
 
+        // Dispose
+        public override void Dispose()
+        {
+            _IsDisposed = true;
+            base.Dispose();
+        }
+
         // サポート判定
         public override bool IsSupported()
         {
             return true;
         }
 
+
         // エントリーリストを得る
         public override List<ArchiveEntry> GetEntries()
         {
+            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+
             var list = new List<ArchiveEntry>();
 
             using (var archiver = ZipFile.OpenRead(FileName))
@@ -69,6 +81,8 @@ namespace NeeView
         // エントリーのストリームを得る
         public override Stream OpenStream(ArchiveEntry entry)
         {
+            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+
             using (var archiver = ZipFile.OpenRead(FileName))
             {
                 ZipArchiveEntry archiveEntry = archiver.Entries[entry.Id];
@@ -90,6 +104,8 @@ namespace NeeView
         //
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
+            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+
             using (var archiver = ZipFile.OpenRead(FileName))
             {
                 ZipArchiveEntry archiveEntry = archiver.Entries[entry.Id];

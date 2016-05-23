@@ -25,6 +25,7 @@ namespace NeeView
     /// </summary>
     public interface IBitmapLoader
     {
+        bool IsEnabled { get; }
         BitmapContent Load(Stream stream, ArchiveEntry entry, bool allowExifOrientation);
         BitmapContent LoadFromFile(string fileName, ArchiveEntry entry, bool allowExifOrientation);
     }

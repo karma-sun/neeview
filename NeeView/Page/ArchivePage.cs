@@ -33,17 +33,20 @@ namespace NeeView
             return new ArchivePage(Place);
         }
 
+        TrashBox _TrashBox = new TrashBox();
+
         //
         private void OpenEntry()
         {
             try
             {
                 // TODO: 自動再帰する設定
-                // TODO: 全てのArchiverのDispose処理
-                // TODO: 再帰取得加味（自動＆指定）
-                // TODO: 書庫内書庫対応
                 var archiver = GetStartArchiver(Place);
-                Entry = OpenEntry(archiver, false);
+                if (archiver != null)
+                {
+                    _TrashBox.Add(archiver);
+                    Entry = OpenEntry(archiver, !archiver.IsFileSystem);
+                }
             }
             catch (Exception e)
             {
@@ -125,8 +128,11 @@ namespace NeeView
 
             // フォルダのアーカイブを取得し、再帰する
             var archiverType = ModelContext.ArchiverManager.GetSupportedType(entry.EntryName);
-            var subArchiver = ModelContext.ArchiverManager.CreateArchiver(archiverType, entry.EntryName, archiver);
-            //subArchiver.StreamSource = entry.OpenEntry(); // TODO:
+            // x エントリのストリームをアーカイブに渡す。ストリームはアーカイブでDisposeされる
+            var tempFile = archiver.ExtractToTemp(entry);
+            var subArchiver = ModelContext.ArchiverManager.CreateArchiver(archiverType, tempFile, null, archiver);
+            _TrashBox.Add(subArchiver);
+            // 再帰
             return OpenEntry(subArchiver, true);
         }
 
@@ -136,9 +142,11 @@ namespace NeeView
         {
             if (Entry != null)
             {
-                Entry?.Archiver?.Dispose();
+                //Entry?.Archiver?.Dispose();
                 Entry = null;
             }
+            _TrashBox.Clear();
+
         }
 
 

@@ -115,9 +115,20 @@ namespace NeeView
             Debug.WriteLine("SusieAM Support: " + string.Join(" ", _SupprtedFileTypes[ArchiverType.SusieArchiver]));
         }
 
-        // アーカイバ作成
-        public Archiver CreateArchiver(ArchiverType type, string path, Archiver parent)
+        /// <summary>
+        /// アーカイバ作成
+        /// stream に null 以外を指定すると、そのストリームを使用してアーカイブを開きます。
+        /// この stream はアーカイブ廃棄時に Dispose されます。
+        /// </summary>
+        /// <param name="type">アーカイブの種類</param>
+        /// <param name="path">アーカイブファイルのパス</param>
+        /// <param name="stream">アーカイブストリーム。ファイルから開く場合はnull</param>
+        /// <param name="parent">親アーカイブ</param>
+        /// <returns>作成されたアーカイバ</returns>
+        public Archiver CreateArchiver(ArchiverType type, string path, Stream stream, Archiver parent)
         {
+            if (stream != null && type != ArchiverType.SevenZipArchiver) throw new NotImplementedException($"{type} doesn't support stream yet.");
+
             switch (type)
             {
                 case ArchiverType.FolderFiles:
@@ -125,7 +136,7 @@ namespace NeeView
                 case ArchiverType.ZipArchiver:
                     return new ZipArchiver(path) { Parent = parent };
                 case ArchiverType.SevenZipArchiver:
-                    return new SevenZipArchiver(path) { Parent = parent };
+                    return new SevenZipArchiver(path, stream) { Parent = parent };
                 case ArchiverType.SusieArchiver:
                     return new SusieArchiver(path) { Parent = parent };
                 default:
@@ -138,11 +149,11 @@ namespace NeeView
         {
             if (Directory.Exists(path))
             {
-                return CreateArchiver(ArchiverType.FolderFiles, path, parent);
+                return CreateArchiver(ArchiverType.FolderFiles, path, null, parent);
             }
 
-            return CreateArchiver(GetSupportedType(path), path, parent);
+            return CreateArchiver(GetSupportedType(path), path, null, parent);
         }
-    }
 
+    }
 }

@@ -22,12 +22,14 @@ namespace NeeView
 
         public void Add(IDisposable trash)
         {
+            if (trash == null) return;
             _Trashes.Add(trash);
         }
 
         // ゴミ箱を空にする
         public void Clear()
         {
+            _Trashes.Reverse();
             _Trashes.ForEach(e => e.Dispose());
             _Trashes.Clear();
         }

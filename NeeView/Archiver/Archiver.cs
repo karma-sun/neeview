@@ -51,6 +51,20 @@ namespace NeeView
         // エントリのストリームを取得
         public abstract Stream OpenStream(ArchiveEntry entry);
 
+        /// <summary>
+        /// テンポラリにアーカイブを解凍する
+        /// このテンポラリはアーカイブ廃棄時に自動的に削除される
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <returns>テンポラリファイル名</returns>
+        public string ExtractToTemp(ArchiveEntry entry)
+        {
+            string tempFileName = Temporary.CreateTempFileName(Path.GetFileName(entry.EntryName));
+            ExtractToFile(entry, tempFileName, false);
+            TrashBox.Add(new TrashFile(tempFileName));
+            return tempFileName;
+        }
+
         // エントリをファイルとして出力
         public abstract void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite);
 

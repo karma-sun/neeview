@@ -22,6 +22,9 @@ namespace NeeView
 
         private Susie.SusiePlugin _SusiePlugin;
 
+        // 有効判定
+        public bool IsEnabled => IsEnable;
+
         // Bitmap読み込み
         public BitmapContent Load(Stream stream, ArchiveEntry entry, bool allowExifOrientation)
         {

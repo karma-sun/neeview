@@ -550,7 +550,7 @@
                     </Slider.Style>
                 </Slider>
 
-                <Grid x:Name="ThumbnailListArea" SizeChanged="ThumbnailListArea_SizeChanged" >
+                <Grid x:Name="ThumbnailListArea" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" >
                     <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"

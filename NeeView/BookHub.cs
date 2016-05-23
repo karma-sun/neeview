@@ -252,6 +252,21 @@ namespace NeeView
         // 再帰を確認する
         public bool IsConfirmRecursive { get; set; }
 
+        // 自動再帰
+        #region Property: IsAutoRecursive
+        private bool _IsAutoRecursive = true;
+        public bool IsAutoRecursive
+        {
+            get { return _IsAutoRecursive; }
+            set
+            {
+                _IsAutoRecursive = value;
+                ArchivePage.IsAutoRecursive = _IsAutoRecursive;
+            }
+        }
+        #endregion
+
+
 
         // 7z.dll アクセスでファイルをロックする
         public bool IsSevenZipAccessLocked
@@ -817,6 +832,12 @@ namespace NeeView
             if ((option & BookLoadOption.Recursive) == BookLoadOption.Recursive)
             {
                 book.IsRecursiveFolder = true;
+            }
+
+            // 最初の自動再帰設定
+            if (IsAutoRecursive)
+            {
+                option |= BookLoadOption.AutoRecursive;
             }
 
             //
@@ -1578,6 +1599,9 @@ namespace NeeView
             [DataMember(Order = 10)]
             public ClipboardUtility ClipboardUtility { get; set; }
 
+            [DataMember(Order = 10)]
+            public bool IsAutoRecursive { get; set; }
+
 
             //
             private void Constructor()
@@ -1596,6 +1620,7 @@ namespace NeeView
                 IsRecoveryPageOnly = false;
                 IsSevenZipAccessLocked = true;
                 ClipboardUtility = new ClipboardUtility();
+                IsAutoRecursive = true;
             }
 
             public Memento()
@@ -1636,6 +1661,7 @@ namespace NeeView
             memento.IsRecoveryPageOnly = IsRecoveryPageOnly;
             memento.IsSevenZipAccessLocked = IsSevenZipAccessLocked;
             memento.ClipboardUtility = ClipboardUtility.Clone();
+            memento.IsAutoRecursive = IsAutoRecursive;
 
             return memento;
         }
@@ -1662,6 +1688,7 @@ namespace NeeView
             IsRecoveryPageOnly = memento.IsRecoveryPageOnly;
             IsSevenZipAccessLocked = memento.IsSevenZipAccessLocked;
             ClipboardUtility = memento.ClipboardUtility.Clone();
+            IsAutoRecursive = memento.IsAutoRecursive;
         }
 
         #endregion

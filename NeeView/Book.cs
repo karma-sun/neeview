@@ -31,6 +31,7 @@ namespace NeeView
         SelectFoderListMaybe = (1 << 6), // 可能ならばフォルダリストで選択する
         SelectHistoryMaybe = (1 << 7), // 可能ならば履歴リストで選択する
         SkipSamePlace = (1 << 8), // 同じフォルダならば読み込まない
+        AutoRecursive = (1<<9), // 自動再帰
     };
 
 
@@ -360,7 +361,8 @@ namespace NeeView
             {
                 // 再帰設定、もしくは単一ファイルの場合、再帰を行う
                 bool isRecursive = (option & BookLoadOption.Recursive) == BookLoadOption.Recursive;
-                if ((isRecursive || entries.Count == 1) && ModelContext.ArchiverManager.IsSupported(entry.EntryName))
+                bool isAutoRecursive = (option & BookLoadOption.AutoRecursive) == BookLoadOption.AutoRecursive && entries.Count == 1 && archiver.IsFileSystem;
+                if ((isRecursive || isAutoRecursive) && ModelContext.ArchiverManager.IsSupported(entry.EntryName))
                 {
                     bool result = false;
                     if (archiver.IsFileSystem)

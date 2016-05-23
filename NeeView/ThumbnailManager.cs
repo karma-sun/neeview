@@ -30,7 +30,8 @@ namespace NeeView
         private AliveThumbnailList _AliveThumbnailList = new AliveThumbnailList();
 
         private double ThumbnailSize = 256;
-        private int ThumbnailMemorySize = 4;
+
+        public int ThumbnailMemorySize { get; set; } = 8;
 
         //
         public void InitializeThumbnailSystem()

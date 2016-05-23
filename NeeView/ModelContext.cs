@@ -17,7 +17,10 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-    public class ApplicationInformation
+    /// <summary>
+    /// アプリ全体の設定
+    /// </summary>
+    public class Environment
     {
         // DPI倍率
         public Point DpiScaleFactor { get; private set; } = new Point(1, 1);
@@ -40,7 +43,7 @@ namespace NeeView
     /// </summary>
     public static class ModelContext
     {
-        public static ApplicationInformation ApplicationInformation { get; set; }
+        public static Environment Environment { get; set; }
 
         public static JobEngine JobEngine { get; set; }
 
@@ -77,7 +80,7 @@ namespace NeeView
         // 初期化
         public static void Initialize()
         {
-            ApplicationInformation = new ApplicationInformation();
+            Environment = new Environment();
 
             // Jobワーカーサイズ
             JobEngine = new JobEngine();

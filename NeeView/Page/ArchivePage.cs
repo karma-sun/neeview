@@ -21,6 +21,8 @@ namespace NeeView
     /// </summary>
     public class ArchivePage : BitmapPage
     {
+        public static bool IsAutoRecursive { get; set; } = true;
+
         // コンストラクタ
         public ArchivePage(string place) : base(null, null, place)
         {
@@ -72,7 +74,7 @@ namespace NeeView
             var files = Directory.GetFiles(place);
             var directories = Directory.GetDirectories(place);
 
-            if (files.Length + directories.Length > 1)
+            if (!IsAutoRecursive || files.Length + directories.Length > 1)
             {
                 return ModelContext.ArchiverManager.CreateArchiver(place, null);
             }

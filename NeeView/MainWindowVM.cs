@@ -1239,6 +1239,22 @@ namespace NeeView
         }
         #endregion
 
+        #region Property: BannerMemorySize
+        private int _BannerMemorySize;
+        public int BannerMemorySize
+        {
+            get { return _BannerMemorySize; }
+            set
+            {
+                _BannerMemorySize = value;
+                OnPropertyChanged();
+                PanelContext.ThumbnailManager.ThumbnailMemorySize = _BannerMemorySize;
+            }
+        }
+        #endregion
+
+
+
         // ページ番号の表示
         #region Property: IsVisibleThumbnailNumber
         private bool _IsVisibleThumbnailNumber;
@@ -1291,10 +1307,10 @@ namespace NeeView
         #endregion
 
         // DPI倍率
-        private Point _DpiScaleFactor => ModelContext.ApplicationInformation.DpiScaleFactor;
+        private Point _DpiScaleFactor => ModelContext.Environment.DpiScaleFactor;
 
         // DPIのXY比率が等しい？
-        private bool _IsDpiSquare => ModelContext.ApplicationInformation.IsDpiSquare;
+        private bool _IsDpiSquare => ModelContext.Environment.IsDpiSquare;
 
 
         // ダウンロード画像の保存場所
@@ -1308,8 +1324,8 @@ namespace NeeView
         // コンストラクタ
         public MainWindowVM()
         {
-            HistoryFileName = System.IO.Path.Combine(Environment.CurrentDirectory, "History.xml");
-            BookmarkFileName = System.IO.Path.Combine(Environment.CurrentDirectory, "Bookmark.xml");
+            HistoryFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "History.xml");
+            BookmarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Bookmark.xml");
 
             InitializeWindowIcons();
 
@@ -2289,6 +2305,9 @@ namespace NeeView
             [DataMember(Order = 10)]
             public FolderListItemStyle FolderListItemStyle { get; set; }
 
+            [DataMember(Order = 10)]
+            public int BannerMemorySize { get; set; }
+
             //
             void Constructor()
             {
@@ -2319,6 +2338,7 @@ namespace NeeView
                 IsVisibleThumbnailPlate = true;
                 FolderListGridRow0 = "*";
                 FolderListGridRow2 = "*";
+                BannerMemorySize = 8;
             }
 
             public Memento()
@@ -2398,6 +2418,7 @@ namespace NeeView
             memento.FolderListGridRow2 = this.FolderListGridRow2;
             memento.IsVisiblePageList = this.IsVisiblePageList;
             memento.FolderListItemStyle = this.FolderListItemStyle;
+            memento.BannerMemorySize = this.BannerMemorySize;
 
             return memento;
         }
@@ -2455,6 +2476,7 @@ namespace NeeView
             this.FolderListGridRow2 = memento.FolderListGridRow2;
             this.IsVisiblePageList = memento.IsVisiblePageList;
             this.FolderListItemStyle = memento.FolderListItemStyle;
+            this.BannerMemorySize = memento.BannerMemorySize;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

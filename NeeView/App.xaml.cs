@@ -73,7 +73,7 @@ namespace NeeView
 
             // カレントフォルダをアプリの場所に再設定
             var assembly = Assembly.GetEntryAssembly();
-            Environment.CurrentDirectory = Path.GetDirectoryName(assembly.Location);
+            System.Environment.CurrentDirectory = Path.GetDirectoryName(assembly.Location);
 
             try
             {
@@ -115,7 +115,7 @@ namespace NeeView
             }
             else
             {
-                UserSettingFileName = Path.Combine(Environment.CurrentDirectory, "UserSetting.xml");
+                UserSettingFileName = Path.Combine(System.Environment.CurrentDirectory, "UserSetting.xml");
             }
 
             // 設定読み込み
@@ -206,7 +206,7 @@ namespace NeeView
             {
                 System.Threading.Thread.Sleep(5000);
                 Debug.WriteLine("Environment_Exit");
-                Environment.Exit(0);
+                System.Environment.Exit(0);
             });
 
             Debug.WriteLine("Application_Exit");

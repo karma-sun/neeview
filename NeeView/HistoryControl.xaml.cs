@@ -102,6 +102,9 @@ namespace NeeView
         // 履歴項目決定(キー)
         private void HistoryListItem_KeyDown(object sender, KeyEventArgs e)
         {
+            // 自動非表示時間リセット
+            Messenger.Send(this, new MessageEventArgs("ResetHideDelay") { Parameter = new ResetHideDelayParam() { PanelSide = PanelSide.Left } });
+
             var historyItem = ((sender as ListBoxItem)?.Content as BookMementoUnit).Memento;
 
             if (e.Key == Key.Return)
@@ -114,6 +117,10 @@ namespace NeeView
         // リストのキ入力
         private void HistoryListBox_KeyDown(object sender, KeyEventArgs e)
         {
+            // 自動非表示時間リセット
+            Messenger.Send(this, new MessageEventArgs("ResetHideDelay") { Parameter = new ResetHideDelayParam() { PanelSide = PanelSide.Left } });
+
+
             // このパネルで使用するキーのイベントを止める
             if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return || e.Key == Key.Delete)
             {

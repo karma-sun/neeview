@@ -94,6 +94,7 @@ namespace NeeView
             Messenger.AddReciever("MessageBox", CallMessageBox);
             Messenger.AddReciever("MessageShow", CallMessageShow);
             Messenger.AddReciever("Export", CallExport);
+            Messenger.AddReciever("ResetHideDelay", CallResetPanelHideDelay);
 
             // mouse event capture for active check
             this.MainView.PreviewMouseMove += MainView_PreviewMouseMove;
@@ -175,6 +176,7 @@ namespace NeeView
             _VM.LeftPanelVisibled +=
                 (s, e) =>
                 {
+                    if (e == PanelType.PageList) this.PageList.FocusAtOnce = true;
                     SetLeftPanelVisibisityForced(_IsVisibleLeftPanel && _VM.LeftPanel != PanelType.None, false);
                 };
 
@@ -1510,7 +1512,24 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// パネル非表示のリセット
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CallResetPanelHideDelay(object sender, MessageEventArgs e)
+        {
+            var param = (ResetHideDelayParam)e.Parameter;
 
+            if (param.PanelSide == PanelSide.Left)
+                if (!_IsVisibleLeftPanel) SetLeftPanelVisibisityForced(_IsVisibleLeftPanel, false);
+
+            if (param.PanelSide == PanelSide.Right)
+                if (!_IsVisibleRightPanel) SetRightPanelVisibisityForced(_IsVisibleRightPanel, false);
+        }
+
+
+        //
         private enum VisibleStoryboardType
         {
             Collapsed,
@@ -1861,7 +1880,7 @@ namespace NeeView
             throw new NotImplementedException();
         }
     }
-    
+
 
     // コンバータ：ソートモードフラグ
     [ValueConversion(typeof(PageSortMode), typeof(Visibility))]

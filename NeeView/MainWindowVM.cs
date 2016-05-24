@@ -47,6 +47,13 @@ namespace NeeView
         Light,
     }
 
+    // パネル
+    public enum PanelSide
+    {
+        Left,
+        Right,
+    }
+
     // パネル種類
     public enum PanelType
     {
@@ -55,7 +62,7 @@ namespace NeeView
         FolderList,
         HistoryList,
         BookmarkList,
-        PageList, // 廃止
+        PageList, // 廃止。イベントで使用される
     }
 
     // ウィンドウタイトル更新項目
@@ -111,7 +118,7 @@ namespace NeeView
         public event EventHandler IndexChanged;
 
         //
-        public event EventHandler LeftPanelVisibled;
+        public event EventHandler<PanelType> LeftPanelVisibled;
         public event EventHandler RightPanelVisibled;
 
         #endregion
@@ -360,7 +367,6 @@ namespace NeeView
                         FolderListGridRow2 = "0";
                     }
                     OnPropertyChanged();
-                    LeftPanelVisibled?.Invoke(this, null);
                 }
             }
         }
@@ -369,7 +375,9 @@ namespace NeeView
         //
         public bool ToggleVisiblePageList()
         {
-            IsVisiblePageList = !IsVisiblePageList;
+            IsVisiblePageList = !(IsVisiblePageList && IsVisibleFolderList);
+            IsVisibleFolderList = true;
+            LeftPanelVisibled?.Invoke(this, PanelType.PageList);
             return IsVisiblePageList;
         }
 
@@ -420,7 +428,7 @@ namespace NeeView
                 OnPropertyChanged(nameof(IsVisibleBookmarkList));
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
 
-                LeftPanelVisibled?.Invoke(this, null);
+                LeftPanelVisibled?.Invoke(this, _LeftPanel);
             }
         }
         #endregion
@@ -1533,7 +1541,7 @@ namespace NeeView
             }
         }
 
-#region アプリ設定
+        #region アプリ設定
 
         // アプリ設定作成
         public Setting CreateSetting()
@@ -1671,7 +1679,7 @@ namespace NeeView
             catch { }
         }
 
-#endregion
+        #endregion
 
 
         // 最後に開いたフォルダを開く
@@ -2134,7 +2142,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -2482,7 +2490,7 @@ namespace NeeView
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
         }
 
-#endregion
+        #endregion
 
     }
 }

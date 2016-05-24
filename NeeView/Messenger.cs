@@ -162,4 +162,13 @@ namespace NeeView
             Text = text;
         }
     }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ResetHideDelayParam
+    {
+        public PanelSide PanelSide { get; set; }
+    }
 }

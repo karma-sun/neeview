@@ -149,6 +149,9 @@ namespace NeeView
         // フォルダ移動決定(キー)
         private void FolderListItem_KeyDown(object sender, KeyEventArgs e)
         {
+            // 自動非表示時間リセット
+            Messenger.Send(this, new MessageEventArgs("ResetHideDelay") { Parameter = new ResetHideDelayParam() { PanelSide = PanelSide.Left } });
+
             var folderInfo = (sender as ListBoxItem)?.Content as FolderInfo;
             {
                 if (e.Key == Key.Return)
@@ -178,6 +181,9 @@ namespace NeeView
         // フォルダ移動決定(キー)
         private void FolderList_KeyDown(object sender, KeyEventArgs e)
         {
+            // 自動非表示時間リセット
+            Messenger.Send(this, new MessageEventArgs("ResetHideDelay") { Parameter = new ResetHideDelayParam() { PanelSide = PanelSide.Left } });
+
             if (e.Key == Key.Left || e.Key == Key.Back) // Backspace
             {
                 MovedParent?.Invoke(this, null);

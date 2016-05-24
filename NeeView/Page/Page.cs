@@ -148,7 +148,7 @@ namespace NeeView
         public string SmartDirectoryName => LoosePath.GetDirectoryName(SmartFullPath).Replace('\\', '/');
 
         // サムネイルがバナーであるかのフラグ
-        public bool IsBanner { get; set; }
+        private bool _IsBanner { get; set; }
 
         // サムネイル
         private BitmapSource _Thumbnail;
@@ -172,7 +172,7 @@ namespace NeeView
         {
             if (Thumbnail == null)
             {
-                Thumbnail = Utility.NVGraphics.CreateThumbnail(source, new Size(_ThumbnailSize, IsBanner ? double.NaN : _ThumbnailSize));
+                Thumbnail = Utility.NVGraphics.CreateThumbnail(source, new Size(_ThumbnailSize, _IsBanner ? double.NaN : _ThumbnailSize));
                 ////Thumbnail = Utility.NVGraphics.CreateThumbnailByDrawingVisual(source, new Size(_ThumbnailSize, _ThumbnailSize));
                 ////Thumbnail = Utility.NVDrawing.CreateThumbnail(source, new Size(_ThumbnailSize, _ThumbnailSize));
             }
@@ -291,7 +291,7 @@ namespace NeeView
 
 
         // サムネイルを要求
-        public void OpenThumbnail(QueueElementPriority priority, double size)
+        public void OpenThumbnail(QueueElementPriority priority, double size, bool isBanner)
         {
             // 既にサムネイルが存在する場合、何もしない
             if (_Thumbnail != null) return;
@@ -301,6 +301,7 @@ namespace NeeView
 
             // ジョブ登録
             _ThumbnailSize = size;
+            _IsBanner = isBanner;
             _ThumbnailJobRequest = ModelContext.JobEngine.Add(this, OnExecuteThumbnail, OnCancelThumbnail, priority);
         }
 

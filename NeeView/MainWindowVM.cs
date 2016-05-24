@@ -1261,6 +1261,21 @@ namespace NeeView
         }
         #endregion
 
+        #region Property: BannerSize
+        private double _BannerSize;
+        public double BannerSize
+        {
+            get { return _BannerSize; }
+            set
+            {
+                _BannerSize = value;
+                OnPropertyChanged();
+                PanelContext.ThumbnailManager.ThumbnailSizeX = _BannerSize;
+            }
+        }
+        #endregion
+
+
 
 
         // ページ番号の表示
@@ -2092,7 +2107,7 @@ namespace NeeView
 
             foreach (var page in pages)
             {
-                page.OpenThumbnail(QueueElementPriority.PageThumbnail, ThumbnailSize);
+                page.OpenThumbnail(QueueElementPriority.PageThumbnail, ThumbnailSize, false);
             }
         }
 
@@ -2316,6 +2331,9 @@ namespace NeeView
             [DataMember(Order = 10)]
             public int BannerMemorySize { get; set; }
 
+            [DataMember(Order = 10)]
+            public double BannerSize { get; set; }
+
             //
             void Constructor()
             {
@@ -2347,6 +2365,7 @@ namespace NeeView
                 FolderListGridRow0 = "*";
                 FolderListGridRow2 = "*";
                 BannerMemorySize = 8;
+                BannerSize = 128.0;
             }
 
             public Memento()
@@ -2427,6 +2446,7 @@ namespace NeeView
             memento.IsVisiblePageList = this.IsVisiblePageList;
             memento.FolderListItemStyle = this.FolderListItemStyle;
             memento.BannerMemorySize = this.BannerMemorySize;
+            memento.BannerSize = this.BannerSize;
 
             return memento;
         }
@@ -2485,6 +2505,7 @@ namespace NeeView
             this.IsVisiblePageList = memento.IsVisiblePageList;
             this.FolderListItemStyle = memento.FolderListItemStyle;
             this.BannerMemorySize = memento.BannerMemorySize;
+            this.BannerSize = memento.BannerSize;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

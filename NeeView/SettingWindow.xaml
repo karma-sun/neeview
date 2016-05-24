@@ -20,6 +20,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter"/>
         <local:DragActionTypeToTipsConverter x:Key="DragActionTypeToTipsConverter"/>
+        <local:BannerSizeConverter x:Key="BannerSizeConverter"/>
 
 
         <Style TargetType="StackPanel" x:Key="BaseStackPanel">
@@ -273,13 +274,19 @@
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding FolderListItemStyleList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.FolderListItemStyle}" />
                             </StackPanel>
+                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="フォルダーの表示方法をバナー表示にした時のバナーサイズです">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="バナーサイズ"/>
+                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.BannerSize}"
+                                    Minimum="64" Maximum="512" TickFrequency="32"/>
+                                <TextBlock Text="{Binding Setting.ViewMemento.BannerSize, Converter={StaticResource BannerSizeConverter}}"/>
+                            </StackPanel>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーンのときにパネルを自動的に隠す"
                               IsChecked="{Binding Setting.ViewMemento.IsHidePanelInFullscreen}" />
 
                         </StackPanel>
 
                         <TextBlock Text="フォルダリスト" Style="{StaticResource Header}"/>
-                        
+
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ブックマーク記号を表示する"
                                       ToolTip="ブックマークされているフォルダに★マークを表示します"

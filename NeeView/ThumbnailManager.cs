@@ -29,7 +29,21 @@ namespace NeeView
         // サムネイル有効リスト
         private AliveThumbnailList _AliveThumbnailList = new AliveThumbnailList();
 
-        private double ThumbnailSize = 256;
+        private double _ThumbnailSize = 256.0;
+        public double ThumbnailSizeX
+        {
+            get { return _ThumbnailSize; }
+            set
+            {
+                if (_ThumbnailSize != value)
+                {
+                    _ThumbnailSize = value;
+                    ClearThumbnail();
+                }
+            }
+        }
+
+        public double ThumbnailSizeY => ThumbnailSizeX * 0.25;
 
         public int ThumbnailMemorySize { get; set; } = 8;
 
@@ -61,7 +75,7 @@ namespace NeeView
 
             //Debug.WriteLine($"{start}+{count}");
 
-            if (collection == null || ThumbnailSize < 8.0) return;
+            if (collection == null || ThumbnailSizeX < 8.0) return;
 
             // 未処理の要求を解除
             ModelContext.JobEngine.Clear(QueueElementPriority.FolderThumbnail);
@@ -77,14 +91,14 @@ namespace NeeView
 
             foreach (var page in direction < 0 ? pages.Reverse() : pages)
             {
-                page.GetPage()?.OpenThumbnail(QueueElementPriority.FolderThumbnail, ThumbnailSize);
+                page.GetPage()?.OpenThumbnail(QueueElementPriority.FolderThumbnail, ThumbnailSizeX, true);
             }
         }
 
         // 有効サムネイル数制限
         private void LimitThumbnail()
         {
-            int limit = (ThumbnailMemorySize * 1024 * 1024) / ((int)ThumbnailSize * (int)ThumbnailSize);
+            int limit = (ThumbnailMemorySize * 1024 * 1024) / ((int)ThumbnailSizeX * (int)ThumbnailSizeY);
             _AliveThumbnailList.Limited(limit);
         }
 

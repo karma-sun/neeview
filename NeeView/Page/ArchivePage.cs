@@ -26,7 +26,6 @@ namespace NeeView
         // コンストラクタ
         public ArchivePage(string place) : base(null, null, place)
         {
-            IsBanner = true;
         }
 
         //

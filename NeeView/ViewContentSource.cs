@@ -115,7 +115,11 @@ namespace NeeView
             if (Source is BitmapContent)
             {
                 var brush = new ImageBrush();
-                brush.ImageSource = CreateEffectedBitmap(((BitmapContent)Source).Source, SourceSize, effect);
+
+                // コンテンツでのエフェクトはひとまず無効
+                //brush.ImageSource = CreateEffectedBitmap(((BitmapContent)Source).Source, SourceSize, effect);
+                brush.ImageSource = ((BitmapContent)Source).Source;
+
                 brush.AlignmentX = AlignmentX.Left;
                 brush.AlignmentY = AlignmentY.Top;
                 brush.Stretch = Stretch.Fill;

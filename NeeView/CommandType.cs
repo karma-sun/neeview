@@ -132,6 +132,7 @@ namespace NeeView
 
         //SetEffectNone,
         //SetEffectGrayscale,
+        ToggleEffectGrayscale,
 
         HelpOnline,
         HelpCommandList,

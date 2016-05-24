@@ -1036,6 +1036,19 @@ namespace NeeView
                 },
 #endif
 
+                [CommandType.ToggleEffectGrayscale] = new CommandElement
+                {
+                    Group = "エフェクト",
+                    Text = "グレイスケールON/OFF",
+                    MenuText = "グレイスケール",
+                    Note = "グレイスケールエフェクトの有効/無効を切り替えます",
+                    Execute = e => _VM.ShaderEffectType = (_VM.ShaderEffectType != ShaderEffectType.Grayscale) ? ShaderEffectType.Grayscale : ShaderEffectType.None,
+                    ExecuteMessage = e => _VM.ShaderEffectType == ShaderEffectType.Grayscale ? "グレイスケール解除" : "グレイスケール",
+                    CanExecute = () => true,
+                    IsShowMessage = false,
+                    CreateIsCheckedBinding = () => BindingGenerator.ShaderEffectType(ShaderEffectType.Grayscale),
+                },
+
                 [CommandType.ToggleIsReverseSort] = new CommandElement // 欠番
                 {
                     Group = "dummy",

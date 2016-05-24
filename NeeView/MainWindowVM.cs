@@ -1292,7 +1292,7 @@ namespace NeeView
         public Visibility ThumbnailNumberVisibility => IsVisibleThumbnailNumber ? Visibility.Visible : Visibility.Collapsed;
 
         // サムネイル項目の高さ
-        public double ThumbnailItemHeight => ThumbnailSize + (IsVisibleThumbnailNumber ? 16 : 0) + 20;
+        public double ThumbnailItemHeight => ThumbnailSize + (IsVisibleThumbnailNumber ? 16 : 0) + 16;
 
         // サムネイル台紙の表示
         #region Property: IsVisibleThumbnailPlate
@@ -1795,6 +1795,8 @@ namespace NeeView
         // エフェクトの変更
         public void UpdateViewContentEffect()
         {
+            // コンテンツでのエフェクトはひとまず無効
+#if false
             foreach (var content in Contents)
             {
                 if (content.Content != null && content.Bitmap != null)
@@ -1806,6 +1808,7 @@ namespace NeeView
                     }
                 }
             }
+#endif
         }
 
 
@@ -2334,6 +2337,9 @@ namespace NeeView
             [DataMember(Order = 10)]
             public double BannerSize { get; set; }
 
+            [DataMember(Order = 10)]
+            public ShaderEffectType ShaderEffectType { get; set; }
+
             //
             void Constructor()
             {
@@ -2447,6 +2453,7 @@ namespace NeeView
             memento.FolderListItemStyle = this.FolderListItemStyle;
             memento.BannerMemorySize = this.BannerMemorySize;
             memento.BannerSize = this.BannerSize;
+            memento.ShaderEffectType = this.ShaderEffectType;
 
             return memento;
         }
@@ -2506,6 +2513,7 @@ namespace NeeView
             this.FolderListItemStyle = memento.FolderListItemStyle;
             this.BannerMemorySize = memento.BannerMemorySize;
             this.BannerSize = memento.BannerSize;
+            this.ShaderEffectType = memento.ShaderEffectType;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

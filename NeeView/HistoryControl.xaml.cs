@@ -221,8 +221,8 @@ namespace NeeView
 
         public double PicturePanelHeight => ThumbnailHeight + 24.0;
 
-        public double ThumbnailWidth => Math.Floor(256.0 / ModelContext.Environment.DpiScaleFactor.X);
-        public double ThumbnailHeight => Math.Floor(64.0 / ModelContext.Environment.DpiScaleFactor.Y);
+        public double ThumbnailWidth => Math.Floor(256.0 / ModelContext.Config.DpiScaleFactor.X);
+        public double ThumbnailHeight => Math.Floor(64.0 / ModelContext.Config.DpiScaleFactor.Y);
 
 
         private bool _IsDarty;

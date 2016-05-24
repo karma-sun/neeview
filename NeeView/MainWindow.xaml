@@ -267,7 +267,7 @@
                             -->
 
                             <!-- メインビュー コンテンツ表示領域 -->
-                            <Grid x:Name="MainView" Background="{Binding BackgroundBrush}" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True">
+                            <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True">
                                 <!-- Pages -->
                                 <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                                         HorizontalAlignment="Center" VerticalAlignment="Center">

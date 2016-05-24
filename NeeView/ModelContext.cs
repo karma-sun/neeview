@@ -18,32 +18,11 @@ using System.Windows.Input;
 namespace NeeView
 {
     /// <summary>
-    /// アプリ全体の設定
-    /// </summary>
-    public class Environment
-    {
-        // DPI倍率
-        public Point DpiScaleFactor { get; private set; } = new Point(1, 1);
-
-        // DPIのXY比率が等しい？
-        public bool IsDpiSquare { get; private set; } = false;
-
-        // DPI設定
-        public void UpdateDpiScaleFactor(System.Windows.Media.Visual visual)
-        {
-            var dpiScaleFactor = DragExtensions.WPFUtil.GetDpiScaleFactor(visual);
-            DpiScaleFactor = dpiScaleFactor;
-            IsDpiSquare = DpiScaleFactor.X == DpiScaleFactor.Y;
-        }
-    }
-
-
-    /// <summary>
     /// Model 共通コンテキスト (static)
     /// </summary>
     public static class ModelContext
     {
-        public static Environment Environment { get; set; }
+        public static Config Config { get; set; }
 
         public static JobEngine JobEngine { get; set; }
 
@@ -65,9 +44,6 @@ namespace NeeView
 
         public static Recycle Recycle { get; set; }
 
-
-
-
         //
         public static bool IsAutoGC { get; set; } = true;
 
@@ -80,24 +56,14 @@ namespace NeeView
         // 初期化
         public static void Initialize()
         {
-            Environment = new Environment();
+            Config = new Config();
 
             // Jobワーカーサイズ
             JobEngine = new JobEngine();
-            int jobWorkerSize;
-            if (!int.TryParse(ConfigurationManager.AppSettings.Get("ThreadSize"), out jobWorkerSize))
-            {
-                jobWorkerSize = 2; // 標準サイズ
-            }
-            JobEngine.Start(jobWorkerSize);
+            JobEngine.Start(Config.ThreadSize.ToInt());
 
             // ワイドページ判定用比率
-            double wideRatio;
-            if (!double.TryParse(ConfigurationManager.AppSettings.Get("WideRatio"), out wideRatio))
-            {
-                wideRatio = 1.0;
-            }
-            Page.WideRatio = wideRatio;
+            Page.WideRatio = Config.WideRatio.ToDouble();
 
             //
             BookMementoCollection = new BookMementoCollection();
@@ -114,9 +80,8 @@ namespace NeeView
 
             Recycle = new Recycle();
 
-
             // SevenZip対応拡張子設定
-            ArchiverManager.UpdateSevenZipSupprtedFileTypes(ConfigurationManager.AppSettings.Get("SevenZipSupportFileType"));
+            ArchiverManager.UpdateSevenZipSupprtedFileTypes(Config.SevenZipSupportFileType.ToString());
         }
 
 

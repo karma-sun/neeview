@@ -1307,10 +1307,10 @@ namespace NeeView
         #endregion
 
         // DPI倍率
-        private Point _DpiScaleFactor => ModelContext.Environment.DpiScaleFactor;
+        private Point _DpiScaleFactor => ModelContext.Config.DpiScaleFactor;
 
         // DPIのXY比率が等しい？
-        private bool _IsDpiSquare => ModelContext.Environment.IsDpiSquare;
+        private bool _IsDpiSquare => ModelContext.Config.IsDpiSquare;
 
 
         // ダウンロード画像の保存場所
@@ -1330,7 +1330,7 @@ namespace NeeView
             InitializeWindowIcons();
 
             // ModelContext
-            ModelContext.Initialize();
+            //ModelContext.Initialize();
             ModelContext.JobEngine.StatusChanged +=
                 (s, e) => OnPropertyChanged(nameof(JobEngine));
 

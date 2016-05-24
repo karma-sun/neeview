@@ -52,72 +52,16 @@ namespace NeeView
         {
             InitializeComponent();
 
-            InitializeVisualTree();
-
-
 #if DEBUG
 #else
             this.MenuItemDev.Visibility = Visibility.Collapsed;
 #endif
 
-
             // ViewModel
             _VM = new MainWindowVM();
-
-#if false
-            _VM.ViewChanged +=
-                (s, e) =>
-                {
-                    UpdateMouseDragSetting(e.PageDirection);
-                    bool isResetScale = e.ResetViewTransform || !_VM.IsKeepScale;
-                    bool isResetAngle = e.ResetViewTransform || !_VM.IsKeepAngle;
-                    bool isResetFlip = e.ResetViewTransform || !_VM.IsKeepFlip;
-                    _MouseDrag.Reset(isResetScale, isResetAngle, isResetFlip);
-                };
-
-            _VM.InputGestureChanged +=
-                (s, e) => InitializeInputGestures();
-
-            _VM.PropertyChanged +=
-                OnPropertyChanged;
-
-            _VM.Loading +=
-                (s, e) =>
-                {
-                    _NowLoading = e != null;
-                    DispNowLoading(_NowLoading);
-                };
-
-            _VM.NotifyMenuVisibilityChanged +=
-                (s, e) => OnMenuVisibilityChanged();
-
-            _VM.ContextMenuEnableChanged +=
-                (s, e) =>
-                {
-                    _MouseGesture.Controller.ContextMenuSetting = _VM.ContextMenuSetting;
-                };
-
-            _VM.PageListChanged +=
-                OnPageListChanged;
-
-            _VM.IndexChanged +=
-                OnIndexChanged;
-
-            _VM.LeftPanelVisibled +=
-                (s, e) =>
-                {
-                    DispLeftPanel(_VM.IsVisibleLeftPanel, true);
-                };
-
-            _VM.RightPanelVisibled +=
-                (s, e) =>
-                {
-                    DispRightPanel(_VM.IsVisibleRightPanel, true);
-                };
-#endif
-
             this.DataContext = _VM;
 
+            InitializeVisualTree();
 
             // mouse drag
             _MouseDrag = new MouseDragController(this, this.MainView, this.MainContent, this.MainContentShadow);
@@ -811,7 +755,7 @@ namespace NeeView
             _VM.FlushPanelColor();
 
             // DPI倍率設定
-            ModelContext.Environment.UpdateDpiScaleFactor(this);
+            ModelContext.Config.UpdateDpiScaleFactor(this);
 
             // オプションによるフルスクリーン指定
             if (App.Options["--fullscreen"].IsValid)
@@ -1594,14 +1538,12 @@ namespace NeeView
         private Storyboard _OpacityZeroStoryboard;
         private Storyboard _OpacityZeroDelayStoryboard;
 
-
-
-
         //
         private void InitializeStoryboard()
         {
             if (_VisibleStoryboard != null) return;
 
+            double time = ModelContext.Config.PanelHideDelayTime.ToDouble();
             ObjectAnimationUsingKeyFrames ani;
 
             ani = new ObjectAnimationUsingKeyFrames();
@@ -1620,7 +1562,7 @@ namespace NeeView
 
             ani = new ObjectAnimationUsingKeyFrames();
             ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, TimeSpan.FromSeconds(0.0)));
-            ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Collapsed, TimeSpan.FromSeconds(1.0)));
+            ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Collapsed, TimeSpan.FromSeconds(time)));
             Storyboard.SetTargetProperty(ani, new PropertyPath(UIElement.VisibilityProperty));
             _CollapseDelayStoryboard = new Storyboard();
             _CollapseDelayStoryboard.Children.Add(ani);
@@ -1635,7 +1577,7 @@ namespace NeeView
 
             ani = new ObjectAnimationUsingKeyFrames();
             ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, TimeSpan.FromSeconds(0.0)));
-            ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, TimeSpan.FromSeconds(1.0)));
+            ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, TimeSpan.FromSeconds(time)));
             Storyboard.SetTargetProperty(ani, new PropertyPath(UIElement.VisibilityProperty));
             _HideDelayStoryboard = new Storyboard();
             _HideDelayStoryboard.Children.Add(ani);
@@ -1657,7 +1599,7 @@ namespace NeeView
 
             an = new DoubleAnimationUsingKeyFrames();
             an.KeyFrames.Add(new DiscreteDoubleKeyFrame(1.0, TimeSpan.FromSeconds(0.0)));
-            an.KeyFrames.Add(new DiscreteDoubleKeyFrame(0.0, TimeSpan.FromSeconds(1.0)));
+            an.KeyFrames.Add(new DiscreteDoubleKeyFrame(0.0, TimeSpan.FromSeconds(time)));
             Storyboard.SetTargetProperty(an, new PropertyPath(UIElement.OpacityProperty));
             _OpacityZeroDelayStoryboard = new Storyboard();
             _OpacityZeroDelayStoryboard.Children.Add(an);
@@ -2038,7 +1980,7 @@ namespace NeeView
             else
                 length = double.Parse((string)value);
 
-            return length / ModelContext.Environment.DpiScaleFactor.X;
+            return length / ModelContext.Config.DpiScaleFactor.X;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -2062,7 +2004,7 @@ namespace NeeView
             else
                 length = double.Parse((string)value);
 
-            return length / ModelContext.Environment.DpiScaleFactor.Y;
+            return length / ModelContext.Config.DpiScaleFactor.Y;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

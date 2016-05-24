@@ -159,6 +159,9 @@ namespace NeeView
             // IPCサーバ起動
             IpcRemote.BootServer(currentProcess.Id);
 
+            // アプリ共通資源初期化
+            ModelContext.Initialize();
+
             // メインウィンドウ起動
             var mainWindow = new MainWindow();
             mainWindow.Show();

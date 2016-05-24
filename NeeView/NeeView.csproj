@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="BookMementoCollection.cs" />
     <Compile Include="CommandTable.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="ContextMenuSetting.cs" />
     <Compile Include="ContextMenuSettingWindow.xaml.cs">
       <DependentUpon>ContextMenuSettingWindow.xaml</DependentUpon>

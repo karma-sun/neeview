@@ -74,8 +74,8 @@ namespace NeeView
 
         private void InitializeGestureMinimumDistance()
         {
-            double.TryParse(ConfigurationManager.AppSettings.Get("GestureMinimumDistanceX"), out GestureMinimumDistanceX);
-            double.TryParse(ConfigurationManager.AppSettings.Get("GestureMinimumDistanceY"), out GestureMinimumDistanceY);
+            GestureMinimumDistanceX = ModelContext.Config.GestureMinimumDistanceX.ToDouble();
+            GestureMinimumDistanceY = ModelContext.Config.GestureMinimumDistanceY.ToDouble();
 
             if (GestureMinimumDistanceX < SystemParameters.MinimumHorizontalDragDistance)
                 GestureMinimumDistanceX = SystemParameters.MinimumHorizontalDragDistance;

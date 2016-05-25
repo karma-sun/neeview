@@ -148,6 +148,12 @@ namespace NeeView
         // NowLoading表示スタイル
         public ShowMessageStyle NowLoadingShowMessageStyle { get; set; }
 
+        // View変換情報表示スタイル
+        public ShowMessageStyle ViewTransformShowMessageStyle { get; set; }
+
+        // View変換情報表示のスケール表示をオリジナルサイズ基準にする
+        public bool IsOriginalScaleShowMessage { get; set; }
+
         // スライダー方向
         #region Property: IsSliderDirectionReversed
         private bool _IsSliderDirectionReversed;
@@ -1385,18 +1391,7 @@ namespace NeeView
             BookHub.InfoMessage +=
                 (s, e) =>
                 {
-                    switch (NoticeShowMessageStyle)
-                    {
-                        case ShowMessageStyle.Normal:
-                            Messenger.Send(this, new MessageEventArgs("MessageShow")
-                            {
-                                Parameter = new MessageShowParams(e)
-                            });
-                            break;
-                        case ShowMessageStyle.Tiny:
-                            TinyInfoText = e;
-                            break;
-                    }
+                    DispMessage(NoticeShowMessageStyle, e);
                 };
 
             BookHub.SlideShowModeChanged +=
@@ -1474,24 +1469,7 @@ namespace NeeView
         {
             var title = LoosePath.GetFileName(BookHub.Address);
 
-            switch (NoticeShowMessageStyle)
-            {
-                case ShowMessageStyle.Normal:
-                    App.Current.Dispatcher.Invoke(() =>
-                    Messenger.Send(this, new MessageEventArgs("MessageShow")
-                    {
-                        Parameter = new MessageShowParams(title)
-                        {
-                            BookmarkType = bookmarkType,
-                            DispTime = 2.0
-                        }
-                    }));
-
-                    break;
-                case ShowMessageStyle.Tiny:
-                    TinyInfoText = title;
-                    break;
-            }
+            App.Current.Dispatcher.Invoke(() => DispMessage(NoticeShowMessageStyle, title, null, 2.0, bookmarkType));
 
             ClearThumbnail();
             UpdatePageList();
@@ -1867,13 +1845,42 @@ namespace NeeView
         // ビュースケール
         private double _ViewScale;
 
+        // ビュー反転
+        private bool _IsViewFlipHorizontal;
+        private bool _IsViewFlipVertical;
+
         // ビュー変換を更新
-        public void SetViewTransform(double scale, double angle)
+        public void SetViewTransform(double scale, double angle, bool isFlipHorizontal, bool isFlipVertical, TransformActionType actionType)
         {
             _ViewAngle = angle;
             _ViewScale = scale;
+            _IsViewFlipHorizontal = isFlipHorizontal;
+            _IsViewFlipVertical = isFlipVertical;
 
             UpdateContentScalingMode();
+
+            // メッセージとして状態表示
+            if (ViewTransformShowMessageStyle != ShowMessageStyle.None)
+            {
+                switch (actionType)
+                {
+                    case TransformActionType.Scale:
+                        string scaleText = IsOriginalScaleShowMessage && MainContent.IsValid
+                            ? $"{(int)(_ViewScale * MainContent.Scale * _DpiScaleFactor.X * 100 + 0.1)}%"
+                            : $"{(int)(_ViewScale * 100.0 + 0.1)}%";
+                        DispMessage(ViewTransformShowMessageStyle, scaleText);
+                        break;
+                    case TransformActionType.Angle:
+                        DispMessage(ViewTransformShowMessageStyle, $"{(int)(angle)}°");
+                        break;
+                    case TransformActionType.FlipHorizontal:
+                        DispMessage(ViewTransformShowMessageStyle, "左右反転 " + (_IsViewFlipHorizontal ? "ON" : "OFF"));
+                        break;
+                    case TransformActionType.FlipVertical:
+                        DispMessage(ViewTransformShowMessageStyle, "上下反転 " + (_IsViewFlipVertical ? "ON" : "OFF"));
+                        break;
+                }
+            }
         }
 
         // コンテンツスケーリングモードを更新
@@ -2009,6 +2016,31 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// メッセージ表示
+        /// </summary>
+        /// <param name="style">メッセージスタイル</param>
+        /// <param name="message">メッセージ</param>
+        public void DispMessage(ShowMessageStyle style, string message, string messageTiny = null, double dispTime = MessageShowParams.DefaultDispTime, BookMementoType bookmarkType = BookMementoType.None)
+        {
+            switch (style)
+            {
+                case ShowMessageStyle.Normal:
+                    Messenger.Send(this, new MessageEventArgs("MessageShow")
+                    {
+                        Parameter = new MessageShowParams(message)
+                        {
+                            BookmarkType = bookmarkType,
+                            DispTime = dispTime
+                        }
+                    });
+                    break;
+                case ShowMessageStyle.Tiny:
+                    TinyInfoText = messageTiny ?? message;
+                    break;
+            }
+        }
+
 
         // コマンド実行 
         public void Execute(CommandType type, object param)
@@ -2042,18 +2074,10 @@ namespace NeeView
         {
             if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
 
-            switch (GestureShowMessageStyle)
-            {
-                case ShowMessageStyle.Normal:
-                    Messenger.Send(this, new MessageEventArgs("MessageShow")
-                    {
-                        Parameter = new MessageShowParams(((commandName != null) ? commandName + "\n" : "") + gesture)
-                    });
-                    break;
-                case ShowMessageStyle.Tiny:
-                    TinyInfoText = gesture + ((commandName != null) ? " " + commandName : "");
-                    break;
-            }
+            DispMessage(
+                GestureShowMessageStyle,
+                ((commandName != null) ? commandName + "\n" : "") + gesture,
+                gesture + ((commandName != null) ? " " + commandName : ""));
         }
 
 
@@ -2340,6 +2364,12 @@ namespace NeeView
             [DataMember(Order = 10)]
             public ShaderEffectType ShaderEffectType { get; set; }
 
+            [DataMember(Order = 10)]
+            public ShowMessageStyle ViewTransformShowMessageStyle { get; set; }
+
+            [DataMember(Order = 10)]
+            public bool IsOriginalScaleShowMessage { get; set; }
+
             //
             void Constructor()
             {
@@ -2349,6 +2379,7 @@ namespace NeeView
                 CommandShowMessageStyle = ShowMessageStyle.Normal;
                 GestureShowMessageStyle = ShowMessageStyle.Normal;
                 NowLoadingShowMessageStyle = ShowMessageStyle.Normal;
+                ViewTransformShowMessageStyle = ShowMessageStyle.None;
                 StretchMode = PageStretchMode.Uniform;
                 Background = BackgroundStyle.Black;
                 FileInfoSetting = new FileInfoSetting();
@@ -2371,7 +2402,7 @@ namespace NeeView
                 FolderListGridRow0 = "*";
                 FolderListGridRow2 = "*";
                 BannerMemorySize = 8;
-                BannerSize = 128.0;
+                BannerSize = 256.0;
             }
 
             public Memento()
@@ -2412,6 +2443,7 @@ namespace NeeView
             memento.CommandShowMessageStyle = this.CommandShowMessageStyle;
             memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
             memento.NowLoadingShowMessageStyle = this.NowLoadingShowMessageStyle;
+            memento.ViewTransformShowMessageStyle = this.ViewTransformShowMessageStyle;
             memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
             memento.IsKeepScale = this.IsKeepScale;
             memento.IsKeepAngle = this.IsKeepAngle;
@@ -2454,6 +2486,7 @@ namespace NeeView
             memento.BannerMemorySize = this.BannerMemorySize;
             memento.BannerSize = this.BannerSize;
             memento.ShaderEffectType = this.ShaderEffectType;
+            memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
 
             return memento;
         }
@@ -2472,6 +2505,7 @@ namespace NeeView
             this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
             this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
             this.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
+            this.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
             this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
             this.IsKeepScale = memento.IsKeepScale;
             this.IsKeepAngle = memento.IsKeepAngle;
@@ -2514,6 +2548,7 @@ namespace NeeView
             this.BannerMemorySize = memento.BannerMemorySize;
             this.BannerSize = memento.BannerSize;
             this.ShaderEffectType = memento.ShaderEffectType;
+            this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

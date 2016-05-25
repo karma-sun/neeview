@@ -34,7 +34,32 @@ namespace NeeView
         Angle,
         Scale,
     };
-    
+
+
+    // 値変化の原因
+    public enum TransformActionType
+    {
+        None,
+        Reset,
+        Angle,
+        Scale,
+        FlipHorizontal,
+        FlipVertical,
+    }
+
+    // 変化通知イベントの引数
+    public class TransformChangedParam
+    {
+        public TransformChangeType ChangeType { get; set; }
+        public TransformActionType ActionType { get; set; }
+
+        public TransformChangedParam(TransformChangeType changeType, TransformActionType actionType)
+        {
+            ChangeType = changeType;
+            ActionType = actionType;
+        }
+    }
+
 
     /// <summary>
     /// マウスドラッグ管理
@@ -63,6 +88,10 @@ namespace NeeView
 
         // コンテンツの平行移動行列。アニメーション用。
         private TranslateTransform _TranslateTransform;
+
+        // 変化要因
+        private TransformActionType _ActionType;
+
 
         // コンテンツの座標 (アニメーション対応)
         #region Property: Position
@@ -121,7 +150,7 @@ namespace NeeView
             {
                 _Angle = value;
                 OnPropertyChanged();
-                TransformChanged?.Invoke(this, TransformChangeType.Angle);
+                TransformChanged?.Invoke(this, new TransformChangedParam(TransformChangeType.Angle, _ActionType));
             }
         }
         #endregion
@@ -138,7 +167,7 @@ namespace NeeView
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(ScaleX));
                 OnPropertyChanged(nameof(ScaleY));
-                TransformChanged?.Invoke(this, TransformChangeType.Scale);
+                TransformChanged?.Invoke(this, new TransformChangedParam(TransformChangeType.Scale, _ActionType));
             }
         }
         #endregion
@@ -257,7 +286,7 @@ namespace NeeView
         public event EventHandler<MouseButtonEventArgs> MouseClickEventHandler;
 
         // 角度、スケール変更イベント
-        public event EventHandler<TransformChangeType> TransformChanged;
+        public event EventHandler<TransformChangedParam> TransformChanged;
 
 
         bool _IsEnableClickEvent;
@@ -335,9 +364,11 @@ namespace NeeView
         // コンテンツ切り替わり時等
         public void Reset(bool isResetScale, bool isResetAngle, bool isResetFlip)
         {
+            _ActionType = TransformActionType.Reset;
+
             _LockMoveX = IsLimitMove;
             _LockMoveY = IsLimitMove;
-
+            
             if (isResetAngle)
             {
                 Angle = 0;
@@ -819,6 +850,7 @@ namespace NeeView
                 angle = Math.Floor((angle + SnapAngle * 0.5) / SnapAngle) * SnapAngle;
             }
 
+            _ActionType = TransformActionType.Angle;
             Angle = angle;
 
             if (DragControlCenter == DragControlCenter.View)
@@ -877,6 +909,7 @@ namespace NeeView
                 scale = Math.Floor((scale + SnapScale * 0.5) / SnapScale) * SnapScale;
             }
 
+            _ActionType = TransformActionType.Scale;
             Scale = scale;
 
             if (DragControlCenter == DragControlCenter.View)
@@ -910,6 +943,8 @@ namespace NeeView
             if (IsFlipHorizontal != isFlip)
             {
                 IsFlipHorizontal = isFlip;
+
+                _ActionType = TransformActionType.FlipHorizontal;
 
                 // 角度を反転
                 Angle = -NormalizeLoopRange(Angle, -180, 180);
@@ -946,6 +981,8 @@ namespace NeeView
             if (IsFlipVertical != isFlip)
             {
                 IsFlipVertical = isFlip;
+
+                _ActionType = TransformActionType.FlipVertical;
 
                 // 角度を反転
                 Angle = 90 - NormalizeLoopRange(Angle + 90, -180, 180);

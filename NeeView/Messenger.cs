@@ -153,9 +153,11 @@ namespace NeeView
     /// </summary>
     public class MessageShowParams
     {
+        public const double DefaultDispTime = 1.0;
+
         public string Text;
         public BookMementoType BookmarkType;
-        public double DispTime = 1.0;
+        public double DispTime = DefaultDispTime;
 
         public MessageShowParams(string text)
         {

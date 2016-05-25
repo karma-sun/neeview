@@ -68,8 +68,8 @@ namespace NeeView
             _MouseDrag.TransformChanged +=
                 (s, e) =>
                 {
-                    _VM.SetViewTransform(_MouseDrag.Scale, _MouseDrag.Angle);
-                    if (e == TransformChangeType.Scale)
+                    _VM.SetViewTransform(_MouseDrag.Scale, _MouseDrag.Angle, _MouseDrag.IsFlipHorizontal, _MouseDrag.IsFlipVertical, e.ActionType);
+                    if (e.ChangeType == TransformChangeType.Scale)
                     {
                         _VM.UpdateWindowTitle(UpdateWindowTitleMask.View);
                     }

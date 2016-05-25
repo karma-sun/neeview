@@ -194,11 +194,21 @@
                                   SelectedValue="{Binding Setting.ViewMemento.GestureShowMessageStyle}" />
                             </StackPanel>
 
-                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip=" Now Loading の表示方法を指定します">
+                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="Now Loading の表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="Now Loading を"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.NowLoadingShowMessageStyle}" />
                             </StackPanel>
+
+                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="ドラッグ操作によるスケール変更等の情報表示方法を指定します">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="ビュー操作を"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.ViewMemento.ViewTransformShowMessageStyle}" />
+                            </StackPanel>
+
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ビュー操作のスケール表示をオリジナルサイズ基準にする"
+                                      ToolTip="スケール表示を元画像サイズに対する表示倍率にします&#xa;２ページ表示の場合は若い番号のページを基準にします"
+                                      IsChecked="{Binding Setting.ViewMemento.IsOriginalScaleShowMessage}"/>
 
                         </StackPanel>
 

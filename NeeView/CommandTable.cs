@@ -502,7 +502,7 @@ namespace NeeView
                     ExecuteMessage = e => _VM.IsVisiblePageList ? "ページリストを消す" : "ページリストを表示する",
                     Execute = e => _VM.ToggleVisiblePageList(),
                     CanExecute = () => true,
-                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisiblePageList)),
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisiblePageListMenu), System.Windows.Data.BindingMode.OneWay),
                 },
 
                 [CommandType.ToggleVisibleThumbnailList] = new CommandElement

@@ -373,15 +373,19 @@ namespace NeeView
                         FolderListGridRow2 = "0";
                     }
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(IsVisiblePageListMenu));
                 }
             }
         }
         #endregion
 
         //
+        public bool IsVisiblePageListMenu => IsVisiblePageList && IsVisibleFolderList;
+
+        //
         public bool ToggleVisiblePageList()
         {
-            IsVisiblePageList = !(IsVisiblePageList && IsVisibleFolderList);
+            IsVisiblePageList = !IsVisiblePageListMenu;
             IsVisibleFolderList = true;
             LeftPanelVisibled?.Invoke(this, PanelType.PageList);
             return IsVisiblePageList;
@@ -432,6 +436,7 @@ namespace NeeView
                 OnPropertyChanged(nameof(IsVisibleFolderList));
                 OnPropertyChanged(nameof(IsVisibleHistoryList));
                 OnPropertyChanged(nameof(IsVisibleBookmarkList));
+                OnPropertyChanged(nameof(IsVisiblePageListMenu));
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
 
                 LeftPanelVisibled?.Invoke(this, _LeftPanel);

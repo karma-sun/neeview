@@ -31,6 +31,12 @@ namespace NeeView
         }
 
         //
+        public static Binding Binding(string path, BindingMode mode)
+        {
+            return new Binding(path) { Mode = mode };
+        }
+
+        //
         public static Binding BindingBookHub(string path)
         {
             return new Binding("BookHub." + path);

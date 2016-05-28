@@ -670,12 +670,7 @@ namespace NeeView
             this.AddressBar.Visibility = _VM.IsVisibleAddressBar ? Visibility.Visible : Visibility.Collapsed;
 
             // サムネイルリスト
-            //this.ThumbnailListArea.Visibility = _VM.IsEnableThumbnailList ? Visibility.Visible : Visibility.Collapsed;
             SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList, true);
-            if (this._ThumbnailListPanel != null)
-            {
-                this._ThumbnailListPanel.FlowDirection = _VM.IsSliderDirectionReversed ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
-            }
 
             DartyThumbnailList();
             UpdateStateAreaVisibility();
@@ -2032,6 +2027,30 @@ namespace NeeView
         }
     }
 
+    // コンバータ：サムネイル方向
+    [ValueConversion(typeof(bool), typeof(FlowDirection))]
+    public class SliderDirectionToFlowDirectionConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            bool isReverse = false; ;
+            if (value is bool)
+            {
+                isReverse = (bool)value;
+            }
+            else if (value is string)
+            {
+                bool.TryParse((string)value, out isReverse);
+            }
+                
+            return isReverse ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
     #endregion
 }

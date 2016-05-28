@@ -102,6 +102,8 @@
         <local:DpiScaleXInverseConverter x:Key="DpiScaleXInverseConverter"/>
         <local:DpiScaleYInverseConverter x:Key="DpiScaleYInverseConverter"/>
 
+        <local:SliderDirectionToFlowDirectionConverter x:Key="SliderDirectionToFlowDirectionConverter"/>
+
 
 
         <!-- MenuItem History -->
@@ -634,7 +636,8 @@
                                 <Setter Property="ItemsPanel">
                                     <Setter.Value>
                                         <ItemsPanelTemplate>
-                                            <VirtualizingStackPanel Orientation="Horizontal" CanHorizontallyScroll="True" CanVerticallyScroll="False" FlowDirection="RightToLeft" Margin="2,0"
+                                            <VirtualizingStackPanel Orientation="Horizontal" CanHorizontallyScroll="True" CanVerticallyScroll="False" Margin="2,0"
+                                                                    FlowDirection="{Binding IsSliderDirectionReversed, Converter={StaticResource SliderDirectionToFlowDirectionConverter}}"
                                                                     Loaded="ThumbnailListBoxPanel_Loaded"
                                                                     KeyDown="ThumbnailListBoxPanel_KeyDown"/>
                                         </ItemsPanelTemplate>

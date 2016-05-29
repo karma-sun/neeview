@@ -13,7 +13,7 @@ DLL: SevenZipSharp.dll (custom)
 
 * URL: [SevenZipSharp - Home](https://sevenzipsharp.codeplex.com/)
 * License: [GNU LGPL](https://sevenzipsharp.codeplex.com/license)
-* Custom: RAR5 Support [GitHub](https://github.com/neelabo/SevenZipSharp)
+* Custom: RAR5 Support [\[Project Page\]](https://github.com/neelabo/SevenZipSharp)
 
 ### Material design icons
 

@@ -12,7 +12,15 @@ function Get-FileVersion($fileName)
 {
 	$major = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($fileName).FileMajorPart
 	$minor = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($fileName).FileMinorPart
-	"$major.$minor"
+	$build = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($fileName).FileBuildPart
+	if ($build -eq 0)
+	{
+		"$major.$minor"
+	}
+	else
+	{
+		"$major.$minor.$build"
+	}	
 }
 
 

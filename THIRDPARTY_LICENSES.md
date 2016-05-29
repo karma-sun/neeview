@@ -9,11 +9,11 @@ DLL: 7z.dll
 
 ### SevenZipSharp
 
-DLL: SevenZipSharp.dll
+DLL: SevenZipSharp.dll (custom)
 
 * URL: [SevenZipSharp - Home](https://sevenzipsharp.codeplex.com/)
 * License: [GNU LGPL](https://sevenzipsharp.codeplex.com/license)
-
+* Custom: RAR5 Support [GitHub](https://github.com/neelabo/SevenZipSharp)
 
 ### Material design icons
 

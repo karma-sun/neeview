@@ -276,7 +276,11 @@ namespace NeeView
         {
             if (isVisible)
             {
-                if (this.MainView.Cursor == Cursors.None)
+                if (_VM.LoupeIsVisibled)
+                {
+                    this.MainView.Cursor = Cursors.None;
+                }
+                else if (this.MainView.Cursor == Cursors.None)
                 {
                     this.MainView.Cursor = null;
                 }

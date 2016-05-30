@@ -91,6 +91,9 @@
       <DependentUpon>ContextMenuSettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Effects\GrayscaleEffect.cs" />
+    <Compile Include="Loupe.xaml.cs">
+      <DependentUpon>Loupe.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PageListControl.xaml.cs">
       <DependentUpon>PageListControl.xaml</DependentUpon>
     </Compile>
@@ -242,6 +245,10 @@
     <Page Include="FileInfoItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Loupe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="PageListControl.xaml">
       <SubType>Designer</SubType>

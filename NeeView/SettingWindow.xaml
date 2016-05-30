@@ -320,6 +320,27 @@
                               IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsVisibleLoader}" />
                         </StackPanel>
 
+
+                        <TextBlock Text="ルーペ" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="ルーペサイズ"/>
+                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.LoupeSize}"
+                                    Minimum="64" Maximum="512" TickFrequency="64"/>
+                                <TextBlock Text="{Binding Setting.ViewMemento.LoupeSize, StringFormat={}{0}x{0}}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <TextBlock Text="2ページ表示" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="ページとページの隙間の長さを設定します&#xa;マイナス値は重なることを意味します&#xa;各ページにスケールがかかるため、0でちょうど隙間がなくなることは稀です">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="2ページ間の距離"/>
+                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.ContentsSpace}"
+                                    Minimum="-32" Maximum="32" TickFrequency="1"/>
+                                <TextBlock Text="{Binding Setting.ViewMemento.ContentsSpace, StringFormat={}{0}}"/>
+                            </StackPanel>
+                        </StackPanel>
+
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

@@ -1049,6 +1049,42 @@ namespace NeeView
                     CreateIsCheckedBinding = () => BindingGenerator.ShaderEffectType(ShaderEffectType.Grayscale),
                 },
 
+                [CommandType.ToggleIsLoupe] = new CommandElement
+                {
+                    Group = "ルーペ",
+                    Text = "ルーペON/OFF",
+                    MenuText = "ルーペ",
+                    Note = "ルーペの有効/無効を切り替えます",
+                    Execute = e => _VM.ToggleIsLoupe(),
+                    CanExecute = () => true,
+                    IsShowMessage = false,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.LoupeIsVisibled), System.Windows.Data.BindingMode.OneWay),
+                },
+
+                [CommandType.LoupeZoomIn] = new CommandElement
+                {
+                    Group = "ルーペ",
+                    Text = "ルーペ拡大",
+                    MenuText = "ルーペ拡大",
+                    Note = "ルーペを有効化し、ルーペの拡大率を増加させます",
+                    Execute = e => _VM.LoupeZoomIn(),
+                    CanExecute = () => true,
+                    IsShowMessage = false,
+                },
+
+                [CommandType.LoupeZoomOut] = new CommandElement
+                {
+                    Group = "ルーペ",
+                    Text = "ルーペ縮小",
+                    MenuText = "ルーペ縮小",
+                    Note = "ルーペを有効化し、ルーペの拡大率を減少させます。等倍まで下げるとルーペ機能は無効になります",
+                    Execute = e => _VM.LoupeZoomOut(),
+                    CanExecute = () => true,
+                    IsShowMessage = false,
+                },
+
+
+
                 [CommandType.ToggleIsReverseSort] = new CommandElement // 欠番
                 {
                     Group = "dummy",

@@ -22,6 +22,9 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+// TODO: ルーペとエフェクト同時使用で処理落ち最悪ハングするバグ
+// TODO: カーソル種類のプロパティ化。ルーペ使用時に一瞬カーソルが表示される
+
 namespace NeeView
 {
     // 通知表示の種類
@@ -170,6 +173,80 @@ namespace NeeView
             }
         }
         #endregion
+
+
+        // ルーペ
+        #region Property: LoupeScale
+        private double _LoupeScale = 1.0;
+        public double LoupeScale
+        {
+            get { return _LoupeScale; }
+            set { _LoupeScale = value; OnPropertyChanged(); OnPropertyChanged(nameof(LoupeIsVisibled)); }
+        }
+        #endregion
+
+        #region Property: LoupeSize
+        private double _LoupeSize = 256.0;
+        public double LoupeSize
+        {
+            get { return _LoupeSize; }
+            set { _LoupeSize = value; OnPropertyChanged(); OnPropertyChanged(nameof(LoupeIsVisibled)); }
+        }
+        #endregion
+
+        #region Property: IsEnabledLoupe
+        private bool _IsEnabledLoupe = false;
+        public bool IsEnabledLoupe
+        {
+            get { return _IsEnabledLoupe; }
+            set
+            {
+                _IsEnabledLoupe = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(LoupeIsVisibled));
+                if (_IsEnabledLoupe && LoupeScale < 1.01) LoupeScale = 2.0; // 表示するなら最低 x2.0
+            }
+        }
+        #endregion
+
+        public bool LoupeIsVisibled => _IsEnabledLoupe && _LoupeScale > 1.01;
+
+        //
+        public void LoupeZoomIn()
+        {
+            if (!IsEnabledLoupe)
+            {
+                IsEnabledLoupe = true;
+            }
+            else
+            {
+                var newScale = LoupeScale + 1.0;
+                if (newScale > 16.0) newScale = 16.0; // 最大 x16.0
+                LoupeScale = newScale;
+            }
+        }
+
+        //
+        public void LoupeZoomOut()
+        {
+            if (!IsEnabledLoupe && LoupeScale > 1.01)
+            {
+                IsEnabledLoupe = true;
+            }
+            else
+            {
+                var newScale = LoupeScale - 1.0;
+                if (newScale < 1.0) newScale = 1.0;
+                LoupeScale = newScale;
+            }
+        }
+
+        public bool ToggleIsLoupe()
+        {
+            IsEnabledLoupe = !LoupeIsVisibled;
+            return IsEnabledLoupe;
+        }
+
 
         // スケールモード
         #region Property: StretchMode
@@ -872,6 +949,18 @@ namespace NeeView
             set { _ContentsMargin = value; OnPropertyChanged(); }
         }
         #endregion
+
+        //
+        #region Property: ContentSpace
+        private double _ContentSpace = -1.0;
+        public double ContentsSpace
+        {
+            get { return _ContentSpace; }
+            set { _ContentSpace = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+
 
 
         // 見開き時のメインとなるコンテンツ
@@ -1825,8 +1914,8 @@ namespace NeeView
             double offsetWidth = 0;
             if (Contents[0].Size.Width > 0.5 && Contents[1].Size.Width > 0.5)
             {
-                offsetWidth = 1.0 / _DpiScaleFactor.X;
-                ContentsMargin = new Thickness(-offsetWidth, 0, 0, 0);
+                offsetWidth = ContentsSpace / _DpiScaleFactor.X + ContentsSpace;
+                ContentsMargin = new Thickness(offsetWidth, 0, 0, 0);
             }
             else
             {
@@ -2375,6 +2464,15 @@ namespace NeeView
             [DataMember(Order = 10)]
             public bool IsOriginalScaleShowMessage { get; set; }
 
+            [DataMember(Order = 12)]
+            public double LoupeSize { get; set; }
+
+            [DataMember(Order = 12)]
+            public double LoupeScale { get; set; }
+
+            [DataMember(Order = 12)]
+            public double ContentsSpace { get; set; }
+
             //
             void Constructor()
             {
@@ -2408,6 +2506,9 @@ namespace NeeView
                 FolderListGridRow2 = "*";
                 BannerMemorySize = 8;
                 BannerSize = 256.0;
+                LoupeSize = 256.0;
+                LoupeScale = 2.0;
+                ContentsSpace = -1.0;
             }
 
             public Memento()
@@ -2492,6 +2593,9 @@ namespace NeeView
             memento.BannerSize = this.BannerSize;
             memento.ShaderEffectType = this.ShaderEffectType;
             memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
+            memento.LoupeSize = this.LoupeSize;
+            memento.LoupeScale = this.LoupeScale;
+            memento.ContentsSpace = this.ContentsSpace;
 
             return memento;
         }
@@ -2554,9 +2658,13 @@ namespace NeeView
             this.BannerSize = memento.BannerSize;
             this.ShaderEffectType = memento.ShaderEffectType;
             this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
+            this.LoupeSize = memento.LoupeSize;
+            this.LoupeScale = memento.LoupeScale;
+            this.ContentsSpace = memento.ContentsSpace;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
+            UpdateContentSize();
         }
 
         #endregion

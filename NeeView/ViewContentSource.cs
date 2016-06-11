@@ -83,29 +83,44 @@ namespace NeeView
             return isRightPart ? new Rect(0.99999 - half, -0.00001, half - 0.00001, 0.99999) : new Rect(-0.00001, -0.00001, half - 0.00001, 0.99999);
         }
 
+
         // エフェクトレンダリング用
+        // メモリリークを防ぐため、インスタンスを限定する
         private static Image _RenderImage;
 
         //
+        private static object _RenderImageLock = new object();
+
+        /// <summary>
+        /// エフェクトをかけた画像を生成する
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="size"></param>
+        /// <param name="effect"></param>
+        /// <returns></returns>
         public static BitmapSource CreateEffectedBitmap(BitmapSource source, Size size, Effect effect)
         {
+            // エフェクトがなければそのまま返す
             if (effect == null) return source;
 
-            if (_RenderImage == null) _RenderImage = new Image();
+            lock (_RenderImageLock)
+            {
+                if (_RenderImage == null) _RenderImage = new Image();
 
-            _RenderImage.Source = source;
-            _RenderImage.Width = size.Width;
-            _RenderImage.Height = size.Height;
-            _RenderImage.Effect = effect;
-            _RenderImage.Stretch = Stretch.Fill;
-            RenderOptions.SetBitmapScalingMode(_RenderImage, BitmapScalingMode.NearestNeighbor);
+                _RenderImage.Source = source;
+                _RenderImage.Width = size.Width;
+                _RenderImage.Height = size.Height;
+                _RenderImage.Effect = effect;
+                _RenderImage.Stretch = Stretch.Fill;
+                RenderOptions.SetBitmapScalingMode(_RenderImage, BitmapScalingMode.NearestNeighbor);
 
-            var effectedBitmapSource = Utility.NVGraphics.CreateRenderBitmap(_RenderImage);
+                var effectedBitmapSource = Utility.NVGraphics.CreateRenderBitmap(_RenderImage);
 
-            _RenderImage.Source = null;
-            _RenderImage.Effect = null;
+                _RenderImage.Source = null;
+                _RenderImage.Effect = null;
 
-            return effectedBitmapSource;
+                return effectedBitmapSource;
+            }
         }
 
 
@@ -116,9 +131,8 @@ namespace NeeView
             {
                 var brush = new ImageBrush();
 
-                // コンテンツでのエフェクトはひとまず無効
-                //brush.ImageSource = CreateEffectedBitmap(((BitmapContent)Source).Source, SourceSize, effect);
-                brush.ImageSource = ((BitmapContent)Source).Source;
+                // エフェクトをかけた画像を作成
+                brush.ImageSource = CreateEffectedBitmap(((BitmapContent)Source).Source, SourceSize, effect);
 
                 brush.AlignmentX = AlignmentX.Left;
                 brush.AlignmentY = AlignmentY.Top;

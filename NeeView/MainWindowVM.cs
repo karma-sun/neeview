@@ -285,10 +285,14 @@ namespace NeeView
             get { return _ShaderEffectType; }
             set
             {
-                _ShaderEffectType = value;
-                OnPropertyChanged();
-                ShaderEffect = _ShaderEffectType.GetStaticEffect();
-                UpdateViewContentEffect();
+                if (_ShaderEffectType != value)
+                {
+                    _ShaderEffectType = value;
+                    OnPropertyChanged();
+                    ShaderEffect = _ShaderEffectType.GetStaticEffect();
+                    UpdateViewContentEffect();
+                    UpdateBackgroundBrush();
+                }
             }
         }
         #endregion
@@ -1620,7 +1624,9 @@ namespace NeeView
                     BackgroundBrush = Brushes.White;
                     break;
                 case BackgroundStyle.Auto:
-                    BackgroundBrush = Contents[Contents[1].IsValid ? 1 : 0].Color;
+                    var color = Contents[Contents[1].IsValid ? 1 : 0].Color;
+                    color = ShaderEffectType.GetEffectedColor(color);
+                    BackgroundBrush = new SolidColorBrush(color);
                     break;
                 case BackgroundStyle.Check:
                     BackgroundBrush = (DrawingBrush)App.Current.Resources["CheckerBrush"];
@@ -1803,7 +1809,7 @@ namespace NeeView
                         );
                         content.Size = new Size(source.Width, source.Height);
                         content.SourceSize = source.SourceSize;
-                        content.Color = new SolidColorBrush(source.Color);
+                        content.Color = source.Color;
                         content.FolderPlace = source.Page.GetFolderPlace();
                         content.FilePlace = source.Page.GetFilePlace();
                         content.FullPath = source.FullPath;
@@ -1867,8 +1873,6 @@ namespace NeeView
         // エフェクトの変更
         public void UpdateViewContentEffect()
         {
-            // コンテンツでのエフェクトはひとまず無効
-#if false
             foreach (var content in Contents)
             {
                 if (content.Content != null && content.Bitmap != null)
@@ -1880,7 +1884,6 @@ namespace NeeView
                     }
                 }
             }
-#endif
         }
 
 

@@ -336,7 +336,6 @@
     </EmbeddedResource>
     <None Include="App.manifest" />
     <Resource Include="Effects\GrayscaleEffect.ps" />
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -74,7 +74,7 @@ namespace NeeView
         public Size SourceSize { get; set; }
 
         // コンテンツの色
-        public Brush Color { get; set; } = Brushes.Black;
+        public Color Color = Colors.Black;
 
         // 表示名
         public string FullPath { get; set; }

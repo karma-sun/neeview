@@ -121,6 +121,13 @@ namespace NeeView
             [FolderListItemStyle.Picture] = "バナー表示",
         };
 
+        //
+        public static Dictionary<LongButtonDownMode, string> LongButtonDownModeList { get; } = new Dictionary<LongButtonDownMode, string>
+        {
+            [LongButtonDownMode.None] = "なし",
+            [LongButtonDownMode.Loupe] = "ルーペ",
+        };
+
 
         // ドラッグアクション
         public static Dictionary<DragActionType, string> DragActionTypeList { get; } = DragActionTypeExtension.LabelList;
@@ -513,6 +520,21 @@ namespace NeeView
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return value is DragActionType ? ((DragActionType)value).ToTips() : null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    //  長押し操作Tips表示用コンバータ
+    [ValueConversion(typeof(LongButtonDownMode), typeof(string))]
+    public class LongButtonDownModeToTipsConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value is LongButtonDownMode ? ((LongButtonDownMode)value).ToTips() : null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

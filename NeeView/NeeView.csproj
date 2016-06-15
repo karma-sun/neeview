@@ -94,6 +94,7 @@
     <Compile Include="Loupe.xaml.cs">
       <DependentUpon>Loupe.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MouseLongDown.cs" />
     <Compile Include="PageListControl.xaml.cs">
       <DependentUpon>PageListControl.xaml</DependentUpon>
     </Compile>

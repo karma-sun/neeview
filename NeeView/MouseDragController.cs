@@ -611,6 +611,16 @@ namespace NeeView
         }
 
 
+        bool _IsCancel = false;
+
+        /// <summary>
+        /// 次にマウスボタンが押されるまで一時的に無効化する
+        /// </summary>
+        public void CancelOnce()
+        {
+            _IsCancel = true;
+        }
+
         // マウスボタンが押された時の処理
         private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -626,8 +636,10 @@ namespace NeeView
             _DragMouseButton = e.ChangedButton;
             _IsDragging = false;
             _IsEnableClickEvent = true;
+            _IsCancel = false;
 
             _Action = null;
+            
 
             _Sender.CaptureMouse();
         }
@@ -648,6 +660,8 @@ namespace NeeView
                 _Sender.Cursor = null;
             }
 
+            if (_IsCancel) return;
+
             if (_IsEnableClickEvent && !_IsDragging && MouseClickEventHandler != null)
             {
                 MouseClickEventHandler(sender, e);
@@ -665,6 +679,8 @@ namespace NeeView
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (!_IsButtonDown) return;
+
+            if (_IsCancel) return;
 
             _EndPoint = e.GetPosition(_Sender);
 

@@ -38,6 +38,7 @@ namespace NeeView
 
         private MouseDragController _MouseDrag;
         private MouseGestureManager _MouseGesture;
+        private MouseLongDown _MouseLongDown;
 
         private ContentDropManager _ContentDrop = new ContentDropManager();
 
@@ -63,6 +64,13 @@ namespace NeeView
 
             InitializeVisualTree();
 
+            // mouse long down
+            _MouseLongDown = new MouseLongDown(this.MainView);
+            _MouseLongDown.StatusChanged +=
+                (s, e) => _VM.LongLeftButtonDownStatusChange(e, () => { _MouseDrag.CancelOnce(); this.MainView.Cursor = Cursors.None; });
+            _MouseLongDown.MouseWheel +=
+                (s, e) => _VM.LongLeftButtonDownWheelChange(e);
+
             // mouse drag
             _MouseDrag = new MouseDragController(this, this.MainView, this.MainContent, this.MainContentShadow);
             _MouseDrag.TransformChanged +=
@@ -79,6 +87,8 @@ namespace NeeView
             // mouse gesture
             _MouseGesture = new MouseGestureManager(this.MainView);
             _MouseGesture.Controller.MouseGestureUpdateEventHandler += OnMouseGestureUpdate;
+
+
 
             // initialize routed commands
             InitializeCommandBindings();
@@ -2046,7 +2056,7 @@ namespace NeeView
             {
                 bool.TryParse((string)value, out isReverse);
             }
-                
+
             return isReverse ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
         }
 

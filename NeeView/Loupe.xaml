@@ -17,13 +17,21 @@
 
     <Canvas x:Name="Root">
 
-        <Ellipse x:Name="LoupeMain" Width="{Binding Size}" Height="{Binding Size}" ClipToBounds="True" 
+        <Grid x:Name="LoupeMain" Width="{Binding Size}" Height="{Binding Size}">
+
+            <!-- 台紙 -->
+            <Ellipse Stroke="Transparent" StrokeThickness="1"  IsHitTestVisible="False"
+                     Fill="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=BorderBrush}"/>
+
+            <!-- 本体 -->
+            <Ellipse 
                  Stroke="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=BorderBrush}" StrokeThickness="2" 
                  IsHitTestVisible="False">
-            <Ellipse.Fill>
-                <VisualBrush x:Name="LoupeBrush" Visual="{Binding Visual}" ViewboxUnits="Absolute" ViewportUnits="Absolute" />
-            </Ellipse.Fill>
-        </Ellipse>
+                <Ellipse.Fill>
+                    <VisualBrush x:Name="LoupeBrush" Visual="{Binding Visual}" ViewboxUnits="Absolute" ViewportUnits="Absolute" />
+                </Ellipse.Fill>
+            </Ellipse>
+        </Grid>
 
     </Canvas>
 </UserControl>

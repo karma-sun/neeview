@@ -79,6 +79,27 @@ namespace NeeView
         All = 0xFFFF
     }
 
+    // 長押しモード
+    public enum LongButtonDownMode
+    {
+        None,
+        Loupe
+    }
+
+    public static class LongButtonDownModeExtensions
+    {
+        public static string ToTips(this LongButtonDownMode element)
+        {
+            switch (element)
+            {
+                default:
+                    return null;
+                case LongButtonDownMode.Loupe:
+                    return "画像の一部を拡大表示します\nルーペ表示中にホイール操作で拡大率を変更できます";
+            }
+        }
+    }
+
 
     /// <summary>
     /// ViewModel
@@ -174,6 +195,50 @@ namespace NeeView
         }
         #endregion
 
+        // 左クリック長押しモード
+        public LongButtonDownMode LongLeftButtonDownMode { get; set; }
+
+        //
+        private bool IsLongLeftButtonDownLoupe;
+
+        // 左クリック長押し処理
+        public void LongLeftButtonDownStatusChange(MouseLongDownStatus e, Action enterAction)
+        {
+            if (LongLeftButtonDownMode != LongButtonDownMode.Loupe) return;
+
+            if (e == MouseLongDownStatus.On)
+            {
+                enterAction?.Invoke(); // _MouseDrag.CancelOnce();
+                IsEnabledLoupe = true;
+                IsLongLeftButtonDownLoupe = true;
+            }
+            else
+            {
+                IsEnabledLoupe = false;
+                IsLongLeftButtonDownLoupe = false;
+            }
+        }
+
+        // 左クリック長押し時のホイール処理
+        public void LongLeftButtonDownWheelChange(MouseWheelEventArgs e)
+        {
+            if (LongLeftButtonDownMode != LongButtonDownMode.Loupe) return;
+
+            if (IsEnabledLoupe)
+            {
+                if (e.Delta > 0)
+                {
+                    LoupeZoomIn();
+                }
+                else
+                {
+                    LoupeZoomOut();
+                }
+                e.Handled = true;
+            }
+        }
+
+
 
         // ルーペ
         #region Property: LoupeScale
@@ -221,7 +286,7 @@ namespace NeeView
             else
             {
                 var newScale = LoupeScale + 1.0;
-                if (newScale > 16.0) newScale = 16.0; // 最大 x16.0
+                if (newScale > 10.0) newScale = 10.0; // 最大 x10.0
                 LoupeScale = newScale;
             }
         }
@@ -235,8 +300,11 @@ namespace NeeView
             }
             else
             {
+                // 長押しルーペの場合、最小化で自動OFFはしない
+                var minimumScale = LongLeftButtonDownMode == LongButtonDownMode.Loupe && IsLongLeftButtonDownLoupe ? 2.0 : 1.0;
+
                 var newScale = LoupeScale - 1.0;
-                if (newScale < 1.0) newScale = 1.0;
+                if (newScale < minimumScale) newScale = minimumScale;
                 LoupeScale = newScale;
             }
         }
@@ -2476,6 +2544,9 @@ namespace NeeView
             [DataMember(Order = 12)]
             public double ContentsSpace { get; set; }
 
+            [DataMember(Order =12)]
+            public LongButtonDownMode LongLeftButtonDownMode { get; set; }
+
             //
             void Constructor()
             {
@@ -2512,6 +2583,7 @@ namespace NeeView
                 LoupeSize = 256.0;
                 LoupeScale = 2.0;
                 ContentsSpace = -1.0;
+                LongLeftButtonDownMode = LongButtonDownMode.Loupe;
             }
 
             public Memento()
@@ -2599,6 +2671,7 @@ namespace NeeView
             memento.LoupeSize = this.LoupeSize;
             memento.LoupeScale = this.LoupeScale;
             memento.ContentsSpace = this.ContentsSpace;
+            memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
 
             return memento;
         }
@@ -2664,6 +2737,7 @@ namespace NeeView
             this.LoupeSize = memento.LoupeSize;
             this.LoupeScale = memento.LoupeScale;
             this.ContentsSpace = memento.ContentsSpace;
+            this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

@@ -20,6 +20,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter"/>
         <local:DragActionTypeToTipsConverter x:Key="DragActionTypeToTipsConverter"/>
+        <local:LongButtonDownModeToTipsConverter x:Key="LongButtonDownModeToTipsConverter"/>
         <local:BannerSizeConverter x:Key="BannerSizeConverter"/>
 
 
@@ -320,17 +321,6 @@
                               IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsVisibleLoader}" />
                         </StackPanel>
 
-
-                        <TextBlock Text="ルーペ" Style="{StaticResource Header}"/>
-                        <StackPanel Style="{StaticResource Phrase}">
-                            <StackPanel Style="{StaticResource ItemStackPanel}">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="ルーペサイズ"/>
-                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.LoupeSize}"
-                                    Minimum="64" Maximum="512" TickFrequency="64"/>
-                                <TextBlock Text="{Binding Setting.ViewMemento.LoupeSize, StringFormat={}{0}x{0}}"/>
-                            </StackPanel>
-                        </StackPanel>
-
                         <TextBlock Text="2ページ表示" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="ページとページの隙間の長さを設定します&#xa;マイナス値は重なることを意味します&#xa;各ページにスケールがかかるため、0でちょうど隙間がなくなることは稀です">
@@ -432,6 +422,25 @@
                         </StackPanel>
                     </WrapPanel>
 
+                    <TextBlock Text="長押し操作" Style="{StaticResource Header}"/>
+                    <StackPanel Style="{StaticResource Phrase}">
+                        <StackPanel Style="{StaticResource ItemStackPanel}">
+                            <TextBlock Text="LeftButton" Style="{StaticResource ItemHeader}"/>
+                            <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding LongButtonDownModeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.ViewMemento.LongLeftButtonDownMode}"
+                                  ToolTip="{Binding Path=SelectedValue, RelativeSource={RelativeSource Self}, Converter={StaticResource LongButtonDownModeToTipsConverter}}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <TextBlock Text="ルーペ" Style="{StaticResource Header}"/>
+                    <StackPanel Style="{StaticResource Phrase}">
+                        <StackPanel Style="{StaticResource ItemStackPanel}">
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="ルーペサイズ"/>
+                            <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.LoupeSize}"
+                                    Minimum="64" Maximum="1024" TickFrequency="64"/>
+                            <TextBlock Text="{Binding Setting.ViewMemento.LoupeSize, StringFormat={}{0}x{0}}"/>
+                        </StackPanel>
+                    </StackPanel>
 
                 </StackPanel>
             </TabItem>

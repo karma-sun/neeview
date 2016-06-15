@@ -1070,7 +1070,6 @@ namespace NeeView
                     Execute = e => _VM.LoupeZoomIn(),
                     CanExecute = () => true,
                     IsShowMessage = false,
-                    ShortCutKey = "Ctrl+Add",
                 },
 
                 [CommandType.LoupeZoomOut] = new CommandElement
@@ -1082,7 +1081,6 @@ namespace NeeView
                     Execute = e => _VM.LoupeZoomOut(),
                     CanExecute = () => true,
                     IsShowMessage = false,
-                    ShortCutKey = "Ctrl+Subtract",
                 },
 
 

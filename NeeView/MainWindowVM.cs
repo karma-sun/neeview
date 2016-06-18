@@ -205,7 +205,19 @@ namespace NeeView
             set { _LongLeftButtonDownMode = value; OnPropertyChanged(); LongLeftButtonDownModeChanged?.Invoke(this, _LongLeftButtonDownMode); }
         }
         #endregion
-        
+
+        // 長押し判定時間(秒)
+        #region Property: LongButtonDownTick
+        private double _LongButtonDownTick;
+        public double LongButtonDownTick
+        {
+            get { return _LongButtonDownTick; }
+            set { _LongButtonDownTick = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+
+
 
         // スケールモード
         #region Property: StretchMode
@@ -2453,6 +2465,9 @@ namespace NeeView
             [DataMember(Order = 12)]
             public LongButtonDownMode LongLeftButtonDownMode { get; set; }
 
+            [DataMember(Order =12)]
+            public double LongButtonDownTick { get; set; }
+
             //
             void Constructor()
             {
@@ -2488,6 +2503,7 @@ namespace NeeView
                 BannerSize = 256.0;
                 ContentsSpace = -1.0;
                 LongLeftButtonDownMode = LongButtonDownMode.Loupe;
+                LongButtonDownTick = 1.0;
             }
 
             public Memento()
@@ -2574,6 +2590,7 @@ namespace NeeView
             memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
             memento.ContentsSpace = this.ContentsSpace;
             memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
+            memento.LongButtonDownTick = this.LongButtonDownTick;
 
             return memento;
         }
@@ -2638,6 +2655,7 @@ namespace NeeView
             this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
             this.ContentsSpace = memento.ContentsSpace;
             this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
+            this.LongButtonDownTick = memento.LongButtonDownTick;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

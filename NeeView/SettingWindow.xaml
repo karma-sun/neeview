@@ -432,6 +432,14 @@
                                   SelectedValue="{Binding Setting.ViewMemento.LongLeftButtonDownMode}"
                                   ToolTip="{Binding Path=SelectedValue, RelativeSource={RelativeSource Self}, Converter={StaticResource LongButtonDownModeToTipsConverter}}"/>
                         </StackPanel>
+
+                        <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="長押しと判定されるまでの押し続ける時間の設定です">
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="長押し判定時間"/>
+                            <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.LongButtonDownTick}"
+                                    Minimum="0.1" Maximum="2.0" TickFrequency="0.1" />
+                            <TextBlock Text="{Binding Setting.ViewMemento.LongButtonDownTick, StringFormat={}{0:0.0}秒}" />
+                        </StackPanel>
+
                     </StackPanel>
 
                 </StackPanel>

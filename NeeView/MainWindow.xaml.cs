@@ -30,6 +30,35 @@ using System.Windows.Threading;
 namespace NeeView
 {
     /// <summary>
+    /// NotifyPropertyChanged 配達
+    /// </summary>
+    public class NotifyPropertyChangedDelivery
+    {
+        public delegate void Reciever(object sender, PropertyChangedEventArgs e);
+
+        private Dictionary<string, Reciever> _RecieverCollection = new Dictionary<string, Reciever>();
+
+        public void RegistReciever(string propertyName, Reciever reciever)
+        {
+            _RecieverCollection.Add(propertyName, reciever);
+        }
+
+        public bool Send(object sender, PropertyChangedEventArgs e)
+        {
+            Reciever reciever;
+            if (_RecieverCollection.TryGetValue(e.PropertyName, out reciever))
+            {
+                reciever(sender, e);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
     public partial class MainWindow : Window
@@ -46,7 +75,7 @@ namespace NeeView
 
         public MouseDragController MouseDragController => _MouseDrag;
 
-
+        private NotifyPropertyChangedDelivery _NotifyPropertyChangedDelivery = new NotifyPropertyChangedDelivery();
 
         // コンストラクタ
         public MainWindow()
@@ -82,6 +111,12 @@ namespace NeeView
                         _MouseDrag.LoupeZoom(e);
                     }
                 };
+
+            _NotifyPropertyChangedDelivery.RegistReciever(nameof(_VM.LongButtonDownTick),
+                (s, e) =>
+                {
+                    _MouseLongDown.Tick = TimeSpan.FromSeconds(_VM.LongButtonDownTick);
+                });
 
 
             // mouse drag
@@ -325,6 +360,8 @@ namespace NeeView
         // VMプロパティ監視
         private void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            _NotifyPropertyChangedDelivery.Send(sender, e);
+
             switch (e.PropertyName)
             {
                 case "TinyInfoText":

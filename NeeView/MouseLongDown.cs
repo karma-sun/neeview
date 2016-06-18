@@ -46,6 +46,7 @@ namespace NeeView
         // 長押し判定用
         private DispatcherTimer _Timer = new DispatcherTimer();
 
+        public TimeSpan Tick { get; set; }
 
         private FrameworkElement _Sender;
         private Point _StartPoint;
@@ -61,8 +62,9 @@ namespace NeeView
             _Sender.PreviewMouseMove += OnMouseMove;
             _Sender.PreviewMouseWheel += OnMouseWheel;
 
-            this._Timer.Interval = TimeSpan.FromMilliseconds(750);
             this._Timer.Tick += this.OnTimeout;
+
+            Tick = TimeSpan.FromSeconds(1.0);
         }
 
 
@@ -72,6 +74,8 @@ namespace NeeView
             if (e.ChangedButton != MouseButton.Left) return;
 
             _StartPoint = e.GetPosition(_Sender);
+
+            _Timer.Interval = Tick;
             _Timer.Start();
 
             //Debug.WriteLine("ON");

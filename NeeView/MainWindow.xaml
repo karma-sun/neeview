@@ -263,11 +263,10 @@
                     <Grid x:Name="MainViewPanelGrid" Panel.ZIndex="-1" Margin="-1,0">
                         <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" >
 
-                            <Grid x:Name="MainViewCanvas"  Background="{Binding BackgroundBrush}">
-                                <!-- Effect="{Binding ShaderEffect}" -->
+                            <Grid x:Name="MainViewCanvas"  Background="{Binding BackgroundBrush}" Effect="{Binding ShaderEffect}">
                                 
                                 <!-- メインビュー コンテンツ表示領域 -->
-                                <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="False">
+                                <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True">
                                     <!-- Pages -->
                                     <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                                         HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -366,11 +365,13 @@
                                 </TextBlock>
                             </Grid>
 
+                            <!--
                             <local:Loupe x:Name="Loupe" Visual="{Binding ElementName=MainViewCanvas}"
                                          BorderBrush="{DynamicResource NVBaseBrush}"
                                          Visibility="{Binding LoupeIsVisibled, Converter={StaticResource BooleanToVisibilityConverter}}" 
                                          Size="{Binding LoupeSize}"
                                          Scale="{Binding LoupeScale}"/>
+                            -->
                             
                         </Grid>
 

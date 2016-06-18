@@ -33,6 +33,7 @@ namespace NeeView
         Position,
         Angle,
         Scale,
+        LoupeScale,
     };
 
 
@@ -45,6 +46,7 @@ namespace NeeView
         Scale,
         FlipHorizontal,
         FlipVertical,
+        LoupeScale,
     }
 
     // 変化通知イベントの引数
@@ -200,6 +202,7 @@ namespace NeeView
                 }
             }
         }
+        #endregion
 
         // 上下反転
         #region Property: IsFlipVertical
@@ -219,7 +222,116 @@ namespace NeeView
         }
         #endregion
 
+
+        // ルーペーモード
+        #region Property: IsLoupe
+        private bool _IsLoupe;
+        public bool IsLoupe
+        {
+            get { return _IsLoupe; }
+            set
+            {
+                _IsLoupe = value;
+
+                if (_IsLoupe)
+                {
+                    CancelOnce();
+                    _Sender.Cursor = Cursors.None;
+
+                    var start = Mouse.GetPosition(_Sender);
+                    var center = new Point(_Sender.ActualWidth * 0.5, _Sender.ActualHeight * 0.5);
+                    Vector v = start - center;
+
+                    _LoupeBasePosition = (Point)(-v + v / LoupeScale);
+                    LoupePosition = _LoupeBasePosition;
+                }
+                else
+                {
+                    LoupePosition = new Point();
+                }
+
+                OnPropertyChanged(nameof(LoupeScaleX));
+                OnPropertyChanged(nameof(LoupeScaleY));
+                TransformChanged?.Invoke(this, new TransformChangedParam(TransformChangeType.LoupeScale, TransformActionType.LoupeScale));
+            }
+        }
         #endregion
+
+        #region Property: LoupePosition
+        private Point _LoupePosition;
+        public Point LoupePosition
+        {
+            get { return _LoupePosition; }
+            set
+            {
+                _LoupePosition = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(LoupePositionX));
+                OnPropertyChanged(nameof(LoupePositionY));
+            }
+        }
+        public double LoupePositionX => IsLoupe ? LoupePosition.X : 0.0;
+        public double LoupePositionY => IsLoupe ? LoupePosition.Y : 0.0;
+
+        private Point _LoupeBasePosition;
+        #endregion
+
+
+        #region Property: LoupeScale
+        private double _LoupeScale = 2.0;
+        public double LoupeScale
+        {
+            get { return _LoupeScale; }
+            set
+            {
+                _LoupeScale = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(LoupeScaleX));
+                OnPropertyChanged(nameof(LoupeScaleY));
+                TransformChanged?.Invoke(this, new TransformChangedParam(TransformChangeType.LoupeScale, TransformActionType.LoupeScale));
+            }
+        }
+
+        public double FixedLoupeScale => IsLoupe ? LoupeScale : 1.0;
+        public double LoupeScaleX => FixedLoupeScale;
+        public double LoupeScaleY => FixedLoupeScale;
+        #endregion
+
+        public void LoupeZoom(MouseWheelEventArgs e)
+        {
+            if (IsLoupe)
+            {
+                if (e.Delta > 0)
+                {
+                    LoupeZoomIn();
+                }
+                else
+                {
+                    LoupeZoomOut();
+                }
+                e.Handled = true;
+            }
+        }
+
+        //
+        public void LoupeZoomIn()
+        {
+            var newScale = LoupeScale + 1.0;
+            if (newScale > 10.0) newScale = 10.0; // 最大 x10.0
+            LoupeScale = newScale;
+        }
+
+        //
+        public void LoupeZoomOut()
+        {
+            var newScale = LoupeScale - 1.0;
+            if (newScale < 2.0) newScale = 2.0;
+            LoupeScale = newScale;
+        }
+
+
+
+
 
         // アクションキーバインド
         private Dictionary<DragKey, DragAction> KeyBindings;
@@ -343,6 +455,18 @@ namespace NeeView
             transformGroup.Children.Add(rotateTransform);
             transformGroup.Children.Add(translateTransform);
 
+            //
+            var loupeTransraleTransform = new TranslateTransform();
+            BindingOperations.SetBinding(loupeTransraleTransform, TranslateTransform.XProperty, new Binding(nameof(LoupePositionX)) { Source = this });
+            BindingOperations.SetBinding(loupeTransraleTransform, TranslateTransform.YProperty, new Binding(nameof(LoupePositionY)) { Source = this });
+
+            var loupeScaleTransform = new ScaleTransform();
+            BindingOperations.SetBinding(loupeScaleTransform, ScaleTransform.ScaleXProperty, new Binding(nameof(LoupeScaleX)) { Source = this });
+            BindingOperations.SetBinding(loupeScaleTransform, ScaleTransform.ScaleYProperty, new Binding(nameof(LoupeScaleY)) { Source = this });
+
+            transformGroup.Children.Add(loupeTransraleTransform);
+            transformGroup.Children.Add(loupeScaleTransform);
+
             element.RenderTransform = transformGroup;
 
             if (isView)
@@ -368,7 +492,7 @@ namespace NeeView
 
             _LockMoveX = IsLimitMove;
             _LockMoveY = IsLimitMove;
-            
+
             if (isResetAngle)
             {
                 Angle = 0;
@@ -463,7 +587,7 @@ namespace NeeView
             Position = pos;
         }
 
-        
+
         // スクロール↑コマンド
         // 縦方向にスクロールできない場合、横方向にスクロールする
         public void ScrollUp()
@@ -639,7 +763,6 @@ namespace NeeView
             _IsCancel = false;
 
             _Action = null;
-            
 
             _Sender.CaptureMouse();
         }
@@ -680,9 +803,16 @@ namespace NeeView
         {
             if (!_IsButtonDown) return;
 
-            if (_IsCancel) return;
-
             _EndPoint = e.GetPosition(_Sender);
+
+            //
+            if (IsLoupe)
+            {
+                DragLoupeMove(_StartPoint, _EndPoint);
+                return;
+            }
+
+            if (_IsCancel) return;
 
             if (!_IsDragging)
             {
@@ -768,6 +898,15 @@ namespace NeeView
 
             DoMove(move);
         }
+
+
+        // ルーペ移動
+        public void DragLoupeMove(Point start, Point end)
+        {
+            LoupePosition = _LoupeBasePosition - (end - start);
+        }
+
+
 
         private DragArea GetArea()
         {

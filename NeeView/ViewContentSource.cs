@@ -132,7 +132,10 @@ namespace NeeView
                 var brush = new ImageBrush();
 
                 // エフェクトをかけた画像を作成
-                brush.ImageSource = CreateEffectedBitmap(((BitmapContent)Source).Source, SourceSize, effect);
+                ////brush.ImageSource = CreateEffectedBitmap(((BitmapContent)Source).Source, SourceSize, effect);
+                
+                // そのまま画像を使用
+                brush.ImageSource = ((BitmapContent)Source).Source;
 
                 brush.AlignmentX = AlignmentX.Left;
                 brush.AlignmentY = AlignmentY.Top;

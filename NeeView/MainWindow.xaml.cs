@@ -67,16 +67,29 @@ namespace NeeView
             // mouse long down
             _MouseLongDown = new MouseLongDown(this.MainView);
             _MouseLongDown.StatusChanged +=
-                (s, e) => _VM.LongLeftButtonDownStatusChange(e, () => { _MouseDrag.CancelOnce(); this.MainView.Cursor = Cursors.None; });
+                (s, e) =>
+                {
+                    if (_VM.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
+                    {
+                        _MouseDrag.IsLoupe = (e == MouseLongDownStatus.On);
+                    }
+                };
             _MouseLongDown.MouseWheel +=
-                (s, e) => _VM.LongLeftButtonDownWheelChange(e);
+                (s, e) =>
+                {
+                    if (_VM.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
+                    {
+                        _MouseDrag.LoupeZoom(e);
+                    }
+                };
+
 
             // mouse drag
             _MouseDrag = new MouseDragController(this, this.MainView, this.MainContent, this.MainContentShadow);
             _MouseDrag.TransformChanged +=
                 (s, e) =>
                 {
-                    _VM.SetViewTransform(_MouseDrag.Scale, _MouseDrag.Angle, _MouseDrag.IsFlipHorizontal, _MouseDrag.IsFlipVertical, e.ActionType);
+                    _VM.SetViewTransform(_MouseDrag.Scale, _MouseDrag.FixedLoupeScale, _MouseDrag.Angle, _MouseDrag.IsFlipHorizontal, _MouseDrag.IsFlipVertical, e.ActionType);
                     if (e.ChangeType == TransformChangeType.Scale)
                     {
                         _VM.UpdateWindowTitle(UpdateWindowTitleMask.View);
@@ -286,11 +299,7 @@ namespace NeeView
         {
             if (isVisible)
             {
-                if (_VM.LoupeIsVisibled)
-                {
-                    this.MainView.Cursor = Cursors.None;
-                }
-                else if (this.MainView.Cursor == Cursors.None)
+                if (this.MainView.Cursor == Cursors.None && !_MouseDrag.IsLoupe)
                 {
                     this.MainView.Cursor = null;
                 }
@@ -584,7 +593,7 @@ namespace NeeView
                 _VM.RestoreSetting(setting);
                 SetUpdateMenuLayoutMode(true);
                 _VM.SaveSetting(this);
-                ModelContext.BookHistory.Restore(history);
+                ModelContext.BookHistory.Restore(history, false);
             }
         }
 

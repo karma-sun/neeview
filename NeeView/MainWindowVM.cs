@@ -22,8 +22,6 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-// TODO: ルーペとエフェクト同時使用で処理落ち最悪ハングするバグ
-// TODO: カーソル種類のプロパティ化。ルーペ使用時に一瞬カーソルが表示される
 
 namespace NeeView
 {
@@ -95,7 +93,7 @@ namespace NeeView
                 default:
                     return null;
                 case LongButtonDownMode.Loupe:
-                    return "画像の一部を拡大表示します\nルーペ表示中にホイール操作で拡大率を変更できます";
+                    return "一時的に画像を拡大表示します\nルーペ表示中にホイール操作で拡大率を変更できます";
             }
         }
     }
@@ -144,6 +142,9 @@ namespace NeeView
         //
         public event EventHandler<PanelType> LeftPanelVisibled;
         public event EventHandler RightPanelVisibled;
+
+        //
+        public event EventHandler<LongButtonDownMode> LongLeftButtonDownModeChanged;
 
         #endregion
 
@@ -196,125 +197,15 @@ namespace NeeView
         #endregion
 
         // 左クリック長押しモード
-        public LongButtonDownMode LongLeftButtonDownMode { get; set; }
-
-        //
-        private bool IsLongLeftButtonDownLoupe;
-
-        // 左クリック長押し処理
-        public void LongLeftButtonDownStatusChange(MouseLongDownStatus e, Action enterAction)
+        #region Property: LongLeftButtonDownMode
+        private LongButtonDownMode _LongLeftButtonDownMode;
+        public LongButtonDownMode LongLeftButtonDownMode
         {
-            if (LongLeftButtonDownMode != LongButtonDownMode.Loupe) return;
-
-            if (e == MouseLongDownStatus.On)
-            {
-                enterAction?.Invoke(); // _MouseDrag.CancelOnce();
-                IsEnabledLoupe = true;
-                IsLongLeftButtonDownLoupe = true;
-            }
-            else
-            {
-                IsEnabledLoupe = false;
-                IsLongLeftButtonDownLoupe = false;
-            }
-        }
-
-        // 左クリック長押し時のホイール処理
-        public void LongLeftButtonDownWheelChange(MouseWheelEventArgs e)
-        {
-            if (LongLeftButtonDownMode != LongButtonDownMode.Loupe) return;
-
-            if (IsEnabledLoupe)
-            {
-                if (e.Delta > 0)
-                {
-                    LoupeZoomIn();
-                }
-                else
-                {
-                    LoupeZoomOut();
-                }
-                e.Handled = true;
-            }
-        }
-
-
-
-        // ルーペ
-        #region Property: LoupeScale
-        private double _LoupeScale = 1.0;
-        public double LoupeScale
-        {
-            get { return _LoupeScale; }
-            set { _LoupeScale = value; OnPropertyChanged(); OnPropertyChanged(nameof(LoupeIsVisibled)); }
+            get { return _LongLeftButtonDownMode; }
+            set { _LongLeftButtonDownMode = value; OnPropertyChanged(); LongLeftButtonDownModeChanged?.Invoke(this, _LongLeftButtonDownMode); }
         }
         #endregion
-
-        #region Property: LoupeSize
-        private double _LoupeSize = 256.0;
-        public double LoupeSize
-        {
-            get { return _LoupeSize; }
-            set { _LoupeSize = value; OnPropertyChanged(); OnPropertyChanged(nameof(LoupeIsVisibled)); }
-        }
-        #endregion
-
-        #region Property: IsEnabledLoupe
-        private bool _IsEnabledLoupe = false;
-        public bool IsEnabledLoupe
-        {
-            get { return _IsEnabledLoupe; }
-            set
-            {
-                _IsEnabledLoupe = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(LoupeIsVisibled));
-                if (_IsEnabledLoupe && LoupeScale < 1.01) LoupeScale = 2.0; // 表示するなら最低 x2.0
-            }
-        }
-        #endregion
-
-        public bool LoupeIsVisibled => _IsEnabledLoupe && _LoupeScale > 1.01;
-
-        //
-        public void LoupeZoomIn()
-        {
-            if (!IsEnabledLoupe)
-            {
-                IsEnabledLoupe = true;
-            }
-            else
-            {
-                var newScale = LoupeScale + 1.0;
-                if (newScale > 10.0) newScale = 10.0; // 最大 x10.0
-                LoupeScale = newScale;
-            }
-        }
-
-        //
-        public void LoupeZoomOut()
-        {
-            if (!IsEnabledLoupe && LoupeScale > 1.01)
-            {
-                IsEnabledLoupe = true;
-            }
-            else
-            {
-                // 長押しルーペの場合、最小化で自動OFFはしない
-                var minimumScale = LongLeftButtonDownMode == LongButtonDownMode.Loupe && IsLongLeftButtonDownLoupe ? 2.0 : 1.0;
-
-                var newScale = LoupeScale - 1.0;
-                if (newScale < minimumScale) newScale = minimumScale;
-                LoupeScale = newScale;
-            }
-        }
-
-        public bool ToggleIsLoupe()
-        {
-            IsEnabledLoupe = !LoupeIsVisibled;
-            return IsEnabledLoupe;
-        }
-
+        
 
         // スケールモード
         #region Property: StretchMode
@@ -360,6 +251,7 @@ namespace NeeView
                     ShaderEffect = _ShaderEffectType.GetStaticEffect();
                     UpdateViewContentEffect();
                     UpdateBackgroundBrush();
+                    //OnPropertyChanged(nameof(LoupeScale));
                 }
             }
         }
@@ -1109,6 +1001,15 @@ namespace NeeView
         }
         #endregion
 
+        #region Property: BackgroundSolidBrush
+        private SolidColorBrush _BackgroundSolidBrush;
+        public SolidColorBrush BackgroundSolidBrush
+        {
+            get { return _BackgroundSolidBrush; }
+            set { _BackgroundSolidBrush = value; OnPropertyChanged(); }
+        }
+        #endregion
+
 
 
 
@@ -1686,18 +1587,19 @@ namespace NeeView
             {
                 default:
                 case BackgroundStyle.Black:
-                    BackgroundBrush = Brushes.Black;
+                    BackgroundBrush = BackgroundSolidBrush = Brushes.Black;
                     break;
                 case BackgroundStyle.White:
-                    BackgroundBrush = Brushes.White;
+                    BackgroundBrush = BackgroundSolidBrush = Brushes.White;
                     break;
                 case BackgroundStyle.Auto:
                     var color = Contents[Contents[1].IsValid ? 1 : 0].Color;
                     color = ShaderEffectType.GetEffectedColor(color);
-                    BackgroundBrush = new SolidColorBrush(color);
+                    BackgroundBrush = BackgroundSolidBrush = new SolidColorBrush(color);
                     break;
                 case BackgroundStyle.Check:
                     BackgroundBrush = (DrawingBrush)App.Current.Resources["CheckerBrush"];
+                    BackgroundSolidBrush = new SolidColorBrush(Color.FromArgb(0xff, 0xf0, 0xf0, 0xf0));
                     break;
             }
         }
@@ -1763,7 +1665,7 @@ namespace NeeView
             }
 
             // 履歴反映
-            ModelContext.BookHistory.Restore(memento);
+            ModelContext.BookHistory.Restore(memento, true);
             UpdateLastFiles();
         }
 
@@ -1941,6 +1843,7 @@ namespace NeeView
         // エフェクトの変更
         public void UpdateViewContentEffect()
         {
+#if false
             foreach (var content in Contents)
             {
                 if (content.Content != null && content.Bitmap != null)
@@ -1952,6 +1855,7 @@ namespace NeeView
                     }
                 }
             }
+#endif
         }
 
 
@@ -2009,16 +1913,18 @@ namespace NeeView
 
         // ビュースケール
         private double _ViewScale;
+        private double _FinalViewScale;
 
         // ビュー反転
         private bool _IsViewFlipHorizontal;
         private bool _IsViewFlipVertical;
 
         // ビュー変換を更新
-        public void SetViewTransform(double scale, double angle, bool isFlipHorizontal, bool isFlipVertical, TransformActionType actionType)
+        public void SetViewTransform(double scale, double loupeScale, double angle, bool isFlipHorizontal, bool isFlipVertical, TransformActionType actionType)
         {
             _ViewAngle = angle;
             _ViewScale = scale;
+            _FinalViewScale = scale * loupeScale;
             _IsViewFlipHorizontal = isFlipHorizontal;
             _IsViewFlipVertical = isFlipVertical;
 
@@ -2044,6 +1950,12 @@ namespace NeeView
                     case TransformActionType.FlipVertical:
                         DispMessage(ViewTransformShowMessageStyle, "上下反転 " + (_IsViewFlipVertical ? "ON" : "OFF"));
                         break;
+                    case TransformActionType.LoupeScale:
+                        if (loupeScale > 1.5)
+                        {
+                            DispMessage(ViewTransformShowMessageStyle, $"×{loupeScale:0.0}");
+                        }
+                        break;
                 }
             }
         }
@@ -2056,13 +1968,13 @@ namespace NeeView
                 if (content.Content != null && content.Content is Rectangle)
                 {
                     double diff = Math.Abs(content.Size.Width - content.Width * _DpiScaleFactor.X);
-                    if (_IsDpiSquare && diff < 0.1 && _ViewAngle == 0.0 && _ViewScale == 1.0)
+                    if (_IsDpiSquare && diff < 0.1 && _ViewAngle == 0.0 && Math.Abs(_FinalViewScale - 1.0) < 0.001)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                     }
                     else
                     {
-                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _DpiScaleFactor.X * _ViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _DpiScaleFactor.X * _FinalViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
                     }
                 }
             }
@@ -2536,15 +2448,9 @@ namespace NeeView
             public bool IsOriginalScaleShowMessage { get; set; }
 
             [DataMember(Order = 12)]
-            public double LoupeSize { get; set; }
-
-            [DataMember(Order = 12)]
-            public double LoupeScale { get; set; }
-
-            [DataMember(Order = 12)]
             public double ContentsSpace { get; set; }
 
-            [DataMember(Order =12)]
+            [DataMember(Order = 12)]
             public LongButtonDownMode LongLeftButtonDownMode { get; set; }
 
             //
@@ -2580,8 +2486,6 @@ namespace NeeView
                 FolderListGridRow2 = "*";
                 BannerMemorySize = 8;
                 BannerSize = 256.0;
-                LoupeSize = 256.0;
-                LoupeScale = 2.0;
                 ContentsSpace = -1.0;
                 LongLeftButtonDownMode = LongButtonDownMode.Loupe;
             }
@@ -2668,8 +2572,6 @@ namespace NeeView
             memento.BannerSize = this.BannerSize;
             memento.ShaderEffectType = this.ShaderEffectType;
             memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
-            memento.LoupeSize = this.LoupeSize;
-            memento.LoupeScale = this.LoupeScale;
             memento.ContentsSpace = this.ContentsSpace;
             memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
 
@@ -2734,8 +2636,6 @@ namespace NeeView
             this.BannerSize = memento.BannerSize;
             this.ShaderEffectType = memento.ShaderEffectType;
             this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-            this.LoupeSize = memento.LoupeSize;
-            this.LoupeScale = memento.LoupeScale;
             this.ContentsSpace = memento.ContentsSpace;
             this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
 

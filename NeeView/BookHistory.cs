@@ -48,6 +48,14 @@ namespace NeeView
         // フォルダとソートの種類
         private Dictionary<string, FolderOrder> FolderOrders { get; set; }
 
+        // 履歴制限
+        private int LimitSize { get; set; }
+
+        // 履歴制限(時間)
+        private TimeSpan LimitSpan { get; set; }
+
+
+
         // フォルダ設定
         public void SetFolderOrder(string path, FolderOrder order)
         {
@@ -147,7 +155,9 @@ namespace NeeView
                 {
                     if (unit?.HistoryNode != null)
                     {
+                        var lastAccessTime = unit.Memento?.LastAccessTime ?? DateTime.Now;
                         unit.Memento = memento;
+                        unit.Memento.LastAccessTime = lastAccessTime;
 
                         HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Place));
                     }
@@ -157,6 +167,7 @@ namespace NeeView
                     unit = new BookMementoUnit();
 
                     unit.Memento = memento;
+                    unit.Memento.LastAccessTime = DateTime.Now;
 
                     unit.HistoryNode = new LinkedListNode<BookMementoUnit>(unit);
                     Items.AddFirst(unit.HistoryNode);
@@ -167,6 +178,7 @@ namespace NeeView
                 else if (unit.HistoryNode != null)
                 {
                     unit.Memento = memento;
+                    unit.Memento.LastAccessTime = DateTime.Now;
 
                     if (Items.First == unit.HistoryNode)
                     {
@@ -182,6 +194,7 @@ namespace NeeView
                 else
                 {
                     unit.Memento = memento;
+                    unit.Memento.LastAccessTime = DateTime.Now;
 
                     unit.HistoryNode = new LinkedListNode<BookMementoUnit>(unit);
                     Items.AddFirst(unit.HistoryNode);
@@ -245,8 +258,18 @@ namespace NeeView
         /// 履歴Memento
         /// </summary>
         [DataContract]
-        public class Memento
+        public class Memento : INotifyPropertyChanged
         {
+            #region NotifyPropertyChanged
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }
+            #endregion
+
+
             [DataMember(Name = "History")]
             public List<Book.Memento> Items { get; set; }
 
@@ -255,6 +278,66 @@ namespace NeeView
 
             [DataMember(Order = 8)]
             public Dictionary<string, FolderOrder> FolderOrders { get; set; }
+
+            [DataMember(Order = 12)]
+            public int LimitSize { get; set; }
+
+            [DataMember(Order = 12)]
+            public TimeSpan LimitSpan { get; set; }
+
+
+            #region Property: LimitSizeIndex
+            private static List<int> _LimitSizeTable = new List<int>()
+                { 1, 10, 20, 50, 100, 200, 500, 1000, 0 };
+
+            public int LimitSizeIndexMax => _LimitSizeTable.Count - 1;
+
+            public int LimitSizeIndex
+            {
+                get
+                {
+                    int index = _LimitSizeTable.IndexOf((int)LimitSize);
+                    return (index < 0) ? LimitSizeIndexMax : index;
+                }
+                set
+                {
+                    int index = NVUtility.Clamp<int>(value, 0, LimitSizeIndexMax);
+                    LimitSize = _LimitSizeTable[index];
+                    OnPropertyChanged(nameof(LimitSize));
+                }
+            }
+            #endregion
+
+
+            #region Property: LimitSpanIndex
+            private static List<TimeSpan> _LimitSpanTable = new List<TimeSpan>() {
+                TimeSpan.FromDays(1),
+                TimeSpan.FromDays(2),
+                TimeSpan.FromDays(3),
+                TimeSpan.FromDays(7),
+                TimeSpan.FromDays(15),
+                TimeSpan.FromDays(30),
+                TimeSpan.FromDays(100),
+                default(TimeSpan),
+            };
+
+            public int LimitSpanIndexMax => _LimitSpanTable.Count - 1;
+
+            public int LimitSpanIndex
+            {
+                get
+                {
+                    int index = _LimitSpanTable.IndexOf(LimitSpan);
+                    return (index < 0) ? LimitSpanIndexMax : index;
+                }
+                set
+                {
+                    int index = NVUtility.Clamp<int>(value, 0, LimitSpanIndexMax);
+                    LimitSpan = _LimitSpanTable[index];
+                    OnPropertyChanged(nameof(LimitSpan));
+                }
+            }
+            #endregion
 
 
             private void Constructor()
@@ -307,30 +390,52 @@ namespace NeeView
         }
 
         // memento作成
-        public Memento CreateMemento(bool removeTemporary)
+        public Memento CreateMemento(bool forSave)
         {
             var memento = new Memento();
             memento.Items = this.Items.Select(e => e.Memento).ToList();
 
-            if (removeTemporary)
+            if (forSave)
             {
+                // テンポラリフォルダを除外
                 memento.Items.RemoveAll((e) => e.Place.StartsWith(Temporary.TempDirectory));
+                // 履歴保持数制限適用
+                memento.Items = Limit(memento.Items); // 履歴保持数制限
             }
 
             memento.LastFolder = this.LastFolder;
             memento.FolderOrders = this.FolderOrders;
+            memento.LimitSize = this.LimitSize;
+            memento.LimitSpan = this.LimitSpan;
 
             return memento;
         }
 
         // memento適用
-        public void Restore(Memento memento)
+        public void Restore(Memento memento, bool fromLoad)
         {
             this.LastFolder = memento.LastFolder;
             this.FolderOrders = memento.FolderOrders;
+            this.LimitSize = memento.LimitSize;
+            this.LimitSpan = memento.LimitSpan;
 
-            this.Load(memento.Items);
+            this.Load(fromLoad ? Limit(memento.Items) : memento.Items);
         }
+
+
+        // 履歴数制限
+        private List<Book.Memento> Limit(List<Book.Memento> source)
+        {
+            // limit size
+            var collection = LimitSize == 0 ? source : source.Take(LimitSize);
+
+            // limit time
+            var limitTime = DateTime.Now - LimitSpan;
+            collection = LimitSpan == default(TimeSpan) ? collection : collection.TakeWhile(e => e.LastAccessTime > limitTime);
+
+            return collection.ToList();
+        }
+
 
         #endregion
     }

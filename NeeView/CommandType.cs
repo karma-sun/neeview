@@ -134,9 +134,9 @@ namespace NeeView
         //SetEffectGrayscale,
         ToggleEffectGrayscale,
 
-        ToggleIsLoupe,
-        LoupeZoomIn,
-        LoupeZoomOut,
+        //ToggleIsLoupe,
+        //LoupeZoomIn,
+        //LoupeZoomOut,
 
         HelpOnline,
         HelpCommandList,

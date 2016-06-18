@@ -1049,6 +1049,7 @@ namespace NeeView
                     CreateIsCheckedBinding = () => BindingGenerator.ShaderEffectType(ShaderEffectType.Grayscale),
                 },
 
+#if false
                 [CommandType.ToggleIsLoupe] = new CommandElement
                 {
                     Group = "ルーペ",
@@ -1083,7 +1084,7 @@ namespace NeeView
                     IsShowMessage = false,
                 },
 
-
+#endif
 
                 [CommandType.ToggleIsReverseSort] = new CommandElement // 欠番
                 {

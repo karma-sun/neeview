@@ -1318,6 +1318,8 @@ namespace NeeView
             [DataMember]
             public PageSortMode SortMode { get; set; }
 
+            [DataMember(Order = 12, EmitDefaultValue = false)]
+            public DateTime LastAccessTime { get; set; }
 
             //
             private void Constructor()
@@ -1407,7 +1409,7 @@ namespace NeeView
             memento.IsSupportedWidePage = IsSupportedWidePage;
             memento.IsRecursiveFolder = IsRecursiveFolder;
             memento.SortMode = SortMode;
-
+            //memento.LastAccessTime = DateTime.Now;
 
             return memento;
         }

@@ -18,6 +18,8 @@
 
     <UserControl.Resources>
 
+        <local:BookMementoToTooltipConverter x:Key="BookMementoToTooltipConverter"/>
+
         <!-- Default TextBlock -->
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="15"/>
@@ -25,7 +27,7 @@
 
         <Style TargetType="TextBlock" x:Key="FolderName">
             <Setter Property="Text" Value="{Binding Memento.Name}"/>
-            <Setter Property="ToolTip" Value="{Binding Memento.Place}"/>
+            <Setter Property="ToolTip" Value="{Binding Memento, Converter={StaticResource BookMementoToTooltipConverter}}"/>
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="15"/>
@@ -55,7 +57,7 @@
 
 
     <DockPanel x:Name="DockPanel" Margin="0,5">
-
+    
         <StackPanel DockPanel.Dock="Top" Margin="5">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <TextBlock FontFamily="Webdings" Text="a" FontSize="20" Foreground="{StaticResource NVCheckMarkBrush}" VerticalAlignment="Center" />
@@ -69,6 +71,7 @@
                  FocusVisualStyle="{StaticResource NVFocusVisual}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Stretch"
+
                  ItemsSource="{Binding Items}"
                  SelectedItem="{Binding SelectedItem}"
                  KeyDown="HistoryListBox_KeyDown"
@@ -100,8 +103,11 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
+               
             </ListBox.Resources>
+            
 
+            
         </ListBox>
 
     </DockPanel>

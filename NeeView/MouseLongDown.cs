@@ -64,7 +64,7 @@ namespace NeeView
             this._Timer.Interval = TimeSpan.FromMilliseconds(750);
             this._Timer.Tick += this.OnTimeout;
         }
-        
+
 
         // マウスボタンが押された時の処理
         private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)

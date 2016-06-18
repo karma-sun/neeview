@@ -21,7 +21,7 @@
 
             <!-- 台紙 -->
             <Ellipse Stroke="Transparent" StrokeThickness="1"  IsHitTestVisible="False"
-                     Fill="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=BorderBrush}"/>
+                     Fill="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.BackgroundSolidBrush}"/>
 
             <!-- 本体 -->
             <Ellipse 

@@ -566,4 +566,50 @@ namespace NeeView
         }
     }
 
+    // 履歴サイズ制限表示用コンバータ
+    [ValueConversion(typeof(int), typeof(string))]
+    public class HistoryLimitSizeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is int)
+            {
+                var limitSize = (int)value;
+                return limitSize == 0 ? "制限なし" : limitSize.ToString();
+            }
+            else
+            {
+                return value;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    // 履歴サイズ制限表示用コンバータ
+    [ValueConversion(typeof(TimeSpan), typeof(string))]
+    public class HistoryLimitSpanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is TimeSpan)
+            {
+                var limitSpan = (TimeSpan)value;
+                return limitSpan == default(TimeSpan) ? "制限なし" : $"{limitSpan.Days}日前まで";
+            }
+            else
+            {
+                return value;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

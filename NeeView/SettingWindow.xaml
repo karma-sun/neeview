@@ -22,6 +22,8 @@
         <local:DragActionTypeToTipsConverter x:Key="DragActionTypeToTipsConverter"/>
         <local:LongButtonDownModeToTipsConverter x:Key="LongButtonDownModeToTipsConverter"/>
         <local:BannerSizeConverter x:Key="BannerSizeConverter"/>
+        <local:HistoryLimitSizeConverter x:Key="HistoryLimitSizeConverter"/>
+        <local:HistoryLimitSpanConverter x:Key="HistoryLimitSpanConverter"/>
 
 
         <Style TargetType="StackPanel" x:Key="BaseStackPanel">
@@ -432,16 +434,6 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <TextBlock Text="ルーペ" Style="{StaticResource Header}"/>
-                    <StackPanel Style="{StaticResource Phrase}">
-                        <StackPanel Style="{StaticResource ItemStackPanel}">
-                            <TextBlock Style="{StaticResource ItemHeader}" Text="ルーペサイズ"/>
-                            <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.LoupeSize}"
-                                    Minimum="64" Maximum="1024" TickFrequency="64"/>
-                            <TextBlock Text="{Binding Setting.ViewMemento.LoupeSize, StringFormat={}{0}x{0}}"/>
-                        </StackPanel>
-                    </StackPanel>
-
                 </StackPanel>
             </TabItem>
 
@@ -552,8 +544,22 @@
                     </StackPanel>
                     <TextBlock Text="履歴保持数" Style="{StaticResource Header}"/>
                     <StackPanel Style="{StaticResource Phrase}">
+                        <StackPanel Style="{StaticResource ItemStackPanel}">
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="数による保持制限"/>
+                            <Slider Style="{StaticResource ItemSlider}" Value="{Binding History.LimitSizeIndex}"
+                                    Minimum="0" Maximum="{Binding History.LimitSizeIndexMax}" TickFrequency="1" />
+                            <TextBlock Text="{Binding History.LimitSize, Converter={StaticResource HistoryLimitSizeConverter}}" />
+                        </StackPanel>
+
+                        <StackPanel Style="{StaticResource ItemStackPanel}">
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="期間による保持制限"/>
+                            <Slider Style="{StaticResource ItemSlider}" Value="{Binding History.LimitSpanIndex}"
+                                    Minimum="0" Maximum="{Binding History.LimitSpanIndexMax}" TickFrequency="1" />
+                            <TextBlock Text="{Binding History.LimitSpan, Converter={StaticResource HistoryLimitSpanConverter}}" />
+                        </StackPanel>
+
                         <DockPanel Margin="2" LastChildFill="False">
-                            <TextBlock Text="現在の履歴数" VerticalAlignment="Center" Margin="2"/>
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="現在の履歴数" />
                             <TextBlock Text="{Binding History.Items.Count}" VerticalAlignment="Center" Margin="10,2"/>
                         </DockPanel>
                         <Button Content="履歴を削除する" Click="ClearHistoryButton_Click">

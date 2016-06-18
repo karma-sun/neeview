@@ -140,6 +140,7 @@ namespace NeeView
                 }
             }
 
+            LimitNow();
             HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Load, null));
         }
 
@@ -171,6 +172,7 @@ namespace NeeView
 
                     unit.HistoryNode = new LinkedListNode<BookMementoUnit>(unit);
                     Items.AddFirst(unit.HistoryNode);
+                    LimitNow();
 
                     ModelContext.BookMementoCollection.Add(unit);
                     HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
@@ -198,6 +200,7 @@ namespace NeeView
 
                     unit.HistoryNode = new LinkedListNode<BookMementoUnit>(unit);
                     Items.AddFirst(unit.HistoryNode);
+                    LimitNow();
 
                     HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
                 }
@@ -236,6 +239,44 @@ namespace NeeView
             }
         }
 
+        // 履歴数制限 現在のリスト
+        private bool LimitNow()
+        {
+            return false;
+
+            // フォルダリストに不具合が出るので処理無効
+#if false
+            int oldCount = Items.Count;
+
+            // limit size
+            if (LimitSize != 0)
+            {
+                while (Items.Count > LimitSize)
+                {
+                    var last = Items.Last();
+                    Items.Remove(last);
+                    last.HistoryNode = null;
+                }
+            }
+
+            // limit time
+            if (LimitSpan != default(TimeSpan))
+            {
+                var limitTime = DateTime.Now - LimitSpan;
+                while (Items.Last.Value.Memento.LastAccessTime < limitTime)
+                {
+                    var last = Items.Last();
+                    Items.Remove(last);
+                    last.HistoryNode = null;
+                }
+            }
+
+            return oldCount != Items.Count;
+#endif
+        }
+
+
+
         // 履歴検索
         public BookMementoUnit Find(string place)
         {
@@ -252,7 +293,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         /// <summary>
         /// 履歴Memento
@@ -260,14 +301,14 @@ namespace NeeView
         [DataContract]
         public class Memento : INotifyPropertyChanged
         {
-            #region NotifyPropertyChanged
+#region NotifyPropertyChanged
             public event PropertyChangedEventHandler PropertyChanged;
 
             protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
-            #endregion
+#endregion
 
 
             [DataMember(Name = "History")]
@@ -286,7 +327,7 @@ namespace NeeView
             public TimeSpan LimitSpan { get; set; }
 
 
-            #region Property: LimitSizeIndex
+#region Property: LimitSizeIndex
             private static List<int> _LimitSizeTable = new List<int>()
                 { 1, 10, 20, 50, 100, 200, 500, 1000, 0 };
 
@@ -306,10 +347,10 @@ namespace NeeView
                     OnPropertyChanged(nameof(LimitSize));
                 }
             }
-            #endregion
+#endregion
 
 
-            #region Property: LimitSpanIndex
+#region Property: LimitSpanIndex
             private static List<TimeSpan> _LimitSpanTable = new List<TimeSpan>() {
                 TimeSpan.FromDays(1),
                 TimeSpan.FromDays(2),
@@ -337,7 +378,7 @@ namespace NeeView
                     OnPropertyChanged(nameof(LimitSpan));
                 }
             }
-            #endregion
+#endregion
 
 
             private void Constructor()
@@ -437,7 +478,7 @@ namespace NeeView
         }
 
 
-        #endregion
+#endregion
     }
 
 

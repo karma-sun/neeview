@@ -550,26 +550,30 @@
                         </CheckBox>
 
                     </StackPanel>
-                    <TextBlock Text="履歴保持数" Style="{StaticResource Header}"/>
+
+
+                    <TextBlock Text="履歴保存数制限" Style="{StaticResource Header}"/>
                     <StackPanel Style="{StaticResource Phrase}">
-                        <StackPanel Style="{StaticResource ItemStackPanel}">
-                            <TextBlock Style="{StaticResource ItemHeader}" Text="数による保持制限"/>
+                        <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="数による保持制限が履歴ファイルに適用されます&#xa;アプリ動作中の履歴は制限されません">
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="保存数"/>
                             <Slider Style="{StaticResource ItemSlider}" Value="{Binding History.LimitSizeIndex}"
                                     Minimum="0" Maximum="{Binding History.LimitSizeIndexMax}" TickFrequency="1" />
                             <TextBlock Text="{Binding History.LimitSize, Converter={StaticResource HistoryLimitSizeConverter}}" />
                         </StackPanel>
 
-                        <StackPanel Style="{StaticResource ItemStackPanel}">
-                            <TextBlock Style="{StaticResource ItemHeader}" Text="期間による保持制限"/>
+                        <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="期間による保持制限が履歴ファイルに適用されます&#xa;アプリ動作中の履歴は制限されません">
+                            <TextBlock Style="{StaticResource ItemHeader}" Text="保存期間"/>
                             <Slider Style="{StaticResource ItemSlider}" Value="{Binding History.LimitSpanIndex}"
                                     Minimum="0" Maximum="{Binding History.LimitSpanIndexMax}" TickFrequency="1" />
                             <TextBlock Text="{Binding History.LimitSpan, Converter={StaticResource HistoryLimitSpanConverter}}" />
                         </StackPanel>
 
-                        <DockPanel Margin="2" LastChildFill="False">
-                            <TextBlock Style="{StaticResource ItemHeader}" Text="現在の履歴数" />
-                            <TextBlock Text="{Binding History.Items.Count}" VerticalAlignment="Center" Margin="10,2"/>
-                        </DockPanel>
+                    </StackPanel>
+
+
+                    <TextBlock Text="現在の履歴数" Style="{StaticResource Header}"/>
+                    <StackPanel Style="{StaticResource Phrase}">
+                        <TextBlock Style="{StaticResource ItemHeader}" Text="{Binding History.Items.Count}" />
                         <Button Content="履歴を削除する" Click="ClearHistoryButton_Click">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource ItemButton}">

@@ -143,9 +143,6 @@ namespace NeeView
         public event EventHandler<PanelType> LeftPanelVisibled;
         public event EventHandler RightPanelVisibled;
 
-        //
-        public event EventHandler<LongButtonDownMode> LongLeftButtonDownModeChanged;
-
         #endregion
 
 
@@ -202,7 +199,7 @@ namespace NeeView
         public LongButtonDownMode LongLeftButtonDownMode
         {
             get { return _LongLeftButtonDownMode; }
-            set { _LongLeftButtonDownMode = value; OnPropertyChanged(); LongLeftButtonDownModeChanged?.Invoke(this, _LongLeftButtonDownMode); }
+            set { _LongLeftButtonDownMode = value; OnPropertyChanged(); }
         }
         #endregion
 

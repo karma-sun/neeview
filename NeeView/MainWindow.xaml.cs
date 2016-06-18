@@ -38,7 +38,7 @@ namespace NeeView
 
         private Dictionary<string, Reciever> _RecieverCollection = new Dictionary<string, Reciever>();
 
-        public void RegistReciever(string propertyName, Reciever reciever)
+        public void AddReciever(string propertyName, Reciever reciever)
         {
             _RecieverCollection.Add(propertyName, reciever);
         }
@@ -112,7 +112,7 @@ namespace NeeView
                     }
                 };
 
-            _NotifyPropertyChangedDelivery.RegistReciever(nameof(_VM.LongButtonDownTick),
+            _NotifyPropertyChangedDelivery.AddReciever(nameof(_VM.LongButtonDownTick),
                 (s, e) =>
                 {
                     _MouseLongDown.Tick = TimeSpan.FromSeconds(_VM.LongButtonDownTick);
@@ -147,6 +147,24 @@ namespace NeeView
 
             // MainMenu Initialize
             _VM.MainMenuInitialize();
+
+            // VM NotifyPropertyChanged Hook
+
+            _NotifyPropertyChangedDelivery.AddReciever(nameof(_VM.TinyInfoText),
+                (s, e) =>
+                {
+                    AutoFade(TinyInfoTextBlock, 1.0, 0.5);
+                });
+
+            _NotifyPropertyChangedDelivery.AddReciever(nameof(_VM.IsSliderDirectionReversed),
+                (s, e) =>
+                {
+                    // Retrieve the Track from the Slider control
+                    var track = this.PageSlider.Template.FindName("PART_Track", this.PageSlider) as System.Windows.Controls.Primitives.Track;
+                    // Force it to rerender
+                    track.InvalidateVisual();
+                });
+
 
             // messenger
             Messenger.AddReciever("MessageBox", CallMessageBox);
@@ -207,7 +225,7 @@ namespace NeeView
                 (s, e) => InitializeInputGestures();
 
             _VM.PropertyChanged +=
-                OnPropertyChanged;
+                (s, e) => _NotifyPropertyChangedDelivery.Send(s, e);
 
             _VM.Loading +=
                 (s, e) =>
@@ -355,25 +373,6 @@ namespace NeeView
         private void OnMouseGestureUpdate(object sender, MouseGestureSequence e)
         {
             _VM.ShowGesture(_MouseGesture.GetGestureString(), _MouseGesture.GetGestureCommandName());
-        }
-
-        // VMプロパティ監視
-        private void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            _NotifyPropertyChangedDelivery.Send(sender, e);
-
-            switch (e.PropertyName)
-            {
-                case "TinyInfoText":
-                    AutoFade(TinyInfoTextBlock, 1.0, 0.5);
-                    break;
-                case "IsSliderDirectionReversed":
-                    // Retrieve the Track from the Slider control
-                    var track = this.PageSlider.Template.FindName("PART_Track", this.PageSlider) as System.Windows.Controls.Primitives.Track;
-                    // Force it to rerender
-                    track.InvalidateVisual();
-                    break;
-            }
         }
 
 

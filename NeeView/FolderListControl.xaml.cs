@@ -19,6 +19,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Diagnostics;
 
 namespace NeeView
 {
@@ -343,15 +344,34 @@ namespace NeeView
 
             if (FolderCollection == null || _IsDarty || place != FolderCollection.Place)
             {
-
                 _IsDarty = false;
-                collection = new FolderCollection();
-                collection.Place = place;
-                collection.Folder = new Folder(place);
-                collection.Update(select);
+                try
+                {
+                    var newCollection = new FolderCollection();
+                    newCollection.Place = place;
+                    newCollection.Folder = new Folder(place);
+                    newCollection.Update(select);
+                    collection = newCollection;
+                    ModelContext.BookHistory.LastFolder = place;
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
 
-                ModelContext.BookHistory.LastFolder = place;
+                // 救済措置。取得に失敗した時はカレントディレクトリに移動
+                if (collection == null)
+                {
+                    place = Environment.CurrentDirectory;
+                    var newCollection = new FolderCollection();
+                    newCollection.Place = place;
+                    newCollection.Folder = new Folder(place);
+                    newCollection.Update(select);
+                    collection = newCollection;
+                    ModelContext.BookHistory.LastFolder = place;
+                }
             }
+
 
             var index = collection.IndexOfPath(select);
             SelectedIndex = index < 0 ? 0 : index;

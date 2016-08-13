@@ -691,12 +691,14 @@ namespace NeeView
                 _FullScreened = _VM.IsFullScreen;
                 if (_VM.IsFullScreen)
                 {
+                    this.ResizeMode = System.Windows.ResizeMode.NoResize;
                     _WindowStateMemento = this.WindowState;
                     if (this.WindowState == WindowState.Maximized) this.WindowState = WindowState.Normal;
-                    this.WindowState = WindowState.Maximized;
+                   this.WindowState = WindowState.Maximized;
                 }
                 else
                 {
+                    this.ResizeMode = System.Windows.ResizeMode.CanResize;
                     this.WindowState = _WindowStateMemento;
                 }
             }

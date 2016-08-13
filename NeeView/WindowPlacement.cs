@@ -95,6 +95,9 @@ namespace NeeView
         {
             [DataMember]
             public Win32Api.WINDOWPLACEMENT? WindowPlacement { get; set; }
+
+            [DataMember]
+            public Rect? WindowRect { get; set; }
         }
 
         // ウィンドウ状態反映
@@ -110,6 +113,16 @@ namespace NeeView
 
             var hwnd = new WindowInteropHelper(window).Handle;
             Win32Api.SetWindowPlacement(hwnd, ref placement);
+
+            // スナップウィンドウサイズで復元 by nee
+            if (memento.WindowRect != null &&  placement.showCmd == Win32Api.SW.SHOWNORMAL)
+            {
+                Rect rect = (Rect)memento.WindowRect;
+                window.Left = rect.Left;
+                window.Top = rect.Top;
+                window.Width = rect.Width;
+                window.Height = rect.Height;
+            }
         }
 
         // ウィンドウ状態保存
@@ -120,18 +133,11 @@ namespace NeeView
             var hwnd = new WindowInteropHelper(window).Handle;
             Win32Api.GetWindowPlacement(hwnd, out placement);
 
-            // スナップウィンドウサイズを保存 by nee
-            if (placement.showCmd == Win32Api.SW.SHOWNORMAL)
-            {
-                var dpiScale = GetDpiScaleFactor(window);
-                placement.normalPosition.Left = (int)(window.Left * dpiScale.X);
-                placement.normalPosition.Top = (int)(window.Top * dpiScale.Y);
-                placement.normalPosition.Right = (int)((window.Left + window.Width) * dpiScale.X);
-                placement.normalPosition.Bottom = (int)((window.Top + window.Height) * dpiScale.Y);
-            }
+            var windowRect = new Rect(window.Left, window.Top, window.Width, window.Height);
 
             var memento = new Memento();
             memento.WindowPlacement = placement;
+            memento.WindowRect = windowRect;
             return memento;
         }
 

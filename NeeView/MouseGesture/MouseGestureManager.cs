@@ -61,12 +61,6 @@ namespace NeeView
         // クリックイベントハンドラ
         public event EventHandler<MouseButtonEventArgs> MouseClickEventHandler;
 
-        // コンテキストメニュー有効フラグ
-        public ContextMenuSetting ContextMenuSetting
-        {
-            get { return Controller.ContextMenuSetting; }
-            set { Controller.ContextMenuSetting = value; }
-        }
 
 
         /// <summary>

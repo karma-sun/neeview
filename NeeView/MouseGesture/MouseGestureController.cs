@@ -159,11 +159,11 @@ namespace NeeView
                 }
                 else if (!_IsDragging)
                 {
-                    if (ContextMenuSetting.IsEnabled && !ContextMenuSetting.IsOpenByCtrl)
+                    if (ContextMenuSetting != null &&  ContextMenuSetting.IsEnabled && !ContextMenuSetting.IsOpenByCtrl)
                     {
                         e.Handled = false;
                     }
-                    else if (ContextMenuSetting.IsEnabled && ContextMenuSetting.IsOpenByCtrl && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                    else if (ContextMenuSetting != null && ContextMenuSetting.IsEnabled && ContextMenuSetting.IsOpenByCtrl && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
                     {
                         e.Handled = false;
                     }

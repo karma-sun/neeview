@@ -725,7 +725,7 @@ namespace NeeView
                 await LoadAsyncCore(place, startEntry ?? setting.BookMark, args.Option, setting, unit);
 
                 // ビュー初期化
-                App.Current.Dispatcher.Invoke(() => ModelContext.CommandTable[CommandType.ViewReset].Execute(null));
+                App.Current.Dispatcher.Invoke(() => ModelContext.CommandTable[CommandType.ViewReset].Execute(this, null));
 
                 // 本の設定を退避
                 App.Current.Dispatcher.Invoke(() => SettingChanged?.Invoke(this, null));

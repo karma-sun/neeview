@@ -404,51 +404,51 @@ namespace NeeView
 
             // View系コマンド登録
             ModelContext.CommandTable[CommandType.OpenSettingWindow].Execute =
-                (e) => OpenSettingWindow();
+                (s, e) => OpenSettingWindow();
             ModelContext.CommandTable[CommandType.OpenVersionWindow].Execute =
-                (e) => OpenVersionWindow();
+                (s, e) => OpenVersionWindow();
             ModelContext.CommandTable[CommandType.CloseApplication].Execute =
-                (e) => Close();
+                (s, e) => Close();
             ModelContext.CommandTable[CommandType.LoadAs].Execute =
-                (e) => LoadAs(e);
+                (s, e) => LoadAs(e);
             ModelContext.CommandTable[CommandType.Paste].Execute =
-                (e) => LoadFromClipboard();
+                (s, e) => LoadFromClipboard();
             ModelContext.CommandTable[CommandType.Paste].CanExecute =
                 () => CanLoadFromClipboard();
             ModelContext.CommandTable[CommandType.ViewScrollUp].Execute =
-                (e) => _MouseDrag.ScrollUp();
+                (s, e) => _MouseDrag.ScrollUp();
             ModelContext.CommandTable[CommandType.ViewScrollDown].Execute =
-                (e) => _MouseDrag.ScrollDown();
+                (s, e) => _MouseDrag.ScrollDown();
             ModelContext.CommandTable[CommandType.ViewScaleUp].Execute =
-                (e) => _MouseDrag.ScaleUp();
+                (s, e) => _MouseDrag.ScaleUp();
             ModelContext.CommandTable[CommandType.ViewScaleDown].Execute =
-                (e) => _MouseDrag.ScaleDown();
+                (s, e) => _MouseDrag.ScaleDown();
             ModelContext.CommandTable[CommandType.ViewRotateLeft].Execute =
-                (e) => _MouseDrag.Rotate(-45);
+                (s, e) => _MouseDrag.Rotate(-45);
             ModelContext.CommandTable[CommandType.ViewRotateRight].Execute =
-                (e) => _MouseDrag.Rotate(+45);
+                (s, e) => _MouseDrag.Rotate(+45);
             ModelContext.CommandTable[CommandType.ToggleViewFlipHorizontal].Execute =
-                (e) => _MouseDrag.ToggleFlipHorizontal();
+                (s, e) => _MouseDrag.ToggleFlipHorizontal();
             ModelContext.CommandTable[CommandType.ViewFlipHorizontalOn].Execute =
-                (e) => _MouseDrag.FlipHorizontal(true);
+                (s, e) => _MouseDrag.FlipHorizontal(true);
             ModelContext.CommandTable[CommandType.ViewFlipHorizontalOff].Execute =
-                (e) => _MouseDrag.FlipHorizontal(false);
+                (s, e) => _MouseDrag.FlipHorizontal(false);
 
             ModelContext.CommandTable[CommandType.ToggleViewFlipVertical].Execute =
-                (e) => _MouseDrag.ToggleFlipVertical();
+                (s, e) => _MouseDrag.ToggleFlipVertical();
             ModelContext.CommandTable[CommandType.ViewFlipVerticalOn].Execute =
-                (e) => _MouseDrag.FlipVertical(true);
+                (s, e) => _MouseDrag.FlipVertical(true);
             ModelContext.CommandTable[CommandType.ViewFlipVerticalOff].Execute =
-                (e) => _MouseDrag.FlipVertical(false);
+                (s, e) => _MouseDrag.FlipVertical(false);
 
             ModelContext.CommandTable[CommandType.ViewReset].Execute =
-                (e) => _MouseDrag.Reset(true, true, true);
+                (s, e) => _MouseDrag.Reset(true, true, true);
             ModelContext.CommandTable[CommandType.PrevScrollPage].Execute =
-                (e) => PrevScrollPage();
+                (s, e) => PrevScrollPage();
             ModelContext.CommandTable[CommandType.NextScrollPage].Execute =
-                (e) => NextScrollPage();
+                (s, e) => NextScrollPage();
             ModelContext.CommandTable[CommandType.MovePageWithCursor].Execute =
-                (e) => MovePageWithCursor();
+                (s, e) => MovePageWithCursor();
 
             ModelContext.CommandTable[CommandType.MovePageWithCursor].ExecuteMessage =
                 (e) => MovePageWithCursorMessage();
@@ -459,12 +459,12 @@ namespace NeeView
             {
                 if (ModelContext.CommandTable[type].CanExecute != null)
                 {
-                    this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Parameter),
+                    this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Source, e.Parameter),
                         (t, e) => e.CanExecute = ModelContext.CommandTable[type].CanExecute()));
                 }
                 else
                 {
-                    this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Parameter),
+                    this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Source, e.Parameter),
                         CanExecute));
                 }
             }

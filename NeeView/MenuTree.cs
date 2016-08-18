@@ -27,6 +27,14 @@ namespace NeeView
     }
 
     /// <summary>
+    /// コマンドパラメータとして渡すオブジェクト。メニューからのコマンドであることを示す
+    /// </summary>
+    public class MenuCommandTag
+    {
+        public static MenuCommandTag Tag { get; } = new MenuCommandTag();
+    }
+
+    /// <summary>
     /// 
     /// </summary>
     [DataContract]
@@ -288,6 +296,7 @@ namespace NeeView
                         var item = new MenuItem();
                         item.Header = this.Label;
                         item.Command = ModelContext.BookCommands[this.Command];
+                        item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
                         if (ModelContext.CommandTable[this.Command].CreateIsCheckedBinding != null)
                         {
                             item.SetBinding(MenuItem.IsCheckedProperty, ModelContext.CommandTable[this.Command].CreateIsCheckedBinding());

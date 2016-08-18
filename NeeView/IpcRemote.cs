@@ -92,7 +92,7 @@ namespace NeeView
                         // パスの指定があれば開く
                         if (path != null)
                         {
-                            ModelContext.CommandTable[CommandType.LoadAs].Execute(path);
+                            ModelContext.CommandTable[CommandType.LoadAs].Execute(this, path);
                         }
                     }
                     catch { }

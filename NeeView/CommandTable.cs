@@ -130,7 +130,7 @@ namespace NeeView
                 {
                     Group = "dummy",
                     Text = "dummy",
-                    Execute = e => { return; }
+                    Execute = (s, e) => { return; }
                 },
 
                 [CommandType.LoadAs] = new CommandElement
@@ -150,7 +150,7 @@ namespace NeeView
                     Note = "フォルダーを再読み込みします",
                     MouseGesture = "UD",
                     CanExecute = () => _Book.CanReload(),
-                    Execute = e => _Book.ReLoad(),
+                    Execute = (s, e) => _Book.ReLoad(),
                     IsShowMessage = false,
                 },
 
@@ -159,7 +159,7 @@ namespace NeeView
                     Group = "ファイル",
                     Text = "外部アプリで開く",
                     Note = "表示されている画像を外部アプリで開きます。設定ウィンドウの<code>外部連携</code>でアプリを設定します",
-                    Execute = e => _Book.OpenApplication(),
+                    Execute = (s, e) => _Book.OpenApplication(),
                     CanExecute = () => _Book.CanOpenFilePlace(),
                     IsShowMessage = false
                 },
@@ -168,7 +168,7 @@ namespace NeeView
                     Group = "ファイル",
                     Text = "エクスプローラーで開く",
                     Note = "表示しているページのファイルをエクスプローラーで開きます",
-                    Execute = e => _Book.OpenFilePlace(),
+                    Execute = (s, e) => _Book.OpenFilePlace(),
                     CanExecute = () => _Book.CanOpenFilePlace(),
                     IsShowMessage = false
                 },
@@ -179,7 +179,7 @@ namespace NeeView
                     MenuText = "保存...",
                     Note = "画像をファイルに保存します",
                     ShortCutKey = "Ctrl+S",
-                    Execute = e => _Book.Export(),
+                    Execute = (s, e) => _Book.Export(),
                     CanExecute = () => _Book.CanOpenFilePlace(),
                     IsShowMessage = false
                 },
@@ -190,7 +190,7 @@ namespace NeeView
                     MenuText = "削除...",
                     Note = "ファイルを削除します。圧縮ファイルの場合は削除できません ",
                     ShortCutKey = "Delete",
-                    Execute = e => _Book.DeleteFile(),
+                    Execute = (s, e) => _Book.DeleteFile(),
                     CanExecute = () => _Book.CanDeleteFile(),
                     IsShowMessage = false
                 },
@@ -201,7 +201,7 @@ namespace NeeView
                     MenuText = "コピー",
                     Note = "ファイルをクリップボードにコピーします",
                     ShortCutKey = "Ctrl+C",
-                    Execute = e => _Book.CopyToClipboard(),
+                    Execute = (s, e) => _Book.CopyToClipboard(),
                     CanExecute = () => _Book.CanOpenFilePlace(),
                     IsShowMessage = true
                 },
@@ -212,7 +212,7 @@ namespace NeeView
                     MenuText = "画像コピー",
                     Note = "画像をクリップボードにコピーします。2ページ表示の場合はメインとなるページのみコピーします",
                     ShortCutKey = "Ctrl+Shift+C",
-                    Execute = e => _VM.CopyImageToClipboard(),
+                    Execute = (s, e) => _VM.CopyImageToClipboard(),
                     CanExecute = () => _VM.CanCopyImageToClipboard(),
                     IsShowMessage = true
                 },
@@ -232,7 +232,7 @@ namespace NeeView
                     Group = "ファイル",
                     Text = "履歴を消去",
                     Note = "履歴を全て削除します",
-                    Execute = e => _VM.ClearHistor()
+                    Execute = (s, e) => _VM.ClearHistor()
                 },
 
                 [CommandType.ToggleStretchMode] = new CommandElement
@@ -241,7 +241,7 @@ namespace NeeView
                     Text = "表示サイズを切り替える",
                     Note = "画像の表示サイズを順番に切り替えます",
                     ShortCutKey = "LeftButton+WheelDown",
-                    Execute = e => _VM.StretchMode = _VM.StretchMode.GetToggle(),
+                    Execute = (s, e) => _VM.StretchMode = _VM.StretchMode.GetToggle(),
                     ExecuteMessage = e => _VM.StretchMode.GetToggle().ToDispString()
                 },
                 [CommandType.ToggleStretchModeReverse] = new CommandElement
@@ -250,7 +250,7 @@ namespace NeeView
                     Text = "表示サイズを切り替える(逆順)",
                     Note = "画像の表示サイズを順番に切り替えます(逆順)",
                     ShortCutKey = "LeftButton+WheelUp",
-                    Execute = e => _VM.StretchMode = _VM.StretchMode.GetToggleReverse(),
+                    Execute = (s, e) => _VM.StretchMode = _VM.StretchMode.GetToggleReverse(),
                     ExecuteMessage = e => _VM.StretchMode.GetToggleReverse().ToDispString()
                 },
                 [CommandType.SetStretchModeNone] = new CommandElement
@@ -258,7 +258,7 @@ namespace NeeView
                     Group = "表示サイズ",
                     Text = "オリジナルサイズ",
                     Note = "画像のサイズそのままで表示します",
-                    Execute = e => _VM.StretchMode = PageStretchMode.None,
+                    Execute = (s, e) => _VM.StretchMode = PageStretchMode.None,
                     Attribute = CommandAttribute.ToggleEditable | CommandAttribute.ToggleLocked,
                     CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.None),
                 },
@@ -267,7 +267,7 @@ namespace NeeView
                     Group = "表示サイズ",
                     Text = "大きい場合ウィンドウサイズに合わせる",
                     Note = "ウィンドウに収まるように画像を縮小して表示します",
-                    Execute = e => _VM.StretchMode = PageStretchMode.Inside,
+                    Execute = (s, e) => _VM.StretchMode = PageStretchMode.Inside,
                     Attribute = CommandAttribute.ToggleEditable,
                     CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Inside),
                 },
@@ -276,7 +276,7 @@ namespace NeeView
                     Group = "表示サイズ",
                     Text = "小さい場合ウィンドウサイズに広げる",
                     Note = "ウィンドウに収まるように画像をできるだけ拡大して表示します",
-                    Execute = e => _VM.StretchMode = PageStretchMode.Outside,
+                    Execute = (s, e) => _VM.StretchMode = PageStretchMode.Outside,
                     Attribute = CommandAttribute.ToggleEditable,
                     CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Outside),
                 },
@@ -285,7 +285,7 @@ namespace NeeView
                     Group = "表示サイズ",
                     Text = "ウィンドウサイズに合わせる",
                     Note = "画像をウィンドウサイズに合わせるよう拡大縮小します",
-                    Execute = e => _VM.StretchMode = PageStretchMode.Uniform,
+                    Execute = (s, e) => _VM.StretchMode = PageStretchMode.Uniform,
                     Attribute = CommandAttribute.ToggleEditable,
                     CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Uniform),
                 },
@@ -294,7 +294,7 @@ namespace NeeView
                     Group = "表示サイズ",
                     Text = "ウィンドウいっぱいに広げる",
                     Note = "縦横どちらかをウィンドウサイズに合わせるように拡大縮小します。画像はウィンドウサイズより大きくなります",
-                    Execute = e => _VM.StretchMode = PageStretchMode.UniformToFill,
+                    Execute = (s, e) => _VM.StretchMode = PageStretchMode.UniformToFill,
                     Attribute = CommandAttribute.ToggleEditable,
                     CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToFill),
                 },
@@ -303,7 +303,7 @@ namespace NeeView
                     Group = "表示サイズ",
                     Text = "面積をウィンドウに合わせる",
                     Note = "ウィンドウの面積と等しくなるように画像を拡大縮小します",
-                    Execute = e => _VM.StretchMode = PageStretchMode.UniformToSize,
+                    Execute = (s, e) => _VM.StretchMode = PageStretchMode.UniformToSize,
                     Attribute = CommandAttribute.ToggleEditable,
                     CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToSize),
                 },
@@ -312,7 +312,7 @@ namespace NeeView
                     Group = "表示サイズ",
                     Text = "高さをウィンドウに合わせる",
                     Note = "ウィンドウの高さに画像の高さを合わせるように拡大縮小します",
-                    Execute = e => _VM.StretchMode = PageStretchMode.UniformToVertical,
+                    Execute = (s, e) => _VM.StretchMode = PageStretchMode.UniformToVertical,
                     Attribute = CommandAttribute.ToggleEditable,
                     CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToVertical),
                 },
@@ -323,7 +323,7 @@ namespace NeeView
                     Text = "ドットのまま拡大ON/OFF",
                     MenuText = "ドットのまま拡大",
                     Note = "ONにすると拡大するときにドットのまま拡大します。OFFの時にはスケール変換処理(Fant)が行われます",
-                    Execute = e => _VM.IsEnabledNearestNeighbor = !_VM.IsEnabledNearestNeighbor,
+                    Execute = (s, e) => _VM.IsEnabledNearestNeighbor = !_VM.IsEnabledNearestNeighbor,
                     ExecuteMessage = e => _VM.IsEnabledNearestNeighbor ? "高品質に拡大する" : "ドットのまま拡大する",
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsEnabledNearestNeighbor))
                 },
@@ -333,7 +333,7 @@ namespace NeeView
                     Group = "背景",
                     Text = "背景を切り替える",
                     Note = "背景を順番に切り替えます",
-                    Execute = e => _VM.Background = _VM.Background.GetToggle(),
+                    Execute = (s, e) => _VM.Background = _VM.Background.GetToggle(),
                     ExecuteMessage = e => _VM.Background.GetToggle().ToDispString(),
                 },
 
@@ -342,7 +342,7 @@ namespace NeeView
                     Group = "背景",
                     Text = "背景を黒色にする",
                     Note = "背景を黒色にします",
-                    Execute = e => _VM.Background = BackgroundStyle.Black,
+                    Execute = (s, e) => _VM.Background = BackgroundStyle.Black,
                     CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Black),
                 },
 
@@ -351,7 +351,7 @@ namespace NeeView
                     Group = "背景",
                     Text = "背景を白色にする",
                     Note = "背景を白色にします",
-                    Execute = e => _VM.Background = BackgroundStyle.White,
+                    Execute = (s, e) => _VM.Background = BackgroundStyle.White,
                     CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.White),
 
                 },
@@ -361,7 +361,7 @@ namespace NeeView
                     Group = "背景",
                     Text = "背景を画像に合わせた色にする",
                     Note = "背景色を画像から設定します。具体的には画像の左上ピクセルの色が使用されます",
-                    Execute = e => _VM.Background = BackgroundStyle.Auto,
+                    Execute = (s, e) => _VM.Background = BackgroundStyle.Auto,
                     CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Auto),
                 },
 
@@ -370,7 +370,7 @@ namespace NeeView
                     Group = "背景",
                     Text = "背景をチェック模様にする",
                     Note = "背景をチェック模様にします",
-                    Execute = e => _VM.Background = BackgroundStyle.Check,
+                    Execute = (s, e) => _VM.Background = BackgroundStyle.Check,
                     CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Check),
                 },
 
@@ -380,7 +380,7 @@ namespace NeeView
                     Text = "常に手前に表示ON/OFF",
                     MenuText = "常に手前に表示",
                     Note = "ウィンドウを常に手前に表示します",
-                    Execute = e => _VM.ToggleTopmost(),
+                    Execute = (s, e) => _VM.ToggleTopmost(),
                     ExecuteMessage = e => _VM.IsTopmost ? "「常に手前に表示」を解除" : "常に手前に表示する",
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsTopmost)),
@@ -392,7 +392,7 @@ namespace NeeView
                     MenuText = "メニューを自動的に隠す",
                     Note = "メニュー、スライダーを非表示にします。カーソルをウィンドウ上端、下端に合わせることで表示されます",
                     IsShowMessage = false,
-                    Execute = e => _VM.ToggleHideMenu(),
+                    Execute = (s, e) => _VM.ToggleHideMenu(),
                     ExecuteMessage = e => _VM.IsHideMenu ? "メニューを表示する" : "メニューを自動的に隠す",
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHideMenu)),
@@ -404,7 +404,7 @@ namespace NeeView
                     MenuText = "パネルを自動的に隠す",
                     Note = "左右のパネルを自動的に隠します。カーソルをウィンドウ左端、右端に合わせることで表示されます",
                     IsShowMessage = false,
-                    Execute = e => _VM.ToggleHidePanel(),
+                    Execute = (s, e) => _VM.ToggleHidePanel(),
                     ExecuteMessage = e => _VM.IsHidePanel ? "パネルを表示する" : "パネルを自動的に隠す",
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHidePanel)),
@@ -413,7 +413,7 @@ namespace NeeView
                 {
                     Group = "dummy",
                     Text = "dummy",
-                    Execute = e => { return; }
+                    Execute = (s, e) => { return; }
                 },
                 [CommandType.ToggleVisibleTitleBar] = new CommandElement
                 {
@@ -422,7 +422,7 @@ namespace NeeView
                     MenuText = "タイトルバー",
                     Note = "ウィンドウタイトルバーの表示/非表示を切り替えます",
                     IsShowMessage = false,
-                    Execute = e => _VM.ToggleVisibleTitleBar(),
+                    Execute = (s, e) => _VM.ToggleVisibleTitleBar(),
                     ExecuteMessage = e => _VM.IsVisibleTitleBar ? "タイトルバーを消す" : "タイトルバー表示する",
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleTitleBar)),
@@ -434,7 +434,7 @@ namespace NeeView
                     MenuText = "アドレスバー",
                     Note = "アドレスバーの表示/非表示を切り替えます",
                     IsShowMessage = false,
-                    Execute = e => _VM.ToggleVisibleAddressBar(),
+                    Execute = (s, e) => _VM.ToggleVisibleAddressBar(),
                     ExecuteMessage = e => _VM.IsVisibleAddressBar ? "アドレスバーを消す" : "アドレスバーを表示する",
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleAddressBar)),
@@ -447,7 +447,7 @@ namespace NeeView
                     Note = "ファイル情報パネルの表示/非表示を切り替えます。ファイル情報パネルは右側に表示されます",
                     ShortCutKey = "I",
                     IsShowMessage = false,
-                    Execute = e => _VM.ToggleVisibleFileInfo(),
+                    Execute = (s, e) => _VM.ToggleVisibleFileInfo(e is MenuCommandTag),
                     ExecuteMessage = e => _VM.IsVisibleFileInfo ? "ファイル情報を消す" : "ファイル情報を表示する",
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleFileInfo)),
@@ -460,7 +460,7 @@ namespace NeeView
                     Note = "フォルダーリストパネルの表示/非表示を切り替えます",
                     ShortCutKey = "F",
                     IsShowMessage = false,
-                    Execute = e => _VM.ToggleVisibleFolderList(),
+                    Execute = (s, e) => _VM.ToggleVisibleFolderList(e is MenuCommandTag),
                     ExecuteMessage = e => _VM.IsVisibleFolderList ? "フォルダーリストを消す" : "フォルダーリストを表示する",
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleFolderList)),
@@ -473,7 +473,7 @@ namespace NeeView
                     Note = "ブックマークリストパネルの表示/非表示を切り替えます",
                     ShortCutKey = "B",
                     IsShowMessage = false,
-                    Execute = e => _VM.ToggleVisibleBookmarkList(),
+                    Execute = (s, e) => _VM.ToggleVisibleBookmarkList(e is MenuCommandTag),
                     ExecuteMessage = e => _VM.IsVisibleBookmarkList ? "ブックマークリストを消す" : "ブックマークリストを表示する",
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleBookmarkList)),
@@ -486,7 +486,7 @@ namespace NeeView
                     Note = "履歴リストパネルの表示/非表示を切り替えます",
                     ShortCutKey = "H",
                     IsShowMessage = false,
-                    Execute = e => _VM.ToggleVisibleHistoryList(),
+                    Execute = (s, e) => _VM.ToggleVisibleHistoryList(e is MenuCommandTag),
                     ExecuteMessage = e => _VM.IsVisibleHistoryList ? "履歴リストを消す" : "履歴リストを表示する",
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleHistoryList)),
@@ -500,7 +500,7 @@ namespace NeeView
                     ShortCutKey = "P",
                     IsShowMessage = false,
                     ExecuteMessage = e => _VM.IsVisiblePageList ? "ページリストを消す" : "ページリストを表示する",
-                    Execute = e => _VM.ToggleVisiblePageList(),
+                    Execute = (s, e) => _VM.ToggleVisiblePageList(),
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisiblePageListMenu), System.Windows.Data.BindingMode.OneWay),
                 },
@@ -513,7 +513,7 @@ namespace NeeView
                     Note = "サムネイルリスト表示/非表示を切り替えます",
                     IsShowMessage = false,
                     ExecuteMessage = e => _VM.IsEnableThumbnailList ? "サムネイルリストを消す" : "サムネイルリストを表示する",
-                    Execute = e => _VM.ToggleVisibleThumbnailList(),
+                    Execute = (s, e) => _VM.ToggleVisibleThumbnailList(),
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsEnableThumbnailList)),
                 },
@@ -525,7 +525,7 @@ namespace NeeView
                     Note = "スライダーを使用している時だけサムネイルリストを表示するようにします",
                     IsShowMessage = false,
                     ExecuteMessage = e => _VM.IsHideThumbnailList ? "サムネイルリストを表示する" : "サムネイルリストを自動的に隠す",
-                    Execute = e => _VM.ToggleHideThumbnailList(),
+                    Execute = (s, e) => _VM.ToggleHideThumbnailList(),
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHideThumbnailList)),
                 },
@@ -540,7 +540,7 @@ namespace NeeView
                     ShortCutKey = "F11",
                     MouseGesture = "U",
                     IsShowMessage = false,
-                    Execute = e => _VM.ToggleFullScreen(),
+                    Execute = (s, e) => _VM.ToggleFullScreen(),
                     ExecuteMessage = e => _VM.IsFullScreen ? "フルスクリーンOFF" : "フルスクリーンON",
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsFullScreen)),
@@ -551,7 +551,7 @@ namespace NeeView
                     Text = "フルスクリーンにする",
                     Note = "フルスクリーンにします",
                     IsShowMessage = false,
-                    Execute = e => _VM.IsFullScreen = true,
+                    Execute = (s, e) => _VM.IsFullScreen = true,
                     CanExecute = () => true,
                 },
                 [CommandType.CancelFullScreen] = new CommandElement
@@ -561,7 +561,7 @@ namespace NeeView
                     Note = "フルスクリーンを解除します",
                     ShortCutKey = "Escape",
                     IsShowMessage = false,
-                    Execute = e => _VM.IsFullScreen = false,
+                    Execute = (s, e) => _VM.IsFullScreen = false,
                     CanExecute = () => true,
                 },
 
@@ -572,7 +572,7 @@ namespace NeeView
                     MenuText = "スライドショー",
                     Note = "スライドショーの再生/停止を切り替えます",
                     ShortCutKey = "F5",
-                    Execute = e => _Book.ToggleSlideShow(),
+                    Execute = (s, e) => _Book.ToggleSlideShow(),
                     ExecuteMessage = e => _Book.IsEnableSlideShow ? "スライドショー停止" : "スライドショー再生",
                     CreateIsCheckedBinding = () => BindingGenerator.BindingBookHub(nameof(_Book.IsEnableSlideShow)),
                 },
@@ -686,7 +686,7 @@ namespace NeeView
                     ShortCutKey = "Right,RightClick",
                     MouseGesture = "R",
                     IsShowMessage = false,
-                    Execute = e => _Book.PrevPage(),
+                    Execute = (s, e) => _Book.PrevPage(),
                 },
                 [CommandType.NextPage] = new CommandElement
                 {
@@ -696,7 +696,7 @@ namespace NeeView
                     ShortCutKey = "Left,LeftClick",
                     MouseGesture = "L",
                     IsShowMessage = false,
-                    Execute = e => _Book.NextPage(),
+                    Execute = (s, e) => _Book.NextPage(),
                 },
                 [CommandType.PrevOnePage] = new CommandElement
                 {
@@ -705,7 +705,7 @@ namespace NeeView
                     Note = "1ページだけ前方向に移動します",
                     MouseGesture = "LR",
                     IsShowMessage = false,
-                    Execute = e => _Book.PrevOnePage(),
+                    Execute = (s, e) => _Book.PrevOnePage(),
                 },
                 [CommandType.NextOnePage] = new CommandElement
                 {
@@ -714,7 +714,7 @@ namespace NeeView
                     Note = "1ページだけ次方向に移動します",
                     MouseGesture = "RL",
                     IsShowMessage = false,
-                    Execute = e => _Book.NextOnePage(),
+                    Execute = (s, e) => _Book.NextOnePage(),
                 },
                 [CommandType.PrevScrollPage] = new CommandElement
                 {
@@ -745,7 +745,7 @@ namespace NeeView
                     Note = "先頭ページに移動します",
                     ShortCutKey = "Ctrl+Right",
                     MouseGesture = "UR",
-                    Execute = e => _Book.FirstPage(),
+                    Execute = (s, e) => _Book.FirstPage(),
                 },
                 [CommandType.LastPage] = new CommandElement
                 {
@@ -754,7 +754,7 @@ namespace NeeView
                     Note = "終端ページに移動します",
                     ShortCutKey = "Ctrl+Left",
                     MouseGesture = "UL",
-                    Execute = e => _Book.LastPage(),
+                    Execute = (s, e) => _Book.LastPage(),
                 },
                 [CommandType.PrevFolder] = new CommandElement
                 {
@@ -764,7 +764,7 @@ namespace NeeView
                     ShortCutKey = "Up",
                     MouseGesture = "LU",
                     IsShowMessage = false,
-                    Execute = e => _Book.PrevFolder(),
+                    Execute = (s, e) => _Book.PrevFolder(),
                 },
                 [CommandType.NextFolder] = new CommandElement
                 {
@@ -774,7 +774,7 @@ namespace NeeView
                     ShortCutKey = "Down",
                     MouseGesture = "LD",
                     IsShowMessage = false,
-                    Execute = e => _Book.NextFolder(),
+                    Execute = (s, e) => _Book.NextFolder(),
                 },
                 [CommandType.PrevHistory] = new CommandElement
                 {
@@ -784,7 +784,7 @@ namespace NeeView
                     ShortCutKey = "Back",
                     IsShowMessage = false,
                     CanExecute = () => _Book.CanPrevHistory(),
-                    Execute = e => _Book.PrevHistory(),
+                    Execute = (s, e) => _Book.PrevHistory(),
                 },
                 [CommandType.NextHistory] = new CommandElement
                 {
@@ -794,7 +794,7 @@ namespace NeeView
                     ShortCutKey = "Shift+Back",
                     IsShowMessage = false,
                     CanExecute = () => _Book.CanNextHistory(),
-                    Execute = e => _Book.NextHistory(),
+                    Execute = (s, e) => _Book.NextHistory(),
                 },
 
 
@@ -803,7 +803,7 @@ namespace NeeView
                     Group = "フォルダ列",
                     Text = "フォルダーの並び順を切り替える",
                     Note = "フォルダーの並び順を順番に切り替えます",
-                    Execute = e => _Book.ToggleFolderOrder(),
+                    Execute = (s, e) => _Book.ToggleFolderOrder(),
                     ExecuteMessage = e => _Book.GetFolderOrder().GetToggle().ToDispString(),
                 },
                 [CommandType.SetFolderOrderByFileName] = new CommandElement
@@ -811,7 +811,7 @@ namespace NeeView
                     Group = "フォルダ列",
                     Text = "フォルダ列はファイル名順",
                     Note = "フォルダーの並びを名前順(昇順)にします",
-                    Execute = e => _Book.SetFolderOrder(FolderOrder.FileName),
+                    Execute = (s, e) => _Book.SetFolderOrder(FolderOrder.FileName),
                     CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileName),
                 },
                 [CommandType.SetFolderOrderByTimeStamp] = new CommandElement
@@ -819,7 +819,7 @@ namespace NeeView
                     Group = "フォルダ列",
                     Text = "フォルダ列は日付順",
                     Note = "フォルダーの並びを日付順(降順)にします",
-                    Execute = e => _Book.SetFolderOrder(FolderOrder.TimeStamp),
+                    Execute = (s, e) => _Book.SetFolderOrder(FolderOrder.TimeStamp),
                     CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStamp),
                 },
                 [CommandType.SetFolderOrderByRandom] = new CommandElement
@@ -827,7 +827,7 @@ namespace NeeView
                     Group = "フォルダ列",
                     Text = "フォルダ列はシャッフル",
                     Note = "フォルダーの並びをシャッフルします",
-                    Execute = e => _Book.SetFolderOrder(FolderOrder.Random),
+                    Execute = (s, e) => _Book.SetFolderOrder(FolderOrder.Random),
                     CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Random),
                 },
 
@@ -837,7 +837,7 @@ namespace NeeView
                     Text = "ページ表示モードを切り替える",
                     Note = "1ページ表示/2ページ表示を切り替えます",
                     CanExecute = () => true,
-                    Execute = e => _Book.TogglePageMode(),
+                    Execute = (s, e) => _Book.TogglePageMode(),
                     ExecuteMessage = e => _Book.BookMemento.PageMode.GetToggle().ToDispString(),
                 },
                 [CommandType.SetPageMode1] = new CommandElement
@@ -847,7 +847,7 @@ namespace NeeView
                     Note = "1ページ表示にします",
                     ShortCutKey = "Ctrl+1",
                     MouseGesture = "RU",
-                    Execute = e => _Book.SetPageMode(PageMode.SinglePage),
+                    Execute = (s, e) => _Book.SetPageMode(PageMode.SinglePage),
                     CreateIsCheckedBinding = () => BindingGenerator.PageMode(PageMode.SinglePage),
                 },
                 [CommandType.SetPageMode2] = new CommandElement
@@ -857,7 +857,7 @@ namespace NeeView
                     Note = "2ページ表示にします",
                     ShortCutKey = "Ctrl+2",
                     MouseGesture = "RD",
-                    Execute = e => _Book.SetPageMode(PageMode.WidePage),
+                    Execute = (s, e) => _Book.SetPageMode(PageMode.WidePage),
                     CreateIsCheckedBinding = () => BindingGenerator.PageMode(PageMode.WidePage),
                 },
                 [CommandType.ToggleBookReadOrder] = new CommandElement
@@ -866,7 +866,7 @@ namespace NeeView
                     Text = "右開き、左開きを切り替える",
                     Note = "右開き、左開きを切り替えます",
                     CanExecute = () => true,
-                    Execute = e => _Book.ToggleBookReadOrder(),
+                    Execute = (s, e) => _Book.ToggleBookReadOrder(),
                     ExecuteMessage = e => _Book.BookMemento.BookReadOrder.GetToggle().ToDispString()
                 },
                 [CommandType.SetBookReadOrderRight] = new CommandElement
@@ -874,7 +874,7 @@ namespace NeeView
                     Group = "ページ表示",
                     Text = "右開き",
                     Note = "読み進む方向を右開きにします。2ページ表示のときに若いページが右になります",
-                    Execute = e => _Book.SetBookReadOrder(PageReadOrder.RightToLeft),
+                    Execute = (s, e) => _Book.SetBookReadOrder(PageReadOrder.RightToLeft),
                     CreateIsCheckedBinding = () => BindingGenerator.BookReadOrder(PageReadOrder.RightToLeft),
                 },
                 [CommandType.SetBookReadOrderLeft] = new CommandElement
@@ -882,7 +882,7 @@ namespace NeeView
                     Group = "ページ表示",
                     Text = "左開き",
                     Note = "読み進む方向を左開きにします。2ページ表示のときに若いページが左になります",
-                    Execute = e => _Book.SetBookReadOrder(PageReadOrder.LeftToRight),
+                    Execute = (s, e) => _Book.SetBookReadOrder(PageReadOrder.LeftToRight),
                     CreateIsCheckedBinding = () => BindingGenerator.BookReadOrder(PageReadOrder.LeftToRight),
                 },
 
@@ -891,7 +891,7 @@ namespace NeeView
                     Group = "1ページ表示設定",
                     Text = "横長ページを分割する",
                     Note = "1ページ表示時、横長ページを分割してページにします",
-                    Execute = e => _Book.ToggleIsSupportedDividePage(),
+                    Execute = (s, e) => _Book.ToggleIsSupportedDividePage(),
                     ExecuteMessage = e => _Book.BookMemento.IsSupportedDividePage ? "横長ページの区別をしない" : "横長ページを分割する",
                     CanExecute = () => _Book.CanPageModeSubSetting(PageMode.SinglePage),
                     CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsSupportedDividePage)),
@@ -902,7 +902,7 @@ namespace NeeView
                     Group = "2ページ表示設定",
                     Text = "横長ページを2ページとみなす",
                     Note = " 2ページ表示時、横長の画像を2ページ分とみなして単独表示します",
-                    Execute = e => _Book.ToggleIsSupportedWidePage(),
+                    Execute = (s, e) => _Book.ToggleIsSupportedWidePage(),
                     ExecuteMessage = e => _Book.BookMemento.IsSupportedWidePage ? "横長ページの区別をしない" : "横長ページを2ページとみなす",
                     CanExecute = () => _Book.CanPageModeSubSetting(PageMode.WidePage),
                     CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsSupportedWidePage)),
@@ -912,7 +912,7 @@ namespace NeeView
                     Group = "2ページ表示設定",
                     Text = "最初のページを単独表示",
                     Note = "2ページ表示でも最初のページは1ページ表示にします",
-                    Execute = e => _Book.ToggleIsSupportedSingleFirstPage(),
+                    Execute = (s, e) => _Book.ToggleIsSupportedSingleFirstPage(),
                     ExecuteMessage = e => _Book.BookMemento.IsSupportedSingleFirstPage ? "最初のページを区別しない" : "最初のページを単独表示",
                     CanExecute = () => _Book.CanPageModeSubSetting(PageMode.WidePage),
                     CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsSupportedSingleFirstPage)),
@@ -922,7 +922,7 @@ namespace NeeView
                     Group = "2ページ表示設定",
                     Text = "最後のページを単独表示",
                     Note = "2ページ表示でも最後のページは1ページ表示にします",
-                    Execute = e => _Book.ToggleIsSupportedSingleLastPage(),
+                    Execute = (s, e) => _Book.ToggleIsSupportedSingleLastPage(),
                     ExecuteMessage = e => _Book.BookMemento.IsSupportedSingleLastPage ? "最後のページを区別しない" : "最後のページを単独表示",
                     CanExecute = () => _Book.CanPageModeSubSetting(PageMode.WidePage),
                     CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsSupportedSingleLastPage)),
@@ -933,7 +933,7 @@ namespace NeeView
                     Group = "ページ読込",
                     Text = "サブフォルダを読み込む",
                     Note = "フォルダから画像を読み込むときにサブフォルダまたは圧縮ファイルも同時に読み込みます",
-                    Execute = e => _Book.ToggleIsRecursiveFolder(),
+                    Execute = (s, e) => _Book.ToggleIsRecursiveFolder(),
                     ExecuteMessage = e => _Book.BookMemento.IsRecursiveFolder ? "サブフォルダは読み込まない" : "サブフォルダも読み込む",
                     CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsRecursiveFolder)),
                 },
@@ -944,7 +944,7 @@ namespace NeeView
                     Text = "ページの並び順を切り替える",
                     Note = "ページの並び順を順番に切り替えます",
                     CanExecute = () => true,
-                    Execute = e => _Book.ToggleSortMode(),
+                    Execute = (s, e) => _Book.ToggleSortMode(),
                     ExecuteMessage = e => _Book.BookMemento.SortMode.GetToggle().ToDispString(),
                 },
                 [CommandType.SetSortModeFileName] = new CommandElement
@@ -952,7 +952,7 @@ namespace NeeView
                     Group = "ページ列",
                     Text = "ファイル名昇順",
                     Note = "ページの並び順をファイル名昇順にします",
-                    Execute = e => _Book.SetSortMode(PageSortMode.FileName),
+                    Execute = (s, e) => _Book.SetSortMode(PageSortMode.FileName),
                     CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.FileName),
                 },
                 [CommandType.SetSortModeFileNameDescending] = new CommandElement
@@ -960,7 +960,7 @@ namespace NeeView
                     Group = "ページ列",
                     Text = "ファイル名降順",
                     Note = "ページの並び順をファイル名降順にします",
-                    Execute = e => _Book.SetSortMode(PageSortMode.FileNameDescending),
+                    Execute = (s, e) => _Book.SetSortMode(PageSortMode.FileNameDescending),
                     CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.FileNameDescending),
                 },
                 [CommandType.SetSortModeTimeStamp] = new CommandElement
@@ -968,7 +968,7 @@ namespace NeeView
                     Group = "ページ列",
                     Text = "ファイル日付昇順",
                     Note = "ページの並び順をファイル日付昇順にします",
-                    Execute = e => _Book.SetSortMode(PageSortMode.TimeStamp),
+                    Execute = (s, e) => _Book.SetSortMode(PageSortMode.TimeStamp),
                     CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.TimeStamp),
                 },
                 [CommandType.SetSortModeTimeStampDescending] = new CommandElement
@@ -976,7 +976,7 @@ namespace NeeView
                     Group = "ページ列",
                     Text = "ファイル日付降順",
                     Note = "ページの並び順をファイル日付降順にします",
-                    Execute = e => _Book.SetSortMode(PageSortMode.TimeStampDescending),
+                    Execute = (s, e) => _Book.SetSortMode(PageSortMode.TimeStampDescending),
                     CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.TimeStampDescending),
                 },
                 [CommandType.SetSortModeRandom] = new CommandElement
@@ -984,7 +984,7 @@ namespace NeeView
                     Group = "ページ列",
                     Text = "シャッフル",
                     Note = "ページの並び順をシャッフルます",
-                    Execute = e => _Book.SetSortMode(PageSortMode.Random),
+                    Execute = (s, e) => _Book.SetSortMode(PageSortMode.Random),
                     CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.Random),
                 },
 
@@ -994,7 +994,7 @@ namespace NeeView
                     Text = "ブックマーク登録/解除",
                     MenuText = "ブックマーク",
                     Note = "現在開いているフォルダのブックマークの登録/解除を切り替えます",
-                    Execute = e => _Book.ToggleBookmark(),
+                    Execute = (s, e) => _Book.ToggleBookmark(),
                     CanExecute = () => true,
                     ExecuteMessage = e => _Book.IsBookmark(null) ? "ブックマーク解除" : "ブックマークに登録",
                     IsShowMessage = false,
@@ -1005,7 +1005,7 @@ namespace NeeView
                     Group = "ブックマーク",
                     Text = "ブックマークに登録する",
                     Note = "現在開いているフォルダをブックマークに登録します",
-                    Execute = e => _Book.Bookmark(),
+                    Execute = (s, e) => _Book.Bookmark(),
                     CanExecute = () => _Book.CanBookmark(),
                     ExecuteMessage = e => "ブックマークに登録",
                     ShortCutKey = "Ctrl+D",
@@ -1018,7 +1018,7 @@ namespace NeeView
                     Text = "エフェクト無効",
                     MenuText = "エフェクトなし",
                     Note = "エフェクトを無効にします",
-                    Execute = e => _VM.ShaderEffectType = ShaderEffectType.None,
+                    Execute = (s, e) => _VM.ShaderEffectType = ShaderEffectType.None,
                     CanExecute = () => true,
                     IsShowMessage = false,
                     CreateIsCheckedBinding = () => BindingGenerator.ShaderEffectType(ShaderEffectType.None),
@@ -1029,7 +1029,7 @@ namespace NeeView
                     Text = "グレイスケール",
                     MenuText = "グレイスケール",
                     Note = "画像をグレイスケールにします",
-                    Execute = e => _VM.ShaderEffectType = ShaderEffectType.Grayscale,
+                    Execute = (s, e) => _VM.ShaderEffectType = ShaderEffectType.Grayscale,
                     CanExecute = () => true,
                     IsShowMessage = false,
                     CreateIsCheckedBinding = () => BindingGenerator.ShaderEffectType(ShaderEffectType.Grayscale),
@@ -1042,7 +1042,7 @@ namespace NeeView
                     Text = "グレイスケールON/OFF",
                     MenuText = "グレイスケール",
                     Note = "グレイスケールエフェクトの有効/無効を切り替えます",
-                    Execute = e => _VM.ShaderEffectType = (_VM.ShaderEffectType != ShaderEffectType.Grayscale) ? ShaderEffectType.Grayscale : ShaderEffectType.None,
+                    Execute = (s, e) => _VM.ShaderEffectType = (_VM.ShaderEffectType != ShaderEffectType.Grayscale) ? ShaderEffectType.Grayscale : ShaderEffectType.None,
                     ExecuteMessage = e => _VM.ShaderEffectType == ShaderEffectType.Grayscale ? "グレイスケール解除" : "グレイスケール",
                     CanExecute = () => true,
                     IsShowMessage = false,
@@ -1056,7 +1056,7 @@ namespace NeeView
                     Text = "ルーペON/OFF",
                     MenuText = "ルーペ",
                     Note = "ルーペの有効/無効を切り替えます",
-                    Execute = e => _VM.ToggleIsLoupe(),
+                    Execute = (s, e) => _VM.ToggleIsLoupe(),
                     CanExecute = () => true,
                     IsShowMessage = false,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.LoupeIsVisibled), System.Windows.Data.BindingMode.OneWay),
@@ -1068,7 +1068,7 @@ namespace NeeView
                     Text = "ルーペ拡大",
                     MenuText = "ルーペ拡大",
                     Note = "ルーペを有効化し、ルーペの拡大率を増加させます",
-                    Execute = e => _VM.LoupeZoomIn(),
+                    Execute = (s, e) => _VM.LoupeZoomIn(),
                     CanExecute = () => true,
                     IsShowMessage = false,
                 },
@@ -1079,7 +1079,7 @@ namespace NeeView
                     Text = "ルーペ縮小",
                     MenuText = "ルーペ縮小",
                     Note = "ルーペを有効化し、ルーペの拡大率を減少させます。等倍まで下げるとルーペ機能は無効になります",
-                    Execute = e => _VM.LoupeZoomOut(),
+                    Execute = (s, e) => _VM.LoupeZoomOut(),
                     CanExecute = () => true,
                     IsShowMessage = false,
                 },
@@ -1090,7 +1090,7 @@ namespace NeeView
                 {
                     Group = "dummy",
                     Text = "dummy",
-                    Execute = e => { return; }
+                    Execute = (s, e) => { return; }
                 },
 
                 [CommandType.OpenSettingWindow] = new CommandElement
@@ -1128,7 +1128,7 @@ namespace NeeView
                     MenuText = "オンラインヘルプ",
                     Note = "オンラインヘルプを表示します",
                     IsShowMessage = false,
-                    Execute = e => _VM.OpenOnlineHelp(),
+                    Execute = (s, e) => _VM.OpenOnlineHelp(),
                     CanExecute = () => true,
                 },
 
@@ -1139,7 +1139,7 @@ namespace NeeView
                     MenuText = "コマンド一覧",
                     Note = "コマンドのヘルプをブラウザで表示します",
                     IsShowMessage = false,
-                    Execute = e => this.OpenCommandListHelp(),
+                    Execute = (s, e) => this.OpenCommandListHelp(),
                     CanExecute = () => true,
                 },
 
@@ -1150,7 +1150,7 @@ namespace NeeView
                     MenuText = "メインメニューの説明",
                     Note = "メインメニューのヘルプをブラウザで表示します",
                     IsShowMessage = false,
-                    Execute = e => _VM.OpenMainMenuHelp(),
+                    Execute = (s, e) => _VM.OpenMainMenuHelp(),
                     CanExecute = () => true,
                 },
             };

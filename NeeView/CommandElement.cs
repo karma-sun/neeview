@@ -51,7 +51,7 @@ namespace NeeView
         public bool IsShowMessage { get; set; }
 
         // コマンド本体
-        public Action<object> Execute { get; set; }
+        public Action<object, object> Execute { get; set; }
 
         // コマンド実行時表示デリゲート
         public Func<object, string> ExecuteMessage { get; set; }

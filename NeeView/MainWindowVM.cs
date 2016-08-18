@@ -380,9 +380,9 @@ namespace NeeView
             set { RightPanel = value ? PanelType.FileInfo : PanelType.None; }
         }
 
-        public bool ToggleVisibleFileInfo()
+        public bool ToggleVisibleFileInfo(bool byMenu)
         {
-            IsVisibleFileInfo = !(IsVisibleFileInfo && IsVisibleRightPanel);
+            IsVisibleFileInfo = byMenu ? !IsVisibleFileInfo : !(IsVisibleFileInfo && IsVisibleRightPanel);
             return IsVisibleFileInfo;
         }
 
@@ -395,9 +395,9 @@ namespace NeeView
         }
 
         //
-        public bool ToggleVisibleFolderList()
+        public bool ToggleVisibleFolderList(bool byMenu)
         {
-            IsVisibleFolderList = !(IsVisibleFolderList && IsVisibleLeftPanel);
+            IsVisibleFolderList = byMenu ? !IsVisibleFolderList : !(IsVisibleFolderList && IsVisibleLeftPanel);
             return IsVisibleFolderList;
         }
 
@@ -451,9 +451,9 @@ namespace NeeView
         }
 
         //
-        public bool ToggleVisibleHistoryList()
+        public bool ToggleVisibleHistoryList(bool byMenu)
         {
-            IsVisibleHistoryList = !(IsVisibleHistoryList && IsVisibleLeftPanel);
+            IsVisibleHistoryList = byMenu ? !IsVisibleHistoryList : !(IsVisibleHistoryList && IsVisibleLeftPanel);
             return IsVisibleHistoryList;
         }
 
@@ -466,9 +466,9 @@ namespace NeeView
         }
 
         //
-        public bool ToggleVisibleBookmarkList()
+        public bool ToggleVisibleBookmarkList(bool byMenu)
         {
-            IsVisibleBookmarkList = !(IsVisibleBookmarkList && IsVisibleLeftPanel);
+            IsVisibleBookmarkList = byMenu ? !IsVisibleBookmarkList : !(IsVisibleBookmarkList && IsVisibleLeftPanel);
             return IsVisibleBookmarkList;
         }
 
@@ -2129,7 +2129,7 @@ namespace NeeView
 
 
         // コマンド実行 
-        public void Execute(CommandType type, object param)
+        public void Execute(CommandType type, object sender, object param)
         {
             // 通知
             if (ModelContext.CommandTable[type].IsShowMessage)
@@ -2151,7 +2151,7 @@ namespace NeeView
             }
 
             // 実行
-            ModelContext.CommandTable[type].Execute(param);
+            ModelContext.CommandTable[type].Execute(sender, param);
         }
 
 
@@ -2462,7 +2462,7 @@ namespace NeeView
             [DataMember(Order = 12)]
             public LongButtonDownMode LongLeftButtonDownMode { get; set; }
 
-            [DataMember(Order =12)]
+            [DataMember(Order = 12)]
             public double LongButtonDownTick { get; set; }
 
             //

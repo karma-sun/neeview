@@ -35,7 +35,7 @@ namespace NeeView
         [DataMember(Order = 9998)]
         public CommandTable.Memento CommandMememto { set; get; }
 
-        [DataMember(Order =9998)]
+        [DataMember(Order = 9998)]
         public DragActionTable.Memento DragActionMemento { set; get; }
 
         [DataMember(Order = 9999, EmitDefaultValue = false)]
@@ -43,6 +43,9 @@ namespace NeeView
 
         [DataMember(Order = 4)]
         public Exporter.Memento ExporterMemento { set; get; }
+
+        [DataMember(Order = 14)]
+        public Preference.Memento PreferenceMemento { set; get; }
 
         //
         private void Constructor()
@@ -54,6 +57,7 @@ namespace NeeView
             CommandMememto = new CommandTable.Memento();
             DragActionMemento = new DragActionTable.Memento();
             ExporterMemento = new Exporter.Memento();
+            PreferenceMemento = new Preference.Memento();
         }
 
         //

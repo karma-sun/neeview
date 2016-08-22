@@ -815,6 +815,90 @@
                 </StackPanel>
             </TabItem>
 
+
+            <TabItem Header="詳細設定">
+                <TabItem.Resources>
+                    <CollectionViewSource x:Key="PreferenceSource" Source="{Binding PreferenceCollection}">
+                    </CollectionViewSource>
+                </TabItem.Resources>
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Bottom">
+                        <Grid DockPanel.Dock="Top">
+                            <DockPanel LastChildFill="False" HorizontalAlignment="Left">
+                                <DockPanel.Style>
+                                    <Style TargetType="DockPanel">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=PreferenceListView, Path=SelectedValue}" Value="{x:Null}">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DockPanel.Style>
+                                <Button x:Name="PreferenceEditButton" Content="パラメータ編集" MinWidth="120" Height="30" Margin="8" Click="PreferenceEditButton_Click"/>
+                            </DockPanel>
+                            <Button x:Name="ResetAllPreferenceButton" Content="全パラメータ初期化" MinWidth="120" Height="30" Margin="8" HorizontalAlignment="Right" Click="ResetAllPreferenceButton_Click"/>
+                        </Grid>
+                    </DockPanel>
+                    <ListView x:Name="PreferenceListView" ItemsSource="{Binding Source={StaticResource PreferenceSource}}" Foreground="Black">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <EventSetter Event="MouseDoubleClick" Handler="PreferenceListView_MouseDoubleClick"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Source.HasCustomValue}" Value="True">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn>
+                                    <GridViewColumn.Header>
+                                        <TextBlock Text="設定名" Margin="5,0" MinWidth="200"/>
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Key}" TextTrimming="WordEllipsis" ToolTip="{Binding Tips}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn>
+                                    <GridViewColumn.Header>
+                                        <TextBlock Text="状態" Margin="5,0" MinWidth="50"/>
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding State}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn>
+                                    <GridViewColumn.Header>
+                                        <TextBlock Text="型" Margin="5,0" MinWidth="50"/>
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding TypeString}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn>
+                                    <GridViewColumn.Header>
+                                        <TextBlock Text="値" Margin="5,0" MinWidth="200"/>
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Value}" TextTrimming="WordEllipsis" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </DockPanel>
+            </TabItem>
+
         </TabControl>
 
 

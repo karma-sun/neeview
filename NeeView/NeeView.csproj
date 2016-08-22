@@ -109,6 +109,10 @@
     <Compile Include="OptionParser.cs" />
     <Compile Include="Page\ArchivePage.cs" />
     <Compile Include="PanelContext.cs" />
+    <Compile Include="Preference.cs" />
+    <Compile Include="PreferenceEditWindow.xaml.cs">
+      <DependentUpon>PreferenceEditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Recycle.cs" />
     <Compile Include="RenameWindow.xaml.cs">
       <DependentUpon>RenameWindow.xaml</DependentUpon>
@@ -288,6 +292,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MouseGestureSettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PreferenceEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

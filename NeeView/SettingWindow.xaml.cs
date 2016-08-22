@@ -84,6 +84,25 @@ namespace NeeView
         // コマンド一覧
         public ObservableCollection<CommandParam> CommandCollection { get; set; }
 
+        
+        //
+        private Preference _Preference;
+
+        // 詳細設定一覧用パラメータ
+        public class PreferenceParam
+        {
+            public PreferenceElement Source { get; set; }
+
+            public string Key => Source.Key;
+            public string State => Source.HasCustomValue ? "ユーザ設定" : "初期設定値";
+            public string TypeString => Source.GetValueTypeString();
+            public string Value => Source.Value.ToString();
+            public string Tips => Source.Note;
+        }
+
+        // 詳細設定一覧
+        public ObservableCollection<PreferenceParam> PreferenceCollection { get; set; }
+
 
         // Susieプラグイン コンフィグコマンド
         public static readonly RoutedCommand SusiePluginConfigCommand = new RoutedCommand("SusiePluginConfigCommand", typeof(SettingWindow));
@@ -235,6 +254,12 @@ namespace NeeView
             CommandCollection = new ObservableCollection<CommandParam>();
             UpdateCommandList();
 
+            // 詳細設定一覧作成
+            _Preference = new Preference();
+            _Preference.Restore(Setting.PreferenceMemento);
+            PreferenceCollection = new ObservableCollection<PreferenceParam>();
+            UpdatePreferenceList();
+
             // プラグイン一覧作成
             _SusiePluginPath = Setting.SusieMemento.SusiePluginPath ?? "";
             UpdateSusiePluginList();
@@ -278,6 +303,57 @@ namespace NeeView
                 CommandCollection.Add(item);
             }
         }
+
+        // 詳細一覧 更新
+        private void UpdatePreferenceList()
+        {
+            PreferenceCollection.Clear();
+
+            foreach (var element in _Preference.Dictionary)
+            {
+                if (element.Key.StartsWith(".")) continue;
+
+                var item = new PreferenceParam()
+                {
+                    Source = element.Value,
+                };
+                PreferenceCollection.Add(item);
+            }
+        }
+
+        //
+        private void PreferenceListView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            // sender がダブルクリックされた項目
+            ListViewItem targetItem = (ListViewItem)sender;
+
+            // データバインディングを使っているなら、
+            // DataContext からデータを取得できる
+            PreferenceParam p = (PreferenceParam)targetItem.DataContext;
+            EditPreference(p.Source, true);
+        }
+
+        //
+        private void EditPreference(PreferenceElement param, bool isSimple)
+        { 
+            if (isSimple && param.GetValueType() == typeof(bool))
+            {
+                param.Set(!param.Boolean);
+                this.PreferenceListView.Items.Refresh();
+            }
+            else
+            {
+                var dialog = new PreferenceEditWindow(param);
+                dialog.Owner = this;
+                dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                var result = dialog.ShowDialog();
+                if (result == true)
+                {
+                    this.PreferenceListView.Items.Refresh();
+                }
+            }
+        }
+
 
         // Susieプラグイン コンフィグ実行
         private void SusiePluginConfigCommand_Executed(object source, ExecutedRoutedEventArgs e)
@@ -414,6 +490,9 @@ namespace NeeView
                     Setting.CommandMememto[command.Key].IsToggled = command.IsToggled;
                 }
 
+                // Preference反映
+                Setting.PreferenceMemento = _Preference.CreateMemento();
+
                 // プラグインリスト書き戻し
                 if (ModelContext.Susie != null)
                 {
@@ -454,6 +533,11 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GestureContextMenuButton_Click(object sender, RoutedEventArgs e)
         {
             var command = new CommandParam()
@@ -470,6 +554,28 @@ namespace NeeView
             {
                 Setting.ViewMemento.ContextMenuSetting.MouseGesture = command.MouseGesture;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PreferenceEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var value = (PreferenceParam)this.PreferenceListView.SelectedValue;
+            EditPreference(value.Source, false);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ResetAllPreferenceButton_Click(object sender, RoutedEventArgs e)
+        {
+            _Preference.Reset();
+            this.PreferenceListView.Items.Refresh();
         }
     }
 

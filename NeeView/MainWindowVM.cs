@@ -1626,6 +1626,7 @@ namespace NeeView
             setting.CommandMememto = ModelContext.CommandTable.CreateMemento();
             setting.DragActionMemento = ModelContext.DragActionTable.CreateMemento();
             setting.ExporterMemento = Exporter.CreateMemento();
+            setting.PreferenceMemento = ModelContext.Preference.CreateMemento();
 
             return setting;
         }
@@ -1633,6 +1634,9 @@ namespace NeeView
         // アプリ設定反映
         public void RestoreSetting(Setting setting)
         {
+            ModelContext.Preference.Restore(setting.PreferenceMemento);
+            ModelContext.ApplyPreference();
+
             this.Restore(setting.ViewMemento);
             ModelContext.SusieContext.Restore(setting.SusieMemento);
             BookHub.Restore(setting.BookHubMemento);

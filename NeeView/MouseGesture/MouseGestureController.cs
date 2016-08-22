@@ -69,14 +69,13 @@ namespace NeeView
         #endregion
 
         // ゼスチャー判定用最低ドラッグ距離
-        private double GestureMinimumDistanceX;
-        private double GestureMinimumDistanceY;
+        private double GestureMinimumDistanceX = 30.0;
+        private double GestureMinimumDistanceY = 30.0;
 
-        private void InitializeGestureMinimumDistance()
+        public void InitializeGestureMinimumDistance(double deltaX, double deltaY)
         {
-            GestureMinimumDistanceX = ModelContext.Config.GestureMinimumDistanceX.ToDouble();
-            GestureMinimumDistanceY = ModelContext.Config.GestureMinimumDistanceY.ToDouble();
-
+            GestureMinimumDistanceX = deltaX;
+            GestureMinimumDistanceY = deltaY;
             if (GestureMinimumDistanceX < SystemParameters.MinimumHorizontalDragDistance)
                 GestureMinimumDistanceX = SystemParameters.MinimumHorizontalDragDistance;
             if (GestureMinimumDistanceY < SystemParameters.MinimumVerticalDragDistance)
@@ -87,8 +86,6 @@ namespace NeeView
         // コンストラクタ
         public MouseGestureController(FrameworkElement sender)
         {
-            InitializeGestureMinimumDistance();
-
             _Sender = sender;
 
             _Gesture = new MouseGestureSequence();

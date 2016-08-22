@@ -203,6 +203,19 @@ namespace NeeView
             dpd2.AddValueChanged(this.AddressTextBox, MenuArea_IsMouseOverChanged);
         }
 
+        // Preference適用
+        public void ApplyPreference(Preference preference)
+        {
+            // パネルが自動的に隠れる時間
+            this.AutoHideDelayTime = preference["panel.autohide.delaytime"].Double;
+
+            // マウスゼスチャーの最小移動距離
+            _MouseGesture.Controller.InitializeGestureMinimumDistance(
+                preference["input.gesture.minimumdistance.x"].Double,
+                preference["input.gesture.minimumdistance.y"].Double);
+        }
+
+        //
         private void MenuArea_IsMouseOverChanged(object sender, EventArgs e)
         {
             UpdateMenuAreaVisibility();
@@ -1613,12 +1626,26 @@ namespace NeeView
         private Storyboard _OpacityZeroStoryboard;
         private Storyboard _OpacityZeroDelayStoryboard;
 
+        private double _AutoHideDelayTime = 1.0;
+        public double AutoHideDelayTime
+        {
+            get { return _AutoHideDelayTime; }
+            set
+            {
+                if (_AutoHideDelayTime != value)
+                {
+                    _AutoHideDelayTime = NVUtility.Clamp(value, 0.0, 100.0);
+                    _VisibleStoryboard = null; // storyboard作り直し
+                }
+            }
+        }
+
         //
         private void InitializeStoryboard()
         {
             if (_VisibleStoryboard != null) return;
 
-            double time = ModelContext.Config.PanelHideDelayTime.ToDouble();
+            double time = _AutoHideDelayTime;
             ObjectAnimationUsingKeyFrames ani;
 
             ani = new ObjectAnimationUsingKeyFrames();

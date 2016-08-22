@@ -23,6 +23,7 @@ namespace NeeView
     public static class ModelContext
     {
         public static Config Config { get; set; }
+        public static Preference Preference { get; set; }
 
         public static JobEngine JobEngine { get; set; }
 
@@ -57,14 +58,10 @@ namespace NeeView
         public static void Initialize()
         {
             Config = new Config();
+            Preference = new Preference();
 
-            // Jobワーカーサイズ
+            // 
             JobEngine = new JobEngine();
-            JobEngine.Start(Config.ThreadSize.ToInt());
-
-            // ワイドページ判定用比率
-            Page.WideRatio = Config.WideRatio.ToDouble();
-
             //
             BookMementoCollection = new BookMementoCollection();
             BookHistory = new BookHistory();
@@ -79,9 +76,6 @@ namespace NeeView
             SusieContext = new SusieContext();
 
             Recycle = new Recycle();
-
-            // SevenZip対応拡張子設定
-            ArchiverManager.UpdateSevenZipSupprtedFileTypes(Config.SevenZipSupportFileType.ToString());
         }
 
 
@@ -89,6 +83,24 @@ namespace NeeView
         public static void Terminate()
         {
             JobEngine.Dispose();
+        }
+
+        /// <summary>
+        /// Preference反映
+        /// </summary>
+        public static void ApplyPreference()
+        {
+            // Jobワーカーサイズ
+            JobEngine.Start(Preference["loader.thread.size"].Integer);
+
+            // ワイドページ判定用比率
+            Page.WideRatio = Preference["view.image.wideratio"].Double;
+
+            // SevenZip対応拡張子設定
+            ArchiverManager.UpdateSevenZipSupprtedFileTypes(Preference["loader.archiver.7z.supprtfiletypes"].String);
+
+            // MainWindow Preference適用
+            ((MainWindow)App.Current.MainWindow).ApplyPreference(Preference);
         }
     }
 

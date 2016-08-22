@@ -1,0 +1,33 @@
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+<Window x:Class="NeeView.PreferenceEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeeView"
+        mc:Ignorable="d" 
+        ResizeMode="NoResize" SizeToContent="Height"
+        Title="{Binding Title}" Width="450">
+    <StackPanel Margin="5">
+
+        <StackPanel Margin="5">
+            <TextBlock Text="{Binding Key}" Margin="5"/>
+            <TextBox Margin="5" MinHeight="20" Text="{Binding Value}" Visibility="{Binding ValueEditControlVisibility}" />
+            <CheckBox Margin="5" Visibility="{Binding BooleanEditControlVisibility}" IsChecked="{Binding BooleanValue}" Content="{Binding BooleanValue}"/>
+            <TextBlock Margin="5" Text="{Binding Note}" Foreground="#888"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,10">
+            <Button x:Name="ButtonReset" Content="リセット"  Margin="5"  Width="100" Height="30" Click="ButtonReset_Click"/>
+            <Button x:Name="ButtonOk" Content="OK"  Margin="5"  Width="100" Height="30" Click="ButtonOk_Click"/>
+            <Button x:Name="ButtonCancel" Content="Cancel" Margin="5" Width="100" Height="30" Click="ButtonCancel_Click"/>
+        </StackPanel>
+
+    </StackPanel>
+
+</Window>

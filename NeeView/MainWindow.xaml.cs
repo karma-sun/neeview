@@ -826,7 +826,7 @@ namespace NeeView
             _VM.FlushPanelColor();
 
             // DPI倍率設定
-            ModelContext.Config.UpdateDpiScaleFactor(this);
+            App.Config.UpdateDpiScaleFactor(this);
 
             // オプションによるフルスクリーン指定
             if (App.Options["--fullscreen"].IsValid)
@@ -2082,7 +2082,7 @@ namespace NeeView
             else
                 length = double.Parse((string)value);
 
-            return length / ModelContext.Config.DpiScaleFactor.X;
+            return length / App.Config.DpiScaleFactor.X;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -2106,7 +2106,7 @@ namespace NeeView
             else
                 length = double.Parse((string)value);
 
-            return length / ModelContext.Config.DpiScaleFactor.Y;
+            return length / App.Config.DpiScaleFactor.Y;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("NeeView")]
 [assembly: AssemblyDescription("Image Viewer")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Nee Laboratory")]
+[assembly: AssemblyCompany("NeeLaboratory")]
 [assembly: AssemblyProduct("NeeView")]
 [assembly: AssemblyCopyright("Copyright © 2016 Mitsuhiro Ito (nee)")]
 [assembly: AssemblyTrademark("")]

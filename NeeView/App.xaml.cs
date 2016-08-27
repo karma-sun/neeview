@@ -39,6 +39,9 @@ namespace NeeView
         // ユーザ設定
         public static Setting Setting { get; set; }
 
+        // アプリの環境設定
+        public static Config Config { get; set; }
+
 
         // コマンドラインヘルプ(未使用)
         private string HelpText
@@ -69,11 +72,12 @@ namespace NeeView
         /// <param name="e"></param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            ShutdownMode = ShutdownMode.OnMainWindowClose;
+            // 環境初期化
+            Config = new Config();
+            Config.Initialize();
 
-            // カレントフォルダをアプリの場所に再設定
-            var assembly = Assembly.GetEntryAssembly();
-            System.Environment.CurrentDirectory = Path.GetDirectoryName(assembly.Location);
+            //
+            ShutdownMode = ShutdownMode.OnMainWindowClose;
 
             try
             {

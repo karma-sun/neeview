@@ -22,7 +22,6 @@ namespace NeeView
     /// </summary>
     public static class ModelContext
     {
-        public static Config Config { get; set; }
         public static Preference Preference { get; set; }
 
         public static JobEngine JobEngine { get; set; }
@@ -57,7 +56,6 @@ namespace NeeView
         // 初期化
         public static void Initialize()
         {
-            Config = new Config();
             Preference = new Preference();
 
             // 

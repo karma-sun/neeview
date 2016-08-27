@@ -1412,10 +1412,10 @@ namespace NeeView
         #endregion
 
         // DPI倍率
-        private Point _DpiScaleFactor => ModelContext.Config.DpiScaleFactor;
+        private Point _DpiScaleFactor => App.Config.DpiScaleFactor;
 
         // DPIのXY比率が等しい？
-        private bool _IsDpiSquare => ModelContext.Config.IsDpiSquare;
+        private bool _IsDpiSquare => App.Config.IsDpiSquare;
 
 
         // ダウンロード画像の保存場所

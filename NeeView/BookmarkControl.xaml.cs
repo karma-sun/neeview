@@ -223,8 +223,8 @@ namespace NeeView
 
         public double PicturePanelHeight => ThumbnailHeight + 24.0;
 
-        public double ThumbnailWidth => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeX / ModelContext.Config.DpiScaleFactor.X);
-        public double ThumbnailHeight => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeY / ModelContext.Config.DpiScaleFactor.Y);
+        public double ThumbnailWidth => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeX / App.Config.DpiScaleFactor.X);
+        public double ThumbnailHeight => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeY / App.Config.DpiScaleFactor.Y);
 
 
         //

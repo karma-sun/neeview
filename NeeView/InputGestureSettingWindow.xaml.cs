@@ -83,7 +83,7 @@ namespace NeeView
             if (keyGesture != null)
             {
                 var converter = new KeyGestureConverter();
-                this.KeyGestureText.Text = converter.ConvertToString(keyGesture);
+                this.KeyGestureText.Text = ValidateKeyGestureText(converter.ConvertToString(keyGesture));
             }
             else
             {
@@ -97,13 +97,29 @@ namespace NeeView
                 if (keyExGesture != null)
                 {
                     var converter = new KeyGestureExConverter();
-                    this.KeyGestureText.Text = converter.ConvertToString(keyExGesture);
+                    this.KeyGestureText.Text = ValidateKeyGestureText(converter.ConvertToString(keyExGesture));
                 }
                 else
                 {
                     this.KeyGestureText.Text = null;
                 }
             }
+        }
+
+        /// <summary>
+        /// キーコード表示補正
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        private string ValidateKeyGestureText(string source)
+        {
+            var keys = source.Split('+');
+
+            // Next ->PageDown
+            // NextとPageDownはキーコードが同一であるため、表示文字列が意図しない物になることがある
+            var tokens = keys.Select(e => e == "Next" ? "PageDown" : e);
+
+            return string.Join("+", tokens);
         }
 
         // 追加ボタン処理

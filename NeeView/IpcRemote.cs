@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
@@ -81,12 +82,18 @@ namespace NeeView
                 {
                     try
                     {
-                        var window = Application.Current.MainWindow;
-
+                        // ウィンドウをアクティブにする (準備)
                         // 最小化されているならば解除する
+                        var window = Application.Current.MainWindow;
                         if (window.WindowState == WindowState.Minimized) window.WindowState = WindowState.Normal;
 
-                        // ウィンドウをアクティブにする
+                        // ウィンドウをアクティブにする (準備)
+                        // 一瞬TOPMOSTにする
+                        var temp = window.Topmost;
+                        window.Topmost = true;
+                        window.Topmost = temp;
+
+                        // ウィンドウをアクティブにする (実行)
                         window.Activate();
 
                         // パスの指定があれば開く

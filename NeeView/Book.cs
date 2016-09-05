@@ -242,6 +242,9 @@ namespace NeeView
         // ページ
         public Page GetPage(int index) => Pages.Count > 0 ? Pages[ClampPageNumber(index)] : null;
 
+        // ページ番号
+        public int GetIndex(Page page) => Pages.IndexOf(page);
+
         // 先頭ページの場所
         PagePosition _FirstPosition => new PagePosition(0, 0);
 
@@ -250,6 +253,9 @@ namespace NeeView
 
         // リソースを保持しておくページ
         private List<Page> _KeepPages = new List<Page>();
+
+        // マーカー
+        public List<Page> Markers = new List<Page>();
 
         // 排他処理用ロックオブジェクト
         private object _Lock = new object();
@@ -809,6 +815,87 @@ namespace NeeView
                 await _Book.UpdateViewPageAsync(GetViewPageContextSource(), true);
             }
         }
+
+
+        // マーカーコマンド
+        private class MarkerCommand : ViewPageCommand
+        {
+            public override int Priority => 0;
+
+            private bool _IsMark;
+
+            public MarkerCommand(Book book, bool isMark) : base(book)
+            {
+                _IsMark = isMark;
+            }
+
+            public override async Task Execute()
+            {
+                _Book.ToggleMarker();
+                await Task.Yield();
+            }
+        }
+
+        //
+        private void ToggleMarker()
+        {
+            var page = GetViewPage();
+            if (!Pages.Contains(page))
+            {
+                Markers.Add(page);
+            }
+            else
+            {
+                Markers.Remove(page);
+            }
+        }
+
+        // マーカー設定
+        public void RequestMarker()
+        {
+            if (Place == null) return;
+            RegistCommand(new MarkerCommand(this, true));
+        }
+
+        private class Pair<T1, T2>
+        {
+            public T1 Key;
+            public T2 Value;
+
+            public Pair() { }
+            public Pair(T1 key, T2 value)
+            {
+                Key = key;
+                Value = value;
+            }
+        }
+
+        // マーカー移動動
+        public bool RequestModeMarkerPosition( int direction, bool isLoop)
+        {
+            if (Place == null) return false;
+            Debug.Assert(direction == 1 || direction == -1);
+
+            // こういう処理を処理スレッドでやるんじゃないのか？
+            // ロックだけする？
+            // マーク実行もロックだけでいいかも
+
+            if (Markers.Count == 0) return false;
+            var list = Markers.Select(e => new Pair<int, Page>(GetIndex(e), e)).OrderBy(e => e.Key);
+            var index = GetViewPageindex();
+
+            //
+            var next =
+                direction > 0
+                ? list.FirstOrDefault(e => e.Key > index) ?? (isLoop ? list.First() : null)
+                : list.LastOrDefault(e => e.Key < index) ?? (isLoop ? list.Last() : null);
+
+            if (next == null) return false;
+
+            RequestSetPosition(new PagePosition(next.Key, 0), direction, false);
+            return true;
+        }
+
 
 
         // ワーカータスクのキャンセルトークン

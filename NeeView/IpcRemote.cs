@@ -93,14 +93,14 @@ namespace NeeView
                         window.Topmost = true;
                         window.Topmost = temp;
 
-                        // ウィンドウをアクティブにする (実行)
-                        window.Activate();
-
                         // パスの指定があれば開く
                         if (path != null)
                         {
                             ModelContext.CommandTable[CommandType.LoadAs].Execute(this, path);
                         }
+
+                        // ウィンドウをアクティブにする (実行)
+                        window.Activate();
                     }
                     catch { }
                 });

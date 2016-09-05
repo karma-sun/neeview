@@ -146,6 +146,7 @@ namespace NeeView
                 {
                     try
                     {
+                        Win32Api.AllowSetForegroundWindow(serverProcess.Id);
                         // IPCクライアント送信
                         IpcRemote.LoadAs(serverProcess.Id, StartupPlace);
 

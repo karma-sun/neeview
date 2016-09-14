@@ -170,6 +170,9 @@ namespace NeeView
         // ブックマークにに追加、削除された
         public event EventHandler<BookMementoCollectionChangedArgs> BookmarkChanged;
 
+        // ページマークにに追加、削除された
+        public event EventHandler<BookMementoCollectionChangedArgs> PagemarkChanged;
+
         // アドレスが変更された
         public event EventHandler AddressChanged;
 
@@ -181,6 +184,9 @@ namespace NeeView
 
         // ページが削除された
         public event EventHandler<Page> PageRemoved;
+
+        // マーカーが変更された
+        public event EventHandler MarkerChanged;
 
         #endregion
 
@@ -371,6 +377,7 @@ namespace NeeView
         {
             ModelContext.BookHistory.HistoryChanged += (s, e) => HistoryChanged?.Invoke(s, e);
             ModelContext.Bookmarks.BookmarkChanged += (s, e) => BookmarkChanged?.Invoke(s, e);
+            ModelContext.Pagemarks.PagemarkChanged += (s, e) => PagemarkChanged?.Invoke(s, e);
 
             // messenger
             Messenger.AddReciever("RemoveFile", CallRemoveFile);
@@ -541,6 +548,9 @@ namespace NeeView
 
                 // ブックマーク更新
                 ModelContext.Bookmarks.Update(Current.BookMementoUnit, memento);
+
+                // ページマーク更新
+                ModelContext.Pagemarks.Update(Current.BookMementoUnit, memento);
             }
         }
 
@@ -854,6 +864,14 @@ namespace NeeView
                 book.PagesSorted += (s, e) => PagesSorted?.Invoke(s, e);
                 book.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(s, e);
                 book.PageRemoved += (s, e) => PageRemoved?.Invoke(s, e);
+
+                // マーカー復元
+                book.RestoreMarker(setting);
+                book.MarkerChanged += (s, e) =>
+                {
+                    UpdatePageMarker();
+                    MarkerChanged?.Invoke(s, e);
+                };
 
                 // 最初のコンテンツ表示待ち設定
                 _ViewContentEvent.Reset();
@@ -1312,6 +1330,39 @@ namespace NeeView
                 return false;
             }
         }
+
+
+
+        // マーカー切り替え
+        public void ToggleMarker()
+        {
+            if (CanBookmark())
+            {
+                if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
+                {
+                    Messenger.MessageBox(this, $"一時フォルダーはブックマークできません", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
+                }
+                else
+                {
+                    Current.Book.RequestMarker();
+                    //Current.BookMementoUnit = ModelContext.Bookmarks.Toggle(Current.BookMementoUnit, CurrentBook.CreateMemento());
+                    //Current.BookMementoUnit = ModelContext.Pagemarks.Update(Current.BookMementoUnit, CurrentBook.CreateMemento());
+                }
+            }
+        }
+
+        // 表示ページのマーク判定
+        public bool IsMarked()
+        {
+            return Current.Book.IsMarked(Current.Book.GetViewPage());
+        }
+
+        // マーカー切り替え反映
+        private void UpdatePageMarker()
+        {
+            Current.BookMementoUnit = ModelContext.Pagemarks.Update(Current.BookMementoUnit, CurrentBook.CreateMemento());
+        }
+
 
 
         // ファイルの場所を開くことが可能？

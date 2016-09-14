@@ -815,6 +815,9 @@ namespace NeeView
             // ブックマーク読み込み
             _VM.LoadBookmark(App.Setting);
 
+            // ページマーク読込
+            _VM.LoadPagemark(App.Setting);
+
             App.Setting = null; // ロード設定破棄
 
             // パネル幅復元
@@ -846,6 +849,8 @@ namespace NeeView
             this.HistoryArea.Initialize(_VM.BookHub);
             // ブックマークリスト初期化
             this.BookmarkArea.Initialize(_VM.BookHub);
+            // マーカー初期化
+            this.PageMarkers.Initialize(_VM.BookHub);
 
             // フォルダを開く
             if (!App.Options["--blank"].IsValid)

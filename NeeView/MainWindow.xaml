@@ -264,7 +264,7 @@
                         <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" >
 
                             <Grid x:Name="MainViewCanvas"  Background="{Binding BackgroundBrush}" Effect="{Binding ShaderEffect}">
-                                
+
                                 <!-- メインビュー コンテンツ表示領域 -->
                                 <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True">
                                     <!-- Pages -->
@@ -372,7 +372,7 @@
                                          Size="{Binding LoupeSize}"
                                          Scale="{Binding LoupeScale}"/>
                             -->
-                            
+
                         </Grid>
 
                     </Grid>
@@ -565,21 +565,24 @@
             <!-- ステータスエリア -->
             <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom" Style="{StaticResource StatusAreaStyle}">
 
-                <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Height="18" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
+                <Grid DockPanel.Dock="Bottom" Height="18">
+                    <local:PageMarkers x:Name="PageMarkers" IsHitTestVisible="False"/>
+                    <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Height="18" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
                         local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding ElementName=MainView}"
                         ValueChanged="PageSlider_ValueChanged"
                         PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"  
                         PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp">
-                    <Slider.Style>
-                        <Style TargetType="Slider">
-                            <Style.Triggers>
-                                <Trigger Property="Maximum" Value="0">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Slider.Style>
-                </Slider>
+                        <Slider.Style>
+                            <Style TargetType="Slider">
+                                <Style.Triggers>
+                                    <Trigger Property="Maximum" Value="0">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Slider.Style>
+                    </Slider>
+                </Grid>
 
                 <Grid x:Name="ThumbnailListArea" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" >
                     <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"

@@ -241,6 +241,7 @@ namespace NeeView
                 _BookHub.FolderListSync += (s, e) => SyncWeak(e);
                 _BookHub.HistoryChanged += (s, e) => RefleshIcon(e.Key);
                 _BookHub.BookmarkChanged += (s, e) => RefleshIcon(e.Key);
+                _BookHub.PagemarkChanged += (s, e) => RefleshIcon(e.Key);
                 OnPropertyChanged();
             }
         }

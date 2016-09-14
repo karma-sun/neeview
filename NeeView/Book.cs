@@ -31,7 +31,7 @@ namespace NeeView
         SelectFoderListMaybe = (1 << 6), // 可能ならばフォルダリストで選択する
         SelectHistoryMaybe = (1 << 7), // 可能ならば履歴リストで選択する
         SkipSamePlace = (1 << 8), // 同じフォルダならば読み込まない
-        AutoRecursive = (1<<9), // 自動再帰
+        AutoRecursive = (1 << 9), // 自動再帰
     };
 
 
@@ -817,6 +817,12 @@ namespace NeeView
         }
 
 
+        // マーカー用ロック
+        private object _MarkerLock = new object();
+
+        // マーカー更新イベント
+        public event EventHandler MarkerChanged;
+
         // マーカーコマンド
         private class MarkerCommand : ViewPageCommand
         {
@@ -839,14 +845,28 @@ namespace NeeView
         //
         private void ToggleMarker()
         {
-            var page = GetViewPage();
-            if (!Pages.Contains(page))
+            lock (_MarkerLock)
             {
-                Markers.Add(page);
+                var page = GetViewPage();
+                if (!Markers.Contains(page))
+                {
+                    Markers.Add(page);
+                    MarkerChanged?.Invoke(this, null);
+                }
+                else
+                {
+                    Markers.Remove(page);
+                    MarkerChanged?.Invoke(this, null);
+                }
             }
-            else
+        }
+
+        //
+        public bool IsMarked(Page page)
+        {
+            lock (_MarkerLock)
             {
-                Markers.Remove(page);
+                return Markers.Contains(page);
             }
         }
 
@@ -871,7 +891,7 @@ namespace NeeView
         }
 
         // マーカー移動動
-        public bool RequestModeMarkerPosition( int direction, bool isLoop)
+        public bool RequestModeMarkerPosition(int direction, bool isLoop)
         {
             if (Place == null) return false;
             Debug.Assert(direction == 1 || direction == -1);
@@ -879,20 +899,27 @@ namespace NeeView
             // こういう処理を処理スレッドでやるんじゃないのか？
             // ロックだけする？
             // マーク実行もロックだけでいいかも
+            // あーロックだめだ。処理がタスクになってる。マーカーロック？
 
-            if (Markers.Count == 0) return false;
-            var list = Markers.Select(e => new Pair<int, Page>(GetIndex(e), e)).OrderBy(e => e.Key);
-            var index = GetViewPageindex();
+            int id = 0;
 
-            //
-            var next =
-                direction > 0
-                ? list.FirstOrDefault(e => e.Key > index) ?? (isLoop ? list.First() : null)
-                : list.LastOrDefault(e => e.Key < index) ?? (isLoop ? list.Last() : null);
+            lock (_MarkerLock)
+            {
+                if (Markers.Count == 0) return false;
+                var list = Markers.Select(e => new Pair<int, Page>(GetIndex(e), e)).OrderBy(e => e.Key); // このためだけに型つくるとかないわー
+                var index = GetViewPageindex();
 
-            if (next == null) return false;
+                //
+                var next =
+                    direction > 0
+                    ? list.FirstOrDefault(e => e.Key > index) ?? (isLoop ? list.First() : null)
+                    : list.LastOrDefault(e => e.Key < index) ?? (isLoop ? list.Last() : null);
 
-            RequestSetPosition(new PagePosition(next.Key, 0), direction, false);
+                if (next == null) return false;
+                id = next.Key;
+            }
+
+            RequestSetPosition(new PagePosition(id, 0), direction, false);
             return true;
         }
 
@@ -1408,6 +1435,9 @@ namespace NeeView
             [DataMember(Order = 12, EmitDefaultValue = false)]
             public DateTime LastAccessTime { get; set; }
 
+            [DataMember(Order = 14, EmitDefaultValue = false)]
+            public List<string> Markers { get; set; }
+
             //
             private void Constructor()
             {
@@ -1431,23 +1461,19 @@ namespace NeeView
             //
             public Memento Clone()
             {
-                return (Memento)this.MemberwiseClone();
+                var clone = (Memento)this.MemberwiseClone();
+                clone.Markers = this.Markers != null ? new List<string>(this.Markers) : null;
+                return clone;
             }
 
             //
-            public void CopyTo(Memento target)
+            public Memento CloneWithoutMarkers()
             {
-                target.Place = this.Place;
-                target.BookMark = this.BookMark;
-                target.PageMode = this.PageMode;
-                target.BookReadOrder = this.BookReadOrder;
-                target.IsSupportedDividePage = this.IsSupportedDividePage;
-                target.IsSupportedSingleFirstPage = this.IsSupportedSingleFirstPage;
-                target.IsSupportedSingleLastPage = this.IsSupportedSingleLastPage;
-                target.IsSupportedWidePage = this.IsSupportedWidePage;
-                target.IsRecursiveFolder = this.IsRecursiveFolder;
-                target.SortMode = this.SortMode;
+                var clone = (Memento)this.MemberwiseClone();
+                clone.Markers = null;
+                return clone;
             }
+
 
             // 保存用バリデート
             // このmementoは履歴とデフォルト設定の２つに使われるが、デフォルト設定には本の場所やページは不要
@@ -1455,6 +1481,7 @@ namespace NeeView
             {
                 Place = null;
                 BookMark = null;
+                Markers = null;
             }
         }
 
@@ -1498,6 +1525,8 @@ namespace NeeView
             memento.SortMode = SortMode;
             //memento.LastAccessTime = DateTime.Now;
 
+            memento.Markers = (this.Markers.Count > 0) ? this.Markers.Select(e => e.FileName).ToList() : null;
+
             return memento;
         }
 
@@ -1512,6 +1541,15 @@ namespace NeeView
             IsSupportedWidePage = memento.IsSupportedWidePage;
             IsRecursiveFolder = memento.IsRecursiveFolder;
             SortMode = memento.SortMode;
+        }
+
+        // マーカー復元
+        public void RestoreMarker(Memento memento)
+        {
+            if (memento.Markers != null)
+            {
+                this.Markers = memento.Markers.Select(e => Pages.FirstOrDefault(page => page.FileName == e)).Where(e => e != null).ToList();
+            }
         }
     }
 

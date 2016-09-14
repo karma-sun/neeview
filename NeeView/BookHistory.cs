@@ -442,6 +442,8 @@ namespace NeeView
                 memento.Items.RemoveAll((e) => e.Place.StartsWith(Temporary.TempDirectory));
                 // 履歴保持数制限適用
                 memento.Items = Limit(memento.Items); // 履歴保持数制限
+                // マーカー削除
+                memento.Items = memento.Items.Select(e => e.CloneWithoutMarkers()).ToList();
             }
 
             memento.LastFolder = this.LastFolder;

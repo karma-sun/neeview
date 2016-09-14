@@ -57,6 +57,7 @@ namespace NeeView
     /// <summary>
     /// 高速検索用BookMemento辞書
     /// 履歴、ブックマーク共有の辞書です
+    /// SQL使いたくなってきた..
     /// </summary>
     public class BookMementoUnit : IHasPage
     {
@@ -65,6 +66,9 @@ namespace NeeView
 
         // ブックマーク用リンク
         public BookMementoUnitNode BookmarkNode { get; set; }
+
+        // ページマーク用リンク
+        public BookMementoUnitNode PagemarkNode { get; set; }
 
         // 本体
         public Book.Memento Memento { get; set; }
@@ -118,7 +122,7 @@ namespace NeeView
             Debug.Assert(unit != null);
             Debug.Assert(unit.Memento != null);
             Debug.Assert(unit.Memento.Place != null);
-            Debug.Assert(unit.HistoryNode != null || unit.BookmarkNode != null);
+            Debug.Assert(unit.HistoryNode != null || unit.BookmarkNode != null || unit.PagemarkNode != null);
 
             Items.Add(unit.Memento.Place, unit);
         }

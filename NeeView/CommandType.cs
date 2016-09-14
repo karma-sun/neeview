@@ -114,6 +114,9 @@ namespace NeeView
         Bookmark,
         ToggleBookmark,
 
+        //Pagemark,
+        TogglePagemark,
+
         ToggleIsReverseSort, // 欠番
 
         ViewScrollUp,

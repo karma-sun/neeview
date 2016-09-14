@@ -1010,6 +1010,20 @@ namespace NeeView
                     ExecuteMessage = e => "ブックマークに登録",
                     ShortCutKey = "Ctrl+D",
                 },
+                
+                [CommandType.TogglePagemark] = new CommandElement
+                {
+                    Group = "ブックマーク",
+                    Text = "ページマーク登録/解除",
+                    MenuText = "ページマーク",
+                    Note = "現在開いているページのページマークの登録/解除を切り替えます",
+                    Execute = (s, e) => _Book.ToggleMarker(),
+                    CanExecute = () => true,
+                    ExecuteMessage = e => _Book.IsMarked() ? "マーカー解除" : "マーカー登録",
+                    IsShowMessage = false,
+                    CreateIsCheckedBinding = () => BindingGenerator.IsBookmark(),
+                    ShortCutKey = "Ctrl+Shift+D",
+                },
 
 #if false
                 [CommandType.SetEffectNone] = new CommandElement

@@ -32,6 +32,8 @@ namespace NeeView
         public static BookMementoCollection BookMementoCollection { get; set; }
         public static BookHistory BookHistory { get; set; }
         public static BookmarkCollection Bookmarks { get; set; }
+        public static PagemarkCollection Pagemarks { get; set; }
+
 
         public static ArchiverManager ArchiverManager { get; set; }
         public static BitmapLoaderManager BitmapLoaderManager { get; set; }
@@ -64,6 +66,7 @@ namespace NeeView
             BookMementoCollection = new BookMementoCollection();
             BookHistory = new BookHistory();
             Bookmarks = new BookmarkCollection();
+            Pagemarks = new PagemarkCollection();
 
             ArchiverManager = new ArchiverManager();
             BitmapLoaderManager = new BitmapLoaderManager();

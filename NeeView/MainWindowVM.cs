@@ -1425,13 +1425,16 @@ namespace NeeView
 
         public string HistoryFileName { get; set; }
         public string BookmarkFileName { get; set; }
+        public string PagemarkFileName { get; set; }
+
 
         // コンストラクタ
         public MainWindowVM()
         {
             HistoryFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "History.xml");
             BookmarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Bookmark.xml");
-
+            PagemarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Pagekmark.xml");
+            
             InitializeWindowIcons();
 
             // ModelContext
@@ -1552,6 +1555,8 @@ namespace NeeView
             UpdateLastFiles();
 
             UpdateIndex();
+
+            
 
             //
             CommandManager.InvalidateRequerySuggested();
@@ -1711,6 +1716,34 @@ namespace NeeView
         }
 
 
+        // ページマーク読み込み
+        public void LoadPagemark(Setting setting)
+        {
+            PagemarkCollection.Memento memento;
+
+            // ページマーク読み込み
+            if (System.IO.File.Exists(PagemarkFileName))
+            {
+                try
+                {
+                    memento = PagemarkCollection.Memento.Load(PagemarkFileName);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    Messenger.MessageBox(this, "ページマークの読み込みに失敗しました。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
+                    memento = new PagemarkCollection.Memento();
+                }
+            }
+            else
+            {
+                memento = new PagemarkCollection.Memento();
+            }
+
+            // ページマーク反映
+            ModelContext.Pagemarks.Restore(memento);
+        }
+
 
 
 
@@ -1751,6 +1784,14 @@ namespace NeeView
                 // ブックマークをファイルに保存
                 var bookmarkMemento = ModelContext.Bookmarks.CreateMemento(true);
                 bookmarkMemento.Save(BookmarkFileName);
+            }
+            catch { }
+
+            try
+            {
+                // ページマークをファイルに保存
+                var pagemarkMemento = ModelContext.Pagemarks.CreateMemento(true);
+                pagemarkMemento.Save(PagemarkFileName);
             }
             catch { }
         }

@@ -478,6 +478,19 @@ namespace NeeView
                     CanExecute = () => true,
                     CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleBookmarkList)),
                 },
+                [CommandType.ToggleVisiblePagemarkList] = new CommandElement
+                {
+                    Group = "パネル",
+                    Text = "ページマークの表示ON/OFF",
+                    MenuText = "ページマークリスト",
+                    Note = "ページマークリストパネルの表示/非表示を切り替えます",
+                    ShortCutKey = "M",
+                    IsShowMessage = false,
+                    Execute = (s, e) => _VM.ToggleVisiblePagemarkList(e is MenuCommandTag),
+                    ExecuteMessage = e => _VM.IsVisiblePagemarkList ? "ページマークリストを消す" : "ページマークリストを表示する",
+                    CanExecute = () => true,
+                    CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisiblePagemarkList)),
+                },
                 [CommandType.ToggleVisibleHistoryList] = new CommandElement
                 {
                     Group = "パネル",
@@ -997,8 +1010,9 @@ namespace NeeView
                     Execute = (s, e) => _Book.ToggleBookmark(),
                     CanExecute = () => true,
                     ExecuteMessage = e => _Book.IsBookmark(null) ? "ブックマーク解除" : "ブックマークに登録",
-                    IsShowMessage = false,
+                    IsShowMessage = true,
                     CreateIsCheckedBinding = () => BindingGenerator.IsBookmark(),
+                    ShortCutKey = "Ctrl+D",
                 },
                 [CommandType.Bookmark] = new CommandElement
                 {
@@ -1008,7 +1022,6 @@ namespace NeeView
                     Execute = (s, e) => _Book.Bookmark(),
                     CanExecute = () => _Book.CanBookmark(),
                     ExecuteMessage = e => "ブックマークに登録",
-                    ShortCutKey = "Ctrl+D",
                 },
                 
                 [CommandType.TogglePagemark] = new CommandElement
@@ -1020,9 +1033,27 @@ namespace NeeView
                     Execute = (s, e) => _Book.ToggleMarker(),
                     CanExecute = () => true,
                     ExecuteMessage = e => _Book.IsMarked() ? "マーカー解除" : "マーカー登録",
+                    IsShowMessage = true,
+                    CreateIsCheckedBinding = () => BindingGenerator.IsPagemark(),
+                    ShortCutKey = "Ctrl+M",
+                },
+                [CommandType.PrevBookmark] = new CommandElement
+                {
+                    Group = "ブックマーク",
+                    Text = "前のブックマークに移動",
+                    Note = "ブックマークリスト順で前のフォルダーに移動します",
                     IsShowMessage = false,
-                    CreateIsCheckedBinding = () => BindingGenerator.IsBookmark(),
-                    ShortCutKey = "Ctrl+Shift+D",
+                    CanExecute = () => _Book.CanPrevBookmark(),
+                    Execute = (s, e) => _Book.PrevBookmark(),
+                },
+                [CommandType.NextBookmark] = new CommandElement
+                {
+                    Group = "ブックマーク",
+                    Text = "次のブックマークへ移動",
+                    Note = "ブックマークリスト順で次のフォルダーに移動します",
+                    IsShowMessage = false,
+                    CanExecute = () => _Book.CanNextBookmark(),
+                    Execute = (s, e) => _Book.NextBookmark(),
                 },
 
 #if false

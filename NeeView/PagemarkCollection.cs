@@ -31,7 +31,6 @@ namespace NeeView
         }
         #endregion
 
-        //
         public event EventHandler<BookMementoCollectionChangedArgs> PagemarkChanged;
 
         // ページマーク

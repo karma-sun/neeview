@@ -1,0 +1,117 @@
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+
+<UserControl x:Class="NeeView.PagemarkControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             xmlns:drag="clr-namespace:DragExtensions"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             Background="{DynamicResource NVBackground}"
+             Foreground="{DynamicResource NVForeground}">
+    <UserControl.Resources>
+
+        <!-- Default TextBlock -->
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+
+        <RoutedCommand x:Key="xRemoveDommand" />
+
+        <Style TargetType="TextBlock" x:Key="PagemarkName">
+            <Setter Property="Text" Value="{Binding Value.Memento.Name}"/>
+            <Setter Property="ToolTip" Value="{Binding Value.Memento.Place}"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+
+        <!-- Normal Pagemark -->
+        <DataTemplate x:Key="NormalPagemark">
+            <TextBlock Style="{StaticResource PagemarkName}"/>
+        </DataTemplate>
+
+        <!-- Picture Pagemark -->
+        <DataTemplate x:Key="PicturePagemark">
+            <DockPanel Height="{Binding ElementName=PagemarkListBox, Path=DataContext.PicturePanelHeight}" Margin="0,1" Background="{DynamicResource NVBaseBrush}">
+                <DockPanel DockPanel.Dock="Bottom" Margin="0,2">
+                    <TextBlock Style="{StaticResource PagemarkName}"/>
+                </DockPanel>
+                <Grid>
+                    <Image Source="{Binding Value.ArchivePage.Thumbnail}"
+                           Width="{Binding ElementName=PagemarkListBox, Path=DataContext.ThumbnailWidth}"
+                           HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="UniformToFill" UseLayoutRounding="True"/>
+                </Grid>
+            </DockPanel>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+
+    <DockPanel x:Name="DockPanel" Margin="0,5">
+
+        <StackPanel DockPanel.Dock="Top" Margin="5">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <TextBlock FontFamily="Meyrio" Text="⚑" FontSize="20" Foreground="{StaticResource NVStarMarkBrush}" VerticalAlignment="Center" />
+                <TextBlock Text="ページマーク" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
+            </StackPanel>
+        </StackPanel>
+
+        <ListBox x:Name="PagemarkListBox" Focusable="False"
+                 Background="Transparent"
+                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                 FocusVisualStyle="{StaticResource NVFocusVisual}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 HorizontalContentAlignment="Stretch"
+                 ItemsSource="{Binding Pagemark.Items}"
+                 SelectedItem="{Binding SelectedItem}"
+                 KeyDown="PagemarkList_KeyDown"
+                 Tag="{Binding Pagemark.Items}"
+                 IsVisibleChanged="PagemarkListBox_IsVisibleChanged"
+                 AllowDrop="True"
+                 PreviewDragOver="PagemarkListBox_PreviewDragOver"
+                 Drop="PagemarkListBox_Drop">
+
+            <ListBox.Style>
+                <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
+                    <Setter Property="ItemTemplate" Value="{StaticResource NormalPagemark}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding FolderListItemStyle}" Value="Picture">
+                            <Setter Property="ItemTemplate" Value="{StaticResource PicturePagemark}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Style>
+
+            <ListBox.Resources>
+                <Style TargetType="ListBoxItem">
+                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="PagemarkListItem_MouseSingleClick"/>
+                    <EventSetter Event="KeyDown" Handler="PagemarkListItem_KeyDown"/>
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
+
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="ブックマークをはずす(D)" Command="{x:Static local:PagemarkControl.RemoveCommand}"/>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Setter Property="drag:DragBehavior.IsEnable" Value="True"/>
+                    <Setter Property="drag:DragBehavior.ListBox" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}"/>
+
+                </Style>
+            </ListBox.Resources>
+
+        </ListBox>
+
+    </DockPanel>
+</UserControl>

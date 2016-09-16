@@ -849,6 +849,9 @@ namespace NeeView
             this.HistoryArea.Initialize(_VM.BookHub);
             // ブックマークリスト初期化
             this.BookmarkArea.Initialize(_VM.BookHub);
+            // ブックマークリスト初期化
+            this.PagemarkArea.Initialize(_VM.BookHub);
+
             // マーカー初期化
             this.PageMarkers.Initialize(_VM.BookHub);
 

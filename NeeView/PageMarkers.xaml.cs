@@ -133,7 +133,7 @@ namespace NeeView
         private void BookHubChanged()
         {
             _BookHub.BookChanged += (s, e) => BookChanged();
-            _BookHub.MarkerChanged += (s, e) => UpdateInvoke();
+            _BookHub.PagemarkChanged += (s, e) => UpdateInvoke();
             _BookHub.PagesSorted += (s, e) => UpdateInvoke();
             _BookHub.PageRemoved += (s, e) => UpdateInvoke();
         }

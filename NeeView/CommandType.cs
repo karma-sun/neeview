@@ -59,6 +59,7 @@ namespace NeeView
         ToggleVisibleFileInfo,
         ToggleVisibleFolderList,
         ToggleVisibleBookmarkList,
+        ToggleVisiblePagemarkList,
         ToggleVisibleHistoryList,
         ToggleVisiblePageList,
 
@@ -113,9 +114,13 @@ namespace NeeView
 
         Bookmark,
         ToggleBookmark,
+        PrevBookmark,
+        NextBookmark,
 
         //Pagemark,
         TogglePagemark,
+        //PrevPagemark,
+        //NextPagemark,
 
         ToggleIsReverseSort, // 欠番
 

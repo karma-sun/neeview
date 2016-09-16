@@ -23,7 +23,7 @@ namespace NeeView
     }
 
     // BookMementoCollectionChangedイベントの引数
-    public class BookMementoCollectionChangedArgs
+    public class BookMementoCollectionChangedArgs : EventArgs
     {
         public BookMementoCollectionChangedType HistoryChangedType { get; set; }
         public string Key { get; set; }

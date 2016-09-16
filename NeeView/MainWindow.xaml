@@ -182,6 +182,20 @@
 
                         <Grid>
 
+                            <!-- ページマークリスト -->
+                            <local:PagemarkControl x:Name="PagemarkArea">
+                                <local:PagemarkControl.Style>
+                                    <Style TargetType="local:PagemarkControl">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding LeftPanel}" Value="PagemarkList">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </local:PagemarkControl.Style>
+                            </local:PagemarkControl>
+
                             <!-- ブックマークリスト -->
                             <local:BookmarkControl x:Name="BookmarkArea">
                                 <local:BookmarkControl.Style>

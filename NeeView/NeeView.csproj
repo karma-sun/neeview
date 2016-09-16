@@ -75,6 +75,9 @@
     <Compile Include="Archiver\ArchiveEntry.cs" />
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
+    <Compile Include="PagemarkControl.xaml.cs">
+      <DependentUpon>PagemarkControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PagemarkCollection.cs" />
     <Compile Include="BookmarkCollection.cs" />
     <Compile Include="BookmarkControl.xaml.cs">
@@ -231,6 +234,10 @@
     <Compile Include="Win32Api.cs" />
     <Compile Include="WindowPlacement.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
+    <Page Include="PagemarkControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="BookmarkControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

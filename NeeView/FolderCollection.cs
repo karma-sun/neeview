@@ -32,7 +32,7 @@ namespace NeeView
         Disable,
         Checked,
         Star,
-        Bookmark,
+        Pagemark,
     }
 
     // フォルダ情報
@@ -79,8 +79,8 @@ namespace NeeView
             {
                 var unit = ModelContext.BookMementoCollection.Find(Path);
 
-                if (IsVisibleBookmarkMark && unit?.PagemarkNode != null)
-                    return FolderInfoIconOverlay.Bookmark;
+                //if (IsVisibleBookmarkMark && unit?.PagemarkNode != null)
+                //    return FolderInfoIconOverlay.Pagemark;
                 if (IsVisibleBookmarkMark && unit?.BookmarkNode != null)
                     return FolderInfoIconOverlay.Star;
                 if (IsVisibleHistoryMark && unit?.HistoryNode != null)

@@ -34,6 +34,14 @@ namespace NeeView
         AutoRecursive = (1 << 9), // 自動再帰
     };
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public class PagemarkChangedEventArgs : EventArgs
+    {
+        public Page Page { get; set; }
+        public bool IsMarked { get; set; }
+    }
 
     /// <summary>
     /// 本
@@ -821,29 +829,29 @@ namespace NeeView
         private object _MarkerLock = new object();
 
         // マーカー更新イベント
-        public event EventHandler MarkerChanged;
+        public event EventHandler<PagemarkChangedEventArgs> PagemakChanged;
 
         // マーカーコマンド
-        private class MarkerCommand : ViewPageCommand
+        private class TogglePagemarkCommand : ViewPageCommand
         {
             public override int Priority => 0;
 
             private bool _IsMark;
 
-            public MarkerCommand(Book book, bool isMark) : base(book)
+            public TogglePagemarkCommand(Book book, bool isMark) : base(book)
             {
                 _IsMark = isMark;
             }
 
             public override async Task Execute()
             {
-                _Book.ToggleMarker();
+                _Book.TogglePagemark();
                 await Task.Yield();
             }
         }
 
         //
-        private void ToggleMarker()
+        private void TogglePagemark()
         {
             lock (_MarkerLock)
             {
@@ -851,18 +859,28 @@ namespace NeeView
                 if (!Markers.Contains(page))
                 {
                     Markers.Add(page);
-                    MarkerChanged?.Invoke(this, null);
+                    var args = new PagemarkChangedEventArgs()
+                    {
+                        Page = page,
+                        IsMarked = true
+                    };
+                    PagemakChanged?.Invoke(this, args);
                 }
                 else
                 {
                     Markers.Remove(page);
-                    MarkerChanged?.Invoke(this, null);
+                    var args = new PagemarkChangedEventArgs()
+                    {
+                        Page = page,
+                        IsMarked = false
+                    };
+                    PagemakChanged?.Invoke(this, args);
                 }
             }
         }
 
         //
-        public bool IsMarked(Page page)
+        public bool IsPagemarked(Page page)
         {
             lock (_MarkerLock)
             {
@@ -874,7 +892,7 @@ namespace NeeView
         public void RequestMarker()
         {
             if (Place == null) return;
-            RegistCommand(new MarkerCommand(this, true));
+            RegistCommand(new TogglePagemarkCommand(this, true));
         }
 
         private class Pair<T1, T2>

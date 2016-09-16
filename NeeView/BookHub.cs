@@ -171,7 +171,7 @@ namespace NeeView
         public event EventHandler<BookMementoCollectionChangedArgs> BookmarkChanged;
 
         // ページマークにに追加、削除された
-        public event EventHandler<BookMementoCollectionChangedArgs> PagemarkChanged;
+        public event EventHandler<PagemarkChangedEventArgs> PagemarkChanged;
 
         // アドレスが変更された
         public event EventHandler AddressChanged;
@@ -186,7 +186,7 @@ namespace NeeView
         public event EventHandler<Page> PageRemoved;
 
         // マーカーが変更された
-        public event EventHandler MarkerChanged;
+        //public event EventHandler<PagemarkChangedEventArgs> PagemarkChanged;
 
         #endregion
 
@@ -377,7 +377,7 @@ namespace NeeView
         {
             ModelContext.BookHistory.HistoryChanged += (s, e) => HistoryChanged?.Invoke(s, e);
             ModelContext.Bookmarks.BookmarkChanged += (s, e) => BookmarkChanged?.Invoke(s, e);
-            ModelContext.Pagemarks.PagemarkChanged += (s, e) => PagemarkChanged?.Invoke(s, e);
+            //ModelContext.Pagemarks.PagemarkChanged += (s, e) => PagemarkChanged?.Invoke(s, e);
 
             // messenger
             Messenger.AddReciever("RemoveFile", CallRemoveFile);
@@ -867,10 +867,25 @@ namespace NeeView
 
                 // マーカー復元
                 book.RestoreMarker(setting);
-                book.MarkerChanged += (s, e) =>
+                book.PagemakChanged += (s, e) =>
                 {
                     UpdatePageMarker();
-                    MarkerChanged?.Invoke(s, e);
+
+                    // TODO: ページマーク変更通知、でなく、追加を要求する方向で
+                    // んー、どちらにしろ信号の流れがよろしくないぞ
+                    // あれ、Bookにページマーク情報いらない？
+                    // Command->BookHub->PagemarkCollection->BookHub.Pagemarker->ViewModel(表示)
+                    //PagemarkChanged?.Invoke(s, e);
+                    /*
+                    if (e.IsMarked)
+                    {
+                        ModelContext.Pagemarks.Add(s, e.Page);
+                    }
+                    else
+                    {
+                        ModelContext.Pagemarks.Remove(s, e.Page);
+                    }
+                    */
                 };
 
                 // 最初のコンテンツ表示待ち設定
@@ -1331,6 +1346,88 @@ namespace NeeView
             }
         }
 
+        // ブックマークを戻ることができる？
+        public bool CanPrevBookmark()
+        {
+            var unit = ModelContext.Bookmarks.Find(Address);
+            if (unit != null)
+            {
+                // 現在のブックマークが先頭でなければ真 
+                return unit.BookmarkNode != ModelContext.Bookmarks.Items.First();
+            }
+            else
+            {
+                // ブックマークが１つでも存在するならば真
+                return ModelContext.Bookmarks.Items.Count > 0;
+            }
+        }
+
+        // ブックマークを戻る
+        public void PrevBookmark()
+        {
+            if (_IsLoading || ModelContext.Bookmarks.Items.Count <= 0) return;
+
+            var unit = ModelContext.Bookmarks.Find(Address);
+            if (unit == null)
+            {
+                RequestLoad(ModelContext.Bookmarks.Items.LastOrDefault()?.Value.Memento.Place, BookLoadOption.None, false);
+            }
+            else
+            {
+                int index = ModelContext.Bookmarks.Items.IndexOf(unit.BookmarkNode);
+                if (index > 0)
+                {
+                    var previous = ModelContext.Bookmarks.Items[index - 1];
+                    RequestLoad(previous.Value.Memento.Place, BookLoadOption.None, false);
+                }
+                else
+                {
+                    InfoMessage?.Invoke(this, "これより前のブックマークはありません"); // 先頭のブックマークです
+                }
+            }
+        }
+
+        // ブックマークを進むことができる？
+        public bool CanNextBookmark()
+        {
+            var unit = ModelContext.Bookmarks.Find(Address);
+            if (unit != null)
+            {
+                // 現在のブックマークが最後でなければ真 
+                return unit.BookmarkNode != ModelContext.Bookmarks.Items.Last();
+            }
+            else
+            {
+                // ブックマークが１つでも存在するならば真
+                return ModelContext.Bookmarks.Items.Count > 0;
+            }
+        }
+
+        // ブックマークを進む
+        public void NextBookmark()
+        {
+            if (_IsLoading || ModelContext.Bookmarks.Items.Count <= 0) return;
+
+            var unit = ModelContext.Bookmarks.Find(Address);
+            if (unit == null)
+            {
+                RequestLoad(ModelContext.Bookmarks.Items.FirstOrDefault()?.Value.Memento.Place, BookLoadOption.None, false);
+            }
+            else
+            {
+                int index = ModelContext.Bookmarks.Items.IndexOf(unit.BookmarkNode);
+                if (index < ModelContext.Bookmarks.Items.Count - 1)
+                {
+                    var previous = ModelContext.Bookmarks.Items[index + 1];
+                    RequestLoad(previous.Value.Memento.Place, BookLoadOption.None, false);
+                }
+                else
+                {
+                    InfoMessage?.Invoke(this, "これより後のブックマークはありません"); // 最後のブックマークです
+                }
+            }
+        }
+
 
 
         // マーカー切り替え
@@ -1354,7 +1451,7 @@ namespace NeeView
         // 表示ページのマーク判定
         public bool IsMarked()
         {
-            return Current.Book.IsMarked(Current.Book.GetViewPage());
+            return CurrentBook != null ? CurrentBook.IsPagemarked(Current.Book.GetViewPage()) : false;
         }
 
         // マーカー切り替え反映

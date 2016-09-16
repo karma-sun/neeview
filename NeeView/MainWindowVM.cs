@@ -63,6 +63,7 @@ namespace NeeView
         FolderList,
         HistoryList,
         BookmarkList,
+        PagemarkList,
         PageList, // 廃止。イベントで使用される
     }
 
@@ -472,6 +473,21 @@ namespace NeeView
             return IsVisibleBookmarkList;
         }
 
+
+        // ページマークリスト表示ON/OFF
+        public bool IsVisiblePagemarkList
+        {
+            get { return LeftPanel == PanelType.PagemarkList; }
+            set { LeftPanel = value ? PanelType.PagemarkList : PanelType.None; }
+        }
+
+        //
+        public bool ToggleVisiblePagemarkList(bool byMenu)
+        {
+            IsVisiblePagemarkList = byMenu ? !IsVisiblePagemarkList : !(IsVisiblePagemarkList && IsVisibleLeftPanel);
+            return IsVisiblePagemarkList;
+        }
+
         // 左パネル
         #region Property: LeftPanel
         private PanelType _LeftPanel;
@@ -486,6 +502,7 @@ namespace NeeView
                 OnPropertyChanged(nameof(IsVisibleFolderList));
                 OnPropertyChanged(nameof(IsVisibleHistoryList));
                 OnPropertyChanged(nameof(IsVisibleBookmarkList));
+                OnPropertyChanged(nameof(IsVisiblePagemarkList));
                 OnPropertyChanged(nameof(IsVisiblePageListMenu));
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
 
@@ -1098,6 +1115,15 @@ namespace NeeView
         }
         #endregion
 
+        #region Property: IsPagemark
+        private bool _IsPagemark;
+        public bool IsPagemark
+        {
+            get { return BookHub.IsMarked(); }
+        }
+        #endregion
+
+
 
         #region Property: ContextMenuSetting
         private ContextMenuSetting _ContextMenuSetting;
@@ -1233,6 +1259,8 @@ namespace NeeView
             var pages = BookHub.CurrentBook?.Pages;
             PageList = pages != null ? new ObservableCollection<Page>(pages) : null;
             PageListChanged?.Invoke(this, null);
+
+            OnPropertyChanged(nameof(IsPagemark));
         }
 
         // サムネイル有効
@@ -1488,6 +1516,7 @@ namespace NeeView
                     _Address = BookHub.Address;
                     OnPropertyChanged(nameof(Address));
                     OnPropertyChanged(nameof(IsBookmark));
+                    OnPropertyChanged(nameof(IsPagemark));
                 };
 
             BookHub.PagesSorted +=
@@ -1506,6 +1535,12 @@ namespace NeeView
                 (s, e) =>
                 {
                     UpdatePageList();
+                };
+
+            BookHub.PagemarkChanged +=
+                (s, e) =>
+                {
+                    OnPropertyChanged(nameof(IsPagemark));
                 };
 
             // CommandTable
@@ -1917,6 +1952,7 @@ namespace NeeView
         private void OnPageChanged(object sender, int e)
         {
             UpdateIndex();
+            OnPropertyChanged(nameof(IsPagemark));
         }
 
 

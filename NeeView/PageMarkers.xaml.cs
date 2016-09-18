@@ -40,6 +40,14 @@ namespace NeeView
         {
             _VM.BookHub = bookHub;
         }
+
+        #region Property: IsSliderDirectionReversed
+        public bool IsSliderDirectionReversed
+        {
+            get { return _VM.IsSliderDirectionReversed; }
+            set { _VM.IsSliderDirectionReversed = value; }
+        }
+        #endregion
     }
 
     /// <summary>
@@ -125,6 +133,16 @@ namespace NeeView
             }
         }
         #endregion
+
+        #region Property: IsSliderDirectionReversed
+        private bool _IsSliderDirectionReversed;
+        public bool IsSliderDirectionReversed
+        {
+            get { return _IsSliderDirectionReversed; }
+            set { _IsSliderDirectionReversed = value; UpdateControl(); }
+        }
+        #endregion
+
 
         //
         private List<PageMarker> Markers;
@@ -220,7 +238,7 @@ namespace NeeView
         /// </summary>
         private void UpdateControl()
         {
-            Markers.ForEach(e => e.UpdateControl(_Canvas.ActualWidth, true));
+            Markers.ForEach(e => e.UpdateControl(_Canvas.ActualWidth, IsSliderDirectionReversed));
         }
 
     }

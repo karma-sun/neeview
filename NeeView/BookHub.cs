@@ -1292,21 +1292,6 @@ namespace NeeView
             return (CurrentBook != null);
         }
 
-        // ブックマーク登録
-        public void Bookmark()
-        {
-            if (CanBookmark())
-            {
-                if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
-                {
-                    Messenger.MessageBox(this, $"一時フォルダーはブックマークできません", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
-                }
-                else
-                {
-                    Current.BookMementoUnit = ModelContext.Bookmarks.Add(Current.BookMementoUnit, CurrentBook.CreateMemento());
-                }
-            }
-        }
 
         // ブックマーク切り替え
         public void ToggleBookmark()
@@ -1376,6 +1361,11 @@ namespace NeeView
         }
 
 
+        // ページマーク登録可能？
+        public bool CanPagemark()
+        {
+            return (CurrentBook != null);
+        }
 
         // マーカー切り替え
         public void TogglePagemark()

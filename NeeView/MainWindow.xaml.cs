@@ -163,6 +163,8 @@ namespace NeeView
                     var track = this.PageSlider.Template.FindName("PART_Track", this.PageSlider) as System.Windows.Controls.Primitives.Track;
                     // Force it to rerender
                     track.InvalidateVisual();
+
+                    this.PageMarkers.IsSliderDirectionReversed = _VM.IsSliderDirectionReversed;
                 });
 
 

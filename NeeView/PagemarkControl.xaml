@@ -26,8 +26,6 @@
         <RoutedCommand x:Key="xRemoveDommand" />
 
         <Style TargetType="TextBlock" x:Key="PagemarkName">
-            <Setter Property="Text" Value="{Binding Value.Memento.Name}"/>
-            <Setter Property="ToolTip" Value="{Binding Value.Memento.Place}"/>
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="15"/>
@@ -36,17 +34,20 @@
 
         <!-- Normal Pagemark -->
         <DataTemplate x:Key="NormalPagemark">
-            <TextBlock Style="{StaticResource PagemarkName}"/>
+            <StackPanel Background="{DynamicResource NVBaseBrush}" ToolTip="{Binding Detail}" >
+                <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PlaceShort}" FontSize="12" Foreground="Gray" />
+                <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}"/>
+            </StackPanel>
         </DataTemplate>
 
         <!-- Picture Pagemark -->
         <DataTemplate x:Key="PicturePagemark">
             <DockPanel Height="{Binding ElementName=PagemarkListBox, Path=DataContext.PicturePanelHeight}" Margin="0,1" Background="{DynamicResource NVBaseBrush}">
                 <DockPanel DockPanel.Dock="Bottom" Margin="0,2">
-                    <TextBlock Style="{StaticResource PagemarkName}"/>
+                    <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}"  ToolTip="{Binding Detail}" />
                 </DockPanel>
                 <Grid>
-                    <Image Source="{Binding Value.ArchivePage.Thumbnail}"
+                    <Image Source="{Binding ArchivePage.Thumbnail}"
                            Width="{Binding ElementName=PagemarkListBox, Path=DataContext.ThumbnailWidth}"
                            HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="UniformToFill" UseLayoutRounding="True"/>
                 </Grid>
@@ -60,7 +61,7 @@
 
         <StackPanel DockPanel.Dock="Top" Margin="5">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <TextBlock FontFamily="Meyrio" Text="⚑" FontSize="20" Foreground="{StaticResource NVStarMarkBrush}" VerticalAlignment="Center" />
+                <Image Source="{StaticResource ic_bookmark_24px}" Width="16" Height="16"/>
                 <TextBlock Text="ページマーク" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
             </StackPanel>
         </StackPanel>
@@ -71,10 +72,10 @@
                  FocusVisualStyle="{StaticResource NVFocusVisual}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding Pagemark.Items}"
-                 SelectedItem="{Binding SelectedItem}"
+                 ItemsSource="{Binding Pagemarks.Marks}"
+                 SelectedItem="{Binding Pagemarks.SelectedItem}"
                  KeyDown="PagemarkList_KeyDown"
-                 Tag="{Binding Pagemark.Items}"
+                 Tag="{Binding Pagemarks.Marks}"
                  IsVisibleChanged="PagemarkListBox_IsVisibleChanged"
                  AllowDrop="True"
                  PreviewDragOver="PagemarkListBox_PreviewDragOver"
@@ -100,7 +101,7 @@
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu>
-                                <MenuItem Header="ブックマークをはずす(D)" Command="{x:Static local:PagemarkControl.RemoveCommand}"/>
+                                <MenuItem Header="ページマークをはずす(D)" Command="{x:Static local:PagemarkControl.RemoveCommand}"/>
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>

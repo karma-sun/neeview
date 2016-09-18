@@ -537,6 +537,10 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.NextBookmark },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.TogglePagemark },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevPagemark},
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextPagemark },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevPagemarkInBook},
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextPagemarkInBook },
                     }},
                     new MenuTree(MenuElementType.Group) { Name="その他(_O)", Children = new ObservableCollection<MenuTree>()
                     {

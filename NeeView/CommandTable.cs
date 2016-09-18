@@ -1001,12 +1001,19 @@ namespace NeeView
                     CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.Random),
                 },
 
+
+                [CommandType.Bookmark] = new CommandElement // 欠番
+                {
+                    Group = "dummy",
+                    Text = "dummy",
+                    Execute = (s, e) => { return; }
+                },
                 [CommandType.ToggleBookmark] = new CommandElement
                 {
                     Group = "ブックマーク",
                     Text = "ブックマーク登録/解除",
                     MenuText = "ブックマーク",
-                    Note = "現在開いているフォルダのブックマークの登録/解除を切り替えます",
+                    Note = "現在開いているフォルダーのブックマークの登録/解除を切り替えます",
                     Execute = (s, e) => _Book.ToggleBookmark(),
                     CanExecute = () => true,
                     ExecuteMessage = e => _Book.IsBookmark(null) ? "ブックマーク解除" : "ブックマークに登録",
@@ -1014,36 +1021,13 @@ namespace NeeView
                     CreateIsCheckedBinding = () => BindingGenerator.IsBookmark(),
                     ShortCutKey = "Ctrl+D",
                 },
-                [CommandType.Bookmark] = new CommandElement
-                {
-                    Group = "ブックマーク",
-                    Text = "ブックマークに登録する",
-                    Note = "現在開いているフォルダをブックマークに登録します",
-                    Execute = (s, e) => _Book.Bookmark(),
-                    CanExecute = () => _Book.CanBookmark(),
-                    ExecuteMessage = e => "ブックマークに登録",
-                },
-                
-                [CommandType.TogglePagemark] = new CommandElement
-                {
-                    Group = "ブックマーク",
-                    Text = "ページマーク登録/解除",
-                    MenuText = "ページマーク",
-                    Note = "現在開いているページのページマークの登録/解除を切り替えます",
-                    Execute = (s, e) => _Book.ToggleMarker(),
-                    CanExecute = () => true,
-                    ExecuteMessage = e => _Book.IsMarked() ? "マーカー解除" : "マーカー登録",
-                    IsShowMessage = true,
-                    CreateIsCheckedBinding = () => BindingGenerator.IsPagemark(),
-                    ShortCutKey = "Ctrl+M",
-                },
+
                 [CommandType.PrevBookmark] = new CommandElement
                 {
                     Group = "ブックマーク",
                     Text = "前のブックマークに移動",
                     Note = "ブックマークリスト順で前のフォルダーに移動します",
                     IsShowMessage = false,
-                    CanExecute = () => _Book.CanPrevBookmark(),
                     Execute = (s, e) => _Book.PrevBookmark(),
                 },
                 [CommandType.NextBookmark] = new CommandElement
@@ -1052,8 +1036,57 @@ namespace NeeView
                     Text = "次のブックマークへ移動",
                     Note = "ブックマークリスト順で次のフォルダーに移動します",
                     IsShowMessage = false,
-                    CanExecute = () => _Book.CanNextBookmark(),
                     Execute = (s, e) => _Book.NextBookmark(),
+                },
+
+                [CommandType.TogglePagemark] = new CommandElement
+                {
+                    Group = "ページマーク",
+                    Text = "ページマーク登録/解除",
+                    MenuText = "ページマーク",
+                    Note = "現在開いているページのページマークの登録/解除を切り替えます",
+                    Execute = (s, e) => _Book.TogglePagemark(),
+                    CanExecute = () => true,
+                    ExecuteMessage = e => _Book.IsMarked() ? "ページマーク解除" : "ページマーク登録",
+                    IsShowMessage = true,
+                    CreateIsCheckedBinding = () => BindingGenerator.IsPagemark(),
+                    ShortCutKey = "Ctrl+M",
+                },
+
+                [CommandType.PrevPagemark] = new CommandElement
+                {
+                    Group = "ページマーク",
+                    Text = "前のページマークに移動",
+                    Note = "前のページマークに移動します",
+                    IsShowMessage = false,
+                    Execute = (s, e) => _Book.PrevPagemark(),
+                },
+                [CommandType.NextPagemark] = new CommandElement
+                {
+                    Group = "ページマーク",
+                    Text = "次のページマークへ移動",
+                    Note = "次のページマークへ移動します",
+                    IsShowMessage = false,
+                    Execute = (s, e) => _Book.NextPagemark(),
+                },
+
+                [CommandType.PrevPagemarkInBook] = new CommandElement
+                {
+                    Group = "ページマーク",
+                    Text = "フォルダ内の前のページマークに移動",
+                    Note = "現在のフォルダ内で前のページマークに移動します",
+                    IsShowMessage = false,
+                    CanExecute = () => _Book.CanPrevPagemarkInPlace(),
+                    Execute = (s, e) => _Book.PrevPagemarkInPlace(),
+                },
+                [CommandType.NextPagemarkInBook] = new CommandElement
+                {
+                    Group = "ページマーク",
+                    Text = "フォルダ内の次のページマークへ移動",
+                    Note = "現在のフォルダ内で次のページマークへ移動します",
+                    IsShowMessage = false,
+                    CanExecute = () => _Book.CanNextPagemarkInPlace(),
+                    Execute = (s, e) => _Book.NextPagemarkInPlace(),
                 },
 
 #if false

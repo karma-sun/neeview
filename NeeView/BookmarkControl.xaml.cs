@@ -210,14 +210,6 @@ namespace NeeView
 
         public BookmarkCollection Bookmark => ModelContext.Bookmarks;
         
-        #region Property: SelectedItem
-        private BookMementoUnitNode _SelectedItem;
-        public BookMementoUnitNode SelectedItem
-        {
-            get { return _SelectedItem; }
-            set { _SelectedItem = value; OnPropertyChanged(); }
-        }
-        #endregion
 
         public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
 
@@ -239,30 +231,9 @@ namespace NeeView
         //
         public void Load(string path)
         {
-            BookHub?.RequestLoad(path, BookLoadOption.SkipSamePlace, true);
+            BookHub?.RequestLoad(path, null, BookLoadOption.SkipSamePlace, true);
         }
 
-        // となりを取得
-        public BookMementoUnitNode GetNeighbor(BookMementoUnitNode item)
-        {
-            if (Bookmark?.Items == null || Bookmark.Items.Count <= 0) return null;
-
-            int index = Bookmark.Items.IndexOf(item);
-            if (index < 0) return Bookmark.Items[0];
-
-            if (index + 1 < Bookmark.Items.Count)
-            {
-                return Bookmark.Items[index + 1];
-            }
-            else if (index > 0)
-            {
-                return Bookmark.Items[index - 1];
-            }
-            else
-            {
-                return item;
-            }
-        }
 
         public void Remove(BookMementoUnitNode item)
         {
@@ -270,7 +241,7 @@ namespace NeeView
 
             var args = new SelectedItemChangeEventArgs();
             SelectedItemChanging?.Invoke(this, args);
-            SelectedItem = GetNeighbor(item);
+            Bookmark.SelectedItem = Bookmark.GetNeighbor(item);
             SelectedItemChanged?.Invoke(this, args);
 
             ModelContext.Bookmarks.Remove(item.Value.Memento.Place);

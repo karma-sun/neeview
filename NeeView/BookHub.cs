@@ -405,6 +405,7 @@ namespace NeeView
         public class LoadCommandArgs
         {
             public string Path { get; set; }
+            public string StartEntry { get; set; }
             public BookLoadOption Option { get; set; }
             public bool IsRefleshFolderList { get; set; }
         }
@@ -417,11 +418,12 @@ namespace NeeView
             private LoadCommandArgs _Args;
 
             //
-            public LoadCommand(BookHub bookHub, string path, BookLoadOption option, bool isRefleshFolderList) : base(bookHub)
+            public LoadCommand(BookHub bookHub, string path, string start, BookLoadOption option, bool isRefleshFolderList) : base(bookHub)
             {
                 _Args = new LoadCommandArgs()
                 {
                     Path = path,
+                    StartEntry = start,
                     Option = option,
                     IsRefleshFolderList = isRefleshFolderList,
                 };
@@ -443,7 +445,7 @@ namespace NeeView
 
 
         // ロード
-        public void RequestLoad(string path, BookLoadOption option, bool isRefleshFolderList)
+        public void RequestLoad(string path, string start, BookLoadOption option, bool isRefleshFolderList)
         {
             if (path == null) return;
             path = GetNormalizePathName(path);
@@ -452,7 +454,7 @@ namespace NeeView
 
             Address = path;
 
-            RegistCommand(new LoadCommand(this, path, option, isRefleshFolderList));
+            RegistCommand(new LoadCommand(this, path, start, option, isRefleshFolderList));
         }
 
         // ワーカータスクのキャンセルトークン
@@ -706,7 +708,7 @@ namespace NeeView
                 string place = GetPlace(args.Path, args.Option);
 
                 // start
-                string startEntry = args.Path == place ? null : Path.GetFileName(args.Path);
+                string startEntry = args.Path == place ? args.StartEntry : Path.GetFileName(args.Path);
 
                 // Now Loading ON
                 NotifyLoading(args.Path);
@@ -796,7 +798,7 @@ namespace NeeView
 
             if (message.Result == true)
             {
-                RequestLoad(CurrentBook.Place, BookLoadOption.Recursive | BookLoadOption.ReLoad, true);
+                RequestLoad(CurrentBook.Place, CurrentBook.StartEntry, BookLoadOption.Recursive | BookLoadOption.ReLoad, true);
             }
         }
 
@@ -860,33 +862,10 @@ namespace NeeView
                 book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
                 book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
                 book.PageTerminated += OnPageTerminated;
-                book.DartyBook += (s, e) => RequestLoad(Address, BookLoadOption.ReLoad, false);
+                book.DartyBook += (s, e) => RequestLoad(Address, null, BookLoadOption.ReLoad, false);
                 book.PagesSorted += (s, e) => PagesSorted?.Invoke(s, e);
                 book.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(s, e);
-                book.PageRemoved += (s, e) => PageRemoved?.Invoke(s, e);
-
-                // マーカー復元
-                book.RestoreMarker(setting);
-                book.PagemakChanged += (s, e) =>
-                {
-                    UpdatePageMarker();
-
-                    // TODO: ページマーク変更通知、でなく、追加を要求する方向で
-                    // んー、どちらにしろ信号の流れがよろしくないぞ
-                    // あれ、Bookにページマーク情報いらない？
-                    // Command->BookHub->PagemarkCollection->BookHub.Pagemarker->ViewModel(表示)
-                    //PagemarkChanged?.Invoke(s, e);
-                    /*
-                    if (e.IsMarked)
-                    {
-                        ModelContext.Pagemarks.Add(s, e.Page);
-                    }
-                    else
-                    {
-                        ModelContext.Pagemarks.Remove(s, e.Page);
-                    }
-                    */
-                };
+                book.PageRemoved += OnPageRemoved;
 
                 // 最初のコンテンツ表示待ち設定
                 _ViewContentEvent.Reset();
@@ -897,6 +876,9 @@ namespace NeeView
                 Current.LoadOptions = option;
                 Current.BookMementoUnit = unit;
                 Current.Book.Start();
+
+                // マーカー復元
+                UpdatePagemark();
 
                 // 最初のコンテンツ表示待ち
                 await Task.Run(() => _ViewContentEvent.WaitOne());
@@ -939,7 +921,7 @@ namespace NeeView
             if (_IsLoading || Address == null) return;
 
             var options = Current != null ? (Current.LoadOptions & BookLoadOption.KeepHistoryOrder) : BookLoadOption.None;
-            RequestLoad(Address, options, true);
+            RequestLoad(Address, null, options, true);
         }
 
         // ページ終端を超えて移動しようとするときの処理
@@ -981,6 +963,15 @@ namespace NeeView
             }
         }
 
+        private void OnPageRemoved(object sender, Page e)
+        {
+            PageRemoved?.Invoke(sender, e);
+
+            // ページマーカーから削除
+            RemovePagemark(new Pagemark(CurrentBook.Place, e.FullPath));
+        }
+
+
         // 現在ページ番号取得
         public int GetPageIndex()
         {
@@ -1019,11 +1010,11 @@ namespace NeeView
 
             if (unit == null)
             {
-                RequestLoad(ModelContext.BookHistory.First?.Memento.Place, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, false);
+                RequestLoad(ModelContext.BookHistory.First?.Memento.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, false);
             }
             else if (previous != null)
             {
-                RequestLoad(previous.Memento.Place, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, false);
+                RequestLoad(previous.Memento.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, false);
             }
             else
             {
@@ -1047,7 +1038,7 @@ namespace NeeView
             var next = unit?.HistoryNode?.Previous; // リストと履歴の方向は逆
             if (next != null)
             {
-                RequestLoad(next.Value.Memento.Place, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, false);
+                RequestLoad(next.Value.Memento.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, false);
             }
             else
             {
@@ -1346,119 +1337,179 @@ namespace NeeView
             }
         }
 
-        // ブックマークを戻ることができる？
-        public bool CanPrevBookmark()
-        {
-            var unit = ModelContext.Bookmarks.Find(Address);
-            if (unit != null)
-            {
-                // 現在のブックマークが先頭でなければ真 
-                return unit.BookmarkNode != ModelContext.Bookmarks.Items.First();
-            }
-            else
-            {
-                // ブックマークが１つでも存在するならば真
-                return ModelContext.Bookmarks.Items.Count > 0;
-            }
-        }
-
         // ブックマークを戻る
         public void PrevBookmark()
         {
-            if (_IsLoading || ModelContext.Bookmarks.Items.Count <= 0) return;
+            if (_IsLoading) return;
 
-            var unit = ModelContext.Bookmarks.Find(Address);
-            if (unit == null)
+            if (!ModelContext.Bookmarks.CanMoveSelected(-1))
             {
-                RequestLoad(ModelContext.Bookmarks.Items.LastOrDefault()?.Value.Memento.Place, BookLoadOption.None, false);
+                InfoMessage?.Invoke(this, "前のブックマークはありません");
+                return;
             }
-            else
-            {
-                int index = ModelContext.Bookmarks.Items.IndexOf(unit.BookmarkNode);
-                if (index > 0)
-                {
-                    var previous = ModelContext.Bookmarks.Items[index - 1];
-                    RequestLoad(previous.Value.Memento.Place, BookLoadOption.None, false);
-                }
-                else
-                {
-                    InfoMessage?.Invoke(this, "これより前のブックマークはありません"); // 先頭のブックマークです
-                }
-            }
-        }
 
-        // ブックマークを進むことができる？
-        public bool CanNextBookmark()
-        {
-            var unit = ModelContext.Bookmarks.Find(Address);
+            var unit = ModelContext.Bookmarks.MoveSelected(-1);
             if (unit != null)
             {
-                // 現在のブックマークが最後でなければ真 
-                return unit.BookmarkNode != ModelContext.Bookmarks.Items.Last();
-            }
-            else
-            {
-                // ブックマークが１つでも存在するならば真
-                return ModelContext.Bookmarks.Items.Count > 0;
+                RequestLoad(unit.Value.Memento.Place, null, BookLoadOption.SkipSamePlace, false);
             }
         }
+
 
         // ブックマークを進む
         public void NextBookmark()
         {
-            if (_IsLoading || ModelContext.Bookmarks.Items.Count <= 0) return;
+            if (_IsLoading) return;
 
-            var unit = ModelContext.Bookmarks.Find(Address);
-            if (unit == null)
+            if (!ModelContext.Bookmarks.CanMoveSelected(+1))
             {
-                RequestLoad(ModelContext.Bookmarks.Items.FirstOrDefault()?.Value.Memento.Place, BookLoadOption.None, false);
+                InfoMessage?.Invoke(this, "次のブックマークはありません");
+                return;
             }
-            else
+
+            var unit = ModelContext.Bookmarks.MoveSelected(+1);
+            if (unit != null)
             {
-                int index = ModelContext.Bookmarks.Items.IndexOf(unit.BookmarkNode);
-                if (index < ModelContext.Bookmarks.Items.Count - 1)
-                {
-                    var previous = ModelContext.Bookmarks.Items[index + 1];
-                    RequestLoad(previous.Value.Memento.Place, BookLoadOption.None, false);
-                }
-                else
-                {
-                    InfoMessage?.Invoke(this, "これより後のブックマークはありません"); // 最後のブックマークです
-                }
+                RequestLoad(unit.Value.Memento.Place, null, BookLoadOption.SkipSamePlace, false);
             }
+
         }
 
 
 
         // マーカー切り替え
-        public void ToggleMarker()
+        public void TogglePagemark()
         {
-            if (CanBookmark())
+            if (_IsLoading || CurrentBook == null) return;
+
+            if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
             {
-                if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
-                {
-                    Messenger.MessageBox(this, $"一時フォルダーはブックマークできません", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
-                }
-                else
-                {
-                    Current.Book.RequestMarker();
-                    //Current.BookMementoUnit = ModelContext.Bookmarks.Toggle(Current.BookMementoUnit, CurrentBook.CreateMemento());
-                    //Current.BookMementoUnit = ModelContext.Pagemarks.Update(Current.BookMementoUnit, CurrentBook.CreateMemento());
-                }
+                Messenger.MessageBox(this, $"一時フォルダーはページマークできません", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
             }
+
+            // マーク登録/解除
+            ModelContext.Pagemarks.Toggle(new Pagemark(CurrentBook.Place, CurrentBook.GetViewPage().FullPath));
+
+            // 更新
+            UpdatePagemark();
         }
+
+        // マーカー削除
+        public void RemovePagemark(Pagemark mark)
+        {
+            ModelContext.Pagemarks.Remove(mark);
+            UpdatePagemark(mark);
+        }
+
 
         // 表示ページのマーク判定
         public bool IsMarked()
         {
-            return CurrentBook != null ? CurrentBook.IsPagemarked(Current.Book.GetViewPage()) : false;
+            return CurrentBook != null ? CurrentBook.IsMarked(Current.Book.GetViewPage()) : false;
         }
 
-        // マーカー切り替え反映
-        private void UpdatePageMarker()
+        /// <summary>
+        /// マーカー表示更新
+        /// </summary>
+        /// <param name="mark">変更や削除されたマーカー</param>
+        public void UpdatePagemark(Pagemark mark)
         {
-            Current.BookMementoUnit = ModelContext.Pagemarks.Update(Current.BookMementoUnit, CurrentBook.CreateMemento());
+            // 現在ブックに影響のある場合のみ更新
+            if (CurrentBook?.Place == mark.Place)
+            {
+                UpdatePagemark();
+            }
         }
+
+
+        // マーカー表示更新
+        private void UpdatePagemark()
+        {
+            // 本にマーカを設定
+            CurrentBook?.SetMarkers(ModelContext.Pagemarks.Collect(CurrentBook.Place).Select(e => e.EntryName));
+
+            // 表示更新
+            this.PagemarkChanged?.Invoke(this, null);
+        }
+
+        public bool CanPrevPagemarkInPlace()
+        {
+            return CurrentBook?.Markers != null && Current.Book.Markers.Count > 0;
+        }
+
+        public bool CanNextPagemarkInPlace()
+        {
+            return CurrentBook?.Markers != null && Current.Book.Markers.Count > 0;
+        }
+
+        // ページマークに移動
+        public void PrevPagemarkInPlace()
+        {
+            if (_IsLoading || CurrentBook == null) return;
+            var result = CurrentBook.RequestJumpToMarker(-1, false);
+            if (!result)
+            {
+                InfoMessage?.Invoke(this, "現在ページより前のページマークはありません");
+            }
+        }
+
+
+        public void NextPagemarkInPlace()
+        {
+            if (_IsLoading || CurrentBook == null) return;
+            var result = CurrentBook.RequestJumpToMarker(+1, false);
+            if (!result)
+            {
+                InfoMessage?.Invoke(this, "現在ページより後のページマークはありません");
+            }
+        }
+
+        public void RequestLoad(Pagemark mark)
+        {
+            if (mark == null) return;
+
+
+            if (mark.Place == CurrentBook?.Place)
+            {
+                Page page = CurrentBook.GetPage(mark.EntryName);
+                if (page != null) JumpPage(page);
+            }
+            else
+            {
+                RequestLoad(mark.Place, mark.EntryName, BookLoadOption.None, false);
+            }
+        }
+
+
+        public void PrevPagemark()
+        {
+            if (_IsLoading) return;
+
+            if (!ModelContext.Pagemarks.CanMoveSelected(-1))
+            {
+                InfoMessage?.Invoke(this, "前のページマークはありません");
+                return;
+            }
+
+            Pagemark mark = ModelContext.Pagemarks.MoveSelected(-1);
+            RequestLoad(mark);
+        }
+
+        public void NextPagemark()
+        {
+            if (_IsLoading) return;
+
+            if (!ModelContext.Pagemarks.CanMoveSelected(+1))
+            {
+                InfoMessage?.Invoke(this, "次のページマークはありません");
+                return;
+            }
+
+            Pagemark mark = ModelContext.Pagemarks.MoveSelected(+1);
+            RequestLoad(mark);
+        }
+
+
 
 
 
@@ -1577,9 +1628,9 @@ namespace NeeView
             var isRemoved = Messenger.Send(this, new MessageEventArgs("RemoveFile") { Parameter = new RemoveFileParams() { Path = path, Visual = stackPanel } });
 
             // ページを本から削除
-            if (isRemoved == true)
+            if (isRemoved == true && CurrentBook != null)
             {
-                CurrentBook?.RequestRemove(page);
+                CurrentBook.RequestRemove(page);
             }
         }
 

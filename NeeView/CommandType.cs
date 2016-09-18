@@ -3,6 +3,8 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using System.Collections.Generic;
+
 namespace NeeView
 {
     /// <summary>
@@ -112,15 +114,16 @@ namespace NeeView
         SetSortModeTimeStampDescending,
         SetSortModeRandom,
 
-        Bookmark,
+        Bookmark, // 欠番
         ToggleBookmark,
         PrevBookmark,
         NextBookmark,
 
-        //Pagemark,
         TogglePagemark,
-        //PrevPagemark,
-        //NextPagemark,
+        PrevPagemark,
+        NextPagemark,
+        PrevPagemarkInBook,
+        NextPagemarkInBook,
 
         ToggleIsReverseSort, // 欠番
 
@@ -153,10 +156,18 @@ namespace NeeView
 
     public static class CommandTypeExtensions
     {
+        // 無効なコマンドID
+        public static List<CommandType> IgnoreCommandTypes = new List<CommandType>()
+        {
+            CommandType.Bookmark,
+            CommandType.ToggleIsReverseSort,
+            CommandType.ToggleHideTitleBar,
+        };
+
         // TODO: 判定法整備
         public static bool IsDisable(this CommandType type)
         {
-            return (type == CommandType.None || type == CommandType.ToggleIsReverseSort || type == CommandType.ToggleHideTitleBar);
+            return (type == CommandType.None || IgnoreCommandTypes.Contains(type));
         }
 
         public static string ToDispString(this CommandType type)

@@ -1116,7 +1116,6 @@ namespace NeeView
         #endregion
 
         #region Property: IsPagemark
-        private bool _IsPagemark;
         public bool IsPagemark
         {
             get { return BookHub.IsMarked(); }
@@ -2267,7 +2266,7 @@ namespace NeeView
         // フォルダ読み込み
         public void Load(string path)
         {
-            BookHub.RequestLoad(path, BookLoadOption.None, true);
+            BookHub.RequestLoad(path, null, BookLoadOption.None, true);
         }
 
         // ドラッグ＆ドロップ取り込み失敗

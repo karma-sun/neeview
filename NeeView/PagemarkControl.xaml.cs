@@ -50,7 +50,7 @@ namespace NeeView
         //
         public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
         {
-            var item = (sender as ListBox)?.SelectedItem as BookMementoUnitNode;
+            var item = (sender as ListBox)?.SelectedItem as Pagemark;
             if (item != null)
             {
                 _VM.Remove(item);
@@ -99,10 +99,10 @@ namespace NeeView
         // 履歴項目決定
         private void PagemarkListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
         {
-            var historyItem = (sender as ListBoxItem)?.Content as BookMementoUnitNode;
+            var historyItem = (sender as ListBoxItem)?.Content as Pagemark;
             if (historyItem != null)
             {
-                _VM.Load(historyItem.Value.Memento.Place);
+                _VM.Load(historyItem);
                 e.Handled = true;
             }
         }
@@ -113,11 +113,11 @@ namespace NeeView
             // 自動非表示時間リセット
             Messenger.Send(this, new MessageEventArgs("ResetHideDelay") { Parameter = new ResetHideDelayParam() { PanelSide = PanelSide.Left } });
 
-            var historyItem = (sender as ListBoxItem)?.Content as BookMementoUnitNode;
+            var historyItem = (sender as ListBoxItem)?.Content as Pagemark;
             {
                 if (e.Key == Key.Return)
                 {
-                    _VM.Load(historyItem.Value.Memento.Place);
+                    _VM.Load(historyItem);
                     e.Handled = true;
                 }
             }
@@ -143,10 +143,10 @@ namespace NeeView
 
         private void PagemarkListBox_Drop(object sender, DragEventArgs e)
         {
-            var list = (sender as ListBox).Tag as ObservableCollection<BookMementoUnitNode>;
+            var list = (sender as ListBox).Tag as ObservableCollection<Pagemark>;
             if (list != null)
             {
-                ListBoxDragSortExtension.Drop<BookMementoUnitNode>(sender, e, list);
+                ListBoxDragSortExtension.Drop<Pagemark>(sender, e, list);
                 e.Handled = true;
             }
         }
@@ -208,16 +208,9 @@ namespace NeeView
 
         public BookHub BookHub { get; private set; }
 
-        public PagemarkCollection Pagemark => ModelContext.Pagemarks;
+        public PagemarkCollection Pagemarks => ModelContext.Pagemarks;
         
-        #region Property: SelectedItem
-        private BookMementoUnitNode _SelectedItem;
-        public BookMementoUnitNode SelectedItem
-        {
-            get { return _SelectedItem; }
-            set { _SelectedItem = value; OnPropertyChanged(); }
-        }
-        #endregion
+
 
         public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
 
@@ -237,50 +230,29 @@ namespace NeeView
         }
 
         //
-        public void Load(string path)
+        public void Load(Pagemark mark)
         {
-            BookHub?.RequestLoad(path, BookLoadOption.SkipSamePlace, true);
+            BookHub?.RequestLoad(mark);
         }
 
-        // となりを取得
-        public BookMementoUnitNode GetNeighbor(BookMementoUnitNode item)
+        //
+        public void Remove(Pagemark mark)
         {
-            if (Pagemark?.Items == null || Pagemark.Items.Count <= 0) return null;
-
-            int index = Pagemark.Items.IndexOf(item);
-            if (index < 0) return Pagemark.Items[0];
-
-            if (index + 1 < Pagemark.Items.Count)
-            {
-                return Pagemark.Items[index + 1];
-            }
-            else if (index > 0)
-            {
-                return Pagemark.Items[index - 1];
-            }
-            else
-            {
-                return item;
-            }
-        }
-
-        public void Remove(BookMementoUnitNode item)
-        {
-            if (item == null) return;
+            if (mark == null) return;
 
             var args = new SelectedItemChangeEventArgs();
             SelectedItemChanging?.Invoke(this, args);
-            SelectedItem = GetNeighbor(item);
+            Pagemarks.SelectedItem = Pagemarks.GetNeighbor(mark);
             SelectedItemChanged?.Invoke(this, args);
 
-            //// TODO:
-            ////ModelContext.Pagemarks.Remove(item.Value.Memento.Place);
+            ModelContext.Pagemarks.Remove(mark);
+            BookHub.UpdatePagemark(mark);
         }
 
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin, int direction)
         {
-            PanelContext.ThumbnailManager.RequestThumbnail(Pagemark.Items, start, count, margin, direction);
+            PanelContext.ThumbnailManager.RequestThumbnail(Pagemarks.Marks, start, count, margin, direction);
         }
     }
 }

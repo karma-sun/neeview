@@ -23,15 +23,23 @@ namespace NeeView
     {
         public static bool IsAutoRecursive { get; set; } = true;
 
+        private string _EntryName;
+
         // コンストラクタ
         public ArchivePage(string place) : base(null, null, place)
         {
         }
 
+        // コンストラクタ
+        public ArchivePage(string place, string entryName) : this(place)
+        {
+            _EntryName = entryName;
+        }
+
         //
         public override Page TinyClone()
         {
-            return new ArchivePage(Place);
+            return new ArchivePage(Place, _EntryName);
         }
 
         TrashBox _TrashBox = new TrashBox();
@@ -46,7 +54,7 @@ namespace NeeView
                 if (archiver != null)
                 {
                     _TrashBox.Add(archiver);
-                    Entry = OpenEntry(archiver, !archiver.IsFileSystem);
+                    Entry = OpenEntry(archiver, _EntryName, !archiver.IsFileSystem);
                 }
             }
             catch (Exception e)
@@ -98,6 +106,53 @@ namespace NeeView
                 return null; // 空フォルダ
             }
         }
+
+        /// <summary>
+        /// アーカイブから指定エントリを取得する
+        /// アーカイブの再帰対応(予定)
+        /// </summary>
+        /// <param name="archiver">アーカイブ</param>
+        /// <param name="isRecursive">再帰する/しない</param>
+        /// <returns>最初の有効エントリ。見つからない場合はnull</returns>
+        private ArchiveEntry OpenEntry(Archiver archiver, string entryName, bool isRecursive)
+        {
+            if (archiver == null) return null;
+            if (entryName == null) return OpenEntry(archiver, isRecursive);
+
+            // アーカイブエントリ取得
+            var entries = archiver.GetEntries();
+
+            // 指定の画像ファイル取得
+            var entry = entries.FirstOrDefault(e => e.EntryName == entryName);
+            if (entry != null) return entry;
+
+            // 再起しないのであればここで終了
+            if (!isRecursive) return null;
+
+            // サブフォルダ取得
+            var folders = entries.Where(e => ModelContext.ArchiverManager.IsSupported(e.EntryName)).ToList();
+            if (folders.Count == 0) return null;
+
+            // 最長一致するサブフォルダ取得
+            char[] trims = new char[] { '\\', '/' };
+            var folder = folders.Where(e => entryName.StartsWith(e.EntryName.TrimEnd(trims))).OrderBy(e => e.EntryName.Length).FirstOrDefault();
+            if (folder == null) return null;
+
+
+            // フォルダのアーカイブを取得し、再帰する
+            var archiverType = ModelContext.ArchiverManager.GetSupportedType(folder.EntryName);
+            // x エントリのストリームをアーカイブに渡す。ストリームはアーカイブでDisposeされる
+            var tempFile = archiver.ExtractToTemp(folder);
+            var subArchiver = ModelContext.ArchiverManager.CreateArchiver(archiverType, tempFile, null, archiver);
+            _TrashBox.Add(subArchiver);
+
+            var childEntryName = entryName.Substring(folder.EntryName.TrimEnd(trims).Length + 1);
+
+            // 再帰
+            return OpenEntry(subArchiver, childEntryName, true);
+        }
+
+
 
         /// <summary>
         /// アーカイブから最初の有効エントリを取得する

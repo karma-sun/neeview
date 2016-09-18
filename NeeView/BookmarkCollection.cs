@@ -47,6 +47,15 @@ namespace NeeView
             }
         }
 
+        #region Property: SelectedItem
+        private BookMementoUnitNode _SelectedItem;
+        public BookMementoUnitNode SelectedItem
+        {
+            get { return _SelectedItem; }
+            set { _SelectedItem = value; OnPropertyChanged(); }
+        }
+        #endregion
+
         //
         public BookmarkCollection()
         {
@@ -199,6 +208,72 @@ namespace NeeView
         }
 
 
+        // となりを取得
+        public BookMementoUnitNode GetNeighbor(BookMementoUnitNode item)
+        {
+            if (Items == null || Items.Count <= 0) return null;
+
+            int index = Items.IndexOf(item);
+            if (index < 0) return Items[0];
+
+            if (index + 1 < Items.Count)
+            {
+                return Items[index + 1];
+            }
+            else if (index > 0)
+            {
+                return Items[index - 1];
+            }
+            else
+            {
+                return item;
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        public bool CanMoveSelected(int direction)
+        {
+            if (SelectedItem == null)
+            {
+                return Items.Count > 0;
+            }
+            else
+            {
+                return direction > 0
+                    ? SelectedItem != Items.Last()
+                    : SelectedItem != Items.First();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        public BookMementoUnitNode MoveSelected(int direction)
+        {
+            if (SelectedItem == null)
+            {
+                SelectedItem = direction >= 0 ? Items.FirstOrDefault() : Items.LastOrDefault();
+            }
+            else
+            {
+                int index = Items.IndexOf(SelectedItem) + direction;
+                if (index >= 0 && index < Items.Count)
+                {
+                    SelectedItem = Items[index];
+                }
+            }
+
+            return SelectedItem;
+        }
+
+
         #region Memento
 
         /// <summary>
@@ -266,8 +341,6 @@ namespace NeeView
             {
                 // テンポラリフォルダを除外
                 memento.Items.RemoveAll((e) => e.Place.StartsWith(Temporary.TempDirectory));
-                // マーカー削除
-                memento.Items = memento.Items.Select(e => e.CloneWithoutMarkers()).ToList();
             }
 
             return memento;

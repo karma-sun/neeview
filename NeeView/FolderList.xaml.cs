@@ -234,7 +234,11 @@ namespace NeeView
         public int SelectedIndex
         {
             get { return _SelectedIndex; }
-            set { _SelectedIndex = value; OnPropertyChanged(); }
+            set
+            {
+                _SelectedIndex = value;
+                OnPropertyChanged();
+            }
         }
         #endregion
 

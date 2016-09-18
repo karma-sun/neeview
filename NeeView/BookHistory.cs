@@ -293,7 +293,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         /// <summary>
         /// 履歴Memento
@@ -301,14 +301,14 @@ namespace NeeView
         [DataContract]
         public class Memento : INotifyPropertyChanged
         {
-#region NotifyPropertyChanged
+            #region NotifyPropertyChanged
             public event PropertyChangedEventHandler PropertyChanged;
 
             protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
-#endregion
+            #endregion
 
 
             [DataMember(Name = "History")]
@@ -327,7 +327,7 @@ namespace NeeView
             public TimeSpan LimitSpan { get; set; }
 
 
-#region Property: LimitSizeIndex
+            #region Property: LimitSizeIndex
             private static List<int> _LimitSizeTable = new List<int>()
                 { 1, 10, 20, 50, 100, 200, 500, 1000, 0 };
 
@@ -347,10 +347,10 @@ namespace NeeView
                     OnPropertyChanged(nameof(LimitSize));
                 }
             }
-#endregion
+            #endregion
 
 
-#region Property: LimitSpanIndex
+            #region Property: LimitSpanIndex
             private static List<TimeSpan> _LimitSpanTable = new List<TimeSpan>() {
                 TimeSpan.FromDays(1),
                 TimeSpan.FromDays(2),
@@ -378,7 +378,7 @@ namespace NeeView
                     OnPropertyChanged(nameof(LimitSpan));
                 }
             }
-#endregion
+            #endregion
 
 
             private void Constructor()
@@ -442,8 +442,6 @@ namespace NeeView
                 memento.Items.RemoveAll((e) => e.Place.StartsWith(Temporary.TempDirectory));
                 // 履歴保持数制限適用
                 memento.Items = Limit(memento.Items); // 履歴保持数制限
-                // マーカー削除
-                memento.Items = memento.Items.Select(e => e.CloneWithoutMarkers()).ToList();
             }
 
             memento.LastFolder = this.LastFolder;
@@ -480,7 +478,7 @@ namespace NeeView
         }
 
 
-#endregion
+        #endregion
     }
 
 

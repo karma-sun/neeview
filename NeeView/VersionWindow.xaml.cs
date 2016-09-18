@@ -40,8 +40,15 @@ namespace NeeView
         // from http://gushwell.ldblog.jp/archives/52279481.html
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            System.Diagnostics.Process.Start(e.Uri.AbsoluteUri);
-            e.Handled = true;
+            try
+            {
+                System.Diagnostics.Process.Start(e.Uri.AbsoluteUri);
+                e.Handled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 

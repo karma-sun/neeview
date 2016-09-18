@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -37,7 +42,9 @@ namespace NeeView
         }
     }
 
-    //
+    /// <summary>
+    /// ページマーク単体の表示情報
+    /// </summary>
     public class PageMarker
     {
         public FrameworkElement Control { get; set; }
@@ -53,32 +60,42 @@ namespace NeeView
             Page = page;
 
             var path = new Path();
-            path.Data = Geometry.Parse("M0,0 L0,10 5,8 10,10 10,0 z");
-            path.Fill = Brushes.Orange;
+            path.Data = Geometry.Parse("M0,0 L0,10 5,9 10,10 10,0 z");
+            path.Fill = App.Current.Resources["NVStarMarkBrush"] as Brush;
+            //path.Stroke = Brushes.DarkOrange;
+            //path.StrokeThickness = 1.0;
             path.Width = 10;
             path.Height = 18;
             path.Stretch = Stretch.Fill;
             this.Control = path;
         }
 
-        //
+        /// <summary>
+        /// 座標更新
+        /// </summary>
         public void Update()
         {
             int max = _Book.Pages.Count - 1;
             if (max < 1) max = 1;
-            _Position = (double)_Book.GetIndex(Page) / (double)max;
+            _Position = (double)Page.Index / (double)max;
         }
 
-        //
+        /// <summary>
+        /// 表示更新
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="isReverse"></param>
         public void UpdateControl(double width, bool isReverse)
         {
-            var x = (width - Control.Width) * (isReverse ? 1.0 - _Position : _Position);
+            const double tumbWidth = 12;
+
+            var x = (width - tumbWidth) * (isReverse ? 1.0 - _Position : _Position) + (tumbWidth - Control.Width) * 0.5;
             Canvas.SetLeft(Control, x);
         }
     }
 
     /// <summary>
-    /// 
+    /// PageMakers ViewModel
     /// </summary>
     public class PageMarkersVM : INotifyPropertyChanged
     {
@@ -112,7 +129,10 @@ namespace NeeView
         //
         private List<PageMarker> Markers;
 
-        //
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="canvas"></param>
         public PageMarkersVM(Canvas canvas)
         {
             Markers = new List<PageMarker>();
@@ -121,7 +141,11 @@ namespace NeeView
             _Canvas.SizeChanged += Canvas_SizeChanged;
         }
 
-        //
+        /// <summary>
+        /// サイズ変更されたらマーカー表示座標を更新する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (e.WidthChanged)
@@ -130,6 +154,9 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// BookHub Changed
+        /// </summary>
         private void BookHubChanged()
         {
             _BookHub.BookChanged += (s, e) => BookChanged();
@@ -138,11 +165,17 @@ namespace NeeView
             _BookHub.PageRemoved += (s, e) => UpdateInvoke();
         }
 
+        /// <summary>
+        /// マーカー表示更新 (表示スレッド)
+        /// </summary>
         private void UpdateInvoke()
         {
             App.Current.Dispatcher.Invoke(() => Update());
         }
 
+        /// <summary>
+        /// 本が変更された場合、全てを更新
+        /// </summary>
         private void BookChanged()
         {
             // clear
@@ -155,7 +188,9 @@ namespace NeeView
             Update();
         }
 
-        //
+        /// <summary>
+        /// マーカー更新
+        /// </summary>
         private void Update()
         {
             // remove markers
@@ -180,7 +215,9 @@ namespace NeeView
             UpdateControl();
         }
 
-        //
+        /// <summary>
+        /// マーカー更新(表示)
+        /// </summary>
         private void UpdateControl()
         {
             Markers.ForEach(e => e.UpdateControl(_Canvas.ActualWidth, true));

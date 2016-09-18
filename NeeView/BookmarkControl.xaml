@@ -72,7 +72,7 @@
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding Bookmark.Items}"
-                 SelectedItem="{Binding SelectedItem}"
+                 SelectedItem="{Binding Bookmark.SelectedItem}"
                  KeyDown="BookmarkList_KeyDown"
                  Tag="{Binding Bookmark.Items}"
                  IsVisibleChanged="BookmarkListBox_IsVisibleChanged"

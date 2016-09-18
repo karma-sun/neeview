@@ -52,6 +52,7 @@ namespace NeeView
         {
             FolderInfo.ThumbnailChanged += (s, e) => _AliveThumbnailList.Add(e);
             BookMementoUnit.ThumbnailChanged += (s, e) => _AliveThumbnailList.Add(e);
+            Pagemark.ThumbnailChanged += (s, e) => _AliveThumbnailList.Add(e);
         }
 
         //

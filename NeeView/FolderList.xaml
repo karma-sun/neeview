@@ -53,6 +53,15 @@
                     <Setter Property="Foreground" Value="{DynamicResource NVStarMarkBrush}"/>
                     <Setter Property="Margin" Value="0,0,-4,-4"/>
                 </DataTrigger>
+                <!--
+                <DataTrigger Binding="{Binding IconOverlay}" Value="Pagemark">
+                    <Setter Property="FontFamily" Value="Webdings"/>
+                    <Setter Property="Text" Value="-"/>
+                    <Setter Property="FontSize" Value="18"/>
+                    <Setter Property="Foreground" Value="{DynamicResource NVStarMarkBrush}"/>
+                    <Setter Property="Margin" Value="0,0,-4,-4"/>
+                </DataTrigger>
+                -->
             </Style.Triggers>
         </Style>
 

@@ -5,7 +5,7 @@
     http://opensource.org/licenses/mit-license.php
 -->
 
-<UserControl x:Class="NeeView.BookmarkControl"
+<UserControl x:Class="NeeView.PagemarkControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -25,29 +25,30 @@
 
         <RoutedCommand x:Key="xRemoveDommand" />
 
-        <Style TargetType="TextBlock" x:Key="BookmarkName">
-            <Setter Property="Text" Value="{Binding Value.Memento.Name}"/>
-            <Setter Property="ToolTip" Value="{Binding Value.Memento.Place}"/>
+        <Style TargetType="TextBlock" x:Key="PagemarkName">
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
         </Style>
 
-        <!-- Normal Bookmark -->
-        <DataTemplate x:Key="NormalBookmark">
-            <TextBlock Style="{StaticResource BookmarkName}"/>
+        <!-- Normal Pagemark -->
+        <DataTemplate x:Key="NormalPagemark">
+            <StackPanel Background="{DynamicResource NVBaseBrush}" ToolTip="{Binding Detail}" >
+                <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PlaceShort}" FontSize="12" Foreground="Gray" />
+                <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}"/>
+            </StackPanel>
         </DataTemplate>
 
-        <!-- Picture Bookmark -->
-        <DataTemplate x:Key="PictureBookmark">
-            <DockPanel Height="{Binding ElementName=BookmarkListBox, Path=DataContext.PicturePanelHeight}" Margin="0,1" Background="{DynamicResource NVBaseBrush}">
+        <!-- Picture Pagemark -->
+        <DataTemplate x:Key="PicturePagemark">
+            <DockPanel Height="{Binding ElementName=PagemarkListBox, Path=DataContext.PicturePanelHeight}" Margin="0,1" Background="{DynamicResource NVBaseBrush}">
                 <DockPanel DockPanel.Dock="Bottom" Margin="0,2">
-                    <TextBlock Style="{StaticResource BookmarkName}"/>
+                    <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}"  ToolTip="{Binding Detail}" />
                 </DockPanel>
                 <Grid>
-                    <Image Source="{Binding Value.ArchivePage.Thumbnail}"
-                           Width="{Binding ElementName=BookmarkListBox, Path=DataContext.ThumbnailWidth}"
+                    <Image Source="{Binding ArchivePage.Thumbnail}"
+                           Width="{Binding ElementName=PagemarkListBox, Path=DataContext.ThumbnailWidth}"
                            HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="UniformToFill" UseLayoutRounding="True"/>
                 </Grid>
             </DockPanel>
@@ -60,32 +61,32 @@
 
         <StackPanel DockPanel.Dock="Top" Margin="5">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <TextBlock FontFamily="Meyrio" Text="★" FontSize="20" Foreground="{StaticResource NVStarMarkBrush}" VerticalAlignment="Center" />
-                <TextBlock Text="ブックマーク" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
+                <Image Source="{StaticResource ic_bookmark_24px}" Width="16" Height="16"/>
+                <TextBlock Text="ページマーク" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
             </StackPanel>
         </StackPanel>
 
-        <ListBox x:Name="BookmarkListBox" Focusable="False"
+        <ListBox x:Name="PagemarkListBox" Focusable="False"
                  Background="Transparent"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                  FocusVisualStyle="{StaticResource NVFocusVisual}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding Bookmark.Items}"
-                 SelectedItem="{Binding Bookmark.SelectedItem}"
-                 KeyDown="BookmarkList_KeyDown"
-                 Tag="{Binding Bookmark.Items}"
-                 IsVisibleChanged="BookmarkListBox_IsVisibleChanged"
+                 ItemsSource="{Binding Pagemarks.Marks}"
+                 SelectedItem="{Binding Pagemarks.SelectedItem}"
+                 KeyDown="PagemarkList_KeyDown"
+                 Tag="{Binding Pagemarks.Marks}"
+                 IsVisibleChanged="PagemarkListBox_IsVisibleChanged"
                  AllowDrop="True"
-                 PreviewDragOver="BookmarkListBox_PreviewDragOver"
-                 Drop="BookmarkListBox_Drop">
+                 PreviewDragOver="PagemarkListBox_PreviewDragOver"
+                 Drop="PagemarkListBox_Drop">
 
             <ListBox.Style>
                 <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
-                    <Setter Property="ItemTemplate" Value="{StaticResource NormalBookmark}"/>
+                    <Setter Property="ItemTemplate" Value="{StaticResource NormalPagemark}"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding FolderListItemStyle}" Value="Picture">
-                            <Setter Property="ItemTemplate" Value="{StaticResource PictureBookmark}"/>
+                            <Setter Property="ItemTemplate" Value="{StaticResource PicturePagemark}"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -93,14 +94,14 @@
 
             <ListBox.Resources>
                 <Style TargetType="ListBoxItem">
-                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="BookmarkListItem_MouseSingleClick"/>
-                    <EventSetter Event="KeyDown" Handler="BookmarkListItem_KeyDown"/>
+                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="PagemarkListItem_MouseSingleClick"/>
+                    <EventSetter Event="KeyDown" Handler="PagemarkListItem_KeyDown"/>
                     <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
 
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu>
-                                <MenuItem Header="ブックマークをはずす(D)" Command="{x:Static local:BookmarkControl.RemoveCommand}"/>
+                                <MenuItem Header="ページマークをはずす(D)" Command="{x:Static local:PagemarkControl.RemoveCommand}"/>
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>

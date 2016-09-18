@@ -31,9 +31,17 @@ namespace NeeView
         SelectFoderListMaybe = (1 << 6), // 可能ならばフォルダリストで選択する
         SelectHistoryMaybe = (1 << 7), // 可能ならば履歴リストで選択する
         SkipSamePlace = (1 << 8), // 同じフォルダならば読み込まない
-        AutoRecursive = (1<<9), // 自動再帰
+        AutoRecursive = (1 << 9), // 自動再帰
     };
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public class PagemarkChangedEventArgs : EventArgs
+    {
+        public Page Page { get; set; }
+        public bool IsMarked { get; set; }
+    }
 
     /// <summary>
     /// 本
@@ -209,6 +217,9 @@ namespace NeeView
         // nullの場合、この本は無効
         public string Place { get; private set; }
 
+        // 開始ページ
+        public string StartEntry { get; private set; }
+
         // アーカイバコレクション
         // Dispose処理のために保持
         List<Archiver> _Archivers = new List<Archiver>();
@@ -242,6 +253,12 @@ namespace NeeView
         // ページ
         public Page GetPage(int index) => Pages.Count > 0 ? Pages[ClampPageNumber(index)] : null;
 
+        //
+        public Page GetPage(string name) => Pages.FirstOrDefault(e => e.FullPath == name);
+
+        // ページ番号
+        public int GetIndex(Page page) => Pages.IndexOf(page);
+
         // 先頭ページの場所
         PagePosition _FirstPosition => new PagePosition(0, 0);
 
@@ -250,6 +267,9 @@ namespace NeeView
 
         // リソースを保持しておくページ
         private List<Page> _KeepPages = new List<Page>();
+
+        // マーカー
+        public List<Page> Markers = new List<Page>();
 
         // 排他処理用ロックオブジェクト
         private object _Lock = new object();
@@ -288,6 +308,7 @@ namespace NeeView
                 option |= BookLoadOption.Recursive;
             }
 
+
             PagePosition position = _FirstPosition;
             int direction = 1;
 
@@ -325,8 +346,12 @@ namespace NeeView
                 }
             });
 
+            // 開始ページ記憶
+            StartEntry = Pages.Count > 0 ? Pages[position.Index].FullPath : null;
+
             // 有効化
             Place = archiver.FileName;
+
 
             // 初期ページ設定
             RequestSetPosition(position, direction, true);
@@ -609,6 +634,80 @@ namespace NeeView
 
 
 
+        #region Marker
+
+        /// <summary>
+        /// マーカー判定
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public bool IsMarked(Page page)
+        {
+            return Markers.Contains(page);
+        }
+
+        /// <summary>
+        /// マーカー群設定
+        /// </summary>
+        /// <param name="pageNames"></param>
+        public void SetMarkers(IEnumerable<string> pageNames)
+        {
+            this.Markers = pageNames.Select(e => Pages.FirstOrDefault(page => page.FullPath == e)).Where(e => e != null).ToList();
+        }
+
+        /// <summary>
+        /// マーカー移動可能判定
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="isLoop"></param>
+        /// <returns></returns>
+        public bool CanJumpToMarker(int direction, bool isLoop)
+        {
+            if (Place == null) return false;
+            if (Markers == null || Markers.Count == 0) return false;
+
+            if (isLoop) return true;
+
+            var list = Markers.OrderBy(e => e.Index).ToList();
+            var index = GetViewPageindex();
+
+            return direction > 0
+                ? list.Last().Index > index
+                : list.First().Index < index;
+        }
+
+        /// <summary>
+        /// マーカーに移動
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="isLoop"></param>
+        /// <returns></returns>
+        public bool RequestJumpToMarker(int direction, bool isLoop)
+        {
+            Debug.Assert(direction == 1 || direction == -1);
+
+            if (Place == null) return false;
+            if (Markers == null || Markers.Count == 0) return false;
+
+            var list = Markers.OrderBy(e => e.Index).ToList();
+            var index = GetViewPageindex();
+
+            var target =
+                direction > 0
+                ? list.FirstOrDefault(e => e.Index > index) ?? (isLoop ? list.First() : null)
+                : list.LastOrDefault(e => e.Index < index) ?? (isLoop ? list.Last() : null);
+
+            if (target == null) return false;
+
+            RequestSetPosition(new PagePosition(target.Index, 0), direction, false);
+            return true;
+        }
+
+        #endregion
+
+
+
+
 
         // 表示ページ情報
         public class PageInfo
@@ -809,6 +908,7 @@ namespace NeeView
                 await _Book.UpdateViewPageAsync(GetViewPageContextSource(), true);
             }
         }
+
 
 
         // ワーカータスクのキャンセルトークン
@@ -1155,40 +1255,21 @@ namespace NeeView
                     throw new NotImplementedException();
             }
 
-            for (int i = 0; i < Pages.Count; ++i) Pages[i].Index = i;
+            // ページ ナンバリング
+            PagesNumbering();
 
             PagesSorted?.Invoke(this, null);
         }
 
-        //
-        public static void SortPages(List<Page> pages, PageSortMode sortMode)
+
+        /// <summary>
+        /// ページ番号設定
+        /// </summary>
+        private void PagesNumbering()
         {
-            if (pages == null || pages.Count <= 0) return;
-
-            switch (sortMode)
-            {
-                case PageSortMode.FileName:
-                    pages.Sort((a, b) => CompareFileNameOrder(a, b, Win32Api.StrCmpLogicalW));
-                    break;
-                case PageSortMode.FileNameDescending:
-                    pages.Sort((a, b) => CompareFileNameOrder(b, a, Win32Api.StrCmpLogicalW));
-                    break;
-                case PageSortMode.TimeStamp:
-                    pages.Sort((a, b) => CompareDateTimeOrder(a, b, Win32Api.StrCmpLogicalW));
-                    break;
-                case PageSortMode.TimeStampDescending:
-                    pages.Sort((a, b) => CompareDateTimeOrder(b, a, Win32Api.StrCmpLogicalW));
-                    break;
-                case PageSortMode.Random:
-                    var random = new Random();
-                    pages = pages.OrderBy(e => random.Next()).ToList();
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-
-            for (int i = 0; i < pages.Count; ++i) pages[i].Index = i;
+            for (int i = 0; i < Pages.Count; ++i) Pages[i].Index = i;
         }
+
 
         // ファイル名, 日付, ID の順で比較
         private static int CompareFileNameOrder(Page p1, Page p2, Func<string, string, int> compare)
@@ -1243,6 +1324,9 @@ namespace NeeView
             if (index < 0) return;
 
             Pages.RemoveAt(index);
+
+            PagesNumbering();
+
             PageRemoved?.Invoke(this, page);
 
             index = ClampPageNumber(index);
@@ -1277,7 +1361,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         /// <summary>
         /// 保存設定
@@ -1347,20 +1431,6 @@ namespace NeeView
                 return (Memento)this.MemberwiseClone();
             }
 
-            //
-            public void CopyTo(Memento target)
-            {
-                target.Place = this.Place;
-                target.BookMark = this.BookMark;
-                target.PageMode = this.PageMode;
-                target.BookReadOrder = this.BookReadOrder;
-                target.IsSupportedDividePage = this.IsSupportedDividePage;
-                target.IsSupportedSingleFirstPage = this.IsSupportedSingleFirstPage;
-                target.IsSupportedSingleLastPage = this.IsSupportedSingleLastPage;
-                target.IsSupportedWidePage = this.IsSupportedWidePage;
-                target.IsRecursiveFolder = this.IsRecursiveFolder;
-                target.SortMode = this.SortMode;
-            }
 
             // 保存用バリデート
             // このmementoは履歴とデフォルト設定の２つに使われるが、デフォルト設定には本の場所やページは不要
@@ -1428,5 +1498,5 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 }

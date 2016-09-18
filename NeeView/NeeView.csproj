@@ -75,6 +75,10 @@
     <Compile Include="Archiver\ArchiveEntry.cs" />
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
+    <Compile Include="PagemarkControl.xaml.cs">
+      <DependentUpon>PagemarkControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PagemarkCollection.cs" />
     <Compile Include="BookmarkCollection.cs" />
     <Compile Include="BookmarkControl.xaml.cs">
       <DependentUpon>BookmarkControl.xaml</DependentUpon>
@@ -107,6 +111,9 @@
     <Compile Include="BindingGenerator.cs" />
     <Compile Include="MenuTree.cs" />
     <Compile Include="OptionParser.cs" />
+    <Compile Include="PageMarkers.xaml.cs">
+      <DependentUpon>PageMarkers.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Page\ArchivePage.cs" />
     <Compile Include="PanelContext.cs" />
     <Compile Include="Preference.cs" />
@@ -227,6 +234,10 @@
     <Compile Include="Win32Api.cs" />
     <Compile Include="WindowPlacement.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
+    <Page Include="PagemarkControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="BookmarkControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -292,6 +303,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MouseGestureSettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PageMarkers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -23,34 +23,34 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     /// <summary>
-    /// BookmarkControl.xaml の相互作用ロジック
+    /// PagemarkControl.xaml の相互作用ロジック
     /// </summary>
-    public partial class BookmarkControl : UserControl
+    public partial class PagemarkControl : UserControl
     {
-        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkControl));
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PagemarkControl));
 
-        BookmarkControlVM _VM;
+        PagemarkControlVM _VM;
         ThumbnailHelper _ThumbnailHelper;
 
-        public BookmarkControl()
+        public PagemarkControl()
         {
             InitializeComponent();
 
-            _VM = new BookmarkControlVM();
+            _VM = new PagemarkControlVM();
             _VM.SelectedItemChanging += OnItemsChanging;
             _VM.SelectedItemChanged += OnItemsChanged;
             this.DockPanel.DataContext = _VM;
 
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
-            this.BookmarkListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+            this.PagemarkListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
 
-            _ThumbnailHelper = new ThumbnailHelper(this.BookmarkListBox, _VM.RequestThumbnail);
+            _ThumbnailHelper = new ThumbnailHelper(this.PagemarkListBox, _VM.RequestThumbnail);
         }
 
         //
         public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
         {
-            var item = (sender as ListBox)?.SelectedItem as BookMementoUnitNode;
+            var item = (sender as ListBox)?.SelectedItem as Pagemark;
             if (item != null)
             {
                 _VM.Remove(item);
@@ -66,23 +66,23 @@ namespace NeeView
 
 
         //
-        private void OnItemsChanging(object sender, BookmarkControlVM.SelectedItemChangeEventArgs e)
+        private void OnItemsChanging(object sender, PagemarkControlVM.SelectedItemChangeEventArgs e)
         {
-            var index = this.BookmarkListBox.SelectedIndex;
+            var index = this.PagemarkListBox.SelectedIndex;
 
-            ListBoxItem lbi = index >= 0 ? (ListBoxItem)(this.BookmarkListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
+            ListBoxItem lbi = index >= 0 ? (ListBoxItem)(this.PagemarkListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
             e.IsFocused = lbi != null ? lbi.IsFocused : false;
         }
 
         //
-        private void OnItemsChanged(object sender, BookmarkControlVM.SelectedItemChangeEventArgs e)
+        private void OnItemsChanged(object sender, PagemarkControlVM.SelectedItemChangeEventArgs e)
         {
             if (e.IsFocused)
             {
-                this.BookmarkListBox.ScrollIntoView(this.BookmarkListBox.SelectedItem);
+                this.PagemarkListBox.ScrollIntoView(this.PagemarkListBox.SelectedItem);
 
-                var index = this.BookmarkListBox.SelectedIndex;
-                var lbi = index >= 0 ? (ListBoxItem)(this.BookmarkListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
+                var index = this.PagemarkListBox.SelectedIndex;
+                var lbi = index >= 0 ? (ListBoxItem)(this.PagemarkListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
                 lbi?.Focus();
             }
         }
@@ -97,34 +97,34 @@ namespace NeeView
         }
 
         // 履歴項目決定
-        private void BookmarkListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
+        private void PagemarkListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
         {
-            var historyItem = (sender as ListBoxItem)?.Content as BookMementoUnitNode;
+            var historyItem = (sender as ListBoxItem)?.Content as Pagemark;
             if (historyItem != null)
             {
-                _VM.Load(historyItem.Value.Memento.Place);
+                _VM.Load(historyItem);
                 e.Handled = true;
             }
         }
 
         // 履歴項目決定(キー)
-        private void BookmarkListItem_KeyDown(object sender, KeyEventArgs e)
+        private void PagemarkListItem_KeyDown(object sender, KeyEventArgs e)
         {
             // 自動非表示時間リセット
             Messenger.Send(this, new MessageEventArgs("ResetHideDelay") { Parameter = new ResetHideDelayParam() { PanelSide = PanelSide.Left } });
 
-            var historyItem = (sender as ListBoxItem)?.Content as BookMementoUnitNode;
+            var historyItem = (sender as ListBoxItem)?.Content as Pagemark;
             {
                 if (e.Key == Key.Return)
                 {
-                    _VM.Load(historyItem.Value.Memento.Place);
+                    _VM.Load(historyItem);
                     e.Handled = true;
                 }
             }
         }
 
         // リストのキ入力
-        private void BookmarkList_KeyDown(object sender, KeyEventArgs e)
+        private void PagemarkList_KeyDown(object sender, KeyEventArgs e)
         {
             // 自動非表示時間リセット
             Messenger.Send(this, new MessageEventArgs("ResetHideDelay") { Parameter = new ResetHideDelayParam() { PanelSide = PanelSide.Left } });
@@ -136,30 +136,30 @@ namespace NeeView
             }
         }
 
-        private void BookmarkListBox_PreviewDragOver(object sender, DragEventArgs e)
+        private void PagemarkListBox_PreviewDragOver(object sender, DragEventArgs e)
         {
             ListBoxDragSortExtension.PreviewDragOver(sender, e);
         }
 
-        private void BookmarkListBox_Drop(object sender, DragEventArgs e)
+        private void PagemarkListBox_Drop(object sender, DragEventArgs e)
         {
-            var list = (sender as ListBox).Tag as ObservableCollection<BookMementoUnitNode>;
+            var list = (sender as ListBox).Tag as ObservableCollection<Pagemark>;
             if (list != null)
             {
-                ListBoxDragSortExtension.Drop<BookMementoUnitNode>(sender, e, list);
+                ListBoxDragSortExtension.Drop<Pagemark>(sender, e, list);
                 e.Handled = true;
             }
         }
 
 
         // 表示/非表示イベント
-        private async void BookmarkListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private async void PagemarkListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue as bool? == true)
             {
-                if (this.BookmarkListBox.SelectedIndex < 0)
+                if (this.PagemarkListBox.SelectedIndex < 0)
                 {
-                    this.BookmarkListBox.SelectedIndex = 0;
+                    this.PagemarkListBox.SelectedIndex = 0;
                 }
 
                 await Task.Yield();
@@ -170,11 +170,11 @@ namespace NeeView
         //
         public void FocusSelectedItem()
         {
-            if (this.BookmarkListBox.SelectedIndex < 0) return;
+            if (this.PagemarkListBox.SelectedIndex < 0) return;
 
-            this.BookmarkListBox.ScrollIntoView(this.BookmarkListBox.SelectedItem);
+            this.PagemarkListBox.ScrollIntoView(this.PagemarkListBox.SelectedItem);
 
-            ListBoxItem lbi = (ListBoxItem)(this.BookmarkListBox.ItemContainerGenerator.ContainerFromIndex(this.BookmarkListBox.SelectedIndex));
+            ListBoxItem lbi = (ListBoxItem)(this.PagemarkListBox.ItemContainerGenerator.ContainerFromIndex(this.PagemarkListBox.SelectedIndex));
             lbi?.Focus();
         }
     }
@@ -182,7 +182,7 @@ namespace NeeView
     /// <summary>
     /// 
     /// </summary>
-    public class BookmarkControlVM : INotifyPropertyChanged
+    public class PagemarkControlVM : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -208,8 +208,9 @@ namespace NeeView
 
         public BookHub BookHub { get; private set; }
 
-        public BookmarkCollection Bookmark => ModelContext.Bookmarks;
+        public PagemarkCollection Pagemarks => ModelContext.Pagemarks;
         
+
 
         public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
 
@@ -229,28 +230,29 @@ namespace NeeView
         }
 
         //
-        public void Load(string path)
+        public void Load(Pagemark mark)
         {
-            BookHub?.RequestLoad(path, null, BookLoadOption.SkipSamePlace, true);
+            BookHub?.RequestLoad(mark);
         }
 
-
-        public void Remove(BookMementoUnitNode item)
+        //
+        public void Remove(Pagemark mark)
         {
-            if (item == null) return;
+            if (mark == null) return;
 
             var args = new SelectedItemChangeEventArgs();
             SelectedItemChanging?.Invoke(this, args);
-            Bookmark.SelectedItem = Bookmark.GetNeighbor(item);
+            Pagemarks.SelectedItem = Pagemarks.GetNeighbor(mark);
             SelectedItemChanged?.Invoke(this, args);
 
-            ModelContext.Bookmarks.Remove(item.Value.Memento.Place);
+            ModelContext.Pagemarks.Remove(mark);
+            BookHub.UpdatePagemark(mark);
         }
 
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin, int direction)
         {
-            PanelContext.ThumbnailManager.RequestThumbnail(Bookmark.Items, start, count, margin, direction);
+            PanelContext.ThumbnailManager.RequestThumbnail(Pagemarks.Marks, start, count, margin, direction);
         }
     }
 }

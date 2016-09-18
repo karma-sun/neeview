@@ -63,6 +63,7 @@ namespace NeeView
         FolderList,
         HistoryList,
         BookmarkList,
+        PagemarkList,
         PageList, // 廃止。イベントで使用される
     }
 
@@ -472,6 +473,21 @@ namespace NeeView
             return IsVisibleBookmarkList;
         }
 
+
+        // ページマークリスト表示ON/OFF
+        public bool IsVisiblePagemarkList
+        {
+            get { return LeftPanel == PanelType.PagemarkList; }
+            set { LeftPanel = value ? PanelType.PagemarkList : PanelType.None; }
+        }
+
+        //
+        public bool ToggleVisiblePagemarkList(bool byMenu)
+        {
+            IsVisiblePagemarkList = byMenu ? !IsVisiblePagemarkList : !(IsVisiblePagemarkList && IsVisibleLeftPanel);
+            return IsVisiblePagemarkList;
+        }
+
         // 左パネル
         #region Property: LeftPanel
         private PanelType _LeftPanel;
@@ -486,6 +502,7 @@ namespace NeeView
                 OnPropertyChanged(nameof(IsVisibleFolderList));
                 OnPropertyChanged(nameof(IsVisibleHistoryList));
                 OnPropertyChanged(nameof(IsVisibleBookmarkList));
+                OnPropertyChanged(nameof(IsVisiblePagemarkList));
                 OnPropertyChanged(nameof(IsVisiblePageListMenu));
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
 
@@ -1098,6 +1115,14 @@ namespace NeeView
         }
         #endregion
 
+        #region Property: IsPagemark
+        public bool IsPagemark
+        {
+            get { return BookHub.IsMarked(); }
+        }
+        #endregion
+
+
 
         #region Property: ContextMenuSetting
         private ContextMenuSetting _ContextMenuSetting;
@@ -1233,6 +1258,8 @@ namespace NeeView
             var pages = BookHub.CurrentBook?.Pages;
             PageList = pages != null ? new ObservableCollection<Page>(pages) : null;
             PageListChanged?.Invoke(this, null);
+
+            OnPropertyChanged(nameof(IsPagemark));
         }
 
         // サムネイル有効
@@ -1425,13 +1452,16 @@ namespace NeeView
 
         public string HistoryFileName { get; set; }
         public string BookmarkFileName { get; set; }
+        public string PagemarkFileName { get; set; }
+
 
         // コンストラクタ
         public MainWindowVM()
         {
             HistoryFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "History.xml");
             BookmarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Bookmark.xml");
-
+            PagemarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Pagekmark.xml");
+            
             InitializeWindowIcons();
 
             // ModelContext
@@ -1485,6 +1515,7 @@ namespace NeeView
                     _Address = BookHub.Address;
                     OnPropertyChanged(nameof(Address));
                     OnPropertyChanged(nameof(IsBookmark));
+                    OnPropertyChanged(nameof(IsPagemark));
                 };
 
             BookHub.PagesSorted +=
@@ -1503,6 +1534,12 @@ namespace NeeView
                 (s, e) =>
                 {
                     UpdatePageList();
+                };
+
+            BookHub.PagemarkChanged +=
+                (s, e) =>
+                {
+                    OnPropertyChanged(nameof(IsPagemark));
                 };
 
             // CommandTable
@@ -1552,6 +1589,8 @@ namespace NeeView
             UpdateLastFiles();
 
             UpdateIndex();
+
+            
 
             //
             CommandManager.InvalidateRequerySuggested();
@@ -1711,6 +1750,34 @@ namespace NeeView
         }
 
 
+        // ページマーク読み込み
+        public void LoadPagemark(Setting setting)
+        {
+            PagemarkCollection.Memento memento;
+
+            // ページマーク読み込み
+            if (System.IO.File.Exists(PagemarkFileName))
+            {
+                try
+                {
+                    memento = PagemarkCollection.Memento.Load(PagemarkFileName);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    Messenger.MessageBox(this, "ページマークの読み込みに失敗しました。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
+                    memento = new PagemarkCollection.Memento();
+                }
+            }
+            else
+            {
+                memento = new PagemarkCollection.Memento();
+            }
+
+            // ページマーク反映
+            ModelContext.Pagemarks.Restore(memento);
+        }
+
 
 
 
@@ -1751,6 +1818,14 @@ namespace NeeView
                 // ブックマークをファイルに保存
                 var bookmarkMemento = ModelContext.Bookmarks.CreateMemento(true);
                 bookmarkMemento.Save(BookmarkFileName);
+            }
+            catch { }
+
+            try
+            {
+                // ページマークをファイルに保存
+                var pagemarkMemento = ModelContext.Pagemarks.CreateMemento(true);
+                pagemarkMemento.Save(PagemarkFileName);
             }
             catch { }
         }
@@ -1876,6 +1951,7 @@ namespace NeeView
         private void OnPageChanged(object sender, int e)
         {
             UpdateIndex();
+            OnPropertyChanged(nameof(IsPagemark));
         }
 
 
@@ -2190,7 +2266,7 @@ namespace NeeView
         // フォルダ読み込み
         public void Load(string path)
         {
-            BookHub.RequestLoad(path, BookLoadOption.None, true);
+            BookHub.RequestLoad(path, null, BookLoadOption.None, true);
         }
 
         // ドラッグ＆ドロップ取り込み失敗

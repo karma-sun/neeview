@@ -154,7 +154,7 @@ namespace NeeView
             vm.FolderCollection = _VM.FolderCollection;
             vm.SelectedIndex = _VM.FolderCollection.SelectedIndex < 0 ? 0 : _VM.FolderCollection.SelectedIndex;
             _FolderList = new FolderList(vm, isFocus);
-            _FolderList.Decided += (s, e) => _VM.BookHub.RequestLoad(e, BookLoadOption.SkipSamePlace, false);
+            _FolderList.Decided += (s, e) => _VM.BookHub.RequestLoad(e, null, BookLoadOption.SkipSamePlace, false);
             _FolderList.Moved += (s, e) => _VM.SetPlace(e, null, true);
             _FolderList.MovedParent += (s, e) => _VM.MoveToParent();
             _FolderList.SelectionChanged += (s, e) => _VM.SelectedIndex = e;
@@ -241,6 +241,7 @@ namespace NeeView
                 _BookHub.FolderListSync += (s, e) => SyncWeak(e);
                 _BookHub.HistoryChanged += (s, e) => RefleshIcon(e.Key);
                 _BookHub.BookmarkChanged += (s, e) => RefleshIcon(e.Key);
+                //_BookHub.PagemarkChanged += (s, e) => RefleshIcon(e.Key);
                 OnPropertyChanged();
             }
         }
@@ -486,7 +487,7 @@ namespace NeeView
             if (next < 0 || next >= FolderCollection.Items.Count) return false;
 
             SetPlace(FolderCollection.Place, FolderCollection[next].Path, false);
-            BookHub.RequestLoad(FolderCollection[next].Path, option, false);
+            BookHub.RequestLoad(FolderCollection[next].Path, null, option, false);
 
             return true;
         }

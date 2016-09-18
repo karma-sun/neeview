@@ -455,6 +455,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFolderList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisiblePageList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleBookmarkList },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisiblePagemarkList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleHistoryList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFileInfo },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleHidePanel },
@@ -528,6 +529,18 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeTimeStamp },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeTimeStampDescending },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeRandom },
+                    }},
+                    new MenuTree(MenuElementType.Group) { Name="ブックマーク(_B)", Children = new ObservableCollection<MenuTree>()
+                    {
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleBookmark },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevBookmark },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextBookmark },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.TogglePagemark },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevPagemark},
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextPagemark },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevPagemarkInBook},
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextPagemarkInBook },
                     }},
                     new MenuTree(MenuElementType.Group) { Name="その他(_O)", Children = new ObservableCollection<MenuTree>()
                     {

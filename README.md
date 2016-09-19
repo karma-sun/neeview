@@ -45,3 +45,6 @@
  
   * [NeeViewプロジェクト 課題投稿](https://bitbucket.org/neelabo/neeview/issues/new)
  
+メールでの連絡先
+
+  * [nee.laboratory@gmail.com](mailto:nee.laboratory@gmail.com)

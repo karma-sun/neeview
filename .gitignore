@@ -213,8 +213,14 @@ ModelManifest.xml
 
 # UserLocal
 *.improj
+*.wixpdb
+!*.wxs
 PublishToZip/NeeView*/
 PublishToZip/*.zip
 PublishToZip/*.xml
+PublishToZip/*.msi
+
+
 
 /PublishToZip/oldversions
+/PublishToZip/work

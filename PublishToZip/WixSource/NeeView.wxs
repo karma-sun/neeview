@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="NeeView" Version="$(var.BuildVersion)" Language="1041" Codepage="932" Manufacturer="NeeLaboratory" UpgradeCode="1615bc9c-ddfd-4d61-9ac1-3ebc5c8787a8">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" SummaryCodepage="932" Comments="なし"/>
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes"/>
+
+    <Feature Id="ProductFeature" Title="NeeView" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="PMCompanyFolderComponents"/>
+      <ComponentGroupRef Id="PMProductFolderComponents" />
+      <ComponentGroupRef Id="LACompanyFolderComponents"/>
+      <ComponentGroupRef Id="LAProductFolderComponents" />
+    </Feature>
+
+    <!-- インストーラーUI設定 -->
+    <!--
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.AppendDir)\license.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="Resources\bannrbmp.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="Resources\dlgbmp.bmp" />
+    -->
+    <UIRef Id="WixUI_InstallDirEx" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+
+    <!-- アドバタイズショートカットを無効にする -->
+    <Property Id="DISABLEADVTSHORTCUTS" Value="1" />
+
+    <!-- コントロールパネルに表示されるアプリアイコン -->
+    <Property Id='ARPPRODUCTICON'>MyIcon.exe</Property>
+
+    <!-- 条件: .Net version -->
+    <PropertyRef Id="WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED"/>
+    <Condition Message='このセットアップを実行するためには、.NET Framework 4.6以降 がインストールされている必要があります。'>
+      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED]]>
+    </Condition>
+
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="PFCompanyFolder" Name="NeeLaboratory">
+          <Directory Id="INSTALLFOLDER" Name="NeeView" />
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="PMCompanyFolder" Name="NeeLaboratory">
+          <Directory Id="PMProductFolder" Name="NeeView" />
+        </Directory>
+      </Directory>
+      <Directory Id="LocalAppDataFolder">
+        <Directory Id="LACompanyFolder" Name="NeeLaboratory">
+          <Directory Id="LAProductFolder" Name="NeeView" />
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+
+
+
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+      <!-- <Component Id="ProductComponent"> -->
+      <!-- TODO: Insert files, registry keys, and other resources here. -->
+      <!-- </Component> -->
+
+      <Component Guid="{5ED36B64-B6DE-4B62-8BDD-D7490AD98971}">
+        <File Source="$(var.ContentDir)NeeView.exe" KeyPath="yes" Checksum="yes" >
+          <Shortcut Id="MyMenuShortcut" Directory="PMProductFolder" Name="NeeView" WorkingDirectory="INSTALLDIR" Icon="MyIcon.exe" Advertise="yes"/>
+        </File>
+        <File Source="$(var.AppendDir)NeeView.exe.config" />
+        <File Source="$(var.ContentDir)README.html" Checksum="yes"/>
+        <File Source="$(var.ContentDir)7z.dll" Checksum="yes"/>
+        <File Source="$(var.ContentDir)SevenZipSharp.dll" Checksum="yes"/>
+      </Component>
+
+    </ComponentGroup>
+
+    <!-- プログラムメニュー コンポーネント -->
+
+    <ComponentGroup Id="PMCompanyFolderComponents" Directory="PMCompanyFolder">
+      <Component Guid="*">
+        <RemoveFolder Id="PMCompanyFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type ="string" Name="InstallVersion" Value="[ProductVersion]" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="PMProductFolderComponents" Directory="PMProductFolder">
+      <Component Guid="*">
+        <RemoveFolder Id="PMProductFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type ="string" Name="InstallFolder" Value="[INSTALLFOLDER]" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="LACompanyFolderComponents" Directory="LACompanyFolder">
+      <Component Guid="*">
+        <RemoveFolder Id="LACompanyFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type ="string" Name="Key1" Value="True" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="LAProductFolderComponents" Directory="LAProductFolder">
+      <Component Guid="*">
+        <RemoveFile Id="MyRemove.AllFile" Name="*.*" On="uninstall"/>
+        <RemoveFolder Id="LAProductFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type ="string" Name="Key2" Value="True" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+
+    <!-- アイコン -->
+    <Icon Id="MyIcon.exe" SourceFile="$(var.ContentDir)NeeView.exe" />
+
+  </Fragment>
+</Wix>

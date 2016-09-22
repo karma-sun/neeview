@@ -72,7 +72,7 @@ namespace NeeView
             ValidateProductInfo(assembly);
 
             // カレントフォルダ設定
-            System.Environment.CurrentDirectory = LocalUserAppDataPath;
+            System.Environment.CurrentDirectory = LocalApplicationDataPath;
         }
 
 
@@ -102,20 +102,24 @@ namespace NeeView
         /// <summary>
         /// ユーザデータフォルダ
         /// </summary>
-        private string _LocalUserAppDataPath;
-        private string LocalUserAppDataPath
+        private string _LocalApplicationDataPath;
+        public string LocalApplicationDataPath
         {
             get
             {
-                if (_LocalUserAppDataPath == null)
+                if (_LocalApplicationDataPath == null)
                 {
-#if NV_INSTALLER
-                    _LocalUserAppDataPath = GetFileSystemPath(Environment.SpecialFolder.LocalApplicationData, true);
-#else
-                    _LocalUserAppDataPath = AssemblyLocation;
-#endif
+                    // configファイルの設定で LocalApplicationData を使用するかを判定。インストール版用
+                    if (System.Configuration.ConfigurationManager.AppSettings["UseLocalApplicationData"] == "True")
+                    {
+                        _LocalApplicationDataPath = GetFileSystemPath(Environment.SpecialFolder.LocalApplicationData, true);
+                    }
+                    else
+                    {
+                        _LocalApplicationDataPath = AssemblyLocation;
+                    }
                 }
-                return _LocalUserAppDataPath;
+                return _LocalApplicationDataPath;
             }
         }
 

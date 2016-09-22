@@ -410,6 +410,7 @@
                                     <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" />
                                     <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" />
                                     <MenuItem x:Name="MenuItemDevApplicationFolder" Header="アプリのフォルダを開く" Click="MenuItemDevApplicationFolder_Click" />
+                                    <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="アプリデータフォルダを開く" Click="MenuItemDevApplicationDataFolder_Click" />
                                     <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダを開く" Click="MenuItemDevTempFolder_Click" />
                                     <MenuItem x:Name="MenuItemDevButton" Header="テスト実行" Click="MenuItemDevButton_Click" />
                                 </MenuItem>

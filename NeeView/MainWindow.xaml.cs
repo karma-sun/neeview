@@ -965,6 +965,12 @@ namespace NeeView
             System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + System.Reflection.Assembly.GetEntryAssembly().Location + "\"");
         }
 
+        // 開発用コマンド：アプリケーションデータフォルダを開く
+        private void MenuItemDevApplicationDataFolder_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + App.Config.LocalApplicationDataPath + "\"");
+        }
+
         // 開発用コマンド：コンテンツ座標更新
         private void UpdateContentPoint_Click(object sender, RoutedEventArgs e)
         {

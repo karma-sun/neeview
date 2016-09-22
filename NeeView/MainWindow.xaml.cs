@@ -91,6 +91,13 @@ namespace NeeView
             _VM = new MainWindowVM();
             this.DataContext = _VM;
 
+            App.Config.LocalApplicationDataRemoved +=
+                (s, e) =>
+                {
+                    _VM.IsEnableSave = false; // 保存禁止
+                    this.Close();
+                };
+
             InitializeVisualTree();
 
             // mouse long down
@@ -709,7 +716,7 @@ namespace NeeView
                     this.ResizeMode = System.Windows.ResizeMode.NoResize;
                     _WindowStateMemento = this.WindowState;
                     if (this.WindowState == WindowState.Maximized) this.WindowState = WindowState.Normal;
-                   this.WindowState = WindowState.Maximized;
+                    this.WindowState = WindowState.Maximized;
                 }
                 else
                 {
@@ -1130,8 +1137,10 @@ namespace NeeView
         // [開発用] テストボタン
         private void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
         {
-            ModelContext.CommandTable.OpenCommandListHelp();
+            //ModelContext.CommandTable.OpenCommandListHelp();
+            App.Config.RemoveApplicationData();
         }
+
 
 
         // TODO: クラス化

@@ -242,6 +242,9 @@ namespace NeeView
         {
             InitializeComponent();
 
+            //
+            this.RemoveAllDataButton.Visibility = App.Config.IsUseLocalApplicationDataFolder ? Visibility.Visible : Visibility.Collapsed;
+
             Setting = setting;
             History = history;
             OldSusieSetting = setting.SusieMemento.Clone();
@@ -576,6 +579,16 @@ namespace NeeView
         {
             _Preference.Reset();
             this.PreferenceListView.Items.Refresh();
+        }
+
+        /// <summary>
+        /// Remove
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RemoveAllData_Click(object sender, RoutedEventArgs e)
+        {
+            App.Config.RemoveApplicationData();
         }
     }
 

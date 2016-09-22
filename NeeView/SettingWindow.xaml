@@ -164,6 +164,11 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="7z.dllで展開するファイルを開いたままにする"
                               ToolTip="RAR等を展開する7z.dllを使用する際にファイルを開いたままにします。&#xa;閲覧中の移動や削除はできなくなりますが、読み込み速度の改善が期待できます"
                               IsChecked="{Binding Setting.BookHubMemento.IsSevenZipAccessLocked}" />
+
+                            <Button x:Name="RemoveAllDataButton" Style="{StaticResource ItemButton}" Content="全データを削除する"
+                                    ToolTip="ユーザデータを削除し、アプリケーションを終了します。&#xa;アンインストール前に履歴等を完全に削除したい場合に使用します"
+                                    Click="RemoveAllData_Click"/>
+
                         </StackPanel>
 
                     </StackPanel>

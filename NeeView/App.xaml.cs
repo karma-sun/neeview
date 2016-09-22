@@ -102,6 +102,9 @@ namespace NeeView
             }
 
 
+            // カレントフォルダ設定
+            System.Environment.CurrentDirectory = Config.LocalApplicationDataPath;
+
             // 設定ファイル名
             if (Options["--setting"].IsValid)
             {
@@ -121,6 +124,7 @@ namespace NeeView
             {
                 UserSettingFileName = Path.Combine(System.Environment.CurrentDirectory, "UserSetting.xml");
             }
+
 
             // 設定読み込み
             LoadSetting();

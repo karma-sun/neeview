@@ -120,5 +120,35 @@ namespace NeeView
         {
             this.Close();
         }
+
+
+
+        public static bool? Show(string text, string caption, MessageBoxButton button, MessageBoxExImage icon)
+        {
+            var param = new MessageBoxParams();
+            param.MessageBoxText = text;
+            param.Caption = caption;
+            param.Button = button;
+            param.Icon = icon;
+
+            var dialog = new MessageBoxEx(param);
+            var result = dialog.ShowDialog();
+            return result;
+        }
+
+        public static bool? Show(string text, string caption, MessageBoxButton button)
+        {
+            return Show(text, caption, button, MessageBoxExImage.None);
+        }
+
+        public static bool? Show(string text, string caption)
+        {
+            return Show(text, caption, MessageBoxButton.OK, MessageBoxExImage.None);
+        }
+
+        public static bool? Show(string text)
+        {
+            return Show(text, "", MessageBoxButton.OK, MessageBoxExImage.None);
+        }
     }
 }

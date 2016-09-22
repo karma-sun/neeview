@@ -1454,6 +1454,8 @@ namespace NeeView
         public string BookmarkFileName { get; set; }
         public string PagemarkFileName { get; set; }
 
+        // 保存可否
+        public bool IsEnableSave { get; set; } = true;
 
         // コンストラクタ
         public MainWindowVM()
@@ -1784,6 +1786,8 @@ namespace NeeView
         // アプリ設定保存
         public void SaveSetting(MainWindow window)
         {
+            if (!IsEnableSave) return;
+
             // 現在の本を履歴に登録
             BookHub.SaveBookMemento();
 

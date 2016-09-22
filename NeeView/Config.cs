@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -70,9 +71,6 @@ namespace NeeView
         {
             var assembly = Assembly.GetEntryAssembly();
             ValidateProductInfo(assembly);
-
-            // カレントフォルダ設定
-            System.Environment.CurrentDirectory = LocalApplicationDataPath;
         }
 
 
@@ -110,7 +108,7 @@ namespace NeeView
                 if (_LocalApplicationDataPath == null)
                 {
                     // configファイルの設定で LocalApplicationData を使用するかを判定。インストール版用
-                    if (System.Configuration.ConfigurationManager.AppSettings["UseLocalApplicationData"] == "True")
+                    if (IsUseLocalApplicationDataFolder)
                     {
                         _LocalApplicationDataPath = GetFileSystemPath(Environment.SpecialFolder.LocalApplicationData, true);
                     }
@@ -137,5 +135,93 @@ namespace NeeView
             }
             return path;
         }
+
+        private string GetFileSystemCompanyPath(Environment.SpecialFolder folder, bool createFolder)
+        {
+            string path = System.IO.Path.Combine(Environment.GetFolderPath(folder), CompanyName);
+            if (createFolder && !Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            return path;
+        }
+
+
+        //
+        private bool? _IsUseLocalApplicationDataFolder;
+        public bool IsUseLocalApplicationDataFolder
+        {
+            get
+            {
+                if (_IsUseLocalApplicationDataFolder == null)
+                {
+                    _IsUseLocalApplicationDataFolder = System.Configuration.ConfigurationManager.AppSettings["UseLocalApplicationData"] == "True";
+                }
+                return (bool)_IsUseLocalApplicationDataFolder;
+            }
+        }
+
+        // 全ユーザデータ削除
+        private bool RemoveApplicationDataCore()
+        {
+            // LocalApplicationDataフォルダを使用している場合のみ
+            if (!IsUseLocalApplicationDataFolder) return false;
+
+            Debug.WriteLine("RemoveAllApplicationData ...");
+
+            var productFolder = GetFileSystemPath(Environment.SpecialFolder.LocalApplicationData, false);
+            Directory.Delete(LocalApplicationDataPath, true);
+            System.Threading.Thread.Sleep(500);
+
+            var companyFolder = GetFileSystemCompanyPath(Environment.SpecialFolder.LocalApplicationData, false);
+            if (Directory.GetFileSystemEntries(companyFolder).Length == 0)
+            {
+                Directory.Delete(companyFolder);
+            }
+
+            Debug.WriteLine("RemoveAllApplicationData done.");
+            return true;
+        }
+
+        //
+        public event EventHandler LocalApplicationDataRemoved;
+
+        //
+        public void RemoveApplicationData()
+        {
+
+            if (!this.IsUseLocalApplicationDataFolder)
+            {
+                MessageBox.Show("--removeオプションはインストーラー版でのみ機能します", "起動オプションエラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var text = "ユーザデータを削除します。よろしいですか？\n\n以下のデータが削除されます\n- 設定ファイル\n- 履歴ファイル\n- ブックマークファイル\n- ページマークファイル";
+            var result = MessageBox.Show(text, "NeeView - データ削除確認", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.OK)
+            {
+                // 削除できないのでカレントフォルダ移動
+                var currentFolder = System.Environment.CurrentDirectory;
+                System.Environment.CurrentDirectory = this.AssemblyLocation;
+
+                try
+                {
+                    this.RemoveApplicationDataCore();
+                    MessageBox.Show("ユーザデータを削除しました。NeeViewを終了します。", "NeeView - 完了");
+                    LocalApplicationDataRemoved?.Invoke(this, null);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "NeeView - エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    // カレントフォルダ復帰
+                    System.Environment.CurrentDirectory = currentFolder;
+                }
+            }
+        }
+
+
+
     }
 }

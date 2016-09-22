@@ -8,15 +8,11 @@
 
     <Feature Id="ProductFeature" Title="NeeView" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
-      <ComponentGroupRef Id="PMCompanyFolderComponents"/>
-      <ComponentGroupRef Id="PMProductFolderComponents" />
-      <ComponentGroupRef Id="LACompanyFolderComponents"/>
-      <ComponentGroupRef Id="LAProductFolderComponents" />
+      <ComponentGroupRef Id="PMManufacturerFolderComponents" />
     </Feature>
 
     <!-- インストーラーUI設定 -->
     <!--
-    <WixVariable Id="WixUILicenseRtf" Value="$(var.AppendDir)\license.rtf" />
     <WixVariable Id="WixUIBannerBmp" Value="Resources\bannrbmp.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="Resources\dlgbmp.bmp" />
     -->
@@ -45,14 +41,7 @@
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder">
-        <Directory Id="PMCompanyFolder" Name="NeeLaboratory">
-          <Directory Id="PMProductFolder" Name="NeeView" />
-        </Directory>
-      </Directory>
-      <Directory Id="LocalAppDataFolder">
-        <Directory Id="LACompanyFolder" Name="NeeLaboratory">
-          <Directory Id="LAProductFolder" Name="NeeView" />
-        </Directory>
+         <Directory Id="PMManufacturerFolder" Name="NeeLaboratory" />
       </Directory>
     </Directory>
   </Fragment>
@@ -62,14 +51,10 @@
 
 
     <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-      <!-- <Component Id="ProductComponent"> -->
-      <!-- TODO: Insert files, registry keys, and other resources here. -->
-      <!-- </Component> -->
 
       <Component Guid="{5ED36B64-B6DE-4B62-8BDD-D7490AD98971}">
         <File Source="$(var.ContentDir)NeeView.exe" KeyPath="yes" Checksum="yes" >
-          <Shortcut Id="MyMenuShortcut" Directory="PMProductFolder" Name="NeeView" WorkingDirectory="INSTALLDIR" Icon="MyIcon.exe" Advertise="yes"/>
+          <Shortcut Id="MyMenuShortcut" Directory="PMManufacturerFolder" Name="NeeView" WorkingDirectory="INSTALLDIR" Icon="MyIcon.exe" Advertise="yes"/>
         </File>
         <File Source="$(var.AppendDir)NeeView.exe.config" />
         <File Source="$(var.ContentDir)README.html" Checksum="yes"/>
@@ -81,35 +66,12 @@
 
     <!-- プログラムメニュー コンポーネント -->
 
-    <ComponentGroup Id="PMCompanyFolderComponents" Directory="PMCompanyFolder">
-      <Component Guid="*">
-        <RemoveFolder Id="PMCompanyFolder" On="uninstall"/>
-        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type ="string" Name="InstallVersion" Value="[ProductVersion]" KeyPath="yes" />
-      </Component>
-    </ComponentGroup>
-
-    <ComponentGroup Id="PMProductFolderComponents" Directory="PMProductFolder">
-      <Component Guid="*">
-        <RemoveFolder Id="PMProductFolder" On="uninstall"/>
+    <ComponentGroup Id="PMManufacturerFolderComponents" Directory="PMManufacturerFolder">
+      <Component Guid="{5EC2884C-8619-4D9A-8D4D-6AF805ADA8B8}">
+        <RemoveFolder Id="PMManufacturerFolder" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type ="string" Name="InstallFolder" Value="[INSTALLFOLDER]" KeyPath="yes" />
       </Component>
     </ComponentGroup>
-
-    <ComponentGroup Id="LACompanyFolderComponents" Directory="LACompanyFolder">
-      <Component Guid="*">
-        <RemoveFolder Id="LACompanyFolder" On="uninstall"/>
-        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type ="string" Name="Key1" Value="True" KeyPath="yes" />
-      </Component>
-    </ComponentGroup>
-
-    <ComponentGroup Id="LAProductFolderComponents" Directory="LAProductFolder">
-      <Component Guid="*">
-        <RemoveFile Id="MyRemove.AllFile" Name="*.*" On="uninstall"/>
-        <RemoveFolder Id="LAProductFolder" On="uninstall"/>
-        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type ="string" Name="Key2" Value="True" KeyPath="yes" />
-      </Component>
-    </ComponentGroup>
-
 
     <!-- アイコン -->
     <Icon Id="MyIcon.exe" SourceFile="$(var.ContentDir)NeeView.exe" />

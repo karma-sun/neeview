@@ -759,7 +759,23 @@
                                 <GridViewColumn Header="コマンド" Width="200">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Header}" TextTrimming="WordEllipsis" ToolTip="{Binding Tips}"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Grid Width="20" VerticalAlignment="Center" Margin="2">
+                                                    <Button Click="EditCommandParameterButton_Clock" Tag="{Binding}">
+                                                        <Button.Style>
+                                                            <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding HasParameter}" Value="False">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                        <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}"/>
+                                                    </Button>
+                                                </Grid>
+                                                <TextBlock Text="{Binding Header}" TextTrimming="WordEllipsis" ToolTip="{Binding Tips}"/>
+                                            </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

@@ -78,6 +78,30 @@ namespace NeeView
         // 属性
         public CommandAttribute Attribute { get; set; }
 
+
+        // コマンドパラメータ標準
+        public CommandParameter ParameterDefault { get; set; }
+
+        // コマンドパラメータ
+        private CommandParameter _Parameter;
+        public CommandParameter Parameter
+        {
+            get
+            {
+                if (_Parameter == null && ParameterDefault != null)
+                {
+                    _Parameter = ParameterDefault.Clone();
+                }
+                return _Parameter;
+            }
+            set { _Parameter = value; }
+        }
+
+        public bool HasParameter => ParameterDefault != null;
+
+
+
+
         // constructor
         public CommandElement()
         {
@@ -112,14 +136,16 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember]
+            [DataMember (EmitDefaultValue =false)]
             public string ShortCutKey { get; set; }
-            [DataMember]
+            [DataMember(EmitDefaultValue = false)]
             public string MouseGesture { get; set; }
             [DataMember]
             public bool IsShowMessage { get; set; }
             [DataMember(Order = 2)]
             public bool IsToggled { get; set; }
+            [DataMember(Order = 15, EmitDefaultValue = false)]
+            public string Parameter { get; set; }
 
 
             //
@@ -156,16 +182,27 @@ namespace NeeView
             memento.MouseGesture = MouseGesture;
             memento.IsShowMessage = IsShowMessage;
             memento.IsToggled = IsToggled;
+
+            if (Parameter != null)
+            {
+                memento.Parameter = Utility.Json.Serialize(Parameter, Parameter.GetType());
+            }
+
             return memento;
         }
 
         //
-        public void Restore(Memento element)
+        public void Restore(Memento memento)
         {
-            ShortCutKey = element.ShortCutKey;
-            MouseGesture = element.MouseGesture;
-            IsShowMessage = element.IsShowMessage;
-            IsToggled = element.IsToggled;
+            ShortCutKey = memento.ShortCutKey;
+            MouseGesture = memento.MouseGesture;
+            IsShowMessage = memento.IsShowMessage;
+            IsToggled = memento.IsToggled;
+
+            if (ParameterDefault != null && memento.Parameter != null)
+            {
+                Parameter = (CommandParameter)Utility.Json.Deserialize(memento.Parameter, ParameterDefault.GetType());
+            }
         }
 
         #endregion

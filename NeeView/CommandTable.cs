@@ -626,14 +626,16 @@ namespace NeeView
                     Group = "ビュー操作",
                     Text = "左回転",
                     Note = "画像を45度左回転させます",
-                    IsShowMessage = false
+                    IsShowMessage = false,
+                    ParameterDefault = new ViewRotateCommandParameter() { Angle = 45 }
                 },
                 [CommandType.ViewRotateRight] = new CommandElement
                 {
                     Group = "ビュー操作",
                     Text = "右回転",
                     Note = "画像を45度右回転させます",
-                    IsShowMessage = false
+                    IsShowMessage = false,
+                    ParameterDefault = new ViewRotateCommandParameter() { Angle = 45 }
                 },
                 [CommandType.ToggleViewFlipHorizontal] = new CommandElement
                 {
@@ -1237,7 +1239,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         // 
         [DataContract]
@@ -1310,6 +1312,6 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
     }
 }

@@ -103,7 +103,7 @@ namespace NeeView
         //
         public VersionWindowVM()
         {
-            LicenseUri = "file://" + System.Environment.CurrentDirectory.Replace('\\', '/').TrimEnd('/') + "/README.html#license";
+            LicenseUri = "file://" + App.Config.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + "/README.html#license";
 
             // チェック開始
             Checker.CheckStart();

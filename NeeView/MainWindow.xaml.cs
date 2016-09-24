@@ -446,9 +446,19 @@ namespace NeeView
             ModelContext.CommandTable[CommandType.ViewScaleDown].Execute =
                 (s, e) => _MouseDrag.ScaleDown();
             ModelContext.CommandTable[CommandType.ViewRotateLeft].Execute =
-                (s, e) => _MouseDrag.Rotate(-45);
+                (s, e) =>
+                {
+                    var command = ModelContext.CommandTable[CommandType.ViewRotateLeft];
+                    var parameter = (ViewRotateCommandParameter)command.Parameter;
+                    _MouseDrag.Rotate(-parameter.Angle);
+                };
             ModelContext.CommandTable[CommandType.ViewRotateRight].Execute =
-                (s, e) => _MouseDrag.Rotate(+45);
+                (s, e) =>
+                {
+                    var command = ModelContext.CommandTable[CommandType.ViewRotateRight];
+                    var parameter = (ViewRotateCommandParameter)command.Parameter;
+                    _MouseDrag.Rotate(+parameter.Angle);
+                };
             ModelContext.CommandTable[CommandType.ToggleViewFlipHorizontal].Execute =
                 (s, e) => _MouseDrag.ToggleFlipHorizontal();
             ModelContext.CommandTable[CommandType.ViewFlipHorizontalOn].Execute =
@@ -1138,7 +1148,7 @@ namespace NeeView
         private void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
         {
             //ModelContext.CommandTable.OpenCommandListHelp();
-            App.Config.RemoveApplicationData();
+            //App.Config.RemoveApplicationData();
         }
 
 

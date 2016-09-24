@@ -79,12 +79,15 @@ namespace NeeView
             public bool IsToggleEditable { get; set; }
             public Visibility ToggleVisibility { get; set; }
             public string Tips { get; set; }
+            public CommandParameter Parameter { get; set; }
+
+            public bool HasParameter => Parameter != null;
         }
 
         // コマンド一覧
         public ObservableCollection<CommandParam> CommandCollection { get; set; }
 
-        
+
         //
         private Preference _Preference;
 
@@ -302,6 +305,7 @@ namespace NeeView
                     ToggleVisibility = (element.Value.Attribute & CommandAttribute.ToggleEditable) == CommandAttribute.ToggleEditable ? Visibility.Visible : Visibility.Hidden,
                     IsToggleEditable = (element.Value.Attribute & CommandAttribute.ToggleLocked) != CommandAttribute.ToggleLocked,
                     Tips = element.Value.NoteToTips(),
+                    Parameter = element.Value.Parameter?.Clone(),
                 };
                 CommandCollection.Add(item);
             }
@@ -338,7 +342,7 @@ namespace NeeView
 
         //
         private void EditPreference(PreferenceElement param, bool isSimple)
-        { 
+        {
             if (isSimple && param.GetValueType() == typeof(bool))
             {
                 param.Set(!param.Boolean);
@@ -491,6 +495,7 @@ namespace NeeView
                     Setting.CommandMememto[command.Key].MouseGesture = command.MouseGesture;
                     Setting.CommandMememto[command.Key].IsShowMessage = command.IsShowMessage;
                     Setting.CommandMememto[command.Key].IsToggled = command.IsToggled;
+                    Setting.CommandMememto[command.Key].Parameter = command.Parameter?.ToJson();
                 }
 
                 // Preference反映
@@ -589,6 +594,25 @@ namespace NeeView
         private void RemoveAllData_Click(object sender, RoutedEventArgs e)
         {
             App.Config.RemoveApplicationData();
+        }
+
+        //
+        private void EditCommandParameterButton_Clock(object sender, RoutedEventArgs e)
+        {
+            var command = (sender as Button)?.Tag as CommandParam;
+            if (command != null && command.HasParameter)
+            {
+                var parameterDfault = ModelContext.CommandTable[command.Key].ParameterDefault;
+                var context = CommandParameterEditContext.Create(command.Parameter.Clone(), command.Header);
+
+                var dialog = new CommandParameterWindow(context, parameterDfault);
+                dialog.Owner = App.Current.MainWindow;
+                dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                if (dialog.ShowDialog() == true)
+                {
+                    command.Parameter = context.Source;
+                }
+            }
         }
     }
 

@@ -310,6 +310,7 @@
                                         </StackPanel>
                                     </Canvas>
                                 </Grid>
+                                
 
                                 <!-- empty pages message -->
                                 <Grid Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">

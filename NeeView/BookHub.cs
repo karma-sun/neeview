@@ -1070,6 +1070,19 @@ namespace NeeView
             CurrentBook?.NextPage(1);
         }
 
+        // 指定ページ数前に移動
+        public void PrevSizePage(int size)
+        {
+            CurrentBook?.PrevPage(size);
+        }
+
+        // 指定ページ数後に移動
+        public void NextSizePage(int size)
+        {
+            CurrentBook?.NextPage(size);
+        }
+
+
         // 最初のページに移動
         public void FirstPage()
         {

@@ -80,26 +80,62 @@ namespace NeeView
 
 
         // コマンドパラメータ標準
-        public CommandParameter ParameterDefault { get; set; }
+        public CommandParameter DefaultParameter { get; set; }
 
         // コマンドパラメータ
         private CommandParameter _Parameter;
+
+
         public CommandParameter Parameter
         {
-            get
-            {
-                if (_Parameter == null && ParameterDefault != null)
-                {
-                    _Parameter = ParameterDefault.Clone();
-                }
-                return _Parameter;
-            }
-            set { _Parameter = value; }
+            get { return GetParameter(false); }
+            set { SetParameter(value); }
         }
 
-        public bool HasParameter => ParameterDefault != null;
+        public CommandParameter ParameterRaw
+        {
+            get { return GetParameter(true); }
+        }
 
 
+        public bool HasParameter => DefaultParameter != null;
+
+        //
+        public CommandParameter GetParameter(bool isRaw)
+        {
+            if (_Parameter == null && DefaultParameter != null)
+            {
+                _Parameter = DefaultParameter.Clone();
+            }
+
+            if (isRaw)
+            {
+                return _Parameter;
+            }
+            else
+            {
+                return _Parameter?.Entity();
+            }
+
+#if false
+            if (isRaw && ParameterDefault is ShareCommandParameter)
+            {
+                return ParameterDefault.Entity();
+            }
+            else
+            {
+                return _Parameter;
+            }
+#endif
+        }
+
+        void SetParameter(CommandParameter value)
+        {
+            if (!DefaultParameter.IsReadOnly())
+            {
+                _Parameter = value;
+            }
+        }
 
 
         // constructor
@@ -131,12 +167,12 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento
         {
-            [DataMember (EmitDefaultValue =false)]
+            [DataMember(EmitDefaultValue = false)]
             public string ShortCutKey { get; set; }
             [DataMember(EmitDefaultValue = false)]
             public string MouseGesture { get; set; }
@@ -183,9 +219,14 @@ namespace NeeView
             memento.IsShowMessage = IsShowMessage;
             memento.IsToggled = IsToggled;
 
-            if (Parameter != null)
+            if (DefaultParameter != null && !DefaultParameter.IsReadOnly())
             {
-                memento.Parameter = Utility.Json.Serialize(Parameter, Parameter.GetType());
+                var original = DefaultParameter.ToJson();
+                var current = Parameter.ToJson();
+                if (original != current)
+                {
+                    memento.Parameter = current;
+                }
             }
 
             return memento;
@@ -199,12 +240,12 @@ namespace NeeView
             IsShowMessage = memento.IsShowMessage;
             IsToggled = memento.IsToggled;
 
-            if (ParameterDefault != null && memento.Parameter != null)
+            if (DefaultParameter != null && memento.Parameter != null)
             {
-                Parameter = (CommandParameter)Utility.Json.Deserialize(memento.Parameter, ParameterDefault.GetType());
+                Parameter = (CommandParameter)Utility.Json.Deserialize(memento.Parameter, DefaultParameter.GetType());
             }
         }
 
-        #endregion
+#endregion
     }
 }

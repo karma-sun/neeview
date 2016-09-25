@@ -761,12 +761,16 @@
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
                                                 <Grid Width="20" VerticalAlignment="Center" Margin="2">
-                                                    <Button Click="EditCommandParameterButton_Clock" Tag="{Binding}">
+                                                    <Button Click="EditCommandParameterButton_Clock" Tag="{Binding}" ToolTipService.ShowOnDisabled="True">
                                                         <Button.Style>
                                                             <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
                                                                 <Style.Triggers>
                                                                     <DataTrigger Binding="{Binding HasParameter}" Value="False">
                                                                         <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IsShareParameter}" Value="True">
+                                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                                        <Setter Property="ToolTip" Value="{Binding ShareTips}" />
                                                                     </DataTrigger>
                                                                 </Style.Triggers>
                                                             </Style>

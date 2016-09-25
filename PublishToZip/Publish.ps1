@@ -191,6 +191,10 @@ if (($Target -eq "All") -or ($Target -eq "Installer"))
 }
 
 
+# current
+Copy-Item "$packageDir\*" "NeeView\" -Recurse
+
+
 #-------------------------
 # Finish.
 Write-Host "`nAll done.`n" -fore Green

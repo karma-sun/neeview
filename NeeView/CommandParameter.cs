@@ -22,10 +22,59 @@ namespace NeeView
             return (CommandParameter)Utility.Json.Clone(this, this.GetType());
         }
 
-        internal string ToJson()
+        public string ToJson()
         {
             return Utility.Json.Serialize(this, this.GetType());
         }
+
+        public virtual bool IsReadOnly()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// 実際に適用されるパラメータ
+        /// </summary>
+        public virtual CommandParameter Entity()
+        {
+            return this;
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ShareCommandParameter : CommandParameter
+    {
+        [DispName("パラメータ共有")]
+        public CommandType CommandType { get; set; }
+
+        //
+        public override bool IsReadOnly()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// 実際に適用されるパラメータ
+        /// </summary>
+        public override CommandParameter Entity()
+        {
+            return ModelContext.CommandTable?[CommandType].Parameter;
+        }
+    }
+
+
+
+    public class MoveSizePageCommandParameter : CommandParameter
+    {
+        [DispName("移動ページ数")]
+        public int Size
+        {
+            get { return _Size; }
+            set { _Size = NVUtility.Clamp(value, 0, 1000); }
+        }
+        private int _Size;
     }
 
     /// <summary>

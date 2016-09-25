@@ -34,6 +34,8 @@ namespace NeeView
         NextPage,
         PrevOnePage,
         NextOnePage,
+        PrevSizePage,
+        NextSizePage,
         PrevScrollPage,
         NextScrollPage,
         MovePageWithCursor,

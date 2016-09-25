@@ -895,6 +895,8 @@ namespace NeeView
                     step = Step;
                 }
 
+
+
                 return new ViewPageContextSource()
                 {
                     Position = _Book._ViewContext.Position + step,
@@ -903,9 +905,38 @@ namespace NeeView
                 };
             }
 
+            private ViewPageContextSource GetViewPageContextSourceSimple()
+            {
+                int index = _Book._ViewContext.Position.Index;
+                int newIndex = _Book.ClampPageNumber(index + Step);
+
+                int direction = Step < 0 ? -1 : 1;
+
+                if (index == newIndex)
+                {
+                    newIndex += direction;
+                }
+
+                var position = new PagePosition(newIndex, 0);
+
+                return new ViewPageContextSource()
+                {
+                    Position = position,
+                    Direction = direction,
+                    Size = _Book.PageMode.Size(),
+                };
+            }
+
             public override async Task Execute()
             {
-                await _Book.UpdateViewPageAsync(GetViewPageContextSource(), true);
+                if (Step < -2 || Step > 2)
+                {
+                    await _Book.UpdateViewPageAsync(GetViewPageContextSourceSimple(), false);
+                }
+                else
+                {
+                    await _Book.UpdateViewPageAsync(GetViewPageContextSource(), true);
+                }
             }
         }
 
@@ -1361,7 +1392,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         /// <summary>
         /// 保存設定
@@ -1498,5 +1529,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

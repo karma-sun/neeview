@@ -82,6 +82,10 @@ namespace NeeView
             public CommandParameter Parameter { get; set; }
 
             public bool HasParameter => Parameter != null;
+
+            public ShareCommandParameter Share => Parameter as  ShareCommandParameter;
+            public bool IsShareParameter => Share != null;
+            public string ShareTips => $"「{Share.CommandType.ToDispString()}」とパラメータ共有です";
         }
 
         // コマンド一覧
@@ -305,7 +309,7 @@ namespace NeeView
                     ToggleVisibility = (element.Value.Attribute & CommandAttribute.ToggleEditable) == CommandAttribute.ToggleEditable ? Visibility.Visible : Visibility.Hidden,
                     IsToggleEditable = (element.Value.Attribute & CommandAttribute.ToggleLocked) != CommandAttribute.ToggleLocked,
                     Tips = element.Value.NoteToTips(),
-                    Parameter = element.Value.Parameter?.Clone(),
+                    Parameter = element.Value.GetParameter(true)?.Clone(),
                 };
                 CommandCollection.Add(item);
             }
@@ -602,7 +606,7 @@ namespace NeeView
             var command = (sender as Button)?.Tag as CommandParam;
             if (command != null && command.HasParameter)
             {
-                var parameterDfault = ModelContext.CommandTable[command.Key].ParameterDefault;
+                var parameterDfault = ModelContext.CommandTable[command.Key].DefaultParameter;
                 var context = CommandParameterEditContext.Create(command.Parameter.Clone(), command.Header);
 
                 var dialog = new CommandParameterWindow(context, parameterDfault);

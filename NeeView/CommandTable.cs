@@ -71,6 +71,12 @@ namespace NeeView
             _Book = book;
         }
 
+        // .. あまりかわらん
+        public T Parameter<T>(CommandType commandType) where T : class
+        {
+            return _Elements[commandType].Parameter as T;
+        }
+
 
         // コマンドリストをブラウザで開く
         public void OpenCommandListHelp()
@@ -627,7 +633,7 @@ namespace NeeView
                     Text = "左回転",
                     Note = "画像を45度左回転させます",
                     IsShowMessage = false,
-                    ParameterDefault = new ViewRotateCommandParameter() { Angle = 45 }
+                    DefaultParameter = new ViewRotateCommandParameter() { Angle = 45 }
                 },
                 [CommandType.ViewRotateRight] = new CommandElement
                 {
@@ -635,7 +641,7 @@ namespace NeeView
                     Text = "右回転",
                     Note = "画像を45度右回転させます",
                     IsShowMessage = false,
-                    ParameterDefault = new ViewRotateCommandParameter() { Angle = 45 }
+                    DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewRotateLeft }
                 },
                 [CommandType.ToggleViewFlipHorizontal] = new CommandElement
                 {
@@ -731,6 +737,8 @@ namespace NeeView
                     IsShowMessage = false,
                     Execute = (s, e) => _Book.NextOnePage(),
                 },
+
+
                 [CommandType.PrevScrollPage] = new CommandElement
                 {
                     Group = "移動",
@@ -1234,6 +1242,33 @@ namespace NeeView
                     CanExecute = () => true,
                 },
             };
+
+            // PrevSizePage
+            {
+                var element = new CommandElement();
+                element.Group = "移動";
+                element.Text = "指定ページ分戻る";
+                element.Note = "設定されたページ数だけ前方向に移動します";
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => _Book.PrevSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
+                element.DefaultParameter = new MoveSizePageCommandParameter() { Size = 10 };
+
+                _Elements[CommandType.PrevSizePage] = element;
+            }
+
+            // NextSizePage
+            {
+                var element = new CommandElement();
+                element.Group = "移動";
+                element.Text = "指定ページ分進む";
+                element.Note = "設定されたページ数だけ次方向に移動します";
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => _Book.NextSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevSizePage };
+
+                _Elements[CommandType.NextSizePage] = element;
+            }
+
 
             _DefaultMemento = CreateMemento();
         }

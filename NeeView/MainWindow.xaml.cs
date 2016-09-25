@@ -448,15 +448,13 @@ namespace NeeView
             ModelContext.CommandTable[CommandType.ViewRotateLeft].Execute =
                 (s, e) =>
                 {
-                    var command = ModelContext.CommandTable[CommandType.ViewRotateLeft];
-                    var parameter = (ViewRotateCommandParameter)command.Parameter;
+                    var parameter = (ViewRotateCommandParameter)ModelContext.CommandTable[CommandType.ViewRotateLeft].Parameter;
                     _MouseDrag.Rotate(-parameter.Angle);
                 };
             ModelContext.CommandTable[CommandType.ViewRotateRight].Execute =
                 (s, e) =>
                 {
-                    var command = ModelContext.CommandTable[CommandType.ViewRotateRight];
-                    var parameter = (ViewRotateCommandParameter)command.Parameter;
+                    var parameter = (ViewRotateCommandParameter)ModelContext.CommandTable[CommandType.ViewRotateRight].Parameter;
                     _MouseDrag.Rotate(+parameter.Angle);
                 };
             ModelContext.CommandTable[CommandType.ToggleViewFlipHorizontal].Execute =

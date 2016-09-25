@@ -502,6 +502,8 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.NextPage },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.PrevOnePage },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.NextOnePage },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevSizePage },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextSizePage },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.FirstPage },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.LastPage },
                         new MenuTree(MenuElementType.Separator),

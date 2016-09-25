@@ -2585,6 +2585,7 @@ namespace NeeView
                 ContentsSpace = -1.0;
                 LongLeftButtonDownMode = LongButtonDownMode.Loupe;
                 LongButtonDownTick = 1.0;
+                IsDisableMultiBoot = true;
             }
 
             public Memento()

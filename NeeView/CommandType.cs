@@ -34,12 +34,12 @@ namespace NeeView
         NextPage,
         PrevOnePage,
         NextOnePage,
-        PrevSizePage,
-        NextSizePage,
         PrevScrollPage,
         NextScrollPage,
         MovePageWithCursor,
 
+        PrevSizePage,
+        NextSizePage,
         FirstPage,
         LastPage,
 

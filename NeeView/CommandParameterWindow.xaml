@@ -11,7 +11,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="コマンドパラメータ設定" SizeToContent="Height" MinHeight="150" Width="512">
+        Title="{Binding Name, StringFormat='\&quot;{0}\&quot;のパラメータ設定'}" SizeToContent="Height" MinHeight="150" Width="512">
 
     <Window.Resources>
 
@@ -31,8 +31,13 @@
             <TextBox Text="{Binding Value}"/>
         </DataTemplate>
 
+
+        <DataTemplate DataType="{x:Type local:CommandParameterTitle}">
+                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontWeight="Bold" Margin="0,10,0,5" />
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type local:CommandParameterProperty}">
-            <Grid Margin="2">
+            <Grid Margin="10,2,0,2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*" MinWidth="100"/>
                     <ColumnDefinition Width="3*"/>
@@ -60,9 +65,9 @@
                 <Button Style="{StaticResource NormalButtonStyle}" Content="Cancel" Click="ButtonCancel_Click"/>
             </StackPanel>
 
-            <GroupBox Header="{Binding Name}" Margin="5">
-                <ItemsControl x:Name="Items" ItemsSource="{Binding Properties}" Margin="5"/>
-            </GroupBox>
+            <Border Margin="5" BorderThickness="1" BorderBrush="Gray" UseLayoutRounding="True">
+                <ItemsControl x:Name="Items" ItemsSource="{Binding Items}" Margin="5"/>
+            </Border>
         </DockPanel>
     </Grid>
 </Window>

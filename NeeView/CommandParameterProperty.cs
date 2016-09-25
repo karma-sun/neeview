@@ -20,10 +20,28 @@ namespace NeeView
         void SetValue(object value);
     }
 
+    // 基底クラス
+    public class CommandParameterBase
+    {
+    }
+
     /// <summary>
-    /// 
+    /// タイトル項目
     /// </summary>
-    public class CommandParameterProperty : ISetter
+    public class CommandParameterTitle : CommandParameterBase
+    {
+        public string Name { get; set; }
+
+        public CommandParameterTitle(string name)
+        {
+            Name = name;
+        }
+    }
+
+    /// <summary>
+    /// プロパティ項目
+    /// </summary>
+    public class CommandParameterProperty : CommandParameterBase, ISetter
     {
         public CommandParameter Source { get; set; }
         public PropertyInfo Info { get; set; }

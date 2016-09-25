@@ -746,11 +746,11 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn Header="コマンド" Width="200">
+                                <GridViewColumn Header="コマンド" Width="200" >
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Grid Width="20" VerticalAlignment="Center" Margin="2">
+                                            <DockPanel >
+                                                <Grid DockPanel.Dock="Left" Width="20" VerticalAlignment="Center" Margin="2">
                                                     <Button Click="EditCommandParameterButton_Clock" Tag="{Binding}" ToolTipService.ShowOnDisabled="True">
                                                         <Button.Style>
                                                             <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
@@ -768,8 +768,8 @@
                                                         <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}"/>
                                                     </Button>
                                                 </Grid>
-                                                <TextBlock Text="{Binding Header}" TextTrimming="WordEllipsis" ToolTip="{Binding Tips}"/>
-                                            </StackPanel>
+                                                <TextBlock Text="{Binding Header}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Tips}"/>
+                                            </DockPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

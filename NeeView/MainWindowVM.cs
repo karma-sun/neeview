@@ -237,32 +237,38 @@ namespace NeeView
             }
         }
 
-        //
-        public PageStretchMode GetToggleStretchMode(Dictionary<PageStretchMode, bool> flags)
+        // トグル
+        public PageStretchMode GetToggleStretchMode(ToggleStretchModeCommandParameter param)
         {
             PageStretchMode mode = StretchMode;
             int length = Enum.GetNames(typeof(PageStretchMode)).Length;
             int count = 0;
             do
             {
-                mode = (PageStretchMode)(((int)mode + 1) % length);
+                var next = (int)mode + 1;
+                if (!param.IsLoop && next >= length) return StretchMode;
+                mode = (PageStretchMode)(next % length);
+                if (param.StretchModes[mode]) return mode;
             }
-            while (!flags[mode] && count++ < length);
-            return mode;
+            while (count++ < length);
+            return StretchMode;
         }
 
         // 逆トグル
-        public PageStretchMode GetToggleStretchModeReverse(Dictionary<PageStretchMode, bool> flags)
+        public PageStretchMode GetToggleStretchModeReverse(ToggleStretchModeCommandParameter param)
         {
             PageStretchMode mode = StretchMode;
             int length = Enum.GetNames(typeof(PageStretchMode)).Length;
             int count = 0;
             do
             {
-                mode = (PageStretchMode)(((int)mode + length - 1) % length);
+                var prev = (int)mode - 1;
+                if (!param.IsLoop && prev < 0) return StretchMode;
+                mode = (PageStretchMode)((prev + length) % length);
+                if (param.StretchModes[mode]) return mode;
             }
-            while (!flags[mode] && count++ < length);
-            return mode;
+            while (count++ < length);
+            return StretchMode;
         }
 
 

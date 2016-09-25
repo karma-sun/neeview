@@ -76,13 +76,12 @@ namespace NeeView
             public string MouseGesture { get; set; }
             public bool IsShowMessage { get; set; }
             public string Tips { get; set; }
-            public CommandParameter Parameter { get; set; }
 
-            public bool HasParameter => Parameter != null;
-
-            public ShareCommandParameter Share => Parameter as  ShareCommandParameter;
-            public bool IsShareParameter => Share != null;
-            public string ShareTips => $"「{Share.CommandType.ToDispString()}」とパラメータ共有です";
+            public string ParameterJson { get; set; }
+            public bool HasParameter { get; set; }
+            public CommandType ParameterShareCommandType { get; set; }
+            public bool IsShareParameter => ParameterShareCommandType !=  CommandType.None;
+            public string ShareTips => $"「{ParameterShareCommandType.ToDispString()}」とパラメータ共有です";
         }
 
         // コマンド一覧
@@ -294,17 +293,31 @@ namespace NeeView
             {
                 if (element.Key.IsDisable()) continue;
 
+                var memento = Setting.CommandMememto[element.Key];
+
                 var item = new CommandParam()
                 {
                     Key = element.Key,
                     Group = element.Value.Group,
                     Header = element.Value.Text,
-                    ShortCut = Setting.CommandMememto[element.Key].ShortCutKey,
-                    MouseGesture = Setting.CommandMememto[element.Key].MouseGesture,
-                    IsShowMessage = Setting.CommandMememto[element.Key].IsShowMessage,
+                    ShortCut = memento.ShortCutKey,
+                    MouseGesture = memento.MouseGesture,
+                    IsShowMessage = memento.IsShowMessage,
                     Tips = element.Value.NoteToTips(),
-                    Parameter = element.Value.GetParameter(true)?.Clone(),
                 };
+
+                if (element.Value.HasParameter)
+                {
+                    item.HasParameter = true;
+                    item.ParameterJson = memento.Parameter;
+
+                    var share = element.Value.DefaultParameter as ShareCommandParameter;
+                    if (share != null)
+                    {
+                        item.ParameterShareCommandType = share.CommandType;
+                    }
+               }
+
                 CommandCollection.Add(item);
             }
         }
@@ -515,7 +528,7 @@ namespace NeeView
                     Setting.CommandMememto[command.Key].ShortCutKey = command.ShortCut;
                     Setting.CommandMememto[command.Key].MouseGesture = command.MouseGesture;
                     Setting.CommandMememto[command.Key].IsShowMessage = command.IsShowMessage;
-                    Setting.CommandMememto[command.Key].Parameter = command.Parameter?.ToJson();
+                    Setting.CommandMememto[command.Key].Parameter = command.ParameterJson;
                 }
 
                 // Preference反映
@@ -627,15 +640,21 @@ namespace NeeView
         {
             if (command != null && command.HasParameter && !command.IsShareParameter)
             {
-                var parameterDfault = ModelContext.CommandTable[command.Key].DefaultParameter;
-                var context = CommandParameterEditContext.Create(command.Parameter.Clone(), command.Header);
+                var source = ModelContext.CommandTable[command.Key];
+                var parameterDfault = source.DefaultParameter;
+
+                var parameter = command.ParameterJson != null
+                    ? (CommandParameter)Utility.Json.Deserialize(command.ParameterJson, source.DefaultParameter.GetType())
+                    : parameterDfault.Clone();
+
+                var context = CommandParameterEditContext.Create(parameter, command.Header);
 
                 var dialog = new CommandParameterWindow(context, parameterDfault);
                 dialog.Owner = this;
                 dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 if (dialog.ShowDialog() == true)
                 {
-                    command.Parameter = context.Source;
+                    command.ParameterJson = context.Source.ToJson();
                 }
             }
         }

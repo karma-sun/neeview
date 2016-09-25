@@ -87,7 +87,20 @@ namespace NeeView
     [DataContract]
     public class ToggleStretchModeCommandParameter : CommandParameter
     {
+        // ループ
+        [DataMember]
+        [DispName("ループ", Title ="ループ設定")]
+        public bool IsLoop { get; set; }
+
         // 表示名
+        [DataMember]
+        [DispName(PageStretchModeExtension.PageStretchMode_None, Title ="切り替え可能なモード")]
+        public bool IsEnableNone
+        {
+            get { return StretchModes[PageStretchMode.None]; }
+            set { StretchModes[PageStretchMode.None] = value; }
+        }
+
         [DataMember]
         [DispName(PageStretchModeExtension.PageStretchMode_Inside)]
         public bool IsEnableInside

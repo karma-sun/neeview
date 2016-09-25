@@ -26,9 +26,9 @@ namespace NeeView
         public CommandParameter Source { get; set; }
 
         // command parameter properties
-        public List<CommandParameterProperty> Properties { get; set; }
-        
-        
+        public List<CommandParameterBase> Items { get; set; }
+
+
         /// <summary>
         /// 上書き
         /// </summary>
@@ -36,9 +36,13 @@ namespace NeeView
         public void Set(CommandParameter source)
         {
             Debug.Assert(Source.GetType() == source.GetType());
-            foreach(var property in Properties)
+            foreach (var item in Items)
             {
-                property.SetValue(property.GetValue(source));
+                var property = item as CommandParameterProperty;
+                if (property != null)
+                {
+                    property.SetValue(property.GetValue(source));
+                }
             }
         }
 
@@ -57,7 +61,7 @@ namespace NeeView
             var package = new CommandParameterEditContext();
             package.Name = name;
             package.Source = source;
-            package.Properties = CreateProperties(source);
+            package.Items = CreateProperties(source);
             return package;
         }
 
@@ -66,17 +70,22 @@ namespace NeeView
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        private static List<CommandParameterProperty> CreateProperties(CommandParameter args)
+        private static List<CommandParameterBase> CreateProperties(CommandParameter args)
         {
             var type = args.GetType();
 
-            var list = new List<CommandParameterProperty>();
+            var list = new List<CommandParameterBase>();
 
             foreach (PropertyInfo info in type.GetProperties())
             {
                 var attribute = GetDispNameAttribute(info); // ?? new DispNameAttribute(info.Name);
                 if (attribute != null)
                 {
+                    if (attribute.Title != null)
+                    {
+                        list.Add(new CommandParameterTitle(attribute.Title));
+                    }
+
                     list.Add(new CommandParameterProperty(args, info, attribute.Name, attribute.Tips));
                 }
             }

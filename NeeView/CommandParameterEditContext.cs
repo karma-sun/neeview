@@ -74,8 +74,11 @@ namespace NeeView
 
             foreach (PropertyInfo info in type.GetProperties())
             {
-                var attribute = GetDispNameAttribute(info) ?? new DispNameAttribute(info.Name);
-                list.Add(new CommandParameterProperty(args, info, attribute.Name, attribute.Tips));
+                var attribute = GetDispNameAttribute(info); // ?? new DispNameAttribute(info.Name);
+                if (attribute != null)
+                {
+                    list.Add(new CommandParameterProperty(args, info, attribute.Name, attribute.Tips));
+                }
             }
             return list;
         }

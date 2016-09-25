@@ -14,14 +14,6 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-    [Flags]
-    public enum CommandAttribute
-    {
-        None = 0,
-        ToggleEditable = (1 << 0),
-        ToggleLocked = (1 << 1)
-    }
-
     /// <summary>
     /// コマンド設定
     /// </summary>
@@ -75,77 +67,69 @@ namespace NeeView
             return new Regex(@"<[\w/]+>").Replace(Note, "\"").Replace("。", "\n");
         }
 
-        // 属性
-        public CommandAttribute Attribute { get; set; }
-
 
         // コマンドパラメータ標準
         public CommandParameter DefaultParameter { get; set; }
 
         // コマンドパラメータ
-        private CommandParameter _Parameter;
+        private CommandParameter _ParameterRaw;
 
+        // コマンドパラメータ(Raw)
+        public CommandParameter ParameterRaw
+        {
+            get { return GetParameter(true); }
+        }
 
+        // コマンドパラメータ
+        // 共有解決したパラメータ。通常はこちらを使用します
         public CommandParameter Parameter
         {
             get { return GetParameter(false); }
             set { SetParameter(value); }
         }
 
-        public CommandParameter ParameterRaw
-        {
-            get { return GetParameter(true); }
-        }
-
-
+        //        
         public bool HasParameter => DefaultParameter != null;
 
-        //
+        /// <summary>
+        /// パラメータ取得
+        /// </summary>
+        /// <param name="isRaw"></param>
+        /// <returns></returns>
         public CommandParameter GetParameter(bool isRaw)
         {
-            if (_Parameter == null && DefaultParameter != null)
+            if (_ParameterRaw == null && DefaultParameter != null)
             {
-                _Parameter = DefaultParameter.Clone();
+                _ParameterRaw = DefaultParameter.Clone();
             }
 
             if (isRaw)
             {
-                return _Parameter;
+                return _ParameterRaw;
             }
             else
             {
-                return _Parameter?.Entity();
+                return _ParameterRaw?.Entity();
             }
-
-#if false
-            if (isRaw && ParameterDefault is ShareCommandParameter)
-            {
-                return ParameterDefault.Entity();
-            }
-            else
-            {
-                return _Parameter;
-            }
-#endif
         }
 
+        /// <summary>
+        /// パラメータ設定
+        /// </summary>
+        /// <param name="value"></param>
         void SetParameter(CommandParameter value)
         {
             if (!DefaultParameter.IsReadOnly())
             {
-                _Parameter = value;
+                _ParameterRaw = value;
             }
         }
-
 
         // constructor
         public CommandElement()
         {
-            IsShowMessage = true;
             ExecuteMessage = e => Text;
-            IsToggled = true;
         }
-
 
         // ショートカットキー を InputGestureのコレクションに変換
         public List<InputGesture> GetInputGestureCollection()
@@ -167,7 +151,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -176,9 +160,9 @@ namespace NeeView
             public string ShortCutKey { get; set; }
             [DataMember(EmitDefaultValue = false)]
             public string MouseGesture { get; set; }
-            [DataMember]
+            [DataMember(EmitDefaultValue = false)]
             public bool IsShowMessage { get; set; }
-            [DataMember(Order = 2)]
+            [DataMember(Order = 2, EmitDefaultValue = false)] // 廃止
             public bool IsToggled { get; set; }
             [DataMember(Order = 15, EmitDefaultValue = false)]
             public string Parameter { get; set; }
@@ -187,7 +171,6 @@ namespace NeeView
             //
             private void Constructor()
             {
-                IsToggled = true;
             }
 
             //
@@ -217,9 +200,8 @@ namespace NeeView
             memento.ShortCutKey = ShortCutKey;
             memento.MouseGesture = MouseGesture;
             memento.IsShowMessage = IsShowMessage;
-            memento.IsToggled = IsToggled;
 
-            if (DefaultParameter != null && !DefaultParameter.IsReadOnly())
+            if (HasParameter && !DefaultParameter.IsReadOnly())
             {
                 var original = DefaultParameter.ToJson();
                 var current = Parameter.ToJson();
@@ -240,12 +222,12 @@ namespace NeeView
             IsShowMessage = memento.IsShowMessage;
             IsToggled = memento.IsToggled;
 
-            if (DefaultParameter != null && memento.Parameter != null)
+            if (HasParameter && memento.Parameter != null)
             {
                 Parameter = (CommandParameter)Utility.Json.Deserialize(memento.Parameter, DefaultParameter.GetType());
             }
         }
 
-#endregion
+        #endregion
     }
 }

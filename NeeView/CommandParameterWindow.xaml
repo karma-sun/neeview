@@ -11,7 +11,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="コマンドパラメータ設定" SizeToContent="Height" MinHeight="150" Width="450">
+        Title="コマンドパラメータ設定" SizeToContent="Height" MinHeight="150" Width="512">
 
     <Window.Resources>
 
@@ -34,11 +34,11 @@
         <DataTemplate DataType="{x:Type local:CommandParameterProperty}">
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*" MinWidth="100"/>
+                    <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="{Binding Name}" ToolTip="{Binding Tips}" TextTrimming="CharacterEllipsis"/>
-                <ContentControl Grid.Column="1" Content="{Binding TypeValue}"/>
+                <TextBlock Grid.Column="0" Text="{Binding Name}" ToolTip="{Binding Tips}" TextTrimming="CharacterEllipsis" />
+                <ContentControl Grid.Column="1" Content="{Binding TypeValue}" VerticalAlignment="Center" Margin="5,0"/>
             </Grid>
         </DataTemplate>
 

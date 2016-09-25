@@ -21,15 +21,18 @@ namespace NeeView
     public class Setting
     {
         [DataMember]
+        public string Version { get; set; }
+
+        [DataMember(Order = 1)]
         public WindowPlacement.Memento WindowPlacement { set; get; }
 
-        [DataMember]
+        [DataMember(Order = 1)]
         public MainWindowVM.Memento ViewMemento { set; get; }
 
-        [DataMember]
+        [DataMember(Order = 1)]
         public SusieContext.Memento SusieMemento { get; set; }
 
-        [DataMember]
+        [DataMember(Order = 1)]
         public BookHub.Memento BookHubMemento { set; get; }
 
         [DataMember(Order = 9998)]
@@ -50,6 +53,7 @@ namespace NeeView
         //
         private void Constructor()
         {
+            Version = $"{App.Config.ProductName} {App.Config.ProductVersion}";
             WindowPlacement = new WindowPlacement.Memento();
             ViewMemento = new MainWindowVM.Memento();
             SusieMemento = new SusieContext.Memento();

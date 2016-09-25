@@ -271,8 +271,9 @@ namespace NeeView
                 element.Text = "表示サイズを切り替える";
                 element.Note = "画像の表示サイズを順番に切り替えます";
                 element.ShortCutKey = "LeftButton+WheelDown";
-                element.Execute = (s, e) => _VM.StretchMode = _VM.StretchMode.GetToggle();
-                element.ExecuteMessage = e => _VM.StretchMode.GetToggle().ToDispString();
+                element.Execute = (s, e) => _VM.StretchMode = _VM.GetToggleStretchMode(((ToggleStretchModeCommandParameter)element.Parameter).StretchModes);
+                element.ExecuteMessage = e => _VM.GetToggleStretchMode(((ToggleStretchModeCommandParameter)element.Parameter).StretchModes).ToDispString();
+                element.DefaultParameter = new ToggleStretchModeCommandParameter();
                 _Elements[CommandType.ToggleStretchMode] = element;
             }
             // ToggleStretchModeReverse
@@ -282,8 +283,9 @@ namespace NeeView
                 element.Text = "表示サイズを切り替える(逆順)";
                 element.Note = "画像の表示サイズを順番に切り替えます(逆順)";
                 element.ShortCutKey = "LeftButton+WheelUp";
-                element.Execute = (s, e) => _VM.StretchMode = _VM.StretchMode.GetToggleReverse();
-                element.ExecuteMessage = e => _VM.StretchMode.GetToggleReverse().ToDispString();
+                element.Execute = (s, e) => _VM.StretchMode = _VM.GetToggleStretchModeReverse(((ToggleStretchModeCommandParameter)element.Parameter).StretchModes);
+                element.ExecuteMessage = e => _VM.GetToggleStretchModeReverse(((ToggleStretchModeCommandParameter)element.Parameter).StretchModes).ToDispString();
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ToggleStretchMode };
                 _Elements[CommandType.ToggleStretchModeReverse] = element;
             }
             // SetStretchModeNone
@@ -293,7 +295,6 @@ namespace NeeView
                 element.Text = "オリジナルサイズ";
                 element.Note = "画像のサイズそのままで表示します";
                 element.Execute = (s, e) => _VM.StretchMode = PageStretchMode.None;
-                element.Attribute = CommandAttribute.ToggleEditable | CommandAttribute.ToggleLocked;
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.None);
                 _Elements[CommandType.SetStretchModeNone] = element;
             }
@@ -303,9 +304,10 @@ namespace NeeView
                 element.Group = "表示サイズ";
                 element.Text = "大きい場合ウィンドウサイズに合わせる";
                 element.Note = "ウィンドウに収まるように画像を縮小して表示します";
-                element.Execute = (s, e) => _VM.StretchMode = PageStretchMode.Inside;
-                element.Attribute = CommandAttribute.ToggleEditable;
+                element.Execute = (s, e) => _VM.SetStretchMode(PageStretchMode.Inside, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (_VM.TestStretchMode(PageStretchMode.Inside, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Inside);
+                element.DefaultParameter = new StretchModeCommandParameter();
                 _Elements[CommandType.SetStretchModeInside] = element;
             }
             // SetStretchModeOutside
@@ -314,9 +316,10 @@ namespace NeeView
                 element.Group = "表示サイズ";
                 element.Text = "小さい場合ウィンドウサイズに広げる";
                 element.Note = "ウィンドウに収まるように画像をできるだけ拡大して表示します";
-                element.Execute = (s, e) => _VM.StretchMode = PageStretchMode.Outside;
-                element.Attribute = CommandAttribute.ToggleEditable;
+                element.Execute = (s, e) => _VM.SetStretchMode(PageStretchMode.Outside, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (_VM.TestStretchMode(PageStretchMode.Outside, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Outside);
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 _Elements[CommandType.SetStretchModeOutside] = element;
             }
             // SetStretchModeUniform
@@ -325,9 +328,10 @@ namespace NeeView
                 element.Group = "表示サイズ";
                 element.Text = "ウィンドウサイズに合わせる";
                 element.Note = "画像をウィンドウサイズに合わせるよう拡大縮小します";
-                element.Execute = (s, e) => _VM.StretchMode = PageStretchMode.Uniform;
-                element.Attribute = CommandAttribute.ToggleEditable;
+                element.Execute = (s, e) => _VM.SetStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (_VM.TestStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Uniform);
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 _Elements[CommandType.SetStretchModeUniform] = element;
             }
             // SetStretchModeUniformToFill
@@ -336,9 +340,10 @@ namespace NeeView
                 element.Group = "表示サイズ";
                 element.Text = "ウィンドウいっぱいに広げる";
                 element.Note = "縦横どちらかをウィンドウサイズに合わせるように拡大縮小します。画像はウィンドウサイズより大きくなります";
-                element.Execute = (s, e) => _VM.StretchMode = PageStretchMode.UniformToFill;
-                element.Attribute = CommandAttribute.ToggleEditable;
+                element.Execute = (s, e) => _VM.SetStretchMode(PageStretchMode.UniformToFill, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (_VM.TestStretchMode(PageStretchMode.UniformToFill, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToFill);
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 _Elements[CommandType.SetStretchModeUniformToFill] = element;
             }
             // SetStretchModeUniformToSize
@@ -347,9 +352,10 @@ namespace NeeView
                 element.Group = "表示サイズ";
                 element.Text = "面積をウィンドウに合わせる";
                 element.Note = "ウィンドウの面積と等しくなるように画像を拡大縮小します";
-                element.Execute = (s, e) => _VM.StretchMode = PageStretchMode.UniformToSize;
-                element.Attribute = CommandAttribute.ToggleEditable;
+                element.Execute = (s, e) => _VM.SetStretchMode(PageStretchMode.UniformToSize, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (_VM.TestStretchMode(PageStretchMode.UniformToSize, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToSize);
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 _Elements[CommandType.SetStretchModeUniformToSize] = element;
             }
             // SetStretchModeUniformToVertical
@@ -358,9 +364,10 @@ namespace NeeView
                 element.Group = "表示サイズ";
                 element.Text = "高さをウィンドウに合わせる";
                 element.Note = "ウィンドウの高さに画像の高さを合わせるように拡大縮小します";
-                element.Execute = (s, e) => _VM.StretchMode = PageStretchMode.UniformToVertical;
-                element.Attribute = CommandAttribute.ToggleEditable;
+                element.Execute = (s, e) => _VM.SetStretchMode(PageStretchMode.UniformToVertical, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (_VM.TestStretchMode(PageStretchMode.UniformToVertical, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToVertical);
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 _Elements[CommandType.SetStretchModeUniformToVertical] = element;
             }
 
@@ -888,7 +895,7 @@ namespace NeeView
                 element.IsShowMessage = false;
                 _Elements[CommandType.MovePageWithCursor] = element;
             }
-            
+
             // PrevSizePage
             {
                 var element = new CommandElement();
@@ -1325,32 +1332,32 @@ namespace NeeView
             }
 
 #if false
-// SetEffectNone
-{
-var element = new CommandElement();
-element.Group = "エフェクト";
-element.Text = "エフェクト無効";
-element.MenuText = "エフェクトなし";
-element.Note = "エフェクトを無効にします";
-element.Execute = (s, e) => _VM.ShaderEffectType = ShaderEffectType.None;
-element.CanExecute = () => true;
-element.IsShowMessage = false;
-element.CreateIsCheckedBinding = () => BindingGenerator.ShaderEffectType(ShaderEffectType.None);
-_Elements[CommandType.SetEffectNone] = element;
-}
-// SetEffectGrayscale
-{
-var element = new CommandElement();
-element.Group = "エフェクト";
-element.Text = "グレイスケール";
-element.MenuText = "グレイスケール";
-element.Note = "画像をグレイスケールにします";
-element.Execute = (s, e) => _VM.ShaderEffectType = ShaderEffectType.Grayscale;
-element.CanExecute = () => true;
-element.IsShowMessage = false;
-element.CreateIsCheckedBinding = () => BindingGenerator.ShaderEffectType(ShaderEffectType.Grayscale);
-_Elements[CommandType.SetEffectGrayscale] = element;
-}
+            // SetEffectNone
+            {
+                var element = new CommandElement();
+                element.Group = "エフェクト";
+                element.Text = "エフェクト無効";
+                element.MenuText = "エフェクトなし";
+                element.Note = "エフェクトを無効にします";
+                element.Execute = (s, e) => _VM.ShaderEffectType = ShaderEffectType.None;
+                element.CanExecute = () => true;
+                element.IsShowMessage = false;
+                element.CreateIsCheckedBinding = () => BindingGenerator.ShaderEffectType(ShaderEffectType.None);
+                _Elements[CommandType.SetEffectNone] = element;
+            }
+            // SetEffectGrayscale
+            {
+                var element = new CommandElement();
+                element.Group = "エフェクト";
+                element.Text = "グレイスケール";
+                element.MenuText = "グレイスケール";
+                element.Note = "画像をグレイスケールにします";
+                element.Execute = (s, e) => _VM.ShaderEffectType = ShaderEffectType.Grayscale;
+                element.CanExecute = () => true;
+                element.IsShowMessage = false;
+                element.CreateIsCheckedBinding = () => BindingGenerator.ShaderEffectType(ShaderEffectType.Grayscale);
+                _Elements[CommandType.SetEffectGrayscale] = element;
+            }
 #endif
 
             // ToggleEffectGrayscale
@@ -1369,45 +1376,45 @@ _Elements[CommandType.SetEffectGrayscale] = element;
             }
 
 #if false
-// ToggleIsLoupe
-{
-var element = new CommandElement();
-element.Group = "ルーペ";
-element.Text = "ルーペON/OFF";
-element.MenuText = "ルーペ";
-element.Note = "ルーペの有効/無効を切り替えます";
-element.Execute = (s, e) => _VM.ToggleIsLoupe();
-element.CanExecute = () => true;
-element.IsShowMessage = false;
-element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.LoupeIsVisibled), System.Windows.Data.BindingMode.OneWay);
-_Elements[CommandType.ToggleIsLoupe] = element;
-}
+            // ToggleIsLoupe
+            {
+                var element = new CommandElement();
+                element.Group = "ルーペ";
+                element.Text = "ルーペON/OFF";
+                element.MenuText = "ルーペ";
+                element.Note = "ルーペの有効/無効を切り替えます";
+                element.Execute = (s, e) => _VM.ToggleIsLoupe();
+                element.CanExecute = () => true;
+                element.IsShowMessage = false;
+                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.LoupeIsVisibled), System.Windows.Data.BindingMode.OneWay);
+                _Elements[CommandType.ToggleIsLoupe] = element;
+            }
 
-// LoupeZoomIn
-{
-var element = new CommandElement();
-element.Group = "ルーペ";
-element.Text = "ルーペ拡大";
-element.MenuText = "ルーペ拡大";
-element.Note = "ルーペを有効化し、ルーペの拡大率を増加させます";
-element.Execute = (s, e) => _VM.LoupeZoomIn();
-element.CanExecute = () => true;
-element.IsShowMessage = false;
-_Elements[CommandType.LoupeZoomIn] = element;
-}
+            // LoupeZoomIn
+            {
+                var element = new CommandElement();
+                element.Group = "ルーペ";
+                element.Text = "ルーペ拡大";
+                element.MenuText = "ルーペ拡大";
+                element.Note = "ルーペを有効化し、ルーペの拡大率を増加させます";
+                element.Execute = (s, e) => _VM.LoupeZoomIn();
+                element.CanExecute = () => true;
+                element.IsShowMessage = false;
+                _Elements[CommandType.LoupeZoomIn] = element;
+            }
 
-// LoupeZoomOut
-{
-var element = new CommandElement();
-element.Group = "ルーペ";
-element.Text = "ルーペ縮小";
-element.MenuText = "ルーペ縮小";
-element.Note = "ルーペを有効化し、ルーペの拡大率を減少させます。等倍まで下げるとルーペ機能は無効になります";
-element.Execute = (s, e) => _VM.LoupeZoomOut();
-element.CanExecute = () => true;
-element.IsShowMessage = false;
-_Elements[CommandType.LoupeZoomOut] = element;
-}
+            // LoupeZoomOut
+            {
+                var element = new CommandElement();
+                element.Group = "ルーペ";
+                element.Text = "ルーペ縮小";
+                element.MenuText = "ルーペ縮小";
+                element.Note = "ルーペを有効化し、ルーペの拡大率を減少させます。等倍まで下げるとルーペ機能は無効になります";
+                element.Execute = (s, e) => _VM.LoupeZoomOut();
+                element.CanExecute = () => true;
+                element.IsShowMessage = false;
+                _Elements[CommandType.LoupeZoomOut] = element;
+            }
 
 #endif
 
@@ -1493,12 +1500,10 @@ _Elements[CommandType.LoupeZoomOut] = element;
                 _Elements[CommandType.HelpMainMenu] = element;
             }
 
-
-
             // 並び替え
             _Elements = _Elements.OrderBy(e => e.Key).ToDictionary(e => e.Key, e => e.Value);
 
-
+            // デフォルト設定として記憶
             _DefaultMemento = CreateMemento();
         }
 
@@ -1572,6 +1577,28 @@ _Elements[CommandType.LoupeZoomOut] = element;
                 if (_Elements.ContainsKey(pair.Key))
                 {
                     _Elements[pair.Key].Restore(pair.Value);
+                }
+            }
+
+            // ToggleStrechModeの復元(1.14互換用)
+            if (_Elements[CommandType.ToggleStretchMode].IsToggled)
+            {
+                var flags = ((ToggleStretchModeCommandParameter)_Elements[CommandType.ToggleStretchMode].Parameter).StretchModes;
+
+                Dictionary< PageStretchMode, CommandType > _CommandTable = new Dictionary<PageStretchMode, CommandType>
+                {
+                    [PageStretchMode.None] = CommandType.SetStretchModeNone,
+                    [PageStretchMode.Inside] = CommandType.SetStretchModeInside,
+                    [PageStretchMode.Outside] = CommandType.SetStretchModeOutside,
+                    [PageStretchMode.Uniform] = CommandType.SetStretchModeUniform,
+                    [PageStretchMode.UniformToFill] = CommandType.SetStretchModeUniformToFill,
+                    [PageStretchMode.UniformToSize] = CommandType.SetStretchModeUniformToSize,
+                    [PageStretchMode.UniformToVertical] = CommandType.SetStretchModeUniformToVertical,
+                };
+
+                foreach (var item in _CommandTable)
+                {
+                    flags[item.Key] = _Elements[item.Value].IsToggled;
                 }
             }
         }

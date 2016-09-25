@@ -25,59 +25,24 @@ namespace NeeView
 
     public static class PageStretchModeExtension
     {
-        private static Dictionary<PageStretchMode, CommandType> _CommandTable = new Dictionary<PageStretchMode, CommandType>
-        {
-            [PageStretchMode.None] = CommandType.SetStretchModeNone,
-            [PageStretchMode.Inside] = CommandType.SetStretchModeInside,
-            [PageStretchMode.Outside] = CommandType.SetStretchModeOutside,
-            [PageStretchMode.Uniform] = CommandType.SetStretchModeUniform,
-            [PageStretchMode.UniformToFill] = CommandType.SetStretchModeUniformToFill,
-            [PageStretchMode.UniformToSize] = CommandType.SetStretchModeUniformToSize,
-            [PageStretchMode.UniformToVertical] = CommandType.SetStretchModeUniformToVertical,
-        };
-
-        public static bool IsEnabled(this PageStretchMode mode)
-        {
-            return ModelContext.CommandTable[_CommandTable[mode]].IsToggled;
-        }
-
-
-        // トグル
-        public static PageStretchMode GetToggle(this PageStretchMode mode)
-        {
-            int length = Enum.GetNames(typeof(PageStretchMode)).Length;
-            int count = 0;
-            do
-            {
-                mode = (PageStretchMode)(((int)mode + 1) % length);
-            }
-            while (!mode.IsEnabled() && count++ < length);
-            return mode;
-        }
-
-        // 逆トグル
-        public static PageStretchMode GetToggleReverse(this PageStretchMode mode)
-        {
-            int length = Enum.GetNames(typeof(PageStretchMode)).Length;
-            int count = 0;
-            do
-            {
-                mode = (PageStretchMode)(((int)mode + length - 1) % length);
-            }
-            while (!mode.IsEnabled() && count++ < length);
-            return mode;
-        }
+        public const string PageStretchMode_None = "オリジナルサイズ";
+        public const string PageStretchMode_Inside = "大きい場合ウィンドウサイズに合わせる";
+        public const string PageStretchMode_Outside = "小さい場合ウィンドウサイズに合わせる";
+        public const string PageStretchMode_Uniform = "ウィンドウサイズに合わせる";
+        public const string PageStretchMode_UniformToFill = "ウィンドウいっぱいに広げる";
+        public const string PageStretchMode_UniformToSize = "面積をウィンドウに合わせる";
+        public const string PageStretchMode_UniformToVertical = "高さをウィンドウに合わせる";
 
         // 表示名
         private static Dictionary<PageStretchMode, string> _DispStrings = new Dictionary<PageStretchMode, string>
         {
-            [PageStretchMode.None] = "オリジナルサイズ",
-            [PageStretchMode.Inside] = "大きい場合ウィンドウサイズに合わせる",
-            [PageStretchMode.Outside] = "小さい場合ウィンドウサイズに合わせる",
-            [PageStretchMode.Uniform] = "ウィンドウサイズに合わせる",
-            [PageStretchMode.UniformToFill] = "ウィンドウいっぱいに広げる",
-            [PageStretchMode.UniformToSize] = "面積をウィンドウに合わせる",
-            [PageStretchMode.UniformToVertical] = "高さをウィンドウに合わせる",
+            [PageStretchMode.None] = PageStretchMode_None,
+            [PageStretchMode.Inside] = PageStretchMode_Inside,
+            [PageStretchMode.Outside] = PageStretchMode_Outside,
+            [PageStretchMode.Uniform] = PageStretchMode_Uniform,
+            [PageStretchMode.UniformToFill] = PageStretchMode_UniformToFill,
+            [PageStretchMode.UniformToSize] = PageStretchMode_UniformToSize,
+            [PageStretchMode.UniformToVertical] = PageStretchMode_UniformToVertical,
         };
 
         // 表示名取得

@@ -219,6 +219,7 @@ namespace NeeView
 
         // スケールモード
         #region Property: StretchMode
+        private PageStretchMode _StretchModePrev = PageStretchMode.Uniform;
         private PageStretchMode _StretchMode = PageStretchMode.Uniform;
         public PageStretchMode StretchMode
         {
@@ -227,6 +228,7 @@ namespace NeeView
             {
                 if (_StretchMode != value)
                 {
+                    _StretchModePrev = _StretchMode;
                     _StretchMode = value;
                     OnPropertyChanged();
                     UpdateContentSize();
@@ -234,6 +236,61 @@ namespace NeeView
                 }
             }
         }
+
+        //
+        public PageStretchMode GetToggleStretchMode(Dictionary<PageStretchMode, bool> flags)
+        {
+            PageStretchMode mode = StretchMode;
+            int length = Enum.GetNames(typeof(PageStretchMode)).Length;
+            int count = 0;
+            do
+            {
+                mode = (PageStretchMode)(((int)mode + 1) % length);
+            }
+            while (!flags[mode] && count++ < length);
+            return mode;
+        }
+
+        // 逆トグル
+        public PageStretchMode GetToggleStretchModeReverse(Dictionary<PageStretchMode, bool> flags)
+        {
+            PageStretchMode mode = StretchMode;
+            int length = Enum.GetNames(typeof(PageStretchMode)).Length;
+            int count = 0;
+            do
+            {
+                mode = (PageStretchMode)(((int)mode + length - 1) % length);
+            }
+            while (!flags[mode] && count++ < length);
+            return mode;
+        }
+
+
+        //
+        public void SetStretchMode(PageStretchMode mode, bool isToggle)
+        {
+            StretchMode = GetFixedStretchMode(mode, isToggle);
+        }
+
+        //
+        public bool TestStretchMode(PageStretchMode mode, bool isToggle)
+        {
+            return mode == GetFixedStretchMode(mode, isToggle);
+        }
+
+        //
+        private PageStretchMode GetFixedStretchMode(PageStretchMode mode, bool isToggle)
+        {
+            if (isToggle && StretchMode == mode)
+            {
+                return (mode == PageStretchMode.None) ? _StretchModePrev : PageStretchMode.None;
+            }
+            else
+            {
+                return mode;
+            }
+        }
+
         #endregion
 
         // 背景スタイル
@@ -1463,7 +1520,7 @@ namespace NeeView
             HistoryFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "History.xml");
             BookmarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Bookmark.xml");
             PagemarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Pagekmark.xml");
-            
+
             InitializeWindowIcons();
 
             // ModelContext
@@ -1592,7 +1649,7 @@ namespace NeeView
 
             UpdateIndex();
 
-            
+
 
             //
             CommandManager.InvalidateRequerySuggested();

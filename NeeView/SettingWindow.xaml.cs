@@ -75,9 +75,6 @@ namespace NeeView
             public string ShortCut { get; set; }
             public string MouseGesture { get; set; }
             public bool IsShowMessage { get; set; }
-            public bool IsToggled { get; set; }
-            public bool IsToggleEditable { get; set; }
-            public Visibility ToggleVisibility { get; set; }
             public string Tips { get; set; }
             public CommandParameter Parameter { get; set; }
 
@@ -305,9 +302,6 @@ namespace NeeView
                     ShortCut = Setting.CommandMememto[element.Key].ShortCutKey,
                     MouseGesture = Setting.CommandMememto[element.Key].MouseGesture,
                     IsShowMessage = Setting.CommandMememto[element.Key].IsShowMessage,
-                    IsToggled = Setting.CommandMememto[element.Key].IsToggled,
-                    ToggleVisibility = (element.Value.Attribute & CommandAttribute.ToggleEditable) == CommandAttribute.ToggleEditable ? Visibility.Visible : Visibility.Hidden,
-                    IsToggleEditable = (element.Value.Attribute & CommandAttribute.ToggleLocked) != CommandAttribute.ToggleLocked,
                     Tips = element.Value.NoteToTips(),
                     Parameter = element.Value.GetParameter(true)?.Clone(),
                 };
@@ -453,6 +447,29 @@ namespace NeeView
             }
         }
 
+
+        #region ParameterSettingCommand
+        private RelayCommand _ParameterSettingCommand;
+        public RelayCommand ParameterSettingCommand
+        {
+            get { return _ParameterSettingCommand = _ParameterSettingCommand ?? new RelayCommand(ParameterSettingCommand_Executed, ParameterSettingCommand_CanExecute); }
+        }
+
+        private bool ParameterSettingCommand_CanExecute()
+        {
+            var command = (CommandParam)this.CommandListView.SelectedValue;
+            return (command != null && command.HasParameter && !command.IsShareParameter);
+        }
+
+        private void ParameterSettingCommand_Executed()
+        {
+            var command = (CommandParam)this.CommandListView.SelectedValue;
+            EditCommandParameter(command);
+        }
+        #endregion
+
+
+
         // キーバインド初期化ボタン処理
         private void ResetGestureSettingButton_Click(object sender, RoutedEventArgs e)
         {
@@ -498,7 +515,6 @@ namespace NeeView
                     Setting.CommandMememto[command.Key].ShortCutKey = command.ShortCut;
                     Setting.CommandMememto[command.Key].MouseGesture = command.MouseGesture;
                     Setting.CommandMememto[command.Key].IsShowMessage = command.IsShowMessage;
-                    Setting.CommandMememto[command.Key].IsToggled = command.IsToggled;
                     Setting.CommandMememto[command.Key].Parameter = command.Parameter?.ToJson();
                 }
 
@@ -604,19 +620,29 @@ namespace NeeView
         private void EditCommandParameterButton_Clock(object sender, RoutedEventArgs e)
         {
             var command = (sender as Button)?.Tag as CommandParam;
-            if (command != null && command.HasParameter)
+            EditCommandParameter(command);
+        }
+
+        private void EditCommandParameter(CommandParam command)
+        {
+            if (command != null && command.HasParameter && !command.IsShareParameter)
             {
                 var parameterDfault = ModelContext.CommandTable[command.Key].DefaultParameter;
                 var context = CommandParameterEditContext.Create(command.Parameter.Clone(), command.Header);
 
                 var dialog = new CommandParameterWindow(context, parameterDfault);
-                dialog.Owner = App.Current.MainWindow;
+                dialog.Owner = this;
                 dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 if (dialog.ShowDialog() == true)
                 {
                     command.Parameter = context.Source;
                 }
             }
+        }
+
+        private void CommandListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ParameterSettingCommand.RaiseCanExecuteChanged();
         }
     }
 

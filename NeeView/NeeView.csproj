@@ -75,7 +75,7 @@
     <Compile Include="Archiver\ArchiveEntry.cs" />
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
-    <Compile Include="CommandParameter.cs" />
+    <Compile Include="CommandParameters.cs" />
     <Compile Include="CommandParameterEditContext.cs" />
     <Compile Include="CommandParameterProperty.cs" />
     <Compile Include="CommandParameterWindow.xaml.cs">

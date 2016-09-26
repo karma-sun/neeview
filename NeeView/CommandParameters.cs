@@ -191,4 +191,17 @@ namespace NeeView
         private int _Angle;
     }
 
+
+    /// <summary>
+    /// ページマーク移動用パラメータ
+    /// </summary>
+    public class MovePagemarkCommandParameter : CommandParameter
+    {
+        [DispName("ループ")]
+        public bool IsLoop { get; set; }
+
+        [DispName("最初と最後のページを含める")]
+        public bool IsIncludeTerminal { get; set; }
+    }
+
 }

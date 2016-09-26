@@ -682,14 +682,29 @@ namespace NeeView
         /// <param name="direction"></param>
         /// <param name="isLoop"></param>
         /// <returns></returns>
-        public bool RequestJumpToMarker(int direction, bool isLoop)
+        public bool RequestJumpToMarker(int direction, bool isLoop, bool isIncludeTerminal)
         {
             Debug.Assert(direction == 1 || direction == -1);
 
             if (Place == null) return false;
-            if (Markers == null || Markers.Count == 0) return false;
+            if (Pages == null || Pages.Count < 2) return false;
 
-            var list = Markers.OrderBy(e => e.Index).ToList();
+            var list = Markers != null ? Markers.OrderBy(e => e.Index).ToList() : new List<Page>();
+
+            if (isIncludeTerminal)
+            {
+                if (list.FirstOrDefault() != Pages.First())
+                {
+                    list.Insert(0, Pages.First());
+                }
+                if (list.LastOrDefault() != Pages.Last())
+                {
+                    list.Add(Pages.Last());
+                }
+            }
+
+            if (list.Count == 0) return false;
+
             var index = GetViewPageindex();
 
             var target =

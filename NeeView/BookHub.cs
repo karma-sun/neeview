@@ -1435,32 +1435,31 @@ namespace NeeView
             this.PagemarkChanged?.Invoke(this, null);
         }
 
-        public bool CanPrevPagemarkInPlace()
+        public bool CanPrevPagemarkInPlace(MovePagemarkCommandParameter param)
         {
-            return CurrentBook?.Markers != null && Current.Book.Markers.Count > 0;
+            return (CurrentBook?.Markers != null && Current.Book.Markers.Count > 0) || param.IsIncludeTerminal;
         }
 
-        public bool CanNextPagemarkInPlace()
+        public bool CanNextPagemarkInPlace(MovePagemarkCommandParameter param)
         {
-            return CurrentBook?.Markers != null && Current.Book.Markers.Count > 0;
+            return (CurrentBook?.Markers != null && Current.Book.Markers.Count > 0) || param.IsIncludeTerminal;
         }
 
         // ページマークに移動
-        public void PrevPagemarkInPlace()
+        public void PrevPagemarkInPlace(MovePagemarkCommandParameter param)
         {
             if (_IsLoading || CurrentBook == null) return;
-            var result = CurrentBook.RequestJumpToMarker(-1, false);
+            var result = CurrentBook.RequestJumpToMarker(-1, param.IsLoop, param.IsIncludeTerminal);
             if (!result)
             {
                 InfoMessage?.Invoke(this, "現在ページより前のページマークはありません");
             }
         }
 
-
-        public void NextPagemarkInPlace()
+        public void NextPagemarkInPlace(MovePagemarkCommandParameter param)
         {
             if (_IsLoading || CurrentBook == null) return;
-            var result = CurrentBook.RequestJumpToMarker(+1, false);
+            var result = CurrentBook.RequestJumpToMarker(+1, param.IsLoop, param.IsIncludeTerminal);
             if (!result)
             {
                 InfoMessage?.Invoke(this, "現在ページより後のページマークはありません");

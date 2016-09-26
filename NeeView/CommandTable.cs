@@ -1356,8 +1356,9 @@ namespace NeeView
                 element.Text = "フォルダ内の前のページマークに移動";
                 element.Note = "現在のフォルダ内で前のページマークに移動します";
                 element.IsShowMessage = false;
-                element.CanExecute = () => _Book.CanPrevPagemarkInPlace();
-                element.Execute = (s, e) => _Book.PrevPagemarkInPlace();
+                element.CanExecute = () => _Book.CanPrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.Execute = (s, e) => _Book.PrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.DefaultParameter = new MovePagemarkCommandParameter();
                 _Elements[CommandType.PrevPagemarkInBook] = element;
             }
             // NextPagemarkInBook
@@ -1367,8 +1368,9 @@ namespace NeeView
                 element.Text = "フォルダ内の次のページマークへ移動";
                 element.Note = "現在のフォルダ内で次のページマークへ移動します";
                 element.IsShowMessage = false;
-                element.CanExecute = () => _Book.CanNextPagemarkInPlace();
-                element.Execute = (s, e) => _Book.NextPagemarkInPlace();
+                element.CanExecute = () => _Book.CanNextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.Execute = (s, e) => _Book.NextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevPagemarkInBook };
                 _Elements[CommandType.NextPagemarkInBook] = element;
             }
 

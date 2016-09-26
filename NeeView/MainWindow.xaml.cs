@@ -442,9 +442,17 @@ namespace NeeView
             ModelContext.CommandTable[CommandType.ViewScrollDown].Execute =
                 (s, e) => _MouseDrag.ScrollDown();
             ModelContext.CommandTable[CommandType.ViewScaleUp].Execute =
-                (s, e) => _MouseDrag.ScaleUp();
+                (s, e) =>
+                {
+                    var parameter = (ViewScaleCommandParameter)ModelContext.CommandTable[CommandType.ViewScaleUp].Parameter;
+                    _MouseDrag.ScaleUp(parameter.Scale / 100.0);
+                };
             ModelContext.CommandTable[CommandType.ViewScaleDown].Execute =
-                (s, e) => _MouseDrag.ScaleDown();
+                (s, e) =>
+                {
+                    var parameter = (ViewScaleCommandParameter)ModelContext.CommandTable[CommandType.ViewScaleUp].Parameter;
+                    _MouseDrag.ScaleDown(parameter.Scale / 100.0);
+                };
             ModelContext.CommandTable[CommandType.ViewRotateLeft].Execute =
                 (s, e) =>
                 {

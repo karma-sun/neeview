@@ -14,6 +14,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Resources;
 
+// TODO: コマンド引数にコマンドパラメータを渡せないだろうか。（現状メニュー呼び出しであることを示すタグが指定されることが有る)
+
 namespace NeeView
 {
     /// <summary>
@@ -734,9 +736,10 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ビュー操作";
                 element.Text = "拡大";
-                element.Note = "画像を20%拡大します";
+                element.Note = "画像を拡大します";
                 element.ShortCutKey = "RightButton+WheelUp";
                 element.IsShowMessage = false;
+                element.DefaultParameter = new ViewScaleCommandParameter() { Scale = 20 };
                 _Elements[CommandType.ViewScaleUp] = element;
             }
             // ViewScaleDown
@@ -744,9 +747,10 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ビュー操作";
                 element.Text = "縮小";
-                element.Note = "画像を20%縮小します";
+                element.Note = "画像を縮小します";
                 element.ShortCutKey = "RightButton+WheelDown";
                 element.IsShowMessage = false;
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScaleUp };
                 _Elements[CommandType.ViewScaleDown] = element;
             }
             // ViewRotateLeft
@@ -754,7 +758,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ビュー操作";
                 element.Text = "左回転";
-                element.Note = "画像を45度左回転させます";
+                element.Note = "画像を左回転させます";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ViewRotateCommandParameter() { Angle = 45 };
                 _Elements[CommandType.ViewRotateLeft] = element;
@@ -764,7 +768,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ビュー操作";
                 element.Text = "右回転";
-                element.Note = "画像を45度右回転させます";
+                element.Note = "画像を右回転させます";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewRotateLeft };
                 _Elements[CommandType.ViewRotateRight] = element;

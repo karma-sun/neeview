@@ -176,13 +176,29 @@ namespace NeeView
         public bool IsToggle { get; set; }
     }
 
+
     /// <summary>
-    /// 回転コマンド用パラメータ
+    /// ビュー拡大コマンド用パラメータ
+    /// </summary>
+    public class ViewScaleCommandParameter : CommandParameter
+    {
+        // 属性に説明文
+        [DispName("拡大率(%)", Tips = "一度の操作で拡大する割合(0-100)")]
+        public int Scale
+        {
+            get { return _Scale; }
+            set { _Scale = NVUtility.Clamp(value, 0, 100); }
+        }
+        private int _Scale;
+    }
+
+    /// <summary>
+    /// ビュー回転コマンド用パラメータ
     /// </summary>
     public class ViewRotateCommandParameter : CommandParameter
     {
         // 属性に説明文
-        [DispName("回転角度", Tips = "一度に回転する角度(0-180)")]
+        [DispName("回転角度", Tips = "一度の操作で回転する角度(0-180)")]
         public int Angle
         {
             get { return _Angle; }

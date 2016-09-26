@@ -671,19 +671,19 @@ namespace NeeView
 
 
         // 拡大コマンド
-        public void ScaleUp()
+        public void ScaleUp(double scaleDelta)
         {
             _BaseScale = Scale;
             _BasePosition = Position;
-            DoScale(_BaseScale * 1.2);
+            DoScale(_BaseScale * (1.0 + scaleDelta));
         }
 
         // 縮小コマンド
-        public void ScaleDown()
+        public void ScaleDown(double scaleDelta)
         {
             _BaseScale = Scale;
             _BasePosition = Position;
-            DoScale(_BaseScale / 1.2);
+            DoScale(_BaseScale / (1.0 + scaleDelta));
         }
 
         // 回転コマンド

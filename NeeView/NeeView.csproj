@@ -81,6 +81,9 @@
     <Compile Include="CommandParameterWindow.xaml.cs">
       <DependentUpon>CommandParameterWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ConflictDialog.xaml.cs">
+      <DependentUpon>ConflictDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DispNameAttribute.cs" />
     <Compile Include="PagemarkControl.xaml.cs">
       <DependentUpon>PagemarkControl.xaml</DependentUpon>
@@ -243,6 +246,10 @@
     <Compile Include="WindowPlacement.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
     <Page Include="CommandParameterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConflictDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -24,7 +24,7 @@
         <local:BannerSizeConverter x:Key="BannerSizeConverter"/>
         <local:HistoryLimitSizeConverter x:Key="HistoryLimitSizeConverter"/>
         <local:HistoryLimitSpanConverter x:Key="HistoryLimitSpanConverter"/>
-
+        <local:IsNullConverter x:Key="IsNullConverter"/>
 
         <Style TargetType="StackPanel" x:Key="BaseStackPanel">
             <Setter Property="Margin" Value="4"/>
@@ -782,7 +782,46 @@
                                 <GridViewColumn Header="ショートカットキー" Width="180">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ShortCut}" TextTrimming="WordEllipsis" />
+                                            <!--
+                                            <ItemsControl ItemsSource="{Binding ShortCuts}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding ShortCut}">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Path=Tips, Converter={StaticResource IsNullConverter}}" Value="False">
+                                                                            <Setter Property="ToolTip" Value="{Binding Tips}"/>
+                                                                            <Setter Property="Foreground" Value="Red"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock> 
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            -->
+                                            
+                                            <TextBlock Text="{Binding ShortCut}" TextTrimming="WordEllipsis">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Path=ShortCutOverlaps, Converter={StaticResource IsNullConverter}}" Value="False">
+                                                                <Setter Property="ToolTip" Value="{Binding ShortCutOverlaps}"/>
+                                                                <Setter Property="Foreground" Value="Tomato"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                            
+
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

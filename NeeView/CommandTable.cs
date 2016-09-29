@@ -80,6 +80,28 @@ namespace NeeView
         }
 
 
+        // ショートカット重複チェック
+        public List<CommandType> GetOverlapShortCut(string shortcut)
+        {
+            var overlaps = _Elements
+                .Where(e => !string.IsNullOrEmpty(e.Value.ShortCutKey) &&  e.Value.ShortCutKey.Split(',').Contains(shortcut))
+                .Select(e => e.Key)
+                .ToList();
+
+            return overlaps;
+        }
+
+        // マウスジェスチャー重複チェック
+        public List<CommandType> GetOverlapMouseGesture(string gesture)
+        {
+            var overlaps = _Elements
+                .Where(e => !string.IsNullOrEmpty(e.Value.MouseGesture) && e.Value.MouseGesture.Split(',').Contains(gesture))
+                .Select(e => e.Key)
+                .ToList();
+
+            return overlaps;
+        }
+
         // コマンドリストをブラウザで開く
         public void OpenCommandListHelp()
         {

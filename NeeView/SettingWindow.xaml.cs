@@ -23,6 +23,12 @@ using System.Diagnostics;
 
 namespace NeeView
 {
+    public class ShortCutElement
+    {
+        public string ShortCut { get; set; }
+        public string Tips { get; set; }
+    }
+
     /// <summary>
     /// SettingWindow.xaml の相互作用ロジック
     /// </summary>
@@ -66,13 +72,37 @@ namespace NeeView
         public ObservableCollection<Susie.SusiePlugin> AMPluginList { get; private set; }
         public ObservableCollection<Susie.SusiePlugin> INPluginList { get; private set; }
 
+
+
         // コマンド一覧用パラメータ
-        public class CommandParam
+        public class CommandParam : INotifyPropertyChanged
         {
+            #region NotifyPropertyChanged
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }
+            #endregion
+
+
             public CommandType Key { get; set; }
             public string Group { get; set; }
             public string Header { get; set; }
             public string ShortCut { get; set; }
+
+            #region Property: ShortCutOverlaps
+            private string _ShortCutOverlaps;
+            public string ShortCutOverlaps
+            {
+                get { return _ShortCutOverlaps; }
+                set { _ShortCutOverlaps = value; OnPropertyChanged(); }
+            }
+            #endregion
+
+
+            public ObservableCollection<ShortCutElement> ShortCuts { get; set; } = new ObservableCollection<ShortCutElement>();
             public string MouseGesture { get; set; }
             public bool IsShowMessage { get; set; }
             public string Tips { get; set; }
@@ -306,6 +336,24 @@ namespace NeeView
                     Tips = element.Value.NoteToTips(),
                 };
 
+                if (!string.IsNullOrEmpty(item.ShortCut))
+                {
+                    item.ShortCuts.Clear();
+                    foreach(var key in item.ShortCut.Split(','))
+                    {
+                        var overlaps = Setting.CommandMememto.Elements
+                            .Where(e => !string.IsNullOrEmpty(e.Value.ShortCutKey) && e.Key != item.Key &&  e.Value.ShortCutKey.Split(',').Contains(key))
+                            .Select(e => $"「{e.Key.ToDispString()}」")
+                            .ToList();
+
+                        if (overlaps.Count > 0)
+                        {
+                            item.ShortCutOverlaps += $"{key} は {string.Join(",", overlaps)} と重複しています\n";
+                        }
+                        item.ShortCuts.Add(new ShortCutElement() { ShortCut = key, Tips = overlaps.Count > 0 ? string.Join("\n", overlaps) : null });
+                    }
+                }
+
                 if (element.Value.HasParameter)
                 {
                     item.HasParameter = true;
@@ -320,7 +368,37 @@ namespace NeeView
 
                 CommandCollection.Add(item);
             }
+
+            this.CommandListView.Items.Refresh();
         }
+
+        // コマンド一覧 ショートカット更新
+        private void UpdateCommandListShortCut()
+        {
+            foreach (var item in CommandCollection)
+            {
+                item.ShortCutOverlaps = null;
+
+                if (!string.IsNullOrEmpty(item.ShortCut))
+                {
+                    item.ShortCuts.Clear();
+                    foreach (var key in item.ShortCut.Split(','))
+                    {
+                        var overlaps = CommandCollection
+                            .Where(e => !string.IsNullOrEmpty(e.ShortCut) && e.Key != item.Key && e.ShortCut.Split(',').Contains(key))
+                            .Select(e => $"「{e.Key.ToDispString()}」")
+                            .ToList();
+
+                        if (overlaps.Count > 0)
+                        {
+                            item.ShortCutOverlaps += $"{key} は {string.Join(",", overlaps)} と重複しています\n";
+                        }
+                        item.ShortCuts.Add(new ShortCutElement() { ShortCut = key, Tips = overlaps.Count > 0 ? string.Join("\n", overlaps) : null });
+                    }
+                }
+            }
+        }
+
 
         // 詳細一覧 更新
         private void UpdatePreferenceList()
@@ -435,12 +513,23 @@ namespace NeeView
         {
             var value = (CommandParam)this.CommandListView.SelectedValue;
 
-            var dialog = new InputGestureSettingWindow(value);
+
+            var gestures = CommandCollection.ToDictionary(i => i.Key, i => i.ShortCut);
+            var key = value.Key;
+            var dialog = new InputGestureSettingWindow (gestures, key);
+
+            //var dialog = new InputGestureSettingWindow (CommandCollection, value);
             dialog.Owner = this;
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = dialog.ShowDialog();
             if (result == true)
             {
+                foreach(var item in CommandCollection)
+                {
+                    item.ShortCut = gestures[item.Key];
+                }
+
+                UpdateCommandListShortCut();
                 this.CommandListView.Items.Refresh();
             }
         }
@@ -802,6 +891,21 @@ namespace NeeView
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    // Null判定コンバータ
+    [ValueConversion(typeof(object), typeof(bool))]
+    public class IsNullConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return (value == null);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new InvalidOperationException("IsNullConverter can only be used OneWay.");
         }
     }
 }

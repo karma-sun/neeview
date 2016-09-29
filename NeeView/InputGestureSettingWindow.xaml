@@ -12,7 +12,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="{Binding Command.Header, StringFormat={}\&quot;{0}\&quot; のキー設定}" Height="360" Width="500">
+        Title="{Binding Header}" Height="360" Width="500">
 
     <Window.Resources>
         <Style x:Key="InputBox" TargetType="TextBox">
@@ -24,6 +24,9 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        
+        <local:IsNullConverter x:Key="IsNullConverter"/>
+        
     </Window.Resources>
 
     <Grid>
@@ -35,7 +38,37 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="1">
-                    <ListBox x:Name="InputGestureList" ItemsSource="{Binding InputGestureCollection}" Margin="10,10,10,45"/>
+                    <ListBox x:Name="InputGestureList" ItemsSource="{Binding InputGestureCollection}" Margin="10,10,10,45">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Gesture}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding OverlapsText, Converter={StaticResource IsNullConverter}}" Value="False">
+                                                    <Setter Property="Foreground" Value="Tomato"/>
+                                                    <Setter Property="ToolTip" Value="{Binding OverlapsText}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <Button x:Name="ConflictButton" Content="競合の解消" HorizontalAlignment="Right" Margin="10,10,105,10" Width="85" Height="30" VerticalAlignment="Bottom" Click="ConflictButton_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=InputGestureList, Path=SelectedValue.OverlapsText}" Value="{x:Null}" >
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
                     <Button x:Name="DeleteButton" Content="削除" HorizontalAlignment="Right" Margin="10,0,10,10" Width="85" Height="30" VerticalAlignment="Bottom" Click="DeleteButton_Click">
                         <Button.Style>
                             <Style TargetType="Button">

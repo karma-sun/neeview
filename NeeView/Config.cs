@@ -93,7 +93,14 @@ namespace NeeView
 
             // バージョンの取得
             var version = asm.GetName().Version;
-            ProductVersion = $"{version.Major}.{version.Minor}";
+            if (version.Build == 0)
+            {
+                ProductVersion = $"{version.Major}.{version.Minor}";
+            }
+            else
+            {
+                ProductVersion = $"{version.Major}.{version.Minor}.{version.Build}";
+            }
         }
 
 

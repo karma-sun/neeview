@@ -89,27 +89,16 @@ namespace NeeView
             }
             #endregion
 
-
             public CommandType Key { get; set; }
             public string Group { get; set; }
             public string Header { get; set; }
 
             public string ShortCut { get; set; }
-
-            #region Property: ShortCutOverlaps
-            private string _ShortCutOverlaps;
-            public string ConflictsNote
-            {
-                get { return _ShortCutOverlaps; }
-                set { _ShortCutOverlaps = value; OnPropertyChanged(); }
-            }
-            #endregion
-
+            public string ShortCutNote { get; set; }
             public ObservableCollection<GestureElement> ShortCuts { get; set; } = new ObservableCollection<GestureElement>();
 
             public string MouseGesture { get; set; }
-            public GestureElement MouseGestureEx { get; set; }
-
+            public GestureElement MouseGestureElement { get; set; }
 
             public bool IsShowMessage { get; set; }
             public string Tips { get; set; }
@@ -117,7 +106,7 @@ namespace NeeView
             public string ParameterJson { get; set; }
             public bool HasParameter { get; set; }
             public CommandType ParameterShareCommandType { get; set; }
-            public bool IsShareParameter => ParameterShareCommandType !=  CommandType.None;
+            public bool IsShareParameter => ParameterShareCommandType != CommandType.None;
             public string ShareTips => $"「{ParameterShareCommandType.ToDispString()}」とパラメータ共有です";
         }
 
@@ -353,7 +342,7 @@ namespace NeeView
                     {
                         item.ParameterShareCommandType = share.CommandType;
                     }
-               }
+                }
 
                 CommandCollection.Add(item);
             }
@@ -369,11 +358,11 @@ namespace NeeView
         {
             foreach (var item in CommandCollection)
             {
-                item.ConflictsNote = null;
+                item.ShortCutNote = null;
 
                 if (!string.IsNullOrEmpty(item.ShortCut))
                 {
-                    item.ShortCuts.Clear();
+                    var shortcuts = new ObservableCollection<GestureElement>();
                     foreach (var key in item.ShortCut.Split(','))
                     {
                         var overlaps = CommandCollection
@@ -383,8 +372,8 @@ namespace NeeView
 
                         if (overlaps.Count > 0)
                         {
-                            if (item.ConflictsNote != null) item.ConflictsNote += "\n";
-                            item.ConflictsNote += $"{key} は {string.Join(",", overlaps)} と競合しています";
+                            if (item.ShortCutNote != null) item.ShortCutNote += "\n";
+                            item.ShortCutNote += $"{key} は {string.Join("", overlaps)} と競合しています";
                         }
 
                         var element = new GestureElement();
@@ -392,13 +381,19 @@ namespace NeeView
                         element.IsConflict = overlaps.Count > 0;
                         element.Splitter = ",";
 
-                        item.ShortCuts.Add(element);
+                        shortcuts.Add(element);
                     }
 
-                    if (item.ShortCuts.Count > 0)
+                    if (shortcuts.Count > 0)
                     {
-                        item.ShortCuts.Last().Splitter = null;
+                        shortcuts.Last().Splitter = null;
                     }
+
+                    item.ShortCuts = shortcuts;
+                }
+                else
+                {
+                    item.ShortCuts = new ObservableCollection<GestureElement>();
                 }
             }
         }
@@ -419,15 +414,16 @@ namespace NeeView
                     var element = new GestureElement();
                     element.Gesture = item.MouseGesture;
                     element.IsConflict = overlaps.Count > 0;
-                    element.Note = $"{string.Join(",", overlaps)} と競合しています";
+                    if (overlaps.Count > 0)
+                    {
+                        element.Note = $"{string.Join("", overlaps)} と競合しています";
+                    }
 
-                    //return new MouseGestureSequence((string)value).ToDispString();
-
-                    item.MouseGestureEx = element;
+                    item.MouseGestureElement = element;
                 }
                 else
                 {
-                    item.MouseGestureEx = new GestureElement();
+                    item.MouseGestureElement = new GestureElement();
                 }
             }
         }
@@ -548,7 +544,7 @@ namespace NeeView
 
             var gestures = CommandCollection.ToDictionary(i => i.Key, i => i.ShortCut);
             var key = value.Key;
-            var dialog = new InputGestureSettingWindow (gestures, key);
+            var dialog = new InputGestureSettingWindow(gestures, key);
 
             //var dialog = new InputGestureSettingWindow (CommandCollection, value);
             dialog.Owner = this;
@@ -556,7 +552,7 @@ namespace NeeView
             var result = dialog.ShowDialog();
             if (result == true)
             {
-                foreach(var item in CommandCollection)
+                foreach (var item in CommandCollection)
                 {
                     item.ShortCut = gestures[item.Key];
                 }
@@ -592,7 +588,7 @@ namespace NeeView
         }
 
 
-#region ParameterSettingCommand
+        #region ParameterSettingCommand
         private RelayCommand _ParameterSettingCommand;
         public RelayCommand ParameterSettingCommand
         {
@@ -610,7 +606,7 @@ namespace NeeView
             var command = (CommandParam)this.CommandListView.SelectedValue;
             EditCommandParameter(command);
         }
-#endregion
+        #endregion
 
 
 
@@ -712,18 +708,13 @@ namespace NeeView
         /// <param name="e"></param>
         private void GestureContextMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            var command = new CommandParam()
-            {
-                Header = "コンテキストメニューを開く",
-                MouseGesture = Setting.ViewMemento.ContextMenuSetting.MouseGesture
-            };
-            */
+            // 現状、コンテキストメニュー操作は他の操作との競合チェックを行わない
 
             var context = new MouseGestureSettingContext();
-            context.Command = CommandType.None; // ## なんらかのコマンドにすべきか。
-            context.Gestures = CommandCollection.ToDictionary(i => i.Key, i => i.MouseGesture);
-            context.Gestures[CommandType.None] = Setting.ViewMemento.ContextMenuSetting.MouseGesture;
+            context.Header = "コンテキストメニューを開く";
+            context.Command = CommandType.None; // 仮
+            context.Gestures = new Dictionary<CommandType, string>();
+            context.Gestures.Add(context.Command, Setting.ViewMemento.ContextMenuSetting.MouseGesture);
 
             var dialog = new MouseGestureSettingWindow(context);
             dialog.Owner = this;
@@ -731,18 +722,10 @@ namespace NeeView
             var result = dialog.ShowDialog();
             if (result == true)
             {
-                foreach (var item in CommandCollection)
-                {
-                    if (item.Key != CommandType.None)
-                    {
-                        item.MouseGesture = context.Gestures[item.Key];
-                    }
-                }
+                //UpdateCommandListMouseGesture();
+                //this.CommandListView.Items.Refresh();
 
-                UpdateCommandListMouseGesture();
-                this.CommandListView.Items.Refresh();
-
-                Setting.ViewMemento.ContextMenuSetting.MouseGesture = context.Gestures[CommandType.None];
+                Setting.ViewMemento.ContextMenuSetting.MouseGesture = context.Gesture;
             }
         }
 

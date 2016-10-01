@@ -14,6 +14,8 @@ namespace NeeView
     {
         None, // 
 
+        //OpenContextMenu,
+
         OpenSettingWindow,
         OpenVersionWindow,
         CloseApplication,

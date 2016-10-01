@@ -31,6 +31,9 @@ namespace NeeView
             InitializeComponent();
 
             this.DataContext = new ResolveConflictDialogVM(context);
+
+            // ESCでウィンドウを閉じる
+            this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
         }
 
         //

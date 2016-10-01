@@ -782,8 +782,7 @@
                                 <GridViewColumn Header="ショートカットキー" Width="180">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-
-                                            <ItemsControl ItemsSource="{Binding ShortCuts}"  ToolTip="{Binding ConflictsNote}">
+                                            <ItemsControl ItemsSource="{Binding ShortCuts}"  ToolTip="{Binding ShortCutNote}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <StackPanel Orientation="Horizontal" />
@@ -811,22 +810,6 @@
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
-
-                                            <!--
-                                            <TextBlock Text="{Binding ShortCut}" TextTrimming="WordEllipsis">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Path=ShortCutOverlaps, Converter={StaticResource IsNullConverter}}" Value="False">
-                                                                <Setter Property="ToolTip" Value="{Binding ShortCutOverlaps}"/>
-                                                                <Setter Property="Foreground" Value="Tomato"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                            -->
-
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -834,20 +817,20 @@
                                 <GridViewColumn Header="マウスジェスチャー" Width="150">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
+                                            <StackPanel Orientation="Horizontal" ToolTip="{Binding MouseGestureElement.Note}">
                                                 <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,2" VerticalAlignment="Center">
                                                     <Image.Style>
                                                         <Style TargetType="Image">
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Path=MouseGestureEx.IsConflict}" Value="False">
+                                                                <DataTrigger Binding="{Binding Path=MouseGestureElement.IsConflict}" Value="False">
                                                                     <Setter Property="Visibility" Value="Collapsed"/>
                                                                 </DataTrigger>
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Image.Style>
                                                 </Image>
-                                            
-                                                <TextBlock Text="{Binding MouseGestureEx.Gesture, Converter={StaticResource MouseGestureToDispTextConverter}}"
+
+                                                <TextBlock Text="{Binding MouseGestureElement.Gesture, Converter={StaticResource MouseGestureToDispTextConverter}}"
                                                            TextTrimming="CharacterEllipsis" FontFamily="Meiryo"
                                                            Margin="0,0,2,0" VerticalAlignment="Center"/>
                                             </StackPanel>

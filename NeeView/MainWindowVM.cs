@@ -1218,6 +1218,23 @@ namespace NeeView
             ContextMenuEnableChanged?.Invoke(this, null);
         }
 
+        /// <summary>
+        /// コンテキストメニューを開く
+        /// # 正常動作しません
+        /// </summary>
+        public void OpenContextMenu()
+        {
+            if (ContextMenu != null)
+            {
+                ContextMenu.IsOpen = true;
+            }
+        }
+
+        public bool CanOpenContextMenu()
+        {
+            return ContextMenu != null && ContextMenu.IsOpen == false;
+        }
+
 
         #region Property: MainMenu
         private Menu _MainMenu;

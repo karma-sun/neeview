@@ -13,19 +13,21 @@
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
         SizeToContent="Height" MinHeight="150" Width="400"
-        Title="{Binding Header}">
+        Title="{Binding Title}">
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type local:ConflictItem}">
             <RadioButton Content="{Binding Name}" IsChecked="{Binding IsChecked}" GroupName="SelectGroup" Margin="5"/>
         </DataTemplate>
     </Window.Resources>
-    
+
     <Grid>
         <DockPanel Margin="5">
 
-            <TextBlock DockPanel.Dock="Top" Margin="5"
-                       Text="この入力で実行させるコマンドを選択してください"/>
+            <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal">
+                <TextBlock Text="{Binding Gesture}" Background="#EEE" Padding="10,2" VerticalAlignment="Center"/>
+                <TextBlock Text="で実行するコマンドを１つだけ選択してください" Margin="5,0" VerticalAlignment="Center"/>
+            </StackPanel>
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
                 <StackPanel.Resources>
@@ -39,9 +41,9 @@
                 <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click"/>
             </StackPanel>
 
-            <GroupBox Header="{Binding Gesture}" Margin="5">
-                <ItemsControl ItemsSource="{Binding Commands}" Margin="10"/>
-            </GroupBox>
+            <Grid Margin="10,5">
+                <ItemsControl ItemsSource="{Binding Conflicts}" Margin="10"/>
+            </Grid>
         </DockPanel>
     </Grid>
 </Window>

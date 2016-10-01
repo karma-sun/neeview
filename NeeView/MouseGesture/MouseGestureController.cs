@@ -18,8 +18,8 @@ using System.Windows.Input;
 namespace NeeView
 {
     /// <summary>
-    /// 右ボタンドラッグでゼスチャ入力を行う
-    /// ゼスチャシーケンス生成まで。
+    /// 右ボタンドラッグでジェスチャー入力を行う
+    /// ジェスチャーシーケンス生成まで。
     /// </summary>
     public class MouseGestureController : INotifyPropertyChanged
     {
@@ -48,7 +48,7 @@ namespace NeeView
 
         MouseGestureDirection _Direction;
 
-        // ゼスチャ方向ベクトル
+        // ジェスチャー方向ベクトル
         static Dictionary<MouseGestureDirection, Vector> GestureDirectionVector = new Dictionary<MouseGestureDirection, Vector>
         {
             [MouseGestureDirection.None] = new Vector(0, 0),
@@ -58,7 +58,7 @@ namespace NeeView
             [MouseGestureDirection.Left] = new Vector(-1, 0)
         };
 
-        // 現在のゼスチャシーケンス
+        // 現在のジェスチャーシーケンス
         #region Property: Gesture
         private MouseGestureSequence _Gesture;
         public MouseGestureSequence Gesture
@@ -68,7 +68,7 @@ namespace NeeView
         }
         #endregion
 
-        // ゼスチャー判定用最低ドラッグ距離
+        // ジェスチャー判定用最低ドラッグ距離
         private double GestureMinimumDistanceX = 30.0;
         private double GestureMinimumDistanceY = 30.0;
 
@@ -98,7 +98,7 @@ namespace NeeView
         }
 
 
-        // ゼスチャ リセット
+        // ジェスチャー リセット
         public void Reset()
         {
             _Direction = MouseGestureDirection.None;
@@ -119,10 +119,10 @@ namespace NeeView
             _Sender.CaptureMouse();
         }
 
-        // ジェスチャ状態が変化したことを通知
+        // ジェスチャー状態が変化したことを通知
         public event EventHandler<MouseGestureSequence> MouseGestureUpdateEventHandler;
 
-        // ジェスチャコマンド実行通知
+        // ジェスチャーコマンド実行通知
         public event EventHandler<MouseGestureEventArgs> MouseGestureExecuteEventHandler;
 
         // ドラッグされずにクリック判定されたときの通知

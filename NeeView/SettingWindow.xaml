@@ -782,8 +782,8 @@
                                 <GridViewColumn Header="ショートカットキー" Width="180">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <!--
-                                            <ItemsControl ItemsSource="{Binding ShortCuts}">
+
+                                            <ItemsControl ItemsSource="{Binding ShortCuts}"  ToolTip="{Binding ConflictsNote}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <StackPanel Orientation="Horizontal" />
@@ -791,23 +791,28 @@
                                                 </ItemsControl.ItemsPanel>
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding ShortCut}">
-                                                            <TextBlock.Style>
-                                                                <Style TargetType="TextBlock">
-                                                                    <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding Path=Tips, Converter={StaticResource IsNullConverter}}" Value="False">
-                                                                            <Setter Property="ToolTip" Value="{Binding Tips}"/>
-                                                                            <Setter Property="Foreground" Value="Red"/>
-                                                                        </DataTrigger>
-                                                                    </Style.Triggers>
-                                                                </Style>
-                                                            </TextBlock.Style>
-                                                        </TextBlock> 
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,0" VerticalAlignment="Center">
+                                                                <Image.Style>
+                                                                    <Style TargetType="Image">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Path=IsConflict}" Value="False">
+                                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Image.Style>
+                                                            </Image>
+                                                            <StackPanel Orientation="Horizontal" Margin="0,0,2,0" VerticalAlignment="Center">
+                                                                <TextBlock Text="{Binding Gesture}"/>
+                                                                <TextBlock Text="{Binding Splitter}"/>
+                                                            </StackPanel>
+                                                        </StackPanel>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
-                                            -->
-                                            
+
+                                            <!--
                                             <TextBlock Text="{Binding ShortCut}" TextTrimming="WordEllipsis">
                                                 <TextBlock.Style>
                                                     <Style TargetType="TextBlock">
@@ -820,7 +825,7 @@
                                                     </Style>
                                                 </TextBlock.Style>
                                             </TextBlock>
-                                            
+                                            -->
 
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>

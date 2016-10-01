@@ -24,9 +24,9 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
         <local:IsNullConverter x:Key="IsNullConverter"/>
-        
+
     </Window.Resources>
 
     <Grid>
@@ -38,21 +38,23 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="1">
-                    <ListBox x:Name="InputGestureList" ItemsSource="{Binding InputGestureCollection}" Margin="10,10,10,45">
+                    <ListBox x:Name="InputGestureList" ItemsSource="{Binding GestureTokens}" Margin="10,10,10,45">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Gesture}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding OverlapsText, Converter={StaticResource IsNullConverter}}" Value="False">
-                                                    <Setter Property="Foreground" Value="Tomato"/>
-                                                    <Setter Property="ToolTip" Value="{Binding OverlapsText}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
+                                <StackPanel Orientation="Horizontal" ToolTip="{Binding OverlapsText}">
+                                    <Image Source="{StaticResource ic_warning_48px}" Width="12" VerticalAlignment="Center">
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding OverlapsText, Converter={StaticResource IsNullConverter}}" Value="True">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <TextBlock Text="{Binding Gesture}" VerticalAlignment="Center" Margin="2,0"/>
+                                </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>

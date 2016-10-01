@@ -21,91 +21,23 @@ using System.Collections.ObjectModel;
 
 namespace NeeView
 {
-    public class ShortCutElement2
-    {
-        public string Gesture { get; set; }
-        public List<CommandType> Overlaps { get; set; }
-        public string OverlapsText { get; set; }
-    }
-
     /// <summary>
     /// InputGestureSettingWindow.xaml の相互作用ロジック
     /// </summary>
     public partial class InputGestureSettingWindow : Window
     {
-        // すべてのコマンドのショートカット
-        public Dictionary<CommandType, string> Gestures { get; set; }
-
-        // 編集するコマンド
-        public CommandType CommandType { get; set; }
-
-        // ショートカットテキストのリスト
-        public ObservableCollection<ShortCutElement2> InputGestureCollection { get; set; } = new ObservableCollection<ShortCutElement2>();
-
-        public string Header { get; set; }
+        private InputGestureSettingWindowVM _VM;
 
         // コンストラクタ
-        public InputGestureSettingWindow(Dictionary<CommandType, string> gestures, CommandType key)
+        public InputGestureSettingWindow(Dictionary<CommandType, string> commandGestures, CommandType command)
         {
             InitializeComponent();
 
-            Gestures = gestures;
-            CommandType = key;
-            Header = $"{CommandType.ToDispString()} - キーの設定";
-          
-
-            /*
-            if (gestures[CommandType] != null)
-            {
-                foreach (var gesture in gestures[CommandType].Split(','))
-                {
-                    var element = CreateShortCutElement(gesture);
-                    InputGestureCollection.Add(element);
-                }
-            }
-            InitializeComponent();
-            */
-
-            UpdateGestures();
-
-
-            this.DataContext = this;
+            _VM = new InputGestureSettingWindowVM(commandGestures, command);
+            this.DataContext = _VM;
 
             // ESCでウィンドウを閉じる
             this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
-        }
-
-        //
-        public void UpdateGestures()
-        {
-            InputGestureCollection.Clear();
-            if (Gestures[CommandType] != null)
-            {
-                foreach (var gesture in Gestures[CommandType].Split(','))
-                {
-                    var element = CreateShortCutElement(gesture);
-                    InputGestureCollection.Add(element);
-                }
-            }
-        }
-
-        //
-        public ShortCutElement2 CreateShortCutElement(string gesture)
-        {
-            var element = new ShortCutElement2() { Gesture = gesture };
-
-            var overlaps = Gestures
-                .Where(e => !string.IsNullOrEmpty(e.Value) && e.Key != CommandType && e.Value.Split(',').Contains(gesture))
-                .Select(e => e.Key)
-                .ToList();
-
-            if (overlaps.Count > 0)
-            {
-                element.Overlaps = overlaps;
-                element.OverlapsText = string.Join("", overlaps.Select(e => $"「{e.ToDispString()}」")) + "と重複しています";
-            }
-
-            return element;
         }
 
 
@@ -178,26 +110,22 @@ namespace NeeView
             return string.Join("+", tokens);
         }
 
+
         // 追加ボタン処理
         private void AddKeyGestureButton_Click(object sender, RoutedEventArgs e)
         {
-            var key = this.KeyGestureText.Text;
-
-            if (string.IsNullOrEmpty(key)) return;
-
-            if (!InputGestureCollection.Any(item => item.Gesture == key))
-            {
-                var element = CreateShortCutElement(key);
-                InputGestureCollection.Add(element);
-            }
-
+            _VM.AddGesture(this.KeyGestureText.Text);
             this.KeyGestureText.Text = null;
         }
 
         // 削除ボタン処理
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            InputGestureCollection.Remove(this.InputGestureList.SelectedValue as ShortCutElement2);
+            var token = this.InputGestureList.SelectedValue as GestureToken;
+            if (token != null)
+            {
+                _VM.RemoveGesture(token.Gesture);
+            }
         }
 
 
@@ -319,47 +247,18 @@ namespace NeeView
         // マウスショートカット追加ボタン処理
         private void AddMouseGestureButton_Click(object sender, RoutedEventArgs e)
         {
-            var key = this.MouseGestureText.Text;
-
-            if (string.IsNullOrEmpty(key)) return;
-
-            if (!InputGestureCollection.Any(item => item.Gesture == key))
-            {
-                var element = CreateShortCutElement(key);
-                InputGestureCollection.Add(element);
-            }
-
+            _VM.AddGesture(this.MouseGestureText.Text);
             this.MouseGestureText.Text = null;
         }
 
         // OKボタン処理
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            string shortcut = null;
-            foreach (var gesture in InputGestureCollection)
-            {
-                shortcut = shortcut == null ? gesture.Gesture : shortcut + "," + gesture.Gesture;
-            }
-            Gestures[CommandType] = shortcut;
-            */
-
-            Flush();
-
+            _VM.Flush();
             this.DialogResult = true;
             this.Close();
         }
 
-        //
-        public void Flush()
-        {
-            string shortcut = null;
-            foreach (var gesture in InputGestureCollection)
-            {
-                shortcut = shortcut == null ? gesture.Gesture : shortcut + "," + gesture.Gesture;
-            }
-            Gestures[CommandType] = shortcut;
-        }
 
         // キャンセルボタン処理
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
@@ -367,32 +266,17 @@ namespace NeeView
             this.Close();
         }
 
+        /// <summary>
+        /// 競合の解消
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ConflictButton_Click(object sender, RoutedEventArgs e)
         {
-            var item = this.InputGestureList.SelectedValue as ShortCutElement2;
+            var item = this.InputGestureList.SelectedValue as GestureToken;
             if (item != null)
             {
-                Flush();
-
-                var conflicts = new List<CommandType>(item.Overlaps);
-                conflicts.Insert(0, CommandType);
-                var context = new ConflictDialogContext(CommandType, item.Gesture, conflicts);
-                var dialog = new ConflictDialog(context);
-                dialog.Owner = this;
-                dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                var result = dialog.ShowDialog();
-                if (result == true)
-                {
-                    foreach(var conflictItem in context.Commands)
-                    {
-                        if (!conflictItem.IsChecked)
-                        {
-                            var newGesture = string.Join(",", this.Gestures[conflictItem.CommandType].Split(',').Where(i => i != item.Gesture));
-                            this.Gestures[conflictItem.CommandType] = string.IsNullOrEmpty(newGesture) ? null : newGesture;
-                        }
-                    }
-                    UpdateGestures();
-                  }
+                _VM.ResolveConflict(item, this);
             }
         }
     }

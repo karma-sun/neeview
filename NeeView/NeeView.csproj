@@ -85,6 +85,7 @@
       <DependentUpon>ConflictDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="DispNameAttribute.cs" />
+    <Compile Include="InputGestureSettingWindowVM.cs" />
     <Compile Include="PagemarkControl.xaml.cs">
       <DependentUpon>PagemarkControl.xaml</DependentUpon>
     </Compile>
@@ -243,6 +244,7 @@
     <Compile Include="ViewContent.cs" />
     <Compile Include="ViewContentSource.cs" />
     <Compile Include="Win32Api.cs" />
+    <Compile Include="WIndowHelper.cs" />
     <Compile Include="WindowPlacement.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
     <Page Include="CommandParameterWindow.xaml">

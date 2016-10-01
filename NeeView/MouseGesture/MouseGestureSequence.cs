@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-    // マウスゼスチャ 方向
+    // マウスジェスチャー 方向
     public enum MouseGestureDirection
     {
         None,
@@ -23,7 +23,7 @@ namespace NeeView
     }
 
     /// <summary>
-    /// マウスゼスチャ シーケンス
+    /// マウスジェスチャー シーケンス
     /// </summary>
     public class MouseGestureSequence : ObservableCollection<MouseGestureDirection>
     {

@@ -218,7 +218,7 @@ namespace NeeView
             // パネルが自動的に隠れる時間
             this.AutoHideDelayTime = preference["panel.autohide.delaytime"].Double;
 
-            // マウスゼスチャーの最小移動距離
+            // マウスジェスチャーの最小移動距離
             _MouseGesture.Controller.InitializeGestureMinimumDistance(
                 preference["input.gesture.minimumdistance.x"].Double,
                 preference["input.gesture.minimumdistance.y"].Double);

@@ -165,7 +165,7 @@ namespace NeeView
         // コマンド表示スタイル
         public ShowMessageStyle CommandShowMessageStyle { get; set; }
 
-        // ゼスチャ表示スタイル
+        // ジェスチャー表示スタイル
         public ShowMessageStyle GestureShowMessageStyle { get; set; }
 
         // NowLoading表示スタイル
@@ -2302,7 +2302,7 @@ namespace NeeView
         }
 
 
-        // ゼスチャ表示
+        // ジェスチャー表示
         public void ShowGesture(string gesture, string commandName)
         {
             if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;

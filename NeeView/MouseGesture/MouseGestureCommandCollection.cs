@@ -8,7 +8,7 @@ using System.Windows.Input;
 namespace NeeView
 {
     /// <summary>
-    /// マウスゼスチャシーケンスとコマンドの対応テーブル
+    /// マウスジェスチャーシーケンスとコマンドの対応テーブル
     /// </summary>
     public class MouseGestureCommandCollection
     {
@@ -33,7 +33,7 @@ namespace NeeView
             _Commands[gestureText] = command;
         }
 
-        // ゼスチャーシーケンスからコマンドを取得
+        // ジェスチャーシーケンスからコマンドを取得
         public RoutedUICommand GetCommand(MouseGestureSequence gesture)
         {
             string key = gesture.ToString();
@@ -48,7 +48,7 @@ namespace NeeView
             }
         }
 
-        // ゼスチャーシーケンスからコマンドを実行
+        // ジェスチャーシーケンスからコマンドを実行
         public void Execute(MouseGestureSequence gesture)
         {
             Execute(gesture.ToString());

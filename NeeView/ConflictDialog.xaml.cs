@@ -25,6 +25,7 @@ namespace NeeView
     /// </summary>
     public partial class ConflictDialog : Window
     {
+        //
         public ConflictDialog(ConflictDialogContext context)
         {
             InitializeComponent();
@@ -32,12 +33,14 @@ namespace NeeView
             this.DataContext = new ConflictDialogVM(context);
         }
 
+        //
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
             this.Close();
         }
 
+        //
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
@@ -45,13 +48,28 @@ namespace NeeView
         }
     }
 
+    /// <summary>
+    /// 競合しているコマンド情報
+    /// </summary>
     public class ConflictItem
     {
+        public CommandType Command { get; set; }
         public bool IsChecked { get; set; }
-        public CommandType CommandType { get; set; }
-        public string Name => CommandType.ToDispString();
+
+        //
+        public string Name => Command.ToDispString();
+
+        //
+        public ConflictItem(CommandType commandType, bool isChecked)
+        {
+            Command = commandType;
+            IsChecked = isChecked;
+        }
     }
 
+    /// <summary>
+    /// ConflictDialog ViewModel
+    /// </summary>
     public class ConflictDialogVM : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
@@ -65,28 +83,43 @@ namespace NeeView
 
         private ConflictDialogContext _Context;
 
-        public string Header => _Context.Header;
-        public List<ConflictItem> Commands => _Context.Commands;
+        // window title
+        public string Title => $"競合の解消 - {_Context.Command.ToDispString()}";
 
+        public string Gesture => _Context.Gesture;
+
+        public List<ConflictItem> Conflicts => _Context.Conflicts;
+
+        //
         public ConflictDialogVM(ConflictDialogContext context)
         {
             _Context = context;
-            //Commands = new List<ConflictItem>(_Context.Commands);
         }
     }
 
+    /// <summary>
+    /// ConflictDialog Model
+    /// </summary>
     public class ConflictDialogContext
     {
-        public string Header { get; set; }
+        public CommandType Command { get; set; }
         public string Gesture { get; set; }
-        public List<ConflictItem> Commands { get; set; }
+        public List<ConflictItem> Conflicts { get; set; }
 
-        public ConflictDialogContext(CommandType commandType, string gesture, List<CommandType> commands)
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="command">currrent command</param>
+        /// <param name="gesture">conflict gesture</param>
+        /// <param name="commands">conflict commands</param>
+        public ConflictDialogContext(string gesture, List<CommandType> commands, CommandType command)
         {
-            Header = $"{commandType.ToDispString()} - 競合の解消";
+            Command = command;
             Gesture = gesture;
-            Commands = commands.Select(e => new ConflictItem() { CommandType = e }).ToList();
-            Commands[0].IsChecked = true;
+
+            Conflicts = commands
+                .Select(e => new ConflictItem(e, e == command))
+                .ToList();
         }
     }
 }

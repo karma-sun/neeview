@@ -134,7 +134,7 @@ namespace NeeView
                 {
                     writer.WriteLine($"<h3>{pair.Key}</h3>");
                     writer.WriteLine("<table>");
-                    writer.WriteLine($"<th>コマンド<th>ショートカットキー<th>マウスゼスチャー<th>説明<tr>");
+                    writer.WriteLine($"<th>コマンド<th>ショートカットキー<th>マウスジェスチャー<th>説明<tr>");
                     foreach (var command in pair.Value)
                     {
                         writer.WriteLine($"<td>{command.Text}<td>{command.ShortCutKey}<td>{new MouseGestureSequence(command.MouseGesture).ToDispString()}<td>{command.Note}<tr>");

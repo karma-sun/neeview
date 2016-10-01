@@ -27,7 +27,7 @@ namespace NeeView
     }
 
     /// <summary>
-    /// マウスゼスチャ管理
+    /// マウスジェスチャー管理
     /// </summary>
     public class MouseGestureManager : INotifyPropertyChanged
     {
@@ -43,7 +43,7 @@ namespace NeeView
         }
         #endregion
 
-        // ゼスチャーシーケンスとコマンドの対応表
+        // ジェスチャーシーケンスとコマンドの対応表
         public MouseGestureCommandCollection CommandCollection { get; private set; }
 
         // マウスジェスチャーコントローラー
@@ -66,7 +66,7 @@ namespace NeeView
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="sender">マウスゼスチャを受け付けるコントロール</param>
+        /// <param name="sender">マウスジェスチャーを受け付けるコントロール</param>
         public MouseGestureManager(FrameworkElement sender)
         {
             CommandCollection = new MouseGestureCommandCollection();
@@ -112,20 +112,20 @@ namespace NeeView
             CommandCollection.Add(gesture, _ContextMenuCommand);
         }
 
-        // 現在のゼスチャーシーケンスでのコマンド名取得
+        // 現在のジェスチャーシーケンスでのコマンド名取得
         public string GetGestureCommandName()
         {
             var command = CommandCollection.GetCommand(Controller.Gesture);
             return command?.Text;
         }
 
-        // 現在のゼスチャーシーケンス表示文字列取得
+        // 現在のジェスチャーシーケンス表示文字列取得
         public string GetGestureString()
         {
             return Controller.Gesture.ToDispString();
         }
 
-        // 現在のゼスチャー表示文字列取得
+        // 現在のジェスチャー表示文字列取得
         public string GetGestureText()
         {
             string commandName = GetGestureCommandName();

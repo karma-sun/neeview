@@ -11,7 +11,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="{Binding Name, StringFormat='\&quot;{0}\&quot;のパラメータ設定'}" SizeToContent="Height" MinHeight="150" Width="512">
+        Title="{Binding Name, StringFormat='パラメータ設定 - {0}'}" SizeToContent="Height" MinHeight="150" Width="512">
 
     <Window.Resources>
 

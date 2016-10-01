@@ -23,10 +23,12 @@ using System.Diagnostics;
 
 namespace NeeView
 {
-    public class ShortCutElement
+    //
+    public class GestureElement
     {
-        public string ShortCut { get; set; }
-        public string Tips { get; set; }
+        public string Gesture { get; set; }
+        public bool IsConflict { get; set; }
+        public string Splitter { get; set; }
     }
 
     /// <summary>
@@ -94,7 +96,7 @@ namespace NeeView
 
             #region Property: ShortCutOverlaps
             private string _ShortCutOverlaps;
-            public string ShortCutOverlaps
+            public string ConflictsNote
             {
                 get { return _ShortCutOverlaps; }
                 set { _ShortCutOverlaps = value; OnPropertyChanged(); }
@@ -102,7 +104,7 @@ namespace NeeView
             #endregion
 
 
-            public ObservableCollection<ShortCutElement> ShortCuts { get; set; } = new ObservableCollection<ShortCutElement>();
+            public ObservableCollection<GestureElement> ShortCuts { get; set; } = new ObservableCollection<GestureElement>();
             public string MouseGesture { get; set; }
             public bool IsShowMessage { get; set; }
             public string Tips { get; set; }
@@ -336,6 +338,7 @@ namespace NeeView
                     Tips = element.Value.NoteToTips(),
                 };
 
+#if false
                 if (!string.IsNullOrEmpty(item.ShortCut))
                 {
                     item.ShortCuts.Clear();
@@ -348,11 +351,13 @@ namespace NeeView
 
                         if (overlaps.Count > 0)
                         {
-                            item.ShortCutOverlaps += $"{key} は {string.Join(",", overlaps)} と重複しています\n";
+                            if (item.ShortCutOverlaps != null) item.ShortCutOverlaps += "\n";
+                            item.ShortCutOverlaps += $"{key} は {string.Join(",", overlaps)} と競合しています";
                         }
                         item.ShortCuts.Add(new ShortCutElement() { ShortCut = key, Tips = overlaps.Count > 0 ? string.Join("\n", overlaps) : null });
                     }
                 }
+#endif
 
                 if (element.Value.HasParameter)
                 {
@@ -369,6 +374,8 @@ namespace NeeView
                 CommandCollection.Add(item);
             }
 
+            UpdateCommandListShortCut();
+
             this.CommandListView.Items.Refresh();
         }
 
@@ -377,7 +384,7 @@ namespace NeeView
         {
             foreach (var item in CommandCollection)
             {
-                item.ShortCutOverlaps = null;
+                item.ConflictsNote = null;
 
                 if (!string.IsNullOrEmpty(item.ShortCut))
                 {
@@ -391,9 +398,21 @@ namespace NeeView
 
                         if (overlaps.Count > 0)
                         {
-                            item.ShortCutOverlaps += $"{key} は {string.Join(",", overlaps)} と重複しています\n";
+                            if (item.ConflictsNote != null) item.ConflictsNote += "\n";
+                            item.ConflictsNote += $"{key} は {string.Join(",", overlaps)} と競合しています";
                         }
-                        item.ShortCuts.Add(new ShortCutElement() { ShortCut = key, Tips = overlaps.Count > 0 ? string.Join("\n", overlaps) : null });
+
+                        var element = new GestureElement();
+                        element.Gesture = key;
+                        element.IsConflict = overlaps.Count > 0;
+                        element.Splitter = ",";
+
+                        item.ShortCuts.Add(element);
+                    }
+
+                    if (item.ShortCuts.Count > 0)
+                    {
+                        item.ShortCuts.Last().Splitter = null;
                     }
                 }
             }
@@ -550,7 +569,7 @@ namespace NeeView
         }
 
 
-        #region ParameterSettingCommand
+#region ParameterSettingCommand
         private RelayCommand _ParameterSettingCommand;
         public RelayCommand ParameterSettingCommand
         {
@@ -568,7 +587,7 @@ namespace NeeView
             var command = (CommandParam)this.CommandListView.SelectedValue;
             EditCommandParameter(command);
         }
-        #endregion
+#endregion
 
 
 

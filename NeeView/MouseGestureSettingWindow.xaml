@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="{Binding Command.Header, StringFormat={}\&quot;{0}\&quot; のジェスチャー設定}" Height="400" Width="400">
+        Title="{Binding Header, StringFormat={}ジェスチャー設定 - {0}}" Height="400" Width="400">
 
     <Window.Resources>
         <local:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter"/>
@@ -15,11 +15,35 @@
         <DockPanel Margin="10,10,10,43">
             <DockPanel DockPanel.Dock="Bottom">
                 <TextBlock Text="新しいジェスチャー" VerticalAlignment="Center" Width="90"/>
-                <TextBox x:Name="GestureText" Text="{Binding MouseGesture.GestureText, Converter={StaticResource MouseGestureToDispTextConverter}}" Margin="2" IsReadOnly="True" FontFamily="Meiryo" />
+
+                <Button DockPanel.Dock="Right" Width="20" VerticalAlignment="Center" Margin="2" Command="{Binding ClearCommand}">
+                    <TextBlock Text="✕" VerticalAlignment="Center"/>
+                </Button>
+
+                <DockPanel ToolTip="{Binding GestureToken.OverlapsText}">
+
+                    <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,2" VerticalAlignment="Center">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=GestureToken.IsConflict}" Value="False">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+
+                    <TextBox x:Name="GestureText" Margin="2" IsReadOnly="True" FontFamily="Meiryo" VerticalAlignment="Center"
+                         Text="{Binding GestureToken.Gesture, Converter={StaticResource MouseGestureToDispTextConverter}}"/>
+                </DockPanel>
+
             </DockPanel>
             <DockPanel DockPanel.Dock="Bottom">
                 <TextBlock Text="現在のジェスチャー"  VerticalAlignment="Center" Width="90"/>
-                <TextBlock DockPanel.Dock="Bottom" x:Name="OldGestureText" Margin="2" Text="{Binding Command.MouseGesture, Converter={StaticResource MouseGestureToDispTextConverter}}" FontFamily="Meiryo"/>
+                <Grid Width="12" Margin="0,0,2,2"/>
+                <TextBox DockPanel.Dock="Bottom" x:Name="OldGestureText" Margin="2" FontFamily="Meiryo" VerticalAlignment="Center" IsReadOnly="True" IsHitTestVisible="False" BorderBrush="Transparent"
+                           Text="{Binding Gesture, Converter={StaticResource MouseGestureToDispTextConverter}}" />
             </DockPanel>
             <Grid x:Name="GestureBox" Margin="2" Background="AliceBlue">
                 <TextBlock Text="ここでマウスジェスチャー入力&#10;(右ボタンを押しながらドラッグ)" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>

@@ -21,16 +21,16 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     /// <summary>
-    /// ConflictDialog.xaml の相互作用ロジック
+    /// ResolveConflictDialog.xaml の相互作用ロジック
     /// </summary>
-    public partial class ConflictDialog : Window
+    public partial class ResolveConflictDialog : Window
     {
         //
-        public ConflictDialog(ConflictDialogContext context)
+        public ResolveConflictDialog(ResolveConflictDialogContext context)
         {
             InitializeComponent();
 
-            this.DataContext = new ConflictDialogVM(context);
+            this.DataContext = new ResolveConflictDialogVM(context);
         }
 
         //
@@ -70,7 +70,7 @@ namespace NeeView
     /// <summary>
     /// ConflictDialog ViewModel
     /// </summary>
-    public class ConflictDialogVM : INotifyPropertyChanged
+    public class ResolveConflictDialogVM : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -81,7 +81,7 @@ namespace NeeView
         }
         #endregion
 
-        private ConflictDialogContext _Context;
+        private ResolveConflictDialogContext _Context;
 
         // window title
         public string Title => $"競合の解消 - {_Context.Command.ToDispString()}";
@@ -91,7 +91,7 @@ namespace NeeView
         public List<ConflictItem> Conflicts => _Context.Conflicts;
 
         //
-        public ConflictDialogVM(ConflictDialogContext context)
+        public ResolveConflictDialogVM(ResolveConflictDialogContext context)
         {
             _Context = context;
         }
@@ -100,7 +100,7 @@ namespace NeeView
     /// <summary>
     /// ConflictDialog Model
     /// </summary>
-    public class ConflictDialogContext
+    public class ResolveConflictDialogContext
     {
         public CommandType Command { get; set; }
         public string Gesture { get; set; }
@@ -112,7 +112,7 @@ namespace NeeView
         /// <param name="command">currrent command</param>
         /// <param name="gesture">conflict gesture</param>
         /// <param name="commands">conflict commands</param>
-        public ConflictDialogContext(string gesture, List<CommandType> commands, CommandType command)
+        public ResolveConflictDialogContext(string gesture, List<CommandType> commands, CommandType command)
         {
             Command = command;
             Gesture = gesture;

@@ -81,8 +81,8 @@
     <Compile Include="CommandParameterWindow.xaml.cs">
       <DependentUpon>CommandParameterWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ConflictDialog.xaml.cs">
-      <DependentUpon>ConflictDialog.xaml</DependentUpon>
+    <Compile Include="ResolveConflictDialog.xaml.cs">
+      <DependentUpon>ResolveConflictDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="DispNameAttribute.cs" />
     <Compile Include="InputGestureSettingWindowVM.cs" />
@@ -251,7 +251,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ConflictDialog.xaml">
+    <Page Include="ResolveConflictDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

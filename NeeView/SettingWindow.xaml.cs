@@ -29,6 +29,7 @@ namespace NeeView
         public string Gesture { get; set; }
         public bool IsConflict { get; set; }
         public string Splitter { get; set; }
+        public string Note { get; set; }
     }
 
     /// <summary>
@@ -92,6 +93,7 @@ namespace NeeView
             public CommandType Key { get; set; }
             public string Group { get; set; }
             public string Header { get; set; }
+
             public string ShortCut { get; set; }
 
             #region Property: ShortCutOverlaps
@@ -103,9 +105,12 @@ namespace NeeView
             }
             #endregion
 
-
             public ObservableCollection<GestureElement> ShortCuts { get; set; } = new ObservableCollection<GestureElement>();
+
             public string MouseGesture { get; set; }
+            public GestureElement MouseGestureEx { get; set; }
+
+
             public bool IsShowMessage { get; set; }
             public string Tips { get; set; }
 
@@ -338,27 +343,6 @@ namespace NeeView
                     Tips = element.Value.NoteToTips(),
                 };
 
-#if false
-                if (!string.IsNullOrEmpty(item.ShortCut))
-                {
-                    item.ShortCuts.Clear();
-                    foreach(var key in item.ShortCut.Split(','))
-                    {
-                        var overlaps = Setting.CommandMememto.Elements
-                            .Where(e => !string.IsNullOrEmpty(e.Value.ShortCutKey) && e.Key != item.Key &&  e.Value.ShortCutKey.Split(',').Contains(key))
-                            .Select(e => $"「{e.Key.ToDispString()}」")
-                            .ToList();
-
-                        if (overlaps.Count > 0)
-                        {
-                            if (item.ShortCutOverlaps != null) item.ShortCutOverlaps += "\n";
-                            item.ShortCutOverlaps += $"{key} は {string.Join(",", overlaps)} と競合しています";
-                        }
-                        item.ShortCuts.Add(new ShortCutElement() { ShortCut = key, Tips = overlaps.Count > 0 ? string.Join("\n", overlaps) : null });
-                    }
-                }
-#endif
-
                 if (element.Value.HasParameter)
                 {
                     item.HasParameter = true;
@@ -375,6 +359,7 @@ namespace NeeView
             }
 
             UpdateCommandListShortCut();
+            UpdateCommandListMouseGesture();
 
             this.CommandListView.Items.Refresh();
         }
@@ -418,6 +403,34 @@ namespace NeeView
             }
         }
 
+
+        // コマンド一覧 マウスジェスチャー更新
+        private void UpdateCommandListMouseGesture()
+        {
+            foreach (var item in CommandCollection)
+            {
+                if (!string.IsNullOrEmpty(item.MouseGesture))
+                {
+                    var overlaps = CommandCollection
+                        .Where(e => e.Key != item.Key && e.MouseGesture == item.MouseGesture)
+                        .Select(e => $"「{e.Key.ToDispString()}」")
+                        .ToList();
+
+                    var element = new GestureElement();
+                    element.Gesture = item.MouseGesture;
+                    element.IsConflict = overlaps.Count > 0;
+                    element.Note = $"{string.Join(",", overlaps)} と競合しています";
+
+                    //return new MouseGestureSequence((string)value).ToDispString();
+
+                    item.MouseGestureEx = element;
+                }
+                else
+                {
+                    item.MouseGestureEx = new GestureElement();
+                }
+            }
+        }
 
         // 詳細一覧 更新
         private void UpdatePreferenceList()
@@ -558,12 +571,22 @@ namespace NeeView
         {
             var value = (CommandParam)this.CommandListView.SelectedValue;
 
-            var dialog = new MouseGestureSettingWindow(value);
+            var context = new MouseGestureSettingContext();
+            context.Command = value.Key;
+            context.Gestures = CommandCollection.ToDictionary(i => i.Key, i => i.MouseGesture);
+
+            var dialog = new MouseGestureSettingWindow(context);
             dialog.Owner = this;
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = dialog.ShowDialog();
             if (result == true)
             {
+                foreach (var item in CommandCollection)
+                {
+                    item.MouseGesture = context.Gestures[item.Key];
+                }
+
+                UpdateCommandListMouseGesture();
                 this.CommandListView.Items.Refresh();
             }
         }
@@ -689,19 +712,37 @@ namespace NeeView
         /// <param name="e"></param>
         private void GestureContextMenuButton_Click(object sender, RoutedEventArgs e)
         {
+            /*
             var command = new CommandParam()
             {
                 Header = "コンテキストメニューを開く",
                 MouseGesture = Setting.ViewMemento.ContextMenuSetting.MouseGesture
             };
+            */
 
-            var dialog = new MouseGestureSettingWindow(command);
+            var context = new MouseGestureSettingContext();
+            context.Command = CommandType.None; // ## なんらかのコマンドにすべきか。
+            context.Gestures = CommandCollection.ToDictionary(i => i.Key, i => i.MouseGesture);
+            context.Gestures[CommandType.None] = Setting.ViewMemento.ContextMenuSetting.MouseGesture;
+
+            var dialog = new MouseGestureSettingWindow(context);
             dialog.Owner = this;
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = dialog.ShowDialog();
             if (result == true)
             {
-                Setting.ViewMemento.ContextMenuSetting.MouseGesture = command.MouseGesture;
+                foreach (var item in CommandCollection)
+                {
+                    if (item.Key != CommandType.None)
+                    {
+                        item.MouseGesture = context.Gestures[item.Key];
+                    }
+                }
+
+                UpdateCommandListMouseGesture();
+                this.CommandListView.Items.Refresh();
+
+                Setting.ViewMemento.ContextMenuSetting.MouseGesture = context.Gestures[CommandType.None];
             }
         }
 

@@ -21,6 +21,8 @@ namespace NeeView
 
         // 競合メッセージ
         public string OverlapsText { get; set; }
+
+        public bool IsConflict => Conflicts != null && Conflicts.Count > 0;
     }
 
     /// <summary>
@@ -157,10 +159,10 @@ namespace NeeView
 
             var conflicts = new List<CommandType>(item.Conflicts);
             conflicts.Insert(0, Command);
-            var context = new ConflictDialogContext(item.Gesture, conflicts, Command);
+            var context = new ResolveConflictDialogContext(item.Gesture, conflicts, Command);
 
             // 競合解消用ダイアログ表示。本来はViewで行うべき
-            var dialog = new ConflictDialog(context);
+            var dialog = new ResolveConflictDialog(context);
             dialog.Owner = owner;
             dialog.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
             var result = dialog.ShowDialog();

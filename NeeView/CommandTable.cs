@@ -1522,6 +1522,16 @@ namespace NeeView
                 element.IsShowMessage = false;
                 _Elements[CommandType.OpenSettingWindow] = element;
             }
+            // OpenSettingFilesFolder
+            {
+                var element = new CommandElement();
+                element.Group = "その他";
+                element.Text = "設定ファイルの場所を開く";
+                 element.Note = "設定ファイルが保存されているフォルダを開きます";
+                element.IsShowMessage = false;
+                _Elements[CommandType.OpenSettingFilesFolder] = element;
+            }
+
             // OpenVersionWindow
             {
                 var element = new CommandElement();

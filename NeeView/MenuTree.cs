@@ -547,6 +547,7 @@ namespace NeeView
                     new MenuTree(MenuElementType.Group) { Name="その他(_O)", Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingWindow, Name="設定(_O)..." },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingFilesFolder },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Group) { Name="ヘルプ(_H)", Children = new ObservableCollection<MenuTree>()
                         {

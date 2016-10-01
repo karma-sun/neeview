@@ -427,6 +427,8 @@ namespace NeeView
             // View系コマンド登録
             ModelContext.CommandTable[CommandType.OpenSettingWindow].Execute =
                 (s, e) => OpenSettingWindow();
+            ModelContext.CommandTable[CommandType.OpenSettingFilesFolder].Execute =
+                (s, e) => OpenSettingFilesFolder();
             ModelContext.CommandTable[CommandType.OpenVersionWindow].Execute =
                 (s, e) => OpenVersionWindow();
             ModelContext.CommandTable[CommandType.CloseApplication].Execute =
@@ -669,6 +671,12 @@ namespace NeeView
                 _VM.SaveSetting(this);
                 ModelContext.BookHistory.Restore(history, false);
             }
+        }
+
+        // 設定ファイルの場所を開く
+        private void OpenSettingFilesFolder()
+        {
+            Process.Start("explorer.exe", $"\"{App.Config.LocalApplicationDataPath}\"");
         }
 
         // バージョン情報を表示する

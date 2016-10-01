@@ -215,12 +215,10 @@ ModelManifest.xml
 *.improj
 *.wixpdb
 !*.wxs
-PublishToZip/NeeView*/
-PublishToZip/*.zip
-PublishToZip/*.xml
-PublishToZip/*.msi
+Deploy/NeeView*/
+Deploy/*.zip
+Deploy/*.xml
+Deploy/*.msi
 
-
-
-/PublishToZip/oldversions
-/PublishToZip/work
+/Deploy/oldversions
+/Deploy/work

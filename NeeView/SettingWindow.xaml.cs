@@ -613,9 +613,14 @@ namespace NeeView
         // キーバインド初期化ボタン処理
         private void ResetGestureSettingButton_Click(object sender, RoutedEventArgs e)
         {
-            Setting.CommandMememto = CommandTable.CreateDefaultMemento();
-            UpdateCommandList();
-            this.CommandListView.Items.Refresh();
+            var result = MessageBoxEx.Show(this, "コマンドの設定を全て初期化します。よろしいですか？", "確認", MessageBoxButton.OKCancel);
+
+            if (result == true)
+            {
+                Setting.CommandMememto = CommandTable.CreateDefaultMemento();
+                UpdateCommandList();
+                this.CommandListView.Items.Refresh();
+            }
         }
 
         // 履歴クリアボタン処理

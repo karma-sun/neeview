@@ -123,6 +123,37 @@ namespace NeeView
 
 
 
+        public static bool? Show(Window owner, string text, string caption, MessageBoxButton button, MessageBoxExImage icon)
+        {
+            var param = new MessageBoxParams();
+            param.MessageBoxText = text;
+            param.Caption = caption;
+            param.Button = button;
+            param.Icon = icon;
+
+            var dialog = new MessageBoxEx(param);
+            dialog.Owner = owner;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            var result = dialog.ShowDialog();
+            return result;
+        }
+
+        public static bool? Show(Window owner, string text, string caption, MessageBoxButton button)
+        {
+            return Show(owner, text, caption, button, MessageBoxExImage.None);
+        }
+
+        public static bool? Show(Window owner, string text, string caption)
+        {
+            return Show(owner, text, caption, MessageBoxButton.OK, MessageBoxExImage.None);
+        }
+
+        public static bool? Show(Window owner, string text)
+        {
+            return Show(owner, text, "", MessageBoxButton.OK, MessageBoxExImage.None);
+        }
+
+
         public static bool? Show(string text, string caption, MessageBoxButton button, MessageBoxExImage icon)
         {
             var param = new MessageBoxParams();

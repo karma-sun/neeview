@@ -959,7 +959,7 @@ namespace NeeView
             {
                 var element = new CommandElement();
                 element.Group = "移動";
-                element.Text = "指定ページ数戻る";
+                element.Text = "設定ページ数戻る";
                 element.Note = "設定されたページ数だけ前方向に移動します";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _Book.PrevSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
@@ -971,7 +971,7 @@ namespace NeeView
             {
                 var element = new CommandElement();
                 element.Group = "移動";
-                element.Text = "指定ページ数進む";
+                element.Text = "設定ページ数進む";
                 element.Note = "設定されたページ数だけ次方向に移動します";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _Book.NextSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);

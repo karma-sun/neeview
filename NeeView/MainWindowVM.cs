@@ -2480,25 +2480,25 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember(Order = 0)]
+            [DataMember]
             public int _Version { get; set; }
 
-            [DataMember(Order = 1)]
+            [DataMember]
             public bool IsLimitMove { get; set; }
 
-            [DataMember(Order = 1)]
+            [DataMember]
             public bool IsControlCenterImage { get; set; }
 
-            [DataMember(Order = 1)]
+            [DataMember]
             public bool IsAngleSnap { get; set; }
 
-            [DataMember(Order = 1)]
+            [DataMember]
             public bool IsViewStartPositionCenter { get; set; }
 
-            [DataMember(Order = 1)]
+            [DataMember]
             public PageStretchMode StretchMode { get; set; }
 
-            [DataMember(Order = 1)]
+            [DataMember]
             public BackgroundStyle Background { get; set; }
 
             [DataMember(EmitDefaultValue = false)]
@@ -2507,10 +2507,10 @@ namespace NeeView
             [DataMember(Order = 4)]
             public ShowMessageStyle NoticeShowMessageStyle { get; set; }
 
-            [DataMember(Order = 1)]
+            [DataMember]
             public ShowMessageStyle CommandShowMessageStyle { get; set; }
 
-            [DataMember(Order = 1)]
+            [DataMember]
             public ShowMessageStyle GestureShowMessageStyle { get; set; }
 
             [DataMember(Order = 4)]

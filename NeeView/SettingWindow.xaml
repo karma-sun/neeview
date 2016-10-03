@@ -98,8 +98,11 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="サポート外ファイルもページに含める"
                               ToolTip="画像として表示できないファイルもページとして表示します"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnableNoSupportFile}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="スライダーを右基準にする"
-                              IsChecked="{Binding Setting.ViewMemento.IsSliderDirectionReversed}" />
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="スライダーの方向"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding SliderDirectionList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.ViewMemento.SliderDirection}" />
+                            </StackPanel>
                         </StackPanel>
 
 

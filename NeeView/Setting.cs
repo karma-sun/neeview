@@ -21,7 +21,7 @@ namespace NeeView
     public class Setting
     {
         [DataMember]
-        public string Version { get; set; }
+        public int _Version { get; set; }
 
         [DataMember(Order = 1)]
         public WindowPlacement.Memento WindowPlacement { set; get; }
@@ -53,7 +53,7 @@ namespace NeeView
         //
         private void Constructor()
         {
-            Version = $"{App.Config.ProductName} {App.Config.ProductVersion}";
+            _Version = App.Config.ProductVersionNumber;
             WindowPlacement = new WindowPlacement.Memento();
             ViewMemento = new MainWindowVM.Memento();
             SusieMemento = new SusieContext.Memento();

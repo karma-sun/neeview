@@ -177,6 +177,16 @@ namespace NeeView
         };
 
 
+        //
+        public static Dictionary<SliderDirection, string> SliderDirectionList { get; } = new Dictionary<SliderDirection, string>
+        {
+            [SliderDirection.LeftToRight] = "左から右",
+            [SliderDirection.RightToLeft] = "右から左",
+            [SliderDirection.SyncBookReadDirection] = "本を開く方向に依存",
+        };
+
+
+
         // ドラッグアクション
         public static Dictionary<DragActionType, string> DragActionTypeList { get; } = DragActionTypeExtension.LabelList;
 

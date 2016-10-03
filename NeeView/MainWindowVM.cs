@@ -85,6 +85,7 @@ namespace NeeView
         Loupe
     }
 
+    //
     public static class LongButtonDownModeExtensions
     {
         public static string ToTips(this LongButtonDownMode element)
@@ -97,6 +98,14 @@ namespace NeeView
                     return "一時的に画像を拡大表示します\nルーペ表示中にホイール操作で拡大率を変更できます";
             }
         }
+    }
+
+    // スライダーの方向
+    public enum SliderDirection
+    {
+        LeftToRight, // 左から右
+        RightToLeft, // 右から左
+        SyncBookReadDirection, // 本を開く方向にあわせる
     }
 
 
@@ -183,7 +192,7 @@ namespace NeeView
         public bool IsSliderDirectionReversed
         {
             get { return _IsSliderDirectionReversed; }
-            set
+            private set
             {
                 if (_IsSliderDirectionReversed != value)
                 {
@@ -192,6 +201,37 @@ namespace NeeView
                 }
             }
         }
+
+        //
+        private void UpdateIsSliderDirectionReversed()
+        {
+            switch (SliderDirection)
+            {
+                default:
+                case SliderDirection.LeftToRight:
+                    IsSliderDirectionReversed = false;
+                    break;
+                case SliderDirection.RightToLeft:
+                    IsSliderDirectionReversed = true;
+                    break;
+                case SliderDirection.SyncBookReadDirection:
+                    IsSliderDirectionReversed = this.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft;
+                    break;
+            }
+        }
+
+        //
+        private SliderDirection _SliderDirection;
+        public SliderDirection SliderDirection
+        {
+            get { return _SliderDirection; }
+            set
+            {
+                _SliderDirection = value;
+                UpdateIsSliderDirectionReversed();
+            }
+        }
+
         #endregion
 
         // 左クリック長押しモード
@@ -1572,6 +1612,7 @@ namespace NeeView
             BookHub.SettingChanged +=
                 (s, e) =>
                 {
+                    UpdateIsSliderDirectionReversed();
                     OnPropertyChanged(nameof(BookSetting));
                     OnPropertyChanged(nameof(BookHub));
                 };
@@ -2439,34 +2480,37 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember]
+            [DataMember(Order = 0)]
+            public int _Version { get; set; }
+
+            [DataMember(Order = 1)]
             public bool IsLimitMove { get; set; }
 
-            [DataMember]
+            [DataMember(Order = 1)]
             public bool IsControlCenterImage { get; set; }
 
-            [DataMember]
+            [DataMember(Order = 1)]
             public bool IsAngleSnap { get; set; }
 
-            [DataMember]
+            [DataMember(Order = 1)]
             public bool IsViewStartPositionCenter { get; set; }
 
-            [DataMember]
+            [DataMember(Order = 1)]
             public PageStretchMode StretchMode { get; set; }
 
-            [DataMember]
+            [DataMember(Order = 1)]
             public BackgroundStyle Background { get; set; }
 
-            [DataMember]
-            public bool IsSliderDirectionReversed { get; set; }
+            [DataMember(EmitDefaultValue = false)]
+            public bool IsSliderDirectionReversed { get; set; } // no used
 
             [DataMember(Order = 4)]
             public ShowMessageStyle NoticeShowMessageStyle { get; set; }
 
-            [DataMember]
+            [DataMember(Order = 1)]
             public ShowMessageStyle CommandShowMessageStyle { get; set; }
 
-            [DataMember]
+            [DataMember(Order = 1)]
             public ShowMessageStyle GestureShowMessageStyle { get; set; }
 
             [DataMember(Order = 4)]
@@ -2513,9 +2557,6 @@ namespace NeeView
 
             [DataMember(Order = 4)]
             public bool IsTopmost { get; set; }
-
-            //[DataMember(Order = 5)]
-            //public bool IsVisibleFileInfo { get; set; }
 
             [DataMember(Order = 5)]
             public FileInfoSetting FileInfoSetting { get; set; }
@@ -2629,11 +2670,13 @@ namespace NeeView
             [DataMember(Order = 12)]
             public double LongButtonDownTick { get; set; }
 
+            [DataMember(Order = 16)]
+            public SliderDirection SliderDirection { get; set; }
+
             //
             void Constructor()
             {
                 IsLimitMove = true;
-                IsSliderDirectionReversed = true;
                 NoticeShowMessageStyle = ShowMessageStyle.Normal;
                 CommandShowMessageStyle = ShowMessageStyle.Normal;
                 GestureShowMessageStyle = ShowMessageStyle.Normal;
@@ -2666,6 +2709,7 @@ namespace NeeView
                 LongLeftButtonDownMode = LongButtonDownMode.Loupe;
                 LongButtonDownTick = 1.0;
                 IsDisableMultiBoot = true;
+                SliderDirection = SliderDirection.RightToLeft;
             }
 
             public Memento()
@@ -2682,10 +2726,18 @@ namespace NeeView
             [OnDeserialized]
             private void Deserialized(StreamingContext c)
             {
-                if (IsHideTitleBar)
+                if (_Version < Config.GenerateProductVersionNumber(1, 10, 0))
                 {
-                    IsVisibleTitleBar = false;
-                    IsHideTitleBar = false;
+                    if (IsHideTitleBar)
+                    {
+                        IsVisibleTitleBar = false;
+                        IsHideTitleBar = false;
+                    }
+                }
+
+                if (_Version < Config.GenerateProductVersionNumber(1, 16, 0))
+                {
+                    SliderDirection = IsSliderDirectionReversed ? SliderDirection.RightToLeft : SliderDirection.LeftToRight;
                 }
             }
         }
@@ -2695,13 +2747,13 @@ namespace NeeView
         {
             var memento = new Memento();
 
+            memento._Version = App.Config.ProductVersionNumber;
             memento.IsLimitMove = this.IsLimitMove;
             memento.IsControlCenterImage = this.IsControlCenterImage;
             memento.IsAngleSnap = this.IsAngleSnap;
             memento.IsViewStartPositionCenter = this.IsViewStartPositionCenter;
             memento.StretchMode = this.StretchMode;
             memento.Background = this.Background;
-            memento.IsSliderDirectionReversed = this.IsSliderDirectionReversed;
             memento.NoticeShowMessageStyle = this.NoticeShowMessageStyle;
             memento.CommandShowMessageStyle = this.CommandShowMessageStyle;
             memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
@@ -2753,6 +2805,7 @@ namespace NeeView
             memento.ContentsSpace = this.ContentsSpace;
             memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
             memento.LongButtonDownTick = this.LongButtonDownTick;
+            memento.SliderDirection = this.SliderDirection;
 
             return memento;
         }
@@ -2766,7 +2819,7 @@ namespace NeeView
             this.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
             this.StretchMode = memento.StretchMode;
             this.Background = memento.Background;
-            this.IsSliderDirectionReversed = memento.IsSliderDirectionReversed;
+            //this.IsSliderDirectionReversed = memento.IsSliderDirectionReversed;
             this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
             this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
             this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
@@ -2818,6 +2871,7 @@ namespace NeeView
             this.ContentsSpace = memento.ContentsSpace;
             this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
             this.LongButtonDownTick = memento.LongButtonDownTick;
+            this.SliderDirection = memento.SliderDirection;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

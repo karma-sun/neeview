@@ -63,6 +63,16 @@ namespace NeeView
         /// </summary>
         public string ProductVersion { get; private set; }
 
+        /// <summary>
+        /// プロダクトバージョン(int)
+        /// </summary>
+        public int ProductVersionNumber { get; private set; }
+
+        //
+        public static int GenerateProductVersionNumber(int major, int minor, int build)
+        {
+            return major << 16 | minor << 8 | build;
+        }
 
         /// <summary>
         /// いろいろ初期化
@@ -96,10 +106,12 @@ namespace NeeView
             if (version.Build == 0)
             {
                 ProductVersion = $"{version.Major}.{version.Minor}";
+                ProductVersionNumber = GenerateProductVersionNumber(version.Major, version.Minor, 0);
             }
             else
             {
                 ProductVersion = $"{version.Major}.{version.Minor}.{version.Build}";
+                ProductVersionNumber = GenerateProductVersionNumber(version.Major, version.Minor, version.Build);
             }
         }
 

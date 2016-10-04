@@ -16,10 +16,10 @@
     <StackPanel Margin="5">
 
         <StackPanel Margin="5">
-            <TextBlock Text="{Binding Key}" Margin="5"/>
+            <TextBlock Text="{Binding Name}" Margin="5"/>
             <TextBox Margin="5" MinHeight="20" Text="{Binding Value}" Visibility="{Binding ValueEditControlVisibility}" />
             <CheckBox Margin="5" Visibility="{Binding BooleanEditControlVisibility}" IsChecked="{Binding BooleanValue}" Content="{Binding BooleanValue}"/>
-            <TextBlock Margin="5" Text="{Binding Note}" Foreground="#888"/>
+            <TextBlock Margin="5" Text="{Binding Note}" Foreground="#414141" TextWrapping="Wrap"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,10">

@@ -24,6 +24,11 @@ namespace NeeView
         public string Key { get; set; }
 
         /// <summary>
+        /// 表示名
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// 説明文
         /// </summary>
         public string Note { get; set; }
@@ -166,6 +171,7 @@ namespace NeeView
             new PreferenceElement()
             {
                 Key = ".configure.enabled",
+                Name = ".configure.enabled",
                 Note = "load param from configure file (for old version)",
                 Default = true,
             },
@@ -173,44 +179,58 @@ namespace NeeView
             new PreferenceElement()
             {
                 Key = "input.gesture.minimumdistance.x",
-                Note = "マウスジェスチャー判定の最小移動距離(X)",
+                Name = "マウスジェスチャー判定の最小移動距離(X)",
+                Note = "この距離(pixel)移動して初めてジェスチャー開始と判定されます",
                 Default = 30.0
             },
 
             new PreferenceElement()
             {
                 Key = "input.gesture.minimumdistance.y",
-                Note = "マウスジェスチャー判定の最小移動距離(Y)",
+                Name = "マウスジェスチャー判定の最小移動距離(Y)",
+                Note = "この距離(pixel)移動して初めてジェスチャー開始と判定されます",
                 Default = 30.0
             },
 
             new PreferenceElement()
             {
                 Key = "panel.autohide.delaytime",
-                Note = "パネルが自動的に消えるまでの時間(秒)",
+                Name = "パネルが自動的に消えるまでの時間(秒)",
                 Default = 1.0
             },
 
             new PreferenceElement()
             {
                 Key = "loader.archiver.7z.supprtfiletypes",
-                Note = "7z.dllで展開する圧縮ファイルの拡張子",
+                Name = "7z.dllで展開する圧縮ファイルの拡張子",
+                Note =";(セミコロン)区切りでサポートする拡張子を羅列します。\n拡張子は .zip のように指定します",
                 Default = ".7z;.rar;.lzh"
             },
 
              new PreferenceElement()
             {
                 Key = "loader.thread.size",
-                Note = "画像読み込みに使用するスレッド数",
+                Name = "画像読み込みに使用するスレッド数",
                 Default = 2
             },
 
             new PreferenceElement()
             {
                 Key = "view.image.wideratio",
-                Note = "横長画像を判定するための縦横比(横/縦)。\n「横長ページを分割する」で使用されます",
+                Name = "横長画像を判定するための縦横比(横/縦)",
+                Note = "「横長ページを分割する」で使用されます",
                 Default = 1.0
+            },
+
+            new PreferenceElement()
+            {
+                Key = "userdata.save.disable",
+                Name = "履歴、ブックマーク、ページマークを保存しない",
+                Note = "履歴、ブックマーク、ページマークの情報がファイルに一切保存されなくなります",
+                Default = false,
             }
+
+
         };
 
         /// <summary>

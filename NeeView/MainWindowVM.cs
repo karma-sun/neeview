@@ -1930,29 +1930,65 @@ namespace NeeView
             }
             catch { }
 
+            // 保存しないフラグ
+            bool disableSave = ModelContext.Preference["userdata.save.disable"].Boolean;
+
             try
             {
-                // 履歴をファイルに保存
-                var bookHistoryMemento = ModelContext.BookHistory.CreateMemento(true);
-                bookHistoryMemento.Save(HistoryFileName);
+                if (disableSave)
+                {
+                    // 履歴ファイルを削除
+                    RemoveFile(HistoryFileName);
+                }
+                else
+                {
+                    // 履歴をファイルに保存
+                    var bookHistoryMemento = ModelContext.BookHistory.CreateMemento(true);
+                    bookHistoryMemento.Save(HistoryFileName);
+                }
             }
             catch { }
 
             try
             {
-                // ブックマークをファイルに保存
-                var bookmarkMemento = ModelContext.Bookmarks.CreateMemento(true);
-                bookmarkMemento.Save(BookmarkFileName);
+                if (disableSave)
+                {
+                    // ブックマークファイルを削除
+                    RemoveFile(BookmarkFileName);
+                }
+                else
+                {
+                    // ブックマークをファイルに保存
+                    var bookmarkMemento = ModelContext.Bookmarks.CreateMemento(true);
+                    bookmarkMemento.Save(BookmarkFileName);
+                }
             }
             catch { }
 
             try
             {
-                // ページマークをファイルに保存
-                var pagemarkMemento = ModelContext.Pagemarks.CreateMemento(true);
-                pagemarkMemento.Save(PagemarkFileName);
+                if (disableSave)
+                {
+                    // ページマークファイルを削除
+                    RemoveFile(PagemarkFileName);
+                }
+                else
+                {
+                    // ページマークをファイルに保存
+                    var pagemarkMemento = ModelContext.Pagemarks.CreateMemento(true);
+                    pagemarkMemento.Save(PagemarkFileName);
+                }
             }
             catch { }
+        }
+
+        // ファイル削除
+        private void RemoveFile(string filename)
+        {
+            if (System.IO.File.Exists(filename))
+            {
+                System.IO.File.Delete(filename);
+            }
         }
 
         #endregion

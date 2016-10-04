@@ -123,6 +123,7 @@ namespace NeeView
             public PreferenceElement Source { get; set; }
 
             public string Key => Source.Key;
+            public string Name => Source.Name;
             public string State => Source.HasCustomValue ? "ユーザ設定" : "初期設定値";
             public string TypeString => Source.GetValueTypeString();
             public string Value => Source.Value.ToString();

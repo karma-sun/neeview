@@ -926,7 +926,7 @@
                                     </GridViewColumn.Header>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Key}" TextTrimming="WordEllipsis" ToolTip="{Binding Tips}"/>
+                                            <TextBlock Text="{Binding Name}" TextTrimming="WordEllipsis" ToolTip="{Binding Tips}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

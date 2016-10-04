@@ -94,6 +94,8 @@ namespace NeeView
 
         public string Key => _Element.Key;
 
+        public string Name => _Element.Name;
+
         public string Note => _Element.Note;
 
         public Visibility BooleanEditControlVisibility { get; private set; }

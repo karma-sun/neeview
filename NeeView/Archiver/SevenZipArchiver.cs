@@ -119,7 +119,9 @@ namespace NeeView
         //
         static SevenZipArchiver()
         {
-            SevenZipExtractor.SetLibraryPath("7z.dll");
+            var dllPath = System.IO.Path.Combine(App.Config.AssemblyLocation, "7z.dll");
+            SevenZipExtractor.SetLibraryPath(dllPath);
+
             //var features = SevenZip.SevenZipExtractor.CurrentLibraryFeatures;
             //Console.WriteLine(((uint)features).ToString("X6"));
         }

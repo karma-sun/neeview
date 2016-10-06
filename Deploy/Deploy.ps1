@@ -149,7 +149,10 @@ function New-Msi
 	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'UseLocalApplicationData' } | Select -First 1
 	$add.value = 'True'
 
-	$xml.Save("$packageAppendDir\$config")
+	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
+	$sw = New-Object System.IO.StreamWriter("$packageAppendDir\$config", $false, $utf8WithoutBom)
+	$xml.Save( $sw )
+	$sw.Close()
 
 	#-------------------------
 	# WiX

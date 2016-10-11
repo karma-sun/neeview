@@ -12,6 +12,7 @@ DLL: 7z.dll
 
 DLL: SevenZipSharp.dll (custom)
 
+* Copyright (C) Markovtsev Vadim 2009, 2010
 * URL: [SevenZipSharp - Home](https://sevenzipsharp.codeplex.com/)
 * License: [GNU LGPL](https://sevenzipsharp.codeplex.com/license)
 * Custom: RAR5 Support [\[Project Page\]](https://github.com/neelabo/SevenZipSharp)

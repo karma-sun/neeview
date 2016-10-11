@@ -42,6 +42,7 @@
     <ApplicationManifest>App.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Expression.Effects, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -81,6 +82,40 @@
     <Compile Include="CommandParameterWindow.xaml.cs">
       <DependentUpon>CommandParameterWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Effects\BloomEffectUnit.cs" />
+    <Compile Include="Effects\GrayscaleEffectUnit.cs" />
+    <Compile Include="Effects\ColorToneEffectUnit.cs" />
+    <Compile Include="Effects\EffectUnit.cs" />
+    <Compile Include="Effects\EmbossedEffect.cs" />
+    <Compile Include="Effects\MagnifyEffecttUnit.cs" />
+    <Compile Include="Effects\SwirlEffectUnit.cs" />
+    <Compile Include="Effects\RippleEffectUnit.cs" />
+    <Compile Include="Effects\SharpenEffectUnit.cs" />
+    <Compile Include="Effects\MonochromeEffectUnit.cs" />
+    <Compile Include="Effects\BlurEffectUnit.cs" />
+    <Compile Include="Effects\PixelateEffectUnit.cs" />
+    <Compile Include="Effects\ImageEffector.cs" />
+    <Compile Include="Effects\EffectType.cs" />
+    <Compile Include="ImageEffectControl.xaml.cs">
+      <DependentUpon>ImageEffectControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="_NeeLaboratory\Controls\ColorPicker.xaml.cs">
+      <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="_NeeLaboratory\Controls\PointInspector.xaml.cs">
+      <DependentUpon>PointInspector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="_NeeLaboratory\Property\IValueSetter.cs" />
+    <Compile Include="_NeeLaboratory\Property\PropertyControl.xaml.cs">
+      <DependentUpon>PropertyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="_NeeLaboratory\Property\PropertyDocument.cs" />
+    <Compile Include="_NeeLaboratory\Property\PropertyElement.cs" />
+    <Compile Include="_NeeLaboratory\Property\PropertyInspector.xaml.cs">
+      <DependentUpon>PropertyInspector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="_NeeLaboratory\Property\PropertyMemberAttribute.cs" />
+    <Compile Include="_NeeLaboratory\Property\PropertyValue.cs" />
     <Compile Include="ResolveConflictDialog.xaml.cs">
       <DependentUpon>ResolveConflictDialog.xaml</DependentUpon>
     </Compile>
@@ -136,7 +171,6 @@
       <DependentUpon>RenameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReplaceString.cs" />
-    <Compile Include="ShaderEffectType.cs" />
     <Compile Include="ThumbnailHelper.cs" />
     <Compile Include="ThumbnailManager.cs" />
     <Compile Include="Utility\DockPanelSplitter.cs" />
@@ -250,6 +284,26 @@
     <Page Include="CommandParameterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ImageEffectControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="_NeeLaboratory\Controls\ColorPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="_NeeLaboratory\Controls\PointInspector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="_NeeLaboratory\Property\PropertyControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="_NeeLaboratory\Property\PropertyInspector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ResolveConflictDialog.xaml">
       <SubType>Designer</SubType>

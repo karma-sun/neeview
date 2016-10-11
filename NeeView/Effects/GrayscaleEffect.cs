@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Reflection;
 
-namespace Effects
+namespace NeeView.Effects
 {
     public class GrayscaleEffect : ShaderEffect
     {

@@ -12,7 +12,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         xmlns:osc="clr-namespace:OpenSourceControls"
-        xmlns:sfx="clr-namespace:Effects"
         mc:Ignorable="d"
         x:Name="RootWindow"
         Title="{Binding WindowTitle}" Icon="{Binding WindowIcon}" Height="768" Width="1024" AllowDrop="True"
@@ -266,7 +265,31 @@
                         <Grid>
                             <!-- 情報エリア -->
                             <Grid x:Name="InfoArea" MouseLeftButtonDown="InfoArea_MouseLeftButtonDown">
-                                <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}" d:IsHidden="True"/>
+                                <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}">
+                                    <local:FileInfoControl.Style>
+                                        <Style TargetType="local:FileInfoControl">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DataContext.RightPanel, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" Value="FileInfo">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </local:FileInfoControl.Style>
+                                </local:FileInfoControl>
+
+                                <local:ImageEffectControl ImageEffector="{Binding ImageEffector}">
+                                    <local:ImageEffectControl.Style>
+                                        <Style TargetType="local:ImageEffectControl">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RightPanel}" Value="EffectInfo">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </local:ImageEffectControl.Style>
+                                </local:ImageEffectControl>
                             </Grid>
                         </Grid>
                     </DockPanel>
@@ -277,7 +300,7 @@
                     <Grid x:Name="MainViewPanelGrid" Panel.ZIndex="-1" Margin="-1,0">
                         <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" >
 
-                            <Grid x:Name="MainViewCanvas"  Background="{Binding BackgroundBrush}" Effect="{Binding ShaderEffect}">
+                            <Grid x:Name="MainViewCanvas"  Background="{Binding BackgroundBrush}" Effect="{Binding ImageEffector.Effect}">
 
                                 <!-- メインビュー コンテンツ表示領域 -->
                                 <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True">
@@ -310,75 +333,75 @@
                                         </StackPanel>
                                     </Canvas>
                                 </Grid>
-                                
 
-                                <!-- empty pages message -->
-                                <Grid Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
+                            </Grid>
 
-                                        <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                    <Style.Triggers>
-                                                        <Trigger Property="Text" Value="">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                        </Trigger>
-                                                    </Style.Triggers>
+                            <!-- empty pages message -->
+                            <Grid Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
 
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
+                                    <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="Text" Value="">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Now Loading -->
+                            <Grid x:Name="NowLoading" Opacity="0" IsHitTestVisible="False">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=NowLoading, Path=Opacity, Converter={StaticResource IsLessThanConverter}, ConverterParameter=0.01}" Value="True">
+                                                <Setter Property="Visibility" Value="Hidden"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <Grid x:Name="NowLoadingNormal" Background="Black">
+                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+                                        <TextBlock x:Name="NowLoadingText" Text="Now Loading"  TextAlignment="Center" VerticalAlignment="Center"
+                                                   Foreground="White" FontFamily="Meiryo" FontSize="{Binding InfoTextFontSize}" Margin="8" TextTrimming="CharacterEllipsis"/>
+                                        <Grid Width="50" Height="50">
+                                            <Rectangle Width="5" Height="25" Fill="#FF00B5FF" RenderTransformOrigin="0.5,0.5">
+                                                <Rectangle.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform x:Name="NowLoadingMarkAngle" Angle="45"/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </Rectangle.RenderTransform>
+                                            </Rectangle>
+                                        </Grid>
                                     </StackPanel>
                                 </Grid>
 
-                                <!-- Now Loading -->
-                                <Grid x:Name="NowLoading" Opacity="0" IsHitTestVisible="False">
-                                    <Grid.Style>
-                                        <Style TargetType="Grid">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=NowLoading, Path=Opacity, Converter={StaticResource IsLessThanConverter}, ConverterParameter=0.01}" Value="True">
-                                                    <Setter Property="Visibility" Value="Hidden"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Grid.Style>
-                                    <Grid x:Name="NowLoadingNormal" Background="Black">
-                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
-                                            <TextBlock x:Name="NowLoadingText" Text="Now Loading"  TextAlignment="Center" VerticalAlignment="Center"
-                                                   Foreground="White" FontFamily="Meiryo" FontSize="{Binding InfoTextFontSize}" Margin="8" TextTrimming="CharacterEllipsis"/>
-                                            <Grid Width="50" Height="50">
-                                                <Rectangle Width="5" Height="25" Fill="#FF00B5FF" RenderTransformOrigin="0.5,0.5">
-                                                    <Rectangle.RenderTransform>
-                                                        <TransformGroup>
-                                                            <ScaleTransform/>
-                                                            <SkewTransform/>
-                                                            <RotateTransform x:Name="NowLoadingMarkAngle" Angle="45"/>
-                                                            <TranslateTransform/>
-                                                        </TransformGroup>
-                                                    </Rectangle.RenderTransform>
-                                                </Rectangle>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Grid>
-
-                                    <TextBlock x:Name="NowLoadingTiny" Text="Now Loading ..." VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False"/>
-                                </Grid>
-
-                                <!-- Message Tiny -->
-                                <TextBlock x:Name="TinyInfoTextBlock" Text="{Binding TinyInfoText}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Style.Triggers>
-                                                <Trigger Property="Text" Value="">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
+                                <TextBlock x:Name="NowLoadingTiny" Text="Now Loading ..." VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False"/>
                             </Grid>
+
+                            <!-- Message Tiny -->
+                            <TextBlock x:Name="TinyInfoTextBlock" Text="{Binding TinyInfoText}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <Trigger Property="Text" Value="">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
 
                             <!--
                             <local:Loupe x:Name="Loupe" Visual="{Binding ElementName=MainViewCanvas}"

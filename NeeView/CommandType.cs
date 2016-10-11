@@ -64,6 +64,7 @@ namespace NeeView
         ToggleVisibleTitleBar,
         ToggleVisibleAddressBar,
         ToggleVisibleFileInfo,
+        ToggleVisibleEffectInfo,
         ToggleVisibleFolderList,
         ToggleVisibleBookmarkList,
         ToggleVisiblePagemarkList,
@@ -146,9 +147,7 @@ namespace NeeView
         ViewFlipVerticalOff,
         ViewReset,
 
-        //SetEffectNone,
-        //SetEffectGrayscale,
-        ToggleEffectGrayscale,
+        ToggleEffectGrayscale, // 欠番
 
         //ToggleIsLoupe,
         //LoupeZoomIn,
@@ -167,6 +166,7 @@ namespace NeeView
             CommandType.Bookmark,
             CommandType.ToggleIsReverseSort,
             CommandType.ToggleHideTitleBar,
+            CommandType.ToggleEffectGrayscale,
         };
 
         // TODO: 判定法整備

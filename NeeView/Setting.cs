@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Xml;
+using NeeView.Effects;
 
 namespace NeeView
 {
@@ -41,7 +42,7 @@ namespace NeeView
         [DataMember(Order = 9998)]
         public DragActionTable.Memento DragActionMemento { set; get; }
 
-        [DataMember(Order = 9999, EmitDefaultValue = false)]
+        [DataMember(Order = 9999, EmitDefaultValue = false)] // 互換用
         public BookHistory.Memento BookHistoryMemento { set; get; }
 
         [DataMember(Order = 4)]
@@ -49,6 +50,9 @@ namespace NeeView
 
         [DataMember(Order = 14)]
         public Preference.Memento PreferenceMemento { set; get; }
+
+        [DataMember(Order = 17)]
+        public ImageEffector.Memento ImageEffectorMemento { get; set; }
 
         //
         private void Constructor()
@@ -62,6 +66,7 @@ namespace NeeView
             DragActionMemento = new DragActionTable.Memento();
             ExporterMemento = new Exporter.Memento();
             PreferenceMemento = new Preference.Memento();
+            ImageEffectorMemento = new ImageEffector.Memento();
         }
 
         //

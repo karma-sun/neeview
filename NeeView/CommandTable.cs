@@ -588,6 +588,21 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleFileInfo));
                 _Elements[CommandType.ToggleVisibleFileInfo] = element;
             }
+            // ToggleVisibleEffectInfo
+            {
+                var element = new CommandElement();
+                element.Group = "パネル";
+                element.Text = "エフェクト設定の表示ON/OFF";
+                element.MenuText = "エフェクト設定";
+                element.Note = "エフェクト設定パネルの表示/非表示を切り替えます。エフェクト設定パネルは右側に表示されます";
+                element.ShortCutKey = "E";
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => _VM.ToggleVisibleEffectInfo(e is MenuCommandTag);
+                element.ExecuteMessage = e => _VM.IsVisibleEffectInfo ? "エフェクト設定を消す" : "エフェクト設定を表示する";
+                element.CanExecute = () => true;
+                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleEffectInfo));
+                _Elements[CommandType.ToggleVisibleEffectInfo] = element;
+            }
             // ToggleVisibleFolderList
             {
                 var element = new CommandElement();
@@ -1415,49 +1430,19 @@ namespace NeeView
                 _Elements[CommandType.NextPagemarkInBook] = element;
             }
 
-#if false
-            // SetEffectNone
-            {
-                var element = new CommandElement();
-                element.Group = "エフェクト";
-                element.Text = "エフェクト無効";
-                element.MenuText = "エフェクトなし";
-                element.Note = "エフェクトを無効にします";
-                element.Execute = (s, e) => _VM.ShaderEffectType = ShaderEffectType.None;
-                element.CanExecute = () => true;
-                element.IsShowMessage = false;
-                element.CreateIsCheckedBinding = () => BindingGenerator.ShaderEffectType(ShaderEffectType.None);
-                _Elements[CommandType.SetEffectNone] = element;
-            }
-            // SetEffectGrayscale
-            {
-                var element = new CommandElement();
-                element.Group = "エフェクト";
-                element.Text = "グレイスケール";
-                element.MenuText = "グレイスケール";
-                element.Note = "画像をグレイスケールにします";
-                element.Execute = (s, e) => _VM.ShaderEffectType = ShaderEffectType.Grayscale;
-                element.CanExecute = () => true;
-                element.IsShowMessage = false;
-                element.CreateIsCheckedBinding = () => BindingGenerator.ShaderEffectType(ShaderEffectType.Grayscale);
-                _Elements[CommandType.SetEffectGrayscale] = element;
-            }
-#endif
+
 
             // ToggleEffectGrayscale
+            // 欠番
             {
                 var element = new CommandElement();
-                element.Group = "エフェクト";
-                element.Text = "グレイスケールON/OFF";
-                element.MenuText = "グレイスケール";
-                element.Note = "グレイスケールエフェクトの有効/無効を切り替えます";
-                element.Execute = (s, e) => _VM.ShaderEffectType = (_VM.ShaderEffectType != ShaderEffectType.Grayscale) ? ShaderEffectType.Grayscale : ShaderEffectType.None;
-                element.ExecuteMessage = e => _VM.ShaderEffectType == ShaderEffectType.Grayscale ? "グレイスケール解除" : "グレイスケール";
-                element.CanExecute = () => true;
-                element.IsShowMessage = false;
-                element.CreateIsCheckedBinding = () => BindingGenerator.ShaderEffectType(ShaderEffectType.Grayscale);
+                element.Group = "dummy";
+                element.Text = "(なし)";
+                element.Execute = (s, e) => { return; };
+                element.CanExecute = () => false;
                 _Elements[CommandType.ToggleEffectGrayscale] = element;
             }
+
 
 #if false
             // ToggleIsLoupe

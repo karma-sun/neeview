@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Effects;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -60,6 +61,7 @@ namespace NeeView
     {
         None,
         FileInfo,
+        EffectInfo,
         FolderList,
         HistoryList,
         BookmarkList,
@@ -151,7 +153,7 @@ namespace NeeView
 
         //
         public event EventHandler<PanelType> LeftPanelVisibled;
-        public event EventHandler RightPanelVisibled;
+        public event EventHandler<PanelType> RightPanelVisibled;
 
         #endregion
 
@@ -350,36 +352,8 @@ namespace NeeView
         #endregion
 
 
-        #region Property: ShaderEffectType
-        private ShaderEffectType _ShaderEffectType;
-        public ShaderEffectType ShaderEffectType
-        {
-            get { return _ShaderEffectType; }
-            set
-            {
-                if (_ShaderEffectType != value)
-                {
-                    _ShaderEffectType = value;
-                    OnPropertyChanged();
-                    ShaderEffect = _ShaderEffectType.GetStaticEffect();
-                    UpdateViewContentEffect();
-                    UpdateBackgroundBrush();
-                    //OnPropertyChanged(nameof(LoupeScale));
-                }
-            }
-        }
-        #endregion
-
-
-        #region Property: ShaderEffect
-        private Effect _ShaderEffect;
-        public Effect ShaderEffect
-        {
-            get { return _ShaderEffect; }
-            set { _ShaderEffect = value; OnPropertyChanged(); }
-        }
-        #endregion
-
+        // イメージエフェクト
+        public ImageEffector ImageEffector { get; set; } = new ImageEffector();
 
         // ドットのまま拡大
         #region Property: IsEnabledNearestNeighbor
@@ -488,6 +462,20 @@ namespace NeeView
         {
             IsVisibleFileInfo = byMenu ? !IsVisibleFileInfo : !(IsVisibleFileInfo && IsVisibleRightPanel);
             return IsVisibleFileInfo;
+        }
+
+
+        // エフェクト情報表示ON/OFF
+        public bool IsVisibleEffectInfo
+        {
+            get { return RightPanel == PanelType.EffectInfo; }
+            set { RightPanel = value ? PanelType.EffectInfo : PanelType.None; }
+        }
+
+        public bool ToggleVisibleEffectInfo(bool byMenu)
+        {
+            IsVisibleEffectInfo = byMenu ? !IsVisibleEffectInfo : !(IsVisibleEffectInfo && IsVisibleRightPanel);
+            return IsVisibleEffectInfo;
         }
 
 
@@ -627,10 +615,11 @@ namespace NeeView
                 _RightPanel = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsVisibleFileInfo));
+                OnPropertyChanged(nameof(IsVisibleEffectInfo));
                 UpdateFileInfoContent();
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
 
-                RightPanelVisibled?.Invoke(this, null);
+                RightPanelVisibled?.Invoke(this, _RightPanel);
             }
         }
         #endregion
@@ -1765,7 +1754,6 @@ namespace NeeView
                     break;
                 case BackgroundStyle.Auto:
                     var color = Contents[Contents[1].IsValid ? 1 : 0].Color;
-                    color = ShaderEffectType.GetEffectedColor(color);
                     BackgroundBrush = BackgroundSolidBrush = new SolidColorBrush(color);
                     break;
                 case BackgroundStyle.Check:
@@ -1789,6 +1777,7 @@ namespace NeeView
             setting.DragActionMemento = ModelContext.DragActionTable.CreateMemento();
             setting.ExporterMemento = Exporter.CreateMemento();
             setting.PreferenceMemento = ModelContext.Preference.CreateMemento();
+            setting.ImageEffectorMemento = this.ImageEffector.CreateMemento();
 
             return setting;
         }
@@ -1800,6 +1789,8 @@ namespace NeeView
             ModelContext.ApplyPreference();
 
             this.Restore(setting.ViewMemento);
+            this.ImageEffector.Restore(setting.ImageEffectorMemento);
+
             ModelContext.SusieContext.Restore(setting.SusieMemento);
             BookHub.Restore(setting.BookHubMemento);
 
@@ -2024,7 +2015,7 @@ namespace NeeView
                         content.Content = source.CreateControl(
                             new Binding(nameof(ForegroundBrush)) { Source = this },
                             new Binding(nameof(BitmapScalingMode)) { Source = content },
-                            ShaderEffect //new Binding("ShaderEffect") { Source = this }
+                            null //ShaderEffect //new Binding("ShaderEffect") { Source = this }
                         );
                         content.Size = new Size(source.Width, source.Height);
                         content.SourceSize = source.SourceSize;
@@ -2688,8 +2679,8 @@ namespace NeeView
             [DataMember(Order = 10)]
             public double BannerSize { get; set; }
 
-            [DataMember(Order = 10)]
-            public ShaderEffectType ShaderEffectType { get; set; }
+            ////[DataMember(Order = 10)]
+            ////public ShaderEffectType ShaderEffectType { get; set; }
 
             [DataMember(Order = 10)]
             public ShowMessageStyle ViewTransformShowMessageStyle { get; set; }
@@ -2836,7 +2827,6 @@ namespace NeeView
             memento.FolderListItemStyle = this.FolderListItemStyle;
             memento.BannerMemorySize = this.BannerMemorySize;
             memento.BannerSize = this.BannerSize;
-            memento.ShaderEffectType = this.ShaderEffectType;
             memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
             memento.ContentsSpace = this.ContentsSpace;
             memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
@@ -2855,7 +2845,6 @@ namespace NeeView
             this.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
             this.StretchMode = memento.StretchMode;
             this.Background = memento.Background;
-            //this.IsSliderDirectionReversed = memento.IsSliderDirectionReversed;
             this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
             this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
             this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
@@ -2902,7 +2891,6 @@ namespace NeeView
             this.FolderListItemStyle = memento.FolderListItemStyle;
             this.BannerMemorySize = memento.BannerMemorySize;
             this.BannerSize = memento.BannerSize;
-            this.ShaderEffectType = memento.ShaderEffectType;
             this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
             this.ContentsSpace = memento.ContentsSpace;
             this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;

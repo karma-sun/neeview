@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 
 namespace NeeView
 {
@@ -164,6 +165,42 @@ namespace NeeView
             }
             return path;
         }
+
+
+        /// <summary>
+        /// ライブラリーパス
+        /// </summary>
+        private string _LibrariesPath;
+        public string LibrariesPath
+        {
+            get
+            {
+                if (_LibrariesPath == null)
+                {
+                    _LibrariesPath = Path.Combine(AssemblyLocation, GetProbingPath());
+                }
+                return _LibrariesPath;
+            }
+        }
+
+
+        // http://stackoverflow.com/questions/33353420/appdomain-currentdomain-setupinformation-privatebinpath-is-null
+        private static string GetProbingPath()
+        {
+            var configFile = XElement.Load(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
+            var probingElement = (
+                from runtime
+                    in configFile.Descendants("runtime")
+                from assemblyBinding
+                    in runtime.Elements(XName.Get("assemblyBinding", "urn:schemas-microsoft-com:asm.v1"))
+                from probing
+                    in assemblyBinding.Elements(XName.Get("probing", "urn:schemas-microsoft-com:asm.v1"))
+                select probing)
+                .FirstOrDefault();
+
+            return probingElement?.Attribute("privatePath").Value;
+        }
+
 
 
         //

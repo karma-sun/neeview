@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER">
+            <Directory Id="dir20FF26C963FCD8D5721868ED67B27FFF" Name="Libraries">
+                <Component Id="cmp8BF6C995AB878E7A664FF9EC7D7A56FC" Guid="*">
+                    <File Id="filB98CFFB6357FAB95836FDD8FC3934175" KeyPath="yes" Source="$(var.LibrariesDir)\7z.dll" />
+                </Component>
+                <Component Id="cmpB5253615D3A409D93E9B0F5C0792727C" Guid="*">
+                    <File Id="fil070F313B4772A6FE929C82891BF65F14" KeyPath="yes" Source="$(var.LibrariesDir)\Microsoft.Expression.Effects.dll" />
+                </Component>
+                <Component Id="cmpE88A5217E6CBA6AA7D4C8E2EF756AA30" Guid="*">
+                    <File Id="filFEA99228133615CB13248AB49E72DBE6" KeyPath="yes" Source="$(var.LibrariesDir)\Microsoft.Expression.Interactions.dll" />
+                </Component>
+                <Component Id="cmpB54C78A947E1F2E243E2F02E2E4BB5E3" Guid="*">
+                    <File Id="fil1ADE30521EFFDFF88F63D44BBB71C948" KeyPath="yes" Source="$(var.LibrariesDir)\SevenZipSharp.dll" />
+                </Component>
+                <Component Id="cmp497DB98CF2661AD5E3F644E55989373D" Guid="*">
+                    <File Id="filF73C8B9A095B60D8A23CB5231D88364D" KeyPath="yes" Source="$(var.LibrariesDir)\System.Windows.Interactivity.dll" />
+                </Component>
+                <Directory Id="dir7B74D3D0DF62B262F25AC6946108D298" Name="de">
+                    <Component Id="cmpDBD3B4EFAAC3567503FEE3F4E5B4AB51" Guid="*">
+                        <File Id="fil00717C44E7C3255255B3928F78AF21D3" KeyPath="yes" Source="$(var.LibrariesDir)\de\Microsoft.Expression.Effects.resources.dll" />
+                    </Component>
+                    <Component Id="cmp3117185246EC1BBA75CD3939E062572C" Guid="*">
+                        <File Id="fil8C4B38568CE17E7C460320A4B1E336E0" KeyPath="yes" Source="$(var.LibrariesDir)\de\Microsoft.Expression.Interactions.resources.dll" />
+                    </Component>
+                    <Component Id="cmpCDC254E9FBD60DCF7CAFAB2D8EEEAE28" Guid="*">
+                        <File Id="fil10B9EEAEAE09A35DB42D837873D5F215" KeyPath="yes" Source="$(var.LibrariesDir)\de\System.Windows.Interactivity.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirF5198186185910720536ED764F99B6AD" Name="en">
+                    <Component Id="cmp8D1CD32A9925C4781B31295CF4F6A39E" Guid="*">
+                        <File Id="filBA5B98862406ABDEC2DCB5D0E648341D" KeyPath="yes" Source="$(var.LibrariesDir)\en\Microsoft.Expression.Interactions.resources.dll" />
+                    </Component>
+                    <Component Id="cmpDF697F3F461ECE01F74EC4A18E1553EA" Guid="*">
+                        <File Id="fil6FAC4E573F6AECDB39FE4DF733E2BD6C" KeyPath="yes" Source="$(var.LibrariesDir)\en\System.Windows.Interactivity.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirCBAD218C18A45AB1D42172CB01F0A39B" Name="es">
+                    <Component Id="cmp359314D69EF6C665886CEBBC61B3AA3A" Guid="*">
+                        <File Id="filC06E1BB77D3077A26E9F3EB55DA86072" KeyPath="yes" Source="$(var.LibrariesDir)\es\Microsoft.Expression.Effects.resources.dll" />
+                    </Component>
+                    <Component Id="cmp214A7869738B5F43C68D536F38DA0C27" Guid="*">
+                        <File Id="filB44CD0C5BC0D7CB3EE77B5FE6C81A45C" KeyPath="yes" Source="$(var.LibrariesDir)\es\Microsoft.Expression.Interactions.resources.dll" />
+                    </Component>
+                    <Component Id="cmp2F7C1A7EA5D87C8968760CA55D9C8442" Guid="*">
+                        <File Id="fil984B6053E0E7BC2C0286884DE9278AE5" KeyPath="yes" Source="$(var.LibrariesDir)\es\System.Windows.Interactivity.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirF91BC894E0768196A5D52F97D42D1C22" Name="fr">
+                    <Component Id="cmp5F191A6678191E5479719F814A3B4E93" Guid="*">
+                        <File Id="fil0E6EA1F5164E017272A35B921499CC93" KeyPath="yes" Source="$(var.LibrariesDir)\fr\Microsoft.Expression.Effects.resources.dll" />
+                    </Component>
+                    <Component Id="cmpCACD21A28089E34B0962845CC3FB216E" Guid="*">
+                        <File Id="filAFC7D60EE629986A382DEE3727490775" KeyPath="yes" Source="$(var.LibrariesDir)\fr\Microsoft.Expression.Interactions.resources.dll" />
+                    </Component>
+                    <Component Id="cmpE4CE332D38FE0B401D42C44A9E1826A7" Guid="*">
+                        <File Id="fil1BD3759AA0E733540306514A7ABECA17" KeyPath="yes" Source="$(var.LibrariesDir)\fr\System.Windows.Interactivity.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir60E42721DAC789F47900327466C52A24" Name="it">
+                    <Component Id="cmpBF260D3BEC6A8728AACC1CC6CECFCA31" Guid="*">
+                        <File Id="filDA5022FD492823248159BF47389344B4" KeyPath="yes" Source="$(var.LibrariesDir)\it\Microsoft.Expression.Effects.resources.dll" />
+                    </Component>
+                    <Component Id="cmp8C8E381876F4E2B4B7264CC00D1E1173" Guid="*">
+                        <File Id="fil3E8B7074CCA7886C84C8C2CB6A08C849" KeyPath="yes" Source="$(var.LibrariesDir)\it\Microsoft.Expression.Interactions.resources.dll" />
+                    </Component>
+                    <Component Id="cmp3967A539F104E9CDF078CC1EA5CE4F6A" Guid="*">
+                        <File Id="fil884BE9AB9388864B8983476E3AA0DF11" KeyPath="yes" Source="$(var.LibrariesDir)\it\System.Windows.Interactivity.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir8CB54AE0847D31CD3372BA963A102C40" Name="ja">
+                    <Component Id="cmpF73A18E13EBEC298F69C413F03309BAF" Guid="*">
+                        <File Id="fil44C0B4876A6FEE7E819DC57834AC81F2" KeyPath="yes" Source="$(var.LibrariesDir)\ja\Microsoft.Expression.Effects.resources.dll" />
+                    </Component>
+                    <Component Id="cmp5CB5F004805438B85A517EF3367346B2" Guid="*">
+                        <File Id="filF5B4091F88EC3B63BEACFD85DFD72DE4" KeyPath="yes" Source="$(var.LibrariesDir)\ja\Microsoft.Expression.Interactions.resources.dll" />
+                    </Component>
+                    <Component Id="cmpB2B588646548B6174DE086DCFF093B52" Guid="*">
+                        <File Id="fil5266A7AFDBE3C2D5D9EE25F1C6A4D0D1" KeyPath="yes" Source="$(var.LibrariesDir)\ja\System.Windows.Interactivity.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir0F7670AEA3B497D58CE9F2C66BE90264" Name="ko">
+                    <Component Id="cmp82F8965B538FD4C767DDD98214D2E6FF" Guid="*">
+                        <File Id="fil05149E2C505F21B2E5A09A627E7551E8" KeyPath="yes" Source="$(var.LibrariesDir)\ko\Microsoft.Expression.Effects.resources.dll" />
+                    </Component>
+                    <Component Id="cmp60E5C0B1F90A8D683100A3339324ADDD" Guid="*">
+                        <File Id="filC0F302C164D4C7D249958AEC200298F2" KeyPath="yes" Source="$(var.LibrariesDir)\ko\Microsoft.Expression.Interactions.resources.dll" />
+                    </Component>
+                    <Component Id="cmpB984F01B5404D40012F02C543DFA7CC0" Guid="*">
+                        <File Id="fil317CC80EC802070AE77D778F437B5F81" KeyPath="yes" Source="$(var.LibrariesDir)\ko\System.Windows.Interactivity.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dirFED01E769171AEE490C28723E6C6108E" Name="ru">
+                    <Component Id="cmpE6E654736CBF070F76E02DE4942CA298" Guid="*">
+                        <File Id="fil5B4A7D2FFB47C787093B79977D27A7E9" KeyPath="yes" Source="$(var.LibrariesDir)\ru\Microsoft.Expression.Effects.resources.dll" />
+                    </Component>
+                    <Component Id="cmp7D356F36D5074CED26B1436DA5378AA3" Guid="*">
+                        <File Id="filF8956E6D4E84F4C5693A2CC53E0EE830" KeyPath="yes" Source="$(var.LibrariesDir)\ru\Microsoft.Expression.Interactions.resources.dll" />
+                    </Component>
+                    <Component Id="cmpE8A1F1AA4EC32A7044262A7704021817" Guid="*">
+                        <File Id="fil1F5D1E252C1724FACC1DE492DCC995F7" KeyPath="yes" Source="$(var.LibrariesDir)\ru\System.Windows.Interactivity.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir44D969B9256CA10F7F911FED24C11E3B" Name="zh-Hans">
+                    <Component Id="cmp0CDF87FD15068BCF9CCE3770E843F37B" Guid="*">
+                        <File Id="filB5830D6638F81EEA08D68F565822A9C9" KeyPath="yes" Source="$(var.LibrariesDir)\zh-Hans\Microsoft.Expression.Effects.resources.dll" />
+                    </Component>
+                    <Component Id="cmp4AA808D058D4224C2008669742FDC059" Guid="*">
+                        <File Id="filE92887B61CAE93EDFAE346D155568677" KeyPath="yes" Source="$(var.LibrariesDir)\zh-Hans\Microsoft.Expression.Interactions.resources.dll" />
+                    </Component>
+                    <Component Id="cmp3FEEF899C9B85AC7E552905D07BFDEA8" Guid="*">
+                        <File Id="fil18E942D0E6729A8F5548807D031B5DBE" KeyPath="yes" Source="$(var.LibrariesDir)\zh-Hans\System.Windows.Interactivity.resources.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir6154BF299811F387D9D95F0FFCB3DF5E" Name="zh-Hant">
+                    <Component Id="cmp01617638ECD35611598657F4DE136F77" Guid="*">
+                        <File Id="fil45729A77851B03E3C6E76A5B249C2DE2" KeyPath="yes" Source="$(var.LibrariesDir)\zh-Hant\Microsoft.Expression.Effects.resources.dll" />
+                    </Component>
+                    <Component Id="cmp18FB526F39597676968E0AB084463175" Guid="*">
+                        <File Id="fil009D90D22B5A9E399D72235A3326906D" KeyPath="yes" Source="$(var.LibrariesDir)\zh-Hant\Microsoft.Expression.Interactions.resources.dll" />
+                    </Component>
+                    <Component Id="cmp078B89C2E63ED0F35F141B9533358544" Guid="*">
+                        <File Id="fil62D8E895FE8ED586CBBA554634AFF505" KeyPath="yes" Source="$(var.LibrariesDir)\zh-Hant\System.Windows.Interactivity.resources.dll" />
+                    </Component>
+                </Directory>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="DllComponents">
+            <ComponentRef Id="cmp8BF6C995AB878E7A664FF9EC7D7A56FC" />
+            <ComponentRef Id="cmpB5253615D3A409D93E9B0F5C0792727C" />
+            <ComponentRef Id="cmpE88A5217E6CBA6AA7D4C8E2EF756AA30" />
+            <ComponentRef Id="cmpB54C78A947E1F2E243E2F02E2E4BB5E3" />
+            <ComponentRef Id="cmp497DB98CF2661AD5E3F644E55989373D" />
+            <ComponentRef Id="cmpDBD3B4EFAAC3567503FEE3F4E5B4AB51" />
+            <ComponentRef Id="cmp3117185246EC1BBA75CD3939E062572C" />
+            <ComponentRef Id="cmpCDC254E9FBD60DCF7CAFAB2D8EEEAE28" />
+            <ComponentRef Id="cmp8D1CD32A9925C4781B31295CF4F6A39E" />
+            <ComponentRef Id="cmpDF697F3F461ECE01F74EC4A18E1553EA" />
+            <ComponentRef Id="cmp359314D69EF6C665886CEBBC61B3AA3A" />
+            <ComponentRef Id="cmp214A7869738B5F43C68D536F38DA0C27" />
+            <ComponentRef Id="cmp2F7C1A7EA5D87C8968760CA55D9C8442" />
+            <ComponentRef Id="cmp5F191A6678191E5479719F814A3B4E93" />
+            <ComponentRef Id="cmpCACD21A28089E34B0962845CC3FB216E" />
+            <ComponentRef Id="cmpE4CE332D38FE0B401D42C44A9E1826A7" />
+            <ComponentRef Id="cmpBF260D3BEC6A8728AACC1CC6CECFCA31" />
+            <ComponentRef Id="cmp8C8E381876F4E2B4B7264CC00D1E1173" />
+            <ComponentRef Id="cmp3967A539F104E9CDF078CC1EA5CE4F6A" />
+            <ComponentRef Id="cmpF73A18E13EBEC298F69C413F03309BAF" />
+            <ComponentRef Id="cmp5CB5F004805438B85A517EF3367346B2" />
+            <ComponentRef Id="cmpB2B588646548B6174DE086DCFF093B52" />
+            <ComponentRef Id="cmp82F8965B538FD4C767DDD98214D2E6FF" />
+            <ComponentRef Id="cmp60E5C0B1F90A8D683100A3339324ADDD" />
+            <ComponentRef Id="cmpB984F01B5404D40012F02C543DFA7CC0" />
+            <ComponentRef Id="cmpE6E654736CBF070F76E02DE4942CA298" />
+            <ComponentRef Id="cmp7D356F36D5074CED26B1436DA5378AA3" />
+            <ComponentRef Id="cmpE8A1F1AA4EC32A7044262A7704021817" />
+            <ComponentRef Id="cmp0CDF87FD15068BCF9CCE3770E843F37B" />
+            <ComponentRef Id="cmp4AA808D058D4224C2008669742FDC059" />
+            <ComponentRef Id="cmp3FEEF899C9B85AC7E552905D07BFDEA8" />
+            <ComponentRef Id="cmp01617638ECD35611598657F4DE136F77" />
+            <ComponentRef Id="cmp18FB526F39597676968E0AB084463175" />
+            <ComponentRef Id="cmp078B89C2E63ED0F35F141B9533358544" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>

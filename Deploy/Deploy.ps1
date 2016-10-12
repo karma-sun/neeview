@@ -69,15 +69,22 @@ $packageDir = $product + $version
 $packageZip = $packageDir + ".zip"
 $packageMsi = $packageDir + ".msi"
 
+$packageLibraryDir = $packageDir + "\Libraries"
+
 # remove packageDir
 if (Test-Path $packageDir)
 {
-	Remove-Item $packageDir -Recurse
+	Remove-Item $packageDir -Recurse -Force
 }
 if (Test-Path $packageZip)
 {
 	Remove-Item $packageZip
 }
+if (Test-Path $packageMsi)
+{
+	Remove-Item $packageMsi
+}
+
 
 Start-Sleep -m 100
 
@@ -88,11 +95,19 @@ function New-Package
 {
 	# make package folder
 	$temp = New-Item $packageDir -ItemType Directory
+	$temp = New-Item $packageLibraryDir -ItemType Directory
 
 	# copy
 	Copy-Item "$productDir\$product.exe" $packageDir
 	Copy-Item "$productDir\$product.exe.config" $packageDir
-	Copy-Item "$productDir\*.dll" $packageDir
+	Copy-Item "$productDir\*.dll" $packageLibraryDir
+
+	# copy language dll
+	$langs = "de","en","es","fr","it","ja","ko","ru","zh-Hans","zh-Hant"
+	foreach($lang in $langs)
+	{
+		Copy-Item "$productDir\$lang" $packageLibraryDir -Recurse
+	}
 
 	#------------------------
 	# generate README.html
@@ -128,10 +143,11 @@ function New-Msi
 {
 	$candle = 'C:\Program Files (x86)\WiX Toolset v3.10\bin\candle.exe'
 	$light = 'C:\Program Files (x86)\WiX Toolset v3.10\bin\light.exe'
+	$heat = 'C:\Program Files (x86)\WiX Toolset v3.10\bin\heat.exe'
+
 
 	$config = "$product.exe.config"
 	$packageAppendDir = $packageDir + ".append"
-
 
 	# remove append folder
 	if (Test-Path $packageAppendDir)
@@ -154,13 +170,20 @@ function New-Msi
 	$xml.Save( $sw )
 	$sw.Close()
 
+	# make DllComponents.wxs
+	#& $heat dir "$packageDir\Libraries" -cg DllComponents -ag -pog:Binaries -sfrag -var var.LibrariesDir -dr INSTALLFOLDER -out WixSource\DllComponents.wxs
+	#if ($? -ne $true)
+	#{
+	#	throw "heat error"
+	#}
+
 	#-------------------------
 	# WiX
 	#-------------------------
 
 	$ErrorActionPreference = "stop"
 
-	& $candle -d"BuildVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -out "$packageDir.append\\"  WixSource\*.wxs
+	& $candle -d"BuildVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries"  -out "$packageDir.append\\"  WixSource\*.wxs
 	if ($? -ne $true)
 	{
 		throw "candle error"
@@ -195,7 +218,7 @@ if (($Target -eq "All") -or ($Target -eq "Installer"))
 
 
 # current
-Copy-Item "$packageDir\*" "NeeView\" -Recurse
+Copy-Item "$packageDir\*" "NeeView\" -Recurse -Force
 
 
 #-------------------------

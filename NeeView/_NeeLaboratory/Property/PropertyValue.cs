@@ -92,5 +92,40 @@ namespace NeeLaboratory.Property
         }
     }
 
+    //
+    public class PropertyValue_IntegerRange : PropertyValue<int, PropertyMemberElement>
+    {
+        public int Minimum { get; set; }
+        public int Maximum { get; set; }
+        public int TickFrequency
+        {
+            get
+            {
+                var delta = (Maximum - Minimum) * 0.01;
+                return delta < 2.0 ? 1 : (int)delta;
+            }
+        }
+
+        public PropertyValue_IntegerRange(PropertyMemberElement setter, int min, int max) : base(setter)
+        {
+            Minimum = min;
+            Maximum = max;
+        }
+    }
+
+    //
+    public class PropertyValue_DoubleRange : PropertyValue<double, PropertyMemberElement>
+    {
+        public double Minimum { get; set; }
+        public double Maximum { get; set; }
+        public double TickFrequency => (Maximum - Minimum) * 0.01;
+
+        public PropertyValue_DoubleRange(PropertyMemberElement setter, double min, double max) : base(setter)
+        {
+            Minimum = min;
+            Maximum = max;
+        }
+    }
+
 
 }

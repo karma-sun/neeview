@@ -20,6 +20,7 @@ using System.Windows.Shapes;
 
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using NeeLaboratory.Property;
 
 namespace NeeView
 {
@@ -795,14 +796,15 @@ namespace NeeView
                     ? (CommandParameter)Utility.Json.Deserialize(command.ParameterJson, source.DefaultParameter.GetType())
                     : parameterDfault.Clone();
 
-                var context = CommandParameterEditContext.Create(parameter, command.Header);
+                var context = PropertyDocument.Create(parameter);
+                context.Name = command.Header;
 
                 var dialog = new CommandParameterWindow(context, parameterDfault);
                 dialog.Owner = this;
                 dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 if (dialog.ShowDialog() == true)
                 {
-                    command.ParameterJson = context.Source.ToJson();
+                    command.ParameterJson = Utility.Json.Serialize(context.Source, context.Source.GetType());
                 }
             }
         }

@@ -52,7 +52,7 @@
                         <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
                     </Style>
                 </Grid.Resources>
-                <nlp:PropertyInspector x:Name="inspector" Document="{Binding ImageEffector.EffectParameters}" FontSize="15" >
+                <nlp:PropertyInspector x:Name="inspector" Document="{Binding ImageEffector.EffectParameters}" FontSize="15" IsResetButtonVisible="True" >
                     <nlp:PropertyInspector.Style>
                         <Style TargetType="nlp:PropertyInspector">
                             <Style.Triggers>

@@ -45,7 +45,7 @@ namespace NeeLaboratory.Property
 
         private PropertyInfo _info;
 
-        public PropertyMemberElement(object source, PropertyInfo info, PropertyMemberAttribute attribute)
+        private void Initialize(object source, PropertyInfo info, PropertyMemberAttribute attribute)
         {
             Source = source;
             Name = attribute.Name ?? info.Name;
@@ -53,6 +53,12 @@ namespace NeeLaboratory.Property
             Default = GetDefaultValue(source, info);
 
             _info = info;
+        }
+
+        //
+        public PropertyMemberElement(object source, PropertyInfo info, PropertyMemberAttribute attribute)
+        {
+            Initialize(source, info, attribute);
 
             TypeCode typeCode = Type.GetTypeCode(_info.PropertyType);
             switch (typeCode)
@@ -83,6 +89,25 @@ namespace NeeLaboratory.Property
                         this.TypeValue = new PropertyValue_Object(this);
                     }
                     break;
+            }
+        }
+
+        //
+        public PropertyMemberElement(object source, PropertyInfo info, PropertyRangeAttribute attribute)
+        {
+            Initialize(source, info, attribute);
+
+            TypeCode typeCode = Type.GetTypeCode(_info.PropertyType);
+            switch (typeCode)
+            {
+                case TypeCode.Int32:
+                    this.TypeValue = new PropertyValue_IntegerRange(this, (int)attribute.Minimum, (int)attribute.Maximum);
+                    break;
+                case TypeCode.Double:
+                    this.TypeValue = new PropertyValue_DoubleRange(this, attribute.Minimum, attribute.Maximum);
+                    break;
+                default:
+                    throw new NotSupportedException();
             }
         }
 
@@ -128,18 +153,5 @@ namespace NeeLaboratory.Property
         //
         public PropertyValue TypeValue { get; set; }
     }
-
-
-    //
-    public class PropertyRangeElement : PropertyMemberElement
-    {
-        public PropertyRangeAttribute Range { get; private set; }
-
-        public PropertyRangeElement(object source, PropertyInfo info, PropertyRangeAttribute attribute) : base(source, info, attribute)
-        {
-            Range = attribute;
-        }
-    }
-
 
 }

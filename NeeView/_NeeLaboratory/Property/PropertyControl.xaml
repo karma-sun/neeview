@@ -13,12 +13,12 @@
              xmlns:local="clr-namespace:NeeLaboratory.Property"
              mc:Ignorable="d"
              UseLayoutRounding="True"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="30" d:DesignWidth="300">
 
     <Grid x:Name="Root" Margin="5">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" MinWidth="50"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition x:Name="HeaderGridColumn" Width="1*" MinWidth="50"/>
+            <ColumnDefinition x:Name="ValueGridColumn" Width="3*"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"  UseLayoutRounding="True"
                    Text="{Binding Header, RelativeSource={RelativeSource AncestorType=UserControl}}"

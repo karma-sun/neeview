@@ -10,43 +10,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
+        xmlns:nlp="clr-namespace:NeeLaboratory.Property"
         mc:Ignorable="d"
         Title="{Binding Name, StringFormat='パラメータ設定 - {0}'}" SizeToContent="Height" MinHeight="150" Width="512">
 
     <Window.Resources>
-
-        <DataTemplate DataType="{x:Type local:Value_Object}">
-            <ContentControl Content="{Binding Value}" Foreground="Gray"/>
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type local:Value_Boolean}">
-            <CheckBox IsChecked="{Binding Value}"/>
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type local:Value_String}">
-            <TextBox Text="{Binding Value}"/>
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type local:Value_Integer}">
-            <TextBox Text="{Binding Value}"/>
-        </DataTemplate>
-
-
-        <DataTemplate DataType="{x:Type local:CommandParameterTitle}">
-                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontWeight="Bold" Margin="0,10,0,5" />
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type local:CommandParameterProperty}">
-            <Grid Margin="10,2,0,2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" MinWidth="100"/>
-                    <ColumnDefinition Width="3*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="{Binding Name}" ToolTip="{Binding Tips}" TextTrimming="CharacterEllipsis" />
-                <ContentControl Grid.Column="1" Content="{Binding TypeValue}" VerticalAlignment="Center" Margin="5,0"/>
-            </Grid>
-        </DataTemplate>
-
 
         <Style x:Key="NormalButtonStyle" TargetType="Button">
             <Setter Property="Margin" Value="5"/>
@@ -66,7 +34,8 @@
             </StackPanel>
 
             <Border Margin="5" BorderThickness="1" BorderBrush="Gray" UseLayoutRounding="True">
-                <ItemsControl x:Name="Items" ItemsSource="{Binding Items}" Margin="5"/>
+                <nlp:PropertyInspector x:Name="Inspector" Document="{Binding .}" Margin="5"
+                                       IsResetButtonVisible="False" ColumnRate="0.5"/>
             </Border>
         </DockPanel>
     </Grid>

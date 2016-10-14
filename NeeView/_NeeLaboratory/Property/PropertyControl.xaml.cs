@@ -38,7 +38,6 @@ namespace NeeLaboratory.Property
             DependencyProperty.Register("Header", typeof(string), typeof(PropertyControl), new PropertyMetadata(null));
 
 
-
         public string Tips
         {
             get { return (string)GetValue(TipsProperty); }
@@ -48,8 +47,6 @@ namespace NeeLaboratory.Property
         // Using a DependencyProperty as the backing store for Tips.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TipsProperty =
             DependencyProperty.Register("Tips", typeof(string), typeof(PropertyControl), new PropertyMetadata(null));
-
-
 
 
         public object Value
@@ -63,6 +60,27 @@ namespace NeeLaboratory.Property
             DependencyProperty.Register("Value", typeof(object), typeof(PropertyControl), new PropertyMetadata(null));
 
 
+        public double ColumnRate
+        {
+            get { return (double)GetValue(ColumnRateProperty); }
+            set { SetValue(ColumnRateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ColumnRate.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ColumnRateProperty =
+            DependencyProperty.Register("ColumnRate", typeof(double), typeof(PropertyControl), new PropertyMetadata(1.0/4.0, ColumnRateProperty_Changed));
+
+        private static void ColumnRateProperty_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as PropertyControl;
+            if (control != null)
+            {
+                control.HeaderGridColumn.Width = new GridLength(control.ColumnRate, GridUnitType.Star);
+                control.ValueGridColumn.Width = new GridLength((1.0 - control.ColumnRate), GridUnitType.Star);
+            }
+        }
+
+        //
         public PropertyControl()
         {
             InitializeComponent();

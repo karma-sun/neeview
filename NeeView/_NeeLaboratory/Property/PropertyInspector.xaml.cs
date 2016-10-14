@@ -28,8 +28,6 @@ namespace NeeLaboratory.Property
     /// </summary>
     public partial class PropertyInspector : UserControl
     {
-
-
         public PropertyDocument Document
         {
             get { return (PropertyDocument)GetValue(DocumentProperty); }
@@ -40,16 +38,51 @@ namespace NeeLaboratory.Property
         public static readonly DependencyProperty DocumentProperty =
             DependencyProperty.Register("Document", typeof(PropertyDocument), typeof(PropertyInspector), new PropertyMetadata(null));
 
-        //
-        //public List<PropertyDrawElement> ItemsSource => Document.Elements;
 
 
+        public bool IsResetButtonVisible
+        {
+            get { return (bool)GetValue(IsResetButtonVisibleProperty); }
+            set { SetValue(IsResetButtonVisibleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsResetButtonVisible.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsResetButtonVisibleProperty =
+            DependencyProperty.Register("IsResetButtonVisible", typeof(bool), typeof(PropertyInspector), new PropertyMetadata(true, IsResetButtonVisibleProperty_Changed));
+
+        private static void IsResetButtonVisibleProperty_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as PropertyInspector;
+            if (control != null)
+            {
+                control.ResetButton.Visibility = control.IsResetButtonVisible ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+
+        public double ColumnRate
+        {
+            get { return (double)GetValue(ColumnRateProperty); }
+            set { SetValue(ColumnRateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ColumnRate.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ColumnRateProperty =
+            DependencyProperty.Register("ColumnRate", typeof(double), typeof(PropertyInspector), new PropertyMetadata(1.0 / 4.0));
+
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         public PropertyInspector()
         {
             InitializeComponent();
 
             this.Root.DataContext = this;
         }
+
 
         //
         private void Reset(object sender, RoutedEventArgs e)
@@ -59,6 +92,12 @@ namespace NeeLaboratory.Property
                 item.ResetValue();
             }
 
+            this.properties.Items.Refresh();
+        }
+
+        //
+        public void Reflesh()
+        {
             this.properties.Items.Refresh();
         }
     }

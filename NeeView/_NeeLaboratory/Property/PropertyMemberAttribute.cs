@@ -33,20 +33,20 @@ namespace NeeLaboratory.Property
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyRangeAttribute : PropertyMemberAttribute
     {
-        public double Min { get; set; }
-        public double Max { get; set; }
+        public double Minimum { get; set; }
+        public double Maximum { get; set; }
 
-        public double TickFrequency => (Max - Min) * 0.01;
+        public double TickFrequency => (Maximum - Minimum) * 0.01;
 
         public PropertyRangeAttribute(double min, double max)
         {
-            Min = min;
-            Max = max;
+            Minimum = min;
+            Maximum = max;
         }
 
         public override PropertyMemberElement CreateContent(object source, PropertyInfo info)
         {
-            return new PropertyRangeElement(source, info, this);
+            return new PropertyMemberElement(source, info, this);
         }
     }
 

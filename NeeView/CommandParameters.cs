@@ -2,6 +2,7 @@
 //
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
+using NeeLaboratory.Property;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace NeeView
     /// </summary>
     public class ShareCommandParameter : CommandParameter
     {
-        [DispName("パラメータ共有")]
+        [PropertyMember("パラメータ共有")]
         public CommandType CommandType { get; set; }
 
         //
@@ -72,7 +73,7 @@ namespace NeeView
     /// </summary>
     public class MoveSizePageCommandParameter : CommandParameter
     {
-        [DispName("移動ページ数")]
+        [PropertyMember("移動ページ数")]
         public int Size
         {
             get { return _Size; }
@@ -89,12 +90,12 @@ namespace NeeView
     {
         // ループ
         [DataMember]
-        [DispName("ループ", Title ="ループ設定")]
+        [PropertyMember("ループ", Title = "ループ設定")]
         public bool IsLoop { get; set; }
 
         // 表示名
         [DataMember]
-        [DispName(PageStretchModeExtension.PageStretchMode_None, Title ="切り替え可能なモード")]
+        [PropertyMember(PageStretchModeExtension.PageStretchMode_None, Title = "切り替え可能なモード")]
         public bool IsEnableNone
         {
             get { return StretchModes[PageStretchMode.None]; }
@@ -102,7 +103,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [DispName(PageStretchModeExtension.PageStretchMode_Inside)]
+        [PropertyMember(PageStretchModeExtension.PageStretchMode_Inside)]
         public bool IsEnableInside
         {
             get { return StretchModes[PageStretchMode.Inside]; }
@@ -110,7 +111,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [DispName(PageStretchModeExtension.PageStretchMode_Outside)]
+        [PropertyMember(PageStretchModeExtension.PageStretchMode_Outside)]
         public bool IsEnableOutside
         {
             get { return StretchModes[PageStretchMode.Outside]; }
@@ -118,7 +119,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [DispName(PageStretchModeExtension.PageStretchMode_Uniform)]
+        [PropertyMember(PageStretchModeExtension.PageStretchMode_Uniform)]
         public bool IsEnableUniform
         {
             get { return StretchModes[PageStretchMode.Uniform]; }
@@ -126,7 +127,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [DispName(PageStretchModeExtension.PageStretchMode_UniformToFill)]
+        [PropertyMember(PageStretchModeExtension.PageStretchMode_UniformToFill)]
         public bool IsEnableUniformToFill
         {
             get { return StretchModes[PageStretchMode.UniformToFill]; }
@@ -134,7 +135,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [DispName(PageStretchModeExtension.PageStretchMode_UniformToSize)]
+        [PropertyMember(PageStretchModeExtension.PageStretchMode_UniformToSize)]
         public bool IsEnableUniformToSize
         {
             get { return StretchModes[PageStretchMode.UniformToSize]; }
@@ -142,7 +143,7 @@ namespace NeeView
         }
 
         [DataMember]
-        [DispName(PageStretchModeExtension.PageStretchMode_UniformToVertical)]
+        [PropertyMember(PageStretchModeExtension.PageStretchMode_UniformToVertical)]
         public bool IsEnableUniformToVertical
         {
             get { return StretchModes[PageStretchMode.UniformToVertical]; }
@@ -172,7 +173,7 @@ namespace NeeView
     public class StretchModeCommandParameter : CommandParameter
     {
         // 属性に説明文
-        [DispName("オリジナルサイズとの切り替え", Tips = "既に指定のスケールモードの場合、オリジナルサイズにする")]
+        [PropertyMember("オリジナルサイズとの切り替え", Tips = "既に指定のスケールモードの場合、オリジナルサイズにする")]
         public bool IsToggle { get; set; }
     }
 
@@ -183,7 +184,7 @@ namespace NeeView
     public class ViewScaleCommandParameter : CommandParameter
     {
         // 属性に説明文
-        [DispName("拡大率(%)", Tips = "一度の操作で拡大する割合(0-100)")]
+        [PropertyRange(0, 100, Name = "拡大率(%)", Tips = "一度の操作で拡大する割合(0-100)")]
         public int Scale
         {
             get { return _Scale; }
@@ -198,7 +199,7 @@ namespace NeeView
     public class ViewRotateCommandParameter : CommandParameter
     {
         // 属性に説明文
-        [DispName("回転角度", Tips = "一度の操作で回転する角度(0-180)")]
+        [PropertyRange(0, 180, Name = "回転角度", Tips = "一度の操作で回転する角度(0-180)")]
         public int Angle
         {
             get { return _Angle; }
@@ -213,10 +214,10 @@ namespace NeeView
     /// </summary>
     public class MovePagemarkCommandParameter : CommandParameter
     {
-        [DispName("ループ")]
+        [PropertyMember("ループ")]
         public bool IsLoop { get; set; }
 
-        [DispName("最初と最後のページを含める")]
+        [PropertyMember("最初と最後のページを含める")]
         public bool IsIncludeTerminal { get; set; }
     }
 

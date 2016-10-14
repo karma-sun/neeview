@@ -20,6 +20,9 @@ namespace NeeLaboratory.Property
     /// </summary>
     public class PropertyDocument
     {
+        // name
+        public string Name { get; set; }
+
         // class source
         public object Source { get; set; }
 

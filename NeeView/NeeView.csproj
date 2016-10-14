@@ -77,8 +77,6 @@
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
     <Compile Include="CommandParameters.cs" />
-    <Compile Include="CommandParameterEditContext.cs" />
-    <Compile Include="CommandParameterProperty.cs" />
     <Compile Include="CommandParameterWindow.xaml.cs">
       <DependentUpon>CommandParameterWindow.xaml</DependentUpon>
     </Compile>
@@ -119,7 +117,6 @@
     <Compile Include="ResolveConflictDialog.xaml.cs">
       <DependentUpon>ResolveConflictDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DispNameAttribute.cs" />
     <Compile Include="InputGestureSettingWindowVM.cs" />
     <Compile Include="PagemarkControl.xaml.cs">
       <DependentUpon>PagemarkControl.xaml</DependentUpon>

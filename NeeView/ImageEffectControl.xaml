@@ -29,6 +29,8 @@
             <Setter Property="Background" Value="#FFF8F8F8"/>
             <Setter Property="Foreground" Value="Black"/>
         </Style>
+
+        
     </UserControl.Resources>
 
     <Grid Margin="5,10">
@@ -50,6 +52,7 @@
                         <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
                         <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
                         <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
+                        <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
                     </Style>
                 </Grid.Resources>
                 <nlp:PropertyInspector x:Name="inspector" Document="{Binding ImageEffector.EffectParameters}" FontSize="15" IsResetButtonVisible="True" >

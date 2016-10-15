@@ -66,7 +66,7 @@ namespace NeeView
         {
             _Sources = sources;
             Command = command;
-            Header = $"キーの設定 - {Command.ToDispString()}";
+            Header = $"ショートカット設定 - {Command.ToDispString()}";
 
             UpdateGestures();
         }

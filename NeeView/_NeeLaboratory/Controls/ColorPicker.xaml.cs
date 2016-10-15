@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using NeeLaboratory.Media;
 
 namespace NeeLaboratory.Controls
 {
@@ -46,16 +47,38 @@ namespace NeeLaboratory.Controls
 
         // Using a DependencyProperty as the backing store for Color.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ColorProperty =
-            DependencyProperty.Register("Color", typeof(Color), typeof(ColorPicker), new PropertyMetadata(Colors.Black));
+            DependencyProperty.Register("Color", typeof(Color), typeof(ColorPicker), new PropertyMetadata(Colors.Black, ColorProperty_Changed));
 
+        private static void ColorProperty_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as ColorPicker;
+            if (control != null)
+            {
+                control.Flush();
+            }
+        }
+
+        private bool _isPropertyLocked;
+
+        private void Flush()
+        {
+            if (!_isPropertyLocked)
+            {
+                _rgb = Color;
+                _hsv = Color.ToHSV();
+            }
+            OnPropertyChanged(null);
+        }
+
+        private Color _rgb;
 
         /// <summary>
         /// Property: R
         /// </summary>
         public byte R
         {
-            get { return Color.R; }
-            set { if (Color.R != value) { Color = Color.FromArgb(Color.A, value, Color.G, Color.B); OnPropertyChanged(); } }
+            get { return _rgb.R; }
+            set { UpdateColor(Color.FromArgb(_rgb.A, value, _rgb.G, _rgb.B)); }
         }
 
         /// <summary>
@@ -63,8 +86,8 @@ namespace NeeLaboratory.Controls
         /// </summary>
         public byte G
         {
-            get { return Color.G; }
-            set { if (Color.G != value) { Color = Color.FromArgb(Color.A, Color.R, value, Color.B); OnPropertyChanged(); } }
+            get { return _rgb.G; }
+            set { UpdateColor(Color.FromArgb(_rgb.A, _rgb.R, value, _rgb.B)); }
         }
 
         /// <summary>
@@ -72,10 +95,82 @@ namespace NeeLaboratory.Controls
         /// </summary>
         public byte B
         {
-            get { return Color.B; }
-            set { if (Color.B != value) { Color = Color.FromArgb(Color.A, Color.R, Color.G, value); OnPropertyChanged(); } }
+            get { return _rgb.B; }
+            set { UpdateColor(Color.FromArgb(_rgb.A, _rgb.R, _rgb.G, value)); }
         }
 
+
+
+        public HSVColor _hsv;
+
+        public int H
+        {
+            get { return (int)_hsv.H; }
+            set
+            {
+                UpdateColor(HSVColor.FromHSV(value, _hsv.S, _hsv.V));
+            }
+        }
+
+        public double S
+        {
+            get { return _hsv.S; }
+            set
+            {
+                UpdateColor(HSVColor.FromHSV(_hsv.H, value, _hsv.V));
+            }
+        }
+
+        public double V
+        {
+            get { return _hsv.V; }
+            set
+            {
+                UpdateColor(HSVColor.FromHSV(_hsv.H, _hsv.S, value));
+            }
+        }
+
+        private void UpdateColor(Color rgb)
+        {
+            _rgb = rgb;
+            _hsv = _rgb.ToHSV();
+            UpdateColor();
+        }
+
+        private void UpdateColor(HSVColor hsv)
+        {
+            _hsv = hsv;
+            _rgb = _hsv.ToRGB();
+            UpdateColor();
+        }
+
+        private void UpdateColor()
+        {
+            _isPropertyLocked = true;
+            Color = _rgb;
+            _isPropertyLocked = false;
+        }
+
+
+        /// <summary>
+        /// Property: IsRgbVisible
+        /// </summary>
+        private bool _IsRgbVisible = true;
+        public bool IsRgbVisible
+        {
+            get { return _IsRgbVisible; }
+            set { if (_IsRgbVisible != value) { _IsRgbVisible = value; OnPropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// Property: IsHsvVisible
+        /// </summary>
+        private bool _IsHsvVisible;
+        public bool IsHsvVisible
+        {
+            get { return _IsHsvVisible; }
+            set { if (_IsHsvVisible != value) { _IsHsvVisible = value; OnPropertyChanged(); } }
+        }
 
 
         /// <summary>
@@ -90,7 +185,9 @@ namespace NeeLaboratory.Controls
     }
 
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     [ValueConversion(typeof(Color), typeof(string))]
     public class ColorToStringConverter : IValueConverter
     {

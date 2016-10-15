@@ -103,6 +103,7 @@
     <Compile Include="_NeeLaboratory\Controls\PointInspector.xaml.cs">
       <DependentUpon>PointInspector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="_NeeLaboratory\Media\HVSColor.cs" />
     <Compile Include="_NeeLaboratory\Property\IValueSetter.cs" />
     <Compile Include="_NeeLaboratory\Property\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>

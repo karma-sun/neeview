@@ -15,7 +15,7 @@
 
     <Grid x:Name="Root">
         <Grid.Resources>
-            <Style x:Key="RgbSlider" TargetType="Slider">
+            <Style x:Key="ValueSlider" TargetType="Slider">
                 <Setter Property="Minimum" Value="0"/>
                 <Setter Property="Maximum" Value="1"/>
                 <Setter Property="SmallChange" Value="0.1"/>
@@ -30,12 +30,12 @@
             <DockPanel Margin="0,0,0,5">
                 <TextBlock Text="X" Width="16"/>
                 <TextBox DockPanel.Dock="Right" Width="70" Text="{Binding X}"/>
-                <Slider Style="{StaticResource RgbSlider}" Value="{Binding X}"/>
+                <Slider Style="{StaticResource ValueSlider}" Value="{Binding X}"/>
             </DockPanel>
             <DockPanel Margin="0,0,0,5">
                 <TextBlock Text="Y" Width="16"/>
                 <TextBox DockPanel.Dock="Right" Width="70" Text="{Binding Y}"/>
-                <Slider Style="{StaticResource RgbSlider}" Value="{Binding Y}"/>
+                <Slider Style="{StaticResource ValueSlider}" Value="{Binding Y}"/>
             </DockPanel >
         </StackPanel>
     </Grid>

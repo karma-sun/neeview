@@ -45,5 +45,11 @@ namespace NeeView
         {
             InitializeComponent();
         }
+
+        // 単キーのショートカット無効
+        private void Control_KeyDown_IgnoreSingleKeyGesture(object sender, KeyEventArgs e)
+        {
+            KeyExGesture.AllowSingleKey = false;
+        }
     }
 }

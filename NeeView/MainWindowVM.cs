@@ -1922,7 +1922,7 @@ namespace NeeView
             catch { }
 
             // 保存しないフラグ
-            bool disableSave = ModelContext.Preference["userdata.save.disable"].Boolean;
+            bool disableSave = ModelContext.Preference.userdata_save_disable;
 
             try
             {

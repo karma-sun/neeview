@@ -131,7 +131,7 @@ namespace NeeLaboratory.Controls
             get { return (int)_hsv.H; }
             set
             {
-                UpdateColor(HSVColor.FromHSV(value, _hsv.S, _hsv.V));
+                UpdateColor(HSVColor.FromHSV(_hsv.A, value, _hsv.S, _hsv.V));
             }
         }
 
@@ -140,7 +140,7 @@ namespace NeeLaboratory.Controls
             get { return _hsv.S; }
             set
             {
-                UpdateColor(HSVColor.FromHSV(_hsv.H, value, _hsv.V));
+                UpdateColor(HSVColor.FromHSV(_hsv.A, _hsv.H, value, _hsv.V));
             }
         }
 
@@ -149,7 +149,7 @@ namespace NeeLaboratory.Controls
             get { return _hsv.V; }
             set
             {
-                UpdateColor(HSVColor.FromHSV(_hsv.H, _hsv.S, value));
+                UpdateColor(HSVColor.FromHSV(_hsv.A, _hsv.H, _hsv.S, value));
             }
         }
 
@@ -163,7 +163,7 @@ namespace NeeLaboratory.Controls
         private void UpdateColor(HSVColor hsv)
         {
             _hsv = hsv;
-            _rgb = _hsv.ToRGB();
+            _rgb = _hsv.ToARGB();
             UpdateColor();
         }
 

@@ -92,13 +92,16 @@ namespace NeeView
         public static void ApplyPreference()
         {
             // Jobワーカーサイズ
-            JobEngine.Start(Preference["loader.thread.size"].Integer);
+            JobEngine.Start(Preference.loader_thread_size);
 
             // ワイドページ判定用比率
-            Page.WideRatio = Preference["view.image.wideratio"].Double;
+            Page.WideRatio = Preference.view_image_wideratio;
 
             // SevenZip対応拡張子設定
-            ArchiverManager.UpdateSevenZipSupprtedFileTypes(Preference["loader.archiver.7z.supprtfiletypes"].String);
+            ArchiverManager.UpdateSevenZipSupprtedFileTypes(Preference.loader_archiver_7z_supprtfiletypes);
+
+            // 7z.dll の場所
+            SevenZipArchiver.DllPath = Preference.loader_archiver_7z_dllpath;
 
             // MainWindow Preference適用
             ((MainWindow)App.Current.MainWindow).ApplyPreference(Preference);

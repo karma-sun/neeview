@@ -19,59 +19,22 @@
     <Grid x:Name="Root">
         <Grid.Resources>
 
-            <DataTemplate DataType="{x:Type local:PropertyValue_Object}">
-                <ContentControl Content="{Binding Value}" Foreground="Gray"/>
-            </DataTemplate>
+            <ResourceDictionary>
 
-            <DataTemplate DataType="{x:Type local:PropertyValue_Boolean}">
-                <CheckBox IsChecked="{Binding Value}"/>
-            </DataTemplate>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="PropertyValueTemplateDictionary.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
 
-            <DataTemplate DataType="{x:Type local:PropertyValue_String}">
-                <TextBox Text="{Binding Value}"/>
-            </DataTemplate>
+                <DataTemplate DataType="{x:Type local:PropertyTitleElement}">
+                    <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontWeight="Bold" Margin="0,10,0,5" />
+                </DataTemplate>
 
-            <DataTemplate DataType="{x:Type local:PropertyValue_Integer}">
-                <TextBox Text="{Binding Value}"/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type local:PropertyValue_IntegerRange}">
-                <DockPanel>
-                    <TextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                    <Slider Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" 
-                            TickFrequency="{Binding TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
-                </DockPanel>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type local:PropertyValue_Double}">
-                <TextBox Text="{Binding Value}"/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type local:PropertyValue_DoubleRange}">
-                <DockPanel>
-                    <TextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                    <Slider Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" 
-                            TickFrequency="{Binding TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
-                    </DockPanel>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type local:PropertyValue_Point}">
-                <nlc:PointInspector Point="{Binding Value, Mode=TwoWay}"/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type local:PropertyValue_Color}">
-                <nlc:ColorPicker Color="{Binding Value, Mode=TwoWay}"
-                                 IsHsvMode="{Binding IsHsvMode, RelativeSource={RelativeSource AncestorType=UserControl,AncestorLevel=2}}"/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type local:PropertyTitleElement}">
-                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontWeight="Bold" Margin="0,10,0,5" />
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type local:PropertyMemberElement}">
-                <local:PropertyControl Header="{Binding Name}" Value="{Binding TypeValue}" Tips="{Binding Tips}"
+                <DataTemplate DataType="{x:Type local:PropertyMemberElement}">
+                    <local:PropertyControl Header="{Binding Name}" Value="{Binding TypeValue}" Tips="{Binding Tips}"
                                        ColumnRate="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ColumnRate}"/>
-            </DataTemplate>
+                </DataTemplate>
+
+            </ResourceDictionary>
 
         </Grid.Resources>
 

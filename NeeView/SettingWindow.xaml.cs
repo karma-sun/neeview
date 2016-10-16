@@ -121,14 +121,14 @@ namespace NeeView
         // 詳細設定一覧用パラメータ
         public class PreferenceParam
         {
-            public PreferenceElement Source { get; set; }
+            public PropertyMemberElement Source { get; set; }
 
-            public string Key => Source.Key;
+            public string Key => Source.Path;
             public string Name => Source.Name;
             public string State => Source.HasCustomValue ? "ユーザ設定" : "初期設定値";
             public string TypeString => Source.GetValueTypeString();
-            public string Value => Source.Value.ToString();
-            public string Tips => Source.Note;
+            public string Value => Source.GetValue().ToString();
+            public string Tips => Source.Tips;
         }
 
         // 詳細設定一覧
@@ -445,13 +445,13 @@ namespace NeeView
         {
             PreferenceCollection.Clear();
 
-            foreach (var element in _Preference.Dictionary)
+            foreach (var element in _Preference.Document.PropertyMembers)
             {
-                if (element.Key.StartsWith(".")) continue;
+                if (element.Path.StartsWith("_")) continue;
 
                 var item = new PreferenceParam()
                 {
-                    Source = element.Value,
+                    Source = element,
                 };
                 PreferenceCollection.Add(item);
             }
@@ -470,11 +470,11 @@ namespace NeeView
         }
 
         //
-        private void EditPreference(PreferenceElement param, bool isSimple)
+        private void EditPreference(PropertyMemberElement param, bool isSimple)
         {
             if (isSimple && param.GetValueType() == typeof(bool))
             {
-                param.Set(!param.Boolean);
+                param.SetValue(!(bool)param.GetValue());
                 this.PreferenceListView.Items.Refresh();
             }
             else

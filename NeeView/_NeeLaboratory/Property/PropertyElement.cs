@@ -39,6 +39,7 @@ namespace NeeLaboratory.Property
     public class PropertyMemberElement : PropertyDrawElement, IValueSetter
     {
         public object Source { get; set; }
+        public string Path => _info.Name;
         public string Name { get; set; }
         public string Tips { get; set; }
         public object Default { get; set; }
@@ -112,6 +113,22 @@ namespace NeeLaboratory.Property
         }
 
         //
+        public PropertyMemberElement(object source, PropertyInfo info, PropertyPathAttribute attribute)
+        {
+            Initialize(source, info, attribute);
+
+            TypeCode typeCode = Type.GetTypeCode(_info.PropertyType);
+            switch (typeCode)
+            {
+                case TypeCode.String:
+                    this.TypeValue = new PropertyValue_FilePath(this);
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
+        //
         private static object GetDefaultValue(object source, PropertyInfo info)
         {
             var attributes = Attribute.GetCustomAttributes(info, typeof(DefaultValueAttribute));
@@ -125,6 +142,24 @@ namespace NeeLaboratory.Property
             }
         }
 
+        //
+        public Type GetValueType()
+        {
+            return _info.PropertyType;
+        }
+
+        //
+        public string GetValueTypeString()
+        {
+            return TypeValue.GetTypeString();
+        }
+
+
+        //
+        public bool HasCustomValue
+        {
+            get { return !Default.Equals(GetValue()); }
+        }
 
         //
         public void ResetValue()
@@ -136,6 +171,12 @@ namespace NeeLaboratory.Property
         public void SetValue(object value)
         {
             this._info.SetValue(this.Source, value);
+        }
+
+        //
+        public void SetValueFromString(string value)
+        {
+            TypeValue.SetValueFromString(value);
         }
 
         //

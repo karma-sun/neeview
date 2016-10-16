@@ -41,11 +41,11 @@ namespace NeeView.Effects
         {
             [EffectType.None] = "なし (標準)",
             [EffectType.Blur] = "ぼかし",
-            [EffectType.Bloom] = "ブルーム照明",
+            [EffectType.Bloom] = "ブルーム",
             [EffectType.Monochrome] = "モノクロ",
             [EffectType.ColorTone] = "カラートーン",
             [EffectType.Embossed] = "エンボス",
-            [EffectType.Pixelate] = "モザイク",
+            [EffectType.Pixelate] = "ピクセレート",
             [EffectType.Sharpen] = "シャープ",
             [EffectType.Magnify] = "拡大鏡",
             [EffectType.Ripple] = "波紋",

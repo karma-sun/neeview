@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,7 +32,7 @@ namespace NeeView
         /// constructor
         /// </summary>
         /// <param name="pref"></param>
-        public PreferenceEditWindow(PreferenceElement pref)
+        public PreferenceEditWindow(PropertyMemberElement pref)
         {
             InitializeComponent();
 
@@ -70,6 +71,7 @@ namespace NeeView
         private void ButtonReset_Click(object sender, RoutedEventArgs e)
         {
             _VM.ResetValue();
+            this.ItemsControl.Items.Refresh();
         }
     }
 
@@ -88,53 +90,23 @@ namespace NeeView
         }
         #endregion
 
-        private PreferenceElement _Element;
+        public PropertyMemberElement Element { get; set; }
 
-        public string Title => _Element.GetValueTypeString() +  "を入力してください";
+        public string Title => this.Element.GetValueTypeString() +  "を入力してください";
 
-        public string Key => _Element.Key;
+        public List<PropertyValue> Items { get; set; }
 
-        public string Name => _Element.Name;
-
-        public string Note => _Element.Note;
-
-        public Visibility BooleanEditControlVisibility { get; private set; }
-
-        public Visibility ValueEditControlVisibility { get; private set; }
-
-        public bool BooleanValue
+        //
+        public PreferenceEditWindowVM(PropertyMemberElement pref)
         {
-            get { return _Element.GetValueType() == typeof(bool) ? _Element.Boolean : false; }
-            set { _Element.Set(value); OnPropertyChanged(); }
-        }
+            this.Element = pref;
 
-        public string Value
-        {
-            get { return _Element.Value.ToString(); }
-            set { _Element.SetParseValue(value); OnPropertyChanged(); }
-        }
-
-        public PreferenceEditWindowVM(PreferenceElement pref)
-        {
-            _Element = pref;
-
-            if (_Element.GetValueType() == typeof(bool))
-            {
-                BooleanEditControlVisibility = Visibility.Visible;
-                ValueEditControlVisibility = Visibility.Collapsed;
-            }
-            else
-            {
-                BooleanEditControlVisibility = Visibility.Collapsed;
-                ValueEditControlVisibility = Visibility.Visible;
-            }
+            Items = new List<PropertyValue>() { pref.TypeValue };
         }
 
         public void ResetValue()
         {
-            _Element.Reset();
-            OnPropertyChanged(nameof(BooleanValue));
-            OnPropertyChanged(nameof(Value));
+            this.Element.ResetValue();
         }
     }
 }

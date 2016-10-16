@@ -29,6 +29,16 @@ namespace NeeLaboratory.Property
         // properties
         public List<PropertyDrawElement> Elements { get; set; }
 
+        // properties (member only)
+        public List<PropertyMemberElement> PropertyMembers => Elements.OfType<PropertyMemberElement>().ToList();
+
+
+        //
+        public PropertyMemberElement GetPropertyMember(string path)
+        {
+            return Elements.OfType<PropertyMemberElement>().FirstOrDefault(e => e.Path == path);
+        }
+
 
         /// <summary>
         /// 上書き

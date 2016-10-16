@@ -13,19 +13,19 @@ using System.Windows;
 using System.Windows.Controls;
 
 
-namespace NeeView
+namespace NeeLaboratory.Controls
 {
     /// <summary>
     /// FilenameBox.xaml の相互作用ロジック
     /// </summary>
-    public partial class DirectoryNameBox : UserControl
+    public partial class FileNameBox : UserControl
     {
         #region Text
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(
             "Text",
             typeof(string),
-            typeof(DirectoryNameBox),
+            typeof(FileNameBox),
             new FrameworkPropertyMetadata("", new PropertyChangedCallback(OnTextChanged)));
 
         public string Text
@@ -44,7 +44,7 @@ namespace NeeView
             DependencyProperty.Register(
             "DefaultDirectory",
             typeof(string),
-            typeof(DirectoryNameBox),
+            typeof(FileNameBox),
             new FrameworkPropertyMetadata("", new PropertyChangedCallback(OnDefaultDirectoryChanged)));
 
         public string DefaultDirectory
@@ -63,7 +63,7 @@ namespace NeeView
             DependencyProperty.Register(
             "IsValid",
             typeof(bool),
-            typeof(DirectoryNameBox),
+            typeof(FileNameBox),
             new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsValidChanged)));
 
         public bool IsValid
@@ -82,8 +82,8 @@ namespace NeeView
             DependencyProperty.Register(
             "SelectDirectory",
             typeof(bool),
-            typeof(DirectoryNameBox),
-            new FrameworkPropertyMetadata(true, new PropertyChangedCallback(OnSelectDirectoryChanged)));
+            typeof(FileNameBox),
+            new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnSelectDirectoryChanged)));
 
         public bool SelectDirectory
         {
@@ -101,7 +101,7 @@ namespace NeeView
             DependencyProperty.Register(
             "Title",
             typeof(string),
-            typeof(DirectoryNameBox),
+            typeof(FileNameBox),
             new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnTitleChanged)));
 
         public string Title
@@ -120,7 +120,7 @@ namespace NeeView
             DependencyProperty.Register(
             "Filter",
             typeof(string),
-            typeof(DirectoryNameBox),
+            typeof(FileNameBox),
             new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnFilterChanged)));
 
         public string Filter
@@ -139,8 +139,8 @@ namespace NeeView
             DependencyProperty.Register(
             "Note",
             typeof(string),
-            typeof(DirectoryNameBox),
-            new FrameworkPropertyMetadata("フォルダのパスを入力してください", new PropertyChangedCallback(OnNoteChanged)));
+            typeof(FileNameBox),
+            new FrameworkPropertyMetadata("ファイルのパスを入力してください", new PropertyChangedCallback(OnNoteChanged)));
 
         public string Note
         {
@@ -155,7 +155,7 @@ namespace NeeView
 
         
         //
-        public DirectoryNameBox()
+        public FileNameBox()
         {
             InitializeComponent();
         }

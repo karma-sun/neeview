@@ -73,6 +73,8 @@ namespace NeeView
         }
     }
 
+
+
     public class SevenZipDescriptor : IDisposable
     {
         private SevenZipSource _Source;
@@ -114,22 +116,39 @@ namespace NeeView
             return "7zip.dll";
         }
 
-        private static object _Lock = new object();
+
+
+        public static string DllPath { get; set; }
+
+        private static bool _isLibraryInitialized;
 
         //
-        static SevenZipArchiver()
+        private static void InitializeLibrary()
         {
-            var dllPath = Path.Combine(App.Config.LibrariesPath, "7z.dll");
+            if (_isLibraryInitialized) return;
+
+            var dllPath = string.IsNullOrWhiteSpace(DllPath) ? Path.Combine(App.Config.LibrariesPath, "7z.dll") : DllPath;
+
+#if DEBUG
+            // 開発中はLibrariesパスが存在しないので、カレントに設定しなおす
             if (!File.Exists(dllPath))
             {
                 dllPath = Path.Combine(App.Config.AssemblyLocation, "7z.dll");
             }
+#endif
 
             SevenZipExtractor.SetLibraryPath(dllPath);
 
-            //var features = SevenZip.SevenZipExtractor.CurrentLibraryFeatures;
-            //Console.WriteLine(((uint)features).ToString("X6"));
+            FileVersionInfo dllVersionInfo = FileVersionInfo.GetVersionInfo(dllPath);
+            Debug.WriteLine("7z.dll: ver" + dllVersionInfo?.FileVersion);
+
+            _isLibraryInitialized = true;
         }
+
+
+        private static object _lock = new object();
+
+
 
         private SevenZipSource _Source;
         private Stream _Stream;
@@ -140,10 +159,12 @@ namespace NeeView
         //
         public SevenZipArchiver(string archiveFileName, Stream stream)
         {
+            InitializeLibrary();
+
             FileName = archiveFileName;
             _Stream = stream;
 
-            _Source = _Stream != null ? new SevenZipSource(_Stream, _Lock) : new SevenZipSource(FileName, _Lock);
+            _Source = _Stream != null ? new SevenZipSource(_Stream, _lock) : new SevenZipSource(FileName, _lock);
         }
 
 
@@ -173,7 +194,7 @@ namespace NeeView
 
             var list = new List<ArchiveEntry>();
 
-            lock (_Lock)
+            lock (_lock)
             {
                 using (var extractor = new SevenZipDescriptor(_Source))
                 {
@@ -204,7 +225,7 @@ namespace NeeView
         {
             if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
 
-            lock (_Lock)
+            lock (_lock)
             {
                 using (var extractor = new SevenZipDescriptor(_Source))
                 {
@@ -228,7 +249,7 @@ namespace NeeView
         {
             if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
 
-            lock (_Lock)
+            lock (_lock)
             {
                 using (var extractor = new SevenZipExtractor(FileName)) // 専用extractor
                 using (Stream fs = new FileStream(exportFileName, FileMode.Create, FileAccess.Write))

@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,15 @@ namespace NeeLaboratory.Property
     //
     public abstract class PropertyValue
     {
+        public virtual string GetTypeString()
+        {
+            return "???";
+        }
+
+        public virtual void SetValueFromString(string value)
+        {
+            throw new NotSupportedException();
+        }
     }
 
 
@@ -50,6 +60,16 @@ namespace NeeLaboratory.Property
         public PropertyValue_Boolean(PropertyMemberElement setter) : base(setter)
         {
         }
+
+        public override string GetTypeString()
+        {
+            return "真偽値";
+        }
+
+        public override void SetValueFromString(string value)
+        {
+            Value = bool.Parse(value);
+        }
     }
 
     //
@@ -57,6 +77,16 @@ namespace NeeLaboratory.Property
     {
         public PropertyValue_String(PropertyMemberElement setter) : base(setter)
         {
+        }
+
+        public override string GetTypeString()
+        {
+            return "文字列";
+        }
+
+        public override void SetValueFromString(string value)
+        {
+            Value = value;
         }
     }
 
@@ -66,6 +96,16 @@ namespace NeeLaboratory.Property
         public PropertyValue_Integer(PropertyMemberElement setter) : base(setter)
         {
         }
+
+        public override string GetTypeString()
+        {
+            return "整数値";
+        }
+
+        public override void SetValueFromString(string value)
+        {
+            Value = int.Parse(value);
+        }
     }
 
     //
@@ -73,6 +113,16 @@ namespace NeeLaboratory.Property
     {
         public PropertyValue_Double(PropertyMemberElement setter) : base(setter)
         {
+        }
+
+        public override string GetTypeString()
+        {
+            return "実数値";
+        }
+
+        public override void SetValueFromString(string value)
+        {
+            Value = double.Parse(value);
         }
     }
 
@@ -82,6 +132,16 @@ namespace NeeLaboratory.Property
         public PropertyValue_Point(PropertyMemberElement setter) : base(setter)
         {
         }
+
+        public override string GetTypeString()
+        {
+            return "座標";
+        }
+
+        public override void SetValueFromString(string value)
+        {
+            Value = Point.Parse(value);
+        }
     }
 
     //
@@ -90,10 +150,20 @@ namespace NeeLaboratory.Property
         public PropertyValue_Color(PropertyMemberElement setter) : base(setter)
         {
         }
+
+        public override string GetTypeString()
+        {
+            return "カラー";
+        }
+
+        public override void SetValueFromString(string value)
+        {
+            Value = (Color)ColorConverter.ConvertFromString(value);
+        }
     }
 
     //
-    public class PropertyValue_IntegerRange : PropertyValue<int, PropertyMemberElement>
+    public class PropertyValue_IntegerRange : PropertyValue_Integer
     {
         public int Minimum { get; set; }
         public int Maximum { get; set; }
@@ -114,7 +184,7 @@ namespace NeeLaboratory.Property
     }
 
     //
-    public class PropertyValue_DoubleRange : PropertyValue<double, PropertyMemberElement>
+    public class PropertyValue_DoubleRange : PropertyValue_Double
     {
         public double Minimum { get; set; }
         public double Maximum { get; set; }
@@ -127,5 +197,16 @@ namespace NeeLaboratory.Property
         }
     }
 
+    //
+    public class PropertyValue_FilePath : PropertyValue_String
+    {
+        public PropertyValue_FilePath(PropertyMemberElement setter) : base(setter)
+        {
+        }
 
+        public override string GetTypeString()
+        {
+            return "ファイルの場所";
+        }
+    }
 }

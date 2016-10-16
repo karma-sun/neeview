@@ -100,6 +100,9 @@
     <Compile Include="_NeeLaboratory\Controls\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="_NeeLaboratory\Controls\FileNameBox.xaml.cs">
+      <DependentUpon>FileNameBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="_NeeLaboratory\Controls\PointInspector.xaml.cs">
       <DependentUpon>PointInspector.xaml</DependentUpon>
     </Compile>
@@ -215,9 +218,6 @@
     <Compile Include="CommandType.cs" />
     <Compile Include="Archiver\FolderFiles.cs" />
     <Compile Include="Archiver\LoosePath.cs" />
-    <Compile Include="DirectoryNameBox.xaml.cs">
-      <DependentUpon>DirectoryNameBox.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Page\FilePage.cs" />
     <Compile Include="Page\FilePageContent.cs" />
     <Compile Include="FilePageControl.xaml.cs">
@@ -291,6 +291,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="_NeeLaboratory\Controls\FileNameBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="_NeeLaboratory\Controls\PointInspector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -318,10 +322,6 @@
     <Page Include="ContextMenuSettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DirectoryNameBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="FileInfoControl.xaml">
       <SubType>Designer</SubType>
@@ -404,6 +404,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="VersionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="_NeeLaboratory\Property\PropertyValueTemplateDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

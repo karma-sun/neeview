@@ -13,6 +13,7 @@
         xmlns:local="clr-namespace:NeeView"
         xmlns:susie="clr-namespace:Susie"
         xmlns:drag="clr-namespace:DragExtensions"
+        xmlns:nlc="clr-namespace:NeeLaboratory.Controls"
         mc:Ignorable="d"
         Title="設定" Height="600" Width="700" Closed="Window_Closed" >
 
@@ -477,7 +478,7 @@
                     <StackPanel Style="{StaticResource Phrase}">
                         <DockPanel Style="{StaticResource ItemDockPanel}">
                             <TextBlock Style="{StaticResource ItemHeader}" Text="プログラム" />
-                            <local:DirectoryNameBox x:Name="ExAppPath" Margin="2,0" SelectDirectory="False" Title="プログラムの選択" Filter="EXE|*.exe|すべてのファイル|*.*"
+                            <nlc:FileNameBox x:Name="ExAppPath" Margin="2,0" SelectDirectory="False" Title="プログラムの選択" Filter="EXE|*.exe|すべてのファイル|*.*"
                             Note="指定がない場合は拡張子に関連付けられたアプリを起動します"
                             Text="{Binding Setting.BookHubMemento.ExternalApplication.Command, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         </DockPanel>
@@ -527,7 +528,7 @@
                     <StackPanel Style="{StaticResource Phrase}">
                         <DockPanel Style="{StaticResource ItemDockPanel}">
                             <TextBlock Style="{StaticResource ItemHeader}" Text="画像保存フォルダ"/>
-                            <local:DirectoryNameBox x:Name="DownloadPath" Margin="2,0" SelectDirectory="True" Title="保存先フォルダの選択" 
+                            <nlc:FileNameBox x:Name="DownloadPath" Margin="2,0" SelectDirectory="True" Title="保存先フォルダの選択" 
                             Note="指定がない場合は一時フォルダが使用されます"
                             Text="{Binding Setting.ViewMemento.UserDownloadPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                         </DockPanel>
@@ -691,7 +692,7 @@
                 <DockPanel Margin="4">
                     <CheckBox DockPanel.Dock="Top" Margin="2" Content="Susieプラグインを使用する" IsChecked="{Binding Setting.SusieMemento.IsEnableSusie}" />
                     <DockPanel IsEnabled="{Binding Setting.SusieMemento.IsEnableSusie}">
-                        <local:DirectoryNameBox x:Name="PluginPathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding SusiePluginPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <nlc:FileNameBox x:Name="PluginPathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding SusiePluginPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectDirectory="True"/>
                         <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="画像表示でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieImage}"/>
                         <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="圧縮ファイル展開でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieArchive}"/>
 
@@ -967,7 +968,7 @@
                                     </GridViewColumn.Header>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Value}" TextTrimming="WordEllipsis" />
+                                            <TextBlock Text="{Binding Value}" TextTrimming="CharacterEllipsis" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

@@ -216,12 +216,12 @@ namespace NeeView
         public void ApplyPreference(Preference preference)
         {
             // パネルが自動的に隠れる時間
-            this.AutoHideDelayTime = preference["panel.autohide.delaytime"].Double;
+            this.AutoHideDelayTime = preference.panel_autohide_delaytime;
 
             // マウスジェスチャーの最小移動距離
             _MouseGesture.Controller.InitializeGestureMinimumDistance(
-                preference["input.gesture.minimumdistance.x"].Double,
-                preference["input.gesture.minimumdistance.y"].Double);
+                preference.input_gesture_minimumdistance_x,
+                preference.input_gesture_minimumdistance_y);
         }
 
         //

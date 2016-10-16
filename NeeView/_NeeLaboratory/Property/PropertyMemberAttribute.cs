@@ -50,4 +50,14 @@ namespace NeeLaboratory.Property
         }
     }
 
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyPathAttribute : PropertyMemberAttribute
+    {
+        public override PropertyMemberElement CreateContent(object source, PropertyInfo info)
+        {
+            return new PropertyMemberElement(source, info, this);
+        }
+    }
+
 }

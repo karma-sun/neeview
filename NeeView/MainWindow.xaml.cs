@@ -440,9 +440,17 @@ namespace NeeView
             ModelContext.CommandTable[CommandType.Paste].CanExecute =
                 () => CanLoadFromClipboard();
             ModelContext.CommandTable[CommandType.ViewScrollUp].Execute =
-                (s, e) => _MouseDrag.ScrollUp();
+                (s, e) =>
+                {
+                    var parameter = (ViewScrollCommandParameter)ModelContext.CommandTable[CommandType.ViewScrollUp].Parameter;
+                    _MouseDrag.ScrollUp(parameter.Scroll / 100.0);
+                };
             ModelContext.CommandTable[CommandType.ViewScrollDown].Execute =
-                (s, e) => _MouseDrag.ScrollDown();
+                (s, e) =>
+                {
+                    var parameter = (ViewScrollCommandParameter)ModelContext.CommandTable[CommandType.ViewScrollDown].Parameter;
+                    _MouseDrag.ScrollDown(parameter.Scroll / 100.0);
+                };
             ModelContext.CommandTable[CommandType.ViewScaleUp].Execute =
                 (s, e) =>
                 {

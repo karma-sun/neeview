@@ -771,6 +771,7 @@ namespace NeeView
                 element.Note = "画像を上方向にするロールさせます。縦スクロールできないときは横スクロールになります";
                 element.ShortCutKey = "WheelUp";
                 element.IsShowMessage = false;
+                element.DefaultParameter = new ViewScrollCommandParameter() { Scroll = 25 };
                 _Elements[CommandType.ViewScrollUp] = element;
             }
             // ViewScrollDown
@@ -781,6 +782,7 @@ namespace NeeView
                 element.Note = "画像を下方向にするロールさせます。縦スクロールできないときは横スクロールになります";
                 element.ShortCutKey = "WheelDown";
                 element.IsShowMessage = false;
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScrollUp };
                 _Elements[CommandType.ViewScrollDown] = element;
             }
             // ViewScaleUp

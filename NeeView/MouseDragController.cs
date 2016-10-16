@@ -590,18 +590,18 @@ namespace NeeView
 
         // スクロール↑コマンド
         // 縦方向にスクロールできない場合、横方向にスクロールする
-        public void ScrollUp()
+        public void ScrollUp(double rate)
         {
             _IsEnableTranslateAnimation = true;
 
             UpdateLock();
             if (!_LockMoveY)
             {
-                DoMove(new Vector(0, _Sender.ActualHeight * 0.25));
+                DoMove(new Vector(0, _Sender.ActualHeight * rate));
             }
             else
             {
-                DoMove(new Vector(_Sender.ActualWidth * 0.25 * ViewHorizontalDirection, 0));
+                DoMove(new Vector(_Sender.ActualWidth * rate * ViewHorizontalDirection, 0));
             }
 
             _IsEnableTranslateAnimation = false;
@@ -609,18 +609,18 @@ namespace NeeView
 
         // スクロール↓コマンド
         // 縦方向にスクロールできない場合、横方向にスクロールする
-        public void ScrollDown()
+        public void ScrollDown(double rate)
         {
             _IsEnableTranslateAnimation = true;
 
             UpdateLock();
             if (!_LockMoveY)
             {
-                DoMove(new Vector(0, _Sender.ActualHeight * -0.25));
+                DoMove(new Vector(0, _Sender.ActualHeight * -rate));
             }
             else
             {
-                DoMove(new Vector(_Sender.ActualWidth * -0.25 * ViewHorizontalDirection, 0));
+                DoMove(new Vector(_Sender.ActualWidth * -rate * ViewHorizontalDirection, 0));
             }
 
             _IsEnableTranslateAnimation = false;

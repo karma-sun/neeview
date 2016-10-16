@@ -76,10 +76,10 @@ namespace NeeView
         [PropertyMember("移動ページ数")]
         public int Size
         {
-            get { return _Size; }
-            set { _Size = NVUtility.Clamp(value, 0, 1000); }
+            get { return _size; }
+            set { _size = NVUtility.Clamp(value, 0, 1000); }
         }
-        private int _Size;
+        private int _size;
     }
 
     /// <summary>
@@ -152,16 +152,16 @@ namespace NeeView
 
 
         //
-        private Dictionary<PageStretchMode, bool> _StrechModes;
+        private Dictionary<PageStretchMode, bool> _strechModes;
         public Dictionary<PageStretchMode, bool> StretchModes
         {
             get
             {
-                if (_StrechModes == null)
+                if (_strechModes == null)
                 {
-                    _StrechModes = Enum.GetValues(typeof(PageStretchMode)).Cast<PageStretchMode>().ToDictionary(e => e, e => true);
+                    _strechModes = Enum.GetValues(typeof(PageStretchMode)).Cast<PageStretchMode>().ToDictionary(e => e, e => true);
                 }
-                return _StrechModes;
+                return _strechModes;
             }
         }
     }
@@ -177,6 +177,20 @@ namespace NeeView
         public bool IsToggle { get; set; }
     }
 
+    /// <summary>
+    /// ビュースクロールコマンド用パラメータ
+    /// </summary>
+    public class ViewScrollCommandParameter : CommandParameter
+    {
+        // 属性に説明文
+        [PropertyRange(0, 100, Name = "移動量(%)", Tips = "一度の操作でスクロールするする画面に対する割合(0-100)")]
+        public int Scroll
+        {
+            get { return _scroll; }
+            set { _scroll = NVUtility.Clamp(value, 0, 100); }
+        }
+        private int _scroll;
+    }
 
     /// <summary>
     /// ビュー拡大コマンド用パラメータ
@@ -187,10 +201,10 @@ namespace NeeView
         [PropertyRange(0, 100, Name = "拡大率(%)", Tips = "一度の操作で拡大する割合(0-100)")]
         public int Scale
         {
-            get { return _Scale; }
-            set { _Scale = NVUtility.Clamp(value, 0, 100); }
+            get { return _scale; }
+            set { _scale = NVUtility.Clamp(value, 0, 100); }
         }
-        private int _Scale;
+        private int _scale;
     }
 
     /// <summary>
@@ -202,10 +216,10 @@ namespace NeeView
         [PropertyRange(0, 180, Name = "回転角度", Tips = "一度の操作で回転する角度(0-180)")]
         public int Angle
         {
-            get { return _Angle; }
-            set { _Angle = NVUtility.Clamp(value, 0, 180); }
+            get { return _angle; }
+            set { _angle = NVUtility.Clamp(value, 0, 180); }
         }
-        private int _Angle;
+        private int _angle;
     }
 
 

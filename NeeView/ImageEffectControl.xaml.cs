@@ -29,15 +29,15 @@ namespace NeeView
     /// </summary>
     public partial class ImageEffectControl : UserControl
     {
-        public ImageEffector ImageEffector
+        public ImageEffect ImageEffector
         {
-            get { return (ImageEffector)GetValue(ImageEffectorProperty); }
+            get { return (ImageEffect)GetValue(ImageEffectorProperty); }
             set { SetValue(ImageEffectorProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Effector.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ImageEffectorProperty =
-            DependencyProperty.Register("ImageEffector", typeof(ImageEffector), typeof(ImageEffectControl), new PropertyMetadata(null));
+            DependencyProperty.Register("ImageEffector", typeof(ImageEffect), typeof(ImageEffectControl), new PropertyMetadata(null));
 
 
         // コンストラクタ

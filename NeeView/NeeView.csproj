@@ -92,7 +92,7 @@
     <Compile Include="Effects\MonochromeEffectUnit.cs" />
     <Compile Include="Effects\BlurEffectUnit.cs" />
     <Compile Include="Effects\PixelateEffectUnit.cs" />
-    <Compile Include="Effects\ImageEffector.cs" />
+    <Compile Include="Effects\ImageEffect.cs" />
     <Compile Include="Effects\EffectType.cs" />
     <Compile Include="ImageEffectControl.xaml.cs">
       <DependentUpon>ImageEffectControl.xaml</DependentUpon>

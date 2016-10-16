@@ -60,7 +60,8 @@
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type local:PropertyValue_Color}">
-                <nlc:ColorPicker Color="{Binding Value, Mode=TwoWay}"/>
+                <nlc:ColorPicker Color="{Binding Value, Mode=TwoWay}"
+                                 IsHsvMode="{Binding IsHsvMode, RelativeSource={RelativeSource AncestorType=UserControl,AncestorLevel=2}}"/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type local:PropertyTitleElement}">

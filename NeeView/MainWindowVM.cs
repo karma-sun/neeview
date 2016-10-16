@@ -353,7 +353,7 @@ namespace NeeView
 
 
         // イメージエフェクト
-        public ImageEffector ImageEffector { get; set; } = new ImageEffector();
+        public ImageEffect ImageEffector { get; set; } = new ImageEffect();
 
         // ドットのまま拡大
         #region Property: IsEnabledNearestNeighbor
@@ -1777,19 +1777,19 @@ namespace NeeView
             setting.DragActionMemento = ModelContext.DragActionTable.CreateMemento();
             setting.ExporterMemento = Exporter.CreateMemento();
             setting.PreferenceMemento = ModelContext.Preference.CreateMemento();
-            setting.ImageEffectorMemento = this.ImageEffector.CreateMemento();
+            setting.ImageEffectMemento = this.ImageEffector.CreateMemento();
 
             return setting;
         }
 
         // アプリ設定反映
-        public void RestoreSetting(Setting setting)
+        public void RestoreSetting(Setting setting, bool fromLoad)
         {
             ModelContext.Preference.Restore(setting.PreferenceMemento);
             ModelContext.ApplyPreference();
 
             this.Restore(setting.ViewMemento);
-            this.ImageEffector.Restore(setting.ImageEffectorMemento);
+            this.ImageEffector.Restore(setting.ImageEffectMemento, fromLoad);
 
             ModelContext.SusieContext.Restore(setting.SusieMemento);
             BookHub.Restore(setting.BookHubMemento);

@@ -336,6 +336,17 @@
                               IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsVisibleLoader}" />
                         </StackPanel>
 
+                        <TextBlock Text="エフェクト" Style="{StaticResource Header}"/>
+
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回使用していたエフェクトを復元する"
+                                      ToolTip="起動時に前回使用していたエフェクトを復元します"
+                                      IsChecked="{Binding Setting.ImageEffectMemento.IsRecoveryEffectType}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="色設定をHSVで行う"
+                                      ToolTip="色パラメータの設定をHSV(色相、彩度、輝度)で設定します"
+                                      IsChecked="{Binding Setting.ImageEffectMemento.IsHsvMode}" />
+                        </StackPanel>
+
                         <TextBlock Text="2ページ表示" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="ページとページの隙間の長さを設定します&#xa;マイナス値は重なることを意味します&#xa;各ページにスケールがかかるため、0でちょうど隙間がなくなることは稀です">

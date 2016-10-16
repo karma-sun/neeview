@@ -18,7 +18,7 @@ using System.Windows.Media.Effects;
 namespace NeeView.Effects
 {
     //
-    public class ImageEffector : INotifyPropertyChanged
+    public class ImageEffect : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -36,6 +36,9 @@ namespace NeeView.Effects
         /// Property: Effect
         /// </summary>
         public Effect Effect => Effects[_effectType]?.Effect;
+
+        ///
+        public bool IsRecoveryEffectType { get; set; }
 
         /// <summary>
         /// Property: EffectType
@@ -56,7 +59,18 @@ namespace NeeView.Effects
             get { return _effectParameters; }
             set { if (_effectParameters != value) { _effectParameters = value; OnPropertyChanged(); } }
         }
-        
+
+        /// <summary>
+        /// Property: IsHsvMode
+        /// </summary>
+        private bool _IsHsvMode;
+        public bool IsHsvMode
+        {
+            get { return _IsHsvMode; }
+            set { if (_IsHsvMode != value) { _IsHsvMode = value; OnPropertyChanged(); } }
+        }
+
+
 
         //
         private void UpdateEffectParameters()
@@ -72,7 +86,7 @@ namespace NeeView.Effects
         }
 
         //
-        public ImageEffector()
+        public ImageEffect()
         {
             Effects = new Dictionary<EffectType, EffectUnit>();
 
@@ -100,7 +114,13 @@ namespace NeeView.Effects
             public EffectType EffectType { get; set; }
 
             [DataMember]
+            public bool IsRecoveryEffectType { get; set; }
+
+            [DataMember]
             public Dictionary<EffectType, string> Effects { get; set; }
+
+            [DataMember]
+            public bool IsHsvMode { get; set; }
         }
 
         //
@@ -109,6 +129,8 @@ namespace NeeView.Effects
             var memento = new Memento();
 
             memento.EffectType = this.EffectType;
+            memento.IsRecoveryEffectType = this.IsRecoveryEffectType;
+            memento.IsHsvMode = this.IsHsvMode;
 
             memento.Effects = new Dictionary<EffectType, string>();
             foreach (var effect in Effects)
@@ -123,9 +145,11 @@ namespace NeeView.Effects
         }
 
         //
-        public void Restore(Memento memento)
+        public void Restore(Memento memento, bool fromLoad)
         {
-            this.EffectType = memento.EffectType;
+            this.EffectType = (fromLoad && !memento.IsRecoveryEffectType) ? EffectType.None : memento.EffectType;
+            this.IsRecoveryEffectType = memento.IsRecoveryEffectType;
+            this.IsHsvMode = memento.IsHsvMode;
 
             if (memento.Effects != null)
             {

@@ -666,7 +666,7 @@ namespace NeeView
             if (result == true)
             {
                 SetUpdateMenuLayoutMode(false);
-                _VM.RestoreSetting(setting);
+                _VM.RestoreSetting(setting, false);
                 SetUpdateMenuLayoutMode(true);
                 _VM.SaveSetting(this);
                 ModelContext.BookHistory.Restore(history, false);
@@ -840,7 +840,7 @@ namespace NeeView
             SetUpdateMenuLayoutMode(false);
 
             // 設定反映
-            _VM.RestoreSetting(App.Setting);
+            _VM.RestoreSetting(App.Setting, true);
 
             // 履歴読み込み
             _VM.LoadHistory(App.Setting);

@@ -42,6 +42,7 @@
 
             <ComboBox Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}"  Background="{DynamicResource NVBackground}"
                       FontSize="15"
+                       HorizontalAlignment="Left"
                       ItemsSource="{x:Static le:EffectTypeExtensions.EffectTypeNames}" DisplayMemberPath="Value" SelectedValuePath="Key"
                           SelectedValue="{Binding ImageEffector.EffectType}"/>
             <Grid Margin="0,10">
@@ -55,7 +56,9 @@
                         <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
                     </Style>
                 </Grid.Resources>
-                <nlp:PropertyInspector x:Name="inspector" Document="{Binding ImageEffector.EffectParameters}" FontSize="15" IsResetButtonVisible="True" >
+                <nlp:PropertyInspector x:Name="inspector" Document="{Binding ImageEffector.EffectParameters}" FontSize="15"
+                                       IsResetButtonVisible="True"
+                                       IsHsvMode="{Binding ImageEffector.IsHsvMode}">
                     <nlp:PropertyInspector.Style>
                         <Style TargetType="nlp:PropertyInspector">
                             <Style.Triggers>

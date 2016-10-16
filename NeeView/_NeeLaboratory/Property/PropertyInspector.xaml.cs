@@ -39,6 +39,17 @@ namespace NeeLaboratory.Property
             DependencyProperty.Register("Document", typeof(PropertyDocument), typeof(PropertyInspector), new PropertyMetadata(null));
 
 
+        public bool IsHsvMode
+        {
+            get { return (bool)GetValue(IsHsvModeProperty); }
+            set { SetValue(IsHsvModeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsHsvMode.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsHsvModeProperty =
+            DependencyProperty.Register("IsHsvMode", typeof(bool), typeof(PropertyInspector), new PropertyMetadata(false));
+
+
 
         public bool IsResetButtonVisible
         {

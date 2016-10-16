@@ -52,7 +52,7 @@ namespace NeeView
         public Preference.Memento PreferenceMemento { set; get; }
 
         [DataMember(Order = 17)]
-        public ImageEffector.Memento ImageEffectorMemento { get; set; }
+        public ImageEffect.Memento ImageEffectMemento { get; set; }
 
         //
         private void Constructor()
@@ -66,7 +66,7 @@ namespace NeeView
             DragActionMemento = new DragActionTable.Memento();
             ExporterMemento = new Exporter.Memento();
             PreferenceMemento = new Preference.Memento();
-            ImageEffectorMemento = new ImageEffector.Memento();
+            ImageEffectMemento = new ImageEffect.Memento();
         }
 
         //

@@ -58,6 +58,29 @@ namespace NeeLaboratory.Controls
             }
         }
 
+
+
+
+        public bool IsHsvMode
+        {
+            get { return (bool)GetValue(IsHsvModeProperty); }
+            set { SetValue(IsHsvModeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsHsvMode.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsHsvModeProperty =
+            DependencyProperty.Register("IsHsvMode", typeof(bool), typeof(ColorPicker), new PropertyMetadata(false, IsHsvModeProperty_Changed));
+
+        private static void IsHsvModeProperty_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as ColorPicker;
+            if (control != null)
+            {
+                control.OnPropertyChanged(nameof(IsRgbVisible));
+                control.OnPropertyChanged(nameof(IsHsvVisible));
+            }
+        }
+
         private bool _isPropertyLocked;
 
         private void Flush()
@@ -155,22 +178,12 @@ namespace NeeLaboratory.Controls
         /// <summary>
         /// Property: IsRgbVisible
         /// </summary>
-        private bool _IsRgbVisible = true;
-        public bool IsRgbVisible
-        {
-            get { return _IsRgbVisible; }
-            set { if (_IsRgbVisible != value) { _IsRgbVisible = value; OnPropertyChanged(); } }
-        }
+        public bool IsRgbVisible => !IsHsvMode;
 
         /// <summary>
         /// Property: IsHsvVisible
         /// </summary>
-        private bool _IsHsvVisible;
-        public bool IsHsvVisible
-        {
-            get { return _IsHsvVisible; }
-            set { if (_IsHsvVisible != value) { _IsHsvVisible = value; OnPropertyChanged(); } }
-        }
+        public bool IsHsvVisible => IsHsvMode;
 
 
         /// <summary>

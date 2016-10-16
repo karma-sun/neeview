@@ -46,10 +46,10 @@ namespace NeeView
         private Point _startPoint;
         private Point _endPoint;
 
-        MouseGestureDirection _direction;
+        private MouseGestureDirection _direction;
 
         // ジェスチャー方向ベクトル
-        private static Dictionary<MouseGestureDirection, Vector> _gestureDirectionVector = new Dictionary<MouseGestureDirection, Vector>
+        private static Dictionary<MouseGestureDirection, Vector> s_gestureDirectionVector = new Dictionary<MouseGestureDirection, Vector>
         {
             [MouseGestureDirection.None] = new Vector(0, 0),
             [MouseGestureDirection.Up] = new Vector(0, -1),
@@ -69,17 +69,17 @@ namespace NeeView
         #endregion
 
         // ジェスチャー判定用最低ドラッグ距離
-        private double GestureMinimumDistanceX = 30.0;
-        private double GestureMinimumDistanceY = 30.0;
+        private double _gestureMinimumDistanceX = 30.0;
+        private double _gestureMinimumDistanceY = 30.0;
 
         public void InitializeGestureMinimumDistance(double deltaX, double deltaY)
         {
-            GestureMinimumDistanceX = deltaX;
-            GestureMinimumDistanceY = deltaY;
-            if (GestureMinimumDistanceX < SystemParameters.MinimumHorizontalDragDistance)
-                GestureMinimumDistanceX = SystemParameters.MinimumHorizontalDragDistance;
-            if (GestureMinimumDistanceY < SystemParameters.MinimumVerticalDragDistance)
-                GestureMinimumDistanceY = SystemParameters.MinimumVerticalDragDistance;
+            _gestureMinimumDistanceX = deltaX;
+            _gestureMinimumDistanceY = deltaY;
+            if (_gestureMinimumDistanceX < SystemParameters.MinimumHorizontalDragDistance)
+                _gestureMinimumDistanceX = SystemParameters.MinimumHorizontalDragDistance;
+            if (_gestureMinimumDistanceY < SystemParameters.MinimumVerticalDragDistance)
+                _gestureMinimumDistanceY = SystemParameters.MinimumVerticalDragDistance;
         }
 
 
@@ -156,7 +156,7 @@ namespace NeeView
                 }
                 else if (!_isDragging)
                 {
-                    if (ContextMenuSetting != null &&  ContextMenuSetting.IsEnabled && !ContextMenuSetting.IsOpenByCtrl)
+                    if (ContextMenuSetting != null && ContextMenuSetting.IsEnabled && !ContextMenuSetting.IsOpenByCtrl)
                     {
                         e.Handled = false;
                     }
@@ -165,7 +165,7 @@ namespace NeeView
                         e.Handled = false;
                     }
                     else
-                    { 
+                    {
                         MouseClickEventHandler(sender, e);
                         e.Handled = true;
                     }
@@ -209,12 +209,12 @@ namespace NeeView
             var v1 = _endPoint - _startPoint;
 
             // 一定距離未満は判定しない
-            if (Math.Abs(v1.X) < GestureMinimumDistanceX && Math.Abs(v1.Y) < GestureMinimumDistanceY) return;
+            if (Math.Abs(v1.X) < _gestureMinimumDistanceX && Math.Abs(v1.Y) < _gestureMinimumDistanceY) return;
 
             // 方向を決める
             // 斜め方向は以前の方向とする
 
-            if (_direction != MouseGestureDirection.None && Math.Abs(Vector.AngleBetween(_gestureDirectionVector[_direction], v1)) < 60)
+            if (_direction != MouseGestureDirection.None && Math.Abs(Vector.AngleBetween(s_gestureDirectionVector[_direction], v1)) < 60)
             {
                 // そのまま
             }
@@ -222,9 +222,9 @@ namespace NeeView
             {
                 foreach (MouseGestureDirection direction in Enum.GetValues(typeof(MouseGestureDirection)))
                 {
-                    var v0 = _gestureDirectionVector[direction];
-                    var angle = Vector.AngleBetween(_gestureDirectionVector[direction], v1);
-                    if (direction != MouseGestureDirection.None && Math.Abs(Vector.AngleBetween(_gestureDirectionVector[direction], v1)) < 30)
+                    var v0 = s_gestureDirectionVector[direction];
+                    var angle = Vector.AngleBetween(s_gestureDirectionVector[direction], v1);
+                    if (direction != MouseGestureDirection.None && Math.Abs(Vector.AngleBetween(s_gestureDirectionVector[direction], v1)) < 30)
                     {
                         _direction = direction;
                         _gesture.Add(_direction);

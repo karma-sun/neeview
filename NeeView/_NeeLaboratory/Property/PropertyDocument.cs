@@ -128,9 +128,6 @@ namespace NeeLaboratory.Property
             return (DefaultValueAttribute)Attribute.GetCustomAttributes(info, typeof(DefaultValueAttribute)).FirstOrDefault();
         }
 
-
         #endregion
     }
-
-
 }

@@ -21,16 +21,16 @@ namespace NeeView
         {
             get
             {
-                if (!_Elements.ContainsKey(key)) throw new ArgumentOutOfRangeException(key.ToString());
-                return _Elements[key];
+                if (!_elements.ContainsKey(key)) throw new ArgumentOutOfRangeException(key.ToString());
+                return _elements[key];
             }
-            set { _Elements[key] = value; }
+            set { _elements[key] = value; }
         }
 
         // Enumerator
         public IEnumerator<KeyValuePair<DragActionType, DragAction>> GetEnumerator()
         {
-            foreach (var pair in _Elements)
+            foreach (var pair in _elements)
             {
                 yield return pair;
             }
@@ -44,82 +44,82 @@ namespace NeeView
 
 
         // コマンドリスト
-        private Dictionary<DragActionType, DragAction> _Elements;
+        private Dictionary<DragActionType, DragAction> _elements;
 
         // コマンドターゲット
-        private MouseDragController _Drag;
+        private MouseDragController _drag;
 
         // 初期設定
-        private static Memento _DefaultMemento;
+        private static Memento s_defaultMemento;
 
         // 初期設定取得
         public static Memento CreateDefaultMemento()
         {
-            return _DefaultMemento.Clone();
+            return s_defaultMemento.Clone();
         }
 
         // コマンドターゲット設定
         public void SetTarget(MouseDragController drag)
         {
-            _Drag = drag;
+            _drag = drag;
         }
 
         // コンストラクタ
         public DragActionTable()
         {
-            _Elements = new Dictionary<DragActionType, DragAction>()
+            _elements = new Dictionary<DragActionType, DragAction>()
             {
                 [DragActionType.Move] = new DragAction
                 {
                     Name = "移動",
                     Key = "LeftDrag",
-                    Exec = (s, e) => _Drag.DragMove(s, e),
+                    Exec = (s, e) => _drag.DragMove(s, e),
                     Group = DragActionGroup.Move,
                 },
                 [DragActionType.MoveScale] = new DragAction
                 {
                     Name = "移動(スケール依存)",
-                    Exec = (s, e) => _Drag.DragMoveScale(s, e),
+                    Exec = (s, e) => _drag.DragMoveScale(s, e),
                     Group = DragActionGroup.Move,
                 },
                 [DragActionType.Angle] = new DragAction
                 {
                     Name = "回転",
                     Key = "Shift+LeftDrag",
-                    Exec = (s, e) => _Drag.DragAngle(s, e),
+                    Exec = (s, e) => _drag.DragAngle(s, e),
                 },
                 [DragActionType.Scale] = new DragAction
                 {
                     Name = "拡大縮小",
-                    Exec = (s, e) => _Drag.DragScale(s, e),
+                    Exec = (s, e) => _drag.DragScale(s, e),
                 },
                 [DragActionType.ScaleSlider] = new DragAction
                 {
                     Name = "拡大縮小(スライド式)",
                     Key = "Ctrl+LeftDrag",
-                    Exec = (s, e) => _Drag.DragScaleSlider(s, e),
+                    Exec = (s, e) => _drag.DragScaleSlider(s, e),
                 },
                 [DragActionType.FlipHorizontal] = new DragAction
                 {
                     Name = "左右反転",
                     Key = "Alt+LeftDrag",
-                    Exec = (s, e) => _Drag.DragFlipHorizontal(s, e),
+                    Exec = (s, e) => _drag.DragFlipHorizontal(s, e),
                 },
                 [DragActionType.FlipVertical] = new DragAction
                 {
                     Name = "上下反転",
-                    Exec = (s, e) => _Drag.DragFlipVertical(s, e),
+                    Exec = (s, e) => _drag.DragFlipVertical(s, e),
                 },
 
                 [DragActionType.WindowMove] = new DragAction
                 {
                     Name = "ウィンドウ移動",
                     Key = "MiddleDrag",
-                    Exec = (s, e) => _Drag.DragWindowMove(s, e),
+                    Exec = (s, e) => _drag.DragWindowMove(s, e),
                 },
             };
 
-            _DefaultMemento = CreateMemento();
+            s_defaultMemento = CreateMemento();
         }
 
         //
@@ -202,7 +202,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            foreach (var pair in _Elements)
+            foreach (var pair in _elements)
             {
                 memento.Elements.Add(pair.Key, pair.Value.CreateMemento());
             }
@@ -215,9 +215,9 @@ namespace NeeView
         {
             foreach (var pair in memento.Elements)
             {
-                if (_Elements.ContainsKey(pair.Key))
+                if (_elements.ContainsKey(pair.Key))
                 {
-                    _Elements[pair.Key].Restore(pair.Value);
+                    _elements[pair.Key].Restore(pair.Value);
                 }
             }
         }
@@ -240,22 +240,22 @@ namespace NeeView
 
             public Dictionary<string, DragActionType> Elements { get; set; }
 
-            private Memento _Memento;
+            private Memento _memento;
 
             public KeyTable(Memento memento)
             {
-                _Memento = memento;
+                _memento = memento;
 
                 Elements = new Dictionary<string, DragActionType>();
                 foreach (var key in KeyList)
                 {
-                    Elements[key] = _Memento.GetAcionFromKey(key);
+                    Elements[key] = _memento.GetAcionFromKey(key);
                 }
             }
 
             public void UpdateMemento()
             {
-                foreach (var e in _Memento.Elements)
+                foreach (var e in _memento.Elements)
                 {
                     e.Value.Key = null;
                 }
@@ -264,14 +264,11 @@ namespace NeeView
                 {
                     if (e.Value != DragActionType.None)
                     {
-                        bool isEmpty = string.IsNullOrEmpty(_Memento.Elements[e.Value].Key);
-                        _Memento.Elements[e.Value].Key += isEmpty ? e.Key :  "," + e.Key;
+                        bool isEmpty = string.IsNullOrEmpty(_memento.Elements[e.Value].Key);
+                        _memento.Elements[e.Value].Key += isEmpty ? e.Key : "," + e.Key;
                     }
                 }
             }
         }
     }
-
-
-
 }

@@ -112,5 +112,4 @@ namespace NeeLaboratory.Property
             this.properties.Items.Refresh();
         }
     }
-
 }

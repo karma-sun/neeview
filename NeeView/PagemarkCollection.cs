@@ -32,14 +32,14 @@ namespace NeeView
         #endregion
 
         // ページマークされているブック情報
-        private ObservableCollection<BookMementoUnitNode> _Items;
+        private ObservableCollection<BookMementoUnitNode> _items;
         public ObservableCollection<BookMementoUnitNode> Items
         {
-            get { return _Items; }
+            get { return _items; }
             private set
             {
-                _Items = value;
-                BindingOperations.EnableCollectionSynchronization(_Items, new object());
+                _items = value;
+                BindingOperations.EnableCollectionSynchronization(_items, new object());
                 OnPropertyChanged();
             }
         }
@@ -166,7 +166,7 @@ namespace NeeView
             if (memento == null) return unit;
             Debug.Assert(unit == null || unit.Memento.Place == memento.Place);
 
-            if (_Marks.Any(e => e.Place == memento.Place))
+            if (_marks.Any(e => e.Place == memento.Place))
             {
                 return Add(unit, memento);
             }
@@ -179,7 +179,7 @@ namespace NeeView
         // Marksに存在しないItemを削除
         public void Validate()
         {
-            var removes = Items.Where(item => !_Marks.Any(e => e.Place == item.Value.Memento.Place)).ToList();
+            var removes = Items.Where(item => !_marks.Any(e => e.Place == item.Value.Memento.Place)).ToList();
             removes.ForEach(e => Remove(e.Value));
         }
 
@@ -193,29 +193,29 @@ namespace NeeView
 
 
         // ====
-        private ObservableCollection<Pagemark> _Marks;
+        private ObservableCollection<Pagemark> _marks;
         public ObservableCollection<Pagemark> Marks
         {
-            get { return _Marks; }
+            get { return _marks; }
             private set
             {
-                _Marks = value;
-                BindingOperations.EnableCollectionSynchronization(_Marks, new object());
+                _marks = value;
+                BindingOperations.EnableCollectionSynchronization(_marks, new object());
                 OnPropertyChanged();
             }
         }
 
 
         #region Property: SelectedItem
-        private Pagemark _SelectedItem;
+        private Pagemark _selectedItem;
         public Pagemark SelectedItem
         {
-            get { return _SelectedItem; }
+            get { return _selectedItem; }
             set
             {
-                if (_SelectedItem != value)
+                if (_selectedItem != value)
                 {
-                    _SelectedItem = value;
+                    _selectedItem = value;
                     OnPropertyChanged();
                 }
             }
@@ -278,7 +278,7 @@ namespace NeeView
             else
             {
                 int index = Marks.IndexOf(SelectedItem) + direction;
-                if (index >= 0 && index <Marks.Count)
+                if (index >= 0 && index < Marks.Count)
                 {
                     SelectedItem = Marks[index];
                 }
@@ -501,19 +501,19 @@ namespace NeeView
 
         // サムネイル用。保存しません
         #region Property: ArchivePage
-        private ArchivePage _ArchivePage;
+        private ArchivePage _archivePage;
         public ArchivePage ArchivePage
         {
             get
             {
-                if (_ArchivePage == null)
+                if (_archivePage == null)
                 {
-                    _ArchivePage = new ArchivePage(Place, EntryName);
-                    _ArchivePage.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(this, _ArchivePage);
+                    _archivePage = new ArchivePage(Place, EntryName);
+                    _archivePage.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(this, _archivePage);
                 }
-                return _ArchivePage;
+                return _archivePage;
             }
-            set { _ArchivePage = value; }
+            set { _archivePage = value; }
         }
         #endregion
 
@@ -523,6 +523,4 @@ namespace NeeView
         }
         #endregion
     }
-
-
 }

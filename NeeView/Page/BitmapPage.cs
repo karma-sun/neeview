@@ -185,5 +185,4 @@ namespace NeeView
         public Uri Uri { get; set; }
         public BitmapContent BitmapContent { get; set; }
     }
-
 }

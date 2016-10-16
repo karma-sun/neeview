@@ -84,19 +84,19 @@ namespace NeeView
         }
         #endregion
 
-        private ResolveConflictDialogContext _Context;
+        private ResolveConflictDialogContext _context;
 
         // window title
-        public string Title => $"競合の解消 - {_Context.Command.ToDispString()}";
+        public string Title => $"競合の解消 - {_context.Command.ToDispString()}";
 
-        public string Gesture => _Context.Gesture;
+        public string Gesture => _context.Gesture;
 
-        public List<ConflictItem> Conflicts => _Context.Conflicts;
+        public List<ConflictItem> Conflicts => _context.Conflicts;
 
         //
         public ResolveConflictDialogVM(ResolveConflictDialogContext context)
         {
-            _Context = context;
+            _context = context;
         }
     }
 

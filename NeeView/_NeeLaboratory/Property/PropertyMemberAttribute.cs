@@ -59,5 +59,4 @@ namespace NeeLaboratory.Property
             return new PropertyMemberElement(source, info, this);
         }
     }
-
 }

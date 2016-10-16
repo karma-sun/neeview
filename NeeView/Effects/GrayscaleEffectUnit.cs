@@ -19,8 +19,8 @@ namespace NeeView.Effects
     [DataContract]
     public class GrayscaleEffectUnit : EffectUnit
     {
-        private static GrayscaleEffect _effect = new GrayscaleEffect();
-        public override Effect Effect => _effect;
+        private static GrayscaleEffect s_effect = new GrayscaleEffect();
+        public override Effect Effect => s_effect;
 
         /// <summary>
         /// Property: Radius
@@ -30,8 +30,8 @@ namespace NeeView.Effects
         [DefaultValue(0.5)]
         public double DesaturationFactor
         {
-            get { return _effect.DesaturationFactor; }
-            set { if (_effect.DesaturationFactor != value) { _effect.DesaturationFactor = value; RaiseEffectPropertyChanged(); } }
+            get { return s_effect.DesaturationFactor; }
+            set { if (s_effect.DesaturationFactor != value) { s_effect.DesaturationFactor = value; RaiseEffectPropertyChanged(); } }
         }
     }
 }

@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView.Utility
 {
-    class NVDrawing
+    internal class NVDrawing
     {
         // サムネイル作成(System.Drawing)
         public static BitmapSource CreateThumbnail(BitmapSource source, System.Windows.Size maxSize)

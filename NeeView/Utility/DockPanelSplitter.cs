@@ -89,11 +89,11 @@ namespace OpenSourceControls
 
 
         #region Private fields
-        private FrameworkElement element;     // element to resize (target element)
-        private double width;                 // current desired width of the element, can be less than minwidth
-        private double height;                // current desired height of the element, can be less than minheight
-        private double previousParentWidth;   // current width of parent element, used for proportional resize
-        private double previousParentHeight;  // current height of parent element, used for proportional resize
+        private FrameworkElement _element;     // element to resize (target element)
+        private double _width;                 // current desired width of the element, can be less than minwidth
+        private double _height;                // current desired height of the element, can be less than minheight
+        private double _previousParentWidth;   // current width of parent element, used for proportional resize
+        private double _previousParentHeight;  // current height of parent element, used for proportional resize
         #endregion
 
         public DockPanelSplitter()
@@ -104,7 +104,7 @@ namespace OpenSourceControls
             UpdateHeightOrWidth();
         }
 
-        void DockPanelSplitterLoaded(object sender, RoutedEventArgs e)
+        private void DockPanelSplitterLoaded(object sender, RoutedEventArgs e)
         {
             Panel dp = Parent as Panel;
             if (dp == null) return;
@@ -113,15 +113,14 @@ namespace OpenSourceControls
             dp.SizeChanged += ParentSizeChanged;
 
             // Store the current size of the parent DockPanel
-            previousParentWidth = dp.ActualWidth;
-            previousParentHeight = dp.ActualHeight;
+            _previousParentWidth = dp.ActualWidth;
+            _previousParentHeight = dp.ActualHeight;
 
             // Find the target element
             UpdateTargetElement();
-
         }
 
-        void DockPanelSplitterUnloaded(object sender, RoutedEventArgs e)
+        private void DockPanelSplitterUnloaded(object sender, RoutedEventArgs e)
         {
             Panel dp = Parent as Panel;
             if (dp == null) return;
@@ -129,7 +128,7 @@ namespace OpenSourceControls
             // Unsubscribe
             dp.SizeChanged -= ParentSizeChanged;
         }
-        
+
         private static void DockChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((DockPanelSplitter)d).UpdateHeightOrWidth();
@@ -177,42 +176,42 @@ namespace OpenSourceControls
             // The splitter works on the 'older' sibling 
             if (i > 0 && dp.Children.Count > 0)
             {
-                element = dp.Children[i - 1] as FrameworkElement;
+                _element = dp.Children[i - 1] as FrameworkElement;
             }
         }
 
         private void SetTargetWidth(double newWidth)
         {
-            if (newWidth < element.MinWidth)
-                newWidth = element.MinWidth;
-            if (newWidth > element.MaxWidth)
-                newWidth = element.MaxWidth;
+            if (newWidth < _element.MinWidth)
+                newWidth = _element.MinWidth;
+            if (newWidth > _element.MaxWidth)
+                newWidth = _element.MaxWidth;
 
             // todo - constrain the width of the element to the available client area
             Panel dp = Parent as Panel;
             Dock dock = DockPanel.GetDock(this);
-            MatrixTransform t = element.TransformToAncestor(dp) as MatrixTransform;
+            MatrixTransform t = _element.TransformToAncestor(dp) as MatrixTransform;
             if (dock == Dock.Left && newWidth > dp.ActualWidth - t.Matrix.OffsetX - Thickness)
                 newWidth = dp.ActualWidth - t.Matrix.OffsetX - Thickness;
-            
-            element.Width = newWidth;
+
+            _element.Width = newWidth;
         }
 
         private void SetTargetHeight(double newHeight)
         {
-            if (newHeight < element.MinHeight)
-                newHeight = element.MinHeight;
-            if (newHeight > element.MaxHeight)
-                newHeight = element.MaxHeight;
+            if (newHeight < _element.MinHeight)
+                newHeight = _element.MinHeight;
+            if (newHeight > _element.MaxHeight)
+                newHeight = _element.MaxHeight;
 
             // todo - constrain the height of the element to the available client area
             Panel dp = Parent as Panel;
             Dock dock = DockPanel.GetDock(this);
-            MatrixTransform t = element.TransformToAncestor(dp) as MatrixTransform;
+            MatrixTransform t = _element.TransformToAncestor(dp) as MatrixTransform;
             if (dock == Dock.Top && newHeight > dp.ActualHeight - t.Matrix.OffsetY - Thickness)
                 newHeight = dp.ActualHeight - t.Matrix.OffsetY - Thickness;
 
-            element.Height = newHeight;
+            _element.Height = newHeight;
         }
 
         private void ParentSizeChanged(object sender, SizeChangedEventArgs e)
@@ -222,42 +221,41 @@ namespace OpenSourceControls
             DockPanel dp = Parent as DockPanel;
             if (dp == null) return;
 
-            double sx = dp.ActualWidth / previousParentWidth;
-            double sy = dp.ActualHeight / previousParentHeight;
+            double sx = dp.ActualWidth / _previousParentWidth;
+            double sy = dp.ActualHeight / _previousParentHeight;
 
             if (!double.IsInfinity(sx))
-                SetTargetWidth(element.Width * sx);
+                SetTargetWidth(_element.Width * sx);
             if (!double.IsInfinity(sy))
-                SetTargetHeight(element.Height * sy);
+                SetTargetHeight(_element.Height * sy);
 
-            previousParentWidth = dp.ActualWidth;
-            previousParentHeight = dp.ActualHeight;
-
+            _previousParentWidth = dp.ActualWidth;
+            _previousParentHeight = dp.ActualHeight;
         }
 
-        double AdjustWidth(double dx, Dock dock)
+        private double AdjustWidth(double dx, Dock dock)
         {
             if (dock == Dock.Right)
                 dx = -dx;
 
-            width += dx;
-            SetTargetWidth(width);
+            _width += dx;
+            SetTargetWidth(_width);
 
             return dx;
         }
 
-        double AdjustHeight(double dy, Dock dock)
+        private double AdjustHeight(double dy, Dock dock)
         {
             if (dock == Dock.Bottom)
                 dy = -dy;
 
-            height += dy;
-            SetTargetHeight(height);
+            _height += dy;
+            SetTargetHeight(_height);
 
             return dy;
         }
 
-        Point StartDragPoint;
+        private Point _startDragPoint;
 
         protected override void OnMouseEnter(MouseEventArgs e)
         {
@@ -272,12 +270,12 @@ namespace OpenSourceControls
 
             if (!IsMouseCaptured)
             {
-                StartDragPoint = e.GetPosition(Parent as IInputElement);
+                _startDragPoint = e.GetPosition(Parent as IInputElement);
                 UpdateTargetElement();
-                if (element != null)
+                if (_element != null)
                 {
-                    width = element.ActualWidth;
-                    height = element.ActualHeight;
+                    _width = _element.ActualWidth;
+                    _height = _element.ActualHeight;
                     CaptureMouse();
                 }
             }
@@ -290,7 +288,7 @@ namespace OpenSourceControls
             if (IsMouseCaptured)
             {
                 Point ptCurrent = e.GetPosition(Parent as IInputElement);
-                Point delta = new Point(ptCurrent.X - StartDragPoint.X, ptCurrent.Y - StartDragPoint.Y);
+                Point delta = new Point(ptCurrent.X - _startDragPoint.X, ptCurrent.Y - _startDragPoint.Y);
                 Dock dock = DockPanel.GetDock(this);
 
                 if (IsHorizontal)
@@ -302,9 +300,9 @@ namespace OpenSourceControls
 
                 // When docked to the bottom or right, the position has changed after adjusting the size
                 if (isBottomOrRight)
-                    StartDragPoint = e.GetPosition(Parent as IInputElement);
+                    _startDragPoint = e.GetPosition(Parent as IInputElement);
                 else
-                    StartDragPoint = new Point(StartDragPoint.X + delta.X, StartDragPoint.Y + delta.Y);
+                    _startDragPoint = new Point(_startDragPoint.X + delta.X, _startDragPoint.Y + delta.Y);
             }
             base.OnMouseMove(e);
         }
@@ -317,6 +315,5 @@ namespace OpenSourceControls
             }
             base.OnMouseUp(e);
         }
-
     }
 }

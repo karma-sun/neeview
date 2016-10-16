@@ -415,12 +415,12 @@ namespace NeeView
         {
             public override int Priority => 2;
 
-            private LoadCommandArgs _Args;
+            private LoadCommandArgs _args;
 
             //
             public LoadCommand(BookHub bookHub, string path, string start, BookLoadOption option, bool isRefleshFolderList) : base(bookHub)
             {
-                _Args = new LoadCommandArgs()
+                _args = new LoadCommandArgs()
                 {
                     Path = path,
                     StartEntry = start,
@@ -432,14 +432,14 @@ namespace NeeView
             //
             public LoadCommand(BookHub bookHub, LoadCommandArgs args) : base(bookHub)
             {
-                _Args = args;
+                _args = args;
             }
 
 
             //
             public override async Task Execute()
             {
-                await _bookHub.LoadAsync(_Args);
+                await _bookHub.LoadAsync(_args);
             }
         }
 
@@ -1370,7 +1370,6 @@ namespace NeeView
             {
                 RequestLoad(unit.Value.Memento.Place, null, BookLoadOption.SkipSamePlace, false);
             }
-
         }
 
 
@@ -1688,7 +1687,6 @@ namespace NeeView
                     {
                         Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(path, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -1776,22 +1774,22 @@ namespace NeeView
             public bool IsSevenZipAccessLocked { get; set; }
 
             #region Property: SlideShowIntervalIndex
-            private static List<int> _SlideShowIntervalTable = new List<int>()
+            private static List<int> s_slideShowIntervalTable = new List<int>()
                 { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 300 };
 
-            public int SlideShowIntervalIndexMax => _SlideShowIntervalTable.Count - 1;
+            public int SlideShowIntervalIndexMax => s_slideShowIntervalTable.Count - 1;
 
             public int SlideShowIntervalIndex
             {
                 get
                 {
-                    int index = _SlideShowIntervalTable.IndexOf((int)SlideShowInterval);
+                    int index = s_slideShowIntervalTable.IndexOf((int)SlideShowInterval);
                     return (index < 0) ? 0 : index;
                 }
                 set
                 {
-                    int index = NVUtility.Clamp<int>(value, 0, _SlideShowIntervalTable.Count - 1);
-                    SlideShowInterval = _SlideShowIntervalTable[index];
+                    int index = NVUtility.Clamp<int>(value, 0, s_slideShowIntervalTable.Count - 1);
+                    SlideShowInterval = s_slideShowIntervalTable[index];
                     OnPropertyChanged(nameof(SlideShowInterval));
                 }
             }
@@ -1894,7 +1892,5 @@ namespace NeeView
 
         #endregion
     }
-
-
 }
 

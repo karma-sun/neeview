@@ -202,7 +202,6 @@ namespace NeeView
                 Entry = null;
             }
             _trashBox.Clear();
-
         }
 
 
@@ -292,7 +291,5 @@ namespace NeeView
                 CloseEntry();
             }
         }
-
-
     }
 }

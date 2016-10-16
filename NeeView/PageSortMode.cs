@@ -51,6 +51,4 @@ namespace NeeView
             [PageSortMode.Random] = PageSortMode.Random.ToDispString(),
         };
     }
-
-
 }

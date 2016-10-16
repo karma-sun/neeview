@@ -59,20 +59,20 @@ namespace NeeView
         }
 
         // キーワード辞書
-        private Dictionary<string, ReplaceUnit> _Dictionary;
+        private Dictionary<string, ReplaceUnit> _dictionary;
 
         // 置換フィルタ
-        private string _Filter;
-        private bool _IsDartyFilter;
+        private string _filter;
+        private bool _isDartyFilter;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public ReplaceString()
         {
-            _Dictionary = new Dictionary<string, ReplaceUnit>();
-            _Filter = "";
-            _IsDartyFilter = true;
+            _dictionary = new Dictionary<string, ReplaceUnit>();
+            _filter = "";
+            _isDartyFilter = true;
         }
 
         /// <summary>
@@ -82,14 +82,14 @@ namespace NeeView
         /// <param name="replaceString">置換文字列</param>
         public void Set(string key, string replaceString)
         {
-            if (_Dictionary.ContainsKey(key))
+            if (_dictionary.ContainsKey(key))
             {
-                _Dictionary[key].ReplaceString = replaceString;
+                _dictionary[key].ReplaceString = replaceString;
             }
             else
             {
-                _Dictionary[key] = new ReplaceUnit(key, replaceString);
-                _IsDartyFilter = true;
+                _dictionary[key] = new ReplaceUnit(key, replaceString);
+                _isDartyFilter = true;
             }
         }
 
@@ -99,8 +99,8 @@ namespace NeeView
         /// <param name="filter">フィルター文字列</param>
         public void SetFilter(string filter)
         {
-            _Filter = filter;
-            _IsDartyFilter = true;
+            _filter = filter;
+            _isDartyFilter = true;
         }
 
         /// <summary>
@@ -109,12 +109,12 @@ namespace NeeView
         /// </summary>
         private void UpdateFilter()
         {
-            if (_IsDartyFilter)
+            if (_isDartyFilter)
             {
-                _IsDartyFilter = false;
-                foreach (var regexUnit in _Dictionary.Values)
+                _isDartyFilter = false;
+                foreach (var regexUnit in _dictionary.Values)
                 {
-                    regexUnit.IsEnable = string.IsNullOrEmpty(_Filter) || regexUnit.Regex.IsMatch(_Filter);
+                    regexUnit.IsEnable = string.IsNullOrEmpty(_filter) || regexUnit.Regex.IsMatch(_filter);
                 }
             }
         }
@@ -127,12 +127,11 @@ namespace NeeView
         public string Replace(string s)
         {
             UpdateFilter();
-            foreach (var regexUnit in _Dictionary.Values.Where(e => e.IsEnable))
+            foreach (var regexUnit in _dictionary.Values.Where(e => e.IsEnable))
             {
                 s = regexUnit.Replace(s);
             }
             return s;
         }
     }
-
 }

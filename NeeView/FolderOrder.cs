@@ -47,5 +47,4 @@ namespace NeeView
             [FolderOrder.Random] = "シャッフル",
         };
     }
-
 }

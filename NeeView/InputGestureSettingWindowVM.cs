@@ -40,7 +40,7 @@ namespace NeeView
         #endregion
 
         // すべてのコマンドのショートカット
-        private Dictionary<CommandType, string> _Sources;
+        private Dictionary<CommandType, string> _sources;
 
         // 編集するコマンド
         public CommandType Command { get; set; }
@@ -49,11 +49,11 @@ namespace NeeView
         /// Property: GestureTokens
         /// ショートカットテキストのリスト
         /// </summary>
-        private ObservableCollection<GestureToken> _GestureTokens;
+        private ObservableCollection<GestureToken> _gestureTokens;
         public ObservableCollection<GestureToken> GestureTokens
         {
-            get { return _GestureTokens; }
-            set { if (_GestureTokens != value) { _GestureTokens = value; OnPropertyChanged(); } }
+            get { return _gestureTokens; }
+            set { if (_gestureTokens != value) { _gestureTokens = value; OnPropertyChanged(); } }
         }
 
         // ウィンドウタイトル？
@@ -64,7 +64,7 @@ namespace NeeView
         /// </summary>
         public InputGestureSettingWindowVM(Dictionary<CommandType, string> sources, CommandType command)
         {
-            _Sources = sources;
+            _sources = sources;
             Command = command;
             Header = $"ショートカット設定 - {Command.ToDispString()}";
 
@@ -77,9 +77,9 @@ namespace NeeView
         public void UpdateGestures()
         {
             var items = new ObservableCollection<GestureToken>();
-            if (_Sources[Command] != null)
+            if (_sources[Command] != null)
             {
-                foreach (var gesture in _Sources[Command].Split(','))
+                foreach (var gesture in _sources[Command].Split(','))
                 {
                     var element = CreateShortCutElement(gesture);
                     items.Add(element);
@@ -97,7 +97,7 @@ namespace NeeView
         {
             var element = new GestureToken() { Gesture = gesture };
 
-            var overlaps = _Sources
+            var overlaps = _sources
                 .Where(e => !string.IsNullOrEmpty(e.Value) && e.Key != Command && e.Value.Split(',').Contains(gesture))
                 .Select(e => e.Key)
                 .ToList();
@@ -144,7 +144,7 @@ namespace NeeView
         /// </summary>
         public void Flush()
         {
-            _Sources[Command] = GestureTokens.Count > 0
+            _sources[Command] = GestureTokens.Count > 0
                 ? string.Join(",", GestureTokens.Select(e => e.Gesture))
                 : null;
         }
@@ -173,13 +173,12 @@ namespace NeeView
                 {
                     if (!conflictItem.IsChecked)
                     {
-                        var newGesture = string.Join(",", this._Sources[conflictItem.Command].Split(',').Where(i => i != item.Gesture));
-                        this._Sources[conflictItem.Command] = string.IsNullOrEmpty(newGesture) ? null : newGesture;
+                        var newGesture = string.Join(",", _sources[conflictItem.Command].Split(',').Where(i => i != item.Gesture));
+                        _sources[conflictItem.Command] = string.IsNullOrEmpty(newGesture) ? null : newGesture;
                     }
                 }
                 UpdateGestures();
             }
         }
-
     }
 }

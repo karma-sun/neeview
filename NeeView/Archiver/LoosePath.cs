@@ -17,20 +17,20 @@ namespace NeeView
     /// </summary>
     public static class LoosePath
     {
-        private static char[] _sepalator = new char[] { '\\', '/' };
+        private static char[] s_sepalator = new char[] { '\\', '/' };
 
         //
         public static string GetFileName(string s)
         {
             if (s == null) return "";
-            return s.Split(_sepalator, StringSplitOptions.RemoveEmptyEntries).Last();
+            return s.Split(s_sepalator, StringSplitOptions.RemoveEmptyEntries).Last();
         }
 
         //
         public static string GetPathRoot(string s)
         {
             if (s == null) return "";
-            var parts = s.Split(_sepalator, 2);
+            var parts = s.Split(s_sepalator, 2);
             return parts.First();
         }
 
@@ -38,7 +38,7 @@ namespace NeeView
         public static string GetDirectoryName(string s)
         {
             if (s == null) return "";
-            var parts = s.Split(_sepalator, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var parts = s.Split(s_sepalator, StringSplitOptions.RemoveEmptyEntries).ToList();
             parts.RemoveAt(parts.Count - 1);
             return string.Join("\\", parts);
         }
@@ -59,7 +59,7 @@ namespace NeeView
             if (string.IsNullOrEmpty(s1))
                 return s2;
             else
-                return s1.TrimEnd(_sepalator) + "\\" + s2.TrimStart(_sepalator);
+                return s1.TrimEnd(s_sepalator) + "\\" + s2.TrimStart(s_sepalator);
         }
 
         // ファイル名として使えない文字を置換

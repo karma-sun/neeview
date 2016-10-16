@@ -115,7 +115,7 @@ namespace NeeView
             Win32Api.SetWindowPlacement(hwnd, ref placement);
 
             // スナップウィンドウサイズで復元 by nee
-            if (memento.WindowRect != null &&  placement.showCmd == Win32Api.SW.SHOWNORMAL)
+            if (memento.WindowRect != null && placement.showCmd == Win32Api.SW.SHOWNORMAL)
             {
                 Rect rect = (Rect)memento.WindowRect;
                 window.Left = rect.Left;

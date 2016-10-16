@@ -21,10 +21,10 @@ namespace NeeView
     /// </summary>
     public static class IpcRemote
     {
-        const string PortName = "IpcNeeView";
-        const string ObjURI = "Command";
+        private const string PortName = "IpcNeeView";
+        private const string ObjURI = "Command";
 
-        private static IpcServer _Server;
+        private static IpcServer s_server;
 
         /// <summary>
         /// IPCサーバ起動
@@ -33,8 +33,8 @@ namespace NeeView
         {
             try
             {
-                _Server = new IpcServer();
-                _Server.Boot(id);
+                s_server = new IpcServer();
+                s_server.Boot(id);
             }
             catch { }
         }
@@ -44,10 +44,10 @@ namespace NeeView
         /// </summary>
         public static void Shutdown()
         {
-            if (_Server != null)
+            if (s_server != null)
             {
-                _Server.Shutdown();
-                _Server = null;
+                s_server.Shutdown();
+                s_server = null;
             }
         }
 
@@ -115,7 +115,7 @@ namespace NeeView
         {
             public IpcRemoteObject RemoteObject { get; set; }
 
-            private IpcServerChannel _Channel;
+            private IpcServerChannel _channel;
 
             /// <summary>
             /// コンストラクタ
@@ -123,10 +123,10 @@ namespace NeeView
             public void Boot(int id)
             {
                 // サーバーチャンネルの生成
-                _Channel = new IpcServerChannel(PortName + id.ToString());
+                _channel = new IpcServerChannel(PortName + id.ToString());
 
                 // チャンネルを登録
-                ChannelServices.RegisterChannel(_Channel, true);
+                ChannelServices.RegisterChannel(_channel, true);
 
                 // リモートオブジェクトを生成して公開
                 RemoteObject = new IpcRemoteObject();
@@ -139,13 +139,12 @@ namespace NeeView
             /// </summary>
             public void Shutdown()
             {
-                if (_Channel != null)
+                if (_channel != null)
                 {
-                    ChannelServices.UnregisterChannel(_Channel);
-                    _Channel = null;
+                    ChannelServices.UnregisterChannel(_channel);
+                    _channel = null;
                 }
             }
-
         }
 
 

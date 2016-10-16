@@ -57,14 +57,14 @@ namespace NeeView
     {
         public FrameworkElement Control { get; set; }
 
-        private Book _Book;
+        private Book _book;
         public Page Page { get; set; }
 
-        private double _Position;
+        private double _position;
 
         public PageMarker(Book book, Page page)
         {
-            _Book = book;
+            _book = book;
             Page = page;
 
             var path = new Path();
@@ -83,9 +83,9 @@ namespace NeeView
         /// </summary>
         public void Update()
         {
-            int max = _Book.Pages.Count - 1;
+            int max = _book.Pages.Count - 1;
             if (max < 1) max = 1;
-            _Position = (double)Page.Index / (double)max;
+            _position = (double)Page.Index / (double)max;
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace NeeView
         {
             const double tumbWidth = 12;
 
-            var x = (width - tumbWidth) * (isReverse ? 1.0 - _Position : _Position) + (tumbWidth - Control.Width) * 0.5;
+            var x = (width - tumbWidth) * (isReverse ? 1.0 - _position : _position) + (tumbWidth - Control.Width) * 0.5;
             Canvas.SetLeft(Control, x);
         }
     }
@@ -116,18 +116,18 @@ namespace NeeView
         }
         #endregion
 
-        private Canvas _Canvas;
+        private Canvas _canvas;
 
         #region Property: BookHub
-        private BookHub _BookHub;
+        private BookHub _bookHub;
         public BookHub BookHub
         {
-            get { return _BookHub; }
+            get { return _bookHub; }
             set
             {
-                if (_BookHub != value)
+                if (_bookHub != value)
                 {
-                    _BookHub = value;
+                    _bookHub = value;
                     BookHubChanged();
                 }
             }
@@ -135,17 +135,17 @@ namespace NeeView
         #endregion
 
         #region Property: IsSliderDirectionReversed
-        private bool _IsSliderDirectionReversed;
+        private bool _isSliderDirectionReversed;
         public bool IsSliderDirectionReversed
         {
-            get { return _IsSliderDirectionReversed; }
-            set { _IsSliderDirectionReversed = value; UpdateControl(); }
+            get { return _isSliderDirectionReversed; }
+            set { _isSliderDirectionReversed = value; UpdateControl(); }
         }
         #endregion
 
 
         //
-        private List<PageMarker> Markers;
+        private List<PageMarker> _markers;
 
         /// <summary>
         /// コンストラクタ
@@ -153,10 +153,10 @@ namespace NeeView
         /// <param name="canvas"></param>
         public PageMarkersVM(Canvas canvas)
         {
-            Markers = new List<PageMarker>();
+            _markers = new List<PageMarker>();
 
-            _Canvas = canvas;
-            _Canvas.SizeChanged += Canvas_SizeChanged;
+            _canvas = canvas;
+            _canvas.SizeChanged += Canvas_SizeChanged;
         }
 
         /// <summary>
@@ -177,10 +177,10 @@ namespace NeeView
         /// </summary>
         private void BookHubChanged()
         {
-            _BookHub.BookChanged += (s, e) => BookChanged();
-            _BookHub.PagemarkChanged += (s, e) => UpdateInvoke();
-            _BookHub.PagesSorted += (s, e) => UpdateInvoke();
-            _BookHub.PageRemoved += (s, e) => UpdateInvoke();
+            _bookHub.BookChanged += (s, e) => BookChanged();
+            _bookHub.PagemarkChanged += (s, e) => UpdateInvoke();
+            _bookHub.PagesSorted += (s, e) => UpdateInvoke();
+            _bookHub.PageRemoved += (s, e) => UpdateInvoke();
         }
 
         /// <summary>
@@ -197,10 +197,10 @@ namespace NeeView
         private void BookChanged()
         {
             // clear
-            _Canvas.Children.Clear();
-            Markers.Clear();
+            _canvas.Children.Clear();
+            _markers.Clear();
 
-            if (_BookHub.CurrentBook == null) return;
+            if (_bookHub.CurrentBook == null) return;
 
             // update first
             Update();
@@ -212,22 +212,22 @@ namespace NeeView
         private void Update()
         {
             // remove markers
-            foreach (var marker in Markers.Where(e => !_BookHub.CurrentBook.Markers.Contains(e.Page)).ToList())
+            foreach (var marker in _markers.Where(e => !_bookHub.CurrentBook.Markers.Contains(e.Page)).ToList())
             {
-                _Canvas.Children.Remove(marker.Control);
-                Markers.Remove(marker);
+                _canvas.Children.Remove(marker.Control);
+                _markers.Remove(marker);
             }
 
             // add markers
-            foreach (var key in _BookHub.CurrentBook.Markers.Where(e => Markers.All(m => m.Page != e)).ToList())
+            foreach (var key in _bookHub.CurrentBook.Markers.Where(e => _markers.All(m => m.Page != e)).ToList())
             {
-                var marker = new PageMarker(_BookHub.CurrentBook, key);
-                _Canvas.Children.Add(marker.Control);
-                Markers.Add(marker);
+                var marker = new PageMarker(_bookHub.CurrentBook, key);
+                _canvas.Children.Add(marker.Control);
+                _markers.Add(marker);
             }
 
             // update
-            Markers.ForEach(e => e.Update());
+            _markers.ForEach(e => e.Update());
 
             // update control
             UpdateControl();
@@ -238,8 +238,7 @@ namespace NeeView
         /// </summary>
         private void UpdateControl()
         {
-            Markers.ForEach(e => e.UpdateControl(_Canvas.ActualWidth, IsSliderDirectionReversed));
+            _markers.ForEach(e => e.UpdateControl(_canvas.ActualWidth, IsSliderDirectionReversed));
         }
-
     }
 }

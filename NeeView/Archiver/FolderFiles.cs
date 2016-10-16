@@ -22,7 +22,7 @@ namespace NeeView
         {
             return "フォルダー";
         }
-        
+
         //
         public override bool IsFileSystem { get; } = true;
 
@@ -109,6 +109,4 @@ namespace NeeView
             File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
         }
     }
-
-
 }

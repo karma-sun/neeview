@@ -73,7 +73,7 @@ namespace NeeView
         }
 
         // 既に読み込まれている素材を利用してサムネイルを作る
-        public FrameworkElement CreateVisualContent( Size maxSize, bool isShadowEffect)
+        public FrameworkElement CreateVisualContent(Size maxSize, bool isShadowEffect)
         {
             if (Page == null) return null;
 
@@ -82,7 +82,7 @@ namespace NeeView
 
         // サムネイル作成
         private static FrameworkElement CreateVisualContent(BitmapSource bitmapSource, Size sourceSize, Size maxSize, bool isShadowEffect)
-        { 
+        {
             if (bitmapSource == null) return null;
 
             var image = new Image();
@@ -384,8 +384,4 @@ namespace NeeView
 
         #endregion
     }
-
-
-
-
 }

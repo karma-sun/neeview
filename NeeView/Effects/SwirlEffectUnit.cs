@@ -22,8 +22,8 @@ namespace NeeView.Effects
     [DataContract]
     public class SwirlEffectUnit : EffectUnit
     {
-        private static SwirlEffect _effect = new SwirlEffect();
-        public override Effect Effect => _effect;
+        private static SwirlEffect s_effect = new SwirlEffect();
+        public override Effect Effect => s_effect;
 
         /// <summary>
         /// Property: Center
@@ -33,8 +33,8 @@ namespace NeeView.Effects
         [DefaultValue(typeof(Point), "0.5,0.5")]
         public Point Center
         {
-            get { return _effect.Center; }
-            set { if (_effect.Center != value) { _effect.Center = value; RaiseEffectPropertyChanged(); } }
+            get { return s_effect.Center; }
+            set { if (s_effect.Center != value) { s_effect.Center = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -45,8 +45,8 @@ namespace NeeView.Effects
         [DefaultValue(10)]
         public double TwistAmount
         {
-            get { return _effect.TwistAmount; }
-            set { if (_effect.TwistAmount != value) { _effect.TwistAmount = value; RaiseEffectPropertyChanged(); } }
+            get { return s_effect.TwistAmount; }
+            set { if (s_effect.TwistAmount != value) { s_effect.TwistAmount = value; RaiseEffectPropertyChanged(); } }
         }
     }
 }

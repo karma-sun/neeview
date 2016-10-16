@@ -23,15 +23,15 @@ namespace NeeView
         public static ThumbnailManager ThumbnailManager { get; private set; }
 
         //
-        private static FolderListItemStyle _FolderListItemStyle;
+        private static FolderListItemStyle s_folderListItemStyle;
         public static FolderListItemStyle FolderListItemStyle
         {
-            get { return _FolderListItemStyle; }
+            get { return s_folderListItemStyle; }
             set
             {
-                _FolderListItemStyle = value;
-                ThumbnailManager.IsEnabled = _FolderListItemStyle == FolderListItemStyle.Picture;
-                FolderListStyleChanged?.Invoke(null, _FolderListItemStyle);
+                s_folderListItemStyle = value;
+                ThumbnailManager.IsEnabled = s_folderListItemStyle == FolderListItemStyle.Picture;
+                FolderListStyleChanged?.Invoke(null, s_folderListItemStyle);
             }
         }
 
@@ -42,5 +42,4 @@ namespace NeeView
             ThumbnailManager.InitializeThumbnailSystem();
         }
     }
-
 }

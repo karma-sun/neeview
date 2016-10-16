@@ -69,5 +69,4 @@ namespace NeeView
             Archiver.ExtractToFile(this, exportFileName, isOverwrite);
         }
     }
-
 }

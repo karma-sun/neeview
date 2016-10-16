@@ -209,7 +209,7 @@ namespace NeeView
         public BookHub BookHub { get; private set; }
 
         public BookmarkCollection Bookmark => ModelContext.Bookmarks;
-        
+
 
         public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
 

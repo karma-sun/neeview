@@ -26,11 +26,11 @@ namespace NeeView
         public string Text { get; set; }
 
         // メニュー表示名
-        private string _MenuText;
+        private string _menuText;
         public string MenuText
         {
-            get { return _MenuText ?? Text; }
-            set { _MenuText = value; }
+            get { return _menuText ?? Text; }
+            set { _menuText = value; }
         }
 
         // ショートカットキー
@@ -72,7 +72,7 @@ namespace NeeView
         public CommandParameter DefaultParameter { get; set; }
 
         // コマンドパラメータ
-        private CommandParameter _ParameterRaw;
+        private CommandParameter _parameterRaw;
 
         // コマンドパラメータ(Raw)
         public CommandParameter ParameterRaw
@@ -98,18 +98,18 @@ namespace NeeView
         /// <returns></returns>
         public CommandParameter GetParameter(bool isRaw)
         {
-            if (_ParameterRaw == null && DefaultParameter != null)
+            if (_parameterRaw == null && DefaultParameter != null)
             {
-                _ParameterRaw = DefaultParameter.Clone();
+                _parameterRaw = DefaultParameter.Clone();
             }
 
             if (isRaw)
             {
-                return _ParameterRaw;
+                return _parameterRaw;
             }
             else
             {
-                return _ParameterRaw?.Entity();
+                return _parameterRaw?.Entity();
             }
         }
 
@@ -117,11 +117,11 @@ namespace NeeView
         /// パラメータ設定
         /// </summary>
         /// <param name="value"></param>
-        void SetParameter(CommandParameter value)
+        private void SetParameter(CommandParameter value)
         {
             if (!DefaultParameter.IsReadOnly())
             {
-                _ParameterRaw = value;
+                _parameterRaw = value;
             }
         }
 

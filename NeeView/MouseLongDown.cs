@@ -27,16 +27,16 @@ namespace NeeView
         public event EventHandler<MouseWheelEventArgs> MouseWheel;
 
         #region Property: Status
-        private MouseLongDownStatus _Status;
+        private MouseLongDownStatus _status;
         public MouseLongDownStatus Status
         {
-            get { return _Status; }
+            get { return _status; }
             set
             {
                 //if (_Status != value)
                 {
-                    _Status = value;
-                    StatusChanged(this, _Status);
+                    _status = value;
+                    StatusChanged(this, _status);
                 }
             }
         }
@@ -44,25 +44,25 @@ namespace NeeView
 
 
         // 長押し判定用
-        private DispatcherTimer _Timer = new DispatcherTimer();
+        private DispatcherTimer _timer = new DispatcherTimer();
 
         public TimeSpan Tick { get; set; }
 
-        private FrameworkElement _Sender;
-        private Point _StartPoint;
-        private Point _EndPoint;
+        private FrameworkElement _sender;
+        private Point _startPoint;
+        private Point _endPoint;
 
         // コンストラクタ
         public MouseLongDown(FrameworkElement sender)
         {
-            _Sender = sender;
+            _sender = sender;
 
-            _Sender.PreviewMouseDown += OnMouseButtonDown;
-            _Sender.PreviewMouseUp += OnMouseButtonUp;
-            _Sender.PreviewMouseMove += OnMouseMove;
-            _Sender.PreviewMouseWheel += OnMouseWheel;
+            _sender.PreviewMouseDown += OnMouseButtonDown;
+            _sender.PreviewMouseUp += OnMouseButtonUp;
+            _sender.PreviewMouseMove += OnMouseMove;
+            _sender.PreviewMouseWheel += OnMouseWheel;
 
-            this._Timer.Tick += this.OnTimeout;
+            _timer.Tick += this.OnTimeout;
 
             Tick = TimeSpan.FromSeconds(1.0);
         }
@@ -73,10 +73,10 @@ namespace NeeView
         {
             if (e.ChangedButton != MouseButton.Left) return;
 
-            _StartPoint = e.GetPosition(_Sender);
+            _startPoint = e.GetPosition(_sender);
 
-            _Timer.Interval = Tick;
-            _Timer.Start();
+            _timer.Interval = Tick;
+            _timer.Start();
 
             //Debug.WriteLine("ON");
         }
@@ -86,7 +86,7 @@ namespace NeeView
         {
             if (e.ChangedButton != MouseButton.Left) return;
 
-            _Timer.Stop();
+            _timer.Stop();
             Status = MouseLongDownStatus.Off;
 
             //Debug.WriteLine("OFF");
@@ -95,10 +95,10 @@ namespace NeeView
         // マウスポインタが移動した時の処理
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            _EndPoint = e.GetPosition(_Sender);
-            if (_Timer.IsEnabled && Math.Abs(_EndPoint.X - _StartPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(_EndPoint.Y - _StartPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+            _endPoint = e.GetPosition(_sender);
+            if (_timer.IsEnabled && Math.Abs(_endPoint.X - _startPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(_endPoint.Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
-                _Timer.Stop();
+                _timer.Stop();
             }
         }
 
@@ -109,16 +109,16 @@ namespace NeeView
             {
                 MouseWheel?.Invoke(this, e);
             }
-            else if (_Timer.IsEnabled)
+            else if (_timer.IsEnabled)
             {
-                _Timer.Stop();
+                _timer.Stop();
             }
         }
 
         // マウスボタンが一定時間押され続けた時の処理
         private void OnTimeout(object sender, object e)
         {
-            _Timer.Stop();
+            _timer.Stop();
             Status = MouseLongDownStatus.On;
         }
     }

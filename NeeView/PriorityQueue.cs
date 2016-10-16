@@ -29,15 +29,15 @@ namespace NeeView
     public class PriorityQueue<T> where T : class
     {
         // 優先度毎の待機リスト
-        private volatile Dictionary<QueueElementPriority, LinkedList<T>> _Queue;
+        private volatile Dictionary<QueueElementPriority, LinkedList<T>> _queue;
 
         // コンストラクタ
         public PriorityQueue()
         {
-            _Queue = new Dictionary<QueueElementPriority, LinkedList<T>>();
+            _queue = new Dictionary<QueueElementPriority, LinkedList<T>>();
             foreach (QueueElementPriority priority in Enum.GetValues(typeof(QueueElementPriority)))
             {
-                _Queue[priority] = new LinkedList<T>();
+                _queue[priority] = new LinkedList<T>();
             }
         }
 
@@ -50,11 +50,11 @@ namespace NeeView
         {
             if (reverse)
             {
-                _Queue[priority].AddFirst(element);
+                _queue[priority].AddFirst(element);
             }
             else
             {
-                _Queue[priority].AddLast(element);
+                _queue[priority].AddLast(element);
             }
         }
 
@@ -65,7 +65,7 @@ namespace NeeView
         /// <param name="priority"></param>
         public void Foreach(Action<T> cancelAction, QueueElementPriority priority)
         {
-            foreach(var element in _Queue[priority])
+            foreach (var element in _queue[priority])
             {
                 cancelAction(element);
             }
@@ -80,7 +80,7 @@ namespace NeeView
                 int sum = 0;
                 foreach (QueueElementPriority priority in Enum.GetValues(typeof(QueueElementPriority)))
                 {
-                    sum += _Queue[priority].Count;
+                    sum += _queue[priority].Count;
                 }
 
                 return sum;
@@ -90,7 +90,7 @@ namespace NeeView
         // 待機要素数
         public int CountAt(QueueElementPriority priority)
         {
-            return _Queue[priority].Count;
+            return _queue[priority].Count;
         }
 
         // 先頭要素の取得
@@ -98,7 +98,7 @@ namespace NeeView
         {
             foreach (QueueElementPriority priority in Enum.GetValues(typeof(QueueElementPriority)))
             {
-                if (_Queue[priority].Count > 0) return _Queue[priority].First();
+                if (_queue[priority].Count > 0) return _queue[priority].First();
             }
             return default(T);
         }
@@ -108,29 +108,29 @@ namespace NeeView
         {
             foreach (QueueElementPriority priority in Enum.GetValues(typeof(QueueElementPriority)))
             {
-                if (_Queue[priority].Count > 0)
+                if (_queue[priority].Count > 0)
                 {
-                    _Queue[priority].RemoveFirst();
+                    _queue[priority].RemoveFirst();
                     return;
                 }
             }
         }
 
         // 先頭要素を取得し、削除する
-        public T Dequeue(QueueElementPriority priority, bool reverse=false)
+        public T Dequeue(QueueElementPriority priority, bool reverse = false)
         {
-            if (_Queue[priority].Count > 0)
+            if (_queue[priority].Count > 0)
             {
                 if (reverse)
                 {
-                    var item = _Queue[priority].Last();
-                    _Queue[priority].RemoveLast();
+                    var item = _queue[priority].Last();
+                    _queue[priority].RemoveLast();
                     return item;
                 }
                 else
                 {
-                    var item = _Queue[priority].First();
-                    _Queue[priority].RemoveFirst();
+                    var item = _queue[priority].First();
+                    _queue[priority].RemoveFirst();
                     return item;
                 }
             }
@@ -162,7 +162,7 @@ namespace NeeView
             {
                 if (priority == newPriority) continue;
 
-                if (_Queue[priority].Remove(element))
+                if (_queue[priority].Remove(element))
                 {
                     Enqueue(element, newPriority);
                     return;
@@ -171,9 +171,9 @@ namespace NeeView
         }
 
         // 再登録
-        public void ReAdd(T element, QueueElementPriority priority, bool reverse=false)
+        public void ReAdd(T element, QueueElementPriority priority, bool reverse = false)
         {
-            if (_Queue[priority].Remove(element))
+            if (_queue[priority].Remove(element))
             {
                 Enqueue(element, priority, reverse);
             }

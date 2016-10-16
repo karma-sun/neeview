@@ -50,7 +50,7 @@ namespace NeeView
         }
 
         // ファイラーからのドロップ
-        List<DropReciever> _FileDropRecievers = new List<DropReciever>()
+        private List<DropReciever> _fileDropRecievers = new List<DropReciever>()
             {
                 new DropFileDrop(),
                 new DropFileContents(),
@@ -59,7 +59,7 @@ namespace NeeView
             };
 
         // ブラウザからのドロップ
-        List<DropReciever> _BrowserDropRecievers = new List<DropReciever>()
+        private List<DropReciever> _browserDropRecievers = new List<DropReciever>()
             {
                 new DropFileContents(),
                 new DropInlineImage(),
@@ -73,7 +73,7 @@ namespace NeeView
         public async Task<string> DropAsync(object sender, IDataObject data, string downloadPath, Action<string> nowloading)
         {
             var recievers = (data.GetDataPresent("UniformResourceLocator") || data.GetDataPresent("UniformResourceLocatorW"))
-                ? _BrowserDropRecievers : _FileDropRecievers;
+                ? _browserDropRecievers : _fileDropRecievers;
 
             string errorMessage = null;
             foreach (var reciever in recievers)

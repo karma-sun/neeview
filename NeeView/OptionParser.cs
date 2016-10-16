@@ -109,7 +109,6 @@ namespace NeeView
                 }
             }
         }
-
     }
 
 
@@ -182,8 +181,6 @@ namespace NeeView
                     Args.Add(arg);
                 }
             }
-
         }
     }
-
 }

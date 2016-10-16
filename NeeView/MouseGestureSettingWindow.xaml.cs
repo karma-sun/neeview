@@ -48,7 +48,6 @@ namespace NeeView
         {
             this.Close();
         }
-
     }
 
     /// <summary>
@@ -66,19 +65,19 @@ namespace NeeView
         #endregion
 
         //
-        private MouseGestureSettingContext _Context;
+        private MouseGestureSettingContext _context;
 
         //
-        private MouseGestureManager _MouseGesture;
+        private MouseGestureManager _mouseGesture;
 
         /// <summary>
         /// Property: GestureToken
         /// </summary>
-        private GestureToken _GestureToken;
+        private GestureToken _gestureToken;
         public GestureToken GestureToken
         {
-            get { return _GestureToken; }
-            set { if (_GestureToken != value) { _GestureToken = value; OnPropertyChanged(); } }
+            get { return _gestureToken; }
+            set { if (_gestureToken != value) { _gestureToken = value; OnPropertyChanged(); } }
         }
 
         /// <summary>
@@ -89,7 +88,7 @@ namespace NeeView
         /// <summary>
         /// Window Title
         /// </summary>
-        public string Header => _Context.Header ?? _Context.Command.ToDispString();
+        public string Header => _context.Header ?? _context.Command.ToDispString();
 
         /// <summary>
         /// Constructor
@@ -98,13 +97,13 @@ namespace NeeView
         /// <param name="gestureSender"></param>
         public MouseGestureSettingViewModel(MouseGestureSettingContext context, FrameworkElement gestureSender)
         {
-            _Context = context;
+            _context = context;
 
-            _MouseGesture = new MouseGestureManager(gestureSender);
-            _MouseGesture.PropertyChanged += MouseGesture_PropertyChanged;
-            _MouseGesture.GestureText = _Context.Gesture;
+            _mouseGesture = new MouseGestureManager(gestureSender);
+            _mouseGesture.PropertyChanged += MouseGesture_PropertyChanged;
+            _mouseGesture.GestureText = _context.Gesture;
 
-            OriginalGesture = _Context.Gesture;
+            OriginalGesture = _context.Gesture;
         }
 
         /// <summary>
@@ -114,9 +113,9 @@ namespace NeeView
         /// <param name="e"></param>
         private void MouseGesture_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(_MouseGesture.GestureText))
+            if (e.PropertyName == nameof(_mouseGesture.GestureText))
             {
-                UpdateGestureToken(_MouseGesture.GestureText);
+                UpdateGestureToken(_mouseGesture.GestureText);
             }
         }
 
@@ -132,8 +131,8 @@ namespace NeeView
 
             if (!string.IsNullOrEmpty(token.Gesture))
             {
-                token.Conflicts = _Context.Gestures
-                    .Where(i => i.Key != _Context.Command && i.Value == token.Gesture)
+                token.Conflicts = _context.Gestures
+                    .Where(i => i.Key != _context.Command && i.Value == token.Gesture)
                     .Select(i => i.Key)
                     .ToList();
 
@@ -152,24 +151,23 @@ namespace NeeView
         /// </summary>
         public void Decide()
         {
-            _Context.Gesture = _MouseGesture.GestureText;
+            _context.Gesture = _mouseGesture.GestureText;
         }
 
 
         /// <summary>
         /// Command: ClearCommand
         /// </summary>
-        private RelayCommand _ClearCommand;
+        private RelayCommand _clearCommand;
         public RelayCommand ClearCommand
         {
-            get { return _ClearCommand = _ClearCommand ?? new RelayCommand(ClearCommand_Executed); }
+            get { return _clearCommand = _clearCommand ?? new RelayCommand(ClearCommand_Executed); }
         }
 
         private void ClearCommand_Executed()
         {
-            _MouseGesture.GestureText = null;
+            _mouseGesture.GestureText = null;
         }
-
     }
 
 

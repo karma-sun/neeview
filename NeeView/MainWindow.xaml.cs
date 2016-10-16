@@ -36,17 +36,17 @@ namespace NeeView
     {
         public delegate void Reciever(object sender, PropertyChangedEventArgs e);
 
-        private Dictionary<string, Reciever> _RecieverCollection = new Dictionary<string, Reciever>();
+        private Dictionary<string, Reciever> _recieverCollection = new Dictionary<string, Reciever>();
 
         public void AddReciever(string propertyName, Reciever reciever)
         {
-            _RecieverCollection.Add(propertyName, reciever);
+            _recieverCollection.Add(propertyName, reciever);
         }
 
         public bool Send(object sender, PropertyChangedEventArgs e)
         {
             Reciever reciever;
-            if (_RecieverCollection.TryGetValue(e.PropertyName, out reciever))
+            if (_recieverCollection.TryGetValue(e.PropertyName, out reciever))
             {
                 reciever(sender, e);
                 return true;
@@ -65,17 +65,17 @@ namespace NeeView
     {
         private MainWindowVM _VM;
 
-        private MouseDragController _MouseDrag;
-        private MouseGestureManager _MouseGesture;
-        private MouseLongDown _MouseLongDown;
+        private MouseDragController _mouseDrag;
+        private MouseGestureManager _mouseGesture;
+        private MouseLongDown _mouseLongDown;
 
-        private ContentDropManager _ContentDrop = new ContentDropManager();
+        private ContentDropManager _contentDrop = new ContentDropManager();
 
-        private bool _NowLoading = false;
+        private bool _nowLoading = false;
 
-        public MouseDragController MouseDragController => _MouseDrag;
+        public MouseDragController MouseDragController => _mouseDrag;
 
-        private NotifyPropertyChangedDelivery _NotifyPropertyChangedDelivery = new NotifyPropertyChangedDelivery();
+        private NotifyPropertyChangedDelivery _notifyPropertyChangedDelivery = new NotifyPropertyChangedDelivery();
 
         // コンストラクタ
         public MainWindow()
@@ -101,47 +101,47 @@ namespace NeeView
             InitializeVisualTree();
 
             // mouse long down
-            _MouseLongDown = new MouseLongDown(this.MainView);
-            _MouseLongDown.StatusChanged +=
+            _mouseLongDown = new MouseLongDown(this.MainView);
+            _mouseLongDown.StatusChanged +=
                 (s, e) =>
                 {
                     if (_VM.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
                     {
-                        _MouseDrag.IsLoupe = (e == MouseLongDownStatus.On);
+                        _mouseDrag.IsLoupe = (e == MouseLongDownStatus.On);
                     }
                 };
-            _MouseLongDown.MouseWheel +=
+            _mouseLongDown.MouseWheel +=
                 (s, e) =>
                 {
                     if (_VM.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
                     {
-                        _MouseDrag.LoupeZoom(e);
+                        _mouseDrag.LoupeZoom(e);
                     }
                 };
 
-            _NotifyPropertyChangedDelivery.AddReciever(nameof(_VM.LongButtonDownTick),
+            _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.LongButtonDownTick),
                 (s, e) =>
                 {
-                    _MouseLongDown.Tick = TimeSpan.FromSeconds(_VM.LongButtonDownTick);
+                    _mouseLongDown.Tick = TimeSpan.FromSeconds(_VM.LongButtonDownTick);
                 });
 
 
             // mouse drag
-            _MouseDrag = new MouseDragController(this, this.MainView, this.MainContent, this.MainContentShadow);
-            _MouseDrag.TransformChanged +=
+            _mouseDrag = new MouseDragController(this, this.MainView, this.MainContent, this.MainContentShadow);
+            _mouseDrag.TransformChanged +=
                 (s, e) =>
                 {
-                    _VM.SetViewTransform(_MouseDrag.Scale, _MouseDrag.FixedLoupeScale, _MouseDrag.Angle, _MouseDrag.IsFlipHorizontal, _MouseDrag.IsFlipVertical, e.ActionType);
+                    _VM.SetViewTransform(_mouseDrag.Scale, _mouseDrag.FixedLoupeScale, _mouseDrag.Angle, _mouseDrag.IsFlipHorizontal, _mouseDrag.IsFlipVertical, e.ActionType);
                     if (e.ChangeType == TransformChangeType.Scale)
                     {
                         _VM.UpdateWindowTitle(UpdateWindowTitleMask.View);
                     }
                 };
-            ModelContext.DragActionTable.SetTarget(_MouseDrag);
+            ModelContext.DragActionTable.SetTarget(_mouseDrag);
 
             // mouse gesture
-            _MouseGesture = new MouseGestureManager(this.MainView);
-            _MouseGesture.Controller.MouseGestureUpdateEventHandler += OnMouseGestureUpdate;
+            _mouseGesture = new MouseGestureManager(this.MainView);
+            _mouseGesture.Controller.MouseGestureUpdateEventHandler += OnMouseGestureUpdate;
 
 
 
@@ -157,13 +157,13 @@ namespace NeeView
 
             // VM NotifyPropertyChanged Hook
 
-            _NotifyPropertyChangedDelivery.AddReciever(nameof(_VM.TinyInfoText),
+            _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.TinyInfoText),
                 (s, e) =>
                 {
                     AutoFade(TinyInfoTextBlock, 1.0, 0.5);
                 });
 
-            _NotifyPropertyChangedDelivery.AddReciever(nameof(_VM.IsSliderDirectionReversed),
+            _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.IsSliderDirectionReversed),
                 (s, e) =>
                 {
                     // Retrieve the Track from the Slider control
@@ -188,10 +188,10 @@ namespace NeeView
             this.MainView.PreviewMouseWheel += MainView_PreviewMouseAction;
 
             // timer for slideshow
-            _Timer = new DispatcherTimer(DispatcherPriority.Normal, this.Dispatcher);
-            _Timer.Interval = TimeSpan.FromSeconds(0.2);
-            _Timer.Tick += new EventHandler(DispatcherTimer_Tick);
-            _Timer.Start();
+            _timer = new DispatcherTimer(DispatcherPriority.Normal, this.Dispatcher);
+            _timer.Interval = TimeSpan.FromSeconds(0.2);
+            _timer.Tick += new EventHandler(DispatcherTimer_Tick);
+            _timer.Start();
         }
 
         // ビジュアル初期化
@@ -219,7 +219,7 @@ namespace NeeView
             this.AutoHideDelayTime = preference.panel_autohide_delaytime;
 
             // マウスジェスチャーの最小移動距離
-            _MouseGesture.Controller.InitializeGestureMinimumDistance(
+            _mouseGesture.Controller.InitializeGestureMinimumDistance(
                 preference.input_gesture_minimumdistance_x,
                 preference.input_gesture_minimumdistance_y);
         }
@@ -240,20 +240,20 @@ namespace NeeView
                     bool isResetScale = e.ResetViewTransform || !_VM.IsKeepScale;
                     bool isResetAngle = e.ResetViewTransform || !_VM.IsKeepAngle;
                     bool isResetFlip = e.ResetViewTransform || !_VM.IsKeepFlip;
-                    _MouseDrag.Reset(isResetScale, isResetAngle, isResetFlip);
+                    _mouseDrag.Reset(isResetScale, isResetAngle, isResetFlip);
                 };
 
             _VM.InputGestureChanged +=
                 (s, e) => InitializeInputGestures();
 
             _VM.PropertyChanged +=
-                (s, e) => _NotifyPropertyChangedDelivery.Send(s, e);
+                (s, e) => _notifyPropertyChangedDelivery.Send(s, e);
 
             _VM.Loading +=
                 (s, e) =>
                 {
-                    _NowLoading = e != null;
-                    DispNowLoading(_NowLoading);
+                    _nowLoading = e != null;
+                    DispNowLoading(_nowLoading);
                 };
 
             _VM.NotifyMenuVisibilityChanged +=
@@ -262,7 +262,7 @@ namespace NeeView
             _VM.ContextMenuEnableChanged +=
                 (s, e) =>
                 {
-                    _MouseGesture.Controller.ContextMenuSetting = _VM.ContextMenuSetting;
+                    _mouseGesture.Controller.ContextMenuSetting = _VM.ContextMenuSetting;
                 };
 
             _VM.PageListChanged +=
@@ -275,13 +275,13 @@ namespace NeeView
                 (s, e) =>
                 {
                     if (e == PanelType.PageList) this.PageList.FocusAtOnce = true;
-                    SetLeftPanelVisibisityForced(_IsVisibleLeftPanel && _VM.LeftPanel != PanelType.None, false);
+                    SetLeftPanelVisibisityForced(_isVisibleLeftPanel && _VM.LeftPanel != PanelType.None, false);
                 };
 
             _VM.RightPanelVisibled +=
                 (s, e) =>
                 {
-                    SetRightPanelVisibisityForced(_IsVisibleRightPanel && _VM.RightPanel != PanelType.None, false);
+                    SetRightPanelVisibisityForced(_isVisibleRightPanel && _VM.RightPanel != PanelType.None, false);
                 };
         }
 
@@ -310,37 +310,37 @@ namespace NeeView
         #region Timer
 
         // タイマーディスパッチ
-        DispatcherTimer _Timer;
+        private DispatcherTimer _timer;
 
         // 非アクティブ時間チェック用
-        DateTime _LastActionTime;
-        Point _LastActionPoint;
+        private DateTime _lastActionTime;
+        private Point _lastActionPoint;
 
         // スライドショー表示間隔用
-        DateTime _LastShowTime;
+        private DateTime _lastShowTime;
 
         // タイマー処理
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
             if (Mouse.LeftButton == MouseButtonState.Pressed || Mouse.RightButton == MouseButtonState.Pressed)
             {
-                _LastActionTime = DateTime.Now;
-                _LastShowTime = DateTime.Now;
+                _lastActionTime = DateTime.Now;
+                _lastShowTime = DateTime.Now;
                 return;
             }
 
             // 非アクティブ時間が続いたらマウスカーソルを非表示にする
-            if ((DateTime.Now - _LastActionTime).TotalSeconds > 2.0)
+            if ((DateTime.Now - _lastActionTime).TotalSeconds > 2.0)
             {
                 SetMouseVisible(false);
-                _LastActionTime = DateTime.Now;
+                _lastActionTime = DateTime.Now;
             }
 
             // スライドショーのインターバルを非アクティブ時間で求める
-            if ((DateTime.Now - _LastShowTime).TotalSeconds > _VM.SlideShowInterval)
+            if ((DateTime.Now - _lastShowTime).TotalSeconds > _VM.SlideShowInterval)
             {
-                if (!_NowLoading) _VM.NextSlide();
-                _LastShowTime = DateTime.Now;
+                if (!_nowLoading) _VM.NextSlide();
+                _lastShowTime = DateTime.Now;
             }
         }
 
@@ -349,14 +349,14 @@ namespace NeeView
         {
             var nowPoint = e.GetPosition(this.MainView);
 
-            if (Math.Abs(nowPoint.X - _LastActionPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(nowPoint.Y - _LastActionPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+            if (Math.Abs(nowPoint.X - _lastActionPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(nowPoint.Y - _lastActionPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
-                _LastActionTime = DateTime.Now;
+                _lastActionTime = DateTime.Now;
                 if (_VM.IsCancelSlideByMouseMove)
                 {
-                    _LastShowTime = DateTime.Now;
+                    _lastShowTime = DateTime.Now;
                 }
-                _LastActionPoint = nowPoint;
+                _lastActionPoint = nowPoint;
                 SetMouseVisible(true);
             }
         }
@@ -364,8 +364,8 @@ namespace NeeView
         // マウスアクションで非アクティブ時間リセット
         private void MainView_PreviewMouseAction(object sender, MouseEventArgs e)
         {
-            _LastActionTime = DateTime.Now;
-            _LastShowTime = DateTime.Now;
+            _lastActionTime = DateTime.Now;
+            _lastShowTime = DateTime.Now;
             SetMouseVisible(true);
         }
 
@@ -374,7 +374,7 @@ namespace NeeView
         {
             if (isVisible)
             {
-                if (this.MainView.Cursor == Cursors.None && !_MouseDrag.IsLoupe)
+                if (this.MainView.Cursor == Cursors.None && !_mouseDrag.IsLoupe)
                 {
                     this.MainView.Cursor = null;
                 }
@@ -394,20 +394,20 @@ namespace NeeView
         // マウスジェスチャー更新時の処理
         private void OnMouseGestureUpdate(object sender, MouseGestureSequence e)
         {
-            _VM.ShowGesture(_MouseGesture.GetGestureString(), _MouseGesture.GetGestureCommandName());
+            _VM.ShowGesture(_mouseGesture.GetGestureString(), _mouseGesture.GetGestureCommandName());
         }
 
 
         // ドラッグでビュー操作設定の更新
         private void UpdateMouseDragSetting(int direction)
         {
-            _MouseDrag.IsLimitMove = _VM.IsLimitMove;
-            _MouseDrag.DragControlCenter = _VM.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
-            _MouseDrag.SnapAngle = _VM.IsAngleSnap ? 45 : 0;
+            _mouseDrag.IsLimitMove = _VM.IsLimitMove;
+            _mouseDrag.DragControlCenter = _VM.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
+            _mouseDrag.SnapAngle = _VM.IsAngleSnap ? 45 : 0;
 
             var origin = _VM.IsViewStartPositionCenter ? DragViewOrigin.Center : _VM.BookSetting.BookReadOrder == PageReadOrder.LeftToRight ? DragViewOrigin.LeftTop : DragViewOrigin.RightTop;
-            _MouseDrag.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
-            _MouseDrag.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
+            _mouseDrag.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
+            _mouseDrag.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
         }
 
 
@@ -443,54 +443,54 @@ namespace NeeView
                 (s, e) =>
                 {
                     var parameter = (ViewScrollCommandParameter)ModelContext.CommandTable[CommandType.ViewScrollUp].Parameter;
-                    _MouseDrag.ScrollUp(parameter.Scroll / 100.0);
+                    _mouseDrag.ScrollUp(parameter.Scroll / 100.0);
                 };
             ModelContext.CommandTable[CommandType.ViewScrollDown].Execute =
                 (s, e) =>
                 {
                     var parameter = (ViewScrollCommandParameter)ModelContext.CommandTable[CommandType.ViewScrollDown].Parameter;
-                    _MouseDrag.ScrollDown(parameter.Scroll / 100.0);
+                    _mouseDrag.ScrollDown(parameter.Scroll / 100.0);
                 };
             ModelContext.CommandTable[CommandType.ViewScaleUp].Execute =
                 (s, e) =>
                 {
                     var parameter = (ViewScaleCommandParameter)ModelContext.CommandTable[CommandType.ViewScaleUp].Parameter;
-                    _MouseDrag.ScaleUp(parameter.Scale / 100.0);
+                    _mouseDrag.ScaleUp(parameter.Scale / 100.0);
                 };
             ModelContext.CommandTable[CommandType.ViewScaleDown].Execute =
                 (s, e) =>
                 {
                     var parameter = (ViewScaleCommandParameter)ModelContext.CommandTable[CommandType.ViewScaleUp].Parameter;
-                    _MouseDrag.ScaleDown(parameter.Scale / 100.0);
+                    _mouseDrag.ScaleDown(parameter.Scale / 100.0);
                 };
             ModelContext.CommandTable[CommandType.ViewRotateLeft].Execute =
                 (s, e) =>
                 {
                     var parameter = (ViewRotateCommandParameter)ModelContext.CommandTable[CommandType.ViewRotateLeft].Parameter;
-                    _MouseDrag.Rotate(-parameter.Angle);
+                    _mouseDrag.Rotate(-parameter.Angle);
                 };
             ModelContext.CommandTable[CommandType.ViewRotateRight].Execute =
                 (s, e) =>
                 {
                     var parameter = (ViewRotateCommandParameter)ModelContext.CommandTable[CommandType.ViewRotateRight].Parameter;
-                    _MouseDrag.Rotate(+parameter.Angle);
+                    _mouseDrag.Rotate(+parameter.Angle);
                 };
             ModelContext.CommandTable[CommandType.ToggleViewFlipHorizontal].Execute =
-                (s, e) => _MouseDrag.ToggleFlipHorizontal();
+                (s, e) => _mouseDrag.ToggleFlipHorizontal();
             ModelContext.CommandTable[CommandType.ViewFlipHorizontalOn].Execute =
-                (s, e) => _MouseDrag.FlipHorizontal(true);
+                (s, e) => _mouseDrag.FlipHorizontal(true);
             ModelContext.CommandTable[CommandType.ViewFlipHorizontalOff].Execute =
-                (s, e) => _MouseDrag.FlipHorizontal(false);
+                (s, e) => _mouseDrag.FlipHorizontal(false);
 
             ModelContext.CommandTable[CommandType.ToggleViewFlipVertical].Execute =
-                (s, e) => _MouseDrag.ToggleFlipVertical();
+                (s, e) => _mouseDrag.ToggleFlipVertical();
             ModelContext.CommandTable[CommandType.ViewFlipVerticalOn].Execute =
-                (s, e) => _MouseDrag.FlipVertical(true);
+                (s, e) => _mouseDrag.FlipVertical(true);
             ModelContext.CommandTable[CommandType.ViewFlipVerticalOff].Execute =
-                (s, e) => _MouseDrag.FlipVertical(false);
+                (s, e) => _mouseDrag.FlipVertical(false);
 
             ModelContext.CommandTable[CommandType.ViewReset].Execute =
-                (s, e) => _MouseDrag.Reset(true, true, true);
+                (s, e) => _mouseDrag.Reset(true, true, true);
             ModelContext.CommandTable[CommandType.PrevScrollPage].Execute =
                 (s, e) => PrevScrollPage();
             ModelContext.CommandTable[CommandType.NextScrollPage].Execute =
@@ -521,17 +521,17 @@ namespace NeeView
         // ロード中のコマンドを無効にする CanExecute
         private void CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = !_NowLoading;
+            e.CanExecute = !_nowLoading;
         }
 
 
         // InputGesture設定
         public void InitializeInputGestures()
         {
-            _MouseDrag.ClearClickEventHandler();
+            _mouseDrag.ClearClickEventHandler();
 
-            _MouseGesture.ClearClickEventHandler();
-            _MouseGesture.CommandCollection.Clear();
+            _mouseGesture.ClearClickEventHandler();
+            _mouseGesture.CommandCollection.Clear();
 
             foreach (var e in BookCommands)
             {
@@ -542,15 +542,15 @@ namespace NeeView
                     // マウスクリックはドラッグ系処理のイベントとして登録
                     if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.LeftClick)
                     {
-                        _MouseDrag.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
+                        _mouseDrag.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
                     }
                     else if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.MiddleClick)
                     {
-                        _MouseDrag.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
+                        _mouseDrag.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
                     }
                     else if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.RightClick)
                     {
-                        _MouseGesture.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
+                        _mouseGesture.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
                     }
                     else
                     {
@@ -562,17 +562,17 @@ namespace NeeView
                 var mouseGesture = ModelContext.CommandTable[e.Key].MouseGesture;
                 if (mouseGesture != null)
                 {
-                    _MouseGesture.CommandCollection.Add(mouseGesture, e.Value);
+                    _mouseGesture.CommandCollection.Add(mouseGesture, e.Value);
                 }
             }
 
             // drag key
-            _MouseDrag.SetKeyBindings(ModelContext.DragActionTable.GetKeyBinding());
+            _mouseDrag.SetKeyBindings(ModelContext.DragActionTable.GetKeyBinding());
 
             // context menu gesture
             if (_VM.ContextMenuSetting.IsEnabled && _VM.ContextMenuSetting.IsOpenByGesture)
             {
-                _MouseGesture.AddOpenContextMenuGesture(_VM.ContextMenuSetting.MouseGesture);
+                _mouseGesture.AddOpenContextMenuGesture(_VM.ContextMenuSetting.MouseGesture);
             }
 
             // Update Menu GestureText
@@ -609,7 +609,7 @@ namespace NeeView
         // スクロール＋前のページに戻る
         private void PrevScrollPage()
         {
-            bool isScrolled = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? _MouseDrag.ScrollRight() : _MouseDrag.ScrollLeft();
+            bool isScrolled = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? _mouseDrag.ScrollRight() : _mouseDrag.ScrollLeft();
 
             if (!isScrolled)
             {
@@ -620,7 +620,7 @@ namespace NeeView
         // スクロール＋次のページに進む
         private void NextScrollPage()
         {
-            bool isScrolled = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? _MouseDrag.ScrollLeft() : _MouseDrag.ScrollRight();
+            bool isScrolled = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? _mouseDrag.ScrollLeft() : _mouseDrag.ScrollRight();
 
             if (!isScrolled)
             {
@@ -697,8 +697,8 @@ namespace NeeView
         }
 
         // フルスクリーン前の状態保持
-        WindowState _WindowStateMemento = WindowState.Normal;
-        bool _FullScreened;
+        private WindowState _windowStateMemento = WindowState.Normal;
+        private bool _fullScreened;
 
         // メニューレイアウト更新フラグ
         public bool _AllowUpdateMenuLayout;
@@ -740,20 +740,20 @@ namespace NeeView
             }
 
             // fullscreen 
-            if (_VM.IsFullScreen != _FullScreened)
+            if (_VM.IsFullScreen != _fullScreened)
             {
-                _FullScreened = _VM.IsFullScreen;
+                _fullScreened = _VM.IsFullScreen;
                 if (_VM.IsFullScreen)
                 {
                     this.ResizeMode = System.Windows.ResizeMode.NoResize;
-                    _WindowStateMemento = this.WindowState;
+                    _windowStateMemento = this.WindowState;
                     if (this.WindowState == WindowState.Maximized) this.WindowState = WindowState.Normal;
                     this.WindowState = WindowState.Maximized;
                 }
                 else
                 {
                     this.ResizeMode = System.Windows.ResizeMode.CanResize;
-                    this.WindowState = _WindowStateMemento;
+                    this.WindowState = _windowStateMemento;
                 }
             }
 
@@ -804,13 +804,13 @@ namespace NeeView
 
             // コントロール表示状態更新
             {
-                SetControlVisibility(this.LeftPanel, _IsVisibleLeftPanel, true, VisibleStoryboardType.Collapsed);
-                SetControlVisibility(this.RightPanel, _IsVisibleRightPanel, true, VisibleStoryboardType.Collapsed);
+                SetControlVisibility(this.LeftPanel, _isVisibleLeftPanel, true, VisibleStoryboardType.Collapsed);
+                SetControlVisibility(this.RightPanel, _isVisibleRightPanel, true, VisibleStoryboardType.Collapsed);
 
-                SetControlVisibility(this.MenuArea, _IsMenuAreaVisibility, true, VisibleStoryboardType.Opacity);
+                SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, true, VisibleStoryboardType.Opacity);
 
-                SetControlVisibility(this.ThumbnailListArea, _IsVisibleThumbnailList, true, VisibleStoryboardType.Collapsed);
-                SetControlVisibility(this.StatusArea, _IsVisibleStatausArea, true, VisibleStoryboardType.Collapsed);
+                SetControlVisibility(this.ThumbnailListArea, _isVisibleThumbnailList, true, VisibleStoryboardType.Collapsed);
+                SetControlVisibility(this.StatusArea, _isVisibleStatausArea, true, VisibleStoryboardType.Collapsed);
             }
 
             // 再計算
@@ -922,7 +922,7 @@ namespace NeeView
         // ドラッグ＆ドロップ前処理
         private void MainWindow_PreviewDragOver(object sender, DragEventArgs e)
         {
-            if (!_NowLoading && _ContentDrop.CheckDragContent(sender, e.Data))
+            if (!_nowLoading && _contentDrop.CheckDragContent(sender, e.Data))
                 e.Effects = DragDropEffects.Copy;
             else
                 e.Effects = DragDropEffects.None;
@@ -938,7 +938,7 @@ namespace NeeView
         private bool CanLoadFromClipboard()
         {
             var data = Clipboard.GetDataObject();
-            return data != null ? !_NowLoading && _ContentDrop.CheckDragContent(this, data) : false;
+            return data != null ? !_nowLoading && _contentDrop.CheckDragContent(this, data) : false;
         }
 
         // コピー＆ペーストで処理を開始する
@@ -951,11 +951,11 @@ namespace NeeView
         // データオブジェクトからのロード処理
         private async Task LoadDataObjectAsync(object sender, IDataObject data)
         {
-            if (_NowLoading || data == null) return;
+            if (_nowLoading || data == null) return;
 
             try
             {
-                string path = await _ContentDrop.DropAsync(this, data, _VM.DownloadPath, (string message) => _VM.OnLoading(this, message));
+                string path = await _contentDrop.DropAsync(this, data, _VM.DownloadPath, (string message) => _VM.OnLoading(this, message));
                 _VM.Load(path);
             }
             catch (Exception ex)
@@ -972,7 +972,7 @@ namespace NeeView
             _VM.SetViewSize(this.MainView.ActualWidth, this.MainView.ActualHeight);
 
             // スナップ
-            _MouseDrag.SnapView();
+            _mouseDrag.SnapView();
         }
 
         //
@@ -1080,7 +1080,7 @@ namespace NeeView
 
 
         // 現在のNowLoading表示状態
-        private bool isDispNowLoading = false;
+        private bool _isDispNowLoading = false;
 
         /// <summary>
         /// NowLoadinの表示/非表示
@@ -1088,8 +1088,8 @@ namespace NeeView
         /// <param name="isDisp"></param>
         private void DispNowLoading(bool isDisp)
         {
-            if (isDispNowLoading == isDisp) return;
-            isDispNowLoading = isDisp;
+            if (_isDispNowLoading == isDisp) return;
+            _isDispNowLoading = isDisp;
 
             if (isDisp && _VM.NowLoadingShowMessageStyle != ShowMessageStyle.None)
             {
@@ -1179,9 +1179,9 @@ namespace NeeView
         #region thumbnail list
 
         // サムネイルリストのパネルコントロール
-        private VirtualizingStackPanel _ThumbnailListPanel;
+        private VirtualizingStackPanel _thumbnailListPanel;
 
-        private bool _IsDartyThumbnailList = true;
+        private bool _isDartyThumbnailList = true;
 
         private void ThumbnailListArea_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -1191,7 +1191,7 @@ namespace NeeView
         //
         private void DartyThumbnailList(bool isUpdateNow = false)
         {
-            _IsDartyThumbnailList = true;
+            _isDartyThumbnailList = true;
 
             if (isUpdateNow || this.ThumbnailListArea.IsVisible)
             {
@@ -1209,7 +1209,7 @@ namespace NeeView
         //
         private void UpdateThumbnailList(int index, int indexMax)
         {
-            if (_ThumbnailListPanel == null) return;
+            if (_thumbnailListPanel == null) return;
 
             if (!_VM.IsEnableThumbnailList) return;
 
@@ -1217,11 +1217,11 @@ namespace NeeView
             //if (indexMax + 1 != this.ThumbnailListBox.Items.Count) return;
 
             // ここから
-            if (!_IsDartyThumbnailList) return;
-            _IsDartyThumbnailList = false;
+            if (!_isDartyThumbnailList) return;
+            _isDartyThumbnailList = false;
 
             // 項目の幅 取得
-            var listBoxItem = this.ThumbnailListBox.ItemContainerGenerator.ContainerFromIndex((int)_ThumbnailListPanel.HorizontalOffset) as ListBoxItem;
+            var listBoxItem = this.ThumbnailListBox.ItemContainerGenerator.ContainerFromIndex((int)_thumbnailListPanel.HorizontalOffset) as ListBoxItem;
             double itemWidth = (listBoxItem != null) ? listBoxItem.ActualWidth : 0.0;
             if (itemWidth <= 0.0) return;
 
@@ -1247,7 +1247,7 @@ namespace NeeView
             this.ThumbnailListBox.Width = itemWidth * itemsCount + 18; // TODO: 余裕が必要？
 
             // 表示項目先頭指定
-            _ThumbnailListPanel.SetHorizontalOffset(topIndex);
+            _thumbnailListPanel.SetHorizontalOffset(topIndex);
 
             // 選択
             this.ThumbnailListBox.SelectedIndex = index;
@@ -1328,9 +1328,9 @@ namespace NeeView
         //
         private void ThumbnailListBox_MoveSelectedIndex(int delta)
         {
-            if (_ThumbnailListPanel == null || this.ThumbnailListBox.SelectedIndex < 0) return;
+            if (_thumbnailListPanel == null || this.ThumbnailListBox.SelectedIndex < 0) return;
 
-            if (_ThumbnailListPanel.FlowDirection == FlowDirection.RightToLeft)
+            if (_thumbnailListPanel.FlowDirection == FlowDirection.RightToLeft)
                 delta = -delta;
 
             int index = this.ThumbnailListBox.SelectedIndex + delta;
@@ -1359,7 +1359,7 @@ namespace NeeView
         // スクロールしたらサムネ更新
         private void ThumbnailList_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (_ThumbnailListPanel != null && this.ThumbnailListBox.Items.Count > 0)
+            if (_thumbnailListPanel != null && this.ThumbnailListBox.Items.Count > 0)
             {
                 LoadThumbnailList(e.HorizontalChange < 0 ? -1 : +1);
             }
@@ -1370,9 +1370,9 @@ namespace NeeView
         {
             if (!this.ThumbnailListArea.IsVisible) return;
 
-            if (_ThumbnailListPanel != null)
+            if (_thumbnailListPanel != null)
             {
-                _VM.RequestThumbnail((int)_ThumbnailListPanel.HorizontalOffset, (int)_ThumbnailListPanel.ViewportWidth, 2, direction);
+                _VM.RequestThumbnail((int)_thumbnailListPanel.HorizontalOffset, (int)_thumbnailListPanel.ViewportWidth, 2, direction);
             }
         }
 
@@ -1449,31 +1449,31 @@ namespace NeeView
         }
 
 
-        private bool _IsVisibleStatausArea = false;
+        private bool _isVisibleStatausArea = false;
 
         //
         private void SetStatusAreaVisibisity(bool isVisible, bool isQuickly)
         {
-            if (_IsVisibleStatausArea != isVisible)
+            if (_isVisibleStatausArea != isVisible)
             {
-                _IsVisibleStatausArea = isVisible;
-                SetControlVisibility(this.StatusArea, _IsVisibleStatausArea, isQuickly, VisibleStoryboardType.Collapsed);
+                _isVisibleStatausArea = isVisible;
+                SetControlVisibility(this.StatusArea, _isVisibleStatausArea, isQuickly, VisibleStoryboardType.Collapsed);
 
-                if (_IsVisibleThumbnailList) UpdateThumbnailList();
+                if (_isVisibleThumbnailList) UpdateThumbnailList();
             }
         }
 
-        private bool _IsVisibleThumbnailList;
+        private bool _isVisibleThumbnailList;
 
         //
         private void SetThumbnailListAreaVisibisity(bool isVisible, bool isQuickly)
         {
-            if (_IsVisibleThumbnailList != isVisible)
+            if (_isVisibleThumbnailList != isVisible)
             {
-                _IsVisibleThumbnailList = isVisible;
-                SetControlVisibility(this.ThumbnailListArea, _IsVisibleThumbnailList, isQuickly, VisibleStoryboardType.Collapsed);
+                _isVisibleThumbnailList = isVisible;
+                SetControlVisibility(this.ThumbnailListArea, _isVisibleThumbnailList, isQuickly, VisibleStoryboardType.Collapsed);
 
-                if (_IsVisibleThumbnailList) UpdateThumbnailList();
+                if (_isVisibleThumbnailList) UpdateThumbnailList();
             }
         }
 
@@ -1507,15 +1507,15 @@ namespace NeeView
         }
 
 
-        private bool _IsMenuAreaVisibility;
+        private bool _isMenuAreaVisibility;
 
         //
         private void SetMenuAreaVisibisity(bool isVisible, bool isQuickly)
         {
-            if (_IsMenuAreaVisibility != isVisible)
+            if (_isMenuAreaVisibility != isVisible)
             {
-                _IsMenuAreaVisibility = isVisible;
-                SetControlVisibility(this.MenuArea, _IsMenuAreaVisibility, isQuickly, VisibleStoryboardType.Opacity);
+                _isMenuAreaVisibility = isVisible;
+                SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, isQuickly, VisibleStoryboardType.Opacity);
             }
         }
 
@@ -1523,8 +1523,8 @@ namespace NeeView
         #region Panel Visibility
 
         //
-        bool _IsVisibleLeftPanel;
-        bool _IsVisibleRightPanel;
+        private bool _isVisibleLeftPanel;
+        private bool _isVisibleRightPanel;
 
         // ViewAreaでのマウス移動
         private void ViewArea_MouseMove(object sender, MouseEventArgs e)
@@ -1575,7 +1575,7 @@ namespace NeeView
         //
         private void SetLeftPanelVisibisity(bool isVisible, bool isQuickly)
         {
-            if (_IsVisibleLeftPanel != isVisible)
+            if (_isVisibleLeftPanel != isVisible)
             {
                 SetLeftPanelVisibisityForced(isVisible, isQuickly);
             }
@@ -1584,8 +1584,8 @@ namespace NeeView
         //
         private void SetLeftPanelVisibisityForced(bool isVisible, bool isQuickly)
         {
-            _IsVisibleLeftPanel = isVisible;
-            SetControlVisibility(this.LeftPanel, _IsVisibleLeftPanel, isQuickly || _VM.LeftPanel == PanelType.None, VisibleStoryboardType.Collapsed);
+            _isVisibleLeftPanel = isVisible;
+            SetControlVisibility(this.LeftPanel, _isVisibleLeftPanel, isQuickly || _VM.LeftPanel == PanelType.None, VisibleStoryboardType.Collapsed);
         }
 
 
@@ -1624,7 +1624,7 @@ namespace NeeView
         //
         private void SeRightPanelVisibisity(bool isVisible, bool isQuickly)
         {
-            if (_IsVisibleRightPanel != isVisible)
+            if (_isVisibleRightPanel != isVisible)
             {
                 SetRightPanelVisibisityForced(isVisible, isQuickly);
             }
@@ -1633,8 +1633,8 @@ namespace NeeView
         //
         private void SetRightPanelVisibisityForced(bool isVisible, bool isQuickly)
         {
-            _IsVisibleRightPanel = isVisible;
-            SetControlVisibility(this.RightPanel, _IsVisibleRightPanel, isQuickly || _VM.RightPanel == PanelType.None, VisibleStoryboardType.Collapsed);
+            _isVisibleRightPanel = isVisible;
+            SetControlVisibility(this.RightPanel, _isVisibleRightPanel, isQuickly || _VM.RightPanel == PanelType.None, VisibleStoryboardType.Collapsed);
         }
 
 
@@ -1648,10 +1648,10 @@ namespace NeeView
             var param = (ResetHideDelayParam)e.Parameter;
 
             if (param.PanelSide == PanelSide.Left)
-                if (!_IsVisibleLeftPanel) SetLeftPanelVisibisityForced(_IsVisibleLeftPanel, false);
+                if (!_isVisibleLeftPanel) SetLeftPanelVisibisityForced(_isVisibleLeftPanel, false);
 
             if (param.PanelSide == PanelSide.Right)
-                if (!_IsVisibleRightPanel) SetRightPanelVisibisityForced(_IsVisibleRightPanel, false);
+                if (!_isVisibleRightPanel) SetRightPanelVisibisityForced(_isVisibleRightPanel, false);
         }
 
 
@@ -1670,29 +1670,29 @@ namespace NeeView
             public Storyboard OffDelay { get; set; }
         }
 
-        private Dictionary<VisibleStoryboardType, VisibleStoryboard> _VisibleStoryboardTable;
+        private Dictionary<VisibleStoryboardType, VisibleStoryboard> _visibleStoryboardTable;
 
         //
-        private Storyboard _VisibleStoryboard;
-        private Storyboard _CollapseStoryboard;
-        private Storyboard _CollapseDelayStoryboard;
-        private Storyboard _HideStoryboard;
-        private Storyboard _HideDelayStoryboard;
+        private Storyboard _visibleStoryboard;
+        private Storyboard _collapseStoryboard;
+        private Storyboard _collapseDelayStoryboard;
+        private Storyboard _hideStoryboard;
+        private Storyboard _hideDelayStoryboard;
 
-        private Storyboard _OpacityOneStoryboard;
-        private Storyboard _OpacityZeroStoryboard;
-        private Storyboard _OpacityZeroDelayStoryboard;
+        private Storyboard _opacityOneStoryboard;
+        private Storyboard _opacityZeroStoryboard;
+        private Storyboard _opacityZeroDelayStoryboard;
 
-        private double _AutoHideDelayTime = 1.0;
+        private double _autoHideDelayTime = 1.0;
         public double AutoHideDelayTime
         {
-            get { return _AutoHideDelayTime; }
+            get { return _autoHideDelayTime; }
             set
             {
-                if (_AutoHideDelayTime != value)
+                if (_autoHideDelayTime != value)
                 {
-                    _AutoHideDelayTime = NVUtility.Clamp(value, 0.0, 100.0);
-                    _VisibleStoryboard = null; // storyboard作り直し
+                    _autoHideDelayTime = NVUtility.Clamp(value, 0.0, 100.0);
+                    _visibleStoryboard = null; // storyboard作り直し
                 }
             }
         }
@@ -1700,46 +1700,46 @@ namespace NeeView
         //
         private void InitializeStoryboard()
         {
-            if (_VisibleStoryboard != null) return;
+            if (_visibleStoryboard != null) return;
 
-            double time = _AutoHideDelayTime;
+            double time = _autoHideDelayTime;
             ObjectAnimationUsingKeyFrames ani;
 
             ani = new ObjectAnimationUsingKeyFrames();
             ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, TimeSpan.FromSeconds(0.0)));
             Storyboard.SetTargetProperty(ani, new PropertyPath(UIElement.VisibilityProperty));
-            _VisibleStoryboard = new Storyboard();
-            _VisibleStoryboard.Children.Add(ani);
+            _visibleStoryboard = new Storyboard();
+            _visibleStoryboard.Children.Add(ani);
 
 
             ani = new ObjectAnimationUsingKeyFrames();
             ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Collapsed, TimeSpan.FromSeconds(0.0)));
             Storyboard.SetTargetProperty(ani, new PropertyPath(UIElement.VisibilityProperty));
-            _CollapseStoryboard = new Storyboard();
-            _CollapseStoryboard.Children.Add(ani);
+            _collapseStoryboard = new Storyboard();
+            _collapseStoryboard.Children.Add(ani);
 
 
             ani = new ObjectAnimationUsingKeyFrames();
             ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, TimeSpan.FromSeconds(0.0)));
             ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Collapsed, TimeSpan.FromSeconds(time)));
             Storyboard.SetTargetProperty(ani, new PropertyPath(UIElement.VisibilityProperty));
-            _CollapseDelayStoryboard = new Storyboard();
-            _CollapseDelayStoryboard.Children.Add(ani);
+            _collapseDelayStoryboard = new Storyboard();
+            _collapseDelayStoryboard.Children.Add(ani);
 
 
             ani = new ObjectAnimationUsingKeyFrames();
             ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, TimeSpan.FromSeconds(0.0)));
             Storyboard.SetTargetProperty(ani, new PropertyPath(UIElement.VisibilityProperty));
-            _HideStoryboard = new Storyboard();
-            _HideStoryboard.Children.Add(ani);
+            _hideStoryboard = new Storyboard();
+            _hideStoryboard.Children.Add(ani);
 
 
             ani = new ObjectAnimationUsingKeyFrames();
             ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, TimeSpan.FromSeconds(0.0)));
             ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, TimeSpan.FromSeconds(time)));
             Storyboard.SetTargetProperty(ani, new PropertyPath(UIElement.VisibilityProperty));
-            _HideDelayStoryboard = new Storyboard();
-            _HideDelayStoryboard.Children.Add(ani);
+            _hideDelayStoryboard = new Storyboard();
+            _hideDelayStoryboard.Children.Add(ani);
 
 
             DoubleAnimationUsingKeyFrames an;
@@ -1747,44 +1747,44 @@ namespace NeeView
             an = new DoubleAnimationUsingKeyFrames();
             an.KeyFrames.Add(new DiscreteDoubleKeyFrame(1.0, TimeSpan.FromSeconds(0.0)));
             Storyboard.SetTargetProperty(an, new PropertyPath(UIElement.OpacityProperty));
-            _OpacityOneStoryboard = new Storyboard();
-            _OpacityOneStoryboard.Children.Add(an);
+            _opacityOneStoryboard = new Storyboard();
+            _opacityOneStoryboard.Children.Add(an);
 
             an = new DoubleAnimationUsingKeyFrames();
             an.KeyFrames.Add(new DiscreteDoubleKeyFrame(0.0, TimeSpan.FromSeconds(0.0)));
             Storyboard.SetTargetProperty(an, new PropertyPath(UIElement.OpacityProperty));
-            _OpacityZeroStoryboard = new Storyboard();
-            _OpacityZeroStoryboard.Children.Add(an);
+            _opacityZeroStoryboard = new Storyboard();
+            _opacityZeroStoryboard.Children.Add(an);
 
             an = new DoubleAnimationUsingKeyFrames();
             an.KeyFrames.Add(new DiscreteDoubleKeyFrame(1.0, TimeSpan.FromSeconds(0.0)));
             an.KeyFrames.Add(new DiscreteDoubleKeyFrame(0.0, TimeSpan.FromSeconds(time)));
             Storyboard.SetTargetProperty(an, new PropertyPath(UIElement.OpacityProperty));
-            _OpacityZeroDelayStoryboard = new Storyboard();
-            _OpacityZeroDelayStoryboard.Children.Add(an);
+            _opacityZeroDelayStoryboard = new Storyboard();
+            _opacityZeroDelayStoryboard.Children.Add(an);
 
 
-            _VisibleStoryboardTable = new Dictionary<VisibleStoryboardType, VisibleStoryboard>();
+            _visibleStoryboardTable = new Dictionary<VisibleStoryboardType, VisibleStoryboard>();
 
-            _VisibleStoryboardTable.Add(VisibleStoryboardType.Collapsed, new VisibleStoryboard()
+            _visibleStoryboardTable.Add(VisibleStoryboardType.Collapsed, new VisibleStoryboard()
             {
-                On = _VisibleStoryboard,
-                Off = _CollapseStoryboard,
-                OffDelay = _CollapseDelayStoryboard,
+                On = _visibleStoryboard,
+                Off = _collapseStoryboard,
+                OffDelay = _collapseDelayStoryboard,
             });
 
-            _VisibleStoryboardTable.Add(VisibleStoryboardType.Hidden, new VisibleStoryboard()
+            _visibleStoryboardTable.Add(VisibleStoryboardType.Hidden, new VisibleStoryboard()
             {
-                On = _VisibleStoryboard,
-                Off = _HideStoryboard,
-                OffDelay = _HideDelayStoryboard,
+                On = _visibleStoryboard,
+                Off = _hideStoryboard,
+                OffDelay = _hideDelayStoryboard,
             });
 
-            _VisibleStoryboardTable.Add(VisibleStoryboardType.Opacity, new VisibleStoryboard()
+            _visibleStoryboardTable.Add(VisibleStoryboardType.Opacity, new VisibleStoryboard()
             {
-                On = _OpacityOneStoryboard,
-                Off = _OpacityZeroStoryboard,
-                OffDelay = _OpacityZeroDelayStoryboard,
+                On = _opacityOneStoryboard,
+                Off = _opacityZeroStoryboard,
+                OffDelay = _opacityZeroDelayStoryboard,
             });
         }
 
@@ -1798,11 +1798,11 @@ namespace NeeView
 
             if (isDisp)
             {
-                element.BeginStoryboard(_VisibleStoryboardTable[visibleType].On);
+                element.BeginStoryboard(_visibleStoryboardTable[visibleType].On);
             }
             else
             {
-                element.BeginStoryboard(isQuickly ? _VisibleStoryboardTable[visibleType].Off : _VisibleStoryboardTable[visibleType].OffDelay);
+                element.BeginStoryboard(isQuickly ? _visibleStoryboardTable[visibleType].Off : _visibleStoryboardTable[visibleType].OffDelay);
             }
         }
 
@@ -1854,9 +1854,9 @@ namespace NeeView
         private void ThumbnailListBoxPanel_Loaded(object sender, RoutedEventArgs e)
         {
             // パネルコントロール取得
-            if (_ThumbnailListPanel == null)
+            if (_thumbnailListPanel == null)
             {
-                _ThumbnailListPanel = sender as VirtualizingStackPanel;
+                _thumbnailListPanel = sender as VirtualizingStackPanel;
                 DartyThumbnailList();
             }
         }
@@ -1874,35 +1874,35 @@ namespace NeeView
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
-        private int _ContextMenuOpenedCount;
+        private int _contextMenuOpenedCount;
 
-        private bool _IsContextMenuOpened => _ContextMenuOpenedCount > 0;
+        private bool _IsContextMenuOpened => _contextMenuOpenedCount > 0;
 
-        private List<object> _OpenedContextMenuList = new List<object>();
+        private List<object> _openedContextMenuList = new List<object>();
 
         //
-        void ContextMenu_Opened(object sender, RoutedEventArgs e)
+        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
         {
-            if (_OpenedContextMenuList.Contains(sender))
+            if (_openedContextMenuList.Contains(sender))
             {
                 return;
             }
 
-            _OpenedContextMenuList.Add(sender);
-            _ContextMenuOpenedCount++;
+            _openedContextMenuList.Add(sender);
+            _contextMenuOpenedCount++;
 
             UpdateControlsVisibility();
         }
 
         //
-        void ContextMenu_Closed(object sender, RoutedEventArgs e)
+        private void ContextMenu_Closed(object sender, RoutedEventArgs e)
         {
-            _OpenedContextMenuList.Remove(sender);
-            _ContextMenuOpenedCount--;
-            if (_ContextMenuOpenedCount <= 0)
+            _openedContextMenuList.Remove(sender);
+            _contextMenuOpenedCount--;
+            if (_contextMenuOpenedCount <= 0)
             {
-                _ContextMenuOpenedCount = 0;
-                _OpenedContextMenuList.Clear();
+                _contextMenuOpenedCount = 0;
+                _openedContextMenuList.Clear();
             }
 
             UpdateControlsVisibility();

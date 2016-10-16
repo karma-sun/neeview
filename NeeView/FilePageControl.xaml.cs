@@ -69,5 +69,4 @@ namespace NeeView
             this.MessageTextBlock.Text = context.Message;
         }
     }
-
 }

@@ -32,7 +32,7 @@ namespace NeeView.Effects
         Ripple,
         Swirl,
 
-       // MyGrayscale,
+        // MyGrayscale,
     }
 
     public static class EffectTypeExtensions
@@ -61,5 +61,4 @@ namespace NeeView.Effects
             return name ?? my.ToString();
         }
     }
-    
 }

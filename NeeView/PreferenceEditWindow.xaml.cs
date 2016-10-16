@@ -26,7 +26,7 @@ namespace NeeView
     /// </summary>
     public partial class PreferenceEditWindow : Window
     {
-        PreferenceEditWindowVM _VM;
+        private PreferenceEditWindowVM _VM;
 
         /// <summary>
         /// constructor
@@ -92,7 +92,7 @@ namespace NeeView
 
         public PropertyMemberElement Element { get; set; }
 
-        public string Title => this.Element.GetValueTypeString() +  "を入力してください";
+        public string Title => this.Element.GetValueTypeString() + "を入力してください";
 
         public List<PropertyValue> Items { get; set; }
 

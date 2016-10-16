@@ -32,27 +32,27 @@ namespace NeeView
 
         //
         #region Property: ContextMenu
-        private ContextMenu _ContextMenu;
+        private ContextMenu _contextMenu;
         public ContextMenu ContextMenu
         {
             get
             {
-                _ContextMenu = _ContextMenu ?? SourceTree.CreateContextMenu();
-                return _ContextMenu;
+                _contextMenu = _contextMenu ?? SourceTree.CreateContextMenu();
+                return _contextMenu;
             }
         }
         #endregion
 
         #region Property: SourceTree
         [DataMember]
-        private MenuTree _SourceTree;
+        private MenuTree _sourceTree;
         public MenuTree SourceTree
         {
-            get { return _SourceTree ?? MenuTree.CreateDefault(); }
+            get { return _sourceTree ?? MenuTree.CreateDefault(); }
             set
             {
-                _SourceTree = value;
-                _ContextMenu = null;
+                _sourceTree = value;
+                _contextMenu = null;
             }
         }
         #endregion
@@ -68,12 +68,12 @@ namespace NeeView
 
 
         #region Property: MouseGesture
-        private string _MouseGesture = "D";
+        private string _mouseGesture = "D";
         [DataMember]
         public string MouseGesture
         {
-            get { return _MouseGesture; }
-            set { _MouseGesture = value; OnPropertyChanged(); }
+            get { return _mouseGesture; }
+            set { _mouseGesture = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -81,17 +81,15 @@ namespace NeeView
         public ContextMenuSetting Clone()
         {
             var clone = (ContextMenuSetting)this.MemberwiseClone();
-            clone._SourceTree = this._SourceTree?.Clone();
-            clone._ContextMenu = null;
+            clone._sourceTree = _sourceTree?.Clone();
+            clone._contextMenu = null;
             return clone;
         }
 
         //
         public void Validate()
         {
-            _SourceTree?.Validate();
+            _sourceTree?.Validate();
         }
     }
-
-
 }

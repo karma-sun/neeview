@@ -2,6 +2,7 @@
 //
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
+
 using NeeLaboratory.Property;
 using System;
 using System.Collections.Generic;
@@ -234,5 +235,4 @@ namespace NeeView
         [PropertyMember("最初と最後のページを含める")]
         public bool IsIncludeTerminal { get; set; }
     }
-
 }

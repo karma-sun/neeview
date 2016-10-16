@@ -27,8 +27,8 @@ namespace NeeView.Effects
     [DataContract]
     public class PixelateEffectUnit : EffectUnit
     {
-        private static PixelateEffect _effect = new PixelateEffect();
-        public override Effect Effect => _effect;
+        private static PixelateEffect s_effect = new PixelateEffect();
+        public override Effect Effect => s_effect;
 
         /// <summary>
         /// Property: Pixelation
@@ -38,8 +38,8 @@ namespace NeeView.Effects
         [DefaultValue(0.75)]
         public double Pixelation
         {
-            get { return _effect.Pixelation; }
-            set { if (_effect.Pixelation != value) { _effect.Pixelation = value; RaiseEffectPropertyChanged(); } }
+            get { return s_effect.Pixelation; }
+            set { if (s_effect.Pixelation != value) { s_effect.Pixelation = value; RaiseEffectPropertyChanged(); } }
         }
     }
 }

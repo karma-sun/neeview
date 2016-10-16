@@ -27,7 +27,7 @@ namespace NeeView
     /// </summary>
     public partial class VersionWindow : Window
     {
-        VersionWindowVM _VM;
+        private VersionWindowVM _VM;
 
         public VersionWindow()
         {
@@ -108,7 +108,6 @@ namespace NeeView
             // チェック開始
             Checker.CheckStart();
         }
-
     }
 
     /// <summary>
@@ -136,17 +135,17 @@ namespace NeeView
         public bool IsExistNewVersion { get; set; }
 
         #region Property: Message
-        private string _Message;
+        private string _message;
         public string Message
         {
-            get { return _Message; }
-            set { _Message = value; OnPropertyChanged(); }
+            get { return _message; }
+            set { _message = value; OnPropertyChanged(); }
         }
         #endregion
 
 
-        private bool _IsCheching = false;
-        private bool _IsChecked = false;
+        private bool _isCheching = false;
+        private bool _isChecked = false;
 
         //
         public VersionChecker()
@@ -164,7 +163,7 @@ namespace NeeView
         //
         public void CheckStart()
         {
-            if (_IsChecked || _IsCheching) return;
+            if (_isChecked || _isCheching) return;
 
             // チェック開始
             LastVersion = 0; // CurrentVersion;
@@ -175,7 +174,7 @@ namespace NeeView
 
         private async Task CheckVersion()
         {
-            _IsCheching = true;
+            _isCheching = true;
 
             try
             {
@@ -213,7 +212,7 @@ namespace NeeView
                         OnPropertyChanged(nameof(IsExistNewVersion));
                     }
 
-                    _IsChecked = true;
+                    _isChecked = true;
                 }
             }
             catch (Exception ex)
@@ -222,7 +221,7 @@ namespace NeeView
                 Message = "更新チェックに失敗しました";
             }
 
-            _IsCheching = false;
+            _isCheching = false;
         }
     }
 }

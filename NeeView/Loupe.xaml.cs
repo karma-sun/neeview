@@ -148,6 +148,5 @@ namespace NeeView
             };
             this.LoupeBrush.Viewport = viewport;
         }
-
     }
 }

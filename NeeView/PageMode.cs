@@ -41,5 +41,4 @@ namespace NeeView
             return mode == PageMode.WidePage ? 2 : 1;
         }
     }
-
 }

@@ -33,7 +33,7 @@ namespace NeeView
         }
 
         // GetOneColor()のサポートフォーマット
-        private static PixelFormat[] SupportedFormats = new PixelFormat[]
+        private static PixelFormat[] s_supportedFormats = new PixelFormat[]
         {
             PixelFormats.Bgra32,
             PixelFormats.Bgr32,
@@ -46,7 +46,7 @@ namespace NeeView
         };
 
         // GetOneColor()のサポートフォーマット (インデックスカラー)
-        private static PixelFormat[] SupportedIndexFormats = new PixelFormat[]
+        private static PixelFormat[] s_supportedIndexFormats = new PixelFormat[]
         {
             PixelFormats.Indexed8,
             PixelFormats.Indexed4,
@@ -103,14 +103,14 @@ namespace NeeView
 
             var color = new Color();
 
-            if (SupportedFormats.Contains(bmp.Format))
+            if (s_supportedFormats.Contains(bmp.Format))
             {
                 color.B = elements[0];
                 color.G = (elements.Count >= 2) ? elements[1] : elements[0];
                 color.R = (elements.Count >= 3) ? elements[2] : elements[0];
                 color.A = 0xFF; // elements[3];
             }
-            else if (SupportedIndexFormats.Contains(bmp.Format))
+            else if (s_supportedIndexFormats.Contains(bmp.Format))
             {
                 color = bmp.Palette.Colors[elements[0]];
                 color.A = 0xFF;
@@ -124,5 +124,4 @@ namespace NeeView
             return color;
         }
     }
-
 }

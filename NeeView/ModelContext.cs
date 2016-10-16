@@ -107,7 +107,5 @@ namespace NeeView
             ((MainWindow)App.Current.MainWindow).ApplyPreference(Preference);
         }
     }
-
-
 }
 

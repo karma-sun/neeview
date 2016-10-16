@@ -28,16 +28,16 @@ namespace NeeView
         {
             get
             {
-                if (!_Elements.ContainsKey(key)) throw new ArgumentOutOfRangeException(key.ToString());
-                return _Elements[key];
+                if (!_elements.ContainsKey(key)) throw new ArgumentOutOfRangeException(key.ToString());
+                return _elements[key];
             }
-            set { _Elements[key] = value; }
+            set { _elements[key] = value; }
         }
 
         // Enumerator
         public IEnumerator<KeyValuePair<CommandType, CommandElement>> GetEnumerator()
         {
-            foreach (var pair in _Elements)
+            foreach (var pair in _elements)
             {
                 yield return pair;
             }
@@ -51,40 +51,40 @@ namespace NeeView
 
 
         // コマンドリスト
-        private Dictionary<CommandType, CommandElement> _Elements;
+        private Dictionary<CommandType, CommandElement> _elements;
 
         // コマンドターゲット
         private MainWindowVM _VM;
-        private BookHub _Book;
+        private BookHub _book;
 
         // 初期設定
-        private static Memento _DefaultMemento;
+        private static Memento s_defaultMemento;
 
         // 初期設定取得
         public static Memento CreateDefaultMemento()
         {
-            return _DefaultMemento.Clone();
+            return s_defaultMemento.Clone();
         }
 
         // コマンドターゲット設定
         public void SetTarget(MainWindowVM vm, BookHub book)
         {
             _VM = vm;
-            _Book = book;
+            _book = book;
         }
 
         // .. あまりかわらん
         public T Parameter<T>(CommandType commandType) where T : class
         {
-            return _Elements[commandType].Parameter as T;
+            return _elements[commandType].Parameter as T;
         }
 
 
         // ショートカット重複チェック
         public List<CommandType> GetOverlapShortCut(string shortcut)
         {
-            var overlaps = _Elements
-                .Where(e => !string.IsNullOrEmpty(e.Value.ShortCutKey) &&  e.Value.ShortCutKey.Split(',').Contains(shortcut))
+            var overlaps = _elements
+                .Where(e => !string.IsNullOrEmpty(e.Value.ShortCutKey) && e.Value.ShortCutKey.Split(',').Contains(shortcut))
                 .Select(e => e.Key)
                 .ToList();
 
@@ -94,7 +94,7 @@ namespace NeeView
         // マウスジェスチャー重複チェック
         public List<CommandType> GetOverlapMouseGesture(string gesture)
         {
-            var overlaps = _Elements
+            var overlaps = _elements
                 .Where(e => !string.IsNullOrEmpty(e.Value.MouseGesture) && e.Value.MouseGesture.Split(',').Contains(gesture))
                 .Select(e => e.Key)
                 .ToList();
@@ -107,7 +107,7 @@ namespace NeeView
         {
             // グループ分け
             var groups = new Dictionary<string, List<CommandElement>>();
-            foreach (var command in _Elements.Values)
+            foreach (var command in _elements.Values)
             {
                 if (command.Group == "dummy") continue;
 
@@ -154,7 +154,7 @@ namespace NeeView
         public CommandTable()
         {
             // コマンドの設定定義
-            _Elements = new Dictionary<CommandType, CommandElement>();
+            _elements = new Dictionary<CommandType, CommandElement>();
 
             // None
             // 欠番
@@ -163,7 +163,7 @@ namespace NeeView
                 element.Group = "dummy";
                 element.Text = "dummy";
                 element.Execute = (s, e) => { return; };
-                _Elements[CommandType.None] = element;
+                _elements[CommandType.None] = element;
             }
 
 #if false
@@ -190,7 +190,7 @@ namespace NeeView
                 element.Note = "圧縮ファイルか画像ファイルを選択して開きます";
                 element.ShortCutKey = "Ctrl+O";
                 element.IsShowMessage = false;
-                _Elements[CommandType.LoadAs] = element;
+                _elements[CommandType.LoadAs] = element;
             }
 
             // ReLoad
@@ -200,10 +200,10 @@ namespace NeeView
                 element.Text = "再読み込み";
                 element.Note = "フォルダーを再読み込みします";
                 element.MouseGesture = "UD";
-                element.CanExecute = () => _Book.CanReload();
-                element.Execute = (s, e) => _Book.ReLoad();
+                element.CanExecute = () => _book.CanReload();
+                element.Execute = (s, e) => _book.ReLoad();
                 element.IsShowMessage = false;
-                _Elements[CommandType.ReLoad] = element;
+                _elements[CommandType.ReLoad] = element;
             }
 
             // OpenApplication
@@ -212,10 +212,10 @@ namespace NeeView
                 element.Group = "ファイル";
                 element.Text = "外部アプリで開く";
                 element.Note = "表示されている画像を外部アプリで開きます。設定ウィンドウの<code>外部連携</code>でアプリを設定します";
-                element.Execute = (s, e) => _Book.OpenApplication();
-                element.CanExecute = () => _Book.CanOpenFilePlace();
+                element.Execute = (s, e) => _book.OpenApplication();
+                element.CanExecute = () => _book.CanOpenFilePlace();
                 element.IsShowMessage = false;
-                _Elements[CommandType.OpenApplication] = element;
+                _elements[CommandType.OpenApplication] = element;
             }
             // OpenFilePlace
             {
@@ -223,10 +223,10 @@ namespace NeeView
                 element.Group = "ファイル";
                 element.Text = "エクスプローラーで開く";
                 element.Note = "表示しているページのファイルをエクスプローラーで開きます";
-                element.Execute = (s, e) => _Book.OpenFilePlace();
-                element.CanExecute = () => _Book.CanOpenFilePlace();
+                element.Execute = (s, e) => _book.OpenFilePlace();
+                element.CanExecute = () => _book.CanOpenFilePlace();
                 element.IsShowMessage = false;
-                _Elements[CommandType.OpenFilePlace] = element;
+                _elements[CommandType.OpenFilePlace] = element;
             }
             // Export
             {
@@ -236,10 +236,10 @@ namespace NeeView
                 element.MenuText = "保存...";
                 element.Note = "画像をファイルに保存します";
                 element.ShortCutKey = "Ctrl+S";
-                element.Execute = (s, e) => _Book.Export();
-                element.CanExecute = () => _Book.CanOpenFilePlace();
+                element.Execute = (s, e) => _book.Export();
+                element.CanExecute = () => _book.CanOpenFilePlace();
                 element.IsShowMessage = false;
-                _Elements[CommandType.Export] = element;
+                _elements[CommandType.Export] = element;
             }
             // DeleteFile
             {
@@ -249,10 +249,10 @@ namespace NeeView
                 element.MenuText = "削除...";
                 element.Note = "ファイルを削除します。圧縮ファイルの場合は削除できません ";
                 element.ShortCutKey = "Delete";
-                element.Execute = (s, e) => _Book.DeleteFile();
-                element.CanExecute = () => _Book.CanDeleteFile();
+                element.Execute = (s, e) => _book.DeleteFile();
+                element.CanExecute = () => _book.CanDeleteFile();
                 element.IsShowMessage = false;
-                _Elements[CommandType.DeleteFile] = element;
+                _elements[CommandType.DeleteFile] = element;
             }
             // CopyFile
             {
@@ -262,10 +262,10 @@ namespace NeeView
                 element.MenuText = "コピー";
                 element.Note = "ファイルをクリップボードにコピーします";
                 element.ShortCutKey = "Ctrl+C";
-                element.Execute = (s, e) => _Book.CopyToClipboard();
-                element.CanExecute = () => _Book.CanOpenFilePlace();
+                element.Execute = (s, e) => _book.CopyToClipboard();
+                element.CanExecute = () => _book.CanOpenFilePlace();
                 element.IsShowMessage = true;
-                _Elements[CommandType.CopyFile] = element;
+                _elements[CommandType.CopyFile] = element;
             }
             // CopyImage
             {
@@ -278,7 +278,7 @@ namespace NeeView
                 element.Execute = (s, e) => _VM.CopyImageToClipboard();
                 element.CanExecute = () => _VM.CanCopyImageToClipboard();
                 element.IsShowMessage = true;
-                _Elements[CommandType.CopyImage] = element;
+                _elements[CommandType.CopyImage] = element;
             }
             // Paste
             {
@@ -289,7 +289,7 @@ namespace NeeView
                 element.Note = "クリップボードのファイルや画像を貼り付けます";
                 element.ShortCutKey = "Ctrl+V";
                 element.IsShowMessage = false;
-                _Elements[CommandType.Paste] = element;
+                _elements[CommandType.Paste] = element;
             }
 
 
@@ -301,7 +301,7 @@ namespace NeeView
                 element.Note = "履歴を全て削除します";
                 element.Execute = (s, e) => _VM.ClearHistor();
                 element.IsShowMessage = true;
-                _Elements[CommandType.ClearHistory] = element;
+                _elements[CommandType.ClearHistory] = element;
             }
 
             // ToggleStretchMode
@@ -315,7 +315,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _VM.GetToggleStretchMode((ToggleStretchModeCommandParameter)element.Parameter).ToDispString();
                 element.DefaultParameter = new ToggleStretchModeCommandParameter() { IsLoop = true };
                 element.IsShowMessage = true;
-                _Elements[CommandType.ToggleStretchMode] = element;
+                _elements[CommandType.ToggleStretchMode] = element;
             }
             // ToggleStretchModeReverse
             {
@@ -328,7 +328,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _VM.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)element.Parameter).ToDispString();
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ToggleStretchMode };
                 element.IsShowMessage = true;
-                _Elements[CommandType.ToggleStretchModeReverse] = element;
+                _elements[CommandType.ToggleStretchModeReverse] = element;
             }
             // SetStretchModeNone
             {
@@ -339,7 +339,7 @@ namespace NeeView
                 element.Execute = (s, e) => _VM.StretchMode = PageStretchMode.None;
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.None);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetStretchModeNone] = element;
+                _elements[CommandType.SetStretchModeNone] = element;
             }
             // SetStretchModeInside
             {
@@ -352,7 +352,7 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Inside);
                 element.DefaultParameter = new StretchModeCommandParameter();
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetStretchModeInside] = element;
+                _elements[CommandType.SetStretchModeInside] = element;
             }
             // SetStretchModeOutside
             {
@@ -365,7 +365,7 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Outside);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetStretchModeOutside] = element;
+                _elements[CommandType.SetStretchModeOutside] = element;
             }
             // SetStretchModeUniform
             {
@@ -378,7 +378,7 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Uniform);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetStretchModeUniform] = element;
+                _elements[CommandType.SetStretchModeUniform] = element;
             }
             // SetStretchModeUniformToFill
             {
@@ -391,7 +391,7 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToFill);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetStretchModeUniformToFill] = element;
+                _elements[CommandType.SetStretchModeUniformToFill] = element;
             }
             // SetStretchModeUniformToSize
             {
@@ -404,7 +404,7 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToSize);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetStretchModeUniformToSize] = element;
+                _elements[CommandType.SetStretchModeUniformToSize] = element;
             }
             // SetStretchModeUniformToVertical
             {
@@ -417,7 +417,7 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToVertical);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetStretchModeUniformToVertical] = element;
+                _elements[CommandType.SetStretchModeUniformToVertical] = element;
             }
 
             // ToggleIsEnabledNearestNeighbor
@@ -431,7 +431,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _VM.IsEnabledNearestNeighbor ? "高品質に拡大する" : "ドットのまま拡大する";
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsEnabledNearestNeighbor));
                 element.IsShowMessage = true;
-                _Elements[CommandType.ToggleIsEnabledNearestNeighbor] = element;
+                _elements[CommandType.ToggleIsEnabledNearestNeighbor] = element;
             }
 
             // ToggleBackground
@@ -443,7 +443,7 @@ namespace NeeView
                 element.Execute = (s, e) => _VM.Background = _VM.Background.GetToggle();
                 element.ExecuteMessage = e => _VM.Background.GetToggle().ToDispString();
                 element.IsShowMessage = true;
-                _Elements[CommandType.ToggleBackground] = element;
+                _elements[CommandType.ToggleBackground] = element;
             }
 
             // SetBackgroundBlack
@@ -455,7 +455,7 @@ namespace NeeView
                 element.Execute = (s, e) => _VM.Background = BackgroundStyle.Black;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Black);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetBackgroundBlack] = element;
+                _elements[CommandType.SetBackgroundBlack] = element;
             }
 
             // SetBackgroundWhite
@@ -467,7 +467,7 @@ namespace NeeView
                 element.Execute = (s, e) => _VM.Background = BackgroundStyle.White;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.White);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetBackgroundWhite] = element;
+                _elements[CommandType.SetBackgroundWhite] = element;
             }
 
             // SetBackgroundAuto
@@ -479,7 +479,7 @@ namespace NeeView
                 element.Execute = (s, e) => _VM.Background = BackgroundStyle.Auto;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Auto);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetBackgroundAuto] = element;
+                _elements[CommandType.SetBackgroundAuto] = element;
             }
 
             // SetBackgroundCheck
@@ -491,7 +491,7 @@ namespace NeeView
                 element.Execute = (s, e) => _VM.Background = BackgroundStyle.Check;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Check);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetBackgroundCheck] = element;
+                _elements[CommandType.SetBackgroundCheck] = element;
             }
 
             // ToggleTopmost
@@ -506,7 +506,7 @@ namespace NeeView
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsTopmost));
                 element.IsShowMessage = true;
-                _Elements[CommandType.ToggleTopmost] = element;
+                _elements[CommandType.ToggleTopmost] = element;
             }
             // ToggleHideMenu
             {
@@ -520,7 +520,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _VM.IsHideMenu ? "メニューを表示する" : "メニューを自動的に隠す";
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHideMenu));
-                _Elements[CommandType.ToggleHideMenu] = element;
+                _elements[CommandType.ToggleHideMenu] = element;
             }
             // ToggleHidePanel
             {
@@ -534,7 +534,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _VM.IsHidePanel ? "パネルを表示する" : "パネルを自動的に隠す";
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHidePanel));
-                _Elements[CommandType.ToggleHidePanel] = element;
+                _elements[CommandType.ToggleHidePanel] = element;
             }
             // ToggleHideTitleBar
             // 欠番
@@ -543,7 +543,7 @@ namespace NeeView
                 element.Group = "dummy";
                 element.Text = "dummy";
                 element.Execute = (s, e) => { return; };
-                _Elements[CommandType.ToggleHideTitleBar] = element;
+                _elements[CommandType.ToggleHideTitleBar] = element;
             }
             // ToggleVisibleTitleBar
             {
@@ -557,7 +557,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _VM.IsVisibleTitleBar ? "タイトルバーを消す" : "タイトルバー表示する";
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleTitleBar));
-                _Elements[CommandType.ToggleVisibleTitleBar] = element;
+                _elements[CommandType.ToggleVisibleTitleBar] = element;
             }
             // ToggleVisibleAddressBar
             {
@@ -571,7 +571,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _VM.IsVisibleAddressBar ? "アドレスバーを消す" : "アドレスバーを表示する";
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleAddressBar));
-                _Elements[CommandType.ToggleVisibleAddressBar] = element;
+                _elements[CommandType.ToggleVisibleAddressBar] = element;
             }
             // ToggleVisibleFileInfo
             {
@@ -586,7 +586,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _VM.IsVisibleFileInfo ? "ファイル情報を消す" : "ファイル情報を表示する";
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleFileInfo));
-                _Elements[CommandType.ToggleVisibleFileInfo] = element;
+                _elements[CommandType.ToggleVisibleFileInfo] = element;
             }
             // ToggleVisibleEffectInfo
             {
@@ -601,7 +601,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _VM.IsVisibleEffectInfo ? "エフェクト設定を消す" : "エフェクト設定を表示する";
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleEffectInfo));
-                _Elements[CommandType.ToggleVisibleEffectInfo] = element;
+                _elements[CommandType.ToggleVisibleEffectInfo] = element;
             }
             // ToggleVisibleFolderList
             {
@@ -616,7 +616,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _VM.IsVisibleFolderList ? "フォルダーリストを消す" : "フォルダーリストを表示する";
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleFolderList));
-                _Elements[CommandType.ToggleVisibleFolderList] = element;
+                _elements[CommandType.ToggleVisibleFolderList] = element;
             }
             // ToggleVisibleBookmarkList
             {
@@ -631,7 +631,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _VM.IsVisibleBookmarkList ? "ブックマークリストを消す" : "ブックマークリストを表示する";
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleBookmarkList));
-                _Elements[CommandType.ToggleVisibleBookmarkList] = element;
+                _elements[CommandType.ToggleVisibleBookmarkList] = element;
             }
             // ToggleVisiblePagemarkList
             {
@@ -646,7 +646,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _VM.IsVisiblePagemarkList ? "ページマークリストを消す" : "ページマークリストを表示する";
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisiblePagemarkList));
-                _Elements[CommandType.ToggleVisiblePagemarkList] = element;
+                _elements[CommandType.ToggleVisiblePagemarkList] = element;
             }
             // ToggleVisibleHistoryList
             {
@@ -661,7 +661,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _VM.IsVisibleHistoryList ? "履歴リストを消す" : "履歴リストを表示する";
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleHistoryList));
-                _Elements[CommandType.ToggleVisibleHistoryList] = element;
+                _elements[CommandType.ToggleVisibleHistoryList] = element;
             }
             // ToggleVisiblePageList
             {
@@ -676,7 +676,7 @@ namespace NeeView
                 element.Execute = (s, e) => _VM.ToggleVisiblePageList();
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisiblePageListMenu), System.Windows.Data.BindingMode.OneWay);
-                _Elements[CommandType.ToggleVisiblePageList] = element;
+                _elements[CommandType.ToggleVisiblePageList] = element;
             }
 
             // ToggleVisibleThumbnailList
@@ -691,7 +691,7 @@ namespace NeeView
                 element.Execute = (s, e) => _VM.ToggleVisibleThumbnailList();
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsEnableThumbnailList));
-                _Elements[CommandType.ToggleVisibleThumbnailList] = element;
+                _elements[CommandType.ToggleVisibleThumbnailList] = element;
             }
             // ToggleHideThumbnailList
             {
@@ -705,7 +705,7 @@ namespace NeeView
                 element.Execute = (s, e) => _VM.ToggleHideThumbnailList();
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHideThumbnailList));
-                _Elements[CommandType.ToggleHideThumbnailList] = element;
+                _elements[CommandType.ToggleHideThumbnailList] = element;
             }
 
 
@@ -723,7 +723,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _VM.IsFullScreen ? "フルスクリーンOFF" : "フルスクリーンON";
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsFullScreen));
-                _Elements[CommandType.ToggleFullScreen] = element;
+                _elements[CommandType.ToggleFullScreen] = element;
             }
             // SetFullScreen
             {
@@ -734,7 +734,7 @@ namespace NeeView
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _VM.IsFullScreen = true;
                 element.CanExecute = () => true;
-                _Elements[CommandType.SetFullScreen] = element;
+                _elements[CommandType.SetFullScreen] = element;
             }
             // CancelFullScreen
             {
@@ -746,7 +746,7 @@ namespace NeeView
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _VM.IsFullScreen = false;
                 element.CanExecute = () => true;
-                _Elements[CommandType.CancelFullScreen] = element;
+                _elements[CommandType.CancelFullScreen] = element;
             }
 
             // ToggleSlideShow
@@ -757,11 +757,11 @@ namespace NeeView
                 element.MenuText = "スライドショー";
                 element.Note = "スライドショーの再生/停止を切り替えます";
                 element.ShortCutKey = "F5";
-                element.Execute = (s, e) => _Book.ToggleSlideShow();
-                element.ExecuteMessage = e => _Book.IsEnableSlideShow ? "スライドショー停止" : "スライドショー再生";
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookHub(nameof(_Book.IsEnableSlideShow));
+                element.Execute = (s, e) => _book.ToggleSlideShow();
+                element.ExecuteMessage = e => _book.IsEnableSlideShow ? "スライドショー停止" : "スライドショー再生";
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookHub(nameof(_book.IsEnableSlideShow));
                 element.IsShowMessage = true;
-                _Elements[CommandType.ToggleSlideShow] = element;
+                _elements[CommandType.ToggleSlideShow] = element;
             }
             // ViewScrollUp
             {
@@ -772,7 +772,7 @@ namespace NeeView
                 element.ShortCutKey = "WheelUp";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ViewScrollCommandParameter() { Scroll = 25 };
-                _Elements[CommandType.ViewScrollUp] = element;
+                _elements[CommandType.ViewScrollUp] = element;
             }
             // ViewScrollDown
             {
@@ -783,7 +783,7 @@ namespace NeeView
                 element.ShortCutKey = "WheelDown";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScrollUp };
-                _Elements[CommandType.ViewScrollDown] = element;
+                _elements[CommandType.ViewScrollDown] = element;
             }
             // ViewScaleUp
             {
@@ -794,7 +794,7 @@ namespace NeeView
                 element.ShortCutKey = "RightButton+WheelUp";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ViewScaleCommandParameter() { Scale = 20 };
-                _Elements[CommandType.ViewScaleUp] = element;
+                _elements[CommandType.ViewScaleUp] = element;
             }
             // ViewScaleDown
             {
@@ -805,7 +805,7 @@ namespace NeeView
                 element.ShortCutKey = "RightButton+WheelDown";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScaleUp };
-                _Elements[CommandType.ViewScaleDown] = element;
+                _elements[CommandType.ViewScaleDown] = element;
             }
             // ViewRotateLeft
             {
@@ -815,7 +815,7 @@ namespace NeeView
                 element.Note = "画像を左回転させます";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ViewRotateCommandParameter() { Angle = 45 };
-                _Elements[CommandType.ViewRotateLeft] = element;
+                _elements[CommandType.ViewRotateLeft] = element;
             }
             // ViewRotateRight
             {
@@ -825,7 +825,7 @@ namespace NeeView
                 element.Note = "画像を右回転させます";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewRotateLeft };
-                _Elements[CommandType.ViewRotateRight] = element;
+                _elements[CommandType.ViewRotateRight] = element;
             }
             // ToggleViewFlipHorizontal
             {
@@ -835,7 +835,7 @@ namespace NeeView
                 element.Note = "画像を左右反転させます";
                 element.IsShowMessage = false;
                 element.CreateIsCheckedBinding = () => BindingGenerator.IsFlipHorizontal();
-                _Elements[CommandType.ToggleViewFlipHorizontal] = element;
+                _elements[CommandType.ToggleViewFlipHorizontal] = element;
             }
             // ViewFlipHorizontalOn
             {
@@ -844,7 +844,7 @@ namespace NeeView
                 element.Text = "左右反転ON";
                 element.Note = "左右反転状態にします";
                 element.IsShowMessage = false;
-                _Elements[CommandType.ViewFlipHorizontalOn] = element;
+                _elements[CommandType.ViewFlipHorizontalOn] = element;
             }
             // ViewFlipHorizontalOff
             {
@@ -853,7 +853,7 @@ namespace NeeView
                 element.Text = "左右反転OFF";
                 element.Note = "左右反転状態を解除します";
                 element.IsShowMessage = false;
-                _Elements[CommandType.ViewFlipHorizontalOff] = element;
+                _elements[CommandType.ViewFlipHorizontalOff] = element;
             }
 
 
@@ -865,7 +865,7 @@ namespace NeeView
                 element.Note = "画像を上下反転させます";
                 element.IsShowMessage = false;
                 element.CreateIsCheckedBinding = () => BindingGenerator.IsFlipVertical();
-                _Elements[CommandType.ToggleViewFlipVertical] = element;
+                _elements[CommandType.ToggleViewFlipVertical] = element;
             }
             // ViewFlipVerticalOn
             {
@@ -874,7 +874,7 @@ namespace NeeView
                 element.Text = "上下反転ON";
                 element.Note = "上下反転状態にします";
                 element.IsShowMessage = false;
-                _Elements[CommandType.ViewFlipVerticalOn] = element;
+                _elements[CommandType.ViewFlipVerticalOn] = element;
             }
             // ViewFlipVerticalOff
             {
@@ -883,7 +883,7 @@ namespace NeeView
                 element.Text = "上下反転OFF";
                 element.Note = "上下反転状態を解除します";
                 element.IsShowMessage = false;
-                _Elements[CommandType.ViewFlipVerticalOff] = element;
+                _elements[CommandType.ViewFlipVerticalOff] = element;
             }
 
             // ViewReset
@@ -893,7 +893,7 @@ namespace NeeView
                 element.Text = "ビューリセット";
                 element.Note = "ビュー操作での回転、拡縮、移動、反転を初期化します";
                 element.IsShowMessage = false;
-                _Elements[CommandType.ViewReset] = element;
+                _elements[CommandType.ViewReset] = element;
             }
 
             // PrevPage
@@ -905,8 +905,8 @@ namespace NeeView
                 element.ShortCutKey = "Right,RightClick";
                 element.MouseGesture = "R";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _Book.PrevPage();
-                _Elements[CommandType.PrevPage] = element;
+                element.Execute = (s, e) => _book.PrevPage();
+                _elements[CommandType.PrevPage] = element;
             }
             // NextPage
             {
@@ -917,8 +917,8 @@ namespace NeeView
                 element.ShortCutKey = "Left,LeftClick";
                 element.MouseGesture = "L";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _Book.NextPage();
-                _Elements[CommandType.NextPage] = element;
+                element.Execute = (s, e) => _book.NextPage();
+                _elements[CommandType.NextPage] = element;
             }
             // PrevOnePage
             {
@@ -928,8 +928,8 @@ namespace NeeView
                 element.Note = "1ページだけ前方向に移動します";
                 element.MouseGesture = "LR";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _Book.PrevOnePage();
-                _Elements[CommandType.PrevOnePage] = element;
+                element.Execute = (s, e) => _book.PrevOnePage();
+                _elements[CommandType.PrevOnePage] = element;
             }
             // NextOnePage
             {
@@ -939,8 +939,8 @@ namespace NeeView
                 element.Note = "1ページだけ次方向に移動します";
                 element.MouseGesture = "RL";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _Book.NextOnePage();
-                _Elements[CommandType.NextOnePage] = element;
+                element.Execute = (s, e) => _book.NextOnePage();
+                _elements[CommandType.NextOnePage] = element;
             }
 
 
@@ -951,7 +951,7 @@ namespace NeeView
                 element.Text = "スクロール＋前のページに戻る";
                 element.Note = "ページ前方向に画像をスクロールさせます。スクロールできない場合は前ページに移動します";
                 element.IsShowMessage = false;
-                _Elements[CommandType.PrevScrollPage] = element;
+                _elements[CommandType.PrevScrollPage] = element;
             }
             // NextScrollPage
             {
@@ -960,7 +960,7 @@ namespace NeeView
                 element.Text = "スクロール＋次のページへ進む";
                 element.Note = "ページ次方向に画像をスクロールさせます。スクロールできない場合は次ページに移動します";
                 element.IsShowMessage = false;
-                _Elements[CommandType.NextScrollPage] = element;
+                _elements[CommandType.NextScrollPage] = element;
             }
             // MovePageWithCursor
             {
@@ -969,7 +969,7 @@ namespace NeeView
                 element.Text = "マウス位置依存でページを前後させる";
                 element.Note = "マウスカーソル位置によって移動方向が決まります。 ウィンドウ左にカーソルがあるときは次のページへ進み、右にカーソルがあるときは前のページに戻ります";
                 element.IsShowMessage = false;
-                _Elements[CommandType.MovePageWithCursor] = element;
+                _elements[CommandType.MovePageWithCursor] = element;
             }
 
             // PrevSizePage
@@ -979,9 +979,9 @@ namespace NeeView
                 element.Text = "設定ページ数戻る";
                 element.Note = "設定されたページ数だけ前方向に移動します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _Book.PrevSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
+                element.Execute = (s, e) => _book.PrevSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
                 element.DefaultParameter = new MoveSizePageCommandParameter() { Size = 10 };
-                _Elements[CommandType.PrevSizePage] = element;
+                _elements[CommandType.PrevSizePage] = element;
             }
 
             // NextSizePage
@@ -991,9 +991,9 @@ namespace NeeView
                 element.Text = "設定ページ数進む";
                 element.Note = "設定されたページ数だけ次方向に移動します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _Book.NextSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
+                element.Execute = (s, e) => _book.NextSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevSizePage };
-                _Elements[CommandType.NextSizePage] = element;
+                _elements[CommandType.NextSizePage] = element;
             }
 
             // FirstPage
@@ -1004,9 +1004,9 @@ namespace NeeView
                 element.Note = "先頭ページに移動します";
                 element.ShortCutKey = "Ctrl+Right";
                 element.MouseGesture = "UR";
-                element.Execute = (s, e) => _Book.FirstPage();
+                element.Execute = (s, e) => _book.FirstPage();
                 element.IsShowMessage = true;
-                _Elements[CommandType.FirstPage] = element;
+                _elements[CommandType.FirstPage] = element;
             }
             // LastPage
             {
@@ -1016,9 +1016,9 @@ namespace NeeView
                 element.Note = "終端ページに移動します";
                 element.ShortCutKey = "Ctrl+Left";
                 element.MouseGesture = "UL";
-                element.Execute = (s, e) => _Book.LastPage();
+                element.Execute = (s, e) => _book.LastPage();
                 element.IsShowMessage = true;
-                _Elements[CommandType.LastPage] = element;
+                _elements[CommandType.LastPage] = element;
             }
             // PrevFolder
             {
@@ -1029,8 +1029,8 @@ namespace NeeView
                 element.ShortCutKey = "Up";
                 element.MouseGesture = "LU";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _Book.PrevFolder();
-                _Elements[CommandType.PrevFolder] = element;
+                element.Execute = (s, e) => _book.PrevFolder();
+                _elements[CommandType.PrevFolder] = element;
             }
             // NextFolder
             {
@@ -1041,8 +1041,8 @@ namespace NeeView
                 element.ShortCutKey = "Down";
                 element.MouseGesture = "LD";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _Book.NextFolder();
-                _Elements[CommandType.NextFolder] = element;
+                element.Execute = (s, e) => _book.NextFolder();
+                _elements[CommandType.NextFolder] = element;
             }
             // PrevHistory
             {
@@ -1052,9 +1052,9 @@ namespace NeeView
                 element.Note = "前の古い履歴のフォルダを読み込みます";
                 element.ShortCutKey = "Back";
                 element.IsShowMessage = false;
-                element.CanExecute = () => _Book.CanPrevHistory();
-                element.Execute = (s, e) => _Book.PrevHistory();
-                _Elements[CommandType.PrevHistory] = element;
+                element.CanExecute = () => _book.CanPrevHistory();
+                element.Execute = (s, e) => _book.PrevHistory();
+                _elements[CommandType.PrevHistory] = element;
             }
             // NextHistory
             {
@@ -1064,9 +1064,9 @@ namespace NeeView
                 element.Note = "次の新しい履歴のフォルダを読み込みます";
                 element.ShortCutKey = "Shift+Back";
                 element.IsShowMessage = false;
-                element.CanExecute = () => _Book.CanNextHistory();
-                element.Execute = (s, e) => _Book.NextHistory();
-                _Elements[CommandType.NextHistory] = element;
+                element.CanExecute = () => _book.CanNextHistory();
+                element.Execute = (s, e) => _book.NextHistory();
+                _elements[CommandType.NextHistory] = element;
             }
 
 
@@ -1076,10 +1076,10 @@ namespace NeeView
                 element.Group = "フォルダ列";
                 element.Text = "フォルダーの並び順を切り替える";
                 element.Note = "フォルダーの並び順を順番に切り替えます";
-                element.Execute = (s, e) => _Book.ToggleFolderOrder();
-                element.ExecuteMessage = e => _Book.GetFolderOrder().GetToggle().ToDispString();
+                element.Execute = (s, e) => _book.ToggleFolderOrder();
+                element.ExecuteMessage = e => _book.GetFolderOrder().GetToggle().ToDispString();
                 element.IsShowMessage = true;
-                _Elements[CommandType.ToggleFolderOrder] = element;
+                _elements[CommandType.ToggleFolderOrder] = element;
             }
             // SetFolderOrderByFileName
             {
@@ -1087,10 +1087,10 @@ namespace NeeView
                 element.Group = "フォルダ列";
                 element.Text = "フォルダ列はファイル名順";
                 element.Note = "フォルダーの並びを名前順(昇順)にします";
-                element.Execute = (s, e) => _Book.SetFolderOrder(FolderOrder.FileName);
+                element.Execute = (s, e) => _book.SetFolderOrder(FolderOrder.FileName);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileName);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetFolderOrderByFileName] = element;
+                _elements[CommandType.SetFolderOrderByFileName] = element;
             }
             // SetFolderOrderByTimeStamp
             {
@@ -1098,10 +1098,10 @@ namespace NeeView
                 element.Group = "フォルダ列";
                 element.Text = "フォルダ列は日付順";
                 element.Note = "フォルダーの並びを日付順(降順)にします";
-                element.Execute = (s, e) => _Book.SetFolderOrder(FolderOrder.TimeStamp);
+                element.Execute = (s, e) => _book.SetFolderOrder(FolderOrder.TimeStamp);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStamp);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetFolderOrderByTimeStamp] = element;
+                _elements[CommandType.SetFolderOrderByTimeStamp] = element;
             }
             // SetFolderOrderByRandom
             {
@@ -1109,10 +1109,10 @@ namespace NeeView
                 element.Group = "フォルダ列";
                 element.Text = "フォルダ列はシャッフル";
                 element.Note = "フォルダーの並びをシャッフルします";
-                element.Execute = (s, e) => _Book.SetFolderOrder(FolderOrder.Random);
+                element.Execute = (s, e) => _book.SetFolderOrder(FolderOrder.Random);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Random);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetFolderOrderByRandom] = element;
+                _elements[CommandType.SetFolderOrderByRandom] = element;
             }
 
             // TogglePageMode
@@ -1122,10 +1122,10 @@ namespace NeeView
                 element.Text = "ページ表示モードを切り替える";
                 element.Note = "1ページ表示/2ページ表示を切り替えます";
                 element.CanExecute = () => true;
-                element.Execute = (s, e) => _Book.TogglePageMode();
-                element.ExecuteMessage = e => _Book.BookMemento.PageMode.GetToggle().ToDispString();
+                element.Execute = (s, e) => _book.TogglePageMode();
+                element.ExecuteMessage = e => _book.BookMemento.PageMode.GetToggle().ToDispString();
                 element.IsShowMessage = true;
-                _Elements[CommandType.TogglePageMode] = element;
+                _elements[CommandType.TogglePageMode] = element;
             }
             // SetPageMode1
             {
@@ -1135,10 +1135,10 @@ namespace NeeView
                 element.Note = "1ページ表示にします";
                 element.ShortCutKey = "Ctrl+1";
                 element.MouseGesture = "RU";
-                element.Execute = (s, e) => _Book.SetPageMode(PageMode.SinglePage);
+                element.Execute = (s, e) => _book.SetPageMode(PageMode.SinglePage);
                 element.CreateIsCheckedBinding = () => BindingGenerator.PageMode(PageMode.SinglePage);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetPageMode1] = element;
+                _elements[CommandType.SetPageMode1] = element;
             }
             // SetPageMode2
             {
@@ -1148,10 +1148,10 @@ namespace NeeView
                 element.Note = "2ページ表示にします";
                 element.ShortCutKey = "Ctrl+2";
                 element.MouseGesture = "RD";
-                element.Execute = (s, e) => _Book.SetPageMode(PageMode.WidePage);
+                element.Execute = (s, e) => _book.SetPageMode(PageMode.WidePage);
                 element.CreateIsCheckedBinding = () => BindingGenerator.PageMode(PageMode.WidePage);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetPageMode2] = element;
+                _elements[CommandType.SetPageMode2] = element;
             }
             // ToggleBookReadOrder
             {
@@ -1160,10 +1160,10 @@ namespace NeeView
                 element.Text = "右開き、左開きを切り替える";
                 element.Note = "右開き、左開きを切り替えます";
                 element.CanExecute = () => true;
-                element.Execute = (s, e) => _Book.ToggleBookReadOrder();
-                element.ExecuteMessage = e => _Book.BookMemento.BookReadOrder.GetToggle().ToDispString();
+                element.Execute = (s, e) => _book.ToggleBookReadOrder();
+                element.ExecuteMessage = e => _book.BookMemento.BookReadOrder.GetToggle().ToDispString();
                 element.IsShowMessage = true;
-                _Elements[CommandType.ToggleBookReadOrder] = element;
+                _elements[CommandType.ToggleBookReadOrder] = element;
             }
             // SetBookReadOrderRight
             {
@@ -1171,10 +1171,10 @@ namespace NeeView
                 element.Group = "ページ表示";
                 element.Text = "右開き";
                 element.Note = "読み進む方向を右開きにします。2ページ表示のときに若いページが右になります";
-                element.Execute = (s, e) => _Book.SetBookReadOrder(PageReadOrder.RightToLeft);
+                element.Execute = (s, e) => _book.SetBookReadOrder(PageReadOrder.RightToLeft);
                 element.CreateIsCheckedBinding = () => BindingGenerator.BookReadOrder(PageReadOrder.RightToLeft);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetBookReadOrderRight] = element;
+                _elements[CommandType.SetBookReadOrderRight] = element;
             }
             // SetBookReadOrderLeft
             {
@@ -1182,10 +1182,10 @@ namespace NeeView
                 element.Group = "ページ表示";
                 element.Text = "左開き";
                 element.Note = "読み進む方向を左開きにします。2ページ表示のときに若いページが左になります";
-                element.Execute = (s, e) => _Book.SetBookReadOrder(PageReadOrder.LeftToRight);
+                element.Execute = (s, e) => _book.SetBookReadOrder(PageReadOrder.LeftToRight);
                 element.CreateIsCheckedBinding = () => BindingGenerator.BookReadOrder(PageReadOrder.LeftToRight);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetBookReadOrderLeft] = element;
+                _elements[CommandType.SetBookReadOrderLeft] = element;
             }
 
             // ToggleIsSupportedDividePage
@@ -1194,12 +1194,12 @@ namespace NeeView
                 element.Group = "1ページ表示設定";
                 element.Text = "横長ページを分割する";
                 element.Note = "1ページ表示時、横長ページを分割してページにします";
-                element.Execute = (s, e) => _Book.ToggleIsSupportedDividePage();
-                element.ExecuteMessage = e => _Book.BookMemento.IsSupportedDividePage ? "横長ページの区別をしない" : "横長ページを分割する";
-                element.CanExecute = () => _Book.CanPageModeSubSetting(PageMode.SinglePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsSupportedDividePage));
+                element.Execute = (s, e) => _book.ToggleIsSupportedDividePage();
+                element.ExecuteMessage = e => _book.BookMemento.IsSupportedDividePage ? "横長ページの区別をしない" : "横長ページを分割する";
+                element.CanExecute = () => _book.CanPageModeSubSetting(PageMode.SinglePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_book.BookMemento.IsSupportedDividePage));
                 element.IsShowMessage = true;
-                _Elements[CommandType.ToggleIsSupportedDividePage] = element;
+                _elements[CommandType.ToggleIsSupportedDividePage] = element;
             }
 
             // ToggleIsSupportedWidePage
@@ -1208,12 +1208,12 @@ namespace NeeView
                 element.Group = "2ページ表示設定";
                 element.Text = "横長ページを2ページとみなす";
                 element.Note = " 2ページ表示時、横長の画像を2ページ分とみなして単独表示します";
-                element.Execute = (s, e) => _Book.ToggleIsSupportedWidePage();
-                element.ExecuteMessage = e => _Book.BookMemento.IsSupportedWidePage ? "横長ページの区別をしない" : "横長ページを2ページとみなす";
-                element.CanExecute = () => _Book.CanPageModeSubSetting(PageMode.WidePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsSupportedWidePage));
+                element.Execute = (s, e) => _book.ToggleIsSupportedWidePage();
+                element.ExecuteMessage = e => _book.BookMemento.IsSupportedWidePage ? "横長ページの区別をしない" : "横長ページを2ページとみなす";
+                element.CanExecute = () => _book.CanPageModeSubSetting(PageMode.WidePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_book.BookMemento.IsSupportedWidePage));
                 element.IsShowMessage = true;
-                _Elements[CommandType.ToggleIsSupportedWidePage] = element;
+                _elements[CommandType.ToggleIsSupportedWidePage] = element;
             }
             // ToggleIsSupportedSingleFirstPage
             {
@@ -1221,12 +1221,12 @@ namespace NeeView
                 element.Group = "2ページ表示設定";
                 element.Text = "最初のページを単独表示";
                 element.Note = "2ページ表示でも最初のページは1ページ表示にします";
-                element.Execute = (s, e) => _Book.ToggleIsSupportedSingleFirstPage();
-                element.ExecuteMessage = e => _Book.BookMemento.IsSupportedSingleFirstPage ? "最初のページを区別しない" : "最初のページを単独表示";
-                element.CanExecute = () => _Book.CanPageModeSubSetting(PageMode.WidePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsSupportedSingleFirstPage));
+                element.Execute = (s, e) => _book.ToggleIsSupportedSingleFirstPage();
+                element.ExecuteMessage = e => _book.BookMemento.IsSupportedSingleFirstPage ? "最初のページを区別しない" : "最初のページを単独表示";
+                element.CanExecute = () => _book.CanPageModeSubSetting(PageMode.WidePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_book.BookMemento.IsSupportedSingleFirstPage));
                 element.IsShowMessage = true;
-                _Elements[CommandType.ToggleIsSupportedSingleFirstPage] = element;
+                _elements[CommandType.ToggleIsSupportedSingleFirstPage] = element;
             }
             // ToggleIsSupportedSingleLastPage
             {
@@ -1234,12 +1234,12 @@ namespace NeeView
                 element.Group = "2ページ表示設定";
                 element.Text = "最後のページを単独表示";
                 element.Note = "2ページ表示でも最後のページは1ページ表示にします";
-                element.Execute = (s, e) => _Book.ToggleIsSupportedSingleLastPage();
-                element.ExecuteMessage = e => _Book.BookMemento.IsSupportedSingleLastPage ? "最後のページを区別しない" : "最後のページを単独表示";
-                element.CanExecute = () => _Book.CanPageModeSubSetting(PageMode.WidePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsSupportedSingleLastPage));
+                element.Execute = (s, e) => _book.ToggleIsSupportedSingleLastPage();
+                element.ExecuteMessage = e => _book.BookMemento.IsSupportedSingleLastPage ? "最後のページを区別しない" : "最後のページを単独表示";
+                element.CanExecute = () => _book.CanPageModeSubSetting(PageMode.WidePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_book.BookMemento.IsSupportedSingleLastPage));
                 element.IsShowMessage = true;
-                _Elements[CommandType.ToggleIsSupportedSingleLastPage] = element;
+                _elements[CommandType.ToggleIsSupportedSingleLastPage] = element;
             }
 
             // ToggleIsRecursiveFolder
@@ -1248,11 +1248,11 @@ namespace NeeView
                 element.Group = "ページ読込";
                 element.Text = "サブフォルダを読み込む";
                 element.Note = "フォルダから画像を読み込むときにサブフォルダまたは圧縮ファイルも同時に読み込みます";
-                element.Execute = (s, e) => _Book.ToggleIsRecursiveFolder();
-                element.ExecuteMessage = e => _Book.BookMemento.IsRecursiveFolder ? "サブフォルダは読み込まない" : "サブフォルダも読み込む";
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_Book.BookMemento.IsRecursiveFolder));
+                element.Execute = (s, e) => _book.ToggleIsRecursiveFolder();
+                element.ExecuteMessage = e => _book.BookMemento.IsRecursiveFolder ? "サブフォルダは読み込まない" : "サブフォルダも読み込む";
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_book.BookMemento.IsRecursiveFolder));
                 element.IsShowMessage = true;
-                _Elements[CommandType.ToggleIsRecursiveFolder] = element;
+                _elements[CommandType.ToggleIsRecursiveFolder] = element;
             }
 
             // ToggleSortMode
@@ -1262,10 +1262,10 @@ namespace NeeView
                 element.Text = "ページの並び順を切り替える";
                 element.Note = "ページの並び順を順番に切り替えます";
                 element.CanExecute = () => true;
-                element.Execute = (s, e) => _Book.ToggleSortMode();
-                element.ExecuteMessage = e => _Book.BookMemento.SortMode.GetToggle().ToDispString();
+                element.Execute = (s, e) => _book.ToggleSortMode();
+                element.ExecuteMessage = e => _book.BookMemento.SortMode.GetToggle().ToDispString();
                 element.IsShowMessage = true;
-                _Elements[CommandType.ToggleSortMode] = element;
+                _elements[CommandType.ToggleSortMode] = element;
             }
             // SetSortModeFileName
             {
@@ -1273,10 +1273,10 @@ namespace NeeView
                 element.Group = "ページ列";
                 element.Text = "ファイル名昇順";
                 element.Note = "ページの並び順をファイル名昇順にします";
-                element.Execute = (s, e) => _Book.SetSortMode(PageSortMode.FileName);
+                element.Execute = (s, e) => _book.SetSortMode(PageSortMode.FileName);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.FileName);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetSortModeFileName] = element;
+                _elements[CommandType.SetSortModeFileName] = element;
             }
             // SetSortModeFileNameDescending
             {
@@ -1284,10 +1284,10 @@ namespace NeeView
                 element.Group = "ページ列";
                 element.Text = "ファイル名降順";
                 element.Note = "ページの並び順をファイル名降順にします";
-                element.Execute = (s, e) => _Book.SetSortMode(PageSortMode.FileNameDescending);
+                element.Execute = (s, e) => _book.SetSortMode(PageSortMode.FileNameDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.FileNameDescending);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetSortModeFileNameDescending] = element;
+                _elements[CommandType.SetSortModeFileNameDescending] = element;
             }
             // SetSortModeTimeStamp
             {
@@ -1295,10 +1295,10 @@ namespace NeeView
                 element.Group = "ページ列";
                 element.Text = "ファイル日付昇順";
                 element.Note = "ページの並び順をファイル日付昇順にします";
-                element.Execute = (s, e) => _Book.SetSortMode(PageSortMode.TimeStamp);
+                element.Execute = (s, e) => _book.SetSortMode(PageSortMode.TimeStamp);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.TimeStamp);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetSortModeTimeStamp] = element;
+                _elements[CommandType.SetSortModeTimeStamp] = element;
             }
             // SetSortModeTimeStampDescending
             {
@@ -1306,10 +1306,10 @@ namespace NeeView
                 element.Group = "ページ列";
                 element.Text = "ファイル日付降順";
                 element.Note = "ページの並び順をファイル日付降順にします";
-                element.Execute = (s, e) => _Book.SetSortMode(PageSortMode.TimeStampDescending);
+                element.Execute = (s, e) => _book.SetSortMode(PageSortMode.TimeStampDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.TimeStampDescending);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetSortModeTimeStampDescending] = element;
+                _elements[CommandType.SetSortModeTimeStampDescending] = element;
             }
             // SetSortModeRandom
             {
@@ -1317,10 +1317,10 @@ namespace NeeView
                 element.Group = "ページ列";
                 element.Text = "シャッフル";
                 element.Note = "ページの並び順をシャッフルます";
-                element.Execute = (s, e) => _Book.SetSortMode(PageSortMode.Random);
+                element.Execute = (s, e) => _book.SetSortMode(PageSortMode.Random);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.Random);
                 element.IsShowMessage = true;
-                _Elements[CommandType.SetSortModeRandom] = element;
+                _elements[CommandType.SetSortModeRandom] = element;
             }
 
 
@@ -1331,7 +1331,7 @@ namespace NeeView
                 element.Group = "dummy";
                 element.Text = "dummy";
                 element.Execute = (s, e) => { return; };
-                _Elements[CommandType.Bookmark] = element;
+                _elements[CommandType.Bookmark] = element;
             }
             // ToggleBookmark
             {
@@ -1340,13 +1340,13 @@ namespace NeeView
                 element.Text = "ブックマーク登録/解除";
                 element.MenuText = "ブックマーク";
                 element.Note = "現在開いているフォルダーのブックマークの登録/解除を切り替えます";
-                element.Execute = (s, e) => _Book.ToggleBookmark();
-                element.CanExecute = () => _Book.CanBookmark();
-                element.ExecuteMessage = e => _Book.IsBookmark(null) ? "ブックマーク解除" : "ブックマークに登録";
+                element.Execute = (s, e) => _book.ToggleBookmark();
+                element.CanExecute = () => _book.CanBookmark();
+                element.ExecuteMessage = e => _book.IsBookmark(null) ? "ブックマーク解除" : "ブックマークに登録";
                 element.IsShowMessage = true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.IsBookmark();
                 element.ShortCutKey = "Ctrl+D";
-                _Elements[CommandType.ToggleBookmark] = element;
+                _elements[CommandType.ToggleBookmark] = element;
             }
 
             // PrevBookmark
@@ -1356,8 +1356,8 @@ namespace NeeView
                 element.Text = "前のブックマークに移動";
                 element.Note = "ブックマークリスト順で前のフォルダーに移動します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _Book.PrevBookmark();
-                _Elements[CommandType.PrevBookmark] = element;
+                element.Execute = (s, e) => _book.PrevBookmark();
+                _elements[CommandType.PrevBookmark] = element;
             }
             // NextBookmark
             {
@@ -1366,8 +1366,8 @@ namespace NeeView
                 element.Text = "次のブックマークへ移動";
                 element.Note = "ブックマークリスト順で次のフォルダーに移動します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _Book.NextBookmark();
-                _Elements[CommandType.NextBookmark] = element;
+                element.Execute = (s, e) => _book.NextBookmark();
+                _elements[CommandType.NextBookmark] = element;
             }
 
             // TogglePagemark
@@ -1377,13 +1377,13 @@ namespace NeeView
                 element.Text = "ページマーク登録/解除";
                 element.MenuText = "ページマーク";
                 element.Note = "現在開いているページのページマークの登録/解除を切り替えます";
-                element.Execute = (s, e) => _Book.TogglePagemark();
-                element.CanExecute = () => _Book.CanPagemark();
-                element.ExecuteMessage = e => _Book.IsMarked() ? "ページマーク解除" : "ページマーク登録";
+                element.Execute = (s, e) => _book.TogglePagemark();
+                element.CanExecute = () => _book.CanPagemark();
+                element.ExecuteMessage = e => _book.IsMarked() ? "ページマーク解除" : "ページマーク登録";
                 element.IsShowMessage = true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.IsPagemark();
                 element.ShortCutKey = "Ctrl+M";
-                _Elements[CommandType.TogglePagemark] = element;
+                _elements[CommandType.TogglePagemark] = element;
             }
 
             // PrevPagemark
@@ -1393,8 +1393,8 @@ namespace NeeView
                 element.Text = "前のページマークに移動";
                 element.Note = "前のページマークに移動します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _Book.PrevPagemark();
-                _Elements[CommandType.PrevPagemark] = element;
+                element.Execute = (s, e) => _book.PrevPagemark();
+                _elements[CommandType.PrevPagemark] = element;
             }
             // NextPagemark
             {
@@ -1403,8 +1403,8 @@ namespace NeeView
                 element.Text = "次のページマークへ移動";
                 element.Note = "次のページマークへ移動します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _Book.NextPagemark();
-                _Elements[CommandType.NextPagemark] = element;
+                element.Execute = (s, e) => _book.NextPagemark();
+                _elements[CommandType.NextPagemark] = element;
             }
 
             // PrevPagemarkInBook
@@ -1414,10 +1414,10 @@ namespace NeeView
                 element.Text = "フォルダ内の前のページマークに移動";
                 element.Note = "現在のフォルダ内で前のページマークに移動します";
                 element.IsShowMessage = false;
-                element.CanExecute = () => _Book.CanPrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
-                element.Execute = (s, e) => _Book.PrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.CanExecute = () => _book.CanPrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.Execute = (s, e) => _book.PrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
                 element.DefaultParameter = new MovePagemarkCommandParameter();
-                _Elements[CommandType.PrevPagemarkInBook] = element;
+                _elements[CommandType.PrevPagemarkInBook] = element;
             }
             // NextPagemarkInBook
             {
@@ -1426,10 +1426,10 @@ namespace NeeView
                 element.Text = "フォルダ内の次のページマークへ移動";
                 element.Note = "現在のフォルダ内で次のページマークへ移動します";
                 element.IsShowMessage = false;
-                element.CanExecute = () => _Book.CanNextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
-                element.Execute = (s, e) => _Book.NextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.CanExecute = () => _book.CanNextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.Execute = (s, e) => _book.NextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevPagemarkInBook };
-                _Elements[CommandType.NextPagemarkInBook] = element;
+                _elements[CommandType.NextPagemarkInBook] = element;
             }
 
 
@@ -1442,7 +1442,7 @@ namespace NeeView
                 element.Text = "(なし)";
                 element.Execute = (s, e) => { return; };
                 element.CanExecute = () => false;
-                _Elements[CommandType.ToggleEffectGrayscale] = element;
+                _elements[CommandType.ToggleEffectGrayscale] = element;
             }
 
 
@@ -1496,7 +1496,7 @@ namespace NeeView
                 element.Group = "dummy";
                 element.Text = "dummy";
                 element.Execute = (s, e) => { return; };
-                _Elements[CommandType.ToggleIsReverseSort] = element;
+                _elements[CommandType.ToggleIsReverseSort] = element;
             }
 
             // OpenSettingWindow
@@ -1507,16 +1507,16 @@ namespace NeeView
                 element.MenuText = "設定...";
                 element.Note = "設定ウィンドウを開きます";
                 element.IsShowMessage = false;
-                _Elements[CommandType.OpenSettingWindow] = element;
+                _elements[CommandType.OpenSettingWindow] = element;
             }
             // OpenSettingFilesFolder
             {
                 var element = new CommandElement();
                 element.Group = "その他";
                 element.Text = "設定ファイルの場所を開く";
-                 element.Note = "設定ファイルが保存されているフォルダを開きます";
+                element.Note = "設定ファイルが保存されているフォルダを開きます";
                 element.IsShowMessage = false;
-                _Elements[CommandType.OpenSettingFilesFolder] = element;
+                _elements[CommandType.OpenSettingFilesFolder] = element;
             }
 
             // OpenVersionWindow
@@ -1527,7 +1527,7 @@ namespace NeeView
                 element.MenuText = "NeeView について...";
                 element.Note = "バージョン情報を表示します";
                 element.IsShowMessage = false;
-                _Elements[CommandType.OpenVersionWindow] = element;
+                _elements[CommandType.OpenVersionWindow] = element;
             }
             // CloseApplication
             {
@@ -1539,7 +1539,7 @@ namespace NeeView
                 element.ShortCutKey = "Alt+F4";
                 element.IsShowMessage = false;
                 element.CanExecute = () => true;
-                _Elements[CommandType.CloseApplication] = element;
+                _elements[CommandType.CloseApplication] = element;
             }
 
             // HelpOnline
@@ -1552,7 +1552,7 @@ namespace NeeView
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _VM.OpenOnlineHelp();
                 element.CanExecute = () => true;
-                _Elements[CommandType.HelpOnline] = element;
+                _elements[CommandType.HelpOnline] = element;
             }
 
             // HelpCommandList
@@ -1565,7 +1565,7 @@ namespace NeeView
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => this.OpenCommandListHelp();
                 element.CanExecute = () => true;
-                _Elements[CommandType.HelpCommandList] = element;
+                _elements[CommandType.HelpCommandList] = element;
             }
 
             // HelpMainMenu
@@ -1578,18 +1578,18 @@ namespace NeeView
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _VM.OpenMainMenuHelp();
                 element.CanExecute = () => true;
-                _Elements[CommandType.HelpMainMenu] = element;
+                _elements[CommandType.HelpMainMenu] = element;
             }
 
             // 並び替え
             //_Elements = _Elements.OrderBy(e => e.Key).ToDictionary(e => e.Key, e => e.Value);
 
             // デフォルト設定として記憶
-            _DefaultMemento = CreateMemento();
+            s_defaultMemento = CreateMemento();
         }
 
 
-#region Memento
+        #region Memento
 
         // 
         [DataContract]
@@ -1641,7 +1641,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            foreach (var pair in _Elements)
+            foreach (var pair in _elements)
             {
                 if (pair.Key.IsDisable()) continue;
                 memento.Elements.Add(pair.Key, pair.Value.CreateMemento());
@@ -1655,18 +1655,18 @@ namespace NeeView
         {
             foreach (var pair in memento.Elements)
             {
-                if (_Elements.ContainsKey(pair.Key))
+                if (_elements.ContainsKey(pair.Key))
                 {
-                    _Elements[pair.Key].Restore(pair.Value);
+                    _elements[pair.Key].Restore(pair.Value);
                 }
             }
 
             // ToggleStrechModeの復元(1.14互換用)
-            if (_Elements[CommandType.ToggleStretchMode].IsToggled)
+            if (_elements[CommandType.ToggleStretchMode].IsToggled)
             {
-                var flags = ((ToggleStretchModeCommandParameter)_Elements[CommandType.ToggleStretchMode].Parameter).StretchModes;
+                var flags = ((ToggleStretchModeCommandParameter)_elements[CommandType.ToggleStretchMode].Parameter).StretchModes;
 
-                Dictionary< PageStretchMode, CommandType > _CommandTable = new Dictionary<PageStretchMode, CommandType>
+                Dictionary<PageStretchMode, CommandType> _CommandTable = new Dictionary<PageStretchMode, CommandType>
                 {
                     [PageStretchMode.None] = CommandType.SetStretchModeNone,
                     [PageStretchMode.Inside] = CommandType.SetStretchModeInside,
@@ -1679,11 +1679,11 @@ namespace NeeView
 
                 foreach (var item in _CommandTable)
                 {
-                    flags[item.Key] = _Elements[item.Value].IsToggled;
+                    flags[item.Key] = _elements[item.Value].IsToggled;
                 }
             }
         }
 
-#endregion
+        #endregion
     }
 }

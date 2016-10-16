@@ -21,10 +21,10 @@ namespace DragExtensions
             if (view == null) view = element;
 
             Rect bounds = VisualTreeHelper.GetDescendantBounds(view);
-            _ghost = new Rectangle() 
+            _ghost = new Rectangle()
             {
                 Height = bounds.Height,
-                Width = bounds.Width, 
+                Width = bounds.Width,
                 Fill = new VisualBrush(view) { Opacity = opacity }
             };
 
@@ -77,7 +77,6 @@ namespace DragExtensions
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-
             _ghost.Arrange(new Rect(_ghost.DesiredSize));
             return finalSize;
         }

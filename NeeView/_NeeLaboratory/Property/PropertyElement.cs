@@ -170,7 +170,7 @@ namespace NeeLaboratory.Property
         //
         public void SetValue(object value)
         {
-            this._info.SetValue(this.Source, value);
+            _info.SetValue(this.Source, value);
         }
 
         //
@@ -182,17 +182,16 @@ namespace NeeLaboratory.Property
         //
         public object GetValue()
         {
-            return this._info.GetValue(this.Source);
+            return _info.GetValue(this.Source);
         }
 
         //
         public object GetValue(object source)
         {
-            return this._info.GetValue(source);
+            return _info.GetValue(source);
         }
 
         //
         public PropertyValue TypeValue { get; set; }
     }
-
 }

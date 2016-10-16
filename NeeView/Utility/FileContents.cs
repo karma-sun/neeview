@@ -29,22 +29,22 @@ namespace NeeView.Utility
         public string Name { get; private set; }
         public byte[] Bytes { get; private set; }
 
-        static readonly System.Windows.Forms.DataFormats.Format CFSTR_FILEDESCRIPTORW = System.Windows.Forms.DataFormats.GetFormat("FileGroupDescriptorW");
-        static readonly System.Windows.Forms.DataFormats.Format CFSTR_FILECONTENTS = System.Windows.Forms.DataFormats.GetFormat("FileContents");
+        private static readonly System.Windows.Forms.DataFormats.Format s_CFSTR_FILEDESCRIPTORW = System.Windows.Forms.DataFormats.GetFormat("FileGroupDescriptorW");
+        private static readonly System.Windows.Forms.DataFormats.Format s_CFSTR_FILECONTENTS = System.Windows.Forms.DataFormats.GetFormat("FileContents");
 
         [DllImport("Kernel32.dll", SetLastError = true)]
-        static extern IntPtr GlobalAlloc(int uFlags, int dwBytes);
+        private static extern IntPtr GlobalAlloc(int uFlags, int dwBytes);
         [DllImport("Kernel32.dll")]
-        static extern IntPtr GlobalFree(IntPtr hMem);
+        private static extern IntPtr GlobalFree(IntPtr hMem);
         [DllImport("Kernel32.dll", SetLastError = true)]
-        static extern IntPtr GlobalLock(IntPtr hMem);
+        private static extern IntPtr GlobalLock(IntPtr hMem);
         [DllImport("Kernel32.dll", SetLastError = true)]
-        static extern IntPtr GlobalSize(IntPtr hMem);
+        private static extern IntPtr GlobalSize(IntPtr hMem);
         [DllImport("Kernel32.dll")]
-        static extern bool GlobalUnlock(IntPtr hMem);
+        private static extern bool GlobalUnlock(IntPtr hMem);
 
         [StructLayout(LayoutKind.Sequential, Pack = 4, CharSet = CharSet.Unicode)]
-        struct FILEDESCRIPTORW
+        private struct FILEDESCRIPTORW
         {
             public int dwFlags;
             public Guid clsid;
@@ -61,7 +61,7 @@ namespace NeeView.Utility
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 4, CharSet = CharSet.Unicode)]
-        struct FILEGROUPDESCRIPTORW
+        private struct FILEGROUPDESCRIPTORW
         {
             public int cItems;
             [MarshalAs(UnmanagedType.ByValArray)]
@@ -79,11 +79,11 @@ namespace NeeView.Utility
             return fileDescriptor.fgd.Select((fgd, i) => new FileContents(fgd.cFileName, GetFileContent(dataObject, i))).ToArray();
         }
 
-        static FILEGROUPDESCRIPTORW GetFileDescriptor(IComDataObject dataObject)
+        private static FILEGROUPDESCRIPTORW GetFileDescriptor(IComDataObject dataObject)
         {
             var format = new FORMATETC
             {
-                cfFormat = unchecked((short)CFSTR_FILEDESCRIPTORW.Id),
+                cfFormat = unchecked((short)s_CFSTR_FILEDESCRIPTORW.Id),
                 dwAspect = DVASPECT.DVASPECT_CONTENT,
                 ptd = IntPtr.Zero,
                 lindex = -1,
@@ -102,11 +102,11 @@ namespace NeeView.Utility
             }
         }
 
-        static byte[] GetFileContent(IComDataObject dataObject, int i)
+        private static byte[] GetFileContent(IComDataObject dataObject, int i)
         {
             var format = new FORMATETC
             {
-                cfFormat = unchecked((short)CFSTR_FILECONTENTS.Id),
+                cfFormat = unchecked((short)s_CFSTR_FILECONTENTS.Id),
                 dwAspect = DVASPECT.DVASPECT_CONTENT,
                 ptd = IntPtr.Zero,
                 lindex = i,

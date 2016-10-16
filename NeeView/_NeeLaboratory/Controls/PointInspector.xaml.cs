@@ -62,7 +62,7 @@ namespace NeeLaboratory.Controls
             get { return Point.Y; }
             set { if (Point.Y != value) { Point = new Point(Point.X, value); OnPropertyChanged(); } }
         }
-        
+
 
         public PointInspector()
         {

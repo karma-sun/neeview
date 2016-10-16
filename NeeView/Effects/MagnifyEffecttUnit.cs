@@ -28,8 +28,8 @@ namespace NeeView.Effects
     [DataContract]
     public class MagnifyEffectUnit : EffectUnit
     {
-        private static MagnifyEffect _effect = new MagnifyEffect();
-        public override Effect Effect => _effect;
+        private static MagnifyEffect s_effect = new MagnifyEffect();
+        public override Effect Effect => s_effect;
 
         /// <summary>
         /// Property: Center
@@ -39,8 +39,8 @@ namespace NeeView.Effects
         [DefaultValue(typeof(Point), "0.5,0.5")]
         public Point Center
         {
-            get { return _effect.Center; }
-            set { if (_effect.Center != value) { _effect.Center = value; RaiseEffectPropertyChanged(); } }
+            get { return s_effect.Center; }
+            set { if (s_effect.Center != value) { s_effect.Center = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -51,10 +51,10 @@ namespace NeeView.Effects
         [DefaultValue(0.5)]
         public double Amount
         {
-            get { return _effect.Amount; }
-            set { if (_effect.Amount != value) { _effect.Amount = value; RaiseEffectPropertyChanged(); } }
+            get { return s_effect.Amount; }
+            set { if (s_effect.Amount != value) { s_effect.Amount = value; RaiseEffectPropertyChanged(); } }
         }
-                
+
         /// <summary>
         /// Property: InnerRadius 
         /// </summary>
@@ -63,8 +63,8 @@ namespace NeeView.Effects
         [DefaultValue(0.2)]
         public double InnerRadius
         {
-            get { return _effect.InnerRadius; }
-            set { if (_effect.InnerRadius != value) { _effect.InnerRadius = value; RaiseEffectPropertyChanged(); } }
+            get { return s_effect.InnerRadius; }
+            set { if (s_effect.InnerRadius != value) { s_effect.InnerRadius = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -75,8 +75,8 @@ namespace NeeView.Effects
         [DefaultValue(0.4)]
         public double OuterRadius
         {
-            get { return _effect.OuterRadius; }
-            set { if (_effect.OuterRadius != value) { _effect.OuterRadius = value; RaiseEffectPropertyChanged(); } }
+            get { return s_effect.OuterRadius; }
+            set { if (s_effect.OuterRadius != value) { s_effect.OuterRadius = value; RaiseEffectPropertyChanged(); } }
         }
     }
 }

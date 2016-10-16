@@ -16,12 +16,12 @@ namespace NeeView
     //
     public static class BindingGenerator
     {
-        private static StretchModeToBooleanConverter _stretchModeToBooleanConverter = new StretchModeToBooleanConverter();
-        private static PageModeToBooleanConverter _pageModeToBooleanConverter = new PageModeToBooleanConverter();
-        private static BookReadOrderToBooleanConverter _bookReadOrderToBooleanConverter = new BookReadOrderToBooleanConverter();
-        private static BackgroundStyleToBooleanConverter _backgroundStyleToBooleanConverter = new BackgroundStyleToBooleanConverter();
-        private static FolderOrderToBooleanConverter _folderOrderToBooleanConverter = new FolderOrderToBooleanConverter();
-        private static SortModeToBooleanConverter _sortModeToBooleanConverter = new SortModeToBooleanConverter();
+        private static StretchModeToBooleanConverter s_stretchModeToBooleanConverter = new StretchModeToBooleanConverter();
+        private static PageModeToBooleanConverter s_pageModeToBooleanConverter = new PageModeToBooleanConverter();
+        private static BookReadOrderToBooleanConverter s_bookReadOrderToBooleanConverter = new BookReadOrderToBooleanConverter();
+        private static BackgroundStyleToBooleanConverter s_backgroundStyleToBooleanConverter = new BackgroundStyleToBooleanConverter();
+        private static FolderOrderToBooleanConverter s_folderOrderToBooleanConverter = new FolderOrderToBooleanConverter();
+        private static SortModeToBooleanConverter s_sortModeToBooleanConverter = new SortModeToBooleanConverter();
 
         //
         public static Binding Binding(string path)
@@ -54,7 +54,7 @@ namespace NeeView
         {
             return new Binding("StretchMode")
             {
-                Converter = _stretchModeToBooleanConverter,
+                Converter = s_stretchModeToBooleanConverter,
                 ConverterParameter = mode.ToString()
             };
         }
@@ -64,7 +64,7 @@ namespace NeeView
         {
             return new Binding("Background")
             {
-                Converter = _backgroundStyleToBooleanConverter,
+                Converter = s_backgroundStyleToBooleanConverter,
                 ConverterParameter = mode.ToString()
             };
         }
@@ -76,7 +76,7 @@ namespace NeeView
             return new Binding("FolderCollection.Folder.FolderOrder")
             {
                 Source = (App.Current.MainWindow as MainWindow).FolderList.DockPanel.DataContext, // 強引だな..
-                Converter = _folderOrderToBooleanConverter,
+                Converter = s_folderOrderToBooleanConverter,
                 ConverterParameter = mode.ToString()
             };
         }
@@ -87,7 +87,7 @@ namespace NeeView
         {
             return new Binding("BookSetting.PageMode")
             {
-                Converter = _pageModeToBooleanConverter,
+                Converter = s_pageModeToBooleanConverter,
                 ConverterParameter = mode.ToString(),
             };
         }
@@ -97,7 +97,7 @@ namespace NeeView
         {
             return new Binding("BookSetting.BookReadOrder")
             {
-                Converter = _bookReadOrderToBooleanConverter,
+                Converter = s_bookReadOrderToBooleanConverter,
                 ConverterParameter = mode.ToString(),
             };
         }
@@ -107,7 +107,7 @@ namespace NeeView
         {
             return new Binding("BookSetting.SortMode")
             {
-                Converter = _sortModeToBooleanConverter,
+                Converter = s_sortModeToBooleanConverter,
                 ConverterParameter = mode.ToString(),
             };
         }

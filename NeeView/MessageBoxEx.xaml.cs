@@ -19,18 +19,17 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
-
     /// <summary>
     /// MessageBoxEx.xaml の相互作用ロジック
     /// </summary>
     public partial class MessageBoxEx : Window
     {
-        MessageBoxParams _Param;
+        private MessageBoxParams _param;
 
 
         public MessageBoxEx(MessageBoxParams param)
         {
-            _Param = param;
+            _param = param;
 
             InitializeComponent();
 
@@ -101,7 +100,6 @@ namespace NeeView
                 this.VisualControl.Content = param.VisualContent;
                 this.VisualControl.Margin = new Thickness(0, 0, 20, 0);
             }
-
         }
 
         private void YesButton_Click(object sender, RoutedEventArgs e)

@@ -190,15 +190,15 @@ namespace NeeView
 
         // スライダー方向
         #region Property: IsSliderDirectionReversed
-        private bool _IsSliderDirectionReversed;
+        private bool _isSliderDirectionReversed;
         public bool IsSliderDirectionReversed
         {
-            get { return _IsSliderDirectionReversed; }
+            get { return _isSliderDirectionReversed; }
             private set
             {
-                if (_IsSliderDirectionReversed != value)
+                if (_isSliderDirectionReversed != value)
                 {
-                    _IsSliderDirectionReversed = value;
+                    _isSliderDirectionReversed = value;
                     OnPropertyChanged();
                 }
             }
@@ -223,13 +223,13 @@ namespace NeeView
         }
 
         //
-        private SliderDirection _SliderDirection;
+        private SliderDirection _sliderDirection;
         public SliderDirection SliderDirection
         {
-            get { return _SliderDirection; }
+            get { return _sliderDirection; }
             set
             {
-                _SliderDirection = value;
+                _sliderDirection = value;
                 UpdateIsSliderDirectionReversed();
             }
         }
@@ -238,21 +238,21 @@ namespace NeeView
 
         // 左クリック長押しモード
         #region Property: LongLeftButtonDownMode
-        private LongButtonDownMode _LongLeftButtonDownMode;
+        private LongButtonDownMode _longLeftButtonDownMode;
         public LongButtonDownMode LongLeftButtonDownMode
         {
-            get { return _LongLeftButtonDownMode; }
-            set { _LongLeftButtonDownMode = value; OnPropertyChanged(); }
+            get { return _longLeftButtonDownMode; }
+            set { _longLeftButtonDownMode = value; OnPropertyChanged(); }
         }
         #endregion
 
         // 長押し判定時間(秒)
         #region Property: LongButtonDownTick
-        private double _LongButtonDownTick;
+        private double _longButtonDownTick;
         public double LongButtonDownTick
         {
-            get { return _LongButtonDownTick; }
-            set { _LongButtonDownTick = value; OnPropertyChanged(); }
+            get { return _longButtonDownTick; }
+            set { _longButtonDownTick = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -261,17 +261,17 @@ namespace NeeView
 
         // スケールモード
         #region Property: StretchMode
-        private PageStretchMode _StretchModePrev = PageStretchMode.Uniform;
-        private PageStretchMode _StretchMode = PageStretchMode.Uniform;
+        private PageStretchMode _stretchModePrev = PageStretchMode.Uniform;
+        private PageStretchMode _stretchMode = PageStretchMode.Uniform;
         public PageStretchMode StretchMode
         {
-            get { return _StretchMode; }
+            get { return _stretchMode; }
             set
             {
-                if (_StretchMode != value)
+                if (_stretchMode != value)
                 {
-                    _StretchModePrev = _StretchMode;
-                    _StretchMode = value;
+                    _stretchModePrev = _stretchMode;
+                    _stretchMode = value;
                     OnPropertyChanged();
                     UpdateContentSize();
                     ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
@@ -331,7 +331,7 @@ namespace NeeView
         {
             if (isToggle && StretchMode == mode)
             {
-                return (mode == PageStretchMode.None) ? _StretchModePrev : PageStretchMode.None;
+                return (mode == PageStretchMode.None) ? _stretchModePrev : PageStretchMode.None;
             }
             else
             {
@@ -343,11 +343,11 @@ namespace NeeView
 
         // 背景スタイル
         #region Property: Background
-        private BackgroundStyle _Background;
+        private BackgroundStyle _background;
         public BackgroundStyle Background
         {
-            get { return _Background; }
-            set { _Background = value; UpdateBackgroundBrush(); OnPropertyChanged(); }
+            get { return _background; }
+            set { _background = value; UpdateBackgroundBrush(); OnPropertyChanged(); }
         }
         #endregion
 
@@ -357,15 +357,15 @@ namespace NeeView
 
         // ドットのまま拡大
         #region Property: IsEnabledNearestNeighbor
-        private bool _IsEnabledNearestNeighbor;
+        private bool _isEnabledNearestNeighbor;
         public bool IsEnabledNearestNeighbor
         {
-            get { return _IsEnabledNearestNeighbor; }
+            get { return _isEnabledNearestNeighbor; }
             set
             {
-                if (_IsEnabledNearestNeighbor != value)
+                if (_isEnabledNearestNeighbor != value)
                 {
-                    _IsEnabledNearestNeighbor = value;
+                    _isEnabledNearestNeighbor = value;
                     OnPropertyChanged();
                     UpdateContentScalingMode();
                 }
@@ -384,11 +384,11 @@ namespace NeeView
 
         // メニューを自動的に隠す
         #region Property: IsHideMenu
-        private bool _IsHideMenu;
+        private bool _isHideMenu;
         public bool IsHideMenu
         {
-            get { return _IsHideMenu; }
-            set { _IsHideMenu = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            get { return _isHideMenu; }
+            set { _isHideMenu = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
         public bool ToggleHideMenu()
         {
@@ -399,11 +399,11 @@ namespace NeeView
 
         // パネルを自動的に隠す
         #region Property: IsHidePanel
-        private bool _IsHidePanel;
+        private bool _isHidePanel;
         public bool IsHidePanel
         {
-            get { return _IsHidePanel; }
-            set { _IsHidePanel = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            get { return _isHidePanel; }
+            set { _isHidePanel = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
         public bool ToggleHidePanel()
         {
@@ -421,11 +421,11 @@ namespace NeeView
 
         // タイトルバーON/OFF
         #region Property: IsVisibleTitleBar
-        private bool _IsVisibleTitleBar;
+        private bool _isVisibleTitleBar;
         public bool IsVisibleTitleBar
         {
-            get { return _IsVisibleTitleBar; }
-            set { _IsVisibleTitleBar = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            get { return _isVisibleTitleBar; }
+            set { _isVisibleTitleBar = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
         public bool ToggleVisibleTitleBar()
         {
@@ -436,11 +436,11 @@ namespace NeeView
 
         // アドレスバーON/OFF
         #region Property: IsVisibleAddressBar
-        private bool _IsVisibleAddressBar;
+        private bool _isVisibleAddressBar;
         public bool IsVisibleAddressBar
         {
-            get { return _IsVisibleAddressBar; }
-            set { _IsVisibleAddressBar = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            get { return _isVisibleAddressBar; }
+            set { _isVisibleAddressBar = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
         public bool ToggleVisibleAddressBar()
         {
@@ -495,16 +495,16 @@ namespace NeeView
 
         // ページリスト表示ON/OFF
         #region Property: IsVisiblePageList
-        private bool _IsVisiblePageList = true;
+        private bool _isVisiblePageList = true;
         public bool IsVisiblePageList
         {
-            get { return _IsVisiblePageList; }
+            get { return _isVisiblePageList; }
             set
             {
-                if (_IsVisiblePageList != value)
+                if (_isVisiblePageList != value)
                 {
-                    _IsVisiblePageList = value;
-                    if (_IsVisiblePageList)
+                    _isVisiblePageList = value;
+                    if (_isVisiblePageList)
                     {
                         FolderListGridRow0 = "*";
                         FolderListGridRow2 = "*";
@@ -581,14 +581,14 @@ namespace NeeView
 
         // 左パネル
         #region Property: LeftPanel
-        private PanelType _LeftPanel;
+        private PanelType _leftPanel;
         public PanelType LeftPanel
         {
-            get { return _LeftPanel; }
+            get { return _leftPanel; }
             set
             {
-                _LeftPanel = value;
-                if (_LeftPanel == PanelType.PageList) _LeftPanel = PanelType.FolderList; // PageList廃止の補正
+                _leftPanel = value;
+                if (_leftPanel == PanelType.PageList) _leftPanel = PanelType.FolderList; // PageList廃止の補正
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsVisibleFolderList));
                 OnPropertyChanged(nameof(IsVisibleHistoryList));
@@ -597,7 +597,7 @@ namespace NeeView
                 OnPropertyChanged(nameof(IsVisiblePageListMenu));
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
 
-                LeftPanelVisibled?.Invoke(this, _LeftPanel);
+                LeftPanelVisibled?.Invoke(this, _leftPanel);
             }
         }
         #endregion
@@ -606,20 +606,20 @@ namespace NeeView
 
         // 右パネル
         #region Property: RightPanel
-        private PanelType _RightPanel;
+        private PanelType _rightPanel;
         public PanelType RightPanel
         {
-            get { return _RightPanel; }
+            get { return _rightPanel; }
             set
             {
-                _RightPanel = value;
+                _rightPanel = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsVisibleFileInfo));
                 OnPropertyChanged(nameof(IsVisibleEffectInfo));
                 UpdateFileInfoContent();
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
 
-                RightPanelVisibled?.Invoke(this, _RightPanel);
+                RightPanelVisibled?.Invoke(this, _rightPanel);
             }
         }
         #endregion
@@ -632,20 +632,20 @@ namespace NeeView
         public double RightPanelWidth { get; set; } = 250;
 
         #region Property: FolderListGridLength0
-        private GridLength _FolderListGridLength0 = new GridLength(1, GridUnitType.Star);
+        private GridLength _folderListGridLength0 = new GridLength(1, GridUnitType.Star);
         public GridLength FolderListGridLength0
         {
-            get { return _FolderListGridLength0; }
-            set { _FolderListGridLength0 = value; OnPropertyChanged(); }
+            get { return _folderListGridLength0; }
+            set { _folderListGridLength0 = value; OnPropertyChanged(); }
         }
         #endregion
 
         #region Property: FolderListGridLength2
-        private GridLength _FolderListGridLength2 = new GridLength(0, GridUnitType.Pixel);
+        private GridLength _folderListGridLength2 = new GridLength(0, GridUnitType.Pixel);
         public GridLength FolderListGridLength2
         {
-            get { return _FolderListGridLength2; }
-            set { _FolderListGridLength2 = value; OnPropertyChanged(); }
+            get { return _folderListGridLength2; }
+            set { _folderListGridLength2 = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -693,15 +693,15 @@ namespace NeeView
 
         // フォルダーリスト項目表示種類
         #region Property: FolderListItemStyle
-        private FolderListItemStyle _FolderListItemStyle;
+        private FolderListItemStyle _folderListItemStyle;
         public FolderListItemStyle FolderListItemStyle
         {
-            get { return _FolderListItemStyle; }
+            get { return _folderListItemStyle; }
             set
             {
-                _FolderListItemStyle = value;
+                _folderListItemStyle = value;
                 OnPropertyChanged();
-                PanelContext.FolderListItemStyle = _FolderListItemStyle;
+                PanelContext.FolderListItemStyle = _folderListItemStyle;
             }
         }
         #endregion
@@ -710,11 +710,11 @@ namespace NeeView
 
         // フルスクリーン
         #region Property: IsFullScreen
-        private bool _IsFullScreen;
+        private bool _isFullScreen;
         public bool IsFullScreen
         {
-            get { return _IsFullScreen; }
-            set { _IsFullScreen = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            get { return _isFullScreen; }
+            set { _isFullScreen = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
         public bool ToggleFullScreen()
         {
@@ -726,11 +726,11 @@ namespace NeeView
 
         // 常に手前に表示
         #region Property: IsTopmost
-        private bool _IsTopmost;
+        private bool _isTopmost;
         public bool IsTopmost
         {
-            get { return _IsTopmost; }
-            set { _IsTopmost = value; OnPropertyChanged(); }
+            get { return _isTopmost; }
+            set { _isTopmost = value; OnPropertyChanged(); }
         }
         public bool ToggleTopmost()
         {
@@ -757,21 +757,21 @@ namespace NeeView
 
         // 空フォルダ通知表示のON/OFF
         #region Property: IsVisibleEmptyPageMessage
-        private bool _IsVisibleEmptyPageMessage = false;
+        private bool _isVisibleEmptyPageMessage = false;
         public bool IsVisibleEmptyPageMessage
         {
-            get { return _IsVisibleEmptyPageMessage; }
-            set { if (_IsVisibleEmptyPageMessage != value) { _IsVisibleEmptyPageMessage = value; OnPropertyChanged(); } }
+            get { return _isVisibleEmptyPageMessage; }
+            set { if (_isVisibleEmptyPageMessage != value) { _isVisibleEmptyPageMessage = value; OnPropertyChanged(); } }
         }
         #endregion
 
         // 空フォルダ通知表示の詳細テキスト
         #region Property: EmptyPageMessage
-        private string _EmptyPageMessage;
+        private string _emptyPageMessage;
         public string EmptyPageMessage
         {
-            get { return _EmptyPageMessage; }
-            set { _EmptyPageMessage = value; OnPropertyChanged(); }
+            get { return _emptyPageMessage; }
+            set { _emptyPageMessage = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -787,16 +787,16 @@ namespace NeeView
         public bool IsPermitSliderCall { get; set; } = true;
 
         // 現在ページ番号
-        private int _Index;
+        private int _index;
         public int Index
         {
-            get { return _Index; }
+            get { return _index; }
             set
             {
-                _Index = value;
+                _index = value;
                 if (!CanSliderLinkedThumbnailList)
                 {
-                    BookHub.SetPageIndex(_Index);
+                    BookHub.SetPageIndex(_index);
                 }
                 OnPropertyChanged();
                 IndexChanged?.Invoke(this, null);
@@ -812,7 +812,7 @@ namespace NeeView
         //
         private void UpdateIndex()
         {
-            _Index = BookHub.GetPageIndex();
+            _index = BookHub.GetPageIndex();
             OnPropertyChanged(nameof(Index));
             OnPropertyChanged(nameof(IndexMax));
             IndexChanged?.Invoke(this, null);
@@ -821,8 +821,8 @@ namespace NeeView
         //
         public void SetIndex(int index)
         {
-            _Index = index;
-            BookHub.SetPageIndex(_Index);
+            _index = index;
+            BookHub.SetPageIndex(_index);
             OnPropertyChanged(nameof(Index));
             OnPropertyChanged(nameof(IndexMax));
             IndexChanged?.Invoke(this, null);
@@ -831,16 +831,16 @@ namespace NeeView
         #region Window Icon
 
         // ウィンドウアイコン：標準
-        private ImageSource _WindowIconDefault;
+        private ImageSource _windowIconDefault;
 
         // ウィンドウアイコン：スライドショー再生中
-        private ImageSource _WindowIconPlay;
+        private ImageSource _windowIconPlay;
 
         // ウィンドウアイコン初期化
         private void InitializeWindowIcons()
         {
-            _WindowIconDefault = null;
-            _WindowIconPlay = BitmapFrame.Create(new Uri("pack://application:,,,/Resources/Play.ico", UriKind.RelativeOrAbsolute));
+            _windowIconDefault = null;
+            _windowIconPlay = BitmapFrame.Create(new Uri("pack://application:,,,/Resources/Play.ico", UriKind.RelativeOrAbsolute));
         }
 
         // 現在のウィンドウアイコン取得
@@ -848,7 +848,7 @@ namespace NeeView
         {
             get
             {
-                return BookHub.IsEnableSlideShow ? _WindowIconPlay : _WindowIconDefault;
+                return BookHub.IsEnableSlideShow ? _windowIconPlay : _windowIconDefault;
             }
         }
 
@@ -858,11 +858,11 @@ namespace NeeView
 
         // ウィンドウタイトル
         #region Property: WindowTitle
-        private string _WindowTitle = "";
+        private string _windowTitle = "";
         public string WindowTitle
         {
-            get { return _WindowTitle; }
-            private set { _WindowTitle = value; OnPropertyChanged(); }
+            get { return _windowTitle; }
+            private set { _windowTitle = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -873,7 +873,7 @@ namespace NeeView
                 WindowTitle = LoosePath.GetFileName(LoadingPath) + " (読込中)";
 
             else if (BookHub.CurrentBook?.Place == null)
-                WindowTitle = _DefaultWindowTitle;
+                WindowTitle = _defaultWindowTitle;
 
             else if (MainContent == null)
                 WindowTitle = NVUtility.PlaceToTitle(BookHub.CurrentBook.Place);
@@ -883,24 +883,24 @@ namespace NeeView
         }
 
         // ウィンドウタイトル用キーワード置換
-        ReplaceString _WindowTitleFormatter = new ReplaceString();
+        private ReplaceString _windowTitleFormatter = new ReplaceString();
 
         public const string WindowTitleFormat1Default = "$Book($Page/$PageMax) - $FullName";
         public const string WindowTitleFormat2Default = "$Book($Page/$PageMax) - $FullNameL | $NameR";
 
         // ウィンドウタイトルフォーマット
-        private string _WindowTitleFormat1;
+        private string _windowTitleFormat1;
         public string WindowTitleFormat1
         {
-            get { return _WindowTitleFormat1; }
-            set { _WindowTitleFormat1 = value; _WindowTitleFormatter.SetFilter(_WindowTitleFormat1 + " " + _WindowTitleFormat2); }
+            get { return _windowTitleFormat1; }
+            set { _windowTitleFormat1 = value; _windowTitleFormatter.SetFilter(_windowTitleFormat1 + " " + _windowTitleFormat2); }
         }
 
-        private string _WindowTitleFormat2;
+        private string _windowTitleFormat2;
         public string WindowTitleFormat2
         {
-            get { return _WindowTitleFormat2; }
-            set { _WindowTitleFormat2 = value; _WindowTitleFormatter.SetFilter(_WindowTitleFormat1 + " " + _WindowTitleFormat2); }
+            get { return _windowTitleFormat2; }
+            set { _windowTitleFormat2 = value; _windowTitleFormatter.SetFilter(_windowTitleFormat1 + " " + _windowTitleFormat2); }
         }
 
         // ウィンドウタイトル作成
@@ -913,7 +913,7 @@ namespace NeeView
             if ((mask & UpdateWindowTitleMask.Book) != 0)
             {
                 string bookName = NVUtility.PlaceToTitle(BookHub.CurrentBook.Place);
-                _WindowTitleFormatter.Set("$Book", bookName);
+                _windowTitleFormatter.Set("$Book", bookName);
             }
 
             if ((mask & UpdateWindowTitleMask.Page) != 0)
@@ -921,69 +921,69 @@ namespace NeeView
                 string pageNum = (MainContent.PartSize == 2)
                 ? (MainContent.Position.Index + 1).ToString()
                 : (MainContent.Position.Index + 1).ToString() + (MainContent.Position.Part == 1 ? ".5" : ".0");
-                _WindowTitleFormatter.Set("$PageMax", (IndexMax + 1).ToString());
-                _WindowTitleFormatter.Set("$Page", pageNum);
+                _windowTitleFormatter.Set("$PageMax", (IndexMax + 1).ToString());
+                _windowTitleFormatter.Set("$Page", pageNum);
 
                 string path0 = Contents[0].IsValid ? Contents[0].FullPath.Replace("/", " > ").Replace("\\", " > ") + Contents[0].GetPartString() : "";
                 string path1 = Contents[1].IsValid ? Contents[1].FullPath.Replace("/", " > ").Replace("\\", " > ") + Contents[1].GetPartString() : "";
-                _WindowTitleFormatter.Set("$FullName", isMainContent0 ? path0 : path1);
-                _WindowTitleFormatter.Set("$FullNameL", path1);
-                _WindowTitleFormatter.Set("$FullNameR", path0);
+                _windowTitleFormatter.Set("$FullName", isMainContent0 ? path0 : path1);
+                _windowTitleFormatter.Set("$FullNameL", path1);
+                _windowTitleFormatter.Set("$FullNameR", path0);
 
                 string name0 = Contents[0].IsValid ? LoosePath.GetFileName(Contents[0].FullPath) + Contents[0].GetPartString() : "";
                 string name1 = Contents[1].IsValid ? LoosePath.GetFileName(Contents[1].FullPath) + Contents[1].GetPartString() : "";
-                _WindowTitleFormatter.Set("$Name", isMainContent0 ? name0 : name1);
-                _WindowTitleFormatter.Set("$NameL", name1);
-                _WindowTitleFormatter.Set("$NameR", name0);
+                _windowTitleFormatter.Set("$Name", isMainContent0 ? name0 : name1);
+                _windowTitleFormatter.Set("$NameL", name1);
+                _windowTitleFormatter.Set("$NameR", name0);
 
                 string size0 = Contents[0].IsValid ? $"{Contents[0].Size.Width}×{Contents[0].Size.Height}" : "";
                 string size1 = Contents[1].IsValid ? $"{Contents[1].Size.Width}×{Contents[1].Size.Height}" : "";
-                _WindowTitleFormatter.Set("$Size", isMainContent0 ? size0 : size1);
-                _WindowTitleFormatter.Set("$SizeL", size1);
-                _WindowTitleFormatter.Set("$SizeR", size0);
+                _windowTitleFormatter.Set("$Size", isMainContent0 ? size0 : size1);
+                _windowTitleFormatter.Set("$SizeL", size1);
+                _windowTitleFormatter.Set("$SizeR", size0);
 
                 string bpp0 = Contents[0].IsValid ? size0 + "×" + Contents[0].BitsPerPixel.ToString() : "";
                 string bpp1 = Contents[1].IsValid ? size1 + "×" + Contents[1].BitsPerPixel.ToString() : "";
-                _WindowTitleFormatter.Set("$SizeEx", isMainContent0 ? bpp0 : bpp1);
-                _WindowTitleFormatter.Set("$SizeExL", bpp1);
-                _WindowTitleFormatter.Set("$SizeExR", bpp0);
+                _windowTitleFormatter.Set("$SizeEx", isMainContent0 ? bpp0 : bpp1);
+                _windowTitleFormatter.Set("$SizeExL", bpp1);
+                _windowTitleFormatter.Set("$SizeExR", bpp0);
             }
 
             if ((mask & UpdateWindowTitleMask.View) != 0)
             {
-                _WindowTitleFormatter.Set("$ViewScale", $"{(int)(_ViewScale * 100 + 0.1)}%");
+                _windowTitleFormatter.Set("$ViewScale", $"{(int)(_viewScale * 100 + 0.1)}%");
             }
 
             if ((mask & (UpdateWindowTitleMask.Page | UpdateWindowTitleMask.View)) != 0)
             {
-                string scale0 = Contents[0].IsValid ? $"{(int)(_ViewScale * Contents[0].Scale * _DpiScaleFactor.X * 100 + 0.1)}%" : "";
-                string scale1 = Contents[1].IsValid ? $"{(int)(_ViewScale * Contents[1].Scale * _DpiScaleFactor.X * 100 + 0.1)}%" : "";
-                _WindowTitleFormatter.Set("$Scale", isMainContent0 ? scale0 : scale1);
-                _WindowTitleFormatter.Set("$ScaleL", scale1);
-                _WindowTitleFormatter.Set("$ScaleR", scale0);
+                string scale0 = Contents[0].IsValid ? $"{(int)(_viewScale * Contents[0].Scale * _DpiScaleFactor.X * 100 + 0.1)}%" : "";
+                string scale1 = Contents[1].IsValid ? $"{(int)(_viewScale * Contents[1].Scale * _DpiScaleFactor.X * 100 + 0.1)}%" : "";
+                _windowTitleFormatter.Set("$Scale", isMainContent0 ? scale0 : scale1);
+                _windowTitleFormatter.Set("$ScaleL", scale1);
+                _windowTitleFormatter.Set("$ScaleR", scale0);
             }
 
-            return _WindowTitleFormatter.Replace(format);
+            return _windowTitleFormatter.Replace(format);
         }
 
 
         // ロード中パス
-        private string _LoadingPath;
+        private string _loadingPath;
         public string LoadingPath
         {
-            get { return _LoadingPath; }
-            set { _LoadingPath = value; UpdateWindowTitle(UpdateWindowTitleMask.All); }
+            get { return _loadingPath; }
+            set { _loadingPath = value; UpdateWindowTitle(UpdateWindowTitleMask.All); }
         }
 
         #endregion
 
         // 通知テキスト(標準)
         #region Property: InfoText
-        private string _InfoText;
+        private string _infoText;
         public string InfoText
         {
-            get { return _InfoText; }
-            set { _InfoText = value; OnPropertyChanged(); }
+            get { return _infoText; }
+            set { _infoText = value; OnPropertyChanged(); }
         }
 
         // 通知テキストフォントサイズ
@@ -995,11 +995,11 @@ namespace NeeView
 
         // 通知テキスト(控えめ)
         #region Property: TinyInfoText
-        private string _TinyInfoText;
+        private string _tinyInfoText;
         public string TinyInfoText
         {
-            get { return _TinyInfoText; }
-            set { _TinyInfoText = value; OnPropertyChanged(); }
+            get { return _tinyInfoText; }
+            set { _tinyInfoText = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -1008,11 +1008,11 @@ namespace NeeView
 
         // 最近使ったフォルダ
         #region Property: LastFiles
-        private List<Book.Memento> _LastFiles = new List<Book.Memento>();
+        private List<Book.Memento> _lastFiles = new List<Book.Memento>();
         public List<Book.Memento> LastFiles
         {
-            get { return _LastFiles; }
-            set { _LastFiles = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsEnableLastFiles)); }
+            get { return _lastFiles; }
+            set { _lastFiles = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsEnableLastFiles)); }
         }
         #endregion
 
@@ -1024,21 +1024,21 @@ namespace NeeView
 
         // コンテンツマージン
         #region Property: ContentsMargin
-        private Thickness _ContentsMargin;
+        private Thickness _contentsMargin;
         public Thickness ContentsMargin
         {
-            get { return _ContentsMargin; }
-            set { _ContentsMargin = value; OnPropertyChanged(); }
+            get { return _contentsMargin; }
+            set { _contentsMargin = value; OnPropertyChanged(); }
         }
         #endregion
 
         //
         #region Property: ContentSpace
-        private double _ContentSpace = -1.0;
+        private double _contentSpace = -1.0;
         public double ContentsSpace
         {
-            get { return _ContentSpace; }
-            set { _ContentSpace = value; OnPropertyChanged(); }
+            get { return _contentSpace; }
+            set { _contentSpace = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -1047,13 +1047,13 @@ namespace NeeView
 
         // 見開き時のメインとなるコンテンツ
         #region Property: MainContent
-        private ViewContent _MainContent;
+        private ViewContent _mainContent;
         public ViewContent MainContent
         {
-            get { return _MainContent; }
+            get { return _mainContent; }
             set
             {
-                _MainContent = value;
+                _mainContent = value;
                 OnPropertyChanged();
                 UpdateFileInfoContent();
             }
@@ -1062,19 +1062,19 @@ namespace NeeView
 
         private void UpdateFileInfoContent()
         {
-            FileInfoContent = IsVisibleFileInfo ? _MainContent : null;
+            FileInfoContent = IsVisibleFileInfo ? _mainContent : null;
         }
 
         #region Property: FileInfoContent
-        private ViewContent _FileInfoContent;
+        private ViewContent _fileInfoContent;
         public ViewContent FileInfoContent
         {
-            get { return _FileInfoContent; }
+            get { return _fileInfoContent; }
             set
             {
-                if (_FileInfoContent != value)
+                if (_fileInfoContent != value)
                 {
-                    _FileInfoContent = value;
+                    _fileInfoContent = value;
                     OnPropertyChanged();
                 }
             }
@@ -1082,49 +1082,49 @@ namespace NeeView
         #endregion
 
         #region Property: FileInfoSetting
-        private FileInfoSetting _FileInfoSetting;
+        private FileInfoSetting _fileInfoSetting;
         public FileInfoSetting FileInfoSetting
         {
-            get { return _FileInfoSetting; }
-            set { _FileInfoSetting = value; OnPropertyChanged(); }
+            get { return _fileInfoSetting; }
+            set { _fileInfoSetting = value; OnPropertyChanged(); }
         }
         #endregion
 
         #region Property: FolderListSetting
-        private FolderListSetting _FolderListSetting;
+        private FolderListSetting _folderListSetting;
         public FolderListSetting FolderListSetting
         {
-            get { return _FolderListSetting; }
-            set { _FolderListSetting = value; OnPropertyChanged(); }
+            get { return _folderListSetting; }
+            set { _folderListSetting = value; OnPropertyChanged(); }
         }
         #endregion
 
         // Foregroudh Brush：ファイルページのフォントカラー用
         #region Property: ForegroundBrush
-        private Brush _ForegroundBrush = Brushes.White;
+        private Brush _foregroundBrush = Brushes.White;
         public Brush ForegroundBrush
         {
-            get { return _ForegroundBrush; }
-            set { if (_ForegroundBrush != value) { _ForegroundBrush = value; OnPropertyChanged(); } }
+            get { return _foregroundBrush; }
+            set { if (_foregroundBrush != value) { _foregroundBrush = value; OnPropertyChanged(); } }
         }
         #endregion
 
         // Backgroud Brush
         #region Property: BackgroundBrush
-        private Brush _BackgroundBrush = Brushes.Black;
+        private Brush _backgroundBrush = Brushes.Black;
         public Brush BackgroundBrush
         {
-            get { return _BackgroundBrush; }
-            set { if (_BackgroundBrush != value) { _BackgroundBrush = value; OnPropertyChanged(); UpdateForegroundBrush(); } }
+            get { return _backgroundBrush; }
+            set { if (_backgroundBrush != value) { _backgroundBrush = value; OnPropertyChanged(); UpdateForegroundBrush(); } }
         }
         #endregion
 
         #region Property: BackgroundSolidBrush
-        private SolidColorBrush _BackgroundSolidBrush;
+        private SolidColorBrush _backgroundSolidBrush;
         public SolidColorBrush BackgroundSolidBrush
         {
-            get { return _BackgroundSolidBrush; }
-            set { _BackgroundSolidBrush = value; OnPropertyChanged(); }
+            get { return _backgroundSolidBrush; }
+            set { _backgroundSolidBrush = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -1132,18 +1132,18 @@ namespace NeeView
 
 
         #region Property: MenuColor
-        private PanelColor _MenuColor;
+        private PanelColor _menuColor;
         public PanelColor PanelColor
         {
-            get { return _MenuColor; }
-            set { if (_MenuColor != value) { _MenuColor = value; FlushPanelColor(); OnPropertyChanged(); } }
+            get { return _menuColor; }
+            set { if (_menuColor != value) { _menuColor = value; FlushPanelColor(); OnPropertyChanged(); } }
         }
         public void FlushPanelColor()
         {
-            int alpha = _PanelOpacity * 0xFF / 100;
+            int alpha = _panelOpacity * 0xFF / 100;
             if (alpha > 0xff) alpha = 0xff;
             if (alpha < 0x00) alpha = 0x00;
-            if (_MenuColor == PanelColor.Dark)
+            if (_menuColor == PanelColor.Dark)
             {
                 App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0x11, 0x11, 0x11));
                 App.Current.Resources["NVForeground"] = new SolidColorBrush(Color.FromRgb(0xFF, 0xFF, 0xFF));
@@ -1168,29 +1168,29 @@ namespace NeeView
 
 
         #region Property: PanelOpacity
-        private int _PanelOpacity = 100;
+        private int _panelOpacity = 100;
         public int PanelOpacity
         {
-            get { return _PanelOpacity; }
-            set { _PanelOpacity = value; FlushPanelColor(); OnPropertyChanged(); }
+            get { return _panelOpacity; }
+            set { _panelOpacity = value; FlushPanelColor(); OnPropertyChanged(); }
         }
         #endregion
 
 
         #region Property: Address
-        private string _Address;
+        private string _address;
         public string Address
         {
-            get { return _Address; }
+            get { return _address; }
             set
             {
                 if (string.IsNullOrWhiteSpace(value)) return;
 
-                if (_Address != value)
+                if (_address != value)
                 {
-                    _Address = value;
+                    _address = value;
                     OnPropertyChanged();
-                    if (_Address != BookHub.Address)
+                    if (_address != BookHub.Address)
                     {
                         Load(value);
                     }
@@ -1217,14 +1217,14 @@ namespace NeeView
 
 
         #region Property: ContextMenuSetting
-        private ContextMenuSetting _ContextMenuSetting;
+        private ContextMenuSetting _contextMenuSetting;
         public ContextMenuSetting ContextMenuSetting
         {
-            get { return _ContextMenuSetting; }
+            get { return _contextMenuSetting; }
             set
             {
-                _ContextMenuSetting = value;
-                _ContextMenuSetting.Validate();
+                _contextMenuSetting = value;
+                _contextMenuSetting.Validate();
                 UpdateContextMenu();
             }
         }
@@ -1233,11 +1233,11 @@ namespace NeeView
 
         //
         #region Property: ContextMenu
-        private ContextMenu _ContextMenu;
+        private ContextMenu _contextMenu;
         public ContextMenu ContextMenu
         {
-            get { return _ContextMenu; }
-            set { _ContextMenu = value; OnPropertyChanged(); }
+            get { return _contextMenu; }
+            set { _contextMenu = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -1266,11 +1266,11 @@ namespace NeeView
 
 
         #region Property: MainMenu
-        private Menu _MainMenu;
+        private Menu _mainMenu;
         public Menu MainMenu
         {
-            get { return _MainMenu; }
-            set { _MainMenu = value; OnPropertyChanged(); }
+            get { return _mainMenu; }
+            set { _mainMenu = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -1346,18 +1346,18 @@ namespace NeeView
 
 
         // 標準ウィンドウタイトル
-        private string _DefaultWindowTitle;
+        private string _defaultWindowTitle;
 
         // サムネイル有効リスト
-        private AliveThumbnailList _AliveThumbnailList = new AliveThumbnailList();
+        private AliveThumbnailList _aliveThumbnailList = new AliveThumbnailList();
 
         // ページリスト(表示部用)
         #region Property: PageList
-        private ObservableCollection<Page> _PageList;
+        private ObservableCollection<Page> _pageList;
         public ObservableCollection<Page> PageList
         {
-            get { return _PageList; }
-            set { _PageList = value; OnPropertyChanged(); }
+            get { return _pageList; }
+            set { _pageList = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -1373,13 +1373,13 @@ namespace NeeView
 
         // サムネイル有効
         #region Property: IsEnableThumbnailList
-        private bool _IsEnableThumbnailList;
+        private bool _isEnableThumbnailList;
         public bool IsEnableThumbnailList
         {
-            get { return _IsEnableThumbnailList; }
+            get { return _isEnableThumbnailList; }
             set
             {
-                _IsEnableThumbnailList = value;
+                _isEnableThumbnailList = value;
                 OnPropertyChanged();
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
             }
@@ -1395,13 +1395,13 @@ namespace NeeView
 
         // サムネイルを自動的に隠す
         #region Property: IsHideThumbnailList
-        private bool _IsHideThumbnailList;
+        private bool _isHideThumbnailList;
         public bool IsHideThumbnailList
         {
-            get { return _IsHideThumbnailList; }
+            get { return _isHideThumbnailList; }
             set
             {
-                _IsHideThumbnailList = value;
+                _isHideThumbnailList = value;
                 OnPropertyChanged();
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
             }
@@ -1427,15 +1427,15 @@ namespace NeeView
 
         // サムネイルサイズ
         #region Property: ThumbnailSize
-        private double _ThumbnailSize;
+        private double _thumbnailSize;
         public double ThumbnailSize
         {
-            get { return _ThumbnailSize; }
+            get { return _thumbnailSize; }
             set
             {
-                if (_ThumbnailSize != value)
+                if (_thumbnailSize != value)
                 {
-                    _ThumbnailSize = value;
+                    _thumbnailSize = value;
                     ClearThumbnail();
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(ThumbnailDispSize));
@@ -1445,18 +1445,18 @@ namespace NeeView
         #endregion
 
         // サムネイルサイズ(表示サイズ)
-        public double ThumbnailDispSize => _ThumbnailSize / _DpiScaleFactor.X;
+        public double ThumbnailDispSize => _thumbnailSize / _DpiScaleFactor.X;
 
         #region Property: 
-        private int _ThumbnailMemorySize;
+        private int _thumbnailMemorySize;
         public int ThumbnailMemorySize
         {
-            get { return _ThumbnailMemorySize; }
+            get { return _thumbnailMemorySize; }
             set
             {
-                if (_ThumbnailMemorySize != value)
+                if (_thumbnailMemorySize != value)
                 {
-                    _ThumbnailMemorySize = value;
+                    _thumbnailMemorySize = value;
                     LimitThumbnail();
                     ModelContext.GarbageCollection();
                     OnPropertyChanged();
@@ -1466,29 +1466,29 @@ namespace NeeView
         #endregion
 
         #region Property: BannerMemorySize
-        private int _BannerMemorySize;
+        private int _bannerMemorySize;
         public int BannerMemorySize
         {
-            get { return _BannerMemorySize; }
+            get { return _bannerMemorySize; }
             set
             {
-                _BannerMemorySize = value;
+                _bannerMemorySize = value;
                 OnPropertyChanged();
-                PanelContext.ThumbnailManager.ThumbnailMemorySize = _BannerMemorySize;
+                PanelContext.ThumbnailManager.ThumbnailMemorySize = _bannerMemorySize;
             }
         }
         #endregion
 
         #region Property: BannerSize
-        private double _BannerSize;
+        private double _bannerSize;
         public double BannerSize
         {
-            get { return _BannerSize; }
+            get { return _bannerSize; }
             set
             {
-                _BannerSize = value;
+                _bannerSize = value;
                 OnPropertyChanged();
-                PanelContext.ThumbnailManager.ThumbnailSizeX = _BannerSize;
+                PanelContext.ThumbnailManager.ThumbnailSizeX = _bannerSize;
             }
         }
         #endregion
@@ -1498,11 +1498,11 @@ namespace NeeView
 
         // ページ番号の表示
         #region Property: IsVisibleThumbnailNumber
-        private bool _IsVisibleThumbnailNumber;
+        private bool _isVisibleThumbnailNumber;
         public bool IsVisibleThumbnailNumber
         {
-            get { return _IsVisibleThumbnailNumber; }
-            set { _IsVisibleThumbnailNumber = value; OnPropertyChanged(nameof(ThumbnailNumberVisibility)); }
+            get { return _isVisibleThumbnailNumber; }
+            set { _isVisibleThumbnailNumber = value; OnPropertyChanged(nameof(ThumbnailNumberVisibility)); }
         }
         #endregion
 
@@ -1514,11 +1514,11 @@ namespace NeeView
 
         // サムネイル台紙の表示
         #region Property: IsVisibleThumbnailPlate
-        private bool _IsVisibleThumbnailPlate;
+        private bool _isVisibleThumbnailPlate;
         public bool IsVisibleThumbnailPlate
         {
-            get { return _IsVisibleThumbnailPlate; }
-            set { _IsVisibleThumbnailPlate = value; OnPropertyChanged(); }
+            get { return _isVisibleThumbnailPlate; }
+            set { _isVisibleThumbnailPlate = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -1531,11 +1531,11 @@ namespace NeeView
 
         // 開発用：コンテンツ座標
         #region Property: ContentPosition
-        private Point _ContentPosition;
+        private Point _contentPosition;
         public Point ContentPosition
         {
-            get { return _ContentPosition; }
-            set { _ContentPosition = value; OnPropertyChanged(); }
+            get { return _contentPosition; }
+            set { _contentPosition = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -1624,7 +1624,7 @@ namespace NeeView
             BookHub.AddressChanged +=
                 (s, e) =>
                 {
-                    _Address = BookHub.Address;
+                    _address = BookHub.Address;
                     OnPropertyChanged(nameof(Address));
                     OnPropertyChanged(nameof(IsBookmark));
                     OnPropertyChanged(nameof(IsPagemark));
@@ -1639,7 +1639,7 @@ namespace NeeView
             BookHub.ThumbnailChanged +=
                 (s, e) =>
                 {
-                    _AliveThumbnailList.Add(e);
+                    _aliveThumbnailList.Add(e);
                 };
 
             BookHub.PageRemoved +=
@@ -1665,10 +1665,10 @@ namespace NeeView
             // Window title
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
-            _DefaultWindowTitle = $"{assembly.GetName().Name} {ver.FileMajorPart}.{ver.FileMinorPart}";
-            if (ver.FileBuildPart > 0) _DefaultWindowTitle += $".{ver.FileBuildPart}";
+            _defaultWindowTitle = $"{assembly.GetName().Name} {ver.FileMajorPart}.{ver.FileMinorPart}";
+            if (ver.FileBuildPart > 0) _defaultWindowTitle += $".{ver.FileBuildPart}";
 #if DEBUG
-            _DefaultWindowTitle += " [Debug]";
+            _defaultWindowTitle += " [Debug]";
 #endif
 
             // messenger
@@ -1815,7 +1815,7 @@ namespace NeeView
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
-                    Messenger.MessageBox(this, "履歴の読み込みに失敗しました。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
+                    Messenger.MessageBox(this, "履歴の読み込みに失敗しました。", _defaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
                     memento = new BookHistory.Memento();
                 }
             }
@@ -1850,7 +1850,7 @@ namespace NeeView
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
-                    Messenger.MessageBox(this, "ブックマークの読み込みに失敗しました。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
+                    Messenger.MessageBox(this, "ブックマークの読み込みに失敗しました。", _defaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
                     memento = new BookmarkCollection.Memento();
                 }
             }
@@ -1879,7 +1879,7 @@ namespace NeeView
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
-                    Messenger.MessageBox(this, "ページマークの読み込みに失敗しました。", _DefaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
+                    Messenger.MessageBox(this, "ページマークの読み込みに失敗しました。", _defaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
                     memento = new PagemarkCollection.Memento();
                 }
             }
@@ -2108,14 +2108,14 @@ namespace NeeView
 
 
         // ビューエリアサイズ
-        private double _ViewWidth;
-        private double _ViewHeight;
+        private double _viewWidth;
+        private double _viewHeight;
 
         // ビューエリアサイズを更新
         public void SetViewSize(double width, double height)
         {
-            _ViewWidth = width;
-            _ViewHeight = height;
+            _viewWidth = width;
+            _viewHeight = height;
 
             UpdateContentSize();
         }
@@ -2138,7 +2138,7 @@ namespace NeeView
                 ContentsMargin = new Thickness(0);
             }
 
-            var sizes = CalcContentSize(_ViewWidth * _DpiScaleFactor.X + offsetWidth, _ViewHeight * _DpiScaleFactor.Y);
+            var sizes = CalcContentSize(_viewWidth * _DpiScaleFactor.X + offsetWidth, _viewHeight * _DpiScaleFactor.Y);
 
             for (int i = 0; i < 2; ++i)
             {
@@ -2150,24 +2150,24 @@ namespace NeeView
         }
 
         // ビュー回転
-        private double _ViewAngle;
+        private double _viewAngle;
 
         // ビュースケール
-        private double _ViewScale;
-        private double _FinalViewScale;
+        private double _viewScale;
+        private double _finalViewScale;
 
         // ビュー反転
-        private bool _IsViewFlipHorizontal;
-        private bool _IsViewFlipVertical;
+        private bool _isViewFlipHorizontal;
+        private bool _isViewFlipVertical;
 
         // ビュー変換を更新
         public void SetViewTransform(double scale, double loupeScale, double angle, bool isFlipHorizontal, bool isFlipVertical, TransformActionType actionType)
         {
-            _ViewAngle = angle;
-            _ViewScale = scale;
-            _FinalViewScale = scale * loupeScale;
-            _IsViewFlipHorizontal = isFlipHorizontal;
-            _IsViewFlipVertical = isFlipVertical;
+            _viewAngle = angle;
+            _viewScale = scale;
+            _finalViewScale = scale * loupeScale;
+            _isViewFlipHorizontal = isFlipHorizontal;
+            _isViewFlipVertical = isFlipVertical;
 
             UpdateContentScalingMode();
 
@@ -2178,18 +2178,18 @@ namespace NeeView
                 {
                     case TransformActionType.Scale:
                         string scaleText = IsOriginalScaleShowMessage && MainContent.IsValid
-                            ? $"{(int)(_ViewScale * MainContent.Scale * _DpiScaleFactor.X * 100 + 0.1)}%"
-                            : $"{(int)(_ViewScale * 100.0 + 0.1)}%";
+                            ? $"{(int)(_viewScale * MainContent.Scale * _DpiScaleFactor.X * 100 + 0.1)}%"
+                            : $"{(int)(_viewScale * 100.0 + 0.1)}%";
                         DispMessage(ViewTransformShowMessageStyle, scaleText);
                         break;
                     case TransformActionType.Angle:
                         DispMessage(ViewTransformShowMessageStyle, $"{(int)(angle)}°");
                         break;
                     case TransformActionType.FlipHorizontal:
-                        DispMessage(ViewTransformShowMessageStyle, "左右反転 " + (_IsViewFlipHorizontal ? "ON" : "OFF"));
+                        DispMessage(ViewTransformShowMessageStyle, "左右反転 " + (_isViewFlipHorizontal ? "ON" : "OFF"));
                         break;
                     case TransformActionType.FlipVertical:
-                        DispMessage(ViewTransformShowMessageStyle, "上下反転 " + (_IsViewFlipVertical ? "ON" : "OFF"));
+                        DispMessage(ViewTransformShowMessageStyle, "上下反転 " + (_isViewFlipVertical ? "ON" : "OFF"));
                         break;
                     case TransformActionType.LoupeScale:
                         if (loupeScale > 1.5)
@@ -2209,13 +2209,13 @@ namespace NeeView
                 if (content.Content != null && content.Content is Rectangle)
                 {
                     double diff = Math.Abs(content.Size.Width - content.Width * _DpiScaleFactor.X);
-                    if (_IsDpiSquare && diff < 0.1 && _ViewAngle == 0.0 && Math.Abs(_FinalViewScale - 1.0) < 0.001)
+                    if (_IsDpiSquare && diff < 0.1 && _viewAngle == 0.0 && Math.Abs(_finalViewScale - 1.0) < 0.001)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                     }
                     else
                     {
-                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _DpiScaleFactor.X * _FinalViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _DpiScaleFactor.X * _finalViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
                     }
                 }
             }
@@ -2460,13 +2460,13 @@ namespace NeeView
         public void LimitThumbnail()
         {
             int limit = (ThumbnailMemorySize * 1024 * 1024) / ((int)ThumbnailSize * (int)ThumbnailSize * 4);
-            _AliveThumbnailList.Limited(limit);
+            _aliveThumbnailList.Limited(limit);
         }
 
         // サムネイル破棄
         public void ClearThumbnail()
         {
-            _AliveThumbnailList.Clear();
+            _aliveThumbnailList.Clear();
         }
 
 
@@ -2609,20 +2609,20 @@ namespace NeeView
             [DataMember(Order = 7)]
             public double RightPanelWidth { get; set; }
 
-            private string _WindowTitleFormat1;
+            private string _windowTitleFormat1;
             [DataMember(Order = 7)]
             public string WindowTitleFormat1
             {
-                get { return _WindowTitleFormat1; }
-                set { _WindowTitleFormat1 = string.IsNullOrEmpty(value) ? MainWindowVM.WindowTitleFormat1Default : value; }
+                get { return _windowTitleFormat1; }
+                set { _windowTitleFormat1 = string.IsNullOrEmpty(value) ? MainWindowVM.WindowTitleFormat1Default : value; }
             }
 
-            private string _WindowTitleFormat2;
+            private string _windowTitleFormat2;
             [DataMember(Order = 7)]
             public string WindowTitleFormat2
             {
-                get { return _WindowTitleFormat2; }
-                set { _WindowTitleFormat2 = string.IsNullOrEmpty(value) ? MainWindowVM.WindowTitleFormat2Default : value; }
+                get { return _windowTitleFormat2; }
+                set { _windowTitleFormat2 = string.IsNullOrEmpty(value) ? MainWindowVM.WindowTitleFormat2Default : value; }
             }
 
             [DataMember(Order = 8)]
@@ -2701,7 +2701,7 @@ namespace NeeView
             public SliderDirection SliderDirection { get; set; }
 
             //
-            void Constructor()
+            private void Constructor()
             {
                 IsLimitMove = true;
                 NoticeShowMessageStyle = ShowMessageStyle.Normal;
@@ -2903,6 +2903,5 @@ namespace NeeView
         }
 
         #endregion
-
     }
 }

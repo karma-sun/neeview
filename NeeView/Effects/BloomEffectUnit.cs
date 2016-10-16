@@ -21,8 +21,8 @@ namespace NeeView.Effects
     [DataContract]
     public class BloomEffectUnit : EffectUnit
     {
-        private static BloomEffect _effect = new BloomEffect();
-        public override Effect Effect => _effect;
+        private static BloomEffect s_effect = new BloomEffect();
+        public override Effect Effect => s_effect;
 
         /// <summary>
         /// Property: BaseIntensity
@@ -32,8 +32,8 @@ namespace NeeView.Effects
         [DefaultValue(1.0)]
         public double BaseIntensity
         {
-            get { return _effect.BaseIntensity; }
-            set { if (_effect.BaseIntensity != value) { _effect.BaseIntensity = value; RaiseEffectPropertyChanged(); } }
+            get { return s_effect.BaseIntensity; }
+            set { if (s_effect.BaseIntensity != value) { s_effect.BaseIntensity = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -44,8 +44,8 @@ namespace NeeView.Effects
         [DefaultValue(1.0)]
         public double BaseSaturation
         {
-            get { return _effect.BaseSaturation; }
-            set { if (_effect.BaseSaturation != value) { _effect.BaseSaturation = value; RaiseEffectPropertyChanged(); } }
+            get { return s_effect.BaseSaturation; }
+            set { if (s_effect.BaseSaturation != value) { s_effect.BaseSaturation = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace NeeView.Effects
         [DefaultValue(1.25)]
         public double BloomIntensity
         {
-            get { return _effect.BloomIntensity; }
-            set { if (_effect.BloomIntensity != value) { _effect.BloomIntensity = value; RaiseEffectPropertyChanged(); } }
+            get { return s_effect.BloomIntensity; }
+            set { if (s_effect.BloomIntensity != value) { s_effect.BloomIntensity = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -68,8 +68,8 @@ namespace NeeView.Effects
         [DefaultValue(1.0)]
         public double BloomSaturation
         {
-            get { return _effect.BloomSaturation; }
-            set { if (_effect.BloomSaturation != value) { _effect.BloomSaturation = value; RaiseEffectPropertyChanged(); } }
+            get { return s_effect.BloomSaturation; }
+            set { if (s_effect.BloomSaturation != value) { s_effect.BloomSaturation = value; RaiseEffectPropertyChanged(); } }
         }
 
         /// <summary>
@@ -80,13 +80,12 @@ namespace NeeView.Effects
         [DefaultValue(0.25)]
         public double Threshold
         {
-            get { return _effect.Threshold; }
+            get { return s_effect.Threshold; }
             set
             {
                 var a = value < 0.99 ? value : 0.99;
-                if (_effect.Threshold != a) { _effect.Threshold = a; RaiseEffectPropertyChanged(); }
+                if (s_effect.Threshold != a) { s_effect.Threshold = a; RaiseEffectPropertyChanged(); }
             }
         }
     }
-
 }

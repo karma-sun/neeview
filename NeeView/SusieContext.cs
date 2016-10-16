@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-
     /// <summary>
     /// Susie Context
     /// </summary>

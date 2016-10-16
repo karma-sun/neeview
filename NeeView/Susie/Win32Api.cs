@@ -14,7 +14,7 @@ namespace Susie
 {
     public static class Win32Api
     {
-        const string KERNEL32 = "kernel32";
+        private const string KERNEL32 = "kernel32";
 
         [DllImport(KERNEL32)]
         public extern static IntPtr LoadLibrary(string lpFileName);

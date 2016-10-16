@@ -14,7 +14,7 @@ using System.Windows.Interop;
 
 namespace DragExtensions
 {
-    class WPFUtil
+    internal class WPFUtil
     {
         public static T FindVisualParent<T>(DependencyObject d) where T : DependencyObject
         {

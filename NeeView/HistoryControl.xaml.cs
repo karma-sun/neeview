@@ -31,8 +31,8 @@ namespace NeeView
     {
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(HistoryControl));
 
-        HistoryControlVM _VM;
-        ThumbnailHelper _ThumbnailHelper;
+        private HistoryControlVM _VM;
+        private ThumbnailHelper _thumbnailHelper;
 
 
         public HistoryControl()
@@ -47,7 +47,7 @@ namespace NeeView
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
             this.HistoryListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
 
-            _ThumbnailHelper = new ThumbnailHelper(this.HistoryListBox, _VM.RequestThumbnail);
+            _thumbnailHelper = new ThumbnailHelper(this.HistoryListBox, _VM.RequestThumbnail);
         }
 
         //
@@ -71,7 +71,7 @@ namespace NeeView
                 lbi?.Focus();
             }
 
-            _ThumbnailHelper.UpdateThumbnails(1);
+            _thumbnailHelper.UpdateThumbnails(1);
         }
 
         //
@@ -196,31 +196,31 @@ namespace NeeView
 
 
         #region Property: Items
-        private ObservableCollection<BookMementoUnit> _Items;
+        private ObservableCollection<BookMementoUnit> _items;
         public ObservableCollection<BookMementoUnit> Items
         {
-            get { return _Items; }
-            set { _Items = value; OnPropertyChanged(); }
+            get { return _items; }
+            set { _items = value; OnPropertyChanged(); }
         }
         #endregion
 
 
         #region Property: SelectedItem
-        private BookMementoUnit _SelectedItem;
+        private BookMementoUnit _selectedItem;
         public BookMementoUnit SelectedItem
         {
-            get { return _SelectedItem; }
-            set { _SelectedItem = value; OnPropertyChanged(); }
+            get { return _selectedItem; }
+            set { _selectedItem = value; OnPropertyChanged(); }
         }
         #endregion
 
 
         #region Property: Visibility
-        private Visibility _Visibility = Visibility.Hidden;
+        private Visibility _visibility = Visibility.Hidden;
         public Visibility Visibility
         {
-            get { return _Visibility; }
-            set { _Visibility = value; OnPropertyChanged(); }
+            get { return _visibility; }
+            set { _visibility = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -232,14 +232,14 @@ namespace NeeView
         public double ThumbnailHeight => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeY / App.Config.DpiScaleFactor.Y);
 
 
-        private bool _IsDarty;
+        private bool _isDarty;
 
         //
         public void Initialize(BookHub bookHub, bool isVisible)
         {
             BookHub = bookHub;
 
-            _IsDarty = true;
+            _isDarty = true;
             if (isVisible) UpdateItems();
 
             BookHub.HistoryChanged += BookHub_HistoryChanged;
@@ -261,8 +261,8 @@ namespace NeeView
         //
         private void BookHub_HistoryChanged(object sender, BookMementoCollectionChangedArgs e)
         {
-            _IsDarty = _IsDarty || e.HistoryChangedType != BookMementoCollectionChangedType.Update;
-            if (_IsDarty && Visibility == Visibility.Visible)
+            _isDarty = _isDarty || e.HistoryChangedType != BookMementoCollectionChangedType.Update;
+            if (_isDarty && Visibility == Visibility.Visible)
             {
                 UpdateItems();
             }
@@ -271,9 +271,9 @@ namespace NeeView
         //
         public void UpdateItems()
         {
-            if (_IsDarty)
+            if (_isDarty)
             {
-                _IsDarty = false;
+                _isDarty = false;
 
                 var args = new SelectedItemChangeEventArgs();
                 App.Current.Dispatcher.Invoke(() => SelectedItemChanging?.Invoke(this, args));

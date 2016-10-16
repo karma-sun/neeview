@@ -77,31 +77,30 @@ namespace NeeView
 
     public class SevenZipDescriptor : IDisposable
     {
-        private SevenZipSource _Source;
+        private SevenZipSource _source;
 
-        private SevenZipExtractor _Extractor;
+        private SevenZipExtractor _extractor;
 
         public SevenZipDescriptor(SevenZipSource source)
         {
-            _Source = source;
-            _Extractor = _Source.Open();
+            _source = source;
+            _extractor = _source.Open();
         }
 
         public ReadOnlyCollection<ArchiveFileInfo> ArchiveFileData
         {
-            get { return _Extractor.ArchiveFileData; }
+            get { return _extractor.ArchiveFileData; }
         }
 
         public void ExtractFile(int index, Stream extractStream)
         {
-            _Extractor.ExtractFile(index, extractStream);
+            _extractor.ExtractFile(index, extractStream);
         }
 
         public void Dispose()
         {
-
-            _Source.Close();
-            _Extractor = null;
+            _source.Close();
+            _extractor = null;
         }
     }
 
@@ -120,12 +119,12 @@ namespace NeeView
 
         public static string DllPath { get; set; }
 
-        private static bool _isLibraryInitialized;
+        private static bool s_isLibraryInitialized;
 
         //
         private static void InitializeLibrary()
         {
-            if (_isLibraryInitialized) return;
+            if (s_isLibraryInitialized) return;
 
             var dllPath = string.IsNullOrWhiteSpace(DllPath) ? Path.Combine(App.Config.LibrariesPath, "7z.dll") : DllPath;
 
@@ -142,18 +141,18 @@ namespace NeeView
             FileVersionInfo dllVersionInfo = FileVersionInfo.GetVersionInfo(dllPath);
             Debug.WriteLine("7z.dll: ver" + dllVersionInfo?.FileVersion);
 
-            _isLibraryInitialized = true;
+            s_isLibraryInitialized = true;
         }
 
 
-        private static object _lock = new object();
+        private static object s_lock = new object();
 
 
 
-        private SevenZipSource _Source;
-        private Stream _Stream;
+        private SevenZipSource _source;
+        private Stream _stream;
 
-        private bool _IsDisposed;
+        private bool _isDisposed;
 
 
         //
@@ -162,21 +161,21 @@ namespace NeeView
             InitializeLibrary();
 
             FileName = archiveFileName;
-            _Stream = stream;
+            _stream = stream;
 
-            _Source = _Stream != null ? new SevenZipSource(_Stream, _lock) : new SevenZipSource(FileName, _lock);
+            _source = _stream != null ? new SevenZipSource(_stream, s_lock) : new SevenZipSource(FileName, s_lock);
         }
 
 
         // 廃棄処理
         public override void Dispose()
         {
-            _IsDisposed = true;
+            _isDisposed = true;
 
-            _Source?.Dispose();
-            _Source = null;
-            _Stream?.Dispose();
-            _Stream = null;
+            _source?.Dispose();
+            _source = null;
+            _stream?.Dispose();
+            _stream = null;
             base.Dispose();
         }
 
@@ -190,13 +189,13 @@ namespace NeeView
         // エントリーリストを得る
         public override List<ArchiveEntry> GetEntries()
         {
-            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
             var list = new List<ArchiveEntry>();
 
-            lock (_lock)
+            lock (s_lock)
             {
-                using (var extractor = new SevenZipDescriptor(_Source))
+                using (var extractor = new SevenZipDescriptor(_source))
                 {
                     for (int id = 0; id < extractor.ArchiveFileData.Count; ++id)
                     {
@@ -223,11 +222,11 @@ namespace NeeView
         // エントリーのストリームを得る
         public override Stream OpenStream(ArchiveEntry entry)
         {
-            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
-            lock (_lock)
+            lock (s_lock)
             {
-                using (var extractor = new SevenZipDescriptor(_Source))
+                using (var extractor = new SevenZipDescriptor(_source))
                 {
                     var archiveEntry = extractor.ArchiveFileData[entry.Id];
                     if (archiveEntry.FileName != entry.EntryName)
@@ -247,9 +246,9 @@ namespace NeeView
         // ファイルに出力
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
-            lock (_lock)
+            lock (s_lock)
             {
                 using (var extractor = new SevenZipExtractor(FileName)) // 専用extractor
                 using (Stream fs = new FileStream(exportFileName, FileMode.Create, FileAccess.Write))
@@ -258,6 +257,5 @@ namespace NeeView
                 }
             }
         }
-
     }
 }

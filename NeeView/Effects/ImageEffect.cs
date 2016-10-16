@@ -63,11 +63,11 @@ namespace NeeView.Effects
         /// <summary>
         /// Property: IsHsvMode
         /// </summary>
-        private bool _IsHsvMode;
+        private bool _isHsvMode;
         public bool IsHsvMode
         {
-            get { return _IsHsvMode; }
-            set { if (_IsHsvMode != value) { _IsHsvMode = value; OnPropertyChanged(); } }
+            get { return _isHsvMode; }
+            set { if (_isHsvMode != value) { _isHsvMode = value; OnPropertyChanged(); } }
         }
 
 
@@ -159,7 +159,6 @@ namespace NeeView.Effects
                 }
             }
         }
-
 
         //
     }

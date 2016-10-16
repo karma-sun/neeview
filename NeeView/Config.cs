@@ -120,24 +120,24 @@ namespace NeeView
         /// <summary>
         /// ユーザデータフォルダ
         /// </summary>
-        private string _LocalApplicationDataPath;
+        private string _localApplicationDataPath;
         public string LocalApplicationDataPath
         {
             get
             {
-                if (_LocalApplicationDataPath == null)
+                if (_localApplicationDataPath == null)
                 {
                     // configファイルの設定で LocalApplicationData を使用するかを判定。インストール版用
                     if (IsUseLocalApplicationDataFolder)
                     {
-                        _LocalApplicationDataPath = GetFileSystemPath(Environment.SpecialFolder.LocalApplicationData, true);
+                        _localApplicationDataPath = GetFileSystemPath(Environment.SpecialFolder.LocalApplicationData, true);
                     }
                     else
                     {
-                        _LocalApplicationDataPath = AssemblyLocation;
+                        _localApplicationDataPath = AssemblyLocation;
                     }
                 }
-                return _LocalApplicationDataPath;
+                return _localApplicationDataPath;
             }
         }
 
@@ -170,16 +170,16 @@ namespace NeeView
         /// <summary>
         /// ライブラリーパス
         /// </summary>
-        private string _LibrariesPath;
+        private string _librariesPath;
         public string LibrariesPath
         {
             get
             {
-                if (_LibrariesPath == null)
+                if (_librariesPath == null)
                 {
-                    _LibrariesPath = Path.Combine(AssemblyLocation, GetProbingPath());
+                    _librariesPath = Path.Combine(AssemblyLocation, GetProbingPath());
                 }
-                return _LibrariesPath;
+                return _librariesPath;
             }
         }
 
@@ -204,16 +204,16 @@ namespace NeeView
 
 
         //
-        private bool? _IsUseLocalApplicationDataFolder;
+        private bool? _isUseLocalApplicationDataFolder;
         public bool IsUseLocalApplicationDataFolder
         {
             get
             {
-                if (_IsUseLocalApplicationDataFolder == null)
+                if (_isUseLocalApplicationDataFolder == null)
                 {
-                    _IsUseLocalApplicationDataFolder = System.Configuration.ConfigurationManager.AppSettings["UseLocalApplicationData"] == "True";
+                    _isUseLocalApplicationDataFolder = System.Configuration.ConfigurationManager.AppSettings["UseLocalApplicationData"] == "True";
                 }
-                return (bool)_IsUseLocalApplicationDataFolder;
+                return (bool)_isUseLocalApplicationDataFolder;
             }
         }
 
@@ -245,7 +245,6 @@ namespace NeeView
         //
         public void RemoveApplicationData()
         {
-
             if (!this.IsUseLocalApplicationDataFolder)
             {
                 MessageBox.Show("--removeオプションはインストーラー版でのみ機能します", "起動オプションエラー", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -276,8 +275,5 @@ namespace NeeView
                 }
             }
         }
-
-
-
     }
 }

@@ -53,7 +53,7 @@ namespace NeeView
         public double panel_autohide_delaytime { get; set; }
 
         [DataMember, DefaultValue("")]
-        [PropertyPath(Name ="7z.dll(32bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映には再起動が必要です")]
+        [PropertyPath(Name = "7z.dll(32bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映には再起動が必要です")]
         public string loader_archiver_7z_dllpath { get; set; }
 
         [DataMember, DefaultValue(".7z;.rar;.lzh")]
@@ -91,7 +91,7 @@ namespace NeeView
         /// <summary>
         /// 旧設定(Configurationファイル)のパラメータとの対応表
         /// </summary>
-        private Dictionary<string, string> _ConfigurationAppSettingTable = new Dictionary<string, string>()
+        private Dictionary<string, string> _configurationAppSettingTable = new Dictionary<string, string>()
         {
             ["GestureMinimumDistanceX"] = "input_gesture_minimumdistance_x",
             ["GestureMinimumDistanceY"] = "input_gesture_minimumdistance_y",
@@ -111,7 +111,7 @@ namespace NeeView
             _configure_enabled = false;
 
             // configureファイルから読込
-            foreach (var pair in _ConfigurationAppSettingTable)
+            foreach (var pair in _configurationAppSettingTable)
             {
                 string value = System.Configuration.ConfigurationManager.AppSettings.Get(pair.Key);
                 if (value != null)

@@ -29,8 +29,8 @@ namespace NeeView
     {
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PagemarkControl));
 
-        PagemarkControlVM _VM;
-        ThumbnailHelper _ThumbnailHelper;
+        private PagemarkControlVM _VM;
+        private ThumbnailHelper _thumbnailHelper;
 
         public PagemarkControl()
         {
@@ -44,7 +44,7 @@ namespace NeeView
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
             this.PagemarkListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
 
-            _ThumbnailHelper = new ThumbnailHelper(this.PagemarkListBox, _VM.RequestThumbnail);
+            _thumbnailHelper = new ThumbnailHelper(this.PagemarkListBox, _VM.RequestThumbnail);
         }
 
         //
@@ -209,7 +209,7 @@ namespace NeeView
         public BookHub BookHub { get; private set; }
 
         public PagemarkCollection Pagemarks => ModelContext.Pagemarks;
-        
+
 
 
         public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;

@@ -34,7 +34,7 @@ namespace NeeView
         public const string PageStretchMode_UniformToVertical = "高さをウィンドウに合わせる";
 
         // 表示名
-        private static Dictionary<PageStretchMode, string> _DispStrings = new Dictionary<PageStretchMode, string>
+        private static Dictionary<PageStretchMode, string> s_dispStrings = new Dictionary<PageStretchMode, string>
         {
             [PageStretchMode.None] = PageStretchMode_None,
             [PageStretchMode.Inside] = PageStretchMode_Inside,
@@ -48,8 +48,7 @@ namespace NeeView
         // 表示名取得
         public static string ToDispString(this PageStretchMode mode)
         {
-            return _DispStrings[mode];
+            return s_dispStrings[mode];
         }
     }
-
 }

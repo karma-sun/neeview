@@ -155,7 +155,7 @@ namespace NeeView
         public bool IsDefaultApplication => string.IsNullOrWhiteSpace(Command);
 
         // コマンドパラメータで使用されるキーワード
-        const string _Keyword = "$File";
+        private const string _Keyword = "$File";
 
         // コマンドパラメータ文字列のバリデート
         public static string ValidateApplicationParam(string source)

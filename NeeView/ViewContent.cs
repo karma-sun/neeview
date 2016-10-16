@@ -34,40 +34,40 @@ namespace NeeView
 
         // コンテンツ コントロール
         #region Property: Content
-        private FrameworkElement _Content;
+        private FrameworkElement _content;
         public FrameworkElement Content
         {
-            get { return _Content; }
-            set { _Content = value; OnPropertyChanged(); }
+            get { return _content; }
+            set { _content = value; OnPropertyChanged(); }
         }
         #endregion
 
         // コンテンツの幅
         #region Property: Width
-        private double _Width;
+        private double _width;
         public double Width
         {
-            get { return _Width; }
-            set { _Width = value; OnPropertyChanged(); }
+            get { return _width; }
+            set { _width = value; OnPropertyChanged(); }
         }
         #endregion
 
         // コンテンツの高さ
         #region Property: Height
-        private double _Height;
+        private double _height;
         public double Height
         {
-            get { return _Height; }
-            set { _Height = value; OnPropertyChanged(); }
+            get { return _height; }
+            set { _height = value; OnPropertyChanged(); }
         }
         #endregion
 
         // コンテンツのオリジナルサイズ
-        private Size _Size;
+        private Size _size;
         public Size Size
         {
-            get { return IsValid ? _Size : new Size(0, 0); }
-            set { _Size = value; }
+            get { return IsValid ? _size : new Size(0, 0); }
+            set { _size = value; }
         }
 
         // コンテンツソースサイズ
@@ -105,11 +105,11 @@ namespace NeeView
 
         // スケールモード
         #region Property: BitmapScalingMode
-        private BitmapScalingMode _BitmapScalingMode = BitmapScalingMode.HighQuality;
+        private BitmapScalingMode _bitmapScalingMode = BitmapScalingMode.HighQuality;
         public BitmapScalingMode BitmapScalingMode
         {
-            get { return _BitmapScalingMode; }
-            set { _BitmapScalingMode = value; OnPropertyChanged(); }
+            get { return _bitmapScalingMode; }
+            set { _bitmapScalingMode = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -131,16 +131,16 @@ namespace NeeView
         }
 
         // 表示スケール(%)
-        public double Scale =>Width / Size.Width;
+        public double Scale => Width / Size.Width;
 
         // ピクセル深度
-        private int _BitsPerPixel;
+        private int _bitsPerPixel;
         public int BitsPerPixel
         {
             get
             {
-                if (_BitsPerPixel == 0) _BitsPerPixel = Bitmap.GetSourceBitsPerPixel();
-                return _BitsPerPixel;
+                if (_bitsPerPixel == 0) _bitsPerPixel = Bitmap.GetSourceBitsPerPixel();
+                return _bitsPerPixel;
             }
         }
     }

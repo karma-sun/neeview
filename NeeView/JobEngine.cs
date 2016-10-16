@@ -43,32 +43,32 @@ namespace NeeView
     /// </summary>
     public class JobRequest
     {
-        private JobEngine _JobEngine;
-        private Job _Job;
-        private CancellationTokenSource _CancellationTokenSource;
+        private JobEngine _jobEngine;
+        private Job _job;
+        private CancellationTokenSource _cancellationTokenSource;
         public QueueElementPriority Priority { get; private set; }
 
         // コンストラクタ
         public JobRequest(JobEngine jobEngine, Job job, QueueElementPriority priority)
         {
-            _CancellationTokenSource = new CancellationTokenSource();
+            _cancellationTokenSource = new CancellationTokenSource();
 
-            _JobEngine = jobEngine;
-            _Job = job;
-            _Job.CancellationToken = _CancellationTokenSource.Token;
+            _jobEngine = jobEngine;
+            _job = job;
+            _job.CancellationToken = _cancellationTokenSource.Token;
             Priority = priority;
         }
 
         // キャンセル
         public void Cancel()
         {
-            _CancellationTokenSource.Cancel();
+            _cancellationTokenSource.Cancel();
         }
 
         // キャンセルリクエスト判定
         public bool IsCancellationRequested
         {
-            get { return _CancellationTokenSource.IsCancellationRequested; }
+            get { return _cancellationTokenSource.IsCancellationRequested; }
         }
 
         // プライオリティ変更
@@ -76,7 +76,7 @@ namespace NeeView
         {
             if (Priority != priority)
             {
-                _JobEngine.ChangePriority(_Job, priority);
+                _jobEngine.ChangePriority(_job, priority);
                 Priority = priority;
             }
         }
@@ -125,21 +125,21 @@ namespace NeeView
 
         // 状態メッセージ
         #region Property: Message
-        private string _Message;
+        private string _message;
         public string Message
         {
-            get { return _Message; }
-            set { _Message = value; NotifyStatusChanged(); }
+            get { return _message; }
+            set { _message = value; NotifyStatusChanged(); }
         }
         #endregion
 
         #endregion
 
         // ジョブの製造番号用カウンタ
-        private int _SerialNumber;
+        private int _serialNumber;
 
         // コンテキスト
-        private JobContext _Context;
+        private JobContext _context;
 
         // 最大ワーカー数
         public readonly int _MaxWorkerSize = 4;
@@ -151,7 +151,7 @@ namespace NeeView
         // コンストラクタ
         public JobEngine()
         {
-            _Context = new JobContext();
+            _context = new JobContext();
             Workers = new JobWorker[_MaxWorkerSize];
         }
 
@@ -176,7 +176,7 @@ namespace NeeView
                 {
                     if (Workers[i] == null)
                     {
-                        Workers[i] = new JobWorker(_Context);
+                        Workers[i] = new JobWorker(_context);
                         Workers[i].StatusChanged += (s, e) => StatusChanged?.Invoke(s, e);
                         Workers[i].Run();
                         Message = $"Create Worker[{i}]";
@@ -194,7 +194,7 @@ namespace NeeView
             }
 
             // イベント待ち解除
-            _Context.Event.Set();
+            _context.Event.Set();
 
             NotifyStatusChanged();
         }
@@ -205,11 +205,11 @@ namespace NeeView
         /// <param name="priority">クリアする優先度</param>
         public void Clear(QueueElementPriority priority)
         {
-            lock (_Context.Lock)
+            lock (_context.Lock)
             {
-                while (_Context.JobQueue.CountAt(priority) > 0)
+                while (_context.JobQueue.CountAt(priority) > 0)
                 {
-                    var job = _Context.JobQueue.Dequeue(priority);
+                    var job = _context.JobQueue.Dequeue(priority);
                     job.Cancel();
                 }
             }
@@ -222,20 +222,20 @@ namespace NeeView
         /// <param name="cancelAction">キャンセル時の処理</param>
         /// <param name="priority">優先度</param>
         /// <returns>JobRequest</returns>
-        public JobRequest Add(object sender, Action<CancellationToken> action, Action cancelAction, QueueElementPriority priority, bool reverse=false)
+        public JobRequest Add(object sender, Action<CancellationToken> action, Action cancelAction, QueueElementPriority priority, bool reverse = false)
         {
             var job = new Job();
-            job.SerialNumber = _SerialNumber++;
+            job.SerialNumber = _serialNumber++;
             job.Sender = sender;
             job.Execute = action;
             job.Cancel = cancelAction;
 
             var request = new JobRequest(this, job, priority);
 
-            lock (_Context.Lock)
+            lock (_context.Lock)
             {
-                _Context.JobQueue.Enqueue(job, priority, reverse);
-                _Context.Event.Set();
+                _context.JobQueue.Enqueue(job, priority, reverse);
+                _context.Event.Set();
                 Message = $"Add Job. {job.SerialNumber}";
             }
 
@@ -247,16 +247,16 @@ namespace NeeView
         // 優先度変更
         public void ChangePriority(Job job, QueueElementPriority priority)
         {
-            lock (_Context.Lock)
+            lock (_context.Lock)
             {
-                _Context.JobQueue.ChangePriority(job, priority);
+                _context.JobQueue.ChangePriority(job, priority);
             }
         }
 
         // 待機ジョブ数
         public int JobCount
         {
-            get { return _Context.JobQueue.Count; }
+            get { return _context.JobQueue.Count; }
         }
 
         // 開発用遅延
@@ -292,28 +292,28 @@ namespace NeeView
 
         // 状態メッセージ
         #region Property: Message
-        private string _Message;
+        private string _message;
         public string Message
         {
-            get { return _Message; }
-            set { _Message = value; NotifyStatusChanged(); }
+            get { return _message; }
+            set { _message = value; NotifyStatusChanged(); }
         }
         #endregion
 
         #endregion
 
         // コンテキスト
-        JobContext _Context;
+        private JobContext _context;
 
         // ワーカータスクのキャンセルトークン
-        CancellationTokenSource _CancellationTokenSource;
+        private CancellationTokenSource _cancellationTokenSource;
 
 
         // コンストラクタ
         public JobWorker(JobContext context)
         {
-            _Context = context;
-            _CancellationTokenSource = new CancellationTokenSource();
+            _context = context;
+            _cancellationTokenSource = new CancellationTokenSource();
         }
 
 
@@ -338,42 +338,42 @@ namespace NeeView
                     App.Current.Dispatcher.BeginInvoke(action, e);
                 }
             },
-            _CancellationTokenSource.Token);
- 
-           /*
-            // sample: Thread版
-            Thread t1;
-            t1 = new Thread(new ThreadStart(WorkerExecute));
-            t1.Priority = ThreadPriority.BelowNormal;
-            t1.Start();
-            */
+            _cancellationTokenSource.Token);
+
+            /*
+             // sample: Thread版
+             Thread t1;
+             t1 = new Thread(new ThreadStart(WorkerExecute));
+             t1.Priority = ThreadPriority.BelowNormal;
+             t1.Start();
+             */
         }
 
 
         // ワーカータスク廃棄
         public void Cancel()
         {
-            _CancellationTokenSource.Cancel();
+            _cancellationTokenSource.Cancel();
         }
 
 
         // ワーカータスクメイン
         private async void WorkerExecute()
         {
-            while (!_CancellationTokenSource.Token.IsCancellationRequested)
+            while (!_cancellationTokenSource.Token.IsCancellationRequested)
             {
                 Message = $"get Job ...";
                 Job job;
 
-                lock (_Context.Lock)
+                lock (_context.Lock)
                 {
                     // ジョブ取り出し
-                    job = _Context.JobQueue.Dequeue();
+                    job = _context.JobQueue.Dequeue();
 
                     // ジョブが無い場合はイベントリセット
                     if (job == null)
                     {
-                        _Context.Event.Reset();
+                        _context.Event.Reset();
                     }
                 }
 
@@ -381,7 +381,7 @@ namespace NeeView
                 if (job == null)
                 {
                     Message = $"wait event ...";
-                    await Task.Run(() => _Context.Event.WaitOne());
+                    await Task.Run(() => _context.Event.WaitOne());
                     continue;
                 }
 

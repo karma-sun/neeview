@@ -795,16 +795,16 @@ namespace NeeView
         {
             public override int Priority => 3;
 
-            private Page _Page;
+            private Page _page;
 
             public RemoveCommand(Book book, Page page) : base(book)
             {
-                _Page = page;
+                _page = page;
             }
 
             public override async Task Execute()
             {
-                _book.Remove(_Page);
+                _book.Remove(_page);
                 await Task.Yield();
             }
         }
@@ -853,13 +853,13 @@ namespace NeeView
 
             private bool _isPreLoad;
 
-            ViewPageContextSource _Source { get; set; }
+            private ViewPageContextSource _source { get; set; }
 
             public SetPageCommand(Book book, PagePosition position, int direction, int size, bool isPreLoad) : base(book)
             {
                 _isPreLoad = isPreLoad;
 
-                _Source = new ViewPageContextSource()
+                _source = new ViewPageContextSource()
                 {
                     Position = position,
                     Direction = direction,
@@ -869,7 +869,7 @@ namespace NeeView
 
             public override async Task Execute()
             {
-                await _book.UpdateViewPageAsync(_Source, _isPreLoad);
+                await _book.UpdateViewPageAsync(_source, _isPreLoad);
             }
         }
 

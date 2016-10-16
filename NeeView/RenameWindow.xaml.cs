@@ -45,21 +45,21 @@ namespace NeeView
         #endregion
 
         #region Property: Text
-        private string _Text;
+        private string _text;
         public string Text
         {
-            get { return _Text; }
-            set { _Text = value; OnPropertyChanged(); }
+            get { return _text; }
+            set { _text = value; OnPropertyChanged(); }
         }
         #endregion
 
-        private RenameWindowParam _Param;
+        private RenameWindowParam _param;
 
         //
         public RenameWindow(RenameWindowParam param)
         {
-            _Param = param;
-            Text = _Param.Text;
+            _param = param;
+            Text = _param.Text;
 
             InitializeComponent();
             this.DataContext = this;
@@ -67,12 +67,12 @@ namespace NeeView
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
-            Text = _Param.DefaultText;
+            Text = _param.DefaultText;
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            _Param.Text = Text;
+            _param.Text = Text;
             this.DialogResult = true;
             this.Close();
         }

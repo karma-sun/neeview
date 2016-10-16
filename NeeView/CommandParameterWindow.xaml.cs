@@ -2,6 +2,7 @@
 //
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
+
 using NeeLaboratory.Property;
 using System;
 using System.Collections.Generic;
@@ -24,21 +25,21 @@ namespace NeeView
     /// </summary>
     public partial class CommandParameterWindow : Window
     {
-        private CommandParameter _DefaultParameter;
-        private PropertyDocument _Context;
+        private CommandParameter _defaultParameter;
+        private PropertyDocument _context;
 
         public CommandParameterWindow(PropertyDocument context, CommandParameter defaultParameter)
         {
             InitializeComponent();
 
-            _Context = context;
-            _DefaultParameter = defaultParameter;
-            this.DataContext = _Context;
+            _context = context;
+            _defaultParameter = defaultParameter;
+            this.DataContext = _context;
         }
 
         private void ButtonReset_Click(object sender, RoutedEventArgs e)
         {
-            _Context.Set(_DefaultParameter);
+            _context.Set(_defaultParameter);
 
             this.Inspector.Reflesh();
         }

@@ -23,7 +23,6 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
-
     /// <summary>
     /// FileInfoItem.xaml の相互作用ロジック
     /// </summary>

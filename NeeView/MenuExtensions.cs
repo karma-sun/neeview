@@ -46,6 +46,5 @@ namespace NeeView
                 UpdateInputGestureText(item);
             }
         }
-
     }
 }

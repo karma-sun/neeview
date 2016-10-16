@@ -23,9 +23,9 @@ namespace NeeView
         public delegate void RequestThumbnailDelegate(int start, int count, int margin, int direction);
 
         //
-        private ListBox _ListBox;
-        private VirtualizingStackPanel _ListPanel;
-        private RequestThumbnailDelegate _RequestThumbnailDelegate;
+        private ListBox _listBox;
+        private VirtualizingStackPanel _listPanel;
+        private RequestThumbnailDelegate _requestThumbnailDelegate;
 
         /// <summary>
         /// コンストラクタ
@@ -34,13 +34,13 @@ namespace NeeView
         /// <param name="func">サムネイル要求リクエストのデリゲート</param>
         public ThumbnailHelper(ListBox listBox, RequestThumbnailDelegate func)
         {
-            _ListBox = listBox;
+            _listBox = listBox;
 
-            _ListBox.Loaded += OnLoaded;
-            _ListBox.IsVisibleChanged += OnIsVisibleChanged;
-            _ListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(OnScrollChanged));
+            _listBox.Loaded += OnLoaded;
+            _listBox.IsVisibleChanged += OnIsVisibleChanged;
+            _listBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(OnScrollChanged));
 
-            _RequestThumbnailDelegate = func;
+            _requestThumbnailDelegate = func;
         }
 
         //
@@ -56,14 +56,14 @@ namespace NeeView
         //
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            _ListPanel = NVUtility.FindVisualChild<VirtualizingStackPanel>(_ListBox);
+            _listPanel = NVUtility.FindVisualChild<VirtualizingStackPanel>(_listBox);
             UpdateThumbnails(1);
         }
 
         // スクロールしたらサムネ更新
         public void OnScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (_ListPanel != null && _ListBox.Items.Count > 0)
+            if (_listPanel != null && _listBox.Items.Count > 0)
             {
                 UpdateThumbnails(e.VerticalChange < 0 ? -1 : +1);
             }
@@ -73,12 +73,10 @@ namespace NeeView
         // サムネ更新。表示されているページのサムネの読み込み要求
         public void UpdateThumbnails(int direction)
         {
-            if (_ListPanel != null && _ListBox.IsVisible)
+            if (_listPanel != null && _listBox.IsVisible)
             {
-                _RequestThumbnailDelegate?.Invoke((int)_ListPanel.VerticalOffset, (int)_ListPanel.ViewportHeight + 1, 1, direction);
+                _requestThumbnailDelegate?.Invoke((int)_listPanel.VerticalOffset, (int)_listPanel.ViewportHeight + 1, 1, direction);
             }
         }
     }
-
-
 }

@@ -16,7 +16,6 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
-
     /// <summary>
     /// 標準画像ローダー
     /// </summary>
@@ -270,5 +269,4 @@ namespace NeeView
             return dictionary;
         }
     }
-
 }

@@ -153,7 +153,7 @@ namespace NeeLaboratory.Controls
         }
         #endregion
 
-        
+
         //
         public FileNameBox()
         {

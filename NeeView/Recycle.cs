@@ -47,8 +47,8 @@ namespace NeeView
     /// <typeparam name="T">Visual</typeparam>
     public abstract class VisualPool<T> where T : Visual, new()
     {
-        private List<T> _Pool = new List<T>();
-        private List<T> _Locked = new List<T>();
+        private List<T> _pool = new List<T>();
+        private List<T> _locked = new List<T>();
 
         /// <summary>
         /// 未使用要素の確保
@@ -57,13 +57,13 @@ namespace NeeView
         /// <returns></returns>
         public T Allocate()
         {
-            var element = _Pool.FirstOrDefault(e => !_Locked.Contains(e) && LogicalTreeHelper.GetParent(e) == null);
+            var element = _pool.FirstOrDefault(e => !_locked.Contains(e) && LogicalTreeHelper.GetParent(e) == null);
             if (element == null)
             {
                 element = new T();
-                _Pool.Add(element);
+                _pool.Add(element);
             }
-            _Locked.Add(element);
+            _locked.Add(element);
             return element;
         }
 
@@ -73,8 +73,8 @@ namespace NeeView
         /// </summary>
         public void CleanUp()
         {
-            _Locked.Clear();
-            foreach (var element in _Pool.Where(e => LogicalTreeHelper.GetParent(e) == null))
+            _locked.Clear();
+            foreach (var element in _pool.Where(e => LogicalTreeHelper.GetParent(e) == null))
             {
                 Free(element);
             }
@@ -86,7 +86,4 @@ namespace NeeView
         /// <param name="element"></param>
         protected abstract void Free(T element);
     }
-
-
-
 }

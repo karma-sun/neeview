@@ -2,6 +2,7 @@
 //
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
+
 using System;
 using System.Collections.Generic;
 using System.IO.Compression;
@@ -268,7 +269,7 @@ namespace NeeView.Utility
     }
 
     //
-    static class EnumerableExtensions
+    internal static class EnumerableExtensions
     {
         public static void ForEach<T>(this IEnumerable<T> ie, Action<T> action)
         {
@@ -280,5 +281,4 @@ namespace NeeView.Utility
     }
 
     #endregion
-
 }

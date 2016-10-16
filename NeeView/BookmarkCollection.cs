@@ -137,7 +137,7 @@ namespace NeeView
                 {
                     unit.Memento = memento;
 
-                    unit.BookmarkNode = new BookMementoUnitNode (unit);
+                    unit.BookmarkNode = new BookMementoUnitNode(unit);
                     Items.Add(unit.BookmarkNode);
 
                     BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));

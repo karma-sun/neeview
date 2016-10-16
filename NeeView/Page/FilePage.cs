@@ -36,7 +36,7 @@ namespace NeeView
         {
             return new FilePage(Entry.Archiver, Entry, Place, _icon);
         }
-        
+
         // コンテンツロード
         // FilePageContext を返す
         protected override object LoadContent()

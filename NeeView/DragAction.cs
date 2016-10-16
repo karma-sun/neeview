@@ -302,5 +302,4 @@ namespace NeeView
             return text.TrimStart('+');
         }
     }
-
 }

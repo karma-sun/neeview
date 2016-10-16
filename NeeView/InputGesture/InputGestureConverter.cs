@@ -25,7 +25,7 @@ namespace NeeView
         }
 
         //
-        private static Dictionary<ConverterType, Func<string, InputGesture>> _converter = new Dictionary<ConverterType, Func<string, InputGesture>>
+        private static Dictionary<ConverterType, Func<string, InputGesture>> s_converter = new Dictionary<ConverterType, Func<string, InputGesture>>
         {
             [ConverterType.Key] = ConvertFromKeyGestureString,
             [ConverterType.Mouse] = ConvertFromMouseGestureString,
@@ -52,7 +52,7 @@ namespace NeeView
 
             foreach (var t in order)
             {
-                var gesture = _converter[t](source);
+                var gesture = s_converter[t](source);
                 if (gesture != null) return gesture;
             }
 
@@ -163,6 +163,4 @@ namespace NeeView
             return null;
         }
     }
-
-
 }

@@ -24,7 +24,7 @@ namespace NeeView.Utility
 #if true
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool DestroyIcon(IntPtr hIcon);
+        private static extern bool DestroyIcon(IntPtr hIcon);
 #endif
 
         // SHGetFileInfo関数で使用するフラグ
@@ -58,13 +58,13 @@ namespace NeeView.Utility
         }
 
 
-        private string _TypeName;
+        private string _typeName;
         public string TypeName
         {
             get
             {
-                if (_TypeName == null) _TypeName = GetTypeName(_path);
-                return _TypeName;
+                if (_typeName == null) _typeName = GetTypeName(_path);
+                return _typeName;
             }
         }
 

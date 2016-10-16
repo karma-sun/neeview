@@ -19,7 +19,7 @@ namespace NeeView
     public class ArchiverManager
     {
         // サポート拡張子
-        Dictionary<ArchiverType, string[]> _supprtedFileTypes = new Dictionary<ArchiverType, string[]>()
+        private Dictionary<ArchiverType, string[]> _supprtedFileTypes = new Dictionary<ArchiverType, string[]>()
         {
             [ArchiverType.SevenZipArchiver] = new string[] { ".7z", ".rar", ".lzh" },
             [ArchiverType.ZipArchiver] = new string[] { ".zip" },
@@ -27,7 +27,7 @@ namespace NeeView
         };
 
         // アーカイバ優先度リスト
-        Dictionary<ArchiverType, List<ArchiverType>> _orderList = new Dictionary<ArchiverType, List<ArchiverType>>()
+        private Dictionary<ArchiverType, List<ArchiverType>> _orderList = new Dictionary<ArchiverType, List<ArchiverType>>()
         {
             [ArchiverType.DefaultArchiver] = new List<ArchiverType>()
             {
@@ -57,7 +57,7 @@ namespace NeeView
 
 
         // サポートしているアーカイバを取得
-        public ArchiverType GetSupportedType(string fileName, bool isArrowFileSystem=true)
+        public ArchiverType GetSupportedType(string fileName, bool isArrowFileSystem = true)
         {
             if (isArrowFileSystem && fileName.Last() == '\\')
             {
@@ -154,6 +154,5 @@ namespace NeeView
 
             return CreateArchiver(GetSupportedType(path), path, null, parent);
         }
-
     }
 }

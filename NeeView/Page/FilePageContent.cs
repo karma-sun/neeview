@@ -32,5 +32,4 @@ namespace NeeView
 
         public FileBasicInfo Info { get; set; }
     }
-
 }

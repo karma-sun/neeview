@@ -81,7 +81,6 @@ namespace NeeView
     /// </summary>
     public abstract class Page : INotifyPropertyChanged
     {
-
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
@@ -177,7 +176,7 @@ namespace NeeView
                 ////Thumbnail = Utility.NVDrawing.CreateThumbnail(source, new Size(_ThumbnailSize, _ThumbnailSize));
             }
         }
-        
+
 
         // コンテンツ幅
         public double Width { get; protected set; }
@@ -469,26 +468,26 @@ namespace NeeView
         }
 
         // テンポラリファイル名
-        private string _TempFile;
+        private string _tempFile;
 
         // テンポラリファイルの作成
         public virtual string CreateTempFile()
         {
-            if (_TempFile != null) return _TempFile;
+            if (_tempFile != null) return _tempFile;
 
             if (Entry.IsFileSystem)
             {
-                _TempFile = Entry.GetFileSystemPath();
+                _tempFile = Entry.GetFileSystemPath();
             }
             else
             {
                 var tempFile = Temporary.CreateTempFileName(FileName);
                 Entry.ExtractToFile(tempFile, false);
                 Entry.Archiver.TrashBox.Add(new TrashFile(tempFile)); // ブックの消失とともに消す
-                _TempFile = tempFile;
+                _tempFile = tempFile;
             }
 
-            return _TempFile;
+            return _tempFile;
         }
 
         // ファイルを保存する

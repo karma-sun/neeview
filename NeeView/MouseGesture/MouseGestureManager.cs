@@ -14,7 +14,6 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-
     public class MouseGestureEventArgs
     {
         public MouseGestureSequence MouseGestureSequence { get; set; }

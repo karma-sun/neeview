@@ -26,7 +26,7 @@ namespace NeeView
         // メッセージ返信
         // 受信側で設定される
         public bool? Result { get; set; }
-        
+
         // コンストラクタ
         public MessageEventArgs()
         {
@@ -45,7 +45,7 @@ namespace NeeView
     /// <param name="sender">イベント発行者</param>
     /// <param name="e">メッセージ</param>
     public delegate void MessageEventHandler(object sender, MessageEventArgs e);
-    
+
 
     /// <summary>
     /// メッセンジャー
@@ -53,8 +53,8 @@ namespace NeeView
     public static class Messenger
     {
         public static event MessageEventHandler MessageEventHandler;
-        
-        private static Dictionary<string, MessageEventHandler> _Handles = new Dictionary<string, MessageEventHandler>();
+
+        private static Dictionary<string, MessageEventHandler> s_handles = new Dictionary<string, MessageEventHandler>();
 
         // メッセージ送信
         public static bool? Send(object sender, MessageEventArgs message)
@@ -79,7 +79,7 @@ namespace NeeView
         private static void Sender(object sender, MessageEventArgs e)
         {
             MessageEventHandler handle;
-            if (_Handles.TryGetValue(e.Key, out handle))
+            if (s_handles.TryGetValue(e.Key, out handle))
             {
                 handle(sender, e);
             }
@@ -92,7 +92,7 @@ namespace NeeView
         /// <param name="handle">メッセージ処理デリゲート</param>
         public static void AddReciever(string key, MessageEventHandler handle)
         {
-            _Handles[key] = handle;
+            s_handles[key] = handle;
         }
 
 

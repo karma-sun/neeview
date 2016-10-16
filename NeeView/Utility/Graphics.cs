@@ -145,7 +145,6 @@ namespace NeeView.Utility
             return bmp;
         }
 
-
         // ViewBox取得
         /*
         private static Rect GetViewBox()

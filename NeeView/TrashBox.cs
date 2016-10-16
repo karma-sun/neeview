@@ -18,20 +18,20 @@ namespace NeeView
     /// </summary>
     public class TrashBox : IDisposable
     {
-        List<IDisposable> _Trashes = new List<IDisposable>();
+        private List<IDisposable> _trashes = new List<IDisposable>();
 
         public void Add(IDisposable trash)
         {
             if (trash == null) return;
-            _Trashes.Add(trash);
+            _trashes.Add(trash);
         }
 
         // ゴミ箱を空にする
         public void Clear()
         {
-            _Trashes.Reverse();
-            _Trashes.ForEach(e => e.Dispose());
-            _Trashes.Clear();
+            _trashes.Reverse();
+            _trashes.ForEach(e => e.Dispose());
+            _trashes.Clear();
         }
 
         public void Dispose()
@@ -45,26 +45,26 @@ namespace NeeView
     /// </summary>
     public class TrashFile : IDisposable
     {
-        string _FileName;
+        private string _fileName;
 
         public TrashFile(string fileName)
         {
-            _FileName = fileName;
+            _fileName = fileName;
         }
 
         public void Dispose()
         {
-            if (_FileName != null)
+            if (_fileName != null)
             {
                 try
                 {
-                    File.Delete(_FileName);
+                    File.Delete(_fileName);
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
                 }
-                _FileName = null;
+                _fileName = null;
             }
         }
     }

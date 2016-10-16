@@ -319,5 +319,4 @@ namespace Susie
             return "." + s.Split('.').Last().ToLower();
         }
     }
-
 }

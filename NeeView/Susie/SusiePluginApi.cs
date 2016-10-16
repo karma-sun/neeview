@@ -21,9 +21,9 @@ namespace Susie
     public class SusiePluginApi : IDisposable
     {
         [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
-        extern static uint _controlfp(uint newcw, uint mask);
+        private extern static uint _controlfp(uint newcw, uint mask);
 
-        const uint _MCW_EM = 0x0008001f;
+        private const uint _MCW_EM = 0x0008001f;
         public const uint EM_INVALID = 0x00000010;
         public const uint EM_DENORMAL = 0x00080000;
         public const uint EM_ZERODIVIDE = 0x00000008;
@@ -32,7 +32,7 @@ namespace Susie
         public const uint EM_INEXACT = 0x00000001;
 
         // FPUのリセット
-        static void FixFPU()
+        private static void FixFPU()
         {
             // add desired values
             _controlfp(_MCW_EM, EM_INVALID);
@@ -85,12 +85,12 @@ namespace Susie
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // 重複する呼び出しを検出するには
+        private bool _disposedValue = false; // 重複する呼び出しを検出するには
 
         //
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {
@@ -101,7 +101,7 @@ namespace Susie
                 // ここで、大きなフィールドを null に設定します。
                 Close();
 
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
 
@@ -158,7 +158,7 @@ namespace Susie
 
 
         // callback delegate
-        delegate int ProgressCallback(int nNum, int nDenom, int lData);
+        private delegate int ProgressCallback(int nNum, int nDenom, int lData);
 
         /// <summary>
         /// Dummy Callback
@@ -171,10 +171,10 @@ namespace Susie
         {
             return 0;
         }
-        
+
 
         #region 00IN,00AM 必須 GetPluginInfo
-        delegate int GetPluginInfoDelegate(int infono, StringBuilder buf, int len);
+        private delegate int GetPluginInfoDelegate(int infono, StringBuilder buf, int len);
 
         /// <summary>
         /// Plug-inに関する情報を得る
@@ -195,7 +195,7 @@ namespace Susie
 
 
         #region 00IN,00AM 任意 ConfigurationDlg()
-        delegate int ConfigurationDlgDelegate(IntPtr parent, int fnc);
+        private delegate int ConfigurationDlgDelegate(IntPtr parent, int fnc);
 
 
         /// <summary>
@@ -214,8 +214,8 @@ namespace Susie
         #endregion
 
         #region 00IN,00AM 必須 IsSupported()
-        delegate bool IsSupportedFromFileDelegate(string filename, IntPtr dw);
-        delegate bool IsSupportedFromMemoryDelegate(string filename, [In]byte[] dw);
+        private delegate bool IsSupportedFromFileDelegate(string filename, IntPtr dw);
+        private delegate bool IsSupportedFromMemoryDelegate(string filename, [In]byte[] dw);
 
         /// <summary>
         /// サポート判定(ファイル版)
@@ -251,8 +251,8 @@ namespace Susie
 
 
         #region 00AM 必須 GetArchiveInfo()
-        delegate int GetArchiveInfoFromFileDelegate([In]string filename, int offset, uint flag, out IntPtr hInfo);
-        delegate int GetArchiveInfoFromMemoryDelegate([In]byte[] buf, int offset, uint flag, out IntPtr hInfo);
+        private delegate int GetArchiveInfoFromFileDelegate([In]string filename, int offset, uint flag, out IntPtr hInfo);
+        private delegate int GetArchiveInfoFromMemoryDelegate([In]byte[] buf, int offset, uint flag, out IntPtr hInfo);
 
         /// <summary>
         /// アーカイブ情報取得
@@ -299,8 +299,8 @@ namespace Susie
 
 
         #region 00AM 必須 GetFile()
-        delegate int GetFileFromFileHandler(string filename, int position, out IntPtr hBuff, uint flag, ProgressCallback lpPrgressCallback, int lData);
-        delegate int GetFileFromFileToFileHandler(string filename, int position, string dest, uint flag, ProgressCallback lpPrgressCallback, int lData);
+        private delegate int GetFileFromFileHandler(string filename, int position, out IntPtr hBuff, uint flag, ProgressCallback lpPrgressCallback, int lData);
+        private delegate int GetFileFromFileToFileHandler(string filename, int position, string dest, uint flag, ProgressCallback lpPrgressCallback, int lData);
 
         /// <summary>
         /// アーカイブエントリ取得(メモリ版)
@@ -352,8 +352,8 @@ namespace Susie
 
 
         #region 00IN 必須 GetPicture()
-        delegate int GetPictureFromMemoryDelegate([In]byte[] buf, int len, uint flag, out IntPtr pHBInfo, out IntPtr pHBm, ProgressCallback lpProgressCallback, int lData);
-        delegate int GetPictureFromFileDelegate([In]string filename, int offset, uint flag, out IntPtr pHBInfo, out IntPtr pHBm, ProgressCallback lpProgressCallback, int lData);
+        private delegate int GetPictureFromMemoryDelegate([In]byte[] buf, int len, uint flag, out IntPtr pHBInfo, out IntPtr pHBm, ProgressCallback lpProgressCallback, int lData);
+        private delegate int GetPictureFromFileDelegate([In]string filename, int offset, uint flag, out IntPtr pHBInfo, out IntPtr pHBm, ProgressCallback lpProgressCallback, int lData);
 
 
 
@@ -491,5 +491,4 @@ namespace Susie
         public string filename; // ファイルネーム
         public uint crc; // CRC 
     }
-
 }

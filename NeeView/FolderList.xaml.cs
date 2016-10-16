@@ -27,7 +27,6 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
-
     /// <summary>
     /// FolderList.xaml の相互作用ロジック
     /// </summary>
@@ -47,18 +46,18 @@ namespace NeeView
         public event EventHandler<int> SelectionChanged;
 
 
-        private ThumbnailHelper _ThumbnailHelper;
+        private ThumbnailHelper _thumbnailHelper;
 
 
-        FolderListVM _VM;
-        bool _AutoFocus;
+        private FolderListVM _VM;
+        private bool _autoFocus;
 
         public FolderInfo SelectedItem => this.ListBox.SelectedItem as FolderInfo;
 
         //
         public FolderList(FolderListVM vm, bool autoFocus)
         {
-            _AutoFocus = autoFocus;
+            _autoFocus = autoFocus;
 
             InitializeComponent();
 
@@ -68,7 +67,7 @@ namespace NeeView
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Exec));
 
-            _ThumbnailHelper = new ThumbnailHelper(this.ListBox, _VM.RequestThumbnail);
+            _thumbnailHelper = new ThumbnailHelper(this.ListBox, _VM.RequestThumbnail);
         }
 
         //
@@ -198,7 +197,7 @@ namespace NeeView
         // ロードイベント
         private void FolderList_Loaded(object sender, RoutedEventArgs e)
         {
-            FocusSelectedItem(_AutoFocus);
+            FocusSelectedItem(_autoFocus);
         }
     }
 
@@ -230,13 +229,13 @@ namespace NeeView
         public double ThumbnailHeight => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeY / App.Config.DpiScaleFactor.Y);
 
         #region Property: SelectedIndex
-        private int _SelectedIndex;
+        private int _selectedIndex;
         public int SelectedIndex
         {
-            get { return _SelectedIndex; }
+            get { return _selectedIndex; }
             set
             {
-                _SelectedIndex = value;
+                _selectedIndex = value;
                 OnPropertyChanged();
             }
         }
@@ -277,6 +276,5 @@ namespace NeeView
         {
             PanelContext.ThumbnailManager.RequestThumbnail(FolderCollection.Items, start, count, margin, direction);
         }
-
     }
 }

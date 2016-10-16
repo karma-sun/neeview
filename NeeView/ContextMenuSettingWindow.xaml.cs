@@ -34,7 +34,7 @@ namespace NeeView
         public static readonly RoutedCommand MoveDownCommand = new RoutedCommand("MoveDownCommand", typeof(ContextMenuSettingWindow));
 
 
-        ContextMenuSettingWindowVM _VM;
+        private ContextMenuSettingWindowVM _VM;
 
         public ContextMenuSettingWindow(MainWindowVM.Memento vmemento)
         {
@@ -162,11 +162,11 @@ namespace NeeView
         #endregion
 
         #region Property: Root
-        private MenuTree _Root;
+        private MenuTree _root;
         public MenuTree Root
         {
-            get { return _Root; }
-            set { _Root = value; OnPropertyChanged(); }
+            get { return _root; }
+            set { _root = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -174,11 +174,11 @@ namespace NeeView
 
 
 
-        private MainWindowVM.Memento _ViewMemento;
+        private MainWindowVM.Memento _viewMemento;
 
         public ContextMenuSettingWindowVM(MainWindowVM.Memento vmemento)
         {
-            _ViewMemento = vmemento;
+            _viewMemento = vmemento;
 
             var list = new List<MenuTree>();
             list.Add(new MenuTree() { MenuElementType = MenuElementType.Group });
@@ -191,7 +191,7 @@ namespace NeeView
             }
             SourceElementList = list;
 
-            Root = _ViewMemento.ContextMenuSetting.SourceTree.Clone();
+            Root = _viewMemento.ContextMenuSetting.SourceTree.Clone();
 
             // validate
             Root.MenuElementType = MenuElementType.Group;
@@ -201,7 +201,7 @@ namespace NeeView
         //
         public void Decide()
         {
-            _ViewMemento.ContextMenuSetting.SourceTree = Root.IsEqual(MenuTree.CreateDefault()) ? null : Root;
+            _viewMemento.ContextMenuSetting.SourceTree = Root.IsEqual(MenuTree.CreateDefault()) ? null : Root;
         }
 
         //

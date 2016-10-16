@@ -24,7 +24,7 @@ namespace NeeView
     public partial class App : Application
     {
         // 例外発生数
-        private int _ExceptionCount = 0;
+        private int _exceptionCount = 0;
 
         // コマンドラインオプション
         private static OptionParser _OptionParser { get; set; } = new OptionParser();
@@ -232,9 +232,9 @@ namespace NeeView
         /// <param name="e"></param>
         public void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            if (++_ExceptionCount >= 2)
+            if (++_exceptionCount >= 2)
             {
-                Debug.WriteLine($"AfterException({_ExceptionCount}): {e.Exception.Message}");
+                Debug.WriteLine($"AfterException({_exceptionCount}): {e.Exception.Message}");
                 e.Handled = true;
                 return;
             }
@@ -273,6 +273,5 @@ namespace NeeView
             this.Shutdown();
 #endif
         }
-
     }
 }

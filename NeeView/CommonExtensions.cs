@@ -21,5 +21,4 @@ namespace NeeView
             rhs = temp;
         }
     }
-
 }

@@ -68,7 +68,7 @@ namespace NeeLaboratory.Property
 
         // Using a DependencyProperty as the backing store for ColumnRate.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ColumnRateProperty =
-            DependencyProperty.Register("ColumnRate", typeof(double), typeof(PropertyControl), new PropertyMetadata(1.0/4.0, ColumnRateProperty_Changed));
+            DependencyProperty.Register("ColumnRate", typeof(double), typeof(PropertyControl), new PropertyMetadata(1.0 / 4.0, ColumnRateProperty_Changed));
 
         private static void ColumnRateProperty_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

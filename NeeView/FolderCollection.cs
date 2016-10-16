@@ -98,29 +98,29 @@ namespace NeeView
             OnPropertyChanged(nameof(IconOverlay));
         }
 
-        private BitmapSource _Icon;
+        private BitmapSource _icon;
         public BitmapSource Icon
         {
             get
             {
-                if (_Icon == null && !IsEmpty)
+                if (_icon == null && !IsEmpty)
                 {
-                    _Icon = Utility.FileInfo.GetTypeIconSource(Path, Utility.FileInfo.IconSize.Normal);
+                    _icon = Utility.FileInfo.GetTypeIconSource(Path, Utility.FileInfo.IconSize.Normal);
                 }
-                return _Icon;
+                return _icon;
             }
         }
 
-        private BitmapSource _IconSmall;
+        private BitmapSource _iconSmall;
         public BitmapSource IconSmall
         {
             get
             {
-                if (_IconSmall == null && !IsEmpty)
+                if (_iconSmall == null && !IsEmpty)
                 {
-                    _IconSmall = Utility.FileInfo.GetTypeIconSource(Path, Utility.FileInfo.IconSize.Small);
+                    _iconSmall = Utility.FileInfo.GetTypeIconSource(Path, Utility.FileInfo.IconSize.Small);
                 }
-                return _IconSmall;
+                return _iconSmall;
             }
         }
 
@@ -147,19 +147,19 @@ namespace NeeView
 
         // サムネイル用
         #region Property: ArchivePage
-        private ArchivePage _ArchivePage;
+        private ArchivePage _archivePage;
         public ArchivePage ArchivePage
         {
             get
             {
-                if (_ArchivePage == null && !IsDrive && !IsEmpty)
+                if (_archivePage == null && !IsDrive && !IsEmpty)
                 {
-                    _ArchivePage = new ArchivePage(Path);
-                    _ArchivePage.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(this, _ArchivePage);
+                    _archivePage = new ArchivePage(Path);
+                    _archivePage.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(this, _archivePage);
                 }
-                return _ArchivePage;
+                return _archivePage;
             }
-            set { _ArchivePage = value; OnPropertyChanged(); }
+            set { _archivePage = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -190,21 +190,21 @@ namespace NeeView
         public string Path { get; set; }
 
         #region Property: FolderOrder
-        private FolderOrder _FolderOrder;
+        private FolderOrder _folderOrder;
         public FolderOrder FolderOrder
         {
-            get { return _FolderOrder; }
-            set { _FolderOrder = value; Save(); _RandomSeed = new Random().Next(); OnPropertyChanged(); }
+            get { return _folderOrder; }
+            set { _folderOrder = value; Save(); s_randomSeed = new Random().Next(); OnPropertyChanged(); }
         }
         #endregion
 
         public int RandomSeed { get; set; }
 
-        private static int _RandomSeed;
+        private static int s_randomSeed;
 
         static Folder()
         {
-            _RandomSeed = new Random().Next();
+            s_randomSeed = new Random().Next();
         }
 
 
@@ -212,17 +212,17 @@ namespace NeeView
         {
             Path = path;
             Load();
-            RandomSeed = _RandomSeed;
+            RandomSeed = s_randomSeed;
         }
 
         public void Save()
         {
-            ModelContext.BookHistory.SetFolderOrder(Path, _FolderOrder);
+            ModelContext.BookHistory.SetFolderOrder(Path, _folderOrder);
         }
 
         private void Load()
         {
-            _FolderOrder = ModelContext.BookHistory.GetFolderOrder(Path);
+            _folderOrder = ModelContext.BookHistory.GetFolderOrder(Path);
         }
 
         public Folder Clone()
@@ -241,13 +241,13 @@ namespace NeeView
         public event EventHandler Changed;
 
         //
-        private Folder _Folder;
+        private Folder _folder;
         public Folder Folder
         {
-            get { return _Folder; }
+            get { return _folder; }
             set
             {
-                _Folder = value;
+                _folder = value;
                 Folder.PropertyChanged += (s, e) => Changed?.Invoke(s, null);
             }
         }
@@ -274,12 +274,12 @@ namespace NeeView
 
 
         //
-        private bool _IsDarty;
+        private bool _isDarty;
 
         //
         public bool IsDarty(Folder folder)
         {
-            return (_IsDarty || Place != folder.Path || FolderOrder != folder.FolderOrder || RandomSeed != folder.RandomSeed);
+            return (_isDarty || Place != folder.Path || FolderOrder != folder.FolderOrder || RandomSeed != folder.RandomSeed);
         }
 
         //
@@ -290,13 +290,13 @@ namespace NeeView
 
 
         //
-        private string _CurrentPlace;
+        private string _currentPlace;
 
         //
-        public int SelectedIndex => IndexOfPath(_CurrentPlace);
+        public int SelectedIndex => IndexOfPath(_currentPlace);
 
         //
-        public string SelectedPath => _CurrentPlace;
+        public string SelectedPath => _currentPlace;
 
         //
         public int IndexOfPath(string path)
@@ -313,7 +313,7 @@ namespace NeeView
         //
         public void Update(string path)
         {
-            _CurrentPlace = path ?? _CurrentPlace;
+            _currentPlace = path ?? _currentPlace;
 
             if (string.IsNullOrWhiteSpace(Place))
             {
@@ -416,62 +416,59 @@ namespace NeeView
         #region FileSystemWatcher
 
         // ファイル変更監視
-        private FileSystemWatcher _FileSystemWatcher;
+        private FileSystemWatcher _fileSystemWatcher;
 
         //
         private void InitializeWatcher(string path)
         {
-            _FileSystemWatcher = new FileSystemWatcher();
+            _fileSystemWatcher = new FileSystemWatcher();
 
             try
             {
-                _FileSystemWatcher.Path = path;
-                _FileSystemWatcher.IncludeSubdirectories = false;
-                _FileSystemWatcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName;
-                _FileSystemWatcher.Created += Watcher_Changed;
-                _FileSystemWatcher.Deleted += Watcher_Changed;
-                _FileSystemWatcher.Renamed += Watcher_Changed;
+                _fileSystemWatcher.Path = path;
+                _fileSystemWatcher.IncludeSubdirectories = false;
+                _fileSystemWatcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName;
+                _fileSystemWatcher.Created += Watcher_Changed;
+                _fileSystemWatcher.Deleted += Watcher_Changed;
+                _fileSystemWatcher.Renamed += Watcher_Changed;
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                _FileSystemWatcher.Dispose();
-                _FileSystemWatcher = null;
+                _fileSystemWatcher.Dispose();
+                _fileSystemWatcher = null;
             }
         }
 
         //
         private void TerminateWatcher()
         {
-            if (_FileSystemWatcher != null)
+            if (_fileSystemWatcher != null)
             {
-                _FileSystemWatcher.EnableRaisingEvents = false;
-                _FileSystemWatcher.Created -= Watcher_Changed;
-                _FileSystemWatcher.Created -= Watcher_Changed;
-                _FileSystemWatcher.Renamed -= Watcher_Changed;
-                _FileSystemWatcher.Dispose();
-                _FileSystemWatcher = null;
+                _fileSystemWatcher.EnableRaisingEvents = false;
+                _fileSystemWatcher.Created -= Watcher_Changed;
+                _fileSystemWatcher.Created -= Watcher_Changed;
+                _fileSystemWatcher.Renamed -= Watcher_Changed;
+                _fileSystemWatcher.Dispose();
+                _fileSystemWatcher = null;
             }
         }
 
         // フォルダ監視開始
         private void StartWatch()
         {
-            if (_FileSystemWatcher != null)
+            if (_fileSystemWatcher != null)
             {
-                _FileSystemWatcher.EnableRaisingEvents = true;
+                _fileSystemWatcher.EnableRaisingEvents = true;
             }
         }
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            _IsDarty = true;
+            _isDarty = true;
             Changed?.Invoke(this, null);
         }
     }
 
     #endregion
-
-
-
 }

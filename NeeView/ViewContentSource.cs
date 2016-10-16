@@ -86,10 +86,10 @@ namespace NeeView
 
         // エフェクトレンダリング用
         // メモリリークを防ぐため、インスタンスを限定する
-        private static Image _RenderImage;
+        private static Image s_renderImage;
 
         //
-        private static object _RenderImageLock = new object();
+        private static object s_renderImageLock = new object();
 
         /// <summary>
         /// エフェクトをかけた画像を生成する
@@ -103,21 +103,21 @@ namespace NeeView
             // エフェクトがなければそのまま返す
             if (effect == null) return source;
 
-            lock (_RenderImageLock)
+            lock (s_renderImageLock)
             {
-                if (_RenderImage == null) _RenderImage = new Image();
+                if (s_renderImage == null) s_renderImage = new Image();
 
-                _RenderImage.Source = source;
-                _RenderImage.Width = size.Width;
-                _RenderImage.Height = size.Height;
-                _RenderImage.Effect = effect;
-                _RenderImage.Stretch = Stretch.Fill;
-                RenderOptions.SetBitmapScalingMode(_RenderImage, BitmapScalingMode.NearestNeighbor);
+                s_renderImage.Source = source;
+                s_renderImage.Width = size.Width;
+                s_renderImage.Height = size.Height;
+                s_renderImage.Effect = effect;
+                s_renderImage.Stretch = Stretch.Fill;
+                RenderOptions.SetBitmapScalingMode(s_renderImage, BitmapScalingMode.NearestNeighbor);
 
-                var effectedBitmapSource = Utility.NVGraphics.CreateRenderBitmap(_RenderImage);
+                var effectedBitmapSource = Utility.NVGraphics.CreateRenderBitmap(s_renderImage);
 
-                _RenderImage.Source = null;
-                _RenderImage.Effect = null;
+                s_renderImage.Source = null;
+                s_renderImage.Effect = null;
 
                 return effectedBitmapSource;
             }
@@ -133,7 +133,7 @@ namespace NeeView
 
                 // エフェクトをかけた画像を作成
                 ////brush.ImageSource = CreateEffectedBitmap(((BitmapContent)Source).Source, SourceSize, effect);
-                
+
                 // そのまま画像を使用
                 brush.ImageSource = ((BitmapContent)Source).Source;
 
@@ -195,5 +195,4 @@ namespace NeeView
         public List<ViewContentSource> Sources { get; set; }
         public int Direction { get; set; }
     }
-
 }

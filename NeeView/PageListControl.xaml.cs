@@ -231,14 +231,14 @@ namespace NeeView
 
 
 
-        private BookHub _BookHub;
+        private BookHub _bookHub;
         public BookHub BookHub
         {
-            get { return _BookHub; }
+            get { return _bookHub; }
             set
             {
-                _BookHub = value;
-                _BookHub.ViewContentsChanged += BookHub_ViewContentsChanged;
+                _bookHub = value;
+                _bookHub.ViewContentsChanged += BookHub_ViewContentsChanged;
                 OnPropertyChanged();
             }
         }
@@ -263,11 +263,11 @@ namespace NeeView
         };
 
         #region Property: Format
-        private PageNameFormat _Format = PageNameFormat.Smart;
+        private PageNameFormat _format = PageNameFormat.Smart;
         public PageNameFormat Format
         {
-            get { return _Format; }
-            set { _Format = value; OnPropertyChanged(); }
+            get { return _format; }
+            set { _format = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -276,38 +276,38 @@ namespace NeeView
         public Dictionary<PageSortMode, string> PageSortModeList => PageSortModeExtension.PageSortModeList;
 
         #region Property: Title
-        private string _Title;
+        private string _title;
         public string Title
         {
-            get { return _Title; }
-            set { _Title = value; OnPropertyChanged(); }
+            get { return _title; }
+            set { _title = value; OnPropertyChanged(); }
         }
         #endregion
 
         #region Property: PageSortMode
-        private PageSortMode _PageSortMode;
+        private PageSortMode _pageSortMode;
         public PageSortMode PageSortMode
         {
-            get { return _PageSortMode; }
-            set { _PageSortMode = value; _BookHub.SetSortMode(value); }
+            get { return _pageSortMode; }
+            set { _pageSortMode = value; _bookHub.SetSortMode(value); }
         }
         #endregion
 
         #region Property: SelectedItem
-        private Page _SelectedItem;
+        private Page _selectedItem;
         public Page SelectedItem
         {
-            get { return _SelectedItem; }
-            set { _SelectedItem = value; OnPropertyChanged(); }
+            get { return _selectedItem; }
+            set { _selectedItem = value; OnPropertyChanged(); }
         }
         #endregion
 
         //
         private void Reflesh()
         {
-            Title = System.IO.Path.GetFileName(_BookHub.CurrentBook?.Place);
+            Title = System.IO.Path.GetFileName(_bookHub.CurrentBook?.Place);
 
-            _PageSortMode = _BookHub.BookMemento.SortMode;
+            _pageSortMode = _bookHub.BookMemento.SortMode;
             OnPropertyChanged(nameof(PageSortMode));
 
             App.Current.Dispatcher.Invoke(() => PagesChanged?.Invoke(this, null));
@@ -324,21 +324,20 @@ namespace NeeView
         //
         public void Jump(Page page)
         {
-            _BookHub.JumpPage(page);
+            _bookHub.JumpPage(page);
         }
 
 
         //
         public bool CanRemove(Page page)
         {
-            return _BookHub.CanRemoveFile(page);
+            return _bookHub.CanRemoveFile(page);
         }
 
         //
         public async Task Remove(Page page)
         {
-            await _BookHub.RemoveFile(page);
+            await _bookHub.RemoveFile(page);
         }
-
     }
 }

@@ -19,7 +19,7 @@ namespace NeeView
         Default,
         Susie,
     }
-    
+
     /// <summary>
     /// 画像ローダーのインターフェイス
     /// </summary>
@@ -37,14 +37,14 @@ namespace NeeView
     public class BitmapLoaderManager
     {
         // サポート拡張子
-        Dictionary<BitmapLoaderType, string[]> _supprtedFileTypes = new Dictionary<BitmapLoaderType, string[]>()
+        private Dictionary<BitmapLoaderType, string[]> _supprtedFileTypes = new Dictionary<BitmapLoaderType, string[]>()
         {
-            [BitmapLoaderType.Default] = new string[] { ".bmp", ".dib", ".jpg", ".jpeg", ".jpe", ".jfif", ".gif", ".tif", ".tiff", ".png", ".ico",  },
+            [BitmapLoaderType.Default] = new string[] { ".bmp", ".dib", ".jpg", ".jpeg", ".jpe", ".jfif", ".gif", ".tif", ".tiff", ".png", ".ico", },
             [BitmapLoaderType.Susie] = new string[] { },
         };
 
         // ローダー優先順位
-        Dictionary<BitmapLoaderType, List<BitmapLoaderType>> _orderList = new Dictionary<BitmapLoaderType, List<BitmapLoaderType>>()
+        private Dictionary<BitmapLoaderType, List<BitmapLoaderType>> _orderList = new Dictionary<BitmapLoaderType, List<BitmapLoaderType>>()
         {
             [BitmapLoaderType.Default] = new List<BitmapLoaderType>()
             {
@@ -107,7 +107,7 @@ namespace NeeView
         {
             var list = new List<string>();
 
-            foreach(var pair in DefaultBitmapLoader.GetExtensions())
+            foreach (var pair in DefaultBitmapLoader.GetExtensions())
             {
                 list.AddRange(pair.Value.Split(','));
             }
@@ -147,7 +147,4 @@ namespace NeeView
             }
         }
     }
-
-
-
 }

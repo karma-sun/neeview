@@ -27,17 +27,17 @@ namespace NeeView
     public class ThumbnailManager
     {
         // サムネイル有効リスト
-        private AliveThumbnailList _AliveThumbnailList = new AliveThumbnailList();
+        private AliveThumbnailList _aliveThumbnailList = new AliveThumbnailList();
 
-        private double _ThumbnailSize = 256.0;
+        private double _thumbnailSize = 256.0;
         public double ThumbnailSizeX
         {
-            get { return _ThumbnailSize; }
+            get { return _thumbnailSize; }
             set
             {
-                if (_ThumbnailSize != value)
+                if (_thumbnailSize != value)
                 {
-                    _ThumbnailSize = value;
+                    _thumbnailSize = value;
                     ClearThumbnail();
                 }
             }
@@ -50,21 +50,21 @@ namespace NeeView
         //
         public void InitializeThumbnailSystem()
         {
-            FolderInfo.ThumbnailChanged += (s, e) => _AliveThumbnailList.Add(e);
-            BookMementoUnit.ThumbnailChanged += (s, e) => _AliveThumbnailList.Add(e);
-            Pagemark.ThumbnailChanged += (s, e) => _AliveThumbnailList.Add(e);
+            FolderInfo.ThumbnailChanged += (s, e) => _aliveThumbnailList.Add(e);
+            BookMementoUnit.ThumbnailChanged += (s, e) => _aliveThumbnailList.Add(e);
+            Pagemark.ThumbnailChanged += (s, e) => _aliveThumbnailList.Add(e);
         }
 
         //
         #region Property: IsEnabled
-        private bool _IsEnabled;
+        private bool _isEnabled;
         public bool IsEnabled
         {
-            get { return _IsEnabled; }
+            get { return _isEnabled; }
             set
             {
-                _IsEnabled = value;
-                if (!_IsEnabled) ClearThumbnail();
+                _isEnabled = value;
+                if (!_isEnabled) ClearThumbnail();
             }
         }
         #endregion
@@ -72,7 +72,7 @@ namespace NeeView
         // サムネイル要求
         public void RequestThumbnail<T>(ICollection<T> collection, int start, int count, int margin, int direction) where T : IHasPage
         {
-            if (!_IsEnabled) return;
+            if (!_isEnabled) return;
 
             //Debug.WriteLine($"{start}+{count}");
 
@@ -100,14 +100,13 @@ namespace NeeView
         private void LimitThumbnail()
         {
             int limit = (ThumbnailMemorySize * 1024 * 1024) / ((int)ThumbnailSizeX * (int)ThumbnailSizeY);
-            _AliveThumbnailList.Limited(limit);
+            _aliveThumbnailList.Limited(limit);
         }
 
         // サムネイル破棄
         private void ClearThumbnail()
         {
-            _AliveThumbnailList.Clear();
+            _aliveThumbnailList.Clear();
         }
     }
-
 }

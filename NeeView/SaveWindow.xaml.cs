@@ -33,32 +33,32 @@ namespace NeeView
         }
         #endregion
 
-        private Exporter _Exporter;
+        private Exporter _exporter;
 
         #region Property: IsHintDoubleImage
-        private bool _IsHintDoubleImage;
+        private bool _isHintDoubleImage;
         public bool IsHintDoubleImage
         {
-            get { return _IsHintDoubleImage; }
+            get { return _isHintDoubleImage; }
             set
             {
-                _IsHintDoubleImage = value;
+                _isHintDoubleImage = value;
                 OnPropertyChanged();
                 UpdateExporter();
             }
         }
         #endregion
 
-        public bool IsEnableDoubleImage => !IsHintClone && _Exporter.DoubleImage != null;
+        public bool IsEnableDoubleImage => !IsHintClone && _exporter.DoubleImage != null;
 
         #region Property: IsHintBackground
-        private bool _IsHintBackground;
+        private bool _isHintBackground;
         public bool IsHintBackground
         {
-            get { return _IsHintBackground; }
+            get { return _isHintBackground; }
             set
             {
-                _IsHintBackground = value;
+                _isHintBackground = value;
                 OnPropertyChanged();
                 UpdateExporter();
             }
@@ -68,13 +68,13 @@ namespace NeeView
         public bool IsEnableBackground => !IsHintClone;
 
         #region Property: IsHintClone
-        private bool _IsHintClone;
+        private bool _isHintClone;
         public bool IsHintClone
         {
-            get { return _IsHintClone; }
+            get { return _isHintClone; }
             set
             {
-                _IsHintClone = value;
+                _isHintClone = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsEnableDoubleImage));
                 OnPropertyChanged(nameof(IsEnableBackground));
@@ -84,20 +84,20 @@ namespace NeeView
         #endregion
 
         #region Property: Thumbnail
-        private BitmapSource _Thumbnail;
+        private BitmapSource _thumbnail;
         public BitmapSource Thumbnail
         {
-            get { return _Thumbnail; }
-            set { _Thumbnail = value; OnPropertyChanged(); }
+            get { return _thumbnail; }
+            set { _thumbnail = value; OnPropertyChanged(); }
         }
         #endregion
 
         #region Property: ThumbnailTitle
-        private string _ThumbnailTitle;
+        private string _thumbnailTitle;
         public string ThumbnailTitle
         {
-            get { return _ThumbnailTitle; }
-            set { _ThumbnailTitle = value; OnPropertyChanged(); }
+            get { return _thumbnailTitle; }
+            set { _thumbnailTitle = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -112,8 +112,8 @@ namespace NeeView
 
             this.ButtonSave.Focus();
 
-            _Exporter = exporter;
-            IsHintClone = _Exporter.IsHintClone;
+            _exporter = exporter;
+            IsHintClone = _exporter.IsHintClone;
 
             this.DataContext = this;
         }
@@ -123,14 +123,14 @@ namespace NeeView
         /// </summary>
         private void UpdateExporter()
         {
-            _Exporter.IsHintClone = IsHintClone;
-            _Exporter.ExportType = (!IsHintClone && IsHintDoubleImage) ? ExportType.Double : ExportType.Single;
-            _Exporter.IsHintBackground = (!IsHintClone && IsHintBackground);
+            _exporter.IsHintClone = IsHintClone;
+            _exporter.ExportType = (!IsHintClone && IsHintDoubleImage) ? ExportType.Double : ExportType.Single;
+            _exporter.IsHintBackground = (!IsHintClone && IsHintBackground);
 
-            _Exporter.UpdateBitmapSource();
+            _exporter.UpdateBitmapSource();
 
-            Thumbnail = _Exporter.BitmapSource;
-            ThumbnailTitle = _Exporter.CurrentImage.Name;
+            Thumbnail = _exporter.BitmapSource;
+            ThumbnailTitle = _exporter.CurrentImage.Name;
         }
 
         // 決定ボタン
@@ -142,11 +142,11 @@ namespace NeeView
 
             dialog.AddExtension = true;
 
-            var defaultExt = _Exporter.CurrentImage.DefaultExtension; 
+            var defaultExt = _exporter.CurrentImage.DefaultExtension;
             dialog.DefaultExt = defaultExt;
 
             // 拡張子は小文字限定
-            var fileName = LoosePath.ValidFileName(System.IO.Path.ChangeExtension(System.IO.Path.GetFileName(_Exporter.CurrentImage.Name), defaultExt));
+            var fileName = LoosePath.ValidFileName(System.IO.Path.ChangeExtension(System.IO.Path.GetFileName(_exporter.CurrentImage.Name), defaultExt));
             dialog.FileName = fileName;
 
             if (!IsHintClone)
@@ -157,7 +157,7 @@ namespace NeeView
                 string filter = "PNG|*.png|JPEG|*.jpg;*.jpeg;*.jpe;*.jfif";
 
                 // クローン保存できない時は標準でPNGにする
-                if (!_Exporter.CanClone(false))
+                if (!_exporter.CanClone(false))
                 {
                     fileName = System.IO.Path.ChangeExtension(fileName, ".png");
                     dialog.FileName = fileName;
@@ -174,7 +174,7 @@ namespace NeeView
                 {
                     dialog.FilterIndex = 2;
                 }
-                else if (_Exporter.CanClone(false))
+                else if (_exporter.CanClone(false))
                 {
                     filter += $"|{dialog.DefaultExt.ToUpper()}|*.{dialog.DefaultExt}";
                     dialog.FilterIndex = 3;
@@ -185,7 +185,7 @@ namespace NeeView
 
             if (dialog.ShowDialog(this) == true)
             {
-                _Exporter.Path = dialog.FileName;
+                _exporter.Path = dialog.FileName;
                 this.DialogResult = true;
                 this.Close();
             }

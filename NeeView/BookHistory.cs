@@ -17,7 +17,6 @@ using System.Xml;
 
 namespace NeeView
 {
-
     /// <summary>
     /// 履歴
     /// </summary>
@@ -328,22 +327,22 @@ namespace NeeView
 
 
             #region Property: LimitSizeIndex
-            private static List<int> _LimitSizeTable = new List<int>()
+            private static List<int> s_limitSizeTable = new List<int>()
                 { 1, 10, 20, 50, 100, 200, 500, 1000, 0 };
 
-            public int LimitSizeIndexMax => _LimitSizeTable.Count - 1;
+            public int LimitSizeIndexMax => s_limitSizeTable.Count - 1;
 
             public int LimitSizeIndex
             {
                 get
                 {
-                    int index = _LimitSizeTable.IndexOf((int)LimitSize);
+                    int index = s_limitSizeTable.IndexOf((int)LimitSize);
                     return (index < 0) ? LimitSizeIndexMax : index;
                 }
                 set
                 {
                     int index = NVUtility.Clamp<int>(value, 0, LimitSizeIndexMax);
-                    LimitSize = _LimitSizeTable[index];
+                    LimitSize = s_limitSizeTable[index];
                     OnPropertyChanged(nameof(LimitSize));
                 }
             }
@@ -351,7 +350,7 @@ namespace NeeView
 
 
             #region Property: LimitSpanIndex
-            private static List<TimeSpan> _LimitSpanTable = new List<TimeSpan>() {
+            private static List<TimeSpan> s_limitSpanTable = new List<TimeSpan>() {
                 TimeSpan.FromDays(1),
                 TimeSpan.FromDays(2),
                 TimeSpan.FromDays(3),
@@ -362,19 +361,19 @@ namespace NeeView
                 default(TimeSpan),
             };
 
-            public int LimitSpanIndexMax => _LimitSpanTable.Count - 1;
+            public int LimitSpanIndexMax => s_limitSpanTable.Count - 1;
 
             public int LimitSpanIndex
             {
                 get
                 {
-                    int index = _LimitSpanTable.IndexOf(LimitSpan);
+                    int index = s_limitSpanTable.IndexOf(LimitSpan);
                     return (index < 0) ? LimitSpanIndexMax : index;
                 }
                 set
                 {
                     int index = NVUtility.Clamp<int>(value, 0, LimitSpanIndexMax);
-                    LimitSpan = _LimitSpanTable[index];
+                    LimitSpan = s_limitSpanTable[index];
                     OnPropertyChanged(nameof(LimitSpan));
                 }
             }
@@ -445,9 +444,9 @@ namespace NeeView
             }
 
             memento.LastFolder = this.LastFolder;
-            memento.FolderOrders = this._folderOrders;
-            memento.LimitSize = this._limitSize;
-            memento.LimitSpan = this._limitSpan;
+            memento.FolderOrders = _folderOrders;
+            memento.LimitSize = _limitSize;
+            memento.LimitSpan = _limitSpan;
 
             return memento;
         }
@@ -456,9 +455,9 @@ namespace NeeView
         public void Restore(Memento memento, bool fromLoad)
         {
             this.LastFolder = memento.LastFolder;
-            this._folderOrders = memento.FolderOrders;
-            this._limitSize = memento.LimitSize;
-            this._limitSpan = memento.LimitSpan;
+            _folderOrders = memento.FolderOrders;
+            _limitSize = memento.LimitSize;
+            _limitSpan = memento.LimitSpan;
 
             this.Load(fromLoad ? Limit(memento.Items) : memento.Items);
         }
@@ -477,9 +476,6 @@ namespace NeeView
             return collection.ToList();
         }
 
-
         #endregion
     }
-
-
 }

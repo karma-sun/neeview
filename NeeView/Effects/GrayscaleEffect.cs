@@ -13,7 +13,7 @@ namespace NeeView.Effects
 {
     public class GrayscaleEffect : ShaderEffect
     {
-        private static PixelShader _pixelShader = new PixelShader() { UriSource = MakePackUri("Effects/GrayscaleEffect.ps") };
+        private static PixelShader s_pixelShader = new PixelShader() { UriSource = MakePackUri("Effects/GrayscaleEffect.ps") };
 
         // MakePackUri is a utility method for computing a pack uri
         // for the given resource. 
@@ -34,7 +34,7 @@ namespace NeeView.Effects
 
         public GrayscaleEffect()
         {
-            PixelShader = _pixelShader;
+            PixelShader = s_pixelShader;
 
             UpdateShaderValue(InputProperty);
             UpdateShaderValue(DesaturationFactorProperty);
@@ -67,6 +67,5 @@ namespace NeeView.Effects
 
             return newFactor;
         }
-
     }
 }

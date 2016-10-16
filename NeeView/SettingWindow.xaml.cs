@@ -51,13 +51,13 @@ namespace NeeView
         #endregion
 
         #region Property: SusiePluginPath
-        private string _SusiePluginPath;
+        private string _susiePluginPath;
         public string SusiePluginPath
         {
-            get { return _SusiePluginPath; }
+            get { return _susiePluginPath; }
             set
             {
-                _SusiePluginPath = value;
+                _susiePluginPath = value;
                 UpdateSusiePluginSetting(value);
             }
         }
@@ -70,7 +70,7 @@ namespace NeeView
         public SusieContext.Memento OldSusieSetting { get; set; }
 
         //
-        private bool IsDartySusieSetting;
+        private bool _isDartySusieSetting;
 
         // Susieプラグインリスト
         public ObservableCollection<Susie.SusiePlugin> AMPluginList { get; private set; }
@@ -116,7 +116,7 @@ namespace NeeView
 
 
         //
-        private Preference _Preference;
+        private Preference _preference;
 
         // 詳細設定一覧用パラメータ
         public class PreferenceParam
@@ -289,7 +289,7 @@ namespace NeeView
             Setting = setting;
             History = history;
             OldSusieSetting = setting.SusieMemento.Clone();
-            IsDartySusieSetting = false;
+            _isDartySusieSetting = false;
 
             // ドラッグキーテーブル作成
             DragKeyTable = new DragActionTable.KeyTable(Setting.DragActionMemento);
@@ -299,13 +299,13 @@ namespace NeeView
             UpdateCommandList();
 
             // 詳細設定一覧作成
-            _Preference = new Preference();
-            _Preference.Restore(Setting.PreferenceMemento);
+            _preference = new Preference();
+            _preference.Restore(Setting.PreferenceMemento);
             PreferenceCollection = new ObservableCollection<PreferenceParam>();
             UpdatePreferenceList();
 
             // プラグイン一覧作成
-            _SusiePluginPath = Setting.SusieMemento.SusiePluginPath ?? "";
+            _susiePluginPath = Setting.SusieMemento.SusiePluginPath ?? "";
             UpdateSusiePluginList();
 
             // 自身をコンテキストにする
@@ -445,7 +445,7 @@ namespace NeeView
         {
             PreferenceCollection.Clear();
 
-            foreach (var element in _Preference.Document.PropertyMembers)
+            foreach (var element in _preference.Document.PropertyMembers)
             {
                 if (element.Path.StartsWith("_")) continue;
 
@@ -601,10 +601,10 @@ namespace NeeView
 
 
         #region ParameterSettingCommand
-        private RelayCommand _ParameterSettingCommand;
+        private RelayCommand _parameterSettingCommand;
         public RelayCommand ParameterSettingCommand
         {
-            get { return _ParameterSettingCommand = _ParameterSettingCommand ?? new RelayCommand(ParameterSettingCommand_Executed, ParameterSettingCommand_CanExecute); }
+            get { return _parameterSettingCommand = _parameterSettingCommand ?? new RelayCommand(ParameterSettingCommand_Executed, ParameterSettingCommand_CanExecute); }
         }
 
         private bool ParameterSettingCommand_CanExecute()
@@ -676,7 +676,7 @@ namespace NeeView
                 }
 
                 // Preference反映
-                Setting.PreferenceMemento = _Preference.CreateMemento();
+                Setting.PreferenceMemento = _preference.CreateMemento();
 
                 // プラグインリスト書き戻し
                 if (ModelContext.Susie != null)
@@ -691,7 +691,7 @@ namespace NeeView
             else
             {
                 // Susie設定を元に戻す
-                if (IsDartySusieSetting)
+                if (_isDartySusieSetting)
                 {
                     Setting.SusieMemento = OldSusieSetting;
                     ModelContext.SusieContext.Restore(Setting.SusieMemento);
@@ -702,7 +702,7 @@ namespace NeeView
         // Susie設定のタブが選択された
         private void SusieSettingTab_Selected(object sender, RoutedEventArgs e)
         {
-            IsDartySusieSetting = true;
+            _isDartySusieSetting = true;
         }
 
         // コンテキストメニュー編集ボタンが押された
@@ -764,7 +764,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void ResetAllPreferenceButton_Click(object sender, RoutedEventArgs e)
         {
-            _Preference.Reset();
+            _preference.Reset();
             this.PreferenceListView.Items.Refresh();
         }
 

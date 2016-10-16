@@ -50,20 +50,20 @@ namespace NeeView
         #endregion
 
         #region Property: IsExpanded
-        private bool _IsExpanded;
+        private bool _isExpanded;
         public bool IsExpanded
         {
-            get { return _IsExpanded; }
-            set { _IsExpanded = value; OnPropertyChanged(); }
+            get { return _isExpanded; }
+            set { _isExpanded = value; OnPropertyChanged(); }
         }
         #endregion
 
         #region Property: IsSelected
-        private bool _IsSelected;
+        private bool _isSelected;
         public bool IsSelected
         {
-            get { return _IsSelected; }
-            set { _IsSelected = value; OnPropertyChanged(); }
+            get { return _isSelected; }
+            set { _isSelected = value; OnPropertyChanged(); }
         }
         #endregion
 

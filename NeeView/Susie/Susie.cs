@@ -37,24 +37,24 @@ namespace Susie
 
 
         // レジストリに登録されているSusiePluginパスの取得
-        private static bool _SusiePluginInstallPathInitialized;
-        private static string _SusiePluginInstallPath;
+        private static bool _susiePluginInstallPathInitialized;
+        private static string _susiePluginInstallPath;
         public static string GetSusiePluginInstallPath()
         {
-            if (!_SusiePluginInstallPathInitialized)
+            if (!_susiePluginInstallPathInitialized)
             {
                 try
                 {
                     RegistryKey regkey = Registry.CurrentUser.OpenSubKey(@"Software\Takechin\Susie\Plug-in", false);
-                    _SusiePluginInstallPath = (string)regkey?.GetValue("Path") ?? "";
+                    _susiePluginInstallPath = (string)regkey?.GetValue("Path") ?? "";
                 }
                 catch
                 {
                 }
-                _SusiePluginInstallPathInitialized = true;
+                _susiePluginInstallPathInitialized = true;
             }
 
-            return _SusiePluginInstallPath;
+            return _susiePluginInstallPath;
         }
 
 

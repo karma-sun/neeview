@@ -36,20 +36,20 @@ namespace NeeView
         #endregion
 
         // マウス入力受付コントロール
-        private FrameworkElement _Sender;
+        private FrameworkElement _sender;
 
-        private bool _IsButtonDown = false;
-        private bool _IsDragging = false;
+        private bool _isButtonDown = false;
+        private bool _isDragging = false;
 
-        private bool _IsEnableClickEvent;
+        private bool _isEnableClickEvent;
 
-        private Point _StartPoint;
-        private Point _EndPoint;
+        private Point _startPoint;
+        private Point _endPoint;
 
-        MouseGestureDirection _Direction;
+        MouseGestureDirection _direction;
 
         // ジェスチャー方向ベクトル
-        static Dictionary<MouseGestureDirection, Vector> GestureDirectionVector = new Dictionary<MouseGestureDirection, Vector>
+        private static Dictionary<MouseGestureDirection, Vector> _gestureDirectionVector = new Dictionary<MouseGestureDirection, Vector>
         {
             [MouseGestureDirection.None] = new Vector(0, 0),
             [MouseGestureDirection.Up] = new Vector(0, -1),
@@ -60,11 +60,11 @@ namespace NeeView
 
         // 現在のジェスチャーシーケンス
         #region Property: Gesture
-        private MouseGestureSequence _Gesture;
+        private MouseGestureSequence _gesture;
         public MouseGestureSequence Gesture
         {
-            get { return _Gesture; }
-            set { _Gesture = value; OnPropertyChanged(); }
+            get { return _gesture; }
+            set { _gesture = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -86,37 +86,37 @@ namespace NeeView
         // コンストラクタ
         public MouseGestureController(FrameworkElement sender)
         {
-            _Sender = sender;
+            _sender = sender;
 
-            _Gesture = new MouseGestureSequence();
-            _Gesture.CollectionChanged += (s, e) => MouseGestureUpdateEventHandler.Invoke(this, _Gesture);
+            _gesture = new MouseGestureSequence();
+            _gesture.CollectionChanged += (s, e) => MouseGestureUpdateEventHandler.Invoke(this, _gesture);
 
-            _Sender.PreviewMouseRightButtonDown += OnMouseButtonDown;
-            _Sender.PreviewMouseRightButtonUp += OnMouseButtonUp;
-            _Sender.PreviewMouseWheel += OnMouseWheel;
-            _Sender.PreviewMouseMove += OnMouseMove;
+            _sender.PreviewMouseRightButtonDown += OnMouseButtonDown;
+            _sender.PreviewMouseRightButtonUp += OnMouseButtonUp;
+            _sender.PreviewMouseWheel += OnMouseWheel;
+            _sender.PreviewMouseMove += OnMouseMove;
         }
 
 
         // ジェスチャー リセット
         public void Reset()
         {
-            _Direction = MouseGestureDirection.None;
-            _Gesture.Clear();
+            _direction = MouseGestureDirection.None;
+            _gesture.Clear();
         }
 
         // ボタンが押された時の処理
         private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _StartPoint = e.GetPosition(_Sender);
+            _startPoint = e.GetPosition(_sender);
 
-            _IsButtonDown = true;
-            _IsDragging = false;
-            _IsEnableClickEvent = true;
+            _isButtonDown = true;
+            _isDragging = false;
+            _isEnableClickEvent = true;
 
             Reset();
 
-            _Sender.CaptureMouse();
+            _sender.CaptureMouse();
         }
 
         // ジェスチャー状態が変化したことを通知
@@ -134,27 +134,27 @@ namespace NeeView
         // ボタンが離された時の処理
         private void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (!_IsButtonDown)
+            if (!_isButtonDown)
             {
                 e.Handled = true;
                 return;
             }
 
-            _IsButtonDown = false;
+            _isButtonDown = false;
 
-            _Sender.ReleaseMouseCapture();
+            _sender.ReleaseMouseCapture();
 
             e.Handled = true;
 
-            if (_IsEnableClickEvent)
+            if (_isEnableClickEvent)
             {
-                if (_Gesture.Count > 0)
+                if (_gesture.Count > 0)
                 {
-                    var args = new MouseGestureEventArgs(_Gesture);
+                    var args = new MouseGestureEventArgs(_gesture);
                     MouseGestureExecuteEventHandler?.Invoke(this, args);
                     e.Handled = args.Handled;
                 }
-                else if (!_IsDragging)
+                else if (!_isDragging)
                 {
                     if (ContextMenuSetting != null &&  ContextMenuSetting.IsEnabled && !ContextMenuSetting.IsOpenByCtrl)
                     {
@@ -176,16 +176,16 @@ namespace NeeView
         // マウスカーソルが移動した時の処理
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            if (!_IsButtonDown) return;
+            if (!_isButtonDown) return;
 
-            _EndPoint = e.GetPosition(_Sender);
+            _endPoint = e.GetPosition(_sender);
 
-            if (!_IsDragging)
+            if (!_isDragging)
             {
-                if (Math.Abs(_EndPoint.X - _StartPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(_EndPoint.Y - _StartPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+                if (Math.Abs(_endPoint.X - _startPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(_endPoint.Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
                 {
-                    _IsDragging = true;
-                    _StartPoint = e.GetPosition(_Sender);
+                    _isDragging = true;
+                    _startPoint = e.GetPosition(_sender);
                 }
                 else
                 {
@@ -193,20 +193,20 @@ namespace NeeView
                 }
             }
 
-            DragMove(_StartPoint, _EndPoint);
+            DragMove(_startPoint, _endPoint);
         }
 
         // ホイールイベント処理
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
             // クリック系のイベントを無効にする
-            _IsEnableClickEvent = false;
+            _isEnableClickEvent = false;
         }
 
         // 移動
         private void DragMove(Point start, Point end)
         {
-            var v1 = _EndPoint - _StartPoint;
+            var v1 = _endPoint - _startPoint;
 
             // 一定距離未満は判定しない
             if (Math.Abs(v1.X) < GestureMinimumDistanceX && Math.Abs(v1.Y) < GestureMinimumDistanceY) return;
@@ -214,7 +214,7 @@ namespace NeeView
             // 方向を決める
             // 斜め方向は以前の方向とする
 
-            if (_Direction != MouseGestureDirection.None && Math.Abs(Vector.AngleBetween(GestureDirectionVector[_Direction], v1)) < 60)
+            if (_direction != MouseGestureDirection.None && Math.Abs(Vector.AngleBetween(_gestureDirectionVector[_direction], v1)) < 60)
             {
                 // そのまま
             }
@@ -222,19 +222,19 @@ namespace NeeView
             {
                 foreach (MouseGestureDirection direction in Enum.GetValues(typeof(MouseGestureDirection)))
                 {
-                    var v0 = GestureDirectionVector[direction];
-                    var angle = Vector.AngleBetween(GestureDirectionVector[direction], v1);
-                    if (direction != MouseGestureDirection.None && Math.Abs(Vector.AngleBetween(GestureDirectionVector[direction], v1)) < 30)
+                    var v0 = _gestureDirectionVector[direction];
+                    var angle = Vector.AngleBetween(_gestureDirectionVector[direction], v1);
+                    if (direction != MouseGestureDirection.None && Math.Abs(Vector.AngleBetween(_gestureDirectionVector[direction], v1)) < 30)
                     {
-                        _Direction = direction;
-                        _Gesture.Add(_Direction);
+                        _direction = direction;
+                        _gesture.Add(_direction);
                         break;
                     }
                 }
             }
 
             // 開始点の更新
-            _StartPoint = _EndPoint;
+            _startPoint = _endPoint;
         }
     }
 }

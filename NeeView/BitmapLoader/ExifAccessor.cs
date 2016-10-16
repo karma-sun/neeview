@@ -57,7 +57,7 @@ namespace NeeView
     /// </summary>
     public class ExifAccessor
     {
-        BitmapMetadata _Meta;
+        private BitmapMetadata _meta;
 
         /// <summary>
         /// コンストラクタ
@@ -65,15 +65,15 @@ namespace NeeView
         /// <param name="meta">BitmapMetadata</param>
         public ExifAccessor(BitmapMetadata meta)
         {
-            _Meta = meta;
+            _meta = meta;
         }
 
         //
         private object GetExifParam(string query)
         {
-            if (_Meta.ContainsQuery(query))
+            if (_meta.ContainsQuery(query))
             {
-                return _Meta.GetQuery(query);
+                return _meta.GetQuery(query);
             }
             else
             {

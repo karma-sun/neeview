@@ -20,7 +20,7 @@ namespace NeeView
     {
         public static bool IsEnable { get; set; }
 
-        private Susie.SusiePlugin _SusiePlugin;
+        private Susie.SusiePlugin _susiePlugin;
 
         // 有効判定
         public bool IsEnabled => IsEnable;
@@ -44,13 +44,13 @@ namespace NeeView
                 }
             }
 
-            var bmpSource = ModelContext.Susie?.GetPicture(entry.EntryName, buff, true, out _SusiePlugin); // ファイル名は識別用
+            var bmpSource = ModelContext.Susie?.GetPicture(entry.EntryName, buff, true, out _susiePlugin); // ファイル名は識別用
             if (bmpSource == null) return null;
 
             var info = new FileBasicInfo();
             info.FileSize = entry.FileSize;
             info.LastWriteTime = entry.LastWriteTime;
-            info.Decoder = _SusiePlugin?.ToString();
+            info.Decoder = _susiePlugin?.ToString();
 
             var resource = new BitmapContent();
             resource.Source = bmpSource;
@@ -64,13 +64,13 @@ namespace NeeView
         {
             if (!IsEnable) return null;
 
-            var bmpSource = ModelContext.Susie?.GetPictureFromFile(fileName, true, out _SusiePlugin);
+            var bmpSource = ModelContext.Susie?.GetPictureFromFile(fileName, true, out _susiePlugin);
             if (bmpSource == null) return null;
 
             var info = new FileBasicInfo();
             info.FileSize = entry.FileSize;
             info.LastWriteTime = entry.LastWriteTime;
-            info.Decoder = _SusiePlugin?.ToString();
+            info.Decoder = _susiePlugin?.ToString();
 
             var resource = new BitmapContent();
             resource.Source = bmpSource;

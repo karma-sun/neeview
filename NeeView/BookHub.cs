@@ -198,7 +198,7 @@ namespace NeeView
 
 
         // ロード中フラグ
-        private bool _IsLoading;
+        private bool _isLoading;
 
 
         // アニメGIF 有効/無効
@@ -238,15 +238,15 @@ namespace NeeView
         public bool IsEnableHistory { get; set; } = true;
 
         // 非対応拡張子ファイルを読み込む
-        private bool _IsEnableNoSupportFile;
+        private bool _isEnableNoSupportFile;
         public bool IsEnableNoSupportFile
         {
-            get { return _IsEnableNoSupportFile; }
+            get { return _isEnableNoSupportFile; }
             set
             {
-                if (_IsEnableNoSupportFile != value)
+                if (_isEnableNoSupportFile != value)
                 {
-                    _IsEnableNoSupportFile = value;
+                    _isEnableNoSupportFile = value;
                     ReLoad();
                 }
             }
@@ -260,14 +260,14 @@ namespace NeeView
 
         // 自動再帰
         #region Property: IsAutoRecursive
-        private bool _IsAutoRecursive = true;
+        private bool _isAutoRecursive = true;
         public bool IsAutoRecursive
         {
-            get { return _IsAutoRecursive; }
+            get { return _isAutoRecursive; }
             set
             {
-                _IsAutoRecursive = value;
-                ArchivePage.IsAutoRecursive = _IsAutoRecursive;
+                _isAutoRecursive = value;
+                ArchivePage.IsAutoRecursive = _isAutoRecursive;
             }
         }
         #endregion
@@ -283,17 +283,17 @@ namespace NeeView
 
 
         // スライドショー再生フラグ
-        private bool _IsEnableSlideShow;
+        private bool _isEnableSlideShow;
         public bool IsEnableSlideShow
         {
             get
             {
-                return _IsEnableSlideShow;
+                return _isEnableSlideShow;
             }
             set
             {
-                _IsEnableSlideShow = value;
-                SlideShowModeChanged?.Invoke(this, _IsEnableSlideShow);
+                _isEnableSlideShow = value;
+                SlideShowModeChanged?.Invoke(this, _isEnableSlideShow);
             }
         }
 
@@ -320,14 +320,14 @@ namespace NeeView
 
         // 先読み設定
         #region Property: AllowPagePreLoad
-        private bool _AllowPagePreLoad = true;
+        private bool _allowPagePreLoad = true;
         public bool AllowPagePreLoad
         {
-            get { return _AllowPagePreLoad; }
+            get { return _allowPagePreLoad; }
             set
             {
-                _AllowPagePreLoad = value;
-                if (CurrentBook != null) CurrentBook.AllowPreLoad = _AllowPagePreLoad;
+                _allowPagePreLoad = value;
+                if (CurrentBook != null) CurrentBook.AllowPreLoad = _allowPagePreLoad;
             }
         }
         #endregion
@@ -339,11 +339,11 @@ namespace NeeView
 
         // アドレス
         #region Property: Address
-        private string _Address;
+        private string _address;
         public string Address
         {
-            get { return _Address; }
-            set { _Address = value; AddressChanged?.Invoke(this, null); }
+            get { return _address; }
+            set { _address = value; AddressChanged?.Invoke(this, null); }
         }
         #endregion
 
@@ -368,7 +368,7 @@ namespace NeeView
         public ClipboardUtility ClipboardUtility { get; set; } = new ClipboardUtility();
 
         // ページ表示開始スレッドイベント
-        private ManualResetEvent _ViewContentEvent = new ManualResetEvent(false);
+        private ManualResetEvent _viewContentEvent = new ManualResetEvent(false);
 
 
 
@@ -389,12 +389,12 @@ namespace NeeView
         // コマンド基底
         private abstract class BookHubCommand
         {
-            protected BookHub _BookHub;
+            protected BookHub _bookHub;
             public abstract int Priority { get; }
 
             public BookHubCommand(BookHub bookHub)
             {
-                _BookHub = bookHub;
+                _bookHub = bookHub;
             }
 
             public virtual async Task Execute() { await Task.Yield(); }
@@ -439,7 +439,7 @@ namespace NeeView
             //
             public override async Task Execute()
             {
-                await _BookHub.LoadAsync(_Args);
+                await _bookHub.LoadAsync(_Args);
             }
         }
 
@@ -458,42 +458,42 @@ namespace NeeView
         }
 
         // ワーカータスクのキャンセルトークン
-        private CancellationTokenSource _CommandWorkerCancellationTokenSource;
+        private CancellationTokenSource _commandWorkerCancellationTokenSource;
 
         // 予約されているコマンド
-        private BookHubCommand _ReadyCommand;
+        private BookHubCommand _readyCommand;
 
         // 予約コマンド存在イベント
-        public AutoResetEvent _ReadyCommandEvent { get; private set; } = new AutoResetEvent(false);
+        public AutoResetEvent _readyCommandEvent { get; private set; } = new AutoResetEvent(false);
 
         // 排他処理用ロックオブジェクト
-        private object _Lock = new object();
+        private object _lock = new object();
 
         // コマンドの予約
         private void RegistCommand(BookHubCommand command)
         {
-            lock (_Lock)
+            lock (_lock)
             {
-                if (_ReadyCommand == null || _ReadyCommand.Priority <= command.Priority)
+                if (_readyCommand == null || _readyCommand.Priority <= command.Priority)
                 {
-                    _ReadyCommand = command;
+                    _readyCommand = command;
                 }
             }
-            _ReadyCommandEvent.Set();
+            _readyCommandEvent.Set();
         }
 
         // ワーカータスクの起動
         private void StartCommandWorker()
         {
-            _CommandWorkerCancellationTokenSource = new CancellationTokenSource();
-            Task.Run(() => CommandWorker(), _CommandWorkerCancellationTokenSource.Token);
+            _commandWorkerCancellationTokenSource = new CancellationTokenSource();
+            Task.Run(() => CommandWorker(), _commandWorkerCancellationTokenSource.Token);
         }
 
         // ワーカータスクの終了
         private void BreakCommandWorker()
         {
-            _CommandWorkerCancellationTokenSource.Cancel();
-            _ReadyCommandEvent.Set();
+            _commandWorkerCancellationTokenSource.Cancel();
+            _readyCommandEvent.Set();
         }
 
         // ワーカータスク
@@ -502,16 +502,16 @@ namespace NeeView
             try
             {
                 ////Debug.WriteLine("BookHubタスクの開始");
-                while (!_CommandWorkerCancellationTokenSource.Token.IsCancellationRequested)
+                while (!_commandWorkerCancellationTokenSource.Token.IsCancellationRequested)
                 {
-                    await Task.Run(() => _ReadyCommandEvent.WaitOne());
-                    _CommandWorkerCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    await Task.Run(() => _readyCommandEvent.WaitOne());
+                    _commandWorkerCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                     BookHubCommand command;
-                    lock (_Lock)
+                    lock (_lock)
                     {
-                        command = _ReadyCommand;
-                        _ReadyCommand = null;
+                        command = _readyCommand;
+                        _readyCommand = null;
                     }
 
                     if (command != null)
@@ -686,7 +686,7 @@ namespace NeeView
         // ロード中状態更新
         private void NotifyLoading(string path)
         {
-            _IsLoading = (path != null);
+            _isLoading = (path != null);
             App.Current.Dispatcher.Invoke(() => Loading?.Invoke(this, path));
         }
 
@@ -868,8 +868,8 @@ namespace NeeView
                 book.PageRemoved += OnPageRemoved;
 
                 // 最初のコンテンツ表示待ち設定
-                _ViewContentEvent.Reset();
-                book.ViewContentsChanged += (s, e) => _ViewContentEvent.Set();
+                _viewContentEvent.Reset();
+                book.ViewContentsChanged += (s, e) => _viewContentEvent.Set();
 
                 // カレントを設定し、開始する
                 Current = new BookUnit(book);
@@ -881,7 +881,7 @@ namespace NeeView
                 UpdatePagemark();
 
                 // 最初のコンテンツ表示待ち
-                await Task.Run(() => _ViewContentEvent.WaitOne());
+                await Task.Run(() => _viewContentEvent.WaitOne());
             }
             catch (Exception e)
             {
@@ -918,7 +918,7 @@ namespace NeeView
         // 再読み込み
         public void ReLoad()
         {
-            if (_IsLoading || Address == null) return;
+            if (_isLoading || Address == null) return;
 
             var options = Current != null ? (Current.LoadOptions & BookLoadOption.KeepHistoryOrder) : BookLoadOption.None;
             RequestLoad(Address, null, options, true);
@@ -1003,7 +1003,7 @@ namespace NeeView
         // 履歴を戻る
         public void PrevHistory()
         {
-            if (_IsLoading || ModelContext.BookHistory.Count <= 0) return;
+            if (_isLoading || ModelContext.BookHistory.Count <= 0) return;
 
             var unit = ModelContext.BookHistory.Find(Address);
             var previous = unit?.HistoryNode?.Next.Value; // リストと履歴の方向は逆
@@ -1032,7 +1032,7 @@ namespace NeeView
         // 履歴を進める
         public void NextHistory()
         {
-            if (_IsLoading) return;
+            if (_isLoading) return;
 
             var unit = ModelContext.BookHistory.Find(Address);
             var next = unit?.HistoryNode?.Previous; // リストと履歴の方向は逆
@@ -1098,7 +1098,7 @@ namespace NeeView
         // 指定ページに移動
         public void JumpPage(Page page)
         {
-            if (!_IsLoading && page != null) CurrentBook?.JumpPage(page);
+            if (!_isLoading && page != null) CurrentBook?.JumpPage(page);
         }
 
         // スライドショー用：次のページへ移動
@@ -1172,13 +1172,13 @@ namespace NeeView
         // ページモードごとの設定の可否
         public bool CanPageModeSubSetting(PageMode mode)
         {
-            return !_IsLoading && BookMemento.PageMode == mode;
+            return !_isLoading && BookMemento.PageMode == mode;
         }
 
         // 先頭ページの単ページ表示ON/OFF 
         public void ToggleIsSupportedSingleFirstPage()
         {
-            if (_IsLoading) return;
+            if (_isLoading) return;
             BookMemento.IsSupportedSingleFirstPage = !BookMemento.IsSupportedSingleFirstPage;
             RefleshBookSetting();
         }
@@ -1186,7 +1186,7 @@ namespace NeeView
         // 最終ページの単ページ表示ON/OFF 
         public void ToggleIsSupportedSingleLastPage()
         {
-            if (_IsLoading) return;
+            if (_isLoading) return;
             BookMemento.IsSupportedSingleLastPage = !BookMemento.IsSupportedSingleLastPage;
             RefleshBookSetting();
         }
@@ -1194,7 +1194,7 @@ namespace NeeView
         // 横長ページの分割ON/OFF
         public void ToggleIsSupportedDividePage()
         {
-            if (_IsLoading) return;
+            if (_isLoading) return;
             BookMemento.IsSupportedDividePage = !BookMemento.IsSupportedDividePage;
             RefleshBookSetting();
         }
@@ -1202,7 +1202,7 @@ namespace NeeView
         // 横長ページの見開き判定ON/OFF
         public void ToggleIsSupportedWidePage()
         {
-            if (_IsLoading) return;
+            if (_isLoading) return;
             BookMemento.IsSupportedWidePage = !BookMemento.IsSupportedWidePage;
             RefleshBookSetting();
         }
@@ -1210,7 +1210,7 @@ namespace NeeView
         // フォルダ再帰読み込みON/OFF
         public void ToggleIsRecursiveFolder()
         {
-            if (_IsLoading) return;
+            if (_isLoading) return;
             BookMemento.IsRecursiveFolder = !BookMemento.IsRecursiveFolder;
             RefleshBookSetting();
         }
@@ -1225,7 +1225,7 @@ namespace NeeView
         // 見開き方向変更
         public void ToggleBookReadOrder()
         {
-            if (_IsLoading) return;
+            if (_isLoading) return;
             BookMemento.BookReadOrder = BookMemento.BookReadOrder.GetToggle();
             RefleshBookSetting();
         }
@@ -1241,7 +1241,7 @@ namespace NeeView
         // 単ページ/見開き表示トグル
         public void TogglePageMode()
         {
-            if (_IsLoading) return;
+            if (_isLoading) return;
             BookMemento.PageMode = BookMemento.PageMode.GetToggle();
             RefleshBookSetting();
         }
@@ -1249,7 +1249,7 @@ namespace NeeView
         // ページ並び変更
         public void ToggleSortMode()
         {
-            if (_IsLoading) return;
+            if (_isLoading) return;
             var mode = BookMemento.SortMode.GetToggle();
             CurrentBook?.SetSortMode(mode);
             BookMemento.SortMode = mode;
@@ -1338,7 +1338,7 @@ namespace NeeView
         // ブックマークを戻る
         public void PrevBookmark()
         {
-            if (_IsLoading) return;
+            if (_isLoading) return;
 
             if (!ModelContext.Bookmarks.CanMoveSelected(-1))
             {
@@ -1357,7 +1357,7 @@ namespace NeeView
         // ブックマークを進む
         public void NextBookmark()
         {
-            if (_IsLoading) return;
+            if (_isLoading) return;
 
             if (!ModelContext.Bookmarks.CanMoveSelected(+1))
             {
@@ -1383,7 +1383,7 @@ namespace NeeView
         // マーカー切り替え
         public void TogglePagemark()
         {
-            if (_IsLoading || CurrentBook == null) return;
+            if (_isLoading || CurrentBook == null) return;
 
             if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
             {
@@ -1448,7 +1448,7 @@ namespace NeeView
         // ページマークに移動
         public void PrevPagemarkInPlace(MovePagemarkCommandParameter param)
         {
-            if (_IsLoading || CurrentBook == null) return;
+            if (_isLoading || CurrentBook == null) return;
             var result = CurrentBook.RequestJumpToMarker(-1, param.IsLoop, param.IsIncludeTerminal);
             if (!result)
             {
@@ -1458,7 +1458,7 @@ namespace NeeView
 
         public void NextPagemarkInPlace(MovePagemarkCommandParameter param)
         {
-            if (_IsLoading || CurrentBook == null) return;
+            if (_isLoading || CurrentBook == null) return;
             var result = CurrentBook.RequestJumpToMarker(+1, param.IsLoop, param.IsIncludeTerminal);
             if (!result)
             {
@@ -1485,7 +1485,7 @@ namespace NeeView
 
         public void PrevPagemark()
         {
-            if (_IsLoading) return;
+            if (_isLoading) return;
 
             if (!ModelContext.Pagemarks.CanMoveSelected(-1))
             {
@@ -1499,7 +1499,7 @@ namespace NeeView
 
         public void NextPagemark()
         {
-            if (_IsLoading) return;
+            if (_isLoading) return;
 
             if (!ModelContext.Pagemarks.CanMoveSelected(+1))
             {

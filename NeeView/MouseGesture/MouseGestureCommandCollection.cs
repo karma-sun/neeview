@@ -13,24 +13,24 @@ namespace NeeView
     public class MouseGestureCommandCollection
     {
         // シーケンスとコマンドの対応辞書
-        Dictionary<string, RoutedUICommand> _Commands;
+        private Dictionary<string, RoutedUICommand> _commands;
 
         // 初期化
         public MouseGestureCommandCollection()
         {
-            _Commands = new Dictionary<string, RoutedUICommand>();
+            _commands = new Dictionary<string, RoutedUICommand>();
         }
 
         // 辞書クリア
         public void Clear()
         {
-            _Commands.Clear();
+            _commands.Clear();
         }
 
         // コマンド追加
         public void Add(string gestureText, RoutedUICommand command)
         {
-            _Commands[gestureText] = command;
+            _commands[gestureText] = command;
         }
 
         // ジェスチャーシーケンスからコマンドを取得
@@ -38,9 +38,9 @@ namespace NeeView
         {
             string key = gesture.ToString();
 
-            if (_Commands.ContainsKey(key))
+            if (_commands.ContainsKey(key))
             {
-                return _Commands[key];
+                return _commands[key];
             }
             else
             {
@@ -57,11 +57,11 @@ namespace NeeView
         // セスチャー文字列からコマンドを実行
         public void Execute(string gestureText)
         {
-            if (_Commands.ContainsKey(gestureText))
+            if (_commands.ContainsKey(gestureText))
             {
-                if (_Commands[gestureText].CanExecute(null, null))
+                if (_commands[gestureText].CanExecute(null, null))
                 {
-                    _Commands[gestureText].Execute(null, null);
+                    _commands[gestureText].Execute(null, null);
                 }
             }
         }

@@ -19,7 +19,7 @@ namespace NeeView
     public class ArchiverManager
     {
         // サポート拡張子
-        Dictionary<ArchiverType, string[]> _SupprtedFileTypes = new Dictionary<ArchiverType, string[]>()
+        Dictionary<ArchiverType, string[]> _supprtedFileTypes = new Dictionary<ArchiverType, string[]>()
         {
             [ArchiverType.SevenZipArchiver] = new string[] { ".7z", ".rar", ".lzh" },
             [ArchiverType.ZipArchiver] = new string[] { ".zip" },
@@ -27,7 +27,7 @@ namespace NeeView
         };
 
         // アーカイバ優先度リスト
-        Dictionary<ArchiverType, List<ArchiverType>> _OrderList = new Dictionary<ArchiverType, List<ArchiverType>>()
+        Dictionary<ArchiverType, List<ArchiverType>> _orderList = new Dictionary<ArchiverType, List<ArchiverType>>()
         {
             [ArchiverType.DefaultArchiver] = new List<ArchiverType>()
             {
@@ -68,14 +68,14 @@ namespace NeeView
             {
                 string ext = LoosePath.GetExtension(fileName);
 
-                foreach (var type in _OrderList[OrderType])
+                foreach (var type in _orderList[OrderType])
                 {
                     if (type == ArchiverType.SusieArchiver && !SusieArchiver.IsEnable)
                     {
                         continue;
                     }
 
-                    if (_SupprtedFileTypes[type].Contains(ext))
+                    if (_supprtedFileTypes[type].Contains(ext))
                     {
                         return type;
                     }
@@ -96,8 +96,8 @@ namespace NeeView
                 var ext = token.Trim().TrimStart('.').ToLower();
                 if (!string.IsNullOrWhiteSpace(ext)) list.Add("." + ext);
             }
-            _SupprtedFileTypes[ArchiverType.SevenZipArchiver] = list.ToArray();
-            Debug.WriteLine("7z.dll Support: " + string.Join(" ", _SupprtedFileTypes[ArchiverType.SevenZipArchiver]));
+            _supprtedFileTypes[ArchiverType.SevenZipArchiver] = list.ToArray();
+            Debug.WriteLine("7z.dll Support: " + string.Join(" ", _supprtedFileTypes[ArchiverType.SevenZipArchiver]));
         }
 
         // Susieアーカイバのサポート拡張子を更新
@@ -111,8 +111,8 @@ namespace NeeView
                     list.AddRange(plugin.Extensions);
                 }
             }
-            _SupprtedFileTypes[ArchiverType.SusieArchiver] = list.Distinct().ToArray();
-            Debug.WriteLine("SusieAM Support: " + string.Join(" ", _SupprtedFileTypes[ArchiverType.SusieArchiver]));
+            _supprtedFileTypes[ArchiverType.SusieArchiver] = list.Distinct().ToArray();
+            Debug.WriteLine("SusieAM Support: " + string.Join(" ", _supprtedFileTypes[ArchiverType.SusieArchiver]));
         }
 
         /// <summary>

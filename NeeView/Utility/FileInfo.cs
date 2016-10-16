@@ -49,12 +49,12 @@ namespace NeeView.Utility
         };
         #endregion
 
-        private string _Path;
+        private string _path;
 
 
         public FileInfo(string path)
         {
-            _Path = path;
+            _path = path;
         }
 
 
@@ -63,40 +63,40 @@ namespace NeeView.Utility
         {
             get
             {
-                if (_TypeName == null) _TypeName = GetTypeName(_Path);
+                if (_TypeName == null) _TypeName = GetTypeName(_path);
                 return _TypeName;
             }
         }
 
 
-        private BitmapSource _IconSource;
+        private BitmapSource _iconSource;
         public BitmapSource IconSource
         {
             get
             {
-                if (_IconSource == null) _IconSource = GetTypeIconSource(_Path, IconSize.Small);
-                return _IconSource;
+                if (_iconSource == null) _iconSource = GetTypeIconSource(_path, IconSize.Small);
+                return _iconSource;
             }
         }
 
-        private long? _Size;
+        private long? _size;
         public long Size
         {
             get
             {
-                if (_Size == null) _Size = GetSize(_Path);
-                return (long)_Size;
+                if (_size == null) _size = GetSize(_path);
+                return (long)_size;
             }
         }
 
 
-        private DateTime? _LastWriteTime;
+        private DateTime? _lastWriteTime;
         public DateTime LastWriteTime
         {
             get
             {
-                if (_LastWriteTime == null) _LastWriteTime = GetLastWriteTime(_Path);
-                return (DateTime)_LastWriteTime;
+                if (_lastWriteTime == null) _lastWriteTime = GetLastWriteTime(_path);
+                return (DateTime)_lastWriteTime;
             }
         }
 

@@ -37,14 +37,14 @@ namespace NeeView
     public class BitmapLoaderManager
     {
         // サポート拡張子
-        Dictionary<BitmapLoaderType, string[]> _SupprtedFileTypes = new Dictionary<BitmapLoaderType, string[]>()
+        Dictionary<BitmapLoaderType, string[]> _supprtedFileTypes = new Dictionary<BitmapLoaderType, string[]>()
         {
             [BitmapLoaderType.Default] = new string[] { ".bmp", ".dib", ".jpg", ".jpeg", ".jpe", ".jfif", ".gif", ".tif", ".tiff", ".png", ".ico",  },
             [BitmapLoaderType.Susie] = new string[] { },
         };
 
         // ローダー優先順位
-        Dictionary<BitmapLoaderType, List<BitmapLoaderType>> _OrderList = new Dictionary<BitmapLoaderType, List<BitmapLoaderType>>()
+        Dictionary<BitmapLoaderType, List<BitmapLoaderType>> _orderList = new Dictionary<BitmapLoaderType, List<BitmapLoaderType>>()
         {
             [BitmapLoaderType.Default] = new List<BitmapLoaderType>()
             {
@@ -64,7 +64,7 @@ namespace NeeView
         // ローダー優先リストを取得
         public List<BitmapLoaderType> OrderList
         {
-            get { return _OrderList[OrderType]; }
+            get { return _orderList[OrderType]; }
         }
 
 
@@ -87,14 +87,14 @@ namespace NeeView
         {
             string ext = LoosePath.GetExtension(fileName);
 
-            foreach (var type in _OrderList[OrderType])
+            foreach (var type in _orderList[OrderType])
             {
                 if (type == BitmapLoaderType.Susie && !SusieBitmapLoader.IsEnable)
                 {
                     continue;
                 }
 
-                if (_SupprtedFileTypes[type].Contains(ext))
+                if (_supprtedFileTypes[type].Contains(ext))
                 {
                     return type;
                 }
@@ -112,7 +112,7 @@ namespace NeeView
                 list.AddRange(pair.Value.Split(','));
             }
 
-            _SupprtedFileTypes[BitmapLoaderType.Default] = list.ToArray();
+            _supprtedFileTypes[BitmapLoaderType.Default] = list.ToArray();
         }
 
 
@@ -127,7 +127,7 @@ namespace NeeView
                     list.AddRange(plugin.Extensions);
                 }
             }
-            _SupprtedFileTypes[BitmapLoaderType.Susie] = list.Distinct().ToArray();
+            _supprtedFileTypes[BitmapLoaderType.Susie] = list.Distinct().ToArray();
         }
 
 

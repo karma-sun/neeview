@@ -23,7 +23,7 @@ namespace NeeView
     {
         public static bool IsAutoRecursive { get; set; } = true;
 
-        private string _EntryName;
+        private string _entryName;
 
         // コンストラクタ
         public ArchivePage(string place) : base(null, null, place)
@@ -33,16 +33,16 @@ namespace NeeView
         // コンストラクタ
         public ArchivePage(string place, string entryName) : this(place)
         {
-            _EntryName = entryName;
+            _entryName = entryName;
         }
 
         //
         public override Page TinyClone()
         {
-            return new ArchivePage(Place, _EntryName);
+            return new ArchivePage(Place, _entryName);
         }
 
-        TrashBox _TrashBox = new TrashBox();
+        private TrashBox _trashBox = new TrashBox();
 
         //
         private void OpenEntry()
@@ -53,8 +53,8 @@ namespace NeeView
                 var archiver = GetStartArchiver(Place);
                 if (archiver != null)
                 {
-                    _TrashBox.Add(archiver);
-                    Entry = OpenEntry(archiver, _EntryName, !archiver.IsFileSystem);
+                    _trashBox.Add(archiver);
+                    Entry = OpenEntry(archiver, _entryName, !archiver.IsFileSystem);
                 }
             }
             catch (Exception e)
@@ -144,7 +144,7 @@ namespace NeeView
             // x エントリのストリームをアーカイブに渡す。ストリームはアーカイブでDisposeされる
             var tempFile = archiver.ExtractToTemp(folder);
             var subArchiver = ModelContext.ArchiverManager.CreateArchiver(archiverType, tempFile, null, archiver);
-            _TrashBox.Add(subArchiver);
+            _trashBox.Add(subArchiver);
 
             var childEntryName = entryName.Substring(folder.EntryName.TrimEnd(trims).Length + 1);
 
@@ -187,7 +187,7 @@ namespace NeeView
             // x エントリのストリームをアーカイブに渡す。ストリームはアーカイブでDisposeされる
             var tempFile = archiver.ExtractToTemp(entry);
             var subArchiver = ModelContext.ArchiverManager.CreateArchiver(archiverType, tempFile, null, archiver);
-            _TrashBox.Add(subArchiver);
+            _trashBox.Add(subArchiver);
             // 再帰
             return OpenEntry(subArchiver, true);
         }
@@ -201,7 +201,7 @@ namespace NeeView
                 //Entry?.Archiver?.Dispose();
                 Entry = null;
             }
-            _TrashBox.Clear();
+            _trashBox.Clear();
 
         }
 

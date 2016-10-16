@@ -18,7 +18,7 @@ namespace NeeView
     public class FilePage : Page
     {
         // ファイルページアイコン
-        FilePageIcon _Icon;
+        private FilePageIcon _icon;
 
         // 追加テキスト
         public string Text { get; set; }
@@ -28,13 +28,13 @@ namespace NeeView
         {
             Place = place;
             Entry = entry;
-            _Icon = icon;
+            _icon = icon;
         }
 
         //
         public override Page TinyClone()
         {
-            return new FilePage(Entry.Archiver, Entry, Place, _Icon);
+            return new FilePage(Entry.Archiver, Entry, Place, _icon);
         }
         
         // コンテンツロード
@@ -52,7 +52,7 @@ namespace NeeView
 
             return new FilePageContent()
             {
-                Icon = _Icon,
+                Icon = _icon,
                 FileName = FileName,
                 Message = Text,
                 Info = info,

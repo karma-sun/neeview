@@ -21,7 +21,7 @@ namespace NeeView
         /// <summary>
         ///  イメージタグ用正規表現
         /// </summary>
-        private static Regex _ImageTagRegex = new Regex(
+        private static Regex _imageTagRegex = new Regex(
             @"<img(?:\s+[^>]*\s+|\s+)src\s*=\s*(?:(?<quot>[""'])(?<url>.*?)\k<quot>|(?<url>[^\s>]+))[^>]*>",
             RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
@@ -31,7 +31,7 @@ namespace NeeView
         /// <returns>imgタグのURLリスト</returns>
         public static List<string> ParseSourceUrl(string source)
         {
-            var matchCollection = _ImageTagRegex.Matches(source);
+            var matchCollection = _imageTagRegex.Matches(source);
             var urls = new List<string>();
             foreach (System.Text.RegularExpressions.Match match in matchCollection)
             {

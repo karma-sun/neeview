@@ -42,7 +42,7 @@ namespace Susie
         public IntPtr hModule { get; private set; } = IntPtr.Zero;
 
         // APIデリゲートリスト
-        private Dictionary<Type, object> _ApiDelegateList = new Dictionary<Type, object>();
+        private Dictionary<Type, object> _apiDelegateList = new Dictionary<Type, object>();
 
         /// <summary>
         /// プラグインをロードし、使用可能状態にする
@@ -76,7 +76,7 @@ namespace Susie
         {
             if (hModule != IntPtr.Zero)
             {
-                _ApiDelegateList.Clear();
+                _apiDelegateList.Clear();
                 Win32Api.FreeLibrary(hModule);
                 hModule = IntPtr.Zero;
 
@@ -145,14 +145,14 @@ namespace Susie
         /// <returns></returns>
         public T GetApiDelegate<T>(string procName)
         {
-            if (!_ApiDelegateList.ContainsKey(typeof(T)))
+            if (!_apiDelegateList.ContainsKey(typeof(T)))
             {
                 IntPtr add = Win32Api.GetProcAddress(hModule, procName);
                 if (add == IntPtr.Zero) throw new NotSupportedException("not support " + procName);
-                _ApiDelegateList.Add(typeof(T), Marshal.GetDelegateForFunctionPointer<T>(add));
+                _apiDelegateList.Add(typeof(T), Marshal.GetDelegateForFunctionPointer<T>(add));
             }
 
-            return (T)_ApiDelegateList[typeof(T)];
+            return (T)_apiDelegateList[typeof(T)];
         }
 
 

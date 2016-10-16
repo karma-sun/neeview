@@ -81,23 +81,24 @@ namespace NeeView
 
         public static event EventHandler<Page> ThumbnailChanged;
 
-        // サムネイル用。保存しません
-        #region Property: ArchivePage
-        private ArchivePage _ArchivePage;
+        /// <summary>
+        /// ArchivePage Property.
+        /// サムネイル用。保存しません
+        /// </summary>
+        private ArchivePage _archivePage;
         public ArchivePage ArchivePage
         {
             get
             {
-                if (_ArchivePage == null && Memento != null)
+                if (_archivePage == null && Memento != null)
                 {
-                    _ArchivePage = new ArchivePage(Memento.Place);
-                    _ArchivePage.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(this, _ArchivePage);
+                    _archivePage = new ArchivePage(Memento.Place);
+                    _archivePage.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(this, _archivePage);
                 }
-                return _ArchivePage;
+                return _archivePage;
             }
-            set { _ArchivePage = value; }
+            set { _archivePage = value; }
         }
-        #endregion
 
         //
         public Page GetPage()

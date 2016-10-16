@@ -25,47 +25,47 @@ namespace Susie
     public class ArchiveEntry
     {
         // 対応するプラグイン
-        private SusiePlugin _Spi;
+        private SusiePlugin _spi;
 
         // エントリ情報(RAW)
-        private ArchiveFileInfoRaw _Info;
+        private ArchiveFileInfoRaw _info;
 
         // アーカイブのショートファイル名
         // UNICODE対応のため、ショートファイル名でアクセスします
         public string ArchiveShortFileName { get; private set; }
 
         // エントリのパス名
-        public string Path => _Info.path;
+        public string Path => _info.path;
 
         // エントリ名
-        public string FileName => _Info.filename;
+        public string FileName => _info.filename;
 
         // 展開後ファイルサイズ
-        public uint FileSize => _Info.filesize;
+        public uint FileSize => _info.filesize;
 
         // タイムスタンプ
-        public DateTime TimeStamp => Time_T2DateTime(_Info.timestamp);
+        public DateTime TimeStamp => Time_T2DateTime(_info.timestamp);
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public ArchiveEntry(SusiePlugin spi, string archiveFileName, ArchiveFileInfoRaw info)
         {
-            _Spi = spi;
+            _spi = spi;
             ArchiveShortFileName = archiveFileName;
-            _Info = info;
+            _info = info;
         }
 
 
         /// メモリに展開
         public byte[] Load()
         {
-            lock (_Spi.Lock)
+            lock (_spi.Lock)
             {
-                using (var api = _Spi.Open())
+                using (var api = _spi.Open())
                 {
-                    var buff = api.GetFile(ArchiveShortFileName, _Info);
-                    if (buff == null) throw new SpiException("抽出に失敗しました(M)", _Spi);
+                    var buff = api.GetFile(ArchiveShortFileName, _info);
+                    if (buff == null) throw new SpiException("抽出に失敗しました(M)", _spi);
                     return buff;
                 }
             }
@@ -74,12 +74,12 @@ namespace Susie
         /// フォルダに出力。ファイル名は変更しない
         public void ExtractToFolder(string extractFolder)
         {
-            lock (_Spi.Lock)
+            lock (_spi.Lock)
             {
-                using (var api = _Spi.Open())
+                using (var api = _spi.Open())
                 {
-                    int ret = api.GetFile(ArchiveShortFileName, _Info, extractFolder);
-                    if (ret != 0) throw new SpiException($"抽出に失敗しました(F)", _Spi);
+                    int ret = api.GetFile(ArchiveShortFileName, _info, extractFolder);
+                    if (ret != 0) throw new SpiException($"抽出に失敗しました(F)", _spi);
                 }
             }
         }

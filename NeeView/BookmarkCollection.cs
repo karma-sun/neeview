@@ -35,26 +35,27 @@ namespace NeeView
         public event EventHandler<BookMementoCollectionChangedArgs> BookmarkChanged;
 
         // ブックマーク
-        private ObservableCollection<BookMementoUnitNode> _Items;
+        private ObservableCollection<BookMementoUnitNode> _items;
         public ObservableCollection<BookMementoUnitNode> Items
         {
-            get { return _Items; }
+            get { return _items; }
             private set
             {
-                _Items = value;
-                BindingOperations.EnableCollectionSynchronization(_Items, new object());
+                _items = value;
+                BindingOperations.EnableCollectionSynchronization(_items, new object());
                 OnPropertyChanged();
             }
         }
 
-        #region Property: SelectedItem
-        private BookMementoUnitNode _SelectedItem;
+        /// <summary>
+        /// SelectedItem Property
+        /// </summary>
+        private BookMementoUnitNode _selectedItem;
         public BookMementoUnitNode SelectedItem
         {
-            get { return _SelectedItem; }
-            set { _SelectedItem = value; OnPropertyChanged(); }
+            get { return _selectedItem; }
+            set { _selectedItem = value; OnPropertyChanged(); }
         }
-        #endregion
 
         //
         public BookmarkCollection()

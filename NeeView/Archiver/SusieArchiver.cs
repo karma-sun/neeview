@@ -20,16 +20,16 @@ namespace NeeView
     {
         public override string ToString()
         {
-            return _SusiePlugin.Name ?? "(none)";
+            return _susiePlugin.Name ?? "(none)";
         }
 
         public static bool IsEnable { get; set; }
 
-        private Susie.SusiePlugin _SusiePlugin;
+        private Susie.SusiePlugin _susiePlugin;
 
-        private object _Lock = new object();
+        private object _lock = new object();
 
-        private bool _IsDisposed;
+        private bool _isDisposed;
 
         // コンストラクタ
         public SusieArchiver(string archiveFileName)
@@ -40,7 +40,7 @@ namespace NeeView
         //
         public override void Dispose()
         {
-            _IsDisposed = true;
+            _isDisposed = true;
             base.Dispose();
         }
 
@@ -53,17 +53,17 @@ namespace NeeView
         // 対応プラグイン取得
         public Susie.SusiePlugin GetPlugin()
         {
-            if (_SusiePlugin == null)
+            if (_susiePlugin == null)
             {
-                _SusiePlugin = ModelContext.Susie?.GetArchivePlugin(FileName, true);
+                _susiePlugin = ModelContext.Susie?.GetArchivePlugin(FileName, true);
             }
-            return _SusiePlugin;
+            return _susiePlugin;
         }
 
         // エントリーリストを得る
         public override List<ArchiveEntry> GetEntries()
         {
-            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
             var plugin = GetPlugin();
             if (plugin == null) throw new NotSupportedException();
@@ -97,9 +97,9 @@ namespace NeeView
         // エントリーのストリームを得る
         public override Stream OpenStream(ArchiveEntry entry)
         {
-            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
-            lock (_Lock)
+            lock (_lock)
             {
                 var info = (Susie.ArchiveEntry)entry.Instance;
                 byte[] buffer = info.Load();
@@ -111,7 +111,7 @@ namespace NeeView
         // ファイルに出力する
         public override void ExtractToFile(ArchiveEntry entry, string extractFileName, bool isOverwrite)
         {
-            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
             var info = (Susie.ArchiveEntry)entry.Instance;
 

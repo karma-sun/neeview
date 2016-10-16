@@ -27,7 +27,7 @@ namespace NeeView
         public override bool IsFileSystem { get; } = true;
 
         //
-        private bool _IsDisposed;
+        private bool _isDisposed;
 
         // コンストラクタ
         public FolderFiles(string folderFileName)
@@ -38,7 +38,7 @@ namespace NeeView
         //
         public override void Dispose()
         {
-            _IsDisposed = true;
+            _isDisposed = true;
             base.Dispose();
         }
 
@@ -52,7 +52,7 @@ namespace NeeView
         // リスト取得
         public override List<ArchiveEntry> GetEntries()
         {
-            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
             int prefixLen = FileName.Length;
             var list = new List<ArchiveEntry>();
@@ -90,7 +90,7 @@ namespace NeeView
         // ストリームを開く
         public override Stream OpenStream(ArchiveEntry entry)
         {
-            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
             return new FileStream(GetFileSystemPath(entry), FileMode.Open, FileAccess.Read);
         }
@@ -104,7 +104,7 @@ namespace NeeView
         // ファイルパス取得
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            if (_IsDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
             File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
         }

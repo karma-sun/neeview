@@ -46,13 +46,13 @@ namespace NeeView
         public string LastFolder { get; set; }
 
         // フォルダとソートの種類
-        private Dictionary<string, FolderOrder> FolderOrders { get; set; }
+        private Dictionary<string, FolderOrder> _folderOrders;
 
         // 履歴制限
-        private int LimitSize { get; set; }
+        private int _limitSize;
 
         // 履歴制限(時間)
-        private TimeSpan LimitSpan { get; set; }
+        private TimeSpan _limitSpan;
 
 
 
@@ -64,11 +64,11 @@ namespace NeeView
             // 名前順は記憶しない。それ以外の場合記憶する
             if (order == FolderOrder.FileName)
             {
-                FolderOrders.Remove(path);
+                _folderOrders.Remove(path);
             }
             else
             {
-                FolderOrders[path] = order;
+                _folderOrders[path] = order;
             }
         }
 
@@ -78,7 +78,7 @@ namespace NeeView
             path = path ?? "<<root>>";
 
             FolderOrder order;
-            FolderOrders.TryGetValue(path, out order);
+            _folderOrders.TryGetValue(path, out order);
             return order;
         }
 
@@ -89,7 +89,7 @@ namespace NeeView
         public BookHistory()
         {
             Items = new LinkedList<BookMementoUnit>();
-            FolderOrders = new Dictionary<string, FolderOrder>();
+            _folderOrders = new Dictionary<string, FolderOrder>();
         }
 
         // 要素数
@@ -445,9 +445,9 @@ namespace NeeView
             }
 
             memento.LastFolder = this.LastFolder;
-            memento.FolderOrders = this.FolderOrders;
-            memento.LimitSize = this.LimitSize;
-            memento.LimitSpan = this.LimitSpan;
+            memento.FolderOrders = this._folderOrders;
+            memento.LimitSize = this._limitSize;
+            memento.LimitSpan = this._limitSpan;
 
             return memento;
         }
@@ -456,9 +456,9 @@ namespace NeeView
         public void Restore(Memento memento, bool fromLoad)
         {
             this.LastFolder = memento.LastFolder;
-            this.FolderOrders = memento.FolderOrders;
-            this.LimitSize = memento.LimitSize;
-            this.LimitSpan = memento.LimitSpan;
+            this._folderOrders = memento.FolderOrders;
+            this._limitSize = memento.LimitSize;
+            this._limitSpan = memento.LimitSpan;
 
             this.Load(fromLoad ? Limit(memento.Items) : memento.Items);
         }
@@ -468,11 +468,11 @@ namespace NeeView
         private List<Book.Memento> Limit(List<Book.Memento> source)
         {
             // limit size
-            var collection = LimitSize == 0 ? source : source.Take(LimitSize);
+            var collection = _limitSize == 0 ? source : source.Take(_limitSize);
 
             // limit time
-            var limitTime = DateTime.Now - LimitSpan;
-            collection = LimitSpan == default(TimeSpan) ? collection : collection.TakeWhile(e => e.LastAccessTime > limitTime);
+            var limitTime = DateTime.Now - _limitSpan;
+            collection = _limitSpan == default(TimeSpan) ? collection : collection.TakeWhile(e => e.LastAccessTime > limitTime);
 
             return collection.ToList();
         }

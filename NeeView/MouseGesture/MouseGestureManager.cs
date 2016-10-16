@@ -50,11 +50,11 @@ namespace NeeView
         public MouseGestureController Controller { get; private set; }
 
         #region Property: GestureText
-        private string _GestureText;
+        private string _gestureText;
         public string GestureText
         {
-            get { return _GestureText; }
-            set { _GestureText = value; OnPropertyChanged(); }
+            get { return _gestureText; }
+            set { _gestureText = value; OnPropertyChanged(); }
         }
         #endregion
 
@@ -79,7 +79,7 @@ namespace NeeView
                 (s, e) =>
                 {
                     var command = CommandCollection.GetCommand(e.MouseGestureSequence);
-                    if (command == _ContextMenuCommand)
+                    if (command == _contextMenuCommand)
                     {
                         e.Handled = false;
                     }
@@ -103,13 +103,13 @@ namespace NeeView
         }
 
         //
-        RoutedUICommand _ContextMenuCommand = new RoutedUICommand("コンテキストメニュー", "OpenContextMenu", typeof(MainWindow));
+        private RoutedUICommand _contextMenuCommand = new RoutedUICommand("コンテキストメニュー", "OpenContextMenu", typeof(MainWindow));
 
         // コンテキストメニュー起動用ジェスチャー登録
         public void AddOpenContextMenuGesture(string gesture)
         {
             if (string.IsNullOrWhiteSpace(gesture)) return;
-            CommandCollection.Add(gesture, _ContextMenuCommand);
+            CommandCollection.Add(gesture, _contextMenuCommand);
         }
 
         // 現在のジェスチャーシーケンスでのコマンド名取得

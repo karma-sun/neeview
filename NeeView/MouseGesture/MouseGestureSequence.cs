@@ -45,7 +45,7 @@ namespace NeeView
                 foreach (char c in gestureText)
                 {
                     MouseGestureDirection direction;
-                    if (_Table.TryGetValue(c, out direction))
+                    if (_table.TryGetValue(c, out direction))
                     {
                         this.Add(direction);
                     }
@@ -55,7 +55,7 @@ namespace NeeView
 
 
         //
-        private static Dictionary<MouseGestureDirection, string> _DispStrings = new Dictionary<MouseGestureDirection, string>
+        private static Dictionary<MouseGestureDirection, string> _dispStrings = new Dictionary<MouseGestureDirection, string>
         {
             [MouseGestureDirection.None] = "",
             [MouseGestureDirection.Up] = "↑",
@@ -65,7 +65,7 @@ namespace NeeView
         };
 
 
-        private static Dictionary<char, MouseGestureDirection> _Table = new Dictionary<char, MouseGestureDirection>
+        private static Dictionary<char, MouseGestureDirection> _table = new Dictionary<char, MouseGestureDirection>
         {
             ['U'] = MouseGestureDirection.Up,
             ['R'] = MouseGestureDirection.Right,
@@ -93,7 +93,7 @@ namespace NeeView
             string gestureText = "";
             foreach (var e in this)
             {
-                gestureText += _DispStrings[e];
+                gestureText += _dispStrings[e];
             }
 
             return gestureText;

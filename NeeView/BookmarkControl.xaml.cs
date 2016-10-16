@@ -29,22 +29,22 @@ namespace NeeView
     {
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkControl));
 
-        BookmarkControlVM _VM;
-        ThumbnailHelper _ThumbnailHelper;
+        private BookmarkControlVM _vm;
+        private ThumbnailHelper _thumbnailHelper;
 
         public BookmarkControl()
         {
             InitializeComponent();
 
-            _VM = new BookmarkControlVM();
-            _VM.SelectedItemChanging += OnItemsChanging;
-            _VM.SelectedItemChanged += OnItemsChanged;
-            this.DockPanel.DataContext = _VM;
+            _vm = new BookmarkControlVM();
+            _vm.SelectedItemChanging += OnItemsChanging;
+            _vm.SelectedItemChanged += OnItemsChanged;
+            this.DockPanel.DataContext = _vm;
 
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
             this.BookmarkListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
 
-            _ThumbnailHelper = new ThumbnailHelper(this.BookmarkListBox, _VM.RequestThumbnail);
+            _thumbnailHelper = new ThumbnailHelper(this.BookmarkListBox, _vm.RequestThumbnail);
         }
 
         //
@@ -53,7 +53,7 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as BookMementoUnitNode;
             if (item != null)
             {
-                _VM.Remove(item);
+                _vm.Remove(item);
             }
         }
 
@@ -61,7 +61,7 @@ namespace NeeView
         //
         public void Initialize(BookHub bookHub)
         {
-            _VM.Initialize(bookHub);
+            _vm.Initialize(bookHub);
         }
 
 
@@ -102,7 +102,7 @@ namespace NeeView
             var historyItem = (sender as ListBoxItem)?.Content as BookMementoUnitNode;
             if (historyItem != null)
             {
-                _VM.Load(historyItem.Value.Memento.Place);
+                _vm.Load(historyItem.Value.Memento.Place);
                 e.Handled = true;
             }
         }
@@ -117,7 +117,7 @@ namespace NeeView
             {
                 if (e.Key == Key.Return)
                 {
-                    _VM.Load(historyItem.Value.Memento.Place);
+                    _vm.Load(historyItem.Value.Memento.Place);
                     e.Handled = true;
                 }
             }

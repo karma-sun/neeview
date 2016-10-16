@@ -19,56 +19,56 @@ namespace NeeView
     {
         public static bool IsFileLocked { get; set; }
 
-        private SevenZipExtractor _Extractor;
+        private SevenZipExtractor _extractor;
 
-        private string _FileName;
-        private Stream _Stream;
+        private string _fileName;
+        private Stream _stream;
 
-        public bool IsStream => _Stream != null;
+        public bool IsStream => _stream != null;
 
-        private object _Lock;
+        private object _lock;
 
         //
         public SevenZipSource(string fileName, object lockObject)
         {
-            _FileName = fileName;
-            _Lock = lockObject ?? new object();
+            _fileName = fileName;
+            _lock = lockObject ?? new object();
         }
 
         //
         public SevenZipSource(Stream stream, object lockObject)
         {
-            _Stream = stream;
-            _Lock = lockObject ?? new object();
+            _stream = stream;
+            _lock = lockObject ?? new object();
         }
 
         //
         public SevenZipExtractor Open()
         {
-            if (_Extractor == null)
+            if (_extractor == null)
             {
-                _Extractor = IsStream ? new SevenZipExtractor(_Stream) : new SevenZipExtractor(_FileName);
+                _extractor = IsStream ? new SevenZipExtractor(_stream) : new SevenZipExtractor(_fileName);
             }
 
-            return _Extractor;
+            return _extractor;
         }
 
         //
         public void Close(bool isForce = false)
         {
-            if (_Extractor != null && (isForce || !IsFileLocked))
+            if (_extractor != null && (isForce || !IsFileLocked))
             {
-                _Extractor.Dispose();
-                _Extractor = null;
+                _extractor.Dispose();
+                _extractor = null;
             }
         }
 
         public void Dispose()
         {
-            lock (_Lock)
+            lock (_lock)
             {
                 Close(true);
-                _Stream = null;
+                _stream = null;
             }
         }
     }

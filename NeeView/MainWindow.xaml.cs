@@ -236,7 +236,7 @@ namespace NeeView
             _VM.ViewChanged +=
                 (s, e) =>
                 {
-                    UpdateMouseDragSetting(e.PageDirection);
+                    UpdateMouseDragSetting(e.PageDirection, e.ViewOrigin);
                     bool isResetScale = e.ResetViewTransform || !_VM.IsKeepScale;
                     bool isResetAngle = e.ResetViewTransform || !_VM.IsKeepAngle;
                     bool isResetFlip = e.ResetViewTransform || !_VM.IsKeepFlip;
@@ -399,15 +399,29 @@ namespace NeeView
 
 
         // ドラッグでビュー操作設定の更新
-        private void UpdateMouseDragSetting(int direction)
+        private void UpdateMouseDragSetting(int direction, DragViewOrigin origin)
         {
             _mouseDrag.IsLimitMove = _VM.IsLimitMove;
             _mouseDrag.DragControlCenter = _VM.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
             _mouseDrag.SnapAngle = _VM.IsAngleSnap ? 45 : 0;
 
-            var origin = _VM.IsViewStartPositionCenter ? DragViewOrigin.Center : _VM.BookSetting.BookReadOrder == PageReadOrder.LeftToRight ? DragViewOrigin.LeftTop : DragViewOrigin.RightTop;
-            _mouseDrag.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
-            _mouseDrag.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
+
+            if (origin == DragViewOrigin.None)
+            {
+                origin = _VM.IsViewStartPositionCenter
+                    ? DragViewOrigin.Center
+                    : _VM.BookSetting.BookReadOrder == PageReadOrder.LeftToRight
+                        ? DragViewOrigin.LeftTop
+                        : DragViewOrigin.RightTop;
+
+                _mouseDrag.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
+                _mouseDrag.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
+            }
+            else
+            {
+                _mouseDrag.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
+                _mouseDrag.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop || origin == DragViewOrigin.LeftBottom) ? 1.0 : -1.0;
+            }
         }
 
 
@@ -460,7 +474,7 @@ namespace NeeView
             ModelContext.CommandTable[CommandType.ViewScaleDown].Execute =
                 (s, e) =>
                 {
-                    var parameter = (ViewScaleCommandParameter)ModelContext.CommandTable[CommandType.ViewScaleUp].Parameter;
+                    var parameter = (ViewScaleCommandParameter)ModelContext.CommandTable[CommandType.ViewScaleDown].Parameter;
                     _mouseDrag.ScaleDown(parameter.Scale / 100.0);
                 };
             ModelContext.CommandTable[CommandType.ViewRotateLeft].Execute =
@@ -609,10 +623,14 @@ namespace NeeView
         // スクロール＋前のページに戻る
         private void PrevScrollPage()
         {
-            bool isScrolled = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? _mouseDrag.ScrollRight() : _mouseDrag.ScrollLeft();
+            var parameter = (ScrollPageCommandParameter)ModelContext.CommandTable[CommandType.PrevScrollPage].Parameter;
+
+            int bookReadDirection = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
+            bool isScrolled = _mouseDrag.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
 
             if (!isScrolled)
             {
+                _VM.NextViewOrigin = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
                 _VM.BookHub.PrevPage();
             }
         }
@@ -620,10 +638,14 @@ namespace NeeView
         // スクロール＋次のページに進む
         private void NextScrollPage()
         {
-            bool isScrolled = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? _mouseDrag.ScrollLeft() : _mouseDrag.ScrollRight();
+            var parameter = (ScrollPageCommandParameter)ModelContext.CommandTable[CommandType.NextScrollPage].Parameter;
+
+            int bookReadDirection = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
+            bool isScrolled = _mouseDrag.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
 
             if (!isScrolled)
             {
+                _VM.NextViewOrigin = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
                 _VM.BookHub.NextPage();
             }
         }

@@ -38,6 +38,9 @@ namespace NeeView
     public class ViewChangeArgs
     {
         public int PageDirection { get; set; }
+
+        public DragViewOrigin ViewOrigin { get; set; }
+
         public bool ResetViewTransform { get; set; }
     }
 
@@ -2071,7 +2074,9 @@ namespace NeeView
             UpdateContentSize();
 
             // 表示更新を通知
-            ViewChanged?.Invoke(this, new ViewChangeArgs() { PageDirection = e != null ? e.Direction : 0 });
+            ViewChanged?.Invoke(this, new ViewChangeArgs() { PageDirection = e != null ? e.Direction : 0, ViewOrigin = NextViewOrigin });
+            NextViewOrigin = DragViewOrigin.None;
+
             UpdateWindowTitle(UpdateWindowTitleMask.All);
 
             // GC
@@ -2080,23 +2085,13 @@ namespace NeeView
         }
 
 
-        // エフェクトの変更
-        public void UpdateViewContentEffect()
-        {
-#if false
-            foreach (var content in Contents)
-            {
-                if (content.Content != null && content.Bitmap != null)
-                {
-                    var brush = (content.Content as Rectangle)?.Fill as ImageBrush;
-                    if (brush != null)
-                    {
-                        brush.ImageSource = ViewContentSource.CreateEffectedBitmap(content.Bitmap, content.SourceSize, ShaderEffect);
-                    }
-                }
-            }
-#endif
-        }
+        /// <summary>
+        /// 次のページ更新時の表示開始位置
+        /// TODO: ちゃんとBookから情報として上げるようにするべき
+        /// </summary>
+        public DragViewOrigin NextViewOrigin { get; set; }
+
+
 
 
         // ページ番号の更新

@@ -520,11 +520,12 @@ namespace NeeView
                 var pos = new Point(0, 0);
                 if (area.Target.Height > area.View.Height)
                 {
-                    pos.Y = (area.Target.Height - area.View.Height) * 0.5;
+                    var verticalDirection = (ViewOrigin == DragViewOrigin.LeftTop || ViewOrigin == DragViewOrigin.RightTop) ? 1.0 : -1.0;
+                    pos.Y = (area.Target.Height - area.View.Height) * 0.5 * verticalDirection;
                 }
                 if (area.Target.Width > area.View.Width)
                 {
-                    var horizontalDirection = (ViewOrigin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
+                    var horizontalDirection = (ViewOrigin == DragViewOrigin.LeftTop || ViewOrigin == DragViewOrigin.LeftBottom) ? 1.0 : -1.0;
                     pos.X = (area.Target.Width - area.View.Width) * 0.5 * horizontalDirection;
                 }
                 Position = pos;
@@ -626,49 +627,154 @@ namespace NeeView
             _isEnableTranslateAnimation = false;
         }
 
-        // スクロール←
-        public bool ScrollLeft()
+
+        /// <summary>
+        /// N字スクロール
+        /// </summary>
+        /// <param name="direction">次方向:+1 / 前方向:-1</param>
+        /// <param name="bookReadDirection">右開き:+1 / 左開き:-1</param>
+        /// <param name="allowVerticalScroll">縦方向スクロール許可</param>
+        /// <param name="margin">最小移動距離</param>
+        /// <param name="isAnimate">スクロールアニメ</param>
+        /// <returns>スクロールしたか</returns>
+        public bool ScrollN(int direction, int bookReadDirection, bool allowVerticalScroll, double margin, bool isAnimate)
         {
+            var delta = GetNScrollDelta(direction, bookReadDirection, allowVerticalScroll, margin);
+
+            if (delta.X != 0.0 || delta.Y != 0.0)
+            {
+                Debug.WriteLine(delta);
+                UpdateLock();
+
+                if (isAnimate) _isEnableTranslateAnimation = true;
+                DoMove(new Vector(delta.X, delta.Y));
+                if (isAnimate) _isEnableTranslateAnimation = false;
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // N字スクロール：スクロール距離を計算
+        private Point GetNScrollDelta(int direction, int bookReadDirection, bool allowVerticalScroll, double margin)
+        {
+            Point delta = new Point();
+
             var area = GetArea();
-            if (area.Over.Left < 0)
+
+            if (allowVerticalScroll)
+            {
+                if (direction > 0)
+                {
+                    delta.Y = GetNScrollVerticalToBottom(area, margin);
+                }
+                else
+                {
+                    delta.Y = GetNScrollVerticalToTop(area, margin);
+                }
+            }
+
+            if (delta.Y == 0.0)
+            {
+                if (direction * bookReadDirection > 0)
+                {
+                    delta.X = GetNScrollHorizontalToLeft(area, margin);
+                }
+                else
+                {
+                    delta.X = GetNScrollHorizontalToRight(area, margin);
+                }
+
+                if (delta.X != 0.0)
+                {
+                    if (direction > 0)
+                    {
+                        delta.Y = GetNScrollVerticalMoveToTop(area);
+                    }
+                    else
+                    {
+                        delta.Y = GetNScrollVerticalMoveToBottom(area);
+                    }
+                }
+            }
+
+            return delta;
+        }
+
+        // N字スクロール：上方向スクロール距離取得
+        private double GetNScrollVerticalToTop(DragArea area, double margin)
+        {
+            if (area.Over.Top < -margin)
+            {
+                double dy = Math.Abs(area.Over.Top);
+                if (dy > area.View.Height) dy = area.View.Height;
+                return dy;
+            }
+            else
+            {
+                return 0.0;
+            }
+        }
+
+        // N字スクロール：下方向スクロール距離取得
+        private double GetNScrollVerticalToBottom(DragArea area, double margin)
+        {
+            if (area.Over.Bottom > margin)
+            {
+                double dy = Math.Abs(area.Over.Bottom);
+                if (dy > area.View.Height) dy = area.View.Height;
+                return -dy;
+            }
+            else
+            {
+                return 0.0;
+            }
+        }
+
+        // N字スクロール：上端までの移動距離取得
+        private double GetNScrollVerticalMoveToTop(DragArea area)
+        {
+            return Math.Abs(area.Over.Top);
+        }
+
+        // N字スクロール：下端までの移動距離取得
+        private double GetNScrollVerticalMoveToBottom(DragArea area)
+        {
+            return -Math.Abs(area.Over.Bottom);
+        }
+
+        // N字スクロール：左方向スクロール距離取得
+        private double GetNScrollHorizontalToLeft(DragArea area, double margin)
+        {
+            if (area.Over.Left < -margin)
             {
                 double dx = Math.Abs(area.Over.Left);
                 if (dx > area.View.Width) dx = area.View.Width;
-
-                UpdateLock();
-
-                //_IsEnableTranslateAnimation = true;
-                DoMove(new Vector(dx, 0));
-                //_IsEnableTranslateAnimation = false;
-
-                return true;
+                return dx;
             }
-
-            return false;
+            else
+            {
+                return 0.0;
+            }
         }
 
-
-        // スクロール→
-        public bool ScrollRight()
+        // N字スクロール：右方向スクロール距離取得
+        private double GetNScrollHorizontalToRight(DragArea area, double margin)
         {
-            var area = GetArea();
-            if (area.Over.Right > 0)
+            if (area.Over.Right > margin)
             {
                 double dx = Math.Abs(area.Over.Right);
                 if (dx > area.View.Width) dx = area.View.Width;
-
-                UpdateLock();
-
-                //_IsEnableTranslateAnimation = true;
-                DoMove(new Vector(-dx, 0));
-                //_IsEnableTranslateAnimation = false;
-
-                return true;
+                return -dx;
             }
-
-            return false;
+            else
+            {
+                return 0.0;
+            }
         }
-
 
         // 拡大コマンド
         public void ScaleUp(double scaleDelta)

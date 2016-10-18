@@ -951,6 +951,7 @@ namespace NeeView
                 element.Text = "スクロール＋前のページに戻る";
                 element.Note = "ページ前方向に画像をスクロールさせます。スクロールできない場合は前ページに移動します";
                 element.IsShowMessage = false;
+                element.DefaultParameter = new ScrollPageCommandParameter() { IsNScroll = true, IsAnimation = true, Margin = 50 };
                 _elements[CommandType.PrevScrollPage] = element;
             }
             // NextScrollPage
@@ -960,6 +961,7 @@ namespace NeeView
                 element.Text = "スクロール＋次のページへ進む";
                 element.Note = "ページ次方向に画像をスクロールさせます。スクロールできない場合は次ページに移動します";
                 element.IsShowMessage = false;
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevScrollPage };
                 _elements[CommandType.NextScrollPage] = element;
             }
             // MovePageWithCursor

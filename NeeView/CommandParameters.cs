@@ -235,4 +235,19 @@ namespace NeeView
         [PropertyMember("最初と最後のページを含める")]
         public bool IsIncludeTerminal { get; set; }
     }
+
+    /// <summary>
+    /// スクロール＋ページ移動用パラメータ
+    /// </summary>
+    public class ScrollPageCommandParameter : CommandParameter
+    {
+        [PropertyMember("N字スクロール", Tips = "縦スクロール可能な場合、縦方向にもスクロールします。\n縦横スクロールが可能な場合、N字を描くようにスクロールします")]
+        public bool IsNScroll { get; set; }
+
+        [PropertyMember("滑らかスクロール")]
+        public bool IsAnimation { get; set; }
+
+        [PropertyMember("最小スクロール距離", Tips = "このピクセル幅以上スクロールできる場合のみスクロールします")]
+        public double Margin { get; set; }
+    }
 }

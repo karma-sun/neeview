@@ -183,7 +183,7 @@ function New-Msi
 
 	$ErrorActionPreference = "stop"
 
-	& $candle -d"BuildVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries"  -out "$packageDir.append\\"  WixSource\*.wxs
+	& $candle -d"BuildVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries" -ext WixNetFxExtension -out "$packageDir.append\\"  WixSource\*.wxs
 	if ($? -ne $true)
 	{
 		throw "candle error"

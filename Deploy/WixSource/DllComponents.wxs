@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="INSTALLFOLDER">
-            <Directory Id="dir20FF26C963FCD8D5721868ED67B27FFF" Name="Libraries">
+            <Directory Id="PFLibrariesFolder" Name="Libraries">
                 <Component Id="cmp8BF6C995AB878E7A664FF9EC7D7A56FC" Guid="*">
                     <File Id="filB98CFFB6357FAB95836FDD8FC3934175" KeyPath="yes" Source="$(var.LibrariesDir)\7z.dll" />
                 </Component>
@@ -13,7 +13,7 @@
                     <File Id="filFEA99228133615CB13248AB49E72DBE6" KeyPath="yes" Source="$(var.LibrariesDir)\Microsoft.Expression.Interactions.dll" />
                 </Component>
                 <Component Id="cmpB54C78A947E1F2E243E2F02E2E4BB5E3" Guid="*">
-                    <File Id="fil1ADE30521EFFDFF88F63D44BBB71C948" KeyPath="yes" Source="$(var.LibrariesDir)\SevenZipSharp.dll" />
+                    <File Id="fil1ADE30521EFFDFF88F63D44BBB71C948" KeyPath="yes" Source="$(var.LibrariesDir)\SevenZipSharpNE.dll" />
                 </Component>
                 <Component Id="cmp497DB98CF2661AD5E3F644E55989373D" Guid="*">
                     <File Id="filF73C8B9A095B60D8A23CB5231D88364D" KeyPath="yes" Source="$(var.LibrariesDir)\System.Windows.Interactivity.dll" />

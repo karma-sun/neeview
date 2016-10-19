@@ -2,15 +2,14 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
          xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <Product Id="*" Name="NeeView $(var.BuildVersion)" Version="$(var.BuildVersion)" Language="1041" Codepage="932" Manufacturer="NeeLaboratory" UpgradeCode="1615bc9c-ddfd-4d61-9ac1-3ebc5c8787a8">
-    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" SummaryCodepage="932" Comments="なし"/>
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" SummaryCodepage="932" Comments="NeeView is picture viewer."/>
 
-    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MajorUpgrade DowngradeErrorMessage="新しいバージョンの NeeView が既にインストール済です。" />
     <MediaTemplate EmbedCab="yes"/>
 
     <Feature Id="ProductFeature" Title="NeeView" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
       <ComponentGroupRef Id="DllComponents"/>
-      <ComponentGroupRef Id="PMManufacturerFolderComponents" />
     </Feature>
 
     <!-- インストーラーUI設定 -->
@@ -43,7 +42,6 @@
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder">
-         <Directory Id="PMManufacturerFolder" Name="NeeLaboratory" />
       </Directory>
     </Directory>
   </Fragment>
@@ -54,8 +52,8 @@
 
       <Component Guid="*">
         <File Source="$(var.ContentDir)NeeView.exe" KeyPath="yes" Checksum="yes" >
-          <netfx:NativeImage Id="ngen_NeeView.exe" Platform="32bit" Priority="0" AppBaseDirectory="PFLibrariesFolder"/>
-          <Shortcut Id="MyMenuShortcut" Directory="PMManufacturerFolder" Name="NeeView" WorkingDirectory="INSTALLDIR" Icon="MyIcon.exe" Advertise="yes"/>
+          <netfx:NativeImage Id="ngen_NeeView.exe" Platform="32bit" Priority="0"/>
+          <Shortcut Id="MyMenuShortcut" Directory="ProgramMenuFolder" Name="NeeView" WorkingDirectory="INSTALLDIR" Icon="MyIcon.exe" Advertise="yes"/>
         </File>
       </Component>
 
@@ -66,15 +64,6 @@
         <File Source="$(var.ContentDir)README.html" KeyPath="yes"/>
       </Component>
 
-    </ComponentGroup>
-
-    <!-- プログラムメニュー コンポーネント -->
-
-    <ComponentGroup Id="PMManufacturerFolderComponents" Directory="PMManufacturerFolder">
-      <Component Guid="*">
-        <RemoveFolder Id="PMManufacturerFolder" On="uninstall"/>
-        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type ="string" Name="InstallFolder" Value="[INSTALLFOLDER]" KeyPath="yes" />
-      </Component>
     </ComponentGroup>
 
     <!-- アイコン -->

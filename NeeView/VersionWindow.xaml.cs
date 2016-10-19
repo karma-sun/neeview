@@ -168,11 +168,11 @@ namespace NeeView
             // チェック開始
             LastVersion = 0; // CurrentVersion;
             Message = "最新バージョンをチェック中...";
-            Task.Run(CheckVersion);
+            Task.Run(() => CheckVersion(App.Config.PackageType));
         }
 
 
-        private async Task CheckVersion()
+        private async Task CheckVersion(string extension)
         {
             _isCheching = true;
 
@@ -185,7 +185,7 @@ namespace NeeView
                     // download
                     var text = await wc.DownloadStringTaskAsync(new Uri(DownloadUri));
 
-                    var regex = new Regex(@"NeeView1\.(?<minor>\d+)(\.(?<build>\d+))?\.zip");
+                    var regex = new Regex(@"NeeView1\.(?<minor>\d+)(\.(?<build>\d+))?" + extension);
                     var matches = regex.Matches(text);
                     if (matches.Count <= 0) throw new ApplicationException("更新ページのフォーマットが想定されているものと異なります");
                     foreach (Match match in matches)

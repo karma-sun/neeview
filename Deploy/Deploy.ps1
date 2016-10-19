@@ -162,6 +162,9 @@ function New-Msi
 	# make config for installer
 	[xml]$xml = Get-Content "$packageDir\$config"
 
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'PackageType' } | Select -First 1
+	$add.value = '.msi'
+
 	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'UseLocalApplicationData' } | Select -First 1
 	$add.value = 'True'
 

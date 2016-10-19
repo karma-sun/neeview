@@ -202,8 +202,7 @@ namespace NeeView
         }
 
 
-
-        //
+        // データ保存にアプリケーションデータフォルダを使用するか
         private bool? _isUseLocalApplicationDataFolder;
         public bool IsUseLocalApplicationDataFolder
         {
@@ -216,6 +215,22 @@ namespace NeeView
                 return (bool)_isUseLocalApplicationDataFolder;
             }
         }
+
+        // パッケージの種類(拡張子)
+        private string _packageType;
+        public string PackageType
+        {
+            get
+            {
+                if (_packageType == null)
+                {
+                    _packageType = ConfigurationManager.AppSettings["PackageType"];
+                    if (_packageType != ".msi") _packageType = ".zip";
+                }
+                return _packageType;
+            }
+        }
+
 
         // 全ユーザデータ削除
         private bool RemoveApplicationDataCore()

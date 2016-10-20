@@ -59,6 +59,7 @@ namespace NeeView
 
         ToggleTopmost,
         ToggleHideMenu,
+        ToggleHidePageSlider,
         ToggleHidePanel,
         ToggleHideTitleBar, // 欠番
         ToggleVisibleTitleBar,

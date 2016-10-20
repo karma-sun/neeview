@@ -781,6 +781,7 @@ namespace NeeView
 
             // menu hide
             bool isMenuDock = !_VM.IsHideMenu && !_VM.IsFullScreen;
+            bool isPageSliderDock = !_VM.IsHidePageSlider && !_VM.IsFullScreen;
 
             // panel hide
             if (_VM.CanHidePanel)
@@ -813,7 +814,7 @@ namespace NeeView
             UpdateStateAreaVisibility();
 
             double statusAreaHeight = this.PageSlider.Height + _VM.ThumbnailItemHeight; // アバウト
-            double bottomMargin = (isMenuDock && _VM.IsEnableThumbnailList && !_VM.IsHideThumbnailList ? statusAreaHeight : this.PageSlider.Height);
+            double bottomMargin = (isPageSliderDock && _VM.IsEnableThumbnailList && !_VM.IsHideThumbnailList ? statusAreaHeight : this.PageSlider.Height);
             this.LeftPanelMargin.Height = bottomMargin;
             this.RightPanelMargin.Height = bottomMargin;
 
@@ -842,7 +843,7 @@ namespace NeeView
             this.ViewArea.Margin = new Thickness(0, isMenuDock ? this.MenuArea.ActualHeight : 0, 0, 0);
 
             // コンテンツ表示領域設定
-            this.MainView.Margin = new Thickness(0, 0, 0, isMenuDock ? bottomMargin : 0);
+            this.MainView.Margin = new Thickness(0, 0, 0, isPageSliderDock ? bottomMargin : 0);
 
             // 通知表示位置設定
             this.TinyInfoTextBlock.Margin = new Thickness(0, 0, 0, bottomMargin);
@@ -1440,7 +1441,7 @@ namespace NeeView
         // ステータスエリアの表示判定
         private void UpdateStateAreaVisibility()
         {
-            if (_VM.IsHideMenu || _VM.IsFullScreen)
+            if (_VM.IsHidePageSlider || _VM.IsFullScreen)
             {
                 SetStatusAreaVisibisity(IsStateAreaMouseOver(), false);
                 SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList, true);

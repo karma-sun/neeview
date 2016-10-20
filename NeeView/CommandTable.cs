@@ -514,13 +514,27 @@ namespace NeeView
                 element.Group = "ウィンドウ";
                 element.Text = "メニューを自動的に隠すON/OFF";
                 element.MenuText = "メニューを自動的に隠す";
-                element.Note = "メニュー、スライダーを非表示にします。カーソルをウィンドウ上端、下端に合わせることで表示されます";
+                element.Note = "メニューを非表示にします。カーソルをウィンドウ上端に合わせることで表示されます";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _VM.ToggleHideMenu();
                 element.ExecuteMessage = e => _VM.IsHideMenu ? "メニューを表示する" : "メニューを自動的に隠す";
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHideMenu));
                 _elements[CommandType.ToggleHideMenu] = element;
+            }
+            // ToggleHidePageSlider
+            {
+                var element = new CommandElement();
+                element.Group = "ウィンドウ";
+                element.Text = "スライダーを自動的に隠すON/OFF";
+                element.MenuText = "スライダーを自動的に隠す";
+                element.Note = "スライダーを非表示にします。カーソルをウィンドウ下端に合わせることで表示されます";
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => _VM.ToggleHidePageSlider();
+                element.ExecuteMessage = e => _VM.IsHidePageSlider ? "スライダーを表示する" : "スライダーを自動的に隠す";
+                element.CanExecute = () => true;
+                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHidePageSlider));
+                _elements[CommandType.ToggleHidePageSlider] = element;
             }
             // ToggleHidePanel
             {

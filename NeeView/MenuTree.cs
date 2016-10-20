@@ -467,6 +467,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleTitleBar },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleAddressBar },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleHideMenu },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleHidePageSlider },
                         new MenuTree(MenuElementType.Separator),
                         //new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsLoupe },
                         //new MenuTree(MenuElementType.Separator),

@@ -400,6 +400,21 @@ namespace NeeView
         }
         #endregion
 
+        // スライダーを自動的に隠す
+        #region Property: IsHidePageSlider
+        private bool _isIsHidePageSlider;
+        public bool IsHidePageSlider
+        {
+            get { return _isIsHidePageSlider; }
+            set { _isIsHidePageSlider = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+        }
+        public bool ToggleHidePageSlider()
+        {
+            IsHidePageSlider = !IsHidePageSlider;
+            return IsHidePageSlider;
+        }
+        #endregion
+
         // パネルを自動的に隠す
         #region Property: IsHidePanel
         private bool _isHidePanel;
@@ -2695,6 +2710,9 @@ namespace NeeView
             [DataMember(Order = 16)]
             public SliderDirection SliderDirection { get; set; }
 
+            [DataMember(Order = 17)]
+            public bool IsHidePageSlider { get; set; }
+
             //
             private void Constructor()
             {
@@ -2761,6 +2779,11 @@ namespace NeeView
                 {
                     SliderDirection = IsSliderDirectionReversed ? SliderDirection.RightToLeft : SliderDirection.LeftToRight;
                 }
+
+                if (_Version < Config.GenerateProductVersionNumber(1, 17, 0))
+                {
+                    IsHidePageSlider = IsHideMenu;
+                }
             }
         }
 
@@ -2790,6 +2813,7 @@ namespace NeeView
             memento.IsAutoPlaySlideShow = this.IsAutoPlaySlideShow;
             memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
             memento.IsHideMenu = this.IsHideMenu;
+            memento.IsHidePageSlider = this.IsHidePageSlider;
             memento.IsVisibleTitleBar = this.IsVisibleTitleBar;
             memento.IsFullScreen = this.IsFullScreen;
             memento.IsSaveFullScreen = this.IsSaveFullScreen;
@@ -2854,6 +2878,7 @@ namespace NeeView
             this.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
             this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
             this.IsHideMenu = memento.IsHideMenu;
+            this.IsHidePageSlider = memento.IsHidePageSlider;
             this.IsVisibleTitleBar = memento.IsVisibleTitleBar;
             this.IsSaveFullScreen = memento.IsSaveFullScreen;
             if (this.IsSaveFullScreen) this.IsFullScreen = memento.IsFullScreen;

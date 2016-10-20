@@ -10,12 +10,14 @@ DLL: 7z.dll
 
 ### SevenZipSharp
 
-DLL: SevenZipSharp.dll (custom)
+DLL: SevenZipSharpNE.dll
 
 * Copyright (C) Markovtsev Vadim 2009, 2010
 * URL: [SevenZipSharp - Home](https://sevenzipsharp.codeplex.com/)
 * License: [GNU LGPL](https://sevenzipsharp.codeplex.com/license)
-* Custom: RAR5 Support [\[Project Page\]](https://github.com/neelabo/SevenZipSharp)
+* Changed:
+    * VS 2015 project: [Project Page](https://github.com/tomap/SevenZipSharp)
+    * RAR5 Support: [Project Page](https://github.com/neelabo/SevenZipSharp)
 
 ### Material design icons
 

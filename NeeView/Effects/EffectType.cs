@@ -21,6 +21,7 @@ namespace NeeView.Effects
     public enum EffectType
     {
         None,
+        Level,
         Blur,
         Bloom,
         Monochrome,
@@ -31,8 +32,6 @@ namespace NeeView.Effects
         Magnify,
         Ripple,
         Swirl,
-
-        // MyGrayscale,
     }
 
     public static class EffectTypeExtensions
@@ -40,6 +39,7 @@ namespace NeeView.Effects
         public static Dictionary<EffectType, string> EffectTypeNames { get; private set; } = new Dictionary<EffectType, string>
         {
             [EffectType.None] = "なし (標準)",
+            [EffectType.Level] = "レベル補正",
             [EffectType.Blur] = "ぼかし",
             [EffectType.Bloom] = "ブルーム",
             [EffectType.Monochrome] = "モノクロ",
@@ -50,8 +50,6 @@ namespace NeeView.Effects
             [EffectType.Magnify] = "拡大鏡",
             [EffectType.Ripple] = "波紋",
             [EffectType.Swirl] = "渦巻き",
-
-            //[EffectType.MyGrayscale] = "グレイスケール",
         };
 
         public static string ToDispString(this EffectType my)

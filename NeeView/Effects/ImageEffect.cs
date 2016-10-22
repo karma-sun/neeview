@@ -91,6 +91,7 @@ namespace NeeView.Effects
             Effects = new Dictionary<EffectType, EffectUnit>();
 
             Effects[EffectType.None] = null;
+            Effects[EffectType.Level] = new LevelEffectUnit();
             Effects[EffectType.Blur] = new BlurEffectUnit();
             Effects[EffectType.Bloom] = new BloomEffectUnit();
             Effects[EffectType.Monochrome] = new MonochromeEffectUnit();
@@ -102,7 +103,6 @@ namespace NeeView.Effects
             Effects[EffectType.Ripple] = new RippleEffectUnit();
             Effects[EffectType.Swirl] = new SwirlEffectUnit();
 
-            //Effects[EffectType.MyGrayscale] = new GrayscaleEffectUnit();
         }
 
         //
@@ -155,7 +155,10 @@ namespace NeeView.Effects
             {
                 foreach (var effect in memento.Effects)
                 {
-                    this.Effects[effect.Key] = (EffectUnit)Utility.Json.Deserialize(effect.Value, this.Effects[effect.Key].GetType());
+                    if (this.Effects.ContainsKey(effect.Key))
+                    {
+                        this.Effects[effect.Key] = (EffectUnit)Utility.Json.Deserialize(effect.Value, this.Effects[effect.Key].GetType());
+                    }
                 }
             }
         }

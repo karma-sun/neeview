@@ -81,7 +81,9 @@
       <DependentUpon>CommandParameterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Effects\BloomEffectUnit.cs" />
-    <Compile Include="Effects\GrayscaleEffectUnit.cs" />
+    <Compile Include="Effects\LevelEffectUnit.cs" />
+    <Compile Include="Effects\LefelEffect.cs" />
+    <Compile Include="Effects\Tools.cs" />
     <Compile Include="Effects\ColorToneEffectUnit.cs" />
     <Compile Include="Effects\EffectUnit.cs" />
     <Compile Include="Effects\EmbossedEffect.cs" />
@@ -137,7 +139,6 @@
     <Compile Include="ContextMenuSettingWindow.xaml.cs">
       <DependentUpon>ContextMenuSettingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Effects\GrayscaleEffect.cs" />
     <Compile Include="Loupe.xaml.cs">
       <DependentUpon>Loupe.xaml</DependentUpon>
     </Compile>
@@ -432,7 +433,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="App.manifest" />
-    <Resource Include="Effects\GrayscaleEffect.ps" />
+    <Resource Include="Effects\Shaders\LevelEffect.ps" />
+    <None Include="Effects\Shaders\FxCompile.ps1" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -457,6 +459,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Effects\Shaders\LevelEffect.fx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

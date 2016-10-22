@@ -606,13 +606,13 @@ namespace NeeView
             {
                 var element = new CommandElement();
                 element.Group = "パネル";
-                element.Text = "エフェクト設定の表示ON/OFF";
-                element.MenuText = "エフェクト設定";
-                element.Note = "エフェクト設定パネルの表示/非表示を切り替えます。エフェクト設定パネルは右側に表示されます";
+                element.Text = "エフェクトパネルの表示ON/OFF";
+                element.MenuText = "エフェクトパネル";
+                element.Note = "エフェクトパネルの表示/非表示を切り替えます。エフェクトパネルは右側に表示されます";
                 element.ShortCutKey = "E";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _VM.ToggleVisibleEffectInfo(e is MenuCommandTag);
-                element.ExecuteMessage = e => _VM.IsVisibleEffectInfo ? "エフェクト設定を消す" : "エフェクト設定を表示する";
+                element.ExecuteMessage = e => _VM.IsVisibleEffectInfo ? "エフェクトパネルを消す" : "エフェクト設パネルを表示する";
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleEffectInfo));
                 _elements[CommandType.ToggleVisibleEffectInfo] = element;

@@ -1581,6 +1581,8 @@ namespace NeeView
         public string BookmarkFileName { get; set; }
         public string PagemarkFileName { get; set; }
 
+        private string _oldPagemarkFileName { get; set; }
+
         // 保存可否
         public bool IsEnableSave { get; set; } = true;
 
@@ -1589,7 +1591,9 @@ namespace NeeView
         {
             HistoryFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "History.xml");
             BookmarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Bookmark.xml");
-            PagemarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Pagekmark.xml");
+            PagemarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Pagemark.xml");
+
+            _oldPagemarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Pagekmark.xml");
 
             InitializeWindowIcons();
 
@@ -1887,12 +1891,23 @@ namespace NeeView
         {
             PagemarkCollection.Memento memento;
 
-            // ページマーク読み込み
+            // 読込ファイル名確定
+            string filename = null;
             if (System.IO.File.Exists(PagemarkFileName))
+            {
+                filename = PagemarkFileName;
+            }
+            else if (System.IO.File.Exists(_oldPagemarkFileName))
+            {
+                filename = _oldPagemarkFileName;
+            }
+
+            // ページマーク読み込み
+            if (filename != null)
             {
                 try
                 {
-                    memento = PagemarkCollection.Memento.Load(PagemarkFileName);
+                    memento = PagemarkCollection.Memento.Load(filename);
                 }
                 catch (Exception e)
                 {
@@ -1900,11 +1915,20 @@ namespace NeeView
                     Messenger.MessageBox(this, "ページマークの読み込みに失敗しました。", _defaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
                     memento = new PagemarkCollection.Memento();
                 }
+
+                // 旧ファイル名の変更
+                if (filename == _oldPagemarkFileName)
+                {
+                    System.IO.File.Move(filename, PagemarkFileName);
+                }
             }
             else
             {
                 memento = new PagemarkCollection.Memento();
             }
+
+
+
 
             // ページマーク反映
             ModelContext.Pagemarks.Restore(memento);

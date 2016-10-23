@@ -49,30 +49,30 @@ namespace DragExtensions
             }
         }
 
-        private static readonly DependencyProperty s_startPointProperty = DependencyProperty.RegisterAttached("StartPoint", typeof(Point?), typeof(DragBehavior), new PropertyMetadata(null));
+        private static readonly DependencyProperty StartPointProperty = DependencyProperty.RegisterAttached("StartPoint", typeof(Point?), typeof(DragBehavior), new PropertyMetadata(null));
 
-        private static readonly DependencyProperty s_dragAdornerProperty = DependencyProperty.RegisterAttached("DragAdorner", typeof(DragAdorner), typeof(DragBehavior), new PropertyMetadata(null));
+        private static readonly DependencyProperty DragAdornerProperty = DependencyProperty.RegisterAttached("DragAdorner", typeof(DragAdorner), typeof(DragBehavior), new PropertyMetadata(null));
 
         public static DragAdorner GetDragAdorner(DependencyObject obj)
         {
-            return (DragAdorner)obj.GetValue(s_dragAdornerProperty);
+            return (DragAdorner)obj.GetValue(DragAdornerProperty);
         }
         public static void SetDragAdorner(DependencyObject obj, DragAdorner value)
         {
-            obj.SetValue(s_dragAdornerProperty, value);
+            obj.SetValue(DragAdornerProperty, value);
         }
 
 
         // ListBox
-        private static readonly DependencyProperty s_listBoxProperty = DependencyProperty.RegisterAttached("ListBox", typeof(ListBox), typeof(DragBehavior), new PropertyMetadata(null));
+        private static readonly DependencyProperty ListBoxProperty = DependencyProperty.RegisterAttached("ListBox", typeof(ListBox), typeof(DragBehavior), new PropertyMetadata(null));
 
         public static ListBox GetListBox(DependencyObject obj)
         {
-            return (ListBox)obj.GetValue(s_listBoxProperty);
+            return (ListBox)obj.GetValue(ListBoxProperty);
         }
         public static void SetListBox(DependencyObject obj, ListBox value)
         {
-            obj.SetValue(s_listBoxProperty, value);
+            obj.SetValue(ListBoxProperty, value);
         }
 
 
@@ -80,23 +80,23 @@ namespace DragExtensions
         {
             //e.Handled = true;
             UIElement element = sender as UIElement;
-            element.SetValue(DragBehavior.s_startPointProperty, e.GetPosition(element));
+            element.SetValue(DragBehavior.StartPointProperty, e.GetPosition(element));
         }
 
         private static void OnPreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             UIElement element = sender as UIElement;
-            element.SetValue(DragBehavior.s_startPointProperty, null);
+            element.SetValue(DragBehavior.StartPointProperty, null);
         }
 
         private static void OnMouseMove(object sender, MouseEventArgs e)
         {
             UIElement element = sender as UIElement;
 
-            if (e.LeftButton == MouseButtonState.Released) element.SetValue(DragBehavior.s_startPointProperty, null);
-            if (element.GetValue(DragBehavior.s_startPointProperty) == null) return;
+            if (e.LeftButton == MouseButtonState.Released) element.SetValue(DragBehavior.StartPointProperty, null);
+            if (element.GetValue(DragBehavior.StartPointProperty) == null) return;
 
-            Point startPoint = (Point)element.GetValue(DragBehavior.s_startPointProperty);
+            Point startPoint = (Point)element.GetValue(DragBehavior.StartPointProperty);
             Point point = e.GetPosition(element);
             if (element is ListBoxItem) point.Y = ((ListBoxItem)element).ActualHeight / 2;
 

@@ -81,6 +81,10 @@
       <DependentUpon>CommandParameterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Effects\BloomEffectUnit.cs" />
+    <Compile Include="Effects\ColorSelectEffect.cs" />
+    <Compile Include="Effects\HsvEffect.cs" />
+    <Compile Include="Effects\ColorSelectEffectUnit.cs" />
+    <Compile Include="Effects\HsvEffectUnit.cs" />
     <Compile Include="Effects\LevelEffectUnit.cs" />
     <Compile Include="Effects\LefelEffect.cs" />
     <Compile Include="Effects\Tools.cs" />
@@ -434,7 +438,9 @@
     </EmbeddedResource>
     <None Include="App.manifest" />
     <Resource Include="Effects\Shaders\LevelEffect.ps" />
+    <Resource Include="Effects\Shaders\ColorSelectEffect.ps" />
     <None Include="Effects\Shaders\FxCompile.ps1" />
+    <Resource Include="Effects\Shaders\HsvEffect.ps" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -461,6 +467,8 @@
     <None Include="Resources\Splash.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Effects\Shaders\ColorSelectEffect.fx" />
+    <Content Include="Effects\Shaders\HsvEffect.fx" />
     <Content Include="Effects\Shaders\LevelEffect.fx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

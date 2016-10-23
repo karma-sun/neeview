@@ -167,6 +167,8 @@ namespace NeeLaboratory.Property
     {
         public int Minimum { get; set; }
         public int Maximum { get; set; }
+        public int SmallChange => (Maximum - Minimum) / 10;
+        public int LargeChange => (Maximum - Minimum) / 4;
         public int TickFrequency
         {
             get
@@ -188,6 +190,8 @@ namespace NeeLaboratory.Property
     {
         public double Minimum { get; set; }
         public double Maximum { get; set; }
+        public double SmallChange => (Maximum - Minimum) * 0.1;
+        public double LargeChange => (Maximum - Minimum) * 0.25;
         public double TickFrequency => (Maximum - Minimum) * 0.01;
 
         public PropertyValue_DoubleRange(PropertyMemberElement setter, double min, double max) : base(setter)

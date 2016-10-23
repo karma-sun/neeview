@@ -92,13 +92,15 @@ namespace NeeView.Effects
 
             Effects[EffectType.None] = null;
             Effects[EffectType.Level] = new LevelEffectUnit();
+            Effects[EffectType.Hsv] = new HsvEffectUnit();
+            Effects[EffectType.ColorSelect] = new ColorSelectEffectUnit();
             Effects[EffectType.Blur] = new BlurEffectUnit();
             Effects[EffectType.Bloom] = new BloomEffectUnit();
             Effects[EffectType.Monochrome] = new MonochromeEffectUnit();
             Effects[EffectType.ColorTone] = new ColorToneEffectUnit();
+            Effects[EffectType.Sharpen] = new SharpenEffectUnit();
             Effects[EffectType.Embossed] = new EmbossedEffectUnit();
             Effects[EffectType.Pixelate] = new PixelateEffectUnit();
-            Effects[EffectType.Sharpen] = new SharpenEffectUnit();
             Effects[EffectType.Magnify] = new MagnifyEffectUnit();
             Effects[EffectType.Ripple] = new RippleEffectUnit();
             Effects[EffectType.Swirl] = new SwirlEffectUnit();

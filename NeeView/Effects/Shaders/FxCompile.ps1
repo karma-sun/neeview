@@ -1,3 +1,6 @@
+# シェーダーコンパイル用スクリプト
+# ビルドで実行されないので手動で実行する
+
 $fxc ="C:\Program Files (x86)\Windows Kits\10\bin\x86\fxc.exe"
 
 trap {break}

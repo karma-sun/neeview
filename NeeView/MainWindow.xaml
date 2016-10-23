@@ -298,12 +298,13 @@
 
                     <!-- メインビュー -->
                     <Grid x:Name="MainViewPanelGrid" Panel.ZIndex="-1" Margin="-1,0">
-                        <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" >
+                        <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding BackgroundBrush}" >
 
-                            <Grid x:Name="MainViewCanvas"  Background="{Binding BackgroundBrush}" Effect="{Binding ImageEffector.Effect}">
+                            
+                            <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffector.Effect}">
 
                                 <!-- メインビュー コンテンツ表示領域 -->
-                                <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True">
+                                <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True" >
                                     <!-- Pages -->
                                     <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                                         HorizontalAlignment="Center" VerticalAlignment="Center">

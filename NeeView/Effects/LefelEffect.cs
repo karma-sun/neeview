@@ -26,7 +26,8 @@ namespace NeeView.Effects
             UpdateShaderValue(BlackProperty);
             UpdateShaderValue(WhiteProperty);
             UpdateShaderValue(CenterProperty);
-            UpdateShaderValue(HueProperty);
+            UpdateShaderValue(MinimumProperty);
+            UpdateShaderValue(MaximumProperty);
         }
 
         public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(LevelEffect), 0);
@@ -61,28 +62,19 @@ namespace NeeView.Effects
         }
 
         //
-        public static readonly DependencyProperty HueProperty = DependencyProperty.Register("Hue", typeof(double), typeof(LevelEffect), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(3)));
-        public double Hue
+        public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register("Minimum", typeof(double), typeof(LevelEffect), new UIPropertyMetadata(0.0, PixelShaderConstantCallback(3)));
+        public double Minimum
         {
-            get { return (double)GetValue(HueProperty); }
-            set { SetValue(HueProperty, value); }
+            get { return (double)GetValue(MinimumProperty); }
+            set { SetValue(MinimumProperty, value); }
         }
 
-
-#if false
         //
-        private static object CoerceDesaturationFactor(DependencyObject d, object value)
+        public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register("Maximum", typeof(double), typeof(LevelEffect), new UIPropertyMetadata(1.0, PixelShaderConstantCallback(4)));
+        public double Maximum
         {
-            GrayscaleEffect effect = (GrayscaleEffect)d;
-            double newFactor = (double)value;
-
-            if (newFactor < 0.0 || newFactor > 1.0)
-            {
-                return effect.DesaturationFactor;
-            }
-
-            return newFactor;
+            get { return (double)GetValue(MaximumProperty); }
+            set { SetValue(MaximumProperty, value); }
         }
-#endif
     }
 }

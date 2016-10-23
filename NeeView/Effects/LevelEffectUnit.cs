@@ -27,7 +27,7 @@ namespace NeeView.Effects
         /// Property: Black
         /// </summary>
         [DataMember]
-        [PropertyRange(0, 1, Name = "Shadow")]
+        [PropertyRange(0, 1, Name = "Minimum", Title ="Input")]
         [DefaultValue(0.0)]
         public double Black
         {
@@ -40,7 +40,7 @@ namespace NeeView.Effects
         /// Property: White
         /// </summary>
         [DataMember]
-        [PropertyRange(0, 1, Name = "Highlight")]
+        [PropertyRange(0, 1, Name = "Maximum")]
         [DefaultValue(1.0)]
         public double White
         {
@@ -61,17 +61,29 @@ namespace NeeView.Effects
             set { if (s_effect.Center != value) { s_effect.Center = value; RaiseEffectPropertyChanged(); } }
         }
 
+        /// <summary>
+        /// Property: Minimum
+        /// </summary>
+        [DataMember]
+        [PropertyRange(0, 1, Title ="Output")]
+        [DefaultValue(0.0)]
+        public double Minimum
+        {
+            get { return s_effect.Minimum; }
+            set { if (s_effect.Minimum != value) { s_effect.Minimum = value; RaiseEffectPropertyChanged(); } }
+        }
 
         /// <summary>
-        /// Property: Hue
+        /// Property: Center
         /// </summary>
         [DataMember]
         [PropertyRange(0, 1)]
-        [DefaultValue(0.0)]
-        public double Hue
+        [DefaultValue(1.0)]
+        public double Maximum
         {
-            get { return s_effect.Hue; }
-            set { if (s_effect.Hue != value) { s_effect.Hue = value; RaiseEffectPropertyChanged(); } }
+            get { return s_effect.Maximum; }
+            set { if (s_effect.Maximum != value) { s_effect.Maximum = value; RaiseEffectPropertyChanged(); } }
         }
+
     }
 }

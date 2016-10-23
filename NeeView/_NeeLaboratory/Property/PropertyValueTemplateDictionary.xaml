@@ -29,7 +29,7 @@
     <DataTemplate DataType="{x:Type local:PropertyValue_IntegerRange}">
         <DockPanel>
             <TextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"/>
-            <Slider Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" 
+            <Slider Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" SmallChange="{Binding SmallChange}" LargeChange="{Binding LargeChange}" 
                             TickFrequency="{Binding TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
         </DockPanel>
     </DataTemplate>
@@ -41,7 +41,7 @@
     <DataTemplate DataType="{x:Type local:PropertyValue_DoubleRange}">
         <DockPanel>
             <TextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"/>
-            <Slider Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" 
+            <Slider Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" SmallChange="{Binding SmallChange}" LargeChange="{Binding LargeChange}" 
                             TickFrequency="{Binding TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
         </DockPanel>
     </DataTemplate>

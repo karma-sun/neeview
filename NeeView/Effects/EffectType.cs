@@ -46,7 +46,7 @@ namespace NeeView.Effects
             [EffectType.ColorSelect] = "色選択",
             [EffectType.Blur] = "ぼかし",
             [EffectType.Bloom] = "ブルーム",
-            [EffectType.Monochrome] = "モノクロ",
+            [EffectType.Monochrome] = "モノクローム",
             [EffectType.ColorTone] = "カラートーン",
             [EffectType.Sharpen] = "シャープ",
             [EffectType.Embossed] = "エンボス",

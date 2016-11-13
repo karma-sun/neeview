@@ -49,13 +49,13 @@ namespace NeeView
         private ThumbnailHelper _thumbnailHelper;
 
 
-        private FolderListVM _VM;
+        private FolderListViewModel _VM;
         private bool _autoFocus;
 
         public FolderInfo SelectedItem => this.ListBox.SelectedItem as FolderInfo;
 
         //
-        public FolderList(FolderListVM vm, bool autoFocus)
+        public FolderList(FolderListViewModel vm, bool autoFocus)
         {
             _autoFocus = autoFocus;
 
@@ -201,80 +201,4 @@ namespace NeeView
         }
     }
 
-
-    /// <summary>
-    /// FolderList ViewModel
-    /// </summary>
-    public class FolderListVM : INotifyPropertyChanged
-    {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
-        public FolderCollection FolderCollection { get; set; }
-
-        public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
-
-        public double PicturePanelHeight => ThumbnailHeight + 24.0;
-
-        public double ThumbnailWidth => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeX / App.Config.DpiScaleFactor.X);
-        public double ThumbnailHeight => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeY / App.Config.DpiScaleFactor.Y);
-
-        #region Property: SelectedIndex
-        private int _selectedIndex;
-        public int SelectedIndex
-        {
-            get { return _selectedIndex; }
-            set
-            {
-                _selectedIndex = value;
-                OnPropertyChanged();
-            }
-        }
-        #endregion
-
-        public FolderListVM()
-        {
-            OnPropertyChanged(nameof(FolderListItemStyle));
-            PanelContext.FolderListStyleChanged += (s, e) => OnPropertyChanged(nameof(FolderListItemStyle));
-        }
-
-
-        public void Remove(FolderInfo info)
-        {
-            if (info.IsEmpty) return;
-
-            var stackPanel = new StackPanel();
-            stackPanel.Orientation = Orientation.Horizontal;
-            var thumbnail = new Image();
-            thumbnail.SnapsToDevicePixels = true;
-            thumbnail.Source = info.Icon;
-            thumbnail.Width = 32;
-            thumbnail.Height = 32;
-            thumbnail.Margin = new System.Windows.Thickness(0, 0, 4, 0);
-            stackPanel.Children.Add(thumbnail);
-            var textblock = new TextBlock();
-            textblock.Text = info.Path;
-            textblock.VerticalAlignment = VerticalAlignment.Center;
-            stackPanel.Children.Add(textblock);
-            stackPanel.Margin = new Thickness(0, 0, 0, 20);
-
-            Messenger.Send(this, new MessageEventArgs("RemoveFile") { Parameter = new RemoveFileParams() { Path = info.Path, Visual = stackPanel } });
-        }
-
-
-        // サムネイル要求
-        public void RequestThumbnail(int start, int count, int margin, int direction)
-        {
-            PanelContext.ThumbnailManager.RequestThumbnail(FolderCollection.Items, start, count, margin, direction);
-        }
-    }
 }

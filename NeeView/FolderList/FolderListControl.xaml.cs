@@ -150,7 +150,7 @@ namespace NeeView
         //
         private void OnFolderCollectionChanged(object sender, bool isFocus)
         {
-            var vm = new FolderListVM();
+            var vm = new FolderListViewModel();
             vm.FolderCollection = _VM.FolderCollection;
             vm.SelectedIndex = _VM.FolderCollection.SelectedIndex < 0 ? 0 : _VM.FolderCollection.SelectedIndex;
             _folderList = new FolderList(vm, isFocus);

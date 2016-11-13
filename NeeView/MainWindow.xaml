@@ -92,8 +92,7 @@
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
-        <local:IsGreaterThanConverter x:Key="IsGreaterThanConverter"/>
-        <local:IsLessThanConverter x:Key="IsLessThanConverter"/>
+        <local:IsNearZeroConverter x:Key="IsNearZeroConverter"/>
 
         <local:SortModeToVisibilityConverter x:Key="SortModeToVisibilityConverter"/>
         <local:SortModeToStringConverter x:Key="SortModeToStringConverter"/>
@@ -363,7 +362,7 @@
                                 <Grid.Style>
                                     <Style TargetType="Grid">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=NowLoading, Path=Opacity, Converter={StaticResource IsLessThanConverter}, ConverterParameter=0.01}" Value="True">
+                                            <DataTrigger Binding="{Binding ElementName=NowLoading, Path=Opacity, Converter={StaticResource IsNearZeroConverter}}" Value="True">
                                                 <Setter Property="Visibility" Value="Hidden"/>
                                             </DataTrigger>
                                         </Style.Triggers>

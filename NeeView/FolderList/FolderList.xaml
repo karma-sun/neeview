@@ -85,7 +85,9 @@
         </DataTemplate>
 
         <DataTemplate x:Key="PictureFolder">
-            <DockPanel Height="{Binding ElementName=ListBox, Path=DataContext.PicturePanelHeight}" Margin="0,1" Background="{DynamicResource NVBaseBrush}">
+            <DockPanel
+                Height="{Binding ElementName=ListBox, Path=DataContext.PicturePanelHeight}"
+                Margin="0,1" Background="{DynamicResource NVBaseBrush}">
                 <DockPanel DockPanel.Dock="Bottom" Margin="2">
                     <Grid DockPanel.Dock="Right" Width="24">
                         <TextBlock Style="{StaticResource FolderIcon}"/>
@@ -115,7 +117,7 @@
                 KeyDown="FolderList_KeyDown"
                 HorizontalContentAlignment="Stretch"
                 UseLayoutRounding="True">
-
+        
         <ListBox.Style>
             <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
                 <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder}"/>
@@ -133,9 +135,18 @@
                 <EventSetter Event="PreviewMouseDoubleClick" Handler="FolderListItem_MouseDoubleClick"/>
                 <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown"/>
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
+                <Setter Property="Tag" Value="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
                 <Setter Property="ContextMenu">
                     <Setter.Value>
                         <ContextMenu>
+                            <!--
+                            <MenuItem Header="エクスプローラーで開く"
+                                      Command="{Binding PlacementTarget.Tag.OpenPlaceCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                      CommandParameter="{Binding}"/>
+                            <MenuItem Header="削除(D)"
+                                      Command="{Binding PlacementTarget.Tag.RemoveCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                      CommandParameter="{Binding}"/>
+                            -->
                             <MenuItem Header="エクスプローラーで開く" Command="{x:Static local:FolderList.OpenExplorerCommand}"/>
                             <Separator/>
                             <MenuItem Header="削除(D)" Command="{x:Static local:FolderList.RemoveCommand}"/>
@@ -144,6 +155,23 @@
                 </Setter>
             </Style>
         </ListBox.Resources>
+
+        <!--
+        <ListBox.ItemContainerStyle>
+            <Style TargetType="{x:Type ListBoxItem}">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+        </ListBox.ItemContainerStyle>
+
+        <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <WrapPanel/>
+            </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+        -->
 
     </ListBox>
 

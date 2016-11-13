@@ -100,6 +100,7 @@
     <Compile Include="Effects\PixelateEffectUnit.cs" />
     <Compile Include="Effects\ImageEffect.cs" />
     <Compile Include="Effects\EffectType.cs" />
+    <Compile Include="FolderList\FolderListViewModel.cs" />
     <Compile Include="ImageEffectControl.xaml.cs">
       <DependentUpon>ImageEffectControl.xaml</DependentUpon>
     </Compile>
@@ -150,11 +151,11 @@
     <Compile Include="PageListControl.xaml.cs">
       <DependentUpon>PageListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FolderCollection.cs" />
-    <Compile Include="FolderList.xaml.cs">
+    <Compile Include="FolderList\FolderCollection.cs" />
+    <Compile Include="FolderList\FolderList.xaml.cs">
       <DependentUpon>FolderList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FolderListControl.xaml.cs">
+    <Compile Include="FolderList\FolderListControl.xaml.cs">
       <DependentUpon>FolderListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="HistoryControl.xaml.cs">
@@ -348,11 +349,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FolderList.xaml">
+    <Page Include="FolderList\FolderList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FolderListControl.xaml">
+    <Page Include="FolderList\FolderListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

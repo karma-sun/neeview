@@ -5,7 +5,7 @@
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" SummaryCodepage="932" Comments="NeeView is picture viewer."/>
 
     <MajorUpgrade DowngradeErrorMessage="新しいバージョンの NeeView が既にインストール済です。" />
-    <MediaTemplate EmbedCab="yes"/>
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high"/>
 
     <Feature Id="ProductFeature" Title="NeeView" Level="1">
       <ComponentGroupRef Id="ProductComponents" />

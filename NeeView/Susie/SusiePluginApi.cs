@@ -3,6 +3,9 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+// 参考：
+// http://myugaru.wankuma.com/
+
 using System;
 using System.Collections.Generic;
 using System.IO;

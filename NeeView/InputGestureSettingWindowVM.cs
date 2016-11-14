@@ -33,7 +33,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
@@ -53,7 +53,7 @@ namespace NeeView
         public ObservableCollection<GestureToken> GestureTokens
         {
             get { return _gestureTokens; }
-            set { if (_gestureTokens != value) { _gestureTokens = value; OnPropertyChanged(); } }
+            set { if (_gestureTokens != value) { _gestureTokens = value; RaisePropertyChanged(); } }
         }
 
         // ウィンドウタイトル？

@@ -72,7 +72,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -137,7 +137,7 @@ namespace NeeView
                 }
 
                 _position = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
         #endregion
@@ -153,7 +153,7 @@ namespace NeeView
             set
             {
                 _angle = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
                 TransformChanged?.Invoke(this, new TransformChangedParam(TransformChangeType.Angle, _actionType));
             }
         }
@@ -170,9 +170,9 @@ namespace NeeView
             set
             {
                 _scale = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(ScaleX));
-                OnPropertyChanged(nameof(ScaleY));
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(ScaleX));
+                RaisePropertyChanged(nameof(ScaleY));
                 TransformChanged?.Invoke(this, new TransformChangedParam(TransformChangeType.Scale, _actionType));
             }
         }
@@ -203,8 +203,8 @@ namespace NeeView
                 if (_isFlipHorizontal != value)
                 {
                     _isFlipHorizontal = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(ScaleX));
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(ScaleX));
                 }
             }
         }
@@ -221,8 +221,8 @@ namespace NeeView
                 if (_isFlipVertical != value)
                 {
                     _isFlipVertical = value;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(ScaleY));
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(ScaleY));
                 }
             }
         }
@@ -256,8 +256,8 @@ namespace NeeView
                     LoupePosition = new Point();
                 }
 
-                OnPropertyChanged(nameof(LoupeScaleX));
-                OnPropertyChanged(nameof(LoupeScaleY));
+                RaisePropertyChanged(nameof(LoupeScaleX));
+                RaisePropertyChanged(nameof(LoupeScaleY));
                 TransformChanged?.Invoke(this, new TransformChangedParam(TransformChangeType.LoupeScale, TransformActionType.LoupeScale));
             }
         }
@@ -271,9 +271,9 @@ namespace NeeView
             set
             {
                 _loupePosition = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(LoupePositionX));
-                OnPropertyChanged(nameof(LoupePositionY));
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(LoupePositionX));
+                RaisePropertyChanged(nameof(LoupePositionY));
             }
         }
         public double LoupePositionX => IsLoupe ? LoupePosition.X : 0.0;
@@ -291,9 +291,9 @@ namespace NeeView
             set
             {
                 _loupeScale = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(LoupeScaleX));
-                OnPropertyChanged(nameof(LoupeScaleY));
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(LoupeScaleX));
+                RaisePropertyChanged(nameof(LoupeScaleY));
                 TransformChanged?.Invoke(this, new TransformChangedParam(TransformChangeType.LoupeScale, TransformActionType.LoupeScale));
             }
         }

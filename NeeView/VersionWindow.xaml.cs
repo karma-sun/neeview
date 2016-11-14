@@ -84,7 +84,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -118,7 +118,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -139,7 +139,7 @@ namespace NeeView
         public string Message
         {
             get { return _message; }
-            set { _message = value; OnPropertyChanged(); }
+            set { _message = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -209,7 +209,7 @@ namespace NeeView
                     {
                         Message = $"新しいバージョンがリリースされています";
                         IsExistNewVersion = true;
-                        OnPropertyChanged(nameof(IsExistNewVersion));
+                        RaisePropertyChanged(nameof(IsExistNewVersion));
                     }
 
                     _isChecked = true;

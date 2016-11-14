@@ -41,7 +41,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -84,7 +84,7 @@ namespace NeeView
             #region NotifyPropertyChanged
             public event PropertyChangedEventHandler PropertyChanged;
 
-            protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+            protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
@@ -252,7 +252,7 @@ namespace NeeView
             {
                 var validValue = ExternalApplication.ValidateApplicationParam(value);
                 Setting.BookHubMemento.ExternalApplication.Parameter = validValue;
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
         #endregion
@@ -527,11 +527,11 @@ namespace NeeView
         public void UpdateSusiePluginList()
         {
             INPluginList = new ObservableCollection<Susie.SusiePlugin>(ModelContext.Susie?.INPlgunList);
-            OnPropertyChanged(nameof(INPluginList));
+            RaisePropertyChanged(nameof(INPluginList));
             this.INPluginListView.Items.Refresh();
 
             AMPluginList = new ObservableCollection<Susie.SusiePlugin>(ModelContext.Susie?.AMPlgunList);
-            OnPropertyChanged(nameof(AMPluginList));
+            RaisePropertyChanged(nameof(AMPluginList));
             this.AMPluginListView.Items.Refresh();
         }
 
@@ -639,7 +639,7 @@ namespace NeeView
         private void ClearHistoryButton_Click(object sender, RoutedEventArgs e)
         {
             History.Items.Clear();
-            OnPropertyChanged(nameof(History));
+            RaisePropertyChanged(nameof(History));
         }
 
         // プラグインリスト：ドロップ受付判定

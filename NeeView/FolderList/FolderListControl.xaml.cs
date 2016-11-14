@@ -217,7 +217,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -242,7 +242,7 @@ namespace NeeView
                 _bookHub.HistoryChanged += (s, e) => RefleshIcon(e.Key);
                 _bookHub.BookmarkChanged += (s, e) => RefleshIcon(e.Key);
                 //_BookHub.PagemarkChanged += (s, e) => RefleshIcon(e.Key);
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -254,9 +254,9 @@ namespace NeeView
             private set
             {
                 _folderCollection = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(Place));
-                OnPropertyChanged(nameof(PlaceDispString));
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(Place));
+                RaisePropertyChanged(nameof(PlaceDispString));
             }
         }
         #endregion
@@ -267,7 +267,7 @@ namespace NeeView
         public int SelectedIndex
         {
             get { return _selectedIndex; }
-            set { _selectedIndex = value; OnPropertyChanged(); }
+            set { _selectedIndex = value; RaisePropertyChanged(); }
         }
         #endregion
 

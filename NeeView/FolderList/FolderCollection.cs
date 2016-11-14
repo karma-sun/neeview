@@ -41,7 +41,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -95,7 +95,7 @@ namespace NeeView
         // アイコンオーバーレイの変更を通知
         public void NotifyIconOverlayChanged()
         {
-            OnPropertyChanged(nameof(IconOverlay));
+            RaisePropertyChanged(nameof(IconOverlay));
         }
 
         private BitmapSource _icon;
@@ -159,7 +159,7 @@ namespace NeeView
                 }
                 return _archivePage;
             }
-            set { _archivePage = value; OnPropertyChanged(); }
+            set { _archivePage = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -178,7 +178,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -194,7 +194,7 @@ namespace NeeView
         public FolderOrder FolderOrder
         {
             get { return _folderOrder; }
-            set { _folderOrder = value; Save(); s_randomSeed = new Random().Next(); OnPropertyChanged(); }
+            set { _folderOrder = value; Save(); s_randomSeed = new Random().Next(); RaisePropertyChanged(); }
         }
         #endregion
 

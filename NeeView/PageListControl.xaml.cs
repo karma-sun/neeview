@@ -203,7 +203,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -224,7 +224,7 @@ namespace NeeView
             {
                 _VM = value;
                 _VM.PageListChanged += (s, e) => Reflesh();
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
         #endregion
@@ -239,7 +239,7 @@ namespace NeeView
             {
                 _bookHub = value;
                 _bookHub.ViewContentsChanged += BookHub_ViewContentsChanged;
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -267,7 +267,7 @@ namespace NeeView
         public PageNameFormat Format
         {
             get { return _format; }
-            set { _format = value; OnPropertyChanged(); }
+            set { _format = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -280,7 +280,7 @@ namespace NeeView
         public string Title
         {
             get { return _title; }
-            set { _title = value; OnPropertyChanged(); }
+            set { _title = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -298,7 +298,7 @@ namespace NeeView
         public Page SelectedItem
         {
             get { return _selectedItem; }
-            set { _selectedItem = value; OnPropertyChanged(); }
+            set { _selectedItem = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -308,7 +308,7 @@ namespace NeeView
             Title = System.IO.Path.GetFileName(_bookHub.CurrentBook?.Place);
 
             _pageSortMode = _bookHub.BookMemento.SortMode;
-            OnPropertyChanged(nameof(PageSortMode));
+            RaisePropertyChanged(nameof(PageSortMode));
 
             App.Current.Dispatcher.Invoke(() => PagesChanged?.Invoke(this, null));
         }

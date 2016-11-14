@@ -84,7 +84,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
         }
@@ -161,7 +161,7 @@ namespace NeeView
                 {
                     _thumbnail = value;
                     ThumbnailChanged?.Invoke(this, _thumbnail);
-                    OnPropertyChanged();
+                    RaisePropertyChanged();
                 }
             }
         }

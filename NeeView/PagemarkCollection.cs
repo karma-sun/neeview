@@ -22,7 +22,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -40,7 +40,7 @@ namespace NeeView
             {
                 _items = value;
                 BindingOperations.EnableCollectionSynchronization(_items, new object());
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -201,7 +201,7 @@ namespace NeeView
             {
                 _marks = value;
                 BindingOperations.EnableCollectionSynchronization(_marks, new object());
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -216,7 +216,7 @@ namespace NeeView
                 if (_selectedItem != value)
                 {
                     _selectedItem = value;
-                    OnPropertyChanged();
+                    RaisePropertyChanged();
                 }
             }
         }

@@ -35,7 +35,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -49,7 +49,7 @@ namespace NeeView
         public string Text
         {
             get { return _text; }
-            set { _text = value; OnPropertyChanged(); }
+            set { _text = value; RaisePropertyChanged(); }
         }
         #endregion
 

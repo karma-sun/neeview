@@ -29,7 +29,7 @@ namespace NeeLaboratory.Controls
         #region NotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
@@ -51,7 +51,7 @@ namespace NeeLaboratory.Controls
         public double X
         {
             get { return Point.X; }
-            set { if (Point.X != value) { Point = new Point(value, Point.Y); OnPropertyChanged(); } }
+            set { if (Point.X != value) { Point = new Point(value, Point.Y); RaisePropertyChanged(); } }
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace NeeLaboratory.Controls
         public double Y
         {
             get { return Point.Y; }
-            set { if (Point.Y != value) { Point = new Point(Point.X, value); OnPropertyChanged(); } }
+            set { if (Point.Y != value) { Point = new Point(Point.X, value); RaisePropertyChanged(); } }
         }
 
 

@@ -23,7 +23,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -38,7 +38,7 @@ namespace NeeView
         public FrameworkElement Content
         {
             get { return _content; }
-            set { _content = value; OnPropertyChanged(); }
+            set { _content = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -48,7 +48,7 @@ namespace NeeView
         public double Width
         {
             get { return _width; }
-            set { _width = value; OnPropertyChanged(); }
+            set { _width = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -58,7 +58,7 @@ namespace NeeView
         public double Height
         {
             get { return _height; }
-            set { _height = value; OnPropertyChanged(); }
+            set { _height = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -109,7 +109,7 @@ namespace NeeView
         public BitmapScalingMode BitmapScalingMode
         {
             get { return _bitmapScalingMode; }
-            set { _bitmapScalingMode = value; OnPropertyChanged(); }
+            set { _bitmapScalingMode = value; RaisePropertyChanged(); }
         }
         #endregion
 

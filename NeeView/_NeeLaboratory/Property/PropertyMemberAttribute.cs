@@ -50,6 +50,19 @@ namespace NeeLaboratory.Property
         }
     }
 
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyEnumAttribute : PropertyMemberAttribute
+    {
+        public PropertyEnumAttribute(string name) : base(name)
+        {
+        }
+
+        public override PropertyMemberElement CreateContent(object source, PropertyInfo info)
+        {
+            return new PropertyMemberElement(source, info, this);
+        }
+    }
+
 
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyPathAttribute : PropertyMemberAttribute

@@ -841,6 +841,23 @@ namespace NeeView
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewRotateLeft };
                 _elements[CommandType.ViewRotateRight] = element;
             }
+
+
+            // ToggleIsAutoRotate
+            {
+                var element = new CommandElement();
+                element.Group = "ビュー操作";
+                element.Text = "自動回転ON/OFF";
+                element.MenuText = "自動回転";
+                element.Note = "ページ表示時、縦長画像を90度回転します。ウィンドウが縦長の場合、横長画像を90度回転します";
+                element.Execute = (s, e) => _VM.IsAutoRotate = !_VM.IsAutoRotate;
+                element.ExecuteMessage = e => _VM.IsAutoRotate ? "自動回転OFF" : "自動回転ON";
+                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsAutoRotate));
+                element.DefaultParameter = new AutoRotateCommandParameter();
+                element.IsShowMessage = true;
+                _elements[CommandType.ToggleIsAutoRotate] = element;
+            }
+
             // ToggleViewFlipHorizontal
             {
                 var element = new CommandElement();

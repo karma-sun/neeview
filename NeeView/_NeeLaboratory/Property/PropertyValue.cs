@@ -126,6 +126,39 @@ namespace NeeLaboratory.Property
         }
     }
 
+
+
+    //
+    public class PropertyValue_Enum : PropertyValue<object, PropertyMemberElement>
+    {
+        private Type _type;
+
+        public List<string> Items { get; private set; }
+
+        public string SelectedItem
+        {
+            get { return Value.ToString(); }
+            set { Value = Enum.Parse(_type, value); }
+        }
+
+        public PropertyValue_Enum(PropertyMemberElement setter, Type enumType) : base(setter)
+        {
+            _type = enumType;
+            this.Items = new List<string>(Enum.GetNames(_type));
+        }
+
+        public override string GetTypeString()
+        {
+            return "選択値";
+        }
+
+        public override void SetValueFromString(string value)
+        {
+            Value = Enum.Parse(_type, value);
+        }
+    }
+
+
     //
     public class PropertyValue_Point : PropertyValue<Point, PropertyMemberElement>
     {

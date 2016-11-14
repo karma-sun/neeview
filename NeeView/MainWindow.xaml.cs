@@ -137,6 +137,13 @@ namespace NeeView
                         _VM.UpdateWindowTitle(UpdateWindowTitleMask.View);
                     }
                 };
+            /*
+            _mouseDrag.TransformEnd +=
+                (s, e) =>
+                {
+                    _VM.UpdateContentSize(false);
+                };
+            */
             ModelContext.DragActionTable.SetTarget(_mouseDrag);
 
             // mouse gesture
@@ -231,6 +238,18 @@ namespace NeeView
         }
 
         //
+        private double DefaultViewAngle(bool isResetAngle)
+        {
+            var parameter = (AutoRotateCommandParameter)ModelContext.CommandTable[CommandType.ToggleIsAutoRotate].Parameter;
+
+            double angle = _VM.IsAutoRotate && _VM.IsAutoRotateCondition()
+                        ? parameter.AutoRotateType == AutoRotateType.Left ? -90.0 : 90.0
+                        : isResetAngle ? 0.0 : _mouseDrag.Angle;
+
+            return angle;
+        }
+
+        //
         private void InitializeViewModelEvents()
         {
             _VM.ViewChanged +=
@@ -238,9 +257,10 @@ namespace NeeView
                 {
                     UpdateMouseDragSetting(e.PageDirection, e.ViewOrigin);
                     bool isResetScale = e.ResetViewTransform || !_VM.IsKeepScale;
-                    bool isResetAngle = e.ResetViewTransform || !_VM.IsKeepAngle;
+                    bool isResetAngle = e.ResetViewTransform || !_VM.IsKeepAngle || _VM.IsAutoRotate;
                     bool isResetFlip = e.ResetViewTransform || !_VM.IsKeepFlip;
-                    _mouseDrag.Reset(isResetScale, isResetAngle, isResetFlip);
+
+                    _mouseDrag.Reset(isResetScale, isResetAngle, isResetFlip, DefaultViewAngle(isResetAngle));
                 };
 
             _VM.InputGestureChanged +=
@@ -481,13 +501,17 @@ namespace NeeView
                 (s, e) =>
                 {
                     var parameter = (ViewRotateCommandParameter)ModelContext.CommandTable[CommandType.ViewRotateLeft].Parameter;
+                    if (parameter.IsStretch) _mouseDrag.ResetDefault();
                     _mouseDrag.Rotate(-parameter.Angle);
+                    if (parameter.IsStretch) _VM.UpdateContentSize(true);
                 };
             ModelContext.CommandTable[CommandType.ViewRotateRight].Execute =
                 (s, e) =>
                 {
                     var parameter = (ViewRotateCommandParameter)ModelContext.CommandTable[CommandType.ViewRotateRight].Parameter;
+                    if (parameter.IsStretch) _mouseDrag.ResetDefault();
                     _mouseDrag.Rotate(+parameter.Angle);
+                    if (parameter.IsStretch) _VM.UpdateContentSize(true);
                 };
             ModelContext.CommandTable[CommandType.ToggleViewFlipHorizontal].Execute =
                 (s, e) => _mouseDrag.ToggleFlipHorizontal();
@@ -504,7 +528,7 @@ namespace NeeView
                 (s, e) => _mouseDrag.FlipVertical(false);
 
             ModelContext.CommandTable[CommandType.ViewReset].Execute =
-                (s, e) => _mouseDrag.Reset(true, true, true);
+                (s, e) => _mouseDrag.Reset(true, true, true, DefaultViewAngle(true));
             ModelContext.CommandTable[CommandType.PrevScrollPage].Execute =
                 (s, e) => PrevScrollPage();
             ModelContext.CommandTable[CommandType.NextScrollPage].Execute =
@@ -2003,7 +2027,7 @@ namespace NeeView
                 var v = System.Convert.ToDouble(value);
                 return v < 0.01;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
                 return true;

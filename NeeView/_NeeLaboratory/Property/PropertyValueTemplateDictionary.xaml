@@ -46,6 +46,11 @@
         </DockPanel>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type local:PropertyValue_Enum}">
+        <ComboBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}"/>
+    </DataTemplate>
+
+
     <DataTemplate DataType="{x:Type local:PropertyValue_Point}">
         <nlc:PointInspector Point="{Binding Value, Mode=TwoWay}"/>
     </DataTemplate>

@@ -104,6 +104,7 @@
     <Compile Include="ImageEffectControl.xaml.cs">
       <DependentUpon>ImageEffectControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utility\VectorExtensions.cs" />
     <Compile Include="_NeeLaboratory\Controls\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>

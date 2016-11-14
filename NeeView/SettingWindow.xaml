@@ -383,7 +383,7 @@
                                   ToolTip="OFFの時は、ページを切り替える度にリセットされます"
                                   IsChecked="{Binding Setting.ViewMemento.IsKeepScale}" />
                         <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページを変更しても回転をキープする"
-                                  ToolTip="OFFの時は、ページを切り替える度にリセットされます"
+                                  ToolTip="OFFの時は、ページを切り替える度にリセットされます&#xa;自動回転有効時は機能しません"
                                   IsChecked="{Binding Setting.ViewMemento.IsKeepAngle}" />
                         <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページを変更しても反転をキープする"
                                   ToolTip="OFFの時は、ページを切り替える度にリセットされます"

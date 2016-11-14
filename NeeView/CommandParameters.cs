@@ -221,6 +221,10 @@ namespace NeeView
             set { _angle = NVUtility.Clamp(value, 0, 180); }
         }
         private int _angle;
+
+        // 属性に説明文
+        [PropertyMember("表示サイズ適用", Tips = "回転後に表示サイズを再適用する")]
+        public bool IsStretch { get; set; }
     }
 
 
@@ -249,5 +253,23 @@ namespace NeeView
 
         [PropertyMember("最小スクロール距離", Tips = "このピクセル幅以上スクロールできる場合のみスクロールします")]
         public double Margin { get; set; }
+    }
+
+    /// <summary>
+    /// 自動回転用設定
+    /// </summary>
+    [DataContract]
+    public class AutoRotateCommandParameter : CommandParameter
+    {
+        [PropertyEnum("回転方向", Tips ="自動回転する方向")]
+        public AutoRotateType AutoRotateType { get; set; }
+
+        // 保存用
+        [DataMember(Name = "AutoRotateType")]
+        public string AutoRotateTypeString
+        {
+            get { return AutoRotateType.ToString(); }
+            set { AutoRotateType = (AutoRotateType)Enum.Parse(typeof(AutoRotateType), value); }
+        }
     }
 }

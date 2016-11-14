@@ -488,6 +488,8 @@ namespace NeeView
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsEnabledNearestNeighbor },
                         new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsAutoRotate },
+                        new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundBlack },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundWhite },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundAuto },

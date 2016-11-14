@@ -142,6 +142,8 @@ namespace NeeView
         }
         #endregion
 
+        private Point _defaultPosition;
+
         // コンテンツの角度
         #region Property: Angle
         private double _angle;
@@ -156,6 +158,8 @@ namespace NeeView
             }
         }
         #endregion
+
+        private double _defaultAngle;
 
         // コンテンツの拡大率
         #region Property: Scale
@@ -173,6 +177,8 @@ namespace NeeView
             }
         }
         #endregion
+
+        private double _defaultScale;
 
         // コンテンツのScaleX
         public double ScaleX
@@ -400,6 +406,8 @@ namespace NeeView
         // 角度、スケール変更イベント
         public event EventHandler<TransformChangedParam> TransformChanged;
 
+        // 角度、スケール変更終了イベント
+        public event EventHandler TransformEnd;
 
         private bool _isEnableClickEvent;
 
@@ -486,7 +494,7 @@ namespace NeeView
 
         // 初期化
         // コンテンツ切り替わり時等
-        public void Reset(bool isResetScale, bool isResetAngle, bool isResetFlip)
+        public void Reset(bool isResetScale, bool isResetAngle, bool isResetFlip, double angle)
         {
             _actionType = TransformActionType.Reset;
 
@@ -495,7 +503,7 @@ namespace NeeView
 
             if (isResetAngle)
             {
-                Angle = 0;
+                Angle = angle;
             }
             if (isResetScale)
             {
@@ -530,7 +538,21 @@ namespace NeeView
                 }
                 Position = pos;
             }
+
+            _defaultPosition = Position;
+            _defaultScale = Scale;
+            _defaultAngle = Angle;
         }
+
+        // 最後にリセットした値に戻す(角度以外)
+        public void ResetDefault()
+        {
+            Scale = _defaultScale;
+            Position = _defaultPosition;
+            //_lockMoveX = IsLimitMove;
+            //_lockMoveY = IsLimitMove;
+        }
+
 
         // ビューエリアサイズ変更に追従する
         public void SnapView()
@@ -888,6 +910,8 @@ namespace NeeView
             {
                 _sender.Cursor = null;
             }
+
+            TransformEnd?.Invoke(this, null);
 
             if (_isCancel) return;
 

@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeView.Effects;
+using NeeView.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -90,6 +91,13 @@ namespace NeeView
         Loupe
     }
 
+    // 自動回転タイプ
+    public enum AutoRotateType
+    {
+        Right,
+        Left,
+    }
+
     //
     public static class LongButtonDownModeExtensions
     {
@@ -124,7 +132,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -202,7 +210,7 @@ namespace NeeView
                 if (_isSliderDirectionReversed != value)
                 {
                     _isSliderDirectionReversed = value;
-                    OnPropertyChanged();
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -245,7 +253,7 @@ namespace NeeView
         public LongButtonDownMode LongLeftButtonDownMode
         {
             get { return _longLeftButtonDownMode; }
-            set { _longLeftButtonDownMode = value; OnPropertyChanged(); }
+            set { _longLeftButtonDownMode = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -255,7 +263,7 @@ namespace NeeView
         public double LongButtonDownTick
         {
             get { return _longButtonDownTick; }
-            set { _longButtonDownTick = value; OnPropertyChanged(); }
+            set { _longButtonDownTick = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -275,8 +283,8 @@ namespace NeeView
                 {
                     _stretchModePrev = _stretchMode;
                     _stretchMode = value;
-                    OnPropertyChanged();
-                    UpdateContentSize();
+                    RaisePropertyChanged();
+                    UpdateContentSize(true);
                     ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
                 }
             }
@@ -344,13 +352,26 @@ namespace NeeView
 
         #endregion
 
+
+        //
+        /// <summary>
+        /// IsAutoRotate property.
+        /// </summary>
+        private bool _isAutoRotate;
+        public bool IsAutoRotate
+        {
+            get { return _isAutoRotate; }
+            set { if (_isAutoRotate != value) { _isAutoRotate = value; RaisePropertyChanged(); } }
+        }
+
+
         // 背景スタイル
         #region Property: Background
         private BackgroundStyle _background;
         public BackgroundStyle Background
         {
             get { return _background; }
-            set { _background = value; UpdateBackgroundBrush(); OnPropertyChanged(); }
+            set { _background = value; UpdateBackgroundBrush(); RaisePropertyChanged(); }
         }
         #endregion
 
@@ -369,7 +390,7 @@ namespace NeeView
                 if (_isEnabledNearestNeighbor != value)
                 {
                     _isEnabledNearestNeighbor = value;
-                    OnPropertyChanged();
+                    RaisePropertyChanged();
                     UpdateContentScalingMode();
                 }
             }
@@ -391,7 +412,7 @@ namespace NeeView
         public bool IsHideMenu
         {
             get { return _isHideMenu; }
-            set { _isHideMenu = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            set { _isHideMenu = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
         public bool ToggleHideMenu()
         {
@@ -406,7 +427,7 @@ namespace NeeView
         public bool IsHidePageSlider
         {
             get { return _isIsHidePageSlider; }
-            set { _isIsHidePageSlider = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            set { _isIsHidePageSlider = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
         public bool ToggleHidePageSlider()
         {
@@ -421,7 +442,7 @@ namespace NeeView
         public bool IsHidePanel
         {
             get { return _isHidePanel; }
-            set { _isHidePanel = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            set { _isHidePanel = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
         public bool ToggleHidePanel()
         {
@@ -443,7 +464,7 @@ namespace NeeView
         public bool IsVisibleTitleBar
         {
             get { return _isVisibleTitleBar; }
-            set { _isVisibleTitleBar = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            set { _isVisibleTitleBar = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
         public bool ToggleVisibleTitleBar()
         {
@@ -458,7 +479,7 @@ namespace NeeView
         public bool IsVisibleAddressBar
         {
             get { return _isVisibleAddressBar; }
-            set { _isVisibleAddressBar = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            set { _isVisibleAddressBar = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
         public bool ToggleVisibleAddressBar()
         {
@@ -532,8 +553,8 @@ namespace NeeView
                         FolderListGridRow0 = "*";
                         FolderListGridRow2 = "0";
                     }
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(IsVisiblePageListMenu));
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(IsVisiblePageListMenu));
                 }
             }
         }
@@ -607,12 +628,12 @@ namespace NeeView
             {
                 _leftPanel = value;
                 if (_leftPanel == PanelType.PageList) _leftPanel = PanelType.FolderList; // PageList廃止の補正
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsVisibleFolderList));
-                OnPropertyChanged(nameof(IsVisibleHistoryList));
-                OnPropertyChanged(nameof(IsVisibleBookmarkList));
-                OnPropertyChanged(nameof(IsVisiblePagemarkList));
-                OnPropertyChanged(nameof(IsVisiblePageListMenu));
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(IsVisibleFolderList));
+                RaisePropertyChanged(nameof(IsVisibleHistoryList));
+                RaisePropertyChanged(nameof(IsVisibleBookmarkList));
+                RaisePropertyChanged(nameof(IsVisiblePagemarkList));
+                RaisePropertyChanged(nameof(IsVisiblePageListMenu));
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
 
                 LeftPanelVisibled?.Invoke(this, _leftPanel);
@@ -631,9 +652,9 @@ namespace NeeView
             set
             {
                 _rightPanel = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsVisibleFileInfo));
-                OnPropertyChanged(nameof(IsVisibleEffectInfo));
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(IsVisibleFileInfo));
+                RaisePropertyChanged(nameof(IsVisibleEffectInfo));
                 UpdateFileInfoContent();
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
 
@@ -654,7 +675,7 @@ namespace NeeView
         public GridLength FolderListGridLength0
         {
             get { return _folderListGridLength0; }
-            set { _folderListGridLength0 = value; OnPropertyChanged(); }
+            set { _folderListGridLength0 = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -663,7 +684,7 @@ namespace NeeView
         public GridLength FolderListGridLength2
         {
             get { return _folderListGridLength2; }
-            set { _folderListGridLength2 = value; OnPropertyChanged(); }
+            set { _folderListGridLength2 = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -718,7 +739,7 @@ namespace NeeView
             set
             {
                 _folderListItemStyle = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
                 PanelContext.FolderListItemStyle = _folderListItemStyle;
             }
         }
@@ -732,7 +753,7 @@ namespace NeeView
         public bool IsFullScreen
         {
             get { return _isFullScreen; }
-            set { _isFullScreen = value; OnPropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            set { _isFullScreen = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
         public bool ToggleFullScreen()
         {
@@ -748,7 +769,7 @@ namespace NeeView
         public bool IsTopmost
         {
             get { return _isTopmost; }
-            set { _isTopmost = value; OnPropertyChanged(); }
+            set { _isTopmost = value; RaisePropertyChanged(); }
         }
         public bool ToggleTopmost()
         {
@@ -779,7 +800,7 @@ namespace NeeView
         public bool IsVisibleEmptyPageMessage
         {
             get { return _isVisibleEmptyPageMessage; }
-            set { if (_isVisibleEmptyPageMessage != value) { _isVisibleEmptyPageMessage = value; OnPropertyChanged(); } }
+            set { if (_isVisibleEmptyPageMessage != value) { _isVisibleEmptyPageMessage = value; RaisePropertyChanged(); } }
         }
         #endregion
 
@@ -789,7 +810,7 @@ namespace NeeView
         public string EmptyPageMessage
         {
             get { return _emptyPageMessage; }
-            set { _emptyPageMessage = value; OnPropertyChanged(); }
+            set { _emptyPageMessage = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -816,7 +837,7 @@ namespace NeeView
                 {
                     BookHub.SetPageIndex(_index);
                 }
-                OnPropertyChanged();
+                RaisePropertyChanged();
                 IndexChanged?.Invoke(this, null);
             }
         }
@@ -831,8 +852,8 @@ namespace NeeView
         private void UpdateIndex()
         {
             _index = BookHub.GetPageIndex();
-            OnPropertyChanged(nameof(Index));
-            OnPropertyChanged(nameof(IndexMax));
+            RaisePropertyChanged(nameof(Index));
+            RaisePropertyChanged(nameof(IndexMax));
             IndexChanged?.Invoke(this, null);
         }
 
@@ -841,8 +862,8 @@ namespace NeeView
         {
             _index = index;
             BookHub.SetPageIndex(_index);
-            OnPropertyChanged(nameof(Index));
-            OnPropertyChanged(nameof(IndexMax));
+            RaisePropertyChanged(nameof(Index));
+            RaisePropertyChanged(nameof(IndexMax));
             IndexChanged?.Invoke(this, null);
         }
 
@@ -880,7 +901,7 @@ namespace NeeView
         public string WindowTitle
         {
             get { return _windowTitle; }
-            private set { _windowTitle = value; OnPropertyChanged(); }
+            private set { _windowTitle = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -1001,7 +1022,7 @@ namespace NeeView
         public string InfoText
         {
             get { return _infoText; }
-            set { _infoText = value; OnPropertyChanged(); }
+            set { _infoText = value; RaisePropertyChanged(); }
         }
 
         // 通知テキストフォントサイズ
@@ -1017,7 +1038,7 @@ namespace NeeView
         public string TinyInfoText
         {
             get { return _tinyInfoText; }
-            set { _tinyInfoText = value; OnPropertyChanged(); }
+            set { _tinyInfoText = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -1030,7 +1051,7 @@ namespace NeeView
         public List<Book.Memento> LastFiles
         {
             get { return _lastFiles; }
-            set { _lastFiles = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsEnableLastFiles)); }
+            set { _lastFiles = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsEnableLastFiles)); }
         }
         #endregion
 
@@ -1046,7 +1067,7 @@ namespace NeeView
         public Thickness ContentsMargin
         {
             get { return _contentsMargin; }
-            set { _contentsMargin = value; OnPropertyChanged(); }
+            set { _contentsMargin = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -1056,7 +1077,7 @@ namespace NeeView
         public double ContentsSpace
         {
             get { return _contentSpace; }
-            set { _contentSpace = value; OnPropertyChanged(); }
+            set { _contentSpace = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -1072,7 +1093,7 @@ namespace NeeView
             set
             {
                 _mainContent = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
                 UpdateFileInfoContent();
             }
         }
@@ -1093,7 +1114,7 @@ namespace NeeView
                 if (_fileInfoContent != value)
                 {
                     _fileInfoContent = value;
-                    OnPropertyChanged();
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -1104,7 +1125,7 @@ namespace NeeView
         public FileInfoSetting FileInfoSetting
         {
             get { return _fileInfoSetting; }
-            set { _fileInfoSetting = value; OnPropertyChanged(); }
+            set { _fileInfoSetting = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -1113,7 +1134,7 @@ namespace NeeView
         public FolderListSetting FolderListSetting
         {
             get { return _folderListSetting; }
-            set { _folderListSetting = value; OnPropertyChanged(); }
+            set { _folderListSetting = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -1123,7 +1144,7 @@ namespace NeeView
         public Brush ForegroundBrush
         {
             get { return _foregroundBrush; }
-            set { if (_foregroundBrush != value) { _foregroundBrush = value; OnPropertyChanged(); } }
+            set { if (_foregroundBrush != value) { _foregroundBrush = value; RaisePropertyChanged(); } }
         }
         #endregion
 
@@ -1133,7 +1154,7 @@ namespace NeeView
         public Brush BackgroundBrush
         {
             get { return _backgroundBrush; }
-            set { if (_backgroundBrush != value) { _backgroundBrush = value; OnPropertyChanged(); UpdateForegroundBrush(); } }
+            set { if (_backgroundBrush != value) { _backgroundBrush = value; RaisePropertyChanged(); UpdateForegroundBrush(); } }
         }
         #endregion
 
@@ -1142,7 +1163,7 @@ namespace NeeView
         public SolidColorBrush BackgroundSolidBrush
         {
             get { return _backgroundSolidBrush; }
-            set { _backgroundSolidBrush = value; OnPropertyChanged(); }
+            set { _backgroundSolidBrush = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -1154,7 +1175,7 @@ namespace NeeView
         public PanelColor PanelColor
         {
             get { return _menuColor; }
-            set { if (_menuColor != value) { _menuColor = value; FlushPanelColor(); OnPropertyChanged(); } }
+            set { if (_menuColor != value) { _menuColor = value; FlushPanelColor(); RaisePropertyChanged(); } }
         }
         public void FlushPanelColor()
         {
@@ -1190,7 +1211,7 @@ namespace NeeView
         public int PanelOpacity
         {
             get { return _panelOpacity; }
-            set { _panelOpacity = value; FlushPanelColor(); OnPropertyChanged(); }
+            set { _panelOpacity = value; FlushPanelColor(); RaisePropertyChanged(); }
         }
         #endregion
 
@@ -1207,13 +1228,13 @@ namespace NeeView
                 if (_address != value)
                 {
                     _address = value;
-                    OnPropertyChanged();
+                    RaisePropertyChanged();
                     if (_address != BookHub.Address)
                     {
                         Load(value);
                     }
                 }
-                OnPropertyChanged(nameof(IsBookmark));
+                RaisePropertyChanged(nameof(IsBookmark));
             }
         }
         #endregion
@@ -1255,7 +1276,7 @@ namespace NeeView
         public ContextMenu ContextMenu
         {
             get { return _contextMenu; }
-            set { _contextMenu = value; OnPropertyChanged(); }
+            set { _contextMenu = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -1288,7 +1309,7 @@ namespace NeeView
         public Menu MainMenu
         {
             get { return _mainMenu; }
-            set { _mainMenu = value; OnPropertyChanged(); }
+            set { _mainMenu = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -1375,7 +1396,7 @@ namespace NeeView
         public ObservableCollection<Page> PageList
         {
             get { return _pageList; }
-            set { _pageList = value; OnPropertyChanged(); }
+            set { _pageList = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -1386,7 +1407,7 @@ namespace NeeView
             PageList = pages != null ? new ObservableCollection<Page>(pages) : null;
             PageListChanged?.Invoke(this, null);
 
-            OnPropertyChanged(nameof(IsPagemark));
+            RaisePropertyChanged(nameof(IsPagemark));
         }
 
         // サムネイル有効
@@ -1398,7 +1419,7 @@ namespace NeeView
             set
             {
                 _isEnableThumbnailList = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
             }
         }
@@ -1420,7 +1441,7 @@ namespace NeeView
             set
             {
                 _isHideThumbnailList = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
             }
         }
@@ -1455,8 +1476,8 @@ namespace NeeView
                 {
                     _thumbnailSize = value;
                     ClearThumbnail();
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(ThumbnailDispSize));
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(ThumbnailDispSize));
                 }
             }
         }
@@ -1477,7 +1498,7 @@ namespace NeeView
                     _thumbnailMemorySize = value;
                     LimitThumbnail();
                     ModelContext.GarbageCollection();
-                    OnPropertyChanged();
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -1491,7 +1512,7 @@ namespace NeeView
             set
             {
                 _bannerMemorySize = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
                 PanelContext.ThumbnailManager.ThumbnailMemorySize = _bannerMemorySize;
             }
         }
@@ -1505,7 +1526,7 @@ namespace NeeView
             set
             {
                 _bannerSize = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
                 PanelContext.ThumbnailManager.ThumbnailSizeX = _bannerSize;
             }
         }
@@ -1520,7 +1541,7 @@ namespace NeeView
         public bool IsVisibleThumbnailNumber
         {
             get { return _isVisibleThumbnailNumber; }
-            set { _isVisibleThumbnailNumber = value; OnPropertyChanged(nameof(ThumbnailNumberVisibility)); }
+            set { _isVisibleThumbnailNumber = value; RaisePropertyChanged(nameof(ThumbnailNumberVisibility)); }
         }
         #endregion
 
@@ -1536,7 +1557,7 @@ namespace NeeView
         public bool IsVisibleThumbnailPlate
         {
             get { return _isVisibleThumbnailPlate; }
-            set { _isVisibleThumbnailPlate = value; OnPropertyChanged(); }
+            set { _isVisibleThumbnailPlate = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -1553,7 +1574,7 @@ namespace NeeView
         public Point ContentPosition
         {
             get { return _contentPosition; }
-            set { _contentPosition = value; OnPropertyChanged(); }
+            set { _contentPosition = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -1600,7 +1621,7 @@ namespace NeeView
             // ModelContext
             //ModelContext.Initialize();
             ModelContext.JobEngine.StatusChanged +=
-                (s, e) => OnPropertyChanged(nameof(JobEngine));
+                (s, e) => RaisePropertyChanged(nameof(JobEngine));
 
             // ContextMenuSetting
             ContextMenuSetting = new ContextMenuSetting();
@@ -1624,8 +1645,8 @@ namespace NeeView
                 (s, e) =>
                 {
                     UpdateIsSliderDirectionReversed();
-                    OnPropertyChanged(nameof(BookSetting));
-                    OnPropertyChanged(nameof(BookHub));
+                    RaisePropertyChanged(nameof(BookSetting));
+                    RaisePropertyChanged(nameof(BookHub));
                 };
 
             BookHub.InfoMessage +=
@@ -1635,21 +1656,21 @@ namespace NeeView
                 };
 
             BookHub.SlideShowModeChanged +=
-                (s, e) => OnPropertyChanged(nameof(WindowIcon));
+                (s, e) => RaisePropertyChanged(nameof(WindowIcon));
 
             BookHub.EmptyMessage +=
                 (s, e) => EmptyPageMessage = e;
 
             BookHub.BookmarkChanged +=
-                (s, e) => OnPropertyChanged(nameof(IsBookmark));
+                (s, e) => RaisePropertyChanged(nameof(IsBookmark));
 
             BookHub.AddressChanged +=
                 (s, e) =>
                 {
                     _address = BookHub.Address;
-                    OnPropertyChanged(nameof(Address));
-                    OnPropertyChanged(nameof(IsBookmark));
-                    OnPropertyChanged(nameof(IsPagemark));
+                    RaisePropertyChanged(nameof(Address));
+                    RaisePropertyChanged(nameof(IsBookmark));
+                    RaisePropertyChanged(nameof(IsPagemark));
                 };
 
             BookHub.PagesSorted +=
@@ -1673,7 +1694,7 @@ namespace NeeView
             BookHub.PagemarkChanged +=
                 (s, e) =>
                 {
-                    OnPropertyChanged(nameof(IsPagemark));
+                    RaisePropertyChanged(nameof(IsPagemark));
                 };
 
             // CommandTable
@@ -2109,12 +2130,12 @@ namespace NeeView
             // 背景色更新
             UpdateBackgroundBrush();
 
-            // コンテンツサイズ更新
-            UpdateContentSize();
-
             // 表示更新を通知
             ViewChanged?.Invoke(this, new ViewChangeArgs() { PageDirection = e != null ? e.Direction : 0, ViewOrigin = NextViewOrigin });
             NextViewOrigin = DragViewOrigin.None;
+
+            // コンテンツサイズ更新
+            UpdateContentSize(true);
 
             UpdateWindowTitle(UpdateWindowTitleMask.All);
 
@@ -2137,7 +2158,7 @@ namespace NeeView
         private void OnPageChanged(object sender, int e)
         {
             UpdateIndex();
-            OnPropertyChanged(nameof(IsPagemark));
+            RaisePropertyChanged(nameof(IsPagemark));
         }
 
 
@@ -2151,14 +2172,16 @@ namespace NeeView
             _viewWidth = width;
             _viewHeight = height;
 
-            UpdateContentSize();
+            UpdateContentSize(false);
         }
 
 
         // コンテンツ表示サイズを更新
-        private void UpdateContentSize()
+        public void UpdateContentSize(bool withAngle)
         {
             if (!Contents.Any(e => e.IsValid)) return;
+
+            if (withAngle) _contentAngle = _viewAngle;
 
             // 2ページ表示時は重なり補正を行う
             double offsetWidth = 0;
@@ -2172,7 +2195,7 @@ namespace NeeView
                 ContentsMargin = new Thickness(0);
             }
 
-            var sizes = CalcContentSize(_viewWidth * _DpiScaleFactor.X + offsetWidth, _viewHeight * _DpiScaleFactor.Y);
+            var sizes = CalcContentSize(_viewWidth * _DpiScaleFactor.X + offsetWidth, _viewHeight * _DpiScaleFactor.Y, _contentAngle);
 
             for (int i = 0; i < 2; ++i)
             {
@@ -2185,6 +2208,7 @@ namespace NeeView
 
         // ビュー回転
         private double _viewAngle;
+        private double _contentAngle;
 
         // ビュースケール
         private double _viewScale;
@@ -2255,8 +2279,76 @@ namespace NeeView
             }
         }
 
+        //
+        public bool IsAutoRotateCondition()
+        {
+            var margin = 0.1;
+            var viewRatio = GetViewAreaAspectRatio();
+            var contentRatio = GetContentAspectRatio();
+            return viewRatio >= 1.0 ? contentRatio < (1.0 - margin) : contentRatio > (1.0 + margin);
+        }
+
+        //
+        public double GetViewAreaAspectRatio()
+        {
+            return _viewWidth / _viewHeight;
+        }
+
+        //
+        public double GetContentAspectRatio()
+        {
+            var size = GetContentSize();
+            return size.Width / size.Height;
+        }
+
+        //
+        private Size GetContentSize()
+        {
+            var c0 = Contents[0].Size;
+            var c1 = Contents[1].Size;
+
+            double rate0 = 1.0;
+            double rate1 = 1.0;
+
+            // 2ページ合わせたコンテンツサイズを求める
+            if (!Contents[1].IsValid)
+            {
+                return c0;
+            }
+            // オリジナルサイズ
+            else if (this.StretchMode == PageStretchMode.None)
+            {
+                return new Size(c0.Width + c1.Width, Math.Max(c0.Height, c1.Height));
+            }
+            else
+            {
+                // どちらもImageでない
+                if (c0.Width < 0.1 && c1.Width < 0.1)
+                {
+                    return new Size(1.0, 1.0);
+                }
+
+                if (c0.Width == 0) c0 = c1;
+                if (c1.Width == 0) c1 = c0;
+
+                // 高さを 高い方に合わせる
+                if (c0.Height > c1.Height)
+                {
+                    rate1 = c0.Height / c1.Height;
+                }
+                else
+                {
+                    rate0 = c1.Height / c0.Height;
+                }
+
+                // 高さをあわせたときの幅の合計
+                return new Size(c0.Width * rate0 + c1.Width * rate1, c0.Height * rate0);
+            }
+        }
+
+
         // ストレッチモードに合わせて各コンテンツのスケールを計算する
-        private Size[] CalcContentSize(double width, double height)
+        private Size[] CalcContentSize(double width, double height, double angle)
         {
             var c0 = Contents[0].Size;
             var c1 = Contents[1].Size;
@@ -2300,6 +2392,18 @@ namespace NeeView
                 // 高さをあわせたときの幅の合計
                 content = new Size(c0.Width * rate0 + c1.Width * rate1, c0.Height * rate0);
             }
+
+            // 回転反映
+            {
+                //var angle = 45.0;
+                var rect = new Rect(content);
+                var m = new Matrix();
+                m.Rotate(angle);
+                rect.Transform(m);
+
+                content = new Size(rect.Width, rect.Height);
+            }
+
 
             // ビューエリアサイズに合わせる場合のスケール
             double rateW = width / content.Width;
@@ -2737,6 +2841,9 @@ namespace NeeView
             [DataMember(Order = 17)]
             public bool IsHidePageSlider { get; set; }
 
+            [DataMember(Order = 18)]
+            public bool IsAutoRotate { get; set; }
+
             //
             private void Constructor()
             {
@@ -2875,6 +2982,7 @@ namespace NeeView
             memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
             memento.LongButtonDownTick = this.LongButtonDownTick;
             memento.SliderDirection = this.SliderDirection;
+            memento.IsAutoRotate = this.IsAutoRotate;
 
             return memento;
         }
@@ -2940,10 +3048,11 @@ namespace NeeView
             this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
             this.LongButtonDownTick = memento.LongButtonDownTick;
             this.SliderDirection = memento.SliderDirection;
+            this.IsAutoRotate = memento.IsAutoRotate;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
-            UpdateContentSize();
+            UpdateContentSize(true);
         }
 
         #endregion

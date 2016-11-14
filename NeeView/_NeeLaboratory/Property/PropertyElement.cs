@@ -112,6 +112,21 @@ namespace NeeLaboratory.Property
             }
         }
 
+        // enum
+        public PropertyMemberElement(object source, PropertyInfo info, PropertyEnumAttribute attribute)
+        {
+            Initialize(source, info, attribute);
+
+            if (_info.PropertyType.IsEnum)
+            {
+                this.TypeValue = new PropertyValue_Enum(this, _info.PropertyType);
+            }
+            else
+            {
+                throw new InvalidOperationException("not enum");
+            }
+        }
+
         //
         public PropertyMemberElement(object source, PropertyInfo info, PropertyPathAttribute attribute)
         {

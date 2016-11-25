@@ -16,15 +16,8 @@ function Get-FileVersion($fileName)
 {
 	$major = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($fileName).FileMajorPart
 	$minor = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($fileName).FileMinorPart
-	$build = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($fileName).FileBuildPart
-	if ($build -eq 0)
-	{
-		"$major.$minor"
-	}
-	else
-	{
-		"$major.$minor.$build"
-	}	
+
+	"$major.$minor"
 }
 
 
@@ -64,6 +57,12 @@ if ($? -ne $true)
 
 # get assembly version
 $version = Get-FileVersion "$productDir\$product.exe"
+
+# auto increment build version
+$xml = [xml](Get-Content "BuildCount.xml")
+$buildCount = [int]$xml.build + 1
+
+$buildVersion = (Get-FileVersion "$productDir\$product.exe") + ".$buildCount"
 
 $packageDir = $product + $version
 $packageZip = $packageDir + ".zip"
@@ -186,7 +185,7 @@ function New-Msi
 
 	$ErrorActionPreference = "stop"
 
-	& $candle -d"BuildVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries" -ext WixNetFxExtension -out "$packageDir.append\\"  WixSource\*.wxs
+	& $candle -d"BuildVersion=$buildVersion" -d"ProductVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries" -ext WixNetFxExtension -out "$packageDir.append\\"  WixSource\*.wxs
 	if ($? -ne $true)
 	{
 		throw "candle error"
@@ -221,8 +220,16 @@ if (($Target -eq "All") -or ($Target -eq "Installer"))
 
 
 # current
-Copy-Item "$packageDir\*" "NeeView\" -Recurse -Force
+if (-not (Test-Path $product))
+{
+	New-Item $product -ItemType Directory
+}
+Copy-Item "$packageDir\*" "$product\" -Recurse -Force
 
+#--------------------------
+# saev buid version
+$xml.build = [string]$buildCount
+$xml.Save("BuildCount.xml")
 
 #-------------------------
 # Finish.

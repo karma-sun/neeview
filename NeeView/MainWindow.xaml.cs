@@ -240,13 +240,7 @@ namespace NeeView
         //
         private double DefaultViewAngle(bool isResetAngle)
         {
-            var parameter = (AutoRotateCommandParameter)ModelContext.CommandTable[CommandType.ToggleIsAutoRotate].Parameter;
-
-            double angle = _VM.IsAutoRotate && _VM.IsAutoRotateCondition()
-                        ? parameter.AutoRotateType == AutoRotateType.Left ? -90.0 : 90.0
-                        : isResetAngle ? 0.0 : _mouseDrag.Angle;
-
-            return angle;
+            return _VM.IsAutoRotateCondition() ? _VM.GetAutoRotateAngle() : isResetAngle ? 0.0 : _mouseDrag.Angle;
         }
 
         //
@@ -256,11 +250,18 @@ namespace NeeView
                 (s, e) =>
                 {
                     UpdateMouseDragSetting(e.PageDirection, e.ViewOrigin);
+
                     bool isResetScale = e.ResetViewTransform || !_VM.IsKeepScale;
                     bool isResetAngle = e.ResetViewTransform || !_VM.IsKeepAngle || _VM.IsAutoRotate;
                     bool isResetFlip = e.ResetViewTransform || !_VM.IsKeepFlip;
 
                     _mouseDrag.Reset(isResetScale, isResetAngle, isResetFlip, DefaultViewAngle(isResetAngle));
+                };
+
+            _VM.AutoRotateChanged +=
+                (s, e) =>
+                {
+                    _mouseDrag.Reset(true, true, true, _VM.ContentAngle);
                 };
 
             _VM.InputGestureChanged +=
@@ -327,7 +328,7 @@ namespace NeeView
         }
 
 
-        #region Timer
+#region Timer
 
         // タイマーディスパッチ
         private DispatcherTimer _timer;
@@ -408,7 +409,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
 
         // マウスジェスチャー更新時の処理
@@ -503,7 +504,7 @@ namespace NeeView
                     var parameter = (ViewRotateCommandParameter)ModelContext.CommandTable[CommandType.ViewRotateLeft].Parameter;
                     if (parameter.IsStretch) _mouseDrag.ResetDefault();
                     _mouseDrag.Rotate(-parameter.Angle);
-                    if (parameter.IsStretch) _VM.UpdateContentSize(true);
+                    if (parameter.IsStretch) _VM.UpdateContentSize(_mouseDrag.Angle);
                 };
             ModelContext.CommandTable[CommandType.ViewRotateRight].Execute =
                 (s, e) =>
@@ -511,7 +512,7 @@ namespace NeeView
                     var parameter = (ViewRotateCommandParameter)ModelContext.CommandTable[CommandType.ViewRotateRight].Parameter;
                     if (parameter.IsStretch) _mouseDrag.ResetDefault();
                     _mouseDrag.Rotate(+parameter.Angle);
-                    if (parameter.IsStretch) _VM.UpdateContentSize(true);
+                    if (parameter.IsStretch) _VM.UpdateContentSize(_mouseDrag.Angle);
                 };
             ModelContext.CommandTable[CommandType.ToggleViewFlipHorizontal].Execute =
                 (s, e) => _mouseDrag.ToggleFlipHorizontal();
@@ -1223,7 +1224,7 @@ namespace NeeView
 
 
         // TODO: クラス化
-        #region thumbnail list
+#region thumbnail list
 
         // サムネイルリストのパネルコントロール
         private VirtualizingStackPanel _thumbnailListPanel;
@@ -1524,7 +1525,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
 
         private void UpdateMenuAreaVisibility()
@@ -1567,7 +1568,7 @@ namespace NeeView
         }
 
 
-        #region Panel Visibility
+#region Panel Visibility
 
         //
         private bool _isVisibleLeftPanel;
@@ -1854,7 +1855,7 @@ namespace NeeView
         }
 
 
-        #endregion
+#endregion
 
         //
         private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1917,7 +1918,7 @@ namespace NeeView
 
 
 
-        #region ContextMenu Counter
+#region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -1955,7 +1956,7 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-        #endregion
+#endregion
 
 
         private void LeftPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -1985,7 +1986,7 @@ namespace NeeView
     }
 
 
-    #region Convertes
+#region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -2267,5 +2268,5 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 }

@@ -850,7 +850,7 @@ namespace NeeView
                 element.Text = "自動回転ON/OFF";
                 element.MenuText = "自動回転";
                 element.Note = "ページ表示時、縦長画像を90度回転します。ウィンドウが縦長の場合、横長画像を90度回転します";
-                element.Execute = (s, e) => _VM.IsAutoRotate = !_VM.IsAutoRotate;
+                element.Execute = (s, e) => _VM.ToggleAutoRotate();
                 element.ExecuteMessage = e => _VM.IsAutoRotate ? "自動回転OFF" : "自動回転ON";
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsAutoRotate));
                 element.DefaultParameter = new AutoRotateCommandParameter();

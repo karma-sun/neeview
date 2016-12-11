@@ -86,7 +86,7 @@
     <Compile Include="Effects\ColorSelectEffectUnit.cs" />
     <Compile Include="Effects\HsvEffectUnit.cs" />
     <Compile Include="Effects\LevelEffectUnit.cs" />
-    <Compile Include="Effects\LefelEffect.cs" />
+    <Compile Include="Effects\LevelEffect.cs" />
     <Compile Include="Effects\Tools.cs" />
     <Compile Include="Effects\ColorToneEffectUnit.cs" />
     <Compile Include="Effects\EffectUnit.cs" />

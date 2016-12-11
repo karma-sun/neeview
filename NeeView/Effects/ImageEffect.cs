@@ -23,7 +23,7 @@ namespace NeeView.Effects
         #region NotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
@@ -47,7 +47,7 @@ namespace NeeView.Effects
         public EffectType EffectType
         {
             get { return _effectType; }
-            set { if (_effectType != value) { _effectType = value; OnPropertyChanged(); OnPropertyChanged(nameof(Effect)); UpdateEffectParameters(); } }
+            set { if (_effectType != value) { _effectType = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Effect)); UpdateEffectParameters(); } }
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace NeeView.Effects
         public PropertyDocument EffectParameters
         {
             get { return _effectParameters; }
-            set { if (_effectParameters != value) { _effectParameters = value; OnPropertyChanged(); } }
+            set { if (_effectParameters != value) { _effectParameters = value; RaisePropertyChanged(); } }
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace NeeView.Effects
         public bool IsHsvMode
         {
             get { return _isHsvMode; }
-            set { if (_isHsvMode != value) { _isHsvMode = value; OnPropertyChanged(); } }
+            set { if (_isHsvMode != value) { _isHsvMode = value; RaisePropertyChanged(); } }
         }
 
 

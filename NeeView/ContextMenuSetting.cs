@@ -21,7 +21,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -73,7 +73,7 @@ namespace NeeView
         public string MouseGesture
         {
             get { return _mouseGesture; }
-            set { _mouseGesture = value; OnPropertyChanged(); }
+            set { _mouseGesture = value; RaisePropertyChanged(); }
         }
         #endregion
 

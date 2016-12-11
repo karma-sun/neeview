@@ -16,6 +16,12 @@ float bezier(float p2, float t)
 	return 2 * (1 - t) * t * p2 + t * t;
 }
 
+// •Î‚è
+float bias(float p2, float t)
+{
+	return t < p2 ? t * (1 - p2) / p2 : (t - p2) * p2 / (1 - p2) + (1 - p2);
+}
+
 //------------
 // main
 //------------
@@ -24,14 +30,13 @@ float4 main(float2 uv : TEXCOORD) : COLOR
 {
   float4 color = tex2D(input, uv);
    
-  float t;
-  float rate;
+  color.rgb = saturate((color.rgb - black) / (white - black));
 
-  color.r = lerp(black, white, bezier(center, color.r));
-  color.g = lerp(black, white, bezier(center, color.g));
-  color.b = lerp(black, white, bezier(center, color.b));
+  color.r = bias(center, color.r);
+  color.g = bias(center, color.g);
+  color.b = bias(center, color.b);
 
-  color.rgb = lerp(minimum, maximum, clamp(color.rgb, 0, 1)) * color.a;
+  color.rgb = lerp(minimum, maximum, color.rgb) * color.a;
 
   return color;
 }

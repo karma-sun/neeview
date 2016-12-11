@@ -25,7 +25,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -303,7 +303,7 @@ namespace NeeView
             #region NotifyPropertyChanged
             public event PropertyChangedEventHandler PropertyChanged;
 
-            protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+            protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
@@ -343,7 +343,7 @@ namespace NeeView
                 {
                     int index = NVUtility.Clamp<int>(value, 0, LimitSizeIndexMax);
                     LimitSize = s_limitSizeTable[index];
-                    OnPropertyChanged(nameof(LimitSize));
+                    RaisePropertyChanged(nameof(LimitSize));
                 }
             }
             #endregion
@@ -374,7 +374,7 @@ namespace NeeView
                 {
                     int index = NVUtility.Clamp<int>(value, 0, LimitSpanIndexMax);
                     LimitSpan = s_limitSpanTable[index];
-                    OnPropertyChanged(nameof(LimitSpan));
+                    RaisePropertyChanged(nameof(LimitSpan));
                 }
             }
             #endregion

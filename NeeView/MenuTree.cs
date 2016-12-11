@@ -43,7 +43,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
         }
@@ -54,7 +54,7 @@ namespace NeeView
         public bool IsExpanded
         {
             get { return _isExpanded; }
-            set { _isExpanded = value; OnPropertyChanged(); }
+            set { _isExpanded = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -63,7 +63,7 @@ namespace NeeView
         public bool IsSelected
         {
             get { return _isSelected; }
-            set { _isSelected = value; OnPropertyChanged(); }
+            set { _isSelected = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -92,7 +92,7 @@ namespace NeeView
         public string Label
         {
             get { return Name ?? DefaultLabel; }
-            set { Name = (value == DefaultLabel) ? null : value; OnPropertyChanged(); }
+            set { Name = (value == DefaultLabel) ? null : value; RaisePropertyChanged(); }
         }
         #endregion
 

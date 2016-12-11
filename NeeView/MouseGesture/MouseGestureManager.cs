@@ -33,7 +33,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -53,7 +53,7 @@ namespace NeeView
         public string GestureText
         {
             get { return _gestureText; }
-            set { _gestureText = value; OnPropertyChanged(); }
+            set { _gestureText = value; RaisePropertyChanged(); }
         }
         #endregion
 

@@ -173,7 +173,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -200,7 +200,7 @@ namespace NeeView
         public ObservableCollection<BookMementoUnit> Items
         {
             get { return _items; }
-            set { _items = value; OnPropertyChanged(); }
+            set { _items = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -210,7 +210,7 @@ namespace NeeView
         public BookMementoUnit SelectedItem
         {
             get { return _selectedItem; }
-            set { _selectedItem = value; OnPropertyChanged(); }
+            set { _selectedItem = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -220,7 +220,7 @@ namespace NeeView
         public Visibility Visibility
         {
             get { return _visibility; }
-            set { _visibility = value; OnPropertyChanged(); }
+            set { _visibility = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -245,8 +245,8 @@ namespace NeeView
             BookHub.HistoryChanged += BookHub_HistoryChanged;
             BookHub.HistoryListSync += BookHub_HistoryListSync;
 
-            OnPropertyChanged(nameof(FolderListItemStyle));
-            PanelContext.FolderListStyleChanged += (s, e) => OnPropertyChanged(nameof(FolderListItemStyle));
+            RaisePropertyChanged(nameof(FolderListItemStyle));
+            PanelContext.FolderListStyleChanged += (s, e) => RaisePropertyChanged(nameof(FolderListItemStyle));
         }
 
         //

@@ -41,7 +41,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -95,7 +95,7 @@ namespace NeeView
         // アイコンオーバーレイの変更を通知
         public void NotifyIconOverlayChanged()
         {
-            OnPropertyChanged(nameof(IconOverlay));
+            RaisePropertyChanged(nameof(IconOverlay));
         }
 
         private BitmapSource _icon;
@@ -159,7 +159,7 @@ namespace NeeView
                 }
                 return _archivePage;
             }
-            set { _archivePage = value; OnPropertyChanged(); }
+            set { _archivePage = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -178,7 +178,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -194,7 +194,7 @@ namespace NeeView
         public FolderOrder FolderOrder
         {
             get { return _folderOrder; }
-            set { _folderOrder = value; Save(); s_randomSeed = new Random().Next(); OnPropertyChanged(); }
+            set { _folderOrder = value; Save(); s_randomSeed = new Random().Next(); RaisePropertyChanged(); }
         }
         #endregion
 
@@ -336,26 +336,26 @@ namespace NeeView
             }
             else
             {
-                var entries = Directory.GetFileSystemEntries(Place);
+                var directory = new DirectoryInfo(Place);
 
                 // ディレクトリ、アーカイブ以外は除外
-                var directories = entries.Where(e => Directory.Exists(e) && (new DirectoryInfo(e).Attributes & FileAttributes.Hidden) == 0).ToList();
+                var directories = directory.EnumerateDirectories().Where(e => e.Exists && (e.Attributes & FileAttributes.Hidden) == 0).ToList();
                 if (FolderOrder == FolderOrder.TimeStamp)
                 {
-                    directories = directories.OrderBy((e) => Directory.GetLastWriteTime(e)).ToList();
+                    directories = directories.OrderBy((e) => e.LastWriteTime).ToList();
                 }
                 else
                 {
-                    directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
+                    directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a.FullName, b.FullName));
                 }
-                var archives = entries.Where(e => File.Exists(e) && ModelContext.ArchiverManager.IsSupported(e)).ToList();
+                var archives = directory.EnumerateFiles().Where(e => e.Exists && ModelContext.ArchiverManager.IsSupported(e.FullName)).ToList();
                 if (FolderOrder == FolderOrder.TimeStamp)
                 {
-                    archives = archives.OrderBy((e) => File.GetLastWriteTime(e)).ToList();
+                    archives = archives.OrderBy((e) => e.LastWriteTime).ToList();
                 }
                 else
                 {
-                    archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a, b));
+                    archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a.FullName, b.FullName));
                 }
 
                 // 日付順は逆順にする (エクスプローラー標準にあわせる)
@@ -372,8 +372,8 @@ namespace NeeView
                     archives = archives.OrderBy(e => random.Next()).ToList();
                 }
 
-                var list = directories.Select(e => new FolderInfo() { Path = e, Attributes = FolderInfoAttribute.Directory, IsReady = true })
-                    .Concat(archives.Select(e => new FolderInfo() { Path = e, IsReady = true }))
+                var list = directories.Select(e => new FolderInfo() { Path = e.FullName, Attributes = FolderInfoAttribute.Directory, IsReady = true })
+                    .Concat(archives.Select(e => new FolderInfo() { Path = e.FullName, IsReady = true }))
                     .ToList();
 
                 if (list.Count <= 0)

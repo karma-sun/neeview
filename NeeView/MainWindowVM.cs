@@ -42,6 +42,8 @@ namespace NeeView
 
         public DragViewOrigin ViewOrigin { get; set; }
 
+        public double Angle { get; set; }
+
         public bool ResetViewTransform { get; set; }
     }
 
@@ -284,7 +286,7 @@ namespace NeeView
                     _stretchModePrev = _stretchMode;
                     _stretchMode = value;
                     RaisePropertyChanged();
-                    UpdateContentSize(true);
+                    UpdateContentSize();
                     ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
                 }
             }
@@ -362,6 +364,16 @@ namespace NeeView
         {
             get { return _isAutoRotate; }
             set { if (_isAutoRotate != value) { _isAutoRotate = value; RaisePropertyChanged(); } }
+        }
+
+        public event EventHandler AutoRotateChanged;
+
+        public bool ToggleAutoRotate()
+        {
+            IsAutoRotate = !IsAutoRotate;
+            UpdateContentSize(GetAutoRotateAngle());
+            AutoRotateChanged?.Invoke(this, null);
+            return IsAutoRotate;
         }
 
 
@@ -2130,18 +2142,52 @@ namespace NeeView
             // 背景色更新
             UpdateBackgroundBrush();
 
-            // 表示更新を通知
-            ViewChanged?.Invoke(this, new ViewChangeArgs() { PageDirection = e != null ? e.Direction : 0, ViewOrigin = NextViewOrigin });
-            NextViewOrigin = DragViewOrigin.None;
+            // 自動回転...
+            var angle = GetAutoRotateAngle();
 
             // コンテンツサイズ更新
-            UpdateContentSize(true);
+            UpdateContentSize(angle);
+
+            // 表示更新を通知
+            var args = new ViewChangeArgs()
+            {
+                PageDirection = e != null ? e.Direction : 0,
+                ViewOrigin = NextViewOrigin,
+                Angle = angle,
+            };
+            ViewChanged?.Invoke(this, args);
+            NextViewOrigin = DragViewOrigin.None;
 
             UpdateWindowTitle(UpdateWindowTitleMask.All);
 
             // GC
             //ModelContext.GarbageCollection();
             ModelContext.Recycle.CleanUp();
+        }
+
+        /// <summary>
+        /// ContentAngle property.
+        /// </summary>
+        private double _contentAngle;
+        public double ContentAngle
+        {
+            get { return _contentAngle; }
+            set { if (_contentAngle != value) { _contentAngle = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// ページ開始時の回転
+        /// </summary>
+        /// <returns></returns>
+        public double GetAutoRotateAngle()
+        {
+            var parameter = (AutoRotateCommandParameter)ModelContext.CommandTable[CommandType.ToggleIsAutoRotate].Parameter;
+
+            double angle = this.IsAutoRotateCondition()
+                        ? parameter.AutoRotateType == AutoRotateType.Left ? -90.0 : 90.0
+                        : 0.0;
+
+            return angle;
         }
 
 
@@ -2172,16 +2218,21 @@ namespace NeeView
             _viewWidth = width;
             _viewHeight = height;
 
-            UpdateContentSize(false);
+            UpdateContentSize();
         }
 
 
+        //
+        public void UpdateContentSize(double angle)
+        {
+            this.ContentAngle = angle;
+            UpdateContentSize();
+        }
+
         // コンテンツ表示サイズを更新
-        public void UpdateContentSize(bool withAngle)
+        public void UpdateContentSize()
         {
             if (!Contents.Any(e => e.IsValid)) return;
-
-            if (withAngle) _contentAngle = _viewAngle;
 
             // 2ページ表示時は重なり補正を行う
             double offsetWidth = 0;
@@ -2208,7 +2259,7 @@ namespace NeeView
 
         // ビュー回転
         private double _viewAngle;
-        private double _contentAngle;
+
 
         // ビュースケール
         private double _viewScale;
@@ -2282,6 +2333,8 @@ namespace NeeView
         //
         public bool IsAutoRotateCondition()
         {
+            if (!IsAutoRotate) return false;
+
             var margin = 0.1;
             var viewRatio = GetViewAreaAspectRatio();
             var contentRatio = GetContentAspectRatio();
@@ -3052,7 +3105,7 @@ namespace NeeView
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
-            UpdateContentSize(true);
+            UpdateContentSize();
         }
 
         #endregion

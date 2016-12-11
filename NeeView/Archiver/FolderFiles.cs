@@ -56,30 +56,30 @@ namespace NeeView
 
             int prefixLen = FileName.Length;
             var list = new List<ArchiveEntry>();
-            foreach (var path in Directory.GetFiles(FileName))
+
+            var directory = new DirectoryInfo(FileName);
+            foreach (var info in directory.EnumerateFiles())
             {
-                var name = path.Substring(prefixLen).TrimStart('\\', '/');
-                var fileInfo = new FileInfo(path);
+                var name = info.FullName.Substring(prefixLen).TrimStart('\\', '/');
                 list.Add(new ArchiveEntry()
                 {
                     Archiver = this,
                     Id = list.Count,
                     EntryName = name,
-                    FileSize = fileInfo.Length,
-                    LastWriteTime = fileInfo.LastWriteTime,
+                    FileSize = info.Length,
+                    LastWriteTime = info.LastWriteTime,
                 });
             }
-            foreach (var path in Directory.GetDirectories(FileName))
+            foreach (var info in directory.EnumerateDirectories())
             {
-                var name = path.Substring(prefixLen).TrimStart('\\', '/') + "\\";
-                var fileInfo = new DirectoryInfo(path);
+                var name = info.FullName.Substring(prefixLen).TrimStart('\\', '/') + "\\";
                 list.Add(new ArchiveEntry()
                 {
                     Archiver = this,
                     Id = list.Count,
                     EntryName = name,
                     FileSize = -1,
-                    LastWriteTime = fileInfo.LastWriteTime,
+                    LastWriteTime = info.LastWriteTime,
                 });
             }
 

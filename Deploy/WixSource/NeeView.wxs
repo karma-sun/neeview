@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
          xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <Product Id="*" Name="NeeView $(var.BuildVersion)" Version="$(var.BuildVersion)" Language="1041" Codepage="932" Manufacturer="NeeLaboratory" UpgradeCode="1615bc9c-ddfd-4d61-9ac1-3ebc5c8787a8">
+  <Product Id="*" Name="NeeView $(var.ProductVersion)" Version="$(var.BuildVersion)" Language="1041" Codepage="932" Manufacturer="NeeLaboratory" UpgradeCode="1615bc9c-ddfd-4d61-9ac1-3ebc5c8787a8">
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" SummaryCodepage="932" Comments="NeeView is picture viewer."/>
 
     <MajorUpgrade DowngradeErrorMessage="新しいバージョンの NeeView が既にインストール済です。" />

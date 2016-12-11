@@ -58,7 +58,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
@@ -77,7 +77,7 @@ namespace NeeView
         public GestureToken GestureToken
         {
             get { return _gestureToken; }
-            set { if (_gestureToken != value) { _gestureToken = value; OnPropertyChanged(); } }
+            set { if (_gestureToken != value) { _gestureToken = value; RaisePropertyChanged(); } }
         }
 
         /// <summary>

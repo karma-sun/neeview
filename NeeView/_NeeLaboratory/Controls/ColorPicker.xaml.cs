@@ -30,7 +30,7 @@ namespace NeeLaboratory.Controls
         #region NotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
@@ -76,8 +76,8 @@ namespace NeeLaboratory.Controls
             var control = d as ColorPicker;
             if (control != null)
             {
-                control.OnPropertyChanged(nameof(IsRgbVisible));
-                control.OnPropertyChanged(nameof(IsHsvVisible));
+                control.RaisePropertyChanged(nameof(IsRgbVisible));
+                control.RaisePropertyChanged(nameof(IsHsvVisible));
             }
         }
 
@@ -90,7 +90,7 @@ namespace NeeLaboratory.Controls
                 _rgb = Color;
                 _hsv = Color.ToHSV();
             }
-            OnPropertyChanged(null);
+            RaisePropertyChanged(null);
         }
 
         private Color _rgb;

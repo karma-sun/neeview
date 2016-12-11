@@ -24,7 +24,7 @@ namespace NeeView
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             if (PropertyChanged != null)
             {
@@ -43,7 +43,7 @@ namespace NeeView
             set
             {
                 _isHintDoubleImage = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
                 UpdateExporter();
             }
         }
@@ -59,7 +59,7 @@ namespace NeeView
             set
             {
                 _isHintBackground = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
                 UpdateExporter();
             }
         }
@@ -75,9 +75,9 @@ namespace NeeView
             set
             {
                 _isHintClone = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsEnableDoubleImage));
-                OnPropertyChanged(nameof(IsEnableBackground));
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(IsEnableDoubleImage));
+                RaisePropertyChanged(nameof(IsEnableBackground));
                 UpdateExporter();
             }
         }
@@ -88,7 +88,7 @@ namespace NeeView
         public BitmapSource Thumbnail
         {
             get { return _thumbnail; }
-            set { _thumbnail = value; OnPropertyChanged(); }
+            set { _thumbnail = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -97,7 +97,7 @@ namespace NeeView
         public string ThumbnailTitle
         {
             get { return _thumbnailTitle; }
-            set { _thumbnailTitle = value; OnPropertyChanged(); }
+            set { _thumbnailTitle = value; RaisePropertyChanged(); }
         }
         #endregion
 

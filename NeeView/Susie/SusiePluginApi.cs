@@ -231,7 +231,7 @@ namespace Susie
             if (hModule == null) throw new InvalidOperationException();
             var isSupported = GetApiDelegate<IsSupportedFromFileDelegate>("IsSupported");
 
-            using (FileStream fs = new FileStream(filename, FileMode.Open))
+            using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
                 return isSupported(filename, fs.SafeFileHandle.DangerousGetHandle());
             }

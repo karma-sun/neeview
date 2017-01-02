@@ -101,7 +101,7 @@ namespace Susie
         {
             // 先頭の一部をメモリに読み込む
             var head = new byte[4096]; // バッファに余裕をもたせる
-            using (FileStream fs = new FileStream(fileName, FileMode.Open))
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
                 fs.Read(head, 0, 2048);
             }
@@ -138,7 +138,7 @@ namespace Susie
         {
             // 先頭の一部をメモリに読み込む
             var head = new byte[4096]; // バッファに余裕をもたせる
-            using (FileStream fs = new FileStream(fileName, FileMode.Open))
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
                 fs.Read(head, 0, 2048);
             }
@@ -233,7 +233,7 @@ namespace Susie
         {
             // 先頭の一部をメモリに読み込む
             var head = new byte[4096];
-            using (FileStream fs = new FileStream(fileName, FileMode.Open))
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
                 fs.Read(head, 0, 2048);
             }

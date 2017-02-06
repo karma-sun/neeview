@@ -26,6 +26,7 @@ namespace NeeView
         public event EventHandler<MouseLongDownStatus> StatusChanged;
         public event EventHandler<MouseWheelEventArgs> MouseWheel;
 
+
         #region Property: Status
         private MouseLongDownStatus _status;
         public MouseLongDownStatus Status
@@ -33,14 +34,13 @@ namespace NeeView
             get { return _status; }
             set
             {
-                //if (_Status != value)
-                {
-                    _status = value;
-                    StatusChanged(this, _status);
-                }
+                _status = value;
+                StatusChanged(this, _status);
             }
         }
         #endregion
+
+        public bool IsLongDowned => Status == MouseLongDownStatus.On;
 
 
         // 長押し判定用

@@ -329,7 +329,7 @@ namespace NeeView
         }
 
 
-#region Timer
+        #region Timer
 
         // タイマーディスパッチ
         private DispatcherTimer _timer;
@@ -410,7 +410,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
 
         // マウスジェスチャー更新時の処理
@@ -1225,7 +1225,7 @@ namespace NeeView
 
 
         // TODO: クラス化
-#region thumbnail list
+        #region thumbnail list
 
         // サムネイルリストのパネルコントロール
         private VirtualizingStackPanel _thumbnailListPanel;
@@ -1469,13 +1469,13 @@ namespace NeeView
         {
             if (_VM.IsHidePageSlider || _VM.IsFullScreen)
             {
-                SetStatusAreaVisibisity(IsStateAreaMouseOver(), false);
+                SetStatusAreaVisibisity(IsStateAreaMouseOver() && !_mouseLongDown.IsLongDowned, false);
                 SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList, true);
             }
             else
             {
                 SetStatusAreaVisibisity(true, true);
-                SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList && (!_VM.CanHideThumbnailList || IsStateAreaMouseOver()), false);
+                SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList && (!_VM.CanHideThumbnailList || (IsStateAreaMouseOver() && !_mouseLongDown.IsLongDowned)), false);
             }
         }
 
@@ -1526,7 +1526,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
 
         private void UpdateMenuAreaVisibility()
@@ -1541,11 +1541,11 @@ namespace NeeView
                 if (this.MenuArea.Opacity >= 0.99) //IsVisible)
                 {
                     double margin = this.MenuArea.ActualHeight + hideMargin > visibleMargin ? this.MenuArea.ActualHeight + hideMargin : visibleMargin;
-                    isVisible = isVisible || (point.Y < 0.0 + margin && this.IsMouseOver);
+                    isVisible = isVisible || (point.Y < 0.0 + margin && this.IsMouseOver && !_mouseLongDown.IsLongDowned);
                 }
                 else
                 {
-                    isVisible = isVisible || point.Y < 0.0 + visibleMargin && this.IsMouseOver;
+                    isVisible = isVisible || (point.Y < 0.0 + visibleMargin && this.IsMouseOver && !_mouseLongDown.IsLongDowned);
                 }
                 SetMenuAreaVisibisity(isVisible, false);
             }
@@ -1569,7 +1569,7 @@ namespace NeeView
         }
 
 
-#region Panel Visibility
+        #region Panel Visibility
 
         //
         private bool _isVisibleLeftPanel;
@@ -1609,7 +1609,7 @@ namespace NeeView
                     double margin = this.LeftPanel.Width + hideMargin > visibleMargin ? this.LeftPanel.Width + hideMargin : visibleMargin;
                     SetLeftPanelVisibisity(this.LeftPanel.IsMouseOver || _IsContextMenuOpened || point.X < margin && this.IsMouseOver, false);
                 }
-                else if (point.X < visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver)
+                else if (point.X < visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver && !_mouseLongDown.IsLongDowned)
                 {
                     SetLeftPanelVisibisity(true, false);
                 }
@@ -1659,7 +1659,7 @@ namespace NeeView
                     double margin = this.RightPanel.Width + hideMargin > visibleMargin ? this.RightPanel.Width + hideMargin : visibleMargin;
                     SeRightPanelVisibisity(this.RightPanel.IsMouseOver || _IsContextMenuOpened || point.X > this.ViewArea.ActualWidth - margin && this.IsMouseOver, false);
                 }
-                else if (point.X > this.ViewArea.ActualWidth - visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver)
+                else if (point.X > this.ViewArea.ActualWidth - visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver && !_mouseLongDown.IsLongDowned)
                 {
                     SeRightPanelVisibisity(true, false);
                 }
@@ -1856,7 +1856,7 @@ namespace NeeView
         }
 
 
-#endregion
+        #endregion
 
         //
         private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1911,7 +1911,7 @@ namespace NeeView
 
 
 
-#region ContextMenu Counter
+        #region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -1949,7 +1949,7 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-#endregion
+        #endregion
 
 
         private void LeftPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -1979,7 +1979,7 @@ namespace NeeView
     }
 
 
-#region Convertes
+    #region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -2261,5 +2261,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

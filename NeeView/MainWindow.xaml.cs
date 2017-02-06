@@ -311,6 +311,7 @@ namespace NeeView
         {
             App.Current.Dispatcher.Invoke(() =>
             {
+                _lastShowTime = DateTime.Now;
                 DartyThumbnailList();
             });
         }

@@ -78,6 +78,8 @@ namespace NeeView
         ToggleFullScreen,
         SetFullScreen,
         CancelFullScreen,
+        ToggleWindowMinimize,
+        ToggleWindowMaximize,
 
         ToggleSlideShow,
 

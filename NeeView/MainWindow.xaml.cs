@@ -88,7 +88,7 @@ namespace NeeView
 #endif
 
             // ViewModel
-            _VM = new MainWindowVM();
+            _VM = new MainWindowVM(this);
             this.DataContext = _VM;
 
             App.Config.LocalApplicationDataRemoved +=
@@ -469,6 +469,10 @@ namespace NeeView
                 (s, e) => OpenVersionWindow();
             ModelContext.CommandTable[CommandType.CloseApplication].Execute =
                 (s, e) => Close();
+            ModelContext.CommandTable[CommandType.ToggleWindowMinimize].Execute =
+                (s, e) => MainWindow_Minimize();
+            ModelContext.CommandTable[CommandType.ToggleWindowMaximize].Execute =
+                (s, e) => MainWindow_Maximize();
             ModelContext.CommandTable[CommandType.LoadAs].Execute =
                 (s, e) => LoadAs(e);
             ModelContext.CommandTable[CommandType.Paste].Execute =
@@ -744,10 +748,6 @@ namespace NeeView
             dialog.ShowDialog();
         }
 
-        // フルスクリーン前の状態保持
-        private WindowState _windowStateMemento = WindowState.Normal;
-        private bool _fullScreened;
-
         // メニューレイアウト更新フラグ
         public bool _AllowUpdateMenuLayout;
         public bool _IsDartyMenuLayout;
@@ -776,34 +776,6 @@ namespace NeeView
         private void UpdateMenuLayout()
         {
             _IsDartyMenuLayout = false;
-
-            // window style
-            if (_VM.IsFullScreen || !_VM.IsVisibleTitleBar)
-            {
-                this.WindowStyle = WindowStyle.None;
-            }
-            else
-            {
-                this.WindowStyle = WindowStyle.SingleBorderWindow;
-            }
-
-            // fullscreen 
-            if (_VM.IsFullScreen != _fullScreened)
-            {
-                _fullScreened = _VM.IsFullScreen;
-                if (_VM.IsFullScreen)
-                {
-                    this.ResizeMode = System.Windows.ResizeMode.NoResize;
-                    _windowStateMemento = this.WindowState;
-                    if (this.WindowState == WindowState.Maximized) this.WindowState = WindowState.Normal;
-                    this.WindowState = WindowState.Maximized;
-                }
-                else
-                {
-                    this.ResizeMode = System.Windows.ResizeMode.CanResize;
-                    this.WindowState = _windowStateMemento;
-                }
-            }
 
             // menu hide
             bool isMenuDock = !_VM.IsHideMenu && !_VM.IsFullScreen;
@@ -966,6 +938,41 @@ namespace NeeView
                 _VM.BookHub.IsEnableSlideShow = true;
             }
         }
+
+        // ウィンドウ最大化(Toggle)
+        private void MainWindow_Maximize()
+        {
+            if (this.WindowState != WindowState.Maximized)
+            {
+                SystemCommands.MaximizeWindow(this);
+            }
+            else
+            {
+                SystemCommands.RestoreWindow(this);
+            }
+        }
+
+        // ウィンドウ最小化
+        private void MainWindow_Minimize()
+        {
+            SystemCommands.MinimizeWindow(this);
+        }
+
+
+        /// <summary>
+        /// ウィンドウ状態変更イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow_StateChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == WindowState.Normal)
+            {
+                // フルスクリーン解除
+                _VM.IsFullScreen = false;
+            }
+        }
+
 
 
         // ドラッグ＆ドロップ前処理

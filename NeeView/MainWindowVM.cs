@@ -476,7 +476,13 @@ namespace NeeView
         public bool IsVisibleTitleBar
         {
             get { return _isVisibleTitleBar; }
-            set { _isVisibleTitleBar = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            set
+            {
+                _isVisibleTitleBar = value;
+                _fullScreenManager.WindowStyleMemento = value ? WindowStyle.SingleBorderWindow : WindowStyle.None;
+                RaisePropertyChanged();
+                NotifyMenuVisibilityChanged?.Invoke(this, null);
+            }
         }
         public bool ToggleVisibleTitleBar()
         {
@@ -760,20 +766,30 @@ namespace NeeView
 
 
         // フルスクリーン
-        #region Property: IsFullScreen
-        private bool _isFullScreen;
+        #region Property: FullScreenManager
+
+        //フルスクリーン管理
+        private FullScreenManager _fullScreenManager;
+
+        //
         public bool IsFullScreen
         {
-            get { return _isFullScreen; }
-            set { _isFullScreen = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            get { return _fullScreenManager.IsFullScreen; }
+            set { _fullScreenManager.IsFullScreen = value; }
         }
+
+        //
         public bool ToggleFullScreen()
         {
             IsFullScreen = !IsFullScreen;
             return IsFullScreen;
         }
+
+        //
         public bool IsSaveFullScreen { get; set; }
+
         #endregion
+
 
         // 常に手前に表示
         #region Property: IsTopmost
@@ -1620,8 +1636,11 @@ namespace NeeView
         public bool IsEnableSave { get; set; } = true;
 
         // コンストラクタ
-        public MainWindowVM()
+        public MainWindowVM(MainWindow window)
         {
+            _fullScreenManager = new FullScreenManager(window);
+            _fullScreenManager.Changed += (s, e) => NotifyMenuVisibilityChanged?.Invoke(this, null);
+
             HistoryFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "History.xml");
             BookmarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Bookmark.xml");
             PagemarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Pagemark.xml");

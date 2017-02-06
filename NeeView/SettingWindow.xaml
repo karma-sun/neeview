@@ -738,7 +738,7 @@
                                 <Button x:Name="MouseGestureSettingButton" Content="マウスジェスチャー設定" MinWidth="120" Height="30" Margin="8" Click="MouseGestureSettingButton_Click"/>
                                 <Button x:Name="CommandParameterSettingButton" Content="パラメーター設定" MinWidth="120" Height="30" Margin="8" Command="{Binding ParameterSettingCommand}"/>
                             </DockPanel>
-                            <Button x:Name="ResetGestureSettingButton" Content="全コマンド設定期化" MinWidth="120" Height="30" Margin="8" HorizontalAlignment="Right" Click="ResetGestureSettingButton_Click"/>
+                            <Button x:Name="ResetGestureSettingButton" Content="すべて初期化" MinWidth="120" Height="30" Margin="8" HorizontalAlignment="Right" Click="ResetGestureSettingButton_Click" ToolTip="すべてのコマンド設定を初期化します"/>
                         </Grid>
 
                     </DockPanel>

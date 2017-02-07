@@ -14,7 +14,7 @@
     <Grid>
         <DockPanel Margin="10,10,10,43">
             <DockPanel DockPanel.Dock="Bottom">
-                <TextBlock Text="新しいジェスチャー" VerticalAlignment="Center" Width="90"/>
+                <TextBlock Text="新しい設定" VerticalAlignment="Center" MinWidth="90"/>
 
                 <Button DockPanel.Dock="Right" Width="20" VerticalAlignment="Center" Margin="2" Command="{Binding ClearCommand}">
                     <TextBlock Text="✕" VerticalAlignment="Center"/>
@@ -40,7 +40,7 @@
 
             </DockPanel>
             <DockPanel DockPanel.Dock="Bottom">
-                <TextBlock Text="現在のジェスチャー"  VerticalAlignment="Center" Width="90"/>
+                <TextBlock Text="現在の設定"  VerticalAlignment="Center" MinWidth="90"/>
                 <Grid Width="12" Margin="0,0,2,2"/>
                 <TextBox DockPanel.Dock="Bottom" x:Name="OldGestureText" Margin="2" FontFamily="Meiryo" VerticalAlignment="Center" IsReadOnly="True" IsHitTestVisible="False" BorderBrush="Transparent"
                            Text="{Binding OriginalGesture, Converter={StaticResource MouseGestureToDispTextConverter}}" />

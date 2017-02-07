@@ -12,6 +12,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
+        Style="{StaticResource DefaultWindowStyle}"
         Title="コンテキストメニュー編集" Height="400" Width="400">
 
     <Window.Resources>

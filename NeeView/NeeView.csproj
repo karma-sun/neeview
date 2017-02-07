@@ -101,6 +101,7 @@
     <Compile Include="Effects\ImageEffect.cs" />
     <Compile Include="Effects\EffectType.cs" />
     <Compile Include="FolderList\FolderListViewModel.cs" />
+    <Compile Include="FullScreenManager.cs" />
     <Compile Include="ImageEffectControl.xaml.cs">
       <DependentUpon>ImageEffectControl.xaml</DependentUpon>
     </Compile>

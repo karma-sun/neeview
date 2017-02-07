@@ -85,6 +85,16 @@ namespace NeeView
             return ArchiverType.None;
         }
 
+        /// <summary>
+        /// 除外フォルダ判定
+        /// </summary>
+        /// <param name="path">判定するパス</param>
+        /// <returns></returns>
+        public bool IsExcludedFolder(string path)
+        {
+            return ModelContext.Excludes.Contains(LoosePath.GetFileName(path));
+        }
+
         // SevenZipアーカイバのサポート拡張子を更新
         public void UpdateSevenZipSupprtedFileTypes(string exts)
         {

@@ -50,7 +50,7 @@ namespace NeeView
 
             Key[] ignoreKeys = new Key[]
             {
-                Key.System, Key.LeftShift, Key.LeftCtrl, Key.RightShift, Key.RightCtrl, Key.LWin, Key.RWin, Key.Escape,
+                Key.System, Key.LeftShift, Key.LeftCtrl, Key.RightShift, Key.RightCtrl, Key.LWin, Key.RWin,
                 Key.ImeProcessed, Key.ImeNonConvert, Key.ImeModeChange, Key.ImeConvert, Key.ImeAccept,
                 Key.Apps, Key.Tab, Key.NumLock
             };
@@ -72,6 +72,7 @@ namespace NeeView
             {
                 var converter = new KeyGestureConverter();
                 this.KeyGestureText.Text = ValidateKeyGestureText(converter.ConvertToString(keyGesture));
+                e.Handled = true;
             }
             else
             {

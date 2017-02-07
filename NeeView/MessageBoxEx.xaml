@@ -12,6 +12,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
+        Style="{StaticResource DefaultWindowStyle}"
         Title="Caption"  FontSize="16" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
 
     <Window.Resources>

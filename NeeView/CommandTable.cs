@@ -763,6 +763,31 @@ namespace NeeView
                 _elements[CommandType.CancelFullScreen] = element;
             }
 
+            // ToggleWindowMinimize
+            {
+                var element = new CommandElement();
+                element.Group = "ウィンドウ";
+                element.Text = "ウィンドウを最小化する";
+                element.MenuText = "ウィンドウ最小化";
+                element.Note = "ウィンドウを最小化します";
+                element.IsShowMessage = false;
+                element.CanExecute = () => true;
+                _elements[CommandType.ToggleWindowMinimize] = element;
+            }
+
+            // ToggleWindowMaximize
+            {
+                var element = new CommandElement();
+                element.Group = "ウィンドウ";
+                element.Text = "ウィンドウを最大化する";
+                element.MenuText = "ウィンドウ最大化";
+                element.Note = "ウィンドウを最大化します。既に最大化されている場合は元のサイズに戻します。";
+                element.IsShowMessage = false;
+                element.CanExecute = () => true;
+                _elements[CommandType.ToggleWindowMaximize] = element;
+            }
+
+
             // ToggleSlideShow
             {
                 var element = new CommandElement();
@@ -1574,6 +1599,7 @@ namespace NeeView
                 element.CanExecute = () => true;
                 _elements[CommandType.CloseApplication] = element;
             }
+
 
             // HelpOnline
             {

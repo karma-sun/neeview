@@ -88,7 +88,7 @@ namespace NeeView
 #endif
 
             // ViewModel
-            _VM = new MainWindowVM();
+            _VM = new MainWindowVM(this);
             this.DataContext = _VM;
 
             App.Config.LocalApplicationDataRemoved +=
@@ -311,6 +311,7 @@ namespace NeeView
         {
             App.Current.Dispatcher.Invoke(() =>
             {
+                _lastShowTime = DateTime.Now;
                 DartyThumbnailList();
             });
         }
@@ -328,7 +329,7 @@ namespace NeeView
         }
 
 
-#region Timer
+        #region Timer
 
         // タイマーディスパッチ
         private DispatcherTimer _timer;
@@ -409,7 +410,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
 
         // マウスジェスチャー更新時の処理
@@ -468,6 +469,10 @@ namespace NeeView
                 (s, e) => OpenVersionWindow();
             ModelContext.CommandTable[CommandType.CloseApplication].Execute =
                 (s, e) => Close();
+            ModelContext.CommandTable[CommandType.ToggleWindowMinimize].Execute =
+                (s, e) => MainWindow_Minimize();
+            ModelContext.CommandTable[CommandType.ToggleWindowMaximize].Execute =
+                (s, e) => MainWindow_Maximize();
             ModelContext.CommandTable[CommandType.LoadAs].Execute =
                 (s, e) => LoadAs(e);
             ModelContext.CommandTable[CommandType.Paste].Execute =
@@ -705,8 +710,7 @@ namespace NeeView
                 return "前のページ";
             }
         }
-
-
+        
 
         // 設定ウィンドウを開く
         private void OpenSettingWindow()
@@ -725,6 +729,9 @@ namespace NeeView
                 SetUpdateMenuLayoutMode(true);
                 _VM.SaveSetting(this);
                 ModelContext.BookHistory.Restore(history, false);
+
+                // 現在ページ再読込
+                _VM.BookHub.ReLoad();
             }
         }
 
@@ -742,10 +749,6 @@ namespace NeeView
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             dialog.ShowDialog();
         }
-
-        // フルスクリーン前の状態保持
-        private WindowState _windowStateMemento = WindowState.Normal;
-        private bool _fullScreened;
 
         // メニューレイアウト更新フラグ
         public bool _AllowUpdateMenuLayout;
@@ -775,34 +778,6 @@ namespace NeeView
         private void UpdateMenuLayout()
         {
             _IsDartyMenuLayout = false;
-
-            // window style
-            if (_VM.IsFullScreen || !_VM.IsVisibleTitleBar)
-            {
-                this.WindowStyle = WindowStyle.None;
-            }
-            else
-            {
-                this.WindowStyle = WindowStyle.SingleBorderWindow;
-            }
-
-            // fullscreen 
-            if (_VM.IsFullScreen != _fullScreened)
-            {
-                _fullScreened = _VM.IsFullScreen;
-                if (_VM.IsFullScreen)
-                {
-                    this.ResizeMode = System.Windows.ResizeMode.NoResize;
-                    _windowStateMemento = this.WindowState;
-                    if (this.WindowState == WindowState.Maximized) this.WindowState = WindowState.Normal;
-                    this.WindowState = WindowState.Maximized;
-                }
-                else
-                {
-                    this.ResizeMode = System.Windows.ResizeMode.CanResize;
-                    this.WindowState = _windowStateMemento;
-                }
-            }
 
             // menu hide
             bool isMenuDock = !_VM.IsHideMenu && !_VM.IsFullScreen;
@@ -965,6 +940,41 @@ namespace NeeView
                 _VM.BookHub.IsEnableSlideShow = true;
             }
         }
+
+        // ウィンドウ最大化(Toggle)
+        private void MainWindow_Maximize()
+        {
+            if (this.WindowState != WindowState.Maximized)
+            {
+                SystemCommands.MaximizeWindow(this);
+            }
+            else
+            {
+                SystemCommands.RestoreWindow(this);
+            }
+        }
+
+        // ウィンドウ最小化
+        private void MainWindow_Minimize()
+        {
+            SystemCommands.MinimizeWindow(this);
+        }
+
+
+        /// <summary>
+        /// ウィンドウ状態変更イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow_StateChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == WindowState.Normal)
+            {
+                // フルスクリーン解除
+                _VM.IsFullScreen = false;
+            }
+        }
+
 
 
         // ドラッグ＆ドロップ前処理
@@ -1224,7 +1234,7 @@ namespace NeeView
 
 
         // TODO: クラス化
-#region thumbnail list
+        #region thumbnail list
 
         // サムネイルリストのパネルコントロール
         private VirtualizingStackPanel _thumbnailListPanel;
@@ -1468,13 +1478,13 @@ namespace NeeView
         {
             if (_VM.IsHidePageSlider || _VM.IsFullScreen)
             {
-                SetStatusAreaVisibisity(IsStateAreaMouseOver(), false);
+                SetStatusAreaVisibisity(IsStateAreaMouseOver() && !_mouseLongDown.IsLongDowned, false);
                 SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList, true);
             }
             else
             {
                 SetStatusAreaVisibisity(true, true);
-                SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList && (!_VM.CanHideThumbnailList || IsStateAreaMouseOver()), false);
+                SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList && (!_VM.CanHideThumbnailList || (IsStateAreaMouseOver() && !_mouseLongDown.IsLongDowned)), false);
             }
         }
 
@@ -1525,7 +1535,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
 
         private void UpdateMenuAreaVisibility()
@@ -1540,11 +1550,11 @@ namespace NeeView
                 if (this.MenuArea.Opacity >= 0.99) //IsVisible)
                 {
                     double margin = this.MenuArea.ActualHeight + hideMargin > visibleMargin ? this.MenuArea.ActualHeight + hideMargin : visibleMargin;
-                    isVisible = isVisible || (point.Y < 0.0 + margin && this.IsMouseOver);
+                    isVisible = isVisible || (point.Y < 0.0 + margin && this.IsMouseOver && !_mouseLongDown.IsLongDowned);
                 }
                 else
                 {
-                    isVisible = isVisible || point.Y < 0.0 + visibleMargin && this.IsMouseOver;
+                    isVisible = isVisible || (point.Y < 0.0 + visibleMargin && this.IsMouseOver && !_mouseLongDown.IsLongDowned);
                 }
                 SetMenuAreaVisibisity(isVisible, false);
             }
@@ -1568,7 +1578,7 @@ namespace NeeView
         }
 
 
-#region Panel Visibility
+        #region Panel Visibility
 
         //
         private bool _isVisibleLeftPanel;
@@ -1608,7 +1618,7 @@ namespace NeeView
                     double margin = this.LeftPanel.Width + hideMargin > visibleMargin ? this.LeftPanel.Width + hideMargin : visibleMargin;
                     SetLeftPanelVisibisity(this.LeftPanel.IsMouseOver || _IsContextMenuOpened || point.X < margin && this.IsMouseOver, false);
                 }
-                else if (point.X < visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver)
+                else if (point.X < visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver && !_mouseLongDown.IsLongDowned)
                 {
                     SetLeftPanelVisibisity(true, false);
                 }
@@ -1658,7 +1668,7 @@ namespace NeeView
                     double margin = this.RightPanel.Width + hideMargin > visibleMargin ? this.RightPanel.Width + hideMargin : visibleMargin;
                     SeRightPanelVisibisity(this.RightPanel.IsMouseOver || _IsContextMenuOpened || point.X > this.ViewArea.ActualWidth - margin && this.IsMouseOver, false);
                 }
-                else if (point.X > this.ViewArea.ActualWidth - visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver)
+                else if (point.X > this.ViewArea.ActualWidth - visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver && !_mouseLongDown.IsLongDowned)
                 {
                     SeRightPanelVisibisity(true, false);
                 }
@@ -1855,7 +1865,7 @@ namespace NeeView
         }
 
 
-#endregion
+        #endregion
 
         //
         private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1878,20 +1888,12 @@ namespace NeeView
 
         private void LeftPanel_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
-            {
-                _VM.LeftPanel = PanelType.None;
-                e.Handled = true;
-            }
+            // nop.
         }
 
         private void RightPanel_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
-            {
-                _VM.RightPanel = PanelType.None;
-                e.Handled = true;
-            }
+            // nop.
         }
 
         private void ThumbnailListBox_Loaded(object sender, RoutedEventArgs e)
@@ -1918,7 +1920,7 @@ namespace NeeView
 
 
 
-#region ContextMenu Counter
+        #region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -1956,7 +1958,7 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-#endregion
+        #endregion
 
 
         private void LeftPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -1986,7 +1988,7 @@ namespace NeeView
     }
 
 
-#region Convertes
+    #region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -2268,5 +2270,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

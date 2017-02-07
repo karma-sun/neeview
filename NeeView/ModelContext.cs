@@ -49,6 +49,9 @@ namespace NeeView
         //
         public static bool IsAutoGC { get; set; } = true;
 
+        // 除外パス
+        public static List<string> Excludes { get; set; } = new List<string>(); 
+
         //
         public static void GarbageCollection()
         {
@@ -105,6 +108,9 @@ namespace NeeView
 
             // MainWindow Preference適用
             ((MainWindow)App.Current.MainWindow).ApplyPreference(Preference);
+
+            // 除外パス更新
+            ModelContext.Excludes = Preference.loader_archiver_exclude.Split(';').Select(e => e.Trim()).ToList();
         }
     }
 }

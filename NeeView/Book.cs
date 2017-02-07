@@ -443,7 +443,7 @@ namespace NeeView
             else
             {
                 var type = ModelContext.ArchiverManager.GetSupportedType(entry.EntryName);
-                if (isSupportAllFile || !ModelContext.ArchiverManager.IsExcludedFolder(entry.EntryName))
+                if (isSupportAllFile)
                 {
                     switch (type)
                     {

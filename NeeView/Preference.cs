@@ -61,7 +61,7 @@ namespace NeeView
         public string loader_archiver_7z_supprtfiletypes { get; set; }
 
         [DataMember, DefaultValue("__MACOSX;.DS_Store")]
-        [PropertyMember("ページ除外パス", Tips = ";(セミコロン)区切りで除外するパス名を羅列します。「全てのファイルを表示する」設定時は無効です")]
+        [PropertyMember("ページ除外パス", Tips = ";(セミコロン)区切りで除外するパス名を羅列します。「サポート外ファイルもページに含める」設定では無効です")]
         public string loader_archiver_exclude { get; set; }
 
 

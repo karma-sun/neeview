@@ -60,6 +60,10 @@ namespace NeeView
         [PropertyMember("7z.dllで展開する圧縮ファイルの拡張子", Tips = ";(セミコロン)区切りでサポートする拡張子を羅列します。\n拡張子は .zip のように指定します")]
         public string loader_archiver_7z_supprtfiletypes { get; set; }
 
+        [DataMember, DefaultValue("__MACOSX;.DS_Store")]
+        [PropertyMember("ページ除外パス", Tips = ";(セミコロン)区切りで除外するパス名を羅列します。「全てのファイルを表示する」設定時は無効です")]
+        public string loader_archiver_exclude { get; set; }
+
 
         /// <summary>
         /// 

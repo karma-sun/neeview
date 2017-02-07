@@ -81,6 +81,11 @@ namespace NeeView
             return GetSupportedType(fileName) != BitmapLoaderType.None;
         }
 
+        // 除外パス判定
+        public bool IsExcludedPath(string path)
+        {
+            return path.Split('/', '\\').Any(e => ModelContext.Excludes.Contains(e));
+        }
 
         // サポートしているローダーの種類を取得
         public BitmapLoaderType GetSupportedType(string fileName)

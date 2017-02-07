@@ -431,15 +431,19 @@ namespace NeeView
         {
             Page page = null;
 
+            bool isSupportAllFile = (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile;
+
             if (ModelContext.BitmapLoaderManager.IsSupported(entry.EntryName))
             {
-                page = new BitmapPage(archiver, entry, place);
+                if (isSupportAllFile || !ModelContext.BitmapLoaderManager.IsExcludedPath(entry.EntryName))
+                {
+                    page = new BitmapPage(archiver, entry, place);
+                }
             }
             else
             {
                 var type = ModelContext.ArchiverManager.GetSupportedType(entry.EntryName);
-                bool isSupportAllFile = (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile;
-                if (isSupportAllFile)
+                if (isSupportAllFile || !ModelContext.ArchiverManager.IsExcludedFolder(entry.EntryName))
                 {
                     switch (type)
                     {

@@ -710,8 +710,7 @@ namespace NeeView
                 return "前のページ";
             }
         }
-
-
+        
 
         // 設定ウィンドウを開く
         private void OpenSettingWindow()
@@ -730,6 +729,9 @@ namespace NeeView
                 SetUpdateMenuLayoutMode(true);
                 _VM.SaveSetting(this);
                 ModelContext.BookHistory.Restore(history, false);
+
+                // 現在ページ再読込
+                _VM.BookHub.ReLoad();
             }
         }
 

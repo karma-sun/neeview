@@ -266,6 +266,9 @@
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="2ページ用："/>
                                 <TextBox Text="{Binding Setting.ViewMemento.WindowTitleFormat2}"/>
                             </DockPanel>
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーン時、スライダー表示にあわせてウィンドウタイトルを表示する"
+                                      ToolTip="フルスクリーン等、タイトルバーが表示されない時に表示エリアに代わりにウィンドウタイトルを表示します"
+                                      IsChecked="{Binding Setting.ViewMemento.IsVisibleWindowTitle}"/>
                         </StackPanel>
 
 

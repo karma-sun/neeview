@@ -491,6 +491,17 @@ namespace NeeView
         }
         #endregion
 
+        /// <summary>
+        /// IsVisibleWindowTitle property.
+        /// </summary>
+        private bool _IsVisibleWindowTitle;
+        public bool IsVisibleWindowTitle
+        {
+            get { return _IsVisibleWindowTitle; }
+            set { if (_IsVisibleWindowTitle != value) { _IsVisibleWindowTitle = value; RaisePropertyChanged(); } }
+        }
+        
+
         // アドレスバーON/OFF
         #region Property: IsVisibleAddressBar
         private bool _isVisibleAddressBar;
@@ -2919,6 +2930,9 @@ namespace NeeView
             [DataMember(Order = 18)]
             public bool IsAutoRotate { get; set; }
 
+            [DataMember(Order = 19)]
+            public bool IsVisibleWindowTitle { get; set; }
+
             //
             private void Constructor()
             {
@@ -2956,6 +2970,7 @@ namespace NeeView
                 LongButtonDownTick = 1.0;
                 IsDisableMultiBoot = true;
                 SliderDirection = SliderDirection.RightToLeft;
+                IsVisibleWindowTitle = true;
             }
 
             public Memento()
@@ -3063,6 +3078,7 @@ namespace NeeView
             memento.LongButtonDownTick = this.LongButtonDownTick;
             memento.SliderDirection = this.SliderDirection;
             memento.IsAutoRotate = this.IsAutoRotate;
+            memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
 
             return memento;
         }
@@ -3129,6 +3145,7 @@ namespace NeeView
             this.LongButtonDownTick = memento.LongButtonDownTick;
             this.SliderDirection = memento.SliderDirection;
             this.IsAutoRotate = memento.IsAutoRotate;
+            this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

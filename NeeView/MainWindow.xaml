@@ -301,7 +301,7 @@
                     <Grid x:Name="MainViewPanelGrid" Panel.ZIndex="-1" Margin="-1,0">
                         <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding BackgroundBrush}" >
 
-                            
+
                             <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffector.Effect}">
 
                                 <!-- メインビュー コンテンツ表示領域 -->
@@ -358,6 +358,30 @@
                                     </TextBlock>
                                 </StackPanel>
                             </Grid>
+
+                            <!-- caption -->
+                            <TextBlock x:Name="PageCaption" VerticalAlignment="Top" HorizontalAlignment="Left"
+                                       Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
+                                       Text="{Binding WindowTitle}" FontSize="16" Foreground="White"
+                                       Padding="20,5"
+                                       Background="#88000000">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding IsVisibleWindowTitle}" Value="True"/>
+                                                    <Condition Binding="{Binding ElementName=StatusArea, Path=Visibility}" Value="Visible"/>
+                                                    <Condition Binding="{Binding ElementName=RootWindow, Path=WindowStyle}" Value="None"/>
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
 
                             <!-- Now Loading -->
                             <Grid x:Name="NowLoading" Opacity="0" IsHitTestVisible="False">

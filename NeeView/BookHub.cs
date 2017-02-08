@@ -1773,28 +1773,6 @@ namespace NeeView
             [DataMember(Order = 9)]
             public bool IsSevenZipAccessLocked { get; set; }
 
-            #region Property: SlideShowIntervalIndex
-            private static List<int> s_slideShowIntervalTable = new List<int>()
-                { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 300 };
-
-            public int SlideShowIntervalIndexMax => s_slideShowIntervalTable.Count - 1;
-
-            public int SlideShowIntervalIndex
-            {
-                get
-                {
-                    int index = s_slideShowIntervalTable.IndexOf((int)SlideShowInterval);
-                    return (index < 0) ? 0 : index;
-                }
-                set
-                {
-                    int index = NVUtility.Clamp<int>(value, 0, s_slideShowIntervalTable.Count - 1);
-                    SlideShowInterval = s_slideShowIntervalTable[index];
-                    RaisePropertyChanged(nameof(SlideShowInterval));
-                }
-            }
-            #endregion
-
             [DataMember(Order = 10)]
             public ClipboardUtility ClipboardUtility { get; set; }
 

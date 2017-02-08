@@ -24,8 +24,6 @@
         <local:DragActionTypeToTipsConverter x:Key="DragActionTypeToTipsConverter"/>
         <local:LongButtonDownModeToTipsConverter x:Key="LongButtonDownModeToTipsConverter"/>
         <local:BannerSizeConverter x:Key="BannerSizeConverter"/>
-        <local:HistoryLimitSizeConverter x:Key="HistoryLimitSizeConverter"/>
-        <local:HistoryLimitSpanConverter x:Key="HistoryLimitSpanConverter"/>
         <local:IsNullConverter x:Key="IsNullConverter"/>
 
         <Style TargetType="StackPanel" x:Key="BaseStackPanel">
@@ -589,16 +587,16 @@
                         <StackPanel Style="{StaticResource Phrase}">
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="数による保持制限が履歴ファイルに適用されます&#xa;アプリ動作中の履歴は制限されません">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="保存数"/>
-                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding History.LimitSizeIndex}"
-                                    Minimum="0" Maximum="{Binding History.LimitSizeIndexMax}" TickFrequency="1" />
-                                <TextBlock Text="{Binding History.LimitSize, Converter={StaticResource HistoryLimitSizeConverter}}" />
+                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding HistoryLimitSize.Index}"
+                                    Minimum="0" Maximum="{Binding HistoryLimitSize.IndexMax}" TickFrequency="1" />
+                                <TextBlock Text="{Binding HistoryLimitSize.ValueString}" />
                             </StackPanel>
 
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="期間による保持制限が履歴ファイルに適用されます&#xa;アプリ動作中の履歴は制限されません">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="保存期間"/>
-                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding History.LimitSpanIndex}"
-                                    Minimum="0" Maximum="{Binding History.LimitSpanIndexMax}" TickFrequency="1" />
-                                <TextBlock Text="{Binding History.LimitSpan, Converter={StaticResource HistoryLimitSpanConverter}}" />
+                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding HistoryLimitSpan.Index}"
+                                    Minimum="0" Maximum="{Binding HistoryLimitSpan.IndexMax}" TickFrequency="1" />
+                                <TextBlock Text="{Binding HistoryLimitSpan.ValueString}" />
                             </StackPanel>
 
                         </StackPanel>
@@ -637,9 +635,9 @@
 
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="表示間隔" MinWidth="60"/>
-                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.BookHubMemento.SlideShowIntervalIndex}"
-                                    Minimum="0" Maximum="{Binding Setting.BookHubMemento.SlideShowIntervalIndexMax}" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                                <TextBlock Text="{Binding Setting.BookHubMemento.SlideShowInterval, StringFormat={}{0}秒}" />
+                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding SlideShowInterval.Index}"
+                                    Minimum="0" Maximum="{Binding SlideShowInterval.IndexMax}" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                                <TextBlock Text="{Binding SlideShowInterval.ValueString}" />
                             </StackPanel>
 
                         </StackPanel>

@@ -86,6 +86,12 @@ namespace NeeView
         //
         virtual public string ValueString => Value.ToString();
 
+        //
+        public override string ToString()
+        {
+            return ValueString;
+        }
+
 
         //
         abstract protected int IndexOfNear(T value, IEnumerable<T> values);
@@ -144,6 +150,26 @@ namespace NeeView
             var diff = values.Select((x, index) =>
             {
                 var diffX = Math.Abs(x - value);
+                return new { index, diffX };
+            });
+            return diff.OrderBy(d => d.diffX).First().index;
+        }
+    }
+
+    /// <summary>
+    /// テーブル値(TimeSpan)
+    /// </summary>
+    public class IndexTimeSpanValue : IndexValue<TimeSpan>
+    {
+        public IndexTimeSpanValue(List<TimeSpan> values) : base(values)
+        {
+        }
+
+        protected override int IndexOfNear(TimeSpan value, IEnumerable<TimeSpan> values)
+        {
+            var diff = values.Select((x, index) =>
+            {
+                var diffX = (x - value).Duration();
                 return new { index, diffX };
             });
             return diff.OrderBy(d => d.diffX).First().index;

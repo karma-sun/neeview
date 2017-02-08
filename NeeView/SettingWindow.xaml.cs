@@ -278,6 +278,13 @@ namespace NeeView
         // ビュー回転のスナップ値
         public AngleFrequency AngleFrequency { get; set; }
 
+        // 履歴制限
+        public HistoryLimitSize HistoryLimitSize { get; set; }
+        public HistoryLimitSpan HistoryLimitSpan { get; set; }
+
+        // スライドショー間隔
+        public SlideShowInterval SlideShowInterval { get; set; }
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -324,9 +331,20 @@ namespace NeeView
             // デフォルトのプラグインパス設定
             this.PluginPathTextBox.DefaultDirectory = Susie.Susie.GetSusiePluginInstallPath();
 
-            // AngleFrequency
+            // View AngleFrequency
             AngleFrequency = new AngleFrequency(Setting.ViewMemento.AngleFrequency);
             AngleFrequency.ValueChanged += (s, e) => Setting.ViewMemento.AngleFrequency = e.NewValue;
+
+            // History Limit
+            HistoryLimitSize = new HistoryLimitSize(History.LimitSize);
+            HistoryLimitSize.ValueChanged += (s, e) => History.LimitSize = e.NewValue;
+
+            HistoryLimitSpan = new HistoryLimitSpan(History.LimitSpan);
+            HistoryLimitSpan.ValueChanged += (s, e) => History.LimitSpan = e.NewValue;
+
+            // SlideShow Interval
+            SlideShowInterval = new SlideShowInterval(Setting.BookHubMemento.SlideShowInterval);
+            SlideShowInterval.ValueChanged += (s, e) => Setting.BookHubMemento.SlideShowInterval = e.NewValue;
         }
 
 
@@ -822,7 +840,7 @@ namespace NeeView
         }
     }
 
-    
+
     /// <summary>
     /// ビュー回転スナップ値
     /// </summary>
@@ -841,10 +859,76 @@ namespace NeeView
 
         //
         public override string ValueString => Value == 0 ? "無段階" : $"{Value}度";
+    }
+
+
+    /// <summary>
+    /// 履歴サイズテーブル
+    /// </summary>
+    public class HistoryLimitSize : IndexIntValue
+    {
+        private static List<int> _values = new List<int>
+        {
+            1, 10, 20, 50, 100, 200, 500, 1000, 0
+        };
 
         //
-        public override string ToString() => ValueString;
+        public HistoryLimitSize(int value) : base(_values)
+        {
+            Value = value;
+        }
+
+        //
+        public override string ValueString => Value == 0 ? "制限なし" : Value.ToString();
     }
+
+    /// <summary>
+    /// 履歴期限テーブル
+    /// </summary>
+    public class HistoryLimitSpan : IndexTimeSpanValue
+    {
+        private static List<TimeSpan> _values = new List<TimeSpan>() {
+                TimeSpan.FromDays(1),
+                TimeSpan.FromDays(2),
+                TimeSpan.FromDays(3),
+                TimeSpan.FromDays(7),
+                TimeSpan.FromDays(15),
+                TimeSpan.FromDays(30),
+                TimeSpan.FromDays(100),
+                default(TimeSpan),
+            };
+
+        //
+        public HistoryLimitSpan(TimeSpan value) : base(_values)
+        {
+            Value = value;
+        }
+
+        //
+        public override string ValueString => Value == default(TimeSpan) ? "制限なし" : $"{Value.Days}日前まで";
+    }
+
+
+    /// <summary>
+    /// スライドショー インターバルテーブル
+    /// </summary>
+    public class SlideShowInterval : IndexDoubleValue
+    {
+        private static List<double> _values = new List<double>
+        {
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 300
+        };
+
+        //
+        public SlideShowInterval(double value) : base(_values)
+        {
+            Value = value;
+        }
+
+        //
+        public override string ValueString => $"{Value}秒";
+    }
+
 
 
     // プラグイングループ分け用
@@ -939,52 +1023,6 @@ namespace NeeView
         }
     }
 
-    // 履歴サイズ制限表示用コンバータ
-    [ValueConversion(typeof(int), typeof(string))]
-    public class HistoryLimitSizeConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (value is int)
-            {
-                var limitSize = (int)value;
-                return limitSize == 0 ? "制限なし" : limitSize.ToString();
-            }
-            else
-            {
-                return value;
-            }
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-
-    // 履歴サイズ制限表示用コンバータ
-    [ValueConversion(typeof(TimeSpan), typeof(string))]
-    public class HistoryLimitSpanConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (value is TimeSpan)
-            {
-                var limitSpan = (TimeSpan)value;
-                return limitSpan == default(TimeSpan) ? "制限なし" : $"{limitSpan.Days}日前まで";
-            }
-            else
-            {
-                return value;
-            }
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 
     // Null判定コンバータ
     [ValueConversion(typeof(object), typeof(bool))]

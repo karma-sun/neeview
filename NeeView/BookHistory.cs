@@ -326,60 +326,6 @@ namespace NeeView
             public TimeSpan LimitSpan { get; set; }
 
 
-            #region Property: LimitSizeIndex
-            private static List<int> s_limitSizeTable = new List<int>()
-                { 1, 10, 20, 50, 100, 200, 500, 1000, 0 };
-
-            public int LimitSizeIndexMax => s_limitSizeTable.Count - 1;
-
-            public int LimitSizeIndex
-            {
-                get
-                {
-                    int index = s_limitSizeTable.IndexOf((int)LimitSize);
-                    return (index < 0) ? LimitSizeIndexMax : index;
-                }
-                set
-                {
-                    int index = NVUtility.Clamp<int>(value, 0, LimitSizeIndexMax);
-                    LimitSize = s_limitSizeTable[index];
-                    RaisePropertyChanged(nameof(LimitSize));
-                }
-            }
-            #endregion
-
-
-            #region Property: LimitSpanIndex
-            private static List<TimeSpan> s_limitSpanTable = new List<TimeSpan>() {
-                TimeSpan.FromDays(1),
-                TimeSpan.FromDays(2),
-                TimeSpan.FromDays(3),
-                TimeSpan.FromDays(7),
-                TimeSpan.FromDays(15),
-                TimeSpan.FromDays(30),
-                TimeSpan.FromDays(100),
-                default(TimeSpan),
-            };
-
-            public int LimitSpanIndexMax => s_limitSpanTable.Count - 1;
-
-            public int LimitSpanIndex
-            {
-                get
-                {
-                    int index = s_limitSpanTable.IndexOf(LimitSpan);
-                    return (index < 0) ? LimitSpanIndexMax : index;
-                }
-                set
-                {
-                    int index = NVUtility.Clamp<int>(value, 0, LimitSpanIndexMax);
-                    LimitSpan = s_limitSpanTable[index];
-                    RaisePropertyChanged(nameof(LimitSpan));
-                }
-            }
-            #endregion
-
-
             private void Constructor()
             {
                 Items = new List<Book.Memento>();

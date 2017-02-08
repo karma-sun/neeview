@@ -46,6 +46,13 @@ namespace NeeView
         History,
     }
 
+    public enum PageEndAction
+    {
+        None,
+        NextFolder,
+        Loop,
+    }
+
     //
     public class BookUnit : IDisposable
     {
@@ -252,8 +259,8 @@ namespace NeeView
             }
         }
 
-        // 履歴から設定を復元する
-        public bool IsEnabledAutoNextFolder { get; set; } = false;
+        // ページ終端でのアクション
+        public PageEndAction PageEndAction { get; set; }
 
         // 再帰を確認する
         public bool IsConfirmRecursive { get; set; }
@@ -932,7 +939,18 @@ namespace NeeView
                 FirstPage();
             }
 
-            else if (IsEnabledAutoNextFolder)
+            else if (PageEndAction == PageEndAction.Loop)
+            {
+                if (e < 0)
+                {
+                    LastPage();
+                }
+                else
+                {
+                    FirstPage();
+                }
+            }
+            else if (PageEndAction == PageEndAction.NextFolder)
             {
                 if (e < 0)
                 {
@@ -952,12 +970,10 @@ namespace NeeView
 
                 else if (e < 0)
                 {
-                    //FirstPage();
                     InfoMessage?.Invoke(this, "最初のページです");
                 }
                 else
                 {
-                    //LastPage();
                     InfoMessage?.Invoke(this, "最後のページです");
                 }
             }
@@ -1718,6 +1734,8 @@ namespace NeeView
             }
             #endregion
 
+            [DataMember]
+            public int _Version { get; set; }
 
             [DataMember]
             public bool IsEnableAnimatedGif { get; set; }
@@ -1731,8 +1749,11 @@ namespace NeeView
             [DataMember]
             public bool IsEnableNoSupportFile { get; set; }
 
-            [DataMember]
-            public bool IsEnabledAutoNextFolder { get; set; }
+            [DataMember(EmitDefaultValue = false)]
+            public bool IsEnabledAutoNextFolder { get; set; } // no used
+
+            [DataMember(Order = 19)]
+            public PageEndAction PageEndAction { get; set; }
 
             [DataMember]
             public bool IsSlideShowByLoop { get; set; }
@@ -1810,6 +1831,16 @@ namespace NeeView
             {
                 Constructor();
             }
+
+
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
+            {
+                if (_Version < Config.GenerateProductVersionNumber(1, 19, 0))
+                {
+                    PageEndAction = IsEnabledAutoNextFolder ? PageEndAction.NextFolder : PageEndAction.None;
+                }
+            }
         }
 
         // memento作成
@@ -1817,11 +1848,12 @@ namespace NeeView
         {
             var memento = new Memento();
 
+            memento._Version = App.Config.ProductVersionNumber;
             memento.IsEnableAnimatedGif = IsEnableAnimatedGif;
             memento.IsEnableExif = IsEnableExif;
             memento.IsEnableHistory = IsEnableHistory;
             memento.IsEnableNoSupportFile = IsEnableNoSupportFile;
-            memento.IsEnabledAutoNextFolder = IsEnabledAutoNextFolder;
+            memento.PageEndAction = PageEndAction;
             memento.IsSlideShowByLoop = IsSlideShowByLoop;
             memento.SlideShowInterval = SlideShowInterval;
             memento.IsCancelSlideByMouseMove = IsCancelSlideByMouseMove;
@@ -1850,7 +1882,7 @@ namespace NeeView
             IsEnableExif = memento.IsEnableExif;
             IsEnableHistory = memento.IsEnableHistory;
             IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
-            IsEnabledAutoNextFolder = memento.IsEnabledAutoNextFolder;
+            PageEndAction = memento.PageEndAction;
             IsSlideShowByLoop = memento.IsSlideShowByLoop;
             SlideShowInterval = memento.SlideShowInterval;
             IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;

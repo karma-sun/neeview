@@ -273,6 +273,14 @@ namespace NeeView
         };
 
         //
+        public static Dictionary<PageEndAction, string> PageEndActionList { get; } = new Dictionary<PageEndAction, string>
+        {
+            [PageEndAction.None] = "そのまま",
+            [PageEndAction.NextFolder] = "次のフォルダーに移動",
+            [PageEndAction.Loop] = "ループする"
+        };
+
+        //
         public DragActionTable.KeyTable DragKeyTable { get; set; }
 
         // ビュー回転のスナップ値

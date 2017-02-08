@@ -425,8 +425,7 @@ namespace NeeView
         {
             _mouseDrag.IsLimitMove = _VM.IsLimitMove;
             _mouseDrag.DragControlCenter = _VM.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
-            _mouseDrag.SnapAngle = _VM.IsAngleSnap ? 45 : 0;
-
+            _mouseDrag.AngleFrequency = _VM.AngleFrequency;
 
             if (origin == DragViewOrigin.None)
             {

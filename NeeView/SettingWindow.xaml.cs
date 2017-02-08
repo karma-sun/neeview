@@ -275,6 +275,9 @@ namespace NeeView
         //
         public DragActionTable.KeyTable DragKeyTable { get; set; }
 
+        // ビュー回転のスナップ値
+        public AngleFrequency AngleFrequency { get; set; }
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -320,6 +323,10 @@ namespace NeeView
 
             // デフォルトのプラグインパス設定
             this.PluginPathTextBox.DefaultDirectory = Susie.Susie.GetSusiePluginInstallPath();
+
+            // AngleFrequency
+            AngleFrequency = new AngleFrequency(Setting.ViewMemento.AngleFrequency);
+            AngleFrequency.ValueChanged += (s, e) => Setting.ViewMemento.AngleFrequency = e.NewValue;
         }
 
 
@@ -813,6 +820,30 @@ namespace NeeView
         {
             ParameterSettingCommand.RaiseCanExecuteChanged();
         }
+    }
+
+    
+    /// <summary>
+    /// ビュー回転スナップ値
+    /// </summary>
+    public class AngleFrequency : IndexDoubleValue
+    {
+        private static List<double> _values = new List<double>
+        {
+            0, 5, 10, 15, 20, 30, 45, 60, 90
+        };
+
+        //
+        public AngleFrequency(double value) : base(_values)
+        {
+            Value = value;
+        }
+
+        //
+        public override string ValueString => Value == 0 ? "無段階" : $"{Value}度";
+
+        //
+        public override string ToString() => ValueString;
     }
 
 

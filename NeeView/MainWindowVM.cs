@@ -177,8 +177,8 @@ namespace NeeView
         // 回転、拡縮をコンテンツの中心基準にする
         public bool IsControlCenterImage { get; set; }
 
-        // 回転スナップ
-        public bool IsAngleSnap { get; set; }
+        // 回転単位
+        public double AngleFrequency { get; set; }
 
         // 表示開始時の基準
         public bool IsViewStartPositionCenter { get; set; }
@@ -2726,8 +2726,11 @@ namespace NeeView
             [DataMember]
             public bool IsControlCenterImage { get; set; }
 
-            [DataMember]
-            public bool IsAngleSnap { get; set; }
+            [DataMember(EmitDefaultValue = false)]
+            public bool IsAngleSnap { get; set; } // no used
+
+            [DataMember(Order = 19)]
+            public double AngleFrequency { get; set; }
 
             [DataMember]
             public bool IsViewStartPositionCenter { get; set; }
@@ -2987,6 +2990,11 @@ namespace NeeView
                 {
                     IsHidePageSlider = IsHideMenu;
                 }
+
+                if (_Version < Config.GenerateProductVersionNumber(1, 19, 0))
+                {
+                    AngleFrequency = IsAngleSnap ? 45 : 0;
+                }
             }
         }
 
@@ -2998,7 +3006,7 @@ namespace NeeView
             memento._Version = App.Config.ProductVersionNumber;
             memento.IsLimitMove = this.IsLimitMove;
             memento.IsControlCenterImage = this.IsControlCenterImage;
-            memento.IsAngleSnap = this.IsAngleSnap;
+            memento.AngleFrequency = this.AngleFrequency;
             memento.IsViewStartPositionCenter = this.IsViewStartPositionCenter;
             memento.StretchMode = this.StretchMode;
             memento.Background = this.Background;
@@ -3064,7 +3072,7 @@ namespace NeeView
         {
             this.IsLimitMove = memento.IsLimitMove;
             this.IsControlCenterImage = memento.IsControlCenterImage;
-            this.IsAngleSnap = memento.IsAngleSnap;
+            this.AngleFrequency = memento.AngleFrequency;
             this.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
             this.StretchMode = memento.StretchMode;
             this.Background = memento.Background;

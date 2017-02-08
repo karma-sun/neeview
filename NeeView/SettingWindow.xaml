@@ -378,9 +378,12 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転、拡縮、反転の基準を画像の中心にする"
                                   ToolTip="OFFの時は、ウィンドウの中心をそのまま中心とします"
                                   IsChecked="{Binding Setting.ViewMemento.IsControlCenterImage}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転を45度単位にする"
-                                  ToolTip="OFFの時は、無段階での回転になります"
-                                  IsChecked="{Binding Setting.ViewMemento.IsAngleSnap}" />
+                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="回転の単位">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="回転スナップ"/>
+                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding AngleFrequency.Index}"
+                                    Minimum="0" Maximum="{Binding AngleFrequency.IndexMax}" TickFrequency="1" />
+                                <TextBlock Text="{Binding AngleFrequency.ValueString}"/>
+                            </StackPanel>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページを変更しても拡縮をキープする"
                                   ToolTip="OFFの時は、ページを切り替える度にリセットされます"
                                   IsChecked="{Binding Setting.ViewMemento.IsKeepScale}" />

@@ -375,7 +375,7 @@ namespace NeeView
         public DragControlCenter DragControlCenter { get; set; } = DragControlCenter.View;
 
         // 回転スナップ。0で無効
-        public double SnapAngle { get; set; } = 45;
+        public double AngleFrequency { get; set; } = 0;
 
         // 拡縮スナップ。0で無効;
         public double SnapScale { get; set; } = 0;
@@ -1130,9 +1130,9 @@ namespace NeeView
         // 回転実行
         private void DoRotate(double angle)
         {
-            if (SnapAngle > 0)
+            if (AngleFrequency > 0)
             {
-                angle = Math.Floor((angle + SnapAngle * 0.5) / SnapAngle) * SnapAngle;
+                angle = Math.Floor((angle + AngleFrequency * 0.5) / AngleFrequency) * AngleFrequency;
             }
 
             _actionType = TransformActionType.Angle;

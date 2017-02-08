@@ -808,7 +808,6 @@ namespace NeeView
                 element.Group = "ビュー操作";
                 element.Text = "スクロール↑";
                 element.Note = "画像を上方向にするロールさせます。縦スクロールできないときは横スクロールになります";
-                element.ShortCutKey = "WheelUp";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ViewScrollCommandParameter() { Scroll = 25 };
                 _elements[CommandType.ViewScrollUp] = element;
@@ -819,7 +818,6 @@ namespace NeeView
                 element.Group = "ビュー操作";
                 element.Text = "スクロール↓";
                 element.Note = "画像を下方向にするロールさせます。縦スクロールできないときは横スクロールになります";
-                element.ShortCutKey = "WheelDown";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScrollUp };
                 _elements[CommandType.ViewScrollDown] = element;
@@ -1006,6 +1004,7 @@ namespace NeeView
                 element.Group = "移動";
                 element.Text = "スクロール＋前のページに戻る";
                 element.Note = "ページ前方向に画像をスクロールさせます。スクロールできない場合は前ページに移動します";
+                element.ShortCutKey = "WheelUp";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ScrollPageCommandParameter() { IsNScroll = true, IsAnimation = true, Margin = 50 };
                 _elements[CommandType.PrevScrollPage] = element;
@@ -1016,6 +1015,7 @@ namespace NeeView
                 element.Group = "移動";
                 element.Text = "スクロール＋次のページへ進む";
                 element.Note = "ページ次方向に画像をスクロールさせます。スクロールできない場合は次ページに移動します";
+                element.ShortCutKey = "WheelDown";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevScrollPage };
                 _elements[CommandType.NextScrollPage] = element;

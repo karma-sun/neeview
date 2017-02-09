@@ -566,25 +566,27 @@
             <TabItem Header="履歴設定">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel  Style="{StaticResource BaseStackPanel}">
-                        <TextBlock Text="設定" Style="{StaticResource Header}"/>
+                        <TextBlock Text="復元する設定" Style="{StaticResource Header}"
+                                   ToolTip="履歴情報、ブックマーク情報から復元する設定項目です"/>
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="履歴からページ設定を復元する"
-                                  ToolTip="履歴情報からページ設定の復元を行います"
-                                  IsChecked="{Binding Setting.BookHubMemento.IsEnableHistory}" />
-                            <CheckBox Content="ページ番号のみ復元する"
-                                  IsChecked="{Binding Setting.BookHubMemento.IsRecoveryPageOnly}" >
-                                <CheckBox.Style>
-                                    <Style TargetType="CheckBox" BasedOn="{StaticResource ItemCheckBox}">
-                                        <Setter Property="IsEnabled" Value="False"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Setting.BookHubMemento.IsEnableHistory}" Value="True">
-                                                <Setter Property="IsEnabled" Value="True"/>
-                                            </DataTrigger>
-
-                                        </Style.Triggers>
-                                    </Style>
-                                </CheckBox.Style>
-                            </CheckBox>
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ位置"
+                                  IsChecked="{Binding Path=Setting.BookHubMemento.HistoryMementoFilter.Flags[(local:BookMementoBit)Page]}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="1ページ表示/2ページ表示"
+                                  IsChecked="{Binding Path=Setting.BookHubMemento.HistoryMementoFilter.Flags[(local:BookMementoBit)PageMode]}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="右開き/左開き"
+                                  IsChecked="{Binding Path=Setting.BookHubMemento.HistoryMementoFilter.Flags[(local:BookMementoBit)BookReadOrder]}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="横長ページを分割する"
+                                  IsChecked="{Binding Path=Setting.BookHubMemento.HistoryMementoFilter.Flags[(local:BookMementoBit)IsSupportedDividePage]}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="横長ページを2ページとみなす"
+                                  IsChecked="{Binding Path=Setting.BookHubMemento.HistoryMementoFilter.Flags[(local:BookMementoBit)IsSupportedWidePage]}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="最初のページを単独表示"
+                                  IsChecked="{Binding Path=Setting.BookHubMemento.HistoryMementoFilter.Flags[(local:BookMementoBit)IsSupportedSingleFirstPage]}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="最後のページを単独表示"
+                                  IsChecked="{Binding Path=Setting.BookHubMemento.HistoryMementoFilter.Flags[(local:BookMementoBit)IsSupportedSingleLastPage]}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="サブフォルダを読み込む"
+                                  IsChecked="{Binding Path=Setting.BookHubMemento.HistoryMementoFilter.Flags[(local:BookMementoBit)IsRecursiveFolder]}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページの並び順"
+                                  IsChecked="{Binding Path=Setting.BookHubMemento.HistoryMementoFilter.Flags[(local:BookMementoBit)SortMode]}" />
 
                         </StackPanel>
 

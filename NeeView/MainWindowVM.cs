@@ -500,7 +500,7 @@ namespace NeeView
             get { return _IsVisibleWindowTitle; }
             set { if (_IsVisibleWindowTitle != value) { _IsVisibleWindowTitle = value; RaisePropertyChanged(); } }
         }
-        
+
 
         // アドレスバーON/OFF
         #region Property: IsVisibleAddressBar
@@ -2989,27 +2989,27 @@ namespace NeeView
             {
                 if (_Version < Config.GenerateProductVersionNumber(1, 10, 0))
                 {
-                    if (IsHideTitleBar)
-                    {
-                        IsVisibleTitleBar = false;
-                        IsHideTitleBar = false;
-                    }
+                    IsVisibleTitleBar = !IsHideTitleBar;
                 }
+                IsHideTitleBar = false;
 
                 if (_Version < Config.GenerateProductVersionNumber(1, 16, 0))
                 {
                     SliderDirection = IsSliderDirectionReversed ? SliderDirection.RightToLeft : SliderDirection.LeftToRight;
                 }
+                IsSliderDirectionReversed = false;
 
                 if (_Version < Config.GenerateProductVersionNumber(1, 17, 0))
                 {
                     IsHidePageSlider = IsHideMenu;
                 }
+                IsHideMenu = false;
 
                 if (_Version < Config.GenerateProductVersionNumber(1, 19, 0))
                 {
                     AngleFrequency = IsAngleSnap ? 45 : 0;
                 }
+                IsAngleSnap = false;
             }
         }
 

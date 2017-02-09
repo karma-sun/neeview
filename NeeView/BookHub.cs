@@ -241,9 +241,6 @@ namespace NeeView
         #endregion
 
 
-        // 履歴から設定を復元する
-        public bool IsEnableHistory { get; set; } = true;
-
         // 非対応拡張子ファイルを読み込む
         private bool _isEnableNoSupportFile;
         public bool IsEnableNoSupportFile
@@ -362,11 +359,11 @@ namespace NeeView
         // 本の設定、標準
         public Book.Memento BookMementoDefault { get; set; } = new Book.Memento();
 
+        // 履歴から復元する設定のフィルタ
+        public BookMementoFilter HistoryMementoFilter { get; set; }
+
         // 新しい本を開くときに標準設定にする？
         public bool IsUseBookMementoDefault { get; set; }
-
-        // ページ番号のみ復元する？
-        public bool IsRecoveryPageOnly { get; set; }
 
         // 外部アプリ設定
         public ExternalApplication ExternalApllication { get; set; } = new ExternalApplication();
@@ -654,40 +651,45 @@ namespace NeeView
         //
         private Book.Memento GetBookMementoDefault() => IsUseBookMementoDefault ? BookMementoDefault : BookMemento;
 
+
         // 設定をブックマーク、履歴から取得する
-        private Book.Memento GetSetting(BookMementoUnit unit, string place)
+        private Book.Memento GetSetting(BookMementoUnit unit, string place, BookLoadOption option)
         {
+            // 既定の設定
+            var memento = GetBookMementoDefault().Clone();
+            memento.IsRecursiveFolder = false;
+            memento.Page = null;
+
             if (unit != null)
             {
+                Book.Memento memory = null;
+
                 // ブックマーク
                 if (unit.BookmarkNode != null)
                 {
-                    return unit.Memento.Clone();
+                    memory = unit.Memento.Clone();
                 }
                 // 履歴
-                else if (unit.HistoryNode != null && IsEnableHistory)
+                else if (unit.HistoryNode != null)
                 {
-                    if (IsRecoveryPageOnly)
+                    memory = unit.Memento.Clone();
+                }
+
+                if (memory != null)
+                {
+                    memento.Write(HistoryMementoFilter, memory);
+
+                    if ((option & BookLoadOption.KeepPage) == BookLoadOption.KeepPage)
                     {
-                        var memento = GetBookMementoDefault().Clone();
-                        memento.IsRecursiveFolder = unit.Memento.IsRecursiveFolder;
-                        memento.BookMark = unit.Memento.BookMark;
-                        return memento;
+                        memento.Page = memory.Page;
                     }
-                    else
-                    {
-                        return unit.Memento.Clone();
-                    }
+
+                    return memento;
                 }
             }
 
             // 履歴なし
-            {
-                var memento = GetBookMementoDefault().Clone();
-                memento.IsRecursiveFolder = false;
-                memento.BookMark = null;
-                return memento;
-            }
+            return memento;
         }
 
         // ロード中状態更新
@@ -738,10 +740,10 @@ namespace NeeView
 
                 // 本の設定
                 var unit = ModelContext.BookMementoCollection.Find(place);
-                var setting = GetSetting(unit, place);
+                var setting = GetSetting(unit, place, args.Option);
 
                 // Load本体
-                await LoadAsyncCore(place, startEntry ?? setting.BookMark, args.Option, setting, unit);
+                await LoadAsyncCore(place, startEntry ?? setting.Page, args.Option, setting, unit);
 
                 // ビュー初期化
                 App.Current.Dispatcher.Invoke(() => ModelContext.CommandTable[CommandType.ViewReset].Execute(this, null));
@@ -927,7 +929,7 @@ namespace NeeView
         {
             if (_isLoading || Address == null) return;
 
-            var options = Current != null ? (Current.LoadOptions & BookLoadOption.KeepHistoryOrder) : BookLoadOption.None;
+            var options = Current != null ? (Current.LoadOptions & BookLoadOption.KeepHistoryOrder) | BookLoadOption.KeepPage : BookLoadOption.None;
             RequestLoad(Address, null, options, true);
         }
 
@@ -1727,10 +1729,7 @@ namespace NeeView
 
             protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
             {
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-                }
+                PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
             }
             #endregion
 
@@ -1742,9 +1741,6 @@ namespace NeeView
 
             [DataMember(Order = 1)]
             public bool IsEnableExif { get; set; }
-
-            [DataMember]
-            public bool IsEnableHistory { get; set; }
 
             [DataMember]
             public bool IsEnableNoSupportFile { get; set; }
@@ -1788,9 +1784,6 @@ namespace NeeView
             [DataMember(Order = 6)]
             public bool IsUseBookMementoDefault { get; set; }
 
-            [DataMember(Order = 6)]
-            public bool IsRecoveryPageOnly { get; set; }
-
             [DataMember(Order = 9)]
             public bool IsSevenZipAccessLocked { get; set; }
 
@@ -1800,11 +1793,12 @@ namespace NeeView
             [DataMember(Order = 10)]
             public bool IsAutoRecursive { get; set; }
 
+            [DataMember(Order = 19)]
+            public BookMementoFilter HistoryMementoFilter { get; set; }
 
             //
             private void Constructor()
             {
-                IsEnableHistory = true;
                 IsEnableNoSupportFile = false;
                 IsSlideShowByLoop = true;
                 SlideShowInterval = 5.0;
@@ -1815,10 +1809,10 @@ namespace NeeView
                 AllowPagePreLoad = true;
                 BookMementoDefault = new Book.Memento();
                 IsUseBookMementoDefault = false;
-                IsRecoveryPageOnly = false;
                 IsSevenZipAccessLocked = true;
                 ClipboardUtility = new ClipboardUtility();
                 IsAutoRecursive = true;
+                HistoryMementoFilter = new BookMementoFilter(true);
             }
 
             public Memento()
@@ -1840,6 +1834,7 @@ namespace NeeView
                 {
                     PageEndAction = IsEnabledAutoNextFolder ? PageEndAction.NextFolder : PageEndAction.None;
                 }
+                IsEnabledAutoNextFolder = false;
             }
         }
 
@@ -1851,7 +1846,6 @@ namespace NeeView
             memento._Version = App.Config.ProductVersionNumber;
             memento.IsEnableAnimatedGif = IsEnableAnimatedGif;
             memento.IsEnableExif = IsEnableExif;
-            memento.IsEnableHistory = IsEnableHistory;
             memento.IsEnableNoSupportFile = IsEnableNoSupportFile;
             memento.PageEndAction = PageEndAction;
             memento.IsSlideShowByLoop = IsSlideShowByLoop;
@@ -1867,10 +1861,10 @@ namespace NeeView
             memento.BookMementoDefault = BookMementoDefault.Clone();
             memento.BookMementoDefault.ValidateForDefault(); // 念のため
             memento.IsUseBookMementoDefault = IsUseBookMementoDefault;
-            memento.IsRecoveryPageOnly = IsRecoveryPageOnly;
             memento.IsSevenZipAccessLocked = IsSevenZipAccessLocked;
             memento.ClipboardUtility = ClipboardUtility.Clone();
             memento.IsAutoRecursive = IsAutoRecursive;
+            memento.HistoryMementoFilter = HistoryMementoFilter;
 
             return memento;
         }
@@ -1880,7 +1874,6 @@ namespace NeeView
         {
             IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
             IsEnableExif = memento.IsEnableExif;
-            IsEnableHistory = memento.IsEnableHistory;
             IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
             PageEndAction = memento.PageEndAction;
             IsSlideShowByLoop = memento.IsSlideShowByLoop;
@@ -1894,10 +1887,10 @@ namespace NeeView
             IsConfirmRecursive = memento.IsConfirmRecursive;
             BookMementoDefault = memento.BookMementoDefault.Clone();
             IsUseBookMementoDefault = memento.IsUseBookMementoDefault;
-            IsRecoveryPageOnly = memento.IsRecoveryPageOnly;
             IsSevenZipAccessLocked = memento.IsSevenZipAccessLocked;
             ClipboardUtility = memento.ClipboardUtility.Clone();
             IsAutoRecursive = memento.IsAutoRecursive;
+            HistoryMementoFilter = memento.HistoryMementoFilter;
         }
 
         #endregion

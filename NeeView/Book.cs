@@ -32,6 +32,7 @@ namespace NeeView
         SelectHistoryMaybe = (1 << 7), // 可能ならば履歴リストで選択する
         SkipSamePlace = (1 << 8), // 同じフォルダならば読み込まない
         AutoRecursive = (1 << 9), // 自動再帰
+        KeepPage = (1 << 10), // ページ位置を変更しない
     };
 
     /// <summary>
@@ -1419,43 +1420,60 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
+            // フォルダの場所
             [DataMember(EmitDefaultValue = false)]
             public string Place { get; set; }
 
+            // 名前
             public string Name => Place.EndsWith(@":\") ? Place : System.IO.Path.GetFileName(Place);
 
+            // 現在ページ(旧)
             [DataMember(EmitDefaultValue = false)]
-            public string BookMark { get; set; }
+            public string BookMark { get; set; } // no used
 
+            // 現在ページ
+            [DataMember(EmitDefaultValue = false)]
+            public string Page { get; set; }
+
+            // 1ページ表示 or 2ページ表示
             [DataMember(Name = "PageModeV2")]
             public PageMode PageMode { get; set; }
 
+            // 右開き or 左開き
             [DataMember]
             public PageReadOrder BookReadOrder { get; set; }
 
+            // 横長ページ分割 (1ページモード)
             [DataMember]
             public bool IsSupportedDividePage { get; set; }
 
+            // 最初のページを単独表示 
             [DataMember]
             public bool IsSupportedSingleFirstPage { get; set; }
 
+            // 最後のページを単独表示
             [DataMember]
             public bool IsSupportedSingleLastPage { get; set; }
 
+            // 横長ページを2ページ分とみなす(2ページモード)
             [DataMember]
             public bool IsSupportedWidePage { get; set; }
 
-
+            // フォルダの再帰
             [DataMember]
             public bool IsRecursiveFolder { get; set; }
 
+            // ページ並び順
             [DataMember]
             public PageSortMode SortMode { get; set; }
 
+            // 最終アクセス日
             [DataMember(Order = 12, EmitDefaultValue = false)]
             public DateTime LastAccessTime { get; set; }
 
-            //
+            /// <summary>
+            /// construcgtor
+            /// </summary>
             private void Constructor()
             {
                 PageMode = PageMode.SinglePage;
@@ -1475,10 +1493,72 @@ namespace NeeView
                 Constructor();
             }
 
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
+            {
+                Page = Page ?? BookMark;
+                BookMark = null;
+            }
+
             //
             public Memento Clone()
             {
                 return (Memento)this.MemberwiseClone();
+            }
+
+
+            /// <summary>
+            /// 項目のフィルタリング。フラグの立っている項目を上書き
+            /// </summary>
+            /// <param name="filter">フィルタービット列</param>
+            /// <param name="overwrite">上書き既定値</param>
+            public void Write(BookMementoFilter filter, Memento overwrite)
+            {
+                // 現在ページ
+                if (filter.Flags[BookMementoBit.Page])
+                {
+                    this.Page = overwrite.Page;
+                }
+                // 1ページ表示 or 2ページ表示
+                if (filter.Flags[BookMementoBit.PageMode])
+                {
+                    this.PageMode = overwrite.PageMode;
+                }
+                // 右開き or 左開き
+                if (filter.Flags[BookMementoBit.BookReadOrder])
+                {
+                    this.BookReadOrder = overwrite.BookReadOrder;
+                }
+                // 横長ページ分割 (1ページモード)
+                if (filter.Flags[BookMementoBit.IsSupportedDividePage])
+                {
+                    this.IsSupportedDividePage = overwrite.IsSupportedDividePage;
+                }
+                // 最初のページを単独表示 
+                if (filter.Flags[BookMementoBit.IsSupportedSingleFirstPage])
+                {
+                    this.IsSupportedSingleFirstPage = overwrite.IsSupportedSingleFirstPage;
+                }
+                // 最後のページを単独表示
+                if (filter.Flags[BookMementoBit.IsSupportedSingleLastPage])
+                {
+                    this.IsSupportedSingleLastPage = overwrite.IsSupportedSingleLastPage;
+                }
+                // 横長ページを2ページ分とみなす(2ページモード)
+                if (filter.Flags[BookMementoBit.IsSupportedWidePage])
+                {
+                    this.IsSupportedWidePage = overwrite.IsSupportedWidePage;
+                }
+                // フォルダの再帰
+                if (filter.Flags[BookMementoBit.IsRecursiveFolder])
+                {
+                    this.IsRecursiveFolder = overwrite.IsRecursiveFolder;
+                }
+                // ページ並び順
+                if (filter.Flags[BookMementoBit.SortMode])
+                {
+                    this.SortMode = overwrite.SortMode;
+                }
             }
 
 
@@ -1487,7 +1567,7 @@ namespace NeeView
             public void ValidateForDefault()
             {
                 Place = null;
-                BookMark = null;
+                Page = null;
             }
         }
 
@@ -1519,7 +1599,7 @@ namespace NeeView
             var memento = new Memento();
 
             memento.Place = Place;
-            memento.BookMark = SortMode != PageSortMode.Random ? GetViewPage()?.FullPath : null;
+            memento.Page = SortMode != PageSortMode.Random ? GetViewPage()?.FullPath : null;
 
             memento.PageMode = PageMode;
             memento.BookReadOrder = BookReadOrder;
@@ -1549,4 +1629,71 @@ namespace NeeView
     }
 
     #endregion
+
+
+    /// <summary>
+    /// Book設定項目番号
+    /// </summary>
+    public enum BookMementoBit
+    {
+        // 現在ページ
+        Page,
+
+        // 1ページ表示 or 2ページ表示
+        PageMode,
+
+        // 右開き or 左開き
+        BookReadOrder,
+
+        // 横長ページ分割 (1ページモード)
+        IsSupportedDividePage,
+
+        // 最初のページを単独表示 
+        IsSupportedSingleFirstPage,
+
+        // 最後のページを単独表示
+        IsSupportedSingleLastPage,
+
+        // 横長ページを2ページ分とみなす(2ページモード)
+        IsSupportedWidePage,
+
+        // フォルダの再帰
+        IsRecursiveFolder,
+
+        // ページ並び順
+        SortMode,
+    };
+
+
+
+    /// <summary>
+    /// Book設定フィルタ
+    /// </summary>
+    [DataContract]
+    public class BookMementoFilter
+    {
+        [DataMember]
+        public Dictionary<BookMementoBit, bool> Flags { get; set; }
+
+        //
+        public BookMementoFilter(bool def = false)
+        {
+            Flags = Enum.GetValues(typeof(BookMementoBit)).OfType<BookMementoBit>().ToDictionary(e => e, e => def);
+        }
+
+        /// <summary>
+        /// デシリアライズ終端処理
+        /// </summary>
+        /// <param name="c"></param>
+        [OnDeserialized]
+        private void Deserialized(StreamingContext c)
+        {
+            // 項目数の保証
+            foreach(BookMementoBit key in Enum.GetValues(typeof(BookMementoBit)))
+            {
+                if (!Flags.ContainsKey(key)) Flags.Add(key, true);
+            }
+        }
+    }
+
 }

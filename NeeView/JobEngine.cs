@@ -321,7 +321,8 @@ namespace NeeView
         public void Run()
         {
             Message = $"Run";
-
+#if true
+            // Task版
             var task = Task.Run(() =>
             {
                 try
@@ -339,14 +340,14 @@ namespace NeeView
                 }
             },
             _cancellationTokenSource.Token);
-
-            /*
-             // sample: Thread版
-             Thread t1;
-             t1 = new Thread(new ThreadStart(WorkerExecute));
-             t1.Priority = ThreadPriority.BelowNormal;
-             t1.Start();
-             */
+#else
+            // sample: Thread版
+            Thread t1;
+            t1 = new Thread(new ThreadStart(WorkerExecute));
+            t1.Priority = ThreadPriority.Normal;
+            t1.IsBackground = true;
+            t1.Start();
+#endif
         }
 
 

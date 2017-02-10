@@ -1651,6 +1651,19 @@ namespace NeeView
                 _elements[CommandType.HelpMainMenu] = element;
             }
 
+            // OpenContextMenu
+            {
+                var element = new CommandElement();
+                element.Group = "その他";
+                element.Text = "コンテキストメニューを開く";
+                element.MenuText = "メニュー";
+                element.Note = "コンテキストメニューを開きます";
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => _VM.OpenContextMenu();
+                element.CanExecute = () => false; // #開発中
+                _elements[CommandType.OpenContextMenu] = element;
+            }
+
             // 並び替え
             //_Elements = _Elements.OrderBy(e => e.Key).ToDictionary(e => e.Key, e => e.Value);
 

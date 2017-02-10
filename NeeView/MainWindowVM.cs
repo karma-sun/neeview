@@ -1327,12 +1327,14 @@ namespace NeeView
 
         /// <summary>
         /// コンテキストメニューを開く
-        /// # 正常動作しません
+        /// ＃正常に機能しない
         /// </summary>
         public void OpenContextMenu()
         {
             if (ContextMenu != null)
             {
+                ContextMenu.DataContext = this;
+                ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
                 ContextMenu.IsOpen = true;
             }
         }

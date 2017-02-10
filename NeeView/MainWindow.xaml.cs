@@ -545,6 +545,20 @@ namespace NeeView
                 (e) => MovePageWithCursorMessage();
 
 
+#if false
+            // #正常に機能しない
+            ModelContext.CommandTable[CommandType.OpenContextMenu].Execute =
+                (s, e) =>
+                {
+                    if (this.MainViewPanel.ContextMenu != null)
+                    {
+                        this.MainViewPanel.ContextMenu.DataContext = _VM;
+                        this.MainViewPanel.ContextMenu.Placement = PlacementMode.MousePoint;
+                        this.MainViewPanel.ContextMenu.IsOpen = true;
+                    }
+                };
+#endif
+
             // コマンドバインド作成
             foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
             {
@@ -1233,7 +1247,7 @@ namespace NeeView
 
 
         // TODO: クラス化
-        #region thumbnail list
+#region thumbnail list
 
         // サムネイルリストのパネルコントロール
         private VirtualizingStackPanel _thumbnailListPanel;
@@ -1534,7 +1548,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
 
         private void UpdateMenuAreaVisibility()
@@ -1577,7 +1591,7 @@ namespace NeeView
         }
 
 
-        #region Panel Visibility
+#region Panel Visibility
 
         //
         private bool _isVisibleLeftPanel;
@@ -1864,7 +1878,7 @@ namespace NeeView
         }
 
 
-        #endregion
+#endregion
 
         //
         private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1919,7 +1933,7 @@ namespace NeeView
 
 
 
-        #region ContextMenu Counter
+#region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -1957,7 +1971,7 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-        #endregion
+#endregion
 
 
         private void LeftPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -1987,7 +2001,7 @@ namespace NeeView
     }
 
 
-    #region Convertes
+#region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -2269,5 +2283,5 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 }

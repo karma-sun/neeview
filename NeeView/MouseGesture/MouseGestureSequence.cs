@@ -19,7 +19,8 @@ namespace NeeView
         Up,
         Right,
         Down,
-        Left
+        Left,
+        Click,
     }
 
     /// <summary>
@@ -62,6 +63,7 @@ namespace NeeView
             [MouseGestureDirection.Right] = "→",
             [MouseGestureDirection.Down] = "↓",
             [MouseGestureDirection.Left] = "←",
+            [MouseGestureDirection.Click] = "Click"
         };
 
 
@@ -71,10 +73,11 @@ namespace NeeView
             ['R'] = MouseGestureDirection.Right,
             ['D'] = MouseGestureDirection.Down,
             ['L'] = MouseGestureDirection.Left,
+            ['C'] = MouseGestureDirection.Click,
         };
 
 
-        // 記録用文字列に変換(U,D,L,Rの組み合わせ)
+        // 記録用文字列に変換(U,D,L,R,Cの組み合わせ)
         public override string ToString()
         {
             string gestureText = "";

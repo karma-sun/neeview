@@ -30,6 +30,7 @@ namespace NeeView
         CopyFile,
         CopyImage,
         Paste,
+        OpenContextMenu,
 
         ClearHistory,
 
@@ -173,6 +174,7 @@ namespace NeeView
             CommandType.ToggleIsReverseSort,
             CommandType.ToggleHideTitleBar,
             CommandType.ToggleEffectGrayscale,
+            CommandType.OpenContextMenu // ##
         };
 
         // TODO: 判定法整備

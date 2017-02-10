@@ -91,8 +91,9 @@ namespace NeeView
             _gesture = new MouseGestureSequence();
             _gesture.CollectionChanged += (s, e) => MouseGestureUpdateEventHandler.Invoke(this, _gesture);
 
-            _sender.PreviewMouseRightButtonDown += OnMouseButtonDown;
-            _sender.PreviewMouseRightButtonUp += OnMouseButtonUp;
+            _sender.PreviewMouseRightButtonDown += OnMouseRightButtonDown;
+            _sender.PreviewMouseRightButtonUp += OnMoouseRightButtonUp;
+            _sender.PreviewMouseLeftButtonDown += OnMouseLeftButtonDown;
             _sender.PreviewMouseWheel += OnMouseWheel;
             _sender.PreviewMouseMove += OnMouseMove;
         }
@@ -106,7 +107,7 @@ namespace NeeView
         }
 
         // ボタンが押された時の処理
-        private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
+        private void OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             _startPoint = e.GetPosition(_sender);
 
@@ -117,6 +118,28 @@ namespace NeeView
             Reset();
 
             _sender.CaptureMouse();
+        }
+
+        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!_isButtonDown)
+            {
+                return;
+            }
+
+            // 後処理
+            _isButtonDown = false;
+
+            _sender.ReleaseMouseCapture();
+
+            // なんらかの理由でキャンセルされた？
+            if (!_isEnableClickEvent) return;
+
+            // ジェスチャーコマンド実行
+            _gesture.Add(MouseGestureDirection.Click);
+            var args = new MouseGestureEventArgs(_gesture);
+            MouseGestureExecuteEventHandler?.Invoke(this, args);
+            e.Handled = args.Handled;
         }
 
         // ジェスチャー状態が変化したことを通知
@@ -132,46 +155,56 @@ namespace NeeView
         public ContextMenuSetting ContextMenuSetting { get; set; }
 
         // ボタンが離された時の処理
-        private void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
+        private void OnMoouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (!_isButtonDown)
             {
-                e.Handled = true;
+                e.Handled = true; // なんかおかしい？
                 return;
             }
 
+            // 後処理
             _isButtonDown = false;
 
             _sender.ReleaseMouseCapture();
 
-            e.Handled = true;
+            // なんらかの理由でキャンセルされた？
+            if (!_isEnableClickEvent) return;
 
-            if (_isEnableClickEvent)
+            // ジェスチャーコマンド実行
+            if (_gesture.Count > 0)
             {
-                if (_gesture.Count > 0)
+                var args = new MouseGestureEventArgs(_gesture);
+                MouseGestureExecuteEventHandler?.Invoke(this, args);
+                e.Handled = args.Handled;
+            }
+
+            // さもなくば場合に応じて右クリック処理
+            else if (!_isDragging)
+            {
+#if false
+                MouseClickEventHandler(sender, e);
+                //e.Handled = true;
+#else
+                if (ContextMenuSetting != null && ContextMenuSetting.IsEnabled && !ContextMenuSetting.IsOpenByCtrl)
                 {
-                    var args = new MouseGestureEventArgs(_gesture);
-                    MouseGestureExecuteEventHandler?.Invoke(this, args);
-                    e.Handled = args.Handled;
+                    e.Handled = false;
                 }
-                else if (!_isDragging)
+                else if (ContextMenuSetting != null && ContextMenuSetting.IsEnabled && ContextMenuSetting.IsOpenByCtrl && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
                 {
-                    if (ContextMenuSetting != null && ContextMenuSetting.IsEnabled && !ContextMenuSetting.IsOpenByCtrl)
-                    {
-                        e.Handled = false;
-                    }
-                    else if (ContextMenuSetting != null && ContextMenuSetting.IsEnabled && ContextMenuSetting.IsOpenByCtrl && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-                    {
-                        e.Handled = false;
-                    }
-                    else
-                    {
-                        MouseClickEventHandler(sender, e);
-                        e.Handled = true;
-                    }
+                    e.Handled = false;
                 }
+                else
+                {
+                    MouseClickEventHandler(sender, e);
+                    e.Handled = true;
+                }
+#endif
+
             }
         }
+
+
 
         // マウスカーソルが移動した時の処理
         private void OnMouseMove(object sender, MouseEventArgs e)
@@ -220,7 +253,7 @@ namespace NeeView
             }
             else
             {
-                foreach (MouseGestureDirection direction in Enum.GetValues(typeof(MouseGestureDirection)))
+                foreach (MouseGestureDirection direction in s_gestureDirectionVector.Keys) // Enum.GetValues(typeof(MouseGestureDirection)))
                 {
                     var v0 = s_gestureDirectionVector[direction];
                     var angle = Vector.AngleBetween(s_gestureDirectionVector[direction], v1);

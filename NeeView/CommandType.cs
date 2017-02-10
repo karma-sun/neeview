@@ -123,6 +123,8 @@ namespace NeeView
         SetSortModeTimeStampDescending,
         SetSortModeRandom,
 
+        SetDefaultPageSetting,
+
         Bookmark, // 欠番
         ToggleBookmark,
         PrevBookmark,

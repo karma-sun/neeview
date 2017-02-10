@@ -25,15 +25,15 @@ namespace NeeView
             return (PageReadOrder)(((int)mode + 1) % Enum.GetNames(typeof(PageReadOrder)).Length);
         }
 
+        public static Dictionary<PageReadOrder, string> PageReadOrderList { get; } = new Dictionary<PageReadOrder, string>
+        {
+            [PageReadOrder.RightToLeft] = "右開き",
+            [PageReadOrder.LeftToRight] = "左開き",
+        };
+        
         public static string ToDispString(this PageReadOrder mode)
         {
-            switch (mode)
-            {
-                case PageReadOrder.RightToLeft: return "右開き";
-                case PageReadOrder.LeftToRight: return "左開き";
-                default:
-                    throw new NotSupportedException();
-            }
+            return PageReadOrderList[mode];
         }
     }
 }

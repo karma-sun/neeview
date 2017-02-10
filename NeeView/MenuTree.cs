@@ -533,6 +533,8 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeTimeStamp },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeTimeStampDescending },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeRandom },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetDefaultPageSetting },
                     }},
                     new MenuTree(MenuElementType.Group) { Name="ブックマーク(_B)", Children = new ObservableCollection<MenuTree>()
                     {

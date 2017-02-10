@@ -79,7 +79,7 @@
     </Window.Resources>
     <Grid>
         <TabControl x:Name="tabControl" Margin="10,10,10,43">
-            <TabItem Header="全般設定">
+            <TabItem Header="全般" >
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Style="{StaticResource BaseStackPanel}">
 
@@ -158,15 +158,8 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="「開く」を現在開いているフォルダの場所から始める"
                               ToolTip="[ファイル]>[開く]で開くフォルダです&#xa;ドラッグ＆ドロップや履歴から開いた場所も基準になります"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがない場合、サブフォルダも読み込むか問い合わせる"
-                              ToolTip="フォルダーを開いた時に表示可能なページがなく、かつサブフォルダが存在する場合に&#xa;サブフォルダも読み込むかを問い合わせるダイアログを表示します"
-                              IsChecked="{Binding Setting.BookHubMemento.IsConfirmRecursive}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがなくサブフォルダが１つだけ存在する場合にサブフォルダを読み込む"
-                              ToolTip="ページ設定でサブフォルダを読み込む設定になっていなくても機能します"
-                              IsChecked="{Binding Setting.BookHubMemento.IsAutoRecursive}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="新しいフォルダーを開くときにページ設定を標準に戻す"
-                              ToolTip="新しいフォルダーを開いた時に[ページ]の設定を初期値に戻します&#x0a;「サブフォルダも読み込む」はこの設定にかかわらずOFFになります"
-                              IsChecked="{Binding Setting.BookHubMemento.IsUseBookMementoDefault}" />
+
+
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="7z.dllで展開するファイルを開いたままにする"
                               ToolTip="RAR等を展開する7z.dllを使用する際にファイルを開いたままにします。&#xa;閲覧中の移動や削除はできなくなりますが、読み込み速度の改善が期待できます"
                               IsChecked="{Binding Setting.BookHubMemento.IsSevenZipAccessLocked}" />
@@ -563,10 +556,58 @@
                 </ScrollViewer>
             </TabItem>
 
+            <TabItem Header="ページ設定">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel  Style="{StaticResource BaseStackPanel}">
+                        <TextBlock Text="設定" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="新しいフォルダーを開くときに既定のページ設定に戻す"
+                              ToolTip="新しいフォルダーを開いた時にページの設定を既定値に戻します&#x0a;「サブフォルダも読み込む」はこの設定にかかわらずOFFになります"
+                              IsChecked="{Binding Setting.BookHubMemento.IsUseBookMementoDefault}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがない場合、サブフォルダも読み込むか問い合わせる"
+                              ToolTip="フォルダーを開いた時に表示可能なページがなく、かつサブフォルダが存在する場合に&#xa;サブフォルダも読み込むかを問い合わせるダイアログを表示します"
+                              IsChecked="{Binding Setting.BookHubMemento.IsConfirmRecursive}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがなくサブフォルダが１つだけ存在する場合にサブフォルダを読み込む"
+                              ToolTip="ページ設定でサブフォルダを読み込む設定になっていなくても機能します"
+                              IsChecked="{Binding Setting.BookHubMemento.IsAutoRecursive}" />
+                        </StackPanel>
+                        <TextBlock Text="既定のページ設定" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="ページ表示"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PageModeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.BookHubMemento.BookMementoDefault.PageMode}" />
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="開く方向"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PageReadOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.BookHubMemento.BookMementoDefault.BookReadOrder}" />
+                            </StackPanel>
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="横長ページを分割する"
+                                  IsChecked="{Binding Path=Setting.BookHubMemento.BookMementoDefault.IsSupportedDividePage}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="横長ページを2ページとみなす"
+                                  IsChecked="{Binding Path=Setting.BookHubMemento.BookMementoDefault.IsSupportedWidePage}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="最初のページを単独表示"
+                                  IsChecked="{Binding Path=Setting.BookHubMemento.BookMementoDefault.IsSupportedSingleFirstPage}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="最後のページを単独表示"
+                                  IsChecked="{Binding Path=Setting.BookHubMemento.BookMementoDefault.IsSupportedSingleLastPage}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="サブフォルダを読み込む (設定不可)" IsEnabled="False"
+                                  ToolTip="サブフォルダ読込は既定で有効にできません"
+                                  IsChecked="{Binding Path=Setting.BookHubMemento.BookMementoDefault.IsRecursiveFolder}" />
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="ページの並び順"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PageSortModeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.BookHubMemento.BookMementoDefault.SortMode}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
             <TabItem Header="履歴設定">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel  Style="{StaticResource BaseStackPanel}">
-                        <TextBlock Text="復元する設定" Style="{StaticResource Header}"
+                        <TextBlock Text="履歴、ブックマークから復元する項目" Style="{StaticResource Header}"
                                    ToolTip="履歴情報、ブックマーク情報から復元する設定項目です"/>
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ位置"
@@ -653,7 +694,7 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem x:Name="SusieSettingTab" Header="Susie設定" Selector.Selected="SusieSettingTab_Selected">
+            <TabItem x:Name="SusieSettingTab" Header="Susie" Selector.Selected="SusieSettingTab_Selected">
                 <TabItem.Resources>
 
                     <CollectionViewSource x:Key="PluginSource" Source="{Binding SusiePluginList}">
@@ -729,7 +770,7 @@
                 </DockPanel>
             </TabItem>
 
-            <TabItem Header="コマンド設定" >
+            <TabItem Header="コマンド" >
                 <TabItem.Resources>
                     <CollectionViewSource x:Key="CommandSource" Source="{Binding CommandCollection}">
                         <CollectionViewSource.GroupDescriptions>

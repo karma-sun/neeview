@@ -1282,6 +1282,12 @@ namespace NeeView
             RefleshBookSetting();
         }
 
+        // 既定設定を適用
+        public void SetDefaultPageSetting()
+        {
+            BookMemento = BookMementoDefault.Clone();
+            RefleshBookSetting(); 
+        }
 
         // 外部アプリで開く
         public void OpenApplication()

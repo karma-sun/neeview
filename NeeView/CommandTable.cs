@@ -1381,6 +1381,17 @@ namespace NeeView
                 _elements[CommandType.SetSortModeRandom] = element;
             }
 
+            // SetDefaultPageSetting
+            {
+                var element = new CommandElement();
+                element.Group = "ページ設定";
+                element.Text = "ページ設定の初期化";
+                element.Note = "既定のページ設定に戻します";
+                element.Execute = (s, e) => _book.SetDefaultPageSetting();
+                element.IsShowMessage = true;
+                _elements[CommandType.SetDefaultPageSetting] = element;
+            }
+
 
             // Bookmark
             // 欠番

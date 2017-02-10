@@ -281,6 +281,16 @@ namespace NeeView
         };
 
         //
+        public static Dictionary<PageMode, string> PageModeList => PageModeExtension.PageModeList;
+
+        //
+        public static Dictionary<PageReadOrder, string> PageReadOrderList => PageReadOrderExtension.PageReadOrderList;
+
+        //
+        public static Dictionary<PageSortMode, string> PageSortModeList => PageSortModeExtension.PageSortModeList;
+
+
+        //
         public DragActionTable.KeyTable DragKeyTable { get; set; }
 
         // ビュー回転のスナップ値

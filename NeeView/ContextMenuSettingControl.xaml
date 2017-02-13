@@ -4,18 +4,17 @@
     This software is released under the MIT License.
     http://opensource.org/licenses/mit-license.php
 -->
-    
-<Window x:Class="NeeView.ContextMenuSettingWindow"
+
+<UserControl x:Class="NeeView.ContextMenuSettingControl"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Style="{StaticResource DefaultWindowStyle}"
-        Title="コンテキストメニュー編集" Height="400" Width="400">
+       >
 
-    <Window.Resources>
+    <UserControl.Resources>
 
         <!-- from http://www.axion.sakura.ne.jp/blog/index.php?UID=1361527434 -->
         <Style TargetType="TreeViewItem">
@@ -213,10 +212,10 @@
                 <TextBlock Text="{Binding Path=Label}" Style="{StaticResource TreeViewItemStyle}" ToolTip="{Binding DefaultLongLabel}"/>
             </Grid>
         </HierarchicalDataTemplate>
-    </Window.Resources>
+    </UserControl.Resources>
 
-    <Grid>
-        <Border BorderBrush="Gray" BorderThickness="0" Margin="10,10,10,50">
+    <Grid x:Name="Root">
+        <Border BorderBrush="Gray" BorderThickness="0" Margin="0">
             <Grid>
 
                 <DockPanel Margin="5">
@@ -230,31 +229,28 @@
 
                     <DockPanel DockPanel.Dock="Top">
                         <StackPanel DockPanel.Dock="Right">
-                            <Button x:Name="AddButton" Content="追加" Command="{x:Static local:ContextMenuSettingWindow.AddCommand}"/>
+                            <Button x:Name="AddButton" Content="追加" Command="{x:Static local:ContextMenuSettingControl.AddCommand}"/>
                         </StackPanel>
                         <ComboBox x:Name="SourceComboBox" VerticalAlignment="Center" ItemsSource="{Binding SourceElementList}" DisplayMemberPath="DefaultLongLabel" />
                     </DockPanel>
                     <DockPanel Margin="0,5,0,0">
                         <DockPanel DockPanel.Dock="Right" LastChildFill="False">
-                            <Button DockPanel.Dock="Top" x:Name="RemoveButton" Content="削除" Command="{x:Static local:ContextMenuSettingWindow.RemoveCommand}"/>
-                            <Button DockPanel.Dock="Top" x:Name="MoveUpButton" Content="上へ" Command="{x:Static local:ContextMenuSettingWindow.MoveUpCommand}"/>
-                            <Button DockPanel.Dock="Top" x:Name="MoveDownButton" Content="下へ" Command="{x:Static local:ContextMenuSettingWindow.MoveDownCommand}"/>
-                            <Button DockPanel.Dock="Top" x:Name="RenameButton" Content="名前変更" Command="{x:Static local:ContextMenuSettingWindow.RenameCommand}"/>
+                            <Button DockPanel.Dock="Top" x:Name="RemoveButton" Content="削除" Command="{x:Static local:ContextMenuSettingControl.RemoveCommand}"/>
+                            <Button DockPanel.Dock="Top" x:Name="MoveUpButton" Content="上へ" Command="{x:Static local:ContextMenuSettingControl.MoveUpCommand}"/>
+                            <Button DockPanel.Dock="Top" x:Name="MoveDownButton" Content="下へ" Command="{x:Static local:ContextMenuSettingControl.MoveDownCommand}"/>
+                            <Button DockPanel.Dock="Top" x:Name="RenameButton" Content="名前変更" Command="{x:Static local:ContextMenuSettingControl.RenameCommand}"/>
 
                             <Button DockPanel.Dock="Bottom" x:Name="ResetButton" Content="初期化" Click="ResetButton_Click"/>
                         </DockPanel>
-                        <TreeView x:Name="ContextMenuTreeView" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                            ItemsSource="{Binding Root.Children}" ItemTemplate="{StaticResource treeViewTemplate}" Padding="5" >
-
-                        </TreeView>
+                            <TreeView x:Name="ContextMenuTreeView"
+                                      HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                      ItemsSource="{Binding Root.Children}" ItemTemplate="{StaticResource treeViewTemplate}" Padding="5" >
+                            </TreeView>
                     </DockPanel>
                 </DockPanel>
 
             </Grid>
         </Border>
-
-        <Button x:Name="ButtonOk" Content="OK" HorizontalAlignment="Right" Margin="0,0,96,10" VerticalAlignment="Bottom" Width="75" Height="28" Click="ButtonOk_Click"/>
-        <Button x:Name="ButtonCancel" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Height="28" Click="ButtonCancel_Click"/>
 
         <Popup x:Name="RenamePopup" MinWidth="100">
             <Grid Background="White">
@@ -262,4 +258,4 @@
             </Grid>
         </Popup>
     </Grid>
-</Window>
+</UserControl>

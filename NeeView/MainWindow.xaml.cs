@@ -65,9 +65,11 @@ namespace NeeView
     {
         private MainWindowVM _VM;
 
+        private MouseLoupe _mouseLoupe;
         private MouseDragController _mouseDrag;
         private MouseGestureManager _mouseGesture;
         private MouseLongDown _mouseLongDown;
+
 
         private ContentDropManager _contentDrop = new ContentDropManager();
 
@@ -100,6 +102,7 @@ namespace NeeView
 
             InitializeVisualTree();
 
+
             // mouse long down
             _mouseLongDown = new MouseLongDown(this.MainView);
             _mouseLongDown.StatusChanged +=
@@ -107,17 +110,17 @@ namespace NeeView
                 {
                     if (_VM.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
                     {
-                        _mouseDrag.IsLoupe = (e == MouseLongDownStatus.On);
+                        if (this.MainViewPanel.ContextMenu.IsOpen || _mouseLoupe.IsEnabled && e.Status == MouseLongDownStatus.On)
+                        {
+                            e.Cancel = true;
+                        }
+                        else
+                        {
+                            _mouseLoupe.IsEnabled = e.Status == MouseLongDownStatus.On;
+                        }
                     }
                 };
-            _mouseLongDown.MouseWheel +=
-                (s, e) =>
-                {
-                    if (_VM.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
-                    {
-                        _mouseDrag.LoupeZoom(e);
-                    }
-                };
+
 
             _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.LongButtonDownTick),
                 (s, e) =>
@@ -126,29 +129,54 @@ namespace NeeView
                 });
 
 
-            // mouse drag
-            _mouseDrag = new MouseDragController(this, this.MainView, this.MainContent, this.MainContentShadow);
-            _mouseDrag.TransformChanged +=
+            // mouse loupe
+            _mouseLoupe = new MouseLoupe(this.MainView);
+            _mouseLoupe.TransformChanged +=
                 (s, e) =>
                 {
-                    _VM.SetViewTransform(_mouseDrag.Scale, _mouseDrag.FixedLoupeScale, _mouseDrag.Angle, _mouseDrag.IsFlipHorizontal, _mouseDrag.IsFlipVertical, e.ActionType);
+                    _VM.SetViewTransform(_mouseDrag.Scale, _mouseLoupe.FixedLoupeScale, _mouseDrag.Angle, _mouseDrag.IsFlipHorizontal, _mouseDrag.IsFlipVertical, e.ActionType);
                     if (e.ChangeType == TransformChangeType.Scale)
                     {
                         _VM.UpdateWindowTitle(UpdateWindowTitleMask.View);
                     }
                 };
-            /*
-            _mouseDrag.TransformEnd +=
+
+            this.LoupeInfo.DataContext = _mouseLoupe;
+
+            // mouse drag
+            _mouseDrag = new MouseDragController(this, this.MainView, this.MainContent, this.MainContentShadow);
+
+            _mouseDrag.TransformChanged +=
                 (s, e) =>
                 {
-                    _VM.UpdateContentSize(false);
+                    _VM.SetViewTransform(_mouseDrag.Scale, _mouseLoupe.FixedLoupeScale, _mouseDrag.Angle, _mouseDrag.IsFlipHorizontal, _mouseDrag.IsFlipVertical, e.ActionType);
+                    if (e.ChangeType == TransformChangeType.Scale)
+                    {
+                        _VM.UpdateWindowTitle(UpdateWindowTitleMask.View);
+                    }
                 };
-            */
             ModelContext.DragActionTable.SetTarget(_mouseDrag);
 
             // mouse gesture
             _mouseGesture = new MouseGestureManager(this.MainView);
             _mouseGesture.Controller.MouseGestureUpdateEventHandler += OnMouseGestureUpdate;
+
+            // ルーペモード変化時にそれまでの入力キャンセル
+            _mouseLoupe.IsEnabledChanged += (s, e) => { _mouseDrag.ResetInput(); _mouseGesture.ResetInput(); };
+
+
+            // render transform
+            var transformView = new TransformGroup();
+            transformView.Children.Add(_mouseDrag.TransformView);
+            transformView.Children.Add(_mouseLoupe.TransformView);
+            this.MainContent.RenderTransform = transformView;
+            this.MainContent.RenderTransformOrigin = new Point(0.5, 0.5);
+
+            var transformCalc = new TransformGroup();
+            transformCalc.Children.Add(_mouseDrag.TransformCalc);
+            transformCalc.Children.Add(_mouseLoupe.TransformCalc);
+            this.MainContentShadow.RenderTransform = transformCalc;
+            this.MainContentShadow.RenderTransformOrigin = new Point(0.5, 0.5);
 
 
 
@@ -249,6 +277,9 @@ namespace NeeView
             _VM.ViewChanged +=
                 (s, e) =>
                 {
+                    // ページ変更でルーペ解除
+                    _mouseLoupe.IsEnabled = false;
+
                     UpdateMouseDragSetting(e.PageDirection, e.ViewOrigin);
 
                     bool isResetScale = e.ResetViewTransform || !_VM.IsKeepScale;
@@ -396,7 +427,7 @@ namespace NeeView
         {
             if (isVisible)
             {
-                if (this.MainView.Cursor == Cursors.None && !_mouseDrag.IsLoupe)
+                if (this.MainView.Cursor == Cursors.None && !_mouseLoupe.IsEnabled)
                 {
                     this.MainView.Cursor = null;
                 }
@@ -540,24 +571,33 @@ namespace NeeView
                 (s, e) => NextScrollPage();
             ModelContext.CommandTable[CommandType.MovePageWithCursor].Execute =
                 (s, e) => MovePageWithCursor();
-
             ModelContext.CommandTable[CommandType.MovePageWithCursor].ExecuteMessage =
                 (e) => MovePageWithCursorMessage();
 
+            ModelContext.CommandTable[CommandType.ToggleIsLoupe].Execute =
+                (s, e) => _mouseLoupe.IsEnabled = !_mouseLoupe.IsEnabled;
+            ModelContext.CommandTable[CommandType.ToggleIsLoupe].ExecuteMessage =
+                e => _mouseLoupe.IsEnabled ? "ルーペOFF" : "ルーペON";
+            ModelContext.CommandTable[CommandType.ToggleIsLoupe].CreateIsCheckedBinding =
+                () => new Binding(nameof(_mouseLoupe.IsEnabled)) { Mode = BindingMode.OneWay, Source = _mouseLoupe };
+            ModelContext.CommandTable[CommandType.LoupeOn].Execute =
+                (s, e) => _mouseLoupe.IsEnabled = true;
+            ModelContext.CommandTable[CommandType.LoupeOff].Execute =
+                (s, e) => _mouseLoupe.IsEnabled = false;
 
-#if false
-            // #正常に機能しない
+
+            // context menu
             ModelContext.CommandTable[CommandType.OpenContextMenu].Execute =
                 (s, e) =>
                 {
                     if (this.MainViewPanel.ContextMenu != null)
                     {
                         this.MainViewPanel.ContextMenu.DataContext = _VM;
+                        this.MainViewPanel.ContextMenu.PlacementTarget = this.MainViewPanel;
                         this.MainViewPanel.ContextMenu.Placement = PlacementMode.MousePoint;
                         this.MainViewPanel.ContextMenu.IsOpen = true;
                     }
                 };
-#endif
 
             // コマンドバインド作成
             foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
@@ -625,12 +665,6 @@ namespace NeeView
 
             // drag key
             _mouseDrag.SetKeyBindings(ModelContext.DragActionTable.GetKeyBinding());
-
-            // context menu gesture
-            if (_VM.ContextMenuSetting.IsEnabled && _VM.ContextMenuSetting.IsOpenByGesture)
-            {
-                _mouseGesture.AddOpenContextMenuGesture(_VM.ContextMenuSetting.MouseGesture);
-            }
 
             // Update Menu GestureText
             _VM.MainMenu?.UpdateInputGestureText();
@@ -723,7 +757,7 @@ namespace NeeView
                 return "前のページ";
             }
         }
-        
+
 
         // 設定ウィンドウを開く
         private void OpenSettingWindow()
@@ -1247,7 +1281,7 @@ namespace NeeView
 
 
         // TODO: クラス化
-#region thumbnail list
+        #region thumbnail list
 
         // サムネイルリストのパネルコントロール
         private VirtualizingStackPanel _thumbnailListPanel;
@@ -1491,13 +1525,13 @@ namespace NeeView
         {
             if (_VM.IsHidePageSlider || _VM.IsFullScreen)
             {
-                SetStatusAreaVisibisity(IsStateAreaMouseOver() && !_mouseLongDown.IsLongDowned, false);
+                SetStatusAreaVisibisity(IsStateAreaMouseOver() && !_mouseLoupe.IsEnabled, false);
                 SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList, true);
             }
             else
             {
                 SetStatusAreaVisibisity(true, true);
-                SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList && (!_VM.CanHideThumbnailList || (IsStateAreaMouseOver() && !_mouseLongDown.IsLongDowned)), false);
+                SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList && (!_VM.CanHideThumbnailList || (IsStateAreaMouseOver() && !_mouseLoupe.IsEnabled)), false);
             }
         }
 
@@ -1548,7 +1582,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
 
         private void UpdateMenuAreaVisibility()
@@ -1563,12 +1597,13 @@ namespace NeeView
                 if (this.MenuArea.Opacity >= 0.99) //IsVisible)
                 {
                     double margin = this.MenuArea.ActualHeight + hideMargin > visibleMargin ? this.MenuArea.ActualHeight + hideMargin : visibleMargin;
-                    isVisible = isVisible || (point.Y < 0.0 + margin && this.IsMouseOver && !_mouseLongDown.IsLongDowned);
+                    isVisible = isVisible || (point.Y < 0.0 + margin && this.IsMouseOver);
                 }
                 else
                 {
-                    isVisible = isVisible || (point.Y < 0.0 + visibleMargin && this.IsMouseOver && !_mouseLongDown.IsLongDowned);
+                    isVisible = isVisible || (point.Y < 0.0 + visibleMargin && this.IsMouseOver);
                 }
+                isVisible = isVisible && !_mouseLoupe.IsEnabled;
                 SetMenuAreaVisibisity(isVisible, false);
             }
             else
@@ -1591,7 +1626,7 @@ namespace NeeView
         }
 
 
-#region Panel Visibility
+        #region Panel Visibility
 
         //
         private bool _isVisibleLeftPanel;
@@ -1631,7 +1666,7 @@ namespace NeeView
                     double margin = this.LeftPanel.Width + hideMargin > visibleMargin ? this.LeftPanel.Width + hideMargin : visibleMargin;
                     SetLeftPanelVisibisity(this.LeftPanel.IsMouseOver || _IsContextMenuOpened || point.X < margin && this.IsMouseOver, false);
                 }
-                else if (point.X < visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver && !_mouseLongDown.IsLongDowned)
+                else if (point.X < visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver && !_mouseLoupe.IsEnabled)
                 {
                     SetLeftPanelVisibisity(true, false);
                 }
@@ -1681,7 +1716,7 @@ namespace NeeView
                     double margin = this.RightPanel.Width + hideMargin > visibleMargin ? this.RightPanel.Width + hideMargin : visibleMargin;
                     SeRightPanelVisibisity(this.RightPanel.IsMouseOver || _IsContextMenuOpened || point.X > this.ViewArea.ActualWidth - margin && this.IsMouseOver, false);
                 }
-                else if (point.X > this.ViewArea.ActualWidth - visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver && !_mouseLongDown.IsLongDowned)
+                else if (point.X > this.ViewArea.ActualWidth - visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver && !_mouseLoupe.IsEnabled)
                 {
                     SeRightPanelVisibisity(true, false);
                 }
@@ -1878,7 +1913,7 @@ namespace NeeView
         }
 
 
-#endregion
+        #endregion
 
         //
         private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1933,7 +1968,7 @@ namespace NeeView
 
 
 
-#region ContextMenu Counter
+        #region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -1971,7 +2006,7 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-#endregion
+        #endregion
 
 
         private void LeftPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -2001,7 +2036,7 @@ namespace NeeView
     }
 
 
-#region Convertes
+    #region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -2283,5 +2318,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

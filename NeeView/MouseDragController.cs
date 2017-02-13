@@ -229,116 +229,6 @@ namespace NeeView
         #endregion
 
 
-        // ルーペーモード
-        #region Property: IsLoupe
-        private bool _isLoupe;
-        public bool IsLoupe
-        {
-            get { return _isLoupe; }
-            set
-            {
-                _isLoupe = value;
-
-                if (_isLoupe)
-                {
-                    CancelOnce();
-                    _sender.Cursor = Cursors.None;
-
-                    var start = Mouse.GetPosition(_sender);
-                    var center = new Point(_sender.ActualWidth * 0.5, _sender.ActualHeight * 0.5);
-                    Vector v = start - center;
-
-                    _loupeBasePosition = (Point)(-v + v / LoupeScale);
-                    LoupePosition = _loupeBasePosition;
-                }
-                else
-                {
-                    LoupePosition = new Point();
-                }
-
-                RaisePropertyChanged(nameof(LoupeScaleX));
-                RaisePropertyChanged(nameof(LoupeScaleY));
-                TransformChanged?.Invoke(this, new TransformChangedParam(TransformChangeType.LoupeScale, TransformActionType.LoupeScale));
-            }
-        }
-        #endregion
-
-        #region Property: LoupePosition
-        private Point _loupePosition;
-        public Point LoupePosition
-        {
-            get { return _loupePosition; }
-            set
-            {
-                _loupePosition = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(LoupePositionX));
-                RaisePropertyChanged(nameof(LoupePositionY));
-            }
-        }
-        public double LoupePositionX => IsLoupe ? LoupePosition.X : 0.0;
-        public double LoupePositionY => IsLoupe ? LoupePosition.Y : 0.0;
-
-        private Point _loupeBasePosition;
-        #endregion
-
-
-        #region Property: LoupeScale
-        private double _loupeScale = 2.0;
-        public double LoupeScale
-        {
-            get { return _loupeScale; }
-            set
-            {
-                _loupeScale = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(LoupeScaleX));
-                RaisePropertyChanged(nameof(LoupeScaleY));
-                TransformChanged?.Invoke(this, new TransformChangedParam(TransformChangeType.LoupeScale, TransformActionType.LoupeScale));
-            }
-        }
-
-        public double FixedLoupeScale => IsLoupe ? LoupeScale : 1.0;
-        public double LoupeScaleX => FixedLoupeScale;
-        public double LoupeScaleY => FixedLoupeScale;
-        #endregion
-
-        public void LoupeZoom(MouseWheelEventArgs e)
-        {
-            if (IsLoupe)
-            {
-                if (e.Delta > 0)
-                {
-                    LoupeZoomIn();
-                }
-                else
-                {
-                    LoupeZoomOut();
-                }
-                e.Handled = true;
-            }
-        }
-
-        //
-        public void LoupeZoomIn()
-        {
-            var newScale = LoupeScale + 1.0;
-            if (newScale > 10.0) newScale = 10.0; // 最大 x10.0
-            LoupeScale = newScale;
-        }
-
-        //
-        public void LoupeZoomOut()
-        {
-            var newScale = LoupeScale - 1.0;
-            if (newScale < 2.0) newScale = 2.0;
-            LoupeScale = newScale;
-        }
-
-
-
-
-
         // アクションキーバインド
         private Dictionary<DragKey, DragAction> _keyBindings;
 
@@ -438,15 +328,18 @@ namespace NeeView
             _sender.PreviewMouseWheel += OnMouseWheel;
             _sender.PreviewMouseMove += OnMouseMove;
 
-            BindTransform(_target, true);
-            BindTransform(_targetShadow, false);
+            this.TransformView = CreateTransformGroup();
+            this.TransformCalc = CreateTransformGroup();
+
+            _translateTransform = this.TransformView.Children.OfType<TranslateTransform>().First();
         }
 
-        // パラメータとトランスフォームを対応させる
-        private void BindTransform(FrameworkElement element, bool isView)
-        {
-            element.RenderTransformOrigin = new Point(0.5, 0.5);
+        public TransformGroup TransformView { get; private set; }
+        public TransformGroup TransformCalc { get; private set; }
 
+        // パラメータとトランスフォームを対応させる
+        private TransformGroup CreateTransformGroup()
+        {
             var scaleTransform = new ScaleTransform();
             BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleXProperty, new Binding(nameof(ScaleX)) { Source = this });
             BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleYProperty, new Binding(nameof(ScaleY)) { Source = this });
@@ -463,24 +356,7 @@ namespace NeeView
             transformGroup.Children.Add(rotateTransform);
             transformGroup.Children.Add(translateTransform);
 
-            //
-            var loupeTransraleTransform = new TranslateTransform();
-            BindingOperations.SetBinding(loupeTransraleTransform, TranslateTransform.XProperty, new Binding(nameof(LoupePositionX)) { Source = this });
-            BindingOperations.SetBinding(loupeTransraleTransform, TranslateTransform.YProperty, new Binding(nameof(LoupePositionY)) { Source = this });
-
-            var loupeScaleTransform = new ScaleTransform();
-            BindingOperations.SetBinding(loupeScaleTransform, ScaleTransform.ScaleXProperty, new Binding(nameof(LoupeScaleX)) { Source = this });
-            BindingOperations.SetBinding(loupeScaleTransform, ScaleTransform.ScaleYProperty, new Binding(nameof(LoupeScaleY)) { Source = this });
-
-            transformGroup.Children.Add(loupeTransraleTransform);
-            transformGroup.Children.Add(loupeScaleTransform);
-
-            element.RenderTransform = transformGroup;
-
-            if (isView)
-            {
-                _translateTransform = translateTransform;
-            }
+            return transformGroup;
         }
 
         // クリックイベント登録クリア
@@ -873,6 +749,14 @@ namespace NeeView
             _isCancel = true;
         }
 
+        /// <summary>
+        /// マウス入力をキャンセル
+        /// </summary>
+        public void ResetInput()
+        {
+            _isButtonDown = false;
+        }
+
         // マウスボタンが押された時の処理
         private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -934,13 +818,6 @@ namespace NeeView
             if (!_isButtonDown) return;
 
             _endPoint = e.GetPosition(_sender);
-
-            //
-            if (IsLoupe)
-            {
-                DragLoupeMove(_startPoint, _endPoint);
-                return;
-            }
 
             if (_isCancel) return;
 
@@ -1029,15 +906,7 @@ namespace NeeView
             DoMove(move);
         }
 
-
-        // ルーペ移動
-        public void DragLoupeMove(Point start, Point end)
-        {
-            LoupePosition = _loupeBasePosition - (end - start);
-        }
-
-
-
+        //
         private DragArea GetArea()
         {
             return new DragArea(_sender, _targetShadow);

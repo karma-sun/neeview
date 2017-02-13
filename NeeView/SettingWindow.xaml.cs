@@ -164,6 +164,12 @@ namespace NeeView
             [ShowMessageStyle.Tiny] = "小さく表示する",
         };
 
+        public static Dictionary<bool, string> ShowMessageVisibleList { get; } = new Dictionary<bool, string>
+        {
+            [false] = "表示しない",
+            [true] = "表示する",
+        };
+
         //
         public static Dictionary<FolderListItemStyle, string> FolderListItemStyleList { get; } = new Dictionary<FolderListItemStyle, string>
         {
@@ -706,6 +712,9 @@ namespace NeeView
         {
             if (this.DialogResult == true)
             {
+                // コンテキストメニュー確定
+                this.ContextMenuSettingControl.Decide();
+
                 // ドラッグキーバインド反映
                 DragKeyTable.UpdateMemento();
 
@@ -748,46 +757,6 @@ namespace NeeView
             _isDartySusieSetting = true;
         }
 
-        // コンテキストメニュー編集ボタンが押された
-        private void EditContextMenuButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new ContextMenuSettingWindow(Setting.ViewMemento);
-            dialog.Owner = this;
-            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            var result = dialog.ShowDialog();
-            if (result == true)
-            {
-                // nop.
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GestureContextMenuButton_Click(object sender, RoutedEventArgs e)
-        {
-            // 現状、コンテキストメニュー操作は他の操作との競合チェックを行わない
-
-            var context = new MouseGestureSettingContext();
-            context.Header = "コンテキストメニューを開く";
-            context.Command = CommandType.None; // 仮
-            context.Gestures = new Dictionary<CommandType, string>();
-            context.Gestures.Add(context.Command, Setting.ViewMemento.ContextMenuSetting.MouseGesture);
-
-            var dialog = new MouseGestureSettingWindow(context);
-            dialog.Owner = this;
-            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            var result = dialog.ShowDialog();
-            if (result == true)
-            {
-                //UpdateCommandListMouseGesture();
-                //this.CommandListView.Items.Refresh();
-
-                Setting.ViewMemento.ContextMenuSetting.MouseGesture = context.Gesture;
-            }
-        }
 
         /// <summary>
         /// 

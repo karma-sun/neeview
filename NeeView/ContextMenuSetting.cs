@@ -57,26 +57,6 @@ namespace NeeView
         }
         #endregion
 
-        [DataMember]
-        public bool IsEnabled { get; set; }
-
-        [DataMember]
-        public bool IsOpenByCtrl { get; set; }
-
-        [DataMember]
-        public bool IsOpenByGesture { get; set; }
-
-
-        #region Property: MouseGesture
-        private string _mouseGesture = "D";
-        [DataMember]
-        public string MouseGesture
-        {
-            get { return _mouseGesture; }
-            set { _mouseGesture = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
         //
         public ContextMenuSetting Clone()
         {

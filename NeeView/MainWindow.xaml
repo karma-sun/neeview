@@ -382,6 +382,16 @@
                                 </TextBlock.Style>
                             </TextBlock>
 
+                            <!-- loupe info -->
+                            <Grid Visibility="{Binding IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <Grid x:Name="LoupeInfo" VerticalAlignment="Top" HorizontalAlignment="Right"
+                                      Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                      Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
+                                      Background="#88000000">
+                                    <TextBlock Padding="20,5"  FontSize="16" Foreground="White"
+                                           Text="{Binding LoupeScaleX, StringFormat={}×{0:.0}}"/>
+                                </Grid>
+                            </Grid>
 
                             <!-- Now Loading -->
                             <Grid x:Name="NowLoading" Opacity="0" IsHitTestVisible="False">

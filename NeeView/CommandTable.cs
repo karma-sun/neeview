@@ -756,7 +756,6 @@ namespace NeeView
                 element.Group = "ウィンドウ";
                 element.Text = "フルスクリーン解除";
                 element.Note = "フルスクリーンを解除します";
-                element.ShortCutKey = "Escape";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _VM.IsFullScreen = false;
                 element.CanExecute = () => true;
@@ -1249,7 +1248,7 @@ namespace NeeView
             // ToggleIsSupportedDividePage
             {
                 var element = new CommandElement();
-                element.Group = "1ページ表示設定";
+                element.Group = "ページ表示";
                 element.Text = "横長ページを分割する";
                 element.Note = "1ページ表示時、横長ページを分割してページにします";
                 element.Execute = (s, e) => _book.ToggleIsSupportedDividePage();
@@ -1263,7 +1262,7 @@ namespace NeeView
             // ToggleIsSupportedWidePage
             {
                 var element = new CommandElement();
-                element.Group = "2ページ表示設定";
+                element.Group = "ページ表示";
                 element.Text = "横長ページを2ページとみなす";
                 element.Note = " 2ページ表示時、横長の画像を2ページ分とみなして単独表示します";
                 element.Execute = (s, e) => _book.ToggleIsSupportedWidePage();
@@ -1276,7 +1275,7 @@ namespace NeeView
             // ToggleIsSupportedSingleFirstPage
             {
                 var element = new CommandElement();
-                element.Group = "2ページ表示設定";
+                element.Group = "ページ表示";
                 element.Text = "最初のページを単独表示";
                 element.Note = "2ページ表示でも最初のページは1ページ表示にします";
                 element.Execute = (s, e) => _book.ToggleIsSupportedSingleFirstPage();
@@ -1289,7 +1288,7 @@ namespace NeeView
             // ToggleIsSupportedSingleLastPage
             {
                 var element = new CommandElement();
-                element.Group = "2ページ表示設定";
+                element.Group = "ページ表示";
                 element.Text = "最後のページを単独表示";
                 element.Note = "2ページ表示でも最後のページは1ページ表示にします";
                 element.Execute = (s, e) => _book.ToggleIsSupportedSingleLastPage();
@@ -1303,7 +1302,7 @@ namespace NeeView
             // ToggleIsRecursiveFolder
             {
                 var element = new CommandElement();
-                element.Group = "ページ読込";
+                element.Group = "ページ表示";
                 element.Text = "サブフォルダを読み込む";
                 element.Note = "フォルダから画像を読み込むときにサブフォルダまたは圧縮ファイルも同時に読み込みます";
                 element.Execute = (s, e) => _book.ToggleIsRecursiveFolder();
@@ -1384,7 +1383,7 @@ namespace NeeView
             // SetDefaultPageSetting
             {
                 var element = new CommandElement();
-                element.Group = "ページ設定";
+                element.Group = "ページ表示";
                 element.Text = "ページ設定の初期化";
                 element.Note = "既定のページ設定に戻します";
                 element.Execute = (s, e) => _book.SetDefaultPageSetting();
@@ -1515,21 +1514,44 @@ namespace NeeView
             }
 
 
-#if false
             // ToggleIsLoupe
             {
                 var element = new CommandElement();
-                element.Group = "ルーペ";
+                element.Group = "ビュー操作";
                 element.Text = "ルーペON/OFF";
                 element.MenuText = "ルーペ";
                 element.Note = "ルーペの有効/無効を切り替えます";
-                element.Execute = (s, e) => _VM.ToggleIsLoupe();
                 element.CanExecute = () => true;
                 element.IsShowMessage = false;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.LoupeIsVisibled), System.Windows.Data.BindingMode.OneWay);
-                _Elements[CommandType.ToggleIsLoupe] = element;
+                _elements[CommandType.ToggleIsLoupe] = element;
             }
 
+            // ToggleIsLoupe
+            {
+                var element = new CommandElement();
+                element.Group = "ビュー操作";
+                element.Text = "ルーペON";
+                element.MenuText = "ルーペON";
+                element.Note = "ルーペモードにする";
+                element.CanExecute = () => true;
+                element.IsShowMessage = false;
+                _elements[CommandType.LoupeOn] = element;
+            }
+
+            // ToggleIsLoupe
+            {
+                var element = new CommandElement();
+                element.Group = "ビュー操作";
+                element.Text = "ルーペOFF";
+                element.MenuText = "ルーペOFF";
+                element.Note = "ルーペモードを解除する";
+                element.CanExecute = () => true;
+                element.IsShowMessage = false;
+                _elements[CommandType.LoupeOff] = element;
+            }
+
+
+#if false
             // LoupeZoomIn
             {
                 var element = new CommandElement();
@@ -1656,11 +1678,10 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "その他";
                 element.Text = "コンテキストメニューを開く";
-                element.MenuText = "メニュー";
                 element.Note = "コンテキストメニューを開きます";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.OpenContextMenu();
-                element.CanExecute = () => false; // #開発中
+                element.CanExecute = () => true;
+                element.MouseGesture = "C";
                 _elements[CommandType.OpenContextMenu] = element;
             }
 

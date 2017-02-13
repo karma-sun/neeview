@@ -91,12 +91,12 @@ namespace NeeView
             _gesture = new MouseGestureSequence();
             _gesture.CollectionChanged += (s, e) => MouseGestureUpdateEventHandler.Invoke(this, _gesture);
 
-            _sender.PreviewMouseRightButtonDown += OnMouseRightButtonDown;
-            _sender.PreviewMouseRightButtonUp += OnMoouseRightButtonUp;
-            _sender.PreviewMouseLeftButtonDown += OnMouseLeftButtonDown;
+            _sender.PreviewMouseDown += OnMouseButtonDown;
+            _sender.PreviewMouseUp += OnMouseButtonUp;
             _sender.PreviewMouseWheel += OnMouseWheel;
             _sender.PreviewMouseMove += OnMouseMove;
         }
+
 
 
         // ジェスチャー リセット
@@ -105,6 +105,35 @@ namespace NeeView
             _direction = MouseGestureDirection.None;
             _gesture.Clear();
         }
+
+        // ボタン入力リセット
+        public void ResetInput()
+        {
+            _isButtonDown = false;
+        }
+
+        // ボタンが押された時の処理
+        private void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Right)
+            {
+                OnMoouseRightButtonUp(sender, e);
+            }
+        }
+
+        //
+        private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Right)
+            {
+                OnMouseRightButtonDown(sender, e);
+            }
+            else if (e.ChangedButton == MouseButton.Left)
+            {
+                OnMouseLeftButtonDown(sender, e);
+            }
+        }
+
 
         // ボタンが押された時の処理
         private void OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -179,27 +208,10 @@ namespace NeeView
                 e.Handled = args.Handled;
             }
 
-            // さもなくば場合に応じて右クリック処理
+            // ドラッグ前ならば右クリックとして処理
             else if (!_isDragging)
             {
-#if false
                 MouseClickEventHandler(sender, e);
-                //e.Handled = true;
-#else
-                if (ContextMenuSetting != null && ContextMenuSetting.IsEnabled && !ContextMenuSetting.IsOpenByCtrl)
-                {
-                    e.Handled = false;
-                }
-                else if (ContextMenuSetting != null && ContextMenuSetting.IsEnabled && ContextMenuSetting.IsOpenByCtrl && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-                {
-                    e.Handled = false;
-                }
-                else
-                {
-                    MouseClickEventHandler(sender, e);
-                    e.Handled = true;
-                }
-#endif
 
             }
         }

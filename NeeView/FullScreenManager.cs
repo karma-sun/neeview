@@ -106,9 +106,25 @@ namespace NeeView
         public FullScreenManager(MainWindow window)
         {
             _window = window;
+
+            _window.PreviewKeyDown += OnPreviewKeyDown;
         }
 
-        
+        /// <summary>
+        /// キーチェック。Escでフルスクリーン解除
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (IsFullScreen && e.Key == System.Windows.Input.Key.Escape)
+            {
+                IsFullScreen = false;
+                e.Handled = true;
+            }
+        }
+
+
         /// <summary>
         /// 状態更新
         /// </summary>

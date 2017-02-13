@@ -45,6 +45,23 @@
                 <TextBox DockPanel.Dock="Bottom" x:Name="OldGestureText" Margin="2" FontFamily="Meiryo" VerticalAlignment="Center" IsReadOnly="True" IsHitTestVisible="False" BorderBrush="Transparent"
                            Text="{Binding OriginalGesture, Converter={StaticResource MouseGestureToDispTextConverter}}" />
             </DockPanel>
+
+            <Grid DockPanel.Dock="Top">
+                <ToggleButton HorizontalAlignment="Right" x:Name="WindowHelp" Margin="0" Width="20" Height="20" Style="{StaticResource IconToggleButton}">
+                    <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
+                </ToggleButton>
+            </Grid>
+            <Popup IsOpen="{Binding ElementName=WindowHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowHelp}" Placement="Top" HorizontalAlignment="Right">
+                <Border BorderBrush="Gray" BorderThickness="1" Background="LightYellow">
+                    <TextBlock Margin="10">
+                                水色の枠内でマウスジェスチャーを入力します<LineBreak/>
+                                マウスジェスチャーはマウス右ボタンを押しながらのドラッグ操作です<LineBreak/>
+                                左クリックを最後のジェスチャーキーとして登録可能です
+                    </TextBlock>
+                </Border>
+            </Popup>
+
+
             <Grid x:Name="GestureBox" Margin="2" Background="AliceBlue">
                 <TextBlock Text="ここでマウスジェスチャー入力&#10;(右ボタンを押しながらドラッグ)" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
             </Grid>

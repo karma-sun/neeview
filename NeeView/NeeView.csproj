@@ -105,6 +105,7 @@
     <Compile Include="ImageEffectControl.xaml.cs">
       <DependentUpon>ImageEffectControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MouseLoupe.cs" />
     <Compile Include="Utility\VectorExtensions.cs" />
     <Compile Include="IndexValue.cs" />
     <Compile Include="_NeeLaboratory\Controls\ColorPicker.xaml.cs">
@@ -144,8 +145,8 @@
     <Compile Include="CommandTable.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ContextMenuSetting.cs" />
-    <Compile Include="ContextMenuSettingWindow.xaml.cs">
-      <DependentUpon>ContextMenuSettingWindow.xaml</DependentUpon>
+    <Compile Include="ContextMenuSettingControl.xaml.cs">
+      <DependentUpon>ContextMenuSettingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Loupe.xaml.cs">
       <DependentUpon>Loupe.xaml</DependentUpon>
@@ -328,7 +329,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ContextMenuSettingWindow.xaml">
+    <Page Include="ContextMenuSettingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

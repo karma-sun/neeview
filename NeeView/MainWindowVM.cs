@@ -201,6 +201,18 @@ namespace NeeView
         // View変換情報表示のスケール表示をオリジナルサイズ基準にする
         public bool IsOriginalScaleShowMessage { get; set; }
 
+        /// <summary>
+        /// IsVisibleLoupeInfo property.
+        /// </summary>
+        private bool _IsVisibleLoupeInfo;
+        public bool IsVisibleLoupeInfo
+        {
+            get { return _IsVisibleLoupeInfo; }
+            set { if (_IsVisibleLoupeInfo != value) { _IsVisibleLoupeInfo = value; RaisePropertyChanged(); } }
+        }
+
+
+
         // スライダー方向
         #region Property: IsSliderDirectionReversed
         private bool _isSliderDirectionReversed;
@@ -1321,7 +1333,7 @@ namespace NeeView
 
         public void UpdateContextMenu()
         {
-            ContextMenu = ContextMenuSetting.IsEnabled ? ContextMenuSetting.ContextMenu : null;
+            ContextMenu = ContextMenuSetting.ContextMenu;
             ContextMenuEnableChanged?.Invoke(this, null);
         }
 
@@ -1667,9 +1679,6 @@ namespace NeeView
             ModelContext.JobEngine.StatusChanged +=
                 (s, e) => RaisePropertyChanged(nameof(JobEngine));
 
-            // ContextMenuSetting
-            ContextMenuSetting = new ContextMenuSetting();
-
             // BookHub
             BookHub = new BookHub();
 
@@ -1991,10 +2000,7 @@ namespace NeeView
             {
                 memento = new PagemarkCollection.Memento();
             }
-
-
-
-
+            
             // ページマーク反映
             ModelContext.Pagemarks.Restore(memento);
         }
@@ -2935,6 +2941,9 @@ namespace NeeView
             [DataMember(Order = 19)]
             public bool IsVisibleWindowTitle { get; set; }
 
+            [DataMember(Order = 19)]
+            public bool IsVisibleLoupeInfo { get; set; }
+
             //
             private void Constructor()
             {
@@ -2973,6 +2982,7 @@ namespace NeeView
                 IsDisableMultiBoot = true;
                 SliderDirection = SliderDirection.RightToLeft;
                 IsVisibleWindowTitle = true;
+                IsVisibleLoupeInfo = true;
             }
 
             public Memento()
@@ -3081,6 +3091,7 @@ namespace NeeView
             memento.SliderDirection = this.SliderDirection;
             memento.IsAutoRotate = this.IsAutoRotate;
             memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
+            memento.IsVisibleLoupeInfo = this.IsVisibleLoupeInfo;
 
             return memento;
         }
@@ -3148,6 +3159,7 @@ namespace NeeView
             this.SliderDirection = memento.SliderDirection;
             this.IsAutoRotate = memento.IsAutoRotate;
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
+            this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

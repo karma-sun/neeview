@@ -21,11 +21,17 @@ namespace NeeView
         On
     }
 
+    public class MouseLongDownStatusChangedEventArgs : EventArgs
+    {
+        public MouseLongDownStatus Status { get; set; }
+        public bool Cancel { get; set; }
+    }
+
+
     public class MouseLongDown
     {
-        public event EventHandler<MouseLongDownStatus> StatusChanged;
+        public event EventHandler<MouseLongDownStatusChangedEventArgs> StatusChanged;
         public event EventHandler<MouseWheelEventArgs> MouseWheel;
-
 
         #region Property: Status
         private MouseLongDownStatus _status;
@@ -34,8 +40,14 @@ namespace NeeView
             get { return _status; }
             set
             {
-                _status = value;
-                StatusChanged(this, _status);
+                if (_status != value)
+                {
+                    var old = _status;
+                    _status = value;
+                    var args = new MouseLongDownStatusChangedEventArgs() { Status = _status };
+                    StatusChanged(this, args);
+                    if (args.Cancel) _status = old;
+                }
             }
         }
         #endregion
@@ -87,7 +99,12 @@ namespace NeeView
             if (e.ChangedButton != MouseButton.Left) return;
 
             _timer.Stop();
-            Status = MouseLongDownStatus.Off;
+
+            if (Status == MouseLongDownStatus.On)
+            {
+                Status = MouseLongDownStatus.Off;
+                e.Handled = true;
+            }
 
             //Debug.WriteLine("OFF");
         }

@@ -156,7 +156,10 @@ namespace NeeView
 
         ToggleEffectGrayscale, // 欠番
 
-        //ToggleIsLoupe,
+        ToggleIsLoupe,
+        LoupeOn,
+        LoupeOff,
+
         //LoupeZoomIn,
         //LoupeZoomOut,
 
@@ -174,7 +177,6 @@ namespace NeeView
             CommandType.ToggleIsReverseSort,
             CommandType.ToggleHideTitleBar,
             CommandType.ToggleEffectGrayscale,
-            CommandType.OpenContextMenu // ##
         };
 
         // TODO: 判定法整備

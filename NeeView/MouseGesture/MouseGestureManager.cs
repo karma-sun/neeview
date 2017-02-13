@@ -78,18 +78,12 @@ namespace NeeView
                 (s, e) =>
                 {
                     var command = CommandCollection.GetCommand(e.MouseGestureSequence);
-                    if (command == _contextMenuCommand)
+
+                    if (command != null && command.CanExecute(null, null))
                     {
-                        e.Handled = false;
+                        command.Execute(null, null);
                     }
-                    else
-                    {
-                        if (command != null && command.CanExecute(null, null))
-                        {
-                            command.Execute(null, null);
-                        }
-                        e.Handled = true;
-                    }
+                    e.Handled = true;
                 };
             Controller.MouseClickEventHandler +=
                 (s, e) => MouseClickEventHandler?.Invoke(s, e);
@@ -101,14 +95,10 @@ namespace NeeView
             MouseClickEventHandler = null;
         }
 
-        //
-        private RoutedUICommand _contextMenuCommand = new RoutedUICommand("コンテキストメニュー", "OpenContextMenu", typeof(MainWindow));
-
-        // コンテキストメニュー起動用ジェスチャー登録
-        public void AddOpenContextMenuGesture(string gesture)
+        // 入力キャンセル
+        public void ResetInput()
         {
-            if (string.IsNullOrWhiteSpace(gesture)) return;
-            CommandCollection.Add(gesture, _contextMenuCommand);
+            this.Controller.ResetInput();
         }
 
         // 現在のジェスチャーシーケンスでのコマンド名取得

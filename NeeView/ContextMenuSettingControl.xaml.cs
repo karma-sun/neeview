@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -25,31 +26,60 @@ namespace NeeView
     /// <summary>
     /// ContextMenuSettingWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class ContextMenuSettingWindow : Window
+    public partial class ContextMenuSettingControl : UserControl
     {
-        public static readonly RoutedCommand AddCommand = new RoutedCommand("AddCommand", typeof(ContextMenuSettingWindow));
-        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(ContextMenuSettingWindow));
-        public static readonly RoutedCommand RenameCommand = new RoutedCommand("RenameCommand", typeof(ContextMenuSettingWindow));
-        public static readonly RoutedCommand MoveUpCommand = new RoutedCommand("MoveUpCommand", typeof(ContextMenuSettingWindow));
-        public static readonly RoutedCommand MoveDownCommand = new RoutedCommand("MoveDownCommand", typeof(ContextMenuSettingWindow));
+        public static readonly RoutedCommand AddCommand = new RoutedCommand("AddCommand", typeof(ContextMenuSettingControl));
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(ContextMenuSettingControl));
+        public static readonly RoutedCommand RenameCommand = new RoutedCommand("RenameCommand", typeof(ContextMenuSettingControl));
+        public static readonly RoutedCommand MoveUpCommand = new RoutedCommand("MoveUpCommand", typeof(ContextMenuSettingControl));
+        public static readonly RoutedCommand MoveDownCommand = new RoutedCommand("MoveDownCommand", typeof(ContextMenuSettingControl));
 
 
-        private ContextMenuSettingWindowVM _VM;
 
-        public ContextMenuSettingWindow(MainWindowVM.Memento vmemento)
+
+        public MainWindowVM.Memento ViewMemento
+        {
+            get { return (MainWindowVM.Memento)GetValue(ViewMementoProperty); }
+            set { SetValue(ViewMementoProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ViewMemento.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ViewMementoProperty =
+            DependencyProperty.Register("ViewMemento", typeof(MainWindowVM.Memento), typeof(ContextMenuSettingControl), new PropertyMetadata(null, ViewMementoPropertyChanged));
+
+        private static void ViewMementoPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as ContextMenuSettingControl;
+            if (control != null)
+            {
+                control.Initialize();
+            }
+        }
+
+        private ContextMenuSettingControlVM _VM;
+
+        public ContextMenuSettingControl()
         {
             InitializeComponent();
 
-            _VM = new ContextMenuSettingWindowVM(vmemento);
-            this.DataContext = _VM;
+            _VM = new ContextMenuSettingControlVM();
+            this.Root.DataContext = _VM;
 
-            this.SourceComboBox.SelectedIndex = 0;
 
             this.CommandBindings.Add(new CommandBinding(AddCommand, Add_Exec));
             this.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, SelectedItem_CanExec));
             this.CommandBindings.Add(new CommandBinding(RenameCommand, Rename_Exec, Rename_CanExec));
             this.CommandBindings.Add(new CommandBinding(MoveUpCommand, MoveUp_Exec, SelectedItem_CanExec));
             this.CommandBindings.Add(new CommandBinding(MoveDownCommand, MoveDown_Exec, SelectedItem_CanExec));
+        }
+
+        private void Initialize()
+        {
+            if (this.ViewMemento != null)
+            {
+                _VM.Initialize(this.ViewMemento);
+                this.SourceComboBox.SelectedIndex = 0;
+            }
         }
 
 
@@ -95,7 +125,7 @@ namespace NeeView
             var param = new RenameWindowParam() { Text = node.Label, DefaultText = node.DefaultLabel };
 
             var dialog = new RenameWindow(param);
-            dialog.Owner = this;
+            dialog.Owner = Window.GetWindow(this);
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = dialog.ShowDialog();
             if (result == true)
@@ -122,19 +152,9 @@ namespace NeeView
             _VM.MoveDown(node);
         }
 
-
-
-        private void ButtonOk_Click(object sender, RoutedEventArgs e)
+        public void Decide()
         {
             _VM.Decide();
-            this.DialogResult = true;
-            this.Close();
-        }
-
-        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = false;
-            this.Close();
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
@@ -147,7 +167,7 @@ namespace NeeView
     /// <summary>
     /// 
     /// </summary>
-    public class ContextMenuSettingWindowVM : INotifyPropertyChanged
+    public class ContextMenuSettingControlVM : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -176,20 +196,27 @@ namespace NeeView
 
         private MainWindowVM.Memento _viewMemento;
 
-        public ContextMenuSettingWindowVM(MainWindowVM.Memento vmemento)
+        public ContextMenuSettingControlVM()
+        {
+             var list = Enum.GetValues(typeof(CommandType))
+                .OfType<CommandType>()
+                .Where(e => !e.IsDisable())
+                .GroupBy(e => ModelContext.CommandTable[e].Group)
+                .SelectMany(g => g)
+                .Select(e => new MenuTree() { MenuElementType = MenuElementType.Command, Command = e })
+                .ToList();
+
+            list.Insert(0, new MenuTree() { MenuElementType = MenuElementType.Group });
+            list.Insert(1, new MenuTree() { MenuElementType = MenuElementType.Separator });
+            list.Insert(2, new MenuTree() { MenuElementType = MenuElementType.History });
+
+            SourceElementList = list;
+        }
+
+        //
+        public void Initialize(MainWindowVM.Memento vmemento)
         {
             _viewMemento = vmemento;
-
-            var list = new List<MenuTree>();
-            list.Add(new MenuTree() { MenuElementType = MenuElementType.Group });
-            list.Add(new MenuTree() { MenuElementType = MenuElementType.Separator });
-            list.Add(new MenuTree() { MenuElementType = MenuElementType.History });
-            foreach (CommandType command in Enum.GetValues(typeof(CommandType)))
-            {
-                if (command.IsDisable()) continue;
-                list.Add(new MenuTree() { MenuElementType = MenuElementType.Command, Command = command });
-            }
-            SourceElementList = list;
 
             Root = _viewMemento.ContextMenuSetting.SourceTree.Clone();
 

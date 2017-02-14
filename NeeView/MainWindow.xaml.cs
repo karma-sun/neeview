@@ -258,6 +258,9 @@ namespace NeeView
             _mouseGesture.Controller.InitializeGestureMinimumDistance(
                 preference.input_gesture_minimumdistance_x,
                 preference.input_gesture_minimumdistance_y);
+
+            // DPI更新
+            App.Config.UpdateDpiScaleFactor(this, preference.view_image_dotbydot);
         }
 
         //
@@ -939,9 +942,6 @@ namespace NeeView
 
             // PanelColor
             _VM.FlushPanelColor();
-
-            // DPI倍率設定
-            App.Config.UpdateDpiScaleFactor(this);
 
             // オプションによるフルスクリーン指定
             if (App.Options["--fullscreen"].IsValid)

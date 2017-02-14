@@ -32,6 +32,10 @@ namespace NeeView
         [PropertyMember("画像読み込みに使用するスレッド数")]
         public int loader_thread_size { get; set; }
 
+        [DataMember, DefaultValue(true)]
+        [PropertyMember("画像のドットバイドット表示", Tips = "DPIに依存せずに画像とディスプレイのピクセルを一致させます")]
+        public bool view_image_dotbydot { get; set; }
+
         [DataMember, DefaultValue(1.0)]
         [PropertyMember("横長画像を判定するための縦横比(横 / 縦)", Tips = "「横長ページを分割する」で使用されます")]
         public double view_image_wideratio { get; set; }
@@ -63,6 +67,7 @@ namespace NeeView
         [DataMember, DefaultValue("__MACOSX;.DS_Store")]
         [PropertyMember("ページ除外パス", Tips = ";(セミコロン)区切りで除外するパス名を羅列します。「サポート外ファイルもページに含める」設定では無効です")]
         public string loader_archiver_exclude { get; set; }
+
 
 
         /// <summary>

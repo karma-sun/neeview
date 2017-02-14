@@ -36,10 +36,9 @@ namespace NeeView
         public bool IsDpiSquare { get; private set; } = false;
 
         // DPI設定
-        public void UpdateDpiScaleFactor(System.Windows.Media.Visual visual)
+        public void UpdateDpiScaleFactor(System.Windows.Media.Visual visual, bool dotbydot)
         {
-            var dpiScaleFactor = DragExtensions.WPFUtil.GetDpiScaleFactor(visual);
-            DpiScaleFactor = dpiScaleFactor;
+            DpiScaleFactor = dotbydot ? DragExtensions.WPFUtil.GetDpiScaleFactor(visual) : new Point(1.0, 1.0);
             IsDpiSquare = DpiScaleFactor.X == DpiScaleFactor.Y;
         }
 

@@ -168,7 +168,7 @@ namespace NeeView
             _gesture.Add(MouseGestureDirection.Click);
             var args = new MouseGestureEventArgs(_gesture);
             MouseGestureExecuteEventHandler?.Invoke(this, args);
-            e.Handled = args.Handled;
+            e.Handled = true;
         }
 
         // ジェスチャー状態が変化したことを通知

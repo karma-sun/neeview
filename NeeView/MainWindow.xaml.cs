@@ -142,6 +142,10 @@ namespace NeeView
                 };
 
             this.LoupeInfo.DataContext = _mouseLoupe;
+            
+            // mouse gesture
+            _mouseGesture = new MouseGestureManager(this.MainView);
+            _mouseGesture.Controller.MouseGestureUpdateEventHandler += OnMouseGestureUpdate;
 
             // mouse drag
             _mouseDrag = new MouseDragController(this, this.MainView, this.MainContent, this.MainContentShadow);
@@ -157,9 +161,6 @@ namespace NeeView
                 };
             ModelContext.DragActionTable.SetTarget(_mouseDrag);
 
-            // mouse gesture
-            _mouseGesture = new MouseGestureManager(this.MainView);
-            _mouseGesture.Controller.MouseGestureUpdateEventHandler += OnMouseGestureUpdate;
 
             // ルーペモード変化時にそれまでの入力キャンセル
             _mouseLoupe.IsEnabledChanged += (s, e) => { _mouseDrag.ResetInput(); _mouseGesture.ResetInput(); };

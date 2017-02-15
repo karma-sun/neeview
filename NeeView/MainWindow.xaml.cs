@@ -225,7 +225,7 @@ namespace NeeView
 
             // timer for slideshow
             _timer = new DispatcherTimer(DispatcherPriority.Normal, this.Dispatcher);
-            _timer.Interval = TimeSpan.FromSeconds(0.2);
+            _timer.Interval = TimeSpan.FromSeconds(0.1);
             _timer.Tick += new EventHandler(DispatcherTimer_Tick);
             _timer.Start();
         }
@@ -1273,8 +1273,11 @@ namespace NeeView
 
 
         // [開発用] テストボタン
-        private void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
+        private async void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
         {
+            GC.Collect();
+            await Task.Delay(1000);
+            Debug.WriteLine("TEST");
             //ModelContext.CommandTable.OpenCommandListHelp();
             //App.Config.RemoveApplicationData();
         }

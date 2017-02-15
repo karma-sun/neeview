@@ -44,23 +44,16 @@ namespace NeeView
         // RoutedCommand辞書
         public static Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; } = new Dictionary<CommandType, RoutedUICommand>();
 
-        public static Recycle Recycle { get; set; }
-
-        //
-        public static bool IsAutoGC { get; set; } = true;
-
         // 除外パス
-        public static List<string> Excludes { get; set; } = new List<string>(); 
+        public static List<string> Excludes { get; set; } = new List<string>();
 
-        //
-        public static void GarbageCollection()
-        {
-            if (!IsAutoGC) GC.Collect();
-        }
 
         // 初期化
         public static void Initialize()
         {
+            MemoryControl.Current = new MemoryControl(App.Current.Dispatcher);
+
+            //
             Preference = new Preference();
 
             // 
@@ -78,8 +71,6 @@ namespace NeeView
             DragActionTable = new DragActionTable();
 
             SusieContext = new SusieContext();
-
-            Recycle = new Recycle();
         }
 
 

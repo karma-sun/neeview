@@ -869,8 +869,8 @@ namespace NeeView
         // オートGC
         public bool IsAutoGC
         {
-            get { return ModelContext.IsAutoGC; }
-            set { ModelContext.IsAutoGC = value; }
+            get { return MemoryControl.Current.IsAutoGC; }
+            set { MemoryControl.Current.IsAutoGC = value; }
         }
 
 
@@ -1550,7 +1550,7 @@ namespace NeeView
                 {
                     _thumbnailMemorySize = value;
                     LimitThumbnail();
-                    ModelContext.GarbageCollection();
+                    MemoryControl.Current.GarbageCollect();
                     RaisePropertyChanged();
                 }
             }
@@ -2199,8 +2199,7 @@ namespace NeeView
             UpdateWindowTitle(UpdateWindowTitleMask.All);
 
             // GC
-            //ModelContext.GarbageCollection();
-            ModelContext.Recycle.CleanUp();
+            MemoryControl.Current.GarbageCollect();
         }
 
         /// <summary>
@@ -2731,7 +2730,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento
@@ -3166,6 +3165,6 @@ namespace NeeView
             UpdateContentSize();
         }
 
-        #endregion
+#endregion
     }
 }

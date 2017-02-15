@@ -105,6 +105,7 @@
     <Compile Include="ImageEffectControl.xaml.cs">
       <DependentUpon>ImageEffectControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MemoryControl.cs" />
     <Compile Include="MouseLoupe.cs" />
     <Compile Include="Utility\VectorExtensions.cs" />
     <Compile Include="IndexValue.cs" />
@@ -177,7 +178,6 @@
     <Compile Include="PreferenceEditWindow.xaml.cs">
       <DependentUpon>PreferenceEditWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Recycle.cs" />
     <Compile Include="RenameWindow.xaml.cs">
       <DependentUpon>RenameWindow.xaml</DependentUpon>
     </Compile>

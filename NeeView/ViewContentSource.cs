@@ -143,7 +143,7 @@ namespace NeeView
                 brush.TileMode = TileMode.None;
                 brush.Viewbox = GetViewBox();
 
-                var rectangle = ModelContext.Recycle.RectanglePool.Allocate();
+                var rectangle = new Rectangle();
                 rectangle.Fill = brush;
                 rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
                 rectangle.UseLayoutRounding = true;

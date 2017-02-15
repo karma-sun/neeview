@@ -357,7 +357,7 @@ namespace NeeView
                 {
                     UpdateThumbnail(source);
                     source = null;
-                    if (isTempSource) ModelContext.GarbageCollection();
+                    if (isTempSource) MemoryControl.Current.GarbageCollect();
                 }
             }
 
@@ -445,7 +445,7 @@ namespace NeeView
             if (Content != null)
             {
                 Content = null;
-                ModelContext.GarbageCollection();
+                MemoryControl.Current.GarbageCollect();
             }
 
             Message = "Closed.";

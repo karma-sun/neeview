@@ -53,6 +53,16 @@ namespace NeeView
         Loop,
     }
 
+    /// <summary>
+    /// 先読みモード
+    /// </summary>
+    public enum PreLoadMode
+    {
+        None, // 先読み無し
+        AutoPreLoad, // 自動先読み
+        PreLoad, // 固定先読み
+    }
+
     //
     public class BookUnit : IDisposable
     {
@@ -322,19 +332,17 @@ namespace NeeView
         }
         #endregion
 
-        // 先読み設定
-        #region Property: AllowPagePreLoad
-        private bool _allowPagePreLoad = true;
-        public bool AllowPagePreLoad
+
+        /// <summary>
+        /// PreLoadMode property.
+        /// </summary>
+        private PreLoadMode _preLoadMode;
+        public PreLoadMode PreLoadMode
         {
-            get { return _allowPagePreLoad; }
-            set
-            {
-                _allowPagePreLoad = value;
-                if (CurrentBook != null) CurrentBook.AllowPreLoad = _allowPagePreLoad;
-            }
+            get { return _preLoadMode; }
+            set { if (_preLoadMode != value) { _preLoadMode = value; RaisePropertyChanged(); } }
         }
-        #endregion
+
 
 
         // 現在の本
@@ -841,7 +849,7 @@ namespace NeeView
             }
 
             // 先読み設定
-            book.AllowPreLoad = this.AllowPagePreLoad;
+            book.PreLoadMode = this.PreLoadMode;
 
             // 全種類ファイルサポート設定
             if (IsEnableNoSupportFile)
@@ -1286,7 +1294,7 @@ namespace NeeView
         public void SetDefaultPageSetting()
         {
             BookMemento = BookMementoDefault.Clone();
-            RefleshBookSetting(); 
+            RefleshBookSetting();
         }
 
         // 外部アプリで開く
@@ -1778,8 +1786,8 @@ namespace NeeView
             [DataMember(Order = 4)]
             public ExternalApplication ExternalApplication { get; set; }
 
-            [DataMember(Order = 5)]
-            public bool AllowPagePreLoad { get; set; }
+            [DataMember(Order = 5, EmitDefaultValue = false)]
+            public bool AllowPagePreLoad { get; set; } // no used
 
             [DataMember(Order = 6)]
             public bool IsConfirmRecursive { get; set; }
@@ -1802,6 +1810,9 @@ namespace NeeView
             [DataMember(Order = 19)]
             public BookMementoFilter HistoryMementoFilter { get; set; }
 
+            [DataMember(Order = 19)]
+            public PreLoadMode PreLoadMode { get; set; }
+
             //
             private void Constructor()
             {
@@ -1812,13 +1823,13 @@ namespace NeeView
                 IsSupportArchiveFile = true;
                 BookMemento = new Book.Memento();
                 ExternalApplication = new ExternalApplication();
-                AllowPagePreLoad = true;
                 BookMementoDefault = new Book.Memento();
                 IsUseBookMementoDefault = false;
                 IsSevenZipAccessLocked = true;
                 ClipboardUtility = new ClipboardUtility();
                 IsAutoRecursive = true;
                 HistoryMementoFilter = new BookMementoFilter(true);
+                PreLoadMode = PreLoadMode.AutoPreLoad;
             }
 
             public Memento()
@@ -1839,8 +1850,10 @@ namespace NeeView
                 if (_Version < Config.GenerateProductVersionNumber(1, 19, 0))
                 {
                     PageEndAction = IsEnabledAutoNextFolder ? PageEndAction.NextFolder : PageEndAction.None;
+                    PreLoadMode = AllowPagePreLoad ? PreLoadMode.AutoPreLoad : PreLoadMode.None;
                 }
                 IsEnabledAutoNextFolder = false;
+                AllowPagePreLoad = false;
             }
         }
 
@@ -1862,7 +1875,6 @@ namespace NeeView
             memento.IsEnarbleCurrentDirectory = IsEnarbleCurrentDirectory;
             memento.IsSupportArchiveFile = IsSupportArchiveFile;
             memento.ExternalApplication = ExternalApllication.Clone();
-            memento.AllowPagePreLoad = AllowPagePreLoad;
             memento.IsConfirmRecursive = IsConfirmRecursive;
             memento.BookMementoDefault = BookMementoDefault.Clone();
             memento.BookMementoDefault.ValidateForDefault(); // 念のため
@@ -1871,6 +1883,7 @@ namespace NeeView
             memento.ClipboardUtility = ClipboardUtility.Clone();
             memento.IsAutoRecursive = IsAutoRecursive;
             memento.HistoryMementoFilter = HistoryMementoFilter;
+            memento.PreLoadMode = PreLoadMode;
 
             return memento;
         }
@@ -1889,7 +1902,6 @@ namespace NeeView
             IsEnarbleCurrentDirectory = memento.IsEnarbleCurrentDirectory;
             IsSupportArchiveFile = memento.IsSupportArchiveFile;
             ExternalApllication = memento.ExternalApplication.Clone();
-            AllowPagePreLoad = memento.AllowPagePreLoad;
             IsConfirmRecursive = memento.IsConfirmRecursive;
             BookMementoDefault = memento.BookMementoDefault.Clone();
             IsUseBookMementoDefault = memento.IsUseBookMementoDefault;
@@ -1897,6 +1909,7 @@ namespace NeeView
             ClipboardUtility = memento.ClipboardUtility.Clone();
             IsAutoRecursive = memento.IsAutoRecursive;
             HistoryMementoFilter = memento.HistoryMementoFilter;
+            PreLoadMode = memento.PreLoadMode;
         }
 
         #endregion

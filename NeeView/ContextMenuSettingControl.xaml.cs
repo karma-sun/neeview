@@ -198,6 +198,8 @@ namespace NeeView
 
         public ContextMenuSettingControlVM()
         {
+            if (ModelContext.CommandTable == null) return;
+
              var list = Enum.GetValues(typeof(CommandType))
                 .OfType<CommandType>()
                 .Where(e => !e.IsDisable())

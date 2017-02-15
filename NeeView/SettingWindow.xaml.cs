@@ -287,6 +287,14 @@ namespace NeeView
         };
 
         //
+        public static Dictionary<PreLoadMode, string> PreLoadModeList { get; } = new Dictionary<PreLoadMode, string>
+        {
+            [PreLoadMode.None] = "しない",
+            [PreLoadMode.AutoPreLoad] = "自動",
+            [PreLoadMode.PreLoad] = "先読みする"
+        };
+
+        //
         public static Dictionary<PageMode, string> PageModeList => PageModeExtension.PageModeList;
 
         //

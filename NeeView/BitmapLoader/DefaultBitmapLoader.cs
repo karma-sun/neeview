@@ -141,38 +141,13 @@ namespace NeeView
             FileBasicInfo info = new FileBasicInfo();
 
             // まずは BitmapFrame でデコード
-            try
-            {
-                var bitmapFrame = BitmapFrame.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
-                bitmapFrame.Freeze();
+            var bitmapFrame = BitmapFrame.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+            bitmapFrame.Freeze();
 
-                if (bitmapFrame == null) return null;
-                source = bitmapFrame;
-                metadata = bitmapFrame.Metadata as BitmapMetadata;
-                info.Decoder = bitmapFrame.Decoder.CodecInfo.FriendlyName;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-            }
-
-            // BitmapFrameが失敗する場合はBitmapImageでデコード
-            if (source == null)
-            {
-                stream.Seek(0, SeekOrigin.Begin);
-                BitmapImage bmpImage = new BitmapImage();
-
-                bmpImage.BeginInit();
-                bmpImage.CacheOption = BitmapCacheOption.OnLoad;
-                bmpImage.StreamSource = stream;
-                bmpImage.EndInit();
-                bmpImage.Freeze();
-
-                source = bmpImage;
-                metadata = null;
-                info.Decoder = ".Net BitmapImage";
-            }
-
+            if (bitmapFrame == null) return null;
+            source = bitmapFrame;
+            metadata = bitmapFrame.Metadata as BitmapMetadata;
+            info.Decoder = bitmapFrame.Decoder.CodecInfo.FriendlyName;
             info.FileSize = entry.FileSize;
             info.LastWriteTime = entry.LastWriteTime;
             info.Metadata = metadata;

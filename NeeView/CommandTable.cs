@@ -1681,7 +1681,6 @@ namespace NeeView
                 element.Note = "コンテキストメニューを開きます";
                 element.IsShowMessage = false;
                 element.CanExecute = () => true;
-                element.MouseGesture = "C";
                 _elements[CommandType.OpenContextMenu] = element;
             }
 

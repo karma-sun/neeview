@@ -122,14 +122,16 @@
                         </StackPanel>
 
                         <TextBlock Text="メモリ関連" Style="{StaticResource Header}" />
-
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="先読みを行う"
-                                      ToolTip="3ページ先までの先読みと3ページ前後のページの保持を行います"
-                                      IsChecked="{Binding Setting.BookHubMemento.AllowPagePreLoad}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="メモリ開放をシステムに任せる"
                                       ToolTip="システムに任せるとメモリ消費が増えるように見えますが、メモリが足りなくなると自動的に開放されるため問題ありません&#xa;このチェックをはずすと使用しなくなった画像のメモリを即時開放しますが、動作が重くなる可能性があります"
                                       IsChecked="{Binding Setting.ViewMemento.IsAutoGC}" />
+                            <StackPanel Style="{StaticResource ItemStackPanel}"
+                                        ToolTip="先読みは前後のページを保持するためメモリを消費します&#xa;「自動」にすると解像度が一定(2048x2048)以下で有効に、それ以上では無効になります">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="先読み"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PreLoadModeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.BookHubMemento. PreLoadMode}" />
+                            </StackPanel>
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="サムネイル画像に使用される最大容量">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="サムネイル用メモリ"/>
                                 <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.ThumbnailMemorySize}"
@@ -934,7 +936,7 @@
                         <Border BorderBrush="Gray" BorderThickness="1" Background="LightYellow">
                             <TextBlock Margin="10">
                                 コンテキストメニュー呼び出しはコマンド「コンテキストメニューを開く」で行うため、コマンド設定でのキー指定が必要です<LineBreak/>
-                                標準設定ではマウス右ボタンを押しながら左クリックです
+                                未設定の場合でもアプリケーションキーで開くことができます
                             </TextBlock>
                         </Border>
                     </Popup>

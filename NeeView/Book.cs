@@ -75,7 +75,32 @@ namespace NeeView
         public event EventHandler<Page> ThumbnailChanged;
 
         // 先読み許可フラグ
-        public bool AllowPreLoad { get; set; } = true;
+        private bool AllowPreLoad
+        {
+            get
+            {
+                switch (PreLoadMode)
+                {
+                    default:
+                    case PreLoadMode.None:
+                        return false;
+                    case PreLoadMode.AutoPreLoad:
+                        return _canPreLoad;
+                    case PreLoadMode.PreLoad:
+                        return true;
+                }
+            }
+        }
+
+        // 先読みモード
+        public PreLoadMode PreLoadMode { get; set; }
+
+        // 先読み可能フラグ
+        private bool _canPreLoad = true;
+
+        // 先読み解除フラグ
+        private int _canPreLoadCount;
+
 
         // ファイル削除された
         public event EventHandler<Page> PageRemoved;
@@ -268,6 +293,10 @@ namespace NeeView
 
         // リソースを保持しておくページ
         private List<Page> _keepPages = new List<Page>();
+
+        //
+        private int _keepPageNextSize => PageMode == PageMode.SinglePage ? 1 : 3;
+        private int _keepPagePrevSize => PageMode == PageMode.SinglePage ? 1 : 3;
 
         // マーカー
         public List<Page> Markers = new List<Page>();
@@ -1180,6 +1209,30 @@ namespace NeeView
                 contentsSource.Add(new ViewContentSource(Pages[v.Position.Index], v.Position, v.Size, BookReadOrder));
             }
 
+            // 先読み可能判定
+            if (PreLoadMode == PreLoadMode.AutoPreLoad)
+            {
+                foreach (var content in contentsSource)
+                {
+                    if (content.Page.Width * content.Page.Height > 2048 * 2048)
+                    {
+                        //Debug.WriteLine("PreLoad: Disabled");
+                        _canPreLoadCount = 0;
+                        _canPreLoad = false;
+                    }
+                    else
+                    {
+                        _canPreLoadCount++;
+                        if (!_canPreLoad && _canPreLoadCount > 3) // 一定回数連続で規定サイズ以下なら先読み有効
+                        {
+                            //Debug.WriteLine("PreLoad: Enabled");
+                            _canPreLoad = true;
+                        }
+                    }
+                }
+            }
+
+
             // 並び順補正
             if (source.Direction < 0 && infos.Count >= 2)
             {
@@ -1216,11 +1269,9 @@ namespace NeeView
         // 不要ページコンテンツの削除を行う
         private void CleanupPages(ViewPageContextSource source)
         {
-            int keepPageSize = 3;
-
             // コンテンツを保持するページ収集
             var keepPages = new List<Page>();
-            for (int offset = -keepPageSize; offset <= keepPageSize; ++offset)
+            for (int offset = -_keepPagePrevSize; offset <= _keepPageNextSize; ++offset)
             {
                 int index = source.Position.Index + offset;
                 if (0 <= index && index < Pages.Count)
@@ -1263,7 +1314,9 @@ namespace NeeView
 
             var preLoadPages = new List<Page>();
 
-            for (int offset = 0; offset < 4; ++offset)
+            var size = source.Direction < 0 ? _keepPagePrevSize : _keepPageNextSize;
+
+            for (int offset = 0; offset <= size; offset++)
             {
                 int index = source.Position.Index + (source.Direction < 0 ? -offset : offset);
                 if (0 <= index && index < Pages.Count)
@@ -1689,7 +1742,7 @@ namespace NeeView
         private void Deserialized(StreamingContext c)
         {
             // 項目数の保証
-            foreach(BookMementoBit key in Enum.GetValues(typeof(BookMementoBit)))
+            foreach (BookMementoBit key in Enum.GetValues(typeof(BookMementoBit)))
             {
                 if (!Flags.ContainsKey(key)) Flags.Add(key, true);
             }

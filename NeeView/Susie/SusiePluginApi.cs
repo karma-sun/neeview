@@ -364,8 +364,8 @@ namespace Susie
         /// 画像取得(メモリ版)
         /// </summary>
         /// <param name="buff">入力画像データ</param>
-        /// <returns>BitmapImage。失敗した場合はnull</returns>
-        public BitmapImage GetPicture(byte[] buff)
+        /// <returns>BitmapSource。失敗した場合はnull</returns>
+        public BitmapSource GetPicture(byte[] buff)
         {
             if (hModule == null) throw new InvalidOperationException();
             var getPicture = GetApiDelegate<GetPictureFromMemoryDelegate>("GetPicture");
@@ -397,8 +397,8 @@ namespace Susie
         /// 画像取得(ファイル版)
         /// </summary>
         /// <param name="filename">入力ファイル名</param>
-        /// <returns>BitmapImage。失敗した場合はnull</returns>
-        public BitmapImage GetPicture(string filename)
+        /// <returns>BitmapSource。失敗した場合はnull</returns>
+        public BitmapSource GetPicture(string filename)
         {
             if (hModule == null) throw new InvalidOperationException();
             var getPicture = GetApiDelegate<GetPictureFromFileDelegate>("GetPicture");
@@ -426,7 +426,7 @@ namespace Susie
         }
 
         // BitmapImage 作成
-        private BitmapImage CraeteBitmapImage(IntPtr pBInfo, IntPtr pBm)
+        private BitmapSource CraeteBitmapImage(IntPtr pBInfo, IntPtr pBm)
         {
             var bi = Marshal.PtrToStructure<BitmapInfoHeader>(pBInfo);
             var bf = CreateBitmapFileHeader(bi);
@@ -440,15 +440,9 @@ namespace Susie
 
             using (MemoryStream ms = new MemoryStream(mem))
             {
-                BitmapImage bmpImage = new BitmapImage();
-
-                bmpImage.BeginInit();
-                bmpImage.CacheOption = BitmapCacheOption.OnLoad;
-                bmpImage.StreamSource = ms;
-                bmpImage.EndInit();
-                bmpImage.Freeze();
-
-                return bmpImage;
+                var bitmapFrame = BitmapFrame.Create(ms, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+                bitmapFrame.Freeze();
+                return bitmapFrame;
             }
         }
 

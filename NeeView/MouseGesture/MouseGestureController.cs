@@ -197,6 +197,8 @@ namespace NeeView
 
             _sender.ReleaseMouseCapture();
 
+            e.Handled = true;
+
             // なんらかの理由でキャンセルされた？
             if (!_isEnableClickEvent) return;
 
@@ -212,7 +214,6 @@ namespace NeeView
             else if (!_isDragging)
             {
                 MouseClickEventHandler(sender, e);
-
             }
         }
 

@@ -175,8 +175,8 @@ namespace Susie
         /// </summary>
         /// <param name="fileName">フォーマット判定に使用される。ファイルアクセスはされません</param>
         /// <param name="buff">画像データ</param>
-        /// <returns>BitmapImage</returns>
-        public BitmapImage GetPicture(string fileName, byte[] buff, bool isCheckExtension)
+        /// <returns>BitmapSource</returns>
+        public BitmapSource GetPicture(string fileName, byte[] buff, bool isCheckExtension)
         {
             SusiePlugin spiDummy;
             return GetPicture(fileName, buff, isCheckExtension, out spiDummy);
@@ -188,8 +188,8 @@ namespace Susie
         /// <param name="fileName">フォーマット判定に使用される。ファイルアクセスはされません</param>
         /// <param name="buff">画像データ</param>
         /// <param name="spi">使用されたプラグイン</param>
-        /// <returns>BitmapImage</returns>
-        public BitmapImage GetPicture(string fileName, byte[] buff, bool isCheckExtension, out SusiePlugin spi)
+        /// <returns>BitmapSource</returns>
+        public BitmapSource GetPicture(string fileName, byte[] buff, bool isCheckExtension, out SusiePlugin spi)
         {
             foreach (var plugin in INPlgunList)
             {
@@ -216,8 +216,8 @@ namespace Susie
         /// 画像取得 (ファイル版)
         /// </summary>
         /// <param name="fileName">ファイルパス</param>
-        /// <returns>BitmapImage</returns>
-        public BitmapImage GetPictureFromFile(string fileName, bool isCheckExtension)
+        /// <returns>BitmapSource</returns>
+        public BitmapSource GetPictureFromFile(string fileName, bool isCheckExtension)
         {
             SusiePlugin spiDummy;
             return GetPictureFromFile(fileName, isCheckExtension, out spiDummy);
@@ -228,8 +228,8 @@ namespace Susie
         /// </summary>
         /// <param name="fileName">ファイルパス</param>
         /// <param name="spi">使用されたプラグイン</param>
-        /// <returns>BitmapImage</returns>
-        public BitmapImage GetPictureFromFile(string fileName, bool isCheckExtension, out SusiePlugin spi)
+        /// <returns>BitmapSource</returns>
+        public BitmapSource GetPictureFromFile(string fileName, bool isCheckExtension, out SusiePlugin spi)
         {
             // 先頭の一部をメモリに読み込む
             var head = new byte[4096];

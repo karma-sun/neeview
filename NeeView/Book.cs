@@ -32,7 +32,7 @@ namespace NeeView
         SelectHistoryMaybe = (1 << 7), // 可能ならば履歴リストで選択する
         SkipSamePlace = (1 << 8), // 同じフォルダならば読み込まない
         AutoRecursive = (1 << 9), // 自動再帰
-        KeepPage = (1 << 10), // ページ位置を変更しない
+        Resume = (1 << 10), // 履歴情報から全て復元
     };
 
     /// <summary>

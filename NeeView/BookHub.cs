@@ -685,11 +685,13 @@ namespace NeeView
 
                 if (memory != null)
                 {
-                    memento.Write(HistoryMementoFilter, memory);
-
-                    if ((option & BookLoadOption.KeepPage) == BookLoadOption.KeepPage)
+                    if ((option & BookLoadOption.Resume) == BookLoadOption.Resume)
                     {
-                        memento.Page = memory.Page;
+                        memento = memory;
+                    }
+                    else
+                    {
+                        memento.Write(HistoryMementoFilter, memory);
                     }
 
                     return memento;
@@ -937,7 +939,7 @@ namespace NeeView
         {
             if (_isLoading || Address == null) return;
 
-            var options = Current != null ? (Current.LoadOptions & BookLoadOption.KeepHistoryOrder) | BookLoadOption.KeepPage : BookLoadOption.None;
+            var options = Current != null ? (Current.LoadOptions & BookLoadOption.KeepHistoryOrder) | BookLoadOption.Resume : BookLoadOption.None;
             RequestLoad(Address, null, options, true);
         }
 

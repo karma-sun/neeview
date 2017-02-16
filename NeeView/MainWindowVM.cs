@@ -2108,7 +2108,9 @@ namespace NeeView
             {
                 string place = list[0].Place;
                 if (System.IO.Directory.Exists(place) || System.IO.File.Exists(place))
-                    Load(place);
+                {
+                    Load(place, BookLoadOption.Resume);
+                }
             }
         }
 
@@ -2644,9 +2646,9 @@ namespace NeeView
 
 
         // フォルダ読み込み
-        public void Load(string path)
+        public void Load(string path, BookLoadOption option = BookLoadOption.None)
         {
-            BookHub.RequestLoad(path, null, BookLoadOption.None, true);
+            BookHub.RequestLoad(path, null, option, true);
         }
 
         // ドラッグ＆ドロップ取り込み失敗

@@ -151,7 +151,7 @@ namespace NeeView
             {
                 Message = "Exception: " + e.Message;
                 Width = 320;
-                Height = 320 * 1.25;
+                Height = 320; // * 1.25;
                 Color = Colors.Black;
 
                 return new FilePageContent()

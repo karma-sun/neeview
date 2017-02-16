@@ -42,7 +42,7 @@ namespace NeeView
         protected override object LoadContent()
         {
             Width = 320;
-            Height = 320 * 1.25;
+            Height = 320; // * 1.25;
             Color = Colors.Black;
 
             var info = new FileBasicInfo();

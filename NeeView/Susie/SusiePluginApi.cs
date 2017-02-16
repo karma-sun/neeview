@@ -440,9 +440,26 @@ namespace Susie
 
             using (MemoryStream ms = new MemoryStream(mem))
             {
-                var bitmapFrame = BitmapFrame.Create(ms, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
-                bitmapFrame.Freeze();
-                return bitmapFrame;
+                try
+                {
+                    var bitmapFrame = BitmapFrame.Create(ms, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+                    bitmapFrame.Freeze();
+                    return bitmapFrame;
+                }
+                catch (OutOfMemoryException)
+                {
+                    throw;
+                }
+                catch (Exception)
+                {
+                    BitmapImage bmpImage = new BitmapImage();
+                    bmpImage.BeginInit();
+                    bmpImage.CacheOption = BitmapCacheOption.OnLoad;
+                    bmpImage.StreamSource = ms;
+                    bmpImage.EndInit();
+                    bmpImage.Freeze();
+                    return bmpImage;
+                }
             }
         }
 

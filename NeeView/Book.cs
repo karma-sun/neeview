@@ -311,6 +311,11 @@ namespace NeeView
         // 読み込み対象外サブフォルダ数。リカーシブ確認に使用します。
         public int SubFolderCount { get; private set; }
 
+        /// <summary>
+        /// 自動先読み判定用画像サイズ
+        /// </summary>
+        public static int PreLoadLimitSize { get; internal set; } = 2048 * 2048;
+
         // 本読み込み
         public async Task Load(string path, string start = null, BookLoadOption option = BookLoadOption.None)
         {
@@ -1214,7 +1219,7 @@ namespace NeeView
             {
                 foreach (var content in contentsSource)
                 {
-                    if (content.Page.Width * content.Page.Height > 2048 * 2048)
+                    if (content.Page.Width * content.Page.Height > PreLoadLimitSize)
                     {
                         //Debug.WriteLine("PreLoad: Disabled");
                         _canPreLoadCount = 0;

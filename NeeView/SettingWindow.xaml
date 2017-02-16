@@ -127,7 +127,7 @@
                                       ToolTip="システムに任せるとメモリ消費が増えるように見えますが、メモリが足りなくなると自動的に開放されるため問題ありません&#xa;このチェックをはずすと使用しなくなった画像のメモリを即時開放しますが、動作が重くなる可能性があります"
                                       IsChecked="{Binding Setting.ViewMemento.IsAutoGC}" />
                             <StackPanel Style="{StaticResource ItemStackPanel}"
-                                        ToolTip="先読みは前後のページを保持するためメモリを消費します&#xa;「自動」にすると解像度が一定(2048x2048)以下で有効に、それ以上では無効になります">
+                                        ToolTip="先読みは前後のページを保持するためメモリを消費します&#xa;「自動」にすると画像サイズに応じで先読み有効無効を切り替えます">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="先読み"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PreLoadModeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.BookHubMemento. PreLoadMode}" />
@@ -159,12 +159,6 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="「開く」を現在開いているフォルダの場所から始める"
                               ToolTip="[ファイル]>[開く]で開くフォルダです&#xa;ドラッグ＆ドロップや履歴から開いた場所も基準になります"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
-
-
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="7z.dllで展開するファイルを開いたままにする"
-                              ToolTip="RAR等を展開する7z.dllを使用する際にファイルを開いたままにします。&#xa;閲覧中の移動や削除はできなくなりますが、読み込み速度の改善が期待できます"
-                              IsChecked="{Binding Setting.BookHubMemento.IsSevenZipAccessLocked}" />
-
                             <Button x:Name="RemoveAllDataButton" Style="{StaticResource ItemButton}"
                                     ToolTip="ユーザデータを削除し、アプリケーションを終了します。&#xa;アンインストール前に履歴等を完全に削除したい場合に使用します"
                                     Click="RemoveAllData_Click">

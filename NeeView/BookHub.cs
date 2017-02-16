@@ -287,15 +287,6 @@ namespace NeeView
         #endregion
 
 
-
-        // 7z.dll アクセスでファイルをロックする
-        public bool IsSevenZipAccessLocked
-        {
-            get { return SevenZipSource.IsFileLocked; }
-            set { SevenZipSource.IsFileLocked = value; }
-        }
-
-
         // スライドショー再生フラグ
         private bool _isEnableSlideShow;
         public bool IsEnableSlideShow
@@ -1800,9 +1791,6 @@ namespace NeeView
             [DataMember(Order = 6)]
             public bool IsUseBookMementoDefault { get; set; }
 
-            [DataMember(Order = 9)]
-            public bool IsSevenZipAccessLocked { get; set; }
-
             [DataMember(Order = 10)]
             public ClipboardUtility ClipboardUtility { get; set; }
 
@@ -1827,7 +1815,6 @@ namespace NeeView
                 ExternalApplication = new ExternalApplication();
                 BookMementoDefault = new Book.Memento();
                 IsUseBookMementoDefault = false;
-                IsSevenZipAccessLocked = true;
                 ClipboardUtility = new ClipboardUtility();
                 IsAutoRecursive = true;
                 HistoryMementoFilter = new BookMementoFilter(true);
@@ -1881,7 +1868,6 @@ namespace NeeView
             memento.BookMementoDefault = BookMementoDefault.Clone();
             memento.BookMementoDefault.ValidateForDefault(); // 念のため
             memento.IsUseBookMementoDefault = IsUseBookMementoDefault;
-            memento.IsSevenZipAccessLocked = IsSevenZipAccessLocked;
             memento.ClipboardUtility = ClipboardUtility.Clone();
             memento.IsAutoRecursive = IsAutoRecursive;
             memento.HistoryMementoFilter = HistoryMementoFilter;
@@ -1907,7 +1893,6 @@ namespace NeeView
             IsConfirmRecursive = memento.IsConfirmRecursive;
             BookMementoDefault = memento.BookMementoDefault.Clone();
             IsUseBookMementoDefault = memento.IsUseBookMementoDefault;
-            IsSevenZipAccessLocked = memento.IsSevenZipAccessLocked;
             ClipboardUtility = memento.ClipboardUtility.Clone();
             IsAutoRecursive = memento.IsAutoRecursive;
             HistoryMementoFilter = memento.HistoryMementoFilter;

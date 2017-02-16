@@ -56,6 +56,10 @@ namespace NeeView
         [PropertyMember("パネルが自動的に消えるまでの時間(秒)")]
         public double panel_autohide_delaytime { get; set; }
 
+        [DataMember, DefaultValue("2048x4096")]
+        [PropertyMember(Name = "自動先読み判定用画像サイズ", Tips = "自動先読みモードで使用します。この面積より大きい画像で先読みが無効になります\n\"数値x数値\"で指定します")]
+        public string book_preload_limitsize { get; set; }
+
         [DataMember, DefaultValue("")]
         [PropertyPath(Name = "7z.dll(32bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映には再起動が必要です")]
         public string loader_archiver_7z_dllpath { get; set; }
@@ -92,6 +96,21 @@ namespace NeeView
             foreach (var item in Document.Elements.OfType<PropertyMemberElement>())
             {
                 item.ResetValue();
+            }
+        }
+
+
+        /// <summary>
+        /// 正規化
+        /// </summary>
+        public void Validate()
+        {
+            // loader_preload_limitsize
+            var sizeString = new SizeString(book_preload_limitsize);
+            if (!sizeString.IsValid())
+            {
+                var element = Document.GetPropertyMember(nameof(book_preload_limitsize));
+                element.ResetValue();
             }
         }
 

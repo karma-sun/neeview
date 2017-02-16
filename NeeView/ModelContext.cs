@@ -102,6 +102,10 @@ namespace NeeView
 
             // 除外パス更新
             ModelContext.Excludes = Preference.loader_archiver_exclude.Split(';').Select(e => e.Trim()).ToList();
+
+            // 自動先読み判定サイズ
+            var sizeString = new SizeString(Preference.book_preload_limitsize);
+            Book.PreLoadLimitSize = sizeString.ToInteger();
         }
     }
 }

@@ -76,6 +76,7 @@
     <Compile Include="Archiver\ArchiveEntry.cs" />
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
+    <Compile Include="DelayAction.cs" />
     <Compile Include="CommandParameters.cs" />
     <Compile Include="CommandParameterWindow.xaml.cs">
       <DependentUpon>CommandParameterWindow.xaml</DependentUpon>
@@ -107,6 +108,7 @@
     </Compile>
     <Compile Include="MemoryControl.cs" />
     <Compile Include="MouseLoupe.cs" />
+    <Compile Include="SizeString.cs" />
     <Compile Include="Utility\VectorExtensions.cs" />
     <Compile Include="IndexValue.cs" />
     <Compile Include="_NeeLaboratory\Controls\ColorPicker.xaml.cs">

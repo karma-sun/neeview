@@ -15,10 +15,8 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-    public class SevenZipSource : IDisposable
+        public class SevenZipSource : IDisposable
     {
-        public static bool IsFileLocked { get; set; }
-
         private SevenZipExtractor _extractor;
 
         private string _fileName;
@@ -28,11 +26,14 @@ namespace NeeView
 
         private object _lock;
 
+        private DelayAction _delayClose;
+
         //
         public SevenZipSource(string fileName, object lockObject)
         {
             _fileName = fileName;
             _lock = lockObject ?? new object();
+            Initialize();
         }
 
         //
@@ -40,11 +41,30 @@ namespace NeeView
         {
             _stream = stream;
             _lock = lockObject ?? new object();
+            Initialize();
         }
+
+        //
+        private void Initialize()
+        {
+            _delayClose = new DelayAction(App.Current.Dispatcher, DelayClose, TimeSpan.FromSeconds(1.0));
+        }
+
+        //
+        private void DelayClose()
+        {
+            lock (_lock)
+            {
+                Close(true);
+            }
+        }
+
 
         //
         public SevenZipExtractor Open()
         {
+            _delayClose.Cancel();
+
             if (_extractor == null)
             {
                 _extractor = IsStream ? new SevenZipExtractor(_stream) : new SevenZipExtractor(_fileName);
@@ -56,10 +76,17 @@ namespace NeeView
         //
         public void Close(bool isForce = false)
         {
-            if (_extractor != null && (isForce || !IsFileLocked))
+            if (_extractor != null)
             {
-                _extractor.Dispose();
-                _extractor = null;
+                if (isForce)
+                {
+                    _extractor.Dispose();
+                    _extractor = null;
+                }
+                else
+                {
+                    _delayClose.Request();
+                }
             }
         }
 
@@ -67,6 +94,7 @@ namespace NeeView
         {
             lock (_lock)
             {
+                _delayClose.Cancel();
                 Close(true);
                 _stream = null;
             }

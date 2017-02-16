@@ -29,19 +29,9 @@ namespace NeeView
         public bool IsAutoGC { get; set; }
 
         /// <summary>
-        /// GC要求カウンタ
+        /// 遅延実行系
         /// </summary>
-        private int _CollectRequest;
-
-        /// <summary>
-        /// 最後のGC要求時間
-        /// </summary>
-        private DateTime _lastRequestTime;
-
-        /// <summary>
-        /// GC遅延実行のためのタイマー
-        /// </summary>
-        private DispatcherTimer _timer;
+        private DelayAction _delayAction;
 
         /// <summary>
         /// constructor
@@ -49,10 +39,7 @@ namespace NeeView
         /// <param name="dispatcher"></param>
         public MemoryControl(Dispatcher dispatcher)
         {
-            // timer for delay GC
-            _timer = new DispatcherTimer(DispatcherPriority.Normal, dispatcher);
-            _timer.Interval = TimeSpan.FromSeconds(0.1);
-            _timer.Tick += new EventHandler(DispatcherTimer_Tick);
+            _delayAction = new DelayAction(dispatcher, () => GC.Collect(), TimeSpan.FromMilliseconds(100));
         }
 
         /// <summary>
@@ -62,27 +49,7 @@ namespace NeeView
         {
             if (IsAutoGC) return;
 
-            _CollectRequest++;
-            _lastRequestTime = DateTime.Now;
-            _timer.Start();
+            _delayAction.Request();
         }
-
-        /// <summary>
-        /// timer callback
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DispatcherTimer_Tick(object sender, EventArgs e)
-        {
-
-            if (_CollectRequest > 0 && (DateTime.Now - _lastRequestTime).TotalMilliseconds > 100)
-            {
-                //Debug.WriteLine($"GC : {_isCollectRequest}");
-                _CollectRequest = 0;
-                _timer.Stop();
-                GC.Collect();
-            }
-        }
-
     }
 }

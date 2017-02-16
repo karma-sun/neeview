@@ -502,7 +502,7 @@ namespace NeeView
         {
             PreferenceCollection.Clear();
 
-            foreach (var element in _preference.Document.PropertyMembers)
+            foreach (var element in _preference.Document.PropertyMembers.OrderBy(e => e.Path))
             {
                 if (element.Path.StartsWith("_")) continue;
 
@@ -542,6 +542,7 @@ namespace NeeView
                 var result = dialog.ShowDialog();
                 if (result == true)
                 {
+                    _preference.Validate();
                     this.PreferenceListView.Items.Refresh();
                 }
             }

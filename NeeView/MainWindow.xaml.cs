@@ -84,6 +84,12 @@ namespace NeeView
         {
             InitializeComponent();
 
+            // ウィンドウ座標復元
+            if (!App.Options["--reset-placement"].IsValid && App.Setting.ViewMemento.IsSaveWindowPlacement)
+            {
+                WindowPlacement.Restore(this, App.Setting.WindowPlacement);
+            }
+
 #if DEBUG
 #else
             this.MenuItemDev.Visibility = Visibility.Collapsed;
@@ -906,11 +912,6 @@ namespace NeeView
         //
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
-            if (!App.Options["--reset-placement"].IsValid && App.Setting.ViewMemento.IsSaveWindowPlacement)
-            {
-                // ウィンドウ座標復元 (スレッドスリープする)
-                WindowPlacement.Restore(this, App.Setting.WindowPlacement);
-            }
         }
 
         //
@@ -923,6 +924,9 @@ namespace NeeView
 
             // 設定反映
             _VM.RestoreSetting(App.Setting, true);
+
+            // 
+            _VM.FullScreenManager.WindowStateMemento = WindowState.Normal;
 
             // 履歴読み込み
             _VM.LoadHistory(App.Setting);
@@ -1285,7 +1289,7 @@ namespace NeeView
 
 
         // TODO: クラス化
-        #region thumbnail list
+#region thumbnail list
 
         // サムネイルリストのパネルコントロール
         private VirtualizingStackPanel _thumbnailListPanel;
@@ -1586,7 +1590,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
 
         private void UpdateMenuAreaVisibility()
@@ -1630,7 +1634,7 @@ namespace NeeView
         }
 
 
-        #region Panel Visibility
+#region Panel Visibility
 
         //
         private bool _isVisibleLeftPanel;
@@ -1917,7 +1921,7 @@ namespace NeeView
         }
 
 
-        #endregion
+#endregion
 
         //
         private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1972,7 +1976,7 @@ namespace NeeView
 
 
 
-        #region ContextMenu Counter
+#region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -2010,7 +2014,7 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-        #endregion
+#endregion
 
 
         private void LeftPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -2040,7 +2044,7 @@ namespace NeeView
     }
 
 
-    #region Convertes
+#region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -2322,5 +2326,5 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 }

@@ -491,7 +491,7 @@ namespace NeeView
             set
             {
                 _isVisibleTitleBar = value;
-                _fullScreenManager.WindowStyleMemento = value ? WindowStyle.SingleBorderWindow : WindowStyle.None;
+                FullScreenManager.WindowStyleMemento = value ? WindowStyle.SingleBorderWindow : WindowStyle.None;
                 RaisePropertyChanged();
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
             }
@@ -792,13 +792,13 @@ namespace NeeView
         #region Property: FullScreenManager
 
         //フルスクリーン管理
-        private FullScreenManager _fullScreenManager;
+        public FullScreenManager FullScreenManager { get; set; }
 
         //
         public bool IsFullScreen
         {
-            get { return _fullScreenManager.IsFullScreen; }
-            set { _fullScreenManager.IsFullScreen = value; }
+            get { return FullScreenManager.IsFullScreen; }
+            set { FullScreenManager.IsFullScreen = value; }
         }
 
         //
@@ -1663,8 +1663,8 @@ namespace NeeView
         // コンストラクタ
         public MainWindowVM(MainWindow window)
         {
-            _fullScreenManager = new FullScreenManager(window);
-            _fullScreenManager.Changed += (s, e) => NotifyMenuVisibilityChanged?.Invoke(this, null);
+            FullScreenManager = new FullScreenManager(window);
+            FullScreenManager.Changed += (s, e) => NotifyMenuVisibilityChanged?.Invoke(this, null);
 
             HistoryFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "History.xml");
             BookmarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Bookmark.xml");

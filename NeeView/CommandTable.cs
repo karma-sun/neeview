@@ -1627,7 +1627,6 @@ namespace NeeView
                 element.Text = "アプリを終了する";
                 element.MenuText = "アプリを終了";
                 element.Note = "このアプリケーションを終了させます";
-                element.ShortCutKey = "Alt+F4";
                 element.IsShowMessage = false;
                 element.CanExecute = () => true;
                 _elements[CommandType.CloseApplication] = element;

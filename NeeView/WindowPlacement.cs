@@ -15,75 +15,6 @@ using System.Windows.Interop;
 
 namespace NeeView
 {
-    public static partial class Win32Api
-    {
-        [DllImport("user32.dll")]
-        public static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);
-
-        [DllImport("user32.dll")]
-        public static extern bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl);
-
-        [Serializable]
-        [StructLayout(LayoutKind.Sequential)]
-        public struct WINDOWPLACEMENT
-        {
-            public int length;
-            public int flags;
-            public SW showCmd;
-            public POINT minPosition;
-            public POINT maxPosition;
-            public RECT normalPosition;
-        }
-
-        [Serializable]
-        [StructLayout(LayoutKind.Sequential)]
-        public struct POINT
-        {
-            public int X;
-            public int Y;
-
-            public POINT(int x, int y)
-            {
-                this.X = x;
-                this.Y = y;
-            }
-        }
-
-        [Serializable]
-        [StructLayout(LayoutKind.Sequential)]
-        public struct RECT
-        {
-            public int Left;
-            public int Top;
-            public int Right;
-            public int Bottom;
-
-            public RECT(int left, int top, int right, int bottom)
-            {
-                this.Left = left;
-                this.Top = top;
-                this.Right = right;
-                this.Bottom = bottom;
-            }
-        }
-
-        public enum SW
-        {
-            HIDE = 0,
-            SHOWNORMAL = 1,
-            SHOWMINIMIZED = 2,
-            SHOWMAXIMIZED = 3,
-            SHOWNOACTIVATE = 4,
-            SHOW = 5,
-            MINIMIZE = 6,
-            SHOWMINNOACTIVE = 7,
-            SHOWNA = 8,
-            RESTORE = 9,
-            SHOWDEFAULT = 10,
-        }
-    }
-
-
     /// <summary>
     /// ウィンドウ状態
     /// </summary>
@@ -94,50 +25,35 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public Win32Api.WINDOWPLACEMENT? WindowPlacement { get; set; }
+            public bool IsEnabled { get; set; }
 
             [DataMember]
-            public Rect? WindowRect { get; set; }
+            public WindowState WindowState { get; set; }
+
+            [DataMember]
+            public Rect WindowRect { get; set; }
         }
 
         // ウィンドウ状態反映
-        public static void Restore(Window window, Memento memento, bool isNormalState)
+        public static void Restore(Window window, Memento memento)
         {
-            if (memento?.WindowPlacement == null) return;
+            if (memento == null || !memento.IsEnabled) return;
 
-            // from http://grabacr.net/archives/1585
-            var placement = (Win32Api.WINDOWPLACEMENT)memento.WindowPlacement;
-            placement.length = Marshal.SizeOf(typeof(Win32Api.WINDOWPLACEMENT));
-            placement.flags = 0;
-            placement.showCmd = (isNormalState || placement.showCmd == Win32Api.SW.SHOWMINIMIZED) ? Win32Api.SW.SHOWNORMAL : placement.showCmd;
-
-            var hwnd = new WindowInteropHelper(window).Handle;
-            Win32Api.SetWindowPlacement(hwnd, ref placement);
-
-            // スナップウィンドウサイズで復元 by nee
-            if (memento.WindowRect != null && placement.showCmd == Win32Api.SW.SHOWNORMAL)
-            {
-                Rect rect = (Rect)memento.WindowRect;
-                window.Left = rect.Left;
-                window.Top = rect.Top;
-                window.Width = rect.Width;
-                window.Height = rect.Height;
-            }
+            Rect rect = memento.WindowRect;
+            window.Left = rect.Left;
+            window.Top = rect.Top;
+            window.Width = rect.Width;
+            window.Height = rect.Height;
+            window.WindowState = (memento.WindowState == WindowState.Minimized) ? WindowState.Normal : memento.WindowState;
         }
 
         // ウィンドウ状態保存
         public static Memento CreateMemento(Window window)
         {
-            // from http://grabacr.net/archives/1585
-            Win32Api.WINDOWPLACEMENT placement;
-            var hwnd = new WindowInteropHelper(window).Handle;
-            Win32Api.GetWindowPlacement(hwnd, out placement);
-
-            var windowRect = new Rect(window.Left, window.Top, window.Width, window.Height);
-
             var memento = new Memento();
-            memento.WindowPlacement = placement;
-            memento.WindowRect = windowRect;
+            memento.WindowState = window.WindowState;
+            memento.WindowRect = window.RestoreBounds;
+            memento.IsEnabled = true;
             return memento;
         }
 

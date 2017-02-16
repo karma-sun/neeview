@@ -909,7 +909,7 @@ namespace NeeView
             if (!App.Options["--reset-placement"].IsValid && App.Setting.ViewMemento.IsSaveWindowPlacement)
             {
                 // ウィンドウ座標復元 (スレッドスリープする)
-                WindowPlacement.Restore(this, App.Setting.WindowPlacement, App.Setting.ViewMemento.IsFullScreen);
+                WindowPlacement.Restore(this, App.Setting.WindowPlacement);
             }
         }
 

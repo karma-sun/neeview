@@ -116,6 +116,7 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーン状態を復元する"
                               IsChecked="{Binding Setting.ViewMemento.IsSaveFullScreen}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回開いていたフォルダを開く"
+                              ToolTip="履歴を保存しない場合は機能しません"
                               IsChecked="{Binding Setting.ViewMemento.IsLoadLastFolder}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="スライドショーの再生を開始する"
                               IsChecked="{Binding Setting.ViewMemento.IsAutoPlaySlideShow}" />
@@ -609,7 +610,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel  Style="{StaticResource BaseStackPanel}">
                         <TextBlock Text="履歴、ブックマークから復元する項目" Style="{StaticResource Header}"
-                                   ToolTip="履歴情報、ブックマーク情報から復元する設定項目です"/>
+                                   ToolTip="履歴情報、ブックマーク情報から復元するページ設定項目です"/>
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ位置"
                                   IsChecked="{Binding Path=Setting.BookHubMemento.HistoryMementoFilter.Flags[(local:BookMementoBit)Page]}" />
@@ -667,6 +668,14 @@
                                 </Button.Style>
                             </Button>
                         </StackPanel>
+
+                        <TextBlock Text="フォルダーリスト" Style="{StaticResource Header}" />
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="フォルダー状態を保存する"
+                                      ToolTip="最後に開いていたパス、各フォルダーでの並び順を履歴ファイル保存します"
+                                      IsChecked="{Binding History.IsKeepFolderStatus}" />
+                        </StackPanel>
+
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

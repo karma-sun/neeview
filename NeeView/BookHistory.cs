@@ -53,6 +53,10 @@ namespace NeeView
         // 履歴制限(時間)
         private TimeSpan _limitSpan;
 
+        /// <summary>
+        /// IsKeepFolderStatus property.
+        /// </summary>
+        public bool IsKeepFolderStatus { get; set; } = true;
 
 
         // フォルダ設定
@@ -309,14 +313,16 @@ namespace NeeView
             }
             #endregion
 
+            [DataMember]
+            public int _Version { get; set; }
 
             [DataMember(Name = "History")]
             public List<Book.Memento> Items { get; set; }
 
-            [DataMember(Order = 8)]
+            [DataMember(Order = 8, EmitDefaultValue = false)]
             public string LastFolder { get; set; }
 
-            [DataMember(Order = 8)]
+            [DataMember(Order = 8, EmitDefaultValue = false)]
             public Dictionary<string, FolderOrder> FolderOrders { get; set; }
 
             [DataMember(Order = 12)]
@@ -325,12 +331,17 @@ namespace NeeView
             [DataMember(Order = 12)]
             public TimeSpan LimitSpan { get; set; }
 
+            [DataMember(Order = 19)]
+            public bool IsKeepFolderStatus { get; set; }
 
+            //
             private void Constructor()
             {
                 Items = new List<Book.Memento>();
                 LastFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures);
                 FolderOrders = new Dictionary<string, FolderOrder>();
+                LimitSize = -1;
+                IsKeepFolderStatus = true;
             }
 
             public Memento()
@@ -343,6 +354,16 @@ namespace NeeView
             {
                 Constructor();
             }
+
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
+            {
+                if (_Version < Config.GenerateProductVersionNumber(1, 19, 0))
+                {
+                    if (LimitSize == 0) LimitSize = -1;
+                }
+            }
+
 
             // 結合
             public void Merge(Memento memento)
@@ -379,7 +400,14 @@ namespace NeeView
         public Memento CreateMemento(bool forSave)
         {
             var memento = new Memento();
+
+            memento._Version = App.Config.ProductVersionNumber;
             memento.Items = this.Items.Select(e => e.Memento).ToList();
+            memento.FolderOrders = _folderOrders;
+            memento.LastFolder = this.LastFolder;
+            memento.LimitSize = _limitSize;
+            memento.LimitSpan = _limitSpan;
+            memento.IsKeepFolderStatus = IsKeepFolderStatus;
 
             if (forSave)
             {
@@ -387,12 +415,13 @@ namespace NeeView
                 memento.Items.RemoveAll((e) => e.Place.StartsWith(Temporary.TempDirectory));
                 // 履歴保持数制限適用
                 memento.Items = Limit(memento.Items); // 履歴保持数制限
+                // フォルダー保存制限
+                if (!memento.IsKeepFolderStatus)
+                {
+                    memento.FolderOrders = null;
+                    memento.LastFolder = null;
+                }
             }
-
-            memento.LastFolder = this.LastFolder;
-            memento.FolderOrders = _folderOrders;
-            memento.LimitSize = _limitSize;
-            memento.LimitSpan = _limitSpan;
 
             return memento;
         }
@@ -404,6 +433,7 @@ namespace NeeView
             _folderOrders = memento.FolderOrders;
             _limitSize = memento.LimitSize;
             _limitSpan = memento.LimitSpan;
+            IsKeepFolderStatus = memento.IsKeepFolderStatus;
 
             this.Load(fromLoad ? Limit(memento.Items) : memento.Items);
         }
@@ -413,7 +443,7 @@ namespace NeeView
         private List<Book.Memento> Limit(List<Book.Memento> source)
         {
             // limit size
-            var collection = _limitSize == 0 ? source : source.Take(_limitSize);
+            var collection = _limitSize == -1 ? source : source.Take(_limitSize);
 
             // limit time
             var limitTime = DateTime.Now - _limitSpan;

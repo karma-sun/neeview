@@ -865,7 +865,7 @@ namespace NeeView
     {
         private static List<int> _values = new List<int>
         {
-            1, 10, 20, 50, 100, 200, 500, 1000, 0
+            0, 1, 10, 20, 50, 100, 200, 500, 1000, -1
         };
 
         //
@@ -875,7 +875,7 @@ namespace NeeView
         }
 
         //
-        public override string ValueString => Value == 0 ? "制限なし" : Value.ToString();
+        public override string ValueString => Value == -1 ? "制限なし" : Value.ToString();
     }
 
     /// <summary>

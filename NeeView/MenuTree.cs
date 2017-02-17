@@ -555,9 +555,9 @@ namespace NeeView
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Group) { Name="ヘルプ(_H)", Children = new ObservableCollection<MenuTree>()
                         {
-                            new MenuTree(MenuElementType.Command) { Command = CommandType.HelpOnline },
                             new MenuTree(MenuElementType.Command) { Command = CommandType.HelpMainMenu },
                             new MenuTree(MenuElementType.Command) { Command = CommandType.HelpCommandList },
+                            new MenuTree(MenuElementType.Command) { Command = CommandType.HelpOnline },
                         }},
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenVersionWindow },

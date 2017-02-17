@@ -129,6 +129,9 @@ namespace NeeView
             {
                 writer.WriteLine(NVUtility.HtmlHelpHeader("NeeView Command List"));
                 writer.WriteLine("<body><h1>NeeView コマンド一覧</h1>");
+
+                writer.WriteLine("<p>操作が割り当てられていないコマンドは「設定ウィンドウ」の「コマンド」タブで設定することで使用可能です</p>");
+
                 // グループごとに出力
                 foreach (var pair in groups)
                 {

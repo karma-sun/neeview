@@ -655,18 +655,20 @@
 
                         <TextBlock Text="現在の履歴数" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
-                            <TextBlock Style="{StaticResource ItemHeader}" Text="{Binding History.Items.Count}" />
-                            <Button Content="履歴を削除する" Click="ClearHistoryButton_Click">
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource ItemButton}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding History.Items.Count}" Value="0">
-                                                <Setter Property="IsEnabled" Value="False"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
+                            <Grid>
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="{Binding History.Items.Count, StringFormat={}現在の履歴数は {0}}" />
+                                <Button Content="履歴を削除する" Click="ClearHistoryButton_Click">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource ItemButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding History.Items.Count}" Value="0">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Grid>
                         </StackPanel>
 
                         <TextBlock Text="フォルダーリスト" Style="{StaticResource Header}" />

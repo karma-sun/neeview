@@ -39,7 +39,7 @@ namespace NeeView
         /// <param name="dispatcher"></param>
         public MemoryControl(Dispatcher dispatcher)
         {
-            _delayAction = new DelayAction(dispatcher, () => GC.Collect(), TimeSpan.FromMilliseconds(100));
+            _delayAction = new DelayAction(dispatcher, TimeSpan.FromSeconds(0.1), () => GC.Collect(), TimeSpan.FromMilliseconds(100));
         }
 
         /// <summary>

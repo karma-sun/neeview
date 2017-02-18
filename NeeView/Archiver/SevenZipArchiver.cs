@@ -15,8 +15,10 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-        public class SevenZipSource : IDisposable
+    public class SevenZipSource : IDisposable
     {
+        public static double LockTime { get; set; } = 5.0;
+
         private SevenZipExtractor _extractor;
 
         private string _fileName;
@@ -47,7 +49,7 @@ namespace NeeView
         //
         private void Initialize()
         {
-            _delayClose = new DelayAction(App.Current.Dispatcher, DelayClose, TimeSpan.FromSeconds(1.0));
+            _delayClose = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.5), DelayClose, TimeSpan.FromSeconds(LockTime));
         }
 
         //

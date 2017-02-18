@@ -42,17 +42,21 @@ namespace NeeView
         /// 実行本体
         /// </summary>
         private Action _action;
-        
+
+        /// <summary>
+        /// lock
+        /// </summary>
+        private object _lock = new object();
 
         /// <summary>
         /// constructor
         /// </summary>
         /// <param name="dispatcher"></param>
-        public DelayAction(Dispatcher dispatcher, Action action, TimeSpan delay)
+        public DelayAction(Dispatcher dispatcher, TimeSpan interval, Action action, TimeSpan delay)
         {
             // timer for delay
             _timer = new DispatcherTimer(DispatcherPriority.Normal, dispatcher);
-            _timer.Interval = TimeSpan.FromSeconds(0.1);
+            _timer.Interval = interval;
             _timer.Tick += new EventHandler(DispatcherTimer_Tick);
 
             _action = action;
@@ -64,9 +68,12 @@ namespace NeeView
         /// </summary>
         public void Request()
         {
-            _lastRequestTime = DateTime.Now;
-            _isRequested = true;
-            _timer.Start();
+            lock (_lock)
+            {
+                _lastRequestTime = DateTime.Now;
+                _isRequested = true;
+                _timer.Start();
+            }
         }
 
         /// <summary>
@@ -74,8 +81,11 @@ namespace NeeView
         /// </summary>
         public void Cancel()
         {
-            _timer.Stop();
-            _isRequested = false;
+            lock (_lock)
+            {
+                _timer.Stop();
+                _isRequested = false;
+            }
         }
 
 
@@ -86,17 +96,26 @@ namespace NeeView
         /// <param name="e"></param>
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            if ((DateTime.Now - _lastRequestTime) > _delay)
+            bool isExecute = false;
+
+            lock (_lock)
             {
-                _timer.Stop();
-                if (_isRequested)
+                if ((DateTime.Now - _lastRequestTime) > _delay)
                 {
-                    _isRequested = false;
-                    _action?.Invoke();
+                    _timer.Stop();
+                    if (_isRequested)
+                    {
+                        _isRequested = false;
+                        isExecute = true;
+                    }
                 }
             }
-        }
 
+            if (isExecute)
+            {
+                _action?.Invoke();
+            }
+        }
     }
 
 }

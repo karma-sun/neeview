@@ -97,6 +97,9 @@ namespace NeeView
             // 7z.dll の場所
             SevenZipArchiver.DllPath = Preference.loader_archiver_7z_dllpath;
 
+            // SevenZip Lock時間
+            SevenZipSource.LockTime = Preference.loader_archiver_7z_locktime;
+
             // MainWindow Preference適用
             ((MainWindow)App.Current.MainWindow).ApplyPreference(Preference);
 

@@ -72,6 +72,9 @@ namespace NeeView
         [PropertyMember("ページ除外パス", Tips = ";(セミコロン)区切りで除外するパス名を羅列します。「サポート外ファイルもページに含める」設定では無効です")]
         public string loader_archiver_exclude { get; set; }
 
+        [DataMember, DefaultValue(5.0)]
+        [PropertyMember("7z.dllがファイルをロックする時間(秒)", Tips = "この時間ファイルアクセスがなければロック解除され、ファイル移動や名前変更が可能になります")]
+        public double loader_archiver_7z_locktime { get; set; }
 
 
         /// <summary>

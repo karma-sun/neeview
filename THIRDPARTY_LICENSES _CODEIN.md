@@ -15,7 +15,7 @@
 
 ### Utility/DockPanelSplitter.cs
 
-* URL(http://www.codeproject.com/Articles/34377/DockPanel-Splitter-Control-for-WPF)
+* URL: [DockPanel Splitter Control for WPF](http://www.codeproject.com/Articles/34377/DockPanel-Splitter-Control-for-WPF)
 * License: [CPOL](http://www.codeproject.com/info/cpol10.aspx)
 
 

@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		THIRDPARTY_LICENSES.md = THIRDPARTY_LICENSES.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SevenZip", "..\SevenZipSharp\SevenZip\SevenZip.csproj", "{4960DD14-3431-47EC-B9D9-9D2730A98DC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SevenZip", "SevenZipSharp\SevenZip\SevenZip.csproj", "{4960DD14-3431-47EC-B9D9-9D2730A98DC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

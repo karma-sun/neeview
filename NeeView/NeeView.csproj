@@ -465,7 +465,7 @@
     <Resource Include="Resources\Play.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SevenZipSharp\SevenZip\SevenZip.csproj">
+    <ProjectReference Include="..\SevenZipSharp\SevenZip\SevenZip.csproj">
       <Project>{4960dd14-3431-47ec-b9d9-9d2730a98dc3}</Project>
       <Name>SevenZip</Name>
     </ProjectReference>

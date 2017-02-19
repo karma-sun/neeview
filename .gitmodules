@@ -1,0 +1,3 @@
+[submodule "SevenZipSharp"]
+	path = SevenZipSharp
+	url = https://github.com/neelabo/SevenZipSharp.git

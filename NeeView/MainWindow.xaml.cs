@@ -2041,10 +2041,16 @@ namespace NeeView
         {
             LoadThumbnailList(1);
         }
+
+        private void ThumbnailListBox_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ThumbnailListBox_MoveSelectedIndex(e.Delta > 0 ? +1 : -1);
+            e.Handled = true;
+        }
     }
 
 
-#region Convertes
+    #region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter

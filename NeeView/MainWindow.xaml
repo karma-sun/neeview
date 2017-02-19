@@ -670,6 +670,7 @@
                              HorizontalAlignment="Center"
                              VerticalAlignment="Bottom"
                              ScrollViewer.CanContentScroll="True"
+                             PreviewMouseWheel="ThumbnailListBox_MouseWheel"
                              Background="Transparent" BorderThickness="0">
                         <ListBox.Resources>
 

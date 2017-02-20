@@ -1006,7 +1006,9 @@ namespace NeeView
         // 総ページ数取得
         public int GetPageCount()
         {
-            return CurrentBook == null ? 0 : CurrentBook.Pages.Count - 1;
+            var count = CurrentBook == null ? 0 : CurrentBook.Pages.Count - 1;
+            if (count < 0) count = 0;
+            return count;
         }
 
         // 履歴を戻ることができる？

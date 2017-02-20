@@ -261,6 +261,17 @@ namespace NeeView
 
         #endregion
 
+
+        /// <summary>
+        /// IsSliderWithIndex property.
+        /// </summary>
+        private bool _IsSliderWithIndex;
+        public bool IsSliderWithIndex
+        {
+            get { return _IsSliderWithIndex; }
+            set { if (_IsSliderWithIndex != value) { _IsSliderWithIndex = value; RaisePropertyChanged(); } }
+        }
+
         // 左クリック長押しモード
         #region Property: LongLeftButtonDownMode
         private LongButtonDownMode _longLeftButtonDownMode;
@@ -883,7 +894,7 @@ namespace NeeView
             get { return _index; }
             set
             {
-                _index = value;
+                _index = NVUtility.Clamp(value, 0, IndexMax);
                 if (!CanSliderLinkedThumbnailList)
                 {
                     BookHub.SetPageIndex(_index);
@@ -2000,7 +2011,7 @@ namespace NeeView
             {
                 memento = new PagemarkCollection.Memento();
             }
-            
+
             // ページマーク反映
             ModelContext.Pagemarks.Restore(memento);
         }
@@ -2732,7 +2743,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -2945,6 +2956,9 @@ namespace NeeView
             [DataMember(Order = 19)]
             public bool IsVisibleLoupeInfo { get; set; }
 
+            [DataMember(Order =20)]
+            public bool IsSliderWithIndex { get; set; }
+
             //
             private void Constructor()
             {
@@ -3093,6 +3107,7 @@ namespace NeeView
             memento.IsAutoRotate = this.IsAutoRotate;
             memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
             memento.IsVisibleLoupeInfo = this.IsVisibleLoupeInfo;
+            memento.IsSliderWithIndex = this.IsSliderWithIndex;
 
             return memento;
         }
@@ -3161,12 +3176,13 @@ namespace NeeView
             this.IsAutoRotate = memento.IsAutoRotate;
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
             this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
+            this.IsSliderWithIndex = memento.IsSliderWithIndex;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
             UpdateContentSize();
         }
 
-#endregion
+        #endregion
     }
 }

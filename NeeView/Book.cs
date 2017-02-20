@@ -1143,7 +1143,7 @@ namespace NeeView
             _commandWorkerCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
             // notice ViewContentsChanged
-            App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource() { Sources = _viewContext.ViewContentsSource, Direction = _viewContext.Direction }));
+            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource() { Sources = _viewContext.ViewContentsSource, Direction = _viewContext.Direction }));
 
             // change page
             DisplayIndex = _viewContext.Position.Index;

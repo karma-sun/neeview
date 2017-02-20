@@ -98,11 +98,7 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="サポート外ファイルもページに含める"
                               ToolTip="画像として表示できないファイルもページとして表示します"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnableNoSupportFile}" />
-                            <StackPanel Style="{StaticResource ItemStackPanel}">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="スライダーの方向"/>
-                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding SliderDirectionList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewMemento.SliderDirection}" />
-                            </StackPanel>
+
                         </StackPanel>
 
 
@@ -179,53 +175,52 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Style="{StaticResource BaseStackPanel}">
 
-                        <TextBlock Text="通知表示" Style="{StaticResource Header}"/>
-
+                        <TextBlock Text="テーマ" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
+                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="パネル等のテーマカラーを指定します">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="テーマカラー"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PanelColorList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.ViewMemento.PanelColor}" />
+                            </StackPanel>
+                        </StackPanel>
 
+                        <TextBlock Text="通知表示" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="開いたフォルダ名の表示等の通知の表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="通知を"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.NoticeShowMessageStyle}" />
                             </StackPanel>
-
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="コマンド実行メッセージの表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="コマンド実行を"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.CommandShowMessageStyle}" />
                             </StackPanel>
-
-
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="マウスジェスチャーの状態の表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="マウスジェスチャーを"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.GestureShowMessageStyle}" />
                             </StackPanel>
-
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="Now Loading の表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="Now Loading を"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.NowLoadingShowMessageStyle}" />
                             </StackPanel>
-
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="ルーペモード時にルーペ倍率を表示します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="ルーペ倍率を"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageVisibleList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.IsVisibleLoupeInfo}" />
                             </StackPanel>
-
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="ドラッグ操作によるスケール変更等の情報表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="ビュー操作を"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.ViewTransformShowMessageStyle}" />
                             </StackPanel>
-
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ビュー操作のスケール表示をオリジナルサイズ基準にする"
                                       ToolTip="スケール表示を元画像サイズに対する表示倍率にします&#xa;２ページ表示の場合は若い番号のページを基準にします"
                                       IsChecked="{Binding Setting.ViewMemento.IsOriginalScaleShowMessage}"/>
-
                         </StackPanel>
-
+                        
                         <DockPanel LastChildFill="False">
                             <TextBlock Text="ウィンドウタイトル" Style="{StaticResource Header}"/>
                             <ToggleButton DockPanel.Dock="Right" x:Name="WindowTitleFormatHelp" Margin="5,0" Width="20" Height="20" Style="{StaticResource IconToggleButton}">
@@ -251,7 +246,6 @@
                                 </TextBlock>
                             </Border>
                         </Popup>
-
                         <StackPanel Style="{StaticResource Phrase}">
                             <DockPanel Style="{StaticResource ItemDockPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="1ページ用："/>
@@ -266,9 +260,25 @@
                                       IsChecked="{Binding Setting.ViewMemento.IsVisibleWindowTitle}"/>
                         </StackPanel>
 
+                        <TextBlock Text="スライダー" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="スライダーの方向"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding SliderDirectionList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.ViewMemento.SliderDirection}" />
+                            </StackPanel>
+                            <!--
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転ツール表示"
+                                      IsChecked="{Binding Setting.ViewMemento.SliderPalettePage}"/>
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="拡縮ツール表示"
+                                      IsChecked="{Binding Setting.ViewMemento.SliderPalettePage}"/>
+                            -->
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ数を表示する"
+                                      IsChecked="{Binding Setting.ViewMemento.IsSliderWithIndex}"/>
+                        </StackPanel>
+
 
                         <TextBlock Text="サムネイルリスト" Style="{StaticResource Header}"/>
-
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="スライダーでのリアルタイム変化はサムネイルリストにのみ適用"
                                       ToolTip="スライダーでサムネイルを選択し、決定した時に画像が切り替わります"
@@ -287,15 +297,8 @@
                             </StackPanel>
                         </StackPanel>
 
-
                         <TextBlock Text="パネル" Style="{StaticResource Header}"/>
-
                         <StackPanel Style="{StaticResource Phrase}">
-                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="フォルダーリスト等のパネルのテーマカラーを指定します">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="パネルの色"/>
-                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PanelColorList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewMemento.PanelColor}" />
-                            </StackPanel>
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="フォルダーリスト、履歴リスト、ブックマークリストの項目の表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="フォルダーの表示方法"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding FolderListItemStyleList}" SelectedValuePath="Key" DisplayMemberPath="Value"
@@ -309,11 +312,9 @@
                             </StackPanel>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーンのときにパネルを自動的に隠す"
                               IsChecked="{Binding Setting.ViewMemento.IsHidePanelInFullscreen}" />
-
                         </StackPanel>
 
                         <TextBlock Text="フォルダリスト" Style="{StaticResource Header}"/>
-
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ブックマーク記号を表示する"
                                       ToolTip="ブックマークされているフォルダに★マークを表示します"
@@ -324,7 +325,6 @@
                         </StackPanel>
 
                         <TextBlock Text="ファイル情報" Style="{StaticResource Header}"/>
-
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="EXIFの日時を使用する"
                                       ToolTip="ファイル情報パネルでの表示に限ります&#xa;日付順のソートには影響しません"
@@ -338,7 +338,6 @@
                         </StackPanel>
 
                         <TextBlock Text="エフェクト" Style="{StaticResource Header}"/>
-
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回使用していたエフェクトを復元する"
                                       ToolTip="起動時に前回使用していたエフェクトを復元します"

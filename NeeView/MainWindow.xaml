@@ -640,23 +640,35 @@
             <!-- ステータスエリア -->
             <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom" Style="{StaticResource StatusAreaStyle}">
 
-                <Grid DockPanel.Dock="Bottom" Height="18">
-                    <local:PageMarkers x:Name="PageMarkers" IsHitTestVisible="False" Margin="0,-2,0,2"/>
-                    <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Height="18" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
-                        local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding ElementName=MainView}"
-                        ValueChanged="PageSlider_ValueChanged"
-                        PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"  
-                        PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp">
-                        <Slider.Style>
-                            <Style TargetType="Slider">
-                                <Style.Triggers>
-                                    <Trigger Property="Maximum" Value="0">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Slider.Style>
-                    </Slider>
+                <Grid DockPanel.Dock="Bottom">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IndexMax}" Value="0">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Rectangle Fill="{DynamicResource NVBackground}" Visibility="{Binding ElementName=PageSliderTextBox, Path=Visibility}"/>
+                    <DockPanel>
+                        <local:SliderTextBox x:Name="PageSliderTextBox" DockPanel.Dock="Right"
+                                       Visibility="{Binding IsSliderWithIndex, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                       Target="{Binding ElementName=PageSlider}"
+                                       ValueChanged="PageSliderTextBox_ValueChanged"
+                                       KeyDown="AddressTextBox_KeyDown"
+                                       Foreground="{DynamicResource NVForeground}">
+                        </local:SliderTextBox>
+                        <Grid Height="18">
+                            <local:PageMarkers x:Name="PageMarkers" IsHitTestVisible="False" Margin="0,-2,0,2"/>
+                            <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Height="18" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
+                                    local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding ElementName=MainView}"
+                                    ValueChanged="PageSlider_ValueChanged"
+                                    PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"  
+                                    PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp">
+                            </Slider>
+                        </Grid>
+                    </DockPanel>
                 </Grid>
 
                 <Grid x:Name="ThumbnailListArea" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" >

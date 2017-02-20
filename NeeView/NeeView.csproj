@@ -120,6 +120,9 @@
     <Compile Include="_NeeLaboratory\Controls\PointInspector.xaml.cs">
       <DependentUpon>PointInspector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SliderTextBox.xaml.cs">
+      <DependentUpon>SliderTextBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="_NeeLaboratory\Media\HVSColor.cs" />
     <Compile Include="_NeeLaboratory\Property\IValueSetter.cs" />
     <Compile Include="_NeeLaboratory\Property\PropertyControl.xaml.cs">
@@ -310,6 +313,10 @@
     <Page Include="_NeeLaboratory\Controls\PointInspector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SliderTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="_NeeLaboratory\Property\PropertyControl.xaml">
       <Generator>MSBuild:Compile</Generator>

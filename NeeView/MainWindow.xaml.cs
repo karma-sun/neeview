@@ -148,7 +148,7 @@ namespace NeeView
                 };
 
             this.LoupeInfo.DataContext = _mouseLoupe;
-            
+
             // mouse gesture
             _mouseGesture = new MouseGestureManager(this.MainView);
             _mouseGesture.Controller.MouseGestureUpdateEventHandler += OnMouseGestureUpdate;
@@ -1289,7 +1289,7 @@ namespace NeeView
 
 
         // TODO: クラス化
-#region thumbnail list
+        #region thumbnail list
 
         // サムネイルリストのパネルコントロール
         private VirtualizingStackPanel _thumbnailListPanel;
@@ -1590,7 +1590,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
 
         private void UpdateMenuAreaVisibility()
@@ -1634,7 +1634,7 @@ namespace NeeView
         }
 
 
-#region Panel Visibility
+        #region Panel Visibility
 
         //
         private bool _isVisibleLeftPanel;
@@ -1921,7 +1921,7 @@ namespace NeeView
         }
 
 
-#endregion
+        #endregion
 
         //
         private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1976,7 +1976,7 @@ namespace NeeView
 
 
 
-#region ContextMenu Counter
+        #region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -2014,7 +2014,7 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-#endregion
+        #endregion
 
 
         private void LeftPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -2044,8 +2044,15 @@ namespace NeeView
 
         private void ThumbnailListBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ThumbnailListBox_MoveSelectedIndex(e.Delta > 0 ? +1 : -1);
+            int delta = e.Delta < 0 ? +1 : -1;
+            if (_VM.IsSliderDirectionReversed) delta = -delta;
+            ThumbnailListBox_MoveSelectedIndex(delta);
             e.Handled = true;
+        }
+
+        private void PageSliderTextBox_ValueChanged(object sender, EventArgs e)
+        {
+            _VM.SetIndex(_VM.Index);
         }
     }
 
@@ -2332,5 +2339,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

@@ -1025,6 +1025,9 @@ namespace NeeView
                 // フルスクリーン解除
                 _VM.IsFullScreen = false;
             }
+
+            // ルーペ解除
+            this._mouseLoupe.IsEnabled = false;
         }
 
 

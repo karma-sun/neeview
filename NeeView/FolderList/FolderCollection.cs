@@ -24,10 +24,12 @@ namespace NeeView
         DriveNotReady = (1 << 2),
         Empty = (1 << 3),
         DirectoryNoFound = (1 << 4),
+        Shortcut = (1 << 5),
     }
 
     public enum FolderInfoIconOverlay
     {
+        Uninitialized,
         None,
         Disable,
         Checked,
@@ -52,7 +54,20 @@ namespace NeeView
 
         public FolderInfoAttribute Attributes { get; set; }
 
+        /// <summary>
+        /// 表示名。nullの場合はPathから生成
+        /// </summary>
+        public string Label { get; set; }
+
+        /// <summary>
+        /// 実体へのパス
+        /// </summary>
         public string Path { get; set; }
+
+        /// <summary>
+        /// 最終更新日。ソート用
+        /// </summary>
+        public DateTime LastWriteTime { get; set; }
 
         public string ParentPath => System.IO.Path.GetDirectoryName(Path);
 
@@ -60,6 +75,7 @@ namespace NeeView
         public bool IsDirectory => (Attributes & FolderInfoAttribute.Directory) == FolderInfoAttribute.Directory;
         public bool IsEmpty => (Attributes & FolderInfoAttribute.Empty) == FolderInfoAttribute.Empty;
         public bool IsDirectoryNotFound => (Attributes & FolderInfoAttribute.DirectoryNoFound) == FolderInfoAttribute.DirectoryNoFound;
+        public bool IsShortcut => (Attributes & FolderInfoAttribute.Shortcut) == FolderInfoAttribute.Shortcut;
 
         public bool IsReady { get; set; }
 
@@ -73,29 +89,49 @@ namespace NeeView
         }
 
         // アイコンオーバーレイの種類を返す
+        private FolderInfoIconOverlay _iconOverlay = FolderInfoIconOverlay.Uninitialized;
         public FolderInfoIconOverlay IconOverlay
         {
             get
             {
-                var unit = ModelContext.BookMementoCollection.Find(Path);
-
-                //if (IsVisibleBookmarkMark && unit?.PagemarkNode != null)
-                //    return FolderInfoIconOverlay.Pagemark;
-                if (IsVisibleBookmarkMark && unit?.BookmarkNode != null)
-                    return FolderInfoIconOverlay.Star;
-                if (IsVisibleHistoryMark && unit?.HistoryNode != null)
-                    return FolderInfoIconOverlay.Checked;
-                else if (IsDirectory && !IsReady)
-                    return FolderInfoIconOverlay.Disable;
-                else
-                    return FolderInfoIconOverlay.None;
+                if (_iconOverlay == FolderInfoIconOverlay.Uninitialized)
+                {
+                    UpdateOverlay();
+                }
+                return _iconOverlay;
             }
         }
+
+        private void UpdateOverlay()
+        {
+            var unit = ModelContext.BookMementoCollection.Find(Path);
+
+            //if (IsVisibleBookmarkMark && unit?.PagemarkNode != null)
+            //    IconOverlay = FolderInfoIconOverlay.Pagemark;
+            if (IsVisibleBookmarkMark && unit?.BookmarkNode != null)
+                _iconOverlay = FolderInfoIconOverlay.Star;
+            else if (IsVisibleHistoryMark && unit?.HistoryNode != null)
+                _iconOverlay = FolderInfoIconOverlay.Checked;
+            else if (IsDirectory && !IsReady)
+                _iconOverlay = FolderInfoIconOverlay.Disable;
+            else
+                _iconOverlay = FolderInfoIconOverlay.None;
+        }
+
+        public bool IsOverlayStar => IconOverlay == FolderInfoIconOverlay.Star;
+        public bool IsOverlayChecked => IconOverlay == FolderInfoIconOverlay.Checked;
+        public bool IsOverlayDisable => IconOverlay == FolderInfoIconOverlay.Disable;
 
         // アイコンオーバーレイの変更を通知
         public void NotifyIconOverlayChanged()
         {
+            UpdateOverlay();
+
             RaisePropertyChanged(nameof(IconOverlay));
+
+            RaisePropertyChanged(nameof(IsOverlayStar));
+            RaisePropertyChanged(nameof(IsOverlayChecked));
+            RaisePropertyChanged(nameof(IsOverlayDisable));
         }
 
         private BitmapSource _icon;
@@ -130,7 +166,7 @@ namespace NeeView
             {
                 if ((Attributes & FolderInfoAttribute.Drive) == FolderInfoAttribute.Drive)
                 {
-                    return Path;
+                    return Label ?? Path;
                 }
                 else if (IsEmpty)
                 {
@@ -138,7 +174,7 @@ namespace NeeView
                 }
                 else
                 {
-                    return System.IO.Path.GetFileName(Path);
+                    return Label ?? System.IO.Path.GetFileName(Path);
                 }
             }
         }
@@ -188,6 +224,7 @@ namespace NeeView
         #endregion
 
         public string Path { get; set; }
+
 
         #region Property: FolderOrder
         private FolderOrder _folderOrder;
@@ -338,43 +375,75 @@ namespace NeeView
             {
                 var directory = new DirectoryInfo(Place);
 
-                // ディレクトリ、アーカイブ以外は除外
-                var directories = directory.EnumerateDirectories().Where(e => e.Exists && (e.Attributes & FileAttributes.Hidden) == 0).ToList();
-                if (FolderOrder == FolderOrder.TimeStamp)
-                {
-                    directories = directories.OrderBy((e) => e.LastWriteTime).ToList();
-                }
-                else
-                {
-                    directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a.FullName, b.FullName));
-                }
-                var archives = directory.EnumerateFiles().Where(e => e.Exists && ModelContext.ArchiverManager.IsSupported(e.FullName)).ToList();
-                if (FolderOrder == FolderOrder.TimeStamp)
-                {
-                    archives = archives.OrderBy((e) => e.LastWriteTime).ToList();
-                }
-                else
-                {
-                    archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a.FullName, b.FullName));
-                }
+                var shortcuts = directory.EnumerateFiles()
+                    .Where(e => e.Exists && Utility.FileShortcut.IsShortcut(e.FullName))
+                    .Select(e => new Utility.FileShortcut(e.FullName))
+                    .ToList();
 
-                // 日付順は逆順にする (エクスプローラー標準にあわせる)
+                var directories = directory.EnumerateDirectories()
+                    .Where(e => e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
+                    .Select(e => new FolderInfo()
+                    {
+                        Path = e.FullName,
+                        LastWriteTime = e.LastWriteTime,
+                        Attributes = FolderInfoAttribute.Directory,
+                        IsReady = true
+                    })
+                    .ToList();
+
+                var directoryShortcuts = shortcuts
+                    .Where(e => e.DirectoryInfo.Exists)
+                    .Select(e => new FolderInfo()
+                    {
+                        Path = e.TargetPath,
+                        Label = System.IO.Path.GetFileNameWithoutExtension(e.Path),
+                        LastWriteTime = e.DirectoryInfo.LastWriteTime,
+                        Attributes = FolderInfoAttribute.Directory | FolderInfoAttribute.Shortcut,
+                        IsReady = true
+                    })
+                    .ToList();
+
+                directories = directories.Concat(directoryShortcuts).ToList();
+
+
+                var archives = directory.EnumerateFiles()
+                    .Where(e => e.Exists && ModelContext.ArchiverManager.IsSupported(e.FullName))
+                    .Select(e => new FolderInfo() { Path = e.FullName, LastWriteTime = e.LastWriteTime, IsReady = true })
+                    .ToList();
+
+                var archiveShortcuts = shortcuts
+                    .Where(e => e.FileInfo.Exists && ModelContext.ArchiverManager.IsSupported(e.TargetPath))
+                    .Select(e => new FolderInfo()
+                    {
+                        Path = e.TargetPath,
+                        Label = System.IO.Path.GetFileNameWithoutExtension(e.Path),
+                        LastWriteTime = e.FileInfo.LastWriteTime,
+                        Attributes = FolderInfoAttribute.Shortcut,
+                        IsReady = true
+                    })
+                    .ToList();
+
+                archives = archives.Concat(archiveShortcuts).ToList();
+
+
                 if (FolderOrder == FolderOrder.TimeStamp)
                 {
-                    directories.Reverse();
-                    archives.Reverse();
+                    directories = directories.OrderBy((e) => e.LastWriteTime).Reverse().ToList();
+                    archives = archives.OrderBy((e) => e.LastWriteTime).Reverse().ToList();
                 }
-                // ランダムに並べる
                 else if (FolderOrder == FolderOrder.Random)
                 {
                     var random = new Random(RandomSeed);
                     directories = directories.OrderBy(e => random.Next()).ToList();
                     archives = archives.OrderBy(e => random.Next()).ToList();
                 }
+                else
+                {
+                    directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a.Name, b.Name));
+                    archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a.Name, b.Name));
+                }
 
-                var list = directories.Select(e => new FolderInfo() { Path = e.FullName, Attributes = FolderInfoAttribute.Directory, IsReady = true })
-                    .Concat(archives.Select(e => new FolderInfo() { Path = e.FullName, IsReady = true }))
-                    .ToList();
+                var list = directories.Concat(archives).ToList();
 
                 if (list.Count <= 0)
                 {
@@ -400,9 +469,10 @@ namespace NeeView
             }
             else
             {
-                var item = Items.Find(e => e.Path == path);
-                if (item != null)
+                foreach (var item in Items.Where(e => e.Path == path))
+                {
                     item.NotifyIconOverlayChanged();
+                }
             }
         }
 

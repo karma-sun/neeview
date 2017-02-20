@@ -16,55 +16,6 @@
 
     <UserControl.Resources>
 
-        <Style TargetType="TextBlock" x:Key="FolderIcon">
-            <Setter Property="FontFamily" Value="Wingdings"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Height" Value="18"/>
-            <Setter Property="Margin" Value="0,-1,0,0"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsDirectory}" Value="True">
-                    <Setter Property="Text" Value="0"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style TargetType="TextBlock" x:Key="FolderIconOverlay">
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IconOverlay}" Value="Disable">
-                    <Setter Property="FontFamily" Value="Webdings"/>
-                    <Setter Property="Text" Value="r"/>
-                    <Setter Property="FontSize" Value="16"/>
-                    <Setter Property="Foreground" Value="Red"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding IconOverlay}" Value="Checked">
-                    <Setter Property="FontFamily" Value="Webdings"/>
-                    <Setter Property="Text" Value="a"/>
-                    <Setter Property="FontSize" Value="18"/>
-                    <Setter Property="Foreground" Value="{DynamicResource NVCheckMarkBrush}"/>
-                    <Setter Property="Margin" Value="0,0,-4,-4"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding IconOverlay}" Value="Star">
-                    <Setter Property="FontFamily" Value="Wingdings"/>
-                    <Setter Property="Text" Value="«"/>
-                    <Setter Property="FontSize" Value="18"/>
-                    <Setter Property="Foreground" Value="{DynamicResource NVStarMarkBrush}"/>
-                    <Setter Property="Margin" Value="0,0,-4,-4"/>
-                </DataTrigger>
-                <!--
-                <DataTrigger Binding="{Binding IconOverlay}" Value="Pagemark">
-                    <Setter Property="FontFamily" Value="Webdings"/>
-                    <Setter Property="Text" Value="-"/>
-                    <Setter Property="FontSize" Value="18"/>
-                    <Setter Property="Foreground" Value="{DynamicResource NVStarMarkBrush}"/>
-                    <Setter Property="Margin" Value="0,0,-4,-4"/>
-                </DataTrigger>
-                -->
-            </Style.Triggers>
-        </Style>
-
         <Style TargetType="TextBlock" x:Key="FolderName">
             <Setter Property="Text" Value="{Binding Name}"/>
             <Setter Property="ToolTip" Value="{Binding Name}"/>
@@ -76,10 +27,7 @@
 
         <DataTemplate x:Key="NormalFolder">
             <DockPanel>
-                <Grid DockPanel.Dock="Right" Width="24">
-                    <TextBlock Style="{StaticResource FolderIcon}"/>
-                    <TextBlock Style="{StaticResource FolderIconOverlay}"/>
-                </Grid>
+                <local:FolderIcon DockPanel.Dock="Right" FolderInfo="{Binding .}" />
                 <TextBlock Style="{StaticResource FolderName}"/>
             </DockPanel>
         </DataTemplate>
@@ -89,10 +37,7 @@
                 Height="{Binding ElementName=ListBox, Path=DataContext.PicturePanelHeight}"
                 Margin="0,1" Background="{DynamicResource NVBaseBrush}">
                 <DockPanel DockPanel.Dock="Bottom" Margin="2">
-                    <Grid DockPanel.Dock="Right" Width="24">
-                        <TextBlock Style="{StaticResource FolderIcon}"/>
-                        <TextBlock Style="{StaticResource FolderIconOverlay}"/>
-                    </Grid>
+                    <local:FolderIcon DockPanel.Dock="Right" FolderInfo="{Binding .}" />
                     <TextBlock Style="{StaticResource FolderName}"/>
                 </DockPanel>
                 <Grid>

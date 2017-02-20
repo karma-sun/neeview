@@ -101,6 +101,9 @@
     <Compile Include="Effects\PixelateEffectUnit.cs" />
     <Compile Include="Effects\ImageEffect.cs" />
     <Compile Include="Effects\EffectType.cs" />
+    <Compile Include="FolderList\FolderIcon.xaml.cs">
+      <DependentUpon>FolderIcon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FolderList\FolderListViewModel.cs" />
     <Compile Include="FullScreenManager.cs" />
     <Compile Include="ImageEffectControl.xaml.cs">
@@ -109,6 +112,7 @@
     <Compile Include="MemoryControl.cs" />
     <Compile Include="MouseLoupe.cs" />
     <Compile Include="SizeString.cs" />
+    <Compile Include="Utility\FileShortcut.cs" />
     <Compile Include="Utility\VectorExtensions.cs" />
     <Compile Include="IndexValue.cs" />
     <Compile Include="_NeeLaboratory\Controls\ColorPicker.xaml.cs">
@@ -298,6 +302,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FolderList\FolderIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ImageEffectControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -484,6 +492,17 @@
     <Content Include="Effects\Shaders\ColorSelectEffect.fx" />
     <Content Include="Effects\Shaders\HsvEffect.fx" />
     <Content Include="Effects\Shaders\LevelEffect.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

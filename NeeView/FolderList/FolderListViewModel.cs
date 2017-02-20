@@ -131,7 +131,7 @@ namespace NeeView
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin, int direction)
         {
-            Debug.WriteLine($"{start}({count})");
+            //Debug.WriteLine($"{start}({count})");
             PanelContext.ThumbnailManager.RequestThumbnail(FolderCollection.Items, start, count, margin, direction);
         }
     }

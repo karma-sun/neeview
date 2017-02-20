@@ -1,0 +1,85 @@
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+    
+<UserControl x:Class="NeeView.FolderIcon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid x:Name="Root">
+        <Grid.Resources>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
+
+            <Style TargetType="TextBlock" x:Key="FolderIcon">
+                <Setter Property="FontFamily" Value="Wingdings"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="Height" Value="18"/>
+                <Setter Property="Margin" Value="0,-1,0,0"/>
+                <Setter Property="Text" Value="0"/>
+            </Style>
+
+            <Style TargetType="TextBlock" x:Key="FolderOverlayDisable">
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="FontFamily" Value="Webdings"/>
+                <Setter Property="Text" Value="r"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Foreground" Value="Red"/>
+            </Style>
+
+            <Style TargetType="TextBlock" x:Key="FolderOverlayChecked">
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="FontFamily" Value="Webdings"/>
+                <Setter Property="Text" Value="a"/>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="Foreground" Value="{DynamicResource NVCheckMarkBrush}"/>
+                <Setter Property="Margin" Value="0,0,-4,-4"/>
+            </Style>
+
+            <Style TargetType="TextBlock" x:Key="FolderOverlayStar">
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="FontFamily" Value="Wingdings"/>
+                <Setter Property="Text" Value="«"/>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="Foreground" Value="{DynamicResource NVStarMarkBrush}"/>
+                <Setter Property="Margin" Value="0,0,-4,-4"/>
+            </Style>
+
+            <Style TargetType="TextBlock" x:Key="FolderOverlayShortcut">
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="FontFamily" Value="Wingdings"/>
+                <Setter Property="Text" Value="à"/>
+                <Setter Property="FontSize" Value="10"/>
+                <Setter Property="Margin" Value="-1,0,0,1"/>
+            </Style>
+
+        </Grid.Resources>
+
+        <Grid Width="24" Height="20" Visibility="{Binding FolderInfo, Converter={StaticResource NullableToVisibilityConverter}}">
+            <TextBlock Style="{StaticResource FolderIcon}"
+                       Visibility="{Binding FolderInfo.IsDirectory, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <TextBlock Style="{StaticResource FolderOverlayShortcut}"
+                       Visibility="{Binding FolderInfo.IsShortcut, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <TextBlock Style="{StaticResource FolderOverlayDisable}"
+                       Visibility="{Binding FolderInfo.IsOverlayDisable, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <TextBlock Style="{StaticResource FolderOverlayChecked}"
+                       Visibility="{Binding FolderInfo.IsOverlayChecked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <TextBlock Style="{StaticResource FolderOverlayStar}"
+                       Visibility="{Binding FolderInfo.IsOverlayStar, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Grid>
+
+    </Grid>
+</UserControl>

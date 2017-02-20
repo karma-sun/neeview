@@ -16,7 +16,7 @@
         xmlns:nlc="clr-namespace:NeeLaboratory.Controls"
         mc:Ignorable="d"
         Style="{StaticResource DefaultWindowStyle}"
-        Title="設定" Height="600" Width="700" Closed="Window_Closed" >
+        Title="設定" Height="600" Width="720" Closed="Window_Closed" >
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -205,11 +205,6 @@
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="Now Loading を"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.NowLoadingShowMessageStyle}" />
-                            </StackPanel>
-                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="ルーペモード時にルーペ倍率を表示します">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="ルーペ倍率を"/>
-                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageVisibleList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewMemento.IsVisibleLoupeInfo}" />
                             </StackPanel>
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="ドラッグ操作によるスケール変更等の情報表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="ビュー操作を"/>
@@ -451,6 +446,15 @@
                                 </StackPanel>
                             </StackPanel>
                         </WrapPanel>
+
+                        <TextBlock Text="ルーペ" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ルーペ倍率を表示する"
+                                      ToolTip="ルーペ時に右上に倍率が表示されます。倍率はマウスホイール操作で変更できます"
+                                      IsChecked="{Binding Setting.ViewMemento.IsVisibleLoupeInfo}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="開始時カーソル位置を画面中心にする"
+                                  IsChecked="{Binding Setting.ViewMemento.IsLoupeCenter}" />
+                        </StackPanel>
 
                         <TextBlock Text="長押し操作" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">

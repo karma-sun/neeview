@@ -211,7 +211,16 @@ namespace NeeView
             set { if (_IsVisibleLoupeInfo != value) { _IsVisibleLoupeInfo = value; RaisePropertyChanged(); } }
         }
 
-
+        /// <summary>
+        /// IsLoupeCenter property.
+        /// </summary>
+        private bool _IsLoupeCenter;
+        public bool IsLoupeCenter
+        {
+            get { return _IsLoupeCenter; }
+            set { if (_IsLoupeCenter != value) { _IsLoupeCenter = value; RaisePropertyChanged(); } }
+        }
+        
 
         // スライダー方向
         #region Property: IsSliderDirectionReversed
@@ -2959,6 +2968,9 @@ namespace NeeView
             [DataMember(Order =20)]
             public bool IsSliderWithIndex { get; set; }
 
+            [DataMember(Order = 20)]
+            public bool IsLoupeCenter { get; set; }
+
             //
             private void Constructor()
             {
@@ -3108,6 +3120,7 @@ namespace NeeView
             memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
             memento.IsVisibleLoupeInfo = this.IsVisibleLoupeInfo;
             memento.IsSliderWithIndex = this.IsSliderWithIndex;
+            memento.IsLoupeCenter = this.IsLoupeCenter;
 
             return memento;
         }
@@ -3177,6 +3190,7 @@ namespace NeeView
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
             this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
             this.IsSliderWithIndex = memento.IsSliderWithIndex;
+            this.IsLoupeCenter = memento.IsLoupeCenter;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

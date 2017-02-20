@@ -216,6 +216,12 @@ namespace NeeView
                     this.PageMarkers.IsSliderDirectionReversed = _VM.IsSliderDirectionReversed;
                 });
 
+            _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.IsLoupeCenter),
+                (s, e) =>
+                {
+                    _mouseLoupe.IsCenterMode = _VM.IsLoupeCenter;
+                });
+
 
             // messenger
             Messenger.AddReciever("MessageBox", CallMessageBox);

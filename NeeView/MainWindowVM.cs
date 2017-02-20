@@ -2668,6 +2668,12 @@ namespace NeeView
         // フォルダ読み込み
         public void Load(string path, BookLoadOption option = BookLoadOption.None)
         {
+            if (Utility.FileShortcut.IsShortcut(path) && (System.IO.File.Exists(path) || System.IO.Directory.Exists(path)))
+            {
+                var shortcut = new Utility.FileShortcut(path);
+                path = shortcut.TargetPath;
+            }
+
             BookHub.RequestLoad(path, null, option, true);
         }
 

@@ -338,7 +338,6 @@ namespace NeeView
             private void Constructor()
             {
                 Items = new List<Book.Memento>();
-                LastFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures);
                 FolderOrders = new Dictionary<string, FolderOrder>();
                 LimitSize = -1;
                 IsKeepFolderStatus = true;

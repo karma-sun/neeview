@@ -373,6 +373,32 @@ namespace NeeView
         // ページ表示開始スレッドイベント
         private ManualResetEvent _viewContentEvent = new ManualResetEvent(false);
 
+        /// <summary>
+        /// Home property.
+        /// フォルダーリストのHOME
+        /// </summary>
+        private string _home;
+        public string Home
+        {
+            get { return _home; }
+            set { if (_home != value) { _home = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// 補正されたHOME取得
+        /// </summary>
+        /// <returns></returns>
+        public string GetFixedHome()
+        {
+            if (Directory.Exists(_home)) return _home;
+
+            var myPicture = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures);
+            if (Directory.Exists(myPicture)) return myPicture;
+
+            return Environment.CurrentDirectory;
+        }
+
+
 
 
         // コンストラクタ
@@ -1805,6 +1831,9 @@ namespace NeeView
             [DataMember(Order = 19)]
             public PreLoadMode PreLoadMode { get; set; }
 
+            [DataMember(Order = 20, EmitDefaultValue = false)]
+            public string Home { get; set; }
+
             //
             private void Constructor()
             {
@@ -1874,6 +1903,7 @@ namespace NeeView
             memento.IsAutoRecursive = IsAutoRecursive;
             memento.HistoryMementoFilter = HistoryMementoFilter;
             memento.PreLoadMode = PreLoadMode;
+            memento.Home = Home;
 
             return memento;
         }
@@ -1899,6 +1929,7 @@ namespace NeeView
             IsAutoRecursive = memento.IsAutoRecursive;
             HistoryMementoFilter = memento.HistoryMementoFilter;
             PreLoadMode = memento.PreLoadMode;
+            Home = memento.Home;
         }
 
         #endregion

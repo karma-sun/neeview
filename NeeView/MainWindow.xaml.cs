@@ -965,7 +965,7 @@ namespace NeeView
 
 
             // フォルダリスト初期化
-            this.FolderList.SetPlace(ModelContext.BookHistory.LastFolder, null, false);
+            this.FolderList.SetPlace(ModelContext.BookHistory.LastFolder ?? _VM.BookHub.GetFixedHome(), null, false);
             this.PageList.Initialize(_VM);
             // 履歴リスト初期化
             this.HistoryArea.Initialize(_VM.BookHub);

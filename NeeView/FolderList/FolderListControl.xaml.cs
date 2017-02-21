@@ -155,9 +155,12 @@ namespace NeeView
             vm.SelectedIndex = _VM.FolderCollection.SelectedIndex < 0 ? 0 : _VM.FolderCollection.SelectedIndex;
             _folderList = new FolderList(vm, isFocus);
             _folderList.Decided += (s, e) => _VM.BookHub.RequestLoad(e, null, BookLoadOption.SkipSamePlace, false);
-            _folderList.Moved += (s, e) => _VM.SetPlace(e, null, true);
-            _folderList.MovedParent += (s, e) => _VM.MoveToParent();
+            _folderList.Moved += (s, e) => _VM.SetPlace(e, null, true, true);
+            _folderList.MovedParent += (s, e) => _VM.MoveToParent_Execute();
             _folderList.SelectionChanged += (s, e) => _VM.SelectedIndex = e;
+            _folderList.MovedHome += (s, e) => _VM.MoveToHome.Execute(null);
+            _folderList.MovedPrevious += (s, e) => _VM.MoveToPrevious.Execute(null);
+            _folderList.MovedNext += (s, e) => _VM.MoveToNext.Execute(null);
 
             this.FolderListContent.Content = _folderList;
         }
@@ -166,14 +169,9 @@ namespace NeeView
         //
         public void SetPlace(string place, string select, bool isFocus)
         {
-            _VM.SetPlace(place, select, isFocus);
+            _VM.SetPlace(place, select, isFocus, true);
         }
 
-        // フォルダ上階層に移動
-        private void FolderUpButton_Click(object sender, RoutedEventArgs e)
-        {
-            _VM.MoveToParent();
-        }
 
         // フォルダ同期
         private void FolderSyncButton_Click(object sender, RoutedEventArgs e)
@@ -277,13 +275,24 @@ namespace NeeView
 
         public string PlaceDispString => string.IsNullOrEmpty(Place) ? "このPC" : Place;
 
+        /// <summary>
+        /// そのフォルダで最後に選択されていた項目の記憶
+        /// </summary>
         private Dictionary<string, string> _lastPlaceDictionary = new Dictionary<string, string>();
+
+        /// <summary>
+        /// フォルダ履歴
+        /// </summary>
+        private History<string> _history = new History<string>();
+
 
         private bool _isDarty;
 
         //
         public FolderListControlVM()
         {
+            _history.Changed += (s, e) => UpdateCommandCanExecute();
+
             Messenger.AddReciever("SetFolderOrder", CallSetFolderOrder);
             Messenger.AddReciever("GetFolderOrder", CallGetFolderOrder);
             Messenger.AddReciever("ToggleFolderOrder", CallToggleFolderOrder);
@@ -332,7 +341,7 @@ namespace NeeView
         }
 
         //
-        public void SetPlace(string place, string select, bool isFocus)
+        public void SetPlace(string place, string select, bool isFocus, bool updateHistory)
         {
             SavePlace(GetExistSelectedItem());
 
@@ -390,13 +399,113 @@ namespace NeeView
             {
                 SelectedItemChanged?.Invoke(this, null);
             }
+
+            // 履歴追加
+            if (updateHistory)
+            {
+                if (place != _history.GetCurrent())
+                {
+                    //Debug.WriteLine("ADD:" + place);
+                    _history.Add(place);
+                }
+            }
+
+            //
+            MoveToUp.RaiseCanExecuteChanged();
         }
 
         //
-        public void MoveToParent()
+        private void UpdateCommandCanExecute()
         {
-            if (FolderCollection == null) return;
-            SetPlace(FolderCollection.ParentPlace, FolderCollection.Place, true);
+            this.MoveToPrevious.RaiseCanExecuteChanged();
+            this.MoveToNext.RaiseCanExecuteChanged();
+        }
+
+        /// <summary>
+        /// MoveToHome command.
+        /// </summary>
+        private RelayCommand _MoveToHome;
+        public RelayCommand MoveToHome
+        {
+            get { return _MoveToHome = _MoveToHome ?? new RelayCommand(MoveToHome_Executed); }
+        }
+
+        private void MoveToHome_Executed()
+        {
+            if (_bookHub == null) return;
+
+            var place = _bookHub.GetFixedHome();
+            SetPlace(place, FolderCollection.Place, true, true);
+        }
+
+
+
+        /// <summary>
+        /// MoveToPrevious command.
+        /// </summary>
+        private RelayCommand _MoveToPrevious;
+        public RelayCommand MoveToPrevious
+        {
+            get { return _MoveToPrevious = _MoveToPrevious ?? new RelayCommand(MoveToPrevious_Executed, MoveToPrevious_CanExecutre); }
+        }
+
+        private bool MoveToPrevious_CanExecutre()
+        {
+            return _history.CanPrevious();
+        }
+
+        private void MoveToPrevious_Executed()
+        {
+            if (!_history.CanPrevious()) return;
+
+            var place = _history.GetPrevious();
+            SetPlace(place, FolderCollection.Place, true, false);
+            _history.Move(-1);
+        }
+
+        /// <summary>
+        /// MoveToNext command.
+        /// </summary>
+        private RelayCommand _MoveToNext;
+        public RelayCommand MoveToNext
+        {
+            get { return _MoveToNext = _MoveToNext ?? new RelayCommand(MoveToNext_Executed, MoveToNext_CanExecute); }
+        }
+
+        private bool MoveToNext_CanExecute()
+        {
+            return _history.CanNext();
+        }
+
+        private void MoveToNext_Executed()
+        {
+            if (!_history.CanNext()) return;
+
+            var place = _history.GetNext();
+            SetPlace(place, FolderCollection.Place, true, false);
+            _history.Move(+1);
+        }
+
+
+        /// <summary>
+        /// MoveToUp command.
+        /// </summary>
+        private RelayCommand _MoveToUp;
+        public RelayCommand MoveToUp
+        {
+            get { return _MoveToUp = _MoveToUp ?? new RelayCommand(MoveToParent_Execute, MoveToParent_CanExecute); }
+        }
+
+        private bool MoveToParent_CanExecute()
+        {
+            return (FolderCollection?.Place != null);
+        }
+
+        //
+        public void MoveToParent_Execute()
+        {
+            if (FolderCollection?.Place == null) return;
+            SetPlace(FolderCollection.ParentPlace, FolderCollection.Place, true, true);
         }
 
         //
@@ -407,7 +516,7 @@ namespace NeeView
                 if (!FolderCollection.Contains(e.Path)) return;
             }
 
-            SetPlace(System.IO.Path.GetDirectoryName(e.Path), e.Path, e.IsFocus);
+            SetPlace(System.IO.Path.GetDirectoryName(e.Path), e.Path, e.IsFocus, true);
         }
 
         //
@@ -417,7 +526,7 @@ namespace NeeView
             if (place != null)
             {
                 _isDarty = true;
-                SetPlace(System.IO.Path.GetDirectoryName(place), place, true);
+                SetPlace(System.IO.Path.GetDirectoryName(place), place, true, true);
             }
         }
 
@@ -427,7 +536,7 @@ namespace NeeView
             if (FolderCollection == null) return;
 
             _isDarty = force || FolderCollection.IsDarty();
-            SetPlace(FolderCollection.Place, null, isFocus);
+            SetPlace(FolderCollection.Place, null, isFocus, true);
         }
 
         //
@@ -486,10 +595,73 @@ namespace NeeView
 
             if (next < 0 || next >= FolderCollection.Items.Count) return false;
 
-            SetPlace(FolderCollection.Place, FolderCollection[next].Path, false);
+            SetPlace(FolderCollection.Place, FolderCollection[next].Path, false, true);
             BookHub.RequestLoad(FolderCollection[next].Path, null, option, false);
 
             return true;
+        }
+    }
+
+    /// <summary>
+    /// 履歴
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class History<T>
+    {
+        public event EventHandler Changed;
+
+        /// <summary>
+        /// フォルダー履歴
+        /// </summary>
+        private List<T> _history = new List<T>();
+
+        /// <summary>
+        /// 現在履歴位置。0で先頭
+        /// </summary>
+        private int _current;
+
+        public void Add(T path)
+        {
+            if (_current != _history.Count)
+            {
+                _history = _history.Take(_current).ToList();
+            }
+            _history.Add(path);
+            _current = _history.Count;
+            Changed?.Invoke(this, null);
+        }
+
+        public void Move(int delta)
+        {
+            _current = NVUtility.Clamp(_current + delta, 0, _history.Count);
+            Changed?.Invoke(this, null);
+        }
+
+        public T GetCurrent()
+        {
+            var index = _current - 1;
+            return (index >= 0) ? _history[index] : default(T);
+        }
+
+        public bool CanPrevious()
+        {
+            return _current - 2 >= 0;
+        }
+
+        public T GetPrevious()
+        {
+            var index = _current - 2;
+            return (index >= 0) ? _history[index] : default(T);
+        }
+
+        public bool CanNext()
+        {
+            return _current < _history.Count;
+        }
+
+        public T GetNext()
+        {
+            return (_current < _history.Count) ? _history[_current] : default(T);
         }
     }
 }

@@ -59,6 +59,7 @@
                 SelectedIndex="{Binding SelectedIndex}"
                 SelectionChanged="FolderList_SelectionChanged"
                 Loaded="FolderList_Loaded"
+                PreviewKeyDown="FolderList_PreviewKeyDown"
                 KeyDown="FolderList_KeyDown"
                 HorizontalContentAlignment="Stretch"
                 UseLayoutRounding="True">

@@ -41,11 +41,25 @@
                 <TextBlock Text="{Binding PlaceDispString}" ToolTip="{Binding PlaceDispString}"/>
             </StackPanel>
             <WrapPanel Orientation="Horizontal" >
-                <Button x:Name="FolderUpButton" Style="{StaticResource IconButton}" Click="FolderUpButton_Click">
-                    <TextBlock Margin="8,5" Text="上に移動" Foreground="{StaticResource NVButtonForeground}"/>
+                <Button x:Name="FolderHomeButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToHome}"
+                        ToolTip="ホームに移動">
+                    <Image Source="{StaticResource ic_home_24px_b}" Width="20" Height="20"/>
                 </Button>
-                <Button x:Name="FolderSync" Style="{StaticResource IconButton}" Click="FolderSyncButton_Click">
-                    <TextBlock Margin="8,5" Text="同期" Foreground="{StaticResource NVButtonForeground}" ToolTip="表示中のフォルダに移動"/>
+                <Button x:Name="FolderPrevButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToPrevious}"
+                        ToolTip="前に戻る">
+                    <Image Source="{StaticResource ic_arrow_back_24px_b}" Width="16" Height="16"/>
+                </Button>
+                <Button x:Name="FolderNextButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToNext}"
+                        ToolTip="次へ進む">
+                    <Image Source="{StaticResource ic_arrow_forward_24px_b}" Width="16" Height="16"/>
+                </Button>
+                <Button x:Name="FolderUpButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToUp}"
+                        ToolTip="上に移動">
+                    <Image Source="{StaticResource ic_arrow_up_24px_b}" Width="16" Height="16"/>
+                </Button>
+                <Button x:Name="FolderSync" Style="{StaticResource IconButton}" Width="30" Click="FolderSyncButton_Click"
+                        ToolTip="表示中のフォルダに移動">
+                    <Image Source="{StaticResource ic_sync_24px_b}" Width="20" Height="20"/>
                 </Button>
                 <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
                           ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderCollection.Folder.FolderOrder, Delay=1}"

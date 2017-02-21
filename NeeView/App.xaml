@@ -362,7 +362,86 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
-                    
+                    <DrawingImage x:Key="ic_home_24px_b">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M12,3L22,12 19,12 19,20 14,20 14,14 10,14 10,20 5,20 5,12 2,12 12,3z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_sync_24px_b">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M5.23999977111816,7.73999977111816L6.69999980926514,9.19999980926514C6.25,10.0299997329712 6,10.9899997711182 6,12 6,15.3100004196167 8.6899995803833,18 12,18L12,15 16,19 12,23 12,20C7.57999992370605,20 4,16.4200000762939 4,12 4,10.4300003051758 4.46000003814697,8.97000026702881 5.23999977111816,7.73999977111816z M12,1.00000011920929L12,4C16.4200000762939,4 20,7.57999992370605 20,12 20,13.5699996948242 19.5400009155273,15.0299997329712 18.7600002288818,16.2600002288818L17.2999992370605,14.8000001907349C17.75,13.9700002670288 18,13.0100002288818 18,12 18,8.6899995803833 15.3100004196167,6 12,6L12,9 8,5 12,1.00000011920929z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+
+                    <DrawingImage  x:Key="ic_arrow_back_24px_b">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M12,4L13.4200000762939,5.40999984741211 7.82999992370605,11 20,11 20,13 7.82999992370605,13 13.4099998474121,18.5900001525879 12,20 4,12 12,4z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_arrow_forward_24px_b">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M12,4L20,12 12,20 10.5900001525879,18.5900001525879 16.1700000762939,13 4,13 4,11 16.1700000762939,11 10.5900001525879,5.40999984741211 12,4z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_arrow_up_24px_b">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M12,4L20,12 12,20 10.5900001525879,18.5900001525879 16.1700000762939,13 4,13 4,11 16.1700000762939,11 10.5900001525879,5.40999984741211 12,4z" >
+                                                <PathGeometry.Transform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="270"/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </PathGeometry.Transform>
+                                            </PathGeometry>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
                     <!-- IconButton Style -->
                     <Style x:Key="IconButton" TargetType="{x:Type Button}">
                         <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>

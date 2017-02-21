@@ -428,8 +428,8 @@ namespace NeeView
 
                 if (FolderOrder == FolderOrder.TimeStamp)
                 {
-                    directories = directories.OrderBy((e) => e.LastWriteTime).Reverse().ToList();
-                    archives = archives.OrderBy((e) => e.LastWriteTime).Reverse().ToList();
+                    directories = directories.OrderByDescending((e) => e.LastWriteTime).ToList();
+                    archives = archives.OrderByDescending((e) => e.LastWriteTime).ToList();
                 }
                 else if (FolderOrder == FolderOrder.Random)
                 {

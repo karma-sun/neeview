@@ -44,6 +44,9 @@ namespace NeeView
         public event EventHandler<string> Moved;
         public event EventHandler<string> MovedParent;
         public event EventHandler<int> SelectionChanged;
+        public event EventHandler MovedHome;
+        public event EventHandler MovedPrevious;
+        public event EventHandler MovedNext;
 
 
         private ThumbnailHelper _thumbnailHelper;
@@ -172,6 +175,36 @@ namespace NeeView
                     {
                         MovedParent?.Invoke(this, folderInfo.ParentPath);
                     }
+                    e.Handled = true;
+                }
+            }
+        }
+
+        //
+        private void FolderList_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Home)
+            {
+                MovedHome?.Invoke(this, null);
+                e.Handled = true;
+            }
+            else if (Keyboard.Modifiers == ModifierKeys.Alt)
+            {
+                Key key = e.Key == Key.System ? e.SystemKey : e.Key;
+
+                if (key == Key.Up)
+                {
+                    MovedParent?.Invoke(this, null);
+                    e.Handled = true;
+                }
+                else if (key == Key.Left)
+                {
+                    MovedPrevious?.Invoke(this, null);
+                    e.Handled = true;
+                }
+                else if (key == Key.Right)
+                {
+                    MovedNext?.Invoke(this, null);
                     e.Handled = true;
                 }
             }

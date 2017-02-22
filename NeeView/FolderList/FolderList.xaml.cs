@@ -32,12 +32,16 @@ namespace NeeView
     /// </summary>
     public partial class FolderList : UserControl
     {
-        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkControl));
         public static readonly RoutedCommand OpenExplorerCommand = new RoutedCommand("OpenExplorerCommand", typeof(BookmarkControl));
+        public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(BookmarkControl));
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkControl));
+        public static readonly RoutedCommand RenameCommand = new RoutedCommand("RenameCommand", typeof(BookmarkControl));
 
         static FolderList()
         {
+            CopyCommand.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control));
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
+            RenameCommand.InputGestures.Add(new KeyGesture(Key.F2));
         }
 
         public event EventHandler<string> Decided;
@@ -67,14 +71,45 @@ namespace NeeView
             _VM = vm;
             this.ListBox.DataContext = _VM;
 
-            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
-            this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Exec));
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Executed));
+            this.ListBox.CommandBindings.Add(new CommandBinding(CopyCommand, Copy_Executed, Copy_CanExecute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Executed, FileCommand_CanExecute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(RenameCommand, Rename_Executed, FileCommand_CanExecute));
+
+            this.ListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
 
             _thumbnailHelper = new ThumbnailHelper(this.ListBox, _VM.RequestThumbnail);
         }
 
+        private void ListBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            ((MainWindow)App.Current.MainWindow).RenameManager.Stop();
+        }
+
+        private void FileCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderInfo;
+            e.CanExecute = (item != null && !item.IsEmpty && !item.IsDrive);
+        }
+
+        private void Copy_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderInfo;
+            e.CanExecute = (item != null && !item.IsEmpty);
+        }
+
         //
-        public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
+        public void Copy_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderInfo;
+            if (item != null)
+            {
+                _VM.Copy(item);
+            }
+        }
+
+        //
+        public void Remove_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderInfo;
             if (item != null)
@@ -83,8 +118,63 @@ namespace NeeView
             }
         }
 
+
+
         //
-        public void OpenExplorer_Exec(object sender, ExecutedRoutedEventArgs e)
+        public void Rename_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var listView = sender as ListBox;
+
+            var item = (sender as ListBox)?.SelectedItem as FolderInfo;
+            if (item != null && (item.Attributes & FolderInfoAttribute.Empty) != FolderInfoAttribute.Empty)
+            {
+                var listViewItem = VisualTreeTools.GetListBoxItemFromItem(listView, item);
+                var textBlock = VisualTreeTools.FindVisualChild<TextBlock>(listViewItem, "FileNameTextBlock");
+
+                // 
+                if (textBlock != null)
+                {
+                    var rename = new RenameControl();
+                    rename.Target = textBlock;
+                    rename.IsFileName = !item.IsDirectory;
+                    rename.Closing += (s, ev) =>
+                    {
+                        if (ev.OldValue != ev.NewValue)
+                        {
+                            var newName = item.IsShortcut ? ev.NewValue + ".lnk" : ev.NewValue;
+                            //Debug.WriteLine($"{ev.OldValue} => {newName}");
+                            _VM.Rename(item, newName);
+                        }
+                    };
+                    rename.Closed += (s, ev) =>
+                    {
+                        listViewItem.Focus();
+                        if (ev.MoveRename != 0)
+                        {
+                            RenameNext(ev.MoveRename);
+                        }
+                    };
+
+                    ((MainWindow)Application.Current.MainWindow).RenameManager.Open(rename);
+                }
+            }
+        }
+
+        //
+        private void RenameNext(int delta)
+        {
+            if (this.ListBox.SelectedIndex < 0) return;
+
+            // 選択項目を1つ移動
+            this.ListBox.SelectedIndex = (this.ListBox.SelectedIndex + this.ListBox.Items.Count + delta) % this.ListBox.Items.Count;
+            this.ListBox.UpdateLayout();
+
+            // リネーム発動
+            Rename_Executed(this.ListBox, null);
+        }
+
+        //
+        public void OpenExplorer_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderInfo;
             if (item != null)
@@ -132,7 +222,7 @@ namespace NeeView
             var folderInfo = (sender as ListBoxItem)?.Content as FolderInfo;
             if (folderInfo != null && !folderInfo.IsEmpty)
             {
-                Decided?.Invoke(this, folderInfo.Path);
+                Decided?.Invoke(this, folderInfo.TargetPath);
                 e.Handled = true;
             }
         }
@@ -143,7 +233,7 @@ namespace NeeView
             var folderInfo = (sender as ListBoxItem)?.Content as FolderInfo;
             if (folderInfo != null && folderInfo.IsDirectory && folderInfo.IsReady)
             {
-                Moved?.Invoke(this, folderInfo.Path);
+                Moved?.Invoke(this, folderInfo.TargetPath);
             }
             e.Handled = true;
         }
@@ -158,14 +248,14 @@ namespace NeeView
             {
                 if (e.Key == Key.Return)
                 {
-                    Decided?.Invoke(this, folderInfo.Path);
+                    Decided?.Invoke(this, folderInfo.TargetPath);
                     e.Handled = true;
                 }
                 else if (e.Key == Key.Right) // →
                 {
                     if (folderInfo != null && folderInfo.IsDirectory && folderInfo.IsReady)
                     {
-                        Moved?.Invoke(this, folderInfo.Path);
+                        Moved?.Invoke(this, folderInfo.TargetPath);
                     }
                     e.Handled = true;
                 }

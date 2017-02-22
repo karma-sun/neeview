@@ -150,8 +150,7 @@ namespace NeeView
         //
         private void OnFolderCollectionChanged(object sender, bool isFocus)
         {
-            var vm = new FolderListViewModel();
-            vm.FolderCollection = _VM.FolderCollection;
+            var vm = new FolderListViewModel(_VM.FolderCollection);
             vm.SelectedIndex = _VM.FolderCollection.SelectedIndex < 0 ? 0 : _VM.FolderCollection.SelectedIndex;
             _folderList = new FolderList(vm, isFocus);
             _folderList.Decided += (s, e) => _VM.BookHub.RequestLoad(e, null, BookLoadOption.SkipSamePlace, false);
@@ -320,10 +319,16 @@ namespace NeeView
             return (_folderCollection != null && 0 <= index && index < _folderCollection.Items.Count) ? _folderCollection[index] : null;
         }
 
-        //
+        /// <summary>
+        /// 有効な選択項目取得
+        /// 削除された等で位置が変更になった場合にずらす？
+        /// 必要性に疑問
+        /// </summary>
+        /// <returns></returns>
         private FolderInfo GetExistSelectedItem()
         {
             if (_folderCollection == null || FolderCollection.Items.Count <= 0) return null;
+            if (SelectedIndex < 0) return null;
 
             for (int index = SelectedIndex; index < _folderCollection.Items.Count; ++index)
             {
@@ -595,8 +600,8 @@ namespace NeeView
 
             if (next < 0 || next >= FolderCollection.Items.Count) return false;
 
-            SetPlace(FolderCollection.Place, FolderCollection[next].Path, false, true);
-            BookHub.RequestLoad(FolderCollection[next].Path, null, option, false);
+            SetPlace(FolderCollection.Place, FolderCollection[next].TargetPath, false, true);
+            BookHub.RequestLoad(FolderCollection[next].TargetPath, null, option, false);
 
             return true;
         }

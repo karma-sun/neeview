@@ -33,6 +33,7 @@ namespace NeeView
         SkipSamePlace = (1 << 8), // 同じフォルダならば読み込まない
         AutoRecursive = (1 << 9), // 自動再帰
         Resume = (1 << 10), // 履歴情報から全て復元
+        //Rename = (1 << 11), // 名前変更して開く
     };
 
     /// <summary>
@@ -73,6 +74,9 @@ namespace NeeView
 
         // サムネイル更新
         public event EventHandler<Page> ThumbnailChanged;
+
+        // Disposed
+        private volatile bool _isDisposed;
 
         // 先読み許可フラグ
         private bool AllowPreLoad
@@ -585,6 +589,15 @@ namespace NeeView
             RequestDispose();
         }
 
+        public async Task DisposeAsync()
+        {
+            RequestDispose();
+            while (!_isDisposed)
+            {
+                await Task.Delay(100);
+            }
+        }
+
         // 前のページに戻る
         public void PrevPage(int step = 0)
         {
@@ -825,6 +838,7 @@ namespace NeeView
             {
                 _book.Terminate();
                 _book.BreakCommandWorker();
+                _book._isDisposed = true;
                 await Task.Yield();
             }
         }

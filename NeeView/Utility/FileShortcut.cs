@@ -47,7 +47,8 @@ namespace NeeView.Utility
 
     public class FileShortcut
     {
-        public string Path { get; private set; }
+        public System.IO.FileInfo Source { get; private set; }
+        public string Path => Source?.FullName;
 
         public string TargetPath { get; private set; }
 
@@ -61,17 +62,22 @@ namespace NeeView.Utility
 
         public FileShortcut(string path)
         {
-            Open(path);
+            Open(new System.IO.FileInfo(path));
         }
 
-        public void Open(string path)
+        public FileShortcut(System.IO.FileInfo source)
         {
-            if (!IsShortcut(path)) throw new NotSupportedException($"{path} is not link file.");
+            Open(source);
+        }
 
-            this.Path = path;
+        public void Open(System.IO.FileInfo source)
+        {
+            if (!IsShortcut(source.FullName)) throw new NotSupportedException($"{source.FullName} is not link file.");
+
+            this.Source = source;
 
             //
-            IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)Shell.Current.WshShell.CreateShortcut(path);
+            IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)Shell.Current.WshShell.CreateShortcut(source.FullName);
 
             //
             this.TargetPath = shortcut.TargetPath;

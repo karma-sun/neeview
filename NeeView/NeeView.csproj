@@ -105,6 +105,12 @@
       <DependentUpon>FolderIcon.xaml</DependentUpon>
     </Compile>
     <Compile Include="FolderList\FolderListViewModel.cs" />
+    <Compile Include="FolderList\RenameControl.xaml.cs">
+      <DependentUpon>RenameControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FolderList\RenameManager.xaml.cs">
+      <DependentUpon>RenameManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FullScreenManager.cs" />
     <Compile Include="ImageEffectControl.xaml.cs">
       <DependentUpon>ImageEffectControl.xaml</DependentUpon>
@@ -115,6 +121,7 @@
     <Compile Include="Utility\FileShortcut.cs" />
     <Compile Include="Utility\VectorExtensions.cs" />
     <Compile Include="IndexValue.cs" />
+    <Compile Include="VisualTreeTools.cs" />
     <Compile Include="_NeeLaboratory\Controls\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
@@ -305,6 +312,14 @@
     <Page Include="FolderList\FolderIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FolderList\RenameControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FolderList\RenameManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ImageEffectControl.xaml">
       <Generator>MSBuild:Compile</Generator>

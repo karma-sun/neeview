@@ -191,6 +191,17 @@ namespace NeeView
             return unit?.PagemarkNode != null ? unit : null;
         }
 
+        // 名前変更
+        public void Rename(string src, string dst)
+        {
+            if (src == null || dst == null) return;
+
+            foreach(var mark in Marks.Where(e => e.Place == src))
+            {
+                mark.Place = dst;
+            }
+        }
+
 
         // ====
         private ObservableCollection<Pagemark> _marks;

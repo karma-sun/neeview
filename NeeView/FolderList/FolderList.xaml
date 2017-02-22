@@ -28,7 +28,7 @@
         <DataTemplate x:Key="NormalFolder">
             <DockPanel>
                 <local:FolderIcon DockPanel.Dock="Right" FolderInfo="{Binding .}" />
-                <TextBlock Style="{StaticResource FolderName}"/>
+                <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}"/>
             </DockPanel>
         </DataTemplate>
 
@@ -38,7 +38,7 @@
                 Margin="0,1" Background="{DynamicResource NVBaseBrush}">
                 <DockPanel DockPanel.Dock="Bottom" Margin="2">
                     <local:FolderIcon DockPanel.Dock="Right" FolderInfo="{Binding .}" />
-                    <TextBlock Style="{StaticResource FolderName}"/>
+                    <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}"/>
                 </DockPanel>
                 <Grid>
                     <Image Source="{Binding ArchivePage.Thumbnail}"
@@ -63,7 +63,7 @@
                 KeyDown="FolderList_KeyDown"
                 HorizontalContentAlignment="Stretch"
                 UseLayoutRounding="True">
-        
+
         <ListBox.Style>
             <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
                 <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder}"/>
@@ -94,8 +94,10 @@
                                       CommandParameter="{Binding}"/>
                             -->
                             <MenuItem Header="エクスプローラーで開く" Command="{x:Static local:FolderList.OpenExplorerCommand}"/>
+                            <MenuItem Header="コピー(C)" Command="{x:Static local:FolderList.CopyCommand}"/>
                             <Separator/>
                             <MenuItem Header="削除(D)" Command="{x:Static local:FolderList.RemoveCommand}"/>
+                            <MenuItem Header="名前の変更(M)" Command="{x:Static local:FolderList.RenameCommand}"/>
                         </ContextMenu>
                     </Setter.Value>
                 </Setter>

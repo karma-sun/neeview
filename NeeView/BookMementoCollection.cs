@@ -141,5 +141,20 @@ namespace NeeView
             _lastFindUnit = unit;
             return unit;
         }
+
+        //
+        internal void Rename(string src, string dst)
+        {
+            if (src == null || dst == null) return;
+
+            var unit = Find(src);
+            if (unit != null)
+            {
+                this.Items.Remove(src);
+
+                unit.Memento.Place = dst;
+                this.Items.Add(dst, unit);
+            }
+        }
     }
 }

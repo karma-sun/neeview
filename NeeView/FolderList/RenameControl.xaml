@@ -1,0 +1,66 @@
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+    
+<UserControl x:Class="NeeView.RenameControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        
+        <Style x:Key="RenameTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="MinWidth" Value="32" />
+            <Setter Property="MinHeight" Value="16" />
+            <Setter Property="AllowDrop" Value="true" />
+            <Setter Property="Padding" Value="0,1"/>
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#222"/>
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#222" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                        <Border Name="Border"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}">
+                            <ScrollViewer  Padding="{TemplateBinding Padding}" Margin="0" x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid KeyDown="Control_KeyDown_IgnoreSingleKeyGesture">
+
+        <TextBlock x:Name="MeasureText" Visibility="Hidden"
+                   FontFamily="{Binding ElementName=RenameTextBox, Path=FontFamily}"
+                   FontSize="{Binding ElementName=RenameTextBox, Path=FontSize}"
+                   Text="{Binding ElementName=RenameTextBox, Path=Text}"
+                   HorizontalAlignment="Left" VerticalAlignment="Top"
+                   SizeChanged="MeasureText_SizeChanged"/>
+
+        <TextBox x:Name="RenameTextBox" Style="{StaticResource RenameTextBoxStyle}"
+             Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+             Loaded="RenameTextBox_Loaded"
+             Unloaded="RenameTextBox_Unloaded"
+             PreviewKeyDown="RenameTextBox_PreviewKeyDown"
+             PreviewMouseWheel="RenameTextBox_PreviewMouseWheel"
+             KeyDown="RenameTextBox_KeyDown"
+             LostFocus="RenameTextBox_LostFocus"/>
+    </Grid>
+
+</UserControl>

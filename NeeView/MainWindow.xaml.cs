@@ -240,6 +240,11 @@ namespace NeeView
             _timer.Interval = TimeSpan.FromSeconds(0.1);
             _timer.Tick += new EventHandler(DispatcherTimer_Tick);
             _timer.Start();
+
+            // cancel rename triggers
+            this.MouseLeftButtonDown += (s, e) => this.RenameManager.Stop();
+            this.MouseRightButtonDown += (s, e) => this.RenameManager.Stop();
+            this.Deactivated += (s, e) => this.RenameManager.Stop();
         }
 
         // ビジュアル初期化

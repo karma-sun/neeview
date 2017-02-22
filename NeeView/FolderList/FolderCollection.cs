@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Collections.ObjectModel;
+using System.Windows.Data;
 
 namespace NeeView
 {
@@ -54,15 +56,27 @@ namespace NeeView
 
         public FolderInfoAttribute Attributes { get; set; }
 
-        /// <summary>
-        /// 表示名。nullの場合はPathから生成
-        /// </summary>
-        public string Label { get; set; }
 
         /// <summary>
-        /// 実体へのパス
+        /// Path property.
         /// </summary>
-        public string Path { get; set; }
+        private string _Path;
+        public string Path
+        {
+            get { return _Path; }
+            set { if (_Path != value) { _Path = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Name)); } }
+        }
+
+        /// <summary>
+        /// TargetPath property.
+        /// 実体へのパス。nullの場合はパスと同じ
+        /// </summary>
+        private string _targetPath;
+        public string TargetPath
+        {
+            get { return _targetPath ?? Path; }
+            set { if (_targetPath != value) { _targetPath = value; RaisePropertyChanged(); } }
+        }
 
         /// <summary>
         /// 最終更新日。ソート用
@@ -104,7 +118,7 @@ namespace NeeView
 
         private void UpdateOverlay()
         {
-            var unit = ModelContext.BookMementoCollection.Find(Path);
+            var unit = ModelContext.BookMementoCollection.Find(TargetPath);
 
             //if (IsVisibleBookmarkMark && unit?.PagemarkNode != null)
             //    IconOverlay = FolderInfoIconOverlay.Pagemark;
@@ -141,7 +155,7 @@ namespace NeeView
             {
                 if (_icon == null && !IsEmpty)
                 {
-                    _icon = Utility.FileInfo.GetTypeIconSource(Path, Utility.FileInfo.IconSize.Normal);
+                    _icon = Utility.FileInfo.GetTypeIconSource(TargetPath, Utility.FileInfo.IconSize.Normal);
                 }
                 return _icon;
             }
@@ -154,7 +168,7 @@ namespace NeeView
             {
                 if (_iconSmall == null && !IsEmpty)
                 {
-                    _iconSmall = Utility.FileInfo.GetTypeIconSource(Path, Utility.FileInfo.IconSize.Small);
+                    _iconSmall = Utility.FileInfo.GetTypeIconSource(TargetPath, Utility.FileInfo.IconSize.Small);
                 }
                 return _iconSmall;
             }
@@ -166,7 +180,7 @@ namespace NeeView
             {
                 if ((Attributes & FolderInfoAttribute.Drive) == FolderInfoAttribute.Drive)
                 {
-                    return Label ?? Path;
+                    return Path;
                 }
                 else if (IsEmpty)
                 {
@@ -174,7 +188,7 @@ namespace NeeView
                 }
                 else
                 {
-                    return Label ?? System.IO.Path.GetFileName(Path);
+                    return IsShortcut ? System.IO.Path.GetFileNameWithoutExtension(Path) : System.IO.Path.GetFileName(Path);
                 }
             }
         }
@@ -190,7 +204,7 @@ namespace NeeView
             {
                 if (_archivePage == null && !IsDrive && !IsEmpty)
                 {
-                    _archivePage = new ArchivePage(Path);
+                    _archivePage = new ArchivePage(TargetPath);
                     _archivePage.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(this, _archivePage);
                 }
                 return _archivePage;
@@ -216,10 +230,7 @@ namespace NeeView
 
         protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
         }
         #endregion
 
@@ -275,7 +286,8 @@ namespace NeeView
     /// </summary>
     public class FolderCollection : IDisposable
     {
-        public event EventHandler Changed;
+        public event EventHandler<FileSystemEventArgs> Changing;
+        public event EventHandler<FileSystemEventArgs> Changed;
 
         //
         private Folder _folder;
@@ -292,11 +304,11 @@ namespace NeeView
         // indexer
         public FolderInfo this[int index]
         {
-            get { return Items[index]; }
+            get { Debug.Assert(index >= 0 && index < Items.Count); return Items[index]; }
             private set { Items[index] = value; }
         }
 
-        public List<FolderInfo> Items { get; private set; }
+        public ObservableCollection<FolderInfo> Items { get; private set; }
 
         public string Place { get; set; }
 
@@ -311,12 +323,9 @@ namespace NeeView
 
 
         //
-        private bool _isDarty;
-
-        //
         public bool IsDarty(Folder folder)
         {
-            return (_isDarty || Place != folder.Path || FolderOrder != folder.FolderOrder || RandomSeed != folder.RandomSeed);
+            return (Place != folder.Path || FolderOrder != folder.FolderOrder || RandomSeed != folder.RandomSeed);
         }
 
         //
@@ -338,7 +347,8 @@ namespace NeeView
         //
         public int IndexOfPath(string path)
         {
-            return Items.FindIndex(e => e.Path == path);
+            var item = Items.FirstOrDefault(e => e.Path == path);
+            return (item != null) ? Items.IndexOf(item) : -1;
         }
 
         //
@@ -350,108 +360,90 @@ namespace NeeView
         //
         public void Update(string path)
         {
+            if (Items != null)
+            {
+                BindingOperations.DisableCollectionSynchronization(this.Items);
+            }
+
             _currentPlace = path ?? _currentPlace;
 
             if (string.IsNullOrWhiteSpace(Place))
             {
-                var items = new List<FolderInfo>();
-                foreach (var drive in DriveInfo.GetDrives())
-                {
-                    var folderInfo = new FolderInfo();
-                    folderInfo.Attributes = FolderInfoAttribute.Directory | FolderInfoAttribute.Drive;
-                    folderInfo.IsReady = drive.IsReady;
-                    folderInfo.Path = drive.Name;
-                    items.Add(folderInfo);
-                }
-                Items = items;
-            }
-            else if (!Directory.Exists(Place))
-            {
-                var items = new List<FolderInfo>();
-                items.Add(new FolderInfo() { Path = Place + "\\.", Attributes = FolderInfoAttribute.Empty | FolderInfoAttribute.DirectoryNoFound });
-                Items = items;
+                Items = new ObservableCollection<FolderInfo>(DriveInfo.GetDrives().Select(e => CreateFolderInfo(e)));
             }
             else
             {
                 var directory = new DirectoryInfo(Place);
 
-                var shortcuts = directory.EnumerateFiles()
-                    .Where(e => e.Exists && Utility.FileShortcut.IsShortcut(e.FullName))
-                    .Select(e => new Utility.FileShortcut(e.FullName))
-                    .ToList();
-
-                var directories = directory.EnumerateDirectories()
-                    .Where(e => e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
-                    .Select(e => new FolderInfo()
-                    {
-                        Path = e.FullName,
-                        LastWriteTime = e.LastWriteTime,
-                        Attributes = FolderInfoAttribute.Directory,
-                        IsReady = true
-                    })
-                    .ToList();
-
-                var directoryShortcuts = shortcuts
-                    .Where(e => e.DirectoryInfo.Exists)
-                    .Select(e => new FolderInfo()
-                    {
-                        Path = e.TargetPath,
-                        Label = System.IO.Path.GetFileNameWithoutExtension(e.Path),
-                        LastWriteTime = e.DirectoryInfo.LastWriteTime,
-                        Attributes = FolderInfoAttribute.Directory | FolderInfoAttribute.Shortcut,
-                        IsReady = true
-                    })
-                    .ToList();
-
-                directories = directories.Concat(directoryShortcuts).ToList();
-
-
-                var archives = directory.EnumerateFiles()
-                    .Where(e => e.Exists && ModelContext.ArchiverManager.IsSupported(e.FullName))
-                    .Select(e => new FolderInfo() { Path = e.FullName, LastWriteTime = e.LastWriteTime, IsReady = true })
-                    .ToList();
-
-                var archiveShortcuts = shortcuts
-                    .Where(e => e.FileInfo.Exists && ModelContext.ArchiverManager.IsSupported(e.TargetPath))
-                    .Select(e => new FolderInfo()
-                    {
-                        Path = e.TargetPath,
-                        Label = System.IO.Path.GetFileNameWithoutExtension(e.Path),
-                        LastWriteTime = e.FileInfo.LastWriteTime,
-                        Attributes = FolderInfoAttribute.Shortcut,
-                        IsReady = true
-                    })
-                    .ToList();
-
-                archives = archives.Concat(archiveShortcuts).ToList();
-
-
-                if (FolderOrder == FolderOrder.TimeStamp)
+                if (!directory.Exists)
                 {
-                    directories = directories.OrderByDescending((e) => e.LastWriteTime).ToList();
-                    archives = archives.OrderByDescending((e) => e.LastWriteTime).ToList();
-                }
-                else if (FolderOrder == FolderOrder.Random)
-                {
-                    var random = new Random(RandomSeed);
-                    directories = directories.OrderBy(e => random.Next()).ToList();
-                    archives = archives.OrderBy(e => random.Next()).ToList();
+                    var items = new ObservableCollection<FolderInfo>();
+                    items.Add(new FolderInfo() { Path = Place + "\\.", Attributes = FolderInfoAttribute.Empty | FolderInfoAttribute.DirectoryNoFound });
+                    Items = items;
                 }
                 else
                 {
-                    directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a.Name, b.Name));
-                    archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a.Name, b.Name));
+                    var shortcuts = directory.EnumerateFiles()
+                        .Where(e => e.Exists && Utility.FileShortcut.IsShortcut(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
+                        .Select(e => new Utility.FileShortcut(e))
+                        .ToList();
+
+                    var directories = directory.EnumerateDirectories()
+                        .Where(e => e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
+                        .Select(e => CreateFolderInfo(e))
+                        .ToList();
+
+                    var directoryShortcuts = shortcuts
+                        .Where(e => e.DirectoryInfo.Exists)
+                        .Select(e => CreateFolderInfo(e))
+                        .ToList();
+
+                    directories = directories.Concat(directoryShortcuts).Where(e => e != null).ToList();
+
+
+                    var archives = directory.EnumerateFiles()
+                        .Where(e => e.Exists && ModelContext.ArchiverManager.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
+                        .Select(e => CreateFolderInfo(e))
+                        .ToList();
+
+                    var archiveShortcuts = shortcuts
+                        .Where(e => e.FileInfo.Exists && ModelContext.ArchiverManager.IsSupported(e.TargetPath))
+                        .Select(e => CreateFolderInfo(e))
+                        .ToList();
+
+                    archives = archives.Concat(archiveShortcuts).Where(e => e != null).ToList();
+
+
+                    if (FolderOrder == FolderOrder.TimeStamp)
+                    {
+                        directories = directories.OrderByDescending((e) => e.LastWriteTime).ToList();
+                        archives = archives.OrderByDescending((e) => e.LastWriteTime).ToList();
+                    }
+                    else if (FolderOrder == FolderOrder.Random)
+                    {
+                        var random = new Random(RandomSeed);
+                        directories = directories.OrderBy(e => random.Next()).ToList();
+                        archives = archives.OrderBy(e => random.Next()).ToList();
+                    }
+                    else
+                    {
+                        directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a.Name, b.Name));
+                        archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a.Name, b.Name));
+                    }
+
+                    var list = directories.Concat(archives).ToList();
+
+                    if (list.Count <= 0)
+                    {
+                        list.Add(new FolderInfo() { Path = Place + "\\.", Attributes = FolderInfoAttribute.Empty });
+                    }
+
+                    Items = new ObservableCollection<FolderInfo>(list);
                 }
-
-                var list = directories.Concat(archives).ToList();
-
-                if (list.Count <= 0)
-                {
-                    list.Add(new FolderInfo() { Path = Place + "\\.", Attributes = FolderInfoAttribute.Empty });
-                }
-
-                Items = list;
             }
+
+
+            BindingOperations.EnableCollectionSynchronization(this.Items, new object());
 
             if (Place != null)
             {
@@ -465,11 +457,14 @@ namespace NeeView
         {
             if (path == null)
             {
-                Items.ForEach(e => e.NotifyIconOverlayChanged());
+                foreach (var item in Items)
+                {
+                    item.NotifyIconOverlayChanged();
+                }
             }
             else
             {
-                foreach (var item in Items.Where(e => e.Path == path))
+                foreach (var item in Items.Where(e => e.TargetPath == path))
                 {
                     item.NotifyIconOverlayChanged();
                 }
@@ -498,9 +493,9 @@ namespace NeeView
                 _fileSystemWatcher.Path = path;
                 _fileSystemWatcher.IncludeSubdirectories = false;
                 _fileSystemWatcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName;
-                _fileSystemWatcher.Created += Watcher_Changed;
-                _fileSystemWatcher.Deleted += Watcher_Changed;
-                _fileSystemWatcher.Renamed += Watcher_Changed;
+                _fileSystemWatcher.Created += Watcher_Creaded;
+                _fileSystemWatcher.Deleted += Watcher_Deleted;
+                _fileSystemWatcher.Renamed += Watcher_Renamed;
             }
             catch (Exception e)
             {
@@ -510,15 +505,17 @@ namespace NeeView
             }
         }
 
+
+
         //
         private void TerminateWatcher()
         {
             if (_fileSystemWatcher != null)
             {
                 _fileSystemWatcher.EnableRaisingEvents = false;
-                _fileSystemWatcher.Created -= Watcher_Changed;
-                _fileSystemWatcher.Created -= Watcher_Changed;
-                _fileSystemWatcher.Renamed -= Watcher_Changed;
+                _fileSystemWatcher.Created -= Watcher_Creaded;
+                _fileSystemWatcher.Deleted -= Watcher_Deleted;
+                _fileSystemWatcher.Renamed -= Watcher_Renamed;
                 _fileSystemWatcher.Dispose();
                 _fileSystemWatcher = null;
             }
@@ -533,11 +530,154 @@ namespace NeeView
             }
         }
 
-        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+
+        private void Watcher_Creaded(object sender, FileSystemEventArgs e)
         {
-            _isDarty = true;
-            Changed?.Invoke(this, null);
+            // FolderInfoを作成し、追加
+            var item = CreateFolderInfo(e.FullPath);
+            if (item != null)
+            {
+                this.Items.Add(item);
+            }
         }
+
+        private void Watcher_Deleted(object sender, FileSystemEventArgs e)
+        {
+            // 対象を検索し、削除する
+            var item = this.Items.FirstOrDefault(i => i.Path == e.FullPath);
+            if (item != null)
+            {
+                Changing?.Invoke(sender, e);
+                Items.Remove(item);
+            }
+        }
+
+
+
+
+        private void Watcher_Renamed(object sender, RenamedEventArgs e)
+        {
+            // 対象を検索
+            var item = this.Items.FirstOrDefault(i => i.Path == e.OldFullPath);
+            if (item != null)
+            {
+                item.Path = e.FullPath;
+            }
+        }
+
+
+
+        //
+        private FolderInfo CreateFolderInfo(string path)
+        {
+            // directory
+            var directory = new DirectoryInfo(path);
+            if (directory.Exists)
+            {
+                return CreateFolderInfo(directory);
+            }
+
+            // file
+            var file = new FileInfo(path);
+            if (file.Exists)
+            {
+                // .lnk
+                if (Utility.FileShortcut.IsShortcut(path))
+                {
+                    var shortcut = new Utility.FileShortcut(file);
+                    return CreateFolderInfo(shortcut);
+                }
+                else
+                {
+                    return CreateFolderInfo(file);
+                }
+            }
+
+            return null;
+        }
+
+
+        private FolderInfo CreateFolderInfo(DriveInfo e)
+        {
+            if (e != null)
+            {
+                return new FolderInfo()
+                {
+                    Path = e.Name,
+                    Attributes = FolderInfoAttribute.Directory | FolderInfoAttribute.Drive,
+                    IsReady = e.IsReady,
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        //
+        private FolderInfo CreateFolderInfo(DirectoryInfo e)
+        {
+            if (e != null && e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
+            {
+                return new FolderInfo()
+                {
+                    Path = e.FullName,
+                    LastWriteTime = e.LastWriteTime,
+                    Attributes = FolderInfoAttribute.Directory,
+                    IsReady = true
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        //
+        private FolderInfo CreateFolderInfo(FileInfo e)
+        {
+            if (e != null && e.Exists && ModelContext.ArchiverManager.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
+            {
+                return new FolderInfo()
+                {
+                    Path = e.FullName,
+                    LastWriteTime = e.LastWriteTime,
+                    IsReady = true
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        //
+        private FolderInfo CreateFolderInfo(Utility.FileShortcut e)
+        {
+            FolderInfo info = null;
+
+            if (e != null && e.Source.Exists && (e.Source.Attributes & FileAttributes.Hidden) == 0)
+            {
+                if (e.DirectoryInfo.Exists)
+                {
+                    info = CreateFolderInfo(e.DirectoryInfo);
+                }
+                else if (e.FileInfo.Exists)
+                {
+                    info = CreateFolderInfo(e.FileInfo);
+                }
+            }
+
+            if (info != null)
+            {
+                info.Path = e.Path;
+                info.TargetPath = e.TargetPath;
+                info.Attributes = info.Attributes | FolderInfoAttribute.Shortcut;
+            }
+
+            return info;
+        }
+
     }
 
     #endregion

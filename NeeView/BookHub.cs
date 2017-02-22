@@ -32,6 +32,14 @@ namespace NeeView
         public System.Windows.FrameworkElement Visual { get; set; }
     }
 
+    //
+    public class RenameFileParams
+    {
+        public string Path { get; set; }
+        public string OldPath { get; set; }
+        public System.Windows.FrameworkElement Visual { get; set; }
+    }
+
     public class FolderListSyncArguments
     {
         public string Path { get; set; }
@@ -79,6 +87,11 @@ namespace NeeView
         public void Dispose()
         {
             Book?.Dispose();
+        }
+
+        public async Task DisposeAsync()
+        {
+            await Book?.DisposeAsync();
         }
 
         public BookMementoType BookMementoType
@@ -410,6 +423,7 @@ namespace NeeView
 
             // messenger
             Messenger.AddReciever("RemoveFile", CallRemoveFile);
+            Messenger.AddReciever("RenameFile", CallRenameFile);
 
             StartCommandWorker();
         }
@@ -566,23 +580,45 @@ namespace NeeView
             }
         }
 
+
+        //現在開いているブックの設定作成
+        private Book.Memento CreateBookMemento()
+        {
+            return (Current != null && Current.Book.Pages.Count > 0) ? Current.Book.CreateMemento() : null;
+        }
+
+        // 設定の読込
+        public Book.Memento LoadBookMemento(string place)
+        {
+            var unit = ModelContext.BookMementoCollection.Find(place);
+            return unit?.Memento;
+        }
+
         //設定の保存
         public void SaveBookMemento()
         {
+            var memento = CreateBookMemento();
+            if (memento == null) return;
+
+            // TODO: 現状ではLoad前にUnload処理が走ることがあるための応急処置
+            memento.Place = Current.BookMementoUnit.Memento.Place;
+
+            SaveBookMemento(Current.BookMementoUnit, memento, Current.IsKeepHistoryOrder);
+        }
+
+        private void SaveBookMemento(BookMementoUnit unit, Book.Memento memento, bool isKeepHistoryOrder)
+        {
+            if (memento == null) return;
+            unit = unit ?? ModelContext.BookMementoCollection.Find(memento.Place);
+
             // 履歴の保存
-            if (Current != null && Current.Book.Pages.Count > 0)
-            {
-                var memento = Current.Book.CreateMemento();
+            ModelContext.BookHistory.Add(unit, memento, isKeepHistoryOrder);
 
-                // 履歴の保存
-                ModelContext.BookHistory.Add(Current.BookMementoUnit, memento, Current.IsKeepHistoryOrder);
+            // ブックマーク更新
+            ModelContext.Bookmarks.Update(unit, memento);
 
-                // ブックマーク更新
-                ModelContext.Bookmarks.Update(Current.BookMementoUnit, memento);
-
-                // ページマーク更新
-                ModelContext.Pagemarks.Update(Current.BookMementoUnit, memento);
-            }
+            // ページマーク更新
+            ModelContext.Pagemarks.Update(unit, memento);
         }
 
         /// <summary>
@@ -596,6 +632,25 @@ namespace NeeView
             // 現在の本を開放
             Current?.Dispose();
             Current = null;
+
+            // 現在表示されているコンテンツを無効
+            if (isClearViewContent)
+            {
+                ViewContentsChanged?.Invoke(this, null);
+            }
+        }
+
+        public async Task UnloadAsync(bool isClearViewContent)
+        {
+            // 履歴の保存
+            SaveBookMemento();
+
+            // 現在の本を開放
+            if (Current != null)
+            {
+                await Current?.DisposeAsync();
+                Current = null;
+            }
 
             // 現在表示されているコンテンツを無効
             if (isClearViewContent)
@@ -1748,6 +1803,58 @@ namespace NeeView
             }
 
             e.Result = result == true;
+        }
+
+
+        // ファイルの名前を変える
+        // RenameFileメッセージ処理
+        public async void CallRenameFile(object sender, MessageEventArgs e)
+        {
+            var renameParam = (RenameFileParams)e.Parameter;
+            var src = renameParam.OldPath;
+            var dst = renameParam.Path;
+
+            try
+            {
+                bool isContinue = false;
+
+                // 開いている本を閉じる
+                if (this.Address == src)
+                {
+                    await UnloadAsync(false);
+                    isContinue = true;
+                }
+
+                // rename
+                Debug.WriteLine("RENAME...");
+                if (System.IO.Directory.Exists(src))
+                {
+                    System.IO.Directory.Move(src, dst);
+                }
+                else
+                {
+                    System.IO.File.Move(src, dst);
+                }
+
+                if (isContinue)
+                {
+                    RenameHistory(src, dst);
+                    RequestLoad(dst, null, BookLoadOption.Resume, false);
+                }
+
+                e.Result = true;
+            }
+            catch (Exception ex)
+            {
+                Messenger.MessageBox(sender, $"名前の変更に失敗しました。\n\n{ex.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
+                e.Result = false;
+            }
+        }
+
+        private void RenameHistory(string src, string dst)
+        {
+            ModelContext.BookMementoCollection.Rename(src, dst);
+            ModelContext.Pagemarks.Rename(src, dst);
         }
 
 

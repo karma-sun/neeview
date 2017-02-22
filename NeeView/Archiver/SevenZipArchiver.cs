@@ -225,6 +225,8 @@ namespace NeeView
 
             lock (s_lock)
             {
+                if (_source == null) throw new ApplicationException("Archive already colosed.");
+
                 using (var extractor = new SevenZipDescriptor(_source))
                 {
                     for (int id = 0; id < extractor.ArchiveFileData.Count; ++id)
@@ -256,6 +258,8 @@ namespace NeeView
 
             lock (s_lock)
             {
+                if (_source == null) throw new ApplicationException("Archive already colosed.");
+
                 using (var extractor = new SevenZipDescriptor(_source))
                 {
                     var archiveEntry = extractor.ArchiveFileData[entry.Id];

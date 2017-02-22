@@ -29,7 +29,8 @@ namespace NeeView
         }
         #endregion
 
-        public FolderCollection FolderCollection { get; set; }
+
+        public FolderCollection FolderCollection { get; private set; }
 
         public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
 
@@ -37,6 +38,7 @@ namespace NeeView
 
         public double ThumbnailWidth => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeX / App.Config.DpiScaleFactor.X);
         public double ThumbnailHeight => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeY / App.Config.DpiScaleFactor.Y);
+
 
 
         /// <summary>
@@ -48,19 +50,53 @@ namespace NeeView
             get { return _selectedIndex; }
             set
             {
-                _selectedIndex = value;
+                _selectedIndex = NVUtility.Clamp(value, 0, this.FolderCollection.Items.Count - 1);
                 RaisePropertyChanged();
             }
         }
 
 
         //
-        public FolderListViewModel()
+        public FolderListViewModel(FolderCollection collection)
         {
+            this.FolderCollection = collection;
+            this.FolderCollection.Changing += FolderCollection_Changing;
+
             RaisePropertyChanged(nameof(FolderListItemStyle));
             PanelContext.FolderListStyleChanged += (s, e) => RaisePropertyChanged(nameof(FolderListItemStyle));
         }
 
+
+        //
+        private void FolderCollection_Changing(object sender, System.IO.FileSystemEventArgs e)
+        {
+            if (e.ChangeType != System.IO.WatcherChangeTypes.Deleted) return;
+
+            var index = this.FolderCollection.IndexOfPath(e.FullPath);
+            if (SelectedIndex != index) return;
+
+            if (SelectedIndex < this.FolderCollection.Items.Count - 1)
+            {
+                SelectedIndex++;
+            }
+            else if (SelectedIndex > 0)
+            {
+                SelectedIndex--;
+            }
+        }
+
+
+        public void Copy(FolderInfo info)
+        {
+            if (info.IsEmpty) return;
+
+            var files = new List<string>();
+            files.Add(info.Path);
+            var data = new DataObject();
+            data.SetData(DataFormats.FileDrop, files.ToArray());
+            data.SetData(DataFormats.UnicodeText, string.Join("\r\n", files));
+            Clipboard.SetDataObject(data);
+        }
 
         //
         /// <summary>
@@ -103,6 +139,73 @@ namespace NeeView
 
             Messenger.Send(this, new MessageEventArgs("RemoveFile") { Parameter = new RemoveFileParams() { Path = info.Path, Visual = stackPanel } });
         }
+
+        //
+        public void Rename(FolderInfo info)
+        {
+            if (info.IsEmpty) return;
+
+            throw new NotImplementedException();
+        }
+
+        //
+        public bool Rename(FolderInfo file, string newName)
+        {
+            string src = file.Path;
+            string dst = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(src), newName);
+
+            if (src == dst) return true;
+
+            // 拡張子変更確認
+            if (!file.IsDirectory)
+            {
+                var srcExt = System.IO.Path.GetExtension(src);
+                var dstExt = System.IO.Path.GetExtension(dst);
+                if (string.Compare(srcExt, dstExt, true) != 0)
+                {
+                    var resut = MessageBox.Show($"拡張子を変更すると、使えなくなる可能性があります。\n\n変更しますか？", "名前の変更の確認", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                    if (resut != MessageBoxResult.OK)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            // 大文字小文字の変換は正常
+            if (string.Compare(src, dst, true) == 0)
+            {
+                // nop.
+            }
+
+            // 重複ファイル名回避
+            else if (System.IO.File.Exists(dst) || System.IO.Directory.Exists(dst))
+            {
+                string dstBase = dst;
+                string dir = System.IO.Path.GetDirectoryName(dst);
+                string name = System.IO.Path.GetFileNameWithoutExtension(dst);
+                string ext = System.IO.Path.GetExtension(dst);
+                int count = 1;
+
+                do
+                {
+                    dst = $"{dir}\\{name} ({++count}){ext}";
+                }
+                while (System.IO.File.Exists(dst) || System.IO.Directory.Exists(dst));
+
+                // 確認
+                var resut = MessageBox.Show($"{System.IO.Path.GetFileName(dstBase)} は既に存在します。\n{System.IO.Path.GetFileName(dst)} に名前を変更しますか？", "名前の変更の確認", MessageBoxButton.OKCancel);
+                if (resut != MessageBoxResult.OK)
+                {
+                    return false;
+                }
+            }
+
+            // 名前変更実行
+            var result = Messenger.Send(this, new MessageEventArgs("RenameFile") { Parameter = new RenameFileParams() { OldPath = src, Path = dst } });
+            return result == true ? true : false;
+        }
+
+
 
 
         /// <summary>

@@ -800,6 +800,8 @@
             </StackPanel>
             -->
 
+            <local:RenameManager x:Name="RenameManager"/>
+
         </Grid>
 
     </DockPanel>

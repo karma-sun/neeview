@@ -26,15 +26,15 @@ namespace NeeView
     /// </summary>
     public partial class FolderIcon : UserControl, INotifyPropertyChanged
     {
-        public FolderInfo FolderInfo
+        public FolderItem FolderInfo
         {
-            get { return (FolderInfo)GetValue(FolderInfoProperty); }
+            get { return (FolderItem)GetValue(FolderInfoProperty); }
             set { SetValue(FolderInfoProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for FolderInfo.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FolderInfoProperty =
-            DependencyProperty.Register("FolderInfo", typeof(FolderInfo), typeof(FolderIcon), new PropertyMetadata(null, FolderInfoChanged));
+            DependencyProperty.Register("FolderInfo", typeof(FolderItem), typeof(FolderIcon), new PropertyMetadata(null, FolderInfoChanged));
 
         private static void FolderInfoChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

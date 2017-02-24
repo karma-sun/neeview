@@ -101,10 +101,15 @@
     <Compile Include="Effects\PixelateEffectUnit.cs" />
     <Compile Include="Effects\ImageEffect.cs" />
     <Compile Include="Effects\EffectType.cs" />
+    <Compile Include="FolderList\FolderCollectionParameter.cs" />
     <Compile Include="FolderList\FolderIcon.xaml.cs">
       <DependentUpon>FolderIcon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FolderList\FolderItem.cs" />
+    <Compile Include="FolderList\FolderListControlViewModel.cs" />
+    <Compile Include="FolderList\FolderListSetting.cs" />
     <Compile Include="FolderList\FolderListViewModel.cs" />
+    <Compile Include="FolderList\History.cs" />
     <Compile Include="FolderList\RenameControl.xaml.cs">
       <DependentUpon>RenameControl.xaml</DependentUpon>
     </Compile>
@@ -173,11 +178,11 @@
       <DependentUpon>PageListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="FolderList\FolderCollection.cs" />
-    <Compile Include="FolderList\FolderList.xaml.cs">
-      <DependentUpon>FolderList.xaml</DependentUpon>
+    <Compile Include="FolderList\FolderListView.xaml.cs">
+      <DependentUpon>FolderListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FolderList\FolderListControl.xaml.cs">
-      <DependentUpon>FolderListControl.xaml</DependentUpon>
+    <Compile Include="FolderList\FolderListControlView.xaml.cs">
+      <DependentUpon>FolderListControlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="HistoryControl.xaml.cs">
       <DependentUpon>HistoryControl.xaml</DependentUpon>
@@ -385,11 +390,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FolderList\FolderList.xaml">
+    <Page Include="FolderList\FolderListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FolderList\FolderListControl.xaml">
+    <Page Include="FolderList\FolderListControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

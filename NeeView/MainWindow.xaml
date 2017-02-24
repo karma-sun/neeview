@@ -243,7 +243,7 @@
                                     </Style>
                                 </Grid.Style>
 
-                                <local:FolderListControl x:Name="FolderList" Grid.Row="0" Setting="{Binding FolderListSetting}" BookHub="{Binding BookHub}"/>
+                                <local:FolderListControlView x:Name="FolderList" Grid.Row="0" Setting="{Binding FolderListSetting}" BookHub="{Binding BookHub}"/>
 
                                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Height="6" Background="{DynamicResource NVBaseBrush}" Focusable="False" 
                                               Visibility="{Binding IsVisiblePageList, Converter={StaticResource BooleanToVisibilityConverter}}"/>

@@ -1,0 +1,76 @@
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NeeView
+{
+    /// <summary>
+    /// 履歴
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class History<T>
+    {
+        public event EventHandler Changed;
+
+        /// <summary>
+        /// フォルダー履歴
+        /// </summary>
+        private List<T> _history = new List<T>();
+
+        /// <summary>
+        /// 現在履歴位置。0で先頭
+        /// </summary>
+        private int _current;
+
+        public void Add(T path)
+        {
+            if (_current != _history.Count)
+            {
+                _history = _history.Take(_current).ToList();
+            }
+            _history.Add(path);
+            _current = _history.Count;
+            Changed?.Invoke(this, null);
+        }
+
+        public void Move(int delta)
+        {
+            _current = NVUtility.Clamp(_current + delta, 0, _history.Count);
+            Changed?.Invoke(this, null);
+        }
+
+        public T GetCurrent()
+        {
+            var index = _current - 1;
+            return (index >= 0) ? _history[index] : default(T);
+        }
+
+        public bool CanPrevious()
+        {
+            return _current - 2 >= 0;
+        }
+
+        public T GetPrevious()
+        {
+            var index = _current - 2;
+            return (index >= 0) ? _history[index] : default(T);
+        }
+
+        public bool CanNext()
+        {
+            return _current < _history.Count;
+        }
+
+        public T GetNext()
+        {
+            return (_current < _history.Count) ? _history[_current] : default(T);
+        }
+    }
+}

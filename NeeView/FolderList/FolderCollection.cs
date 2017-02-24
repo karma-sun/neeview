@@ -17,359 +17,120 @@ using System.Windows.Data;
 
 namespace NeeView
 {
-    [Flags]
-    public enum FolderInfoAttribute
-    {
-        None = 0,
-        Directory = (1 << 0),
-        Drive = (1 << 1),
-        DriveNotReady = (1 << 2),
-        Empty = (1 << 3),
-        DirectoryNoFound = (1 << 4),
-        Shortcut = (1 << 5),
-    }
-
-    public enum FolderInfoIconOverlay
-    {
-        Uninitialized,
-        None,
-        Disable,
-        Checked,
-        Star,
-        Pagemark,
-    }
-
-    // フォルダ情報
-    public class FolderInfo : INotifyPropertyChanged, IHasPage
-    {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
-        public FolderInfoAttribute Attributes { get; set; }
-
-
-        /// <summary>
-        /// Path property.
-        /// </summary>
-        private string _Path;
-        public string Path
-        {
-            get { return _Path; }
-            set { if (_Path != value) { _Path = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Name)); } }
-        }
-
-        /// <summary>
-        /// TargetPath property.
-        /// 実体へのパス。nullの場合はパスと同じ
-        /// </summary>
-        private string _targetPath;
-        public string TargetPath
-        {
-            get { return _targetPath ?? Path; }
-            set { if (_targetPath != value) { _targetPath = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// 最終更新日。ソート用
-        /// </summary>
-        public DateTime LastWriteTime { get; set; }
-
-        public string ParentPath => System.IO.Path.GetDirectoryName(Path);
-
-        public bool IsDrive => (Attributes & FolderInfoAttribute.Drive) == FolderInfoAttribute.Drive;
-        public bool IsDirectory => (Attributes & FolderInfoAttribute.Directory) == FolderInfoAttribute.Directory;
-        public bool IsEmpty => (Attributes & FolderInfoAttribute.Empty) == FolderInfoAttribute.Empty;
-        public bool IsDirectoryNotFound => (Attributes & FolderInfoAttribute.DirectoryNoFound) == FolderInfoAttribute.DirectoryNoFound;
-        public bool IsShortcut => (Attributes & FolderInfoAttribute.Shortcut) == FolderInfoAttribute.Shortcut;
-
-        public bool IsReady { get; set; }
-
-        public static bool IsVisibleHistoryMark { get; set; } = true;
-        public static bool IsVisibleBookmarkMark { get; set; } = true;
-
-        // パスの存在チェック
-        public bool IsExist()
-        {
-            return IsDirectory ? Directory.Exists(Path) : File.Exists(Path);
-        }
-
-        // アイコンオーバーレイの種類を返す
-        private FolderInfoIconOverlay _iconOverlay = FolderInfoIconOverlay.Uninitialized;
-        public FolderInfoIconOverlay IconOverlay
-        {
-            get
-            {
-                if (_iconOverlay == FolderInfoIconOverlay.Uninitialized)
-                {
-                    UpdateOverlay();
-                }
-                return _iconOverlay;
-            }
-        }
-
-        private void UpdateOverlay()
-        {
-            var unit = ModelContext.BookMementoCollection.Find(TargetPath);
-
-            //if (IsVisibleBookmarkMark && unit?.PagemarkNode != null)
-            //    IconOverlay = FolderInfoIconOverlay.Pagemark;
-            if (IsVisibleBookmarkMark && unit?.BookmarkNode != null)
-                _iconOverlay = FolderInfoIconOverlay.Star;
-            else if (IsVisibleHistoryMark && unit?.HistoryNode != null)
-                _iconOverlay = FolderInfoIconOverlay.Checked;
-            else if (IsDirectory && !IsReady)
-                _iconOverlay = FolderInfoIconOverlay.Disable;
-            else
-                _iconOverlay = FolderInfoIconOverlay.None;
-        }
-
-        public bool IsOverlayStar => IconOverlay == FolderInfoIconOverlay.Star;
-        public bool IsOverlayChecked => IconOverlay == FolderInfoIconOverlay.Checked;
-        public bool IsOverlayDisable => IconOverlay == FolderInfoIconOverlay.Disable;
-
-        // アイコンオーバーレイの変更を通知
-        public void NotifyIconOverlayChanged()
-        {
-            UpdateOverlay();
-
-            RaisePropertyChanged(nameof(IconOverlay));
-
-            RaisePropertyChanged(nameof(IsOverlayStar));
-            RaisePropertyChanged(nameof(IsOverlayChecked));
-            RaisePropertyChanged(nameof(IsOverlayDisable));
-        }
-
-        private BitmapSource _icon;
-        public BitmapSource Icon
-        {
-            get
-            {
-                if (_icon == null && !IsEmpty)
-                {
-                    _icon = Utility.FileInfo.GetTypeIconSource(TargetPath, Utility.FileInfo.IconSize.Normal);
-                }
-                return _icon;
-            }
-        }
-
-        private BitmapSource _iconSmall;
-        public BitmapSource IconSmall
-        {
-            get
-            {
-                if (_iconSmall == null && !IsEmpty)
-                {
-                    _iconSmall = Utility.FileInfo.GetTypeIconSource(TargetPath, Utility.FileInfo.IconSize.Small);
-                }
-                return _iconSmall;
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                if ((Attributes & FolderInfoAttribute.Drive) == FolderInfoAttribute.Drive)
-                {
-                    return Path;
-                }
-                else if (IsEmpty)
-                {
-                    return IsDirectoryNotFound ? "フォルダが存在しません" : "表示できるファイルはありません";
-                }
-                else
-                {
-                    return IsShortcut ? System.IO.Path.GetFileNameWithoutExtension(Path) : System.IO.Path.GetFileName(Path);
-                }
-            }
-        }
-
-        public static event EventHandler<Page> ThumbnailChanged;
-
-        // サムネイル用
-        #region Property: ArchivePage
-        private ArchivePage _archivePage;
-        public ArchivePage ArchivePage
-        {
-            get
-            {
-                if (_archivePage == null && !IsDrive && !IsEmpty)
-                {
-                    _archivePage = new ArchivePage(TargetPath);
-                    _archivePage.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(this, _archivePage);
-                }
-                return _archivePage;
-            }
-            set { _archivePage = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-        public Page GetPage()
-        {
-            return ArchivePage;
-        }
-    }
-
-
     /// <summary>
-    /// フォルダー情報
-    /// </summary>
-    public class Folder : INotifyPropertyChanged
-    {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-        }
-        #endregion
-
-        public string Path { get; set; }
-
-
-        #region Property: FolderOrder
-        private FolderOrder _folderOrder;
-        public FolderOrder FolderOrder
-        {
-            get { return _folderOrder; }
-            set { _folderOrder = value; Save(); s_randomSeed = new Random().Next(); RaisePropertyChanged(); }
-        }
-        #endregion
-
-        public int RandomSeed { get; set; }
-
-        private static int s_randomSeed;
-
-        static Folder()
-        {
-            s_randomSeed = new Random().Next();
-        }
-
-
-        public Folder(string path)
-        {
-            Path = path;
-            Load();
-            RandomSeed = s_randomSeed;
-        }
-
-        public void Save()
-        {
-            ModelContext.BookHistory.SetFolderOrder(Path, _folderOrder);
-        }
-
-        private void Load()
-        {
-            _folderOrder = ModelContext.BookHistory.GetFolderOrder(Path);
-        }
-
-        public Folder Clone()
-        {
-            return (Folder)this.MemberwiseClone();
-        }
-    }
-
-
-
-    /// <summary>
-    /// 
+    /// FolderItemコレクション
     /// </summary>
     public class FolderCollection : IDisposable
     {
         public event EventHandler<FileSystemEventArgs> Changing;
-        public event EventHandler<FileSystemEventArgs> Changed;
 
-        //
-        private Folder _folder;
-        public Folder Folder
-        {
-            get { return _folder; }
-            set
-            {
-                _folder = value;
-                Folder.PropertyChanged += (s, e) => Changed?.Invoke(s, null);
-            }
-        }
+        public event EventHandler ParameterChanged;
+
+        /// <summary>
+        /// FolderCollection Parameter
+        /// </summary>
+        public FolderCollectionParameter FolderCollectionParameter { get; private set; }
 
         // indexer
-        public FolderInfo this[int index]
+        public FolderItem this[int index]
         {
             get { Debug.Assert(index >= 0 && index < Items.Count); return Items[index]; }
             private set { Items[index] = value; }
         }
 
-        public ObservableCollection<FolderInfo> Items { get; private set; }
+        /// <summary>
+        /// Collection本体
+        /// </summary>
+        public ObservableCollection<FolderItem> Items { get; private set; }
 
-        public string Place { get; set; }
+        /// <summary>
+        /// フォルダーの場所
+        /// </summary>
+        public string Place { get; private set; }
 
-        public string ParentPlace => Path.GetDirectoryName(Place);
 
-        private FolderOrder FolderOrder => Folder.FolderOrder;
+        /// <summary>
+        /// フォルダーの並び順
+        /// </summary>
+        private FolderOrder FolderOrder => FolderCollectionParameter.FolderOrder;
 
-        private int RandomSeed => Folder.RandomSeed;
+        /// <summary>
+        /// シャッフル用ランダムシード
+        /// </summary>
+        private int RandomSeed => FolderCollectionParameter.RandomSeed;
 
-        //
+        /// <summary>
+        /// 有効判定
+        /// </summary>
         public bool IsValid => Items != null;
 
-
-        //
-        public bool IsDarty(Folder folder)
+        /// <summary>
+        /// 更新が必要？
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        public bool IsDarty(FolderCollectionParameter folder)
         {
             return (Place != folder.Path || FolderOrder != folder.FolderOrder || RandomSeed != folder.RandomSeed);
         }
 
-        //
+        /// <summary>
+        /// 更新が必要？
+        /// </summary>
+        /// <returns></returns>
         public bool IsDarty()
         {
-            return IsDarty(new Folder(Place));
+            return IsDarty(new FolderCollectionParameter(Place));
         }
 
 
-        //
-        private string _currentPlace;
-
-        //
-        public int SelectedIndex => IndexOfPath(_currentPlace);
-
-        //
-        public string SelectedPath => _currentPlace;
-
-        //
+        /// <summary>
+        /// パスから項目インデックス取得
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public int IndexOfPath(string path)
         {
             var item = Items.FirstOrDefault(e => e.Path == path);
             return (item != null) ? Items.IndexOf(item) : -1;
         }
 
-        //
+        /// <summary>
+        /// パスがリストに含まれるか判定
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public bool Contains(string path)
         {
             return Items.Any(e => e.Path == path);
         }
 
-        //
-        public void Update(string path)
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="place"></param>
+        public FolderCollection(string place)
+        {
+            this.Place = place;
+
+            this.FolderCollectionParameter = new FolderCollectionParameter(place);
+            this.FolderCollectionParameter.PropertyChanged += (s, e) => ParameterChanged?.Invoke(s, null);
+        }
+
+        /// <summary>
+        /// リスト生成
+        /// </summary>
+        public void Initialize()
         {
             if (Items != null)
             {
                 BindingOperations.DisableCollectionSynchronization(this.Items);
             }
 
-            _currentPlace = path ?? _currentPlace;
-
             if (string.IsNullOrWhiteSpace(Place))
             {
-                Items = new ObservableCollection<FolderInfo>(DriveInfo.GetDrives().Select(e => CreateFolderInfo(e)));
+                Items = new ObservableCollection<FolderItem>(DriveInfo.GetDrives().Select(e => CreateFolderInfo(e)));
             }
             else
             {
@@ -377,8 +138,8 @@ namespace NeeView
 
                 if (!directory.Exists)
                 {
-                    var items = new ObservableCollection<FolderInfo>();
-                    items.Add(new FolderInfo() { Path = Place + "\\.", Attributes = FolderInfoAttribute.Empty | FolderInfoAttribute.DirectoryNoFound });
+                    var items = new ObservableCollection<FolderItem>();
+                    items.Add(new FolderItem() { Path = Place + "\\.", Attributes = FolderItemAttribute.Empty | FolderItemAttribute.DirectoryNoFound });
                     Items = items;
                 }
                 else
@@ -435,13 +196,12 @@ namespace NeeView
 
                     if (list.Count <= 0)
                     {
-                        list.Add(new FolderInfo() { Path = Place + "\\.", Attributes = FolderInfoAttribute.Empty });
+                        list.Add(new FolderItem() { Path = Place + "\\.", Attributes = FolderItemAttribute.Empty });
                     }
 
-                    Items = new ObservableCollection<FolderInfo>(list);
+                    Items = new ObservableCollection<FolderItem>(list);
                 }
             }
-
 
             BindingOperations.EnableCollectionSynchronization(this.Items, new object());
 
@@ -452,7 +212,10 @@ namespace NeeView
             }
         }
 
-        // アイコンの表示更新
+        /// <summary>
+        /// アイコンの表示更新
+        /// </summary>
+        /// <param name="path">指定パスの項目を更新。nullの場合全ての項目を更新</param>
         public void RefleshIcon(string path)
         {
             if (path == null)
@@ -471,19 +234,33 @@ namespace NeeView
             }
         }
 
-        // 廃棄処理
+        /// <summary>
+        /// 廃棄処理
+        /// </summary>
         public void Dispose()
         {
             TerminateWatcher();
+
+            if (Items != null)
+            {
+                BindingOperations.DisableCollectionSynchronization(Items);
+                Items = null;
+            }
         }
 
 
+        /// <summary>
+        /// ファイルシステム監視
+        /// </summary>
         #region FileSystemWatcher
 
-        // ファイル変更監視
+        // ファイルシステム監視
         private FileSystemWatcher _fileSystemWatcher;
 
-        //
+        /// <summary>
+        /// ファイルシステム監視初期化
+        /// </summary>
+        /// <param name="path"></param>
         private void InitializeWatcher(string path)
         {
             _fileSystemWatcher = new FileSystemWatcher();
@@ -505,9 +282,9 @@ namespace NeeView
             }
         }
 
-
-
-        //
+        /// <summary>
+        /// ファイルシステム監視終了
+        /// </summary>
         private void TerminateWatcher()
         {
             if (_fileSystemWatcher != null)
@@ -521,7 +298,9 @@ namespace NeeView
             }
         }
 
-        // フォルダ監視開始
+        /// <summary>
+        /// ファイルシステム監視開始
+        /// </summary>
         private void StartWatch()
         {
             if (_fileSystemWatcher != null)
@@ -531,6 +310,11 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// ファイル生成イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Watcher_Creaded(object sender, FileSystemEventArgs e)
         {
             // FolderInfoを作成し、追加
@@ -541,6 +325,11 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// ファイル削除イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Watcher_Deleted(object sender, FileSystemEventArgs e)
         {
             // 対象を検索し、削除する
@@ -552,12 +341,13 @@ namespace NeeView
             }
         }
 
-
-
-
+        /// <summary>
+        /// ファイル名変更イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Watcher_Renamed(object sender, RenamedEventArgs e)
         {
-            // 対象を検索
             var item = this.Items.FirstOrDefault(i => i.Path == e.OldFullPath);
             if (item != null)
             {
@@ -565,10 +355,12 @@ namespace NeeView
             }
         }
 
-
-
-        //
-        private FolderInfo CreateFolderInfo(string path)
+        /// <summary>
+        /// パスからFolderItemを作成
+        /// </summary>
+        /// <param name="path">パス</param>
+        /// <returns>FolderItem。生成できなかった場合はnull</returns>
+        private FolderItem CreateFolderInfo(string path)
         {
             // directory
             var directory = new DirectoryInfo(path);
@@ -597,14 +389,19 @@ namespace NeeView
         }
 
 
-        private FolderInfo CreateFolderInfo(DriveInfo e)
+        /// <summary>
+        /// DriveInfoからFodlerItem作成
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private FolderItem CreateFolderInfo(DriveInfo e)
         {
             if (e != null)
             {
-                return new FolderInfo()
+                return new FolderItem()
                 {
                     Path = e.Name,
-                    Attributes = FolderInfoAttribute.Directory | FolderInfoAttribute.Drive,
+                    Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Drive,
                     IsReady = e.IsReady,
                 };
             }
@@ -614,16 +411,20 @@ namespace NeeView
             }
         }
 
-        //
-        private FolderInfo CreateFolderInfo(DirectoryInfo e)
+        /// <summary>
+        /// DirectoryInfoからFolderItem作成
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private FolderItem CreateFolderInfo(DirectoryInfo e)
         {
             if (e != null && e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
             {
-                return new FolderInfo()
+                return new FolderItem()
                 {
                     Path = e.FullName,
                     LastWriteTime = e.LastWriteTime,
-                    Attributes = FolderInfoAttribute.Directory,
+                    Attributes = FolderItemAttribute.Directory,
                     IsReady = true
                 };
             }
@@ -633,12 +434,16 @@ namespace NeeView
             }
         }
 
-        //
-        private FolderInfo CreateFolderInfo(FileInfo e)
+        /// <summary>
+        /// FileInfoからFolderItem作成
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private FolderItem CreateFolderInfo(FileInfo e)
         {
             if (e != null && e.Exists && ModelContext.ArchiverManager.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
             {
-                return new FolderInfo()
+                return new FolderItem()
                 {
                     Path = e.FullName,
                     LastWriteTime = e.LastWriteTime,
@@ -651,10 +456,14 @@ namespace NeeView
             }
         }
 
-        //
-        private FolderInfo CreateFolderInfo(Utility.FileShortcut e)
+        /// <summary>
+        /// FileShortcutからFolderItem作成
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private FolderItem CreateFolderInfo(Utility.FileShortcut e)
         {
-            FolderInfo info = null;
+            FolderItem info = null;
 
             if (e != null && e.Source.Exists && (e.Source.Attributes & FileAttributes.Hidden) == 0)
             {
@@ -672,12 +481,11 @@ namespace NeeView
             {
                 info.Path = e.Path;
                 info.TargetPath = e.TargetPath;
-                info.Attributes = info.Attributes | FolderInfoAttribute.Shortcut;
+                info.Attributes = info.Attributes | FolderItemAttribute.Shortcut;
             }
 
             return info;
         }
-
     }
 
     #endregion

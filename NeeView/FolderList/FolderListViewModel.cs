@@ -29,17 +29,41 @@ namespace NeeView
         }
         #endregion
 
-
+        /// <summary>
+        /// フォルダコレクション
+        /// </summary>
         public FolderCollection FolderCollection { get; private set; }
 
+        /// <summary>
+        /// フォルダの場所
+        /// </summary>
+        public string Place => FolderCollection?.Place;
+
+        /// <summary>
+        /// フォルダの場所 表示用
+        /// </summary>
+        public string PlaceDispString => string.IsNullOrEmpty(Place) ? "このPC" : Place;
+
+        /// <summary>
+        /// フォルダ項目表示スタイル
+        /// </summary>
         public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
 
+        /// <summary>
+        /// バナーの高さ
+        /// </summary>
         public double PicturePanelHeight => ThumbnailHeight + 24.0;
 
+        /// <summary>
+        /// バナー画像幅
+        /// </summary>
         public double ThumbnailWidth => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeX / App.Config.DpiScaleFactor.X);
+
+        /// <summary>
+        /// バナー画像高さ
+        /// </summary>
         public double ThumbnailHeight => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeY / App.Config.DpiScaleFactor.Y);
-
-
+        
 
         /// <summary>
         /// SelectIndex property.
@@ -56,7 +80,10 @@ namespace NeeView
         }
 
 
-        //
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="collection"></param>
         public FolderListViewModel(FolderCollection collection)
         {
             this.FolderCollection = collection;
@@ -67,7 +94,21 @@ namespace NeeView
         }
 
 
-        //
+        /// <summary>
+        /// 終了処理
+        /// </summary>
+        internal void Unloaded()
+        {
+            this.FolderCollection?.Dispose();
+        }
+
+
+        /// <summary>
+        /// フォルダリスト項目変更前処理
+        /// 項目が削除される前に有効な選択項目に変更する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FolderCollection_Changing(object sender, System.IO.FileSystemEventArgs e)
         {
             if (e.ChangeType != System.IO.WatcherChangeTypes.Deleted) return;
@@ -86,7 +127,11 @@ namespace NeeView
         }
 
 
-        public void Copy(FolderInfo info)
+        /// <summary>
+        /// クリップボードにコピー
+        /// </summary>
+        /// <param name="info"></param>
+        public void Copy(FolderItem info)
         {
             if (info.IsEmpty) return;
 
@@ -98,27 +143,12 @@ namespace NeeView
             Clipboard.SetDataObject(data);
         }
 
-        //
+
         /// <summary>
-        /// RemoveCommand command.
+        /// ファイルを削除
         /// </summary>
-        private RelayCommand<object> _removeCommand;
-        public RelayCommand<object> RemoveCommand
-        {
-            get { return _removeCommand = _removeCommand ?? new RelayCommand<object>(RemoveCommand_Executed); }
-        }
-
-        private void RemoveCommand_Executed(object parameter)
-        {
-            var item = parameter as FolderInfo;
-            if (item != null)
-            {
-                Remove(item);
-            }
-        }
-
-
-        public void Remove(FolderInfo info)
+        /// <param name="info"></param>
+        public void Remove(FolderItem info)
         {
             if (info.IsEmpty) return;
 
@@ -140,16 +170,14 @@ namespace NeeView
             Messenger.Send(this, new MessageEventArgs("RemoveFile") { Parameter = new RemoveFileParams() { Path = info.Path, Visual = stackPanel } });
         }
 
-        //
-        public void Rename(FolderInfo info)
-        {
-            if (info.IsEmpty) return;
 
-            throw new NotImplementedException();
-        }
-
-        //
-        public bool Rename(FolderInfo file, string newName)
+        /// <summary>
+        /// ファイル名前変更
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="newName"></param>
+        /// <returns></returns>
+        public bool Rename(FolderItem file, string newName)
         {
             string src = file.Path;
             string dst = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(src), newName);
@@ -210,6 +238,7 @@ namespace NeeView
 
         /// <summary>
         /// OpenPlaceCommand command.
+        /// エクスプローラーで開く
         /// </summary>
         private RelayCommand<object> _openPlaceCommand;
         public RelayCommand<object> OpenPlaceCommand
@@ -219,23 +248,108 @@ namespace NeeView
 
         private void OpenPlaceCommand_Executed(object parameter)
         {
-            var item = parameter as FolderInfo;
+            var item = parameter as FolderItem;
             if (item != null)
             {
                 System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + item.Path + "\"");
             }
         }
 
-
-
-
-
+        
 
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin, int direction)
         {
             //Debug.WriteLine($"{start}({count})");
             PanelContext.ThumbnailManager.RequestThumbnail(FolderCollection.Items, start, count, margin, direction);
+        }
+
+        /// <summary>
+        /// 選択項目を基準とした項目取得
+        /// </summary>
+        /// <param name="offset">選択項目から前後した項目を指定</param>
+        /// <returns></returns>
+        internal FolderItem GetFolderItem(int offset)
+        {
+            if (this.FolderCollection == null) return null;
+
+            int index = this.SelectedIndex;
+            if (index < 0) return null;
+
+            int next = (this.FolderCollection.FolderCollectionParameter.FolderOrder == FolderOrder.Random)
+                ? (index + this.FolderCollection.Items.Count + offset) % this.FolderCollection.Items.Count
+                : index + offset;
+
+            if (next < 0 || next >= this.FolderCollection.Items.Count) return null;
+
+            return this.FolderCollection[next];
+        }
+
+        /// <summary>
+        /// フォルダ並び順を切り替え
+        /// </summary>
+        internal void ToggleFolderOrder()
+        {
+            if (this.FolderCollection == null) return;
+
+            this.FolderCollection.FolderCollectionParameter.FolderOrder = this.FolderCollection.FolderCollectionParameter.FolderOrder.GetToggle();
+        }
+
+        /// <summary>
+        /// フォルダ並び順を取得
+        /// </summary>
+        /// <returns></returns>
+        internal FolderOrder GetFolderOrder()
+        {
+            return this.FolderCollection.FolderCollectionParameter.FolderOrder;
+        }
+
+        /// <summary>
+        /// フォルダ並び順を設定
+        /// </summary>
+        /// <param name="folderOrder"></param>
+        internal void SetFolderOrder(FolderOrder folderOrder)
+        {
+            this.FolderCollection.FolderCollectionParameter.FolderOrder = folderOrder;
+        }
+
+        /// <summary>
+        /// アイコン更新
+        /// </summary>
+        /// <param name="path"></param>
+        internal void RefleshIcon(string path)
+        {
+            this.FolderCollection.RefleshIcon(path);
+        }
+
+        /// <summary>
+        /// 更新の必要性判定
+        /// </summary>
+        /// <returns></returns>
+        internal bool IsDarty()
+        {
+            return this.FolderCollection.IsDarty();
+        }
+
+        /// <summary>
+        /// パスがリストに含まれているか判定
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        internal bool Contains(string path)
+        {
+            return this.FolderCollection.Contains(path);
+        }
+
+        /// <summary>
+        /// ふさわしい選択項目インデックスを取得
+        /// </summary>
+        /// <param name="path">選択したいパス</param>
+        /// <returns></returns>
+        internal int FixedIndexOfPath(string path)
+        {
+            var index = this.FolderCollection.IndexOfPath(path);
+            return index < 0 ? 0 : index;
         }
     }
 }

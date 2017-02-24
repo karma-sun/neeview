@@ -5,7 +5,7 @@
     http://opensource.org/licenses/mit-license.php
 -->
 
-<UserControl x:Class="NeeView.FolderList"
+<UserControl x:Class="NeeView.FolderListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -93,11 +93,11 @@
                                       Command="{Binding PlacementTarget.Tag.RemoveCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                       CommandParameter="{Binding}"/>
                             -->
-                            <MenuItem Header="エクスプローラーで開く" Command="{x:Static local:FolderList.OpenExplorerCommand}"/>
-                            <MenuItem Header="コピー(C)" Command="{x:Static local:FolderList.CopyCommand}"/>
+                            <MenuItem Header="エクスプローラーで開く" Command="{x:Static local:FolderListView.OpenExplorerCommand}"/>
+                            <MenuItem Header="コピー(C)" Command="{x:Static local:FolderListView.CopyCommand}"/>
                             <Separator/>
-                            <MenuItem Header="削除(D)" Command="{x:Static local:FolderList.RemoveCommand}"/>
-                            <MenuItem Header="名前の変更(M)" Command="{x:Static local:FolderList.RenameCommand}"/>
+                            <MenuItem Header="削除(D)" Command="{x:Static local:FolderListView.RemoveCommand}"/>
+                            <MenuItem Header="名前の変更(M)" Command="{x:Static local:FolderListView.RenameCommand}"/>
                         </ContextMenu>
                     </Setter.Value>
                 </Setter>

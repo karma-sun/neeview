@@ -1,14 +1,14 @@
 # ビルド方法
 
-## 環境
+## 開発環境
 
-Windows / VisualStudio 2015 update2
+Windows 10 / VisualStudio 2015
 
-## Clone
+## Gitからプロジェクトを取得
 
 % git clone --recursive https://neelabo@bitbucket.org/neelabo/neeview.git NeeView
 
-## Deploy
+## 配布パッケージ作成
 
 配布用のZip,Msiを作成します。  
 Deploy.ps1 (PowerScript) でビルドからパッケージ化までを行っています。  

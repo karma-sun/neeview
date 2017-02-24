@@ -50,7 +50,7 @@ namespace NeeView
         //
         public void InitializeThumbnailSystem()
         {
-            FolderInfo.ThumbnailChanged += (s, e) => _aliveThumbnailList.Add(e);
+            FolderItem.ThumbnailChanged += (s, e) => _aliveThumbnailList.Add(e);
             BookMementoUnit.ThumbnailChanged += (s, e) => _aliveThumbnailList.Add(e);
             Pagemark.ThumbnailChanged += (s, e) => _aliveThumbnailList.Add(e);
         }

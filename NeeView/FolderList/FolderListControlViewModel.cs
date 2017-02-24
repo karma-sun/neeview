@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -315,7 +316,7 @@ namespace NeeView
             if (!_history.CanPrevious()) return;
 
             var place = _history.GetPrevious();
-            SetPlace(place, _place, true, false);
+            SetPlace(place, null, true, false);
             _history.Move(-1);
         }
 
@@ -339,8 +340,36 @@ namespace NeeView
             if (!_history.CanNext()) return;
 
             var place = _history.GetNext();
-            SetPlace(place, _place, true, false);
+            SetPlace(place, null, true, false);
             _history.Move(+1);
+        }
+
+
+        /// <summary>
+        /// 履歴取得
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        internal List<KeyValuePair<int, string>> GetHistory(int direction, int size)
+        {
+            return _history.GetHistory(direction, size);
+        }
+
+        /// <summary>
+        /// MoveToHistory command.
+        /// </summary>
+        private RelayCommand<KeyValuePair<int, string>> _MoveToHistory;
+        public RelayCommand<KeyValuePair<int, string>> MoveToHistory
+        {
+            get { return _MoveToHistory = _MoveToHistory ?? new RelayCommand<KeyValuePair<int, string>>(MoveToHistory_Executed); }
+        }
+
+        private void MoveToHistory_Executed(KeyValuePair<int, string> item)
+        {
+            var place = _history.GetHistory(item.Key);
+            SetPlace(place, null, true, false);
+            _history.SetCurrent(item.Key + 1);
         }
 
 

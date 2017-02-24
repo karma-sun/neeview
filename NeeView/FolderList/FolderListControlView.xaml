@@ -30,6 +30,15 @@
             <Setter Property="Background" Value="#FFF8F8F8"/>
             <Setter Property="Foreground" Value="Black"/>
         </Style>
+
+        <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
+
+        <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
+            <Setter Property="Header" Value="{Binding Path=Value, Converter={StaticResource FullPathToFileNameConverter}}"/>
+            <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
+            <Setter Property="CommandParameter" Value="{Binding}" />
+        </Style>
+
     </UserControl.Resources>
 
 
@@ -46,12 +55,22 @@
                     <Image Source="{StaticResource ic_home_24px_b}" Width="20" Height="20"/>
                 </Button>
                 <Button x:Name="FolderPrevButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToPrevious}"
+                        ContextMenuService.Placement="Bottom"
+                        ContextMenuOpening="FolderPrevButton_ContextMenuOpening"
                         ToolTip="前に戻る">
                     <Image Source="{StaticResource ic_arrow_back_24px_b}" Width="16" Height="16"/>
+                    <Button.ContextMenu>
+                        <ContextMenu x:Name="FolderPrevButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
+                    </Button.ContextMenu>
                 </Button>
                 <Button x:Name="FolderNextButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToNext}"
+                        ContextMenuService.Placement="Bottom"
+                        ContextMenuOpening="FolderNextButton_ContextMenuOpening"
                         ToolTip="次へ進む">
                     <Image Source="{StaticResource ic_arrow_forward_24px_b}" Width="16" Height="16"/>
+                    <Button.ContextMenu>
+                        <ContextMenu x:Name="FolderNextButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
+                    </Button.ContextMenu>
                 </Button>
                 <Button x:Name="FolderUpButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToUp}"
                         ToolTip="上に移動">

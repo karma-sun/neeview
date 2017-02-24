@@ -72,5 +72,51 @@ namespace NeeView
         {
             return (_current < _history.Count) ? _history[_current] : default(T);
         }
+
+        //
+        public T GetHistory(int index)
+        {
+            index = NVUtility.Clamp(index, 0, _history.Count - 1);
+            return _history[index];
+        }
+
+        //
+        public void SetCurrent(int index)
+        {
+            _current = NVUtility.Clamp(index, 0, _history.Count);
+            Changed?.Invoke(this, null);
+        }
+
+        //
+        internal List<KeyValuePair<int, T>> GetHistory(int direction, int size)
+        {
+            return direction < 0 ? GetPrevousHistory(size) : GetNextHistory(size);
+        }
+        
+        //
+        internal List<KeyValuePair<int, T>> GetPrevousHistory(int size)
+        {
+            var list = new List<KeyValuePair<int, T>>();
+            for(int i=0; i<size; ++i)
+            {
+                var index = _current - 2 - i;
+                if (index < 0) break;
+                list.Add(new KeyValuePair<int, T>(index, _history[index]));
+            }
+            return list;
+        }
+
+        //
+        internal List<KeyValuePair<int, T>> GetNextHistory(int size)
+        {
+            var list = new List<KeyValuePair<int, T>>();
+            for (int i = 0; i < size; ++i)
+            {
+                var index = _current + i;
+                if (index >= _history.Count) break;
+                list.Add(new KeyValuePair<int, T>(index, _history[index]));
+            }
+            return list;
+        }
     }
 }

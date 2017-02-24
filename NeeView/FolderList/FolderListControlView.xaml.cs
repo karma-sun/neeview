@@ -111,6 +111,30 @@ namespace NeeView
                 _VM.FocusSelectedItem(true);
             }
         }
+
+        /// <summary>
+        /// 履歴戻るボタンコンテキストメニュー開く 前処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FolderPrevButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var menu = (sender as FrameworkElement)?.ContextMenu;
+            if (menu == null) return;
+            menu.ItemsSource = _VM.GetHistory(-1, 10);
+        }
+
+        /// <summary>
+        /// 履歴進むボタンコンテキストメニュー開く 前処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FolderNextButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var menu = (sender as FrameworkElement)?.ContextMenu;
+            if (menu == null) return;
+            menu.ItemsSource = _VM.GetHistory(+1, 10);
+        }
     }
 
 

@@ -49,7 +49,11 @@ namespace NeeView
         /// <returns></returns>
         public static string PlaceToTitle(string place)
         {
-            if (place.StartsWith("http://") || place.StartsWith("https://"))
+            if (place == null)
+            {
+                return "このPC";
+            }
+            else if (place.StartsWith("http://") || place.StartsWith("https://"))
             {
                 return new Uri(place).Host;
             }

@@ -2260,8 +2260,15 @@ namespace NeeView
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string path = (string)value;
-            return NVUtility.PlaceToTitle(path);
+            if (value is string)
+            {
+                string path = (string)value;
+                return NVUtility.PlaceToTitle(path);
+            }
+            else
+            {
+                return value;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

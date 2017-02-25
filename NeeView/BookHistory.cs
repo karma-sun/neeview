@@ -304,8 +304,9 @@ namespace NeeView
         internal List<string> ListUp(string current, int direction, int size)
         {
             var list = new List<string>();
-            var unit = current != null ? Find(current) : Items.FirstOrDefault();
-            if (current == null && unit != null && direction < 0)
+            var now = Find(current);
+            var unit = now ?? Items.FirstOrDefault();
+            if (now == null && unit != null && direction < 0)
             {
                 list.Add(unit.Memento.Place);
             }

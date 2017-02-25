@@ -17,7 +17,7 @@ namespace NeeView
 {
     public class SevenZipSource : IDisposable
     {
-        public static double LockTime { get; set; } = 5.0;
+        public static double LockTime { get; set; } = -1.0;
 
         private SevenZipExtractor _extractor;
 
@@ -49,7 +49,10 @@ namespace NeeView
         //
         private void Initialize()
         {
-            _delayClose = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.5), DelayClose, TimeSpan.FromSeconds(LockTime));
+            if (LockTime >= 0)
+            {
+                _delayClose = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.5), DelayClose, TimeSpan.FromSeconds(LockTime));
+            }
         }
 
         //
@@ -65,7 +68,7 @@ namespace NeeView
         //
         public SevenZipExtractor Open()
         {
-            _delayClose.Cancel();
+            _delayClose?.Cancel();
 
             if (_extractor == null)
             {
@@ -87,7 +90,7 @@ namespace NeeView
                 }
                 else
                 {
-                    _delayClose.Request();
+                    _delayClose?.Request();
                 }
             }
         }
@@ -96,7 +99,7 @@ namespace NeeView
         {
             lock (_lock)
             {
-                _delayClose.Cancel();
+                _delayClose?.Cancel();
                 Close(true);
                 _stream = null;
             }

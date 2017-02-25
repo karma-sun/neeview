@@ -1837,6 +1837,33 @@ namespace NeeView
             UpdateLastFiles();
         }
 
+        /// <summary>
+        /// 履歴取得
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        internal List<string> GetHistory(int direction, int size)
+        {
+            return ModelContext.BookHistory.ListUp(this.BookHub.Current?.Address, direction, size);
+        }
+
+        /// <summary>
+        /// MoveToHistory command.
+        /// </summary>
+        private RelayCommand<string> _MoveToHistory;
+        public RelayCommand<string> MoveToHistory
+        {
+            get { return _MoveToHistory = _MoveToHistory ?? new RelayCommand<string>(MoveToHistory_Executed); }
+        }
+
+        private void MoveToHistory_Executed(string item)
+        {
+            if (item == null) return;
+            this.BookHub.RequestLoad(item, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, true);
+        }
+
+
         // Foregroud Brush 更新
         private void UpdateForegroundBrush()
         {

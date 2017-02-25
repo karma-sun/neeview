@@ -111,7 +111,7 @@
         <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
 
         <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
-            <Setter Property="Header" Value="{Binding Path=Place, Converter={StaticResource FullPathToFileNameConverter}}"/>
+            <Setter Property="Header" Value="{Binding Converter={StaticResource FullPathToFileNameConverter}}"/>
             <Setter Property="Command" Value="{Binding BookCommands[LoadAs], RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
             <Setter Property="CommandParameter" Value="{Binding Path=Place}" />
             <Setter Property="InputGestureText" Value=""/>
@@ -124,6 +124,13 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="HistoryContextMenuItemContainerStyle" TargetType="MenuItem">
+            <Setter Property="Header" Value="{Binding Converter={StaticResource FullPathToFileNameConverter}}"/>
+            <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
+            <Setter Property="CommandParameter" Value="{Binding}" />
+        </Style>
+
 
     </Window.Resources>
 
@@ -596,13 +603,26 @@
 
                             </StackPanel>
 
-                            <Button Command="{Binding BookCommands[PrevHistory]}" Style="{StaticResource AddressIconButton}">
+                            <Button x:Name="PrevHistoryButton" Command="{Binding BookCommands[PrevHistory]}" Style="{StaticResource AddressIconButton}"
+                                    ContextMenuService.Placement="Bottom"
+                                    ContextMenuOpening="PrevHistoryButton_ContextMenuOpening"
+                                    ToolTip="戻る">
                                 <Image Source="{StaticResource ic_arrow_back_24px}" Width="16" Height="16" />
+                                <Button.ContextMenu>
+                                    <ContextMenu ItemContainerStyle="{StaticResource HistoryContextMenuItemContainerStyle}" />
+                                </Button.ContextMenu>
                             </Button>
-                            <Button Command="{Binding BookCommands[NextHistory]}"  Style="{StaticResource AddressIconButton}">
+                            <Button x:Name="NextHistoryButton" Command="{Binding BookCommands[NextHistory]}"  Style="{StaticResource AddressIconButton}"
+                                    ContextMenuService.Placement="Bottom"
+                                    ContextMenuOpening="NextHistoryButton_ContextMenuOpening"
+                                    ToolTip="進む">
                                 <Image Source="{StaticResource ic_arrow_forward_24px}" Width="16" Height="16" />
+                                <Button.ContextMenu>
+                                    <ContextMenu ItemContainerStyle="{StaticResource HistoryContextMenuItemContainerStyle}" />
+                                </Button.ContextMenu>
                             </Button>
-                            <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}">
+                            <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}"
+                                    ToolTip="再読込">
                                 <Image Source="{StaticResource ic_reflesh_24px}" Width="16" Height="16" />
                             </Button>
 
@@ -800,7 +820,7 @@
             </StackPanel>
             -->
 
-            <local:RenameManager x:Name="RenameManager"/>
+            <local:RenameManager x:Name="RenameManager" d:IsHidden="True"/>
 
         </Grid>
 

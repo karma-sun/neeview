@@ -287,12 +287,35 @@ namespace NeeView
             var unit = ModelContext.BookMementoCollection.Find(place);
             return unit?.HistoryNode != null ? unit : null;
         }
-
-
+        
         // 最近使った履歴のリストアップ
         public List<Book.Memento> ListUp(int size)
         {
             return Items.Take(size).Select(e => e.Memento).ToList();
+        }
+
+        /// <summary>
+        /// 範囲指定して履歴をリストアップ
+        /// </summary>
+        /// <param name="current">基準位置</param>
+        /// <param name="direction">方向</param>
+        /// <param name="size">取得サイズ</param>
+        /// <returns></returns>
+        internal List<string> ListUp(string current, int direction, int size)
+        {
+            var list = new List<string>();
+            var unit = current != null ? Find(current) : Items.FirstOrDefault();
+            if (current == null && unit != null && direction < 0)
+            {
+                list.Add(unit.Memento.Place);
+            }
+            for (int i = 0; i < size; i++)
+            {
+                unit = direction < 0 ? unit?.HistoryNode?.Next?.Value : unit?.HistoryNode?.Previous?.Value; // リストと履歴の方向は逆
+                if (unit == null) break;
+                list.Add(unit.Memento.Place);
+            }
+            return list;
         }
 
 
@@ -450,6 +473,7 @@ namespace NeeView
 
             return collection.ToList();
         }
+
 
         #endregion
     }

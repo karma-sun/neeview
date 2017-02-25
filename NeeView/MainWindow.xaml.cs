@@ -2068,6 +2068,30 @@ namespace NeeView
         {
             _VM.SetIndex(_VM.Index);
         }
+
+        /// <summary>
+        /// 履歴戻るボタンコンテキストメニュー開始前イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PrevHistoryButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var menu = (sender as FrameworkElement)?.ContextMenu;
+            if (menu == null) return;
+            menu.ItemsSource = _VM.GetHistory(-1, 10);
+        }
+
+        /// <summary>
+        /// 履歴進むボタンコンテキストメニュー開始前イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NextHistoryButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var menu = (sender as FrameworkElement)?.ContextMenu;
+            if (menu == null) return;
+            menu.ItemsSource = _VM.GetHistory(+1, 10);
+        }
     }
 
 

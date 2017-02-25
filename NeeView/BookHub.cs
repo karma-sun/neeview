@@ -1108,15 +1108,11 @@ namespace NeeView
             if (_isLoading || ModelContext.BookHistory.Count <= 0) return;
 
             var unit = ModelContext.BookHistory.Find(Address);
-            var previous = unit?.HistoryNode?.Next.Value; // リストと履歴の方向は逆
+            var previous = unit == null ? ModelContext.BookHistory.First : unit.HistoryNode?.Next.Value; // リストと履歴の方向は逆
 
-            if (unit == null)
+            if (previous != null)
             {
-                RequestLoad(ModelContext.BookHistory.First?.Memento.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, false);
-            }
-            else if (previous != null)
-            {
-                RequestLoad(previous.Memento.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, false);
+                RequestLoad(previous.Memento.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, true);
             }
             else
             {
@@ -1140,7 +1136,7 @@ namespace NeeView
             var next = unit?.HistoryNode?.Previous; // リストと履歴の方向は逆
             if (next != null)
             {
-                RequestLoad(next.Value.Memento.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, false);
+                RequestLoad(next.Value.Memento.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, true);
             }
             else
             {

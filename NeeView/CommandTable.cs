@@ -209,6 +209,18 @@ namespace NeeView
                 _elements[CommandType.ReLoad] = element;
             }
 
+            // Unload
+            {
+                var element = new CommandElement();
+                element.Group = "ファイル";
+                element.Text = "閉じる";
+                element.Note = "開いているフォルダーを閉じます";
+                element.CanExecute = () => _book.CanUnload();
+                element.Execute = (s, e) => _book.RequestUnload(true);
+                element.IsShowMessage = false;
+                _elements[CommandType.Unload] = element;
+            }
+
             // OpenApplication
             {
                 var element = new CommandElement();

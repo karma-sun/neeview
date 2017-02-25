@@ -438,6 +438,7 @@ namespace NeeView
                     new MenuTree(MenuElementType.Group) { Name="ファイル(_F)", Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.LoadAs, Name="開く(_O)..." },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.Unload, Name="閉じる(_C)" },
                         new MenuTree(MenuElementType.History),
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenApplication },

@@ -23,6 +23,7 @@ namespace NeeView
 
         LoadAs,
         ReLoad,
+        Unload,
         OpenApplication,
         OpenFilePlace,
         Export,

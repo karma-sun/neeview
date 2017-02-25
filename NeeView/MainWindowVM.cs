@@ -2061,7 +2061,7 @@ namespace NeeView
             if (!IsEnableSave) return;
 
             // 現在の本を履歴に登録
-            BookHub.SaveBookMemento();
+            BookHub.SaveBookMemento(); // TODO: タイミングに問題有り？
 
             // パネル幅保存
             LeftPanelWidth = window.LeftPanel.Width;
@@ -2215,7 +2215,7 @@ namespace NeeView
             }
 
             // ページが存在しない場合、専用メッセージを表示する
-            IsVisibleEmptyPageMessage = contents.Count == 0;
+            IsVisibleEmptyPageMessage = e != null && contents.Count == 0;
 
             // メインとなるコンテンツを指定
             MainContent = contents.Count > 0 ? (contents.First().Position < contents.Last().Position ? contents.First() : contents.Last()) : null;
@@ -2708,7 +2708,7 @@ namespace NeeView
         public void LoadError(string message)
         {
             EmptyPageMessage = message ?? "コンテンツの読み込みに失敗しました";
-            BookHub?.Unload(true);
+            BookHub?.RequestUnload(true);
         }
 
 

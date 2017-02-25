@@ -188,10 +188,17 @@ namespace NeeView
         }
     }
 
+    // 表示コンテンツソースの種類
+    public enum ViewSourceType
+    {
+        None, // 無し
+        Content, // コンテンツ
+    }
 
     // 表示コンテンツソース
     public class ViewSource
     {
+        public ViewSourceType Type { get; set; }
         public List<ViewContentSource> Sources { get; set; }
         public int Direction { get; set; }
     }

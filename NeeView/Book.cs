@@ -1118,7 +1118,7 @@ namespace NeeView
             // ページ数０の場合は表示コンテンツなし
             if (Pages.Count == 0)
             {
-                App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
+                App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()));
                 return;
             }
 
@@ -1157,7 +1157,11 @@ namespace NeeView
             _commandWorkerCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
             // notice ViewContentsChanged
-            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource() { Sources = _viewContext.ViewContentsSource, Direction = _viewContext.Direction }));
+            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource() {
+                Type = ViewSourceType.Content,
+                Sources = _viewContext.ViewContentsSource,
+                Direction = _viewContext.Direction
+            }));
 
             // change page
             DisplayIndex = _viewContext.Position.Index;

@@ -412,6 +412,9 @@ namespace NeeView
         }
 
 
+        // command engine
+        private BookHubCommandEngine _commandEngine;
+
 
 
         // コンストラクタ
@@ -425,159 +428,9 @@ namespace NeeView
             Messenger.AddReciever("RemoveFile", CallRemoveFile);
             Messenger.AddReciever("RenameFile", CallRenameFile);
 
-            StartCommandWorker();
-        }
-
-
-        // コマンド基底
-        private abstract class BookHubCommand
-        {
-            protected BookHub _bookHub;
-            public abstract int Priority { get; }
-
-            public BookHubCommand(BookHub bookHub)
-            {
-                _bookHub = bookHub;
-            }
-
-            public virtual async Task Execute() { await Task.Yield(); }
-        }
-
-
-        // ロードコマンド 引数
-        public class LoadCommandArgs
-        {
-            public string Path { get; set; }
-            public string StartEntry { get; set; }
-            public BookLoadOption Option { get; set; }
-            public bool IsRefleshFolderList { get; set; }
-        }
-
-        // ロードコマンド
-        private class LoadCommand : BookHubCommand
-        {
-            public override int Priority => 2;
-
-            private LoadCommandArgs _args;
-
-            //
-            public LoadCommand(BookHub bookHub, string path, string start, BookLoadOption option, bool isRefleshFolderList) : base(bookHub)
-            {
-                _args = new LoadCommandArgs()
-                {
-                    Path = path,
-                    StartEntry = start,
-                    Option = option,
-                    IsRefleshFolderList = isRefleshFolderList,
-                };
-            }
-
-            //
-            public LoadCommand(BookHub bookHub, LoadCommandArgs args) : base(bookHub)
-            {
-                _args = args;
-            }
-
-
-            //
-            public override async Task Execute()
-            {
-                await _bookHub.LoadAsync(_args);
-            }
-        }
-
-
-        // ロード
-        public void RequestLoad(string path, string start, BookLoadOption option, bool isRefleshFolderList)
-        {
-            if (path == null) return;
-            path = GetNormalizePathName(path);
-
-            if (CurrentBook?.Place == path && (option & BookLoadOption.SkipSamePlace) == BookLoadOption.SkipSamePlace) return;
-
-            Address = path;
-
-            RegistCommand(new LoadCommand(this, path, start, option, isRefleshFolderList));
-        }
-
-        // ワーカータスクのキャンセルトークン
-        private CancellationTokenSource _commandWorkerCancellationTokenSource;
-
-        // 予約されているコマンド
-        private BookHubCommand _readyCommand;
-
-        // 予約コマンド存在イベント
-        public AutoResetEvent _readyCommandEvent { get; private set; } = new AutoResetEvent(false);
-
-        // 排他処理用ロックオブジェクト
-        private object _lock = new object();
-
-        // コマンドの予約
-        private void RegistCommand(BookHubCommand command)
-        {
-            lock (_lock)
-            {
-                if (_readyCommand == null || _readyCommand.Priority <= command.Priority)
-                {
-                    _readyCommand = command;
-                }
-            }
-            _readyCommandEvent.Set();
-        }
-
-        // ワーカータスクの起動
-        private void StartCommandWorker()
-        {
-            _commandWorkerCancellationTokenSource = new CancellationTokenSource();
-            Task.Run(() => CommandWorker(), _commandWorkerCancellationTokenSource.Token);
-        }
-
-        // ワーカータスクの終了
-        private void BreakCommandWorker()
-        {
-            _commandWorkerCancellationTokenSource.Cancel();
-            _readyCommandEvent.Set();
-        }
-
-        // ワーカータスク
-        private async void CommandWorker()
-        {
-            try
-            {
-                ////Debug.WriteLine("BookHubタスクの開始");
-                while (!_commandWorkerCancellationTokenSource.Token.IsCancellationRequested)
-                {
-                    await Task.Run(() => _readyCommandEvent.WaitOne());
-                    _commandWorkerCancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                    BookHubCommand command;
-                    lock (_lock)
-                    {
-                        command = _readyCommand;
-                        _readyCommand = null;
-                    }
-
-                    if (command != null)
-                    {
-                        ////Debug.WriteLine("CMD: " + command.ToString());
-                        await command.Execute();
-                        ////Debug.WriteLine("CMD: " + command.ToString() + " done.");
-
-                    }
-                }
-            }
-            catch (OperationCanceledException)
-            {
-            }
-            catch (Exception e)
-            {
-                Action<Exception> action = (exception) => { throw new ApplicationException("BookHubタスク内部エラー", exception); };
-                await App.Current.Dispatcher.BeginInvoke(action, e);
-            }
-            finally
-            {
-                ////Debug.WriteLine("Bookタスクの終了: " + Place);
-            }
+            // command engine
+            _commandEngine = new BookHubCommandEngine();
+            _commandEngine.Initialize();
         }
 
 
@@ -600,9 +453,6 @@ namespace NeeView
             var memento = CreateBookMemento();
             if (memento == null) return;
 
-            // TODO: 現状ではLoad前にUnload処理が走ることがあるための応急処置
-            memento.Place = Current.BookMementoUnit.Memento.Place;
-
             SaveBookMemento(Current.BookMementoUnit, memento, Current.IsKeepHistoryOrder);
         }
 
@@ -624,23 +474,7 @@ namespace NeeView
         /// <summary>
         /// 本の開放
         /// </summary>
-        public void Unload(bool isClearViewContent)
-        {
-            // 履歴の保存
-            SaveBookMemento();
-
-            // 現在の本を開放
-            Current?.Dispose();
-            Current = null;
-
-            // 現在表示されているコンテンツを無効
-            if (isClearViewContent)
-            {
-                ViewContentsChanged?.Invoke(this, null);
-            }
-        }
-
-        public async Task UnloadAsync(bool isClearViewContent)
+        public async Task UnloadAsync(BookHubCommandUnloadArgs param)
         {
             // 履歴の保存
             SaveBookMemento();
@@ -652,13 +486,18 @@ namespace NeeView
                 Current = null;
             }
 
-            // 現在表示されているコンテンツを無効
-            if (isClearViewContent)
+            Address = null;
+
+            if (param.IsClearViewContent)
             {
-                ViewContentsChanged?.Invoke(this, null);
+                // 現在表示されているコンテンツを無効
+                App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
+
+                // 本の変更通知
+                App.Current.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookMementoType.None));
             }
         }
-
+        
 
         // 入力パスから場所を取得
         private string GetPlaceEx(string path, BookLoadOption option)
@@ -788,10 +627,10 @@ namespace NeeView
         /// <param name="option"></param>
         /// <param name="isRefleshFolderList"></param>
         /// <returns></returns>
-        private async Task LoadAsync(LoadCommandArgs args)
+        public async Task LoadAsync(BookHubCommandLoadArgs args, CancellationToken token)
         {
             // 現在の本を開放
-            Unload(false);
+            await UnloadAsync(new BookHubCommandUnloadArgs() { IsClearViewContent = false });
 
             try
             {
@@ -851,7 +690,7 @@ namespace NeeView
             catch (Exception e)
             {
                 // 現在表示されているコンテンツを無効
-                App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
+                App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()));
 
                 // 本の変更通知
                 App.Current.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookMementoType.None)); //  Current.BookMementoType));
@@ -871,6 +710,65 @@ namespace NeeView
                 NotifyLoading(null);
             }
         }
+
+
+        /// <summary>
+        /// リクエスト：フォルダを開く
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="start"></param>
+        /// <param name="option"></param>
+        /// <param name="isRefleshFolderList"></param>
+        /// <returns></returns>
+        public BookHubCommandLoad RequestLoad(string path, string start, BookLoadOption option, bool isRefleshFolderList)
+        {
+            if (path == null) return null;
+            path = GetNormalizePathName(path);
+
+            if (CurrentBook?.Place == path && (option & BookLoadOption.SkipSamePlace) == BookLoadOption.SkipSamePlace) return null;
+
+            Address = path;
+
+            var command = new BookHubCommandLoad(new BookHubCommandLoadArgs()
+            {
+                BookHub = this,
+                Path = path,
+                StartEntry = start,
+                Option = option,
+                IsRefleshFolderList = isRefleshFolderList
+            });
+
+            _commandEngine.Regist(command);
+
+            return command;
+        }
+
+
+        /// <summary>
+        /// リクエスト：フォルダを閉じる
+        /// </summary>
+        /// <param name="isClearViewContent"></param>
+        /// <returns></returns>
+        public BookHubCommandUnload RequestUnload(bool isClearViewContent)
+        {
+            var command = new BookHubCommandUnload(new BookHubCommandUnloadArgs()
+            {
+                BookHub = this,
+                IsClearViewContent = isClearViewContent
+            });
+
+            _commandEngine.Regist(command);
+
+            return command;
+        }
+        
+        // アンロード可能?
+        public bool CanUnload()
+        {
+            return Current != null || _commandEngine.Count > 0;
+        }
+
+
 
 
         // 再帰読み込み確認
@@ -1743,7 +1641,7 @@ namespace NeeView
 
         // ファイルを削除する
         // RemoveFileメッセージ処理
-        public void CallRemoveFile(object sender, MessageEventArgs e)
+        public async void CallRemoveFile(object sender, MessageEventArgs e)
         {
             var removeParam = (RemoveFileParams)e.Parameter;
             var path = removeParam.Path;
@@ -1779,7 +1677,7 @@ namespace NeeView
                     // 開いている本を閉じる
                     if (this.Address == path)
                     {
-                        Unload(true);
+                        await RequestUnload(true).WaitAsync();
                     }
 
                     // ゴミ箱に捨てる
@@ -1817,8 +1715,8 @@ namespace NeeView
                 // 開いている本を閉じる
                 if (this.Address == src)
                 {
-                    await UnloadAsync(false);
                     isContinue = true;
+                    await RequestUnload(false).WaitAsync();
                 }
 
                 // rename

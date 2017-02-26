@@ -290,7 +290,7 @@ namespace NeeView
                 using (var extractor = new SevenZipExtractor(FileName)) // 専用extractor
                 using (Stream fs = new FileStream(exportFileName, FileMode.Create, FileAccess.Write))
                 {
-                    extractor.ExtractFile(entry.Id, fs);
+                     extractor.ExtractFile(entry.Id, fs);
                 }
             }
         }

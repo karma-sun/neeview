@@ -485,7 +485,7 @@ namespace NeeView
                 await Current?.DisposeAsync();
                 Current = null;
             }
-            
+
             if (param.IsClearViewContent)
             {
                 Address = null;
@@ -497,7 +497,7 @@ namespace NeeView
                 App.Current.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookMementoType.None));
             }
         }
-        
+
 
         // 入力パスから場所を取得
         private string GetPlaceEx(string path, BookLoadOption option)
@@ -664,7 +664,7 @@ namespace NeeView
                 var setting = GetSetting(unit, place, args.Option);
 
                 // Load本体
-                await LoadAsyncCore(place, startEntry ?? setting.Page, args.Option, setting, unit);
+                await LoadAsyncCore(place, startEntry ?? setting.Page, args.Option, setting, unit, token);
 
                 // ビュー初期化
                 App.Current.Dispatcher.Invoke(() => ModelContext.CommandTable[CommandType.ViewReset].Execute(this, null));
@@ -686,6 +686,10 @@ namespace NeeView
                         App.Current.Dispatcher.Invoke(() => ConfirmRecursive());
                     }
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                // nop.
             }
             catch (Exception e)
             {
@@ -759,7 +763,7 @@ namespace NeeView
 
             return command;
         }
-        
+
         // アンロード可能?
         public bool CanUnload()
         {
@@ -796,7 +800,7 @@ namespace NeeView
         /// <param name="path">本のパス</param>
         /// <param name="startEntry">開始エントリ</param>
         /// <param name="option">読み込みオプション</param>
-        private async Task LoadAsyncCore(string path, string startEntry, BookLoadOption option, Book.Memento setting, BookMementoUnit unit)
+        private async Task LoadAsyncCore(string path, string startEntry, BookLoadOption option, Book.Memento setting, BookMementoUnit unit, CancellationToken token)
         {
             // 履歴に登録済の場合は履歴先頭に移動させる
             if (unit?.HistoryNode != null && (option & BookLoadOption.KeepHistoryOrder) == 0)
@@ -843,7 +847,7 @@ namespace NeeView
             try
             {
                 // ロード。非同期で行う
-                await book.Load(path, startEntry, option);
+                await book.LoadAsync(path, startEntry, option, token);
 
                 // ロード後にイベント設定
                 book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
@@ -869,6 +873,14 @@ namespace NeeView
 
                 // 最初のコンテンツ表示待ち
                 await Task.Run(() => _viewContentEvent.WaitOne());
+            }
+            catch (OperationCanceledException)
+            {
+                // 後始末
+                Current?.Dispose();
+                Current = null;
+
+                throw;
             }
             catch (Exception e)
             {

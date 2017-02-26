@@ -78,7 +78,7 @@ namespace NeeView
         /// </summary>
         /// <param name="name">希望するファイル名</param>
         /// <returns>テンポラリファイル名</returns>
-        public static string CreateTempFileName(string name)
+        private static string CreateTempFileName(string name)
         {
             // 専用フォルダ作成
             Directory.CreateDirectory(TempDirectory);

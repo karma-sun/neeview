@@ -115,7 +115,7 @@ namespace NeeView
 
             var info = (Susie.ArchiveEntry)entry.Instance;
 
-            string tempDirectory = Temporary.CreateCountedTempFileName("Susie", "");
+            string tempDirectory = Temporary.CreateCountedTempFileName("susie", "");
 
             try
             {

@@ -481,7 +481,8 @@ namespace NeeView
             }
             else
             {
-                var tempFile = Temporary.CreateTempFileName(FileName);
+                var ext = Path.GetExtension(FileName);
+                var tempFile = Temporary.CreateCountedTempFileName("page", ext);
                 Entry.ExtractToFile(tempFile, false);
                 Entry.Archiver.TrashBox.Add(new TrashFile(tempFile)); // ブックの消失とともに消す
                 _tempFile = tempFile;

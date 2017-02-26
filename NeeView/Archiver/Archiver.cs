@@ -5,7 +5,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NeeView
 {
@@ -59,7 +62,8 @@ namespace NeeView
         /// <returns>テンポラリファイル名</returns>
         public string ExtractToTemp(ArchiveEntry entry)
         {
-            string tempFileName = Temporary.CreateTempFileName(Path.GetFileName(entry.EntryName));
+            var ext = Path.GetExtension(entry.EntryName);
+            string tempFileName = Temporary.CreateCountedTempFileName("entry", ext);
             ExtractToFile(entry, tempFileName, false);
             TrashBox.Add(new TrashFile(tempFileName));
             return tempFileName;
@@ -67,6 +71,7 @@ namespace NeeView
 
         // エントリをファイルとして出力
         public abstract void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite);
+
 
         /// <summary>
         /// 所属している場所を得る
@@ -86,5 +91,54 @@ namespace NeeView
         {
             TrashBox.Dispose();
         }
+
+        // エントリをファイルとして出力
+        public async Task ExtractToFileAsync(ArchiveEntry entry, string exportFileName, bool isOverwrite, CancellationToken token)
+        {
+            var extractor = new AsyncronizedExtractor();
+            await extractor.ExtractToFileAsync(this, entry, exportFileName, isOverwrite, token);
+        }
     }
+
+
+    /// <summary>
+    /// 開発中：非同期Extractor
+    /// </summary>
+    public class AsyncronizedExtractor
+    {
+        private ManualResetEventSlim _completed = new ManualResetEventSlim(false);
+
+        public async Task ExtractToFileAsync(Archiver archiver, ArchiveEntry entry, string exportFileName, bool isOverwrite, CancellationToken token)
+        {
+            token.ThrowIfCancellationRequested();
+
+            Debug.WriteLine($"ExtractToFile: start {exportFileName}");
+
+            try
+            {
+                // 非同期で実行
+                Task.Run(() =>
+                {
+                    archiver.ExtractToFile(entry, exportFileName, isOverwrite);
+                    _completed.Set();
+
+                    if (token.IsCancellationRequested)
+                    {
+                        Debug.WriteLine($"ExtractToFile: delete {exportFileName} with cancel.");
+                        System.IO.File.Delete(exportFileName);
+                    }
+                });
+
+                // ここで待機
+                _completed.Wait(token);
+                Debug.WriteLine($"ExtractToFile: complete.");
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.WriteLine("ExtractToFile: canceled!");
+                throw;
+            }
+        }
+    }
+
 }

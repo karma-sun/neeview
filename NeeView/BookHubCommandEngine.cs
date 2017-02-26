@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NeeView.Utility;
 
 namespace NeeView
 {
@@ -104,18 +105,24 @@ namespace NeeView
         /// </summary>
         public string Place { get; private set; }
 
+
+        /// <summary>
+        /// コマンド登録前処理
+        /// </summary>
+        /// <param name="command"></param>
+        protected override void OnEnqueueing(ICommand command)
+        {
+            // 最新コマンド以外はキャンセル
+            _command?.Cancel();
+            _queue.ForEach(e => e.Cancel());
+            _queue.Clear();
+        }
+
         /// <summary>
         /// コマンド登録後処理
         /// </summary>
         protected override void OnEnqueued(Utility.ICommand cmd)
         {
-            // 最新コマンド以外はキャンセル
-            _command?.Cancel();
-            while (_queue.Count > 1)
-            {
-                _queue.Dequeue().Cancel();
-            }
-
             // 最新コマンドから場所を取得
             if (_queue.Any())
             {

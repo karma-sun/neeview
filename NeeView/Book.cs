@@ -320,8 +320,9 @@ namespace NeeView
         /// </summary>
         public static int PreLoadLimitSize { get; internal set; } = 2048 * 2048;
 
+
         // 本読み込み
-        public async Task Load(string path, string start = null, BookLoadOption option = BookLoadOption.None)
+        public async Task LoadAsync(string path, string start, BookLoadOption option, CancellationToken token)
         {
             Debug.Assert(Place == null);
 
@@ -351,39 +352,36 @@ namespace NeeView
             PagePosition position = _firstPosition;
             int direction = 1;
 
-            // 読み込み(非同期タスク)
-            await Task.Run(() =>
+            // 読み込み
+            await ReadArchiveAsync(archiver, "", option, token);
+
+            // Pages Prefix
+            var prefix = GetPagesPrefix();
+            foreach (var page in Pages)
             {
-                ReadArchive(archiver, "", option);
+                page.Prefix = prefix;
+            }
 
-                // Pages Prefix
-                var prefix = GetPagesPrefix();
-                foreach (var page in Pages)
-                {
-                    page.Prefix = prefix;
-                }
+            // 初期ソート
+            Sort();
 
-                // 初期ソート
-                Sort();
-
-                // スタートページ取得
-                if ((option & BookLoadOption.FirstPage) == BookLoadOption.FirstPage)
-                {
-                    position = _firstPosition;
-                    direction = 1;
-                }
-                else if ((option & BookLoadOption.LastPage) == BookLoadOption.LastPage)
-                {
-                    position = _lastPosition;
-                    direction = -1;
-                }
-                else
-                {
-                    int index = (start != null) ? Pages.FindIndex(e => e.FullPath == start) : 0;
-                    position = index >= 0 ? new PagePosition(index, 0) : _firstPosition;
-                    direction = 1;
-                }
-            });
+            // スタートページ取得
+            if ((option & BookLoadOption.FirstPage) == BookLoadOption.FirstPage)
+            {
+                position = _firstPosition;
+                direction = 1;
+            }
+            else if ((option & BookLoadOption.LastPage) == BookLoadOption.LastPage)
+            {
+                position = _lastPosition;
+                direction = -1;
+            }
+            else
+            {
+                int index = (start != null) ? Pages.FindIndex(e => e.FullPath == start) : 0;
+                position = index >= 0 ? new PagePosition(index, 0) : _firstPosition;
+                direction = 1;
+            }
 
             // 開始ページ記憶
             StartEntry = Pages.Count > 0 ? Pages[position.Index].FullPath : null;
@@ -398,8 +396,10 @@ namespace NeeView
 
 
         // アーカイブからページ作成(再帰)
-        private bool ReadArchive(Archiver archiver, string place, BookLoadOption option)
+        private async Task<bool> ReadArchiveAsync(Archiver archiver, string place, BookLoadOption option, CancellationToken token)
         {
+            token.ThrowIfCancellationRequested();
+
             List<ArchiveEntry> entries = null;
 
             try
@@ -423,6 +423,8 @@ namespace NeeView
             //
             foreach (var entry in entries)
             {
+                token.ThrowIfCancellationRequested();
+
                 // 再帰設定、もしくは単一ファイルの場合、再帰を行う
                 bool isRecursive = (option & BookLoadOption.Recursive) == BookLoadOption.Recursive;
                 bool isAutoRecursive = (option & BookLoadOption.AutoRecursive) == BookLoadOption.AutoRecursive && entries.Count == 1 && archiver.IsFileSystem;
@@ -431,22 +433,28 @@ namespace NeeView
                     bool result = false;
                     if (archiver.IsFileSystem)
                     {
-                        result = ReadArchive(ModelContext.ArchiverManager.CreateArchiver(archiver.GetFileSystemPath(entry), archiver), LoosePath.Combine(place, entry.EntryName), option);
+                        result = await ReadArchiveAsync(ModelContext.ArchiverManager.CreateArchiver(archiver.GetFileSystemPath(entry), archiver), LoosePath.Combine(place, entry.EntryName), option, token);
                     }
                     else
                     {
                         // テンポラリにアーカイブを解凍する
-                        string tempFileName = Temporary.CreateTempFileName(Path.GetFileName(entry.EntryName));
+                        var ext = Path.GetExtension(entry.EntryName);
+                        string tempFileName = Temporary.CreateCountedTempFileName("arcv", ext);
                         try
                         {
-                            archiver.ExtractToFile(entry, tempFileName, false);
+                            ////archiver.ExtractToFile(entry, tempFileName, false);
+                            await archiver.ExtractToFileAsync(entry, tempFileName, false, token);
                             _trashBox.Add(new TrashFile(tempFileName));
 
-                            result = ReadArchive(ModelContext.ArchiverManager.CreateArchiver(tempFileName, archiver), LoosePath.Combine(place, entry.EntryName), option);
+                            result = await ReadArchiveAsync(ModelContext.ArchiverManager.CreateArchiver(tempFileName, archiver), LoosePath.Combine(place, entry.EntryName), option, token);
                             if (!result)
                             {
                                 AddPage(archiver, entry, place, option);
                             }
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            throw;
                         }
                         catch (Exception e)
                         {
@@ -879,7 +887,7 @@ namespace NeeView
             await UpdateViewPageAsync(source, param.IsPreLoad, token);
         }
 
-        
+
         private ViewPageContextSource GetViewPageContextSource(int step)
         {
             int delta = 0;

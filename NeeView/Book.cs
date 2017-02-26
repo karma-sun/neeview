@@ -571,13 +571,15 @@ namespace NeeView
             return s0;
         }
 
+        // コマンドエンジン
+        private BookCommandEngine _commandEngine = new BookCommandEngine();
 
         // 開始
         // ページ設定を行うとコンテンツ読み込みが始まるため、ロードと分離した
         public void Start()
         {
             Debug.Assert(Place != null);
-            StartCommandWorker();
+            _commandEngine.Initialize();
         }
 
         #endregion
@@ -645,35 +647,60 @@ namespace NeeView
             if (Place == null) return;
 
             DisplayIndex = position.Index;
-            RegistCommand(new SetPageCommand(this, position, direction, PageMode.Size(), isPreLoad));
+
+            var command = new BookCommandSetPage(this, new BookCommandSetPageArgs()
+            {
+                Position = position,
+                Direction = direction,
+                Size = PageMode.Size(),
+                IsPreLoad = isPreLoad,
+            });
+            _commandEngine.Enqueue(command);
         }
 
         // ページ相対移動
         public void RequestMovePosition(int step)
         {
             if (Place == null) return;
-            RegistCommand(new MovePageCommand(this, step));
+
+            var command = new BookCommandMovePage(this, new BookCommandMovePageArgs()
+            {
+                Step = step,
+            });
+            _commandEngine.Enqueue(command);
         }
 
         // リフレッシュ
         public void RequestReflesh(bool isClear)
         {
             if (Place == null) return;
-            RegistCommand(new RefleshCommand(this, isClear));
+
+            var command = new BookCommandReflesh(this, new BookCommandRefleshArgs()
+            {
+                IsClear = isClear,
+            });
+            _commandEngine.Enqueue(command);
         }
 
         // ソート
         public void RequestSort()
         {
             if (Place == null) return;
-            RegistCommand(new SortCommand(this));
+
+            var command = new BookCommandSort(this, new BookCommandSortArgs());
+            _commandEngine.Enqueue(command);
         }
 
         // ページ削除
         public void RequestRemove(Page page)
         {
             if (Place == null) return;
-            RegistCommand(new RemoveCommand(this, page));
+
+            var command = new BookCommandRemove(this, new BookCommandRemoveArgs()
+            {
+                Page = page,
+            });
+            _commandEngine.Enqueue(command);
         }
 
 
@@ -681,7 +708,9 @@ namespace NeeView
         public void RequestDispose()
         {
             if (Place == null) return;
-            RegistCommand(new DisposeCommand(this));
+
+            var command = new BookCommandDispose(this, new BookCommandDisposeArgs());
+            _commandEngine.Enqueue(command);
         }
 
 
@@ -811,277 +840,110 @@ namespace NeeView
         }
 
 
-        // コマンド基底
-        private abstract class ViewPageCommand
+        // コマンド処理
+        internal async Task Dispose_Executed(BookCommandDisposeArgs param, CancellationToken token)
         {
-            protected Book _book;
-            public abstract int Priority { get; }
-
-            public ViewPageCommand(Book book)
-            {
-                _book = book;
-            }
-
-            public virtual async Task Execute() { await Task.Yield(); }
+            Terminate();
+            _commandEngine.Terminate();
+            _isDisposed = true;
+            await Task.Yield();
         }
 
-        // 廃棄処理コマンド
-        private class DisposeCommand : ViewPageCommand
+        internal async Task Remove_Executed(BookCommandRemoveArgs param, CancellationToken token)
         {
-            public override int Priority => 4;
-
-            public DisposeCommand(Book book) : base(book)
-            {
-            }
-
-            public override async Task Execute()
-            {
-                _book.Terminate();
-                _book.BreakCommandWorker();
-                _book._isDisposed = true;
-                await Task.Yield();
-            }
+            Remove(param.Page);
+            await Task.Yield();
         }
 
-        // 削除コマンド
-        private class RemoveCommand : ViewPageCommand
+        internal async Task Sort_Executed(BookCommandSortArgs param, CancellationToken token)
         {
-            public override int Priority => 3;
-
-            private Page _page;
-
-            public RemoveCommand(Book book, Page page) : base(book)
-            {
-                _page = page;
-            }
-
-            public override async Task Execute()
-            {
-                _book.Remove(_page);
-                await Task.Yield();
-            }
+            Sort();
+            RequestSetPosition(_firstPosition, 1, true);
+            await Task.Yield();
         }
 
-        // ソートコマンド
-        private class SortCommand : ViewPageCommand
+        internal async Task Reflesh_Executed(BookCommandRefleshArgs param, CancellationToken token)
         {
-            public override int Priority => 2;
-
-            public SortCommand(Book book) : base(book)
-            {
-            }
-
-            public override async Task Execute()
-            {
-                _book.Sort();
-                _book.RequestSetPosition(_book._firstPosition, 1, true);
-                await Task.Yield();
-            }
+            Reflesh(param.IsClear);
+            await Task.Yield();
         }
 
-        // リフレッシュコマンド
-        private class RefleshCommand : ViewPageCommand
+        internal async Task SetPage_Executed(BookCommandSetPageArgs param, CancellationToken token)
         {
-            public override int Priority => 1;
-
-            private bool _isClear;
-
-            public RefleshCommand(Book book, bool isClear) : base(book)
+            var source = new ViewPageContextSource()
             {
-                _isClear = isClear;
-            }
-
-            public override async Task Execute()
-            {
-                _book.Reflesh(_isClear);
-                await Task.Yield();
-            }
+                Position = param.Position,
+                Direction = param.Direction,
+                Size = param.Size,
+            };
+            await UpdateViewPageAsync(source, param.IsPreLoad, token);
         }
 
-
-        // ページ指定移動コマンド
-        private class SetPageCommand : ViewPageCommand
+        
+        private ViewPageContextSource GetViewPageContextSource(int step)
         {
-            public override int Priority => 0;
+            int delta = 0;
 
-            private bool _isPreLoad;
-
-            private ViewPageContextSource _source { get; set; }
-
-            public SetPageCommand(Book book, PagePosition position, int direction, int size, bool isPreLoad) : base(book)
+            if (Pages.Count == 0)
             {
-                _isPreLoad = isPreLoad;
-
-                _source = new ViewPageContextSource()
-                {
-                    Position = position,
-                    Direction = direction,
-                    Size = size,
-                };
+                delta = step < 0 ? -1 : 1;
             }
-
-            public override async Task Execute()
+            else if (step > 0)
             {
-                await _book.UpdateViewPageAsync(_source, _isPreLoad);
-            }
-        }
-
-        // ページ相対移動コマンド
-        private class MovePageCommand : ViewPageCommand
-        {
-            public override int Priority => 0;
-
-            public int Step { get; set; }
-
-
-            public MovePageCommand(Book book, int step) : base(book)
-            {
-                Step = step;
-            }
-
-            private ViewPageContextSource GetViewPageContextSource()
-            {
-                int step = 0;
-
-                if (_book.Pages.Count == 0)
+                for (int i = 0; i < step && i < _viewContext.Infos.Count; ++i)
                 {
-                    step = Step < 0 ? -1 : 1;
-                }
-                else if (Step > 0)
-                {
-                    for (int i = 0; i < Step && i < _book._viewContext.Infos.Count; ++i)
-                    {
-                        step += _book._viewContext.Infos[i].Size;
-                    }
-                }
-                else if (_book._viewContext.Size == 2)
-                {
-                    step = Step + 1;
-                }
-                else
-                {
-                    step = Step;
-                }
-
-
-
-                return new ViewPageContextSource()
-                {
-                    Position = _book._viewContext.Position + step,
-                    Direction = Step < 0 ? -1 : 1,
-                    Size = _book.PageMode.Size(),
-                };
-            }
-
-            private ViewPageContextSource GetViewPageContextSourceSimple()
-            {
-                int index = _book._viewContext.Position.Index;
-                int newIndex = _book.ClampPageNumber(index + Step);
-
-                int direction = Step < 0 ? -1 : 1;
-
-                if (index == newIndex)
-                {
-                    newIndex += direction;
-                }
-
-                var position = new PagePosition(newIndex, 0);
-
-                return new ViewPageContextSource()
-                {
-                    Position = position,
-                    Direction = direction,
-                    Size = _book.PageMode.Size(),
-                };
-            }
-
-            public override async Task Execute()
-            {
-                if (Step < -2 || Step > 2)
-                {
-                    await _book.UpdateViewPageAsync(GetViewPageContextSourceSimple(), false);
-                }
-                else
-                {
-                    await _book.UpdateViewPageAsync(GetViewPageContextSource(), true);
+                    delta += _viewContext.Infos[i].Size;
                 }
             }
+            else if (_viewContext.Size == 2)
+            {
+                delta = step + 1;
+            }
+            else
+            {
+                delta = step;
+            }
+
+            return new ViewPageContextSource()
+            {
+                Position = _viewContext.Position + delta,
+                Direction = step < 0 ? -1 : 1,
+                Size = PageMode.Size(),
+            };
+        }
+
+        private ViewPageContextSource GetViewPageContextSourceSimple(int step)
+        {
+            int index = _viewContext.Position.Index;
+            int newIndex = ClampPageNumber(index + step);
+
+            int direction = step < 0 ? -1 : 1;
+
+            if (index == newIndex)
+            {
+                newIndex += direction;
+            }
+
+            var position = new PagePosition(newIndex, 0);
+
+            return new ViewPageContextSource()
+            {
+                Position = position,
+                Direction = direction,
+                Size = PageMode.Size(),
+            };
         }
 
 
-
-        // ワーカータスクのキャンセルトークン
-        private CancellationTokenSource _commandWorkerCancellationTokenSource;
-
-        // 予約されているコマンド
-        private ViewPageCommand _readyCommand;
-
-        // 予約コマンド存在イベント
-        private AutoResetEvent _readyCommandEvent = new AutoResetEvent(false);
-
-
-        // コマンドの予約
-        private void RegistCommand(ViewPageCommand command)
+        internal async Task MovePage_Executed(BookCommandMovePageArgs param, CancellationToken token)
         {
-            lock (_lock)
+            if (param.Step < -2 || param.Step > 2)
             {
-                if (_readyCommand == null || _readyCommand.Priority <= command.Priority)
-                {
-                    _readyCommand = command;
-                }
+                await UpdateViewPageAsync(GetViewPageContextSourceSimple(param.Step), false, token);
             }
-            _readyCommandEvent.Set();
-        }
-
-        // ワーカータスクの起動
-        private void StartCommandWorker()
-        {
-            _commandWorkerCancellationTokenSource = new CancellationTokenSource();
-            Task.Run(() => CommandWorker(), _commandWorkerCancellationTokenSource.Token);
-        }
-
-        // ワーカータスクの終了
-        private void BreakCommandWorker()
-        {
-            _commandWorkerCancellationTokenSource.Cancel();
-            _readyCommandEvent.Set();
-        }
-
-        // ワーカータスク
-        private async void CommandWorker()
-        {
-            try
+            else
             {
-                ////Debug.WriteLine("Bookタスクの開始");
-                while (!_commandWorkerCancellationTokenSource.Token.IsCancellationRequested)
-                {
-                    await Task.Run(() => _readyCommandEvent.WaitOne());
-                    _commandWorkerCancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                    ViewPageCommand command;
-                    lock (_lock)
-                    {
-                        command = _readyCommand;
-                        _readyCommand = null;
-                    }
-
-                    if (command != null)
-                    {
-                        await command.Execute();
-                    }
-                }
-            }
-            catch (OperationCanceledException)
-            {
-            }
-            catch (Exception e)
-            {
-                Action<Exception> action = (exception) => { throw new ApplicationException("Bookタスク内部エラー", exception); };
-                await App.Current.Dispatcher.BeginInvoke(action, e);
-            }
-            finally
-            {
-                ////Debug.WriteLine("Bookタスクの終了: " + Place);
+                await UpdateViewPageAsync(GetViewPageContextSource(param.Step), true, token);
             }
         }
 
@@ -1101,7 +963,7 @@ namespace NeeView
         }
 
         // 表示ページ更新
-        private async Task UpdateViewPageAsync(ViewPageContextSource source, bool isPreLoad)
+        private async Task UpdateViewPageAsync(ViewPageContextSource source, bool isPreLoad, CancellationToken token)
         {
             // ページ終端を越えたか判定
             if (source.Position < _firstPosition)
@@ -1154,10 +1016,11 @@ namespace NeeView
             _viewContext = CreateViewPageContext(source);
 
             // task cancel?
-            _commandWorkerCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            token.ThrowIfCancellationRequested();
 
             // notice ViewContentsChanged
-            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource() {
+            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()
+            {
                 Type = ViewSourceType.Content,
                 Sources = _viewContext.ViewContentsSource,
                 Direction = _viewContext.Direction

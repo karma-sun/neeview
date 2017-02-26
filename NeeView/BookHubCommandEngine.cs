@@ -13,106 +13,28 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// コマンド実行結果
-    /// </summary>
-    public enum BookHubCommandResult
-    {
-        None,
-        Completed,
-        Canceled,
-    }
-
-    /// <summary>
-    /// BookHubコマンド基底
-    /// </summary>
-    public abstract class BookHubCommand : Utility.ICommand
-    {
-        // キャンセルトークン
-        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-
-        // コマンド終了通知
-        private ManualResetEventSlim _complete = new ManualResetEventSlim(false);
-
-        // コマンド実行結果
-        private BookHubCommandResult _result;
-        public BookHubCommandResult Result
-        {
-            get { return _result; }
-            set { _result = value; _complete.Set(); }
-        }
-
-        // コマンド実行フラグ
-        private bool _isActive;
-
-
-        /// <summary>
-        /// キャンセル要求
-        /// </summary>
-        public void Cancel()
-        {
-            //Debug.WriteLine($"{this} cancel.");
-
-            _cancellationTokenSource.Cancel();
-
-            if (!_isActive)
-            {
-                Result = BookHubCommandResult.Canceled;
-            }
-        }
-
-        /// <summary>
-        /// キャンセル要求判定
-        /// </summary>
-        public bool IsCancellationRequested => _cancellationTokenSource.Token.IsCancellationRequested;
-
-
-        /// <summary>
-        /// コマンド実行
-        /// </summary>
-        /// <returns></returns>
-        public async Task ExecuteAsync()
-        {
-            _isActive = true;
-
-            try
-            {
-                _cancellationTokenSource.Token.ThrowIfCancellationRequested();
-                //Debug.WriteLine($"{this} ...");
-                await ExecuteAsync(_cancellationTokenSource.Token);
-                Result = BookHubCommandResult.Completed;
-            }
-            catch (OperationCanceledException)
-            {
-                Result = BookHubCommandResult.Canceled;
-            }
-        }
-
-        /// <summary>
-        /// コマンド終了待機
-        /// </summary>
-        /// <returns></returns>
-        public async Task WaitAsync()
-        {
-            await Task.Run(() => _complete.Wait());
-        }
-
-        /// <summary>
-        /// コマンド実行(abstract)
-        /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        protected abstract Task ExecuteAsync(CancellationToken token);
-    }
-
-
-    /// <summary>
-    /// コマンド引数基底
+    /// BookHubコマンド引数基底
     /// </summary>
     public class BookHubCommandArgs
     {
-        public BookHub BookHub { get; set; }
     }
     
+    /// <summary>
+    /// BookHubコマンド基底
+    /// </summary>
+    public abstract class BookHubCommand : Utility.CommandBase
+    {
+        /// <summary>
+        /// construcotr
+        /// </summary>
+        /// <param name="bookHub"></param>
+        public BookHubCommand(BookHub bookHub) { _bookHub = bookHub; }
+
+        /// <summary>
+        /// ターゲット
+        /// </summary>
+        protected BookHub _bookHub { get; private set; }
+    }
 
     /// <summary>
     /// CommandLoad 引数
@@ -134,14 +56,14 @@ namespace NeeView
 
         public string Path => _param?.Path;
 
-        public BookHubCommandLoad(BookHubCommandLoadArgs param)
+        public BookHubCommandLoad(BookHub bookHub, BookHubCommandLoadArgs param) : base(bookHub)
         {
             _param = param;
         }
 
         protected override async Task ExecuteAsync(CancellationToken token)
         {
-            await _param.BookHub.LoadAsync(_param, token);
+            await _bookHub.LoadAsync(_param, token);
         }
     }
 
@@ -161,14 +83,14 @@ namespace NeeView
     {
         private BookHubCommandUnloadArgs _param;
 
-        public BookHubCommandUnload(BookHubCommandUnloadArgs param)
+        public BookHubCommandUnload(BookHub bookHub, BookHubCommandUnloadArgs param) : base(bookHub)
         {
             _param = param;
         }
 
         protected override async Task ExecuteAsync(CancellationToken token)
         {
-            await _param.BookHub.UnloadAsync(_param); // Unloadはキャンセルできない
+            await _bookHub.UnloadAsync(_param); // Unloadはキャンセルできない
         }
     }
 
@@ -185,7 +107,7 @@ namespace NeeView
         /// <summary>
         /// コマンド登録後処理
         /// </summary>
-        protected override void OnRegistered()
+        protected override void OnEnqueued(Utility.ICommand cmd)
         {
             // 最新コマンド以外はキャンセル
             _command?.Cancel();

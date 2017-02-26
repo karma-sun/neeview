@@ -29,6 +29,99 @@ namespace NeeView.Utility
         Task ExecuteAsync();
     }
 
+
+    /// <summary>
+    /// コマンド実行結果
+    /// </summary>
+    public enum CommandResult
+    {
+        None,
+        Completed,
+        Canceled,
+    }
+
+    /// <summary>
+    /// コマンド基底
+    /// キャンセル、終了待機対応
+    /// </summary>
+    public abstract class CommandBase : ICommand
+    {
+        // キャンセルトークン
+        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+
+        // コマンド終了通知
+        private ManualResetEventSlim _complete = new ManualResetEventSlim(false);
+
+        // コマンド実行結果
+        private CommandResult _result;
+        public CommandResult Result
+        {
+            get { return _result; }
+            set { _result = value; _complete.Set(); }
+        }
+
+        // コマンド実行フラグ
+        private bool _isActive;
+
+
+        /// <summary>
+        /// キャンセル要求
+        /// </summary>
+        public void Cancel()
+        {
+            _cancellationTokenSource.Cancel();
+
+            if (!_isActive)
+            {
+                Result = CommandResult.Canceled;
+            }
+        }
+
+        /// <summary>
+        /// キャンセル要求判定
+        /// </summary>
+        public bool IsCancellationRequested => _cancellationTokenSource.Token.IsCancellationRequested;
+
+
+        /// <summary>
+        /// コマンド実行
+        /// </summary>
+        /// <returns></returns>
+        public async Task ExecuteAsync()
+        {
+            _isActive = true;
+
+            try
+            {
+                _cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                await ExecuteAsync(_cancellationTokenSource.Token);
+                Result = CommandResult.Completed;
+            }
+            catch (OperationCanceledException)
+            {
+                Result = CommandResult.Canceled;
+            }
+        }
+
+        /// <summary>
+        /// コマンド終了待機
+        /// </summary>
+        /// <returns></returns>
+        public async Task WaitAsync()
+        {
+            await Task.Run(() => _complete.Wait());
+        }
+
+        /// <summary>
+        /// コマンド実行(abstract)
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        protected abstract Task ExecuteAsync(CancellationToken token);
+    }
+
+
+
     /// <summary>
     /// コマンドエンジン
     /// </summary>
@@ -53,21 +146,30 @@ namespace NeeView.Utility
         /// コマンド登録
         /// </summary>
         /// <param name="command"></param>
-        public void Regist(ICommand command)
+        public void Enqueue(ICommand command)
         {
             lock (_lock)
             {
+                OnEnqueueing(command);
                 _queue.Enqueue(command);
-                OnRegistered();
+                OnEnqueued(command);
                 _ready.Set();
             }
         }
 
         /// <summary>
-        /// Queueの修正
-        /// オーバーライドして使用する
+        /// Queue登録前の処理
         /// </summary>
-        protected virtual void OnRegistered()
+        /// <param name="command"></param>
+        protected virtual void OnEnqueueing(ICommand command)
+        {
+            // nop
+        }
+
+        /// <summary>
+        /// Queue登録後の処理
+        /// </summary>
+        protected virtual void OnEnqueued(ICommand command)
         {
             // nop.
         }

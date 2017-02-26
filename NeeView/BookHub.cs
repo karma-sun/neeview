@@ -485,11 +485,11 @@ namespace NeeView
                 await Current?.DisposeAsync();
                 Current = null;
             }
-
-            Address = null;
-
+            
             if (param.IsClearViewContent)
             {
+                Address = null;
+
                 // 現在表示されているコンテンツを無効
                 App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
 
@@ -729,16 +729,15 @@ namespace NeeView
 
             Address = path;
 
-            var command = new BookHubCommandLoad(new BookHubCommandLoadArgs()
+            var command = new BookHubCommandLoad(this, new BookHubCommandLoadArgs()
             {
-                BookHub = this,
                 Path = path,
                 StartEntry = start,
                 Option = option,
                 IsRefleshFolderList = isRefleshFolderList
             });
 
-            _commandEngine.Regist(command);
+            _commandEngine.Enqueue(command);
 
             return command;
         }
@@ -751,13 +750,12 @@ namespace NeeView
         /// <returns></returns>
         public BookHubCommandUnload RequestUnload(bool isClearViewContent)
         {
-            var command = new BookHubCommandUnload(new BookHubCommandUnloadArgs()
+            var command = new BookHubCommandUnload(this, new BookHubCommandUnloadArgs()
             {
-                BookHub = this,
                 IsClearViewContent = isClearViewContent
             });
 
-            _commandEngine.Regist(command);
+            _commandEngine.Enqueue(command);
 
             return command;
         }

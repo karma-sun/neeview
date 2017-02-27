@@ -468,28 +468,19 @@ namespace NeeView
         }
 
         // テンポラリファイル名
-        private string _tempFile;
+        public FileProxy FileProxy { get; private set; }
 
-        // テンポラリファイルの作成
-        public virtual string CreateTempFile()
+        /// <summary>
+        /// テンポラリファイルの作成
+        /// </summary>
+        /// <param name="isKeepFileName">エントリ名準拠のテンポラリファイルを作成</param>
+        /// <returns></returns>
+        public virtual FileProxy CreateTempFile(bool isKeepFileName)
         {
-            if (_tempFile != null) return _tempFile;
-
-            if (Entry.IsFileSystem)
-            {
-                _tempFile = Entry.GetFileSystemPath();
-            }
-            else
-            {
-                var ext = Path.GetExtension(FileName);
-                var tempFile = Temporary.CreateCountedTempFileName("page", ext);
-                Entry.ExtractToFile(tempFile, false);
-                Entry.Archiver.TrashBox.Add(new TrashFile(tempFile)); // ブックの消失とともに消す
-                _tempFile = tempFile;
-            }
-
-            return _tempFile;
+            FileProxy = FileProxy ?? Entry.ExtractToTemp(isKeepFileName);
+            return FileProxy;
         }
+
 
         // ファイルを保存する
         public virtual void Export(string path)
@@ -503,4 +494,5 @@ namespace NeeView
             return Entry?.Archiver != null && Entry.Archiver is FolderFiles;
         }
     }
+
 }

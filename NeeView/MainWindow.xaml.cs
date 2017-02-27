@@ -1119,19 +1119,19 @@ namespace NeeView
         // 開発用コマンド：テンポラリフォルダを開く
         private void MenuItemDevTempFolder_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + Temporary.TempDirectory + "\"");
+            System.Diagnostics.Process.Start(Temporary.TempDirectory);
         }
 
         // 開発用コマンド：アプリケーションフォルダを開く
         private void MenuItemDevApplicationFolder_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + System.Reflection.Assembly.GetEntryAssembly().Location + "\"");
+            System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{System.Reflection.Assembly.GetEntryAssembly().Location}\"");
         }
 
         // 開発用コマンド：アプリケーションデータフォルダを開く
         private void MenuItemDevApplicationDataFolder_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + App.Config.LocalApplicationDataPath + "\"");
+            System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{App.Config.LocalApplicationDataPath}\"");
         }
 
         // 開発用コマンド：コンテンツ座標更新

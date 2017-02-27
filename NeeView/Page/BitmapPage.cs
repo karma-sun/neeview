@@ -138,7 +138,7 @@ namespace NeeView
                 {
                     return new AnimatedGifContent()
                     {
-                        Uri = new Uri(CreateTempFile()),
+                        FileProxy = CreateTempFile(false),
                         BitmapContent = bitmapContent
                     };
                 }
@@ -182,7 +182,7 @@ namespace NeeView
     // アニメーションGIF用リソース
     public class AnimatedGifContent
     {
-        public Uri Uri { get; set; }
+        public FileProxy FileProxy { get; set; }
         public BitmapContent BitmapContent { get; set; }
     }
 }

@@ -73,5 +73,14 @@ namespace NeeView
         {
             Archiver.ExtractToFile(this, exportFileName, isOverwrite);
         }
+
+        /// <summary>
+        /// テンポラリファイルに出力
+        /// </summary>
+        /// <returns></returns>
+        public FileProxy ExtractToTemp(bool isKeepFileName = false)
+        {
+            return Archiver.ExtractToTemp(this, isKeepFileName);
+        }
     }
 }

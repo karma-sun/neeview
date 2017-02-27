@@ -454,7 +454,7 @@ namespace NeeView
                         try
                         {
                             string tempFileName = await ArchivenEntryExtractorService.Current.ExtractAsync(entry, token);
-                            _trashBox.Add(new TrashFile(tempFileName));
+                            _trashBox.Add(new TempFile(tempFileName));
 
                             result = await ReadArchiveAsync(ModelContext.ArchiverManager.CreateArchiver(tempFileName, entry), LoosePath.Combine(place, entry.EntryName), option, token);
                             if (!result)

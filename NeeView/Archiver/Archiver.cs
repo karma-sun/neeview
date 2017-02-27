@@ -69,15 +69,23 @@ namespace NeeView
         /// このテンポラリはアーカイブ廃棄時に自動的に削除される
         /// </summary>
         /// <param name="entry"></param>
-        /// <returns>テンポラリファイル名</returns>
-        public string ExtractToTemp(ArchiveEntry entry)
+        /// <param name="isKeepFileName">エントリー名をファイル名にする</param>
+        public FileProxy ExtractToTemp(ArchiveEntry entry, bool isKeepFileName = false)
         {
-            var ext = Path.GetExtension(entry.EntryName);
-            string tempFileName = Temporary.CreateCountedTempFileName("entry", ext);
-            ExtractToFile(entry, tempFileName, false);
-            TrashBox.Add(new TrashFile(tempFileName));
-            return tempFileName;
+            if (entry.IsFileSystem)
+            {
+                return new FileProxy(entry.GetFileSystemPath());
+            }
+            else
+            {
+                string tempFileName = isKeepFileName
+                    ? Temporary.CreateTempFileName(LoosePath.GetFileName(entry.EntryName))
+                    : Temporary.CreateCountedTempFileName("entry", Path.GetExtension(entry.EntryName));
+                ExtractToFile(entry, tempFileName, false);
+                return new TempFile(tempFileName);
+            }
         }
+        
 
         // エントリをファイルとして出力
         public abstract void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite);
@@ -93,14 +101,9 @@ namespace NeeView
             return (Parent == null || Parent is FolderFiles) ? FileName : Parent.GetPlace();
         }
 
-
-        // 廃棄用ゴミ箱
-        public TrashBox TrashBox { get; private set; } = new TrashBox();
-
         // 廃棄処理
         public virtual void Dispose()
         {
-            TrashBox.Dispose();
         }
     }
 }

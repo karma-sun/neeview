@@ -2201,6 +2201,7 @@ namespace NeeView
                             content.Bitmap = gifResource.BitmapContent.Source;
                             content.Info = gifResource.BitmapContent.Info;
                             content.Info.Decoder = "MediaPlayer";
+                            content.FileProxy = gifResource.FileProxy;
                         }
                         else if (source.Source is FilePageContent)
                         {

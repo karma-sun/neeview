@@ -94,6 +94,9 @@ namespace NeeView
         // ファイル情報(あれば)
         public FileBasicInfo Info { get; set; }
 
+        // ファイルプロキシ(あれば)
+        public FileProxy FileProxy { get; set; }
+
         // ページの場所
         public PagePosition Position { get; set; }
 

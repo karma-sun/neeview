@@ -78,6 +78,7 @@
     <Compile Include="Archiver\ArchivenEntryExtractorService.cs" />
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
+    <Compile Include="Archiver\FileProxy.cs" />
     <Compile Include="BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
     <Compile Include="DelayAction.cs" />

@@ -154,7 +154,7 @@ namespace NeeView
             else if (Source is AnimatedGifContent)
             {
                 var media = new MediaElement();
-                media.Source = ((AnimatedGifContent)Source).Uri;
+                media.Source = new Uri(((AnimatedGifContent)Source).FileProxy.Path);
                 media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
                 media.MediaFailed += (s, e_) => { throw new ApplicationException("MediaElementで致命的エラー", e_.ErrorException); };
                 media.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);

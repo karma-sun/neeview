@@ -36,7 +36,7 @@ namespace NeeView
     /// <summary>
     /// テンポラリファイル
     /// </summary>
-    public class TempFile : FileProxy, IDisposable
+    public class TempFile : FileProxy, ITrash
     {
         /// <summary>
         /// コンストラクタ
@@ -48,50 +48,34 @@ namespace NeeView
             Debug.Assert(path.StartsWith(Temporary.TempDirectory));
         }
 
+
         #region IDisposable Support
-        private bool disposedValue = false; // 重複する呼び出しを検出するには
 
-        protected virtual void Dispose(bool disposing)
+        //
+        public bool IsDisposed => Path == null;
+
+        //
+        public virtual void Dispose()
         {
-            if (!disposedValue)
+            // unmanaged
+            if (Path != null && Path.StartsWith(Temporary.TempDirectory)) // 念入りチェック
             {
-                // managed
-                if (disposing)
+                try
                 {
+                    if (File.Exists(Path)) File.Delete(Path);
+                    Path = null;
                 }
-
-                // unmanaged
-                if (Path != null && Path.StartsWith(Temporary.TempDirectory)) // 念入りチェック
+                catch (Exception e)
                 {
-                    Debug.WriteLine($"remove temp: {Path}");
-                    try
-                    {
-                        if (File.Exists(Path)) File.Delete(Path);
-                    }
-                    catch { }
+                    Debug.WriteLine(e.Message);
                 }
-                Path = null;
-
-                //
-                disposedValue = true;
             }
         }
 
         ~TempFile()
         {
-            // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
-            Dispose(false);
-        }
-
-        // このコードは、破棄可能なパターンを正しく実装できるように追加されました。
-        public void Dispose()
-        {
-            // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            Dispose();
         }
         #endregion
-
-
     }
 }

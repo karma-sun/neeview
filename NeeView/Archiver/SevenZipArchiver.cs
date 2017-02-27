@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeeView
@@ -49,7 +50,7 @@ namespace NeeView
         //
         private void Initialize()
         {
-            if (LockTime >= 0)
+            if (LockTime > 0)
             {
                 _delayClose = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.5), DelayClose, TimeSpan.FromSeconds(LockTime));
             }
@@ -83,26 +84,37 @@ namespace NeeView
         {
             if (_extractor != null)
             {
-                if (isForce)
+                if (isForce || LockTime == 0)
                 {
                     _extractor.Dispose();
                     _extractor = null;
                 }
-                else
+                else if (_delayClose != null)
                 {
-                    _delayClose?.Request();
+                    _delayClose.Request();
                 }
             }
         }
 
+        //
+        private bool _isDisposed;
+
+        //
         public void Dispose()
         {
-            lock (_lock)
+            if (_isDisposed) return;
+            _isDisposed = true;
+
+            _delayClose?.Cancel();
+
+            Task.Run(() =>
             {
-                _delayClose?.Cancel();
-                Close(true);
-                _stream = null;
-            }
+                lock (_lock)
+                {
+                    Close(true);
+                    _stream = null;
+                }
+            });
         }
     }
 
@@ -199,7 +211,9 @@ namespace NeeView
             _source = _stream != null ? new SevenZipSource(_stream, s_lock) : new SevenZipSource(FileName, s_lock);
         }
 
-
+        //
+        public override bool IsDisposed => _isDisposed;
+        
         // 廃棄処理
         public override void Dispose()
         {
@@ -220,9 +234,11 @@ namespace NeeView
         }
 
         // エントリーリストを得る
-        public override List<ArchiveEntry> GetEntries()
+        public override List<ArchiveEntry> GetEntries(CancellationToken token)
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+
+            token.ThrowIfCancellationRequested();
 
             var list = new List<ArchiveEntry>();
 
@@ -234,6 +250,8 @@ namespace NeeView
                 {
                     for (int id = 0; id < extractor.ArchiveFileData.Count; ++id)
                     {
+                        token.ThrowIfCancellationRequested();
+
                         var entry = extractor.ArchiveFileData[id];
                         if (!entry.IsDirectory)
                         {

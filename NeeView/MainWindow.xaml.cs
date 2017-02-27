@@ -1240,12 +1240,12 @@ namespace NeeView
             }
             else
             {
-                var ani = new DoubleAnimation(0, TimeSpan.FromSeconds(0.5));
+                var ani = new DoubleAnimation(0, TimeSpan.FromSeconds(0.25));
                 this.NowLoading.BeginAnimation(UIElement.OpacityProperty, ani, HandoffBehavior.SnapshotAndReplace);
 
                 var aniRotate = new DoubleAnimation();
-                aniRotate.By = 90;
-                aniRotate.Duration = TimeSpan.FromSeconds(0.5);
+                aniRotate.By = 45;
+                aniRotate.Duration = TimeSpan.FromSeconds(0.25);
                 this.NowLoadingMarkAngle.BeginAnimation(RotateTransform.AngleProperty, aniRotate);
             }
         }

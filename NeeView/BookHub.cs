@@ -1116,6 +1116,7 @@ namespace NeeView
         // 次のフォルダに移動
         public void NextFolder(BookLoadOption option = BookLoadOption.None)
         {
+            if (_commandEngine.Count > 0) return; // 相対移動の場合はキャンセルしない
             var result = Messenger.Send(this, new MessageEventArgs("MoveFolder") { Parameter = new MoveFolderParams() { Distance = +1, BookLoadOption = option } });
             if (result != true)
             {
@@ -1126,6 +1127,7 @@ namespace NeeView
         // 前のフォルダに移動
         public void PrevFolder(BookLoadOption option = BookLoadOption.None)
         {
+            if (_commandEngine.Count > 0) return; // 相対移動の場合はキャンセルしない
             var result = Messenger.Send(this, new MessageEventArgs("MoveFolder") { Parameter = new MoveFolderParams() { Distance = -1, BookLoadOption = option } });
             if (result != true)
             {

@@ -31,7 +31,7 @@ namespace NeeView
     /// <summary>
     /// アーカイバ基底クラス
     /// </summary>
-    public abstract class Archiver : IDisposable
+    public abstract class Archiver : ITrash
     {
         // アーカイブのパス
         public string FileName { get; protected set; }
@@ -58,8 +58,46 @@ namespace NeeView
         /// </summary>
         public string Ident => (Parent == null || Parent is FolderFiles) ? FileName : LoosePath.Combine(Parent.Ident, $"{Source.Id}.{Source.EntryName}");
 
-        // エントリリストを取得
-        public abstract List<ArchiveEntry> GetEntries();
+        /// <summary>
+        /// エントリリストを取得
+        /// </summary>
+        /// <returns></returns>
+        public abstract List<ArchiveEntry> GetEntries(CancellationToken token);
+
+        //
+        public List<ArchiveEntry> GetEntries()
+        {
+            return GetEntries(CancellationToken.None);
+        }
+
+        /// <summary>
+        /// エントリリストを取得(非同期)
+        /// ※キャンセルしても処理は続行されます
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task<List<ArchiveEntry>> GetEntriesAsync(CancellationToken token)
+        {
+            token.ThrowIfCancellationRequested();
+
+            try
+            {
+                var proc = new Utility.AsynchronousAction<List<ArchiveEntry>>();
+                var entry = await proc.ExecuteAsync(GetEntriesFunc, token);
+                Debug.WriteLine($"Entry: done.: {this.FileName}");
+                return entry;
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.WriteLine($"Entry: Canceled!: {this.FileName}");
+                throw;
+            }
+        }
+
+        private List<ArchiveEntry> GetEntriesFunc(CancellationToken token)
+        {
+            return GetEntries(token);
+        }
 
         // エントリのストリームを取得
         public abstract Stream OpenStream(ArchiveEntry entry);
@@ -85,7 +123,7 @@ namespace NeeView
                 return new TempFile(tempFileName);
             }
         }
-        
+
 
         // エントリをファイルとして出力
         public abstract void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite);
@@ -100,6 +138,9 @@ namespace NeeView
         {
             return (Parent == null || Parent is FolderFiles) ? FileName : Parent.GetPlace();
         }
+
+        //
+        public virtual bool IsDisposed => true;
 
         // 廃棄処理
         public virtual void Dispose()

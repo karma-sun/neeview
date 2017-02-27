@@ -422,7 +422,13 @@ namespace NeeView
                     archiver.Dispose();
                     return false;
                 }
-                entries = archiver.GetEntries();
+                //entries = archiver.GetEntries();
+                entries = await archiver.GetEntriesAsync(token);
+            }
+            catch (OperationCanceledException)
+            {
+                archiver.Dispose();
+                throw;
             }
             catch (Exception e)
             {

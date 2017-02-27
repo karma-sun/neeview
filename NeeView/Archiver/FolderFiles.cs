@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeeView
@@ -36,6 +37,9 @@ namespace NeeView
         }
 
         //
+        public override bool IsDisposed => _isDisposed;
+
+        //
         public override void Dispose()
         {
             _isDisposed = true;
@@ -50,9 +54,11 @@ namespace NeeView
         }
 
         // リスト取得
-        public override List<ArchiveEntry> GetEntries()
+        public override List<ArchiveEntry> GetEntries(CancellationToken token)
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+
+            token.ThrowIfCancellationRequested();
 
             int prefixLen = FileName.Length;
             var list = new List<ArchiveEntry>();
@@ -60,6 +66,8 @@ namespace NeeView
             var directory = new DirectoryInfo(FileName);
             foreach (var info in directory.EnumerateFiles())
             {
+                token.ThrowIfCancellationRequested();
+
                 var name = info.FullName.Substring(prefixLen).TrimStart('\\', '/');
                 list.Add(new ArchiveEntry()
                 {
@@ -72,6 +80,8 @@ namespace NeeView
             }
             foreach (var info in directory.EnumerateDirectories())
             {
+                token.ThrowIfCancellationRequested();
+
                 var name = info.FullName.Substring(prefixLen).TrimStart('\\', '/') + "\\";
                 list.Add(new ArchiveEntry()
                 {

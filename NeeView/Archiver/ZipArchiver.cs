@@ -10,6 +10,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 // TODO: 書庫内書庫 ストリームによる多重展開が可能？
@@ -34,6 +35,9 @@ namespace NeeView
             FileName = archiveFileName;
         }
 
+        //
+        public override bool IsDisposed => _isDisposed;
+
         // Dispose
         public override void Dispose()
         {
@@ -49,7 +53,7 @@ namespace NeeView
 
 
         // エントリーリストを得る
-        public override List<ArchiveEntry> GetEntries()
+        public override List<ArchiveEntry> GetEntries(CancellationToken token)
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
@@ -59,6 +63,8 @@ namespace NeeView
             {
                 for (int id = 0; id < archiver.Entries.Count; ++id)
                 {
+                    token.ThrowIfCancellationRequested();
+
                     var entry = archiver.Entries[id];
                     if (entry.Length > 0)
                     {

@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeeView
@@ -38,6 +39,9 @@ namespace NeeView
         }
 
         //
+        public override bool IsDisposed => _isDisposed;
+
+        //
         public override void Dispose()
         {
             _isDisposed = true;
@@ -61,9 +65,11 @@ namespace NeeView
         }
 
         // エントリーリストを得る
-        public override List<ArchiveEntry> GetEntries()
+        public override List<ArchiveEntry> GetEntries(CancellationToken token)
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+
+            token.ThrowIfCancellationRequested();
 
             var plugin = GetPlugin();
             if (plugin == null) throw new NotSupportedException();
@@ -74,6 +80,8 @@ namespace NeeView
             var list = new List<ArchiveEntry>();
             for (int id = 0; id < infoCollection.Count; ++id)
             {
+                token.ThrowIfCancellationRequested();
+
                 var entry = infoCollection[id];
                 if (entry.FileSize > 0)
                 {

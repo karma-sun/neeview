@@ -318,11 +318,25 @@ namespace NeeView
         /// <summary>
         /// 自動先読み判定用画像サイズ
         /// </summary>
-        public static int PreLoadLimitSize { get; internal set; } = 2048 * 2048;
+        public static int PreLoadLimitSize { get; internal set; } = 4096 * 4096;
 
+
+        //
+        public async Task LoadAsync(string path, string start, BookLoadOption option, CancellationToken token)
+        {
+            try
+            {
+                await LoadCoreAsync(path, start, option, token);
+            }
+            catch
+            {
+                Terminate();
+                throw;
+            }
+        }
 
         // 本読み込み
-        public async Task LoadAsync(string path, string start, BookLoadOption option, CancellationToken token)
+        public async Task LoadCoreAsync(string path, string start, BookLoadOption option, CancellationToken token)
         {
             Debug.Assert(Place == null);
 
@@ -347,8 +361,7 @@ namespace NeeView
                 // 圧縮ファイルは再帰させる
                 option |= BookLoadOption.Recursive;
             }
-
-
+            
             PagePosition position = _firstPosition;
             int direction = 1;
 
@@ -433,20 +446,17 @@ namespace NeeView
                     bool result = false;
                     if (archiver.IsFileSystem)
                     {
-                        result = await ReadArchiveAsync(ModelContext.ArchiverManager.CreateArchiver(archiver.GetFileSystemPath(entry), archiver), LoosePath.Combine(place, entry.EntryName), option, token);
+                        result = await ReadArchiveAsync(ModelContext.ArchiverManager.CreateArchiver(archiver.GetFileSystemPath(entry), entry), LoosePath.Combine(place, entry.EntryName), option, token);
                     }
                     else
                     {
                         // テンポラリにアーカイブを解凍する
-                        var ext = Path.GetExtension(entry.EntryName);
-                        string tempFileName = Temporary.CreateCountedTempFileName("arcv", ext);
                         try
                         {
-                            ////archiver.ExtractToFile(entry, tempFileName, false);
-                            await archiver.ExtractToFileAsync(entry, tempFileName, false, token);
+                            string tempFileName = await ArchivenEntryExtractorService.Current.ExtractAsync(entry, token);
                             _trashBox.Add(new TrashFile(tempFileName));
 
-                            result = await ReadArchiveAsync(ModelContext.ArchiverManager.CreateArchiver(tempFileName, archiver), LoosePath.Combine(place, entry.EntryName), option, token);
+                            result = await ReadArchiveAsync(ModelContext.ArchiverManager.CreateArchiver(tempFileName, entry), LoosePath.Combine(place, entry.EntryName), option, token);
                             if (!result)
                             {
                                 AddPage(archiver, entry, place, option);
@@ -1349,13 +1359,13 @@ namespace NeeView
         // 廃棄処理
         private void Terminate()
         {
-            Pages.ForEach(e => e?.Close());
-            Pages.Clear();
+            Pages?.ForEach(e => e?.Close());
+            Pages?.Clear();
 
-            _archivers.ForEach(e => e.Dispose());
-            _archivers.Clear();
+            _archivers?.ForEach(e => e.Dispose());
+            _archivers?.Clear();
 
-            _trashBox.Clear();
+            _trashBox?.Clear();
         }
 
 

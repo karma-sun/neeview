@@ -133,36 +133,36 @@ namespace NeeView
         /// <param name="type">アーカイブの種類</param>
         /// <param name="path">アーカイブファイルのパス</param>
         /// <param name="stream">アーカイブストリーム。ファイルから開く場合はnull</param>
-        /// <param name="parent">親アーカイブ</param>
+        /// <param name="source">元となったアーカイブエントリ</param>
         /// <returns>作成されたアーカイバ</returns>
-        public Archiver CreateArchiver(ArchiverType type, string path, Stream stream, Archiver parent)
+        public Archiver CreateArchiver(ArchiverType type, string path, Stream stream, ArchiveEntry source)
         {
             if (stream != null && type != ArchiverType.SevenZipArchiver) throw new NotImplementedException($"{type} doesn't support stream yet.");
 
             switch (type)
             {
                 case ArchiverType.FolderFiles:
-                    return new FolderFiles(path) { Parent = parent };
+                    return new FolderFiles(path) { Source = source };
                 case ArchiverType.ZipArchiver:
-                    return new ZipArchiver(path) { Parent = parent };
+                    return new ZipArchiver(path) { Source = source };
                 case ArchiverType.SevenZipArchiver:
-                    return new SevenZipArchiver(path, stream) { Parent = parent };
+                    return new SevenZipArchiver(path, stream) { Source = source };
                 case ArchiverType.SusieArchiver:
-                    return new SusieArchiver(path) { Parent = parent };
+                    return new SusieArchiver(path) { Source = source };
                 default:
                     throw new ArgumentException("no support ArchvierType.", nameof(type));
             }
         }
 
         // アーカイバ作成
-        public Archiver CreateArchiver(string path, Archiver parent)
+        public Archiver CreateArchiver(string path, ArchiveEntry source)
         {
             if (Directory.Exists(path))
             {
-                return CreateArchiver(ArchiverType.FolderFiles, path, null, parent);
+                return CreateArchiver(ArchiverType.FolderFiles, path, null, source);
             }
 
-            return CreateArchiver(GetSupportedType(path), path, null, parent);
+            return CreateArchiver(GetSupportedType(path), path, null, source);
         }
     }
 }

@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -208,20 +209,18 @@ namespace NeeView.Utility
         /// <summary>
         /// ワーカータスク
         /// </summary>
-        /// <param name="cancellatioinTolen"></param>
+        /// <param name="token"></param>
         /// <returns></returns>
-        private async Task WorkerAsync(CancellationToken cancellatioinTolen)
+        private async Task WorkerAsync(CancellationToken token)
         {
             try
             {
-                while (true)
+                while (!token.IsCancellationRequested)
                 {
-                    _ready.Wait(cancellatioinTolen);
+                    _ready.Wait(token);
 
-                    while (true)
+                    while (!token.IsCancellationRequested)
                     {
-                        cancellatioinTolen.ThrowIfCancellationRequested();
-
                         lock (_lock)
                         {
                             if (_queue.Count <= 0)

@@ -74,6 +74,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Archiver\ArchiveEntry.cs" />
+    <Compile Include="Archiver\ArchiveEntryExtractor.cs" />
+    <Compile Include="Archiver\ArchivenEntryExtractorService.cs" />
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
     <Compile Include="BookCommandEngine.cs" />
@@ -125,6 +127,7 @@
     <Compile Include="MemoryControl.cs" />
     <Compile Include="MouseLoupe.cs" />
     <Compile Include="SizeString.cs" />
+    <Compile Include="Utility\AsyncronousAction.cs" />
     <Compile Include="Utility\CommandEngine.cs" />
     <Compile Include="Utility\FileShortcut.cs" />
     <Compile Include="Utility\VectorExtensions.cs" />

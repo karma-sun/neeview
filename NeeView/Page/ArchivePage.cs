@@ -143,7 +143,7 @@ namespace NeeView
             var archiverType = ModelContext.ArchiverManager.GetSupportedType(folder.EntryName);
             // x エントリのストリームをアーカイブに渡す。ストリームはアーカイブでDisposeされる
             var tempFile = archiver.ExtractToTemp(folder);
-            var subArchiver = ModelContext.ArchiverManager.CreateArchiver(archiverType, tempFile, null, archiver);
+            var subArchiver = ModelContext.ArchiverManager.CreateArchiver(archiverType, tempFile, null, folder);
             _trashBox.Add(subArchiver);
 
             var childEntryName = entryName.Substring(folder.EntryName.TrimEnd(trims).Length + 1);
@@ -186,7 +186,7 @@ namespace NeeView
             var archiverType = ModelContext.ArchiverManager.GetSupportedType(entry.EntryName);
             // x エントリのストリームをアーカイブに渡す。ストリームはアーカイブでDisposeされる
             var tempFile = archiver.ExtractToTemp(entry);
-            var subArchiver = ModelContext.ArchiverManager.CreateArchiver(archiverType, tempFile, null, archiver);
+            var subArchiver = ModelContext.ArchiverManager.CreateArchiver(archiverType, tempFile, null, entry);
             _trashBox.Add(subArchiver);
             // 再帰
             return OpenEntry(subArchiver, true);

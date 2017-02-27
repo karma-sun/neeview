@@ -29,6 +29,11 @@ namespace NeeView
         // エントリ名
         public string EntryName { get; set; }
 
+        /// <summary>
+        /// 識別名
+        /// </summary>
+        public string Ident => LoosePath.Combine(Archiver.Ident, $"{Id}.{EntryName}");
+
         // ファイルサイズ
         public long FileSize { get; set; }
 

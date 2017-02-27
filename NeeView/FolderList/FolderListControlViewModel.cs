@@ -31,11 +31,20 @@ namespace NeeView
         public FolderOrder FolderOrder { get; set; }
     }
 
+    [Flags]
+    public enum FolderSetPlaceOption
+    {
+        None,
+        IsFocus = (1<<0),
+        IsUpdateHistory = (1<<1),
+        IsTopSelect = (1<<3),
+    }
 
-    /// <summary>
-    /// FolderListControl ViewModel
-    /// </summary>
-    public class FolderListControlViewModel : INotifyPropertyChanged
+
+/// <summary>
+/// FolderListControl ViewModel
+/// </summary>
+public class FolderListControlViewModel : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -155,7 +164,9 @@ namespace NeeView
         /// <param name="select">初期選択項目</param>
         /// <param name="isFocus">フォーカス取得</param>
         /// <param name="updateHistory">フォルダー履歴更新</param>
-        public void SetPlace(string place, string select, bool isFocus, bool updateHistory)
+        //public void SetPlace(string place, string select, bool isFocus, bool updateHistory)
+
+        public void SetPlace(string place, string select, FolderSetPlaceOption options)
         {
             // 現在フォルダの情報を記憶
             SavePlace(this.FolderListViewModel?.GetFolderItem(0));
@@ -166,19 +177,24 @@ namespace NeeView
                 _lastPlaceDictionary.TryGetValue(place, out select);
             }
 
+            if (options.HasFlag(FolderSetPlaceOption.IsTopSelect))
+            {
+                select = null;
+            }
+
             // 更新が必要であれば、新しいFolderListViewを作成する
             if (CheckFolderListUpdateneNcessary(place))
             {
                 _isDarty = false;
 
                 // FolderListView 更新
-                this.FolderListView = CreateFolderListView(place, select, isFocus);
+                this.FolderListView = CreateFolderListView(place, select, options.HasFlag(FolderSetPlaceOption.IsFocus));
 
                 // 最終フォルダ更新
                 ModelContext.BookHistory.LastFolder = _place;
 
                 // 履歴追加
-                if (updateHistory)
+                if (options.HasFlag(FolderSetPlaceOption.IsUpdateHistory))
                 {
                     if (place != _history.GetCurrent())
                     {
@@ -251,7 +267,7 @@ namespace NeeView
             var view = new FolderListView(vm, isFocus);
 
             view.Decided += (s, e) => this.BookHub.RequestLoad(e, null, BookLoadOption.SkipSamePlace, false);
-            view.Moved += (s, e) => this.SetPlace(e, null, true, true);
+            view.Moved += (s, e) => this.SetPlace(e, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
             view.MovedParent += (s, e) => this.MoveToParent_Execute();
             view.MovedHome += (s, e) => this.MoveToHome.Execute(null);
             view.MovedPrevious += (s, e) => this.MoveToPrevious.Execute(null);
@@ -293,7 +309,7 @@ namespace NeeView
             if (_bookHub == null) return;
 
             var place = _bookHub.GetFixedHome();
-            SetPlace(place, null, true, true);
+            SetPlace(place, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.IsTopSelect);
         }
 
 
@@ -316,7 +332,7 @@ namespace NeeView
             if (!_history.CanPrevious()) return;
 
             var place = _history.GetPrevious();
-            SetPlace(place, null, true, false);
+            SetPlace(place, null, FolderSetPlaceOption.IsFocus);
             _history.Move(-1);
         }
 
@@ -340,7 +356,7 @@ namespace NeeView
             if (!_history.CanNext()) return;
 
             var place = _history.GetNext();
-            SetPlace(place, null, true, false);
+            SetPlace(place, null, FolderSetPlaceOption.IsFocus);
             _history.Move(+1);
         }
 
@@ -368,7 +384,7 @@ namespace NeeView
         private void MoveToHistory_Executed(KeyValuePair<int, string> item)
         {
             var place = _history.GetHistory(item.Key);
-            SetPlace(place, null, true, false);
+            SetPlace(place, null, FolderSetPlaceOption.IsFocus);
             _history.SetCurrent(item.Key + 1);
         }
 
@@ -391,7 +407,7 @@ namespace NeeView
         {
             if (_place == null) return;
             var parent = System.IO.Path.GetDirectoryName(_place);
-            SetPlace(parent, _place, true, true);
+            SetPlace(parent, _place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
         }
 
 
@@ -411,7 +427,7 @@ namespace NeeView
             if (place != null)
             {
                 _isDarty = true; // 強制更新
-                SetPlace(System.IO.Path.GetDirectoryName(place), place, true, true);
+                SetPlace(System.IO.Path.GetDirectoryName(place), place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
 
                 FocusSelectedItem(true);
             }
@@ -431,7 +447,8 @@ namespace NeeView
                 if (this.FolderListViewModel == null || !this.FolderListViewModel.Contains(e.Path)) return;
             }
 
-            SetPlace(System.IO.Path.GetDirectoryName(e.Path), e.Path, e.IsFocus, true);
+            var options = (e.IsFocus ? FolderSetPlaceOption.IsFocus : FolderSetPlaceOption.None) | FolderSetPlaceOption.IsUpdateHistory;
+            SetPlace(System.IO.Path.GetDirectoryName(e.Path), e.Path, options);
         }
 
         /// <summary>
@@ -444,7 +461,9 @@ namespace NeeView
             if (this.FolderListViewModel == null) return;
 
             _isDarty = force || this.FolderListViewModel.IsDarty();
-            SetPlace(_place, null, isFocus, true);
+
+            var options = (isFocus ? FolderSetPlaceOption.IsFocus : FolderSetPlaceOption.None) | FolderSetPlaceOption.IsUpdateHistory;
+            SetPlace(_place, null, options);
         }
 
         /// <summary>
@@ -505,7 +524,7 @@ namespace NeeView
             var item = this.FolderListViewModel?.GetFolderItem(param.Distance);
             if (item != null)
             {
-                SetPlace(_place, item.TargetPath, false, true);
+                SetPlace(_place, item.TargetPath, FolderSetPlaceOption.IsUpdateHistory);
                 BookHub.RequestLoad(item.TargetPath, null, param.BookLoadOption, false);
                 e.Result = true;
             }

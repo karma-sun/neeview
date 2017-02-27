@@ -94,7 +94,8 @@ namespace NeeView
         /// <param name="isFocus"></param>
         public void SetPlace(string place, string select, bool isFocus)
         {
-            _VM.SetPlace(place, select, isFocus, true);
+            var oprions = (isFocus ? FolderSetPlaceOption.IsFocus : FolderSetPlaceOption.None) | FolderSetPlaceOption.IsUpdateHistory;
+            _VM.SetPlace(place, select, oprions);
         }
 
 
@@ -136,11 +137,4 @@ namespace NeeView
             menu.ItemsSource = _VM.GetHistory(+1, 10);
         }
     }
-
-
-
-
-
-
-
 }

@@ -137,6 +137,7 @@
 
     <DockPanel>
 
+        <!--#region Development -->
         <!-- 開発用 ページリスト -->
         <!--
         <ScrollViewer x:Name="DevPageList" DockPanel.Dock="Right" Width="300" Panel.ZIndex="100" HorizontalScrollBarVisibility="Auto"
@@ -168,6 +169,8 @@
             <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[3].Message}"/>
         </DockPanel>
         -->
+        <!--#endregion-->
+
 
 
         <!-- 製品表示領域 -->

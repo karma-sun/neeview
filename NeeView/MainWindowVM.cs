@@ -2209,6 +2209,14 @@ namespace NeeView
                             content.Info = filePageContext.Info;
                             content.Info.Decoder = null;
                         }
+                        else
+                        {
+                            var index = contents.Count;
+                            if (Contents[index].IsValid)
+                            {
+                                content.Size = Contents[index].Size;
+                            }
+                        }
 
                         contents.Add(content);
                     }

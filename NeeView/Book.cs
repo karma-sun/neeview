@@ -308,6 +308,10 @@ namespace NeeView
         // 排他処理用ロックオブジェクト
         private object _lock = new object();
 
+        /// <summary>
+        /// FastAction property.
+        /// </summary>
+        public bool FastAction { get; set; } = false;
 
         // 本の読み込み
         #region LoadBook
@@ -361,7 +365,7 @@ namespace NeeView
                 // 圧縮ファイルは再帰させる
                 option |= BookLoadOption.Recursive;
             }
-            
+
             PagePosition position = _firstPosition;
             int direction = 1;
 
@@ -1008,6 +1012,11 @@ namespace NeeView
                 return;
             }
 
+            if (FastAction)
+            {
+                _currentSource = source;
+            }
+
             // view pages
             var viewPages = new List<Page>();
             for (int i = 0; i < source.Size; ++i)
@@ -1034,7 +1043,16 @@ namespace NeeView
             if (isPreLoad) PreLoad(source);
 
             // wait load
-            await Task.WhenAll(tlist);
+            if (FastAction)
+            {
+                await Task.Run(() => Task.WaitAll(tlist.ToArray(), 100, token));
+                //await Task.Yield();
+            }
+            else
+            {
+                await Task.WhenAll(tlist);
+                //await Task.Run(() => Task.WaitAll(tlist.ToArray(), token));
+            }
 
             // update contents
             _viewContext = CreateViewPageContext(source);
@@ -1057,7 +1075,78 @@ namespace NeeView
             PageChanged?.Invoke(this, _viewContext.Position.Index);
 
             // ページ破棄
-            if (!AllowPreLoad) ClearAllPages();
+            if (FastAction)
+            {
+                if (!AllowPreLoad) ClearAllPages();
+            }
+            else
+            { 
+                if (!AllowPreLoad) ClearAllPages(viewPages.Where(e => !e.IsContentAlived).ToList());
+            }
+
+            // 間に合わなかった表示更新を登録
+            if (FastAction)
+            {
+                _oldSource = _currentSource;
+                foreach (var item in _viewContext.ViewContentsSource.Where(i => i.Source == null))
+                {
+                    Debug.WriteLine($"Delay! {item.Page.FileName}");
+
+                    var page = Pages[item.Page.Index];
+                    Debug.WriteLine($"{page == item.Page}");
+                    // TODO: 厳密なスレッドタイミングの対処
+                    if (page.IsContentAlived)
+                    {
+                        UpdateViewContents(source);
+                    }
+                    else
+                    {
+                        page.Loaded += Page_Loaded;
+                    }
+                }
+            }
+        }
+
+        ViewPageContextSource _currentSource;
+        ViewPageContextSource _oldSource;
+
+        private void Page_Loaded(object sender, bool e)
+        {
+            var page = (Page)sender;
+            page.Loaded -= Page_Loaded;
+
+            if (!e) return;
+
+            if (_currentSource != _oldSource)
+            {
+                Debug.WriteLine("DelayLoad Canceled!");
+                return;
+            }
+
+            UpdateViewContents(_oldSource);
+        }
+
+        //
+        public void UpdateViewContents(ViewPageContextSource source)
+        {
+            // update contents
+            _viewContext = CreateViewPageContext(source);
+
+            // notice ViewContentsChanged
+            // TODO: 表示の更新だけという通知
+            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()
+            {
+                Type = ViewSourceType.Content,
+                Sources = _viewContext.ViewContentsSource,
+                Direction = _viewContext.Direction
+            }));
+
+            // TODO: ページ番号とかの整合性
+            // change page
+            //DisplayIndex = _viewContext.Position.Index;
+
+            // notice PropertyChanged
+            //PageChanged?.Invoke(this, _viewContext.Position.Index);
         }
 
         // 見開きモードでも単独表示するべきか判定
@@ -1214,6 +1303,18 @@ namespace NeeView
 
             // 保持ページ更新
             _keepPages = new List<Page>();
+        }
+
+        // 全ページコンテンツの削除を行う
+        private void ClearAllPages(List<Page> keeps)
+        {
+            foreach (var page in _keepPages.Where(e => !keeps.Contains(e)))
+            {
+                page.Close();
+            }
+
+            // 保持ページ更新
+            _keepPages = keeps; // new List<Page>();
         }
 
 

@@ -179,10 +179,10 @@ namespace NeeView
 
 
         // コンテンツ幅
-        public double Width { get; protected set; }
+        public double Width { get; protected set; } = 590; //842px X 595px
 
         // コンテンツ高
-        public double Height { get; protected set; }
+        public double Height { get; protected set; } = 840; //
 
         // ワイド判定用縦横比
         public static double WideRatio { get; set; }

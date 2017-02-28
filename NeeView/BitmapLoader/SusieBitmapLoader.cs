@@ -7,12 +7,28 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
+    public class SusieIOException : Exception
+    {
+        public SusieIOException() : base("Susieでの画像取得に失敗しました。")
+        {
+        }
+
+        public SusieIOException(string message) : base(message)
+        {
+        }
+
+        public SusieIOException(string message, Exception inner) : base(message, inner)
+        {
+        }
+    }
+
     /// <summary>
     /// Susie画像ローダー
     /// </summary>
@@ -47,7 +63,7 @@ namespace NeeView
             var bmpSource = ModelContext.Susie?.GetPicture(entry.EntryName, buff, true, out _susiePlugin); // ファイル名は識別用
             if (bmpSource == null)
             {
-                throw new ApplicationException("Susieでの読込に失敗しました");
+                throw new SusieIOException();
             }
 
             var info = new FileBasicInfo();
@@ -68,7 +84,10 @@ namespace NeeView
             if (!IsEnable) return null;
 
             var bmpSource = ModelContext.Susie?.GetPictureFromFile(fileName, true, out _susiePlugin);
-            if (bmpSource == null) return null;
+            if (bmpSource == null)
+            {
+                throw new SusieIOException();
+            }
 
             var info = new FileBasicInfo();
             info.FileSize = entry.FileSize;

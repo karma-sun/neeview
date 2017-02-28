@@ -41,71 +41,11 @@ namespace NeeView
         }
 
 
-
-        // サムネイルロード
-        protected override BitmapContent LoadThumbnail(int size)
-        {
-            try
-            {
-                var bitmapLoader = new DefaultBitmapLoader();
-                BitmapContent bmp;
-
-                using (var stream = Entry.OpenEntry())
-                {
-                    bmp = bitmapLoader.LoadThmbnail(stream, Entry, IsEnableExif, size);
-                }
-
-                if (bmp != null)
-                {
-                    if (bmp.Info != null) bmp.Info.Archiver = Entry.Archiver.ToString();
-                    return bmp;
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"{e.Message}\nat '{FileName}' by Thmbnail");
-            }
-
-            return null;
-        }
-
-
         // Bitmapロード
         private BitmapContent LoadBitmap()
         {
-            foreach (var loaderType in ModelContext.BitmapLoaderManager.OrderList)
-            {
-                try
-                {
-                    var bitmapLoader = BitmapLoaderManager.Create(loaderType);
-                    if (!bitmapLoader.IsEnabled) continue;
-
-                    BitmapContent bmp;
-                    if (Entry.IsFileSystem)
-                    {
-                        bmp = bitmapLoader.LoadFromFile(Entry.GetFileSystemPath(), Entry, IsEnableExif);
-                    }
-                    else
-                    {
-                        using (var stream = Entry.OpenEntry())
-                        {
-                            bmp = bitmapLoader.Load(stream, Entry, IsEnableExif);
-                        }
-                    }
-
-                    if (bmp != null)
-                    {
-                        if (bmp.Info != null) bmp.Info.Archiver = Entry.Archiver.ToString();
-                        return bmp;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine($"{e.Message}\nat '{FileName}' by {loaderType}");
-                }
-            }
-
-            throw new ApplicationException("画像の読み込みに失敗しました");
+            var loader = new BitmapLoader(Entry, IsEnableExif);
+            return loader.Load();
         }
 
 
@@ -126,8 +66,9 @@ namespace NeeView
         {
             try
             {
-                var bitmapContent = LoadBitmap();
-                if (bitmapContent == null) throw new ApplicationException("cannot load by BitmapImge.");
+                var bitmapLoader = new BitmapLoader(Entry, IsEnableExif);
+                var bitmapContent = bitmapLoader.Load();
+                if (bitmapContent == null) throw new ApplicationException("画像の読み込みに失敗しました。");
                 var bitmapSource = bitmapContent.Source;
                 Width = bitmapSource.PixelWidth;
                 Height = bitmapSource.PixelHeight;

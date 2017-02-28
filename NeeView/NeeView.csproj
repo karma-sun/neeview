@@ -79,6 +79,7 @@
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
     <Compile Include="Archiver\FileProxy.cs" />
+    <Compile Include="BitmapLoader\BitmapLoader.cs" />
     <Compile Include="BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
     <Compile Include="CommandResetWindow.xaml.cs">

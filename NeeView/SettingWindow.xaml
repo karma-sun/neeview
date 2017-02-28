@@ -121,7 +121,7 @@
                         <TextBlock Text="メモリ関連" Style="{StaticResource Header}" />
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="メモリ開放をシステムに任せる"
-                                      ToolTip="システムに任せるとメモリ消費が増えるように見えますが、メモリが足りなくなると自動的に開放されるため問題ありません&#xa;このチェックをはずすと使用しなくなった画像のメモリを即時開放しますが、動作が重くなる可能性があります"
+                                      ToolTip="OFFの時は画像非表示単位でメモリ開放を行います"
                                       IsChecked="{Binding Setting.ViewMemento.IsAutoGC}" />
                             <StackPanel Style="{StaticResource ItemStackPanel}"
                                         ToolTip="先読みは前後のページを保持するためメモリを消費します&#xa;「自動」にすると画像サイズに応じで先読み有効無効を切り替えます">

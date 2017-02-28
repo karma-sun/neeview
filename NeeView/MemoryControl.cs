@@ -39,14 +39,27 @@ namespace NeeView
         /// <param name="dispatcher"></param>
         public MemoryControl(Dispatcher dispatcher)
         {
-            _delayAction = new DelayAction(dispatcher, TimeSpan.FromSeconds(0.1), () => GC.Collect(), TimeSpan.FromMilliseconds(100));
+            _delayAction = new DelayAction(dispatcher, TimeSpan.FromSeconds(0.2), GarbageCollectCore, TimeSpan.FromMilliseconds(100));
+        }
+
+        //
+        private void GarbageCollectCore()
+        {
+            GC.Collect();
         }
 
         /// <summary>
         /// GCリクエスト
         /// </summary>
-        public void GarbageCollect()
+        public void GarbageCollect(bool force = false)
         {
+            if (force)
+            {
+                _delayAction.Cancel();
+                GarbageCollectCore();
+                return;
+            }
+
             if (IsAutoGC) return;
 
             _delayAction.Request();

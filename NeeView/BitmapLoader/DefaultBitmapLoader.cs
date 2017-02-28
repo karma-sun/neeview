@@ -151,14 +151,18 @@ namespace NeeView
                 metadata = bitmapFrame.Metadata as BitmapMetadata;
                 info.Decoder = bitmapFrame.Decoder.CodecInfo.FriendlyName;
             }
-            catch(OutOfMemoryException)
+            catch (OutOfMemoryException)
             {
                 throw;
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
+                source = null;
+            }
 
+            if (source == null)
+            {
                 // BitmapFrameが失敗する場合はBitmapImageでデコード
                 stream.Seek(0, SeekOrigin.Begin);
                 BitmapImage bmpImage = new BitmapImage();
@@ -172,6 +176,13 @@ namespace NeeView
                 source = bmpImage;
                 metadata = null;
                 info.Decoder = ".Net BitmapImage";
+            }
+
+            // out of memory?
+            if (entry.FileSize > 100 * 1024 && source.PixelHeight == 1 && source.PixelWidth == 1)
+            {
+                Debug.WriteLine("1x1!?");
+                throw new OutOfMemoryException();
             }
 
             info.FileSize = entry.FileSize;

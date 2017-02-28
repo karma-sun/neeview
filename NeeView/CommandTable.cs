@@ -18,6 +18,13 @@ using System.Windows.Resources;
 
 namespace NeeView
 {
+    public enum InputSceme
+    {
+        TypeA, // 標準
+        TypeB, // ホイールでページ送り
+        TypeC, // クリックでページ送り
+    };
+
     /// <summary>
     /// コマンド設定テーブル
     /// </summary>
@@ -60,11 +67,43 @@ namespace NeeView
         // 初期設定
         private static Memento s_defaultMemento;
 
-        // 初期設定取得
-        public static Memento CreateDefaultMemento()
+
+        /// <summary>
+        /// 初期設定生成
+        /// </summary>
+        /// <param name="type">入力スキーム</param>
+        /// <returns></returns>
+        public static Memento CreateDefaultMemento(InputSceme type)
         {
-            return s_defaultMemento.Clone();
+            var memento = s_defaultMemento.Clone();
+
+            // Type.M
+            switch (type)
+            {
+                case InputSceme.TypeA: // default
+                    break;
+
+                case InputSceme.TypeB: // wheel page, right click contextmenu
+                    memento.Elements[CommandType.NextScrollPage].ShortCutKey = null;
+                    memento.Elements[CommandType.PrevScrollPage].ShortCutKey = null;
+                    memento.Elements[CommandType.NextPage].ShortCutKey = "Left,WheelDown";
+                    memento.Elements[CommandType.PrevPage].ShortCutKey = "Right,WheelUp";
+                    memento.Elements[CommandType.OpenContextMenu].ShortCutKey = "RightClick";
+                    break;
+
+                case InputSceme.TypeC: // click page
+                    memento.Elements[CommandType.NextScrollPage].ShortCutKey = null;
+                    memento.Elements[CommandType.PrevScrollPage].ShortCutKey = null;
+                    memento.Elements[CommandType.NextPage].ShortCutKey = "Left,LeftClick";
+                    memento.Elements[CommandType.PrevPage].ShortCutKey = "Right,RightClick";
+                    memento.Elements[CommandType.ViewScrollUp].ShortCutKey = "WheelUp";
+                    memento.Elements[CommandType.ViewScrollDown].ShortCutKey = "WheelDown";
+                    break;
+            }
+
+            return memento;
         }
+
 
         // コマンドターゲット設定
         public void SetTarget(MainWindowVM vm, BookHub book)

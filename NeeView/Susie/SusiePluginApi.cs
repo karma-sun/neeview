@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -450,16 +451,26 @@ namespace Susie
                 {
                     throw;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    BitmapImage bmpImage = new BitmapImage();
-                    bmpImage.BeginInit();
-                    bmpImage.CacheOption = BitmapCacheOption.OnLoad;
-                    bmpImage.StreamSource = ms;
-                    bmpImage.EndInit();
-                    bmpImage.Freeze();
-                    return bmpImage;
+                    Debug.WriteLine(e.Message);
                 }
+
+                BitmapImage bmpImage = new BitmapImage();
+                bmpImage.BeginInit();
+                bmpImage.CacheOption = BitmapCacheOption.OnLoad;
+                bmpImage.StreamSource = ms;
+                bmpImage.EndInit();
+                bmpImage.Freeze();
+
+                // out of memory?
+                if (ms.Length > 100 * 1024 && bmpImage.PixelHeight == 1 && bmpImage.PixelWidth == 1)
+                {
+                    Debug.WriteLine("1x1!?");
+                    throw new OutOfMemoryException();
+                }
+
+                return bmpImage;
             }
         }
 

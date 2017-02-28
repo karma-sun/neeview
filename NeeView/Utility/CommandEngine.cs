@@ -203,6 +203,7 @@ namespace NeeView.Utility
             {
                 _cancellationTokenSource.Cancel();
                 _command?.Cancel();
+                _command = null;
             }
         }
 
@@ -234,6 +235,7 @@ namespace NeeView.Utility
                         }
 
                         await _command?.ExecuteAsync();
+                        _command = null;
                     }
                 }
             }
@@ -244,6 +246,10 @@ namespace NeeView.Utility
             {
                 Action<Exception> action = (exception) => { throw new ApplicationException("CommandEngineException", exception); };
                 await App.Current.Dispatcher.BeginInvoke(action, e);
+            }
+            finally
+            {
+                _command = null;
             }
         }
     }

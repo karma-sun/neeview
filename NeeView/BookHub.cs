@@ -72,7 +72,7 @@ namespace NeeView
     }
 
     //
-    public class BookUnit : IDisposable
+    public class BookUnit
     {
         public Book Book { get; set; }
 
@@ -82,16 +82,6 @@ namespace NeeView
         public BookUnit(Book book)
         {
             Book = book;
-        }
-
-        public void Dispose()
-        {
-            Book?.Dispose();
-        }
-
-        public async Task DisposeAsync()
-        {
-            await Book?.DisposeAsync();
         }
 
         public BookMementoType BookMementoType
@@ -353,6 +343,16 @@ namespace NeeView
         public Book CurrentBook => Current?.Book;
         public BookUnit Current { get; private set; }
 
+        private async Task ReleaseCurrentAsync()
+        {
+            if (Current != null)
+            {
+                var current = Current;
+                Current = null;
+                await current.Book?.DisposeAsync();
+            }
+        }
+
         // アドレス
         #region Property: Address
         private string _address;
@@ -480,11 +480,7 @@ namespace NeeView
             SaveBookMemento();
 
             // 現在の本を開放
-            if (Current != null)
-            {
-                await Current?.DisposeAsync();
-                Current = null;
-            }
+            await ReleaseCurrentAsync();
 
             if (param.IsClearViewContent)
             {
@@ -877,7 +873,7 @@ namespace NeeView
             catch (OperationCanceledException)
             {
                 // 後始末
-                Current?.Dispose();
+                Current?.Book?.Dispose();
                 Current = null;
 
                 throw;
@@ -885,7 +881,7 @@ namespace NeeView
             catch (Exception e)
             {
                 // 後始末
-                Current?.Dispose();
+                Current?.Book?.Dispose();
                 Current = null;
 
                 // 履歴から消去

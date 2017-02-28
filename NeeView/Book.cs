@@ -311,7 +311,7 @@ namespace NeeView
         /// <summary>
         /// FastAction property.
         /// </summary>
-        public bool FastAction { get; set; } = false;
+        public bool FastAction { get; set; } = true;
 
         // 本の読み込み
         #region LoadBook
@@ -614,11 +614,6 @@ namespace NeeView
 
 
         // 廃棄処理
-        public void Dispose()
-        {
-            RequestDispose();
-        }
-
         public async Task DisposeAsync()
         {
             RequestDispose();
@@ -871,10 +866,16 @@ namespace NeeView
         // コマンド処理
         internal async Task Dispose_Executed(BookCommandDisposeArgs param, CancellationToken token)
         {
+            Dispose();
+            await Task.Yield();
+        }
+
+        public void Dispose()
+        {
             Terminate();
             _commandEngine.Terminate();
+            _commandEngine = null;
             _isDisposed = true;
-            await Task.Yield();
         }
 
         internal async Task Remove_Executed(BookCommandRemoveArgs param, CancellationToken token)
@@ -1075,12 +1076,12 @@ namespace NeeView
             PageChanged?.Invoke(this, _viewContext.Position.Index);
 
             // ページ破棄
-            if (FastAction)
+            if (!FastAction)
             {
                 if (!AllowPreLoad) ClearAllPages();
             }
             else
-            { 
+            {
                 if (!AllowPreLoad) ClearAllPages(viewPages.Where(e => !e.IsContentAlived).ToList());
             }
 
@@ -1093,7 +1094,6 @@ namespace NeeView
                     Debug.WriteLine($"Delay! {item.Page.FileName}");
 
                     var page = Pages[item.Page.Index];
-                    Debug.WriteLine($"{page == item.Page}");
                     // TODO: 厳密なスレッドタイミングの対処
                     if (page.IsContentAlived)
                     {
@@ -1101,6 +1101,10 @@ namespace NeeView
                     }
                     else
                     {
+                        // TODO: キャンセルされた時にイベントが発行されない問題
+                        // 発行されなくてもいいがイベント登録が解除されないとまずい
+                        // LoadTaskComplete?
+                        // グローバルなイベントにしてそれで判断？
                         page.Loaded += Page_Loaded;
                     }
                 }
@@ -1115,7 +1119,11 @@ namespace NeeView
             var page = (Page)sender;
             page.Loaded -= Page_Loaded;
 
+            Debug.WriteLine("DelayLoad..");
+
             if (!e) return;
+
+            UpdatePreLoadStatus(page);
 
             if (_currentSource != _oldSource)
             {
@@ -1133,7 +1141,7 @@ namespace NeeView
             _viewContext = CreateViewPageContext(source);
 
             // notice ViewContentsChanged
-            // TODO: 表示の更新だけという通知
+            // TODO: 表示の更新だけという通知。必要？
             App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()
             {
                 Type = ViewSourceType.Content,
@@ -1209,6 +1217,9 @@ namespace NeeView
             }
 
             // 先読み可能判定
+            UpdatePreLoadStatus(contentsSource);
+
+#if false
             if (PreLoadMode == PreLoadMode.AutoPreLoad)
             {
                 foreach (var content in contentsSource)
@@ -1230,7 +1241,7 @@ namespace NeeView
                     }
                 }
             }
-
+#endif
 
             // 並び順補正
             if (source.Direction < 0 && infos.Count >= 2)
@@ -1262,6 +1273,40 @@ namespace NeeView
             context.ViewContentsSource = contentsSource;
 
             return context;
+        }
+
+        // 先読み判定更新
+        private void UpdatePreLoadStatus(List<ViewContentSource> contentsSource)
+        {
+            if (PreLoadMode != PreLoadMode.AutoPreLoad) return;
+
+            foreach (var content in contentsSource)
+            {
+                UpdatePreLoadStatus(content.Page);
+            }
+        }
+
+        //
+        private void UpdatePreLoadStatus(Page page)
+        {
+            if (PreLoadMode != PreLoadMode.AutoPreLoad) return;
+
+            // 判定
+            if (page.Width * page.Height > PreLoadLimitSize)
+            {
+                Debug.WriteLine("PreLoad: Disabled");
+                _canPreLoadCount = 0;
+                _canPreLoad = false;
+            }
+            else if (page.IsContentAlived)
+            {
+                _canPreLoadCount++;
+                if (!_canPreLoad && _canPreLoadCount > 3) // 一定回数連続で規定サイズ以下なら先読み有効
+                {
+                    Debug.WriteLine("PreLoad: Enabled");
+                    _canPreLoad = true;
+                }
+            }
         }
 
 
@@ -1466,6 +1511,8 @@ namespace NeeView
         // 廃棄処理
         private void Terminate()
         {
+            _viewContext = null;
+
             Pages?.ForEach(e => e?.Close());
             Pages?.Clear();
 

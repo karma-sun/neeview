@@ -496,6 +496,7 @@
     <None Include="App.manifest" />
     <Resource Include="Effects\Shaders\LevelEffect.ps" />
     <Resource Include="Effects\Shaders\ColorSelectEffect.ps" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Effects\Shaders\FxCompile.ps1" />
     <Resource Include="Effects\Shaders\HsvEffect.ps" />
     <None Include="Properties\Settings.settings">

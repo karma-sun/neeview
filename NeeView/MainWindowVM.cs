@@ -164,6 +164,9 @@ namespace NeeView
         // インデックス更新
         public event EventHandler IndexChanged;
 
+        // 本を閉じた
+        public event EventHandler BookUnloaded;
+
         //
         public event EventHandler<PanelType> LeftPanelVisibled;
         public event EventHandler<PanelType> RightPanelVisibled;
@@ -1474,10 +1477,16 @@ namespace NeeView
         #endregion
 
         // ページリスト更新
+        // TODO: クリアしてもサムネイルのListBoxは項目をキャッシュしてしまうので、なんとかせよ
+        // サムネイル用はそれに特化したパーツのみ提供する？
+        // いや、ListBoxを独立させ、それ自体を作り直す方向で。
+        // 問い合わせがいいな。
+        // 問い合わせといえば、BitmapImageでOutOfMemoryが取得できない問題も。
         private void UpdatePageList()
         {
             var pages = BookHub.CurrentBook?.Pages;
             PageList = pages != null ? new ObservableCollection<Page>(pages) : null;
+
             PageListChanged?.Invoke(this, null);
 
             RaisePropertyChanged(nameof(IsPagemark));
@@ -1817,6 +1826,11 @@ namespace NeeView
             UpdateLastFiles();
 
             UpdateIndex();
+
+            if (BookHub.Current == null)
+            {
+                BookUnloaded?.Invoke(this, null);
+            }
 
 
 

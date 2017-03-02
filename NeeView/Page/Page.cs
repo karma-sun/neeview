@@ -136,8 +136,17 @@ namespace NeeView
             }
         }
 
-        //
+        /// <summary>
+        /// Content有効判定
+        /// </summary>
         public bool IsContentAlived => _content != null;
+
+        /// <summary>
+        /// Content情報有効判定
+        /// </summary>
+        public bool IsContentInfoAlive => IsContentAlived || Width != 0 || Height != 0;
+
+
 
         // 最小限のクローン
         public abstract Page TinyClone();

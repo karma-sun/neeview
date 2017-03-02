@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NeeView.Utility;
+using System.Diagnostics;
 
 namespace NeeView
 {
@@ -202,7 +204,13 @@ namespace NeeView
 
         protected override async Task ExecuteAsync(CancellationToken token)
         {
+            Debug.WriteLine($"MC: {_param.Step}");
             await _book.MovePage_Executed(_param, token);
+        }
+
+        public void Add(BookCommandMovePage a)
+        {
+            _param.Step += a._param.Step;
         }
     }
 
@@ -212,6 +220,33 @@ namespace NeeView
     /// </summary>
     internal class BookCommandEngine : Utility.CommandEngine
     {
+        /// <summary>
+        /// コマンド登録前処理
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        protected override bool OnEnqueueing(ICommand command)
+        {
+            if (_queue.Count == 0) return true;
+
+            // ページ移動コマンドはまとめる
+            var mc0 = command as BookCommandMovePage;
+            var mc1 = _queue.Peek() as BookCommandMovePage;
+            if (mc0 != null && mc1 != null)
+            {
+                mc1.Add(mc0);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// コマンド登録後処理
+        /// </summary>
+        /// <param name="cmd"></param>
         protected override void OnEnqueued(Utility.ICommand cmd)
         {
             // 優先度の高い、最新のコマンドのみ残す

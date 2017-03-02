@@ -2188,10 +2188,9 @@ namespace NeeView
                     if (source != null)
                     {
                         var content = new ViewContent();
-                        content.Content = source.CreateControl(
+                        content.Content = source.CreatePageContent(
                             new Binding(nameof(ForegroundBrush)) { Source = this },
-                            new Binding(nameof(BitmapScalingMode)) { Source = content },
-                            null //ShaderEffect //new Binding("ShaderEffect") { Source = this }
+                            new Binding(nameof(BitmapScalingMode)) { Source = content }
                         );
                         content.Size = new Size(source.Width, source.Height);
                         content.SourceSize = source.SourceSize;
@@ -2225,6 +2224,8 @@ namespace NeeView
                         }
                         else
                         {
+                            content.Content.SetText(LoosePath.GetFileName(source.FullPath));
+
                             if (content.Size.Width == 0 && content.Size.Height == 0)
                             {
                                 var index = contents.Count;
@@ -2431,7 +2432,7 @@ namespace NeeView
         {
             foreach (var content in Contents)
             {
-                if (content.Content != null && content.Content is Rectangle)
+                if (content.Content != null && content.Content.Element is Rectangle)
                 {
                     double diff = Math.Abs(content.Size.Width - content.Width * _DpiScaleFactor.X);
                     if (_IsDpiSquare && diff < 0.1 && _viewAngle == 0.0 && Math.Abs(_finalViewScale - 1.0) < 0.001)

@@ -863,7 +863,7 @@ namespace NeeView
                 UpdatePagemark();
 
                 // 最初のコンテンツ表示待ち
-                await Task.Run(() => book.ContentLoaded.Wait(token));
+                if (book.Pages.Count > 0) await Task.Run(() => book.ContentLoaded.Wait(token));
             }
             catch (OperationCanceledException)
             {

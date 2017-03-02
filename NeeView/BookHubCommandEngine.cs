@@ -110,12 +110,14 @@ namespace NeeView
         /// コマンド登録前処理
         /// </summary>
         /// <param name="command"></param>
-        protected override void OnEnqueueing(ICommand command)
+        protected override bool OnEnqueueing(ICommand command)
         {
             // 最新コマンド以外はキャンセル
             _command?.Cancel();
             _queue.ForEach(e => e.Cancel());
             _queue.Clear();
+
+            return true;
         }
 
         /// <summary>

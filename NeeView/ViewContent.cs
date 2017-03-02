@@ -34,8 +34,8 @@ namespace NeeView
 
         // コンテンツ コントロール
         #region Property: Content
-        private FrameworkElement _content;
-        public FrameworkElement Content
+        private PageContent _content;
+        public PageContent Content
         {
             get { return _content; }
             set { _content = value; RaisePropertyChanged(); }

@@ -129,7 +129,7 @@ namespace NeeView
 
 
         // コントロール作成
-        public FrameworkElement CreateControl(Binding foregroundBinding, Binding bitmapScalingModeBinding, Effect effect)
+        public FrameworkElement CreateControl(Binding foregroundBinding, Binding bitmapScalingModeBinding)
         {
             if (Source is BitmapContent)
             {
@@ -187,22 +187,6 @@ namespace NeeView
             }
             else
             {
-                var textblock = new TextBlock();
-                textblock.Text = LoosePath.GetFileName(this.FullPath); // Position.ToString();
-                textblock.Foreground = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
-                textblock.FontSize = 20;
-                textblock.Margin = new Thickness(10);
-                textblock.HorizontalAlignment = HorizontalAlignment.Center;
-
-                var stackpanel = new StackPanel();
-                stackpanel.VerticalAlignment = VerticalAlignment.Center;
-                stackpanel.Children.Add(textblock);
-
-                var grid = new Grid();
-                grid.Background = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
-                grid.UseLayoutRounding = true;
-                grid.SnapsToDevicePixels = true;
-
                 if (Thumbnail.IsValid)
                 {
                     var image = new Image();
@@ -210,19 +194,40 @@ namespace NeeView
                     image.Stretch = Stretch.Fill;
                     RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
                     //image.Effect = new BlurEffect() { Radius = 32, RenderingBias = RenderingBias.Quality };
-                    grid.Children.Add(image);
+                    return image;
                 }
 
-                grid.Children.Add(stackpanel);
-                return grid;
+                else
+                {
+                    var grid = new Grid();
+                    grid.Background = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
+                    return grid;
+                }
             }
-            //else
-            //{
-            //    return null;
-            //}
-            
+        }
+
+        /// <summary>
+        /// PageContent作成
+        /// </summary>
+        /// <param name="foregroundBinding"></param>
+        /// <param name="bitmapScalingModeBinding"></param>
+        /// <returns></returns>
+        public PageContent CreatePageContent(Binding foregroundBinding, Binding bitmapScalingModeBinding)
+        {
+            var element = CreateControl(foregroundBinding, bitmapScalingModeBinding);
+
+            var textblock = new TextBlock();
+            textblock.Text = LoosePath.GetFileName(this.FullPath); // Position.ToString();
+            textblock.Foreground = new SolidColorBrush(Color.FromRgb(0xCC, 0xCC, 0xCC));
+            textblock.FontSize = 20;
+            textblock.Margin = new Thickness(10);
+            textblock.HorizontalAlignment = HorizontalAlignment.Center;
+            textblock.VerticalAlignment = VerticalAlignment.Center;
+
+            return new PageContent(element, textblock);
         }
     }
+
 
     // 表示コンテンツソースの種類
     public enum ViewSourceType

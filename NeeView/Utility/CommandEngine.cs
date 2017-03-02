@@ -151,10 +151,12 @@ namespace NeeView.Utility
         {
             lock (_lock)
             {
-                OnEnqueueing(command);
-                _queue.Enqueue(command);
-                OnEnqueued(command);
-                _ready.Set();
+                if (OnEnqueueing(command))
+                {
+                    _queue.Enqueue(command);
+                    OnEnqueued(command);
+                    _ready.Set();
+                }
             }
         }
 
@@ -162,9 +164,9 @@ namespace NeeView.Utility
         /// Queue登録前の処理
         /// </summary>
         /// <param name="command"></param>
-        protected virtual void OnEnqueueing(ICommand command)
+        protected virtual bool OnEnqueueing(ICommand command)
         {
-            // nop
+            return true;
         }
 
         /// <summary>

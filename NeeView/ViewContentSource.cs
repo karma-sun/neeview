@@ -28,6 +28,9 @@ namespace NeeView
         // コンテンツソース
         public object Source { get; set; }
 
+        // コンテンツサムネイル
+        public Thumbnail Thumbnail { get; set; }
+
         // コンテンツソースサイズ
         public Size SourceSize { get; set; }
 
@@ -59,6 +62,7 @@ namespace NeeView
         {
             Page = page;
             Source = page.Content;
+            Thumbnail = page.Thumbnail2;
             SourceSize = new Size(page.Width, page.Height);
             Width = size == 2 ? page.Width : Math.Floor(page.Width * 0.5 + 0.4);
             Height = page.Height;
@@ -185,26 +189,30 @@ namespace NeeView
             {
                 var textblock = new TextBlock();
                 textblock.Text = LoosePath.GetFileName(this.FullPath); // Position.ToString();
-                textblock.Foreground = Brushes.DarkGray; // new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
+                textblock.Foreground = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
                 textblock.FontSize = 20;
                 textblock.Margin = new Thickness(10);
                 textblock.HorizontalAlignment = HorizontalAlignment.Center;
 
-                var textblock2 = new TextBlock();
-                textblock2.Text = "Loading ...";
-                textblock2.Foreground = Brushes.DarkGray; // new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
-                textblock2.FontSize = 15;
-                textblock2.HorizontalAlignment = HorizontalAlignment.Center;
-
                 var stackpanel = new StackPanel();
                 stackpanel.VerticalAlignment = VerticalAlignment.Center;
                 stackpanel.Children.Add(textblock);
-                stackpanel.Children.Add(textblock2);
 
                 var grid = new Grid();
-                grid.Background = Brushes.Gray;
+                grid.Background = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
                 grid.UseLayoutRounding = true;
                 grid.SnapsToDevicePixels = true;
+
+                if (Thumbnail.IsValid)
+                {
+                    var image = new Image();
+                    image.Source = Thumbnail.CreateBitmap();
+                    image.Stretch = Stretch.Fill;
+                    RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
+                    //image.Effect = new BlurEffect() { Radius = 32, RenderingBias = RenderingBias.Quality };
+                    grid.Children.Add(image);
+                }
+
                 grid.Children.Add(stackpanel);
                 return grid;
             }

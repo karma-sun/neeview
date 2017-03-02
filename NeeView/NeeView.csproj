@@ -131,6 +131,8 @@
     </Compile>
     <Compile Include="MemoryControl.cs" />
     <Compile Include="MouseLoupe.cs" />
+    <Compile Include="Page\AliveThumbnailList.cs" />
+    <Compile Include="Page\Thumbnail.cs" />
     <Compile Include="SizeString.cs" />
     <Compile Include="Utility\AsyncronousAction.cs" />
     <Compile Include="Utility\CommandEngine.cs" />
@@ -496,7 +498,6 @@
     <None Include="App.manifest" />
     <Resource Include="Effects\Shaders\LevelEffect.ps" />
     <Resource Include="Effects\Shaders\ColorSelectEffect.ps" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Effects\Shaders\FxCompile.ps1" />
     <Resource Include="Effects\Shaders\HsvEffect.ps" />
     <None Include="Properties\Settings.settings">

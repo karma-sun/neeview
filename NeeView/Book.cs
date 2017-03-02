@@ -75,6 +75,9 @@ namespace NeeView
         // サムネイル更新
         public event EventHandler<Page> ThumbnailChanged;
 
+        // 最初のコンテンツ表示フラグ
+        public ManualResetEventSlim ContentLoaded = new ManualResetEventSlim();
+
         // Disposed
         private volatile bool _isDisposed;
 
@@ -261,7 +264,7 @@ namespace NeeView
         public int DisplayIndex { get; set; }
 
         // 表示ページコンテキスト
-        private ViewPageContext _viewContext = new ViewPageContext();
+        private volatile ViewPageContext _viewContext = new ViewPageContext();
 
         // 表示ページ番号
         public int GetViewPageindex() => _viewContext.Position.Index;
@@ -334,7 +337,7 @@ namespace NeeView
             }
             catch
             {
-                Terminate();
+                Dispose();
                 throw;
             }
         }
@@ -372,11 +375,12 @@ namespace NeeView
             // 読み込み
             await ReadArchiveAsync(archiver, "", option, token);
 
-            // Pages Prefix
+            // Pages initialize
             var prefix = GetPagesPrefix();
             foreach (var page in Pages)
             {
                 page.Prefix = prefix;
+                page.Loaded += Page_Loaded;
             }
 
             // 初期ソート
@@ -405,6 +409,7 @@ namespace NeeView
 
             // 有効化
             Place = archiver.FileName;
+
 
 
             // 初期ページ設定
@@ -870,12 +875,30 @@ namespace NeeView
             await Task.Yield();
         }
 
+        /// <summary>
+        /// 終了処理
+        /// </summary>
         public void Dispose()
         {
-            Terminate();
-            _commandEngine.Terminate();
-            _commandEngine = null;
             _isDisposed = true;
+
+            lock (_lock)
+            {
+                _viewContext = null;
+
+                Pages?.ForEach(e => e?.Dispose());
+                Pages?.Clear();
+
+                _archivers?.ForEach(e => e.Dispose());
+                _archivers?.Clear();
+
+                _trashBox?.Clear();
+
+                _commandEngine.Terminate();
+                _commandEngine = null;
+            }
+
+            MemoryControl.Current.GarbageCollect();
         }
 
         internal async Task Remove_Executed(BookCommandRemoveArgs param, CancellationToken token)
@@ -1013,11 +1036,6 @@ namespace NeeView
                 return;
             }
 
-            if (FastAction)
-            {
-                _currentSource = source;
-            }
-
             // view pages
             var viewPages = new List<Page>();
             for (int i = 0; i < source.Size; ++i)
@@ -1047,115 +1065,82 @@ namespace NeeView
             if (FastAction)
             {
                 await Task.Run(() => Task.WaitAll(tlist.ToArray(), 100, token));
-                //await Task.Yield();
             }
             else
             {
-                await Task.WhenAll(tlist);
-                //await Task.Run(() => Task.WaitAll(tlist.ToArray(), token));
+                await Task.WhenAll(tlist.ToArray());
             }
-
-            // update contents
-            _viewContext = CreateViewPageContext(source);
-
             // task cancel?
             token.ThrowIfCancellationRequested();
 
-            // notice ViewContentsChanged
-            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()
-            {
-                Type = ViewSourceType.Content,
-                Sources = _viewContext.ViewContentsSource,
-                Direction = _viewContext.Direction
-            }));
+            // update contents
+            _viewContextSource = source;
+            UpdateViewContents();
 
-            // change page
-            DisplayIndex = _viewContext.Position.Index;
-
-            // notice PropertyChanged
-            PageChanged?.Invoke(this, _viewContext.Position.Index);
 
             // ページ破棄
-            if (!FastAction)
-            {
-                if (!AllowPreLoad) ClearAllPages();
-            }
-            else
-            {
-                if (!AllowPreLoad) ClearAllPages(viewPages.Where(e => !e.IsContentAlived).ToList());
-            }
-
-            // 間に合わなかった表示更新を登録
-            if (FastAction)
-            {
-                _oldSource = _currentSource;
-                foreach (var item in _viewContext.ViewContentsSource.Where(i => i.Source == null))
-                {
-                    Debug.WriteLine($"Delay! {item.Page.FileName}");
-
-                    var page = Pages[item.Page.Index];
-                    // TODO: 厳密なスレッドタイミングの対処
-                    if (page.IsContentAlived)
-                    {
-                        UpdateViewContents(source);
-                    }
-                    else
-                    {
-                        // TODO: キャンセルされた時にイベントが発行されない問題
-                        // 発行されなくてもいいがイベント登録が解除されないとまずい
-                        // LoadTaskComplete?
-                        // グローバルなイベントにしてそれで判断？
-                        page.Loaded += Page_Loaded;
-                    }
-                }
-            }
+            if (!AllowPreLoad) ClearAllPages(viewPages);
         }
 
-        ViewPageContextSource _currentSource;
-        ViewPageContextSource _oldSource;
+        volatile ViewPageContextSource _viewContextSource;
 
-        private void Page_Loaded(object sender, bool e)
+        /// <summary>
+        /// ページロード完了イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Page_Loaded(object sender, EventArgs e)
         {
+            if (!FastAction) return;
+
+            // 非同期なので一旦退避
+            var now = _viewContext;
+
+            if (now?.ViewContentsSource == null) return;
+
             var page = (Page)sender;
-            page.Loaded -= Page_Loaded;
 
-            Debug.WriteLine("DelayLoad..");
-
-            if (!e) return;
-
-            UpdatePreLoadStatus(page);
-
-            if (_currentSource != _oldSource)
+            // 現在表示に含まれているページ？
+            if (page.IsContentAlived && now.ViewContentsSource.Any(i => i.Source == null && i.Page == page))
             {
-                Debug.WriteLine("DelayLoad Canceled!");
-                return;
+                // 再更新
+                Debug.WriteLine($"Delay Loaded: {page.LastName}");
+                UpdateViewContents();
             }
-
-            UpdateViewContents(_oldSource);
         }
 
-        //
-        public void UpdateViewContents(ViewPageContextSource source)
+        /// <summary>
+        /// 表示コンテンツ更新
+        /// </summary>
+        public void UpdateViewContents()
         {
-            // update contents
-            _viewContext = CreateViewPageContext(source);
-
-            // notice ViewContentsChanged
-            // TODO: 表示の更新だけという通知。必要？
-            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()
+            lock (_lock)
             {
-                Type = ViewSourceType.Content,
-                Sources = _viewContext.ViewContentsSource,
-                Direction = _viewContext.Direction
-            }));
+                if (_isDisposed) return;
 
-            // TODO: ページ番号とかの整合性
-            // change page
-            //DisplayIndex = _viewContext.Position.Index;
+                // update contents
+                var viewContent = CreateViewPageContext(_viewContextSource);
+                _viewContext = viewContent;
 
-            // notice PropertyChanged
-            //PageChanged?.Invoke(this, _viewContext.Position.Index);
+                // notice ViewContentsChanged
+                App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()
+                {
+                    Type = ViewSourceType.Content,
+                    Sources = viewContent.ViewContentsSource,
+                    Direction = viewContent.Direction
+                }));
+
+                // change page
+                DisplayIndex = viewContent.Position.Index;
+
+                // notice PropertyChanged
+                PageChanged?.Invoke(this, viewContent.Position.Index);
+
+                // コンテンツ準備完了
+                ContentLoaded.Set();
+            }
         }
+
 
         // 見開きモードでも単独表示するべきか判定
         private bool IsSoloPage(int index)
@@ -1213,35 +1198,13 @@ namespace NeeView
             var contentsSource = new List<ViewContentSource>();
             foreach (var v in infos)
             {
-                contentsSource.Add(new ViewContentSource(Pages[v.Position.Index], v.Position, v.Size, BookReadOrder));
+                var page = Pages[v.Position.Index];
+                contentsSource.Add(new ViewContentSource(page, v.Position, v.Size, BookReadOrder));
             }
 
             // 先読み可能判定
             UpdatePreLoadStatus(contentsSource);
 
-#if false
-            if (PreLoadMode == PreLoadMode.AutoPreLoad)
-            {
-                foreach (var content in contentsSource)
-                {
-                    if (content.Page.Width * content.Page.Height > PreLoadLimitSize)
-                    {
-                        //Debug.WriteLine("PreLoad: Disabled");
-                        _canPreLoadCount = 0;
-                        _canPreLoad = false;
-                    }
-                    else
-                    {
-                        _canPreLoadCount++;
-                        if (!_canPreLoad && _canPreLoadCount > 3) // 一定回数連続で規定サイズ以下なら先読み有効
-                        {
-                            //Debug.WriteLine("PreLoad: Enabled");
-                            _canPreLoad = true;
-                        }
-                    }
-                }
-            }
-#endif
 
             // 並び順補正
             if (source.Direction < 0 && infos.Count >= 2)
@@ -1294,7 +1257,7 @@ namespace NeeView
             // 判定
             if (page.Width * page.Height > PreLoadLimitSize)
             {
-                Debug.WriteLine("PreLoad: Disabled");
+                //Debug.WriteLine("PreLoad: Disabled");
                 _canPreLoadCount = 0;
                 _canPreLoad = false;
             }
@@ -1303,7 +1266,7 @@ namespace NeeView
                 _canPreLoadCount++;
                 if (!_canPreLoad && _canPreLoadCount > 3) // 一定回数連続で規定サイズ以下なら先読み有効
                 {
-                    Debug.WriteLine("PreLoad: Enabled");
+                    //Debug.WriteLine("PreLoad: Enabled");
                     _canPreLoad = true;
                 }
             }
@@ -1329,7 +1292,7 @@ namespace NeeView
             {
                 if (!keepPages.Contains(page))
                 {
-                    page.Close();
+                    page.Unload();
                 }
             }
 
@@ -1343,7 +1306,7 @@ namespace NeeView
         {
             foreach (var page in _keepPages)
             {
-                page.Close();
+                page.Unload();
             }
 
             // 保持ページ更新
@@ -1355,7 +1318,7 @@ namespace NeeView
         {
             foreach (var page in _keepPages.Where(e => !keeps.Contains(e)))
             {
-                page.Close();
+                page.Unload();
             }
 
             // 保持ページ更新
@@ -1378,7 +1341,7 @@ namespace NeeView
                 if (0 <= index && index < Pages.Count)
                 {
                     Debug.Assert(_keepPages.Contains(Pages[index])); // 念のため
-                    Pages[index].Open(QueueElementPriority.Default, Page.OpenOption.WeakPriority);
+                    Pages[index].Load(QueueElementPriority.Default, Page.OpenOption.WeakPriority);
 
                     if (!_keepPages.Contains(Pages[index]))
                     {
@@ -1501,26 +1464,12 @@ namespace NeeView
 
             if (clear)
             {
-                _keepPages.ForEach(e => e?.Close());
+                _keepPages.ForEach(e => e?.Unload());
             }
 
             RequestSetPosition(_viewContext.Position, 1, true);
         }
 
-
-        // 廃棄処理
-        private void Terminate()
-        {
-            _viewContext = null;
-
-            Pages?.ForEach(e => e?.Close());
-            Pages?.Clear();
-
-            _archivers?.ForEach(e => e.Dispose());
-            _archivers?.Clear();
-
-            _trashBox?.Clear();
-        }
 
 
         #region Memento

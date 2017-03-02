@@ -27,13 +27,17 @@ namespace NeeView
         public object Sender { get; set; }
 
         // 処理
-        public Action<CancellationToken> Execute { get; set; }
+        public Action<ManualResetEventSlim, CancellationToken> Execute { get; set; }
+
+        // 完了フラグ
+        public ManualResetEventSlim Completed { get; set; } = new ManualResetEventSlim();
 
         // キャンセル時の処理
         public Action Cancel { get; set; }
 
         // キャンセルトークン
         public CancellationToken CancellationToken { get; set; }
+
     }
 
 
@@ -79,6 +83,24 @@ namespace NeeView
                 _jobEngine.ChangePriority(_job, priority);
                 Priority = priority;
             }
+        }
+
+        /// <summary>
+        /// JOB完了判定
+        /// </summary>
+        public bool IsCompleted
+        {
+            get { return _job.Completed.IsSet; }
+        }
+
+        /// <summary>
+        /// JOB完了まで待機
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task WaitAsync(CancellationToken token)
+        {
+            await Task.Run(() =>_job.Completed.Wait(token));
         }
     }
 
@@ -222,7 +244,7 @@ namespace NeeView
         /// <param name="cancelAction">キャンセル時の処理</param>
         /// <param name="priority">優先度</param>
         /// <returns>JobRequest</returns>
-        public JobRequest Add(object sender, Action<CancellationToken> action, Action cancelAction, QueueElementPriority priority, bool reverse = false)
+        public JobRequest Add(object sender, Action<ManualResetEventSlim, CancellationToken> action, Action cancelAction, QueueElementPriority priority, bool reverse = false)
         {
             var job = new Job();
             job.SerialNumber = _serialNumber++;
@@ -389,7 +411,7 @@ namespace NeeView
                 if (!job.CancellationToken.IsCancellationRequested)
                 {
                     Message = $"Job({job.SerialNumber}) execute ...";
-                    job.Execute(job.CancellationToken);
+                    job.Execute(job.Completed, job.CancellationToken);
                     Message = $"Job({job.SerialNumber}) execute done.";
                 }
 
@@ -398,6 +420,9 @@ namespace NeeView
                     job.Cancel?.Invoke();
                     Message = $"Job({job.SerialNumber}) canceled.";
                 }
+
+                // JOB完了
+                job.Completed.Set();
             }
 
             Debug.WriteLine("Task: Exit.");

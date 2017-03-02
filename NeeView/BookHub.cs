@@ -383,9 +383,6 @@ namespace NeeView
         // クリップボード設定
         public ClipboardUtility ClipboardUtility { get; set; } = new ClipboardUtility();
 
-        // ページ表示開始スレッドイベント
-        private ManualResetEvent _viewContentEvent = new ManualResetEvent(false);
-
         /// <summary>
         /// Home property.
         /// フォルダーリストのHOME
@@ -845,30 +842,28 @@ namespace NeeView
                 // ロード。非同期で行う
                 await book.LoadAsync(path, startEntry, option, token);
 
-                // ロード後にイベント設定
+                // カレントを設定し、開始する
+                Current = new BookUnit(book);
+                Current.LoadOptions = option;
+                Current.BookMementoUnit = unit;
+
+                // イベント設定
                 book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
-                book.ViewContentsChanged += (s, e) => ViewContentsChanged?.Invoke(s, e);
+                book.ViewContentsChanged += (s, e) => { if (Current != null) ViewContentsChanged?.Invoke(s, e); };
                 book.PageTerminated += OnPageTerminated;
                 book.DartyBook += (s, e) => RequestLoad(Address, null, BookLoadOption.ReLoad, false);
                 book.PagesSorted += (s, e) => PagesSorted?.Invoke(s, e);
                 book.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(s, e);
                 book.PageRemoved += OnPageRemoved;
 
-                // 最初のコンテンツ表示待ち設定
-                _viewContentEvent.Reset();
-                book.ViewContentsChanged += (s, e) => _viewContentEvent.Set();
-
-                // カレントを設定し、開始する
-                Current = new BookUnit(book);
-                Current.LoadOptions = option;
-                Current.BookMementoUnit = unit;
+                // 開始
                 Current.Book.Start();
 
                 // マーカー復元
                 UpdatePagemark();
 
                 // 最初のコンテンツ表示待ち
-                await Task.Run(() => _viewContentEvent.WaitOne());
+                await Task.Run(() => book.ContentLoaded.Wait(token));
             }
             catch (OperationCanceledException)
             {

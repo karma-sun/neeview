@@ -20,66 +20,9 @@ using System.Windows;
 namespace NeeView
 {
     /// <summary>
-    /// サムネイル有効ページ管理
-    /// </summary>
-    public class AliveThumbnailList : IDisposable
-    {
-        private LinkedList<Page> _list = new LinkedList<Page>();
-
-        private object _lock = new object();
-
-        // サムネイル有効ページを追加
-        public void Add(Page page)
-        {
-            if (page.Thumbnail != null)
-            {
-                lock (_lock)
-                {
-                    _list.AddFirst(page);
-                }
-            }
-        }
-
-        // サムネイル全開放
-        public void Clear()
-        {
-            lock (_lock)
-            {
-                foreach (var page in _list)
-                {
-                    page.CloseThumbnail();
-                }
-                _list.Clear();
-            }
-        }
-
-        // 終了処理
-        public void Dispose()
-        {
-            Clear();
-        }
-
-        // 有効数を超えるサムネイルは古いものから無効にする
-        public void Limited(int limit)
-        {
-            lock (_lock)
-            {
-                while (_list.Count > limit)
-                {
-                    var page = _list.Last();
-                    page.CloseThumbnail();
-
-                    _list.RemoveLast();
-                }
-            }
-        }
-    }
-
-
-    /// <summary>
     /// ページ
     /// </summary>
-    public abstract class Page : INotifyPropertyChanged
+    public abstract class Page : INotifyPropertyChanged, IDisposable
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -111,11 +54,10 @@ namespace NeeView
 
         #endregion
 
-        // コンテンツ更新イベント
-        public event EventHandler<bool> Loaded;
 
-        // サムネイル更新イベント
-        public event EventHandler<BitmapSource> ThumbnailChanged;
+        // コンテンツ更新イベント
+        public EventHandler Loaded;
+
 
         // アーカイブエントリ
         public ArchiveEntry Entry { get; protected set; }
@@ -146,43 +88,13 @@ namespace NeeView
         // ページ名：プレフィックスを除いたフルパス のディレクトリ名(整形済)
         public string SmartDirectoryName => LoosePath.GetDirectoryName(SmartFullPath).Replace('\\', '/');
 
-        // サムネイルがバナーであるかのフラグ
-        private bool _isBanner;
-
-        // サムネイル
-        private BitmapSource _thumbnail;
-        public BitmapSource Thumbnail
-        {
-            get { return _thumbnail; }
-
-            private set
-            {
-                if (_thumbnail != value)
-                {
-                    _thumbnail = value;
-                    ThumbnailChanged?.Invoke(this, _thumbnail);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        // サムネイル更新
-        private void UpdateThumbnail(BitmapSource source)
-        {
-            if (Thumbnail == null)
-            {
-                Thumbnail = Utility.NVGraphics.CreateThumbnail(source, new Size(_thumbnailSize, _isBanner ? double.NaN : _thumbnailSize));
-                ////Thumbnail = Utility.NVGraphics.CreateThumbnailByDrawingVisual(source, new Size(_ThumbnailSize, _ThumbnailSize));
-                ////Thumbnail = Utility.NVDrawing.CreateThumbnail(source, new Size(_ThumbnailSize, _ThumbnailSize));
-            }
-        }
 
 
         // コンテンツ幅
-        public double Width { get; protected set; } = 590; //842px X 595px
+        public double Width { get; protected set; }
 
         // コンテンツ高
-        public double Height { get; protected set; } = 840; //
+        public double Height { get; protected set; }
 
         // ワイド判定用縦横比
         public static double WideRatio { get; set; }
@@ -215,7 +127,10 @@ namespace NeeView
                 if (_content != value)
                 {
                     _content = value;
-                    if (_content != null) Loaded?.Invoke(this, true);
+                    if (_content != null)
+                    {
+                        Loaded?.Invoke(this, null);
+                    }
                     OnPropertyChangedDebug(nameof(IsContentAlived));
                 }
             }
@@ -227,30 +142,34 @@ namespace NeeView
         // 最小限のクローン
         public abstract Page TinyClone();
 
-        // 待つ
+
+
+        /// <summary>
+        /// 読込
+        /// </summary>
+        /// <param name="priority"></param>
+        /// <returns></returns>
         public async Task LoadAsync(QueueElementPriority priority)
         {
-            try
-            {
-                if (_content != null) return;
-
-                var waitEvent = new TaskCompletionSource<bool>();
-                EventHandler<bool> handle = (s, e) => waitEvent.SetResult(e);
-
-                Loaded += handle;
-
-                Open(priority);
-                await waitEvent.Task;
-
-                Loaded -= handle;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                throw e;
-            }
+            await LoadAsync(priority, CancellationToken.None);
         }
 
+        /// <summary>
+        /// 読込
+        /// </summary>
+        /// <param name="priority"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task LoadAsync(QueueElementPriority priority, CancellationToken token)
+        {
+            if (_content != null) return;
+
+            var job = Load(priority);
+
+            await job.WaitAsync(token);
+
+            if (token.IsCancellationRequested || job.IsCancellationRequested) throw new OperationCanceledException();
+        }
 
         // アニメーションGIF有効/無効フラグ
         public static bool IsEnableAnimatedGif { get; set; }
@@ -281,6 +200,47 @@ namespace NeeView
             WeakPriority = (1 << 0), // 高優先度の場合のみ上書き
         };
 
+
+        #region サムネイル
+
+        // サムネイル更新イベント
+        public event EventHandler<BitmapSource> ThumbnailChanged;
+
+        // サムネイルがバナーであるかのフラグ
+        private bool _isBanner;
+
+        // サムネイル２
+        public Thumbnail Thumbnail2 { get; } = new Thumbnail();
+
+        // サムネイル
+        private BitmapSource _thumbnail;
+        public BitmapSource Thumbnail
+        {
+            get { return _thumbnail; }
+
+            private set
+            {
+                if (_thumbnail != value)
+                {
+                    _thumbnail = value;
+                    ThumbnailChanged?.Invoke(this, _thumbnail);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        // サムネイル更新
+        private void UpdateThumbnail(BitmapSource source)
+        {
+            if (Thumbnail == null)
+            {
+                Thumbnail = Utility.NVGraphics.CreateThumbnail(source, new Size(_thumbnailSize, _isBanner ? double.NaN : _thumbnailSize));
+                ////Thumbnail = Utility.NVGraphics.CreateThumbnailByDrawingVisual(source, new Size(_ThumbnailSize, _ThumbnailSize));
+                ////Thumbnail = Utility.NVDrawing.CreateThumbnail(source, new Size(_ThumbnailSize, _ThumbnailSize));
+            }
+        }
+
+
         // サムネイル作成ジョブリクエスト
         private JobRequest _thumbnailJobRequest;
 
@@ -309,8 +269,12 @@ namespace NeeView
             _thumbnail = null;
         }
 
-        // JOB: メイン処理
-        private void OnExecuteThumbnail(CancellationToken cancel)
+        /// <summary>
+        /// JOB: メイン処理
+        /// </summary>
+        /// <param name="completed">JOB完了フラグ。処理の途中でセットされる？</param>
+        /// <param name="cancel"></param>
+        private void OnExecuteThumbnail(ManualResetEventSlim completed, CancellationToken cancel)
         {
             //Debug.WriteLine($"OnExecuteTb({LastName})");
             if (_thumbnail == null)
@@ -375,12 +339,19 @@ namespace NeeView
         }
 
 
+        #endregion
 
-        // コンテンツを開く(非同期)
-        public void Open(QueueElementPriority priority, OpenOption option = OpenOption.None)
+
+        /// <summary>
+        ///  コンテンツを開く(非同期)
+        /// </summary>
+        /// <param name="priority"></param>
+        /// <param name="option"></param>
+        /// <returns></returns>
+        public JobRequest Load(QueueElementPriority priority, OpenOption option = OpenOption.None)
         {
             // 既にロード済の場合は何もしない
-            if (_content != null) return;
+            if (_content != null) return null;
 
             // ジョブ登録済の場合、優先度変更
             if (_jobRequest != null && !_jobRequest.IsCancellationRequested)
@@ -390,16 +361,23 @@ namespace NeeView
                     Message = $"ReOpen... ({priority})";
                     _jobRequest.ChangePriority(priority);
                 }
-                return;
+            }
+            else
+            {
+                Message = $"Open... ({priority})";
+                _jobRequest = ModelContext.JobEngine.Add(this, OnExecute, OnCancel, priority);
             }
 
-            Message = $"Open... ({priority})";
-            _jobRequest = ModelContext.JobEngine.Add(this, OnExecute, OnCancel, priority);
+            return _jobRequest;
         }
 
 
-        // JOB: メイン処理
-        private void OnExecute(CancellationToken cancel)
+        /// <summary>
+        /// JOB: メイン処理
+        /// </summary>
+        /// <param name="completed">処理の途中でJOB完了設定されることがある</param>
+        /// <param name="cancel"></param>
+        private void OnExecute(ManualResetEventSlim completed, CancellationToken cancel)
         {
             //Debug.WriteLine($"*OnExecute({LastName})");
             lock (_lock)
@@ -414,6 +392,19 @@ namespace NeeView
                         Message = "Valid.";
                         Content = content;
                     }
+
+                    // ここでJOB完了信号発行。サムネイル化処理と分ける
+                    completed.Set();
+
+                    // Thumbnail !!
+                    if (!this.Thumbnail2.IsValid)
+                    {
+                        var bitmapContent = content as BitmapContent;
+                        if (bitmapContent?.Source != null)
+                        {
+                            this.Thumbnail2.Initialize(bitmapContent?.Source);
+                        }
+                    }
                 }
                 else
                 {
@@ -424,15 +415,19 @@ namespace NeeView
         }
 
 
-        // JOB: キャンセル処理
+        /// <summary>
+        /// JOB: キャンセル処理
+        /// </summary>
         private void OnCancel()
         {
             Message = $"Canceled.";
         }
 
 
-        // コンテンツを閉じる
-        public void Close()
+        /// <summary>
+        /// コンテンツを閉じる
+        /// </summary>
+        public void Unload()
         {
             Message = "Closing...";
 
@@ -493,6 +488,46 @@ namespace NeeView
         {
             return Entry?.Archiver != null && Entry.Archiver is FolderFiles;
         }
+
+
+        #region IDisposable Support
+        private bool disposedValue = false; // 重複する呼び出しを検出するには
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: マネージ状態を破棄します (マネージ オブジェクト)。
+                    Unload();
+
+                    Loaded = null;
+                    ThumbnailChanged = null;
+                }
+
+                // TODO: アンマネージ リソース (アンマネージ オブジェクト) を解放し、下のファイナライザーをオーバーライドします。
+                // TODO: 大きなフィールドを null に設定します。
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: 上の Dispose(bool disposing) にアンマネージ リソースを解放するコードが含まれる場合にのみ、ファイナライザーをオーバーライドします。
+        // ~Page() {
+        //   // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
+        //   Dispose(false);
+        // }
+
+        // このコードは、破棄可能なパターンを正しく実装できるように追加されました。
+        public void Dispose()
+        {
+            // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
+            Dispose(true);
+            // TODO: 上のファイナライザーがオーバーライドされる場合は、次の行のコメントを解除してください。
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 
 }

@@ -223,7 +223,7 @@ namespace NeeView
             get { return _IsLoupeCenter; }
             set { if (_IsLoupeCenter != value) { _IsLoupeCenter = value; RaisePropertyChanged(); } }
         }
-        
+
 
         // スライダー方向
         #region Property: IsSliderDirectionReversed
@@ -2225,10 +2225,17 @@ namespace NeeView
                         }
                         else
                         {
-                            var index = contents.Count;
-                            if (Contents[index].IsValid)
+                            if (content.Size.Width == 0 && content.Size.Height == 0)
                             {
-                                content.Size = Contents[index].Size;
+                                var index = contents.Count;
+                                if (Contents[index].IsValid)
+                                {
+                                    content.Size = Contents[index].Size;
+                                }
+                                else
+                                {
+                                    content.Size = new Size(595, 842);
+                                }
                             }
                         }
 
@@ -3021,7 +3028,7 @@ namespace NeeView
             [DataMember(Order = 19)]
             public bool IsVisibleLoupeInfo { get; set; }
 
-            [DataMember(Order =20)]
+            [DataMember(Order = 20)]
             public bool IsSliderWithIndex { get; set; }
 
             [DataMember(Order = 20)]

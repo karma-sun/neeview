@@ -201,7 +201,7 @@ namespace NeeView.Utility
         {
             lock (_lock)
             {
-                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource?.Cancel();
                 _command?.Cancel();
                 _command = null;
             }

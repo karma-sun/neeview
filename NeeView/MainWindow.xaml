@@ -140,7 +140,7 @@
         <!--#region Development -->
         <!-- 開発用 ページリスト -->
         <!--
-        <ScrollViewer x:Name="DevPageList" DockPanel.Dock="Right" Width="300" Panel.ZIndex="100" HorizontalScrollBarVisibility="Auto"
+        <ScrollViewer x:Name="DevPageList" DockPanel.Dock="Right" Width="300" Panel.ZIndex="100" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
             Visibility="{Binding ElementName=MenuItemDevPageList, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
             <ListView ItemsSource="{Binding PageList}" >
                 <ListView.View>

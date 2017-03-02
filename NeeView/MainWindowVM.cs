@@ -1668,6 +1668,18 @@ namespace NeeView
 
         #endregion
 
+        /// <summary>
+        /// IsBusyJobEngine property.
+        /// </summary>
+        private bool _isBusyJobEngine;
+        public bool IsBusyJobEngine
+        {
+            get { return _isBusyJobEngine; }
+            set { if (_isBusyJobEngine != value) { _isBusyJobEngine = value; RaisePropertyChanged(); } }
+        }
+
+
+
         // DPI倍率
         private Point _DpiScaleFactor => App.Config.DpiScaleFactor;
 
@@ -1707,6 +1719,9 @@ namespace NeeView
             //ModelContext.Initialize();
             ModelContext.JobEngine.StatusChanged +=
                 (s, e) => RaisePropertyChanged(nameof(JobEngine));
+
+            ModelContext.JobEngine.IsBusyChanged +=
+                (s, e) => IsBusyJobEngine = ModelContext.JobEngine.IsBusy;
 
             // BookHub
             BookHub = new BookHub();

@@ -64,12 +64,16 @@ namespace NeeView.Utility
         // コマンド実行フラグ
         private bool _isActive;
 
+        // キャンセル可能フラグ
+        public bool CanBeCanceled { get; set; } = true;
 
         /// <summary>
         /// キャンセル要求
         /// </summary>
         public void Cancel()
         {
+            if (!CanBeCanceled) return;
+
             _cancellationTokenSource.Cancel();
 
             if (!_isActive)

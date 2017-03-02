@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NeeView.Utility;
+using System.Diagnostics;
 
 namespace NeeView
 {
@@ -87,6 +88,8 @@ namespace NeeView
         public BookHubCommandUnload(BookHub bookHub, BookHubCommandUnloadArgs param) : base(bookHub)
         {
             _param = param;
+
+            CanBeCanceled = false;
         }
 
         protected override async Task ExecuteAsync(CancellationToken token)
@@ -112,10 +115,15 @@ namespace NeeView
         /// <param name="command"></param>
         protected override bool OnEnqueueing(ICommand command)
         {
-            // 最新コマンド以外はキャンセル
+            // 現在コマンドはキャンセル
             _command?.Cancel();
-            _queue.ForEach(e => e.Cancel());
-            _queue.Clear();
+
+            // 全コマンドキャンセル
+            // ただし、Unloadはキャンセルできないので残る
+            foreach(var cmd in _queue)
+            {
+                cmd.Cancel();
+            }
 
             return true;
         }
@@ -125,7 +133,7 @@ namespace NeeView
         /// </summary>
         protected override void OnEnqueued(Utility.ICommand cmd)
         {
-            // 最新コマンドから場所を取得
+            // 最新コマンドから場所を取得 .. 使ってない？
             if (_queue.Any())
             {
                 var command = _queue.Peek();

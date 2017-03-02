@@ -177,7 +177,8 @@ namespace NeeView
 
             await job.WaitAsync(token);
 
-            if (token.IsCancellationRequested || job.IsCancellationRequested) throw new OperationCanceledException();
+            // jobのキャンセル処理はここでは例外としない
+            //if (job.IsCancellationRequested) throw new OperationCanceledException();
         }
 
         // アニメーションGIF有効/無効フラグ

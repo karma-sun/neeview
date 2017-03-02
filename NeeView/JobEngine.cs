@@ -157,6 +157,19 @@ namespace NeeView
 
         #endregion
 
+        /// <summary>
+        /// IsBusyChanged event
+        /// </summary>
+        public event EventHandler IsBusyChanged;
+
+        /// <summary>
+        /// IsBusy property.
+        /// </summary>
+        public bool IsBusy
+        {
+            get { return Workers.Any(e => e != null && e.IsBusy); }
+        }
+
         // ジョブの製造番号用カウンタ
         private int _serialNumber;
 
@@ -200,6 +213,7 @@ namespace NeeView
                     {
                         Workers[i] = new JobWorker(_context);
                         Workers[i].StatusChanged += (s, e) => StatusChanged?.Invoke(s, e);
+                        Workers[i].IsBusyChanged += (s, e) => IsBusyChanged?.Invoke(s, e);
                         Workers[i].Run();
                         Message = $"Create Worker[{i}]";
                     }
@@ -324,6 +338,19 @@ namespace NeeView
 
         #endregion
 
+        public event EventHandler IsBusyChanged;
+
+        /// <summary>
+        /// IsBusy property.
+        /// </summary>
+        private bool _IsBusy;
+        public bool IsBusy
+        {
+            get { return _IsBusy; }
+            set { if (_IsBusy != value) { _IsBusy = value; IsBusyChanged?.Invoke(this, null); } }
+        }
+
+
         // コンテキスト
         private JobContext _context;
 
@@ -403,10 +430,13 @@ namespace NeeView
                 // イベント待ち
                 if (job == null)
                 {
+                    IsBusy = false;
                     Message = $"wait event ...";
                     await Task.Run(() => _context.Event.WaitOne());
                     continue;
                 }
+
+                IsBusy = true;
 
                 if (!job.CancellationToken.IsCancellationRequested)
                 {

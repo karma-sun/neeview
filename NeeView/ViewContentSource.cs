@@ -128,31 +128,35 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// ページ用画像ブラシ作成
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
+        private ImageBrush CreatePageImageBrush(BitmapSource bitmap)
+        {
+            var brush = new ImageBrush();
+            brush.ImageSource = bitmap;
+
+            brush.AlignmentX = AlignmentX.Left;
+            brush.AlignmentY = AlignmentY.Top;
+            brush.Stretch = Stretch.Fill;
+            brush.TileMode = TileMode.None;
+            brush.Viewbox = GetViewBox();
+
+            return brush;
+        }
+
         // コントロール作成
         public FrameworkElement CreateControl(Binding foregroundBinding, Binding bitmapScalingModeBinding)
         {
             if (Source is BitmapContent)
             {
-                var brush = new ImageBrush();
-
-                // エフェクトをかけた画像を作成
-                ////brush.ImageSource = CreateEffectedBitmap(((BitmapContent)Source).Source, SourceSize, effect);
-
-                // そのまま画像を使用
-                brush.ImageSource = ((BitmapContent)Source).Source;
-
-                brush.AlignmentX = AlignmentX.Left;
-                brush.AlignmentY = AlignmentY.Top;
-                brush.Stretch = Stretch.Fill;
-                brush.TileMode = TileMode.None;
-                brush.Viewbox = GetViewBox();
-
                 var rectangle = new Rectangle();
-                rectangle.Fill = brush;
+                rectangle.Fill = CreatePageImageBrush(((BitmapContent)Source).Source);
                 rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
                 rectangle.UseLayoutRounding = true;
                 rectangle.SnapsToDevicePixels = true;
-
                 return rectangle;
             }
             else if (Source is AnimatedGifContent)
@@ -189,14 +193,11 @@ namespace NeeView
             {
                 if (Thumbnail.IsValid)
                 {
-                    var image = new Image();
-                    image.Source = Thumbnail.CreateBitmap();
-                    image.Stretch = Stretch.Fill;
-                    RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
-                    //image.Effect = new BlurEffect() { Radius = 32, RenderingBias = RenderingBias.Quality };
-                    return image;
+                    var rectangle = new Rectangle();
+                    rectangle.Fill = CreatePageImageBrush(Thumbnail.CreateBitmap());
+                    RenderOptions.SetBitmapScalingMode(rectangle, BitmapScalingMode.HighQuality);
+                    return rectangle;
                 }
-
                 else
                 {
                     var grid = new Grid();

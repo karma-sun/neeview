@@ -21,6 +21,19 @@ namespace NeeView
     public class Preference
     {
         /// <summary>
+        /// 現在のシステムオブジェクト
+        /// </summary>
+        public static Preference _current;
+        public static Preference Current
+        {
+            get
+            {
+                _current = _current ?? new Preference();
+                return _current;
+            }
+        }
+
+        /// <summary>
         /// Properties
         /// </summary>
 
@@ -56,7 +69,15 @@ namespace NeeView
         [PropertyMember("パネルが自動的に消えるまでの時間(秒)")]
         public double panel_autohide_delaytime { get; set; }
 
-        [DataMember, DefaultValue("2048x4096")]
+        [DataMember, DefaultValue(true)]
+        [PropertyMember("ページ送り優先", Tips = "ページの表示を待たずにページ送りを実行します")]
+        public bool book_is_prioritize_pagemove { get; set; }
+
+        [DataMember, DefaultValue(true)]
+        [PropertyMember("ページ送りコマンドの重複許可", Tips = "発行されたページ移動コマンドを全て実行します。\nFalseの場合は重複したページ送りコマンドはキャンセルされます")]
+        public bool book_allow_multiple_pagemove { get; set; }
+
+        [DataMember, DefaultValue("4096x4096")]
         [PropertyMember(Name = "自動先読み判定用画像サイズ", Tips = "自動先読みモードで使用します。この面積より大きい画像で先読みが無効になります\n\"数値x数値\"で指定します")]
         public string book_preload_limitsize { get; set; }
 

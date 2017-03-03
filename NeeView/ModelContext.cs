@@ -22,7 +22,7 @@ namespace NeeView
     /// </summary>
     public static class ModelContext
     {
-        public static Preference Preference { get; set; }
+        //public static Preference Preference { get; set; }
 
         public static JobEngine JobEngine { get; set; }
 
@@ -54,7 +54,7 @@ namespace NeeView
             MemoryControl.Current = new MemoryControl(App.Current.Dispatcher);
 
             //
-            Preference = new Preference();
+            //Preference = Preference.Current;
 
             // 
             JobEngine = new JobEngine();
@@ -85,30 +85,32 @@ namespace NeeView
         /// </summary>
         public static void ApplyPreference()
         {
+            var preference = Preference.Current;
+
             // Jobワーカーサイズ
-            JobEngine.Start(Preference.loader_thread_size);
+            JobEngine.Start(preference.loader_thread_size);
 
             // ワイドページ判定用比率
-            Page.WideRatio = Preference.view_image_wideratio;
+            Page.WideRatio = preference.view_image_wideratio;
 
             // SevenZip対応拡張子設定
-            ArchiverManager.UpdateSevenZipSupprtedFileTypes(Preference.loader_archiver_7z_supprtfiletypes);
+            ArchiverManager.UpdateSevenZipSupprtedFileTypes(preference.loader_archiver_7z_supprtfiletypes);
 
             // 7z.dll の場所
-            SevenZipArchiver.DllPath = Preference.loader_archiver_7z_dllpath;
+            SevenZipArchiver.DllPath = preference.loader_archiver_7z_dllpath;
 
             // SevenZip Lock時間
-            SevenZipSource.LockTime = Preference.loader_archiver_7z_locktime;
+            SevenZipSource.LockTime = preference.loader_archiver_7z_locktime;
 
             // MainWindow Preference適用
-            ((MainWindow)App.Current.MainWindow).ApplyPreference(Preference);
+            ((MainWindow)App.Current.MainWindow).ApplyPreference(preference);
 
             // 除外パス更新
-            ModelContext.Excludes = Preference.loader_archiver_exclude.Split(';').Select(e => e.Trim()).ToList();
+            ModelContext.Excludes = preference.loader_archiver_exclude.Split(';').Select(e => e.Trim()).ToList();
 
             // 自動先読み判定サイズ
-            var sizeString = new SizeString(Preference.book_preload_limitsize);
-            Book.PreLoadLimitSize = sizeString.ToInteger();
+            //var sizeString = new SizeString(preference.book_preload_limitsize);
+            //Book.PreLoadLimitSize = sizeString.ToInteger();
         }
     }
 }

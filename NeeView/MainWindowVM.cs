@@ -1948,7 +1948,7 @@ namespace NeeView
             setting.CommandMememto = ModelContext.CommandTable.CreateMemento();
             setting.DragActionMemento = ModelContext.DragActionTable.CreateMemento();
             setting.ExporterMemento = Exporter.CreateMemento();
-            setting.PreferenceMemento = ModelContext.Preference.CreateMemento();
+            setting.PreferenceMemento = Preference.Current.CreateMemento();
             setting.ImageEffectMemento = this.ImageEffector.CreateMemento();
 
             return setting;
@@ -1957,7 +1957,7 @@ namespace NeeView
         // アプリ設定反映
         public void RestoreSetting(Setting setting, bool fromLoad)
         {
-            ModelContext.Preference.Restore(setting.PreferenceMemento);
+            Preference.Current.Restore(setting.PreferenceMemento);
             ModelContext.ApplyPreference();
 
             this.Restore(setting.ViewMemento);
@@ -2111,7 +2111,7 @@ namespace NeeView
             catch { }
 
             // 保存しないフラグ
-            bool disableSave = ModelContext.Preference.userdata_save_disable;
+            bool disableSave = Preference.Current.userdata_save_disable;
 
             try
             {

@@ -221,6 +221,11 @@ namespace NeeView
     internal class BookCommandEngine : Utility.CommandEngine
     {
         /// <summary>
+        /// ページ移動コマンドの重複受け入れフラグ
+        /// </summary>
+        public bool AllowMultiplePageMove { get; set; }
+
+        /// <summary>
         /// コマンド登録前処理
         /// </summary>
         /// <param name="command"></param>
@@ -230,17 +235,22 @@ namespace NeeView
             if (_queue.Count == 0) return true;
 
             // ページ移動コマンドはまとめる
-            var mc0 = command as BookCommandMovePage;
-            var mc1 = _queue.Peek() as BookCommandMovePage;
-            if (mc0 != null && mc1 != null)
+            if (AllowMultiplePageMove)
             {
-                mc1.Add(mc0);
-                return false;
+                var mc0 = command as BookCommandMovePage;
+                var mc1 = _queue.Peek() as BookCommandMovePage;
+                if (mc0 != null && mc1 != null)
+                {
+                    mc1.Add(mc0);
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
 
         /// <summary>

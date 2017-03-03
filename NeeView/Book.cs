@@ -46,10 +46,45 @@ namespace NeeView
     }
 
     /// <summary>
+    /// 本：設定
+    /// </summary>
+    public class BookEnvironment
+    {
+        /// <summary>
+        /// ページ移動優先設定
+        /// </summary>
+        public bool IsPrioritizePageMove => Preference.Current.book_is_prioritize_pagemove;
+
+        /// <summary>
+        /// ページ移動命令重複許可
+        /// </summary>
+        public bool AllowMultiplePageMove => Preference.Current.book_allow_multiple_pagemove;
+
+        /// <summary>
+        /// 先読み自動判定許サイズ
+        /// </summary>
+        public int PreLoadLimitSize { get; private set; }
+
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        public BookEnvironment()
+        {
+            var sizeString = new SizeString(Preference.Current.book_preload_limitsize);
+            PreLoadLimitSize = sizeString.ToInteger();
+        }
+    }
+
+
+    /// <summary>
     /// 本
     /// </summary>
     public class Book : IDisposable
     {
+        // 環境
+        private BookEnvironment _environment { get; } = new BookEnvironment();
+
         // テンポラリコンテンツ用ゴミ箱
         public TrashBox _trashBox { get; private set; } = new TrashBox();
 
@@ -100,6 +135,7 @@ namespace NeeView
         }
 
         // 先読みモード
+        // TODO: 環境設定
         public PreLoadMode PreLoadMode { get; set; }
 
         // 先読み可能フラグ
@@ -311,24 +347,21 @@ namespace NeeView
         // 排他処理用ロックオブジェクト
         private object _lock = new object();
 
-        /// <summary>
-        /// FastAction property.
-        /// </summary>
-        public bool FastAction { get; set; } = true;
-
         // 本の読み込み
         #region LoadBook
 
         // 読み込み対象外サブフォルダ数。リカーシブ確認に使用します。
         public int SubFolderCount { get; private set; }
 
+
         /// <summary>
-        /// 自動先読み判定用画像サイズ
+        /// フォルダーの読込
         /// </summary>
-        public static int PreLoadLimitSize { get; internal set; } = 4096 * 4096;
-
-
-        //
+        /// <param name="path"></param>
+        /// <param name="start"></param>
+        /// <param name="option"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task LoadAsync(string path, string start, BookLoadOption option, CancellationToken token)
         {
             try
@@ -612,6 +645,8 @@ namespace NeeView
         public void Start()
         {
             Debug.Assert(Place != null);
+
+            _commandEngine.AllowMultiplePageMove = _environment.AllowMultiplePageMove;
             _commandEngine.Initialize();
         }
 
@@ -1062,7 +1097,7 @@ namespace NeeView
             if (isPreLoad) PreLoad(source);
 
             // wait load
-            if (FastAction)
+            if (_environment.IsPrioritizePageMove)
             {
                 await Task.Run(() => Task.WaitAll(tlist.ToArray(), 100, token));
             }
@@ -1091,7 +1126,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void Page_Loaded(object sender, EventArgs e)
         {
-            if (!FastAction) return;
+            if (!_environment.IsPrioritizePageMove) return;
 
             // 非同期なので一旦退避
             var now = _viewContext;
@@ -1249,13 +1284,16 @@ namespace NeeView
             }
         }
 
-        //
+        /// <summary>
+        /// 先読み自動判定
+        /// </summary>
+        /// <param name="page"></param>
         private void UpdatePreLoadStatus(Page page)
         {
             if (PreLoadMode != PreLoadMode.AutoPreLoad) return;
 
             // 判定
-            if (page.Width * page.Height > PreLoadLimitSize)
+            if (page.Width * page.Height > _environment.PreLoadLimitSize)
             {
                 //Debug.WriteLine("PreLoad: Disabled");
                 _canPreLoadCount = 0;

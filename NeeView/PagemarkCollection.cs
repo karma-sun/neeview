@@ -520,7 +520,10 @@ namespace NeeView
                 if (_archivePage == null)
                 {
                     _archivePage = new ArchivePage(Place, EntryName);
-                    _archivePage.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(this, _archivePage);
+                    _archivePage.Thumbnail.Changed += (s, e) =>
+                    {
+                        ThumbnailChanged?.Invoke(this, _archivePage);
+                    };
                 }
                 return _archivePage;
             }

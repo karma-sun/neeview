@@ -26,18 +26,26 @@ namespace NeeView
         // 発行者
         public object Sender { get; set; }
 
-        // 処理
-        public Action<ManualResetEventSlim, CancellationToken> Execute { get; set; }
-
         // 完了フラグ
         public ManualResetEventSlim Completed { get; set; } = new ManualResetEventSlim();
-
-        // キャンセル時の処理
-        public Action Cancel { get; set; }
 
         // キャンセルトークン
         public CancellationToken CancellationToken { get; set; }
 
+        // コマンド
+        public IJobCommand Command { get; set; }
+    }
+
+    /// <summary>
+    /// JobCommand
+    /// </summary>
+    public interface IJobCommand
+    {
+        // メイン処理
+        void Execute(ManualResetEventSlim completed, CancellationToken token);
+
+        // キャンセル処理
+        void Cancel();
     }
 
 
@@ -100,7 +108,7 @@ namespace NeeView
         /// <returns></returns>
         public async Task WaitAsync(CancellationToken token)
         {
-            await Task.Run(() =>_job.Completed.Wait(token));
+            await Task.Run(() => _job.Completed.Wait(token));
         }
     }
 
@@ -151,7 +159,12 @@ namespace NeeView
         public string Message
         {
             get { return _message; }
-            set { _message = value; NotifyStatusChanged(); }
+            set
+            {
+                //Debug.WriteLine($"JobEngine: {value}");
+                _message = value;
+                NotifyStatusChanged();
+            }
         }
         #endregion
 
@@ -246,7 +259,8 @@ namespace NeeView
                 while (_context.JobQueue.CountAt(priority) > 0)
                 {
                     var job = _context.JobQueue.Dequeue(priority);
-                    job.Cancel();
+                    job.Command.Cancel(); // TODO: 処理しないのにキャンセルをしており後処理が異なる。しっくりこない。
+                    job.Completed.Set();
                 }
             }
         }
@@ -254,17 +268,15 @@ namespace NeeView
         /// <summary>
         /// Job登録
         /// </summary>
-        /// <param name="action">処理</param>
-        /// <param name="cancelAction">キャンセル時の処理</param>
+        /// <param name="command">処理</param>
         /// <param name="priority">優先度</param>
         /// <returns>JobRequest</returns>
-        public JobRequest Add(object sender, Action<ManualResetEventSlim, CancellationToken> action, Action cancelAction, QueueElementPriority priority, bool reverse = false)
+        public JobRequest Add(object sender, IJobCommand command, QueueElementPriority priority, bool reverse = false)
         {
             var job = new Job();
             job.SerialNumber = _serialNumber++;
             job.Sender = sender;
-            job.Execute = action;
-            job.Cancel = cancelAction;
+            job.Command = command;
 
             var request = new JobRequest(this, job, priority);
 
@@ -441,13 +453,13 @@ namespace NeeView
                 if (!job.CancellationToken.IsCancellationRequested)
                 {
                     Message = $"Job({job.SerialNumber}) execute ...";
-                    job.Execute(job.Completed, job.CancellationToken);
+                    job.Command.Execute(job.Completed, job.CancellationToken);
                     Message = $"Job({job.SerialNumber}) execute done.";
                 }
 
                 if (job.CancellationToken.IsCancellationRequested)
                 {
-                    job.Cancel?.Invoke();
+                    job.Command.Cancel();
                     Message = $"Job({job.SerialNumber}) canceled.";
                 }
 

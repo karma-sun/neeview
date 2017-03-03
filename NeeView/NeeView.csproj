@@ -133,6 +133,7 @@
     <Compile Include="MouseLoupe.cs" />
     <Compile Include="PageContent.cs" />
     <Compile Include="Page\AliveThumbnailList.cs" />
+    <Compile Include="Page\PageJob.cs" />
     <Compile Include="Page\Thumbnail.cs" />
     <Compile Include="SizeString.cs" />
     <Compile Include="Utility\AsyncronousAction.cs" />

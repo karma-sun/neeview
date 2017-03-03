@@ -33,19 +33,19 @@
         </DataTemplate>
 
         <DataTemplate x:Key="PictureFolder">
-            <DockPanel
-                Height="{Binding ElementName=ListBox, Path=DataContext.PicturePanelHeight}"
+            <Grid
+                Height="64"
                 Margin="0,1" Background="{DynamicResource NVBaseBrush}">
-                <DockPanel DockPanel.Dock="Bottom" Margin="2">
+                <DockPanel Margin="2">
                     <local:FolderIcon DockPanel.Dock="Right" FolderInfo="{Binding .}" />
-                    <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}"/>
+                    <DockPanel>
+                        <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"
+                           RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
+                           Width="60" Height="60" />
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="Wrap"/>
+                    </DockPanel>
                 </DockPanel>
-                <Grid>
-                    <Image Source="{Binding ArchivePage.Thumbnail}"
-                           Width="{Binding ElementName=ListBox, Path=DataContext.ThumbnailWidth}"
-                           HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="Uniform" UseLayoutRounding="True"/>
-                </Grid>
-            </DockPanel>
+            </Grid>
         </DataTemplate>
 
     </UserControl.Resources>

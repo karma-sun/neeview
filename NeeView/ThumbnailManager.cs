@@ -92,7 +92,7 @@ namespace NeeView
 
             foreach (var page in direction < 0 ? pages.Reverse() : pages)
             {
-                page.GetPage()?.OpenThumbnail(QueueElementPriority.FolderThumbnail, ThumbnailSizeX, true);
+                page.GetPage()?.LoadThumbnail(QueueElementPriority.FolderThumbnail);
             }
         }
 

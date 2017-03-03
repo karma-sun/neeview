@@ -2781,7 +2781,7 @@ namespace NeeView
 
             foreach (var page in pages)
             {
-                page.OpenThumbnail(QueueElementPriority.PageThumbnail, ThumbnailSize, false);
+                page.LoadThumbnail(QueueElementPriority.PageThumbnail);
             }
         }
 

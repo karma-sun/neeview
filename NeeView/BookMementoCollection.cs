@@ -93,7 +93,7 @@ namespace NeeView
                 if (_archivePage == null && Memento != null)
                 {
                     _archivePage = new ArchivePage(Memento.Place);
-                    _archivePage.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(this, _archivePage);
+                    _archivePage.Thumbnail.Changed += (s, e) => ThumbnailChanged?.Invoke(this, _archivePage);
                 }
                 return _archivePage;
             }

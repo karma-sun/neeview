@@ -205,7 +205,7 @@ namespace NeeView
                 if (_archivePage == null && !IsDrive && !IsEmpty)
                 {
                     _archivePage = new ArchivePage(TargetPath);
-                    _archivePage.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(this, _archivePage);
+                    _archivePage.Thumbnail.Changed += (s, e) => ThumbnailChanged?.Invoke(this, _archivePage);
                 }
                 return _archivePage;
             }

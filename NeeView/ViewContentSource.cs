@@ -62,7 +62,7 @@ namespace NeeView
         {
             Page = page;
             Source = page.Content;
-            Thumbnail = page.Thumbnail2;
+            Thumbnail = page.Thumbnail;
             SourceSize = new Size(page.Width, page.Height);
             Width = size == 2 ? page.Width : Math.Floor(page.Width * 0.5 + 0.4);
             Height = page.Height;

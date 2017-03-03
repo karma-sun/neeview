@@ -153,6 +153,47 @@ namespace NeeView
 
 
 
+
+        // アニメーションGIF有効/無効フラグ
+        public static bool IsEnableAnimatedGif { get; set; }
+
+        // EXIF情報有効/無効フラグ
+        public static bool IsEnableExif { get; set; }
+
+
+        // コンテンツロード
+        protected abstract object LoadContent();
+
+        // ジョブの同時実行を回避
+        private object _lock = new object();
+
+
+        // サムネイル
+        public Thumbnail Thumbnail { get; } = new Thumbnail();
+
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public Page()
+        {
+            InitializeContentJob();
+            InitializeThumbnailJob();
+        }
+
+
+        #region コンテンツ
+
+        private PageJob _contentJob;
+
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        private void InitializeContentJob()
+        {
+            _contentJob = new PageJob(this, new ContentLoadJobCommand(this));
+        }
+
         /// <summary>
         /// 読込
         /// </summary>
@@ -172,185 +213,8 @@ namespace NeeView
         public async Task LoadAsync(QueueElementPriority priority, CancellationToken token)
         {
             if (_content != null) return;
-
-            var job = Load(priority);
-
-            await job.WaitAsync(token);
-
-            // jobのキャンセル処理はここでは例外としない
-            //if (job.IsCancellationRequested) throw new OperationCanceledException();
+            await _contentJob.RequestAsync(priority, PageJobOption.None, token);
         }
-
-        // アニメーションGIF有効/無効フラグ
-        public static bool IsEnableAnimatedGif { get; set; }
-
-        // EXIF情報有効/無効フラグ
-        public static bool IsEnableExif { get; set; }
-
-        // サムネイルロード
-        protected virtual BitmapContent LoadThumbnail(int size)
-        {
-            return null;
-        }
-
-        // コンテンツロード
-        protected abstract object LoadContent();
-
-        // ジョブの同時実行を回避
-        private object _lock = new object();
-
-        // ジョブリクエスト
-        private JobRequest _jobRequest;
-
-        // Openフラグ
-        [Flags]
-        public enum OpenOption
-        {
-            None = 0,
-            WeakPriority = (1 << 0), // 高優先度の場合のみ上書き
-        };
-
-
-        #region サムネイル
-
-        // サムネイル更新イベント
-        public event EventHandler<BitmapSource> ThumbnailChanged;
-
-        // サムネイルがバナーであるかのフラグ
-        private bool _isBanner;
-
-        // サムネイル２
-        public Thumbnail Thumbnail2 { get; } = new Thumbnail();
-
-        // サムネイル
-        private BitmapSource _thumbnail;
-        public BitmapSource Thumbnail
-        {
-            get { return _thumbnail; }
-
-            private set
-            {
-                if (_thumbnail != value)
-                {
-                    _thumbnail = value;
-                    ThumbnailChanged?.Invoke(this, _thumbnail);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        // サムネイル更新
-        private void UpdateThumbnail(BitmapSource source)
-        {
-            if (Thumbnail == null)
-            {
-                Thumbnail = Utility.NVGraphics.CreateThumbnail(source, new Size(_thumbnailSize, _isBanner ? double.NaN : _thumbnailSize));
-                ////Thumbnail = Utility.NVGraphics.CreateThumbnailByDrawingVisual(source, new Size(_ThumbnailSize, _ThumbnailSize));
-                ////Thumbnail = Utility.NVDrawing.CreateThumbnail(source, new Size(_ThumbnailSize, _ThumbnailSize));
-            }
-        }
-
-
-        // サムネイル作成ジョブリクエスト
-        private JobRequest _thumbnailJobRequest;
-
-        // サムネイルサイズ
-        private double _thumbnailSize;
-
-
-        // サムネイルを要求
-        public void OpenThumbnail(QueueElementPriority priority, double size, bool isBanner)
-        {
-            // 既にサムネイルが存在する場合、何もしない
-            if (_thumbnail != null) return;
-
-            // ジョブ登録済の場合も何もしない
-            if (_thumbnailJobRequest != null && !_thumbnailJobRequest.IsCancellationRequested) return;
-
-            // ジョブ登録
-            _thumbnailSize = size;
-            _isBanner = isBanner;
-            _thumbnailJobRequest = ModelContext.JobEngine.Add(this, OnExecuteThumbnail, OnCancelThumbnail, priority);
-        }
-
-        // サムネイル無効化
-        public void CloseThumbnail()
-        {
-            _thumbnail = null;
-        }
-
-        /// <summary>
-        /// JOB: メイン処理
-        /// </summary>
-        /// <param name="completed">JOB完了フラグ。処理の途中でセットされる？</param>
-        /// <param name="cancel"></param>
-        private void OnExecuteThumbnail(ManualResetEventSlim completed, CancellationToken cancel)
-        {
-            //Debug.WriteLine($"OnExecuteTb({LastName})");
-            if (_thumbnail == null)
-            {
-                BitmapSource source = null;
-                bool isTempSource = true;
-
-                lock (_lock)
-                {
-                    if (!cancel.IsCancellationRequested)
-                    {
-                        if (Content != null)
-                        {
-                            source = GetBitmapSourceContent(Content);
-                            //Debug.WriteLine("TB: From Content.");
-                        }
-                        else
-                        {
-#if false
-                            // サムネイル専用読み込み
-                            var thumb = LoadThumbnail((int)_ThumbnailSize);
-                            if (thumb != null)
-                            {
-                                Debug.WriteLine($"{LastName} is TB: {thumb.Source.PixelWidth}x{thumb.Source.PixelHeight}");
-                                source = thumb.Source; // GetBitmapSourceContent(thumb);
-                            }
-                            else
-#endif
-                            {
-                                var content = LoadContent();
-                                source = GetBitmapSourceContent(content);
-                                if (_jobRequest != null)
-                                {
-                                    Content = content;
-                                    isTempSource = false;
-                                    //Debug.WriteLine("TB: Keep Content.");
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (source != null)
-                {
-                    UpdateThumbnail(source);
-                    source = null;
-                    if (isTempSource) MemoryControl.Current.GarbageCollect();
-                }
-            }
-
-            _thumbnailJobRequest = null;
-
-            // Debug.WriteLine($"OnExecuteTb({LastName}) done.");
-        }
-
-
-        // JOB: キャンセル処理
-        private void OnCancelThumbnail()
-        {
-            Message = $"Canceled.";
-            _thumbnailJobRequest = null;
-        }
-
-
-        #endregion
-
 
         /// <summary>
         ///  コンテンツを開く(非同期)
@@ -358,29 +222,37 @@ namespace NeeView
         /// <param name="priority"></param>
         /// <param name="option"></param>
         /// <returns></returns>
-        public JobRequest Load(QueueElementPriority priority, OpenOption option = OpenOption.None)
+        public JobRequest Load(QueueElementPriority priority, PageJobOption option = PageJobOption.None)
         {
             // 既にロード済の場合は何もしない
             if (_content != null) return null;
 
-            // ジョブ登録済の場合、優先度変更
-            if (_jobRequest != null && !_jobRequest.IsCancellationRequested)
-            {
-                if ((option & OpenOption.WeakPriority) != OpenOption.WeakPriority || priority < _jobRequest.Priority)
-                {
-                    Message = $"ReOpen... ({priority})";
-                    _jobRequest.ChangePriority(priority);
-                }
-            }
-            else
-            {
-                Message = $"Open... ({priority})";
-                _jobRequest = ModelContext.JobEngine.Add(this, OnExecute, OnCancel, priority);
-            }
-
-            return _jobRequest;
+            Message = $"Open... ({priority})";
+            return _contentJob.Request(priority, option);
         }
 
+        /// <summary>
+        /// JOB: コマンド
+        /// </summary>
+        private class ContentLoadJobCommand : IJobCommand
+        {
+            Page _page;
+
+            public ContentLoadJobCommand(Page page)
+            {
+                _page = page;
+            }
+
+            public void Cancel()
+            {
+                _page.OnCancel();
+            }
+
+            public void Execute(ManualResetEventSlim completed, CancellationToken token)
+            {
+                _page.OnExecute(completed, token);
+            }
+        }
 
         /// <summary>
         /// JOB: メイン処理
@@ -392,33 +264,27 @@ namespace NeeView
             //Debug.WriteLine($"*OnExecute({LastName})");
             lock (_lock)
             {
-                if (Content == null)
+                var content = Content ?? LoadContent();
+
+                if (cancel.IsCancellationRequested) return;
+
+                if (Content == null && _contentJob.IsActive)
                 {
-                    //Debug.WriteLine($"Job.{_JobRequest?.Priority.ToString()}: {FileName}..");
-                    var content = LoadContent();
-
-                    if (!cancel.IsCancellationRequested)
-                    {
-                        Message = "Valid.";
-                        Content = content;
-                    }
-
-                    // ここでJOB完了信号発行。サムネイル化処理と分ける
-                    completed.Set();
-
-                    // Thumbnail !!
-                    if (!this.Thumbnail2.IsValid)
-                    {
-                        var bitmapContent = content as BitmapContent;
-                        if (bitmapContent?.Source != null)
-                        {
-                            this.Thumbnail2.Initialize(bitmapContent?.Source);
-                        }
-                    }
+                    Message = "Valid.";
+                    Content = content;
                 }
-                else
+
+                // ここでJOB完了信号発行。サムネイル化処理と分ける
+                completed?.Set();
+
+                // Thumbnail !!
+                if (!this.Thumbnail.IsValid)
                 {
-                    //Debug.WriteLine("CT: AlreadyExist");
+                    var source = GetBitmapSourceContent(content);
+                    if (source != null)
+                    {
+                        this.Thumbnail.Initialize(source);
+                    }
                 }
             }
             //Debug.WriteLine($"*OnExecute({LastName}) done.");
@@ -441,11 +307,7 @@ namespace NeeView
         {
             Message = "Closing...";
 
-            if (_jobRequest != null)
-            {
-                _jobRequest.Cancel();
-                _jobRequest = null;
-            }
+            _contentJob.Cancel();
 
             if (Content != null)
             {
@@ -455,6 +317,60 @@ namespace NeeView
 
             Message = "Closed.";
         }
+
+        #endregion
+
+
+        #region 新サムネイル
+
+        private PageJob _thumbnailJob;
+
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        private void InitializeThumbnailJob()
+        {
+            _thumbnailJob = new PageJob(this, new ThumbnailLoadJobCommand(this));
+        }
+
+
+        /// <summary>
+        /// JOB: コマンド
+        /// </summary>
+        private class ThumbnailLoadJobCommand : IJobCommand
+        {
+            Page _page;
+
+            public ThumbnailLoadJobCommand(Page page)
+            {
+                _page = page;
+            }
+
+            public void Cancel()
+            {
+            }
+
+            public void Execute(ManualResetEventSlim completed, CancellationToken token)
+            {
+                _page.OnExecute(null, token);
+            }
+        }
+
+        public JobRequest LoadThumbnail(QueueElementPriority priority)
+        {
+            // 既にサムネイルが存在する場合、何もしない
+            if (this.Thumbnail.IsValid) return null;
+
+            return _thumbnailJob.Request(priority, PageJobOption.None);
+        }
+
+        // サムネイル要求キャンセル
+        //public void UnloadThumbnail()
+        //{
+        //    _thumbnailJob.Cancel();
+        //}
+
+        #endregion
 
 
         // ファイルの場所を取得
@@ -513,7 +429,7 @@ namespace NeeView
                     Unload();
 
                     Loaded = null;
-                    ThumbnailChanged = null;
+                    this.Thumbnail.Dispose(); // Changed = null;
                 }
 
                 // TODO: アンマネージ リソース (アンマネージ オブジェクト) を解放し、下のファイナライザーをオーバーライドします。

@@ -571,20 +571,15 @@ namespace NeeView
 
             if (page != null)
             {
-                page.ThumbnailChanged += Page_ThumbnailChanged;
+                page.Thumbnail.Changed += (s, e) =>
+                {
+                    ThumbnailChanged(this, page);
+                };
+
                 Pages.Add(page);
             }
         }
 
-        //
-        private void Page_ThumbnailChanged(object sender, System.Windows.Media.Imaging.BitmapSource e)
-        {
-            var page = sender as Page;
-            if (page != null && e != null)
-            {
-                ThumbnailChanged?.Invoke(this, page);
-            }
-        }
 
 
         // 名前の最長一致文字列取得
@@ -919,7 +914,7 @@ namespace NeeView
 
             lock (_lock)
             {
-                _viewContext = null;
+                _viewContext = new ViewPageContext();
 
                 Pages?.ForEach(e => e?.Dispose());
                 Pages?.Clear();
@@ -1385,7 +1380,7 @@ namespace NeeView
                 if (0 <= index && index < Pages.Count)
                 {
                     Debug.Assert(_keepPages.Contains(Pages[index])); // 念のため
-                    Pages[index].Load(QueueElementPriority.Default, Page.OpenOption.WeakPriority);
+                    Pages[index].Load(QueueElementPriority.Default, PageJobOption.WeakPriority);
 
                     if (!_keepPages.Contains(Pages[index]))
                     {

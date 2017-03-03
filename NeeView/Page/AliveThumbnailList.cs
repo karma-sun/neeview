@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace NeeView
         // サムネイル有効ページを追加
         public void Add(Page page)
         {
-            if (page.Thumbnail != null)
+            if (page.Thumbnail.IsValid)
             {
                 lock (_lock)
                 {
@@ -37,9 +38,12 @@ namespace NeeView
         {
             lock (_lock)
             {
+                // TODO: サムネイルの開放処理
+                Debug.WriteLine("TODO: CloseThumbnail");
+
                 foreach (var page in _list)
                 {
-                    page.CloseThumbnail();
+                    ////page.CloseThumbnail();
                 }
                 _list.Clear();
             }
@@ -56,10 +60,13 @@ namespace NeeView
         {
             lock (_lock)
             {
+                // TODO: サムネイルの開放処理
+                Debug.WriteLine("TODO: CloseThumbnail");
+
                 while (_list.Count > limit)
                 {
                     var page = _list.Last();
-                    page.CloseThumbnail();
+                    ////page.CloseThumbnail();
 
                     _list.RemoveLast();
                 }

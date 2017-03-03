@@ -57,7 +57,7 @@ namespace NeeView
         {
             if (Page == null) return null;
 
-            BitmapSource source = Page.GetBitmapSourceContent() ?? Page.Thumbnail;
+            BitmapSource source = Page.GetBitmapSourceContent() ?? Page.Thumbnail.CreateBitmap();
 
             if (source == null)
             {
@@ -77,7 +77,7 @@ namespace NeeView
         {
             if (Page == null) return null;
 
-            return CreateVisualContent(Page.GetBitmapSourceContent() ?? Page.Thumbnail, new Size(Page.Width, Page.Height), maxSize, isShadowEffect);
+            return CreateVisualContent(Page.GetBitmapSourceContent() ?? Page.Thumbnail.CreateBitmap(), new Size(Page.Width, Page.Height), maxSize, isShadowEffect);
         }
 
         // サムネイル作成

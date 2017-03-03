@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -19,8 +20,18 @@ namespace NeeView
     /// サムネイル.
     /// Jpegで保持し、必要に応じてBitmapSourceを生成
     /// </summary>
-    public class Thumbnail
+    public class Thumbnail : INotifyPropertyChanged, IDisposable
     {
+        /// <summary>
+        /// PropertyChanged event. 
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
         /// <summary>
         /// 画像サイズ
         /// </summary>
@@ -29,7 +40,7 @@ namespace NeeView
         /// <summary>
         /// 品質
         /// </summary>
-        public static int Quality { get; set; } = 90;
+        public static int Quality { get; set; } = 80;
 
         /// <summary>
         /// 有効判定
@@ -37,10 +48,19 @@ namespace NeeView
         internal bool IsValid => (_image != null);
 
         /// <summary>
+        /// 変更イベント
+        /// </summary>
+        public event EventHandler Changed;
+
+        /// <summary>
         /// Jpeg化された画像
         /// </summary>
         private byte[] _image;
 
+        /// <summary>
+        /// View用Bitmapプロパティ
+        /// </summary>
+        public BitmapSource BitmapSource => CreateBitmap();
 
         /// <summary>
         /// 初期化
@@ -55,9 +75,14 @@ namespace NeeView
 
             var bitmapSource = Utility.NVGraphics.CreateThumbnail(source, new Size(Size, Size));
             _image = EncodeToJpeg(bitmapSource);
+            //_image = EncodeToPng(bitmapSource);
 
             sw.Stop();
             Debug.WriteLine($"Jpeg: {_image.Length / 1024}KB, {sw.ElapsedMilliseconds}ms");
+            //Debug.WriteLine($"Png: {_image.Length / 1024}KB, {sw.ElapsedMilliseconds}ms");
+
+            Changed?.Invoke(this, null);
+            RaisePropertyChanged(nameof(BitmapSource));
         }
 
         /// <summary>
@@ -67,6 +92,7 @@ namespace NeeView
         public BitmapSource CreateBitmap()
         {
             return IsValid ? DecodeFromJpeg(_image) : null;
+            //return IsValid ? DecodeFromPng(_image) : null;
         }
 
         /// <summary>
@@ -100,6 +126,49 @@ namespace NeeView
                 bitmap.Freeze();
                 return bitmap;
             }
+        }
+
+        /// <summary>
+        /// BitmapSource to Png
+        /// </summary>
+        private byte[] EncodeToPng(BitmapSource source)
+        {
+            using (var stream = new MemoryStream())
+            {
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                //encoder.QualityLevel = Quality;
+                encoder.Frames.Add(BitmapFrame.Create(source));
+                encoder.Save(stream);
+
+                stream.Flush();
+                return stream.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Png to BitmapSource
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        private BitmapSource DecodeFromPng(byte[] image)
+        {
+            using (var stream = new MemoryStream(image, false))
+            {
+                PngBitmapDecoder decoder = new PngBitmapDecoder(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+                var bitmap = decoder.Frames[0];
+                bitmap.Freeze();
+                return bitmap;
+            }
+        }
+
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public void Dispose()
+        {
+            _image = null;
+            Changed = null;
         }
     }
 }

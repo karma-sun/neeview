@@ -339,7 +339,7 @@ namespace NeeView
 
         //
         private int _keepPageNextSize => PageMode == PageMode.SinglePage ? 1 : 3;
-        private int _keepPagePrevSize => PageMode == PageMode.SinglePage ? 1 : 3;
+        private int _keepPagePrevSize => PageMode == PageMode.SinglePage ? 1 : 2;
 
         // マーカー
         public List<Page> Markers = new List<Page>();
@@ -1237,8 +1237,6 @@ namespace NeeView
                 contentsSource.Add(new ViewContentSource(page, v.Position, v.Size, BookReadOrder));
             }
 
-            // 先読み可能判定
-            UpdatePreLoadStatus(contentsSource);
 
 
             // 並び順補正
@@ -1262,6 +1260,9 @@ namespace NeeView
                 contentsSource.Add(new ViewContentSource(Pages[position.Index], position, 2, BookReadOrder));
             }
 
+            // 先読み可能判定
+            UpdatePreLoadStatus(contentsSource);
+
             // 新しいコンテキスト
             var context = new ViewPageContext();
             context.Position = infos[0].Position;
@@ -1278,28 +1279,33 @@ namespace NeeView
         {
             if (PreLoadMode != PreLoadMode.AutoPreLoad) return;
 
-            foreach (var content in contentsSource)
-            {
-                UpdatePreLoadStatus(content.Page);
-            }
+            UpdatePreLoadStatus(contentsSource.Select(e => e.Page));
         }
 
         /// <summary>
         /// 先読み自動判定
         /// </summary>
         /// <param name="page"></param>
-        private void UpdatePreLoadStatus(Page page)
+        private void UpdatePreLoadStatus(IEnumerable<Page> pages)
         {
             if (PreLoadMode != PreLoadMode.AutoPreLoad) return;
 
+            // 集計
+            double size = 0;
+            foreach (var page in pages)
+            {
+                if (!page.IsContentInfoAlive) return;
+                size += page.Width * page.Height;
+            }
+
             // 判定
-            if (page.Width * page.Height > _environment.PreLoadLimitSize)
+            if (size > _environment.PreLoadLimitSize)
             {
                 //Debug.WriteLine("PreLoad: Disabled");
                 _canPreLoadCount = 0;
                 _canPreLoad = false;
             }
-            else if (page.IsContentAlived)
+            else
             {
                 _canPreLoadCount++;
                 if (!_canPreLoad && _canPreLoadCount > 3) // 一定回数連続で規定サイズ以下なら先読み有効
@@ -1316,7 +1322,9 @@ namespace NeeView
         {
             // コンテンツを保持するページ収集
             var keepPages = new List<Page>();
-            for (int offset = -_keepPagePrevSize; offset <= _keepPageNextSize; ++offset)
+            int prevSize = source.Direction < 0 ? _keepPageNextSize : _keepPagePrevSize;
+            int nextSize = source.Direction < 0 ? _keepPagePrevSize : _keepPageNextSize;
+            for (int offset = -prevSize; offset <= nextSize; ++offset)
             {
                 int index = source.Position.Index + offset;
                 if (0 <= index && index < Pages.Count)
@@ -1371,9 +1379,7 @@ namespace NeeView
 
             var preLoadPages = new List<Page>();
 
-            var size = source.Direction < 0 ? _keepPagePrevSize : _keepPageNextSize;
-
-            for (int offset = 0; offset <= size; offset++)
+            for (int offset = 0; offset <= _keepPageNextSize; offset++)
             {
                 int index = source.Position.Index + (source.Direction < 0 ? -offset : offset);
                 if (0 <= index && index < Pages.Count)

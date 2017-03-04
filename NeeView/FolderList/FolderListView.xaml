@@ -41,7 +41,11 @@
                     <DockPanel>
                         <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"
                            RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
-                           Width="60" Height="60" />
+                           Width="60" Height="60" >
+                            <Image.ToolTip>
+                                <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"/>
+                            </Image.ToolTip>
+                        </Image>
                         <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="Wrap"/>
                     </DockPanel>
                 </DockPanel>

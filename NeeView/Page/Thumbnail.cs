@@ -169,7 +169,15 @@ namespace NeeView
         /// <returns></returns>
         public BitmapSource CreateBitmap()
         {
-            return IsValid ? DecodeFromJpeg(_image) : null;
+            if (IsValid)
+            {
+                Touched?.Invoke(this, null);
+                return DecodeFromJpeg(_image);
+            }
+            else
+            {
+                return null;
+            }
         }
 
 

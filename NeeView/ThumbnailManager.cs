@@ -83,7 +83,7 @@ namespace NeeView
 
         public PanelThumbnailPool()
         {
-            Limit = 100;
+            Limit = 200;
         }
     }
 }

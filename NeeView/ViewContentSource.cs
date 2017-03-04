@@ -225,7 +225,9 @@ namespace NeeView
             textblock.HorizontalAlignment = HorizontalAlignment.Center;
             textblock.VerticalAlignment = VerticalAlignment.Center;
 
-            return new PageContent(element, textblock);
+            var pageContent = new PageContent(element, textblock);
+            pageContent.IsHitTestVisible = false;
+            return pageContent;
         }
     }
 

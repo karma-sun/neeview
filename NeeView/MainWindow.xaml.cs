@@ -1115,6 +1115,8 @@ namespace NeeView
             Temporary.RemoveTempFolder();
             _VM.Dispose();
 
+            ThumbnailCache.Current.Dispose();
+
             Debug.WriteLine("Window.Closed done.");
             //Environment.Exit(0);
         }

@@ -69,6 +69,7 @@ namespace NeeView
             {
                 wheelAction = MouseWheelAction.WheelDown;
             }
+            //System.Diagnostics.Debug.WriteLine($"Wheel: {mouseEventArgs.Delta}");
 
             ModifierMouseButtons modifierMouseButtons = ModifierMouseButtons.None;
             if (mouseEventArgs.LeftButton == MouseButtonState.Pressed)

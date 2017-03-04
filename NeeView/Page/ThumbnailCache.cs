@@ -125,10 +125,6 @@ namespace NeeView
                             + "value BLOB"
                             + ")";
                 command.ExecuteNonQuery();
-
-                // thumbnails index
-                command.CommandText = "CREATE INDEX IF NOT EXISTS thumbs_index ON thumbs(key)";
-                command.ExecuteNonQuery();
             }
         }
 

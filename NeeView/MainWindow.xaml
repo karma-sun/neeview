@@ -317,7 +317,8 @@
                                 <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True" >
                                     <!-- Pages -->
                                     <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
-                                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            IsHitTestVisible="False"
+                                            HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <Canvas.Resources>
                                             <Style TargetType="TextBlock" x:Key="ContentProperty">
                                                 <Setter Property="Foreground" Value="White"/>
@@ -337,7 +338,8 @@
                                     </Canvas>
                                     <!-- Pages Shadow (表示領域計算用) -->
                                     <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
-                                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            IsHitTestVisible="False"
+                                            HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
                                             <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
                                             <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Margin="{Binding ContentsMargin}"/>

@@ -69,7 +69,7 @@ namespace NeeView
         /// <summary>
         /// サムネイル保証数
         /// </summary>
-        public static int Limit { get; set; } = 1000;
+        public int Limit { get; set; } = 1000;
 
         /// <summary>
         /// 廃棄処理 part1 許容値

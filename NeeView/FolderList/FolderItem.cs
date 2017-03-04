@@ -47,10 +47,7 @@ namespace NeeView
 
         protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
         }
         #endregion
 
@@ -193,8 +190,6 @@ namespace NeeView
             }
         }
 
-        public static event EventHandler<Page> ThumbnailChanged;
-
         // サムネイル用
         #region Property: ArchivePage
         private ArchivePage _archivePage;
@@ -205,17 +200,26 @@ namespace NeeView
                 if (_archivePage == null && !IsDrive && !IsEmpty)
                 {
                     _archivePage = new ArchivePage(TargetPath);
-                    _archivePage.Thumbnail.Changed += (s, e) => ThumbnailChanged?.Invoke(this, _archivePage);
+                    _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }
                 return _archivePage;
             }
             set { _archivePage = value; RaisePropertyChanged(); }
         }
+
+        //
+        private void Thumbnail_Touched(object sender, EventArgs e)
+        {
+            var thumbnail = (Thumbnail)sender;
+            PanelThumbnailPool.Current.Add(thumbnail);
+        }
         #endregion
 
+        //
         public Page GetPage()
         {
             return ArchivePage;
         }
     }
+
 }

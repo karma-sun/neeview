@@ -508,8 +508,6 @@ namespace NeeView
 
         #region for Thumbnail
 
-        public static event EventHandler<Page> ThumbnailChanged;
-
         // サムネイル用。保存しません
         #region Property: ArchivePage
         private ArchivePage _archivePage;
@@ -520,14 +518,18 @@ namespace NeeView
                 if (_archivePage == null)
                 {
                     _archivePage = new ArchivePage(Place, EntryName);
-                    _archivePage.Thumbnail.Changed += (s, e) =>
-                    {
-                        ThumbnailChanged?.Invoke(this, _archivePage);
-                    };
+                    _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }
                 return _archivePage;
             }
             set { _archivePage = value; }
+        }
+
+        //
+        private void Thumbnail_Touched(object sender, EventArgs e)
+        {
+            var thumbnail = (Thumbnail)sender;
+            PanelThumbnailPool.Current.Add(thumbnail);
         }
         #endregion
 

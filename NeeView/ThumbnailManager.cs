@@ -22,39 +22,10 @@ namespace NeeView
 
     /// <summary>
     /// サムネイル管理
-    /// リストから指定範囲のサムネイルをロードし、上限に達したら古いものから削除していきます
+    /// リストから指定範囲のサムネイルをロードします
     /// </summary>
     public class ThumbnailManager
     {
-        // サムネイル有効リスト
-        private AliveThumbnailList _aliveThumbnailList = new AliveThumbnailList();
-
-        private double _thumbnailSize = 256.0;
-        public double ThumbnailSizeX
-        {
-            get { return _thumbnailSize; }
-            set
-            {
-                if (_thumbnailSize != value)
-                {
-                    _thumbnailSize = value;
-                    ClearThumbnail();
-                }
-            }
-        }
-
-        public double ThumbnailSizeY => ThumbnailSizeX * 0.25;
-
-        public int ThumbnailMemorySize { get; set; } = 8;
-
-        //
-        public void InitializeThumbnailSystem()
-        {
-            FolderItem.ThumbnailChanged += (s, e) => _aliveThumbnailList.Add(e);
-            BookMementoUnit.ThumbnailChanged += (s, e) => _aliveThumbnailList.Add(e);
-            Pagemark.ThumbnailChanged += (s, e) => _aliveThumbnailList.Add(e);
-        }
-
         //
         #region Property: IsEnabled
         private bool _isEnabled;
@@ -64,7 +35,6 @@ namespace NeeView
             set
             {
                 _isEnabled = value;
-                if (!_isEnabled) ClearThumbnail();
             }
         }
         #endregion
@@ -76,13 +46,10 @@ namespace NeeView
 
             //Debug.WriteLine($"{start}+{count}");
 
-            if (collection == null || ThumbnailSizeX < 8.0) return;
+            if (collection == null) return;
 
             // 未処理の要求を解除
             ModelContext.JobEngine.Clear(QueueElementPriority.FolderThumbnail);
-
-            // 有効サムネイル数制限
-            LimitThumbnail();
 
             // 要求
             int center = start + count / 2;
@@ -95,18 +62,28 @@ namespace NeeView
                 page.GetPage()?.LoadThumbnail(QueueElementPriority.FolderThumbnail);
             }
         }
+    }
 
-        // 有効サムネイル数制限
-        private void LimitThumbnail()
+
+
+    /// <summary>
+    /// ThumbnaulPool for Panel
+    /// </summary>
+    public class PanelThumbnailPool : ThumbnailPool
+    {
+        public static PanelThumbnailPool _current;
+        public static PanelThumbnailPool Current
         {
-            int limit = (ThumbnailMemorySize * 1024 * 1024) / ((int)ThumbnailSizeX * (int)ThumbnailSizeY);
-            _aliveThumbnailList.Limited(limit);
+            get
+            {
+                _current = _current ?? new PanelThumbnailPool();
+                return _current;
+            }
         }
 
-        // サムネイル破棄
-        private void ClearThumbnail()
+        public PanelThumbnailPool()
         {
-            _aliveThumbnailList.Clear();
+            Limit = 100;
         }
     }
 }

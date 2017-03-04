@@ -41,16 +41,17 @@
 
         <!-- Picture History -->
         <DataTemplate x:Key="PictureHistory">
-            <DockPanel Height="{Binding ElementName=HistoryListBox, Path=DataContext.PicturePanelHeight}" Margin="0,1" Background="{DynamicResource NVBaseBrush}">
-                <DockPanel DockPanel.Dock="Bottom" Margin="0,2">
-                    <TextBlock Style="{StaticResource FolderName}"/>
+
+            <Grid Height="64" Margin="0,1" Background="{DynamicResource NVBaseBrush}">
+                <DockPanel Margin="2">
+                    <DockPanel>
+                        <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"
+                           RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
+                           Width="60" Height="60" />
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="Wrap"/>
+                    </DockPanel>
                 </DockPanel>
-                <Grid>
-                    <Image Source="{Binding ArchivePage.Thumbnail}"
-                           Width="{Binding ElementName=HistoryListBox, Path=DataContext.ThumbnailWidth}"
-                           HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="UniformToFill" UseLayoutRounding="True"/>
-                </Grid>
-            </DockPanel>
+            </Grid>
         </DataTemplate>
 
     </UserControl.Resources>

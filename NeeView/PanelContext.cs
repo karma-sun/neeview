@@ -39,7 +39,6 @@ namespace NeeView
         static PanelContext()
         {
             ThumbnailManager = new ThumbnailManager();
-            ThumbnailManager.InitializeThumbnailSystem();
         }
     }
 }

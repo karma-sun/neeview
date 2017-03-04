@@ -1590,7 +1590,7 @@ namespace NeeView
             {
                 _bannerMemorySize = value;
                 RaisePropertyChanged();
-                PanelContext.ThumbnailManager.ThumbnailMemorySize = _bannerMemorySize;
+                //PanelContext.ThumbnailManager.ThumbnailMemorySize = _bannerMemorySize;
             }
         }
         #endregion
@@ -1604,7 +1604,7 @@ namespace NeeView
             {
                 _bannerSize = value;
                 RaisePropertyChanged();
-                PanelContext.ThumbnailManager.ThumbnailSizeX = _bannerSize;
+                //PanelContext.ThumbnailManager.ThumbnailSizeX = _bannerSize;
             }
         }
         #endregion

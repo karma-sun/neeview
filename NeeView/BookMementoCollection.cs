@@ -79,8 +79,6 @@ namespace NeeView
             return Memento?.Place ?? base.ToString();
         }
 
-        public static event EventHandler<Page> ThumbnailChanged;
-
         /// <summary>
         /// ArchivePage Property.
         /// サムネイル用。保存しません
@@ -93,11 +91,18 @@ namespace NeeView
                 if (_archivePage == null && Memento != null)
                 {
                     _archivePage = new ArchivePage(Memento.Place);
-                    _archivePage.Thumbnail.Changed += (s, e) => ThumbnailChanged?.Invoke(this, _archivePage);
+                    _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }
                 return _archivePage;
             }
             set { _archivePage = value; }
+        }
+
+        //
+        private void Thumbnail_Touched(object sender, EventArgs e)
+        {
+            var thumbnail = (Thumbnail)sender;
+            PanelThumbnailPool.Current.Add(thumbnail);
         }
 
         //

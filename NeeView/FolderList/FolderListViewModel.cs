@@ -52,17 +52,17 @@ namespace NeeView
         /// <summary>
         /// バナーの高さ
         /// </summary>
-        public double PicturePanelHeight => ThumbnailHeight + 24.0;
+        //public double PicturePanelHeight => ThumbnailHeight + 24.0;
 
         /// <summary>
         /// バナー画像幅
         /// </summary>
-        public double ThumbnailWidth => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeX / App.Config.DpiScaleFactor.X);
+        //public double ThumbnailWidth => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeX / App.Config.DpiScaleFactor.X);
 
         /// <summary>
         /// バナー画像高さ
         /// </summary>
-        public double ThumbnailHeight => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeY / App.Config.DpiScaleFactor.Y);
+        //public double ThumbnailHeight => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeY / App.Config.DpiScaleFactor.Y);
         
 
         /// <summary>

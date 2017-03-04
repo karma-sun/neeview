@@ -86,6 +86,14 @@ namespace NeeView
         // ページ名：プレフィックスを除いたフルパス のディレクトリ名(整形済)
         public string SmartDirectoryName => LoosePath.GetDirectoryName(SmartFullPath).Replace('\\', '/');
 
+        // ページ名 : サムネイル識別名
+        public virtual string ThumbnailName => FullPath;
+
+        // ファイル情報：最終更新日
+        public DateTime? LastWriteTime => Entry.LastWriteTime;
+
+        // ファイル情報：ファイルサイズ
+        public long FileSize => Entry.FileSize;
 
 
         // コンテンツ幅
@@ -352,10 +360,32 @@ namespace NeeView
 
             public void Execute(ManualResetEventSlim completed, CancellationToken token)
             {
-                _page.OnExecute(null, token);
+                _page.OnExcludeThumbnail(null, token);
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="completed"></param>
+        /// <param name="token"></param>
+        private void OnExcludeThumbnail(ManualResetEventSlim completed, CancellationToken token)
+        {
+            // キャッシュチェック
+            Thumbnail.Initialize(ThumbnailName, FileSize, LastWriteTime);
+            if (Thumbnail.IsValid) return;
+
+            if (token.IsCancellationRequested) return;
+
+            OnExecute(null, token);
+        }
+
+
+        /// <summary>
+        /// サムネイル要求
+        /// </summary>
+        /// <param name="priority"></param>
+        /// <returns></returns>
         public JobRequest LoadThumbnail(QueueElementPriority priority)
         {
             Thumbnail.Touch();
@@ -414,7 +444,7 @@ namespace NeeView
         // ファイルの存在確認
         public bool IsFile()
         {
-            return Entry?.Archiver != null && Entry.Archiver is FolderFiles;
+            return Entry?.Archiver != null && Entry.Archiver is FolderArchive;
         }
 
 

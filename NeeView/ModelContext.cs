@@ -71,6 +71,10 @@ namespace NeeView
             DragActionTable = new DragActionTable();
 
             SusieContext = new SusieContext();
+
+            //
+            ThumbnailCache.Current = new ThumbnailCache();
+            ThumbnailCache.Current.Open(Path.Combine(System.Environment.CurrentDirectory, "Cache.db"));
         }
 
 

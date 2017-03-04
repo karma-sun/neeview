@@ -58,6 +58,8 @@ namespace NeeView
         {
             if (string.IsNullOrEmpty(s1))
                 return s2;
+            else if (string.IsNullOrEmpty(s2))
+                return s1;
             else
                 return s1.TrimEnd(s_sepalator) + "\\" + s2.TrimStart(s_sepalator);
         }

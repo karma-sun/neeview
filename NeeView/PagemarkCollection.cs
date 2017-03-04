@@ -517,7 +517,9 @@ namespace NeeView
             {
                 if (_archivePage == null)
                 {
-                    _archivePage = new ArchivePage(Place, EntryName);
+                    var entry = RootArchive.Current.CreateArchiveEntry(Place);
+                    _archivePage = new ArchivePage(entry, EntryName);
+                    _archivePage.Thumbnail.IsSupprtedCache = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }
                 return _archivePage;

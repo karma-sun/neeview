@@ -90,7 +90,9 @@ namespace NeeView
             {
                 if (_archivePage == null && Memento != null)
                 {
-                    _archivePage = new ArchivePage(Memento.Place);
+                    var entry = RootArchive.Current.CreateArchiveEntry(Memento.Place);
+                    _archivePage = new ArchivePage(entry);
+                    _archivePage.Thumbnail.IsSupprtedCache = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }
                 return _archivePage;

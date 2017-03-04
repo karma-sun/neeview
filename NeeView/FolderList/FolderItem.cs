@@ -76,9 +76,14 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 最終更新日。ソート用
+        /// 最終更新日
         /// </summary>
         public DateTime LastWriteTime { get; set; }
+
+        /// <summary>
+        /// ファイルサイズ
+        /// </summary>
+        public long Length { get; set; }
 
         public string ParentPath => System.IO.Path.GetDirectoryName(Path);
 
@@ -199,7 +204,9 @@ namespace NeeView
             {
                 if (_archivePage == null && !IsDrive && !IsEmpty)
                 {
-                    _archivePage = new ArchivePage(TargetPath);
+                    var entry = RootArchive.Current.CreateArchiveEntry(TargetPath, Length, LastWriteTime);
+                    _archivePage = new ArchivePage(entry);
+                    _archivePage.Thumbnail.IsSupprtedCache = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }
                 return _archivePage;

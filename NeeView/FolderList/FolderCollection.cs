@@ -424,6 +424,7 @@ namespace NeeView
                 {
                     Path = e.FullName,
                     LastWriteTime = e.LastWriteTime,
+                    Length = -1,
                     Attributes = FolderItemAttribute.Directory,
                     IsReady = true
                 };
@@ -447,6 +448,7 @@ namespace NeeView
                 {
                     Path = e.FullName,
                     LastWriteTime = e.LastWriteTime,
+                    Length = e.Length,
                     IsReady = true
                 };
             }

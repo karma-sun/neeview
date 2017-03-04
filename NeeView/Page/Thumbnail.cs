@@ -61,6 +61,23 @@ namespace NeeView
         /// Jpeg化された画像
         /// </summary>
         private byte[] _image;
+        public byte[] Image
+        {
+            get { return _image; }
+            set
+            {
+                if (_image != value)
+                {
+                    _image = value;
+                    if (Image != null)
+                    {
+                        Changed?.Invoke(this, null);
+                        Touched?.Invoke(this, null);
+                        RaisePropertyChanged(nameof(BitmapSource));
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// View用Bitmapプロパティ
@@ -72,6 +89,36 @@ namespace NeeView
         /// </summary>
         public int LifeSerial { get; set; }
 
+        /// <summary>
+        /// キャッシュ使用
+        /// </summary>
+        public bool IsSupprtedCache { get; set; }
+
+        /// <summary>
+        /// キャシュ用ヘッダ
+        /// </summary>
+        public ThumbnailCacheHeader _header { get; set; }
+
+        /// <summary>
+        /// キャッシュを使用してサムネイル生成を試みる
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="dateTime"></param>
+        /// <param name="length"></param>
+        internal void Initialize(string name, long length, DateTime? dateTime)
+        {
+            if (IsValid || !IsSupprtedCache) return;
+
+            var sw = new Stopwatch();
+            sw.Start();
+            _header = new ThumbnailCacheHeader(name, length, dateTime);
+            var image = ThumbnailCache.Current.Load(_header);
+            sw.Stop();
+            Debug.WriteLine($"Cache Load: {IsValid}: {sw.ElapsedMilliseconds}ms");
+
+            Image = image;
+        }
+
 
         /// <summary>
         /// 初期化
@@ -81,18 +128,23 @@ namespace NeeView
         {
             if (IsValid) return;
 
-            var sw = new Stopwatch();
-            sw.Start();
-
+            //var sw = new Stopwatch();
+            //sw.Start();
             var bitmapSource = Utility.NVGraphics.CreateThumbnail(source, new Size(Size, Size));
-            _image = EncodeToJpeg(bitmapSource);
+            var image = EncodeToJpeg(bitmapSource);
+            //sw.Stop();
+            //Debug.WriteLine($"Jpeg: {_image.Length / 1024}KB, {sw.ElapsedMilliseconds}ms");
 
-            sw.Stop();
-            Debug.WriteLine($"Jpeg: {_image.Length / 1024}KB, {sw.ElapsedMilliseconds}ms");
+            Image = image;
 
-            Changed?.Invoke(this, null);
-            Touched?.Invoke(this, null);
-            RaisePropertyChanged(nameof(BitmapSource));
+            if (IsSupprtedCache && _header != null)
+            {
+                var sw = new Stopwatch();
+                sw.Start();
+                ThumbnailCache.Current.Save(_header, _image);
+                sw.Stop();
+                Debug.WriteLine($"Cache Save: {sw.ElapsedMilliseconds}ms");
+            }
         }
 
         /// <summary>

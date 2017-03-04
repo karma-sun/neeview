@@ -17,7 +17,7 @@ namespace NeeView
     /// アーカイバ：通常ファイル
     /// ディレクトリをアーカイブとみなしてアクセスする
     /// </summary>
-    public class FolderFiles : Archiver
+    public class FolderArchive : Archiver
     {
         public override string ToString()
         {
@@ -31,7 +31,7 @@ namespace NeeView
         private bool _isDisposed;
 
         // コンストラクタ
-        public FolderFiles(string folderFileName)
+        public FolderArchive(string folderFileName)
         {
             FileName = folderFileName;
         }
@@ -119,4 +119,5 @@ namespace NeeView
             File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
         }
     }
+
 }

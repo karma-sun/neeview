@@ -61,7 +61,7 @@ namespace NeeView
         {
             if (isArrowFileSystem && fileName.Last() == '\\')
             {
-                return ArchiverType.FolderFiles;
+                return ArchiverType.FolderArchive;
             }
 
             if (IsEnabled)
@@ -141,8 +141,8 @@ namespace NeeView
 
             switch (type)
             {
-                case ArchiverType.FolderFiles:
-                    return new FolderFiles(path) { Source = source };
+                case ArchiverType.FolderArchive:
+                    return new FolderArchive(path) { Source = source };
                 case ArchiverType.ZipArchiver:
                     return new ZipArchiver(path) { Source = source };
                 case ArchiverType.SevenZipArchiver:
@@ -159,7 +159,7 @@ namespace NeeView
         {
             if (Directory.Exists(path))
             {
-                return CreateArchiver(ArchiverType.FolderFiles, path, null, source);
+                return CreateArchiver(ArchiverType.FolderArchive, path, null, source);
             }
 
             return CreateArchiver(GetSupportedType(path), path, null, source);

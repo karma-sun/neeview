@@ -19,30 +19,43 @@ namespace NeeView
     /// アーカイブのページ
     /// フォルダサムネイル作成用
     /// </summary>
-    public class ArchivePage : BitmapPage
+    public class ArchivePage : Page
     {
         public static bool IsAutoRecursive { get; set; } = true;
 
         private string _entryName;
 
+        //
+        private string _thumbnailName;
+        public override string ThumbnailName => _thumbnailName;
+
         // コンストラクタ
-        public ArchivePage(string place) : base(null, null, place)
+        public ArchivePage(ArchiveEntry entry, string entryName)
         {
+            Debug.Assert(entry.Archiver == RootArchive.Current); // ルートアーカイブのみサポート
+
+            this.Entry = entry;
+            this.Place = entry.EntryName;
+
+            _entryName = entryName;
+
+            _thumbnailName = LoosePath.Combine(Entry.FileSize < 0 ? FullPath : LastName, _entryName);
         }
 
         // コンストラクタ
-        public ArchivePage(string place, string entryName) : this(place)
+        public ArchivePage(ArchiveEntry entry) : this(entry, null)
         {
-            _entryName = entryName;
         }
 
         //
         public override Page TinyClone()
         {
-            return new ArchivePage(Place, _entryName);
+            return new ArchivePage(Entry, _entryName);
         }
 
         private TrashBox _trashBox = new TrashBox();
+
+        private ArchiveEntry _thumbnailEntry;
 
         //
         private void OpenEntry()
@@ -50,11 +63,11 @@ namespace NeeView
             try
             {
                 // TODO: 自動再帰する設定
-                var archiver = GetStartArchiver(Place);
+                var archiver = GetStartArchiver(Place); // ##
                 if (archiver != null)
                 {
                     _trashBox.Add(archiver);
-                    Entry = OpenEntry(archiver, _entryName, !archiver.IsFileSystem);
+                    _thumbnailEntry = OpenEntry(archiver, _entryName, !archiver.IsFileSystem);
                 }
             }
             catch (Exception e)
@@ -198,10 +211,10 @@ namespace NeeView
         // エントリを閉じる
         private void CloseEntry()
         {
-            if (Entry != null)
+            if (_thumbnailEntry != null)
             {
                 //Entry?.Archiver?.Dispose();
-                Entry = null;
+                _thumbnailEntry = null;
             }
             _trashBox.Clear();
         }
@@ -285,8 +298,14 @@ namespace NeeView
             try
             {
                 OpenEntry();
-                if (Entry == null) return null;
-                return LoadContent(false);
+                if (_thumbnailEntry == null) return null;
+
+                var loader = new BitmapContentLoader();
+                loader.LoadContent(_thumbnailEntry, true);
+                this.Width = loader.Width;
+                this.Height = loader.Height;
+                this.Color = loader.Color;
+                return loader.Content;
             }
             finally
             {

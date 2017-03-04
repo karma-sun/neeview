@@ -569,7 +569,7 @@ namespace NeeView
                         case ArchiverType.None:
                             page = new FilePage(archiver, entry, place, FilePageIcon.File);
                             break;
-                        case ArchiverType.FolderFiles:
+                        case ArchiverType.FolderArchive:
                             page = new FilePage(archiver, entry, place, FilePageIcon.Folder);
                             break;
                         default:

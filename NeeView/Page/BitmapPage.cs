@@ -126,4 +126,57 @@ namespace NeeView
         public FileProxy FileProxy { get; set; }
         public BitmapContent BitmapContent { get; set; }
     }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class BitmapContentLoader
+    {
+        public object Content { get; private set; }
+
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+        public Color Color { get; private set; }
+
+        /// <summary>
+        /// 画像ロード処理
+        /// </summary>
+        /// <param name="isUseMediaPlayer">メディアプレイヤーで再生させる</param>
+        /// <returns>ページコンテンツ</returns>
+        public object LoadContent(ArchiveEntry entry, bool isEnableExif)
+        {
+            try
+            {
+                var bitmapLoader = new BitmapLoader(entry, isEnableExif);
+                var bitmapContent = bitmapLoader.Load();
+                if (bitmapContent == null) throw new ApplicationException("画像の読み込みに失敗しました。");
+                var bitmapSource = bitmapContent.Source;
+                Width = bitmapSource.PixelWidth;
+                Height = bitmapSource.PixelHeight;
+                Color = bitmapSource.GetOneColor();
+
+                Content = bitmapContent;
+                return Content;
+            }
+            catch (Exception e)
+            {
+                //Message = "Exception: " + e.Message;
+                Width = 320;
+                Height = 320; // * 1.25;
+                Color = Colors.Black;
+
+                Content = new FilePageContent()
+                {
+                    Icon = FilePageIcon.Alart,
+                    FileName = LoosePath.GetFileName(entry.EntryName),
+                    Message = e.Message,
+
+                    Info = new FileBasicInfo()
+                };
+
+                return Content;
+            }
+        }
+    }
 }

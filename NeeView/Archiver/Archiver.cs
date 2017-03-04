@@ -19,7 +19,7 @@ namespace NeeView
     {
         None,
 
-        FolderFiles,
+        FolderArchive,
         ZipArchiver,
         SevenZipArchiver,
         SusieArchiver,
@@ -56,7 +56,7 @@ namespace NeeView
         /// <summary>
         /// 識別名
         /// </summary>
-        public string Ident => (Parent == null || Parent is FolderFiles) ? FileName : LoosePath.Combine(Parent.Ident, $"{Source.Id}.{Source.EntryName}");
+        public string Ident => (Parent == null || Parent is FolderArchive) ? FileName : LoosePath.Combine(Parent.Ident, $"{Source.Id}.{Source.EntryName}");
 
         /// <summary>
         /// エントリリストを取得
@@ -136,7 +136,7 @@ namespace NeeView
         /// <returns>ファイルパス</returns>
         public string GetPlace()
         {
-            return (Parent == null || Parent is FolderFiles) ? FileName : Parent.GetPlace();
+            return (Parent == null || Parent is FolderArchive) ? FileName : Parent.GetPlace();
         }
 
         //

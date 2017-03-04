@@ -12,8 +12,11 @@
                 <Component Id="cmpE88A5217E6CBA6AA7D4C8E2EF756AA30" Guid="*">
                     <File Id="filFEA99228133615CB13248AB49E72DBE6" KeyPath="yes" Source="$(var.LibrariesDir)\Microsoft.Expression.Interactions.dll" />
                 </Component>
-                <Component Id="cmpB54C78A947E1F2E243E2F02E2E4BB5E3" Guid="*">
-                    <File Id="fil1ADE30521EFFDFF88F63D44BBB71C948" KeyPath="yes" Source="$(var.LibrariesDir)\SevenZipSharpNE.dll" />
+                <Component Id="cmp22E98BAC13DC44B2B85FDBE34D094DB9" Guid="*">
+                    <File Id="filCA34950CA2B657862525DB2E7CFF70F5" KeyPath="yes" Source="$(var.LibrariesDir)\SevenZipSharpNE.dll" />
+                </Component>
+                <Component Id="cmp3DCCEA2975E18FD4C2DA5E81BF1C60B0" Guid="*">
+                    <File Id="fil1F8EF309A2151F48D57716B34F4C5562" KeyPath="yes" Source="$(var.LibrariesDir)\System.Data.SQLite.dll" />
                 </Component>
                 <Component Id="cmp497DB98CF2661AD5E3F644E55989373D" Guid="*">
                     <File Id="filF73C8B9A095B60D8A23CB5231D88364D" KeyPath="yes" Source="$(var.LibrariesDir)\System.Windows.Interactivity.dll" />
@@ -103,6 +106,16 @@
                         <File Id="fil1F5D1E252C1724FACC1DE492DCC995F7" KeyPath="yes" Source="$(var.LibrariesDir)\ru\System.Windows.Interactivity.resources.dll" />
                     </Component>
                 </Directory>
+                <Directory Id="dir0BA8EEA8E3E5FDC60EBDCD6CA689EF1F" Name="x64">
+                    <Component Id="cmp29CF596D1E10B90F6FC97B0A349FEF8A" Guid="*">
+                        <File Id="fil579CF3BBC5A49AACD044C07B6847215B" KeyPath="yes" Source="$(var.LibrariesDir)\x64\SQLite.Interop.dll" />
+                    </Component>
+                </Directory>
+                <Directory Id="dir49BA1F33E4D4B9114E93FB415B9F85A5" Name="x86">
+                    <Component Id="cmp3AE14885B4F257F53834F4FFB0C5D35F" Guid="*">
+                        <File Id="fil11ADBC8FCB3B631BAFACEAF9EF53EBD7" KeyPath="yes" Source="$(var.LibrariesDir)\x86\SQLite.Interop.dll" />
+                    </Component>
+                </Directory>
                 <Directory Id="dir44D969B9256CA10F7F911FED24C11E3B" Name="zh-Hans">
                     <Component Id="cmp0CDF87FD15068BCF9CCE3770E843F37B" Guid="*">
                         <File Id="filB5830D6638F81EEA08D68F565822A9C9" KeyPath="yes" Source="$(var.LibrariesDir)\zh-Hans\Microsoft.Expression.Effects.resources.dll" />
@@ -133,7 +146,8 @@
             <ComponentRef Id="cmp8BF6C995AB878E7A664FF9EC7D7A56FC" />
             <ComponentRef Id="cmpB5253615D3A409D93E9B0F5C0792727C" />
             <ComponentRef Id="cmpE88A5217E6CBA6AA7D4C8E2EF756AA30" />
-            <ComponentRef Id="cmpB54C78A947E1F2E243E2F02E2E4BB5E3" />
+            <ComponentRef Id="cmp22E98BAC13DC44B2B85FDBE34D094DB9" />
+            <ComponentRef Id="cmp3DCCEA2975E18FD4C2DA5E81BF1C60B0" />
             <ComponentRef Id="cmp497DB98CF2661AD5E3F644E55989373D" />
             <ComponentRef Id="cmpDBD3B4EFAAC3567503FEE3F4E5B4AB51" />
             <ComponentRef Id="cmp3117185246EC1BBA75CD3939E062572C" />
@@ -158,6 +172,8 @@
             <ComponentRef Id="cmpE6E654736CBF070F76E02DE4942CA298" />
             <ComponentRef Id="cmp7D356F36D5074CED26B1436DA5378AA3" />
             <ComponentRef Id="cmpE8A1F1AA4EC32A7044262A7704021817" />
+            <ComponentRef Id="cmp29CF596D1E10B90F6FC97B0A349FEF8A" />
+            <ComponentRef Id="cmp3AE14885B4F257F53834F4FFB0C5D35F" />
             <ComponentRef Id="cmp0CDF87FD15068BCF9CCE3770E843F37B" />
             <ComponentRef Id="cmp4AA808D058D4224C2008669742FDC059" />
             <ComponentRef Id="cmp3FEEF899C9B85AC7E552905D07BFDEA8" />

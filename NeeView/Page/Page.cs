@@ -54,10 +54,8 @@ namespace NeeView
 
         #endregion
 
-
         // コンテンツ更新イベント
         public EventHandler Loaded;
-
 
         // アーカイブエントリ
         public ArchiveEntry Entry { get; protected set; }
@@ -224,6 +222,8 @@ namespace NeeView
         /// <returns></returns>
         public JobRequest Load(QueueElementPriority priority, PageJobOption option = PageJobOption.None)
         {
+            Thumbnail.Touch();
+
             // 既にロード済の場合は何もしない
             if (_content != null) return null;
 
@@ -358,6 +358,8 @@ namespace NeeView
 
         public JobRequest LoadThumbnail(QueueElementPriority priority)
         {
+            Thumbnail.Touch();
+
             // 既にサムネイルが存在する場合、何もしない
             if (this.Thumbnail.IsValid) return null;
 

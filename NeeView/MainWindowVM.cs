@@ -1463,9 +1463,6 @@ namespace NeeView
         // 標準ウィンドウタイトル
         private string _defaultWindowTitle;
 
-        // サムネイル有効リスト
-        private AliveThumbnailList _aliveThumbnailList = new AliveThumbnailList();
-
         // ページリスト(表示部用)
         #region Property: PageList
         private ObservableCollection<Page> _pageList;
@@ -1557,7 +1554,6 @@ namespace NeeView
                 if (_thumbnailSize != value)
                 {
                     _thumbnailSize = value;
-                    ClearThumbnail();
                     RaisePropertyChanged();
                     RaisePropertyChanged(nameof(ThumbnailDispSize));
                 }
@@ -1578,7 +1574,6 @@ namespace NeeView
                 if (_thumbnailMemorySize != value)
                 {
                     _thumbnailMemorySize = value;
-                    LimitThumbnail();
                     MemoryControl.Current.GarbageCollect();
                     RaisePropertyChanged();
                 }
@@ -1776,11 +1771,6 @@ namespace NeeView
                     UpdatePageList();
                 };
 
-            BookHub.ThumbnailChanged +=
-                (s, e) =>
-                {
-                    _aliveThumbnailList.Add(e);
-                };
 
             BookHub.PageRemoved +=
                 (s, e) =>
@@ -1836,7 +1826,6 @@ namespace NeeView
 
             App.Current.Dispatcher.Invoke(() => DispMessage(NoticeShowMessageStyle, title, null, 2.0, bookmarkType));
 
-            ClearThumbnail();
             UpdatePageList();
             UpdateLastFiles();
 
@@ -2769,9 +2758,6 @@ namespace NeeView
             // 未処理の要求を解除
             ModelContext.JobEngine.Clear(QueueElementPriority.PageThumbnail);
 
-            // 有効サムネイル数制限
-            LimitThumbnail();
-
             // 要求. 中央値優先
             int center = start + count / 2;
             var pages = Enumerable.Range(start - margin, count + margin * 2 - 1)
@@ -2783,19 +2769,6 @@ namespace NeeView
             {
                 page.LoadThumbnail(QueueElementPriority.PageThumbnail);
             }
-        }
-
-        // 有効サムネイル数制限
-        public void LimitThumbnail()
-        {
-            int limit = (ThumbnailMemorySize * 1024 * 1024) / ((int)ThumbnailSize * (int)ThumbnailSize * 4);
-            _aliveThumbnailList.Limited(limit);
-        }
-
-        // サムネイル破棄
-        public void ClearThumbnail()
-        {
-            _aliveThumbnailList.Clear();
         }
 
 

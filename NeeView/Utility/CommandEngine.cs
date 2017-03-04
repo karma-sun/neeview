@@ -99,6 +99,7 @@ namespace NeeView.Utility
             try
             {
                 _cancellationTokenSource.Token.ThrowIfCancellationRequested();
+                OnExecuting();
                 await ExecuteAsync(_cancellationTokenSource.Token);
                 Result = CommandResult.Completed;
             }
@@ -115,6 +116,13 @@ namespace NeeView.Utility
         public async Task WaitAsync()
         {
             await Task.Run(() => _complete.Wait());
+        }
+
+        /// <summary>
+        /// コマンド実行前処理
+        /// </summary>
+        protected virtual void OnExecuting()
+        {
         }
 
         /// <summary>
@@ -151,7 +159,7 @@ namespace NeeView.Utility
         /// コマンド登録
         /// </summary>
         /// <param name="command"></param>
-        public void Enqueue(ICommand command)
+        public virtual void Enqueue(ICommand command)
         {
             lock (_lock)
             {

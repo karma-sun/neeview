@@ -53,6 +53,11 @@ namespace NeeView
         public event EventHandler Changed;
 
         /// <summary>
+        /// 参照イベント
+        /// </summary>
+        public event EventHandler Touched;
+
+        /// <summary>
         /// Jpeg化された画像
         /// </summary>
         private byte[] _image;
@@ -61,6 +66,12 @@ namespace NeeView
         /// View用Bitmapプロパティ
         /// </summary>
         public BitmapSource BitmapSource => CreateBitmap();
+
+        /// <summary>
+        /// 寿命間利用シリアルナンバー
+        /// </summary>
+        public int LifeSerial { get; set; }
+
 
         /// <summary>
         /// 初期化
@@ -75,14 +86,29 @@ namespace NeeView
 
             var bitmapSource = Utility.NVGraphics.CreateThumbnail(source, new Size(Size, Size));
             _image = EncodeToJpeg(bitmapSource);
-            //_image = EncodeToPng(bitmapSource);
 
             sw.Stop();
             Debug.WriteLine($"Jpeg: {_image.Length / 1024}KB, {sw.ElapsedMilliseconds}ms");
-            //Debug.WriteLine($"Png: {_image.Length / 1024}KB, {sw.ElapsedMilliseconds}ms");
 
             Changed?.Invoke(this, null);
+            Touched?.Invoke(this, null);
             RaisePropertyChanged(nameof(BitmapSource));
+        }
+
+        /// <summary>
+        /// image無効
+        /// </summary>
+        public void Clear()
+        {
+            _image = null;
+        }
+
+        /// <summary>
+        /// Touch
+        /// </summary>
+        public void Touch()
+        {
+            Touched?.Invoke(this, null);
         }
 
         /// <summary>
@@ -92,8 +118,8 @@ namespace NeeView
         public BitmapSource CreateBitmap()
         {
             return IsValid ? DecodeFromJpeg(_image) : null;
-            //return IsValid ? DecodeFromPng(_image) : null;
         }
+
 
         /// <summary>
         /// BitmapSource to Jpeg
@@ -129,46 +155,14 @@ namespace NeeView
         }
 
         /// <summary>
-        /// BitmapSource to Png
-        /// </summary>
-        private byte[] EncodeToPng(BitmapSource source)
-        {
-            using (var stream = new MemoryStream())
-            {
-                PngBitmapEncoder encoder = new PngBitmapEncoder();
-                //encoder.QualityLevel = Quality;
-                encoder.Frames.Add(BitmapFrame.Create(source));
-                encoder.Save(stream);
-
-                stream.Flush();
-                return stream.ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Png to BitmapSource
-        /// </summary>
-        /// <param name="image"></param>
-        /// <returns></returns>
-        private BitmapSource DecodeFromPng(byte[] image)
-        {
-            using (var stream = new MemoryStream(image, false))
-            {
-                PngBitmapDecoder decoder = new PngBitmapDecoder(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
-                var bitmap = decoder.Frames[0];
-                bitmap.Freeze();
-                return bitmap;
-            }
-        }
-
-
-        /// <summary>
         /// Dispose
         /// </summary>
         public void Dispose()
         {
             _image = null;
             Changed = null;
+            Touched = null;
+            PropertyChanged = null;
         }
     }
 }

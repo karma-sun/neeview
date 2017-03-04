@@ -733,9 +733,7 @@
                                                         </Ellipse.Style>
                                                     </Ellipse>
                                                     <Image Source="{Binding Thumbnail.BitmapSource}" UseLayoutRounding="True"
-                                                           RenderOptions.BitmapScalingMode="HighQuality"
-                                                           Width="{Binding Thumbnail.PixelWidth, Converter={StaticResource DpiScaleXInverseConverter}}"
-                                                           Height="{Binding Thumbnail.PixelHeight, Converter={StaticResource DpiScaleYInverseConverter}}">
+                                                           RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform">
                                                         <Image.Effect>
                                                             <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
                                                         </Image.Effect>

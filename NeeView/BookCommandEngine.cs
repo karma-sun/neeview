@@ -42,6 +42,30 @@ namespace NeeView
         /// ターゲット
         /// </summary>
         protected Book _book { get; private set; }
+
+        /// <summary>
+        /// 開発用：コマンド発動時間の計測
+        /// </summary>
+        public Stopwatch StopWatch { get; set; } = new Stopwatch();
+
+        /// <summary>
+        /// 開発用：コマンド登録前処理
+        /// </summary>
+        internal void OnEncueueing()
+        {
+            StopWatch.Start();
+        }
+
+        /// <summary>
+        /// 開発用：コマンド実行前処理
+        /// </summary>
+        protected override void OnExecuting()
+        {
+            StopWatch.Stop();
+            Debug.WriteLine($"> {this}: {StopWatch.ElapsedMilliseconds}ms");
+            base.OnExecuting();
+        }
+
     }
 
 
@@ -187,7 +211,15 @@ namespace NeeView
     /// </summary>
     internal class BookCommandMovePageArgs : BookCommandArgs
     {
-        public int Step { get; set; }
+        /// <summary>
+        /// Step property.
+        /// </summary>
+        private volatile int _step;
+        public int Step
+        {
+            get { return _step; }
+            set { if (_step != value) { _step = value; } }
+        }
     }
 
     /// <summary>
@@ -224,6 +256,16 @@ namespace NeeView
         /// ページ移動コマンドの重複受け入れフラグ
         /// </summary>
         public bool AllowMultiplePageMove { get; set; }
+
+        /// <summary>
+        /// コマンド登録
+        /// </summary>
+        /// <param name="command"></param>
+        public override void Enqueue(ICommand command)
+        {
+            (command as BookCommand).OnEncueueing();
+            base.Enqueue(command);
+        }
 
         /// <summary>
         /// コマンド登録前処理

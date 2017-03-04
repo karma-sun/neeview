@@ -38,13 +38,15 @@ namespace NeeView
         {
             lock (_lock)
             {
-                // TODO: サムネイルの開放処理
+                // TODO: サムネイルの開放処理.不要
+                /*
                 Debug.WriteLine("TODO: CloseThumbnail");
 
                 foreach (var page in _list)
                 {
                     ////page.CloseThumbnail();
                 }
+                */
                 _list.Clear();
             }
         }
@@ -61,7 +63,7 @@ namespace NeeView
             lock (_lock)
             {
                 // TODO: サムネイルの開放処理
-                Debug.WriteLine("TODO: CloseThumbnail");
+                //Debug.WriteLine("TODO: CloseThumbnail");
 
                 while (_list.Count > limit)
                 {

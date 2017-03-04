@@ -344,6 +344,9 @@ namespace NeeView
         // マーカー
         public List<Page> Markers = new List<Page>();
 
+        // サムネイル寿命管理
+        public ThumbnailPool _thumbnaulPool = new ThumbnailPool();
+
         // 排他処理用ロックオブジェクト
         private object _lock = new object();
 
@@ -414,6 +417,7 @@ namespace NeeView
             {
                 page.Prefix = prefix;
                 page.Loaded += Page_Loaded;
+                page.Thumbnail.Touched += Thumbnail_Touched;
             }
 
             // 初期ソート
@@ -443,10 +447,20 @@ namespace NeeView
             // 有効化
             Place = archiver.FileName;
 
-
-
             // 初期ページ設定
             RequestSetPosition(position, direction, true);
+        }
+
+
+        /// <summary>
+        /// サムネイル参照イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Thumbnail_Touched(object sender, EventArgs e)
+        {
+            var thumb = (Thumbnail)sender;
+            _thumbnaulPool.Add(thumb);
         }
 
 
@@ -725,6 +739,8 @@ namespace NeeView
             {
                 Step = step,
             });
+
+            Debug.WriteLine($"> {command}: {step}");
             _commandEngine.Enqueue(command);
         }
 

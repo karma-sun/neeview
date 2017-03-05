@@ -144,18 +144,30 @@
 
                         </StackPanel>
 
-                        <TextBlock Text="その他" Style="{StaticResource Header}"/>
+                        <TextBlock Text="ページ送り" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
+
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ送り優先"
+                                      ToolTip="ページの表示を待たずにページ送りを実行します"
+                                      IsChecked="{Binding Preference.book_is_prioritize_pagemove}" />
+                            
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ送りコマンドの重複許可"
+                                      ToolTip="連続して発行されたページ送りコマンドを処理します。OFFの場合はキャンセルされます"
+                                      IsChecked="{Binding Preference.book_allow_multiple_pagemove}" />
+
+
                             <StackPanel Style="{StaticResource ItemStackPanel}"
                                         ToolTip="ページの終端を超えて移動しようとした時の挙動です">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="ページが終わったら"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PageEndActionList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.BookHubMemento.PageEndAction}" />
                             </StackPanel>
+                            <!--
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="「開く」を現在開いているフォルダの場所から始める"
                               ToolTip="[ファイル]>[開く]で開くフォルダです&#xa;ドラッグ＆ドロップや履歴から開いた場所も基準になります"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
+                            -->
                             <Button x:Name="RemoveAllDataButton" Style="{StaticResource ItemButton}"
                                     ToolTip="ユーザデータを削除し、アプリケーションを終了します。&#xa;アンインストール前に履歴等を完全に削除したい場合に使用します"
                                     Click="RemoveAllData_Click">

@@ -314,9 +314,6 @@ namespace NeeView
         // スライドショー設定：マウス移動でキャンセル
         public bool IsCancelSlideByMouseMove { get; set; } = true;
 
-        //「ファイルを開く」の初期フォルダを現在開いているフォルダ基準にする
-        public bool IsEnarbleCurrentDirectory { get; set; }
-
         // 圧縮ファイルの有効/無効
         #region Property: IsSupportArchiveFile
         public bool IsSupportArchiveFile
@@ -1542,7 +1539,7 @@ namespace NeeView
         public string GetDefaultFolder()
         {
             // 既に開いている場合、その場所を起点とする
-            if (IsEnarbleCurrentDirectory && CurrentBook != null)
+            if (Preference.Current.openbook_begin_current && CurrentBook != null)
             {
                 return Path.GetDirectoryName(CurrentBook.Place);
             }
@@ -1802,8 +1799,8 @@ namespace NeeView
             [DataMember]
             public Book.Memento BookMemento { get; set; }
 
-            [DataMember(Order = 2)]
-            public bool IsEnarbleCurrentDirectory { get; set; }
+            [DataMember(Order = 2, EmitDefaultValue = false)]
+            public bool IsEnarbleCurrentDirectory { get; set; } // no used
 
             [DataMember(Order = 4)]
             public bool IsSupportArchiveFile { get; set; }
@@ -1871,6 +1868,7 @@ namespace NeeView
             [OnDeserialized]
             private void Deserialized(StreamingContext c)
             {
+                // before 1.19
                 if (_Version < Config.GenerateProductVersionNumber(1, 19, 0))
                 {
                     PageEndAction = IsEnabledAutoNextFolder ? PageEndAction.NextFolder : PageEndAction.None;
@@ -1896,7 +1894,7 @@ namespace NeeView
             memento.IsCancelSlideByMouseMove = IsCancelSlideByMouseMove;
             memento.BookMemento = BookMemento.Clone();
             memento.BookMemento.ValidateForDefault(); // 念のため
-            memento.IsEnarbleCurrentDirectory = IsEnarbleCurrentDirectory;
+            //memento.IsEnarbleCurrentDirectory = IsEnarbleCurrentDirectory;
             memento.IsSupportArchiveFile = IsSupportArchiveFile;
             memento.ExternalApplication = ExternalApllication.Clone();
             memento.IsConfirmRecursive = IsConfirmRecursive;
@@ -1923,7 +1921,7 @@ namespace NeeView
             SlideShowInterval = memento.SlideShowInterval;
             IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;
             BookMemento = memento.BookMemento.Clone();
-            IsEnarbleCurrentDirectory = memento.IsEnarbleCurrentDirectory;
+            //IsEnarbleCurrentDirectory = memento.IsEnarbleCurrentDirectory;
             IsSupportArchiveFile = memento.IsSupportArchiveFile;
             ExternalApllication = memento.ExternalApplication.Clone();
             IsConfirmRecursive = memento.IsConfirmRecursive;

@@ -144,7 +144,7 @@ namespace NeeView
                 }
                 else
                 {
-                    var shortcuts = directory.EnumerateFiles()
+                    var shortcuts = directory.EnumerateFiles() // TODO: 極端に重い時がある
                         .Where(e => e.Exists && Utility.FileShortcut.IsShortcut(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
                         .Select(e => new Utility.FileShortcut(e))
                         .ToList();

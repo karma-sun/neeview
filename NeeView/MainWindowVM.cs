@@ -2196,39 +2196,39 @@ namespace NeeView
                             new Binding(nameof(ForegroundBrush)) { Source = this },
                             new Binding(nameof(BitmapScalingMode)) { Source = content }
                         );
-                        content.Size = new Size(source.Width, source.Height);
-                        content.SourceSize = source.SourceSize;
-                        content.Color = source.Color;
+                        content.Size = source.Size; // new Size(source.Width, source.Height);
+                        content.SourceSize = source.SourceContentSize;
+                        content.Color = source.Page.Color;
                         content.FolderPlace = source.Page.GetFolderPlace();
                         content.FilePlace = source.Page.GetFilePlace();
-                        content.FullPath = source.FullPath;
+                        content.FullPath = source.Page.FullPath;
                         content.Position = source.Position;
                         content.PartSize = source.PartSize;
                         content.ReadOrder = source.ReadOrder;
 
-                        if (source.Source is BitmapContent)
+                        if (source.SourceContent is BitmapContent)
                         {
-                            var bitmapContent = source.Source as BitmapContent;
+                            var bitmapContent = source.SourceContent as BitmapContent;
                             content.Bitmap = bitmapContent.Source;
                             content.Info = bitmapContent.Info;
                         }
-                        else if (source.Source is AnimatedGifContent)
+                        else if (source.SourceContent is AnimatedGifContent)
                         {
-                            var gifResource = source.Source as AnimatedGifContent;
+                            var gifResource = source.SourceContent as AnimatedGifContent;
                             content.Bitmap = gifResource.BitmapContent.Source;
                             content.Info = gifResource.BitmapContent.Info;
                             content.Info.Decoder = "MediaPlayer";
                             content.FileProxy = gifResource.FileProxy;
                         }
-                        else if (source.Source is FilePageContent)
+                        else if (source.SourceContent is FilePageContent)
                         {
-                            var filePageContext = source.Source as FilePageContent;
+                            var filePageContext = source.SourceContent as FilePageContent;
                             content.Info = filePageContext.Info;
                             content.Info.Decoder = null;
                         }
                         else
                         {
-                            content.Content.SetText(LoosePath.GetFileName(source.FullPath));
+                            content.Content.SetText(LoosePath.GetFileName(source.Page.FullPath));
 
                             if (content.Size.Width == 0 && content.Size.Height == 0)
                             {

@@ -32,17 +32,18 @@ namespace NeeView
         }
         #endregion
 
+       
         // コンテンツ コントロール
         #region Property: Content
-        private PageContent _content;
-        public PageContent Content
+        private PageContentView _content;
+        public PageContentView Content
         {
             get { return _content; }
             set { _content = value; RaisePropertyChanged(); }
         }
         #endregion
 
-        // コンテンツの幅
+        // コンテンツの幅 (with DPI)
         #region Property: Width
         private double _width;
         public double Width
@@ -52,7 +53,7 @@ namespace NeeView
         }
         #endregion
 
-        // コンテンツの高さ
+        // コンテンツの高さ (with DPI)
         #region Property: Height
         private double _height;
         public double Height

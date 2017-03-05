@@ -138,7 +138,7 @@
     </Compile>
     <Compile Include="MemoryControl.cs" />
     <Compile Include="MouseLoupe.cs" />
-    <Compile Include="PageContent.cs" />
+    <Compile Include="PageContentView.cs" />
     <Compile Include="Page\PageJob.cs" />
     <Compile Include="Page\Thumbnail.cs" />
     <Compile Include="Page\ThumbnailCache.cs" />

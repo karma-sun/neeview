@@ -117,6 +117,8 @@ namespace NeeView
 
         //
         private Preference _preference;
+        public Preference Preference => _preference;
+
 
         // 詳細設定一覧用パラメータ
         public class PreferenceParam
@@ -502,7 +504,7 @@ namespace NeeView
         {
             PreferenceCollection.Clear();
 
-            foreach (var element in _preference.Document.PropertyMembers.OrderBy(e => e.Path))
+            foreach (var element in _preference.Document.PropertyMembers.Where(e => e.Flags.HasFlag(PropertyMemberFlag.Details)).OrderBy(e => e.Path))
             {
                 if (element.Path.StartsWith("_")) continue;
 
@@ -788,7 +790,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void ResetAllPreferenceButton_Click(object sender, RoutedEventArgs e)
         {
-            _preference.Reset();
+            _preference.Reset(false);
             this.PreferenceListView.Items.Refresh();
         }
 

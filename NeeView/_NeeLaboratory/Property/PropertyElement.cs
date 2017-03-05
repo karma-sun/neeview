@@ -42,6 +42,7 @@ namespace NeeLaboratory.Property
         public string Path => _info.Name;
         public string Name { get; set; }
         public string Tips { get; set; }
+        public PropertyMemberFlag Flags { get; set; }
         public object Default { get; set; }
 
         private PropertyInfo _info;
@@ -51,6 +52,7 @@ namespace NeeLaboratory.Property
             Source = source;
             Name = attribute.Name ?? info.Name;
             Tips = attribute.Tips;
+            Flags = attribute.Flags;
             Default = GetDefaultValue(source, info);
 
             _info = info;

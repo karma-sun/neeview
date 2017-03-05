@@ -82,6 +82,18 @@ namespace NeeView
             Constructor();
         }
 
+        //
+        [OnDeserialized]
+        private void Deserialized(StreamingContext c)
+        {
+            // before 1.20
+            if (_Version < Config.GenerateProductVersionNumber(1, 20, 0) || true)
+            {
+                PreferenceMemento.Add("openbook_begin_current", BookHubMemento.IsEnarbleCurrentDirectory.ToString());
+            }
+            BookHubMemento.IsEnarbleCurrentDirectory = false;
+        }
+
 
         // ファイルに保存
         public void Save(string path)

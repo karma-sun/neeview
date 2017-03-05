@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace NeeView
 {
@@ -17,7 +18,7 @@ namespace NeeView
     /// <summary>
     /// PageControl FrameworkElement
     /// </summary>
-    public class PageContent : Grid
+    public class PageContentView : Grid
     {
         /// <summary>
         /// メイン要素
@@ -36,7 +37,7 @@ namespace NeeView
         /// </summary>
         /// <param name="element"></param>
         /// <param name="textBlock"></param>
-        public PageContent(FrameworkElement element, TextBlock textBlock)
+        public PageContentView(FrameworkElement element, TextBlock textBlock)
         {
             this.Element = element;
             _textBlock = textBlock;

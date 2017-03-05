@@ -12,6 +12,17 @@ using System.Threading.Tasks;
 
 namespace NeeLaboratory.Property
 {
+    [Flags]
+    public enum PropertyMemberFlag
+    {
+        None,
+        
+        /// <summary>
+        /// 詳細設定で表示される
+        /// </summary>
+        Details,
+    }
+
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyMemberAttribute : Attribute
     {
@@ -20,6 +31,8 @@ namespace NeeLaboratory.Property
         public string Title { get; set; }
 
         public string Tips { get; set; }
+
+        public PropertyMemberFlag Flags { get; set; } = PropertyMemberFlag.Details;
 
         public PropertyMemberAttribute() { }
         public PropertyMemberAttribute(string name) { Name = name; }

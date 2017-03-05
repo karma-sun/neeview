@@ -1147,7 +1147,7 @@ namespace NeeView
             var page = (Page)sender;
 
             // 現在表示に含まれているページ？
-            if (page.IsContentAlived && now.ViewContentsSource.Any(i => i.Source == null && i.Page == page))
+            if (page.IsContentAlived && now.ViewContentsSource.Any(i => i.SourceContent == null && i.Page == page))
             {
                 // 再更新
                 Debug.WriteLine($"Delay Loaded: {page.LastName}");

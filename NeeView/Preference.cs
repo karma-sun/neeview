@@ -41,6 +41,12 @@ namespace NeeView
         [PropertyMember()]
         public bool _configure_enabled { get; set; }
 
+
+        [DataMember, DefaultValue(false)]
+        [PropertyMember("「開く」を現在開いているフォルダの場所から始める"
+            , Tips = "[ファイル] >[開く]で開くフォルダです\nドラッグ＆ドロップや履歴から開いた場所も基準になります")]
+        public bool openbook_begin_current { get; set; }
+
         [DataMember, DefaultValue(2)]
         [PropertyMember("画像読み込みに使用するスレッド数")]
         public int loader_thread_size { get; set; }
@@ -70,11 +76,13 @@ namespace NeeView
         public double panel_autohide_delaytime { get; set; }
 
         [DataMember, DefaultValue(true)]
-        [PropertyMember("ページ送り優先", Tips = "ページの表示を待たずにページ送りを実行します")]
+        [PropertyMember("ページ送り優先", Tips = "ページの表示を待たずにページ送りを実行します"
+            , Flags = PropertyMemberFlag.None)]
         public bool book_is_prioritize_pagemove { get; set; }
 
         [DataMember, DefaultValue(true)]
-        [PropertyMember("ページ送りコマンドの重複許可", Tips = "発行されたページ移動コマンドを全て実行します。\nFalseの場合は重複したページ送りコマンドはキャンセルされます")]
+        [PropertyMember("ページ送りコマンドの重複許可", Tips = "発行されたページ移動コマンドを全て実行します。\nFalseの場合は重複したページ送りコマンドはキャンセルされます"
+            , Flags = PropertyMemberFlag.None)]
         public bool book_allow_multiple_pagemove { get; set; }
 
         [DataMember, DefaultValue("4096x4096")]
@@ -115,11 +123,14 @@ namespace NeeView
         /// <summary>
         /// 全ての設定値を初期化
         /// </summary>
-        public void Reset()
+        public void Reset(bool isAll)
         {
             foreach (var item in Document.Elements.OfType<PropertyMemberElement>())
             {
-                item.ResetValue();
+                if (isAll || item.Flags.HasFlag(PropertyMemberFlag.Details))
+                {
+                    item.ResetValue();
+                }
             }
         }
 
@@ -197,6 +208,11 @@ namespace NeeView
             {
                 Constructor();
             }
+
+            public void Add(string key, string value)
+            {
+                Items[key] = value;
+            }
         }
 
         /// <summary>
@@ -226,7 +242,7 @@ namespace NeeView
         /// <param name="memento"></param>
         public void Restore(Memento memento)
         {
-            this.Reset();
+            this.Reset(true);
 
             foreach (var item in memento.Items)
             {

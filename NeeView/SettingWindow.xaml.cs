@@ -795,6 +795,19 @@ namespace NeeView
         }
 
         /// <summary>
+        /// Remove Cahe
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RemoveCache_Click(object sender, RoutedEventArgs e)
+        {
+            ThumbnailCache.Current.Remove();
+            
+            MessageBoxEx.Show(this, "キャッシュを削除しました");
+        }
+
+
+        /// <summary>
         /// Remove
         /// </summary>
         /// <param name="sender"></param>

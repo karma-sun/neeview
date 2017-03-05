@@ -344,8 +344,16 @@ namespace NeeView
         // マーカー
         public List<Page> Markers = new List<Page>();
 
+
+        // ページサムネイル寿命管理
+        private class PageThumbnailPool : ThumbnailPool
+        {
+            public override int Limit => Preference.Current.thumbnail_book_capacity;
+        }
+
         // サムネイル寿命管理
-        public ThumbnailPool _thumbnaulPool = new ThumbnailPool();
+        private PageThumbnailPool _thumbnaulPool = new PageThumbnailPool();
+
 
         // 排他処理用ロックオブジェクト
         private object _lock = new object();

@@ -81,9 +81,6 @@ namespace NeeView
             }
         }
 
-        public PanelThumbnailPool()
-        {
-            Limit = 200;
-        }
+        public override int Limit => Preference.Current.thumbnail_folder_capacity;
     }
 }

@@ -145,7 +145,7 @@ namespace NeeView
             // サブフォルダ取得
             var folders = entries.Where(e => ModelContext.ArchiverManager.IsSupported(e.EntryName)).ToList();
             if (folders.Count == 0) return null;
-
+            
             // 最長一致するサブフォルダ取得
             char[] trims = new char[] { '\\', '/' };
             var folder = folders.Where(e => entryName.StartsWith(e.EntryName.TrimEnd(trims))).OrderBy(e => e.EntryName.Length).FirstOrDefault();
@@ -167,7 +167,6 @@ namespace NeeView
         }
 
 
-
         /// <summary>
         /// アーカイブから最初の有効エントリを取得する
         /// アーカイブの再帰対応(予定)
@@ -180,7 +179,9 @@ namespace NeeView
             if (archiver == null) return null;
 
             // アーカイブエントリ取得
-            var entries = archiver.GetEntries();
+            var entries = archiver.GetEntries()
+                .Where(e => !ModelContext.BitmapLoaderManager.IsExcludedPath(e.EntryName))
+                .ToList();
 
             // 並び替え
             entries = SortEntries(entries, PageSortMode.FileName);

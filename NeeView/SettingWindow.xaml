@@ -129,6 +129,7 @@
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PreLoadModeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.BookHubMemento. PreLoadMode}" />
                             </StackPanel>
+                            <!--
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="サムネイル画像に使用される最大容量">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="サムネイル用メモリ"/>
                                 <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.ThumbnailMemorySize}"
@@ -141,6 +142,7 @@
                                     Minimum="8" Maximum="256" TickFrequency="8" />
                                 <TextBlock Text="{Binding Setting.ViewMemento.BannerMemorySize, StringFormat={}{0}MB}" />
                             </StackPanel>
+                            -->
 
                         </StackPanel>
 
@@ -151,7 +153,7 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ送り優先"
                                       ToolTip="ページの表示を待たずにページ送りを実行します"
                                       IsChecked="{Binding Preference.book_is_prioritize_pagemove}" />
-                            
+
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ送りコマンドの重複許可"
                                       ToolTip="連続して発行されたページ送りコマンドを処理します。OFFの場合はキャンセルされます"
                                       IsChecked="{Binding Preference.book_allow_multiple_pagemove}" />
@@ -168,7 +170,17 @@
                               ToolTip="[ファイル]>[開く]で開くフォルダです&#xa;ドラッグ＆ドロップや履歴から開いた場所も基準になります"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
                             -->
-                            <Button x:Name="RemoveAllDataButton" Style="{StaticResource ItemButton}"
+                        </StackPanel>
+
+                        <TextBlock Text="その他" Style="{StaticResource Header}"/>
+
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <Button x:Name="RemoveCacheButton" Style="{StaticResource ItemButton}"
+                                    Click="RemoveCache_Click">
+                                <TextBlock Text="サムネイルキャッシュを削除する" Margin="5,0,0,0"/>
+                            </Button>
+
+                            <Button x:Name="RemoveAllDataButton" Style="{StaticResource ItemButton}" Margin="10"
                                     ToolTip="ユーザデータを削除し、アプリケーションを終了します。&#xa;アンインストール前に履歴等を完全に削除したい場合に使用します"
                                     Click="RemoveAllData_Click">
                                 <StackPanel Orientation="Horizontal">
@@ -227,7 +239,7 @@
                                       ToolTip="スケール表示を元画像サイズに対する表示倍率にします&#xa;２ページ表示の場合は若い番号のページを基準にします"
                                       IsChecked="{Binding Setting.ViewMemento.IsOriginalScaleShowMessage}"/>
                         </StackPanel>
-                        
+
                         <DockPanel LastChildFill="False">
                             <TextBlock Text="ウィンドウタイトル" Style="{StaticResource Header}"/>
                             <ToggleButton DockPanel.Dock="Right" x:Name="WindowTitleFormatHelp" Margin="5,0" Width="20" Height="20" Style="{StaticResource IconToggleButton}">

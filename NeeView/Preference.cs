@@ -105,6 +105,22 @@ namespace NeeView
         [PropertyMember("7z.dllがファイルをロックする時間(秒)", Tips = "この時間ファイルアクセスがなければロック解除され、ファイル移動や名前変更が可能になります。\n-1でロック保持したままになります")]
         public double loader_archiver_7z_locktime { get; set; }
 
+        [DataMember, DefaultValue(80)]
+        [PropertyMember("サムネイル品質", Tips = "サムネイルのJpeg品質です。1-100で指定します")]
+        public int thumbnail_quality { get; set; }
+
+        [DataMember, DefaultValue(true)]
+        [PropertyMember("サムネイルキャッシュを使用する", Tips = "フォルダーサムネイルをキャッシュします。キャッシュファイルはCache.dbです")]
+        public bool thumbnail_cache { get; set; }
+
+        [DataMember, DefaultValue(1000)]
+        [PropertyMember("ページサムネイル容量", Tips = "ページサムネイル保持枚数です。フォルダを閉じると全てクリアされます")]
+        public int thumbnail_book_capacity {get; set; }
+        
+        [DataMember, DefaultValue(200)]
+        [PropertyMember("フォルダーサムネイル容量", Tips = "フォルダーリスト等でのサムネイル保持枚数です")]
+        public int thumbnail_folder_capacity { get; set; }
+
 
         /// <summary>
         /// 
@@ -147,6 +163,9 @@ namespace NeeView
                 var element = Document.GetPropertyMember(nameof(book_preload_limitsize));
                 element.ResetValue();
             }
+
+            // thumbnail_quality
+            thumbnail_quality = NVUtility.Clamp(thumbnail_quality, 1, 100);
         }
 
 

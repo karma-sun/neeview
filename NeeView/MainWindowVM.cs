@@ -1564,36 +1564,6 @@ namespace NeeView
         // サムネイルサイズ(表示サイズ)
         public double ThumbnailDispSize => _thumbnailSize / _DpiScaleFactor.X;
 
-        #region Property: 
-        private int _thumbnailMemorySize;
-        public int ThumbnailMemorySize
-        {
-            get { return _thumbnailMemorySize; }
-            set
-            {
-                if (_thumbnailMemorySize != value)
-                {
-                    _thumbnailMemorySize = value;
-                    MemoryControl.Current.GarbageCollect();
-                    RaisePropertyChanged();
-                }
-            }
-        }
-        #endregion
-
-        #region Property: BannerMemorySize
-        private int _bannerMemorySize;
-        public int BannerMemorySize
-        {
-            get { return _bannerMemorySize; }
-            set
-            {
-                _bannerMemorySize = value;
-                RaisePropertyChanged();
-                //PanelContext.ThumbnailManager.ThumbnailMemorySize = _bannerMemorySize;
-            }
-        }
-        #endregion
 
         #region Property: BannerSize
         private double _bannerSize;
@@ -2961,9 +2931,6 @@ namespace NeeView
             public bool IsAutoGC { get; set; }
 
             [DataMember(Order = 9)]
-            public int ThumbnailMemorySize { get; set; }
-
-            [DataMember(Order = 9)]
             public bool IsVisibleThumbnailPlate { get; set; }
 
             [DataMember(Order = 10)]
@@ -2979,13 +2946,7 @@ namespace NeeView
             public FolderListItemStyle FolderListItemStyle { get; set; }
 
             [DataMember(Order = 10)]
-            public int BannerMemorySize { get; set; }
-
-            [DataMember(Order = 10)]
             public double BannerSize { get; set; }
-
-            ////[DataMember(Order = 10)]
-            ////public ShaderEffectType ShaderEffectType { get; set; }
 
             [DataMember(Order = 10)]
             public ShowMessageStyle ViewTransformShowMessageStyle { get; set; }
@@ -3049,11 +3010,9 @@ namespace NeeView
                 ThumbnailSize = 96;
                 IsSliderLinkedThumbnailList = true;
                 IsAutoGC = true;
-                ThumbnailMemorySize = 64;
                 IsVisibleThumbnailPlate = true;
                 FolderListGridRow0 = "*";
                 FolderListGridRow2 = "*";
-                BannerMemorySize = 8;
                 BannerSize = 256.0;
                 ContentsSpace = -1.0;
                 LongLeftButtonDownMode = LongButtonDownMode.Loupe;
@@ -3155,13 +3114,11 @@ namespace NeeView
             memento.IsSliderLinkedThumbnailList = this.IsSliderLinkedThumbnailList;
             memento.IsVisibleThumbnailNumber = this.IsVisibleThumbnailNumber;
             memento.IsAutoGC = this.IsAutoGC;
-            memento.ThumbnailMemorySize = this.ThumbnailMemorySize;
             memento.IsVisibleThumbnailPlate = this.IsVisibleThumbnailPlate;
             memento.FolderListGridRow0 = this.FolderListGridRow0;
             memento.FolderListGridRow2 = this.FolderListGridRow2;
             memento.IsVisiblePageList = this.IsVisiblePageList;
             memento.FolderListItemStyle = this.FolderListItemStyle;
-            memento.BannerMemorySize = this.BannerMemorySize;
             memento.BannerSize = this.BannerSize;
             memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
             memento.ContentsSpace = this.ContentsSpace;
@@ -3225,13 +3182,11 @@ namespace NeeView
             this.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
             this.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
             this.IsAutoGC = memento.IsAutoGC;
-            this.ThumbnailMemorySize = memento.ThumbnailMemorySize;
             this.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
             this.FolderListGridRow0 = memento.FolderListGridRow0;
             this.FolderListGridRow2 = memento.FolderListGridRow2;
             this.IsVisiblePageList = memento.IsVisiblePageList;
             this.FolderListItemStyle = memento.FolderListItemStyle;
-            this.BannerMemorySize = memento.BannerMemorySize;
             this.BannerSize = memento.BannerSize;
             this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
             this.ContentsSpace = memento.ContentsSpace;

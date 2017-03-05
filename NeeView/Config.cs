@@ -265,11 +265,14 @@ namespace NeeView
                 return;
             }
 
-            var text = "ユーザデータを削除します。よろしいですか？\n\n以下のデータが削除されます\n- 設定ファイル\n- 履歴ファイル\n- ブックマークファイル\n- ページマークファイル";
+            var text = "ユーザデータを削除します。よろしいですか？\n\n以下のデータが削除されます\n- 設定ファイル\n- 履歴ファイル\n- ブックマークファイル\n- ページマークファイル\n- キャッシュファイル";
             var result = MessageBox.Show(text, "NeeView - データ削除確認", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
 
             if (result == MessageBoxResult.OK)
             {
+                // キャッシュDBを閉じる
+                ThumbnailCache.Current.Close();
+
                 // 削除できないのでカレントフォルダ移動
                 var currentFolder = System.Environment.CurrentDirectory;
                 System.Environment.CurrentDirectory = this.AssemblyLocation;

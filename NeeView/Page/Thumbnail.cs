@@ -40,7 +40,7 @@ namespace NeeView
         /// <summary>
         /// 品質
         /// </summary>
-        public static int Quality { get; set; } = 80;
+        public static int Quality => Preference.Current.thumbnail_quality;
 
         /// <summary>
         /// 有効判定

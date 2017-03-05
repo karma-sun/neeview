@@ -69,17 +69,17 @@ namespace NeeView
         /// <summary>
         /// サムネイル保証数
         /// </summary>
-        public int Limit { get; set; } = 1000;
+        public virtual int Limit { get; } = 1000;
 
         /// <summary>
         /// 廃棄処理 part1 許容値
         /// </summary>
-        private int _tolerance1 => (int)(Limit * 1.5); // 150%
+        private int _tolerance1 => (Limit * 150 / 100); // 150%
 
         /// <summary>
         /// 廃棄処理 part2 許容値
         /// </summary>
-        private int _tolerance2 => (int)(Limit * 1.2); // 120%
+        private int _tolerance2 => (Limit * 120 / 100); // 120%
 
         //
         private object _lock = new object();

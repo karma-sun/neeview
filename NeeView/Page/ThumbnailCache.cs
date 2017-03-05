@@ -75,19 +75,33 @@ namespace NeeView
         private SQLiteConnection _connection;
 
         /// <summary>
+        /// キャッシュ有効フラグ
+        /// </summary>
+        public bool IsEnabled => Preference.Current.thumbnail_cache;
+
+        /// <summary>
+        /// データベースファイル名
+        /// </summary>
+        private string _filename { get; } = System.IO.Path.Combine(App.Config.LocalApplicationDataPath, "Cache.db");
+
+
+        //
+        public object _lock = new object();
+
+        /// <summary>
         /// DBを開く
         /// </summary>
         /// <param name="filename"></param>
-        internal void Open(string filename)
+        internal void Open()
         {
-            if (_connection != null) throw new InvalidOperationException("already opened.");
+            if (_connection != null) return;
 
-            _connection = new SQLiteConnection($"Data Source={filename}");
+            _connection = new SQLiteConnection($"Data Source={_filename}");
             _connection.Open();
 
-            Initialie();
+            CreateTable();
         }
-        
+
         /// <summary>
         /// DBを閉じる
         /// </summary>
@@ -102,10 +116,11 @@ namespace NeeView
         }
 
 
+
         /// <summary>
         /// 初期化：テーブルの作成
         /// </summary>
-        private void Initialie()
+        private void CreateTable()
         {
             using (SQLiteCommand command = _connection.CreateCommand())
             {
@@ -126,6 +141,29 @@ namespace NeeView
                             + ")";
                 command.ExecuteNonQuery();
             }
+        }
+
+
+
+        /// <summary>
+        /// データ削除
+        /// </summary>
+        internal void Remove()
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+            using (SQLiteCommand command = _connection.CreateCommand())
+            {
+                // database property
+                command.CommandText = "DELETE FROM thumbs";
+                command.ExecuteNonQuery();
+
+                // vacuum
+                command.CommandText = "VACUUM";
+                command.ExecuteNonQuery();
+            }
+            sw.Stop();
+            Debug.WriteLine($"DB Remove: {sw.ElapsedMilliseconds}ms");
         }
 
         /// <summary>
@@ -191,6 +229,8 @@ namespace NeeView
         /// <param name="data"></param>
         internal void Save(ThumbnailCacheHeader header, byte[] data)
         {
+            if (!IsEnabled || _connection == null) return;
+
             using (SQLiteCommand command = _connection.CreateCommand())
             {
                 command.CommandText = $"REPLACE INTO thumbs (key, value) VALUES (@key, @value)";
@@ -207,6 +247,8 @@ namespace NeeView
         /// <returns></returns>
         internal byte[] Load(ThumbnailCacheHeader header)
         {
+            if (!IsEnabled || _connection == null) return null;
+
             using (SQLiteCommand command = _connection.CreateCommand())
             {
                 command.CommandText = $"SELECT value FROM thumbs WHERE key = @key";

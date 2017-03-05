@@ -74,7 +74,7 @@ namespace NeeView
 
             //
             ThumbnailCache.Current = new ThumbnailCache();
-            ThumbnailCache.Current.Open(Path.Combine(System.Environment.CurrentDirectory, "Cache.db"));
+            ThumbnailCache.Current.Open();
         }
 
 

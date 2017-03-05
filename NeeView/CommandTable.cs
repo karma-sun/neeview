@@ -604,6 +604,8 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHidePanel));
                 _elements[CommandType.ToggleHidePanel] = element;
             }
+
+
             // ToggleHideTitleBar
             // 欠番
             {
@@ -745,6 +747,21 @@ namespace NeeView
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisiblePageListMenu), System.Windows.Data.BindingMode.OneWay);
                 _elements[CommandType.ToggleVisiblePageList] = element;
+            }
+            //
+            // TogglePanelStyle
+            {
+                var element = new CommandElement();
+                element.Group = "パネル";
+                element.Text = "パネルのコンテンツ表示ON/OFF";
+                element.MenuText = "パネルのコンテンツ表示";
+                element.Note = "パネルをサムネイル画像つき表示にします";
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => _VM.TogglePanelStyle();
+                element.ExecuteMessage = e => _VM.IsContentPanelStyle ? "パネルを一覧表示にする" : "パネルをコンテンツ表示にする";
+                element.CanExecute = () => true;
+                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsContentPanelStyle));
+                _elements[CommandType.TogglePanelStyle] = element;
             }
 
             // ToggleVisibleThumbnailList

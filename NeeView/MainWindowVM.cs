@@ -505,6 +505,25 @@ namespace NeeView
 
         #endregion
 
+
+        /// <summary>
+        /// IsContentPanelStyle property.
+        /// </summary>
+        public bool IsContentPanelStyle
+        {
+            get { return this.FolderListItemStyle == FolderListItemStyle.Picture; }
+            set { this.FolderListItemStyle = value ? FolderListItemStyle.Picture : FolderListItemStyle.Normal; RaisePropertyChanged(); }
+        }
+
+        public void TogglePanelStyle()
+        {
+            IsContentPanelStyle = !IsContentPanelStyle;
+        }
+
+
+
+
+
         // タイトルバーON/OFF
         #region Property: IsVisibleTitleBar
         private bool _isVisibleTitleBar;
@@ -1562,24 +1581,8 @@ namespace NeeView
         #endregion
 
         // サムネイルサイズ(表示サイズ)
-        public double ThumbnailDispSize => _thumbnailSize / _DpiScaleFactor.X;
-
-
-        #region Property: BannerSize
-        private double _bannerSize;
-        public double BannerSize
-        {
-            get { return _bannerSize; }
-            set
-            {
-                _bannerSize = value;
-                RaisePropertyChanged();
-                //PanelContext.ThumbnailManager.ThumbnailSizeX = _bannerSize;
-            }
-        }
-        #endregion
-
-
+        public double ThumbnailDispSize => _thumbnailSize; // / _DpiScaleFactor.X;
+        
 
 
         // ページ番号の表示
@@ -2946,9 +2949,6 @@ namespace NeeView
             public FolderListItemStyle FolderListItemStyle { get; set; }
 
             [DataMember(Order = 10)]
-            public double BannerSize { get; set; }
-
-            [DataMember(Order = 10)]
             public ShowMessageStyle ViewTransformShowMessageStyle { get; set; }
 
             [DataMember(Order = 10)]
@@ -3013,7 +3013,6 @@ namespace NeeView
                 IsVisibleThumbnailPlate = true;
                 FolderListGridRow0 = "*";
                 FolderListGridRow2 = "*";
-                BannerSize = 256.0;
                 ContentsSpace = -1.0;
                 LongLeftButtonDownMode = LongButtonDownMode.Loupe;
                 LongButtonDownTick = 1.0;
@@ -3119,7 +3118,6 @@ namespace NeeView
             memento.FolderListGridRow2 = this.FolderListGridRow2;
             memento.IsVisiblePageList = this.IsVisiblePageList;
             memento.FolderListItemStyle = this.FolderListItemStyle;
-            memento.BannerSize = this.BannerSize;
             memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
             memento.ContentsSpace = this.ContentsSpace;
             memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
@@ -3187,7 +3185,6 @@ namespace NeeView
             this.FolderListGridRow2 = memento.FolderListGridRow2;
             this.IsVisiblePageList = memento.IsVisiblePageList;
             this.FolderListItemStyle = memento.FolderListItemStyle;
-            this.BannerSize = memento.BannerSize;
             this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
             this.ContentsSpace = memento.ContentsSpace;
             this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;

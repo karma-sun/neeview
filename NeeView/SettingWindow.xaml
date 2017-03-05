@@ -318,6 +318,7 @@
 
                         <TextBlock Text="パネル" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
+                            <!--
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="フォルダーリスト、履歴リスト、ブックマークリストの項目の表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="フォルダーの表示方法"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding FolderListItemStyleList}" SelectedValuePath="Key" DisplayMemberPath="Value"
@@ -329,6 +330,7 @@
                                     Minimum="64" Maximum="512" TickFrequency="32"/>
                                 <TextBlock Text="{Binding Setting.ViewMemento.BannerSize, Converter={StaticResource BannerSizeConverter}}"/>
                             </StackPanel>
+                            -->
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーンのときにパネルを自動的に隠す"
                               IsChecked="{Binding Setting.ViewMemento.IsHidePanelInFullscreen}" />
                         </StackPanel>

@@ -254,7 +254,7 @@ namespace NeeView
         // ビジュアル初期化
         private void InitializeVisualTree()
         {
-            this.MenuArea.Opacity = 0.0;
+            this.MenuArea.Visibility = Visibility.Hidden;
             this.StatusArea.Visibility = Visibility.Hidden;
             this.ThumbnailListArea.Visibility = Visibility.Hidden;
             this.LeftPanel.Visibility = Visibility.Hidden;
@@ -933,7 +933,7 @@ namespace NeeView
                 SetControlVisibility(this.LeftPanel, _isVisibleLeftPanel, true, VisibleStoryboardType.Collapsed);
                 SetControlVisibility(this.RightPanel, _isVisibleRightPanel, true, VisibleStoryboardType.Collapsed);
 
-                SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, true, VisibleStoryboardType.Opacity);
+                SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, true, VisibleStoryboardType.Collapsed);
 
                 SetControlVisibility(this.ThumbnailListArea, _isVisibleThumbnailList, true, VisibleStoryboardType.Collapsed);
                 SetControlVisibility(this.StatusArea, _isVisibleStatausArea, true, VisibleStoryboardType.Collapsed);
@@ -1644,23 +1644,26 @@ namespace NeeView
         #endregion
 
 
+        /// <summary>
+        /// メニュー表示更新
+        /// </summary>
         private void UpdateMenuAreaVisibility()
         {
-            const double visibleMargin = 32;
+            const double visibleMargin = 16;
             const double hideMargin = 8;
 
             if (_VM.IsHideMenu || _VM.IsFullScreen)
             {
                 Point point = Mouse.GetPosition(this.Root);
-                bool isVisible = this.MenuArea.IsMouseOver || this.AddressTextBox.IsFocused;
-                if (this.MenuArea.Opacity >= 0.99) //IsVisible)
+                bool isVisible = this.AddressTextBox.IsFocused;
+                if (this.MenuArea.IsVisible)
                 {
                     double margin = this.MenuArea.ActualHeight + hideMargin > visibleMargin ? this.MenuArea.ActualHeight + hideMargin : visibleMargin;
-                    isVisible = isVisible || (point.Y < 0.0 + margin && this.IsMouseOver);
+                    isVisible = isVisible || this.MenuArea.IsMouseOver || (point.Y < 0.0 + margin && this.IsMouseOver);
                 }
                 else
                 {
-                    isVisible = isVisible || (point.Y < 0.0 + visibleMargin && this.IsMouseOver);
+                    isVisible = isVisible || this.MenuBar.IsMouseOver || (point.Y < 0.0 + visibleMargin && this.IsMouseOver);
                 }
                 isVisible = isVisible && !_mouseLoupe.IsEnabled;
                 SetMenuAreaVisibisity(isVisible, false);
@@ -1680,7 +1683,7 @@ namespace NeeView
             if (_isMenuAreaVisibility != isVisible)
             {
                 _isMenuAreaVisibility = isVisible;
-                SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, isQuickly, VisibleStoryboardType.Opacity);
+                SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, isQuickly, VisibleStoryboardType.Collapsed);
             }
         }
 

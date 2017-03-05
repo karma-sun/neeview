@@ -46,14 +46,14 @@ namespace NeeView
         /// <summary>
         /// 開発用：コマンド発動時間の計測
         /// </summary>
-        public Stopwatch StopWatch { get; set; } = new Stopwatch();
+        //public Stopwatch StopWatch { get; set; } = new Stopwatch();
 
         /// <summary>
         /// 開発用：コマンド登録前処理
         /// </summary>
         internal void OnEncueueing()
         {
-            StopWatch.Start();
+            //StopWatch.Start();
         }
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace NeeView
         /// </summary>
         protected override void OnExecuting()
         {
-            StopWatch.Stop();
-            Debug.WriteLine($"> {this}: {StopWatch.ElapsedMilliseconds}ms");
+            //StopWatch.Stop();
+            //Debug.WriteLine($"> {this}: {StopWatch.ElapsedMilliseconds}ms");
             base.OnExecuting();
         }
 
@@ -236,7 +236,6 @@ namespace NeeView
 
         protected override async Task ExecuteAsync(CancellationToken token)
         {
-            Debug.WriteLine($"MC: {_param.Step}");
             await _book.MovePage_Executed(_param, token);
         }
 

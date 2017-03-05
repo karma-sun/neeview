@@ -66,6 +66,7 @@ namespace NeeView
         private MainWindowVM _VM;
 
         private MouseLoupe _mouseLoupe;
+        private MouseWheel _mouseWheel;
         private MouseDragController _mouseDrag;
         private MouseGestureManager _mouseGesture;
         private MouseLongDown _mouseLongDown;
@@ -148,6 +149,9 @@ namespace NeeView
                 };
 
             this.LoupeInfo.DataContext = _mouseLoupe;
+
+            // mouse wheel
+            _mouseWheel = new MouseWheel(this.MainView);
 
             // mouse gesture
             _mouseGesture = new MouseGestureManager(this.MainView);
@@ -650,6 +654,8 @@ namespace NeeView
         // InputGesture設定
         public void InitializeInputGestures()
         {
+            _mouseWheel.ClearWheelEventHandler();
+
             _mouseDrag.ClearClickEventHandler();
 
             _mouseGesture.ClearClickEventHandler();
@@ -674,6 +680,10 @@ namespace NeeView
                     {
                         _mouseGesture.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
                     }
+                    else if (gesture is MouseWheelGesture)
+                    {
+                        _mouseWheel.MouseWheelEventHandler += (s, x) => { if (gesture.Matches(this, x)) { WheelCommandExecute(e.Value, x); x.Handled = true; } };
+                    }
                     else
                     {
                         e.Value.InputGestures.Add(gesture);
@@ -694,6 +704,27 @@ namespace NeeView
             // Update Menu GestureText
             _VM.MainMenu?.UpdateInputGestureText();
             _VM.ContextMenu?.UpdateInputGestureText();
+        }
+
+
+        /// <summary>
+        /// wheel command
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="parameter"></param>
+        /// <param name="target"></param>
+        /// <param name="arg"></param>
+        private void WheelCommandExecute(RoutedUICommand command, MouseWheelEventArgs arg)
+        {
+            int turn = Math.Abs(arg.Delta) / 120;
+            if (turn < 1) turn = 1;
+
+            // Debug.WriteLine($"WheelCommand: {turn}({arg.Delta})");
+
+            for (int i = 0; i < turn; i++)
+            {
+                command.Execute(null, this);
+            }
         }
 
 

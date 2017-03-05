@@ -748,7 +748,6 @@ namespace NeeView
                 Step = step,
             });
 
-            Debug.WriteLine($"> {command}: {step}");
             _commandEngine.Enqueue(command);
         }
 
@@ -1158,7 +1157,6 @@ namespace NeeView
             if (page.IsContentAlived && now.ViewContentsSource.Any(i => i.SourceContent == null && i.Page == page))
             {
                 // 再更新
-                Debug.WriteLine($"Delay Loaded: {page.LastName}");
                 UpdateViewContents();
             }
         }

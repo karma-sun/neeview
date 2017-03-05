@@ -138,6 +138,7 @@
     </Compile>
     <Compile Include="MemoryControl.cs" />
     <Compile Include="MouseLoupe.cs" />
+    <Compile Include="MouseWheel.cs" />
     <Compile Include="PageContentView.cs" />
     <Compile Include="Page\PageJob.cs" />
     <Compile Include="Page\Thumbnail.cs" />

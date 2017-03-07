@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+// TODO: BitmapImageに一本化
+// TODO: EXIF取得方法を別に考える？
+
 namespace NeeView
 {
     /// <summary>
@@ -121,7 +124,7 @@ namespace NeeView
                 info.Decoder = ".Net BitmapImage";
             }
 
-            info.FileSize = entry.FileSize;
+            info.FileSize = entry.Length;
             info.LastWriteTime = entry.LastWriteTime;
             info.Metadata = metadata;
 
@@ -140,13 +143,17 @@ namespace NeeView
             BitmapMetadata metadata = null;
             FileBasicInfo info = new FileBasicInfo();
 
+
+            BitmapFrame bitmapFrame = null;
+
             // まずは BitmapFrame でデコード
             try
             {
-                var bitmapFrame = BitmapFrame.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+                bitmapFrame = BitmapFrame.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+                if (bitmapFrame == null) return null;
+
                 bitmapFrame.Freeze();
 
-                if (bitmapFrame == null) return null;
                 source = bitmapFrame;
                 metadata = bitmapFrame.Metadata as BitmapMetadata;
                 info.Decoder = bitmapFrame.Decoder.CodecInfo.FriendlyName;
@@ -157,9 +164,15 @@ namespace NeeView
             }
             catch (Exception e)
             {
+                if (bitmapFrame != null)
+                {
+                    bitmapFrame.Dispatcher.DisableProcessing();
+                    bitmapFrame = null;
+                }
                 Debug.WriteLine(e.Message);
                 source = null;
             }
+
 
             if (source == null)
             {
@@ -179,13 +192,13 @@ namespace NeeView
             }
 
             // out of memory?
-            if (entry.FileSize > 100 * 1024 && source.PixelHeight == 1 && source.PixelWidth == 1)
+            if (entry.Length > 100 * 1024 && source.PixelHeight == 1 && source.PixelWidth == 1)
             {
                 Debug.WriteLine("1x1!?");
                 throw new OutOfMemoryException();
             }
 
-            info.FileSize = entry.FileSize;
+            info.FileSize = entry.Length;
             info.LastWriteTime = entry.LastWriteTime;
             info.Metadata = metadata;
 

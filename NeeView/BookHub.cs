@@ -241,12 +241,12 @@ namespace NeeView
         #region Property: IsEnableExif
         public bool IsEnableExif
         {
-            get { return Page.IsEnableExif; }
+            get { return ImageContent.IsEnableExif; }
             set
             {
-                if (Page.IsEnableExif != value)
+                if (ImageContent.IsEnableExif != value)
                 {
-                    Page.IsEnableExif = value;
+                    ImageContent.IsEnableExif = value;
                     CurrentBook?.RequestReflesh(true); // 表示更新
                 }
             }
@@ -284,7 +284,7 @@ namespace NeeView
             set
             {
                 _isAutoRecursive = value;
-                ArchivePage.IsAutoRecursive = _isAutoRecursive;
+                ArchiveContent.IsAutoRecursive = _isAutoRecursive;
             }
         }
         #endregion
@@ -1552,6 +1552,7 @@ namespace NeeView
 
 
         // ファイルに保存する
+        // TODO: OutOfMemory対策
         public void Export()
         {
             if (CurrentBook != null && CanOpenFilePlace())
@@ -1575,9 +1576,9 @@ namespace NeeView
                         }
                     }
                 }
-                catch
+                catch (Exception e)
                 {
-                    Messenger.MessageBox(this, "この画像は出力できません", "警告", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Warning);
+                    Messenger.MessageBox(this, $"この画像は出力できません\n\n{e.Message}", "警告", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Warning);
                     return;
                 }
             }
@@ -1603,7 +1604,7 @@ namespace NeeView
         public bool CanRemoveFile(Page page)
         {
             if (page == null) return false;
-            if (!page.IsFile()) return false;
+            if (!page.Entry.IsFileSystem) return false;
             return (File.Exists(page.GetFilePlace()));
         }
 

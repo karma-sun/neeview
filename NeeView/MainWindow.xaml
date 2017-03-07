@@ -135,40 +135,7 @@
     </Window.Resources>
 
 
-    <DockPanel>
-
-        <!--#region Development -->
-        <!-- 開発用 ページリスト -->
-        <!--
-        <ScrollViewer x:Name="DevPageList" DockPanel.Dock="Right" Width="300" Panel.ZIndex="100" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
-            Visibility="{Binding ElementName=MenuItemDevPageList, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ListView ItemsSource="{Binding PageList}" >
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="名前"  DisplayMemberBinding="{Binding FileName}" Width="100"/>
-                        <GridViewColumn Header="状態"  DisplayMemberBinding="{Binding Message}" Width="150"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </ScrollViewer>
-        -->
-        <!-- 開発用 表示領域-->
-        <!--
-        <DockPanel x:Name="DevInfo" DockPanel.Dock="Bottom" Panel.ZIndex="100" Background="White"
-                  Visibility="{Binding ElementName=MenuItemDevInfo, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                <Button Content="Update" Width="100" Click="UpdateContentPoint_Click"/>
-                <TextBlock Text="{Binding ContentPosition}" Margin="5"/>
-            </StackPanel>
-            <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.JobCount}"/>
-            <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Message}"/>
-            <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[0].Message}"/>
-            <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[1].Message}"/>
-            <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[2].Message}"/>
-            <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[3].Message}"/>
-        </DockPanel>
-        -->
-        <!--#endregion-->
+    <DockPanel x:Name="RootDockPanel">
 
 
 
@@ -483,8 +450,8 @@
                             <!-- 開発用メニュー -->
                             <Menu>
                                 <MenuItem x:Name="MenuItemDev" Header="開発(_D)">
-                                    <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" />
-                                    <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" />
+                                    <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" IsChecked="{Binding IsVisibleDevPageList}" />
+                                    <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" IsChecked="{Binding IsVisibleDevInfo}" />
                                     <MenuItem x:Name="MenuItemDevApplicationFolder" Header="アプリのフォルダを開く" Click="MenuItemDevApplicationFolder_Click" />
                                     <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="アプリデータフォルダを開く" Click="MenuItemDevApplicationDataFolder_Click" />
                                     <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダを開く" Click="MenuItemDevTempFolder_Click" />

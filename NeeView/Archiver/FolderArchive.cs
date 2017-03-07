@@ -31,9 +31,8 @@ namespace NeeView
         private bool _isDisposed;
 
         // コンストラクタ
-        public FolderArchive(string folderFileName)
+        public FolderArchive(string path, ArchiveEntry source) : base(path, source)
         {
-            FileName = folderFileName;
         }
 
         //
@@ -60,10 +59,10 @@ namespace NeeView
 
             token.ThrowIfCancellationRequested();
 
-            int prefixLen = FileName.Length;
+            int prefixLen = Path.Length;
             var list = new List<ArchiveEntry>();
 
-            var directory = new DirectoryInfo(FileName);
+            var directory = new DirectoryInfo(Path);
             foreach (var info in directory.EnumerateFiles())
             {
                 token.ThrowIfCancellationRequested();
@@ -74,7 +73,7 @@ namespace NeeView
                     Archiver = this,
                     Id = list.Count,
                     EntryName = name,
-                    FileSize = info.Length,
+                    Length = info.Length,
                     LastWriteTime = info.LastWriteTime,
                 });
             }
@@ -88,7 +87,7 @@ namespace NeeView
                     Archiver = this,
                     Id = list.Count,
                     EntryName = name,
-                    FileSize = -1,
+                    Length = -1,
                     LastWriteTime = info.LastWriteTime,
                 });
             }
@@ -108,7 +107,7 @@ namespace NeeView
         // ファイルパス取得
         public override string GetFileSystemPath(ArchiveEntry entry)
         {
-            return Path.Combine(FileName, entry.EntryName);
+            return System.IO.Path.Combine(Path, entry.EntryName);
         }
 
         // ファイルパス取得

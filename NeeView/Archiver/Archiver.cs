@@ -33,8 +33,8 @@ namespace NeeView
     /// </summary>
     public abstract class Archiver : ITrash
     {
-        // アーカイブのパス
-        public string FileName { get; protected set; }
+        // アーカイブ実体のパス
+        public string Path { get; protected set; }
 
         // ファイルシステムの場合はtrue
         public virtual bool IsFileSystem { get; } = false;
@@ -45,26 +45,112 @@ namespace NeeView
         // 対応判定
         public abstract bool IsSupported();
 
-        // 親アーカイブ
-        public Archiver Parent => Source?.Archiver;
+        /// <summary>
+        /// 親アーカイブ
+        /// </summary>
+        public Archiver Parent { get; private set; }
+
 
         /// <summary>
-        /// 元となったアーカイブエントリ
+        /// エントリでの名前
         /// </summary>
-        public ArchiveEntry Source { get; set; }
+        public string EntryName { get; private set; }
 
+        /// <summary>
+        /// エントリでのID
+        /// </summary>
+        public int Id { get; private set; }
+
+        /// <summary>
+        /// アーカイブのサイズ
+        /// </summary>
+        public long Length { get; private set; }
+
+        /// <summary>
+        /// アーカイブの最終更新日
+        /// </summary>
+        public DateTime? LastWriteTime { get; private set; }
+        
+
+        /// <summary>
+        /// ルート判定
+        /// </summary>
+        public bool IsRoot => Parent == null;
+
+        /// <summary>
+        /// ルートアーカイバ取得
+        /// </summary>
+        public Archiver RootArchiver => IsRoot ? this : Parent.RootArchiver;
+
+        /// <summary>
+        /// ルートアーカイバを基準としたエントリ名
+        /// </summary>
+        public string EntryFullName => IsRoot ? "" : LoosePath.Combine(Parent.EntryFullName, EntryName);
+
+        /// <summary>
+        /// ルートアーカイバ名を含んだエントリ名
+        /// </summary>
+        public string FullName => IsRoot ? EntryName : LoosePath.Combine(Parent.FullName, EntryName);
+
+        
         /// <summary>
         /// 識別名
         /// </summary>
-        public string Ident => (Parent == null || Parent is FolderArchive) ? FileName : LoosePath.Combine(Parent.Ident, $"{Source.Id}.{Source.EntryName}");
+        public string Ident => (Parent == null || Parent is FolderArchive) ? Path : LoosePath.Combine(Parent.Ident, $"{Id}.{EntryName}");
+
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="path">アーカイブ実体へのパス</param>
+        /// <param name="source">基となるエントリ</param>
+        public Archiver(string path, ArchiveEntry source)
+        {
+            Path = path;
+
+            if (source != null)
+            {
+                Parent = source.Archiver;
+                EntryName = source.EntryName;
+                Id = source.Id;
+                LastWriteTime = source.LastWriteTime;
+                Length = source.Length;
+            }
+
+            else
+            {
+                EntryName = LoosePath.GetFileName(Path);
+
+                var directoryInfo = new DirectoryInfo(Path);
+                if (directoryInfo.Exists)
+                {
+                    Length = -1;
+                    LastWriteTime = directoryInfo.LastWriteTime;
+                    return;
+                }
+
+                var fileInfo = new FileInfo(Path);
+                if (fileInfo.Exists)
+                {
+                    Length = fileInfo.Length;
+                    LastWriteTime = fileInfo.LastWriteTime;
+                    return;
+                }
+            }
+        }
+
 
         /// <summary>
         /// エントリリストを取得
         /// </summary>
+        /// <param name="token"></param>
         /// <returns></returns>
         public abstract List<ArchiveEntry> GetEntries(CancellationToken token);
 
-        //
+        /// <summary>
+        /// エントリリストを取得(同期)
+        /// </summary>
+        /// <returns></returns>
         public List<ArchiveEntry> GetEntries()
         {
             return GetEntries(CancellationToken.None);
@@ -84,48 +170,39 @@ namespace NeeView
             {
                 var proc = new Utility.AsynchronousAction<List<ArchiveEntry>>();
                 var entry = await proc.ExecuteAsync(GetEntriesFunc, token);
-                Debug.WriteLine($"Entry: done.: {this.FileName}");
+                Debug.WriteLine($"Entry: done.: {this.Path}");
                 return entry;
             }
             catch (OperationCanceledException)
             {
-                Debug.WriteLine($"Entry: Canceled!: {this.FileName}");
+                Debug.WriteLine($"Entry: Canceled!: {this.Path}");
                 throw;
             }
         }
 
+        /// <summary>
+        /// (デリゲート用)
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         private List<ArchiveEntry> GetEntriesFunc(CancellationToken token)
         {
             return GetEntries(token);
         }
 
-        // エントリのストリームを取得
+        /// <summary>
+        /// エントリのストリームを取得
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <returns></returns>
         public abstract Stream OpenStream(ArchiveEntry entry);
 
         /// <summary>
-        /// テンポラリにアーカイブを解凍する
-        /// このテンポラリはアーカイブ廃棄時に自動的に削除される
+        /// エントリをファイルとして出力
         /// </summary>
         /// <param name="entry"></param>
-        /// <param name="isKeepFileName">エントリー名をファイル名にする</param>
-        public FileProxy ExtractToTemp(ArchiveEntry entry, bool isKeepFileName = false)
-        {
-            if (entry.IsFileSystem)
-            {
-                return new FileProxy(entry.GetFileSystemPath());
-            }
-            else
-            {
-                string tempFileName = isKeepFileName
-                    ? Temporary.CreateTempFileName(LoosePath.GetFileName(entry.EntryName))
-                    : Temporary.CreateCountedTempFileName("entry", Path.GetExtension(entry.EntryName));
-                ExtractToFile(entry, tempFileName, false);
-                return new TempFile(tempFileName);
-            }
-        }
-
-
-        // エントリをファイルとして出力
+        /// <param name="exportFileName"></param>
+        /// <param name="isOverwrite"></param>
         public abstract void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite);
 
 
@@ -136,10 +213,9 @@ namespace NeeView
         /// <returns>ファイルパス</returns>
         public string GetPlace()
         {
-            return (Parent == null || Parent is FolderArchive) ? FileName : Parent.GetPlace();
+            return (Parent == null || Parent is FolderArchive) ? Path : Parent.GetPlace();
         }
 
-        //
         public virtual bool IsDisposed => true;
 
         // 廃棄処理
@@ -147,4 +223,9 @@ namespace NeeView
         {
         }
     }
+
+
+
+
 }
+

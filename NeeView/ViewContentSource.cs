@@ -27,11 +27,7 @@ namespace NeeView
 
 
         // ソースコンテンツ
-        public object SourceContent { get; set; }
-
-        // ソースサイズ。
-        // TODO: ソースコンテンツに含まれるべきだな。
-        public Size SourceContentSize { get; set; }
+        public PageContent SourceContent { get; set; }
 
 
         // コンテンツサイズ 
@@ -47,16 +43,19 @@ namespace NeeView
         // 方向
         public PageReadOrder ReadOrder { get; set; }
 
+        // 有効
+        public bool IsValid { get; set; }
 
         // コンストラクタ
         // Pageから作成
         public ViewContentSource(Page page, PagePosition position, int size, PageReadOrder readOrder)
         {
             Page = page;
-            SourceContent = page.Content;
-            SourceContentSize = new Size(page.Width, page.Height);
 
-            Size = new Size(size == 2 ? page.Width : Math.Floor(page.Width * 0.5 + 0.4), page.Height);
+            IsValid = page.Content.IsLoaded;
+            SourceContent = page.Content;
+
+            Size = new Size(size == 2 ? SourceContent.Size.Width : Math.Floor(SourceContent.Size.Width * 0.5 + 0.4), SourceContent.Size.Height);
 
             Position = position;
             PartSize = size;
@@ -77,7 +76,7 @@ namespace NeeView
             bool isRightPart = Position.Part == 0;
             if (ReadOrder == PageReadOrder.LeftToRight) isRightPart = !isRightPart;
 
-            double half = Size.Width / SourceContentSize.Width;
+            double half = Size.Width / SourceContent.Size.Width;
             return isRightPart ? new Rect(0.99999 - half, -0.00001, half - 0.00001, 0.99999) : new Rect(-0.00001, -0.00001, half - 0.00001, 0.99999);
         }
 
@@ -104,19 +103,34 @@ namespace NeeView
         // コントロール作成
         public FrameworkElement CreateControl(Binding foregroundBinding, Binding bitmapScalingModeBinding)
         {
-            if (SourceContent is BitmapContent)
+            // テキスト表示
+            if (SourceContent.PageMessage != null)
+            {
+                var filepage = new FilePageContent()
+                {
+                    Icon = SourceContent.PageMessage.Icon,
+                    FileName = SourceContent.Entry.EntryName,
+                    Message = SourceContent.PageMessage.Message,
+                };
+
+                var control = new FilePageControl(filepage);
+                control.SetBinding(FilePageControl.DefaultBrushProperty, foregroundBinding);
+                return control;
+            }
+            // 仮表示
+            else if (!SourceContent.IsLoaded)
             {
                 var rectangle = new Rectangle();
-                rectangle.Fill = CreatePageImageBrush(((BitmapContent)SourceContent).Source);
-                rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
-                rectangle.UseLayoutRounding = true;
-                rectangle.SnapsToDevicePixels = true;
+                rectangle.Fill = CreateThumbnailBrush();
+                RenderOptions.SetBitmapScalingMode(rectangle, BitmapScalingMode.HighQuality);
                 return rectangle;
             }
-            else if (SourceContent is AnimatedGifContent)
+
+            //
+            else if (SourceContent is AnimatedContent)
             {
                 var media = new MediaElement();
-                media.Source = new Uri(((AnimatedGifContent)SourceContent).FileProxy.Path);
+                media.Source = new Uri(((AnimatedContent)SourceContent).FileProxy.Path);
                 media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
                 media.MediaFailed += (s, e_) => { throw new ApplicationException("MediaElementで致命的エラー", e_.ErrorException); };
                 media.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
@@ -130,18 +144,14 @@ namespace NeeView
                 rectangle.Fill = brush;
                 return rectangle;
             }
-            else if (SourceContent is FilePageContent)
+            else if (SourceContent is ImageContent)
             {
-                var control = new FilePageControl(SourceContent as FilePageContent);
-                control.SetBinding(FilePageControl.DefaultBrushProperty, foregroundBinding);
-                return control;
-            }
-            else if (SourceContent is string)
-            {
-                var context = new FilePageContent() { Icon = FilePageIcon.File, Message = (string)SourceContent };
-                var control = new FilePageControl(context);
-                control.SetBinding(FilePageControl.DefaultBrushProperty, foregroundBinding);
-                return control;
+                var rectangle = new Rectangle();
+                rectangle.Fill = CreatePageImageBrush(((ImageContent)SourceContent).BitmapSource);
+                rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
+                rectangle.UseLayoutRounding = true;
+                rectangle.SnapsToDevicePixels = true;
+                return rectangle;
             }
             else
             {

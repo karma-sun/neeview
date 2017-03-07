@@ -57,22 +57,15 @@ namespace NeeView
         {
             if (Page == null) return null;
 
-            BitmapSource source = Page.GetBitmapSourceContent() ?? Page.Thumbnail.CreateBitmap();
+            await Page.LoadThumbnailAsync(QueueElementPriority.Top);
 
-            if (source == null)
-            {
-                var clone = Page.TinyClone();
-                await clone.LoadAsync(QueueElementPriority.Top);
-                source = clone.GetBitmapSourceContent();
-                return CreateVisualContent(source, new Size(clone.Width, clone.Height), maxSize, isShadowEffect);
-            }
-            else
-            {
-                return CreateVisualContent(source, new Size(Page.Width, Page.Height), maxSize, isShadowEffect);
-            }
+            BitmapSource source = Page.Thumbnail.CreateBitmap();
+
+            return CreateVisualContent(source, new Size(Page.Width, Page.Height), maxSize, isShadowEffect);
         }
 
         // 既に読み込まれている素材を利用してサムネイルを作る
+        // TODO: 見直し
         public FrameworkElement CreateVisualContent(Size maxSize, bool isShadowEffect)
         {
             if (Page == null) return null;
@@ -292,7 +285,7 @@ namespace NeeView
             // ファイルのクローン
             if (CanClone(true))
             {
-                SingleImage.Page.Export(Path);
+                SingleImage.Page.Entry.ExtractToFile(Path, true);
             }
             // 再レンダリング
             else

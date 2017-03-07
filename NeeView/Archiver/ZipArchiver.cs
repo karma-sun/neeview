@@ -30,9 +30,8 @@ namespace NeeView
         }
 
         // コンストラクタ
-        public ZipArchiver(string archiveFileName)
+        public ZipArchiver(string path, ArchiveEntry source) : base(path, source)
         {
-            FileName = archiveFileName;
         }
 
         //
@@ -59,7 +58,7 @@ namespace NeeView
 
             var list = new List<ArchiveEntry>();
 
-            using (var archiver = ZipFile.OpenRead(FileName))
+            using (var archiver = ZipFile.OpenRead(Path))
             {
                 for (int id = 0; id < archiver.Entries.Count; ++id)
                 {
@@ -74,7 +73,7 @@ namespace NeeView
                             Id = id,
                             Instance = null,
                             EntryName = entry.FullName,
-                            FileSize = entry.Length,
+                            Length = entry.Length,
                             LastWriteTime = entry.LastWriteTime.DateTime,
                         });
                     }
@@ -89,7 +88,7 @@ namespace NeeView
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
-            using (var archiver = ZipFile.OpenRead(FileName))
+            using (var archiver = ZipFile.OpenRead(Path))
             {
                 ZipArchiveEntry archiveEntry = archiver.Entries[entry.Id];
                 if (archiveEntry.FullName != entry.EntryName)
@@ -112,7 +111,7 @@ namespace NeeView
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
-            using (var archiver = ZipFile.OpenRead(FileName))
+            using (var archiver = ZipFile.OpenRead(Path))
             {
                 ZipArchiveEntry archiveEntry = archiver.Entries[entry.Id];
                 archiveEntry.ExtractToFile(exportFileName, isOverwrite);

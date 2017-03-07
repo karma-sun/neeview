@@ -49,13 +49,30 @@ namespace NeeView
         private List<ITrash> _trashes = new List<ITrash>();
 
         /// <summary>
+        /// lock
+        /// </summary>
+        private object _lock = new object();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool Any()
+        {
+            return _trashes.Any();
+        }
+
+        /// <summary>
         /// ごみ箱に登録
         /// </summary>
         /// <param name="trash"></param>
         public void Add(ITrash trash)
         {
-            if (trash == null) return;
-            _trashes.Add(trash);
+            lock (_lock)
+            {
+                if (trash == null) return;
+                _trashes.Add(trash);
+            }
         }
 
         /// <summary>
@@ -64,9 +81,12 @@ namespace NeeView
         /// <param name="trashes"></param>
         public void Add(IEnumerable<ITrash> trashes)
         {
-            foreach(var trash in trashes)
+            lock (_lock)
             {
-                _trashes.Add(trash);
+                foreach (var trash in trashes)
+                {
+                    _trashes.Add(trash);
+                }
             }
         }
 
@@ -75,18 +95,21 @@ namespace NeeView
         /// </summary>
         public void Clear()
         {
-            _trashes.Reverse();
-            _trashes.ForEach(e => e.Dispose());
-            _trashes.RemoveAll(e => e.IsDisposed);
-
-            // 不燃物処理
-            if (TrashBox.Current != this)
+            lock (_lock)
             {
-                TrashBox.Current.Clear();
+                _trashes.Reverse();
+                _trashes.ForEach(e => e.Dispose());
+                _trashes.RemoveAll(e => e.IsDisposed);
 
-                // 新しい不燃物の登録
-                TrashBox.Current.Add(_trashes);
-                _trashes.Clear();
+                // 不燃物処理
+                if (TrashBox.Current != this)
+                {
+                    TrashBox.Current.Clear();
+
+                    // 新しい不燃物の登録
+                    TrashBox.Current.Add(_trashes);
+                    _trashes.Clear();
+                }
             }
         }
 

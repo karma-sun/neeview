@@ -67,7 +67,7 @@ namespace NeeView
             }
 
             var info = new FileBasicInfo();
-            info.FileSize = entry.FileSize;
+            info.FileSize = entry.Length;
             info.LastWriteTime = entry.LastWriteTime;
             info.Decoder = _susiePlugin?.ToString();
 
@@ -90,7 +90,7 @@ namespace NeeView
             }
 
             var info = new FileBasicInfo();
-            info.FileSize = entry.FileSize;
+            info.FileSize = entry.Length;
             info.LastWriteTime = entry.LastWriteTime;
             info.Decoder = _susiePlugin?.ToString();
 

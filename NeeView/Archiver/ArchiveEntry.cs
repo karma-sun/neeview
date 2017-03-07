@@ -17,34 +17,82 @@ namespace NeeView
     /// </summary>
     public class ArchiveEntry
     {
-        // 所属アーカイバ
+        /// <summary>
+        /// 所属アーカイバ.
+        /// nullの場合、このエントリはファイルパスを示す
+        /// </summary>
         public Archiver Archiver { get; set; }
 
-        // 登録番号
+        /// <summary>
+        /// アーカイブ内登録番号
+        /// </summary>
         public int Id { get; set; }
 
-        // エントリ情報
+        /// <summary>
+        /// エントリ情報
+        /// アーカイバで識別子として使用される
+        /// </summary>
         public object Instance { get; set; }
 
-        // エントリ名
+
+        // 例：
+        // a.zip 
+        // +- b.zip
+        //      +- c\001.jpg <- this!
+
+        /// <summary>
+        /// エントリ名(重複有)
+        /// </summary>
+        /// c\001.jpg
         public string EntryName { get; set; }
 
         /// <summary>
+        /// エントリ名のファイル名
+        /// </summary>
+        /// 001.jpg
+        public string EntryLastName => LoosePath.GetFileName(EntryName);
+
+        /// <summary>
+        /// ルートアーカイバ
+        /// </summary>
+        /// a.zip
+        public Archiver RootArchiver => Archiver?.RootArchiver;
+
+        /// <summary>
+        /// ルートアーカイバからのエントリ名
+        /// </summary>
+        ///b.zip\c\001.jpg
+        public string EntryFullName => LoosePath.Combine(Archiver?.EntryFullName, EntryName);
+
+        /// <summary>
+        /// ルートアーカイバを含むエントリ名
+        /// </summary>
+        /// a.zip\b.zip\c\001.jpg
+        public string FullName => LoosePath.Combine(RootArchiver?.FullName, EntryFullName);
+
+
+        /// <summary>
         /// 識別名
+        /// アーカイブ内では重複名があるので登録番号を含めたユニークな名前にする
         /// </summary>
         public string Ident => LoosePath.Combine(Archiver.Ident, $"{Id}.{EntryName}");
 
-        // ファイルサイズ
-        public long FileSize { get; set; }
+        /// <summary>
+        /// ファイルサイズ。
+        /// -1 はディレクトリ
+        /// </summary>
+        public long Length { get; set; }
 
-        // ファイル更新日
+        /// <summary>
+        /// ファイル更新日
+        /// </summary>
         public DateTime? LastWriteTime { get; set; }
 
 
         /// <summary>
         /// ファイルシステム所属判定
         /// </summary>
-        public bool IsFileSystem => Archiver.IsFileSystem;
+        public bool IsFileSystem => Archiver == null || Archiver.IsFileSystem;
 
         /// <summary>
         /// ファイルシステムでのパスを返す
@@ -52,8 +100,13 @@ namespace NeeView
         /// <returns>パス。圧縮ファイルの場合はnull</returns>
         public string GetFileSystemPath()
         {
-            return Archiver.GetFileSystemPath(this);
+            return Archiver != null
+                ? Archiver.GetFileSystemPath(this)
+                : EntryName;
         }
+
+
+
 
         /// <summary>
         /// ストリームを開く
@@ -61,7 +114,9 @@ namespace NeeView
         /// <returns>Stream</returns>
         public Stream OpenEntry()
         {
-            return Archiver.OpenStream(this);
+            return Archiver != null
+                ? Archiver.OpenStream(this)
+                : new FileStream(EntryName, FileMode.Open, FileAccess.Read);
         }
 
         /// <summary>
@@ -71,16 +126,57 @@ namespace NeeView
         /// <param name="isOverwrite">上書き許可フラグ</param>
         public void ExtractToFile(string exportFileName, bool isOverwrite)
         {
-            Archiver.ExtractToFile(this, exportFileName, isOverwrite);
+            if (Archiver != null)
+            {
+                Archiver.ExtractToFile(this, exportFileName, isOverwrite);
+            }
+            else
+            {
+                File.Copy(EntryName, exportFileName, isOverwrite);
+            }
+        }
+
+
+        /// <summary>
+        /// テンポラリにアーカイブを解凍する
+        /// このテンポラリは自動的に削除される
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <param name="isKeepFileName">エントリー名をファイル名にする</param>
+        public FileProxy ExtractToTemp(bool isKeepFileName = false)
+        {
+            if (IsFileSystem)
+            {
+                return new FileProxy(GetFileSystemPath());
+            }
+            else
+            {
+                string tempFileName = isKeepFileName
+                    ? Temporary.CreateTempFileName(LoosePath.GetFileName(EntryName))
+                    : Temporary.CreateCountedTempFileName("entry", System.IO.Path.GetExtension(EntryName));
+                ExtractToFile(tempFileName, false);
+                return new TempFile(tempFileName);
+            }
+        }
+
+
+
+        /// <summary>
+        /// このエントリがアーカイブであるかを拡張子から判定
+        /// </summary>
+        /// <returns></returns>
+        public bool IsArchive()
+        {
+            return ModelContext.ArchiverManager.IsSupported(EntryName);
         }
 
         /// <summary>
-        /// テンポラリファイルに出力
+        /// このエントリが画像であるか拡張子から判定
         /// </summary>
         /// <returns></returns>
-        public FileProxy ExtractToTemp(bool isKeepFileName = false)
+        public bool IsImage()
         {
-            return Archiver.ExtractToTemp(this, isKeepFileName);
+            return ModelContext.BitmapLoaderManager.IsSupported(EntryName);
         }
     }
 }

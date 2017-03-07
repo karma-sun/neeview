@@ -453,7 +453,7 @@ namespace NeeView
             StartEntry = Pages.Count > 0 ? Pages[position.Index].FullPath : null;
 
             // 有効化
-            Place = archiver.FileName;
+            Place = archiver.Path;
 
             // 初期ページ設定
             RequestSetPosition(position, direction, true);
@@ -539,7 +539,7 @@ namespace NeeView
                         catch (Exception e)
                         {
                             // 展開に失敗した場合、エラーページとして登録する
-                            Pages.Add(new FilePage(archiver, entry, place, FilePageIcon.Alart) { Text = "ファイルの抽出に失敗しました\n" + e.Message });
+                            Pages.Add(new FilePage(entry, FilePageIcon.Alart, "ファイルの抽出に失敗しました\n" + e.Message));
                         }
                     }
                 }
@@ -564,7 +564,14 @@ namespace NeeView
             {
                 if (isSupportAllFile || !ModelContext.BitmapLoaderManager.IsExcludedPath(entry.EntryName))
                 {
-                    page = new BitmapPage(archiver, entry, place);
+                    if (Page.IsEnableAnimatedGif && LoosePath.GetExtension(entry.EntryName) == ".gif")
+                    {
+                        page = new AnimatedPage(entry);
+                    }
+                    else
+                    {
+                        page = new BitmapPage(entry);
+                    }
                 }
             }
             else
@@ -575,13 +582,13 @@ namespace NeeView
                     switch (type)
                     {
                         case ArchiverType.None:
-                            page = new FilePage(archiver, entry, place, FilePageIcon.File);
+                            page = new FilePage(entry, FilePageIcon.File);
                             break;
                         case ArchiverType.FolderArchive:
-                            page = new FilePage(archiver, entry, place, FilePageIcon.Folder);
+                            page = new FilePage(entry, FilePageIcon.Folder);
                             break;
                         default:
-                            page = new FilePage(archiver, entry, place, FilePageIcon.Archive);
+                            page = new FilePage(entry, FilePageIcon.Archive);
                             break;
                     }
                 }
@@ -1154,7 +1161,7 @@ namespace NeeView
             var page = (Page)sender;
 
             // 現在表示に含まれているページ？
-            if (page.IsContentAlived && now.ViewContentsSource.Any(i => i.SourceContent == null && i.Page == page))
+            if (page.IsContentAlived && now.ViewContentsSource.Any(i => !i.IsValid && i.Page == page))
             {
                 // 再更新
                 UpdateViewContents();
@@ -1312,7 +1319,7 @@ namespace NeeView
             foreach (var page in pages)
             {
                 if (!page.IsContentInfoAlive) return;
-                size += page.Width * page.Height;
+                size += page.Content.Size.Width * page.Content.Size.Height;
             }
 
             // 判定

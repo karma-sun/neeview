@@ -1581,7 +1581,7 @@ namespace NeeView
         #endregion
 
         // サムネイルサイズ(表示サイズ)
-        public double ThumbnailDispSize => _thumbnailSize; // / _DpiScaleFactor.X;
+        public double ThumbnailDispSize => _thumbnailSize / _DpiScaleFactor.X;
         
 
 
@@ -1632,6 +1632,40 @@ namespace NeeView
         public void UpdateContentPosition()
         {
             ContentPosition = MainContent.Content.PointToScreen(new Point(0, 0));
+        }
+
+        /// <summary>
+        /// IsVisibleDevPageList property.
+        /// </summary>
+        private bool _IsVisibleDevPageList;
+        public bool IsVisibleDevPageList
+        {
+            get { return _IsVisibleDevPageList; }
+            set { if (_IsVisibleDevPageList != value) { _IsVisibleDevPageList = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// IsVisibleDevInfo property.
+        /// </summary>
+        private bool _IsVisibleDevInfo;
+        public bool IsVisibleDevInfo
+        {
+            get { return _IsVisibleDevInfo; }
+            set { if (_IsVisibleDevInfo != value) { _IsVisibleDevInfo = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// DevUpdateContentPosition command.
+        /// </summary>
+        private RelayCommand _DevUpdateContentPosition;
+        public RelayCommand DevUpdateContentPosition
+        {
+            get { return _DevUpdateContentPosition = _DevUpdateContentPosition ?? new RelayCommand(DevUpdateContentPosition_Executed); }
+        }
+
+        private void DevUpdateContentPosition_Executed()
+        {
+            UpdateContentPosition();
         }
 
         #endregion
@@ -2170,34 +2204,52 @@ namespace NeeView
                             new Binding(nameof(BitmapScalingMode)) { Source = content }
                         );
                         content.Size = source.Size; // new Size(source.Width, source.Height);
-                        content.SourceSize = source.SourceContentSize;
-                        content.Color = source.Page.Color;
+                        content.SourceSize = source.SourceContent.Size;
+                        content.Color = source.SourceContent.Color;
                         content.FolderPlace = source.Page.GetFolderPlace();
                         content.FilePlace = source.Page.GetFilePlace();
                         content.FullPath = source.Page.FullPath;
                         content.Position = source.Position;
                         content.PartSize = source.PartSize;
                         content.ReadOrder = source.ReadOrder;
+                        content.Thumbnail = source.Page.Thumbnail;
 
-                        if (source.SourceContent is BitmapContent)
+                        if (source.SourceContent.PageMessage != null)
                         {
-                            var bitmapContent = source.SourceContent as BitmapContent;
-                            content.Bitmap = bitmapContent.Source;
-                            content.Info = bitmapContent.Info;
+                            //var filePageContext = source.SourceContent as FilePageContent;
+                            content.Info = new FileBasicInfo(); // null; // filePageContext.Info;
+                            content.Info.Decoder = null;
                         }
-                        else if (source.SourceContent is AnimatedGifContent)
+                        else if (!source.SourceContent.IsLoaded)
                         {
-                            var gifResource = source.SourceContent as AnimatedGifContent;
-                            content.Bitmap = gifResource.BitmapContent.Source;
-                            content.Info = gifResource.BitmapContent.Info;
+                            content.Content.SetText(LoosePath.GetFileName(source.Page.FullPath));
+
+                            if (content.Size.Width == 0 && content.Size.Height == 0)
+                            {
+                                var index = contents.Count;
+                                if (Contents[index].IsValid)
+                                {
+                                    content.Size = Contents[index].Size;
+                                }
+                                else
+                                {
+                                    content.Size = new Size(595, 842);
+                                }
+                            }
+                        }
+                        else if (source.SourceContent is AnimatedContent)
+                        {
+                            var gifResource = source.SourceContent as AnimatedContent;
+                            content.Bitmap = gifResource.BitmapSource; // BitmapContent.Source;
+                            content.Info = gifResource.Info; // BitmapContent.Info;
                             content.Info.Decoder = "MediaPlayer";
                             content.FileProxy = gifResource.FileProxy;
                         }
-                        else if (source.SourceContent is FilePageContent)
+                        else if (source.SourceContent is ImageContent)
                         {
-                            var filePageContext = source.SourceContent as FilePageContent;
-                            content.Info = filePageContext.Info;
-                            content.Info.Decoder = null;
+                            var bitmapContent = source.SourceContent as ImageContent;
+                            content.Bitmap = bitmapContent.BitmapSource;
+                            content.Info = bitmapContent.Info;
                         }
                         else
                         {
@@ -2777,7 +2829,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento
@@ -3201,6 +3253,6 @@ namespace NeeView
             UpdateContentSize();
         }
 
-        #endregion
+#endregion
     }
 }

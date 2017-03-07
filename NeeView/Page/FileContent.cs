@@ -7,22 +7,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace NeeView
 {
     /// <summary>
-    /// ファイルページ
+    /// FileContent
     /// </summary>
-    public class FilePage : Page
+    public class FileContent : PageContent
     {
-        public FilePage(ArchiveEntry entry, FilePageIcon icon, string message = null)
+        public FileContent(ArchiveEntry entry, FilePageIcon icon, string message) : base(entry)
         {
-            Entry = entry;
-            Content = new FileContent(entry, icon, message);
+            PageMessage = new PageMessage()
+            {
+                Icon = icon,
+                Message = message,
+            };
+
+            IsLoaded = true;
         }
     }
-
 }

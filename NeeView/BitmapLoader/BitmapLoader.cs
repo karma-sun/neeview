@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeeView
@@ -24,7 +25,7 @@ namespace NeeView
         }
 
         public BitmapLoaderException(string message)
-            :base(message)
+            : base(message)
         {
         }
 
@@ -94,6 +95,7 @@ namespace NeeView
             return LoadCore();
         }
 
+
         /// <summary>
         /// ローダーの優先順位に従って読込
         /// </summary>
@@ -142,6 +144,32 @@ namespace NeeView
             if (!exceptions.Any()) exceptions.Add(new IOException("画像の読み込みに失敗しました。"));
 
             throw new BitmapLoaderException(exceptions);
+        }
+
+
+        /// <summary>
+        /// ローダー非同期(予定)
+        /// TODO: 画像読み込みとキャンセル。どうする？
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task<BitmapContent> LoadAsync(CancellationToken token)
+        {
+            try
+            {
+                return LoadCore();
+            }
+            catch (OutOfMemoryException)
+            {
+            }
+
+            // OutOfMemoryの場合はGC後に再実行
+            Debug.WriteLine("!!!! GC !!!! by empty memory");
+            MemoryControl.Current.GarbageCollect(true);
+
+            await Task.Yield(); // ##
+
+            return LoadCore();
         }
     }
 }

@@ -204,8 +204,7 @@ namespace NeeView
             {
                 if (_archivePage == null && !IsDrive && !IsEmpty)
                 {
-                    var entry = RootArchive.Current.CreateArchiveEntry(TargetPath, Length, LastWriteTime);
-                    _archivePage = new ArchivePage(entry);
+                    _archivePage = new ArchivePage(TargetPath);
                     _archivePage.Thumbnail.IsSupprtedCache = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }

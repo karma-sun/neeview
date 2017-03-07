@@ -29,9 +29,11 @@ namespace NeeView
         Page _page;
         PageJobCommand _command;
 
-        JobRequest _jobRequest;
+        volatile JobRequest _jobRequest;
 
         public bool IsActive => _jobRequest != null && !_jobRequest.IsCompleted;
+
+
 
         /// <summary>
         /// JobCommand ラップ
@@ -60,22 +62,13 @@ namespace NeeView
             }
 
             /// <summary>
-            /// キャンセル命令
-            /// </summary>
-            public void Cancel()
-            {
-                _command.Cancel();
-                _pageJob._jobRequest = null;
-            }
-
-            /// <summary>
             /// 実行命令
             /// </summary>
             /// <param name="completed"></param>
             /// <param name="token"></param>
-            public void Execute(ManualResetEventSlim completed, CancellationToken token)
+            public async Task ExecuteAsync(ManualResetEventSlim completed, CancellationToken token)
             {
-                _command.Execute(completed, token);
+                await _command.ExecuteAsync(completed, token);
             }
         }
 
@@ -104,6 +97,11 @@ namespace NeeView
         }
 
         /// <summary>
+        /// Job有効判定
+        /// </summary>
+        private bool IsAlive => _jobRequest != null && !_jobRequest.IsCompleted && !_jobRequest.IsCancellationRequested;
+
+        /// <summary>
         /// ジョブ要求
         /// </summary>
         /// <param name="priority"></param>
@@ -112,16 +110,20 @@ namespace NeeView
         public JobRequest Request(QueueElementPriority priority, PageJobOption option)
         {
             // ジョブ登録済の場合、優先度変更
-            if (_jobRequest != null && !_jobRequest.IsCompleted) //  !_jobRequest.IsCancellationRequested)
+            if (IsAlive)
             {
                 if (!option.HasFlag(PageJobOption.WeakPriority) || priority < _jobRequest.Priority)
                 {
                     _jobRequest.ChangePriority(priority);
+                    _page.Message = $"{_jobRequest.Serial}: Open.2 ...({priority})";
                 }
             }
             else
             {
                 _jobRequest = ModelContext.JobEngine.Add(this, _command, priority);
+                if (_page.Index == 9 ) _jobRequest.SetDebug();
+                _jobRequest.Logged += (e) => _page.Message = e;
+                _page.Message = $"{_jobRequest.Serial}: Open.1 ...({priority})";
             }
 
             return _jobRequest;
@@ -145,10 +147,11 @@ namespace NeeView
         /// </summary>
         public void Cancel()
         {
-            if (_jobRequest != null)
+            if (IsAlive)
             {
+                //_page.Message = $"{_jobRequest.Serial}: Cancel...";
                 _jobRequest.Cancel();
-                _jobRequest = null;
+                //_jobRequest = null;
             }
         }
     }

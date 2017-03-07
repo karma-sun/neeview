@@ -85,7 +85,6 @@
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
     <Compile Include="Archiver\FileProxy.cs" />
-    <Compile Include="Archiver\RootArchive.cs" />
     <Compile Include="BitmapLoader\BitmapLoader.cs" />
     <Compile Include="BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
@@ -96,6 +95,12 @@
     <Compile Include="CommandParameters.cs" />
     <Compile Include="CommandParameterWindow.xaml.cs">
       <DependentUpon>CommandParameterWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DevInfo.xaml.cs">
+      <DependentUpon>DevInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DevPageList.xaml.cs">
+      <DependentUpon>DevPageList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Effects\BloomEffectUnit.cs" />
     <Compile Include="Effects\ColorSelectEffect.cs" />
@@ -117,6 +122,8 @@
     <Compile Include="Effects\PixelateEffectUnit.cs" />
     <Compile Include="Effects\ImageEffect.cs" />
     <Compile Include="Effects\EffectType.cs" />
+    <Compile Include="EntryCollection.cs" />
+    <Compile Include="EntrySort.cs" />
     <Compile Include="FolderList\FolderCollectionParameter.cs" />
     <Compile Include="FolderList\FolderIcon.xaml.cs">
       <DependentUpon>FolderIcon.xaml</DependentUpon>
@@ -140,6 +147,11 @@
     <Compile Include="MouseLoupe.cs" />
     <Compile Include="MouseWheel.cs" />
     <Compile Include="PageContentView.cs" />
+    <Compile Include="Page\AnimatedContent.cs" />
+    <Compile Include="Page\ArchiveContent.cs" />
+    <Compile Include="Page\FileContent.cs" />
+    <Compile Include="Page\ImageContent.cs" />
+    <Compile Include="Page\PageContent.cs" />
     <Compile Include="Page\PageJob.cs" />
     <Compile Include="Page\Thumbnail.cs" />
     <Compile Include="Page\ThumbnailCache.cs" />
@@ -340,6 +352,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CommandResetWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DevInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DevPageList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

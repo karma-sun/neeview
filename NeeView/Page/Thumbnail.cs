@@ -102,16 +102,13 @@ namespace NeeView
         /// <summary>
         /// キャッシュを使用してサムネイル生成を試みる
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="dateTime"></param>
-        /// <param name="length"></param>
-        internal void Initialize(string name, long length, DateTime? dateTime)
+        internal void Initialize(ArchiveEntry entry, string appendix)
         {
             if (IsValid || !IsSupprtedCache) return;
 
             var sw = new Stopwatch();
             sw.Start();
-            _header = new ThumbnailCacheHeader(name, length, dateTime);
+            _header = new ThumbnailCacheHeader(entry.FullName, entry.Length, entry.LastWriteTime, appendix);
             var image = ThumbnailCache.Current.Load(_header);
             sw.Stop();
             Debug.WriteLine($"Cache Load: {IsValid}: {sw.ElapsedMilliseconds}ms");
@@ -127,13 +124,10 @@ namespace NeeView
         internal void Initialize(BitmapSource source)
         {
             if (IsValid) return;
+            if (source == null) return;
 
-            //var sw = new Stopwatch();
-            //sw.Start();
             var bitmapSource = Utility.NVGraphics.CreateThumbnail(source, new Size(Size, Size));
             var image = EncodeToJpeg(bitmapSource);
-            //sw.Stop();
-            //Debug.WriteLine($"Jpeg: {_image.Length / 1024}KB, {sw.ElapsedMilliseconds}ms");
 
             Image = image;
 

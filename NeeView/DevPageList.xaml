@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="NeeView.DevPageList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             DockPanel.Dock="Right"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    
+    <ScrollViewer x:Name="Root" Width="300" Panel.ZIndex="100" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
+            Visibility="{Binding IsVisibleDevPageList, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <ListView ItemsSource="{Binding PageList}" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="名前"  DisplayMemberBinding="{Binding LastName}" Width="80"/>
+                    <GridViewColumn Header="状態"  DisplayMemberBinding="{Binding Content.IsLoaded}" Width="80"/>
+                    <GridViewColumn Header="情報"  DisplayMemberBinding="{Binding Message}" Width="150"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </ScrollViewer>
+</UserControl>

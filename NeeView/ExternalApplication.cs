@@ -71,7 +71,7 @@ namespace NeeView
             foreach (var page in pages)
             {
                 // file
-                if (page.IsFile())
+                if (page.Entry.IsFileSystem)
                 {
                     files.Add(page.GetFilePlace());
                 }
@@ -86,7 +86,7 @@ namespace NeeView
                             files.Add(page.GetFilePlace());
                             break;
                         case ArchiveOptionType.SendExtractFile:
-                            files.Add(page.CreateTempFile(true).Path);
+                            files.Add(page.Content.CreateTempFile(true).Path);
                             break;
                     }
                 }
@@ -201,7 +201,7 @@ namespace NeeView
             foreach (var page in pages)
             {
                 // file
-                if (page.IsFile())
+                if (page.Entry.IsFileSystem)
                 {
                     CallProcess(page.GetFilePlace());
                 }
@@ -216,7 +216,7 @@ namespace NeeView
                             CallProcess(page.GetFilePlace());
                             break;
                         case ArchiveOptionType.SendExtractFile:
-                            CallProcess(page.CreateTempFile(true).Path);
+                            CallProcess(page.Content.CreateTempFile(true).Path);
                             break;
                     }
                 }

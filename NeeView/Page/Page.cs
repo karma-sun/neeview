@@ -19,6 +19,7 @@ using System.Windows;
 
 namespace NeeView
 {
+
     /// <summary>
     /// ページ
     /// </summary>
@@ -33,11 +34,10 @@ namespace NeeView
         }
         #endregion
 
-
         #region 開発用
 
         [Conditional("DEBUG")]
-        protected void OnPropertyChangedDebug([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected void RaisePropertyChangedDebug([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
         }
@@ -48,7 +48,12 @@ namespace NeeView
         public string Message
         {
             get { return _message; }
-            set { _message = value; OnPropertyChangedDebug(); }
+            set
+            {
+                if (Index == 9) Debug.WriteLine($">> {value}");
+                _message = value;
+                RaisePropertyChangedDebug();
+            }
         }
         #endregion
 
@@ -57,12 +62,14 @@ namespace NeeView
         // コンテンツ更新イベント
         public EventHandler Loaded;
 
+
         // アーカイブエントリ
         public ArchiveEntry Entry { get; protected set; }
 
         // ページ番号
         public int Index { get; set; }
 
+        // TODO: 表示番号と内部番号のずれ
         public int IndexPlusOne => Index + 1;
 
         // 場所
@@ -72,10 +79,10 @@ namespace NeeView
         public string FileName => Entry?.EntryName;
 
         // ページ名：ファイル名のみ
-        public string LastName => LoosePath.GetFileName(FileName);
+        public string LastName => Entry?.EntryLastName;
 
         // ページ名：フルパス
-        public string FullPath { get { return LoosePath.Combine(Place, FileName); } }
+        public string FullPath => Entry?.EntryFullName;
 
         // ページ名：プレフィックス
         public string Prefix { get; set; }
@@ -86,21 +93,20 @@ namespace NeeView
         // ページ名：プレフィックスを除いたフルパス のディレクトリ名(整形済)
         public string SmartDirectoryName => LoosePath.GetDirectoryName(SmartFullPath).Replace('\\', '/');
 
-        // ページ名 : サムネイル識別名
-        public virtual string ThumbnailName => FullPath;
 
         // ファイル情報：最終更新日
         public DateTime? LastWriteTime => Entry.LastWriteTime;
 
         // ファイル情報：ファイルサイズ
-        public long FileSize => Entry.FileSize;
+        public long Length => Entry.Length;
 
 
         // コンテンツ幅
-        public double Width { get; protected set; }
+        public double Width => Content.Size.Width;
 
         // コンテンツ高
-        public double Height { get; protected set; }
+        public double Height => Content.Size.Height;
+
 
         // ワイド判定用縦横比
         public static double WideRatio { get; set; }
@@ -108,44 +114,17 @@ namespace NeeView
         // ワイド判定
         public bool IsWide => Width > Height * WideRatio;
 
-        // コンテンツ色
-        public Color Color { get; protected set; }
-
         // コンテンツのBitmapSourceを取得
         public BitmapSource GetBitmapSourceContent()
         {
-            return GetBitmapSourceContent(Content);
+            return (Content as ImageContent)?.BitmapSource;
         }
 
-        // コンテンツのBitmapSourceを取得
-        public BitmapSource GetBitmapSourceContent(object content)
-        {
-            return (content as AnimatedGifContent)?.BitmapContent?.Source ?? (content as BitmapContent)?.Source;
-        }
-
-        // コンテンツ
-        protected object _content;
-        public object Content
-        {
-            get { return _content; }
-            set
-            {
-                if (_content != value)
-                {
-                    _content = value;
-                    if (_content != null)
-                    {
-                        Loaded?.Invoke(this, null);
-                    }
-                    OnPropertyChangedDebug(nameof(IsContentAlived));
-                }
-            }
-        }
 
         /// <summary>
         /// Content有効判定
         /// </summary>
-        public bool IsContentAlived => _content != null;
+        public bool IsContentAlived => Content.IsLoaded;
 
         /// <summary>
         /// Content情報有効判定
@@ -154,28 +133,20 @@ namespace NeeView
 
 
 
-        // 最小限のクローン
-        public abstract Page TinyClone();
-
-
-
-
         // アニメーションGIF有効/無効フラグ
+        // TODO: ここじゃない
         public static bool IsEnableAnimatedGif { get; set; }
 
-        // EXIF情報有効/無効フラグ
-        public static bool IsEnableExif { get; set; }
 
+        /// <summary>
+        /// コンテンツ
+        /// </summary>
+        public PageContent Content { get; protected set; }
 
-        // コンテンツロード
-        protected abstract object LoadContent();
-
-        // ジョブの同時実行を回避
-        private object _lock = new object();
-
-
-        // サムネイル
-        public Thumbnail Thumbnail { get; } = new Thumbnail();
+        /// <summary>
+        /// サムネイル
+        /// </summary>
+        public Thumbnail Thumbnail => Content?.Thumbnail;
 
 
         /// <summary>
@@ -218,7 +189,9 @@ namespace NeeView
         /// <returns></returns>
         public async Task LoadAsync(QueueElementPriority priority, CancellationToken token)
         {
-            if (_content != null) return;
+            if (Content.IsLoaded) return;
+
+            Message = $"Open... ({priority})";
             await _contentJob.RequestAsync(priority, PageJobOption.None, token);
         }
 
@@ -231,7 +204,7 @@ namespace NeeView
         public JobRequest Load(QueueElementPriority priority, PageJobOption option = PageJobOption.None)
         {
             // 既にロード済の場合は何もしない
-            if (_content != null) return null;
+            if (Content.IsLoaded) return null;
 
             Message = $"Open... ({priority})";
             return _contentJob.Request(priority, option);
@@ -249,14 +222,9 @@ namespace NeeView
                 _page = page;
             }
 
-            public void Cancel()
+            public async Task ExecuteAsync(ManualResetEventSlim completed, CancellationToken token)
             {
-                _page.OnCancel();
-            }
-
-            public void Execute(ManualResetEventSlim completed, CancellationToken token)
-            {
-                _page.OnExecute(completed, token);
+                await _page.ExecuteAsync(completed, token);
             }
         }
 
@@ -265,44 +233,12 @@ namespace NeeView
         /// </summary>
         /// <param name="completed">処理の途中でJOB完了設定されることがある</param>
         /// <param name="cancel"></param>
-        private void OnExecute(ManualResetEventSlim completed, CancellationToken cancel)
+        private async Task ExecuteAsync(ManualResetEventSlim completed, CancellationToken cancel)
         {
-            //Debug.WriteLine($"*OnExecute({LastName})");
-            lock (_lock)
-            {
-                var content = Content ?? LoadContent();
+            cancel.ThrowIfCancellationRequested();
 
-                if (cancel.IsCancellationRequested) return;
-
-                if (Content == null && _contentJob.IsActive)
-                {
-                    Message = "Valid.";
-                    Content = content;
-                }
-
-                // ここでJOB完了信号発行。サムネイル化処理と分ける
-                completed?.Set();
-
-                // Thumbnail !!
-                if (!this.Thumbnail.IsValid)
-                {
-                    var source = GetBitmapSourceContent(content);
-                    if (source != null)
-                    {
-                        this.Thumbnail.Initialize(source);
-                    }
-                }
-            }
-            //Debug.WriteLine($"*OnExecute({LastName}) done.");
-        }
-
-
-        /// <summary>
-        /// JOB: キャンセル処理
-        /// </summary>
-        private void OnCancel()
-        {
-            Message = $"Canceled.";
+            Message = "** Load...";
+            await Content.LoadAsync(cancel);
         }
 
 
@@ -311,23 +247,20 @@ namespace NeeView
         /// </summary>
         public void Unload()
         {
-            Message = "Closing...";
+            if (!_contentJob.IsActive)
+            {
+                Message = "Closed.";
+            }
 
             _contentJob.Cancel();
 
-            if (Content != null)
-            {
-                Content = null;
-                MemoryControl.Current.GarbageCollect();
-            }
-
-            Message = "Closed.";
+            Content.Unload();
         }
 
         #endregion
 
 
-        #region 新サムネイル
+        #region サムネイル
 
         private PageJob _thumbnailJob;
 
@@ -352,13 +285,9 @@ namespace NeeView
                 _page = page;
             }
 
-            public void Cancel()
+            public async Task ExecuteAsync(ManualResetEventSlim completed, CancellationToken token)
             {
-            }
-
-            public void Execute(ManualResetEventSlim completed, CancellationToken token)
-            {
-                _page.OnExcludeThumbnail(null, token);
+                await _page.ExcludeThumbnailAsync(null, token);
             }
         }
 
@@ -367,17 +296,41 @@ namespace NeeView
         /// </summary>
         /// <param name="completed"></param>
         /// <param name="token"></param>
-        private void OnExcludeThumbnail(ManualResetEventSlim completed, CancellationToken token)
+        private async Task ExcludeThumbnailAsync(ManualResetEventSlim completed, CancellationToken token)
         {
             // キャッシュチェック
-            Thumbnail.Initialize(ThumbnailName, FileSize, LastWriteTime);
+            Content.InitializeThumbnail();
+
             if (Thumbnail.IsValid) return;
 
             if (token.IsCancellationRequested) return;
 
-            OnExecute(null, token);
+            await Content.LoadThumbnailAsync(token);
         }
 
+
+
+        /// <summary>
+        /// 読込
+        /// </summary>
+        /// <param name="priority"></param>
+        /// <returns></returns>
+        public async Task LoadThumbnailAsync(QueueElementPriority priority)
+        {
+            await LoadAsync(priority, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// 読込
+        /// </summary>
+        /// <param name="priority"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task LoadThumbnailAsync(QueueElementPriority priority, CancellationToken token)
+        {
+            if (Thumbnail.IsValid) return;
+            await _thumbnailJob.RequestAsync(priority, PageJobOption.None, token);
+        }
 
         /// <summary>
         /// サムネイル要求
@@ -392,13 +345,9 @@ namespace NeeView
             return _thumbnailJob.Request(priority, PageJobOption.None);
         }
 
-        // サムネイル要求キャンセル
-        //public void UnloadThumbnail()
-        //{
-        //    _thumbnailJob.Cancel();
-        //}
 
         #endregion
+
 
 
         // ファイルの場所を取得
@@ -416,32 +365,6 @@ namespace NeeView
             return path != null ? System.IO.Path.GetDirectoryName(path) : Entry.Archiver.GetPlace();
         }
 
-        // テンポラリファイル名
-        public FileProxy FileProxy { get; private set; }
-
-        /// <summary>
-        /// テンポラリファイルの作成
-        /// </summary>
-        /// <param name="isKeepFileName">エントリ名準拠のテンポラリファイルを作成</param>
-        /// <returns></returns>
-        public virtual FileProxy CreateTempFile(bool isKeepFileName)
-        {
-            FileProxy = FileProxy ?? Entry.ExtractToTemp(isKeepFileName);
-            return FileProxy;
-        }
-
-
-        // ファイルを保存する
-        public virtual void Export(string path)
-        {
-            throw new NotImplementedException();
-        }
-
-        // ファイルの存在確認
-        public bool IsFile()
-        {
-            return Entry?.Archiver != null && Entry.Archiver is FolderArchive;
-        }
 
 
         #region IDisposable Support

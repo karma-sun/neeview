@@ -13,8 +13,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
+// TODO: Jobの状態パラメータ(Status?)
+
 namespace NeeView
 {
+
+    public delegate void LogEventHandler(string log);
+
+
     /// <summary>
     /// ジョブ
     /// </summary>
@@ -34,6 +40,24 @@ namespace NeeView
 
         // コマンド
         public IJobCommand Command { get; set; }
+
+
+        #region 開発用
+        
+        //
+        public bool IsDebug { get; set; }
+
+        //
+        public LogEventHandler Logged;
+
+        //
+        public void Log(string msg)
+        {
+            Logged?.Invoke(msg);
+            if (IsDebug) Debug.WriteLine(msg);
+        }
+
+        #endregion
     }
 
     /// <summary>
@@ -42,10 +66,7 @@ namespace NeeView
     public interface IJobCommand
     {
         // メイン処理
-        void Execute(ManualResetEventSlim completed, CancellationToken token);
-
-        // キャンセル処理
-        void Cancel();
+        Task ExecuteAsync(ManualResetEventSlim completed, CancellationToken token);
     }
 
 
@@ -60,6 +81,10 @@ namespace NeeView
         private CancellationTokenSource _cancellationTokenSource;
         public QueueElementPriority Priority { get; private set; }
 
+        public int Serial => _job.SerialNumber;
+
+        public void SetDebug() => _job.IsDebug = true;
+
         // コンストラクタ
         public JobRequest(JobEngine jobEngine, Job job, QueueElementPriority priority)
         {
@@ -69,6 +94,8 @@ namespace NeeView
             _job = job;
             _job.CancellationToken = _cancellationTokenSource.Token;
             Priority = priority;
+
+            _job.Logged += (e) => Logged?.Invoke(e);
         }
 
         // キャンセル
@@ -108,8 +135,20 @@ namespace NeeView
         /// <returns></returns>
         public async Task WaitAsync(CancellationToken token)
         {
-            await Task.Run(() => _job.Completed.Wait(token));
+            await Task.Run(() => _job.Completed.Wait(10000, token));
+
+            if (!_job.Completed.IsSet && !token.IsCancellationRequested)
+            {
+                Debug.WriteLine("TIMEOUT!");
+            }
         }
+
+        #region 開発用
+
+        public event LogEventHandler Logged;
+
+
+        #endregion
     }
 
 
@@ -259,8 +298,7 @@ namespace NeeView
                 while (_context.JobQueue.CountAt(priority) > 0)
                 {
                     var job = _context.JobQueue.Dequeue(priority);
-                    job.Command.Cancel(); // TODO: 処理しないのにキャンセルをしており後処理が異なる。しっくりこない。
-                    job.Completed.Set();
+                    job.Completed.Set(); // 終了
                 }
             }
         }
@@ -395,6 +433,7 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
+                    Debug.WriteLine($"JOB EXCEPTION: {e.Message}");
                     Message = e.Message;
                     Action<Exception> action = (exception) => { throw new ApplicationException("タスク内部エラー", exception); };
                     App.Current.Dispatcher.BeginInvoke(action, e);
@@ -450,18 +489,31 @@ namespace NeeView
 
                 IsBusy = true;
 
+                job.Logged($"{job.SerialNumber}: Job...");
+
                 if (!job.CancellationToken.IsCancellationRequested)
                 {
                     Message = $"Job({job.SerialNumber}) execute ...";
-                    job.Command.Execute(job.Completed, job.CancellationToken);
+                    try
+                    {
+                        await job.Command.ExecuteAsync(job.Completed, job.CancellationToken);
+                        job.Logged($"{job.SerialNumber}: Job done.");
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        job.Logged($"{job.SerialNumber}: Job canceled");
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"EXCEPTION!!: {ex.Message}");
+                    }
                     Message = $"Job({job.SerialNumber}) execute done.";
                 }
-
-                if (job.CancellationToken.IsCancellationRequested)
+                else
                 {
-                    job.Command.Cancel();
-                    Message = $"Job({job.SerialNumber}) canceled.";
+                    job.Logged($"{job.SerialNumber}: Job canceled");
                 }
+
 
                 // JOB完了
                 job.Completed.Set();

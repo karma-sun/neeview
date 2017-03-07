@@ -137,18 +137,19 @@ namespace NeeView
         /// <returns>作成されたアーカイバ</returns>
         public Archiver CreateArchiver(ArchiverType type, string path, Stream stream, ArchiveEntry source)
         {
-            if (stream != null && type != ArchiverType.SevenZipArchiver) throw new NotImplementedException($"{type} doesn't support stream yet.");
+            // streamは未使用
+            Debug.Assert(stream == null);
 
             switch (type)
             {
                 case ArchiverType.FolderArchive:
-                    return new FolderArchive(path) { Source = source };
+                    return new FolderArchive(path, source);
                 case ArchiverType.ZipArchiver:
-                    return new ZipArchiver(path) { Source = source };
+                    return new ZipArchiver(path, source);
                 case ArchiverType.SevenZipArchiver:
-                    return new SevenZipArchiver(path, stream) { Source = source };
+                    return new SevenZipArchiver(path, source);
                 case ArchiverType.SusieArchiver:
-                    return new SusieArchiver(path) { Source = source };
+                    return new SusieArchiver(path, source);
                 default:
                     throw new ArgumentException("no support ArchvierType.", nameof(type));
             }

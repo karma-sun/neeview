@@ -33,9 +33,8 @@ namespace NeeView
         private bool _isDisposed;
 
         // コンストラクタ
-        public SusieArchiver(string archiveFileName)
+        public SusieArchiver(string path, ArchiveEntry source) : base(path, source)
         {
-            FileName = archiveFileName;
         }
 
         //
@@ -59,7 +58,7 @@ namespace NeeView
         {
             if (_susiePlugin == null)
             {
-                _susiePlugin = ModelContext.Susie?.GetArchivePlugin(FileName, true);
+                _susiePlugin = ModelContext.Susie?.GetArchivePlugin(Path, true);
             }
             return _susiePlugin;
         }
@@ -74,7 +73,7 @@ namespace NeeView
             var plugin = GetPlugin();
             if (plugin == null) throw new NotSupportedException();
 
-            var infoCollection = plugin.GetArchiveInfo(FileName);
+            var infoCollection = plugin.GetArchiveInfo(Path);
             if (infoCollection == null) throw new NotSupportedException();
 
             var list = new List<ArchiveEntry>();
@@ -91,7 +90,7 @@ namespace NeeView
                         Archiver = this,
                         Id = id,
                         EntryName = name,
-                        FileSize = entry.FileSize,
+                        Length = entry.FileSize,
                         LastWriteTime = entry.TimeStamp,
                         Instance = entry,
                     });

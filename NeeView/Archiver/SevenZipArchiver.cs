@@ -171,13 +171,13 @@ namespace NeeView
         {
             if (s_isLibraryInitialized) return;
 
-            var dllPath = string.IsNullOrWhiteSpace(DllPath) ? Path.Combine(App.Config.LibrariesPath, "7z.dll") : DllPath;
+            var dllPath = string.IsNullOrWhiteSpace(DllPath) ? System.IO.Path.Combine(App.Config.LibrariesPath, "7z.dll") : DllPath;
 
 #if DEBUG
             // 開発中はLibrariesパスが存在しないので、カレントに設定しなおす
             if (!File.Exists(dllPath))
             {
-                dllPath = Path.Combine(App.Config.AssemblyLocation, "7z.dll");
+                dllPath = System.IO.Path.Combine(App.Config.AssemblyLocation, "7z.dll");
             }
 #endif
 
@@ -200,16 +200,13 @@ namespace NeeView
         private bool _isDisposed;
 
 
-        //
-        public SevenZipArchiver(string archiveFileName, Stream stream)
+        public SevenZipArchiver(string path, ArchiveEntry source) : base(path, source)
         {
             InitializeLibrary();
 
-            FileName = archiveFileName;
-            _stream = stream;
-
-            _source = _stream != null ? new SevenZipSource(_stream, s_lock) : new SevenZipSource(FileName, s_lock);
+            _source = new SevenZipSource(Path, s_lock);
         }
+
 
         //
         public override bool IsDisposed => _isDisposed;
@@ -260,7 +257,7 @@ namespace NeeView
                                 Archiver = this,
                                 Id = id,
                                 EntryName = entry.FileName,
-                                FileSize = (long)entry.Size,
+                                Length = (long)entry.Size,
                                 LastWriteTime = entry.LastWriteTime,
                             });
                         }
@@ -305,7 +302,7 @@ namespace NeeView
 
             lock (s_lock)
             {
-                using (var extractor = new SevenZipExtractor(FileName)) // 専用extractor
+                using (var extractor = new SevenZipExtractor(Path)) // 専用extractor
                 using (Stream fs = new FileStream(exportFileName, FileMode.Create, FileAccess.Write))
                 {
                      extractor.ExtractFile(entry.Id, fs);

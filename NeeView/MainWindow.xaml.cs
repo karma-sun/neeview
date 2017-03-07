@@ -92,6 +92,8 @@ namespace NeeView
             }
 
 #if DEBUG
+            this.RootDockPanel.Children.Insert(0, new DevPageList());
+            this.RootDockPanel.Children.Insert(1, new DevInfo());
 #else
             this.MenuItemDev.Visibility = Visibility.Collapsed;
 #endif
@@ -1162,20 +1164,15 @@ namespace NeeView
         // 開発用コマンド：アプリケーションフォルダを開く
         private void MenuItemDevApplicationFolder_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{System.Reflection.Assembly.GetEntryAssembly().Location}\"");
+            System.Diagnostics.Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
         }
 
         // 開発用コマンド：アプリケーションデータフォルダを開く
         private void MenuItemDevApplicationDataFolder_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{App.Config.LocalApplicationDataPath}\"");
+            System.Diagnostics.Process.Start(App.Config.LocalApplicationDataPath);
         }
 
-        // 開発用コマンド：コンテンツ座標更新
-        private void UpdateContentPoint_Click(object sender, RoutedEventArgs e)
-        {
-            _VM.UpdateContentPosition();
-        }
 
 
         // メッセージ処理：メッセージボックス表示
@@ -1330,6 +1327,8 @@ namespace NeeView
         // [開発用] テストボタン
         private async void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
         {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             GC.Collect();
             await Task.Delay(1000);
             Debug.WriteLine("TEST");

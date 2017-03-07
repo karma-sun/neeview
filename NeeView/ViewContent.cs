@@ -89,8 +89,18 @@ namespace NeeView
         // ファイル名
         public string FileName => LoosePath.GetFileName(FullPath.TrimEnd('\\'));
 
-        // 画像ソース(あれば)
+
+        /// <summary>
+        /// サムネイル（あれば）
+        /// </summary>
+        public Thumbnail Thumbnail { get; set; }
+
+        /// <summary>
+        /// 画像ソース(あれば)
+        /// クリップボード、ピクセル深度調査用
+        /// </summary>
         public BitmapSource Bitmap { get; set; }
+
 
         // ファイル情報(あれば)
         public FileBasicInfo Info { get; set; }

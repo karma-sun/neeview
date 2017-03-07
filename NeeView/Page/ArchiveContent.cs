@@ -83,12 +83,6 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// 自動再帰フラグ
-        /// TODO: Preference化
-        /// </summary>
-        public static bool IsAutoRecursive { get; set; }
-
 
         /// <summary>
         /// サムネイル読込
@@ -104,11 +98,16 @@ namespace NeeView
             {
                 using (var collector = new EntryCollection(archiver, false))
                 {
-                    await collector.CollectAsync(token);
+                    if (entryName != null)
+                    {
+                        await collector.SelectAsync(entryName, token);
+                    }
+                    else
+                    {
+                        await collector.FirstOneAsync(token);
+                    }
 
-                    var select = entryName != null
-                        ? collector.Collection.FirstOrDefault(e => e.EntryFullName == entryName)
-                        : collector.Collection.FirstOrDefault();
+                    var select = collector.Collection.FirstOrDefault();
 
                     if (select != null)
                     {

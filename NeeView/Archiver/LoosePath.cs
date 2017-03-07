@@ -19,6 +19,13 @@ namespace NeeView
     {
         private static char[] s_sepalator = new char[] { '\\', '/' };
 
+
+        //
+        public static string TrimEnd(string s)
+        {
+            return s.TrimEnd(s_sepalator);
+        }
+
         //
         public static string GetFileName(string s)
         {

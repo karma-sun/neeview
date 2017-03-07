@@ -284,7 +284,7 @@ namespace NeeView
             set
             {
                 _isAutoRecursive = value;
-                ArchiveContent.IsAutoRecursive = _isAutoRecursive;
+                EntryCollection.IsAutoRecursive = _isAutoRecursive;
             }
         }
         #endregion
@@ -1392,6 +1392,7 @@ namespace NeeView
             }
 
             // マーク登録/解除
+            // TODO: 登録時にサムネイルキャッシュにも登録
             ModelContext.Pagemarks.Toggle(new Pagemark(CurrentBook.Place, CurrentBook.GetViewPage().FullPath));
 
             // 更新

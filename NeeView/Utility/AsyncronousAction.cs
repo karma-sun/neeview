@@ -49,7 +49,7 @@ namespace NeeView.Utility
         /// <returns></returns>
         public async Task WaitAsync(CancellationToken token)
         {
-            await Task.Run(() => _task.Wait(token));
+            await Task.Run(() => _task?.Wait(token));
         }
     }
 

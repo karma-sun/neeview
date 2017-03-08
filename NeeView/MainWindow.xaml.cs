@@ -941,11 +941,9 @@ namespace NeeView
                 SetControlVisibility(this.StatusArea, _isVisibleStatausArea, true, VisibleStoryboardType.Collapsed);
             }
 
-            // 再計算
-            this.UpdateLayout();
-
             // ビュー領域設定
-            this.ViewArea.Margin = new Thickness(0, isMenuDock ? this.MenuArea.ActualHeight : 0, 0, 0);
+            double menuAreaHeight = this.MenuBar.Height + (_VM.IsVisibleAddressBar ? this.AddressBar.Height : 0);
+            this.ViewArea.Margin = new Thickness(0, isMenuDock ? menuAreaHeight : 0, 0, 0);
 
             // コンテンツ表示領域設定
             this.MainView.Margin = new Thickness(0, 0, 0, isPageSliderDock ? bottomMargin : 0);

@@ -2225,6 +2225,7 @@ namespace NeeView
                             //var filePageContext = source.SourceContent as FilePageContent;
                             //content.Info = new FileBasicInfo(); // null; // filePageContext.Info;
                             //content.Info.Decoder = null;
+                            content.Size = new Size(480, 680);
                         }
                         else if (!source.Content.IsLoaded)
                         {
@@ -2236,11 +2237,18 @@ namespace NeeView
                                 if (Contents[index].IsValid)
                                 {
                                     content.Size = Contents[index].Size;
+                                    content.Color = Contents[index].Color;
                                 }
                                 else
                                 {
-                                    content.Size = new Size(595, 842);
+                                    content.Size = new Size(480, 680);
+                                    content.Color = Colors.Black;
                                 }
+                            }
+                            else
+                            {
+                                var bitmapinfo = (content.Content as BitmapContent)?.BitmapInfo;
+                                content.Color = bitmapinfo != null ? bitmapinfo.Color : Colors.Black;
                             }
                         }
                         else if (source.Content is AnimatedContent)

@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 namespace NeeView
 {
     // 基本情報
+    // TODO: 不要なものが多い。見直し。
+    // TODO: ファイルサイズ、更新日は別情報
+    // TODO: 基本色情報を含める
     public class FileBasicInfo
     {
         public long FileSize { get; set; } = -1;
@@ -20,7 +23,7 @@ namespace NeeView
         public string Archiver { get; set; }
         public string Decoder { get; set; }
 
-        public BitmapMetadata Metadata { get; set; }
+        public BitmapContentExif Exif { get; set; }
     }
 
     // 画像情報

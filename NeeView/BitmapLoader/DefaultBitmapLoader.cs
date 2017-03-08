@@ -126,7 +126,7 @@ namespace NeeView
 
             info.FileSize = entry.Length;
             info.LastWriteTime = entry.LastWriteTime;
-            info.Metadata = metadata;
+            info.Exif = new BitmapContentExif(metadata);
 
             resource.Source = (allowExifOrientation && metadata != null) ? OrientationWithExif(source, new ExifAccessor(metadata)) : source;
             resource.Info = info;
@@ -200,7 +200,7 @@ namespace NeeView
 
             info.FileSize = entry.Length;
             info.LastWriteTime = entry.LastWriteTime;
-            info.Metadata = metadata;
+            info.Exif = new BitmapContentExif(metadata);
 
             resource.Source = (allowExifOrientation && metadata != null) ? OrientationWithExif(source, new ExifAccessor(metadata)) : source;
             resource.Info = info;

@@ -153,9 +153,9 @@ namespace NeeView
                             strings.FileSize = string.Format("{0:#,0} KB", content.Info.FileSize > 0 ? (content.Info.FileSize + 1023) / 1024 : 0);
                         }
                         DateTime? lastWriteTime = content.Info.LastWriteTime;
-                        if (content.Info.Metadata != null)
+                        if (content.Info.Exif != null)
                         {
-                            var exif = new BitmapContentExif(content.Info.Metadata);
+                            var exif = content.Info.Exif;
                             strings.ShotInfo = exif.ShotInfo;
                             strings.ISOSpeedRatings = exif.ISOSpeedRatings > 0 ? exif.ISOSpeedRatings.ToString() : null;
                             strings.Model = exif.Model;

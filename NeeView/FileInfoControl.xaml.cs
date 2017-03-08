@@ -134,28 +134,22 @@ namespace NeeView
             {
                 try
                 {
-                    if (content.Bitmap != null)
+                    var bitmapContent = content.Content as BitmapContent;
+                    if (bitmapContent?.BitmapInfo != null)
                     {
-                        var pixel = new Size(content.Bitmap.PixelWidth, content.Bitmap.PixelHeight);
-                        var scaleX = pixel.Width > this.Thumbnail.MaxWidth ? this.Thumbnail.MaxWidth / pixel.Width : 1.0;
-                        var scaleY = pixel.Height > this.Thumbnail.MaxHeight ? this.Thumbnail.MaxHeight / pixel.Height : 1.0;
-                        var scale = scaleX > scaleY ? scaleY : scaleX;
-                        this.Thumbnail.Width = pixel.Width * scale;
-                        this.Thumbnail.Height = pixel.Height * scale;
+                        this.Thumbnail.Source = bitmapContent.Thumbnail.BitmapSource;
 
-                        strings.Size = string.Format("{0} x {1}", pixel.Width, pixel.Height);
-                        if (Setting.IsVisibleBitsPerPixel) strings.Size += string.Format(" ({0}bit)", content.BitsPerPixel);
-                    }
-                    if (content.Info != null)
-                    {
-                        if (content.Info.FileSize >= 0)
+                        strings.Size = string.Format("{0} x {1}", bitmapContent.Size.Width, bitmapContent.Size.Height);
+                        if (Setting.IsVisibleBitsPerPixel) strings.Size += string.Format(" ({0}bit)", bitmapContent.BitmapInfo.BitsPerPixel);
+
+                        if (bitmapContent.BitmapInfo.Length >= 0)
                         {
-                            strings.FileSize = string.Format("{0:#,0} KB", content.Info.FileSize > 0 ? (content.Info.FileSize + 1023) / 1024 : 0);
+                            strings.FileSize = string.Format("{0:#,0} KB", bitmapContent.BitmapInfo.Length > 0 ? (bitmapContent.BitmapInfo.Length + 1023) / 1024 : 0);
                         }
-                        DateTime? lastWriteTime = content.Info.LastWriteTime;
-                        if (content.Info.Exif != null)
+                        DateTime? lastWriteTime = bitmapContent.BitmapInfo.LastWriteTime;
+                        if (bitmapContent.BitmapInfo.Exif != null)
                         {
-                            var exif = content.Info.Exif;
+                            var exif = bitmapContent.BitmapInfo.Exif;
                             strings.ShotInfo = exif.ShotInfo;
                             strings.ISOSpeedRatings = exif.ISOSpeedRatings > 0 ? exif.ISOSpeedRatings.ToString() : null;
                             strings.Model = exif.Model;
@@ -163,6 +157,9 @@ namespace NeeView
                             if (Setting.IsUseExifDateTime && exif.LastWriteTime != null) lastWriteTime = exif.LastWriteTime;
                         }
                         strings.LastWriteTime = lastWriteTime?.ToString("yyyy年M月d日 dddd H:mm");
+
+                        this.ItemArchiver.Text = bitmapContent.BitmapInfo.Archiver;
+                        this.ItemDecoder.Text = (bitmapContent is AnimatedContent) ? "MediaPlayer" : bitmapContent.BitmapInfo.Decoder;
                     }
                 }
                 catch (Exception ex)

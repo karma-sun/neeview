@@ -299,8 +299,8 @@
                                             </Style>
                                         </Canvas.Resources>
                                         <StackPanel x:Name="MainContent" Orientation="Horizontal">
-                                            <ContentControl x:Name="Content1" Content="{Binding Contents[1].Content}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
-                                            <ContentControl x:Name="Content0" Content="{Binding Contents[0].Content}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
+                                            <ContentControl x:Name="Content1" Content="{Binding Contents[1].View}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
+                                            <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
                                         </StackPanel>
                                     </Canvas>
                                     <!-- Pages Shadow (表示領域計算用) -->

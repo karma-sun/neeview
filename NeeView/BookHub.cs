@@ -241,12 +241,12 @@ namespace NeeView
         #region Property: IsEnableExif
         public bool IsEnableExif
         {
-            get { return ImageContent.IsEnableExif; }
+            get { return BitmapContent.IsEnableExif; }
             set
             {
-                if (ImageContent.IsEnableExif != value)
+                if (BitmapContent.IsEnableExif != value)
                 {
-                    ImageContent.IsEnableExif = value;
+                    BitmapContent.IsEnableExif = value;
                     CurrentBook?.RequestReflesh(true); // 表示更新
                 }
             }

@@ -25,7 +25,7 @@ namespace NeeView
         {
             Entry = entry;
 
-            Content = new ImageContent(entry);
+            Content = new BitmapContent(entry);
             Content.Loaded += (s, e) => Loaded?.Invoke(this, null);
         } 
     }

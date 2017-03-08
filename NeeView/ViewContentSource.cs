@@ -23,11 +23,12 @@ namespace NeeView
     public class ViewContentSource
     {
         // ページ
+        // TODO: 不要にしたいが。難しいか。
         public Page Page { get; set; }
 
 
         // ソースコンテンツ
-        public PageContent SourceContent { get; set; }
+        public PageContent Content { get; set; }
 
 
         // コンテンツサイズ 
@@ -51,11 +52,11 @@ namespace NeeView
         public ViewContentSource(Page page, PagePosition position, int size, PageReadOrder readOrder)
         {
             Page = page;
+            Content = page.Content;
 
-            IsValid = page.Content.IsLoaded;
-            SourceContent = page.Content;
+            IsValid = Content.IsLoaded;
 
-            Size = new Size(size == 2 ? SourceContent.Size.Width : Math.Floor(SourceContent.Size.Width * 0.5 + 0.4), SourceContent.Size.Height);
+            Size = new Size(size == 2 ? Content.Size.Width : Math.Floor(Content.Size.Width * 0.5 + 0.4), Content.Size.Height);
 
             Position = position;
             PartSize = size;
@@ -76,7 +77,7 @@ namespace NeeView
             bool isRightPart = Position.Part == 0;
             if (ReadOrder == PageReadOrder.LeftToRight) isRightPart = !isRightPart;
 
-            double half = Size.Width / SourceContent.Size.Width;
+            double half = Size.Width / Content.Size.Width;
             return isRightPart ? new Rect(0.99999 - half, -0.00001, half - 0.00001, 0.99999) : new Rect(-0.00001, -0.00001, half - 0.00001, 0.99999);
         }
 
@@ -104,13 +105,13 @@ namespace NeeView
         public FrameworkElement CreateControl(Binding foregroundBinding, Binding bitmapScalingModeBinding)
         {
             // テキスト表示
-            if (SourceContent.PageMessage != null)
+            if (Content.PageMessage != null)
             {
                 var filepage = new FilePageContent()
                 {
-                    Icon = SourceContent.PageMessage.Icon,
-                    FileName = SourceContent.Entry.EntryName,
-                    Message = SourceContent.PageMessage.Message,
+                    Icon = Content.PageMessage.Icon,
+                    FileName = Content.Entry.EntryName,
+                    Message = Content.PageMessage.Message,
                 };
 
                 var control = new FilePageControl(filepage);
@@ -118,7 +119,7 @@ namespace NeeView
                 return control;
             }
             // 仮表示
-            else if (!SourceContent.IsLoaded)
+            else if (!Content.IsLoaded)
             {
                 var rectangle = new Rectangle();
                 rectangle.Fill = CreateThumbnailBrush();
@@ -127,10 +128,10 @@ namespace NeeView
             }
 
             //
-            else if (SourceContent is AnimatedContent)
+            else if (Content is AnimatedContent)
             {
                 var media = new MediaElement();
-                media.Source = new Uri(((AnimatedContent)SourceContent).FileProxy.Path);
+                media.Source = new Uri(((AnimatedContent)Content).FileProxy.Path);
                 media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
                 media.MediaFailed += (s, e_) => { throw new ApplicationException("MediaElementで致命的エラー", e_.ErrorException); };
                 media.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
@@ -144,10 +145,10 @@ namespace NeeView
                 rectangle.Fill = brush;
                 return rectangle;
             }
-            else if (SourceContent is ImageContent)
+            else if (Content is BitmapContent)
             {
                 var rectangle = new Rectangle();
-                rectangle.Fill = CreatePageImageBrush(((ImageContent)SourceContent).BitmapSource);
+                rectangle.Fill = CreatePageImageBrush(((BitmapContent)Content).BitmapSource);
                 rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingModeBinding);
                 rectangle.UseLayoutRounding = true;
                 rectangle.SnapsToDevicePixels = true;

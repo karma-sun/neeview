@@ -678,6 +678,7 @@ namespace NeeView
 
 
         // 廃棄処理
+        // TODO: デッドロックになるバグあり
         public async Task DisposeAsync()
         {
             RequestDispose();

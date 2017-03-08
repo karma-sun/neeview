@@ -114,11 +114,6 @@ namespace NeeView
         // ワイド判定
         public bool IsWide => Width > Height * WideRatio;
 
-        // コンテンツのBitmapSourceを取得
-        public BitmapSource GetBitmapSourceContent()
-        {
-            return (Content as ImageContent)?.BitmapSource;
-        }
 
 
         /// <summary>

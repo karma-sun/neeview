@@ -150,7 +150,7 @@
     <Compile Include="Page\AnimatedContent.cs" />
     <Compile Include="Page\ArchiveContent.cs" />
     <Compile Include="Page\FileContent.cs" />
-    <Compile Include="Page\ImageContent.cs" />
+    <Compile Include="Page\BitmapContent.cs" />
     <Compile Include="Page\PageContent.cs" />
     <Compile Include="Page\PageJob.cs" />
     <Compile Include="Page\Thumbnail.cs" />
@@ -252,7 +252,7 @@
     <Compile Include="Utility\FileContents.cs" />
     <Compile Include="Utility\NVUtilities.cs" />
     <Compile Include="BackgroundStyle.cs" />
-    <Compile Include="BitmapLoader\BitmapContent.cs" />
+    <Compile Include="BitmapLoader\BitmapContentSource.cs" />
     <Compile Include="BitmapLoader\BitmapLoaderManager.cs" />
     <Compile Include="BitmapLoader\DefaultBitmapLoader.cs" />
     <Compile Include="DragBehaviour\DragAdorner.cs" />

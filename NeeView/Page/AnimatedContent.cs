@@ -15,7 +15,7 @@ namespace NeeView
     /// <summary>
     /// アニメーションコンテンツ
     /// </summary>
-    public class AnimatedContent : ImageContent
+    public class AnimatedContent : BitmapContent
     {
         /// <summary>
         /// コンストラクタ

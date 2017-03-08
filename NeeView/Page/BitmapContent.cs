@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,10 +15,10 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
-        /// <summary>
+    /// <summary>
     /// 画像コンテンツ
     /// </summary>
-    public class ImageContent : PageContent
+    public class BitmapContent : PageContent
     {
         // property.
         public static bool IsEnableExif { get; set; } = true;
@@ -26,14 +27,14 @@ namespace NeeView
         public BitmapSource BitmapSource { get; protected set; }
 
         // bitmap info
-        public FileBasicInfo Info { get; protected set; }
+        public BitmapInfo BitmapInfo { get; protected set; }
 
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="entry"></param>
-        public ImageContent(ArchiveEntry entry) : base(entry)
+        public BitmapContent(ArchiveEntry entry) : base(entry)
         {
         }
 
@@ -52,8 +53,21 @@ namespace NeeView
                 if (bitmap == null) throw new ApplicationException("画像の読み込みに失敗しました。");
 
                 Size = new Size(bitmap.Source.PixelWidth, bitmap.Source.PixelHeight);
-                Color = bitmap.Source.GetOneColor();
-                Info = bitmap.Info;
+                BitmapInfo = bitmap.Info;
+
+                try
+                {
+                    // 基本色
+                    BitmapInfo.Color = bitmap.Source.GetOneColor();
+
+                    // ピクセル深度
+                    BitmapInfo.BitsPerPixel = bitmap.Source.GetSourceBitsPerPixel();
+                }
+                catch (Exception e)
+                {
+                    // ここの例外はスルー
+                    Debug.WriteLine(e.Message);
+                }
 
                 token.ThrowIfCancellationRequested();
 

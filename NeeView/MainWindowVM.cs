@@ -1068,14 +1068,17 @@ namespace NeeView
                 _windowTitleFormatter.Set("$NameL", name1);
                 _windowTitleFormatter.Set("$NameR", name0);
 
-                string size0 = Contents[0].IsValid ? $"{Contents[0].Size.Width}×{Contents[0].Size.Height}" : "";
-                string size1 = Contents[1].IsValid ? $"{Contents[1].Size.Width}×{Contents[1].Size.Height}" : "";
+                var bitmapContent0 = Contents[0].Content as BitmapContent;
+                var bitmapContent1 = Contents[1].Content as BitmapContent;
+
+                string size0 = bitmapContent0?.BitmapInfo != null ? $"{bitmapContent0.Size.Width}×{bitmapContent0.Size.Height}" : "";
+                string size1 = bitmapContent1?.BitmapInfo != null ? $"{bitmapContent1.Size.Width}×{bitmapContent1.Size.Height}" : "";
                 _windowTitleFormatter.Set("$Size", isMainContent0 ? size0 : size1);
                 _windowTitleFormatter.Set("$SizeL", size1);
                 _windowTitleFormatter.Set("$SizeR", size0);
 
-                string bpp0 = Contents[0].IsValid ? size0 + "×" + Contents[0].BitsPerPixel.ToString() : "";
-                string bpp1 = Contents[1].IsValid ? size1 + "×" + Contents[1].BitsPerPixel.ToString() : "";
+                string bpp0 = bitmapContent0?.BitmapInfo != null ? size0 + "×" + bitmapContent0.BitmapInfo.BitsPerPixel.ToString() : "";
+                string bpp1 = bitmapContent1?.BitmapInfo != null ? size1 + "×" + bitmapContent1.BitmapInfo.BitsPerPixel.ToString() : "";
                 _windowTitleFormatter.Set("$SizeEx", isMainContent0 ? bpp0 : bpp1);
                 _windowTitleFormatter.Set("$SizeExL", bpp1);
                 _windowTitleFormatter.Set("$SizeExR", bpp0);
@@ -1631,7 +1634,7 @@ namespace NeeView
         // 開発用：コンテンツ座標情報更新
         public void UpdateContentPosition()
         {
-            ContentPosition = MainContent.Content.PointToScreen(new Point(0, 0));
+            ContentPosition = MainContent.View.PointToScreen(new Point(0, 0));
         }
 
         /// <summary>
@@ -2199,30 +2202,32 @@ namespace NeeView
                     if (source != null)
                     {
                         var content = new ViewContent();
-                        content.Content = source.CreatePageContent(
+                        content.Content = source.Content;
+                        content.View = source.CreatePageContent(
                             new Binding(nameof(ForegroundBrush)) { Source = this },
                             new Binding(nameof(BitmapScalingMode)) { Source = content }
                         );
                         content.Size = source.Size; // new Size(source.Width, source.Height);
-                        content.SourceSize = source.SourceContent.Size;
-                        content.Color = source.SourceContent.Color;
+                        content.SourceSize = source.Content.Size;
+                        content.Color = Colors.Black;
                         content.FolderPlace = source.Page.GetFolderPlace();
                         content.FilePlace = source.Page.GetFilePlace();
                         content.FullPath = source.Page.FullPath;
                         content.Position = source.Position;
                         content.PartSize = source.PartSize;
                         content.ReadOrder = source.ReadOrder;
-                        content.Thumbnail = source.Page.Thumbnail;
+                        //content.Thumbnail = source.Page.Thumbnail;
 
-                        if (source.SourceContent.PageMessage != null)
+
+                        if (source.Content.PageMessage != null)
                         {
                             //var filePageContext = source.SourceContent as FilePageContent;
-                            content.Info = new FileBasicInfo(); // null; // filePageContext.Info;
-                            content.Info.Decoder = null;
+                            //content.Info = new FileBasicInfo(); // null; // filePageContext.Info;
+                            //content.Info.Decoder = null;
                         }
-                        else if (!source.SourceContent.IsLoaded)
+                        else if (!source.Content.IsLoaded)
                         {
-                            content.Content.SetText(LoosePath.GetFileName(source.Page.FullPath));
+                            content.View.SetText(LoosePath.GetFileName(source.Page.FullPath));
 
                             if (content.Size.Width == 0 && content.Size.Height == 0)
                             {
@@ -2237,23 +2242,25 @@ namespace NeeView
                                 }
                             }
                         }
-                        else if (source.SourceContent is AnimatedContent)
+                        else if (source.Content is AnimatedContent)
                         {
-                            var gifResource = source.SourceContent as AnimatedContent;
-                            content.Bitmap = gifResource.BitmapSource; // BitmapContent.Source;
-                            content.Info = gifResource.Info; // BitmapContent.Info;
-                            content.Info.Decoder = "MediaPlayer";
-                            content.FileProxy = gifResource.FileProxy;
+                            var animatedContent = source.Content as AnimatedContent;
+                            //content.Bitmap = animatedContent.BitmapSource; // BitmapContent.Source;
+                            //content.Info = animatedContent.Info; // BitmapContent.Info;
+                            //animatedContent.Info.Decoder = "MediaPlayer";
+                            content.Color = animatedContent.BitmapInfo.Color;
+                            content.FileProxy = animatedContent.FileProxy;
                         }
-                        else if (source.SourceContent is ImageContent)
+                        else if (source.Content is BitmapContent)
                         {
-                            var bitmapContent = source.SourceContent as ImageContent;
-                            content.Bitmap = bitmapContent.BitmapSource;
-                            content.Info = bitmapContent.Info;
+                            var bitmapContent = source.Content as BitmapContent;
+                            //content.Bitmap = bitmapContent.BitmapSource;
+                            //content.Info = bitmapContent.Info;
+                            content.Color = bitmapContent.BitmapInfo.Color;
                         }
                         else
                         {
-                            content.Content.SetText(LoosePath.GetFileName(source.Page.FullPath));
+                            content.View.SetText(LoosePath.GetFileName(source.Page.FullPath));
 
                             if (content.Size.Width == 0 && content.Size.Height == 0)
                             {
@@ -2461,7 +2468,7 @@ namespace NeeView
         {
             foreach (var content in Contents)
             {
-                if (content.Content != null && content.Content.Element is Rectangle)
+                if (content.View != null && content.View.Element is Rectangle)
                 {
                     double diff = Math.Abs(content.Size.Width - content.Width * _DpiScaleFactor.X);
                     if (_IsDpiSquare && diff < 0.1 && _viewAngle == 0.0 && Math.Abs(_finalViewScale - 1.0) < 0.001)
@@ -2798,9 +2805,15 @@ namespace NeeView
 
 
         //
+        private BitmapSource CurrentBitmapSource 
+        {
+            get { return (this.MainContent?.Content as BitmapContent)?.BitmapSource; }
+        }
+
+        //
         public bool CanCopyImageToClipboard()
         {
-            return this.MainContent?.Bitmap != null;
+            return CurrentBitmapSource != null;
         }
 
 
@@ -2811,7 +2824,7 @@ namespace NeeView
             {
                 if (CanCopyImageToClipboard())
                 {
-                    ClipboardUtility.CopyImage(this.MainContent.Bitmap);
+                    ClipboardUtility.CopyImage(CurrentBitmapSource);
                 }
             }
             catch (Exception e)

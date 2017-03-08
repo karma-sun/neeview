@@ -78,7 +78,7 @@ namespace NeeView
         /// 読込
         /// </summary>
         /// <returns></returns>
-        public BitmapContent Load()
+        public BitmapContentSource Load()
         {
             try
             {
@@ -100,7 +100,7 @@ namespace NeeView
         /// ローダーの優先順位に従って読込
         /// </summary>
         /// <returns></returns>
-        private BitmapContent LoadCore()
+        private BitmapContentSource LoadCore()
         {
             var exceptions = new List<Exception>();
 
@@ -111,7 +111,7 @@ namespace NeeView
                     var bitmapLoader = BitmapLoaderManager.Create(loaderType);
                     if (!bitmapLoader.IsEnabled) continue;
 
-                    BitmapContent bmp;
+                    BitmapContentSource bmp;
                     if (_entry.IsFileSystem)
                     {
                         bmp = bitmapLoader.LoadFromFile(_entry.GetFileSystemPath(), _entry, _allowExifOrientation);
@@ -153,7 +153,7 @@ namespace NeeView
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<BitmapContent> LoadAsync(CancellationToken token)
+        public async Task<BitmapContentSource> LoadAsync(CancellationToken token)
         {
             try
             {

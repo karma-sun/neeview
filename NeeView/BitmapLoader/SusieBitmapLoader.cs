@@ -42,7 +42,7 @@ namespace NeeView
         public bool IsEnabled => IsEnable;
 
         // Bitmap読み込み
-        public BitmapContent Load(Stream stream, ArchiveEntry entry, bool allowExifOrientation)
+        public BitmapContentSource Load(Stream stream, ArchiveEntry entry, bool allowExifOrientation)
         {
             if (!IsEnable) return null;
 
@@ -66,12 +66,12 @@ namespace NeeView
                 throw new SusieIOException();
             }
 
-            var info = new FileBasicInfo();
-            info.FileSize = entry.Length;
+            var info = new BitmapInfo();
+            info.Length = entry.Length;
             info.LastWriteTime = entry.LastWriteTime;
             info.Decoder = _susiePlugin?.ToString();
 
-            var resource = new BitmapContent();
+            var resource = new BitmapContentSource();
             resource.Source = bmpSource;
             resource.Info = info;
 
@@ -79,7 +79,7 @@ namespace NeeView
         }
 
         // Bitmap読み込み(ファイル版)
-        public BitmapContent LoadFromFile(string fileName, ArchiveEntry entry, bool allowExifOrientation)
+        public BitmapContentSource LoadFromFile(string fileName, ArchiveEntry entry, bool allowExifOrientation)
         {
             if (!IsEnable) return null;
 
@@ -89,12 +89,12 @@ namespace NeeView
                 throw new SusieIOException();
             }
 
-            var info = new FileBasicInfo();
-            info.FileSize = entry.Length;
+            var info = new BitmapInfo();
+            info.Length = entry.Length;
             info.LastWriteTime = entry.LastWriteTime;
             info.Decoder = _susiePlugin?.ToString();
 
-            var resource = new BitmapContent();
+            var resource = new BitmapContentSource();
             resource.Source = bmpSource;
             resource.Info = info;
 

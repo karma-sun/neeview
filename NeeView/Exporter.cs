@@ -64,14 +64,6 @@ namespace NeeView
             return CreateVisualContent(source, new Size(Page.Width, Page.Height), maxSize, isShadowEffect);
         }
 
-        // 既に読み込まれている素材を利用してサムネイルを作る
-        // TODO: 見直し
-        public FrameworkElement CreateVisualContent(Size maxSize, bool isShadowEffect)
-        {
-            if (Page == null) return null;
-
-            return CreateVisualContent(Page.GetBitmapSourceContent() ?? Page.Thumbnail.CreateBitmap(), new Size(Page.Width, Page.Height), maxSize, isShadowEffect);
-        }
 
         // サムネイル作成
         private static FrameworkElement CreateVisualContent(BitmapSource bitmapSource, Size sourceSize, Size maxSize, bool isShadowEffect)
@@ -168,7 +160,7 @@ namespace NeeView
 
                 // visual
                 var image = new Image();
-                image.Source = pages[0].GetBitmapSourceContent();
+                image.Source = (pages[0].Content as BitmapContent)?.BitmapSource;
                 if (image.Source == null) throw new ArgumentException("pages[0] don't hage BitmapSource", "pages");
                 image.Width = SingleImage.Page.Width;
                 image.Height = SingleImage.Page.Height;
@@ -199,7 +191,7 @@ namespace NeeView
                 foreach (var page in sortedPages)
                 {
                     var image = new Image();
-                    image.Source = page.GetBitmapSourceContent();
+                    image.Source = (page.Content as BitmapContent).BitmapSource;
                     if (image.Source == null) throw new ArgumentException("any pages don't hage BitmapSource", "pages");
                     image.Width = page.Width * (maxHeight / page.Height);
                     image.Height = maxHeight;

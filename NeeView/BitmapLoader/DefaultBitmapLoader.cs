@@ -67,13 +67,13 @@ namespace NeeView
         public bool IsEnabled => true;
 
         // Thumbnail読み込み
-        public BitmapContent LoadThmbnail(Stream stream, ArchiveEntry entry, bool allowExifOrientation, int size)
+        public BitmapContentSource LoadThmbnail(Stream stream, ArchiveEntry entry, bool allowExifOrientation, int size)
         {
-            var resource = new BitmapContent();
+            var resource = new BitmapContentSource();
 
             BitmapSource source = null;
             BitmapMetadata metadata = null;
-            FileBasicInfo info = new FileBasicInfo();
+            BitmapInfo info = new BitmapInfo();
 
             bool isLargeWidth = false;
 
@@ -124,9 +124,9 @@ namespace NeeView
                 info.Decoder = ".Net BitmapImage";
             }
 
-            info.FileSize = entry.Length;
+            info.Length = entry.Length;
             info.LastWriteTime = entry.LastWriteTime;
-            info.Exif = new BitmapContentExif(metadata);
+            info.Exif = new BitmapExif(metadata);
 
             resource.Source = (allowExifOrientation && metadata != null) ? OrientationWithExif(source, new ExifAccessor(metadata)) : source;
             resource.Info = info;
@@ -135,13 +135,13 @@ namespace NeeView
         }
 
         // Bitmap読み込み
-        public BitmapContent Load(Stream stream, ArchiveEntry entry, bool allowExifOrientation)
+        public BitmapContentSource Load(Stream stream, ArchiveEntry entry, bool allowExifOrientation)
         {
-            var resource = new BitmapContent();
+            var resource = new BitmapContentSource();
 
             BitmapSource source = null;
             BitmapMetadata metadata = null;
-            FileBasicInfo info = new FileBasicInfo();
+            BitmapInfo info = new BitmapInfo();
 
 
             BitmapFrame bitmapFrame = null;
@@ -198,9 +198,9 @@ namespace NeeView
                 throw new OutOfMemoryException();
             }
 
-            info.FileSize = entry.Length;
+            info.Length = entry.Length;
             info.LastWriteTime = entry.LastWriteTime;
-            info.Exif = new BitmapContentExif(metadata);
+            info.Exif = new BitmapExif(metadata);
 
             resource.Source = (allowExifOrientation && metadata != null) ? OrientationWithExif(source, new ExifAccessor(metadata)) : source;
             resource.Info = info;
@@ -210,9 +210,9 @@ namespace NeeView
 
 
         // Bitmap読み込み
-        public BitmapContent LoadFromFile(string fileName, ArchiveEntry entry, bool allowExifOrientation)
+        public BitmapContentSource LoadFromFile(string fileName, ArchiveEntry entry, bool allowExifOrientation)
         {
-            BitmapContent resource;
+            BitmapContentSource resource;
             using (var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
                 resource = Load(stream, entry, allowExifOrientation);

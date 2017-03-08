@@ -59,18 +59,11 @@ namespace NeeView
         /// アーカイブエントリー
         /// </summary>
         public ArchiveEntry Entry { get; private set; }
-
-
+        
         /// <summary>
         /// コンテンツサイズ
         /// </summary>
         public Size Size { get; protected set; } = new Size(480, 680);
-
-        // TODO: BitmapInfoじゃね？
-        /// <summary>
-        /// コンテンツ基本色
-        /// </summary>
-        public Color Color { get; protected set; } = Colors.Black;
 
 
         /// <summary>

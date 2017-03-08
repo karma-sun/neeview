@@ -18,7 +18,7 @@ namespace NeeView
     /// アーカイブコンテンツ
     /// 対象のサムネイルを作成
     /// </summary>
-    public class ArchiveContent : ImageContent
+    public class ArchiveContent : BitmapContent
     {
         private string _entryName;
 

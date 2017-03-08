@@ -30,6 +30,6 @@ namespace NeeView
         public string FileName { get; set; }
         public string Message { get; set; }
 
-        public FileBasicInfo Info { get; set; }
+        public BitmapInfo Info { get; set; }
     }
 }

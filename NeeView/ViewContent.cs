@@ -32,16 +32,20 @@ namespace NeeView
         }
         #endregion
 
-       
-        // コンテンツ コントロール
-        #region Property: Content
-        private PageContentView _content;
-        public PageContentView Content
+        /// <summary>
+        /// コンテンツ
+        /// </summary>
+        public PageContent Content;
+
+        /// <summary>
+        /// Property: View.
+        /// </summary>
+        private PageContentView _view;
+        public PageContentView View
         {
-            get { return _content; }
-            set { _content = value; RaisePropertyChanged(); }
+            get { return _view; }
+            set { _view = value; RaisePropertyChanged(); }
         }
-        #endregion
 
         // コンテンツの幅 (with DPI)
         #region Property: Width
@@ -90,22 +94,8 @@ namespace NeeView
         public string FileName => LoosePath.GetFileName(FullPath.TrimEnd('\\'));
 
 
-        /// <summary>
-        /// サムネイル（あれば）
-        /// </summary>
-        public Thumbnail Thumbnail { get; set; }
-
-        /// <summary>
-        /// 画像ソース(あれば)
-        /// クリップボード、ピクセル深度調査用
-        /// </summary>
-        public BitmapSource Bitmap { get; set; }
-
-
-        // ファイル情報(あれば)
-        public FileBasicInfo Info { get; set; }
-
-        // ファイルプロキシ(あれば)
+        // ファイルプロキシ(必要であれば)
+        // 寿命確保用。GCされてファイルが消えないように。
         public FileProxy FileProxy { get; set; }
 
         // ページの場所
@@ -128,7 +118,7 @@ namespace NeeView
         #endregion
 
         // 有効判定
-        public bool IsValid => (Content != null);
+        public bool IsValid => (View != null);
 
         // ページパーツ文字
         public string GetPartString()
@@ -146,16 +136,5 @@ namespace NeeView
 
         // 表示スケール(%)
         public double Scale => Width / Size.Width;
-
-        // ピクセル深度
-        private int _bitsPerPixel;
-        public int BitsPerPixel
-        {
-            get
-            {
-                if (_bitsPerPixel == 0) _bitsPerPixel = Bitmap.GetSourceBitsPerPixel();
-                return _bitsPerPixel;
-            }
-        }
     }
 }

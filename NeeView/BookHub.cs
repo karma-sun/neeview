@@ -172,9 +172,6 @@ namespace NeeView
         // ViewContentsの変更通知
         public event EventHandler<ViewSource> ViewContentsChanged;
 
-        // スライドショーモード変更通知
-        public event EventHandler<bool> SlideShowModeChanged;
-
         // 空ページメッセージ
         public event EventHandler<string> EmptyMessage;
 
@@ -289,21 +286,6 @@ namespace NeeView
         }
         #endregion
 
-
-        // スライドショー再生フラグ
-        private bool _isEnableSlideShow;
-        public bool IsEnableSlideShow
-        {
-            get
-            {
-                return _isEnableSlideShow;
-            }
-            set
-            {
-                _isEnableSlideShow = value;
-                SlideShowModeChanged?.Invoke(this, _isEnableSlideShow);
-            }
-        }
 
         // スライドショー設定：ループ再生
         private bool IsSlideShowByLoop { get; set; } = true;
@@ -914,7 +896,7 @@ namespace NeeView
         // ページ終端を超えて移動しようとするときの処理
         private void OnPageTerminated(object sender, int e)
         {
-            if (IsEnableSlideShow && IsSlideShowByLoop)
+            if (AppContext.Current.IsPlayingSlideShow && IsSlideShowByLoop)
             {
                 FirstPage();
             }
@@ -943,7 +925,7 @@ namespace NeeView
             }
             else
             {
-                if (IsEnableSlideShow)
+                if (AppContext.Current.IsPlayingSlideShow)
                 {
                     ToggleSlideShow(); // スライドショー解除
                 }
@@ -1098,7 +1080,7 @@ namespace NeeView
         // スライドショー用：次のページへ移動
         public void NextSlide()
         {
-            if (IsEnableSlideShow) NextPage();
+            if (AppContext.Current.IsPlayingSlideShow) NextPage();
         }
 
         // 次のフォルダに移動
@@ -1127,7 +1109,7 @@ namespace NeeView
         // スライドショーON/OFF
         public void ToggleSlideShow()
         {
-            IsEnableSlideShow = !IsEnableSlideShow;
+            AppContext.Current.IsPlayingSlideShow = !AppContext.Current.IsPlayingSlideShow;
             SettingChanged?.Invoke(this, null);
         }
 

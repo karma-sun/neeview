@@ -1037,7 +1037,7 @@ namespace NeeView
             // スライドショーの自動再生
             if (App.Options["--slideshow"].IsValid ? App.Options["--slideshow"].Bool : _VM.IsAutoPlaySlideShow)
             {
-                _VM.BookHub.IsEnableSlideShow = true;
+                AppContext.Current.IsPlayingSlideShow = true;
             }
         }
 

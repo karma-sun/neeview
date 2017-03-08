@@ -53,12 +53,14 @@ namespace NeeView
         /// <summary>
         /// ページ移動優先設定
         /// </summary>
-        public bool IsPrioritizePageMove => Preference.Current.book_is_prioritize_pagemove;
+        public bool IsPrioritizePageMove
+            => Preference.Current.book_is_prioritize_pagemove && !AppContext.Current.IsPlayingSlideShow;
 
         /// <summary>
         /// ページ移動命令重複許可
         /// </summary>
-        public bool AllowMultiplePageMove => Preference.Current.book_allow_multiple_pagemove;
+        public bool AllowMultiplePageMove
+            => Preference.Current.book_allow_multiple_pagemove && !AppContext.Current.IsPlayingSlideShow;
 
         /// <summary>
         /// 先読み自動判定許サイズ
@@ -670,7 +672,7 @@ namespace NeeView
         {
             Debug.Assert(Place != null);
 
-            _commandEngine.AllowMultiplePageMove = _environment.AllowMultiplePageMove;
+            _commandEngine.BookEnvironment = _environment;
             _commandEngine.Initialize();
         }
 

@@ -16,7 +16,8 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// Preference テーブル
+    /// 保存される静的設定情報。
+    /// アプリの動的内部情報は<see cref="AppContext"/>で。 
     /// </summary>
     public class Preference
     {

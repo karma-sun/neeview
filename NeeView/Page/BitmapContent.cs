@@ -145,6 +145,8 @@ namespace NeeView
         {
             if (Thumbnail.IsValid) return;
 
+            // TODO: コンテンツ読み込み要求が有効な場合の処理
+
             var bitmapSource = BitmapSource ?? await LoadBitmapAsync(Entry, token);
             Thumbnail.Initialize(bitmapSource);
         }

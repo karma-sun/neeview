@@ -824,6 +824,7 @@ namespace NeeView
                 _folderListItemStyle = value;
                 RaisePropertyChanged();
                 PanelContext.FolderListItemStyle = _folderListItemStyle;
+                RaisePropertyChanged(nameof(IsContentPanelStyle));
             }
         }
         #endregion
@@ -977,12 +978,7 @@ namespace NeeView
 
         // 現在のウィンドウアイコン取得
         public ImageSource WindowIcon
-        {
-            get
-            {
-                return BookHub.IsEnableSlideShow ? _windowIconPlay : _windowIconDefault;
-            }
-        }
+            => AppContext.Current.IsPlayingSlideShow ? _windowIconPlay : _windowIconDefault;
 
         #endregion
 
@@ -1475,7 +1471,11 @@ namespace NeeView
 
 
 
-
+        /// <summary>
+        /// アプリ動的情報。
+        /// MVVM用。
+        /// </summary>
+        public AppContext AppContext => AppContext.Current;
 
         // 本管理
         public BookHub BookHub { get; private set; }
@@ -1720,13 +1720,17 @@ namespace NeeView
 
             InitializeWindowIcons();
 
+            // AppContext
+            AppContext.Current.IsPlayingSlideShowChanged +=
+                (s, e) => RaisePropertyChanged(nameof(WindowIcon));
+
             // ModelContext
             //ModelContext.Initialize();
             ModelContext.JobEngine.StatusChanged +=
                 (s, e) => RaisePropertyChanged(nameof(JobEngine));
 
             ModelContext.JobEngine.IsBusyChanged +=
-                (s, e) => IsBusyJobEngine = ModelContext.JobEngine.IsBusy;
+                (s, e) => IsBusyJobEngine = ModelContext.JobEngine.IsBusy && !AppContext.Current.IsPlayingSlideShow;
 
             // BookHub
             BookHub = new BookHub();
@@ -1756,9 +1760,6 @@ namespace NeeView
                 {
                     DispMessage(NoticeShowMessageStyle, e);
                 };
-
-            BookHub.SlideShowModeChanged +=
-                (s, e) => RaisePropertyChanged(nameof(WindowIcon));
 
             BookHub.EmptyMessage +=
                 (s, e) => EmptyPageMessage = e;

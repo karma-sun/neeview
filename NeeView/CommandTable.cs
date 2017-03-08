@@ -867,8 +867,8 @@ namespace NeeView
                 element.Note = "スライドショーの再生/停止を切り替えます";
                 element.ShortCutKey = "F5";
                 element.Execute = (s, e) => _book.ToggleSlideShow();
-                element.ExecuteMessage = e => _book.IsEnableSlideShow ? "スライドショー停止" : "スライドショー再生";
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookHub(nameof(_book.IsEnableSlideShow));
+                element.ExecuteMessage = e => AppContext.Current.IsPlayingSlideShow ? "スライドショー停止" : "スライドショー再生";
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingAppContext(nameof(AppContext.IsPlayingSlideShow));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleSlideShow] = element;
             }

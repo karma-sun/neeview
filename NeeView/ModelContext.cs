@@ -19,6 +19,7 @@ namespace NeeView
 {
     /// <summary>
     /// Model 共通コンテキスト (static)
+    /// TODO: 廃止の方向で。
     /// </summary>
     public static class ModelContext
     {

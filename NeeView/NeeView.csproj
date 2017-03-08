@@ -79,6 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppContext.cs" />
     <Compile Include="Archiver\ArchiveEntry.cs" />
     <Compile Include="Archiver\ArchiveEntryExtractor.cs" />
     <Compile Include="Archiver\ArchivenEntryExtractorService.cs" />

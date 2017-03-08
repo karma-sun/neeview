@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -98,10 +99,10 @@ namespace DragExtensions
 
             Point startPoint = (Point)element.GetValue(DragBehavior.StartPointProperty);
             Point point = e.GetPosition(element);
-            if (element is ListBoxItem) point.Y = ((ListBoxItem)element).ActualHeight / 2;
 
             if (!IsDragging(startPoint, point)) return;
 
+            if (element is ListBoxItem) point.Y = ((ListBoxItem)element).ActualHeight / 2;
             var adornerElement = GetListBox(element) ?? element;
             DragAdorner adorner = new DragAdorner(adornerElement, element, 0.5, point);
             DragBehavior.SetDragAdorner(element, adorner);

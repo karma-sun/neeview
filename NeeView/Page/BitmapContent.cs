@@ -69,8 +69,6 @@ namespace NeeView
                     Debug.WriteLine(e.Message);
                 }
 
-                token.ThrowIfCancellationRequested();
-
                 return bitmap.Source;
             }
             catch (OperationCanceledException)
@@ -102,10 +100,13 @@ namespace NeeView
 
             var bitmap = await LoadBitmapAsync(Entry, token);
 
-            lock (_lock)
+            if (!token.IsCancellationRequested)
             {
-                BitmapSource = bitmap;
-                IsLoaded = true;
+                lock (_lock)
+                {
+                    BitmapSource = bitmap;
+                    IsLoaded = true;
+                }
             }
 
             if (Thumbnail.IsValid) return;

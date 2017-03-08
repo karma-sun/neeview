@@ -61,31 +61,20 @@ namespace NeeView.Utility
             set { _result = value; _complete.Set(); }
         }
 
-        // コマンド実行フラグ
-        private bool _isActive;
-
         // キャンセル可能フラグ
         public bool CanBeCanceled { get; set; } = true;
 
         /// <summary>
         /// キャンセル要求
         /// </summary>
-        public void Cancel()
+        public virtual void Cancel()
         {
             if (!CanBeCanceled) return;
 
             _cancellationTokenSource.Cancel();
 
-            if (!_isActive)
-            {
-                Result = CommandResult.Canceled;
-            }
+            Result = CommandResult.Canceled;
         }
-
-        /// <summary>
-        /// キャンセル要求判定
-        /// </summary>
-        public bool IsCancellationRequested => _cancellationTokenSource.Token.IsCancellationRequested;
 
 
         /// <summary>
@@ -94,11 +83,18 @@ namespace NeeView.Utility
         /// <returns></returns>
         public async Task ExecuteAsync()
         {
-            _isActive = true;
+            if (_complete.IsSet) return;
 
+            // cancel ?
+            if (_cancellationTokenSource.Token.IsCancellationRequested)
+            {
+                Result = CommandResult.Canceled;
+                return;
+            }
+
+            // execute
             try
             {
-                _cancellationTokenSource.Token.ThrowIfCancellationRequested();
                 OnExecuting();
                 await ExecuteAsync(_cancellationTokenSource.Token);
                 Result = CommandResult.Completed;
@@ -217,7 +213,6 @@ namespace NeeView.Utility
             {
                 _cancellationTokenSource?.Cancel();
                 _command?.Cancel();
-                _command = null;
             }
         }
 

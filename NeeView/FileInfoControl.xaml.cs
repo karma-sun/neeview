@@ -161,6 +161,12 @@ namespace NeeView
                         this.ItemArchiver.Text = bitmapContent.BitmapInfo.Archiver;
                         this.ItemDecoder.Text = (bitmapContent is AnimatedContent) ? "MediaPlayer" : bitmapContent.BitmapInfo.Decoder;
                     }
+                    else
+                    {
+                        this.Thumbnail.Source = null;
+                        this.ItemArchiver.Text = null;
+                        this.ItemDecoder.Text = null;
+                    }
                 }
                 catch (Exception ex)
                 {

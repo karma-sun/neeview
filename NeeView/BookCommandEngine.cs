@@ -304,9 +304,18 @@ namespace NeeView
             // 優先度の高い、最新のコマンドのみ残す
             if (_queue.Count > 1)
             {
-                var command = _queue.Reverse().Cast<BookCommand>().OrderBy(e => e.Priority).First();
+                // 選択コマンド
+                var select = _queue.Reverse().Cast<BookCommand>().OrderByDescending(e => e.Priority).First();
+
+                // それ以外のコマンドは廃棄
+                foreach(var command in _queue.Where(e => e != select))
+                {
+                    command.Cancel();
+                }
+
+                // 新しいコマンド列
                 _queue.Clear();
-                _queue.Enqueue(command);
+                _queue.Enqueue(select);
             }
         }
     }

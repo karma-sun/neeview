@@ -680,14 +680,12 @@ namespace NeeView
 
 
         // 廃棄処理
-        // TODO: デッドロックになるバグあり
         public async Task DisposeAsync()
         {
-            RequestDispose();
-            while (!_isDisposed)
-            {
-                await Task.Delay(100);
-            }
+            var command = RequestDispose();
+            if (command == null) return;
+
+            await command.WaitAsync();
         }
 
         // 前のページに戻る
@@ -796,12 +794,14 @@ namespace NeeView
 
 
         // 終了処理
-        public void RequestDispose()
+        private BookCommand RequestDispose()
         {
-            if (Place == null) return;
+            if (Place == null) return null;
 
             var command = new BookCommandDispose(this, new BookCommandDisposeArgs());
             _commandEngine.Enqueue(command);
+
+            return command;
         }
 
 
@@ -958,7 +958,6 @@ namespace NeeView
                 _trashBox?.Clear();
 
                 _commandEngine.Terminate();
-                _commandEngine = null;
             }
 
             MemoryControl.Current.GarbageCollect();

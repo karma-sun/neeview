@@ -89,12 +89,13 @@ namespace NeeView
         {
             _param = param;
 
+            // キャンセル不可
             CanBeCanceled = false;
         }
 
         protected override async Task ExecuteAsync(CancellationToken token)
         {
-            await _bookHub.UnloadAsync(_param); // Unloadはキャンセルできない
+            await _bookHub.UnloadAsync(_param);
         }
     }
 
@@ -119,7 +120,7 @@ namespace NeeView
             _command?.Cancel();
 
             // 全コマンドキャンセル
-            // ただし、Unloadはキャンセルできないので残る
+            // ※ Unloadはキャンセルできないので残る
             foreach(var cmd in _queue)
             {
                 cmd.Cancel();

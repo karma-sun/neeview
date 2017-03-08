@@ -1271,6 +1271,8 @@ namespace NeeView
         }
         public void FlushPanelColor()
         {
+            if (App.Current == null) return;
+
             int alpha = _panelOpacity * 0xFF / 100;
             if (alpha > 0xff) alpha = 0xff;
             if (alpha < 0x00) alpha = 0x00;
@@ -1585,7 +1587,7 @@ namespace NeeView
 
         // サムネイルサイズ(表示サイズ)
         public double ThumbnailDispSize => _thumbnailSize / _DpiScaleFactor.X;
-        
+
 
 
         // ページ番号の表示
@@ -1835,7 +1837,7 @@ namespace NeeView
         {
             var title = LoosePath.GetFileName(BookHub.Address);
 
-            App.Current.Dispatcher.Invoke(() => DispMessage(NoticeShowMessageStyle, title, null, 2.0, bookmarkType));
+            App.Current?.Dispatcher.Invoke(() => DispMessage(NoticeShowMessageStyle, title, null, 2.0, bookmarkType));
 
             UpdatePageList();
             UpdateLastFiles();
@@ -1929,7 +1931,7 @@ namespace NeeView
                     BackgroundBrush = BackgroundSolidBrush = new SolidColorBrush(color);
                     break;
                 case BackgroundStyle.Check:
-                    BackgroundBrush = (DrawingBrush)App.Current.Resources["CheckerBrush"];
+                    BackgroundBrush = (DrawingBrush)App.Current?.Resources["CheckerBrush"];
                     BackgroundSolidBrush = new SolidColorBrush(Color.FromArgb(0xff, 0xf0, 0xf0, 0xf0));
                     break;
             }
@@ -2082,26 +2084,34 @@ namespace NeeView
         }
 
 
+        //
+        private WindowPlacement.Memento _windowPlacement;
+
+        // ウィンドウ状態を保存
+        public void StoreWindowPlacement(MainWindow window)
+        {
+            // パネル幅保存
+            LeftPanelWidth = window.LeftPanel.Width;
+            RightPanelWidth = window.RightPanel.Width;
+
+            // ウィンドウ状態保存
+            _windowPlacement = WindowPlacement.CreateMemento(window);
+        }
 
 
         // アプリ設定保存
-        public void SaveSetting(MainWindow window)
+        public void SaveSetting()
         {
             if (!IsEnableSave) return;
 
             // 現在の本を履歴に登録
             BookHub.SaveBookMemento(); // TODO: タイミングに問題有り？
 
-            // パネル幅保存
-            LeftPanelWidth = window.LeftPanel.Width;
-            RightPanelWidth = window.RightPanel.Width;
-
-
             // 設定
             var setting = CreateSetting();
 
             // ウィンドウ座標保存
-            setting.WindowPlacement = WindowPlacement.CreateMemento(window);
+            setting.WindowPlacement = _windowPlacement;
 
             try
             {
@@ -2814,7 +2824,7 @@ namespace NeeView
 
 
         //
-        private BitmapSource CurrentBitmapSource 
+        private BitmapSource CurrentBitmapSource
         {
             get { return (this.MainContent?.Content as BitmapContent)?.BitmapSource; }
         }
@@ -2847,11 +2857,15 @@ namespace NeeView
         // 廃棄処理
         public void Dispose()
         {
+            BookHub.Dispose();
+
             ModelContext.Terminate();
+
+            Debug.WriteLine("MainWindowVM: Disposed.");
         }
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -3275,6 +3289,6 @@ namespace NeeView
             UpdateContentSize();
         }
 
-#endregion
+        #endregion
     }
 }

@@ -409,6 +409,39 @@ namespace NeeView
             _commandEngine.Initialize();
         }
 
+        /// <summary>
+        /// 終了処理
+        /// </summary>
+        public void Dispose()
+        {
+            // いろんなイベントをクリア
+            this.AddressChanged = null;
+            this.BookChanged = null;
+            this.BookmarkChanged = null;
+            this.EmptyMessage = null;
+            this.FolderListSync = null;
+            this.HistoryChanged = null;
+            this.HistoryListSync = null;
+            this.InfoMessage = null;
+            this.Loading = null;
+            this.PageChanged = null;
+            this.PagemarkChanged = null;
+            this.PageRemoved = null;
+            this.PagesSorted = null;
+            this.PropertyChanged = null;
+            this.SettingChanged = null;
+            this.ThumbnailChanged = null;
+            this.ViewContentsChanged = null;
+
+            // 開いているブックを閉じる(5秒待つ。それ以上は待たない)
+            Task.Run(async () => await RequestUnload(false).WaitAsync()).Wait(5000);
+
+            // コマンドエンジン停止
+            _commandEngine.Terminate();
+
+            Debug.WriteLine("BookHub Disposed.");
+        }
+
 
         //現在開いているブックの設定作成
         private Book.Memento CreateBookMemento()
@@ -463,10 +496,10 @@ namespace NeeView
                 Address = null;
 
                 // 現在表示されているコンテンツを無効
-                App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
+                App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
 
                 // 本の変更通知
-                App.Current.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookMementoType.None));
+                App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookMementoType.None));
             }
         }
 
@@ -589,7 +622,7 @@ namespace NeeView
         private void NotifyLoading(string path)
         {
             _isLoading = (path != null);
-            App.Current.Dispatcher.Invoke(() => Loading?.Invoke(this, path));
+            App.Current?.Dispatcher.Invoke(() => Loading?.Invoke(this, path));
         }
 
         /// <summary>
@@ -618,17 +651,17 @@ namespace NeeView
                 // フォルダリスト更新
                 if (args.IsRefleshFolderList)
                 {
-                    App.Current.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = place, isKeepPlace = false }));
+                    App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = place, isKeepPlace = false }));
                 }
                 else if ((args.Option & BookLoadOption.SelectFoderListMaybe) != 0)
                 {
-                    App.Current.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = place, isKeepPlace = true }));
+                    App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = place, isKeepPlace = true }));
                 }
 
                 // 履歴リスト更新
                 if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
                 {
-                    App.Current.Dispatcher.Invoke(() => HistoryListSync?.Invoke(this, place));
+                    App.Current?.Dispatcher.Invoke(() => HistoryListSync?.Invoke(this, place));
                 }
 
                 // 本の設定
@@ -639,23 +672,23 @@ namespace NeeView
                 await LoadAsyncCore(place, startEntry ?? setting.Page, args.Option, setting, unit, token);
 
                 // ビュー初期化
-                App.Current.Dispatcher.Invoke(() => ModelContext.CommandTable[CommandType.ViewReset].Execute(this, null));
+                App.Current?.Dispatcher.Invoke(() => ModelContext.CommandTable[CommandType.ViewReset].Execute(this, null));
 
                 // 本の設定を退避
-                App.Current.Dispatcher.Invoke(() => SettingChanged?.Invoke(this, null));
+                App.Current?.Dispatcher.Invoke(() => SettingChanged?.Invoke(this, null));
 
 
                 // 本の変更通知
-                App.Current.Dispatcher.Invoke(() => BookChanged?.Invoke(this, Current.BookMementoType));
+                App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, Current.BookMementoType));
 
                 // ページがなかった時の処理
                 if (CurrentBook.Pages.Count <= 0)
                 {
-                    App.Current.Dispatcher.Invoke(() => EmptyMessage?.Invoke(this, $"\"{CurrentBook.Place}\" には読み込めるファイルがありません"));
+                    App.Current?.Dispatcher.Invoke(() => EmptyMessage?.Invoke(this, $"\"{CurrentBook.Place}\" には読み込めるファイルがありません"));
 
                     if (IsConfirmRecursive && (args.Option & BookLoadOption.ReLoad) == 0 && !CurrentBook.IsRecursiveFolder && CurrentBook.SubFolderCount > 0)
                     {
-                        App.Current.Dispatcher.Invoke(() => ConfirmRecursive());
+                        App.Current?.Dispatcher.Invoke(() => ConfirmRecursive());
                     }
                 }
             }
@@ -666,10 +699,10 @@ namespace NeeView
             catch (Exception e)
             {
                 // 現在表示されているコンテンツを無効
-                App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()));
+                App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()));
 
                 // 本の変更通知
-                App.Current.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookMementoType.None)); //  Current.BookMementoType));
+                App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookMementoType.None)); //  Current.BookMementoType));
 
                 // ファイル読み込み失敗通知
                 EmptyMessage?.Invoke(this, e.Message);
@@ -677,7 +710,7 @@ namespace NeeView
                 // 履歴リスト更新
                 if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
                 {
-                    App.Current.Dispatcher.Invoke(() => HistoryListSync?.Invoke(this, Address));
+                    App.Current?.Dispatcher.Invoke(() => HistoryListSync?.Invoke(this, Address));
                 }
             }
             finally

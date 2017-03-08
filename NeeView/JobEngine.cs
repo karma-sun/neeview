@@ -356,6 +356,8 @@ namespace NeeView
         public void Dispose()
         {
             ChangeWorkerSize(0);
+
+            Debug.WriteLine("JobEngine: Disposed.");
         }
     }
 

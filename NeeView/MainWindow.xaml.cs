@@ -832,7 +832,8 @@ namespace NeeView
                 SetUpdateMenuLayoutMode(false);
                 _VM.RestoreSetting(setting, false);
                 SetUpdateMenuLayoutMode(true);
-                _VM.SaveSetting(this);
+                _VM.StoreWindowPlacement(this);
+                _VM.SaveSetting();
                 ModelContext.BookHistory.Restore(history, false);
 
                 // 現在ページ再読込
@@ -1137,15 +1138,24 @@ namespace NeeView
         //
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _VM.SaveSetting(this); // ウィンドウサイズ保存のためこのタイミングで行う
+            // ウィンドウサイズ保存
+            _VM.StoreWindowPlacement(this);
         }
 
         //
         private void Window_Closed(object sender, EventArgs e)
         {
-            Temporary.RemoveTempFolder();
+            // 設定保存
+            _VM.SaveSetting();
+
+            // スレッド終了処理 
+            // 主にコマンドのキャンセル処理。 特にApp.Current にアクセスするものはキャンセルさせる
             _VM.Dispose();
 
+            // テンポラリファイル破棄
+            Temporary.RemoveTempFolder();
+            
+            // キャッシュDBを閉じる
             ThumbnailCache.Current.Dispose();
 
             Debug.WriteLine("Window.Closed done.");

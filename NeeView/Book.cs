@@ -945,6 +945,15 @@ namespace NeeView
         {
             _isDisposed = true;
 
+            // さまざまなイベント停止
+            this.DartyBook = null;
+            this.PageChanged = null;
+            this.PageRemoved = null;
+            this.PagesSorted = null;
+            this.PageTerminated = null;
+            this.ThumbnailChanged = null;
+            this.ViewContentsChanged = null;
+
             lock (_lock)
             {
                 _viewContext = new ViewPageContext();
@@ -961,6 +970,8 @@ namespace NeeView
             }
 
             MemoryControl.Current.GarbageCollect();
+
+            Debug.WriteLine("Book: Disposed.");
         }
 
         internal async Task Remove_Executed(BookCommandRemoveArgs param, CancellationToken token)
@@ -1082,19 +1093,19 @@ namespace NeeView
             // ページ終端を越えたか判定
             if (source.Position < _firstPosition)
             {
-                App.Current.Dispatcher.Invoke(() => PageTerminated?.Invoke(this, -1));
+                App.Current?.Dispatcher.Invoke(() => PageTerminated?.Invoke(this, -1));
                 return;
             }
             else if (source.Position > _lastPosition)
             {
-                App.Current.Dispatcher.Invoke(() => PageTerminated?.Invoke(this, +1));
+                App.Current?.Dispatcher.Invoke(() => PageTerminated?.Invoke(this, +1));
                 return;
             }
 
             // ページ数０の場合は表示コンテンツなし
             if (Pages.Count == 0)
             {
-                App.Current.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()));
+                App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()));
                 return;
             }
 

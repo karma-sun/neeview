@@ -257,7 +257,7 @@ public class FolderListControlViewModel : INotifyPropertyChanged
         {
             // FolderCollection
             var collection = CreateFolderCollection(place);
-            collection.ParameterChanged += (s, e) => App.Current.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true, false); }));
+            collection.ParameterChanged += (s, e) => App.Current?.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true, false); }));
 
             // FolderListViewModel
             var vm = new FolderListViewModel(collection);

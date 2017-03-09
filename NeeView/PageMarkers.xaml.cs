@@ -188,7 +188,7 @@ namespace NeeView
         /// </summary>
         private void UpdateInvoke()
         {
-            App.Current.Dispatcher.Invoke(() => Update());
+            App.Current?.Dispatcher.Invoke(() => Update());
         }
 
         /// <summary>

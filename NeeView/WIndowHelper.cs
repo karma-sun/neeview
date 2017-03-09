@@ -11,7 +11,7 @@ namespace NeeView
     {
         public static void SetMainWindowOwner(this Window window)
         {
-            window.Owner = App.Current.MainWindow;
+            window.Owner = App.Current?.MainWindow;
             window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
         }
     }

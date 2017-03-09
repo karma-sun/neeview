@@ -26,6 +26,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Globalization;
 
 namespace NeeView
 {
@@ -367,7 +368,7 @@ namespace NeeView
         //
         private void OnIndexChanged(object sender, EventArgs e)
         {
-            App.Current.Dispatcher.Invoke(() =>
+            App.Current?.Dispatcher.Invoke(() =>
             {
                 _lastShowTime = DateTime.Now;
                 DartyThumbnailList();
@@ -377,7 +378,7 @@ namespace NeeView
         //
         private void OnPageListChanged(object sender, EventArgs e)
         {
-            App.Current.Dispatcher.Invoke(() =>
+            App.Current?.Dispatcher.Invoke(() =>
             {
                 var sw = new Stopwatch();
                 sw.Start();
@@ -2426,6 +2427,35 @@ namespace NeeView
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    // コンバータ：ファイルサイズのKB表示
+    [ValueConversion(typeof(PageMode), typeof(bool))]
+    public class FileSizeToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var length = (long)value;
+
+            if (length < 0)
+            {
+                return "";
+            }
+            else if (length == 0)
+            {
+                return "0 KB";
+            }
+            else
+            {
+                return $"{(length + 1023) / 1024:#,0} KB";
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

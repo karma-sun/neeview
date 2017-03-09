@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,88 +13,63 @@ using System.Threading.Tasks;
 
 namespace NeeView.Utility
 {
-    /// <summary>
-    /// 同期処理のキャンセル対応
-    /// </summary>
-    public class AsynchronousAction
+    public static class Process
     {
-        private Task _task;
-
-        /// <summary>
-        /// 実行
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public async Task ExecuteAsync(Action<CancellationToken> action, CancellationToken token)
-        {
-            Run(action, token);
-            await WaitAsync(token);
-        }
-
-        /// <summary>
-        /// 非同期実行(結果有り)
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="token"></param>
-        public void Run(Action<CancellationToken> action, CancellationToken token)
+        //
+        public static Task ActionAsync(Action action, CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
-            _task = Task.Run(() => action(token));
+            return Task.Run(() => action());
         }
 
-        /// <summary>
-        /// 実行完了待ち
-        /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public async Task WaitAsync(CancellationToken token)
-        {
-            await Task.Run(() => _task?.Wait(token));
-        }
-    }
-
-    /// <summary>
-    /// 同期処理のキャンセル対応
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class AsynchronousAction<T>
-    {
-        private Task<T> _task;
-
-        /// <summary>
-        /// 実行
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public async Task<T> ExecuteAsync(Func<CancellationToken, T> action, CancellationToken token)
-        {
-            Run(action, token);
-            return await WaitAsync(token);
-        }
-
-        /// <summary>
-        /// 非同期実行
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="token"></param>
-        public void Run(Func<CancellationToken, T> action, CancellationToken token)
+        //
+        public static Task ActionAsync(Action<CancellationToken> action, CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
-            _task = Task.Run(() => { return action(token); });
+            return Task.Run(() => action(token));
         }
 
-        /// <summary>
-        /// 実行完了待ち
-        /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public async Task<T> WaitAsync(CancellationToken token)
+        //
+        public static Task WaitAsync(Task task)
         {
-            await Task.Run(() => _task.Wait(token));
+            return ActionAsync(() => task.Wait(), CancellationToken.None);
+        }
+
+        //
+        public static Task WaitAsync(Task task, CancellationToken token)
+        {
+            return ActionAsync(() => task.Wait(token), token);
+        }
+
+        //
+        public static Task<T> FuncAsync<T>(Func<T> func)
+        {
+            return Task.Run(() => func());
+        }
+
+        //
+        public static Task<T> FuncAsync<T>(Func<T> func, CancellationToken token)
+        {
             token.ThrowIfCancellationRequested();
-            return _task.Result;
+            return Task.Run(() => func());
+        }
+        
+        //
+        public static Task<T> FuncAsync<T>(Func<CancellationToken, T> func, CancellationToken token)
+        {
+            token.ThrowIfCancellationRequested();
+            return Task.Run(() => func(token));
+        }
+
+        //
+        public static Task<T> WaitAsync<T>(Task<T> task, CancellationToken token)
+        {
+            return FuncAsync((t) =>
+            {
+                task.Wait(token);
+                return task.Result;
+            }
+            , token);
         }
     }
 }

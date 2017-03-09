@@ -25,6 +25,14 @@
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
         </Style>
 
+        <Style TargetType="TextBlock" x:Key="FolderParameter">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Foreground" Value="Gray"/>
+        </Style>
+
+        <local:FileSizeToStringConverter x:Key="FileSizeToStringConverter"/>
+
         <DataTemplate x:Key="NormalFolder">
             <DockPanel>
                 <local:FolderIcon DockPanel.Dock="Right" FolderInfo="{Binding .}" />
@@ -41,12 +49,19 @@
                     <DockPanel>
                         <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"
                            RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
-                           Width="60" Height="60" >
+                           UseLayoutRounding="True"
+                           Width="50" Height="60" Margin="5,0">
                             <Image.ToolTip>
-                                <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"/>
+                                <Image Source="{Binding  ArchivePage.Thumbnail.BitmapSource}"/>
                             </Image.ToolTip>
                         </Image>
-                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="Wrap"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap"/>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Margin="5,0">
+                                <TextBlock x:Name="LastUpdateTime" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.LastWriteTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
+                                <TextBlock x:Name="FileSize" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.Length, Converter={StaticResource FileSizeToStringConverter}}"  MinWidth="120" TextAlignment="Right" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
                     </DockPanel>
                 </DockPanel>
             </Grid>

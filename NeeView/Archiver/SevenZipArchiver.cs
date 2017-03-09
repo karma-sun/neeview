@@ -107,6 +107,7 @@ namespace NeeView
 
             _delayClose?.Cancel();
 
+            // 投げっぱなし
             Task.Run(() =>
             {
                 lock (_lock)
@@ -210,16 +211,20 @@ namespace NeeView
 
         //
         public override bool IsDisposed => _isDisposed;
-        
+
         // 廃棄処理
         public override void Dispose()
         {
             _isDisposed = true;
 
-            _source?.Dispose();
-            _source = null;
-            _stream?.Dispose();
-            _stream = null;
+            lock (s_lock)
+            {
+                _source?.Dispose();
+                _source = null;
+                _stream?.Dispose();
+                _stream = null;
+            }
+
             base.Dispose();
         }
 
@@ -305,7 +310,7 @@ namespace NeeView
                 using (var extractor = new SevenZipExtractor(Path)) // 専用extractor
                 using (Stream fs = new FileStream(exportFileName, FileMode.Create, FileAccess.Write))
                 {
-                     extractor.ExtractFile(entry.Id, fs);
+                    extractor.ExtractFile(entry.Id, fs);
                 }
             }
         }

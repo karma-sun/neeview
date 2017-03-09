@@ -310,7 +310,7 @@ namespace NeeView
             _pageSortMode = _bookHub.BookMemento.SortMode;
             RaisePropertyChanged(nameof(PageSortMode));
 
-            App.Current.Dispatcher.Invoke(() => PagesChanged?.Invoke(this, null));
+            App.Current?.Dispatcher.Invoke(() => PagesChanged?.Invoke(this, null));
         }
 
         //

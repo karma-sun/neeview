@@ -254,7 +254,7 @@ namespace NeeView.Utility
             catch (Exception e)
             {
                 Action<Exception> action = (exception) => { throw new ApplicationException("CommandEngineException", exception); };
-                await App.Current.Dispatcher.BeginInvoke(action, e);
+                await App.Current?.Dispatcher.BeginInvoke(action, e);
             }
             finally
             {

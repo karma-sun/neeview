@@ -22,10 +22,25 @@ namespace NeeView
     /// </summary>
     public class ArchivePage : Page
     {
-        // コンストラクタ
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="place"></param>
+        /// <param name="entryName"></param>
         public ArchivePage(string place, string entryName = null)
         {
-            Entry = new ArchiveEntry() { EntryName = place };
+            Entry = ArchiveEntry.Create(place);
+            Content = new ArchiveContent(Entry, entryName);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <param name="entryName"></param>
+        public ArchivePage(ArchiveEntry entry, string entryName = null)
+        {
+            Entry = entry;
             Content = new ArchiveContent(Entry, entryName);
         }
     }

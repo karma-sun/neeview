@@ -35,7 +35,8 @@ namespace NeeView
         /// <summary>
         /// 非同期アクション
         /// </summary>
-        private Utility.AsynchronousAction _action;
+        //private Utility.AsynchronousAction _action;
+        private Task _action;
 
         /// <summary>
         /// 元になるArchiveEntry
@@ -73,14 +74,28 @@ namespace NeeView
 
             ExtractFileName = path;
 
-            _action = new Utility.AsynchronousAction();
-            await _action.ExecuteAsync((t) =>
+            //_action = new Utility.AsynchronousAction();
+
+            _action = Utility.Process.ActionAsync((t) =>
             {
                 Entry.ExtractToFile(ExtractFileName, false);
                 //Debug.WriteLine("EXT: Extract done.");
-                Completed?.Invoke(this, new ArchiveEntryExtractorEventArgs() { CancellationToken = token });
+                Completed?.Invoke(this, new ArchiveEntryExtractorEventArgs() { CancellationToken = t });
             },
             token);
+
+            await Utility.Process.WaitAsync(_action, token);
+
+#if false
+            //await _action.ExecuteAsync((t) =>
+            await _action.Run((t)=>
+            {
+                Entry.ExtractToFile(ExtractFileName, false);
+                //Debug.WriteLine("EXT: Extract done.");
+                Completed?.Invoke(this, new ArchiveEntryExtractorEventArgs() { CancellationToken = t });
+            },
+            token);
+#endif
 
             return ExtractFileName;
         }
@@ -94,7 +109,9 @@ namespace NeeView
         {
             Debug.Assert(_action != null);
 
-            await _action.WaitAsync(token);
+            //await _action.WaitAsync(token);
+            await Utility.Process.WaitAsync(_action, token);
+
             return ExtractFileName;
         }
     }

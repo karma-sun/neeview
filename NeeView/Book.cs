@@ -604,7 +604,7 @@ namespace NeeView
             {
                 page.Thumbnail.Changed += (s, e) =>
                 {
-                    ThumbnailChanged(this, page);
+                    ThumbnailChanged?.Invoke(this, page);
                 };
 
                 Pages.Add(page);

@@ -224,6 +224,15 @@ namespace NeeView
             this.ListBox.SelectedIndex = (this.ListBox.SelectedIndex + this.ListBox.Items.Count + delta) % this.ListBox.Items.Count;
             this.ListBox.UpdateLayout();
 
+            /*
+            // ブック切り替え
+            var item = this.ListBox.SelectedItem as FolderItem;
+            if (item != null)
+            {
+                Decided?.Invoke(this, item.TargetPath);
+            }
+            */
+
             // リネーム発動
             Rename_Executed(this.ListBox, null);
         }

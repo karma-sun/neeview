@@ -178,5 +178,37 @@ namespace NeeView
         {
             return ModelContext.BitmapLoaderManager.IsSupported(EntryName);
         }
+
+
+        /// <summary>
+        /// パスからエントリ作成
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static ArchiveEntry Create(string path)
+        {
+            var entry = new ArchiveEntry();
+
+            entry.EntryName = path;
+
+            var directoryInfo = new DirectoryInfo(path);
+            if (directoryInfo.Exists)
+            {
+                entry.Length = -1;
+                entry.LastWriteTime = directoryInfo.LastWriteTime;
+                return entry;
+            }
+
+            var fileInfo = new FileInfo(path);
+            if (fileInfo.Exists)
+            {
+                entry.Length = fileInfo.Length;
+                entry.LastWriteTime = fileInfo.LastWriteTime;
+                return entry;
+            }
+
+            return entry;
+        }
     }
 }
+

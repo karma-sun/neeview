@@ -268,7 +268,9 @@ namespace NeeView
                     foreach (var file in files)
                     {
                         // copy
-                        var bytes = await Task.Run(async () => { await Task.Yield(); return System.IO.File.ReadAllBytes(file); });
+                        //var bytes = await Task.Run(async () => { await Task.Yield(); return System.IO.File.ReadAllBytes(file); });
+                        var bytes = await Task.Run(() => System.IO.File.ReadAllBytes(file));
+
                         string fileName = await DownloadToFileAsync(bytes, System.IO.Path.GetFileName(file), downloadPath);
                         if (fileName != null) fileNames.Add(fileName);
                     }

@@ -155,7 +155,7 @@
                                       IsChecked="{Binding Preference.book_is_prioritize_pagemove}" />
 
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ送りコマンドの重複許可"
-                                      ToolTip="連続して発行されたページ送りコマンドを処理します。OFFの場合はキャンセルされます"
+                                      ToolTip="実行したコマンドの回数分ページを進めます。OFFの場合はキャンセルされます"
                                       IsChecked="{Binding Preference.book_allow_multiple_pagemove}" />
 
 

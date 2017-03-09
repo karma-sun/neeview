@@ -100,7 +100,6 @@ namespace NeeView
         // ファイル情報：ファイルサイズ
         public long Length => Entry.Length;
 
-
         // コンテンツ幅
         public double Width => Content.Size.Width;
 
@@ -312,7 +311,7 @@ namespace NeeView
         /// <returns></returns>
         public async Task LoadThumbnailAsync(QueueElementPriority priority)
         {
-            await LoadAsync(priority, CancellationToken.None);
+            await LoadThumbnailAsync(priority, CancellationToken.None);
         }
 
         /// <summary>

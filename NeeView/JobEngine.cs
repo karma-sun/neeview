@@ -135,12 +135,25 @@ namespace NeeView
         /// <returns></returns>
         public async Task WaitAsync(CancellationToken token)
         {
+#if DEBUG
+            // TODO: ここの処理がとってもあやしい
+            // await Task.Run(() => _task.Wait(token));
+            // この形、token等の例外発生時にタスクが消える？
+
+
             await Task.Run(() => _job.Completed.Wait(10000, token));
+
 
             if (!_job.Completed.IsSet && !token.IsCancellationRequested)
             {
+                // ## なにかがおかしい
                 Debug.WriteLine("TIMEOUT!");
+                Debugger.Break();
+                throw new OperationCanceledException();
             }
+#else
+            await Task.Run(() => _job.Completed.Wait(token));
+#endif
         }
 
         #region 開発用
@@ -432,13 +445,14 @@ namespace NeeView
                 }
                 catch (OperationCanceledException)
                 {
+                    Debug.WriteLine($"JOB TASK CANCELED.");
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine($"JOB EXCEPTION: {e.Message}");
                     Message = e.Message;
                     Action<Exception> action = (exception) => { throw new ApplicationException("タスク内部エラー", exception); };
-                    App.Current.Dispatcher.BeginInvoke(action, e);
+                    App.Current?.Dispatcher.BeginInvoke(action, e);
                 }
             },
             _cancellationTokenSource.Token);

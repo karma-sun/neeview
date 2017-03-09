@@ -63,7 +63,9 @@ namespace NeeView.Utility
 
             RenderTargetBitmap bmp = null;
 
-            App.Current.Dispatcher.Invoke(() =>
+            if (App.Current == null) return null;
+
+            App.Current?.Dispatcher.Invoke(() =>
             {
                 var canvas = new Canvas();
                 canvas.Width = width;

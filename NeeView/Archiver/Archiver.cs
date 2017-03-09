@@ -168,8 +168,11 @@ namespace NeeView
 
             try
             {
-                var proc = new Utility.AsynchronousAction<List<ArchiveEntry>>();
-                var entry = await proc.ExecuteAsync(GetEntriesFunc, token);
+                //var proc = new Utility.AsynchronousAction<List<ArchiveEntry>>();
+                //var entry = await proc.ExecuteAsync(GetEntriesFunc, token);
+
+                var entry = await Utility.Process.FuncAsync(GetEntriesFunc, token);
+
                 Debug.WriteLine($"Entry: done.: {this.Path}");
                 return entry;
             }

@@ -1191,33 +1191,22 @@ namespace NeeView
         }
         #endregion
 
+        /// <summary>
+        /// FileInfoControlViewModel property.
+        /// </summary>
+        public FileInfoControlViewModel FileInfoControlViewModel { get; } = new FileInfoControlViewModel();
+
+        //
         private void UpdateFileInfoContent()
         {
-            FileInfoContent = IsVisibleFileInfo ? _mainContent : null;
+            FileInfoControlViewModel.ViewContent = IsVisibleFileInfo ? _mainContent : null; ;
         }
-
-        #region Property: FileInfoContent
-        private ViewContent _fileInfoContent;
-        public ViewContent FileInfoContent
-        {
-            get { return _fileInfoContent; }
-            set
-            {
-                if (_fileInfoContent != value)
-                {
-                    _fileInfoContent = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-        #endregion
 
         #region Property: FileInfoSetting
-        private FileInfoSetting _fileInfoSetting;
         public FileInfoSetting FileInfoSetting
         {
-            get { return _fileInfoSetting; }
-            set { _fileInfoSetting = value; RaisePropertyChanged(); }
+            get { return FileInfoControlViewModel.Setting; }
+            set { FileInfoControlViewModel.Setting = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -2235,7 +2224,7 @@ namespace NeeView
                             //var filePageContext = source.SourceContent as FilePageContent;
                             //content.Info = new FileBasicInfo(); // null; // filePageContext.Info;
                             //content.Info.Decoder = null;
-                            content.Size = new Size(480, 680);
+                            content.Size = new Size(480, 480);
                         }
                         else if (!source.Content.IsLoaded)
                         {

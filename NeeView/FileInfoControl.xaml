@@ -43,6 +43,7 @@
             <!-- Thumbnail -->
             <Grid x:Name="GroupThumbnail" Width="64" Height="64" HorizontalAlignment="Left">
                 <Image x:Name="Thumbnail" MaxWidth="64" MaxHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                       Source="{Binding ThumbnailBitmap.BitmapSource}"
                        UseLayoutRounding="True"
                        RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform">
                     <Image.Effect>
@@ -52,20 +53,20 @@
             </Grid>
 
             <!-- Parameters -->
-            <local:FileInfoItem x:Name="ItemFileName" Header="ファイル名" Text="{Binding FileName}"/>
-            <local:FileInfoItem x:Name="ItemLastWriteTime" Header="日付" />
-            <local:FileInfoItem x:Name="ItemFileSize" Header="サイズ" Text="{Binding BitmapInfo.FileSize, StringFormat=#\,0 KB}"/>
-            <local:FileInfoItem x:Name="ItemSize" Header="サイズ"/>
+            <local:FileInfoItem x:Name="ItemFileName" Header="ファイル名" Text="{Binding ViewContent.FileName}"/>
+            <local:FileInfoItem x:Name="ItemLastWriteTime" Header="日付" Text="{Binding LastWriteTime}"/>
+            <local:FileInfoItem x:Name="ItemFileSize" Header="サイズ" Text="{Binding FileSize}"/>
+            <local:FileInfoItem x:Name="ItemSize" Header="サイズ" Text="{Binding ImageSize}"/>
 
-            <local:FileInfoItem x:Name="ItemShotInfo" Header="撮影情報" />
-            <local:FileInfoItem x:Name="ItemISOSpeedRatings" Header="ISO"/>
-            <local:FileInfoItem x:Name="ItemModel" Header="デバイス"/>
-            <local:FileInfoItem x:Name="ItemFilePlace" Header="フォルダーのパス" Text="{Binding FolderPlace}"/>
-            <Button x:Name="OpenPlaceButton" Click="OpenPlaceButton_Click" HorizontalAlignment="Left" Margin="-5,-3,0,0">
+            <local:FileInfoItem x:Name="ItemShotInfo" Header="撮影情報" Text="{Binding ShotInfo}" />
+            <local:FileInfoItem x:Name="ItemISOSpeedRatings" Header="ISO" Text="{Binding ISOSpeedRatings}"/>
+            <local:FileInfoItem x:Name="ItemModel" Header="デバイス" Text="{Binding Model}"/>
+            <local:FileInfoItem x:Name="ItemFilePlace" Header="フォルダーのパス" Text="{Binding ViewContent.FolderPlace}"/>
+            <Button x:Name="OpenPlaceButton" Command="{Binding OpenPlace}" HorizontalAlignment="Left" Margin="-5,-3,0,0">
                 <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding FolderPlace}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding ViewContent.FolderPlace}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -74,9 +75,9 @@
                 <TextBlock Margin="8,5" FontSize="15" Text="フォルダーを開く" Foreground="{StaticResource NVButtonForeground}"/>
             </Button>
 
-            <StackPanel x:Name="GroupLoader">
-                <local:FileInfoItem x:Name="ItemArchiver" Header="アーカイバ" />
-                <local:FileInfoItem x:Name="ItemDecoder" Header="デコーダー" />
+            <StackPanel x:Name="GroupLoader" Visibility="{Binding LoaderVisibility}">
+                <local:FileInfoItem x:Name="ItemArchiver" Header="アーカイバ" Text="{Binding Archiver}" />
+                <local:FileInfoItem x:Name="ItemDecoder" Header="デコーダー" Text="{Binding Decoder}"/>
             </StackPanel>
 
         </StackPanel>

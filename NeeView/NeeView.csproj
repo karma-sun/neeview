@@ -157,6 +157,7 @@
     <Compile Include="Page\PageContent.cs" />
     <Compile Include="Page\PageJob.cs" />
     <Compile Include="Page\Thumbnail.cs" />
+    <Compile Include="Page\ThumbnailBitmap.cs" />
     <Compile Include="Page\ThumbnailCache.cs" />
     <Compile Include="Page\ThumbnailPool.cs" />
     <Compile Include="SizeString.cs" />

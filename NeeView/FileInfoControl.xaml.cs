@@ -72,122 +72,233 @@ namespace NeeView
     /// </summary>
     public partial class FileInfoControl : UserControl
     {
-        public FileInfoSetting Setting
-        {
-            get { return (FileInfoSetting)GetValue(SettingProperty); }
-            set { SetValue(SettingProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Setting.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SettingProperty =
-            DependencyProperty.Register("Setting", typeof(FileInfoSetting), typeof(FileInfoControl), new PropertyMetadata(new FileInfoSetting()));
-
-
-
-        // コンストラクタ
         public FileInfoControl()
         {
             InitializeComponent();
-
-            var descripter = DependencyPropertyDescriptor.FromProperty(UserControl.DataContextProperty, typeof(FileInfoControl));
-            descripter.AddValueChanged(this, OnDataContextChanged);
-
-            var descripter2 = DependencyPropertyDescriptor.FromProperty(FileInfoControl.SettingProperty, typeof(FileInfoControl));
-            descripter2.AddValueChanged(this, OnDataContextChanged);
         }
+    }
 
-        //
-        private class StringSet
+
+    /// <summary>
+    /// FileInfoControl ViewModel
+    /// </summary>
+    public class FileInfoControlViewModel : INotifyPropertyChanged
+    {
+        /// <summary>
+        /// PropertyChanged event. 
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
-            public string Size { get; set; }
-            public string FileSize { get; set; }
-            public string ShotInfo { get; set; }
-            public string ISOSpeedRatings { get; set; }
-            public string Model { get; set; }
-            public string LastWriteTime { get; set; }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        //
-        private void SetString(StringSet strings)
+        /// <summary>
+        /// Setting property.
+        /// </summary>
+        private FileInfoSetting _Setting;
+        public FileInfoSetting Setting
         {
-            this.ItemSize.Text = strings.Size;
-            this.ItemFileSize.Text = strings.FileSize;
-            this.ItemShotInfo.Text = strings.ShotInfo;
-            this.ItemISOSpeedRatings.Text = strings.ISOSpeedRatings;
-            this.ItemModel.Text = strings.Model;
-            this.ItemLastWriteTime.Text = strings.LastWriteTime;
+            get { return _Setting; }
+            set { if (_Setting != value) { _Setting = value; Update(); RaisePropertyChanged(); } }
         }
+
+
+        /// <summary>
+        /// ViewContent property.
+        /// </summary>
+        private ViewContent _viewContent;
+        public ViewContent ViewContent
+        {
+            get { return _viewContent; }
+            set { if (_viewContent != value) { _viewContent = value; Update(); RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// Thumbnail Bitmap
+        /// </summary>
+        public ThumbnailBitmap ThumbnailBitmap { get; set; } = new ThumbnailBitmap();
+
+
+        /// <summary>
+        /// ImageSize property.
+        /// </summary>
+        private string _ImageSize;
+        public string ImageSize
+        {
+            get { return _ImageSize; }
+            set { if (_ImageSize != value) { _ImageSize = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// FileSize property.
+        /// </summary>
+        private string _FileSize;
+        public string FileSize
+        {
+            get { return _FileSize; }
+            set { if (_FileSize != value) { _FileSize = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// ShotInfo property.
+        /// </summary>
+        private string _ShotInfo;
+        public string ShotInfo
+        {
+            get { return _ShotInfo; }
+            set { if (_ShotInfo != value) { _ShotInfo = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// ISOSpeedRatings property.
+        /// </summary>
+        private string _ISOSpeedRatings;
+        public string ISOSpeedRatings
+        {
+            get { return _ISOSpeedRatings; }
+            set { if (_ISOSpeedRatings != value) { _ISOSpeedRatings = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// Model property.
+        /// </summary>
+        private string _Model;
+        public string Model
+        {
+            get { return _Model; }
+            set { if (_Model != value) { _Model = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// LastWriteTime property.
+        /// </summary>
+        private string _LastWriteTime;
+        public string LastWriteTime
+        {
+            get { return _LastWriteTime; }
+            set { if (_LastWriteTime != value) { _LastWriteTime = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// LoaderVisibility property.
+        /// </summary>
+        private Visibility _LoaderVisibility = Visibility.Collapsed;
+        public Visibility LoaderVisibility
+        {
+            get { return _LoaderVisibility; }
+            set { if (_LoaderVisibility != value) { _LoaderVisibility = value; RaisePropertyChanged(); } }
+        }
+
+
+
+        /// <summary>
+        /// Archiver property.
+        /// </summary>
+        private string _Archiver;
+        public string Archiver
+        {
+            get { return _Archiver; }
+            set { if (_Archiver != value) { _Archiver = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// Decoder property.
+        /// </summary>
+        private string _Decoder;
+        public string Decoder
+        {
+            get { return _Decoder; }
+            set { if (_Decoder != value) { _Decoder = value; RaisePropertyChanged(); } }
+        }
+
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public FileInfoControlViewModel()
+        {
+        }
+
 
         // コンテンツの切り替わりで内容更新
-        private void OnDataContextChanged(object sender, EventArgs e)
+        public void Update()
         {
             if (Setting != null)
             {
-                //this.GroupThumbnail.Visibility = Setting.IsVisibleThumbnail ? Visibility.Visible : Visibility.Collapsed;
-                this.GroupLoader.Visibility = Setting.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed;
+                LoaderVisibility = Setting.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed;
             }
 
-            var strings = new StringSet();
-
-            var content = (sender as FileInfoControl)?.DataContext as ViewContent;
-            if (content != null)
+            var bitmapContent = _viewContent?.Content as BitmapContent;
+            if (bitmapContent?.BitmapInfo != null)
             {
-                try
-                {
-                    var bitmapContent = content.Content as BitmapContent;
-                    if (bitmapContent?.BitmapInfo != null)
-                    {
-                        this.Thumbnail.Source = bitmapContent.Thumbnail.BitmapSource;
+                // サムネイル設定
+                ThumbnailBitmap.Set(bitmapContent.Thumbnail);
 
-                        strings.Size = string.Format("{0} x {1}", bitmapContent.Size.Width, bitmapContent.Size.Height);
-                        if (Setting.IsVisibleBitsPerPixel) strings.Size += string.Format(" ({0}bit)", bitmapContent.BitmapInfo.BitsPerPixel);
+                // 画像サイズ表示
+                ImageSize = $"{bitmapContent.Size.Width} x {bitmapContent.Size.Height}" + (Setting.IsVisibleBitsPerPixel ? $" ({bitmapContent.BitmapInfo.BitsPerPixel}bit)" : "");
 
-                        if (bitmapContent.BitmapInfo.Length >= 0)
-                        {
-                            strings.FileSize = string.Format("{0:#,0} KB", bitmapContent.BitmapInfo.Length > 0 ? (bitmapContent.BitmapInfo.Length + 1023) / 1024 : 0);
-                        }
-                        DateTime? lastWriteTime = bitmapContent.BitmapInfo.LastWriteTime;
-                        if (bitmapContent.BitmapInfo.Exif != null)
-                        {
-                            var exif = bitmapContent.BitmapInfo.Exif;
-                            strings.ShotInfo = exif.ShotInfo;
-                            strings.ISOSpeedRatings = exif.ISOSpeedRatings > 0 ? exif.ISOSpeedRatings.ToString() : null;
-                            strings.Model = exif.Model;
+                // ファイルサイズ表示
+                FileSize = bitmapContent.BitmapInfo.Length >= 0 ? string.Format("{0:#,0} KB", bitmapContent.BitmapInfo.Length > 0 ? (bitmapContent.BitmapInfo.Length + 1023) / 1024 : 0) : null;
 
-                            if (Setting.IsUseExifDateTime && exif.LastWriteTime != null) lastWriteTime = exif.LastWriteTime;
-                        }
-                        strings.LastWriteTime = lastWriteTime?.ToString("yyyy年M月d日 dddd H:mm");
+                // EXIF
+                var exif = bitmapContent.BitmapInfo.Exif;
 
-                        this.ItemArchiver.Text = bitmapContent.BitmapInfo.Archiver;
-                        this.ItemDecoder.Text = (bitmapContent is AnimatedContent) ? "MediaPlayer" : bitmapContent.BitmapInfo.Decoder;
-                    }
-                    else
-                    {
-                        this.Thumbnail.Source = null;
-                        this.ItemArchiver.Text = null;
-                        this.ItemDecoder.Text = null;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
+                // EXIF: ShotInfo
+                ShotInfo = exif?.ShotInfo;
+
+                // EXIF: ISO Speed Raging
+                ISOSpeedRatings = exif != null && exif.ISOSpeedRatings > 0 ? exif.ISOSpeedRatings.ToString() : null;
+
+                // EXIF: Model
+                Model = exif?.Model;
+
+                // 更新日
+                DateTime? lastWriteTime = (Setting.IsUseExifDateTime && exif?.LastWriteTime != null)
+                    ? exif.LastWriteTime
+                    : bitmapContent.BitmapInfo.LastWriteTime;
+                LastWriteTime = lastWriteTime?.ToString("yyyy年M月d日 dddd H:mm");
+
+                // アーカイバ
+                Archiver = bitmapContent.BitmapInfo.Archiver;
+
+                // デコーダ
+                Decoder = (bitmapContent is AnimatedContent) ? "MediaPlayer" : bitmapContent.BitmapInfo.Decoder;
             }
-
-            SetString(strings);
+            else
+            {
+                ThumbnailBitmap.Reset();
+                ImageSize = null;
+                FileSize = null;
+                ShotInfo = null;
+                ISOSpeedRatings = null;
+                Model = null;
+                LastWriteTime = null;
+                Archiver = null;
+                Decoder = null;
+            }
         }
 
-        //
-        private void OpenPlaceButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// OpenPlace command.
+        /// </summary>
+        private RelayCommand _OpenPlace;
+        public RelayCommand OpenPlace
         {
-            var content = this.DataContext as ViewContent;
-            if (content != null)
+            get { return _OpenPlace = _OpenPlace ?? new RelayCommand(OpenPlace_Executed); }
+        }
+
+        private void OpenPlace_Executed()
+        {
+            if (_viewContent != null)
             {
-                if (!string.IsNullOrWhiteSpace(content.FilePlace))
+                if (!string.IsNullOrWhiteSpace(_viewContent.FilePlace))
                 {
-                    System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + content.FilePlace + "\"");
+                    System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + _viewContent.FilePlace + "\"");
                 }
             }
         }
+
     }
 }

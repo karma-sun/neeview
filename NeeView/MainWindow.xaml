@@ -242,7 +242,7 @@
                         <Grid>
                             <!-- 情報エリア -->
                             <Grid x:Name="InfoArea" MouseLeftButtonDown="InfoArea_MouseLeftButtonDown">
-                                <local:FileInfoControl Setting="{Binding DataContext.FileInfoSetting, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" DataContext="{Binding FileInfoContent}">
+                                <local:FileInfoControl DataContext="{Binding FileInfoControlViewModel}">
                                     <local:FileInfoControl.Style>
                                         <Style TargetType="local:FileInfoControl">
                                             <Setter Property="Visibility" Value="Visible"/>

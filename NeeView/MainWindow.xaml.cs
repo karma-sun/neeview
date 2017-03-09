@@ -685,7 +685,7 @@ namespace NeeView
                     }
                     else if (gesture is MouseWheelGesture)
                     {
-                        _mouseWheel.MouseWheelEventHandler += (s, x) => { if (gesture.Matches(this, x)) { WheelCommandExecute(e.Value, x); x.Handled = true; } };
+                        _mouseWheel.MouseWheelEventHandler += (s, x) => { if (gesture.Matches(this, x)) { WheelCommandExecute(e.Value, x); } };
                     }
                     else
                     {

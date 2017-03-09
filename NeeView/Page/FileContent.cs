@@ -23,8 +23,6 @@ namespace NeeView
                 Icon = icon,
                 Message = message,
             };
-
-            IsLoaded = true;
         }
     }
 }

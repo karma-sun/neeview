@@ -55,6 +55,11 @@ namespace NeeView
         /// </summary>
         public event EventHandler Loaded;
 
+        protected void RaiseLoaded()
+        {
+            Loaded?.Invoke(this, null);
+        }
+
         /// <summary>
         /// アーカイブエントリー
         /// </summary>
@@ -80,20 +85,8 @@ namespace NeeView
         /// <summary>
         /// IsLoaded property.
         /// </summary>
-        private bool _IsLoaded;
-        public bool IsLoaded
-        {
-            get { return _IsLoaded; }
-            set
-            {
-                if (_IsLoaded != value)
-                {
-                    _IsLoaded = value;
-                    if (_IsLoaded) Loaded?.Invoke(this, null);
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        public virtual bool IsLoaded => true;
+
 
 
         /// <summary>

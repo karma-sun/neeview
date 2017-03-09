@@ -50,7 +50,7 @@ namespace NeeView
             get { return _message; }
             set
             {
-                if (Index == 9) Debug.WriteLine($">> {value}");
+                ////if (Index == 9) Debug.WriteLine($">> {value}");
                 _message = value;
                 RaisePropertyChangedDebug();
             }

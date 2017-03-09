@@ -72,6 +72,10 @@ namespace NeeView
         /// <param name="e"></param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+#if DEBUG
+            ////InitializeException();
+#endif
+
             // 環境初期化
             Config = new Config();
             Config.Initialize();
@@ -273,5 +277,38 @@ namespace NeeView
             this.Shutdown();
 #endif
         }
+
+
+
+#if DEBUG
+        /// <summary>
+        /// 全ての最終例外をキャッチ
+        /// </summary>
+        private void InitializeException()
+        {
+            // 全ての最終例外をキャッチ
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        }
+
+        /// <summary>
+        /// 例外取得
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var exception = e.ExceptionObject as Exception;
+            if (exception == null)
+            {
+                MessageBox.Show("System.Exceptionとして扱えない例外");
+                return;
+            }
+            else
+            {
+                Debug.WriteLine($"*** {exception.Message}");
+            }
+
+        }
+#endif
     }
 }

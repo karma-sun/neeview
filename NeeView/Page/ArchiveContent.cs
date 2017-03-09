@@ -20,6 +20,14 @@ namespace NeeView
     /// </summary>
     public class ArchiveContent : BitmapContent
     {
+        /// <summary>
+        /// コンテンツ有効フラグは常にfalse
+        /// </summary>
+        public override bool IsLoaded => false;
+
+        /// <summary>
+        /// サムネイルにするエントリ名
+        /// </summary>
         private string _entryName;
 
         /// <summary>
@@ -36,7 +44,6 @@ namespace NeeView
                 Icon = FilePageIcon.Alart,
                 Message = "このページはサムネイル作成専用です",
             };
-            IsLoaded = true;
         }
 
         /// <summary>

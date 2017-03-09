@@ -121,7 +121,7 @@ namespace NeeView
             else
             {
                 _jobRequest = ModelContext.JobEngine.Add(this, _command, priority);
-                if (_page.Index == 9 ) _jobRequest.SetDebug();
+                ////if (_page.Index == 9 ) _jobRequest.SetDebug();
                 _jobRequest.Logged += (e) => _page.Message = e;
                 _page.Message = $"{_jobRequest.Serial}: Open.1 ...({priority})";
             }

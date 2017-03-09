@@ -45,6 +45,8 @@ namespace NeeView
         public bool IsMarked { get; set; }
     }
 
+
+
     /// <summary>
     /// 本：設定
     /// </summary>
@@ -84,6 +86,13 @@ namespace NeeView
     /// </summary>
     public class Book : IDisposable
     {
+        // Log用
+        public static TraceSource Log = Logger.CreateLogger(nameof(Book));
+        public static int _serial = 0;
+
+        // Log用 シリアル番号
+        public int Serial { get; private set; }
+
         // 環境
         private BookEnvironment _environment { get; } = new BookEnvironment();
 
@@ -357,14 +366,20 @@ namespace NeeView
         private PageThumbnailPool _thumbnaulPool = new PageThumbnailPool();
 
 
-        // 排他処理用ロックオブジェクト
-        private object _lock = new object();
-
         // 本の読み込み
         #region LoadBook
 
         // 読み込み対象外サブフォルダ数。リカーシブ確認に使用します。
         public int SubFolderCount { get; private set; }
+
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        public Book()
+        {
+            Serial = ++_serial;
+        }
 
 
         /// <summary>
@@ -379,10 +394,16 @@ namespace NeeView
         {
             try
             {
+                Log.TraceEvent(TraceEventType.Information, Serial, $"Load: {path}");
+                Log.Flush();
+
                 await LoadCoreAsync(path, start, option, token);
             }
-            catch
+            catch (Exception e)
             {
+                Log.TraceEvent(TraceEventType.Warning, Serial, $"Load Failed: {e.Message}");
+                Log.Flush();
+
                 Dispose();
                 throw;
             }
@@ -493,6 +514,7 @@ namespace NeeView
             }
             catch (OperationCanceledException)
             {
+                Debug.WriteLine($"[CanceledException]: {this}.{nameof(ReadArchiveAsync)}: Canceled.");
                 archiver.Dispose();
                 throw;
             }
@@ -954,24 +976,17 @@ namespace NeeView
             this.ThumbnailChanged = null;
             this.ViewContentsChanged = null;
 
-            lock (_lock)
-            {
-                _viewContext = new ViewPageContext();
+            _viewContext = new ViewPageContext();
 
-                Pages?.ForEach(e => e?.Dispose());
-                Pages?.Clear();
+            Pages?.ForEach(e => e?.Dispose());
+            _archivers?.ForEach(e => e.Dispose());
+            _trashBox?.Clear();
 
-                _archivers?.ForEach(e => e.Dispose());
-                _archivers?.Clear();
-
-                _trashBox?.Clear();
-
-                _commandEngine.Terminate();
-            }
+            _commandEngine.Dispose();
 
             MemoryControl.Current.GarbageCollect();
 
-            Debug.WriteLine("Book: Disposed.");
+            ////Debug.WriteLine("Book: Disposed.");
         }
 
         internal async Task Remove_Executed(BookCommandRemoveArgs param, CancellationToken token)
@@ -1186,31 +1201,30 @@ namespace NeeView
         /// </summary>
         public void UpdateViewContents()
         {
-            lock (_lock)
+            if (_isDisposed) return;
+
+            // update contents
+            var viewContent = CreateViewPageContext(_viewContextSource);
+            if (viewContent == null) return;
+
+            _viewContext = viewContent;
+
+            // notice ViewContentsChanged
+            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()
             {
-                if (_isDisposed) return;
+                Type = ViewSourceType.Content,
+                Sources = viewContent.ViewContentsSource,
+                Direction = viewContent.Direction
+            }));
 
-                // update contents
-                var viewContent = CreateViewPageContext(_viewContextSource);
-                _viewContext = viewContent;
+            // change page
+            DisplayIndex = viewContent.Position.Index;
 
-                // notice ViewContentsChanged
-                App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()
-                {
-                    Type = ViewSourceType.Content,
-                    Sources = viewContent.ViewContentsSource,
-                    Direction = viewContent.Direction
-                }));
+            // notice PropertyChanged
+            PageChanged?.Invoke(this, viewContent.Position.Index);
 
-                // change page
-                DisplayIndex = viewContent.Position.Index;
-
-                // notice PropertyChanged
-                PageChanged?.Invoke(this, viewContent.Position.Index);
-
-                // コンテンツ準備完了
-                ContentLoaded.Set();
-            }
+            // コンテンツ準備完了
+            ContentLoaded.Set();
         }
 
 

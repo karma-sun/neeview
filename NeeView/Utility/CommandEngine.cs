@@ -95,13 +95,18 @@ namespace NeeView.Utility
             // execute
             try
             {
-                OnExecuting();
                 await ExecuteAsync(_cancellationTokenSource.Token);
                 Result = CommandResult.Completed;
             }
             catch (OperationCanceledException)
             {
                 Result = CommandResult.Canceled;
+                OnCanceled();
+            }
+            catch (Exception e)
+            {
+                OnException(e);
+                throw;
             }
         }
 
@@ -114,12 +119,6 @@ namespace NeeView.Utility
             await Task.Run(() => _complete.Wait());
         }
 
-        /// <summary>
-        /// コマンド実行前処理
-        /// </summary>
-        protected virtual void OnExecuting()
-        {
-        }
 
         /// <summary>
         /// コマンド実行(abstract)
@@ -127,6 +126,22 @@ namespace NeeView.Utility
         /// <param name="token"></param>
         /// <returns></returns>
         protected abstract Task ExecuteAsync(CancellationToken token);
+
+
+        /// <summary>
+        /// コマンドキャンセル時
+        /// </summary>
+        protected virtual void OnCanceled()
+        {
+        }
+
+        /// <summary>
+        /// コマンド例外時
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnException(Exception e)
+        {
+        }
     }
 
 
@@ -134,7 +149,7 @@ namespace NeeView.Utility
     /// <summary>
     /// コマンドエンジン
     /// </summary>
-    public class CommandEngine
+    public class CommandEngine : IDisposable
     {
         // ワーカータスクのキャンセルトークン
         private CancellationTokenSource _cancellationTokenSource;
@@ -207,7 +222,7 @@ namespace NeeView.Utility
         /// <summary>
         /// ワーカータスク終了
         /// </summary>
-        public void Terminate()
+        public virtual void Dispose()
         {
             lock (_lock)
             {

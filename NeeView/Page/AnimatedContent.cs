@@ -17,6 +17,8 @@ namespace NeeView
     /// </summary>
     public class AnimatedContent : BitmapContent
     {
+        public override bool IsLoaded => FileProxy != null;
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -41,7 +43,7 @@ namespace NeeView
             // TempFileに出力し、これをMediaPlayerに再生させる
             CreateTempFile(true);
 
-            this.IsLoaded = true;
+            RaiseLoaded();
 
             // サムネイル作成
             if (Thumbnail.IsValid) return;

@@ -34,7 +34,7 @@ namespace NeeView
         public ThumbnailCacheHeader(string name, long length, DateTime? lastUpdateTime, string appendix)
         {
             string source = $"thumb://{name}:{length}:{lastUpdateTime}:{appendix}";
-            Debug.WriteLine($"Cache: {source}");
+            ////Debug.WriteLine($"Cache: {source}");
             this.Hash = GetSha256(source);
         }
 

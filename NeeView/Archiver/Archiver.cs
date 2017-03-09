@@ -168,17 +168,14 @@ namespace NeeView
 
             try
             {
-                //var proc = new Utility.AsynchronousAction<List<ArchiveEntry>>();
-                //var entry = await proc.ExecuteAsync(GetEntriesFunc, token);
-
                 var entry = await Utility.Process.FuncAsync(GetEntriesFunc, token);
-
-                Debug.WriteLine($"Entry: done.: {this.Path}");
+                ////Debug.WriteLine($"Entry: done.: {this.Path}");
                 return entry;
             }
             catch (OperationCanceledException)
             {
-                Debug.WriteLine($"Entry: Canceled!: {this.Path}");
+                ////Debug.WriteLine($"[CanceledException]: {this}.{nameof(GetEntriesAsync)}: Cabceled.");
+                ////Debug.WriteLine($"Entry: Canceled!: {this.Path}");
                 throw;
             }
         }

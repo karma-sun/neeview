@@ -43,29 +43,30 @@ namespace NeeView
         /// </summary>
         protected Book _book { get; private set; }
 
-        /// <summary>
-        /// 開発用：コマンド発動時間の計測
-        /// </summary>
-        //public Stopwatch StopWatch { get; set; } = new Stopwatch();
 
-        /// <summary>
-        /// 開発用：コマンド登録前処理
-        /// </summary>
-        internal void OnEncueueing()
+        //
+        protected sealed override async Task ExecuteAsync(CancellationToken token)
         {
-            //StopWatch.Start();
+            Book.Log.TraceEvent(TraceEventType.Information, _book.Serial, $"{this} ...");
+            await OnExecuteAsync(token);
+            Book.Log.TraceEvent(TraceEventType.Information, _book.Serial, $"{this} done.");
         }
 
-        /// <summary>
-        /// 開発用：コマンド実行前処理
-        /// </summary>
-        protected override void OnExecuting()
+        //
+        protected abstract Task OnExecuteAsync(CancellationToken token);
+
+        //
+        protected override void OnCanceled()
         {
-            //StopWatch.Stop();
-            //Debug.WriteLine($"> {this}: {StopWatch.ElapsedMilliseconds}ms");
-            base.OnExecuting();
+            Book.Log.TraceEvent(TraceEventType.Information, _book.Serial, $"{this} canceled.");
         }
 
+        //
+        protected override void OnException(Exception e)
+        {
+            Book.Log.TraceEvent(TraceEventType.Error, _book.Serial, $"{this} exception: {e.Message}\n{e.StackTrace}");
+            Book.Log.Flush();
+        }
     }
 
 
@@ -88,7 +89,7 @@ namespace NeeView
             _param = param;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken token)
+        protected override async Task OnExecuteAsync(CancellationToken token)
         {
             await _book.Dispose_Executed(_param, token);
         }
@@ -115,7 +116,7 @@ namespace NeeView
             _param = param;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken token)
+        protected override async Task OnExecuteAsync(CancellationToken token)
         {
             await _book.Remove_Executed(_param, token);
         }
@@ -141,7 +142,7 @@ namespace NeeView
             _param = param;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken token)
+        protected override async Task OnExecuteAsync(CancellationToken token)
         {
             await _book.Sort_Executed(_param, token);
         }
@@ -169,7 +170,7 @@ namespace NeeView
             _param = param;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken token)
+        protected override async Task OnExecuteAsync(CancellationToken token)
         {
             await _book.Reflesh_Executed(_param, token);
         }
@@ -199,7 +200,7 @@ namespace NeeView
             _param = param;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken token)
+        protected override async Task OnExecuteAsync(CancellationToken token)
         {
             await _book.SetPage_Executed(_param, token);
         }
@@ -234,7 +235,7 @@ namespace NeeView
             _param = param;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken token)
+        protected override async Task OnExecuteAsync(CancellationToken token)
         {
             await _book.MovePage_Executed(_param, token);
         }
@@ -249,23 +250,12 @@ namespace NeeView
     /// <summary>
     /// Bookコマンドエンジン
     /// </summary>
-    internal class BookCommandEngine : Utility.CommandEngine
+    internal class BookCommandEngine : Utility.CommandEngine, IDisposable
     {
         /// <summary>
         /// Book挙動設定
         /// </summary>
         public BookEnvironment BookEnvironment { get; set; }
-
-
-        /// <summary>
-        /// コマンド登録
-        /// </summary>
-        /// <param name="command"></param>
-        public override void Enqueue(ICommand command)
-        {
-            (command as BookCommand).OnEncueueing();
-            base.Enqueue(command);
-        }
 
         /// <summary>
         /// コマンド登録前処理
@@ -317,6 +307,15 @@ namespace NeeView
                 _queue.Clear();
                 _queue.Enqueue(select);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void Dispose()
+        {
+            Book.Log.Flush();
+            base.Dispose();
         }
     }
 }

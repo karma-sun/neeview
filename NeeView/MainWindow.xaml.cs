@@ -380,12 +380,12 @@ namespace NeeView
         {
             App.Current?.Dispatcher.Invoke(() =>
             {
-                var sw = new Stopwatch();
-                sw.Start();
+                ////var sw = new Stopwatch();
+                ////sw.Start();
                 this.ThumbnailListBox.Items.Refresh();
                 this.ThumbnailListBox.UpdateLayout();
-                sw.Stop();
-                Debug.WriteLine($"ThumbnailListBox: {sw.ElapsedMilliseconds}ms");
+                ////sw.Stop();
+                ////Debug.WriteLine($"ThumbnailListBox: {sw.ElapsedMilliseconds}ms");
                 DartyThumbnailList();
                 LoadThumbnailList(+1);
             });

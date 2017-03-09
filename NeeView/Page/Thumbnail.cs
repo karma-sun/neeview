@@ -111,7 +111,7 @@ namespace NeeView
             _header = new ThumbnailCacheHeader(entry.FullName, entry.Length, entry.LastWriteTime, appendix);
             var image = ThumbnailCache.Current.Load(_header);
             sw.Stop();
-            Debug.WriteLine($"Cache Load: {IsValid}: {sw.ElapsedMilliseconds}ms");
+            ////Debug.WriteLine($"Cache Load: {IsValid}: {sw.ElapsedMilliseconds}ms");
 
             Image = image;
         }
@@ -137,7 +137,7 @@ namespace NeeView
                 sw.Start();
                 ThumbnailCache.Current.Save(_header, _image);
                 sw.Stop();
-                Debug.WriteLine($"Cache Save: {sw.ElapsedMilliseconds}ms");
+                ////Debug.WriteLine($"Cache Save: {sw.ElapsedMilliseconds}ms");
             }
         }
 

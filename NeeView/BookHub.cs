@@ -437,7 +437,7 @@ namespace NeeView
             Task.Run(async () => await RequestUnload(false).WaitAsync()).Wait(5000);
 
             // コマンドエンジン停止
-            _commandEngine.Terminate();
+            _commandEngine.Dispose();
 
             Debug.WriteLine("BookHub Disposed.");
         }

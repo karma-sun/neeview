@@ -29,6 +29,10 @@ namespace NeeView
         // bitmap info
         public BitmapInfo BitmapInfo { get; protected set; }
 
+        /// <summary>
+        /// BitmapSourceがあればコンテンツ有効
+        /// </summary>
+        public override bool IsLoaded => BitmapSource != null;
 
         /// <summary>
         /// コンストラクタ
@@ -86,8 +90,6 @@ namespace NeeView
             }
         }
 
-        //
-        private object _lock = new object();
 
         /// <summary>
         /// コンテンツロード
@@ -102,11 +104,8 @@ namespace NeeView
 
             if (!token.IsCancellationRequested)
             {
-                lock (_lock)
-                {
-                    BitmapSource = bitmap;
-                    IsLoaded = true;
-                }
+                BitmapSource = bitmap;
+                RaiseLoaded();
             }
 
             if (Thumbnail.IsValid) return;
@@ -118,23 +117,10 @@ namespace NeeView
         /// </summary>
         public override void Unload()
         {
-            bool unloaded = false;
+            PageMessage = null;
+            BitmapSource = null;
 
-            lock (_lock)
-            {
-                if (IsLoaded)
-                {
-                    PageMessage = null;
-                    IsLoaded = false;
-                    BitmapSource = null;
-                    unloaded = true;
-                }
-            }
-
-            if (unloaded)
-            {
-                MemoryControl.Current.GarbageCollect();
-            }
+            MemoryControl.Current.GarbageCollect();
         }
 
         /// <summary>

@@ -127,9 +127,6 @@
     <Compile Include="EntryCollection.cs" />
     <Compile Include="EntrySort.cs" />
     <Compile Include="FolderList\FolderCollectionParameter.cs" />
-    <Compile Include="FolderList\FolderIcon.xaml.cs">
-      <DependentUpon>FolderIcon.xaml</DependentUpon>
-    </Compile>
     <Compile Include="FolderList\FolderItem.cs" />
     <Compile Include="FolderList\FolderListControlViewModel.cs" />
     <Compile Include="FolderList\FolderListSetting.cs" />
@@ -364,10 +361,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DevPageList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FolderList\FolderIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

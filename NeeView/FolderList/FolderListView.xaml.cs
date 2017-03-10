@@ -417,4 +417,50 @@ namespace NeeView
             FocusSelectedItem(_autoFocus);
         }
     }
+
+
+    /// <summary>
+    /// IconOverlay StyleConverter
+    /// </summary>
+    public class FolderIconOverlayConverter : IValueConverter
+    {
+        public Style FolderOverlayDisable { get; set; }
+
+        public Style FolderOverlayChecked { get; set; }
+
+        public Style FolderOverlayStar { get; set; }
+
+        //
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            try
+            {
+                var overlay = (FolderItemIconOverlay)value;
+                switch (overlay)
+                {
+                    case FolderItemIconOverlay.Disable:
+                        return FolderOverlayDisable;
+                    case FolderItemIconOverlay.Star:
+                        return FolderOverlayStar;
+                    case FolderItemIconOverlay.Checked:
+                        return FolderOverlayChecked;
+                    default:
+                        return null;
+                }
+            }
+            catch
+            {
+            }
+
+            return null;
+        }
+
+        //
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
 }

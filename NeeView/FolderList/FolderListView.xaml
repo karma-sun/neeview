@@ -16,6 +16,61 @@
 
     <UserControl.Resources>
 
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
+
+        <Style TargetType="TextBlock" x:Key="FolderIcon">
+            <Setter Property="FontFamily" Value="Wingdings"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Height" Value="18"/>
+            <Setter Property="Margin" Value="0,-1,0,0"/>
+            <Setter Property="Text" Value="0"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="FolderOverlayDisable">
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="FontFamily" Value="Webdings"/>
+            <Setter Property="Text" Value="r"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="Red"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="FolderOverlayChecked">
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="FontFamily" Value="Webdings"/>
+            <Setter Property="Text" Value="a"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="{DynamicResource NVCheckMarkBrush}"/>
+            <Setter Property="Margin" Value="0,0,-4,-4"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="FolderOverlayStar">
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="FontFamily" Value="Wingdings"/>
+            <Setter Property="Text" Value="«"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="{DynamicResource NVStarMarkBrush}"/>
+            <Setter Property="Margin" Value="0,0,-4,-4"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="FolderOverlayShortcut">
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="FontFamily" Value="Wingdings"/>
+            <Setter Property="Text" Value="à"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Margin" Value="-1,0,0,1"/>
+        </Style>
+
+        <local:FolderIconOverlayConverter x:Key="FolderIconOverlayConverter"
+                                              FolderOverlayChecked="{StaticResource FolderOverlayChecked}"
+                                              FolderOverlayDisable="{StaticResource FolderOverlayDisable}"
+                                              FolderOverlayStar="{StaticResource FolderOverlayStar}"/>
+
         <Style TargetType="TextBlock" x:Key="FolderName">
             <Setter Property="Text" Value="{Binding Name}"/>
             <Setter Property="ToolTip" Value="{Binding Name}"/>
@@ -35,9 +90,19 @@
 
         <local:FileSizeToStringConverter x:Key="FileSizeToStringConverter"/>
 
+        <DataTemplate DataType="{x:Type local:FolderItem}">
+            <Grid Visibility="{Binding ., Converter={StaticResource NullableToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource FolderIcon}"
+                       Visibility="{Binding IsDirectory, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <TextBlock Style="{StaticResource FolderOverlayShortcut}" 
+                       Visibility="{Binding IsShortcut, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <TextBlock Style="{Binding IconOverlay, Converter={StaticResource FolderIconOverlayConverter}}" />
+            </Grid>
+        </DataTemplate>
+
         <DataTemplate x:Key="NormalFolder">
             <DockPanel>
-                <local:FolderIcon DockPanel.Dock="Right" FolderInfo="{Binding .}" />
+                <ContentControl DockPanel.Dock="Right" Width="24" Height="20" Content="{Binding .}"/>
                 <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}"/>
             </DockPanel>
         </DataTemplate>
@@ -47,7 +112,7 @@
                 Height="64"
                 Margin="0,1" Background="{DynamicResource NVBaseBrush}">
                 <DockPanel Margin="2">
-                    <local:FolderIcon DockPanel.Dock="Right" FolderInfo="{Binding .}" />
+                    <ContentControl DockPanel.Dock="Right" Width="24" Height="20" Content="{Binding .}"/>
                     <DockPanel>
                         <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"
                                RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"

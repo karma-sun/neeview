@@ -53,6 +53,13 @@
                 <Button x:Name="FolderHomeButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToHome}"
                         ToolTip="ホームに移動">
                     <Image Source="{StaticResource ic_home_24px_b}" Width="20" Height="20"/>
+                    <!--
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="この場所をホームに設定する" Command="{Binding SetHome}"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                    -->
                 </Button>
                 <Button x:Name="FolderPrevButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToPrevious}"
                         ContextMenuService.Placement="Bottom"

@@ -296,6 +296,22 @@ public class FolderListControlViewModel : INotifyPropertyChanged
 
 
         /// <summary>
+        /// SetHome command.
+        /// </summary>
+        private RelayCommand _SetHome;
+        public RelayCommand SetHome
+        {
+            get { return _SetHome = _SetHome ?? new RelayCommand(SetHome_Executed); }
+        }
+
+        private void SetHome_Executed()
+        {
+            if (_bookHub == null) return;
+            _bookHub.Home = _place;
+        }
+
+
+        /// <summary>
         /// MoveToHome command.
         /// </summary>
         private RelayCommand _MoveToHome;

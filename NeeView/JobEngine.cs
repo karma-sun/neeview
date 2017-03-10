@@ -43,7 +43,7 @@ namespace NeeView
 
 
         #region 開発用
-        
+
         //
         public bool IsDebug { get; set; }
 
@@ -159,15 +159,20 @@ namespace NeeView
         // 排他処理用ロック
         public object Lock { get; private set; }
 
-        // ワーカースレッド起動イベント
-        public ManualResetEvent Event { get; private set; }
+        // ジョブキュー変更通知
+        public event EventHandler JobChanged;
 
         // コンストラクト
         public JobContext()
         {
             JobQueue = new PriorityQueue<Job>();
             Lock = new object();
-            Event = new ManualResetEvent(false);
+        }
+
+        // ジョブキュー変更通知
+        public void RaiseJobChanged()
+        {
+            JobChanged?.Invoke(this, null);
         }
     }
 
@@ -264,12 +269,16 @@ namespace NeeView
                         Workers[i].Run();
                         Message = $"Create Worker[{i}]";
                     }
+
+                    // 現在のフォルダジョブのみ処理する設定
+                    Workers[i].IsPrimary = i < size - 1;
                 }
                 else
                 {
                     if (Workers[i] != null)
                     {
                         Workers[i].Cancel();
+                        Workers[i].Dispose();
                         Workers[i] = null;
                         Message = $"Delete Worker[{i}]";
                     }
@@ -277,7 +286,7 @@ namespace NeeView
             }
 
             // イベント待ち解除
-            _context.Event.Set();
+            _context.RaiseJobChanged();
 
             NotifyStatusChanged();
         }
@@ -316,7 +325,7 @@ namespace NeeView
             lock (_context.Lock)
             {
                 _context.JobQueue.Enqueue(job, priority, reverse);
-                _context.Event.Set();
+                _context.RaiseJobChanged();
                 Message = $"Add Job. {job.SerialNumber}";
             }
 
@@ -360,7 +369,7 @@ namespace NeeView
     /// <summary>
     /// ジョブワーカー
     /// </summary>
-    public class JobWorker
+    public class JobWorker : IDisposable
     {
         #region 開発用
 
@@ -402,14 +411,41 @@ namespace NeeView
         private JobContext _context;
 
         // ワーカータスクのキャンセルトークン
-        private CancellationTokenSource _cancellationTokenSource;
+        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+
+        // ジョブ待ちフラグ
+        private ManualResetEventSlim _event = new ManualResetEventSlim(false);
+
+
+        /// <summary>
+        /// 優先ワーカー.
+        /// 現在開いているフォルダに対してのジョブのみ処理する
+        /// </summary>
+        public bool IsPrimary { get; set; }
 
 
         // コンストラクタ
         public JobWorker(JobContext context)
         {
             _context = context;
-            _cancellationTokenSource = new CancellationTokenSource();
+            _context.JobChanged += Context_JobChanged;
+        }
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public void Dispose()
+        {
+            if (_context != null)
+            {
+                _context.JobChanged -= Context_JobChanged;
+            }
+        }
+
+        //
+        private void Context_JobChanged(object sender, EventArgs e)
+        {
+            _event.Set();
         }
 
 
@@ -419,11 +455,11 @@ namespace NeeView
             Message = $"Run";
 #if true
             // Task版
-            var task = Task.Run(() =>
+            var task = Task.Run(async () =>
             {
                 try
                 {
-                    WorkerExecute();
+                    await WorkerExecute();
                 }
                 catch (OperationCanceledException)
                 {
@@ -457,7 +493,7 @@ namespace NeeView
 
 
         // ワーカータスクメイン
-        private async void WorkerExecute()
+        private async Task WorkerExecute()
         {
             while (!_cancellationTokenSource.Token.IsCancellationRequested)
             {
@@ -467,12 +503,13 @@ namespace NeeView
                 lock (_context.Lock)
                 {
                     // ジョブ取り出し
-                    job = _context.JobQueue.Dequeue();
+                    var priority = IsPrimary ? QueueElementPriority.Default : QueueElementPriority.FolderThumbnail;
+                    job = _context.JobQueue.DequeueAll(priority);
 
                     // ジョブが無い場合はイベントリセット
                     if (job == null)
                     {
-                        _context.Event.Reset();
+                        _event.Reset();
                     }
                 }
 
@@ -481,7 +518,7 @@ namespace NeeView
                 {
                     IsBusy = false;
                     Message = $"wait event ...";
-                    await Task.Run(() => _context.Event.WaitOne());
+                    await Task.Run(() => _event.Wait(_cancellationTokenSource.Token));
                     continue;
                 }
 
@@ -519,5 +556,6 @@ namespace NeeView
 
             Debug.WriteLine("Task: Exit.");
         }
+
     }
 }

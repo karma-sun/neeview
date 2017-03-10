@@ -141,10 +141,11 @@ namespace NeeView
         }
 
         // 先頭要素を取得し、削除する
-        public T Dequeue()
+        public T DequeueAll(QueueElementPriority? bottom = null)
         {
             foreach (QueueElementPriority priority in Enum.GetValues(typeof(QueueElementPriority)))
             {
+                if (bottom != null && priority > bottom) break;
                 var item = Dequeue(priority);
                 if (item != null)
                 {

@@ -75,6 +75,7 @@ namespace NeeView
         ToggleVisibleHistoryList,
         ToggleVisiblePageList,
         TogglePanelStyle,
+        TogglePageListStyle,
 
         ToggleVisibleThumbnailList,
         ToggleHideThumbnailList,

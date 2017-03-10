@@ -521,6 +521,21 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// IsContentPageListStyle property.
+        /// </summary>
+        public bool IsContentPageListStyle
+        {
+            get { return this.PageListItemStyle == FolderListItemStyle.Picture; }
+            set { this.PageListItemStyle = value ? FolderListItemStyle.Picture : FolderListItemStyle.Normal; RaisePropertyChanged(); }
+        }
+
+        public void TogglePageListStyle()
+        {
+            IsContentPageListStyle = !IsContentPageListStyle;
+        }
+
+
 
 
 
@@ -824,6 +839,23 @@ namespace NeeView
                 _folderListItemStyle = value;
                 RaisePropertyChanged();
                 PanelContext.FolderListItemStyle = _folderListItemStyle;
+                RaisePropertyChanged(nameof(IsContentPanelStyle));
+            }
+        }
+        #endregion
+
+
+        // ページリスト項目表示種類
+        #region Property: PageListItemStyle
+        private FolderListItemStyle _pageListItemStyle;
+        public FolderListItemStyle PageListItemStyle
+        {
+            get { return _pageListItemStyle; }
+            set
+            {
+                _pageListItemStyle = value;
+                RaisePropertyChanged();
+                PanelContext.PageListItemStyle = _pageListItemStyle;
                 RaisePropertyChanged(nameof(IsContentPanelStyle));
             }
         }
@@ -3061,6 +3093,9 @@ namespace NeeView
             [DataMember(Order = 20)]
             public bool IsLoupeCenter { get; set; }
 
+            [DataMember(Order = 20)]
+            public FolderListItemStyle PageListItemStyle { get; set; }
+
             //
             private void Constructor()
             {
@@ -3205,6 +3240,7 @@ namespace NeeView
             memento.IsVisibleLoupeInfo = this.IsVisibleLoupeInfo;
             memento.IsSliderWithIndex = this.IsSliderWithIndex;
             memento.IsLoupeCenter = this.IsLoupeCenter;
+            memento.PageListItemStyle = this.PageListItemStyle;
 
             return memento;
         }
@@ -3272,6 +3308,7 @@ namespace NeeView
             this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
             this.IsSliderWithIndex = memento.IsSliderWithIndex;
             this.IsLoupeCenter = memento.IsLoupeCenter;
+            this.PageListItemStyle = memento.PageListItemStyle;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

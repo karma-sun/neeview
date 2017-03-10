@@ -763,6 +763,21 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsContentPanelStyle));
                 _elements[CommandType.TogglePanelStyle] = element;
             }
+            //
+            // TogglePageListStyle
+            {
+                var element = new CommandElement();
+                element.Group = "パネル";
+                element.Text = "ページリストのコンテンツ表示ON/OFF";
+                element.MenuText = "ページリストのコンテンツ表示";
+                element.Note = "ページリストをサムネイル画像つき表示にします";
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => _VM.TogglePageListStyle();
+                element.ExecuteMessage = e => _VM.IsContentPageListStyle ? "ページリストを一覧表示にする" : "ページリストをコンテンツ表示にする";
+                element.CanExecute = () => true;
+                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsContentPageListStyle));
+                _elements[CommandType.TogglePageListStyle] = element;
+            }
 
             // ToggleVisibleThumbnailList
             {

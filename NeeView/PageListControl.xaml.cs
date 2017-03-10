@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,6 +69,10 @@ namespace NeeView
         //
         private PageListControlVM _VM;
 
+        //
+        private ThumbnailHelper _thumbnailHelper;
+
+
         // constructor
         public PageListControl()
         {
@@ -78,6 +83,8 @@ namespace NeeView
             this.DockPanel.DataContext = _VM;
 
             this.PageListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, Remove_CanExec));
+
+            _thumbnailHelper = new ThumbnailHelper(this.PageListBox, _VM.RequestThumbnail);
         }
 
         //
@@ -272,6 +279,9 @@ namespace NeeView
         #endregion
 
 
+        public FolderListItemStyle PageListItemStyle => PanelContext.PageListItemStyle;
+
+
 
         public Dictionary<PageSortMode, string> PageSortModeList => PageSortModeExtension.PageSortModeList;
 
@@ -318,6 +328,10 @@ namespace NeeView
         {
             VM = vm;
             BookHub = vm.BookHub;
+
+            RaisePropertyChanged(nameof(PageListItemStyle));
+            PanelContext.PageListStyleChanged += (s, e) => RaisePropertyChanged(nameof(PageListItemStyle));
+
             Reflesh();
         }
 
@@ -338,6 +352,50 @@ namespace NeeView
         public async Task Remove(Page page)
         {
             await _bookHub.RemoveFile(page);
+        }
+
+        // サムネイル要求
+        public void RequestThumbnail(int start, int count, int margin, int direction)
+        {
+            ////Debug.WriteLine($"{start},{count},{margin},{direction}");
+            PanelContext.PageThumbnailManager.RequestThumbnail(VM.PageList, start, count, margin, direction);
+        }
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class PageNameConverter : IValueConverter
+    {
+        public Style SmartTextStyle { get; set; }
+        public Style DefaultTextStyle { get; set; }
+        public Style NameOnlyTextStyle { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                var format = (PageNameFormat)value;
+                switch (format)
+                {
+                    default:
+                    case PageNameFormat.None:
+                        return DefaultTextStyle;
+                    case PageNameFormat.Smart:
+                        return SmartTextStyle;
+                    case PageNameFormat.NameOnly:
+                        return NameOnlyTextStyle;
+                }
+            }
+            catch { }
+
+            return DefaultTextStyle;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

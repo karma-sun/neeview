@@ -35,10 +35,36 @@ namespace NeeView
             }
         }
 
+
+
+        //
+        public static event EventHandler<FolderListItemStyle> PageListStyleChanged;
+
+        //
+        public static ThumbnailManager PageThumbnailManager { get; private set; }
+
+        /// <summary>
+        /// PageListItemStyle property.
+        /// </summary>
+        private static FolderListItemStyle s_pageListItemStyle;
+        public static FolderListItemStyle PageListItemStyle
+        {
+            get { return s_pageListItemStyle; }
+            set
+            {
+                s_pageListItemStyle = value;
+                PageThumbnailManager.IsEnabled = s_pageListItemStyle == FolderListItemStyle.Picture;
+                PageListStyleChanged?.Invoke(null, s_pageListItemStyle);
+            }
+        }
+
+
+
         //
         static PanelContext()
         {
-            ThumbnailManager = new ThumbnailManager();
+            ThumbnailManager = new ThumbnailManager(QueueElementPriority.FolderThumbnail);
+            PageThumbnailManager = new ThumbnailManager(QueueElementPriority.PageListThumbnail);
         }
     }
 }

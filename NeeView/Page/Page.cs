@@ -23,7 +23,7 @@ namespace NeeView
     /// <summary>
     /// ページ
     /// </summary>
-    public abstract class Page : INotifyPropertyChanged, IDisposable
+    public abstract class Page : INotifyPropertyChanged, IDisposable, IHasPage
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -92,7 +92,6 @@ namespace NeeView
 
         // ページ名：プレフィックスを除いたフルパス のディレクトリ名(整形済)
         public string SmartDirectoryName => LoosePath.GetDirectoryName(SmartFullPath).Replace('\\', '/');
-
 
         // ファイル情報：最終更新日
         public DateTime? LastWriteTime => Entry.LastWriteTime;
@@ -398,7 +397,18 @@ namespace NeeView
             // TODO: 上のファイナライザーがオーバーライドされる場合は、次の行のコメントを解除してください。
             // GC.SuppressFinalize(this);
         }
+
         #endregion
+
+
+        /// <summary>
+        /// IHasPage interface
+        /// </summary>
+        /// <returns></returns>
+        public Page GetPage()
+        {
+            return this;
+        }
     }
 
 }

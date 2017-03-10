@@ -463,6 +463,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleHidePanel },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.TogglePanelStyle },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.TogglePageListStyle },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleThumbnailList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleHideThumbnailList },

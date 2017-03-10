@@ -39,6 +39,14 @@ namespace NeeView
         }
         #endregion
 
+        private QueueElementPriority _priority;
+
+        //
+        public ThumbnailManager(QueueElementPriority priority)
+        {
+            _priority = priority;
+        }
+
         // サムネイル要求
         public void RequestThumbnail<T>(ICollection<T> collection, int start, int count, int margin, int direction) where T : IHasPage
         {
@@ -49,7 +57,7 @@ namespace NeeView
             if (collection == null) return;
 
             // 未処理の要求を解除
-            ModelContext.JobEngine.Clear(QueueElementPriority.FolderThumbnail);
+            ModelContext.JobEngine.Clear(_priority); // TODO: これ、別のフラグのほうがいいな
 
             // 要求
             int center = start + count / 2;
@@ -59,7 +67,7 @@ namespace NeeView
 
             foreach (var page in direction < 0 ? pages.Reverse() : pages)
             {
-                page.GetPage()?.LoadThumbnail(QueueElementPriority.FolderThumbnail);
+                page.GetPage()?.LoadThumbnail(_priority);
             }
         }
     }

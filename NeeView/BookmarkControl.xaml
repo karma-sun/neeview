@@ -25,7 +25,7 @@
 
         <RoutedCommand x:Key="xRemoveDommand" />
 
-        <Style TargetType="TextBlock" x:Key="BookmarkName">
+        <Style TargetType="TextBlock" x:Key="FolderName">
             <Setter Property="Text" Value="{Binding Value.Memento.Name}"/>
             <Setter Property="ToolTip" Value="{Binding Value.Memento.Place}"/>
             <Setter Property="Margin" Value="5,0"/>
@@ -34,9 +34,19 @@
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
         </Style>
 
+        <Style TargetType="TextBlock" x:Key="FolderParameter">
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+
+        <local:FileSizeToStringConverter x:Key="FileSizeToStringConverter"/>
+
         <!-- Normal Bookmark -->
         <DataTemplate x:Key="NormalBookmark">
-            <TextBlock Style="{StaticResource BookmarkName}"/>
+            <TextBlock Style="{StaticResource FolderName}"/>
         </DataTemplate>
 
         <!-- Picture Bookmark -->
@@ -45,9 +55,18 @@
                 <DockPanel Margin="2">
                     <DockPanel>
                         <Image Source="{Binding Value.ArchivePage.Thumbnail.BitmapSource}"
-                           RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
-                           Width="60" Height="60" />
-                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource BookmarkName}" TextWrapping="Wrap"/>
+                               RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
+                               UseLayoutRounding="True"
+                               ToolTipService.IsEnabled="{Binding Value.ArchivePage.Thumbnail.IsUniqueImage}"
+                               Width="50" Height="60" Margin="5,0">
+                            <Image.ToolTip>
+                                <Image Source="{Binding Value.ArchivePage.Thumbnail.BitmapSource}"/>
+                            </Image.ToolTip>
+                        </Image>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Value.ArchivePage.Entry.RootArchiverName}" />
+                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap"/>
+                        </StackPanel>
                     </DockPanel>
                 </DockPanel>
             </Grid>

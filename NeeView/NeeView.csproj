@@ -566,6 +566,7 @@
     <Content Include="Effects\Shaders\ColorSelectEffect.fx" />
     <Content Include="Effects\Shaders\HsvEffect.fx" />
     <Content Include="Effects\Shaders\LevelEffect.fx" />
+    <Resource Include="Resources\Empty.png" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">

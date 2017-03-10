@@ -44,6 +44,12 @@ namespace NeeView
                 Icon = FilePageIcon.Alart,
                 Message = "このページはサムネイル作成専用です",
             };
+
+            // エントリが有効でない場合の処理
+            if (!entry.IsValid)
+            {
+                Thumbnail.Initialize(null);
+            }
         }
 
         /// <summary>
@@ -74,6 +80,12 @@ namespace NeeView
         {
             if (Thumbnail.IsValid) return;
 
+            if (!Entry.IsValid)
+            {
+                Thumbnail.Initialize(null);
+                return;
+            }
+
             try
             {
                 var bitmapSource = await LoadArchiveBitmapAsync(Entry, _entryName, token);
@@ -87,6 +99,7 @@ namespace NeeView
             {
                 // 例外無効
                 Debug.WriteLine($"LoadThumbnail: {e.Message}");
+                Thumbnail.Initialize(null);
             }
         }
 

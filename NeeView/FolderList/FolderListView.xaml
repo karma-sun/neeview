@@ -26,9 +26,11 @@
         </Style>
 
         <Style TargetType="TextBlock" x:Key="FolderParameter">
+            <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
         </Style>
 
         <local:FileSizeToStringConverter x:Key="FileSizeToStringConverter"/>
@@ -48,19 +50,18 @@
                     <local:FolderIcon DockPanel.Dock="Right" FolderInfo="{Binding .}" />
                     <DockPanel>
                         <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"
-                           RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
-                           UseLayoutRounding="True"
-                           Width="50" Height="60" Margin="5,0">
+                               RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
+                               UseLayoutRounding="True"
+                               ToolTipService.IsEnabled="{Binding ArchivePage.Thumbnail.IsUniqueImage}"
+                               Width="50" Height="60" Margin="5,0">
                             <Image.ToolTip>
                                 <Image Source="{Binding  ArchivePage.Thumbnail.BitmapSource}"/>
                             </Image.ToolTip>
                         </Image>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap"/>
-                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Margin="5,0">
-                                <TextBlock x:Name="LastUpdateTime" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.LastWriteTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
-                                <TextBlock x:Name="FileSize" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.Length, Converter={StaticResource FileSizeToStringConverter}}"  MinWidth="120" TextAlignment="Right" Margin="5,0,0,0"/>
-                            </StackPanel>
+                            <TextBlock x:Name="LastUpdateTime" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.LastWriteTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
+                            <TextBlock x:Name="FileSize" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.Length, Converter={StaticResource FileSizeToStringConverter}}" />
                         </StackPanel>
                     </DockPanel>
                 </DockPanel>

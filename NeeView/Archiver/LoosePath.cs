@@ -23,20 +23,21 @@ namespace NeeView
         //
         public static string TrimEnd(string s)
         {
+            if (string.IsNullOrEmpty(s)) return "";
             return s.TrimEnd(s_sepalator);
         }
 
         //
         public static string GetFileName(string s)
         {
-            if (s == null) return "";
+            if (string.IsNullOrEmpty(s)) return "";
             return s.Split(s_sepalator, StringSplitOptions.RemoveEmptyEntries).Last();
         }
 
         //
         public static string GetPathRoot(string s)
         {
-            if (s == null) return "";
+            if (string.IsNullOrEmpty(s)) return "";
             var parts = s.Split(s_sepalator, 2);
             return parts.First();
         }
@@ -44,7 +45,7 @@ namespace NeeView
         //
         public static string GetDirectoryName(string s)
         {
-            if (s == null) return "";
+            if (string.IsNullOrEmpty(s)) return "";
             var parts = s.Split(s_sepalator, StringSplitOptions.RemoveEmptyEntries).ToList();
             parts.RemoveAt(parts.Count - 1);
             return string.Join("\\", parts);
@@ -53,7 +54,7 @@ namespace NeeView
         //
         public static string GetExtension(string s)
         {
-            if (s == null) return "";
+            if (string.IsNullOrEmpty(s)) return "";
             string fileName = GetFileName(s);
             int index = fileName.LastIndexOf('.');
 

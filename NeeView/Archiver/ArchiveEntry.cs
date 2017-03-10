@@ -34,6 +34,10 @@ namespace NeeView
         /// </summary>
         public object Instance { get; set; }
 
+        /// <summary>
+        /// 有効判定
+        /// </summary>
+        public bool IsValid { get; set; } = true;
 
         // 例：
         // a.zip 
@@ -57,6 +61,12 @@ namespace NeeView
         /// </summary>
         /// a.zip
         public Archiver RootArchiver => Archiver?.RootArchiver;
+
+        /// <summary>
+        /// 所属名
+        /// </summary>
+        public string RootArchiverName => RootArchiver?.EntryName ?? LoosePath.GetFileName(LoosePath.GetDirectoryName(EntryName));
+
 
         /// <summary>
         /// ルートアーカイバからのエントリ名
@@ -207,6 +217,7 @@ namespace NeeView
                 return entry;
             }
 
+            entry.IsValid = false;
             return entry;
         }
     }

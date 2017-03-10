@@ -144,7 +144,12 @@ namespace NeeView
                 }
                 else
                 {
-                    var shortcuts = directory.EnumerateFiles() // TODO: 極端に重い時がある
+                    var sw = Stopwatch.StartNew();
+                    var fileInfos = directory.EnumerateFiles().ToList(); // TODO: 極端に重い時がある
+                    sw.Stop();
+                    Debug.WriteLine($"ListUp: {sw.ElapsedMilliseconds}ms");
+
+                    var shortcuts = fileInfos
                         .Where(e => e.Exists && Utility.FileShortcut.IsShortcut(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
                         .Select(e => new Utility.FileShortcut(e))
                         .ToList();
@@ -157,12 +162,10 @@ namespace NeeView
                     var directoryShortcuts = shortcuts
                         .Where(e => e.DirectoryInfo.Exists)
                         .Select(e => CreateFolderInfo(e))
+                        .Where(e => e != null)
                         .ToList();
 
-                    directories = directories.Concat(directoryShortcuts).Where(e => e != null).ToList();
-
-
-                    var archives = directory.EnumerateFiles()
+                    var archives = fileInfos
                         .Where(e => e.Exists && ModelContext.ArchiverManager.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
                         .Select(e => CreateFolderInfo(e))
                         .ToList();
@@ -170,29 +173,40 @@ namespace NeeView
                     var archiveShortcuts = shortcuts
                         .Where(e => e.FileInfo.Exists && ModelContext.ArchiverManager.IsSupported(e.TargetPath))
                         .Select(e => CreateFolderInfo(e))
+                        .Where(e => e != null)
                         .ToList();
-
-                    archives = archives.Concat(archiveShortcuts).Where(e => e != null).ToList();
-
 
                     if (FolderOrder == FolderOrder.TimeStamp)
                     {
                         directories = directories.OrderByDescending((e) => e.LastWriteTime).ToList();
+                        directoryShortcuts = directoryShortcuts.OrderByDescending((e) => e.LastWriteTime).ToList();
                         archives = archives.OrderByDescending((e) => e.LastWriteTime).ToList();
+                        archiveShortcuts = archiveShortcuts.OrderByDescending((e) => e.LastWriteTime).ToList();
+                    }
+                    else if (FolderOrder == FolderOrder.Size)
+                    {
+                        directories = directories.OrderBy((e) => e.LastWriteTime).ToList(); // フォルダは名前順
+                        directoryShortcuts = directoryShortcuts.OrderBy((e) => e.LastWriteTime).ToList(); // フォルダは名前順
+                        archives = archives.OrderByDescending((e) => e.Length).ToList();
+                        archiveShortcuts = archiveShortcuts.OrderByDescending((e) => e.Length).ToList();
                     }
                     else if (FolderOrder == FolderOrder.Random)
                     {
                         var random = new Random(RandomSeed);
                         directories = directories.OrderBy(e => random.Next()).ToList();
+                        directoryShortcuts = directoryShortcuts.OrderBy(e => random.Next()).ToList();
                         archives = archives.OrderBy(e => random.Next()).ToList();
+                        archiveShortcuts = archiveShortcuts.OrderBy(e => random.Next()).ToList();
                     }
                     else
                     {
                         directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a.Name, b.Name));
+                        directoryShortcuts.Sort((a, b) => Win32Api.StrCmpLogicalW(a.Name, b.Name));
                         archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a.Name, b.Name));
+                        archiveShortcuts.Sort((a, b) => Win32Api.StrCmpLogicalW(a.Name, b.Name));
                     }
 
-                    var list = directories.Concat(archives).ToList();
+                    var list = directories.Concat(directoryShortcuts).Concat(archives).Concat(archiveShortcuts).ToList();
 
                     if (list.Count <= 0)
                     {

@@ -57,6 +57,7 @@ namespace NeeView
         ToggleFolderOrder,
         SetFolderOrderByFileName,
         SetFolderOrderByTimeStamp,
+        SetFolderOrderBySize,
         SetFolderOrderByRandom,
 
         ToggleTopmost,

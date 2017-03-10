@@ -42,6 +42,7 @@ namespace NeeView
         /// </summary>
         public static int Quality => Preference.Current.thumbnail_quality;
 
+
         /// <summary>
         /// 有効判定
         /// </summary>
@@ -56,6 +57,7 @@ namespace NeeView
         /// 参照イベント
         /// </summary>
         public event EventHandler Touched;
+
 
         /// <summary>
         /// Jpeg化された画像
@@ -74,10 +76,17 @@ namespace NeeView
                         Changed?.Invoke(this, null);
                         Touched?.Invoke(this, null);
                         RaisePropertyChanged(nameof(BitmapSource));
+                        RaisePropertyChanged(nameof(IsUniqueImage));
                     }
                 }
             }
         }
+
+        /// <summary>
+        /// ユニークイメージ？
+        /// </summary>
+        public bool IsUniqueImage => _image != null && _image != _emptyImage;
+
 
         /// <summary>
         /// View用Bitmapプロパティ
@@ -98,6 +107,7 @@ namespace NeeView
         /// キャシュ用ヘッダ
         /// </summary>
         public ThumbnailCacheHeader _header { get; set; }
+
 
         /// <summary>
         /// キャッシュを使用してサムネイル生成を試みる
@@ -124,7 +134,12 @@ namespace NeeView
         internal void Initialize(BitmapSource source)
         {
             if (IsValid) return;
-            if (source == null) return;
+
+            if (source == null)
+            {
+                Image = _emptyImage;
+                return;
+            }
 
             var bitmapSource = Utility.NVGraphics.CreateThumbnail(source, new Size(Size, Size));
             var image = EncodeToJpeg(bitmapSource);
@@ -146,6 +161,7 @@ namespace NeeView
         /// </summary>
         public void Clear()
         {
+            // 通知は不要なので直接パラメータ変更
             _image = null;
         }
 
@@ -157,6 +173,7 @@ namespace NeeView
             Touched?.Invoke(this, null);
         }
 
+
         /// <summary>
         /// BitmapSource取得
         /// </summary>
@@ -166,7 +183,14 @@ namespace NeeView
             if (IsValid)
             {
                 Touched?.Invoke(this, null);
-                return DecodeFromJpeg(_image);
+                if (_image == _emptyImage)
+                {
+                    return EmptyBitmapSource;
+                }
+                else
+                {
+                    return DecodeFromJpeg(_image);
+                }
             }
             else
             {
@@ -218,7 +242,29 @@ namespace NeeView
             Touched = null;
             PropertyChanged = null;
         }
+
+
+
+        /// <summary>
+        /// Empty Image Key
+        /// </summary>
+        public static byte[] _emptyImage = System.Text.Encoding.ASCII.GetBytes("EMPTY!");
+
+        /// <summary>
+        /// EmptyBitmapSource property.
+        /// </summary>
+        private static BitmapSource _emptyBitmapSource;
+        public static BitmapSource EmptyBitmapSource
+        {
+            get
+            {
+                if (_emptyBitmapSource == null)
+                {
+                    Uri resourceUri = new Uri("/Resources/Empty.png", UriKind.Relative);
+                    _emptyBitmapSource = new BitmapImage(resourceUri);
+                }
+                return _emptyBitmapSource;
+            }
+        }
     }
-
-
 }

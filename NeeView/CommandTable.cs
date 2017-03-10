@@ -1231,6 +1231,17 @@ namespace NeeView
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByTimeStamp] = element;
             }
+            // SetFolderOrderBySize
+            {
+                var element = new CommandElement();
+                element.Group = "フォルダ列";
+                element.Text = "フォルダ列はサイズ順";
+                element.Note = "フォルダーの並びをサイズ順(降順)にします";
+                element.Execute = (s, e) => _book.SetFolderOrder(FolderOrder.Size);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Size);
+                element.IsShowMessage = true;
+                _elements[CommandType.SetFolderOrderBySize] = element;
+            }
             // SetFolderOrderByRandom
             {
                 var element = new CommandElement();

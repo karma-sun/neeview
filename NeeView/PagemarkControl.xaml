@@ -46,10 +46,18 @@
                 <DockPanel Margin="2">
                     <DockPanel>
                         <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"
-                           RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
-                           Width="60" Height="60" />
-                        <TextBlock DockPanel.Dock="Top" Style="{StaticResource PagemarkName}" Text="{Binding PlaceShort}" FontSize="12" Foreground="Gray" />
-                        <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}" TextWrapping="Wrap"/>
+                               RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
+                               UseLayoutRounding="True"
+                               ToolTipService.IsEnabled="{Binding ArchivePage.Thumbnail.IsUniqueImage}"
+                               Width="50" Height="60" Margin="5,0">
+                            <Image.ToolTip>
+                                <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"/>
+                            </Image.ToolTip>
+                        </Image>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PlaceShort}" Foreground="Gray" />
+                            <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}"/>
+                        </StackPanel>
                     </DockPanel>
                 </DockPanel>
             </Grid>

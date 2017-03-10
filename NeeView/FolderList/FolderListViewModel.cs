@@ -87,7 +87,7 @@ namespace NeeView
         public FolderListViewModel(FolderCollection collection)
         {
             this.FolderCollection = collection;
-            this.FolderCollection.Changing += FolderCollection_Changing;
+            this.FolderCollection.Deleting += FolderCollection_Deleting;
 
             RaisePropertyChanged(nameof(FolderListItemStyle));
             PanelContext.FolderListStyleChanged += (s, e) => RaisePropertyChanged(nameof(FolderListItemStyle));
@@ -109,7 +109,7 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void FolderCollection_Changing(object sender, System.IO.FileSystemEventArgs e)
+        private void FolderCollection_Deleting(object sender, System.IO.FileSystemEventArgs e)
         {
             if (e.ChangeType != System.IO.WatcherChangeTypes.Deleted) return;
 

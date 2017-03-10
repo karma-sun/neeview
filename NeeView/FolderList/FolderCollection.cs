@@ -22,9 +22,14 @@ namespace NeeView
     /// </summary>
     public class FolderCollection : IDisposable
     {
-        public event EventHandler<FileSystemEventArgs> Changing;
+        public event EventHandler<FileSystemEventArgs> Deleting;
 
         public event EventHandler ParameterChanged;
+
+        /// <summary>
+        /// 追加されたファイルの挿入方法
+        /// </summary>
+        public static bool IsInsertAddFile => Preference.Current.folderlist_addfile_insert;
 
         /// <summary>
         /// FolderCollection Parameter
@@ -130,7 +135,7 @@ namespace NeeView
 
             if (string.IsNullOrWhiteSpace(Place))
             {
-                Items = new ObservableCollection<FolderItem>(DriveInfo.GetDrives().Select(e => CreateFolderInfo(e)));
+                Items = new ObservableCollection<FolderItem>(DriveInfo.GetDrives().Select(e => CreateFolderItem(e)));
             }
             else
             {
@@ -156,61 +161,37 @@ namespace NeeView
 
                     var directories = directory.EnumerateDirectories()
                         .Where(e => e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
-                        .Select(e => CreateFolderInfo(e))
+                        .Select(e => CreateFolderItem(e))
                         .ToList();
 
                     var directoryShortcuts = shortcuts
                         .Where(e => e.DirectoryInfo.Exists)
-                        .Select(e => CreateFolderInfo(e))
-                        .Where(e => e != null)
+                        .Select(e => CreateFolderItem(e))
                         .ToList();
 
                     var archives = fileInfos
                         .Where(e => e.Exists && ModelContext.ArchiverManager.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
-                        .Select(e => CreateFolderInfo(e))
+                        .Select(e => CreateFolderItem(e))
                         .ToList();
 
                     var archiveShortcuts = shortcuts
                         .Where(e => e.FileInfo.Exists && ModelContext.ArchiverManager.IsSupported(e.TargetPath))
-                        .Select(e => CreateFolderInfo(e))
-                        .Where(e => e != null)
+                        .Select(e => CreateFolderItem(e))
                         .ToList();
 
-                    if (FolderOrder == FolderOrder.TimeStamp)
-                    {
-                        directories = directories.OrderByDescending((e) => e.LastWriteTime).ToList();
-                        directoryShortcuts = directoryShortcuts.OrderByDescending((e) => e.LastWriteTime).ToList();
-                        archives = archives.OrderByDescending((e) => e.LastWriteTime).ToList();
-                        archiveShortcuts = archiveShortcuts.OrderByDescending((e) => e.LastWriteTime).ToList();
-                    }
-                    else if (FolderOrder == FolderOrder.Size)
-                    {
-                        directories = directories.OrderBy((e) => e.LastWriteTime).ToList(); // フォルダは名前順
-                        directoryShortcuts = directoryShortcuts.OrderBy((e) => e.LastWriteTime).ToList(); // フォルダは名前順
-                        archives = archives.OrderByDescending((e) => e.Length).ToList();
-                        archiveShortcuts = archiveShortcuts.OrderByDescending((e) => e.Length).ToList();
-                    }
-                    else if (FolderOrder == FolderOrder.Random)
-                    {
-                        var random = new Random(RandomSeed);
-                        directories = directories.OrderBy(e => random.Next()).ToList();
-                        directoryShortcuts = directoryShortcuts.OrderBy(e => random.Next()).ToList();
-                        archives = archives.OrderBy(e => random.Next()).ToList();
-                        archiveShortcuts = archiveShortcuts.OrderBy(e => random.Next()).ToList();
-                    }
-                    else
-                    {
-                        directories.Sort((a, b) => Win32Api.StrCmpLogicalW(a.Name, b.Name));
-                        directoryShortcuts.Sort((a, b) => Win32Api.StrCmpLogicalW(a.Name, b.Name));
-                        archives.Sort((a, b) => Win32Api.StrCmpLogicalW(a.Name, b.Name));
-                        archiveShortcuts.Sort((a, b) => Win32Api.StrCmpLogicalW(a.Name, b.Name));
-                    }
 
-                    var list = directories.Concat(directoryShortcuts).Concat(archives).Concat(archiveShortcuts).ToList();
+                    var items = directories
+                        .Concat(directoryShortcuts)
+                        .Concat(archives)
+                        .Concat(archiveShortcuts)
+                        .Where(e => e != null);
 
-                    if (list.Count <= 0)
+
+                    var list = Sort(items).ToList();
+
+                    if (!list.Any())
                     {
-                        list.Add(new FolderItem() { Path = Place + "\\.", Attributes = FolderItemAttribute.Empty });
+                        list.Add(CreateFolderItemEmpty());
                     }
 
                     Items = new ObservableCollection<FolderItem>(list);
@@ -225,6 +206,74 @@ namespace NeeView
                 StartWatch();
             }
         }
+
+
+        /// <summary>
+        /// 並び替え
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        private IEnumerable<FolderItem> Sort(IEnumerable<FolderItem> source)
+        {
+            switch (FolderOrder)
+            {
+                case FolderOrder.TimeStamp:
+                    return source.OrderBy(e => e.Type).ThenBy(e => e, new ComparerTimeStamp());
+                case FolderOrder.Size:
+                    return source.OrderBy(e => e.Type).ThenBy(e => e, new ComparerSize());
+                case FolderOrder.Random:
+                    var random = new Random(RandomSeed);
+                    return source.OrderBy(e => e.Type).ThenBy(e => random.Next());
+                default:
+                case FolderOrder.FileName:
+                    return source.OrderBy(e => e.Type).ThenBy(e => e, new ComparerFileName());
+            }
+        }
+
+
+        /// <summary>
+        /// ソート用：名前で比較
+        /// </summary>
+        public class ComparerFileName : IComparer<FolderItem>
+        {
+            public int Compare(FolderItem x, FolderItem y)
+            {
+                return Win32Api.StrCmpLogicalW(x.Name, y.Name);
+            }
+        }
+
+        /// <summary>
+        /// ソート用：サイズで比較
+        /// </summary>
+        public class ComparerSize : IComparer<FolderItem>
+        {
+            public int Compare(FolderItem x, FolderItem y)
+            {
+                int diff = y.Length.CompareTo(x.Length);
+                if (diff != 0)
+                    return diff;
+                else
+                    return Win32Api.StrCmpLogicalW(x.Name, y.Name);
+            }
+        }
+
+        /// <summary>
+        /// ソート用：日時で比較
+        /// </summary>
+        public class ComparerTimeStamp : IComparer<FolderItem>
+        {
+            public int Compare(FolderItem x, FolderItem y)
+            {
+                int diff = y.LastWriteTime.CompareTo(x.LastWriteTime);
+                if (diff != 0)
+                    return diff;
+                else
+                    return Win32Api.StrCmpLogicalW(x.Name, y.Name);
+            }
+        }
+
+
+
 
         /// <summary>
         /// アイコンの表示更新
@@ -263,9 +312,6 @@ namespace NeeView
         }
 
 
-        /// <summary>
-        /// ファイルシステム監視
-        /// </summary>
         #region FileSystemWatcher
 
         // ファイルシステム監視
@@ -332,8 +378,41 @@ namespace NeeView
         private void Watcher_Creaded(object sender, FileSystemEventArgs e)
         {
             // FolderInfoを作成し、追加
-            var item = CreateFolderInfo(e.FullPath);
+            var item = CreateFolderItem(e.FullPath);
             if (item != null)
+            {
+                Watcher_Creaded(item);
+            }
+        }
+
+        //
+        private void Watcher_Creaded(FolderItem item)
+        {
+            if (this.Items.Count == 1 && this.Items.First().Type == FolderItemType.Empty)
+            {
+                this.Items.RemoveAt(0);
+                this.Items.Add(item);
+            }
+            else if (FolderOrder == FolderOrder.Random)
+            {
+                this.Items.Add(item);
+            }
+            else if (IsInsertAddFile)
+            {
+                // 別にリストを作ってソートを実行し、それで挿入位置を決める
+                var list = Sort(this.Items.Concat(new List<FolderItem>() { item })).ToList();
+                var index = list.IndexOf(item);
+
+                if (index >= 0)
+                {
+                    this.Items.Insert(index, item);
+                }
+                else
+                {
+                    this.Items.Add(item);
+                }
+            }
+            else
             {
                 this.Items.Add(item);
             }
@@ -350,10 +429,21 @@ namespace NeeView
             var item = this.Items.FirstOrDefault(i => i.Path == e.FullPath);
             if (item != null)
             {
-                Changing?.Invoke(sender, e);
-                Items.Remove(item);
+                Deleting?.Invoke(sender, e);
+                Watcher_Deleted(item);
             }
         }
+
+        private void Watcher_Deleted(FolderItem item)
+        {
+            Items.Remove(item);
+
+            if (this.Items.Count == 0)
+            {
+                this.Items.Add(CreateFolderItemEmpty());
+            }
+        }
+
 
         /// <summary>
         /// ファイル名変更イベント処理
@@ -369,18 +459,35 @@ namespace NeeView
             }
         }
 
+        #endregion
+
+
+        /// <summary>
+        /// 空のFolderItemを作成
+        /// </summary>
+        /// <returns></returns>
+        private FolderItem CreateFolderItemEmpty()
+        {
+            return new FolderItem()
+            {
+                Type = FolderItemType.Empty,
+                Path = Place + "\\.",
+                Attributes = FolderItemAttribute.Empty,
+            };
+        }
+
         /// <summary>
         /// パスからFolderItemを作成
         /// </summary>
         /// <param name="path">パス</param>
         /// <returns>FolderItem。生成できなかった場合はnull</returns>
-        private FolderItem CreateFolderInfo(string path)
+        private FolderItem CreateFolderItem(string path)
         {
             // directory
             var directory = new DirectoryInfo(path);
             if (directory.Exists)
             {
-                return CreateFolderInfo(directory);
+                return CreateFolderItem(directory);
             }
 
             // file
@@ -391,11 +498,11 @@ namespace NeeView
                 if (Utility.FileShortcut.IsShortcut(path))
                 {
                     var shortcut = new Utility.FileShortcut(file);
-                    return CreateFolderInfo(shortcut);
+                    return CreateFolderItem(shortcut);
                 }
                 else
                 {
-                    return CreateFolderInfo(file);
+                    return CreateFolderItem(file);
                 }
             }
 
@@ -408,7 +515,7 @@ namespace NeeView
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private FolderItem CreateFolderInfo(DriveInfo e)
+        private FolderItem CreateFolderItem(DriveInfo e)
         {
             if (e != null)
             {
@@ -430,12 +537,13 @@ namespace NeeView
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private FolderItem CreateFolderInfo(DirectoryInfo e)
+        private FolderItem CreateFolderItem(DirectoryInfo e)
         {
             if (e != null && e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
             {
                 return new FolderItem()
                 {
+                    Type = FolderItemType.Directory,
                     Path = e.FullName,
                     LastWriteTime = e.LastWriteTime,
                     Length = -1,
@@ -454,12 +562,13 @@ namespace NeeView
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private FolderItem CreateFolderInfo(FileInfo e)
+        private FolderItem CreateFolderItem(FileInfo e)
         {
             if (e != null && e.Exists && ModelContext.ArchiverManager.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
             {
                 return new FolderItem()
                 {
+                    Type = FolderItemType.File,
                     Path = e.FullName,
                     LastWriteTime = e.LastWriteTime,
                     Length = e.Length,
@@ -477,24 +586,29 @@ namespace NeeView
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private FolderItem CreateFolderInfo(Utility.FileShortcut e)
+        private FolderItem CreateFolderItem(Utility.FileShortcut e)
         {
             FolderItem info = null;
+            FolderItemType type = FolderItemType.FileShortcut;
 
             if (e != null && e.Source.Exists && (e.Source.Attributes & FileAttributes.Hidden) == 0)
             {
                 if (e.DirectoryInfo.Exists)
                 {
-                    info = CreateFolderInfo(e.DirectoryInfo);
+                    info = CreateFolderItem(e.DirectoryInfo);
+                    type = FolderItemType.DirectoryShortcut;
                 }
                 else if (e.FileInfo.Exists)
                 {
-                    info = CreateFolderInfo(e.FileInfo);
+                    info = CreateFolderItem(e.FileInfo);
+                    type = FolderItemType.FileShortcut;
+
                 }
             }
 
             if (info != null)
             {
+                info.Type = type;
                 info.Path = e.Path;
                 info.TargetPath = e.TargetPath;
                 info.Attributes = info.Attributes | FolderItemAttribute.Shortcut;
@@ -504,5 +618,4 @@ namespace NeeView
         }
     }
 
-    #endregion
 }

@@ -75,7 +75,6 @@ namespace NeeView
 
             //
             ThumbnailCache.Current = new ThumbnailCache();
-            ThumbnailCache.Current.Open();
         }
 
 

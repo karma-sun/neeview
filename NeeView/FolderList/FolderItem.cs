@@ -36,6 +36,16 @@ namespace NeeView
         Pagemark,
     }
 
+    //
+    public enum FolderItemType
+    {
+        Empty,
+        Directory,
+        DirectoryShortcut,
+        File,
+        FileShortcut,
+    }
+
     /// <summary>
     /// フォルダ情報
     /// フォルダリストの１項目の情報 
@@ -52,6 +62,11 @@ namespace NeeView
         #endregion
 
         public FolderItemAttribute Attributes { get; set; }
+
+        /// <summary>
+        /// 種類。ソート用
+        /// </summary>
+        public FolderItemType Type { get; set; }
 
 
         /// <summary>

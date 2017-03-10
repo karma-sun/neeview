@@ -151,20 +151,12 @@ namespace NeeView
         /// </summary>
         internal void Remove()
         {
-            var sw = new Stopwatch();
-            sw.Start();
-            using (SQLiteCommand command = _connection.CreateCommand())
-            {
-                // database property
-                command.CommandText = "DELETE FROM thumbs";
-                command.ExecuteNonQuery();
+            Close();
 
-                // vacuum
-                command.CommandText = "VACUUM";
-                command.ExecuteNonQuery();
+            if (System.IO.File.Exists(_filename))
+            {
+                System.IO.File.Delete(_filename);
             }
-            sw.Stop();
-            Debug.WriteLine($"DB Remove: {sw.ElapsedMilliseconds}ms");
         }
 
         /// <summary>
@@ -230,7 +222,9 @@ namespace NeeView
         /// <param name="data"></param>
         internal void Save(ThumbnailCacheHeader header, byte[] data)
         {
-            if (!IsEnabled || _connection == null) return;
+            if (!IsEnabled) return;
+
+            if (_connection == null) Open();
 
             using (SQLiteCommand command = _connection.CreateCommand())
             {
@@ -248,7 +242,9 @@ namespace NeeView
         /// <returns></returns>
         internal byte[] Load(ThumbnailCacheHeader header)
         {
-            if (!IsEnabled || _connection == null) return null;
+            if (!IsEnabled) return null;
+
+            if (_connection == null) Open();
 
             using (SQLiteCommand command = _connection.CreateCommand())
             {

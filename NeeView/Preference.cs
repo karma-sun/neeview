@@ -122,6 +122,9 @@ namespace NeeView
         [PropertyMember("フォルダーサムネイル容量", Tips = "フォルダーリスト等でのサムネイル保持枚数です")]
         public int thumbnail_folder_capacity { get; set; }
 
+        [DataMember, DefaultValue(true)]
+        [PropertyMember("フォルダーリスト追加ファイルは挿入", Tips = "フォルダーリストで追加されたファイルを現在のソート順で挿入します。\nFalseのときはリストの終端に追加します。")]
+        public bool folderlist_addfile_insert { get; set; }
 
         /// <summary>
         /// 

@@ -177,9 +177,29 @@ namespace NeeView
                 if (_librariesPath == null)
                 {
                     _librariesPath = Path.Combine(AssemblyLocation, GetProbingPath());
+#if DEBUG
+                    // 開発中はLibrariesパスが存在しないので、カレントに設定しなおす
+                    _librariesPath = AssemblyLocation;
+#endif
                 }
                 return _librariesPath;
             }
+        }
+
+        /// <summary>
+        /// ライブラリーパス(Platform別)
+        /// </summary>
+        public string LibrariesPlatformPath
+        {
+            get { return Path.Combine(LibrariesPath, IsX64 ? "x64" : "x86"); }
+        }
+
+        /// <summary>
+        /// x86/x64判定
+        /// </summary>
+        public bool IsX64
+        {
+            get { return IntPtr.Size == 8; }
         }
 
 
@@ -227,6 +247,20 @@ namespace NeeView
                     if (_packageType != ".msi") _packageType = ".zip";
                 }
                 return _packageType;
+            }
+        }
+
+        // 開発用：メッセージ
+        private string _appMessage;
+        public string AppMessage
+        {
+            get
+            {
+                if (_appMessage == null)
+                {
+                    _appMessage = ConfigurationManager.AppSettings["AppMessage"];
+                }
+                return _appMessage;
             }
         }
 

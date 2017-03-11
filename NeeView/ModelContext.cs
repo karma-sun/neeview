@@ -27,6 +27,7 @@ namespace NeeView
 
         public static JobEngine JobEngine { get; set; }
 
+        public static bool IsSupportedSusie => SusieContext.IsSupportedSusie;
         public static SusieContext SusieContext { get; set; }
         public static Susie.Susie Susie => SusieContext.Susie;
 
@@ -101,7 +102,7 @@ namespace NeeView
             ArchiverManager.UpdateSevenZipSupprtedFileTypes(preference.loader_archiver_7z_supprtfiletypes);
 
             // 7z.dll の場所
-            SevenZipArchiver.DllPath = preference.loader_archiver_7z_dllpath;
+            SevenZipArchiver.DllPath = App.Config.IsX64 ? preference.loader_archiver_7z_dllpath_x64 : preference.loader_archiver_7z_dllpath;
 
             // SevenZip Lock時間
             SevenZipSource.LockTime = preference.loader_archiver_7z_locktime;

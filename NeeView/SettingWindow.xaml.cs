@@ -327,6 +327,13 @@ namespace NeeView
         {
             InitializeComponent();
 
+            // Susieが機能しない場合はSusieタブを使用禁止にする
+            if (!ModelContext.IsSupportedSusie)
+            {
+                this.SusiePanel.IsEnabled = false;
+                this.SusieIgnorePanel.Visibility = Visibility.Visible;
+            }
+
             //
             this.RemoveAllDataButton.Visibility = App.Config.IsUseLocalApplicationDataFolder ? Visibility.Visible : Visibility.Collapsed;
 
@@ -568,6 +575,8 @@ namespace NeeView
         // Susie環境 更新
         private void UpdateSusiePluginSetting(string path)
         {
+            if (!ModelContext.IsSupportedSusie) return;
+
             // プラグインリスト書き戻し
             if (ModelContext.Susie != null)
             {
@@ -586,6 +595,8 @@ namespace NeeView
         // Susieプラグイン一覧 更新
         public void UpdateSusiePluginList()
         {
+            if (!ModelContext.IsSupportedSusie) return;
+
             INPluginList = new ObservableCollection<Susie.SusiePlugin>(ModelContext.Susie?.INPlgunList);
             RaisePropertyChanged(nameof(INPluginList));
             this.INPluginListView.Items.Refresh();

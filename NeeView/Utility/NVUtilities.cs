@@ -176,7 +176,7 @@ namespace NeeView
         {
             try
             {
-                if (!ModelContext.SusieContext.IsEnableSusie) return null;
+                if (!ModelContext.IsSupportedSusie || !ModelContext.SusieContext.IsEnableSusie) return null;
                 var plugin = ModelContext.Susie?.GetImagePlugin("dummy", buff, false);
                 return plugin?.Extensions.ToArray();
             }

@@ -91,8 +91,12 @@ namespace NeeView
         public string book_preload_limitsize { get; set; }
 
         [DataMember, DefaultValue("")]
-        [PropertyPath(Name = "7z.dll(32bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映には再起動が必要です")]
+        [PropertyPath(Name = "7z.dll(32bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
         public string loader_archiver_7z_dllpath { get; set; }
+
+        [DataMember, DefaultValue("")]
+        [PropertyPath(Name = "7z.dll(64bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
+        public string loader_archiver_7z_dllpath_x64 { get; set; }
 
         [DataMember, DefaultValue(".7z;.rar;.lzh")]
         [PropertyMember("7z.dllで展開する圧縮ファイルの拡張子", Tips = ";(セミコロン)区切りでサポートする拡張子を羅列します。\n拡張子は .zip のように指定します")]
@@ -103,7 +107,7 @@ namespace NeeView
         public string loader_archiver_exclude { get; set; }
 
         [DataMember, DefaultValue(-1.0)]
-        [PropertyMember("7z.dllがファイルをロックする時間(秒)", Tips = "この時間ファイルアクセスがなければロック解除され、ファイル移動や名前変更が可能になります。\n-1でロック保持したままになります")]
+        [PropertyMember("7z.dllがファイルをロックする時間(秒)", Tips = "この時間アクセスがなければロック解除さます。\n-1でロック保持したままになります")]
         public double loader_archiver_7z_locktime { get; set; }
 
         [DataMember, DefaultValue(80)]

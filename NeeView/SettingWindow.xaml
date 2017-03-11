@@ -791,28 +791,33 @@
                     </Style>
 
                 </TabItem.Resources>
-                <DockPanel Margin="4">
-                    <CheckBox DockPanel.Dock="Top" Margin="2" Content="Susieプラグインを使用する" IsChecked="{Binding Setting.SusieMemento.IsEnableSusie}" />
-                    <DockPanel IsEnabled="{Binding Setting.SusieMemento.IsEnableSusie}">
-                        <nlc:FileNameBox x:Name="PluginPathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding SusiePluginPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectDirectory="True"  Note="フォルダの場所を指定してください"/>
-                        <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="画像表示でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieImage}"/>
-                        <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="圧縮ファイル展開でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieArchive}"/>
+                <Grid>
+                    <DockPanel x:Name="SusiePanel" Margin="4">
+                        <CheckBox DockPanel.Dock="Top" Margin="2" Content="Susieプラグインを使用する" IsChecked="{Binding Setting.SusieMemento.IsEnableSusie}" />
+                        <DockPanel IsEnabled="{Binding Setting.SusieMemento.IsEnableSusie}">
+                            <nlc:FileNameBox x:Name="PluginPathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding SusiePluginPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectDirectory="True"  Note="フォルダの場所を指定してください"/>
+                            <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="画像表示でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieImage}"/>
+                            <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="圧縮ファイル展開でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieArchive}"/>
 
-                        <TabControl Margin="0,4">
+                            <TabControl Margin="0,4">
 
-                            <TabItem Header="画像プラグイン">
-                                <ListBox x:Name="INPluginListView" ItemsSource="{Binding INPluginList}" Tag="{Binding INPluginList}" >
-                                </ListBox>
-                            </TabItem>
+                                <TabItem Header="画像プラグイン">
+                                    <ListBox x:Name="INPluginListView" ItemsSource="{Binding INPluginList}" Tag="{Binding INPluginList}" >
+                                    </ListBox>
+                                </TabItem>
 
-                            <TabItem Header="書庫プラグイン">
-                                <ListBox x:Name="AMPluginListView" ItemsSource="{Binding AMPluginList}" Tag="{Binding AMPluginList}" >
-                                </ListBox>
-                            </TabItem>
+                                <TabItem Header="書庫プラグイン">
+                                    <ListBox x:Name="AMPluginListView" ItemsSource="{Binding AMPluginList}" Tag="{Binding AMPluginList}" >
+                                    </ListBox>
+                                </TabItem>
 
-                        </TabControl>
+                            </TabControl>
+                        </DockPanel>
                     </DockPanel>
-                </DockPanel>
+                    <Grid x:Name="SusieIgnorePanel" Background="#8FFF" Visibility="Collapsed">
+                        <TextBlock Text="64bit版では使用できません" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="True"/>
+                    </Grid>
+                </Grid>
             </TabItem>
 
             <TabItem Header="コマンド" >

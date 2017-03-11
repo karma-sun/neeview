@@ -440,10 +440,18 @@ public class FolderListControlViewModel : INotifyPropertyChanged
         private void Sync_Executed()
         {
             string place = BookHub?.CurrentBook?.Place;
+
             if (place != null)
             {
                 _isDarty = true; // 強制更新
                 SetPlace(System.IO.Path.GetDirectoryName(place), place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
+
+                FocusSelectedItem(true);
+            }
+            else if (_place != null)
+            {
+                _isDarty = true; // 強制更新
+                SetPlace(_place, null, FolderSetPlaceOption.IsFocus);
 
                 FocusSelectedItem(true);
             }

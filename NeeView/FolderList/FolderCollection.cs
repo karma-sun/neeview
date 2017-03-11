@@ -457,6 +457,11 @@ namespace NeeView
             {
                 item.Path = e.FullPath;
             }
+            else
+            {
+                // リストにない項目は追加を試みる
+                Watcher_Creaded(sender, e);
+            }
         }
 
         #endregion

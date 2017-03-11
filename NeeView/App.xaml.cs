@@ -142,13 +142,20 @@ namespace NeeView
             if (!isNewWindow)
             {
                 // 自身と異なるプロセスを見つけ、サーバとする
-                Process[] processes = Process.GetProcessesByName(currentProcess.ProcessName);
 
+                // x64版は NeeView64 という名前の可能性がある
+                var processName = currentProcess.ProcessName.Replace("64", "");
+                var processes = Process.GetProcessesByName(processName)
+                    .Concat(Process.GetProcessesByName(processName + "64"));
 #if DEBUG
-                processes = processes.Concat(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(currentProcess.ProcessName))).ToArray();
+                processes = processes
+                    .Concat(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(currentProcess.ProcessName)));
 #endif
 
-                var serverProcess = processes.OrderBy((p) => p.StartTime).Reverse().FirstOrDefault((p) => p.Id != currentProcess.Id);
+                // 最も古いプロセスを残す
+                var serverProcess = processes
+                    .OrderByDescending((p) => p.StartTime)
+                    .FirstOrDefault((p) => p.Id != currentProcess.Id);
 
                 if (serverProcess != null)
                 {

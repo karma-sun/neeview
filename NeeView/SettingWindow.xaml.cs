@@ -330,8 +330,8 @@ namespace NeeView
             // Susieが機能しない場合はSusieタブを使用禁止にする
             if (!ModelContext.IsSupportedSusie)
             {
-                this.SusiePanel.IsEnabled = false;
-                this.SusieIgnorePanel.Visibility = Visibility.Visible;
+                this.SusieSettingTab.IsEnabled = false;
+                this.SusieSettingTab.Visibility = Visibility.Collapsed;
             }
 
             //

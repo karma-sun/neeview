@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?if $(var.Platform) = x64 ?>
+  <?define ProductName = "NeeView $(var.ProductVersion) (64 bit)" ?>
+  <?define ShortcutName = "NeeView (64 bit)" ?>
+  <?define Win64 = "yes" ?>
+  <?define Bits = "64bit" ?>
+  <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+  <?define UpgradeCode = "7F34322B-8DED-42BC-AA14-A57C4BD77457" ?>
+<?else ?>
+  <?define ProductName = "NeeView $(var.ProductVersion)" ?>
+  <?define ShortcutName = "NeeView" ?>
+  <?define Win64 = "no" ?>
+  <?define Bits = "32bit" ?>
+  <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+  <?define UpgradeCode = "1615bc9c-ddfd-4d61-9ac1-3ebc5c8787a8" ?>
+<?endif ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
          xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <Product Id="*" Name="NeeView $(var.ProductVersion)" Version="$(var.BuildVersion)" Language="1041" Codepage="932" Manufacturer="NeeLaboratory" UpgradeCode="1615bc9c-ddfd-4d61-9ac1-3ebc5c8787a8">
+  <Product Id="*" Name="$(var.ProductName)" Version="$(var.BuildVersion)" Language="1041" Codepage="932" Manufacturer="NeeLaboratory" UpgradeCode="$(var.UpgradeCode)">
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" SummaryCodepage="932" Comments="NeeView is picture viewer."/>
 
     <MajorUpgrade DowngradeErrorMessage="新しいバージョンの NeeView が既にインストール済です。" />
@@ -36,7 +51,7 @@
 
   <Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramFilesFolder">
+      <Directory Id="$(var.PlatformProgramFilesFolder)">
         <Directory Id="PFCompanyFolder" Name="NeeLaboratory">
           <Directory Id="INSTALLFOLDER" Name="NeeView" />
         </Directory>
@@ -52,8 +67,8 @@
 
       <Component Guid="*">
         <File Source="$(var.ContentDir)NeeView.exe" KeyPath="yes" Checksum="yes" >
-          <netfx:NativeImage Id="ngen_NeeView.exe" Platform="32bit" Priority="0"/>
-          <Shortcut Id="MyMenuShortcut" Directory="ProgramMenuFolder" Name="NeeView" WorkingDirectory="INSTALLDIR" Icon="MyIcon.exe" Advertise="yes"/>
+          <netfx:NativeImage Id="ngen_NeeView.exe" Platform="$(var.Bits)" Priority="0"/>
+          <Shortcut Id="MyMenuShortcut" Directory="ProgramMenuFolder" Name="$(var.ShortcutName)" WorkingDirectory="INSTALLDIR" Icon="MyIcon.exe" Advertise="yes"/>
         </File>
       </Component>
 

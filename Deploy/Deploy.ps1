@@ -14,10 +14,47 @@ $config = 'Release'
 # get fileversion
 function Get-FileVersion($fileName)
 {
+	throw "not supported."
+
 	$major = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($fileName).FileMajorPart
 	$minor = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($fileName).FileMinorPart
 
 	"$major.$minor"
+}
+
+
+#---------------------
+# get version from AssemblyInfo.cs
+function Get-AssemblyVersion($assemblyInfo)
+{
+    $line = Get-Content $assemblyInfo | Select-String -Pattern "AssemblyFileVersion"
+    if ($line -match "(\d+\.\d+)\.\d+\.\d+")
+    {
+        return $matches[1]
+    }
+    else
+    {
+        throw "Cannot get version"
+    }
+}
+
+
+#---------------------
+# get build count
+function Get-BuildCount()
+{
+	# auto increment build version
+	$xml = [xml](Get-Content "BuildCount.xml")
+	return [int]$xml.build + 1
+}
+
+#---------------------
+# set build count
+function Set-BuildCount($buildCount)
+{
+	$xml = [xml](Get-Content "BuildCount.xml")
+	$xml.build = [string]$buildCount
+	$xml.Save("BuildCount.xml")
 }
 
 
@@ -44,54 +81,41 @@ function Replace-Content
 $solutionDir = "E:\Documents\Visual Studio 2015\Projects\$product"
 $solution = "$solutionDir\$product.sln"
 $projectDir = "$solutionDir\$product"
-$productDir = "$projectDir\bin\$config"
+$productX86Dir = "$projectDir\bin\$config"
+$productX64Dir = "$projectDir\bin\x64\$config"
+
+
 
 #----------------------
 # build
-$msbuild = 'C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe'
-& $msbuild $solution /p:Configuration=$config /t:Clean,Build
-if ($? -ne $true)
+function Build-Project($arch)
 {
-	throw "build error"
-}
+	if ($arch -eq "x64")
+	{
+		$platform = "x64"
+	}
+	else
+	{
+		$platform = "Any CPU"
+	}
 
-# get assembly version
-$version = Get-FileVersion "$productDir\$product.exe"
-
-# auto increment build version
-$xml = [xml](Get-Content "BuildCount.xml")
-$buildCount = [int]$xml.build + 1
-
-$buildVersion = (Get-FileVersion "$productDir\$product.exe") + ".$buildCount"
-
-$packageDir = $product + $version
-$packageZip = $packageDir + ".zip"
-$packageMsi = $packageDir + ".msi"
-
-$packageLibraryDir = $packageDir + "\Libraries"
-
-# remove packageDir
-if (Test-Path $packageDir)
-{
-	Remove-Item $packageDir -Recurse -Force
-}
-if (Test-Path $packageZip)
-{
-	Remove-Item $packageZip
-}
-if (Test-Path $packageMsi)
-{
-	Remove-Item $packageMsi
+	$msbuild = 'C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe'
+	& $msbuild $solution /p:Configuration=$config /p:Platform=$platform /t:Clean,Build
+	if ($? -ne $true)
+	{
+		throw "build error"
+	}
 }
 
 
-Start-Sleep -m 100
 
 
 #----------------------
 # package section
-function New-Package
+function New-Package($productDir, $packageDir)
 {
+	$packageLibraryDir = $packageDir + "\Libraries"
+
 	# make package folder
 	$temp = New-Item $packageDir -ItemType Directory
 	$temp = New-Item $packageLibraryDir -ItemType Directory
@@ -100,6 +124,10 @@ function New-Package
 	Copy-Item "$productDir\$product.exe" $packageDir
 	Copy-Item "$productDir\$product.exe.config" $packageDir
 	Copy-Item "$productDir\*.dll" $packageLibraryDir
+
+	#Copy-Item "$productX64Dir\$product.exe" "$packageDir\${product}64.exe"
+	#Copy-Item "$productX64Dir\$product.exe.config" "$packageDir\${product}64.exe.config"
+
 
 	# copy language dll
 	$langs = "de","en","es","fr","it","ja","ko","ru","zh-Hans","zh-Hant","x64","x86"
@@ -132,17 +160,22 @@ function New-Package
 # archive to ZIP
 function New-Zip
 {
+	Copy-Item $packageX86Dir $packageDir -Recurse
+	Copy-Item "$packageX64Dir\$product.exe" "$packageDir\${product}64.exe"
+	Copy-Item "$packageX64Dir\$product.exe.config" "$packageDir\${product}64.exe.config"
+
 	Compress-Archive $packageDir -DestinationPath $packageZip
 }
 
 
 #--------------------------
 # WiX
-function New-Msi
+function New-Msi($arch, $packageDir, $packageMsi)
 {
 	$candle = 'C:\Program Files (x86)\WiX Toolset v3.10\bin\candle.exe'
 	$light = 'C:\Program Files (x86)\WiX Toolset v3.10\bin\light.exe'
 	$heat = 'C:\Program Files (x86)\WiX Toolset v3.10\bin\heat.exe'
+
 
 
 	$config = "$product.exe.config"
@@ -172,6 +205,7 @@ function New-Msi
 	$xml.Save( $sw )
 	$sw.Close()
 
+
 	# make DllComponents.wxs
 	#& $heat dir "$packageDir\Libraries" -cg DllComponents -ag -pog:Binaries -sfrag -var var.LibrariesDir -dr INSTALLFOLDER -out WixSource\DllComponents.wxs
 	#if ($? -ne $true)
@@ -185,7 +219,7 @@ function New-Msi
 
 	$ErrorActionPreference = "stop"
 
-	& $candle -d"BuildVersion=$buildVersion" -d"ProductVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries" -ext WixNetFxExtension -out "$packageDir.append\\"  WixSource\*.wxs
+	& $candle -arch $arch -d"Platform=$arch" -d"BuildVersion=$buildVersion" -d"ProductVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries" -ext WixNetFxExtension -out "$packageDir.append\\"  WixSource\*.wxs
 	if ($? -ne $true)
 	{
 		throw "candle error"
@@ -199,11 +233,72 @@ function New-Msi
 }
 
 #--------------------------
+# remove build objects
+function Remove-BuildObjects
+{
+	if (Test-Path $packageDir)
+	{
+		Remove-Item $packageDir -Recurse -Force
+	}
+	if (Test-Path $packageX86Dir)
+	{
+		Remove-Item $packageX86Dir -Recurse -Force
+	}
+	if (Test-Path $packageX64Dir)
+	{
+		Remove-Item $packageX64Dir -Recurse -Force
+	}
+	if (Test-Path $packageZip)
+	{
+		Remove-Item $packageZip
+	}
+	if (Test-Path $packageX86Msi)
+	{
+		Remove-Item $packageX86Msi
+	}
+	if (Test-Path $packageX64Msi)
+	{
+		Remove-Item $packageX64Msi
+	}
+
+	Start-Sleep -m 100
+}
+
+
+
+#======================
 # main
+#======================
 
+# versions
+$version = Get-AssemblyVersion "$projectDir\Properties\AssemblyInfo.cs"
+$buildCount = Get-BuildCount
+$buildVersion = "$version.$buildCount"
+
+
+$packageDir = "$product$version"
+$packageX86Dir = "$product$version-x86"
+$packageX64Dir = "$product$version-x64"
+$packageZip = "$product$version.zip"
+$packageX86Msi = "$product$version-x86.msi"
+$packageX64Msi = "$product$version-x64.msi"
+
+
+# clear
+Write-Host "`n[Clear] ...`n" -fore Cyan
+Remove-BuildObjects
+	
+# build
+Write-Host "`n[Build] ...`n" -fore Cyan
+Build-Project "x86"
+Build-Project "x64"
+
+#
 Write-Host "`n[Package] ...`n" -fore Cyan
-New-Package
+New-Package $productX86Dir $packageX86Dir
+New-Package $productX64Dir $packageX64Dir
 
+#
 if (($Target -eq "All") -or ($Target -eq "Zip"))
 {
 	Write-Host "`[Zip] ...`n" -fore Cyan
@@ -214,12 +309,14 @@ if (($Target -eq "All") -or ($Target -eq "Zip"))
 if (($Target -eq "All") -or ($Target -eq "Installer"))
 {
 	Write-Host "`[Installer] ...`n" -fore Cyan
-	New-Msi
-	Write-Host "`nExport $packageMsi successed.`n" -fore Green
+	New-Msi "x86" $packageX86Dir $packageX86Msi
+	Write-Host "`nExport $packageX86Msi successed.`n" -fore Green
+	New-Msi "x64" $packageX64Dir $packageX64Msi
+	Write-Host "`nExport $packageX64Msi successed.`n" -fore Green
 }
 
-
 # current
+Write-Host "`[Current] ...`n" -fore Cyan
 if (-not (Test-Path $product))
 {
 	New-Item $product -ItemType Directory
@@ -228,12 +325,11 @@ Copy-Item "$packageDir\*" "$product\" -Recurse -Force
 
 #--------------------------
 # saev buid version
-$xml.build = [string]$buildCount
-$xml.Save("BuildCount.xml")
+Set-BuildCount $buildCount
 
 #-------------------------
 # Finish.
-Write-Host "`nAll done.`n" -fore Green
+Write-Host "`nBuild $buildVersion All done.`n" -fore Green
 
 
 

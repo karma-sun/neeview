@@ -3,9 +3,6 @@
     <Fragment>
         <DirectoryRef Id="INSTALLFOLDER">
             <Directory Id="PFLibrariesFolder" Name="Libraries">
-                <Component Id="cmp8BF6C995AB878E7A664FF9EC7D7A56FC" Guid="*">
-                    <File Id="filB98CFFB6357FAB95836FDD8FC3934175" KeyPath="yes" Source="$(var.LibrariesDir)\7z.dll" />
-                </Component>
                 <Component Id="cmpB5253615D3A409D93E9B0F5C0792727C" Guid="*">
                     <File Id="fil070F313B4772A6FE929C82891BF65F14" KeyPath="yes" Source="$(var.LibrariesDir)\Microsoft.Expression.Effects.dll" />
                 </Component>
@@ -107,11 +104,17 @@
                     </Component>
                 </Directory>
                 <Directory Id="dir0BA8EEA8E3E5FDC60EBDCD6CA689EF1F" Name="x64">
+                    <Component Id="cmp9D4AE8C031DF1FC733C87DF95334A165" Guid="*">
+                        <File Id="fil50D8656DA153D2BEE13D829A7DFF7A29" KeyPath="yes" Source="$(var.LibrariesDir)\x64\7z.dll" />
+                    </Component>
                     <Component Id="cmp29CF596D1E10B90F6FC97B0A349FEF8A" Guid="*">
                         <File Id="fil579CF3BBC5A49AACD044C07B6847215B" KeyPath="yes" Source="$(var.LibrariesDir)\x64\SQLite.Interop.dll" />
                     </Component>
                 </Directory>
                 <Directory Id="dir49BA1F33E4D4B9114E93FB415B9F85A5" Name="x86">
+                    <Component Id="cmpB5C9C3C36D6C8C2303EEC99AEE09D10D" Guid="*">
+                        <File Id="filE39F6DFACC5CA6C447FAF11DD120BFD8" KeyPath="yes" Source="$(var.LibrariesDir)\x86\7z.dll" />
+                    </Component>
                     <Component Id="cmp3AE14885B4F257F53834F4FFB0C5D35F" Guid="*">
                         <File Id="fil11ADBC8FCB3B631BAFACEAF9EF53EBD7" KeyPath="yes" Source="$(var.LibrariesDir)\x86\SQLite.Interop.dll" />
                     </Component>
@@ -143,7 +146,6 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="DllComponents">
-            <ComponentRef Id="cmp8BF6C995AB878E7A664FF9EC7D7A56FC" />
             <ComponentRef Id="cmpB5253615D3A409D93E9B0F5C0792727C" />
             <ComponentRef Id="cmpE88A5217E6CBA6AA7D4C8E2EF756AA30" />
             <ComponentRef Id="cmp22E98BAC13DC44B2B85FDBE34D094DB9" />
@@ -172,7 +174,9 @@
             <ComponentRef Id="cmpE6E654736CBF070F76E02DE4942CA298" />
             <ComponentRef Id="cmp7D356F36D5074CED26B1436DA5378AA3" />
             <ComponentRef Id="cmpE8A1F1AA4EC32A7044262A7704021817" />
+            <ComponentRef Id="cmp9D4AE8C031DF1FC733C87DF95334A165" />
             <ComponentRef Id="cmp29CF596D1E10B90F6FC97B0A349FEF8A" />
+            <ComponentRef Id="cmpB5C9C3C36D6C8C2303EEC99AEE09D10D" />
             <ComponentRef Id="cmp3AE14885B4F257F53834F4FFB0C5D35F" />
             <ComponentRef Id="cmp0CDF87FD15068BCF9CCE3770E843F37B" />
             <ComponentRef Id="cmp4AA808D058D4224C2008669742FDC059" />

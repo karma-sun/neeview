@@ -146,7 +146,7 @@ function New-Package($productDir, $packageDir)
 	#Copy-Item "$solutionDir\Style.html" $readmeDir
 
 	# edit README.md
-	Replace-Content "$readmeDir\README.md" "# $product" "# $product $version"
+	Replace-Content "$readmeDir\README.md" "<VERSION/>" "$version"
 
 	# markdown to html by pandoc
 	pandoc -s -t html5 -o "$packageDir\README.html" -H Style.html "$readmeDir\README.md" "$readmeDir\LICENSE.md" "$readmeDir\THIRDPARTY_LICENSES.md"
@@ -277,11 +277,11 @@ $buildVersion = "$version.$buildCount"
 
 
 $packageDir = "$product$version"
-$packageX86Dir = "$product$version-x86"
-$packageX64Dir = "$product$version-x64"
+$packageX86Dir = "$product$version-32bit"
+$packageX64Dir = "$product$version-64bit"
 $packageZip = "$product$version.zip"
-$packageX86Msi = "$product$version-x86.msi"
-$packageX64Msi = "$product$version-x64.msi"
+$packageX86Msi = "$product$version-32bit.msi"
+$packageX64Msi = "$product$version-64bit.msi"
 
 
 # clear

@@ -250,20 +250,6 @@ namespace NeeView
             }
         }
 
-        // 開発用：メッセージ
-        private string _appMessage;
-        public string AppMessage
-        {
-            get
-            {
-                if (_appMessage == null)
-                {
-                    _appMessage = ConfigurationManager.AppSettings["AppMessage"];
-                }
-                return _appMessage;
-            }
-        }
-
 
         // 全ユーザデータ削除
         private bool RemoveApplicationDataCore()

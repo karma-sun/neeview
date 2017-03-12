@@ -32,6 +32,17 @@ namespace NeeView
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        /// <summary>
+        /// すべての変更を通知
+        /// 設定変更直後等
+        /// </summary>
+        /// <returns></returns>
+        public void RaizeAllPropertyChanged()
+        {
+            RaisePropertyChanged("");
+            IsPlayingSlideShowChanged?.Invoke(this, null);
+        }
         
 
         /// <summary>

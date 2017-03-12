@@ -244,14 +244,43 @@ namespace NeeView
 
             // timer for slideshow
             _timer = new DispatcherTimer(DispatcherPriority.Normal, this.Dispatcher);
-            _timer.Interval = TimeSpan.FromMilliseconds(100);
+            _timer.Interval = TimeSpan.FromSeconds(0.2);
             _timer.Tick += new EventHandler(DispatcherTimer_Tick);
             _timer.Start();
+
+            // shlideshow mode check
+            AppContext.Current.IsPlayingSlideShowChanged += AppContext_IsPlayingSlideShowChanged;
 
             // cancel rename triggers
             this.MouseLeftButtonDown += (s, e) => this.RenameManager.Stop();
             this.MouseRightButtonDown += (s, e) => this.RenameManager.Stop();
             this.Deactivated += (s, e) => this.RenameManager.Stop();
+        }
+
+        /// <summary>
+        /// スライドショー状態変更時にインターバル時間を修正する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AppContext_IsPlayingSlideShowChanged(object sender, EventArgs e)
+        {
+            if (AppContext.Current.IsPlayingSlideShow)
+            {
+                if (_VM.SlideShowInterval < _timer.Interval.TotalSeconds * 0.5)
+                {
+                    var interval = _VM.SlideShowInterval * 0.5;
+                    if (interval < 0.01) interval = 0.01;
+                    if (interval > 0.5) interval = 0.5;
+                    _timer.Interval = TimeSpan.FromSeconds(interval);
+                }
+                _lastShowTime = DateTime.Now;
+            }
+            else
+            {
+                _timer.Interval = TimeSpan.FromSeconds(0.5);
+            }
+
+            Debug.WriteLine($"TimerInterval = {_timer.Interval.TotalMilliseconds}ms");
         }
 
         // ビジュアル初期化
@@ -421,11 +450,14 @@ namespace NeeView
                 _lastActionTime = DateTime.Now;
             }
 
-            // スライドショーのインターバルを非アクティブ時間で求める
-            if ((DateTime.Now - _lastShowTime).TotalSeconds > _VM.SlideShowInterval)
+            if (AppContext.Current.IsPlayingSlideShow)
             {
-                if (!_nowLoading) _VM.NextSlide();
-                _lastShowTime = DateTime.Now;
+                // スライドショーのインターバルを非アクティブ時間で求める
+                if ((DateTime.Now - _lastShowTime).TotalSeconds > _VM.SlideShowInterval)
+                {
+                    if (!_nowLoading) _VM.NextSlide();
+                    _lastShowTime = DateTime.Now;
+                }
             }
         }
 
@@ -836,6 +868,7 @@ namespace NeeView
                 _VM.StoreWindowPlacement(this);
                 _VM.SaveSetting();
                 ModelContext.BookHistory.Restore(history, false);
+                AppContext.Current.RaizeAllPropertyChanged();
 
                 // 現在ページ再読込
                 _VM.BookHub.ReLoad();
@@ -1146,6 +1179,9 @@ namespace NeeView
         //
         private void Window_Closed(object sender, EventArgs e)
         {
+            // タイマー停止
+            _timer.Stop();
+
             // 設定保存
             _VM.SaveSetting();
 
@@ -1155,7 +1191,7 @@ namespace NeeView
 
             // テンポラリファイル破棄
             Temporary.RemoveTempFolder();
-            
+
             // キャッシュDBを閉じる
             ThumbnailCache.Current.Dispose();
 

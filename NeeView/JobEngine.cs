@@ -257,6 +257,8 @@ namespace NeeView
             Debug.Assert(0 <= size && size <= _MaxWorkerSize);
             Debug.WriteLine("JobWorker: " + size);
 
+            var primaryCount = (size > 2) ? 2 : size - 1;
+
             for (int i = 0; i < _MaxWorkerSize; ++i)
             {
                 if (i < size)
@@ -271,7 +273,7 @@ namespace NeeView
                     }
 
                     // 現在のフォルダジョブのみ処理する設定
-                    Workers[i].IsPrimary = i < size - 1;
+                    Workers[i].IsPrimary = i < primaryCount;
                 }
                 else
                 {

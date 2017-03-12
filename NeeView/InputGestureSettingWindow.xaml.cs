@@ -137,29 +137,42 @@ namespace NeeView
             // [?]TODO: チルトボタン .. WinProcの監視が必要なようなので、後回しです。
 
             bool isDefaultMouseAction = true;
-            MouseAction action = MouseAction.None;
+            //MouseAction action = MouseAction.None;
             MouseExAction exAction = MouseExAction.None;
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
-                    action = e.ClickCount >= 2 ? MouseAction.LeftDoubleClick : MouseAction.LeftClick;
+                    exAction = e.ClickCount >= 2 ? MouseExAction.LeftDoubleClick : MouseExAction.LeftClick;
                     break;
                 case MouseButton.Right:
-                    action = e.ClickCount >= 2 ? MouseAction.RightDoubleClick : MouseAction.RightClick;
+                    exAction = e.ClickCount >= 2 ? MouseExAction.RightDoubleClick : MouseExAction.RightClick;
                     break;
                 case MouseButton.Middle:
-                    action = e.ClickCount >= 2 ? MouseAction.MiddleDoubleClick : MouseAction.MiddleClick;
+                    exAction = e.ClickCount >= 2 ? MouseExAction.MiddleDoubleClick : MouseExAction.MiddleClick;
                     break;
                 case MouseButton.XButton1:
-                    exAction = MouseExAction.XButton1Click;
+                    exAction = e.ClickCount >= 2 ? MouseExAction.XButton1DoubleClick : MouseExAction.XButton1Click;
                     isDefaultMouseAction = false;
                     break;
                 case MouseButton.XButton2:
-                    exAction = MouseExAction.XButton2Click;
+                    exAction = e.ClickCount >= 2 ? MouseExAction.XButton2DoubleClick : MouseExAction.XButton2Click;
                     isDefaultMouseAction = false;
                     break;
             }
 
+            ModifierMouseButtons modifierMouseButtons = ModifierMouseButtons.None;
+            if (e.LeftButton == MouseButtonState.Pressed && e.ChangedButton != MouseButton.Left)
+                modifierMouseButtons |= ModifierMouseButtons.LeftButton;
+            if (e.RightButton == MouseButtonState.Pressed && e.ChangedButton != MouseButton.Right)
+                modifierMouseButtons |= ModifierMouseButtons.RightButton;
+            if (e.MiddleButton == MouseButtonState.Pressed && e.ChangedButton != MouseButton.Middle)
+                modifierMouseButtons |= ModifierMouseButtons.MiddleButton;
+            if (e.XButton1 == MouseButtonState.Pressed && e.ChangedButton != MouseButton.XButton1)
+                modifierMouseButtons |= ModifierMouseButtons.XButton1;
+            if (e.XButton2 == MouseButtonState.Pressed && e.ChangedButton != MouseButton.XButton2)
+                modifierMouseButtons |= ModifierMouseButtons.XButton2;
+
+            /*
             if (isDefaultMouseAction)
             {
                 MouseGesture mouseGesture = null;
@@ -180,11 +193,12 @@ namespace NeeView
                 }
             }
             else
+            */
             {
                 MouseExGesture mouseGesture = null;
                 try
                 {
-                    mouseGesture = new MouseExGesture(exAction, Keyboard.Modifiers);
+                    mouseGesture = new MouseExGesture(exAction, Keyboard.Modifiers, modifierMouseButtons);
                 }
                 catch { }
 

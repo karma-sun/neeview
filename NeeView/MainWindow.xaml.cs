@@ -244,7 +244,7 @@ namespace NeeView
 
             // timer for slideshow
             _timer = new DispatcherTimer(DispatcherPriority.Normal, this.Dispatcher);
-            _timer.Interval = TimeSpan.FromSeconds(0.2);
+            _timer.Interval = TimeSpan.FromSeconds(_maxTimerTick);
             _timer.Tick += new EventHandler(DispatcherTimer_Tick);
             _timer.Start();
 
@@ -256,6 +256,9 @@ namespace NeeView
             this.MouseRightButtonDown += (s, e) => this.RenameManager.Stop();
             this.Deactivated += (s, e) => this.RenameManager.Stop();
         }
+
+        //
+        private double _maxTimerTick = 0.2;
 
         /// <summary>
         /// スライドショー状態変更時にインターバル時間を修正する
@@ -270,14 +273,14 @@ namespace NeeView
                 {
                     var interval = _VM.SlideShowInterval * 0.5;
                     if (interval < 0.01) interval = 0.01;
-                    if (interval > 0.5) interval = 0.5;
+                    if (interval > _maxTimerTick) interval = _maxTimerTick;
                     _timer.Interval = TimeSpan.FromSeconds(interval);
                 }
                 _lastShowTime = DateTime.Now;
             }
             else
             {
-                _timer.Interval = TimeSpan.FromSeconds(0.5);
+                _timer.Interval = TimeSpan.FromSeconds(_maxTimerTick);
             }
 
             Debug.WriteLine($"TimerInterval = {_timer.Interval.TotalMilliseconds}ms");

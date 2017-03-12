@@ -291,7 +291,7 @@ namespace NeeView
                 element.Note = "画像をファイルに保存します";
                 element.ShortCutKey = "Ctrl+S";
                 element.Execute = (s, e) => _book.Export();
-                element.CanExecute = () => _book.CanOpenFilePlace();
+                element.CanExecute = () => _book.CanExport();
                 element.IsShowMessage = false;
                 _elements[CommandType.Export] = element;
             }

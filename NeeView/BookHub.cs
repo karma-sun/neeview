@@ -69,6 +69,7 @@ namespace NeeView
         None, // 先読み無し
         AutoPreLoad, // 自動先読み
         PreLoad, // 固定先読み
+        PreLoadNoUnload, // 固定先読み開放なし
     }
 
     //
@@ -1570,12 +1571,26 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// ファイル保存可否
+        /// </summary>
+        /// <returns></returns>
+        public bool CanExport()
+        {
+            var pages = CurrentBook?.GetViewPages();
+            if (pages == null) return false;
+
+            var bitmapSource = (pages[0].Content as BitmapContent)?.BitmapSource;
+            if (bitmapSource == null) return false;
+
+            return true;
+        }
 
         // ファイルに保存する
         // TODO: OutOfMemory対策
         public void Export()
         {
-            if (CurrentBook != null && CanOpenFilePlace())
+            if (CanExport())
             {
                 try
                 {

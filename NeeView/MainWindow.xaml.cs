@@ -244,7 +244,7 @@ namespace NeeView
 
             // timer for slideshow
             _timer = new DispatcherTimer(DispatcherPriority.Normal, this.Dispatcher);
-            _timer.Interval = TimeSpan.FromSeconds(0.1);
+            _timer.Interval = TimeSpan.FromMilliseconds(100);
             _timer.Tick += new EventHandler(DispatcherTimer_Tick);
             _timer.Start();
 

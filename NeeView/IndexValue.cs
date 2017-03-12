@@ -32,6 +32,9 @@ namespace NeeView
         //
         public event EventHandler<ValueChangedEventArgs<T>> ValueChanged;
 
+        //
+        public bool IsValueSyncIndex { get; set; } = true;
+
         //  
         private List<T> _values;
 
@@ -64,7 +67,7 @@ namespace NeeView
             {
                 _index = NVUtility.Clamp<int>(value, 0, IndexMax);
 
-                UpdateValue();
+                SetValue(_values[_index]);
             }
         }
 
@@ -79,7 +82,7 @@ namespace NeeView
             set
             {
                 _index = IndexOfNear(value, _values);
-                UpdateValue();
+                SetValue(IsValueSyncIndex ? _values[_index] : value);
             }
         }
 
@@ -98,9 +101,9 @@ namespace NeeView
 
 
         //
-        private void UpdateValue()
+        private void SetValue(T value)
         {
-            _value = _values[_index];
+            _value = value; // _values[_index];
 
             RaisePropertyChanged(null);
             ValueChanged?.Invoke(this, new ValueChangedEventArgs<T>() { NewValue = _value });

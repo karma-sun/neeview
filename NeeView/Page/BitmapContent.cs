@@ -106,6 +106,7 @@ namespace NeeView
             {
                 BitmapSource = bitmap;
                 RaiseLoaded();
+                RaiseChanged();
             }
 
             if (Thumbnail.IsValid) return;
@@ -119,6 +120,7 @@ namespace NeeView
         {
             PageMessage = null;
             BitmapSource = null;
+            RaiseChanged();
 
             MemoryControl.Current.GarbageCollect();
         }

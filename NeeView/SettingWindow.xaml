@@ -124,7 +124,7 @@
                                       ToolTip="OFFの時は画像非表示単位でメモリ開放を行います"
                                       IsChecked="{Binding Setting.ViewMemento.IsAutoGC}" />
                             <StackPanel Style="{StaticResource ItemStackPanel}"
-                                        ToolTip="先読みは前後のページを保持するためメモリを消費します&#xa;「自動」にすると画像サイズに応じで先読み有効無効を切り替えます">
+                                        ToolTip="先読みは前後のページを保持するためメモリを消費します&#xa;「自動」にすると画像サイズに応じで先読み有効無効を切り替えます&#xa;「先読みする(開放なし)」は読み込んだ画像を開放しない最もメモリを消費するモードです">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="先読み"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PreLoadModeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.BookHubMemento. PreLoadMode}" />
@@ -731,7 +731,9 @@
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="表示間隔" MinWidth="60"/>
                                 <Slider Style="{StaticResource ItemSlider}" Value="{Binding SlideShowInterval.Index}"
                                     Minimum="0" Maximum="{Binding SlideShowInterval.IndexMax}" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                                <TextBlock Text="{Binding SlideShowInterval.ValueString}" />
+                                <!--<TextBlock Text="{Binding SlideShowInterval.ValueString}" />-->
+                                <TextBox Text="{Binding SlideShowInterval.Value}" MinWidth="60" />
+                                <TextBlock Text="秒" VerticalAlignment="Center" Margin="2"/>
                             </StackPanel>
 
                         </StackPanel>

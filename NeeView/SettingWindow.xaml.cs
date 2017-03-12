@@ -293,7 +293,8 @@ namespace NeeView
         {
             [PreLoadMode.None] = "しない",
             [PreLoadMode.AutoPreLoad] = "自動",
-            [PreLoadMode.PreLoad] = "先読みする"
+            [PreLoadMode.PreLoad] = "先読みする",
+            [PreLoadMode.PreLoadNoUnload] = "先読みする(開放なし)"
         };
 
         //
@@ -947,6 +948,7 @@ namespace NeeView
         //
         public SlideShowInterval(double value) : base(_values)
         {
+            IsValueSyncIndex = false;
             Value = value;
         }
 

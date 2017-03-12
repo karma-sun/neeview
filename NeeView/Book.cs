@@ -141,8 +141,16 @@ namespace NeeView
                         return _canPreLoad;
                     case PreLoadMode.PreLoad:
                         return true;
+                    case PreLoadMode.PreLoadNoUnload:
+                        return true;
                 }
             }
+        }
+
+        // 開放許可フラグ
+        private bool AllowUnload
+        {
+            get { return PreLoadMode != PreLoadMode.PreLoadNoUnload; }
         }
 
         // 先読みモード
@@ -1385,41 +1393,24 @@ namespace NeeView
             }
 
             // 不要コンテンツ破棄
-            foreach (var page in _keepPages)
+            ClearAllPages(keepPages);
+        }
+
+
+
+        // 全ページコンテンツの削除を行う
+        private void ClearAllPages(List<Page> keeps)
+        {
+            if (AllowUnload)
             {
-                if (!keepPages.Contains(page))
+                foreach (var page in _keepPages.Where(e => !keeps.Contains(e)))
                 {
                     page.Unload();
                 }
             }
 
             // 保持ページ更新
-            _keepPages = keepPages;
-        }
-
-
-        // 全ページコンテンツの削除を行う
-        private void ClearAllPages()
-        {
-            foreach (var page in _keepPages)
-            {
-                page.Unload();
-            }
-
-            // 保持ページ更新
-            _keepPages = new List<Page>();
-        }
-
-        // 全ページコンテンツの削除を行う
-        private void ClearAllPages(List<Page> keeps)
-        {
-            foreach (var page in _keepPages.Where(e => !keeps.Contains(e)))
-            {
-                page.Unload();
-            }
-
-            // 保持ページ更新
-            _keepPages = keeps; // new List<Page>();
+            _keepPages = keeps;
         }
 
 

@@ -49,7 +49,7 @@ namespace NeeView
         public bool openbook_begin_current { get; set; }
 
         [DataMember, DefaultValue(2)]
-        [PropertyMember("画像読み込みに使用するスレッド数")]
+        [PropertyMember("画像読み込みに使用するスレッド数", Tips = "有効値は1～4です")]
         public int loader_thread_size { get; set; }
 
         [DataMember, DefaultValue(true)]

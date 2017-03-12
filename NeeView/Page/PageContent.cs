@@ -50,6 +50,42 @@ namespace NeeView
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        #region 開発用
+
+        [Conditional("DEBUG")]
+        private void InitializeDev()
+        {
+            Changed += (s, e) => UpdateDebStatus();
+            Thumbnail.Changed += (s, e) => UpdateDebStatus();
+        }
+
+        private void UpdateDebStatus()
+        {
+            DevStatus = (Thumbnail.IsValid ? "T" : "") + (IsLoaded ? "C" : "");
+        }
+
+        /// <summary>
+        /// DevStatus property.
+        /// </summary>
+        private string _DevStatus;
+        public string DevStatus
+        {
+            get { return _DevStatus; }
+            set { if (_DevStatus != value) { _DevStatus = value; RaisePropertyChanged(); } }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// コンテンツ変更イベント
+        /// </summary>
+        public event EventHandler Changed;
+
+        protected void RaiseChanged()
+        {
+            Changed?.Invoke(this, null);
+        }
+
         /// <summary>
         /// コンテンツ準備完了イベント
         /// </summary>
@@ -96,6 +132,9 @@ namespace NeeView
         public PageContent(ArchiveEntry entry)
         {
             this.Entry = entry;
+
+            // 開発用：
+            InitializeDev();
         }
 
 

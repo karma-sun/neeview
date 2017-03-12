@@ -18,7 +18,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="名前"  DisplayMemberBinding="{Binding LastName}" Width="80"/>
-                    <GridViewColumn Header="状態"  DisplayMemberBinding="{Binding Content.IsLoaded}" Width="80"/>
+                    <GridViewColumn Header="状態"  DisplayMemberBinding="{Binding Content.DevStatus}" Width="80"/>
                     <GridViewColumn Header="情報"  DisplayMemberBinding="{Binding Message}" Width="150"/>
                 </GridView>
             </ListView.View>

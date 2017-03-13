@@ -13,4 +13,4 @@ Windows 10 / VisualStudio 2015
 配布用のZip,Msiを作成します。  
 Deploy.ps1 (PowerScript) でビルドからパッケージ化までを行っています。  
 markdown から ドキュメント用html を作成するために [pandoc](http://pandoc.org/) を使用しています。
-msiパッケージ作成には [WiX Toolset](http://wixtoolset.org/) を使用しています。
+msiパッケージ作成には [WiX Toolset 3.11](http://wixtoolset.org/)  を使用しています。

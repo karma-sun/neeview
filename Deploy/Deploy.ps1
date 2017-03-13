@@ -172,9 +172,9 @@ function New-Zip
 # WiX
 function New-Msi($arch, $packageDir, $packageMsi)
 {
-	$candle = 'C:\Program Files (x86)\WiX Toolset v3.10\bin\candle.exe'
-	$light = 'C:\Program Files (x86)\WiX Toolset v3.10\bin\light.exe'
-	$heat = 'C:\Program Files (x86)\WiX Toolset v3.10\bin\heat.exe'
+	$candle = 'C:\Program Files (x86)\WiX Toolset v3.11\bin\candle.exe'
+	$light = 'C:\Program Files (x86)\WiX Toolset v3.11\bin\light.exe'
+	$heat = 'C:\Program Files (x86)\WiX Toolset v3.11\bin\heat.exe'
 
 
 

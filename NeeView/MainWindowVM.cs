@@ -1119,8 +1119,8 @@ namespace NeeView
 
             if ((mask & (UpdateWindowTitleMask.Page | UpdateWindowTitleMask.View)) != 0)
             {
-                string scale0 = Contents[0].IsValid ? $"{(int)(_viewScale * Contents[0].Scale * _DpiScaleFactor.X * 100 + 0.1)}%" : "";
-                string scale1 = Contents[1].IsValid ? $"{(int)(_viewScale * Contents[1].Scale * _DpiScaleFactor.X * 100 + 0.1)}%" : "";
+                string scale0 = Contents[0].IsValid ? $"{(int)(_viewScale * Contents[0].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";
+                string scale1 = Contents[1].IsValid ? $"{(int)(_viewScale * Contents[1].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";
                 _windowTitleFormatter.Set("$Scale", isMainContent0 ? scale0 : scale1);
                 _windowTitleFormatter.Set("$ScaleL", scale1);
                 _windowTitleFormatter.Set("$ScaleR", scale0);
@@ -1607,8 +1607,7 @@ namespace NeeView
         #endregion
 
         // サムネイルサイズ(表示サイズ)
-        public double ThumbnailDispSize => _thumbnailSize / _DpiScaleFactor.X;
-
+        public double ThumbnailDispSize => _thumbnailSize;
 
 
         // ページ番号の表示
@@ -1709,7 +1708,7 @@ namespace NeeView
 
 
         // DPI倍率
-        private Point _DpiScaleFactor => App.Config.DpiScaleFactor;
+        private DpiScale _Dpi => App.Config.Dpi;
 
         // DPIのXY比率が等しい？
         private bool _IsDpiSquare => App.Config.IsDpiSquare;
@@ -2431,7 +2430,7 @@ namespace NeeView
             double offsetWidth = 0;
             if (Contents[0].Size.Width > 0.5 && Contents[1].Size.Width > 0.5)
             {
-                offsetWidth = ContentsSpace / _DpiScaleFactor.X + ContentsSpace;
+                offsetWidth = ContentsSpace / _Dpi.DpiScaleX + ContentsSpace;
                 ContentsMargin = new Thickness(offsetWidth, 0, 0, 0);
             }
             else
@@ -2439,12 +2438,12 @@ namespace NeeView
                 ContentsMargin = new Thickness(0);
             }
 
-            var sizes = CalcContentSize(_viewWidth * _DpiScaleFactor.X + offsetWidth, _viewHeight * _DpiScaleFactor.Y, _contentAngle);
+            var sizes = CalcContentSize(_viewWidth * _Dpi.DpiScaleX + offsetWidth, _viewHeight * _Dpi.DpiScaleY, _contentAngle);
 
             for (int i = 0; i < 2; ++i)
             {
-                Contents[i].Width = sizes[i].Width / _DpiScaleFactor.X;
-                Contents[i].Height = sizes[i].Height / _DpiScaleFactor.Y;
+                Contents[i].Width = sizes[i].Width / _Dpi.DpiScaleX;
+                Contents[i].Height = sizes[i].Height / _Dpi.DpiScaleY;
             }
 
             UpdateContentScalingMode();
@@ -2480,7 +2479,7 @@ namespace NeeView
                 {
                     case TransformActionType.Scale:
                         string scaleText = IsOriginalScaleShowMessage && MainContent.IsValid
-                            ? $"{(int)(_viewScale * MainContent.Scale * _DpiScaleFactor.X * 100 + 0.1)}%"
+                            ? $"{(int)(_viewScale * MainContent.Scale * _Dpi.DpiScaleX * 100 + 0.1)}%"
                             : $"{(int)(_viewScale * 100.0 + 0.1)}%";
                         DispMessage(ViewTransformShowMessageStyle, scaleText);
                         break;
@@ -2510,14 +2509,14 @@ namespace NeeView
             {
                 if (content.View != null && content.View.Element is Rectangle)
                 {
-                    double diff = Math.Abs(content.Size.Width - content.Width * _DpiScaleFactor.X);
+                    double diff = Math.Abs(content.Size.Width - content.Width * _Dpi.DpiScaleX);
                     if (_IsDpiSquare && diff < 0.1 && _viewAngle == 0.0 && Math.Abs(_finalViewScale - 1.0) < 0.001)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                     }
                     else
                     {
-                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _DpiScaleFactor.X * _finalViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _Dpi.DpiScaleX * _finalViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
                     }
                 }
             }

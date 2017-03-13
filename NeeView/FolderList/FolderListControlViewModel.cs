@@ -188,6 +188,7 @@ public class FolderListControlViewModel : INotifyPropertyChanged
                 _isDarty = false;
 
                 // FolderListView 更新
+                this.FolderListView?.Dispose();
                 this.FolderListView = CreateFolderListView(place, select, options.HasFlag(FolderSetPlaceOption.IsFocus));
 
                 // 最終フォルダ更新

@@ -29,17 +29,33 @@ namespace NeeView
         {
         }
 
-        // DPI倍率
-        public Point DpiScaleFactor { get; private set; } = new Point(1, 1);
+        /// <summary>
+        /// DPI(アプリ値)
+        /// </summary>
+        public DpiScale Dpi => Preference.Current.view_image_dotbydot ? RawDpi : OneDpi;
 
-        // DPIのXY比率が等しい？
-        public bool IsDpiSquare { get; private set; } = false;
+        /// <summary>
+        /// DPI(システム値)
+        /// </summary>
+        public DpiScale RawDpi { get; private set; } = new DpiScale(1, 1);
 
-        // DPI設定
-        public void UpdateDpiScaleFactor(System.Windows.Media.Visual visual, bool dotbydot)
+        /// <summary>
+        /// 等倍DPI値
+        /// </summary>
+        public DpiScale OneDpi { get; private set; } = new DpiScale(1, 1);
+
+        /// <summary>
+        /// DPIのXY比率が等しい？
+        /// </summary>
+        public bool IsDpiSquare => Dpi.DpiScaleX == Dpi.DpiScaleY;
+
+        /// <summary>
+        /// DPI設定
+        /// </summary>
+        /// <param name="dpi"></param>
+        public void SetDip(DpiScale dpi)
         {
-            DpiScaleFactor = dotbydot ? DragExtensions.WPFUtil.GetDpiScaleFactor(visual) : new Point(1.0, 1.0);
-            IsDpiSquare = DpiScaleFactor.X == DpiScaleFactor.Y;
+            RawDpi = dpi;
         }
 
 

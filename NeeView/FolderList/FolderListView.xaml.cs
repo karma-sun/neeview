@@ -93,18 +93,15 @@ namespace NeeView
             this.ListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
 
             _thumbnailHelper = new ThumbnailHelper(this.ListBox, _VM.RequestThumbnail);
-
-            this.Unloaded += FolderListView_Unloaded;
         }
 
+
         /// <summary>
-        /// Unloaded
+        /// 廃棄処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FolderListView_Unloaded(object sender, RoutedEventArgs e)
+        public void Dispose()
         {
-            _VM?.Unloaded();
+            _VM?.Dispose();
         }
 
         /// <summary>

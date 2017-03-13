@@ -46,7 +46,12 @@ namespace NeeView
         /// <summary>
         /// Collection本体
         /// </summary>
-        public ObservableCollection<FolderItem> Items { get; private set; }
+        private ObservableCollection<FolderItem> _Items;
+        public ObservableCollection<FolderItem> Items
+        {
+            get { return _Items; }
+            private set { _Items = value; }
+        }
 
         /// <summary>
         /// フォルダーの場所

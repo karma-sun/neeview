@@ -97,7 +97,7 @@ namespace NeeView
         /// <summary>
         /// 終了処理
         /// </summary>
-        internal void Unloaded()
+        internal void Dispose()
         {
             this.FolderCollection?.Dispose();
         }
@@ -271,7 +271,7 @@ namespace NeeView
         /// <returns></returns>
         internal FolderItem GetFolderItem(int offset)
         {
-            if (this.FolderCollection == null) return null;
+            if (this.FolderCollection?.Items == null) return null;
 
             int index = this.SelectedIndex;
             if (index < 0) return null;
@@ -290,7 +290,7 @@ namespace NeeView
         /// </summary>
         internal void ToggleFolderOrder()
         {
-            if (this.FolderCollection == null) return;
+            if (this.FolderCollection?.Items == null) return;
 
             this.FolderCollection.FolderCollectionParameter.FolderOrder = this.FolderCollection.FolderCollectionParameter.FolderOrder.GetToggle();
         }

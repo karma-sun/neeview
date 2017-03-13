@@ -20,6 +20,7 @@
         Loaded="MainWindow_Loaded" Closed="Window_Closed" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized"
         PreviewDragOver="MainWindow_PreviewDragOver" Drop="MainWindow_Drop" MouseLeave="MainWindow_MouseLeave"
         StateChanged="MainWindow_StateChanged"
+        DpiChanged="MainWindow_DpiChanged"
         PreviewKeyDown="Window_PreviewKeyDown">
 
     <!--"{x:Static SystemParameters.CaptionHeight}"-->

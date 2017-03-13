@@ -314,9 +314,6 @@ namespace NeeView
             _mouseGesture.Controller.InitializeGestureMinimumDistance(
                 preference.input_gesture_minimumdistance_x,
                 preference.input_gesture_minimumdistance_y);
-
-            // DPI更新
-            App.Config.UpdateDpiScaleFactor(this, preference.view_image_dotbydot);
         }
 
         //
@@ -2060,11 +2057,8 @@ namespace NeeView
         private void ThumbnailListBoxPanel_Loaded(object sender, RoutedEventArgs e)
         {
             // パネルコントロール取得
-            if (_thumbnailListPanel == null)
-            {
-                _thumbnailListPanel = sender as VirtualizingStackPanel;
-                DartyThumbnailList();
-            }
+            _thumbnailListPanel = sender as VirtualizingStackPanel;
+            DartyThumbnailList();
         }
 
         private void MainWindow_MouseLeave(object sender, MouseEventArgs e)
@@ -2179,7 +2173,7 @@ namespace NeeView
             if (menu == null) return;
             menu.ItemsSource = _VM.GetHistory(+1, 10);
         }
-        
+
         /// <summary>
         /// スライダーエリアでのマウスホイール操作
         /// </summary>
@@ -2200,6 +2194,16 @@ namespace NeeView
                     _VM.BookHub.PrevPage();
                 }
             }
+        }
+
+        /// <summary>
+        /// DPI変更イベントう
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow_DpiChanged(object sender, DpiChangedEventArgs e)
+        {
+            App.Config.SetDip(e.NewDpi);
         }
     }
 
@@ -2435,7 +2439,7 @@ namespace NeeView
             else
                 length = double.Parse((string)value);
 
-            return length / App.Config.DpiScaleFactor.X;
+            return length;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -2459,7 +2463,7 @@ namespace NeeView
             else
                 length = double.Parse((string)value);
 
-            return length / App.Config.DpiScaleFactor.Y;
+            return length;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

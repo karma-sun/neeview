@@ -56,6 +56,11 @@
     </windowsSettings>
   </application>
   -->
+  <application xmlns="urn:schemas-microsoft-com:asm.v3">
+    <windowsSettings>
+      <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings"> PerMonitor</dpiAwareness>
+    </windowsSettings>
+  </application>
 
   <!-- Windows のコモン コントロールとダイアログのテーマを有効にします (Windows XP 以降) -->
   <dependency>

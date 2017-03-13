@@ -42,9 +42,9 @@
     <Property Id='ARPPRODUCTICON'>MyIcon.exe</Property>
 
     <!-- 条件: .Net version -->
-    <PropertyRef Id="WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED"/>
-    <Condition Message='このセットアップを実行するためには、.NET Framework 4.6以降 がインストールされている必要があります。'>
-      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED]]>
+    <PropertyRef Id="WIX_IS_NETFRAMEWORK_462_OR_LATER_INSTALLED"/>
+    <Condition Message='このセットアップを実行するためには、.NET Framework 4.6.2以降 がインストールされている必要があります。'>
+      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_462_OR_LATER_INSTALLED]]>
     </Condition>
 
   </Product>

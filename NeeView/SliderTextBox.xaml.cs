@@ -143,10 +143,12 @@ namespace NeeView
 
         private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
+            int turn = NeeView.MouseWheel.DeltaCount(e);
+
             if (e.Delta > 0)
-                this.Target.Value = this.Target.Value - 1;
+                this.Target.Value = this.Target.Value - turn;
             else
-                this.Target.Value = this.Target.Value + 1;
+                this.Target.Value = this.Target.Value + turn;
 
             ValueChanged?.Invoke(this, null);
             this.TextBox.SelectAll();

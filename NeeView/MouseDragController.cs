@@ -762,7 +762,12 @@ namespace NeeView
         {
             _sender.Focus();
 
-            if (_isButtonDown) return;
+            if (_isButtonDown)
+            {
+                // クリック系のイベントを無効にする
+                _isEnableClickEvent = false;
+                return;
+            }
 
             if (e.ChangedButton != MouseButton.Left && e.ChangedButton != MouseButton.Middle) return;
 

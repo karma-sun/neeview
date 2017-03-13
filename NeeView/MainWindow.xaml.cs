@@ -754,8 +754,7 @@ namespace NeeView
         /// <param name="arg"></param>
         private void WheelCommandExecute(RoutedUICommand command, MouseWheelEventArgs arg)
         {
-            int turn = Math.Abs(arg.Delta) / 120;
-            if (turn < 1) turn = 1;
+            int turn = NeeView.MouseWheel.DeltaCount(arg);
 
             // Debug.WriteLine($"WheelCommand: {turn}({arg.Delta})");
 
@@ -2145,7 +2144,8 @@ namespace NeeView
 
         private void ThumbnailListBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            int delta = e.Delta < 0 ? +1 : -1;
+            int count = NeeView.MouseWheel.DeltaCount(e);
+            int delta = e.Delta < 0 ? +count : -count;
             if (_VM.IsSliderDirectionReversed) delta = -delta;
             ThumbnailListBox_MoveSelectedIndex(delta);
             e.Handled = true;
@@ -2178,6 +2178,28 @@ namespace NeeView
             var menu = (sender as FrameworkElement)?.ContextMenu;
             if (menu == null) return;
             menu.ItemsSource = _VM.GetHistory(+1, 10);
+        }
+        
+        /// <summary>
+        /// スライダーエリアでのマウスホイール操作
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SliderArea_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            int turn = NeeView.MouseWheel.DeltaCount(e);
+
+            for (int i = 0; i < turn; ++i)
+            {
+                if (e.Delta < 0)
+                {
+                    _VM.BookHub.NextPage();
+                }
+                else
+                {
+                    _VM.BookHub.PrevPage();
+                }
+            }
         }
     }
 

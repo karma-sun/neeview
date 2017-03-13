@@ -3132,6 +3132,7 @@ namespace NeeView
                 SliderDirection = SliderDirection.RightToLeft;
                 IsVisibleWindowTitle = true;
                 IsVisibleLoupeInfo = true;
+                IsSliderWithIndex = true;
             }
 
             public Memento()

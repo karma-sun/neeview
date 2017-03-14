@@ -78,8 +78,8 @@
         <!-- Normal -->
         <DataTemplate x:Key="NormalFolder">
             <DockPanel>
-                <ContentControl DockPanel.Dock="Right" Width="20" Height="20" ContentTemplate="{StaticResource IconTemplate}" Content="{Binding}" VerticalAlignment="Top"/>
-                <ContentControl DockPanel.Dock="Left" Width="20" Height="20" ContentTemplate="{StaticResource FolderIconTemplate}" Content="{Binding}"/>
+                <ContentControl DockPanel.Dock="Right" Width="20" Height="20" ContentTemplate="{StaticResource IconTemplate}" Content="{Binding}"/>
+                <ContentControl DockPanel.Dock="Left" Width="20" Height="20" ContentTemplate="{StaticResource FolderIconTemplate}" Content="{Binding}" VerticalAlignment="Top"/>
                 <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}"/>
             </DockPanel>
         </DataTemplate>

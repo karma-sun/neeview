@@ -19,58 +19,6 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
 
-        <Style TargetType="TextBlock" x:Key="FolderIcon">
-            <Setter Property="FontFamily" Value="Wingdings"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Height" Value="18"/>
-            <Setter Property="Margin" Value="0,-1,0,0"/>
-            <Setter Property="Text" Value="0"/>
-        </Style>
-
-        <Style TargetType="TextBlock" x:Key="FolderOverlayDisable">
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
-            <Setter Property="FontFamily" Value="Webdings"/>
-            <Setter Property="Text" Value="r"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Foreground" Value="Red"/>
-        </Style>
-
-        <Style TargetType="TextBlock" x:Key="FolderOverlayChecked">
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
-            <Setter Property="FontFamily" Value="Webdings"/>
-            <Setter Property="Text" Value="a"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="Foreground" Value="{DynamicResource NVCheckMarkBrush}"/>
-            <Setter Property="Margin" Value="0,0,-4,-4"/>
-        </Style>
-
-        <Style TargetType="TextBlock" x:Key="FolderOverlayStar">
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
-            <Setter Property="FontFamily" Value="Wingdings"/>
-            <Setter Property="Text" Value="«"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="Foreground" Value="{DynamicResource NVStarMarkBrush}"/>
-            <Setter Property="Margin" Value="0,0,-4,-4"/>
-        </Style>
-
-        <Style TargetType="TextBlock" x:Key="FolderOverlayShortcut">
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="FontFamily" Value="Wingdings"/>
-            <Setter Property="Text" Value="à"/>
-            <Setter Property="FontSize" Value="10"/>
-            <Setter Property="Margin" Value="-1,0,0,1"/>
-        </Style>
-
-        <local:FolderIconOverlayConverter x:Key="FolderIconOverlayConverter"
-                                              FolderOverlayChecked="{StaticResource FolderOverlayChecked}"
-                                              FolderOverlayDisable="{StaticResource FolderOverlayDisable}"
-                                              FolderOverlayStar="{StaticResource FolderOverlayStar}"/>
-
         <Style TargetType="TextBlock" x:Key="FolderName">
             <Setter Property="Text" Value="{Binding Name}"/>
             <Setter Property="ToolTip" Value="{Binding Name}"/>
@@ -90,39 +38,87 @@
 
         <local:FileSizeToStringConverter x:Key="FileSizeToStringConverter"/>
 
-        <DataTemplate DataType="{x:Type local:FolderItem}">
-            <Grid Visibility="{Binding ., Converter={StaticResource NullableToVisibilityConverter}}">
-                <TextBlock Style="{StaticResource FolderIcon}"
+
+        <DataTemplate x:Key="IconTemplate" DataType="local:FolderItem">
+            <Image Width="12" Height="12" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsOverlayChecked}" Value="True">
+                                <Setter Property="Source" Value="{StaticResource ic_done_24px}"/>
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsOverlayStar}" Value="True">
+                                <Setter Property="Source" Value="{StaticResource ic_grade_24px}"/>
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+        </DataTemplate>
+
+
+        <DataTemplate x:Key="FolderIconTemplate" DataType="local:FolderItem">
+            <Grid Width="20">
+                <Image Source="{StaticResource ic_folder_24px}" Width="16" Height="16"
                        Visibility="{Binding IsDirectory, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <TextBlock Style="{StaticResource FolderOverlayShortcut}" 
-                       Visibility="{Binding IsShortcut, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <TextBlock Style="{Binding IconOverlay, Converter={StaticResource FolderIconOverlayConverter}}" />
+                <Grid Width="10" Height="10" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                    <Border Background="#EEE"
+                            Visibility="{Binding IsShortcut, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Image Source="{StaticResource ic_repeat_24px}" />
+                    </Border>
+                    <Image Source="{StaticResource ic_clear_24px}"
+                            Visibility="{Binding IsDisable, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </Grid>
             </Grid>
         </DataTemplate>
 
+        <!-- Normal -->
         <DataTemplate x:Key="NormalFolder">
-            <DockPanel>
-                <ContentControl DockPanel.Dock="Right" Width="24" Height="20" Content="{Binding .}"/>
+            <DockPanel Height="20">
+                <ContentControl DockPanel.Dock="Right" Width="20" Height="20" ContentTemplate="{StaticResource IconTemplate}" Content="{Binding}"/>
+                <ContentControl DockPanel.Dock="Left" Width="20" Height="20" ContentTemplate="{StaticResource FolderIconTemplate}" Content="{Binding}"/>
                 <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}"/>
             </DockPanel>
         </DataTemplate>
 
+        <!-- Picture -->
         <DataTemplate x:Key="PictureFolder">
             <Grid
                 Height="64"
                 Margin="0,1" Background="{DynamicResource NVBaseBrush}">
                 <DockPanel Margin="2">
-                    <ContentControl DockPanel.Dock="Right" Width="24" Height="20" Content="{Binding .}"/>
+                    <ContentControl DockPanel.Dock="Right" Width="20" Height="20" ContentTemplate="{StaticResource IconTemplate}" Content="{Binding}"/>
                     <DockPanel>
-                        <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"
+                        <Grid Width="60" Height="60">
+                            <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"
                                RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
                                UseLayoutRounding="True"
                                ToolTipService.IsEnabled="{Binding ArchivePage.Thumbnail.IsUniqueImage}"
-                               Width="50" Height="60" Margin="5,0">
-                            <Image.ToolTip>
-                                <Image Source="{Binding  ArchivePage.Thumbnail.BitmapSource}"/>
-                            </Image.ToolTip>
-                        </Image>
+                               HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image.ToolTip>
+                                    <Image Source="{Binding  ArchivePage.Thumbnail.BitmapSource}"/>
+                                </Image.ToolTip>
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Width" Value="50"/>
+                                        <Setter Property="Height" Value="60"/>
+                                        <Setter Property="Margin" Value="0"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsDirectory}" Value="True">
+                                                <Setter Property="Width" Value="40"/>
+                                                <Setter Property="Height" Value="50"/>
+                                                <Setter Property="Margin" Value="0,10,10,0"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                            <ContentControl Width="20" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right"
+                                        ContentTemplate="{StaticResource FolderIconTemplate}" Content="{Binding}"/>
+                        </Grid>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap"/>
                             <TextBlock x:Name="LastUpdateTime" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.LastWriteTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
@@ -170,14 +166,6 @@
                 <Setter Property="ContextMenu">
                     <Setter.Value>
                         <ContextMenu>
-                            <!--
-                            <MenuItem Header="エクスプローラーで開く"
-                                      Command="{Binding PlacementTarget.Tag.OpenPlaceCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                      CommandParameter="{Binding}"/>
-                            <MenuItem Header="削除(D)"
-                                      Command="{Binding PlacementTarget.Tag.RemoveCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                      CommandParameter="{Binding}"/>
-                            -->
                             <MenuItem Header="エクスプローラーで開く" Command="{x:Static local:FolderListView.OpenExplorerCommand}"/>
                             <MenuItem Header="コピー(C)" Command="{x:Static local:FolderListView.CopyCommand}"/>
                             <Separator/>

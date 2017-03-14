@@ -30,10 +30,8 @@ namespace NeeView
     {
         Uninitialized,
         None,
-        Disable,
         Checked,
         Star,
-        Pagemark,
     }
 
     //
@@ -107,6 +105,7 @@ namespace NeeView
         public bool IsEmpty => (Attributes & FolderItemAttribute.Empty) == FolderItemAttribute.Empty;
         public bool IsDirectoryNotFound => (Attributes & FolderItemAttribute.DirectoryNoFound) == FolderItemAttribute.DirectoryNoFound;
         public bool IsShortcut => (Attributes & FolderItemAttribute.Shortcut) == FolderItemAttribute.Shortcut;
+        public bool IsDisable => IsDirectory && !IsReady;
 
         public bool IsReady { get; set; }
 
@@ -137,32 +136,22 @@ namespace NeeView
         {
             var unit = ModelContext.BookMementoCollection.Find(TargetPath);
 
-            //if (IsVisibleBookmarkMark && unit?.PagemarkNode != null)
-            //    IconOverlay = FolderInfoIconOverlay.Pagemark;
             if (IsVisibleBookmarkMark && unit?.BookmarkNode != null)
                 _iconOverlay = FolderItemIconOverlay.Star;
             else if (IsVisibleHistoryMark && unit?.HistoryNode != null)
                 _iconOverlay = FolderItemIconOverlay.Checked;
-            else if (IsDirectory && !IsReady)
-                _iconOverlay = FolderItemIconOverlay.Disable;
             else
                 _iconOverlay = FolderItemIconOverlay.None;
         }
 
         public bool IsOverlayStar => IconOverlay == FolderItemIconOverlay.Star;
         public bool IsOverlayChecked => IconOverlay == FolderItemIconOverlay.Checked;
-        public bool IsOverlayDisable => IconOverlay == FolderItemIconOverlay.Disable;
 
         // アイコンオーバーレイの変更を通知
         public void NotifyIconOverlayChanged()
         {
             UpdateOverlay();
-
-            RaisePropertyChanged(nameof(IconOverlay));
-
-            RaisePropertyChanged(nameof(IsOverlayStar));
-            RaisePropertyChanged(nameof(IsOverlayChecked));
-            RaisePropertyChanged(nameof(IsOverlayDisable));
+            RaisePropertyChanged("");
         }
 
         private BitmapSource _icon;

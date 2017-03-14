@@ -1578,7 +1578,7 @@ namespace NeeView
         public bool CanExport()
         {
             var pages = CurrentBook?.GetViewPages();
-            if (pages == null) return false;
+            if (pages == null || pages.Count == 0) return false;
 
             var bitmapSource = (pages[0].Content as BitmapContent)?.BitmapSource;
             if (bitmapSource == null) return false;

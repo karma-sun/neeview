@@ -10,6 +10,8 @@
     <SolidColorBrush x:Key="NVPressedBrush" Color="#DDD" />
     <SolidColorBrush x:Key="NVCheckMarkBrush" Color="LightGreen" />
     <SolidColorBrush x:Key="NVStarMarkBrush" Color="#FFFFCC66" />
+    <SolidColorBrush x:Key="NVFolderBrush" Color="#FFFFE791"/>
+    <Pen x:Key="NVFolderPen" Brush="#FFDEB982"/>
 
     <SolidColorBrush x:Key="NVButtonForeground" Color="#FF1188DD" />
     <SolidColorBrush x:Key="NVButtonMouseOverBrush" Color="#44BBDDFF" />

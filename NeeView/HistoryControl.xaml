@@ -51,8 +51,7 @@
 
         <!-- Picture History -->
         <DataTemplate x:Key="PictureHistory">
-
-            <Grid Height="64" Margin="0,1" Background="{DynamicResource NVBaseBrush}">
+            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel Margin="2">
                     <DockPanel>
                         <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"
@@ -77,7 +76,7 @@
 
                     </DockPanel>
                 </DockPanel>
-            </Grid>
+            </Border>
         </DataTemplate>
 
     </UserControl.Resources>

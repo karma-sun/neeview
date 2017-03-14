@@ -976,7 +976,7 @@ namespace NeeView
             }
 
             // ビュー領域設定
-            double menuAreaHeight = this.MenuBar.Height + (_VM.IsVisibleAddressBar ? this.AddressBar.Height : 0);
+            double menuAreaHeight = this.MenuBar.ActualHeight + (_VM.IsVisibleAddressBar ? this.AddressBar.Height : 0);
             this.ViewArea.Margin = new Thickness(0, isMenuDock ? menuAreaHeight : 0, 0, 0);
 
             // コンテンツ表示領域設定
@@ -1726,7 +1726,7 @@ namespace NeeView
             if (_isMenuAreaVisibility != isVisible)
             {
                 _isMenuAreaVisibility = isVisible;
-                SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, isQuickly, VisibleStoryboardType.Collapsed);
+                SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, isQuickly, VisibleStoryboardType.Hidden);
             }
         }
 

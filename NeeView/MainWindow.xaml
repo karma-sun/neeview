@@ -443,7 +443,7 @@
             <Grid x:Name="MenuArea" VerticalAlignment="Top" MouseEnter="MenuArea_MouseEnter" MouseLeave="MenuArea_MouseLeave" >
 
                 <StackPanel>
-                    <Grid x:Name="MenuBar" Height="18" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture">
+                    <Grid x:Name="MenuBar" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture">
                         <DockPanel>
                             <!-- メインメニュー -->
                             <ContentControl Content="{Binding MainMenu}" IsTabStop="False"/>

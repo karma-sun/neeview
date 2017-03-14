@@ -16,6 +16,15 @@ using System.Windows.Media.Imaging;
 namespace NeeView
 {
     /// <summary>
+    /// Reserver
+    /// </summary>
+    public class ViewContentReserver
+    {
+        public Thumbnail Thumbnail { get; set; }
+        public Size Size { get; set; }
+        public Color Color { get; set; }
+    }
+    /// <summary>
     /// ページ表示用コンテンツ
     /// </summary>
     public class ViewContent : INotifyPropertyChanged
@@ -136,5 +145,8 @@ namespace NeeView
 
         // 表示スケール(%)
         public double Scale => Width / Size.Width;
+
+        //
+        public ViewContentReserver Reserver { get; set; }
     }
 }

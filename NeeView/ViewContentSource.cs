@@ -102,7 +102,7 @@ namespace NeeView
         }
 
         // コントロール作成
-        public FrameworkElement CreateControl(Binding foregroundBinding, Binding bitmapScalingModeBinding)
+        public FrameworkElement CreateControl(Binding foregroundBinding, Binding bitmapScalingModeBinding, ViewContentReserver reserver)
         {
             // テキスト表示
             if (Content.PageMessage != null)
@@ -122,7 +122,7 @@ namespace NeeView
             else if (!Content.IsLoaded)
             {
                 var rectangle = new Rectangle();
-                rectangle.Fill = CreateThumbnailBrush();
+                rectangle.Fill = CreateThumbnailBrush(reserver);
                 RenderOptions.SetBitmapScalingMode(rectangle, BitmapScalingMode.HighQuality);
                 return rectangle;
             }
@@ -157,7 +157,7 @@ namespace NeeView
             else
             {
                 var rectangle = new Rectangle();
-                rectangle.Fill = CreateThumbnailBrush();
+                rectangle.Fill = CreateThumbnailBrush(null);
                 RenderOptions.SetBitmapScalingMode(rectangle, BitmapScalingMode.HighQuality);
                 return rectangle;
             }
@@ -167,11 +167,15 @@ namespace NeeView
         /// サムネイル作成
         /// </summary>
         /// <returns></returns>
-        public Brush CreateThumbnailBrush()
+        public Brush CreateThumbnailBrush(ViewContentReserver reserver)
         {
             if (Page.Thumbnail.IsValid)
             {
                 return CreatePageImageBrush(Page.Thumbnail.CreateBitmap());
+            }
+            else if (reserver?.Thumbnail != null && reserver.Thumbnail.IsValid)
+            {
+                return CreatePageImageBrush(reserver.Thumbnail.CreateBitmap());
             }
             else
             {
@@ -185,9 +189,9 @@ namespace NeeView
         /// <param name="foregroundBinding"></param>
         /// <param name="bitmapScalingModeBinding"></param>
         /// <returns></returns>
-        public PageContentView CreatePageContent(Binding foregroundBinding, Binding bitmapScalingModeBinding)
+        public PageContentView CreatePageContent(Binding foregroundBinding, Binding bitmapScalingModeBinding, ViewContentReserver reserver)
         {
-            var element = CreateControl(foregroundBinding, bitmapScalingModeBinding);
+            var element = CreateControl(foregroundBinding, bitmapScalingModeBinding, reserver);
 
             var textblock = new TextBlock();
             textblock.Text = LoosePath.GetFileName(this.Page.FullPath); // Position.ToString();

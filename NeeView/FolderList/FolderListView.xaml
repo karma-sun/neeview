@@ -77,8 +77,8 @@
 
         <!-- Normal -->
         <DataTemplate x:Key="NormalFolder">
-            <DockPanel Height="20">
-                <ContentControl DockPanel.Dock="Right" Width="20" Height="20" ContentTemplate="{StaticResource IconTemplate}" Content="{Binding}"/>
+            <DockPanel>
+                <ContentControl DockPanel.Dock="Right" Width="20" Height="20" ContentTemplate="{StaticResource IconTemplate}" Content="{Binding}" VerticalAlignment="Top"/>
                 <ContentControl DockPanel.Dock="Left" Width="20" Height="20" ContentTemplate="{StaticResource FolderIconTemplate}" Content="{Binding}"/>
                 <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}"/>
             </DockPanel>
@@ -86,13 +86,11 @@
 
         <!-- Picture -->
         <DataTemplate x:Key="PictureFolder">
-            <Grid
-                Height="64"
-                Margin="0,1" Background="{DynamicResource NVBaseBrush}">
+            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel Margin="2">
                     <ContentControl DockPanel.Dock="Right" Width="20" Height="20" ContentTemplate="{StaticResource IconTemplate}" Content="{Binding}"/>
                     <DockPanel>
-                        <Grid Width="60" Height="60">
+                        <Grid Width="60">
                             <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"
                                RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
                                UseLayoutRounding="True"
@@ -126,11 +124,11 @@
                         </StackPanel>
                     </DockPanel>
                 </DockPanel>
-            </Grid>
+            </Border>
         </DataTemplate>
 
     </UserControl.Resources>
-
+    
     <ListBox x:Name="ListBox" Focusable="True" 
                 Background="Transparent"
                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"

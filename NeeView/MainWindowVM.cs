@@ -2234,11 +2234,18 @@ namespace NeeView
                 {
                     if (source != null)
                     {
+#if false
+                        var reserver = Contents[contents.Count]?.Reserver;
+#else
+                        ViewContentReserver reserver = null;
+#endif
+
                         var content = new ViewContent();
                         content.Content = source.Content;
                         content.View = source.CreatePageContent(
                             new Binding(nameof(ForegroundBrush)) { Source = this },
-                            new Binding(nameof(BitmapScalingMode)) { Source = content }
+                            new Binding(nameof(BitmapScalingMode)) { Source = content },
+                            reserver
                         );
                         content.Size = source.Size; // new Size(source.Width, source.Height);
                         content.SourceSize = source.Content.Size;
@@ -2251,7 +2258,24 @@ namespace NeeView
                         content.ReadOrder = source.ReadOrder;
                         //content.Thumbnail = source.Page.Thumbnail;
 
+#if false
+                        // reserver
+                        if (content.Content.IsLoaded || content.Content.Thumbnail.IsValid)
+                        {
+                            content.Reserver = new ViewContentReserver()
+                            {
+                                Thumbnail = content.Content.Thumbnail,
+                                Size = content.Size,
+                                Color = content.Color,
+                            };
+                        }
+                        else
+                        {
+                            content.Reserver = reserver;
+                        }
+#endif
 
+                        //
                         if (source.Content.PageMessage != null)
                         {
                             //var filePageContext = source.SourceContent as FilePageContent;
@@ -2265,12 +2289,20 @@ namespace NeeView
 
                             if (content.Size.Width == 0 && content.Size.Height == 0)
                             {
+#if false
+                                if (reserver != null)
+                                {
+                                    content.Size = reserver.Size;
+                                    content.Color = reserver.Color;
+                                }
+#else
                                 var index = contents.Count;
                                 if (Contents[index].IsValid)
                                 {
                                     content.Size = Contents[index].Size;
                                     content.Color = Contents[index].Color;
                                 }
+#endif
                                 else
                                 {
                                     content.Size = new Size(480, 680);
@@ -2887,7 +2919,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento
@@ -3317,6 +3349,6 @@ namespace NeeView
             UpdateContentSize();
         }
 
-        #endregion
+#endregion
     }
 }

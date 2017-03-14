@@ -318,7 +318,7 @@
                     <VisualState x:Name="Indeterminate" />
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            
+
             <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="0" BorderThickness="0" Background="#0000"/>
             <Path x:Name="Arrow" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4,0,0" Stroke="{TemplateBinding Foreground}"
                       StrokeThickness="1" Data="M 0 0 L 5 5 L 10 0" >

@@ -280,7 +280,7 @@ $packageDir = "$product$version"
 $packageX86Dir = "$product$version-32bit"
 $packageX64Dir = "$product$version-64bit"
 $packageZip = "$product$version.zip"
-$packageX86Msi = "$product$version-32bit.msi"
+$packageX86Msi = "$product$version.msi"
 $packageX64Msi = "$product$version-64bit.msi"
 
 

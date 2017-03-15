@@ -128,7 +128,11 @@ namespace NeeView
         }
         #endregion
 
+#if DEBUG
+        public string DownloadUri => "file://" + App.Config.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + "/_ForUpdateCheckDebug.html";
+#else
         public string DownloadUri => "https://bitbucket.org/neelabo/neeview/downloads";
+#endif
 
         public int CurrentVersion { get; set; }
         public int LastVersion { get; set; }
@@ -153,7 +157,7 @@ namespace NeeView
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
-            CurrentVersion = ver.FileMinorPart * 100 + ver.FileBuildPart;
+            CurrentVersion = ver.FileMinorPart * 100;
 
 #if DEBUG
             // for Debug
@@ -186,15 +190,18 @@ namespace NeeView
                     // download
                     var text = await wc.DownloadStringTaskAsync(new Uri(DownloadUri));
 
-                    var regex = new Regex(@"NeeView1\.(?<minor>\d+)(\.(?<build>\d+))?" + extension);
+#if DEBUG
+                    ////extension = ".msi";
+#endif
+
+                    var regex = new Regex(@"NeeView1\.(?<minor>\d+)(?<arch>-[^\.]+)?" + extension);
                     var matches = regex.Matches(text);
                     if (matches.Count <= 0) throw new ApplicationException("更新ページのフォーマットが想定されているものと異なります");
                     foreach (Match match in matches)
                     {
                         var minor = int.Parse(match.Groups["minor"].Value);
-                        var build = match.Groups["build"].Success ? int.Parse(match.Groups["build"].Value) : 0;
-                        var version = minor * 100 + build;
-                        Debug.WriteLine($"NeeView 1.{minor}.{build} - {version}");
+                        var version = minor * 100;
+                        Debug.WriteLine($"NeeView 1.{minor} - {version}: {match.Groups["arch"]?.Value}");
                         if (LastVersion < version) LastVersion = version;
                     }
 

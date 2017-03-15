@@ -32,7 +32,7 @@ namespace NeeView
         /// <summary>
         /// DPI(アプリ値)
         /// </summary>
-        public DpiScale Dpi => Preference.Current.view_image_dotbydot ? RawDpi : OneDpi;
+        public DpiScale Dpi => Preference.Current.dpi_image_ignore ? RawDpi : OneDpi;
 
         /// <summary>
         /// DPI(システム値)
@@ -53,9 +53,17 @@ namespace NeeView
         /// DPI設定
         /// </summary>
         /// <param name="dpi"></param>
-        public void SetDip(DpiScale dpi)
+        public bool SetDip(DpiScale dpi)
         {
-            RawDpi = dpi;
+            if (RawDpi.DpiScaleX != dpi.DpiScaleX || RawDpi.DpiScaleY != dpi.DpiScaleY)
+            {
+                RawDpi = dpi;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 

@@ -2197,13 +2197,28 @@ namespace NeeView
         }
 
         /// <summary>
-        /// DPI変更イベントう
+        /// DPI変更イベント
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void MainWindow_DpiChanged(object sender, DpiChangedEventArgs e)
         {
-            App.Config.SetDip(e.NewDpi);
+            var isChanged = App.Config.SetDip(e.NewDpi);
+            if (!isChanged) return;
+
+            // ウィンドウサイズのDPI非追従
+            if (Preference.Current.dpi_window_ignore && this.WindowState == WindowState.Normal)
+            {
+                var newWidth = Math.Floor(this.Width * e.OldDpi.DpiScaleX / e.NewDpi.DpiScaleX);
+                var newHeight = Math.Floor(this.Height * e.OldDpi.DpiScaleY / e.NewDpi.DpiScaleY);
+
+                // 反映タイミングをずらす
+                App.Current.Dispatcher.BeginInvoke((Action)(() =>
+                {
+                    this.Width = newWidth;
+                    this.Height = newHeight;
+                }));
+            }
         }
     }
 

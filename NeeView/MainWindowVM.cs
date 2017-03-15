@@ -856,7 +856,7 @@ namespace NeeView
                 _pageListItemStyle = value;
                 RaisePropertyChanged();
                 PanelContext.PageListItemStyle = _pageListItemStyle;
-                RaisePropertyChanged(nameof(IsContentPanelStyle));
+                RaisePropertyChanged(nameof(IsContentPageListStyle));
             }
         }
         #endregion

@@ -78,7 +78,7 @@ function Replace-Content
 
 #-----------------------
 # variables
-$solutionDir = "E:\Documents\Visual Studio 2015\Projects\$product"
+$solutionDir = ".."
 $solution = "$solutionDir\$product.sln"
 $projectDir = "$solutionDir\$product"
 $productX86Dir = "$projectDir\bin\$config"
@@ -99,7 +99,7 @@ function Build-Project($arch)
 		$platform = "Any CPU"
 	}
 
-	$msbuild = 'C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe'
+	$msbuild = 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe'
 	& $msbuild $solution /p:Configuration=$config /p:Platform=$platform /t:Clean,Build
 	if ($? -ne $true)
 	{
@@ -280,7 +280,7 @@ $packageDir = "$product$version"
 $packageX86Dir = "$product$version-32bit"
 $packageX64Dir = "$product$version-64bit"
 $packageZip = "$product$version.zip"
-$packageX86Msi = "$product$version.msi"
+$packageX86Msi = "$product$version-32bit.msi"
 $packageX64Msi = "$product$version-64bit.msi"
 
 

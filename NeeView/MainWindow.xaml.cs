@@ -1023,20 +1023,8 @@ namespace NeeView
             this.LeftPanel.Width = _VM.LeftPanelWidth;
             this.RightPanel.Width = _VM.RightPanelWidth;
 
-
             // PanelColor
             _VM.FlushPanelColor();
-
-            // オプションによるフルスクリーン指定
-            if (App.Options["--fullscreen"].IsValid)
-            {
-                _VM.IsFullScreen = App.Options["--fullscreen"].Bool;
-            }
-
-            // ウィンドウモードで初期化
-            OnMenuVisibilityChanged();
-            SetUpdateMenuLayoutMode(true);
-
 
             // フォルダーリスト初期化
             this.FolderList.SetPlace(ModelContext.BookHistory.LastFolder ?? _VM.BookHub.GetFixedHome(), null, false);
@@ -1050,6 +1038,20 @@ namespace NeeView
 
             // マーカー初期化
             this.PageMarkers.Initialize(_VM.BookHub);
+
+
+            // オプションによるフルスクリーン指定
+            if (App.Options["--fullscreen"].IsValid)
+            {
+                _VM.IsFullScreen = App.Options["--fullscreen"].Bool;
+            }
+
+            // ウィンドウモードで初期化
+            OnMenuVisibilityChanged();
+            SetUpdateMenuLayoutMode(true);
+
+
+
 
             // フォルダーを開く
             if (!App.Options["--blank"].IsValid)

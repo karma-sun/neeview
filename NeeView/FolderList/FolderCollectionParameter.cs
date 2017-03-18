@@ -14,7 +14,7 @@ namespace NeeView
 {
 
     /// <summary>
-    /// フォルダの並び順とかの保存される情報
+    /// フォルダーの並び順とかの保存される情報
     /// </summary>
     public class FolderCollectionParameter : INotifyPropertyChanged
     {

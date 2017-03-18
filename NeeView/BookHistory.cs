@@ -41,10 +41,10 @@ namespace NeeView
         // 膨大な数で変更が頻繁に行われるのでLinkedList
         public LinkedList<BookMementoUnit> Items { get; set; }
 
-        // フォルダリストで開いていた場所
+        // フォルダーリストで開いていた場所
         public string LastFolder { get; set; }
 
-        // フォルダとソートの種類
+        // フォルダーとソートの種類
         private Dictionary<string, FolderOrder> _folderOrders;
 
         // 履歴制限
@@ -59,7 +59,7 @@ namespace NeeView
         public bool IsKeepFolderStatus { get; set; } = true;
 
 
-        // フォルダ設定
+        // フォルダー設定
         public void SetFolderOrder(string path, FolderOrder order)
         {
             path = path ?? "<<root>>";
@@ -75,7 +75,7 @@ namespace NeeView
             }
         }
 
-        // フォルダ設定取得
+        // フォルダー設定取得
         public FolderOrder GetFolderOrder(string path)
         {
             path = path ?? "<<root>>";
@@ -247,7 +247,7 @@ namespace NeeView
         {
             return false;
 
-            // フォルダリストに不具合が出るので処理無効
+            // フォルダーリストに不具合が出るので処理無効
 #if false
             int oldCount = Items.Count;
 
@@ -434,7 +434,7 @@ namespace NeeView
 
             if (forSave)
             {
-                // テンポラリフォルダを除外
+                // テンポラリフォルダーを除外
                 memento.Items.RemoveAll((e) => e.Place.StartsWith(Temporary.TempDirectory));
                 // 履歴保持数制限適用
                 memento.Items = Limit(memento.Items); // 履歴保持数制限

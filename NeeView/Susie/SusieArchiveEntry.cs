@@ -71,7 +71,7 @@ namespace Susie
             }
         }
 
-        /// フォルダに出力。ファイル名は変更しない
+        /// フォルダーに出力。ファイル名は変更しない
         public void ExtractToFolder(string extractFolder)
         {
             lock (_spi.Lock)

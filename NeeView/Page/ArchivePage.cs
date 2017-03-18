@@ -17,7 +17,7 @@ using System.Windows.Media;
 namespace NeeView
 {
     /// <summary>
-    /// フォルダサムネイル専用ページ.
+    /// フォルダーサムネイル専用ページ.
     /// Pageの仕組みを使用してサムネイルを作成する
     /// </summary>
     public class ArchivePage : Page

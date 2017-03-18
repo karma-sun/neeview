@@ -14,7 +14,7 @@ using System.Windows.Controls;
 namespace NeeView
 {
     /// <summary>
-    /// フォルダリストの表示方法
+    /// フォルダーリストの表示方法
     /// </summary>
     public enum FolderListItemStyle
     {

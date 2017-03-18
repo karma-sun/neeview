@@ -127,7 +127,7 @@ namespace NeeView
             try
             {
                 // susieプラグインでは出力ファイル名を指定できないので、
-                // テンポラリフォルダに出力してから移動する
+                // テンポラリフォルダーに出力してから移動する
                 Directory.CreateDirectory(tempDirectory);
 
                 // 注意：失敗することがよくある

@@ -266,7 +266,7 @@ namespace NeeView
 
         /// <summary>
         /// SelectionChanged
-        /// フォルダリスト 選択項目変更
+        /// フォルダーリスト 選択項目変更
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -282,7 +282,7 @@ namespace NeeView
 
         /// <summary>
         /// SlingleClick
-        /// フォルダ項目決定
+        /// フォルダー項目決定
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -298,7 +298,7 @@ namespace NeeView
 
         /// <summary>
         /// DoubleClick
-        /// フォルダ移動決定
+        /// フォルダー移動決定
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

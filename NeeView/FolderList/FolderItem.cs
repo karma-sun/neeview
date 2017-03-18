@@ -45,8 +45,8 @@ namespace NeeView
     }
 
     /// <summary>
-    /// フォルダ情報
-    /// フォルダリストの１項目の情報 
+    /// フォルダー情報
+    /// フォルダーリストの１項目の情報 
     /// </summary>
     public class FolderItem : INotifyPropertyChanged, IHasPage
     {
@@ -190,7 +190,7 @@ namespace NeeView
                 }
                 else if (IsEmpty)
                 {
-                    return IsDirectoryNotFound ? "フォルダが存在しません" : "表示できるファイルはありません";
+                    return IsDirectoryNotFound ? "フォルダーが存在しません" : "表示できるファイルはありません";
                 }
                 else
                 {

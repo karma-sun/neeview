@@ -1038,7 +1038,7 @@ namespace NeeView
             SetUpdateMenuLayoutMode(true);
 
 
-            // フォルダリスト初期化
+            // フォルダーリスト初期化
             this.FolderList.SetPlace(ModelContext.BookHistory.LastFolder ?? _VM.BookHub.GetFixedHome(), null, false);
             this.PageList.Initialize(_VM);
             // 履歴リスト初期化
@@ -1051,7 +1051,7 @@ namespace NeeView
             // マーカー初期化
             this.PageMarkers.Initialize(_VM.BookHub);
 
-            // フォルダを開く
+            // フォルダーを開く
             if (!App.Options["--blank"].IsValid)
             {
                 if (App.StartupPlace != null)
@@ -1061,7 +1061,7 @@ namespace NeeView
                 }
                 else
                 {
-                    // 最後に開いたフォルダを復元する
+                    // 最後に開いたフォルダーを復元する
                     _VM.LoadLastFolder();
                 }
             }
@@ -1199,19 +1199,19 @@ namespace NeeView
         }
 
 
-        // 開発用コマンド：テンポラリフォルダを開く
+        // 開発用コマンド：テンポラリフォルダーを開く
         private void MenuItemDevTempFolder_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(Temporary.TempDirectory);
         }
 
-        // 開発用コマンド：アプリケーションフォルダを開く
+        // 開発用コマンド：アプリケーションフォルダーを開く
         private void MenuItemDevApplicationFolder_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
         }
 
-        // 開発用コマンド：アプリケーションデータフォルダを開く
+        // 開発用コマンド：アプリケーションデータフォルダーを開く
         private void MenuItemDevApplicationDataFolder_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(App.Config.LocalApplicationDataPath);
@@ -2405,7 +2405,7 @@ namespace NeeView
         }
     }
 
-    // コンバータ：フォルダの並びフラグ
+    // コンバータ：フォルダーの並びフラグ
     [ValueConversion(typeof(FolderOrder), typeof(bool))]
     public class FolderOrderToBooleanConverter : IValueConverter
     {

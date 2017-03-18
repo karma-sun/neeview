@@ -44,7 +44,7 @@ namespace NeeView
         /// <param name="path"></param>
         public TempFile(string path) : base(path)
         {
-            // テンポラリフォルダ以外は非対応
+            // テンポラリフォルダー以外は非対応
             Debug.Assert(path.StartsWith(Temporary.TempDirectory));
         }
 

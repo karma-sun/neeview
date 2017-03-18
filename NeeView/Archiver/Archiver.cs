@@ -208,7 +208,7 @@ namespace NeeView
 
         /// <summary>
         /// 所属している場所を得る
-        /// 再帰圧縮フォルダの場合は最上位のアーカイブの場所になる
+        /// 再帰圧縮フォルダーの場合は最上位のアーカイブの場所になる
         /// </summary>
         /// <returns>ファイルパス</returns>
         public string GetPlace()

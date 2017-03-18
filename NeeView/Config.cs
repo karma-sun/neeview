@@ -141,7 +141,7 @@ namespace NeeView
 
 
         /// <summary>
-        /// ユーザデータフォルダ
+        /// ユーザデータフォルダー
         /// </summary>
         private string _localApplicationDataPath;
         public string LocalApplicationDataPath
@@ -165,7 +165,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// フォルダパス生成(特殊フォルダ用)
+        /// フォルダーパス生成(特殊フォルダー用)
         /// </summary>
         /// <param name="folder"></param>
         /// <returns></returns>
@@ -245,7 +245,7 @@ namespace NeeView
         }
 
 
-        // データ保存にアプリケーションデータフォルダを使用するか
+        // データ保存にアプリケーションデータフォルダーを使用するか
         private bool? _isUseLocalApplicationDataFolder;
         public bool IsUseLocalApplicationDataFolder
         {
@@ -278,7 +278,7 @@ namespace NeeView
         // 全ユーザデータ削除
         private bool RemoveApplicationDataCore()
         {
-            // LocalApplicationDataフォルダを使用している場合のみ
+            // LocalApplicationDataフォルダーを使用している場合のみ
             if (!IsUseLocalApplicationDataFolder) return false;
 
             Debug.WriteLine("RemoveAllApplicationData ...");
@@ -317,7 +317,7 @@ namespace NeeView
                 // キャッシュDBを閉じる
                 ThumbnailCache.Current.Close();
 
-                // 削除できないのでカレントフォルダ移動
+                // 削除できないのでカレントフォルダー移動
                 var currentFolder = System.Environment.CurrentDirectory;
                 System.Environment.CurrentDirectory = this.AssemblyLocation;
 
@@ -331,7 +331,7 @@ namespace NeeView
                 {
                     MessageBox.Show(ex.Message, "NeeView - エラー", MessageBoxButton.OK, MessageBoxImage.Error);
 
-                    // カレントフォルダ復帰
+                    // カレントフォルダー復帰
                     System.Environment.CurrentDirectory = currentFolder;
                 }
             }

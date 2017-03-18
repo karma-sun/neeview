@@ -87,7 +87,7 @@ namespace NeeView
 
 
         /// <summary>
-        /// フォルダリストの場所指定
+        /// フォルダーリストの場所指定
         /// </summary>
         /// <param name="place"></param>
         /// <param name="select"></param>

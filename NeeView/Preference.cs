@@ -44,8 +44,8 @@ namespace NeeView
 
 
         [DataMember, DefaultValue(false)]
-        [PropertyMember("「開く」を現在開いているフォルダの場所から始める"
-            , Tips = "[ファイル] >[開く]で開くフォルダです\nドラッグ＆ドロップや履歴から開いた場所も基準になります")]
+        [PropertyMember("「開く」を現在開いているフォルダーの場所から始める"
+            , Tips = "[ファイル] >[開く]で開くフォルダーです\nドラッグ＆ドロップや履歴から開いた場所も基準になります")]
         public bool openbook_begin_current { get; set; }
 
         [DataMember, DefaultValue(2)]
@@ -123,7 +123,7 @@ namespace NeeView
         public bool thumbnail_cache { get; set; }
 
         [DataMember, DefaultValue(1000)]
-        [PropertyMember("ページサムネイル容量", Tips = "ページサムネイル保持枚数です。フォルダを閉じると全てクリアされます")]
+        [PropertyMember("ページサムネイル容量", Tips = "ページサムネイル保持枚数です。フォルダーを閉じると全てクリアされます")]
         public int thumbnail_book_capacity {get; set; }
         
         [DataMember, DefaultValue(200)]

@@ -93,7 +93,7 @@ namespace NeeView
         // 表示名
         public string FullPath { get; set; }
 
-        // フォルダの場所 ページの上位の有効パス
+        // フォルダーの場所 ページの上位の有効パス
         public string FolderPlace { get; set; }
 
         // ファイルの場所 ページを含む有効パス

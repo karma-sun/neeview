@@ -904,7 +904,7 @@ namespace NeeView
         }
         #endregion
 
-        // 最後のフォルダを開く
+        // 最後のフォルダーを開く
         public bool IsLoadLastFolder { get; set; }
 
         // マルチブートを禁止する
@@ -920,7 +920,7 @@ namespace NeeView
         // View側で定義されます
         public Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; }
 
-        // 空フォルダ通知表示のON/OFF
+        // 空フォルダー通知表示のON/OFF
         #region Property: IsVisibleEmptyPageMessage
         private bool _isVisibleEmptyPageMessage = false;
         public bool IsVisibleEmptyPageMessage
@@ -930,7 +930,7 @@ namespace NeeView
         }
         #endregion
 
-        // 空フォルダ通知表示の詳細テキスト
+        // 空フォルダー通知表示の詳細テキスト
         #region Property: EmptyPageMessage
         private string _emptyPageMessage;
         public string EmptyPageMessage
@@ -1169,7 +1169,7 @@ namespace NeeView
         // 本設定 公開
         public Book.Memento BookSetting => BookHub.BookMemento;
 
-        // 最近使ったフォルダ
+        // 最近使ったフォルダー
         #region Property: LastFiles
         private List<Book.Memento> _lastFiles = new List<Book.Memento>();
         public List<Book.Memento> LastFiles
@@ -1179,7 +1179,7 @@ namespace NeeView
         }
         #endregion
 
-        // 最近使ったフォルダの有効フラグ
+        // 最近使ったフォルダーの有効フラグ
         public bool IsEnableLastFiles { get { return LastFiles.Count > 0; } }
 
         // コンテンツ
@@ -1839,7 +1839,7 @@ namespace NeeView
             // messenger
             Messenger.AddReciever("UpdateLastFiles", (s, e) => UpdateLastFiles());
 
-            // ダウンロードフォルダ生成
+            // ダウンロードフォルダー生成
             if (!System.IO.Directory.Exists(Temporary.TempDownloadDirectory))
             {
                 System.IO.Directory.CreateDirectory(Temporary.TempDownloadDirectory);
@@ -2206,7 +2206,7 @@ namespace NeeView
         #endregion
 
 
-        // 最後に開いたフォルダを開く
+        // 最後に開いたフォルダーを開く
         public void LoadLastFolder()
         {
             if (!IsLoadLastFolder) return;
@@ -2832,7 +2832,7 @@ namespace NeeView
 
 
 
-        // フォルダ読み込み
+        // フォルダー読み込み
         public void Load(string path, BookLoadOption option = BookLoadOption.None)
         {
             if (Utility.FileShortcut.IsShortcut(path) && (System.IO.File.Exists(path) || System.IO.Directory.Exists(path)))

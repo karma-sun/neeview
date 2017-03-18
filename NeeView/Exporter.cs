@@ -109,10 +109,10 @@ namespace NeeView
         // JPG品質(1-100)
         public static int QualityLevel { get; set; } = 80;
 
-        // 保存フォルダ
+        // 保存フォルダー
         public static string ExportFolder { get; set; }
 
-        // 保存フォルダのパスを保存する
+        // 保存フォルダーのパスを保存する
         public static bool IsEnableExportFolder { get; set; } = true;
 
         #endregion

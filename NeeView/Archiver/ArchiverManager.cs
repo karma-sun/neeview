@@ -86,7 +86,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 除外フォルダ判定
+        /// 除外フォルダー判定
         /// </summary>
         /// <param name="path">判定するパス</param>
         /// <returns></returns>

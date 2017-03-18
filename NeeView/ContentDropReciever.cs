@@ -135,11 +135,11 @@ namespace NeeView
         /// </summary>
         /// <param name="buff">バイナリ</param>
         /// <param name="name">希望ファイル名。現在の実装では無視されます</param>
-        /// <param name="downloadPath">保存先フォルダ</param>
+        /// <param name="downloadPath">保存先フォルダー</param>
         /// <returns>出力されたファイルパスを返す。バイナリが画像データ出なかった場合はnull</returns>
         public string DownloadToFile(byte[] buff, string name, string downloadPath)
         {
-            //if (!System.IO.Directory.Exists(downloadPath)) throw new DropException("保存先フォルダが存在しません");
+            //if (!System.IO.Directory.Exists(downloadPath)) throw new DropException("保存先フォルダーが存在しません");
 
             // ファイル名は固定
             name = DateTime.Now.ToString("yyyyMMddHHmmss");

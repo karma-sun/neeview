@@ -350,7 +350,7 @@ namespace NeeView
             return Entry.GetFileSystemPath() ?? Entry.Archiver.GetPlace();
         }
 
-        // フォルダの場所を取得
+        // フォルダーの場所を取得
         public string GetFolderPlace()
         {
             Debug.Assert(Entry?.Archiver != null);

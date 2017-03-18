@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// フォルダの並び
+    /// フォルダーの並び
     /// </summary>
     public enum FolderOrder
     {
@@ -33,10 +33,10 @@ namespace NeeView
         {
             switch (mode)
             {
-                case FolderOrder.FileName: return "フォルダ列は名前順";
-                case FolderOrder.TimeStamp: return "フォルダ列は日付順";
-                case FolderOrder.Size: return "フォルダ列はサイズ順";
-                case FolderOrder.Random: return "フォルダ列はシャッフル";
+                case FolderOrder.FileName: return "フォルダー列は名前順";
+                case FolderOrder.TimeStamp: return "フォルダー列は日付順";
+                case FolderOrder.Size: return "フォルダー列はサイズ順";
+                case FolderOrder.Random: return "フォルダー列はシャッフル";
                 default:
                     throw new NotSupportedException();
             }

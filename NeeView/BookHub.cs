@@ -541,7 +541,7 @@ namespace NeeView
 
 
 
-        // パスから対応するアーカイバを取得する
+        // パスから対応するアーカイバーを取得する
         private string GetPlace(string path, BookLoadOption option)
         {
             if (Directory.Exists(path))

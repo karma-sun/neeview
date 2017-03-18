@@ -18,7 +18,7 @@ namespace NeeView
     public class ArchiveEntry
     {
         /// <summary>
-        /// 所属アーカイバ.
+        /// 所属アーカイバー.
         /// nullの場合、このエントリはファイルパスを示す
         /// </summary>
         public Archiver Archiver { get; set; }
@@ -30,7 +30,7 @@ namespace NeeView
 
         /// <summary>
         /// エントリ情報
-        /// アーカイバで識別子として使用される
+        /// アーカイバーで識別子として使用される
         /// </summary>
         public object Instance { get; set; }
 
@@ -57,7 +57,7 @@ namespace NeeView
         public string EntryLastName => LoosePath.GetFileName(EntryName);
 
         /// <summary>
-        /// ルートアーカイバ
+        /// ルートアーカイバー
         /// </summary>
         /// a.zip
         public Archiver RootArchiver => Archiver?.RootArchiver;
@@ -69,13 +69,13 @@ namespace NeeView
 
 
         /// <summary>
-        /// ルートアーカイバからのエントリ名
+        /// ルートアーカイバーからのエントリ名
         /// </summary>
         ///b.zip\c\001.jpg
         public string EntryFullName => LoosePath.Combine(Archiver?.EntryFullName, EntryName);
 
         /// <summary>
-        /// ルートアーカイバを含むエントリ名
+        /// ルートアーカイバーを含むエントリ名
         /// </summary>
         /// a.zip\b.zip\c\001.jpg
         public string FullName => LoosePath.Combine(RootArchiver?.FullName, EntryFullName);

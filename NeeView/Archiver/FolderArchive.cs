@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// アーカイバ：通常ファイル
+    /// アーカイバー：通常ファイル
     /// ディレクトリをアーカイブとみなしてアクセスする
     /// </summary>
     public class FolderArchive : Archiver

@@ -358,7 +358,7 @@
                                       ToolTip="画像サイズにピクセル深度(bit)も表示します"
                                       IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsVisibleBitsPerPixel}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ローダー情報を表示する"
-                                      ToolTip="使用されたアーカイバ、画像デコーダー名を表示します"
+                                      ToolTip="使用されたアーカイバー、画像デコーダー名を表示します"
                               IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsVisibleLoader}" />
                         </StackPanel>
 

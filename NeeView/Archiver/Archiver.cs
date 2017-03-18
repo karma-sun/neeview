@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// アーカイバの種類
+    /// アーカイバーの種類
     /// </summary>
     public enum ArchiverType
     {
@@ -29,7 +29,7 @@ namespace NeeView
 
 
     /// <summary>
-    /// アーカイバ基底クラス
+    /// アーカイバー基底クラス
     /// </summary>
     public abstract class Archiver : ITrash
     {
@@ -78,17 +78,17 @@ namespace NeeView
         public bool IsRoot => Parent == null;
 
         /// <summary>
-        /// ルートアーカイバ取得
+        /// ルートアーカイバー取得
         /// </summary>
         public Archiver RootArchiver => IsRoot ? this : Parent.RootArchiver;
 
         /// <summary>
-        /// ルートアーカイバを基準としたエントリ名
+        /// ルートアーカイバーを基準としたエントリ名
         /// </summary>
         public string EntryFullName => IsRoot ? "" : LoosePath.Combine(Parent.EntryFullName, EntryName);
 
         /// <summary>
-        /// ルートアーカイバ名を含んだエントリ名
+        /// ルートアーカイバー名を含んだエントリ名
         /// </summary>
         public string FullName => IsRoot ? EntryName : LoosePath.Combine(Parent.FullName, EntryName);
 

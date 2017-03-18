@@ -308,7 +308,7 @@ namespace NeeView
         // 開始ページ
         public string StartEntry { get; private set; }
 
-        // アーカイバコレクション
+        // アーカイバーコレクション
         // Dispose処理のために保持
         private List<Archiver> _archivers = new List<Archiver>();
 
@@ -428,7 +428,7 @@ namespace NeeView
                 option |= BookLoadOption.Recursive;
             }
 
-            // アーカイバの選択
+            // アーカイバーの選択
             Archiver archiver = ModelContext.ArchiverManager.CreateArchiver(path, null);
             if (archiver.IsFileSystem)
             {

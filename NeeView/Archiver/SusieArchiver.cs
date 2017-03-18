@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// アーカイバ：Susieアーカイバ
+    /// アーカイバー：Susieアーカイバー
     /// </summary>
     public class SusieArchiver : Archiver
     {

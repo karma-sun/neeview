@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// アーカイバ：標準Zipアーカイバ
+    /// アーカイバー：標準Zipアーカイバー
     /// </summary>
     public class ZipArchiver : Archiver
     {

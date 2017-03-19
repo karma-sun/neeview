@@ -461,6 +461,8 @@ namespace NeeView
             get { return _isHideMenu; }
             set { _isHideMenu = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
+
+        //
         public bool ToggleHideMenu()
         {
             IsHideMenu = !IsHideMenu;
@@ -476,6 +478,8 @@ namespace NeeView
             get { return _isIsHidePageSlider; }
             set { _isIsHidePageSlider = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
+
+        //
         public bool ToggleHidePageSlider()
         {
             IsHidePageSlider = !IsHidePageSlider;
@@ -2919,7 +2923,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -3197,8 +3201,8 @@ namespace NeeView
                 if (_Version < Config.GenerateProductVersionNumber(1, 17, 0))
                 {
                     IsHidePageSlider = IsHideMenu;
+                    IsHideMenu = false;
                 }
-                IsHideMenu = false;
 
                 if (_Version < Config.GenerateProductVersionNumber(1, 19, 0))
                 {
@@ -3349,6 +3353,6 @@ namespace NeeView
             UpdateContentSize();
         }
 
-#endregion
+        #endregion
     }
 }

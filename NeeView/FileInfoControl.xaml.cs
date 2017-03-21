@@ -260,7 +260,7 @@ namespace NeeView
                     : bitmapContent.BitmapInfo.LastWriteTime;
                 LastWriteTime = lastWriteTime?.ToString("yyyy年M月d日 dddd H:mm");
 
-                // アーカイバ
+                // アーカイバー
                 Archiver = bitmapContent.BitmapInfo.Archiver;
 
                 // デコーダ

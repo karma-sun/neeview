@@ -20,7 +20,7 @@ using System.Windows.Media.Imaging;
 
 // TODO: 高速切替でテンポラリが残るバグ
 // ----------------------------
-// TODO: フォルダサムネイル(非同期) 
+// TODO: フォルダーサムネイル(非同期) 
 // TODO: コマンド類の何時でも受付。ロード中だから弾く、ではない別の方法を。
 
 namespace NeeView
@@ -176,7 +176,7 @@ namespace NeeView
         // 空ページメッセージ
         public event EventHandler<string> EmptyMessage;
 
-        // フォルダ列更新要求
+        // フォルダー列更新要求
         public event EventHandler<FolderListSyncArguments> FolderListSync;
 
         // 履歴リスト更新要求
@@ -541,7 +541,7 @@ namespace NeeView
 
 
 
-        // パスから対応するアーカイバを取得する
+        // パスから対応するアーカイバーを取得する
         private string GetPlace(string path, BookLoadOption option)
         {
             if (Directory.Exists(path))
@@ -649,7 +649,7 @@ namespace NeeView
                 // Now Loading ON
                 NotifyLoading(args.Path);
 
-                // フォルダリスト更新
+                // フォルダーリスト更新
                 if (args.IsRefleshFolderList)
                 {
                     App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = place, isKeepPlace = false }));
@@ -723,7 +723,7 @@ namespace NeeView
 
 
         /// <summary>
-        /// リクエスト：フォルダを開く
+        /// リクエスト：フォルダーを開く
         /// </summary>
         /// <param name="path"></param>
         /// <param name="start"></param>
@@ -754,7 +754,7 @@ namespace NeeView
 
 
         /// <summary>
-        /// リクエスト：フォルダを閉じる
+        /// リクエスト：フォルダーを閉じる
         /// </summary>
         /// <param name="isClearViewContent"></param>
         /// <returns></returns>
@@ -782,11 +782,11 @@ namespace NeeView
         // 再帰読み込み確認
         public void ConfirmRecursive()
         {
-            // サブフォルダ確認
+            // サブフォルダー確認
             var message = new MessageEventArgs("MessageBox");
             message.Parameter = new MessageBoxParams()
             {
-                MessageBoxText = $"\"{CurrentBook.Place}\" には読み込めるファイルがありません。\n\nサブフォルダ(書庫)も読み込みますか？",
+                MessageBoxText = $"\"{CurrentBook.Place}\" には読み込めるファイルがありません。\n\nサブフォルダー(書庫)も読み込みますか？",
                 Caption = "確認",
                 Button = System.Windows.MessageBoxButton.YesNo,
                 Icon = MessageBoxExImage.Question
@@ -1121,25 +1121,25 @@ namespace NeeView
             if (AppContext.Current.IsPlayingSlideShow) NextPage();
         }
 
-        // 次のフォルダに移動
+        // ー
         public void NextFolder(BookLoadOption option = BookLoadOption.None)
         {
             if (_commandEngine.Count > 0) return; // 相対移動の場合はキャンセルしない
             var result = Messenger.Send(this, new MessageEventArgs("MoveFolder") { Parameter = new MoveFolderParams() { Distance = +1, BookLoadOption = option } });
             if (result != true)
             {
-                InfoMessage?.Invoke(this, "次のフォルダはありません");
+                InfoMessage?.Invoke(this, "次のフォルダーはありません");
             }
         }
 
-        // 前のフォルダに移動
+        // 前のフォルダーに移動
         public void PrevFolder(BookLoadOption option = BookLoadOption.None)
         {
             if (_commandEngine.Count > 0) return; // 相対移動の場合はキャンセルしない
             var result = Messenger.Send(this, new MessageEventArgs("MoveFolder") { Parameter = new MoveFolderParams() { Distance = -1, BookLoadOption = option } });
             if (result != true)
             {
-                InfoMessage?.Invoke(this, "前のフォルダはありません");
+                InfoMessage?.Invoke(this, "前のフォルダーはありません");
             }
         }
 
@@ -1155,19 +1155,19 @@ namespace NeeView
         // 本来ここで実装すべきてはない
         #region FolderOrder
 
-        // フォルダの並びの変更
+        // フォルダーの並びの変更
         public void ToggleFolderOrder()
         {
             Messenger.Send(this, new MessageEventArgs("ToggleFolderOrder"));
         }
 
-        // フォルダの並びの設定
+        // フォルダーの並びの設定
         public void SetFolderOrder(FolderOrder order)
         {
             Messenger.Send(this, new MessageEventArgs("SetFolderOrder") { Parameter = new FolderOrderParams() { FolderOrder = order } });
         }
 
-        // フォルダの並びの取得
+        // フォルダーの並びの取得
         public FolderOrder GetFolderOrder()
         {
             var param = new FolderOrderParams();
@@ -1223,7 +1223,7 @@ namespace NeeView
             RefleshBookSetting();
         }
 
-        // フォルダ再帰読み込みON/OFF
+        // フォルダー再帰読み込みON/OFF
         public void ToggleIsRecursiveFolder()
         {
             if (_isLoading) return;
@@ -1556,7 +1556,7 @@ namespace NeeView
             }
         }
 
-        // ファイルを開く基準となるフォルダを取得
+        // ファイルを開く基準となるフォルダーを取得
         public string GetDefaultFolder()
         {
             // 既に開いている場合、その場所を起点とする
@@ -1578,7 +1578,7 @@ namespace NeeView
         public bool CanExport()
         {
             var pages = CurrentBook?.GetViewPages();
-            if (pages == null) return false;
+            if (pages == null || pages.Count == 0) return false;
 
             var bitmapSource = (pages[0].Content as BitmapContent)?.BitmapSource;
             if (bitmapSource == null) return false;
@@ -1692,7 +1692,7 @@ namespace NeeView
             }
 
             bool isDirectory = System.IO.Directory.Exists(path);
-            string itemType = isDirectory ? "フォルダ" : "ファイル";
+            string itemType = isDirectory ? "フォルダー" : "ファイル";
 
             // 削除確認
             var param = new MessageBoxParams()

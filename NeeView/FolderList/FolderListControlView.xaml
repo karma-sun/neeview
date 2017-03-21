@@ -84,7 +84,7 @@
                     <Image Source="{StaticResource ic_arrow_up_24px_b}" Width="16" Height="16"/>
                 </Button>
                 <Button x:Name="FolderSync" Style="{StaticResource IconButton}" Width="30" Command="{Binding Sync}"
-                        ToolTip="表示中のフォルダに移動">
+                        ToolTip="表示中のフォルダーに移動">
                     <Image Source="{StaticResource ic_sync_24px_b}" Width="20" Height="20"/>
                 </Button>
                 <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"

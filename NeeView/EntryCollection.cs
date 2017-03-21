@@ -251,7 +251,7 @@ namespace NeeView
             var entry = entries.FirstOrDefault(e => e.EntryFullName == entryName);
             if (entry != null) return new List<ArchiveEntry>() { entry };
 
-            // 一致しなかった場合、最長一致するサブフォルダで再帰
+            // 一致しなかった場合、最長一致するサブフォルダーで再帰
             if (isRecursive)
             {
                 var folder = entries

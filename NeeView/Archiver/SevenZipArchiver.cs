@@ -152,7 +152,7 @@ namespace NeeView
 
 
     /// <summary>
-    /// アーカイバ：7z.dll
+    /// アーカイバー：7z.dll
     /// </summary>
     public class SevenZipArchiver : Archiver
     {

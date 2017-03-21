@@ -343,7 +343,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 指定フォルダのマーカー収集
+        /// 指定フォルダーのマーカー収集
         /// </summary>
         /// <param name="place"></param>
         /// <returns></returns>

@@ -30,22 +30,22 @@ namespace NeeView
         #endregion
 
         /// <summary>
-        /// フォルダコレクション
+        /// フォルダーコレクション
         /// </summary>
         public FolderCollection FolderCollection { get; private set; }
 
         /// <summary>
-        /// フォルダの場所
+        /// フォルダーの場所
         /// </summary>
         public string Place => FolderCollection?.Place;
 
         /// <summary>
-        /// フォルダの場所 表示用
+        /// フォルダーの場所 表示用
         /// </summary>
         public string PlaceDispString => string.IsNullOrEmpty(Place) ? "このPC" : Place;
 
         /// <summary>
-        /// フォルダ項目表示スタイル
+        /// フォルダー項目表示スタイル
         /// </summary>
         public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
 
@@ -97,14 +97,14 @@ namespace NeeView
         /// <summary>
         /// 終了処理
         /// </summary>
-        internal void Unloaded()
+        internal void Dispose()
         {
             this.FolderCollection?.Dispose();
         }
 
 
         /// <summary>
-        /// フォルダリスト項目変更前処理
+        /// フォルダーリスト項目変更前処理
         /// 項目が削除される前に有効な選択項目に変更する
         /// </summary>
         /// <param name="sender"></param>
@@ -271,7 +271,7 @@ namespace NeeView
         /// <returns></returns>
         internal FolderItem GetFolderItem(int offset)
         {
-            if (this.FolderCollection == null) return null;
+            if (this.FolderCollection?.Items == null) return null;
 
             int index = this.SelectedIndex;
             if (index < 0) return null;
@@ -286,17 +286,17 @@ namespace NeeView
         }
 
         /// <summary>
-        /// フォルダ並び順を切り替え
+        /// フォルダー並び順を切り替え
         /// </summary>
         internal void ToggleFolderOrder()
         {
-            if (this.FolderCollection == null) return;
+            if (this.FolderCollection?.Items == null) return;
 
             this.FolderCollection.FolderCollectionParameter.FolderOrder = this.FolderCollection.FolderCollectionParameter.FolderOrder.GetToggle();
         }
 
         /// <summary>
-        /// フォルダ並び順を取得
+        /// フォルダー並び順を取得
         /// </summary>
         /// <returns></returns>
         internal FolderOrder GetFolderOrder()
@@ -305,7 +305,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// フォルダ並び順を設定
+        /// フォルダー並び順を設定
         /// </summary>
         /// <param name="folderOrder"></param>
         internal void SetFolderOrder(FolderOrder folderOrder)

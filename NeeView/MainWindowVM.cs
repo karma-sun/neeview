@@ -461,6 +461,8 @@ namespace NeeView
             get { return _isHideMenu; }
             set { _isHideMenu = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
+
+        //
         public bool ToggleHideMenu()
         {
             IsHideMenu = !IsHideMenu;
@@ -476,6 +478,8 @@ namespace NeeView
             get { return _isIsHidePageSlider; }
             set { _isIsHidePageSlider = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
         }
+
+        //
         public bool ToggleHidePageSlider()
         {
             IsHidePageSlider = !IsHidePageSlider;
@@ -856,7 +860,7 @@ namespace NeeView
                 _pageListItemStyle = value;
                 RaisePropertyChanged();
                 PanelContext.PageListItemStyle = _pageListItemStyle;
-                RaisePropertyChanged(nameof(IsContentPanelStyle));
+                RaisePropertyChanged(nameof(IsContentPageListStyle));
             }
         }
         #endregion
@@ -904,7 +908,7 @@ namespace NeeView
         }
         #endregion
 
-        // 最後のフォルダを開く
+        // 最後のフォルダーを開く
         public bool IsLoadLastFolder { get; set; }
 
         // マルチブートを禁止する
@@ -920,7 +924,7 @@ namespace NeeView
         // View側で定義されます
         public Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; }
 
-        // 空フォルダ通知表示のON/OFF
+        // 空フォルダー通知表示のON/OFF
         #region Property: IsVisibleEmptyPageMessage
         private bool _isVisibleEmptyPageMessage = false;
         public bool IsVisibleEmptyPageMessage
@@ -930,7 +934,7 @@ namespace NeeView
         }
         #endregion
 
-        // 空フォルダ通知表示の詳細テキスト
+        // 空フォルダー通知表示の詳細テキスト
         #region Property: EmptyPageMessage
         private string _emptyPageMessage;
         public string EmptyPageMessage
@@ -1119,8 +1123,8 @@ namespace NeeView
 
             if ((mask & (UpdateWindowTitleMask.Page | UpdateWindowTitleMask.View)) != 0)
             {
-                string scale0 = Contents[0].IsValid ? $"{(int)(_viewScale * Contents[0].Scale * _DpiScaleFactor.X * 100 + 0.1)}%" : "";
-                string scale1 = Contents[1].IsValid ? $"{(int)(_viewScale * Contents[1].Scale * _DpiScaleFactor.X * 100 + 0.1)}%" : "";
+                string scale0 = Contents[0].IsValid ? $"{(int)(_viewScale * Contents[0].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";
+                string scale1 = Contents[1].IsValid ? $"{(int)(_viewScale * Contents[1].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";
                 _windowTitleFormatter.Set("$Scale", isMainContent0 ? scale0 : scale1);
                 _windowTitleFormatter.Set("$ScaleL", scale1);
                 _windowTitleFormatter.Set("$ScaleR", scale0);
@@ -1169,7 +1173,7 @@ namespace NeeView
         // 本設定 公開
         public Book.Memento BookSetting => BookHub.BookMemento;
 
-        // 最近使ったフォルダ
+        // 最近使ったフォルダー
         #region Property: LastFiles
         private List<Book.Memento> _lastFiles = new List<Book.Memento>();
         public List<Book.Memento> LastFiles
@@ -1179,7 +1183,7 @@ namespace NeeView
         }
         #endregion
 
-        // 最近使ったフォルダの有効フラグ
+        // 最近使ったフォルダーの有効フラグ
         public bool IsEnableLastFiles { get { return LastFiles.Count > 0; } }
 
         // コンテンツ
@@ -1306,6 +1310,7 @@ namespace NeeView
                 App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
                 App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
                 App.Current.Resources["NVCheckMarkBrush"] = new SolidColorBrush(Color.FromRgb(0x90, 0xEE, 0x90));
+                App.Current.Resources["NVFolderPen"] = null;
             }
             else
             {
@@ -1316,6 +1321,7 @@ namespace NeeView
                 App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88));
                 App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55));
                 App.Current.Resources["NVCheckMarkBrush"] = new SolidColorBrush(Color.FromRgb(0x44, 0xBB, 0x44));
+                App.Current.Resources["NVFolderPen"] = new Pen(new SolidColorBrush(Color.FromRgb(0xDE, 0xB9, 0x82)), 1);
             }
         }
         #endregion
@@ -1607,8 +1613,7 @@ namespace NeeView
         #endregion
 
         // サムネイルサイズ(表示サイズ)
-        public double ThumbnailDispSize => _thumbnailSize / _DpiScaleFactor.X;
-
+        public double ThumbnailDispSize => _thumbnailSize;
 
 
         // ページ番号の表示
@@ -1709,7 +1714,7 @@ namespace NeeView
 
 
         // DPI倍率
-        private Point _DpiScaleFactor => App.Config.DpiScaleFactor;
+        private DpiScale _Dpi => App.Config.Dpi;
 
         // DPIのXY比率が等しい？
         private bool _IsDpiSquare => App.Config.IsDpiSquare;
@@ -1838,7 +1843,7 @@ namespace NeeView
             // messenger
             Messenger.AddReciever("UpdateLastFiles", (s, e) => UpdateLastFiles());
 
-            // ダウンロードフォルダ生成
+            // ダウンロードフォルダー生成
             if (!System.IO.Directory.Exists(Temporary.TempDownloadDirectory))
             {
                 System.IO.Directory.CreateDirectory(Temporary.TempDownloadDirectory);
@@ -2205,7 +2210,7 @@ namespace NeeView
         #endregion
 
 
-        // 最後に開いたフォルダを開く
+        // 最後に開いたフォルダーを開く
         public void LoadLastFolder()
         {
             if (!IsLoadLastFolder) return;
@@ -2233,11 +2238,18 @@ namespace NeeView
                 {
                     if (source != null)
                     {
+#if false
+                        var reserver = Contents[contents.Count]?.Reserver;
+#else
+                        ViewContentReserver reserver = null;
+#endif
+
                         var content = new ViewContent();
                         content.Content = source.Content;
                         content.View = source.CreatePageContent(
                             new Binding(nameof(ForegroundBrush)) { Source = this },
-                            new Binding(nameof(BitmapScalingMode)) { Source = content }
+                            new Binding(nameof(BitmapScalingMode)) { Source = content },
+                            reserver
                         );
                         content.Size = source.Size; // new Size(source.Width, source.Height);
                         content.SourceSize = source.Content.Size;
@@ -2250,7 +2262,24 @@ namespace NeeView
                         content.ReadOrder = source.ReadOrder;
                         //content.Thumbnail = source.Page.Thumbnail;
 
+#if false
+                        // reserver
+                        if (content.Content.IsLoaded || content.Content.Thumbnail.IsValid)
+                        {
+                            content.Reserver = new ViewContentReserver()
+                            {
+                                Thumbnail = content.Content.Thumbnail,
+                                Size = content.Size,
+                                Color = content.Color,
+                            };
+                        }
+                        else
+                        {
+                            content.Reserver = reserver;
+                        }
+#endif
 
+                        //
                         if (source.Content.PageMessage != null)
                         {
                             //var filePageContext = source.SourceContent as FilePageContent;
@@ -2264,12 +2293,20 @@ namespace NeeView
 
                             if (content.Size.Width == 0 && content.Size.Height == 0)
                             {
+#if false
+                                if (reserver != null)
+                                {
+                                    content.Size = reserver.Size;
+                                    content.Color = reserver.Color;
+                                }
+#else
                                 var index = contents.Count;
                                 if (Contents[index].IsValid)
                                 {
                                     content.Size = Contents[index].Size;
                                     content.Color = Contents[index].Color;
                                 }
+#endif
                                 else
                                 {
                                     content.Size = new Size(480, 680);
@@ -2431,7 +2468,7 @@ namespace NeeView
             double offsetWidth = 0;
             if (Contents[0].Size.Width > 0.5 && Contents[1].Size.Width > 0.5)
             {
-                offsetWidth = ContentsSpace / _DpiScaleFactor.X + ContentsSpace;
+                offsetWidth = ContentsSpace / _Dpi.DpiScaleX + ContentsSpace;
                 ContentsMargin = new Thickness(offsetWidth, 0, 0, 0);
             }
             else
@@ -2439,12 +2476,12 @@ namespace NeeView
                 ContentsMargin = new Thickness(0);
             }
 
-            var sizes = CalcContentSize(_viewWidth * _DpiScaleFactor.X + offsetWidth, _viewHeight * _DpiScaleFactor.Y, _contentAngle);
+            var sizes = CalcContentSize(_viewWidth * _Dpi.DpiScaleX + offsetWidth, _viewHeight * _Dpi.DpiScaleY, _contentAngle);
 
             for (int i = 0; i < 2; ++i)
             {
-                Contents[i].Width = sizes[i].Width / _DpiScaleFactor.X;
-                Contents[i].Height = sizes[i].Height / _DpiScaleFactor.Y;
+                Contents[i].Width = sizes[i].Width / _Dpi.DpiScaleX;
+                Contents[i].Height = sizes[i].Height / _Dpi.DpiScaleY;
             }
 
             UpdateContentScalingMode();
@@ -2480,7 +2517,7 @@ namespace NeeView
                 {
                     case TransformActionType.Scale:
                         string scaleText = IsOriginalScaleShowMessage && MainContent.IsValid
-                            ? $"{(int)(_viewScale * MainContent.Scale * _DpiScaleFactor.X * 100 + 0.1)}%"
+                            ? $"{(int)(_viewScale * MainContent.Scale * _Dpi.DpiScaleX * 100 + 0.1)}%"
                             : $"{(int)(_viewScale * 100.0 + 0.1)}%";
                         DispMessage(ViewTransformShowMessageStyle, scaleText);
                         break;
@@ -2510,14 +2547,14 @@ namespace NeeView
             {
                 if (content.View != null && content.View.Element is Rectangle)
                 {
-                    double diff = Math.Abs(content.Size.Width - content.Width * _DpiScaleFactor.X);
+                    double diff = Math.Abs(content.Size.Width - content.Width * _Dpi.DpiScaleX);
                     if (_IsDpiSquare && diff < 0.1 && _viewAngle == 0.0 && Math.Abs(_finalViewScale - 1.0) < 0.001)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                     }
                     else
                     {
-                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _DpiScaleFactor.X * _finalViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _Dpi.DpiScaleX * _finalViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
                     }
                 }
             }
@@ -2799,7 +2836,7 @@ namespace NeeView
 
 
 
-        // フォルダ読み込み
+        // フォルダー読み込み
         public void Load(string path, BookLoadOption option = BookLoadOption.None)
         {
             if (Utility.FileShortcut.IsShortcut(path) && (System.IO.File.Exists(path) || System.IO.Directory.Exists(path)))
@@ -3132,6 +3169,7 @@ namespace NeeView
                 SliderDirection = SliderDirection.RightToLeft;
                 IsVisibleWindowTitle = true;
                 IsVisibleLoupeInfo = true;
+                IsSliderWithIndex = true;
             }
 
             public Memento()
@@ -3163,8 +3201,8 @@ namespace NeeView
                 if (_Version < Config.GenerateProductVersionNumber(1, 17, 0))
                 {
                     IsHidePageSlider = IsHideMenu;
+                    IsHideMenu = false;
                 }
-                IsHideMenu = false;
 
                 if (_Version < Config.GenerateProductVersionNumber(1, 19, 0))
                 {

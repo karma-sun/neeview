@@ -20,6 +20,7 @@
         Loaded="MainWindow_Loaded" Closed="Window_Closed" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized"
         PreviewDragOver="MainWindow_PreviewDragOver" Drop="MainWindow_Drop" MouseLeave="MainWindow_MouseLeave"
         StateChanged="MainWindow_StateChanged"
+        DpiChanged="MainWindow_DpiChanged"
         PreviewKeyDown="Window_PreviewKeyDown">
 
     <!--"{x:Static SystemParameters.CaptionHeight}"-->
@@ -200,7 +201,7 @@
                                 </local:HistoryControl.Style>
                             </local:HistoryControl>
 
-                            <!-- フォルダリスト -->
+                            <!-- フォルダーリスト -->
                             <Grid x:Name="FolderListArea">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="{Binding FolderListGridLength0, Mode=TwoWay}"/>
@@ -442,7 +443,7 @@
             <Grid x:Name="MenuArea" VerticalAlignment="Top" MouseEnter="MenuArea_MouseEnter" MouseLeave="MenuArea_MouseLeave" >
 
                 <StackPanel>
-                    <Grid x:Name="MenuBar" Height="18" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture">
+                    <Grid x:Name="MenuBar" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture">
                         <DockPanel>
                             <!-- メインメニュー -->
                             <ContentControl Content="{Binding MainMenu}" IsTabStop="False"/>
@@ -452,9 +453,9 @@
                                 <MenuItem x:Name="MenuItemDev" Header="開発(_D)">
                                     <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" IsChecked="{Binding IsVisibleDevPageList}" />
                                     <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" IsChecked="{Binding IsVisibleDevInfo}" />
-                                    <MenuItem x:Name="MenuItemDevApplicationFolder" Header="アプリのフォルダを開く" Click="MenuItemDevApplicationFolder_Click" />
-                                    <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="アプリデータフォルダを開く" Click="MenuItemDevApplicationDataFolder_Click" />
-                                    <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダを開く" Click="MenuItemDevTempFolder_Click" />
+                                    <MenuItem x:Name="MenuItemDevApplicationFolder" Header="アプリのフォルダーを開く" Click="MenuItemDevApplicationFolder_Click" />
+                                    <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="アプリデータフォルダーを開く" Click="MenuItemDevApplicationDataFolder_Click" />
+                                    <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダーを開く" Click="MenuItemDevTempFolder_Click" />
                                     <MenuItem x:Name="MenuItemDevButton" Header="テスト実行" Click="MenuItemDevButton_Click" />
                                 </MenuItem>
                             </Menu>
@@ -487,7 +488,7 @@
                         </Grid.Background>
 
                         <DockPanel VerticalAlignment="Center" Margin="2,0">
-                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" UseLayoutRounding="True">
 
                                 <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[TogglePageMode]}">
                                     <Image Width="18" Height="18">

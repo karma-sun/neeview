@@ -33,20 +33,20 @@ namespace NeeView
 
             TempDirectoryBaseName = processName; //  asmprd.Product;
             TempDirectory = Path.Combine(Path.GetTempPath(), TempDirectoryBaseName) + processId.ToString();
-            TempDownloadDirectory = Path.Combine(Temporary.TempDirectory, "(一時フォルダ)");
+            TempDownloadDirectory = Path.Combine(Temporary.TempDirectory, "(一時フォルダー)");
             TempSystemDirectory = Path.Combine(Temporary.TempDirectory, "System");
         }
 
-        // アプリのテンポラリフォルダ(BaseName)
+        // アプリのテンポラリフォルダー(BaseName)
         public static string TempDirectoryBaseName { get; private set; }
 
-        // アプリのテンポラリフォルダ
+        // アプリのテンポラリフォルダー
         public static string TempDirectory { get; private set; }
 
-        // アプリのダウンロードテンポラリフォルダ
+        // アプリのダウンロードテンポラリフォルダー
         public static string TempDownloadDirectory { get; private set; }
 
-        // アプリのシステムテンポラリフォルダ
+        // アプリのシステムテンポラリフォルダー
         public static string TempSystemDirectory { get; private set; }
 
 
@@ -80,7 +80,7 @@ namespace NeeView
         /// <returns>テンポラリファイル名</returns>
         public static string CreateTempFileName(string name)
         {
-            // 専用フォルダ作成
+            // 専用フォルダー作成
             Directory.CreateDirectory(TempDirectory);
 
             // 名前の修正
@@ -99,7 +99,7 @@ namespace NeeView
 
 
         /// <summary>
-        /// アプリのテンポラリフォルダを削除
+        /// アプリのテンポラリフォルダーを削除
         /// アプリ終了時に呼ばれます
         /// </summary>
         public static void RemoveTempFolder()

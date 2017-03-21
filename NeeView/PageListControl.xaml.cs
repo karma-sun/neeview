@@ -133,7 +133,7 @@ namespace NeeView
             }
         }
 
-        // フォルダリスト 選択項目変更
+        // フォルダーリスト 選択項目変更
         private void PageList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var listBox = sender as ListBox;

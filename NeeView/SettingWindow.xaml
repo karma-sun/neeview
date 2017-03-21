@@ -111,7 +111,7 @@
                               IsChecked="{Binding Setting.ViewMemento.IsSaveWindowPlacement}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーン状態を復元する"
                               IsChecked="{Binding Setting.ViewMemento.IsSaveFullScreen}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回開いていたフォルダを開く"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回開いていたフォルダーを開く"
                               ToolTip="履歴を保存しない場合は機能しません"
                               IsChecked="{Binding Setting.ViewMemento.IsLoadLastFolder}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="スライドショーの再生を開始する"
@@ -166,8 +166,8 @@
                                   SelectedValue="{Binding Setting.BookHubMemento.PageEndAction}" />
                             </StackPanel>
                             <!--
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="「開く」を現在開いているフォルダの場所から始める"
-                              ToolTip="[ファイル]>[開く]で開くフォルダです&#xa;ドラッグ＆ドロップや履歴から開いた場所も基準になります"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="「開く」を現在開いているフォルダーの場所から始める"
+                              ToolTip="[ファイル]>[開く]で開くフォルダーです&#xa;ドラッグ＆ドロップや履歴から開いた場所も基準になります"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnarbleCurrentDirectory}" />
                             -->
                         </StackPanel>
@@ -210,7 +210,7 @@
 
                         <TextBlock Text="通知表示" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
-                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="開いたフォルダ名の表示等の通知の表示方法を指定します">
+                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="開いたフォルダー名の表示等の通知の表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="通知を"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.NoticeShowMessageStyle}" />
@@ -249,7 +249,7 @@
                         <Popup IsOpen="{Binding ElementName=WindowTitleFormatHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowTitleFormatHelp}" Placement="Top" HorizontalAlignment="Right">
                             <Border BorderBrush="Gray" BorderThickness="1" Background="LightYellow">
                                 <TextBlock Margin="10">
-                                    $Book -- 開いているフォルダ名<LineBreak/>
+                                    $Book -- 開いているフォルダー名<LineBreak/>
                                     $Page -- 現在ページ番号<LineBreak/>
                                     $PageMax -- 最大ページ番号<LineBreak/>
                                     $ViewScale -- ビュー操作による表示倍率(%)<LineBreak/>
@@ -335,17 +335,17 @@
                               IsChecked="{Binding Setting.ViewMemento.IsHidePanelInFullscreen}" />
                         </StackPanel>
 
-                        <TextBlock Text="フォルダリスト" Style="{StaticResource Header}"/>
+                        <TextBlock Text="フォルダーリスト" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ブックマーク記号を表示する"
-                                      ToolTip="ブックマークされているフォルダに★マークを表示します"
+                                      ToolTip="ブックマークされているフォルダーに★マークを表示します"
                                       IsChecked="{Binding Setting.ViewMemento.FolderListSetting.IsVisibleBookmarkMark}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="履歴記号を表示する"
-                                      ToolTip="履歴に残っているフォルダにチェックマークを表示します"
+                                      ToolTip="履歴に残っているフォルダーにチェックマークを表示します"
                                       IsChecked="{Binding Setting.ViewMemento.FolderListSetting.IsVisibleHistoryMark}" />
                             <DockPanel Style="{StaticResource ItemDockPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="ホームの場所"/>
-                                <nlc:FileNameBox x:Name="HomePathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding Setting.BookHubMemento.Home, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectDirectory="True" Note="フォルダの場所を指定してください"/>
+                                <nlc:FileNameBox x:Name="HomePathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding Setting.BookHubMemento.Home, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectDirectory="True" Note="フォルダーの場所を指定してください"/>
                             </DockPanel>
                         </StackPanel>
 
@@ -358,7 +358,7 @@
                                       ToolTip="画像サイズにピクセル深度(bit)も表示します"
                                       IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsVisibleBitsPerPixel}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ローダー情報を表示する"
-                                      ToolTip="使用されたアーカイバ、画像デコーダー名を表示します"
+                                      ToolTip="使用されたアーカイバー、画像デコーダー名を表示します"
                               IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsVisibleLoader}" />
                         </StackPanel>
 
@@ -566,9 +566,9 @@
 
                         <StackPanel Style="{StaticResource Phrase}">
                             <DockPanel Style="{StaticResource ItemDockPanel}">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="画像保存フォルダ"/>
-                                <nlc:FileNameBox x:Name="DownloadPath" Margin="2,0" SelectDirectory="True" Title="保存先フォルダの選択" 
-                            Note="指定がない場合は一時フォルダが使用されます"
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="画像保存フォルダー"/>
+                                <nlc:FileNameBox x:Name="DownloadPath" Margin="2,0" SelectDirectory="True" Title="保存先フォルダーの選択" 
+                            Note="指定がない場合は一時フォルダーが使用されます"
                             Text="{Binding Setting.ViewMemento.UserDownloadPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             </DockPanel>
                         </StackPanel>
@@ -577,7 +577,7 @@
                         <TextBlock Text="ファイル保存" Style="{StaticResource Header}" ToolTip="画像を保存するコマンドの設定です"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回保存したフォルダを記憶する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回保存したフォルダーを記憶する"
                               IsChecked="{Binding Setting.ExporterMemento.IsEnableExportFolder}" />
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="JPEG品質" ToolTip="変換が必要な場合にのみ使用されます"/>
@@ -597,13 +597,13 @@
                         <TextBlock Text="設定" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="新しいフォルダーを開くときに既定のページ設定に戻す"
-                              ToolTip="新しいフォルダーを開いた時にページの設定を既定値に戻します&#x0a;「サブフォルダも読み込む」はこの設定にかかわらずOFFになります"
+                              ToolTip="新しいフォルダーを開いた時にページの設定を既定値に戻します&#x0a;「サブフォルダーも読み込む」はこの設定にかかわらずOFFになります"
                               IsChecked="{Binding Setting.BookHubMemento.IsUseBookMementoDefault}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがない場合、サブフォルダも読み込むか問い合わせる"
-                              ToolTip="フォルダーを開いた時に表示可能なページがなく、かつサブフォルダが存在する場合に&#xa;サブフォルダも読み込むかを問い合わせるダイアログを表示します"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがない場合、サブフォルダーも読み込むか問い合わせる"
+                              ToolTip="フォルダーを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合に&#xa;サブフォルダーも読み込むかを問い合わせるダイアログを表示します"
                               IsChecked="{Binding Setting.BookHubMemento.IsConfirmRecursive}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがなくサブフォルダが１つだけ存在する場合にサブフォルダを読み込む"
-                              ToolTip="ページ設定でサブフォルダを読み込む設定になっていなくても機能します"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを読み込む"
+                              ToolTip="ページ設定でサブフォルダーを読み込む設定になっていなくても機能します"
                               IsChecked="{Binding Setting.BookHubMemento.IsAutoRecursive}" />
                         </StackPanel>
                         <TextBlock Text="既定のページ設定" Style="{StaticResource Header}"/>
@@ -626,8 +626,8 @@
                                   IsChecked="{Binding Path=Setting.BookHubMemento.BookMementoDefault.IsSupportedSingleFirstPage}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="最後のページを単独表示"
                                   IsChecked="{Binding Path=Setting.BookHubMemento.BookMementoDefault.IsSupportedSingleLastPage}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="サブフォルダを読み込む (設定不可)" IsEnabled="False"
-                                  ToolTip="サブフォルダ読込は既定で有効にできません"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="サブフォルダーを読み込む (設定不可)" IsEnabled="False"
+                                  ToolTip="サブフォルダー読込は既定で有効にできません"
                                   IsChecked="{Binding Path=Setting.BookHubMemento.BookMementoDefault.IsRecursiveFolder}" />
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="ページの並び順"/>
@@ -659,7 +659,7 @@
                                   IsChecked="{Binding Path=Setting.BookHubMemento.HistoryMementoFilter.Flags[(local:BookMementoBit)IsSupportedSingleFirstPage]}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="最後のページを単独表示"
                                   IsChecked="{Binding Path=Setting.BookHubMemento.HistoryMementoFilter.Flags[(local:BookMementoBit)IsSupportedSingleLastPage]}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="サブフォルダを読み込む"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="サブフォルダーを読み込む"
                                   IsChecked="{Binding Path=Setting.BookHubMemento.HistoryMementoFilter.Flags[(local:BookMementoBit)IsRecursiveFolder]}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページの並び順"
                                   IsChecked="{Binding Path=Setting.BookHubMemento.HistoryMementoFilter.Flags[(local:BookMementoBit)SortMode]}" />
@@ -796,7 +796,7 @@
                 <DockPanel x:Name="SusiePanel" Margin="4">
                     <CheckBox DockPanel.Dock="Top" Margin="2" Content="Susieプラグインを使用する" IsChecked="{Binding Setting.SusieMemento.IsEnableSusie}" />
                     <DockPanel IsEnabled="{Binding Setting.SusieMemento.IsEnableSusie}">
-                        <nlc:FileNameBox x:Name="PluginPathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding SusiePluginPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectDirectory="True"  Note="フォルダの場所を指定してください"/>
+                        <nlc:FileNameBox x:Name="PluginPathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding SusiePluginPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectDirectory="True"  Note="フォルダーの場所を指定してください"/>
                         <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="画像表示でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieImage}"/>
                         <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="圧縮ファイル展開でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieArchive}"/>
 

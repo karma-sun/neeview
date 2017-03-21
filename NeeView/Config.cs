@@ -29,17 +29,41 @@ namespace NeeView
         {
         }
 
-        // DPI倍率
-        public Point DpiScaleFactor { get; private set; } = new Point(1, 1);
+        /// <summary>
+        /// DPI(アプリ値)
+        /// </summary>
+        public DpiScale Dpi => Preference.Current.dpi_image_ignore ? RawDpi : OneDpi;
 
-        // DPIのXY比率が等しい？
-        public bool IsDpiSquare { get; private set; } = false;
+        /// <summary>
+        /// DPI(システム値)
+        /// </summary>
+        public DpiScale RawDpi { get; private set; } = new DpiScale(1, 1);
 
-        // DPI設定
-        public void UpdateDpiScaleFactor(System.Windows.Media.Visual visual, bool dotbydot)
+        /// <summary>
+        /// 等倍DPI値
+        /// </summary>
+        public DpiScale OneDpi { get; private set; } = new DpiScale(1, 1);
+
+        /// <summary>
+        /// DPIのXY比率が等しい？
+        /// </summary>
+        public bool IsDpiSquare => Dpi.DpiScaleX == Dpi.DpiScaleY;
+
+        /// <summary>
+        /// DPI設定
+        /// </summary>
+        /// <param name="dpi"></param>
+        public bool SetDip(DpiScale dpi)
         {
-            DpiScaleFactor = dotbydot ? DragExtensions.WPFUtil.GetDpiScaleFactor(visual) : new Point(1.0, 1.0);
-            IsDpiSquare = DpiScaleFactor.X == DpiScaleFactor.Y;
+            if (RawDpi.DpiScaleX != dpi.DpiScaleX || RawDpi.DpiScaleY != dpi.DpiScaleY)
+            {
+                RawDpi = dpi;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 
@@ -117,7 +141,7 @@ namespace NeeView
 
 
         /// <summary>
-        /// ユーザデータフォルダ
+        /// ユーザデータフォルダー
         /// </summary>
         private string _localApplicationDataPath;
         public string LocalApplicationDataPath
@@ -141,7 +165,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// フォルダパス生成(特殊フォルダ用)
+        /// フォルダーパス生成(特殊フォルダー用)
         /// </summary>
         /// <param name="folder"></param>
         /// <returns></returns>
@@ -221,7 +245,7 @@ namespace NeeView
         }
 
 
-        // データ保存にアプリケーションデータフォルダを使用するか
+        // データ保存にアプリケーションデータフォルダーを使用するか
         private bool? _isUseLocalApplicationDataFolder;
         public bool IsUseLocalApplicationDataFolder
         {
@@ -254,7 +278,7 @@ namespace NeeView
         // 全ユーザデータ削除
         private bool RemoveApplicationDataCore()
         {
-            // LocalApplicationDataフォルダを使用している場合のみ
+            // LocalApplicationDataフォルダーを使用している場合のみ
             if (!IsUseLocalApplicationDataFolder) return false;
 
             Debug.WriteLine("RemoveAllApplicationData ...");
@@ -293,7 +317,7 @@ namespace NeeView
                 // キャッシュDBを閉じる
                 ThumbnailCache.Current.Close();
 
-                // 削除できないのでカレントフォルダ移動
+                // 削除できないのでカレントフォルダー移動
                 var currentFolder = System.Environment.CurrentDirectory;
                 System.Environment.CurrentDirectory = this.AssemblyLocation;
 
@@ -307,7 +331,7 @@ namespace NeeView
                 {
                     MessageBox.Show(ex.Message, "NeeView - エラー", MessageBoxButton.OK, MessageBoxImage.Error);
 
-                    // カレントフォルダ復帰
+                    // カレントフォルダー復帰
                     System.Environment.CurrentDirectory = currentFolder;
                 }
             }

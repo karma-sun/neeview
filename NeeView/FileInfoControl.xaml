@@ -76,7 +76,7 @@
             </Button>
 
             <StackPanel x:Name="GroupLoader" Visibility="{Binding LoaderVisibility}">
-                <local:FileInfoItem x:Name="ItemArchiver" Header="アーカイバ" Text="{Binding Archiver}" />
+                <local:FileInfoItem x:Name="ItemArchiver" Header="アーカイバー" Text="{Binding Archiver}" />
                 <local:FileInfoItem x:Name="ItemDecoder" Header="デコーダー" Text="{Binding Decoder}"/>
             </StackPanel>
 

@@ -20,7 +20,7 @@ namespace NeeView
         Default,
         PageThumbnail, // サムネイル専用
         PageListThumbnail, // ページリスト専用
-        FolderThumbnail, // フォルダサムネイル専用
+        FolderThumbnail, // フォルダーサムネイル専用
     }
 
     /// <summary>

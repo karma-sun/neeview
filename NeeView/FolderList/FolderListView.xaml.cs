@@ -93,18 +93,15 @@ namespace NeeView
             this.ListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
 
             _thumbnailHelper = new ThumbnailHelper(this.ListBox, _VM.RequestThumbnail);
-
-            this.Unloaded += FolderListView_Unloaded;
         }
 
+
         /// <summary>
-        /// Unloaded
+        /// 廃棄処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FolderListView_Unloaded(object sender, RoutedEventArgs e)
+        public void Dispose()
         {
-            _VM?.Unloaded();
+            _VM?.Dispose();
         }
 
         /// <summary>
@@ -269,7 +266,7 @@ namespace NeeView
 
         /// <summary>
         /// SelectionChanged
-        /// フォルダリスト 選択項目変更
+        /// フォルダーリスト 選択項目変更
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -285,7 +282,7 @@ namespace NeeView
 
         /// <summary>
         /// SlingleClick
-        /// フォルダ項目決定
+        /// フォルダー項目決定
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -301,7 +298,7 @@ namespace NeeView
 
         /// <summary>
         /// DoubleClick
-        /// フォルダ移動決定
+        /// フォルダー移動決定
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -417,50 +414,5 @@ namespace NeeView
             FocusSelectedItem(_autoFocus);
         }
     }
-
-
-    /// <summary>
-    /// IconOverlay StyleConverter
-    /// </summary>
-    public class FolderIconOverlayConverter : IValueConverter
-    {
-        public Style FolderOverlayDisable { get; set; }
-
-        public Style FolderOverlayChecked { get; set; }
-
-        public Style FolderOverlayStar { get; set; }
-
-        //
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            try
-            {
-                var overlay = (FolderItemIconOverlay)value;
-                switch (overlay)
-                {
-                    case FolderItemIconOverlay.Disable:
-                        return FolderOverlayDisable;
-                    case FolderItemIconOverlay.Star:
-                        return FolderOverlayStar;
-                    case FolderItemIconOverlay.Checked:
-                        return FolderOverlayChecked;
-                    default:
-                        return null;
-                }
-            }
-            catch
-            {
-            }
-
-            return null;
-        }
-
-        //
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-
+    
 }

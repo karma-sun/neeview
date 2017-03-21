@@ -314,9 +314,6 @@ namespace NeeView
             _mouseGesture.Controller.InitializeGestureMinimumDistance(
                 preference.input_gesture_minimumdistance_x,
                 preference.input_gesture_minimumdistance_y);
-
-            // DPI更新
-            App.Config.UpdateDpiScaleFactor(this, preference.view_image_dotbydot);
         }
 
         //
@@ -979,7 +976,7 @@ namespace NeeView
             }
 
             // ビュー領域設定
-            double menuAreaHeight = this.MenuBar.Height + (_VM.IsVisibleAddressBar ? this.AddressBar.Height : 0);
+            double menuAreaHeight = this.MenuBar.ActualHeight + (_VM.IsVisibleAddressBar ? this.AddressBar.Height : 0);
             this.ViewArea.Margin = new Thickness(0, isMenuDock ? menuAreaHeight : 0, 0, 0);
 
             // コンテンツ表示領域設定
@@ -1026,22 +1023,10 @@ namespace NeeView
             this.LeftPanel.Width = _VM.LeftPanelWidth;
             this.RightPanel.Width = _VM.RightPanelWidth;
 
-
             // PanelColor
             _VM.FlushPanelColor();
 
-            // オプションによるフルスクリーン指定
-            if (App.Options["--fullscreen"].IsValid)
-            {
-                _VM.IsFullScreen = App.Options["--fullscreen"].Bool;
-            }
-
-            // ウィンドウモードで初期化
-            OnMenuVisibilityChanged();
-            SetUpdateMenuLayoutMode(true);
-
-
-            // フォルダリスト初期化
+            // フォルダーリスト初期化
             this.FolderList.SetPlace(ModelContext.BookHistory.LastFolder ?? _VM.BookHub.GetFixedHome(), null, false);
             this.PageList.Initialize(_VM);
             // 履歴リスト初期化
@@ -1054,7 +1039,21 @@ namespace NeeView
             // マーカー初期化
             this.PageMarkers.Initialize(_VM.BookHub);
 
-            // フォルダを開く
+
+            // オプションによるフルスクリーン指定
+            if (App.Options["--fullscreen"].IsValid)
+            {
+                _VM.IsFullScreen = App.Options["--fullscreen"].Bool;
+            }
+
+            // ウィンドウモードで初期化
+            OnMenuVisibilityChanged();
+            SetUpdateMenuLayoutMode(true);
+
+
+
+
+            // フォルダーを開く
             if (!App.Options["--blank"].IsValid)
             {
                 if (App.StartupPlace != null)
@@ -1064,7 +1063,7 @@ namespace NeeView
                 }
                 else
                 {
-                    // 最後に開いたフォルダを復元する
+                    // 最後に開いたフォルダーを復元する
                     _VM.LoadLastFolder();
                 }
             }
@@ -1202,19 +1201,19 @@ namespace NeeView
         }
 
 
-        // 開発用コマンド：テンポラリフォルダを開く
+        // 開発用コマンド：テンポラリフォルダーを開く
         private void MenuItemDevTempFolder_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(Temporary.TempDirectory);
         }
 
-        // 開発用コマンド：アプリケーションフォルダを開く
+        // 開発用コマンド：アプリケーションフォルダーを開く
         private void MenuItemDevApplicationFolder_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
         }
 
-        // 開発用コマンド：アプリケーションデータフォルダを開く
+        // 開発用コマンド：アプリケーションデータフォルダーを開く
         private void MenuItemDevApplicationDataFolder_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start(App.Config.LocalApplicationDataPath);
@@ -1729,7 +1728,7 @@ namespace NeeView
             if (_isMenuAreaVisibility != isVisible)
             {
                 _isMenuAreaVisibility = isVisible;
-                SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, isQuickly, VisibleStoryboardType.Collapsed);
+                SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, isQuickly, VisibleStoryboardType.Hidden);
             }
         }
 
@@ -2060,11 +2059,8 @@ namespace NeeView
         private void ThumbnailListBoxPanel_Loaded(object sender, RoutedEventArgs e)
         {
             // パネルコントロール取得
-            if (_thumbnailListPanel == null)
-            {
-                _thumbnailListPanel = sender as VirtualizingStackPanel;
-                DartyThumbnailList();
-            }
+            _thumbnailListPanel = sender as VirtualizingStackPanel;
+            DartyThumbnailList();
         }
 
         private void MainWindow_MouseLeave(object sender, MouseEventArgs e)
@@ -2179,7 +2175,7 @@ namespace NeeView
             if (menu == null) return;
             menu.ItemsSource = _VM.GetHistory(+1, 10);
         }
-        
+
         /// <summary>
         /// スライダーエリアでのマウスホイール操作
         /// </summary>
@@ -2199,6 +2195,31 @@ namespace NeeView
                 {
                     _VM.BookHub.PrevPage();
                 }
+            }
+        }
+
+        /// <summary>
+        /// DPI変更イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow_DpiChanged(object sender, DpiChangedEventArgs e)
+        {
+            var isChanged = App.Config.SetDip(e.NewDpi);
+            if (!isChanged) return;
+
+            // ウィンドウサイズのDPI非追従
+            if (Preference.Current.dpi_window_ignore && this.WindowState == WindowState.Normal)
+            {
+                var newWidth = Math.Floor(this.Width * e.OldDpi.DpiScaleX / e.NewDpi.DpiScaleX);
+                var newHeight = Math.Floor(this.Height * e.OldDpi.DpiScaleY / e.NewDpi.DpiScaleY);
+
+                // 反映タイミングをずらす
+                App.Current.Dispatcher.BeginInvoke((Action)(() =>
+                {
+                    this.Width = newWidth;
+                    this.Height = newHeight;
+                }));
             }
         }
     }
@@ -2386,7 +2407,7 @@ namespace NeeView
         }
     }
 
-    // コンバータ：フォルダの並びフラグ
+    // コンバータ：フォルダーの並びフラグ
     [ValueConversion(typeof(FolderOrder), typeof(bool))]
     public class FolderOrderToBooleanConverter : IValueConverter
     {
@@ -2435,7 +2456,7 @@ namespace NeeView
             else
                 length = double.Parse((string)value);
 
-            return length / App.Config.DpiScaleFactor.X;
+            return length;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -2459,7 +2480,7 @@ namespace NeeView
             else
                 length = double.Parse((string)value);
 
-            return length / App.Config.DpiScaleFactor.Y;
+            return length;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

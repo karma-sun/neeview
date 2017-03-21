@@ -340,7 +340,7 @@ namespace NeeView
             memento.Items = this.Items.Select(e => e.Value.Memento).ToList();
             if (forSave)
             {
-                // テンポラリフォルダを除外
+                // テンポラリフォルダーを除外
                 memento.Items.RemoveAll((e) => e.Place.StartsWith(Temporary.TempDirectory));
             }
 

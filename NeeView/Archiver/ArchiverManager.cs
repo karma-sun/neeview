@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// アーカイバマネージャ
+    /// アーカイバーマネージャ
     /// </summary>
     public class ArchiverManager
     {
@@ -26,7 +26,7 @@ namespace NeeView
             [ArchiverType.SusieArchiver] = new string[] { }
         };
 
-        // アーカイバ優先度リスト
+        // アーカイバー優先度リスト
         private Dictionary<ArchiverType, List<ArchiverType>> _orderList = new Dictionary<ArchiverType, List<ArchiverType>>()
         {
             [ArchiverType.DefaultArchiver] = new List<ArchiverType>()
@@ -43,20 +43,20 @@ namespace NeeView
             },
         };
 
-        // アーカイバ有効/無効
+        // アーカイバー有効/無効
         public bool IsEnabled { get; set; } = true;
 
-        // アーカイバ優先度リストの種類
+        // アーカイバー優先度リストの種類
         public ArchiverType OrderType { set; get; } = ArchiverType.DefaultArchiver;
 
-        // サポートしているアーカイバがあるか判定
+        // サポートしているアーカイバーがあるか判定
         public bool IsSupported(string fileName)
         {
             return GetSupportedType(fileName) != ArchiverType.None;
         }
 
 
-        // サポートしているアーカイバを取得
+        // サポートしているアーカイバーを取得
         public ArchiverType GetSupportedType(string fileName, bool isArrowFileSystem = true)
         {
             if (isArrowFileSystem && fileName.Last() == '\\')
@@ -86,7 +86,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 除外フォルダ判定
+        /// 除外フォルダー判定
         /// </summary>
         /// <param name="path">判定するパス</param>
         /// <returns></returns>
@@ -95,7 +95,7 @@ namespace NeeView
             return ModelContext.Excludes.Contains(LoosePath.GetFileName(path));
         }
 
-        // SevenZipアーカイバのサポート拡張子を更新
+        // SevenZipアーカイバーのサポート拡張子を更新
         public void UpdateSevenZipSupprtedFileTypes(string exts)
         {
             if (exts == null) return;
@@ -110,7 +110,7 @@ namespace NeeView
             Debug.WriteLine("7z.dll Support: " + string.Join(" ", _supprtedFileTypes[ArchiverType.SevenZipArchiver]));
         }
 
-        // Susieアーカイバのサポート拡張子を更新
+        // Susieアーカイバーのサポート拡張子を更新
         public void UpdateSusieSupprtedFileTypes(Susie.Susie susie)
         {
             var list = new List<string>();
@@ -126,7 +126,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// アーカイバ作成
+        /// アーカイバー作成
         /// stream に null 以外を指定すると、そのストリームを使用してアーカイブを開きます。
         /// この stream はアーカイブ廃棄時に Dispose されます。
         /// </summary>
@@ -134,7 +134,7 @@ namespace NeeView
         /// <param name="path">アーカイブファイルのパス</param>
         /// <param name="stream">アーカイブストリーム。ファイルから開く場合はnull</param>
         /// <param name="source">元となったアーカイブエントリ</param>
-        /// <returns>作成されたアーカイバ</returns>
+        /// <returns>作成されたアーカイバー</returns>
         public Archiver CreateArchiver(ArchiverType type, string path, Stream stream, ArchiveEntry source)
         {
             // streamは未使用
@@ -155,7 +155,7 @@ namespace NeeView
             }
         }
 
-        // アーカイバ作成
+        // アーカイバー作成
         public Archiver CreateArchiver(string path, ArchiveEntry source)
         {
             if (Directory.Exists(path))

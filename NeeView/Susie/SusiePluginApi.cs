@@ -342,7 +342,7 @@ namespace Susie
         /// </summary>
         /// <param name="file">アーカイブファイル名</param>
         /// <param name="entry">アーカイブエントリ名</param>
-        /// <param name="extractFolder">出力フォルダ</param>
+        /// <param name="extractFolder">出力フォルダー</param>
         /// <returns>成功した場合は0</returns>
         public int GetFile(string file, ArchiveFileInfoRaw entry, string extractFolder)
         {

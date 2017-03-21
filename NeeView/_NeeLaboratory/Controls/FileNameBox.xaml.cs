@@ -166,7 +166,7 @@ namespace NeeLaboratory.Controls
             if (SelectDirectory)
             {
                 var dialog = new System.Windows.Forms.FolderBrowserDialog();
-                dialog.Description = Title ?? "フォルダ選択";
+                dialog.Description = Title ?? "フォルダー選択";
                 dialog.SelectedPath = Text;
 
                 if (string.IsNullOrWhiteSpace(dialog.SelectedPath))

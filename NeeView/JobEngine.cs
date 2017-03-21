@@ -272,7 +272,7 @@ namespace NeeView
                         Message = $"Create Worker[{i}]";
                     }
 
-                    // 現在のフォルダジョブのみ処理する設定
+                    // 現在のフォルダージョブのみ処理する設定
                     Workers[i].IsPrimary = i < primaryCount;
                 }
                 else
@@ -421,7 +421,7 @@ namespace NeeView
 
         /// <summary>
         /// 優先ワーカー.
-        /// 現在開いているフォルダに対してのジョブのみ処理する
+        /// 現在開いているフォルダーに対してのジョブのみ処理する
         /// </summary>
         public bool IsPrimary { get; set; }
 

@@ -44,8 +44,8 @@ namespace NeeView
 
 
         [DataMember, DefaultValue(false)]
-        [PropertyMember("「開く」を現在開いているフォルダの場所から始める"
-            , Tips = "[ファイル] >[開く]で開くフォルダです\nドラッグ＆ドロップや履歴から開いた場所も基準になります")]
+        [PropertyMember("「開く」を現在開いているフォルダーの場所から始める"
+            , Tips = "[ファイル] >[開く]で開くフォルダーです\nドラッグ＆ドロップや履歴から開いた場所も基準になります")]
         public bool openbook_begin_current { get; set; }
 
         [DataMember, DefaultValue(2)]
@@ -53,8 +53,12 @@ namespace NeeView
         public int loader_thread_size { get; set; }
 
         [DataMember, DefaultValue(true)]
-        [PropertyMember("画像のドットバイドット表示", Tips = "DPIに依存せずに画像とディスプレイのピクセルを一致させます")]
-        public bool view_image_dotbydot { get; set; }
+        [PropertyMember("画像のDPI非対応", Tips = "画像をオリジナルサイズで表示する場合にディスプレイのピクセルと一致させます")]
+        public bool dpi_image_ignore { get; set; }
+
+        [DataMember, DefaultValue(false)]
+        [PropertyMember("ウィンドウサイズのDPI非対応", Tips = "DPI変更にウィンドウサイズを追従させません")]
+        public bool dpi_window_ignore { get; set; }
 
         [DataMember, DefaultValue(1.0)]
         [PropertyMember("横長画像を判定するための縦横比(横 / 縦)", Tips = "「横長ページを分割する」で使用されます")]
@@ -119,7 +123,7 @@ namespace NeeView
         public bool thumbnail_cache { get; set; }
 
         [DataMember, DefaultValue(1000)]
-        [PropertyMember("ページサムネイル容量", Tips = "ページサムネイル保持枚数です。フォルダを閉じると全てクリアされます")]
+        [PropertyMember("ページサムネイル容量", Tips = "ページサムネイル保持枚数です。フォルダーを閉じると全てクリアされます")]
         public int thumbnail_book_capacity {get; set; }
         
         [DataMember, DefaultValue(200)]

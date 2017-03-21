@@ -28,9 +28,9 @@ namespace NeeView
         LastPage = (1 << 3), // 初期ページを最終ページにする
         ReLoad = (1 << 4), // 再読み込みフラグ(BookHubで使用)
         KeepHistoryOrder = (1 << 5), // 履歴の順番を変更しない
-        SelectFoderListMaybe = (1 << 6), // 可能ならばフォルダリストで選択する
+        SelectFoderListMaybe = (1 << 6), // 可能ならばフォルダーリストで選択する
         SelectHistoryMaybe = (1 << 7), // 可能ならば履歴リストで選択する
-        SkipSamePlace = (1 << 8), // 同じフォルダならば読み込まない
+        SkipSamePlace = (1 << 8), // 同じフォルダーならば読み込まない
         AutoRecursive = (1 << 9), // 自動再帰
         Resume = (1 << 10), // 履歴情報から全て復元
         //Rename = (1 << 11), // 名前変更して開く
@@ -244,7 +244,7 @@ namespace NeeView
             }
         }
 
-        // サブフォルダ読み込み
+        // サブフォルダー読み込み
         private bool _isRecursiveFolder;
         public bool IsRecursiveFolder
         {
@@ -308,7 +308,7 @@ namespace NeeView
         // 開始ページ
         public string StartEntry { get; private set; }
 
-        // アーカイバコレクション
+        // アーカイバーコレクション
         // Dispose処理のために保持
         private List<Archiver> _archivers = new List<Archiver>();
 
@@ -377,7 +377,7 @@ namespace NeeView
         // 本の読み込み
         #region LoadBook
 
-        // 読み込み対象外サブフォルダ数。リカーシブ確認に使用します。
+        // 読み込み対象外サブフォルダー数。リカーシブ確認に使用します。
         public int SubFolderCount { get; private set; }
 
 
@@ -428,7 +428,7 @@ namespace NeeView
                 option |= BookLoadOption.Recursive;
             }
 
-            // アーカイバの選択
+            // アーカイバーの選択
             Archiver archiver = ModelContext.ArchiverManager.CreateArchiver(path, null);
             if (archiver.IsFileSystem)
             {
@@ -1566,7 +1566,7 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            // フォルダの場所
+            // フォルダーの場所
             [DataMember(EmitDefaultValue = false)]
             public string Place { get; set; }
 
@@ -1605,7 +1605,7 @@ namespace NeeView
             [DataMember]
             public bool IsSupportedWidePage { get; set; }
 
-            // フォルダの再帰
+            // フォルダーの再帰
             [DataMember]
             public bool IsRecursiveFolder { get; set; }
 
@@ -1695,7 +1695,7 @@ namespace NeeView
                 {
                     this.IsSupportedWidePage = overwrite.IsSupportedWidePage;
                 }
-                // フォルダの再帰
+                // フォルダーの再帰
                 if (filter.Flags[BookMementoBit.IsRecursiveFolder])
                 {
                     this.IsRecursiveFolder = overwrite.IsRecursiveFolder;
@@ -1803,7 +1803,7 @@ namespace NeeView
         // 横長ページを2ページ分とみなす(2ページモード)
         IsSupportedWidePage,
 
-        // フォルダの再帰
+        // フォルダーの再帰
         IsRecursiveFolder,
 
         // ページ並び順

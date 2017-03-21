@@ -101,17 +101,17 @@ public class FolderListControlViewModel : INotifyPropertyChanged
         public FolderListViewModel FolderListViewModel => FolderListView?.VM;
 
         /// <summary>
-        /// 現在のフォルダ
+        /// 現在のフォルダー
         /// </summary>
         private string _place => FolderListViewModel?.Place;
 
         /// <summary>
-        /// そのフォルダで最後に選択されていた項目の記憶
+        /// そのフォルダーで最後に選択されていた項目の記憶
         /// </summary>
         private Dictionary<string, string> _lastPlaceDictionary = new Dictionary<string, string>();
 
         /// <summary>
-        /// フォルダ履歴
+        /// フォルダー履歴
         /// </summary>
         private History<string> _history = new History<string>();
 
@@ -137,7 +137,7 @@ public class FolderListControlViewModel : INotifyPropertyChanged
 
 
         /// <summary>
-        /// フォルダ表示設定
+        /// フォルダー表示設定
         /// </summary>
         /// <param name="setting"></param>
         public void SetSetting(FolderListSetting setting)
@@ -148,7 +148,7 @@ public class FolderListControlViewModel : INotifyPropertyChanged
         }
 
         /// <summary>
-        /// フォルダ状態保存
+        /// フォルダー状態保存
         /// </summary>
         /// <param name="folder"></param>
         private void SavePlace(FolderItem folder)
@@ -158,9 +158,9 @@ public class FolderListControlViewModel : INotifyPropertyChanged
         }
         
         /// <summary>
-        /// フォルダリスト更新
+        /// フォルダーリスト更新
         /// </summary>
-        /// <param name="place">フォルダパス</param>
+        /// <param name="place">フォルダーパス</param>
         /// <param name="select">初期選択項目</param>
         /// <param name="isFocus">フォーカス取得</param>
         /// <param name="updateHistory">フォルダー履歴更新</param>
@@ -168,7 +168,7 @@ public class FolderListControlViewModel : INotifyPropertyChanged
 
         public void SetPlace(string place, string select, FolderSetPlaceOption options)
         {
-            // 現在フォルダの情報を記憶
+            // 現在フォルダーの情報を記憶
             SavePlace(this.FolderListViewModel?.GetFolderItem(0));
 
             // 初期項目
@@ -188,9 +188,10 @@ public class FolderListControlViewModel : INotifyPropertyChanged
                 _isDarty = false;
 
                 // FolderListView 更新
+                this.FolderListView?.Dispose();
                 this.FolderListView = CreateFolderListView(place, select, options.HasFlag(FolderSetPlaceOption.IsFocus));
 
-                // 最終フォルダ更新
+                // 最終フォルダー更新
                 ModelContext.BookHistory.LastFolder = _place;
 
                 // 履歴追加
@@ -429,7 +430,7 @@ public class FolderListControlViewModel : INotifyPropertyChanged
 
         /// <summary>
         /// Sync command.
-        /// 現在開いているフォルダで更新
+        /// 現在開いているフォルダーで更新
         /// </summary>
         private RelayCommand _Sync;
         public RelayCommand Sync
@@ -460,8 +461,8 @@ public class FolderListControlViewModel : INotifyPropertyChanged
 
 
         /// <summary>
-        /// 現在開いているフォルダで更新(弱)
-        /// e.isKeepPlaceが有効の場合、フォルダは移動せず現在選択項目のみの移動を試みる
+        /// 現在開いているフォルダーで更新(弱)
+        /// e.isKeepPlaceが有効の場合、フォルダーは移動せず現在選択項目のみの移動を試みる
         /// </summary>
         /// <param name="e"></param>
         public void SyncWeak(FolderListSyncArguments e)
@@ -476,7 +477,7 @@ public class FolderListControlViewModel : INotifyPropertyChanged
         }
 
         /// <summary>
-        /// フォルダリスト更新
+        /// フォルダーリスト更新
         /// </summary>
         /// <param name="force">必要が無い場合も更新する</param>
         /// <param name="isFocus">フォーカスを取得する</param>
@@ -491,7 +492,7 @@ public class FolderListControlViewModel : INotifyPropertyChanged
         }
 
         /// <summary>
-        /// フォルダアイコンの表示更新
+        /// フォルダーアイコンの表示更新
         /// </summary>
         /// <param name="path">更新するパス。nullならば全て更新</param>
         public void RefleshIcon(string path)
@@ -501,7 +502,7 @@ public class FolderListControlViewModel : INotifyPropertyChanged
 
 
         /// <summary>
-        /// Messenger reciever: フォルダの並びを設定
+        /// Messenger reciever: フォルダーの並びを設定
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -512,7 +513,7 @@ public class FolderListControlViewModel : INotifyPropertyChanged
         }
 
         /// <summary>
-        /// Messenger reciever: フォルダの並びを取得
+        /// Messenger reciever: フォルダーの並びを取得
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -525,7 +526,7 @@ public class FolderListControlViewModel : INotifyPropertyChanged
         }
 
         /// <summary>
-        /// Messenger reciever: フォルダの並びを順番に切り替える
+        /// Messenger reciever: フォルダーの並びを順番に切り替える
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -536,8 +537,8 @@ public class FolderListControlViewModel : INotifyPropertyChanged
 
 
         /// <summary>
-        /// Messenger reciever: フォルダ前後移動要求
-        /// コマンドの「前のフォルダに移動」「次のフォルダへ移動」に対応
+        /// Messenger reciever: フォルダー前後移動要求
+        /// コマンドの「前のフォルダーに移動」「次のフォルダーへ移動」に対応
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

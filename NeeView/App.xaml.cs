@@ -106,7 +106,7 @@ namespace NeeView
             }
 
 
-            // カレントフォルダ設定
+            // カレントフォルダー設定
             System.Environment.CurrentDirectory = Config.LocalApplicationDataPath;
 
             // 設定ファイル名

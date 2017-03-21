@@ -46,7 +46,12 @@ namespace NeeView
         /// <summary>
         /// Collection本体
         /// </summary>
-        public ObservableCollection<FolderItem> Items { get; private set; }
+        private ObservableCollection<FolderItem> _Items;
+        public ObservableCollection<FolderItem> Items
+        {
+            get { return _Items; }
+            private set { _Items = value; }
+        }
 
         /// <summary>
         /// フォルダーの場所
@@ -149,17 +154,16 @@ namespace NeeView
                 }
                 else
                 {
-                    var sw = Stopwatch.StartNew();
-                    var fileInfos = directory.EnumerateFiles().ToList(); // TODO: 極端に重い時がある
-                    sw.Stop();
-                    Debug.WriteLine($"ListUp: {sw.ElapsedMilliseconds}ms");
+                    var fileInfos = directory.GetFiles();
 
                     var shortcuts = fileInfos
                         .Where(e => e.Exists && Utility.FileShortcut.IsShortcut(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
                         .Select(e => new Utility.FileShortcut(e))
                         .ToList();
 
-                    var directories = directory.EnumerateDirectories()
+                    var directoryInfos = directory.GetDirectories();
+
+                    var directories = directoryInfos
                         .Where(e => e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
                         .Select(e => CreateFolderItem(e))
                         .ToList();

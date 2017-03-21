@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// アーカイバ：標準Zipアーカイバ
+    /// アーカイバー：標準Zipアーカイバー
     /// </summary>
     public class ZipArchiver : Archiver
     {
@@ -50,6 +50,24 @@ namespace NeeView
             return true;
         }
 
+        /// <summary>
+        /// ZIPヘッダチェック
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckSignature(Stream stream)
+        {
+            var pos = stream.Position;
+
+            // ヘッダチェック
+            const string zipSignature = "50-4B-03-04";
+
+            byte[] header = new byte[4];
+            stream.Read(header, 0, 4);
+            stream.Seek(pos, SeekOrigin.Begin);
+
+            return (BitConverter.ToString(header, 0) == zipSignature);
+        }
+
 
         // エントリーリストを得る
         public override List<ArchiveEntry> GetEntries(CancellationToken token)
@@ -58,24 +76,34 @@ namespace NeeView
 
             var list = new List<ArchiveEntry>();
 
-            using (var archiver = ZipFile.OpenRead(Path))
+            using (var stream = new FileStream(Path, FileMode.Open, FileAccess.Read))
             {
-                for (int id = 0; id < archiver.Entries.Count; ++id)
+                // ヘッダチェック
+                if (!CheckSignature(stream))
                 {
-                    token.ThrowIfCancellationRequested();
+                    throw new FormatException("ZIPファイルではありません");
+                }
 
-                    var entry = archiver.Entries[id];
-                    if (entry.Length > 0)
+                // エントリー取得
+                using (var archiver = new ZipArchive(stream, ZipArchiveMode.Read))
+                {
+                    for (int id = 0; id < archiver.Entries.Count; ++id)
                     {
-                        list.Add(new ArchiveEntry()
+                        token.ThrowIfCancellationRequested();
+
+                        var entry = archiver.Entries[id];
+                        if (entry.Length > 0)
                         {
-                            Archiver = this,
-                            Id = id,
-                            Instance = null,
-                            EntryName = entry.FullName,
-                            Length = entry.Length,
-                            LastWriteTime = entry.LastWriteTime.DateTime,
-                        });
+                            list.Add(new ArchiveEntry()
+                            {
+                                Archiver = this,
+                                Id = id,
+                                Instance = null,
+                                EntryName = entry.FullName,
+                                Length = entry.Length,
+                                LastWriteTime = entry.LastWriteTime.DateTime,
+                            });
+                        }
                     }
                 }
             }

@@ -25,18 +25,20 @@
 
         <RoutedCommand x:Key="xRemoveDommand" />
 
+
         <Style TargetType="TextBlock" x:Key="PagemarkName">
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
 
         <!-- Normal Pagemark -->
         <DataTemplate x:Key="NormalPagemark">
-            <StackPanel Background="{DynamicResource NVBaseBrush}" ToolTip="{Binding Detail}" >
+            <StackPanel Background="{DynamicResource NVBaseBrush}">
                 <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PlaceShort}" FontSize="12" Foreground="Gray" />
-                <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}"/>
+                <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}" ToolTip="{Binding Detail}" ToolTipService.InitialShowDelay="1000" ToolTipService.BetweenShowDelay="1000"/>
             </StackPanel>
         </DataTemplate>
 
@@ -56,7 +58,7 @@
                         </Image>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PlaceShort}" Foreground="Gray" />
-                            <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}"/>
+                            <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}" ToolTip="{Binding Detail}" ToolTipService.InitialShowDelay="1000" ToolTipService.BetweenShowDelay="1000"/>
                         </StackPanel>
                     </DockPanel>
                 </DockPanel>

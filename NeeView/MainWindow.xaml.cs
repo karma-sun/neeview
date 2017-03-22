@@ -1765,6 +1765,10 @@ namespace NeeView
             {
                 SetLeftPanelVisibisity(false, false);
             }
+            else if (_VM.LeftPanel == PanelType.FolderList && this.FolderList.IsRenaming)
+            {
+                SetLeftPanelVisibisity(true, false);
+            }
             else if (_VM.CanHidePanel)
             {
                 Point point = Mouse.GetPosition(this.ViewArea);

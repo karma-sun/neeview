@@ -31,8 +31,11 @@
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="ToolTip" Value="{Binding FullPath}"/>
+            <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
+            <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
         </Style>
 
         <Style x:Key="SmartTextStyle" TargetType="TextBlock" BasedOn="{StaticResource ItemStyle}">
@@ -65,7 +68,7 @@
 
         <DataTemplate x:Key="PictureTemplate">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                <DockPanel Margin="2">
+                <DockPanel Margin="2" LastChildFill="False">
                     <Image Style="{StaticResource ThumbnailStyle}"/>
                     <TextBlock Style="{Binding ElementName=DockPanel, Path=DataContext.Format, Converter={StaticResource PageNameConverter}}"/>
                 </DockPanel>

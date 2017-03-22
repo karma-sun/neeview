@@ -17,11 +17,15 @@
     <UserControl.Resources>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:BooleanReverseConverter x:Key="BooleanReverseConverter"/>
         <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
 
         <Style TargetType="TextBlock" x:Key="FolderName">
             <Setter Property="Text" Value="{Binding Name}"/>
+            <Setter Property="ToolTipService.IsEnabled" Value="{Binding ElementName=ListBox, Path=DataContext.IsRenaming, Converter={StaticResource BooleanReverseConverter}}"/>
             <Setter Property="ToolTip" Value="{Binding Name}"/>
+            <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
+            <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="15"/>
@@ -77,7 +81,7 @@
 
         <!-- Normal -->
         <DataTemplate x:Key="NormalFolder">
-            <DockPanel>
+            <DockPanel LastChildFill="False">
                 <ContentControl DockPanel.Dock="Right" Width="20" Height="20" ContentTemplate="{StaticResource IconTemplate}" Content="{Binding}"/>
                 <ContentControl DockPanel.Dock="Left" Width="20" Height="20" ContentTemplate="{StaticResource FolderIconTemplate}" Content="{Binding}" VerticalAlignment="Top"/>
                 <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}"/>
@@ -118,7 +122,7 @@
                                         ContentTemplate="{StaticResource FolderIconTemplate}" Content="{Binding}"/>
                         </Grid>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap"/>
+                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap" HorizontalAlignment="Left"/>
                             <TextBlock x:Name="LastUpdateTime" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.LastWriteTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
                             <TextBlock x:Name="FileSize" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.Length, Converter={StaticResource FileSizeToStringConverter}}" />
                         </StackPanel>
@@ -134,7 +138,7 @@
                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 FocusVisualStyle="{StaticResource NVFocusVisual}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                   ItemsSource="{Binding FolderCollection.Items}"
+                ItemsSource="{Binding FolderCollection.Items}"
                 SelectedIndex="{Binding SelectedIndex}"
                 SelectionChanged="FolderList_SelectionChanged"
                 Loaded="FolderList_Loaded"

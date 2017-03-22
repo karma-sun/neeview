@@ -39,7 +39,7 @@ namespace NeeView
             FolderListControlView ctrl = d as FolderListControlView;
             if (ctrl != null)
             {
-                ctrl._VM.SetSetting(ctrl.Setting);
+                ctrl._vm.SetSetting(ctrl.Setting);
             }
         }
 
@@ -64,15 +64,19 @@ namespace NeeView
             FolderListControlView ctrl = d as FolderListControlView;
             if (ctrl != null)
             {
-                ctrl._VM.BookHub = ctrl.BookHub;
+                ctrl._vm.BookHub = ctrl.BookHub;
             }
         }
 
+        /// <summary>
+        /// is renaming ?
+        /// </summary>
+        public bool IsRenaming => _vm.FolderListViewModel != null ? _vm.FolderListViewModel.IsRenaming : false;
 
         /// <summary>
         /// view model
         /// </summary>
-        private FolderListControlViewModel _VM;
+        private FolderListControlViewModel _vm;
 
         /// <summary>
         /// constructor
@@ -81,8 +85,8 @@ namespace NeeView
         {
             InitializeComponent();
 
-            _VM = new FolderListControlViewModel();
-            this.DockPanel.DataContext = _VM;
+            _vm = new FolderListControlViewModel();
+            this.DockPanel.DataContext = _vm;
         }
 
 
@@ -95,7 +99,7 @@ namespace NeeView
         public void SetPlace(string place, string select, bool isFocus)
         {
             var oprions = (isFocus ? FolderSetPlaceOption.IsFocus : FolderSetPlaceOption.None) | FolderSetPlaceOption.IsUpdateHistory;
-            _VM.SetPlace(place, select, oprions);
+            _vm.SetPlace(place, select, oprions);
         }
 
 
@@ -109,7 +113,7 @@ namespace NeeView
             if ((bool)e.NewValue)
             {
                 await Task.Yield();
-                _VM.FocusSelectedItem(true);
+                _vm.FocusSelectedItem(true);
             }
         }
 
@@ -122,7 +126,7 @@ namespace NeeView
         {
             var menu = (sender as FrameworkElement)?.ContextMenu;
             if (menu == null) return;
-            menu.ItemsSource = _VM.GetHistory(-1, 10);
+            menu.ItemsSource = _vm.GetHistory(-1, 10);
         }
 
         /// <summary>
@@ -134,7 +138,7 @@ namespace NeeView
         {
             var menu = (sender as FrameworkElement)?.ContextMenu;
             if (menu == null) return;
-            menu.ItemsSource = _VM.GetHistory(+1, 10);
+            menu.ItemsSource = _vm.GetHistory(+1, 10);
         }
     }
 }

@@ -63,7 +63,7 @@ namespace NeeView
         /// バナー画像高さ
         /// </summary>
         //public double ThumbnailHeight => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeY / App.Config.DpiScaleFactor.Y);
-        
+
 
         /// <summary>
         /// SelectIndex property.
@@ -78,6 +78,17 @@ namespace NeeView
                 RaisePropertyChanged();
             }
         }
+
+        /// <summary>
+        /// IsRenaming property.
+        /// </summary>
+        private bool _isRenaming;
+        public bool IsRenaming
+        {
+            get { return _isRenaming; }
+            set { if (_isRenaming != value) { _isRenaming = value; RaisePropertyChanged(); } }
+        }
+
 
 
         /// <summary>
@@ -255,7 +266,7 @@ namespace NeeView
             }
         }
 
-        
+
 
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin, int direction)

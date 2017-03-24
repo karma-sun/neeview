@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,12 +69,12 @@ namespace NeeView
         private MouseGestureSettingContext _context;
 
         //
-        private MouseGestureManager _mouseGesture;
+        private MouseInputManagerForGestureEditor _mouseGesture;
 
         /// <summary>
         /// Property: GestureToken
         /// </summary>
-        private GestureToken _gestureToken;
+        private GestureToken _gestureToken = new GestureToken();
         public GestureToken GestureToken
         {
             get { return _gestureToken; }
@@ -84,6 +85,17 @@ namespace NeeView
         /// Property: Original Gesture
         /// </summary>
         public string OriginalGesture { get; set; }
+
+        /// <summary>
+        /// NewGesture property.
+        /// </summary>
+        private string _NewGesture;
+        public string NewGesture
+        {
+            get { return _NewGesture; }
+            set { if (_NewGesture != value) { _NewGesture = value; RaisePropertyChanged(); } }
+        }
+
 
         /// <summary>
         /// Window Title
@@ -99,9 +111,8 @@ namespace NeeView
         {
             _context = context;
 
-            _mouseGesture = new MouseGestureManager(gestureSender);
-            _mouseGesture.PropertyChanged += MouseGesture_PropertyChanged;
-            _mouseGesture.GestureText = _context.Gesture;
+            _mouseGesture = new MouseInputManagerForGestureEditor(gestureSender);
+            _mouseGesture.Gesture.MouseGestureProgressed += Gesture_MouseGestureProgressed;
 
             OriginalGesture = _context.Gesture;
         }
@@ -111,13 +122,12 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MouseGesture_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Gesture_MouseGestureProgressed(object sender, MouseGestureEventArgs e)
         {
-            if (e.PropertyName == nameof(_mouseGesture.GestureText))
-            {
-                UpdateGestureToken(_mouseGesture.GestureText);
-            }
+            NewGesture = e.Sequence.ToString();
+            UpdateGestureToken(NewGesture);
         }
+
 
         /// <summary>
         /// Update Gesture Information
@@ -151,7 +161,7 @@ namespace NeeView
         /// </summary>
         public void Decide()
         {
-            _context.Gesture = _mouseGesture.GestureText;
+            _context.Gesture = NewGesture;
         }
 
 
@@ -166,7 +176,8 @@ namespace NeeView
 
         private void ClearCommand_Executed()
         {
-            _mouseGesture.GestureText = null;
+            _context.Gesture = null;
+            _mouseGesture.Gesture.Reset();
         }
     }
 

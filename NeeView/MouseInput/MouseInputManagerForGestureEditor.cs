@@ -1,0 +1,145 @@
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+
+namespace NeeView
+{
+    /// <summary>
+    /// MouseInputManager for GestureEditor
+    /// </summary>
+    public class MouseInputManagerForGestureEditor
+    {
+        /// <summary>
+        /// 状態：既定
+        /// </summary>
+        public MouseInputNormalForGestureEdit Normal { get; private set; }
+
+        /// <summary>
+        /// 状態：ジェスチャー
+        /// </summary>
+        public MouseInputGesture Gesture { get; private set; }
+
+        /// <summary>
+        /// 状態テーブル
+        /// </summary>
+        private Dictionary<MouseInputState, MouseInputBase> _mouseInputCollection;
+
+        /// <summary>
+        /// 現在状態
+        /// </summary>
+        public MouseInputState _state;
+
+        /// <summary>
+        /// 現在状態（実体）
+        /// </summary>
+        private MouseInputBase _current;
+
+        /// <summary>
+        /// 入力ターゲット
+        /// </summary>
+        private FrameworkElement _sender;
+
+        /// <summary>
+        /// 状態コンテキスト
+        /// </summary>
+        private MouseInputContext _context;
+
+        /// <summary>
+        /// コンストラクター
+        /// </summary>
+        /// <param name="sender"></param>
+        public MouseInputManagerForGestureEditor(FrameworkElement sender)
+        {
+            _context = new MouseInputContext() { Sender = sender };
+
+            _sender = sender;
+
+            this.Normal = new MouseInputNormalForGestureEdit(_context);
+            this.Normal.StateChanged += (s, e) => SetState(e.State);
+
+            this.Gesture = new MouseInputGesture(_context);
+            this.Gesture.StateChanged += (s, e) => SetState(e.State);
+
+            // initialize state
+            _mouseInputCollection = new Dictionary<MouseInputState, MouseInputBase>();
+            _mouseInputCollection.Add(MouseInputState.Normal, this.Normal);
+            _mouseInputCollection.Add(MouseInputState.Gesture, this.Gesture);
+            SetState(MouseInputState.Normal);
+
+            // initialize event
+            _sender.PreviewMouseDown += OnMouseButtonDown;
+            _sender.PreviewMouseUp += OnMouseButtonUp;
+            _sender.PreviewMouseWheel += OnMouseWheel;
+            _sender.PreviewMouseMove += OnMouseMove;
+        }
+
+        /// <summary>
+        /// 状態設定
+        /// </summary>
+        /// <param name="state"></param>
+        public void SetState(MouseInputState state)
+        {
+            _current?.OnClosed(_sender);
+
+            _state = state;
+            _current = _mouseInputCollection[_state];
+            _current.OnOpened(_sender, null);
+
+            Debug.WriteLine($"{_state} start...");
+        }
+
+        /// <summary>
+        /// ボタン押したときの処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender != _sender) return;
+            _current.OnMouseButtonDown(_sender, e);
+        }
+
+        /// <summary>
+        /// ボタン離されたときの処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender != _sender) return;
+            _current.OnMouseButtonUp(_sender, e);
+        }
+
+        /// <summary>
+        /// ホイール処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (sender != _sender) return;
+            _current.OnMouseWheel(_sender, e);
+        }
+
+        /// <summary>
+        /// マウス移動処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            if (sender != _sender) return;
+            _current.OnMouseMove(_sender, e);
+        }
+    }
+}

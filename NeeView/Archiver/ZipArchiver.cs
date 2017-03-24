@@ -58,11 +58,11 @@ namespace NeeView
         {
             var pos = stream.Position;
 
-            // ヘッダチェック
-            const string zipSignature = "50-4B-03-04";
+            // ヘッダチェック ("PK"のみチェック)
+            const string zipSignature = "50-4B";
 
-            byte[] header = new byte[4];
-            stream.Read(header, 0, 4);
+            byte[] header = new byte[2];
+            stream.Read(header, 0, 2);
             stream.Seek(pos, SeekOrigin.Begin);
 
             return (BitConverter.ToString(header, 0) == zipSignature);

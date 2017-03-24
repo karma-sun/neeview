@@ -163,8 +163,15 @@
     </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="MemoryControl.cs" />
-    <Compile Include="MouseLoupe.cs" />
-    <Compile Include="MouseWheel.cs" />
+    <Compile Include="MouseInput\MouseInputHelper.cs" />
+    <Compile Include="MouseInput\MouseInputManagerForGestureEditor.cs" />
+    <Compile Include="MouseInput\MouseInputDrag.cs" />
+    <Compile Include="MouseInput\MouseInputGesture.cs" />
+    <Compile Include="MouseInput\MouseInputLoupe.cs" />
+    <Compile Include="MouseInput\MouseInputManager.cs" />
+    <Compile Include="MouseInput\MouseInputNormal.cs" />
+    <Compile Include="MouseInput\MouseInputBase.cs" />
+    <Compile Include="MouseInput\MouseInputNormalForGestureEdit.cs" />
     <Compile Include="PageContentView.cs" />
     <Compile Include="Page\AnimatedContent.cs" />
     <Compile Include="Page\ArchiveContent.cs" />
@@ -230,7 +237,6 @@
     <Compile Include="Loupe.xaml.cs">
       <DependentUpon>Loupe.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MouseLongDown.cs" />
     <Compile Include="PageListControl.xaml.cs">
       <DependentUpon>PageListControl.xaml</DependentUpon>
     </Compile>
@@ -293,9 +299,8 @@
     <Compile Include="DragArea.cs" />
     <Compile Include="DragViewOrigin.cs" />
     <Compile Include="IpcRemote.cs" />
-    <Compile Include="MouseGesture\MouseGestureCommandCollection.cs" />
-    <Compile Include="MouseGesture\MouseGestureManager.cs" />
-    <Compile Include="MouseGesture\MouseGestureSequence.cs" />
+    <Compile Include="MouseInput\MouseGestureCommandCollection.cs" />
+    <Compile Include="MouseInput\MouseGestureSequence.cs" />
     <Compile Include="PagePosition.cs" />
     <Compile Include="Page\BitmapPage.cs" />
     <Compile Include="BitmapLoader\BitmapSourceExtension.cs" />
@@ -323,11 +328,9 @@
     </Compile>
     <Compile Include="Messenger.cs" />
     <Compile Include="ModelContext.cs" />
-    <Compile Include="MouseDragController.cs" />
     <Compile Include="CommonExtensions.cs" />
     <Compile Include="JobEngine.cs" />
     <Compile Include="InputGesture\MouseExGesture.cs" />
-    <Compile Include="MouseGesture\MouseGestureController.cs" />
     <Compile Include="MouseGestureSettingWindow.xaml.cs">
       <DependentUpon>MouseGestureSettingWindow.xaml</DependentUpon>
     </Compile>
@@ -595,6 +598,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.104.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.104.0\build\net46\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

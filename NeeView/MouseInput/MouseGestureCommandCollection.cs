@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,30 +17,46 @@ namespace NeeView
     /// </summary>
     public class MouseGestureCommandCollection
     {
-        // シーケンスとコマンドの対応辞書
+        /// <summary>
+        /// シーケンスとコマンドの対応辞書
+        /// </summary>
         private Dictionary<string, RoutedUICommand> _commands;
 
-        // 初期化
+        /// <summary>
+        /// コンストラクター
+        /// </summary>
         public MouseGestureCommandCollection()
         {
             _commands = new Dictionary<string, RoutedUICommand>();
         }
 
-        // 辞書クリア
+        /// <summary>
+        /// 辞書クリア
+        /// </summary>
         public void Clear()
         {
             _commands.Clear();
         }
 
-        // コマンド追加
+        /// <summary>
+        /// コマンド追加
+        /// </summary>
+        /// <param name="gestureText"></param>
+        /// <param name="command"></param>
         public void Add(string gestureText, RoutedUICommand command)
         {
             _commands[gestureText] = command;
         }
 
-        // ジェスチャーシーケンスからコマンドを取得
+        /// <summary>
+        /// ジェスチャーシーケンスからコマンドを取得
+        /// </summary>
+        /// <param name="gesture"></param>
+        /// <returns></returns>
         public RoutedUICommand GetCommand(MouseGestureSequence gesture)
         {
+            if (gesture == null) return null;
+
             string key = gesture.ToString();
 
             if (_commands.ContainsKey(key))
@@ -48,13 +69,19 @@ namespace NeeView
             }
         }
 
-        // ジェスチャーシーケンスからコマンドを実行
+        /// <summary>
+        /// ジェスチャーシーケンスからコマンドを実行
+        /// </summary>
+        /// <param name="gesture"></param>
         public void Execute(MouseGestureSequence gesture)
         {
             Execute(gesture.ToString());
         }
 
-        // セスチャー文字列からコマンドを実行
+        /// <summary>
+        /// ジェスチャー文字列からコマンドを実行
+        /// </summary>
+        /// <param name="gestureText"></param>
         public void Execute(string gestureText)
         {
             if (_commands.ContainsKey(gestureText))

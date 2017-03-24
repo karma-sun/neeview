@@ -155,9 +155,6 @@ namespace NeeView
         // ウィンドウモード変更通知
         public event EventHandler NotifyMenuVisibilityChanged;
 
-        // コンテキストメニュー状態変更
-        public event EventHandler ContextMenuEnableChanged;
-
         // ページリスト更新
         public event EventHandler PageListChanged;
 
@@ -1404,7 +1401,6 @@ namespace NeeView
         public void UpdateContextMenu()
         {
             ContextMenu = ContextMenuSetting.ContextMenu;
-            ContextMenuEnableChanged?.Invoke(this, null);
         }
 
         /// <summary>

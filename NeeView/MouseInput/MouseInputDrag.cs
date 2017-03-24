@@ -8,15 +8,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+
+// TODO: 整備
+// TODO: 関数が大きすぎる？細分化を検討
 
 namespace NeeView
 {
@@ -64,22 +63,24 @@ namespace NeeView
 
 
     /// <summary>
-    /// マウスドラッグ管理
-    /// マウスドラッグでのコンテンツの表示変換を行う。
+    /// ドラッグ操作
     /// </summary>
-    public class MouseDragController : INotifyPropertyChanged
+    public class MouseInputDrag : MouseInputBase, INotifyPropertyChanged
     {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// PropertyChanged event. 
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-        #endregion
+
+
+        // 角度、スケール変更イベント
+        public event EventHandler<TransformChangedParam> TransformChanged;
+
 
 
         // 移動アニメーション有効フラグ(内部管理)
@@ -229,14 +230,43 @@ namespace NeeView
         #endregion
 
 
-        // アクションキーバインド
-        private Dictionary<DragKey, DragAction> _keyBindings;
 
-        // アクションキーバインド設定
-        public void SetKeyBindings(Dictionary<DragKey, DragAction> binding)
+        public TransformGroup TransformView { get; private set; }
+        public TransformGroup TransformCalc { get; private set; }
+
+
+        //
+        public MouseInputDrag(MouseInputContext context) : base(context)
         {
-            _keyBindings = binding;
+            this.TransformView = CreateTransformGroup();
+            this.TransformCalc = CreateTransformGroup();
+
+            _translateTransform = this.TransformView.Children.OfType<TranslateTransform>().First();
         }
+
+
+        // パラメータとトランスフォームを対応させる
+        private TransformGroup CreateTransformGroup()
+        {
+            var scaleTransform = new ScaleTransform();
+            BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleXProperty, new Binding(nameof(ScaleX)) { Source = this });
+            BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleYProperty, new Binding(nameof(ScaleY)) { Source = this });
+
+            var rotateTransform = new RotateTransform();
+            BindingOperations.SetBinding(rotateTransform, RotateTransform.AngleProperty, new Binding(nameof(Angle)) { Source = this });
+
+            var translateTransform = new TranslateTransform();
+            BindingOperations.SetBinding(translateTransform, TranslateTransform.XProperty, new Binding("Position.X") { Source = this });
+            BindingOperations.SetBinding(translateTransform, TranslateTransform.YProperty, new Binding("Position.Y") { Source = this });
+
+            var transformGroup = new TransformGroup();
+            transformGroup.Children.Add(scaleTransform);
+            transformGroup.Children.Add(rotateTransform);
+            transformGroup.Children.Add(translateTransform);
+
+            return transformGroup;
+        }
+
 
         // 開始時の基準
         public DragViewOrigin ViewOrigin { get; set; }
@@ -261,109 +291,6 @@ namespace NeeView
         // Y方向の移動制限フラグ
         private bool _lockMoveY;
 
-        // 回転、拡縮の中心
-        public DragControlCenter DragControlCenter { get; set; } = DragControlCenter.View;
-
-        // 回転スナップ。0で無効
-        public double AngleFrequency { get; set; } = 0;
-
-        // 拡縮スナップ。0で無効;
-        public double SnapScale { get; set; } = 0;
-
-        // ウィンドウ
-        private Window _window;
-
-        // マウス入力イベント受付コントロール。ビューエリア。
-        private FrameworkElement _sender;
-
-        // 移動対象。コンテンツ。
-        private FrameworkElement _target;
-
-        // 移動対象の影
-        // 移動範囲計算用。_TargetViewと全く同じ大きさと座標で、アニメーションだけしない非表示コントロール。
-        private FrameworkElement _targetShadow;
-
-        //
-        private bool _isButtonDown = false;
-        private bool _isDragging = false;
-        private MouseButton _dragMouseButton;
-        private DragAction _action;
-
-        // クリックイベント
-        // ドラッグされずにマウスボタンが離された時にに発行する
-        public event EventHandler<MouseButtonEventArgs> MouseClickEventHandler;
-
-        // 角度、スケール変更イベント
-        public event EventHandler<TransformChangedParam> TransformChanged;
-
-        // 角度、スケール変更終了イベント
-        public event EventHandler TransformEnd;
-
-        private bool _isEnableClickEvent;
-
-        private Point _startPoint;
-        private Point _endPoint;
-        private Point _basePosition;
-        private double _baseAngle;
-        private double _baseScale;
-        private Point _center;
-        private Point _baseFlipPoint;
-        private Point _startPointFromWindow;
-
-        /// <summary>
-        ///  コンストラクタ
-        /// </summary>
-        /// <param name="sender">ビューエリア、マウスイベント受付コントロール</param>
-        /// <param name="targetView">対象コンテンツ</param>
-        /// <param name="targetShadow">対象コンテンツの影。計算用</param>
-        public MouseDragController(Window window, FrameworkElement sender, FrameworkElement targetView, FrameworkElement targetShadow)
-        {
-            _window = window;
-            _sender = sender;
-            _target = targetView;
-            _targetShadow = targetShadow;
-
-            _sender.PreviewMouseDown += OnMouseButtonDown;
-            _sender.PreviewMouseUp += OnMouseButtonUp;
-            _sender.PreviewMouseWheel += OnMouseWheel;
-            _sender.PreviewMouseMove += OnMouseMove;
-
-            this.TransformView = CreateTransformGroup();
-            this.TransformCalc = CreateTransformGroup();
-
-            _translateTransform = this.TransformView.Children.OfType<TranslateTransform>().First();
-        }
-
-        public TransformGroup TransformView { get; private set; }
-        public TransformGroup TransformCalc { get; private set; }
-
-        // パラメータとトランスフォームを対応させる
-        private TransformGroup CreateTransformGroup()
-        {
-            var scaleTransform = new ScaleTransform();
-            BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleXProperty, new Binding(nameof(ScaleX)) { Source = this });
-            BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleYProperty, new Binding(nameof(ScaleY)) { Source = this });
-
-            var rotateTransform = new RotateTransform();
-            BindingOperations.SetBinding(rotateTransform, RotateTransform.AngleProperty, new Binding(nameof(Angle)) { Source = this });
-
-            var translateTransform = new TranslateTransform();
-            BindingOperations.SetBinding(translateTransform, TranslateTransform.XProperty, new Binding("Position.X") { Source = this });
-            BindingOperations.SetBinding(translateTransform, TranslateTransform.YProperty, new Binding("Position.Y") { Source = this });
-
-            var transformGroup = new TransformGroup();
-            transformGroup.Children.Add(scaleTransform);
-            transformGroup.Children.Add(rotateTransform);
-            transformGroup.Children.Add(translateTransform);
-
-            return transformGroup;
-        }
-
-        // クリックイベント登録クリア
-        public void ClearClickEventHandler()
-        {
-            MouseClickEventHandler = null;
-        }
 
         // 水平スクロールの正方向
         public double ViewHorizontalDirection { get; set; } = 1.0;
@@ -398,7 +325,7 @@ namespace NeeView
             else
             {
                 // レイアウト更新
-                _sender.UpdateLayout();
+                _context.Sender.UpdateLayout();
 
                 var area = GetArea();
                 var pos = new Point(0, 0);
@@ -429,6 +356,14 @@ namespace NeeView
             //_lockMoveY = IsLimitMove;
         }
 
+        /// <summary>
+        /// 表示コンテンツのエリア情報取得
+        /// </summary>
+        /// <returns></returns>
+        private DragArea GetArea()
+        {
+            return new DragArea(_context.Sender, _context.TargetShadow);
+        }
 
         // ビューエリアサイズ変更に追従する
         public void SnapView()
@@ -436,7 +371,7 @@ namespace NeeView
             if (!IsLimitMove) return;
 
             // レイアウト更新
-            _sender.UpdateLayout();
+            _context.Sender.UpdateLayout();
 
             double margin = 1.0;
             var area = GetArea();
@@ -487,6 +422,8 @@ namespace NeeView
         }
 
 
+        #region Scroll method
+
         // スクロール↑コマンド
         // 縦方向にスクロールできない場合、横方向にスクロールする
         public void ScrollUp(double rate)
@@ -496,11 +433,11 @@ namespace NeeView
             UpdateLock();
             if (!_lockMoveY)
             {
-                DoMove(new Vector(0, _sender.ActualHeight * rate));
+                DoMove(new Vector(0, _context.Sender.ActualHeight * rate));
             }
             else
             {
-                DoMove(new Vector(_sender.ActualWidth * rate * ViewHorizontalDirection, 0));
+                DoMove(new Vector(_context.Sender.ActualWidth * rate * ViewHorizontalDirection, 0));
             }
 
             _isEnableTranslateAnimation = false;
@@ -515,16 +452,15 @@ namespace NeeView
             UpdateLock();
             if (!_lockMoveY)
             {
-                DoMove(new Vector(0, _sender.ActualHeight * -rate));
+                DoMove(new Vector(0, _context.Sender.ActualHeight * -rate));
             }
             else
             {
-                DoMove(new Vector(_sender.ActualWidth * -rate * ViewHorizontalDirection, 0));
+                DoMove(new Vector(_context.Sender.ActualWidth * -rate * ViewHorizontalDirection, 0));
             }
 
             _isEnableTranslateAnimation = false;
         }
-
 
         /// <summary>
         /// N字スクロール
@@ -541,7 +477,7 @@ namespace NeeView
 
             if (delta.X != 0.0 || delta.Y != 0.0)
             {
-                Debug.WriteLine(delta);
+                ////Debug.WriteLine(delta);
                 UpdateLock();
 
                 if (isAnimate) _isEnableTranslateAnimation = true;
@@ -674,6 +610,9 @@ namespace NeeView
             }
         }
 
+        #endregion
+
+        #region Scale method
         // 拡大コマンド
         public void ScaleUp(double scaleDelta)
         {
@@ -689,7 +628,9 @@ namespace NeeView
             _basePosition = Position;
             DoScale(_baseScale / (1.0 + scaleDelta));
         }
+        #endregion
 
+        #region Rotate method
         // 回転コマンド
         public void Rotate(double angle)
         {
@@ -697,7 +638,9 @@ namespace NeeView
             _basePosition = Position;
             DoRotate(NormalizeLoopRange(_baseAngle + angle, -180, 180));
         }
+        #endregion
 
+        #region Flip method
         // 反転コマンド
         public void ToggleFlipHorizontal()
         {
@@ -721,7 +664,93 @@ namespace NeeView
         {
             DoFlipVertical(isFlip);
         }
+        #endregion
 
+
+
+        public override void OnOpened(FrameworkElement sender, object parameter)
+        {
+            sender.CaptureMouse();
+            sender.Cursor = Cursors.Hand;
+            _action = null;
+
+            InitializeDragParameter(_context.StartPoint);
+        }
+
+        public override void OnClosed(FrameworkElement sender)
+        {
+            sender.ReleaseMouseCapture();
+        }
+
+        public override void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+            // nop.
+        }
+
+        public override void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            // ドラッグ解除
+            if (CreateMouseButtonBits(e) == MouseButtonBit.None)
+            {
+                ResetState();
+            }
+        }
+
+        //
+        public override void OnMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            // コマンド実行
+            MouseWheelChanged?.Invoke(sender, e);
+
+            // ドラッグ解除
+            if (e.Handled)
+            {
+                ResetState();
+            }
+        }
+
+        //
+        public override void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            var point = e.GetPosition(_context.Sender);
+
+            var pressed = GetMouseButton(e);
+            if (pressed == null) return;
+
+            // update action
+            var action = GetAction((MouseButton)pressed, Keyboard.Modifiers);
+            if (action == null) return;
+
+            if (_action == null)
+            {
+                _action = action;
+            }
+            else if (action != _action)
+            {
+                if (Keyboard.Modifiers != ModifierKeys.None || action.IsGroupCompatible(_action))
+                {
+                    _action = action;
+                    InitializeDragParameter(point);
+                }
+            }
+
+            // exec action
+            _action?.Exec(_context.StartPoint, point);
+        }
+
+        #region Actions
+        // アクションキーバインド
+        private Dictionary<DragKey, DragAction> _keyBindings;
+
+        // アクションキーバインド設定
+        public void SetKeyBindings(Dictionary<DragKey, DragAction> binding)
+        {
+            _keyBindings = binding;
+        }
+
+        // ドラッグアクション
+        private DragAction _action;
 
         // 入力からアクション取得
         private DragAction GetAction(MouseButton butto, ModifierKeys keys)
@@ -738,139 +767,23 @@ namespace NeeView
             }
         }
 
-
-        private bool _isCancel = false;
-
-        /// <summary>
-        /// 次にマウスボタンが押されるまで一時的に無効化する
-        /// </summary>
-        public void CancelOnce()
-        {
-            _isCancel = true;
-        }
-
-        /// <summary>
-        /// マウス入力をキャンセル
-        /// </summary>
-        public void ResetInput()
-        {
-            _isButtonDown = false;
-        }
-
-        // マウスボタンが押された時の処理
-        private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _sender.Focus();
-
-            if (_isButtonDown) return;
-
-            if (e.ChangedButton != MouseButton.Left && e.ChangedButton != MouseButton.Middle) return;
-
-            _startPoint = e.GetPosition(_sender);
-
-            _isButtonDown = true;
-            _dragMouseButton = e.ChangedButton;
-            _isDragging = false;
-            _isEnableClickEvent = true;
-            _isCancel = false;
-
-            _action = null;
-
-            _sender.CaptureMouse();
-        }
-
-        // マウスボタンが離された時の処理
-        private void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!_isButtonDown) return;
-
-            if (e.ChangedButton != _dragMouseButton) return;
-
-            _isButtonDown = false;
-
-            _sender.ReleaseMouseCapture();
-
-            if (_sender.Cursor != Cursors.None)
-            {
-                _sender.Cursor = null;
-            }
-
-            TransformEnd?.Invoke(this, null);
-
-            if (_isCancel) return;
-
-            if (_isEnableClickEvent && !_isDragging && MouseClickEventHandler != null)
-            {
-                MouseClickEventHandler(sender, e);
-            }
-        }
-
-        // マウスホイールの処理
-        private void OnMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            // クリック系のイベントを無効にする
-            _isEnableClickEvent = false;
-        }
-
-        // マウスポインタが移動した時の処理
-        private void OnMouseMove(object sender, MouseEventArgs e)
-        {
-            if (!_isButtonDown) return;
-
-            _endPoint = e.GetPosition(_sender);
-
-            if (_isCancel) return;
-
-            if (!_isDragging)
-            {
-                if (Math.Abs(_endPoint.X - _startPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(_endPoint.Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
-                {
-                    _isDragging = true;
-
-                    InitializeDragParameter(_endPoint);
-
-                    _sender.Cursor = Cursors.Hand;
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            // update action
-            var action = GetAction(_dragMouseButton, Keyboard.Modifiers);
-            if (_action == null)
-            {
-                _action = action;
-            }
-            else if (action != _action)
-            {
-                if (Keyboard.Modifiers != ModifierKeys.None || action.IsGroupCompatible(_action))
-                {
-                    _action = action;
-                    InitializeDragParameter(_endPoint);
-                }
-            }
-
-
-            _action?.Exec(_startPoint, _endPoint);
-        }
-
         // ドラッグパラメータ初期化
         private void InitializeDragParameter(Point pos)
         {
-            _startPoint = pos;
-            _baseFlipPoint = _startPoint;
-            var windowDiff = _window.PointToScreen(new Point(0, 0)) - new Point(_window.Left, _window.Top);
-            _startPointFromWindow = _sender.TranslatePoint(_startPoint, _window) + windowDiff;
+            _context.StartPoint = pos;
+            _baseFlipPoint = _context.StartPoint;
+            var windowDiff = _context.Window.PointToScreen(new Point(0, 0)) - new Point(_context.Window.Left, _context.Window.Top);
+            _startPointFromWindow = _context.Sender.TranslatePoint(_context.StartPoint, _context.Window) + windowDiff;
 
             if (DragControlCenter == DragControlCenter.View)
             {
-                _center = new Point(_sender.ActualWidth * 0.5, _sender.ActualHeight * 0.5);
+                _center = new Point(_context.Sender.ActualWidth * 0.5, _context.Sender.ActualHeight * 0.5);
             }
             else
             {
-                _center = (Point)(_targetShadow.PointToScreen(new Point(_targetShadow.ActualWidth * _targetShadow.RenderTransformOrigin.X, _targetShadow.ActualHeight * _targetShadow.RenderTransformOrigin.Y)) - _sender.PointToScreen(new Point(0, 0)));
+                _center = (Point)(_context.TargetShadow.PointToScreen(
+                    new Point(_context.TargetShadow.ActualWidth * _context.TargetShadow.RenderTransformOrigin.X, _context.TargetShadow.ActualHeight * _context.TargetShadow.RenderTransformOrigin.Y))
+                    - _context.Sender.PointToScreen(new Point(0, 0)));
             }
 
             _basePosition = Position;
@@ -878,39 +791,13 @@ namespace NeeView
             _baseScale = Scale;
         }
 
+        /// <summary>
+        /// 操作の中心座標
+        /// </summary>
+        private Point _center;
 
-        // 移動
-        public void DragMove(Point start, Point end)
-        {
-            DragMoveEx(start, end, 1.0);
-        }
 
-        // 移動(速度スケール依存)
-        public void DragMoveScale(Point start, Point end)
-        {
-            var area = GetArea();
-            var scaleX = area.Target.Width / area.View.Width;
-            var scaleY = area.Target.Height / area.View.Height;
-            var scale = scaleX > scaleY ? scaleX : scaleY;
-            scale = scale < 1.0 ? 1.0 : scale;
 
-            DragMoveEx(start, end, scale);
-        }
-
-        private void DragMoveEx(Point start, Point end, double scale)
-        {
-            var pos0 = Position;
-            var pos1 = (_endPoint - _startPoint) * scale + _basePosition;
-            var move = pos1 - pos0;
-
-            DoMove(move);
-        }
-
-        //
-        private DragArea GetArea()
-        {
-            return new DragArea(_sender, _targetShadow);
-        }
 
         // 移動制限更新
         // ビューエリアサイズを超える場合、制限をOFFにする
@@ -935,6 +822,41 @@ namespace NeeView
                 }
             }
         }
+
+        #endregion
+
+        #region Drag Move
+
+        //
+        private Point _basePosition;
+
+        // 移動
+        public void DragMove(Point start, Point end)
+        {
+            DragMoveEx(start, end, 1.0);
+        }
+
+        // 移動(速度スケール依存)
+        public void DragMoveScale(Point start, Point end)
+        {
+            var area = GetArea();
+            var scaleX = area.Target.Width / area.View.Width;
+            var scaleY = area.Target.Height / area.View.Height;
+            var scale = scaleX > scaleY ? scaleX : scaleY;
+            scale = scale < 1.0 ? 1.0 : scale;
+
+            DragMoveEx(start, end, scale);
+        }
+
+        private void DragMoveEx(Point start, Point end, double scale)
+        {
+            var pos0 = Position;
+            var pos1 = (end - _context.StartPoint) * scale + _basePosition;
+            var move = pos1 - pos0;
+
+            DoMove(move);
+        }
+
 
         // 移動実行
         private void DoMove(Vector move)
@@ -985,6 +907,18 @@ namespace NeeView
             Position = pos0 + move;
         }
 
+        #endregion
+
+        #region Drag Angle
+
+        // 回転、拡縮の中心
+        public DragControlCenter DragControlCenter { get; set; } = DragControlCenter.View;
+
+        // 回転スナップ。0で無効
+        public double AngleFrequency { get; set; } = 0;
+
+        private double _baseAngle;
+
         // 回転
         public void DragAngle(Point start, Point end)
         {
@@ -1033,6 +967,15 @@ namespace NeeView
             }
         }
 
+        #endregion
+
+        #region Drag Scale
+
+        // 拡縮スナップ。0で無効;
+        public double SnapScale { get; set; } = 0;
+
+        private double _baseScale;
+
 
         // 拡縮
         public void DragScale(Point start, Point end)
@@ -1073,6 +1016,12 @@ namespace NeeView
             }
         }
 
+        #endregion
+
+        #region Drag Flip
+
+        //
+        private Point _baseFlipPoint;
 
         // 反転
         public void DragFlipHorizontal(Point start, Point end)
@@ -1149,16 +1098,24 @@ namespace NeeView
             }
         }
 
+        #endregion
+
+        #region Drag Window
+
+        private Point _startPointFromWindow;
 
         // ウィンドウ移動
         public void DragWindowMove(Point start, Point end)
         {
-            if (_window.WindowState == WindowState.Normal)
+            if (_context.Window.WindowState == WindowState.Normal)
             {
-                var pos = _sender.PointToScreen(_endPoint) - _startPointFromWindow;
-                _window.Left = pos.X;
-                _window.Top = pos.Y;
+                var pos = _context.Sender.PointToScreen(end) - _startPointFromWindow;
+                _context.Window.Left = pos.X;
+                _context.Window.Top = pos.Y;
             }
         }
+
+        #endregion
+
     }
 }

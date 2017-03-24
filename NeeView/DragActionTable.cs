@@ -47,7 +47,7 @@ namespace NeeView
         private Dictionary<DragActionType, DragAction> _elements;
 
         // コマンドターゲット
-        private MouseDragController _drag;
+        private MouseInputDrag _drag;
 
         // 初期設定
         private static Memento s_defaultMemento;
@@ -59,7 +59,7 @@ namespace NeeView
         }
 
         // コマンドターゲット設定
-        public void SetTarget(MouseDragController drag)
+        public void SetTarget(MouseInputDrag drag)
         {
             _drag = drag;
         }

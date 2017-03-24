@@ -67,7 +67,6 @@ namespace NeeView
         private MainWindowVM _VM;
 
         private MouseInputManager _mouse;
-        public MouseInputManager MouseInputManager => _mouse; // ## これはないだろ
 
         private ContentDropManager _contentDrop = new ContentDropManager();
 
@@ -106,19 +105,11 @@ namespace NeeView
 
             InitializeVisualTree();
 
-            //
-            _mouse = new MouseInputManager(this, this.MainView, this.MainContent, this.MainContentShadow);
+            // mouse input
+            _mouse = MouseInputManager.Current = new MouseInputManager(this, this.MainView, this.MainContent, this.MainContentShadow);
 
-            // mouse loupe
-            _mouse.Loupe.TransformChanged +=
-                (s, e) =>
-                {
-                    _VM.SetViewTransform(_mouse.Drag.Scale, _mouse.Loupe.FixedLoupeScale, _mouse.Drag.Angle, _mouse.Drag.IsFlipHorizontal, _mouse.Drag.IsFlipVertical, e.ActionType);
-                    if (e.ChangeType == TransformChangeType.Scale)
-                    {
-                        _VM.UpdateWindowTitle(UpdateWindowTitleMask.View);
-                    }
-                };
+            _mouse.TransformChanged +=
+                (s, e) => _VM.SetViewTransform(e);
 
             this.LoupeInfo.DataContext = _mouse.Loupe;
 
@@ -126,16 +117,6 @@ namespace NeeView
             _mouse.Gesture.MouseGestureProgressed += OnMouseGestureUpdate;
 
             // mouse drag
-            _mouse.Drag.TransformChanged +=
-                (s, e) =>
-                {
-                    _VM.SetViewTransform(_mouse.Drag.Scale, _mouse.Loupe.FixedLoupeScale, _mouse.Drag.Angle, _mouse.Drag.IsFlipHorizontal, _mouse.Drag.IsFlipVertical, e.ActionType);
-                    if (e.ChangeType == TransformChangeType.Scale)
-                    {
-                        _VM.UpdateWindowTitle(UpdateWindowTitleMask.View);
-                    }
-                };
-
             ModelContext.DragActionTable.SetTarget(_mouse.Drag);
 
 
@@ -187,6 +168,12 @@ namespace NeeView
                 (s, e) =>
                 {
                     _mouse.Loupe.IsCenterMode = _VM.IsLoupeCenter; // ##
+                });
+
+            _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.LongLeftButtonDownMode),
+                (s, e) =>
+                {
+                    _mouse.Normal.LongLeftButtonDownMode = _VM.LongLeftButtonDownMode; // ##
                 });
 
 
@@ -446,7 +433,7 @@ namespace NeeView
         {
             if (isVisible)
             {
-                if (this.MainView.Cursor == Cursors.None && _mouse.State != MouseInputState.Loupe) //!_mouseLoupe.IsEnabled)
+                if (this.MainView.Cursor == Cursors.None && !_mouse.IsLoupeMode)
                 {
                     this.MainView.Cursor = null;
                 }

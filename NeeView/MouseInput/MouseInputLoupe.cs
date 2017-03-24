@@ -32,7 +32,7 @@ namespace NeeView
         /// <summary>
         /// 角度、スケール変更イベント
         /// </summary>
-        public event EventHandler<TransformChangedParam> TransformChanged;
+        public event EventHandler<TransformEventArgs> TransformChanged;
 
 
         /// <summary>
@@ -65,6 +65,7 @@ namespace NeeView
                 if (_isEnabled != value)
                 {
                     _isEnabled = value;
+                    FlushFixedLoupeScale();
                     RaisePropertyChanged(null);
                 }
             }
@@ -109,13 +110,44 @@ namespace NeeView
             {
                 _loupeScale = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged(nameof(LoupeScaleX));
-                RaisePropertyChanged(nameof(LoupeScaleY));
-                TransformChanged?.Invoke(this, new TransformChangedParam(TransformChangeType.LoupeScale, TransformActionType.LoupeScale));
+                FlushFixedLoupeScale();
             }
         }
 
-        public double FixedLoupeScale => _isEnabled ? LoupeScale : 1.0;
+        /// <summary>
+        /// update FixedLoupeScale
+        /// </summary>
+        private void FlushFixedLoupeScale()
+        {
+            FixedLoupeScale = _isEnabled ? LoupeScale : 1.0;
+        }
+
+        /// <summary>
+        /// FixedLoupeScale property.
+        /// </summary>
+        private double _FixedLoupeScale;
+        public double FixedLoupeScale
+        {
+            get { return _FixedLoupeScale; }
+            set
+            {
+                if (_FixedLoupeScale != value)
+                {
+                    _FixedLoupeScale = value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(LoupeScaleX));
+                    RaisePropertyChanged(nameof(LoupeScaleY));
+
+                    var args = new TransformEventArgs(TransformChangeType.LoupeScale, TransformActionType.LoupeScale)
+                    {
+                        LoupeScale = FixedLoupeScale
+                    };
+                    TransformChanged?.Invoke(this, args);
+                }
+            }
+        }
+
+
         public double LoupeScaleX => FixedLoupeScale;
         public double LoupeScaleY => FixedLoupeScale;
         #endregion
@@ -129,6 +161,8 @@ namespace NeeView
         {
             this.TransformView = CreateTransformGroup();
             this.TransformCalc = CreateTransformGroup();
+
+            FlushFixedLoupeScale();
         }
 
         /// <summary>

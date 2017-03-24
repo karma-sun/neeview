@@ -2495,21 +2495,23 @@ namespace NeeView
         private bool _isViewFlipHorizontal;
         private bool _isViewFlipVertical;
 
+
+
         // ビュー変換を更新
-        public void SetViewTransform(double scale, double loupeScale, double angle, bool isFlipHorizontal, bool isFlipVertical, TransformActionType actionType)
+        public void SetViewTransform(TransformEventArgs e)
         {
-            _viewAngle = angle;
-            _viewScale = scale;
-            _finalViewScale = scale * loupeScale;
-            _isViewFlipHorizontal = isFlipHorizontal;
-            _isViewFlipVertical = isFlipVertical;
+            _viewAngle = e.Angle;
+            _viewScale = e.Scale;
+            _finalViewScale = e.Scale * e.LoupeScale;
+            _isViewFlipHorizontal = e.IsFlipHorizontal;
+            _isViewFlipVertical = e.IsFlipVertical;
 
             UpdateContentScalingMode();
 
             // メッセージとして状態表示
             if (ViewTransformShowMessageStyle != ShowMessageStyle.None)
             {
-                switch (actionType)
+                switch (e.ActionType)
                 {
                     case TransformActionType.Scale:
                         string scaleText = IsOriginalScaleShowMessage && MainContent.IsValid
@@ -2518,7 +2520,7 @@ namespace NeeView
                         DispMessage(ViewTransformShowMessageStyle, scaleText);
                         break;
                     case TransformActionType.Angle:
-                        DispMessage(ViewTransformShowMessageStyle, $"{(int)(angle)}°");
+                        DispMessage(ViewTransformShowMessageStyle, $"{(int)(e.Angle)}°");
                         break;
                     case TransformActionType.FlipHorizontal:
                         DispMessage(ViewTransformShowMessageStyle, "左右反転 " + (_isViewFlipHorizontal ? "ON" : "OFF"));
@@ -2527,12 +2529,18 @@ namespace NeeView
                         DispMessage(ViewTransformShowMessageStyle, "上下反転 " + (_isViewFlipVertical ? "ON" : "OFF"));
                         break;
                     case TransformActionType.LoupeScale:
-                        if (loupeScale > 1.5)
+                        if (e.LoupeScale > 1.5)
                         {
-                            DispMessage(ViewTransformShowMessageStyle, $"×{loupeScale:0.0}");
+                            DispMessage(ViewTransformShowMessageStyle, $"×{e.LoupeScale:0.0}");
                         }
                         break;
                 }
+            }
+
+            // スケール変更時はウィンドウタイトルを更新
+            if (e.ChangeType == TransformChangeType.Scale)
+            {
+                UpdateWindowTitle(UpdateWindowTitleMask.View);
             }
         }
 

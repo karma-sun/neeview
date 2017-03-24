@@ -49,12 +49,26 @@ namespace NeeView
     }
 
     // 変化通知イベントの引数
-    public class TransformChangedParam
+    public class TransformEventArgs : EventArgs
     {
+        /// <summary>
+        /// 変化の原因となった操作
+        /// </summary>
         public TransformChangeType ChangeType { get; set; }
+
+        /// <summary>
+        /// 変化したもの
+        /// </summary>
         public TransformActionType ActionType { get; set; }
 
-        public TransformChangedParam(TransformChangeType changeType, TransformActionType actionType)
+        public double Scale { get; set; } = 1.0;
+        public double LoupeScale { get; set; } = 1.0;
+        public double Angle { get; set; }
+        public bool IsFlipHorizontal { get; set; }
+        public bool IsFlipVertical { get; set; }
+
+        //
+        public TransformEventArgs(TransformChangeType changeType, TransformActionType actionType)
         {
             ChangeType = changeType;
             ActionType = actionType;
@@ -79,7 +93,7 @@ namespace NeeView
 
 
         // 角度、スケール変更イベント
-        public event EventHandler<TransformChangedParam> TransformChanged;
+        public event EventHandler<TransformEventArgs> TransformChanged;
 
 
 
@@ -155,7 +169,15 @@ namespace NeeView
             {
                 _angle = value;
                 RaisePropertyChanged();
-                TransformChanged?.Invoke(this, new TransformChangedParam(TransformChangeType.Angle, _actionType));
+
+                var args = new TransformEventArgs(TransformChangeType.Angle, _actionType)
+                {
+                    Scale = Scale,
+                    Angle = Angle,
+                    IsFlipHorizontal = IsFlipHorizontal,
+                    IsFlipVertical = IsFlipVertical
+                };
+                TransformChanged?.Invoke(this, args);
             }
         }
         #endregion
@@ -174,7 +196,15 @@ namespace NeeView
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(ScaleX));
                 RaisePropertyChanged(nameof(ScaleY));
-                TransformChanged?.Invoke(this, new TransformChangedParam(TransformChangeType.Scale, _actionType));
+
+                var args = new TransformEventArgs(TransformChangeType.Angle, _actionType)
+                {
+                    Scale = Scale,
+                    Angle = Angle,
+                    IsFlipHorizontal = IsFlipHorizontal,
+                    IsFlipVertical = IsFlipVertical
+                };
+                TransformChanged?.Invoke(this, args);
             }
         }
         #endregion

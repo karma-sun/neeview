@@ -26,6 +26,11 @@ namespace NeeView
         private DispatcherTimer _timer = new DispatcherTimer();
 
         /// <summary>
+        /// 長押し有効？
+        /// </summary>
+        public LongButtonDownMode LongLeftButtonDownMode { get; internal set; }
+
+        /// <summary>
         /// コンストラクター
         /// </summary>
         /// <param name="context"></param>
@@ -44,10 +49,13 @@ namespace NeeView
         {
             _timer.Stop();
 
-            // 左ボタン単体長押しならルーペモードへ
             if (CreateMouseButtonBits() == MouseButtonBit.Left && Keyboard.Modifiers == ModifierKeys.None)
-            {
-                SetState(MouseInputState.Loupe, true);
+            { 
+                // 左ボタン単体長押しならルーペモードへ
+                if (LongLeftButtonDownMode == LongButtonDownMode.Loupe)
+                {
+                    SetState(MouseInputState.Loupe, true);
+                }
             }
         }
 

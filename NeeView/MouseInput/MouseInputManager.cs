@@ -67,6 +67,11 @@ namespace NeeView
     public class MouseInputManager : INotifyPropertyChanged
     {
         /// <summary>
+        /// システムオブジェクト
+        /// </summary>
+        public static MouseInputManager Current { get; set; }
+
+        /// <summary>
         /// PropertyChanged event. 
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
@@ -131,6 +136,11 @@ namespace NeeView
         public event EventHandler<MouseGestureEventArgs> MouseGestureChanged;
 
         /// <summary>
+        /// 表示コンテンツのトランスフォーム変更イベント
+        /// </summary>
+        public event EventHandler<TransformEventArgs> TransformChanged;
+
+        /// <summary>
         /// イベントクリア
         /// </summary>
         public void ClearMouseEventHandler()
@@ -171,11 +181,13 @@ namespace NeeView
             this.Loupe.StateChanged += StateChanged;
             this.Loupe.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(sender, e);
             this.Loupe.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(sender, e);
+            this.Loupe.TransformChanged += OnTransformChanged;
 
             this.Drag = new MouseInputDrag(_context);
             this.Drag.StateChanged += StateChanged;
             this.Drag.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(sender, e);
             this.Drag.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(sender, e);
+            this.Drag.TransformChanged += OnTransformChanged;
 
             this.Gesture = new MouseInputGesture(_context);
             this.Gesture.StateChanged += StateChanged;
@@ -197,6 +209,23 @@ namespace NeeView
             _sender.PreviewMouseWheel += OnMouseWheel;
             _sender.PreviewMouseMove += OnMouseMove;
             _sender.PreviewKeyDown += OnKeyDown;
+        }
+
+        /// <summary>
+        /// コンテンツのトランフォーム変更通知
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnTransformChanged(object sender, TransformEventArgs e)
+        {
+            var args = new TransformEventArgs(e.ChangeType, e.ActionType);
+            args.Scale = Drag.Scale;
+            args.Angle = Drag.Angle;
+            args.IsFlipHorizontal = Drag.IsFlipHorizontal;
+            args.IsFlipVertical = Drag.IsFlipVertical;
+            args.LoupeScale = Loupe.FixedLoupeScale;
+
+            TransformChanged?.Invoke(sender, args);
         }
 
         /// <summary>
@@ -279,8 +308,6 @@ namespace NeeView
         {
             if (sender != _sender) return;
             _current.OnMouseMove(_sender, e);
-
-            e.Handled = true;
         }
 
         /// <summary>

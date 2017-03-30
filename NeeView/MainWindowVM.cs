@@ -1835,6 +1835,7 @@ namespace NeeView
 #if DEBUG
             _defaultWindowTitle += " [Debug]";
 #endif
+            UpdateWindowTitle(UpdateWindowTitleMask.All);
 
             // messenger
             Messenger.AddReciever("UpdateLastFiles", (s, e) => UpdateLastFiles());

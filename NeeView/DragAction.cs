@@ -145,7 +145,10 @@ namespace NeeView
             [OnDeserialized]
             private void Deserialized(StreamingContext c)
             {
-                Key = Key.Replace("Drag", "");
+                if (Key != null)
+                {
+                    Key = Key.Replace("Drag", "");
+                }
             }
 
             //

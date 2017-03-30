@@ -91,6 +91,12 @@ namespace NeeView
         {
             _current?.OnClosed(_sender);
 
+            // 定義されていない場合
+            if (!_mouseInputCollection.ContainsKey(state))
+            {
+                state = MouseInputState.Normal;
+            }
+
             _state = state;
             _current = _mouseInputCollection[_state];
             _current.OnOpened(_sender, null);

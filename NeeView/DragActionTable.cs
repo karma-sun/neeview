@@ -69,10 +69,17 @@ namespace NeeView
         {
             _elements = new Dictionary<DragActionType, DragAction>()
             {
+                [DragActionType.Gesture] = new DragAction
+                {
+                    IsLocked = true,
+                    Name = "マウスジェスチャー",
+                    DragKey = new DragKey("Right"),
+                },
+
                 [DragActionType.Move] = new DragAction
                 {
                     Name = "移動",
-                    Key = "LeftDrag",
+                    DragKey = new DragKey("Left"),
                     Exec = (s, e) => _drag.DragMove(s, e),
                     Group = DragActionGroup.Move,
                 },
@@ -85,7 +92,7 @@ namespace NeeView
                 [DragActionType.Angle] = new DragAction
                 {
                     Name = "回転",
-                    Key = "Shift+LeftDrag",
+                    DragKey = new DragKey("Shift+Left"),
                     Exec = (s, e) => _drag.DragAngle(s, e),
                 },
                 [DragActionType.Scale] = new DragAction
@@ -96,13 +103,13 @@ namespace NeeView
                 [DragActionType.ScaleSlider] = new DragAction
                 {
                     Name = "拡大縮小(スライド式)",
-                    Key = "Ctrl+LeftDrag",
+                    DragKey = new DragKey("Ctrl+Left"),
                     Exec = (s, e) => _drag.DragScaleSlider(s, e),
                 },
                 [DragActionType.FlipHorizontal] = new DragAction
                 {
                     Name = "左右反転",
-                    Key = "Alt+LeftDrag",
+                    DragKey = new DragKey("Alt+Left"),
                     Exec = (s, e) => _drag.DragFlipHorizontal(s, e),
                 },
                 [DragActionType.FlipVertical] = new DragAction
@@ -114,29 +121,34 @@ namespace NeeView
                 [DragActionType.WindowMove] = new DragAction
                 {
                     Name = "ウィンドウ移動",
-                    Key = "MiddleDrag",
+                    DragKey = new DragKey("Middle"),
                     Exec = (s, e) => _drag.DragWindowMove(s, e),
                 },
+
             };
 
             s_defaultMemento = CreateMemento();
         }
 
-        //
-        public Dictionary<DragKey, DragAction> GetKeyBinding()
-        {
-            var binding = new Dictionary<DragKey, DragAction>();
-            var keyConverter = new DragKeyConverter();
-            foreach (var e in this)
-            {
-                var keys = e.Value.GetDragKeyCollection();
-                foreach (var key in keys)
-                {
-                    binding.Add(key, e.Value);
-                }
-            }
 
-            return binding;
+        /// <summary>
+        /// 入力からアクション取得
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public DragActionType GetActionType(DragKey key)
+        {
+            return _elements.FirstOrDefault(e => e.Value.DragKey == key).Key;
+        }
+
+        /// <summary>
+        /// 入力からアクション取得
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public DragAction GetAction(DragKey key)
+        {
+            return _elements.Values.FirstOrDefault(e => e.DragKey == key);
         }
 
 
@@ -223,52 +235,5 @@ namespace NeeView
         }
 
         #endregion
-
-        // 設定用キーテーブル
-        public class KeyTable
-        {
-            public static List<string> KeyList;
-
-            static KeyTable()
-            {
-                KeyList = new List<string>()
-                {
-                    "LeftDrag", "Shift+LeftDrag", "Ctrl+LeftDrag", "Alt+LeftDrag",
-                    "MiddleDrag", "Shift+MiddleDrag", "Ctrl+MiddleDrag", "Alt+MiddleDrag"
-                };
-            }
-
-            public Dictionary<string, DragActionType> Elements { get; set; }
-
-            private Memento _memento;
-
-            public KeyTable(Memento memento)
-            {
-                _memento = memento;
-
-                Elements = new Dictionary<string, DragActionType>();
-                foreach (var key in KeyList)
-                {
-                    Elements[key] = _memento.GetAcionFromKey(key);
-                }
-            }
-
-            public void UpdateMemento()
-            {
-                foreach (var e in _memento.Elements)
-                {
-                    e.Value.Key = null;
-                }
-                var converter = new DragKeyConverter();
-                foreach (var e in Elements)
-                {
-                    if (e.Value != DragActionType.None)
-                    {
-                        bool isEmpty = string.IsNullOrEmpty(_memento.Elements[e.Value].Key);
-                        _memento.Elements[e.Value].Key += isEmpty ? e.Key : "," + e.Key;
-                    }
-                }
-            }
-        }
     }
 }

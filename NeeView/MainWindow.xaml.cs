@@ -649,7 +649,7 @@ namespace NeeView
                     if (gesture is MouseGesture mouseClick)
                     {
                         // ダブルクリックは標準処理で
-                        if (mouseClick.MouseAction == MouseAction.LeftDoubleClick || mouseClick.MouseAction == MouseAction.MiddleClick || mouseClick.MouseAction == MouseAction.RightDoubleClick)
+                        if (mouseClick.MouseAction == MouseAction.LeftDoubleClick || mouseClick.MouseAction == MouseAction.MiddleDoubleClick || mouseClick.MouseAction == MouseAction.RightDoubleClick)
                         {
                             e.Value.InputGestures.Add(gesture);
                         }
@@ -679,9 +679,6 @@ namespace NeeView
                     _mouseGestureCommandCollection.Add(mouseGesture, e.Value);
                 }
             }
-
-            // drag key
-            _mouse.Drag.SetKeyBindings(ModelContext.DragActionTable.GetKeyBinding());
 
             // Update Menu GestureText
             _VM.MainMenu?.UpdateInputGestureText();

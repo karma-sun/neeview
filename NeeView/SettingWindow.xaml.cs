@@ -77,6 +77,40 @@ namespace NeeView
         public ObservableCollection<Susie.SusiePlugin> INPluginList { get; private set; }
 
 
+        // ドラッグ一覧専用パラメータ
+        public class DragActionParam : INotifyPropertyChanged
+        {
+            /// <summary>
+            /// PropertyChanged event. 
+            /// </summary>
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }
+
+            public DragActionType Key { get; set; }
+            public string Header { get; set; }
+            public bool IsLocked { get; set; }
+
+            /// <summary>
+            /// DragAction property.
+            /// </summary>
+            private string _dragAction;
+            public string DragAction
+            {
+                get { return _dragAction; }
+                set { if (_dragAction != value) { _dragAction = value; RaisePropertyChanged(); } }
+            }
+
+            public string Tips { get; set; }
+        }
+
+
+        // コマンド一覧
+        public ObservableCollection<DragActionParam> DragActionCollection { get; set; }
+
 
         // コマンド一覧用パラメータ
         public class CommandParam : INotifyPropertyChanged
@@ -195,63 +229,6 @@ namespace NeeView
             [SliderDirection.SyncBookReadDirection] = "本を開く方向に依存",
         };
 
-
-
-        // ドラッグアクション
-        public static Dictionary<DragActionType, string> DragActionTypeList { get; } = DragActionTypeExtension.LabelList;
-
-
-        public DragActionType DragActionNone
-        {
-            get { return DragKeyTable.Elements["LeftDrag"]; }
-            set { DragKeyTable.Elements["LeftDrag"] = value; }
-        }
-
-        public DragActionType DragActionControl
-        {
-            get { return DragKeyTable.Elements["Ctrl+LeftDrag"]; }
-            set { DragKeyTable.Elements["Ctrl+LeftDrag"] = value; }
-        }
-
-        public DragActionType DragActionShift
-        {
-            get { return DragKeyTable.Elements["Shift+LeftDrag"]; }
-            set { DragKeyTable.Elements["Shift+LeftDrag"] = value; }
-        }
-
-        public DragActionType DragActionAlt
-        {
-            get { return DragKeyTable.Elements["Alt+LeftDrag"]; }
-            set { DragKeyTable.Elements["Alt+LeftDrag"] = value; }
-        }
-
-
-
-        public DragActionType DragActionMiddleNone
-        {
-            get { return DragKeyTable.Elements["MiddleDrag"]; }
-            set { DragKeyTable.Elements["MiddleDrag"] = value; }
-        }
-
-        public DragActionType DragActionMiddleControl
-        {
-            get { return DragKeyTable.Elements["Ctrl+MiddleDrag"]; }
-            set { DragKeyTable.Elements["Ctrl+MiddleDrag"] = value; }
-        }
-
-        public DragActionType DragActionMiddleShift
-        {
-            get { return DragKeyTable.Elements["Shift+MiddleDrag"]; }
-            set { DragKeyTable.Elements["Shift+MiddleDrag"] = value; }
-        }
-
-        public DragActionType DragActionMiddleAlt
-        {
-            get { return DragKeyTable.Elements["Alt+MiddleDrag"]; }
-            set { DragKeyTable.Elements["Alt+MiddleDrag"] = value; }
-        }
-
-
         #region Property: ExternalApplicationParam
         public string ExternalApplicationParam
         {
@@ -306,10 +283,6 @@ namespace NeeView
         //
         public static Dictionary<PageSortMode, string> PageSortModeList => PageSortModeExtension.PageSortModeList;
 
-
-        //
-        public DragActionTable.KeyTable DragKeyTable { get; set; }
-
         // ビュー回転のスナップ値
         public AngleFrequency AngleFrequency { get; set; }
 
@@ -343,8 +316,9 @@ namespace NeeView
             OldSusieSetting = setting.SusieMemento.Clone();
             _isDartySusieSetting = false;
 
-            // ドラッグキーテーブル作成
-            DragKeyTable = new DragActionTable.KeyTable(Setting.DragActionMemento);
+            // ドラッグアクション一覧作成
+            DragActionCollection = new ObservableCollection<DragActionParam>();
+            UpdateDragActionList();
 
             // コマンド一覧作成
             CommandCollection = new ObservableCollection<CommandParam>();
@@ -389,6 +363,28 @@ namespace NeeView
             SlideShowInterval.ValueChanged += (s, e) => Setting.BookHubMemento.SlideShowInterval = e.NewValue;
         }
 
+        //
+        private void UpdateDragActionList()
+        {
+            DragActionCollection.Clear();
+            foreach (var element in ModelContext.DragActionTable)
+            {
+                var memento = Setting.DragActionMemento[element.Key];
+
+                var item = new DragActionParam()
+                {
+                    Key = element.Key,
+                    Header = element.Key.ToLabel(),
+                    IsLocked = element.Value.IsLocked,
+                    DragAction = memento.Key,
+                    Tips = element.Key.ToTips(),
+                };
+
+                DragActionCollection.Add(item);
+            }
+
+            this.DragActionListView.Items.Refresh();
+        }
 
         // コマンド一覧 更新
         private void UpdateCommandList()
@@ -741,8 +737,11 @@ namespace NeeView
                 // コンテキストメニュー確定
                 this.ContextMenuSettingControl.Decide();
 
-                // ドラッグキーバインド反映
-                DragKeyTable.UpdateMemento();
+                // ドラッグ設定反映
+                foreach (var dragAction in DragActionCollection)
+                {
+                    Setting.DragActionMemento[dragAction.Key].Key = dragAction.DragAction;
+                }
 
                 // コマンド設定反映
                 foreach (var command in CommandCollection)
@@ -814,7 +813,7 @@ namespace NeeView
         private void RemoveCache_Click(object sender, RoutedEventArgs e)
         {
             ThumbnailCache.Current.Remove();
-            
+
             MessageBoxEx.Show(this, "キャッシュを削除しました");
         }
 
@@ -864,6 +863,70 @@ namespace NeeView
         {
             ParameterSettingCommand.RaiseCanExecuteChanged();
         }
+
+        //
+        private void DragActionListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // nop.
+        }
+
+        //
+        private void DragActionListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ListViewItem targetItem = (ListViewItem)sender;
+
+            var value = (DragActionParam)targetItem.DataContext;
+            OpenDragActionSettingDialog(value);
+        }
+
+        //
+        private void DragActionSettingButton_Click(object sender, RoutedEventArgs e)
+        {
+            var value = (DragActionParam)this.DragActionListView.SelectedValue;
+            OpenDragActionSettingDialog(value);
+        }
+
+        //
+        private void OpenDragActionSettingDialog(DragActionParam value)
+        { 
+            if (value.IsLocked)
+            {
+                MessageBox.Show("この操作は変更できません", "変更不可", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var context = new MouseDragSettingContext();
+            context.Command = value.Key;
+            context.Gestures = DragActionCollection.ToDictionary(i => i.Key, i => i.DragAction);
+
+            var dialog = new MouseDragSettingWindow(context);
+            dialog.Owner = this;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            var result = dialog.ShowDialog();
+            if (result == true)
+            {
+                foreach (var item in DragActionCollection)
+                {
+                    item.DragAction = context.Gestures[item.Key];
+                }
+
+                this.CommandListView.Items.Refresh();
+            }
+        }
+
+        //
+        private void ResetDragActionSettingButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("全てのドラッグ操作を初期化します。よろしいですか？", "ドラッグ操作初期化", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.OK)
+            {
+                Setting.DragActionMemento = DragActionTable.CreateDefaultMemento();
+                UpdateDragActionList();
+                this.DragActionListView.Items.Refresh();
+            }
+        }
+
     }
 
 

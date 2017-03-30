@@ -14,7 +14,7 @@ namespace NeeView
     /// MouseButton Bitmask
     /// </summary>
     [Flags]
-    public enum MouseButtonBit
+    public enum MouseButtonBits
     {
         None = 0,
         Left = (1 << MouseButton.Left),
@@ -22,6 +22,75 @@ namespace NeeView
         Right = (1 << MouseButton.Right),
         XButton1 = (1 << MouseButton.XButton1),
         XButton2 = (1 << MouseButton.XButton2),
+    }
+
+    public static class MouseButtonBitsExtensions
+    {
+
+        /// <summary>
+        /// 押されているマウスボタンのビットマスク作成
+        /// </summary>
+        /// <param name="e">元になるデータ</param>
+        /// <returns></returns>
+        public static MouseButtonBits Create(MouseEventArgs e)
+        {
+            var bits = MouseButtonBits.None;
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                bits |= MouseButtonBits.Left;
+            }
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                bits |= MouseButtonBits.Middle;
+            }
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                bits |= MouseButtonBits.Right;
+            }
+            if (e.XButton1 == MouseButtonState.Pressed)
+            {
+                bits |= MouseButtonBits.XButton1;
+            }
+            if (e.XButton2 == MouseButtonState.Pressed)
+            {
+                bits |= MouseButtonBits.XButton2;
+            }
+
+            return bits;
+        }
+
+        /// <summary>
+        /// 押されているマウスボタンのビットマスク作成
+        /// </summary>
+        /// <returns></returns>
+        public static MouseButtonBits Create()
+        {
+            var bits = MouseButtonBits.None;
+
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
+                bits |= MouseButtonBits.Left;
+            }
+            if (Mouse.MiddleButton == MouseButtonState.Pressed)
+            {
+                bits |= MouseButtonBits.Middle;
+            }
+            if (Mouse.RightButton == MouseButtonState.Pressed)
+            {
+                bits |= MouseButtonBits.Right;
+            }
+            if (Mouse.XButton1 == MouseButtonState.Pressed)
+            {
+                bits |= MouseButtonBits.XButton1;
+            }
+            if (Mouse.XButton2 == MouseButtonState.Pressed)
+            {
+                bits |= MouseButtonBits.XButton2;
+            }
+
+            return bits;
+        }
     }
 
     /// <summary>
@@ -141,64 +210,18 @@ namespace NeeView
         /// </summary>
         /// <param name="e">元になるデータ</param>
         /// <returns></returns>
-        protected MouseButtonBit CreateMouseButtonBits(MouseEventArgs e)
+        protected MouseButtonBits CreateMouseButtonBits(MouseEventArgs e)
         {
-            var bits = MouseButtonBit.None;
-
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                bits |= MouseButtonBit.Left;
-            }
-            if (e.MiddleButton == MouseButtonState.Pressed)
-            {
-                bits |= MouseButtonBit.Middle;
-            }
-            if (e.RightButton == MouseButtonState.Pressed)
-            {
-                bits |= MouseButtonBit.Right;
-            }
-            if (e.XButton1 == MouseButtonState.Pressed)
-            {
-                bits |= MouseButtonBit.XButton1;
-            }
-            if (e.XButton2 == MouseButtonState.Pressed)
-            {
-                bits |= MouseButtonBit.XButton2;
-            }
-
-            return bits;
+            return MouseButtonBitsExtensions.Create(e);
         }
 
         /// <summary>
         /// 押されているマウスボタンのビットマスク作成
         /// </summary>
         /// <returns></returns>
-        protected MouseButtonBit CreateMouseButtonBits()
+        protected MouseButtonBits CreateMouseButtonBits()
         {
-            var bits = MouseButtonBit.None;
-
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-            {
-                bits |= MouseButtonBit.Left;
-            }
-            if (Mouse.MiddleButton == MouseButtonState.Pressed)
-            {
-                bits |= MouseButtonBit.Middle;
-            }
-            if (Mouse.RightButton == MouseButtonState.Pressed)
-            {
-                bits |= MouseButtonBit.Right;
-            }
-            if (Mouse.XButton1 == MouseButtonState.Pressed)
-            {
-                bits |= MouseButtonBit.XButton1;
-            }
-            if (Mouse.XButton2 == MouseButtonState.Pressed)
-            {
-                bits |= MouseButtonBit.XButton2;
-            }
-
-            return bits;
+            return MouseButtonBitsExtensions.Create();
         }
 
         /// <summary>

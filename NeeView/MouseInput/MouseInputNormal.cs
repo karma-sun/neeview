@@ -49,8 +49,8 @@ namespace NeeView
         {
             _timer.Stop();
 
-            if (CreateMouseButtonBits() == MouseButtonBit.Left && Keyboard.Modifiers == ModifierKeys.None)
-            { 
+            if (CreateMouseButtonBits() == MouseButtonBits.Left && Keyboard.Modifiers == ModifierKeys.None)
+            {
                 // 左ボタン単体長押しならルーペモードへ
                 if (LongLeftButtonDownMode == LongButtonDownMode.Loupe)
                 {
@@ -145,14 +145,15 @@ namespace NeeView
 
             var point = e.GetPosition(_context.Sender);
 
-            // drag check
-            if (Math.Abs(point.X - _context.StartPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(point.Y - _context.StartPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
-            {
-                _timer.Stop();
+            var deltaX = Math.Abs(point.X - _context.StartPoint.X);
+            var deltaY = Math.Abs(point.Y - _context.StartPoint.Y);
 
+            // drag check
+            if (deltaX > SystemParameters.MinimumHorizontalDragDistance || deltaY > SystemParameters.MinimumVerticalDragDistance)
+            {
                 // ドラッグ開始。処理をドラッグ系に移行
-                var bits = CreateMouseButtonBits(e);
-                if (bits == MouseButtonBit.Right)
+                var action = ModelContext.DragActionTable.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
+                if (action == DragActionType.Gesture)
                 {
                     SetState(MouseInputState.Gesture);
                 }

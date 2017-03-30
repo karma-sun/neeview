@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -69,8 +70,8 @@ namespace NeeView
 
 
         // ジェスチャー判定用最低ドラッグ距離
-        private double _gestureMinimumDistanceX = 30.0;
-        private double _gestureMinimumDistanceY = 30.0;
+        public static double GestureMinimumDistanceX = 30.0;
+        public static double GestureMinimumDistanceY = 30.0;
 
         /// <summary>
         /// 判定用最低ドラッグ距離設定
@@ -80,12 +81,12 @@ namespace NeeView
         /// <param name="deltaY"></param>
         public void SetGestureMinimumDistance(double deltaX, double deltaY)
         {
-            _gestureMinimumDistanceX = deltaX;
-            _gestureMinimumDistanceY = deltaY;
-            if (_gestureMinimumDistanceX < SystemParameters.MinimumHorizontalDragDistance)
-                _gestureMinimumDistanceX = SystemParameters.MinimumHorizontalDragDistance;
-            if (_gestureMinimumDistanceY < SystemParameters.MinimumVerticalDragDistance)
-                _gestureMinimumDistanceY = SystemParameters.MinimumVerticalDragDistance;
+            GestureMinimumDistanceX = deltaX;
+            GestureMinimumDistanceY = deltaY;
+            if (GestureMinimumDistanceX < SystemParameters.MinimumHorizontalDragDistance)
+                GestureMinimumDistanceX = SystemParameters.MinimumHorizontalDragDistance;
+            if (GestureMinimumDistanceY < SystemParameters.MinimumVerticalDragDistance)
+                GestureMinimumDistanceY = SystemParameters.MinimumVerticalDragDistance;
         }
 
 
@@ -156,8 +157,11 @@ namespace NeeView
         /// <param name="e"></param>
         public override void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
+            UpdateState(sender, e);
+            if (e.Handled) return;
+
             // 右ボタンのみジェスチャー終端として認識
-            if (e.ChangedButton == MouseButton.Left)
+            if (e.ChangedButton == MouseButton.Left && _gesture.Count > 0)
             {
                 // ジェスチャーコマンド実行
                 _gesture.Add(MouseGestureDirection.Click);
@@ -205,6 +209,22 @@ namespace NeeView
             }
         }
 
+        private void UpdateState(object sender, MouseEventArgs e)
+        {
+            // ジェスチャー認識前に他のドラッグに切り替わったら処理を切り替える
+            if (_gesture.Count > 0) return;
+
+            var action = ModelContext.DragActionTable.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
+            if (action == DragActionType.Gesture)
+            {
+            }
+            else
+            {
+                SetState(MouseInputState.Drag);
+                e.Handled = true;
+            }
+        }
+
         /// <summary>
         /// マウス移動処理
         /// </summary>
@@ -212,12 +232,15 @@ namespace NeeView
         /// <param name="e"></param>
         public override void OnMouseMove(object sender, MouseEventArgs e)
         {
+            UpdateState(sender, e);
+            if (e.Handled) return;
+
             var point = e.GetPosition(_context.Sender);
 
             var v1 = point - _context.StartPoint;
 
             // 一定距離未満は判定しない
-            if (Math.Abs(v1.X) < _gestureMinimumDistanceX && Math.Abs(v1.Y) < _gestureMinimumDistanceY) return;
+            if (Math.Abs(v1.X) < GestureMinimumDistanceX && Math.Abs(v1.Y) < GestureMinimumDistanceY) return;
 
             // 方向を決める
             // 斜め方向は以前の方向とする

@@ -714,14 +714,13 @@ namespace NeeView
 
         public override void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
-
             // nop.
         }
 
         public override void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
         {
             // ドラッグ解除
-            if (CreateMouseButtonBits(e) == MouseButtonBit.None)
+            if (CreateMouseButtonBits(e) == MouseButtonBits.None)
             {
                 ResetState();
             }
@@ -743,22 +742,17 @@ namespace NeeView
         //
         public override void OnMouseMove(object sender, MouseEventArgs e)
         {
+            var dragKey = new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers);
+            if (!dragKey.IsValid) return;
+
             var point = e.GetPosition(_context.Sender);
 
-            var pressed = GetMouseButton(e);
-            if (pressed == null) return;
-
             // update action
-            var action = GetAction((MouseButton)pressed, Keyboard.Modifiers);
-            if (action == null) return;
+            if (_action == null || _action.DragKey != dragKey)
+            {
+                var action = ModelContext.DragActionTable.GetAction(dragKey);
 
-            if (_action == null)
-            {
-                _action = action;
-            }
-            else if (action != _action)
-            {
-                if (Keyboard.Modifiers != ModifierKeys.None || action.IsGroupCompatible(_action))
+                if (action != _action && action?.Exec != null)
                 {
                     _action = action;
                     InitializeDragParameter(point);
@@ -766,36 +760,13 @@ namespace NeeView
             }
 
             // exec action
-            _action?.Exec(_context.StartPoint, point);
+            _action?.Exec?.Invoke(_context.StartPoint, point);
         }
 
         #region Actions
-        // アクションキーバインド
-        private Dictionary<DragKey, DragAction> _keyBindings;
-
-        // アクションキーバインド設定
-        public void SetKeyBindings(Dictionary<DragKey, DragAction> binding)
-        {
-            _keyBindings = binding;
-        }
 
         // ドラッグアクション
         private DragAction _action;
-
-        // 入力からアクション取得
-        private DragAction GetAction(MouseButton butto, ModifierKeys keys)
-        {
-            var key = new DragKey(butto, keys);
-            DragAction command;
-            if (_keyBindings.TryGetValue(key, out command))
-            {
-                return command;
-            }
-            else
-            {
-                return null;
-            }
-        }
 
         // ドラッグパラメータ初期化
         private void InitializeDragParameter(Point pos)

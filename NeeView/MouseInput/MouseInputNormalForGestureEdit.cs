@@ -98,10 +98,13 @@ namespace NeeView
 
             var point = e.GetPosition(_context.Sender);
 
-            if (Math.Abs(point.X - _context.StartPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(point.Y - _context.StartPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+            var deltaX = Math.Abs(point.X - _context.StartPoint.X);
+            var deltaY = Math.Abs(point.Y - _context.StartPoint.Y);
+
+            if (deltaX > SystemParameters.MinimumHorizontalDragDistance || deltaY > SystemParameters.MinimumVerticalDragDistance)
             {
-                var bits = CreateMouseButtonBits(e);
-                if (bits == MouseButtonBit.Right)
+                var action = ModelContext.DragActionTable.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
+                if (action == DragActionType.Gesture)
                 {
                     SetState(MouseInputState.Gesture);
                 }

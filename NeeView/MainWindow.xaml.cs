@@ -66,18 +66,11 @@ namespace NeeView
     {
         private MainWindowVM _VM;
 
-        private MouseLoupe _mouseLoupe;
-        private MouseWheel _mouseWheel;
-        private MouseDragController _mouseDrag;
-        private MouseGestureManager _mouseGesture;
-        private MouseLongDown _mouseLongDown;
-
+        private MouseInputManager _mouse;
 
         private ContentDropManager _contentDrop = new ContentDropManager();
 
         private bool _nowLoading = false;
-
-        public MouseDragController MouseDragController => _mouseDrag;
 
         private NotifyPropertyChangedDelivery _notifyPropertyChangedDelivery = new NotifyPropertyChangedDelivery();
 
@@ -112,83 +105,31 @@ namespace NeeView
 
             InitializeVisualTree();
 
+            // mouse input
+            _mouse = MouseInputManager.Current = new MouseInputManager(this, this.MainView, this.MainContent, this.MainContentShadow);
 
-            // mouse long down
-            _mouseLongDown = new MouseLongDown(this.MainView);
-            _mouseLongDown.StatusChanged +=
-                (s, e) =>
-                {
-                    if (_VM.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
-                    {
-                        if (this.MainViewPanel.ContextMenu.IsOpen || _mouseLoupe.IsEnabled && e.Status == MouseLongDownStatus.On)
-                        {
-                            e.Cancel = true;
-                        }
-                        else
-                        {
-                            _mouseLoupe.IsEnabled = e.Status == MouseLongDownStatus.On;
-                        }
-                    }
-                };
+            _mouse.TransformChanged +=
+                (s, e) => _VM.SetViewTransform(e);
 
-
-            _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.LongButtonDownTick),
-                (s, e) =>
-                {
-                    _mouseLongDown.Tick = TimeSpan.FromSeconds(_VM.LongButtonDownTick);
-                });
-
-
-            // mouse loupe
-            _mouseLoupe = new MouseLoupe(this.MainView);
-            _mouseLoupe.TransformChanged +=
-                (s, e) =>
-                {
-                    _VM.SetViewTransform(_mouseDrag.Scale, _mouseLoupe.FixedLoupeScale, _mouseDrag.Angle, _mouseDrag.IsFlipHorizontal, _mouseDrag.IsFlipVertical, e.ActionType);
-                    if (e.ChangeType == TransformChangeType.Scale)
-                    {
-                        _VM.UpdateWindowTitle(UpdateWindowTitleMask.View);
-                    }
-                };
-
-            this.LoupeInfo.DataContext = _mouseLoupe;
-
-            // mouse wheel
-            _mouseWheel = new MouseWheel(this.MainView);
+            this.LoupeInfo.DataContext = _mouse.Loupe;
 
             // mouse gesture
-            _mouseGesture = new MouseGestureManager(this.MainView);
-            _mouseGesture.Controller.MouseGestureUpdateEventHandler += OnMouseGestureUpdate;
+            _mouse.Gesture.MouseGestureProgressed += OnMouseGestureUpdate;
 
             // mouse drag
-            _mouseDrag = new MouseDragController(this, this.MainView, this.MainContent, this.MainContentShadow);
-
-            _mouseDrag.TransformChanged +=
-                (s, e) =>
-                {
-                    _VM.SetViewTransform(_mouseDrag.Scale, _mouseLoupe.FixedLoupeScale, _mouseDrag.Angle, _mouseDrag.IsFlipHorizontal, _mouseDrag.IsFlipVertical, e.ActionType);
-                    if (e.ChangeType == TransformChangeType.Scale)
-                    {
-                        _VM.UpdateWindowTitle(UpdateWindowTitleMask.View);
-                    }
-                };
-            ModelContext.DragActionTable.SetTarget(_mouseDrag);
-
-
-            // ルーペモード変化時にそれまでの入力キャンセル
-            _mouseLoupe.IsEnabledChanged += (s, e) => { _mouseDrag.ResetInput(); _mouseGesture.ResetInput(); };
+            ModelContext.DragActionTable.SetTarget(_mouse.Drag);
 
 
             // render transform
             var transformView = new TransformGroup();
-            transformView.Children.Add(_mouseDrag.TransformView);
-            transformView.Children.Add(_mouseLoupe.TransformView);
+            transformView.Children.Add(_mouse.Drag.TransformView);
+            transformView.Children.Add(_mouse.Loupe.TransformView);
             this.MainContent.RenderTransform = transformView;
             this.MainContent.RenderTransformOrigin = new Point(0.5, 0.5);
 
             var transformCalc = new TransformGroup();
-            transformCalc.Children.Add(_mouseDrag.TransformCalc);
-            transformCalc.Children.Add(_mouseLoupe.TransformCalc);
+            transformCalc.Children.Add(_mouse.Drag.TransformCalc);
+            transformCalc.Children.Add(_mouse.Loupe.TransformCalc);
             this.MainContentShadow.RenderTransform = transformCalc;
             this.MainContentShadow.RenderTransformOrigin = new Point(0.5, 0.5);
 
@@ -226,7 +167,13 @@ namespace NeeView
             _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.IsLoupeCenter),
                 (s, e) =>
                 {
-                    _mouseLoupe.IsCenterMode = _VM.IsLoupeCenter;
+                    _mouse.Loupe.IsCenterMode = _VM.IsLoupeCenter; // ##
+                });
+
+            _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.LongLeftButtonDownMode),
+                (s, e) =>
+                {
+                    _mouse.Normal.LongLeftButtonDownMode = _VM.LongLeftButtonDownMode; // ##
                 });
 
 
@@ -311,7 +258,7 @@ namespace NeeView
             this.AutoHideDelayTime = preference.panel_autohide_delaytime;
 
             // マウスジェスチャーの最小移動距離
-            _mouseGesture.Controller.InitializeGestureMinimumDistance(
+            _mouse.Gesture.SetGestureMinimumDistance(
                 preference.input_gesture_minimumdistance_x,
                 preference.input_gesture_minimumdistance_y);
         }
@@ -325,7 +272,7 @@ namespace NeeView
         //
         private double DefaultViewAngle(bool isResetAngle)
         {
-            return _VM.IsAutoRotateCondition() ? _VM.GetAutoRotateAngle() : isResetAngle ? 0.0 : _mouseDrag.Angle;
+            return _VM.IsAutoRotateCondition() ? _VM.GetAutoRotateAngle() : isResetAngle ? 0.0 : _mouse.Drag.Angle;
         }
 
         //
@@ -335,7 +282,8 @@ namespace NeeView
                 (s, e) =>
                 {
                     // ページ変更でルーペ解除
-                    _mouseLoupe.IsEnabled = false;
+                    //_mouseLoupe.IsEnabled = false;
+                    _mouse.IsLoupeMode = false;
 
                     UpdateMouseDragSetting(e.PageDirection, e.ViewOrigin);
 
@@ -343,13 +291,13 @@ namespace NeeView
                     bool isResetAngle = e.ResetViewTransform || !_VM.IsKeepAngle || _VM.IsAutoRotate;
                     bool isResetFlip = e.ResetViewTransform || !_VM.IsKeepFlip;
 
-                    _mouseDrag.Reset(isResetScale, isResetAngle, isResetFlip, DefaultViewAngle(isResetAngle));
+                    _mouse.Drag.Reset(isResetScale, isResetAngle, isResetFlip, DefaultViewAngle(isResetAngle));
                 };
 
             _VM.AutoRotateChanged +=
                 (s, e) =>
                 {
-                    _mouseDrag.Reset(true, true, true, _VM.ContentAngle);
+                    _mouse.Drag.Reset(true, true, true, _VM.ContentAngle);
                 };
 
             _VM.InputGestureChanged +=
@@ -367,12 +315,6 @@ namespace NeeView
 
             _VM.NotifyMenuVisibilityChanged +=
                 (s, e) => OnMenuVisibilityChanged();
-
-            _VM.ContextMenuEnableChanged +=
-                (s, e) =>
-                {
-                    _mouseGesture.Controller.ContextMenuSetting = _VM.ContextMenuSetting;
-                };
 
             _VM.PageListChanged +=
                 OnPageListChanged;
@@ -491,7 +433,7 @@ namespace NeeView
         {
             if (isVisible)
             {
-                if (this.MainView.Cursor == Cursors.None && !_mouseLoupe.IsEnabled)
+                if (this.MainView.Cursor == Cursors.None && !_mouse.IsLoupeMode)
                 {
                     this.MainView.Cursor = null;
                 }
@@ -509,18 +451,18 @@ namespace NeeView
 
 
         // マウスジェスチャー更新時の処理
-        private void OnMouseGestureUpdate(object sender, MouseGestureSequence e)
+        private void OnMouseGestureUpdate(object sender, MouseGestureEventArgs e)
         {
-            _VM.ShowGesture(_mouseGesture.GetGestureString(), _mouseGesture.GetGestureCommandName());
+            _VM.ShowGesture(e.Sequence.ToDispString(), _mouseGestureCommandCollection?.GetCommand(e.Sequence)?.Text);
         }
 
 
         // ドラッグでビュー操作設定の更新
         private void UpdateMouseDragSetting(int direction, DragViewOrigin origin)
         {
-            _mouseDrag.IsLimitMove = _VM.IsLimitMove;
-            _mouseDrag.DragControlCenter = _VM.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
-            _mouseDrag.AngleFrequency = _VM.AngleFrequency;
+            _mouse.Drag.IsLimitMove = _VM.IsLimitMove;
+            _mouse.Drag.DragControlCenter = _VM.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
+            _mouse.Drag.AngleFrequency = _VM.AngleFrequency;
 
             if (origin == DragViewOrigin.None)
             {
@@ -530,13 +472,13 @@ namespace NeeView
                         ? DragViewOrigin.LeftTop
                         : DragViewOrigin.RightTop;
 
-                _mouseDrag.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
-                _mouseDrag.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
+                _mouse.Drag.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
+                _mouse.Drag.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
             }
             else
             {
-                _mouseDrag.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
-                _mouseDrag.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop || origin == DragViewOrigin.LeftBottom) ? 1.0 : -1.0;
+                _mouse.Drag.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
+                _mouse.Drag.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop || origin == DragViewOrigin.LeftBottom) ? 1.0 : -1.0;
             }
         }
 
@@ -577,58 +519,58 @@ namespace NeeView
                 (s, e) =>
                 {
                     var parameter = (ViewScrollCommandParameter)ModelContext.CommandTable[CommandType.ViewScrollUp].Parameter;
-                    _mouseDrag.ScrollUp(parameter.Scroll / 100.0);
+                    _mouse.Drag.ScrollUp(parameter.Scroll / 100.0);
                 };
             ModelContext.CommandTable[CommandType.ViewScrollDown].Execute =
                 (s, e) =>
                 {
                     var parameter = (ViewScrollCommandParameter)ModelContext.CommandTable[CommandType.ViewScrollDown].Parameter;
-                    _mouseDrag.ScrollDown(parameter.Scroll / 100.0);
+                    _mouse.Drag.ScrollDown(parameter.Scroll / 100.0);
                 };
             ModelContext.CommandTable[CommandType.ViewScaleUp].Execute =
                 (s, e) =>
                 {
                     var parameter = (ViewScaleCommandParameter)ModelContext.CommandTable[CommandType.ViewScaleUp].Parameter;
-                    _mouseDrag.ScaleUp(parameter.Scale / 100.0);
+                    _mouse.Drag.ScaleUp(parameter.Scale / 100.0);
                 };
             ModelContext.CommandTable[CommandType.ViewScaleDown].Execute =
                 (s, e) =>
                 {
                     var parameter = (ViewScaleCommandParameter)ModelContext.CommandTable[CommandType.ViewScaleDown].Parameter;
-                    _mouseDrag.ScaleDown(parameter.Scale / 100.0);
+                    _mouse.Drag.ScaleDown(parameter.Scale / 100.0);
                 };
             ModelContext.CommandTable[CommandType.ViewRotateLeft].Execute =
                 (s, e) =>
                 {
                     var parameter = (ViewRotateCommandParameter)ModelContext.CommandTable[CommandType.ViewRotateLeft].Parameter;
-                    if (parameter.IsStretch) _mouseDrag.ResetDefault();
-                    _mouseDrag.Rotate(-parameter.Angle);
-                    if (parameter.IsStretch) _VM.UpdateContentSize(_mouseDrag.Angle);
+                    if (parameter.IsStretch) _mouse.Drag.ResetDefault();
+                    _mouse.Drag.Rotate(-parameter.Angle);
+                    if (parameter.IsStretch) _VM.UpdateContentSize(_mouse.Drag.Angle);
                 };
             ModelContext.CommandTable[CommandType.ViewRotateRight].Execute =
                 (s, e) =>
                 {
                     var parameter = (ViewRotateCommandParameter)ModelContext.CommandTable[CommandType.ViewRotateRight].Parameter;
-                    if (parameter.IsStretch) _mouseDrag.ResetDefault();
-                    _mouseDrag.Rotate(+parameter.Angle);
-                    if (parameter.IsStretch) _VM.UpdateContentSize(_mouseDrag.Angle);
+                    if (parameter.IsStretch) _mouse.Drag.ResetDefault();
+                    _mouse.Drag.Rotate(+parameter.Angle);
+                    if (parameter.IsStretch) _VM.UpdateContentSize(_mouse.Drag.Angle);
                 };
             ModelContext.CommandTable[CommandType.ToggleViewFlipHorizontal].Execute =
-                (s, e) => _mouseDrag.ToggleFlipHorizontal();
+                (s, e) => _mouse.Drag.ToggleFlipHorizontal();
             ModelContext.CommandTable[CommandType.ViewFlipHorizontalOn].Execute =
-                (s, e) => _mouseDrag.FlipHorizontal(true);
+                (s, e) => _mouse.Drag.FlipHorizontal(true);
             ModelContext.CommandTable[CommandType.ViewFlipHorizontalOff].Execute =
-                (s, e) => _mouseDrag.FlipHorizontal(false);
+                (s, e) => _mouse.Drag.FlipHorizontal(false);
 
             ModelContext.CommandTable[CommandType.ToggleViewFlipVertical].Execute =
-                (s, e) => _mouseDrag.ToggleFlipVertical();
+                (s, e) => _mouse.Drag.ToggleFlipVertical();
             ModelContext.CommandTable[CommandType.ViewFlipVerticalOn].Execute =
-                (s, e) => _mouseDrag.FlipVertical(true);
+                (s, e) => _mouse.Drag.FlipVertical(true);
             ModelContext.CommandTable[CommandType.ViewFlipVerticalOff].Execute =
-                (s, e) => _mouseDrag.FlipVertical(false);
+                (s, e) => _mouse.Drag.FlipVertical(false);
 
             ModelContext.CommandTable[CommandType.ViewReset].Execute =
-                (s, e) => _mouseDrag.Reset(true, true, true, DefaultViewAngle(true));
+                (s, e) => _mouse.Drag.Reset(true, true, true, DefaultViewAngle(true));
             ModelContext.CommandTable[CommandType.PrevScrollPage].Execute =
                 (s, e) => PrevScrollPage();
             ModelContext.CommandTable[CommandType.NextScrollPage].Execute =
@@ -639,15 +581,15 @@ namespace NeeView
                 (e) => MovePageWithCursorMessage();
 
             ModelContext.CommandTable[CommandType.ToggleIsLoupe].Execute =
-                (s, e) => _mouseLoupe.IsEnabled = !_mouseLoupe.IsEnabled;
+                (s, e) => _mouse.IsLoupeMode = !_mouse.IsLoupeMode;
             ModelContext.CommandTable[CommandType.ToggleIsLoupe].ExecuteMessage =
-                e => _mouseLoupe.IsEnabled ? "ルーペOFF" : "ルーペON";
+                e => _mouse.IsLoupeMode ? "ルーペOFF" : "ルーペON";
             ModelContext.CommandTable[CommandType.ToggleIsLoupe].CreateIsCheckedBinding =
-                () => new Binding(nameof(_mouseLoupe.IsEnabled)) { Mode = BindingMode.OneWay, Source = _mouseLoupe };
+                () => new Binding(nameof(_mouse.IsLoupeMode)) { Mode = BindingMode.OneWay, Source = _mouse };
             ModelContext.CommandTable[CommandType.LoupeOn].Execute =
-                (s, e) => _mouseLoupe.IsEnabled = true;
+                (s, e) => _mouse.IsLoupeMode = true;
             ModelContext.CommandTable[CommandType.LoupeOff].Execute =
-                (s, e) => _mouseLoupe.IsEnabled = false;
+                (s, e) => _mouse.IsLoupeMode = false;
 
 
             // context menu
@@ -686,15 +628,17 @@ namespace NeeView
         }
 
 
+        //
+        private MouseGestureCommandCollection _mouseGestureCommandCollection = new MouseGestureCommandCollection();
+
+
         // InputGesture設定
         public void InitializeInputGestures()
         {
-            _mouseWheel.ClearWheelEventHandler();
+            _mouse.ClearMouseEventHandler();
 
-            _mouseDrag.ClearClickEventHandler();
-
-            _mouseGesture.ClearClickEventHandler();
-            _mouseGesture.CommandCollection.Clear();
+            _mouseGestureCommandCollection.Clear();
+            _mouse.MouseGestureChanged += (s, x) => _mouseGestureCommandCollection.Execute(x.Sequence);
 
             foreach (var e in BookCommands)
             {
@@ -702,22 +646,25 @@ namespace NeeView
                 var inputGestures = ModelContext.CommandTable[e.Key].GetInputGestureCollection();
                 foreach (var gesture in inputGestures)
                 {
-                    // マウスクリックはドラッグ系処理のイベントとして登録
-                    if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.LeftClick)
+                    if (gesture is MouseGesture mouseClick)
                     {
-                        _mouseDrag.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
+                        // ダブルクリックは標準処理で
+                        if (mouseClick.MouseAction == MouseAction.LeftDoubleClick || mouseClick.MouseAction == MouseAction.MiddleDoubleClick || mouseClick.MouseAction == MouseAction.RightDoubleClick)
+                        {
+                            e.Value.InputGestures.Add(gesture);
+                        }
+                        else
+                        {
+                            _mouse.MouseButtonChanged += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
+                        }
                     }
-                    else if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.MiddleClick)
+                    else if (gesture is MouseExGesture)
                     {
-                        _mouseDrag.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
-                    }
-                    else if (gesture is MouseGesture && ((MouseGesture)gesture).MouseAction == MouseAction.RightClick)
-                    {
-                        _mouseGesture.MouseClickEventHandler += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
+                        _mouse.MouseButtonChanged += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
                     }
                     else if (gesture is MouseWheelGesture)
                     {
-                        _mouseWheel.MouseWheelEventHandler += (s, x) => { if (gesture.Matches(this, x)) { WheelCommandExecute(e.Value, x); } };
+                        _mouse.MouseWheelChanged += (s, x) => { if (gesture.Matches(this, x)) { WheelCommandExecute(e.Value, x); } };
                     }
                     else
                     {
@@ -729,12 +676,9 @@ namespace NeeView
                 var mouseGesture = ModelContext.CommandTable[e.Key].MouseGesture;
                 if (mouseGesture != null)
                 {
-                    _mouseGesture.CommandCollection.Add(mouseGesture, e.Value);
+                    _mouseGestureCommandCollection.Add(mouseGesture, e.Value);
                 }
             }
-
-            // drag key
-            _mouseDrag.SetKeyBindings(ModelContext.DragActionTable.GetKeyBinding());
 
             // Update Menu GestureText
             _VM.MainMenu?.UpdateInputGestureText();
@@ -751,7 +695,7 @@ namespace NeeView
         /// <param name="arg"></param>
         private void WheelCommandExecute(RoutedUICommand command, MouseWheelEventArgs arg)
         {
-            int turn = NeeView.MouseWheel.DeltaCount(arg);
+            int turn = MouseInputHelper.DeltaCount(arg);
 
             // Debug.WriteLine($"WheelCommand: {turn}({arg.Delta})");
 
@@ -793,7 +737,7 @@ namespace NeeView
             var parameter = (ScrollPageCommandParameter)ModelContext.CommandTable[CommandType.PrevScrollPage].Parameter;
 
             int bookReadDirection = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = _mouseDrag.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
+            bool isScrolled = _mouse.Drag.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
 
             if (!isScrolled)
             {
@@ -808,7 +752,7 @@ namespace NeeView
             var parameter = (ScrollPageCommandParameter)ModelContext.CommandTable[CommandType.NextScrollPage].Parameter;
 
             int bookReadDirection = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = _mouseDrag.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
+            bool isScrolled = _mouse.Drag.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
 
             if (!isScrolled)
             {
@@ -1109,7 +1053,7 @@ namespace NeeView
             }
 
             // ルーペ解除
-            this._mouseLoupe.IsEnabled = false;
+            _mouse.IsLoupeMode = false;
         }
 
 
@@ -1167,7 +1111,7 @@ namespace NeeView
             _VM.SetViewSize(this.MainView.ActualWidth, this.MainView.ActualHeight);
 
             // スナップ
-            _mouseDrag.SnapView();
+            _mouse.Drag.SnapView();
         }
 
         //
@@ -1629,13 +1573,13 @@ namespace NeeView
         {
             if (_VM.IsHidePageSlider || _VM.IsFullScreen)
             {
-                SetStatusAreaVisibisity(IsStateAreaMouseOver() && !_mouseLoupe.IsEnabled, false);
+                SetStatusAreaVisibisity(IsStateAreaMouseOver() && !_mouse.IsLoupeMode, false);
                 SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList, true);
             }
             else
             {
                 SetStatusAreaVisibisity(true, true);
-                SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList && (!_VM.CanHideThumbnailList || (IsStateAreaMouseOver() && !_mouseLoupe.IsEnabled)), false);
+                SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList && (!_VM.CanHideThumbnailList || (IsStateAreaMouseOver() && !_mouse.IsLoupeMode)), false);
             }
         }
 
@@ -1710,7 +1654,7 @@ namespace NeeView
                 {
                     isVisible = isVisible || this.MenuBar.IsMouseOver || (point.Y < 0.0 + visibleMargin && this.IsMouseOver);
                 }
-                isVisible = isVisible && !_mouseLoupe.IsEnabled;
+                isVisible = isVisible && !_mouse.IsLoupeMode;
                 SetMenuAreaVisibisity(isVisible, false);
             }
             else
@@ -1765,6 +1709,10 @@ namespace NeeView
             {
                 SetLeftPanelVisibisity(false, false);
             }
+            else if (_VM.LeftPanel == PanelType.FolderList && this.FolderList.IsRenaming)
+            {
+                SetLeftPanelVisibisity(true, false);
+            }
             else if (_VM.CanHidePanel)
             {
                 Point point = Mouse.GetPosition(this.ViewArea);
@@ -1773,7 +1721,7 @@ namespace NeeView
                     double margin = this.LeftPanel.Width + hideMargin > visibleMargin ? this.LeftPanel.Width + hideMargin : visibleMargin;
                     SetLeftPanelVisibisity(this.LeftPanel.IsMouseOver || _IsContextMenuOpened || point.X < margin && this.IsMouseOver, false);
                 }
-                else if (point.X < visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver && !_mouseLoupe.IsEnabled)
+                else if (point.X < visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver && !_mouse.IsLoupeMode)
                 {
                     SetLeftPanelVisibisity(true, false);
                 }
@@ -1823,7 +1771,7 @@ namespace NeeView
                     double margin = this.RightPanel.Width + hideMargin > visibleMargin ? this.RightPanel.Width + hideMargin : visibleMargin;
                     SeRightPanelVisibisity(this.RightPanel.IsMouseOver || _IsContextMenuOpened || point.X > this.ViewArea.ActualWidth - margin && this.IsMouseOver, false);
                 }
-                else if (point.X > this.ViewArea.ActualWidth - visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver && !_mouseLoupe.IsEnabled)
+                else if (point.X > this.ViewArea.ActualWidth - visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver && !_mouse.IsLoupeMode)
                 {
                     SeRightPanelVisibisity(true, false);
                 }
@@ -2140,7 +2088,7 @@ namespace NeeView
 
         private void ThumbnailListBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            int count = NeeView.MouseWheel.DeltaCount(e);
+            int count = MouseInputHelper.DeltaCount(e);
             int delta = e.Delta < 0 ? +count : -count;
             if (_VM.IsSliderDirectionReversed) delta = -delta;
             ThumbnailListBox_MoveSelectedIndex(delta);
@@ -2183,7 +2131,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void SliderArea_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            int turn = NeeView.MouseWheel.DeltaCount(e);
+            int turn = MouseInputHelper.DeltaCount(e);
 
             for (int i = 0; i < turn; ++i)
             {

@@ -1,7 +1,11 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,19 +21,18 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     /// <summary>
-    /// MouseGestureSettingWindow.xaml の相互作用ロジック
+    /// MouseDragSettingWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MouseGestureSettingWindow : Window
+    public partial class MouseDragSettingWindow : Window
     {
-        private MouseGestureSettingViewModel _VM;
+        private MouseDragSettingViewModel _vm;
 
-        //
-        public MouseGestureSettingWindow(MouseGestureSettingContext context)
+        public MouseDragSettingWindow(MouseDragSettingContext context)
         {
             InitializeComponent();
 
-            _VM = new MouseGestureSettingViewModel(context, this.GestureBox);
-            DataContext = _VM;
+            _vm = new MouseDragSettingViewModel(context, this.GestureBox);
+            DataContext = _vm;
 
             // ESCでウィンドウを閉じる
             this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
@@ -38,7 +41,7 @@ namespace NeeView
         //
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            _VM.Decide();
+            _vm.Decide();
 
             this.DialogResult = true;
             this.Close();
@@ -51,10 +54,30 @@ namespace NeeView
         }
     }
 
+
+
     /// <summary>
-    /// MouseGestureSetting ViewModel
+    /// 
     /// </summary>
-    public class MouseGestureSettingViewModel : INotifyPropertyChanged
+    public class DragToken
+    {
+        // ジェスチャー文字列（１ジェスチャー）
+        public string Gesture { get; set; }
+
+        // 競合しているコマンド群
+        public List<DragActionType> Conflicts { get; set; }
+
+        // 競合メッセージ
+        public string OverlapsText { get; set; }
+
+        public bool IsConflict => Conflicts != null && Conflicts.Count > 0;
+    }
+
+
+    /// <summary>
+    /// MouseDragSetting ViewModel
+    /// </summary>
+    public class MouseDragSettingViewModel : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -66,57 +89,68 @@ namespace NeeView
         #endregion
 
         //
-        private MouseGestureSettingContext _context;
+        private MouseDragSettingContext _context;
 
         //
-        private MouseInputManagerForGestureEditor _mouseGesture;
+        //private MouseInputManagerForGestureEditor _mouseGesture;
 
         /// <summary>
-        /// Property: GestureToken
+        /// Property: DragToken
         /// </summary>
-        private GestureToken _gestureToken = new GestureToken();
-        public GestureToken GestureToken
+        private DragToken _dragToken = new DragToken();
+        public DragToken DragToken
         {
-            get { return _gestureToken; }
-            set { if (_gestureToken != value) { _gestureToken = value; RaisePropertyChanged(); } }
+            get { return _dragToken; }
+            set { if (_dragToken != value) { _dragToken = value; RaisePropertyChanged(); } }
         }
 
         /// <summary>
-        /// Property: Original Gesture
+        /// Property: Original Drag
         /// </summary>
-        public string OriginalGesture { get; set; }
+        public string OriginalDrag { get; set; }
 
         /// <summary>
         /// NewGesture property.
         /// </summary>
-        private string _NewGesture;
-        public string NewGesture
+        private string _NewDrag;
+        public string NewDrag
         {
-            get { return _NewGesture; }
-            set { if (_NewGesture != value) { _NewGesture = value; RaisePropertyChanged(); } }
+            get { return _NewDrag; }
+            set { if (_NewDrag != value) { _NewDrag = value; RaisePropertyChanged(); } }
         }
 
 
         /// <summary>
         /// Window Title
         /// </summary>
-        public string Header => _context.Header ?? _context.Command.ToDispString();
+        public string Header => _context.Header ?? _context.Command.ToLabel();
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="context"></param>
         /// <param name="gestureSender"></param>
-        public MouseGestureSettingViewModel(MouseGestureSettingContext context, FrameworkElement gestureSender)
+        public MouseDragSettingViewModel(MouseDragSettingContext context, FrameworkElement gestureSender)
         {
             _context = context;
 
-            _mouseGesture = new MouseInputManagerForGestureEditor(gestureSender);
-            _mouseGesture.Gesture.MouseGestureProgressed += Gesture_MouseGestureProgressed;
+            //_mouseGesture = new MouseInputManagerForGestureEditor(gestureSender);
+            //_mouseGesture.Gesture.MouseGestureProgressed += Gesture_MouseGestureProgressed;
 
-            OriginalGesture = _context.Gesture;
+            gestureSender.MouseDown += GestureSender_MouseDown;
+
+            OriginalDrag = _context.Gesture;
         }
 
+        private void GestureSender_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var dragKey = new DragKey(MouseButtonBitsExtensions.Create(e), Keyboard.Modifiers);
+
+            UpdateGestureToken(dragKey.ToString());
+        }
+
+
+        /*
         /// <summary>
         /// Gesture Changed
         /// </summary>
@@ -124,9 +158,10 @@ namespace NeeView
         /// <param name="e"></param>
         private void Gesture_MouseGestureProgressed(object sender, MouseGestureEventArgs e)
         {
-            NewGesture = e.Sequence.ToString();
-            UpdateGestureToken(NewGesture);
+            NewDrag = e.Sequence.ToString();
+            UpdateGestureToken(NewDrag);
         }
+        */
 
 
         /// <summary>
@@ -135,8 +170,10 @@ namespace NeeView
         /// <param name="gesture"></param>
         public void UpdateGestureToken(string gesture)
         {
+            NewDrag = gesture;
+
             // Check Conflict
-            var token = new GestureToken();
+            var token = new DragToken();
             token.Gesture = gesture;
 
             if (!string.IsNullOrEmpty(token.Gesture))
@@ -148,11 +185,11 @@ namespace NeeView
 
                 if (token.Conflicts.Count > 0)
                 {
-                    token.OverlapsText = string.Join("", token.Conflicts.Select(i => $"「{i.ToDispString()}」")) + "と競合しています";
+                    token.OverlapsText = string.Join("", token.Conflicts.Select(i => $"「{i.ToLabel()}」")) + "と競合しています";
                 }
             }
 
-            GestureToken = token;
+            DragToken = token;
         }
 
 
@@ -161,7 +198,7 @@ namespace NeeView
         /// </summary>
         public void Decide()
         {
-            _context.Gesture = NewGesture;
+            _context.Gesture = NewDrag;
         }
 
 
@@ -177,15 +214,15 @@ namespace NeeView
         private void ClearCommand_Executed()
         {
             _context.Gesture = null;
-            _mouseGesture.Gesture.Reset();
+            //_mouseGesture.Gesture.Reset();
         }
     }
 
 
     /// <summary>
-    /// MouseGestureSetting Model
+    /// MouseDragSetting Model
     /// </summary>
-    public class MouseGestureSettingContext
+    public class MouseDragSettingContext
     {
         /// <summary>
         /// 表示名。nullの場合はCommand名を使用する
@@ -195,12 +232,12 @@ namespace NeeView
         /// <summary>
         /// 設定対象のコマンド
         /// </summary>
-        public CommandType Command { get; set; }
+        public DragActionType Command { get; set; }
 
         /// <summary>
-        /// 全てのコマンドのジェスチャー。競合判定に使用する
+        /// 全てのコマンドの操作。競合判定に使用する
         /// </summary>
-        public Dictionary<CommandType, string> Gestures { get; set; }
+        public Dictionary<DragActionType, string> Gestures { get; set; }
 
 
         /// <summary>

@@ -143,7 +143,7 @@ namespace NeeView
 
         private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            int turn = NeeView.MouseWheel.DeltaCount(e);
+            int turn = MouseInputHelper.DeltaCount(e);
 
             if (e.Delta > 0)
                 this.Target.Value = this.Target.Value - turn;

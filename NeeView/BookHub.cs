@@ -1705,9 +1705,16 @@ namespace NeeView
             };
             var result = Messenger.Send(sender, new MessageEventArgs("MessageBox") { Parameter = param });
 
+            //
+            e.Result = result == true;
+
             // 削除する
             if (result == true)
             {
+                int retryCount = 1;
+
+                Retry:
+
                 try
                 {
                     // 開いている本を閉じる
@@ -1728,11 +1735,23 @@ namespace NeeView
                 }
                 catch (Exception ex)
                 {
-                    Messenger.MessageBox(sender, $"{itemType}削除に失敗しました\n\n原因: {ex.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
+                    if (retryCount > 0)
+                    {
+                        await Task.Delay(1000);
+                        retryCount--;
+                        goto Retry;
+                    }
+                    else
+                    {
+                        var confirm = Messenger.MessageBox(sender, $"{itemType}削除に失敗しました。\nもう一度実行しますか？\n\n原因: {ex.Message}", "エラー", System.Windows.MessageBoxButton.OKCancel, MessageBoxExImage.Warning);
+                        if (confirm == true)
+                        {
+                            goto Retry;
+                        }
+                        e.Result = false;
+                    }
                 }
             }
-
-            e.Result = result == true;
         }
 
 
@@ -1743,6 +1762,10 @@ namespace NeeView
             var renameParam = (RenameFileParams)e.Parameter;
             var src = renameParam.OldPath;
             var dst = renameParam.Path;
+
+            int retryCount = 1;
+
+            Retry:
 
             try
             {
@@ -1776,8 +1799,21 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                Messenger.MessageBox(sender, $"名前の変更に失敗しました。\n\n{ex.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
-                e.Result = false;
+                if (retryCount > 0)
+                {
+                    await Task.Delay(1000);
+                    retryCount--;
+                    goto Retry;
+                }
+                else
+                {
+                    var confirm = Messenger.MessageBox(sender, $"名前の変更に失敗しました。\nもう一度実行しますか？\n\n{ex.Message}", "エラー", System.Windows.MessageBoxButton.OKCancel, MessageBoxExImage.Warning);
+                    if (confirm == true)
+                    {
+                        goto Retry;
+                    }
+                    e.Result = false;
+                }
             }
         }
 

@@ -386,6 +386,8 @@
                 </ScrollViewer>
             </TabItem>
 
+
+
             <TabItem Header="画像操作">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Style="{StaticResource BaseStackPanel}">
@@ -419,63 +421,67 @@
                         </StackPanel>
 
                         <TextBlock Text="ドラッグ操作" Style="{StaticResource Header}"/>
-                        <WrapPanel Margin="20,0,0,10">
-                            <WrapPanel.Resources>
-                                <Style TargetType="StackPanel" x:Key="DragGroup">
-                                    <Setter Property="Margin" Value="2,2,45,2"/>
-                                </Style>
 
-                                <Style TargetType="TextBlock" BasedOn="{StaticResource ItemHeader}"/>
+                        <Border BorderBrush="LightGray" BorderThickness="1" Margin="5">
+                            <DockPanel Margin="2">
 
-                                <Style TargetType="ComboBox">
-                                    <Setter Property="ItemsSource" Value="{Binding DragActionTypeList}"/>
-                                    <Setter Property="SelectedValuePath" Value="Key"/>
-                                    <Setter Property="DisplayMemberPath" Value="Value"/>
-                                    <Setter Property="Width" Value="150"/>
-                                    <Setter Property="ToolTip" Value="{Binding Path=SelectedValue, RelativeSource={RelativeSource Self}, Converter={StaticResource DragActionTypeToTipsConverter}}"/>
-                                </Style>
-                            </WrapPanel.Resources>
+                                <DockPanel DockPanel.Dock="Bottom">
+                                    <Grid DockPanel.Dock="Top">
+                                        <DockPanel LastChildFill="False" HorizontalAlignment="Left">
+                                            <DockPanel.Style>
+                                                <Style TargetType="DockPanel">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding ElementName=DragActionListView, Path=SelectedValue}" Value="{x:Null}">
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </DockPanel.Style>
+                                            <Button x:Name="DragActionSettingButton" Content="ドラッグ操作設定" MinWidth="120" Height="30" Margin="8" Padding="5,0" Click="DragActionSettingButton_Click"/>
+                                        </DockPanel>
+                                        <Button x:Name="ResetDragSettingButton" Content="すべて初期化..." MinWidth="120" Height="30" Margin="8" Padding="5,0" HorizontalAlignment="Right" Click="ResetDragActionSettingButton_Click" ToolTip="すべてのドラッグ操作設定を初期化します"/>
+                                    </Grid>
 
-                            <!-- LeftDrag -->
-                            <StackPanel Style="{StaticResource DragGroup}">
-                                <StackPanel Style="{StaticResource ItemStackPanel}">
-                                    <TextBlock Text="LeftDrag"/>
-                                    <ComboBox SelectedValue="{Binding DragActionNone}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource ItemStackPanel}">
-                                    <TextBlock Text="Ctrl+LeftDrag"/>
-                                    <ComboBox SelectedValue="{Binding DragActionControl}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource ItemStackPanel}">
-                                    <TextBlock Text="Shift+LeftDrag"/>
-                                    <ComboBox SelectedValue="{Binding DragActionShift}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource ItemStackPanel}">
-                                    <TextBlock Text="Alt+LeftDrag"/>
-                                    <ComboBox SelectedValue="{Binding DragActionAlt}" />
-                                </StackPanel>
-                            </StackPanel>
+                                </DockPanel>
 
-                            <!-- MiddleDrag -->
-                            <StackPanel Style="{StaticResource DragGroup}">
-                                <StackPanel Style="{StaticResource ItemStackPanel}">
-                                    <TextBlock Text="MiddleDrag"/>
-                                    <ComboBox SelectedValue="{Binding DragActionMiddleNone}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource ItemStackPanel}">
-                                    <TextBlock Text="Ctrl+MiddleDrag"/>
-                                    <ComboBox SelectedValue="{Binding DragActionMiddleControl}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource ItemStackPanel}">
-                                    <TextBlock Text="Shift+MiddleDrag"/>
-                                    <ComboBox SelectedValue="{Binding DragActionMiddleShift}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource ItemStackPanel}">
-                                    <TextBlock Text="Alt+MiddleDrag"/>
-                                    <ComboBox SelectedValue="{Binding DragActionMiddleAlt}" />
-                                </StackPanel>
-                            </StackPanel>
-                        </WrapPanel>
+                                <ListView x:Name="DragActionListView" ItemsSource="{Binding DragActionCollection}" Foreground="Black" SelectionChanged="DragActionListView_SelectionChanged">
+
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <EventSetter Event="MouseDoubleClick" Handler="DragActionListViewItem_MouseDoubleClick"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsLocked}" Value="True">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+
+                                    <ListView.View>
+                                        <GridView>
+
+                                            <GridViewColumn Header="コマンド" Width="200" >
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Header}" TextTrimming="CharacterEllipsis" ToolTipService.ShowOnDisabled="True" ToolTip="{Binding Tips}"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="ドラッグ操作" Width="200" >
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding DragAction}" TextTrimming="CharacterEllipsis"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+
+                            </DockPanel>
+                        </Border>
 
                         <TextBlock Text="ルーペ" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
@@ -844,7 +850,6 @@
                             </DockPanel>
                             <Button x:Name="ResetGestureSettingButton" Content="すべて初期化..." MinWidth="120" Height="30" Margin="8" Padding="5,0" HorizontalAlignment="Right" Click="ResetGestureSettingButton_Click" ToolTip="すべてのコマンド設定を初期化します"/>
                         </Grid>
-
                     </DockPanel>
 
                     <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}" Foreground="Black" SelectionChanged="CommandListView_SelectionChanged">

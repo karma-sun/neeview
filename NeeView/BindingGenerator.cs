@@ -142,7 +142,7 @@ namespace NeeView
         {
             return new Binding("IsFlipHorizontal")
             {
-                Source = (App.Current.MainWindow as MainWindow).MouseDragController, // 強引だな..
+                Source = MouseInputManager.Current.Drag,
                 Mode = BindingMode.OneWay
             };
         }
@@ -152,7 +152,7 @@ namespace NeeView
         {
             return new Binding("IsFlipVertical")
             {
-                Source = (App.Current.MainWindow as MainWindow).MouseDragController, // 強引だな..
+                Source = MouseInputManager.Current.Drag,
                 Mode = BindingMode.OneWay
             };
         }

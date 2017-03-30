@@ -28,6 +28,8 @@
         <Style TargetType="TextBlock" x:Key="FolderName">
             <Setter Property="Text" Value="{Binding Value.Memento.Name}"/>
             <Setter Property="ToolTip" Value="{Binding Value.Memento.Place}"/>
+            <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
+            <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="15"/>
@@ -46,7 +48,7 @@
 
         <!-- Normal Bookmark -->
         <DataTemplate x:Key="NormalBookmark">
-            <TextBlock Style="{StaticResource FolderName}"/>
+            <TextBlock Style="{StaticResource FolderName}" HorizontalAlignment="Left"/>
         </DataTemplate>
 
         <!-- Picture Bookmark -->
@@ -64,7 +66,7 @@
                             </Image.ToolTip>
                         </Image>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Value.ArchivePage.Entry.RootArchiverName}" />
+                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Value.ArchivePage.Entry.RootArchiverName}" HorizontalAlignment="Left" />
                             <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap"/>
                         </StackPanel>
                     </DockPanel>

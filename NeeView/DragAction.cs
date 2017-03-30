@@ -142,16 +142,6 @@ namespace NeeView
             }
 
             //
-            [OnDeserialized]
-            private void Deserialized(StreamingContext c)
-            {
-                if (Key != null)
-                {
-                    Key = Key.Replace("Drag", "");
-                }
-            }
-
-            //
             public Memento Clone()
             {
                 return (Memento)MemberwiseClone();

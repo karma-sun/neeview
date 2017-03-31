@@ -337,10 +337,20 @@ namespace NeeView
 
             foreach (var key in keys)
             {
-                if (key == "Ctrl")
+                switch (key)
                 {
-                    modifierKeys |= ModifierKeys.Control;
-                    continue;
+                    case "Ctrl":
+                        modifierKeys |= ModifierKeys.Control;
+                        continue;
+                    case "Left":
+                        mouseButtonBits |= MouseButtonBits.LeftButton;
+                        continue;
+                    case "Right":
+                        mouseButtonBits |= MouseButtonBits.RightButton;
+                        continue;
+                    case "Middle":
+                        mouseButtonBits |= MouseButtonBits.MiddleButton;
+                        continue;
                 }
 
                 if (Enum.TryParse<ModifierKeys>(key, out ModifierKeys modifierKeysOne))

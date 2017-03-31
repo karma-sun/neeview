@@ -17,9 +17,9 @@ namespace NeeView
     public enum MouseButtonBits
     {
         None = 0,
-        Left = (1 << MouseButton.Left),
-        Middle = (1 << MouseButton.Middle),
-        Right = (1 << MouseButton.Right),
+        LeftButton = (1 << MouseButton.Left),
+        MiddleButton = (1 << MouseButton.Middle),
+        RightButton = (1 << MouseButton.Right),
         XButton1 = (1 << MouseButton.XButton1),
         XButton2 = (1 << MouseButton.XButton2),
     }
@@ -38,15 +38,15 @@ namespace NeeView
 
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                bits |= MouseButtonBits.Left;
+                bits |= MouseButtonBits.LeftButton;
             }
             if (e.MiddleButton == MouseButtonState.Pressed)
             {
-                bits |= MouseButtonBits.Middle;
+                bits |= MouseButtonBits.MiddleButton;
             }
             if (e.RightButton == MouseButtonState.Pressed)
             {
-                bits |= MouseButtonBits.Right;
+                bits |= MouseButtonBits.RightButton;
             }
             if (e.XButton1 == MouseButtonState.Pressed)
             {
@@ -70,15 +70,15 @@ namespace NeeView
 
             if (Mouse.LeftButton == MouseButtonState.Pressed)
             {
-                bits |= MouseButtonBits.Left;
+                bits |= MouseButtonBits.LeftButton;
             }
             if (Mouse.MiddleButton == MouseButtonState.Pressed)
             {
-                bits |= MouseButtonBits.Middle;
+                bits |= MouseButtonBits.MiddleButton;
             }
             if (Mouse.RightButton == MouseButtonState.Pressed)
             {
-                bits |= MouseButtonBits.Right;
+                bits |= MouseButtonBits.RightButton;
             }
             if (Mouse.XButton1 == MouseButtonState.Pressed)
             {

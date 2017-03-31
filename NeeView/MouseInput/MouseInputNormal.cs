@@ -49,7 +49,7 @@ namespace NeeView
         {
             _timer.Stop();
 
-            if (CreateMouseButtonBits() == MouseButtonBits.Left && Keyboard.Modifiers == ModifierKeys.None)
+            if (CreateMouseButtonBits() == MouseButtonBits.LeftButton && Keyboard.Modifiers == ModifierKeys.None)
             {
                 // 左ボタン単体長押しならルーペモードへ
                 if (LongLeftButtonDownMode == LongButtonDownMode.Loupe)

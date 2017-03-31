@@ -12,7 +12,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Title="{Binding Header, StringFormat={}ドラッグ操作設定 - {0}}" Height="400" Width="400">
+        Title="{Binding Header, StringFormat={}ドラッグ操作設定 - {0}}" Height="250" Width="500">
 
     <Grid>
         <DockPanel Margin="10,10,10,43">

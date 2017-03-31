@@ -73,13 +73,13 @@ namespace NeeView
                 {
                     IsLocked = true,
                     Name = "マウスジェスチャー",
-                    DragKey = new DragKey("Right"),
+                    DragKey = new DragKey("RightButton"),
                 },
 
                 [DragActionType.Move] = new DragAction
                 {
                     Name = "移動",
-                    DragKey = new DragKey("Left"),
+                    DragKey = new DragKey("LeftButton"),
                     Exec = (s, e) => _drag.DragMove(s, e),
                     Group = DragActionGroup.Move,
                 },
@@ -92,7 +92,7 @@ namespace NeeView
                 [DragActionType.Angle] = new DragAction
                 {
                     Name = "回転",
-                    DragKey = new DragKey("Shift+Left"),
+                    DragKey = new DragKey("Shift+LeftButton"),
                     Exec = (s, e) => _drag.DragAngle(s, e),
                 },
                 [DragActionType.Scale] = new DragAction
@@ -103,13 +103,13 @@ namespace NeeView
                 [DragActionType.ScaleSlider] = new DragAction
                 {
                     Name = "拡大縮小(スライド式)",
-                    DragKey = new DragKey("Ctrl+Left"),
+                    DragKey = new DragKey("Ctrl+LeftButton"),
                     Exec = (s, e) => _drag.DragScaleSlider(s, e),
                 },
                 [DragActionType.FlipHorizontal] = new DragAction
                 {
                     Name = "左右反転",
-                    DragKey = new DragKey("Alt+Left"),
+                    DragKey = new DragKey("Alt+LeftButton"),
                     Exec = (s, e) => _drag.DragFlipHorizontal(s, e),
                 },
                 [DragActionType.FlipVertical] = new DragAction
@@ -121,7 +121,7 @@ namespace NeeView
                 [DragActionType.WindowMove] = new DragAction
                 {
                     Name = "ウィンドウ移動",
-                    DragKey = new DragKey("Middle"),
+                    DragKey = new DragKey("RightButton+LeftButton"),
                     Exec = (s, e) => _drag.DragWindowMove(s, e),
                 },
 

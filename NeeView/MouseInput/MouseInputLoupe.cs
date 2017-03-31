@@ -247,6 +247,24 @@ namespace NeeView
         public override void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
             _isButtonDown = true;
+
+            if (_isLongDownMode)
+            {
+            }
+            else
+            {
+                // ダブルクリック？
+                if (e.ClickCount >= 2)
+                {
+                    // コマンド決定
+                    MouseButtonChanged?.Invoke(sender, e);
+                    if (e.Handled)
+                    {
+                        // その後の操作は全て無効
+                        _isButtonDown = false;
+                    }
+                }
+            }
         }
 
         /// <summary>

@@ -121,23 +121,36 @@
 
                     <StackPanel>
                         <TextBlock  Margin="10" TextWrapping="Wrap" Text="マウス入力" Height="16" />
-                        <Grid Margin="10,0" Height="40" >
-                            <TextBox x:Name="MouseGestureBox" Style="{StaticResource InputBox}" PreviewMouseDown="MouseGestureBox_PreviewMouseDown" PreviewMouseWheel="MouseGestureBox_PreviewMouseWheel" >
-                            </TextBox>
-                            <TextBlock x:Name="MouseGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False"/>
-                            <TextBlock Text="ここでマウス入力" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Visibility" Value="Hidden"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=MouseGestureText, Path=Text}" Value="">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </Grid>
+                        <Border x:Name="MouseGestureBox" Margin="10,0" Height="40"
+                                BorderThickness="1" BorderBrush="LightGray"
+                                 PreviewMouseDown="MouseGestureBox_PreviewMouseDown"
+                                 PreviewMouseWheel="MouseGestureBox_PreviewMouseWheel">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="AliceBlue"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#FFFFEECC" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Grid>
+                                <TextBlock x:Name="MouseGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False"/>
+                                <TextBlock Text="ここでマウス入力" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=MouseGestureText, Path=Text}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
 
                         <Button x:Name="AddMouseGestureButton" Content="追加" HorizontalAlignment="Right" Margin="10" Height="30" Width="76" Click="AddMouseGestureButton_Click" >
                             <Button.Style>

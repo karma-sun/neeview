@@ -60,8 +60,6 @@ namespace NeeView
 
             MouseExAction action = MouseExAction.None;
 
-            if (mouseEventArgs.ButtonState != MouseButtonState.Pressed) return false;
-
             switch (mouseEventArgs.ChangedButton)
             {
                 case MouseButton.Left:
@@ -82,17 +80,6 @@ namespace NeeView
             }
 
             if (action == MouseExAction.None) return false;
-
-#if false
-            if (mouseEventArgs.ChangedButton == MouseButton.XButton1)
-            {
-                action = MouseExAction.XButton1Click;
-            }
-            else if (mouseEventArgs.ChangedButton == MouseButton.XButton2)
-            {
-                action = MouseExAction.XButton2Click;
-            }
-#endif
 
             ModifierMouseButtons modifierMouseButtons = ModifierMouseButtons.None;
             if (mouseEventArgs.LeftButton == MouseButtonState.Pressed && mouseEventArgs.ChangedButton != MouseButton.Left)

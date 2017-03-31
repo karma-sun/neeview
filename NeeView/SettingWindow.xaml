@@ -468,7 +468,7 @@
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
 
-                                            <GridViewColumn Header="ドラッグ操作" Width="200" >
+                                            <GridViewColumn Header="ドラッグ操作" Width="300" >
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding DragAction}" TextTrimming="CharacterEllipsis"/>

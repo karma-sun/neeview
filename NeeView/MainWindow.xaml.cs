@@ -631,6 +631,7 @@ namespace NeeView
         //
         private MouseGestureCommandCollection _mouseGestureCommandCollection = new MouseGestureCommandCollection();
 
+        delegate void MouseButtonEventDelegate(object sender, MouseButtonEventArgs e);
 
         // InputGesture設定
         public void InitializeInputGestures()
@@ -640,6 +641,9 @@ namespace NeeView
             _mouseGestureCommandCollection.Clear();
             _mouse.MouseGestureChanged += (s, x) => _mouseGestureCommandCollection.Execute(x.Sequence);
 
+            var mouseNormalHandlers = new List<EventHandler<MouseButtonEventArgs>>();
+            var mouseExtraHndlers = new List<EventHandler<MouseButtonEventArgs>>();
+
             foreach (var e in BookCommands)
             {
                 e.Value.InputGestures.Clear();
@@ -648,23 +652,15 @@ namespace NeeView
                 {
                     if (gesture is MouseGesture mouseClick)
                     {
-                        // ダブルクリックは標準処理で
-                        if (mouseClick.MouseAction == MouseAction.LeftDoubleClick || mouseClick.MouseAction == MouseAction.MiddleDoubleClick || mouseClick.MouseAction == MouseAction.RightDoubleClick)
-                        {
-                            e.Value.InputGestures.Add(gesture);
-                        }
-                        else
-                        {
-                            _mouse.MouseButtonChanged += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
-                        }
+                        mouseNormalHandlers.Add((s, x) => { if (!x.Handled && gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } });
                     }
                     else if (gesture is MouseExGesture)
                     {
-                        _mouse.MouseButtonChanged += (s, x) => { if (gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } };
+                        mouseExtraHndlers.Add((s, x) => { if (!x.Handled && gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } });
                     }
                     else if (gesture is MouseWheelGesture)
                     {
-                        _mouse.MouseWheelChanged += (s, x) => { if (gesture.Matches(this, x)) { WheelCommandExecute(e.Value, x); } };
+                        _mouse.MouseWheelChanged += (s, x) => { if (!x.Handled && gesture.Matches(this, x)) { WheelCommandExecute(e.Value, x); } };
                     }
                     else
                     {
@@ -678,6 +674,12 @@ namespace NeeView
                 {
                     _mouseGestureCommandCollection.Add(mouseGesture, e.Value);
                 }
+            }
+
+            // 拡張マウス入力から先に処理を行う
+            foreach (var lambda in mouseExtraHndlers.Concat(mouseNormalHandlers))
+            {
+                _mouse.MouseButtonChanged += lambda;
             }
 
             // Update Menu GestureText

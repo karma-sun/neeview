@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace NeeView
 {
@@ -46,16 +47,19 @@ namespace NeeView
         private void KeyGestureBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.IsRepeat) return;
-            if (e.Key == Key.Tab) return;
+
+            // TAB, ALT+にも対応
+            var key = e.Key == Key.System ? e.SystemKey : e.Key;
+            //Debug.WriteLine($"{Keyboard.Modifiers}+{e.Key}({key})");
 
             Key[] ignoreKeys = new Key[]
             {
-                Key.System, Key.LeftShift, Key.LeftCtrl, Key.RightShift, Key.RightCtrl, Key.LWin, Key.RWin,
+                Key.System, Key.LeftShift, Key.LeftCtrl, Key.RightShift, Key.RightCtrl, Key.LWin, Key.RWin, Key.LeftAlt, Key.RightAlt,
                 Key.ImeProcessed, Key.ImeNonConvert, Key.ImeModeChange, Key.ImeConvert, Key.ImeAccept,
-                Key.Apps, Key.Tab, Key.NumLock
+                Key.Apps, Key.NumLock
             };
 
-            if (ignoreKeys.Contains(e.Key))
+            if (ignoreKeys.Contains(key))
             {
                 this.KeyGestureText.Text = null;
                 return;
@@ -64,7 +68,7 @@ namespace NeeView
             KeyGesture keyGesture = null;
             try
             {
-                keyGesture = new KeyGesture(e.Key, Keyboard.Modifiers);
+                keyGesture = new KeyGesture(key, Keyboard.Modifiers);
             }
             catch { }
 
@@ -79,7 +83,7 @@ namespace NeeView
                 KeyExGesture keyExGesture = null;
                 try
                 {
-                    keyExGesture = new KeyExGesture(e.Key, Keyboard.Modifiers);
+                    keyExGesture = new KeyExGesture(key, Keyboard.Modifiers);
                 }
                 catch { }
 
@@ -93,6 +97,8 @@ namespace NeeView
                     this.KeyGestureText.Text = null;
                 }
             }
+
+            e.Handled = true;
         }
 
         /// <summary>
@@ -136,8 +142,6 @@ namespace NeeView
         {
             // [?]TODO: チルトボタン .. WinProcの監視が必要なようなので、後回しです。
 
-            bool isDefaultMouseAction = true;
-            //MouseAction action = MouseAction.None;
             MouseExAction exAction = MouseExAction.None;
             switch (e.ChangedButton)
             {
@@ -152,11 +156,9 @@ namespace NeeView
                     break;
                 case MouseButton.XButton1:
                     exAction = e.ClickCount >= 2 ? MouseExAction.XButton1DoubleClick : MouseExAction.XButton1Click;
-                    isDefaultMouseAction = false;
                     break;
                 case MouseButton.XButton2:
                     exAction = e.ClickCount >= 2 ? MouseExAction.XButton2DoubleClick : MouseExAction.XButton2Click;
-                    isDefaultMouseAction = false;
                     break;
             }
 
@@ -172,28 +174,7 @@ namespace NeeView
             if (e.XButton2 == MouseButtonState.Pressed && e.ChangedButton != MouseButton.XButton2)
                 modifierMouseButtons |= ModifierMouseButtons.XButton2;
 
-            /*
-            if (isDefaultMouseAction)
-            {
-                MouseGesture mouseGesture = null;
-                try
-                {
-                    mouseGesture = new MouseGesture(action, Keyboard.Modifiers);
-                }
-                catch { }
-
-                if (mouseGesture != null)
-                {
-                    var converter = new MouseGestureConverter();
-                    this.MouseGestureText.Text = converter.ConvertToString(mouseGesture);
-                }
-                else
-                {
-                    this.MouseGestureText.Text = null;
-                }
-            }
-            else
-            */
+            // 拡張マウス入力で判定 (標準マウス入力も含まれるため）
             {
                 MouseExGesture mouseGesture = null;
                 try

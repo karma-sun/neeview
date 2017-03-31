@@ -92,11 +92,26 @@ namespace NeeView
 
             _context.StartPoint = e.GetPosition(_context.Sender);
 
+            // ダブルクリック？
+            if (e.ClickCount >= 2)
+            {
+                // コマンド決定
+                MouseButtonChanged?.Invoke(sender, e);
+                if (e.Handled)
+                {
+                    // その後の操作は全て無効
+                    _isButtonDown = false;
+
+                    _timer.Stop();
+
+                    return;
+                }
+            }
+
             // 長押し判定開始
             _timer.Start();
         }
-
-
+        
         /// <summary>
         /// マウスボタンが離されたときの処理
         /// </summary>

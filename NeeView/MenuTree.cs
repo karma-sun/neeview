@@ -447,6 +447,8 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.CopyFile, Name="コピー(_C)" },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.Paste, Name="貼り付け(_V)" },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.Export, Name="保存(_S)..." },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.Print, Name="印刷(_P)..." },
+                        new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.DeleteFile, Name="削除(_D)..." },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.CloseApplication, Name="終了(_X)" }, // Alt+F4

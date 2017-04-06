@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 namespace NeeView
 {
     /// <summary>
-    /// 分数
+    /// 分数表現
     /// </summary>
     public class Fraction
     {
@@ -53,10 +53,12 @@ namespace NeeView
     }
 
     /// <summary>
-    /// EXIF アクセス ヘルパ
+    /// EXIF アクセサ
     /// </summary>
     public class ExifAccessor
     {
+        // Schema - https://msdn.microsoft.com/en-us/library/windows/desktop/ee719904(v=vs.85).aspx
+
         private BitmapMetadata _meta;
 
         /// <summary>
@@ -142,6 +144,11 @@ namespace NeeView
         }
 
 
+        // 幅
+        public int ImageWidth => GetExifParamUShort("/app1/ifd/exif:{uint=256}");
+
+        // 高さ
+        public int ImageHeight => GetExifParamUShort("/app1/ifd/exif:{uint=257}");
 
         // カメラメーカー
         public string Maker => GetExifParamString("/app1/ifd/exif:{uint=271}");

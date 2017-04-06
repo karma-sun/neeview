@@ -39,6 +39,31 @@ namespace NeeView
         /// <param name="textBlock"></param>
         public PageContentView(FrameworkElement element, TextBlock textBlock)
         {
+            Initialize(element, textBlock);
+        }
+
+        /// <summary>
+        /// コンストラクター
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public PageContentView(FrameworkElement element, string text)
+        {
+            var textBlock = new TextBlock();
+            textBlock.Text = text;
+            textBlock.Foreground = new SolidColorBrush(Color.FromRgb(0xCC, 0xCC, 0xCC));
+            textBlock.FontSize = 20;
+            textBlock.Margin = new Thickness(10);
+            textBlock.HorizontalAlignment = HorizontalAlignment.Center;
+            textBlock.VerticalAlignment = VerticalAlignment.Center;
+
+            Initialize(element, textBlock);
+        }
+
+        //
+        private void Initialize(FrameworkElement element, TextBlock textBlock)
+        {
             this.Element = element;
             _textBlock = textBlock;
             _textBlock.Visibility = Visibility.Collapsed;

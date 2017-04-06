@@ -1,0 +1,79 @@
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+<Window x:Class="NeeView.PrintWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeeView"
+        mc:Ignorable="d"
+        Title="印刷" Height="480" Width="640">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="MinWidth" Value="80"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Left" Width="200" Background="#EEE">
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="印刷" FontWeight="Bold" Command="{Binding PrintCommand}"/>
+                    <Button Content="キャンセル" Command="{Binding CancelCommand}"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="印刷総数 1枚"/>
+
+
+                    <Separator Height="5"  Width="Auto"/>
+
+                    <TextBlock Text="送信先"/>
+                    <TextBlock Text="{Binding Model.PrintQueue.FullName}"/>
+                    <Button Content="設定" Command="{Binding PrintDialogCommand}" HorizontalAlignment="Right" Style="{StaticResource IconButton}" Foreground="{StaticResource NVButtonForeground}"/>
+
+
+                    <TextBlock Text="レイアウト"/>
+                    <ComboBox ItemsSource="{Binding Model.PageOrientationList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.PageOrientation}"/>
+
+                    <TextBlock Text="用紙枚数 (横x縦)"/>
+                    <UniformGrid Columns="2">
+                        <TextBox Text="1" Margin="2"/>
+                        <TextBox Text="1" Margin="2" />
+                    </UniformGrid>
+
+
+                    <Separator Height="5"  Width="Auto"/>
+                    <TextBlock Text="印刷内容"/>
+                    <ComboBox ItemsSource="{Binding Model.PrintModeList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.PrintMode}"/>
+                    <!--
+                <CheckBox x:Name="IsView" Content="表示を印刷する" IsChecked="{Binding IsView}"/>
+                <StackPanel Margin="20,5,0,5" IsEnabled="{Binding ElementName=IsView, Path=IsChecked}">
+                    <CheckBox Content="用紙サイズに広げる" IsChecked="{Binding IsViewPaperArea}"/>
+                    <CheckBox Content="全体を印刷する" IsChecked="{Binding IsViewAll}"/>
+                </StackPanel>
+                -->
+                    <CheckBox Content="背景を印刷する" IsChecked="{Binding Model.IsBackground}"/>
+                    <CheckBox Content="ドットのまま印刷" IsChecked="{Binding Model.IsDotScale}"/>
+
+
+                    <Separator Height="5"/>
+                </StackPanel>
+            </DockPanel>
+            <Grid>
+                <Grid.Effect>
+                    <DropShadowEffect Opacity="0.5" RenderingBias="Quality" ShadowDepth="2"/>
+                </Grid.Effect>
+                <Viewbox Margin="20">
+                    <Grid x:Name="ViewCanvas" Background="White">
+                        <ContentControl x:Name="ViewContent" Content="{Binding MainContent}"/>
+                    </Grid>
+                </Viewbox>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

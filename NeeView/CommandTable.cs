@@ -295,6 +295,18 @@ namespace NeeView
                 element.IsShowMessage = false;
                 _elements[CommandType.Export] = element;
             }
+            // Print
+            {
+                var element = new CommandElement();
+                element.Group = "ファイル";
+                element.Text = "印刷";
+                element.MenuText = "印刷...";
+                element.Note = "画像を印刷します";
+                //element.Execute = (s, e) => _VM.Print();
+                element.CanExecute = () => _VM.CanPrint();
+                element.IsShowMessage = false;
+                _elements[CommandType.Print] = element;
+            }
             // DeleteFile
             {
                 var element = new CommandElement();

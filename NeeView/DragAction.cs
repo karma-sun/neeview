@@ -321,14 +321,14 @@ namespace NeeView
         /// <returns>DragKey。変換に失敗したときは NotSupportedException 例外が発生</returns>
         public static DragKey ConvertFromString(string source)
         {
-            // ex. LeftDrag
-            // ex. Ctrl+XButton1+LeftDrag
+            // ex. LeftButton
+            // ex. Ctrl+XButton1+LeftButton
 
             // １操作のみサポート
             source = source.Split(',').First();
 
-            // Drag削除
-            source = source.Replace("Drag", "");
+            // ～Drag → ～Button
+            source = source.Replace("Drag", "Button");
 
             var keys = source.Split('+');
 
@@ -341,15 +341,6 @@ namespace NeeView
                 {
                     case "Ctrl":
                         modifierKeys |= ModifierKeys.Control;
-                        continue;
-                    case "Left":
-                        mouseButtonBits |= MouseButtonBits.LeftButton;
-                        continue;
-                    case "Right":
-                        mouseButtonBits |= MouseButtonBits.RightButton;
-                        continue;
-                    case "Middle":
-                        mouseButtonBits |= MouseButtonBits.MiddleButton;
                         continue;
                 }
 

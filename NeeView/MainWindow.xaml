@@ -284,7 +284,7 @@
                                 <!-- メインビュー コンテンツ表示領域 -->
                                 <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True" >
                                     <!-- Pages -->
-                                    <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
+                                    <Canvas x:Name="PageCanvas" Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                                             IsHitTestVisible="False"
                                             HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <Canvas.Resources>
@@ -299,10 +299,12 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </Canvas.Resources>
-                                        <StackPanel x:Name="MainContent" Orientation="Horizontal">
-                                            <ContentControl x:Name="Content1" Content="{Binding Contents[1].View}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
-                                            <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
-                                        </StackPanel>
+                                        <ContentControl x:Name="MainContent">
+                                            <StackPanel x:Name="PageContents" Orientation="Horizontal">
+                                                <ContentControl x:Name="Content1" Content="{Binding Contents[1].View}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
+                                                <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
+                                            </StackPanel>
+                                        </ContentControl>
                                     </Canvas>
                                     <!-- Pages Shadow (表示領域計算用) -->
                                     <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"

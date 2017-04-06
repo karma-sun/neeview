@@ -591,6 +591,11 @@ namespace NeeView
             ModelContext.CommandTable[CommandType.LoupeOff].Execute =
                 (s, e) => _mouse.IsLoupeMode = false;
 
+            ModelContext.CommandTable[CommandType.Print].Execute =
+                (s, e) =>
+                {
+                    _VM.Print(this, this.PageContents, this.MainContent.RenderTransform, this.MainView.ActualWidth, this.MainView.ActualHeight);
+                };
 
             // context menu
             ModelContext.CommandTable[CommandType.OpenContextMenu].Execute =

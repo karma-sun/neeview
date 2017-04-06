@@ -66,73 +66,6 @@ namespace NeeView
         // 有効判定
         public bool IsEnabled => true;
 
-        // Thumbnail読み込み
-        public BitmapContentSource LoadThmbnail(Stream stream, ArchiveEntry entry, bool allowExifOrientation, int size)
-        {
-            var resource = new BitmapContentSource();
-
-            BitmapSource source = null;
-            BitmapMetadata metadata = null;
-            BitmapInfo info = new BitmapInfo();
-
-            bool isLargeWidth = false;
-
-            try
-            {
-                var frame = BitmapFrame.Create(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
-                source = frame.Thumbnail;
-
-                if (frame.PixelWidth <= size && frame.PixelHeight <= size)
-                {
-                    return null;
-                }
-
-                isLargeWidth = frame.PixelWidth > frame.PixelHeight;
-
-                if (source != null)
-                {
-                    source.Freeze();
-                    metadata = frame.Metadata as BitmapMetadata;
-                    info.Decoder = frame.Decoder.CodecInfo.FriendlyName;
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-            }
-
-            // BitmapFrameが失敗する場合はBitmapImageでデコード
-            if (source == null)
-            {
-                stream.Seek(0, SeekOrigin.Begin);
-                BitmapImage bmpImage = new BitmapImage();
-
-                bmpImage.BeginInit();
-                bmpImage.CacheOption = BitmapCacheOption.OnLoad;
-                bmpImage.StreamSource = stream;
-
-                if (isLargeWidth)
-                    bmpImage.DecodePixelWidth = size;
-                else
-                    bmpImage.DecodePixelHeight = size;
-
-                bmpImage.EndInit();
-                bmpImage.Freeze();
-
-                source = bmpImage;
-                metadata = null;
-                info.Decoder = ".Net BitmapImage";
-            }
-
-            info.Length = entry.Length;
-            info.LastWriteTime = entry.LastWriteTime;
-            info.Exif = new BitmapExif(metadata);
-
-            resource.Source = (allowExifOrientation && metadata != null) ? OrientationWithExif(source, new ExifAccessor(metadata)) : source;
-            resource.Info = info;
-
-            return resource;
-        }
 
         // Bitmap読み込み
         public BitmapContentSource Load(Stream stream, ArchiveEntry entry, bool allowExifOrientation)
@@ -144,52 +77,30 @@ namespace NeeView
             BitmapInfo info = new BitmapInfo();
 
 
-            BitmapFrame bitmapFrame = null;
-
-            // まずは BitmapFrame でデコード
+            // load metadata
             try
             {
-                bitmapFrame = BitmapFrame.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
-                if (bitmapFrame == null) return null;
-
-                bitmapFrame.Freeze();
-
-                source = bitmapFrame;
-                metadata = bitmapFrame.Metadata as BitmapMetadata;
-                info.Decoder = bitmapFrame.Decoder.CodecInfo.FriendlyName;
-            }
-            catch (OutOfMemoryException)
-            {
-                throw;
+                var bitmapFrame = BitmapFrame.Create(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
+                metadata = (BitmapMetadata)bitmapFrame.Metadata;
             }
             catch (Exception e)
             {
-                if (bitmapFrame != null)
-                {
-                    bitmapFrame.Dispatcher.DisableProcessing();
-                    bitmapFrame = null;
-                }
                 Debug.WriteLine(e.Message);
-                source = null;
             }
 
 
-            if (source == null)
-            {
-                // BitmapFrameが失敗する場合はBitmapImageでデコード
-                stream.Seek(0, SeekOrigin.Begin);
-                BitmapImage bmpImage = new BitmapImage();
+            // BitmapImageでデコード
+            stream.Seek(0, SeekOrigin.Begin);
+            BitmapImage bmpImage = new BitmapImage();
 
-                bmpImage.BeginInit();
-                bmpImage.CacheOption = BitmapCacheOption.OnLoad;
-                bmpImage.StreamSource = stream;
-                bmpImage.EndInit();
-                bmpImage.Freeze();
+            bmpImage.BeginInit();
+            bmpImage.CacheOption = BitmapCacheOption.OnLoad;
+            bmpImage.StreamSource = stream;
+            bmpImage.EndInit();
+            bmpImage.Freeze();
 
-                source = bmpImage;
-                metadata = null;
-                info.Decoder = ".Net BitmapImage";
-            }
+            source = bmpImage;
+            info.Decoder = ".Net BitmapImage";
 
             // out of memory?
             if (entry.Length > 100 * 1024 && source.PixelHeight == 1 && source.PixelWidth == 1)

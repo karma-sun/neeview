@@ -66,6 +66,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.Expression.Effects, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -76,6 +77,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
@@ -186,6 +188,10 @@
     <Compile Include="Page\ThumbnailBitmap.cs" />
     <Compile Include="Page\ThumbnailCache.cs" />
     <Compile Include="Page\ThumbnailPool.cs" />
+    <Compile Include="PrintModel.cs" />
+    <Compile Include="PrintWindow.xaml.cs">
+      <DependentUpon>PrintWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SizeString.cs" />
     <Compile Include="Utility\AsyncronousAction.cs" />
     <Compile Include="Utility\CommandEngine.cs" />
@@ -402,6 +408,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MouseDragSettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PrintWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

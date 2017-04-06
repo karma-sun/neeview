@@ -441,21 +441,6 @@ namespace Susie
 
             using (MemoryStream ms = new MemoryStream(mem))
             {
-                try
-                {
-                    var bitmapFrame = BitmapFrame.Create(ms, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
-                    bitmapFrame.Freeze();
-                    return bitmapFrame;
-                }
-                catch (OutOfMemoryException)
-                {
-                    throw;
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                }
-
                 BitmapImage bmpImage = new BitmapImage();
                 bmpImage.BeginInit();
                 bmpImage.CacheOption = BitmapCacheOption.OnLoad;

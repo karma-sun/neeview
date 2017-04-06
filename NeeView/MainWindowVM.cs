@@ -2223,7 +2223,11 @@ namespace NeeView
             }
         }
 
-        // 表示コンテンツ更新
+        /// <summary>
+        /// 表示コンテンツ更新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnViewContentsChanged(object sender, ViewSource e)
         {
             var contents = new List<ViewContent>();
@@ -2235,121 +2239,8 @@ namespace NeeView
                 {
                     if (source != null)
                     {
-#if false
-                        var reserver = Contents[contents.Count]?.Reserver;
-#else
-                        ViewContentReserver reserver = null;
-#endif
-
-                        var content = new ViewContent();
-                        content.Content = source.Content;
-                        content.View = source.CreatePageContent(
-                            new Binding(nameof(ForegroundBrush)) { Source = this },
-                            new Binding(nameof(BitmapScalingMode)) { Source = content },
-                            reserver
-                        );
-                        content.Size = source.Size; // new Size(source.Width, source.Height);
-                        content.SourceSize = source.Content.Size;
-                        content.Color = Colors.Black;
-                        content.FolderPlace = source.Page.GetFolderPlace();
-                        content.FilePlace = source.Page.GetFilePlace();
-                        content.FullPath = source.Page.FullPath;
-                        content.Position = source.Position;
-                        content.PartSize = source.PartSize;
-                        content.ReadOrder = source.ReadOrder;
-                        //content.Thumbnail = source.Page.Thumbnail;
-
-#if false
-                        // reserver
-                        if (content.Content.IsLoaded || content.Content.Thumbnail.IsValid)
-                        {
-                            content.Reserver = new ViewContentReserver()
-                            {
-                                Thumbnail = content.Content.Thumbnail,
-                                Size = content.Size,
-                                Color = content.Color,
-                            };
-                        }
-                        else
-                        {
-                            content.Reserver = reserver;
-                        }
-#endif
-
-                        //
-                        if (source.Content.PageMessage != null)
-                        {
-                            //var filePageContext = source.SourceContent as FilePageContent;
-                            //content.Info = new FileBasicInfo(); // null; // filePageContext.Info;
-                            //content.Info.Decoder = null;
-                            content.Size = new Size(480, 480);
-                        }
-                        else if (!source.Content.IsLoaded)
-                        {
-                            content.View.SetText(LoosePath.GetFileName(source.Page.FullPath));
-
-                            if (content.Size.Width == 0 && content.Size.Height == 0)
-                            {
-#if false
-                                if (reserver != null)
-                                {
-                                    content.Size = reserver.Size;
-                                    content.Color = reserver.Color;
-                                }
-#else
-                                var index = contents.Count;
-                                if (Contents[index].IsValid)
-                                {
-                                    content.Size = Contents[index].Size;
-                                    content.Color = Contents[index].Color;
-                                }
-#endif
-                                else
-                                {
-                                    content.Size = new Size(480, 680);
-                                    content.Color = Colors.Black;
-                                }
-                            }
-                            else
-                            {
-                                var bitmapinfo = (content.Content as BitmapContent)?.BitmapInfo;
-                                content.Color = bitmapinfo != null ? bitmapinfo.Color : Colors.Black;
-                            }
-                        }
-                        else if (source.Content is AnimatedContent)
-                        {
-                            var animatedContent = source.Content as AnimatedContent;
-                            //content.Bitmap = animatedContent.BitmapSource; // BitmapContent.Source;
-                            //content.Info = animatedContent.Info; // BitmapContent.Info;
-                            //animatedContent.Info.Decoder = "MediaPlayer";
-                            content.Color = animatedContent.BitmapInfo.Color;
-                            content.FileProxy = animatedContent.FileProxy;
-                        }
-                        else if (source.Content is BitmapContent)
-                        {
-                            var bitmapContent = source.Content as BitmapContent;
-                            //content.Bitmap = bitmapContent.BitmapSource;
-                            //content.Info = bitmapContent.Info;
-                            content.Color = bitmapContent.BitmapInfo.Color;
-                        }
-                        else
-                        {
-                            content.View.SetText(LoosePath.GetFileName(source.Page.FullPath));
-
-                            if (content.Size.Width == 0 && content.Size.Height == 0)
-                            {
-                                var index = contents.Count;
-                                if (Contents[index].IsValid)
-                                {
-                                    content.Size = Contents[index].Size;
-                                }
-                                else
-                                {
-                                    content.Size = new Size(595, 842);
-                                }
-                            }
-                        }
-
+                        var old = Contents[contents.Count];
+                        var content = new ViewContent(source, old);
                         contents.Add(content);
                     }
                 }
@@ -2915,6 +2806,55 @@ namespace NeeView
             }
         }
 
+
+        /// <summary>
+        /// 印刷可能判定
+        /// </summary>
+        /// <returns></returns>
+        public bool CanPrint()
+        {
+            return CurrentBitmapSource != null;
+        }
+
+        /// <summary>
+        /// 印刷
+        /// </summary>
+        public void Print(Window owner, FrameworkElement element, Transform transform, double width, double height)
+        {
+            if (!CanPrint()) return;
+
+            // 掃除しておく
+            GC.Collect();
+
+            // スケールモード退避
+            var scaleModeMemory = Contents.ToDictionary(e => e, e => e.BitmapScalingMode);
+
+            try
+            {
+                var context = new PrintContext();
+                context.RawImage = (MainContent.Source.Page.Content as BitmapContent).BitmapSource;
+                context.Contents = this.Contents;
+                context.View = element;
+                context.ViewTransform = transform;
+                context.ViewWidth = width;
+                context.ViewHeight = height;
+                context.ViewEffect = ImageEffector.Effect;
+                context.Background = BackgroundBrush;
+
+                var dialog = new PrintWindow(context);
+                dialog.Owner = owner;
+                dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                dialog.ShowDialog();
+            }
+            finally
+            {
+                // スケールモード復元
+                foreach (var content in Contents)
+                {
+                    content.BitmapScalingMode = scaleModeMemory[content];
+                }
+            }
+        }
 
 
         // 廃棄処理

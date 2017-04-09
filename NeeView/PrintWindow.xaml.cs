@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Printing;
 using System.Text;
@@ -82,48 +83,25 @@ namespace NeeView
         }
 
 
-#if false
         /// <summary>
-        /// PrintMode property.
+        /// PageCollection property.
         /// </summary>
-        public PrintMode PrintMode
+        private List<FixedPage> _PageCollection;
+        public List<FixedPage> PageCollection
         {
-            get { return _model.PrintMode; }
-            set { _model.PrintMode = value; RaisePropertyChanged(); UpdatePreview(); }
+            get { return _PageCollection; }
+            set { if (_PageCollection != value) { _PageCollection = value; RaisePropertyChanged(); } }
         }
 
-        public Dictionary<PrintMode, string> PrintModeList { get; } = new Dictionary<PrintMode, string>()
-        {
-            [PrintMode.Direct] = "画像を印刷",
-            [PrintMode.View] = "表示を印刷",
-            [PrintMode.ViewFill] = "表示を印刷(用紙サイズに広げる)",
-            [PrintMode.ViewStretch] = "表示を印刷(全体を印刷)",
-        };
 
-        /// <summary>
-        /// IsBackground property.
-        /// </summary>
-        public bool IsBackground
-        {
-            get { return _model.IsBackground; }
-            set { _model.IsBackground = value; RaisePropertyChanged(); UpdatePreview(); }
-        }
 
-        /// <summary>
-        /// IsDotScale property.
-        /// </summary>
-        public bool IsDotScale
-        {
-            get { return _model.IsDotScale; }
-            set { _model.IsDotScale = value; RaisePropertyChanged(); UpdatePreview(); }
-        }
-#endif
 
         //
         public PrintWindowViewModel(PrintContext context)
         {
             _model = new PrintModel(context);
             _model.PropertyChanged += PrintService_PropertyChanged;
+            _model.Margin.PropertyChanged += PrintService_PropertyChanged;
 
             UpdatePreview();
         }
@@ -137,7 +115,17 @@ namespace NeeView
         //
         private void UpdatePreview()
         {
-            MainContent = _model.CreateVisual();
+            var sw = new Stopwatch();
+            sw.Start();
+            //MainContent = _model.CreateVisual();
+            //MainContent = _model.CreatePage();
+
+            //MainContent = _model.CreatePageCollection().First();
+
+            PageCollection = _model.CreatePageCollection();
+
+            sw.Stop();
+            Debug.WriteLine($"Gene: {sw.ElapsedMilliseconds}ms");
         }
 
         /// <summary>
@@ -195,5 +183,46 @@ namespace NeeView
         public FrameworkElement ViewContent { get; set; }
 
         public System.Printing.PageImageableArea Area { get; set; }
+    }
+
+    //
+    public class ItemsUniformGrid : System.Windows.Controls.Primitives.UniformGrid
+    {
+        public IEnumerable<FrameworkElement> ItemsSource
+        {
+            get { return (IEnumerable<FrameworkElement>)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ItemsSource.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register("ItemsSource", typeof(IEnumerable<FrameworkElement>), typeof(ItemsUniformGrid), new PropertyMetadata(null, ItemsSource_Changed));
+
+        private static void ItemsSource_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as ItemsUniformGrid;
+            if (control != null)
+            {
+                control.Reflesh();
+            }
+        }
+
+        //
+        public void Reflesh()
+        {
+            this.Children.Clear();
+
+            if (ItemsSource == null) return;
+
+            foreach(var child in ItemsSource)
+            {
+                var grid = new Grid();
+                grid.Background = Brushes.White;
+                grid.Margin = new Thickness(10);
+                grid.Children.Add(child);
+
+                this.Children.Add(grid);
+            }
+        }
     }
 }

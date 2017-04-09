@@ -27,24 +27,17 @@
                     <Button Content="キャンセル" Command="{Binding CancelCommand}"/>
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="印刷総数 1枚"/>
-
 
                     <Separator Height="5"  Width="Auto"/>
 
-                    <TextBlock Text="送信先"/>
+                    <TextBlock Text="プリンター"/>
                     <TextBlock Text="{Binding Model.PrintQueue.FullName}"/>
                     <Button Content="設定" Command="{Binding PrintDialogCommand}" HorizontalAlignment="Right" Style="{StaticResource IconButton}" Foreground="{StaticResource NVButtonForeground}"/>
 
 
-                    <TextBlock Text="レイアウト"/>
+                    <TextBlock Text="印刷の向き"/>
                     <ComboBox ItemsSource="{Binding Model.PageOrientationList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.PageOrientation}"/>
 
-                    <TextBlock Text="用紙枚数 (横x縦)"/>
-                    <UniformGrid Columns="2">
-                        <TextBox Text="1" Margin="2"/>
-                        <TextBox Text="1" Margin="2" />
-                    </UniformGrid>
 
 
                     <Separator Height="5"  Width="Auto"/>
@@ -62,6 +55,27 @@
 
 
                     <Separator Height="5"/>
+
+                    <TextBlock Text="用紙枚数 (横x縦)"/>
+                    <UniformGrid Columns="2">
+                        <TextBox Text="{Binding Model.Columns}" Margin="2"/>
+                        <TextBox Text="{Binding Model.Rows}" Margin="2" />
+                    </UniformGrid>
+
+                    <TextBlock Text="水平位置"/>
+                    <ComboBox ItemsSource="{Binding Model.HorizontalAlignmentList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.HorizontalAlignment}"/>
+
+                    <TextBlock Text="垂直位置"/>
+                    <ComboBox ItemsSource="{Binding Model.VerticalAlignmentList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.VerticalAlignment}"/>
+
+                    <TextBlock Text="余白 (mm)"/>
+                    <UniformGrid Columns="2" Rows="2">
+                        <TextBox Text="{Binding Model.Margin.Left}" Margin="2"/>
+                        <TextBox Text="{Binding Model.Margin.Right}" Margin="2" />
+                        <TextBox Text="{Binding Model.Margin.Top}" Margin="2"/>
+                        <TextBox Text="{Binding Model.Margin.Bottom}" Margin="2" />
+                    </UniformGrid>
+
                 </StackPanel>
             </DockPanel>
             <Grid>
@@ -69,9 +83,14 @@
                     <DropShadowEffect Opacity="0.5" RenderingBias="Quality" ShadowDepth="2"/>
                 </Grid.Effect>
                 <Viewbox Margin="20">
+
+                    <local:ItemsUniformGrid Columns="{Binding Model.Columns}" Rows="{Binding Model.Rows}" ItemsSource="{Binding PageCollection}"/>
+                    <!--
+                    
                     <Grid x:Name="ViewCanvas" Background="White">
                         <ContentControl x:Name="ViewContent" Content="{Binding MainContent}"/>
                     </Grid>
+                    -->
                 </Viewbox>
             </Grid>
         </DockPanel>

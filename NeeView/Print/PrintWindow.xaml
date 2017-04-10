@@ -15,6 +15,7 @@
         Background="{DynamicResource NVBackground}"
         Foreground="{DynamicResource NVForeground}"
         Title="印刷" Height="600" Width="800" ResizeMode="CanResizeWithGrip">
+    
     <Window.Resources>
         <Style x:Key="TextButton" TargetType="Button">
             <Setter Property="MinWidth" Value="100"/>
@@ -23,10 +24,6 @@
         </Style>
 
         <Style x:Key="Header" TargetType="TextBlock">
-            <!--
-            <Setter Property="Margin" Value="2,0,0,0"/>
-            <Setter Property="Foreground" Value="Gray"/>
-            -->
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
         </Style>
@@ -49,9 +46,6 @@
             <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
             <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
-            <!--
-            <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
-            -->
         </Style>
 
         <Style x:Key="BoxHeader" TargetType="TextBlock">
@@ -78,6 +72,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
+            <!-- panel -->
             <DockPanel Grid.Column="0" Margin="10">
 
                 <StackPanel DockPanel.Dock="Top" Style="{StaticResource ItemStack}">
@@ -109,7 +104,7 @@
                             <CheckBox Style="{StaticResource BodyCheckBox}" Content="ドットのまま印刷" IsChecked="{Binding Model.IsDotScale}"/>
                         </StackPanel>
 
-                        <Border BorderBrush="{DynamicResource NVDefaultBrush}" BorderThickness="0,1,0,0" Margin="0,10,0,0" UseLayoutRounding="True">
+                        <Border BorderBrush="{DynamicResource NVDefaultBrush}" BorderThickness="0,0,0,0" Margin="0,10,0,0" UseLayoutRounding="True">
                             <StackPanel>
                                 <StackPanel Style="{StaticResource ItemStack}">
                                     <DockPanel>
@@ -163,6 +158,7 @@
                 </ScrollViewer>
             </DockPanel>
 
+            <!-- splitter -->
             <GridSplitter Grid.Column="0" Width="10" HorizontalAlignment="Right" Background="{DynamicResource NVBackground}"/>
 
             <!-- Preview -->
@@ -171,15 +167,8 @@
                     <Grid.Effect>
                         <DropShadowEffect Opacity="0.5" RenderingBias="Quality" ShadowDepth="2"/>
                     </Grid.Effect>
-                    <Viewbox Margin="20">
-
-                        <local:ItemsUniformGrid Columns="{Binding Model.Columns}" Rows="{Binding Model.Rows}" ItemsSource="{Binding PageCollection}"/>
-                        <!--
-                    
-                    <Grid x:Name="ViewCanvas" Background="White">
-                        <ContentControl x:Name="ViewContent" Content="{Binding MainContent}"/>
-                    </Grid>
-                    -->
+                    <Viewbox Margin="32">
+                        <local:PrintPreviewControl Columns="{Binding Model.Columns}" Rows="{Binding Model.Rows}" ItemsSource="{Binding PageCollection}"/>
                     </Viewbox>
                 </Grid>
             </Grid>

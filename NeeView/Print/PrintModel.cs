@@ -9,38 +9,19 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Printing;
+using System.Runtime.Serialization;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-using System.Windows.Media.Effects;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Windows.Xps;
 
 namespace NeeView
 {
-    public class PrintContext
-    {
-        public ViewContent MainContent { get; set; }
-        public BitmapSource RawImage => (MainContent.Source.Page.Content as BitmapContent).BitmapSource;
-
-        public IEnumerable<ViewContent> Contents { get; set; }
-        public Thickness ContentMargin { get; set; }
-
-        public FrameworkElement View { get; set; }
-
-        public Transform ViewTransform { get; set; }
-        public double ViewWidth { get; set; }
-        public double ViewHeight { get; set; }
-        public Effect ViewEffect { get; set; }
-
-        public Brush Background { get; set; }
-    }
-
+    /// <summary>
+    /// 印刷モード
+    /// </summary>
     public enum PrintMode
     {
         RawImage,
@@ -49,6 +30,10 @@ namespace NeeView
         ViewStretch,
     }
 
+    /// <summary>
+    /// Print Model
+    /// </summary>
+    [DataContract]
     public class PrintModel : INotifyPropertyChanged
     {
         /// <summary>
@@ -61,15 +46,12 @@ namespace NeeView
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        //
-        private PrintDialog _printDialog;
-
-        private PageImageableArea _area;
 
 
         /// <summary>
         /// PageOrientation property.
         /// </summary>
+        [DataMember(Name = nameof(PageOrientation))]
         private PageOrientation _PageOrientation;
         public PageOrientation PageOrientation
         {
@@ -101,6 +83,7 @@ namespace NeeView
             [PageOrientation.Landscape] = "横"
         };
 
+        //
         private void UpdatePrintOrientation()
         {
             PrintCapabilities printCapabilites = _printDialog.PrintQueue.GetPrintCapabilities();
@@ -114,6 +97,7 @@ namespace NeeView
         /// <summary>
         /// PrintMode property.
         /// </summary>
+        [DataMember(Name = nameof(PrintMode))]
         private PrintMode _PrintMode = PrintMode.View;
         public PrintMode PrintMode
         {
@@ -135,6 +119,7 @@ namespace NeeView
         /// <summary>
         /// IsBackground property.
         /// </summary>
+        [DataMember(Name = nameof(IsBackground))]
         private bool _IsBackground;
         public bool IsBackground
         {
@@ -145,6 +130,7 @@ namespace NeeView
         /// <summary>
         /// IsDotScale property.
         /// </summary>
+        [DataMember(Name = nameof(IsDotScale))]
         private bool _IsDotScale;
         public bool IsDotScale
         {
@@ -152,16 +138,6 @@ namespace NeeView
             set { if (_IsDotScale != value) { _IsDotScale = value; RaisePropertyChanged(); } }
         }
 
-
-        /// <summary>
-        /// Preview property.
-        /// </summary>
-        private FrameworkElement _Preview;
-        public FrameworkElement Preview
-        {
-            get { return _Preview; }
-            set { if (_Preview != value) { _Preview = value; RaisePropertyChanged(); } }
-        }
 
         /// <summary>
         /// PrintQueue property.
@@ -176,6 +152,7 @@ namespace NeeView
         /// <summary>
         /// Columns property.
         /// </summary>
+        [DataMember(Name = nameof(Columns))]
         private int _Columns = 1;
         public int Columns
         {
@@ -186,6 +163,7 @@ namespace NeeView
         /// <summary>
         /// Rows property.
         /// </summary>
+        [DataMember(Name = nameof(Rows))]
         private int _Rows = 1;
         public int Rows
         {
@@ -197,6 +175,7 @@ namespace NeeView
         /// <summary>
         /// HorizontalAlignment property.
         /// </summary>
+        [DataMember(Name = nameof(HorizontalAlignment))]
         private HorizontalAlignment _HorizontalAlignment = HorizontalAlignment.Center;
         public HorizontalAlignment HorizontalAlignment
         {
@@ -214,6 +193,7 @@ namespace NeeView
         /// <summary>
         /// VerticalAlignment property.
         /// </summary>
+        [DataMember(Name = nameof(VerticalAlignment))]
         private VerticalAlignment _VerticalAlignment = VerticalAlignment.Center;
         public VerticalAlignment VerticalAlignment
         {
@@ -231,6 +211,7 @@ namespace NeeView
         /// <summary>
         /// Margin property.
         /// </summary>
+        [DataMember(Name = nameof(Margin))]
         private Margin _Margin = new Margin();
         public Margin Margin
         {
@@ -238,34 +219,62 @@ namespace NeeView
             set { if (_Margin != value) { _Margin = value; RaisePropertyChanged(); } }
         }
 
-        //
+        /// <summary>
+        /// ミリメートルをピクセル数に変換(96DPI)
+        /// </summary>
+        /// <param name="mm"></param>
+        /// <returns></returns>
         private double MillimeterToPixel(double mm)
         {
-            // ミリメートルをインチに変換
-            var inch = mm * 0.039370;
-
-            // インチをピクセルに変換
-            var pixel = inch * 96.0;
-
-            return pixel;
+            return mm * 0.039370 * 96.0; // mm -> inch -> 96dpi
         }
 
 
-        //
+        /// <summary>
+        /// 印刷コンテキスト
+        /// </summary>
         PrintContext _context;
 
+        /// <summary>
+        /// Print Dialog
+        /// </summary>
+        private PrintDialog _printDialog;
+        
+        /// <summary>
+        /// 印刷領域サイズ
+        /// </summary>
+        private double _printableAreaWidth;
+        private double _printableAreaHeight;
 
-        //
+        /// <summary>
+        /// 印刷エリア
+        /// </summary>
+        private PageImageableArea _area;
+
+        /// <summary>
+        /// 印刷開始位置
+        /// </summary>
+        private double _originWidth;
+        private double _originHeight;
+
+        /// <summary>
+        /// 印刷コンテンツサイズ
+        /// </summary>
+        private double _extentWidth;
+        private double _extentHeight;
+
+
+        /// <summary>
+        /// コンストラクター
+        /// </summary>
+        /// <param name="context"></param>
         public PrintModel(PrintContext context)
         {
-            //_Margin.PropertyChanged += (s, e) => RaisePropertyChanged(nameof(Margin));
-
             _context = context;
             _printDialog = new PrintDialog();
 
             UpdatePrintDialog();
         }
-
 
         /// <summary>
         /// 印刷ダイアログを表示して、プリンタ選択と印刷設定を行う。
@@ -279,9 +288,9 @@ namespace NeeView
         }
 
 
-        private double _printableAreaWidth;
-        private double _printableAreaHeight;
-
+        /// <summary>
+        /// ダイアログ情報からパラメータ更新
+        /// </summary>
         private void UpdatePrintDialog()
         {
             // プリンター
@@ -290,8 +299,6 @@ namespace NeeView
 
             // 用紙の方向 (縦/横限定)
             PageOrientation = _printDialog.PrintTicket.PageOrientation ?? PageOrientation.Unknown;
-
-            //bool isLandspace = PageOrientation == PageOrientation.Landscape;
 
             // 用紙の印刷可能領域
             _area = _printDialog.PrintQueue.GetPrintCapabilities().PageImageableArea;
@@ -304,41 +311,11 @@ namespace NeeView
             _printableAreaHeight = _printDialog.PrintableAreaHeight;
         }
 
-
-
-        //
-        private ContentControl CreateContentControl(ViewContent content)
-        {
-            var control = new ContentControl();
-            control.Content = content.View;
-            control.Width = content.Width;
-            control.Height = content.Height;
-            return control;
-        }
-
-        public FrameworkElement CreateVisual()
-        {
-            return CreateVisualElement();
-        }
-
-
-        //
-        public FrameworkElement CreateVisuaContextl()
-        {
-            var stackPanel = new StackPanel();
-            stackPanel.Orientation = Orientation.Horizontal;
-
-            foreach (var element in _context.Contents.Select(e => CreateContentControl(e)).Reverse())
-            {
-                element.Margin = (stackPanel.Children.Count == 0) ? new Thickness() : _context.ContentMargin;
-                stackPanel.Children.Add(element);
-            }
-
-            return stackPanel;
-        }
-
-        //
-        public FrameworkElement CreateRawImageContente()
+        /// <summary>
+        /// 画像コンテンツ生成
+        /// </summary>
+        /// <returns></returns>
+        private FrameworkElement CreateRawImageContente()
         {
             //
             if (_context.RawImage == null)
@@ -360,8 +337,11 @@ namespace NeeView
             return rectangle;
         }
 
-        //
-        public FrameworkElement CreateViewContent()
+        /// <summary>
+        /// 表示コンテンツ生成
+        /// </summary>
+        /// <returns></returns>
+        private FrameworkElement CreateViewContent()
         {
             // スケールモード設定
             foreach (var viewContent in _context.Contents)
@@ -376,19 +356,15 @@ namespace NeeView
             brush.Stretch = Stretch.None;
             rectangle.Fill = brush;
             rectangle.RenderTransformOrigin = new Point(0.5, 0.5);
-            rectangle.RenderTransform = _context.ViewTransform; // isViewTransform ? _context.ViewTransform : new TranslateTransform(0, 0);
+            rectangle.RenderTransform = _context.ViewTransform;
 
             return rectangle;
         }
 
 
-
-        private double _originWidth;
-        private double _originHeight;
-
-        private double _extentWidth;
-        private double _extentHeight;
-
+        /// <summary>
+        /// 印刷領域パラメータ更新
+        /// </summary>
         private void UpdateImageableArea()
         {
             bool isLandspace = PageOrientation == PageOrientation.Landscape;
@@ -421,11 +397,12 @@ namespace NeeView
             _extentHeight = Math.Max(1, _printableAreaHeight - margin.Top - margin.Bottom);
         }
 
-        //
-        public FrameworkElement CreateVisualElement()
+        /// <summary>
+        /// 印刷ビュー生成(全体)
+        /// </summary>
+        /// <returns></returns>
+        private FrameworkElement CreateVisualElement()
         {
-            //UpdatePrintDialog();
-
             bool isView = PrintMode != PrintMode.RawImage;
 
             bool isViewTransform = isView;
@@ -434,48 +411,8 @@ namespace NeeView
             bool isEffect = isView;
             bool isBackground = IsBackground;
 
-#if false
-            double originWidth = 0;
-            double originHeight = 0;
-            double extentWidth = _printDialog.PrintableAreaWidth;
-            double extentHeight = _printDialog.PrintableAreaHeight;
-#else
-            /*
-            bool isLandspace = PageOrientation == PageOrientation.Landscape;
-            double originWidth = isLandspace ? _area.OriginHeight : _area.OriginWidth;
-            double originHeight = isLandspace ? _area.OriginWidth : _area.OriginHeight;
-            double extentWidth = isLandspace ? _area.ExtentHeight : _area.ExtentWidth;
-            double extentHeight = isLandspace ? _area.ExtentWidth : _area.ExtentHeight;
-
-            double printWidth = extentWidth * Columns;
-            double printHeight = extentHeight * Rows;
-            */
-
             double printWidth = _extentWidth * Columns;
             double printHeight = _extentHeight * Rows;
-
-            /*
-            // 既定の余白
-            var margin = new Margin();
-            margin.Left = originWidth;
-            margin.Right = _printableAreaWidth - extentWidth - originWidth;
-            margin.Top = originHeight;
-            margin.Bottom = _printableAreaHeight - extentHeight - originHeight;
-
-            // 余白補正
-            margin.Left = Math.Max(0, margin.Left + MillimeterToPixel(Margin.Left));
-            margin.Right = Math.Max(0, margin.Right + MillimeterToPixel(Margin.Right));
-            margin.Top = Math.Max(0, margin.Top + MillimeterToPixel(Margin.Top));
-            margin.Bottom = Math.Max(0, margin.Bottom + MillimeterToPixel(Margin.Bottom));
-
-            // 領域補正
-            originWidth = margin.Left;
-            originHeight = margin.Top;
-
-            extentWidth = Math.Max(1, _printableAreaWidth - margin.Left - margin.Right);
-            extentHeight = Math.Max(1, _printableAreaHeight - margin.Top - margin.Bottom);
-            */
-#endif
 
             var target = isView ? CreateViewContent() : CreateRawImageContente();
 
@@ -486,12 +423,8 @@ namespace NeeView
             canvas.VerticalAlignment = VerticalAlignment.Center;
             canvas.Children.Add(target);
 
-
-
-
             var gridClip = new Grid();
             gridClip.Name = "GridClip";
-            //gridClip.Background = Brushes.LightGreen;
             gridClip.Width = _context.ViewWidth;
             gridClip.Height = _context.ViewHeight;
             gridClip.ClipToBounds = true;
@@ -513,7 +446,6 @@ namespace NeeView
             }
             else if (isViewPaperArea)
             {
-                //var paperAspectRatio = extentWidth / extentHeight;
                 var paperAspectRatio = printWidth / printHeight;
                 var viewAspectRatio = _context.ViewWidth / _context.ViewHeight;
                 if (viewAspectRatio > paperAspectRatio)
@@ -530,94 +462,39 @@ namespace NeeView
                     double offset = (gridClip.Width - _context.ViewWidth) * HorizontalAlignment.Direction() * 0.5;
                     canvas.RenderTransform = new TranslateTransform(offset, 0);
                 }
-
-                ////canvas.VerticalAlignment = VerticalAlignment.Bottom;
             }
 
             var gridEffect = new Grid();
             gridEffect.Name = "GridEffect";
             gridEffect.Effect = isEffect ? _context.ViewEffect : null;
-            //gridEffect.Width = gridClip.Width;
-            //gridEffect.Height = gridClip.Height;
             gridEffect.Children.Add(gridClip);
 
-            //gridEffect.Background = new SolidColorBrush(Color.FromArgb(0x80, 0x00, 0x00, 0x80));
-            //gridEffect.VerticalAlignment = VerticalAlignment.Bottom;
-            //canvas.VerticalAlignment = VerticalAlignment.Bottom;
-
-            /*
-            var grid = new Grid();
-            //grid.Background = isBackground ? _context.Background : null;
-            //grid.Width = _area.ExtentWidth;
-            //grid.Height = _area.ExtentHeight;
-            grid.Children.Add(gridEffect);
-            */
-
             var viewbox = new Viewbox();
-            //viewbox.Margin = new Thickness(_area.OriginWidth, _area.OriginHeight, _area.OriginWidth, _area.OriginHeight);
-            //viewbox.Width = _area.ExtentWidth;
-            //viewbox.Height = _area.ExtentHeight;
             viewbox.Child = gridEffect;
-
-            //viewbox.VerticalAlignment = VerticalAlignment.Bottom;
-
-            //return viewbox;
-
             viewbox.HorizontalAlignment = HorizontalAlignment;
             viewbox.VerticalAlignment = VerticalAlignment;
 
-
             var gridArea = new Grid();
-            //gridArea.Margin = new Thickness(originWidth, originHeight, originWidth, originHeight);
             gridArea.Width = printWidth;
             gridArea.Height = printHeight;
             gridArea.Background = isBackground ? _context.Background : null;
             gridArea.Children.Add(viewbox);
 
             return gridArea;
-
-            /*
-            var gridRoot = new Grid();
-            gridRoot.Width = extentWidth + originWidth * 2;
-            gridRoot.Height = extentHeight + originHeight * 2;
-            gridRoot.Children.Add(gridArea);
-
-            return gridRoot;
-            */
         }
 
-        //
-        public FrameworkElement CreateVisual(FrameworkElement visual, int x, int y)
+        /// <summary>
+        /// 印刷ビュー生成(分割)
+        /// </summary>
+        /// <param name="visual">印刷全体ビュー</param>
+        /// <param name="column">列</param>
+        /// <param name="row">行</param>
+        /// <returns></returns>
+        private FrameworkElement CreateVisual(FrameworkElement visual, int column, int row)
         {
-            /*
-            bool isLandspace = PageOrientation == PageOrientation.Landscape;
-            double extentWidth = isLandspace ? _area.ExtentHeight : _area.ExtentWidth;
-            double extentHeight = isLandspace ? _area.ExtentWidth : _area.ExtentHeight;
-            */
+            var ox = _extentWidth * column;
+            var oy = _extentHeight * row;
 
-            var ox = _extentWidth * x;
-            var oy = _extentHeight * y;
-
-#if false
-            var brush = new VisualBrush(visual);
-            brush.Stretch = Stretch.None;
-            brush.TileMode = TileMode.None;
-            brush.Viewbox = new Rect(ox, oy, extentWidth, extentHeight);
-
-            var rectangle = new Rectangle();
-            rectangle.Width = extentWidth;
-            rectangle.Height = extentHeight;
-            rectangle.Fill = brush;
-
-            var canvas = new Canvas();
-            canvas.ClipToBounds = true;
-            canvas.Width = extentWidth;
-            canvas.Height = extentHeight;
-            Canvas.SetLeft(rectangle, ox);
-            Canvas.SetTop(rectangle, oy);
-            canvas.Children.Add(rectangle);
-
-#else
             var canvas = new Canvas();
             canvas.ClipToBounds = true;
             canvas.Width = _extentWidth;
@@ -625,12 +502,14 @@ namespace NeeView
             Canvas.SetLeft(visual, -ox);
             Canvas.SetTop(visual, -oy);
             canvas.Children.Add(visual);
-#endif
 
             return canvas;
         }
 
-        //
+        /// <summary>
+        /// 印刷ページ群生成
+        /// </summary>
+        /// <returns></returns>
         public List<FixedPage> CreatePageCollection()
         {
             UpdatePrintDialog();
@@ -639,20 +518,17 @@ namespace NeeView
 
             var collection = new List<FixedPage>();
 
-
-            for (int y = 0; y < Rows; ++y)
+            for (int row = 0; row < Rows; ++row)
             {
-                for (int x = 0; x < Columns; ++x)
+                for (int column = 0; column < Columns; ++column)
                 {
-                    var fullVisual = CreateVisual();
+                    var fullVisual = CreateVisualElement();
 
-                    var visual = CreateVisual(fullVisual, x, y);
+                    var visual = CreateVisual(fullVisual, column, row);
 
                     var page = new FixedPage();
-                    page.Width = _printableAreaWidth; // visual.Width; // 既定値上書きのため必須
-                    page.Height = _printableAreaHeight; // visual.Height;
-                    //page.Width = _originWidth + _extentWidth;
-                    //page.Height = _originHeight + _extentHeight;
+                    page.Width = _printableAreaWidth; // 既定値上書きのため必須
+                    page.Height = _printableAreaHeight;
 
                     FixedPage.SetLeft(visual, _originWidth);
                     FixedPage.SetTop(visual, _originHeight);
@@ -666,27 +542,10 @@ namespace NeeView
             return collection;
         }
 
-#if false
-        //
-        public FixedPage CreatePage()
-        {
-            var fullVisual = CreateVisual();
-            var visual = CreateVisual(fullVisual, 0, 0);
-
-            var page = new FixedPage();
-            page.Width = _printableAreaWidth; // visual.Width; // 既定値上書きのため必須
-            page.Height = _printableAreaHeight; // visual.Height;
-
-            FixedPage.SetLeft(visual, _area.OriginWidth);
-            FixedPage.SetTop(visual, _area.OriginHeight);
-
-            page.Children.Add(visual);
-
-            return page;
-        }
-#endif
-
-        //
+        /// <summary>
+        /// 印刷ドキュメント生成
+        /// </summary>
+        /// <returns></returns>
         public FixedDocument CreateDocument()
         {
             var document = new FixedDocument();
@@ -695,36 +554,24 @@ namespace NeeView
                 document.Pages.Add(page);
             }
             return document;
-
-#if false
-            // FixedPageを作って印刷対象を設定する。
-            var page = CreatePage();
-
-            // PageContentを作ってFixedPageを設定する。
-            var cont = new System.Windows.Documents.PageContent();
-            cont.Child = page;
-
-            // FixedDocumentを作ってPageContentを設定する。
-            var doc = new FixedDocument();
-            doc.Pages.Add(cont);
-            return doc;
-#endif
         }
 
-        //
+        /// <summary>
+        /// 印刷実行
+        /// </summary>
         public void Print()
         {
             GC.Collect();
 
-            // 印刷する。
-
-            //
             var name = GetPrintName();
+            Debug.WriteLine($"Print {name}...");
             _printDialog.PrintDocument(CreateDocument().DocumentPaginator, name);
-
-            return;
         }
 
+        /// <summary>
+        /// 印刷JOB名
+        /// </summary>
+        /// <returns></returns>
         private string GetPrintName()
         {
             if (PrintMode == PrintMode.RawImage)
@@ -737,38 +584,130 @@ namespace NeeView
             }
         }
 
-#if false
-        //
-        public void Print()
+
+        #region Memento
+
+        /// <summary>
+        /// Memento
+        /// </summary>
+        [DataContract]
+        public class Memento
         {
-            // 印刷可能領域を取得する。
-            var area = _printDialog.PrintQueue.GetPrintCapabilities().PageImageableArea;
+            [DataMember]
+            public PageOrientation PageOrientation { get; set; }
 
-            // 上と左の余白を含めた印刷可能領域の大きさのCanvasを作る。
-            var canvas = new Canvas();
-            canvas.Width = area.OriginWidth + area.ExtentWidth;
-            canvas.Height = area.OriginHeight + area.ExtentHeight;
+            [DataMember]
+            public PrintMode PrintMode { get; set; }
 
+            [DataMember]
+            public bool IsBackground { get; set; }
 
-            // FixedPageを作って印刷対象（ここではCanvas）を設定する。
-            var page = new FixedPage();
-            page.Children.Add(_element);
+            [DataMember]
+            public bool IsDotScale { get; set; }
 
-            // PageContentを作ってFixedPageを設定する。
-            var cont = new System.Windows.Documents.PageContent();
-            cont.Child = page;
+            [DataMember]
+            public int Columns { get; set; }
 
-            // FixedDocumentを作ってPageContentを設定する。
-            var doc = new FixedDocument();
-            doc.Pages.Add(cont);
+            [DataMember]
+            public int Rows { get; set; }
 
+            [DataMember]
+            public HorizontalAlignment HorizontalAlignment { get; set; }
 
-            // 印刷する。
-            //printer.PrintDocument(doc.DocumentPaginator, "Print1");
+            [DataMember]
+            public VerticalAlignment VerticalAlignment { get; set; }
+
+            [DataMember]
+            public Margin Margin { get; set; }
+
+            /// <summary>
+            /// 初期化
+            /// </summary>
+            private void Constructor()
+            {
+                PageOrientation = PageOrientation.Portrait;
+                PrintMode = PrintMode.View;
+                HorizontalAlignment = HorizontalAlignment.Center;
+                VerticalAlignment = VerticalAlignment.Center;
+                Margin = new Margin();
+            }
+
+            /// <summary>
+            /// コンストラクター
+            /// </summary>
+            public Memento()
+            {
+                Constructor();
+            }
+
+            /// <summary>
+            /// デシリアイズ前処理
+            /// </summary>
+            /// <param name="c"></param>
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                Constructor();
+            }
+
+            /// <summary>
+            /// デシリアイズ後処理
+            /// </summary>
+            /// <param name="c"></param>
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
+            {
+            }
         }
-#endif
+
+        /// <summary>
+        /// memento作成
+        /// </summary>
+        /// <returns></returns>
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+
+            memento.PageOrientation = PageOrientation;
+            memento.PrintMode = PrintMode;
+            memento.IsBackground = IsBackground;
+            memento.IsDotScale = IsDotScale;
+            memento.Columns = Columns;
+            memento.Rows = Rows;
+            memento.HorizontalAlignment = HorizontalAlignment;
+            memento.VerticalAlignment = VerticalAlignment;
+            memento.Margin = Margin;
+
+            return memento;
+        }
+
+        /// <summary>
+        /// memento反映
+        /// </summary>
+        /// <param name="memento"></param>
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+
+            PageOrientation = memento.PageOrientation;
+            PrintMode = memento.PrintMode;
+            IsBackground = memento.IsBackground;
+            IsDotScale = memento.IsDotScale;
+            Columns = memento.Columns;
+            Rows = memento.Rows;
+            HorizontalAlignment = memento.HorizontalAlignment;
+            VerticalAlignment = memento.VerticalAlignment;
+            Margin = memento.Margin;
+        }
+
+        #endregion
     }
 
+
+    /// <summary>
+    /// 余白
+    /// </summary>
+    [DataContract]
     public class Margin : INotifyPropertyChanged
     {
         /// <summary>
@@ -785,6 +724,7 @@ namespace NeeView
         /// Top property.
         /// </summary>
         private double _Top;
+        [DataMember]
         public double Top
         {
             get { return _Top; }
@@ -795,6 +735,7 @@ namespace NeeView
         /// Bottom property.
         /// </summary>
         private double _Bottom;
+        [DataMember]
         public double Bottom
         {
             get { return _Bottom; }
@@ -805,6 +746,7 @@ namespace NeeView
         /// Left property.
         /// </summary>
         private double _Left;
+        [DataMember]
         public double Left
         {
             get { return _Left; }
@@ -815,6 +757,7 @@ namespace NeeView
         /// Right property.
         /// </summary>
         private double _Right;
+        [DataMember]
         public double Right
         {
             get { return _Right; }
@@ -822,8 +765,16 @@ namespace NeeView
         }
     }
 
+    /// <summary>
+    /// HorizontalAlignment 拡張
+    /// </summary>
     internal static class HorizontalAlignmentExtensions
     {
+        /// <summary>
+        /// 方向
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
         public static double Direction(this HorizontalAlignment self)
         {
             switch (self)
@@ -838,8 +789,16 @@ namespace NeeView
         }
     }
 
+    /// <summary>
+    /// VerticalAlignment 拡張
+    /// </summary>
     internal static class VerticalAlignmentExtensions
     {
+        /// <summary>
+        /// 方向
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
         public static double Direction(this VerticalAlignment self)
         {
             switch (self)

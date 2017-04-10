@@ -188,10 +188,12 @@
     <Compile Include="Page\ThumbnailBitmap.cs" />
     <Compile Include="Page\ThumbnailCache.cs" />
     <Compile Include="Page\ThumbnailPool.cs" />
-    <Compile Include="PrintModel.cs" />
-    <Compile Include="PrintWindow.xaml.cs">
+    <Compile Include="Print\PrintContext.cs" />
+    <Compile Include="Print\PrintModel.cs" />
+    <Compile Include="Print\PrintWindow.xaml.cs">
       <DependentUpon>PrintWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Print\PrintWindowViewModel.cs" />
     <Compile Include="SizeString.cs" />
     <Compile Include="Utility\AsyncronousAction.cs" />
     <Compile Include="Utility\CommandEngine.cs" />
@@ -411,7 +413,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PrintWindow.xaml">
+    <Page Include="Print\PrintWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

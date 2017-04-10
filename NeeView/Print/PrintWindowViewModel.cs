@@ -7,53 +7,22 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Printing;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace NeeView
 {
     /// <summary>
-    /// PrintWindow.xaml の相互作用ロジック
+    /// 
     /// </summary>
-    public partial class PrintWindow : Window
-    {
-        private PrintWindowViewModel _vm;
-
-        public PrintWindow()
-        {
-            InitializeComponent();
-        }
-
-        public PrintWindow(PrintContext context) : this()
-        {
-            _vm = new PrintWindowViewModel(context);
-            this.DataContext = _vm;
-
-            _vm.Close += ViewModel_Close;
-        }
-
-        private void ViewModel_Close(object sender, PrintWindowCloseEventArgs e)
-        {
-            this.DialogResult = e.Result;
-            this.Close();
-        }
-    }
-
     public class PrintWindowCloseEventArgs : EventArgs
     {
         public bool? Result { get; set; }
     }
 
+    /// <summary>
+    /// PrintWindow ViewModel
+    /// </summary>
     public class PrintWindowViewModel : INotifyPropertyChanged
     {
         /// <summary>
@@ -82,7 +51,6 @@ namespace NeeView
             set { if (_MainContent != value) { _MainContent = value; RaisePropertyChanged(); } }
         }
 
-
         /// <summary>
         /// PageCollection property.
         /// </summary>
@@ -94,38 +62,50 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// 設定保存
+        /// </summary>
+        private static PrintModel.Memento _memento;
 
-
-        //
+        /// <summary>
+        /// コンストラクター
+        /// </summary>
+        /// <param name="context"></param>
         public PrintWindowViewModel(PrintContext context)
         {
             _model = new PrintModel(context);
+            _model.Restore(_memento);
+
             _model.PropertyChanged += PrintService_PropertyChanged;
             _model.Margin.PropertyChanged += PrintService_PropertyChanged;
 
             UpdatePreview();
         }
 
-        //
+        /// <summary>
+        /// 終了処理
+        /// </summary>
+        public void Closed()
+        {
+            _memento = _model.CreateMemento();
+        }
+
+        /// <summary>
+        /// パラメータ変更イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PrintService_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             UpdatePreview();
         }
 
-        //
+        /// <summary>
+        /// プレビュー更新
+        /// </summary>
         private void UpdatePreview()
         {
-            var sw = new Stopwatch();
-            sw.Start();
-            //MainContent = _model.CreateVisual();
-            //MainContent = _model.CreatePage();
-
-            //MainContent = _model.CreatePageCollection().First();
-
             PageCollection = _model.CreatePageCollection();
-
-            sw.Stop();
-            Debug.WriteLine($"Gene: {sw.ElapsedMilliseconds}ms");
         }
 
         /// <summary>
@@ -160,6 +140,7 @@ namespace NeeView
             Close?.Invoke(this, new PrintWindowCloseEventArgs() { Result = false });
         }
 
+
         /// <summary>
         /// PrintDialogCommand command.
         /// </summary>
@@ -173,56 +154,6 @@ namespace NeeView
         {
             _model.ShowPrintDialog();
             UpdatePreview();
-        }
-
-    }
-
-    //
-    public class PrintWindowContext
-    {
-        public FrameworkElement ViewContent { get; set; }
-
-        public System.Printing.PageImageableArea Area { get; set; }
-    }
-
-    //
-    public class ItemsUniformGrid : System.Windows.Controls.Primitives.UniformGrid
-    {
-        public IEnumerable<FrameworkElement> ItemsSource
-        {
-            get { return (IEnumerable<FrameworkElement>)GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ItemsSource.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register("ItemsSource", typeof(IEnumerable<FrameworkElement>), typeof(ItemsUniformGrid), new PropertyMetadata(null, ItemsSource_Changed));
-
-        private static void ItemsSource_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var control = d as ItemsUniformGrid;
-            if (control != null)
-            {
-                control.Reflesh();
-            }
-        }
-
-        //
-        public void Reflesh()
-        {
-            this.Children.Clear();
-
-            if (ItemsSource == null) return;
-
-            foreach(var child in ItemsSource)
-            {
-                var grid = new Grid();
-                grid.Background = Brushes.White;
-                grid.Margin = new Thickness(10);
-                grid.Children.Add(child);
-
-                this.Children.Add(grid);
-            }
         }
     }
 }

@@ -2813,7 +2813,7 @@ namespace NeeView
         /// <returns></returns>
         public bool CanPrint()
         {
-            return MainContent.IsValid;
+            return MainContent != null && MainContent.IsValid;
         }
 
         /// <summary>

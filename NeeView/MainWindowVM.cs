@@ -123,6 +123,14 @@ namespace NeeView
         SyncBookReadDirection, // 本を開く方向にあわせる
     }
 
+    // スライダー数値表示の配置
+    public enum SliderIndexLayout
+    {
+        None, // 表示なし
+        Left, // 左
+        Right, // 右
+    }
+
 
     /// <summary>
     /// ViewModel
@@ -272,14 +280,34 @@ namespace NeeView
 
 
         /// <summary>
+        /// SliderIndexType property.
+        /// </summary>
+        private SliderIndexLayout _SliderIndexLayout;
+        public SliderIndexLayout SliderIndexLayout
+        {
+            get { return _SliderIndexLayout; }
+            set
+            {
+                if (_SliderIndexLayout != value)
+                {
+                    _SliderIndexLayout = value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(IsSliderWithIndex));
+                    RaisePropertyChanged(nameof(SliderIndexDock));
+                }
+            }
+        }
+
+        /// <summary>
         /// IsSliderWithIndex property.
         /// </summary>
-        private bool _IsSliderWithIndex;
-        public bool IsSliderWithIndex
-        {
-            get { return _IsSliderWithIndex; }
-            set { if (_IsSliderWithIndex != value) { _IsSliderWithIndex = value; RaisePropertyChanged(); } }
-        }
+        public bool IsSliderWithIndex => _SliderIndexLayout != SliderIndexLayout.None;
+
+        /// <summary>
+        /// SliderIndexDock property.
+        /// </summary>
+        public Dock SliderIndexDock => _SliderIndexLayout == SliderIndexLayout.Left ? Dock.Left : Dock.Right;
+
 
         // 左クリック長押しモード
         #region Property: LongLeftButtonDownMode
@@ -3085,14 +3113,17 @@ namespace NeeView
             [DataMember(Order = 19)]
             public bool IsVisibleLoupeInfo { get; set; }
 
-            [DataMember(Order = 20)]
-            public bool IsSliderWithIndex { get; set; }
+            [DataMember(Order = 20, EmitDefaultValue = false)]
+            public bool IsSliderWithIndex { get; set; } // no used
 
             [DataMember(Order = 20)]
             public bool IsLoupeCenter { get; set; }
 
             [DataMember(Order = 20)]
             public FolderListItemStyle PageListItemStyle { get; set; }
+
+            [DataMember(Order = 21)]
+            public SliderIndexLayout SliderIndexLayout { get; set; }
 
             //
             private void Constructor()
@@ -3130,7 +3161,7 @@ namespace NeeView
                 SliderDirection = SliderDirection.RightToLeft;
                 IsVisibleWindowTitle = true;
                 IsVisibleLoupeInfo = true;
-                IsSliderWithIndex = true;
+                SliderIndexLayout = SliderIndexLayout.Right;
             }
 
             public Memento()
@@ -3170,6 +3201,12 @@ namespace NeeView
                     AngleFrequency = IsAngleSnap ? 45 : 0;
                 }
                 IsAngleSnap = false;
+
+                if (_Version < Config.GenerateProductVersionNumber(1, 21, 0))
+                {
+                    SliderIndexLayout = IsSliderWithIndex ? SliderIndexLayout.Right : SliderIndexLayout.None;
+                }
+                IsSliderWithIndex = false;
             }
         }
 
@@ -3237,9 +3274,9 @@ namespace NeeView
             memento.IsAutoRotate = this.IsAutoRotate;
             memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
             memento.IsVisibleLoupeInfo = this.IsVisibleLoupeInfo;
-            memento.IsSliderWithIndex = this.IsSliderWithIndex;
             memento.IsLoupeCenter = this.IsLoupeCenter;
             memento.PageListItemStyle = this.PageListItemStyle;
+            memento.SliderIndexLayout = this.SliderIndexLayout;
 
             return memento;
         }
@@ -3305,9 +3342,10 @@ namespace NeeView
             this.IsAutoRotate = memento.IsAutoRotate;
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
             this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
-            this.IsSliderWithIndex = memento.IsSliderWithIndex;
             this.IsLoupeCenter = memento.IsLoupeCenter;
             this.PageListItemStyle = memento.PageListItemStyle;
+            this.SliderIndexLayout = memento.SliderIndexLayout;
+
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

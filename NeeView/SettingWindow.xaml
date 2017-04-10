@@ -286,14 +286,17 @@
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding SliderDirectionList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.SliderDirection}" />
                             </StackPanel>
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="ページ数表示位置"/>
+                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding SliderIndexLayoutList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.ViewMemento.SliderIndexLayout}" />
+                            </StackPanel>
                             <!--
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転ツール表示"
                                       IsChecked="{Binding Setting.ViewMemento.SliderPalettePage}"/>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="拡縮ツール表示"
                                       IsChecked="{Binding Setting.ViewMemento.SliderPalettePage}"/>
                             -->
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ数を表示する"
-                                      IsChecked="{Binding Setting.ViewMemento.IsSliderWithIndex}"/>
                         </StackPanel>
 
 

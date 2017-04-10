@@ -651,7 +651,7 @@
                     </Grid.Style>
                     <Rectangle Fill="{DynamicResource NVBackground}" Visibility="{Binding ElementName=PageSliderTextBox, Path=Visibility}"/>
                     <DockPanel x:Name="SliderArea" MouseWheel="SliderArea_MouseWheel">
-                        <local:SliderTextBox x:Name="PageSliderTextBox" DockPanel.Dock="Right"
+                        <local:SliderTextBox x:Name="PageSliderTextBox" DockPanel.Dock="{Binding SliderIndexDock}"
                                        Visibility="{Binding IsSliderWithIndex, Converter={StaticResource BooleanToVisibilityConverter}}"
                                        Target="{Binding ElementName=PageSlider}"
                                        ValueChanged="PageSliderTextBox_ValueChanged"

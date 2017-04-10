@@ -224,9 +224,17 @@ namespace NeeView
         //
         public static Dictionary<SliderDirection, string> SliderDirectionList { get; } = new Dictionary<SliderDirection, string>
         {
-            [SliderDirection.LeftToRight] = "左から右",
-            [SliderDirection.RightToLeft] = "右から左",
+            [SliderDirection.LeftToRight] = "▶ 左から右",
+            [SliderDirection.RightToLeft] = "◀ 右から左",
             [SliderDirection.SyncBookReadDirection] = "本を開く方向に依存",
+        };
+
+        //
+        public static Dictionary<SliderIndexLayout, string> SliderIndexLayoutList { get; } = new Dictionary<SliderIndexLayout, string>
+        {
+            [SliderIndexLayout.None] = "表示しない",
+            [SliderIndexLayout.Left] = "左",
+            [SliderIndexLayout.Right] = "右",
         };
 
         #region Property: ExternalApplicationParam

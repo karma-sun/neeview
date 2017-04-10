@@ -25,7 +25,8 @@ namespace NeeView
 {
     public class PrintContext
     {
-        public BitmapSource RawImage { get; set; }
+        public ViewContent MainContent { get; set; }
+        public BitmapSource RawImage => (MainContent.Source.Page.Content as BitmapContent).BitmapSource;
 
         public IEnumerable<ViewContent> Contents { get; set; }
         public Thickness ContentMargin { get; set; }
@@ -125,8 +126,8 @@ namespace NeeView
         {
             [PrintMode.RawImage] = "画像を印刷", // 元画像、メインページのみ
             [PrintMode.View] = "表示を印刷",
-            [PrintMode.ViewFill] = "表示を印刷(用紙サイズに広げる)",
-            [PrintMode.ViewStretch] = "表示を印刷(全体を印刷)",
+            [PrintMode.ViewFill] = "用紙サイズで表示を印刷",
+            [PrintMode.ViewStretch] = "全体の表示を印刷",
         };
 
 
@@ -481,10 +482,8 @@ namespace NeeView
             var canvas = new Canvas();
             canvas.Width = target.Width;
             canvas.Height = target.Height;
-            ////canvas.HorizontalAlignment = HorizontalAlignment.Center;
-            ////canvas.VerticalAlignment = VerticalAlignment.Center;
-            ////canvas.HorizontalAlignment = HorizontalAlignment;
-            ////canvas.VerticalAlignment = VerticalAlignment;
+            canvas.HorizontalAlignment = HorizontalAlignment.Center;
+            canvas.VerticalAlignment = VerticalAlignment.Center;
             canvas.Children.Add(target);
 
 
@@ -717,26 +716,25 @@ namespace NeeView
         {
             GC.Collect();
 
-            Debug.WriteLine($"ThreadId: {Thread.CurrentThread.ManagedThreadId}");
-
-            /*
-            // 印刷ダイアログ
-            var resultPrinterDialog = ShowPrintDialog();
-            if (resultPrinterDialog != true) return;
-
-            return;
-            */
-
             // 印刷する。
-            _printDialog.PrintDocument(CreateDocument().DocumentPaginator, "Print1");
+
+            //
+            var name = GetPrintName();
+            _printDialog.PrintDocument(CreateDocument().DocumentPaginator, name);
 
             return;
+        }
 
-            /*
-            var doc = CreateDocument();
-            XpsDocumentWriter writer = PrintQueue.CreateXpsDocumentWriter(_printDialog.PrintQueue);
-            writer.WriteAsync(doc, _printDialog.PrintTicket);
-            */
+        private string GetPrintName()
+        {
+            if (PrintMode == PrintMode.RawImage)
+            {
+                return LoosePath.GetFileName(_context.MainContent.FullPath);
+            }
+            else
+            {
+                return string.Join(" | ", _context.Contents.Reverse().Select(e => LoosePath.GetFileName(e.FullPath)));
+            }
         }
 
 #if false

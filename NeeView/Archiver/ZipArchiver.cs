@@ -76,7 +76,7 @@ namespace NeeView
 
             var list = new List<ArchiveEntry>();
 
-            using (var stream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+            using (var stream = new FileStream(Path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 // ヘッダチェック
                 if (!CheckSignature(stream))

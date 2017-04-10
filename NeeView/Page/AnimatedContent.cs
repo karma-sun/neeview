@@ -40,10 +40,16 @@ namespace NeeView
             // 画像情報の取得
             var bitmapSource = await LoadBitmapAsync(Entry, token);
 
-            // TempFileに出力し、これをMediaPlayerに再生させる
-            CreateTempFile(true);
+            if (!token.IsCancellationRequested)
+            {
+                BitmapSource = bitmapSource;
 
-            RaiseLoaded();
+                // TempFileに出力し、これをMediaPlayerに再生させる
+                CreateTempFile(true);
+
+                RaiseLoaded();
+                RaiseChanged();
+            }
 
             // サムネイル作成
             if (Thumbnail.IsValid) return;

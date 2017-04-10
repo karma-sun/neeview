@@ -135,6 +135,26 @@ namespace NeeView
         }
         #endregion
 
+        /// <summary>
+        /// AnimationImageVisibility property.
+        /// </summary>
+        private Visibility _AnimationImageVisibility = Visibility.Collapsed;
+        public Visibility AnimationImageVisibility
+        {
+            get { return _AnimationImageVisibility; }
+            set { if (_AnimationImageVisibility != value) { _AnimationImageVisibility = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// AnimationPlayerVisibility property.
+        /// </summary>
+        private Visibility _AnimationPlayerVisibility = Visibility.Visible;
+        public Visibility AnimationPlayerVisibility
+        {
+            get { return _AnimationPlayerVisibility; }
+            set { if (_AnimationPlayerVisibility != value) { _AnimationPlayerVisibility = value; RaisePropertyChanged(); } }
+        }
+
         // 有効判定
         public bool IsValid => (View != null);
 
@@ -191,6 +211,8 @@ namespace NeeView
             {
                 ForegroundBrush = new Binding("ForegroundBrush"),
                 BitmapScalingMode = new Binding(nameof(BitmapScalingMode)) { Source = this },
+                AnimationImageVisibility = new Binding(nameof(AnimationImageVisibility)) { Source = this },
+                AnimationPlayerVisibility = new Binding(nameof(AnimationPlayerVisibility)) { Source = this },
             };
 
             switch (contentType)
@@ -334,6 +356,11 @@ namespace NeeView
         /// <returns></returns>
         public FrameworkElement CreateAnimatedView(ViewContentSource source, ViewContentParameters parameter)
         {
+            //
+            var image = CreateBitmapView(source, parameter);
+            image.SetBinding(Rectangle.VisibilityProperty, parameter.AnimationImageVisibility);
+
+            //
             var media = new MediaElement();
             media.Source = new Uri(((AnimatedContent)Content).FileProxy.Path);
             media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
@@ -345,9 +372,16 @@ namespace NeeView
             brush.Stretch = Stretch.Fill;
             brush.Viewbox = source.GetViewBox();
 
-            var rectangle = new Rectangle();
-            rectangle.Fill = brush;
-            return rectangle;
+            var canvas = new Rectangle();
+            canvas.Fill = brush;
+            canvas.SetBinding(Rectangle.VisibilityProperty, parameter.AnimationPlayerVisibility);
+
+            //
+            var grid = new Grid();
+            grid.Children.Add(image);
+            grid.Children.Add(canvas);
+
+            return grid;
         }
 
         /// <summary>
@@ -375,6 +409,8 @@ namespace NeeView
     {
         public Binding ForegroundBrush { get; set; }
         public Binding BitmapScalingMode { get; set; }
+        public Binding AnimationImageVisibility { get; set; }
+        public Binding AnimationPlayerVisibility { get; set; }
         public ViewContentReserver Reserver { get; set; } // 未使用
     }
 

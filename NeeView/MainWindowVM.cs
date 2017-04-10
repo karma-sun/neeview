@@ -2813,7 +2813,7 @@ namespace NeeView
         /// <returns></returns>
         public bool CanPrint()
         {
-            return CurrentBitmapSource != null;
+            return MainContent.IsValid;
         }
 
         /// <summary>
@@ -2829,10 +2829,21 @@ namespace NeeView
             // スケールモード退避
             var scaleModeMemory = Contents.ToDictionary(e => e, e => e.BitmapScalingMode);
 
+            // アニメーション停止
+            foreach (var content in Contents)
+            {
+                content.AnimationImageVisibility = Visibility.Visible;
+                content.AnimationPlayerVisibility = Visibility.Collapsed;
+            }
+
+            // スライドショー停止
+            AppContext.Current.PauseSlideShow();
+
             try
             {
+
                 var context = new PrintContext();
-                context.RawImage = (MainContent.Source.Page.Content as BitmapContent).BitmapSource;
+                context.MainContent = this.MainContent;
                 context.Contents = this.Contents;
                 context.View = element;
                 context.ViewTransform = transform;
@@ -2848,11 +2859,16 @@ namespace NeeView
             }
             finally
             {
-                // スケールモード復元
+                // スケールモード、アニメーション復元
                 foreach (var content in Contents)
                 {
                     content.BitmapScalingMode = scaleModeMemory[content];
+                    content.AnimationImageVisibility = Visibility.Collapsed;
+                    content.AnimationPlayerVisibility = Visibility.Visible;
                 }
+
+                // スライドショー再開
+                AppContext.Current.ResumeSlideShow();
             }
         }
 

@@ -55,6 +55,23 @@ namespace NeeView
             set { if (_IsPlayingSlideShow != value) { _IsPlayingSlideShow = value; RaisePropertyChanged(); IsPlayingSlideShowChanged?.Invoke(this, null); } }
         }
 
+        //
         public event EventHandler IsPlayingSlideShowChanged;
+
+        //
+        private bool _isPlayingSlideShowMemento;
+
+        //
+        public void PauseSlideShow()
+        {
+            _isPlayingSlideShowMemento = IsPlayingSlideShow;
+            IsPlayingSlideShow = false;
+        }
+
+        //
+        public void ResumeSlideShow()
+        {
+            IsPlayingSlideShow = _isPlayingSlideShowMemento;
+        }
     }
 }

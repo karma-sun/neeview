@@ -806,10 +806,14 @@ namespace NeeView
             var setting = _VM.CreateSetting();
             var history = ModelContext.BookHistory.CreateMemento(false);
 
+            // スライドショー停止
+            AppContext.Current.PauseSlideShow();
+
             var dialog = new SettingWindow(setting, history);
             dialog.Owner = this;
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = dialog.ShowDialog();
+
             if (result == true)
             {
                 SetUpdateMenuLayoutMode(false);
@@ -823,6 +827,9 @@ namespace NeeView
                 // 現在ページ再読込
                 _VM.BookHub.ReLoad();
             }
+
+            // スライドショー再開
+            AppContext.Current.ResumeSlideShow();
         }
 
         // 設定ファイルの場所を開く

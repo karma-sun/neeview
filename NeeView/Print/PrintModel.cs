@@ -295,17 +295,16 @@ namespace NeeView
         {
             // プリンター
             PrintQueue = _printDialog.PrintQueue;
-            Debug.WriteLine($"Printer: {PrintQueue.FullName}");
+            ////Debug.WriteLine($"Printer: {PrintQueue.FullName}");
 
             // 用紙の方向 (縦/横限定)
             PageOrientation = _printDialog.PrintTicket.PageOrientation ?? PageOrientation.Unknown;
 
             // 用紙の印刷可能領域
             _area = _printDialog.PrintQueue.GetPrintCapabilities().PageImageableArea;
-
-            Debug.WriteLine($"Origin: {_area.OriginWidth}x{_area.OriginHeight}");
-            Debug.WriteLine($"Extent: {_area.ExtentWidth}x{_area.ExtentHeight}");
-            Debug.WriteLine($"PrintableArea: {_printDialog.PrintableAreaWidth}x{_printDialog.PrintableAreaHeight}");
+            ////Debug.WriteLine($"Origin: {_area.OriginWidth}x{_area.OriginHeight}");
+            ////Debug.WriteLine($"Extent: {_area.ExtentWidth}x{_area.ExtentHeight}");
+            ////Debug.WriteLine($"PrintableArea: {_printDialog.PrintableAreaWidth}x{_printDialog.PrintableAreaHeight}");
 
             _printableAreaWidth = _printDialog.PrintableAreaWidth;
             _printableAreaHeight = _printDialog.PrintableAreaHeight;
@@ -563,7 +562,7 @@ namespace NeeView
         {
             GC.Collect();
 
-            var name = GetPrintName();
+            var name = "NeeView - " + GetPrintName();
             Debug.WriteLine($"Print {name}...");
             _printDialog.PrintDocument(CreateDocument().DocumentPaginator, name);
         }
@@ -580,7 +579,7 @@ namespace NeeView
             }
             else
             {
-                return string.Join(" | ", _context.Contents.Reverse().Select(e => LoosePath.GetFileName(e.FullPath)));
+                return string.Join(" | ", _context.Contents.Where(e => e.IsValid).Reverse().Select(e => LoosePath.GetFileName(e.FullPath)));
             }
         }
 

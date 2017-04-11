@@ -148,7 +148,7 @@ namespace NeeView
 
         public static bool? Show(Window owner, string text)
         {
-            return Show(owner, text, "", MessageBoxButton.OK, MessageBoxExImage.None);
+            return Show(owner, text, "通知", MessageBoxButton.OK, MessageBoxExImage.None);
         }
 
 

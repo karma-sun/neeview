@@ -108,9 +108,17 @@
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
     <Compile Include="Archiver\FileProxy.cs" />
+    <Compile Include="BackgroundSettingWindow.xaml.cs">
+      <DependentUpon>BackgroundSettingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BackgroundSettingWindowViewModel.cs" />
     <Compile Include="BitmapLoader\BitmapLoader.cs" />
     <Compile Include="BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
+    <Compile Include="BrushSource.cs" />
+    <Compile Include="ComboColorPicker\ComboColorPicker.xaml.cs">
+      <DependentUpon>ComboColorPicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CommandResetWindow.xaml.cs">
       <DependentUpon>CommandResetWindow.xaml</DependentUpon>
     </Compile>
@@ -381,6 +389,14 @@
     <Compile Include="WIndowHelper.cs" />
     <Compile Include="WindowPlacement.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
+    <Page Include="BackgroundSettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComboColorPicker\ComboColorPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CommandParameterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

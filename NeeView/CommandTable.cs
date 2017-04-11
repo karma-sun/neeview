@@ -302,6 +302,7 @@ namespace NeeView
                 element.Text = "印刷";
                 element.MenuText = "印刷...";
                 element.Note = "画像を印刷します";
+                element.ShortCutKey = "Ctrl+P";
                 //element.Execute = (s, e) => _VM.Print();
                 element.CanExecute = () => _VM.CanPrint();
                 element.IsShowMessage = false;
@@ -558,6 +559,18 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Check);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBackgroundCheck] = element;
+            }
+
+            // SetBackgroundCustom
+            {
+                var element = new CommandElement();
+                element.Group = "背景";
+                element.Text = "背景をカスタム背景にする";
+                element.Note = "背景をカスタム背景にします";
+                element.Execute = (s, e) => _VM.Background = BackgroundStyle.Custom;
+                element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Custom);
+                element.IsShowMessage = true;
+                _elements[CommandType.SetBackgroundCustom] = element;
             }
 
             // ToggleTopmost

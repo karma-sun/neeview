@@ -447,6 +447,26 @@ namespace NeeView
         }
         #endregion
 
+        /// <summary>
+        /// CustomBackground property.
+        /// </summary>
+        private BrushSource _CustomBackground;
+        public BrushSource CustomBackground
+        {
+            get { return _CustomBackground; }
+            set { if (_CustomBackground != value) { _CustomBackground = value; CustomBackgroundBrush = _CustomBackground.CreateBrush(); } }
+        }
+
+        /// <summary>
+        /// カスタム背景
+        /// </summary>
+        public Brush CustomBackgroundBrush { get; set; }
+
+        /// <summary>
+        /// チェック模様
+        /// </summary>
+        public Brush CheckBackgroundBrush { get; } = (DrawingBrush)App.Current.Resources["CheckerBrush"];
+
 
         // イメージエフェクト
         public ImageEffect ImageEffector { get; set; } = new ImageEffect();
@@ -1300,15 +1320,6 @@ namespace NeeView
         }
         #endregion
 
-        #region Property: BackgroundSolidBrush
-        private SolidColorBrush _backgroundSolidBrush;
-        public SolidColorBrush BackgroundSolidBrush
-        {
-            get { return _backgroundSolidBrush; }
-            set { _backgroundSolidBrush = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
 
 
 
@@ -1966,25 +1977,39 @@ namespace NeeView
         }
 
         // Background Brush 更新
-        private void UpdateBackgroundBrush()
+        public void UpdateBackgroundBrush()
+        {
+            BackgroundBrush = CreateBackgroundBrush(App.Config.Dpi);
+        }
+
+        /// <summary>
+        /// 背景ブラシ作成
+        /// </summary>
+        /// <param name="dpi">画像背景の場合に適用するDPI</param>
+        /// <returns></returns>
+        public Brush CreateBackgroundBrush(DpiScale dpi)
         {
             switch (this.Background)
             {
                 default:
                 case BackgroundStyle.Black:
-                    BackgroundBrush = BackgroundSolidBrush = Brushes.Black;
-                    break;
+                    return Brushes.Black;
                 case BackgroundStyle.White:
-                    BackgroundBrush = BackgroundSolidBrush = Brushes.White;
-                    break;
+                    return Brushes.White;
                 case BackgroundStyle.Auto:
-                    var color = Contents[Contents[1].IsValid ? 1 : 0].Color;
-                    BackgroundBrush = BackgroundSolidBrush = new SolidColorBrush(color);
-                    break;
+                    return new SolidColorBrush(Contents[Contents[1].IsValid ? 1 : 0].Color);
                 case BackgroundStyle.Check:
-                    BackgroundBrush = (DrawingBrush)App.Current?.Resources["CheckerBrush"];
-                    BackgroundSolidBrush = new SolidColorBrush(Color.FromArgb(0xff, 0xf0, 0xf0, 0xf0));
-                    break;
+                    {
+                        var brush = CheckBackgroundBrush.Clone();
+                        brush.Transform = new ScaleTransform(1.0 / dpi.DpiScaleX, 1.0 / dpi.DpiScaleY);
+                        return brush;
+                    }
+                case BackgroundStyle.Custom:
+                    {
+                        var brush = CustomBackgroundBrush.Clone();
+                        brush.Transform = new ScaleTransform(1.0 / dpi.DpiScaleX, 1.0 / dpi.DpiScaleY);
+                        return brush;
+                    }
             }
         }
 
@@ -2467,18 +2492,19 @@ namespace NeeView
         // コンテンツスケーリングモードを更新
         private void UpdateContentScalingMode()
         {
+            var dpiScaleX = App.Config.RawDpi.DpiScaleX;
             foreach (var content in Contents)
             {
                 if (content.View != null && content.View.Element is Rectangle)
                 {
-                    double diff = Math.Abs(content.Size.Width - content.Width * _Dpi.DpiScaleX);
+                    double diff = Math.Abs(content.Size.Width - content.Width * dpiScaleX);
                     if (_IsDpiSquare && diff < 0.1 && _viewAngle == 0.0 && Math.Abs(_finalViewScale - 1.0) < 0.001)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                     }
                     else
                     {
-                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * _Dpi.DpiScaleX * _finalViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * dpiScaleX * _finalViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
                     }
                 }
             }
@@ -2869,7 +2895,6 @@ namespace NeeView
 
             try
             {
-
                 var context = new PrintContext();
                 context.MainContent = this.MainContent;
                 context.Contents = this.Contents;
@@ -2878,7 +2903,7 @@ namespace NeeView
                 context.ViewWidth = width;
                 context.ViewHeight = height;
                 context.ViewEffect = ImageEffector.Effect;
-                context.Background = BackgroundBrush;
+                context.Background = CreateBackgroundBrush(new DpiScale(1, 1));
 
                 var dialog = new PrintWindow(context);
                 dialog.Owner = owner;
@@ -3125,6 +3150,9 @@ namespace NeeView
             [DataMember(Order = 21)]
             public SliderIndexLayout SliderIndexLayout { get; set; }
 
+            [DataMember(Order = 21)]
+            public BrushSource CustomBackground { get; set; }
+
             //
             private void Constructor()
             {
@@ -3162,6 +3190,7 @@ namespace NeeView
                 IsVisibleWindowTitle = true;
                 IsVisibleLoupeInfo = true;
                 SliderIndexLayout = SliderIndexLayout.Right;
+                CustomBackground = new BrushSource();
             }
 
             public Memento()
@@ -3221,6 +3250,7 @@ namespace NeeView
             memento.AngleFrequency = this.AngleFrequency;
             memento.IsViewStartPositionCenter = this.IsViewStartPositionCenter;
             memento.StretchMode = this.StretchMode;
+            memento.CustomBackground = this.CustomBackground;
             memento.Background = this.Background;
             memento.NoticeShowMessageStyle = this.NoticeShowMessageStyle;
             memento.CommandShowMessageStyle = this.CommandShowMessageStyle;
@@ -3289,6 +3319,7 @@ namespace NeeView
             this.AngleFrequency = memento.AngleFrequency;
             this.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
             this.StretchMode = memento.StretchMode;
+            this.CustomBackground = memento.CustomBackground;
             this.Background = memento.Background;
             this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
             this.CommandShowMessageStyle = memento.CommandShowMessageStyle;

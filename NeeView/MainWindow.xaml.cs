@@ -2170,6 +2170,9 @@ namespace NeeView
             var isChanged = App.Config.SetDip(e.NewDpi);
             if (!isChanged) return;
 
+            // 背景更新
+            _VM?.UpdateBackgroundBrush();
+
             // ウィンドウサイズのDPI非追従
             if (Preference.Current.dpi_window_ignore && this.WindowState == WindowState.Normal)
             {

@@ -12,7 +12,7 @@
         xmlns:local="clr-namespace:NeeView"
         xmlns:nlp="clr-namespace:NeeLaboratory.Property"
         mc:Ignorable="d" 
-        Style="{StaticResource DefaultWindowStyle}"
+        Style="{StaticResource ToolDialogStyle}"
         ResizeMode="NoResize" SizeToContent="Height"
         Title="{Binding Title}" Width="450">
 

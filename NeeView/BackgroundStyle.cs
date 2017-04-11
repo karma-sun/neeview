@@ -17,7 +17,8 @@ namespace NeeView
         Black,
         White,
         Auto,
-        Check
+        Check,
+        Custom
     };
 
     public static class BackgroundStyleExceptions
@@ -35,6 +36,7 @@ namespace NeeView
                 case BackgroundStyle.White: return "背景を白色にする";
                 case BackgroundStyle.Auto: return "背景を画像に合わせた色にする";
                 case BackgroundStyle.Check: return "背景をチェック模様にする";
+                case BackgroundStyle.Custom: return "背景をカスタム背景にする";
                 default:
                     throw new NotSupportedException();
             }

@@ -15,7 +15,7 @@
         xmlns:drag="clr-namespace:DragExtensions"
         xmlns:nlc="clr-namespace:NeeLaboratory.Controls"
         mc:Ignorable="d"
-        Style="{StaticResource DefaultWindowStyle}"
+        Style="{StaticResource ToolWindowStyle}"
         Title="設定" Height="600" Width="720" Closed="Window_Closed" >
 
     <Window.Resources>
@@ -74,6 +74,15 @@
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="Padding" Value="16,8"/>
             <Setter Property="Margin" Value="10,0"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="TextButton" BasedOn="{StaticResource IconButton}">
+            <Setter Property="Margin" Value="2,0"/>
+            <Setter Property="MinWidth" Value="200"/>
+            <Setter Property="Foreground" Value="{StaticResource NVButtonForeground}"/>
+            <!--<Setter Property="Foreground" Value="#FF4488FF"/>-->
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Left"/>
         </Style>
 
     </Window.Resources>
@@ -175,19 +184,22 @@
                         <TextBlock Text="その他" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <Button x:Name="RemoveCacheButton" Style="{StaticResource ItemButton}"
-                                    Click="RemoveCache_Click">
-                                <TextBlock Text="サムネイルキャッシュを削除する" Margin="5,0,0,0"/>
-                            </Button>
 
-                            <Button x:Name="RemoveAllDataButton" Style="{StaticResource ItemButton}" Margin="10"
-                                    ToolTip="ユーザデータを削除し、アプリケーションを終了します。&#xa;アンインストール前に履歴等を完全に削除したい場合に使用します"
-                                    Click="RemoveAllData_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{StaticResource ic_warning_48px}" Width="20"/>
-                                    <TextBlock Text="全データを削除する" VerticalAlignment="Bottom" Margin="5,0,0,0"/>
-                                </StackPanel>
-                            </Button>
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="サムネイルキャッシュを"/>
+                                <Button x:Name="RemoveCacheButton" Style="{StaticResource TextButton}" Content="削除する" Click="RemoveCache_Click"/>
+                            </StackPanel>
+
+                            <StackPanel x:Name="RemoveAllDataButton" Style="{StaticResource ItemStackPanel}"
+                                        ToolTip="ユーザデータを削除し、アプリケーションを終了します。&#xa;アンインストール前に履歴等を完全に削除したい場合に使用します">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="全データを"/>
+                                <Button Style="{StaticResource TextButton}"  Click="RemoveAllData_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="削除する" />
+                                        <Image Source="{StaticResource ic_warning_48px}" Height="15" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
 
                         </StackPanel>
 
@@ -205,6 +217,14 @@
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="テーマカラー"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PanelColorList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.ViewMemento.PanelColor}" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <TextBlock Text="背景" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="カスタム背景"/>
+                                <Button Style="{StaticResource TextButton}" Content="設定" Click="EditCustomBackgroundButton_Click"/>
                             </StackPanel>
                         </StackPanel>
 
@@ -691,17 +711,16 @@
                                     Minimum="0" Maximum="{Binding HistoryLimitSpan.IndexMax}" TickFrequency="1" />
                                 <TextBlock Text="{Binding HistoryLimitSpan.ValueString}" />
                             </StackPanel>
-
+                            
                         </StackPanel>
 
-
-                        <TextBlock Text="現在の履歴数" Style="{StaticResource Header}"/>
+                        <TextBlock Text="履歴削除" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
-                            <Grid>
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="{Binding History.Items.Count, StringFormat={}現在の履歴数は {0}}" />
-                                <Button Content="履歴を削除する" Click="ClearHistoryButton_Click">
+                            <StackPanel Style="{StaticResource ItemStackPanel}">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="履歴を"/>
+                                <Button Content="削除する" Click="ClearHistoryButton_Click">
                                     <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource ItemButton}">
+                                        <Style TargetType="Button" BasedOn="{StaticResource TextButton}">
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding History.Items.Count}" Value="0">
                                                     <Setter Property="IsEnabled" Value="False"/>
@@ -710,7 +729,7 @@
                                         </Style>
                                     </Button.Style>
                                 </Button>
-                            </Grid>
+                            </StackPanel>
                         </StackPanel>
 
                         <TextBlock Text="フォルダーリスト" Style="{StaticResource Header}" />

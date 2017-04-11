@@ -278,7 +278,7 @@
                     <Grid x:Name="MainViewPanelGrid" Panel.ZIndex="-1" Margin="-1,0">
                         <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding BackgroundBrush}" >
 
-
+                            
                             <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffector.Effect}">
 
                                 <!-- メインビュー コンテンツ表示領域 -->

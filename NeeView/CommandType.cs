@@ -106,6 +106,7 @@ namespace NeeView
         SetBackgroundWhite,
         SetBackgroundAuto,
         SetBackgroundCheck,
+        SetBackgroundCustom,
 
         TogglePageMode,
         SetPageMode1,

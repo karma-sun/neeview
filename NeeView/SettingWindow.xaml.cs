@@ -719,6 +719,8 @@ namespace NeeView
         {
             History.Items.Clear();
             RaisePropertyChanged(nameof(History));
+
+            MessageBoxEx.Show(this, "履歴を削除しました");
         }
 
         // プラグインリスト：ドロップ受付判定
@@ -935,6 +937,22 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// カスタム背景設定
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditCustomBackgroundButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new BackgroundSettingWindow(Setting.ViewMemento.CustomBackground.Clone());
+            dialog.Owner = this;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            var result = dialog.ShowDialog();
+            if (result == true)
+            {
+                Setting.ViewMemento.CustomBackground = dialog.Result;
+            }
+        }
     }
 
 

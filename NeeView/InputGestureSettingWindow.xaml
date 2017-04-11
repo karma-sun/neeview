@@ -12,7 +12,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Style="{StaticResource DefaultWindowStyle}"
+        Style="{StaticResource ToolDialogStyle}"
         Title="{Binding Header}" Height="360" Width="500">
 
     <Window.Resources>

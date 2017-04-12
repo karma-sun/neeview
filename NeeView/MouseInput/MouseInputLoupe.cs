@@ -100,12 +100,18 @@ namespace NeeView
         #region Property: LoupeScale
         /// <summary>
         /// ルーペ倍率
-        /// TODO: 初期倍率設定
         /// </summary>
-        private double _loupeScale = 2.0;
+        private double _loupeScale = double.NaN;
         public double LoupeScale
         {
-            get { return _loupeScale; }
+            get
+            {
+                if (double.IsNaN(_loupeScale))
+                {
+                    _loupeScale = Preference.Current.loupe_scale_default;
+                }
+                return _loupeScale;
+            }
             set
             {
                 _loupeScale = value;
@@ -225,6 +231,11 @@ namespace NeeView
 
             this.IsEnabled = true;
             _isButtonDown = false;
+
+            if (Preference.Current.loupe_scale_reset)
+            {
+                LoupeScale = Preference.Current.loupe_scale_default;
+            }
         }
 
         /// <summary>
@@ -333,9 +344,7 @@ namespace NeeView
         /// </summary>
         public void LoupeZoomIn()
         {
-            var newScale = LoupeScale + 1.0;
-            if (newScale > 10.0) newScale = 10.0; // 最大 x10.0
-            LoupeScale = newScale;
+            LoupeScale = Math.Min(LoupeScale + 1.0, Preference.Current.loupe_scale_max);
         }
 
         /// <summary>
@@ -343,9 +352,7 @@ namespace NeeView
         /// </summary>
         public void LoupeZoomOut()
         {
-            var newScale = LoupeScale - 1.0;
-            if (newScale < 2.0) newScale = 2.0;
-            LoupeScale = newScale;
+            LoupeScale = Math.Max(LoupeScale - 1.0, Preference.Current.loupe_scale_min);
         }
 
         /// <summary>

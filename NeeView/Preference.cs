@@ -124,8 +124,8 @@ namespace NeeView
 
         [DataMember, DefaultValue(1000)]
         [PropertyMember("ページサムネイル容量", Tips = "ページサムネイル保持枚数です。フォルダーを閉じると全てクリアされます")]
-        public int thumbnail_book_capacity {get; set; }
-        
+        public int thumbnail_book_capacity { get; set; }
+
         [DataMember, DefaultValue(200)]
         [PropertyMember("フォルダーサムネイル容量", Tips = "フォルダーリスト等でのサムネイル保持枚数です")]
         public int thumbnail_folder_capacity { get; set; }
@@ -133,6 +133,23 @@ namespace NeeView
         [DataMember, DefaultValue(true)]
         [PropertyMember("フォルダーリスト追加ファイルは挿入", Tips = "フォルダーリストで追加されたファイルを現在のソート順で挿入します。\nFalseのときはリストの終端に追加します。")]
         public bool folderlist_addfile_insert { get; set; }
+        
+        [DataMember, DefaultValue(2.0)]
+        [PropertyMember("ルーペ標準倍率", Tips = "ルーペの初期倍率です")]
+        public double loupe_scale_default { get; set; }
+
+        [DataMember, DefaultValue(2.0)]
+        [PropertyMember("ルーペ最小倍率", Tips = "ルーペの最小倍率です")]
+        public double loupe_scale_min { get; set; }
+
+        [DataMember, DefaultValue(10.0)]
+        [PropertyMember("ルーペ最大倍率", Tips = "ルーペの最大倍率です")]
+        public double loupe_scale_max { get; set; }
+
+        [DataMember, DefaultValue(false)]
+        [PropertyMember("ルーペ倍率リセット", Tips = "ルーペを開始するたびに標準倍率に戻します")]
+        public bool loupe_scale_reset { get; set; }
+
 
         /// <summary>
         /// 
@@ -178,6 +195,15 @@ namespace NeeView
 
             // thumbnail_quality
             thumbnail_quality = NVUtility.Clamp(thumbnail_quality, 1, 100);
+
+            // loupe_scale_min
+            //loupe_scale_min = Math.Max(loupe_scale_min, 1.0);
+
+            // loupe_scale_max
+            loupe_scale_max = Math.Max(loupe_scale_max, loupe_scale_min);
+
+            // loupe_scale
+            loupe_scale_default = NVUtility.Clamp(loupe_scale_default, loupe_scale_min, loupe_scale_max);
         }
 
 

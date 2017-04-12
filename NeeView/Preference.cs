@@ -150,6 +150,9 @@ namespace NeeView
         [PropertyMember("ルーペ倍率リセット", Tips = "ルーペを開始するたびに標準倍率に戻します")]
         public bool loupe_scale_reset { get; set; }
 
+        [DataMember, DefaultValue(true)]
+        [PropertyMember("ファイル削除確認", Tips = "ファイル削除時に確認ダイアログを表示します")]
+        public bool file_remove_confirm { get; set; }
 
         /// <summary>
         /// 

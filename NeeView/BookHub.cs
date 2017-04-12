@@ -1682,6 +1682,7 @@ namespace NeeView
             var removeParam = (RemoveFileParams)e.Parameter;
             var path = removeParam.Path;
             var visual = removeParam.Visual;
+            var isConfirm = Preference.Current.file_remove_confirm;
 
             if (visual == null)
             {
@@ -1703,7 +1704,7 @@ namespace NeeView
                 Icon = MessageBoxExImage.RecycleBin,
                 VisualContent = visual,
             };
-            var result = Messenger.Send(sender, new MessageEventArgs("MessageBox") { Parameter = param });
+            var result = isConfirm ? Messenger.Send(sender, new MessageEventArgs("MessageBox") { Parameter = param }) : true;
 
             //
             e.Result = result == true;
@@ -1753,6 +1754,8 @@ namespace NeeView
                 }
             }
         }
+
+        // 
 
 
         // ファイルの名前を変える

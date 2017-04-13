@@ -37,27 +37,33 @@
 
         <!-- Parameters -->
         <StackPanel DockPanel.Dock="Top" Margin="10" >
-            <DockPanel Margin="5">
-                <RadioButton Content="背景色" MinWidth="100" VerticalAlignment="Center"
-                                 IsChecked="{Binding Source.Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=SolidColor}"/>
-                <TextBox Text="{Binding Source.Color}" MinWidth="100" BorderThickness="1,1,0,1" Padding="0,0,2,0"/>
-                <osc:ComboColorPicker SelectedColor="{Binding Source.Color, Mode=TwoWay}"/>
-            </DockPanel>
-            <DockPanel Margin="5">
-                <RadioButton Content="タイル画像" MinWidth="100" VerticalAlignment="Center"
-                                 IsChecked="{Binding Source.Type, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=ImageTile}"/>
-                <nlc:FileNameBox SelectDirectory="False" Title="画像の選択" Filter="すべてのファイル|*.*" MinHeight="24"
+
+            <ComboBox ItemsSource="{Binding Source.BrushTypeList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Source.Type}" Margin="5"/>
+
+            <StackPanel Margin="50,5,0,0">
+
+                <DockPanel Margin="5">
+                    <TextBlock Text="色" MinWidth="50" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Source.Color}" MinWidth="100" BorderThickness="1,1,0,1" Padding="0,0,2,0" VerticalContentAlignment="Center"/>
+                    <osc:ComboColorPicker SelectedColor="{Binding Source.Color, Mode=TwoWay}"/>
+                </DockPanel>
+                <DockPanel Margin="5">
+                    <TextBlock Text="画像" MinWidth="50" VerticalAlignment="Center"/>
+                    <nlc:FileNameBox SelectDirectory="False" Title="画像の選択" Filter="すべてのファイル|*.*" MinHeight="24"
                                  Note="画像ファイルを選択してください"
                                  Text="{Binding Source.ImageFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-            </DockPanel>
+                </DockPanel>
+            </StackPanel>
         </StackPanel>
 
         <!-- Preview -->
-        <Grid Margin="10">
+        <Grid Margin="10,5">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" UseLayoutRounding="True">
                 <Border BorderBrush="Gray" BorderThickness="1" >
                     <Viewbox Width="200" Height="150">
-                        <Rectangle Width="800" Height="600" RenderOptions.BitmapScalingMode="HighQuality" Fill="{Binding PreviewBrush}"/>
+                        <Grid Width="800" Height="600" Background="{Binding BackBrush}">
+                            <Rectangle RenderOptions.BitmapScalingMode="HighQuality" Fill="{Binding FrontBrush}"/>
+                        </Grid>
                     </Viewbox>
                 </Border>
                 <TextBlock Text="プレビュー (25%)" HorizontalAlignment="Center"/>

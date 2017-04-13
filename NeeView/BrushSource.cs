@@ -20,6 +20,9 @@ namespace NeeView
     {
         SolidColor, // 単色
         ImageTile, // 画像タイル
+        ImageFill, // 画像を拡大して表示
+        ImageUniform, // 画像をウインドウサイズに合わせる
+        ImageUniformToFill, // 縦横比をウインドウいっぱいに広げる
     }
 
     /// <summary>
@@ -51,10 +54,13 @@ namespace NeeView
         }
 
         //
-        public static Dictionary<BrushType, string> BackgroundBrushTypeList { get; } = new Dictionary<BrushType, string>()
+        public static Dictionary<BrushType, string> BrushTypeList { get; } = new Dictionary<BrushType, string>()
         {
-            [BrushType.SolidColor] = "背景色",
+            [BrushType.SolidColor] = "単色",
             [BrushType.ImageTile] = "画像タイル",
+            [BrushType.ImageFill] = "画像を拡大して表示",
+            [BrushType.ImageUniform] = "画像をウインドウサイズに合わせる",
+            [BrushType.ImageUniformToFill] = "画像をウインドウいっぱいに広げる",
         };
 
         /// <summary>
@@ -78,7 +84,7 @@ namespace NeeView
             get { return _ImageFileName; }
             set { if (_ImageFileName != value) { _ImageFileName = value; RaisePropertyChanged(); } }
         }
-        
+
         /// <summary>
         /// Brush property.
         /// </summary>
@@ -99,19 +105,30 @@ namespace NeeView
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Brush CreateBackBrush()
+        {
+            return new SolidColorBrush(Color);
+        }
+
+        /// <summary>
         /// ブラシを作成
         /// </summary>
         /// <returns></returns>
-        public Brush CreateBrush()
+        public Brush CreateFrontBrush()
         {
             switch (Type)
             {
-                case BrushType.SolidColor:
-                    return new SolidColorBrush(Color);
-                case BrushType.ImageTile:
-                    return CreateImageTileBrush();
                 default:
-                    return Brushes.LightGray;
+                case BrushType.SolidColor:
+                    return null;
+                case BrushType.ImageTile:
+                case BrushType.ImageFill:
+                case BrushType.ImageUniform:
+                case BrushType.ImageUniformToFill:
+                    return CreateImageBrush(Type);
             }
         }
 
@@ -119,7 +136,7 @@ namespace NeeView
         /// タイルブラシを作成
         /// </summary>
         /// <returns></returns>
-        private Brush CreateImageTileBrush()
+        private Brush CreateImageBrush(BrushType type)
         {
             try
             {
@@ -131,12 +148,26 @@ namespace NeeView
                 bmpImage.Freeze();
 
                 var brush = new ImageBrush(bmpImage);
-                brush.AlignmentX = AlignmentX.Left;
-                brush.AlignmentY = AlignmentY.Top;
-                brush.Viewport = new Rect(0, 0, bmpImage.PixelWidth, bmpImage.PixelHeight);
-                brush.ViewportUnits = BrushMappingMode.Absolute;
-                brush.Stretch = Stretch.Fill;
-                brush.TileMode = TileMode.Tile;
+                switch (type)
+                {
+                    case BrushType.ImageTile:
+                        brush.AlignmentX = AlignmentX.Left;
+                        brush.AlignmentY = AlignmentY.Top;
+                        brush.Viewport = new Rect(0, 0, bmpImage.PixelWidth, bmpImage.PixelHeight);
+                        brush.ViewportUnits = BrushMappingMode.Absolute;
+                        brush.Stretch = Stretch.Fill;
+                        brush.TileMode = TileMode.Tile;
+                        break;
+                    case BrushType.ImageFill:
+                        brush.Stretch = Stretch.Fill;
+                        break;
+                    case BrushType.ImageUniform:
+                        brush.Stretch = Stretch.Uniform;
+                        break;
+                    case BrushType.ImageUniformToFill:
+                        brush.Stretch = Stretch.UniformToFill;
+                        break;
+                }
 
                 return brush;
             }

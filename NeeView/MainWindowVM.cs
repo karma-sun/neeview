@@ -454,13 +454,26 @@ namespace NeeView
         public BrushSource CustomBackground
         {
             get { return _CustomBackground; }
-            set { if (_CustomBackground != value) { _CustomBackground = value; CustomBackgroundBrush = _CustomBackground.CreateBrush(); } }
+            set
+            {
+                if (_CustomBackground != value)
+                {
+                    _CustomBackground = value;
+                    CustomBackgroundBrush = _CustomBackground.CreateBackBrush();
+                    CustomBackgroundFrontBrush = _CustomBackground.CreateFrontBrush();
+                }
+            }
         }
 
         /// <summary>
         /// カスタム背景
         /// </summary>
         public Brush CustomBackgroundBrush { get; set; }
+
+        /// <summary>
+        /// カスタム背景
+        /// </summary>
+        public Brush CustomBackgroundFrontBrush { get; set; }
 
         /// <summary>
         /// チェック模様
@@ -1320,8 +1333,15 @@ namespace NeeView
         }
         #endregion
 
-
-
+        /// <summary>
+        /// BackgroundFrontBrush property.
+        /// </summary>
+        private Brush _BackgroundFrontBrush;
+        public Brush BackgroundFrontBrush
+        {
+            get { return _BackgroundFrontBrush; }
+            set { if (_BackgroundFrontBrush != value) { _BackgroundFrontBrush = value; RaisePropertyChanged(); } }
+        }
 
         #region Property: MenuColor
         private PanelColor _menuColor;
@@ -1979,15 +1999,15 @@ namespace NeeView
         // Background Brush 更新
         public void UpdateBackgroundBrush()
         {
-            BackgroundBrush = CreateBackgroundBrush(App.Config.Dpi);
+            BackgroundBrush = CreateBackgroundBrush();
+            BackgroundFrontBrush = CreateBackgroundFrontBrush(App.Config.Dpi);
         }
 
         /// <summary>
         /// 背景ブラシ作成
         /// </summary>
-        /// <param name="dpi">画像背景の場合に適用するDPI</param>
         /// <returns></returns>
-        public Brush CreateBackgroundBrush(DpiScale dpi)
+        public Brush CreateBackgroundBrush()
         {
             switch (this.Background)
             {
@@ -1999,6 +2019,27 @@ namespace NeeView
                 case BackgroundStyle.Auto:
                     return new SolidColorBrush(Contents[Contents[1].IsValid ? 1 : 0].Color);
                 case BackgroundStyle.Check:
+                    return null;
+                case BackgroundStyle.Custom:
+                    return CustomBackgroundBrush;
+            }
+        }
+
+        /// <summary>
+        /// 背景ブラシ(画像)作成
+        /// </summary>
+        /// <param name="dpi">適用するDPI</param>
+        /// <returns></returns>
+        public Brush CreateBackgroundFrontBrush(DpiScale dpi)
+        {
+            switch (this.Background)
+            {
+                default:
+                case BackgroundStyle.Black:
+                case BackgroundStyle.White:
+                case BackgroundStyle.Auto:
+                    return null;
+                case BackgroundStyle.Check:
                     {
                         var brush = CheckBackgroundBrush.Clone();
                         brush.Transform = new ScaleTransform(1.0 / dpi.DpiScaleX, 1.0 / dpi.DpiScaleY);
@@ -2006,8 +2047,12 @@ namespace NeeView
                     }
                 case BackgroundStyle.Custom:
                     {
-                        var brush = CustomBackgroundBrush.Clone();
-                        brush.Transform = new ScaleTransform(1.0 / dpi.DpiScaleX, 1.0 / dpi.DpiScaleY);
+                        var brush = CustomBackgroundFrontBrush?.Clone();
+                        // 画像タイルの場合はDPI考慮
+                        if (brush is ImageBrush imageBrush && imageBrush.TileMode == TileMode.Tile)
+                        {
+                            brush.Transform = new ScaleTransform(1.0 / dpi.DpiScaleX, 1.0 / dpi.DpiScaleY);
+                        }
                         return brush;
                     }
             }
@@ -2903,7 +2948,8 @@ namespace NeeView
                 context.ViewWidth = width;
                 context.ViewHeight = height;
                 context.ViewEffect = ImageEffector.Effect;
-                context.Background = CreateBackgroundBrush(new DpiScale(1, 1));
+                context.Background = CreateBackgroundBrush();
+                context.BackgroundFront = CreateBackgroundFrontBrush(new DpiScale(1, 1));
 
                 var dialog = new PrintWindow(context);
                 dialog.Owner = owner;

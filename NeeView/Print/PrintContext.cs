@@ -63,5 +63,10 @@ namespace NeeView
         /// 背景ブラシ
         /// </summary>
         public Brush Background { get; set; }
+
+        /// <summary>
+        /// 背景ブラシ
+        /// </summary>
+        public Brush BackgroundFront { get; set; }
     }
 }

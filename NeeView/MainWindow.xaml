@@ -105,6 +105,7 @@
 
         <local:SliderDirectionToFlowDirectionConverter x:Key="SliderDirectionToFlowDirectionConverter"/>
 
+        <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
 
 
         <!-- MenuItem History -->
@@ -276,9 +277,9 @@
 
                     <!-- メインビュー -->
                     <Grid x:Name="MainViewPanelGrid" Panel.ZIndex="-1" Margin="-1,0">
-                        <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding BackgroundBrush}" >
+                        <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding BackgroundBrush}">
+                            <Rectangle x:Name="FrontBackground" Fill="{Binding BackgroundFrontBrush}" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" Visibility="{Binding BackgroundFrontBrush, Converter={StaticResource NullableToVisibilityConverter}}"/>
 
-                            
                             <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffector.Effect}">
 
                                 <!-- メインビュー コンテンツ表示領域 -->

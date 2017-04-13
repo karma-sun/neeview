@@ -479,6 +479,14 @@ namespace NeeView
             gridArea.Background = isBackground ? _context.Background : null;
             gridArea.Children.Add(viewbox);
 
+            if (isBackground && _context.BackgroundFront != null)
+            {
+                var backgroundFront = new Rectangle();
+                backgroundFront.Fill = _context.BackgroundFront;
+                RenderOptions.SetBitmapScalingMode(backgroundFront, BitmapScalingMode.HighQuality);
+                gridArea.Children.Insert(0, backgroundFront);
+            }
+
             return gridArea;
         }
 

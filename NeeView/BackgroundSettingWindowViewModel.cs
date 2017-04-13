@@ -24,17 +24,32 @@ namespace NeeView
         }
 
         /// <summary>
-        /// PreviewBrush property.
+        /// BackBrush property.
         /// </summary>
-        public Brush PreviewBrush
+        private Brush _BackBrush;
+        public Brush BackBrush
         {
             get
             {
-                var brush = Source.CreateBrush();
-                brush.Transform = new ScaleTransform(App.Config.Dpi.DpiScaleX, App.Config.Dpi.DpiScaleY);
+                var brush = Source.CreateBackBrush();
                 return brush;
             }
         }
+
+
+        /// <summary>
+        /// FrontBrush property.
+        /// </summary>
+        public Brush FrontBrush
+        {
+            get
+            {
+                var brush = Source.CreateFrontBrush();
+                return brush;
+            }
+        }
+
+
 
         /// <summary>
         /// ブラシソース
@@ -66,7 +81,8 @@ namespace NeeView
         /// <param name="e"></param>
         private void Source_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            RaisePropertyChanged(nameof(PreviewBrush));
+            RaisePropertyChanged(nameof(BackBrush));
+            RaisePropertyChanged(nameof(FrontBrush));
         }
     }
 }

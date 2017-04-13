@@ -19,6 +19,12 @@
 * License: [CPOL](http://www.codeproject.com/info/cpol10.aspx)
 
 
+### Utility/ComboColorPicker.xaml(.cs)
+
+* URL: [Small ColorPicker for WPF](http://www.codeproject.com/Articles/34376/Small-ColorPicker-for-WPF)
+* License: [CPOL](https://www.codeproject.com/info/cpol10.aspx)
+
+
 ### その他
 
 ブログ等を参考にして作成されたコードの先頭には、そのURLを記載しています。

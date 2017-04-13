@@ -116,7 +116,7 @@
     <Compile Include="BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
     <Compile Include="BrushSource.cs" />
-    <Compile Include="ComboColorPicker\ComboColorPicker.xaml.cs">
+    <Compile Include="Utility\ComboColorPicker.xaml.cs">
       <DependentUpon>ComboColorPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="CommandResetWindow.xaml.cs">
@@ -394,7 +394,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ComboColorPicker\ComboColorPicker.xaml">
+    <Page Include="Utility\ComboColorPicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

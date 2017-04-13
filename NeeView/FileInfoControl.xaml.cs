@@ -293,9 +293,10 @@ namespace NeeView
         {
             if (_viewContent != null)
             {
-                if (!string.IsNullOrWhiteSpace(_viewContent.FilePlace))
+                var place = _viewContent.Page?.GetFilePlace();
+                if (!string.IsNullOrWhiteSpace(place))
                 {
-                    System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + _viewContent.FilePlace + "\"");
+                    System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + place + "\"");
                 }
             }
         }

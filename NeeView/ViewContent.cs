@@ -51,9 +51,14 @@ namespace NeeView
         public ViewContentSource Source { get; set; }
 
         /// <summary>
+        /// ページ
+        /// </summary>
+        public Page Page => Source?.Page;
+
+        /// <summary>
         /// コンテンツ
         /// </summary>
-        public PageContent Content;
+        public PageContent Content => Source?.Content;
 
         /// <summary>
         /// Property: View.
@@ -93,23 +98,17 @@ namespace NeeView
             set { _size = value; }
         }
 
-        // コンテンツソースサイズ
-        public Size SourceSize { get; set; }
-
         // コンテンツの色
         public Color Color = Colors.Black;
 
-        // 表示名
-        public string FullPath { get; set; }
-
-        // フォルダーの場所 ページの上位の有効パス
-        public string FolderPlace { get; set; }
-
-        // ファイルの場所 ページを含む有効パス
-        public string FilePlace { get; set; }
+        // フルパス名
+        public string FullPath => Page?.FullPath;
 
         // ファイル名
-        public string FileName => LoosePath.GetFileName(FullPath.TrimEnd('\\'));
+        public string FileName => LoosePath.GetFileName(Page?.FullPath.TrimEnd('\\'));
+
+        // フォルダーの場所
+        public string FolderPlace => Page?.GetFolderPlace();
 
 
         // ファイルプロキシ(必要であれば)
@@ -117,13 +116,8 @@ namespace NeeView
         public FileProxy FileProxy { get; set; }
 
         // ページの場所
-        public PagePosition Position { get; set; }
+        public PagePosition Position => Source.Position;
 
-        // 表示パーツサイズ
-        public int PartSize { get; set; }
-
-        // 方向
-        public PageReadOrder ReadOrder { get; set; }
 
         // スケールモード
         #region Property: BitmapScalingMode
@@ -161,9 +155,9 @@ namespace NeeView
         // ページパーツ文字
         public string GetPartString()
         {
-            if (PartSize == 1)
+            if (Source.PartSize == 1)
             {
-                int part = ReadOrder == PageReadOrder.LeftToRight ? 1 - Position.Part : Position.Part;
+                int part = Source.ReadOrder == PageReadOrder.LeftToRight ? 1 - Source.Position.Part : Source.Position.Part;
                 return part == 0 ? "(R)" : "(L)";
             }
             else
@@ -195,16 +189,8 @@ namespace NeeView
             var contentType = source.GetContentType();
 
             this.Source = source;
-            this.Content = source.Content;
             this.Size = source.Size;
-            this.SourceSize = source.Content.Size;
             this.Color = Colors.Black;
-            this.FolderPlace = source.Page.GetFolderPlace();
-            this.FilePlace = source.Page.GetFilePlace();
-            this.FullPath = source.Page.FullPath;
-            this.Position = source.Position;
-            this.PartSize = source.PartSize;
-            this.ReadOrder = source.ReadOrder;
 
             //
             var parameter = new ViewContentParameters()

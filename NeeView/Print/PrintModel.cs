@@ -583,11 +583,11 @@ namespace NeeView
         {
             if (PrintMode == PrintMode.RawImage)
             {
-                return LoosePath.GetFileName(_context.MainContent.FullPath);
+                return _context.MainContent.FileName;
             }
             else
             {
-                return string.Join(" | ", _context.Contents.Where(e => e.IsValid).Reverse().Select(e => LoosePath.GetFileName(e.FullPath)));
+                return string.Join(" | ", _context.Contents.Where(e => e.IsValid).Reverse().Select(e => e.FileName));
             }
         }
 

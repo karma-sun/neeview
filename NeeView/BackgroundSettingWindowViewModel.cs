@@ -26,29 +26,13 @@ namespace NeeView
         /// <summary>
         /// BackBrush property.
         /// </summary>
-        private Brush _BackBrush;
-        public Brush BackBrush
-        {
-            get
-            {
-                var brush = Source.CreateBackBrush();
-                return brush;
-            }
-        }
+        public Brush BackBrush => Source.CreateBackBrush();
 
 
         /// <summary>
         /// FrontBrush property.
         /// </summary>
-        public Brush FrontBrush
-        {
-            get
-            {
-                var brush = Source.CreateFrontBrush();
-                return brush;
-            }
-        }
-
+        public Brush FrontBrush => Source.CreateFrontBrush();
 
 
         /// <summary>

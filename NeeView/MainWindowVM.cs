@@ -1140,7 +1140,7 @@ namespace NeeView
 
             if ((mask & UpdateWindowTitleMask.Page) != 0)
             {
-                string pageNum = (MainContent.PartSize == 2)
+                string pageNum = (MainContent.Source.PartSize == 2)
                 ? (MainContent.Position.Index + 1).ToString()
                 : (MainContent.Position.Index + 1).ToString() + (MainContent.Position.Part == 1 ? ".5" : ".0");
                 _windowTitleFormatter.Set("$PageMax", (IndexMax + 1).ToString());
@@ -1988,7 +1988,7 @@ namespace NeeView
                     (double)solidColorBrush.Color.G * 0.587 +
                     (double)solidColorBrush.Color.B * 0.114;
 
-                ForegroundBrush = (y < 0.25) ? Brushes.White : Brushes.Black;
+                ForegroundBrush = (y < 128.0) ? Brushes.White : Brushes.Black;
             }
             else
             {

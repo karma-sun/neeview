@@ -85,6 +85,19 @@ namespace NeeView
             set { if (_ImageFileName != value) { _ImageFileName = value; RaisePropertyChanged(); } }
         }
 
+#if false
+        /// <summary>
+        /// Opacity property.
+        /// </summary>
+        private double _Opacity = 1.0;
+        [DataMember]
+        public double Opacity
+        {
+            get { return _Opacity; }
+            set { if (_Opacity != value) { _Opacity = value; RaisePropertyChanged(); } }
+        }
+#endif
+
         /// <summary>
         /// Brush property.
         /// </summary>

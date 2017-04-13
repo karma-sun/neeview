@@ -35,6 +35,13 @@ namespace NeeView
             return new Binding(path) { Mode = mode };
         }
 
+
+        //
+        public static Binding BindingPreference(string path)
+        {
+            return new Binding(path) { Source = PreferenceAccessor.Current };
+        }
+
         //
         public static Binding BindingAppContext(string path)
         {
@@ -46,7 +53,6 @@ namespace NeeView
         {
             return new Binding("BookHub." + path);
         }
-
 
         //
         public static Binding BindingBookSetting(string path)

@@ -196,6 +196,7 @@
     <Compile Include="Page\ThumbnailBitmap.cs" />
     <Compile Include="Page\ThumbnailCache.cs" />
     <Compile Include="Page\ThumbnailPool.cs" />
+    <Compile Include="PreferenceAccessor.cs" />
     <Compile Include="Print\PrintContext.cs" />
     <Compile Include="Print\PrintModel.cs" />
     <Compile Include="Print\PrintWindow.xaml.cs">

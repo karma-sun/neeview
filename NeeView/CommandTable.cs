@@ -228,7 +228,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ファイル";
                 element.Text = "ファイルを開く";
-                element.MenuText = "開く...";
+                element.MenuText = "開く(_O)...";
                 element.Note = "圧縮ファイルか画像ファイルを選択して開きます";
                 element.ShortCutKey = "Ctrl+O";
                 element.IsShowMessage = false;
@@ -252,7 +252,7 @@ namespace NeeView
             {
                 var element = new CommandElement();
                 element.Group = "ファイル";
-                element.Text = "閉じる";
+                element.Text = "閉じる(_C)";
                 element.Note = "開いているフォルダーを閉じます";
                 element.CanExecute = () => _book.CanUnload();
                 element.Execute = (s, e) => _book.RequestUnload(true);
@@ -287,7 +287,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ファイル";
                 element.Text = "名前をつけてファイルに保存";
-                element.MenuText = "保存...";
+                element.MenuText = "保存(_S)...";
                 element.Note = "画像をファイルに保存します";
                 element.ShortCutKey = "Ctrl+S";
                 element.Execute = (s, e) => _book.Export();
@@ -300,7 +300,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ファイル";
                 element.Text = "印刷";
-                element.MenuText = "印刷...";
+                element.MenuText = "印刷(_P)...";
                 element.Note = "画像を印刷します";
                 element.ShortCutKey = "Ctrl+P";
                 //element.Execute = (s, e) => _VM.Print();
@@ -313,7 +313,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ファイル";
                 element.Text = "ファイルを削除";
-                element.MenuText = "削除...";
+                element.MenuText = "削除(_D)...";
                 element.Note = "ファイルを削除します。圧縮ファイルの場合は削除できません ";
                 element.ShortCutKey = "Delete";
                 element.Execute = (s, e) => _book.DeleteFile();
@@ -326,7 +326,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ファイル";
                 element.Text = "ファイルをコピー";
-                element.MenuText = "コピー";
+                element.MenuText = "コピー(_C)";
                 element.Note = "ファイルをクリップボードにコピーします";
                 element.ShortCutKey = "Ctrl+C";
                 element.Execute = (s, e) => _book.CopyToClipboard();
@@ -352,7 +352,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ファイル";
                 element.Text = "貼り付け";
-                element.MenuText = "貼り付け";
+                element.MenuText = "貼り付け(_V)";
                 element.Note = "クリップボードのファイルや画像を貼り付けます";
                 element.ShortCutKey = "Ctrl+V";
                 element.IsShowMessage = false;
@@ -1717,7 +1717,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "その他";
                 element.Text = "設定ウィンドウを開く";
-                element.MenuText = "設定...";
+                element.MenuText = "設定(_O)...";
                 element.Note = "設定ウィンドウを開きます";
                 element.IsShowMessage = false;
                 _elements[CommandType.OpenSettingWindow] = element;
@@ -1737,7 +1737,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "その他";
                 element.Text = "バージョン情報を表示する";
-                element.MenuText = "NeeView について...";
+                element.MenuText = "NeeView について(_A)...";
                 element.Note = "バージョン情報を表示します";
                 element.IsShowMessage = false;
                 _elements[CommandType.OpenVersionWindow] = element;
@@ -1747,11 +1747,27 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "その他";
                 element.Text = "アプリを終了する";
-                element.MenuText = "アプリを終了";
+                element.MenuText = "終了(_X)";
                 element.Note = "このアプリケーションを終了させます";
                 element.IsShowMessage = false;
                 element.CanExecute = () => true;
                 _elements[CommandType.CloseApplication] = element;
+            }
+
+
+            // TogglePermitFileCommand
+            {
+                var element = new CommandElement();
+                element.Group = "その他";
+                element.Text = "ファイル操作有効/無効";
+                element.MenuText = "ファイル操作許可(_P)";
+                element.Note = "ファイル操作系コマンドの有効/無効を切り替えます";
+                element.IsShowMessage = true;
+                element.Execute = (s, e) => PreferenceAccessor.Current.FilePermitCommand = !PreferenceAccessor.Current.FilePermitCommand;
+                element.ExecuteMessage = e => PreferenceAccessor.Current.FilePermitCommand ? "ファイル操作無効" : "ファイル操作有効";
+                element.CanExecute = () => true;
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingPreference(nameof(PreferenceAccessor.Current.FilePermitCommand));
+                _elements[CommandType.TogglePermitFileCommand] = element;
             }
 
 

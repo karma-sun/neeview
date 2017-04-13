@@ -1623,7 +1623,7 @@ namespace NeeView
         // ファイル削除可能？
         public bool CanDeleteFile()
         {
-            return CanRemoveFile(CurrentBook?.GetViewPage());
+            return Preference.Current.file_permit_command && CanRemoveFile(CurrentBook?.GetViewPage());
         }
 
         // ファイルを削除する

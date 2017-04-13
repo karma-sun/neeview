@@ -154,6 +154,11 @@ namespace NeeView
         [PropertyMember("ファイル削除確認", Tips = "ファイル削除時に確認ダイアログを表示します")]
         public bool file_remove_confirm { get; set; }
 
+        [DataMember, DefaultValue(true)]
+        [PropertyMember("ファイル操作許可", Tips = "削除や名前変更等のファイル操作コマンドを使用可能にします"
+            , Flags = PropertyMemberFlag.None)]
+        public bool file_permit_command { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

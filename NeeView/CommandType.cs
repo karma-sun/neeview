@@ -169,6 +169,8 @@ namespace NeeView
         //LoupeZoomIn,
         //LoupeZoomOut,
 
+        TogglePermitFileCommand,
+
         HelpOnline,
         HelpCommandList,
         HelpMainMenu,

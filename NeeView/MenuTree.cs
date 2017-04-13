@@ -437,21 +437,21 @@ namespace NeeView
                 {
                     new MenuTree(MenuElementType.Group) { Name="ファイル(_F)", Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.LoadAs, Name="開く(_O)..." },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.Unload, Name="閉じる(_C)" },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.LoadAs },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.Unload },
                         new MenuTree(MenuElementType.History),
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenApplication },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenFilePlace },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.CopyFile, Name="コピー(_C)" },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.Paste, Name="貼り付け(_V)" },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.Export, Name="保存(_S)..." },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.Print, Name="印刷(_P)..." },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.CopyFile },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.Paste },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.Export },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.Print },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.DeleteFile, Name="削除(_D)..." },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.DeleteFile },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.CloseApplication, Name="終了(_X)" }, // Alt+F4
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.CloseApplication },
                     }},
                     new MenuTree(MenuElementType.Group) { Name="表示(_V)", Children = new ObservableCollection<MenuTree>()
                     {
@@ -554,8 +554,10 @@ namespace NeeView
                     }},
                     new MenuTree(MenuElementType.Group) { Name="その他(_O)", Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingWindow, Name="設定(_O)..." },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingWindow },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingFilesFolder },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.TogglePermitFileCommand},
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Group) { Name="ヘルプ(_H)", Children = new ObservableCollection<MenuTree>()
                         {

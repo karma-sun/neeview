@@ -1,0 +1,68 @@
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NeeView
+{
+    /// <summary>
+    /// Preference accessor
+    /// </summary>
+    public class PreferenceAccessor : INotifyPropertyChanged
+    {
+        /// <summary>
+        /// system object
+        /// </summary>
+        private static PreferenceAccessor _current;
+        public static PreferenceAccessor Current
+        {
+            get
+            {
+                _current = _current ?? new PreferenceAccessor(Preference.Current);
+                return _current;
+            }
+        }
+
+
+        /// <summary>
+        /// PropertyChanged event. 
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+
+        /// <summary>
+        /// preference
+        /// </summary>
+        private Preference _preference;
+
+        /// <summary>
+        /// constuctor
+        /// </summary>
+        /// <param name="preference"></param>
+        public PreferenceAccessor(Preference preference)
+        {
+            _preference = preference;
+        }
+
+        /// <summary>
+        /// FilePermitCommand property.
+        /// </summary>
+        public bool FilePermitCommand
+        {
+            get { return _preference.file_permit_command; }
+            set { if (_preference.file_permit_command != value) { _preference.file_permit_command = value; RaisePropertyChanged(); } }
+        }
+    }
+}

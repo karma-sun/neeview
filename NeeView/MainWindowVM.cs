@@ -2082,6 +2082,7 @@ namespace NeeView
         {
             Preference.Current.Restore(setting.PreferenceMemento);
             ModelContext.ApplyPreference();
+            PreferenceAccessor.Current.Reflesh();
 
             this.Restore(setting.ViewMemento);
             this.ImageEffector.Restore(setting.ImageEffectMemento, fromLoad);

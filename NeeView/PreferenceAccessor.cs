@@ -43,6 +43,15 @@ namespace NeeView
 
 
         /// <summary>
+        /// Reflesh
+        /// </summary>
+        public void Reflesh()
+        {
+            RaisePropertyChanged(null);
+        }
+
+
+        /// <summary>
         /// preference
         /// </summary>
         private Preference _preference;

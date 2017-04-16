@@ -45,7 +45,7 @@
 
 ### インストーラー版
 
-  * NeeView<VERSION/>.msi
+  * NeeView<VERSION/>-32bit.msi
   * NeeView<VERSION/>-64bit.msi
 
   32bit版と64bit版でインストーラーが別れています。  

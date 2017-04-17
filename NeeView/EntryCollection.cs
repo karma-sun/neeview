@@ -15,14 +15,18 @@ namespace NeeView
     /// <summary>
     /// ページ収拾
     /// TODO: ページ指定時の最適化
-    /// TODO: BOOKと共有
     /// </summary>
-    public class EntryCollection : IDisposable
+    public class EntryCollection : IDisposable, ITrash
     {
         /// <summary>
         /// 収集されたエントリ群
         /// </summary>
-        public List<ArchiveEntry> Collection { get; set; }
+        public List<ArchiveEntry> Collection { get; private set; }
+
+        /// <summary>
+        /// 展開されなかったサブフォルダ数
+        /// </summary>
+        public int SkippedArchiveCount { get; private set; }
 
         // system property
         // TODO: preference化
@@ -31,7 +35,7 @@ namespace NeeView
         /// <summary>
         /// ごみ箱
         /// </summary>
-        public TrashBox _trashBox = new TrashBox();
+        private TrashBox _trashBox = new TrashBox();
 
         /// <summary>
         /// 基準アーカイブ
@@ -44,14 +48,20 @@ namespace NeeView
         private bool _isRecursived;
 
         /// <summary>
+        /// すべてのファイル
+        /// </summary>
+        private bool _isSupportAllFile;
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="root">基準アーカイブ</param>
         /// <param name="isRecursived">再帰フラグ</param>
-        public EntryCollection(Archiver root, bool isRecursived)
+        public EntryCollection(Archiver root, bool isRecursived, bool isSupportAllFile)
         {
             _root = root;
             _isRecursived = isRecursived;
+            _isSupportAllFile = isSupportAllFile;
         }
 
         /// <summary>
@@ -65,9 +75,7 @@ namespace NeeView
             var param = new CollectParams(CollectType.All);
             var collection = await CollectAsync(_root, param, token);
 
-            // sort
-            // TODO: ここか？
-            Collection = EntrySort.SortEntries(collection, PageSortMode.FileName);
+            Collection = collection;
         }
 
         /// <summary>
@@ -127,6 +135,8 @@ namespace NeeView
         /// <returns></returns>
         private async Task<List<ArchiveEntry>> CollectAsync(Archiver archiver, CollectParams param, CancellationToken token)
         {
+            SkippedArchiveCount = 0;
+
             if (_isRecursived || !archiver.IsFileSystem)
             {
                 return await CollectRecursiveAsync(archiver, true, param, token);
@@ -169,7 +179,7 @@ namespace NeeView
                     return await SelectRecursiveAsync(archiver, isRecursive, param.SelectEntryName, token);
             }
         }
-        
+
 
         /// <summary>
         /// 収集 (再帰)
@@ -191,9 +201,13 @@ namespace NeeView
                 {
                     collection.AddRange(await CollectRecursiveAsync(await CreateArchiverAsync(entry, token), isRecursive, token));
                 }
-                else if (entry.IsImage())
+                else if (_isSupportAllFile || entry.IsImage())
                 {
                     collection.Add(entry);
+                }
+                else if (entry.IsArchive())
+                {
+                    SkippedArchiveCount++;
                 }
             }
 
@@ -219,7 +233,7 @@ namespace NeeView
             // sort
             entries = EntrySort.SortEntries(entries, PageSortMode.FileName);
 
-            var select = entries.FirstOrDefault(e => e.IsImage());
+            var select = entries.FirstOrDefault(e => _isSupportAllFile || e.IsImage());
             if (select != null) return new List<ArchiveEntry>() { select };
 
             if (isRecursive)
@@ -294,6 +308,11 @@ namespace NeeView
             return archiver;
         }
 
+
+
+        //
+        public bool IsDisposed { get; private set; }
+
         /// <summary>
         /// Dispose
         /// </summary>
@@ -301,8 +320,10 @@ namespace NeeView
         {
             if (_trashBox.Any())
             {
-                _trashBox.Clear();
+                _trashBox.CleanUp();
             }
+
+            IsDisposed = true;
         }
     }
 }

@@ -93,7 +93,7 @@ namespace NeeView
         /// <summary>
         /// ごみ箱を空にする
         /// </summary>
-        public void Clear()
+        public void CleanUp()
         {
             lock (_lock)
             {
@@ -104,7 +104,7 @@ namespace NeeView
                 // 不燃物処理
                 if (TrashBox.Current != this)
                 {
-                    TrashBox.Current.Clear();
+                    TrashBox.Current.CleanUp();
 
                     // 新しい不燃物の登録
                     TrashBox.Current.Add(_trashes);
@@ -123,7 +123,7 @@ namespace NeeView
         /// </summary>
         public void Dispose()
         {
-            Clear();
+            CleanUp();
             IsDisposed = true;
         }
     }

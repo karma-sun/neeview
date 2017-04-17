@@ -116,7 +116,7 @@ namespace NeeView
         {
             using (var archiver = ModelContext.ArchiverManager.CreateArchiver(entry.EntryName, null))
             {
-                using (var collector = new EntryCollection(archiver, false))
+                using (var collector = new EntryCollection(archiver, false, false))
                 {
                     if (entryName != null)
                     {

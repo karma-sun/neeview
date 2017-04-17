@@ -447,8 +447,10 @@ namespace NeeView
             PagePosition position = _firstPosition;
             int direction = 1;
 
-            // 読み込み
-            await ReadArchiveAsync(archiver, "", option, token);
+            _trashBox.Add(archiver);
+
+            this.Pages = await ReadArchiveAsync2(archiver, option, token);
+
 
             // Pages initialize
             var prefix = GetPagesPrefix();
@@ -503,142 +505,78 @@ namespace NeeView
         }
 
 
-        // アーカイブからページ作成(再帰)
-        private async Task<bool> ReadArchiveAsync(Archiver archiver, string place, BookLoadOption option, CancellationToken token)
+        /// <summary>
+        /// ページ収集
+        /// </summary>
+        /// <param name="archiver"></param>
+        /// <param name="option"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        private async Task<List<Page>> ReadArchiveAsync2(Archiver archiver, BookLoadOption option, CancellationToken token)
         {
-            token.ThrowIfCancellationRequested();
-
-            List<ArchiveEntry> entries = null;
-
             try
             {
-                if (!archiver.IsSupported())
-                {
-                    archiver.Dispose();
-                    return false;
-                }
-                //entries = archiver.GetEntries();
-                entries = await archiver.GetEntriesAsync(token);
-            }
-            catch (OperationCanceledException)
-            {
-                Debug.WriteLine($"[CanceledException]: {this}.{nameof(ReadArchiveAsync)}: Canceled.");
-                archiver.Dispose();
-                throw;
+                var collection = new EntryCollection(archiver, option.HasFlag(BookLoadOption.Recursive), option.HasFlag(BookLoadOption.SupportAllFile));
+                _trashBox.Add(collection);
+
+                await collection.CollectAsync(token);
+
+                SubFolderCount = collection.SkippedArchiveCount;
+
+                return collection.Collection.Select(e => CreatePage(e)).ToList();
             }
             catch (Exception e)
             {
-                archiver.Dispose();
-                throw new ApplicationException(e.Message);
+                Debug.WriteLine(e.Message);
+                throw;
             }
-
-            //
-            _archivers.Add(archiver);
-
-            //
-            foreach (var entry in entries)
-            {
-                token.ThrowIfCancellationRequested();
-
-                // 再帰設定、もしくは単一ファイルの場合、再帰を行う
-                bool isRecursive = (option & BookLoadOption.Recursive) == BookLoadOption.Recursive;
-                bool isAutoRecursive = (option & BookLoadOption.AutoRecursive) == BookLoadOption.AutoRecursive && entries.Count == 1 && archiver.IsFileSystem;
-                if ((isRecursive || isAutoRecursive) && ModelContext.ArchiverManager.IsSupported(entry.EntryName))
-                {
-                    bool result = false;
-                    if (archiver.IsFileSystem)
-                    {
-                        result = await ReadArchiveAsync(ModelContext.ArchiverManager.CreateArchiver(archiver.GetFileSystemPath(entry), entry), LoosePath.Combine(place, entry.EntryName), option, token);
-                    }
-                    else
-                    {
-                        // テンポラリにアーカイブを解凍する
-                        try
-                        {
-                            string tempFileName = await ArchivenEntryExtractorService.Current.ExtractAsync(entry, token);
-                            _trashBox.Add(new TempFile(tempFileName));
-
-                            result = await ReadArchiveAsync(ModelContext.ArchiverManager.CreateArchiver(tempFileName, entry), LoosePath.Combine(place, entry.EntryName), option, token);
-                            if (!result)
-                            {
-                                AddPage(archiver, entry, place, option);
-                            }
-                        }
-                        catch (OperationCanceledException)
-                        {
-                            throw;
-                        }
-                        catch (Exception e)
-                        {
-                            // 展開に失敗した場合、エラーページとして登録する
-                            Pages.Add(new FilePage(entry, FilePageIcon.Alart, "ファイルの抽出に失敗しました\n" + e.Message));
-                        }
-                    }
-                }
-                else
-                {
-                    // ファイルとして展開
-                    AddPage(archiver, entry, place, option);
-                }
-            }
-            return true;
         }
 
 
-        // ページを追加する
-        private void AddPage(Archiver archiver, ArchiveEntry entry, string place, BookLoadOption option)
+        /// <summary>
+        /// ページ作成
+        /// </summary>
+        /// <param name="entry">ファイルエントリ</param>
+        /// <returns></returns>
+        private Page CreatePage(ArchiveEntry entry)
         {
-            Page page = null;
+            Page page;
 
-            bool isSupportAllFile = (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile;
-
-            if (ModelContext.BitmapLoaderManager.IsSupported(entry.EntryName))
+            if (entry.IsImage())
             {
-                if (isSupportAllFile || !ModelContext.BitmapLoaderManager.IsExcludedPath(entry.EntryName))
+                if (Page.IsEnableAnimatedGif && LoosePath.GetExtension(entry.EntryName) == ".gif")
                 {
-                    if (Page.IsEnableAnimatedGif && LoosePath.GetExtension(entry.EntryName) == ".gif")
-                    {
-                        page = new AnimatedPage(entry);
-                    }
-                    else
-                    {
-                        page = new BitmapPage(entry);
-                    }
+                    page = new AnimatedPage(entry);
+                }
+                else
+                {
+                    page = new BitmapPage(entry);
                 }
             }
             else
             {
                 var type = ModelContext.ArchiverManager.GetSupportedType(entry.EntryName);
-                if (isSupportAllFile)
+                switch (type)
                 {
-                    switch (type)
-                    {
-                        case ArchiverType.None:
-                            page = new FilePage(entry, FilePageIcon.File);
-                            break;
-                        case ArchiverType.FolderArchive:
-                            page = new FilePage(entry, FilePageIcon.Folder);
-                            break;
-                        default:
-                            page = new FilePage(entry, FilePageIcon.Archive);
-                            break;
-                    }
-                }
-                else if (type != ArchiverType.None)
-                {
-                    SubFolderCount++;
+                    case ArchiverType.None:
+                        page = new FilePage(entry, FilePageIcon.File);
+                        break;
+                    case ArchiverType.FolderArchive:
+                        page = new FilePage(entry, FilePageIcon.Folder);
+                        break;
+                    default:
+                        page = new FilePage(entry, FilePageIcon.Archive);
+                        break;
                 }
             }
 
-            if (page != null)
+            //
+            page.Thumbnail.Changed += (s, e) =>
             {
-                page.Thumbnail.Changed += (s, e) =>
-                {
-                    ThumbnailChanged?.Invoke(this, page);
-                };
+                ThumbnailChanged?.Invoke(this, page);
+            };
 
-                Pages.Add(page);
-            }
+            return page;
         }
 
 
@@ -706,7 +644,7 @@ namespace NeeView
             _commandEngine.Initialize();
         }
 
-        #endregion
+#endregion
 
 
         // 廃棄処理
@@ -836,7 +774,7 @@ namespace NeeView
 
 
 
-        #region Marker
+#region Marker
 
         /// <summary>
         /// マーカー判定
@@ -920,7 +858,7 @@ namespace NeeView
             return true;
         }
 
-        #endregion
+#endregion
 
 
 
@@ -988,7 +926,7 @@ namespace NeeView
 
             Pages?.ForEach(e => e?.Dispose());
             _archivers?.ForEach(e => e.Dispose());
-            _trashBox?.Clear();
+            _trashBox?.CleanUp();
 
             _commandEngine.Dispose();
 
@@ -1558,7 +1496,7 @@ namespace NeeView
 
 
 
-        #region Memento
+#region Memento
 
         /// <summary>
         /// 保存設定
@@ -1774,7 +1712,7 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 
 
     /// <summary>

@@ -1336,6 +1336,7 @@ namespace NeeView
             GC.Collect();
             await Task.Delay(1000);
             Debug.WriteLine("TEST");
+            Debugger.Break();
             //ModelContext.CommandTable.OpenCommandListHelp();
             //App.Config.RemoveApplicationData();
         }

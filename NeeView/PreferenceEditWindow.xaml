@@ -10,7 +10,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
-        xmlns:nlp="clr-namespace:NeeLaboratory.Windows.Property"
+        xmlns:nlp="clr-namespace:NeeLaboratory.Windows.Property;assembly=NeeLaboratory"
         mc:Ignorable="d" 
         Style="{StaticResource ToolDialogStyle}"
         ResizeMode="NoResize" SizeToContent="Height"
@@ -20,7 +20,7 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="_NeeLaboratory/Property/PropertyValueTemplateDictionary.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/NeeLaboratory;component/Windows/Property/PropertyValueTemplateDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type nlp:PropertyValue_Boolean}">

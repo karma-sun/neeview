@@ -211,30 +211,9 @@
     <Compile Include="Utility\VectorExtensions.cs" />
     <Compile Include="IndexValue.cs" />
     <Compile Include="VisualTreeTools.cs" />
-    <Compile Include="_NeeLaboratory\Windows\Controls\ColorPicker.xaml.cs">
-      <DependentUpon>ColorPicker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="_NeeLaboratory\Windows\Controls\FileNameBox.xaml.cs">
-      <DependentUpon>FileNameBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="_NeeLaboratory\Windows\Controls\PointInspector.xaml.cs">
-      <DependentUpon>PointInspector.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SliderTextBox.xaml.cs">
       <DependentUpon>SliderTextBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_NeeLaboratory\Windows\Media\HVSColor.cs" />
-    <Compile Include="_NeeLaboratory\Windows\Property\IValueSetter.cs" />
-    <Compile Include="_NeeLaboratory\Windows\Property\PropertyControl.xaml.cs">
-      <DependentUpon>PropertyControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="_NeeLaboratory\Windows\Property\PropertyDocument.cs" />
-    <Compile Include="_NeeLaboratory\Windows\Property\PropertyElement.cs" />
-    <Compile Include="_NeeLaboratory\Windows\Property\PropertyInspector.xaml.cs">
-      <DependentUpon>PropertyInspector.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="_NeeLaboratory\Windows\Property\PropertyMemberAttribute.cs" />
-    <Compile Include="_NeeLaboratory\Windows\Property\PropertyValue.cs" />
     <Compile Include="ResolveConflictDialog.xaml.cs">
       <DependentUpon>ResolveConflictDialog.xaml</DependentUpon>
     </Compile>
@@ -434,27 +413,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="_NeeLaboratory\Windows\Controls\ColorPicker.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="_NeeLaboratory\Windows\Controls\FileNameBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="_NeeLaboratory\Windows\Controls\PointInspector.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SliderTextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="_NeeLaboratory\Windows\Property\PropertyControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="_NeeLaboratory\Windows\Property\PropertyInspector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -555,10 +514,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="VersionWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="_NeeLaboratory\Windows\Property\PropertyValueTemplateDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

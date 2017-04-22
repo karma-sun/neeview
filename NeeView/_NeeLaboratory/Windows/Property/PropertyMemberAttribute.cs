@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeeLaboratory.Property
+namespace NeeLaboratory.Windows.Property
 {
     [Flags]
     public enum PropertyMemberFlag

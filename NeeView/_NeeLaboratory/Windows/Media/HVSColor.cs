@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 
 
-namespace NeeLaboratory.Media
+namespace NeeLaboratory.Windows.Media
 {
     /// <summary>
     /// 

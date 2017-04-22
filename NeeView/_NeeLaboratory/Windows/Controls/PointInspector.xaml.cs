@@ -19,7 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NeeLaboratory.Controls
+namespace NeeLaboratory.Windows.Controls
 {
     /// <summary>
     /// PointInspector.xaml の相互作用ロジック

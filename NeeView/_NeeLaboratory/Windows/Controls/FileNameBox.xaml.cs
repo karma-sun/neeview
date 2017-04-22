@@ -13,7 +13,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 
-namespace NeeLaboratory.Controls
+namespace NeeLaboratory.Windows.Controls
 {
     /// <summary>
     /// FilenameBox.xaml の相互作用ロジック

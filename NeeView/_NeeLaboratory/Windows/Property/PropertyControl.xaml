@@ -5,12 +5,12 @@
     http://opensource.org/licenses/mit-license.php
 -->
     
-<UserControl x:Class="NeeLaboratory.Property.PropertyControl"
+<UserControl x:Class="NeeLaboratory.Windows.Property.PropertyControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NeeLaboratory.Property"
+             xmlns:local="clr-namespace:NeeLaboratory.Windows.Property"
              mc:Ignorable="d"
              UseLayoutRounding="True"
              d:DesignHeight="30" d:DesignWidth="300">

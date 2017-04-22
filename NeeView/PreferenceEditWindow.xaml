@@ -10,7 +10,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
-        xmlns:nlp="clr-namespace:NeeLaboratory.Property"
+        xmlns:nlp="clr-namespace:NeeLaboratory.Windows.Property"
         mc:Ignorable="d" 
         Style="{StaticResource ToolDialogStyle}"
         ResizeMode="NoResize" SizeToContent="Height"

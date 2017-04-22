@@ -4,7 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using Microsoft.Expression.Media.Effects;
-using NeeLaboratory.Property;
+using NeeLaboratory.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

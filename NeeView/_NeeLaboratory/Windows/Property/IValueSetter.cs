@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeeLaboratory.Property
+namespace NeeLaboratory.Windows.Property
 {
     /// <summary>
     /// Setterメソッド装備

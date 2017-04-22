@@ -211,30 +211,30 @@
     <Compile Include="Utility\VectorExtensions.cs" />
     <Compile Include="IndexValue.cs" />
     <Compile Include="VisualTreeTools.cs" />
-    <Compile Include="_NeeLaboratory\Controls\ColorPicker.xaml.cs">
+    <Compile Include="_NeeLaboratory\Windows\Controls\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_NeeLaboratory\Controls\FileNameBox.xaml.cs">
+    <Compile Include="_NeeLaboratory\Windows\Controls\FileNameBox.xaml.cs">
       <DependentUpon>FileNameBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_NeeLaboratory\Controls\PointInspector.xaml.cs">
+    <Compile Include="_NeeLaboratory\Windows\Controls\PointInspector.xaml.cs">
       <DependentUpon>PointInspector.xaml</DependentUpon>
     </Compile>
     <Compile Include="SliderTextBox.xaml.cs">
       <DependentUpon>SliderTextBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_NeeLaboratory\Media\HVSColor.cs" />
-    <Compile Include="_NeeLaboratory\Property\IValueSetter.cs" />
-    <Compile Include="_NeeLaboratory\Property\PropertyControl.xaml.cs">
+    <Compile Include="_NeeLaboratory\Windows\Media\HVSColor.cs" />
+    <Compile Include="_NeeLaboratory\Windows\Property\IValueSetter.cs" />
+    <Compile Include="_NeeLaboratory\Windows\Property\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_NeeLaboratory\Property\PropertyDocument.cs" />
-    <Compile Include="_NeeLaboratory\Property\PropertyElement.cs" />
-    <Compile Include="_NeeLaboratory\Property\PropertyInspector.xaml.cs">
+    <Compile Include="_NeeLaboratory\Windows\Property\PropertyDocument.cs" />
+    <Compile Include="_NeeLaboratory\Windows\Property\PropertyElement.cs" />
+    <Compile Include="_NeeLaboratory\Windows\Property\PropertyInspector.xaml.cs">
       <DependentUpon>PropertyInspector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_NeeLaboratory\Property\PropertyMemberAttribute.cs" />
-    <Compile Include="_NeeLaboratory\Property\PropertyValue.cs" />
+    <Compile Include="_NeeLaboratory\Windows\Property\PropertyMemberAttribute.cs" />
+    <Compile Include="_NeeLaboratory\Windows\Property\PropertyValue.cs" />
     <Compile Include="ResolveConflictDialog.xaml.cs">
       <DependentUpon>ResolveConflictDialog.xaml</DependentUpon>
     </Compile>
@@ -434,15 +434,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="_NeeLaboratory\Controls\ColorPicker.xaml">
+    <Page Include="_NeeLaboratory\Windows\Controls\ColorPicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="_NeeLaboratory\Controls\FileNameBox.xaml">
+    <Page Include="_NeeLaboratory\Windows\Controls\FileNameBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="_NeeLaboratory\Controls\PointInspector.xaml">
+    <Page Include="_NeeLaboratory\Windows\Controls\PointInspector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -450,11 +450,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="_NeeLaboratory\Property\PropertyControl.xaml">
+    <Page Include="_NeeLaboratory\Windows\Property\PropertyControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="_NeeLaboratory\Property\PropertyInspector.xaml">
+    <Page Include="_NeeLaboratory\Windows\Property\PropertyInspector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -558,7 +558,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="_NeeLaboratory\Property\PropertyValueTemplateDictionary.xaml">
+    <Page Include="_NeeLaboratory\Windows\Property\PropertyValueTemplateDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -609,6 +609,10 @@
     <Resource Include="Resources\Play.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NeeLaboratory\NeeLaboratory.csproj">
+      <Project>{614c41a7-60ca-4a9c-b857-3217ed9eb21c}</Project>
+      <Name>NeeLaboratory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SevenZipSharp\SevenZip\SevenZip.csproj">
       <Project>{4960dd14-3431-47ec-b9d9-9d2730a98dc3}</Project>
       <Name>SevenZip</Name>

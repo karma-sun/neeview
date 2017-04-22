@@ -13,7 +13,7 @@
         xmlns:local="clr-namespace:NeeView"
         xmlns:susie="clr-namespace:Susie"
         xmlns:drag="clr-namespace:DragExtensions"
-        xmlns:nlc="clr-namespace:NeeLaboratory.Controls"
+        xmlns:nlc="clr-namespace:NeeLaboratory.Windows.Controls"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
         Title="設定" Height="600" Width="720" Closed="Window_Closed" >

@@ -18,9 +18,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using NeeLaboratory.Media;
 
-namespace NeeLaboratory.Controls
+using NeeLaboratory.Windows.Media;
+
+namespace NeeLaboratory.Windows.Controls
 {
     /// <summary>
     /// ColorPicker.xaml の相互作用ロジック

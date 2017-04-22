@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace NeeLaboratory.Property
+namespace NeeLaboratory.Windows.Property
 {
     /// <summary>
     /// 

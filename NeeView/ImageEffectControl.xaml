@@ -12,7 +12,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              xmlns:le="clr-namespace:NeeView.Effects"
-             xmlns:nlp="clr-namespace:NeeLaboratory.Property"
+             xmlns:nlp="clr-namespace:NeeLaboratory.Windows.Property"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300" MinWidth="100" 
              Background="{DynamicResource NVBackground}"

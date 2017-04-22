@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace NeeLaboratory.Property
+namespace NeeLaboratory.Windows.Property
 {
     //
     public abstract class PropertyValue

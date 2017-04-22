@@ -20,7 +20,7 @@ using System.Windows.Shapes;
 
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using NeeLaboratory.Property;
+using NeeLaboratory.Windows.Property;
 
 namespace NeeView
 {

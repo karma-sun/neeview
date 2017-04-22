@@ -19,7 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NeeLaboratory.Property
+namespace NeeLaboratory.Windows.Property
 {
     /// <summary>
     /// PropertyControl.xaml の相互作用ロジック

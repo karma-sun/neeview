@@ -3,7 +3,6 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
-using NeeLaboratory.Property;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +11,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
+using NeeLaboratory.Windows.Property;
 
 namespace NeeView
 {

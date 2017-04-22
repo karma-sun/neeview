@@ -55,7 +55,7 @@
 
         <Style TargetType="TextBlock" x:Key="ItemHeader">
             <Setter Property="Margin" Value="2,2,10,2"/>
-            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="MinWidth" Value="120"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
 
@@ -623,18 +623,14 @@
             <TabItem Header="ページ設定">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel  Style="{StaticResource BaseStackPanel}">
-                        <TextBlock Text="設定" Style="{StaticResource Header}"/>
+
+                        <TextBlock Text="既定のページ" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="新しいフォルダーを開くときに既定のページ設定に戻す"
-                              ToolTip="新しいフォルダーを開いた時にページの設定を既定値に戻します&#x0a;「サブフォルダーも読み込む」はこの設定にかかわらずOFFになります"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="新しいフォルダーを開くときに既定のページ設定を適用する"
+                              ToolTip="新しいフォルダーを開いた時にページの設定を既定値に戻します"
                               IsChecked="{Binding Setting.BookHubMemento.IsUseBookMementoDefault}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがない場合、サブフォルダーも読み込むか問い合わせる"
-                              ToolTip="フォルダーを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合に&#xa;サブフォルダーも読み込むかを問い合わせるダイアログを表示します"
-                              IsChecked="{Binding Setting.BookHubMemento.IsConfirmRecursive}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを読み込む"
-                              ToolTip="ページ設定でサブフォルダーを読み込む設定になっていなくても機能します"
-                              IsChecked="{Binding Setting.BookHubMemento.IsAutoRecursive}" />
                         </StackPanel>
+
                         <TextBlock Text="既定のページ設定" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
                             <StackPanel Style="{StaticResource ItemStackPanel}">
@@ -664,6 +660,45 @@
                                   SelectedValue="{Binding Setting.BookHubMemento.BookMementoDefault.SortMode}" />
                             </StackPanel>
                         </StackPanel>
+
+
+                        <TextBlock Text="サブフォルダー読み込み問い合わせ" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがない場合、サブフォルダーも読み込むか問い合わせる"
+                              ToolTip="フォルダーを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合に&#xa;サブフォルダーも読み込むかを問い合わせるダイアログを表示します"
+                              IsChecked="{Binding Setting.BookHubMemento.IsConfirmRecursive}" />
+                        </StackPanel>
+
+                        <TextBlock Text="サブフォルダー読み込み自動判定" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを読み込む"
+                              ToolTip="ページ設定でサブフォルダーを読み込む設定になっていなくても機能します"
+                              IsChecked="{Binding Setting.BookHubMemento.IsAutoRecursive}" />
+                            <Grid Margin="20,0,0,0">
+                                <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ外ファイルも含めて判定する"
+                                  ToolTip="ページ外ファイルが存在する場合はサブフォルダーを読み込みません"
+                                  IsChecked="{Binding Setting.BookHubMemento.IsAutoRecursiveWithAllFiles}" />
+                            </Grid>
+                        </StackPanel>
+
+                        <!--
+                        <TextBlock Text="サブフォルダー読み込みを標準で有効にする場所" Style="{StaticResource Header}"
+                                   ToolTip="この場所にあるフォルダーのサブフォルダーを読み込む設定が標準で有効になります"/>
+                        <Border BorderBrush="LightGray" BorderThickness="1" Margin="5">
+                            <DockPanel Margin="2">
+                                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                                    <Button Content="追加" MinWidth="80" Height="30" Margin="8" Padding="5,0" />
+                                    <Button Content="削除" MinWidth="80" Height="30" Margin="8" Padding="5,0" />
+                                </StackPanel>
+                                <ListBox></ListBox>
+                            </DockPanel>
+                        </Border>
+                        <StackPanel Style="{StaticResource Phrase}">
+                        </StackPanel>
+                        -->
+
+
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -711,7 +746,7 @@
                                     Minimum="0" Maximum="{Binding HistoryLimitSpan.IndexMax}" TickFrequency="1" />
                                 <TextBlock Text="{Binding HistoryLimitSpan.ValueString}" />
                             </StackPanel>
-                            
+
                         </StackPanel>
 
                         <TextBlock Text="履歴削除" Style="{StaticResource Header}"/>

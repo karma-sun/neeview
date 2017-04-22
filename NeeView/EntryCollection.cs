@@ -33,6 +33,11 @@ namespace NeeView
         public static bool IsAutoRecursive { get; set; }
 
         /// <summary>
+        /// 自動サブフォルダー展開ですべてのファイルを判断対象にする
+        /// </summary>
+        public static bool IsAutoRecursiveWithAllFiles { get; set; }
+
+        /// <summary>
         /// ごみ箱
         /// </summary>
         private TrashBox _trashBox = new TrashBox();
@@ -146,6 +151,12 @@ namespace NeeView
                 var entries = archiver.GetEntries()
                     .Where(e => !ModelContext.BitmapLoaderManager.IsExcludedPath(e.EntryName))
                     .ToList();
+
+                // 対象ファイル以外を除外
+                if (!IsAutoRecursiveWithAllFiles && !_isSupportAllFile)
+                {
+                    entries = entries.Where(e => e.IsArchive() || e.IsImage()).ToList();
+                }
 
                 if (IsAutoRecursive && entries.Count == 1 && entries.First().IsArchive())
                 {

@@ -287,6 +287,21 @@ namespace NeeView
         }
         #endregion
 
+        /// <summary>
+        /// IsAutoRecursiveWithAllFiles property.
+        /// </summary>
+        private bool _isAutoRecursiveWithAllFiles = true;
+        public bool IsAutoRecursiveWithAllFiles
+        {
+            get { return _isAutoRecursiveWithAllFiles; }
+            set
+            {
+                _isAutoRecursiveWithAllFiles = value;
+                EntryCollection.IsAutoRecursiveWithAllFiles = _isAutoRecursiveWithAllFiles;
+            }
+        }
+
+
 
         // スライドショー設定：ループ再生
         private bool IsSlideShowByLoop { get; set; } = true;
@@ -1901,6 +1916,9 @@ namespace NeeView
             [DataMember(Order = 10)]
             public bool IsAutoRecursive { get; set; }
 
+            [DataMember(Order = 22)]
+            public bool IsAutoRecursiveWithAllFiles { get; set; }
+
             [DataMember(Order = 19)]
             public BookMementoFilter HistoryMementoFilter { get; set; }
 
@@ -1909,6 +1927,8 @@ namespace NeeView
 
             [DataMember(Order = 20, EmitDefaultValue = false)]
             public string Home { get; set; }
+
+
 
             //
             private void Constructor()
@@ -1924,6 +1944,7 @@ namespace NeeView
                 IsUseBookMementoDefault = false;
                 ClipboardUtility = new ClipboardUtility();
                 IsAutoRecursive = true;
+                IsAutoRecursiveWithAllFiles = true;
                 HistoryMementoFilter = new BookMementoFilter(true);
                 PreLoadMode = PreLoadMode.AutoPreLoad;
             }
@@ -1978,6 +1999,7 @@ namespace NeeView
             memento.IsUseBookMementoDefault = IsUseBookMementoDefault;
             memento.ClipboardUtility = ClipboardUtility.Clone();
             memento.IsAutoRecursive = IsAutoRecursive;
+            memento.IsAutoRecursiveWithAllFiles = IsAutoRecursiveWithAllFiles;
             memento.HistoryMementoFilter = HistoryMementoFilter;
             memento.PreLoadMode = PreLoadMode;
             memento.Home = Home;
@@ -2004,6 +2026,7 @@ namespace NeeView
             IsUseBookMementoDefault = memento.IsUseBookMementoDefault;
             ClipboardUtility = memento.ClipboardUtility.Clone();
             IsAutoRecursive = memento.IsAutoRecursive;
+            IsAutoRecursiveWithAllFiles = memento.IsAutoRecursiveWithAllFiles;
             HistoryMementoFilter = memento.HistoryMementoFilter;
             PreLoadMode = memento.PreLoadMode;
             Home = memento.Home;

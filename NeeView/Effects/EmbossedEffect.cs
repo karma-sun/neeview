@@ -1,5 +1,5 @@
 ﻿using Microsoft.Expression.Media.Effects;
-using NeeLaboratory.Windows.Property;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 // Copyright (c) 2016 Mitsuhiro Ito (nee)

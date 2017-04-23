@@ -10,7 +10,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
-        xmlns:nlp="clr-namespace:NeeLaboratory.Windows.Property;assembly=NeeLaboratory"
+        xmlns:nlp="clr-namespace:NeeView.Windows.Property"
         mc:Ignorable="d"
         Style="{StaticResource ToolDialogStyle}"
         Title="{Binding Name, StringFormat='パラメータ設定 - {0}'}" SizeToContent="Height" MinHeight="150" Width="512">

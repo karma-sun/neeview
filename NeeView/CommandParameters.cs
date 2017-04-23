@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-using NeeLaboratory.Windows.Property;
+using NeeView.Windows.Property;
 
 namespace NeeView
 {

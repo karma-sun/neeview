@@ -1,0 +1,229 @@
+﻿<UserControl x:Class="NeeView.Windows.Controls.SidePanelFrame"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:NeeView.Windows.Controls"
+             xmlns:osc="clr-namespace:OpenSourceControls"
+             xmlns:nw="clr-namespace:NeeView.Windows"
+             xmlns:nwd="clr-namespace:NeeView.Windows.Data"
+             mc:Ignorable="d" 
+             d:DesignHeight="480" d:DesignWidth="640">
+
+    <UserControl.Resources>
+
+        <nwd:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
+
+
+
+        <Style x:Key="NVFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle StrokeThickness="1" Stroke="#881188DD" SnapsToDevicePixels="true" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PanelIconButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="ToolTip" Value="{Binding IconTips}"/>
+            <Setter Property="ToolTipService.InitialShowDelay" Value="2000"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Rectangle x:Name="baseRectangle" RadiusY="0" RadiusX="0" StrokeThickness="1" Fill="{x:Null}"/>
+                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Opacity="0.8"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="1.0"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- SideButton Style -->
+        <!--
+        <Style x:Key="SideButton" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="Transparent">
+                            <Rectangle x:Name="baseRectangle" RadiusY="0" RadiusX="0" StrokeThickness="1" Fill="{x:Null}"/>
+                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Opacity="0.5"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="1.0"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.25"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        -->
+
+        <!--
+        <Style x:Key="PanelIconButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+        -->
+
+        <DataTemplate x:Key="LeftPanelIconTemplate">
+            <Button Style="{StaticResource PanelIconButtonStyle}" Command="{Binding ElementName=Root, Path=DataContext.VM.Left.PanelIconClicked}" CommandParameter="{Binding}">
+                <Grid Background="Transparent">
+                    <Image Source="{Binding Icon}" Margin="{Binding IconMargin}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+                <i:Interaction.Behaviors>
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="PanelContent" DragDropData="{Binding}"
+                                             Description="{Binding ElementName=Root, Path=DataContext.VM.DragStartDescription}"/>
+                </i:Interaction.Behaviors>
+            </Button>
+        </DataTemplate>
+
+        <DataTemplate x:Key="RightPanelIconTemplate">
+            <Button Style="{StaticResource PanelIconButtonStyle}" Command="{Binding ElementName=Root, Path=DataContext.VM.Right.PanelIconClicked}" CommandParameter="{Binding}">
+                <Grid Background="Transparent">
+                    <Image Source="{Binding Icon}" Margin="{Binding IconMargin}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+                <i:Interaction.Behaviors>
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="PanelContent" DragDropData="{Binding}"
+                                             Description="{Binding ElementName=Root, Path=DataContext.VM.DragStartDescription}"/>
+                </i:Interaction.Behaviors>
+            </Button>
+        </DataTemplate>
+
+        <Style x:Key="PanelIconGridStyle" TargetType="Grid">
+            <Setter Property="Background" Value="{Binding IconBackground}"/>
+            <Setter Property="Width" Value="50"/>
+        </Style>
+
+
+        <Style x:Key="PanelIconItemsControlStyle" TargetType="ItemsControl">
+            <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="PanelGridStyle" TargetType="Grid">
+            <Setter Property="Background" Value="{Binding PanelBackground}"/>
+        </Style>
+
+        <Style x:Key="PanelGridSplitterStyle" TargetType="GridSplitter">
+            <Setter Property="Width" Value="{Binding PanelIconGridWidth}"/>
+            <Setter Property="Background" Value="{Binding PanelBackground}"/>
+        </Style>
+
+        <Style x:Key="NVVerticalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
+            <Setter Property="Thickness" Value="{Binding SplitterWidth}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
+                        <Grid SnapsToDevicePixels="True" Background="{Binding PanelBackground}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+    </UserControl.Resources>
+
+
+    <Grid x:Name="Root" PreviewMouseMove="Target_PreviewMouseMove" SizeChanged="Root_SizeChanged">
+
+        <ContentControl x:Name="RootEntryPoint"/>
+
+        <DockPanel>
+
+            <Grid x:Name="LeftIconGrid" DockPanel.Dock="Left" Width="50" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding VM.Left.Visibility}" AllowDrop="True">
+
+                <i:Interaction.Behaviors>
+                    <nw:DragAcceptBehavior Description="{Binding VM.Left.Description}" />
+                </i:Interaction.Behaviors>
+
+                <ItemsControl x:Name="LeftIconList" Style="{StaticResource PanelIconItemsControlStyle}"
+                              VerticalAlignment="Stretch"
+                              Margin="{Binding PanelMargin}"
+                              ItemTemplate="{StaticResource LeftPanelIconTemplate}"
+                              ItemsSource="{Binding VM.Left.Panel.Panels}">
+                </ItemsControl>
+            </Grid>
+
+            <Grid x:Name="RightIconGrid" DockPanel.Dock="Right" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding VM.Right.Visibility}" AllowDrop="True">
+
+                <i:Interaction.Behaviors>
+                    <nw:DragAcceptBehavior Description="{Binding VM.Right.Description}" />
+                </i:Interaction.Behaviors>
+
+                <ItemsControl x:Name="RightIconList" Style="{StaticResource PanelIconItemsControlStyle}"
+                              Margin="{Binding PanelMargin}"
+                              ItemTemplate="{StaticResource RightPanelIconTemplate}"
+                              ItemsSource="{Binding VM.Right.Panel.Panels}">
+                </ItemsControl>
+            </Grid>
+
+            <DockPanel x:Name="Screen">
+
+                <Grid DockPanel.Dock="Left" Style="{StaticResource PanelGridStyle}" Visibility="{Binding VM.Left.PanelVisibility}" Width="{Binding VM.Left.Width, Mode=TwoWay}">
+                    <ContentControl Content="{Binding VM.Left.Panel.SelectedPanel.View}" Margin="{Binding PanelMargin}"/>
+                </Grid>
+
+                <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="Left" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
+                                       Visibility="{Binding VM.Left.PanelVisibility}" IsTabStop="False"/>
+
+
+                <Grid DockPanel.Dock="Right" Style="{StaticResource PanelGridStyle}" Visibility="{Binding VM.Right.PanelVisibility}" Width="{Binding VM.Right.Width, Mode=TwoWay}" >
+                    <ContentControl Content="{Binding VM.Right.Panel.SelectedPanel.View}" Margin="{Binding PanelMargin}"/>
+                </Grid>
+
+                <osc:DockPanelSplitter x:Name="RightPanelSplitter" DockPanel.Dock="Right" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
+                                       Visibility="{Binding VM.Right.PanelVisibility}" IsTabStop="False"/>
+
+                <Grid x:Name="Viewport" Grid.Column="1" SizeChanged="Viewport_SizeChanged">
+                    <ContentControl x:Name="ViewportEntryPoint" Panel.ZIndex="-1"/>
+                    <!--
+                        <Border BorderBrush="Yellow" BorderThickness="5"/>
+                        -->
+                </Grid>
+
+            </DockPanel>
+
+
+        </DockPanel>
+
+        <!--
+        <Canvas>
+            <Border BorderBrush="Red" BorderThickness="1" Background="#8FFA" IsHitTestVisible="False"
+                    Canvas.Left="{Binding CanvasLeft}"
+                    Canvas.Top="{Binding CanvasTop}"
+                    Width="{Binding CanvasWidth}"
+                    Height="{Binding CanvasHeight}"/>
+        </Canvas>
+        -->
+    </Grid>
+</UserControl>

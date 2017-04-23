@@ -65,6 +65,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Expression.Effects, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
@@ -81,6 +82,7 @@
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -116,6 +118,8 @@
     <Compile Include="BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
     <Compile Include="BrushSource.cs" />
+    <Compile Include="_NeeView\Input\RelayCommand.cs" />
+    <Compile Include="OpenSourceControls\DockPanelSplitter.cs" />
     <Compile Include="Utility\ComboColorPicker.xaml.cs">
       <DependentUpon>ComboColorPicker.xaml</DependentUpon>
     </Compile>
@@ -267,7 +271,6 @@
     <Compile Include="ReplaceString.cs" />
     <Compile Include="ThumbnailHelper.cs" />
     <Compile Include="ThumbnailManager.cs" />
-    <Compile Include="Utility\DockPanelSplitter.cs" />
     <Compile Include="Utility\Drawing.cs" />
     <Compile Include="Utility\FileInfo.cs" />
     <Compile Include="Utility\Graphics.cs" />
@@ -369,6 +372,41 @@
     <Compile Include="WIndowHelper.cs" />
     <Compile Include="WindowPlacement.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
+    <Compile Include="_NeeView\Windows\Controls\ColorPicker.xaml.cs">
+      <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="_NeeView\Windows\Controls\FileNameBox.xaml.cs">
+      <DependentUpon>FileNameBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="_NeeView\Windows\Controls\PointInspector.xaml.cs">
+      <DependentUpon>PointInspector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="_NeeView\Windows\Controls\SidePanel\IPanel.cs" />
+    <Compile Include="_NeeView\Windows\Controls\SidePanel\SidePanel.cs" />
+    <Compile Include="_NeeView\Windows\Controls\SidePanel\SidePanelFrame.xaml.cs">
+      <DependentUpon>SidePanelFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="_NeeView\Windows\Controls\SidePanel\SidePanelFrameModel.cs" />
+    <Compile Include="_NeeView\Windows\Controls\SidePanel\SidePanelFrameViewModel.cs" />
+    <Compile Include="_NeeView\Windows\Controls\SidePanel\SidePanelViewModel.cs" />
+    <Compile Include="_NeeView\Windows\CursorInfo.cs" />
+    <Compile Include="_NeeView\Windows\Data\Converters.cs" />
+    <Compile Include="_NeeView\Windows\Data\DelayValue.cs" />
+    <Compile Include="_NeeView\Windows\DragAdorner.cs" />
+    <Compile Include="_NeeView\Windows\DragStartBehaviour.cs" />
+    <Compile Include="_NeeView\Windows\DropAcceptBehaviour.cs" />
+    <Compile Include="_NeeView\Windows\Media\HVSColor.cs" />
+    <Compile Include="_NeeView\Windows\Property\IValueSetter.cs" />
+    <Compile Include="_NeeView\Windows\Property\PropertyControl.xaml.cs">
+      <DependentUpon>PropertyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="_NeeView\Windows\Property\PropertyDocument.cs" />
+    <Compile Include="_NeeView\Windows\Property\PropertyElement.cs" />
+    <Compile Include="_NeeView\Windows\Property\PropertyInspector.xaml.cs">
+      <DependentUpon>PropertyInspector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="_NeeView\Windows\Property\PropertyMemberAttribute.cs" />
+    <Compile Include="_NeeView\Windows\Property\PropertyValue.cs" />
     <Page Include="BackgroundSettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -517,6 +555,34 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="_NeeView\Windows\Controls\ColorPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="_NeeView\Windows\Controls\FileNameBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="_NeeView\Windows\Controls\PointInspector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="_NeeView\Windows\Controls\SidePanel\SidePanelFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="_NeeView\Windows\Property\PropertyControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="_NeeView\Windows\Property\PropertyInspector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="_NeeView\Windows\Property\PropertyValueTemplateDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindowVM.cs" />
@@ -564,10 +630,6 @@
     <Resource Include="Resources\Play.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NeeLaboratory\NeeLaboratory.csproj">
-      <Project>{614c41a7-60ca-4a9c-b857-3217ed9eb21c}</Project>
-      <Name>NeeLaboratory</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SevenZipSharp\SevenZip\SevenZip.csproj">
       <Project>{4960dd14-3431-47ec-b9d9-9d2730a98dc3}</Project>
       <Name>SevenZip</Name>

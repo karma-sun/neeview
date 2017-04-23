@@ -208,21 +208,6 @@ namespace NeeView
                 _elements[CommandType.None] = element;
             }
 
-#if false
-            // OpenContextMenu
-            // コマンドでコンテキストメニューを開くと正常に動作しない。
-            {
-                var element = new CommandElement();
-                element.Group = "その他";
-                element.Text = "コンテキストメニューを開く";
-                element.Execute = (s, e) => { return; };
-                //element.Execute = (s, e) => _VM.OpenContextMenu();
-                //element.CanExecute = () => _VM.CanOpenContextMenu(); 
-                element.IsShowMessage = false;
-                _Elements[CommandType.OpenContextMenu] = element;
-            }
-#endif
-
             // LoadAs
             {
                 var element = new CommandElement();

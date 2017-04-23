@@ -85,12 +85,21 @@ namespace NeeView
         //
         public static Binding FolderOrder(FolderOrder mode)
         {
+            // TODO: 強引すぎー
+            return new Binding("FolderListPanel.FolderList.DockPanel.DataContext.FolderCollection.Folder.FolderOrder")
+            {
+                Converter = s_folderOrderToBooleanConverter,
+                ConverterParameter = mode.ToString()
+            };
+
+#if false
             return new Binding("FolderCollection.Folder.FolderOrder")
             {
                 Source = (App.Current.MainWindow as MainWindow).FolderList.DockPanel.DataContext, // 強引だな..
                 Converter = s_folderOrderToBooleanConverter,
                 ConverterParameter = mode.ToString()
             };
+#endif
         }
 
 

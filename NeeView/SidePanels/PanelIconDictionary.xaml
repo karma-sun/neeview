@@ -1,0 +1,47 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:NeeView">
+
+    <DrawingImage x:Key="ic_folder_48px">
+        <DrawingImage.Drawing>
+            <DrawingGroup Opacity="1">
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="{DynamicResource PageIconBrush}" Pen="{x:Null}">
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry FillRule="Nonzero" Figures="M8,8L20,8 24,12 40,12C42.2099990844727,12,44,13.789999961853,44,16L44,36C44,38.2099990844727,42.2099990844727,40,40,40L8,40C5.78999996185303,40,4,38.2099990844727,4,36L4.01999998092651,12C4.01999998092651,9.78999996185303,5.78999996185303,8,8,8z" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="ic_history_24px">
+        <DrawingImage.Drawing>
+            <DrawingGroup Opacity="1">
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="{DynamicResource PageIconBrush}" Pen="{x:Null}">
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry FillRule="Nonzero" Figures="M12,8L13.5,8 13.5,12.25 17,14.3299999237061 16.2800006866455,15.539999961853 12,13 12,8z M13,3C17.9699993133545,3 22,7.03000020980835 22,12 22,16.9699993133545 17.9699993133545,21 13,21 10.5100002288818,21 8.27000045776367,19.9899997711182 6.6399998664856,18.3600006103516L8.0600004196167,16.9400005340576C9.31999969482422,18.2099990844727 11.0699996948242,19 13,19 16.8700008392334,19 20,15.8699998855591 20,12 20,8.13000011444092 16.8700008392334,5 13,5 9.13000011444092,5 6,8.13000011444092 6,12L9,12 4.96000003814697,16.0300006866455 4.8899998664856,15.8900003433228 1,12 4,12C4,7.03000020980835,8.02999973297119,3,13,3z" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="ic_info_outline_24px">
+        <DrawingImage.Drawing>
+            <DrawingGroup Opacity="1">
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="{DynamicResource PageIconBrush}" Pen="{x:Null}">
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry FillRule="Nonzero" Figures="M11,11L13,11 13,17 11,17 11,11z M11,7L13,7 13,9 11,9 11,7z M12,4C7.59000015258789,4 4,7.59000015258789 4,12 4,16.4099998474121 7.59000015258789,20 12,20 16.4099998474121,20 20,16.4099998474121 20,12 20,7.59000015258789 16.4099998474121,4 12,4z M12,2C17.5200004577637,2 22,6.48000001907349 22,12 22,17.5200004577637 17.5200004577637,22 12,22 6.48000001907349,22 2,17.5200004577637 2,12 2,6.48000001907349 6.48000001907349,2 12,2z" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+</ResourceDictionary>

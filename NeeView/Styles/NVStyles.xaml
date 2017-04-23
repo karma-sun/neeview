@@ -11,6 +11,8 @@
     <SolidColorBrush x:Key="NVCheckMarkBrush" Color="LightGreen" />
     <SolidColorBrush x:Key="NVStarMarkBrush" Color="#FFFFCC66" />
     <SolidColorBrush x:Key="NVFolderBrush" Color="#FFFFE791"/>
+    <SolidColorBrush x:Key="NVPanelIconBackground" Color="#333" />
+    <SolidColorBrush x:Key="NVPanelIconForeground" Color="#FFF" />
     <Pen x:Key="NVFolderPen" Brush="#FFDEB982"/>
 
     <SolidColorBrush x:Key="NVButtonForeground" Color="#FF1188DD" />

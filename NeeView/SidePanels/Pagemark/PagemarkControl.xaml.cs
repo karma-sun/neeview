@@ -253,6 +253,7 @@ namespace NeeView
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin, int direction)
         {
+            if (Pagemarks == null) return;
             PanelContext.ThumbnailManager.RequestThumbnail(Pagemarks.Marks, start, count, margin, direction);
         }
     }

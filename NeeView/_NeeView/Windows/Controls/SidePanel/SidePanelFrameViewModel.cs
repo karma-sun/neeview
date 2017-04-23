@@ -211,8 +211,8 @@ namespace NeeView.Windows.Controls
         /// <param name="size"></param>
         internal void UpdateVisibility(Point point, Size size)
         {
-            Left.UpdateVisibility(point, size);
-            Right.UpdateVisibility(point, size);
+            Left?.UpdateVisibility(point, size);
+            Right?.UpdateVisibility(point, size);
         }
     }
 }

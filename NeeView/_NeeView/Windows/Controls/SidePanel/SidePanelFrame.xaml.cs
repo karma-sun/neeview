@@ -144,7 +144,10 @@ namespace NeeView.Windows.Controls
         {
             if (d is SidePanelFrame control)
             {
-                control.MouseTarget.PreviewMouseMove += control.Target_PreviewMouseMove;
+                if (control.MouseTarget != null)
+                {
+                    control.MouseTarget.PreviewMouseMove += control.Target_PreviewMouseMove;
+                }
             }
         }
 
@@ -221,6 +224,8 @@ namespace NeeView.Windows.Controls
             InitializeViewModel(this.Model);
 
             this.Root.DataContext = this;
+
+            UpdateWidth();
         }
 
 
@@ -317,16 +322,16 @@ namespace NeeView.Windows.Controls
         public static readonly DependencyProperty CanvasTopProperty =
             DependencyProperty.Register("CanvasTop", typeof(double), typeof(SidePanelFrame), new PropertyMetadata(0.0));
 
-
-
         //
         private void Root_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.WidthChanged)
-            {
-                _vm.Width = Math.Max(e.NewSize.Width - (PanelIconGridWidth + SplitterWidth) * 2, 0);
-            }
+            UpdateWidth();
+        }
 
+        //
+        private void UpdateWidth()
+        {
+            _vm.Width = Math.Max(this.Root.ActualWidth - (PanelIconGridWidth + SplitterWidth) * 2, 0);
             UpdateCanvas();
         }
 

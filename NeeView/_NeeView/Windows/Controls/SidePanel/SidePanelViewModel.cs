@@ -272,6 +272,7 @@ namespace NeeView.Windows.Controls
             {
                 if (args.Data.GetDataPresent("PanelContent"))
                 {
+                    args.Effects = DragDropEffects.Move;
                     return;
                 }
             }

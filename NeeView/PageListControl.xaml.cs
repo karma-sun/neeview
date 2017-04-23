@@ -357,6 +357,7 @@ namespace NeeView
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin, int direction)
         {
+            if (VM == null) return;
             ////Debug.WriteLine($"{start},{count},{margin},{direction}");
             PanelContext.PageThumbnailManager.RequestThumbnail(VM.PageList, start, count, margin, direction);
         }

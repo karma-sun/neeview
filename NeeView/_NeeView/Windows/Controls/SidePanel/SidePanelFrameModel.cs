@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace NeeView.Windows.Controls
 {
@@ -57,10 +58,31 @@ namespace NeeView.Windows.Controls
 
         #region Memento
 
+        [DataContract]
         public class Memento
         {
+            [DataMember]
             public SidePanel.Memento Left { get; set; }
+
+            [DataMember]
             public SidePanel.Memento Right { get; set; }
+
+            public void Constructor()
+            {
+                Left = new SidePanel.Memento();
+                Right = new SidePanel.Memento();
+            }
+
+            public Memento()
+            {
+                Constructor();
+            }
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                Constructor();
+            }
         }
 
         public Memento CreateMemento()

@@ -13,7 +13,7 @@
 * License: [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/deed.ja)
 
 
-### _NeeView/Windows/DockPanelSplitter.cs
+### Utility/DockPanelSplitter.cs
 
 * URL: [DockPanel Splitter Control for WPF](http://www.codeproject.com/Articles/34377/DockPanel-Splitter-Control-for-WPF)
 * License: [CPOL](http://www.codeproject.com/info/cpol10.aspx)
@@ -27,4 +27,5 @@
 
 ### その他
 
-ブログ等を参考にして作成されたコードの先頭には、そのURLを記載しています。
+ブログ等を参考にして作成されたコードの先頭には、そのURLを記載しています。  
+                

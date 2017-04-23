@@ -5,6 +5,7 @@
 
 using NeeView.Effects;
 using NeeView.Utility;
+using NeeView.Windows.Controls;
 using NeeView.Windows.Input;
 using System;
 using System.Collections.Generic;
@@ -518,7 +519,14 @@ namespace NeeView
         public bool IsHideMenu
         {
             get { return _isHideMenu; }
-            set { _isHideMenu = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            set
+            {
+                _isHideMenu = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(CanHideMenu));
+                UpdateSidePanelMargin();
+                NotifyMenuVisibilityChanged?.Invoke(this, null);
+            }
         }
 
         //
@@ -527,6 +535,10 @@ namespace NeeView
             IsHideMenu = !IsHideMenu;
             return IsHideMenu;
         }
+
+        //
+        public bool CanHideMenu => IsHideMenu || IsFullScreen;
+
         #endregion
 
         // スライダーを自動的に隠す
@@ -535,7 +547,14 @@ namespace NeeView
         public bool IsHidePageSlider
         {
             get { return _isIsHidePageSlider; }
-            set { _isIsHidePageSlider = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            set
+            {
+                _isIsHidePageSlider = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(CanHidePageSlider));
+                UpdateSidePanelMargin();
+                NotifyMenuVisibilityChanged?.Invoke(this, null);
+            }
         }
 
         //
@@ -544,6 +563,10 @@ namespace NeeView
             IsHidePageSlider = !IsHidePageSlider;
             return IsHidePageSlider;
         }
+
+        //
+        public bool CanHidePageSlider => IsHidePageSlider || IsFullScreen;
+
         #endregion
 
         // パネルを自動的に隠す
@@ -552,16 +575,34 @@ namespace NeeView
         public bool IsHidePanel
         {
             get { return _isHidePanel; }
-            set { _isHidePanel = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            set
+            {
+                _isHidePanel = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(CanHidePanel));
+                //NotifyMenuVisibilityChanged?.Invoke(this, null); 
+            }
         }
+
         public bool ToggleHidePanel()
         {
             IsHidePanel = !IsHidePanel;
             return IsHidePanel;
         }
 
-        // フルスクリーン時にパネルを隠す
-        public bool IsHidePanelInFullscreen { get; set; }
+        /// <summary>
+        /// フルスクリーン時にパネルを隠す
+        /// </summary>
+        public bool IsHidePanelInFullscreen
+        {
+            get { return _IsHidePanelInFullscreen; }
+            set { if (_IsHidePanelInFullscreen != value) { _IsHidePanelInFullscreen = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(CanHidePanel)); } }
+        }
+
+        //
+        private bool _IsHidePanelInFullscreen;
+
+
 
         // パネルを自動的に隠せるか
         public bool CanHidePanel => IsHidePanel || (IsHidePanelInFullscreen && IsFullScreen);
@@ -779,6 +820,160 @@ namespace NeeView
             return IsVisiblePagemarkList;
         }
 
+
+
+        #region SidePanels
+
+        private List<IPanel> _panels;
+
+        private SidePanelFrameModel _sidePanel;
+
+        /// <summary>
+        /// SidePanelMemento property.
+        /// </summary>
+        public SidePanelFrameModel.Memento SidePanelMemento
+        {
+            get { return _sidePanelMemento; }
+            set
+            {
+                if (_sidePanelMemento != value)
+                {
+                    _sidePanelMemento = value;
+                    RaisePropertyChanged();
+                    _sidePanel?.Restore(value, _panels);
+                }
+            }
+        }
+
+        //
+        private SidePanelFrameModel.Memento _sidePanelMemento;
+
+        private SidePanelFrameModel.Memento CreateSidePanelMemento()
+        {
+            return _sidePanel?.CreateMemento();
+        }
+
+        public FolderListPanel FolderListPanel { get; private set; }
+        public HistoryPanel HistoryPanel { get; private set; }
+        public FileInfoPanel FileInfoPanel { get; private set; }
+        public ImageEffectPanel ImageEffectPanel { get; private set; }
+        public BookmarkPanel BookmarkPanel { get; private set; }
+        public PagemarkPanel PagemarkPanel { get; private set; }
+
+        /// <summary>
+        /// サイドパネル初期化
+        /// TODO: 生成順。モデルはビュー生成の前に準備されているべき
+        /// </summary>
+        /// <param name="control"></param>
+        public void InitializeSidePanels(SidePanelFrame control)
+        {
+            _panels = new List<IPanel>();
+
+            // sample A
+            //_panels.Add(new SidePanelSampleA());
+
+            // フォルダーリスト
+            this.FolderListPanel = new FolderListPanel();
+            this.FolderListPanel.Initialize(this);
+            this.FolderListPanel.SetPlace(ModelContext.BookHistory.LastFolder ?? BookHub.GetFixedHome(), null, false);
+            _panels.Add(this.FolderListPanel);
+            //this.PageList.Initialize(this);
+
+            // 履歴
+            this.HistoryPanel = new HistoryPanel();
+            this.HistoryPanel.Initialize(this);
+            _panels.Add(this.HistoryPanel);
+
+            // ファイル情報
+            this.FileInfoPanel = new FileInfoPanel();
+            this.FileInfoPanel.Initialize(this);
+            _panels.Add(this.FileInfoPanel);
+
+            // エフェクト
+            this.ImageEffectPanel = new ImageEffectPanel();
+            this.ImageEffectPanel.Initialize(this);
+            _panels.Add(this.ImageEffectPanel);
+
+            // ブックマーク
+            this.BookmarkPanel = new BookmarkPanel();
+            this.BookmarkPanel.Initialize(this);
+            _panels.Add(this.BookmarkPanel);
+
+            // ページマーク
+            this.PagemarkPanel = new PagemarkPanel();
+            this.PagemarkPanel.Initialize(this);
+            _panels.Add(this.PagemarkPanel);
+
+
+            //
+            if (_sidePanelMemento == null)
+            {
+                var memento = new SidePanelFrameModel.Memento();
+                memento.Right.PanelTypeCodes = new List<string>() { nameof(FileInfoPanel), nameof(ImageEffectPanel) };
+            }
+
+            // create
+            _sidePanel = new SidePanelFrameModel();
+            _sidePanel.Restore(_sidePanelMemento, _panels);
+
+            //
+            //var memento = new SidePanelFrameModel.Memento();
+            //memento.Right.PanelTypeCodes = new List<string>() { nameof(FileInfoPanel), nameof(ImageEffectPanel) };
+
+
+            control.Model = _sidePanel;
+        }
+
+
+
+        /// <summary>
+        /// SidePanelMargin property.
+        /// </summary>
+        public Thickness SidePanelMargin
+        {
+            get { return _SidePanelMargin; }
+            set { if (_SidePanelMargin != value) { _SidePanelMargin = value; RaisePropertyChanged(); } }
+        }
+
+        //
+        private Thickness _SidePanelMargin;
+
+        //
+        private void UpdateSidePanelMargin()
+        {
+            SidePanelMargin = new Thickness(0, CanHideMenu ? 20 : 0, 0, CanHidePageSlider ? 20 : 0);
+        }
+
+
+        /// <summary>
+        /// CanvasWidth property.
+        /// </summary>
+        public double CanvasWidth
+        {
+            get { return _CanvasWidth; }
+            set { if (_CanvasWidth != value) { _CanvasWidth = value; RaisePropertyChanged(); } }
+        }
+
+        //
+        private double _CanvasWidth;
+
+
+        /// <summary>
+        /// CanvasHeight property.
+        /// </summary>
+        public double CanvasHeight
+        {
+            get { return _CanvasHeight; }
+            set { if (_CanvasHeight != value) { _CanvasHeight = value; RaisePropertyChanged(); } }
+        }
+
+        //
+        private double _CanvasHeight;
+
+
+
+        #endregion
+
         // 左パネル
         #region Property: LeftPanel
         private PanelType _leftPanel;
@@ -828,8 +1023,9 @@ namespace NeeView
 
 
         // パネル幅
-        public double LeftPanelWidth { get; set; } = 250;
-        public double RightPanelWidth { get; set; } = 250;
+        ////public double LeftPanelWidth { get; set; } = 250;
+        ////public double RightPanelWidth { get; set; } = 250;
+
 
         #region Property: FolderListGridLength0
         private GridLength _folderListGridLength0 = new GridLength(1, GridUnitType.Star);
@@ -891,6 +1087,7 @@ namespace NeeView
             }
         }
 
+
         // フォルダーリスト項目表示種類
         #region Property: FolderListItemStyle
         private FolderListItemStyle _folderListItemStyle;
@@ -936,7 +1133,12 @@ namespace NeeView
         public bool IsFullScreen
         {
             get { return FullScreenManager.IsFullScreen; }
-            set { FullScreenManager.IsFullScreen = value; }
+            set
+            {
+                FullScreenManager.IsFullScreen = value;
+                RaisePropertyChanged(nameof(CanHidePanel));
+                UpdateSidePanelMargin();
+            }
         }
 
         //
@@ -1367,6 +1569,8 @@ namespace NeeView
                 App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
                 App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
                 App.Current.Resources["NVCheckMarkBrush"] = new SolidColorBrush(Color.FromRgb(0x90, 0xEE, 0x90));
+                App.Current.Resources["NVPanelIconBackground"] = new SolidColorBrush(Color.FromRgb(0x33, 0x33, 0x33));
+                App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0xFF, 0xFF, 0xFF));
                 App.Current.Resources["NVFolderPen"] = null;
             }
             else
@@ -1378,6 +1582,8 @@ namespace NeeView
                 App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88));
                 App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55));
                 App.Current.Resources["NVCheckMarkBrush"] = new SolidColorBrush(Color.FromRgb(0x44, 0xBB, 0x44));
+                App.Current.Resources["NVPanelIconBackground"] = new SolidColorBrush(Color.FromRgb(0xE0, 0xE0, 0xE0));
+                App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0x44, 0x44, 0x44));
                 App.Current.Resources["NVFolderPen"] = new Pen(new SolidColorBrush(Color.FromRgb(0xDE, 0xB9, 0x82)), 1);
             }
         }
@@ -2214,8 +2420,8 @@ namespace NeeView
         public void StoreWindowPlacement(MainWindow window)
         {
             // パネル幅保存
-            LeftPanelWidth = window.LeftPanel.Width;
-            RightPanelWidth = window.RightPanel.Width;
+            ////LeftPanelWidth = window.LeftPanel.Width;
+            ////RightPanelWidth = window.RightPanel.Width;
 
             // ウィンドウ状態保存
             _windowPlacement = WindowPlacement.CreateMemento(window);
@@ -3089,11 +3295,11 @@ namespace NeeView
             [DataMember(Order = 7)]
             public PanelType RightPanel { get; set; }
 
-            [DataMember(Order = 7)]
-            public double LeftPanelWidth { get; set; }
+            ////[DataMember(Order = 7)]
+            ////public double LeftPanelWidth { get; set; }
 
-            [DataMember(Order = 7)]
-            public double RightPanelWidth { get; set; }
+            ////[DataMember(Order = 7)]
+            ////public double RightPanelWidth { get; set; }
 
             private string _windowTitleFormat1;
             [DataMember(Order = 7)]
@@ -3201,6 +3407,9 @@ namespace NeeView
             [DataMember(Order = 21)]
             public BrushSource CustomBackground { get; set; }
 
+            [DataMember(Order = 22)]
+            public SidePanelFrameModel.Memento SidePanelMemento { get; set; }
+
             //
             private void Constructor()
             {
@@ -3215,8 +3424,8 @@ namespace NeeView
                 FileInfoSetting = new FileInfoSetting();
                 FolderListSetting = new FolderListSetting();
                 PanelColor = PanelColor.Dark;
-                LeftPanelWidth = 250;
-                RightPanelWidth = 250;
+                ////LeftPanelWidth = 250;
+                ////RightPanelWidth = 250;
                 WindowTitleFormat1 = MainWindowVM.WindowTitleFormat1Default;
                 WindowTitleFormat2 = MainWindowVM.WindowTitleFormat2Default;
                 IsSaveWindowPlacement = true;
@@ -3239,6 +3448,9 @@ namespace NeeView
                 IsVisibleLoupeInfo = true;
                 SliderIndexLayout = SliderIndexLayout.Right;
                 CustomBackground = new BrushSource();
+
+                SidePanelMemento = new SidePanelFrameModel.Memento();
+                SidePanelMemento.Right.PanelTypeCodes = new List<string>() { nameof(FileInfoPanel), nameof(ImageEffectPanel) };
             }
 
             public Memento()
@@ -3325,8 +3537,8 @@ namespace NeeView
             memento.PanelColor = this.PanelColor;
             memento.LeftPanel = this.LeftPanel;
             memento.RightPanel = this.RightPanel;
-            memento.LeftPanelWidth = this.LeftPanelWidth;
-            memento.RightPanelWidth = this.RightPanelWidth;
+            ////memento.LeftPanelWidth = this.LeftPanelWidth;
+            ////memento.RightPanelWidth = this.RightPanelWidth;
             memento.WindowTitleFormat1 = this.WindowTitleFormat1;
             memento.WindowTitleFormat2 = this.WindowTitleFormat2;
             memento.IsVisibleAddressBar = this.IsVisibleAddressBar;
@@ -3355,6 +3567,8 @@ namespace NeeView
             memento.IsLoupeCenter = this.IsLoupeCenter;
             memento.PageListItemStyle = this.PageListItemStyle;
             memento.SliderIndexLayout = this.SliderIndexLayout;
+
+            memento.SidePanelMemento = CreateSidePanelMemento();
 
             return memento;
         }
@@ -3395,8 +3609,8 @@ namespace NeeView
             this.IsHidePanel = memento.IsHidePanel;
             this.LeftPanel = memento.LeftPanel;
             this.RightPanel = memento.RightPanel;
-            this.LeftPanelWidth = memento.LeftPanelWidth;
-            this.RightPanelWidth = memento.RightPanelWidth;
+            ////this.LeftPanelWidth = memento.LeftPanelWidth;
+            ////this.RightPanelWidth = memento.RightPanelWidth;
             this.WindowTitleFormat1 = memento.WindowTitleFormat1;
             this.WindowTitleFormat2 = memento.WindowTitleFormat2;
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
@@ -3425,6 +3639,7 @@ namespace NeeView
             this.PageListItemStyle = memento.PageListItemStyle;
             this.SliderIndexLayout = memento.SliderIndexLayout;
 
+            this.SidePanelMemento = memento.SidePanelMemento;
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

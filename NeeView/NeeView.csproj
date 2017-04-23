@@ -117,7 +117,32 @@
     <Compile Include="BitmapLoader\BitmapLoader.cs" />
     <Compile Include="BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
+    <Compile Include="SidePanels\Bookamrk\BookmarkPanelView.xaml.cs">
+      <DependentUpon>BookmarkPanelView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BrushSource.cs" />
+    <Compile Include="SidePanels\Bookamrk\BookmarkPanel.cs" />
+    <Compile Include="SidePanels\FileInfo\FileInfoPanel.cs" />
+    <Compile Include="SidePanels\FolderList\FolderListPanel.cs" />
+    <Compile Include="SidePanels\ImageEffect\ImageEffectPanel.cs" />
+    <Compile Include="SidePanels\ImageEffect\ImageEffectPanelView.xaml.cs">
+      <DependentUpon>ImageEffectPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidePanels\Pagemark\PagemarkPanel.cs" />
+    <Compile Include="SidePanels\Pagemark\PagemarkPanelView.xaml.cs">
+      <DependentUpon>PagemarkPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidePanels\FileInfo\FileInfoPanelView.xaml.cs">
+      <DependentUpon>FileInfoPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidePanels\FolderList\FolderListPanelView.xaml.cs">
+      <DependentUpon>FolderListPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidePanels\History\HistoryPanel.cs" />
+    <Compile Include="SidePanels\History\HistoryPanelView.xaml.cs">
+      <DependentUpon>HistoryPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidePanels\SidePanelSampleA.cs" />
     <Compile Include="_NeeView\Input\RelayCommand.cs" />
     <Compile Include="OpenSourceControls\DockPanelSplitter.cs" />
     <Compile Include="Utility\ComboColorPicker.xaml.cs">
@@ -159,20 +184,20 @@
     <Compile Include="Effects\EffectType.cs" />
     <Compile Include="EntryCollection.cs" />
     <Compile Include="EntrySort.cs" />
-    <Compile Include="FolderList\FolderCollectionParameter.cs" />
-    <Compile Include="FolderList\FolderItem.cs" />
-    <Compile Include="FolderList\FolderListControlViewModel.cs" />
-    <Compile Include="FolderList\FolderListSetting.cs" />
-    <Compile Include="FolderList\FolderListViewModel.cs" />
-    <Compile Include="FolderList\History.cs" />
-    <Compile Include="FolderList\RenameControl.xaml.cs">
+    <Compile Include="SidePanels\FolderList\FolderCollectionParameter.cs" />
+    <Compile Include="SidePanels\FolderList\FolderItem.cs" />
+    <Compile Include="SidePanels\FolderList\FolderListControlViewModel.cs" />
+    <Compile Include="SidePanels\FolderList\FolderListSetting.cs" />
+    <Compile Include="SidePanels\FolderList\FolderListViewModel.cs" />
+    <Compile Include="SidePanels\FolderList\History.cs" />
+    <Compile Include="SidePanels\FolderList\RenameControl.xaml.cs">
       <DependentUpon>RenameControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FolderList\RenameManager.xaml.cs">
+    <Compile Include="SidePanels\FolderList\RenameManager.xaml.cs">
       <DependentUpon>RenameManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="FullScreenManager.cs" />
-    <Compile Include="ImageEffectControl.xaml.cs">
+    <Compile Include="SidePanels\ImageEffect\ImageEffectControl.xaml.cs">
       <DependentUpon>ImageEffectControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Logger.cs" />
@@ -222,12 +247,12 @@
       <DependentUpon>ResolveConflictDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="InputGestureSettingWindowVM.cs" />
-    <Compile Include="PagemarkControl.xaml.cs">
+    <Compile Include="SidePanels\Pagemark\PagemarkControl.xaml.cs">
       <DependentUpon>PagemarkControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PagemarkCollection.cs" />
-    <Compile Include="BookmarkCollection.cs" />
-    <Compile Include="BookmarkControl.xaml.cs">
+    <Compile Include="SidePanels\Bookamrk\BookmarkCollection.cs" />
+    <Compile Include="SidePanels\Bookamrk\BookmarkControl.xaml.cs">
       <DependentUpon>BookmarkControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="BookMementoCollection.cs" />
@@ -243,14 +268,14 @@
     <Compile Include="PageListControl.xaml.cs">
       <DependentUpon>PageListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FolderList\FolderCollection.cs" />
-    <Compile Include="FolderList\FolderListView.xaml.cs">
+    <Compile Include="SidePanels\FolderList\FolderCollection.cs" />
+    <Compile Include="SidePanels\FolderList\FolderListView.xaml.cs">
       <DependentUpon>FolderListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FolderList\FolderListControlView.xaml.cs">
+    <Compile Include="SidePanels\FolderList\FolderListControlView.xaml.cs">
       <DependentUpon>FolderListControlView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HistoryControl.xaml.cs">
+    <Compile Include="SidePanels\History\HistoryControl.xaml.cs">
       <DependentUpon>HistoryControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="BindingGenerator.cs" />
@@ -288,7 +313,7 @@
     <Compile Include="Exporter.cs" />
     <Compile Include="ExternalApplication.cs" />
     <Compile Include="DragActionTable.cs" />
-    <Compile Include="FileInfoControl.xaml.cs">
+    <Compile Include="SidePanels\FileInfo\FileInfoControl.xaml.cs">
       <DependentUpon>FileInfoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="FileInfoItem.xaml.cs">
@@ -408,6 +433,34 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SidePanels\Bookamrk\BookmarkPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\ImageEffect\ImageEffectPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\Pagemark\PagemarkPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\FileInfo\FileInfoPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\FolderList\FolderListPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\History\HistoryPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\PanelIconDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Utility\ComboColorPicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -428,15 +481,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FolderList\RenameControl.xaml">
+    <Page Include="SidePanels\FolderList\RenameControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="FolderList\RenameManager.xaml">
+    <Page Include="SidePanels\FolderList\RenameManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ImageEffectControl.xaml">
+    <Page Include="SidePanels\ImageEffect\ImageEffectControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -456,11 +509,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PagemarkControl.xaml">
+    <Page Include="SidePanels\Pagemark\PagemarkControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="BookmarkControl.xaml">
+    <Page Include="SidePanels\Bookamrk\BookmarkControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -468,7 +521,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FileInfoControl.xaml">
+    <Page Include="SidePanels\FileInfo\FileInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -488,15 +541,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FolderList\FolderListView.xaml">
+    <Page Include="SidePanels\FolderList\FolderListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FolderList\FolderListControlView.xaml">
+    <Page Include="SidePanels\FolderList\FolderListControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="HistoryControl.xaml">
+    <Page Include="SidePanels\History\HistoryControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -105,6 +105,8 @@ namespace NeeView
 
             InitializeVisualTree();
 
+            ////_VM.InitializeSidePanels(this.SidePanelFrame);
+
             // mouse input
             _mouse = MouseInputManager.Current = new MouseInputManager(this, this.MainView, this.MainContent, this.MainContentShadow);
 
@@ -181,7 +183,7 @@ namespace NeeView
             Messenger.AddReciever("MessageBox", CallMessageBox);
             Messenger.AddReciever("MessageShow", CallMessageShow);
             Messenger.AddReciever("Export", CallExport);
-            Messenger.AddReciever("ResetHideDelay", CallResetPanelHideDelay);
+            ////Messenger.AddReciever("ResetHideDelay", CallResetPanelHideDelay);
 
             // mouse event capture for active check
             this.MainView.PreviewMouseMove += MainView_PreviewMouseMove;
@@ -239,8 +241,8 @@ namespace NeeView
             this.MenuArea.Visibility = Visibility.Hidden;
             this.StatusArea.Visibility = Visibility.Hidden;
             this.ThumbnailListArea.Visibility = Visibility.Hidden;
-            this.LeftPanel.Visibility = Visibility.Hidden;
-            this.RightPanel.Visibility = Visibility.Hidden;
+            ////this.LeftPanel.Visibility = Visibility.Hidden;
+            ////this.RightPanel.Visibility = Visibility.Hidden;
 
             // IsMouseOverの変更イベントをハンドルする。
             var dpd = DependencyPropertyDescriptor.FromProperty(UIElement.IsMouseOverProperty, typeof(Grid));
@@ -325,14 +327,14 @@ namespace NeeView
             _VM.LeftPanelVisibled +=
                 (s, e) =>
                 {
-                    if (e == PanelType.PageList) this.PageList.FocusAtOnce = true;
-                    SetLeftPanelVisibisityForced(_isVisibleLeftPanel && _VM.LeftPanel != PanelType.None, false);
+                    if (e == PanelType.PageList) _VM.FolderListPanel.PageListControl.FocusAtOnce = true;
+                    ////SetLeftPanelVisibisityForced(_isVisibleLeftPanel && _VM.LeftPanel != PanelType.None, false);
                 };
 
             _VM.RightPanelVisibled +=
                 (s, e) =>
                 {
-                    SetRightPanelVisibisityForced(_isVisibleRightPanel && _VM.RightPanel != PanelType.None, false);
+                    ////SetRightPanelVisibisityForced(_isVisibleRightPanel && _VM.RightPanel != PanelType.None, false);
                 };
         }
 
@@ -880,6 +882,7 @@ namespace NeeView
             bool isMenuDock = !_VM.IsHideMenu && !_VM.IsFullScreen;
             bool isPageSliderDock = !_VM.IsHidePageSlider && !_VM.IsFullScreen;
 
+#if false
             // panel hide
             if (_VM.CanHidePanel)
             {
@@ -900,6 +903,7 @@ namespace NeeView
                 this.LeftPanel.Style = null;
                 this.RightPanel.Style = null;
             }
+#endif
 
             // アドレスバー
             this.AddressBar.Visibility = _VM.IsVisibleAddressBar ? Visibility.Visible : Visibility.Collapsed;
@@ -912,20 +916,21 @@ namespace NeeView
 
             double statusAreaHeight = this.PageSlider.Height + _VM.ThumbnailItemHeight; // アバウト
             double bottomMargin = (isPageSliderDock && _VM.IsEnableThumbnailList && !_VM.IsHideThumbnailList ? statusAreaHeight : this.PageSlider.Height);
-            this.LeftPanelMargin.Height = bottomMargin;
-            this.RightPanelMargin.Height = bottomMargin;
+            ////this.LeftPanelMargin.Height = bottomMargin;
+            ////this.RightPanelMargin.Height = bottomMargin;
+            //TODO: パネルボトムマージン実装
 
             // パネル表示設定
-            UpdateLeftPanelVisibility();
-            UpdateRightPanelVisibility();
+            ////UpdateLeftPanelVisibility();
+            ////UpdateRightPanelVisibility();
 
             //
             UpdateMenuAreaVisibility();
 
             // コントロール表示状態更新
             {
-                SetControlVisibility(this.LeftPanel, _isVisibleLeftPanel, true, VisibleStoryboardType.Collapsed);
-                SetControlVisibility(this.RightPanel, _isVisibleRightPanel, true, VisibleStoryboardType.Collapsed);
+                ////SetControlVisibility(this.LeftPanel, _isVisibleLeftPanel, true, VisibleStoryboardType.Collapsed);
+                ////SetControlVisibility(this.RightPanel, _isVisibleRightPanel, true, VisibleStoryboardType.Collapsed);
 
                 SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, true, VisibleStoryboardType.Collapsed);
 
@@ -935,10 +940,11 @@ namespace NeeView
 
             // ビュー領域設定
             double menuAreaHeight = this.MenuBar.ActualHeight + (_VM.IsVisibleAddressBar ? this.AddressBar.Height : 0);
-            this.ViewArea.Margin = new Thickness(0, isMenuDock ? menuAreaHeight : 0, 0, 0);
+            //double statusAreaHeight2 = this.SliderArea.ActualHeight + (_VM.IsHideThumbnailList ? this.ThumbnailListArea.ActualHeight : 0);
+            this.ViewArea.Margin = new Thickness(0, isMenuDock ? menuAreaHeight : 0, 0, bottomMargin);
 
             // コンテンツ表示領域設定
-            this.MainView.Margin = new Thickness(0, 0, 0, isPageSliderDock ? bottomMargin : 0);
+            ////this.MainView.Margin = new Thickness(0, 0, 0, isPageSliderDock ? bottomMargin : 0);
 
             // 通知表示位置設定
             this.TinyInfoTextBlock.Margin = new Thickness(0, 0, 0, bottomMargin);
@@ -978,21 +984,24 @@ namespace NeeView
             App.Setting = null; // ロード設定破棄
 
             // パネル幅復元
-            this.LeftPanel.Width = _VM.LeftPanelWidth;
-            this.RightPanel.Width = _VM.RightPanelWidth;
+            ////this.LeftPanel.Width = _VM.LeftPanelWidth;
+            ////this.RightPanel.Width = _VM.RightPanelWidth;
 
             // PanelColor
             _VM.FlushPanelColor();
 
+            // サイドパネル初期化
+            _VM.InitializeSidePanels(this.SidePanelFrame);
+
             // フォルダーリスト初期化
-            this.FolderList.SetPlace(ModelContext.BookHistory.LastFolder ?? _VM.BookHub.GetFixedHome(), null, false);
-            this.PageList.Initialize(_VM);
+            ////this.FolderList.SetPlace(ModelContext.BookHistory.LastFolder ?? _VM.BookHub.GetFixedHome(), null, false);
+            ////this.PageList.Initialize(_VM);
             // 履歴リスト初期化
-            this.HistoryArea.Initialize(_VM.BookHub);
+            ////this.HistoryArea.Initialize(_VM.BookHub);
             // ブックマークリスト初期化
-            this.BookmarkArea.Initialize(_VM.BookHub);
+            ////this.BookmarkArea.Initialize(_VM.BookHub);
             // ブックマークリスト初期化
-            this.PagemarkArea.Initialize(_VM.BookHub);
+            ////this.PagemarkArea.Initialize(_VM.BookHub);
 
             // マーカー初期化
             this.PageMarkers.Initialize(_VM.BookHub);
@@ -1295,10 +1304,12 @@ namespace NeeView
         }
 
         // 情報エリアクリックでメインビューにフォーカスを移す
+        /*
         private void InfoArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.MainView.Focus();
         }
+        */
 
         // アドレスバー入力
         private void AddressTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -1707,13 +1718,14 @@ namespace NeeView
         //
         private void UpdateControlsVisibility()
         {
-            UpdateLeftPanelVisibility();
-            UpdateRightPanelVisibility();
+            ////UpdateLeftPanelVisibility();
+            ////UpdateRightPanelVisibility();
             UpdateMenuAreaVisibility();
             UpdateStateAreaVisibility();
         }
 
 
+#if false
         //
         private void UpdateLeftPanelVisibility()
         {
@@ -1724,7 +1736,7 @@ namespace NeeView
             {
                 SetLeftPanelVisibisity(false, false);
             }
-            else if (_VM.LeftPanel == PanelType.FolderList && this.FolderList.IsRenaming)
+            else if (_VM.LeftPanel == PanelType.FolderList && _VM.FolderListPanel.FolderListControl.IsRenaming)
             {
                 SetLeftPanelVisibisity(true, false);
             }
@@ -1813,8 +1825,7 @@ namespace NeeView
             SetControlVisibility(this.RightPanel, _isVisibleRightPanel, isQuickly || _VM.RightPanel == PanelType.None, VisibleStoryboardType.Collapsed);
         }
 
-
-        /// <summary>
+                /// <summary>
         /// パネル非表示のリセット
         /// </summary>
         /// <param name="sender"></param>
@@ -1829,7 +1840,7 @@ namespace NeeView
             if (param.PanelSide == PanelSide.Right)
                 if (!_isVisibleRightPanel) SetRightPanelVisibisityForced(_isVisibleRightPanel, false);
         }
-
+#endif
 
         //
         private enum VisibleStoryboardType
@@ -2076,6 +2087,7 @@ namespace NeeView
         #endregion
 
 
+#if false
         private void LeftPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             _VM.IsVisibleLeftPanel = this.LeftPanel.IsVisible;
@@ -2085,6 +2097,7 @@ namespace NeeView
         {
             _VM.IsVisibleRightPanel = this.RightPanel.IsVisible;
         }
+#endif
 
         private void MenuArea_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -2191,7 +2204,7 @@ namespace NeeView
     }
 
 
-    #region Convertes
+#region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -2509,5 +2522,5 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 }

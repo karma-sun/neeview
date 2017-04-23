@@ -250,6 +250,7 @@ namespace NeeView
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin, int direction)
         {
+            if (Bookmark == null) return;
             PanelContext.ThumbnailManager.RequestThumbnail(Bookmark.Items, start, count, margin, direction);
         }
     }

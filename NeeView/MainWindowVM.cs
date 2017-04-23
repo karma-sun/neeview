@@ -5,6 +5,7 @@
 
 using NeeView.Effects;
 using NeeView.Utility;
+using NeeView.Windows.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

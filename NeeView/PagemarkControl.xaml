@@ -11,7 +11,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
-             xmlns:drag="clr-namespace:DragExtensions"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:nw="clr-namespace:NeeView.Windows"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              Background="{DynamicResource NVBackground}"
@@ -37,6 +38,9 @@
         <!-- Normal Pagemark -->
         <DataTemplate x:Key="NormalPagemark">
             <StackPanel Background="{DynamicResource NVBaseBrush}">
+                <i:Interaction.Behaviors>
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="PagemarkItem" DragDropData="{Binding}" />
+                </i:Interaction.Behaviors>
                 <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PlaceShort}" FontSize="12" Foreground="Gray" />
                 <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}" ToolTip="{Binding Detail}" ToolTipService.InitialShowDelay="1000" ToolTipService.BetweenShowDelay="1000"/>
             </StackPanel>
@@ -44,7 +48,10 @@
 
         <!-- Picture Pagemark -->
         <DataTemplate x:Key="PicturePagemark">
-            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1" Background="Transparent">
+                <i:Interaction.Behaviors>
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="PagemarkItem" DragDropData="{Binding}" />
+                </i:Interaction.Behaviors>
                 <DockPanel Margin="2">
                     <DockPanel>
                         <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"
@@ -117,8 +124,10 @@
                         </Setter.Value>
                     </Setter>
 
+                    <!--
                     <Setter Property="drag:DragBehavior.IsEnable" Value="True"/>
                     <Setter Property="drag:DragBehavior.ListBox" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}"/>
+                    -->
 
                 </Style>
             </ListBox.Resources>

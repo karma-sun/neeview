@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -138,7 +139,7 @@ namespace NeeView
 
         private void PagemarkListBox_PreviewDragOver(object sender, DragEventArgs e)
         {
-            ListBoxDragSortExtension.PreviewDragOver(sender, e);
+            ListBoxDragSortExtension.PreviewDragOver(sender, e, "PagemarkItem");
         }
 
         private void PagemarkListBox_Drop(object sender, DragEventArgs e)
@@ -146,7 +147,7 @@ namespace NeeView
             var list = (sender as ListBox).Tag as ObservableCollection<Pagemark>;
             if (list != null)
             {
-                ListBoxDragSortExtension.Drop<Pagemark>(sender, e, list);
+                ListBoxDragSortExtension.Drop<Pagemark>(sender, e, "PagemarkItem", list);
                 e.Handled = true;
             }
         }

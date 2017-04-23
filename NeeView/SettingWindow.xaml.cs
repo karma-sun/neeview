@@ -22,6 +22,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using NeeView.Windows.Property;
 using NeeView.Windows.Input;
+using NeeView.Windows;
 
 namespace NeeView
 {
@@ -727,7 +728,7 @@ namespace NeeView
         // プラグインリスト：ドロップ受付判定
         private void PluginListView_PreviewDragOver(object sender, DragEventArgs e)
         {
-            ListBoxDragSortExtension.PreviewDragOver(sender, e);
+            ListBoxDragSortExtension.PreviewDragOver(sender, e, "SusiePlugin");
         }
 
         // プラグインリスト：ドロップ
@@ -736,7 +737,7 @@ namespace NeeView
             var list = (sender as ListBox).Tag as ObservableCollection<Susie.SusiePlugin>;
             if (list != null)
             {
-                ListBoxDragSortExtension.Drop<Susie.SusiePlugin>(sender, e, list);
+                ListBoxDragSortExtension.Drop<Susie.SusiePlugin>(sender, e, "SusiePlugin", list);
             }
         }
 

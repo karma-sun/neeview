@@ -9,10 +9,11 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         xmlns:susie="clr-namespace:Susie"
-        xmlns:drag="clr-namespace:DragExtensions"
+        xmlns:nw="clr-namespace:NeeView.Windows"
         xmlns:nlc="clr-namespace:NeeView.Windows.Controls"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
@@ -815,6 +816,9 @@
 
                     <DataTemplate DataType="{x:Type susie:SusiePlugin}" x:Key="SusiePlugin">
                         <StackPanel Orientation="Horizontal">
+                            <i:Interaction.Behaviors>
+                                <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="SusiePlugin" DragDropData="{Binding}" />
+                            </i:Interaction.Behaviors>
                             <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsEnable}"/>
                             <Grid Width="20" VerticalAlignment="Center" Margin="2">
                                 <Button Style="{StaticResource IconButton}"
@@ -845,6 +849,7 @@
                         <Setter Property="AllowDrop" Value="True"/>
                         <EventSetter Event="PreviewDragOver"  Handler="PluginListView_PreviewDragOver"/>
                         <EventSetter Event="Drop" Handler="PluginListView_Drop"/>
+                        <!--
                         <Setter Property="ItemContainerStyle">
                             <Setter.Value>
                                 <Style TargetType="ListBoxItem">
@@ -853,6 +858,7 @@
                                 </Style>
                             </Setter.Value>
                         </Setter>
+                        -->
                     </Style>
 
                 </TabItem.Resources>

@@ -65,13 +65,13 @@ namespace NeeView.Windows
         {
             var brush = new VisualBrush(adornElement) { Opacity = opacity };
             var bounds = VisualTreeHelper.GetDescendantBounds(adornElement);
-            var rectamge = new Rectangle() { Width = bounds.Width, Height = bounds.Height };
+            var rectangle = new Rectangle() { Width = bounds.Width, Height = bounds.Height };
 
             _centerX = dragPos.X;
             _centerY = dragPos.Y;
 
-            rectamge.Fill = brush;
-            _child = rectamge;
+            rectangle.Fill = brush;
+            _child = rectangle;
         }
 
         /// <summary>
@@ -132,8 +132,7 @@ namespace NeeView.Windows
         /// </summary>
         private void UpdatePosition()
         {
-            var adorner = this.Parent as AdornerLayer;
-            if (adorner != null)
+            if (this.Parent is AdornerLayer adorner)
             {
                 adorner.Update(this.AdornedElement);
             }

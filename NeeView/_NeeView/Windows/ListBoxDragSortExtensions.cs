@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace NeeView
+namespace NeeView.Windows
 {
     /// <summary>
     /// ListBoxのドラッグ&ドロップによる順番入れ替え用ヘルパ
@@ -21,11 +21,15 @@ namespace NeeView
     /// </summary>
     public static class ListBoxDragSortExtension
     {
-        // event PreviewDragOver
-        // Drop前の受け入れ判定
-        public static void PreviewDragOver(object sender, DragEventArgs e)
+        /// <summary>
+        /// Drop受け入れ判定
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="format">データフォーマット</param>
+        public static void PreviewDragOver(object sender, DragEventArgs e, string format)
         {
-            if (e.Data.GetDataPresent(typeof(ListBoxItem)))
+            if (e.Data.GetDataPresent(format))
             {
                 e.Effects = DragDropEffects.Move;
             }
@@ -38,19 +42,25 @@ namespace NeeView
         }
 
 
-        // event Drop
-        public static void Drop<T>(object sender, DragEventArgs e, ObservableCollection<T> items) where T : class
+        /// <summary>
+        /// Drop処理
+        /// </summary>
+        /// <typeparam name="T">データ形</typeparam>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="format">データフォーマット</param>
+        /// <param name="items">データコレクション</param>
+        public static void Drop<T>(object sender, DragEventArgs e, string format, ObservableCollection<T> items)
+            where T : class
         {
-            if (!e.Data.GetDataPresent(typeof(ListBoxItem))) return;
-
             var listBox = sender as ListBox;
 
             // ドラッグオブジェクト
-            var item = (e.Data.GetData(typeof(ListBoxItem)) as ListBoxItem)?.DataContext as T;
+            var item = e.Data.GetData(format) as T;
             if (item == null) return;
 
             // ドラッグオブジェクトが所属しているリスト判定
-            if (items.Count > 0 && !items.Contains(item)) return;
+            if (items.Count <= 0 || !items.Contains(item)) return;
 
             var dropPos = e.GetPosition(listBox);
             int oldIndex = items.IndexOf(item);
@@ -60,39 +70,15 @@ namespace NeeView
                 var listBoxItem = listBox.ItemContainerGenerator.ContainerFromIndex(i) as ListBoxItem;
                 if (listBoxItem == null) continue;
 
-                var pos = listBoxItem.TranslatePoint(new Point(0, listBoxItem.ActualHeight / 2), listBox);
+                var pos = listBoxItem.TranslatePoint(new Point(0, listBoxItem.ActualHeight), listBox);
                 if (dropPos.Y < pos.Y)
                 {
-                    newIndex = (i > oldIndex) ? i - 1 : i;
+                    newIndex = i;
                     break;
                 }
             }
-            if (oldIndex != newIndex)
-            {
-                items.Move(oldIndex, newIndex);
-            }
-        }
-    }
 
-
-    /// <summary>
-    /// List拡張
-    /// </summary>
-    public static class ListExtensions
-    {
-        // List要素の順番変更
-        public static void Move<T>(this List<T> list, int a0, int a1)
-        {
-            if (a0 == a1) return;
-
-            var value = list.ElementAt(a0);
-
-            list.RemoveAt(a0);
-            if (a0 < a1) a1--;
-            if (a1 > list.Count) a1 = list.Count;
-            if (a1 < 0) a1 = 0;
-
-            list.Insert(a1, value);
+            items.Move(oldIndex, newIndex);
         }
     }
 }

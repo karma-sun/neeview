@@ -283,8 +283,6 @@
     <Compile Include="BitmapLoader\BitmapContentSource.cs" />
     <Compile Include="BitmapLoader\BitmapLoaderManager.cs" />
     <Compile Include="BitmapLoader\DefaultBitmapLoader.cs" />
-    <Compile Include="DragBehaviour\DragAdorner.cs" />
-    <Compile Include="DragBehaviour\DragBehavior.cs" />
     <Compile Include="DragAction.cs" />
     <Compile Include="BitmapLoader\ExifAccessor.cs" />
     <Compile Include="Exporter.cs" />
@@ -296,8 +294,6 @@
     <Compile Include="FileInfoItem.xaml.cs">
       <DependentUpon>FileInfoItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ListBoxDragSortExtensions.cs" />
-    <Compile Include="DragBehaviour\WPFUtil.cs" />
     <Compile Include="DragArea.cs" />
     <Compile Include="DragViewOrigin.cs" />
     <Compile Include="IpcRemote.cs" />
@@ -394,6 +390,7 @@
     <Compile Include="_NeeView\Windows\DragAdorner.cs" />
     <Compile Include="_NeeView\Windows\DragStartBehaviour.cs" />
     <Compile Include="_NeeView\Windows\DropAcceptBehaviour.cs" />
+    <Compile Include="_NeeView\Windows\ListBoxDragSortExtensions.cs" />
     <Compile Include="_NeeView\Windows\Media\HVSColor.cs" />
     <Compile Include="_NeeView\Windows\Property\IValueSetter.cs" />
     <Compile Include="_NeeView\Windows\Property\PropertyControl.xaml.cs">
@@ -406,6 +403,7 @@
     </Compile>
     <Compile Include="_NeeView\Windows\Property\PropertyMemberAttribute.cs" />
     <Compile Include="_NeeView\Windows\Property\PropertyValue.cs" />
+    <Compile Include="_NeeView\Windows\StyleInteraction.cs" />
     <Page Include="BackgroundSettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

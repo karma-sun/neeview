@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -138,7 +139,7 @@ namespace NeeView
 
         private void BookmarkListBox_PreviewDragOver(object sender, DragEventArgs e)
         {
-            ListBoxDragSortExtension.PreviewDragOver(sender, e);
+            ListBoxDragSortExtension.PreviewDragOver(sender, e, "BookmarkItem");
         }
 
         private void BookmarkListBox_Drop(object sender, DragEventArgs e)
@@ -146,7 +147,7 @@ namespace NeeView
             var list = (sender as ListBox).Tag as ObservableCollection<BookMementoUnitNode>;
             if (list != null)
             {
-                ListBoxDragSortExtension.Drop<BookMementoUnitNode>(sender, e, list);
+                ListBoxDragSortExtension.Drop<BookMementoUnitNode>(sender, e, "BookmarkItem", list);
                 e.Handled = true;
             }
         }

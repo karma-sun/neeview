@@ -26,3 +26,11 @@ ICON: ic_help_24px, etc...
 * Google (C)
 * URL: [Icons - Style - Google design guidelines](http://www.google.com/design/spec/style/icons.html#icons-system-icons)
 * License: [CC-BY 4.0](http://creativecommons.org/licenses/by/4.0/)
+
+### WPFDragAndDropSample
+
+Code-in:
+
+* Copyright (c) 2016 takanemu
+* URL: [WPFDragAndDropSample](https://github.com/takanemu/WPFDragAndDropSample)
+* License: [MIT License](https://github.com/takanemu/WPFDragAndDropSample/blob/master/LICENSE)

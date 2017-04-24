@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Windows.Threading;
 
 namespace NeeView.Windows.Data
 {
@@ -18,13 +20,18 @@ namespace NeeView.Windows.Data
 
         private DateTime _delayTime = DateTime.MaxValue;
 
+        private DispatcherTimer _timer;
+
         //
         public DelayValue()
         {
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(0.1);
+            _timer.Tick += Tick;
         }
 
         //
-        public DelayValue(T value)
+        public DelayValue(T value) : this()
         {
             _value = value;
             _delayValue = value;
@@ -36,20 +43,43 @@ namespace NeeView.Windows.Data
             if (_delayValue.Equals(value)) return;
 
             _delayValue = value;
-            _delayTime = DateTime.Now + TimeSpan.FromMilliseconds(ms);
-            Tick(this, null);
+
+            if (ms <= 0.0)
+            {
+                Flush();
+            }
+            else
+            {
+                _delayTime = DateTime.Now + TimeSpan.FromMilliseconds(ms);
+                _timer.Start();
+            }
         }
 
         //
-        public void Tick(object sender, EventArgs e)
+        private void Flush()
         {
-            if (_delayTime <= DateTime.Now)
+            _timer.Stop();
+
+            if (!_delayValue.Equals(_value))
             {
                 _value = _delayValue;
-                _delayTime = DateTime.MaxValue;
                 ValueChanged?.Invoke(this, null);
             }
         }
 
+        //
+        private void Tick(object sender, EventArgs e)
+        {
+            if (_delayTime <= DateTime.Now)
+            {
+                Flush();
+            }
+        }
+
+        //
+        public string ToDetail()
+        {
+            return _timer.IsEnabled ? $"{_value} ({_delayValue}, {(_delayTime - DateTime.Now).TotalMilliseconds}ms)" : $"{_value}";
+        }
     }
 }

@@ -348,6 +348,8 @@ namespace NeeView
             }
         }
 
+
+
         // アドレス
         #region Property: Address
         private string _address;
@@ -1015,12 +1017,24 @@ namespace NeeView
             CurrentBook?.RequestSetPosition(new PagePosition(index, 0), 1, false);
         }
 
-        // 総ページ数取得
-        public int GetPageCount()
+        /// <summary>
+        /// 最大ページ番号取得
+        /// </summary>
+        /// <returns></returns>
+        public int GetMaxPageIndex()
         {
             var count = CurrentBook == null ? 0 : CurrentBook.Pages.Count - 1;
             if (count < 0) count = 0;
             return count;
+        }
+
+        /// <summary>
+        /// ページ数取得
+        /// </summary>
+        /// <returns></returns>
+        public int GetPageCount()
+        {
+            return CurrentBook == null ? 0 : CurrentBook.Pages.Count;
         }
 
         // 履歴を戻ることができる？

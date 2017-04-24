@@ -27,6 +27,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Globalization;
+using NeeView.Windows.Data;
 
 namespace NeeView
 {
@@ -78,6 +79,9 @@ namespace NeeView
         public MainWindow()
         {
             InitializeComponent();
+
+            InitializeMenuLayerVisibility();
+            InitializeStatusLayerVisibility();
 
             // ウィンドウ座標復元
             if (!App.Options["--reset-placement"].IsValid && App.Setting.ViewMemento.IsSaveWindowPlacement)
@@ -238,9 +242,9 @@ namespace NeeView
         // ビジュアル初期化
         private void InitializeVisualTree()
         {
-            this.MenuArea.Visibility = Visibility.Hidden;
-            this.StatusArea.Visibility = Visibility.Hidden;
-            this.ThumbnailListArea.Visibility = Visibility.Hidden;
+            ////this.MenuArea.Visibility = Visibility.Hidden;
+            ////this.SliderArea.Visibility = Visibility.Hidden;
+            ////this.ThumbnailListArea.Visibility = Visibility.Hidden;
             ////this.LeftPanel.Visibility = Visibility.Hidden;
             ////this.RightPanel.Visibility = Visibility.Hidden;
 
@@ -257,7 +261,7 @@ namespace NeeView
         public void ApplyPreference(Preference preference)
         {
             // パネルが自動的に隠れる時間
-            this.AutoHideDelayTime = preference.panel_autohide_delaytime;
+            ////this.AutoHideDelayTime = preference.panel_autohide_delaytime;
 
             // マウスジェスチャーの最小移動距離
             _mouse.Gesture.SetGestureMinimumDistance(
@@ -268,7 +272,7 @@ namespace NeeView
         //
         private void MenuArea_IsMouseOverChanged(object sender, EventArgs e)
         {
-            UpdateMenuAreaVisibility();
+            UpdateMenuLayerVisibility();
         }
 
         //
@@ -873,7 +877,9 @@ namespace NeeView
             }
         }
 
-        // メニューレイアウト更新
+        /// <summary>
+        /// メニューレイアウト更新
+        /// </summary>
         private void UpdateMenuLayout()
         {
             _IsDartyMenuLayout = false;
@@ -881,6 +887,7 @@ namespace NeeView
             // menu hide
             bool isMenuDock = !_VM.IsHideMenu && !_VM.IsFullScreen;
             bool isPageSliderDock = !_VM.IsHidePageSlider && !_VM.IsFullScreen;
+            bool isThimbnailListDock = !_VM.IsHideThumbnailList && isPageSliderDock;
 
 #if false
             // panel hide
@@ -905,17 +912,51 @@ namespace NeeView
             }
 #endif
 
+            if (isMenuDock)
+            {
+                this.LayerMenuSocket.Content = null;
+                this.DockMenuSocket.Content = this.MenuArea;
+            }
+            else
+            {
+                this.DockMenuSocket.Content = null;
+                this.LayerMenuSocket.Content = this.MenuArea; ;
+            }
+
+            if (isPageSliderDock)
+            {
+                this.LayerPageSliderSocket.Content = null;
+                this.DockPageSliderSocket.Content = this.SliderArea;
+            }
+            else
+            {
+                this.DockPageSliderSocket.Content = null;
+                this.LayerPageSliderSocket.Content = this.SliderArea;
+            }
+
+            if (isThimbnailListDock)
+            {
+                this.LayerThumbnailListSocket.Content = null;
+                this.DockThumbnailListSocket.Content = this.ThumbnailListArea;
+            }
+            else
+            {
+                this.DockThumbnailListSocket.Content = null;
+                this.LayerThumbnailListSocket.Content = this.ThumbnailListArea;
+            }
+
+
             // アドレスバー
             this.AddressBar.Visibility = _VM.IsVisibleAddressBar ? Visibility.Visible : Visibility.Collapsed;
 
             // サムネイルリスト
-            SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList, true);
-
+            ////SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList, true);
+            this.ThumbnailListArea.Visibility = _VM.IsEnableThumbnailList ? Visibility.Visible : Visibility.Collapsed;
             DartyThumbnailList();
-            UpdateStateAreaVisibility();
 
-            double statusAreaHeight = this.PageSlider.Height + _VM.ThumbnailItemHeight; // アバウト
-            double bottomMargin = (isPageSliderDock && _VM.IsEnableThumbnailList && !_VM.IsHideThumbnailList ? statusAreaHeight : this.PageSlider.Height);
+
+            ////double statusAreaHeight = this.PageSlider.Height + _VM.ThumbnailItemHeight; // アバウト
+            ////double bottomMargin = (isPageSliderDock && _VM.IsEnableThumbnailList && !_VM.IsHideThumbnailList ? statusAreaHeight : this.PageSlider.Height);
             ////this.LeftPanelMargin.Height = bottomMargin;
             ////this.RightPanelMargin.Height = bottomMargin;
             //TODO: パネルボトムマージン実装
@@ -924,32 +965,42 @@ namespace NeeView
             ////UpdateLeftPanelVisibility();
             ////UpdateRightPanelVisibility();
 
-            //
-            UpdateMenuAreaVisibility();
+
 
             // コントロール表示状態更新
             {
                 ////SetControlVisibility(this.LeftPanel, _isVisibleLeftPanel, true, VisibleStoryboardType.Collapsed);
                 ////SetControlVisibility(this.RightPanel, _isVisibleRightPanel, true, VisibleStoryboardType.Collapsed);
 
-                SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, true, VisibleStoryboardType.Collapsed);
+                ////SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, true, VisibleStoryboardType.Collapsed);
 
-                SetControlVisibility(this.ThumbnailListArea, _isVisibleThumbnailList, true, VisibleStoryboardType.Collapsed);
-                SetControlVisibility(this.StatusArea, _isVisibleStatausArea, true, VisibleStoryboardType.Collapsed);
+                ////SetControlVisibility(this.ThumbnailListArea, _isVisibleThumbnailList, true, VisibleStoryboardType.Collapsed);
+                ////SetControlVisibility(this.SliderArea, _isVisibleStatausArea, true, VisibleStoryboardType.Collapsed);
             }
 
+
+            //
+            //Debug.WriteLine("MenuReset");
+            MenuLayerVisibility.SetDelayVisibility(_VM.CanHideMenu ? Visibility.Collapsed : Visibility.Visible, 0);
+            //UpdateMenuAreaVisibility();
+
+            //
+            StatusLayerVisibility.SetDelayVisibility(Visibility.Collapsed, 0);
+            //UpdateStateAreaVisibility();
+
             // ビュー領域設定
-            double menuAreaHeight = this.MenuBar.ActualHeight + (_VM.IsVisibleAddressBar ? this.AddressBar.Height : 0);
-            //double statusAreaHeight2 = this.SliderArea.ActualHeight + (_VM.IsHideThumbnailList ? this.ThumbnailListArea.ActualHeight : 0);
-            this.ViewArea.Margin = new Thickness(0, isMenuDock ? menuAreaHeight : 0, 0, bottomMargin);
+            ////double menuAreaHeight = this.MenuBar.ActualHeight + (_VM.IsVisibleAddressBar ? this.AddressBar.Height : 0);
+            ////this.ViewArea.Margin = new Thickness(0, isMenuDock ? menuAreaHeight : 0, 0, bottomMargin);
 
             // コンテンツ表示領域設定
             ////this.MainView.Margin = new Thickness(0, 0, 0, isPageSliderDock ? bottomMargin : 0);
 
             // 通知表示位置設定
+            /*
             this.TinyInfoTextBlock.Margin = new Thickness(0, 0, 0, bottomMargin);
             this.InfoTextAreaBase.Margin = new Thickness(0, 0, 0, bottomMargin);
             this.NowLoadingTiny.Margin = new Thickness(0, 0, 0, bottomMargin);
+            */
         }
 
 
@@ -1593,9 +1644,10 @@ namespace NeeView
         }
 
 
+#if false
 
         // ステータスエリアの表示判定
-        private void UpdateStateAreaVisibility()
+        private void UpdateStateAreaVisibility_()
         {
             if (_VM.IsHidePageSlider || _VM.IsFullScreen)
             {
@@ -1616,9 +1668,9 @@ namespace NeeView
             const double hideMargin = 8;
 
             Point point = Mouse.GetPosition(this.Root);
-            if (this.StatusArea.IsVisible)
+            if (this.SliderArea.IsVisible)
             {
-                double margin = this.StatusArea.ActualHeight + hideMargin > visibleMargin ? this.StatusArea.ActualHeight + hideMargin : visibleMargin;
+                double margin = this.SliderArea.ActualHeight + hideMargin > visibleMargin ? this.SliderArea.ActualHeight + hideMargin : visibleMargin;
                 return point.Y > this.Root.ActualHeight - margin && this.IsMouseOver;
             }
             else
@@ -1636,7 +1688,7 @@ namespace NeeView
             if (_isVisibleStatausArea != isVisible)
             {
                 _isVisibleStatausArea = isVisible;
-                SetControlVisibility(this.StatusArea, _isVisibleStatausArea, isQuickly, VisibleStoryboardType.Collapsed);
+                SetControlVisibility(this.SliderArea, _isVisibleStatausArea, isQuickly, VisibleStoryboardType.Collapsed);
 
                 if (_isVisibleThumbnailList) UpdateThumbnailList();
             }
@@ -1655,14 +1707,92 @@ namespace NeeView
                 if (_isVisibleThumbnailList) UpdateThumbnailList();
             }
         }
+#endif
 
         #endregion
 
 
+
+
+        /// <summary>
+        /// メニュー表示状態
+        /// </summary>
+        public DelayVisibility MenuLayerVisibility { get; set; }
+
+        //
+        private void InitializeMenuLayerVisibility()
+        {
+            this.MenuLayerVisibility = new DelayVisibility();
+            this.MenuLayerVisibility.Changed += (s, e) =>
+            {
+                this.LayerMenuSocket.Visibility = MenuLayerVisibility.Visibility;
+            };
+        }
+
+        //
+        private void UpdateMenuLayerVisibility()
+        {
+            const double visibleMargin = 16;
+
+            if (_VM.CanHideMenu)
+            {
+                var point = Mouse.GetPosition(this.Root);
+                bool isVisible = this.AddressTextBox.IsFocused || this.LayerMenuSocket.IsMouseOver || point.Y < (MenuLayerVisibility.Visibility == Visibility.Visible ? this.LayerMenuSocket.ActualHeight : 0) + visibleMargin && this.IsMouseOver;
+                MenuLayerVisibility.Set(isVisible ? Visibility.Visible : Visibility.Collapsed);
+            }
+            else
+            {
+                MenuLayerVisibility.Set(Visibility.Visible);
+            }
+        }
+
+
+
+        /// <summary>
+        /// ステータスレイヤー表示状態
+        /// </summary>
+        public DelayVisibility StatusLayerVisibility { get; set; }
+
+        //
+        private void InitializeStatusLayerVisibility()
+        {
+            this.StatusLayerVisibility = new DelayVisibility();
+            this.StatusLayerVisibility.Changed += (s, e) =>
+            {
+                this.LayerStatusArea.Visibility = StatusLayerVisibility.Visibility;
+                if (StatusLayerVisibility.Visibility == Visibility.Visible && this.ThumbnailListArea.IsVisible)
+                {
+                    UpdateThumbnailList();
+                }
+            };
+        }
+
+        //
+        private void UpdateStatusLayerVisibility()
+        {
+            const double visibleMargin = 16;
+
+            if (this.LayerStatusArea.Visibility == Visibility.Visible)
+            {
+                var point = Mouse.GetPosition(this.LayerStatusArea);
+                bool isVisible = this.LayerStatusArea.IsFocused || this.LayerStatusArea.IsMouseOver || point.Y > -visibleMargin && this.IsMouseOver;
+                StatusLayerVisibility.Set(isVisible ? Visibility.Visible : Visibility.Collapsed);
+            }
+            else
+            {
+                var point = Mouse.GetPosition(this.RootBottom);
+                bool isVisible = point.Y > -visibleMargin && this.IsMouseOver;
+                StatusLayerVisibility.Set(isVisible ? Visibility.Visible : Visibility.Collapsed);
+            }
+        }
+
+
+
+#if false
         /// <summary>
         /// メニュー表示更新
         /// </summary>
-        private void UpdateMenuAreaVisibility()
+        private void UpdateMenuAreaVisibility_()
         {
             const double visibleMargin = 16;
             const double hideMargin = 8;
@@ -1701,13 +1831,14 @@ namespace NeeView
                 SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, isQuickly, VisibleStoryboardType.Hidden);
             }
         }
+#endif
 
 
         #region Panel Visibility
 
         //
-        private bool _isVisibleLeftPanel;
-        private bool _isVisibleRightPanel;
+        ////private bool _isVisibleLeftPanel;
+        ////private bool _isVisibleRightPanel;
 
         // ViewAreaでのマウス移動
         private void ViewArea_MouseMove(object sender, MouseEventArgs e)
@@ -1720,8 +1851,8 @@ namespace NeeView
         {
             ////UpdateLeftPanelVisibility();
             ////UpdateRightPanelVisibility();
-            UpdateMenuAreaVisibility();
-            UpdateStateAreaVisibility();
+            UpdateMenuLayerVisibility();
+            UpdateStatusLayerVisibility();
         }
 
 
@@ -1842,6 +1973,9 @@ namespace NeeView
         }
 #endif
 
+
+
+#if false
         //
         private enum VisibleStoryboardType
         {
@@ -1992,7 +2126,7 @@ namespace NeeView
                 element.BeginStoryboard(isQuickly ? _visibleStoryboardTable[visibleType].Off : _visibleStoryboardTable[visibleType].OffDelay);
             }
         }
-
+#endif
 
         #endregion
 
@@ -2204,7 +2338,7 @@ namespace NeeView
     }
 
 
-#region Convertes
+    #region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -2522,5 +2656,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

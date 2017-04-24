@@ -129,9 +129,6 @@ namespace NeeView.Windows.Controls
         public SidePanel Panel { get; private set; }
 
         //
-        private DispatcherTimer _timer;
-
-        //
         public SidePanelViewModel(SidePanel panel, ItemsControl itemsControl)
         {
             InitializeDropAccept(itemsControl);
@@ -145,11 +142,6 @@ namespace NeeView.Windows.Controls
                 RaisePropertyChanged(nameof(Visibility));
                 RaisePropertyChanged(nameof(PanelVisibility));
             };
-
-            _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromMilliseconds(100);
-            _timer.Tick += _visibility.Tick;
-            _timer.Start();
 
             UpdateVisibillity();
         }

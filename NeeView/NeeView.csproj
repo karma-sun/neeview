@@ -117,6 +117,7 @@
     <Compile Include="BitmapLoader\BitmapLoader.cs" />
     <Compile Include="BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
+    <Compile Include="DelayVisibility.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkPanelView.xaml.cs">
       <DependentUpon>BookmarkPanelView.xaml</DependentUpon>
     </Compile>

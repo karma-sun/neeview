@@ -145,455 +145,248 @@
         <!-- 製品表示領域 -->
         <Grid x:Name="Root" MouseMove="ViewArea_MouseMove">
 
-            <!--  ビューエリア -->
-            <Grid x:Name="ViewArea">
+            <Grid x:Name="RootBottom" VerticalAlignment="Bottom" />
 
-                <!-- ビューエリア ベース -->
-                <Grid x:Name="ViewAreaBase"/>
+            <DockPanel>
 
-                <!-- パネル -->
-                <!--
-                <DockPanel x:Name="Panels_" Visibility="Collapsed">
+                <!-- メニューエリア-->
+                <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top">
+                    <Grid x:Name="MenuArea" MouseEnter="MenuArea_MouseEnter" MouseLeave="MenuArea_MouseLeave" >
+                        <StackPanel>
+                            <Grid x:Name="MenuBar" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture">
+                                <DockPanel>
+                                    <!-- メインメニュー -->
+                                    <ContentControl Content="{Binding MainMenu}" IsTabStop="False"/>
 
-                    <DockPanel x:Name="LeftPanel" DockPanel.Dock="Left" Width="250" Background="{DynamicResource NVBackground}" KeyDown="LeftPanel_KeyDown" IsVisibleChanged="LeftPanel_IsVisibleChanged">
-                        <Grid x:Name="LeftPanelMargin" DockPanel.Dock="Bottom"/>
-                    </DockPanel>
-                    <osc:DockPanelSplitter x:Name="FolderListSplitter" DockPanel.Dock="Left" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
-                                       Visibility="{Binding ElementName=LeftPanel, Path=Visibility}" IsTabStop="False" />
+                                    <!-- 開発用メニュー -->
+                                    <Menu>
+                                        <MenuItem x:Name="MenuItemDev" Header="開発(_D)">
+                                            <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" IsChecked="{Binding IsVisibleDevPageList}" />
+                                            <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" IsChecked="{Binding IsVisibleDevInfo}" />
+                                            <MenuItem x:Name="MenuItemDevApplicationFolder" Header="アプリのフォルダーを開く" Click="MenuItemDevApplicationFolder_Click" />
+                                            <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="アプリデータフォルダーを開く" Click="MenuItemDevApplicationDataFolder_Click" />
+                                            <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダーを開く" Click="MenuItemDevTempFolder_Click" />
+                                            <MenuItem x:Name="MenuItemDevButton" Header="テスト実行" Click="MenuItemDevButton_Click" />
+                                        </MenuItem>
+                                    </Menu>
+                                </DockPanel>
 
-                    <DockPanel x:Name="RightPanel" DockPanel.Dock="Right" Width="250" Background="{DynamicResource NVBackground}" KeyDown="RightPanel_KeyDown" IsVisibleChanged="RightPanel_IsVisibleChanged">
-                        <Grid x:Name="RightPanelMargin" DockPanel.Dock="Bottom"/>
-                    </DockPanel>
-                    <osc:DockPanelSplitter x:Name="InfoAreaSplitter" DockPanel.Dock="Right" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
-                                       Visibility="{Binding ElementName=RightPanel, Path=Visibility}" IsTabStop="False"/>
-                </DockPanel>
-                -->
-
-
-                <!-- パネル -->
-                <Grid x:Name="Panels">
-
-                    <!-- メインビュー -->
-
-                    <Canvas>
-                        <Grid
-                            Canvas.Left="{Binding CanvasLeft, ElementName=SidePanelFrame}"
-                            Canvas.Top="{Binding CanvasTop, ElementName=SidePanelFrame}"
-                            Width="{Binding CanvasWidth}"
-                            Height="{Binding CanvasHeight}">
-
-                            <Grid x:Name="MainViewPanelGrid" Panel.ZIndex="-1" Margin="-1">
-                                <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding BackgroundBrush}">
-                                    <Rectangle x:Name="FrontBackground" Fill="{Binding BackgroundFrontBrush}" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" Visibility="{Binding BackgroundFrontBrush, Converter={StaticResource NullableToVisibilityConverter}}"/>
-
-                                    <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffector.Effect}">
-
-                                        <!-- メインビュー コンテンツ表示領域 -->
-                                        <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True" >
-                                            <!-- Pages -->
-                                            <Canvas x:Name="PageCanvas" Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
-                                            IsHitTestVisible="False"
-                                            HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <Canvas.Resources>
-                                                    <Style TargetType="TextBlock" x:Key="ContentProperty">
-                                                        <Setter Property="Foreground" Value="White"/>
-                                                        <Setter Property="Background" Value="#80000000"/>
-                                                        <Setter Property="Padding" Value="10,5"/>
-                                                        <Style.Triggers>
-                                                            <Trigger Property="Text" Value="">
-                                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Canvas.Resources>
-                                                <ContentControl x:Name="MainContent">
-                                                    <StackPanel x:Name="PageContents" Orientation="Horizontal">
-                                                        <ContentControl x:Name="Content1" Content="{Binding Contents[1].View}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
-                                                        <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
-                                                    </StackPanel>
-                                                </ContentControl>
-                                            </Canvas>
-                                            <!-- Pages Shadow (表示領域計算用) -->
-                                            <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
-                                            IsHitTestVisible="False"
-                                            HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
-                                                    <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
-                                                    <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Margin="{Binding ContentsMargin}"/>
-                                                </StackPanel>
-                                            </Canvas>
-                                        </Grid>
-
-                                    </Grid>
-
-                                    <!-- empty pages message -->
-                                    <Grid Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">
-                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
-
-                                            <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                        <Style.Triggers>
-                                                            <Trigger Property="Text" Value="">
-                                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                            </Trigger>
-                                                        </Style.Triggers>
-
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </StackPanel>
-                                    </Grid>
-
-                                    <!-- caption -->
-                                    <TextBlock x:Name="PageCaption" VerticalAlignment="Top" HorizontalAlignment="Left"
-                                       Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
-                                       Text="{Binding WindowTitle}" FontSize="16" Foreground="White"
-                                       Padding="20,5"
-                                       Background="#88000000">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                <Style.Triggers>
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding IsVisibleWindowTitle}" Value="True"/>
-                                                            <Condition Binding="{Binding ElementName=StatusArea, Path=Visibility}" Value="Visible"/>
-                                                            <Condition Binding="{Binding ElementName=RootWindow, Path=WindowStyle}" Value="None"/>
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                    </MultiDataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-
-                                    <!-- loupe info -->
-                                    <Grid Visibility="{Binding IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                        <Grid x:Name="LoupeInfo" VerticalAlignment="Top" HorizontalAlignment="Right"
-                                      Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                      Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
-                                      Background="#88000000">
-                                            <TextBlock Padding="20,5"  FontSize="16" Foreground="White"
-                                           Text="{Binding LoupeScaleX, StringFormat={}×{0:.0}}"/>
-                                        </Grid>
-                                    </Grid>
-
-                                    <!-- Now Loading -->
-                                    <Grid x:Name="NowLoading" Opacity="0" IsHitTestVisible="False">
-                                        <Grid.Style>
-                                            <Style TargetType="Grid">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ElementName=NowLoading, Path=Opacity, Converter={StaticResource IsNearZeroConverter}}" Value="True">
-                                                        <Setter Property="Visibility" Value="Hidden"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Grid.Style>
-                                        <Grid x:Name="NowLoadingNormal" Background="Black">
-                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
-                                                <TextBlock x:Name="NowLoadingText" Text="Now Loading"  TextAlignment="Center" VerticalAlignment="Center"
-                                                   Foreground="White" FontFamily="Meiryo" FontSize="{Binding InfoTextFontSize}" Margin="8" TextTrimming="CharacterEllipsis"/>
-                                                <Grid Width="50" Height="50">
-                                                    <Rectangle Width="5" Height="25" Fill="#FF00B5FF" RenderTransformOrigin="0.5,0.5">
-                                                        <Rectangle.RenderTransform>
-                                                            <TransformGroup>
-                                                                <ScaleTransform/>
-                                                                <SkewTransform/>
-                                                                <RotateTransform x:Name="NowLoadingMarkAngle" Angle="45"/>
-                                                                <TranslateTransform/>
-                                                            </TransformGroup>
-                                                        </Rectangle.RenderTransform>
-                                                    </Rectangle>
-                                                </Grid>
-                                            </StackPanel>
-                                        </Grid>
-
-                                        <TextBlock x:Name="NowLoadingTiny" Text="Now Loading ..." VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False"/>
-                                    </Grid>
-
-                                    <!-- Message Tiny -->
-                                    <TextBlock x:Name="TinyInfoTextBlock" Text="{Binding TinyInfoText}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Style.Triggers>
-                                                    <Trigger Property="Text" Value="">
-                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-
-                                    <!-- IsBusy -->
-                                    <Grid Margin="{Binding ElementName=MainViewCanvas, Path=Margin}">
-                                        <Rectangle Fill="SteelBlue" Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Visibility="{Binding IsBusyJobEngine, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                    </Grid>
-
-                                    <!--
-                            <local:Loupe x:Name="Loupe" Visual="{Binding ElementName=MainViewCanvas}"
-                                         BorderBrush="{DynamicResource NVBaseBrush}"
-                                         Visibility="{Binding LoupeIsVisibled, Converter={StaticResource BooleanToVisibilityConverter}}" 
-                                         Size="{Binding LoupeSize}"
-                                         Scale="{Binding LoupeScale}"/>
-                            -->
-
-                                </Grid>
-
-                            </Grid>
-
-                            <Border BorderBrush="Red" BorderThickness="2"/>
-                        </Grid>
-                    </Canvas>
-
-
-
-                    <nwc:SidePanelFrame x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible"
-                                      IsAutoHide="{Binding CanHidePanel}"
-                                      PanelBackground="{DynamicResource NVBackground}"
-                                      IconBackground="{DynamicResource NVPanelIconBackground}"
-                                      CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}"
-                                      CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}"
-                                      MouseTarget="{Binding ElementName=Root}">
-                    </nwc:SidePanelFrame>
-
-                </Grid>
-
-            </Grid>
-
-            <!-- メニューエリア-->
-            <Grid x:Name="MenuArea" VerticalAlignment="Top" MouseEnter="MenuArea_MouseEnter" MouseLeave="MenuArea_MouseLeave" >
-
-                <StackPanel>
-                    <Grid x:Name="MenuBar" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture">
-                        <DockPanel>
-                            <!-- メインメニュー -->
-                            <ContentControl Content="{Binding MainMenu}" IsTabStop="False"/>
-
-                            <!-- 開発用メニュー -->
-                            <Menu>
-                                <MenuItem x:Name="MenuItemDev" Header="開発(_D)">
-                                    <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" IsChecked="{Binding IsVisibleDevPageList}" />
-                                    <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" IsChecked="{Binding IsVisibleDevInfo}" />
-                                    <MenuItem x:Name="MenuItemDevApplicationFolder" Header="アプリのフォルダーを開く" Click="MenuItemDevApplicationFolder_Click" />
-                                    <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="アプリデータフォルダーを開く" Click="MenuItemDevApplicationDataFolder_Click" />
-                                    <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダーを開く" Click="MenuItemDevTempFolder_Click" />
-                                    <MenuItem x:Name="MenuItemDevButton" Header="テスト実行" Click="MenuItemDevButton_Click" />
-                                </MenuItem>
-                            </Menu>
-                        </DockPanel>
-
-                        <!-- Help button -->
-                        <!--
+                                <!-- Help button -->
+                                <!--
                         <DockPanel LastChildFill="False" VerticalAlignment="Center" Margin="0,0,10,0">
                             <Button DockPanel.Dock="Right"  x:Name="HelpButton" Style="{StaticResource IconButton}" VerticalAlignment="Center" Click="HelpButton_Click" ToolTip="オンラインヘルプ" IsTabStop="False">
                                 <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
                             </Button>
                         </DockPanel>
                         -->
-                    </Grid>
+                            </Grid>
 
-                    <!-- アドレスバー -->
-                    <Grid x:Name="AddressBar" VerticalAlignment="Top" Height="36">
-                        <Grid.Resources>
-                            <Style x:Key="AddressIconButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
-                                <Setter Property="Width" Value="26"/>
-                                <Setter Property="Height" Value="26"/>
-                                <Setter Property="Padding" Value="4"/>
-                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                <Setter Property="IsTabStop" Value="False"/>
-                            </Style>
-                        </Grid.Resources>
+                            <!-- アドレスバー -->
+                            <Grid x:Name="AddressBar" VerticalAlignment="Top" Height="36">
+                                <Grid.Resources>
+                                    <Style x:Key="AddressIconButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
+                                        <Setter Property="Width" Value="26"/>
+                                        <Setter Property="Height" Value="26"/>
+                                        <Setter Property="Padding" Value="4"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="IsTabStop" Value="False"/>
+                                    </Style>
+                                </Grid.Resources>
 
-                        <Grid.Background>
-                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuBarColorKey}}"/>
-                        </Grid.Background>
+                                <Grid.Background>
+                                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuBarColorKey}}"/>
+                                </Grid.Background>
 
-                        <DockPanel VerticalAlignment="Center" Margin="2,0">
-                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" UseLayoutRounding="True">
+                                <DockPanel VerticalAlignment="Center" Margin="2,0">
+                                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" UseLayoutRounding="True">
 
-                                <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[TogglePageMode]}">
-                                    <Image Width="18" Height="18">
-                                        <Image.Style>
-                                            <Style TargetType="Image">
-                                                <Setter Property="Source" Value="{StaticResource ic_looks_one_24px}"/>
-                                                <Setter Property="ToolTip" Value="1ページ表示"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding BookSetting.PageMode}"  Value="WidePage">
-                                                        <Setter Property="Source" Value="{StaticResource ic_looks_two_24px}"/>
-                                                        <Setter Property="ToolTip" Value="2ページ表示"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Image.Style>
-                                    </Image>
-                                </Button>
+                                        <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[TogglePageMode]}">
+                                            <Image Width="18" Height="18">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Setter Property="Source" Value="{StaticResource ic_looks_one_24px}"/>
+                                                        <Setter Property="ToolTip" Value="1ページ表示"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding BookSetting.PageMode}"  Value="WidePage">
+                                                                <Setter Property="Source" Value="{StaticResource ic_looks_two_24px}"/>
+                                                                <Setter Property="ToolTip" Value="2ページ表示"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                        </Button>
 
-                                <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleBookReadOrder]}" >
-                                    <Grid Width="22" Height="22" Background="#0000">
-                                        <Image Width="18" Height="18">
-                                            <Image.Style>
-                                                <Style TargetType="Image">
-                                                    <Setter Property="Source" Value="{StaticResource ic_left_to_right_24px}"/>
-                                                    <Setter Property="ToolTip" Value="左開き"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding BookSetting.BookReadOrder}"  Value="RightToLeft">
-                                                            <Setter Property="Source" Value="{StaticResource ic_right_to_left_24px}"/>
-                                                            <Setter Property="ToolTip" Value="右開き"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Image.Style>
-                                        </Image>
-                                    </Grid>
-                                </Button>
+                                        <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleBookReadOrder]}" >
+                                            <Grid Width="22" Height="22" Background="#0000">
+                                                <Image Width="18" Height="18">
+                                                    <Image.Style>
+                                                        <Style TargetType="Image">
+                                                            <Setter Property="Source" Value="{StaticResource ic_left_to_right_24px}"/>
+                                                            <Setter Property="ToolTip" Value="左開き"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding BookSetting.BookReadOrder}"  Value="RightToLeft">
+                                                                    <Setter Property="Source" Value="{StaticResource ic_right_to_left_24px}"/>
+                                                                    <Setter Property="ToolTip" Value="右開き"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Image.Style>
+                                                </Image>
+                                            </Grid>
+                                        </Button>
 
 
-                                <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleSortMode]}" 
+                                        <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleSortMode]}" 
                                         ToolTip="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToStringConverter}}">
 
-                                    <Grid Width="20" Height="20">
-                                        <Grid.Resources>
-                                            <Style TargetType="Grid">
-                                                <Setter Property="Width" Value="16"/>
-                                                <Setter Property="Height" Value="16"/>
-                                            </Style>
-                                            <Style TargetType="Image" x:Key="MainImage">
-                                                <Setter Property="Width" Value="12"/>
-                                                <Setter Property="Height" Value="12"/>
-                                                <Setter Property="VerticalAlignment" Value="Bottom"/>
-                                                <Setter Property="HorizontalAlignment" Value="Left"/>
-                                            </Style>
-                                            <Style TargetType="Image" x:Key="SubImage">
-                                                <Setter Property="Width" Value="8"/>
-                                                <Setter Property="Height" Value="8"/>
-                                                <Setter Property="VerticalAlignment" Value="Top"/>
-                                                <Setter Property="HorizontalAlignment" Value="Right"/>
-                                            </Style>
+                                            <Grid Width="20" Height="20">
+                                                <Grid.Resources>
+                                                    <Style TargetType="Grid">
+                                                        <Setter Property="Width" Value="16"/>
+                                                        <Setter Property="Height" Value="16"/>
+                                                    </Style>
+                                                    <Style TargetType="Image" x:Key="MainImage">
+                                                        <Setter Property="Width" Value="12"/>
+                                                        <Setter Property="Height" Value="12"/>
+                                                        <Setter Property="VerticalAlignment" Value="Bottom"/>
+                                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                                                    </Style>
+                                                    <Style TargetType="Image" x:Key="SubImage">
+                                                        <Setter Property="Width" Value="8"/>
+                                                        <Setter Property="Height" Value="8"/>
+                                                        <Setter Property="VerticalAlignment" Value="Top"/>
+                                                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                                                    </Style>
 
-                                        </Grid.Resources>
+                                                </Grid.Resources>
 
-                                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=Random}">
-                                            <Image Width="16" Height="16" Source="{StaticResource ic_shuffle_24px}"/>
-                                        </Grid>
+                                                <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=Random}">
+                                                    <Image Width="16" Height="16" Source="{StaticResource ic_shuffle_24px}"/>
+                                                </Grid>
 
-                                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=FileName}">
-                                            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}"/>
-                                            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
-                                        </Grid>
+                                                <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=FileName}">
+                                                    <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}"/>
+                                                    <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
+                                                </Grid>
 
-                                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=FileNameDescending}">
-                                            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}"/>
-                                            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
-                                        </Grid>
+                                                <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=FileNameDescending}">
+                                                    <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}"/>
+                                                    <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
+                                                </Grid>
 
-                                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=TimeStamp}">
-                                            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2"/>
-                                            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
-                                        </Grid>
+                                                <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=TimeStamp}">
+                                                    <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2"/>
+                                                    <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
+                                                </Grid>
 
-                                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=TimeStampDescending}">
-                                            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2"/>
-                                            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
-                                        </Grid>
+                                                <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=TimeStampDescending}">
+                                                    <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2"/>
+                                                    <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
+                                                </Grid>
 
-                                    </Grid>
-                                </Button>
+                                            </Grid>
+                                        </Button>
 
-                            </StackPanel>
+                                    </StackPanel>
 
-                            <Button x:Name="PrevHistoryButton" Command="{Binding BookCommands[PrevHistory]}" Style="{StaticResource AddressIconButton}"
+                                    <Button x:Name="PrevHistoryButton" Command="{Binding BookCommands[PrevHistory]}" Style="{StaticResource AddressIconButton}"
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="PrevHistoryButton_ContextMenuOpening"
                                     ToolTip="戻る">
-                                <Image Source="{StaticResource ic_arrow_back_24px}" Width="16" Height="16" />
-                                <Button.ContextMenu>
-                                    <ContextMenu ItemContainerStyle="{StaticResource HistoryContextMenuItemContainerStyle}" />
-                                </Button.ContextMenu>
-                            </Button>
-                            <Button x:Name="NextHistoryButton" Command="{Binding BookCommands[NextHistory]}"  Style="{StaticResource AddressIconButton}"
+                                        <Image Source="{StaticResource ic_arrow_back_24px}" Width="16" Height="16" />
+                                        <Button.ContextMenu>
+                                            <ContextMenu ItemContainerStyle="{StaticResource HistoryContextMenuItemContainerStyle}" />
+                                        </Button.ContextMenu>
+                                    </Button>
+                                    <Button x:Name="NextHistoryButton" Command="{Binding BookCommands[NextHistory]}"  Style="{StaticResource AddressIconButton}"
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="NextHistoryButton_ContextMenuOpening"
                                     ToolTip="進む">
-                                <Image Source="{StaticResource ic_arrow_forward_24px}" Width="16" Height="16" />
-                                <Button.ContextMenu>
-                                    <ContextMenu ItemContainerStyle="{StaticResource HistoryContextMenuItemContainerStyle}" />
-                                </Button.ContextMenu>
-                            </Button>
-                            <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}"
+                                        <Image Source="{StaticResource ic_arrow_forward_24px}" Width="16" Height="16" />
+                                        <Button.ContextMenu>
+                                            <ContextMenu ItemContainerStyle="{StaticResource HistoryContextMenuItemContainerStyle}" />
+                                        </Button.ContextMenu>
+                                    </Button>
+                                    <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}"
                                     ToolTip="再読込">
-                                <Image Source="{StaticResource ic_reflesh_24px}" Width="16" Height="16" />
-                            </Button>
-
-                            <Border x:Name="AddressTextBoxBase" BorderThickness="1" BorderBrush="LightGray" Background="White" Height="26" Margin="2,0">
-                                <DockPanel>
-                                    <Button DockPanel.Dock="Right" Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleBookmark]}">
-                                        <TextBlock FontSize="20" FontFamily="Meyrio">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Text" Value="☆"/>
-                                                    <Setter Property="Foreground" Value="LightGray"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsBookmark}" Value="True">
-                                                            <Setter Property="Text" Value="★"/>
-                                                            <Setter Property="Foreground" Value="{StaticResource NVStarMarkBrush}"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
+                                        <Image Source="{StaticResource ic_reflesh_24px}" Width="16" Height="16" />
                                     </Button>
 
-                                    <TextBox x:Name="AddressTextBox" Text="{Binding Address}" BorderThickness="0" VerticalAlignment="Center" Margin="5,0"
+                                    <Border x:Name="AddressTextBoxBase" BorderThickness="1" BorderBrush="LightGray" Background="White" Height="26" Margin="2,0">
+                                        <DockPanel>
+                                            <Button DockPanel.Dock="Right" Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleBookmark]}">
+                                                <TextBlock FontSize="20" FontFamily="Meyrio">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Text" Value="☆"/>
+                                                            <Setter Property="Foreground" Value="LightGray"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsBookmark}" Value="True">
+                                                                    <Setter Property="Text" Value="★"/>
+                                                                    <Setter Property="Foreground" Value="{StaticResource NVStarMarkBrush}"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </Button>
+
+                                            <TextBox x:Name="AddressTextBox" Text="{Binding Address}" BorderThickness="0" VerticalAlignment="Center" Margin="5,0"
                                              KeyDown="AddressTextBox_KeyDown"/>
+                                        </DockPanel>
+                                    </Border>
+
                                 </DockPanel>
-                            </Border>
+                            </Grid>
 
-                        </DockPanel>
+                        </StackPanel>
                     </Grid>
+                </ContentControl>
 
-                </StackPanel>
-            </Grid>
-
-
-            <!-- ステータスエリア -->
-            <DockPanel x:Name="StatusArea" VerticalAlignment="Bottom" Style="{StaticResource StatusAreaStyle}">
-
-                <Grid DockPanel.Dock="Bottom">
-                    <Grid.Style>
-                        <Style TargetType="Grid">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IndexMax}" Value="0">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Style>
-                    <Rectangle Fill="{DynamicResource NVBackground}" Visibility="{Binding ElementName=PageSliderTextBox, Path=Visibility}"/>
-                    <DockPanel x:Name="SliderArea" MouseWheel="SliderArea_MouseWheel">
-                        <local:SliderTextBox x:Name="PageSliderTextBox" DockPanel.Dock="{Binding SliderIndexDock}"
+                <!-- ステータスエリア -->
+                <DockPanel x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource NVBaseBrush}">
+                    <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom">
+                        <!--
+                    <DockPanel x:Name="StatusArea" Style="{StaticResource StatusAreaStyle}">
+                        <Grid DockPanel.Dock="Bottom">
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IndexMax}" Value="0">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <Rectangle Fill="{DynamicResource NVBackground}" Visibility="{Binding ElementName=PageSliderTextBox, Path=Visibility}"/>
+                        </Grid>
+                    </DockPanel>
+                    -->
+                        <Grid x:Name="SliderArea"  Background="{DynamicResource NVBaseBrush}" MouseWheel="SliderArea_MouseWheel" UseLayoutRounding="True">
+                            <DockPanel Visibility="{Binding PageSliderVisibility}">
+                                <local:SliderTextBox x:Name="PageSliderTextBox" DockPanel.Dock="{Binding SliderIndexDock}"
                                        Visibility="{Binding IsSliderWithIndex, Converter={StaticResource BooleanToVisibilityConverter}}"
                                        Target="{Binding ElementName=PageSlider}"
                                        ValueChanged="PageSliderTextBox_ValueChanged"
                                        KeyDown="AddressTextBox_KeyDown"
                                        Foreground="{DynamicResource NVForeground}">
-                        </local:SliderTextBox>
-                        <Grid Height="18">
-                            <local:PageMarkers x:Name="PageMarkers" IsHitTestVisible="False" Margin="0,-2,0,2"/>
-                            <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Height="18" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
+                                </local:SliderTextBox>
+                                <Grid Height="18">
+                                    <local:PageMarkers x:Name="PageMarkers" IsHitTestVisible="False" Margin="0,-2,0,2"/>
+                                    <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Height="18" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
                                     local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding ElementName=MainView}"
                                     ValueChanged="PageSlider_ValueChanged"
                                     PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"  
                                     PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp">
-                            </Slider>
+                                    </Slider>
+                                </Grid>
+                            </DockPanel>
                         </Grid>
-                    </DockPanel>
-                </Grid>
-
-                <Grid x:Name="ThumbnailListArea" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" >
-                    <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                    </ContentControl>
+                    <ContentControl x:Name="DockThumbnailListSocket" DockPanel.Dock="Bottom">
+                        <Grid x:Name="ThumbnailListArea" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" UseLayoutRounding="True" >
+                            <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
                              KeyDown="ThumbnailListBox_KeyDown"
@@ -605,101 +398,325 @@
                              ScrollViewer.CanContentScroll="True"
                              PreviewMouseWheel="ThumbnailListBox_MouseWheel"
                              Background="Transparent" BorderThickness="0">
-                        <ListBox.Resources>
+                                <ListBox.Resources>
 
-                            <Style TargetType="{x:Type ListBox}">
-                                <Setter Property="Padding" Value="5,0" />
-                                <Setter Property="ItemTemplate">
-                                    <Setter.Value>
-                                        <DataTemplate>
-                                            <StackPanel Margin="5">
-                                                <Grid Width="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailDispSize}" Height="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailDispSize}">
-                                                    <Ellipse Fill="Gray" Width="8" Height="8">
-                                                        <Ellipse.Style>
-                                                            <Style TargetType="Ellipse">
-                                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Thumbnail}" Value="{x:Null}">
-                                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Ellipse.Style>
-                                                    </Ellipse>
-                                                    <Image Source="{Binding Thumbnail.BitmapSource}" UseLayoutRounding="True"
+                                    <Style TargetType="{x:Type ListBox}">
+                                        <Setter Property="Padding" Value="5,0" />
+                                        <Setter Property="ItemTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <StackPanel Margin="5">
+                                                        <Grid Width="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailDispSize}" Height="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailDispSize}">
+                                                            <Ellipse Fill="Gray" Width="8" Height="8">
+                                                                <Ellipse.Style>
+                                                                    <Style TargetType="Ellipse">
+                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Thumbnail}" Value="{x:Null}">
+                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Ellipse.Style>
+                                                            </Ellipse>
+                                                            <Image Source="{Binding Thumbnail.BitmapSource}" UseLayoutRounding="True"
                                                            RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform">
-                                                        <Image.Effect>
-                                                            <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
-                                                        </Image.Effect>
-                                                    </Image>
-                                                </Grid>
-                                                <TextBlock Height="16" FontSize="12" FontFamily="Arial" MinWidth="32" TextAlignment="Center"
+                                                                <Image.Effect>
+                                                                    <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
+                                                                </Image.Effect>
+                                                            </Image>
+                                                        </Grid>
+                                                        <TextBlock Height="16" FontSize="12" FontFamily="Arial" MinWidth="32" TextAlignment="Center"
                                                            Visibility="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailNumberVisibility}"
                                                            VerticalAlignment="Center"  HorizontalAlignment="Center" Text="{Binding IndexPlusOne}" Padding="5,2">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding ElementName=RootWindow, Path=DataContext.IsVisibleThumbnailPlate}" Value="False">
+                                                                            <Setter Property="Foreground" Value="White"/>
+                                                                            <Setter Property="Effect">
+                                                                                <Setter.Value>
+                                                                                    <DropShadowEffect ShadowDepth="0" Opacity="1"/>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="ItemsPanel">
+                                            <Setter.Value>
+                                                <ItemsPanelTemplate>
+                                                    <VirtualizingStackPanel Orientation="Horizontal" CanHorizontallyScroll="True" CanVerticallyScroll="False" Margin="2,0"
+                                                                    FlowDirection="{Binding IsSliderDirectionReversed, Converter={StaticResource SliderDirectionToFlowDirectionConverter}}"
+                                                                    Loaded="ThumbnailListBoxPanel_Loaded"
+                                                                    KeyDown="ThumbnailListBoxPanel_KeyDown"/>
+                                                </ItemsPanelTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+
+                                    <Style TargetType="ListBoxItem">
+                                        <EventSetter Event="PreviewMouseLeftButtonUp" Handler="ThumbnailListItem_MouseSingleClick"/>
+                                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                    </Style>
+
+                                </ListBox.Resources>
+                            </ListBox>
+                        </Grid>
+                    </ContentControl>
+                </DockPanel>
+
+                <!--  ビューエリア -->
+                <Grid x:Name="ViewArea">
+
+                    <!-- ビューエリア ベース -->
+                    <Grid x:Name="ViewAreaBase"/>
+
+                    <!-- サイドパネル と メインビュー -->
+                    <Grid x:Name="Panels">
+
+                        <!-- メインビュー -->
+                        <Canvas>
+                            <Grid
+                            Canvas.Left="{Binding CanvasLeft, ElementName=SidePanelFrame}"
+                            Canvas.Top="{Binding CanvasTop, ElementName=SidePanelFrame}"
+                            Width="{Binding CanvasWidth}"
+                            Height="{Binding CanvasHeight}">
+
+                                <Grid x:Name="MainViewPanelGrid" Panel.ZIndex="-1" Margin="0">
+                                    <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding BackgroundBrush}">
+                                        <Rectangle x:Name="FrontBackground" Fill="{Binding BackgroundFrontBrush}" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" Visibility="{Binding BackgroundFrontBrush, Converter={StaticResource NullableToVisibilityConverter}}"/>
+
+                                        <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffector.Effect}">
+
+                                            <!-- メインビュー コンテンツ表示領域 -->
+                                            <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True" >
+                                                <!-- Pages -->
+                                                <Canvas x:Name="PageCanvas" Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
+                                            IsHitTestVisible="False"
+                                            HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Canvas.Resources>
+                                                        <Style TargetType="TextBlock" x:Key="ContentProperty">
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                            <Setter Property="Background" Value="#80000000"/>
+                                                            <Setter Property="Padding" Value="10,5"/>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="Text" Value="">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Canvas.Resources>
+                                                    <ContentControl x:Name="MainContent">
+                                                        <StackPanel x:Name="PageContents" Orientation="Horizontal">
+                                                            <ContentControl x:Name="Content1" Content="{Binding Contents[1].View}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
+                                                            <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
+                                                        </StackPanel>
+                                                    </ContentControl>
+                                                </Canvas>
+                                                <!-- Pages Shadow (表示領域計算用) -->
+                                                <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
+                                            IsHitTestVisible="False"
+                                            HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
+                                                        <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
+                                                        <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Margin="{Binding ContentsMargin}"/>
+                                                    </StackPanel>
+                                                </Canvas>
+                                            </Grid>
+
+                                        </Grid>
+
+                                        <!-- empty pages message -->
+                                        <Grid Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">
+                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
+
+                                                <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
                                                     <TextBlock.Style>
                                                         <Style TargetType="TextBlock">
-                                                            <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
+                                                            <Setter Property="Visibility" Value="Visible"/>
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding ElementName=RootWindow, Path=DataContext.IsVisibleThumbnailPlate}" Value="False">
-                                                                    <Setter Property="Foreground" Value="White"/>
-                                                                    <Setter Property="Effect">
-                                                                        <Setter.Value>
-                                                                            <DropShadowEffect ShadowDepth="0" Opacity="1"/>
-                                                                        </Setter.Value>
-                                                                    </Setter>
-                                                                </DataTrigger>
+                                                                <Trigger Property="Text" Value="">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </Trigger>
                                                             </Style.Triggers>
 
                                                         </Style>
                                                     </TextBlock.Style>
                                                 </TextBlock>
                                             </StackPanel>
-                                        </DataTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="ItemsPanel">
-                                    <Setter.Value>
-                                        <ItemsPanelTemplate>
-                                            <VirtualizingStackPanel Orientation="Horizontal" CanHorizontallyScroll="True" CanVerticallyScroll="False" Margin="2,0"
-                                                                    FlowDirection="{Binding IsSliderDirectionReversed, Converter={StaticResource SliderDirectionToFlowDirectionConverter}}"
-                                                                    Loaded="ThumbnailListBoxPanel_Loaded"
-                                                                    KeyDown="ThumbnailListBoxPanel_KeyDown"/>
-                                        </ItemsPanelTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
+                                        </Grid>
 
-                            <Style TargetType="ListBoxItem">
-                                <EventSetter Event="PreviewMouseLeftButtonUp" Handler="ThumbnailListItem_MouseSingleClick"/>
-                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                            </Style>
+                                        <!-- caption -->
+                                        <TextBlock x:Name="PageCaption" VerticalAlignment="Top" HorizontalAlignment="Left"
+                                       Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
+                                       Text="{Binding WindowTitle}" FontSize="16" Foreground="White"
+                                       Padding="20,5"
+                                       Background="#88000000">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding IsVisibleWindowTitle}" Value="True"/>
+                                                                <Condition Binding="{Binding ElementName=StatusArea, Path=Visibility}" Value="Visible"/>
+                                                                <Condition Binding="{Binding ElementName=RootWindow, Path=WindowStyle}" Value="None"/>
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
 
-                        </ListBox.Resources>
-                    </ListBox>
+                                        <!-- loupe info -->
+                                        <Grid Visibility="{Binding IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <Grid x:Name="LoupeInfo" VerticalAlignment="Top" HorizontalAlignment="Right"
+                                      Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                      Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
+                                      Background="#88000000">
+                                                <TextBlock Padding="20,5"  FontSize="16" Foreground="White"
+                                           Text="{Binding LoupeScaleX, StringFormat={}×{0:.0}}"/>
+                                            </Grid>
+                                        </Grid>
+
+                                        <!-- Now Loading -->
+                                        <Grid x:Name="NowLoading" Opacity="0" IsHitTestVisible="False">
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding ElementName=NowLoading, Path=Opacity, Converter={StaticResource IsNearZeroConverter}}" Value="True">
+                                                            <Setter Property="Visibility" Value="Hidden"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Grid x:Name="NowLoadingNormal" Background="Black">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+                                                    <TextBlock x:Name="NowLoadingText" Text="Now Loading"  TextAlignment="Center" VerticalAlignment="Center"
+                                                   Foreground="White" FontFamily="Meiryo" FontSize="{Binding InfoTextFontSize}" Margin="8" TextTrimming="CharacterEllipsis"/>
+                                                    <Grid Width="50" Height="50">
+                                                        <Rectangle Width="5" Height="25" Fill="#FF00B5FF" RenderTransformOrigin="0.5,0.5">
+                                                            <Rectangle.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <ScaleTransform/>
+                                                                    <SkewTransform/>
+                                                                    <RotateTransform x:Name="NowLoadingMarkAngle" Angle="45"/>
+                                                                    <TranslateTransform/>
+                                                                </TransformGroup>
+                                                            </Rectangle.RenderTransform>
+                                                        </Rectangle>
+                                                    </Grid>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <TextBlock x:Name="NowLoadingTiny" Text="Now Loading ..." VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False"/>
+                                        </Grid>
+
+                                        <!-- Message Tiny -->
+                                        <TextBlock x:Name="TinyInfoTextBlock" Text="{Binding TinyInfoText}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="Text" Value="">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+
+                                        <!-- IsBusy -->
+                                        <Grid Margin="{Binding ElementName=MainViewCanvas, Path=Margin}">
+                                            <Rectangle Fill="SteelBlue" Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Visibility="{Binding IsBusyJobEngine, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        </Grid>
+
+                                        <!--
+                            <local:Loupe x:Name="Loupe" Visual="{Binding ElementName=MainViewCanvas}"
+                                         BorderBrush="{DynamicResource NVBaseBrush}"
+                                         Visibility="{Binding LoupeIsVisibled, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                         Size="{Binding LoupeSize}"
+                                         Scale="{Binding LoupeScale}"/>
+                            -->
+
+                                    </Grid>
+
+                                </Grid>
+
+                                <Border BorderBrush="Red" BorderThickness="2"/>
+                            </Grid>
+                        </Canvas>
+
+
+                        <!-- サイドパネル -->
+                        <nwc:SidePanelFrame x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible"
+                                      IsAutoHide="{Binding CanHidePanel}"
+                                      PanelBackground="{DynamicResource NVBackground}"
+                                      IconBackground="{DynamicResource NVPanelIconBackground}"
+                                      CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}"
+                                      CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}"
+                                      MouseTarget="{Binding ElementName=Root}">
+                        </nwc:SidePanelFrame>
+
+                    </Grid>
+
                 </Grid>
 
             </DockPanel>
 
 
-            <!-- Message -->
-            <Grid x:Name="InfoTextAreaBase">
-                <StackPanel x:Name="InfoTextArea" Orientation="Horizontal" Margin="0,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" MaxWidth="{Binding ElementName=ViewArea, Path=ActualWidth}" IsHitTestVisible="False">
-                    <StackPanel.Style>
-                        <Style TargetType="StackPanel">
+            <!-- Menu Layer -->
+            <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed"/>
+
+            <!-- Status Layer -->
+            <DockPanel x:Name="LayerStatusArea" VerticalAlignment="Bottom" Visibility="Collapsed">
+                <Grid DockPanel.Dock="Bottom" Height="{Binding ElementName=DockStatusArea, Path=ActualHeight}"/>
+                <ContentControl x:Name="LayerPageSliderSocket" DockPanel.Dock="Bottom"/>
+                <Grid DockPanel.Dock="Bottom">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=InfoTextBlock, Path=Text}" Value="">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                <DataTrigger Binding="{Binding IsVisibleThumbnailPlate}" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </StackPanel.Style>
-                    <StackPanel Orientation="Horizontal" Margin="20,10">
-                        <TextBlock x:Name="InfoUsedBookmark"  Margin="0,0,5,0" FontFamily="Wingdings" Text="«" FontSize="{Binding InfoTextMarkSize}" Foreground="{StaticResource NVStarMarkBrush}" VerticalAlignment="Center"/>
-                        <TextBlock x:Name="InfoUsedHistory"  Margin="0,0,5,0" FontFamily="Webdings" Text="a" FontSize="{Binding InfoTextMarkSize}" Foreground="{StaticResource NVCheckMarkBrush}" VerticalAlignment="Center"/>
-                        <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" Foreground="White" FontFamily="Meiryo" TextTrimming="CharacterEllipsis" />
+                    </Grid.Style>
+                    <ContentControl x:Name="LayerThumbnailListSocket" />
+                </Grid>
+            </DockPanel>
+
+            <!-- Message -->
+            <DockPanel>
+                <Grid DockPanel.Dock="Bottom" Height="{Binding ElementName=DockStatusArea, Path=ActualHeight}"/>
+                <Grid x:Name="InfoTextAreaBase">
+                    <StackPanel x:Name="InfoTextArea" Orientation="Horizontal" Margin="0,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" MaxWidth="{Binding ElementName=ViewArea, Path=ActualWidth}" IsHitTestVisible="False">
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=InfoTextBlock, Path=Text}" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <StackPanel Orientation="Horizontal" Margin="20,10">
+                            <TextBlock x:Name="InfoUsedBookmark"  Margin="0,0,5,0" FontFamily="Wingdings" Text="«" FontSize="{Binding InfoTextMarkSize}" Foreground="{StaticResource NVStarMarkBrush}" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="InfoUsedHistory"  Margin="0,0,5,0" FontFamily="Webdings" Text="a" FontSize="{Binding InfoTextMarkSize}" Foreground="{StaticResource NVCheckMarkBrush}" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" Foreground="White" FontFamily="Meiryo" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-            </Grid>
+                </Grid>
+            </DockPanel>
 
             <!--
             <StackPanel Orientation="Horizontal">

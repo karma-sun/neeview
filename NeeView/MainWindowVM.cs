@@ -1236,8 +1236,11 @@ namespace NeeView
         // 最大ページ番号
         public int IndexMax
         {
-            get { return BookHub.GetPageCount(); }
+            get { return BookHub.GetMaxPageIndex(); }
         }
+
+        // ページスライダー表示フラグ
+        public Visibility PageSliderVisibility => BookHub.GetPageCount() > 0 ? Visibility.Visible : Visibility.Hidden;
 
         //
         private void UpdateIndex()
@@ -2138,7 +2141,7 @@ namespace NeeView
                 BookUnloaded?.Invoke(this, null);
             }
 
-
+            RaisePropertyChanged(nameof(PageSliderVisibility));
 
             //
             CommandManager.InvalidateRequerySuggested();

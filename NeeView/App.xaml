@@ -38,12 +38,12 @@
                     </Style>
 
                     <!-- CheckerBrush -->
-                    <DrawingBrush x:Key="CheckerBrush" Viewport="0,0,20,20" ViewportUnits="Absolute" TileMode="Tile">
+                    <DrawingBrush x:Key="CheckerBrush" Viewport="0,0,16,16" ViewportUnits="Absolute" TileMode="Tile">
                         <DrawingBrush.Drawing>
                             <DrawingGroup>
                                 <GeometryDrawing>
                                     <GeometryDrawing.Geometry>
-                                        <RectangleGeometry Rect="0,0,10,10"/>
+                                        <RectangleGeometry Rect="0,0,8,8"/>
                                     </GeometryDrawing.Geometry>
                                     <GeometryDrawing.Brush>
                                         <SolidColorBrush Color="#FFF8F8F8"  />
@@ -52,8 +52,8 @@
                                 <GeometryDrawing>
                                     <GeometryDrawing.Geometry>
                                         <GeometryGroup>
-                                            <RectangleGeometry Rect="0,0,5,5"/>
-                                            <RectangleGeometry Rect="5,5,5,5"/>
+                                            <RectangleGeometry Rect="0,0,4,4"/>
+                                            <RectangleGeometry Rect="4,4,4,4"/>
                                         </GeometryGroup>
                                     </GeometryDrawing.Geometry>
                                     <GeometryDrawing.Brush>

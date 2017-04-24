@@ -190,7 +190,11 @@ namespace NeeView.Windows.Controls
         private void InitializeViewModel(SidePanelFrameModel model)
         {
             VM = new SidePanelFrameViewModel(model, this.LeftIconList, this.RightIconList);
-            VM.PanelVisibilityChanged += (s, e) => UpdateCanvas();
+            if (VM.IsValid)
+            {
+                VM.PanelVisibilityChanged += (s, e) => UpdateCanvas();
+                UpdateWidth();
+            }
         }
 
         //
@@ -224,8 +228,6 @@ namespace NeeView.Windows.Controls
             InitializeViewModel(this.Model);
 
             this.Root.DataContext = this;
-
-            UpdateWidth();
         }
 
 

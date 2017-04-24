@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView.Lab"
-        xmlns:nvc="clr-namespace:NeeView.Windows.Controls;assembly=NeeView"
+        xmlns:nvc="clr-namespace:NeeView;assembly=NeeView"
         mc:Ignorable="d"
         Title="SidePanelWindow" Height="480" Width="640">
     

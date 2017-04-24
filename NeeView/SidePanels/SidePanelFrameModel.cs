@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace NeeView.Windows.Controls
+namespace NeeView
 {
     /// <summary>
     /// SidePanelFrame Model
@@ -44,7 +44,6 @@ namespace NeeView.Windows.Controls
 
         //
         private SidePanel _right;
-
 
 
         /// <summary>

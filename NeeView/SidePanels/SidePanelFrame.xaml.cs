@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NeeView.Windows.Controls
+namespace NeeView
 {
     /// <summary>
     /// SidePanel.xaml の相互作用ロジック
@@ -122,7 +122,7 @@ namespace NeeView.Windows.Controls
         {
             if (d is SidePanelFrame control)
             {
-                control.VM.IsAutoHide = control.IsAutoHide;
+                control.UpdateAutoHide();
                 control.UpdateViewEntryPoint();
             }
         }
@@ -194,11 +194,20 @@ namespace NeeView.Windows.Controls
             {
                 VM.PanelVisibilityChanged += (s, e) => UpdateCanvas();
                 UpdateWidth();
+                UpdateAutoHide();
             }
         }
 
         //
         //public bool IsValid => _vm != null;
+
+        private void UpdateAutoHide()
+        {
+            if (VM.IsValid)
+            {
+                VM.IsAutoHide = IsAutoHide;
+            }
+        }
 
 
         private void UpdateViewEntryPoint()

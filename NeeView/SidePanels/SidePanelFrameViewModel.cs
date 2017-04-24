@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 using NeeView.Windows;
 
-namespace NeeView.Windows.Controls
+namespace NeeView
 {
     /// <summary>
     /// SidePanelFrame ViewModel
@@ -70,11 +70,12 @@ namespace NeeView.Windows.Controls
         /// </summary>
         public bool IsAutoHide
         {
-            get { return this.Left.IsAutoHide; }
+            get { return _isAutoHide; }
             set
             {
-                if (this.Left.IsAutoHide != value)
+                if (_isAutoHide != value)
                 {
+                    _isAutoHide = value;
                     this.Left.IsAutoHide = value;
                     this.Right.IsAutoHide = value;
                     RaisePropertyChanged();
@@ -82,6 +83,9 @@ namespace NeeView.Windows.Controls
                 }
             }
         }
+
+        private bool _isAutoHide;
+
 
 
 

@@ -328,10 +328,11 @@ namespace NeeView
             _VM.IndexChanged +=
                 OnIndexChanged;
 
+#if false
             _VM.LeftPanelVisibled +=
                 (s, e) =>
                 {
-                    if (e == PanelType.PageList) _VM.FolderListPanel.PageListControl.FocusAtOnce = true;
+                    if (e == PanelType.PageList) _VM.SidePanels.FolderListPanel.PageListControl.FocusAtOnce = true;
                     ////SetLeftPanelVisibisityForced(_isVisibleLeftPanel && _VM.LeftPanel != PanelType.None, false);
                 };
 
@@ -339,6 +340,13 @@ namespace NeeView
                 (s, e) =>
                 {
                     ////SetRightPanelVisibisityForced(_isVisibleRightPanel && _VM.RightPanel != PanelType.None, false);
+                };
+#endif
+
+            _VM.ResetFocus +=
+                (s, e) =>
+                {
+                    this.MainView.Focus();
                 };
         }
 
@@ -369,7 +377,7 @@ namespace NeeView
         }
 
 
-        #region Timer
+#region Timer
 
         // タイマーディスパッチ
         private DispatcherTimer _timer;
@@ -453,7 +461,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
 
         // マウスジェスチャー更新時の処理
@@ -1406,7 +1414,7 @@ namespace NeeView
 
 
         // TODO: クラス化
-        #region thumbnail list
+#region thumbnail list
 
         // サムネイルリストのパネルコントロール
         private VirtualizingStackPanel _thumbnailListPanel;
@@ -1709,7 +1717,7 @@ namespace NeeView
         }
 #endif
 
-        #endregion
+#endregion
 
 
 
@@ -1834,7 +1842,7 @@ namespace NeeView
 #endif
 
 
-        #region Panel Visibility
+#region Panel Visibility
 
         //
         ////private bool _isVisibleLeftPanel;
@@ -2128,7 +2136,7 @@ namespace NeeView
         }
 #endif
 
-        #endregion
+#endregion
 
         //
         private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -2180,7 +2188,7 @@ namespace NeeView
 
 
 
-        #region ContextMenu Counter
+#region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -2218,7 +2226,7 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-        #endregion
+#endregion
 
 
 #if false
@@ -2338,7 +2346,7 @@ namespace NeeView
     }
 
 
-    #region Convertes
+#region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -2656,5 +2664,5 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 }

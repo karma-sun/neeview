@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace NeeView.Windows.Controls
+namespace NeeView
 {
     /// <summary>
     /// パネル定義

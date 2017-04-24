@@ -10,7 +10,7 @@ using NeeView.Windows;
 using NeeView.Windows.Data;
 using NeeView.Windows.Input;
 
-namespace NeeView.Windows.Controls
+namespace NeeView
 {
     /// <summary>
     /// 
@@ -82,7 +82,7 @@ namespace NeeView.Windows.Controls
         public bool IsAutoHide
         {
             get { return _isAutoHide; }
-            set { if (_isAutoHide != value) { _isAutoHide = value; RaisePropertyChanged(); UpdateVisibillity(); } }
+            set { if (_isAutoHide != value) { _isAutoHide = value; RaisePropertyChanged(); UpdateVisibillity(true); } }
         }
 
         //
@@ -105,16 +105,15 @@ namespace NeeView.Windows.Controls
         /// <summary>
         /// Visibility更新
         /// </summary>
-        public void UpdateVisibillity()
+        public void UpdateVisibillity(bool now = false)
         {
             if (_isDragged || (Panel.Panels.Any() ? _isAutoHide ? _isNearCursor : true : false))
-            //if (_isAutoHide ? _isNearCursor || _isDragged : true)
             {
                 _visibility.SetValue(Visibility.Visible, 0.0);
             }
             else
             {
-                _visibility.SetValue(Visibility.Collapsed, 500.0);
+                _visibility.SetValue(Visibility.Collapsed, now ? 0.0 : 1000.0);
             }
         }
 
@@ -136,11 +135,19 @@ namespace NeeView.Windows.Controls
             Panel = panel;
             Panel.PropertyChanged += Panel_PropertyChanged;
 
+            Panel.SelectedPanelChanged += (s, e) =>
+            {
+                _visibility.SetValue(Visibility.Visible, 0.0);
+                UpdateVisibillity();
+            };
+
+
             _visibility = new DelayValue<Visibility>(Visibility.Collapsed);
             _visibility.ValueChanged += (s, e) =>
             {
                 RaisePropertyChanged(nameof(Visibility));
                 RaisePropertyChanged(nameof(PanelVisibility));
+                Panel.IsVisible = Visibility == Visibility.Visible;
             };
 
             UpdateVisibillity();
@@ -168,7 +175,7 @@ namespace NeeView.Windows.Controls
 
         private void PanelIconClicked_Executed(IPanel content)
         {
-            Panel.Select(content);
+            Panel.Toggle(content);
         }
 
         //

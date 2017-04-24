@@ -385,7 +385,7 @@
                         </Grid>
                     </ContentControl>
                     <ContentControl x:Name="DockThumbnailListSocket" DockPanel.Dock="Bottom">
-                        <Grid x:Name="ThumbnailListArea" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" UseLayoutRounding="True" >
+                        <Grid x:Name="ThumbnailListArea" Visibility="{Binding ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" UseLayoutRounding="True" >
                             <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
@@ -652,20 +652,22 @@
 
                                 </Grid>
 
+                                <!--
                                 <Border BorderBrush="Red" BorderThickness="2"/>
+                                -->
                             </Grid>
                         </Canvas>
 
 
                         <!-- サイドパネル -->
-                        <nwc:SidePanelFrame x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible"
+                        <local:SidePanelFrame x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible"
                                       IsAutoHide="{Binding CanHidePanel}"
                                       PanelBackground="{DynamicResource NVBackground}"
                                       IconBackground="{DynamicResource NVPanelIconBackground}"
                                       CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}"
                                       CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}"
                                       MouseTarget="{Binding ElementName=Root}">
-                        </nwc:SidePanelFrame>
+                        </local:SidePanelFrame>
 
                     </Grid>
 

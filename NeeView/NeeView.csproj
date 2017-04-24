@@ -143,6 +143,7 @@
     <Compile Include="SidePanels\History\HistoryPanelView.xaml.cs">
       <DependentUpon>HistoryPanelView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SidePanels\SidePanels.cs" />
     <Compile Include="SidePanels\SidePanelSampleA.cs" />
     <Compile Include="_NeeView\Input\RelayCommand.cs" />
     <Compile Include="OpenSourceControls\DockPanelSplitter.cs" />
@@ -402,14 +403,14 @@
     <Compile Include="_NeeView\Windows\Controls\PointInspector.xaml.cs">
       <DependentUpon>PointInspector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_NeeView\Windows\Controls\SidePanel\IPanel.cs" />
-    <Compile Include="_NeeView\Windows\Controls\SidePanel\SidePanel.cs" />
-    <Compile Include="_NeeView\Windows\Controls\SidePanel\SidePanelFrame.xaml.cs">
+    <Compile Include="SidePanels\IPanel.cs" />
+    <Compile Include="SidePanels\SidePanel.cs" />
+    <Compile Include="SidePanels\SidePanelFrame.xaml.cs">
       <DependentUpon>SidePanelFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_NeeView\Windows\Controls\SidePanel\SidePanelFrameModel.cs" />
-    <Compile Include="_NeeView\Windows\Controls\SidePanel\SidePanelFrameViewModel.cs" />
-    <Compile Include="_NeeView\Windows\Controls\SidePanel\SidePanelViewModel.cs" />
+    <Compile Include="SidePanels\SidePanelFrameModel.cs" />
+    <Compile Include="SidePanels\SidePanelFrameViewModel.cs" />
+    <Compile Include="SidePanels\SidePanelViewModel.cs" />
     <Compile Include="_NeeView\Windows\CursorInfo.cs" />
     <Compile Include="_NeeView\Windows\Data\Converters.cs" />
     <Compile Include="_NeeView\Windows\Data\DelayValue.cs" />
@@ -618,7 +619,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="_NeeView\Windows\Controls\SidePanel\SidePanelFrame.xaml">
+    <Page Include="SidePanels\SidePanelFrame.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

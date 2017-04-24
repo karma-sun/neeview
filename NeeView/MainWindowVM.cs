@@ -175,8 +175,11 @@ namespace NeeView
         public event EventHandler BookUnloaded;
 
         //
-        public event EventHandler<PanelType> LeftPanelVisibled;
-        public event EventHandler<PanelType> RightPanelVisibled;
+        ////public event EventHandler<PanelType> LeftPanelVisibled;
+        ////public event EventHandler<PanelType> RightPanelVisibled;
+
+        // ##
+        public event EventHandler ResetFocus;
 
         #endregion
 
@@ -691,47 +694,87 @@ namespace NeeView
         #endregion
 
 
+        //
+        private void RaisePanelPropertyChanged()
+        {
+            RaisePropertyChanged(nameof(IsVisibleFolderList));
+            RaisePropertyChanged(nameof(IsVisibleHistoryList));
+            RaisePropertyChanged(nameof(IsVisibleBookmarkList));
+            RaisePropertyChanged(nameof(IsVisiblePagemarkList));
+            RaisePropertyChanged(nameof(IsVisiblePageListMenu));
+            RaisePropertyChanged(nameof(IsVisibleFileInfo));
+            RaisePropertyChanged(nameof(IsVisibleEffectInfo));
+        }
 
         // ファイル情報表示ON/OFF
         public bool IsVisibleFileInfo
         {
-            get { return RightPanel == PanelType.FileInfo; }
-            set { RightPanel = value ? PanelType.FileInfo : PanelType.None; }
+            get { return SidePanels.IsSelectedPanel(SidePanels.FileInfoPanel); }
+            set { SidePanels.SetSelectedPanel(SidePanels.FileInfoPanel, value); RaisePanelPropertyChanged(); }
+
+            //get { return RightPanel == PanelType.FileInfo; }
+            //set { RightPanel = value ? PanelType.FileInfo : PanelType.None; }
         }
 
         public bool ToggleVisibleFileInfo(bool byMenu)
         {
-            IsVisibleFileInfo = byMenu ? !IsVisibleFileInfo : !(IsVisibleFileInfo && IsVisibleRightPanel);
+            SidePanels.ToggleSelectedPanel(SidePanels.FileInfoPanel, byMenu);
+            RaisePanelPropertyChanged();
+            ResetFocus?.Invoke(this, null);
             return IsVisibleFileInfo;
+
+            //IsVisibleFileInfo = byMenu ? !IsVisibleFileInfo : !(IsVisibleFileInfo && IsVisibleRightPanel);
+            //return IsVisibleFileInfo;
         }
 
 
         // エフェクト情報表示ON/OFF
         public bool IsVisibleEffectInfo
         {
-            get { return RightPanel == PanelType.EffectInfo; }
-            set { RightPanel = value ? PanelType.EffectInfo : PanelType.None; }
+            get { return SidePanels.IsSelectedPanel(SidePanels.ImageEffectPanel); }
+            set { SidePanels.SetSelectedPanel(SidePanels.ImageEffectPanel, value); RaisePanelPropertyChanged(); }
+
+            //get { return RightPanel == PanelType.EffectInfo; }
+            //set { RightPanel = value ? PanelType.EffectInfo : PanelType.None; }
         }
 
         public bool ToggleVisibleEffectInfo(bool byMenu)
         {
-            IsVisibleEffectInfo = byMenu ? !IsVisibleEffectInfo : !(IsVisibleEffectInfo && IsVisibleRightPanel);
+            SidePanels.ToggleSelectedPanel(SidePanels.ImageEffectPanel, byMenu);
+            RaisePanelPropertyChanged();
+            ResetFocus?.Invoke(this, null);
             return IsVisibleEffectInfo;
+
+            //IsVisibleEffectInfo = byMenu ? !IsVisibleEffectInfo : !(IsVisibleEffectInfo && IsVisibleRightPanel);
+            //return IsVisibleEffectInfo;
         }
 
 
         // フォルダーリスト表示ON/OFF
         public bool IsVisibleFolderList
         {
-            get { return LeftPanel == PanelType.FolderList; }
-            set { LeftPanel = value ? PanelType.FolderList : PanelType.None; }
+            //get { return LeftPanel == PanelType.FolderList; }
+            //set { LeftPanel = value ? PanelType.FolderList : PanelType.None; }
+            get { return SidePanels.IsSelectedPanel(SidePanels.FolderListPanel); }
+            set { SidePanels.SetSelectedPanel(SidePanels.FolderListPanel, value); RaisePanelPropertyChanged(); }
         }
 
         //
         public bool ToggleVisibleFolderList(bool byMenu)
         {
-            IsVisibleFolderList = byMenu ? !IsVisibleFolderList : !(IsVisibleFolderList && IsVisibleLeftPanel);
+            SidePanels.ToggleSelectedPanel(SidePanels.FolderListPanel, byMenu);
+            RaisePanelPropertyChanged();
+            ResetFocus?.Invoke(this, null);
             return IsVisibleFolderList;
+
+            //IsVisibleFolderList = byMenu ? !IsVisibleFolderList : !(IsVisibleFolderList && IsVisibleLeftPanel);
+            //return IsVisibleFolderList;
+
+            /*
+            SidePanels.ToggleVisiblePanel(SidePanels.FolderListPanel);
+            RaisePropertyChanged(nameof(IsVisibleFolderList));
+            return IsVisibleFolderList;
+            */
         }
 
         // ページリスト表示ON/OFF
@@ -766,11 +809,22 @@ namespace NeeView
         public bool IsVisiblePageListMenu => IsVisiblePageList && IsVisibleFolderList;
 
         //
-        public bool ToggleVisiblePageList()
+        public bool ToggleVisiblePageList(bool byMenu)
         {
-            IsVisiblePageList = !IsVisiblePageListMenu;
-            IsVisibleFolderList = true;
-            LeftPanelVisibled?.Invoke(this, PanelType.PageList);
+            if (byMenu || !IsVisiblePageList || SidePanels.IsVisiblePanel(SidePanels.FolderListPanel))
+            {
+                IsVisiblePageList = !IsVisiblePageListMenu;
+            }
+            //IsVisibleFolderList = true;
+            //LeftPanelVisibled?.Invoke(this, PanelType.PageList);
+            SidePanels.SetSelectedPanel(SidePanels.FolderListPanel, true);
+            RaisePanelPropertyChanged();
+
+            if (IsVisiblePageList)
+            {
+                 SidePanels.FolderListPanel.PageListControl.FocusAtOnce = true; // ##
+            }
+
             return IsVisiblePageList;
         }
 
@@ -779,54 +833,86 @@ namespace NeeView
         // 履歴リスト表示ON/OFF
         public bool IsVisibleHistoryList
         {
-            get { return LeftPanel == PanelType.HistoryList; }
-            set { LeftPanel = value ? PanelType.HistoryList : PanelType.None; }
+            //get { return LeftPanel == PanelType.HistoryList; }
+            //set { LeftPanel = value ? PanelType.HistoryList : PanelType.None; }
+
+            get { return SidePanels.IsSelectedPanel(SidePanels.HistoryPanel); }
+            set { SidePanels.SetSelectedPanel(SidePanels.HistoryPanel, value); RaisePanelPropertyChanged(); }
         }
 
         //
         public bool ToggleVisibleHistoryList(bool byMenu)
         {
-            IsVisibleHistoryList = byMenu ? !IsVisibleHistoryList : !(IsVisibleHistoryList && IsVisibleLeftPanel);
+            SidePanels.ToggleSelectedPanel(SidePanels.HistoryPanel, byMenu);
+            RaisePanelPropertyChanged();
+            ResetFocus?.Invoke(this, null);
             return IsVisibleHistoryList;
+
+            //IsVisibleHistoryList = byMenu ? !IsVisibleHistoryList : !(IsVisibleHistoryList && IsVisibleLeftPanel);
+            //return IsVisibleHistoryList;
         }
 
 
         // ブックマークリスト表示ON/OFF
         public bool IsVisibleBookmarkList
         {
-            get { return LeftPanel == PanelType.BookmarkList; }
-            set { LeftPanel = value ? PanelType.BookmarkList : PanelType.None; }
+            get { return SidePanels.IsSelectedPanel(SidePanels.BookmarkPanel); }
+            set { SidePanels.SetSelectedPanel(SidePanels.BookmarkPanel, value); RaisePanelPropertyChanged(); }
+
+            //get { return LeftPanel == PanelType.BookmarkList; }
+            //set { LeftPanel = value ? PanelType.BookmarkList : PanelType.None; }
         }
 
         //
         public bool ToggleVisibleBookmarkList(bool byMenu)
         {
-            IsVisibleBookmarkList = byMenu ? !IsVisibleBookmarkList : !(IsVisibleBookmarkList && IsVisibleLeftPanel);
+            SidePanels.ToggleSelectedPanel(SidePanels.BookmarkPanel, byMenu);
+            RaisePanelPropertyChanged();
+            ResetFocus?.Invoke(this, null);
             return IsVisibleBookmarkList;
+
+            //IsVisibleBookmarkList = byMenu ? !IsVisibleBookmarkList : !(IsVisibleBookmarkList && IsVisibleLeftPanel);
+            //return IsVisibleBookmarkList;
         }
 
 
         // ページマークリスト表示ON/OFF
         public bool IsVisiblePagemarkList
         {
-            get { return LeftPanel == PanelType.PagemarkList; }
-            set { LeftPanel = value ? PanelType.PagemarkList : PanelType.None; }
+            get { return SidePanels.IsSelectedPanel(SidePanels.PagemarkPanel); }
+            set { SidePanels.SetSelectedPanel(SidePanels.PagemarkPanel, value); RaisePanelPropertyChanged(); }
+
+            //get { return LeftPanel == PanelType.PagemarkList; }
+            //set { LeftPanel = value ? PanelType.PagemarkList : PanelType.None; }
         }
 
         //
         public bool ToggleVisiblePagemarkList(bool byMenu)
         {
-            IsVisiblePagemarkList = byMenu ? !IsVisiblePagemarkList : !(IsVisiblePagemarkList && IsVisibleLeftPanel);
+            SidePanels.ToggleSelectedPanel(SidePanels.PagemarkPanel, byMenu);
+            RaisePanelPropertyChanged();
+            ResetFocus?.Invoke(this, null);
             return IsVisiblePagemarkList;
-        }
 
+            //IsVisiblePagemarkList = byMenu ? !IsVisiblePagemarkList : !(IsVisiblePagemarkList && IsVisibleLeftPanel);
+            //return IsVisiblePagemarkList;
+        }
 
 
         #region SidePanels
 
-        private List<IPanel> _panels;
+        /// <summary>
+        /// SidePanels property.
+        /// </summary>
+        public SidePanels SidePanels
+        {
+            get { return _SidePanels; }
+            set { if (_SidePanels != value) { _SidePanels = value; RaisePropertyChanged(); } }
+        }
 
-        private SidePanelFrameModel _sidePanel;
+        //
+        private SidePanels _SidePanels = new SidePanels();
+
 
         /// <summary>
         /// SidePanelMemento property.
@@ -840,7 +926,7 @@ namespace NeeView
                 {
                     _sidePanelMemento = value;
                     RaisePropertyChanged();
-                    _sidePanel?.Restore(value, _panels);
+                    SidePanels?.Restore(value);
                 }
             }
         }
@@ -850,15 +936,9 @@ namespace NeeView
 
         private SidePanelFrameModel.Memento CreateSidePanelMemento()
         {
-            return _sidePanel?.CreateMemento();
+            return SidePanels?.CreateMemento();
         }
 
-        public FolderListPanel FolderListPanel { get; private set; }
-        public HistoryPanel HistoryPanel { get; private set; }
-        public FileInfoPanel FileInfoPanel { get; private set; }
-        public ImageEffectPanel ImageEffectPanel { get; private set; }
-        public BookmarkPanel BookmarkPanel { get; private set; }
-        public PagemarkPanel PagemarkPanel { get; private set; }
 
         /// <summary>
         /// サイドパネル初期化
@@ -867,43 +947,7 @@ namespace NeeView
         /// <param name="control"></param>
         public void InitializeSidePanels(SidePanelFrame control)
         {
-            _panels = new List<IPanel>();
-
-            // sample A
-            //_panels.Add(new SidePanelSampleA());
-
-            // フォルダーリスト
-            this.FolderListPanel = new FolderListPanel();
-            this.FolderListPanel.Initialize(this);
-            this.FolderListPanel.SetPlace(ModelContext.BookHistory.LastFolder ?? BookHub.GetFixedHome(), null, false);
-            _panels.Add(this.FolderListPanel);
-            //this.PageList.Initialize(this);
-
-            // 履歴
-            this.HistoryPanel = new HistoryPanel();
-            this.HistoryPanel.Initialize(this);
-            _panels.Add(this.HistoryPanel);
-
-            // ファイル情報
-            this.FileInfoPanel = new FileInfoPanel();
-            this.FileInfoPanel.Initialize(this);
-            _panels.Add(this.FileInfoPanel);
-
-            // エフェクト
-            this.ImageEffectPanel = new ImageEffectPanel();
-            this.ImageEffectPanel.Initialize(this);
-            _panels.Add(this.ImageEffectPanel);
-
-            // ブックマーク
-            this.BookmarkPanel = new BookmarkPanel();
-            this.BookmarkPanel.Initialize(this);
-            _panels.Add(this.BookmarkPanel);
-
-            // ページマーク
-            this.PagemarkPanel = new PagemarkPanel();
-            this.PagemarkPanel.Initialize(this);
-            _panels.Add(this.PagemarkPanel);
-
+            SidePanels.Initialize(this);
 
             //
             if (_sidePanelMemento == null)
@@ -913,15 +957,9 @@ namespace NeeView
             }
 
             // create
-            _sidePanel = new SidePanelFrameModel();
-            _sidePanel.Restore(_sidePanelMemento, _panels);
+            SidePanels.Restore(_sidePanelMemento);
 
-            //
-            //var memento = new SidePanelFrameModel.Memento();
-            //memento.Right.PanelTypeCodes = new List<string>() { nameof(FileInfoPanel), nameof(ImageEffectPanel) };
-
-
-            control.Model = _sidePanel;
+            control.Model = SidePanels;
         }
 
 
@@ -970,10 +1008,9 @@ namespace NeeView
         //
         private double _CanvasHeight;
 
-
-
         #endregion
 
+#if false
         // 左パネル
         #region Property: LeftPanel
         private PanelType _leftPanel;
@@ -1020,7 +1057,7 @@ namespace NeeView
         #endregion
 
         public bool IsVisibleRightPanel { get; set; } = false;
-
+#endif
 
         // パネル幅
         ////public double LeftPanelWidth { get; set; } = 250;
@@ -1241,6 +1278,10 @@ namespace NeeView
 
         // ページスライダー表示フラグ
         public Visibility PageSliderVisibility => BookHub.GetPageCount() > 0 ? Visibility.Visible : Visibility.Hidden;
+
+        // サムネイルリスト表示状態
+        public Visibility ThumbnailListVisibility => BookHub.GetPageCount() > 0 ? Visibility.Visible : Visibility.Collapsed;
+
 
         //
         private void UpdateIndex()
@@ -2142,6 +2183,7 @@ namespace NeeView
             }
 
             RaisePropertyChanged(nameof(PageSliderVisibility));
+            RaisePropertyChanged(nameof(ThumbnailListVisibility));
 
             //
             CommandManager.InvalidateRequerySuggested();
@@ -3292,11 +3334,11 @@ namespace NeeView
             [DataMember(Order = 6)]
             public PanelColor PanelColor { get; set; }
 
-            [DataMember(Order = 7)]
-            public PanelType LeftPanel { get; set; }
+            ////[DataMember(Order = 7)]
+            ////public PanelType LeftPanel { get; set; }
 
-            [DataMember(Order = 7)]
-            public PanelType RightPanel { get; set; }
+            ////[DataMember(Order = 7)]
+            ////public PanelType RightPanel { get; set; }
 
             ////[DataMember(Order = 7)]
             ////public double LeftPanelWidth { get; set; }
@@ -3538,8 +3580,8 @@ namespace NeeView
             memento.UserDownloadPath = this.UserDownloadPath;
             memento.FolderListSetting = this.FolderListSetting.Clone();
             memento.PanelColor = this.PanelColor;
-            memento.LeftPanel = this.LeftPanel;
-            memento.RightPanel = this.RightPanel;
+            ////memento.LeftPanel = this.LeftPanel;
+            ////memento.RightPanel = this.RightPanel;
             ////memento.LeftPanelWidth = this.LeftPanelWidth;
             ////memento.RightPanelWidth = this.RightPanelWidth;
             memento.WindowTitleFormat1 = this.WindowTitleFormat1;
@@ -3610,8 +3652,8 @@ namespace NeeView
             this.FolderListSetting = memento.FolderListSetting.Clone();
             this.PanelColor = memento.PanelColor;
             this.IsHidePanel = memento.IsHidePanel;
-            this.LeftPanel = memento.LeftPanel;
-            this.RightPanel = memento.RightPanel;
+            ////this.LeftPanel = memento.LeftPanel;
+            ////this.RightPanel = memento.RightPanel;
             ////this.LeftPanelWidth = memento.LeftPanelWidth;
             ////this.RightPanelWidth = memento.RightPanelWidth;
             this.WindowTitleFormat1 = memento.WindowTitleFormat1;

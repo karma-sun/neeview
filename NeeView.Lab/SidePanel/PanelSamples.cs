@@ -5,7 +5,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-using NeeView.Windows.Controls;
+using NeeView;
 
 namespace NeeView.Lab
 {

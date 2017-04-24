@@ -753,7 +753,7 @@ namespace NeeView
                 element.ShortCutKey = "P";
                 element.IsShowMessage = false;
                 element.ExecuteMessage = e => _VM.IsVisiblePageList ? "ページリストを消す" : "ページリストを表示する";
-                element.Execute = (s, e) => _VM.ToggleVisiblePageList();
+                element.Execute = (s, e) => _VM.ToggleVisiblePageList(e is MenuCommandTag);
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisiblePageListMenu), System.Windows.Data.BindingMode.OneWay);
                 _elements[CommandType.ToggleVisiblePageList] = element;

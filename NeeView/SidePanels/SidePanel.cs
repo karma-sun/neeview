@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
 
-namespace NeeView.Windows.Controls
+namespace NeeView
 {
     /// <summary>
     /// SidePanel 
@@ -21,6 +22,13 @@ namespace NeeView.Windows.Controls
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+
+        /// <summary>
+        /// 選択変更通知
+        /// </summary>
+        public event EventHandler SelectedPanelChanged;
+
 
         /// <summary>
         /// Panels property.
@@ -52,6 +60,13 @@ namespace NeeView.Windows.Controls
             set { if (_width != value) { _width = value; RaisePropertyChanged(); } }
         }
 
+        /// <summary>
+        /// パネル自体の表示状態。
+        /// ビューから更新される
+        /// </summary>
+        public bool IsVisible { get; set; }
+
+
 
 
         /// <summary>
@@ -63,24 +78,95 @@ namespace NeeView.Windows.Controls
         }
 
 
+
         /// <summary>
-        /// Select
+        /// パネル存在チェック
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <returns></returns>
+        public bool Contains(IPanel panel)
+        {
+            return _panels.Contains(panel);
+        }
+
+
+
+        /// <summary>
+        /// パネル表示状態を判定。
+        /// </summary>
+        /// <param name="panel">パネル</param>
+        /// <returns></returns>
+        public bool IsVisiblePanel(IPanel panel)
+        {
+            return IsVisible && SelectedPanel == panel;
+        }
+
+        /// <summary>
+        /// パネル選択を設定
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="isSelected"></param>
+        public void SetSelectedPanel(IPanel panel, bool isSelected)
+        {
+            SelectedPanel = isSelected ? panel : SelectedPanel != panel ? SelectedPanel : null;
+            SelectedPanelChanged?.Invoke(this, null);
+        }
+
+        /// <summary>
+        /// パネル選択をトグル。
+        /// 非表示の場合は入れ替えよりも表示させることを優先する
+        /// </summary>
+        /// <param name="panel">パネル</param>
+        /// <param name="force">表示状態にかかわらず切り替える</param>
+        public void ToggleSelectedPanel(IPanel panel, bool force)
+        {
+            if (force || SelectedPanel != panel)
+            {
+                SelectedPanel = SelectedPanel != panel ? panel : null;
+                SelectedPanelChanged?.Invoke(this, null);
+            }
+            else
+            {
+                if (IsVisible)
+                {
+                    SelectedPanel = null;
+                }
+                else
+                {
+                    SelectedPanelChanged?.Invoke(this, null);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Toggle.
+        /// アイコンボダンによる切り替え
         /// </summary>
         /// <param name="content"></param>
-        public void Select(IPanel content)
+        public void Toggle(IPanel content)
         {
-            if (_panels.Contains(content))
+            if (content != null && _panels.Contains(content))
             {
                 SelectedPanel = SelectedPanel != content ? content : null;
             }
         }
 
+        /// <summary>
+        /// パネル削除
+        /// </summary>
+        /// <param name="panel"></param>
         public void Remove(IPanel panel)
         {
             Panels.Remove(panel);
             if (SelectedPanel == panel) SelectedPanel = null;
         }
 
+        /// <summary>
+        /// パネル追加
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="index"></param>
         public void Add(IPanel panel, int index)
         {
             if (Panels.Contains(panel))
@@ -93,6 +179,7 @@ namespace NeeView.Windows.Controls
                 Panels.Insert(index, panel);
             }
         }
+
 
         //
         #region Memento

@@ -32,6 +32,16 @@ namespace NeeView
 
 
         /// <summary>
+        /// IsSideVarVisible property.
+        /// </summary>
+        public bool IsSideBarVisible
+        {
+            get { return _model != null ? _model.IsSideBarVisible : true; }
+            set { if (_model.IsSideBarVisible != value) { _model.IsSideBarVisible = value; RaisePropertyChanged(); } }
+        }
+
+
+        /// <summary>
         /// Width property.
         /// </summary>
         public double Width
@@ -129,6 +139,7 @@ namespace NeeView
             if (model == null) return;
 
             _model = model;
+            _model.PropertyChanged += Model_PropertyChanged;
 
             Left = new LeftPanelViewModel(_model.Left, leftItemsControl);
             Left.PropertyChanged += Left_PropertyChanged;
@@ -143,6 +154,16 @@ namespace NeeView
             DragStartDescription.DragEnd += DragStartDescription_DragEnd;
 
             IsValid = true;
+        }
+
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Model.IsSideBarVisible):
+                    RaisePropertyChanged(nameof(IsSideBarVisible));
+                    break;
+            }
         }
 
         private void DragStartDescription_DragStart(object sender, EventArgs e)
@@ -212,11 +233,10 @@ namespace NeeView
         /// 
         /// </summary>
         /// <param name="point"></param>
-        /// <param name="size"></param>
-        internal void UpdateVisibility(Point point, Size size)
+        internal void UpdateVisibility(Point point, Point left, Point right)
         {
-            Left?.UpdateVisibility(point, size);
-            Right?.UpdateVisibility(point, size);
+            Left?.UpdateVisibility(point, left);
+            Right?.UpdateVisibility(point, right);
         }
     }
 }

@@ -29,13 +29,15 @@ namespace NeeView
         private FolderListPanelView _view;
         public FrameworkElement View => _view;
 
+        public bool IsVisibleLock => this.FolderListControl.IsRenaming;
+
         //
         public FolderListPanel()
         {
             _view = new FolderListPanelView();
 
-            Icon = _view.Resources["ic_folder_24px"] as DrawingImage;
-            IconMargin = new Thickness(10);
+            Icon = App.Current.MainWindow.Resources["pic_folder_24px"] as DrawingImage;
+            IconMargin = new Thickness(8);
         }
 
         // TODO: 構築順、どうなの？

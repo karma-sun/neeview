@@ -172,7 +172,7 @@ namespace NeeView
             if (Panels.Contains(panel))
             {
                 var current = Panels.IndexOf(panel);
-                Panels.Move(current, index);
+                Panels.Move(current, Math.Min(index, Panels.Count - 1));
             }
             else
             {

@@ -208,7 +208,7 @@ namespace NeeView
 
         private void MeasureText_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            this.RenameTextBox.MinWidth = this.MeasureText.ActualWidth + 30;
+            this.RenameTextBox.MinWidth = Math.Min(this.MeasureText.ActualWidth + 30, this.MaxWidth);
         }
 
         // 単キーコマンド無効

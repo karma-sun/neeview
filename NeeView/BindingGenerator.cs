@@ -35,6 +35,12 @@ namespace NeeView
             return new Binding(path) { Mode = mode };
         }
 
+        //
+        public static Binding BindingWithSource(string path, object source)
+        {
+            return new Binding(path) { Source = source };
+        }
+
 
         //
         public static Binding BindingPreference(string path)
@@ -45,26 +51,26 @@ namespace NeeView
         //
         public static Binding BindingAppContext(string path)
         {
-            return new Binding("AppContext." + path);
+            return new Binding(nameof(MainWindowVM.AppContext) + "." + path);
         }
 
         //
         public static Binding BindingBookHub(string path)
         {
-            return new Binding("BookHub." + path);
+            return new Binding(nameof(MainWindowVM.BookHub) + "." + path);
         }
 
         //
         public static Binding BindingBookSetting(string path)
         {
-            return new Binding("BookSetting." + path);
+            return new Binding(nameof(MainWindowVM.BookSetting) + "." + path);
         }
 
 
         //
         public static Binding StretchMode(PageStretchMode mode)
         {
-            return new Binding("StretchMode")
+            return new Binding(nameof(MainWindowVM.StretchMode))
             {
                 Converter = s_stretchModeToBooleanConverter,
                 ConverterParameter = mode.ToString()
@@ -74,7 +80,7 @@ namespace NeeView
         //
         public static Binding Background(BackgroundStyle mode)
         {
-            return new Binding("Background")
+            return new Binding(nameof(MainWindowVM.Background))
             {
                 Converter = s_backgroundStyleToBooleanConverter,
                 ConverterParameter = mode.ToString()

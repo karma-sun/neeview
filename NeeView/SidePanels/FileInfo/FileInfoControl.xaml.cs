@@ -71,20 +71,15 @@ namespace NeeView
     /// <summary>
     /// FileInfo.xaml の相互作用ロジック
     /// </summary>
-    public partial class FileInfoControl : UserControl
+    public partial class FileInfoControl : UserControl, INotifyPropertyChanged
     {
         public FileInfoControl()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
-    }
 
 
-    /// <summary>
-    /// FileInfoControl ViewModel
-    /// </summary>
-    public class FileInfoControlViewModel : INotifyPropertyChanged
-    {
         /// <summary>
         /// PropertyChanged event. 
         /// </summary>
@@ -102,7 +97,7 @@ namespace NeeView
         public FileInfoSetting Setting
         {
             get { return _Setting; }
-            set { if (_Setting != value) { _Setting = value; Update(); RaisePropertyChanged(); } }
+            set { if (_Setting != value) { _Setting = value; _isDarty = true; Update(); RaisePropertyChanged(); } }
         }
 
 
@@ -113,7 +108,7 @@ namespace NeeView
         public ViewContent ViewContent
         {
             get { return _viewContent; }
-            set { if (_viewContent != value) { _viewContent = value; Update(); RaisePropertyChanged(); } }
+            set { if (_viewContent != value) { _viewContent = value; _isDarty = true;  Update(); RaisePropertyChanged(); } }
         }
 
         /// <summary>
@@ -214,26 +209,36 @@ namespace NeeView
             set { if (_Decoder != value) { _Decoder = value; RaisePropertyChanged(); } }
         }
 
-
         /// <summary>
-        /// コンストラクタ
+        /// 
         /// </summary>
-        public FileInfoControlViewModel()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Root_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            Update();
         }
+
+        //
+        private bool _isDarty;
 
 
         // コンテンツの切り替わりで内容更新
         public void Update()
         {
+            if (!_isDarty) return;
+
             if (Setting != null)
             {
                 LoaderVisibility = Setting.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed;
             }
 
-            var bitmapContent = _viewContent?.Content as BitmapContent;
+            var bitmapContent = IsVisible ? _viewContent?.Content as BitmapContent : null;
+
             if (bitmapContent?.BitmapInfo != null)
             {
+                _isDarty = false;
+
                 // サムネイル設定
                 ThumbnailBitmap.Set(bitmapContent.Thumbnail);
 

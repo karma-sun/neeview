@@ -92,6 +92,8 @@ namespace NeeView
 #if DEBUG
             this.RootDockPanel.Children.Insert(0, new DevPageList());
             this.RootDockPanel.Children.Insert(1, new DevInfo());
+
+            this.PreviewKeyDown += Debug_PreviewKeyDown;
 #else
             this.MenuItemDev.Visibility = Visibility.Collapsed;
 #endif
@@ -209,6 +211,7 @@ namespace NeeView
             this.MouseRightButtonDown += (s, e) => this.RenameManager.Stop();
             this.Deactivated += (s, e) => this.RenameManager.Stop();
         }
+
 
         //
         private double _maxTimerTick = 0.2;
@@ -1398,6 +1401,17 @@ namespace NeeView
         }
 
 
+        #region DEBUG
+        // [開発用] 開発操作
+        private void Debug_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.F12)
+            {
+                Debug_CheckFocus();
+            }
+        }
+
+
         // [開発用] テストボタン
         private async void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
         {
@@ -1411,10 +1425,17 @@ namespace NeeView
             //App.Config.RemoveApplicationData();
         }
 
-
+        // [開発用] 現在のフォーカスを取得
+        private void Debug_CheckFocus()
+        {
+            var element = FocusManager.GetFocusedElement(this);
+            var fwelement = element as FrameworkElement;
+            Debug.WriteLine($"FOCUS: {element}({element?.GetType()})({fwelement?.Name})");
+        }
+        #endregion
 
         // TODO: クラス化
-#region thumbnail list
+        #region thumbnail list
 
         // サムネイルリストのパネルコントロール
         private VirtualizingStackPanel _thumbnailListPanel;
@@ -1851,6 +1872,8 @@ namespace NeeView
         // ViewAreaでのマウス移動
         private void ViewArea_MouseMove(object sender, MouseEventArgs e)
         {
+            //Debug.WriteLine($"Drag: {DateTime.Now}");
+
             UpdateControlsVisibility();
         }
 

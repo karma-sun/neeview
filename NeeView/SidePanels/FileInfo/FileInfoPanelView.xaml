@@ -6,40 +6,9 @@
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-
-    <UserControl.Resources>
-
-        <DrawingImage x:Key="ic_info_24px">
-            <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M11,11L11,17 13,17 13,11 11,11z M11,7L11,9 13,9 13,7 11,7z M12,2C17.5200004577637,2 22,6.48000001907349 22,12 22,17.5200004577637 17.5200004577637,22 12,22 6.48000001907349,22 2,17.5200004577637 2,12 2,6.48000001907349 6.48000001907349,2 12,2z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
-
-        <DrawingImage x:Key="ic_info_outline_24px">
-            <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M11,11L13,11 13,17 11,17 11,11z M11,7L13,7 13,9 11,9 11,7z M12,4C7.59000015258789,4 4,7.59000015258789 4,12 4,16.4099998474121 7.59000015258789,20 12,20 16.4099998474121,20 20,16.4099998474121 20,12 20,7.59000015258789 16.4099998474121,4 12,4z M12,2C17.5200004577637,2 22,6.48000001907349 22,12 22,17.5200004577637 17.5200004577637,22 12,22 6.48000001907349,22 2,17.5200004577637 2,12 2,6.48000001907349 6.48000001907349,2 12,2z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
-    </UserControl.Resources>
-    
+   
     <Grid>
-        <local:FileInfoControl DataContext="{Binding FileInfoControlViewModel}"/>
+        <local:FileInfoControl x:Name="FileInfoControl"/>
     </Grid>
         
 </UserControl>

@@ -89,6 +89,24 @@ namespace NeeView
         private bool _isAutoHide;
 
 
+        /// <summary>
+        /// IsVisibleLocked property.
+        /// </summary>
+        public bool IsVisibleLocked
+        {
+            get { return _isVisibleLocked; }
+            set { if (_isVisibleLocked != value) { _isVisibleLocked = value; RaisePropertyChanged(); UpdateVisibillity(); } }
+        }
+
+        //
+        private bool _isVisibleLocked;
+
+        //
+        public void UpdateVisibleLocked()
+        {
+            IsVisibleLocked = this.Panel.SelectedPanel != null && this.Panel.SelectedPanel.IsVisibleLock;
+        }
+
 
         /// <summary>
         /// Visibility property.
@@ -107,13 +125,13 @@ namespace NeeView
         /// </summary>
         public void UpdateVisibillity(bool now = false)
         {
-            if (_isDragged || (Panel.Panels.Any() ? _isAutoHide ? _isNearCursor : true : false))
+            if (_isVisibleLocked || _isDragged || (Panel.Panels.Any() ? _isAutoHide ? _isNearCursor : true : false))
             {
                 _visibility.SetValue(Visibility.Visible, 0.0);
             }
             else
             {
-                _visibility.SetValue(Visibility.Collapsed, now ? 0.0 : 1000.0);
+                _visibility.SetValue(Visibility.Collapsed, now ? 0.0 : Preference.Current.panel_autohide_delaytime * 1000.0);
             }
         }
 
@@ -179,16 +197,19 @@ namespace NeeView
         }
 
         //
-        protected const double _iconWidth = 50;
-        protected double _margin = 10;
+        protected const double _margin = 32;
 
 
         #region DropAccept
 
         private ItemsControl _itemsControl;
 
-        //
-        private int GetItemInsertIndex(DragEventArgs args)
+        /// <summary>
+        /// カーソルからリストの挿入位置を求める
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private int GetItemInsertIndex(DragEventArgs args )
         {
             if (_itemsControl == null) return -1;
 
@@ -199,7 +220,7 @@ namespace NeeView
             for (int index = 0; index < count; ++index)
             {
                 var item = _itemsControl.ItemContainerGenerator.ContainerFromIndex(index) as ContentPresenter;
-                var center = item.TranslatePoint(new Point(item.ActualWidth, item.ActualHeight), _itemsControl);
+                var center = item.TranslatePoint(new Point(0, item.ActualHeight), _itemsControl);
 
                 //Debug.WriteLine($"{i}: {pos}: {item.ActualWidth}x{item.ActualHeight}");
                 if (cursor.Y < center.Y)
@@ -208,7 +229,7 @@ namespace NeeView
                 }
             }
 
-            return Math.Max(count - 1, 0);
+            return Math.Max(count, 0);
         }
 
         public void InitializeDropAccept(ItemsControl itemsControl)
@@ -245,6 +266,7 @@ namespace NeeView
 
             var panel = args.Data.GetData("PanelContent") as IPanel;
             if (panel == null) return;
+
 
             // ##
             var index = GetItemInsertIndex(args);
@@ -303,12 +325,15 @@ namespace NeeView
         }
 
         //
-        internal void UpdateVisibility(Point point, Size size)
+        internal void UpdateVisibility(Point point, Point limit)
         {
-            // left 
-            this.IsNearCursor = Visibility != Visibility.Visible
-                ? point.X < _iconWidth
-                : point.X < _iconWidth + (Panel.SelectedPanel != null ? Width : 0.0) + _margin;
+            this.IsNearCursor = point.X < limit.X + _margin;
+            /*Visibility != Visibility.Visible
+                ? point.X < leftX + _margin
+                : point.X < leftX + (Panel.SelectedPanel != null ? Width : 0.0) + _margin;
+                */
+
+            UpdateVisibleLocked();
         }
     }
 
@@ -319,11 +344,15 @@ namespace NeeView
         {
         }
 
-        internal void UpdateVisibility(Point point, Size size)
+        internal void UpdateVisibility(Point point, Point limit)
         {
-            this.IsNearCursor = Visibility != Visibility.Visible
-                ? point.X > size.Width - _iconWidth
-                : point.X > size.Width - _iconWidth - (Panel.SelectedPanel != null ? Width : 0.0) - _margin;
+            this.IsNearCursor = point.X > limit.X - _margin;
+            /*Visibility != Visibility.Visible
+                ? point.X > rightX - _margin
+                : point.X > rightX - (Panel.SelectedPanel != null ? Width : 0.0) - _margin;
+                */
+
+            UpdateVisibleLocked();
         }
     }
 }

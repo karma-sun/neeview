@@ -32,6 +32,10 @@ namespace NeeView.Lab
         public FrameworkElement View { get; private set; }
 
 
+        public bool IsVisibleLock => false;
+
+
+
         public PanelSampleA()
         {
             //Icon = new BitmapImage(new Uri(@"E:\Pictures\倉庫\i.png"));
@@ -71,6 +75,8 @@ namespace NeeView.Lab
         public string IconTips => "履歴";
 
         public FrameworkElement View { get; private set; }
+
+        public bool IsVisibleLock => false;
 
         public PanelSampleB()
         {
@@ -114,6 +120,9 @@ namespace NeeView.Lab
 
 
         public FrameworkElement View { get; private set; }
+
+        public bool IsVisibleLock => false;
+
 
         public PanelSampleC()
         {

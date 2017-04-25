@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -19,6 +20,21 @@ namespace NeeView
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+
+        /// <summary>
+        /// IsSideBarVisible property.
+        /// </summary>
+        public bool IsSideBarVisible
+        {
+            get { return _IsSideBarVisible; }
+            set { if (_IsSideBarVisible != value) { _IsSideBarVisible = value; RaisePropertyChanged(); } }
+        }
+
+        //
+        private bool _IsSideBarVisible;
+
+
 
         /// <summary>
         /// Left property.
@@ -46,13 +62,40 @@ namespace NeeView
         private SidePanel _right;
 
 
+        //
+        public event EventHandler SelectedPanelChanged;
+
+
         /// <summary>
         /// 
         /// </summary>
         public SidePanelFrameModel()
         {
             _left = new SidePanel();
+            _left.PropertyChanged += Left_PropertyChanged;
+
             _right = new SidePanel();
+            _right.PropertyChanged += Right_PropertyChanged;
+        }
+
+        private void Right_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Right.SelectedPanel):
+                    SelectedPanelChanged?.Invoke(Right, null);
+                    break;
+            }
+        }
+
+        private void Left_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Left.SelectedPanel):
+                    SelectedPanelChanged?.Invoke(Left, null);
+                    break;
+            }
         }
 
         #region Memento
@@ -61,6 +104,9 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
+            public bool IsSideBarVisible { get; set; }
+
+            [DataMember]
             public SidePanel.Memento Left { get; set; }
 
             [DataMember]
@@ -68,6 +114,7 @@ namespace NeeView
 
             public void Constructor()
             {
+                IsSideBarVisible = true;
                 Left = new SidePanel.Memento();
                 Right = new SidePanel.Memento();
             }
@@ -88,6 +135,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
+            memento.IsSideBarVisible = this.IsSideBarVisible;
             memento.Left = Left.CreateMemento();
             memento.Right = Right.CreateMemento();
 
@@ -98,6 +146,7 @@ namespace NeeView
         {
             if (memento != null)
             {
+                IsSideBarVisible = memento.IsSideBarVisible;
                 _left.Restore(memento.Left, panels);
                 _right.Restore(memento.Right, panels);
             }
@@ -107,6 +156,9 @@ namespace NeeView
             {
                 _left.Panels.Add(panel);
             }
+
+            // 情報更新
+            SelectedPanelChanged?.Invoke(this, null);
         }
 
         #endregion

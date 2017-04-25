@@ -144,7 +144,6 @@
       <DependentUpon>HistoryPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\SidePanels.cs" />
-    <Compile Include="SidePanels\SidePanelSampleA.cs" />
     <Compile Include="_NeeView\Input\RelayCommand.cs" />
     <Compile Include="OpenSourceControls\DockPanelSplitter.cs" />
     <Compile Include="Utility\ComboColorPicker.xaml.cs">

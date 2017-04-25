@@ -2,13 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:NeeView">
 
-    <DrawingImage x:Key="ic_folder_48px">
+    <DrawingImage x:Key="pic_folder_24px">
         <DrawingImage.Drawing>
             <DrawingGroup Opacity="1">
                 <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource PageIconBrush}" Pen="{x:Null}">
+                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
                         <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero" Figures="M8,8L20,8 24,12 40,12C42.2099990844727,12,44,13.789999961853,44,16L44,36C44,38.2099990844727,42.2099990844727,40,40,40L8,40C5.78999996185303,40,4,38.2099990844727,4,36L4.01999998092651,12C4.01999998092651,9.78999996185303,5.78999996185303,8,8,8z" />
+                            <PathGeometry FillRule="Nonzero" Figures="M4,4L10,4 12,6 20,6C21.1000003814697,6,22,6.90000009536743,22,8L22,18C22,19.1000003814697,21.1000003814697,20,20,20L4,20C2.90000009536743,20,2,19.1000003814697,2,18L2.00999999046326,6C2.00999999046326,4.90000009536743,2.90000009536743,4,4,4z" />
                         </GeometryDrawing.Geometry>
                     </GeometryDrawing>
                 </DrawingGroup.Children>
@@ -16,11 +16,11 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
-    <DrawingImage x:Key="ic_history_24px">
+    <DrawingImage x:Key="pic_history_24px">
         <DrawingImage.Drawing>
             <DrawingGroup Opacity="1">
                 <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource PageIconBrush}" Pen="{x:Null}">
+                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
                         <GeometryDrawing.Geometry>
                             <PathGeometry FillRule="Nonzero" Figures="M12,8L13.5,8 13.5,12.25 17,14.3299999237061 16.2800006866455,15.539999961853 12,13 12,8z M13,3C17.9699993133545,3 22,7.03000020980835 22,12 22,16.9699993133545 17.9699993133545,21 13,21 10.5100002288818,21 8.27000045776367,19.9899997711182 6.6399998664856,18.3600006103516L8.0600004196167,16.9400005340576C9.31999969482422,18.2099990844727 11.0699996948242,19 13,19 16.8700008392334,19 20,15.8699998855591 20,12 20,8.13000011444092 16.8700008392334,5 13,5 9.13000011444092,5 6,8.13000011444092 6,12L9,12 4.96000003814697,16.0300006866455 4.8899998664856,15.8900003433228 1,12 4,12C4,7.03000020980835,8.02999973297119,3,13,3z" />
                         </GeometryDrawing.Geometry>
@@ -30,13 +30,83 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
-    <DrawingImage x:Key="ic_info_outline_24px">
+    <DrawingImage x:Key="pic_star_24px">
         <DrawingImage.Drawing>
             <DrawingGroup Opacity="1">
                 <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource PageIconBrush}" Pen="{x:Null}">
+                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
                         <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero" Figures="M11,11L13,11 13,17 11,17 11,11z M11,7L13,7 13,9 11,9 11,7z M12,4C7.59000015258789,4 4,7.59000015258789 4,12 4,16.4099998474121 7.59000015258789,20 12,20 16.4099998474121,20 20,16.4099998474121 20,12 20,7.59000015258789 16.4099998474121,4 12,4z M12,2C17.5200004577637,2 22,6.48000001907349 22,12 22,17.5200004577637 17.5200004577637,22 12,22 6.48000001907349,22 2,17.5200004577637 2,12 2,6.48000001907349 6.48000001907349,2 12,2z" />
+                            <PathGeometry FillRule="Nonzero" Figures="M12,1.99999988079071L14.8100004196167,8.63000011444092 22,9.23999977111816 16.5400009155273,13.9700002670288 18.1800003051758,21 12,17.2700004577637 5.82000017166138,21 7.46000003814697,13.9700002670288 2,9.23999977111816 9.1899995803833,8.63000011444092 12,1.99999988079071z" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="pic_info_24px">
+        <DrawingImage.Drawing>
+            <DrawingGroup Opacity="1">
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry FillRule="Nonzero" Figures="M11,11L11,17 13,17 13,11 11,11z M11,7L11,9 13,9 13,7 11,7z M12,2C17.5200004577637,2 22,6.48000001907349 22,12 22,17.5200004577637 17.5200004577637,22 12,22 6.48000001907349,22 2,17.5200004577637 2,12 2,6.48000001907349 6.48000001907349,2 12,2z" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="pic_filter_vintage_24px">
+        <DrawingImage.Drawing>
+            <DrawingGroup Opacity="1">
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry FillRule="Nonzero" Figures="M12,8C9.78999996185303,8 8,9.78999996185303 8,12 8,14.210000038147 9.78999996185303,16 12,16 14.210000038147,16 16,14.210000038147 16,12 16,9.78999996185303 14.210000038147,8 12,8z M12,0.809999883174896C13.789999961853,1.85000002384186 15,3.77999997138977 15,6 15,6.32000017166138 14.9700002670288,6.6399998664856 14.9200000762939,6.94999980926514 15.1599998474121,6.76000022888184 15.4200000762939,6.57000017166138 15.6999998092651,6.40999984741211 17.6299991607666,5.30000019073486 19.9099998474121,5.38000011444092 21.7000007629395,6.40999984741211 21.6900005340576,8.47999954223633 20.6200008392334,10.4899997711182 18.7000007629395,11.6000003814697 18.4200000762939,11.7600002288818 18.1299991607666,11.8900003433228 17.8400001525879,12 18.1299991607666,12.1099996566772 18.4200000762939,12.2399997711182 18.7000007629395,12.3999996185303 20.6200008392334,13.5100002288818 21.6900005340576,15.5200004577637 21.7000007629395,17.5900001525879 19.8999996185303,18.6200008392334 17.6200008392334,18.7000007629395 15.6999998092651,17.5900001525879 15.4200000762939,17.4300003051758 15.1599998474121,17.25 14.9200000762939,17.0499992370605 14.9700002670288,17.3600006103516 15,17.6800003051758 15,18 15,20.2199993133545 13.789999961853,22.1499996185303 12,23.1900005340576 10.210000038147,22.1499996185303 9,20.2199993133545 9,18 9,17.6800003051758 9.02999973297119,17.3600006103516 9.07999992370605,17.0400009155273 8.84000015258789,17.2299995422363 8.57999992370605,17.4200000762939 8.30000019073486,17.5799999237061 6.36999988555908,18.6900005340576 4.09000015258789,18.6100006103516 2.29999995231628,17.5799999237061 2.30999994277954,15.5100002288818 3.38000011444092,13.5 5.30000019073486,12.3900003433228 5.57999992370605,12.2299995422363 5.86999988555908,12.1000003814697 6.15999984741211,11.9899997711182 5.86999988555908,11.8800001144409 5.57999992370605,11.75 5.30000019073486,11.5900001525879 3.36999988555908,10.4799995422363 2.29999995231628,8.47000026702881 2.29999995231628,6.40000009536743 4.09999990463257,5.36999988555908 6.38000011444092,5.28999996185303 8.30000019073486,6.40000009536743 8.57999992370605,6.55999994277954 8.84000015258789,6.75 9.07999992370605,6.94999980926514 9.02999973297119,6.6399998664856 9,6.32000017166138 9,6 9,3.77999997138977 10.210000038147,1.85000002384186 12,0.809999883174896z" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="pic_palette_24px">
+        <DrawingImage.Drawing>
+            <DrawingGroup Opacity="1">
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry FillRule="Nonzero" Figures="M17.5,9C16.6700000762939,9 16,9.67000007629395 16,10.5 16,11.3299999237061 16.6700000762939,12 17.5,12 18.3299999237061,12 19,11.3299999237061 19,10.5 19,9.67000007629395 18.3299999237061,9 17.5,9z M6.5,9C5.67000007629395,9 5,9.67000007629395 5,10.5 5,11.3299999237061 5.67000007629395,12 6.5,12 7.32999992370605,12 8,11.3299999237061 8,10.5 8,9.67000007629395 7.32999992370605,9 6.5,9z M14.5,5C13.6700000762939,5 13,5.67000007629395 13,6.5 13,7.32999992370605 13.6700000762939,8 14.5,8 15.3299999237061,8 16,7.32999992370605 16,6.5 16,5.67000007629395 15.3299999237061,5 14.5,5z M9.5,5C8.67000007629395,5 8,5.67000007629395 8,6.5 8,7.32999992370605 8.67000007629395,8 9.5,8 10.3299999237061,8 11,7.32999992370605 11,6.5 11,5.67000007629395 10.3299999237061,5 9.5,5z M12,3.00000023841858C16.9699993133545,3 21,6.57999992370605 21,11 21,13.7600002288818 18.7600002288818,16 16,16L14.2299995422363,16C13.3999996185303,16 12.7299995422363,16.6700000762939 12.7299995422363,17.5 12.7299995422363,17.8799991607666 12.8800001144409,18.2299995422363 13.1099996566772,18.4899997711182 13.3500003814697,18.7600002288818 13.5,19.1100006103516 13.5,19.5 13.5,20.3299999237061 12.8299999237061,21 12,21 7.03000020980835,21 3,16.9699993133545 3.00000023841858,12 3,7.03000020980835 7.03000020980835,3 12,3.00000023841858z" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="pic_bookmark_24px">
+        <DrawingImage.Drawing>
+            <DrawingGroup Opacity="1">
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry FillRule="Nonzero" Figures="M7,3.00000023841858L17,3.00000023841858C18.1000003814697,3,19,3.90000009536743,19,5L19,21 12,18 5,21 5.01000022888184,5C5.01000022888184,3.90000009536743,5.90000009536743,3,7,3.00000023841858z" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="pic_toy_24px">
+        <DrawingImage.Drawing>
+            <DrawingGroup Opacity="1">
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry FillRule="Nonzero" Figures="M12,12C15,12 17.5,14.5 17.5,17.5 17.5,20.5 15,23 12,23L12,12z M1.00000011920929,12L12,12C12,15 9.5,17.5 6.5,17.5 3.5,17.5 1,15 1.00000011920929,12z M17.5,6.5C20.5,6.5,23,9,23,12L12,12C12,9,14.5,6.5,17.5,6.5z M12,1.00000011920929L12,12C9,12 6.5,9.5 6.5,6.5 6.5,3.5 9,1 12,1.00000011920929z" />
                         </GeometryDrawing.Geometry>
                     </GeometryDrawing>
                 </DrawingGroup.Children>

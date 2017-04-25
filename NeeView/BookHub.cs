@@ -156,6 +156,7 @@ namespace NeeView
         #region Events
 
         // 本の変更通知
+        public event EventHandler BookChanging;
         public event EventHandler<BookMementoType> BookChanged;
 
         // ページ番号の変更通知
@@ -434,6 +435,7 @@ namespace NeeView
         {
             // いろんなイベントをクリア
             this.AddressChanged = null;
+            this.BookChanging = null;
             this.BookChanged = null;
             this.BookmarkChanged = null;
             this.EmptyMessage = null;
@@ -450,6 +452,8 @@ namespace NeeView
             this.SettingChanged = null;
             this.ThumbnailChanged = null;
             this.ViewContentsChanged = null;
+
+            Debug.WriteLine("BokHub Disposing...");
 
             // 開いているブックを閉じる(5秒待つ。それ以上は待たない)
             Task.Run(async () => await RequestUnload(false).WaitAsync()).Wait(5000);
@@ -652,6 +656,9 @@ namespace NeeView
         /// <returns></returns>
         public async Task LoadAsync(BookHubCommandLoadArgs args, CancellationToken token)
         {
+            // 本の変更開始通知
+            App.Current?.Dispatcher.Invoke(() => BookChanging?.Invoke(this, null));
+
             // 現在の本を開放
             await UnloadAsync(new BookHubCommandUnloadArgs() { IsClearViewContent = false });
 
@@ -685,6 +692,7 @@ namespace NeeView
                 // 本の設定
                 var unit = ModelContext.BookMementoCollection.Find(place);
                 var setting = GetSetting(unit, place, args.Option);
+
 
                 // Load本体
                 await LoadAsyncCore(place, startEntry ?? setting.Page, args.Option, setting, unit, token);

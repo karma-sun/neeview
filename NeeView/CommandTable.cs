@@ -653,6 +653,20 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleAddressBar));
                 _elements[CommandType.ToggleVisibleAddressBar] = element;
             }
+            // ToggleVisibleSideBar
+            {
+                var element = new CommandElement();
+                element.Group = "ウィンドウ";
+                element.Text = "サイドバーON/OFF";
+                element.MenuText = "サイドバー";
+                element.Note = "サイドバーの表示/非表示を切り替えます";
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => _VM.SidePanels.IsSideBarVisible = !_VM.SidePanels.IsSideBarVisible;
+                element.ExecuteMessage = e => _VM.SidePanels.IsSideBarVisible ? "サイドバーを消す" : "サイドバーを表示する";
+                element.CanExecute = () => true;
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingWithSource(nameof(_VM.SidePanels.IsSideBarVisible), _VM.SidePanels);
+                _elements[CommandType.ToggleVisibleSideBar] = element;
+            }
             // ToggleVisibleFileInfo
             {
                 var element = new CommandElement();

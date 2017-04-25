@@ -35,19 +35,41 @@ namespace NeeView
         private FileInfoPanelView _view;
         public FrameworkElement View => _view;
 
+        public bool IsVisibleLock => false;
+
+
         //
         public FileInfoPanel()
         {
             _view = new FileInfoPanelView();
 
-            Icon = _view.Resources["ic_info_24px"] as ImageSource;
-            IconMargin = new Thickness(8);
+            Icon = App.Current.MainWindow.Resources["pic_info_24px"] as ImageSource;
+            IconMargin = new Thickness(9);
         }
 
         //
         public void Initialize(MainWindowVM vm)
         {
             _view.Initialize(vm);
+        }
+
+
+        /// <summary>
+        /// ViewContent property.
+        /// </summary>
+        public ViewContent ViewContent
+        {
+            get { return _view.FileInfoControl.ViewContent; }
+            set { _view.FileInfoControl.ViewContent = value; }
+        }
+
+        /// <summary>
+        /// Setting property.
+        /// </summary>
+        public FileInfoSetting Setting
+        {
+            get { return _view.FileInfoControl.Setting; }
+            set { _view.FileInfoControl.Setting = value; }
         }
     }
 }

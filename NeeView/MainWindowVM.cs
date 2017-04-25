@@ -948,6 +948,7 @@ namespace NeeView
         public void InitializeSidePanels(SidePanelFrame control)
         {
             SidePanels.Initialize(this);
+            SidePanels.SelectedPanelChanged += (s, e) => RaisePanelPropertyChanged();
 
             //
             if (_sidePanelMemento == null)
@@ -959,6 +960,7 @@ namespace NeeView
             // create
             SidePanels.Restore(_sidePanelMemento);
 
+            // TODO: なんかおかしい
             control.Model = SidePanels;
         }
 
@@ -1535,19 +1537,20 @@ namespace NeeView
         /// <summary>
         /// FileInfoControlViewModel property.
         /// </summary>
-        public FileInfoControlViewModel FileInfoControlViewModel { get; } = new FileInfoControlViewModel();
+        ////public FileInfoControlViewModel FileInfoControlViewModel { get; } = new FileInfoControlViewModel();
 
         //
         private void UpdateFileInfoContent()
         {
-            FileInfoControlViewModel.ViewContent = IsVisibleFileInfo ? _mainContent : null; ;
+            ////FileInfoControlViewModel.ViewContent = IsVisibleFileInfo ? _mainContent : null; ;
+            SidePanels.FileInfoPanel.ViewContent = _mainContent;
         }
 
         #region Property: FileInfoSetting
         public FileInfoSetting FileInfoSetting
         {
-            get { return FileInfoControlViewModel.Setting; }
-            set { FileInfoControlViewModel.Setting = value; RaisePropertyChanged(); }
+            get { return SidePanels.FileInfoPanel.Setting; }
+            set { SidePanels.FileInfoPanel.Setting = value; RaisePropertyChanged(); }
         }
         #endregion
 
@@ -2072,6 +2075,9 @@ namespace NeeView
             BookHub.Loading +=
                 OnLoading;
 
+            BookHub.BookChanging +=
+                OnBookChanging;
+
             BookHub.BookChanged +=
                 OnBookChanged;
 
@@ -2164,10 +2170,24 @@ namespace NeeView
             Loading?.Invoke(sender, e);
         }
 
+        //
+        private bool _isBookChanging;
+
+
+        // 本が変更される
+        private void OnBookChanging(object sender, EventArgs e)
+        {
+            _isBookChanging = true;
+
+            // 未処理のサムネイル要求を解除
+            ModelContext.JobEngine.Clear(QueueElementPriority.PageThumbnail);
+        }
 
         // 本が変更された
         private void OnBookChanged(object sender, BookMementoType bookmarkType)
         {
+            _isBookChanging = false;
+
             var title = LoosePath.GetFileName(BookHub.Address);
 
             App.Current?.Dispatcher.Invoke(() => DispMessage(NoticeShowMessageStyle, title, null, 2.0, bookmarkType));
@@ -3111,6 +3131,9 @@ namespace NeeView
 
             // サムネイルリストが無効の場合、処理しない
             if (!IsEnableThumbnailList) return;
+
+            // 本の切り替え中は処理しない
+            if (_isBookChanging) return;
 
             // 未処理の要求を解除
             ModelContext.JobEngine.Clear(QueueElementPriority.PageThumbnail);

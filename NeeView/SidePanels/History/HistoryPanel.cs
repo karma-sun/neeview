@@ -35,13 +35,17 @@ namespace NeeView
         private HistoryPanelView _view;
         public FrameworkElement View => _view;
 
+        public bool IsVisibleLock => false;
+
+
         //
         public HistoryPanel()
         {
             _view = new HistoryPanelView();
 
-            Icon = _view.Resources["ic_history_24px"] as ImageSource;
-            IconMargin = new Thickness(6, 8, 10, 8);
+            Icon = App.Current.MainWindow.Resources["pic_history_24px"] as ImageSource;
+            IconMargin = new Thickness(7, 8, 9, 8);
+            //IconMargin = new Thickness(8);
         }
 
         //

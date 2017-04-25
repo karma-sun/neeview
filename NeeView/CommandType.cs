@@ -68,6 +68,7 @@ namespace NeeView
         ToggleHideTitleBar, // 欠番
         ToggleVisibleTitleBar,
         ToggleVisibleAddressBar,
+        ToggleVisibleSideBar,
         ToggleVisibleFileInfo,
         ToggleVisibleEffectInfo,
         ToggleVisibleFolderList,

@@ -36,13 +36,20 @@
 
     <Window.Resources>
 
-        <!-- コンテキストメニューカウント用 -->
-        <Style TargetType="ContextMenu">
-            <EventSetter Event="Opened" Handler="ContextMenu_Opened"/>
-            <EventSetter Event="Closed" Handler="ContextMenu_Closed"/>
-        </Style>
+        <ResourceDictionary>
 
-        <!--
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SidePanels/PanelIconDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <!-- コンテキストメニューカウント用 -->
+            <Style TargetType="ContextMenu">
+                <EventSetter Event="Opened" Handler="ContextMenu_Opened"/>
+                <EventSetter Event="Closed" Handler="ContextMenu_Closed"/>
+            </Style>
+
+            <!--
         <Style x:Key="VisibleContent" TargetType="FrameworkElement">
             <Setter Property="Opacity" Value="1"/>
         </Style>
@@ -57,83 +64,84 @@
         </Style>
         -->
 
-        <!-- Styling the DockPanelSplitter -->
-        <Style x:Key="NVHorizontalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
-            <Setter Property="Thickness" Value="6"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
-                        <Grid SnapsToDevicePixels="True" Background="{DynamicResource NVBackground}"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <!-- Styling the DockPanelSplitter -->
+            <Style x:Key="NVHorizontalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
+                <Setter Property="Thickness" Value="6"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
+                            <Grid SnapsToDevicePixels="True" Background="{DynamicResource NVBackground}"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
-        <Style x:Key="NVVerticalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
-            <Setter Property="Thickness" Value="6"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
-                        <Grid SnapsToDevicePixels="True" Background="{DynamicResource NVBackground}"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-
-        <Style x:Key="StatusAreaStyle" TargetType="DockPanel">
-            <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding IsVisibleThumbnailPlate}" Value="True" />
-                        <Condition Binding="{Binding Visibility, ElementName=ThumbnailListArea}" Value="Visible" />
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Background" Value="{DynamicResource NVBackground}"/>
-                </MultiDataTrigger>
-            </Style.Triggers>
-        </Style>
+            <Style x:Key="NVVerticalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
+                <Setter Property="Thickness" Value="6"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
+                            <Grid SnapsToDevicePixels="True" Background="{DynamicResource NVBackground}"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
 
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-
-        <local:IsNearZeroConverter x:Key="IsNearZeroConverter"/>
-
-        <local:SortModeToVisibilityConverter x:Key="SortModeToVisibilityConverter"/>
-        <local:SortModeToStringConverter x:Key="SortModeToStringConverter"/>
-
-        <local:DpiScaleXInverseConverter x:Key="DpiScaleXInverseConverter"/>
-        <local:DpiScaleYInverseConverter x:Key="DpiScaleYInverseConverter"/>
-
-        <local:SliderDirectionToFlowDirectionConverter x:Key="SliderDirectionToFlowDirectionConverter"/>
-
-        <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
+            <Style x:Key="StatusAreaStyle" TargetType="DockPanel">
+                <Style.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding IsVisibleThumbnailPlate}" Value="True" />
+                            <Condition Binding="{Binding Visibility, ElementName=ThumbnailListArea}" Value="Visible" />
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Background" Value="{DynamicResource NVBackground}"/>
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
 
 
-        <!-- MenuItem History -->
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
-        <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
+            <local:IsNearZeroConverter x:Key="IsNearZeroConverter"/>
 
-        <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
-            <Setter Property="Header" Value="{Binding Path=Place, Converter={StaticResource FullPathToFileNameConverter}}"/>
-            <Setter Property="Command" Value="{Binding BookCommands[LoadAs], RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
-            <Setter Property="CommandParameter" Value="{Binding Path=Place}" />
-            <Setter Property="InputGestureText" Value=""/>
-        </Style>
+            <local:SortModeToVisibilityConverter x:Key="SortModeToVisibilityConverter"/>
+            <local:SortModeToStringConverter x:Key="SortModeToStringConverter"/>
 
-        <Style x:Key="HistoryMenuItemStyle" TargetType="MenuItem">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=LastFilesHeader, Path=ItemsSource.Count}" Value="0" >
-                    <Setter Property="IsEnabled" Value="False"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+            <local:DpiScaleXInverseConverter x:Key="DpiScaleXInverseConverter"/>
+            <local:DpiScaleYInverseConverter x:Key="DpiScaleYInverseConverter"/>
 
-        <Style x:Key="HistoryContextMenuItemContainerStyle" TargetType="MenuItem">
-            <Setter Property="Header" Value="{Binding Converter={StaticResource FullPathToFileNameConverter}}"/>
-            <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
-            <Setter Property="CommandParameter" Value="{Binding}" />
-        </Style>
+            <local:SliderDirectionToFlowDirectionConverter x:Key="SliderDirectionToFlowDirectionConverter"/>
 
+            <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
+
+
+            <!-- MenuItem History -->
+
+            <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
+
+            <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
+                <Setter Property="Header" Value="{Binding Path=Place, Converter={StaticResource FullPathToFileNameConverter}}"/>
+                <Setter Property="Command" Value="{Binding BookCommands[LoadAs], RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+                <Setter Property="CommandParameter" Value="{Binding Path=Place}" />
+                <Setter Property="InputGestureText" Value=""/>
+            </Style>
+
+            <Style x:Key="HistoryMenuItemStyle" TargetType="MenuItem">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=LastFilesHeader, Path=ItemsSource.Count}" Value="0" >
+                        <Setter Property="IsEnabled" Value="False"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="HistoryContextMenuItemContainerStyle" TargetType="MenuItem">
+                <Setter Property="Header" Value="{Binding Converter={StaticResource FullPathToFileNameConverter}}"/>
+                <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
+                <Setter Property="CommandParameter" Value="{Binding}" />
+            </Style>
+
+        </ResourceDictionary>
 
     </Window.Resources>
 
@@ -150,7 +158,7 @@
             <DockPanel>
 
                 <!-- メニューエリア-->
-                <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top">
+                <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" IsTabStop="False">
                     <Grid x:Name="MenuArea" MouseEnter="MenuArea_MouseEnter" MouseLeave="MenuArea_MouseLeave" >
                         <StackPanel>
                             <Grid x:Name="MenuBar" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture">
@@ -346,7 +354,7 @@
 
                 <!-- ステータスエリア -->
                 <DockPanel x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource NVBaseBrush}">
-                    <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom">
+                    <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False">
                         <!--
                     <DockPanel x:Name="StatusArea" Style="{StaticResource StatusAreaStyle}">
                         <Grid DockPanel.Dock="Bottom">
@@ -365,7 +373,7 @@
                     -->
                         <Grid x:Name="SliderArea"  Background="{DynamicResource NVBaseBrush}" MouseWheel="SliderArea_MouseWheel" UseLayoutRounding="True">
                             <DockPanel Visibility="{Binding PageSliderVisibility}">
-                                <local:SliderTextBox x:Name="PageSliderTextBox" DockPanel.Dock="{Binding SliderIndexDock}"
+                                <local:SliderTextBox x:Name="PageSliderTextBox" DockPanel.Dock="{Binding SliderIndexDock}" 
                                        Visibility="{Binding IsSliderWithIndex, Converter={StaticResource BooleanToVisibilityConverter}}"
                                        Target="{Binding ElementName=PageSlider}"
                                        ValueChanged="PageSliderTextBox_ValueChanged"
@@ -384,7 +392,7 @@
                             </DockPanel>
                         </Grid>
                     </ContentControl>
-                    <ContentControl x:Name="DockThumbnailListSocket" DockPanel.Dock="Bottom">
+                    <ContentControl x:Name="DockThumbnailListSocket" DockPanel.Dock="Bottom" IsTabStop="False">
                         <Grid x:Name="ThumbnailListArea" Visibility="{Binding ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" UseLayoutRounding="True" >
                             <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              UseLayoutRounding="True"
@@ -497,7 +505,7 @@
                                         <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffector.Effect}">
 
                                             <!-- メインビュー コンテンツ表示領域 -->
-                                            <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True" >
+                                            <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True">
                                                 <!-- Pages -->
                                                 <Canvas x:Name="PageCanvas" Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                                             IsHitTestVisible="False"
@@ -514,7 +522,7 @@
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Canvas.Resources>
-                                                    <ContentControl x:Name="MainContent">
+                                                    <ContentControl x:Name="MainContent" IsTabStop="False">
                                                         <StackPanel x:Name="PageContents" Orientation="Horizontal">
                                                             <ContentControl x:Name="Content1" Content="{Binding Contents[1].View}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
                                                             <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
@@ -677,12 +685,12 @@
 
 
             <!-- Menu Layer -->
-            <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed"/>
+            <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed" IsTabStop="False"/>
 
             <!-- Status Layer -->
             <DockPanel x:Name="LayerStatusArea" VerticalAlignment="Bottom" Visibility="Collapsed">
                 <Grid DockPanel.Dock="Bottom" Height="{Binding ElementName=DockStatusArea, Path=ActualHeight}"/>
-                <ContentControl x:Name="LayerPageSliderSocket" DockPanel.Dock="Bottom"/>
+                <ContentControl x:Name="LayerPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False"/>
                 <Grid DockPanel.Dock="Bottom">
                     <Grid.Style>
                         <Style TargetType="Grid">
@@ -693,7 +701,7 @@
                             </Style.Triggers>
                         </Style>
                     </Grid.Style>
-                    <ContentControl x:Name="LayerThumbnailListSocket" />
+                    <ContentControl x:Name="LayerThumbnailListSocket" IsTabStop="False"/>
                 </Grid>
             </DockPanel>
 

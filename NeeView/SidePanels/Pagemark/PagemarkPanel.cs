@@ -35,12 +35,15 @@ namespace NeeView
         private PagemarkPanelView _view;
         public FrameworkElement View => _view;
 
+        public bool IsVisibleLock => false;
+
+
         //
         public PagemarkPanel()
         {
             _view = new PagemarkPanelView();
 
-            Icon = _view.Resources["ic_bookmark_24px"] as ImageSource;
+            Icon = App.Current.MainWindow.Resources["pic_bookmark_24px"] as ImageSource;
             IconMargin = new Thickness(10);
         }
 

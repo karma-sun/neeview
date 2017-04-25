@@ -35,12 +35,14 @@ namespace NeeView
         private BookmarkPanelView _view;
         public FrameworkElement View => _view;
 
+        public bool IsVisibleLock => false;
+
         //
         public BookmarkPanel()
         {
             _view = new BookmarkPanelView();
 
-            Icon = _view.Resources["ic_star_24px"] as ImageSource;
+            Icon = App.Current.MainWindow.Resources["pic_star_24px"] as ImageSource;
             IconMargin = new Thickness(8);
         }
 

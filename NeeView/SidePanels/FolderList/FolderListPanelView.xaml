@@ -9,22 +9,6 @@
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-
-
-        <DrawingImage x:Key="ic_folder_24px">
-            <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M4,4L10,4 12,6 20,6C21.1000003814697,6,22,6.90000009536743,22,8L22,18C22,19.1000003814697,21.1000003814697,20,20,20L4,20C2.90000009536743,20,2,19.1000003814697,2,18L2.00999999046326,6C2.00999999046326,4.90000009536743,2.90000009536743,4,4,4z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
-
     </UserControl.Resources>
 
 

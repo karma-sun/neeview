@@ -32,5 +32,10 @@ namespace NeeView
         /// パネル実体
         /// </summary>
         FrameworkElement View { get; }
+
+        /// <summary>
+        /// 表示固定フラグ
+        /// </summary>
+        bool IsVisibleLock { get; }
     }
 }

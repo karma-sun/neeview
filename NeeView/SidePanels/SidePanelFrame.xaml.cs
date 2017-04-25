@@ -146,7 +146,7 @@ namespace NeeView
             {
                 if (control.MouseTarget != null)
                 {
-                    control.MouseTarget.PreviewMouseMove += control.Target_PreviewMouseMove;
+                    control.MouseTarget.MouseMove += control.Target_MouseMove;
                 }
             }
         }
@@ -214,6 +214,7 @@ namespace NeeView
         {
             if (this.ViewContent == null) return;
 
+#if false
             if (this.IsAutoHide)
             {
                 this.ViewportEntryPoint.Content = null;
@@ -224,6 +225,7 @@ namespace NeeView
                 this.RootEntryPoint.Content = null;
                 this.ViewportEntryPoint.Content = this.ViewContent;
             }
+#endif
         }
 
 
@@ -242,11 +244,14 @@ namespace NeeView
 
 
 
-        private void Target_PreviewMouseMove(object sender, MouseEventArgs e)
+        private void Target_MouseMove(object sender, MouseEventArgs e)
         {
             var point = e.GetPosition(this.Root);
-            var size = new Size(this.Root.ActualWidth, this.Root.ActualHeight);
-            _vm.UpdateVisibility(point, size);
+            //var size = new Size(this.Root.ActualWidth, this.Root.ActualHeight);
+            var left = this.Viewport.TranslatePoint(new Point(0, 0), this.Root);
+            var right = this.Viewport.TranslatePoint(new Point(this.Viewport.ActualWidth, 0), this.Root);
+
+            _vm.UpdateVisibility(point, left, right);
         }
 
 

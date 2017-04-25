@@ -35,9 +35,11 @@ namespace NeeView
         {
             rename.Close += Rename_Close;
 
-            var pos = rename.Target.TranslatePoint(new Point(0, 0), this);
-            Canvas.SetLeft(rename, pos.X - 3);
-            Canvas.SetTop(rename, pos.Y - 2);
+            var pos = rename.Target.TranslatePoint(new Point(0, 0), this) - new Vector(3, 2);
+            Canvas.SetLeft(rename, pos.X);
+            Canvas.SetTop(rename, pos.Y);
+
+            rename.MaxWidth = this.ActualWidth - pos.X - 8;
 
             this.Root.Children.Add(rename);
 

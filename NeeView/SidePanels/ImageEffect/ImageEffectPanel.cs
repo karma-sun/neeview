@@ -35,12 +35,16 @@ namespace NeeView
         private ImageEffectPanelView _view;
         public FrameworkElement View => _view;
 
+        public bool IsVisibleLock => false;
+
+
         //
         public ImageEffectPanel()
         {
             _view = new ImageEffectPanelView();
 
-            Icon = _view.Resources["ic_filter_vintage_24px"] as ImageSource;
+            //Icon = App.Current.MainWindow.Resources["pic_filter_vintage_24px"] as ImageSource;
+            Icon = App.Current.MainWindow.Resources["pic_toy_24px"] as ImageSource;
             IconMargin = new Thickness(8);
         }
 

@@ -108,7 +108,7 @@
 
             <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
                 <Setter Property="Header" Value="{Binding Path=Place, Converter={StaticResource FullPathToFileNameConverter}}"/>
-                <Setter Property="Command" Value="{Binding BookCommands[LoadAs], RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+                <Setter Property="Command" Value="{Binding DataContext.BookCommands[LoadAs], RelativeSource={RelativeSource FindAncestor, AncestorType=MenuItem}}" />
                 <Setter Property="CommandParameter" Value="{Binding Path=Place}" />
                 <Setter Property="InputGestureText" Value=""/>
             </Style>

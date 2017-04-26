@@ -90,14 +90,18 @@ namespace NeeView
 
 
             // BitmapImageでデコード
-            stream.Seek(0, SeekOrigin.Begin);
-            BitmapImage bmpImage = new BitmapImage();
+            BitmapImage bmpImage;
 
-            bmpImage.BeginInit();
-            bmpImage.CacheOption = BitmapCacheOption.OnLoad;
-            bmpImage.StreamSource = stream;
-            bmpImage.EndInit();
-            bmpImage.Freeze();
+            try
+            {
+                bmpImage = LoadBitmapImageCore(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+            }
+            catch (Exception e)
+            {
+                // ColorProfileを無効にして再読込
+                Debug.WriteLine($"Retry: {e.Message}");
+                bmpImage = LoadBitmapImageCore(stream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad);
+            }
 
             source = bmpImage;
             info.Decoder = ".Net BitmapImage";
@@ -117,6 +121,21 @@ namespace NeeView
             resource.Info = info;
 
             return resource;
+        }
+
+        //
+        private BitmapImage LoadBitmapImageCore(Stream stream, BitmapCreateOptions createOption, BitmapCacheOption cacheOption)
+        {
+            stream.Seek(0, SeekOrigin.Begin);
+            var bmpImage = new BitmapImage();
+            bmpImage.BeginInit();
+            bmpImage.CreateOptions = createOption;
+            bmpImage.CacheOption = cacheOption;
+            bmpImage.StreamSource = stream;
+            bmpImage.EndInit();
+            bmpImage.Freeze();
+
+            return bmpImage;
         }
 
 

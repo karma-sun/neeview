@@ -97,6 +97,7 @@ namespace NeeView
         public string LicenseUri { get; private set; }
         public string ProjectUri => "https://bitbucket.org/neelabo/neeview/";
         public string ChangeLogUri => "https://bitbucket.org/neelabo/neeview/wiki/ChangeLog";
+        public bool IsNetworkEnabled => Preference.Current.network_enabled;
 
         // バージョンチェッカーは何度もチェックしないようにstaticで確保する
         public static VersionChecker Checker { get; set; } = new VersionChecker();
@@ -129,7 +130,7 @@ namespace NeeView
         #endregion
 
 #if DEBUG
-        public string DownloadUri => "file://" + App.Config.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + "/_ForUpdateCheckDebug.html";
+        public string DownloadUri => "https://neelabo.bitbucket.io/NeeViewUpdateCheck.html";
 #else
         public string DownloadUri => "https://bitbucket.org/neelabo/neeview/downloads";
 #endif
@@ -170,10 +171,13 @@ namespace NeeView
         {
             if (_isChecked || _isCheching) return;
 
-            // チェック開始
-            LastVersion = 0; // CurrentVersion;
-            Message = "最新バージョンをチェック中...";
-            Task.Run(() => CheckVersion(App.Config.PackageType));
+            if (Preference.Current.network_enabled)
+            {
+                // チェック開始
+                LastVersion = 0; // CurrentVersion;
+                Message = "最新バージョンをチェック中...";
+                Task.Run(() => CheckVersion(App.Config.PackageType));
+            }
         }
 
 

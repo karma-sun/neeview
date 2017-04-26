@@ -159,6 +159,10 @@ namespace NeeView
             , Flags = PropertyMemberFlag.None)]
         public bool file_permit_command { get; set; }
 
+        [DataMember, DefaultValue(true)]
+        [PropertyMember("ネットワークアスセス許可", Tips = "ネットワークアクセスを許可します。\n(バージョンウィンドウからのバージョン更新確認、各種WEBリンク)")]
+        public bool network_enabled { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

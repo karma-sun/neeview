@@ -237,7 +237,8 @@ namespace NeeView
             {
                 var element = new CommandElement();
                 element.Group = "ファイル";
-                element.Text = "閉じる(_C)";
+                element.Text = "閉じる";
+                element.MenuText = "閉じる(_C)";
                 element.Note = "開いているフォルダーを閉じます";
                 element.CanExecute = () => _book.CanUnload();
                 element.Execute = (s, e) => _book.RequestUnload(true);
@@ -1672,35 +1673,6 @@ namespace NeeView
             }
 
 
-#if false
-            // LoupeZoomIn
-            {
-                var element = new CommandElement();
-                element.Group = "ルーペ";
-                element.Text = "ルーペ拡大";
-                element.MenuText = "ルーペ拡大";
-                element.Note = "ルーペを有効化し、ルーペの拡大率を増加させます";
-                element.Execute = (s, e) => _VM.LoupeZoomIn();
-                element.CanExecute = () => true;
-                element.IsShowMessage = false;
-                _Elements[CommandType.LoupeZoomIn] = element;
-            }
-
-            // LoupeZoomOut
-            {
-                var element = new CommandElement();
-                element.Group = "ルーペ";
-                element.Text = "ルーペ縮小";
-                element.MenuText = "ルーペ縮小";
-                element.Note = "ルーペを有効化し、ルーペの拡大率を減少させます。等倍まで下げるとルーペ機能は無効になります";
-                element.Execute = (s, e) => _VM.LoupeZoomOut();
-                element.CanExecute = () => true;
-                element.IsShowMessage = false;
-                _Elements[CommandType.LoupeZoomOut] = element;
-            }
-
-#endif
-
             // ToggleIsReverseSort
             // 欠番
             {
@@ -1779,7 +1751,7 @@ namespace NeeView
                 element.Note = "オンラインヘルプを表示します";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _VM.OpenOnlineHelp();
-                element.CanExecute = () => true;
+                element.CanExecute = () => Preference.Current.network_enabled;
                 _elements[CommandType.HelpOnline] = element;
             }
 
@@ -1787,9 +1759,9 @@ namespace NeeView
             {
                 var element = new CommandElement();
                 element.Group = "その他";
-                element.Text = "コマンドリストを表示する";
-                element.MenuText = "コマンド一覧";
-                element.Note = "コマンドのヘルプをブラウザで表示します";
+                element.Text = "コマンドのヘルプを表示する";
+                element.MenuText = "コマンドヘルプ";
+                element.Note = "全コマンドのヘルプをブラウザで表示します";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => this.OpenCommandListHelp();
                 element.CanExecute = () => true;
@@ -1801,7 +1773,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "その他";
                 element.Text = "メインメニューのヘルプを表示する";
-                element.MenuText = "メインメニューの説明";
+                element.MenuText = "メインメニューヘルプ";
                 element.Note = "メインメニューのヘルプをブラウザで表示します";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _VM.OpenMainMenuHelp();

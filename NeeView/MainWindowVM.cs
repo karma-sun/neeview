@@ -2600,7 +2600,7 @@ namespace NeeView
             double offsetWidth = 0;
             if (Contents[0].Size.Width > 0.5 && Contents[1].Size.Width > 0.5)
             {
-                offsetWidth = ContentsSpace / _Dpi.DpiScaleX + ContentsSpace;
+                offsetWidth = ContentsSpace / _Dpi.DpiScaleX;
                 ContentsMargin = new Thickness(offsetWidth, 0, 0, 0);
             }
             else
@@ -2608,7 +2608,7 @@ namespace NeeView
                 ContentsMargin = new Thickness(0);
             }
 
-            var sizes = CalcContentSize(_viewWidth * _Dpi.DpiScaleX + offsetWidth, _viewHeight * _Dpi.DpiScaleY, _contentAngle);
+            var sizes = CalcContentSize(_viewWidth * _Dpi.DpiScaleX - offsetWidth, _viewHeight * _Dpi.DpiScaleY, _contentAngle);
 
             for (int i = 0; i < 2; ++i)
             {

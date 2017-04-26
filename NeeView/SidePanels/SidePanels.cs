@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +12,14 @@ using System.Windows;
 
 namespace NeeView
 {
+    /// <summary>
+    /// NeeView用 サイドパネル管理
+    /// </summary>
     public class SidePanels : SidePanelFrameModel
     {
         private List<IPanel> _panels;
 
+        // 各種類のパネルインスタンス
         public FolderListPanel FolderListPanel { get; private set; }
         public HistoryPanel HistoryPanel { get; private set; }
         public FileInfoPanel FileInfoPanel { get; private set; }
@@ -134,9 +143,6 @@ namespace NeeView
             }
         }
 
-
-
-
         /// <summary>
         /// パネル表示トグル
         /// </summary>
@@ -150,7 +156,10 @@ namespace NeeView
 
         #region Memento
 
-        //
+        /// <summary>
+        /// 標準Memento生成
+        /// </summary>
+        /// <returns></returns>
         public Memento CreateDefaultMemento()
         {
             var memento = new Memento();
@@ -158,14 +167,15 @@ namespace NeeView
             return memento;
         }
 
-        //
+        /// <summary>
+        /// Memento適用
+        /// </summary>
+        /// <param name="memento"></param>
         public void Restore(Memento memento)
         {
             this.Restore(memento, _panels);
         }
 
         #endregion
-
-
     }
 }

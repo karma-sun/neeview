@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,7 +14,8 @@ using System.Windows;
 namespace NeeView
 {
     /// <summary>
-    /// SidePanel 
+    /// SidePanel.
+    /// パネル集合と選択されたパネルの管理
     /// </summary>
     public class SidePanel : INotifyPropertyChanged
     {
@@ -67,8 +73,6 @@ namespace NeeView
         public bool IsVisible { get; set; }
 
 
-
-
         /// <summary>
         /// constructor
         /// </summary>
@@ -76,8 +80,6 @@ namespace NeeView
         {
             _panels = new ObservableCollection<IPanel>();
         }
-
-
 
         /// <summary>
         /// パネル存在チェック
@@ -88,8 +90,6 @@ namespace NeeView
         {
             return _panels.Contains(panel);
         }
-
-
 
         /// <summary>
         /// パネル表示状態を判定。
@@ -137,7 +137,6 @@ namespace NeeView
                 }
             }
         }
-
 
         /// <summary>
         /// Toggle.
@@ -225,7 +224,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 
+        /// Memento作成
         /// </summary>
         /// <returns></returns>
         public Memento CreateMemento()
@@ -240,7 +239,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 
+        /// Memento適用
         /// </summary>
         /// <param name="memento"></param>
         /// <param name="panels"></param>

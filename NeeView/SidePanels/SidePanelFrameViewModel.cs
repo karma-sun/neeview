@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -62,13 +67,17 @@ namespace NeeView
         //
         private double _width;
 
-        //
+        /// <summary>
+        /// 左パネルの最大幅更新
+        /// </summary>
         private void UpdateLeftMaxWidth()
         {
             Left.MaxWidth = _width - Right.Width;
         }
 
-        //
+        /// <summary>
+        /// 右パネルの最大幅更新
+        /// </summary>
         private void UpdateRightMaxWidth()
         {
             Right.MaxWidth = _width - Left.Width;
@@ -123,10 +132,14 @@ namespace NeeView
         public RightPanelViewModel Right { get; private set; }
 
 
-        //
+        /// <summary>
+        /// 有効判定。モデルが適用されているか。
+        /// </summary>
         public bool IsValid { get; private set; }
 
-        //
+        /// <summary>
+        /// ドラッグ開始設定
+        /// </summary>
         public DragStartDescription DragStartDescription { get; private set; }
 
 
@@ -156,6 +169,11 @@ namespace NeeView
             IsValid = true;
         }
 
+        /// <summary>
+        /// モデルのプロパティ変更イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -166,18 +184,34 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// ドラッグ開始イベント処理.
+        /// 強制的にパネル表示させる
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DragStartDescription_DragStart(object sender, EventArgs e)
         {
             Left.IsDragged = true;
             Right.IsDragged = true;
         }
 
+        /// <summary>
+        /// ドラッグ終了イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DragStartDescription_DragEnd(object sender, EventArgs e)
         {
             Left.IsDragged = false;
             Right.IsDragged = false;
         }
 
+        /// <summary>
+        /// 左パネルへのパネル移動処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Left_PanelDroped(object sender, PanelDropedEventArgs e)
         {
             if (Right.Panel.Panels.Contains(e.Panel))
@@ -188,6 +222,11 @@ namespace NeeView
             Left.Panel.Add(e.Panel, e.Index);
         }
 
+        /// <summary>
+        /// 右パネルへのパネル移動処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Right_PanelDroped(object sender, PanelDropedEventArgs e)
         {
             if (Left.Panel.Panels.Contains(e.Panel))
@@ -198,14 +237,17 @@ namespace NeeView
             Right.Panel.Add(e.Panel, e.Index);
         }
 
-        //
+        /// <summary>
+        /// 右パネルのプロパティ変更イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Right_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
                 case nameof(Right.Width):
                     UpdateLeftMaxWidth();
-                    //PanelVisibilityChanged?.Invoke(this, null);
                     break;
                 case nameof(Right.PanelVisibility):
                     PanelVisibilityChanged?.Invoke(this, null);
@@ -213,14 +255,17 @@ namespace NeeView
             }
         }
 
-        //
+        /// <summary>
+        /// 左パネルのプロパティ変更イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Left_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
                 case nameof(Left.Width):
                     UpdateRightMaxWidth();
-                    //PanelVisibilityChanged?.Invoke(this, null);
                     break;
                 case nameof(Left.PanelVisibility):
                     PanelVisibilityChanged?.Invoke(this, null);
@@ -228,11 +273,13 @@ namespace NeeView
             }
         }
 
-
         /// <summary>
-        /// 
+        /// 表示状態更新.
+        /// 自動表示/非表示の処理
         /// </summary>
-        /// <param name="point"></param>
+        /// <param name="point">カーソル位置</param>
+        /// <param name="left">左パネル右端</param>
+        /// <param name="right">右パネル左端</param>
         internal void UpdateVisibility(Point point, Point left, Point right)
         {
             Left?.UpdateVisibility(point, left);

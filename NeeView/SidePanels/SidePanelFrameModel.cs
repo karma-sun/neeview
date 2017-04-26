@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,6 +13,7 @@ namespace NeeView
 {
     /// <summary>
     /// SidePanelFrame Model
+    /// 左右のパネルを管理
     /// </summary>
     public class SidePanelFrameModel : INotifyPropertyChanged
     {
@@ -33,7 +39,6 @@ namespace NeeView
 
         //
         private bool _IsSideBarVisible;
-
 
 
         /// <summary>
@@ -62,12 +67,15 @@ namespace NeeView
         private SidePanel _right;
 
 
-        //
+        /// <summary>
+        /// パネル選択変更イベント.
+        /// 非表示状態のパネルを表示させるために使用される.
+        /// </summary>
         public event EventHandler SelectedPanelChanged;
 
 
         /// <summary>
-        /// 
+        /// コンストラクター
         /// </summary>
         public SidePanelFrameModel()
         {
@@ -78,6 +86,11 @@ namespace NeeView
             _right.PropertyChanged += Right_PropertyChanged;
         }
 
+        /// <summary>
+        /// 右パネルのプロパティ変更イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Right_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -88,6 +101,11 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// 左パネルのプロパティ変更イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Left_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -112,6 +130,7 @@ namespace NeeView
             [DataMember]
             public SidePanel.Memento Right { get; set; }
 
+            //
             public void Constructor()
             {
                 IsSideBarVisible = true;
@@ -119,11 +138,13 @@ namespace NeeView
                 Right = new SidePanel.Memento();
             }
 
+            //
             public Memento()
             {
                 Constructor();
             }
 
+            //
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
@@ -131,6 +152,10 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// Memento作成
+        /// </summary>
+        /// <returns></returns>
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -142,6 +167,11 @@ namespace NeeView
             return memento;
         }
 
+        /// <summary>
+        /// Memento適用
+        /// </summary>
+        /// <param name="memento"></param>
+        /// <param name="panels"></param>
         public void Restore(Memento memento, List<IPanel> panels)
         {
             if (memento != null)
@@ -151,7 +181,7 @@ namespace NeeView
                 _right.Restore(memento.Right, panels);
             }
 
-            // 未登録パネルをすべて登録
+            // 未登録パネルを左パネルに登録
             foreach (var panel in panels.Where(e => !_left.Panels.Contains(e) && !_right.Panels.Contains(e)))
             {
                 _left.Panels.Add(panel);

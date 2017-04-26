@@ -111,8 +111,6 @@ namespace NeeView
 
             InitializeVisualTree();
 
-            ////_VM.InitializeSidePanels(this.SidePanelFrame);
-
             // mouse input
             _mouse = MouseInputManager.Current = new MouseInputManager(this, this.MainView, this.MainContent, this.MainContentShadow);
 
@@ -189,7 +187,6 @@ namespace NeeView
             Messenger.AddReciever("MessageBox", CallMessageBox);
             Messenger.AddReciever("MessageShow", CallMessageShow);
             Messenger.AddReciever("Export", CallExport);
-            ////Messenger.AddReciever("ResetHideDelay", CallResetPanelHideDelay);
 
             // mouse event capture for active check
             this.MainView.PreviewMouseMove += MainView_PreviewMouseMove;
@@ -245,12 +242,6 @@ namespace NeeView
         // ビジュアル初期化
         private void InitializeVisualTree()
         {
-            ////this.MenuArea.Visibility = Visibility.Hidden;
-            ////this.SliderArea.Visibility = Visibility.Hidden;
-            ////this.ThumbnailListArea.Visibility = Visibility.Hidden;
-            ////this.LeftPanel.Visibility = Visibility.Hidden;
-            ////this.RightPanel.Visibility = Visibility.Hidden;
-
             // IsMouseOverの変更イベントをハンドルする。
             var dpd = DependencyPropertyDescriptor.FromProperty(UIElement.IsMouseOverProperty, typeof(Grid));
             dpd.AddValueChanged(this.MenuArea, MenuArea_IsMouseOverChanged);
@@ -263,9 +254,6 @@ namespace NeeView
         // Preference適用
         public void ApplyPreference(Preference preference)
         {
-            // パネルが自動的に隠れる時間
-            ////this.AutoHideDelayTime = preference.panel_autohide_delaytime;
-
             // マウスジェスチャーの最小移動距離
             _mouse.Gesture.SetGestureMinimumDistance(
                 preference.input_gesture_minimumdistance_x,
@@ -331,21 +319,6 @@ namespace NeeView
             _VM.IndexChanged +=
                 OnIndexChanged;
 
-#if false
-            _VM.LeftPanelVisibled +=
-                (s, e) =>
-                {
-                    if (e == PanelType.PageList) _VM.SidePanels.FolderListPanel.PageListControl.FocusAtOnce = true;
-                    ////SetLeftPanelVisibisityForced(_isVisibleLeftPanel && _VM.LeftPanel != PanelType.None, false);
-                };
-
-            _VM.RightPanelVisibled +=
-                (s, e) =>
-                {
-                    ////SetRightPanelVisibisityForced(_isVisibleRightPanel && _VM.RightPanel != PanelType.None, false);
-                };
-#endif
-
             _VM.ResetFocus +=
                 (s, e) =>
                 {
@@ -380,7 +353,7 @@ namespace NeeView
         }
 
 
-#region Timer
+        #region Timer
 
         // タイマーディスパッチ
         private DispatcherTimer _timer;
@@ -464,7 +437,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
 
         // マウスジェスチャー更新時の処理
@@ -900,29 +873,6 @@ namespace NeeView
             bool isPageSliderDock = !_VM.IsHidePageSlider && !_VM.IsFullScreen;
             bool isThimbnailListDock = !_VM.IsHideThumbnailList && isPageSliderDock;
 
-#if false
-            // panel hide
-            if (_VM.CanHidePanel)
-            {
-                if (this.MainViewPanelGrid.Children.Contains(this.MainViewPanel))
-                {
-                    this.MainViewPanelGrid.Children.Remove(this.MainViewPanel);
-                    this.ViewAreaBase.Children.Add(this.MainViewPanel);
-                }
-            }
-            else
-            {
-                if (!this.MainViewPanelGrid.Children.Contains(this.MainViewPanel))
-                {
-                    this.ViewAreaBase.Children.Remove(this.MainViewPanel);
-                    this.MainViewPanelGrid.Children.Add(this.MainViewPanel);
-                }
-
-                this.LeftPanel.Style = null;
-                this.RightPanel.Style = null;
-            }
-#endif
-
             if (isMenuDock)
             {
                 this.LayerMenuSocket.Content = null;
@@ -961,57 +911,14 @@ namespace NeeView
             this.AddressBar.Visibility = _VM.IsVisibleAddressBar ? Visibility.Visible : Visibility.Collapsed;
 
             // サムネイルリスト
-            ////SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList, true);
             this.ThumbnailListArea.Visibility = _VM.IsEnableThumbnailList ? Visibility.Visible : Visibility.Collapsed;
             DartyThumbnailList();
 
+            // メニューレイヤー
+            MenuLayerVisibility.SetDelayVisibility(Visibility.Collapsed, 0);
 
-            ////double statusAreaHeight = this.PageSlider.Height + _VM.ThumbnailItemHeight; // アバウト
-            ////double bottomMargin = (isPageSliderDock && _VM.IsEnableThumbnailList && !_VM.IsHideThumbnailList ? statusAreaHeight : this.PageSlider.Height);
-            ////this.LeftPanelMargin.Height = bottomMargin;
-            ////this.RightPanelMargin.Height = bottomMargin;
-            //TODO: パネルボトムマージン実装
-
-            // パネル表示設定
-            ////UpdateLeftPanelVisibility();
-            ////UpdateRightPanelVisibility();
-
-
-
-            // コントロール表示状態更新
-            {
-                ////SetControlVisibility(this.LeftPanel, _isVisibleLeftPanel, true, VisibleStoryboardType.Collapsed);
-                ////SetControlVisibility(this.RightPanel, _isVisibleRightPanel, true, VisibleStoryboardType.Collapsed);
-
-                ////SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, true, VisibleStoryboardType.Collapsed);
-
-                ////SetControlVisibility(this.ThumbnailListArea, _isVisibleThumbnailList, true, VisibleStoryboardType.Collapsed);
-                ////SetControlVisibility(this.SliderArea, _isVisibleStatausArea, true, VisibleStoryboardType.Collapsed);
-            }
-
-
-            //
-            //Debug.WriteLine("MenuReset");
-            MenuLayerVisibility.SetDelayVisibility(_VM.CanHideMenu ? Visibility.Collapsed : Visibility.Visible, 0);
-            //UpdateMenuAreaVisibility();
-
-            //
+            // ステータスレイヤー
             StatusLayerVisibility.SetDelayVisibility(Visibility.Collapsed, 0);
-            //UpdateStateAreaVisibility();
-
-            // ビュー領域設定
-            ////double menuAreaHeight = this.MenuBar.ActualHeight + (_VM.IsVisibleAddressBar ? this.AddressBar.Height : 0);
-            ////this.ViewArea.Margin = new Thickness(0, isMenuDock ? menuAreaHeight : 0, 0, bottomMargin);
-
-            // コンテンツ表示領域設定
-            ////this.MainView.Margin = new Thickness(0, 0, 0, isPageSliderDock ? bottomMargin : 0);
-
-            // 通知表示位置設定
-            /*
-            this.TinyInfoTextBlock.Margin = new Thickness(0, 0, 0, bottomMargin);
-            this.InfoTextAreaBase.Margin = new Thickness(0, 0, 0, bottomMargin);
-            this.NowLoadingTiny.Margin = new Thickness(0, 0, 0, bottomMargin);
-            */
         }
 
 
@@ -1045,25 +952,11 @@ namespace NeeView
 
             App.Setting = null; // ロード設定破棄
 
-            // パネル幅復元
-            ////this.LeftPanel.Width = _VM.LeftPanelWidth;
-            ////this.RightPanel.Width = _VM.RightPanelWidth;
-
             // PanelColor
             _VM.FlushPanelColor();
 
             // サイドパネル初期化
             _VM.InitializeSidePanels(this.SidePanelFrame);
-
-            // フォルダーリスト初期化
-            ////this.FolderList.SetPlace(ModelContext.BookHistory.LastFolder ?? _VM.BookHub.GetFixedHome(), null, false);
-            ////this.PageList.Initialize(_VM);
-            // 履歴リスト初期化
-            ////this.HistoryArea.Initialize(_VM.BookHub);
-            // ブックマークリスト初期化
-            ////this.BookmarkArea.Initialize(_VM.BookHub);
-            // ブックマークリスト初期化
-            ////this.PagemarkArea.Initialize(_VM.BookHub);
 
             // マーカー初期化
             this.PageMarkers.Initialize(_VM.BookHub);
@@ -1365,14 +1258,6 @@ namespace NeeView
             System.Diagnostics.Process.Start("https://bitbucket.org/neelabo/neeview/wiki/");
         }
 
-        // 情報エリアクリックでメインビューにフォーカスを移す
-        /*
-        private void InfoArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.MainView.Focus();
-        }
-        */
-
         // アドレスバー入力
         private void AddressTextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1662,83 +1547,11 @@ namespace NeeView
         // スライダーに乗ったら表示開始
         private void PageSlider_MouseEnter(object sender, MouseEventArgs e)
         {
-            /*
-            if (_VM.IsEnableThumbnailList && !this.ThumbnailListArea.IsVisible)
-            {
-                //this.ThumbnailListArea.Visibility = Visibility.Visible;
-                SetThumbnailListAreaVisibisity(true, false);
-                UpdateThumbnailList();
-            }
-            */
+            // nop.
         }
 
 
-#if false
-
-        // ステータスエリアの表示判定
-        private void UpdateStateAreaVisibility_()
-        {
-            if (_VM.IsHidePageSlider || _VM.IsFullScreen)
-            {
-                SetStatusAreaVisibisity(IsStateAreaMouseOver() && !_mouse.IsLoupeMode, false);
-                SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList, true);
-            }
-            else
-            {
-                SetStatusAreaVisibisity(true, true);
-                SetThumbnailListAreaVisibisity(_VM.IsEnableThumbnailList && (!_VM.CanHideThumbnailList || (IsStateAreaMouseOver() && !_mouse.IsLoupeMode)), false);
-            }
-        }
-
-        //
-        private bool IsStateAreaMouseOver()
-        {
-            const double visibleMargin = 32;
-            const double hideMargin = 8;
-
-            Point point = Mouse.GetPosition(this.Root);
-            if (this.SliderArea.IsVisible)
-            {
-                double margin = this.SliderArea.ActualHeight + hideMargin > visibleMargin ? this.SliderArea.ActualHeight + hideMargin : visibleMargin;
-                return point.Y > this.Root.ActualHeight - margin && this.IsMouseOver;
-            }
-            else
-            {
-                return (point.Y > this.Root.ActualHeight - visibleMargin) && this.IsMouseOver;
-            }
-        }
-
-
-        private bool _isVisibleStatausArea = false;
-
-        //
-        private void SetStatusAreaVisibisity(bool isVisible, bool isQuickly)
-        {
-            if (_isVisibleStatausArea != isVisible)
-            {
-                _isVisibleStatausArea = isVisible;
-                SetControlVisibility(this.SliderArea, _isVisibleStatausArea, isQuickly, VisibleStoryboardType.Collapsed);
-
-                if (_isVisibleThumbnailList) UpdateThumbnailList();
-            }
-        }
-
-        private bool _isVisibleThumbnailList;
-
-        //
-        private void SetThumbnailListAreaVisibisity(bool isVisible, bool isQuickly)
-        {
-            if (_isVisibleThumbnailList != isVisible)
-            {
-                _isVisibleThumbnailList = isVisible;
-                SetControlVisibility(this.ThumbnailListArea, _isVisibleThumbnailList, isQuickly, VisibleStoryboardType.Collapsed);
-
-                if (_isVisibleThumbnailList) UpdateThumbnailList();
-            }
-        }
-#endif
-
-#endregion
+        #endregion
 
 
 
@@ -1817,349 +1630,22 @@ namespace NeeView
 
 
 
-#if false
-        /// <summary>
-        /// メニュー表示更新
-        /// </summary>
-        private void UpdateMenuAreaVisibility_()
-        {
-            const double visibleMargin = 16;
-            const double hideMargin = 8;
-
-            if (_VM.IsHideMenu || _VM.IsFullScreen)
-            {
-                Point point = Mouse.GetPosition(this.Root);
-                bool isVisible = this.AddressTextBox.IsFocused;
-                if (this.MenuArea.IsVisible)
-                {
-                    double margin = this.MenuArea.ActualHeight + hideMargin > visibleMargin ? this.MenuArea.ActualHeight + hideMargin : visibleMargin;
-                    isVisible = isVisible || this.MenuArea.IsMouseOver || (point.Y < 0.0 + margin && this.IsMouseOver);
-                }
-                else
-                {
-                    isVisible = isVisible || this.MenuBar.IsMouseOver || (point.Y < 0.0 + visibleMargin && this.IsMouseOver);
-                }
-                isVisible = isVisible && !_mouse.IsLoupeMode;
-                SetMenuAreaVisibisity(isVisible, false);
-            }
-            else
-            {
-                SetMenuAreaVisibisity(true, true);
-            }
-        }
-
-
-        private bool _isMenuAreaVisibility;
-
-        //
-        private void SetMenuAreaVisibisity(bool isVisible, bool isQuickly)
-        {
-            if (_isMenuAreaVisibility != isVisible)
-            {
-                _isMenuAreaVisibility = isVisible;
-                SetControlVisibility(this.MenuArea, _isMenuAreaVisibility, isQuickly, VisibleStoryboardType.Hidden);
-            }
-        }
-#endif
-
-
-#region Panel Visibility
-
-        //
-        ////private bool _isVisibleLeftPanel;
-        ////private bool _isVisibleRightPanel;
+        #region Panel Visibility
 
         // ViewAreaでのマウス移動
         private void ViewArea_MouseMove(object sender, MouseEventArgs e)
         {
-            //Debug.WriteLine($"Drag: {DateTime.Now}");
-
             UpdateControlsVisibility();
         }
 
         //
         private void UpdateControlsVisibility()
         {
-            ////UpdateLeftPanelVisibility();
-            ////UpdateRightPanelVisibility();
             UpdateMenuLayerVisibility();
             UpdateStatusLayerVisibility();
         }
 
-
-#if false
-        //
-        private void UpdateLeftPanelVisibility()
-        {
-            const double visibleMargin = 32;
-            const double hideMargin = 16;
-
-            if (_VM.LeftPanel == PanelType.None)
-            {
-                SetLeftPanelVisibisity(false, false);
-            }
-            else if (_VM.LeftPanel == PanelType.FolderList && _VM.FolderListPanel.FolderListControl.IsRenaming)
-            {
-                SetLeftPanelVisibisity(true, false);
-            }
-            else if (_VM.CanHidePanel)
-            {
-                Point point = Mouse.GetPosition(this.ViewArea);
-                if (this.LeftPanel.IsVisible)
-                {
-                    double margin = this.LeftPanel.Width + hideMargin > visibleMargin ? this.LeftPanel.Width + hideMargin : visibleMargin;
-                    SetLeftPanelVisibisity(this.LeftPanel.IsMouseOver || _IsContextMenuOpened || point.X < margin && this.IsMouseOver, false);
-                }
-                else if (point.X < visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver && !_mouse.IsLoupeMode)
-                {
-                    SetLeftPanelVisibisity(true, false);
-                }
-            }
-            else
-            {
-                SetLeftPanelVisibisity(true, false);
-            }
-        }
-
-
-        //
-        private void SetLeftPanelVisibisity(bool isVisible, bool isQuickly)
-        {
-            if (_isVisibleLeftPanel != isVisible)
-            {
-                SetLeftPanelVisibisityForced(isVisible, isQuickly);
-            }
-        }
-
-        //
-        private void SetLeftPanelVisibisityForced(bool isVisible, bool isQuickly)
-        {
-            _isVisibleLeftPanel = isVisible;
-            SetControlVisibility(this.LeftPanel, _isVisibleLeftPanel, isQuickly || _VM.LeftPanel == PanelType.None, VisibleStoryboardType.Collapsed);
-        }
-
-
-
-
-
-        //
-        private void UpdateRightPanelVisibility()
-        {
-            const double visibleMargin = 32;
-            const double hideMargin = 16;
-
-            if (_VM.RightPanel == PanelType.None)
-            {
-                SeRightPanelVisibisity(false, false);
-            }
-            else if (_VM.CanHidePanel)
-            {
-                Point point = Mouse.GetPosition(this.ViewArea);
-                if (this.RightPanel.IsVisible)
-                {
-                    double margin = this.RightPanel.Width + hideMargin > visibleMargin ? this.RightPanel.Width + hideMargin : visibleMargin;
-                    SeRightPanelVisibisity(this.RightPanel.IsMouseOver || _IsContextMenuOpened || point.X > this.ViewArea.ActualWidth - margin && this.IsMouseOver, false);
-                }
-                else if (point.X > this.ViewArea.ActualWidth - visibleMargin && this.IsMouseOver && !this.MenuArea.IsMouseOver && !this.StatusArea.IsMouseOver && !_mouse.IsLoupeMode)
-                {
-                    SeRightPanelVisibisity(true, false);
-                }
-            }
-            else
-            {
-                SeRightPanelVisibisity(true, false);
-            }
-        }
-
-        //
-        private void SeRightPanelVisibisity(bool isVisible, bool isQuickly)
-        {
-            if (_isVisibleRightPanel != isVisible)
-            {
-                SetRightPanelVisibisityForced(isVisible, isQuickly);
-            }
-        }
-
-        //
-        private void SetRightPanelVisibisityForced(bool isVisible, bool isQuickly)
-        {
-            _isVisibleRightPanel = isVisible;
-            SetControlVisibility(this.RightPanel, _isVisibleRightPanel, isQuickly || _VM.RightPanel == PanelType.None, VisibleStoryboardType.Collapsed);
-        }
-
-                /// <summary>
-        /// パネル非表示のリセット
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CallResetPanelHideDelay(object sender, MessageEventArgs e)
-        {
-            var param = (ResetHideDelayParam)e.Parameter;
-
-            if (param.PanelSide == PanelSide.Left)
-                if (!_isVisibleLeftPanel) SetLeftPanelVisibisityForced(_isVisibleLeftPanel, false);
-
-            if (param.PanelSide == PanelSide.Right)
-                if (!_isVisibleRightPanel) SetRightPanelVisibisityForced(_isVisibleRightPanel, false);
-        }
-#endif
-
-
-
-#if false
-        //
-        private enum VisibleStoryboardType
-        {
-            Collapsed,
-            Hidden,
-            Opacity,
-        }
-
-        private class VisibleStoryboard
-        {
-            public Storyboard On { get; set; }
-            public Storyboard Off { get; set; }
-            public Storyboard OffDelay { get; set; }
-        }
-
-        private Dictionary<VisibleStoryboardType, VisibleStoryboard> _visibleStoryboardTable;
-
-        //
-        private Storyboard _visibleStoryboard;
-        private Storyboard _collapseStoryboard;
-        private Storyboard _collapseDelayStoryboard;
-        private Storyboard _hideStoryboard;
-        private Storyboard _hideDelayStoryboard;
-
-        private Storyboard _opacityOneStoryboard;
-        private Storyboard _opacityZeroStoryboard;
-        private Storyboard _opacityZeroDelayStoryboard;
-
-        private double _autoHideDelayTime = 1.0;
-        public double AutoHideDelayTime
-        {
-            get { return _autoHideDelayTime; }
-            set
-            {
-                if (_autoHideDelayTime != value)
-                {
-                    _autoHideDelayTime = NVUtility.Clamp(value, 0.0, 100.0);
-                    _visibleStoryboard = null; // storyboard作り直し
-                }
-            }
-        }
-
-        //
-        private void InitializeStoryboard()
-        {
-            if (_visibleStoryboard != null) return;
-
-            double time = _autoHideDelayTime;
-            ObjectAnimationUsingKeyFrames ani;
-
-            ani = new ObjectAnimationUsingKeyFrames();
-            ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, TimeSpan.FromSeconds(0.0)));
-            Storyboard.SetTargetProperty(ani, new PropertyPath(UIElement.VisibilityProperty));
-            _visibleStoryboard = new Storyboard();
-            _visibleStoryboard.Children.Add(ani);
-
-
-            ani = new ObjectAnimationUsingKeyFrames();
-            ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Collapsed, TimeSpan.FromSeconds(0.0)));
-            Storyboard.SetTargetProperty(ani, new PropertyPath(UIElement.VisibilityProperty));
-            _collapseStoryboard = new Storyboard();
-            _collapseStoryboard.Children.Add(ani);
-
-
-            ani = new ObjectAnimationUsingKeyFrames();
-            ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, TimeSpan.FromSeconds(0.0)));
-            ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Collapsed, TimeSpan.FromSeconds(time)));
-            Storyboard.SetTargetProperty(ani, new PropertyPath(UIElement.VisibilityProperty));
-            _collapseDelayStoryboard = new Storyboard();
-            _collapseDelayStoryboard.Children.Add(ani);
-
-
-            ani = new ObjectAnimationUsingKeyFrames();
-            ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, TimeSpan.FromSeconds(0.0)));
-            Storyboard.SetTargetProperty(ani, new PropertyPath(UIElement.VisibilityProperty));
-            _hideStoryboard = new Storyboard();
-            _hideStoryboard.Children.Add(ani);
-
-
-            ani = new ObjectAnimationUsingKeyFrames();
-            ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, TimeSpan.FromSeconds(0.0)));
-            ani.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, TimeSpan.FromSeconds(time)));
-            Storyboard.SetTargetProperty(ani, new PropertyPath(UIElement.VisibilityProperty));
-            _hideDelayStoryboard = new Storyboard();
-            _hideDelayStoryboard.Children.Add(ani);
-
-
-            DoubleAnimationUsingKeyFrames an;
-
-            an = new DoubleAnimationUsingKeyFrames();
-            an.KeyFrames.Add(new DiscreteDoubleKeyFrame(1.0, TimeSpan.FromSeconds(0.0)));
-            Storyboard.SetTargetProperty(an, new PropertyPath(UIElement.OpacityProperty));
-            _opacityOneStoryboard = new Storyboard();
-            _opacityOneStoryboard.Children.Add(an);
-
-            an = new DoubleAnimationUsingKeyFrames();
-            an.KeyFrames.Add(new DiscreteDoubleKeyFrame(0.0, TimeSpan.FromSeconds(0.0)));
-            Storyboard.SetTargetProperty(an, new PropertyPath(UIElement.OpacityProperty));
-            _opacityZeroStoryboard = new Storyboard();
-            _opacityZeroStoryboard.Children.Add(an);
-
-            an = new DoubleAnimationUsingKeyFrames();
-            an.KeyFrames.Add(new DiscreteDoubleKeyFrame(1.0, TimeSpan.FromSeconds(0.0)));
-            an.KeyFrames.Add(new DiscreteDoubleKeyFrame(0.0, TimeSpan.FromSeconds(time)));
-            Storyboard.SetTargetProperty(an, new PropertyPath(UIElement.OpacityProperty));
-            _opacityZeroDelayStoryboard = new Storyboard();
-            _opacityZeroDelayStoryboard.Children.Add(an);
-
-
-            _visibleStoryboardTable = new Dictionary<VisibleStoryboardType, VisibleStoryboard>();
-
-            _visibleStoryboardTable.Add(VisibleStoryboardType.Collapsed, new VisibleStoryboard()
-            {
-                On = _visibleStoryboard,
-                Off = _collapseStoryboard,
-                OffDelay = _collapseDelayStoryboard,
-            });
-
-            _visibleStoryboardTable.Add(VisibleStoryboardType.Hidden, new VisibleStoryboard()
-            {
-                On = _visibleStoryboard,
-                Off = _hideStoryboard,
-                OffDelay = _hideDelayStoryboard,
-            });
-
-            _visibleStoryboardTable.Add(VisibleStoryboardType.Opacity, new VisibleStoryboard()
-            {
-                On = _opacityOneStoryboard,
-                Off = _opacityZeroStoryboard,
-                OffDelay = _opacityZeroDelayStoryboard,
-            });
-        }
-
-
-        //
-        private void SetControlVisibility(FrameworkElement element, bool isDisp, bool isQuickly, VisibleStoryboardType visibleType)
-        {
-            ////Debug.WriteLine(element.Name + ":" + isDisp);
-
-            InitializeStoryboard();
-
-            if (isDisp)
-            {
-                element.BeginStoryboard(_visibleStoryboardTable[visibleType].On);
-            }
-            else
-            {
-                element.BeginStoryboard(isQuickly ? _visibleStoryboardTable[visibleType].Off : _visibleStoryboardTable[visibleType].OffDelay);
-            }
-        }
-#endif
-
-#endregion
+        #endregion
 
         //
         private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -2211,7 +1697,7 @@ namespace NeeView
 
 
 
-#region ContextMenu Counter
+        #region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -2249,20 +1735,8 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-#endregion
+        #endregion
 
-
-#if false
-        private void LeftPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            _VM.IsVisibleLeftPanel = this.LeftPanel.IsVisible;
-        }
-
-        private void RightPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            _VM.IsVisibleRightPanel = this.RightPanel.IsVisible;
-        }
-#endif
 
         private void MenuArea_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -2369,7 +1843,7 @@ namespace NeeView
     }
 
 
-#region Convertes
+    #region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -2687,5 +2161,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

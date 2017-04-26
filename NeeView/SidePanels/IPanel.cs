@@ -1,4 +1,9 @@
-﻿using System.Windows;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System.Windows;
 using System.Windows.Media;
 
 namespace NeeView

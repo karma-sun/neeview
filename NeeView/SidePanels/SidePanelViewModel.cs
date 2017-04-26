@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -13,7 +18,8 @@ using NeeView.Windows.Input;
 namespace NeeView
 {
     /// <summary>
-    /// 
+    /// SidePanel ViewModel.
+    /// パネル単位のVM. SidePanelFrameViewModelの子
     /// </summary>
     public class SidePanelViewModel : INotifyPropertyChanged
     {
@@ -120,6 +126,7 @@ namespace NeeView
         //
         private DelayValue<Visibility> _visibility;
 
+
         /// <summary>
         /// Visibility更新
         /// </summary>
@@ -142,10 +149,16 @@ namespace NeeView
         public Visibility PanelVisibility => Visibility == Visibility.Visible && this.Panel.SelectedPanel != null ? Visibility.Visible : Visibility.Collapsed;
 
 
-        //
+        /// <summary>
+        /// モデルデータ
+        /// </summary>
         public SidePanel Panel { get; private set; }
 
-        //
+        /// <summary>
+        /// コンストラクター
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="itemsControl"></param>
         public SidePanelViewModel(SidePanel panel, ItemsControl itemsControl)
         {
             InitializeDropAccept(itemsControl);
@@ -159,7 +172,6 @@ namespace NeeView
                 UpdateVisibillity();
             };
 
-
             _visibility = new DelayValue<Visibility>(Visibility.Collapsed);
             _visibility.ValueChanged += (s, e) =>
             {
@@ -171,6 +183,11 @@ namespace NeeView
             UpdateVisibillity();
         }
 
+        /// <summary>
+        /// モデルのプロパティ変更イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Panel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -196,20 +213,71 @@ namespace NeeView
             Panel.Toggle(content);
         }
 
-        //
+
+        /// <summary>
+        /// パネル表示/非表示判定に使用される座標マージン
+        /// </summary>
         protected const double _margin = 32;
 
 
         #region DropAccept
 
+        /// <summary>
+        /// ドロップイベント
+        /// </summary>
+        public EventHandler<PanelDropedEventArgs> PanelDroped;
+
+        /// <summary>
+        /// ドロップ受け入れ先コントロール.
+        /// ドロップイベント受信コントロールとは異なるために用意した.
+        /// </summary>
         private ItemsControl _itemsControl;
+
+        /// <summary>
+        /// ドロップ処理設定プロパティ
+        /// </summary>
+        public DropAcceptDescription Description
+        {
+            get { return _description; }
+            set { if (_description != value) { _description = value; RaisePropertyChanged(); } }
+        }
+
+        private DropAcceptDescription _description;
+
+        /// <summary>
+        /// ドロップ処理初期化
+        /// </summary>
+        /// <param name="itemsControl">受け入れ先コントロール</param>
+        public void InitializeDropAccept(ItemsControl itemsControl)
+        {
+            _itemsControl = itemsControl;
+
+            this.Description = new DropAcceptDescription();
+            this.Description.DragOver += Description_DragOver;
+            this.Description.DragDrop += Description_DragDrop;
+        }
+
+
+        /// <summary>
+        /// ドロップ処理
+        /// </summary>
+        /// <param name="args"></param>
+        private void Description_DragDrop(System.Windows.DragEventArgs args)
+        {
+            var panel = args.Data.GetData("PanelContent") as IPanel;
+            if (panel == null) return;
+
+            var index = GetItemInsertIndex(args);
+            PanelDroped?.Invoke(this, new PanelDropedEventArgs(panel, index));
+        }
+
 
         /// <summary>
         /// カーソルからリストの挿入位置を求める
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        private int GetItemInsertIndex(DragEventArgs args )
+        private int GetItemInsertIndex(DragEventArgs args)
         {
             if (_itemsControl == null) return -1;
 
@@ -232,61 +300,10 @@ namespace NeeView
             return Math.Max(count, 0);
         }
 
-        public void InitializeDropAccept(ItemsControl itemsControl)
-        {
-            _itemsControl = itemsControl;
-
-            this.Description = new DropAcceptDescription();
-            this.Description.DragOver += Description_DragOver;
-            this.Description.DragDrop += Description_DragDrop;
-        }
-
-        private DropAcceptDescription _description;
-        public DropAcceptDescription Description
-        {
-            get { return this._description; }
-            set
-            {
-                if (this._description == value)
-                {
-                    return;
-                }
-                this._description = value;
-                this.RaisePropertyChanged();
-            }
-        }
-
-
-        public EventHandler<PanelDropedEventArgs> PanelDroped;
-
-        //
-        private void Description_DragDrop(System.Windows.DragEventArgs args)
-        {
-            Debug.WriteLine($"Dropped");
-
-            var panel = args.Data.GetData("PanelContent") as IPanel;
-            if (panel == null) return;
-
-
-            // ##
-            var index = GetItemInsertIndex(args);
-            Debug.WriteLine($"Insert: {index}");
-
-            //
-            PanelDroped?.Invoke(this, new PanelDropedEventArgs(panel, index));
-
-            /*
-            if (!args.Data.GetDataPresent(typeof(ViewModel2))) return;
-            var data = args.Data.GetData(typeof(ViewModel2)) as ViewModel2;
-            if (data == null) return;
-            var fe = args.OriginalSource as FrameworkElement;
-            if (fe == null) return;
-            var target = fe.DataContext as ViewModel1;
-            if (target == null) return;
-            */
-        }
-
-        //
+        /// <summary>
+        /// ドロップ受け入れ判定
+        /// </summary>
+        /// <param name="args"></param>
         private void Description_DragOver(System.Windows.DragEventArgs args)
         {
             if (args.AllowedEffects.HasFlag(DragDropEffects.Move))
@@ -298,60 +315,73 @@ namespace NeeView
                 }
             }
             args.Effects = DragDropEffects.None;
-
-            //args.Effects = DragDropEffects.All;
-
-            /*
-            if (args.AllowedEffects.HasFlag(DragDropEffects.Copy))
-            {
-                if (args.Data.GetDataPresent(typeof(ViewModel2)))
-                {
-                    return;
-                }
-            }
-            args.Effects = DragDropEffects.None;
-            */
         }
 
         #endregion
     }
 
 
-    //
+    /// <summary>
+    /// パネルドロップイベント
+    /// </summary>
+    public class PanelDropedEventArgs : EventArgs
+    {
+        public PanelDropedEventArgs(IPanel panel, int index)
+        {
+            Panel = panel;
+            Index = index;
+        }
+
+        /// <summary>
+        /// ドロップされたパネル
+        /// </summary>
+        public IPanel Panel { get; set; }
+
+        /// <summary>
+        /// 挿入位置
+        /// </summary>
+        public int Index { get; set; }
+    }
+
+
+    /// <summary>
+    /// 左パネル ViewModel
+    /// </summary>
     public class LeftPanelViewModel : SidePanelViewModel
     {
         public LeftPanelViewModel(SidePanel panel, ItemsControl itemsControl) : base(panel, itemsControl)
         {
         }
 
-        //
+        /// <summary>
+        /// 表示更新処理
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="limit"></param>
         internal void UpdateVisibility(Point point, Point limit)
         {
             this.IsNearCursor = point.X < limit.X + _margin;
-            /*Visibility != Visibility.Visible
-                ? point.X < leftX + _margin
-                : point.X < leftX + (Panel.SelectedPanel != null ? Width : 0.0) + _margin;
-                */
-
             UpdateVisibleLocked();
         }
     }
 
-    //
+    /// <summary>
+    /// 右パネル ViewMdoel
+    /// </summary>
     public class RightPanelViewModel : SidePanelViewModel
     {
         public RightPanelViewModel(SidePanel panel, ItemsControl itemsControl) : base(panel, itemsControl)
         {
         }
 
+        /// <summary>
+        /// 表示更新処理
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="limit"></param>
         internal void UpdateVisibility(Point point, Point limit)
         {
             this.IsNearCursor = point.X > limit.X - _margin;
-            /*Visibility != Visibility.Visible
-                ? point.X > rightX - _margin
-                : point.X > rightX - (Panel.SelectedPanel != null ? Width : 0.0) - _margin;
-                */
-
             UpdateVisibleLocked();
         }
     }

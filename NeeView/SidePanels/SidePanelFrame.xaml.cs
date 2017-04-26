@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
@@ -50,7 +55,9 @@ namespace NeeView
         public double SplitterWidth => 6.0;
 
 
-
+        /// <summary>
+        /// パネル背景
+        /// </summary>
         public Brush PanelBackground
         {
             get { return (Brush)GetValue(PanelBackgroundProperty); }
@@ -62,7 +69,9 @@ namespace NeeView
             DependencyProperty.Register("PanelBackground", typeof(Brush), typeof(SidePanelFrame), new PropertyMetadata(Brushes.DarkGray));
 
 
-
+        /// <summary>
+        /// アイコンリスト背景
+        /// </summary>
         public Brush IconBackground
         {
             get { return (Brush)GetValue(IconBackgroundProperty); }
@@ -74,8 +83,9 @@ namespace NeeView
             DependencyProperty.Register("IconBackground", typeof(Brush), typeof(SidePanelFrame), new PropertyMetadata(Brushes.Gray));
 
 
-
-
+        /// <summary>
+        /// アイコン色
+        /// </summary>
         public Brush IconForeground
         {
             get { return (Brush)GetValue(IconForegroundProperty); }
@@ -85,8 +95,6 @@ namespace NeeView
         // Using a DependencyProperty as the backing store for IconForeground.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IconForegroundProperty =
             DependencyProperty.Register("IconForeground", typeof(Brush), typeof(SidePanelFrame), new PropertyMetadata(null));
-
-
 
 
         /// <summary>
@@ -123,12 +131,13 @@ namespace NeeView
             if (d is SidePanelFrame control)
             {
                 control.UpdateAutoHide();
-                control.UpdateViewEntryPoint();
             }
         }
 
 
-        //
+        /// <summary>
+        /// このコントロールからマウス移動イベントを取得する
+        /// </summary>
         public FrameworkElement MouseTarget
         {
             get { return (FrameworkElement)GetValue(MouseTargetProperty); }
@@ -153,6 +162,7 @@ namespace NeeView
 
         /// <summary>
         /// Model property.
+        /// TODO: このようにモデルをあとから設定するのはおかしい
         /// </summary>
         public SidePanelFrameModel Model
         {
@@ -171,8 +181,6 @@ namespace NeeView
                 control.InitializeViewModel(control.Model);
             }
         }
-
-
 
         /// <summary>
         /// VM property.
@@ -198,9 +206,10 @@ namespace NeeView
             }
         }
 
-        //
-        //public bool IsValid => _vm != null;
 
+        /// <summary>
+        /// AutoHide 状態更新
+        /// </summary>
         private void UpdateAutoHide()
         {
             if (VM.IsValid)
@@ -208,26 +217,6 @@ namespace NeeView
                 VM.IsAutoHide = IsAutoHide;
             }
         }
-
-
-        private void UpdateViewEntryPoint()
-        {
-            if (this.ViewContent == null) return;
-
-#if false
-            if (this.IsAutoHide)
-            {
-                this.ViewportEntryPoint.Content = null;
-                this.RootEntryPoint.Content = this.ViewContent;
-            }
-            else
-            {
-                this.RootEntryPoint.Content = null;
-                this.ViewportEntryPoint.Content = this.ViewContent;
-            }
-#endif
-        }
-
 
 
         /// <summary>
@@ -243,11 +232,14 @@ namespace NeeView
 
 
 
-
+        /// <summary>
+        /// マウスカーソル移動イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Target_MouseMove(object sender, MouseEventArgs e)
         {
             var point = e.GetPosition(this.Root);
-            //var size = new Size(this.Root.ActualWidth, this.Root.ActualHeight);
             var left = this.Viewport.TranslatePoint(new Point(0, 0), this.Root);
             var right = this.Viewport.TranslatePoint(new Point(this.Viewport.ActualWidth, 0), this.Root);
 
@@ -267,17 +259,7 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for ViewContent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewContentProperty =
-            DependencyProperty.Register("ViewContent", typeof(FrameworkElement), typeof(SidePanelFrame), new PropertyMetadata(null, ViewContent_Changed));
-
-        private static void ViewContent_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is SidePanelFrame control)
-            {
-                control.UpdateViewEntryPoint();
-            }
-        }
-
-
+            DependencyProperty.Register("ViewContent", typeof(FrameworkElement), typeof(SidePanelFrame), new PropertyMetadata(null));
 
 
 
@@ -338,29 +320,41 @@ namespace NeeView
         public static readonly DependencyProperty CanvasTopProperty =
             DependencyProperty.Register("CanvasTop", typeof(double), typeof(SidePanelFrame), new PropertyMetadata(0.0));
 
-        //
+
+        /// <summary>
+        /// 領域サイズ変更イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Root_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateWidth();
         }
 
-        //
+        /// <summary>
+        /// 領域幅更新。パネル幅制限に使用される
+        /// </summary>
         private void UpdateWidth()
         {
             _vm.Width = Math.Max(this.Root.ActualWidth - (PanelIconGridWidth + SplitterWidth) * 2, 0);
             UpdateCanvas();
         }
 
-        //
+        /// <summary>
+        /// パネルコンテンツサイズ変更イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Viewport_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateCanvas();
         }
 
-        //
+        /// <summary>
+        /// コンテンツ表示領域サイズ更新
+        /// </summary>
         private void UpdateCanvas()
         {
-
             if (!this.VM.IsValid || this.VM.IsAutoHide)
             {
                 CanvasLeft = 0;
@@ -381,23 +375,5 @@ namespace NeeView
                 CanvasHeight = rect.Height;
             }
         }
-
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class PanelDropedEventArgs : EventArgs
-    {
-        public PanelDropedEventArgs(IPanel panel, int index)
-        {
-            Panel = panel;
-            Index = index;
-        }
-
-        public IPanel Panel { get; set; }
-        public int Index { get; set; }
-    }
-
-
 }

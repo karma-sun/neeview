@@ -537,7 +537,7 @@
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
                                                             <Condition Binding="{Binding IsVisibleWindowTitle}" Value="True"/>
-                                                            <Condition Binding="{Binding ElementName=StatusArea, Path=Visibility}" Value="Visible"/>
+                                                            <Condition Binding="{Binding ElementName=LayerStatusArea, Path=Visibility}" Value="Visible"/>
                                                             <Condition Binding="{Binding ElementName=RootWindow, Path=WindowStyle}" Value="None"/>
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter Property="Visibility" Value="Visible"/>

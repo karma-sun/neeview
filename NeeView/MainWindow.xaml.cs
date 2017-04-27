@@ -75,6 +75,47 @@ namespace NeeView
 
         private NotifyPropertyChangedDelivery _notifyPropertyChangedDelivery = new NotifyPropertyChangedDelivery();
 
+
+        /// <summary>
+        /// ウィンドウ最小化コマンド
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MinimizeWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.MinimizeWindow(this);
+        }
+
+        /// <summary>
+        /// 通常ウィンドウ化コマンド
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RestoreWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.RestoreWindow(this);
+        }
+
+        /// <summary>
+        /// ウィンドウ最大化コマンド
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MaximizeWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.MaximizeWindow(this);
+        }
+
+        /// <summary>
+        /// ウィンドウ終了コマンド
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CloseWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.CloseWindow(this);
+        }
+
         // コンストラクタ
         public MainWindow()
         {
@@ -1839,6 +1880,11 @@ namespace NeeView
                     this.Height = newHeight;
                 }));
             }
+        }
+
+        private void MenuBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
     }
 

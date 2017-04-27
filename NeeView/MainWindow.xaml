@@ -131,6 +131,17 @@
 
     </Window.Resources>
 
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}"
+                        Executed="CloseWindowCommand_Execute"/>
+        <CommandBinding Command="{x:Static SystemCommands.RestoreWindowCommand}"
+                        Executed="RestoreWindowCommand_Execute"/>
+        <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}"
+                        Executed="MaximizeWindowCommand_Execute"/>
+        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}"
+                        Executed="MinimizeWindowCommand_Execute"/>
+    </Window.CommandBindings>
+
 
     <DockPanel x:Name="RootDockPanel">
 
@@ -147,13 +158,25 @@
                 <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" IsTabStop="False">
                     <Grid x:Name="MenuArea" MouseEnter="MenuArea_MouseEnter" MouseLeave="MenuArea_MouseLeave" >
                         <StackPanel>
-                            <Grid x:Name="MenuBar" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture">
-                                <DockPanel>
+                            <Grid x:Name="MenuBar" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" MouseLeftButtonDown="MenuBar_MouseLeftButtonDown">
+                                <DockPanel LastChildFill="False">
+                                    <local:WindowCaptionButtons VerticalAlignment="Top" DockPanel.Dock="Right">
+                                        <local:WindowCaptionButtons.Style>
+                                            <Style TargetType="local:WindowCaptionButtons">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding CanVisibleTitleBar}" Value="True">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </local:WindowCaptionButtons.Style>
+                                    </local:WindowCaptionButtons>
+
                                     <!-- メインメニュー -->
-                                    <ContentControl Content="{Binding MainMenu}" IsTabStop="False"/>
+                                    <ContentControl Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Bottom"/>
 
                                     <!-- 開発用メニュー -->
-                                    <Menu>
+                                    <Menu VerticalAlignment="Bottom">
                                         <MenuItem x:Name="MenuItemDev" Header="開発(_D)">
                                             <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" IsChecked="{Binding IsVisibleDevPageList}" />
                                             <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" IsChecked="{Binding IsVisibleDevInfo}" />

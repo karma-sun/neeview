@@ -636,6 +636,7 @@ namespace NeeView
                 _isVisibleTitleBar = value;
                 FullScreenManager.WindowStyleMemento = value ? WindowStyle.SingleBorderWindow : WindowStyle.None;
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(CanVisibleTitleBar));
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
             }
         }
@@ -644,6 +645,9 @@ namespace NeeView
             IsVisibleTitleBar = !IsVisibleTitleBar;
             return IsVisibleTitleBar;
         }
+
+        public bool CanVisibleTitleBar => IsVisibleTitleBar && !IsFullScreen;
+
         #endregion
 
         /// <summary>
@@ -1059,6 +1063,7 @@ namespace NeeView
             {
                 FullScreenManager.IsFullScreen = value;
                 RaisePropertyChanged(nameof(CanHidePanel));
+                RaisePropertyChanged(nameof(CanVisibleTitleBar));
                 UpdateSidePanelMargin();
             }
         }

@@ -144,6 +144,9 @@
       <DependentUpon>HistoryPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\SidePanels.cs" />
+    <Compile Include="WindowCaptionButtons.xaml.cs">
+      <DependentUpon>WindowCaptionButtons.xaml</DependentUpon>
+    </Compile>
     <Compile Include="_NeeView\Input\RelayCommand.cs" />
     <Compile Include="OpenSourceControls\DockPanelSplitter.cs" />
     <Compile Include="Utility\ComboColorPicker.xaml.cs">
@@ -605,6 +608,10 @@
     <Page Include="VersionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowCaptionButtons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="_NeeView\Windows\Controls\ColorPicker.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -979,9 +979,6 @@ namespace NeeView
             // 設定反映
             _VM.RestoreSetting(App.Setting, true);
 
-            // 
-            _VM.FullScreenManager.WindowStateMemento = WindowState.Normal;
-
             // 履歴読み込み
             _VM.LoadHistory(App.Setting);
 
@@ -1065,12 +1062,6 @@ namespace NeeView
         /// <param name="e"></param>
         private void MainWindow_StateChanged(object sender, EventArgs e)
         {
-            if (this.WindowState == WindowState.Normal)
-            {
-                // フルスクリーン解除
-                _VM.IsFullScreen = false;
-            }
-
             // ルーペ解除
             _mouse.IsLoupeMode = false;
         }
@@ -1882,10 +1873,60 @@ namespace NeeView
             }
         }
 
+
+        //
         private void MenuBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
         }
+
+#if false
+        private bool _isMenuBarDrag;
+        private Point _menuBarDragStartPoint;
+
+        private void MenuBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _menuBarDragStartPoint = e.GetPosition(this.MenuBar);
+
+            if (this.WindowState == WindowState.Maximized)
+            {
+                _isMenuBarDrag = true;
+                this.MenuBar.CaptureMouse();
+            }
+            else
+            {
+                this.DragMove();
+            }
+        }
+
+        private void MenuBar_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            _isMenuBarDrag = false;
+            this.MenuBar.ReleaseMouseCapture();
+        }
+
+        private void MenuBar_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!_isMenuBarDrag) return;
+
+            var pos = e.GetPosition(this.MenuBar);
+            var dx = Math.Abs(pos.X - _menuBarDragStartPoint.X);
+            var dy = Math.Abs(pos.Y - _menuBarDragStartPoint.Y);
+            if (dx > SystemParameters.MinimumHorizontalDragDistance || dy > SystemParameters.MinimumVerticalDragDistance)
+            {
+                _isMenuBarDrag = false;
+                this.MenuBar.ReleaseMouseCapture();
+
+                /*
+                this.Visibility = Visibility.Collapsed;
+                SystemCommands.RestoreWindow(this);
+                this.Visibility = Visibility.Visible;
+                */
+
+                this.DragMove();
+            }
+        }
+#endif
     }
 
 

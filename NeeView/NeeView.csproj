@@ -144,6 +144,7 @@
       <DependentUpon>HistoryPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\SidePanels.cs" />
+    <Compile Include="WindoShapeSelector.cs" />
     <Compile Include="WindowCaptionButtons.xaml.cs">
       <DependentUpon>WindowCaptionButtons.xaml</DependentUpon>
     </Compile>
@@ -200,7 +201,6 @@
     <Compile Include="SidePanels\FolderList\RenameManager.xaml.cs">
       <DependentUpon>RenameManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FullScreenManager.cs" />
     <Compile Include="SidePanels\ImageEffect\ImageEffectControl.xaml.cs">
       <DependentUpon>ImageEffectControl.xaml</DependentUpon>
     </Compile>

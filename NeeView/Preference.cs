@@ -163,6 +163,11 @@ namespace NeeView
         [PropertyMember("ネットワークアスセス許可", Tips = "ネットワークアクセスを許可します。\n(バージョンウィンドウからのバージョン更新確認、各種WEBリンク)")]
         public bool network_enabled { get; set; }
 
+        [DataMember, DefaultValue(true)]
+        [PropertyMember("タイトルバー非表示でウィンドウ枠非表示", Tips = "タイトルバー非表示時にウィンドウ枠も完全に非表示にします")]
+        public bool window_chrome { get; set; }
+
+
         /// <summary>
         /// 
         /// </summary>

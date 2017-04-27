@@ -634,7 +634,7 @@ namespace NeeView
             set
             {
                 _isVisibleTitleBar = value;
-                FullScreenManager.WindowStyleMemento = value ? WindowStyle.SingleBorderWindow : WindowStyle.None;
+                _windowShape.IsCaptionVisible = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(CanVisibleTitleBar));
                 NotifyMenuVisibilityChanged?.Invoke(this, null);
@@ -780,7 +780,7 @@ namespace NeeView
 
             if (IsVisiblePageList)
             {
-                 SidePanels.FolderListPanel.PageListControl.FocusAtOnce = true; // ##
+                SidePanels.FolderListPanel.PageListControl.FocusAtOnce = true; // ##
             }
 
             return IsVisiblePageList;
@@ -1049,19 +1049,19 @@ namespace NeeView
 
 
 
+        // ウィンドウ状態管理
+        WindowShapeSelector _windowShape;
+
         // フルスクリーン
         #region Property: FullScreenManager
-
-        //フルスクリーン管理
-        public FullScreenManager FullScreenManager { get; set; }
 
         //
         public bool IsFullScreen
         {
-            get { return FullScreenManager.IsFullScreen; }
+            get { return _windowShape.Shape == WindowShape.FullScreen; }
             set
             {
-                FullScreenManager.IsFullScreen = value;
+                _windowShape.SetFullScreen(value);
                 RaisePropertyChanged(nameof(CanHidePanel));
                 RaisePropertyChanged(nameof(CanVisibleTitleBar));
                 UpdateSidePanelMargin();
@@ -1083,11 +1083,10 @@ namespace NeeView
 
         // 常に手前に表示
         #region Property: IsTopmost
-        private bool _isTopmost;
         public bool IsTopmost
         {
-            get { return _isTopmost; }
-            set { _isTopmost = value; RaisePropertyChanged(); }
+            get { return _windowShape.IsTopmost; }
+            set { _windowShape.IsTopmost = value; RaisePropertyChanged(); }
         }
         public bool ToggleTopmost()
         {
@@ -1634,6 +1633,8 @@ namespace NeeView
         {
             MainMenuSource = MenuTree.CreateDefault();
             MainMenu = MainMenuSource.CreateMenu();
+            BindingOperations.SetBinding(MainMenu, Menu.BackgroundProperty, new Binding("Background") { ElementName = "MainMenuJoint" });
+            BindingOperations.SetBinding(MainMenu, Menu.ForegroundProperty, new Binding("Foreground") { ElementName = "MainMenuJoint" });
         }
 
         //
@@ -1929,8 +1930,8 @@ namespace NeeView
         // コンストラクタ
         public MainWindowVM(MainWindow window)
         {
-            FullScreenManager = new FullScreenManager(window);
-            FullScreenManager.Changed += (s, e) => NotifyMenuVisibilityChanged?.Invoke(this, null);
+            _windowShape = new WindowShapeSelector(window);
+            _windowShape.ShapeChanged += (s, e) => IsFullScreen = _windowShape.Shape == WindowShape.FullScreen;
 
             HistoryFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "History.xml");
             BookmarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Bookmark.xml");
@@ -2236,6 +2237,7 @@ namespace NeeView
         {
             Preference.Current.Restore(setting.PreferenceMemento);
             ModelContext.ApplyPreference();
+            _windowShape.IsUseChrome = Preference.Current.window_chrome;
             PreferenceAccessor.Current.Reflesh();
 
             this.Restore(setting.ViewMemento);

@@ -16,23 +16,13 @@
         mc:Ignorable="d"
         x:Name="RootWindow"
         Style="{StaticResource DefaultWindowStyle}"
-        Title="{Binding WindowTitle}" Icon="{Binding WindowIcon}" Height="768" Width="1024" AllowDrop="True"
-        Topmost="{Binding IsTopmost}"
+        Title="{Binding WindowTitle}" Icon="{Binding WindowIcon}" Height="768" Width="1024" MinHeight="50" MinWidth="150" AllowDrop="True"
         Loaded="MainWindow_Loaded" Closed="Window_Closed" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized"
         PreviewDragOver="MainWindow_PreviewDragOver" Drop="MainWindow_Drop" MouseLeave="MainWindow_MouseLeave"
         StateChanged="MainWindow_StateChanged"
         DpiChanged="MainWindow_DpiChanged"
         PreviewKeyDown="Window_PreviewKeyDown">
 
-    <!--"{x:Static SystemParameters.CaptionHeight}"-->
-    <!--
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="0"
-                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" 
-                      UseAeroCaptionButtons="True"
-                      />
-    </WindowChrome.WindowChrome>
-    -->
 
     <Window.Resources>
 
@@ -158,7 +148,8 @@
                 <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" IsTabStop="False">
                     <Grid x:Name="MenuArea" MouseEnter="MenuArea_MouseEnter" MouseLeave="MenuArea_MouseLeave" >
                         <StackPanel>
-                            <Grid x:Name="MenuBar" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" MouseLeftButtonDown="MenuBar_MouseLeftButtonDown">
+                            <Grid x:Name="MenuBar" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="White"
+                                  MouseLeftButtonDown="MenuBar_MouseLeftButtonDown">
                                 <DockPanel LastChildFill="False">
                                     <local:WindowCaptionButtons VerticalAlignment="Top" DockPanel.Dock="Right">
                                         <local:WindowCaptionButtons.Style>
@@ -173,10 +164,15 @@
                                     </local:WindowCaptionButtons>
 
                                     <!-- メインメニュー -->
-                                    <ContentControl Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Bottom"/>
+                                    <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Bottom"
+                                                    WindowChrome.IsHitTestVisibleInChrome="True"
+                                          Background="White"
+                                          Foreground="#222"/>
 
                                     <!-- 開発用メニュー -->
-                                    <Menu VerticalAlignment="Bottom">
+                                    <Menu VerticalAlignment="Bottom"
+                                          Background="White"
+                                          Foreground="#222">
                                         <MenuItem x:Name="MenuItemDev" Header="開発(_D)">
                                             <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" IsChecked="{Binding IsVisibleDevPageList}" />
                                             <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" IsChecked="{Binding IsVisibleDevInfo}" />
@@ -203,7 +199,7 @@
                                 </Grid.Resources>
 
                                 <Grid.Background>
-                                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuBarColorKey}}"/>
+                                    <SolidColorBrush Color="White"/>
                                 </Grid.Background>
 
                                 <DockPanel VerticalAlignment="Center" Margin="2,0">

@@ -167,6 +167,10 @@ namespace NeeView
         [PropertyMember("タイトルバー非表示でウィンドウ枠非表示", Tips = "タイトルバー非表示時にウィンドウ枠も完全に非表示にします")]
         public bool window_chrome { get; set; }
 
+        [DataMember, DefaultValue(true)]
+        [PropertyMember("フルスクリーン時のタイトルバー操作", Tips = "フルスクリーン時のメニュー上でのタイトルバー操作(ダブルクリックやドラッグ)を有効にします")]
+        public bool window_captionemunate_fullscreen { get; set; }
+
 
         /// <summary>
         /// 

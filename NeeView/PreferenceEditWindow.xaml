@@ -20,7 +20,7 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/NeeLaboratory;component/Windows/Property/PropertyValueTemplateDictionary.xaml"/>
+                <ResourceDictionary Source="_NeeView/Windows/Property/PropertyValueTemplateDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type nlp:PropertyValue_Boolean}">

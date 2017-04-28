@@ -148,6 +148,7 @@
     <Compile Include="WindowCaptionButtons.xaml.cs">
       <DependentUpon>WindowCaptionButtons.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowCaptionEmulator.cs" />
     <Compile Include="_NeeView\Input\RelayCommand.cs" />
     <Compile Include="OpenSourceControls\DockPanelSplitter.cs" />
     <Compile Include="Utility\ComboColorPicker.xaml.cs">

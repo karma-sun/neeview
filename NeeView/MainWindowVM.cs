@@ -1065,6 +1065,7 @@ namespace NeeView
                 RaisePropertyChanged(nameof(CanHidePanel));
                 RaisePropertyChanged(nameof(CanVisibleTitleBar));
                 UpdateSidePanelMargin();
+                NotifyMenuVisibilityChanged?.Invoke(this, null);
             }
         }
 

@@ -65,6 +65,19 @@ namespace NeeView.Windows
 
 
         /// <summary>
+        /// 現在のマウスカーソルのスクリーン座標を取得
+        /// </summary>
+        /// <returns></returns>
+        public static Point GetNowScreenPosition()
+        {
+            GetCursorPos(out POINT point);
+
+            var dpiScaleFactor = GetDpiScaleFactor(App.Current.MainWindow);
+            return new Point(point.X / dpiScaleFactor.X, point.Y / dpiScaleFactor.Y);
+        }
+
+
+        /// <summary>
         /// 現在の <see cref="T:System.Windows.Media.Visual"/> から、DPI 倍率を取得します。
         /// </summary>
         /// <returns>

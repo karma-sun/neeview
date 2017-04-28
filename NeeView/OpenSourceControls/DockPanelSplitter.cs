@@ -194,7 +194,7 @@ namespace OpenSourceControls
             if (dock == Dock.Left && newWidth > dp.ActualWidth - t.Matrix.OffsetX - Thickness)
                 newWidth = dp.ActualWidth - t.Matrix.OffsetX - Thickness;
 
-            _element.Width = System.Math.Floor(newWidth);
+            _element.Width = newWidth;
         }
 
         private void SetTargetHeight(double newHeight)

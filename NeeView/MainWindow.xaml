@@ -148,8 +148,7 @@
                 <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" IsTabStop="False">
                     <Grid x:Name="MenuArea" MouseEnter="MenuArea_MouseEnter" MouseLeave="MenuArea_MouseLeave" >
                         <StackPanel>
-                            <Grid x:Name="MenuBar" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="White"
-                                  MouseLeftButtonDown="MenuBar_MouseLeftButtonDown">
+                            <Grid x:Name="MenuBar" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="White">
                                 <DockPanel LastChildFill="False">
                                     <local:WindowCaptionButtons VerticalAlignment="Top" DockPanel.Dock="Right">
                                         <local:WindowCaptionButtons.Style>
@@ -165,7 +164,6 @@
 
                                     <!-- メインメニュー -->
                                     <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Bottom"
-                                                    WindowChrome.IsHitTestVisibleInChrome="True"
                                           Background="White"
                                           Foreground="#222"/>
 

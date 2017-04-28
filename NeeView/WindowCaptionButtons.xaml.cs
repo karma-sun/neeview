@@ -5,6 +5,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,8 +25,35 @@ namespace NeeView
     /// <summary>
     /// WindowCaptionボタン
     /// </summary>
-    public partial class WindowCaptionButtons : UserControl
+    public partial class WindowCaptionButtons : UserControl, INotifyPropertyChanged
     {
+        /// <summary>
+        /// PropertyChanged event. 
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        //
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+
+        /// <summary>
+        /// StrokeThickness property.
+        /// </summary>
+        public double StrokeThickness
+        {
+            get { return _strokeThickness; }
+            private set { if (_strokeThickness != value) { _strokeThickness = value; RaisePropertyChanged(); } }
+        }
+
+        //
+        private double _strokeThickness = 1;
+
+        /// <summary>
+        /// ターゲットWINDOW
+        /// </summary>
         private Window _window;
 
         /// <summary>
@@ -34,6 +63,7 @@ namespace NeeView
         {
             InitializeComponent();
             this.Loaded += (s, e) => InitializeWindow(Window.GetWindow(this));
+            this.Root.DataContext = this;
         }
 
         /// <summary>
@@ -53,6 +83,18 @@ namespace NeeView
             _window.StateChanged += Window_StateChanged;
 
             Window_StateChanged(this, null);
+        }
+
+        /// <summary>
+        /// DPI反映
+        /// </summary>
+        /// <param name="oldDpi"></param>
+        /// <param name="newDpi"></param>
+        protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+        {
+            base.OnDpiChanged(oldDpi, newDpi);
+            StrokeThickness = 1.0 / newDpi.DpiScaleX;
+            //Debug.WriteLine($"Thickness: {StrokeThickness}");
         }
 
         /// <summary>

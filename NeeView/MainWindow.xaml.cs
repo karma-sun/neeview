@@ -116,10 +116,14 @@ namespace NeeView
             SystemCommands.CloseWindow(this);
         }
 
+        private WindowCaptionEmulator _windowCaption;
+
         // コンストラクタ
         public MainWindow()
         {
             InitializeComponent();
+
+            _windowCaption = new WindowCaptionEmulator(this, this.MenuBar);
 
             InitializeMenuLayerVisibility();
             InitializeStatusLayerVisibility();
@@ -221,6 +225,12 @@ namespace NeeView
                 (s, e) =>
                 {
                     _mouse.Normal.LongLeftButtonDownMode = _VM.LongLeftButtonDownMode; // ##
+                });
+
+            _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.CanVisibleTitleBar),
+                (s, e) =>
+                {
+                    _windowCaption.IsEnabled = !_VM.CanVisibleTitleBar;
                 });
 
 
@@ -1872,61 +1882,6 @@ namespace NeeView
                 }));
             }
         }
-
-
-        //
-        private void MenuBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
-        }
-
-#if false
-        private bool _isMenuBarDrag;
-        private Point _menuBarDragStartPoint;
-
-        private void MenuBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _menuBarDragStartPoint = e.GetPosition(this.MenuBar);
-
-            if (this.WindowState == WindowState.Maximized)
-            {
-                _isMenuBarDrag = true;
-                this.MenuBar.CaptureMouse();
-            }
-            else
-            {
-                this.DragMove();
-            }
-        }
-
-        private void MenuBar_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            _isMenuBarDrag = false;
-            this.MenuBar.ReleaseMouseCapture();
-        }
-
-        private void MenuBar_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (!_isMenuBarDrag) return;
-
-            var pos = e.GetPosition(this.MenuBar);
-            var dx = Math.Abs(pos.X - _menuBarDragStartPoint.X);
-            var dy = Math.Abs(pos.Y - _menuBarDragStartPoint.Y);
-            if (dx > SystemParameters.MinimumHorizontalDragDistance || dy > SystemParameters.MinimumVerticalDragDistance)
-            {
-                _isMenuBarDrag = false;
-                this.MenuBar.ReleaseMouseCapture();
-
-                /*
-                this.Visibility = Visibility.Collapsed;
-                SystemCommands.RestoreWindow(this);
-                this.Visibility = Visibility.Visible;
-                */
-
-                this.DragMove();
-            }
-        }
-#endif
     }
 
 

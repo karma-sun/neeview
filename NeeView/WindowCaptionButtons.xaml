@@ -20,7 +20,6 @@
                 <Setter Property="Height" Value="24"/>
                 <Setter Property="Margin" Value="1,0,0,0"/>
                 <Setter Property="UseLayoutRounding" Value="True"/>
-                <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
@@ -31,7 +30,7 @@
                             </Grid>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Fill" TargetName="baseRectangle" Value="#FFDDDDDD"/>
+                                    <Setter Property="Fill" TargetName="baseRectangle" Value="#FFE5E5E5"/>
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="True">
                                     <Setter Property="Fill" TargetName="baseRectangle" Value="#FFCCCCCC"/>
@@ -77,19 +76,30 @@
         </DockPanel.Resources>
 
         <Button x:Name="CaptionCloseButton" DockPanel.Dock="Right" Style="{StaticResource WindowCloseButtonStyle}" Command="{x:Static SystemCommands.CloseWindowCommand}">
-            <Path UseLayoutRounding="True"  Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Data="M 0,0 L 10,10 M 0,10 L 10,0" RenderOptions.EdgeMode="Unspecified" Margin="0,0,1,2"/>
+            <Path UseLayoutRounding="True"  StrokeThickness="{Binding StrokeThickness}" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Data="M 0,0 L 10,10 M 0,10 L 10,0" Margin="0,0,1,1"/>
         </Button>
 
         <Button x:Name="CaptionMaximizeButton" DockPanel.Dock="Right" Style="{StaticResource WindowCaptionButtonStyle}" Command="{x:Static SystemCommands.MaximizeWindowCommand}">
-            <Path UseLayoutRounding="True"  Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Data="M 0,0 L 0,9 9,9, 9,0 Z" RenderOptions.EdgeMode="Aliased"/>
+            <Rectangle UseLayoutRounding="True" Width="10" Height="10" StrokeThickness="{Binding StrokeThickness}"   Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
         </Button>
 
         <Button x:Name="CaptionRestoreButton" DockPanel.Dock="Right" Style="{StaticResource WindowCaptionButtonStyle}" Command="{x:Static SystemCommands.RestoreWindowCommand}" >
-            <Path UseLayoutRounding="True" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Data="M 0,2 L 0,9 7,9 7,2 Z M 2,2 2,0 9,0 9,7 7,7" RenderOptions.EdgeMode="Aliased"/>
+            <Grid Width="10" Height="10">
+                <Rectangle UseLayoutRounding="True" Width="8" Height="8" StrokeThickness="{Binding StrokeThickness}"  Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Margin="0,2,2,0"/>
+                <Rectangle UseLayoutRounding="True" Width="8" Height="8" StrokeThickness="{Binding StrokeThickness}"  Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Margin="2,0,0,2">
+                    <Rectangle.Clip>
+                        <GeometryGroup FillRule="Nonzero">
+                            <RectangleGeometry Rect="0,0,10,2"/>
+                            <RectangleGeometry Rect="6,0,10,10"/>
+                        </GeometryGroup>
+                    </Rectangle.Clip>
+                </Rectangle>
+            </Grid>
         </Button>
 
         <Button x:Name="CaptionMinimizeButton" DockPanel.Dock="Right" Style="{StaticResource WindowCaptionButtonStyle}" Command="{x:Static SystemCommands.MinimizeWindowCommand}">
-            <Path UseLayoutRounding="True" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Data="M 0,0 L 10,0" RenderOptions.EdgeMode="Aliased"/>
+            <Rectangle UseLayoutRounding="True" Width="10" Height="{Binding StrokeThickness}" StrokeThickness="{Binding StrokeThickness}"   Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
         </Button>
+
     </DockPanel>
 </UserControl>

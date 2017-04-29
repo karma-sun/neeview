@@ -344,7 +344,7 @@ namespace NeeView
         /// </summary>
         public void LoupeZoomIn()
         {
-            LoupeScale = Math.Min(LoupeScale + 1.0, Preference.Current.loupe_scale_max);
+            LoupeScale = Math.Min(LoupeScale + Preference.Current.loupe_scale_step, Preference.Current.loupe_scale_max);
         }
 
         /// <summary>
@@ -352,7 +352,7 @@ namespace NeeView
         /// </summary>
         public void LoupeZoomOut()
         {
-            LoupeScale = Math.Max(LoupeScale - 1.0, Preference.Current.loupe_scale_min);
+            LoupeScale = Math.Max(LoupeScale - Preference.Current.loupe_scale_step, Preference.Current.loupe_scale_min);
         }
 
         /// <summary>

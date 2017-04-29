@@ -146,9 +146,17 @@ namespace NeeView
         [PropertyMember("ルーペ最大倍率", Tips = "ルーペの最大倍率です")]
         public double loupe_scale_max { get; set; }
 
+        [DataMember, DefaultValue(1.0)]
+        [PropertyMember("ルーペ倍率変化単位", Tips = "ルーペ倍率をこの値で変化させます")]
+        public double loupe_scale_step { get; set; }
+
         [DataMember, DefaultValue(false)]
         [PropertyMember("ルーペ倍率リセット", Tips = "ルーペを開始するたびに標準倍率に戻します")]
         public bool loupe_scale_reset { get; set; }
+
+        [DataMember, DefaultValue(true)]
+        [PropertyMember("ルーペページ切り替え解除", Tips = "ページを切り替えるとルーペを解除します")]
+        public bool loupe_pagechange_reset { get; set; }
 
         [DataMember, DefaultValue(true)]
         [PropertyMember("ファイル削除確認", Tips = "ファイル削除時に確認ダイアログを表示します")]

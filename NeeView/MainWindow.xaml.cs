@@ -330,16 +330,22 @@ namespace NeeView
                 (s, e) =>
                 {
                     // ページ変更でルーペ解除
-                    //_mouseLoupe.IsEnabled = false;
-                    _mouse.IsLoupeMode = false;
+                    if (Preference.Current.loupe_pagechange_reset)
+                    {
+                        _mouse.IsLoupeMode = false;
+                    }
 
-                    UpdateMouseDragSetting(e.PageDirection, e.ViewOrigin);
+                    // ルーペでない場合は標準のビューリセット処理を行う
+                    if (!_mouse.IsLoupeMode)
+                    {
+                        UpdateMouseDragSetting(e.PageDirection, e.ViewOrigin);
 
-                    bool isResetScale = e.ResetViewTransform || !_VM.IsKeepScale;
-                    bool isResetAngle = e.ResetViewTransform || !_VM.IsKeepAngle || _VM.IsAutoRotate;
-                    bool isResetFlip = e.ResetViewTransform || !_VM.IsKeepFlip;
+                        bool isResetScale = e.ResetViewTransform || !_VM.IsKeepScale;
+                        bool isResetAngle = e.ResetViewTransform || !_VM.IsKeepAngle || _VM.IsAutoRotate;
+                        bool isResetFlip = e.ResetViewTransform || !_VM.IsKeepFlip;
 
-                    _mouse.Drag.Reset(isResetScale, isResetAngle, isResetFlip, DefaultViewAngle(isResetAngle));
+                        _mouse.Drag.Reset(isResetScale, isResetAngle, isResetFlip, DefaultViewAngle(isResetAngle));
+                    }
                 };
 
             _VM.AutoRotateChanged +=

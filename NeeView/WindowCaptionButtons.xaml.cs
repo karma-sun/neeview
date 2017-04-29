@@ -86,15 +86,23 @@ namespace NeeView
         }
 
         /// <summary>
-        /// DPI反映
+        /// DPI変更処理
         /// </summary>
         /// <param name="oldDpi"></param>
         /// <param name="newDpi"></param>
         protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
         {
             base.OnDpiChanged(oldDpi, newDpi);
-            StrokeThickness = 1.0 / newDpi.DpiScaleX;
-            //Debug.WriteLine($"Thickness: {StrokeThickness}");
+            UpdateStrokeThickness(newDpi);
+        }
+
+        /// <summary>
+        /// DPIをStrokeThicknessに反映
+        /// </summary>
+        /// <param name="dpi"></param>
+        public void UpdateStrokeThickness(DpiScale dpi)
+        {
+            StrokeThickness = 1.0 / dpi.DpiScaleX;
         }
 
         /// <summary>

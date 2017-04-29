@@ -52,6 +52,9 @@ namespace NeeView
         //public bool IsEnabeldWhenNoResized { get; set; } = true;
         public bool IsEnabeldWhenNoResized => Preference.Current.window_captionemunate_fullscreen;
 
+        //
+        //private bool _isWindows7;
+
         /// <summary>
         /// 
         /// </summary>
@@ -65,6 +68,10 @@ namespace NeeView
             _target.MouseLeftButtonDown += Target_MouseLeftButtonDown;
             _target.MouseLeftButtonUp += Target_MouseLeftButtonUp;
             _target.MouseMove += Target_MouseMove;
+
+            // Windows7以前の場合、
+            //var os = System.Environment.OSVersion;
+            //_isWindows7 = os.Version.Major < 6 || (os.Version.Major == 6 && os.Version.Minor <= 1); // Windows7 = 6.1
         }
 
         /// <summary>

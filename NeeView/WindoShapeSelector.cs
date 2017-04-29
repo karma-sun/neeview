@@ -129,9 +129,9 @@ namespace NeeView
         private WindowShape _last;
 
         /// <summary>
-        /// フルスクリーン解除時のタスクバー復帰
+        /// Windows7?
         /// </summary>
-        private bool _isRecoveryTaskBar;
+        private bool _isWindows7;
 
         /// <summary>
         /// コンストラクター
@@ -151,7 +151,7 @@ namespace NeeView
 
             // Windows7以前の場合、フルスクリーン解除時にタスクバーを手前にする処理を追加
             var os = System.Environment.OSVersion;
-            _isRecoveryTaskBar = os.Version.Major < 6 || (os.Version.Major == 6 && os.Version.Minor <= 1); // Windows7 = 6.1
+            _isWindows7 = os.Version.Major < 6 || (os.Version.Major == 6 && os.Version.Minor <= 1); // Windows7 = 6.1
 
             //
             _isTopmost = _window.Topmost;
@@ -269,7 +269,7 @@ namespace NeeView
         /// </summary>
         private void RecoveryTaskBar()
         {
-            if (!_isRecoveryTaskBar || _shape != WindowShape.FullScreen) return;
+            if (!_isWindows7 || _shape != WindowShape.FullScreen) return;
 
             //Debug.WriteLine("Recovery TaskBar");
             _window.Visibility = Visibility.Hidden;

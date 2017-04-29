@@ -1865,6 +1865,9 @@ namespace NeeView
             var isChanged = App.Config.SetDip(e.NewDpi);
             if (!isChanged) return;
 
+            //
+            this.WindowCaptionButtons.UpdateStrokeThickness(e.NewDpi);
+
             // 背景更新
             _VM?.UpdateBackgroundBrush();
 

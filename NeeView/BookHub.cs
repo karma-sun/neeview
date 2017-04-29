@@ -1797,12 +1797,21 @@ namespace NeeView
 
         // ファイルの名前を変える
         // RenameFileメッセージ処理
-        public async void CallRenameFile(object sender, MessageEventArgs e)
+        public void CallRenameFile(object sender, MessageEventArgs e)
         {
-            var renameParam = (RenameFileParams)e.Parameter;
-            var src = renameParam.OldPath;
-            var dst = renameParam.Path;
+            var task = Task.Run(async () =>
+            {
+                var renameParam = (RenameFileParams)e.Parameter;
+                var src = renameParam.OldPath;
+                var dst = renameParam.Path;
+                e.Result = await RenameFileAsync(src, dst).ConfigureAwait(continueOnCapturedContext: false);
+            });
+            task.Wait();
+        }
 
+        // ファイルの名前を変える
+        public async Task<bool> RenameFileAsync(string src, string dst)
+        {
             int retryCount = 1;
 
             Retry:
@@ -1835,7 +1844,7 @@ namespace NeeView
                     RequestLoad(dst, null, BookLoadOption.Resume, false);
                 }
 
-                e.Result = true;
+                return true;
             }
             catch (Exception ex)
             {
@@ -1847,12 +1856,13 @@ namespace NeeView
                 }
                 else
                 {
-                    var confirm = Messenger.MessageBox(sender, $"名前の変更に失敗しました。\nもう一度実行しますか？\n\n{ex.Message}", "エラー", System.Windows.MessageBoxButton.OKCancel, MessageBoxExImage.Warning);
-                    if (confirm == true)
+                    var confirm = System.Windows.MessageBox.Show($"名前の変更に失敗しました。\nもう一度実行しますか？\n\n{ex.Message}", "エラー", System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Warning);
+                    if (confirm == System.Windows.MessageBoxResult.OK)
                     {
                         goto Retry;
                     }
-                    e.Result = false;
+
+                    return false;
                 }
             }
         }

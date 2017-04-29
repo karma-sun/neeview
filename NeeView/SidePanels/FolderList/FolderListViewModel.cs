@@ -196,6 +196,16 @@ namespace NeeView
 
             if (src == dst) return true;
 
+            //ファイル名に使用できない文字
+            char[] invalidChars = System.IO.Path.GetInvalidFileNameChars();
+            int invalidCharsIndex = newName.IndexOfAny(invalidChars);
+            if (invalidCharsIndex >= 0)
+            {
+                // 確認
+                MessageBox.Show($"ファイル名に使用できない文字が含まれています。( {newName[invalidCharsIndex]} )", "名前の変更の確認", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
             // 拡張子変更確認
             if (!file.IsDirectory)
             {

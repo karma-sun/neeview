@@ -87,7 +87,7 @@ namespace NeeView
         private void Deserialized(StreamingContext c)
         {
             // before 1.20
-            if (_Version < Config.GenerateProductVersionNumber(1, 20, 0) || true)
+            if (_Version < Config.GenerateProductVersionNumber(1, 20, 0))
             {
                 PreferenceMemento.Add("openbook_begin_current", BookHubMemento.IsEnarbleCurrentDirectory.ToString());
             }

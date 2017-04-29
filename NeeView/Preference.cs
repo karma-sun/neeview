@@ -171,6 +171,10 @@ namespace NeeView
         [PropertyMember("フルスクリーン時のタイトルバー操作", Tips = "フルスクリーン時のメニュー上でのタイトルバー操作(ダブルクリックやドラッグ)を有効にします")]
         public bool window_captionemunate_fullscreen { get; set; }
 
+        [DataMember, DefaultValue(1.0)]
+        [PropertyMember("長押し判定時間(秒)", Tips = "長押しの判定時間です", Flags = PropertyMemberFlag.None)]
+        public double input_longbuttondown_time { get; set; }
+
 
         /// <summary>
         /// 

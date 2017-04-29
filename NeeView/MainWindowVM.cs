@@ -304,17 +304,6 @@ namespace NeeView
         }
         #endregion
 
-        // 長押し判定時間(秒)
-        #region Property: LongButtonDownTick
-        private double _longButtonDownTick;
-        public double LongButtonDownTick
-        {
-            get { return _longButtonDownTick; }
-            set { _longButtonDownTick = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-
 
 
         // スケールモード
@@ -3311,9 +3300,6 @@ namespace NeeView
             [DataMember(Order = 12)]
             public LongButtonDownMode LongLeftButtonDownMode { get; set; }
 
-            [DataMember(Order = 12)]
-            public double LongButtonDownTick { get; set; }
-
             [DataMember(Order = 16)]
             public SliderDirection SliderDirection { get; set; }
 
@@ -3376,7 +3362,6 @@ namespace NeeView
                 FolderListGridRow2 = "*";
                 ContentsSpace = -1.0;
                 LongLeftButtonDownMode = LongButtonDownMode.Loupe;
-                LongButtonDownTick = 1.0;
                 IsDisableMultiBoot = true;
                 SliderDirection = SliderDirection.RightToLeft;
                 IsVisibleWindowTitle = true;
@@ -3490,7 +3475,6 @@ namespace NeeView
             memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
             memento.ContentsSpace = this.ContentsSpace;
             memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
-            memento.LongButtonDownTick = this.LongButtonDownTick;
             memento.SliderDirection = this.SliderDirection;
             memento.IsAutoRotate = this.IsAutoRotate;
             memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
@@ -3557,7 +3541,6 @@ namespace NeeView
             this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
             this.ContentsSpace = memento.ContentsSpace;
             this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
-            this.LongButtonDownTick = memento.LongButtonDownTick;
             this.SliderDirection = memento.SliderDirection;
             this.IsAutoRotate = memento.IsAutoRotate;
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;

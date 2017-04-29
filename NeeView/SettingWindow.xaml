@@ -469,7 +469,10 @@
                                 </DockPanel>
 
                                 <ListView x:Name="DragActionListView" ItemsSource="{Binding DragActionCollection}" Foreground="Black" SelectionChanged="DragActionListView_SelectionChanged">
-
+                                    <i:Interaction.Behaviors>
+                                        <local:IgnoreMouseWheelBehavior />
+                                    </i:Interaction.Behaviors>
+                                    
                                     <ListView.ItemContainerStyle>
                                         <Style TargetType="ListViewItem">
                                             <EventSetter Event="MouseDoubleClick" Handler="DragActionListViewItem_MouseDoubleClick"/>
@@ -527,9 +530,9 @@
 
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="長押しと判定されるまでの押し続ける時間の設定です">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="長押し判定時間"/>
-                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.LongButtonDownTick}"
+                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Preference.input_longbuttondown_time}"
                                     Minimum="0.1" Maximum="2.0" TickFrequency="0.1" />
-                                <TextBlock Text="{Binding Setting.ViewMemento.LongButtonDownTick, StringFormat={}{0:0.0}秒}" />
+                                <TextBlock Text="{Binding Preference.input_longbuttondown_time, StringFormat={}{0:0.0}秒}" />
                             </StackPanel>
 
                         </StackPanel>

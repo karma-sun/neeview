@@ -109,6 +109,7 @@ namespace NeeView
             }
 
             // 長押し判定開始
+            _timer.Interval = TimeSpan.FromSeconds(Preference.Current.input_longbuttondown_time);
             _timer.Start();
         }
         

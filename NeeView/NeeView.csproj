@@ -420,6 +420,7 @@
     <Compile Include="_NeeView\Windows\DragAdorner.cs" />
     <Compile Include="_NeeView\Windows\DragStartBehaviour.cs" />
     <Compile Include="_NeeView\Windows\DropAcceptBehaviour.cs" />
+    <Compile Include="_NeeView\Windows\IgnoreMouseWheelBehavior.cs" />
     <Compile Include="_NeeView\Windows\ListBoxDragSortExtensions.cs" />
     <Compile Include="_NeeView\Windows\Media\HVSColor.cs" />
     <Compile Include="_NeeView\Windows\Property\IValueSetter.cs" />

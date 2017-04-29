@@ -138,7 +138,7 @@
 
 
         <!-- 製品表示領域 -->
-        <Grid x:Name="Root" MouseMove="ViewArea_MouseMove">
+        <Grid x:Name="Root" MouseMove="ViewArea_MouseMove" UseLayoutRounding="True">
             <Grid x:Name="RootBottom" VerticalAlignment="Bottom" />
 
             <!-- Main Layer -->
@@ -476,10 +476,10 @@
 
                         <!-- メインビュー パネル領域 -->
                         <Canvas>
-                            <Grid x:Name="MainViewPanelRect" Canvas.Left="{Binding CanvasLeft, ElementName=SidePanelFrame}" Canvas.Top="{Binding CanvasTop, ElementName=SidePanelFrame}" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}">
+                            <Grid x:Name="MainViewPanelRect" Canvas.Left="{Binding CanvasLeft, ElementName=SidePanelFrame}" Canvas.Top="{Binding CanvasTop, ElementName=SidePanelFrame}" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}" UseLayoutRounding="True">
 
                                 <!-- メインビュー パネル -->
-                                <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding BackgroundBrush}">
+                                <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding BackgroundBrush}" Margin="0">
                                     <Rectangle x:Name="FrontBackground" Fill="{Binding BackgroundFrontBrush}" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" Visibility="{Binding BackgroundFrontBrush, Converter={StaticResource NullableToVisibilityConverter}}"/>
 
                                     <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffector.Effect}">

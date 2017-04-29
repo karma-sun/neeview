@@ -93,8 +93,8 @@
         <Style x:Key="PanelIconGridStyle" TargetType="Grid">
             <Setter Property="Background" Value="{Binding IconBackground}"/>
             <Setter Property="Width" Value="40"/>
-            <Setter Property="Visibility" Value="Collapsed"/>
             <Setter Property="Visibility" Value="{Binding IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Setter Property="UseLayoutRounding" Value="True"/>
         </Style>
 
 
@@ -174,19 +174,19 @@
 
             <DockPanel x:Name="Screen">
 
-                <Grid DockPanel.Dock="Left" Style="{StaticResource PanelGridStyle}" Visibility="{Binding VM.Left.PanelVisibility}" Width="{Binding VM.Left.Width, Mode=TwoWay}">
+                <Grid DockPanel.Dock="Left" Style="{StaticResource PanelGridStyle}" Visibility="{Binding VM.Left.PanelVisibility}" Width="{Binding VM.Left.Width, Mode=TwoWay}" UseLayoutRounding="True">
                     <ContentControl Content="{Binding VM.Left.Panel.SelectedPanel.View}" Margin="{Binding PanelMargin}" IsTabStop="False"/>
                 </Grid>
 
-                <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="Left" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
+                <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="Left" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True"
                                        Visibility="{Binding VM.Left.PanelVisibility}" IsTabStop="False"/>
 
 
-                <Grid DockPanel.Dock="Right" Style="{StaticResource PanelGridStyle}" Visibility="{Binding VM.Right.PanelVisibility}" Width="{Binding VM.Right.Width, Mode=TwoWay}" >
+                <Grid DockPanel.Dock="Right" Style="{StaticResource PanelGridStyle}" Visibility="{Binding VM.Right.PanelVisibility}" Width="{Binding VM.Right.Width, Mode=TwoWay}" UseLayoutRounding="True">
                     <ContentControl Content="{Binding VM.Right.Panel.SelectedPanel.View}" Margin="{Binding PanelMargin}" IsTabStop="False"/>
                 </Grid>
 
-                <osc:DockPanelSplitter x:Name="RightPanelSplitter" DockPanel.Dock="Right" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False"
+                <osc:DockPanelSplitter x:Name="RightPanelSplitter" DockPanel.Dock="Right" Style="{StaticResource NVVerticalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True"
                                        Visibility="{Binding VM.Right.PanelVisibility}" IsTabStop="False"/>
 
                 <Grid x:Name="Viewport" Grid.Column="1" SizeChanged="Viewport_SizeChanged">

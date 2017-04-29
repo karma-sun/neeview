@@ -355,26 +355,64 @@ namespace NeeView
             else
             {
                 // レイアウト更新
-                _context.Sender.UpdateLayout();
+                Position = new Point(0, 0);
 
+                _context.Sender.UpdateLayout();
                 var area = GetArea();
                 var pos = new Point(0, 0);
+                var move = new Vector(0, 0);
                 if (area.Target.Height > area.View.Height)
                 {
                     var verticalDirection = (ViewOrigin == DragViewOrigin.LeftTop || ViewOrigin == DragViewOrigin.RightTop) ? 1.0 : -1.0;
-                    pos.Y = (area.Target.Height - area.View.Height) * 0.5 * verticalDirection;
+                    move.Y = (area.Target.Height - area.View.Height + 1) * 0.5 * verticalDirection;
                 }
                 if (area.Target.Width > area.View.Width)
                 {
                     var horizontalDirection = (ViewOrigin == DragViewOrigin.LeftTop || ViewOrigin == DragViewOrigin.LeftBottom) ? 1.0 : -1.0;
-                    pos.X = (area.Target.Width - area.View.Width) * 0.5 * horizontalDirection;
+                    move.X = (area.Target.Width - area.View.Width + 1) * 0.5 * horizontalDirection;
                 }
-                Position = pos;
+
+                if (move.X != 0 || move.Y != 0)
+                {
+                    var limitedPos = pos + GetLimitMove(area, move);
+                    Position = limitedPos;
+                }
             }
 
             _defaultPosition = Position;
             _defaultScale = Scale;
             _defaultAngle = Angle;
+        }
+
+        // 移動量限界計算
+        private Vector GetLimitMove(DragArea area, Vector move)
+        {
+            var margin = new Point(
+                area.Target.Width < area.View.Width ? 0 : area.Target.Width - area.View.Width,
+                area.Target.Height < area.View.Height ? 0 : area.Target.Height - area.View.Height);
+
+            if (move.X < 0 && area.Target.Left + move.X < -margin.X)
+            {
+                move.X = -margin.X - area.Target.Left;
+                if (move.X > 0) move.X = 0;
+            }
+            else if (move.X > 0 && area.Target.Right + move.X > area.View.Width + margin.X)
+            {
+                move.X = area.View.Width + margin.X - area.Target.Right;
+                if (move.X < 0) move.X = 0;
+            }
+            if (move.Y < 0 && area.Target.Top + move.Y < -margin.Y)
+            {
+                move.Y = -margin.Y - area.Target.Top;
+                if (move.Y > 0) move.Y = 0;
+            }
+            else if (move.Y > 0 && area.Target.Bottom + move.Y > area.View.Height + margin.Y)
+            {
+                move.Y = area.View.Height + margin.Y - area.Target.Bottom;
+                if (move.Y < 0) move.Y = 0;
+            }
+
+            return move;
         }
 
         // 最後にリセットした値に戻す(角度以外)
@@ -864,12 +902,6 @@ namespace NeeView
         {
             var area = GetArea();
             var pos0 = Position;
-            var pos1 = Position + move;
-
-            var margin = new Point(
-                area.Target.Width < area.View.Width ? 0 : area.Target.Width - area.View.Width,
-                area.Target.Height < area.View.Height ? 0 : area.Target.Height - area.View.Height);
-
             UpdateLock();
 
             if (_lockMoveX)
@@ -883,26 +915,7 @@ namespace NeeView
 
             if (IsLimitMove)
             {
-                if (move.X < 0 && area.Target.Left + move.X < -margin.X)
-                {
-                    move.X = -margin.X - area.Target.Left;
-                    if (move.X > 0) move.X = 0;
-                }
-                else if (move.X > 0 && area.Target.Right + move.X > area.View.Width + margin.X)
-                {
-                    move.X = area.View.Width + margin.X - area.Target.Right;
-                    if (move.X < 0) move.X = 0;
-                }
-                if (move.Y < 0 && area.Target.Top + move.Y < -margin.Y)
-                {
-                    move.Y = -margin.Y - area.Target.Top;
-                    if (move.Y > 0) move.Y = 0;
-                }
-                else if (move.Y > 0 && area.Target.Bottom + move.Y > area.View.Height + margin.Y)
-                {
-                    move.Y = area.View.Height + margin.Y - area.Target.Bottom;
-                    if (move.Y < 0) move.Y = 0;
-                }
+                move = GetLimitMove(area, move);
             }
 
             Position = pos0 + move;

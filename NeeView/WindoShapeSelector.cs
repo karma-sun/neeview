@@ -364,7 +364,7 @@ namespace NeeView
 
             WindowChrome.SetWindowChrome(_window, null);
             _window.ResizeMode = ResizeMode.NoResize;
-            _window.WindowState = WindowState.Normal;
+            if (_shape == WindowShape.Maximized) _window.WindowState = WindowState.Normal;
             _window.WindowStyle = WindowStyle.None;
             _window.WindowState = WindowState.Maximized;
 

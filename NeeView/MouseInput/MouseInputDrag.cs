@@ -811,7 +811,7 @@ namespace NeeView
         {
             _context.StartPoint = pos;
             _baseFlipPoint = _context.StartPoint;
-            var windowDiff = _context.Window.PointToScreen(new Point(0, 0)) - new Point(_context.Window.Left, _context.Window.Top);
+            var windowDiff = PointToLogicalScreen(_context.Window, new Point(0, 0) ) - new Point(_context.Window.Left, _context.Window.Top);
             _startPointFromWindow = _context.Sender.TranslatePoint(_context.StartPoint, _context.Window) + windowDiff;
 
             if (DragControlCenter == DragControlCenter.View)
@@ -820,9 +820,7 @@ namespace NeeView
             }
             else
             {
-                _center = (Point)(_context.TargetShadow.PointToScreen(
-                    new Point(_context.TargetShadow.ActualWidth * _context.TargetShadow.RenderTransformOrigin.X, _context.TargetShadow.ActualHeight * _context.TargetShadow.RenderTransformOrigin.Y))
-                    - _context.Sender.PointToScreen(new Point(0, 0)));
+                _center = _context.TargetShadow.TranslatePoint(new Point(_context.TargetShadow.ActualWidth * _context.TargetShadow.RenderTransformOrigin.X, _context.TargetShadow.ActualHeight * _context.TargetShadow.RenderTransformOrigin.Y), _context.Sender);
             }
 
             _basePosition = Position;
@@ -1123,10 +1121,23 @@ namespace NeeView
         {
             if (_context.Window.WindowState == WindowState.Normal)
             {
-                var pos = _context.Sender.PointToScreen(end) - _startPointFromWindow;
+                var pos = PointToLogicalScreen(_context.Sender, end) - _startPointFromWindow;
                 _context.Window.Left = pos.X;
                 _context.Window.Top = pos.Y;
             }
+        }
+
+        /// <summary>
+        /// 座標を論理座標でスクリーン座標に変換
+        /// </summary>
+        private Point PointToLogicalScreen(Visual visual, Point point)
+        {
+           var pos = visual.PointToScreen(point); // デバイス座標
+
+            var dpi = App.Config.Dpi;
+            pos.X = pos.X / dpi.DpiScaleX;
+            pos.Y = pos.Y / dpi.DpiScaleY;
+            return pos;
         }
 
         #endregion

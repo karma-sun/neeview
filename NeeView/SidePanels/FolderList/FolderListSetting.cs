@@ -19,8 +19,17 @@ namespace NeeView
     public enum FolderListItemStyle
     {
         Normal, // テキストのみ
-        Picture, // バナー付き
+        Picture, // コンテンツ
+        Banner, // バナー
     };
+
+    public static class FolderListItemStyleExtensions
+    {
+        public static bool HasThumbnail(this FolderListItemStyle my)
+        {
+            return (my == FolderListItemStyle.Picture || my == FolderListItemStyle.Banner);
+        }
+    }
 
     /// <summary>
     /// ファイル情報ペイン設定

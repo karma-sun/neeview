@@ -6,6 +6,7 @@
 using NeeView.Windows.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -13,6 +14,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Globalization;
 
 namespace NeeView
 {
@@ -49,6 +52,12 @@ namespace NeeView
         /// フォルダー項目表示スタイル
         /// </summary>
         public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
+
+        /// <summary>
+        /// フォルダーアイコン表示方法(未使用)
+        /// </summary>
+        public FolderIconLayout FolderIconLayout => FolderIconLayout.Right;
+
 
         /// <summary>
         /// バナーの高さ
@@ -374,4 +383,36 @@ namespace NeeView
             return index < 0 ? 0 : index;
         }
     }
+
+    /// <summary>
+    /// フォルダーアイコン表示方法
+    /// </summary>
+    public enum FolderIconLayout
+    {
+        Normal, // ファイル名の左
+        Right, // 項目の右端
+    }
+
+    /// <summary>
+    /// フォルダーアイコン表示方法をVisibilityに変換
+    /// </summary>
+    public class FolderIconLayoutToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is FolderIconLayout v0))
+                return Visibility.Collapsed;
+
+            if (!(parameter is FolderIconLayout v1))
+                return Visibility.Collapsed;
+
+            return v0 == v1 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

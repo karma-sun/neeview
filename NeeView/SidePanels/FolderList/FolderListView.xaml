@@ -12,13 +12,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="300" >
+             d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
+             d:DesignHeight="300" d:DesignWidth="300" >
 
     <UserControl.Resources>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:BooleanReverseConverter x:Key="BooleanReverseConverter"/>
         <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
+
+        <local:FolderIconLayoutToVisibilityConverter x:Key="FolderIconLayoutToVisibilityConverter"/>
 
         <Style TargetType="TextBlock" x:Key="FolderName">
             <Setter Property="Text" Value="{Binding Name}"/>
@@ -42,48 +45,10 @@
 
         <local:FileSizeToStringConverter x:Key="FileSizeToStringConverter"/>
 
-
-        <DataTemplate x:Key="IconTemplate" DataType="local:FolderItem">
-            <Image Width="12" Height="12" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Image.Style>
-                    <Style TargetType="Image">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsOverlayChecked}" Value="True">
-                                <Setter Property="Source" Value="{StaticResource ic_done_24px}"/>
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsOverlayStar}" Value="True">
-                                <Setter Property="Source" Value="{StaticResource ic_grade_24px}"/>
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Image.Style>
-            </Image>
-        </DataTemplate>
-
-
-        <DataTemplate x:Key="FolderIconTemplate" DataType="local:FolderItem">
-            <Grid Width="20">
-                <Image Source="{StaticResource ic_folder_24px}" Width="16" Height="16"
-                       Visibility="{Binding IsDirectory, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <Grid Width="10" Height="10" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                    <Border Background="#EEE"
-                            Visibility="{Binding IsShortcut, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <Image Source="{StaticResource ic_repeat_24px}" />
-                    </Border>
-                    <Image Source="{StaticResource ic_clear_24px}"
-                            Visibility="{Binding IsDisable, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </Grid>
-            </Grid>
-        </DataTemplate>
-
         <!-- Normal -->
         <DataTemplate x:Key="NormalFolder">
             <DockPanel LastChildFill="False">
-                <ContentControl DockPanel.Dock="Right" Width="20" Height="20" ContentTemplate="{StaticResource IconTemplate}" Content="{Binding}"/>
-                <ContentControl DockPanel.Dock="Left" Width="20" Height="20" ContentTemplate="{StaticResource FolderIconTemplate}" Content="{Binding}" VerticalAlignment="Top"/>
+                <local:FolderListIcon DockPanel.Dock="Right"/>
                 <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}"/>
             </DockPanel>
         </DataTemplate>
@@ -91,48 +56,33 @@
         <!-- Picture -->
         <DataTemplate x:Key="PictureFolder">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                <DockPanel Margin="2">
-                    <ContentControl DockPanel.Dock="Right" Width="20" Height="20" ContentTemplate="{StaticResource IconTemplate}" Content="{Binding}"/>
-                    <DockPanel>
-                        <Grid Width="60">
-                            <Image Source="{Binding ArchivePage.Thumbnail.BitmapSource}"
-                               RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
-                               UseLayoutRounding="True"
-                               ToolTipService.IsEnabled="{Binding ArchivePage.Thumbnail.IsUniqueImage}"
-                               HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Image.ToolTip>
-                                    <Image Source="{Binding  ArchivePage.Thumbnail.BitmapSource}"/>
-                                </Image.ToolTip>
-                                <Image.Style>
-                                    <Style TargetType="Image">
-                                        <Setter Property="Width" Value="50"/>
-                                        <Setter Property="Height" Value="60"/>
-                                        <Setter Property="Margin" Value="0"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsDirectory}" Value="True">
-                                                <Setter Property="Width" Value="40"/>
-                                                <Setter Property="Height" Value="50"/>
-                                                <Setter Property="Margin" Value="0,10,10,0"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Image.Style>
-                            </Image>
-                            <ContentControl Width="20" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right"
-                                        ContentTemplate="{StaticResource FolderIconTemplate}" Content="{Binding}"/>
-                        </Grid>
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap" HorizontalAlignment="Left"/>
-                            <TextBlock x:Name="LastUpdateTime" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.LastWriteTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
-                            <TextBlock x:Name="FileSize" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.Length, Converter={StaticResource FileSizeToStringConverter}}" />
-                        </StackPanel>
-                    </DockPanel>
+                <DockPanel LastChildFill="False" Margin="2">
+                    <local:FolderListIcon DockPanel.Dock="Right" />
+                    <local:FolderListThumbnail DataContext="{Binding ArchivePage.Thumbnail}"
+                                               d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap" HorizontalAlignment="Left"/>
+                        <TextBlock x:Name="LastUpdateTime" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.LastWriteTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
+                        <TextBlock x:Name="FileSize" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.Length, Converter={StaticResource FileSizeToStringConverter}}" />
+                    </StackPanel>
                 </DockPanel>
             </Border>
         </DataTemplate>
 
+        <!-- Banner -->
+        <DataTemplate x:Key="BannerFolder">
+            <DockPanel Margin="0" Height="80" HorizontalAlignment="Stretch" Background="#4888" LastChildFill="False">
+                <DockPanel DockPanel.Dock="Bottom" Margin="2" >
+                    <local:FolderListIcon DockPanel.Dock="Right"/>
+                    <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}"/>
+                </DockPanel>
+                <local:FolderListBanner Width="256" DataContext="{Binding ArchivePage.Thumbnail}"
+                                        d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+            </DockPanel>
+        </DataTemplate>
+
     </UserControl.Resources>
-    
+
     <ListBox x:Name="ListBox" Focusable="True" 
                 Background="Transparent"
                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -145,14 +95,22 @@
                 PreviewKeyDown="FolderList_PreviewKeyDown"
                 KeyDown="FolderList_KeyDown"
                 HorizontalContentAlignment="Stretch"
-                UseLayoutRounding="True">
+                UseLayoutRounding="True"
+                VirtualizingPanel.IsVirtualizing="True"
+                VirtualizingStackPanel.VirtualizationMode="Recycling"
+             >
 
         <ListBox.Style>
             <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
-                <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder}"/>
                 <Style.Triggers>
+                    <DataTrigger Binding="{Binding FolderListItemStyle}" Value="Normal">
+                        <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder}"/>
+                    </DataTrigger>
                     <DataTrigger Binding="{Binding FolderListItemStyle}" Value="Picture">
                         <Setter Property="ItemTemplate" Value="{StaticResource PictureFolder}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding FolderListItemStyle}" Value="Banner">
+                        <Setter Property="ItemTemplate" Value="{StaticResource BannerFolder}"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -195,6 +153,8 @@
             </ItemsPanelTemplate>
         </ListBox.ItemsPanel>
         -->
+
+
 
     </ListBox>
 

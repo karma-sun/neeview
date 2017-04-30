@@ -1,0 +1,65 @@
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+<UserControl x:Class="NeeView.FolderIcon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="50">
+    <UserControl.Resources>
+
+        <DrawingImage x:Key="ic_file_24px">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="#8888" Pen="{x:Null}">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M13,3.5L13,9 18.5,9 13,3.5z M6,2L14,2 20,8 20,20C20,21.1000003814697,19.1000003814697,22,18,22L5.98999977111816,22C4.8899998664856,22,4,21.1000003814697,4,20L4.01000022888184,4C4.01000022888184,2.90000009536743,4.90000009536743,2,6,2z" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        
+    </UserControl.Resources>
+    
+    
+    <Grid Width="20" Height="20">
+        <!-- フォルダー -->
+        <Image Source="{StaticResource ic_folder_24px}" Width="20" Height="20"
+                       Visibility="{Binding IsDirectory, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+        <!-- フォルダー or ファイル -->
+        <!--
+        <Image Width="20" Height="20">
+            <Image.Style>
+                <Style TargetType="Image">
+                    <Setter Property="Source" Value="{StaticResource ic_file_24px}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsDirectory}" Value="True">
+                            <Setter Property="Source" Value="{StaticResource ic_folder_24px}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+        -->
+
+        <!-- ショートカット -->
+        <Grid Width="10" Height="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="-4,0,-4,0">
+            <Border Background="#EEE"
+                            Visibility="{Binding IsShortcut, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Image Source="{StaticResource ic_repeat_24px}" />
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -141,7 +141,17 @@ namespace NeeView
                 return;
             }
 
-            var bitmapSource = Utility.NVGraphics.CreateThumbnail(source, new Size(Size, Size));
+            var pixels = Size * Size;
+            var ratio = (double)source.PixelWidth / source.PixelHeight;
+            var height = Math.Floor(Math.Sqrt(pixels / ratio));
+            var width = Math.Floor(pixels / height);
+            if (height > Size * 2) height = Size * 2;
+            if (width > Size * 2) width = Size * 2;
+
+            var thumbnailSize = new Size(width, height);
+            //Debug.WriteLine($"Thumbnail: {thumbnailSize.Width}x{thumbnailSize.Height}");
+
+            var bitmapSource = Utility.NVGraphics.CreateThumbnail(source, thumbnailSize);
             var image = EncodeToJpeg(bitmapSource);
 
             Image = image;

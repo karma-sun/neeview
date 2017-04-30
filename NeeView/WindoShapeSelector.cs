@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,12 @@ namespace NeeView
     /// </summary>
     public class WindowShapeSelector : INotifyPropertyChanged
     {
+        [DllImport("user32.dll")]
+        private static extern IntPtr FindWindow(string className, string windowTitle);
+
+        [DllImport("user32.dll")]
+        private static extern int SetForegroundWindow(IntPtr hwnd);
+
         /// <summary>
         /// PropertyChanged event. 
         /// </summary>
@@ -271,13 +278,14 @@ namespace NeeView
         {
             if (!_isWindows7 || _shape != WindowShape.FullScreen) return;
 
-            //Debug.WriteLine("Recovery TaskBar");
-            _window.Visibility = Visibility.Hidden;
-            _window.Visibility = Visibility.Visible;
+            Debug.WriteLine("Recovery TaskBar");
 
-            ////IntPtr hTaskbarWnd = FindWindow("Shell_TrayWnd", null);
-            ////SetForegroundWindow(hTaskbarWnd);
-            ////_window.Activate();
+            //_window.Visibility = Visibility.Hidden;
+            //_window.Visibility = Visibility.Visible;
+
+            IntPtr hTaskbarWnd = FindWindow("Shell_TrayWnd", null);
+            SetForegroundWindow(hTaskbarWnd);
+            _window.Activate();
         }
 
         /// <summary>

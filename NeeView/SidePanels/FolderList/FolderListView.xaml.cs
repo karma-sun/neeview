@@ -73,7 +73,14 @@ namespace NeeView
 
 
         /// <summary>
-        /// constructore
+        /// constructor
+        /// </summary>
+        public FolderListView()
+        {
+        }
+
+        /// <summary>
+        /// constructor
         /// </summary>
         /// <param name="vm"></param>
         /// <param name="autoFocus"></param>

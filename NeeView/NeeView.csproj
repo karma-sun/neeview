@@ -124,7 +124,20 @@
     <Compile Include="BrushSource.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkPanel.cs" />
     <Compile Include="SidePanels\FileInfo\FileInfoPanel.cs" />
+    <Compile Include="SidePanels\FolderList\FolderIcon.xaml.cs">
+      <DependentUpon>FolderIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidePanels\FolderList\FolderListBanner.xaml.cs">
+      <DependentUpon>FolderListBanner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidePanels\FolderList\FolderListIcon.xaml.cs">
+      <DependentUpon>FolderListIcon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SidePanels\FolderList\FolderListPanel.cs" />
+    <Compile Include="SidePanels\FolderList\FolderListThumbnail.xaml.cs">
+      <DependentUpon>FolderListThumbnail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidePanels\FolderList\_FolderListDesigns.cs" />
     <Compile Include="SidePanels\ImageEffect\ImageEffectPanel.cs" />
     <Compile Include="SidePanels\ImageEffect\ImageEffectPanelView.xaml.cs">
       <DependentUpon>ImageEffectPanelView.xaml</DependentUpon>
@@ -440,6 +453,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SidePanels\Bookamrk\BookmarkPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\FolderList\FolderIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\FolderList\FolderListBanner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\FolderList\FolderListIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\FolderList\FolderListThumbnail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

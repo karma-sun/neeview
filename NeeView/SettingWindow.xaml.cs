@@ -212,7 +212,8 @@ namespace NeeView
         public static Dictionary<FolderListItemStyle, string> FolderListItemStyleList { get; } = new Dictionary<FolderListItemStyle, string>
         {
             [FolderListItemStyle.Normal] = "テキスト表示",
-            [FolderListItemStyle.Picture] = "バナー表示",
+            [FolderListItemStyle.Picture] = "コンテンツ表示",
+            [FolderListItemStyle.Banner] = "バナー表示",
         };
 
         //

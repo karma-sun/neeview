@@ -30,7 +30,7 @@ namespace NeeView
             set
             {
                 s_folderListItemStyle = value;
-                ThumbnailManager.IsEnabled = s_folderListItemStyle == FolderListItemStyle.Picture;
+                ThumbnailManager.IsEnabled = s_folderListItemStyle.HasThumbnail();
                 FolderListStyleChanged?.Invoke(null, s_folderListItemStyle);
             }
         }
@@ -53,7 +53,7 @@ namespace NeeView
             set
             {
                 s_pageListItemStyle = value;
-                PageThumbnailManager.IsEnabled = s_pageListItemStyle == FolderListItemStyle.Picture;
+                PageThumbnailManager.IsEnabled = s_pageListItemStyle.HasThumbnail();
                 PageListStyleChanged?.Invoke(null, s_pageListItemStyle);
             }
         }

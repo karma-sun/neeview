@@ -309,7 +309,6 @@
       <DependentUpon>PageMarkers.xaml</DependentUpon>
     </Compile>
     <Compile Include="Page\ArchivePage.cs" />
-    <Compile Include="SidePanels\PanelContext.cs" />
     <Compile Include="Preference.cs" />
     <Compile Include="PreferenceEditWindow.xaml.cs">
       <DependentUpon>PreferenceEditWindow.xaml</DependentUpon>

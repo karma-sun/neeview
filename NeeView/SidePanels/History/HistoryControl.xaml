@@ -19,6 +19,20 @@
 
     <UserControl.Resources>
 
+        <DrawingImage x:Key="ic_history_24px">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="Gray" Pen="{x:Null}">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M12,8L13.5,8 13.5,12.25 17,14.3299999237061 16.2800006866455,15.539999961853 12,13 12,8z M13,3C17.9699993133545,3 22,7.03000020980835 22,12 22,16.9699993133545 17.9699993133545,21 13,21 10.5100002288818,21 8.27000045776367,19.9899997711182 6.6399998664856,18.3600006103516L8.0600004196167,16.9400005340576C9.31999969482422,18.2099990844727 11.0699996948242,19 13,19 16.8700008392334,19 20,15.8699998855591 20,12 20,8.13000011444092 16.8700008392334,5 13,5 9.13000011444092,5 6,8.13000011444092 6,12L9,12 4.96000003814697,16.0300006866455 4.8899998664856,15.8900003433228 1,12 4,12C4,7.03000020980835,8.02999973297119,3,13,3z" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
         <local:BookMementoToTooltipConverter x:Key="BookMementoToTooltipConverter"/>
 
         <!-- Default TextBlock -->
@@ -87,7 +101,10 @@
 
         <StackPanel DockPanel.Dock="Top" Margin="5">
             <StackPanel Margin="5" Orientation="Horizontal">
+                <!--
                 <TextBlock FontFamily="Webdings" Text="a" FontSize="20" Foreground="{StaticResource NVCheckMarkBrush}" VerticalAlignment="Center" />
+                -->
+                <Image Source="{StaticResource ic_history_24px}" Width="18" Height="18"/>
                 <TextBlock Text="履歴" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
             </StackPanel>
             <DockPanel LastChildFill="False">

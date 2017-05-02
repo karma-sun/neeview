@@ -305,7 +305,7 @@ namespace NeeView
         {
             if (PanelListItemStyle.HasThumbnail())
             {
-                PanelContext.ThumbnailManager.RequestThumbnail(FolderCollection.Items, QueueElementPriority.FolderThumbnail, start, count, margin, direction);
+                ThumbnailManager.Current.RequestThumbnail(FolderCollection.Items, QueueElementPriority.FolderThumbnail, start, count, margin, direction);
             }
         }
 

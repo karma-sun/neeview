@@ -188,7 +188,7 @@ namespace NeeView
             if (Pagemarks == null) return;
             if (PanelListItemStyle.HasThumbnail())
             {
-                PanelContext.ThumbnailManager.RequestThumbnail(Pagemarks.Marks, QueueElementPriority.PagemarkThumbnail, start, count, margin, direction);
+                ThumbnailManager.Current.RequestThumbnail(Pagemarks.Marks, QueueElementPriority.PagemarkThumbnail, start, count, margin, direction);
             }
         }
 

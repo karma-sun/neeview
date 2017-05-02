@@ -186,7 +186,7 @@ namespace NeeView
             if (Bookmark == null) return;
             if (PanelListItemStyle.HasThumbnail())
             {
-                PanelContext.ThumbnailManager.RequestThumbnail(Bookmark.Items, QueueElementPriority.BookmarkThumbnail, start, count, margin, direction);
+                ThumbnailManager.Current.RequestThumbnail(Bookmark.Items, QueueElementPriority.BookmarkThumbnail, start, count, margin, direction);
             }
         }
 

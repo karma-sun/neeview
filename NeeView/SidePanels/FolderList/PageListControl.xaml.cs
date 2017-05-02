@@ -455,7 +455,7 @@ namespace NeeView
             if (VM == null) return;
             if (PanelListItemStyle.HasThumbnail())
             {
-                PanelContext.ThumbnailManager.RequestThumbnail(VM.PageList, QueueElementPriority.PageListThumbnail, start, count, margin, direction);
+                ThumbnailManager.Current.RequestThumbnail(VM.PageList, QueueElementPriority.PageListThumbnail, start, count, margin, direction);
             }
         }
 

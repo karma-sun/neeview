@@ -27,22 +27,26 @@ namespace NeeView
     /// </summary>
     public class ThumbnailManager
     {
-
+        // system object
+        public static ThumbnailManager _current;
+        public static ThumbnailManager Current { get { return _current = _current ?? new ThumbnailManager(); } }
 
         // サムネイル要求
-        public void RequestThumbnail<T>(ICollection<T> collection, QueueElementPriority priority, int start, int count, int margin, int direction) where T : IHasPage
+        public void RequestThumbnail(IEnumerable<IHasPage> collection, QueueElementPriority priority, int start, int count, int margin, int direction) //where T : IHasPage
         {
             if (collection == null) return;
 
-            Debug.WriteLine($"RequestThumbnail: {priority} ({start} - {start + count})");
+            ////bool isCollection = collection is System.Collections.ICollection;
+            ////Debug.WriteLine($"RequestThumbnail: {priority} ({start} - {start + count}) {isCollection}");
 
             // 未処理の要求を解除
             ModelContext.JobEngine.Clear(priority);
 
             // 要求
             int center = start + count / 2;
+            int collectionCount = collection.Count();
             var pages = Enumerable.Range(start - margin, count + margin * 2 - 1)
-                .Where(i => i >= 0 && i < collection.Count)
+                .Where(i => i >= 0 && i < collectionCount)
                 .Select(e => collection.ElementAt(e));
 
             foreach (var page in direction < 0 ? pages.Reverse() : pages)

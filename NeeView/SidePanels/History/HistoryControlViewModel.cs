@@ -287,7 +287,7 @@ namespace NeeView
         {
             if (PanelListItemStyle.HasThumbnail())
             {
-                PanelContext.ThumbnailManager.RequestThumbnail(Items, QueueElementPriority.HistoryThumbnail, start, count, margin, direction);
+                ThumbnailManager.Current.RequestThumbnail(Items, QueueElementPriority.HistoryThumbnail, start, count, margin, direction);
             }
         }
 

@@ -774,33 +774,21 @@ namespace NeeView
                 _elements[CommandType.ToggleVisiblePageList] = element;
             }
             //
-            // TogglePanelStyle
+            // TogglePanelStyle (欠番)
             {
                 var element = new CommandElement();
-                element.Group = "パネル";
-                element.Text = "パネルのコンテンツ表示ON/OFF";
-                element.MenuText = "パネルのコンテンツ表示";
-                element.Note = "パネルをサムネイル画像つき表示にします";
-                element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.TogglePanelStyle();
-                element.ExecuteMessage = e => _VM.IsContentPanelStyle ? "パネルを一覧表示にする" : "パネルをコンテンツ表示にする";
-                element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsContentPanelStyle));
+                element.Group = "dummy";
+                element.Text = "dummy";
+                element.Execute = (s, e) => { return; };
                 _elements[CommandType.TogglePanelStyle] = element;
             }
             //
-            // TogglePageListStyle
+            // TogglePageListStyle (欠番)
             {
                 var element = new CommandElement();
-                element.Group = "パネル";
-                element.Text = "ページリストのコンテンツ表示ON/OFF";
-                element.MenuText = "ページリストのコンテンツ表示";
-                element.Note = "ページリストをサムネイル画像つき表示にします";
-                element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.TogglePageListStyle();
-                element.ExecuteMessage = e => _VM.IsContentPageListStyle ? "ページリストを一覧表示にする" : "ページリストをコンテンツ表示にする";
-                element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsContentPageListStyle));
+                element.Group = "dummy";
+                element.Text = "dummy";
+                element.Execute = (s, e) => { return; };
                 _elements[CommandType.TogglePageListStyle] = element;
             }
 

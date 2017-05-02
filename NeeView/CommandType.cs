@@ -76,8 +76,8 @@ namespace NeeView
         ToggleVisiblePagemarkList,
         ToggleVisibleHistoryList,
         ToggleVisiblePageList,
-        TogglePanelStyle,
-        TogglePageListStyle,
+        TogglePanelStyle, // 欠番
+        TogglePageListStyle, // 欠番
 
         ToggleVisibleThumbnailList,
         ToggleHideThumbnailList,
@@ -186,6 +186,8 @@ namespace NeeView
             CommandType.ToggleIsReverseSort,
             CommandType.ToggleHideTitleBar,
             CommandType.ToggleEffectGrayscale,
+            CommandType.TogglePanelStyle,
+            CommandType.TogglePageListStyle,
         };
 
         // TODO: 判定法整備

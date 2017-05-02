@@ -4,16 +4,14 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeView.Windows;
-using System;
+using NeeView.Windows.Input;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -30,14 +28,16 @@ namespace NeeView
     {
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PagemarkControl));
 
-        private PagemarkControlVM _VM;
+        private PagemarkControlViewModel _VM;
+        public PagemarkControlViewModel VM => _VM;
+
         private ThumbnailHelper _thumbnailHelper;
 
         public PagemarkControl()
         {
             InitializeComponent();
 
-            _VM = new PagemarkControlVM();
+            _VM = new PagemarkControlViewModel();
             _VM.SelectedItemChanging += OnItemsChanging;
             _VM.SelectedItemChanged += OnItemsChanged;
             this.DockPanel.DataContext = _VM;
@@ -67,7 +67,7 @@ namespace NeeView
 
 
         //
-        private void OnItemsChanging(object sender, PagemarkControlVM.SelectedItemChangeEventArgs e)
+        private void OnItemsChanging(object sender, PagemarkControlViewModel.SelectedItemChangeEventArgs e)
         {
             var index = this.PagemarkListBox.SelectedIndex;
 
@@ -76,7 +76,7 @@ namespace NeeView
         }
 
         //
-        private void OnItemsChanged(object sender, PagemarkControlVM.SelectedItemChangeEventArgs e)
+        private void OnItemsChanged(object sender, PagemarkControlViewModel.SelectedItemChangeEventArgs e)
         {
             if (e.IsFocused)
             {
@@ -177,84 +177,6 @@ namespace NeeView
 
             ListBoxItem lbi = (ListBoxItem)(this.PagemarkListBox.ItemContainerGenerator.ContainerFromIndex(this.PagemarkListBox.SelectedIndex));
             lbi?.Focus();
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class PagemarkControlVM : INotifyPropertyChanged
-    {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
-
-        // 項目変更イベント。フォーカス保存用
-        public class SelectedItemChangeEventArgs
-        {
-            public bool IsFocused { get; set; }
-        }
-        public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanging;
-        public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanged;
-
-
-        public BookHub BookHub { get; private set; }
-
-        public PagemarkCollection Pagemarks => ModelContext.Pagemarks;
-
-
-
-        public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
-
-        //public double PicturePanelHeight => ThumbnailHeight + 24.0;
-
-        //public double ThumbnailWidth => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeX / App.Config.DpiScaleFactor.X);
-        //public double ThumbnailHeight => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeY / App.Config.DpiScaleFactor.Y);
-
-
-        //
-        public void Initialize(BookHub bookHub)
-        {
-            BookHub = bookHub;
-
-            RaisePropertyChanged(nameof(FolderListItemStyle));
-            PanelContext.FolderListStyleChanged += (s, e) => RaisePropertyChanged(nameof(FolderListItemStyle));
-        }
-
-        //
-        public void Load(Pagemark mark)
-        {
-            BookHub?.RequestLoad(mark);
-        }
-
-        //
-        public void Remove(Pagemark mark)
-        {
-            if (mark == null) return;
-
-            var args = new SelectedItemChangeEventArgs();
-            SelectedItemChanging?.Invoke(this, args);
-            Pagemarks.SelectedItem = Pagemarks.GetNeighbor(mark);
-            SelectedItemChanged?.Invoke(this, args);
-
-            ModelContext.Pagemarks.Remove(mark);
-            BookHub.UpdatePagemark(mark);
-        }
-
-        // サムネイル要求
-        public void RequestThumbnail(int start, int count, int margin, int direction)
-        {
-            if (Pagemarks == null) return;
-            PanelContext.ThumbnailManager.RequestThumbnail(Pagemarks.Marks, start, count, margin, direction);
         }
     }
 }

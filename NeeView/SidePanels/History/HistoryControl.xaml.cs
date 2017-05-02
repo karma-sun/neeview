@@ -17,10 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-
 
 namespace NeeView
 {
@@ -31,7 +28,9 @@ namespace NeeView
     {
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(HistoryControl));
 
-        private HistoryControlVM _VM;
+        private HistoryControlViewModel _VM;
+        public HistoryControlViewModel VM => _VM;
+
         private ThumbnailHelper _thumbnailHelper;
 
 
@@ -39,7 +38,7 @@ namespace NeeView
         {
             InitializeComponent();
 
-            _VM = new HistoryControlVM();
+            _VM = new HistoryControlViewModel();
             _VM.SelectedItemChanging += OnItemsChanging;
             _VM.SelectedItemChanged += OnItemsChanged;
             this.DockPanel.DataContext = _VM;
@@ -51,7 +50,7 @@ namespace NeeView
         }
 
         //
-        private void OnItemsChanging(object sender, HistoryControlVM.SelectedItemChangeEventArgs e)
+        private void OnItemsChanging(object sender, HistoryControlViewModel.SelectedItemChangeEventArgs e)
         {
             var index = this.HistoryListBox.SelectedIndex;
 
@@ -60,7 +59,7 @@ namespace NeeView
         }
 
         //
-        private void OnItemsChanged(object sender, HistoryControlVM.SelectedItemChangeEventArgs e)
+        private void OnItemsChanged(object sender, HistoryControlViewModel.SelectedItemChangeEventArgs e)
         {
             if (e.IsFocused)
             {
@@ -162,179 +161,6 @@ namespace NeeView
 
             // スクロール
             this.HistoryListBox.ScrollIntoView(this.HistoryListBox.SelectedItem);
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class HistoryControlVM : INotifyPropertyChanged
-    {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
-
-        // 項目変更イベント。フォーカス保存用
-        public class SelectedItemChangeEventArgs
-        {
-            public bool IsFocused { get; set; }
-        }
-        public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanging;
-        public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanged;
-
-
-        public BookHub BookHub { get; private set; }
-
-
-        #region Property: Items
-        private ObservableCollection<BookMementoUnit> _items;
-        public ObservableCollection<BookMementoUnit> Items
-        {
-            get { return _items; }
-            set { _items = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-
-        #region Property: SelectedItem
-        private BookMementoUnit _selectedItem;
-        public BookMementoUnit SelectedItem
-        {
-            get { return _selectedItem; }
-            set { _selectedItem = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-
-        #region Property: Visibility
-        private Visibility _visibility = Visibility.Hidden;
-        public Visibility Visibility
-        {
-            get { return _visibility; }
-            set { _visibility = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-        public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
-
-        //public double PicturePanelHeight => ThumbnailHeight + 24.0;
-
-        //public double ThumbnailWidth => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeX / App.Config.DpiScaleFactor.X);
-        //public double ThumbnailHeight => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeY / App.Config.DpiScaleFactor.Y);
-
-
-        private bool _isDarty;
-
-        //
-        public void Initialize(BookHub bookHub, bool isVisible)
-        {
-            BookHub = bookHub;
-
-            _isDarty = true;
-            if (isVisible) UpdateItems();
-
-            BookHub.HistoryChanged += BookHub_HistoryChanged;
-            BookHub.HistoryListSync += BookHub_HistoryListSync;
-
-            RaisePropertyChanged(nameof(FolderListItemStyle));
-            PanelContext.FolderListStyleChanged += (s, e) => RaisePropertyChanged(nameof(FolderListItemStyle));
-        }
-
-        //
-        private void BookHub_HistoryListSync(object sender, string e)
-        {
-            var args = new SelectedItemChangeEventArgs();
-            SelectedItemChanging?.Invoke(this, args);
-            SelectedItem = ModelContext.BookHistory.Find(e);
-            SelectedItemChanged?.Invoke(this, args);
-        }
-
-        //
-        private void BookHub_HistoryChanged(object sender, BookMementoCollectionChangedArgs e)
-        {
-            _isDarty = _isDarty || e.HistoryChangedType != BookMementoCollectionChangedType.Update;
-            if (_isDarty && Visibility == Visibility.Visible)
-            {
-                UpdateItems();
-            }
-        }
-
-        //
-        public void UpdateItems()
-        {
-            if (_isDarty)
-            {
-                _isDarty = false;
-
-                var args = new SelectedItemChangeEventArgs();
-                App.Current.Dispatcher.Invoke(() => SelectedItemChanging?.Invoke(this, args));
-
-                var item = SelectedItem;
-                Items = new ObservableCollection<BookMementoUnit>(ModelContext.BookHistory.Items);
-                SelectedItem = Items.Count > 0 ? item : null;
-
-                App.Current.Dispatcher.Invoke(() => SelectedItemChanged?.Invoke(this, args));
-            }
-        }
-
-        //
-        public void Load(string path)
-        {
-            if (path == null) return;
-            BookHub?.RequestLoad(path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SkipSamePlace, true);
-        }
-
-
-        // となりを取得
-        public BookMementoUnit GetNeighbor(BookMementoUnit item)
-        {
-            if (Items == null || Items.Count <= 0) return null;
-
-            int index = Items.IndexOf(item);
-            if (index < 0) return Items[0];
-
-            if (index + 1 < Items.Count)
-            {
-                return Items[index + 1];
-            }
-            else if (index > 0)
-            {
-                return Items[index - 1];
-            }
-            else
-            {
-                return item;
-            }
-        }
-
-        //
-        public void Remove(BookMementoUnit item)
-        {
-            if (item == null) return;
-
-            // 位置ずらし
-            var args = new SelectedItemChangeEventArgs();
-            SelectedItemChanging?.Invoke(this, args);
-            SelectedItem = GetNeighbor(item);
-            SelectedItemChanged?.Invoke(this, args);
-
-            // 削除
-            ModelContext.BookHistory.Remove(item.Memento.Place);
-        }
-
-        // サムネイル要求
-        public void RequestThumbnail(int start, int count, int margin, int direction)
-        {
-            PanelContext.ThumbnailManager.RequestThumbnail(Items, start, count, margin, direction);
         }
     }
 

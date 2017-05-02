@@ -51,12 +51,26 @@ namespace NeeView
         /// <summary>
         /// フォルダー項目表示スタイル
         /// </summary>
-        public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
+        public PanelListItemStyle PanelListItemStyle
+        {
+            get { return _panelListItemStyle; }
+            set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
+        }
+
+        //
+        private PanelListItemStyle _panelListItemStyle;
+
 
         /// <summary>
-        /// フォルダーアイコン表示方法(未使用)
+        /// フォルダーアイコン表示方法
         /// </summary>
-        public FolderIconLayout FolderIconLayout => FolderIconLayout.Right;
+        public FolderIconLayout FolderIconLayout => Preference.Current.folderlist_iconlayout;
+
+        //
+        public void RaiseFolderIconLayoutChanged()
+        {
+            RaisePropertyChanged(nameof(FolderIconLayout));
+        }
 
 
         /// <summary>
@@ -109,9 +123,6 @@ namespace NeeView
         {
             this.FolderCollection = collection;
             this.FolderCollection.Deleting += FolderCollection_Deleting;
-
-            RaisePropertyChanged(nameof(FolderListItemStyle));
-            PanelContext.FolderListStyleChanged += (s, e) => RaisePropertyChanged(nameof(FolderListItemStyle));
         }
 
 
@@ -288,11 +299,14 @@ namespace NeeView
 
 
 
+
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin, int direction)
         {
-            //Debug.WriteLine($"{start}({count})");
-            PanelContext.ThumbnailManager.RequestThumbnail(FolderCollection.Items, start, count, margin, direction);
+            if (PanelListItemStyle.HasThumbnail())
+            {
+                PanelContext.ThumbnailManager.RequestThumbnail(FolderCollection.Items, QueueElementPriority.FolderThumbnail, start, count, margin, direction);
+            }
         }
 
         /// <summary>
@@ -389,7 +403,7 @@ namespace NeeView
     /// </summary>
     public enum FolderIconLayout
     {
-        Normal, // ファイル名の左
+        Left, // Explorer風
         Right, // 項目の右端
     }
 

@@ -4,16 +4,14 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeView.Windows;
-using System;
+using NeeView.Windows.Input;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -30,14 +28,16 @@ namespace NeeView
     {
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkControl));
 
-        private BookmarkControlVM _vm;
+        private BookmarkControlViewModel _vm;
+        public BookmarkControlViewModel VM => _vm;
+
         private ThumbnailHelper _thumbnailHelper;
 
         public BookmarkControl()
         {
             InitializeComponent();
 
-            _vm = new BookmarkControlVM();
+            _vm = new BookmarkControlViewModel();
             _vm.SelectedItemChanging += OnItemsChanging;
             _vm.SelectedItemChanged += OnItemsChanged;
             this.DockPanel.DataContext = _vm;
@@ -67,7 +67,7 @@ namespace NeeView
 
 
         //
-        private void OnItemsChanging(object sender, BookmarkControlVM.SelectedItemChangeEventArgs e)
+        private void OnItemsChanging(object sender, BookmarkControlViewModel.SelectedItemChangeEventArgs e)
         {
             var index = this.BookmarkListBox.SelectedIndex;
 
@@ -76,7 +76,7 @@ namespace NeeView
         }
 
         //
-        private void OnItemsChanged(object sender, BookmarkControlVM.SelectedItemChangeEventArgs e)
+        private void OnItemsChanged(object sender, BookmarkControlViewModel.SelectedItemChangeEventArgs e)
         {
             if (e.IsFocused)
             {
@@ -176,82 +176,6 @@ namespace NeeView
 
             ListBoxItem lbi = (ListBoxItem)(this.BookmarkListBox.ItemContainerGenerator.ContainerFromIndex(this.BookmarkListBox.SelectedIndex));
             lbi?.Focus();
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class BookmarkControlVM : INotifyPropertyChanged
-    {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
-
-        // 項目変更イベント。フォーカス保存用
-        public class SelectedItemChangeEventArgs
-        {
-            public bool IsFocused { get; set; }
-        }
-        public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanging;
-        public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanged;
-
-
-        public BookHub BookHub { get; private set; }
-
-        public BookmarkCollection Bookmark => ModelContext.Bookmarks;
-
-
-        public FolderListItemStyle FolderListItemStyle => PanelContext.FolderListItemStyle;
-
-        //public double PicturePanelHeight => ThumbnailHeight + 24.0;
-
-        //public double ThumbnailWidth => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeX / App.Config.DpiScaleFactor.X);
-        //public double ThumbnailHeight => Math.Floor(PanelContext.ThumbnailManager.ThumbnailSizeY / App.Config.DpiScaleFactor.Y);
-
-
-        //
-        public void Initialize(BookHub bookHub)
-        {
-            BookHub = bookHub;
-
-            RaisePropertyChanged(nameof(FolderListItemStyle));
-            PanelContext.FolderListStyleChanged += (s, e) => RaisePropertyChanged(nameof(FolderListItemStyle));
-        }
-
-        //
-        public void Load(string path)
-        {
-            BookHub?.RequestLoad(path, null, BookLoadOption.SkipSamePlace, true);
-        }
-
-
-        public void Remove(BookMementoUnitNode item)
-        {
-            if (item == null) return;
-
-            var args = new SelectedItemChangeEventArgs();
-            SelectedItemChanging?.Invoke(this, args);
-            Bookmark.SelectedItem = Bookmark.GetNeighbor(item);
-            SelectedItemChanged?.Invoke(this, args);
-
-            ModelContext.Bookmarks.Remove(item.Value.Memento.Place);
-        }
-
-        // サムネイル要求
-        public void RequestThumbnail(int start, int count, int margin, int direction)
-        {
-            if (Bookmark == null) return;
-            PanelContext.ThumbnailManager.RequestThumbnail(Bookmark.Items, start, count, margin, direction);
         }
     }
 }

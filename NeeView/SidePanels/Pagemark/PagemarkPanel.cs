@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -52,5 +53,29 @@ namespace NeeView
         {
             _view.Initialize(vm);
         }
+
+        #region Memento
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public PagemarkControlViewModel.Memento PagemarkControlMemento;
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.PagemarkControlMemento = _view.PagemarkControl.VM.CreateMemento();
+            return memento;
+        }
+
+        //
+        public void Resore(Memento memento)
+        {
+            if (memento == null) return;
+            _view.PagemarkControl.VM?.Restore(memento.PagemarkControlMemento);
+        }
+        #endregion
     }
 }

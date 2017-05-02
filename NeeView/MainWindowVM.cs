@@ -126,6 +126,8 @@ namespace NeeView
     /// </summary>
     public class MainWindowVM : INotifyPropertyChanged, IDisposable
     {
+        public static MainWindowVM Current { get; private set; }
+
         #region Events
 
         #region NotifyPropertyChanged
@@ -581,39 +583,6 @@ namespace NeeView
         #endregion
 
 
-        /// <summary>
-        /// IsContentPanelStyle property.
-        /// </summary>
-        public bool IsContentPanelStyle
-        {
-            get { return this.FolderListItemStyle == FolderListItemStyle.Picture; }
-            set { this.FolderListItemStyle = value ? FolderListItemStyle.Picture : FolderListItemStyle.Normal; RaisePropertyChanged(); }
-        }
-
-        public void TogglePanelStyle()
-        {
-            IsContentPanelStyle = !IsContentPanelStyle;
-        }
-
-
-        /// <summary>
-        /// IsContentPageListStyle property.
-        /// </summary>
-        public bool IsContentPageListStyle
-        {
-            get { return this.PageListItemStyle == FolderListItemStyle.Picture; }
-            set { this.PageListItemStyle = value ? FolderListItemStyle.Picture : FolderListItemStyle.Normal; RaisePropertyChanged(); }
-        }
-
-        public void TogglePageListStyle()
-        {
-            IsContentPageListStyle = !IsContentPageListStyle;
-        }
-
-
-
-
-
         // タイトルバーON/OFF
         #region Property: IsVisibleTitleBar
         private bool _isVisibleTitleBar;
@@ -846,7 +815,7 @@ namespace NeeView
         /// <summary>
         /// SidePanelMemento property.
         /// </summary>
-        public SidePanelFrameModel.Memento SidePanelMemento
+        public SidePanels.Memento SidePanelMemento
         {
             get { return _sidePanelMemento; }
             set
@@ -861,9 +830,9 @@ namespace NeeView
         }
 
         //
-        private SidePanelFrameModel.Memento _sidePanelMemento;
+        private SidePanels.Memento _sidePanelMemento;
 
-        private SidePanelFrameModel.Memento CreateSidePanelMemento()
+        private SidePanels.Memento CreateSidePanelMemento()
         {
             return SidePanels?.CreateMemento();
         }
@@ -1001,42 +970,6 @@ namespace NeeView
                 }
             }
         }
-
-
-        // フォルダーリスト項目表示種類
-        #region Property: FolderListItemStyle
-        private FolderListItemStyle _folderListItemStyle;
-        public FolderListItemStyle FolderListItemStyle
-        {
-            get { return _folderListItemStyle; }
-            set
-            {
-                _folderListItemStyle = value;
-                RaisePropertyChanged();
-                PanelContext.FolderListItemStyle = _folderListItemStyle;
-                RaisePropertyChanged(nameof(IsContentPanelStyle));
-            }
-        }
-        #endregion
-
-
-        // ページリスト項目表示種類
-        #region Property: PageListItemStyle
-        private FolderListItemStyle _pageListItemStyle;
-        public FolderListItemStyle PageListItemStyle
-        {
-            get { return _pageListItemStyle; }
-            set
-            {
-                _pageListItemStyle = value;
-                RaisePropertyChanged();
-                PanelContext.PageListItemStyle = _pageListItemStyle;
-                RaisePropertyChanged(nameof(IsContentPageListStyle));
-            }
-        }
-        #endregion
-
-
 
         // ウィンドウ状態管理
         WindowShapeSelector _windowShape;
@@ -1920,6 +1853,8 @@ namespace NeeView
         // コンストラクタ
         public MainWindowVM(MainWindow window)
         {
+            MainWindowVM.Current = this;
+
             _windowShape = new WindowShapeSelector(window);
             _windowShape.ShapeChanged += (s, e) => IsFullScreen = _windowShape.Shape == WindowShape.FullScreen;
 
@@ -3286,9 +3221,6 @@ namespace NeeView
             public bool IsVisiblePageList { get; set; }
 
             [DataMember(Order = 10)]
-            public FolderListItemStyle FolderListItemStyle { get; set; }
-
-            [DataMember(Order = 10)]
             public ShowMessageStyle ViewTransformShowMessageStyle { get; set; }
 
             [DataMember(Order = 10)]
@@ -3321,9 +3253,6 @@ namespace NeeView
             [DataMember(Order = 20)]
             public bool IsLoupeCenter { get; set; }
 
-            [DataMember(Order = 20)]
-            public FolderListItemStyle PageListItemStyle { get; set; }
-
             [DataMember(Order = 21)]
             public SliderIndexLayout SliderIndexLayout { get; set; }
 
@@ -3331,7 +3260,7 @@ namespace NeeView
             public BrushSource CustomBackground { get; set; }
 
             [DataMember(Order = 22)]
-            public SidePanelFrameModel.Memento SidePanelMemento { get; set; }
+            public SidePanels.Memento SidePanelMemento { get; set; }
 
             //
             private void Constructor()
@@ -3369,7 +3298,7 @@ namespace NeeView
                 SliderIndexLayout = SliderIndexLayout.Right;
                 CustomBackground = new BrushSource();
 
-                SidePanelMemento = new SidePanelFrameModel.Memento();
+                SidePanelMemento = new SidePanels.Memento();
                 SidePanelMemento.Right.PanelTypeCodes = new List<string>() { nameof(FileInfoPanel), nameof(ImageEffectPanel) };
             }
 
@@ -3471,7 +3400,6 @@ namespace NeeView
             memento.FolderListGridRow0 = this.FolderListGridRow0;
             memento.FolderListGridRow2 = this.FolderListGridRow2;
             memento.IsVisiblePageList = this.IsVisiblePageList;
-            memento.FolderListItemStyle = this.FolderListItemStyle;
             memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
             memento.ContentsSpace = this.ContentsSpace;
             memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
@@ -3480,7 +3408,6 @@ namespace NeeView
             memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
             memento.IsVisibleLoupeInfo = this.IsVisibleLoupeInfo;
             memento.IsLoupeCenter = this.IsLoupeCenter;
-            memento.PageListItemStyle = this.PageListItemStyle;
             memento.SliderIndexLayout = this.SliderIndexLayout;
 
             memento.SidePanelMemento = CreateSidePanelMemento();
@@ -3537,7 +3464,6 @@ namespace NeeView
             this.FolderListGridRow0 = memento.FolderListGridRow0;
             this.FolderListGridRow2 = memento.FolderListGridRow2;
             this.IsVisiblePageList = memento.IsVisiblePageList;
-            this.FolderListItemStyle = memento.FolderListItemStyle;
             this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
             this.ContentsSpace = memento.ContentsSpace;
             this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
@@ -3546,7 +3472,6 @@ namespace NeeView
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
             this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
             this.IsLoupeCenter = memento.IsLoupeCenter;
-            this.PageListItemStyle = memento.PageListItemStyle;
             this.SliderIndexLayout = memento.SliderIndexLayout;
 
             this.SidePanelMemento = memento.SidePanelMemento;

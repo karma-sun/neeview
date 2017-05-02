@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -156,6 +157,22 @@ namespace NeeView
 
         #region Memento
 
+        [DataContract]
+        public new class Memento : SidePanelFrameModel.Memento
+        {
+            [DataMember]
+            public FolderListPanel.Memento FolderListPanelMemento { get; set; }
+
+            [DataMember]
+            public HistoryPanel.Memento HistoryPanelMemento { get; set; }
+
+            [DataMember]
+            public BookmarkPanel.Memento BookmarkPanelMemento { get; set; }
+
+            [DataMember]
+            public PagemarkPanel.Memento PagemarkPanelMemento { get; set; }
+        }
+
         /// <summary>
         /// 標準Memento生成
         /// </summary>
@@ -167,12 +184,30 @@ namespace NeeView
             return memento;
         }
 
+        public new Memento CreateMemento()
+        {
+            var memento = new Memento();
+            base.InitializeMemento(memento);
+
+            memento.FolderListPanelMemento = FolderListPanel.CreateMemento();
+            memento.HistoryPanelMemento = HistoryPanel.CreateMemento();
+            memento.BookmarkPanelMemento = BookmarkPanel.CreateMemento();
+            memento.PagemarkPanelMemento = PagemarkPanel.CreateMemento();
+
+            return memento;
+        }
+
         /// <summary>
         /// Memento適用
         /// </summary>
         /// <param name="memento"></param>
         public void Restore(Memento memento)
         {
+            FolderListPanel.Restore(memento.FolderListPanelMemento);
+            HistoryPanel.Resore(memento.HistoryPanelMemento);
+            BookmarkPanel.Resore(memento.BookmarkPanelMemento);
+            PagemarkPanel.Resore(memento.PagemarkPanelMemento);
+
             this.Restore(memento, _panels);
         }
 

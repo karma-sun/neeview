@@ -10,8 +10,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace NeeView
 {
@@ -36,16 +39,16 @@ namespace NeeView
     public enum FolderSetPlaceOption
     {
         None,
-        IsFocus = (1<<0),
-        IsUpdateHistory = (1<<1),
-        IsTopSelect = (1<<3),
+        IsFocus = (1 << 0),
+        IsUpdateHistory = (1 << 1),
+        IsTopSelect = (1 << 3),
     }
 
 
-/// <summary>
-/// FolderListControl ViewModel
-/// </summary>
-public class FolderListControlViewModel : INotifyPropertyChanged
+    /// <summary>
+    /// FolderListControl ViewModel
+    /// </summary>
+    public class FolderListControlViewModel : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -101,6 +104,117 @@ public class FolderListControlViewModel : INotifyPropertyChanged
         /// </summary>
         public FolderListViewModel FolderListViewModel => FolderListView?.VM;
 
+
+        #region MoreMenu
+
+        /// <summary>
+        /// MoreMenu property.
+        /// </summary>
+        public ContextMenu MoreMenu
+        {
+            get { return _MoreMenu; }
+            set { if (_MoreMenu != value) { _MoreMenu = value; RaisePropertyChanged(); } }
+        }
+
+        //
+        private ContextMenu _MoreMenu;
+
+
+        //
+        private void InitializeMoreMenu(MainWindowVM vm)
+        {
+            var menu = new ContextMenu();
+            menu.Items.Add(CreateCommandMenuItem("ページリスト", CommandType.ToggleVisiblePageList, vm));
+            menu.Items.Add(new Separator());
+            menu.Items.Add(CreateListItemStyleMenuItem("一覧表示", PanelListItemStyle.Normal));
+            menu.Items.Add(CreateListItemStyleMenuItem("コンテンツ表示", PanelListItemStyle.Content));
+            menu.Items.Add(CreateListItemStyleMenuItem("バナー表示", PanelListItemStyle.Banner));
+
+            this.MoreMenu = menu;
+        }
+
+        //
+        private MenuItem CreateCommandMenuItem(string header, CommandType command, object source)
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.Command = ModelContext.BookCommands[command];
+            item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
+            if (ModelContext.CommandTable[command].CreateIsCheckedBinding != null)
+            {
+                var binding = ModelContext.CommandTable[command].CreateIsCheckedBinding();
+                binding.Source = source;
+                item.SetBinding(MenuItem.IsCheckedProperty, binding);
+            }
+
+            return item;
+        }
+
+        //
+        private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.Command = SetListItemStyle;
+            item.CommandParameter = style;
+            var binding = new Binding(nameof(PanelListItemStyle))
+            {
+                Converter = _PanelListItemStyleToBooleanConverter,
+                ConverterParameter = style
+            };
+            item.SetBinding(MenuItem.IsCheckedProperty, binding);
+
+            return item;
+        }
+
+
+        private PanelListItemStyleToBooleanConverter _PanelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
+
+
+        /// <summary>
+        /// SetListItemStyle command.
+        /// </summary>
+        public RelayCommand<PanelListItemStyle> SetListItemStyle
+        {
+            get { return _SetListItemStyle = _SetListItemStyle ?? new RelayCommand<PanelListItemStyle>(SetListItemStyle_Executed); }
+        }
+
+        //
+        private RelayCommand<PanelListItemStyle> _SetListItemStyle;
+
+        //
+        private void SetListItemStyle_Executed(PanelListItemStyle style)
+        {
+            this.PanelListItemStyle = style;
+        }
+
+
+        /// <summary>
+        /// PanelListItemStyle property.
+        /// TODO: 保存されるものなのでモデル的なクラスでの実装が望ましい
+        /// </summary>
+        public PanelListItemStyle PanelListItemStyle
+        {
+            get { return _PanelListItemStyle; }
+            set
+            {
+                if (_PanelListItemStyle != value)
+                {
+                    _PanelListItemStyle = value;
+                    this.FolderListView?.SetPanelListItemStyle(_PanelListItemStyle);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        //
+        private PanelListItemStyle _PanelListItemStyle;
+
+
+
+        #endregion
+
+
         /// <summary>
         /// 現在のフォルダー
         /// </summary>
@@ -121,7 +235,7 @@ public class FolderListControlViewModel : INotifyPropertyChanged
         /// </summary>
         private bool _isDarty;
 
-        
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -134,6 +248,16 @@ public class FolderListControlViewModel : INotifyPropertyChanged
             Messenger.AddReciever("GetFolderOrder", CallGetFolderOrder);
             Messenger.AddReciever("ToggleFolderOrder", CallToggleFolderOrder);
             Messenger.AddReciever("MoveFolder", CallMoveFolder);
+        }
+
+
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        /// <param name="vm"></param>
+        internal void Initialize(MainWindowVM vm)
+        {
+            InitializeMoreMenu(vm);
         }
 
 
@@ -157,7 +281,7 @@ public class FolderListControlViewModel : INotifyPropertyChanged
             if (folder == null || folder.ParentPath == null) return;
             _lastPlaceDictionary[folder.ParentPath] = folder.Path;
         }
-        
+
         /// <summary>
         /// フォルダーリスト更新
         /// </summary>
@@ -264,6 +388,7 @@ public class FolderListControlViewModel : INotifyPropertyChanged
             // FolderListViewModel
             var vm = new FolderListViewModel(collection);
             vm.SelectedIndex = vm.FixedIndexOfPath(select);
+            vm.PanelListItemStyle = PanelListItemStyle;
 
             // FolderListView
             var view = new FolderListView(vm, isFocus);
@@ -555,5 +680,34 @@ public class FolderListControlViewModel : INotifyPropertyChanged
                 e.Result = true;
             }
         }
+
+        #region Memento
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public PanelListItemStyle PanelListItemStyle { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.PanelListItemStyle = this.PanelListItemStyle;
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            this.PanelListItemStyle = memento.PanelListItemStyle;
+
+            // Preference反映
+            this.FolderListViewModel?.RaiseFolderIconLayoutChanged();
+        }
+
+        #endregion
     }
+
 }

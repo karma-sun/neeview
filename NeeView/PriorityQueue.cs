@@ -21,13 +21,16 @@ namespace NeeView
         PageThumbnail, // サムネイル専用
         PageListThumbnail, // ページリスト専用
         FolderThumbnail, // フォルダーサムネイル専用
+        BookmarkThumbnail, // ブックマークサムネイル専用
+        PagemarkThumbnail, // ページマークサムネイル専用
+        HistoryThumbnail, // 履歴サムネイル専用
     }
 
     /// <summary>
     /// 優先順位付き待ち行列
     /// </summary>
     /// <typeparam name="T">要素の型</typeparam>
-    public class PriorityQueue<T> where T : class
+    public class PriorityQueue<T> where T : class 
     {
         // 優先度毎の待機リスト
         private volatile Dictionary<QueueElementPriority, LinkedList<T>> _queue;
@@ -70,6 +73,17 @@ namespace NeeView
             {
                 cancelAction(element);
             }
+        }
+
+        /// <summary>
+        /// 条件に一致する要素の取得
+        /// </summary>
+        /// <param name="match"></param>
+        /// <param name="priority"></param>
+        /// <returns></returns>
+        public IEnumerable<T> Where(Predicate<T> match, QueueElementPriority priority)
+        {
+            return _queue[priority].Where(e => match(e));
         }
 
 
@@ -117,6 +131,12 @@ namespace NeeView
             }
         }
 
+        // 指定要素の削除
+        public bool Remove(QueueElementPriority priority, T element)
+        {
+            return _queue[priority].Remove(element);
+        }
+        
         // 先頭要素を取得し、削除する
         public T Dequeue(QueueElementPriority priority, bool reverse = false)
         {
@@ -141,12 +161,16 @@ namespace NeeView
             }
         }
 
-        // 先頭要素を取得し、削除する
-        public T DequeueAll(QueueElementPriority? bottom = null)
+        /// <summary>
+        /// 先頭要素を取得し、削除する
+        /// </summary>
+        /// <param name="bottom">取得限界優先度</param>
+        /// <returns>取得された要素。取得できなかった場合はnull</returns>
+        public T DequeueAll(QueueElementPriority bottom)
         {
             foreach (QueueElementPriority priority in Enum.GetValues(typeof(QueueElementPriority)))
             {
-                if (bottom != null && priority > bottom) break;
+                if (priority > bottom) break;
                 var item = Dequeue(priority);
                 if (item != null)
                 {
@@ -155,6 +179,26 @@ namespace NeeView
             }
             return null;
         }
+
+
+        /// <summary>
+        /// 先頭要素を取得し、削除する
+        /// </summary>
+        /// <returns>取得された要素。取得できなかった場合はnull</returns>
+        public T DequeueAll()
+        {
+            foreach (QueueElementPriority priority in Enum.GetValues(typeof(QueueElementPriority)))
+            {
+                var item = Dequeue(priority);
+                if (item != null)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+
 
         // 要素の優先度を変更する
         public void ChangePriority(T element, QueueElementPriority newPriority)

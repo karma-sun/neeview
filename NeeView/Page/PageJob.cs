@@ -93,7 +93,7 @@ namespace NeeView
         /// <returns></returns>
         public async Task RequestAsync(QueueElementPriority priority, PageJobOption option, CancellationToken token)
         {
-            await Request(priority, option).WaitAsync(token);
+            await Request(priority, null, option).WaitAsync(token);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace NeeView
         /// <param name="priority"></param>
         /// <param name="option"></param>
         /// <returns></returns>
-        public JobRequest Request(QueueElementPriority priority, PageJobOption option)
+        public JobRequest Request(QueueElementPriority priority, string keyCode, PageJobOption option)
         {
             // ジョブ登録済の場合、優先度変更
             if (IsAlive)
@@ -120,7 +120,7 @@ namespace NeeView
             }
             else
             {
-                _jobRequest = ModelContext.JobEngine.Add(this, _command, priority);
+                _jobRequest = ModelContext.JobEngine.Add(this, _command, priority, keyCode);
                 ////if (_page.Index == 9 ) _jobRequest.SetDebug();
                 _jobRequest.Logged += (e) => _page.Message = e;
                 _page.Message = $"{_jobRequest.Serial}: Open.1 ...({priority})";

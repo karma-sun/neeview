@@ -22,8 +22,5 @@
                 </VisualBrush.Visual>
             </VisualBrush>
         </Rectangle.Fill>
-        <Rectangle.ToolTip>
-            <Image Source="{Binding BitmapSource}"/>
-        </Rectangle.ToolTip>
     </Rectangle>
 </UserControl>

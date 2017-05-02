@@ -79,6 +79,11 @@ namespace NeeView
         private FolderListControlViewModel _vm;
 
         /// <summary>
+        /// 応急処置：本来VMが外部から参照できるのはまずい
+        /// </summary>
+        public FolderListControlViewModel VM => _vm;
+
+        /// <summary>
         /// constructor
         /// </summary>
         public FolderListControlView()
@@ -87,6 +92,15 @@ namespace NeeView
 
             _vm = new FolderListControlViewModel();
             this.DockPanel.DataContext = _vm;
+        }
+
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        /// <param name="vm"></param>
+        public void Initialize(MainWindowVM vm)
+        {
+            _vm.Initialize(vm);
         }
 
 

@@ -118,6 +118,7 @@
     <Compile Include="BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
     <Compile Include="DelayVisibility.cs" />
+    <Compile Include="SidePanels\Bookamrk\BookmarkControlViewModel.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkPanelView.xaml.cs">
       <DependentUpon>BookmarkPanelView.xaml</DependentUpon>
     </Compile>
@@ -133,15 +134,20 @@
     <Compile Include="SidePanels\FolderList\FolderListIcon.xaml.cs">
       <DependentUpon>FolderListIcon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SidePanels\FolderList\FolderListIconMark.xaml.cs">
+      <DependentUpon>FolderListIconMark.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SidePanels\FolderList\FolderListPanel.cs" />
     <Compile Include="SidePanels\FolderList\FolderListThumbnail.xaml.cs">
       <DependentUpon>FolderListThumbnail.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\FolderList\_FolderListDesigns.cs" />
+    <Compile Include="SidePanels\History\HistoryControlViewModel.cs" />
     <Compile Include="SidePanels\ImageEffect\ImageEffectPanel.cs" />
     <Compile Include="SidePanels\ImageEffect\ImageEffectPanelView.xaml.cs">
       <DependentUpon>ImageEffectPanelView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SidePanels\Pagemark\PagemarkControlViewModel.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkPanel.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkPanelView.xaml.cs">
       <DependentUpon>PagemarkPanelView.xaml</DependentUpon>
@@ -283,7 +289,7 @@
     <Compile Include="Loupe.xaml.cs">
       <DependentUpon>Loupe.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PageListControl.xaml.cs">
+    <Compile Include="SidePanels\FolderList\PageListControl.xaml.cs">
       <DependentUpon>PageListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\FolderList\FolderCollection.cs" />
@@ -303,7 +309,7 @@
       <DependentUpon>PageMarkers.xaml</DependentUpon>
     </Compile>
     <Compile Include="Page\ArchivePage.cs" />
-    <Compile Include="PanelContext.cs" />
+    <Compile Include="SidePanels\PanelContext.cs" />
     <Compile Include="Preference.cs" />
     <Compile Include="PreferenceEditWindow.xaml.cs">
       <DependentUpon>PreferenceEditWindow.xaml</DependentUpon>
@@ -413,6 +419,7 @@
     <Compile Include="_NeeView\Windows\Controls\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="_NeeView\Windows\Controls\DropDownMenuButton.cs" />
     <Compile Include="_NeeView\Windows\Controls\FileNameBox.xaml.cs">
       <DependentUpon>FileNameBox.xaml</DependentUpon>
     </Compile>
@@ -465,6 +472,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SidePanels\FolderList\FolderListIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\FolderList\FolderListIconMark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -568,7 +579,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PageListControl.xaml">
+    <Page Include="SidePanels\FolderList\PageListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

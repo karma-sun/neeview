@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,38 +27,17 @@ namespace NeeView
     /// </summary>
     public class ThumbnailManager
     {
-        //
-        #region Property: IsEnabled
-        private bool _isEnabled;
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set
-            {
-                _isEnabled = value;
-            }
-        }
-        #endregion
 
-        private QueueElementPriority _priority;
-
-        //
-        public ThumbnailManager(QueueElementPriority priority)
-        {
-            _priority = priority;
-        }
 
         // サムネイル要求
-        public void RequestThumbnail<T>(ICollection<T> collection, int start, int count, int margin, int direction) where T : IHasPage
+        public void RequestThumbnail<T>(ICollection<T> collection, QueueElementPriority priority, int start, int count, int margin, int direction) where T : IHasPage
         {
-            if (!_isEnabled) return;
-
-            //Debug.WriteLine($"{start}+{count}");
-
             if (collection == null) return;
 
+            Debug.WriteLine($"RequestThumbnail: {priority} ({start} - {start + count})");
+
             // 未処理の要求を解除
-            ModelContext.JobEngine.Clear(_priority); // TODO: これ、別のフラグのほうがいいな
+            ModelContext.JobEngine.Clear(priority);
 
             // 要求
             int center = start + count / 2;
@@ -67,7 +47,7 @@ namespace NeeView
 
             foreach (var page in direction < 0 ? pages.Reverse() : pages)
             {
-                page.GetPage()?.LoadThumbnail(_priority);
+                page.GetPage()?.LoadThumbnail(priority);
             }
         }
     }

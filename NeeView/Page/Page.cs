@@ -200,7 +200,7 @@ namespace NeeView
             if (Content.IsLoaded) return null;
 
             Message = $"Open... ({priority})";
-            return _contentJob.Request(priority, option);
+            return _contentJob.Request(priority, null, option);
         }
 
         /// <summary>
@@ -335,7 +335,7 @@ namespace NeeView
             // 既にサムネイルが存在する場合、何もしない
             if (this.Thumbnail.IsValid) return null;
 
-            return _thumbnailJob.Request(priority, PageJobOption.None);
+            return _thumbnailJob.Request(priority, null, PageJobOption.None);
         }
 
 

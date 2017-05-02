@@ -209,11 +209,11 @@ namespace NeeView
         };
 
         //
-        public static Dictionary<FolderListItemStyle, string> FolderListItemStyleList { get; } = new Dictionary<FolderListItemStyle, string>
+        public static Dictionary<PanelListItemStyle, string> FolderListItemStyleList { get; } = new Dictionary<PanelListItemStyle, string>
         {
-            [FolderListItemStyle.Normal] = "テキスト表示",
-            [FolderListItemStyle.Picture] = "コンテンツ表示",
-            [FolderListItemStyle.Banner] = "バナー表示",
+            [PanelListItemStyle.Normal] = "テキスト表示",
+            [PanelListItemStyle.Content] = "コンテンツ表示",
+            [PanelListItemStyle.Banner] = "バナー表示",
         };
 
         //

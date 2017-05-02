@@ -39,7 +39,6 @@ namespace NeeView
         {
             if (d is FolderListIcon control)
             {
-                control.Shortcut.Visibility = control.FolderVisibility;
                 control.Folder.Visibility = control.FolderVisibility;
             }
         }

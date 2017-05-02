@@ -426,6 +426,13 @@ namespace NeeView
         {
             FocusSelectedItem(_autoFocus);
         }
+
+
+        //
+        public void SetPanelListItemStyle(PanelListItemStyle style)
+        {
+            _VM.PanelListItemStyle = style;
+        }
     }
 
 

@@ -53,13 +53,21 @@
             </DockPanel>
         </DataTemplate>
 
-        <!-- Picture -->
+        <!-- Normal 2-->
+        <DataTemplate x:Key="NormalFolder2">
+            <DockPanel LastChildFill="False">
+                <local:FolderListIconMark DockPanel.Dock="Right"/>
+                <local:FolderIcon DockPanel.Dock="Left" />
+                <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}"/>
+            </DockPanel>
+        </DataTemplate>
+
+        <!-- Content -->
         <DataTemplate x:Key="PictureFolder">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel LastChildFill="False" Margin="2">
                     <local:FolderListIcon DockPanel.Dock="Right" />
-                    <local:FolderListThumbnail DataContext="{Binding ArchivePage.Thumbnail}"
-                                               d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                    <local:FolderListThumbnail DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap" HorizontalAlignment="Left"/>
                         <TextBlock x:Name="LastUpdateTime" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.LastWriteTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
@@ -69,16 +77,49 @@
             </Border>
         </DataTemplate>
 
+        <!-- Content 2 -->
+        <DataTemplate x:Key="PictureFolder2">
+            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+                <DockPanel LastChildFill="False" Margin="2">
+                    <local:FolderListIconMark DockPanel.Dock="Right" />
+                    <local:FolderListThumbnail DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                    <StackPanel VerticalAlignment="Center">
+                        <DockPanel>
+                            <local:FolderIcon DockPanel.Dock="Left" />
+                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                        <TextBlock x:Name="LastUpdateTime" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.LastWriteTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
+                        <TextBlock x:Name="FileSize" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.Length, Converter={StaticResource FileSizeToStringConverter}}" />
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+        </DataTemplate>
+
         <!-- Banner -->
         <DataTemplate x:Key="BannerFolder">
-            <DockPanel Margin="0" Height="80" HorizontalAlignment="Stretch" Background="#4888" LastChildFill="False">
-                <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                    <local:FolderListIcon DockPanel.Dock="Right"/>
-                    <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}"/>
+            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+                <DockPanel Margin="0" Height="80" HorizontalAlignment="Stretch" LastChildFill="False">
+                    <DockPanel DockPanel.Dock="Bottom" Margin="2" >
+                        <local:FolderListIcon DockPanel.Dock="Right"/>
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" Margin="0" />
+                    </DockPanel>
+                    <local:FolderListBanner Width="256" DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
-                <local:FolderListBanner Width="256" DataContext="{Binding ArchivePage.Thumbnail}"
-                                        d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
-            </DockPanel>
+            </Border>
+        </DataTemplate>
+
+        <!-- BannerFolder 2-->
+        <DataTemplate x:Key="BannerFolder2">
+            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+                <DockPanel Margin="0" Height="80" HorizontalAlignment="Stretch" LastChildFill="False">
+                    <DockPanel DockPanel.Dock="Bottom" Margin="2" >
+                        <local:FolderListIconMark DockPanel.Dock="Right"/>
+                        <local:FolderIcon DockPanel.Dock="Left" />
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" />
+                    </DockPanel>
+                    <local:FolderListBanner Width="256" DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                </DockPanel>
+            </Border>
         </DataTemplate>
 
     </UserControl.Resources>
@@ -103,15 +144,50 @@
         <ListBox.Style>
             <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding FolderListItemStyle}" Value="Normal">
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding PanelListItemStyle}" Value="Normal"/>
+                            <Condition Binding="{Binding FolderIconLayout}" Value="Right"/>
+                        </MultiDataTrigger.Conditions>
                         <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder}"/>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding FolderListItemStyle}" Value="Picture">
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding PanelListItemStyle}" Value="Normal"/>
+                            <Condition Binding="{Binding FolderIconLayout}" Value="Left"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder2}"/>
+                    </MultiDataTrigger>
+
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding PanelListItemStyle}" Value="Content"/>
+                            <Condition Binding="{Binding FolderIconLayout}" Value="Right"/>
+                        </MultiDataTrigger.Conditions>
                         <Setter Property="ItemTemplate" Value="{StaticResource PictureFolder}"/>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding FolderListItemStyle}" Value="Banner">
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding PanelListItemStyle}" Value="Content"/>
+                            <Condition Binding="{Binding FolderIconLayout}" Value="Left"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="ItemTemplate" Value="{StaticResource PictureFolder2}"/>
+                    </MultiDataTrigger>
+
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding PanelListItemStyle}" Value="Banner"/>
+                            <Condition Binding="{Binding FolderIconLayout}" Value="Right"/>
+                        </MultiDataTrigger.Conditions>
                         <Setter Property="ItemTemplate" Value="{StaticResource BannerFolder}"/>
-                    </DataTrigger>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding PanelListItemStyle}" Value="Banner"/>
+                            <Condition Binding="{Binding FolderIconLayout}" Value="Left"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="ItemTemplate" Value="{StaticResource BannerFolder2}"/>
+                    </MultiDataTrigger>
                 </Style.Triggers>
             </Style>
         </ListBox.Style>
@@ -137,25 +213,5 @@
             </Style>
         </ListBox.Resources>
 
-        <!--
-        <ListBox.ItemContainerStyle>
-            <Style TargetType="{x:Type ListBoxItem}">
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-            </Style>
-        </ListBox.ItemContainerStyle>
-
-        <ListBox.ItemsPanel>
-            <ItemsPanelTemplate>
-                <WrapPanel/>
-            </ItemsPanelTemplate>
-        </ListBox.ItemsPanel>
-        -->
-
-
-
     </ListBox>
-
 </UserControl>

@@ -160,12 +160,19 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.IsSideBarVisible = this.IsSideBarVisible;
-            memento.Left = Left.CreateMemento();
-            memento.Right = Right.CreateMemento();
+            InitializeMemento(memento);
 
             return memento;
         }
+
+        //
+        public void InitializeMemento(Memento memento)
+        {
+            memento.IsSideBarVisible = this.IsSideBarVisible;
+            memento.Left = Left.CreateMemento();
+            memento.Right = Right.CreateMemento();
+        }
+
 
         /// <summary>
         /// Memento適用

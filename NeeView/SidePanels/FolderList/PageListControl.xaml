@@ -11,6 +11,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
+             xmlns:nwc="clr-namespace:NeeView.Windows.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              Background="{DynamicResource NVBackground}"
@@ -69,7 +70,7 @@
         <DataTemplate x:Key="PictureTemplate">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel Margin="2" LastChildFill="False">
-                    <Image Style="{StaticResource ThumbnailStyle}"/>
+                    <local:FolderListThumbnail DataContext="{Binding Thumbnail}"/>
                     <TextBlock Style="{Binding ElementName=DockPanel, Path=DataContext.Format, Converter={StaticResource PageNameConverter}}"/>
                 </DockPanel>
             </Border>
@@ -89,16 +90,21 @@
             </StackPanel>
             -->
 
-            <WrapPanel>
-                <ComboBox x:Name="FormatComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
+            <DockPanel>
+                <nwc:DropDownMenuButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" ToolTip="設定" DropDownContextMenu="{Binding MoreMenu}">
+                    <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
+                </nwc:DropDownMenuButton>
+                <WrapPanel>
+                    <ComboBox x:Name="FormatComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
                           ItemsSource="{Binding FormatList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding Format, Delay=1}"
                           VerticalAlignment="Center">
-                </ComboBox>
-                <ComboBox x:Name="PageSortComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
+                    </ComboBox>
+                    <ComboBox x:Name="PageSortComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
                           ItemsSource="{Binding PageSortModeList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding PageSortMode, Delay=1}"
                           VerticalAlignment="Center">
-                </ComboBox>
-            </WrapPanel>
+                    </ComboBox>
+                </WrapPanel>
+            </DockPanel>
         </StackPanel>
 
         <ListBox x:Name="PageListBox" Focusable="True"
@@ -115,9 +121,11 @@
             <ListBox.Resources>
 
                 <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
-                    <Setter Property="ItemTemplate" Value="{StaticResource TextTemplate}"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding PageListItemStyle}" Value="Picture">
+                        <DataTrigger Binding="{Binding PanelListItemStyle}" Value="Normal">
+                            <Setter Property="ItemTemplate" Value="{StaticResource TextTemplate}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PanelListItemStyle}" Value="Content">
                             <Setter Property="ItemTemplate" Value="{StaticResource PictureTemplate}"/>
                         </DataTrigger>
                     </Style.Triggers>

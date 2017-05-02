@@ -11,6 +11,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
+             xmlns:nwc="clr-namespace:NeeView.Windows.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              Background="{DynamicResource NVBackground}"
@@ -49,49 +50,59 @@
                 <TextBlock Text="場所" Foreground="Gray"/>
                 <TextBlock Text="{Binding FolderListViewModel.PlaceDispString}" ToolTip="{Binding FolderListViewModel.PlaceDispString}"/>
             </StackPanel>
-            <WrapPanel Orientation="Horizontal" >
-                <Button x:Name="FolderHomeButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToHome}"
+
+            <DockPanel>
+
+                <nwc:DropDownMenuButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" ToolTip="設定"
+                                        DropDownContextMenu="{Binding MoreMenu}">
+                    <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
+                </nwc:DropDownMenuButton>
+
+                <WrapPanel Orientation="Horizontal" >
+                    <Button x:Name="FolderHomeButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToHome}"
                         ToolTip="ホームに移動">
-                    <Image Source="{StaticResource ic_home_24px_b}" Width="20" Height="20"/>
-                    <!--
+                        <Image Source="{StaticResource ic_home_24px_b}" Width="20" Height="20"/>
+                        <!--
                     <Button.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="この場所をホームに設定する" Command="{Binding SetHome}"/>
                         </ContextMenu>
                     </Button.ContextMenu>
                     -->
-                </Button>
-                <Button x:Name="FolderPrevButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToPrevious}"
+                    </Button>
+                    <Button x:Name="FolderPrevButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToPrevious}"
                         ContextMenuService.Placement="Bottom"
                         ContextMenuOpening="FolderPrevButton_ContextMenuOpening"
                         ToolTip="戻る">
-                    <Image Source="{StaticResource ic_arrow_back_24px_b}" Width="16" Height="16"/>
-                    <Button.ContextMenu>
-                        <ContextMenu x:Name="FolderPrevButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
-                    </Button.ContextMenu>
-                </Button>
-                <Button x:Name="FolderNextButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToNext}"
+                        <Image Source="{StaticResource ic_arrow_back_24px_b}" Width="16" Height="16"/>
+                        <Button.ContextMenu>
+                            <ContextMenu x:Name="FolderPrevButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
+                        </Button.ContextMenu>
+                    </Button>
+                    <Button x:Name="FolderNextButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToNext}"
                         ContextMenuService.Placement="Bottom"
                         ContextMenuOpening="FolderNextButton_ContextMenuOpening"
                         ToolTip="進む">
-                    <Image Source="{StaticResource ic_arrow_forward_24px_b}" Width="16" Height="16"/>
-                    <Button.ContextMenu>
-                        <ContextMenu x:Name="FolderNextButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
-                    </Button.ContextMenu>
-                </Button>
-                <Button x:Name="FolderUpButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToUp}"
+                        <Image Source="{StaticResource ic_arrow_forward_24px_b}" Width="16" Height="16"/>
+                        <Button.ContextMenu>
+                            <ContextMenu x:Name="FolderNextButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
+                        </Button.ContextMenu>
+                    </Button>
+                    <Button x:Name="FolderUpButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToUp}"
                         ToolTip="上に移動">
-                    <Image Source="{StaticResource ic_arrow_up_24px_b}" Width="16" Height="16"/>
-                </Button>
-                <Button x:Name="FolderSync" Style="{StaticResource IconButton}" Width="30" Command="{Binding Sync}"
+                        <Image Source="{StaticResource ic_arrow_up_24px_b}" Width="16" Height="16"/>
+                    </Button>
+                    <Button x:Name="FolderSync" Style="{StaticResource IconButton}" Width="30" Command="{Binding Sync}"
                         ToolTip="表示中のフォルダーに移動">
-                    <Image Source="{StaticResource ic_sync_24px_b}" Width="20" Height="20"/>
-                </Button>
-                <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
+                        <Image Source="{StaticResource ic_sync_24px_b}" Width="20" Height="20"/>
+                    </Button>
+                    <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
                           ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderListViewModel.FolderCollection.FolderCollectionParameter.FolderOrder, Delay=1}"
                           VerticalAlignment="Center">
-                </ComboBox>
-            </WrapPanel>
+                    </ComboBox>
+                </WrapPanel>
+
+            </DockPanel>
         </StackPanel>
 
         <Grid>

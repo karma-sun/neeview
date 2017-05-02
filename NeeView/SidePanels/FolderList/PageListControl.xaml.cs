@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Windows.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -67,7 +69,12 @@ namespace NeeView
         public bool FocusAtOnce { get; set; }
 
         //
-        private PageListControlVM _VM;
+        private PageListControlViewModel _VM;
+
+        /// <summary>
+        /// 応急処置：外部からVMが参照されるのはよろしくない
+        /// </summary>
+        public PageListControlViewModel VM => _VM;
 
         //
         private ThumbnailHelper _thumbnailHelper;
@@ -78,7 +85,7 @@ namespace NeeView
         {
             InitializeComponent();
 
-            _VM = new PageListControlVM();
+            _VM = new PageListControlViewModel();
             _VM.PagesChanged += OnPagesChanged;
             this.DockPanel.DataContext = _VM;
 
@@ -205,7 +212,7 @@ namespace NeeView
     /// <summary>
     /// 
     /// </summary>
-    public class PageListControlVM : INotifyPropertyChanged
+    public class PageListControlViewModel : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -279,10 +286,6 @@ namespace NeeView
         #endregion
 
 
-        public FolderListItemStyle PageListItemStyle => PanelContext.PageListItemStyle;
-
-
-
         public Dictionary<PageSortMode, string> PageSortModeList => PageSortModeExtension.PageSortModeList;
 
         #region Property: Title
@@ -312,6 +315,99 @@ namespace NeeView
         }
         #endregion
 
+
+
+        #region MoreMenu
+
+        /// <summary>
+        /// MoreMenu property.
+        /// </summary>
+        public ContextMenu MoreMenu
+        {
+            get { return _MoreMenu; }
+            set { if (_MoreMenu != value) { _MoreMenu = value; RaisePropertyChanged(); } }
+        }
+
+        //
+        private ContextMenu _MoreMenu;
+
+
+        //
+        private void InitializeMoreMenu()
+        {
+            var menu = new ContextMenu();
+            menu.Items.Add(CreateListItemStyleMenuItem("一覧表示", PanelListItemStyle.Normal));
+            menu.Items.Add(CreateListItemStyleMenuItem("コンテンツ表示", PanelListItemStyle.Content));
+
+            this.MoreMenu = menu;
+        }
+
+        //
+        private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.Command = SetListItemStyle;
+            item.CommandParameter = style;
+            var binding = new Binding(nameof(PanelListItemStyle))
+            {
+                Converter = _PanelListItemStyleToBooleanConverter,
+                ConverterParameter = style
+            };
+            item.SetBinding(MenuItem.IsCheckedProperty, binding);
+
+            return item;
+        }
+
+
+        private PanelListItemStyleToBooleanConverter _PanelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
+
+
+        /// <summary>
+        /// SetListItemStyle command.
+        /// </summary>
+        public RelayCommand<PanelListItemStyle> SetListItemStyle
+        {
+            get { return _SetListItemStyle = _SetListItemStyle ?? new RelayCommand<PanelListItemStyle>(SetListItemStyle_Executed); }
+        }
+
+        //
+        private RelayCommand<PanelListItemStyle> _SetListItemStyle;
+
+        //
+        private void SetListItemStyle_Executed(PanelListItemStyle style)
+        {
+            this.PanelListItemStyle = style;
+        }
+
+
+        /// <summary>
+        /// PanelListItemStyle property.
+        /// TODO: 保存されるものなのでモデル的なクラスでの実装が望ましい
+        /// </summary>
+        public PanelListItemStyle PanelListItemStyle
+        {
+            get { return _PanelListItemStyle; }
+            set
+            {
+                if (_PanelListItemStyle != value)
+                {
+                    _PanelListItemStyle = value;
+                    ////this.FolderListView?.SetPanelListItemStyle(_PanelListItemStyle);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        //
+        private PanelListItemStyle _PanelListItemStyle;
+
+
+        #endregion
+
+
+
+
         //
         private void Reflesh()
         {
@@ -329,8 +425,7 @@ namespace NeeView
             VM = vm;
             BookHub = vm.BookHub;
 
-            RaisePropertyChanged(nameof(PageListItemStyle));
-            PanelContext.PageListStyleChanged += (s, e) => RaisePropertyChanged(nameof(PageListItemStyle));
+            InitializeMoreMenu();
 
             Reflesh();
         }
@@ -358,9 +453,36 @@ namespace NeeView
         public void RequestThumbnail(int start, int count, int margin, int direction)
         {
             if (VM == null) return;
-            ////Debug.WriteLine($"{start},{count},{margin},{direction}");
-            PanelContext.PageThumbnailManager.RequestThumbnail(VM.PageList, start, count, margin, direction);
+            if (PanelListItemStyle.HasThumbnail())
+            {
+                PanelContext.ThumbnailManager.RequestThumbnail(VM.PageList, QueueElementPriority.PageListThumbnail, start, count, margin, direction);
+            }
         }
+
+        #region Memento
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public PanelListItemStyle PanelListItemStyle { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.PanelListItemStyle = this.PanelListItemStyle;
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            this.PanelListItemStyle = memento.PanelListItemStyle;
+        }
+
+        #endregion
     }
 
 

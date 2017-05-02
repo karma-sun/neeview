@@ -13,6 +13,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              xmlns:nw="clr-namespace:NeeView.Windows"
+             xmlns:nwc="clr-namespace:NeeView.Windows.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              Background="{DynamicResource NVBackground}"
@@ -64,20 +65,27 @@
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="2">
                     <DockPanel>
-                        <Image Source="{Binding Value.ArchivePage.Thumbnail.BitmapSource}"
-                               RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
-                               UseLayoutRounding="True"
-                               ToolTipService.IsEnabled="{Binding Value.ArchivePage.Thumbnail.IsUniqueImage}"
-                               Width="50" Height="60" Margin="5,0">
-                            <Image.ToolTip>
-                                <Image Source="{Binding Value.ArchivePage.Thumbnail.BitmapSource}"/>
-                            </Image.ToolTip>
-                        </Image>
+                        <local:FolderListThumbnail DataContext="{Binding Value.ArchivePage.Thumbnail}" />
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Value.ArchivePage.Entry.RootArchiverName}" HorizontalAlignment="Left" />
                             <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap"/>
                         </StackPanel>
                     </DockPanel>
+                </DockPanel>
+            </Border>
+        </DataTemplate>
+
+        <!-- Banner Bookmark -->
+        <DataTemplate x:Key="BannerBookmark">
+            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+                <i:Interaction.Behaviors>
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="BookmarkItem" DragDropData="{Binding}" />
+                </i:Interaction.Behaviors>
+                <DockPanel Margin="0" Height="80" HorizontalAlignment="Stretch" LastChildFill="False">
+                    <DockPanel DockPanel.Dock="Bottom" Margin="2" >
+                        <TextBlock Style="{StaticResource FolderName}" TextAlignment="Left"/>
+                    </DockPanel>
+                    <local:FolderListBanner Width="256" DataContext="{Binding Value.ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
             </Border>
         </DataTemplate>
@@ -92,6 +100,11 @@
                 <TextBlock FontFamily="Meyrio" Text="★" FontSize="18" Foreground="{StaticResource NVStarMarkBrush}" VerticalAlignment="Center" />
                 <TextBlock Text="ブックマーク" Foreground="Gray" VerticalAlignment="Top" Margin="2,0"/>
             </StackPanel>
+            <DockPanel LastChildFill="False">
+                <nwc:DropDownMenuButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" ToolTip="設定" DropDownContextMenu="{Binding MoreMenu}">
+                    <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
+                </nwc:DropDownMenuButton>
+            </DockPanel>
         </StackPanel>
 
         <ListBox x:Name="BookmarkListBox" Focusable="False"
@@ -111,10 +124,15 @@
 
             <ListBox.Style>
                 <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
-                    <Setter Property="ItemTemplate" Value="{StaticResource NormalBookmark}"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding FolderListItemStyle}" Value="Picture">
+                        <DataTrigger Binding="{Binding PanelListItemStyle}" Value="Normal">
+                            <Setter Property="ItemTemplate" Value="{StaticResource NormalBookmark}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PanelListItemStyle}" Value="Content">
                             <Setter Property="ItemTemplate" Value="{StaticResource PictureBookmark}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PanelListItemStyle}" Value="Banner">
+                            <Setter Property="ItemTemplate" Value="{StaticResource BannerBookmark}"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -133,24 +151,6 @@
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>
-
-                    <!--
-                    <Setter Property="drag:DragBehavior.IsEnable" Value="True"/>
-                    <Setter Property="drag:DragBehavior.ListBox" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}"/>
-                    -->
-
-                    <!--
-                    <Setter Property="nw:StyleInteraction.Behaviors">
-                        <Setter.Value>
-                            <nw:StyleBehaviorCollection>
-                                <i:Interaction.Behaviors>
-                                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="BookmarkItem" DragDropData="{Binding}" />
-                                </i:Interaction.Behaviors>
-                            </nw:StyleBehaviorCollection>
-                        </Setter.Value>
-                    </Setter>
-                    -->
-
                 </Style>
             </ListBox.Resources>
 

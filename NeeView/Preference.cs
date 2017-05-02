@@ -133,7 +133,11 @@ namespace NeeView
         [DataMember, DefaultValue(true)]
         [PropertyMember("フォルダーリスト追加ファイルは挿入", Tips = "フォルダーリストで追加されたファイルを現在のソート順で挿入します。\nFalseのときはリストの終端に追加します。")]
         public bool folderlist_addfile_insert { get; set; }
-        
+
+        [DataMember, DefaultValue(FolderIconLayout.Right)]
+        [PropertyEnum("フォルダーリストのアイコン表示位置", Tips = "フォルダーアイコンの表示位置")]
+        public FolderIconLayout folderlist_iconlayout { get; set; }
+
         [DataMember, DefaultValue(2.0)]
         [PropertyMember("ルーペ標準倍率", Tips = "ルーペの初期倍率です")]
         public double loupe_scale_default { get; set; }

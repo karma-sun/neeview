@@ -29,6 +29,9 @@ namespace NeeView
         // シリアル番号(開発用)
         public int SerialNumber { get; set; }
 
+        // 識別コード. 一括削除に使用される(未使用)
+        public string KeyCode { get; set; }
+
         // 発行者
         public object Sender { get; set; }
 
@@ -310,15 +313,35 @@ namespace NeeView
         }
 
         /// <summary>
+        /// JOBクリア(未使用)
+        /// </summary>
+        /// <param name="priority">クリアする優先度</param>
+        /// <param name="keyCode">識別子</param>
+        public void Clear(QueueElementPriority priority, string keyCode)
+        {
+            lock (_context.Lock)
+            {
+                var jobs = _context.JobQueue.Where(e => e.KeyCode == keyCode, priority).ToList();
+                foreach (var job in jobs)
+                {
+                    _context.JobQueue.Remove(priority, job);
+                    job.Completed.Set(); // 終了
+                }
+            }
+        }
+
+        /// <summary>
         /// Job登録
         /// </summary>
         /// <param name="command">処理</param>
         /// <param name="priority">優先度</param>
+        /// <param name="keyCode">識別子</param>
         /// <returns>JobRequest</returns>
-        public JobRequest Add(object sender, IJobCommand command, QueueElementPriority priority, bool reverse = false)
+        public JobRequest Add(object sender, IJobCommand command, QueueElementPriority priority, string keyCode, bool reverse = false)
         {
             var job = new Job();
             job.SerialNumber = _serialNumber++;
+            job.KeyCode = keyCode;
             job.Sender = sender;
             job.Command = command;
 
@@ -505,8 +528,7 @@ namespace NeeView
                 lock (_context.Lock)
                 {
                     // ジョブ取り出し
-                    var priority = IsPrimary ? QueueElementPriority.Default : QueueElementPriority.FolderThumbnail;
-                    job = _context.JobQueue.DequeueAll(priority);
+                    job = IsPrimary ? _context.JobQueue.DequeueAll(QueueElementPriority.Default) : _context.JobQueue.DequeueAll();
 
                     // ジョブが無い場合はイベントリセット
                     if (job == null)

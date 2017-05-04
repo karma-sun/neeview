@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -44,11 +45,21 @@ namespace NeeView
         IsTopSelect = (1 << 3),
     }
 
+    //
+    public class FolderListChangedEventArgs : EventArgs
+    {
+        public bool IsFocused { get; set; }
+
+        public FolderListChangedEventArgs(bool isFocused)
+        {
+            this.IsFocused = isFocused;
+        }
+    }
 
     /// <summary>
     /// FolderListControl ViewModel
     /// </summary>
-    public class FolderListControlViewModel : INotifyPropertyChanged
+    public class FolderListViewModel : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -81,6 +92,7 @@ namespace NeeView
             }
         }
 
+        /*
         /// <summary>
         /// FolderListView property.
         /// </summary>
@@ -103,7 +115,7 @@ namespace NeeView
         /// FolderListViewModel property.
         /// </summary>
         public FolderListViewModel FolderListViewModel => FolderListView?.VM;
-
+        */
 
         #region MoreMenu
 
@@ -121,10 +133,10 @@ namespace NeeView
 
 
         //
-        private void InitializeMoreMenu(MainWindowVM vm)
+        private void InitializeMoreMenu(FolderPanelModel source)
         {
             var menu = new ContextMenu();
-            menu.Items.Add(CreateCommandMenuItem("ページリスト", CommandType.ToggleVisiblePageList, vm));
+            menu.Items.Add(CreateCommandMenuItem("ページリスト", CommandType.ToggleVisiblePageList, source));
             menu.Items.Add(new Separator());
             menu.Items.Add(CreateListItemStyleMenuItem("一覧表示", PanelListItemStyle.Normal));
             menu.Items.Add(CreateListItemStyleMenuItem("コンテンツ表示", PanelListItemStyle.Content));
@@ -134,7 +146,7 @@ namespace NeeView
         }
 
         //
-        private MenuItem CreateCommandMenuItem(string header, CommandType command, object source)
+        private MenuItem CreateCommandMenuItem(string header, CommandType command, FolderPanelModel source)
         {
             var item = new MenuItem();
             item.Header = header;
@@ -157,10 +169,11 @@ namespace NeeView
             item.Header = header;
             item.Command = SetListItemStyle;
             item.CommandParameter = style;
-            var binding = new Binding(nameof(PanelListItemStyle))
+            var binding = new Binding(nameof(_model.PanelListItemStyle))
             {
                 Converter = _PanelListItemStyleToBooleanConverter,
-                ConverterParameter = style
+                ConverterParameter = style,
+                Source = _model,
             };
             item.SetBinding(MenuItem.IsCheckedProperty, binding);
 
@@ -185,10 +198,11 @@ namespace NeeView
         //
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
-            this.PanelListItemStyle = style;
+            _model.PanelListItemStyle = style;
         }
 
 
+#if false
         /// <summary>
         /// PanelListItemStyle property.
         /// TODO: 保存されるものなのでモデル的なクラスでの実装が望ましい
@@ -201,7 +215,7 @@ namespace NeeView
                 if (_PanelListItemStyle != value)
                 {
                     _PanelListItemStyle = value;
-                    this.FolderListView?.SetPanelListItemStyle(_PanelListItemStyle);
+                    ////this.FolderListView?.SetPanelListItemStyle(_PanelListItemStyle);
                     RaisePropertyChanged();
                 }
             }
@@ -209,7 +223,7 @@ namespace NeeView
 
         //
         private PanelListItemStyle _PanelListItemStyle;
-
+#endif
 
 
         #endregion
@@ -218,7 +232,8 @@ namespace NeeView
         /// <summary>
         /// 現在のフォルダー
         /// </summary>
-        private string _place => FolderListViewModel?.Place;
+        private string _place => FolderCollection?.Place;
+
 
         /// <summary>
         /// そのフォルダーで最後に選択されていた項目の記憶
@@ -235,12 +250,28 @@ namespace NeeView
         /// </summary>
         private bool _isDarty;
 
+        /// <summary>
+        /// Model property.
+        /// </summary>
+        public FolderList Model
+        {
+            get { return _model; }
+            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
+        }
+
+        //
+        private FolderList _model;
+
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public FolderListControlViewModel()
+        public FolderListViewModel(FolderList model)
         {
+            _model = model;
+
+            this.BookHub = _model.BookHub;
+
             _history.Changed += (s, e) => UpdateCommandCanExecute();
 
             // regist messenger reciever
@@ -248,9 +279,37 @@ namespace NeeView
             Messenger.AddReciever("GetFolderOrder", CallGetFolderOrder);
             Messenger.AddReciever("ToggleFolderOrder", CallToggleFolderOrder);
             Messenger.AddReciever("MoveFolder", CallMoveFolder);
+
+            _model.PropertyChanged += Model_PropertyChanged;
+
+            _model.PlaceChanged += Model_PlaceChanged;
+
+            InitializeMoreMenu(_model.FolderPanel);
+        }
+
+        //
+        private void Model_PlaceChanged(object sender, FolderPlaceChangedEventArgs e)
+        {
+            var oprions = (e.IsFocus ? FolderSetPlaceOption.IsFocus : FolderSetPlaceOption.None) | FolderSetPlaceOption.IsUpdateHistory;
+            SetPlace(e.Place, e.Select, oprions);
+        }
+
+        //
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(_model.IsVisibleHistoryMark):
+                    FolderItem.IsVisibleHistoryMark = _model.IsVisibleHistoryMark;
+                    break;
+                case nameof(_model.IsVisibleBookmarkMark):
+                    FolderItem.IsVisibleBookmarkMark = _model.IsVisibleBookmarkMark;
+                    break;
+            }
         }
 
 
+        /*
         /// <summary>
         /// 初期化
         /// </summary>
@@ -259,8 +318,9 @@ namespace NeeView
         {
             InitializeMoreMenu(vm);
         }
+        */
 
-
+        /*
         /// <summary>
         /// フォルダー表示設定
         /// </summary>
@@ -271,6 +331,7 @@ namespace NeeView
             FolderItem.IsVisibleHistoryMark = setting.IsVisibleHistoryMark;
             FolderItem.IsVisibleBookmarkMark = setting.IsVisibleBookmarkMark;
         }
+        */
 
         /// <summary>
         /// フォルダー状態保存
@@ -281,6 +342,11 @@ namespace NeeView
             if (folder == null || folder.ParentPath == null) return;
             _lastPlaceDictionary[folder.ParentPath] = folder.Path;
         }
+
+
+
+        //
+        public event EventHandler<FolderListChangedEventArgs> FolderListChanged;
 
         /// <summary>
         /// フォルダーリスト更新
@@ -294,7 +360,8 @@ namespace NeeView
         public void SetPlace(string place, string select, FolderSetPlaceOption options)
         {
             // 現在フォルダーの情報を記憶
-            SavePlace(this.FolderListViewModel?.GetFolderItem(0));
+            ////SavePlace(this.FolderListViewModel?.GetFolderItem(0));
+            SavePlace(GetFolderItem(0));
 
             // 初期項目
             if (select == null && place != null)
@@ -313,8 +380,18 @@ namespace NeeView
                 _isDarty = false;
 
                 // FolderListView 更新
-                this.FolderListView?.Dispose();
-                this.FolderListView = CreateFolderListView(place, select, options.HasFlag(FolderSetPlaceOption.IsFocus));
+                ////this.FolderListView?.Dispose();
+                ////this.FolderListView = CreateFolderListView(place, select, options.HasFlag(FolderSetPlaceOption.IsFocus));
+                ////CreateFolderListView(place, select, options.HasFlag(FolderSetPlaceOption.IsFocus));
+
+                // FolderCollection 更新
+                var collection = CreateFolderCollection(place);
+                collection.ParameterChanged += (s, e) => App.Current?.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true, false); }));
+                collection.Deleting += FolderCollection_Deleting;
+                this.FolderCollection = collection;
+                this.SelectedIndex = FixedIndexOfPath(select);
+
+                FolderListChanged?.Invoke(this, new FolderListChangedEventArgs(options.HasFlag(FolderSetPlaceOption.IsFocus)));
 
                 // 最終フォルダー更新
                 ModelContext.BookHistory.LastFolder = _place;
@@ -331,7 +408,8 @@ namespace NeeView
             else
             {
                 // 選択項目のみ変更
-                this.FolderListViewModel.SelectedIndex = this.FolderListViewModel.FixedIndexOfPath(select);
+                ////this.FolderListViewModel.SelectedIndex = this.FolderListViewModel.FixedIndexOfPath(select);
+                this.SelectedIndex = FixedIndexOfPath(select);
             }
 
             // コマンド有効状態更新
@@ -345,7 +423,8 @@ namespace NeeView
         /// <returns></returns>
         private bool CheckFolderListUpdateneNcessary(string place)
         {
-            return (_isDarty || this.FolderListViewModel == null || place != this.FolderListViewModel.FolderCollection.Place);
+            ////return (_isDarty || this.FolderListViewModel == null || place != this.FolderListViewModel.FolderCollection.Place);
+            return (_isDarty || this.FolderCollection == null || place != this.FolderCollection.Place);
         }
 
         /// <summary>
@@ -372,6 +451,7 @@ namespace NeeView
             }
         }
 
+#if false
         /// <summary>
         /// FolderListView 作成
         /// </summary>
@@ -384,7 +464,13 @@ namespace NeeView
             // FolderCollection
             var collection = CreateFolderCollection(place);
             collection.ParameterChanged += (s, e) => App.Current?.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true, false); }));
+            collection.Deleting += FolderCollection_Deleting;
 
+#if true
+            this.FolderCollection = collection;
+            this.SelectedIndex = FixedIndexOfPath(select);
+            return null;
+#else
             // FolderListViewModel
             var vm = new FolderListViewModel(collection);
             vm.SelectedIndex = vm.FixedIndexOfPath(select);
@@ -393,15 +479,56 @@ namespace NeeView
             // FolderListView
             var view = new FolderListView(vm, isFocus);
 
-            view.Decided += (s, e) => this.BookHub.RequestLoad(e, null, BookLoadOption.SkipSamePlace, false);
-            view.Moved += (s, e) => this.SetPlace(e, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
-            view.MovedParent += (s, e) => this.MoveToParent_Execute();
-            view.MovedHome += (s, e) => this.MoveToHome.Execute(null);
-            view.MovedPrevious += (s, e) => this.MoveToPrevious.Execute(null);
-            view.MovedNext += (s, e) => this.MoveToNext.Execute(null);
+            view.Decided += (s, e) => this.BookHub.RequestLoad(e, null, BookLoadOption.SkipSamePlace, false); // x
+            view.Moved += (s, e) => this.SetPlace(e, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory); // x
+            view.MovedParent += (s, e) => this.MoveToParent_Execute(); // x
+            view.MovedHome += (s, e) => this.MoveToHome.Execute(null); // x
+            view.MovedPrevious += (s, e) => this.MoveToPrevious.Execute(null); // x
+            view.MovedNext += (s, e) => this.MoveToNext.Execute(null); // x
 
             return view;
+#endif
         }
+#endif
+
+        //
+        public void Decided(string path)
+        {
+            this.BookHub.RequestLoad(path, null, BookLoadOption.SkipSamePlace, false);
+        }
+
+        //
+        public void Moved(string path)
+        {
+            this.SetPlace(path, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
+        }
+
+        // TODO: コマンドはコマンドとして実行させるべきでは？
+        public void MovedParent()
+        {
+            MoveToParent_Execute();
+        }
+
+        //
+        public void MovedHome()
+        {
+            MoveToHome.Execute(null);
+        }
+
+        //
+        public void MovedPrevious()
+        {
+            MoveToPrevious.Execute(null);
+        }
+
+        //
+        public void MovedNext()
+        {
+            MoveToNext.Execute(null);
+        }
+
+        //
+        public event EventHandler SelectedItemChanged;
 
         /// <summary>
         /// 選択項目にフォーカス取得
@@ -409,7 +536,9 @@ namespace NeeView
         /// <param name="isFocus"></param>
         public void FocusSelectedItem(bool isFocus)
         {
-            this.FolderListView?.FocusSelectedItem(true);
+            ////Debug.WriteLine("TODO: FocusSelectedItem");
+            ////this.FolderListView?.FocusSelectedItem(true);
+            SelectedItemChanged?.Invoke(this, null);
         }
 
         /// <summary>
@@ -595,7 +724,8 @@ namespace NeeView
         {
             if (e != null && e.isKeepPlace)
             {
-                if (this.FolderListViewModel == null || !this.FolderListViewModel.Contains(e.Path)) return;
+                ////if (this.FolderListViewModel == null || !this.FolderListViewModel.Contains(e.Path)) return;
+                if (this.FolderCollection == null || this.FolderCollection.Contains(e.Path)) return;
             }
 
             var options = (e.IsFocus ? FolderSetPlaceOption.IsFocus : FolderSetPlaceOption.None) | FolderSetPlaceOption.IsUpdateHistory;
@@ -609,9 +739,9 @@ namespace NeeView
         /// <param name="isFocus">フォーカスを取得する</param>
         public void Reflesh(bool force, bool isFocus)
         {
-            if (this.FolderListViewModel == null) return;
+            if (this.FolderCollection == null) return;
 
-            _isDarty = force || this.FolderListViewModel.IsDarty();
+            _isDarty = force || this.FolderCollection.IsDarty();
 
             var options = (isFocus ? FolderSetPlaceOption.IsFocus : FolderSetPlaceOption.None) | FolderSetPlaceOption.IsUpdateHistory;
             SetPlace(_place, null, options);
@@ -623,7 +753,7 @@ namespace NeeView
         /// <param name="path">更新するパス。nullならば全て更新</param>
         public void RefleshIcon(string path)
         {
-            this.FolderListViewModel?.RefleshIcon(path);
+            this.FolderCollection?.RefleshIcon(path);
         }
 
 
@@ -634,8 +764,10 @@ namespace NeeView
         /// <param name="e"></param>
         private void CallSetFolderOrder(object sender, MessageEventArgs e)
         {
+            if (FolderCollection == null) return;
             var param = (FolderOrderParams)e.Parameter;
-            this.FolderListViewModel?.SetFolderOrder(param.FolderOrder);
+            ////this.FolderListViewModel?.SetFolderOrder(param.FolderOrder);
+            this.FolderCollection.FolderCollectionParameter.FolderOrder = param.FolderOrder;
         }
 
         /// <summary>
@@ -645,10 +777,11 @@ namespace NeeView
         /// <param name="e"></param>
         private void CallGetFolderOrder(object sender, MessageEventArgs e)
         {
-            if (this.FolderListViewModel == null) return;
+            if (this.FolderCollection == null) return;
 
             var param = (FolderOrderParams)e.Parameter;
-            param.FolderOrder = this.FolderListViewModel.GetFolderOrder();
+            ////param.FolderOrder = this.FolderListViewModel.GetFolderOrder();
+            param.FolderOrder = this.FolderCollection.FolderCollectionParameter.FolderOrder;
         }
 
         /// <summary>
@@ -658,7 +791,9 @@ namespace NeeView
         /// <param name="e"></param>
         private void CallToggleFolderOrder(object sender, MessageEventArgs e)
         {
-            this.FolderListViewModel?.ToggleFolderOrder();
+            ////this.FolderListViewModel?.ToggleFolderOrder();
+            if (this.FolderCollection?.Items == null) return;
+            this.FolderCollection.FolderCollectionParameter.FolderOrder = this.FolderCollection.FolderCollectionParameter.FolderOrder.GetToggle();
         }
 
 
@@ -672,7 +807,8 @@ namespace NeeView
         {
             var param = (MoveFolderParams)e.Parameter;
 
-            var item = this.FolderListViewModel?.GetFolderItem(param.Distance);
+            ////var item = this.FolderListViewModel?.GetFolderItem(param.Distance);
+            var item = this.GetFolderItem(param.Distance);
             if (item != null)
             {
                 SetPlace(_place, item.TargetPath, FolderSetPlaceOption.IsUpdateHistory);
@@ -681,6 +817,255 @@ namespace NeeView
             }
         }
 
+        //-------------------------------------
+
+        /// <summary>
+        /// フォルダーコレクション
+        /// </summary>
+        public FolderCollection FolderCollection
+        {
+            get { return _folderCollection; }
+            set
+            {
+                if (_folderCollection != value)
+                {
+                    _folderCollection?.Dispose();
+                    _folderCollection = value;
+                    RaisePropertyChanged();
+                    ////RaisePropertyChanged(nameof(Place));
+                }
+            }
+        }
+
+        //
+        private FolderCollection _folderCollection;
+
+
+#if false
+        /// <summary>
+        /// フォルダーの場所
+        /// </summary>
+        public string Place => FolderCollection?.Place;
+
+        /// <summary>
+        /// フォルダーの場所 表示用
+        /// </summary>
+        public string PlaceDispString => string.IsNullOrEmpty(Place) ? "このPC" : Place;
+#endif
+
+        /// <summary>
+        /// フォルダーアイコン表示方法
+        /// </summary>
+        public FolderIconLayout FolderIconLayout => Preference.Current.folderlist_iconlayout;
+
+        /// <summary>
+        /// IsRenaming property.
+        /// </summary>
+        private bool _isRenaming;
+        public bool IsRenaming
+        {
+            get { return _isRenaming; }
+            set { if (_isRenaming != value) { _isRenaming = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// SelectIndex property.
+        /// </summary>
+        private int _selectedIndex;
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set
+            {
+                _selectedIndex = NVUtility.Clamp(value, 0, this.FolderCollection.Items.Count - 1);
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// ふさわしい選択項目インデックスを取得
+        /// </summary>
+        /// <param name="path">選択したいパス</param>
+        /// <returns></returns>
+        internal int FixedIndexOfPath(string path)
+        {
+            var index = this.FolderCollection.IndexOfPath(path);
+            return index < 0 ? 0 : index;
+        }
+
+
+        /// <summary>
+        /// 選択項目を基準とした項目取得
+        /// </summary>
+        /// <param name="offset">選択項目から前後した項目を指定</param>
+        /// <returns></returns>
+        internal FolderItem GetFolderItem(int offset)
+        {
+            if (this.FolderCollection?.Items == null) return null;
+
+            int index = this.SelectedIndex;
+            if (index < 0) return null;
+
+            int next = (this.FolderCollection.FolderCollectionParameter.FolderOrder == FolderOrder.Random)
+                ? (index + this.FolderCollection.Items.Count + offset) % this.FolderCollection.Items.Count
+                : index + offset;
+
+            if (next < 0 || next >= this.FolderCollection.Items.Count) return null;
+
+            return this.FolderCollection[next];
+        }
+
+
+        /// <summary>
+        /// フォルダーリスト項目変更前処理
+        /// 項目が削除される前に有効な選択項目に変更する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FolderCollection_Deleting(object sender, System.IO.FileSystemEventArgs e)
+        {
+            if (e.ChangeType != System.IO.WatcherChangeTypes.Deleted) return;
+
+            var index = this.FolderCollection.IndexOfPath(e.FullPath);
+            if (SelectedIndex != index) return;
+
+            if (SelectedIndex < this.FolderCollection.Items.Count - 1)
+            {
+                SelectedIndex++;
+            }
+            else if (SelectedIndex > 0)
+            {
+                SelectedIndex--;
+            }
+        }
+
+        /// <summary>
+        /// クリップボードにコピー
+        /// </summary>
+        /// <param name="info"></param>
+        public void Copy(FolderItem info)
+        {
+            if (info.IsEmpty) return;
+
+            var files = new List<string>();
+            files.Add(info.Path);
+            var data = new DataObject();
+            data.SetData(DataFormats.FileDrop, files.ToArray());
+            data.SetData(DataFormats.UnicodeText, string.Join("\r\n", files));
+            Clipboard.SetDataObject(data);
+        }
+
+
+        /// <summary>
+        /// ファイルを削除
+        /// </summary>
+        /// <param name="info"></param>
+        public void Remove(FolderItem info)
+        {
+            if (info.IsEmpty) return;
+
+            var stackPanel = new StackPanel();
+            stackPanel.Orientation = Orientation.Horizontal;
+            var thumbnail = new Image();
+            thumbnail.SnapsToDevicePixels = true;
+            thumbnail.Source = info.Icon;
+            thumbnail.Width = 32;
+            thumbnail.Height = 32;
+            thumbnail.Margin = new System.Windows.Thickness(0, 0, 4, 0);
+            stackPanel.Children.Add(thumbnail);
+            var textblock = new TextBlock();
+            textblock.Text = info.Path;
+            textblock.VerticalAlignment = VerticalAlignment.Center;
+            stackPanel.Children.Add(textblock);
+            stackPanel.Margin = new Thickness(0, 0, 0, 20);
+
+            Messenger.Send(this, new MessageEventArgs("RemoveFile") { Parameter = new RemoveFileParams() { Path = info.Path, Visual = stackPanel } });
+        }
+
+
+        /// <summary>
+        /// ファイル名前変更
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="newName"></param>
+        /// <returns></returns>
+        public bool Rename(FolderItem file, string newName)
+        {
+            string src = file.Path;
+            string dst = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(src), newName);
+
+            if (src == dst) return true;
+
+            //ファイル名に使用できない文字
+            char[] invalidChars = System.IO.Path.GetInvalidFileNameChars();
+            int invalidCharsIndex = newName.IndexOfAny(invalidChars);
+            if (invalidCharsIndex >= 0)
+            {
+                // 確認
+                MessageBox.Show($"ファイル名に使用できない文字が含まれています。( {newName[invalidCharsIndex]} )", "名前の変更の確認", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // 拡張子変更確認
+            if (!file.IsDirectory)
+            {
+                var srcExt = System.IO.Path.GetExtension(src);
+                var dstExt = System.IO.Path.GetExtension(dst);
+                if (string.Compare(srcExt, dstExt, true) != 0)
+                {
+                    var resut = MessageBox.Show($"拡張子を変更すると、使えなくなる可能性があります。\n\n変更しますか？", "名前の変更の確認", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                    if (resut != MessageBoxResult.OK)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            // 大文字小文字の変換は正常
+            if (string.Compare(src, dst, true) == 0)
+            {
+                // nop.
+            }
+
+            // 重複ファイル名回避
+            else if (System.IO.File.Exists(dst) || System.IO.Directory.Exists(dst))
+            {
+                string dstBase = dst;
+                string dir = System.IO.Path.GetDirectoryName(dst);
+                string name = System.IO.Path.GetFileNameWithoutExtension(dst);
+                string ext = System.IO.Path.GetExtension(dst);
+                int count = 1;
+
+                do
+                {
+                    dst = $"{dir}\\{name} ({++count}){ext}";
+                }
+                while (System.IO.File.Exists(dst) || System.IO.Directory.Exists(dst));
+
+                // 確認
+                var resut = MessageBox.Show($"{System.IO.Path.GetFileName(dstBase)} は既に存在します。\n{System.IO.Path.GetFileName(dst)} に名前を変更しますか？", "名前の変更の確認", MessageBoxButton.OKCancel);
+                if (resut != MessageBoxResult.OK)
+                {
+                    return false;
+                }
+            }
+
+            // 名前変更実行
+            var result = Messenger.Send(this, new MessageEventArgs("RenameFile") { Parameter = new RenameFileParams() { OldPath = src, Path = dst } });
+            return result == true ? true : false;
+        }
+
+
+        // サムネイル要求
+        public void RequestThumbnail(int start, int count, int margin, int direction)
+        {
+            if (_model.PanelListItemStyle.HasThumbnail())
+            {
+                ThumbnailManager.Current.RequestThumbnail(FolderCollection.Items, QueueElementPriority.FolderThumbnail, start, count, margin, direction);
+            }
+        }
+
+#if false
         #region Memento
         [DataContract]
         public class Memento
@@ -704,10 +1089,12 @@ namespace NeeView
             this.PanelListItemStyle = memento.PanelListItemStyle;
 
             // Preference反映
-            this.FolderListViewModel?.RaiseFolderIconLayoutChanged();
+            ////this.FolderListViewModel?.RaiseFolderIconLayoutChanged();
+            RaisePropertyChanged(nameof(FolderIconLayout));
         }
 
         #endregion
+#endif
     }
 
 }

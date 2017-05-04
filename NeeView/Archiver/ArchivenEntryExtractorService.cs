@@ -105,7 +105,7 @@ namespace NeeView
             try
             {
                 extractor = this.Remove(entry.Ident);
-                if (extractor == null)
+                if (extractor == null || !extractor.IsActive)
                 {
                     //Debug.WriteLine("EXT: Extract...");
                     var tempFileName = Temporary.CreateCountedTempFileName("arcv", Path.GetExtension(entry.EntryName));

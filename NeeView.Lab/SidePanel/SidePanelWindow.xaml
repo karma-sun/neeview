@@ -43,13 +43,13 @@
                 </Canvas>
 
 
-                <nvc:SidePanelFrame x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin}" Visibility="Visible" 
+                <nvc:SidePanelFrameView x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin}" Visibility="Visible" 
                                       PanelBackground="{DynamicResource PanelBrush}"
                                       IconBackground="#333"
                                       CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}"
                                       CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}"
                               MouseTarget="{Binding ElementName=MainCanvas}">
-                </nvc:SidePanelFrame>
+                </nvc:SidePanelFrameView>
 
                 <!--
                     <local:SidePanelFrame.ViewContent>

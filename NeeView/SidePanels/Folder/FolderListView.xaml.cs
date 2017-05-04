@@ -5,27 +5,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
+using System.Diagnostics;
 using System.Windows.Input;
-
-
-// TODO: サムネイル処理をクラス化して共有する
-
 
 namespace NeeView
 {
     /// <summary>
-    /// FolderListView.xaml の相互作用ロジック
+    /// FolderListControl.xaml の相互作用ロジック
     /// </summary>
     public partial class FolderListView : UserControl
     {
@@ -44,73 +35,103 @@ namespace NeeView
             RenameCommand.InputGestures.Add(new KeyGesture(Key.F2));
         }
 
-        // TODO: この内のいくつかはFolderListControlで処理すべき
-        public event EventHandler<string> Decided;
-        public event EventHandler<string> Moved;
-        public event EventHandler<string> MovedParent;
-        public event EventHandler MovedHome;
-        public event EventHandler MovedPrevious;
-        public event EventHandler MovedNext;
+#if false
+        /// <summary>
+        /// Setting property.
+        /// </summary>
+        public FolderListSetting Setting
+        {
+            get { return (FolderListSetting)GetValue(SettingProperty); }
+            set { SetValue(SettingProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Setting.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SettingProperty =
+            DependencyProperty.Register("Setting", typeof(FolderListSetting), typeof(FolderListView), new PropertyMetadata(new FolderListSetting(), new PropertyChangedCallback(SettingPropertyChanged)));
+
+        //
+        public static void SettingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            // オブジェクトを取得して処理する
+            FolderListView ctrl = d as FolderListView;
+            if (ctrl != null)
+            {
+                ctrl._vm.SetSetting(ctrl.Setting);
+            }
+        }
+#endif
+
+#if false
+        /// <summary>
+        /// BookHub property.
+        /// </summary>
+        public BookHub BookHub
+        {
+            get { return (BookHub)GetValue(BookHubProperty); }
+            set { SetValue(BookHubProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for BookHub.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty BookHubProperty =
+            DependencyProperty.Register("BookHub", typeof(BookHub), typeof(FolderListView), new PropertyMetadata(null, new PropertyChangedCallback(BookHubPropertyChanged)));
+
+        //
+        public static void BookHubPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            // オブジェクトを取得して処理する
+            FolderListView ctrl = d as FolderListView;
+            if (ctrl != null)
+            {
+                ctrl._vm.BookHub = ctrl.BookHub;
+            }
+        }
+#endif
+
+        /// <summary>
+        /// is renaming ?
+        /// </summary>
+        //public bool IsRenaming => _vm.FolderListViewModel != null ? _vm.FolderListViewModel.IsRenaming : false;
+        public bool IsRenaming => _vm.IsRenaming;
+
+        /// <summary>
+        /// view model
+        /// </summary>
+        private FolderListViewModel _vm;
+
+        /// <summary>
+        /// 応急処置：本来VMが外部から参照できるのはまずい
+        /// </summary>
+        public FolderListViewModel VM => _vm;
 
 
+        // TODO: Behaviour化できないかな？
         private ThumbnailHelper _thumbnailHelper;
 
-
-        /// <summary>
-        /// VM property.
-        /// </summary>
-        private FolderListViewModel _VM;
-        public FolderListViewModel VM
-        {
-            get { return _VM; }
-            set { if (_VM != value) { _VM = value; } }
-        }
-
-        /// <summary>
-        /// 初期化時にフォーカス取得
-        /// </summary>
-        private bool _autoFocus;
-
-
-        /// <summary>
-        /// constructor
-        /// </summary>
+        //
         public FolderListView()
         {
+            InitializeComponent();
         }
 
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="vm"></param>
-        /// <param name="autoFocus"></param>
-        public FolderListView(FolderListViewModel vm, bool autoFocus)
+        public FolderListView(FolderList model) : this()
         {
-            _autoFocus = autoFocus;
-
-            InitializeComponent();
-
-            _VM = vm;
-            this.ListBox.DataContext = _VM;
-
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Executed));
             this.ListBox.CommandBindings.Add(new CommandBinding(CopyCommand, Copy_Executed, Copy_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Executed, FileCommand_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(RenameCommand, Rename_Executed, FileCommand_CanExecute));
 
+            _vm = new FolderListViewModel(model);
+            _vm.FolderListChanged += (s, e) => FocusSelectedItem(e.IsFocused);
+            _vm.SelectedItemChanged += (s, e) => FocusSelectedItem(true);
+            this.DockPanel.DataContext = _vm;
+
             this.ListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
-
-            _thumbnailHelper = new ThumbnailHelper(this.ListBox, _VM.RequestThumbnail);
+            _thumbnailHelper = new ThumbnailHelper(this.ListBox, _vm.RequestThumbnail);
         }
 
-
-        /// <summary>
-        /// 廃棄処理
-        /// </summary>
-        public void Dispose()
-        {
-            _VM?.Dispose();
-        }
 
         /// <summary>
         /// スクロール変更イベント処理
@@ -122,6 +143,9 @@ namespace NeeView
             // リネームキャンセル
             ((MainWindow)App.Current.MainWindow).RenameManager.Stop();
         }
+
+
+        #region RoutedCommand
 
         /// <summary>
         /// ファイル系コマンド実行可能判定
@@ -155,7 +179,7 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null)
             {
-                _VM.Copy(item);
+                _vm.Copy(item);
             }
         }
 
@@ -169,10 +193,10 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null)
             {
-                _VM.Remove(item);
+                _vm.Remove(item);
             }
         }
-                
+
         /// <summary>
         /// 名前変更コマンド実行
         /// </summary>
@@ -200,7 +224,7 @@ namespace NeeView
                         {
                             var newName = item.IsShortcut ? ev.NewValue + ".lnk" : ev.NewValue;
                             //Debug.WriteLine($"{ev.OldValue} => {newName}");
-                            _VM.Rename(item, newName);
+                            _vm.Rename(item, newName);
                         }
                     };
                     rename.Closed += (s, ev) =>
@@ -213,14 +237,15 @@ namespace NeeView
                     };
                     rename.Close += (s, ev) =>
                     {
-                        _VM.IsRenaming = false;
+                        _vm.IsRenaming = false;
                     };
 
                     ((MainWindow)Application.Current.MainWindow).RenameManager.Open(rename);
-                    _VM.IsRenaming = true;
+                    _vm.IsRenaming = true;
                 }
             }
         }
+
 
         /// <summary>
         /// 項目を移動して名前変更処理を続行する
@@ -238,7 +263,7 @@ namespace NeeView
             var item = this.ListBox.SelectedItem as FolderItem;
             if (item != null)
             {
-                Decided?.Invoke(this, item.TargetPath);
+                _vm.Decided(item.TargetPath);
             }
 
             // リネーム発動
@@ -259,6 +284,78 @@ namespace NeeView
             }
         }
 
+
+        #endregion
+
+
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        /// <param name="vm"></param>
+        /*
+        public void Initialize(MainWindowVM vm)
+        {
+            _vm.Initialize(vm);
+        }
+        */
+
+
+        /*
+        /// <summary>
+        /// フォルダーリストの場所指定
+        /// </summary>
+        /// <param name="place"></param>
+        /// <param name="select"></param>
+        /// <param name="isFocus"></param>
+        public void SetPlace(string place, string select, bool isFocus)
+        {
+            var oprions = (isFocus ? FolderSetPlaceOption.IsFocus : FolderSetPlaceOption.None) | FolderSetPlaceOption.IsUpdateHistory;
+            _vm.SetPlace(place, select, oprions);
+        }
+        */
+
+
+        /// <summary>
+        /// 表示更新イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FolderList_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                ////await Task.Yield();
+                FocusSelectedItem(true);
+                ////_vm.FocusSelectedItem(true);
+            }
+        }
+
+        /// <summary>
+        /// 履歴戻るボタンコンテキストメニュー開く 前処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FolderPrevButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var menu = (sender as FrameworkElement)?.ContextMenu;
+            if (menu == null) return;
+            menu.ItemsSource = _vm.GetHistory(-1, 10);
+        }
+
+        /// <summary>
+        /// 履歴進むボタンコンテキストメニュー開く 前処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FolderNextButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var menu = (sender as FrameworkElement)?.ContextMenu;
+            if (menu == null) return;
+            menu.ItemsSource = _vm.GetHistory(+1, 10);
+        }
+
+        //
+
         /// <summary>
         /// フォーカス取得
         /// </summary>
@@ -277,12 +374,59 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// SelectionChanged
-        /// フォルダーリスト 選択項目変更
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        //
+        private void FolderList_Loaded(object sender, RoutedEventArgs e)
+        {
+            // FolderListChangedイベント処理するようにしたため、不要
+            ////FocusSelectedItem(_autoFocus);
+            ////FocusSelectedItem(true);
+        }
+
+        private void FolderList_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            // 自動非表示時間リセット
+            Messenger.Send(this, new MessageEventArgs("ResetHideDelay") { Parameter = new ResetHideDelayParam() { PanelSide = PanelSide.Left } });
+
+            if (e.Key == Key.Home)
+            {
+                _vm.MovedHome();
+                e.Handled = true;
+            }
+            else if (Keyboard.Modifiers == ModifierKeys.Alt)
+            {
+                Key key = e.Key == Key.System ? e.SystemKey : e.Key;
+
+                if (key == Key.Up)
+                {
+                    _vm.MovedParent();
+                    e.Handled = true;
+                }
+                else if (key == Key.Left)
+                {
+                    _vm.MovedPrevious();
+                    e.Handled = true;
+                }
+                else if (key == Key.Right)
+                {
+                    _vm.MovedNext();
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void FolderList_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Left || e.Key == Key.Back) // Backspace
+            {
+                _vm.MovedParent();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return)
+            {
+                e.Handled = true;
+            }
+        }
+
         private void FolderList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var listBox = sender as ListBox;
@@ -293,44 +437,30 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// SlingleClick
-        /// フォルダー項目決定
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FolderListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
+        //
+        private void FolderListItem_MouseSingleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
             if (folderInfo != null && !folderInfo.IsEmpty)
             {
-                Decided?.Invoke(this, folderInfo.TargetPath);
+                _vm.Decided(folderInfo.TargetPath);
                 e.Handled = true;
             }
         }
 
-        /// <summary>
-        /// DoubleClick
-        /// フォルダー移動決定
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FolderListItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        //
+        private void FolderListItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
             if (folderInfo != null && folderInfo.IsDirectory && folderInfo.IsReady)
             {
-                Moved?.Invoke(this, folderInfo.TargetPath);
+                _vm.Moved(folderInfo.TargetPath);
             }
             e.Handled = true;
         }
 
-        /// <summary>
-        /// 項目でのキー入力処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FolderListItem_KeyDown(object sender, KeyEventArgs e)
+        //
+        private void FolderListItem_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             // 自動非表示時間リセット
             Messenger.Send(this, new MessageEventArgs("ResetHideDelay") { Parameter = new ResetHideDelayParam() { PanelSide = PanelSide.Left } });
@@ -339,14 +469,14 @@ namespace NeeView
             {
                 if (e.Key == Key.Return)
                 {
-                    Decided?.Invoke(this, folderInfo.TargetPath);
+                    _vm.Decided(folderInfo.TargetPath);
                     e.Handled = true;
                 }
                 else if (e.Key == Key.Right) // →
                 {
                     if (folderInfo != null && folderInfo.IsDirectory && folderInfo.IsReady)
                     {
-                        Moved?.Invoke(this, folderInfo.TargetPath);
+                        _vm.Moved(folderInfo.TargetPath);
                     }
                     e.Handled = true;
                 }
@@ -354,109 +484,11 @@ namespace NeeView
                 {
                     if (folderInfo != null)
                     {
-                        MovedParent?.Invoke(this, folderInfo.ParentPath);
+                        _vm.MovedParent();
                     }
                     e.Handled = true;
                 }
             }
-        }
-
-        /// <summary>
-        /// キー入力処理(Preview)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FolderList_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            // 自動非表示時間リセット
-            Messenger.Send(this, new MessageEventArgs("ResetHideDelay") { Parameter = new ResetHideDelayParam() { PanelSide = PanelSide.Left } });
-
-            if (e.Key == Key.Home)
-            {
-                MovedHome?.Invoke(this, null);
-                e.Handled = true;
-            }
-            else if (Keyboard.Modifiers == ModifierKeys.Alt)
-            {
-                Key key = e.Key == Key.System ? e.SystemKey : e.Key;
-
-                if (key == Key.Up)
-                {
-                    MovedParent?.Invoke(this, null);
-                    e.Handled = true;
-                }
-                else if (key == Key.Left)
-                {
-                    MovedPrevious?.Invoke(this, null);
-                    e.Handled = true;
-                }
-                else if (key == Key.Right)
-                {
-                    MovedNext?.Invoke(this, null);
-                    e.Handled = true;
-                }
-            }
-        }
-
-        /// <summary>
-        /// キー入力処理(Preview)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FolderList_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Left || e.Key == Key.Back) // Backspace
-            {
-                MovedParent?.Invoke(this, null);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return)
-            {
-                e.Handled = true;
-            }
-        }
-
-        /// <summary>
-        /// Loaded
-        /// 開始直後処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FolderList_Loaded(object sender, RoutedEventArgs e)
-        {
-            FocusSelectedItem(_autoFocus);
-        }
-
-
-        //
-        public void SetPanelListItemStyle(PanelListItemStyle style)
-        {
-            _VM.PanelListItemStyle = style;
-        }
-    }
-
-
-
-    /// <summary>
-    /// bool 反転
-    /// </summary>
-    public class BooleanReverseConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool boolean)
-            {
-                return !boolean;
-            }
-            else
-            {
-                return value;
-            }
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
         }
     }
 }

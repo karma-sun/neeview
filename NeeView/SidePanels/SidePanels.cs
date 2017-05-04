@@ -18,10 +18,8 @@ namespace NeeView
     /// </summary>
     public class SidePanels : SidePanelFrameModel
     {
-        private List<IPanel> _panels;
-
         // 各種類のパネルインスタンス
-        public FolderListPanel FolderListPanel { get; private set; }
+        public FolderPanel FolderListPanel { get; private set; }
         public HistoryPanel HistoryPanel { get; private set; }
         public FileInfoPanel FileInfoPanel { get; private set; }
         public ImageEffectPanel ImageEffectPanel { get; private set; }
@@ -36,32 +34,35 @@ namespace NeeView
         /// <param name="control"></param>
         public SidePanels(Models models)
         {
-            _panels = new List<IPanel>();
+            var leftPanels = new List<IPanel>();
+            var rightPanels = new List<IPanel>();
 
             // フォルダーリスト
-            this.FolderListPanel = new FolderListPanel();
-            _panels.Add(this.FolderListPanel);
-            //this.PageList.Initialize(this);
+            this.FolderListPanel = new FolderPanel(models.FolderPanelModel, models.FolderList, models.PageList);
+            leftPanels.Add(this.FolderListPanel);
 
             // 履歴
             this.HistoryPanel = new HistoryPanel(models.HistoryList);
-            _panels.Add(this.HistoryPanel);
+            leftPanels.Add(this.HistoryPanel);
 
             // ファイル情報
             this.FileInfoPanel = new FileInfoPanel();
-            _panels.Add(this.FileInfoPanel);
+            rightPanels.Add(this.FileInfoPanel);
 
             // エフェクト
             this.ImageEffectPanel = new ImageEffectPanel();
-            _panels.Add(this.ImageEffectPanel);
+            rightPanels.Add(this.ImageEffectPanel);
 
             // ブックマーク
             this.BookmarkPanel = new BookmarkPanel(models.BookmarkList);
-            _panels.Add(this.BookmarkPanel);
+            leftPanels.Add(this.BookmarkPanel);
 
             // ページマーク
             this.PagemarkPanel = new PagemarkPanel(models.PagemarkList);
-            _panels.Add(this.PagemarkPanel);
+            leftPanels.Add(this.PagemarkPanel);
+
+            //
+            this.InitializePanels(leftPanels, rightPanels);
         }
 
         /// <summary>
@@ -71,23 +72,13 @@ namespace NeeView
         public void Initialize(MainWindowVM vm)
         {
             // フォルダーリスト
-            this.FolderListPanel.Initialize(vm);
-            this.FolderListPanel.SetPlace(ModelContext.BookHistory.LastFolder ?? vm.BookHub.GetFixedHome(), null, false); // ##
-
-            // 履歴
-            //this.HistoryPanel.Initialize(vm);
+            Models.Current.FolderList.SetPlace(ModelContext.BookHistory.LastFolder ?? vm.BookHub.GetFixedHome(), null, false); // ##
 
             // ファイル情報
             this.FileInfoPanel.Initialize(vm);
 
             // エフェクト
             this.ImageEffectPanel.Initialize(vm);
-
-            // ブックマーク
-            //this.BookmarkPanel.Initialize(vm);
-
-            // ページマーク
-            //this.PagemarkPanel.Initialize(vm);
         }
 
         /// <summary>
@@ -153,64 +144,5 @@ namespace NeeView
             this.Left.Toggle(panel);
             this.Right.Toggle(panel);
         }
-
-
-        #region Memento
-
-        [DataContract]
-        public new class Memento : SidePanelFrameModel.Memento
-        {
-            [DataMember]
-            public FolderListPanel.Memento FolderListPanelMemento { get; set; }
-
-            //[DataMember]
-            //public HistoryPanel.Memento HistoryPanelMemento { get; set; }
-
-            //[DataMember]
-            //public BookmarkPanel.Memento BookmarkPanelMemento { get; set; }
-
-            //[DataMember]
-            //public PagemarkPanel.Memento PagemarkPanelMemento { get; set; }
-        }
-
-        /// <summary>
-        /// 標準Memento生成
-        /// </summary>
-        /// <returns></returns>
-        public Memento CreateDefaultMemento()
-        {
-            var memento = new Memento();
-            memento.Right.PanelTypeCodes = new List<string>() { nameof(FileInfoPanel), nameof(ImageEffectPanel) };
-            return memento;
-        }
-
-        public new Memento CreateMemento()
-        {
-            var memento = new Memento();
-            base.InitializeMemento(memento);
-
-            memento.FolderListPanelMemento = FolderListPanel.CreateMemento();
-            //memento.HistoryPanelMemento = HistoryPanel.CreateMemento();
-            //memento.BookmarkPanelMemento = BookmarkPanel.CreateMemento();
-            //memento.PagemarkPanelMemento = PagemarkPanel.CreateMemento();
-
-            return memento;
-        }
-
-        /// <summary>
-        /// Memento適用
-        /// </summary>
-        /// <param name="memento"></param>
-        public void Restore(Memento memento)
-        {
-            FolderListPanel.Restore(memento.FolderListPanelMemento);
-            //HistoryPanel.Resore(memento.HistoryPanelMemento);
-            //BookmarkPanel.Resore(memento.BookmarkPanelMemento);
-            //PagemarkPanel.Resore(memento.PagemarkPanelMemento);
-
-            this.Restore(memento, _panels);
-        }
-
-        #endregion
     }
 }

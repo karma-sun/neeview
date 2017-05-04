@@ -87,6 +87,19 @@ namespace NeeView
         }
 
         /// <summary>
+        /// パネル登録
+        /// </summary>
+        /// <param name="leftPanels"></param>
+        /// <param name="rightPanels"></param>
+        public void InitializePanels(List<IPanel> leftPanels, List<IPanel> rightPanels)
+        {
+            leftPanels.ForEach(e => _left.Panels.Add(e));
+            rightPanels.ForEach(e => _right.Panels.Add(e));
+        }
+
+
+
+        /// <summary>
         /// 右パネルのプロパティ変更イベント処理
         /// </summary>
         /// <param name="sender"></param>
@@ -178,15 +191,19 @@ namespace NeeView
         /// Memento適用
         /// </summary>
         /// <param name="memento"></param>
-        /// <param name="panels"></param>
-        public void Restore(Memento memento, List<IPanel> panels)
+        public void Restore(Memento memento)
         {
-            if (memento != null)
-            {
-                IsSideBarVisible = memento.IsSideBarVisible;
-                _left.Restore(memento.Left, panels);
-                _right.Restore(memento.Right, panels);
-            }
+            if (memento == null) return;
+
+            // パネル収集
+            var panels = _left.Panels.Concat(_right.Panels).ToList();
+            _left.Panels.Clear();
+            _right.Panels.Clear();
+
+            // memento反映
+            IsSideBarVisible = memento.IsSideBarVisible;
+            _left.Restore(memento.Left, panels);
+            _right.Restore(memento.Right, panels);
 
             // 未登録パネルを左パネルに登録
             foreach (var panel in panels.Where(e => !_left.Panels.Contains(e) && !_right.Panels.Contains(e)))

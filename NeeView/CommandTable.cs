@@ -767,10 +767,10 @@ namespace NeeView
                 element.Note = "ページリスト表示/非表示を切り替えます。フォルダーリストは表示状態になります";
                 element.ShortCutKey = "P";
                 element.IsShowMessage = false;
-                element.ExecuteMessage = e => _VM.IsVisiblePageList ? "ページリストを消す" : "ページリストを表示する";
+                element.ExecuteMessage = e => Models.Current.FolderPanelModel.IsPageListVisible ? "ページリストを消す" : "ページリストを表示する";
                 element.Execute = (s, e) => _VM.ToggleVisiblePageList(e is MenuCommandTag);
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisiblePageListMenu), System.Windows.Data.BindingMode.OneWay);
+                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(FolderPanelModel.IsPageListVisible), System.Windows.Data.BindingMode.OneWay);
                 _elements[CommandType.ToggleVisiblePageList] = element;
             }
             //

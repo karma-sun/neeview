@@ -695,54 +695,31 @@ namespace NeeView
             return IsVisibleFolderList;
         }
 
-        // ページリスト表示ON/OFF
-        #region Property: IsVisiblePageList
-        private bool _isVisiblePageList = true;
-        public bool IsVisiblePageList
-        {
-            get { return _isVisiblePageList; }
-            set
-            {
-                if (_isVisiblePageList != value)
-                {
-                    _isVisiblePageList = value;
-                    if (_isVisiblePageList)
-                    {
-                        FolderListGridRow0 = "*";
-                        FolderListGridRow2 = "*";
-                    }
-                    else
-                    {
-                        FolderListGridRow0 = "*";
-                        FolderListGridRow2 = "0";
-                    }
-                    RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(IsVisiblePageListMenu));
-                }
-            }
-        }
-        #endregion
-
         //
-        public bool IsVisiblePageListMenu => IsVisiblePageList && IsVisibleFolderList;
+        public bool IsVisiblePageListMenu => _models.FolderPanelModel.IsPageListVisible && IsVisibleFolderList;
 
         //
         public bool ToggleVisiblePageList(bool byMenu)
         {
-            if (byMenu || !IsVisiblePageList || SidePanels.IsVisiblePanel(SidePanels.FolderListPanel))
+            var model = _models.FolderPanelModel;
+
+            if (byMenu || !model.IsPageListVisible || SidePanels.IsVisiblePanel(SidePanels.FolderListPanel))
             {
-                IsVisiblePageList = !IsVisiblePageListMenu;
+                model.IsPageListVisible = !IsVisiblePageListMenu;
             }
             SidePanels.SetSelectedPanel(SidePanels.FolderListPanel, true);
             RaisePanelPropertyChanged();
 
-            if (IsVisiblePageList)
+            if (model.IsPageListVisible)
             {
-                SidePanels.FolderListPanel.PageListControl.FocusAtOnce = true; // ##
+                Debug.WriteLine("TODO:PageListView.FocusAtOnce");
+                ////SidePanels.FolderListPanel.PageListControl.FocusAtOnce = true; // ##
             }
 
-            return IsVisiblePageList;
+            return model.IsPageListVisible;
         }
+
+
 
 
 
@@ -809,33 +786,7 @@ namespace NeeView
         }
 
         //
-        private SidePanels _SidePanels = new SidePanels(Models.Current);
-
-
-        /// <summary>
-        /// SidePanelMemento property.
-        /// </summary>
-        public SidePanels.Memento SidePanelMemento
-        {
-            get { return _sidePanelMemento; }
-            set
-            {
-                if (_sidePanelMemento != value)
-                {
-                    _sidePanelMemento = value;
-                    RaisePropertyChanged();
-                    SidePanels?.Restore(value);
-                }
-            }
-        }
-
-        //
-        private SidePanels.Memento _sidePanelMemento;
-
-        private SidePanels.Memento CreateSidePanelMemento()
-        {
-            return SidePanels?.CreateMemento();
-        }
+        private SidePanels _SidePanels; // = new SidePanels(Models.Current);
 
 
         /// <summary>
@@ -843,20 +794,10 @@ namespace NeeView
         /// TODO: 生成順。モデルはビュー生成の前に準備されているべき
         /// </summary>
         /// <param name="control"></param>
-        public void InitializeSidePanels(SidePanelFrame control)
+        public void InitializeSidePanels(SidePanelFrameView control)
         {
             SidePanels.Initialize(this);
             SidePanels.SelectedPanelChanged += (s, e) => RaisePanelPropertyChanged();
-
-            //
-            if (_sidePanelMemento == null)
-            {
-                var memento = new SidePanelFrameModel.Memento();
-                memento.Right.PanelTypeCodes = new List<string>() { nameof(FileInfoPanel), nameof(ImageEffectPanel) };
-            }
-
-            // create
-            SidePanels.Restore(_sidePanelMemento);
 
             // TODO: なんかおかしい
             control.Model = SidePanels;
@@ -910,66 +851,6 @@ namespace NeeView
 
         #endregion
 
-
-        #region Property: FolderListGridLength0
-        private GridLength _folderListGridLength0 = new GridLength(1, GridUnitType.Star);
-        public GridLength FolderListGridLength0
-        {
-            get { Debug.WriteLine("0:" + _folderListGridLength0);  return _folderListGridLength0; }
-            set { _folderListGridLength0 = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-        #region Property: FolderListGridLength2
-        private GridLength _folderListGridLength2 = new GridLength(0, GridUnitType.Pixel);
-        public GridLength FolderListGridLength2
-        {
-            get { Debug.WriteLine("2:" + _folderListGridLength2); return _folderListGridLength2; }
-            set { _folderListGridLength2 = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-        //
-        public string FolderListGridRow0
-        {
-            get { return FolderListGridLength0.ToString(); }
-            set
-            {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    try
-                    {
-                        var converter = new GridLengthConverter();
-                        FolderListGridLength0 = (GridLength)converter.ConvertFromString(value);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine(e.Message);
-                    }
-                }
-            }
-        }
-
-        //
-        public string FolderListGridRow2
-        {
-            get { return FolderListGridLength2.ToString(); }
-            set
-            {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    try
-                    {
-                        var converter = new GridLengthConverter();
-                        FolderListGridLength2 = (GridLength)converter.ConvertFromString(value);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine(e.Message);
-                    }
-                }
-            }
-        }
 
         // ウィンドウ状態管理
         WindowShapeSelector _windowShape;
@@ -1636,7 +1517,13 @@ namespace NeeView
         public ObservableCollection<Page> PageList
         {
             get { return _pageList; }
-            set { _pageList = value; RaisePropertyChanged(); }
+            set
+            {
+                _pageList = value;
+                RaisePropertyChanged();
+
+                Models.Current.PageList.PageCollection = _pageList;
+            }
         }
         #endregion
 
@@ -1856,9 +1743,11 @@ namespace NeeView
         // コンストラクタ
         public MainWindowVM(MainWindow window)
         {
+            MainWindowVM.Current = this;
+
             _models = Models.Current;
 
-            MainWindowVM.Current = this;
+            _SidePanels = new SidePanels(_models);
 
             _windowShape = new WindowShapeSelector(window);
             _windowShape.ShapeChanged += (s, e) => IsFullScreen = _windowShape.Shape == WindowShape.FullScreen;
@@ -2158,7 +2047,7 @@ namespace NeeView
             setting.ExporterMemento = Exporter.CreateMemento();
             setting.PreferenceMemento = Preference.Current.CreateMemento();
             setting.ImageEffectMemento = this.ImageEffector.CreateMemento();
-            
+
             // new memento
             setting.Memento = Models.Current.CreateMemento();
 
@@ -3223,15 +3112,6 @@ namespace NeeView
             public bool IsVisibleThumbnailPlate { get; set; }
 
             [DataMember(Order = 10)]
-            public string FolderListGridRow0 { get; set; }
-
-            [DataMember(Order = 10)]
-            public string FolderListGridRow2 { get; set; }
-
-            [DataMember(Order = 10)]
-            public bool IsVisiblePageList { get; set; }
-
-            [DataMember(Order = 10)]
             public ShowMessageStyle ViewTransformShowMessageStyle { get; set; }
 
             [DataMember(Order = 10)]
@@ -3271,7 +3151,7 @@ namespace NeeView
             public BrushSource CustomBackground { get; set; }
 
             [DataMember(Order = 22)]
-            public SidePanels.Memento SidePanelMemento { get; set; }
+            public SidePanelFrameModel.Memento SidePanelMemento { get; set; }
 
             //
             private void Constructor()
@@ -3298,8 +3178,6 @@ namespace NeeView
                 IsSliderLinkedThumbnailList = true;
                 IsAutoGC = true;
                 IsVisibleThumbnailPlate = true;
-                FolderListGridRow0 = "*";
-                FolderListGridRow2 = "*";
                 ContentsSpace = -1.0;
                 LongLeftButtonDownMode = LongButtonDownMode.Loupe;
                 IsDisableMultiBoot = true;
@@ -3308,9 +3186,6 @@ namespace NeeView
                 IsVisibleLoupeInfo = true;
                 SliderIndexLayout = SliderIndexLayout.Right;
                 CustomBackground = new BrushSource();
-
-                SidePanelMemento = new SidePanels.Memento();
-                SidePanelMemento.Right.PanelTypeCodes = new List<string>() { nameof(FileInfoPanel), nameof(ImageEffectPanel) };
             }
 
             public Memento()
@@ -3408,9 +3283,6 @@ namespace NeeView
             memento.IsVisibleThumbnailNumber = this.IsVisibleThumbnailNumber;
             memento.IsAutoGC = this.IsAutoGC;
             memento.IsVisibleThumbnailPlate = this.IsVisibleThumbnailPlate;
-            memento.FolderListGridRow0 = this.FolderListGridRow0;
-            memento.FolderListGridRow2 = this.FolderListGridRow2;
-            memento.IsVisiblePageList = this.IsVisiblePageList;
             memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
             memento.ContentsSpace = this.ContentsSpace;
             memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
@@ -3421,7 +3293,7 @@ namespace NeeView
             memento.IsLoupeCenter = this.IsLoupeCenter;
             memento.SliderIndexLayout = this.SliderIndexLayout;
 
-            memento.SidePanelMemento = CreateSidePanelMemento();
+            memento.SidePanelMemento = this.SidePanels.CreateMemento();
 
             return memento;
         }
@@ -3472,9 +3344,6 @@ namespace NeeView
             this.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
             this.IsAutoGC = memento.IsAutoGC;
             this.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
-            this.FolderListGridRow0 = memento.FolderListGridRow0;
-            this.FolderListGridRow2 = memento.FolderListGridRow2;
-            this.IsVisiblePageList = memento.IsVisiblePageList;
             this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
             this.ContentsSpace = memento.ContentsSpace;
             this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
@@ -3485,7 +3354,7 @@ namespace NeeView
             this.IsLoupeCenter = memento.IsLoupeCenter;
             this.SliderIndexLayout = memento.SliderIndexLayout;
 
-            this.SidePanelMemento = memento.SidePanelMemento;
+            this.SidePanels.Restore(memento.SidePanelMemento);
 
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });

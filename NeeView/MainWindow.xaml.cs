@@ -143,6 +143,9 @@ namespace NeeView
             this.MenuItemDev.Visibility = Visibility.Collapsed;
 #endif
 
+            // コマンド初期化
+            InitializeCommandBindings();
+            
             // ViewModel
             _VM = new MainWindowVM(this);
             this.DataContext = _VM;
@@ -187,7 +190,7 @@ namespace NeeView
 
 
             // initialize routed commands
-            InitializeCommandBindings();
+            //InitializeCommandBindings();
             InitializeInputGestures();
 
             // publish routed commands

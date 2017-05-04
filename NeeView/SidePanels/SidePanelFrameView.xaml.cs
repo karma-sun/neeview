@@ -21,9 +21,9 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     /// <summary>
-    /// SidePanel.xaml の相互作用ロジック
+    /// SidePanelFrameView.xaml の相互作用ロジック
     /// </summary>
-    public partial class SidePanelFrame : UserControl, INotifyPropertyChanged
+    public partial class SidePanelFrameView : UserControl, INotifyPropertyChanged
     {
         /// <summary>
         /// PropertyChanged event. 
@@ -66,7 +66,7 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for PanelBackground.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PanelBackgroundProperty =
-            DependencyProperty.Register("PanelBackground", typeof(Brush), typeof(SidePanelFrame), new PropertyMetadata(Brushes.DarkGray));
+            DependencyProperty.Register("PanelBackground", typeof(Brush), typeof(SidePanelFrameView), new PropertyMetadata(Brushes.DarkGray));
 
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for IconBackground.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IconBackgroundProperty =
-            DependencyProperty.Register("IconBackground", typeof(Brush), typeof(SidePanelFrame), new PropertyMetadata(Brushes.Gray));
+            DependencyProperty.Register("IconBackground", typeof(Brush), typeof(SidePanelFrameView), new PropertyMetadata(Brushes.Gray));
 
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for IconForeground.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IconForegroundProperty =
-            DependencyProperty.Register("IconForeground", typeof(Brush), typeof(SidePanelFrame), new PropertyMetadata(null));
+            DependencyProperty.Register("IconForeground", typeof(Brush), typeof(SidePanelFrameView), new PropertyMetadata(null));
 
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for PanelMargin.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PanelMarginProperty =
-            DependencyProperty.Register("PanelMargin", typeof(Thickness), typeof(SidePanelFrame), new PropertyMetadata(null));
+            DependencyProperty.Register("PanelMargin", typeof(Thickness), typeof(SidePanelFrameView), new PropertyMetadata(null));
 
 
 
@@ -123,12 +123,12 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for IsAutoHide.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsAutoHideProperty =
-            DependencyProperty.Register("IsAutoHide", typeof(bool), typeof(SidePanelFrame), new PropertyMetadata(false, IsAutoHide_Changed));
+            DependencyProperty.Register("IsAutoHide", typeof(bool), typeof(SidePanelFrameView), new PropertyMetadata(false, IsAutoHide_Changed));
 
         //
         private static void IsAutoHide_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is SidePanelFrame control)
+            if (d is SidePanelFrameView control)
             {
                 control.UpdateAutoHide();
             }
@@ -146,12 +146,12 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for MouseTarget.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MouseTargetProperty =
-            DependencyProperty.Register("MouseTarget", typeof(FrameworkElement), typeof(SidePanelFrame), new PropertyMetadata(null, MouseTargetPropertyChanged));
+            DependencyProperty.Register("MouseTarget", typeof(FrameworkElement), typeof(SidePanelFrameView), new PropertyMetadata(null, MouseTargetPropertyChanged));
 
         //
         private static void MouseTargetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is SidePanelFrame control)
+            if (d is SidePanelFrameView control)
             {
                 if (control.MouseTarget != null)
                 {
@@ -172,11 +172,11 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for Model.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ModelProperty =
-            DependencyProperty.Register("Model", typeof(SidePanelFrameModel), typeof(SidePanelFrame), new PropertyMetadata(null, ModelPropertyChanged));
+            DependencyProperty.Register("Model", typeof(SidePanelFrameModel), typeof(SidePanelFrameView), new PropertyMetadata(null, ModelPropertyChanged));
 
         private static void ModelPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is SidePanelFrame control)
+            if (d is SidePanelFrameView control)
             {
                 control.InitializeViewModel(control.Model);
             }
@@ -222,7 +222,7 @@ namespace NeeView
         /// <summary>
         /// コンストラクター
         /// </summary>
-        public SidePanelFrame()
+        public SidePanelFrameView()
         {
             InitializeComponent();
             InitializeViewModel(this.Model);
@@ -259,7 +259,7 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for ViewContent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewContentProperty =
-            DependencyProperty.Register("ViewContent", typeof(FrameworkElement), typeof(SidePanelFrame), new PropertyMetadata(null));
+            DependencyProperty.Register("ViewContent", typeof(FrameworkElement), typeof(SidePanelFrameView), new PropertyMetadata(null));
 
 
 
@@ -274,7 +274,7 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for CanvasWidth.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CanvasWidthProperty =
-            DependencyProperty.Register("CanvasWidth", typeof(double), typeof(SidePanelFrame), new PropertyMetadata(0.0));
+            DependencyProperty.Register("CanvasWidth", typeof(double), typeof(SidePanelFrameView), new PropertyMetadata(0.0));
 
 
 
@@ -289,7 +289,7 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for CanvasHeight.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CanvasHeightProperty =
-            DependencyProperty.Register("CanvasHeight", typeof(double), typeof(SidePanelFrame), new PropertyMetadata(0.0));
+            DependencyProperty.Register("CanvasHeight", typeof(double), typeof(SidePanelFrameView), new PropertyMetadata(0.0));
 
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for CanvasLeft.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CanvasLeftProperty =
-            DependencyProperty.Register("CanvasLeft", typeof(double), typeof(SidePanelFrame), new PropertyMetadata(0.0));
+            DependencyProperty.Register("CanvasLeft", typeof(double), typeof(SidePanelFrameView), new PropertyMetadata(0.0));
 
 
 
@@ -318,7 +318,7 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for CanvasTop.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CanvasTopProperty =
-            DependencyProperty.Register("CanvasTop", typeof(double), typeof(SidePanelFrame), new PropertyMetadata(0.0));
+            DependencyProperty.Register("CanvasTop", typeof(double), typeof(SidePanelFrameView), new PropertyMetadata(0.0));
 
 
         /// <summary>

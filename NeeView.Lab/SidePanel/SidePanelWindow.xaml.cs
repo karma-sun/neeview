@@ -57,7 +57,7 @@ namespace NeeView.Lab
         }
 
         //
-        private List<IPanel> _panels;
+        ////private List<IPanel> _panels;
 
 
         /// <summary>
@@ -76,15 +76,17 @@ namespace NeeView.Lab
         //
         private void InitializeSidePanel()
         {
+            /*
             _panels = new List<IPanel>()
             {
                 new PanelSampleA(),
                 new PanelSampleB(),
                 new PanelSampleC(),
             };
+            */
 
             _sidePanel = new SidePanelFrameModel();
-            _sidePanel.Restore(null, _panels);
+            _sidePanel.Restore(null);
 
             this.SidePanelFrame.Model = _sidePanel;
         }
@@ -137,13 +139,13 @@ namespace NeeView.Lab
             var memento = new SidePanelFrameModel.Memento();
             memento.Left = new SidePanel.Memento();
             memento.Right = new SidePanel.Memento();
-            this.SidePanel.Restore(memento, _panels);
+            this.SidePanel.Restore(memento);
             this.SidePanelFrame.Reflesh();
         }
 
         private void RestoreMenu_Click(object sender, RoutedEventArgs e)
         {
-            this.SidePanel.Restore(_memento, _panels);
+            this.SidePanel.Restore(_memento);
             this.SidePanelFrame.Reflesh();
         }
 

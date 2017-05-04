@@ -636,14 +636,14 @@
 
 
                         <!-- サイドパネル -->
-                        <local:SidePanelFrame x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible"
+                        <local:SidePanelFrameView x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible"
                                       IsAutoHide="{Binding CanHidePanel}"
                                       PanelBackground="{DynamicResource NVBackground}"
                                       IconBackground="{DynamicResource NVPanelIconBackground}"
                                       CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}"
                                       CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}"
                                       MouseTarget="{Binding ElementName=Root}">
-                        </local:SidePanelFrame>
+                        </local:SidePanelFrameView>
 
                     </Grid>
 

@@ -58,6 +58,10 @@ namespace NeeView
         /// </summary>
         public string Place { get; private set; }
 
+        /// <summary>
+        /// フォルダーの場所(表示用)
+        /// </summary>
+        public string PlaceDispString => string.IsNullOrEmpty(Place) ? "このPC" : Place;
 
         /// <summary>
         /// フォルダーの並び順

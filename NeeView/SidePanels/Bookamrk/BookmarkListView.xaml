@@ -5,7 +5,7 @@
     http://opensource.org/licenses/mit-license.php
 -->
 
-<UserControl x:Class="NeeView.BookmarkControl"
+<UserControl x:Class="NeeView.BookmarkListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -125,13 +125,13 @@
             <ListBox.Style>
                 <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding PanelListItemStyle}" Value="Normal">
+                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Normal">
                             <Setter Property="ItemTemplate" Value="{StaticResource NormalBookmark}"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding PanelListItemStyle}" Value="Content">
+                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Content">
                             <Setter Property="ItemTemplate" Value="{StaticResource PictureBookmark}"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding PanelListItemStyle}" Value="Banner">
+                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Banner">
                             <Setter Property="ItemTemplate" Value="{StaticResource BannerBookmark}"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -147,7 +147,7 @@
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu>
-                                <MenuItem Header="ブックマークをはずす(D)" Command="{x:Static local:BookmarkControl.RemoveCommand}"/>
+                                <MenuItem Header="ブックマークをはずす(D)" Command="{x:Static local:BookmarkListView.RemoveCommand}"/>
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>

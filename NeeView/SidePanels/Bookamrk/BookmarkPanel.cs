@@ -33,48 +33,17 @@ namespace NeeView
 
         public string IconTips => "ブックマーク";
 
-        private BookmarkPanelView _view;
-        public FrameworkElement View => _view;
+        public FrameworkElement View { get; private set; }
 
         public bool IsVisibleLock => false;
 
         //
-        public BookmarkPanel()
+        public BookmarkPanel(BookmarkList model)
         {
-            _view = new BookmarkPanelView();
+            View = new BookmarkListView(model);
 
             Icon = App.Current.MainWindow.Resources["pic_star_24px"] as ImageSource;
             IconMargin = new Thickness(8);
         }
-
-        //
-        public void Initialize(MainWindowVM vm)
-        {
-            _view.Initialize(vm);
-        }
-
-        #region Memento
-        [DataContract]
-        public class Memento
-        {
-            [DataMember]
-            public BookmarkControlViewModel.Memento BookmarkControlMemento;
-        }
-
-        //
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.BookmarkControlMemento = _view.BookmarkControl.VM.CreateMemento();
-            return memento;
-        }
-
-        //
-        public void Resore(Memento memento)
-        {
-            if (memento == null) return;
-            _view.BookmarkControl.VM?.Restore(memento.BookmarkControlMemento);
-        }
-        #endregion
     }
 }

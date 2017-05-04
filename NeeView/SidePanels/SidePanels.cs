@@ -34,7 +34,7 @@ namespace NeeView
         /// TODO: 生成順。モデルはビュー生成の前に準備されているべき
         /// </summary>
         /// <param name="control"></param>
-        public SidePanels()
+        public SidePanels(Models models)
         {
             _panels = new List<IPanel>();
 
@@ -44,7 +44,7 @@ namespace NeeView
             //this.PageList.Initialize(this);
 
             // 履歴
-            this.HistoryPanel = new HistoryPanel();
+            this.HistoryPanel = new HistoryPanel(models.HistoryList);
             _panels.Add(this.HistoryPanel);
 
             // ファイル情報
@@ -56,11 +56,11 @@ namespace NeeView
             _panels.Add(this.ImageEffectPanel);
 
             // ブックマーク
-            this.BookmarkPanel = new BookmarkPanel();
+            this.BookmarkPanel = new BookmarkPanel(models.BookmarkList);
             _panels.Add(this.BookmarkPanel);
 
             // ページマーク
-            this.PagemarkPanel = new PagemarkPanel();
+            this.PagemarkPanel = new PagemarkPanel(models.PagemarkList);
             _panels.Add(this.PagemarkPanel);
         }
 
@@ -75,7 +75,7 @@ namespace NeeView
             this.FolderListPanel.SetPlace(ModelContext.BookHistory.LastFolder ?? vm.BookHub.GetFixedHome(), null, false); // ##
 
             // 履歴
-            this.HistoryPanel.Initialize(vm);
+            //this.HistoryPanel.Initialize(vm);
 
             // ファイル情報
             this.FileInfoPanel.Initialize(vm);
@@ -84,10 +84,10 @@ namespace NeeView
             this.ImageEffectPanel.Initialize(vm);
 
             // ブックマーク
-            this.BookmarkPanel.Initialize(vm);
+            //this.BookmarkPanel.Initialize(vm);
 
             // ページマーク
-            this.PagemarkPanel.Initialize(vm);
+            //this.PagemarkPanel.Initialize(vm);
         }
 
         /// <summary>
@@ -163,14 +163,14 @@ namespace NeeView
             [DataMember]
             public FolderListPanel.Memento FolderListPanelMemento { get; set; }
 
-            [DataMember]
-            public HistoryPanel.Memento HistoryPanelMemento { get; set; }
+            //[DataMember]
+            //public HistoryPanel.Memento HistoryPanelMemento { get; set; }
 
-            [DataMember]
-            public BookmarkPanel.Memento BookmarkPanelMemento { get; set; }
+            //[DataMember]
+            //public BookmarkPanel.Memento BookmarkPanelMemento { get; set; }
 
-            [DataMember]
-            public PagemarkPanel.Memento PagemarkPanelMemento { get; set; }
+            //[DataMember]
+            //public PagemarkPanel.Memento PagemarkPanelMemento { get; set; }
         }
 
         /// <summary>
@@ -190,9 +190,9 @@ namespace NeeView
             base.InitializeMemento(memento);
 
             memento.FolderListPanelMemento = FolderListPanel.CreateMemento();
-            memento.HistoryPanelMemento = HistoryPanel.CreateMemento();
-            memento.BookmarkPanelMemento = BookmarkPanel.CreateMemento();
-            memento.PagemarkPanelMemento = PagemarkPanel.CreateMemento();
+            //memento.HistoryPanelMemento = HistoryPanel.CreateMemento();
+            //memento.BookmarkPanelMemento = BookmarkPanel.CreateMemento();
+            //memento.PagemarkPanelMemento = PagemarkPanel.CreateMemento();
 
             return memento;
         }
@@ -204,9 +204,9 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             FolderListPanel.Restore(memento.FolderListPanelMemento);
-            HistoryPanel.Resore(memento.HistoryPanelMemento);
-            BookmarkPanel.Resore(memento.BookmarkPanelMemento);
-            PagemarkPanel.Resore(memento.PagemarkPanelMemento);
+            //HistoryPanel.Resore(memento.HistoryPanelMemento);
+            //BookmarkPanel.Resore(memento.BookmarkPanelMemento);
+            //PagemarkPanel.Resore(memento.PagemarkPanelMemento);
 
             this.Restore(memento, _panels);
         }

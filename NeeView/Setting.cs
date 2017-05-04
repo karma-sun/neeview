@@ -54,6 +54,10 @@ namespace NeeView
         [DataMember(Order = 17)]
         public ImageEffect.Memento ImageEffectMemento { get; set; }
 
+        // 設定(new!)
+        [DataMember(Order = 1)]
+        public Models.Memento Memento { get; set; }
+
         //
         private void Constructor()
         {

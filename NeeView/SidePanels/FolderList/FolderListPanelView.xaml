@@ -14,23 +14,10 @@
 
     <Grid x:Name="Root">
         <Grid.RowDefinitions>
-            <RowDefinition Height="{Binding FolderListGridLength0, Mode=TwoWay}"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="{Binding FolderListGridLength2, Mode=TwoWay}"/>
+            <RowDefinition Height="{Binding FolderListGridLength0, Mode=TwoWay}" MinHeight="32"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="{Binding FolderListGridLength2, Mode=TwoWay}" MinHeight="32"/>
         </Grid.RowDefinitions>
-
-        <!--
-        <Grid.Style>
-            <Style TargetType="Grid">
-                <Setter Property="Visibility" Value="Collapsed"/>
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding LeftPanel}" Value="FolderList">
-                        <Setter Property="Visibility" Value="Visible"/>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Grid.Style>
-        -->
 
         <local:FolderListControlView x:Name="FolderList" Grid.Row="0" Setting="{Binding FolderListSetting}" BookHub="{Binding BookHub}"/>
 

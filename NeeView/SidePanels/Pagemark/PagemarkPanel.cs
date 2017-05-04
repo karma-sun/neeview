@@ -33,49 +33,17 @@ namespace NeeView
 
         public string IconTips => "ページマーク";
 
-        private PagemarkPanelView _view;
-        public FrameworkElement View => _view;
+        public FrameworkElement View { get; private set; }
 
         public bool IsVisibleLock => false;
 
-
         //
-        public PagemarkPanel()
+        public PagemarkPanel(PagemarkList model)
         {
-            _view = new PagemarkPanelView();
+            View = new PagemarkListViewl(model);
 
             Icon = App.Current.MainWindow.Resources["pic_bookmark_24px"] as ImageSource;
             IconMargin = new Thickness(10);
         }
-
-        //
-        public void Initialize(MainWindowVM vm)
-        {
-            _view.Initialize(vm);
-        }
-
-        #region Memento
-        [DataContract]
-        public class Memento
-        {
-            [DataMember]
-            public PagemarkControlViewModel.Memento PagemarkControlMemento;
-        }
-
-        //
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.PagemarkControlMemento = _view.PagemarkControl.VM.CreateMemento();
-            return memento;
-        }
-
-        //
-        public void Resore(Memento memento)
-        {
-            if (memento == null) return;
-            _view.PagemarkControl.VM?.Restore(memento.PagemarkControlMemento);
-        }
-        #endregion
     }
 }

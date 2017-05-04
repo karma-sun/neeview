@@ -5,6 +5,7 @@
 
 using NeeView.Windows.Controls;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Media;
@@ -63,6 +64,24 @@ namespace NeeView
 
         // TODO: おかしい
         public PageListControl PageListControl => _view.PageList;
+
+
+#if false
+        private GridLength _folderListGridLength0 = new GridLength(1, GridUnitType.Star);
+        public GridLength FolderListGridLength0
+        {
+            get { Debug.WriteLine("0:" + _folderListGridLength0); return _folderListGridLength0; }
+            set { _folderListGridLength0 = value; RaisePropertyChanged(); }
+        }
+
+        private GridLength _folderListGridLength2 = new GridLength(0, GridUnitType.Pixel);
+        public GridLength FolderListGridLength2
+        {
+            get { Debug.WriteLine("2:" + _folderListGridLength2); return _folderListGridLength2; }
+            set { _folderListGridLength2 = value; RaisePropertyChanged(); }
+        }
+#endif
+
 
         #region Memento
 

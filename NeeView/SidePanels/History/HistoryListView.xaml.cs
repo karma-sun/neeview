@@ -22,35 +22,38 @@ using System.Diagnostics;
 namespace NeeView
 {
     /// <summary>
-    /// HistoryControl.xaml の相互作用ロジック
+    /// HistoryListView.xaml の相互作用ロジック
     /// </summary>
-    public partial class HistoryControl : UserControl
+    public partial class HistoryListView : UserControl
     {
-        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(HistoryControl));
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(HistoryListView));
 
-        private HistoryControlViewModel _VM;
-        public HistoryControlViewModel VM => _VM;
+        private HistoryListViewModel _vm;
 
         private ThumbnailHelper _thumbnailHelper;
 
-
-        public HistoryControl()
+        //
+        public HistoryListView()
         {
             InitializeComponent();
+        }
 
-            _VM = new HistoryControlViewModel();
-            _VM.SelectedItemChanging += OnItemsChanging;
-            _VM.SelectedItemChanged += OnItemsChanged;
-            this.DockPanel.DataContext = _VM;
+        //
+        public HistoryListView(HistoryList model) : this()
+        {
+            _vm = new HistoryListViewModel(model);
+            _vm.SelectedItemChanging += OnItemsChanging;
+            _vm.SelectedItemChanged += OnItemsChanged;
+            this.DockPanel.DataContext = _vm;
 
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
             this.HistoryListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
 
-            _thumbnailHelper = new ThumbnailHelper(this.HistoryListBox, _VM.RequestThumbnail);
+            _thumbnailHelper = new ThumbnailHelper(this.HistoryListBox, _vm.RequestThumbnail);
         }
 
         //
-        private void OnItemsChanging(object sender, HistoryControlViewModel.SelectedItemChangeEventArgs e)
+        private void OnItemsChanging(object sender, HistoryListViewModel.SelectedItemChangeEventArgs e)
         {
             var index = this.HistoryListBox.SelectedIndex;
 
@@ -59,7 +62,7 @@ namespace NeeView
         }
 
         //
-        private void OnItemsChanged(object sender, HistoryControlViewModel.SelectedItemChangeEventArgs e)
+        private void OnItemsChanged(object sender, HistoryListViewModel.SelectedItemChangeEventArgs e)
         {
             if (e.IsFocused)
             {
@@ -79,14 +82,8 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as BookMementoUnit;
             if (item != null)
             {
-                _VM.Remove(item);
+                _vm.Remove(item);
             }
-        }
-
-        //
-        public void Initialize(BookHub bookHub)
-        {
-            _VM.Initialize(bookHub, this.HistoryListBox.IsVisible);
         }
 
         // 履歴項目決定
@@ -94,7 +91,7 @@ namespace NeeView
         {
             var historyItem = ((sender as ListBoxItem)?.Content as BookMementoUnit).Memento;
 
-            _VM.Load(historyItem?.Place);
+            _vm.Load(historyItem?.Place);
             e.Handled = true;
         }
 
@@ -108,7 +105,7 @@ namespace NeeView
 
             if (e.Key == Key.Return)
             {
-                _VM.Load(historyItem?.Place);
+                _vm.Load(historyItem?.Place);
                 e.Handled = true;
             }
         }
@@ -130,11 +127,11 @@ namespace NeeView
         // 表示/非表示イベント
         private async void HistoryListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            _VM.Visibility = (bool)e.NewValue ? Visibility.Visible : Visibility.Hidden;
+            _vm.Visibility = (bool)e.NewValue ? Visibility.Visible : Visibility.Hidden;
 
-            if (_VM.Visibility == Visibility.Visible)
+            if (_vm.Visibility == Visibility.Visible)
             {
-                _VM.UpdateItems();
+                _vm.UpdateItems();
 
                 await Task.Yield();
                 if (this.HistoryListBox.SelectedIndex < 0) this.HistoryListBox.SelectedIndex = 0;

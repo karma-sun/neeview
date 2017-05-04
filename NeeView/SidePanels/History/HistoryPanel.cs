@@ -11,6 +11,10 @@ using System.Windows.Media;
 
 namespace NeeView
 {
+    /// <summary>
+    /// 履歴パネル
+    /// Type: ControlModel? ViewModelParts?
+    /// </summary>
     public class HistoryPanel : IPanel, INotifyPropertyChanged
     {
         /// <summary>
@@ -33,51 +37,21 @@ namespace NeeView
 
         public string IconTips => "履歴";
 
-        private HistoryPanelView _view;
+        private HistoryListView _view;
         public FrameworkElement View => _view;
 
         public bool IsVisibleLock => false;
 
 
         //
-        public HistoryPanel()
+        public HistoryPanel(HistoryList model)
         {
-            _view = new HistoryPanelView();
+            _view = new HistoryListView(model);
 
             Icon = App.Current.MainWindow.Resources["pic_history_24px"] as ImageSource;
             IconMargin = new Thickness(7, 8, 9, 8);
             //IconMargin = new Thickness(8);
         }
-
-        //
-        public void Initialize(MainWindowVM vm)
-        {
-            _view.Initialize(vm);
-        }
-
-
-        #region Memento
-        [DataContract]
-        public class Memento
-        {
-            [DataMember]
-            public HistoryControlViewModel.Memento HistoryControlMemento;
-        }
-
-        //
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.HistoryControlMemento = _view.History.VM.CreateMemento();
-            return memento;
-        }
-
-        //
-        public void Resore(Memento memento)
-        {
-            if (memento == null) return;
-            _view.History.VM?.Restore(memento.HistoryControlMemento);
-        }
-        #endregion
     }
+
 }

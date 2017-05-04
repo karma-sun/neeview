@@ -17,7 +17,7 @@ namespace NeeView
     /// <summary>
     /// 
     /// </summary>
-    public class HistoryControlViewModel : INotifyPropertyChanged
+    public class HistoryListViewModel : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -41,7 +41,6 @@ namespace NeeView
         public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanged;
 
 
-        public BookHub BookHub { get; private set; }
 
 
         #region Property: Items
@@ -126,10 +125,11 @@ namespace NeeView
             item.Header = header;
             item.Command = SetListItemStyle;
             item.CommandParameter = style;
-            var binding = new Binding(nameof(PanelListItemStyle))
+            var binding = new Binding(nameof(_model.PanelListItemStyle))
             {
                 Converter = _PanelListItemStyleToBooleanConverter,
-                ConverterParameter = style
+                ConverterParameter = style,
+                Source = _model
             };
             item.SetBinding(MenuItem.IsCheckedProperty, binding);
 
@@ -154,48 +154,45 @@ namespace NeeView
         //
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
-            this.PanelListItemStyle = style;
+            _model.PanelListItemStyle = style;
         }
-
-
-        /// <summary>
-        /// PanelListItemStyle property.
-        /// TODO: 保存されるものなのでモデル的なクラスでの実装が望ましい
-        /// </summary>
-        public PanelListItemStyle PanelListItemStyle
-        {
-            get { return _PanelListItemStyle; }
-            set
-            {
-                if (_PanelListItemStyle != value)
-                {
-                    _PanelListItemStyle = value;
-                    ////this.FolderListView?.SetPanelListItemStyle(_PanelListItemStyle);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        //
-        private PanelListItemStyle _PanelListItemStyle;
-
-
 
         #endregion
 
 
         private bool _isDarty;
 
-        //
-        public void Initialize(BookHub bookHub, bool isVisible)
+        /// <summary>
+        /// Model property.
+        /// </summary>
+        public HistoryList Model
         {
-            BookHub = bookHub;
+            get { return _model; }
+            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
+        }
+
+        //
+        private HistoryList _model;
+
+        //
+        private BookHub _bookHub;
+
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="model"></param>
+        public HistoryListViewModel(HistoryList model)
+        {
+            _model = model;
+            _bookHub = _model.BookHub;
 
             _isDarty = true;
-            if (isVisible) UpdateItems();
+            //if (isVisible) UpdateItems();
+            UpdateItems();
 
-            BookHub.HistoryChanged += BookHub_HistoryChanged;
-            BookHub.HistoryListSync += BookHub_HistoryListSync;
+            _bookHub.HistoryChanged += BookHub_HistoryChanged;
+            _bookHub.HistoryListSync += BookHub_HistoryListSync;
 
             InitializeMoreMenu();
         }
@@ -241,7 +238,7 @@ namespace NeeView
         public void Load(string path)
         {
             if (path == null) return;
-            BookHub?.RequestLoad(path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SkipSamePlace, true);
+            _bookHub?.RequestLoad(path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SkipSamePlace, true);
         }
 
 
@@ -285,34 +282,10 @@ namespace NeeView
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin, int direction)
         {
-            if (PanelListItemStyle.HasThumbnail())
+            if (_model.PanelListItemStyle.HasThumbnail())
             {
                 ThumbnailManager.Current.RequestThumbnail(Items, QueueElementPriority.HistoryThumbnail, start, count, margin, direction);
             }
         }
-
-        #region Memento
-        [DataContract]
-        public class Memento
-        {
-            [DataMember]
-            public PanelListItemStyle PanelListItemStyle { get; set; }
-        }
-
-        //
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.PanelListItemStyle = this.PanelListItemStyle;
-            return memento;
-        }
-
-        //
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            this.PanelListItemStyle = memento.PanelListItemStyle;
-        }
-        #endregion
     }
 }

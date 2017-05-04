@@ -29,10 +29,10 @@ namespace NeeView
     /// </summary>
     public partial class FolderListView : UserControl
     {
-        public static readonly RoutedCommand OpenExplorerCommand = new RoutedCommand("OpenExplorerCommand", typeof(BookmarkControl));
-        public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(BookmarkControl));
-        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkControl));
-        public static readonly RoutedCommand RenameCommand = new RoutedCommand("RenameCommand", typeof(BookmarkControl));
+        public static readonly RoutedCommand OpenExplorerCommand = new RoutedCommand("OpenExplorerCommand", typeof(BookmarkListView));
+        public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(BookmarkListView));
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkListView));
+        public static readonly RoutedCommand RenameCommand = new RoutedCommand("RenameCommand", typeof(BookmarkListView));
 
         /// <summary>
         /// コンストラクタ

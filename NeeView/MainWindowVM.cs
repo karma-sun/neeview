@@ -809,7 +809,7 @@ namespace NeeView
         }
 
         //
-        private SidePanels _SidePanels = new SidePanels();
+        private SidePanels _SidePanels = new SidePanels(Models.Current);
 
 
         /// <summary>
@@ -915,7 +915,7 @@ namespace NeeView
         private GridLength _folderListGridLength0 = new GridLength(1, GridUnitType.Star);
         public GridLength FolderListGridLength0
         {
-            get { return _folderListGridLength0; }
+            get { Debug.WriteLine("0:" + _folderListGridLength0);  return _folderListGridLength0; }
             set { _folderListGridLength0 = value; RaisePropertyChanged(); }
         }
         #endregion
@@ -924,7 +924,7 @@ namespace NeeView
         private GridLength _folderListGridLength2 = new GridLength(0, GridUnitType.Pixel);
         public GridLength FolderListGridLength2
         {
-            get { return _folderListGridLength2; }
+            get { Debug.WriteLine("2:" + _folderListGridLength2); return _folderListGridLength2; }
             set { _folderListGridLength2 = value; RaisePropertyChanged(); }
         }
         #endregion
@@ -1850,9 +1850,14 @@ namespace NeeView
         // 保存可否
         public bool IsEnableSave { get; set; } = true;
 
+        //
+        private Models _models;
+
         // コンストラクタ
         public MainWindowVM(MainWindow window)
         {
+            _models = Models.Current;
+
             MainWindowVM.Current = this;
 
             _windowShape = new WindowShapeSelector(window);
@@ -1878,7 +1883,7 @@ namespace NeeView
                 (s, e) => IsBusyJobEngine = ModelContext.JobEngine.IsBusy && !AppContext.Current.IsPlayingSlideShow;
 
             // BookHub
-            BookHub = new BookHub();
+            BookHub = _models.BookHub;
 
             BookHub.Loading +=
                 OnLoading;
@@ -2153,6 +2158,9 @@ namespace NeeView
             setting.ExporterMemento = Exporter.CreateMemento();
             setting.PreferenceMemento = Preference.Current.CreateMemento();
             setting.ImageEffectMemento = this.ImageEffector.CreateMemento();
+            
+            // new memento
+            setting.Memento = Models.Current.CreateMemento();
 
             return setting;
         }
@@ -2176,6 +2184,9 @@ namespace NeeView
             InputGestureChanged?.Invoke(this, null);
 
             Exporter.Restore(setting.ExporterMemento);
+
+            // new memento
+            Models.Current.Resore(setting.Memento);
         }
 
         // 履歴読み込み

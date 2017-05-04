@@ -15,7 +15,7 @@ namespace NeeView
     /// <summary>
     /// 
     /// </summary>
-    public class PagemarkControlViewModel : INotifyPropertyChanged
+    public class PagemarkListViewModel : INotifyPropertyChanged
     {
         #region NotifyPropertyChanged
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -42,7 +42,7 @@ namespace NeeView
         public BookHub BookHub { get; private set; }
 
         public PagemarkCollection Pagemarks => ModelContext.Pagemarks;
-        
+
 
         #region MoreMenu
 
@@ -96,10 +96,11 @@ namespace NeeView
             item.Header = header;
             item.Command = SetListItemStyle;
             item.CommandParameter = style;
-            var binding = new Binding(nameof(PanelListItemStyle))
+            var binding = new Binding(nameof(_model.PanelListItemStyle))
             {
                 Converter = _PanelListItemStyleToBooleanConverter,
-                ConverterParameter = style
+                ConverterParameter = style,
+                Source = _model
             };
             item.SetBinding(MenuItem.IsCheckedProperty, binding);
 
@@ -124,40 +125,29 @@ namespace NeeView
         //
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
-            this.PanelListItemStyle = style;
+            _model.PanelListItemStyle = style;
         }
-
-
-        /// <summary>
-        /// PanelListItemStyle property.
-        /// TODO: 保存されるものなのでモデル的なクラスでの実装が望ましい
-        /// </summary>
-        public PanelListItemStyle PanelListItemStyle
-        {
-            get { return _PanelListItemStyle; }
-            set
-            {
-                if (_PanelListItemStyle != value)
-                {
-                    _PanelListItemStyle = value;
-                    ////this.FolderListView?.SetPanelListItemStyle(_PanelListItemStyle);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        //
-        private PanelListItemStyle _PanelListItemStyle;
-
-
 
         #endregion
 
+        /// <summary>
+        /// Model property.
+        /// </summary>
+        public PagemarkList Model
+        {
+            get { return _model; }
+            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
+        }
 
         //
-        public void Initialize(BookHub bookHub)
+        private PagemarkList _model;
+
+
+        //
+        public PagemarkListViewModel(PagemarkList model)
         {
-            BookHub = bookHub;
+            _model = model;
+            BookHub = _model.BookHub;
 
             InitializeMoreMenu();
         }
@@ -186,34 +176,10 @@ namespace NeeView
         public void RequestThumbnail(int start, int count, int margin, int direction)
         {
             if (Pagemarks == null) return;
-            if (PanelListItemStyle.HasThumbnail())
+            if (_model.PanelListItemStyle.HasThumbnail())
             {
                 ThumbnailManager.Current.RequestThumbnail(Pagemarks.Marks, QueueElementPriority.PagemarkThumbnail, start, count, margin, direction);
             }
         }
-
-        #region Memento
-        [DataContract]
-        public class Memento
-        {
-            [DataMember]
-            public PanelListItemStyle PanelListItemStyle { get; set; }
-        }
-
-        //
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.PanelListItemStyle = this.PanelListItemStyle;
-            return memento;
-        }
-
-        //
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            this.PanelListItemStyle = memento.PanelListItemStyle;
-        }
-        #endregion
     }
 }

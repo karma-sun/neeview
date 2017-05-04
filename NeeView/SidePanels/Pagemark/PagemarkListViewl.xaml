@@ -5,7 +5,7 @@
     http://opensource.org/licenses/mit-license.php
 -->
 
-<UserControl x:Class="NeeView.PagemarkControl"
+<UserControl x:Class="NeeView.PagemarkListViewl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -102,10 +102,10 @@
             <ListBox.Style>
                 <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding PanelListItemStyle}" Value="Normal">
+                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Normal">
                             <Setter Property="ItemTemplate" Value="{StaticResource NormalPagemark}"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding PanelListItemStyle}" Value="Content">
+                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Content">
                             <Setter Property="ItemTemplate" Value="{StaticResource PicturePagemark}"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -121,7 +121,7 @@
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu>
-                                <MenuItem Header="ページマークをはずす(D)" Command="{x:Static local:PagemarkControl.RemoveCommand}"/>
+                                <MenuItem Header="ページマークをはずす(D)" Command="{x:Static local:PagemarkListViewl.RemoveCommand}"/>
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>

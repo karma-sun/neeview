@@ -161,24 +161,24 @@ namespace NeeView
         }
 
         /// <summary>
-        /// Model property.
-        /// TODO: このようにモデルをあとから設定するのはおかしい
+        /// SidePanelFrameModel を Sourceとして指定する。
+        /// 指定することで初めてViewModelが生成される
         /// </summary>
-        public SidePanelFrameModel Model
+        public SidePanelFrameModel Source
         {
-            get { return (SidePanelFrameModel)GetValue(ModelProperty); }
-            set { SetValue(ModelProperty, value); }
+            get { return (SidePanelFrameModel)GetValue(SourceProperty); }
+            set { SetValue(SourceProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Model.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ModelProperty =
-            DependencyProperty.Register("Model", typeof(SidePanelFrameModel), typeof(SidePanelFrameView), new PropertyMetadata(null, ModelPropertyChanged));
+        public static readonly DependencyProperty SourceProperty =
+            DependencyProperty.Register("Source", typeof(SidePanelFrameModel), typeof(SidePanelFrameView), new PropertyMetadata(null, SourcePropertyChanged));
 
-        private static void ModelPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void SourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is SidePanelFrameView control)
             {
-                control.InitializeViewModel(control.Model);
+                control.InitializeViewModel(control.Source);
             }
         }
 
@@ -197,13 +197,12 @@ namespace NeeView
         //
         private void InitializeViewModel(SidePanelFrameModel model)
         {
-            VM = new SidePanelFrameViewModel(model, this.LeftIconList, this.RightIconList);
-            if (VM.IsValid)
-            {
-                VM.PanelVisibilityChanged += (s, e) => UpdateCanvas();
-                UpdateWidth();
-                UpdateAutoHide();
-            }
+            if (model == null) return;
+
+            this.VM = new SidePanelFrameViewModel(model, this.LeftIconList, this.RightIconList);
+            this.VM.PanelVisibilityChanged += (s, e) => UpdateCanvas();
+            UpdateWidth();
+            UpdateAutoHide();
         }
 
 
@@ -212,10 +211,8 @@ namespace NeeView
         /// </summary>
         private void UpdateAutoHide()
         {
-            if (VM.IsValid)
-            {
-                VM.IsAutoHide = IsAutoHide;
-            }
+            if (_vm == null) return;
+            _vm.IsAutoHide = IsAutoHide;
         }
 
 
@@ -225,7 +222,7 @@ namespace NeeView
         public SidePanelFrameView()
         {
             InitializeComponent();
-            InitializeViewModel(this.Model);
+            InitializeViewModel(this.Source);
 
             this.Root.DataContext = this;
         }
@@ -239,6 +236,8 @@ namespace NeeView
         /// <param name="e"></param>
         private void Target_MouseMove(object sender, MouseEventArgs e)
         {
+            if (_vm == null) return;
+
             var point = e.GetPosition(this.Root);
             var left = this.Viewport.TranslatePoint(new Point(0, 0), this.Root);
             var right = this.Viewport.TranslatePoint(new Point(this.Viewport.ActualWidth, 0), this.Root);
@@ -336,6 +335,7 @@ namespace NeeView
         /// </summary>
         private void UpdateWidth()
         {
+            if (_vm == null) return;
             _vm.Width = Math.Max(this.Root.ActualWidth - (PanelIconGridWidth + SplitterWidth) * 2, 0);
             UpdateCanvas();
         }
@@ -355,7 +355,7 @@ namespace NeeView
         /// </summary>
         private void UpdateCanvas()
         {
-            if (!this.VM.IsValid || this.VM.IsAutoHide)
+            if (_vm == null || _vm.IsAutoHide)
             {
                 CanvasLeft = 0;
                 CanvasTop = 0;

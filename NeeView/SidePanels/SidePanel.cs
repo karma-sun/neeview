@@ -194,33 +194,6 @@ namespace NeeView
 
             [DataMember]
             public double Width { get; set; }
-
-            /// <summary>
-            /// constructor
-            /// </summary>
-            private void Constructor()
-            {
-                PanelTypeCodes = new List<string>();
-                Width = 250.0;
-            }
-
-            /// <summary>
-            /// constructor
-            /// </summary>
-            public Memento()
-            {
-                Constructor();
-            }
-
-            /// <summary>
-            /// デシリアイズ前処理
-            /// </summary>
-            /// <param name="c"></param>
-            [OnDeserializing]
-            private void Deserializing(StreamingContext c)
-            {
-                Constructor();
-            }
         }
 
         /// <summary>

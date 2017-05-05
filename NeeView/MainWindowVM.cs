@@ -781,27 +781,11 @@ namespace NeeView
         /// </summary>
         public SidePanels SidePanels
         {
-            get { return _SidePanels; }
-            set { if (_SidePanels != value) { _SidePanels = value; RaisePropertyChanged(); } }
+            get { return _sidePanels; }
+            set { if (_sidePanels != value) { _sidePanels = value; RaisePropertyChanged(); } }
         }
 
-        //
-        private SidePanels _SidePanels; // = new SidePanels(Models.Current);
-
-
-        /// <summary>
-        /// サイドパネル初期化
-        /// TODO: 生成順。モデルはビュー生成の前に準備されているべき
-        /// </summary>
-        /// <param name="control"></param>
-        public void InitializeSidePanels(SidePanelFrameView control)
-        {
-            SidePanels.Initialize(this);
-            SidePanels.SelectedPanelChanged += (s, e) => RaisePanelPropertyChanged();
-
-            // TODO: なんかおかしい
-            control.Model = SidePanels;
-        }
+        private SidePanels _sidePanels;
 
 
 
@@ -1734,10 +1718,11 @@ namespace NeeView
         {
             MainWindowVM.Current = this;
 
+            // Models
             _models = Models.Current;
 
-            _SidePanels = new SidePanels(_models);
 
+            // Window Shape
             _windowShape = new WindowShapeSelector(window);
             _windowShape.ShapeChanged += (s, e) => IsFullScreen = _windowShape.Shape == WindowShape.FullScreen;
 
@@ -1828,6 +1813,11 @@ namespace NeeView
 
             // CommandTable
             ModelContext.CommandTable.SetTarget(this, BookHub);
+
+            // Side Panel
+            var sidePanels = new SidePanels(_models);
+            sidePanels.SelectedPanelChanged += (s, e) => RaisePanelPropertyChanged();
+            SidePanels = sidePanels;
 
             // Contents
             Contents = new ObservableCollection<ViewContent>();
@@ -2106,6 +2096,9 @@ namespace NeeView
             // 履歴反映
             ModelContext.BookHistory.Restore(memento, true);
             UpdateLastFiles();
+
+            // フォルダーリストの場所に反映
+            _models.FolderList.ResetPlace(ModelContext.BookHistory.LastFolder);
         }
 
         // ブックマーク読み込み

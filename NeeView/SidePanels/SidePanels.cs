@@ -61,19 +61,10 @@ namespace NeeView
             this.PagemarkPanel = new PagemarkPanel(models.PagemarkList);
             leftPanels.Add(this.PagemarkPanel);
 
-            //
+            // パネル群を登録
             this.InitializePanels(leftPanels, rightPanels);
         }
 
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="vm"></param>
-        public void Initialize(MainWindowVM vm)
-        {
-            // フォルダーリスト
-            Models.Current.FolderList.SetPlace(ModelContext.BookHistory.LastFolder ?? vm.BookHub.GetFixedHome(), null, false); // ##
-        }
 
         /// <summary>
         /// 指定したパネルが表示されているか判定

@@ -88,7 +88,7 @@ namespace NeeView.Lab
             _sidePanel = new SidePanelFrameModel();
             _sidePanel.Restore(null);
 
-            this.SidePanelFrame.Model = _sidePanel;
+            this.SidePanelFrame.Source = _sidePanel;
         }
 
 

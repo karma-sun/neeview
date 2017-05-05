@@ -54,7 +54,7 @@ namespace NeeView
             get { return _width; }
             set
             {
-                if (IsValid && _width != value)
+                if (_width != value)
                 {
                     _width = Math.Max(value, Left.Width + Right.Width);
                     UpdateLeftMaxWidth();
@@ -131,12 +131,6 @@ namespace NeeView
         /// </summary>
         public RightPanelViewModel Right { get; private set; }
 
-
-        /// <summary>
-        /// 有効判定。モデルが適用されているか。
-        /// </summary>
-        public bool IsValid { get; private set; }
-
         /// <summary>
         /// ドラッグ開始設定
         /// </summary>
@@ -165,8 +159,6 @@ namespace NeeView
             DragStartDescription = new DragStartDescription();
             DragStartDescription.DragStart += DragStartDescription_DragStart;
             DragStartDescription.DragEnd += DragStartDescription_DragEnd;
-
-            IsValid = true;
         }
 
         /// <summary>

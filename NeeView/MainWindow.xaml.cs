@@ -1012,9 +1012,6 @@ namespace NeeView
             // PanelColor
             _VM.FlushPanelColor();
 
-            // サイドパネル初期化
-            _VM.InitializeSidePanels(this.SidePanelFrame);
-
             // マーカー初期化
             this.PageMarkers.Initialize(_VM.BookHub);
 

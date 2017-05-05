@@ -637,6 +637,7 @@
 
                         <!-- サイドパネル -->
                         <local:SidePanelFrameView x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible"
+                                      Source="{Binding SidePanels}"
                                       IsAutoHide="{Binding CanHidePanel}"
                                       PanelBackground="{DynamicResource NVBackground}"
                                       IconBackground="{DynamicResource NVPanelIconBackground}"

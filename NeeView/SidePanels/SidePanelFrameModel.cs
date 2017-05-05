@@ -38,7 +38,7 @@ namespace NeeView
         }
 
         //
-        private bool _IsSideBarVisible;
+        private bool _IsSideBarVisible = true;
 
 
         /// <summary>
@@ -142,27 +142,6 @@ namespace NeeView
 
             [DataMember]
             public SidePanel.Memento Right { get; set; }
-
-            //
-            public void Constructor()
-            {
-                IsSideBarVisible = true;
-                Left = new SidePanel.Memento();
-                Right = new SidePanel.Memento();
-            }
-
-            //
-            public Memento()
-            {
-                Constructor();
-            }
-
-            //
-            [OnDeserializing]
-            private void Deserializing(StreamingContext c)
-            {
-                Constructor();
-            }
         }
 
         /// <summary>
@@ -173,17 +152,11 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            InitializeMemento(memento);
-
-            return memento;
-        }
-
-        //
-        public void InitializeMemento(Memento memento)
-        {
             memento.IsSideBarVisible = this.IsSideBarVisible;
             memento.Left = Left.CreateMemento();
             memento.Right = Right.CreateMemento();
+
+            return memento;
         }
 
 

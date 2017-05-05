@@ -190,7 +190,7 @@ namespace NeeView
 
             if (bitmapContent?.BitmapInfo != null)
             {
-                Debug.WriteLine($"FileInfo: {_model.ViewContent?.FileName}");
+                //Debug.WriteLine($"FileInfo: {_model.ViewContent?.FileName}");
 
                 _isDarty = false;
 
@@ -229,7 +229,7 @@ namespace NeeView
             }
             else
             {
-                Debug.WriteLine($"FileInfo: null");
+                //Debug.WriteLine($"FileInfo: null");
 
                 ThumbnailBitmap.Reset();
                 ImageSize = null;

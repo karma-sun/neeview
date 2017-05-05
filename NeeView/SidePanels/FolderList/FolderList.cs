@@ -98,6 +98,16 @@ namespace NeeView
             PlaceChanged?.Invoke(this, args);
         }
 
+        /// <summary>
+        /// 場所の初期化。
+        /// nullを指定した場合、HOMEフォルダに移動。
+        /// </summary>
+        /// <param name="place"></param>
+        public void ResetPlace(string place)
+        {
+            SetPlace(place ?? this.BookHub.GetFixedHome(), null, false);
+        }
+
 
         #region Memento
         [DataContract]

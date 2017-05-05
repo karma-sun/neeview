@@ -1,6 +1,7 @@
 ﻿using NeeView.Effects;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -9,10 +10,15 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-    public class Models
+    public class Models : INotifyPropertyChanged
     {
+        // System Object
         private static Models _current;
         public static Models Current { get { return _current = _current ?? new Models(); } }
+
+        // PropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         //
         public BookHub BookHub { get; private set; }
@@ -28,6 +34,9 @@ namespace NeeView
         public ImageEffect ImageEffecct { get; private set; }
 
         //
+        public SidePanel SidePanel { get; set; }
+
+        //
         public Models()
         {
             // TODO: VMを渡すのはよろしくない
@@ -35,6 +44,8 @@ namespace NeeView
             //Debug.Assert(vm != null);
 
             this.BookHub = new BookHub();
+
+            // TODO: このあたりでコマンド初期化？
 
             this.FolderPanelModel = new FolderPanelModel();
             this.FolderList = new FolderList(this.BookHub, this.FolderPanelModel);
@@ -46,7 +57,13 @@ namespace NeeView
             this.ImageEffecct = new ImageEffect();
         }
 
-
+        // サイドパネル初期化
+        // TODO: 現状、コマンド初期化位置の都合でコンストラクターと分離している。一体化させたい。
+        public void InitializeSidePanels()
+        { 
+            this.SidePanel = new SidePanel(this);
+            RaisePropertyChanged(nameof(SidePanel));
+        }
 
         #region Memento
         [DataContract]
@@ -68,6 +85,8 @@ namespace NeeView
             public FileInformation.Memento FileInformation { get; set; }
             [DataMember]
             public ImageEffect.Memento ImageEffect { get; set; }
+            [DataMember]
+            public SidePanelFrameModel.Memento SidePanel { get; set; }
         }
 
         //
@@ -82,6 +101,7 @@ namespace NeeView
             memento.PagemarkList = this.PagemarkList.CreateMemento();
             memento.FileInformation = this.FileInformation.CreateMemento();
             memento.ImageEffect = this.ImageEffecct.CreateMemento();
+            memento.SidePanel = this.SidePanel.CreateMemento();
             return memento;
         }
 
@@ -96,7 +116,8 @@ namespace NeeView
             this.BookmarkList.Restore(memento.BookmarkList);
             this.PagemarkList.Restore(memento.PagemarkList);
             this.FileInformation.Restore(memento.FileInformation);
-            this.ImageEffecct.Restore(memento.ImageEffect, fromLoad);
+            this.ImageEffecct.Restore(memento.ImageEffect, fromLoad); // ##
+            this.SidePanel.Restore(memento.SidePanel);
         }
         #endregion
     }

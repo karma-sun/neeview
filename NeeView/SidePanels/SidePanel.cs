@@ -5,227 +5,285 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace NeeView
 {
     /// <summary>
-    /// SidePanel.
-    /// パネル集合と選択されたパネルの管理
+    /// NeeView用 サイドパネル管理
     /// </summary>
-    public class SidePanel : INotifyPropertyChanged
+    public class SidePanel : SidePanelFrameModel
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        // フォーカス初期化要求
+        // TODO: イベント名は原因であって期待する結果ではよくない
+        public event EventHandler ResetFocus;
 
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        // 各種類のパネルインスタンス
+        public FolderPanel FolderListPanel { get; private set; }
+        public HistoryPanel HistoryPanel { get; private set; }
+        public FileInformationPanel FileInfoPanel { get; private set; }
+        public ImageEffectPanel ImageEffectPanel { get; private set; }
+        public BookmarkPanel BookmarkPanel { get; private set; }
+        public PagemarkPanel PagemarkPanel { get; private set; }
+
+        //
+        private Models _models;
+
+        /// <summary>
+        /// サイドパネル初期化
+        /// TODO: 生成順。モデルはビュー生成の前に準備されているべき
+        /// </summary>
+        /// <param name="control"></param>
+        public SidePanel(Models models)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            _models = models;
+
+            var leftPanels = new List<IPanel>();
+            var rightPanels = new List<IPanel>();
+
+            // フォルダーリスト
+            this.FolderListPanel = new FolderPanel(models.FolderPanelModel, models.FolderList, models.PageList);
+            leftPanels.Add(this.FolderListPanel);
+
+            // 履歴
+            this.HistoryPanel = new HistoryPanel(models.HistoryList);
+            leftPanels.Add(this.HistoryPanel);
+
+            // ファイル情報
+            this.FileInfoPanel = new FileInformationPanel(models.FileInformation);
+            rightPanels.Add(this.FileInfoPanel);
+
+            // エフェクト
+            this.ImageEffectPanel = new ImageEffectPanel(models.ImageEffecct);
+            rightPanels.Add(this.ImageEffectPanel);
+
+            // ブックマーク
+            this.BookmarkPanel = new BookmarkPanel(models.BookmarkList);
+            leftPanels.Add(this.BookmarkPanel);
+
+            // ページマーク
+            this.PagemarkPanel = new PagemarkPanel(models.PagemarkList);
+            leftPanels.Add(this.PagemarkPanel);
+
+            // パネル群を登録
+            this.InitializePanels(leftPanels, rightPanels);
+
+            //
+            SelectedPanelChanged += (s, e) => RaisePanelPropertyChanged();
         }
 
 
         /// <summary>
-        /// 選択変更通知
+        /// 指定したパネルが表示されているか判定
         /// </summary>
-        public event EventHandler SelectedPanelChanged;
-
-
-        /// <summary>
-        /// Panels property.
-        /// </summary>
-        private ObservableCollection<IPanel> _panels;
-        public ObservableCollection<IPanel> Panels
-        {
-            get { return _panels; }
-            set { if (_panels != value) { _panels = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// SelectedPanel property.
-        /// </summary>
-        private IPanel _selectedPanel;
-        public IPanel SelectedPanel
-        {
-            get { return _selectedPanel; }
-            set { if (_selectedPanel != value) { _selectedPanel = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// Width property.
-        /// </summary>
-        private double _width = 250.0;
-        public double Width
-        {
-            get { return _width; }
-            set { if (_width != value) { _width = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// パネル自体の表示状態。
-        /// ビューから更新される
-        /// </summary>
-        public bool IsVisible { get; set; }
-
-
-        /// <summary>
-        /// constructor
-        /// </summary>
-        public SidePanel()
-        {
-            _panels = new ObservableCollection<IPanel>();
-        }
-
-        /// <summary>
-        /// パネル存在チェック
-        /// </summary>
-        /// <param name="panel"></param>
-        /// <returns></returns>
-        public bool Contains(IPanel panel)
-        {
-            return _panels.Contains(panel);
-        }
-
-        /// <summary>
-        /// パネル表示状態を判定。
-        /// </summary>
-        /// <param name="panel">パネル</param>
         /// <returns></returns>
         public bool IsVisiblePanel(IPanel panel)
         {
-            return IsVisible && SelectedPanel == panel;
+            return this.Left.IsVisiblePanel(panel) || this.Right.IsVisiblePanel(panel);
         }
 
         /// <summary>
-        /// パネル選択を設定
+        /// 指定したパネルが選択されているか判定
         /// </summary>
         /// <param name="panel"></param>
-        /// <param name="isSelected"></param>
-        public void SetSelectedPanel(IPanel panel, bool isSelected)
+        /// <returns></returns>
+        public bool IsSelectedPanel(IPanel panel)
         {
-            SelectedPanel = isSelected ? panel : SelectedPanel != panel ? SelectedPanel : null;
-            SelectedPanelChanged?.Invoke(this, null);
+            return this.Left.SelectedPanel == panel || this.Right.SelectedPanel == panel;
         }
 
         /// <summary>
-        /// パネル選択をトグル。
-        /// 非表示の場合は入れ替えよりも表示させることを優先する
+        /// パネル選択状態を設定
+        /// </summary>
+        /// <param name="panel">パネル</param>
+        /// <param name="isSelected">選択</param>
+        public void SetSelectedPanel(IPanel panel, bool isSelected)
+        {
+            if (this.Left.Contains(panel))
+            {
+                this.Left.SetSelectedPanel(panel, isSelected);
+            }
+            if (this.Right.Contains(panel))
+            {
+                this.Right.SetSelectedPanel(panel, isSelected);
+            }
+        }
+
+        /// <summary>
+        /// パネル選択状態をトグル。
+        /// 非表示状態の場合は切り替えよりも表示させることを優先する
         /// </summary>
         /// <param name="panel">パネル</param>
         /// <param name="force">表示状態にかかわらず切り替える</param>
         public void ToggleSelectedPanel(IPanel panel, bool force)
         {
-            if (force || SelectedPanel != panel)
+            if (this.Left.Contains(panel))
             {
-                SelectedPanel = SelectedPanel != panel ? panel : null;
-                SelectedPanelChanged?.Invoke(this, null);
+                this.Left.ToggleSelectedPanel(panel, force);
             }
-            else
+            if (this.Right.Contains(panel))
             {
-                if (IsVisible)
-                {
-                    SelectedPanel = null;
-                }
-                else
-                {
-                    SelectedPanelChanged?.Invoke(this, null);
-                }
+                this.Right.ToggleSelectedPanel(panel, force);
             }
         }
 
         /// <summary>
-        /// Toggle.
-        /// アイコンボダンによる切り替え
+        /// パネル表示トグル
         /// </summary>
-        /// <param name="content"></param>
-        public void Toggle(IPanel content)
+        /// <param name="code"></param>
+        public void ToggleVisiblePanel(IPanel panel)
         {
-            if (content != null && _panels.Contains(content))
-            {
-                SelectedPanel = SelectedPanel != content ? content : null;
-            }
+            this.Left.Toggle(panel);
+            this.Right.Toggle(panel);
         }
 
-        /// <summary>
-        /// パネル削除
-        /// </summary>
-        /// <param name="panel"></param>
-        public void Remove(IPanel panel)
-        {
-            Panels.Remove(panel);
-            if (SelectedPanel == panel) SelectedPanel = null;
-        }
 
-        /// <summary>
-        /// パネル追加
-        /// </summary>
-        /// <param name="panel"></param>
-        /// <param name="index"></param>
-        public void Add(IPanel panel, int index)
-        {
-            if (Panels.Contains(panel))
-            {
-                var current = Panels.IndexOf(panel);
-                Panels.Move(current, Math.Min(index, Panels.Count - 1));
-            }
-            else
-            {
-                Panels.Insert(index, panel);
-            }
-        }
 
+        #region Panels Visibility
 
         //
-        #region Memento
-
-        [DataContract]
-        public class Memento
+        private void RaisePanelPropertyChanged()
         {
-            [DataMember]
-            public List<string> PanelTypeCodes { get; set; }
-
-            [DataMember]
-            public string SelectedPanelTypeCode { get; set; }
-
-            [DataMember]
-            public double Width { get; set; }
+            RaisePropertyChanged(nameof(IsVisibleFolderList));
+            RaisePropertyChanged(nameof(IsVisibleHistoryList));
+            RaisePropertyChanged(nameof(IsVisibleBookmarkList));
+            RaisePropertyChanged(nameof(IsVisiblePagemarkList));
+            RaisePropertyChanged(nameof(IsVisiblePageListMenu));
+            RaisePropertyChanged(nameof(IsVisibleFileInfo));
+            RaisePropertyChanged(nameof(IsVisibleEffectInfo));
         }
 
-        /// <summary>
-        /// Memento作成
-        /// </summary>
-        /// <returns></returns>
-        public Memento CreateMemento()
+        // ファイル情報表示ON/OFF
+        public bool IsVisibleFileInfo
         {
-            var memento = new Memento();
-
-            memento.PanelTypeCodes = Panels.Select(e => e.TypeCode).ToList();
-            memento.SelectedPanelTypeCode = SelectedPanel?.TypeCode;
-            memento.Width = Width;
-
-            return memento;
+            get { return IsSelectedPanel(FileInfoPanel); }
+            set { SetSelectedPanel(FileInfoPanel, value); RaisePanelPropertyChanged(); }
         }
 
-        /// <summary>
-        /// Memento適用
-        /// </summary>
-        /// <param name="memento"></param>
-        /// <param name="panels"></param>
-        public void Restore(Memento memento, List<IPanel> panels)
+        public bool ToggleVisibleFileInfo(bool byMenu)
         {
-            if (memento == null) return;
+            ToggleSelectedPanel(FileInfoPanel, byMenu);
+            RaisePanelPropertyChanged();
+            ResetFocus?.Invoke(this, null);
+            return IsVisibleFileInfo;
+        }
 
-            Panels = new ObservableCollection<IPanel>(memento.PanelTypeCodes.Select(e => panels.FirstOrDefault(panel => panel.TypeCode == e)).Where(e => e != null));
-            SelectedPanel = Panels.FirstOrDefault(e => e.TypeCode == memento.SelectedPanelTypeCode);
-            Width = memento.Width;
+
+        // エフェクト情報表示ON/OFF
+        public bool IsVisibleEffectInfo
+        {
+            get { return IsSelectedPanel(ImageEffectPanel); }
+            set { SetSelectedPanel(ImageEffectPanel, value); RaisePanelPropertyChanged(); }
+        }
+
+        public bool ToggleVisibleEffectInfo(bool byMenu)
+        {
+            ToggleSelectedPanel(ImageEffectPanel, byMenu);
+            RaisePanelPropertyChanged();
+            ResetFocus?.Invoke(this, null);
+            return IsVisibleEffectInfo;
+        }
+
+
+        // フォルダーリスト表示ON/OFF
+        public bool IsVisibleFolderList
+        {
+            get { return IsSelectedPanel(FolderListPanel); }
+            set { SetSelectedPanel(FolderListPanel, value); RaisePanelPropertyChanged(); }
+        }
+
+        //
+        public bool ToggleVisibleFolderList(bool byMenu)
+        {
+            ToggleSelectedPanel(FolderListPanel, byMenu);
+            RaisePanelPropertyChanged();
+            ResetFocus?.Invoke(this, null);
+            return IsVisibleFolderList;
+        }
+
+        //
+        public bool IsVisiblePageListMenu => _models.FolderPanelModel.IsPageListVisible && IsVisibleFolderList;
+
+        //
+        public bool ToggleVisiblePageList(bool byMenu)
+        {
+            var model = _models.FolderPanelModel;
+
+            if (byMenu || !model.IsPageListVisible || IsVisiblePanel(FolderListPanel))
+            {
+                model.IsPageListVisible = !IsVisiblePageListMenu;
+            }
+            SetSelectedPanel(FolderListPanel, true);
+            RaisePanelPropertyChanged();
+
+            if (model.IsPageListVisible)
+            {
+                Debug.WriteLine("TODO:PageListView.FocusAtOnce");
+                ////SidePanels.FolderListPanel.PageListControl.FocusAtOnce = true; // ##
+            }
+
+            return model.IsPageListVisible;
+        }
+
+
+
+
+
+        // 履歴リスト表示ON/OFF
+        public bool IsVisibleHistoryList
+        {
+            get { return IsSelectedPanel(HistoryPanel); }
+            set { SetSelectedPanel(HistoryPanel, value); RaisePanelPropertyChanged(); }
+        }
+
+        //
+        public bool ToggleVisibleHistoryList(bool byMenu)
+        {
+            ToggleSelectedPanel(HistoryPanel, byMenu);
+            RaisePanelPropertyChanged();
+            ResetFocus?.Invoke(this, null);
+            return IsVisibleHistoryList;
+        }
+
+
+        // ブックマークリスト表示ON/OFF
+        public bool IsVisibleBookmarkList
+        {
+            get { return IsSelectedPanel(BookmarkPanel); }
+            set { SetSelectedPanel(BookmarkPanel, value); RaisePanelPropertyChanged(); }
+        }
+
+        //
+        public bool ToggleVisibleBookmarkList(bool byMenu)
+        {
+            ToggleSelectedPanel(BookmarkPanel, byMenu);
+            RaisePanelPropertyChanged();
+            ResetFocus?.Invoke(this, null);
+            return IsVisibleBookmarkList;
+        }
+
+
+        // ページマークリスト表示ON/OFF
+        public bool IsVisiblePagemarkList
+        {
+            get { return IsSelectedPanel(PagemarkPanel); }
+            set { SetSelectedPanel(PagemarkPanel, value); RaisePanelPropertyChanged(); }
+        }
+
+        //
+        public bool ToggleVisiblePagemarkList(bool byMenu)
+        {
+            ToggleSelectedPanel(PagemarkPanel, byMenu);
+            RaisePanelPropertyChanged();
+            ResetFocus?.Invoke(this, null);
+            return IsVisiblePagemarkList;
         }
 
         #endregion
-
     }
 }

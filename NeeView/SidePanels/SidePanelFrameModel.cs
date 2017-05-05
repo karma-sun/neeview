@@ -44,27 +44,27 @@ namespace NeeView
         /// <summary>
         /// Left property.
         /// </summary>
-        public SidePanel Left
+        public SidePanelGroup Left
         {
             get { return _left; }
             set { if (_left != value) { _left = value; RaisePropertyChanged(); } }
         }
 
         //
-        private SidePanel _left;
+        private SidePanelGroup _left;
 
 
         /// <summary>
         /// Right property.
         /// </summary>
-        public SidePanel Right
+        public SidePanelGroup Right
         {
             get { return _right; }
             set { if (_right != value) { _right = value; RaisePropertyChanged(); } }
         }
 
         //
-        private SidePanel _right;
+        private SidePanelGroup _right;
 
 
         /// <summary>
@@ -79,10 +79,10 @@ namespace NeeView
         /// </summary>
         public SidePanelFrameModel()
         {
-            _left = new SidePanel();
+            _left = new SidePanelGroup();
             _left.PropertyChanged += Left_PropertyChanged;
 
-            _right = new SidePanel();
+            _right = new SidePanelGroup();
             _right.PropertyChanged += Right_PropertyChanged;
         }
 
@@ -138,10 +138,10 @@ namespace NeeView
             public bool IsSideBarVisible { get; set; }
 
             [DataMember]
-            public SidePanel.Memento Left { get; set; }
+            public SidePanelGroup.Memento Left { get; set; }
 
             [DataMember]
-            public SidePanel.Memento Right { get; set; }
+            public SidePanelGroup.Memento Right { get; set; }
         }
 
         /// <summary>

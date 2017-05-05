@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Resources;
 
 // TODO: コマンド引数にコマンドパラメータを渡せないだろうか。（現状メニュー呼び出しであることを示すタグが指定されることが有る)
@@ -61,6 +62,7 @@ namespace NeeView
         private Dictionary<CommandType, CommandElement> _elements;
 
         // コマンドターゲット
+        private Models _models;
         private MainWindowVM _VM;
         private BookHub _book;
 
@@ -106,8 +108,9 @@ namespace NeeView
 
 
         // コマンドターゲット設定
-        public void SetTarget(MainWindowVM vm, BookHub book)
+        public void SetTarget(Models models, MainWindowVM vm, BookHub book)
         {
+            _models = models;
             _VM = vm;
             _book = book;
         }
@@ -662,10 +665,10 @@ namespace NeeView
                 element.MenuText = "サイドバー";
                 element.Note = "サイドバーの表示/非表示を切り替えます";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.SidePanels.IsSideBarVisible = !_VM.SidePanels.IsSideBarVisible;
-                element.ExecuteMessage = e => _VM.SidePanels.IsSideBarVisible ? "サイドバーを消す" : "サイドバーを表示する";
+                element.Execute = (s, e) => _models.SidePanel.IsSideBarVisible = !_models.SidePanel.IsSideBarVisible;
+                element.ExecuteMessage = e => _models.SidePanel.IsSideBarVisible ? "サイドバーを消す" : "サイドバーを表示する";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingWithSource(nameof(_VM.SidePanels.IsSideBarVisible), _VM.SidePanels);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingWithSource(nameof(SidePanel.IsSideBarVisible), _models.SidePanel);
                 _elements[CommandType.ToggleVisibleSideBar] = element;
             }
             // ToggleVisibleFileInfo
@@ -677,10 +680,10 @@ namespace NeeView
                 element.Note = "ファイル情報パネルの表示/非表示を切り替えます。ファイル情報パネルは右側に表示されます";
                 element.ShortCutKey = "I";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.ToggleVisibleFileInfo(e is MenuCommandTag);
-                element.ExecuteMessage = e => _VM.IsVisibleFileInfo ? "ファイル情報を消す" : "ファイル情報を表示する";
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFileInfo(e is MenuCommandTag);
+                element.ExecuteMessage = e => _models.SidePanel.IsVisibleFileInfo ? "ファイル情報を消す" : "ファイル情報を表示する";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleFileInfo));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFileInfo)) { Source = _models.SidePanel };
                 _elements[CommandType.ToggleVisibleFileInfo] = element;
             }
             // ToggleVisibleEffectInfo
@@ -692,10 +695,10 @@ namespace NeeView
                 element.Note = "エフェクトパネルの表示/非表示を切り替えます。エフェクトパネルは右側に表示されます";
                 element.ShortCutKey = "E";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.ToggleVisibleEffectInfo(e is MenuCommandTag);
-                element.ExecuteMessage = e => _VM.IsVisibleEffectInfo ? "エフェクトパネルを消す" : "エフェクト設パネルを表示する";
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleEffectInfo(e is MenuCommandTag);
+                element.ExecuteMessage = e => _models.SidePanel.IsVisibleEffectInfo ? "エフェクトパネルを消す" : "エフェクト設パネルを表示する";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleEffectInfo));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleEffectInfo)) { Source = _models.SidePanel };
                 _elements[CommandType.ToggleVisibleEffectInfo] = element;
             }
             // ToggleVisibleFolderList
@@ -707,10 +710,10 @@ namespace NeeView
                 element.Note = "フォルダーリストパネルの表示/非表示を切り替えます";
                 element.ShortCutKey = "F";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.ToggleVisibleFolderList(e is MenuCommandTag);
-                element.ExecuteMessage = e => _VM.IsVisibleFolderList ? "フォルダーリストを消す" : "フォルダーリストを表示する";
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFolderList(e is MenuCommandTag);
+                element.ExecuteMessage = e => _models.SidePanel.IsVisibleFolderList ? "フォルダーリストを消す" : "フォルダーリストを表示する";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleFolderList));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFolderList)) { Source = _models.SidePanel };
                 _elements[CommandType.ToggleVisibleFolderList] = element;
             }
             // ToggleVisibleBookmarkList
@@ -722,10 +725,10 @@ namespace NeeView
                 element.Note = "ブックマークリストパネルの表示/非表示を切り替えます";
                 element.ShortCutKey = "B";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.ToggleVisibleBookmarkList(e is MenuCommandTag);
-                element.ExecuteMessage = e => _VM.IsVisibleBookmarkList ? "ブックマークリストを消す" : "ブックマークリストを表示する";
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleBookmarkList(e is MenuCommandTag);
+                element.ExecuteMessage = e => _models.SidePanel.IsVisibleBookmarkList ? "ブックマークリストを消す" : "ブックマークリストを表示する";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleBookmarkList));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleBookmarkList)) { Source = _models.SidePanel };
                 _elements[CommandType.ToggleVisibleBookmarkList] = element;
             }
             // ToggleVisiblePagemarkList
@@ -737,10 +740,10 @@ namespace NeeView
                 element.Note = "ページマークリストパネルの表示/非表示を切り替えます";
                 element.ShortCutKey = "M";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.ToggleVisiblePagemarkList(e is MenuCommandTag);
-                element.ExecuteMessage = e => _VM.IsVisiblePagemarkList ? "ページマークリストを消す" : "ページマークリストを表示する";
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisiblePagemarkList(e is MenuCommandTag);
+                element.ExecuteMessage = e => _models.SidePanel.IsVisiblePagemarkList ? "ページマークリストを消す" : "ページマークリストを表示する";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisiblePagemarkList));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisiblePagemarkList)) { Source = _models.SidePanel };
                 _elements[CommandType.ToggleVisiblePagemarkList] = element;
             }
             // ToggleVisibleHistoryList
@@ -752,10 +755,10 @@ namespace NeeView
                 element.Note = "履歴リストパネルの表示/非表示を切り替えます";
                 element.ShortCutKey = "H";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.ToggleVisibleHistoryList(e is MenuCommandTag);
-                element.ExecuteMessage = e => _VM.IsVisibleHistoryList ? "履歴リストを消す" : "履歴リストを表示する";
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleHistoryList(e is MenuCommandTag);
+                element.ExecuteMessage = e => _models.SidePanel.IsVisibleHistoryList ? "履歴リストを消す" : "履歴リストを表示する";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleHistoryList));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleHistoryList)) { Source = _models.SidePanel };
                 _elements[CommandType.ToggleVisibleHistoryList] = element;
             }
             // ToggleVisiblePageList
@@ -767,10 +770,10 @@ namespace NeeView
                 element.Note = "ページリスト表示/非表示を切り替えます。フォルダーリストは表示状態になります";
                 element.ShortCutKey = "P";
                 element.IsShowMessage = false;
-                element.ExecuteMessage = e => Models.Current.FolderPanelModel.IsPageListVisible ? "ページリストを消す" : "ページリストを表示する";
-                element.Execute = (s, e) => _VM.ToggleVisiblePageList(e is MenuCommandTag);
+                element.ExecuteMessage = e => _models.SidePanel.IsVisiblePageListMenu ? "ページリストを消す" : "ページリストを表示する";
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisiblePageList(e is MenuCommandTag);
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(FolderPanelModel.IsPageListVisible), System.Windows.Data.BindingMode.OneWay);
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisiblePageListMenu)) { Source = _models.SidePanel, Mode = BindingMode.OneWay };
                 _elements[CommandType.ToggleVisiblePageList] = element;
             }
             //

@@ -137,8 +137,8 @@ namespace NeeView.Lab
             _memento = this.SidePanel.CreateMemento();
 
             var memento = new SidePanelFrameModel.Memento();
-            memento.Left = new SidePanel.Memento();
-            memento.Right = new SidePanel.Memento();
+            memento.Left = new SidePanelGroup.Memento();
+            memento.Right = new SidePanelGroup.Memento();
             this.SidePanel.Restore(memento);
             this.SidePanelFrame.Reflesh();
         }

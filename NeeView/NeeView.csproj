@@ -160,7 +160,8 @@
       <DependentUpon>FolderPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\History\HistoryPanel.cs" />
-    <Compile Include="SidePanels\SidePanels.cs" />
+    <Compile Include="SidePanels\SidePanelGroup.cs" />
+    <Compile Include="SidePanels\SidePanel.cs" />
     <Compile Include="WindoShapeSelector.cs" />
     <Compile Include="WindowCaptionButtons.xaml.cs">
       <DependentUpon>WindowCaptionButtons.xaml</DependentUpon>
@@ -420,7 +421,6 @@
       <DependentUpon>PointInspector.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\IPanel.cs" />
-    <Compile Include="SidePanels\SidePanel.cs" />
     <Compile Include="SidePanels\SidePanelFrameView.xaml.cs">
       <DependentUpon>SidePanelFrameView.xaml</DependentUpon>
     </Compile>

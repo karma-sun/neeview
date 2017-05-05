@@ -152,14 +152,14 @@ namespace NeeView
         /// <summary>
         /// モデルデータ
         /// </summary>
-        public SidePanel Panel { get; private set; }
+        public SidePanelGroup Panel { get; private set; }
 
         /// <summary>
         /// コンストラクター
         /// </summary>
         /// <param name="panel"></param>
         /// <param name="itemsControl"></param>
-        public SidePanelViewModel(SidePanel panel, ItemsControl itemsControl)
+        public SidePanelViewModel(SidePanelGroup panel, ItemsControl itemsControl)
         {
             InitializeDropAccept(itemsControl);
 
@@ -349,7 +349,7 @@ namespace NeeView
     /// </summary>
     public class LeftPanelViewModel : SidePanelViewModel
     {
-        public LeftPanelViewModel(SidePanel panel, ItemsControl itemsControl) : base(panel, itemsControl)
+        public LeftPanelViewModel(SidePanelGroup panel, ItemsControl itemsControl) : base(panel, itemsControl)
         {
         }
 
@@ -370,7 +370,7 @@ namespace NeeView
     /// </summary>
     public class RightPanelViewModel : SidePanelViewModel
     {
-        public RightPanelViewModel(SidePanel panel, ItemsControl itemsControl) : base(panel, itemsControl)
+        public RightPanelViewModel(SidePanelGroup panel, ItemsControl itemsControl) : base(panel, itemsControl)
         {
         }
 

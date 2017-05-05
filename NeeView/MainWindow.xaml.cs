@@ -1086,12 +1086,17 @@ namespace NeeView
 
 
         // ドラッグ＆ドロップ前処理
-        private void MainWindow_PreviewDragOver(object sender, DragEventArgs e)
+        private void MainWindow_DragOver(object sender, DragEventArgs e)
         {
             if (!_nowLoading && _contentDrop.CheckDragContent(sender, e.Data))
+            {
                 e.Effects = DragDropEffects.Copy;
+            }
             else
+            {
                 e.Effects = DragDropEffects.None;
+            }
+            e.Handled = true;
         }
 
         // ドラッグ＆ドロップで処理を開始する

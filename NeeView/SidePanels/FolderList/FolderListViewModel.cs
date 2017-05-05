@@ -92,30 +92,6 @@ namespace NeeView
             }
         }
 
-        /*
-        /// <summary>
-        /// FolderListView property.
-        /// </summary>
-        private FolderListView _FolderListView;
-        public FolderListView FolderListView
-        {
-            get { return _FolderListView; }
-            set
-            {
-                if (_FolderListView != value)
-                {
-                    _FolderListView = value;
-                    RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(FolderListViewModel));
-                }
-            }
-        }
-
-        /// <summary>
-        /// FolderListViewModel property.
-        /// </summary>
-        public FolderListViewModel FolderListViewModel => FolderListView?.VM;
-        */
 
         #region MoreMenu
 
@@ -141,6 +117,8 @@ namespace NeeView
             menu.Items.Add(CreateListItemStyleMenuItem("一覧表示", PanelListItemStyle.Normal));
             menu.Items.Add(CreateListItemStyleMenuItem("コンテンツ表示", PanelListItemStyle.Content));
             menu.Items.Add(CreateListItemStyleMenuItem("バナー表示", PanelListItemStyle.Banner));
+            ////menu.Items.Add(new Separator());
+            ////menu.Items.Add(new MenuItem() { Header = "この場所ではサブフォルダーを読み込む", IsCheckable = true });
 
             this.MoreMenu = menu;
         }
@@ -200,31 +178,6 @@ namespace NeeView
         {
             _model.PanelListItemStyle = style;
         }
-
-
-#if false
-        /// <summary>
-        /// PanelListItemStyle property.
-        /// TODO: 保存されるものなのでモデル的なクラスでの実装が望ましい
-        /// </summary>
-        public PanelListItemStyle PanelListItemStyle
-        {
-            get { return _PanelListItemStyle; }
-            set
-            {
-                if (_PanelListItemStyle != value)
-                {
-                    _PanelListItemStyle = value;
-                    ////this.FolderListView?.SetPanelListItemStyle(_PanelListItemStyle);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        //
-        private PanelListItemStyle _PanelListItemStyle;
-#endif
-
 
         #endregion
 
@@ -307,31 +260,7 @@ namespace NeeView
                     break;
             }
         }
-
-
-        /*
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="vm"></param>
-        internal void Initialize(MainWindowVM vm)
-        {
-            InitializeMoreMenu(vm);
-        }
-        */
-
-        /*
-        /// <summary>
-        /// フォルダー表示設定
-        /// </summary>
-        /// <param name="setting"></param>
-        public void SetSetting(FolderListSetting setting)
-        {
-            if (setting == null) return;
-            FolderItem.IsVisibleHistoryMark = setting.IsVisibleHistoryMark;
-            FolderItem.IsVisibleBookmarkMark = setting.IsVisibleBookmarkMark;
-        }
-        */
+        
 
         /// <summary>
         /// フォルダー状態保存
@@ -353,14 +282,9 @@ namespace NeeView
         /// </summary>
         /// <param name="place">フォルダーパス</param>
         /// <param name="select">初期選択項目</param>
-        /// <param name="isFocus">フォーカス取得</param>
-        /// <param name="updateHistory">フォルダー履歴更新</param>
-        //public void SetPlace(string place, string select, bool isFocus, bool updateHistory)
-
         public void SetPlace(string place, string select, FolderSetPlaceOption options)
         {
             // 現在フォルダーの情報を記憶
-            ////SavePlace(this.FolderListViewModel?.GetFolderItem(0));
             SavePlace(GetFolderItem(0));
 
             // 初期項目
@@ -378,11 +302,6 @@ namespace NeeView
             if (CheckFolderListUpdateneNcessary(place))
             {
                 _isDarty = false;
-
-                // FolderListView 更新
-                ////this.FolderListView?.Dispose();
-                ////this.FolderListView = CreateFolderListView(place, select, options.HasFlag(FolderSetPlaceOption.IsFocus));
-                ////CreateFolderListView(place, select, options.HasFlag(FolderSetPlaceOption.IsFocus));
 
                 // FolderCollection 更新
                 var collection = CreateFolderCollection(place);
@@ -408,7 +327,6 @@ namespace NeeView
             else
             {
                 // 選択項目のみ変更
-                ////this.FolderListViewModel.SelectedIndex = this.FolderListViewModel.FixedIndexOfPath(select);
                 this.SelectedIndex = FixedIndexOfPath(select);
             }
 
@@ -423,7 +341,6 @@ namespace NeeView
         /// <returns></returns>
         private bool CheckFolderListUpdateneNcessary(string place)
         {
-            ////return (_isDarty || this.FolderListViewModel == null || place != this.FolderListViewModel.FolderCollection.Place);
             return (_isDarty || this.FolderCollection == null || place != this.FolderCollection.Place);
         }
 
@@ -451,50 +368,17 @@ namespace NeeView
             }
         }
 
-#if false
-        /// <summary>
-        /// FolderListView 作成
-        /// </summary>
-        /// <param name="place"></param>
-        /// <param name="select"></param>
-        /// <param name="isFocus"></param>
-        /// <returns></returns>
-        private FolderListView CreateFolderListView(string place, string select, bool isFocus)
-        {
-            // FolderCollection
-            var collection = CreateFolderCollection(place);
-            collection.ParameterChanged += (s, e) => App.Current?.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true, false); }));
-            collection.Deleting += FolderCollection_Deleting;
-
-#if true
-            this.FolderCollection = collection;
-            this.SelectedIndex = FixedIndexOfPath(select);
-            return null;
-#else
-            // FolderListViewModel
-            var vm = new FolderListViewModel(collection);
-            vm.SelectedIndex = vm.FixedIndexOfPath(select);
-            vm.PanelListItemStyle = PanelListItemStyle;
-
-            // FolderListView
-            var view = new FolderListView(vm, isFocus);
-
-            view.Decided += (s, e) => this.BookHub.RequestLoad(e, null, BookLoadOption.SkipSamePlace, false); // x
-            view.Moved += (s, e) => this.SetPlace(e, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory); // x
-            view.MovedParent += (s, e) => this.MoveToParent_Execute(); // x
-            view.MovedHome += (s, e) => this.MoveToHome.Execute(null); // x
-            view.MovedPrevious += (s, e) => this.MoveToPrevious.Execute(null); // x
-            view.MovedNext += (s, e) => this.MoveToNext.Execute(null); // x
-
-            return view;
-#endif
-        }
-#endif
 
         //
         public void Decided(string path)
         {
             this.BookHub.RequestLoad(path, null, BookLoadOption.SkipSamePlace, false);
+        }
+
+        //
+        public void Decided(string path, BookLoadOption option)
+        {
+            this.BookHub.RequestLoad(path, null, option, false);
         }
 
         //
@@ -536,8 +420,6 @@ namespace NeeView
         /// <param name="isFocus"></param>
         public void FocusSelectedItem(bool isFocus)
         {
-            ////Debug.WriteLine("TODO: FocusSelectedItem");
-            ////this.FolderListView?.FocusSelectedItem(true);
             SelectedItemChanged?.Invoke(this, null);
         }
 
@@ -841,18 +723,6 @@ namespace NeeView
         private FolderCollection _folderCollection;
 
 
-#if false
-        /// <summary>
-        /// フォルダーの場所
-        /// </summary>
-        public string Place => FolderCollection?.Place;
-
-        /// <summary>
-        /// フォルダーの場所 表示用
-        /// </summary>
-        public string PlaceDispString => string.IsNullOrEmpty(Place) ? "このPC" : Place;
-#endif
-
         /// <summary>
         /// フォルダーアイコン表示方法
         /// </summary>
@@ -1064,37 +934,6 @@ namespace NeeView
                 ThumbnailManager.Current.RequestThumbnail(FolderCollection.Items, QueueElementPriority.FolderThumbnail, start, count, margin, direction);
             }
         }
-
-#if false
-        #region Memento
-        [DataContract]
-        public class Memento
-        {
-            [DataMember]
-            public PanelListItemStyle PanelListItemStyle { get; set; }
-        }
-
-        //
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.PanelListItemStyle = this.PanelListItemStyle;
-            return memento;
-        }
-
-        //
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            this.PanelListItemStyle = memento.PanelListItemStyle;
-
-            // Preference反映
-            ////this.FolderListViewModel?.RaiseFolderIconLayoutChanged();
-            RaisePropertyChanged(nameof(FolderIconLayout));
-        }
-
-        #endregion
-#endif
     }
 
 }

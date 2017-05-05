@@ -159,40 +159,10 @@ namespace NeeView
     [DataContract]
     public class FolderListSetting
     {
-        ////[DataMember]
-        ////public Dock Dock { get; set; }
-
         [DataMember]
         public bool IsVisibleHistoryMark { get; set; }
 
         [DataMember]
         public bool IsVisibleBookmarkMark { get; set; }
-
-#if false
-        //
-        private void Constructor()
-        {
-            Dock = Dock.Left;
-            IsVisibleHistoryMark = true;
-            IsVisibleBookmarkMark = true;
-        }
-
-        public FolderListSetting()
-        {
-            Constructor();
-        }
-
-        [OnDeserializing]
-        private void Deserializing(StreamingContext c)
-        {
-            Constructor();
-        }
-
-        //
-        public FolderListSetting Clone()
-        {
-            return (FolderListSetting)MemberwiseClone();
-        }
-#endif
     }
 }

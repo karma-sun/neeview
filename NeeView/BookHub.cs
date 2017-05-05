@@ -760,7 +760,7 @@ namespace NeeView
             if (path == null) return null;
             path = GetNormalizePathName(path);
 
-            if (CurrentBook?.Place == path && (option & BookLoadOption.SkipSamePlace) == BookLoadOption.SkipSamePlace) return null;
+            if (CurrentBook?.Place == path && option.HasFlag(BookLoadOption.SkipSamePlace)) return null;
 
             Address = path;
 

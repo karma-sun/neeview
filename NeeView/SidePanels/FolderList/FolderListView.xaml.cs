@@ -20,6 +20,7 @@ namespace NeeView
     /// </summary>
     public partial class FolderListView : UserControl
     {
+        public static readonly RoutedCommand LoadWithRecursiveCommand = new RoutedCommand("LoadWithRecursiveCommand", typeof(BookmarkListView));
         public static readonly RoutedCommand OpenExplorerCommand = new RoutedCommand("OpenExplorerCommand", typeof(BookmarkListView));
         public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(BookmarkListView));
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkListView));
@@ -35,73 +36,15 @@ namespace NeeView
             RenameCommand.InputGestures.Add(new KeyGesture(Key.F2));
         }
 
-#if false
-        /// <summary>
-        /// Setting property.
-        /// </summary>
-        public FolderListSetting Setting
-        {
-            get { return (FolderListSetting)GetValue(SettingProperty); }
-            set { SetValue(SettingProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Setting.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SettingProperty =
-            DependencyProperty.Register("Setting", typeof(FolderListSetting), typeof(FolderListView), new PropertyMetadata(new FolderListSetting(), new PropertyChangedCallback(SettingPropertyChanged)));
-
-        //
-        public static void SettingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            // オブジェクトを取得して処理する
-            FolderListView ctrl = d as FolderListView;
-            if (ctrl != null)
-            {
-                ctrl._vm.SetSetting(ctrl.Setting);
-            }
-        }
-#endif
-
-#if false
-        /// <summary>
-        /// BookHub property.
-        /// </summary>
-        public BookHub BookHub
-        {
-            get { return (BookHub)GetValue(BookHubProperty); }
-            set { SetValue(BookHubProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for BookHub.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty BookHubProperty =
-            DependencyProperty.Register("BookHub", typeof(BookHub), typeof(FolderListView), new PropertyMetadata(null, new PropertyChangedCallback(BookHubPropertyChanged)));
-
-        //
-        public static void BookHubPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            // オブジェクトを取得して処理する
-            FolderListView ctrl = d as FolderListView;
-            if (ctrl != null)
-            {
-                ctrl._vm.BookHub = ctrl.BookHub;
-            }
-        }
-#endif
-
         /// <summary>
         /// is renaming ?
         /// </summary>
-        //public bool IsRenaming => _vm.FolderListViewModel != null ? _vm.FolderListViewModel.IsRenaming : false;
         public bool IsRenaming => _vm.IsRenaming;
 
         /// <summary>
         /// view model
         /// </summary>
         private FolderListViewModel _vm;
-
-        /// <summary>
-        /// 応急処置：本来VMが外部から参照できるのはまずい
-        /// </summary>
-        public FolderListViewModel VM => _vm;
 
 
         // TODO: Behaviour化できないかな？
@@ -118,6 +61,7 @@ namespace NeeView
         /// </summary>
         public FolderListView(FolderList model) : this()
         {
+            this.ListBox.CommandBindings.Add(new CommandBinding(LoadWithRecursiveCommand, LoadWithRecursive_Executed, LoadWithRecursive_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Executed));
             this.ListBox.CommandBindings.Add(new CommandBinding(CopyCommand, Copy_Executed, Copy_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Executed, FileCommand_CanExecute));
@@ -133,6 +77,7 @@ namespace NeeView
         }
 
 
+
         /// <summary>
         /// スクロール変更イベント処理
         /// </summary>
@@ -146,6 +91,30 @@ namespace NeeView
 
 
         #region RoutedCommand
+
+
+        /// <summary>
+        /// サブフォルダーを読み込む？
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LoadWithRecursive_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderItem;
+            e.CanExecute = (item != null && item.IsDirectory);
+        }
+
+
+        /// <summary>
+        /// サブフォルダーを読み込む
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LoadWithRecursive_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderItem;
+            _vm.Decided(item.TargetPath, BookLoadOption.Recursive);
+        }
 
         /// <summary>
         /// ファイル系コマンド実行可能判定
@@ -288,31 +257,7 @@ namespace NeeView
         #endregion
 
 
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="vm"></param>
-        /*
-        public void Initialize(MainWindowVM vm)
-        {
-            _vm.Initialize(vm);
-        }
-        */
 
-
-        /*
-        /// <summary>
-        /// フォルダーリストの場所指定
-        /// </summary>
-        /// <param name="place"></param>
-        /// <param name="select"></param>
-        /// <param name="isFocus"></param>
-        public void SetPlace(string place, string select, bool isFocus)
-        {
-            var oprions = (isFocus ? FolderSetPlaceOption.IsFocus : FolderSetPlaceOption.None) | FolderSetPlaceOption.IsUpdateHistory;
-            _vm.SetPlace(place, select, oprions);
-        }
-        */
 
 
         /// <summary>
@@ -378,8 +323,7 @@ namespace NeeView
         private void FolderList_Loaded(object sender, RoutedEventArgs e)
         {
             // FolderListChangedイベント処理するようにしたため、不要
-            ////FocusSelectedItem(_autoFocus);
-            ////FocusSelectedItem(true);
+            // nop.
         }
 
         private void FolderList_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)

@@ -161,7 +161,7 @@
 
             <DockPanel>
 
-                <nwc:DropDownMenuButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" ToolTip="設定"
+                <nwc:DropDownMenuButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" Height="30" VerticalAlignment="Bottom" ToolTip="設定"
                                         DropDownContextMenu="{Binding MoreMenu}">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </nwc:DropDownMenuButton>
@@ -170,13 +170,11 @@
                     <Button x:Name="FolderHomeButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToHome}"
                         ToolTip="ホームに移動">
                         <Image Source="{StaticResource ic_home_24px_b}" Width="20" Height="20"/>
-                        <!--
-                    <Button.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="この場所をホームに設定する" Command="{Binding SetHome}"/>
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                    -->
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="この場所をホームに設定する" Command="{Binding SetHome}"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
                     </Button>
                     <Button x:Name="FolderPrevButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToPrevious}"
                         ContextMenuService.Placement="Bottom"
@@ -297,6 +295,8 @@
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu>
+                                <MenuItem Header="サブフォルダーを読み込む" Command="{x:Static local:FolderListView.LoadWithRecursiveCommand}"/>
+                                <Separator/>
                                 <MenuItem Header="エクスプローラーで開く" Command="{x:Static local:FolderListView.OpenExplorerCommand}"/>
                                 <MenuItem Header="コピー(C)" Command="{x:Static local:FolderListView.CopyCommand}"/>
                                 <Separator/>

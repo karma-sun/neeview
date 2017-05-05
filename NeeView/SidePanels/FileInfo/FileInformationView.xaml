@@ -33,7 +33,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False" IsVisibleChanged="Root_IsVisibleChanged">
+        <ScrollViewer Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False" IsVisibleChanged="Root_IsVisibleChanged">
             <StackPanel  Margin="5,10">
                 <StackPanel.Resources>
                     <Style TargetType="local:FileInfoItem">

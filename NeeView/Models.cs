@@ -23,6 +23,7 @@ namespace NeeView
         public HistoryList HistoryList { get; private set; }
         public BookmarkList BookmarkList { get; private set; }
         public PagemarkList PagemarkList { get; private set; }
+        public FileInformation FileInformation { get; private set; }
 
 
         //
@@ -40,6 +41,7 @@ namespace NeeView
             this.HistoryList = new HistoryList(this.BookHub);
             this.BookmarkList = new BookmarkList(this.BookHub);
             this.PagemarkList = new PagemarkList(this.BookHub);
+            this.FileInformation = new FileInformation();
         }
 
 
@@ -49,17 +51,19 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public FolderPanelModel.Memento FolderPanel;
+            public FolderPanelModel.Memento FolderPanel { get; set; }
             [DataMember]
-            public FolderList.Memento FolderList;
+            public FolderList.Memento FolderList { get; set; }
             [DataMember]
-            public PageList.Memento PageList;
+            public PageList.Memento PageList { get; set; }
             [DataMember]
-            public HistoryList.Memento HistoryList;
+            public HistoryList.Memento HistoryList { get; set; }
             [DataMember]
-            public BookmarkList.Memento BookmarkList;
+            public BookmarkList.Memento BookmarkList { get; set; }
             [DataMember]
-            public PagemarkList.Memento PagemarkList;
+            public PagemarkList.Memento PagemarkList { get; set; }
+            [DataMember]
+            public FileInformation.Memento FileInformation { get; set; }
         }
 
         //
@@ -72,6 +76,7 @@ namespace NeeView
             memento.HistoryList = this.HistoryList.CreateMemento();
             memento.BookmarkList = this.BookmarkList.CreateMemento();
             memento.PagemarkList = this.PagemarkList.CreateMemento();
+            memento.FileInformation = this.FileInformation.CreateMemento();
             return memento;
         }
 
@@ -85,6 +90,7 @@ namespace NeeView
             this.HistoryList.Restore(memento.HistoryList);
             this.BookmarkList.Restore(memento.BookmarkList);
             this.PagemarkList.Restore(memento.PagemarkList);
+            this.FileInformation.Restore(memento.FileInformation);
         }
         #endregion
     }

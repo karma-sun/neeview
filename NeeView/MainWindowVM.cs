@@ -1208,8 +1208,6 @@ namespace NeeView
         #endregion
 
 
-
-
         // 見開き時のメインとなるコンテンツ
         #region Property: MainContent
         private ViewContent _mainContent;
@@ -1229,25 +1227,9 @@ namespace NeeView
         //
         private void UpdateFileInfoContent()
         {
-            SidePanels.FileInfoPanel.ViewContent = _mainContent;
+            _models.FileInformation.ViewContent = _mainContent;
         }
 
-        #region Property: FileInfoSetting
-        public FileInfoSetting FileInfoSetting
-        {
-            get { return SidePanels.FileInfoPanel.Setting; }
-            set { SidePanels.FileInfoPanel.Setting = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-        #region Property: FolderListSetting
-        private FolderListSetting _folderListSetting;
-        public FolderListSetting FolderListSetting
-        {
-            get { return _folderListSetting; }
-            set { _folderListSetting = value; RaisePropertyChanged(); }
-        }
-        #endregion
 
         // Foregroudh Brush：ファイルページのフォントカラー用
         #region Property: ForegroundBrush
@@ -3050,14 +3032,14 @@ namespace NeeView
             [DataMember(Order = 4)]
             public bool IsTopmost { get; set; }
 
-            [DataMember(Order = 5)]
-            public FileInfoSetting FileInfoSetting { get; set; }
+            [DataMember(Order = 5, EmitDefaultValue = false)]
+            public FileInfoSetting FileInfoSetting { get; set; } // no used
 
             [DataMember(Order = 5)]
             public string UserDownloadPath { get; set; }
 
-            [DataMember(Order = 6)]
-            public FolderListSetting FolderListSetting { get; set; }
+            [DataMember(Order = 6, EmitDefaultValue = false)]
+            public FolderListSetting FolderListSetting { get; set; } // no used
 
             [DataMember(Order = 6)]
             public PanelColor PanelColor { get; set; }
@@ -3164,8 +3146,8 @@ namespace NeeView
                 ViewTransformShowMessageStyle = ShowMessageStyle.None;
                 StretchMode = PageStretchMode.Uniform;
                 Background = BackgroundStyle.Black;
-                FileInfoSetting = new FileInfoSetting();
-                FolderListSetting = new FolderListSetting();
+                ////FileInfoSetting = new FileInfoSetting();
+                ////FolderListSetting = new FolderListSetting();
                 PanelColor = PanelColor.Dark;
                 WindowTitleFormat1 = MainWindowVM.WindowTitleFormat1Default;
                 WindowTitleFormat2 = MainWindowVM.WindowTitleFormat2Default;
@@ -3266,9 +3248,9 @@ namespace NeeView
             memento.IsFullScreen = this.IsFullScreen;
             memento.IsSaveFullScreen = this.IsSaveFullScreen;
             memento.IsTopmost = this.IsTopmost;
-            memento.FileInfoSetting = this.FileInfoSetting.Clone();
+            ////memento.FileInfoSetting = this.FileInfoSetting.Clone();
             memento.UserDownloadPath = this.UserDownloadPath;
-            memento.FolderListSetting = this.FolderListSetting.Clone();
+            ////memento.FolderListSetting = this.FolderListSetting.Clone();
             memento.PanelColor = this.PanelColor;
             memento.WindowTitleFormat1 = this.WindowTitleFormat1;
             memento.WindowTitleFormat2 = this.WindowTitleFormat2;
@@ -3327,9 +3309,9 @@ namespace NeeView
             this.IsSaveFullScreen = memento.IsSaveFullScreen;
             if (this.IsSaveFullScreen) this.IsFullScreen = memento.IsFullScreen;
             this.IsTopmost = memento.IsTopmost;
-            this.FileInfoSetting = memento.FileInfoSetting.Clone();
+            ////this.FileInfoSetting = memento.FileInfoSetting.Clone();
             this.UserDownloadPath = memento.UserDownloadPath;
-            this.FolderListSetting = memento.FolderListSetting.Clone();
+            ////this.FolderListSetting = memento.FolderListSetting.Clone();
             this.PanelColor = memento.PanelColor;
             this.IsHidePanel = memento.IsHidePanel;
             this.WindowTitleFormat1 = memento.WindowTitleFormat1;
@@ -3359,6 +3341,19 @@ namespace NeeView
             NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
             UpdateContentSize();
+
+            // compatible before ver.22
+            if (memento.FileInfoSetting != null)
+            {
+                _models.FileInformation.IsUseExifDateTime = memento.FileInfoSetting.IsUseExifDateTime;
+                _models.FileInformation.IsVisibleBitsPerPixel = memento.FileInfoSetting.IsVisibleBitsPerPixel;
+                _models.FileInformation.IsVisibleLoader = memento.FileInfoSetting.IsVisibleLoader;
+            }
+            if (memento.FolderListSetting != null)
+            {
+                _models.FolderList.IsVisibleBookmarkMark = memento.FolderListSetting.IsVisibleBookmarkMark;
+                _models.FolderList.IsVisibleHistoryMark = memento.FolderListSetting.IsVisibleHistoryMark;
+            }
         }
 
         #endregion

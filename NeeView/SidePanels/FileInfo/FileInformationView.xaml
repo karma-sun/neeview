@@ -1,0 +1,87 @@
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+
+<UserControl x:Class="NeeView.FileInformationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="300" MinWidth="100" 
+             Background="{DynamicResource NVBackground}"
+             Foreground="{DynamicResource NVForeground}"
+             >
+
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+
+        <Style x:Key="BlackStyle" TargetType="UserControl">
+            <Setter Property="Background" Value="#FF101010"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style x:Key="WhiteStyle" TargetType="UserControl">
+            <Setter Property="Background" Value="#FFF8F8F8"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False" IsVisibleChanged="Root_IsVisibleChanged">
+            <StackPanel  Margin="5,10">
+                <StackPanel.Resources>
+                    <Style TargetType="local:FileInfoItem">
+                        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                    </Style>
+                </StackPanel.Resources>
+
+                <!-- Thumbnail -->
+                <Grid x:Name="GroupThumbnail" Width="64" Height="64" HorizontalAlignment="Left">
+                    <Image x:Name="Thumbnail" MaxWidth="64" MaxHeight="64" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                       Source="{Binding ThumbnailBitmap.BitmapSource}"
+                       UseLayoutRounding="True"
+                       RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform">
+                        <Image.Effect>
+                            <DropShadowEffect ShadowDepth="2" Opacity="0.5" RenderingBias="Quality" />
+                        </Image.Effect>
+                    </Image>
+                </Grid>
+
+                <!-- Parameters -->
+                <local:FileInfoItem x:Name="ItemFileName" Header="ファイル名" Text="{Binding Model.ViewContent.FileName}"/>
+                <local:FileInfoItem x:Name="ItemLastWriteTime" Header="日付" Text="{Binding LastWriteTime}"/>
+                <local:FileInfoItem x:Name="ItemFileSize" Header="サイズ" Text="{Binding FileSize}"/>
+                <local:FileInfoItem x:Name="ItemSize" Header="サイズ" Text="{Binding ImageSize}"/>
+
+                <local:FileInfoItem x:Name="ItemShotInfo" Header="撮影情報" Text="{Binding ShotInfo}" />
+                <local:FileInfoItem x:Name="ItemISOSpeedRatings" Header="ISO" Text="{Binding ISOSpeedRatings}"/>
+                <local:FileInfoItem x:Name="ItemModel" Header="デバイス" Text="{Binding CameraModel}"/>
+                <local:FileInfoItem x:Name="ItemFilePlace" Header="フォルダーのパス" Text="{Binding Model.ViewContent.FolderPlace}"/>
+                <Button x:Name="OpenPlaceButton" Command="{Binding OpenPlace}" HorizontalAlignment="Left" Margin="-5,-3,0,0">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Model.ViewContent.FolderPlace}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <TextBlock Margin="8,5" FontSize="15" Text="フォルダーを開く" Foreground="{StaticResource NVButtonForeground}"/>
+                </Button>
+
+                <StackPanel x:Name="GroupLoader" Visibility="{Binding LoaderVisibility}">
+                    <local:FileInfoItem x:Name="ItemArchiver" Header="アーカイバー" Text="{Binding Archiver}" />
+                    <local:FileInfoItem x:Name="ItemDecoder" Header="デコーダー" Text="{Binding Decoder}"/>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

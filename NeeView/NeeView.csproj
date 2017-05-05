@@ -124,29 +124,31 @@
     <Compile Include="SidePanels\Bookamrk\BookmarkList.cs" />
     <Compile Include="BrushSource.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkPanel.cs" />
-    <Compile Include="SidePanels\FileInfo\FileInfoPanel.cs" />
-    <Compile Include="SidePanels\Folder\FolderIcon.xaml.cs">
+    <Compile Include="SidePanels\FileInfo\FileInformationPanel.cs" />
+    <Compile Include="SidePanels\FileInfo\FileInformation.cs" />
+    <Compile Include="SidePanels\FileInfo\FileInformationViewModel.cs" />
+    <Compile Include="SidePanels\FolderList\FolderIcon.xaml.cs">
       <DependentUpon>FolderIcon.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\Folder\FolderIconLayout.cs" />
-    <Compile Include="SidePanels\Folder\FolderList.cs" />
-    <Compile Include="SidePanels\Folder\FolderListBanner.xaml.cs">
+    <Compile Include="SidePanels\FolderList\FolderIconLayout.cs" />
+    <Compile Include="SidePanels\FolderList\FolderList.cs" />
+    <Compile Include="SidePanels\FolderList\FolderListBanner.xaml.cs">
       <DependentUpon>FolderListBanner.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\Folder\FolderListIcon.xaml.cs">
+    <Compile Include="SidePanels\FolderList\FolderListIcon.xaml.cs">
       <DependentUpon>FolderListIcon.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\Folder\FolderListIconMark.xaml.cs">
+    <Compile Include="SidePanels\FolderList\FolderListIconMark.xaml.cs">
       <DependentUpon>FolderListIconMark.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\Folder\FolderPanel.cs" />
-    <Compile Include="SidePanels\Folder\FolderListThumbnail.xaml.cs">
+    <Compile Include="SidePanels\FolderList\FolderPanel.cs" />
+    <Compile Include="SidePanels\FolderList\FolderListThumbnail.xaml.cs">
       <DependentUpon>FolderListThumbnail.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\Folder\FolderPanelModel.cs" />
-    <Compile Include="SidePanels\Folder\PageListViewModel.cs" />
-    <Compile Include="SidePanels\Folder\PageList.cs" />
-    <Compile Include="SidePanels\Folder\_FolderListDesigns.cs" />
+    <Compile Include="SidePanels\FolderList\FolderPanelModel.cs" />
+    <Compile Include="SidePanels\FolderList\PageListViewModel.cs" />
+    <Compile Include="SidePanels\FolderList\PageList.cs" />
+    <Compile Include="SidePanels\FolderList\_FolderListDesigns.cs" />
     <Compile Include="SidePanels\History\HistoryListViewModel.cs" />
     <Compile Include="SidePanels\History\HistoryList.cs" />
     <Compile Include="SidePanels\ImageEffect\ImageEffectPanel.cs" />
@@ -156,10 +158,7 @@
     <Compile Include="SidePanels\Pagemark\PagemarkList.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkListViewModel.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkPanel.cs" />
-    <Compile Include="SidePanels\FileInfo\FileInfoPanelView.xaml.cs">
-      <DependentUpon>FileInfoPanelView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SidePanels\Folder\FolderPanelView.xaml.cs">
+    <Compile Include="SidePanels\FolderList\FolderPanelView.xaml.cs">
       <DependentUpon>FolderPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\History\HistoryPanel.cs" />
@@ -210,15 +209,15 @@
     <Compile Include="Effects\EffectType.cs" />
     <Compile Include="EntryCollection.cs" />
     <Compile Include="EntrySort.cs" />
-    <Compile Include="SidePanels\Folder\FolderCollectionParameter.cs" />
-    <Compile Include="SidePanels\Folder\FolderItem.cs" />
-    <Compile Include="SidePanels\Folder\FolderListViewModel.cs" />
-    <Compile Include="SidePanels\Folder\FolderListSetting.cs" />
-    <Compile Include="SidePanels\Folder\History.cs" />
-    <Compile Include="SidePanels\Folder\RenameControl.xaml.cs">
+    <Compile Include="SidePanels\FolderList\FolderCollectionParameter.cs" />
+    <Compile Include="SidePanels\FolderList\FolderItem.cs" />
+    <Compile Include="SidePanels\FolderList\FolderListViewModel.cs" />
+    <Compile Include="SidePanels\FolderList\PanelListItemStyle.cs" />
+    <Compile Include="SidePanels\FolderList\History.cs" />
+    <Compile Include="SidePanels\FolderList\RenameControl.xaml.cs">
       <DependentUpon>RenameControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\Folder\RenameManager.xaml.cs">
+    <Compile Include="SidePanels\FolderList\RenameManager.xaml.cs">
       <DependentUpon>RenameManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\ImageEffect\ImageEffectControl.xaml.cs">
@@ -289,11 +288,11 @@
     <Compile Include="Loupe.xaml.cs">
       <DependentUpon>Loupe.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\Folder\PageListView.xaml.cs">
+    <Compile Include="SidePanels\FolderList\PageListView.xaml.cs">
       <DependentUpon>PageListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\Folder\FolderCollection.cs" />
-    <Compile Include="SidePanels\Folder\FolderListView.xaml.cs">
+    <Compile Include="SidePanels\FolderList\FolderCollection.cs" />
+    <Compile Include="SidePanels\FolderList\FolderListView.xaml.cs">
       <DependentUpon>FolderListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\History\HistoryListView.xaml.cs">
@@ -333,8 +332,8 @@
     <Compile Include="Exporter.cs" />
     <Compile Include="ExternalApplication.cs" />
     <Compile Include="DragActionTable.cs" />
-    <Compile Include="SidePanels\FileInfo\FileInfoControl.xaml.cs">
-      <DependentUpon>FileInfoControl.xaml</DependentUpon>
+    <Compile Include="SidePanels\FileInfo\FileInformationView.xaml.cs">
+      <DependentUpon>FileInformationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="FileInfoItem.xaml.cs">
       <DependentUpon>FileInfoItem.xaml</DependentUpon>
@@ -455,23 +454,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\Folder\FolderIcon.xaml">
+    <Page Include="SidePanels\FolderList\FolderIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\Folder\FolderListBanner.xaml">
+    <Page Include="SidePanels\FolderList\FolderListBanner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\Folder\FolderListIcon.xaml">
+    <Page Include="SidePanels\FolderList\FolderListIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\Folder\FolderListIconMark.xaml">
+    <Page Include="SidePanels\FolderList\FolderListIconMark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\Folder\FolderListThumbnail.xaml">
+    <Page Include="SidePanels\FolderList\FolderListThumbnail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -479,11 +478,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\FileInfo\FileInfoPanelView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SidePanels\Folder\FolderPanelView.xaml">
+    <Page Include="SidePanels\FolderList\FolderPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -511,11 +506,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\Folder\RenameControl.xaml">
+    <Page Include="SidePanels\FolderList\RenameControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SidePanels\Folder\RenameManager.xaml">
+    <Page Include="SidePanels\FolderList\RenameManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -551,7 +546,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\FileInfo\FileInfoControl.xaml">
+    <Page Include="SidePanels\FileInfo\FileInformationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -563,7 +558,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SidePanels\Folder\PageListView.xaml">
+    <Page Include="SidePanels\FolderList\PageListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -571,7 +566,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\Folder\FolderListView.xaml">
+    <Page Include="SidePanels\FolderList\FolderListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

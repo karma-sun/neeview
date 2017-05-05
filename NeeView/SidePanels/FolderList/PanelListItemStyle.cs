@@ -55,45 +55,4 @@ namespace NeeView
 
 
 
-
-    /// <summary>
-    /// ファイル情報ペイン設定
-    /// </summary>
-    [DataContract]
-    public class FolderListSetting
-    {
-        [DataMember]
-        public Dock Dock { get; set; }
-
-        [DataMember]
-        public bool IsVisibleHistoryMark { get; set; }
-
-        [DataMember]
-        public bool IsVisibleBookmarkMark { get; set; }
-
-        //
-        private void Constructor()
-        {
-            Dock = Dock.Left;
-            IsVisibleHistoryMark = true;
-            IsVisibleBookmarkMark = true;
-        }
-
-        public FolderListSetting()
-        {
-            Constructor();
-        }
-
-        [OnDeserializing]
-        private void Deserializing(StreamingContext c)
-        {
-            Constructor();
-        }
-
-        //
-        public FolderListSetting Clone()
-        {
-            return (FolderListSetting)MemberwiseClone();
-        }
-    }
 }

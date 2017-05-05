@@ -5,111 +5,76 @@
 
 using NeeView.Windows.Input;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NeeView
 {
     /// <summary>
-    /// ファイル情報ペイン設定
+    /// FileInformation : ViewModel
     /// </summary>
-    [DataContract]
-    public class FileInfoSetting
+    public class FileInformationViewModel : INotifyPropertyChanged
     {
-        [DataMember]
-        public bool IsUseExifDateTime { get; set; }
-
-        [DataMember]
-        public bool IsVisibleBitsPerPixel { get; set; }
-
-        [DataMember]
-        public bool IsVisibleLoader { get; set; }
-
-        [DataMember]
-        public Dock Dock { get; set; }
-
-        //
-        private void Constructor()
-        {
-            IsUseExifDateTime = true;
-            Dock = Dock.Right;
-        }
-
-        public FileInfoSetting()
-        {
-            Constructor();
-        }
-
-        [OnDeserializing]
-        private void Deserializing(StreamingContext c)
-        {
-            Constructor();
-        }
-
-        //
-        public FileInfoSetting Clone()
-        {
-            return (FileInfoSetting)MemberwiseClone();
-        }
-    }
-
-
-    /// <summary>
-    /// FileInfo.xaml の相互作用ロジック
-    /// </summary>
-    public partial class FileInfoControl : UserControl, INotifyPropertyChanged
-    {
-        public FileInfoControl()
-        {
-            InitializeComponent();
-            this.DataContext = this;
-        }
-
-
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
+        // PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        /// <summary>
-        /// Setting property.
-        /// </summary>
-        private FileInfoSetting _Setting;
-        public FileInfoSetting Setting
-        {
-            get { return _Setting; }
-            set { if (_Setting != value) { _Setting = value; _isDarty = true; Update(); RaisePropertyChanged(); } }
-        }
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
 
         /// <summary>
-        /// ViewContent property.
+        /// Model property.
         /// </summary>
-        private ViewContent _viewContent;
-        public ViewContent ViewContent
+        public FileInformation Model
         {
-            get { return _viewContent; }
-            set { if (_viewContent != value) { _viewContent = value; _isDarty = true;  Update(); RaisePropertyChanged(); } }
+            get { return _model; }
+            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
         }
+
+        private FileInformation _model;
+
+
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="model"></param>
+        public FileInformationViewModel(FileInformation model)
+        {
+            _model = model;
+            _model.PropertyChanged += Model_PropertyChanged;
+        }
+
+
+        //
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case null:
+                case nameof(_model.ViewContent):
+                case nameof(_model.IsUseExifDateTime):
+                case nameof(_model.IsVisibleBitsPerPixel):
+                case nameof(_model.IsVisibleLoader):
+                    _isDarty = true;
+                    Update();
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 表示状態。
+        /// 非表示での情報更新はデータクリアを行う
+        /// 表示状態になったときにデータを再構築する
+        /// </summary>
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set { if (_isVisible != value) { _isVisible = value; RaisePropertyChanged(); Update(); } }
+        }
+
+        private bool _isVisible;
+
+
 
         /// <summary>
         /// Thumbnail Bitmap
@@ -158,13 +123,13 @@ namespace NeeView
         }
 
         /// <summary>
-        /// Model property.
+        /// CameraModel property.
         /// </summary>
-        private string _Model;
-        public string Model
+        private string _CameraModel;
+        public string CameraModel
         {
-            get { return _Model; }
-            set { if (_Model != value) { _Model = value; RaisePropertyChanged(); } }
+            get { return _CameraModel; }
+            set { if (_CameraModel != value) { _CameraModel = value; RaisePropertyChanged(); } }
         }
 
         /// <summary>
@@ -209,15 +174,6 @@ namespace NeeView
             set { if (_Decoder != value) { _Decoder = value; RaisePropertyChanged(); } }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Root_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            Update();
-        }
 
         //
         private bool _isDarty;
@@ -228,22 +184,21 @@ namespace NeeView
         {
             if (!_isDarty) return;
 
-            if (Setting != null)
-            {
-                LoaderVisibility = Setting.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed;
-            }
+            LoaderVisibility = _model.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed;
 
-            var bitmapContent = IsVisible ? _viewContent?.Content as BitmapContent : null;
+            var bitmapContent = IsVisible ? _model.ViewContent?.Content as BitmapContent : null;
 
             if (bitmapContent?.BitmapInfo != null)
             {
+                Debug.WriteLine($"FileInfo: {_model.ViewContent?.FileName}");
+
                 _isDarty = false;
 
                 // サムネイル設定
                 ThumbnailBitmap.Set(bitmapContent.Thumbnail);
 
                 // 画像サイズ表示
-                ImageSize = $"{bitmapContent.Size.Width} x {bitmapContent.Size.Height}" + (Setting.IsVisibleBitsPerPixel ? $" ({bitmapContent.BitmapInfo.BitsPerPixel}bit)" : "");
+                ImageSize = $"{bitmapContent.Size.Width} x {bitmapContent.Size.Height}" + (_model.IsVisibleBitsPerPixel ? $" ({bitmapContent.BitmapInfo.BitsPerPixel}bit)" : "");
 
                 // ファイルサイズ表示
                 FileSize = bitmapContent.BitmapInfo.Length >= 0 ? string.Format("{0:#,0} KB", bitmapContent.BitmapInfo.Length > 0 ? (bitmapContent.BitmapInfo.Length + 1023) / 1024 : 0) : null;
@@ -258,10 +213,10 @@ namespace NeeView
                 ISOSpeedRatings = exif != null && exif.ISOSpeedRatings > 0 ? exif.ISOSpeedRatings.ToString() : null;
 
                 // EXIF: Model
-                Model = exif?.Model;
+                CameraModel = exif?.Model;
 
                 // 更新日
-                DateTime? lastWriteTime = (Setting.IsUseExifDateTime && exif?.LastWriteTime != null)
+                DateTime? lastWriteTime = (_model.IsUseExifDateTime && exif?.LastWriteTime != null)
                     ? exif.LastWriteTime
                     : bitmapContent.BitmapInfo.LastWriteTime;
                 LastWriteTime = lastWriteTime?.ToString("yyyy年M月d日 dddd H:mm");
@@ -274,12 +229,14 @@ namespace NeeView
             }
             else
             {
+                Debug.WriteLine($"FileInfo: null");
+
                 ThumbnailBitmap.Reset();
                 ImageSize = null;
                 FileSize = null;
                 ShotInfo = null;
                 ISOSpeedRatings = null;
-                Model = null;
+                CameraModel = null;
                 LastWriteTime = null;
                 Archiver = null;
                 Decoder = null;
@@ -297,9 +254,9 @@ namespace NeeView
 
         private void OpenPlace_Executed()
         {
-            if (_viewContent != null)
+            if (_model.ViewContent != null)
             {
-                var place = _viewContent.Page?.GetFilePlace();
+                var place = _model.ViewContent.Page?.GetFilePlace();
                 if (!string.IsNullOrWhiteSpace(place))
                 {
                     System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + place + "\"");

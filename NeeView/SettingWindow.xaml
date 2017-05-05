@@ -363,10 +363,10 @@
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ブックマーク記号を表示する"
                                       ToolTip="ブックマークされているフォルダーに★マークを表示します"
-                                      IsChecked="{Binding Setting.ViewMemento.FolderListSetting.IsVisibleBookmarkMark}" />
+                                      IsChecked="{Binding Setting.Memento.FolderList.IsVisibleBookmarkMark}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="履歴記号を表示する"
                                       ToolTip="履歴に残っているフォルダーにチェックマークを表示します"
-                                      IsChecked="{Binding Setting.ViewMemento.FolderListSetting.IsVisibleHistoryMark}" />
+                                      IsChecked="{Binding Setting.Memento.FolderList.IsVisibleHistoryMark}" />
                             <DockPanel Style="{StaticResource ItemDockPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="ホームの場所"/>
                                 <nlc:FileNameBox x:Name="HomePathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding Setting.BookHubMemento.Home, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectDirectory="True" Note="フォルダーの場所を指定してください"/>
@@ -377,13 +377,13 @@
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="EXIFの日時を使用する"
                                       ToolTip="ファイル情報パネルでの表示に限ります&#xa;日付順のソートには影響しません"
-                                      IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsUseExifDateTime}" />
+                                      IsChecked="{Binding Setting.Memento.FileInformation.IsUseExifDateTime}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="1ピクセルあたりのビット数を表示する"
                                       ToolTip="画像サイズにピクセル深度(bit)も表示します"
-                                      IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsVisibleBitsPerPixel}" />
+                                      IsChecked="{Binding Setting.Memento.FileInformation.IsVisibleBitsPerPixel}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ローダー情報を表示する"
                                       ToolTip="使用されたアーカイバー、画像デコーダー名を表示します"
-                              IsChecked="{Binding Setting.ViewMemento.FileInfoSetting.IsVisibleLoader}" />
+                              IsChecked="{Binding Setting.Memento.FileInformation.IsVisibleLoader}" />
                         </StackPanel>
 
                         <TextBlock Text="エフェクト" Style="{StaticResource Header}"/>

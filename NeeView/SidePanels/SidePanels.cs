@@ -21,7 +21,7 @@ namespace NeeView
         // 各種類のパネルインスタンス
         public FolderPanel FolderListPanel { get; private set; }
         public HistoryPanel HistoryPanel { get; private set; }
-        public FileInfoPanel FileInfoPanel { get; private set; }
+        public FileInformationPanel FileInfoPanel { get; private set; }
         public ImageEffectPanel ImageEffectPanel { get; private set; }
         public BookmarkPanel BookmarkPanel { get; private set; }
         public PagemarkPanel PagemarkPanel { get; private set; }
@@ -46,7 +46,7 @@ namespace NeeView
             leftPanels.Add(this.HistoryPanel);
 
             // ファイル情報
-            this.FileInfoPanel = new FileInfoPanel();
+            this.FileInfoPanel = new FileInformationPanel(models.FileInformation);
             rightPanels.Add(this.FileInfoPanel);
 
             // エフェクト
@@ -73,9 +73,6 @@ namespace NeeView
         {
             // フォルダーリスト
             Models.Current.FolderList.SetPlace(ModelContext.BookHistory.LastFolder ?? vm.BookHub.GetFixedHome(), null, false); // ##
-
-            // ファイル情報
-            this.FileInfoPanel.Initialize(vm);
 
             // エフェクト
             this.ImageEffectPanel.Initialize(vm);

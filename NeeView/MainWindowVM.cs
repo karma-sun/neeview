@@ -122,7 +122,8 @@ namespace NeeView
 
 
     /// <summary>
-    /// ViewModel
+    /// MainWindow : ViewModel
+    /// TODO : モデルの分離
     /// </summary>
     public class MainWindowVM : INotifyPropertyChanged, IDisposable
     {

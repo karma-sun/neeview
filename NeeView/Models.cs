@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    /// <summary>
+    /// NeeView全体のモデル。
+    /// 各Modelのインスタンスを管理する。
+    /// </summary>
     public class Models : INotifyPropertyChanged
     {
         // System Object
@@ -36,13 +40,13 @@ namespace NeeView
         //
         public SidePanel SidePanel { get; set; }
 
-        //
+
+
+        /// <summary>
+        /// Construcotr
+        /// </summary>
         public Models()
         {
-            // TODO: VMを渡すのはよろしくない
-            //var vm = MainWindowVM.Current;
-            //Debug.Assert(vm != null);
-
             this.BookHub = new BookHub();
 
             // TODO: このあたりでコマンド初期化？

@@ -811,7 +811,7 @@ namespace NeeView
             var item = this.GetFolderItem(param.Distance);
             if (item != null)
             {
-                SetPlace(_place, item.TargetPath, FolderSetPlaceOption.IsUpdateHistory);
+                SetPlace(_place, item.Path, FolderSetPlaceOption.IsUpdateHistory);
                 BookHub.RequestLoad(item.TargetPath, null, param.BookLoadOption, false);
                 e.Result = true;
             }

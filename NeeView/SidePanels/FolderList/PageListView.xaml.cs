@@ -26,28 +26,6 @@ namespace NeeView
     /// </summary>
     public partial class PageListView : UserControl
     {
-        public BookHub BookHub
-        {
-            get { return (BookHub)GetValue(BookHubProperty); }
-            set { SetValue(BookHubProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for BookHub.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty BookHubProperty =
-            DependencyProperty.Register("BookHub", typeof(BookHub), typeof(PageListView), new PropertyMetadata(null, new PropertyChangedCallback(BookHubPropertyChanged)));
-
-        //
-        public static void BookHubPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            // オブジェクトを取得して処理する
-            PageListView ctrl = d as PageListView;
-            if (ctrl != null)
-            {
-                ctrl._VM.BookHub = ctrl.BookHub;
-            }
-        }
-
-
         // delete command
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PageListView));
 
@@ -57,19 +35,8 @@ namespace NeeView
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
         }
 
-
-        /// <summary>
-        /// 一度だけフォーカスする
-        /// </summary>
-        public bool FocusAtOnce { get; set; }
-
         //
-        private PageListViewModel _VM;
-
-        /// <summary>
-        /// 応急処置：外部からVMが参照されるのはよろしくない
-        /// </summary>
-        public PageListViewModel VM => _VM;
+        private PageListViewModel _vm;
 
         //
         private ThumbnailHelper _thumbnailHelper;
@@ -83,20 +50,20 @@ namespace NeeView
         // constructor
         public PageListView(PageList model) : this()
         {
-            _VM = new PageListViewModel(model);
-            _VM.PagesChanged += OnPagesChanged;
-            this.DockPanel.DataContext = _VM;
+            _vm = new PageListViewModel(model);
+            _vm.PagesChanged += OnPagesChanged;
+            this.DockPanel.DataContext = _vm;
 
             this.PageListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, Remove_CanExec));
 
-            _thumbnailHelper = new ThumbnailHelper(this.PageListBox, _VM.RequestThumbnail);
+            _thumbnailHelper = new ThumbnailHelper(this.PageListBox, _vm.RequestThumbnail);
         }
 
         //
         private void Remove_CanExec(object sender, CanExecuteRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as Page;
-            e.CanExecute = item != null && _VM.CanRemove(item) && Preference.Current.file_permit_command;
+            e.CanExecute = item != null && _vm.CanRemove(item) && Preference.Current.file_permit_command;
         }
 
         //
@@ -105,7 +72,7 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as Page;
             if (item != null)
             {
-                await _VM.Remove(item);
+                await _vm.Remove(item);
             }
         }
 
@@ -116,14 +83,6 @@ namespace NeeView
             this.PageListBox.ScrollIntoView(this.PageListBox.SelectedItem);
         }
 
-        //
-        /*
-        public void Initialize(MainWindowVM vm)
-        {
-            _VM.Initialize(vm);
-        }
-        */
-
 
         //
         public void FocusSelectedItem()
@@ -132,9 +91,9 @@ namespace NeeView
 
             this.PageListBox.ScrollIntoView(this.PageListBox.SelectedItem);
 
-            if (FocusAtOnce)
+            if (_vm.Model.FocusAtOnce)
             {
-                FocusAtOnce = false;
+                _vm.Model.FocusAtOnce = false;
                 ListBoxItem lbi = (ListBoxItem)(this.PageListBox.ItemContainerGenerator.ContainerFromIndex(this.PageListBox.SelectedIndex));
                 lbi?.Focus();
             }
@@ -157,7 +116,7 @@ namespace NeeView
             var page = (sender as ListBoxItem)?.Content as Page;
             if (page != null)
             {
-                _VM.Jump(page);
+                _vm.Jump(page);
                 e.Handled = true;
             }
         }
@@ -172,7 +131,7 @@ namespace NeeView
             {
                 if (e.Key == Key.Return)
                 {
-                    _VM.Jump(page);
+                    _vm.Jump(page);
                     e.Handled = true;
                 }
             }

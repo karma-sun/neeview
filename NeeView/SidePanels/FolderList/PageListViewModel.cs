@@ -34,35 +34,10 @@ namespace NeeView
 
         public event EventHandler PagesChanged;
 
-#if false
-        #region Property: VM
-        private MainWindowVM _VM;
-        public MainWindowVM VM
-        {
-            get { return _VM; }
-            set
-            {
-                _VM = value;
-                _VM.PageListChanged += (s, e) => Reflesh();
-                RaisePropertyChanged();
-            }
-        }
-        #endregion
-#endif
-
-
+        //
         private BookHub _bookHub;
-        public BookHub BookHub
-        {
-            get { return _bookHub; }
-            set
-            {
-                _bookHub = value;
-                _bookHub.ViewContentsChanged += BookHub_ViewContentsChanged;
-                RaisePropertyChanged();
-            }
-        }
 
+        //
         private void BookHub_ViewContentsChanged(object sender, ViewSource e)
         {
             var contents = e?.Sources;
@@ -122,7 +97,6 @@ namespace NeeView
         #endregion
 
 
-
         #region MoreMenu
 
         /// <summary>
@@ -155,10 +129,11 @@ namespace NeeView
             item.Header = header;
             item.Command = SetListItemStyle;
             item.CommandParameter = style;
-            var binding = new Binding(nameof(PanelListItemStyle))
+            var binding = new Binding(nameof(_model.PanelListItemStyle))
             {
                 Converter = _PanelListItemStyleToBooleanConverter,
-                ConverterParameter = style
+                ConverterParameter = style,
+                Source = _model
             };
             item.SetBinding(MenuItem.IsCheckedProperty, binding);
 
@@ -186,29 +161,6 @@ namespace NeeView
             _model.PanelListItemStyle = style;
         }
 
-        /*
-        /// <summary>
-        /// PanelListItemStyle property.
-        /// TODO: 保存されるものなのでモデル的なクラスでの実装が望ましい
-        /// </summary>
-        public PanelListItemStyle PanelListItemStyle
-        {
-            get { return _PanelListItemStyle; }
-            set
-            {
-                if (_PanelListItemStyle != value)
-                {
-                    _PanelListItemStyle = value;
-                    ////this.FolderListView?.SetPanelListItemStyle(_PanelListItemStyle);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        //
-        private PanelListItemStyle _PanelListItemStyle;
-        */
-
 
         #endregion
 
@@ -227,25 +179,13 @@ namespace NeeView
         public PageListViewModel(PageList model)
         {
             _model = model;
-            this.BookHub = _model.BookHub;
+            _bookHub = _model.BookHub;
+            _bookHub.ViewContentsChanged += BookHub_ViewContentsChanged;
 
             InitializeMoreMenu();
 
             Reflesh();
         }
-
-        /*
-        //
-        public void Initialize(MainWindowVM vm)
-        {
-            VM = vm;
-            BookHub = vm.BookHub;
-
-            InitializeMoreMenu();
-
-            Reflesh();
-        }
-        */
 
 
         //
@@ -282,38 +222,10 @@ namespace NeeView
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin, int direction)
         {
-            //if (VM == null) return;
             if (_model.PanelListItemStyle.HasThumbnail())
             {
                 ThumbnailManager.Current.RequestThumbnail(_model.PageCollection, QueueElementPriority.PageListThumbnail, start, count, margin, direction);
             }
         }
-
-#if false
-        #region Memento
-        [DataContract]
-        public class Memento
-        {
-            [DataMember]
-            public PanelListItemStyle PanelListItemStyle { get; set; }
-        }
-
-        //
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.PanelListItemStyle = this.PanelListItemStyle;
-            return memento;
-        }
-
-        //
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            this.PanelListItemStyle = memento.PanelListItemStyle;
-        }
-
-        #endregion
-#endif
     }
 }

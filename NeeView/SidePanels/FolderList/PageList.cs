@@ -46,6 +46,11 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// 一度だけフォーカスするフラグ
+        /// </summary>
+        public bool FocusAtOnce { get; set; }
+
         //
         public BookHub BookHub { get; private set; }
 

@@ -62,6 +62,7 @@ namespace NeeView
 
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
+    /// TODO: 機能の細分化 (UserControl?)
     /// </summary>
     public partial class MainWindow : Window
     {

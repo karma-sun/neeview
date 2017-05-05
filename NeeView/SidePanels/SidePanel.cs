@@ -223,8 +223,7 @@ namespace NeeView
 
             if (model.IsPageListVisible)
             {
-                Debug.WriteLine("TODO:PageListView.FocusAtOnce");
-                ////SidePanels.FolderListPanel.PageListControl.FocusAtOnce = true; // ##
+                _models.PageList.FocusAtOnce = true;
             }
 
             return model.IsPageListVisible;

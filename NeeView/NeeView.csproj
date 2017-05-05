@@ -152,9 +152,7 @@
     <Compile Include="SidePanels\History\HistoryListViewModel.cs" />
     <Compile Include="SidePanels\History\HistoryList.cs" />
     <Compile Include="SidePanels\ImageEffect\ImageEffectPanel.cs" />
-    <Compile Include="SidePanels\ImageEffect\ImageEffectPanelView.xaml.cs">
-      <DependentUpon>ImageEffectPanelView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="SidePanels\ImageEffect\ImageEffectViewModel.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkList.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkListViewModel.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkPanel.cs" />
@@ -220,8 +218,8 @@
     <Compile Include="SidePanels\FolderList\RenameManager.xaml.cs">
       <DependentUpon>RenameManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\ImageEffect\ImageEffectControl.xaml.cs">
-      <DependentUpon>ImageEffectControl.xaml</DependentUpon>
+    <Compile Include="SidePanels\ImageEffect\ImageEffectView.xaml.cs">
+      <DependentUpon>ImageEffectView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="MemoryControl.cs" />
@@ -474,10 +472,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\ImageEffect\ImageEffectPanelView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SidePanels\FolderList\FolderPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -514,7 +508,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SidePanels\ImageEffect\ImageEffectControl.xaml">
+    <Page Include="SidePanels\ImageEffect\ImageEffectView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

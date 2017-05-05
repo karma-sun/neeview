@@ -50,7 +50,7 @@ namespace NeeView
             rightPanels.Add(this.FileInfoPanel);
 
             // エフェクト
-            this.ImageEffectPanel = new ImageEffectPanel();
+            this.ImageEffectPanel = new ImageEffectPanel(models.ImageEffecct);
             rightPanels.Add(this.ImageEffectPanel);
 
             // ブックマーク
@@ -73,9 +73,6 @@ namespace NeeView
         {
             // フォルダーリスト
             Models.Current.FolderList.SetPlace(ModelContext.BookHistory.LastFolder ?? vm.BookHub.GetFixedHome(), null, false); // ##
-
-            // エフェクト
-            this.ImageEffectPanel.Initialize(vm);
         }
 
         /// <summary>

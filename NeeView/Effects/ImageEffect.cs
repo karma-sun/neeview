@@ -146,9 +146,15 @@ namespace NeeView.Effects
             return memento;
         }
 
-        //
+        /// <summary>
+        /// TODO: fromLoad、IsRecovertyEffectType は このレベルでなく、さらに上位の設定のはず
+        /// </summary>
+        /// <param name="memento"></param>
+        /// <param name="fromLoad"></param>
         public void Restore(Memento memento, bool fromLoad)
         {
+            if (memento == null) return;
+
             this.EffectType = (fromLoad && !memento.IsRecoveryEffectType) ? EffectType.None : memento.EffectType;
             this.IsRecoveryEffectType = memento.IsRecoveryEffectType;
             this.IsHsvMode = memento.IsHsvMode;

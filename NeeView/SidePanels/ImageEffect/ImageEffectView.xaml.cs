@@ -25,25 +25,25 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     /// <summary>
-    /// FileInfo.xaml の相互作用ロジック
+    /// ImageEffectView.xaml の相互作用ロジック
     /// </summary>
-    public partial class ImageEffectControl : UserControl
+    public partial class ImageEffectView : UserControl
     {
-        public ImageEffect ImageEffector
-        {
-            get { return (ImageEffect)GetValue(ImageEffectorProperty); }
-            set { SetValue(ImageEffectorProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Effector.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ImageEffectorProperty =
-            DependencyProperty.Register("ImageEffector", typeof(ImageEffect), typeof(ImageEffectControl), new PropertyMetadata(null));
-
+        private ImageEffectViewModel _vm;
 
         // コンストラクタ
-        public ImageEffectControl()
+        public ImageEffectView()
         {
             InitializeComponent();
+        }
+
+        //
+        public ImageEffectView(ImageEffect model) : this()
+        {
+            InitializeComponent();
+
+            _vm = new ImageEffectViewModel(model);
+            this.DataContext = _vm;
         }
 
         // 単キーのショートカット無効

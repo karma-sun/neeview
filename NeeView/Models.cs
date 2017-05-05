@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Effects;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace NeeView
         public BookmarkList BookmarkList { get; private set; }
         public PagemarkList PagemarkList { get; private set; }
         public FileInformation FileInformation { get; private set; }
-
+        public ImageEffect ImageEffecct { get; private set; }
 
         //
         public Models()
@@ -42,6 +43,7 @@ namespace NeeView
             this.BookmarkList = new BookmarkList(this.BookHub);
             this.PagemarkList = new PagemarkList(this.BookHub);
             this.FileInformation = new FileInformation();
+            this.ImageEffecct = new ImageEffect();
         }
 
 
@@ -64,6 +66,8 @@ namespace NeeView
             public PagemarkList.Memento PagemarkList { get; set; }
             [DataMember]
             public FileInformation.Memento FileInformation { get; set; }
+            [DataMember]
+            public ImageEffect.Memento ImageEffect { get; set; }
         }
 
         //
@@ -77,11 +81,12 @@ namespace NeeView
             memento.BookmarkList = this.BookmarkList.CreateMemento();
             memento.PagemarkList = this.PagemarkList.CreateMemento();
             memento.FileInformation = this.FileInformation.CreateMemento();
+            memento.ImageEffect = this.ImageEffecct.CreateMemento();
             return memento;
         }
 
         //
-        public void Resore(Memento memento)
+        public void Resore(Memento memento, bool fromLoad)
         {
             if (memento == null) return;
             this.FolderPanelModel.Restore(memento.FolderPanel);
@@ -91,6 +96,7 @@ namespace NeeView
             this.BookmarkList.Restore(memento.BookmarkList);
             this.PagemarkList.Restore(memento.PagemarkList);
             this.FileInformation.Restore(memento.FileInformation);
+            this.ImageEffecct.Restore(memento.ImageEffect, fromLoad);
         }
         #endregion
     }

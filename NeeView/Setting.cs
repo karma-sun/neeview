@@ -42,8 +42,8 @@ namespace NeeView
         [DataMember(Order = 9998)]
         public DragActionTable.Memento DragActionMemento { set; get; }
 
-        [DataMember(Order = 9999, EmitDefaultValue = false)] // 互換用
-        public BookHistory.Memento BookHistoryMemento { set; get; }
+        [DataMember(Order = 9999, EmitDefaultValue = false)]
+        public BookHistory.Memento BookHistoryMemento { set; get; } // no used
 
         [DataMember(Order = 4)]
         public Exporter.Memento ExporterMemento { set; get; }
@@ -51,8 +51,8 @@ namespace NeeView
         [DataMember(Order = 14)]
         public Preference.Memento PreferenceMemento { set; get; }
 
-        [DataMember(Order = 17)]
-        public ImageEffect.Memento ImageEffectMemento { get; set; }
+        [DataMember(Order = 17, EmitDefaultValue = false)]
+        public ImageEffect.Memento ImageEffectMemento { get; set; } // no used (ver.22)
 
         // 設定(new!)
         [DataMember(Order = 1)]
@@ -70,7 +70,7 @@ namespace NeeView
             DragActionMemento = new DragActionTable.Memento();
             ExporterMemento = new Exporter.Memento();
             PreferenceMemento = new Preference.Memento();
-            ImageEffectMemento = new ImageEffect.Memento();
+            ////ImageEffectMemento = new ImageEffect.Memento();
         }
 
         //

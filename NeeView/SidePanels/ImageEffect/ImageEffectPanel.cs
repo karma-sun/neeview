@@ -1,4 +1,5 @@
-﻿using NeeView.Windows.Controls;
+﻿using NeeView.Effects;
+using NeeView.Windows.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +11,9 @@ using System.Windows.Media;
 
 namespace NeeView
 {
+    /// <summary>
+    /// ImageEffect : Panel
+    /// </summary>
     public class ImageEffectPanel : IPanel, INotifyPropertyChanged
     {
         /// <summary>
@@ -32,26 +36,18 @@ namespace NeeView
 
         public string IconTips => "エフェクト";
 
-        private ImageEffectPanelView _view;
-        public FrameworkElement View => _view;
+        public FrameworkElement View { get; private set; }
 
         public bool IsVisibleLock => false;
 
 
         //
-        public ImageEffectPanel()
+        public ImageEffectPanel(ImageEffect model)
         {
-            _view = new ImageEffectPanelView();
+            View = new ImageEffectView(model);
 
-            //Icon = App.Current.MainWindow.Resources["pic_filter_vintage_24px"] as ImageSource;
             Icon = App.Current.MainWindow.Resources["pic_toy_24px"] as ImageSource;
             IconMargin = new Thickness(8);
-        }
-
-        //
-        public void Initialize(MainWindowVM vm)
-        {
-            _view.Initialize(vm);
         }
     }
 }

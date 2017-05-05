@@ -5,7 +5,7 @@
     http://opensource.org/licenses/mit-license.php
 -->
 
-<UserControl x:Class="NeeView.ImageEffectControl"
+<UserControl x:Class="NeeView.ImageEffectView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -44,7 +44,7 @@
                       FontSize="15"
                        HorizontalAlignment="Left"
                       ItemsSource="{x:Static le:EffectTypeExtensions.EffectTypeNames}" DisplayMemberPath="Value" SelectedValuePath="Key"
-                          SelectedValue="{Binding ImageEffector.EffectType}"/>
+                          SelectedValue="{Binding Model.EffectType}"/>
             <Grid Margin="0,10">
                 <Grid.Resources>
                     <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
@@ -56,13 +56,13 @@
                         <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
                     </Style>
                 </Grid.Resources>
-                <nlp:PropertyInspector x:Name="inspector" Document="{Binding ImageEffector.EffectParameters}" FontSize="15"
+                <nlp:PropertyInspector x:Name="inspector" Document="{Binding Model.EffectParameters}" FontSize="15"
                                        IsResetButtonVisible="True"
-                                       IsHsvMode="{Binding ImageEffector.IsHsvMode}">
+                                       IsHsvMode="{Binding Model.IsHsvMode}">
                     <nlp:PropertyInspector.Style>
                         <Style TargetType="nlp:PropertyInspector">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ImageEffector.EffectParameters}" Value="{x:Null}">
+                                <DataTrigger Binding="{Binding Model.EffectParameters}" Value="{x:Null}">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                 </DataTrigger>
                             </Style.Triggers>

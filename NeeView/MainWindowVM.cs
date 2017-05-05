@@ -458,7 +458,7 @@ namespace NeeView
 
 
         // イメージエフェクト
-        public ImageEffect ImageEffector { get; set; } = new ImageEffect();
+        public ImageEffect ImageEffector => _models.ImageEffecct;
 
         // ドットのまま拡大
         #region Property: IsEnabledNearestNeighbor
@@ -1719,10 +1719,17 @@ namespace NeeView
         // 保存可否
         public bool IsEnableSave { get; set; } = true;
 
-        //
+        /// <summary>
+        /// Model群。ひとまず。
+        /// </summary>
         private Models _models;
 
-        // コンストラクタ
+
+
+        /// <summary>
+        /// コンストラクター
+        /// </summary>
+        /// <param name="window"></param>
         public MainWindowVM(MainWindow window)
         {
             MainWindowVM.Current = this;
@@ -2028,7 +2035,7 @@ namespace NeeView
             setting.DragActionMemento = ModelContext.DragActionTable.CreateMemento();
             setting.ExporterMemento = Exporter.CreateMemento();
             setting.PreferenceMemento = Preference.Current.CreateMemento();
-            setting.ImageEffectMemento = this.ImageEffector.CreateMemento();
+            ////setting.ImageEffectMemento = this.ImageEffector.CreateMemento();
 
             // new memento
             setting.Memento = Models.Current.CreateMemento();
@@ -2045,7 +2052,7 @@ namespace NeeView
             PreferenceAccessor.Current.Reflesh();
 
             this.Restore(setting.ViewMemento);
-            this.ImageEffector.Restore(setting.ImageEffectMemento, fromLoad);
+            ////this.ImageEffector.Restore(setting.ImageEffectMemento, fromLoad);
 
             ModelContext.SusieContext.Restore(setting.SusieMemento);
             BookHub.Restore(setting.BookHubMemento);
@@ -2057,7 +2064,14 @@ namespace NeeView
             Exporter.Restore(setting.ExporterMemento);
 
             // new memento
-            Models.Current.Resore(setting.Memento);
+            Models.Current.Resore(setting.Memento, fromLoad);
+
+            // compatible before ver.22
+            if (setting.ImageEffectMemento != null)
+            {
+                Debug.WriteLine($"[[Compatible]]: Restore ImageEffect");
+                Models.Current.ImageEffecct.Restore(setting.ImageEffectMemento, fromLoad);
+            }
         }
 
         // 履歴読み込み
@@ -2910,7 +2924,7 @@ namespace NeeView
                 context.ViewTransform = transform;
                 context.ViewWidth = width;
                 context.ViewHeight = height;
-                context.ViewEffect = ImageEffector.Effect;
+                context.ViewEffect = _models.ImageEffecct.Effect;
                 context.Background = CreateBackgroundBrush();
                 context.BackgroundFront = CreateBackgroundFrontBrush(new DpiScale(1, 1));
 
@@ -3345,12 +3359,14 @@ namespace NeeView
             // compatible before ver.22
             if (memento.FileInfoSetting != null)
             {
+                Debug.WriteLine($"[[Compatible]]: Restore FileInfoSetting");
                 _models.FileInformation.IsUseExifDateTime = memento.FileInfoSetting.IsUseExifDateTime;
                 _models.FileInformation.IsVisibleBitsPerPixel = memento.FileInfoSetting.IsVisibleBitsPerPixel;
                 _models.FileInformation.IsVisibleLoader = memento.FileInfoSetting.IsVisibleLoader;
             }
             if (memento.FolderListSetting != null)
             {
+                Debug.WriteLine($"[[Compatible]]: Restore FolderListSetting");
                 _models.FolderList.IsVisibleBookmarkMark = memento.FolderListSetting.IsVisibleBookmarkMark;
                 _models.FolderList.IsVisibleHistoryMark = memento.FolderListSetting.IsVisibleHistoryMark;
             }

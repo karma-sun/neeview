@@ -91,9 +91,9 @@
             -->
 
             <DockPanel>
-                <nwc:DropDownMenuButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" ToolTip="設定" DropDownContextMenu="{Binding MoreMenu}">
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" ToolTip="設定" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
-                </nwc:DropDownMenuButton>
+                </ToggleButton>
                 <WrapPanel>
                     <ComboBox x:Name="FormatComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
                           ItemsSource="{Binding FormatList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding Format, Delay=1}"

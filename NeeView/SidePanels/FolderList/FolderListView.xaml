@@ -190,10 +190,10 @@
 
             <DockPanel>
 
-                <nwc:DropDownMenuButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Top" ToolTip="設定"
-                                        DropDownContextMenu="{Binding MoreMenu}">
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Top" 
+                              nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
-                </nwc:DropDownMenuButton>
+                </ToggleButton>
 
                 <WrapPanel Orientation="Horizontal" MinWidth="90">
                     <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}"

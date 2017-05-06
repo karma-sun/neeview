@@ -413,7 +413,7 @@
     <Compile Include="_NeeView\Windows\Controls\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_NeeView\Windows\Controls\DropDownMenuButton.cs" />
+    <Compile Include="_NeeView\Windows\Controls\DropDownMenuBehavior.cs" />
     <Compile Include="_NeeView\Windows\Controls\FileNameBox.xaml.cs">
       <DependentUpon>FileNameBox.xaml</DependentUpon>
     </Compile>

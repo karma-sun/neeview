@@ -108,9 +108,9 @@
                 <TextBlock Text="履歴" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
             </StackPanel>
             <DockPanel LastChildFill="False">
-                <nwc:DropDownMenuButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" ToolTip="設定" DropDownContextMenu="{Binding MoreMenu}">
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" ToolTip="設定" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
-                </nwc:DropDownMenuButton>
+                </ToggleButton>
             </DockPanel>
         </StackPanel>
 

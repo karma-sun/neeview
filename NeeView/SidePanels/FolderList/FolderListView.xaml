@@ -20,6 +20,30 @@
 
     <UserControl.Resources>
 
+        <DrawingImage x:Key="fic_recursive_folder_24px">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="Gray" Pen="{x:Null}">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M0,6L1.99999988079071,6 1.99999988079071,20 20,20 20,22 1.99999988079071,22C0.899999976158142,22,0,21.1000003814697,0,20L0.00999999046325684,11 0,11 0,6z M6,2L12,2 14,4 22,4C23.1000003814697,4,24,4.90000009536743,24,6L24,16C24,17.1000003814697,23.1000003814697,18,22,18L6,18C4.90000009536743,18,4,17.1000003814697,4,16L4.01000022888184,4C4.01000022888184,2.90000009536743,4.90000009536743,2,6,2z" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
+            <Setter Property="Width" Value="28"/>
+            <Setter Property="Height" Value="28"/>
+        </Style>
+
+        <Style x:Key="FolderListToggleButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource IconToggleButton}">
+            <Setter Property="Width" Value="28"/>
+            <Setter Property="Height" Value="28"/>
+        </Style>
+
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="15"/>
         </Style>
@@ -154,20 +178,25 @@
     <DockPanel x:Name="DockPanel" Margin="0,5,0,0" IsVisibleChanged="FolderList_IsVisibleChanged">
 
         <StackPanel DockPanel.Dock="Top" Margin="5">
-            <StackPanel Margin="5">
-                <TextBlock Text="場所" Foreground="Gray"/>
-                <TextBlock Text="{Binding FolderCollection.PlaceDispString}" ToolTip="{Binding FolderCollection.PlaceDispString}"/>
+            <StackPanel Margin="5" HorizontalAlignment="Left">
+                <TextBlock Text="場所" Foreground="Gray" Margin="5,0"/>
+                <DockPanel>
+                    <Image DockPanel.Dock="Right" Source="{StaticResource fic_recursive_folder_24px}" Width="12" Height="12" VerticalAlignment="Bottom" Margin="0,0,0,4"
+                           ToolTip="サブフォルダーを読み込む"
+                           Visibility="{Binding FolderCollection.FolderParameter.IsFolderRecursive, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding FolderCollection.PlaceDispString}" ToolTip="{Binding FolderCollection.PlaceDispString}" Margin="5,0"/>
+                </DockPanel>
             </StackPanel>
 
             <DockPanel>
 
-                <nwc:DropDownMenuButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" Height="30" VerticalAlignment="Bottom" ToolTip="設定"
+                <nwc:DropDownMenuButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Top" ToolTip="設定"
                                         DropDownContextMenu="{Binding MoreMenu}">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </nwc:DropDownMenuButton>
 
-                <WrapPanel Orientation="Horizontal" >
-                    <Button x:Name="FolderHomeButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToHome}"
+                <WrapPanel Orientation="Horizontal" MinWidth="90">
+                    <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}"
                         ToolTip="ホームに移動">
                         <Image Source="{StaticResource ic_home_24px_b}" Width="20" Height="20"/>
                         <Button.ContextMenu>
@@ -176,7 +205,7 @@
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>
-                    <Button x:Name="FolderPrevButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToPrevious}"
+                    <Button x:Name="FolderPrevButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToPrevious}"
                         ContextMenuService.Placement="Bottom"
                         ContextMenuOpening="FolderPrevButton_ContextMenuOpening"
                         ToolTip="戻る">
@@ -185,7 +214,7 @@
                             <ContextMenu x:Name="FolderPrevButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
                         </Button.ContextMenu>
                     </Button>
-                    <Button x:Name="FolderNextButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToNext}"
+                    <Button x:Name="FolderNextButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToNext}"
                         ContextMenuService.Placement="Bottom"
                         ContextMenuOpening="FolderNextButton_ContextMenuOpening"
                         ToolTip="進む">
@@ -194,16 +223,16 @@
                             <ContextMenu x:Name="FolderNextButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
                         </Button.ContextMenu>
                     </Button>
-                    <Button x:Name="FolderUpButton" Style="{StaticResource IconButton}" Width="30" Command="{Binding MoveToUp}"
+                    <Button x:Name="FolderUpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUp}"
                         ToolTip="上に移動">
                         <Image Source="{StaticResource ic_arrow_up_24px_b}" Width="16" Height="16"/>
                     </Button>
-                    <Button x:Name="FolderSync" Style="{StaticResource IconButton}" Width="30" Command="{Binding Sync}"
+                    <Button x:Name="FolderSync" Style="{StaticResource FolderListButtonStyle}"  Command="{Binding Sync}"
                         ToolTip="表示中のフォルダーに移動">
                         <Image Source="{StaticResource ic_sync_24px_b}" Width="20" Height="20"/>
                     </Button>
                     <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
-                          ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderCollection.FolderCollectionParameter.FolderOrder, Delay=1}"
+                          ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderCollection.FolderParameter.FolderOrder, Delay=1}"
                           VerticalAlignment="Center">
                     </ComboBox>
                 </WrapPanel>

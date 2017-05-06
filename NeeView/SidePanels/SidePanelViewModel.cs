@@ -46,7 +46,6 @@ namespace NeeView
                 if (Panel.Width != value)
                 {
                     Panel.Width = Math.Min(value, MaxWidth);
-                    RaisePropertyChanged();
                 }
             }
         }
@@ -194,6 +193,9 @@ namespace NeeView
             {
                 case nameof(Panel.SelectedPanel):
                     RaisePropertyChanged(nameof(PanelVisibility));
+                    break;
+                case nameof(Panel.Width):
+                    RaisePropertyChanged(nameof(Width));
                     break;
             }
         }

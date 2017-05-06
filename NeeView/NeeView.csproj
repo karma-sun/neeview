@@ -146,6 +146,7 @@
       <DependentUpon>FolderListThumbnail.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\FolderList\FolderPanelModel.cs" />
+    <Compile Include="SidePanels\FolderList\FolderParameter.cs" />
     <Compile Include="SidePanels\FolderList\PageListViewModel.cs" />
     <Compile Include="SidePanels\FolderList\PageList.cs" />
     <Compile Include="SidePanels\FolderList\_FolderListDesigns.cs" />
@@ -208,7 +209,6 @@
     <Compile Include="Effects\EffectType.cs" />
     <Compile Include="EntryCollection.cs" />
     <Compile Include="EntrySort.cs" />
-    <Compile Include="SidePanels\FolderList\FolderCollectionParameter.cs" />
     <Compile Include="SidePanels\FolderList\FolderItem.cs" />
     <Compile Include="SidePanels\FolderList\FolderListViewModel.cs" />
     <Compile Include="SidePanels\FolderList\PanelListItemStyle.cs" />

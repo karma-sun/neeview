@@ -13,7 +13,7 @@
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance local:FolderItem_Design, IsDesignTimeCreatable=True}"
-             d:DesignHeight="50" d:DesignWidth="50">
+             d:DesignHeight="50" d:DesignWidth="80">
 
     <UserControl.Resources>
 
@@ -51,9 +51,11 @@
 
     <Grid Height="20">
         <DockPanel x:Name="Folder" LastChildFill="False" HorizontalAlignment="Right">
-            <Grid DockPanel.Dock="Right" Width="20" Height="20">
-                <Image Source="{StaticResource fic_folder_24px}" Width="20" Height="20" Visibility="{Binding IsDirectory, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+            <Grid DockPanel.Dock="Right" Width="18" Height="18">
+                <Image Source="{StaticResource fic_folder_24px}" Width="18" Height="18" Visibility="{Binding IsDirectory, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
+
             <Grid DockPanel.Dock="Right">
                 <Image Source="{StaticResource fic_arrow_forward_24px}" Width="12" Height="12" Margin="2"
                        Visibility="{Binding IsShortcut, Converter={StaticResource BooleanToVisibilityConverter}}"/>

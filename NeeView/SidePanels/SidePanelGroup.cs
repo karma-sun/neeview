@@ -59,7 +59,7 @@ namespace NeeView
         /// <summary>
         /// Width property.
         /// </summary>
-        private double _width = 250.0;
+        private double _width = 300.0;
         public double Width
         {
             get { return _width; }

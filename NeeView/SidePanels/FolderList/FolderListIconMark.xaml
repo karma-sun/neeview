@@ -14,8 +14,8 @@
              d:DataContext="{d:DesignInstance local:FolderItem_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="50" d:DesignWidth="50">
 
-    <Grid Width="20" Height="20">
-        <Image Width="12" Height="12" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,2,0,0">
+    <Grid Width="18" Height="18">
+        <Image VerticalAlignment="Center" HorizontalAlignment="Center" Width="12" Height="12" Margin="0,2,0,0">
             <Image.Style>
                 <Style TargetType="Image">
                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -37,5 +37,5 @@
             </Image.Style>
         </Image>
     </Grid>
-    
+
 </UserControl>

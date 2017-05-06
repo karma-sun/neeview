@@ -28,7 +28,7 @@ namespace NeeView
         public bool IsDirectory => true;
         public bool IsShortcut => true;
         public bool IsOverlayChecked => true;
-        public bool IsOverlayStar => false;
+        public bool IsOverlayStar => true;
         public bool IsDisable => false;
 
         public object ArchivePage => new

@@ -32,9 +32,9 @@ namespace NeeView
         public static bool IsInsertAddFile => Preference.Current.folderlist_addfile_insert;
 
         /// <summary>
-        /// FolderCollection Parameter
+        /// Folder Parameter
         /// </summary>
-        public FolderCollectionParameter FolderCollectionParameter { get; private set; }
+        public FolderParameter FolderParameter { get; private set; }
 
         // indexer
         public FolderItem this[int index]
@@ -66,12 +66,12 @@ namespace NeeView
         /// <summary>
         /// フォルダーの並び順
         /// </summary>
-        private FolderOrder FolderOrder => FolderCollectionParameter.FolderOrder;
+        private FolderOrder FolderOrder => FolderParameter.FolderOrder;
 
         /// <summary>
         /// シャッフル用ランダムシード
         /// </summary>
-        private int RandomSeed => FolderCollectionParameter.RandomSeed;
+        private int RandomSeed => FolderParameter.RandomSeed;
 
         /// <summary>
         /// 有効判定
@@ -83,7 +83,7 @@ namespace NeeView
         /// </summary>
         /// <param name="folder"></param>
         /// <returns></returns>
-        public bool IsDarty(FolderCollectionParameter folder)
+        public bool IsDarty(FolderParameter folder)
         {
             return (Place != folder.Path || FolderOrder != folder.FolderOrder || RandomSeed != folder.RandomSeed);
         }
@@ -94,7 +94,7 @@ namespace NeeView
         /// <returns></returns>
         public bool IsDarty()
         {
-            return IsDarty(new FolderCollectionParameter(Place));
+            return IsDarty(new FolderParameter(Place));
         }
 
 
@@ -128,8 +128,8 @@ namespace NeeView
         {
             this.Place = place;
 
-            this.FolderCollectionParameter = new FolderCollectionParameter(place);
-            this.FolderCollectionParameter.PropertyChanged += (s, e) => ParameterChanged?.Invoke(s, null);
+            this.FolderParameter = new FolderParameter(place);
+            this.FolderParameter.PropertyChanged += (s, e) => ParameterChanged?.Invoke(s, null);
         }
 
         /// <summary>

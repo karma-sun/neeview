@@ -117,10 +117,20 @@ namespace NeeView
             menu.Items.Add(CreateListItemStyleMenuItem("一覧表示", PanelListItemStyle.Normal));
             menu.Items.Add(CreateListItemStyleMenuItem("コンテンツ表示", PanelListItemStyle.Content));
             menu.Items.Add(CreateListItemStyleMenuItem("バナー表示", PanelListItemStyle.Banner));
-            ////menu.Items.Add(new Separator());
-            ////menu.Items.Add(new MenuItem() { Header = "この場所ではサブフォルダーを読み込む", IsCheckable = true });
+            menu.Items.Add(new Separator());
+            menu.Items.Add(CreateRecursiveFlagMenuItem("この場所ではサブフォルダーを読み込む"));
 
             this.MoreMenu = menu;
+        }
+
+        //
+        private MenuItem CreateRecursiveFlagMenuItem(string header )
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.Command = ToggleFolderRecursive;
+            item.SetBinding(MenuItem.IsCheckedProperty, new Binding("FolderCollection.FolderParameter.IsFolderRecursive"));
+            return item;
         }
 
         //
@@ -260,7 +270,7 @@ namespace NeeView
                     break;
             }
         }
-        
+
 
         /// <summary>
         /// フォルダー状態保存
@@ -372,7 +382,8 @@ namespace NeeView
         //
         public void Decided(string path)
         {
-            this.BookHub.RequestLoad(path, null, BookLoadOption.SkipSamePlace, false);
+            BookLoadOption option = BookLoadOption.SkipSamePlace | (this.FolderCollection.FolderParameter.IsFolderRecursive ? BookLoadOption.DefaultRecursive : BookLoadOption.None);
+            Decided(path, option);
         }
 
         //
@@ -595,8 +606,6 @@ namespace NeeView
             }
         }
 
-
-
         /// <summary>
         /// 現在開いているフォルダーで更新(弱)
         /// e.isKeepPlaceが有効の場合、フォルダーは移動せず現在選択項目のみの移動を試みる
@@ -613,6 +622,28 @@ namespace NeeView
             var options = (e.IsFocus ? FolderSetPlaceOption.IsFocus : FolderSetPlaceOption.None) | FolderSetPlaceOption.IsUpdateHistory;
             SetPlace(System.IO.Path.GetDirectoryName(e.Path), e.Path, options);
         }
+
+
+        /// <summary>
+        /// ToggleFolderRecursive command.
+        /// </summary>
+        public RelayCommand ToggleFolderRecursive
+        {
+            get { return _ToggleFolderRecursive = _ToggleFolderRecursive ?? new RelayCommand(ToggleFolderRecursive_Executed); }
+        }
+
+        //
+        private RelayCommand _ToggleFolderRecursive;
+
+        //
+        private void ToggleFolderRecursive_Executed()
+        {
+            this.FolderCollection.FolderParameter.IsFolderRecursive = !this.FolderCollection.FolderParameter.IsFolderRecursive;
+        }
+
+
+
+
 
         /// <summary>
         /// フォルダーリスト更新
@@ -649,7 +680,7 @@ namespace NeeView
             if (FolderCollection == null) return;
             var param = (FolderOrderParams)e.Parameter;
             ////this.FolderListViewModel?.SetFolderOrder(param.FolderOrder);
-            this.FolderCollection.FolderCollectionParameter.FolderOrder = param.FolderOrder;
+            this.FolderCollection.FolderParameter.FolderOrder = param.FolderOrder;
         }
 
         /// <summary>
@@ -663,7 +694,7 @@ namespace NeeView
 
             var param = (FolderOrderParams)e.Parameter;
             ////param.FolderOrder = this.FolderListViewModel.GetFolderOrder();
-            param.FolderOrder = this.FolderCollection.FolderCollectionParameter.FolderOrder;
+            param.FolderOrder = this.FolderCollection.FolderParameter.FolderOrder;
         }
 
         /// <summary>
@@ -675,7 +706,7 @@ namespace NeeView
         {
             ////this.FolderListViewModel?.ToggleFolderOrder();
             if (this.FolderCollection?.Items == null) return;
-            this.FolderCollection.FolderCollectionParameter.FolderOrder = this.FolderCollection.FolderCollectionParameter.FolderOrder.GetToggle();
+            this.FolderCollection.FolderParameter.FolderOrder = this.FolderCollection.FolderParameter.FolderOrder.GetToggle();
         }
 
 
@@ -776,7 +807,7 @@ namespace NeeView
             int index = this.SelectedIndex;
             if (index < 0) return null;
 
-            int next = (this.FolderCollection.FolderCollectionParameter.FolderOrder == FolderOrder.Random)
+            int next = (this.FolderCollection.FolderParameter.FolderOrder == FolderOrder.Random)
                 ? (index + this.FolderCollection.Items.Count + offset) % this.FolderCollection.Items.Count
                 : index + offset;
 

@@ -33,7 +33,7 @@ namespace NeeView
         SkipSamePlace = (1 << 8), // 同じフォルダーならば読み込まない
         AutoRecursive = (1 << 9), // 自動再帰
         Resume = (1 << 10), // 履歴情報から全て復元
-        //Rename = (1 << 11), // 名前変更して開く
+        DefaultRecursive = (1 << 11), // 再帰、ただし履歴が優先
     };
 
     /// <summary>

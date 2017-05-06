@@ -44,9 +44,6 @@ namespace NeeView
         // フォルダーリストで開いていた場所
         public string LastFolder { get; set; }
 
-        // フォルダーとソートの種類
-        private Dictionary<string, FolderOrder> _folderOrders;
-
         // 履歴制限
         private int _limitSize;
 
@@ -60,31 +57,33 @@ namespace NeeView
 
 
         // フォルダー設定
-        public void SetFolderOrder(string path, FolderOrder order)
+        private Dictionary<string, FolderParameter.Memento> _folders = new Dictionary<string, FolderParameter.Memento>();
+
+        // フォルダー設定
+        public void SetFolderMemento(string path, FolderParameter.Memento memento)
         {
             path = path ?? "<<root>>";
 
-            // 名前順は記憶しない。それ以外の場合記憶する
-            if (order == FolderOrder.FileName)
+            // 標準設定は記憶しない
+            if (memento.IsDefault)
             {
-                _folderOrders.Remove(path);
+                _folders.Remove(path);
             }
             else
             {
-                _folderOrders[path] = order;
+                _folders[path] = memento;
             }
         }
 
         // フォルダー設定取得
-        public FolderOrder GetFolderOrder(string path)
+        public FolderParameter.Memento GetFolderMemento(string path)
         {
             path = path ?? "<<root>>";
 
-            FolderOrder order;
-            _folderOrders.TryGetValue(path, out order);
-            return order;
+            FolderParameter.Memento memento;
+            _folders.TryGetValue(path, out memento);
+            return memento ?? FolderParameter.Memento.Default;
         }
-
 
         /// <summary>
         /// 
@@ -92,7 +91,6 @@ namespace NeeView
         public BookHistory()
         {
             Items = new LinkedList<BookMementoUnit>();
-            _folderOrders = new Dictionary<string, FolderOrder>();
         }
 
         // 要素数
@@ -287,7 +285,7 @@ namespace NeeView
             var unit = ModelContext.BookMementoCollection.Find(place);
             return unit?.HistoryNode != null ? unit : null;
         }
-        
+
         // 最近使った履歴のリストアップ
         public List<Book.Memento> ListUp(int size)
         {
@@ -347,7 +345,7 @@ namespace NeeView
             public string LastFolder { get; set; }
 
             [DataMember(Order = 8, EmitDefaultValue = false)]
-            public Dictionary<string, FolderOrder> FolderOrders { get; set; }
+            public Dictionary<string, FolderOrder> FolderOrders { get; set; } // no used (ver.22)
 
             [DataMember(Order = 12)]
             public int LimitSize { get; set; }
@@ -358,11 +356,14 @@ namespace NeeView
             [DataMember(Order = 19)]
             public bool IsKeepFolderStatus { get; set; }
 
+            [DataMember]
+            public Dictionary<string, FolderParameter.Memento> Folders { get; set; }
+
+
             //
             private void Constructor()
             {
                 Items = new List<Book.Memento>();
-                FolderOrders = new Dictionary<string, FolderOrder>();
                 LimitSize = -1;
                 IsKeepFolderStatus = true;
             }
@@ -426,7 +427,7 @@ namespace NeeView
 
             memento._Version = App.Config.ProductVersionNumber;
             memento.Items = this.Items.Select(e => e.Memento).ToList();
-            memento.FolderOrders = _folderOrders;
+            memento.Folders = _folders;
             memento.LastFolder = this.LastFolder;
             memento.LimitSize = _limitSize;
             memento.LimitSpan = _limitSpan;
@@ -441,7 +442,7 @@ namespace NeeView
                 // フォルダー保存制限
                 if (!memento.IsKeepFolderStatus)
                 {
-                    memento.FolderOrders = null;
+                    memento.Folders = null;
                     memento.LastFolder = null;
                 }
             }
@@ -453,12 +454,19 @@ namespace NeeView
         public void Restore(Memento memento, bool fromLoad)
         {
             this.LastFolder = memento.LastFolder;
-            _folderOrders = memento.FolderOrders;
+            _folders = memento.Folders ?? _folders;
             _limitSize = memento.LimitSize;
             _limitSpan = memento.LimitSpan;
             IsKeepFolderStatus = memento.IsKeepFolderStatus;
 
             this.Load(fromLoad ? Limit(memento.Items) : memento.Items);
+
+            // ver.22
+            if (memento.FolderOrders != null)
+            {
+                Debug.WriteLine("[[Compatible]]: FolderOrders");
+                _folders = memento.FolderOrders.ToDictionary(e => e.Key, e => new FolderParameter.Memento() { FolderOrder = e.Value });
+            }
         }
 
 

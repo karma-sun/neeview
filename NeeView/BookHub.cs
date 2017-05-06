@@ -603,7 +603,7 @@ namespace NeeView
         {
             // 既定の設定
             var memento = GetBookMementoDefault().Clone();
-            memento.IsRecursiveFolder = false;
+            memento.IsRecursiveFolder = option.HasFlag(BookLoadOption.DefaultRecursive);
             memento.Page = null;
 
             if (unit != null)

@@ -240,6 +240,38 @@ namespace NeeView
             }
         }
 
+        // 全履歴削除
+        public void RemoveAll()
+        {
+            foreach (var item in Items)
+            {
+                item.HistoryNode = null;
+            }
+            Items.Clear();
+            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
+        }
+
+        // 無効な履歴削除
+        public void RemoveUnlinked()
+        {
+            var node = Items.First;
+            while (node != null)
+            {
+                var next = node.Next;
+                var place = node.Value.Memento.Place;
+                if (!System.IO.File.Exists(place) && !System.IO.Directory.Exists(place))
+                {
+                    Debug.WriteLine($"HistoryRemove: {place}");
+                    Items.Remove(node);
+                    node.Value.HistoryNode = null;
+                }
+                node = next;
+            }
+
+            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
+        }
+
+
         // 履歴数制限 現在のリスト
         private bool LimitNow()
         {

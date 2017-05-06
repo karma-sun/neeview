@@ -178,6 +178,27 @@ namespace NeeView
             return unit;
         }
 
+        // 無効なブックマークを削除
+        public void RemoveUnlinked()
+        {
+            // 削除項目収集
+            var unlinked = Items.Where(e =>
+            {
+                var place = e.Value.Memento.Place;
+                return (!System.IO.File.Exists(place) && !System.IO.Directory.Exists(place));
+            })
+            .ToList();
+
+            // 削除実行
+            foreach(var node in unlinked)
+            {
+                Debug.WriteLine($"BookmarkRemove: {node.Value.Memento.Place}");
+                Items.Remove(node);
+                node.Value.BookmarkNode = null;
+            }
+            BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
+        }
+
         // 更新
         public void Update(Book book)
         {

@@ -272,7 +272,7 @@
     <Compile Include="SidePanels\Pagemark\PagemarkListViewl.xaml.cs">
       <DependentUpon>PagemarkListViewl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PagemarkCollection.cs" />
+    <Compile Include="SidePanels\Pagemark\PagemarkCollection.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkCollection.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListView.xaml.cs">
       <DependentUpon>BookmarkListView.xaml</DependentUpon>

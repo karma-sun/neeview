@@ -151,6 +151,35 @@ namespace NeeView
         }
 
 
+        // 無効なページマークを削除
+        public void RemoveUnlinked()
+        {
+            // 削除項目収集
+            var unlinked = Items.Where(e =>
+            {
+                var place = e.Value.Memento.Place;
+                return (!System.IO.File.Exists(place) && !System.IO.Directory.Exists(place));
+            })
+            .ToList();
+
+            // 削除実行
+            foreach (var node in unlinked)
+            {
+                var place = node.Value.Memento.Place;
+
+                Debug.WriteLine($"PagemarkRemove.Book: {place}");
+                Items.Remove(node);
+                node.Value.PagemarkNode = null;
+
+                foreach (var page in Marks.Where(e => e.Place == place).ToList())
+                {
+                    Debug.WriteLine($"PagemarkRemove.Page: {place} - {page.EntryName}");
+                    Marks.Remove(page);
+                }
+            }
+        }
+
+
         // 更新
         public void Update(Book book)
         {

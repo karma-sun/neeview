@@ -11,6 +11,8 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using NeeView.Windows.Input;
 using System.Runtime.Serialization;
+using System.Windows.Input;
+using System.Linq;
 
 namespace NeeView
 {
@@ -39,9 +41,6 @@ namespace NeeView
         }
         public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanging;
         public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanged;
-
-
-
 
         #region Property: Items
         private ObservableCollection<BookMementoUnit> _items;
@@ -92,14 +91,24 @@ namespace NeeView
         private void InitializeMoreMenu()
         {
             var menu = new ContextMenu();
-            //menu.Items.Add(CreateCommandMenuItem("", CommandType.ToggleVisiblePageList, vm));
-            //menu.Items.Add(new Separator());
             menu.Items.Add(CreateListItemStyleMenuItem("一覧表示", PanelListItemStyle.Normal));
             menu.Items.Add(CreateListItemStyleMenuItem("コンテンツ表示", PanelListItemStyle.Content));
             menu.Items.Add(CreateListItemStyleMenuItem("バナー表示", PanelListItemStyle.Banner));
-
+            menu.Items.Add(new Separator());
+            menu.Items.Add(CreateCommandMenuItem("無効な履歴を削除", RemoveUnlinkedCommand));
+            menu.Items.Add(CreateCommandMenuItem("すべての履歴を削除", RemoveAllCommand));
             this.MoreMenu = menu;
         }
+
+        //
+        private MenuItem CreateCommandMenuItem(string header, ICommand command)
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.Command = command;
+            return item;
+        }
+
 
         //
         private MenuItem CreateCommandMenuItem(string header, CommandType command, object source)
@@ -230,6 +239,8 @@ namespace NeeView
                 Items = new ObservableCollection<BookMementoUnit>(ModelContext.BookHistory.Items);
                 SelectedItem = Items.Count > 0 ? item : null;
 
+                RemoveAllCommand.RaiseCanExecuteChanged();
+
                 App.Current.Dispatcher.Invoke(() => SelectedItemChanged?.Invoke(this, args));
             }
         }
@@ -287,5 +298,45 @@ namespace NeeView
                 ThumbnailManager.Current.RequestThumbnail(Items, QueueElementPriority.HistoryThumbnail, start, count, margin, direction);
             }
         }
+
+        /// <summary>
+        /// RemoveAllCommand command
+        /// </summary>
+        public RelayCommand RemoveAllCommand
+        {
+            get { return _removeAllCommand = _removeAllCommand ?? new RelayCommand(RemoveAll_Executed); }
+        }
+
+        private RelayCommand _removeAllCommand;
+
+        private void RemoveAll_Executed()
+        {
+            if (ModelContext.BookHistory.Items.Any())
+            {
+                var result = MessageBox.Show("すべての履歴を削除します。よろしいですか？", "履歴削除", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (result != MessageBoxResult.OK) return;
+            }
+
+            ModelContext.BookHistory.RemoveAll();
+        }
+
+
+        /// <summary>
+        /// RemoveUnlinkedCommand command.
+        /// </summary>
+        public RelayCommand RemoveUnlinkedCommand
+        {
+            get { return _removeUnlinkedCommand = _removeUnlinkedCommand ?? new RelayCommand(RemoveUnlinkedCommand_Executed); }
+        }
+
+        //
+        private RelayCommand _removeUnlinkedCommand;
+
+        //
+        private void RemoveUnlinkedCommand_Executed()
+        {
+            ModelContext.BookHistory.RemoveUnlinked();
+        }
+
     }
 }

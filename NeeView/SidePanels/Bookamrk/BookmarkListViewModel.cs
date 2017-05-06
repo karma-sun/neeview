@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace NeeView
 {
@@ -63,13 +64,21 @@ namespace NeeView
         private void InitializeMoreMenu()
         {
             var menu = new ContextMenu();
-            //menu.Items.Add(CreateCommandMenuItem("", CommandType.ToggleVisiblePageList, vm));
-            //menu.Items.Add(new Separator());
             menu.Items.Add(CreateListItemStyleMenuItem("一覧表示", PanelListItemStyle.Normal));
             menu.Items.Add(CreateListItemStyleMenuItem("コンテンツ表示", PanelListItemStyle.Content));
             menu.Items.Add(CreateListItemStyleMenuItem("バナー表示", PanelListItemStyle.Banner));
-
+            menu.Items.Add(new Separator());
+            menu.Items.Add(CreateCommandMenuItem("無効なブックマークを削除", RemoveUnlinkedCommand));
             this.MoreMenu = menu;
+        }
+
+        //
+        private MenuItem CreateCommandMenuItem(string header, ICommand command)
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.Command = command;
+            return item;
         }
 
         //
@@ -179,6 +188,24 @@ namespace NeeView
             {
                 ThumbnailManager.Current.RequestThumbnail(Bookmark.Items, QueueElementPriority.BookmarkThumbnail, start, count, margin, direction);
             }
+        }
+
+
+        /// <summary>
+        /// 無効なブックマークを削除するコマンド
+        /// </summary>
+        public RelayCommand RemoveUnlinkedCommand
+        {
+            get { return _removeUnlinkedCommand = _removeUnlinkedCommand ?? new RelayCommand(RemoveUnlinkedCommand_Executed); }
+        }
+
+        //
+        private RelayCommand _removeUnlinkedCommand;
+
+        //
+        private void RemoveUnlinkedCommand_Executed()
+        {
+            ModelContext.Bookmarks.RemoveUnlinked();
         }
     }
 }

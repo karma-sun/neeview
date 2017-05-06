@@ -115,7 +115,7 @@ namespace NeeView
 
 
     /// <summary>
-    /// 
+    /// 履歴
     /// </summary>
     public class BookMementoCollection
     {

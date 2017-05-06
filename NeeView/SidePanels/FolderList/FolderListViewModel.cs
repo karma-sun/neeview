@@ -898,7 +898,7 @@ namespace NeeView
             if (invalidCharsIndex >= 0)
             {
                 // 確認
-                MessageBox.Show($"ファイル名に使用できない文字が含まれています。( {newName[invalidCharsIndex]} )", "名前の変更の確認", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBoxEx.Show(App.Current.MainWindow, $"ファイル名に使用できない文字が含まれています。( {newName[invalidCharsIndex]} )", "名前の変更の確認", MessageBoxButton.OK, MessageBoxExImage.Warning);
                 return false;
             }
 
@@ -909,8 +909,8 @@ namespace NeeView
                 var dstExt = System.IO.Path.GetExtension(dst);
                 if (string.Compare(srcExt, dstExt, true) != 0)
                 {
-                    var resut = MessageBox.Show($"拡張子を変更すると、使えなくなる可能性があります。\n\n変更しますか？", "名前の変更の確認", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                    if (resut != MessageBoxResult.OK)
+                    var resut = MessageBoxEx.Show(App.Current.MainWindow, $"拡張子を変更すると、使えなくなる可能性があります。\n\n変更しますか？", "名前の変更の確認", MessageBoxButton.OKCancel, MessageBoxExImage.Warning);
+                    if (resut != true)
                     {
                         return false;
                     }

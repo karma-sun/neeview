@@ -904,7 +904,7 @@ namespace NeeView
         { 
             if (value.IsLocked)
             {
-                MessageBox.Show("この操作は変更できません", "変更不可", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBoxEx.Show(this, "この操作は変更できません", "変更不可", MessageBoxButton.OK, MessageBoxExImage.Warning);
                 return;
             }
 
@@ -930,9 +930,9 @@ namespace NeeView
         //
         private void ResetDragActionSettingButton_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show("全てのドラッグ操作を初期化します。よろしいですか？", "ドラッグ操作初期化", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            var result = MessageBoxEx.Show(this, "全てのドラッグ操作を初期化します。よろしいですか？", "ドラッグ操作初期化", MessageBoxButton.OKCancel, MessageBoxExImage.Warning);
 
-            if (result == MessageBoxResult.OK)
+            if (result == true)
             {
                 Setting.DragActionMemento = DragActionTable.CreateDefaultMemento();
                 UpdateDragActionList();

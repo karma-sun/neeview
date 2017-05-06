@@ -239,8 +239,6 @@ namespace NeeView
                 Items = new ObservableCollection<BookMementoUnit>(ModelContext.BookHistory.Items);
                 SelectedItem = Items.Count > 0 ? item : null;
 
-                RemoveAllCommand.RaiseCanExecuteChanged();
-
                 App.Current.Dispatcher.Invoke(() => SelectedItemChanged?.Invoke(this, args));
             }
         }
@@ -313,8 +311,8 @@ namespace NeeView
         {
             if (ModelContext.BookHistory.Items.Any())
             {
-                var result = MessageBox.Show("すべての履歴を削除します。よろしいですか？", "履歴削除", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                if (result != MessageBoxResult.OK) return;
+                var result = MessageBoxEx.Show(App.Current.MainWindow, "すべての履歴を削除します。よろしいですか？", "履歴削除", MessageBoxButton.OKCancel, MessageBoxExImage.Warning);
+                if (result != true) return;
             }
 
             ModelContext.BookHistory.RemoveAll();

@@ -10,8 +10,30 @@ namespace NeeView
     /// </summary>
     public enum FolderIconLayout
     {
-        Left, // Explorer風
-        Right, // 項目の右端
+        Default, // 項目の右端
+        Explorer, // Explorer風
+    }
+
+    /// <summary>
+    /// フォルダーアイコン表示方法をBooleanに変換
+    /// </summary>
+    public class FolderIconLayoutToBooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is FolderIconLayout v0))
+                return false;
+
+            return v0 == FolderIconLayout.Explorer;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is bool v0))
+                return FolderIconLayout.Default;
+
+            return v0 ? FolderIconLayout.Explorer : FolderIconLayout.Default;
+        }
     }
 
     /// <summary>

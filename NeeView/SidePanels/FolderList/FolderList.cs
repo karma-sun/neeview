@@ -38,6 +38,18 @@ namespace NeeView
 
 
         /// <summary>
+        /// フォルダーアイコン表示位置
+        /// </summary>
+        public FolderIconLayout FolderIconLayout
+        {
+            get { return _folderIconLayout; }
+            set { if (_folderIconLayout != value) { _folderIconLayout = value; RaisePropertyChanged(); } }
+        }
+
+        private FolderIconLayout _folderIconLayout = FolderIconLayout.Default;
+
+
+        /// <summary>
         /// IsVisibleHistoryMark property.
         /// </summary>
         public bool IsVisibleHistoryMark
@@ -61,10 +73,7 @@ namespace NeeView
         private bool _isVisibleBookmarkMark = true;
 
 
-
-        /// <summary>
-        /// 
-        /// </summary>
+        //
         public BookHub BookHub { get; private set; }
 
         //
@@ -72,12 +81,10 @@ namespace NeeView
 
 
         /// <summary>
-        /// フォルダーアイコン表示位置
+        /// Constructor
         /// </summary>
-        public FolderIconLayout FolderIconLayout => Preference.Current.folderlist_iconlayout;
-
-
-        //
+        /// <param name="bookHub"></param>
+        /// <param name="folderPanel"></param>
         public FolderList(BookHub bookHub, FolderPanelModel folderPanel)
         {
             this.FolderPanel = folderPanel;
@@ -117,6 +124,9 @@ namespace NeeView
             public PanelListItemStyle PanelListItemStyle { get; set; }
 
             [DataMember]
+            public FolderIconLayout FolderIconLayout { get; set; }
+
+            [DataMember]
             public bool IsVisibleHistoryMark { get; set; }
 
             [DataMember]
@@ -128,6 +138,7 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.PanelListItemStyle = this.PanelListItemStyle;
+            memento.FolderIconLayout = this.FolderIconLayout;
             memento.IsVisibleHistoryMark = this.IsVisibleHistoryMark;
             memento.IsVisibleBookmarkMark = this.IsVisibleBookmarkMark;
             return memento;
@@ -139,11 +150,12 @@ namespace NeeView
             if (memento == null) return;
 
             this.PanelListItemStyle = memento.PanelListItemStyle;
+            this.FolderIconLayout = memento.FolderIconLayout;
             this.IsVisibleHistoryMark = memento.IsVisibleHistoryMark;
             this.IsVisibleBookmarkMark = memento.IsVisibleBookmarkMark;
 
             // Preference反映
-            RaisePropertyChanged(nameof(FolderIconLayout));
+            ///RaisePropertyChanged(nameof(FolderIconLayout));
         }
 
         #endregion

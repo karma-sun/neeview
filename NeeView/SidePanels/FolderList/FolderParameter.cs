@@ -98,24 +98,15 @@ namespace NeeView
         //
         private void Save()
         {
-            ////ModelContext.BookHistory.SetFolderOrder(Path, _folderOrder);
             ModelContext.BookHistory.SetFolderMemento(Path, CreateMemento());
         }
 
         //
         private void Load()
         {
-            ////_folderOrder = ModelContext.BookHistory.GetFolderOrder(Path);
             var memento = ModelContext.BookHistory.GetFolderMemento(Path);
             Restore(memento);
         }
-
-        /*
-        public FolderParameter Clone()
-        {
-            return (FolderParameter)this.MemberwiseClone();
-        }
-        */
 
 
         #region Memento

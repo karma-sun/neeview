@@ -755,11 +755,6 @@ namespace NeeView
 
 
         /// <summary>
-        /// フォルダーアイコン表示方法
-        /// </summary>
-        public FolderIconLayout FolderIconLayout => Preference.Current.folderlist_iconlayout;
-
-        /// <summary>
         /// IsRenaming property.
         /// </summary>
         private bool _isRenaming;

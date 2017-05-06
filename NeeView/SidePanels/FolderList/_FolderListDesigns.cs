@@ -45,7 +45,7 @@ namespace NeeView
     public class FolderListDataContext_Design
     {
         public PanelListItemStyle PanelListItemStyle => PanelListItemStyle.Content;
-        public FolderIconLayout FolderIconLayout => FolderIconLayout.Right;
+        public FolderIconLayout FolderIconLayout => FolderIconLayout.Default;
 
         public object FolderCollection => new
         {

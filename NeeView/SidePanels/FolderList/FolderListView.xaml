@@ -269,14 +269,14 @@
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Normal"/>
-                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Right"/>
+                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Default"/>
                             </MultiDataTrigger.Conditions>
                             <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder}"/>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Normal"/>
-                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Left"/>
+                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Explorer"/>
                             </MultiDataTrigger.Conditions>
                             <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder2}"/>
                         </MultiDataTrigger>
@@ -284,14 +284,14 @@
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Content"/>
-                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Right"/>
+                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Default"/>
                             </MultiDataTrigger.Conditions>
                             <Setter Property="ItemTemplate" Value="{StaticResource PictureFolder}"/>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Content"/>
-                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Left"/>
+                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Explorer"/>
                             </MultiDataTrigger.Conditions>
                             <Setter Property="ItemTemplate" Value="{StaticResource PictureFolder2}"/>
                         </MultiDataTrigger>
@@ -299,14 +299,14 @@
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Banner"/>
-                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Right"/>
+                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Default"/>
                             </MultiDataTrigger.Conditions>
                             <Setter Property="ItemTemplate" Value="{StaticResource BannerFolder}"/>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Banner"/>
-                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Left"/>
+                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Explorer"/>
                             </MultiDataTrigger.Conditions>
                             <Setter Property="ItemTemplate" Value="{StaticResource BannerFolder2}"/>
                         </MultiDataTrigger>

@@ -12,8 +12,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
+        ShowInTaskbar="False"
         UseLayoutRounding="True"
-        Title="Caption" ResizeMode="NoResize" SizeToContent="Height" Width="600" WindowStyle="ToolWindow">
+        Title="MessageDialog" ResizeMode="NoResize" SizeToContent="Height" Width="600" WindowStyle="ToolWindow">
 
     <Window.Resources>
         <Style TargetType="Button">
@@ -21,7 +22,7 @@
             <Setter Property="MinWidth" Value="100"/>
             <Setter Property="Height" Value="40" />
             <Setter Property="Padding" Value="20,10"/>
-            <Setter Property="Margin" Value="10,0,0,0"/>
+            <Setter Property="Margin" Value="20,0,0,0"/>
 
             <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
             <Setter Property="Template">
@@ -50,18 +51,14 @@
         </Style>
     </Window.Resources>
 
-    <DockPanel Margin="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <DockPanel Margin="30,20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
         <StackPanel x:Name="ButtonPanel" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,20,0,0">
             <Button Content="OK" Foreground="White" Background="RoyalBlue"/>
         </StackPanel>
 
-        <TextBlock DockPanel.Dock="Top" Text="{Binding Title}" FontSize="24" Margin="0,5"/>
-
-        <ContentControl x:Name="Message" Margin="0,5" IsTabStop="False">
-            <TextBlock Text="MainContent" TextWrapping="Wrap"/>
-        </ContentControl>
-
+        <TextBlock x:Name="Caption" DockPanel.Dock="Top" Text="Title" FontSize="24" Margin="0,5"/>
+        <ContentControl x:Name="Message" Margin="0,5" IsTabStop="False" Content="Content"/>
     </DockPanel>
 
 </Window>

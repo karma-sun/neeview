@@ -92,6 +92,12 @@ namespace NeeView
         {
             var preference = Preference.Current;
 
+            // banner size
+            int bannerWidth = Math.Min(preference.banner_width, 512); 
+            int bannerHeight = bannerWidth / 4;
+            App.Current.Resources["BannerWidth"] = (double)bannerWidth;
+            App.Current.Resources["BannerHeight"] = (double)bannerHeight;
+
             // Jobワーカーサイズ
             JobEngine.Start(preference.loader_thread_size);
 

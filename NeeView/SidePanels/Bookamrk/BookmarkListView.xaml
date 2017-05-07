@@ -81,11 +81,11 @@
                 <i:Interaction.Behaviors>
                     <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="BookmarkItem" DragDropData="{Binding}" />
                 </i:Interaction.Behaviors>
-                <DockPanel Margin="0" Height="80" HorizontalAlignment="Stretch" LastChildFill="False">
+                <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
                     <DockPanel DockPanel.Dock="Bottom" Margin="2" >
                         <TextBlock Style="{StaticResource FolderName}" TextAlignment="Left"/>
                     </DockPanel>
-                    <local:FolderListBanner Width="256" DataContext="{Binding Value.ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                    <local:FolderListBanner DataContext="{Binding Value.ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
             </Border>
         </DataTemplate>
@@ -101,7 +101,7 @@
                 <TextBlock Text="ブックマーク" Foreground="Gray" VerticalAlignment="Top" Margin="2,0"/>
             </StackPanel>
             <DockPanel LastChildFill="False">
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" ToolTip="設定" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </ToggleButton>
             </DockPanel>

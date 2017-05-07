@@ -19,6 +19,10 @@
 
                 <ResourceDictionary>
 
+                    <!-- Banner Size -->
+                    <system:Double x:Key="BannerWidth">200.0</system:Double>
+                    <system:Double x:Key="BannerHeight">50.0</system:Double>
+
                     <!-- Window Style -->
                     <Style x:Key="DefaultWindowStyle" TargetType="Window">
                         <!-- <Setter Property="FontFamily" Value="Meiryo"/> -->

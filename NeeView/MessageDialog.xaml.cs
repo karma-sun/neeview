@@ -75,6 +75,7 @@ namespace NeeView
         public MessageDialog(string message, string title) : this()
         {
             this.Title = title;
+            this.Caption.Text = title;
             this.Message.Content = CreateTextContent(message);
         }
 
@@ -82,6 +83,7 @@ namespace NeeView
         public MessageDialog(FrameworkElement content, string title) : this()
         {
             this.Title = title;
+            this.Caption.Text = title;
             this.Message.Content = content;
         }
 

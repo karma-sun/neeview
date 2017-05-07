@@ -176,13 +176,16 @@ namespace NeeView
         public bool window_chrome { get; set; }
 
         [DataMember, DefaultValue(false)]
-        [PropertyMember("フルスクリーン時のタイトルバー操作", Tips = "フルスクリーン時のメニュー上でのタイトルバー操作(ダブルクリックやドラッグ)を有効にします。\n※Windows7ではドラッグが正常に動作しません。")]
+        [PropertyMember("フルスクリーン時のタイトルバー操作", Tips = "フルスクリーン時のメニュー上でのタイトルバー操作(ダブルクリックやドラッグ)を有効にします")]
         public bool window_captionemunate_fullscreen { get; set; }
 
         [DataMember, DefaultValue(1.0)]
         [PropertyMember("長押し判定時間(秒)", Tips = "長押しの判定時間です", Flags = PropertyMemberFlag.None)]
         public double input_longbuttondown_time { get; set; }
 
+        [DataMember, DefaultValue(200)]
+        [PropertyMember("バナーサイズ", Tips = "バナーサイズの横幅の値です。サムネイル画像を流用しているため、大きいサイズほど画像が荒くなります")]
+        public int banner_width { get; set; }
 
         /// <summary>
         /// 

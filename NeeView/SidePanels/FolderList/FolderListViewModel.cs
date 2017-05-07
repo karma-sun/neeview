@@ -124,7 +124,7 @@ namespace NeeView
         }
 
         //
-        private MenuItem CreateRecursiveFlagMenuItem(string header )
+        private MenuItem CreateRecursiveFlagMenuItem(string header)
         {
             var item = new MenuItem();
             item.Header = header;
@@ -856,26 +856,47 @@ namespace NeeView
         /// ファイルを削除
         /// </summary>
         /// <param name="info"></param>
-        public void Remove(FolderItem info)
+        public async Task RemoveAsync(FolderItem info)
         {
             if (info.IsEmpty) return;
 
-            var stackPanel = new StackPanel();
-            stackPanel.Orientation = Orientation.Horizontal;
-            var thumbnail = new Image();
-            thumbnail.SnapsToDevicePixels = true;
-            thumbnail.Source = info.Icon;
-            thumbnail.Width = 32;
-            thumbnail.Height = 32;
-            thumbnail.Margin = new System.Windows.Thickness(0, 0, 4, 0);
-            stackPanel.Children.Add(thumbnail);
-            var textblock = new TextBlock();
-            textblock.Text = info.Path;
-            textblock.VerticalAlignment = VerticalAlignment.Center;
-            stackPanel.Children.Add(textblock);
-            stackPanel.Margin = new Thickness(0, 0, 0, 20);
+            if (Preference.Current.file_remove_confirm)
+            {
+                bool isDirectory = System.IO.Directory.Exists(info.Path);
+                string itemType = isDirectory ? "フォルダー" : "ファイル";
 
-            Messenger.Send(this, new MessageEventArgs("RemoveFile") { Parameter = new RemoveFileParams() { Path = info.Path, Visual = stackPanel } });
+                var dockPanel = new DockPanel();
+
+                var message = new TextBlock();
+                message.Text = $"この{itemType}をごみ箱に移動しますか？";
+                message.Margin = new Thickness(0, 0, 0, 10);
+                DockPanel.SetDock(message, Dock.Top);
+                dockPanel.Children.Add(message);
+
+                var thumbnail = new Image();
+                thumbnail.SnapsToDevicePixels = true;
+                thumbnail.Source = info.Icon;
+                thumbnail.Width = 32;
+                thumbnail.Height = 32;
+                thumbnail.Margin = new Thickness(0, 0, 4, 0);
+                dockPanel.Children.Add(thumbnail);
+
+                var textblock = new TextBlock();
+                textblock.Text = info.Path;
+                textblock.VerticalAlignment = VerticalAlignment.Bottom;
+                textblock.Margin = new Thickness(0, 0, 0, 2);
+                dockPanel.Children.Add(textblock);
+
+                //
+                var dialog = new MessageDialog(dockPanel, $"{itemType}を削除します");
+                dialog.Commands.Add(UICommands.Remove);
+                dialog.Commands.Add(UICommands.Cancel);
+                var answer = dialog.ShowDialog();
+
+                if (answer != UICommands.Remove) return;
+            }
+
+            await this.BookHub.RemoveFileAsync(info.Path);
         }
 
 
@@ -885,7 +906,7 @@ namespace NeeView
         /// <param name="file"></param>
         /// <param name="newName"></param>
         /// <returns></returns>
-        public bool Rename(FolderItem file, string newName)
+        public async Task<bool> RenameAsync(FolderItem file, string newName)
         {
             string src = file.Path;
             string dst = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(src), newName);
@@ -897,8 +918,10 @@ namespace NeeView
             int invalidCharsIndex = newName.IndexOfAny(invalidChars);
             if (invalidCharsIndex >= 0)
             {
-                // 確認
-                MessageBoxEx.Show(App.Current.MainWindow, $"ファイル名に使用できない文字が含まれています。( {newName[invalidCharsIndex]} )", "名前の変更の確認", MessageBoxButton.OK, MessageBoxExImage.Warning);
+                //
+                var dialog = new MessageDialog($"ファイル名に使用できない文字が含まれています。( {newName[invalidCharsIndex]} )", "名前を変更できません");
+                dialog.ShowDialog();
+
                 return false;
             }
 
@@ -909,8 +932,11 @@ namespace NeeView
                 var dstExt = System.IO.Path.GetExtension(dst);
                 if (string.Compare(srcExt, dstExt, true) != 0)
                 {
-                    var resut = MessageBoxEx.Show(App.Current.MainWindow, $"拡張子を変更すると、使えなくなる可能性があります。\n\n変更しますか？", "名前の変更の確認", MessageBoxButton.OKCancel, MessageBoxExImage.Warning);
-                    if (resut != true)
+                    var dialog = new MessageDialog($"拡張子を変更すると、使えなくなる可能性があります。\nよろしいですか？", "拡張子を変更します");
+                    dialog.Commands.Add(UICommands.Yes);
+                    dialog.Commands.Add(UICommands.No);
+                    var answer = dialog.ShowDialog();
+                    if (answer != UICommands.Yes)
                     {
                         return false;
                     }
@@ -939,16 +965,19 @@ namespace NeeView
                 while (System.IO.File.Exists(dst) || System.IO.Directory.Exists(dst));
 
                 // 確認
-                var resut = MessageBox.Show($"{System.IO.Path.GetFileName(dstBase)} は既に存在します。\n{System.IO.Path.GetFileName(dst)} に名前を変更しますか？", "名前の変更の確認", MessageBoxButton.OKCancel);
-                if (resut != MessageBoxResult.OK)
+                var dialog = new MessageDialog($"{System.IO.Path.GetFileName(dstBase)} は既に存在しています。\n{System.IO.Path.GetFileName(dst)} に名前を変更しますか？", "同じ名前のファイルが存在しています");
+                dialog.Commands.Add(new UICommand("名前を変える"));
+                dialog.Commands.Add(UICommands.Cancel);
+                var answer = dialog.ShowDialog();
+                if (answer != dialog.Commands[0])
                 {
                     return false;
                 }
             }
 
             // 名前変更実行
-            var result = Messenger.Send(this, new MessageEventArgs("RenameFile") { Parameter = new RenameFileParams() { OldPath = src, Path = dst } });
-            return result == true ? true : false;
+            var result = await this.BookHub.RenameFileAsync(src, dst);
+            return result;
         }
 
 

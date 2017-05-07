@@ -157,12 +157,12 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void Remove_Executed(object sender, ExecutedRoutedEventArgs e)
+        public async void Remove_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null)
             {
-                _vm.Remove(item);
+                await _vm.RemoveAsync(item);
             }
         }
 
@@ -187,13 +187,13 @@ namespace NeeView
                     var rename = new RenameControl();
                     rename.Target = textBlock;
                     rename.IsFileName = !item.IsDirectory;
-                    rename.Closing += (s, ev) =>
+                    rename.Closing += async (s, ev) =>
                     {
                         if (ev.OldValue != ev.NewValue)
                         {
                             var newName = item.IsShortcut ? ev.NewValue + ".lnk" : ev.NewValue;
                             //Debug.WriteLine($"{ev.OldValue} => {newName}");
-                            _vm.Rename(item, newName);
+                            await _vm.RenameAsync(item, newName);
                         }
                     };
                     rename.Closed += (s, ev) =>

@@ -1941,7 +1941,7 @@ namespace NeeView
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
-                    Messenger.MessageBox(this, "履歴の読み込みに失敗しました。", _defaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
+                    new MessageDialog($"原因: {e.Message}", "履歴の読み込みに失敗しました").ShowDialog();
                     memento = new BookHistory.Memento();
                 }
             }
@@ -1979,7 +1979,7 @@ namespace NeeView
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
-                    Messenger.MessageBox(this, "ブックマークの読み込みに失敗しました。", _defaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
+                    new MessageDialog($"原因: {e.Message}", "ブックマークの読み込みに失敗しました").ShowDialog();
                     memento = new BookmarkCollection.Memento();
                 }
             }
@@ -2019,7 +2019,7 @@ namespace NeeView
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
-                    Messenger.MessageBox(this, "ページマークの読み込みに失敗しました。", _defaultWindowTitle, MessageBoxButton.OK, MessageBoxExImage.Warning);
+                    new MessageDialog($"原因: {e.Message}", "ページマークの読み込みに失敗しました").ShowDialog();
                     memento = new PagemarkCollection.Memento();
                 }
 
@@ -2734,7 +2734,7 @@ namespace NeeView
             }
             catch (Exception e)
             {
-                Messenger.MessageBox(this, $"コピーに失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
+                new MessageDialog($"原因: {e.Message}", "コピーに失敗しました").ShowDialog();
             }
         }
 

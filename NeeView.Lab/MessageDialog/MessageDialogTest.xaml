@@ -1,0 +1,13 @@
+﻿<Window x:Class="NeeView.Lab.MessageDialogTest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeeView.Lab"
+        mc:Ignorable="d"
+        Title="MessageDialogTest" Height="300" Width="300">
+    <Grid>
+        <Button Content="Click!" Padding="20,10" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Button_Click"/>
+
+    </Grid>
+</Window>

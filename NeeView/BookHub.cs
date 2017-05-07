@@ -419,10 +419,6 @@ namespace NeeView
             ModelContext.Bookmarks.BookmarkChanged += (s, e) => BookmarkChanged?.Invoke(s, e);
             //ModelContext.Pagemarks.PagemarkChanged += (s, e) => PagemarkChanged?.Invoke(s, e);
 
-            // messenger
-            Messenger.AddReciever("RemoveFile", CallRemoveFile);
-            Messenger.AddReciever("RenameFile", CallRenameFile);
-
             // command engine
             _commandEngine = new BookHubCommandEngine();
             _commandEngine.Initialize();
@@ -748,6 +744,12 @@ namespace NeeView
 
 
         /// <summary>
+        /// ロードリクエストカウント.
+        /// 名前変更時の再読込判定に使用される
+        /// </summary>
+        private volatile int _requestLoadCount;
+
+        /// <summary>
         /// リクエスト：フォルダーを開く
         /// </summary>
         /// <param name="path"></param>
@@ -763,6 +765,8 @@ namespace NeeView
             if (CurrentBook?.Place == path && option.HasFlag(BookLoadOption.SkipSamePlace)) return null;
 
             Address = path;
+
+            _requestLoadCount++;
 
             var command = new BookHubCommandLoad(this, new BookHubCommandLoadArgs()
             {
@@ -807,18 +811,12 @@ namespace NeeView
         // 再帰読み込み確認
         public void ConfirmRecursive()
         {
-            // サブフォルダー確認
-            var message = new MessageEventArgs("MessageBox");
-            message.Parameter = new MessageBoxParams()
-            {
-                MessageBoxText = $"\"{CurrentBook.Place}\" には読み込めるファイルがありません。\n\nサブフォルダー(書庫)も読み込みますか？",
-                Caption = "確認",
-                Button = System.Windows.MessageBoxButton.YesNo,
-                Icon = MessageBoxExImage.Question
-            };
-            Messenger.Send(this, message);
+            var dialog = new MessageDialog($"\"{CurrentBook.Place}\" には読み込めるファイルがありません。サブフォルダー(書庫)も読み込みますか？", "サブフォルダーも読み込みますか？");
+            dialog.Commands.Add(UICommands.Yes);
+            dialog.Commands.Add(UICommands.No);
+            var result = dialog.ShowDialog();
 
-            if (message.Result == true)
+            if (result == UICommands.Yes)
             {
                 RequestLoad(CurrentBook.Place, CurrentBook.StartEntry, BookLoadOption.Recursive | BookLoadOption.ReLoad, true);
             }
@@ -1335,7 +1333,7 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
-                    Messenger.MessageBox(this, $"外部アプリ実行に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
+                    new MessageDialog($"原因: {e.Message}", "外部アプリ実行に失敗しました").ShowDialog();
                 }
             }
         }
@@ -1352,7 +1350,7 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
-                    Messenger.MessageBox(this, $"コピーに失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
+                    new MessageDialog($"原因: {e.Message}", "コピーに失敗しました").ShowDialog();
                 }
             }
         }
@@ -1372,7 +1370,7 @@ namespace NeeView
             {
                 if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
                 {
-                    Messenger.MessageBox(this, $"一時フォルダーはブックマークできません", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
+                    new MessageDialog($"原因: 一時フォルダーはブックマークできません", "ブックマークできません").ShowDialog();
                 }
                 else
                 {
@@ -1445,7 +1443,7 @@ namespace NeeView
 
             if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
             {
-                Messenger.MessageBox(this, $"一時フォルダーはページマークできません", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
+                new MessageDialog($"原因: 一時フォルダーはページマークできません", "ページマークできません").ShowDialog();
             }
 
             // マーク登録/解除
@@ -1644,13 +1642,13 @@ namespace NeeView
                         }
                         catch (Exception e)
                         {
-                            Messenger.MessageBox(this, $"ファイル保存に失敗しました\n\n原因: {e.Message}", "エラー", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Error);
+                            new MessageDialog($"原因: {e.Message}", "ファイル保存に失敗しました").ShowDialog();
                         }
                     }
                 }
                 catch (Exception e)
                 {
-                    Messenger.MessageBox(this, $"この画像は出力できません\n\n{e.Message}", "警告", System.Windows.MessageBoxButton.OK, MessageBoxExImage.Warning);
+                    new MessageDialog($"この画像は出力できません。\n原因: {e.Message}", "ファイル保存に失敗しました").ShowDialog();
                     return;
                 }
             }
@@ -1687,21 +1685,44 @@ namespace NeeView
 
             var path = page.GetFilePlace();
 
-            // ビジュアル作成
-            var stackPanel = new StackPanel();
-            stackPanel.Orientation = Orientation.Horizontal;
-            var thumbnail = await new PageVisual(page).CreateVisualContentAsync(new System.Windows.Size(100, 100), true);
-            if (thumbnail != null)
+            if (Preference.Current.file_remove_confirm)
             {
-                thumbnail.Margin = new System.Windows.Thickness(0, 0, 20, 0);
-                stackPanel.Children.Add(thumbnail);
+                bool isDirectory = System.IO.Directory.Exists(path);
+                string itemType = isDirectory ? "フォルダー" : "ファイル";
+
+                // ビジュアル作成
+                var dockPanel = new DockPanel();
+
+                var message = new TextBlock();
+                message.Text = $"この{itemType}をごみ箱に移動しますか？";
+                message.Margin = new System.Windows.Thickness(0, 0, 0, 10);
+                DockPanel.SetDock(message, Dock.Top);
+                dockPanel.Children.Add(message);
+
+                var thumbnail = await new PageVisual(page).CreateVisualContentAsync(new System.Windows.Size(64, 64), true);
+                if (thumbnail != null)
+                {
+                    thumbnail.Margin = new System.Windows.Thickness(0, 0, 20, 0);
+                    dockPanel.Children.Add(thumbnail);
+                }
+
+                var textblock = new TextBlock();
+                textblock.Text = Path.GetFileName(path);
+                textblock.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
+                textblock.Margin = new System.Windows.Thickness(0, 0, 0, 2);
+                dockPanel.Children.Add(textblock);
+
+                //
+                var dialog = new MessageDialog(dockPanel, $"{itemType}を削除します");
+                dialog.Commands.Add(UICommands.Remove);
+                dialog.Commands.Add(UICommands.Cancel);
+                var answer = dialog.ShowDialog();
+
+                if (answer != UICommands.Remove) return;
             }
-            var textblock = new TextBlock();
-            textblock.Text = Path.GetFileName(path);
-            stackPanel.Children.Add(textblock);
 
             // 削除実行
-            var isRemoved = Messenger.Send(this, new MessageEventArgs("RemoveFile") { Parameter = new RemoveFileParams() { Path = path, Visual = stackPanel } });
+            bool isRemoved = await RemoveFileAsync(path);
 
             // ページを本から削除
             if (isRemoved == true && CurrentBook != null)
@@ -1710,103 +1731,61 @@ namespace NeeView
             }
         }
 
-
-
+        
         // ファイルを削除する
-        // RemoveFileメッセージ処理
-        public async void CallRemoveFile(object sender, MessageEventArgs e)
-        {
-            var removeParam = (RemoveFileParams)e.Parameter;
-            var path = removeParam.Path;
-            var visual = removeParam.Visual;
-            var isConfirm = Preference.Current.file_remove_confirm;
+        public async Task<bool> RemoveFileAsync(string path)
+        { 
+            int retryCount = 1;
 
-            if (visual == null)
+            Retry:
+
+            try
             {
-                var textblock = new System.Windows.Controls.TextBlock();
-                textblock.Text = Path.GetFileName(path);
-
-                visual = textblock;
-            }
-
-            bool isDirectory = System.IO.Directory.Exists(path);
-            string itemType = isDirectory ? "フォルダー" : "ファイル";
-
-            // 削除確認
-            var param = new MessageBoxParams()
-            {
-                Caption = "削除の確認",
-                MessageBoxText = "この" + itemType + "をごみ箱に移動しますか？",
-                Button = System.Windows.MessageBoxButton.OKCancel,
-                Icon = MessageBoxExImage.RecycleBin,
-                VisualContent = visual,
-            };
-            var result = isConfirm ? Messenger.Send(sender, new MessageEventArgs("MessageBox") { Parameter = param }) : true;
-
-            //
-            e.Result = result == true;
-
-            // 削除する
-            if (result == true)
-            {
-                int retryCount = 1;
-
-                Retry:
-
-                try
+                // 開いている本を閉じる
+                if (this.Address == path)
                 {
-                    // 開いている本を閉じる
-                    if (this.Address == path)
-                    {
-                        await RequestUnload(true).WaitAsync();
-                    }
-
-                    // ゴミ箱に捨てる
-                    if (isDirectory)
-                    {
-                        Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(path, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
-                    }
-                    else
-                    {
-                        Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(path, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
-                    }
+                    await RequestUnload(true).WaitAsync();
                 }
-                catch (Exception ex)
+
+                // ゴミ箱に捨てる
+                bool isDirectory = System.IO.Directory.Exists(path);
+                if (isDirectory)
                 {
-                    if (retryCount > 0)
+                    Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(path, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                }
+                else
+                {
+                    Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(path, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                }
+
+                //
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (retryCount > 0)
+                {
+                    await Task.Delay(1000);
+                    retryCount--;
+                    goto Retry;
+                }
+                else
+                {
+                    var dialog = new MessageDialog($"削除できませんでした。もう一度実行しますか？\n\n原因: {ex.Message}", "削除できませんでした。リトライしますか？");
+                    dialog.Commands.Add(UICommands.Retry);
+                    dialog.Commands.Add(UICommands.Cancel);
+                    var confirm = dialog.ShowDialog();
+                    if (confirm == UICommands.Retry)
                     {
-                        await Task.Delay(1000);
-                        retryCount--;
+                        retryCount = 1;
                         goto Retry;
                     }
                     else
                     {
-                        var confirm = Messenger.MessageBox(sender, $"{itemType}削除に失敗しました。\nもう一度実行しますか？\n\n原因: {ex.Message}", "エラー", System.Windows.MessageBoxButton.OKCancel, MessageBoxExImage.Warning);
-                        if (confirm == true)
-                        {
-                            goto Retry;
-                        }
-                        e.Result = false;
+                        return false;
                     }
                 }
             }
-        }
-
-        // 
-
-
-        // ファイルの名前を変える
-        // RenameFileメッセージ処理
-        public void CallRenameFile(object sender, MessageEventArgs e)
-        {
-            var task = Task.Run(async () =>
-            {
-                var renameParam = (RenameFileParams)e.Parameter;
-                var src = renameParam.OldPath;
-                var dst = renameParam.Path;
-                e.Result = await RenameFileAsync(src, dst).ConfigureAwait(continueOnCapturedContext: false);
-            });
-            task.Wait();
         }
 
         // ファイルの名前を変える
@@ -1819,16 +1798,17 @@ namespace NeeView
             try
             {
                 bool isContinue = false;
+                int requestLoadCount = _requestLoadCount;
 
                 // 開いている本を閉じる
                 if (this.Address == src)
                 {
+
                     isContinue = true;
                     await RequestUnload(false).WaitAsync();
                 }
 
                 // rename
-                Debug.WriteLine("RENAME...");
                 if (System.IO.Directory.Exists(src))
                 {
                     System.IO.Directory.Move(src, dst);
@@ -1838,7 +1818,7 @@ namespace NeeView
                     System.IO.File.Move(src, dst);
                 }
 
-                if (isContinue)
+                if (isContinue && requestLoadCount == _requestLoadCount)
                 {
                     RenameHistory(src, dst);
                     RequestLoad(dst, null, BookLoadOption.Resume, false);
@@ -1854,19 +1834,24 @@ namespace NeeView
                     retryCount--;
                     goto Retry;
                 }
+
+                var confirm = new MessageDialog($"名前の変更に失敗しました。もう一度実行しますか？\n\n{ex.Message}", "名前を変更できませんでした");
+                confirm.Commands.Add(UICommands.Retry);
+                confirm.Commands.Add(UICommands.Cancel);
+                var answer = confirm.ShowDialog();
+                if (answer == UICommands.Retry)
+                {
+                    retryCount = 1;
+                    goto Retry;
+                }
                 else
                 {
-                    var confirm = System.Windows.MessageBox.Show($"名前の変更に失敗しました。\nもう一度実行しますか？\n\n{ex.Message}", "エラー", System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Warning);
-                    if (confirm == System.Windows.MessageBoxResult.OK)
-                    {
-                        goto Retry;
-                    }
-
                     return false;
                 }
             }
         }
 
+        // 履歴上のファイル名変更
         private void RenameHistory(string src, string dst)
         {
             ModelContext.BookMementoCollection.Rename(src, dst);

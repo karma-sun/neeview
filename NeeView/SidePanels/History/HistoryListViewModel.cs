@@ -311,8 +311,11 @@ namespace NeeView
         {
             if (ModelContext.BookHistory.Items.Any())
             {
-                var result = MessageBoxEx.Show(App.Current.MainWindow, "すべての履歴を削除します。よろしいですか？", "履歴削除", MessageBoxButton.OKCancel, MessageBoxExImage.Warning);
-                if (result != true) return;
+                var dialog = new MessageDialog($"すべての履歴を削除します。よろしいですか？", "すべての履歴を削除します");
+                dialog.Commands.Add(UICommands.Remove);
+                dialog.Commands.Add(UICommands.Cancel);
+                var answer = dialog.ShowDialog();
+                if (answer != UICommands.Remove) return;
             }
 
             ModelContext.BookHistory.RemoveAll();

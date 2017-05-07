@@ -119,6 +119,9 @@
     <Compile Include="BookHubCommandEngine.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="DelayVisibility.cs" />
+    <Compile Include="MessageDialog.xaml.cs">
+      <DependentUpon>MessageDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListViewModel.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkList.cs" />
@@ -364,9 +367,6 @@
     </Compile>
     <Compile Include="InputGesture\KeyExGesture.cs" />
     <Compile Include="MenuExtensions.cs" />
-    <Compile Include="MessageBoxEx.xaml.cs">
-      <DependentUpon>MessageBoxEx.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Messenger.cs" />
     <Compile Include="ModelContext.cs" />
     <Compile Include="CommonExtensions.cs" />
@@ -451,6 +451,10 @@
     <Page Include="BackgroundSettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessageDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SidePanels\FolderList\FolderIcon.xaml">
       <SubType>Designer</SubType>
@@ -584,10 +588,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MessageBoxEx.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MouseGestureSettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -94,59 +94,8 @@ namespace NeeView
         {
             s_handles[key] = handle;
         }
-
-
-        /// <summary>
-        /// 簡易メッセージ：メッセージボックス
-        /// </summary>
-        /// <param name="sender">送り主</param>
-        /// <param name="messageBoxText"></param>
-        /// <param name="caption"></param>
-        /// <param name="button"></param>
-        /// <param name="icon"></param>
-        /// <returns></returns>
-        public static bool? MessageBox(object sender, string messageBoxText, string caption = "", MessageBoxButton button = MessageBoxButton.OK, MessageBoxExImage icon = MessageBoxExImage.None)
-        {
-            var message = new MessageEventArgs("MessageBox");
-            message.Parameter = new MessageBoxParams()
-            {
-                MessageBoxText = messageBoxText,
-                Caption = caption,
-                Button = button,
-                Icon = icon
-            };
-
-            Send(sender, message);
-
-            return message.Result;
-        }
     }
 
-
-    /// <summary>
-    /// 拡張メッセージボックス用アイコン
-    /// </summary>
-    public enum MessageBoxExImage
-    {
-        None,
-        Warning,
-        Error,
-        Information,
-        Question,
-        RecycleBin,
-    }
-
-    /// <summary>
-    /// Messenger用メッセージボックスパラメータ
-    /// </summary>
-    public class MessageBoxParams
-    {
-        public string MessageBoxText;
-        public string Caption;
-        public MessageBoxButton Button;
-        public MessageBoxExImage Icon;
-        public FrameworkElement VisualContent;
-    }
 
     /// <summary>
     /// 通知表示メッセージパラメータ
@@ -164,7 +113,6 @@ namespace NeeView
             Text = text;
         }
     }
-
 
     /// <summary>
     /// 

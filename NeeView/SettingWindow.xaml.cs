@@ -723,7 +723,9 @@ namespace NeeView
             History.Items.Clear();
             RaisePropertyChanged(nameof(History));
 
-            MessageBoxEx.Show(this, "履歴を削除しました");
+            var dialog = new MessageDialog("", "履歴を削除しました");
+            dialog.Owner = this;
+            dialog.ShowDialog();
         }
 
         // プラグインリスト：ドロップ受付判定
@@ -827,7 +829,9 @@ namespace NeeView
         {
             ThumbnailCache.Current.Remove();
 
-            MessageBoxEx.Show(this, "キャッシュを削除しました");
+            var dialog = new MessageDialog("", "キャッシュを削除しました");
+            dialog.Owner = this;
+            dialog.ShowDialog();
         }
 
 
@@ -904,7 +908,9 @@ namespace NeeView
         { 
             if (value.IsLocked)
             {
-                MessageBoxEx.Show(this, "この操作は変更できません", "変更不可", MessageBoxButton.OK, MessageBoxExImage.Warning);
+                var dlg = new MessageDialog("", "この操作は変更できません");
+                dlg.Owner = this;
+                dlg.ShowDialog();
                 return;
             }
 
@@ -930,9 +936,13 @@ namespace NeeView
         //
         private void ResetDragActionSettingButton_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBoxEx.Show(this, "全てのドラッグ操作を初期化します。よろしいですか？", "ドラッグ操作初期化", MessageBoxButton.OKCancel, MessageBoxExImage.Warning);
+            var dialog = new MessageDialog($"すべてのドラッグ操作を初期化します。よろしいですか？", "ドラッグ操作を初期化します");
+            dialog.Commands.Add(UICommands.Yes);
+            dialog.Commands.Add(UICommands.No);
+            dialog.Owner = this;
+            var answer = dialog.ShowDialog();
 
-            if (result == true)
+            if (answer == UICommands.Yes)
             {
                 Setting.DragActionMemento = DragActionTable.CreateDefaultMemento();
                 UpdateDragActionList();

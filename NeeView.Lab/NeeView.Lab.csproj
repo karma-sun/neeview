@@ -75,9 +75,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MessageDialog\MessageDialogTest.xaml.cs">
+      <DependentUpon>MessageDialogTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SidePanel\SidePanelWindow.xaml.cs">
       <DependentUpon>SidePanelWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="MessageDialog\MessageDialogTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SidePanel\IconDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

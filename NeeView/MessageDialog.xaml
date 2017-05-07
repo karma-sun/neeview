@@ -1,0 +1,67 @@
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+
+<Window x:Class="NeeView.MessageDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeeView"
+        mc:Ignorable="d"
+        UseLayoutRounding="True"
+        Title="Caption" ResizeMode="NoResize" SizeToContent="Height" Width="600" WindowStyle="ToolWindow">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="Margin" Value="10,0,0,0"/>
+
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="root" BorderBrush="Transparent" Background="{TemplateBinding Background}" BorderThickness="2">
+                            <Grid>
+                                <Rectangle x:Name="fill" Fill="Transparent"/>
+                                <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" TargetName="root" Value="#444"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Fill" TargetName="fill" Value="#8FFF"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="root" Value="0.25"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel Margin="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+        <StackPanel x:Name="ButtonPanel" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,20,0,0">
+            <Button Content="OK" Foreground="White" Background="RoyalBlue"/>
+        </StackPanel>
+
+        <TextBlock DockPanel.Dock="Top" Text="{Binding Title}" FontSize="24" Margin="0,5"/>
+
+        <ContentControl x:Name="Message" Margin="0,5" IsTabStop="False">
+            <TextBlock Text="MainContent" TextWrapping="Wrap"/>
+        </ContentControl>
+
+    </DockPanel>
+
+</Window>

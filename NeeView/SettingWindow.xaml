@@ -330,7 +330,7 @@
                                       ToolTip="サムネイルにページ番号を表示します"
                                       IsChecked="{Binding Setting.ViewMemento.IsVisibleThumbnailNumber}"/>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="背景を表示する"
-                                      ToolTip="サムネイルリストの背景を表示します"
+                                      ToolTip="自動的に隠される設定の場合にサムネイルリストの背景を表示します"
                                       IsChecked="{Binding Setting.ViewMemento.IsVisibleThumbnailPlate}"/>
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="サムネイルサイズ"/>

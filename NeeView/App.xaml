@@ -621,6 +621,22 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
+                    <DrawingImage x:Key="ic_file_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="#DDD" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M13,3.5L13,9 18.5,9 13,3.5z M6,2L14,2 20,8 20,20C20,21.1000003814697,19.1000003814697,22,18,22L5.98999977111816,22C4.8899998664856,22,4,21.1000003814697,4,20L4.01000022888184,4C4.01000022888184,2.90000009536743,4.90000009536743,2,6,2z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    
+                    
                     <!-- IconButton Style -->
                     <Style x:Key="IconButton" TargetType="{x:Type Button}">
                         <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>

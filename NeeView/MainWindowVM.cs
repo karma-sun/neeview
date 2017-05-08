@@ -746,9 +746,6 @@ namespace NeeView
         }
         #endregion
 
-        // 最後のフォルダーを開く
-        public bool IsLoadLastFolder { get; set; }
-
         // マルチブートを禁止する
         public bool IsDisableMultiBoot { get; set; }
 
@@ -2138,16 +2135,12 @@ namespace NeeView
         // 最後に開いたフォルダーを開く
         public void LoadLastFolder()
         {
-            if (!IsLoadLastFolder) return;
+            if (!Preference.Current.bootup_lastfolder) return;
 
-            var list = ModelContext.BookHistory.ListUp(1);
-            if (list.Count > 0)
+            string place = ModelContext.BookHistory.LastAddress;
+            if (place != null || System.IO.Directory.Exists(place) || System.IO.File.Exists(place))
             {
-                string place = list[0].Place;
-                if (System.IO.Directory.Exists(place) || System.IO.File.Exists(place))
-                {
-                    Load(place, BookLoadOption.Resume);
-                }
+                Load(place, BookLoadOption.Resume);
             }
         }
 
@@ -2872,8 +2865,8 @@ namespace NeeView
             [DataMember(Order = 4)]
             public bool IsKeepFlip { get; set; }
 
-            [DataMember(Order = 2)]
-            public bool IsLoadLastFolder { get; set; }
+            [DataMember(Order = 2, EmitDefaultValue = false)]
+            public bool IsLoadLastFolder { get; set; } // no used (ver.22)
 
             [DataMember(Order = 2)]
             public bool IsDisableMultiBoot { get; set; }
@@ -3105,7 +3098,7 @@ namespace NeeView
             memento.IsKeepScale = this.IsKeepScale;
             memento.IsKeepAngle = this.IsKeepAngle;
             memento.IsKeepFlip = this.IsKeepFlip;
-            memento.IsLoadLastFolder = this.IsLoadLastFolder;
+            ////memento.IsLoadLastFolder = this.IsLoadLastFolder;
             memento.IsDisableMultiBoot = this.IsDisableMultiBoot;
             memento.IsAutoPlaySlideShow = this.IsAutoPlaySlideShow;
             memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
@@ -3164,7 +3157,7 @@ namespace NeeView
             this.IsKeepScale = memento.IsKeepScale;
             this.IsKeepAngle = memento.IsKeepAngle;
             this.IsKeepFlip = memento.IsKeepFlip;
-            this.IsLoadLastFolder = memento.IsLoadLastFolder;
+            ////this.IsLoadLastFolder = memento.IsLoadLastFolder;
             this.IsDisableMultiBoot = memento.IsDisableMultiBoot;
             this.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
             this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
@@ -3218,6 +3211,10 @@ namespace NeeView
                 Debug.WriteLine($"[[Compatible]]: Restore FolderListSetting");
                 _models.FolderList.IsVisibleBookmarkMark = memento.FolderListSetting.IsVisibleBookmarkMark;
                 _models.FolderList.IsVisibleHistoryMark = memento.FolderListSetting.IsVisibleHistoryMark;
+            }
+            if (memento.IsLoadLastFolder)
+            {
+                Preference.Current.bootup_lastfolder = memento.IsLoadLastFolder;
             }
         }
 

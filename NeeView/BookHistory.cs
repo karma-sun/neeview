@@ -44,6 +44,9 @@ namespace NeeView
         // フォルダーリストで開いていた場所
         public string LastFolder { get; set; }
 
+        // 最後に開いたフォルダー
+        public string LastAddress { get; set; }
+
         // 履歴制限
         private int _limitSize;
 
@@ -391,6 +394,9 @@ namespace NeeView
             [DataMember]
             public Dictionary<string, FolderParameter.Memento> Folders { get; set; }
 
+            [DataMember]
+            public string LastAddress { get; set; }
+
 
             //
             private void Constructor()
@@ -464,6 +470,7 @@ namespace NeeView
             memento.LimitSize = _limitSize;
             memento.LimitSpan = _limitSpan;
             memento.IsKeepFolderStatus = IsKeepFolderStatus;
+            memento.LastAddress = Preference.Current.bootup_lastfolder ? this.LastAddress : null;
 
             if (forSave)
             {
@@ -486,6 +493,7 @@ namespace NeeView
         public void Restore(Memento memento, bool fromLoad)
         {
             this.LastFolder = memento.LastFolder;
+            this.LastAddress = memento.LastAddress;
             _folders = memento.Folders ?? _folders;
             _limitSize = memento.LimitSize;
             _limitSpan = memento.LimitSpan;

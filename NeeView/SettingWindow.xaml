@@ -123,8 +123,7 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーン状態を復元する"
                               IsChecked="{Binding Setting.ViewMemento.IsSaveFullScreen}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回開いていたフォルダーを開く"
-                              ToolTip="履歴を保存しない場合は機能しません"
-                              IsChecked="{Binding Setting.ViewMemento.IsLoadLastFolder}" />
+                              IsChecked="{Binding Preference.bootup_lastfolder}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="スライドショーの再生を開始する"
                               IsChecked="{Binding Setting.ViewMemento.IsAutoPlaySlideShow}" />
                         </StackPanel>

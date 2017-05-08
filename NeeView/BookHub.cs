@@ -357,7 +357,12 @@ namespace NeeView
         public string Address
         {
             get { return _address; }
-            set { _address = value; AddressChanged?.Invoke(this, null); }
+            set
+            {
+                _address = value;
+                AddressChanged?.Invoke(this, null);
+                ModelContext.BookHistory.LastAddress = _address;
+            }
         }
         #endregion
 

@@ -187,6 +187,10 @@ namespace NeeView
         [PropertyMember("バナーサイズ", Tips = "バナーサイズの横幅の値です。サムネイル画像を流用しているため、大きいサイズほど画像が荒くなります")]
         public int banner_width { get; set; }
 
+        [DataMember, DefaultValue(false)]
+        [PropertyMember("前回開いていたフォルダーを開く", Tips = "起動時に前回開いていたフォルダーを開きます", Flags = PropertyMemberFlag.None)]
+        public bool bootup_lastfolder { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

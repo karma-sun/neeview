@@ -918,8 +918,9 @@ namespace NeeView
             int invalidCharsIndex = newName.IndexOfAny(invalidChars);
             if (invalidCharsIndex >= 0)
             {
-                //
-                var dialog = new MessageDialog($"ファイル名に使用できない文字が含まれています。( {newName[invalidCharsIndex]} )", "名前を変更できません");
+                var invalids = string.Join(" ", newName.Where(e => invalidChars.Contains(e)).Distinct());
+
+                var dialog = new MessageDialog($"ファイル名に使用できない文字が含まれています。\n\n{invalids}", "名前を変更できません");
                 dialog.ShowDialog();
 
                 return false;

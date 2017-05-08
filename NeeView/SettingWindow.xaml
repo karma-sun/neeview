@@ -656,7 +656,7 @@
                         
                         <TextBlock Text="既定のページ設定の使用" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="新しいフォルダーを開くときに既定のページ設定を適用する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="フォルダーを開くときに復元されない項目には既定のページ設定を適用する"
                               ToolTip="履歴情報から復元されなかった項目に既定のページ設定を適用します。&#x0a;OFFの場合は直前の設定値をそのまま継続します"
                               IsChecked="{Binding Setting.BookHubMemento.IsUseBookMementoDefault}" />
                         </StackPanel>

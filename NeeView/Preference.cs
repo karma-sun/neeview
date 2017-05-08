@@ -184,7 +184,7 @@ namespace NeeView
         public double input_longbuttondown_time { get; set; }
 
         [DataMember, DefaultValue(200)]
-        [PropertyMember("バナーサイズ", Tips = "バナーサイズの横幅の値です。サムネイル画像を流用しているため、大きいサイズほど画像が荒くなります")]
+        [PropertyMember("バナーサイズ", Tips = "バナーの横幅です。縦幅は横幅の1/4になります。\nサムネイル画像を流用しているため、大きいサイズほど画像が荒くなります")]
         public int banner_width { get; set; }
 
         [DataMember, DefaultValue(false)]

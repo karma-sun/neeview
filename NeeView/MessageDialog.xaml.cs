@@ -23,7 +23,7 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     /// <summary>
-    /// UWP の UICommandモドキ
+    /// UWP の UICommandモドキ。MessageDialog用
     /// </summary>
     public class UICommand
     {
@@ -35,6 +35,9 @@ namespace NeeView
         }
     }
 
+    /// <summary>
+    /// UICommand の既定値集
+    /// </summary>
     public static class UICommands
     {
         public static UICommand OK { get; } = new UICommand("OK");
@@ -44,6 +47,7 @@ namespace NeeView
         public static UICommand Remove { get; } = new UICommand("削除する");
         public static UICommand Retry { get; } = new UICommand("リトライ");
 
+        // dialog.Commands.AddRange(...) のような使用を想定したセット
         public static List<UICommand> YesNo = new List<UICommand>() { Yes, No };
         public static List<UICommand> OKCancel = new List<UICommand>() { OK, Cancel };
     }
@@ -58,8 +62,18 @@ namespace NeeView
         public event PropertyChangedEventHandler PropertyChanged;
         protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
                 
-
+        //
         public List<UICommand> Commands { get; private set; } = new List<UICommand>();
+
+        //
+        public int DefaultCommandIndex { get; set; }
+
+        //
+        public int CancelCommandIndex { get; set; } = -1;
+
+        //
+        private UICommand _resultCommand;
+
 
         //
         public MessageDialog()
@@ -98,19 +112,10 @@ namespace NeeView
         }
 
         //
-        public int DefaultCommandIndex { get; set; }
-
-        //
         private UICommand GetDefaultCommand()
         {
             return (DefaultCommandIndex >= 0 && DefaultCommandIndex < Commands.Count) ? Commands[DefaultCommandIndex] : null;
         }
-
-        //
-        public int CancelCommandIndex { get; set; } = -1;
-
-        //
-        private UICommand _resultCommand;
 
         //
         public new UICommand ShowDialog()
@@ -142,32 +147,14 @@ namespace NeeView
 
                 foreach (var command in Commands)
                 {
-                    var button = new Button()
-                    {
-                        Content = command.Label,
-                        Command = ButtonClickedCommand,
-                        CommandParameter = command,
-                    };
-
-                    if (command == defaultComamnd)
-                    {
-                        button.Foreground = Brushes.White;
-                        button.Background = Brushes.RoyalBlue;
-                    }
-
+                    var button = CreateButton(command, command == defaultComamnd);
                     this.ButtonPanel.Children.Add(button);
                 }
             }
             else
             {
-                var button = new Button()
-                {
-                    Content = "OK",
-                    Command = ButtonClickedCommand,
-                    Foreground = Brushes.White,
-                    Background = Brushes.RoyalBlue,
-                };
-
+                var button = CreateButton(UICommands.OK, true);
+                button.CommandParameter = null; // 設定されていなボタンなので結果がnullになるようにする
                 this.ButtonPanel.Children.Add(button);
             }
 
@@ -177,6 +164,26 @@ namespace NeeView
                 this.ButtonPanel.Children[DefaultCommandIndex].Focus();
             }
         }
+
+        //
+        private Button CreateButton(UICommand command, bool isDefault)
+        {
+            var button = new Button()
+            {
+                Content = command.Label,
+                Command = ButtonClickedCommand,
+                CommandParameter = command,
+            };
+
+            if (isDefault)
+            {
+                button.Foreground = Brushes.White;
+                button.Background = Brushes.RoyalBlue;
+            }
+
+            return button;
+        }
+
 
         /// <summary>
         /// ButtonClickedCommand command.

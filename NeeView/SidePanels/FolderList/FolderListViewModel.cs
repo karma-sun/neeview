@@ -143,7 +143,6 @@ namespace NeeView
             if (ModelContext.CommandTable[command].CreateIsCheckedBinding != null)
             {
                 var binding = ModelContext.CommandTable[command].CreateIsCheckedBinding();
-                binding.Source = source;
                 item.SetBinding(MenuItem.IsCheckedProperty, binding);
             }
 

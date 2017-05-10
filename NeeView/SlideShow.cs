@@ -62,7 +62,7 @@ namespace NeeView
 
 
         // コンストラクター
-        public SlideShow(BookHub bookHub, MouseInput mouseInput)
+        public SlideShow(BookHub bookHub, BookOperation bookOperation, MouseInput mouseInput)
         {
             Current = this;
 
@@ -73,11 +73,13 @@ namespace NeeView
             _timer.Interval = TimeSpan.FromSeconds(_maxTimerTick);
             _timer.Tick += new EventHandler(DispatcherTimer_Tick);
 
-            // TODO: BookOperationからのイベント
-            MainWindowVM.Current.IndexChanged += (s, e) => ResetTimer();
+            // 
+            bookOperation.AddPropertyChanged(nameof(bookOperation.Index),
+                (s, e) => ResetTimer());
 
             //
-            mouseInput.MouseMoved += (s, e) => { if (this.IsCancelSlideByMouseMove) ResetTimer(); };
+            mouseInput.MouseMoved +=
+                (s, e) => { if (this.IsCancelSlideByMouseMove) ResetTimer(); };
         }
 
 

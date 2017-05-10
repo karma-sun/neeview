@@ -38,12 +38,7 @@ namespace NeeView
 
 
         // ページリスト(表示部用)
-        private ObservableCollection<Page> _pageCollection;
-        public ObservableCollection<Page> PageCollection
-        {
-            get { return _pageCollection; }
-            set { _pageCollection = value; RaisePropertyChanged(); }
-        }
+        public ObservableCollection<Page> PageCollection => _bookOperation.PageList;
 
 
         /// <summary>
@@ -55,9 +50,17 @@ namespace NeeView
         public BookHub BookHub { get; private set; }
 
         //
+        public BookOperation _bookOperation;
+
+        //
         public PageList(BookHub bookHub)
         {
             this.BookHub = bookHub;
+
+            _bookOperation = BookOperation.Current; // TODO: 引数でもらう
+
+            _bookOperation.AddPropertyChanged(nameof(_bookOperation.PageList),
+                (s, e) => RaisePropertyChanged(nameof(PageCollection)));
         }
 
 

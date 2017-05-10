@@ -25,6 +25,7 @@ namespace NeeView
 
         //
         public BookHub BookHub { get; private set; }
+        public BookOperation BookOperation { get; private set; }
 
         //
         public MouseInput MouseInput { get; private set; }
@@ -53,18 +54,19 @@ namespace NeeView
             Current = this;
 
             this.BookHub = new BookHub();
+            this.BookOperation = new BookOperation(this.BookHub);
 
             // TODO: このあたりでコマンド初期化？
 
             this.MouseInput = new MouseInput();
-            this.SlideShow = new SlideShow(this.BookHub, this.MouseInput);
+            this.SlideShow = new SlideShow(this.BookHub, this.BookOperation, this.MouseInput);
 
             this.FolderPanelModel = new FolderPanelModel();
             this.FolderList = new FolderList(this.BookHub, this.FolderPanelModel);
             this.PageList = new PageList(this.BookHub);
             this.HistoryList = new HistoryList(this.BookHub);
             this.BookmarkList = new BookmarkList(this.BookHub);
-            this.PagemarkList = new PagemarkList(this.BookHub);
+            this.PagemarkList = new PagemarkList(this.BookHub, this.BookOperation);
             this.FileInformation = new FileInformation();
             this.ImageEffecct = new ImageEffect();
         }

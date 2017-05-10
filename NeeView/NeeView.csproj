@@ -116,6 +116,7 @@
     <Compile Include="BitmapLoader\BitmapLoader.cs" />
     <Compile Include="BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
+    <Compile Include="BookOperation.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="DelayVisibility.cs" />
     <Compile Include="MessageDialog.xaml.cs">

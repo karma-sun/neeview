@@ -35,14 +35,70 @@ namespace NeeView
         private PanelListItemStyle _panelListItemStyle;
 
 
+        // メッセージ通知
+        public event EventHandler<string> InfoMessage;
+
 
         //
-        public BookHub BookHub { get; private set; }
+        private BookHub _bookHub;
 
         //
-        public PagemarkList(BookHub bookHub)
+        private BookOperation _bookOperation;
+
+        //
+        public PagemarkList(BookHub bookHub, BookOperation bookOperation)
         {
-            this.BookHub = bookHub;
+            _bookHub = bookHub;
+            _bookOperation = bookOperation;
+        }
+
+
+        //
+        public void RequestLoad(Pagemark mark)
+        {
+            if (mark == null) return;
+
+            bool isJumped = _bookOperation.JumpPagemarkInPlace(mark);
+            if (!isJumped)
+            {
+                _bookHub.RequestLoad(mark.Place, mark.EntryName, BookLoadOption.None, false);
+            }
+        }
+
+        //
+        internal void UpdatePagemark(Pagemark mark)
+        {
+            _bookOperation.UpdatePagemark(mark);
+        }
+
+        //
+        public void PrevPagemark()
+        {
+            if (_bookHub.IsLoading) return;
+
+            if (!ModelContext.Pagemarks.CanMoveSelected(-1))
+            {
+                InfoMessage?.Invoke(this, "前のページマークはありません");
+                return;
+            }
+
+            Pagemark mark = ModelContext.Pagemarks.MoveSelected(-1);
+            RequestLoad(mark);
+        }
+
+        //
+        public void NextPagemark()
+        {
+            if (_bookHub.IsLoading) return;
+
+            if (!ModelContext.Pagemarks.CanMoveSelected(+1))
+            {
+                InfoMessage?.Invoke(this, "次のページマークはありません");
+                return;
+            }
+
+            Pagemark mark = ModelContext.Pagemarks.MoveSelected(+1);
+            RequestLoad(mark);
         }
 
 
@@ -68,6 +124,7 @@ namespace NeeView
             if (memento == null) return;
             this.PanelListItemStyle = memento.PanelListItemStyle;
         }
+
         #endregion
     }
 }

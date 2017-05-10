@@ -152,12 +152,6 @@ namespace NeeView
         // ウィンドウモード変更通知
         public event EventHandler NotifyMenuVisibilityChanged;
 
-        // ページリスト更新
-        public event EventHandler PageListChanged;
-
-        // インデックス更新
-        public event EventHandler IndexChanged;
-
         // 本を閉じた
         public event EventHandler BookUnloaded;
 
@@ -788,54 +782,12 @@ namespace NeeView
         }
 
 
-        // 現在ページ番号
-        private int _index;
-        public int Index
-        {
-            get { return _index; }
-            set
-            {
-                _index = NVUtility.Clamp(value, 0, IndexMax);
-                if (!CanSliderLinkedThumbnailList)
-                {
-                    BookHub.SetPageIndex(_index);
-                }
-                RaisePropertyChanged();
-                IndexChanged?.Invoke(this, null);
-            }
-        }
-
-        // 最大ページ番号
-        public int IndexMax
-        {
-            get { return BookHub.GetMaxPageIndex(); }
-        }
-
         // ページスライダー表示フラグ
-        public Visibility PageSliderVisibility => BookHub.GetPageCount() > 0 ? Visibility.Visible : Visibility.Hidden;
+        public Visibility PageSliderVisibility => _models.BookOperation.GetPageCount() > 0 ? Visibility.Visible : Visibility.Hidden;
 
         // サムネイルリスト表示状態
-        public Visibility ThumbnailListVisibility => BookHub.GetPageCount() > 0 ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility ThumbnailListVisibility => _models.BookOperation.GetPageCount() > 0 ? Visibility.Visible : Visibility.Collapsed;
 
-
-        //
-        private void UpdateIndex()
-        {
-            _index = BookHub.GetPageIndex();
-            RaisePropertyChanged(nameof(Index));
-            RaisePropertyChanged(nameof(IndexMax));
-            IndexChanged?.Invoke(this, null);
-        }
-
-        //
-        public void SetIndex(int index)
-        {
-            _index = index;
-            BookHub.SetPageIndex(_index);
-            RaisePropertyChanged(nameof(Index));
-            RaisePropertyChanged(nameof(IndexMax));
-            IndexChanged?.Invoke(this, null);
-        }
 
         #region Window Icon
 
@@ -925,7 +877,7 @@ namespace NeeView
                 string pageNum = (MainContent.Source.PartSize == 2)
                 ? (MainContent.Position.Index + 1).ToString()
                 : (MainContent.Position.Index + 1).ToString() + (MainContent.Position.Part == 1 ? ".5" : ".0");
-                _windowTitleFormatter.Set("$PageMax", (IndexMax + 1).ToString());
+                _windowTitleFormatter.Set("$PageMax", (_models.BookOperation.IndexMax + 1).ToString());
                 _windowTitleFormatter.Set("$Page", pageNum);
 
                 string path0 = Contents[0].IsValid ? Contents[0].FullPath.Replace("/", " > ").Replace("\\", " > ") + Contents[0].GetPartString() : "";
@@ -1187,15 +1139,6 @@ namespace NeeView
         }
         #endregion
 
-        #region Property: IsPagemark
-        public bool IsPagemark
-        {
-            get { return BookHub.IsMarked(); }
-        }
-        #endregion
-
-
-
         #region Property: ContextMenuSetting
         private ContextMenuSetting _contextMenuSetting;
         public ContextMenuSetting ContextMenuSetting
@@ -1323,42 +1266,9 @@ namespace NeeView
         // 本管理
         public BookHub BookHub { get; private set; }
 
-
-
+        
         // 標準ウィンドウタイトル
         private string _defaultWindowTitle;
-
-        // ページリスト(表示部用)
-        #region Property: PageList
-        private ObservableCollection<Page> _pageList;
-        public ObservableCollection<Page> PageList
-        {
-            get { return _pageList; }
-            set
-            {
-                _pageList = value;
-                RaisePropertyChanged();
-
-                Models.Current.PageList.PageCollection = _pageList;
-            }
-        }
-        #endregion
-
-        // ページリスト更新
-        // TODO: クリアしてもサムネイルのListBoxは項目をキャッシュしてしまうので、なんとかせよ
-        // サムネイル用はそれに特化したパーツのみ提供する？
-        // いや、ListBoxを独立させ、それ自体を作り直す方向で。
-        // 問い合わせがいいな。
-        // 問い合わせといえば、BitmapImageでOutOfMemoryが取得できない問題も。
-        private void UpdatePageList()
-        {
-            var pages = BookHub.CurrentBook?.Pages;
-            PageList = pages != null ? new ObservableCollection<Page>(pages) : null;
-
-            PageListChanged?.Invoke(this, null);
-
-            RaisePropertyChanged(nameof(IsPagemark));
-        }
 
         // サムネイル有効
         #region Property: IsEnableThumbnailList
@@ -1615,9 +1525,6 @@ namespace NeeView
             BookHub.BookChanged +=
                 OnBookChanged;
 
-            BookHub.PageChanged +=
-                OnPageChanged;
-
             BookHub.ViewContentsChanged +=
                 OnViewContentsChanged;
 
@@ -1647,27 +1554,15 @@ namespace NeeView
                     _address = BookHub.Address;
                     RaisePropertyChanged(nameof(Address));
                     RaisePropertyChanged(nameof(IsBookmark));
-                    RaisePropertyChanged(nameof(IsPagemark));
-                };
-
-            BookHub.PagesSorted +=
-                (s, e) =>
-                {
-                    UpdatePageList();
                 };
 
 
-            BookHub.PageRemoved +=
-                (s, e) =>
-                {
-                    UpdatePageList();
-                };
+            _models.BookOperation.InfoMessage +=
+                (s, e) => DispMessage(NoticeShowMessageStyle, e);
 
-            BookHub.PagemarkChanged +=
-                (s, e) =>
-                {
-                    RaisePropertyChanged(nameof(IsPagemark));
-                };
+            _models.PagemarkList.InfoMessage +=
+                (s, e) => DispMessage(NoticeShowMessageStyle, e);
+
 
             // CommandTable
             // TODO: もっと手前にできないか？
@@ -1732,10 +1627,10 @@ namespace NeeView
 
             App.Current?.Dispatcher.Invoke(() => DispMessage(NoticeShowMessageStyle, title, null, 2.0, bookmarkType));
 
-            UpdatePageList();
+            _models.BookOperation.UpdatePageList();
             UpdateLastFiles();
 
-            UpdateIndex();
+            _models.BookOperation.UpdateIndex();
 
             if (BookHub.Current == null)
             {
@@ -1870,7 +1765,7 @@ namespace NeeView
             }
         }
 
-        #region アプリ設定
+#region アプリ設定
 
         // アプリ設定作成
         public Setting CreateSetting()
@@ -2128,7 +2023,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
 
         // 最後に開いたフォルダーを開く
@@ -2235,15 +2130,6 @@ namespace NeeView
         /// </summary>
         public DragViewOrigin NextViewOrigin { get; set; }
 
-
-
-
-        // ページ番号の更新
-        private void OnPageChanged(object sender, int e)
-        {
-            UpdateIndex();
-            RaisePropertyChanged(nameof(IsPagemark));
-        }
 
 
         // ビューエリアサイズ
@@ -2660,7 +2546,9 @@ namespace NeeView
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin, int direction)
         {
-            if (PageList == null || ThumbnailSize < 8.0) return;
+            var pageList = _models.BookOperation.PageList;
+
+            if (pageList == null || ThumbnailSize < 8.0) return;
 
             // サムネイルリストが無効の場合、処理しない
             if (!IsEnableThumbnailList) return;
@@ -2674,8 +2562,8 @@ namespace NeeView
             // 要求. 中央値優先
             int center = start + count / 2;
             var pages = Enumerable.Range(start - margin, count + margin * 2 - 1)
-                .Where(i => i >= 0 && i < PageList.Count)
-                .Select(e => PageList[e])
+                .Where(i => i >= 0 && i < pageList.Count)
+                .Select(e => pageList[e])
                 .OrderBy(e => Math.Abs(e.Index - center));
 
             foreach (var page in pages)

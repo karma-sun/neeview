@@ -144,15 +144,6 @@ namespace NeeView
         }
 
         //
-        public static Binding IsPagemark()
-        {
-            return new Binding("IsPagemark")
-            {
-                Mode = BindingMode.OneWay
-            };
-        }
-
-        //
         public static Binding IsFlipHorizontal()
         {
             return new Binding("IsFlipHorizontal")

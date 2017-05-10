@@ -39,9 +39,6 @@ namespace NeeView
         public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanging;
         public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanged;
 
-
-        public BookHub BookHub { get; private set; }
-
         public PagemarkCollection Pagemarks => ModelContext.Pagemarks;
 
 
@@ -152,11 +149,11 @@ namespace NeeView
         private PagemarkList _model;
 
 
+
         //
         public PagemarkListViewModel(PagemarkList model)
         {
             _model = model;
-            BookHub = _model.BookHub;
 
             InitializeMoreMenu();
         }
@@ -164,7 +161,7 @@ namespace NeeView
         //
         public void Load(Pagemark mark)
         {
-            BookHub?.RequestLoad(mark);
+            _model.RequestLoad(mark);
         }
 
         //
@@ -178,7 +175,8 @@ namespace NeeView
             SelectedItemChanged?.Invoke(this, args);
 
             ModelContext.Pagemarks.Remove(mark);
-            BookHub.UpdatePagemark(mark);
+
+            _model.UpdatePagemark(mark);
         }
 
         // サムネイル要求

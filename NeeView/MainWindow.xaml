@@ -363,7 +363,7 @@
                                 </local:SliderTextBox>
                                 <Grid Height="18">
                                     <local:PageMarkers x:Name="PageMarkers" IsHitTestVisible="False" Margin="0,-2,0,2"/>
-                                    <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Height="18" Maximum="{Binding IndexMax}" Value="{Binding Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
+                                    <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Height="18" Maximum="{Binding Models.BookOperation.IndexMax}" Value="{Binding Models.BookOperation.Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
                                     local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding ElementName=MainView}"
                                     ValueChanged="PageSlider_ValueChanged"
                                     PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"  
@@ -377,7 +377,7 @@
                     <!-- サムネイルリスト -->
                     <ContentControl x:Name="DockThumbnailListSocket" DockPanel.Dock="Bottom" IsTabStop="False">
                         <Grid x:Name="ThumbnailListArea" Visibility="{Binding ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" UseLayoutRounding="True" >
-                            <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                            <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Models.BookOperation.PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
                              KeyDown="ThumbnailListBox_KeyDown"

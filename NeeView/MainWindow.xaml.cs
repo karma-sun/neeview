@@ -338,17 +338,15 @@ namespace NeeView
             _VM.NotifyMenuVisibilityChanged +=
                 (s, e) => OnMenuVisibilityChanged();
 
-            _VM.PageListChanged +=
-                OnPageListChanged;
-
-            _VM.IndexChanged +=
-                OnIndexChanged;
-
             _VM.ResetFocus +=
                 (s, e) =>
                 {
                     this.MainView.Focus();
                 };
+
+            //
+            BookOperation.Current.AddPropertyChanged(nameof(BookOperation.PageList), OnPageListChanged);
+            BookOperation.Current.AddPropertyChanged(nameof(BookOperation.Index), OnIndexChanged);
         }
 
         //
@@ -1112,6 +1110,9 @@ namespace NeeView
         //
         private void Window_Closed(object sender, EventArgs e)
         {
+            //
+            Models.Current.StopEngine();
+
             // タイマー停止
             _timer.Stop();
 
@@ -1338,7 +1339,7 @@ namespace NeeView
         //
         private void UpdateThumbnailList()
         {
-            UpdateThumbnailList(_VM.Index, _VM.IndexMax);
+            UpdateThumbnailList(BookOperation.Current.Index, BookOperation.Current.IndexMax);
         }
 
 
@@ -1400,7 +1401,7 @@ namespace NeeView
         {
             if (e.AddedItems.Count <= 0)
             {
-                this.ThumbnailListBox.SelectedIndex = _VM.Index;
+                this.ThumbnailListBox.SelectedIndex = BookOperation.Current.Index;
                 return;
             }
 
@@ -1649,7 +1650,7 @@ namespace NeeView
         {
             if (_VM.CanSliderLinkedThumbnailList)
             {
-                _VM.SetIndex(_VM.Index);
+                BookOperation.Current.SetIndex(BookOperation.Current.Index);
             }
         }
 
@@ -1756,7 +1757,7 @@ namespace NeeView
 
         private void PageSliderTextBox_ValueChanged(object sender, EventArgs e)
         {
-            _VM.SetIndex(_VM.Index);
+            BookOperation.Current.SetIndex(BookOperation.Current.Index);
         }
 
         /// <summary>

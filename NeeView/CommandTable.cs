@@ -773,7 +773,7 @@ namespace NeeView
                 element.ExecuteMessage = e => _models.SidePanel.IsVisiblePageListMenu ? "ページリストを消す" : "ページリストを表示する";
                 element.Execute = (s, e) => _models.SidePanel.ToggleVisiblePageList(e is MenuCommandTag);
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisiblePageListMenu)) { Source = _models.SidePanel, Mode = BindingMode.OneWay };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FolderPanelModel.IsPageListVisible)) { Source = _models.FolderPanelModel, Mode = BindingMode.OneWay };
                 _elements[CommandType.ToggleVisiblePageList] = element;
             }
             //
@@ -1558,11 +1558,11 @@ namespace NeeView
                 element.Text = "ページマーク登録/解除";
                 element.MenuText = "ページマーク";
                 element.Note = "現在開いているページのページマークの登録/解除を切り替えます";
-                element.Execute = (s, e) => _book.TogglePagemark();
-                element.CanExecute = () => _book.CanPagemark();
-                element.ExecuteMessage = e => _book.IsMarked() ? "ページマーク解除" : "ページマーク登録";
+                element.Execute = (s, e) => _models.BookOperation.TogglePagemark();
+                element.CanExecute = () => _models.BookOperation.CanPagemark();
+                element.ExecuteMessage = e => _models.BookOperation.IsMarked() ? "ページマーク解除" : "ページマーク登録";
                 element.IsShowMessage = true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.IsPagemark();
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.BookOperation.IsPagemark)) { Source = _models.BookOperation, Mode = BindingMode.OneWay };
                 element.ShortCutKey = "Ctrl+M";
                 _elements[CommandType.TogglePagemark] = element;
             }
@@ -1574,7 +1574,7 @@ namespace NeeView
                 element.Text = "前のページマークに移動";
                 element.Note = "前のページマークに移動します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _book.PrevPagemark();
+                element.Execute = (s, e) => _models.PagemarkList.PrevPagemark();
                 _elements[CommandType.PrevPagemark] = element;
             }
             // NextPagemark
@@ -1584,7 +1584,7 @@ namespace NeeView
                 element.Text = "次のページマークへ移動";
                 element.Note = "次のページマークへ移動します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _book.NextPagemark();
+                element.Execute = (s, e) => _models.PagemarkList.NextPagemark();
                 _elements[CommandType.NextPagemark] = element;
             }
 
@@ -1595,8 +1595,8 @@ namespace NeeView
                 element.Text = "フォルダー内の前のページマークに移動";
                 element.Note = "現在のフォルダー内で前のページマークに移動します";
                 element.IsShowMessage = false;
-                element.CanExecute = () => _book.CanPrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
-                element.Execute = (s, e) => _book.PrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.CanExecute = () => _models.BookOperation.CanPrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.Execute = (s, e) => _models.BookOperation.PrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
                 element.DefaultParameter = new MovePagemarkCommandParameter();
                 _elements[CommandType.PrevPagemarkInBook] = element;
             }
@@ -1607,8 +1607,8 @@ namespace NeeView
                 element.Text = "フォルダー内の次のページマークへ移動";
                 element.Note = "現在のフォルダー内で次のページマークへ移動します";
                 element.IsShowMessage = false;
-                element.CanExecute = () => _book.CanNextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
-                element.Execute = (s, e) => _book.NextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.CanExecute = () => _models.BookOperation.CanNextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.Execute = (s, e) => _models.BookOperation.NextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevPagemarkInBook };
                 _elements[CommandType.NextPagemarkInBook] = element;
             }

@@ -146,11 +146,14 @@ namespace NeeView
 
         protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
         }
+
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
+        {
+            PropertyChanged += (s, e) => { if (e.PropertyName == propertyName) handler?.Invoke(s, e); };
+        }
+
         #endregion
 
         #region Events
@@ -190,7 +193,7 @@ namespace NeeView
         public event EventHandler<BookMementoCollectionChangedArgs> BookmarkChanged;
 
         // ページマークにに追加、削除された
-        public event EventHandler<PagemarkChangedEventArgs> PagemarkChanged;
+        ////public event EventHandler<PagemarkChangedEventArgs> PagemarkChanged;
 
         // アドレスが変更された
         public event EventHandler AddressChanged;
@@ -328,8 +331,29 @@ namespace NeeView
 
         // 現在の本
         public Book CurrentBook => Current?.Book;
-        public BookUnit Current { get; private set; }
 
+        /// <summary>
+        /// Current property.
+        /// </summary>
+        public BookUnit Current
+        {
+            get { return _current; }
+            private set
+            {
+                if (_current != value)
+                {
+                    _current = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private BookUnit _current;
+
+
+
+
+        //
         private async Task ReleaseCurrentAsync()
         {
             if (Current != null)
@@ -437,7 +461,7 @@ namespace NeeView
             this.InfoMessage = null;
             this.Loading = null;
             this.PageChanged = null;
-            this.PagemarkChanged = null;
+            ////this.PagemarkChanged = null;
             this.PageRemoved = null;
             this.PagesSorted = null;
             this.PropertyChanged = null;
@@ -892,7 +916,7 @@ namespace NeeView
                 Current.Book.Start();
 
                 // マーカー復元
-                UpdatePagemark();
+                BookOperation.Current.UpdatePagemark();
 
                 // 最初のコンテンツ表示待ち
                 if (book.Pages.Count > 0)
@@ -1005,41 +1029,10 @@ namespace NeeView
             PageRemoved?.Invoke(sender, e);
 
             // ページマーカーから削除
-            RemovePagemark(new Pagemark(CurrentBook.Place, e.FullPath));
+            BookOperation.Current.RemovePagemark(new Pagemark(CurrentBook.Place, e.FullPath));
         }
 
 
-        // 現在ページ番号取得
-        public int GetPageIndex()
-        {
-            return CurrentBook == null ? 0 : CurrentBook.DisplayIndex; // GetPosition().Index;
-        }
-
-        // 現在ページ番号設定 (先読み無し)
-        public void SetPageIndex(int index)
-        {
-            CurrentBook?.RequestSetPosition(new PagePosition(index, 0), 1, false);
-        }
-
-        /// <summary>
-        /// 最大ページ番号取得
-        /// </summary>
-        /// <returns></returns>
-        public int GetMaxPageIndex()
-        {
-            var count = CurrentBook == null ? 0 : CurrentBook.Pages.Count - 1;
-            if (count < 0) count = 0;
-            return count;
-        }
-
-        /// <summary>
-        /// ページ数取得
-        /// </summary>
-        /// <returns></returns>
-        public int GetPageCount()
-        {
-            return CurrentBook == null ? 0 : CurrentBook.Pages.Count;
-        }
 
         // 履歴を戻ることができる？
         public bool CanPrevHistory()
@@ -1418,149 +1411,6 @@ namespace NeeView
                 RequestLoad(unit.Value.Memento.Place, null, BookLoadOption.SkipSamePlace, false);
             }
         }
-
-
-        // ページマーク登録可能？
-        public bool CanPagemark()
-        {
-            return (CurrentBook != null);
-        }
-
-        // マーカー切り替え
-        public void TogglePagemark()
-        {
-            if (_isLoading || CurrentBook == null) return;
-
-            if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
-            {
-                new MessageDialog($"原因: 一時フォルダーはページマークできません", "ページマークできません").ShowDialog();
-            }
-
-            // マーク登録/解除
-            // TODO: 登録時にサムネイルキャッシュにも登録
-            ModelContext.Pagemarks.Toggle(new Pagemark(CurrentBook.Place, CurrentBook.GetViewPage().FullPath));
-
-            // 更新
-            UpdatePagemark();
-        }
-
-        // マーカー削除
-        public void RemovePagemark(Pagemark mark)
-        {
-            ModelContext.Pagemarks.Remove(mark);
-            UpdatePagemark(mark);
-        }
-
-
-        // 表示ページのマーク判定
-        public bool IsMarked()
-        {
-            return CurrentBook != null ? CurrentBook.IsMarked(Current.Book.GetViewPage()) : false;
-        }
-
-        /// <summary>
-        /// マーカー表示更新
-        /// </summary>
-        /// <param name="mark">変更や削除されたマーカー</param>
-        public void UpdatePagemark(Pagemark mark)
-        {
-            // 現在ブックに影響のある場合のみ更新
-            if (CurrentBook?.Place == mark.Place)
-            {
-                UpdatePagemark();
-            }
-        }
-
-
-        // マーカー表示更新
-        private void UpdatePagemark()
-        {
-            // 本にマーカを設定
-            CurrentBook?.SetMarkers(ModelContext.Pagemarks.Collect(CurrentBook.Place).Select(e => e.EntryName));
-
-            // 表示更新
-            this.PagemarkChanged?.Invoke(this, null);
-        }
-
-        public bool CanPrevPagemarkInPlace(MovePagemarkCommandParameter param)
-        {
-            return (CurrentBook?.Markers != null && Current.Book.Markers.Count > 0) || param.IsIncludeTerminal;
-        }
-
-        public bool CanNextPagemarkInPlace(MovePagemarkCommandParameter param)
-        {
-            return (CurrentBook?.Markers != null && Current.Book.Markers.Count > 0) || param.IsIncludeTerminal;
-        }
-
-        // ページマークに移動
-        public void PrevPagemarkInPlace(MovePagemarkCommandParameter param)
-        {
-            if (_isLoading || CurrentBook == null) return;
-            var result = CurrentBook.RequestJumpToMarker(-1, param.IsLoop, param.IsIncludeTerminal);
-            if (!result)
-            {
-                InfoMessage?.Invoke(this, "現在ページより前のページマークはありません");
-            }
-        }
-
-        public void NextPagemarkInPlace(MovePagemarkCommandParameter param)
-        {
-            if (_isLoading || CurrentBook == null) return;
-            var result = CurrentBook.RequestJumpToMarker(+1, param.IsLoop, param.IsIncludeTerminal);
-            if (!result)
-            {
-                InfoMessage?.Invoke(this, "現在ページより後のページマークはありません");
-            }
-        }
-
-        public void RequestLoad(Pagemark mark)
-        {
-            if (mark == null) return;
-
-
-            if (mark.Place == CurrentBook?.Place)
-            {
-                Page page = CurrentBook.GetPage(mark.EntryName);
-                if (page != null) JumpPage(page);
-            }
-            else
-            {
-                RequestLoad(mark.Place, mark.EntryName, BookLoadOption.None, false);
-            }
-        }
-
-
-        public void PrevPagemark()
-        {
-            if (_isLoading) return;
-
-            if (!ModelContext.Pagemarks.CanMoveSelected(-1))
-            {
-                InfoMessage?.Invoke(this, "前のページマークはありません");
-                return;
-            }
-
-            Pagemark mark = ModelContext.Pagemarks.MoveSelected(-1);
-            RequestLoad(mark);
-        }
-
-        public void NextPagemark()
-        {
-            if (_isLoading) return;
-
-            if (!ModelContext.Pagemarks.CanMoveSelected(+1))
-            {
-                InfoMessage?.Invoke(this, "次のページマークはありません");
-                return;
-            }
-
-            Pagemark mark = ModelContext.Pagemarks.MoveSelected(+1);
-            RequestLoad(mark);
-        }
-
-
-
-
 
         // ファイルの場所を開くことが可能？
         public bool CanOpenFilePlace()

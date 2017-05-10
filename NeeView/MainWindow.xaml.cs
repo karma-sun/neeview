@@ -248,14 +248,8 @@ namespace NeeView
             this.MainView.PreviewMouseUp += MainView_PreviewMouseAction;
             this.MainView.PreviewMouseWheel += MainView_PreviewMouseAction;
 
-            // timer for slideshow
-            _timer = new DispatcherTimer(DispatcherPriority.Normal, this.Dispatcher);
-            _timer.Interval = TimeSpan.FromSeconds(_maxTimerTick);
-            _timer.Tick += new EventHandler(DispatcherTimer_Tick);
-            _timer.Start();
-
-            // shlideshow mode check
-            AppContext.Current.IsPlayingSlideShowChanged += AppContext_IsPlayingSlideShowChanged;
+            // timer 
+            InitializeNonActiveTimer();
 
             // cancel rename triggers
             this.MouseLeftButtonDown += (s, e) => this.RenameManager.Stop();
@@ -263,35 +257,6 @@ namespace NeeView
             this.Deactivated += (s, e) => this.RenameManager.Stop();
         }
 
-
-        //
-        private double _maxTimerTick = 0.2;
-
-        /// <summary>
-        /// スライドショー状態変更時にインターバル時間を修正する
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AppContext_IsPlayingSlideShowChanged(object sender, EventArgs e)
-        {
-            if (AppContext.Current.IsPlayingSlideShow)
-            {
-                if (_VM.SlideShowInterval < _timer.Interval.TotalSeconds * 0.5)
-                {
-                    var interval = _VM.SlideShowInterval * 0.5;
-                    if (interval < 0.01) interval = 0.01;
-                    if (interval > _maxTimerTick) interval = _maxTimerTick;
-                    _timer.Interval = TimeSpan.FromSeconds(interval);
-                }
-                _lastShowTime = DateTime.Now;
-            }
-            else
-            {
-                _timer.Interval = TimeSpan.FromSeconds(_maxTimerTick);
-            }
-
-            Debug.WriteLine($"TimerInterval = {_timer.Interval.TotalMilliseconds}ms");
-        }
 
         // ビジュアル初期化
         private void InitializeVisualTree()
@@ -391,7 +356,6 @@ namespace NeeView
         {
             App.Current?.Dispatcher.Invoke(() =>
             {
-                _lastShowTime = DateTime.Now;
                 DartyThumbnailList();
             });
         }
@@ -413,7 +377,7 @@ namespace NeeView
         }
 
 
-        #region Timer
+        #region NonActiveTimer
 
         // タイマーディスパッチ
         private DispatcherTimer _timer;
@@ -422,8 +386,18 @@ namespace NeeView
         private DateTime _lastActionTime;
         private Point _lastActionPoint;
 
-        // スライドショー表示間隔用
-        private DateTime _lastShowTime;
+        // 非アクティブになる時間(秒)
+        private const double _activeTimeLimit = 2.0;
+
+        // 一定時間操作がなければカーソルを非表示にする仕組み
+        // 初期化
+        private void InitializeNonActiveTimer()
+        {
+            _timer = new DispatcherTimer(DispatcherPriority.Normal, this.Dispatcher);
+            _timer.Interval = TimeSpan.FromSeconds(0.2);
+            _timer.Tick += new EventHandler(DispatcherTimer_Tick);
+            _timer.Start();
+        }
 
         // タイマー処理
         private void DispatcherTimer_Tick(object sender, EventArgs e)
@@ -431,25 +405,14 @@ namespace NeeView
             if (Mouse.LeftButton == MouseButtonState.Pressed || Mouse.RightButton == MouseButtonState.Pressed)
             {
                 _lastActionTime = DateTime.Now;
-                _lastShowTime = DateTime.Now;
                 return;
             }
 
             // 非アクティブ時間が続いたらマウスカーソルを非表示にする
-            if ((DateTime.Now - _lastActionTime).TotalSeconds > 2.0)
+            if ((DateTime.Now - _lastActionTime).TotalSeconds > _activeTimeLimit)
             {
                 SetMouseVisible(false);
                 _lastActionTime = DateTime.Now;
-            }
-
-            if (AppContext.Current.IsPlayingSlideShow)
-            {
-                // スライドショーのインターバルを非アクティブ時間で求める
-                if ((DateTime.Now - _lastShowTime).TotalSeconds > _VM.SlideShowInterval)
-                {
-                    if (!_nowLoading) _VM.NextSlide();
-                    _lastShowTime = DateTime.Now;
-                }
             }
         }
 
@@ -461,10 +424,6 @@ namespace NeeView
             if (Math.Abs(nowPoint.X - _lastActionPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(nowPoint.Y - _lastActionPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
                 _lastActionTime = DateTime.Now;
-                if (_VM.IsCancelSlideByMouseMove)
-                {
-                    _lastShowTime = DateTime.Now;
-                }
                 _lastActionPoint = nowPoint;
                 SetMouseVisible(true);
             }
@@ -474,7 +433,6 @@ namespace NeeView
         private void MainView_PreviewMouseAction(object sender, MouseEventArgs e)
         {
             _lastActionTime = DateTime.Now;
-            _lastShowTime = DateTime.Now;
             SetMouseVisible(true);
         }
 
@@ -857,7 +815,7 @@ namespace NeeView
             var history = ModelContext.BookHistory.CreateMemento(false);
 
             // スライドショー停止
-            AppContext.Current.PauseSlideShow();
+            SlideShow.Current.PauseSlideShow();
 
             var dialog = new SettingWindow(setting, history);
             dialog.Owner = this;
@@ -872,14 +830,13 @@ namespace NeeView
                 _VM.StoreWindowPlacement(this);
                 _VM.SaveSetting();
                 ModelContext.BookHistory.Restore(history, false);
-                AppContext.Current.RaizeAllPropertyChanged();
 
                 // 現在ページ再読込
                 _VM.BookHub.ReLoad();
             }
 
             // スライドショー再開
-            AppContext.Current.ResumeSlideShow();
+            SlideShow.Current.ResumeSlideShow();
         }
 
         // 設定ファイルの場所を開く
@@ -1047,7 +1004,7 @@ namespace NeeView
             // スライドショーの自動再生
             if (App.Options["--slideshow"].IsValid ? App.Options["--slideshow"].Bool : _VM.IsAutoPlaySlideShow)
             {
-                AppContext.Current.IsPlayingSlideShow = true;
+                SlideShow.Current.IsPlayingSlideShow = true;
             }
         }
 

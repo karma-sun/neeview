@@ -54,8 +54,8 @@ namespace NeeView
         [DataMember(Order = 17, EmitDefaultValue = false)]
         public ImageEffect.Memento ImageEffectMemento { get; set; } // no used (ver.22)
 
-        // 設定(new!)
-        [DataMember(Order = 1)]
+        // Models 設定(new!)
+        [DataMember]
         public Models.Memento Memento { get; set; }
 
         //

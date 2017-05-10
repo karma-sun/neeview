@@ -793,10 +793,10 @@
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ループ再生"
                                   ToolTip="フォルダーの最終ページまで再生したら先頭ページに戻ります"
-                                  IsChecked="{Binding Setting.BookHubMemento.IsSlideShowByLoop}" />
+                                  IsChecked="{Binding Setting.Memento.SlideShow.IsSlideShowByLoop}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="マウス移動で表示間隔リセット"
                                   ToolTip="マウスを動かすと表示間隔タイマーがリセットされます&#xa;OFFの時は、クリック等明確なアクションでのみリセットされます"
-                                  IsChecked="{Binding Setting.BookHubMemento.IsCancelSlideByMouseMove}" />
+                                  IsChecked="{Binding Setting.Memento.SlideShow.IsCancelSlideByMouseMove}" />
 
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="表示間隔" MinWidth="60"/>

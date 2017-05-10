@@ -788,8 +788,6 @@ namespace NeeView
         }
 
 
-        public bool IsPermitSliderCall { get; set; } = true;
-
         // 現在ページ番号
         private int _index;
         public int Index
@@ -856,7 +854,7 @@ namespace NeeView
 
         // 現在のウィンドウアイコン取得
         public ImageSource WindowIcon
-            => AppContext.Current.IsPlayingSlideShow ? _windowIconPlay : _windowIconDefault;
+            => SlideShow.Current.IsPlayingSlideShow ? _windowIconPlay : _windowIconDefault;
 
         #endregion
 
@@ -1322,13 +1320,6 @@ namespace NeeView
         }
 
 
-
-        /// <summary>
-        /// アプリ動的情報。
-        /// MVVM用。
-        /// </summary>
-        public AppContext AppContext => AppContext.Current;
-
         // 本管理
         public BookHub BookHub { get; private set; }
 
@@ -1579,7 +1570,8 @@ namespace NeeView
             MainWindowVM.Current = this;
 
             // Models
-            _models = Models.Current;
+            _models = new Models();
+            ////_models = Models.Current;
 
             // Window Shape
             _windowShape = new WindowShapeSelector(window);
@@ -1593,16 +1585,23 @@ namespace NeeView
 
             InitializeWindowIcons();
 
-            // AppContext
-            AppContext.Current.IsPlayingSlideShowChanged +=
-                (s, e) => RaisePropertyChanged(nameof(WindowIcon));
+            SlideShow.Current.PropertyChanged += (s, e) =>
+            {
+                switch (e.PropertyName)
+                {
+                    case nameof(SlideShow.IsPlayingSlideShow):
+                        RaisePropertyChanged(nameof(WindowIcon));
+                        break;
+                }
+            };
 
             // ModelContext
             ModelContext.JobEngine.StatusChanged +=
                 (s, e) => RaisePropertyChanged(nameof(JobEngine));
 
             ModelContext.JobEngine.IsBusyChanged +=
-                (s, e) => IsBusyJobEngine = ModelContext.JobEngine.IsBusy && !AppContext.Current.IsPlayingSlideShow;
+                ////(s, e) => IsBusyJobEngine = ModelContext.JobEngine.IsBusy && !AppContext.Current.IsPlayingSlideShow;
+                (s, e) => IsBusyJobEngine = ModelContext.JobEngine.IsBusy && !SlideShow.Current.IsPlayingSlideShow;
 
             // BookHub
             BookHub = _models.BookHub;
@@ -2638,22 +2637,6 @@ namespace NeeView
         }
 
 
-
-
-        // スライドショーの表示間隔
-        public double SlideShowInterval => BookHub.SlideShowInterval;
-
-        // カーソルでスライドを止める
-        public bool IsCancelSlideByMouseMove => BookHub.IsCancelSlideByMouseMove;
-
-        // スライドショー：次のスライドへ
-        public void NextSlide()
-        {
-            BookHub.NextSlide();
-        }
-
-
-
         // フォルダー読み込み
         public void Load(string path, BookLoadOption option = BookLoadOption.None)
         {
@@ -2762,7 +2745,7 @@ namespace NeeView
             }
 
             // スライドショー停止
-            AppContext.Current.PauseSlideShow();
+            SlideShow.Current.PauseSlideShow();
 
             try
             {
@@ -2793,7 +2776,7 @@ namespace NeeView
                 }
 
                 // スライドショー再開
-                AppContext.Current.ResumeSlideShow();
+                SlideShow.Current.ResumeSlideShow();
             }
         }
 
@@ -2809,7 +2792,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento
@@ -3218,6 +3201,6 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 }

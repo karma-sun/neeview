@@ -14,11 +14,10 @@ namespace NeeView
     /// NeeView全体のモデル。
     /// 各Modelのインスタンスを管理する。
     /// </summary>
-    public class Models : INotifyPropertyChanged
+    public class Models : INotifyPropertyChanged, IEngine
     {
         // System Object
-        private static Models _current;
-        public static Models Current { get { return _current = _current ?? new Models(); } }
+        public static Models Current { get; private set; }
 
         // PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -26,6 +25,10 @@ namespace NeeView
 
         //
         public BookHub BookHub { get; private set; }
+
+        //
+        public MouseInput MouseInput { get; private set; }
+        public SlideShow SlideShow { get; private set; }
 
         //
         public FolderPanelModel FolderPanelModel { get; private set; }
@@ -47,9 +50,14 @@ namespace NeeView
         /// </summary>
         public Models()
         {
+            Current = this;
+
             this.BookHub = new BookHub();
 
             // TODO: このあたりでコマンド初期化？
+
+            this.MouseInput = new MouseInput();
+            this.SlideShow = new SlideShow(this.BookHub, this.MouseInput);
 
             this.FolderPanelModel = new FolderPanelModel();
             this.FolderList = new FolderList(this.BookHub, this.FolderPanelModel);
@@ -69,10 +77,25 @@ namespace NeeView
             RaisePropertyChanged(nameof(SidePanel));
         }
 
+
+        //
+        public void StartEngine()
+        {
+            this.SlideShow.StartEngine();
+        }
+
+        //
+        public void StopEngine()
+        {
+            this.SlideShow.StopEngine();
+        }
+
         #region Memento
         [DataContract]
         public class Memento
         {
+            [DataMember]
+            public SlideShow.Memento SlideShow { get; set; } 
             [DataMember]
             public FolderPanelModel.Memento FolderPanel { get; set; }
             [DataMember]
@@ -97,6 +120,7 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
+            memento.SlideShow = this.SlideShow.CreateMemento();
             memento.FolderPanel = this.FolderPanelModel.CreateMemento();
             memento.FolderList = this.FolderList.CreateMemento();
             memento.PageList = this.PageList.CreateMemento();
@@ -113,6 +137,7 @@ namespace NeeView
         public void Resore(Memento memento, bool fromLoad)
         {
             if (memento == null) return;
+            this.SlideShow.Restore(memento.SlideShow);
             this.FolderPanelModel.Restore(memento.FolderPanel);
             this.FolderList.Restore(memento.FolderList);
             this.PageList.Restore(memento.PageList);

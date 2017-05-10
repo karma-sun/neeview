@@ -218,6 +218,7 @@ namespace NeeView
 
         // ロード中フラグ
         private bool _isLoading;
+        public bool IsLoading => _isLoading;
 
 
         // アニメGIF 有効/無効
@@ -302,16 +303,6 @@ namespace NeeView
             }
         }
 
-
-
-        // スライドショー設定：ループ再生
-        private bool IsSlideShowByLoop { get; set; } = true;
-
-        // スライドショー設定：切り替わる時間(秒)
-        public double SlideShowInterval { get; set; } = 5.0;
-
-        // スライドショー設定：マウス移動でキャンセル
-        public bool IsCancelSlideByMouseMove { get; set; } = true;
 
         // 圧縮ファイルの有効/無効
         #region Property: IsSupportArchiveFile
@@ -962,7 +953,8 @@ namespace NeeView
         // ページ終端を超えて移動しようとするときの処理
         private void OnPageTerminated(object sender, int e)
         {
-            if (AppContext.Current.IsPlayingSlideShow && IsSlideShowByLoop)
+            // TODO ここでSlideShowを参照しているが、引数で渡すべきでは？
+            if (SlideShow.Current.IsPlayingSlideShow && SlideShow.Current.IsSlideShowByLoop)
             {
                 FirstPage();
             }
@@ -991,9 +983,10 @@ namespace NeeView
             }
             else
             {
-                if (AppContext.Current.IsPlayingSlideShow)
+                if (SlideShow.Current.IsPlayingSlideShow)
                 {
-                    ToggleSlideShow(); // スライドショー解除
+                    // スライドショー解除
+                    SlideShow.Current.IsPlayingSlideShow = false;
                 }
 
                 else if (e < 0)
@@ -1158,7 +1151,7 @@ namespace NeeView
         // スライドショー用：次のページへ移動
         public void NextSlide()
         {
-            if (AppContext.Current.IsPlayingSlideShow) NextPage();
+            if (SlideShow.Current.IsPlayingSlideShow) NextPage();
         }
 
         // ー
@@ -1181,14 +1174,6 @@ namespace NeeView
             {
                 InfoMessage?.Invoke(this, "前のフォルダーはありません");
             }
-        }
-
-
-        // スライドショーON/OFF
-        public void ToggleSlideShow()
-        {
-            AppContext.Current.IsPlayingSlideShow = !AppContext.Current.IsPlayingSlideShow;
-            SettingChanged?.Invoke(this, null);
         }
 
 
@@ -1736,10 +1721,10 @@ namespace NeeView
             }
         }
 
-        
+
         // ファイルを削除する
         public async Task<bool> RemoveFileAsync(string path)
-        { 
+        {
             int retryCount = 1;
 
             Retry:
@@ -1899,14 +1884,14 @@ namespace NeeView
             [DataMember(Order = 19)]
             public PageEndAction PageEndAction { get; set; }
 
-            [DataMember]
-            public bool IsSlideShowByLoop { get; set; }
+            [DataMember(EmitDefaultValue = false)]
+            public bool IsSlideShowByLoop { get; set; } // no used (ver.22)
 
-            [DataMember]
-            public double SlideShowInterval { get; set; }
+            [DataMember(EmitDefaultValue = false)]
+            public double SlideShowInterval { get; set; } // no used (ver.22)
 
-            [DataMember(Order = 7)]
-            public bool IsCancelSlideByMouseMove { get; set; }
+            [DataMember(Order = 7, EmitDefaultValue = false)]
+            public bool IsCancelSlideByMouseMove { get; set; } // no used (ver.22)
 
             [DataMember]
             public Book.Memento BookMemento { get; set; }
@@ -1956,9 +1941,9 @@ namespace NeeView
             private void Constructor()
             {
                 IsEnableNoSupportFile = false;
-                IsSlideShowByLoop = true;
-                SlideShowInterval = 5.0;
-                IsCancelSlideByMouseMove = true;
+                ////IsSlideShowByLoop = true;
+                ////SlideShowInterval = 5.0;
+                ////IsCancelSlideByMouseMove = true;
                 IsSupportArchiveFile = true;
                 BookMemento = new Book.Memento();
                 ExternalApplication = new ExternalApplication();
@@ -2007,9 +1992,9 @@ namespace NeeView
             memento.IsEnableExif = IsEnableExif;
             memento.IsEnableNoSupportFile = IsEnableNoSupportFile;
             memento.PageEndAction = PageEndAction;
-            memento.IsSlideShowByLoop = IsSlideShowByLoop;
-            memento.SlideShowInterval = SlideShowInterval;
-            memento.IsCancelSlideByMouseMove = IsCancelSlideByMouseMove;
+            ////memento.IsSlideShowByLoop = IsSlideShowByLoop;
+            ////memento.SlideShowInterval = SlideShowInterval;
+            ////memento.IsCancelSlideByMouseMove = IsCancelSlideByMouseMove;
             memento.BookMemento = BookMemento.Clone();
             memento.BookMemento.ValidateForDefault(); // 念のため
             //memento.IsEnarbleCurrentDirectory = IsEnarbleCurrentDirectory;
@@ -2036,9 +2021,9 @@ namespace NeeView
             IsEnableExif = memento.IsEnableExif;
             IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
             PageEndAction = memento.PageEndAction;
-            IsSlideShowByLoop = memento.IsSlideShowByLoop;
-            SlideShowInterval = memento.SlideShowInterval;
-            IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;
+            ////IsSlideShowByLoop = memento.IsSlideShowByLoop;
+            ////SlideShowInterval = memento.SlideShowInterval;
+            ////IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;
             BookMemento = memento.BookMemento.Clone();
             //IsEnarbleCurrentDirectory = memento.IsEnarbleCurrentDirectory;
             IsSupportArchiveFile = memento.IsSupportArchiveFile;
@@ -2052,6 +2037,14 @@ namespace NeeView
             HistoryMementoFilter = memento.HistoryMementoFilter;
             PreLoadMode = memento.PreLoadMode;
             Home = memento.Home;
+
+            // compatible before ver.22
+            if (memento._Version < Config.GenerateProductVersionNumber(1, 22, 0))
+            {
+                SlideShow.Current.IsSlideShowByLoop = memento.IsSlideShowByLoop;
+                SlideShow.Current.SlideShowInterval = memento.SlideShowInterval;
+                SlideShow.Current.IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;
+            }
         }
 
         #endregion

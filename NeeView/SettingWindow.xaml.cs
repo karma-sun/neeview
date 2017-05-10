@@ -370,8 +370,8 @@ namespace NeeView
             HistoryLimitSpan.ValueChanged += (s, e) => History.LimitSpan = e.NewValue;
 
             // SlideShow Interval
-            SlideShowInterval = new SlideShowInterval(Setting.BookHubMemento.SlideShowInterval);
-            SlideShowInterval.ValueChanged += (s, e) => Setting.BookHubMemento.SlideShowInterval = e.NewValue;
+            SlideShowInterval = new SlideShowInterval(Setting.Memento.SlideShow.SlideShowInterval);
+            SlideShowInterval.ValueChanged += (s, e) => Setting.Memento.SlideShow.SlideShowInterval = e.NewValue;
         }
 
         //

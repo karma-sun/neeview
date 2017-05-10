@@ -299,6 +299,9 @@ namespace NeeView
             _current.OnMouseWheel(_sender, e);
         }
 
+        // マウス移動検知用
+        private Point _lastActionPoint;
+
         /// <summary>
         /// OnMouseMove
         /// </summary>
@@ -308,6 +311,15 @@ namespace NeeView
         {
             if (sender != _sender) return;
             _current.OnMouseMove(_sender, e);
+
+            // マウス移動を通知
+            var nowPoint = e.GetPosition(_sender);
+            if (Math.Abs(nowPoint.X - _lastActionPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(nowPoint.Y - _lastActionPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+            {
+                // TODO: このモデルの受け渡し
+                Models.Current?.MouseInput.RaiseMouseMoved();
+                _lastActionPoint = nowPoint;
+            }
         }
 
         /// <summary>

@@ -272,7 +272,7 @@ namespace NeeView
         public static Dictionary<PageEndAction, string> PageEndActionList { get; } = new Dictionary<PageEndAction, string>
         {
             [PageEndAction.None] = "そのまま",
-            [PageEndAction.NextFolder] = "次のフォルダーに移動",
+            [PageEndAction.NextFolder] = "次のブックに移動",
             [PageEndAction.Loop] = "ループする"
         };
 

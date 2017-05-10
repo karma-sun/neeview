@@ -228,7 +228,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ファイル";
                 element.Text = "再読み込み";
-                element.Note = "フォルダーを再読み込みします";
+                element.Note = "ブックを再読み込みします";
                 element.MouseGesture = "UD";
                 element.CanExecute = () => _book.CanReload();
                 element.Execute = (s, e) => _book.ReLoad();
@@ -242,7 +242,7 @@ namespace NeeView
                 element.Group = "ファイル";
                 element.Text = "閉じる";
                 element.MenuText = "閉じる(_C)";
-                element.Note = "開いているフォルダーを閉じます";
+                element.Note = "開いているブックを閉じます";
                 element.CanExecute = () => _book.CanUnload();
                 element.Execute = (s, e) => _book.RequestUnload(true);
                 element.IsShowMessage = false;
@@ -1183,8 +1183,8 @@ namespace NeeView
             {
                 var element = new CommandElement();
                 element.Group = "移動";
-                element.Text = "前のフォルダーに移動";
-                element.Note = "フォルダーリスト上での前のフォルダーを読み込みます";
+                element.Text = "前のブックに移動";
+                element.Note = "フォルダーリスト上での前のブックを読み込みます";
                 element.ShortCutKey = "Up";
                 element.MouseGesture = "LU";
                 element.IsShowMessage = false;
@@ -1195,8 +1195,8 @@ namespace NeeView
             {
                 var element = new CommandElement();
                 element.Group = "移動";
-                element.Text = "次のフォルダーへ移動";
-                element.Note = "フォルダーリスト上での次のフォルダーを読み込みます";
+                element.Text = "次のブックへ移動";
+                element.Note = "フォルダーリスト上での次のブックを読み込みます";
                 element.ShortCutKey = "Down";
                 element.MouseGesture = "LD";
                 element.IsShowMessage = false;
@@ -1208,7 +1208,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "移動";
                 element.Text = "前の履歴に戻る";
-                element.Note = "前の古い履歴のフォルダーを読み込みます";
+                element.Note = "前の古い履歴のブックを読み込みます";
                 element.ShortCutKey = "Back";
                 element.IsShowMessage = false;
                 element.CanExecute = () => _book.CanPrevHistory();
@@ -1220,7 +1220,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "移動";
                 element.Text = "次の履歴へ進む";
-                element.Note = "次の新しい履歴のフォルダーを読み込みます";
+                element.Note = "次の新しい履歴のブックを読み込みます";
                 element.ShortCutKey = "Shift+Back";
                 element.IsShowMessage = false;
                 element.CanExecute = () => _book.CanNextHistory();
@@ -1232,9 +1232,9 @@ namespace NeeView
             // ToggleFolderOrder
             {
                 var element = new CommandElement();
-                element.Group = "フォルダー列";
-                element.Text = "フォルダーの並び順を切り替える";
-                element.Note = "フォルダーの並び順を順番に切り替えます";
+                element.Group = "ブック列";
+                element.Text = "ブックの並び順を切り替える";
+                element.Note = "ブックの並び順を順番に切り替えます";
                 element.Execute = (s, e) => _book.ToggleFolderOrder();
                 element.ExecuteMessage = e => _book.GetFolderOrder().GetToggle().ToDispString();
                 element.IsShowMessage = true;
@@ -1243,9 +1243,9 @@ namespace NeeView
             // SetFolderOrderByFileName
             {
                 var element = new CommandElement();
-                element.Group = "フォルダー列";
-                element.Text = "フォルダー列はファイル名順";
-                element.Note = "フォルダーの並びを名前順(昇順)にします";
+                element.Group = "ブック列";
+                element.Text = "ブック列はファイル名順";
+                element.Note = "ブックの並びを名前順(昇順)にします";
                 element.Execute = (s, e) => _book.SetFolderOrder(FolderOrder.FileName);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileName);
                 element.IsShowMessage = true;
@@ -1254,9 +1254,9 @@ namespace NeeView
             // SetFolderOrderByTimeStamp
             {
                 var element = new CommandElement();
-                element.Group = "フォルダー列";
-                element.Text = "フォルダー列は日付順";
-                element.Note = "フォルダーの並びを日付順(降順)にします";
+                element.Group = "ブック列";
+                element.Text = "ブック列は日付順";
+                element.Note = "ブックの並びを日付順(降順)にします";
                 element.Execute = (s, e) => _book.SetFolderOrder(FolderOrder.TimeStamp);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStamp);
                 element.IsShowMessage = true;
@@ -1265,9 +1265,9 @@ namespace NeeView
             // SetFolderOrderBySize
             {
                 var element = new CommandElement();
-                element.Group = "フォルダー列";
-                element.Text = "フォルダー列はサイズ順";
-                element.Note = "フォルダーの並びをサイズ順(降順)にします";
+                element.Group = "ブック列";
+                element.Text = "ブック列はサイズ順";
+                element.Note = "ブックの並びをサイズ順(降順)にします";
                 element.Execute = (s, e) => _book.SetFolderOrder(FolderOrder.Size);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Size);
                 element.IsShowMessage = true;
@@ -1276,9 +1276,9 @@ namespace NeeView
             // SetFolderOrderByRandom
             {
                 var element = new CommandElement();
-                element.Group = "フォルダー列";
-                element.Text = "フォルダー列はシャッフル";
-                element.Note = "フォルダーの並びをシャッフルします";
+                element.Group = "ブック列";
+                element.Text = "ブック列はシャッフル";
+                element.Note = "ブックの並びをシャッフルします";
                 element.Execute = (s, e) => _book.SetFolderOrder(FolderOrder.Random);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Random);
                 element.IsShowMessage = true;
@@ -1520,7 +1520,7 @@ namespace NeeView
                 element.Group = "ブックマーク";
                 element.Text = "ブックマーク登録/解除";
                 element.MenuText = "ブックマーク";
-                element.Note = "現在開いているフォルダーのブックマークの登録/解除を切り替えます";
+                element.Note = "現在開いているブックのブックマークの登録/解除を切り替えます";
                 element.Execute = (s, e) => _book.ToggleBookmark();
                 element.CanExecute = () => _book.CanBookmark();
                 element.ExecuteMessage = e => _book.IsBookmark(null) ? "ブックマーク解除" : "ブックマークに登録";
@@ -1535,7 +1535,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ブックマーク";
                 element.Text = "前のブックマークに移動";
-                element.Note = "ブックマークリスト順で前のフォルダーに移動します";
+                element.Note = "ブックマークリスト順で前のブックに移動します";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _book.PrevBookmark();
                 _elements[CommandType.PrevBookmark] = element;
@@ -1545,7 +1545,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ブックマーク";
                 element.Text = "次のブックマークへ移動";
-                element.Note = "ブックマークリスト順で次のフォルダーに移動します";
+                element.Note = "ブックマークリスト順で次のブックに移動します";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _book.NextBookmark();
                 _elements[CommandType.NextBookmark] = element;
@@ -1592,8 +1592,8 @@ namespace NeeView
             {
                 var element = new CommandElement();
                 element.Group = "ページマーク";
-                element.Text = "フォルダー内の前のページマークに移動";
-                element.Note = "現在のフォルダー内で前のページマークに移動します";
+                element.Text = "ブック内の前のページマークに移動";
+                element.Note = "現在のブック内で前のページマークに移動します";
                 element.IsShowMessage = false;
                 element.CanExecute = () => _models.BookOperation.CanPrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
                 element.Execute = (s, e) => _models.BookOperation.PrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
@@ -1604,8 +1604,8 @@ namespace NeeView
             {
                 var element = new CommandElement();
                 element.Group = "ページマーク";
-                element.Text = "フォルダー内の次のページマークへ移動";
-                element.Note = "現在のフォルダー内で次のページマークへ移動します";
+                element.Text = "ブック内の次のページマークへ移動";
+                element.Note = "現在のブック内で次のページマークへ移動します";
                 element.IsShowMessage = false;
                 element.CanExecute = () => _models.BookOperation.CanNextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
                 element.Execute = (s, e) => _models.BookOperation.NextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);

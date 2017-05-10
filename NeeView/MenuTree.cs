@@ -110,7 +110,7 @@ namespace NeeView
                     case MenuElementType.Command:
                         return Command.ToDispLongString();
                     case MenuElementType.History:
-                        return "《最近使ったフォルダー》";
+                        return "《最近使ったブック》";
                     case MenuElementType.Separator:
                         return "《セパレーター》";
                 }
@@ -132,7 +132,7 @@ namespace NeeView
                     case MenuElementType.Command:
                         return Command.ToMenuString();
                     case MenuElementType.History:
-                        return "最近使ったフォルダー";
+                        return "最近使ったブック";
                     case MenuElementType.Separator:
                         return "セパレーター";
                 }
@@ -396,7 +396,7 @@ namespace NeeView
                     case MenuElementType.Command:
                         return ModelContext.CommandTable[Command].Note;
                     case MenuElementType.History:
-                        return "最近使ったフォルダーの一覧から開きます";
+                        return "最近使ったブックの一覧から開きます";
                     case MenuElementType.Separator:
                         return "";
                 }

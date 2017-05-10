@@ -831,7 +831,7 @@ namespace NeeView
         // 再帰読み込み確認
         public void ConfirmRecursive()
         {
-            var dialog = new MessageDialog($"\"{CurrentBook.Place}\" には読み込めるファイルがありません。サブフォルダー(書庫)も読み込みますか？", "サブフォルダーも読み込みますか？");
+            var dialog = new MessageDialog($"\"{CurrentBook.Place}\" には読み込めるファイルがありません。サブフォルダーまたは圧縮ファイルも読み込みますか？", "サブフォルダーも読み込みますか？");
             dialog.Commands.Add(UICommands.Yes);
             dialog.Commands.Add(UICommands.No);
             var result = dialog.ShowDialog();
@@ -1154,7 +1154,7 @@ namespace NeeView
             var result = Messenger.Send(this, new MessageEventArgs("MoveFolder") { Parameter = new MoveFolderParams() { Distance = +1, BookLoadOption = option } });
             if (result != true)
             {
-                InfoMessage?.Invoke(this, "次のフォルダーはありません");
+                InfoMessage?.Invoke(this, "次のブックはありません");
             }
         }
 
@@ -1165,7 +1165,7 @@ namespace NeeView
             var result = Messenger.Send(this, new MessageEventArgs("MoveFolder") { Parameter = new MoveFolderParams() { Distance = -1, BookLoadOption = option } });
             if (result != true)
             {
-                InfoMessage?.Invoke(this, "前のフォルダーはありません");
+                InfoMessage?.Invoke(this, "前のブックはありません");
             }
         }
 

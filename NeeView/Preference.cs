@@ -44,7 +44,7 @@ namespace NeeView
 
 
         [DataMember, DefaultValue(false)]
-        [PropertyMember("「開く」を現在開いているフォルダーの場所から始める"
+        [PropertyMember("「開く」を現在開いているブックの場所から始める"
             , Tips = "[ファイル] >[開く]で開くフォルダーです\nドラッグ＆ドロップや履歴から開いた場所も基準になります")]
         public bool openbook_begin_current { get; set; }
 
@@ -119,15 +119,15 @@ namespace NeeView
         public int thumbnail_quality { get; set; }
 
         [DataMember, DefaultValue(true)]
-        [PropertyMember("サムネイルキャッシュを使用する", Tips = "フォルダーサムネイルをキャッシュします。キャッシュファイルはCache.dbです")]
+        [PropertyMember("サムネイルキャッシュを使用する", Tips = "ブックサムネイルをキャッシュします。キャッシュファイルはCache.dbです")]
         public bool thumbnail_cache { get; set; }
 
         [DataMember, DefaultValue(1000)]
-        [PropertyMember("ページサムネイル容量", Tips = "ページサムネイル保持枚数です。フォルダーを閉じると全てクリアされます")]
+        [PropertyMember("ページサムネイル容量", Tips = "ページサムネイル保持枚数です。ブックを閉じると全てクリアされます")]
         public int thumbnail_book_capacity { get; set; }
 
         [DataMember, DefaultValue(200)]
-        [PropertyMember("フォルダーサムネイル容量", Tips = "フォルダーリスト等でのサムネイル保持枚数です")]
+        [PropertyMember("ブックサムネイル容量", Tips = "フォルダーリスト等でのサムネイル保持枚数です")]
         public int thumbnail_folder_capacity { get; set; }
 
         [DataMember, DefaultValue(true)]
@@ -188,7 +188,7 @@ namespace NeeView
         public int banner_width { get; set; }
 
         [DataMember, DefaultValue(false)]
-        [PropertyMember("前回開いていたフォルダーを開く", Tips = "起動時に前回開いていたフォルダーを開きます", Flags = PropertyMemberFlag.None)]
+        [PropertyMember("前回開いていたブックを開く", Tips = "起動時に前回開いていたブックを開きます", Flags = PropertyMemberFlag.None)]
         public bool bootup_lastfolder { get; set; }
 
         /// <summary>

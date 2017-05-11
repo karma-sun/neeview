@@ -128,6 +128,9 @@ namespace NeeView
             _VM = new MainWindowVM(this);
             this.DataContext = _VM;
 
+            this.PreviewMouseMove += MainWindow_PreviewMouseMove;
+
+
             // コマンド初期化
             InitializeCommandBindings();
 
@@ -247,6 +250,18 @@ namespace NeeView
             this.MouseLeftButtonDown += (s, e) => this.RenameManager.Stop();
             this.MouseRightButtonDown += (s, e) => this.RenameManager.Stop();
             this.Deactivated += (s, e) => this.RenameManager.Stop();
+        }
+
+        //
+        private void MainWindow_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            // DragMove終了直後のマウス座標が不正(0,0)になるのようなので、この場合は無効にする
+            var windowPoint = e.GetPosition(this);
+            if (windowPoint.X == 0.0 && windowPoint.Y == 0.0)
+            {
+                Debug.WriteLine("Wrong cursor position!");
+                e.Handled = true;
+            }
         }
 
 
@@ -1237,7 +1252,7 @@ namespace NeeView
         }
 
 
-#region DEBUG
+        #region DEBUG
         // [開発用] 開発操作
         private void Debug_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -1268,10 +1283,10 @@ namespace NeeView
             var fwelement = element as FrameworkElement;
             Debug.WriteLine($"FOCUS: {element}({element?.GetType()})({fwelement?.Name})");
         }
-#endregion
+        #endregion
 
         // TODO: クラス化
-#region thumbnail list
+        #region thumbnail list
 
         // サムネイルリストのパネルコントロール
         private VirtualizingStackPanel _thumbnailListPanel;
@@ -1502,7 +1517,7 @@ namespace NeeView
         }
 
 
-#endregion
+        #endregion
 
 
 
@@ -1581,7 +1596,7 @@ namespace NeeView
 
 
 
-#region Panel Visibility
+        #region Panel Visibility
 
         // ViewAreaでのマウス移動
         private void ViewArea_MouseMove(object sender, MouseEventArgs e)
@@ -1596,7 +1611,7 @@ namespace NeeView
             UpdateStatusLayerVisibility();
         }
 
-#endregion
+        #endregion
 
         //
         private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1648,7 +1663,7 @@ namespace NeeView
 
 
 
-#region ContextMenu Counter
+        #region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -1686,7 +1701,7 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-#endregion
+        #endregion
 
 
         private void MenuArea_MouseEnter(object sender, MouseEventArgs e)
@@ -1797,7 +1812,7 @@ namespace NeeView
     }
 
 
-#region Convertes
+    #region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -2115,5 +2130,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

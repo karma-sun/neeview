@@ -24,6 +24,13 @@ namespace NeeView
         protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         //
+        public CommandTable CommandTable { get; private set; }
+        public RoutedCommandTable RoutedCommandTable { get; private set; }
+
+        //
+        public InfoMessage InfoMessage { get; private set; }
+
+        //
         public BookHub BookHub { get; private set; }
         public BookOperation BookOperation { get; private set; }
 
@@ -53,10 +60,16 @@ namespace NeeView
         {
             Current = this;
 
+            this.CommandTable = new CommandTable();
+            this.RoutedCommandTable = new RoutedCommandTable(this.CommandTable);
+
+            this.InfoMessage = new InfoMessage();
+
             this.BookHub = new BookHub();
             this.BookOperation = new BookOperation(this.BookHub);
 
-            // TODO: このあたりでコマンド初期化？
+            // TODO: MainWindowVMをモデル分離してModelとして参照させる？
+            this.CommandTable.SetTarget(this, MainWindowVM.Current);
 
             this.MouseInput = new MouseInput();
             this.SlideShow = new SlideShow(this.BookHub, this.BookOperation, this.MouseInput);
@@ -69,16 +82,9 @@ namespace NeeView
             this.PagemarkList = new PagemarkList(this.BookHub, this.BookOperation);
             this.FileInformation = new FileInformation();
             this.ImageEffecct = new ImageEffect();
-        }
 
-        // サイドパネル初期化
-        // TODO: 現状、コマンド初期化位置の都合でコンストラクターと分離している。一体化させたい。
-        public void InitializeSidePanels()
-        { 
             this.SidePanel = new SidePanel(this);
-            RaisePropertyChanged(nameof(SidePanel));
         }
-
 
         //
         public void StartEngine()
@@ -97,7 +103,9 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public SlideShow.Memento SlideShow { get; set; } 
+            public RoutedCommandTable.Memento RoutedCommandTable { get; set; }
+            [DataMember]
+            public SlideShow.Memento SlideShow { get; set; }
             [DataMember]
             public FolderPanelModel.Memento FolderPanel { get; set; }
             [DataMember]
@@ -122,6 +130,7 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
+            memento.RoutedCommandTable = this.RoutedCommandTable.CreateMemento();
             memento.SlideShow = this.SlideShow.CreateMemento();
             memento.FolderPanel = this.FolderPanelModel.CreateMemento();
             memento.FolderList = this.FolderList.CreateMemento();
@@ -139,6 +148,7 @@ namespace NeeView
         public void Resore(Memento memento, bool fromLoad)
         {
             if (memento == null) return;
+            this.RoutedCommandTable.Restore(memento.RoutedCommandTable);
             this.SlideShow.Restore(memento.SlideShow);
             this.FolderPanelModel.Restore(memento.FolderPanel);
             this.FolderList.Restore(memento.FolderList);
@@ -147,7 +157,7 @@ namespace NeeView
             this.BookmarkList.Restore(memento.BookmarkList);
             this.PagemarkList.Restore(memento.PagemarkList);
             this.FileInformation.Restore(memento.FileInformation);
-            this.ImageEffecct.Restore(memento.ImageEffect, fromLoad); // ##
+            this.ImageEffecct.Restore(memento.ImageEffect, fromLoad); // TODO: formLoadフラグの扱いを検討
             this.SidePanel.Restore(memento.SidePanel);
         }
         #endregion

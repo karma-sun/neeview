@@ -64,7 +64,7 @@ namespace NeeView
         /// </summary>
         public override CommandParameter Entity()
         {
-            return ModelContext.CommandTable?[CommandType].Parameter;
+            return CommandTable.Current?[CommandType].Parameter;
         }
     }
 

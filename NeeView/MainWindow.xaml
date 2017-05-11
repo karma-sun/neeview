@@ -523,7 +523,7 @@
                                     <!-- empty pages message -->
                                     <Grid Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">
                                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
+                                            <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
 
                                             <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
                                                 <TextBlock.Style>
@@ -589,7 +589,7 @@
                                         <Grid x:Name="NowLoadingNormal" Background="Black">
                                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
                                                 <TextBlock x:Name="NowLoadingText" Text="Now Loading"  TextAlignment="Center" VerticalAlignment="Center"
-                                                   Foreground="White" FontFamily="Meiryo" FontSize="{Binding InfoTextFontSize}" Margin="8" TextTrimming="CharacterEllipsis"/>
+                                                   Foreground="White" FontFamily="Meiryo" FontSize="{StaticResource InfoTextFontSize}" Margin="8" TextTrimming="CharacterEllipsis"/>
                                                 <Grid Width="50" Height="50">
                                                     <Rectangle Width="5" Height="25" Fill="#FF00B5FF" RenderTransformOrigin="0.5,0.5">
                                                         <Rectangle.RenderTransform>
@@ -609,17 +609,7 @@
                                     </Grid>
 
                                     <!-- Message Tiny -->
-                                    <TextBlock x:Name="TinyInfoTextBlock" Text="{Binding TinyInfoText}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Style.Triggers>
-                                                    <Trigger Property="Text" Value="">
-                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
+                                    <local:TinyInfoMessageView Source="{Binding Models.InfoMessage.TinyInfoMessage}"/>
 
                                     <!-- IsBusy -->
                                     <Grid Margin="{Binding ElementName=MainViewCanvas, Path=Margin}">
@@ -675,26 +665,9 @@
             </DockPanel>
 
             <!-- Message Layer -->
-            <DockPanel>
+            <DockPanel >
                 <Grid DockPanel.Dock="Bottom" Height="{Binding ElementName=DockStatusArea, Path=ActualHeight}"/>
-                <Grid x:Name="InfoTextAreaBase">
-                    <StackPanel x:Name="InfoTextArea" Orientation="Horizontal" Margin="0,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="#88000000" MaxWidth="{Binding ElementName=ViewArea, Path=ActualWidth}" IsHitTestVisible="False">
-                        <StackPanel.Style>
-                            <Style TargetType="StackPanel">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=InfoTextBlock, Path=Text}" Value="">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Style>
-                        <StackPanel Orientation="Horizontal" Margin="20,10">
-                            <TextBlock x:Name="InfoUsedBookmark"  Margin="0,0,5,0" FontFamily="Wingdings" Text="«" FontSize="{Binding InfoTextMarkSize}" Foreground="{StaticResource NVStarMarkBrush}" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="InfoUsedHistory"  Margin="0,0,5,0" FontFamily="Webdings" Text="a" FontSize="{Binding InfoTextMarkSize}" Foreground="{StaticResource NVCheckMarkBrush}" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="InfoTextBlock" Text="{Binding InfoText}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{Binding InfoTextFontSize}" Foreground="White" FontFamily="Meiryo" TextTrimming="CharacterEllipsis" />
-                        </StackPanel>
-                    </StackPanel>
-                </Grid>
+                <local:NormalInfoMessageView Source="{Binding Models.InfoMessage.NormalInfoMessage}"/>
             </DockPanel>
 
             <!-- Rename manager -->

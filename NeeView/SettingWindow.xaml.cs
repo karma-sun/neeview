@@ -401,7 +401,7 @@ namespace NeeView
         private void UpdateCommandList()
         {
             CommandCollection.Clear();
-            foreach (var element in ModelContext.CommandTable)
+            foreach (var element in CommandTable.Current)
             {
                 if (element.Key.IsDisable()) continue;
 
@@ -856,7 +856,7 @@ namespace NeeView
         {
             if (command != null && command.HasParameter && !command.IsShareParameter)
             {
-                var source = ModelContext.CommandTable[command.Key];
+                var source = CommandTable.Current[command.Key];
                 var parameterDfault = source.DefaultParameter;
 
                 var parameter = command.ParameterJson != null

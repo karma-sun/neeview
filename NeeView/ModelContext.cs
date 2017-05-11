@@ -40,11 +40,8 @@ namespace NeeView
         public static ArchiverManager ArchiverManager { get; set; }
         public static BitmapLoaderManager BitmapLoaderManager { get; set; }
 
-        public static CommandTable CommandTable { get; set; }
         public static DragActionTable DragActionTable { get; set; }
 
-        // RoutedCommand辞書
-        public static Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; } = new Dictionary<CommandType, RoutedUICommand>();
 
         // 除外パス
         public static List<string> Excludes { get; set; } = new List<string>();
@@ -69,7 +66,6 @@ namespace NeeView
             ArchiverManager = new ArchiverManager();
             BitmapLoaderManager = new BitmapLoaderManager();
 
-            CommandTable = new CommandTable();
             DragActionTable = new DragActionTable();
 
             SusieContext = new SusieContext();

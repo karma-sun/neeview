@@ -176,9 +176,6 @@ namespace NeeView
         // 通知表示スタイル
         public ShowMessageStyle NoticeShowMessageStyle { get; set; }
 
-        // コマンド表示スタイル
-        public ShowMessageStyle CommandShowMessageStyle { get; set; }
-
         // ジェスチャー表示スタイル
         public ShowMessageStyle GestureShowMessageStyle { get; set; }
 
@@ -750,8 +747,8 @@ namespace NeeView
         public bool IsSaveWindowPlacement { get; set; }
 
         // コマンドバインド用
-        // View側で定義されます
-        public Dictionary<CommandType, RoutedUICommand> BookCommands { get; set; }
+        // TODO: メニュー系コントロールが分離したら不要になる？
+        public Dictionary<CommandType, RoutedUICommand> BookCommands => RoutedCommandTable.Current.Commands;
 
         // 空フォルダー通知表示のON/OFF
         #region Property: IsVisibleEmptyPageMessage
@@ -934,32 +931,6 @@ namespace NeeView
             set { _loadingPath = value; UpdateWindowTitle(UpdateWindowTitleMask.All); }
         }
 
-        #endregion
-
-        // 通知テキスト(標準)
-        #region Property: InfoText
-        private string _infoText;
-        public string InfoText
-        {
-            get { return _infoText; }
-            set { _infoText = value; RaisePropertyChanged(); }
-        }
-
-        // 通知テキストフォントサイズ
-        public double InfoTextFontSize { get; set; } = 24.0;
-        // 通知テキストフォントサイズ
-        public double InfoTextMarkSize { get; set; } = 30.0;
-
-        #endregion
-
-        // 通知テキスト(控えめ)
-        #region Property: TinyInfoText
-        private string _tinyInfoText;
-        public string TinyInfoText
-        {
-            get { return _tinyInfoText; }
-            set { _tinyInfoText = value; RaisePropertyChanged(); }
-        }
         #endregion
 
         // 本設定 公開
@@ -1266,7 +1237,7 @@ namespace NeeView
         // 本管理
         public BookHub BookHub { get; private set; }
 
-        
+
         // 標準ウィンドウタイトル
         private string _defaultWindowTitle;
 
@@ -1481,7 +1452,9 @@ namespace NeeView
 
             // Models
             _models = new Models();
-            ////_models = Models.Current;
+
+            // Side Panel
+            _models.SidePanel.ResetFocus += (s, e) => ResetFocus?.Invoke(this, null);
 
             // Window Shape
             _windowShape = new WindowShapeSelector(window);
@@ -1510,7 +1483,6 @@ namespace NeeView
                 (s, e) => RaisePropertyChanged(nameof(JobEngine));
 
             ModelContext.JobEngine.IsBusyChanged +=
-                ////(s, e) => IsBusyJobEngine = ModelContext.JobEngine.IsBusy && !AppContext.Current.IsPlayingSlideShow;
                 (s, e) => IsBusyJobEngine = ModelContext.JobEngine.IsBusy && !SlideShow.Current.IsPlayingSlideShow;
 
             // BookHub
@@ -1539,7 +1511,7 @@ namespace NeeView
             BookHub.InfoMessage +=
                 (s, e) =>
                 {
-                    DispMessage(NoticeShowMessageStyle, e);
+                    _models.InfoMessage.SetMessage(NoticeShowMessageStyle, e);
                 };
 
             BookHub.EmptyMessage +=
@@ -1558,19 +1530,13 @@ namespace NeeView
 
 
             _models.BookOperation.InfoMessage +=
-                (s, e) => DispMessage(NoticeShowMessageStyle, e);
+                (s, e) => _models.InfoMessage.SetMessage(NoticeShowMessageStyle, e);
 
             _models.PagemarkList.InfoMessage +=
-                (s, e) => DispMessage(NoticeShowMessageStyle, e);
+                (s, e) => _models.InfoMessage.SetMessage(NoticeShowMessageStyle, e);
 
 
-            // CommandTable
-            // TODO: もっと手前にできないか？
-            ModelContext.CommandTable.SetTarget(_models, this, BookHub);
 
-            // Side Panel
-            _models.InitializeSidePanels();
-            _models.SidePanel.ResetFocus += (s, e) => ResetFocus?.Invoke(this, null);
 
 
             // Contents
@@ -1625,7 +1591,7 @@ namespace NeeView
 
             var title = LoosePath.GetFileName(BookHub.Address);
 
-            App.Current?.Dispatcher.Invoke(() => DispMessage(NoticeShowMessageStyle, title, null, 2.0, bookmarkType));
+            App.Current?.Dispatcher.Invoke(() => _models.InfoMessage.SetMessage(NoticeShowMessageStyle, title, null, 2.0, bookmarkType));
 
             _models.BookOperation.UpdatePageList();
             UpdateLastFiles();
@@ -1765,7 +1731,7 @@ namespace NeeView
             }
         }
 
-#region アプリ設定
+        #region アプリ設定
 
         // アプリ設定作成
         public Setting CreateSetting()
@@ -1775,7 +1741,7 @@ namespace NeeView
             setting.ViewMemento = this.CreateMemento();
             setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
             setting.BookHubMemento = BookHub.CreateMemento();
-            setting.CommandMememto = ModelContext.CommandTable.CreateMemento();
+            setting.CommandMememto = CommandTable.Current.CreateMemento();
             setting.DragActionMemento = ModelContext.DragActionTable.CreateMemento();
             setting.ExporterMemento = Exporter.CreateMemento();
             setting.PreferenceMemento = Preference.Current.CreateMemento();
@@ -1801,7 +1767,7 @@ namespace NeeView
             ModelContext.SusieContext.Restore(setting.SusieMemento);
             BookHub.Restore(setting.BookHubMemento);
 
-            ModelContext.CommandTable.Restore(setting.CommandMememto);
+            CommandTable.Current.Restore(setting.CommandMememto);
             ModelContext.DragActionTable.Restore(setting.DragActionMemento);
             InputGestureChanged?.Invoke(this, null);
 
@@ -2023,7 +1989,7 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
 
         // 最後に開いたフォルダーを開く
@@ -2114,7 +2080,7 @@ namespace NeeView
         /// <returns></returns>
         public double GetAutoRotateAngle()
         {
-            var parameter = (AutoRotateCommandParameter)ModelContext.CommandTable[CommandType.ToggleIsAutoRotate].Parameter;
+            var parameter = (AutoRotateCommandParameter)CommandTable.Current[CommandType.ToggleIsAutoRotate].Parameter;
 
             double angle = this.IsAutoRotateCondition()
                         ? parameter.AutoRotateType == AutoRotateType.Left ? -90.0 : 90.0
@@ -2215,21 +2181,21 @@ namespace NeeView
                         string scaleText = IsOriginalScaleShowMessage && MainContent.IsValid
                             ? $"{(int)(_viewScale * MainContent.Scale * _Dpi.DpiScaleX * 100 + 0.1)}%"
                             : $"{(int)(_viewScale * 100.0 + 0.1)}%";
-                        DispMessage(ViewTransformShowMessageStyle, scaleText);
+                        _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, scaleText);
                         break;
                     case TransformActionType.Angle:
-                        DispMessage(ViewTransformShowMessageStyle, $"{(int)(e.Angle)}°");
+                        _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, $"{(int)(e.Angle)}°");
                         break;
                     case TransformActionType.FlipHorizontal:
-                        DispMessage(ViewTransformShowMessageStyle, "左右反転 " + (_isViewFlipHorizontal ? "ON" : "OFF"));
+                        _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, "左右反転 " + (_isViewFlipHorizontal ? "ON" : "OFF"));
                         break;
                     case TransformActionType.FlipVertical:
-                        DispMessage(ViewTransformShowMessageStyle, "上下反転 " + (_isViewFlipVertical ? "ON" : "OFF"));
+                        _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, "上下反転 " + (_isViewFlipVertical ? "ON" : "OFF"));
                         break;
                     case TransformActionType.LoupeScale:
                         if (e.LoupeScale > 1.5)
                         {
-                            DispMessage(ViewTransformShowMessageStyle, $"×{e.LoupeScale:0.0}");
+                            _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, $"×{e.LoupeScale:0.0}");
                         }
                         break;
                 }
@@ -2458,57 +2424,6 @@ namespace NeeView
         }
 
 
-        /// <summary>
-        /// メッセージ表示
-        /// </summary>
-        /// <param name="style">メッセージスタイル</param>
-        /// <param name="message">メッセージ</param>
-        public void DispMessage(ShowMessageStyle style, string message, string messageTiny = null, double dispTime = MessageShowParams.DefaultDispTime, BookMementoType bookmarkType = BookMementoType.None)
-        {
-            switch (style)
-            {
-                case ShowMessageStyle.Normal:
-                    Messenger.Send(this, new MessageEventArgs("MessageShow")
-                    {
-                        Parameter = new MessageShowParams(message)
-                        {
-                            BookmarkType = bookmarkType,
-                            DispTime = dispTime
-                        }
-                    });
-                    break;
-                case ShowMessageStyle.Tiny:
-                    TinyInfoText = messageTiny ?? message;
-                    break;
-            }
-        }
-
-
-        // コマンド実行 
-        public void Execute(CommandType type, object sender, object param)
-        {
-            // 通知
-            if (ModelContext.CommandTable[type].IsShowMessage)
-            {
-                string message = ModelContext.CommandTable[type].ExecuteMessage(param);
-
-                switch (CommandShowMessageStyle)
-                {
-                    case ShowMessageStyle.Normal:
-                        Messenger.Send(this, new MessageEventArgs("MessageShow")
-                        {
-                            Parameter = new MessageShowParams(message)
-                        });
-                        break;
-                    case ShowMessageStyle.Tiny:
-                        TinyInfoText = message;
-                        break;
-                }
-            }
-
-            // 実行
-            ModelContext.CommandTable[type].Execute(sender, param);
-        }
 
 
         // ジェスチャー表示
@@ -2516,7 +2431,7 @@ namespace NeeView
         {
             if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
 
-            DispMessage(
+            _models.InfoMessage.SetMessage(
                 GestureShowMessageStyle,
                 ((commandName != null) ? commandName + "\n" : "") + gesture,
                 gesture + ((commandName != null) ? " " + commandName : ""));
@@ -2680,7 +2595,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -2715,8 +2630,8 @@ namespace NeeView
             [DataMember(Order = 4)]
             public ShowMessageStyle NoticeShowMessageStyle { get; set; }
 
-            [DataMember]
-            public ShowMessageStyle CommandShowMessageStyle { get; set; }
+            [DataMember(EmitDefaultValue = false)]
+            public ShowMessageStyle CommandShowMessageStyle { get; set; } // no used (ver.22)
 
             [DataMember]
             public ShowMessageStyle GestureShowMessageStyle { get; set; }
@@ -2871,7 +2786,7 @@ namespace NeeView
             {
                 IsLimitMove = true;
                 NoticeShowMessageStyle = ShowMessageStyle.Normal;
-                CommandShowMessageStyle = ShowMessageStyle.Normal;
+                ////CommandShowMessageStyle = ShowMessageStyle.Normal;
                 GestureShowMessageStyle = ShowMessageStyle.Normal;
                 NowLoadingShowMessageStyle = ShowMessageStyle.Normal;
                 ViewTransformShowMessageStyle = ShowMessageStyle.None;
@@ -2961,7 +2876,7 @@ namespace NeeView
             memento.CustomBackground = this.CustomBackground;
             memento.Background = this.Background;
             memento.NoticeShowMessageStyle = this.NoticeShowMessageStyle;
-            memento.CommandShowMessageStyle = this.CommandShowMessageStyle;
+            ////memento.CommandShowMessageStyle = this.CommandShowMessageStyle;
             memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
             memento.NowLoadingShowMessageStyle = this.NowLoadingShowMessageStyle;
             memento.ViewTransformShowMessageStyle = this.ViewTransformShowMessageStyle;
@@ -3020,7 +2935,7 @@ namespace NeeView
             this.CustomBackground = memento.CustomBackground;
             this.Background = memento.Background;
             this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
-            this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
+            ////this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
             this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
             this.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
             this.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
@@ -3083,12 +2998,13 @@ namespace NeeView
                 _models.FolderList.IsVisibleBookmarkMark = memento.FolderListSetting.IsVisibleBookmarkMark;
                 _models.FolderList.IsVisibleHistoryMark = memento.FolderListSetting.IsVisibleHistoryMark;
             }
-            if (memento.IsLoadLastFolder)
+            if (memento._Version < Config.GenerateProductVersionNumber(1, 22, 0))
             {
+                _models.RoutedCommandTable.CommandShowMessageStyle = memento.CommandShowMessageStyle;
                 Preference.Current.bootup_lastfolder = memento.IsLoadLastFolder;
             }
         }
 
-#endregion
+        #endregion
     }
 }

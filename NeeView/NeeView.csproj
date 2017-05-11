@@ -109,6 +109,7 @@
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
     <Compile Include="Archiver\FileProxy.cs" />
+    <Compile Include="AutoFadeTriggerAction.cs" />
     <Compile Include="BackgroundSettingWindow.xaml.cs">
       <DependentUpon>BackgroundSettingWindow.xaml</DependentUpon>
     </Compile>
@@ -119,11 +120,18 @@
     <Compile Include="BookOperation.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="DelayVisibility.cs" />
+    <Compile Include="InfoMessage.cs" />
     <Compile Include="MessageDialog.xaml.cs">
       <DependentUpon>MessageDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models.cs" />
     <Compile Include="MouseInput\MouseInput.cs" />
+    <Compile Include="NormalInfoMessage.cs" />
+    <Compile Include="NormalInfoMessageView.xaml.cs">
+      <DependentUpon>NormalInfoMessageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NormalInfoMessageViewModel.cs" />
+    <Compile Include="RoutedCommandTable.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListViewModel.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkList.cs" />
     <Compile Include="BrushSource.cs" />
@@ -168,6 +176,11 @@
     <Compile Include="SidePanels\SidePanelGroup.cs" />
     <Compile Include="SidePanels\SidePanel.cs" />
     <Compile Include="SlideShow.cs" />
+    <Compile Include="TinyInfoMessage.cs" />
+    <Compile Include="TinyInfoMessageView.xaml.cs">
+      <DependentUpon>TinyInfoMessageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TinyInfoMessageViewModel.cs" />
     <Compile Include="WindoShapeSelector.cs" />
     <Compile Include="WindowCaptionButtons.xaml.cs">
       <DependentUpon>WindowCaptionButtons.xaml</DependentUpon>
@@ -454,6 +467,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="NormalInfoMessageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MessageDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -485,6 +502,10 @@
     <Page Include="SidePanels\PanelIconDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TinyInfoMessageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Utility\ComboColorPicker.xaml">
       <Generator>MSBuild:Compile</Generator>

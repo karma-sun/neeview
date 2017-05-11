@@ -18,6 +18,9 @@
                 <ResourceDictionary Source="Styles/NVStyles.xaml"/>
 
                 <ResourceDictionary>
+                    
+                    <!-- InfoText FontSize-->
+                    <system:Double x:Key="InfoTextFontSize">24.0</system:Double>
 
                     <!-- Banner Size -->
                     <system:Double x:Key="BannerWidth">200.0</system:Double>

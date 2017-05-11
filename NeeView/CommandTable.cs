@@ -31,6 +31,9 @@ namespace NeeView
     /// </summary>
     public class CommandTable : IEnumerable<KeyValuePair<CommandType, CommandElement>>
     {
+        // SystemObject
+        public static CommandTable Current { get; private set; }
+
         // インテグザ
         public CommandElement this[CommandType key]
         {
@@ -108,11 +111,11 @@ namespace NeeView
 
 
         // コマンドターゲット設定
-        public void SetTarget(Models models, MainWindowVM vm, BookHub book)
+        public void SetTarget(Models models, MainWindowVM vm)
         {
             _models = models;
             _VM = vm;
-            _book = book;
+            _book = _models.BookHub;
         }
 
         // .. あまりかわらん
@@ -198,6 +201,9 @@ namespace NeeView
         // コンストラクタ
         public CommandTable()
         {
+            if (Current != null) throw new InvalidOperationException();
+            Current = this;
+
             // コマンドの設定定義
             _elements = new Dictionary<CommandType, CommandElement>();
 
@@ -1855,6 +1861,8 @@ namespace NeeView
         //
         public void Restore(Memento memento)
         {
+            if (memento == null) return;
+
             foreach (var pair in memento.Elements)
             {
                 if (_elements.ContainsKey(pair.Key))

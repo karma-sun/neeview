@@ -86,11 +86,11 @@ namespace NeeView
         {
             var item = new MenuItem();
             item.Header = header;
-            item.Command = ModelContext.BookCommands[command];
+            item.Command = RoutedCommandTable.Current[command];
             item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
-            if (ModelContext.CommandTable[command].CreateIsCheckedBinding != null)
+            if (CommandTable.Current[command].CreateIsCheckedBinding != null)
             {
-                var binding = ModelContext.CommandTable[command].CreateIsCheckedBinding();
+                var binding = CommandTable.Current[command].CreateIsCheckedBinding();
                 binding.Source = source;
                 item.SetBinding(MenuItem.IsCheckedProperty, binding);
             }

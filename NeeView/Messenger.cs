@@ -98,23 +98,6 @@ namespace NeeView
 
 
     /// <summary>
-    /// 通知表示メッセージパラメータ
-    /// </summary>
-    public class MessageShowParams
-    {
-        public const double DefaultDispTime = 1.0;
-
-        public string Text;
-        public BookMementoType BookmarkType;
-        public double DispTime = DefaultDispTime;
-
-        public MessageShowParams(string text)
-        {
-            Text = text;
-        }
-    }
-
-    /// <summary>
     /// 
     /// </summary>
     public class ResetHideDelayParam

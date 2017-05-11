@@ -198,12 +198,12 @@ namespace NeeView
 
         public ContextMenuSettingControlVM()
         {
-            if (ModelContext.CommandTable == null) return;
+            if (CommandTable.Current == null) return;
 
              var list = Enum.GetValues(typeof(CommandType))
                 .OfType<CommandType>()
                 .Where(e => !e.IsDisable())
-                .GroupBy(e => ModelContext.CommandTable[e].Group)
+                .GroupBy(e => CommandTable.Current[e].Group)
                 .SelectMany(g => g)
                 .Select(e => new MenuTree() { MenuElementType = MenuElementType.Command, Command = e })
                 .ToList();

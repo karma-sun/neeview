@@ -124,6 +124,13 @@ namespace NeeView
         {
             InitializeComponent();
 
+            // ViewModel
+            _VM = new MainWindowVM(this);
+            this.DataContext = _VM;
+
+            // コマンド初期化
+            InitializeCommandBindings();
+
             _windowCaption = new WindowCaptionEmulator(this, this.MenuBar);
 
             InitializeMenuLayerVisibility();
@@ -144,12 +151,6 @@ namespace NeeView
             this.MenuItemDev.Visibility = Visibility.Collapsed;
 #endif
 
-            // コマンド初期化
-            InitializeCommandBindings();
-
-            // ViewModel
-            _VM = new MainWindowVM(this);
-            this.DataContext = _VM;
 
             App.Config.LocalApplicationDataRemoved +=
                 (s, e) =>
@@ -194,19 +195,11 @@ namespace NeeView
             //InitializeCommandBindings();
             InitializeInputGestures();
 
-            // publish routed commands
-            _VM.BookCommands = BookCommands;
-
             // MainMenu Initialize
             _VM.MainMenuInitialize();
 
             // VM NotifyPropertyChanged Hook
 
-            _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.TinyInfoText),
-                (s, e) =>
-                {
-                    AutoFade(TinyInfoTextBlock, 1.0, 0.5);
-                });
 
             _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.IsSliderDirectionReversed),
                 (s, e) =>
@@ -239,7 +232,6 @@ namespace NeeView
 
 
             // messenger
-            Messenger.AddReciever("MessageShow", CallMessageShow);
             Messenger.AddReciever("Export", CallExport);
 
             // mouse event capture for active check
@@ -491,120 +483,116 @@ namespace NeeView
 
 
         // RoutedCommand辞書
-        public Dictionary<CommandType, RoutedUICommand> BookCommands => ModelContext.BookCommands;
+        public Dictionary<CommandType, RoutedUICommand> BookCommands => RoutedCommandTable.Current.Commands;
 
         // RoutedCommand バインディング
         public void InitializeCommandBindings()
         {
-            // RoutedCommand作成
-            foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
-            {
-                BookCommands.Add(type, new RoutedUICommand(ModelContext.CommandTable[type].Text, type.ToString(), typeof(MainWindow)));
-            }
+            var commandTable = CommandTable.Current;
 
             // View系コマンド登録
-            ModelContext.CommandTable[CommandType.OpenSettingWindow].Execute =
+            commandTable[CommandType.OpenSettingWindow].Execute =
                 (s, e) => OpenSettingWindow();
-            ModelContext.CommandTable[CommandType.OpenSettingFilesFolder].Execute =
+            commandTable[CommandType.OpenSettingFilesFolder].Execute =
                 (s, e) => OpenSettingFilesFolder();
-            ModelContext.CommandTable[CommandType.OpenVersionWindow].Execute =
+            commandTable[CommandType.OpenVersionWindow].Execute =
                 (s, e) => OpenVersionWindow();
-            ModelContext.CommandTable[CommandType.CloseApplication].Execute =
+            commandTable[CommandType.CloseApplication].Execute =
                 (s, e) => Close();
-            ModelContext.CommandTable[CommandType.ToggleWindowMinimize].Execute =
+            commandTable[CommandType.ToggleWindowMinimize].Execute =
                 (s, e) => MainWindow_Minimize();
-            ModelContext.CommandTable[CommandType.ToggleWindowMaximize].Execute =
+            commandTable[CommandType.ToggleWindowMaximize].Execute =
                 (s, e) => MainWindow_Maximize();
-            ModelContext.CommandTable[CommandType.LoadAs].Execute =
+            commandTable[CommandType.LoadAs].Execute =
                 (s, e) => LoadAs(e);
-            ModelContext.CommandTable[CommandType.Paste].Execute =
+            commandTable[CommandType.Paste].Execute =
                 (s, e) => LoadFromClipboard();
-            ModelContext.CommandTable[CommandType.Paste].CanExecute =
+            commandTable[CommandType.Paste].CanExecute =
                 () => CanLoadFromClipboard();
-            ModelContext.CommandTable[CommandType.ViewScrollUp].Execute =
+            commandTable[CommandType.ViewScrollUp].Execute =
                 (s, e) =>
                 {
-                    var parameter = (ViewScrollCommandParameter)ModelContext.CommandTable[CommandType.ViewScrollUp].Parameter;
+                    var parameter = (ViewScrollCommandParameter)commandTable[CommandType.ViewScrollUp].Parameter;
                     _mouse.Drag.ScrollUp(parameter.Scroll / 100.0);
                 };
-            ModelContext.CommandTable[CommandType.ViewScrollDown].Execute =
+            commandTable[CommandType.ViewScrollDown].Execute =
                 (s, e) =>
                 {
-                    var parameter = (ViewScrollCommandParameter)ModelContext.CommandTable[CommandType.ViewScrollDown].Parameter;
+                    var parameter = (ViewScrollCommandParameter)commandTable[CommandType.ViewScrollDown].Parameter;
                     _mouse.Drag.ScrollDown(parameter.Scroll / 100.0);
                 };
-            ModelContext.CommandTable[CommandType.ViewScaleUp].Execute =
+            commandTable[CommandType.ViewScaleUp].Execute =
                 (s, e) =>
                 {
-                    var parameter = (ViewScaleCommandParameter)ModelContext.CommandTable[CommandType.ViewScaleUp].Parameter;
+                    var parameter = (ViewScaleCommandParameter)commandTable[CommandType.ViewScaleUp].Parameter;
                     _mouse.Drag.ScaleUp(parameter.Scale / 100.0);
                 };
-            ModelContext.CommandTable[CommandType.ViewScaleDown].Execute =
+            commandTable[CommandType.ViewScaleDown].Execute =
                 (s, e) =>
                 {
-                    var parameter = (ViewScaleCommandParameter)ModelContext.CommandTable[CommandType.ViewScaleDown].Parameter;
+                    var parameter = (ViewScaleCommandParameter)commandTable[CommandType.ViewScaleDown].Parameter;
                     _mouse.Drag.ScaleDown(parameter.Scale / 100.0);
                 };
-            ModelContext.CommandTable[CommandType.ViewRotateLeft].Execute =
+            commandTable[CommandType.ViewRotateLeft].Execute =
                 (s, e) =>
                 {
-                    var parameter = (ViewRotateCommandParameter)ModelContext.CommandTable[CommandType.ViewRotateLeft].Parameter;
+                    var parameter = (ViewRotateCommandParameter)commandTable[CommandType.ViewRotateLeft].Parameter;
                     if (parameter.IsStretch) _mouse.Drag.ResetDefault();
                     _mouse.Drag.Rotate(-parameter.Angle);
                     if (parameter.IsStretch) _VM.UpdateContentSize(_mouse.Drag.Angle);
                 };
-            ModelContext.CommandTable[CommandType.ViewRotateRight].Execute =
+            commandTable[CommandType.ViewRotateRight].Execute =
                 (s, e) =>
                 {
-                    var parameter = (ViewRotateCommandParameter)ModelContext.CommandTable[CommandType.ViewRotateRight].Parameter;
+                    var parameter = (ViewRotateCommandParameter)commandTable[CommandType.ViewRotateRight].Parameter;
                     if (parameter.IsStretch) _mouse.Drag.ResetDefault();
                     _mouse.Drag.Rotate(+parameter.Angle);
                     if (parameter.IsStretch) _VM.UpdateContentSize(_mouse.Drag.Angle);
                 };
-            ModelContext.CommandTable[CommandType.ToggleViewFlipHorizontal].Execute =
+            commandTable[CommandType.ToggleViewFlipHorizontal].Execute =
                 (s, e) => _mouse.Drag.ToggleFlipHorizontal();
-            ModelContext.CommandTable[CommandType.ViewFlipHorizontalOn].Execute =
+            commandTable[CommandType.ViewFlipHorizontalOn].Execute =
                 (s, e) => _mouse.Drag.FlipHorizontal(true);
-            ModelContext.CommandTable[CommandType.ViewFlipHorizontalOff].Execute =
+            commandTable[CommandType.ViewFlipHorizontalOff].Execute =
                 (s, e) => _mouse.Drag.FlipHorizontal(false);
 
-            ModelContext.CommandTable[CommandType.ToggleViewFlipVertical].Execute =
+            commandTable[CommandType.ToggleViewFlipVertical].Execute =
                 (s, e) => _mouse.Drag.ToggleFlipVertical();
-            ModelContext.CommandTable[CommandType.ViewFlipVerticalOn].Execute =
+            commandTable[CommandType.ViewFlipVerticalOn].Execute =
                 (s, e) => _mouse.Drag.FlipVertical(true);
-            ModelContext.CommandTable[CommandType.ViewFlipVerticalOff].Execute =
+            commandTable[CommandType.ViewFlipVerticalOff].Execute =
                 (s, e) => _mouse.Drag.FlipVertical(false);
 
-            ModelContext.CommandTable[CommandType.ViewReset].Execute =
+            commandTable[CommandType.ViewReset].Execute =
                 (s, e) => _mouse.Drag.Reset(true, true, true, DefaultViewAngle(true));
-            ModelContext.CommandTable[CommandType.PrevScrollPage].Execute =
+            commandTable[CommandType.PrevScrollPage].Execute =
                 (s, e) => PrevScrollPage();
-            ModelContext.CommandTable[CommandType.NextScrollPage].Execute =
+            commandTable[CommandType.NextScrollPage].Execute =
                 (s, e) => NextScrollPage();
-            ModelContext.CommandTable[CommandType.MovePageWithCursor].Execute =
+            commandTable[CommandType.MovePageWithCursor].Execute =
                 (s, e) => MovePageWithCursor();
-            ModelContext.CommandTable[CommandType.MovePageWithCursor].ExecuteMessage =
+            commandTable[CommandType.MovePageWithCursor].ExecuteMessage =
                 (e) => MovePageWithCursorMessage();
 
-            ModelContext.CommandTable[CommandType.ToggleIsLoupe].Execute =
+            commandTable[CommandType.ToggleIsLoupe].Execute =
                 (s, e) => _mouse.IsLoupeMode = !_mouse.IsLoupeMode;
-            ModelContext.CommandTable[CommandType.ToggleIsLoupe].ExecuteMessage =
+            commandTable[CommandType.ToggleIsLoupe].ExecuteMessage =
                 e => _mouse.IsLoupeMode ? "ルーペOFF" : "ルーペON";
-            ModelContext.CommandTable[CommandType.ToggleIsLoupe].CreateIsCheckedBinding =
+            commandTable[CommandType.ToggleIsLoupe].CreateIsCheckedBinding =
                 () => new Binding(nameof(_mouse.IsLoupeMode)) { Mode = BindingMode.OneWay, Source = _mouse };
-            ModelContext.CommandTable[CommandType.LoupeOn].Execute =
+            commandTable[CommandType.LoupeOn].Execute =
                 (s, e) => _mouse.IsLoupeMode = true;
-            ModelContext.CommandTable[CommandType.LoupeOff].Execute =
+            commandTable[CommandType.LoupeOff].Execute =
                 (s, e) => _mouse.IsLoupeMode = false;
 
-            ModelContext.CommandTable[CommandType.Print].Execute =
+            commandTable[CommandType.Print].Execute =
                 (s, e) =>
                 {
                     _VM.Print(this, this.PageContents, this.MainContent.RenderTransform, this.MainView.ActualWidth, this.MainView.ActualHeight);
                 };
 
             // context menu
-            ModelContext.CommandTable[CommandType.OpenContextMenu].Execute =
+            commandTable[CommandType.OpenContextMenu].Execute =
                 (s, e) =>
                 {
                     if (this.MainViewPanel.ContextMenu != null)
@@ -619,14 +607,14 @@ namespace NeeView
             // コマンドバインド作成
             foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
             {
-                if (ModelContext.CommandTable[type].CanExecute != null)
+                if (commandTable[type].CanExecute != null)
                 {
-                    this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Source, e.Parameter),
-                        (t, e) => e.CanExecute = ModelContext.CommandTable[type].CanExecute()));
+                    this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => RoutedCommandTable.Current.Execute(type, e.Source, e.Parameter),
+                        (t, e) => e.CanExecute = commandTable[type].CanExecute()));
                 }
                 else
                 {
-                    this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => _VM.Execute(type, e.Source, e.Parameter),
+                    this.CommandBindings.Add(new CommandBinding(BookCommands[type], (t, e) => RoutedCommandTable.Current.Execute(type, e.Source, e.Parameter),
                         CanExecute));
                 }
             }
@@ -658,7 +646,7 @@ namespace NeeView
             foreach (var e in BookCommands)
             {
                 e.Value.InputGestures.Clear();
-                var inputGestures = ModelContext.CommandTable[e.Key].GetInputGestureCollection();
+                var inputGestures = CommandTable.Current[e.Key].GetInputGestureCollection();
                 foreach (var gesture in inputGestures)
                 {
                     if (gesture is MouseGesture mouseClick)
@@ -680,7 +668,7 @@ namespace NeeView
                 }
 
                 // mouse gesture
-                var mouseGesture = ModelContext.CommandTable[e.Key].MouseGesture;
+                var mouseGesture = CommandTable.Current[e.Key].MouseGesture;
                 if (mouseGesture != null)
                 {
                     _mouseGestureCommandCollection.Add(mouseGesture, e.Value);
@@ -747,7 +735,7 @@ namespace NeeView
         // スクロール＋前のページに戻る
         private void PrevScrollPage()
         {
-            var parameter = (ScrollPageCommandParameter)ModelContext.CommandTable[CommandType.PrevScrollPage].Parameter;
+            var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.PrevScrollPage].Parameter;
 
             int bookReadDirection = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isScrolled = _mouse.Drag.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
@@ -762,7 +750,7 @@ namespace NeeView
         // スクロール＋次のページに進む
         private void NextScrollPage()
         {
-            var parameter = (ScrollPageCommandParameter)ModelContext.CommandTable[CommandType.NextScrollPage].Parameter;
+            var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.NextScrollPage].Parameter;
 
             int bookReadDirection = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isScrolled = _mouse.Drag.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
@@ -1152,16 +1140,6 @@ namespace NeeView
             System.Diagnostics.Process.Start(App.Config.LocalApplicationDataPath);
         }
 
-        // メッセージ処理：通知表示
-        private void CallMessageShow(object sender, MessageEventArgs e)
-        {
-            var param = (MessageShowParams)e.Parameter;
-
-            _VM.InfoText = param.Text;
-            this.InfoUsedBookmark.Visibility = param.BookmarkType == BookMementoType.Bookmark ? Visibility.Visible : Visibility.Collapsed;
-            this.InfoUsedHistory.Visibility = param.BookmarkType == BookMementoType.History ? Visibility.Visible : Visibility.Collapsed;
-            AutoFade(this.InfoTextArea, param.DispTime, 0.5);
-        }
 
         // メッセージ処理：ファイル出力
         private void CallExport(object sender, MessageEventArgs e)
@@ -1176,26 +1154,6 @@ namespace NeeView
             e.Result = (result == true);
         }
 
-
-        /// <summary>
-        /// UI要素を自動的にフェイドアウトさせる
-        /// </summary>
-        /// <param name="element">UI要素</param>
-        /// <param name="beginSec">フェイド開始時間(秒)</param>
-        /// <param name="fadeSec">フェイドアウト時間(秒)</param>
-        public static void AutoFade(UIElement element, double beginSec, double fadeSec)
-        {
-            // 既存のアニメーションを削除
-            element.ApplyAnimationClock(UIElement.OpacityProperty, null);
-
-            // 不透明度を1.0にする
-            element.Opacity = 1.0;
-
-            // 不透明度を0.0にするアニメを開始
-            var ani = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(fadeSec));
-            ani.BeginTime = TimeSpan.FromSeconds(beginSec);
-            element.BeginAnimation(UIElement.OpacityProperty, ani);
-        }
 
 
         // 現在のNowLoading表示状態
@@ -1279,7 +1237,7 @@ namespace NeeView
         }
 
 
-        #region DEBUG
+#region DEBUG
         // [開発用] 開発操作
         private void Debug_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -1310,10 +1268,10 @@ namespace NeeView
             var fwelement = element as FrameworkElement;
             Debug.WriteLine($"FOCUS: {element}({element?.GetType()})({fwelement?.Name})");
         }
-        #endregion
+#endregion
 
         // TODO: クラス化
-        #region thumbnail list
+#region thumbnail list
 
         // サムネイルリストのパネルコントロール
         private VirtualizingStackPanel _thumbnailListPanel;
@@ -1544,7 +1502,7 @@ namespace NeeView
         }
 
 
-        #endregion
+#endregion
 
 
 
@@ -1623,7 +1581,7 @@ namespace NeeView
 
 
 
-        #region Panel Visibility
+#region Panel Visibility
 
         // ViewAreaでのマウス移動
         private void ViewArea_MouseMove(object sender, MouseEventArgs e)
@@ -1638,7 +1596,7 @@ namespace NeeView
             UpdateStatusLayerVisibility();
         }
 
-        #endregion
+#endregion
 
         //
         private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1690,7 +1648,7 @@ namespace NeeView
 
 
 
-        #region ContextMenu Counter
+#region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -1728,7 +1686,7 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-        #endregion
+#endregion
 
 
         private void MenuArea_MouseEnter(object sender, MouseEventArgs e)
@@ -1839,7 +1797,7 @@ namespace NeeView
     }
 
 
-    #region Convertes
+#region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -2157,5 +2115,5 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 }

@@ -239,7 +239,7 @@
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="コマンド実行メッセージの表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="コマンド実行を"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewMemento.CommandShowMessageStyle}" />
+                                  SelectedValue="{Binding Setting.Memento.RoutedCommandTable.CommandShowMessageStyle}" />
                             </StackPanel>
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="マウスジェスチャーの状態の表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="マウスジェスチャーを"/>

@@ -96,7 +96,7 @@ namespace NeeView
                         // パスの指定があれば開く
                         if (path != null)
                         {
-                            ModelContext.CommandTable[CommandType.LoadAs].Execute(this, path);
+                            CommandTable.Current[CommandType.LoadAs].Execute(this, path);
                         }
 
                         // ウィンドウをアクティブにする (実行)

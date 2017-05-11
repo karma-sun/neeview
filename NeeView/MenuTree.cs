@@ -295,11 +295,11 @@ namespace NeeView
                     {
                         var item = new MenuItem();
                         item.Header = this.Label;
-                        item.Command = ModelContext.BookCommands[this.Command];
+                        item.Command = RoutedCommandTable.Current[this.Command];
                         item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
-                        if (ModelContext.CommandTable[this.Command].CreateIsCheckedBinding != null)
+                        if (CommandTable.Current[this.Command].CreateIsCheckedBinding != null)
                         {
-                            item.SetBinding(MenuItem.IsCheckedProperty, ModelContext.CommandTable[this.Command].CreateIsCheckedBinding());
+                            item.SetBinding(MenuItem.IsCheckedProperty, CommandTable.Current[this.Command].CreateIsCheckedBinding());
                         }
                         return item;
                     }
@@ -394,7 +394,7 @@ namespace NeeView
                     case MenuElementType.Group:
                         return "";
                     case MenuElementType.Command:
-                        return ModelContext.CommandTable[Command].Note;
+                        return CommandTable.Current[Command].Note;
                     case MenuElementType.History:
                         return "最近使ったブックの一覧から開きます";
                     case MenuElementType.Separator:

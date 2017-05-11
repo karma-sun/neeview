@@ -198,18 +198,18 @@ namespace NeeView
 
         public static string ToDispString(this CommandType type)
         {
-            return ModelContext.CommandTable[type].Text;
+            return CommandTable.Current[type].Text;
         }
 
         public static string ToDispLongString(this CommandType type)
         {
-            var command = ModelContext.CommandTable[type];
+            var command = CommandTable.Current[type];
             return command.Group + "/" + command.Text;
         }
 
         public static string ToMenuString(this CommandType type)
         {
-            return ModelContext.CommandTable[type].MenuText;
+            return CommandTable.Current[type].MenuText;
         }
     }
 }

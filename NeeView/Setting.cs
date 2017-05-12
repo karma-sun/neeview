@@ -24,8 +24,8 @@ namespace NeeView
         [DataMember]
         public int _Version { get; set; }
 
-        [DataMember(Order = 1)]
-        public WindowPlacement.Memento WindowPlacement { set; get; }
+        ////[DataMember(Order = 1)]
+        ////public WindowPlacement.Memento WindowPlacement { set; get; }
 
         [DataMember(Order = 1)]
         public MainWindowVM.Memento ViewMemento { set; get; }
@@ -54,15 +54,18 @@ namespace NeeView
         [DataMember(Order = 17, EmitDefaultValue = false)]
         public ImageEffect.Memento ImageEffectMemento { get; set; } // no used (ver.22)
 
-        // Models 設定(new!)
+        // ver.22
         [DataMember]
         public Models.Memento Memento { get; set; }
+
+        [DataMember]
+        public WindowShape.Memento WindowShape { get; set; }
 
         //
         private void Constructor()
         {
             _Version = App.Config.ProductVersionNumber;
-            WindowPlacement = new WindowPlacement.Memento();
+            ////WindowPlacement = new WindowPlacement.Memento();
             ViewMemento = new MainWindowVM.Memento();
             SusieMemento = new SusieContext.Memento();
             BookHubMemento = new BookHub.Memento();

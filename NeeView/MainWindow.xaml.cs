@@ -117,33 +117,71 @@ namespace NeeView
             SystemCommands.CloseWindow(this);
         }
 
-        private WindowCaptionEmulator _windowCaption;
+        /// <summary>
+        /// Window状態初期化
+        /// </summary>
+        /// <param name="memento"></param>
+        private void InitializeWindowShape(WindowShape.Memento memento)
+        {
+            if (memento == null) return;
 
-        // コンストラクタ
+            // window
+            var windowShape = new WindowShape(this);
+
+            memento = memento.Clone();
+
+            if (App.Options["--reset-placement"].IsValid || !App.Setting.ViewMemento.IsSaveWindowPlacement)
+            {
+                memento.State = WindowStateEx.Normal;
+                memento.WindowRect = Rect.Empty;
+            }
+
+            if (memento.State == WindowStateEx.FullScreen && !App.Setting.ViewMemento.IsSaveFullScreen)
+            {
+                memento.State = WindowStateEx.Normal;
+            }
+
+            if (App.Options["--fullscreen"].IsValid)
+            {
+                memento.State = WindowStateEx.FullScreen;
+            }
+
+            windowShape.IsUseChrome = Preference.Current.window_chrome;
+
+            windowShape.Restore(memento);
+        }
+
+
+        /// <summary>
+        /// コンストラクター
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
+
+            // Preferenceの復元は最優先
+            Preference.Current.Restore(App.Setting.PreferenceMemento);
+
+            // Window状態初期化
+            InitializeWindowShape(App.Setting.WindowShape);
+
+            this.PreviewMouseMove += MainWindow_PreviewMouseMove;
 
             // ViewModel
             _VM = new MainWindowVM(this);
             this.DataContext = _VM;
 
-            this.PreviewMouseMove += MainWindow_PreviewMouseMove;
+            WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
+                (s, e) => UpdateWindowLayout());
+
 
 
             // コマンド初期化
             InitializeCommandBindings();
 
-            _windowCaption = new WindowCaptionEmulator(this, this.MenuBar);
-
             InitializeMenuLayerVisibility();
             InitializeStatusLayerVisibility();
 
-            // ウィンドウ座標復元
-            if (!App.Options["--reset-placement"].IsValid && App.Setting.ViewMemento.IsSaveWindowPlacement)
-            {
-                WindowPlacement.Restore(this, App.Setting.WindowPlacement);
-            }
 
 #if DEBUG
             this.RootDockPanel.Children.Insert(0, new DevPageList());
@@ -225,12 +263,6 @@ namespace NeeView
                 (s, e) =>
                 {
                     _mouse.Normal.LongLeftButtonDownMode = _VM.LongLeftButtonDownMode; // ##
-                });
-
-            _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.CanVisibleTitleBar),
-                (s, e) =>
-                {
-                    _windowCaption.IsEnabled = !_VM.CanVisibleTitleBar;
                 });
 
 
@@ -342,8 +374,18 @@ namespace NeeView
                     DispNowLoading(_nowLoading);
                 };
 
-            _VM.NotifyMenuVisibilityChanged +=
-                (s, e) => OnMenuVisibilityChanged();
+            _VM.AddPropertyChanged(nameof(_VM.IsHideMenu),
+                (s, e) => UpdateMenuAreaLayout());
+
+            _VM.AddPropertyChanged(nameof(_VM.IsHidePageSlider),
+                (s, e) => UpdateStatusAreaLayout());
+
+            _VM.AddPropertyChanged(nameof(_VM.IsEnableThumbnailList),
+                (s, e) => UpdateThumbnailListLayout());
+
+            _VM.AddPropertyChanged(nameof(_VM.IsHideThumbnailList),
+                (s, e) => UpdateThumbnailListLayout());
+
 
             _VM.ResetFocus +=
                 (s, e) =>
@@ -825,10 +867,8 @@ namespace NeeView
 
             if (result == true)
             {
-                SetUpdateMenuLayoutMode(false);
                 _VM.RestoreSetting(setting, false);
-                SetUpdateMenuLayoutMode(true);
-                _VM.StoreWindowPlacement(this);
+                WindowShape.Current.CreateSnapMemento();
                 _VM.SaveSetting();
                 ModelContext.BookHistory.Restore(history, false);
 
@@ -855,41 +895,21 @@ namespace NeeView
             dialog.ShowDialog();
         }
 
-        // メニューレイアウト更新フラグ
-        public bool _AllowUpdateMenuLayout;
-        public bool _IsDartyMenuLayout;
-
-        // メニューレイアウト更新要求
-        private void OnMenuVisibilityChanged()
-        {
-            _IsDartyMenuLayout = true;
-            if (_AllowUpdateMenuLayout)
-            {
-                UpdateMenuLayout();
-            }
-        }
-
-        // メニューレイアウト更新許可設定
-        private void SetUpdateMenuLayoutMode(bool allow)
-        {
-            _AllowUpdateMenuLayout = allow;
-            if (_AllowUpdateMenuLayout && _IsDartyMenuLayout)
-            {
-                UpdateMenuLayout();
-            }
-        }
 
         /// <summary>
-        /// メニューレイアウト更新
+        /// レイアウト更新
         /// </summary>
-        private void UpdateMenuLayout()
+        private void UpdateWindowLayout()
         {
-            _IsDartyMenuLayout = false;
+            UpdateMenuAreaLayout();
+            UpdateStatusAreaLayout();
+        }
 
+        //
+        private void UpdateMenuAreaLayout()
+        {
             // menu hide
-            bool isMenuDock = !_VM.IsHideMenu && !_VM.IsFullScreen;
-            bool isPageSliderDock = !_VM.IsHidePageSlider && !_VM.IsFullScreen;
-            bool isThimbnailListDock = !_VM.IsHideThumbnailList && isPageSliderDock;
+            bool isMenuDock = !_VM.IsHideMenu && !WindowShape.Current.IsFullScreen;
 
             if (isMenuDock)
             {
@@ -902,6 +922,26 @@ namespace NeeView
                 this.LayerMenuSocket.Content = this.MenuArea; ;
             }
 
+            // メニューレイヤー
+            MenuLayerVisibility.SetDelayVisibility(Visibility.Collapsed, 0);
+        }
+
+        //
+        private void UpdateStatusAreaLayout()
+        {
+            UpdatePageSliderLayout();
+            UpdateThumbnailListLayout();
+        }
+
+        /// <summary>
+        /// ページスライダーレイアウト更新。
+        /// ここの状態が変化する場合、サムネイルリストも更新の必要あり。
+        /// </summary>
+        private void UpdatePageSliderLayout()
+        {
+            // menu hide
+            bool isPageSliderDock = !_VM.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
+
             if (isPageSliderDock)
             {
                 this.LayerPageSliderSocket.Content = null;
@@ -912,6 +952,17 @@ namespace NeeView
                 this.DockPageSliderSocket.Content = null;
                 this.LayerPageSliderSocket.Content = this.SliderArea;
             }
+
+
+            // ステータスレイヤー
+            StatusLayerVisibility.SetDelayVisibility(Visibility.Collapsed, 0);
+        }
+
+        //
+        private void UpdateThumbnailListLayout()
+        {
+            bool isPageSliderDock = !_VM.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
+            bool isThimbnailListDock = !_VM.IsHideThumbnailList && isPageSliderDock;
 
             if (isThimbnailListDock)
             {
@@ -924,20 +975,12 @@ namespace NeeView
                 this.LayerThumbnailListSocket.Content = this.ThumbnailListArea;
             }
 
-
-            // アドレスバー
-            this.AddressBar.Visibility = _VM.IsVisibleAddressBar ? Visibility.Visible : Visibility.Collapsed;
-
             // サムネイルリスト
             this.ThumbnailListArea.Visibility = _VM.IsEnableThumbnailList ? Visibility.Visible : Visibility.Collapsed;
             DartyThumbnailList();
-
-            // メニューレイヤー
-            MenuLayerVisibility.SetDelayVisibility(Visibility.Collapsed, 0);
-
-            // ステータスレイヤー
-            StatusLayerVisibility.SetDelayVisibility(Visibility.Collapsed, 0);
         }
+
+
 
 
         //
@@ -951,10 +994,11 @@ namespace NeeView
             // VMイベント設定
             InitializeViewModelEvents();
 
-            SetUpdateMenuLayoutMode(false);
-
             // 設定反映
             _VM.RestoreSetting(App.Setting, true);
+
+            // PanelColor
+            _VM.FlushPanelColor();
 
             // 履歴読み込み
             _VM.LoadHistory(App.Setting);
@@ -967,24 +1011,9 @@ namespace NeeView
 
             App.Setting = null; // ロード設定破棄
 
-            // PanelColor
-            _VM.FlushPanelColor();
 
             // マーカー初期化
             this.PageMarkers.Initialize(_VM.BookHub);
-
-
-            // オプションによるフルスクリーン指定
-            if (App.Options["--fullscreen"].IsValid)
-            {
-                _VM.IsFullScreen = App.Options["--fullscreen"].Bool;
-            }
-
-            // ウィンドウモードで初期化
-            OnMenuVisibilityChanged();
-            SetUpdateMenuLayoutMode(true);
-
-
 
 
             // フォルダーを開く
@@ -1106,8 +1135,8 @@ namespace NeeView
         //
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // ウィンドウサイズ保存
-            _VM.StoreWindowPlacement(this);
+            // 閉じる前にウィンドウサイズ保存
+            WindowShape.Current.CreateSnapMemento();
         }
 
         //
@@ -1252,7 +1281,7 @@ namespace NeeView
         }
 
 
-        #region DEBUG
+#region DEBUG
         // [開発用] 開発操作
         private void Debug_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -1283,10 +1312,10 @@ namespace NeeView
             var fwelement = element as FrameworkElement;
             Debug.WriteLine($"FOCUS: {element}({element?.GetType()})({fwelement?.Name})");
         }
-        #endregion
+#endregion
 
         // TODO: クラス化
-        #region thumbnail list
+#region thumbnail list
 
         // サムネイルリストのパネルコントロール
         private VirtualizingStackPanel _thumbnailListPanel;
@@ -1517,7 +1546,7 @@ namespace NeeView
         }
 
 
-        #endregion
+#endregion
 
 
 
@@ -1596,7 +1625,7 @@ namespace NeeView
 
 
 
-        #region Panel Visibility
+#region Panel Visibility
 
         // ViewAreaでのマウス移動
         private void ViewArea_MouseMove(object sender, MouseEventArgs e)
@@ -1611,7 +1640,7 @@ namespace NeeView
             UpdateStatusLayerVisibility();
         }
 
-        #endregion
+#endregion
 
         //
         private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1663,7 +1692,7 @@ namespace NeeView
 
 
 
-        #region ContextMenu Counter
+#region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -1701,7 +1730,7 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-        #endregion
+#endregion
 
 
         private void MenuArea_MouseEnter(object sender, MouseEventArgs e)
@@ -1812,7 +1841,7 @@ namespace NeeView
     }
 
 
-    #region Convertes
+#region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -2130,5 +2159,5 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 }

@@ -181,11 +181,11 @@
       <DependentUpon>TinyInfoMessageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TinyInfoMessageViewModel.cs" />
-    <Compile Include="WindoShapeSelector.cs" />
     <Compile Include="WindowCaptionButtons.xaml.cs">
       <DependentUpon>WindowCaptionButtons.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowCaptionEmulator.cs" />
+    <Compile Include="WindowShape.cs" />
     <Compile Include="_NeeView\Input\RelayCommand.cs" />
     <Compile Include="OpenSourceControls\DockPanelSplitter.cs" />
     <Compile Include="Utility\ComboColorPicker.xaml.cs">
@@ -423,7 +423,6 @@
     <Compile Include="ViewContentSource.cs" />
     <Compile Include="Win32Api.cs" />
     <Compile Include="WIndowHelper.cs" />
-    <Compile Include="WindowPlacement.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
     <Compile Include="_NeeView\Windows\Controls\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>

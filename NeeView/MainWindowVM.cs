@@ -132,13 +132,21 @@ namespace NeeView
         #region Events
 
         #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
-            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
+        {
+            PropertyChanged += (s, e) => { if (e.PropertyName == propertyName) handler?.Invoke(s, e); };
+        }
+
         #endregion
+
 
         // ロード中通知
         public event EventHandler<string> Loading;
@@ -148,9 +156,6 @@ namespace NeeView
 
         // ショートカット変更を通知
         public event EventHandler InputGestureChanged;
-
-        // ウィンドウモード変更通知
-        public event EventHandler NotifyMenuVisibilityChanged;
 
         // 本を閉じた
         public event EventHandler BookUnloaded;
@@ -491,7 +496,6 @@ namespace NeeView
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(CanHideMenu));
                 UpdateSidePanelMargin();
-                NotifyMenuVisibilityChanged?.Invoke(this, null);
             }
         }
 
@@ -519,7 +523,6 @@ namespace NeeView
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(CanHidePageSlider));
                 UpdateSidePanelMargin();
-                NotifyMenuVisibilityChanged?.Invoke(this, null);
             }
         }
 
@@ -537,7 +540,7 @@ namespace NeeView
 
         // パネルを自動的に隠す
         #region Property: IsHidePanel
-        private bool _isHidePanel;
+        private bool _isHidePanel; // = true;
         public bool IsHidePanel
         {
             get { return _isHidePanel; }
@@ -574,34 +577,20 @@ namespace NeeView
 
         #endregion
 
-
-        // タイトルバーON/OFF
-        #region Property: IsVisibleTitleBar
-        private bool _isVisibleTitleBar;
-        public bool IsVisibleTitleBar
+        /// <summary>
+        /// WindowCaptionEmulator property.
+        /// </summary>
+        public WindowCaptionEmulator WindowCaptionEmulator
         {
-            get { return _isVisibleTitleBar; }
-            set
-            {
-                _isVisibleTitleBar = value;
-                _windowShape.IsCaptionVisible = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(CanVisibleTitleBar));
-                NotifyMenuVisibilityChanged?.Invoke(this, null);
-            }
-        }
-        public bool ToggleVisibleTitleBar()
-        {
-            IsVisibleTitleBar = !IsVisibleTitleBar;
-            return IsVisibleTitleBar;
+            get { return _windowCaptionEmulator; }
+            set { if (_windowCaptionEmulator != value) { _windowCaptionEmulator = value; RaisePropertyChanged(); } }
         }
 
-        public bool CanVisibleTitleBar => IsVisibleTitleBar && !IsFullScreen;
-
-        #endregion
+        private WindowCaptionEmulator _windowCaptionEmulator;
 
         /// <summary>
         /// IsVisibleWindowTitle property.
+        /// タイトルバーが表示されておらず、スライダーにフォーカスがある場合等にキャンバスにタイトルを表示する
         /// </summary>
         private bool _IsVisibleWindowTitle;
         public bool IsVisibleWindowTitle
@@ -617,7 +606,7 @@ namespace NeeView
         public bool IsVisibleAddressBar
         {
             get { return _isVisibleAddressBar; }
-            set { _isVisibleAddressBar = value; RaisePropertyChanged(); NotifyMenuVisibilityChanged?.Invoke(this, null); }
+            set { _isVisibleAddressBar = value; RaisePropertyChanged(); }
         }
         public bool ToggleVisibleAddressBar()
         {
@@ -628,20 +617,6 @@ namespace NeeView
 
 
         #region SidePanels
-
-#if false
-        /// <summary>
-        /// SidePanels property.
-        /// </summary>
-        public SidePanels SidePanels
-        {
-            get { return _sidePanels; }
-            set { if (_sidePanels != value) { _sidePanels = value; RaisePropertyChanged(); } }
-        }
-
-        private SidePanels _sidePanels;
-#endif
-
 
         /// <summary>
         /// SidePanelMargin property.
@@ -690,52 +665,21 @@ namespace NeeView
         #endregion
 
 
-        // ウィンドウ状態管理
-        WindowShapeSelector _windowShape;
-
-        // フルスクリーン
-        #region Property: FullScreenManager
+        //
+        private bool IsFullScreen => WindowShape.Current.IsFullScreen;
 
         //
-        public bool IsFullScreen
+        private void WindowShape_IsFullScreenPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            get { return _windowShape.Shape == WindowShape.FullScreen; }
-            set
-            {
-                _windowShape.SetFullScreen(value);
-                RaisePropertyChanged(nameof(CanHidePanel));
-                RaisePropertyChanged(nameof(CanVisibleTitleBar));
-                UpdateSidePanelMargin();
-                NotifyMenuVisibilityChanged?.Invoke(this, null);
-            }
+            RaisePropertyChanged(nameof(CanHidePanel));
+            UpdateSidePanelMargin();
         }
 
-        //
-        public bool ToggleFullScreen()
-        {
-            IsFullScreen = !IsFullScreen;
-            return IsFullScreen;
-        }
 
-        //
+
+        // フルスクリーン状態を復元するフラグ
         public bool IsSaveFullScreen { get; set; }
 
-        #endregion
-
-
-        // 常に手前に表示
-        #region Property: IsTopmost
-        public bool IsTopmost
-        {
-            get { return _windowShape.IsTopmost; }
-            set { _windowShape.IsTopmost = value; RaisePropertyChanged(); }
-        }
-        public bool ToggleTopmost()
-        {
-            IsTopmost = !IsTopmost;
-            return IsTopmost;
-        }
-        #endregion
 
         // マルチブートを禁止する
         public bool IsDisableMultiBoot { get; set; }
@@ -1251,7 +1195,6 @@ namespace NeeView
             {
                 _isEnableThumbnailList = value;
                 RaisePropertyChanged();
-                NotifyMenuVisibilityChanged?.Invoke(this, null);
             }
         }
         #endregion
@@ -1273,7 +1216,6 @@ namespace NeeView
             {
                 _isHideThumbnailList = value;
                 RaisePropertyChanged();
-                NotifyMenuVisibilityChanged?.Invoke(this, null);
             }
         }
         #endregion
@@ -1450,15 +1392,24 @@ namespace NeeView
         {
             MainWindowVM.Current = this;
 
+            // window caption emulatr
+            this.WindowCaptionEmulator = new WindowCaptionEmulator(window, window.MenuBar);
+            this.WindowCaptionEmulator.IsEnabled = !WindowShape.Current.IsCaptionVisible || WindowShape.Current.IsFullScreen;
+
+            // IsCaptionVisible か IsFullScreen の変更を監視すべきだが、処理が軽いためプロパティ名の判定をしない
+            WindowShape.Current.PropertyChanged +=
+                (s, e) => this.WindowCaptionEmulator.IsEnabled = !WindowShape.Current.IsCaptionVisible || WindowShape.Current.IsFullScreen;
+
+            // Window Shape
+            WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen), WindowShape_IsFullScreenPropertyChanged);
+
+
             // Models
             _models = new Models();
 
+
             // Side Panel
             _models.SidePanel.ResetFocus += (s, e) => ResetFocus?.Invoke(this, null);
-
-            // Window Shape
-            _windowShape = new WindowShapeSelector(window);
-            _windowShape.ShapeChanged += (s, e) => IsFullScreen = _windowShape.Shape == WindowShape.FullScreen;
 
             HistoryFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "History.xml");
             BookmarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Bookmark.xml");
@@ -1563,6 +1514,7 @@ namespace NeeView
                 System.IO.Directory.CreateDirectory(Temporary.TempDownloadDirectory);
             }
         }
+
 
         // Loading表示状態変更
         public void OnLoading(object sender, string e)
@@ -1758,7 +1710,7 @@ namespace NeeView
         {
             Preference.Current.Restore(setting.PreferenceMemento);
             ModelContext.ApplyPreference();
-            _windowShape.IsUseChrome = Preference.Current.window_chrome;
+            WindowShape.Current.IsUseChrome = Preference.Current.window_chrome;
             PreferenceAccessor.Current.Reflesh();
 
             this.Restore(setting.ViewMemento);
@@ -1896,16 +1848,6 @@ namespace NeeView
         }
 
 
-        //
-        private WindowPlacement.Memento _windowPlacement;
-
-        // ウィンドウ状態を保存
-        public void StoreWindowPlacement(MainWindow window)
-        {
-            // ウィンドウ状態保存
-            _windowPlacement = WindowPlacement.CreateMemento(window);
-        }
-
 
         // アプリ設定保存
         public void SaveSetting()
@@ -1919,7 +1861,7 @@ namespace NeeView
             var setting = CreateSetting();
 
             // ウィンドウ座標保存
-            setting.WindowPlacement = _windowPlacement;
+            setting.WindowShape = WindowShape.Current.SnapMemento;
 
             try
             {
@@ -2669,17 +2611,17 @@ namespace NeeView
             [DataMember(Order = 4, EmitDefaultValue = false)]
             public bool IsHideTitleBar { get; set; } // no used
 
-            [DataMember(Order = 8)]
-            public bool IsVisibleTitleBar { get; set; }
+            [DataMember(Order = 8, EmitDefaultValue = false)]
+            public bool IsVisibleTitleBar { get; set; } // no used (ver.22)
 
-            [DataMember(Order = 4)]
-            public bool IsFullScreen { get; set; }
+            ////[DataMember(Order = 4, EmitDefaultValue = false)]
+            ////public bool IsFullScreen { get; set; } // no used (ver.22)
 
             [DataMember(Order = 4)]
             public bool IsSaveFullScreen { get; set; }
 
-            [DataMember(Order = 4)]
-            public bool IsTopmost { get; set; }
+            [DataMember(Order = 4, EmitDefaultValue = false)]
+            public bool IsTopmost { get; set; } // no used (ver.22)
 
             [DataMember(Order = 5, EmitDefaultValue = false)]
             public FileInfoSetting FileInfoSetting { get; set; } // no used
@@ -2799,7 +2741,7 @@ namespace NeeView
                 WindowTitleFormat2 = MainWindowVM.WindowTitleFormat2Default;
                 IsSaveWindowPlacement = true;
                 IsHidePanelInFullscreen = true;
-                IsVisibleTitleBar = true;
+                ////IsVisibleTitleBar = true;
                 ContextMenuSetting = new ContextMenuSetting();
                 IsHideThumbnailList = true;
                 ThumbnailSize = 96;
@@ -2830,12 +2772,6 @@ namespace NeeView
             [OnDeserialized]
             private void Deserialized(StreamingContext c)
             {
-                if (_Version < Config.GenerateProductVersionNumber(1, 10, 0))
-                {
-                    IsVisibleTitleBar = !IsHideTitleBar;
-                }
-                IsHideTitleBar = false;
-
                 if (_Version < Config.GenerateProductVersionNumber(1, 16, 0))
                 {
                     SliderDirection = IsSliderDirectionReversed ? SliderDirection.RightToLeft : SliderDirection.LeftToRight;
@@ -2890,10 +2826,10 @@ namespace NeeView
             memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
             memento.IsHideMenu = this.IsHideMenu;
             memento.IsHidePageSlider = this.IsHidePageSlider;
-            memento.IsVisibleTitleBar = this.IsVisibleTitleBar;
-            memento.IsFullScreen = this.IsFullScreen;
+            ////memento.IsVisibleTitleBar = this.IsVisibleTitleBar;
+            ////memento.IsFullScreen = this.IsFullScreen;
             memento.IsSaveFullScreen = this.IsSaveFullScreen;
-            memento.IsTopmost = this.IsTopmost;
+            ////memento.IsTopmost = this.IsTopmost;
             ////memento.FileInfoSetting = this.FileInfoSetting.Clone();
             memento.UserDownloadPath = this.UserDownloadPath;
             ////memento.FolderListSetting = this.FolderListSetting.Clone();
@@ -2949,10 +2885,10 @@ namespace NeeView
             this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
             this.IsHideMenu = memento.IsHideMenu;
             this.IsHidePageSlider = memento.IsHidePageSlider;
-            this.IsVisibleTitleBar = memento.IsVisibleTitleBar;
+            // x this.IsVisibleTitleBar = memento.IsVisibleTitleBar;
             this.IsSaveFullScreen = memento.IsSaveFullScreen;
-            if (this.IsSaveFullScreen) this.IsFullScreen = memento.IsFullScreen;
-            this.IsTopmost = memento.IsTopmost;
+            // xif (this.IsSaveFullScreen) this.IsFullScreen = memento.IsFullScreen;
+            // x this.IsTopmost = memento.IsTopmost;
             ////this.FileInfoSetting = memento.FileInfoSetting.Clone();
             this.UserDownloadPath = memento.UserDownloadPath;
             ////this.FolderListSetting = memento.FolderListSetting.Clone();
@@ -2980,7 +2916,6 @@ namespace NeeView
             this.IsLoupeCenter = memento.IsLoupeCenter;
             this.SliderIndexLayout = memento.SliderIndexLayout;
 
-            NotifyMenuVisibilityChanged?.Invoke(this, null);
             ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
             UpdateContentSize();
 
@@ -3001,6 +2936,8 @@ namespace NeeView
             if (memento._Version < Config.GenerateProductVersionNumber(1, 22, 0))
             {
                 _models.RoutedCommandTable.CommandShowMessageStyle = memento.CommandShowMessageStyle;
+                WindowShape.Current.IsTopmost = memento.IsTopmost;
+                WindowShape.Current.IsCaptionVisible = memento.IsVisibleTitleBar;
                 Preference.Current.bootup_lastfolder = memento.IsLoadLastFolder;
             }
         }

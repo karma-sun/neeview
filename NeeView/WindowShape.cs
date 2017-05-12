@@ -13,9 +13,9 @@ using System.Windows.Shell;
 namespace NeeView
 {
     /// <summary>
-    /// WindowShape
+    /// WindowStateEx
     /// </summary>
-    public enum WindowShape
+    public enum WindowStateEx
     {
         None, // 未設定
         Normal,
@@ -28,29 +28,39 @@ namespace NeeView
     /// WindowShape Selector.
     /// 標準のウィンドウ状態にフルスクリーン状態を加えたもの
     /// </summary>
-    public class WindowShapeSelector : INotifyPropertyChanged
+    public class WindowShape : INotifyPropertyChanged
     {
+        public static WindowShape Current { get; private set; }
+
         [DllImport("user32.dll")]
         private static extern IntPtr FindWindow(string className, string windowTitle);
 
         [DllImport("user32.dll")]
         private static extern int SetForegroundWindow(IntPtr hwnd);
 
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
+
+        #region PropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //
         protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
+        {
+            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
+        }
+
+        #endregion
+
+
+
         /// <summary>
         /// 状態変更イベント
         /// </summary>
-        public event EventHandler ShapeChanged;
+        public event EventHandler StateChanged;
 
         /// <summary>
         /// IsUseChrome property.
@@ -72,14 +82,16 @@ namespace NeeView
         public bool IsCaptionVisible
         {
             get { return _isCaptionVisible; }
-            set
-            {
-                if (_isCaptionVisible != value) { _isCaptionVisible = value; Reflesh(); }
-            }
+            set { if (_isCaptionVisible != value) { _isCaptionVisible = value; Reflesh(); } }
         }
 
         //
         private bool _isCaptionVisible = true;
+
+        public void ToggleCaptionVisible()
+        {
+            IsCaptionVisible = !IsCaptionVisible;
+        }
 
 
         /// <summary>
@@ -102,6 +114,32 @@ namespace NeeView
         //
         private bool _isTopmost;
 
+        //
+        public bool ToggleTopmost()
+        {
+            IsTopmost = !IsTopmost;
+            return IsTopmost;
+        }
+
+
+        /// <summary>
+        /// IsFullScreen property.
+        /// </summary>
+        public bool IsFullScreen
+        {
+            get { return _isFullScreen; }
+            private set { if (_isFullScreen != value) { _isFullScreen = value; RaisePropertyChanged(); } }
+        }
+
+        private bool _isFullScreen;
+
+        //
+        public void ToggleFullScreen()
+        {
+            SetFullScreen(!IsFullScreen);
+        }
+
+
 
         /// <summary>
         /// 管理するWindow
@@ -114,26 +152,36 @@ namespace NeeView
         private WindowChrome _chrome;
 
         /// <summary>
-        /// Shape property.
+        /// State property.
         /// 現在の状態
         /// </summary>
-        public WindowShape Shape
+        public WindowStateEx State
         {
-            get { return _shape; }
+            get { return _state; }
+            private set
+            {
+                if (_state != value)
+                {
+                    _state = value;
+                    this.IsFullScreen = _state == WindowStateEx.FullScreen;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         //
-        private WindowShape _shape;
+        private WindowStateEx _state;
+
 
         /// <summary>
         /// 直前の状態
         /// </summary>
-        private WindowShape _oldShape;
+        private WindowStateEx _oldState;
 
         /// <summary>
         /// 最後の安定状態。フルスクリーン切り替えで使用される
         /// </summary>
-        private WindowShape _last;
+        private WindowStateEx _lastState;
 
         /// <summary>
         /// Windows7?
@@ -144,8 +192,10 @@ namespace NeeView
         /// コンストラクター
         /// </summary>
         /// <param name="window"></param>
-        public WindowShapeSelector(Window window)
+        public WindowShape(Window window)
         {
+            Current = this;
+
             _window = window;
 
             // キャプション非表示時に適用するChrome
@@ -166,13 +216,13 @@ namespace NeeView
             switch (_window.WindowState)
             {
                 case WindowState.Normal:
-                    _shape = WindowShape.Normal;
+                    this.State = WindowStateEx.Normal;
                     break;
                 case WindowState.Minimized:
-                    _shape = WindowShape.Minimized;
+                    this.State = WindowStateEx.Minimized;
                     break;
                 case WindowState.Maximized:
-                    _shape = WindowShape.Maximized;
+                    this.State = WindowStateEx.Maximized;
                     break;
             }
 
@@ -210,21 +260,21 @@ namespace NeeView
         /// <summary>
         /// 状態変更
         /// </summary>
-        /// <param name="shape"></param>
-        public void SetWindowShape(WindowShape shape)
+        /// <param name="state"></param>
+        public void SetWindowState(WindowStateEx state)
         {
-            switch (shape)
+            switch (state)
             {
-                case WindowShape.Normal:
+                case WindowStateEx.Normal:
                     ToNormal();
                     break;
-                case WindowShape.Minimized:
+                case WindowStateEx.Minimized:
                     ToMinimized();
                     break;
-                case WindowShape.Maximized:
+                case WindowStateEx.Maximized:
                     ToMaximized();
                     break;
-                case WindowShape.FullScreen:
+                case WindowStateEx.FullScreen:
                     ToFullScreen();
                     break;
             }
@@ -233,20 +283,20 @@ namespace NeeView
         /// <summary>
         /// 現在の状態を記憶
         /// </summary>
-        /// <param name="shape"></param>
-        private void UpdateShape(WindowShape shape)
+        /// <param name="state"></param>
+        private void UpdateState(WindowStateEx state)
         {
-            bool isChanged = _shape != shape;
+            bool isChanged = this.State != state;
 
-            _oldShape = _shape;
-            _shape = shape;
+            _oldState = this.State;
+            this.State = state;
 
-            if (shape == WindowShape.Normal || shape == WindowShape.Maximized)
+            if (state == WindowStateEx.Normal || state == WindowStateEx.Maximized)
             {
-                _last = shape;
+                _lastState = state;
             }
 
-            if (isChanged) ShapeChanged?.Invoke(this, null);
+            if (isChanged) StateChanged?.Invoke(this, null);
         }
 
         /// <summary>
@@ -276,7 +326,7 @@ namespace NeeView
         /// </summary>
         private void RecoveryTaskBar()
         {
-            if (!_isWindows7 || _shape != WindowShape.FullScreen) return;
+            if (!_isWindows7 || _state != WindowStateEx.FullScreen) return;
 
             Debug.WriteLine("Recovery TaskBar");
 
@@ -303,7 +353,7 @@ namespace NeeView
 
             RecoveryTaskBar();
 
-            UpdateShape(WindowShape.Normal);
+            UpdateState(WindowStateEx.Normal);
             EndEdit();
         }
 
@@ -317,7 +367,7 @@ namespace NeeView
 
             _window.WindowState = WindowState.Minimized;
 
-            UpdateShape(WindowShape.Minimized);
+            UpdateState(WindowStateEx.Minimized);
             EndEdit();
         }
 
@@ -328,7 +378,7 @@ namespace NeeView
         public void ToMaximizedMaybe()
         {
             //Debug.WriteLine("ToMaximizedMaybe");
-            if (_shape == WindowShape.Minimized && _oldShape == WindowShape.FullScreen)
+            if (_state == WindowStateEx.Minimized && _oldState == WindowStateEx.FullScreen)
             {
                 ToFullScreen();
             }
@@ -350,7 +400,7 @@ namespace NeeView
             _window.Topmost = false;
             _window.WindowStyle = WindowStyle.SingleBorderWindow;
             _window.ResizeMode = ResizeMode.CanResize;
-            if (_shape == WindowShape.FullScreen) _window.WindowState = WindowState.Normal;
+            if (_state == WindowStateEx.FullScreen) _window.WindowState = WindowState.Normal;
             //_window.WindowStyle = WindowStyle.SingleBorderWindow;
             _window.WindowState = WindowState.Maximized;
             if (!IsCaptionVisible) _window.WindowStyle = WindowStyle.None;
@@ -358,7 +408,7 @@ namespace NeeView
 
             RecoveryTaskBar();
 
-            UpdateShape(WindowShape.Maximized);
+            UpdateState(WindowStateEx.Maximized);
             EndEdit();
         }
 
@@ -372,11 +422,11 @@ namespace NeeView
 
             WindowChrome.SetWindowChrome(_window, null);
             _window.ResizeMode = ResizeMode.NoResize;
-            if (_shape == WindowShape.Maximized) _window.WindowState = WindowState.Normal;
+            if (_state == WindowStateEx.Maximized) _window.WindowState = WindowState.Normal;
             _window.WindowStyle = WindowStyle.None;
             _window.WindowState = WindowState.Maximized;
 
-            UpdateShape(WindowShape.FullScreen);
+            UpdateState(WindowStateEx.FullScreen);
             EndEdit();
         }
 
@@ -386,13 +436,13 @@ namespace NeeView
         /// <param name="isFullScreen"></param>
         public void SetFullScreen(bool isFullScreen)
         {
-            if (isFullScreen && _shape != WindowShape.FullScreen)
+            if (isFullScreen && _state != WindowStateEx.FullScreen)
             {
                 ToFullScreen();
             }
-            else if (!isFullScreen && _shape == WindowShape.FullScreen)
+            else if (!isFullScreen && _state == WindowStateEx.FullScreen)
             {
-                if (_last == WindowShape.Maximized)
+                if (_lastState == WindowStateEx.Maximized)
                 {
                     ToMaximized();
                 }
@@ -409,8 +459,26 @@ namespace NeeView
         public void Reflesh()
         {
             _window.Topmost = IsTopmost;
-            SetWindowShape(_shape);
+            _isFullScreen = _state == WindowStateEx.FullScreen;
+            SetWindowState(_state);
             RaisePropertyChanged(null);
+        }
+
+
+        /// <summary>
+        /// WindowRect property.
+        /// </summary>
+        public Rect WindowRect
+        {
+            get { return _window.RestoreBounds; }
+            set
+            {
+                if (value.IsEmpty) return;
+                _window.Left = value.Left;
+                _window.Top = value.Top;
+                _window.Width = value.Width;
+                _window.Height = value.Height;
+            }
         }
 
 
@@ -419,13 +487,22 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public WindowShape Shape { get; set; }
+            public WindowStateEx State { get; set; }
 
             [DataMember]
             public bool IsCaptionVisible { get; set; }
 
             [DataMember]
             public bool IsTopMost { get; set; }
+
+            [DataMember]
+            public Rect WindowRect { get; set; }
+
+            //
+            public Memento Clone()
+            {
+                return (Memento)this.MemberwiseClone();
+            }
         }
 
         //
@@ -433,9 +510,10 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.Shape = Shape;
-            memento.IsCaptionVisible = IsCaptionVisible;
-            memento.IsTopMost = IsTopmost;
+            memento.State = this.State;
+            memento.IsCaptionVisible = this.IsCaptionVisible;
+            memento.IsTopMost = this.IsTopmost;
+            memento.WindowRect = this.WindowRect;
 
             return memento;
         }
@@ -445,11 +523,24 @@ namespace NeeView
         {
             if (memento == null) return;
 
+            this.WindowRect = memento.WindowRect;
+
+            // Window状態をまとめて更新
             _isTopmost = memento.IsTopMost;
             _isCaptionVisible = memento.IsCaptionVisible;
-            _shape = memento.Shape;
-
+            _state = memento.State;
             Reflesh();
+        }
+
+        //
+        public Memento SnapMemento { get; private set; }
+
+        /// <summary>
+        /// 現在のMementoを記憶。Window.Closed()ではWindow情報が取得できないため。
+        /// </summary>
+        public void CreateSnapMemento()
+        {
+            this.SnapMemento = CreateMemento();
         }
 
         #endregion

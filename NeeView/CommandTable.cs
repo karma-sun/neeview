@@ -575,10 +575,10 @@ namespace NeeView
                 element.Text = "常に手前に表示ON/OFF";
                 element.MenuText = "常に手前に表示";
                 element.Note = "ウィンドウを常に手前に表示します";
-                element.Execute = (s, e) => _VM.ToggleTopmost();
-                element.ExecuteMessage = e => _VM.IsTopmost ? "「常に手前に表示」を解除" : "常に手前に表示する";
+                element.Execute = (s, e) => WindowShape.Current.ToggleTopmost();
+                element.ExecuteMessage = e => WindowShape.Current.IsTopmost ? "「常に手前に表示」を解除" : "常に手前に表示する";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsTopmost));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(WindowShape.IsTopmost)) { Source = WindowShape.Current, Mode = BindingMode.OneWay };
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleTopmost] = element;
             }
@@ -643,10 +643,10 @@ namespace NeeView
                 element.MenuText = "タイトルバー";
                 element.Note = "ウィンドウタイトルバーの表示/非表示を切り替えます";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.ToggleVisibleTitleBar();
-                element.ExecuteMessage = e => _VM.IsVisibleTitleBar ? "タイトルバーを消す" : "タイトルバー表示する";
+                element.Execute = (s, e) => WindowShape.Current.ToggleCaptionVisible();
+                element.ExecuteMessage = e => WindowShape.Current.IsCaptionVisible ? "タイトルバーを消す" : "タイトルバー表示する";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleTitleBar));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(WindowShape.IsCaptionVisible)) { Source = WindowShape.Current, Mode = BindingMode.OneWay };
                 _elements[CommandType.ToggleVisibleTitleBar] = element;
             }
             // ToggleVisibleAddressBar
@@ -841,10 +841,10 @@ namespace NeeView
                 element.ShortCutKey = "F11";
                 element.MouseGesture = "U";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.ToggleFullScreen();
-                element.ExecuteMessage = e => _VM.IsFullScreen ? "フルスクリーンOFF" : "フルスクリーンON";
+                element.Execute = (s, e) => WindowShape.Current.ToggleFullScreen();
+                element.ExecuteMessage = e => WindowShape.Current.IsFullScreen ? "フルスクリーンOFF" : "フルスクリーンON";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsFullScreen));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(WindowShape.Current.IsFullScreen)) { Source = WindowShape.Current, Mode = BindingMode.OneWay };
                 _elements[CommandType.ToggleFullScreen] = element;
             }
             // SetFullScreen
@@ -854,7 +854,7 @@ namespace NeeView
                 element.Text = "フルスクリーンにする";
                 element.Note = "フルスクリーンにします";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.IsFullScreen = true;
+                element.Execute = (s, e) => WindowShape.Current.SetFullScreen(true);
                 element.CanExecute = () => true;
                 _elements[CommandType.SetFullScreen] = element;
             }
@@ -865,7 +865,7 @@ namespace NeeView
                 element.Text = "フルスクリーン解除";
                 element.Note = "フルスクリーンを解除します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.IsFullScreen = false;
+                element.Execute = (s, e) => WindowShape.Current.SetFullScreen(false);
                 element.CanExecute = () => true;
                 _elements[CommandType.CancelFullScreen] = element;
             }

@@ -154,7 +154,7 @@
                                         <local:WindowCaptionButtons.Style>
                                             <Style TargetType="local:WindowCaptionButtons">
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding CanVisibleTitleBar}" Value="True">
+                                                    <DataTrigger Binding="{Binding WindowCaptionEmulator.IsEnabled}" Value="False">
                                                         <Setter Property="Visibility" Value="Collapsed"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -185,7 +185,7 @@
                             </Grid>
 
                             <!-- アドレスバー -->
-                            <Grid x:Name="AddressBar" VerticalAlignment="Top" Height="36">
+                            <Grid x:Name="AddressBar" VerticalAlignment="Top" Height="36" Visibility="{Binding IsVisibleAddressBar, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <Grid.Resources>
                                     <Style x:Key="AddressIconButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
                                         <Setter Property="Width" Value="26"/>

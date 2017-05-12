@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -907,10 +908,15 @@ namespace NeeView
         /// <returns></returns>
         public async Task<bool> RenameAsync(FolderItem file, string newName)
         {
-            string src = file.Path;
-            string dst = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(src), newName);
+            newName = newName?.Trim().TrimEnd(' ', '.');
 
-            if (src == dst) return true;
+            // ファイル名に使用できない
+            if (string.IsNullOrWhiteSpace(newName))
+            {
+                var dialog = new MessageDialog($"指定されたファイル名は無効です。", "名前を変更できません");
+                dialog.ShowDialog();
+                return false;
+            }
 
             //ファイル名に使用できない文字
             char[] invalidChars = System.IO.Path.GetInvalidFileNameChars();
@@ -924,6 +930,21 @@ namespace NeeView
 
                 return false;
             }
+
+            // ファイル名に使用できない
+            var match = new Regex(@"^(CON|PRN|AUX|NUL|COM[0-9]|LPT[0-9])(\.|$)", RegexOptions.IgnoreCase).Match(newName);
+            if (match.Success)
+            {
+                var dialog = new MessageDialog($"指定されたデバイス名は無効です。\n\n{match.Groups[1].Value.ToUpper()}", "名前を変更できません");
+                dialog.ShowDialog();
+                return false;
+            }
+
+            string src = file.Path;
+            string dst = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(src), newName);
+
+            // 全く同じ名前なら処理不要
+            if (src == dst) return true;
 
             // 拡張子変更確認
             if (!file.IsDirectory)

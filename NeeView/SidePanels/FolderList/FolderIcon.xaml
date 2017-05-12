@@ -28,10 +28,12 @@
         <Image Width="16" Height="16">
             <Image.Style>
                 <Style TargetType="Image">
-                    <Setter Property="Source" Value="{StaticResource ic_file_24px}"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsDirectory}" Value="True">
                             <Setter Property="Source" Value="{StaticResource ic_folder_24px}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsFile}" Value="True">
+                            <Setter Property="Source" Value="{StaticResource ic_file_24px}"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

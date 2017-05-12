@@ -102,6 +102,7 @@ namespace NeeView
 
         public bool IsDrive => (Attributes & FolderItemAttribute.Drive) == FolderItemAttribute.Drive;
         public bool IsDirectory => (Attributes & FolderItemAttribute.Directory) == FolderItemAttribute.Directory;
+        public bool IsFile => !IsDirectory && !IsEmpty;
         public bool IsEmpty => (Attributes & FolderItemAttribute.Empty) == FolderItemAttribute.Empty;
         public bool IsDirectoryNotFound => (Attributes & FolderItemAttribute.DirectoryNoFound) == FolderItemAttribute.DirectoryNoFound;
         public bool IsShortcut => (Attributes & FolderItemAttribute.Shortcut) == FolderItemAttribute.Shortcut;

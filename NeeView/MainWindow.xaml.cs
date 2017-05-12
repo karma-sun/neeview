@@ -120,13 +120,13 @@ namespace NeeView
         /// <summary>
         /// Window状態初期化
         /// </summary>
-        /// <param name="memento"></param>
-        private void InitializeWindowShape(WindowShape.Memento memento)
+        private void InitializeWindowShape()
         {
-            if (memento == null) return;
-
             // window
             var windowShape = new WindowShape(this);
+
+            var memento = App.Setting.WindowShape;
+            if (memento == null) return;
 
             memento = memento.Clone();
 
@@ -162,8 +162,8 @@ namespace NeeView
             // Preferenceの復元は最優先
             Preference.Current.Restore(App.Setting.PreferenceMemento);
 
-            // Window状態初期化
-            InitializeWindowShape(App.Setting.WindowShape);
+            // Window状態初期化、復元
+            InitializeWindowShape();
 
             this.PreviewMouseMove += MainWindow_PreviewMouseMove;
 

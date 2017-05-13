@@ -922,7 +922,10 @@
                         </Grid>
                     </DockPanel>
 
-                    <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}" Foreground="Black" SelectionChanged="CommandListView_SelectionChanged">
+                    <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}" Foreground="Black" SelectionChanged="CommandListView_SelectionChanged"
+                              VirtualizingStackPanel.IsVirtualizing="True"
+                              VirtualizingStackPanel.ScrollUnit="Pixel"
+                              VirtualizingStackPanel.VirtualizationMode="Recycling">
                         <ListView.Resources>
                             <DataTemplate x:Key="listGroupTemplate">
                                 <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="0,8,0,4" />

@@ -143,11 +143,11 @@ namespace NeeView
         {
             if (Page.Thumbnail.IsValid)
             {
-                return CreatePageImageBrush(Page.Thumbnail.CreateBitmap());
+                return CreatePageImageBrush(Page.Thumbnail.BitmapSource);
             }
             else if (reserver?.Thumbnail != null && reserver.Thumbnail.IsValid)
             {
-                return CreatePageImageBrush(reserver.Thumbnail.CreateBitmap());
+                return CreatePageImageBrush(reserver.Thumbnail.BitmapSource);
             }
             else
             {

@@ -116,7 +116,11 @@
                  ItemsSource="{Binding Model.PageCollection}"
                  SelectedItem="{Binding SelectedItem}"
                  SelectionChanged="PageList_SelectionChanged"
-                 KeyDown="PageList_KeyDown">
+                 KeyDown="PageList_KeyDown"
+                 VirtualizingStackPanel.IsVirtualizing="True"
+                 VirtualizingStackPanel.ScrollUnit="{StaticResource PanelScrollUnit}"
+                 VirtualizingStackPanel.VirtualizationMode="Recycling"
+                 >
 
             <ListBox.Resources>
 

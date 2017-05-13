@@ -442,6 +442,7 @@
     <Compile Include="SidePanels\SidePanelFrameViewModel.cs" />
     <Compile Include="SidePanels\SidePanelViewModel.cs" />
     <Compile Include="_NeeView\Windows\CursorInfo.cs" />
+    <Compile Include="_NeeView\ComponentModel\BindableBase.cs" />
     <Compile Include="_NeeView\Windows\Data\Converters.cs" />
     <Compile Include="_NeeView\Windows\Data\DelayValue.cs" />
     <Compile Include="_NeeView\Windows\DragAdorner.cs" />

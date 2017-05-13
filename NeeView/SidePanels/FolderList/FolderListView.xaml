@@ -171,7 +171,7 @@
             </Border>
         </DataTemplate>
 
-
+        
     </UserControl.Resources>
 
 
@@ -259,7 +259,8 @@
                 KeyDown="FolderList_KeyDown"
                 HorizontalContentAlignment="Stretch"
                 UseLayoutRounding="True"
-                VirtualizingPanel.IsVirtualizing="True"
+                VirtualizingStackPanel.IsVirtualizing="True"
+                VirtualizingStackPanel.ScrollUnit="{StaticResource PanelScrollUnit}"
                 VirtualizingStackPanel.VirtualizationMode="Recycling"
              >
 

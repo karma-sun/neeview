@@ -120,7 +120,11 @@
                  IsVisibleChanged="BookmarkListBox_IsVisibleChanged"
                  AllowDrop="True"
                  PreviewDragOver="BookmarkListBox_PreviewDragOver"
-                 Drop="BookmarkListBox_Drop">
+                 Drop="BookmarkListBox_Drop"
+                 VirtualizingStackPanel.IsVirtualizing="True"
+                 VirtualizingStackPanel.ScrollUnit="{StaticResource PanelScrollUnit}"
+                 VirtualizingStackPanel.VirtualizationMode="Recycling"
+                 >
 
             <ListBox.Style>
                 <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">

@@ -98,7 +98,7 @@ namespace NeeView
             if (Thumbnail != null && Thumbnail.IsValid)
             {
                 // BitmapSource生成 (非同期)
-                BitmapSource = await Task.Run(() => Thumbnail?.CreateBitmap());
+                BitmapSource = await Task.Run(() => Thumbnail?.BitmapSource);
             }
         }
 

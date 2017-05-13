@@ -69,14 +69,33 @@ namespace NeeView
             }
         }
 
-
         // サムネ更新。表示されているページのサムネの読み込み要求
         public void UpdateThumbnails(int direction)
         {
-            if (_listPanel != null && _listBox.IsVisible)
-            {
-                _requestThumbnailDelegate?.Invoke((int)_listPanel.VerticalOffset, (int)_listPanel.ViewportHeight + 1, 1, direction);
+            if (_listPanel == null || !_listBox.IsVisible || _listPanel.Children.Count <= 0) return;
+
+            var scrollUnit = VirtualizingStackPanel.GetScrollUnit(_listBox);
+
+            int start;
+            int count;
+
+            if (scrollUnit == ScrollUnit.Item)
+            { 
+                start = (int)_listPanel.VerticalOffset;
+                count = (int)_listPanel.ViewportHeight;
             }
+            else if (scrollUnit == ScrollUnit.Pixel)
+            {
+                var itemHeight = (_listPanel.Children[0] as ListBoxItem).ActualHeight;
+                start = (int)(_listPanel.VerticalOffset / itemHeight);
+                count = (int)(_listPanel.ViewportHeight / itemHeight) + 1;
+            }
+            else
+            {
+                return;
+            }
+
+            _requestThumbnailDelegate?.Invoke(start, count, 2, direction);
         }
     }
 }

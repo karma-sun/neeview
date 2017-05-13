@@ -97,7 +97,11 @@
                  IsVisibleChanged="PagemarkListBox_IsVisibleChanged"
                  AllowDrop="True"
                  PreviewDragOver="PagemarkListBox_PreviewDragOver"
-                 Drop="PagemarkListBox_Drop">
+                 Drop="PagemarkListBox_Drop"
+                 VirtualizingStackPanel.IsVirtualizing="True"
+                 VirtualizingStackPanel.ScrollUnit="{StaticResource PanelScrollUnit}"
+                 VirtualizingStackPanel.VirtualizationMode="Recycling"
+                 >
 
             <ListBox.Style>
                 <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">

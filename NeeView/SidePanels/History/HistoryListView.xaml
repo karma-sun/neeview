@@ -121,12 +121,15 @@
                  FocusVisualStyle="{StaticResource NVFocusVisual}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Stretch"
-
                  ItemsSource="{Binding Items}"
                  SelectedItem="{Binding SelectedItem}"
                  KeyDown="HistoryListBox_KeyDown"
                  SelectionChanged="HistoryListBox_SelectionChanged" 
-                 IsVisibleChanged="HistoryListBox_IsVisibleChanged">
+                 IsVisibleChanged="HistoryListBox_IsVisibleChanged"
+                 VirtualizingPanel.IsVirtualizing="True"
+                 VirtualizingPanel.ScrollUnit="{StaticResource PanelScrollUnit}"
+                 VirtualizingStackPanel.VirtualizationMode="Recycling"
+                 >
 
             <ListBox.Style>
                 <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">

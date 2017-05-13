@@ -237,6 +237,12 @@ namespace NeeView
         {
             return ArchivePage;
         }
+
+        //
+        public override string ToString()
+        {
+            return $"FolderItem: {Path}";
+        }
     }
 
 }

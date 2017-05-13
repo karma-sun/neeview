@@ -59,7 +59,7 @@ namespace NeeView
 
             await Page.LoadThumbnailAsync(QueueElementPriority.Top);
 
-            BitmapSource source = Page.Thumbnail.CreateBitmap();
+            BitmapSource source = Page.Thumbnail.BitmapSource;
 
             return CreateVisualContent(source, new Size(Page.Width, Page.Height), maxSize, isShadowEffect);
         }

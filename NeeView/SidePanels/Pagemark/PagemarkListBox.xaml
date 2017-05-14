@@ -61,6 +61,21 @@
             </Border>
         </DataTemplate>
 
+        <!-- Banner Bookmark -->
+        <DataTemplate x:Key="BannerPagemark">
+            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+                <i:Interaction.Behaviors>
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="BookmarkItem" DragDropData="{Binding}" />
+                </i:Interaction.Behaviors>
+                <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
+                    <DockPanel DockPanel.Dock="Bottom" Margin="2" >
+                        <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}" ToolTip="{Binding Detail}" ToolTipService.InitialShowDelay="1000" ToolTipService.BetweenShowDelay="1000"/>
+                    </DockPanel>
+                    <local:FolderListBanner DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                </DockPanel>
+            </Border>
+        </DataTemplate>
+
     </UserControl.Resources>
 
 
@@ -91,6 +106,9 @@
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Content">
                         <Setter Property="ItemTemplate" Value="{StaticResource PicturePagemark}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Banner">
+                        <Setter Property="ItemTemplate" Value="{StaticResource BannerPagemark}"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>

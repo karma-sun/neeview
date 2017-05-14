@@ -68,6 +68,17 @@
             </Border>
         </DataTemplate>
 
+        <DataTemplate x:Key="BannerTemplate">
+            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+                <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
+                    <DockPanel DockPanel.Dock="Bottom" Margin="2" >
+                        <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Format, Converter={StaticResource PageNameConverter}}"/>
+                    </DockPanel>
+                    <local:FolderListBanner DataContext="{Binding Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                </DockPanel>
+            </Border>
+        </DataTemplate>
+
     </UserControl.Resources>
 
     <ListBox x:Name="ListBox" Focusable="True"
@@ -95,6 +106,9 @@
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Content">
                         <Setter Property="ItemTemplate" Value="{StaticResource PictureTemplate}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Banner">
+                        <Setter Property="ItemTemplate" Value="{StaticResource BannerTemplate}"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>

@@ -17,7 +17,7 @@
 
     <Rectangle ToolTipService.IsEnabled="{Binding IsUniqueImage}" Width="{DynamicResource BannerWidth}" Height="{DynamicResource BannerHeight}">
         <Rectangle.Fill>
-            <VisualBrush Stretch="UniformToFill" Viewbox="0,0,1,0.75" >
+            <VisualBrush Stretch="UniformToFill" Viewbox="0,0,1,0.6" >
                 <VisualBrush.Visual>
                     <Image Source="{Binding BitmapSource}"/>
                 </VisualBrush.Visual>

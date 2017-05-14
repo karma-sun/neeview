@@ -43,6 +43,7 @@ namespace NeeView
             var menu = new ContextMenu();
             menu.Items.Add(CreateListItemStyleMenuItem("一覧表示", PanelListItemStyle.Normal));
             menu.Items.Add(CreateListItemStyleMenuItem("コンテンツ表示", PanelListItemStyle.Content));
+            menu.Items.Add(CreateListItemStyleMenuItem("バナー表示", PanelListItemStyle.Banner));
             menu.Items.Add(new Separator());
             menu.Items.Add(CreateCommandMenuItem("無効なページマークを削除", RemoveUnlinkedCommand));
 

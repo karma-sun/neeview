@@ -3,10 +3,12 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using NeeView.Windows.Input;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -18,22 +20,8 @@ namespace NeeView
     /// <summary>
     /// 
     /// </summary>
-    public class PageListViewModel : INotifyPropertyChanged
+    public class PageListViewModel : BindableBase
     {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
-        public event EventHandler PagesChanged;
-
         //
         private BookHub _bookHub;
 
@@ -176,13 +164,17 @@ namespace NeeView
         private PageList _model;
 
 
+        //
         public PageListViewModel(PageList model)
         {
             _model = model;
+            _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
+
             _bookHub = _model.BookHub;
             _bookHub.ViewContentsChanged += BookHub_ViewContentsChanged;
 
             InitializeMoreMenu();
+            UpdateListBoxContent();
 
             Reflesh();
         }
@@ -196,7 +188,7 @@ namespace NeeView
             _pageSortMode = _bookHub.BookMemento.SortMode;
             RaisePropertyChanged(nameof(PageSortMode));
 
-            App.Current?.Dispatcher.Invoke(() => PagesChanged?.Invoke(this, null));
+            App.Current?.Dispatcher.Invoke(() => this.ListBoxContent.FocusSelectedItem());
         }
 
 
@@ -227,5 +219,24 @@ namespace NeeView
                 ThumbnailManager.Current.RequestThumbnail(_model.PageCollection, QueueElementPriority.PageListThumbnail, start, count, margin, direction);
             }
         }
+
+
+        /// <summary>
+        /// ListBoxContent property.
+        /// </summary>
+        public PageListBox ListBoxContent
+        {
+            get { return _listBoxContent; }
+            set { if (_listBoxContent != value) { _listBoxContent = value; RaisePropertyChanged(); } }
+        }
+
+        private PageListBox _listBoxContent;
+
+        private void UpdateListBoxContent()
+        {
+            Debug.WriteLine("*** PageList ***");
+            this.ListBoxContent = new PageListBox(this);
+        }
+
     }
 }

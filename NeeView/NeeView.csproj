@@ -117,9 +117,21 @@
     <Compile Include="BitmapLoader\BitmapLoader.cs" />
     <Compile Include="BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
+    <Compile Include="SidePanels\Bookamrk\BookmarkListBox.xaml.cs">
+      <DependentUpon>BookmarkListBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BookOperation.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="DelayVisibility.cs" />
+    <Compile Include="SidePanels\FolderList\PageListBox.xaml.cs">
+      <DependentUpon>PageListBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidePanels\Pagemark\PagemarkListBox.xaml.cs">
+      <DependentUpon>PagemarkListBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidePanels\FolderList\FolderListBox.xaml.cs">
+      <DependentUpon>FolderListBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InfoMessage.cs" />
     <Compile Include="MessageDialog.xaml.cs">
       <DependentUpon>MessageDialog.xaml</DependentUpon>
@@ -162,6 +174,9 @@
     <Compile Include="SidePanels\FolderList\PageListViewModel.cs" />
     <Compile Include="SidePanels\FolderList\PageList.cs" />
     <Compile Include="SidePanels\FolderList\_FolderListDesigns.cs" />
+    <Compile Include="SidePanels\History\HistoryListBox.xaml.cs">
+      <DependentUpon>HistoryListBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SidePanels\History\HistoryListViewModel.cs" />
     <Compile Include="SidePanels\History\HistoryList.cs" />
     <Compile Include="SidePanels\ImageEffect\ImageEffectPanel.cs" />
@@ -467,6 +482,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SidePanels\Bookamrk\BookmarkListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\FolderList\PageListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\Pagemark\PagemarkListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\FolderList\FolderListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NormalInfoMessageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -496,6 +527,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SidePanels\FolderList\FolderPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\History\HistoryListBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

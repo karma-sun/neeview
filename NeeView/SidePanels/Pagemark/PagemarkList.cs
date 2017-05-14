@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,20 +9,8 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-    public class PagemarkList : INotifyPropertyChanged
+    public class PagemarkList : BindableBase
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        //
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-
         /// <summary>
         /// PanelListItemStyle property.
         /// </summary>

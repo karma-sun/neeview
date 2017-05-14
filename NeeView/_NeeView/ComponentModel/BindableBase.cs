@@ -36,7 +36,7 @@ namespace NeeView.ComponentModel
             if (object.Equals(storage, value)) return false;
 
             storage = value;
-            this.OnPropertyChanged(propertyName);
+            this.RaisePropertyChanged(propertyName);
             return true;
         }
 
@@ -46,7 +46,7 @@ namespace NeeView.ComponentModel
         /// <param name="propertyName">リスナーに通知するために使用するプロパティの名前。
         /// この値は省略可能で、
         /// <see cref="CallerMemberNameAttribute"/> をサポートするコンパイラから呼び出す場合に自動的に指定できます。</param>
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -46,17 +46,6 @@ namespace NeeView
         IsTopSelect = (1 << 3),
     }
 
-    //
-    public class FolderListChangedEventArgs : EventArgs
-    {
-        public bool IsFocused { get; set; }
-
-        public FolderListChangedEventArgs(bool isFocused)
-        {
-            this.IsFocused = isFocused;
-        }
-    }
-
     /// <summary>
     /// FolderListControl ViewModel
     /// </summary>
@@ -248,6 +237,8 @@ namespace NeeView
             _model.PlaceChanged += Model_PlaceChanged;
 
             InitializeMoreMenu(_model.FolderPanel);
+
+            UpdateListContent();
         }
 
         //
@@ -268,6 +259,10 @@ namespace NeeView
                 case nameof(_model.IsVisibleBookmarkMark):
                     FolderItem.IsVisibleBookmarkMark = _model.IsVisibleBookmarkMark;
                     break;
+                case nameof(_model.FolderIconLayout):
+                case nameof(_model.PanelListItemStyle):
+                    UpdateListContent();
+                    break;
             }
         }
 
@@ -283,9 +278,6 @@ namespace NeeView
         }
 
 
-
-        //
-        public event EventHandler<FolderListChangedEventArgs> FolderListChanged;
 
         /// <summary>
         /// フォルダーリスト更新
@@ -320,7 +312,7 @@ namespace NeeView
                 this.FolderCollection = collection;
                 this.SelectedIndex = FixedIndexOfPath(select);
 
-                FolderListChanged?.Invoke(this, new FolderListChangedEventArgs(options.HasFlag(FolderSetPlaceOption.IsFocus)));
+                FocusSelectedItem(options.HasFlag(FolderSetPlaceOption.IsFocus));
 
                 // 最終フォルダー更新
                 ModelContext.BookHistory.LastFolder = _place;
@@ -422,16 +414,13 @@ namespace NeeView
             MoveToNext.Execute(null);
         }
 
-        //
-        public event EventHandler SelectedItemChanged;
-
         /// <summary>
         /// 選択項目にフォーカス取得
         /// </summary>
         /// <param name="isFocus"></param>
         public void FocusSelectedItem(bool isFocus)
         {
-            SelectedItemChanged?.Invoke(this, null);
+            this.ListContent?.FocusSelectedItem(true);
         }
 
         /// <summary>
@@ -1009,6 +998,26 @@ namespace NeeView
             {
                 ThumbnailManager.Current.RequestThumbnail(FolderCollection.Items, QueueElementPriority.FolderThumbnail, start, count, margin, direction);
             }
+        }
+
+
+        /// <summary>
+        /// ListContent property.
+        /// </summary>
+        public FolderListBox ListContent
+        {
+            get { return _listContent; }
+            private set { if (_listContent != value) { _listContent = value; RaisePropertyChanged(); } }
+        }
+
+        //
+        private FolderListBox _listContent;
+
+        //
+        public void UpdateListContent()
+        {
+            Debug.WriteLine("*** Update ListContent ***");
+            ListContent = new FolderListBox(this);
         }
     }
 

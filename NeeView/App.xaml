@@ -27,7 +27,7 @@
                     <system:Double x:Key="BannerHeight">50.0</system:Double>
 
                     <!-- Panel ListBox ScrollUnit -->
-                    <ScrollUnit x:Key="PanelScrollUnit">Item</ScrollUnit>
+                    <ScrollUnit x:Key="PanelScrollUnit">Pixel</ScrollUnit>
 
 
                     <!-- Window Style -->

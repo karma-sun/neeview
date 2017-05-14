@@ -18,64 +18,13 @@
              d:DesignHeight="300" d:DesignWidth="300"
              Background="{DynamicResource NVBackground}"
              Foreground="{DynamicResource NVForeground}">
-    <UserControl.Resources>
-
-        <!-- Default TextBlock -->
-        <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="15"/>
-        </Style>
-
-        <RoutedCommand x:Key="xRemoveDommand" />
-
-
-        <Style TargetType="TextBlock" x:Key="PagemarkName">
-            <Setter Property="Margin" Value="5,0"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-        </Style>
-
-        <!-- Normal Pagemark -->
-        <DataTemplate x:Key="NormalPagemark">
-            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1" Background="Transparent">
-                <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="PagemarkItem" DragDropData="{Binding}" />
-                </i:Interaction.Behaviors>
-                <StackPanel Margin="0,2">
-                    <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PlaceShort}" FontSize="12" Foreground="Gray" />
-                    <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}" ToolTip="{Binding Detail}" ToolTipService.InitialShowDelay="1000" ToolTipService.BetweenShowDelay="1000"/>
-                </StackPanel>
-            </Border>
-        </DataTemplate>
-
-        <!-- Picture Pagemark -->
-        <DataTemplate x:Key="PicturePagemark">
-            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1" Background="Transparent">
-                <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="PagemarkItem" DragDropData="{Binding}" />
-                </i:Interaction.Behaviors>
-                <DockPanel Margin="2">
-                    <DockPanel>
-                        <local:FolderListThumbnail DataContext="{Binding ArchivePage.Thumbnail}"/>
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PlaceShort}" Foreground="Gray" />
-                            <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}" ToolTip="{Binding Detail}" ToolTipService.InitialShowDelay="1000" ToolTipService.BetweenShowDelay="1000"/>
-                        </StackPanel>
-                    </DockPanel>
-                </DockPanel>
-            </Border>
-        </DataTemplate>
-
-    </UserControl.Resources>
-
 
     <DockPanel x:Name="DockPanel" Margin="0,5">
 
         <StackPanel DockPanel.Dock="Top" Margin="5">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <Image Source="{StaticResource ic_bookmark_24px}" Width="14" Height="14"/>
-                <TextBlock Text="ページマーク" Foreground="Gray" VerticalAlignment="Top" Margin="2,0"/>
+                <TextBlock Text="ページマーク" FontSize="15" Foreground="Gray" VerticalAlignment="Top" Margin="2,0"/>
             </StackPanel>
             <DockPanel LastChildFill="False">
                 <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
@@ -84,55 +33,7 @@
             </DockPanel>
         </StackPanel>
 
-        <ListBox x:Name="PagemarkListBox" Focusable="False"
-                 Background="Transparent"
-                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                 FocusVisualStyle="{StaticResource NVFocusVisual}"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding Pagemarks.Marks}"
-                 SelectedItem="{Binding Pagemarks.SelectedItem}"
-                 KeyDown="PagemarkList_KeyDown"
-                 Tag="{Binding Pagemarks.Marks}"
-                 IsVisibleChanged="PagemarkListBox_IsVisibleChanged"
-                 AllowDrop="True"
-                 PreviewDragOver="PagemarkListBox_PreviewDragOver"
-                 Drop="PagemarkListBox_Drop"
-                 VirtualizingStackPanel.IsVirtualizing="True"
-                 VirtualizingStackPanel.ScrollUnit="{StaticResource PanelScrollUnit}"
-                 VirtualizingStackPanel.VirtualizationMode="Recycling"
-                 >
-
-            <ListBox.Style>
-                <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Normal">
-                            <Setter Property="ItemTemplate" Value="{StaticResource NormalPagemark}"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Content">
-                            <Setter Property="ItemTemplate" Value="{StaticResource PicturePagemark}"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ListBox.Style>
-
-            <ListBox.Resources>
-                <Style TargetType="ListBoxItem">
-                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="PagemarkListItem_MouseSingleClick"/>
-                    <EventSetter Event="KeyDown" Handler="PagemarkListItem_KeyDown"/>
-                    <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
-
-                    <Setter Property="ContextMenu">
-                        <Setter.Value>
-                            <ContextMenu>
-                                <MenuItem Header="ページマークをはずす(D)" Command="{x:Static local:PagemarkListViewl.RemoveCommand}"/>
-                            </ContextMenu>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListBox.Resources>
-
-        </ListBox>
+        <ContentControl Content="{Binding ListBoxContent}"/>
 
     </DockPanel>
 </UserControl>

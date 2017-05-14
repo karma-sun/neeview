@@ -13,35 +13,16 @@ using NeeView.Windows.Input;
 using System.Runtime.Serialization;
 using System.Windows.Input;
 using System.Linq;
+using System.Diagnostics;
+using NeeView.ComponentModel;
 
 namespace NeeView
 {
     /// <summary>
     /// 
     /// </summary>
-    public class HistoryListViewModel : INotifyPropertyChanged
+    public class HistoryListViewModel : BindableBase 
     {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
-
-        // 項目変更イベント。フォーカス保存用
-        public class SelectedItemChangeEventArgs
-        {
-            public bool IsFocused { get; set; }
-        }
-        public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanging;
-        public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanged;
-
         #region Property: Items
         private ObservableCollection<BookMementoUnit> _items;
         public ObservableCollection<BookMementoUnit> Items
@@ -194,25 +175,27 @@ namespace NeeView
         public HistoryListViewModel(HistoryList model)
         {
             _model = model;
+            _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
             _bookHub = _model.BookHub;
 
             _isDarty = true;
-            //if (isVisible) UpdateItems();
-            UpdateItems();
 
             _bookHub.HistoryChanged += BookHub_HistoryChanged;
             _bookHub.HistoryListSync += BookHub_HistoryListSync;
 
             InitializeMoreMenu();
+
+            UpdateListBoxContent();
+            UpdateItems();
         }
+
 
         //
         private void BookHub_HistoryListSync(object sender, string e)
         {
-            var args = new SelectedItemChangeEventArgs();
-            SelectedItemChanging?.Invoke(this, args);
+            this.ListBoxContent.StoreFocus();
             SelectedItem = ModelContext.BookHistory.Find(e);
-            SelectedItemChanged?.Invoke(this, args);
+            this.ListBoxContent.RestoreFocus();
         }
 
         //
@@ -232,14 +215,13 @@ namespace NeeView
             {
                 _isDarty = false;
 
-                var args = new SelectedItemChangeEventArgs();
-                App.Current.Dispatcher.Invoke(() => SelectedItemChanging?.Invoke(this, args));
+                App.Current.Dispatcher.Invoke(() => this.ListBoxContent.StoreFocus());
 
                 var item = SelectedItem;
                 Items = new ObservableCollection<BookMementoUnit>(ModelContext.BookHistory.Items);
                 SelectedItem = Items.Count > 0 ? item : null;
 
-                App.Current.Dispatcher.Invoke(() => SelectedItemChanged?.Invoke(this, args));
+                App.Current.Dispatcher.Invoke(() => this.ListBoxContent.RestoreFocus());
             }
         }
 
@@ -279,10 +261,9 @@ namespace NeeView
             if (item == null) return;
 
             // 位置ずらし
-            var args = new SelectedItemChangeEventArgs();
-            SelectedItemChanging?.Invoke(this, args);
+            this.ListBoxContent.StoreFocus();
             SelectedItem = GetNeighbor(item);
-            SelectedItemChanged?.Invoke(this, args);
+            this.ListBoxContent.RestoreFocus();
 
             // 削除
             ModelContext.BookHistory.Remove(item.Memento.Place);
@@ -337,6 +318,26 @@ namespace NeeView
         private void RemoveUnlinkedCommand_Executed()
         {
             ModelContext.BookHistory.RemoveUnlinked();
+        }
+
+
+        /// <summary>
+        /// ListBoxContent property.
+        /// </summary>
+        public HistoryListBox ListBoxContent
+        {
+            get { return _listBoxContent; }
+            set { if (_listBoxContent != value) { _listBoxContent = value; RaisePropertyChanged(); } }
+        }
+
+        //
+        private HistoryListBox _listBoxContent;
+
+        //
+        private void UpdateListBoxContent()
+        {
+            Debug.WriteLine("*** HistoryListBox ***");
+            ListBoxContent = new HistoryListBox(this);
         }
 
     }

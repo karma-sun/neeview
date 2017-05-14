@@ -3,9 +3,11 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using NeeView.Windows.Input;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,31 +18,9 @@ namespace NeeView
     /// <summary>
     /// 
     /// </summary>
-    public class PagemarkListViewModel : INotifyPropertyChanged
+    public class PagemarkListViewModel : BindableBase
     {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
-
-        // 項目変更イベント。フォーカス保存用
-        public class SelectedItemChangeEventArgs
-        {
-            public bool IsFocused { get; set; }
-        }
-        public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanging;
-        public event EventHandler<SelectedItemChangeEventArgs> SelectedItemChanged;
-
         public PagemarkCollection Pagemarks => ModelContext.Pagemarks;
-
 
         #region MoreMenu
 
@@ -154,8 +134,11 @@ namespace NeeView
         public PagemarkListViewModel(PagemarkList model)
         {
             _model = model;
+            _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
 
             InitializeMoreMenu();
+
+            UpdateListBoxContent();
         }
 
         //
@@ -169,10 +152,9 @@ namespace NeeView
         {
             if (mark == null) return;
 
-            var args = new SelectedItemChangeEventArgs();
-            SelectedItemChanging?.Invoke(this, args);
+            this.ListBoxContent.StoreFocus();
             Pagemarks.SelectedItem = Pagemarks.GetNeighbor(mark);
-            SelectedItemChanged?.Invoke(this, args);
+            this.ListBoxContent.RestoreFocus();
 
             ModelContext.Pagemarks.Remove(mark);
 
@@ -205,6 +187,23 @@ namespace NeeView
         private void RemoveUnlinkedCommand_Executed()
         {
             ModelContext.Pagemarks.RemoveUnlinked();
+        }
+
+        /// <summary>
+        /// ListBoxContent property.
+        /// </summary>
+        public PagemarkListBox ListBoxContent
+        {
+            get { return _listBoxContent; }
+            set { if (_listBoxContent != value) { _listBoxContent = value; RaisePropertyChanged(); } }
+        }
+
+        private PagemarkListBox _listBoxContent;
+
+        private void UpdateListBoxContent()
+        {
+            Debug.WriteLine("*** Pagemark Update ***");
+            this.ListBoxContent = new PagemarkListBox(this);
         }
     }
 }

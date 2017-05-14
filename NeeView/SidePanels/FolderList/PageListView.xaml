@@ -17,78 +17,10 @@
              Background="{DynamicResource NVBackground}"
              Foreground="{DynamicResource NVForeground}">
 
-    <UserControl.Resources>
 
-        <!-- Default TextBlock -->
-        <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="15"/>
-        </Style>
-
-        <RoutedCommand x:Key="xRemoveDommand" />
-
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-
-        <Style x:Key="ItemStyle" TargetType="TextBlock">
-            <Setter Property="Margin" Value="5,0"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="ToolTip" Value="{Binding FullPath}"/>
-            <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
-            <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
-        </Style>
-
-        <Style x:Key="SmartTextStyle" TargetType="TextBlock" BasedOn="{StaticResource ItemStyle}">
-            <Setter Property="Text" Value="{Binding SmartFullPath}"/>
-        </Style>
-
-        <Style x:Key="DefaultTextStyle" TargetType="TextBlock" BasedOn="{StaticResource ItemStyle}">
-            <Setter Property="Text" Value="{Binding FullPath}"/>
-        </Style>
-
-        <Style x:Key="NameOnlyTextStyle" TargetType="TextBlock" BasedOn="{StaticResource ItemStyle}">
-            <Setter Property="Text" Value="{Binding LastName}"/>
-        </Style>
-
-        <local:PageNameConverter x:Key="PageNameConverter"
-                                 SmartTextStyle="{StaticResource SmartTextStyle}"
-                                 DefaultTextStyle="{StaticResource DefaultTextStyle}"
-                                 NameOnlyTextStyle="{StaticResource NameOnlyTextStyle}"/>
-
-        <Style TargetType="Image" x:Key="ThumbnailStyle">
-            <Setter Property="Width" Value="50"/>
-            <Setter Property="Height" Value="60"/>
-            <Setter Property="Margin" Value="5,0"/>
-            <Setter Property="Source" Value="{Binding Thumbnail.BitmapSource}"/>
-        </Style>
-
-        <DataTemplate x:Key="TextTemplate">
-            <TextBlock Style="{Binding ElementName=DockPanel, Path=DataContext.Format, Converter={StaticResource PageNameConverter}}"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="PictureTemplate">
-            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                <DockPanel Margin="2" LastChildFill="False">
-                    <local:FolderListThumbnail DataContext="{Binding Thumbnail}"/>
-                    <TextBlock Style="{Binding ElementName=DockPanel, Path=DataContext.Format, Converter={StaticResource PageNameConverter}}"/>
-                </DockPanel>
-            </Border>
-        </DataTemplate>
-
-    </UserControl.Resources>
-
-
-    <DockPanel x:Name="DockPanel" Margin="0,0,0,5" IsVisibleChanged="PaegList_IsVisibleChanged">
+    <DockPanel x:Name="DockPanel" Margin="0,0,0,5">
 
         <StackPanel DockPanel.Dock="Top" Margin="5,0,5,2">
-
-            <!--
-            <StackPanel Margin="5">
-                <TextBlock Text="ページリスト" Foreground="Gray"/>
-                <TextBlock Text="{Binding Title}" ToolTip="{Binding Title}" TextTrimming="CharacterEllipsis"/>
-            </StackPanel>
-            -->
 
             <DockPanel>
                 <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" ToolTip="設定" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
@@ -107,50 +39,8 @@
             </DockPanel>
         </StackPanel>
 
-        <ListBox x:Name="PageListBox" Focusable="True"
-                 Background="Transparent"
-                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                 FocusVisualStyle="{StaticResource NVFocusVisual}"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding Model.PageCollection}"
-                 SelectedItem="{Binding SelectedItem}"
-                 SelectionChanged="PageList_SelectionChanged"
-                 KeyDown="PageList_KeyDown"
-                 VirtualizingStackPanel.IsVirtualizing="True"
-                 VirtualizingStackPanel.ScrollUnit="{StaticResource PanelScrollUnit}"
-                 VirtualizingStackPanel.VirtualizationMode="Recycling"
-                 >
+        <ContentControl Content="{Binding ListBoxContent}"/>
 
-            <ListBox.Resources>
-
-                <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Normal">
-                            <Setter Property="ItemTemplate" Value="{StaticResource TextTemplate}"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Content">
-                            <Setter Property="ItemTemplate" Value="{StaticResource PictureTemplate}"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-
-                <Style TargetType="ListBoxItem">
-                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="PageListItem_MouseSingleClick"/>
-                    <EventSetter Event="KeyDown" Handler="PageListItem_KeyDown"/>
-                    <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
-                    <Setter Property="ContextMenu">
-                        <Setter.Value>
-                            <ContextMenu>
-                                <MenuItem Header="削除(D)" Command="{x:Static local:PageListView.RemoveCommand}"/>
-                            </ContextMenu>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-
-            </ListBox.Resources>
-
-        </ListBox>
     </DockPanel>
 
 </UserControl>

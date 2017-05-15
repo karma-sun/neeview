@@ -131,8 +131,19 @@
         <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}"
                         Executed="MinimizeWindowCommand_Execute"/>
     </Window.CommandBindings>
-
-    <Border BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="{Binding WindowShape.WindowBorderThickness}">
+    
+    <Border BorderThickness="{Binding WindowShape.WindowBorderThickness}">
+        <Border.Style>
+            <Style TargetType="Border">
+                <Setter Property="BorderBrush" Value="Gray"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=RootWindow, Path=IsActive}" Value="True">
+                        <Setter Property="BorderBrush" Value="{x:Static SystemParameters.WindowGlassBrush}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+        
         <DockPanel x:Name="RootDockPanel" UseLayoutRounding="True">
 
             <!-- 製品表示領域 -->

@@ -149,7 +149,7 @@ namespace NeeView
             // このタイミングでのChrome適用はMaximizedの場合にフルスクリーンになってしまうので保留する
             if (memento.State != WindowStateEx.Maximized)
             {
-                windowShape.IsUseChrome = Preference.Current.window_chrome;
+                windowShape.WindowChromeFrame = Preference.Current.window_chrome_frame;
             }
 
             windowShape.Restore(memento);
@@ -997,7 +997,7 @@ namespace NeeView
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Chrome反映
-            WindowShape.Current.IsUseChrome = Preference.Current.window_chrome;
+            WindowShape.Current.WindowChromeFrame = Preference.Current.window_chrome_frame;
 
             // VMイベント設定
             InitializeViewModelEvents();
@@ -1831,6 +1831,9 @@ namespace NeeView
 
             // 背景更新
             _VM?.UpdateBackgroundBrush();
+
+            // Window Border
+            WindowShape.Current?.UpdateWindowBorderThickness();
 
             // ウィンドウサイズのDPI非追従
             if (Preference.Current.dpi_window_ignore && this.WindowState == WindowState.Normal)

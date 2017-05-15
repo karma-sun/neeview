@@ -1377,6 +1377,9 @@ namespace NeeView
         // 保存可否
         public bool IsEnableSave { get; set; } = true;
 
+        // WindowShape
+        public WindowShape WindowShape => WindowShape.Current;
+
         /// <summary>
         /// Model群。ひとまず。
         /// </summary>
@@ -1710,7 +1713,7 @@ namespace NeeView
         {
             Preference.Current.Restore(setting.PreferenceMemento);
             ModelContext.ApplyPreference();
-            WindowShape.Current.IsUseChrome = Preference.Current.window_chrome;
+            WindowShape.Current.WindowChromeFrame = Preference.Current.window_chrome_frame;
             PreferenceAccessor.Current.Reflesh();
 
             this.Restore(setting.ViewMemento);

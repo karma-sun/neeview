@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -24,11 +25,20 @@ namespace NeeView
         FullScreen,
     }
 
+    //
+    public enum WindowChromeFrame
+    {
+        WindowFrame, // ウィンドウフレームを使用
+        None,
+        Line,
+    }
+
+
     /// <summary>
     /// WindowShape Selector.
     /// 標準のウィンドウ状態にフルスクリーン状態を加えたもの
     /// </summary>
-    public class WindowShape : INotifyPropertyChanged
+    public class WindowShape : BindableBase
     {
         public static WindowShape Current { get; private set; }
 
@@ -39,41 +49,57 @@ namespace NeeView
         private static extern int SetForegroundWindow(IntPtr hwnd);
 
 
-        #region PropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
-        {
-            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
-        }
-
-        #endregion
-
-
-
         /// <summary>
         /// 状態変更イベント
         /// </summary>
         public event EventHandler StateChanged;
 
+
         /// <summary>
-        /// IsUseChrome property.
-        /// Caption非表示でChromeを使用するフラグ
+        /// WindowChromeFrame property.
         /// </summary>
-        public bool IsUseChrome
+        public WindowChromeFrame WindowChromeFrame
         {
-            get { return _isUseChrome; }
-            set { if (_isUseChrome != value) { _isUseChrome = value; Reflesh(); } }
+            get { return _WindowChromeFrame; }
+            set
+            {
+                if (_WindowChromeFrame != value)
+                {
+                    _WindowChromeFrame = value;
+                    Reflesh();
+                }
+            }
         }
 
-        //
-        private bool _isUseChrome = false;
+        private WindowChromeFrame _WindowChromeFrame;
+
+
+        /// <summary>
+        /// WindowBorderThickness property.
+        /// </summary>
+        public Thickness WindowBorderThickness
+        {
+            get { return _windowBorderThickness; }
+            set { if (_windowBorderThickness != value) { _windowBorderThickness = value; RaisePropertyChanged(); } }
+        }
+
+        private Thickness _windowBorderThickness;
+
+        public void UpdateWindowBorderThickness()
+        {
+            if (this.WindowChromeFrame == WindowChromeFrame.Line && this.WindowChrome != null)
+            {
+                var x = 1.0 / App.Config.RawDpi.DpiScaleX;
+                var y = 1.0 / App.Config.RawDpi.DpiScaleY;
+                this.WindowBorderThickness = new Thickness(x, y, x, y);
+            }
+            else
+            {
+                this.WindowBorderThickness = default(Thickness);
+            }
+        }
+
+
 
 
         /// <summary>
@@ -150,6 +176,29 @@ namespace NeeView
         /// 枠なしChrome
         /// </summary>
         private WindowChrome _chrome;
+
+
+        /// <summary>
+        /// 現在のWindowChrome
+        /// </summary>
+        public WindowChrome WindowChrome
+        {
+            get { return _windowChrome; }
+            private set
+            {
+                if (_windowChrome != value)
+                {
+                    _windowChrome = value;
+                    WindowChrome.SetWindowChrome(_window, _windowChrome);
+                    UpdateWindowBorderThickness();
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private WindowChrome _windowChrome;
+
+
 
         /// <summary>
         /// State property.
@@ -346,9 +395,9 @@ namespace NeeView
             //Debug.WriteLine("ToNormal");
             BeginEdit();
 
-            WindowChrome.SetWindowChrome(_window, IsCaptionVisible || !IsUseChrome ? null : _chrome);
+            this.WindowChrome = this.WindowChromeFrame != WindowChromeFrame.WindowFrame && !IsCaptionVisible ? _chrome : null;
             _window.ResizeMode = ResizeMode.CanResize;
-            _window.WindowStyle = (IsCaptionVisible || IsUseChrome) ? WindowStyle.SingleBorderWindow : WindowStyle.None;
+            _window.WindowStyle = IsCaptionVisible ? WindowStyle.SingleBorderWindow : WindowStyle.None;
             _window.WindowState = WindowState.Normal;
 
             RecoveryTaskBar();
@@ -396,12 +445,11 @@ namespace NeeView
             //Debug.WriteLine("ToMaximized");
             BeginEdit();
 
-            WindowChrome.SetWindowChrome(_window, null);
+            this.WindowChrome = null;
             _window.Topmost = false;
             _window.WindowStyle = WindowStyle.SingleBorderWindow;
             _window.ResizeMode = ResizeMode.CanResize;
             if (_state == WindowStateEx.FullScreen) _window.WindowState = WindowState.Normal;
-            //_window.WindowStyle = WindowStyle.SingleBorderWindow;
             _window.WindowState = WindowState.Maximized;
             if (!IsCaptionVisible) _window.WindowStyle = WindowStyle.None;
             _window.Topmost = _isTopmost;
@@ -420,7 +468,7 @@ namespace NeeView
             //Debug.WriteLine("ToFullScreen");
             BeginEdit();
 
-            WindowChrome.SetWindowChrome(_window, null);
+            this.WindowChrome = null;
             _window.ResizeMode = ResizeMode.NoResize;
             if (_state == WindowStateEx.Maximized) _window.WindowState = WindowState.Normal;
             _window.WindowStyle = WindowStyle.None;
@@ -461,6 +509,7 @@ namespace NeeView
             _window.Topmost = IsTopmost;
             _isFullScreen = _state == WindowStateEx.FullScreen;
             SetWindowState(_state);
+            UpdateWindowBorderThickness();
             RaisePropertyChanged(null);
         }
 
@@ -545,4 +594,5 @@ namespace NeeView
 
         #endregion
     }
+
 }

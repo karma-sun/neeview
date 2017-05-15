@@ -171,9 +171,10 @@ namespace NeeView
         [PropertyMember("ネットワークアスセス許可", Tips = "ネットワークアクセスを許可します。\n(バージョンウィンドウからのバージョン更新確認、各種WEBリンク)")]
         public bool network_enabled { get; set; }
 
-        [DataMember, DefaultValue(true)]
-        [PropertyMember("タイトルバー非表示でウィンドウ枠非表示", Tips = "タイトルバー非表示時にウィンドウ枠も完全に非表示にします")]
-        public bool window_chrome { get; set; }
+        [DataMember, DefaultValue(WindowChromeFrame.Line)]
+        [PropertyEnum("タイトルバー非表示でのウィンドウ枠", Tips = "タイトルバー非表示時のウィンドウ枠表示方法です")]
+        public WindowChromeFrame window_chrome_frame { get; set; }
+
 
         [DataMember, DefaultValue(false)]
         [PropertyMember("フルスクリーン時のタイトルバー操作", Tips = "フルスクリーン時のメニュー上でのタイトルバー操作(ダブルクリックやドラッグ)を有効にします")]

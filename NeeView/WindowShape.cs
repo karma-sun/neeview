@@ -445,6 +445,12 @@ namespace NeeView
             //Debug.WriteLine("ToMaximized");
             BeginEdit();
 
+            // タイトルバー非表示時に最大化すると右に隙間ができてしまう対策
+            if (!IsCaptionVisible)
+            {
+                _window.WindowState = WindowState.Normal;
+            }
+
             this.WindowChrome = null;
             _window.Topmost = false;
             _window.WindowStyle = WindowStyle.SingleBorderWindow;

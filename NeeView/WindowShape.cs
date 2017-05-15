@@ -446,7 +446,7 @@ namespace NeeView
             BeginEdit();
 
             // タイトルバー非表示時に最大化すると右に隙間ができてしまう対策
-            if (!IsCaptionVisible)
+            if (!IsCaptionVisible && !_isWindows7)
             {
                 _window.WindowState = WindowState.Normal;
             }

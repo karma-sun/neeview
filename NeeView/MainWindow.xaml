@@ -153,9 +153,13 @@
                                     <local:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right">
                                         <local:WindowCaptionButtons.Style>
                                             <Style TargetType="local:WindowCaptionButtons">
+                                                <Setter Property="Height" Value="28"/>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding WindowCaptionEmulator.IsEnabled}" Value="False">
                                                         <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ElementName=RootWindow, Path=WindowState}" Value="Maximized">
+                                                        <Setter Property="Height" Value="24"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>

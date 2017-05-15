@@ -146,9 +146,14 @@ namespace NeeView
                 memento.State = WindowStateEx.FullScreen;
             }
 
-            windowShape.IsUseChrome = Preference.Current.window_chrome;
+            // このタイミングでのChrome適用はMaximizedの場合にフルスクリーンになってしまうので保留する
+            if (memento.State != WindowStateEx.Maximized)
+            {
+                windowShape.IsUseChrome = Preference.Current.window_chrome;
+            }
 
             windowShape.Restore(memento);
+
         }
 
 
@@ -991,6 +996,9 @@ namespace NeeView
         //
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // Chrome反映
+            WindowShape.Current.IsUseChrome = Preference.Current.window_chrome;
+
             // VMイベント設定
             InitializeViewModelEvents();
 

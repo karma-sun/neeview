@@ -1791,9 +1791,9 @@ namespace NeeView
             private void Constructor()
             {
                 IsEnableNoSupportFile = false;
-                ////IsSlideShowByLoop = true;
-                ////SlideShowInterval = 5.0;
-                ////IsCancelSlideByMouseMove = true;
+                IsSlideShowByLoop = true; // no used.
+                SlideShowInterval = 5.0; // no used.
+                IsCancelSlideByMouseMove = true; // no used.
                 IsSupportArchiveFile = true;
                 BookMemento = new Book.Memento();
                 ExternalApplication = new ExternalApplication();
@@ -1842,9 +1842,9 @@ namespace NeeView
             memento.IsEnableExif = IsEnableExif;
             memento.IsEnableNoSupportFile = IsEnableNoSupportFile;
             memento.PageEndAction = PageEndAction;
-            ////memento.IsSlideShowByLoop = IsSlideShowByLoop;
-            ////memento.SlideShowInterval = SlideShowInterval;
-            ////memento.IsCancelSlideByMouseMove = IsCancelSlideByMouseMove;
+            memento.IsSlideShowByLoop = false; // no used
+            memento.SlideShowInterval = 0; // no used
+            memento.IsCancelSlideByMouseMove = false; // no used
             memento.BookMemento = BookMemento.Clone();
             memento.BookMemento.ValidateForDefault(); // 念のため
             //memento.IsEnarbleCurrentDirectory = IsEnarbleCurrentDirectory;

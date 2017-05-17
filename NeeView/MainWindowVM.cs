@@ -2731,7 +2731,7 @@ namespace NeeView
             {
                 IsLimitMove = true;
                 NoticeShowMessageStyle = ShowMessageStyle.Normal;
-                ////CommandShowMessageStyle = ShowMessageStyle.Normal;
+                CommandShowMessageStyle = ShowMessageStyle.Normal; // no used.
                 GestureShowMessageStyle = ShowMessageStyle.Normal;
                 NowLoadingShowMessageStyle = ShowMessageStyle.Normal;
                 ViewTransformShowMessageStyle = ShowMessageStyle.None;
@@ -2744,7 +2744,7 @@ namespace NeeView
                 WindowTitleFormat2 = MainWindowVM.WindowTitleFormat2Default;
                 IsSaveWindowPlacement = true;
                 IsHidePanelInFullscreen = true;
-                ////IsVisibleTitleBar = true;
+                IsVisibleTitleBar = true; // no used
                 ContextMenuSetting = new ContextMenuSetting();
                 IsHideThumbnailList = true;
                 ThumbnailSize = 96;
@@ -2815,7 +2815,7 @@ namespace NeeView
             memento.CustomBackground = this.CustomBackground;
             memento.Background = this.Background;
             memento.NoticeShowMessageStyle = this.NoticeShowMessageStyle;
-            ////memento.CommandShowMessageStyle = this.CommandShowMessageStyle;
+            memento.CommandShowMessageStyle = ShowMessageStyle.None; // no used.
             memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
             memento.NowLoadingShowMessageStyle = this.NowLoadingShowMessageStyle;
             memento.ViewTransformShowMessageStyle = this.ViewTransformShowMessageStyle;
@@ -2829,7 +2829,7 @@ namespace NeeView
             memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
             memento.IsHideMenu = this.IsHideMenu;
             memento.IsHidePageSlider = this.IsHidePageSlider;
-            ////memento.IsVisibleTitleBar = this.IsVisibleTitleBar;
+            memento.IsVisibleTitleBar = false; // no used.
             ////memento.IsFullScreen = this.IsFullScreen;
             memento.IsSaveFullScreen = this.IsSaveFullScreen;
             ////memento.IsTopmost = this.IsTopmost;

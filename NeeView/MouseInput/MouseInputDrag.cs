@@ -264,10 +264,14 @@ namespace NeeView
         public TransformGroup TransformView { get; private set; }
         public TransformGroup TransformCalc { get; private set; }
 
+        //
+        private ContentCanvasTransform _contentCanvasTransform;
 
         //
-        public MouseInputDrag(MouseInputContext context) : base(context)
+        public MouseInputDrag(MouseInputContext context, ContentCanvasTransform contentCanvasTransform) : base(context)
         {
+            _contentCanvasTransform = contentCanvasTransform;
+
             this.TransformView = CreateTransformGroup();
             this.TransformCalc = CreateTransformGroup();
 
@@ -324,6 +328,8 @@ namespace NeeView
 
         // 水平スクロールの正方向
         public double ViewHorizontalDirection { get; set; } = 1.0;
+        
+
 
         // 初期化
         // コンテンツ切り替わり時等

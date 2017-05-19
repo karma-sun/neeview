@@ -35,8 +35,11 @@ namespace NeeView
         public BookOperation BookOperation { get; private set; }
 
         //
+        public ContentCanvasTransform ContentCanvasTransform { get; private set; }
+        public ContentCanvas ContentCanvas { get; private set; }
         public MouseInput MouseInput { get; private set; }
         public SlideShow SlideShow { get; private set; }
+        public WindowTitle WindowTitle { get; private set; }
 
         //
         public FolderPanelModel FolderPanelModel { get; private set; }
@@ -71,8 +74,11 @@ namespace NeeView
             // TODO: MainWindowVMをモデル分離してModelとして参照させる？
             this.CommandTable.SetTarget(this, MainWindowVM.Current);
 
+            this.ContentCanvasTransform = new ContentCanvasTransform();
+            this.ContentCanvas = new ContentCanvas(this.ContentCanvasTransform, this.BookHub);
             this.MouseInput = new MouseInput();
             this.SlideShow = new SlideShow(this.BookHub, this.BookOperation, this.MouseInput);
+            this.WindowTitle = new WindowTitle(this.ContentCanvas);
 
             this.FolderPanelModel = new FolderPanelModel();
             this.FolderList = new FolderList(this.BookHub, this.FolderPanelModel);
@@ -105,6 +111,8 @@ namespace NeeView
             [DataMember]
             public RoutedCommandTable.Memento RoutedCommandTable { get; set; }
             [DataMember]
+            public ContentCanvasTransform.Memento ContentCanvasTransform { get; set; }
+            [DataMember]
             public SlideShow.Memento SlideShow { get; set; }
             [DataMember]
             public FolderPanelModel.Memento FolderPanel { get; set; }
@@ -131,6 +139,7 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.RoutedCommandTable = this.RoutedCommandTable.CreateMemento();
+            memento.ContentCanvasTransform = this.ContentCanvasTransform.CreateMemento();
             memento.SlideShow = this.SlideShow.CreateMemento();
             memento.FolderPanel = this.FolderPanelModel.CreateMemento();
             memento.FolderList = this.FolderList.CreateMemento();
@@ -149,6 +158,7 @@ namespace NeeView
         {
             if (memento == null) return;
             this.RoutedCommandTable.Restore(memento.RoutedCommandTable);
+            this.ContentCanvasTransform.Restore(memento.ContentCanvasTransform);
             this.SlideShow.Restore(memento.SlideShow);
             this.FolderPanelModel.Restore(memento.FolderPanel);
             this.FolderList.Restore(memento.FolderList);

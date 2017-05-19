@@ -423,13 +423,13 @@
 
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="移動をウィンドウ内に制限する"
                                   ToolTip="マウスドラッグによる移動を制限します"
-                                  IsChecked="{Binding Setting.ViewMemento.IsLimitMove}" />
+                                  IsChecked="{Binding Setting.Memento.ContentCanvasTransform.IsLimitMove}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="表示開始位置を画像の中心基準にする"
                                   ToolTip="OFFの時は、見開きモードによって右上基準、左上基準になります。"
-                                  IsChecked="{Binding Setting.ViewMemento.IsViewStartPositionCenter}" />
+                                  IsChecked="{Binding Setting.Memento.ContentCanvasTransform.IsViewStartPositionCenter}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転、拡縮、反転の基準を画像の中心にする"
                                   ToolTip="OFFの時は、ウィンドウの中心をそのまま中心とします"
-                                  IsChecked="{Binding Setting.ViewMemento.IsControlCenterImage}" />
+                                  IsChecked="{Binding Setting.Memento.ContentCanvasTransform.IsControlCenterImage}" />
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="回転の単位">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="回転スナップ"/>
                                 <Slider Style="{StaticResource ItemSlider}" Value="{Binding AngleFrequency.Index}"
@@ -438,13 +438,13 @@
                             </StackPanel>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページを変更しても拡縮をキープする"
                                   ToolTip="OFFの時は、ページを切り替える度にリセットされます"
-                                  IsChecked="{Binding Setting.ViewMemento.IsKeepScale}" />
+                                  IsChecked="{Binding Setting.Memento.ContentCanvasTransform.IsKeepScale}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページを変更しても回転をキープする"
                                   ToolTip="OFFの時は、ページを切り替える度にリセットされます&#xa;自動回転有効時は機能しません"
-                                  IsChecked="{Binding Setting.ViewMemento.IsKeepAngle}" />
+                                  IsChecked="{Binding Setting.Memento.ContentCanvasTransform.IsKeepAngle}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページを変更しても反転をキープする"
                                   ToolTip="OFFの時は、ページを切り替える度にリセットされます"
-                                  IsChecked="{Binding Setting.ViewMemento.IsKeepFlip}" />
+                                  IsChecked="{Binding Setting.Memento.ContentCanvasTransform.IsKeepFlip}" />
                         </StackPanel>
 
                         <TextBlock Text="ドラッグ操作" Style="{StaticResource Header}"/>

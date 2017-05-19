@@ -348,13 +348,14 @@ namespace NeeView
                     }
 
                     // ルーペでない場合は標準のビューリセット処理を行う
+                    // TODO: MouseDragパラメータリセットの場所
                     if (!_mouse.IsLoupeMode)
                     {
                         UpdateMouseDragSetting(e.PageDirection, e.ViewOrigin);
 
-                        bool isResetScale = e.ResetViewTransform || !_VM.IsKeepScale;
-                        bool isResetAngle = e.ResetViewTransform || !_VM.IsKeepAngle || _VM.IsAutoRotate;
-                        bool isResetFlip = e.ResetViewTransform || !_VM.IsKeepFlip;
+                        bool isResetScale = e.ResetViewTransform || !ContentCanvasTransform.Current.IsKeepScale;
+                        bool isResetAngle = e.ResetViewTransform || !ContentCanvasTransform.Current.IsKeepAngle || _VM.IsAutoRotate;
+                        bool isResetFlip = e.ResetViewTransform || !ContentCanvasTransform.Current.IsKeepFlip;
 
                         _mouse.Drag.Reset(isResetScale, isResetAngle, isResetFlip, DefaultViewAngle(isResetAngle));
                     }
@@ -363,7 +364,7 @@ namespace NeeView
             _VM.AutoRotateChanged +=
                 (s, e) =>
                 {
-                    _mouse.Drag.Reset(true, true, true, _VM.ContentAngle);
+                    _mouse.Drag.Reset(true, true, true, ContentCanvasTransform.Current.ContentAngle);
                 };
 
             _VM.InputGestureChanged +=
@@ -518,15 +519,16 @@ namespace NeeView
 
 
         // ドラッグでビュー操作設定の更新
+        // TODO:イベントの流れを変更。ここを経由せずに直接MouseDragのモデルに通知する
         private void UpdateMouseDragSetting(int direction, DragViewOrigin origin)
         {
-            _mouse.Drag.IsLimitMove = _VM.IsLimitMove;
-            _mouse.Drag.DragControlCenter = _VM.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
-            _mouse.Drag.AngleFrequency = _VM.AngleFrequency;
+            _mouse.Drag.IsLimitMove = ContentCanvasTransform.Current.IsLimitMove;
+            _mouse.Drag.DragControlCenter = ContentCanvasTransform.Current.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
+            _mouse.Drag.AngleFrequency = ContentCanvasTransform.Current.AngleFrequency;
 
             if (origin == DragViewOrigin.None)
             {
-                origin = _VM.IsViewStartPositionCenter
+                origin = ContentCanvasTransform.Current.IsViewStartPositionCenter
                     ? DragViewOrigin.Center
                     : _VM.BookSetting.BookReadOrder == PageReadOrder.LeftToRight
                         ? DragViewOrigin.LeftTop

@@ -183,7 +183,7 @@ namespace NeeView
             this.Loupe.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(sender, e);
             this.Loupe.TransformChanged += OnTransformChanged;
 
-            this.Drag = new MouseInputDrag(_context);
+            this.Drag = new MouseInputDrag(_context, ContentCanvasTransform.Current);
             this.Drag.StateChanged += StateChanged;
             this.Drag.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(sender, e);
             this.Drag.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(sender, e);

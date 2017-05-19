@@ -167,16 +167,16 @@ namespace NeeView
 
 
         // 移動制限モード
-        public bool IsLimitMove { get; set; }
+        ////public bool IsLimitMove { get; set; }
 
         // 回転、拡縮をコンテンツの中心基準にする
-        public bool IsControlCenterImage { get; set; }
+        ////public bool IsControlCenterImage { get; set; }
 
         // 回転単位
-        public double AngleFrequency { get; set; }
+        ////public double AngleFrequency { get; set; }
 
         // 表示開始時の基準
-        public bool IsViewStartPositionCenter { get; set; }
+        ////public bool IsViewStartPositionCenter { get; set; }
 
         // 通知表示スタイル
         public ShowMessageStyle NoticeShowMessageStyle { get; set; }
@@ -304,7 +304,7 @@ namespace NeeView
         #endregion
 
 
-
+#if false
         // スケールモード
         #region Property: StretchMode
         private PageStretchMode _stretchModePrev = PageStretchMode.Uniform;
@@ -386,8 +386,9 @@ namespace NeeView
         }
 
         #endregion
+#endif
 
-
+#if false
         //
         /// <summary>
         /// IsAutoRotate property.
@@ -408,7 +409,7 @@ namespace NeeView
             AutoRotateChanged?.Invoke(this, null);
             return IsAutoRotate;
         }
-
+#endif
 
         // 背景スタイル
         #region Property: Background
@@ -457,8 +458,9 @@ namespace NeeView
         // イメージエフェクト
         public ImageEffect ImageEffector => _models.ImageEffecct;
 
+        /*
         // ドットのまま拡大
-        #region Property: IsEnabledNearestNeighbor
+#region Property: IsEnabledNearestNeighbor
         private bool _isEnabledNearestNeighbor;
         public bool IsEnabledNearestNeighbor
         {
@@ -473,8 +475,9 @@ namespace NeeView
                 }
             }
         }
-        #endregion
-
+#endregion
+            */
+        /*
         // 拡大率キープ
         public bool IsKeepScale { get; set; }
 
@@ -483,6 +486,7 @@ namespace NeeView
 
         // 反転キープ
         public bool IsKeepFlip { get; set; }
+        */
 
         // メニューを自動的に隠す
         #region Property: IsHideMenu
@@ -694,15 +698,17 @@ namespace NeeView
         // TODO: メニュー系コントロールが分離したら不要になる？
         public Dictionary<CommandType, RoutedUICommand> BookCommands => RoutedCommandTable.Current.Commands;
 
+        /*
         // 空フォルダー通知表示のON/OFF
-        #region Property: IsVisibleEmptyPageMessage
+#region Property: IsVisibleEmptyPageMessage
         private bool _isVisibleEmptyPageMessage = false;
         public bool IsVisibleEmptyPageMessage
         {
             get { return _isVisibleEmptyPageMessage; }
             set { if (_isVisibleEmptyPageMessage != value) { _isVisibleEmptyPageMessage = value; RaisePropertyChanged(); } }
         }
-        #endregion
+#endregion
+        */
 
         // 空フォルダー通知表示の詳細テキスト
         #region Property: EmptyPageMessage
@@ -751,17 +757,16 @@ namespace NeeView
 
         #endregion
 
+#if false
         #region Window Title
 
         // ウィンドウタイトル
-        #region Property: WindowTitle
         private string _windowTitle = "";
         public string WindowTitle
         {
             get { return _windowTitle; }
             private set { _windowTitle = value; RaisePropertyChanged(); }
         }
-        #endregion
 
         // ウィンドウタイトル更新
         public void UpdateWindowTitle(UpdateWindowTitleMask mask)
@@ -876,6 +881,7 @@ namespace NeeView
         }
 
         #endregion
+#endif
 
         // 本設定 公開
         public Book.Memento BookSetting => BookHub.BookMemento;
@@ -894,31 +900,33 @@ namespace NeeView
         public bool IsEnableLastFiles { get { return LastFiles.Count > 0; } }
 
         // コンテンツ
-        public ObservableCollection<ViewContent> Contents { get; private set; }
+        ////public ObservableCollection<ViewContent> Contents { get; private set; }
 
-        // コンテンツマージン
-        #region Property: ContentsMargin
-        private Thickness _contentsMargin;
-        public Thickness ContentsMargin
-        {
-            get { return _contentsMargin; }
-            set { _contentsMargin = value; RaisePropertyChanged(); }
-        }
-        #endregion
+        /*
+    // コンテンツマージン
+#region Property: ContentsMargin
+    private Thickness _contentsMargin;
+    public Thickness ContentsMargin
+    {
+        get { return _contentsMargin; }
+        set { _contentsMargin = value; RaisePropertyChanged(); }
+    }
+#endregion
 
-        //
-        #region Property: ContentSpace
-        private double _contentSpace = -1.0;
-        public double ContentsSpace
-        {
-            get { return _contentSpace; }
-            set { _contentSpace = value; RaisePropertyChanged(); }
-        }
-        #endregion
+    //
+#region Property: ContentSpace
+    private double _contentSpace = -1.0;
+    public double ContentsSpace
+    {
+        get { return _contentSpace; }
+        set { _contentSpace = value; RaisePropertyChanged(); }
+    }
+#endregion
+        */
 
-
+        /*
         // 見開き時のメインとなるコンテンツ
-        #region Property: MainContent
+#region Property: MainContent
         private ViewContent _mainContent;
         public ViewContent MainContent
         {
@@ -930,14 +938,14 @@ namespace NeeView
                 UpdateFileInfoContent();
             }
         }
-        #endregion
-
+#endregion
 
         //
         private void UpdateFileInfoContent()
         {
             _models.FileInformation.ViewContent = _mainContent;
         }
+            */
 
 
         // Foregroudh Brush：ファイルページのフォントカラー用
@@ -969,6 +977,7 @@ namespace NeeView
             get { return _BackgroundFrontBrush; }
             set { if (_BackgroundFrontBrush != value) { _BackgroundFrontBrush = value; RaisePropertyChanged(); } }
         }
+
 
         #region Property: MenuColor
         private PanelColor _menuColor;
@@ -1183,7 +1192,7 @@ namespace NeeView
 
 
         // 標準ウィンドウタイトル
-        private string _defaultWindowTitle;
+        ////private string _defaultWindowTitle;
 
         // サムネイル有効
         #region Property: IsEnableThumbnailList
@@ -1305,7 +1314,7 @@ namespace NeeView
         // 開発用：コンテンツ座標情報更新
         public void UpdateContentPosition()
         {
-            ContentPosition = MainContent.View.PointToScreen(new Point(0, 0));
+            ContentPosition = ContentCanvas.MainContent.View.PointToScreen(new Point(0, 0));
         }
 
         /// <summary>
@@ -1380,6 +1389,9 @@ namespace NeeView
         // WindowShape
         public WindowShape WindowShape => WindowShape.Current;
 
+        //
+        public ContentCanvas ContentCanvas => _models.ContentCanvas;
+
         /// <summary>
         /// Model群。ひとまず。
         /// </summary>
@@ -1451,8 +1463,8 @@ namespace NeeView
             BookHub.BookChanged +=
                 OnBookChanged;
 
-            BookHub.ViewContentsChanged +=
-                OnViewContentsChanged;
+            ////BookHub.ViewContentsChanged +=
+            ////    OnViewContentsChanged;
 
             BookHub.SettingChanged +=
                 (s, e) =>
@@ -1494,10 +1506,13 @@ namespace NeeView
 
 
             // Contents
-            Contents = new ObservableCollection<ViewContent>();
-            Contents.Add(new ViewContent());
-            Contents.Add(new ViewContent());
+            ////Contents = new ObservableCollection<ViewContent>();
+            ////Contents.Add(new ViewContent());
+            ////Contents.Add(new ViewContent());
 
+            _models.ContentCanvas.ContentChanged += ContentCanvas_ContentChanged;
+
+#if false
             // Window title
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -1506,7 +1521,8 @@ namespace NeeView
 #if DEBUG
             _defaultWindowTitle += " [Debug]";
 #endif
-            UpdateWindowTitle(UpdateWindowTitleMask.All);
+            //UpdateWindowTitle(UpdateWindowTitleMask.All);
+#endif
 
             // messenger
             Messenger.AddReciever("UpdateLastFiles", (s, e) => UpdateLastFiles());
@@ -1518,11 +1534,22 @@ namespace NeeView
             }
         }
 
+        // コンテンツ変更イベント処理
+        private void ContentCanvas_ContentChanged(object sender, EventArgs e)
+        {
+            // 背景色更新
+            UpdateBackgroundBrush();
+
+            // タイトル更新
+            ////UpdateWindowTitle(UpdateWindowTitleMask.All);
+        }
+
 
         // Loading表示状態変更
         public void OnLoading(object sender, string e)
         {
-            LoadingPath = e;
+            ////LoadingPath = e;
+            _models.WindowTitle.LoadingPath = e;
             Loading?.Invoke(sender, e);
         }
 
@@ -1631,6 +1658,7 @@ namespace NeeView
             BackgroundFrontBrush = CreateBackgroundFrontBrush(App.Config.Dpi);
         }
 
+
         /// <summary>
         /// 背景ブラシ作成
         /// </summary>
@@ -1645,7 +1673,7 @@ namespace NeeView
                 case BackgroundStyle.White:
                     return Brushes.White;
                 case BackgroundStyle.Auto:
-                    return new SolidColorBrush(Contents[Contents[1].IsValid ? 1 : 0].Color);
+                    return new SolidColorBrush(_models.ContentCanvas.GetContentColor());
                 case BackgroundStyle.Check:
                     return null;
                 case BackgroundStyle.Custom:
@@ -1685,6 +1713,8 @@ namespace NeeView
                     }
             }
         }
+
+
 
         #region アプリ設定
 
@@ -1949,6 +1979,7 @@ namespace NeeView
             }
         }
 
+#if false
         /// <summary>
         /// 表示コンテンツ更新
         /// </summary>
@@ -2008,7 +2039,8 @@ namespace NeeView
             // GC
             MemoryControl.Current.GarbageCollect();
         }
-
+#endif
+        /*
         /// <summary>
         /// ContentAngle property.
         /// </summary>
@@ -2018,21 +2050,24 @@ namespace NeeView
             get { return _contentAngle; }
             set { if (_contentAngle != value) { _contentAngle = value; RaisePropertyChanged(); } }
         }
+        */
 
-        /// <summary>
-        /// ページ開始時の回転
-        /// </summary>
-        /// <returns></returns>
-        public double GetAutoRotateAngle()
-        {
-            var parameter = (AutoRotateCommandParameter)CommandTable.Current[CommandType.ToggleIsAutoRotate].Parameter;
+        /*
+    /// <summary>
+    /// ページ開始時の回転
+    /// </summary>
+    /// <returns></returns>
+    public double GetAutoRotateAngle()
+    {
+        var parameter = (AutoRotateCommandParameter)CommandTable.Current[CommandType.ToggleIsAutoRotate].Parameter;
 
-            double angle = this.IsAutoRotateCondition()
-                        ? parameter.AutoRotateType == AutoRotateType.Left ? -90.0 : 90.0
-                        : 0.0;
+        double angle = this.IsAutoRotateCondition()
+                    ? parameter.AutoRotateType == AutoRotateType.Left ? -90.0 : 90.0
+                    : 0.0;
 
-            return angle;
-        }
+        return angle;
+    }
+    */
 
 
         /// <summary>
@@ -2042,6 +2077,10 @@ namespace NeeView
         public DragViewOrigin NextViewOrigin { get; set; }
 
 
+
+
+#if false
+        #region ContentSize
 
         // ビューエリアサイズ
         private double _viewWidth;
@@ -2060,7 +2099,8 @@ namespace NeeView
         //
         public void UpdateContentSize(double angle)
         {
-            this.ContentAngle = angle;
+            ////this.ContentAngle = angle;
+            _models.ContentCanvasTransform.ContentAngle = angle;
             UpdateContentSize();
         }
 
@@ -2081,7 +2121,7 @@ namespace NeeView
                 ContentsMargin = new Thickness(0);
             }
 
-            var sizes = CalcContentSize(_viewWidth * _Dpi.DpiScaleX - offsetWidth, _viewHeight * _Dpi.DpiScaleY, _contentAngle);
+            var sizes = CalcContentSize(_viewWidth * _Dpi.DpiScaleX - offsetWidth, _viewHeight * _Dpi.DpiScaleY, _models.ContentCanvasTransform.ContentAngle);
 
             for (int i = 0; i < 2; ++i)
             {
@@ -2368,8 +2408,8 @@ namespace NeeView
             return new Size[] { s0, s1 };
         }
 
-
-
+        #endregion
+#endif
 
         // ジェスチャー表示
         public void ShowGesture(string gesture, string commandName)
@@ -2436,7 +2476,7 @@ namespace NeeView
         //
         private BitmapSource CurrentBitmapSource
         {
-            get { return (this.MainContent?.Content as BitmapContent)?.BitmapSource; }
+            get { return (ContentCanvas.MainContent?.Content as BitmapContent)?.BitmapSource; }
         }
 
         //
@@ -2469,7 +2509,7 @@ namespace NeeView
         /// <returns></returns>
         public bool CanPrint()
         {
-            return MainContent != null && MainContent.IsValid;
+            return ContentCanvas.MainContent != null && ContentCanvas.MainContent.IsValid;
         }
 
         /// <summary>
@@ -2482,11 +2522,14 @@ namespace NeeView
             // 掃除しておく
             GC.Collect();
 
+            var contents = ContentCanvas.Contents;
+            var mainContent = ContentCanvas.MainContent;
+
             // スケールモード退避
-            var scaleModeMemory = Contents.ToDictionary(e => e, e => e.BitmapScalingMode);
+            var scaleModeMemory = contents.ToDictionary(e => e, e => e.BitmapScalingMode);
 
             // アニメーション停止
-            foreach (var content in Contents)
+            foreach (var content in contents)
             {
                 content.AnimationImageVisibility = Visibility.Visible;
                 content.AnimationPlayerVisibility = Visibility.Collapsed;
@@ -2498,8 +2541,8 @@ namespace NeeView
             try
             {
                 var context = new PrintContext();
-                context.MainContent = this.MainContent;
-                context.Contents = this.Contents;
+                context.MainContent = mainContent;
+                context.Contents = contents;
                 context.View = element;
                 context.ViewTransform = transform;
                 context.ViewWidth = width;
@@ -2516,7 +2559,7 @@ namespace NeeView
             finally
             {
                 // スケールモード、アニメーション復元
-                foreach (var content in Contents)
+                foreach (var content in contents)
                 {
                     content.BitmapScalingMode = scaleModeMemory[content];
                     content.AnimationImageVisibility = Visibility.Collapsed;
@@ -2548,20 +2591,20 @@ namespace NeeView
             [DataMember]
             public int _Version { get; set; }
 
-            [DataMember]
-            public bool IsLimitMove { get; set; }
-
-            [DataMember]
-            public bool IsControlCenterImage { get; set; }
+            [DataMember(EmitDefaultValue = false)]
+            public bool IsLimitMove { get; set; } // no used (ver.23)
 
             [DataMember(EmitDefaultValue = false)]
-            public bool IsAngleSnap { get; set; } // no used
+            public bool IsControlCenterImage { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 19)]
-            public double AngleFrequency { get; set; }
+            [DataMember(EmitDefaultValue = false)]
+            public bool IsAngleSnap { get; set; } // no used (ver.23)
 
-            [DataMember]
-            public bool IsViewStartPositionCenter { get; set; }
+            [DataMember(Order = 19, EmitDefaultValue = false)]
+            public double AngleFrequency { get; set; } // no used (ver.23)
+
+            [DataMember(EmitDefaultValue = false)]
+            public bool IsViewStartPositionCenter { get; set; } // no used (ver.23)
 
             [DataMember]
             public PageStretchMode StretchMode { get; set; }
@@ -2587,14 +2630,14 @@ namespace NeeView
             [DataMember(Order = 1)]
             public bool IsEnabledNearestNeighbor { get; set; }
 
-            [DataMember(Order = 2)]
-            public bool IsKeepScale { get; set; }
+            [DataMember(Order = 2, EmitDefaultValue = false)]
+            public bool IsKeepScale { get; set; } // no used(ver.23)
 
-            [DataMember(Order = 2)]
-            public bool IsKeepAngle { get; set; }
+            [DataMember(Order = 2, EmitDefaultValue = false)]
+            public bool IsKeepAngle { get; set; }  // no used(ver.23)
 
-            [DataMember(Order = 4)]
-            public bool IsKeepFlip { get; set; }
+            [DataMember(Order = 4, EmitDefaultValue = false)]
+            public bool IsKeepFlip { get; set; } // no used(ver.23)
 
             [DataMember(Order = 2, EmitDefaultValue = false)]
             public bool IsLoadLastFolder { get; set; } // no used (ver.22)
@@ -2617,9 +2660,6 @@ namespace NeeView
             [DataMember(Order = 8, EmitDefaultValue = false)]
             public bool IsVisibleTitleBar { get; set; } // no used (ver.22)
 
-            ////[DataMember(Order = 4, EmitDefaultValue = false)]
-            ////public bool IsFullScreen { get; set; } // no used (ver.22)
-
             [DataMember(Order = 4)]
             public bool IsSaveFullScreen { get; set; }
 
@@ -2638,6 +2678,13 @@ namespace NeeView
             [DataMember(Order = 6)]
             public PanelColor PanelColor { get; set; }
 
+            [DataMember(Order = 7, EmitDefaultValue = false)]
+            public string WindowTitleFormat1 { get; set; } // no used (ver.23)
+
+            [DataMember(Order = 7, EmitDefaultValue = false)]
+            public string WindowTitleFormat2 { get; set; } // no used (ver.23)
+
+            /*
             private string _windowTitleFormat1;
             [DataMember(Order = 7)]
             public string WindowTitleFormat1
@@ -2653,6 +2700,7 @@ namespace NeeView
                 get { return _windowTitleFormat2; }
                 set { _windowTitleFormat2 = string.IsNullOrEmpty(value) ? MainWindowVM.WindowTitleFormat2Default : value; }
             }
+            */
 
             [DataMember(Order = 8)]
             public bool IsVisibleAddressBar { get; set; }
@@ -2729,7 +2777,7 @@ namespace NeeView
             //
             private void Constructor()
             {
-                IsLimitMove = true;
+                IsLimitMove = true; // no used.
                 NoticeShowMessageStyle = ShowMessageStyle.Normal;
                 CommandShowMessageStyle = ShowMessageStyle.Normal; // no used.
                 GestureShowMessageStyle = ShowMessageStyle.Normal;
@@ -2737,11 +2785,9 @@ namespace NeeView
                 ViewTransformShowMessageStyle = ShowMessageStyle.None;
                 StretchMode = PageStretchMode.Uniform;
                 Background = BackgroundStyle.Black;
-                ////FileInfoSetting = new FileInfoSetting();
-                ////FolderListSetting = new FolderListSetting();
                 PanelColor = PanelColor.Dark;
-                WindowTitleFormat1 = MainWindowVM.WindowTitleFormat1Default;
-                WindowTitleFormat2 = MainWindowVM.WindowTitleFormat2Default;
+                WindowTitleFormat1 =  WindowTitle.WindowTitleFormat1Default; // no used.
+                WindowTitleFormat2 = WindowTitle.WindowTitleFormat2Default; // no used.
                 IsSaveWindowPlacement = true;
                 IsHidePanelInFullscreen = true;
                 IsVisibleTitleBar = true; // no used
@@ -2807,10 +2853,10 @@ namespace NeeView
             var memento = new Memento();
 
             memento._Version = App.Config.ProductVersionNumber;
-            memento.IsLimitMove = this.IsLimitMove;
-            memento.IsControlCenterImage = this.IsControlCenterImage;
-            memento.AngleFrequency = this.AngleFrequency;
-            memento.IsViewStartPositionCenter = this.IsViewStartPositionCenter;
+            ////memento.IsLimitMove = this.IsLimitMove;
+            ////memento.IsControlCenterImage = this.IsControlCenterImage;
+            ////memento.AngleFrequency = this.AngleFrequency;
+            ////memento.IsViewStartPositionCenter = this.IsViewStartPositionCenter;
             memento.StretchMode = this.StretchMode;
             memento.CustomBackground = this.CustomBackground;
             memento.Background = this.Background;
@@ -2820,25 +2866,20 @@ namespace NeeView
             memento.NowLoadingShowMessageStyle = this.NowLoadingShowMessageStyle;
             memento.ViewTransformShowMessageStyle = this.ViewTransformShowMessageStyle;
             memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
-            memento.IsKeepScale = this.IsKeepScale;
-            memento.IsKeepAngle = this.IsKeepAngle;
-            memento.IsKeepFlip = this.IsKeepFlip;
-            ////memento.IsLoadLastFolder = this.IsLoadLastFolder;
+            ////memento.IsKeepScale = this.IsKeepScale;
+            ////memento.IsKeepAngle = this.IsKeepAngle;
+            ////memento.IsKeepFlip = this.IsKeepFlip;
             memento.IsDisableMultiBoot = this.IsDisableMultiBoot;
             memento.IsAutoPlaySlideShow = this.IsAutoPlaySlideShow;
             memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
             memento.IsHideMenu = this.IsHideMenu;
             memento.IsHidePageSlider = this.IsHidePageSlider;
             memento.IsVisibleTitleBar = false; // no used.
-            ////memento.IsFullScreen = this.IsFullScreen;
             memento.IsSaveFullScreen = this.IsSaveFullScreen;
-            ////memento.IsTopmost = this.IsTopmost;
-            ////memento.FileInfoSetting = this.FileInfoSetting.Clone();
             memento.UserDownloadPath = this.UserDownloadPath;
-            ////memento.FolderListSetting = this.FolderListSetting.Clone();
             memento.PanelColor = this.PanelColor;
-            memento.WindowTitleFormat1 = this.WindowTitleFormat1;
-            memento.WindowTitleFormat2 = this.WindowTitleFormat2;
+            ////memento.WindowTitleFormat1 = this.WindowTitleFormat1;
+            ////memento.WindowTitleFormat2 = this.WindowTitleFormat2;
             memento.IsVisibleAddressBar = this.IsVisibleAddressBar;
             memento.IsHidePanel = this.IsHidePanel;
             memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
@@ -2866,39 +2907,32 @@ namespace NeeView
         //
         public void Restore(Memento memento)
         {
-            this.IsLimitMove = memento.IsLimitMove;
-            this.IsControlCenterImage = memento.IsControlCenterImage;
-            this.AngleFrequency = memento.AngleFrequency;
-            this.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
+            ////this.IsLimitMove = memento.IsLimitMove;
+            ////this.IsControlCenterImage = memento.IsControlCenterImage;
+            ////this.AngleFrequency = memento.AngleFrequency;
+            ////this.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
             this.StretchMode = memento.StretchMode;
             this.CustomBackground = memento.CustomBackground;
             this.Background = memento.Background;
             this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
-            ////this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
             this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
             this.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
             this.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
             this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
-            this.IsKeepScale = memento.IsKeepScale;
-            this.IsKeepAngle = memento.IsKeepAngle;
-            this.IsKeepFlip = memento.IsKeepFlip;
-            ////this.IsLoadLastFolder = memento.IsLoadLastFolder;
+            ////this.IsKeepScale = memento.IsKeepScale;
+            ////this.IsKeepAngle = memento.IsKeepAngle;
+            ////this.IsKeepFlip = memento.IsKeepFlip;
             this.IsDisableMultiBoot = memento.IsDisableMultiBoot;
             this.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
             this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
             this.IsHideMenu = memento.IsHideMenu;
             this.IsHidePageSlider = memento.IsHidePageSlider;
-            // x this.IsVisibleTitleBar = memento.IsVisibleTitleBar;
             this.IsSaveFullScreen = memento.IsSaveFullScreen;
-            // xif (this.IsSaveFullScreen) this.IsFullScreen = memento.IsFullScreen;
-            // x this.IsTopmost = memento.IsTopmost;
-            ////this.FileInfoSetting = memento.FileInfoSetting.Clone();
             this.UserDownloadPath = memento.UserDownloadPath;
-            ////this.FolderListSetting = memento.FolderListSetting.Clone();
             this.PanelColor = memento.PanelColor;
             this.IsHidePanel = memento.IsHidePanel;
-            this.WindowTitleFormat1 = memento.WindowTitleFormat1;
-            this.WindowTitleFormat2 = memento.WindowTitleFormat2;
+            ////this.WindowTitleFormat1 = memento.WindowTitleFormat1;
+            ////this.WindowTitleFormat2 = memento.WindowTitleFormat2;
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
             this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
             this.ContextMenuSetting = memento.ContextMenuSetting.Clone();
@@ -2942,6 +2976,20 @@ namespace NeeView
                 WindowShape.Current.IsTopmost = memento.IsTopmost;
                 WindowShape.Current.IsCaptionVisible = memento.IsVisibleTitleBar;
                 Preference.Current.bootup_lastfolder = memento.IsLoadLastFolder;
+            }
+
+            // compatible before ver.23
+            if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
+            {
+                _models.ContentCanvasTransform.IsLimitMove = memento.IsLimitMove;
+                _models.ContentCanvasTransform.AngleFrequency = memento.AngleFrequency;
+                _models.ContentCanvasTransform.IsControlCenterImage = memento.IsControlCenterImage;
+                _models.ContentCanvasTransform.IsKeepAngle = memento.IsKeepAngle;
+                _models.ContentCanvasTransform.IsKeepFlip = memento.IsKeepFlip;
+                _models.ContentCanvasTransform.IsKeepScale = memento.IsKeepScale;
+                _models.ContentCanvasTransform.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
+                _models.WindowTitle.WindowTitleFormat1 = memento.WindowTitleFormat1;
+                _models.WindowTitle.WindowTitleFormat2 = memento.WindowTitleFormat2;
             }
         }
 

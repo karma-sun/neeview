@@ -117,6 +117,8 @@
     <Compile Include="BitmapLoader\BitmapLoader.cs" />
     <Compile Include="BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
+    <Compile Include="ContentCanvas.cs" />
+    <Compile Include="ContentCanvasTransform.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListBox.xaml.cs">
       <DependentUpon>BookmarkListBox.xaml</DependentUpon>
     </Compile>
@@ -201,6 +203,7 @@
     </Compile>
     <Compile Include="WindowCaptionEmulator.cs" />
     <Compile Include="WindowShape.cs" />
+    <Compile Include="WindowTitle.cs" />
     <Compile Include="_NeeView\Input\RelayCommand.cs" />
     <Compile Include="OpenSourceControls\DockPanelSplitter.cs" />
     <Compile Include="Utility\ComboColorPicker.xaml.cs">

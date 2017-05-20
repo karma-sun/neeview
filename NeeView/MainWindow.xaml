@@ -365,115 +365,12 @@
 
                         <!-- スライダー -->
                         <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False">
-                            <Grid x:Name="SliderArea"  Background="{DynamicResource NVBaseBrush}" MouseWheel="SliderArea_MouseWheel" UseLayoutRounding="True">
-                                <DockPanel Visibility="{Binding PageSliderVisibility}">
-                                    <local:SliderTextBox x:Name="PageSliderTextBox" DockPanel.Dock="{Binding SliderIndexDock}" 
-                                       Visibility="{Binding IsSliderWithIndex, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                       Target="{Binding ElementName=PageSlider}"
-                                       ValueChanged="PageSliderTextBox_ValueChanged"
-                                       KeyDown="AddressTextBox_KeyDown"
-                                       Foreground="{DynamicResource NVForeground}">
-                                    </local:SliderTextBox>
-                                    <Grid Height="18">
-                                        <local:PageMarkers x:Name="PageMarkers" IsHitTestVisible="False" Margin="0,-2,0,2"/>
-                                        <Slider DockPanel.Dock="Bottom" x:Name="PageSlider" Height="18" Maximum="{Binding Models.BookOperation.IndexMax}" Value="{Binding Models.BookOperation.Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
-                                    local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding ElementName=MainView}"
-                                    ValueChanged="PageSlider_ValueChanged"
-                                    PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"  
-                                    PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp">
-                                        </Slider>
-                                    </Grid>
-                                </DockPanel>
-                            </Grid>
+                            <local:PageSlider x:Name="SliderArea" ViewModel="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}" FocusTo="{Binding ElementName=MainView}"/>
                         </ContentControl>
 
                         <!-- サムネイルリスト -->
                         <ContentControl x:Name="DockThumbnailListSocket" DockPanel.Dock="Bottom" IsTabStop="False">
-                            <Grid x:Name="ThumbnailListArea" Visibility="{Binding ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" UseLayoutRounding="True" >
-                                <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Models.BookOperation.PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                             UseLayoutRounding="True"
-                             ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
-                             KeyDown="ThumbnailListBox_KeyDown"
-                             IsMouseCapturedChanged="ThumbnailListBox_IsMouseCapturedChanged"
-                             SelectionChanged="ThumbnailListBox_SelectionChanged"
-                             Loaded="ThumbnailListBox_Loaded"
-                             HorizontalAlignment="Center"
-                             VerticalAlignment="Bottom"
-                             ScrollViewer.CanContentScroll="True"
-                             PreviewMouseWheel="ThumbnailListBox_MouseWheel"
-                             Background="Transparent" BorderThickness="0">
-                                    <ListBox.Resources>
-
-                                        <Style TargetType="{x:Type ListBox}">
-                                            <Setter Property="Padding" Value="5,0" />
-                                            <Setter Property="ItemTemplate">
-                                                <Setter.Value>
-                                                    <DataTemplate>
-                                                        <StackPanel Margin="5">
-                                                            <Grid Width="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailDispSize}" Height="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailDispSize}">
-                                                                <Ellipse Fill="Gray" Width="8" Height="8">
-                                                                    <Ellipse.Style>
-                                                                        <Style TargetType="Ellipse">
-                                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                                            <Style.Triggers>
-                                                                                <DataTrigger Binding="{Binding Thumbnail}" Value="{x:Null}">
-                                                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                                                </DataTrigger>
-                                                                            </Style.Triggers>
-                                                                        </Style>
-                                                                    </Ellipse.Style>
-                                                                </Ellipse>
-                                                                <Image Source="{Binding Thumbnail.BitmapSource}" UseLayoutRounding="True"
-                                                           RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform">
-                                                                    <Image.Effect>
-                                                                        <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
-                                                                    </Image.Effect>
-                                                                </Image>
-                                                            </Grid>
-                                                            <TextBlock Height="16" FontSize="12" FontFamily="Arial" MinWidth="32" TextAlignment="Center"
-                                                           Visibility="{Binding ElementName=RootWindow, Path=DataContext.ThumbnailNumberVisibility}"
-                                                           VerticalAlignment="Center"  HorizontalAlignment="Center" Text="{Binding IndexPlusOne}" Padding="5,2">
-                                                                <TextBlock.Style>
-                                                                    <Style TargetType="TextBlock">
-                                                                        <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
-                                                                        <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding ElementName=RootWindow, Path=DataContext.IsVisibleThumbnailPlate}" Value="False">
-                                                                                <Setter Property="Foreground" Value="White"/>
-                                                                                <Setter Property="Effect">
-                                                                                    <Setter.Value>
-                                                                                        <DropShadowEffect ShadowDepth="0" Opacity="1"/>
-                                                                                    </Setter.Value>
-                                                                                </Setter>
-                                                                            </DataTrigger>
-                                                                        </Style.Triggers>
-
-                                                                    </Style>
-                                                                </TextBlock.Style>
-                                                            </TextBlock>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Setter Property="ItemsPanel">
-                                                <Setter.Value>
-                                                    <ItemsPanelTemplate>
-                                                        <VirtualizingStackPanel Orientation="Horizontal" CanHorizontallyScroll="True" CanVerticallyScroll="False" Margin="2,0"
-                                                                    FlowDirection="{Binding IsSliderDirectionReversed, Converter={StaticResource SliderDirectionToFlowDirectionConverter}}"
-                                                                    Loaded="ThumbnailListBoxPanel_Loaded"
-                                                                    KeyDown="ThumbnailListBoxPanel_KeyDown"/>
-                                                    </ItemsPanelTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-
-                                        <Style TargetType="ListBoxItem">
-                                            <EventSetter Event="PreviewMouseLeftButtonUp" Handler="ThumbnailListItem_MouseSingleClick"/>
-                                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                                        </Style>
-
-                                    </ListBox.Resources>
-                                </ListBox>
-                            </Grid>
+                            <local:ThumbnailList x:Name="ThumbnailListArea" ViewModel="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"/>
                         </ContentControl>
 
                     </DockPanel>

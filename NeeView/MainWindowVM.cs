@@ -1936,22 +1936,21 @@ namespace NeeView
             private void Constructor()
             {
                 _Version = App.Config.ProductVersionNumber;
-                IsLimitMove = true; // no used.
+                ////IsLimitMove = true; // no used.
                 NoticeShowMessageStyle = ShowMessageStyle.Normal;
-                CommandShowMessageStyle = ShowMessageStyle.Normal; // no used.
+                ////CommandShowMessageStyle = ShowMessageStyle.Normal; // no used.
                 GestureShowMessageStyle = ShowMessageStyle.Normal;
                 NowLoadingShowMessageStyle = ShowMessageStyle.Normal;
                 ////ViewTransformShowMessageStyle = ShowMessageStyle.None;
                 ////StretchMode = PageStretchMode.Uniform;
                 Background = BackgroundStyle.Black;
                 PanelColor = PanelColor.Dark;
-                WindowTitleFormat1 = WindowTitle.WindowTitleFormat1Default; // no used.
-                WindowTitleFormat2 = WindowTitle.WindowTitleFormat2Default; // no used.
+                ////WindowTitleFormat1 = WindowTitle.WindowTitleFormat1Default; // no used.
+                ////WindowTitleFormat2 = WindowTitle.WindowTitleFormat2Default; // no used.
                 IsSaveWindowPlacement = true;
                 IsHidePanelInFullscreen = true;
-                IsVisibleTitleBar = true; // no used
+                ////IsVisibleTitleBar = true; // no used
                 ContextMenuSetting = new ContextMenuSetting();
-                IsHideThumbnailList = true;
                 ThumbnailSize = 96;
                 IsSliderLinkedThumbnailList = true;
                 IsAutoGC = true;
@@ -2021,7 +2020,7 @@ namespace NeeView
             memento.CustomBackground = this.CustomBackground;
             memento.Background = this.Background;
             memento.NoticeShowMessageStyle = this.NoticeShowMessageStyle;
-            memento.CommandShowMessageStyle = ShowMessageStyle.None; // no used.
+            ////memento.CommandShowMessageStyle = ShowMessageStyle.None; // no used.
             memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
             memento.NowLoadingShowMessageStyle = this.NowLoadingShowMessageStyle;
             ////memento.ViewTransformShowMessageStyle = this.ViewTransformShowMessageStyle;
@@ -2034,7 +2033,7 @@ namespace NeeView
             memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
             memento.IsHideMenu = this.IsHideMenu;
             memento.IsHidePageSlider = this.IsHidePageSlider;
-            memento.IsVisibleTitleBar = false; // no used.
+            ////memento.IsVisibleTitleBar = false; // no used.
             memento.IsSaveFullScreen = this.IsSaveFullScreen;
             memento.UserDownloadPath = this.UserDownloadPath;
             memento.PanelColor = this.PanelColor;

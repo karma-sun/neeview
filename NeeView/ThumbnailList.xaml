@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="NeeView.ThumbnailList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="300">
+    <UserControl.Resources>
+        <local:SliderDirectionToFlowDirectionConverter x:Key="SliderDirectionToFlowDirectionConverter"/>
+    </UserControl.Resources>
+    
+    <Grid x:Name="Root" Visibility="{Binding ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" UseLayoutRounding="True" >
+        <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Models.BookOperation.PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                             UseLayoutRounding="True"
+                             ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
+                             KeyDown="ThumbnailListBox_KeyDown"
+                             IsMouseCapturedChanged="ThumbnailListBox_IsMouseCapturedChanged"
+                             SelectionChanged="ThumbnailListBox_SelectionChanged"
+                             Loaded="ThumbnailListBox_Loaded"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Bottom"
+                             ScrollViewer.CanContentScroll="True"
+                             PreviewMouseWheel="ThumbnailListBox_MouseWheel"
+                             Background="Transparent" BorderThickness="0">
+            <ListBox.Resources>
+
+                <Style TargetType="{x:Type ListBox}">
+                    <Setter Property="Padding" Value="5,0" />
+                    <Setter Property="ItemTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <StackPanel Margin="5">
+                                    <Grid Width="{Binding ElementName=Root, Path=DataContext.ThumbnailDispSize}" Height="{Binding ElementName=Root, Path=DataContext.ThumbnailDispSize}">
+                                        <Ellipse Fill="Gray" Width="8" Height="8">
+                                            <Ellipse.Style>
+                                                <Style TargetType="Ellipse">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Thumbnail}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Ellipse.Style>
+                                        </Ellipse>
+                                        <Image Source="{Binding Thumbnail.BitmapSource}" UseLayoutRounding="True"
+                                                           RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform">
+                                            <Image.Effect>
+                                                <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
+                                            </Image.Effect>
+                                        </Image>
+                                    </Grid>
+                                    <TextBlock Height="16" FontSize="12" FontFamily="Arial" MinWidth="32" TextAlignment="Center"
+                                                           Visibility="{Binding ElementName=Root, Path=DataContext.ThumbnailNumberVisibility}"
+                                                           VerticalAlignment="Center"  HorizontalAlignment="Center" Text="{Binding IndexPlusOne}" Padding="5,2">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ElementName=Root, Path=DataContext.IsVisibleThumbnailPlate}" Value="False">
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                        <Setter Property="Effect">
+                                                            <Setter.Value>
+                                                                <DropShadowEffect ShadowDepth="0" Opacity="1"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" CanHorizontallyScroll="True" CanVerticallyScroll="False" Margin="2,0"
+                                                                    FlowDirection="{Binding IsSliderDirectionReversed, Converter={StaticResource SliderDirectionToFlowDirectionConverter}}"
+                                                                    Loaded="ThumbnailListBoxPanel_Loaded"
+                                                                    KeyDown="ThumbnailListBoxPanel_KeyDown"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
+                <Style TargetType="ListBoxItem">
+                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="ThumbnailListItem_MouseSingleClick"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                </Style>
+
+            </ListBox.Resources>
+        </ListBox>
+    </Grid>
+
+</UserControl>

@@ -119,6 +119,9 @@
     <Compile Include="BookHubCommandEngine.cs" />
     <Compile Include="ContentCanvas.cs" />
     <Compile Include="ContentCanvasTransform.cs" />
+    <Compile Include="PageSlider.xaml.cs">
+      <DependentUpon>PageSlider.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SidePanels\Bookamrk\BookmarkListBox.xaml.cs">
       <DependentUpon>BookmarkListBox.xaml</DependentUpon>
     </Compile>
@@ -193,6 +196,9 @@
     <Compile Include="SidePanels\SidePanelGroup.cs" />
     <Compile Include="SidePanels\SidePanel.cs" />
     <Compile Include="SlideShow.cs" />
+    <Compile Include="ThumbnailList.xaml.cs">
+      <DependentUpon>ThumbnailList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TinyInfoMessage.cs" />
     <Compile Include="TinyInfoMessageView.xaml.cs">
       <DependentUpon>TinyInfoMessageView.xaml</DependentUpon>
@@ -485,6 +491,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PageSlider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SidePanels\Bookamrk\BookmarkListBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -540,6 +550,10 @@
     <Page Include="SidePanels\PanelIconDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ThumbnailList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TinyInfoMessageView.xaml">
       <SubType>Designer</SubType>

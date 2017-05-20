@@ -38,7 +38,7 @@ namespace NeeView
         }
 
         //
-        private bool _IsSideBarVisible = true;
+        private bool _IsSideBarVisible;
 
 
         /// <summary>

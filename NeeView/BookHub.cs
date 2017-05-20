@@ -1790,10 +1790,12 @@ namespace NeeView
             //
             private void Constructor()
             {
+                _Version = App.Config.ProductVersionNumber;
+
                 IsEnableNoSupportFile = false;
-                IsSlideShowByLoop = true; // no used.
-                SlideShowInterval = 5.0; // no used.
-                IsCancelSlideByMouseMove = true; // no used.
+                ////IsSlideShowByLoop = true; // no used.
+                ////SlideShowInterval = 5.0; // no used.
+                ////IsCancelSlideByMouseMove = true; // no used.
                 IsSupportArchiveFile = true;
                 BookMemento = new Book.Memento();
                 ExternalApplication = new ExternalApplication();
@@ -1842,12 +1844,11 @@ namespace NeeView
             memento.IsEnableExif = IsEnableExif;
             memento.IsEnableNoSupportFile = IsEnableNoSupportFile;
             memento.PageEndAction = PageEndAction;
-            memento.IsSlideShowByLoop = false; // no used
-            memento.SlideShowInterval = 0; // no used
-            memento.IsCancelSlideByMouseMove = false; // no used
+            ////memento.IsSlideShowByLoop = false; // no used
+            ////memento.SlideShowInterval = 0; // no used
+            ////memento.IsCancelSlideByMouseMove = false; // no used
             memento.BookMemento = BookMemento.Clone();
             memento.BookMemento.ValidateForDefault(); // 念のため
-            //memento.IsEnarbleCurrentDirectory = IsEnarbleCurrentDirectory;
             memento.IsSupportArchiveFile = IsSupportArchiveFile;
             memento.ExternalApplication = ExternalApllication.Clone();
             memento.IsConfirmRecursive = IsConfirmRecursive;
@@ -1875,7 +1876,6 @@ namespace NeeView
             ////SlideShowInterval = memento.SlideShowInterval;
             ////IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;
             BookMemento = memento.BookMemento.Clone();
-            //IsEnarbleCurrentDirectory = memento.IsEnarbleCurrentDirectory;
             IsSupportArchiveFile = memento.IsSupportArchiveFile;
             ExternalApllication = memento.ExternalApplication.Clone();
             IsConfirmRecursive = memento.IsConfirmRecursive;

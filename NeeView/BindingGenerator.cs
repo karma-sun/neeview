@@ -64,10 +64,11 @@ namespace NeeView
         //
         public static Binding StretchMode(PageStretchMode mode)
         {
-            return new Binding(nameof(MainWindowVM.StretchMode))
+            return new Binding(nameof(ContentCanvas.StretchMode))
             {
                 Converter = s_stretchModeToBooleanConverter,
-                ConverterParameter = mode.ToString()
+                ConverterParameter = mode.ToString(),
+                Source = ContentCanvas.Current
             };
         }
 

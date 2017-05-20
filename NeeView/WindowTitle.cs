@@ -23,11 +23,15 @@ namespace NeeView
         }
 
         private ContentCanvas _contentCanvas;
+        private ContentCanvasTransform _contentCanvasTransform;
 
-        public WindowTitle(ContentCanvas contentCanvas)
+        public WindowTitle(ContentCanvas contentCanvas, ContentCanvasTransform contentCanvasTransform)
         {
             _contentCanvas = contentCanvas;
             _contentCanvas.ContentChanged += ContentCanvas_ContentChanged;
+
+            _contentCanvasTransform = contentCanvasTransform;
+            _contentCanvasTransform.TransformChanged += ContentCanvasTransform_TransformChanged;
 
             // Window title
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
@@ -41,6 +45,14 @@ namespace NeeView
 
             //
             UpdateWindowTitle(UpdateWindowTitleMask.All);
+        }
+
+        private void ContentCanvasTransform_TransformChanged(object sender, TransformEventArgs e)
+        {
+            if (e.ChangeType == TransformChangeType.Scale)
+            {
+                UpdateWindowTitle(UpdateWindowTitleMask.View);
+            }
         }
 
         //
@@ -95,7 +107,7 @@ namespace NeeView
         {
             var MainContent = _contentCanvas.MainContent;
             var Contents = _contentCanvas.Contents;
-            var _viewScale = _contentCanvas.ViewScale;
+            var _viewScale = _contentCanvasTransform.ViewScale;
 
             string format = Contents[1].IsValid ? WindowTitleFormat2 : WindowTitleFormat1;
 

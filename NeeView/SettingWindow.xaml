@@ -254,11 +254,11 @@
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="ドラッグ操作によるスケール変更等の情報表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="ビュー操作を"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewMemento.ViewTransformShowMessageStyle}" />
+                                  SelectedValue="{Binding Setting.Memento.ContentCanvasTransform.ViewTransformShowMessageStyle}" />
                             </StackPanel>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ビュー操作のスケール表示をオリジナルサイズ基準にする"
                                       ToolTip="スケール表示を元画像サイズに対する表示倍率にします&#xa;２ページ表示の場合は若い番号のページを基準にします"
-                                      IsChecked="{Binding Setting.ViewMemento.IsOriginalScaleShowMessage}"/>
+                                      IsChecked="{Binding Setting.Memento.ContentCanvasTransform.IsOriginalScaleShowMessage}"/>
                         </StackPanel>
 
                         <DockPanel LastChildFill="False">
@@ -289,11 +289,11 @@
                         <StackPanel Style="{StaticResource Phrase}">
                             <DockPanel Style="{StaticResource ItemDockPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="1ページ用："/>
-                                <TextBox Text="{Binding Setting.ViewMemento.WindowTitleFormat1}"/>
+                                <TextBox Text="{Binding Setting.Memento.WindowTitle.WindowTitleFormat1}"/>
                             </DockPanel>
                             <DockPanel Style="{StaticResource ItemDockPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="2ページ用："/>
-                                <TextBox Text="{Binding Setting.ViewMemento.WindowTitleFormat2}"/>
+                                <TextBox Text="{Binding Setting.Memento.WindowTitle.WindowTitleFormat2}"/>
                             </DockPanel>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーン時、スライダー表示にあわせてウィンドウタイトルを表示する"
                                       ToolTip="フルスクリーン等、タイトルバーが表示されない時に表示エリアに代わりにウィンドウタイトルを表示します"
@@ -403,9 +403,9 @@
                         <StackPanel Style="{StaticResource Phrase}">
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="ページとページの隙間の長さを設定します&#xa;マイナス値は重なることを意味します&#xa;各ページにスケールがかかるため、0でちょうど隙間がなくなることは稀です">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="2ページ間の距離"/>
-                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.ContentsSpace}"
+                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.Memento.ContentCanvas.ContentsSpace}"
                                     Minimum="-32" Maximum="32" TickFrequency="1"/>
-                                <TextBlock Text="{Binding Setting.ViewMemento.ContentsSpace, StringFormat={}{0}}"/>
+                                <TextBlock Text="{Binding Setting.Memento.ContentCanvas.ContentsSpace, StringFormat={}{0}}"/>
                             </StackPanel>
                         </StackPanel>
 

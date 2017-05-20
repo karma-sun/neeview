@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,13 +17,8 @@ namespace NeeView
     /// <summary>
     /// FileInformation : Model
     /// </summary>
-    public class FileInformation : INotifyPropertyChanged
+    public class FileInformation : BindableBase
     {
-        // PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
-
         /// <summary>
         /// IsUseExifDateTime property.
         /// </summary>
@@ -70,6 +66,17 @@ namespace NeeView
         }
 
         private ViewContent _viewContent;
+
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        public FileInformation(ContentCanvas contentCanvas)
+        {
+            contentCanvas.AddPropertyChanged(nameof(contentCanvas.MainContent),
+                (s, e) => ViewContent = contentCanvas.MainContent);
+        }
+
 
 
         [DataContract]

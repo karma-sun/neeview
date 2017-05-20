@@ -78,7 +78,7 @@ namespace NeeView
             this.ContentCanvas = new ContentCanvas(this.ContentCanvasTransform, this.BookHub);
             this.MouseInput = new MouseInput();
             this.SlideShow = new SlideShow(this.BookHub, this.BookOperation, this.MouseInput);
-            this.WindowTitle = new WindowTitle(this.ContentCanvas);
+            this.WindowTitle = new WindowTitle(this.ContentCanvas, this.ContentCanvasTransform);
 
             this.FolderPanelModel = new FolderPanelModel();
             this.FolderList = new FolderList(this.BookHub, this.FolderPanelModel);
@@ -86,7 +86,7 @@ namespace NeeView
             this.HistoryList = new HistoryList(this.BookHub);
             this.BookmarkList = new BookmarkList(this.BookHub);
             this.PagemarkList = new PagemarkList(this.BookHub, this.BookOperation);
-            this.FileInformation = new FileInformation();
+            this.FileInformation = new FileInformation(this.ContentCanvas);
             this.ImageEffecct = new ImageEffect();
 
             this.SidePanel = new SidePanel(this);
@@ -113,7 +113,11 @@ namespace NeeView
             [DataMember]
             public ContentCanvasTransform.Memento ContentCanvasTransform { get; set; }
             [DataMember]
+            public ContentCanvas.Memento ContentCanvas { get; set; }
+            [DataMember]
             public SlideShow.Memento SlideShow { get; set; }
+            [DataMember]
+            public WindowTitle.Memento WindowTitle { get; set; }
             [DataMember]
             public FolderPanelModel.Memento FolderPanel { get; set; }
             [DataMember]
@@ -140,7 +144,9 @@ namespace NeeView
             var memento = new Memento();
             memento.RoutedCommandTable = this.RoutedCommandTable.CreateMemento();
             memento.ContentCanvasTransform = this.ContentCanvasTransform.CreateMemento();
+            memento.ContentCanvas = this.ContentCanvas.CreateMemento();
             memento.SlideShow = this.SlideShow.CreateMemento();
+            memento.WindowTitle = this.WindowTitle.CreateMemento();
             memento.FolderPanel = this.FolderPanelModel.CreateMemento();
             memento.FolderList = this.FolderList.CreateMemento();
             memento.PageList = this.PageList.CreateMemento();
@@ -159,7 +165,9 @@ namespace NeeView
             if (memento == null) return;
             this.RoutedCommandTable.Restore(memento.RoutedCommandTable);
             this.ContentCanvasTransform.Restore(memento.ContentCanvasTransform);
+            this.ContentCanvas.Restore(memento.ContentCanvas);
             this.SlideShow.Restore(memento.SlideShow);
+            this.WindowTitle.Restore(memento.WindowTitle);
             this.FolderPanelModel.Restore(memento.FolderPanel);
             this.FolderList.Restore(memento.FolderList);
             this.PageList.Restore(memento.PageList);

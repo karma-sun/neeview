@@ -209,9 +209,7 @@ namespace NeeView
 
             // mouse input
             _mouse = MouseInputManager.Current = new MouseInputManager(this, this.MainView, this.MainContent, this.MainContentShadow);
-
-            _mouse.TransformChanged +=
-                (s, e) => _VM.SetViewTransform(e);
+            ContentCanvasTransform.Current.SetMouseInputDrag(_mouse.Drag); // TODO: 応急処置
 
             this.LoupeInfo.DataContext = _mouse.Loupe;
 
@@ -329,44 +327,10 @@ namespace NeeView
             UpdateMenuLayerVisibility();
         }
 
-        //
-        private double DefaultViewAngle(bool isResetAngle)
-        {
-            return _VM.IsAutoRotateCondition() ? _VM.GetAutoRotateAngle() : isResetAngle ? 0.0 : _mouse.Drag.Angle;
-        }
 
         //
         private void InitializeViewModelEvents()
         {
-            _VM.ViewChanged +=
-                (s, e) =>
-                {
-                    // ページ変更でルーペ解除
-                    if (Preference.Current.loupe_pagechange_reset)
-                    {
-                        _mouse.IsLoupeMode = false;
-                    }
-
-                    // ルーペでない場合は標準のビューリセット処理を行う
-                    // TODO: MouseDragパラメータリセットの場所
-                    if (!_mouse.IsLoupeMode)
-                    {
-                        UpdateMouseDragSetting(e.PageDirection, e.ViewOrigin);
-
-                        bool isResetScale = e.ResetViewTransform || !ContentCanvasTransform.Current.IsKeepScale;
-                        bool isResetAngle = e.ResetViewTransform || !ContentCanvasTransform.Current.IsKeepAngle || _VM.IsAutoRotate;
-                        bool isResetFlip = e.ResetViewTransform || !ContentCanvasTransform.Current.IsKeepFlip;
-
-                        _mouse.Drag.Reset(isResetScale, isResetAngle, isResetFlip, DefaultViewAngle(isResetAngle));
-                    }
-                };
-
-            _VM.AutoRotateChanged +=
-                (s, e) =>
-                {
-                    _mouse.Drag.Reset(true, true, true, ContentCanvasTransform.Current.ContentAngle);
-                };
-
             _VM.InputGestureChanged +=
                 (s, e) => InitializeInputGestures();
 
@@ -603,7 +567,7 @@ namespace NeeView
                     var parameter = (ViewRotateCommandParameter)commandTable[CommandType.ViewRotateLeft].Parameter;
                     if (parameter.IsStretch) _mouse.Drag.ResetDefault();
                     _mouse.Drag.Rotate(-parameter.Angle);
-                    if (parameter.IsStretch) _VM.UpdateContentSize(_mouse.Drag.Angle);
+                    if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_mouse.Drag.Angle);
                 };
             commandTable[CommandType.ViewRotateRight].Execute =
                 (s, e) =>
@@ -611,7 +575,7 @@ namespace NeeView
                     var parameter = (ViewRotateCommandParameter)commandTable[CommandType.ViewRotateRight].Parameter;
                     if (parameter.IsStretch) _mouse.Drag.ResetDefault();
                     _mouse.Drag.Rotate(+parameter.Angle);
-                    if (parameter.IsStretch) _VM.UpdateContentSize(_mouse.Drag.Angle);
+                    if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_mouse.Drag.Angle);
                 };
             commandTable[CommandType.ToggleViewFlipHorizontal].Execute =
                 (s, e) => _mouse.Drag.ToggleFlipHorizontal();
@@ -628,7 +592,8 @@ namespace NeeView
                 (s, e) => _mouse.Drag.FlipVertical(false);
 
             commandTable[CommandType.ViewReset].Execute =
-                (s, e) => _mouse.Drag.Reset(true, true, true, DefaultViewAngle(true));
+                (s, e) => ContentCanvas.Current.ResetTransform(true);
+
             commandTable[CommandType.PrevScrollPage].Execute =
                 (s, e) => PrevScrollPage();
             commandTable[CommandType.NextScrollPage].Execute =
@@ -806,7 +771,7 @@ namespace NeeView
 
             if (!isScrolled)
             {
-                _VM.NextViewOrigin = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
+                ContentCanvas.Current.NextViewOrigin = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
                 _VM.BookHub.PrevPage();
             }
         }
@@ -821,7 +786,7 @@ namespace NeeView
 
             if (!isScrolled)
             {
-                _VM.NextViewOrigin = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
+                ContentCanvas.Current.NextViewOrigin = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
                 _VM.BookHub.NextPage();
             }
         }
@@ -1136,7 +1101,7 @@ namespace NeeView
         // ウィンドウサイズが変化したらコンテンツサイズも追従する
         private void MainView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            _VM.SetViewSize(this.MainView.ActualWidth, this.MainView.ActualHeight);
+            ContentCanvas.Current.SetViewSize(this.MainView.ActualWidth, this.MainView.ActualHeight);
 
             // スナップ
             _mouse.Drag.SnapView();
@@ -1291,7 +1256,7 @@ namespace NeeView
         }
 
 
-#region DEBUG
+        #region DEBUG
         // [開発用] 開発操作
         private void Debug_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -1322,10 +1287,10 @@ namespace NeeView
             var fwelement = element as FrameworkElement;
             Debug.WriteLine($"FOCUS: {element}({element?.GetType()})({fwelement?.Name})");
         }
-#endregion
+        #endregion
 
         // TODO: クラス化
-#region thumbnail list
+        #region thumbnail list
 
         // サムネイルリストのパネルコントロール
         private VirtualizingStackPanel _thumbnailListPanel;
@@ -1556,7 +1521,7 @@ namespace NeeView
         }
 
 
-#endregion
+        #endregion
 
 
 
@@ -1635,7 +1600,7 @@ namespace NeeView
 
 
 
-#region Panel Visibility
+        #region Panel Visibility
 
         // ViewAreaでのマウス移動
         private void ViewArea_MouseMove(object sender, MouseEventArgs e)
@@ -1650,7 +1615,7 @@ namespace NeeView
             UpdateStatusLayerVisibility();
         }
 
-#endregion
+        #endregion
 
         //
         private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1702,7 +1667,7 @@ namespace NeeView
 
 
 
-#region ContextMenu Counter
+        #region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -1740,7 +1705,7 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-#endregion
+        #endregion
 
 
         private void MenuArea_MouseEnter(object sender, MouseEventArgs e)
@@ -1854,7 +1819,7 @@ namespace NeeView
     }
 
 
-#region Convertes
+    #region Convertes
 
     // コンバータ：より大きい値ならTrue
     public class IsGreaterThanConverter : IValueConverter
@@ -2172,5 +2137,5 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,8 @@ namespace NeeView
 {
     public class ContentCanvas : BindableBase
     {
+        public static ContentCanvas Current { get; private set; }
+
         // 空フォルダー通知表示のON/OFF
         private bool _isVisibleEmptyPageMessage = false;
         public bool IsVisibleEmptyPageMessage
@@ -20,7 +23,7 @@ namespace NeeView
             get { return _isVisibleEmptyPageMessage; }
             set { if (_isVisibleEmptyPageMessage != value) { _isVisibleEmptyPageMessage = value; RaisePropertyChanged(); } }
         }
-        
+
         /// <summary>
         /// IsAutoRotate property.
         /// </summary>
@@ -28,17 +31,21 @@ namespace NeeView
         public bool IsAutoRotate
         {
             get { return _isAutoRotate; }
-            set { if (_isAutoRotate != value) { _isAutoRotate = value; RaisePropertyChanged(); } }
+            set
+            {
+                if (_isAutoRotate != value)
+                {
+                    _isAutoRotate = value;
+                    RaisePropertyChanged();
+                    UpdateContentSize(GetAutoRotateAngle());
+                    ResetTransform(true);
+                }
+            }
         }
-
-        public event EventHandler AutoRotateChanged;
 
         public bool ToggleAutoRotate()
         {
-            IsAutoRotate = !IsAutoRotate;
-            UpdateContentSize(GetAutoRotateAngle());
-            AutoRotateChanged?.Invoke(this, null);
-            return IsAutoRotate;
+            return IsAutoRotate = !IsAutoRotate;
         }
 
         // ドットのまま拡大
@@ -73,7 +80,7 @@ namespace NeeView
                     _stretchMode = value;
                     RaisePropertyChanged();
                     UpdateContentSize();
-                    ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
+                    ResetTransform(true);
                 }
             }
         }
@@ -146,7 +153,11 @@ namespace NeeView
 
         public ContentCanvas(ContentCanvasTransform transform, BookHub bookHub)
         {
+            Current = this;
+
             _transform = transform;
+            _transform.TransformChanged += Transform_TransformChanged;
+
             _bookHub = bookHub;
 
             // Contents
@@ -154,8 +165,19 @@ namespace NeeView
             Contents.Add(new ViewContent());
             Contents.Add(new ViewContent());
 
+            MainContent = Contents[0];
+
+            // TODO: BookOperationから？
             _bookHub.ViewContentsChanged +=
                 OnViewContentsChanged;
+        }
+
+        //
+        private void Transform_TransformChanged(object sender, TransformEventArgs e)
+        {
+            UpdateContentScalingMode();
+
+            _transform.ShowMessage(e.ActionType, MainContent);
         }
 
         //
@@ -170,12 +192,7 @@ namespace NeeView
         public ViewContent MainContent
         {
             get { return _mainContent; }
-            set
-            {
-                _mainContent = value;
-                RaisePropertyChanged();
-                UpdateFileInfoContent();
-            }
+            set { if (_mainContent != value) { _mainContent = value; RaisePropertyChanged(); } }
         }
 
 
@@ -239,35 +256,57 @@ namespace NeeView
                 Contents[index] = index < contents.Count ? contents[index] : new ViewContent();
             }
 
-            // 背景色更新
-            ////UpdateBackgroundBrush();
-
             // 自動回転...
             var angle = GetAutoRotateAngle();
 
             // コンテンツサイズ更新
             UpdateContentSize(angle);
 
-            // TODO: このイベントの扱い
-            {
-                // 表示更新を通知
-                var args = new ViewChangeArgs()
-                {
-                    PageDirection = e != null ? e.Direction : 0,
-                    ViewOrigin = NextViewOrigin,
-                    Angle = angle,
-                };
-                ViewChanged?.Invoke(this, args);
-                NextViewOrigin = DragViewOrigin.None;
-            }
-
-            ////UpdateWindowTitle(UpdateWindowTitleMask.All);
+            // 座標初期化
+            ResetTransform(false, e != null ? e.Direction : 0, NextViewOrigin);
+            NextViewOrigin = DragViewOrigin.None;
 
             ContentChanged?.Invoke(this, null);
 
             // GC
             MemoryControl.Current.GarbageCollect();
         }
+
+
+        /// <summary>
+        /// 次のページ更新時の表示開始位置
+        /// TODO: ちゃんとBookから情報として上げるようにするべき
+        /// </summary>
+        public DragViewOrigin NextViewOrigin { get; set; }
+
+        //
+        public void ResetTransform(bool isForce)
+        {
+            ResetTransform(isForce, 0, DragViewOrigin.None);
+        }
+
+        // 座標系初期化
+        // TODO: ルーペ操作との関係
+        public void ResetTransform(bool isForce, int pageDirection, DragViewOrigin viewOrigin)
+        {
+            // ルーペ解除。ここ？
+            if (Preference.Current.loupe_pagechange_reset)
+            {
+                MouseInputManager.Current.IsLoupeMode = false;
+            }
+
+            // ルーペでない場合は初期化
+            if (!MouseInputManager.Current.IsLoupeMode)
+            {
+                // 
+                _transform.SetMouseDragSetting(pageDirection, viewOrigin, _bookHub.BookMemento.BookReadOrder);
+
+                // リセット
+                var angle = _isAutoRotate ? GetAutoRotateAngle() : double.NaN;
+                _transform.Reset(isForce, angle);
+            }
+        }
+
 
 
 
@@ -306,7 +345,6 @@ namespace NeeView
         //
         public void UpdateContentSize(double angle)
         {
-            ////this.ContentAngle = angle;
             _transform.ContentAngle = angle;
             UpdateContentSize();
         }
@@ -341,69 +379,6 @@ namespace NeeView
             UpdateContentScalingMode();
         }
 
-        // ビュー回転
-        private double _viewAngle;
-
-
-        // ビュースケール
-        private double _viewScale;
-        public double ViewScale => _viewScale;
-
-        private double _finalViewScale;
-
-        // ビュー反転
-        private bool _isViewFlipHorizontal;
-        private bool _isViewFlipVertical;
-
-
-
-        // ビュー変換を更新
-        // これはContentCanvasTransformでしょ
-        public void SetViewTransform(TransformEventArgs e)
-        {
-            _viewAngle = e.Angle;
-            _viewScale = e.Scale;
-            _finalViewScale = e.Scale * e.LoupeScale;
-            _isViewFlipHorizontal = e.IsFlipHorizontal;
-            _isViewFlipVertical = e.IsFlipVertical;
-
-            UpdateContentScalingMode();
-
-            // メッセージとして状態表示
-            if (ViewTransformShowMessageStyle != ShowMessageStyle.None)
-            {
-                switch (e.ActionType)
-                {
-                    case TransformActionType.Scale:
-                        string scaleText = IsOriginalScaleShowMessage && MainContent.IsValid
-                            ? $"{(int)(_viewScale * MainContent.Scale * _Dpi.DpiScaleX * 100 + 0.1)}%"
-                            : $"{(int)(_viewScale * 100.0 + 0.1)}%";
-                        _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, scaleText);
-                        break;
-                    case TransformActionType.Angle:
-                        _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, $"{(int)(e.Angle)}°");
-                        break;
-                    case TransformActionType.FlipHorizontal:
-                        _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, "左右反転 " + (_isViewFlipHorizontal ? "ON" : "OFF"));
-                        break;
-                    case TransformActionType.FlipVertical:
-                        _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, "上下反転 " + (_isViewFlipVertical ? "ON" : "OFF"));
-                        break;
-                    case TransformActionType.LoupeScale:
-                        if (e.LoupeScale > 1.5)
-                        {
-                            _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, $"×{e.LoupeScale:0.0}");
-                        }
-                        break;
-                }
-            }
-
-            // スケール変更時はウィンドウタイトルを更新
-            if (e.ChangeType == TransformChangeType.Scale)
-            {
-                UpdateWindowTitle(UpdateWindowTitleMask.View);
-            }
-        }
 
         // コンテンツスケーリングモードを更新
         private void UpdateContentScalingMode()
@@ -414,13 +389,13 @@ namespace NeeView
                 if (content.View != null && content.View.Element is Rectangle)
                 {
                     double diff = Math.Abs(content.Size.Width - content.Width * dpiScaleX);
-                    if (App.Config.IsDpiSquare && diff < 0.1 && _viewAngle == 0.0 && Math.Abs(_finalViewScale - 1.0) < 0.001)
+                    if (App.Config.IsDpiSquare && diff < 0.1 && _transform.Angle == 0.0 && Math.Abs(_transform.FinalScale - 1.0) < 0.001)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                     }
                     else
                     {
-                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * dpiScaleX * _finalViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * dpiScaleX * _transform.FinalScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
                     }
                 }
             }
@@ -620,6 +595,46 @@ namespace NeeView
             return new Size[] { s0, s1 };
         }
 
-#endregion
+        #endregion
+
+        #region Memento
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public PageStretchMode StretchMode { get; set; }
+            [DataMember]
+            public bool IsEnabledNearestNeighbor { get; set; }
+            [DataMember]
+            public double ContentsSpace { get; set; }
+            [DataMember]
+            public bool IsAutoRotate { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.StretchMode = this.StretchMode;
+            memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
+            memento.ContentsSpace = this.ContentsSpace;
+            memento.IsAutoRotate = this.IsAutoRotate;
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            this.StretchMode = memento.StretchMode;
+            this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
+            this.ContentsSpace = memento.ContentsSpace;
+            this.IsAutoRotate = memento.IsAutoRotate;
+
+            //ResetTransform(true); // 不要？
+            //UpdateContentSize(); // 不要？
+        }
+
+        #endregion
     }
 }

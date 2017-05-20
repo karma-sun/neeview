@@ -373,8 +373,8 @@ namespace NeeView
                 element.Text = "表示サイズを切り替える";
                 element.Note = "画像の表示サイズを順番に切り替えます";
                 element.ShortCutKey = "LeftButton+WheelDown";
-                element.Execute = (s, e) => _VM.StretchMode = _VM.GetToggleStretchMode((ToggleStretchModeCommandParameter)element.Parameter);
-                element.ExecuteMessage = e => _VM.GetToggleStretchMode((ToggleStretchModeCommandParameter)element.Parameter).ToDispString();
+                element.Execute = (s, e) => _models.ContentCanvas.StretchMode = _models.ContentCanvas.GetToggleStretchMode((ToggleStretchModeCommandParameter)element.Parameter);
+                element.ExecuteMessage = e => _models.ContentCanvas.GetToggleStretchMode((ToggleStretchModeCommandParameter)element.Parameter).ToDispString();
                 element.DefaultParameter = new ToggleStretchModeCommandParameter() { IsLoop = true };
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleStretchMode] = element;
@@ -386,8 +386,8 @@ namespace NeeView
                 element.Text = "表示サイズを切り替える(逆順)";
                 element.Note = "画像の表示サイズを順番に切り替えます(逆順)";
                 element.ShortCutKey = "LeftButton+WheelUp";
-                element.Execute = (s, e) => _VM.StretchMode = _VM.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)element.Parameter);
-                element.ExecuteMessage = e => _VM.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)element.Parameter).ToDispString();
+                element.Execute = (s, e) => _models.ContentCanvas.StretchMode = _models.ContentCanvas.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)element.Parameter);
+                element.ExecuteMessage = e => _models.ContentCanvas.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)element.Parameter).ToDispString();
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ToggleStretchMode };
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleStretchModeReverse] = element;
@@ -398,7 +398,7 @@ namespace NeeView
                 element.Group = "表示サイズ";
                 element.Text = "オリジナルサイズ";
                 element.Note = "画像のサイズそのままで表示します";
-                element.Execute = (s, e) => _VM.StretchMode = PageStretchMode.None;
+                element.Execute = (s, e) => _models.ContentCanvas.StretchMode = PageStretchMode.None;
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.None);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetStretchModeNone] = element;
@@ -409,8 +409,8 @@ namespace NeeView
                 element.Group = "表示サイズ";
                 element.Text = "大きい場合ウィンドウサイズに合わせる";
                 element.Note = "ウィンドウに収まるように画像を縮小して表示します";
-                element.Execute = (s, e) => _VM.SetStretchMode(PageStretchMode.Inside, ((StretchModeCommandParameter)element.Parameter).IsToggle);
-                element.ExecuteMessage = e => element.Text + (_VM.TestStretchMode(PageStretchMode.Inside, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
+                element.Execute = (s, e) => _models.ContentCanvas.SetStretchMode(PageStretchMode.Inside, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (_models.ContentCanvas.TestStretchMode(PageStretchMode.Inside, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Inside);
                 element.DefaultParameter = new StretchModeCommandParameter();
                 element.IsShowMessage = true;
@@ -422,8 +422,8 @@ namespace NeeView
                 element.Group = "表示サイズ";
                 element.Text = "小さい場合ウィンドウサイズに広げる";
                 element.Note = "ウィンドウに収まるように画像をできるだけ拡大して表示します";
-                element.Execute = (s, e) => _VM.SetStretchMode(PageStretchMode.Outside, ((StretchModeCommandParameter)element.Parameter).IsToggle);
-                element.ExecuteMessage = e => element.Text + (_VM.TestStretchMode(PageStretchMode.Outside, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
+                element.Execute = (s, e) => _models.ContentCanvas.SetStretchMode(PageStretchMode.Outside, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (_models.ContentCanvas.TestStretchMode(PageStretchMode.Outside, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Outside);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
@@ -435,8 +435,8 @@ namespace NeeView
                 element.Group = "表示サイズ";
                 element.Text = "ウィンドウサイズに合わせる";
                 element.Note = "画像をウィンドウサイズに合わせるよう拡大縮小します";
-                element.Execute = (s, e) => _VM.SetStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)element.Parameter).IsToggle);
-                element.ExecuteMessage = e => element.Text + (_VM.TestStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
+                element.Execute = (s, e) => _models.ContentCanvas.SetStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (_models.ContentCanvas.TestStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Uniform);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
@@ -448,8 +448,8 @@ namespace NeeView
                 element.Group = "表示サイズ";
                 element.Text = "ウィンドウいっぱいに広げる";
                 element.Note = "縦横どちらかをウィンドウサイズに合わせるように拡大縮小します。画像はウィンドウサイズより大きくなります";
-                element.Execute = (s, e) => _VM.SetStretchMode(PageStretchMode.UniformToFill, ((StretchModeCommandParameter)element.Parameter).IsToggle);
-                element.ExecuteMessage = e => element.Text + (_VM.TestStretchMode(PageStretchMode.UniformToFill, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
+                element.Execute = (s, e) => _models.ContentCanvas.SetStretchMode(PageStretchMode.UniformToFill, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (_models.ContentCanvas.TestStretchMode(PageStretchMode.UniformToFill, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToFill);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
@@ -461,8 +461,8 @@ namespace NeeView
                 element.Group = "表示サイズ";
                 element.Text = "面積をウィンドウに合わせる";
                 element.Note = "ウィンドウの面積と等しくなるように画像を拡大縮小します";
-                element.Execute = (s, e) => _VM.SetStretchMode(PageStretchMode.UniformToSize, ((StretchModeCommandParameter)element.Parameter).IsToggle);
-                element.ExecuteMessage = e => element.Text + (_VM.TestStretchMode(PageStretchMode.UniformToSize, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
+                element.Execute = (s, e) => _models.ContentCanvas.SetStretchMode(PageStretchMode.UniformToSize, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (_models.ContentCanvas.TestStretchMode(PageStretchMode.UniformToSize, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToSize);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
@@ -474,8 +474,8 @@ namespace NeeView
                 element.Group = "表示サイズ";
                 element.Text = "高さをウィンドウに合わせる";
                 element.Note = "ウィンドウの高さに画像の高さを合わせるように拡大縮小します";
-                element.Execute = (s, e) => _VM.SetStretchMode(PageStretchMode.UniformToVertical, ((StretchModeCommandParameter)element.Parameter).IsToggle);
-                element.ExecuteMessage = e => element.Text + (_VM.TestStretchMode(PageStretchMode.UniformToVertical, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
+                element.Execute = (s, e) => _models.ContentCanvas.SetStretchMode(PageStretchMode.UniformToVertical, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (_models.ContentCanvas.TestStretchMode(PageStretchMode.UniformToVertical, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToVertical);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
@@ -489,9 +489,9 @@ namespace NeeView
                 element.Text = "ドットのまま拡大ON/OFF";
                 element.MenuText = "ドットのまま拡大";
                 element.Note = "ONにすると拡大するときにドットのまま拡大します。OFFの時にはスケール変換処理(Fant)が行われます";
-                element.Execute = (s, e) => _VM.IsEnabledNearestNeighbor = !_VM.IsEnabledNearestNeighbor;
-                element.ExecuteMessage = e => _VM.IsEnabledNearestNeighbor ? "高品質に拡大する" : "ドットのまま拡大する";
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsEnabledNearestNeighbor));
+                element.Execute = (s, e) => _models.ContentCanvas.IsEnabledNearestNeighbor = !_models.ContentCanvas.IsEnabledNearestNeighbor;
+                element.ExecuteMessage = e => _models.ContentCanvas.IsEnabledNearestNeighbor ? "高品質に拡大する" : "ドットのまま拡大する";
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.ContentCanvas.IsEnabledNearestNeighbor)) { Source = _models.ContentCanvas };
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsEnabledNearestNeighbor] = element;
             }
@@ -980,9 +980,9 @@ namespace NeeView
                 element.Text = "自動回転ON/OFF";
                 element.MenuText = "自動回転";
                 element.Note = "ページ表示時、縦長画像を90度回転します。ウィンドウが縦長の場合、横長画像を90度回転します";
-                element.Execute = (s, e) => _VM.ToggleAutoRotate();
-                element.ExecuteMessage = e => _VM.IsAutoRotate ? "自動回転OFF" : "自動回転ON";
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsAutoRotate));
+                element.Execute = (s, e) => _models.ContentCanvas.ToggleAutoRotate();
+                element.ExecuteMessage = e => _models.ContentCanvas.IsAutoRotate ? "自動回転OFF" : "自動回転ON";
+                element.CreateIsCheckedBinding = () => new Binding(nameof(ContentCanvas.IsAutoRotate)) { Source = _models.ContentCanvas };
                 element.DefaultParameter = new AutoRotateCommandParameter();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsAutoRotate] = element;

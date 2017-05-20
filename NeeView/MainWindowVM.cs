@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using NeeView.Effects;
 using NeeView.Utility;
 using NeeView.Windows.Controls;
@@ -35,18 +36,6 @@ namespace NeeView
         None,
         Normal,
         Tiny,
-    }
-
-    // ViewChangedイベント引数
-    public class ViewChangeArgs
-    {
-        public int PageDirection { get; set; }
-
-        public DragViewOrigin ViewOrigin { get; set; }
-
-        public double Angle { get; set; }
-
-        public bool ResetViewTransform { get; set; }
     }
 
 
@@ -125,34 +114,14 @@ namespace NeeView
     /// MainWindow : ViewModel
     /// TODO : モデルの分離
     /// </summary>
-    public class MainWindowVM : INotifyPropertyChanged, IDisposable
+    public class MainWindowVM : BindableBase, IDisposable
     {
         public static MainWindowVM Current { get; private set; }
 
         #region Events
 
-        #region NotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
-        {
-            PropertyChanged += (s, e) => { if (e.PropertyName == propertyName) handler?.Invoke(s, e); };
-        }
-
-        #endregion
-
-
         // ロード中通知
         public event EventHandler<string> Loading;
-
-        // 表示変更を通知
-        public event EventHandler<ViewChangeArgs> ViewChanged;
 
         // ショートカット変更を通知
         public event EventHandler InputGestureChanged;
@@ -166,18 +135,6 @@ namespace NeeView
         #endregion
 
 
-        // 移動制限モード
-        ////public bool IsLimitMove { get; set; }
-
-        // 回転、拡縮をコンテンツの中心基準にする
-        ////public bool IsControlCenterImage { get; set; }
-
-        // 回転単位
-        ////public double AngleFrequency { get; set; }
-
-        // 表示開始時の基準
-        ////public bool IsViewStartPositionCenter { get; set; }
-
         // 通知表示スタイル
         public ShowMessageStyle NoticeShowMessageStyle { get; set; }
 
@@ -187,11 +144,6 @@ namespace NeeView
         // NowLoading表示スタイル
         public ShowMessageStyle NowLoadingShowMessageStyle { get; set; }
 
-        // View変換情報表示スタイル
-        public ShowMessageStyle ViewTransformShowMessageStyle { get; set; }
-
-        // View変換情報表示のスケール表示をオリジナルサイズ基準にする
-        public bool IsOriginalScaleShowMessage { get; set; }
 
         /// <summary>
         /// IsVisibleLoupeInfo property.
@@ -304,113 +256,6 @@ namespace NeeView
         #endregion
 
 
-#if false
-        // スケールモード
-        #region Property: StretchMode
-        private PageStretchMode _stretchModePrev = PageStretchMode.Uniform;
-        private PageStretchMode _stretchMode = PageStretchMode.Uniform;
-        public PageStretchMode StretchMode
-        {
-            get { return _stretchMode; }
-            set
-            {
-                if (_stretchMode != value)
-                {
-                    _stretchModePrev = _stretchMode;
-                    _stretchMode = value;
-                    RaisePropertyChanged();
-                    UpdateContentSize();
-                    ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
-                }
-            }
-        }
-
-        // トグル
-        public PageStretchMode GetToggleStretchMode(ToggleStretchModeCommandParameter param)
-        {
-            PageStretchMode mode = StretchMode;
-            int length = Enum.GetNames(typeof(PageStretchMode)).Length;
-            int count = 0;
-            do
-            {
-                var next = (int)mode + 1;
-                if (!param.IsLoop && next >= length) return StretchMode;
-                mode = (PageStretchMode)(next % length);
-                if (param.StretchModes[mode]) return mode;
-            }
-            while (count++ < length);
-            return StretchMode;
-        }
-
-        // 逆トグル
-        public PageStretchMode GetToggleStretchModeReverse(ToggleStretchModeCommandParameter param)
-        {
-            PageStretchMode mode = StretchMode;
-            int length = Enum.GetNames(typeof(PageStretchMode)).Length;
-            int count = 0;
-            do
-            {
-                var prev = (int)mode - 1;
-                if (!param.IsLoop && prev < 0) return StretchMode;
-                mode = (PageStretchMode)((prev + length) % length);
-                if (param.StretchModes[mode]) return mode;
-            }
-            while (count++ < length);
-            return StretchMode;
-        }
-
-
-        //
-        public void SetStretchMode(PageStretchMode mode, bool isToggle)
-        {
-            StretchMode = GetFixedStretchMode(mode, isToggle);
-        }
-
-        //
-        public bool TestStretchMode(PageStretchMode mode, bool isToggle)
-        {
-            return mode == GetFixedStretchMode(mode, isToggle);
-        }
-
-        //
-        private PageStretchMode GetFixedStretchMode(PageStretchMode mode, bool isToggle)
-        {
-            if (isToggle && StretchMode == mode)
-            {
-                return (mode == PageStretchMode.None) ? _stretchModePrev : PageStretchMode.None;
-            }
-            else
-            {
-                return mode;
-            }
-        }
-
-        #endregion
-#endif
-
-#if false
-        //
-        /// <summary>
-        /// IsAutoRotate property.
-        /// </summary>
-        private bool _isAutoRotate;
-        public bool IsAutoRotate
-        {
-            get { return _isAutoRotate; }
-            set { if (_isAutoRotate != value) { _isAutoRotate = value; RaisePropertyChanged(); } }
-        }
-
-        public event EventHandler AutoRotateChanged;
-
-        public bool ToggleAutoRotate()
-        {
-            IsAutoRotate = !IsAutoRotate;
-            UpdateContentSize(GetAutoRotateAngle());
-            AutoRotateChanged?.Invoke(this, null);
-            return IsAutoRotate;
-        }
-#endif
-
         // 背景スタイル
         #region Property: Background
         private BackgroundStyle _background;
@@ -458,35 +303,6 @@ namespace NeeView
         // イメージエフェクト
         public ImageEffect ImageEffector => _models.ImageEffecct;
 
-        /*
-        // ドットのまま拡大
-#region Property: IsEnabledNearestNeighbor
-        private bool _isEnabledNearestNeighbor;
-        public bool IsEnabledNearestNeighbor
-        {
-            get { return _isEnabledNearestNeighbor; }
-            set
-            {
-                if (_isEnabledNearestNeighbor != value)
-                {
-                    _isEnabledNearestNeighbor = value;
-                    RaisePropertyChanged();
-                    UpdateContentScalingMode();
-                }
-            }
-        }
-#endregion
-            */
-        /*
-        // 拡大率キープ
-        public bool IsKeepScale { get; set; }
-
-        // 回転キープ
-        public bool IsKeepAngle { get; set; }
-
-        // 反転キープ
-        public bool IsKeepFlip { get; set; }
-        */
 
         // メニューを自動的に隠す
         #region Property: IsHideMenu
@@ -698,19 +514,9 @@ namespace NeeView
         // TODO: メニュー系コントロールが分離したら不要になる？
         public Dictionary<CommandType, RoutedUICommand> BookCommands => RoutedCommandTable.Current.Commands;
 
-        /*
-        // 空フォルダー通知表示のON/OFF
-#region Property: IsVisibleEmptyPageMessage
-        private bool _isVisibleEmptyPageMessage = false;
-        public bool IsVisibleEmptyPageMessage
-        {
-            get { return _isVisibleEmptyPageMessage; }
-            set { if (_isVisibleEmptyPageMessage != value) { _isVisibleEmptyPageMessage = value; RaisePropertyChanged(); } }
-        }
-#endregion
-        */
 
         // 空フォルダー通知表示の詳細テキスト
+        // TODO: ContentCanvasじゃね？
         #region Property: EmptyPageMessage
         private string _emptyPageMessage;
         public string EmptyPageMessage
@@ -757,131 +563,9 @@ namespace NeeView
 
         #endregion
 
-#if false
-        #region Window Title
 
-        // ウィンドウタイトル
-        private string _windowTitle = "";
-        public string WindowTitle
-        {
-            get { return _windowTitle; }
-            private set { _windowTitle = value; RaisePropertyChanged(); }
-        }
-
-        // ウィンドウタイトル更新
-        public void UpdateWindowTitle(UpdateWindowTitleMask mask)
-        {
-            if (LoadingPath != null)
-                WindowTitle = LoosePath.GetFileName(LoadingPath) + " (読込中)";
-
-            else if (BookHub.CurrentBook?.Place == null)
-                WindowTitle = _defaultWindowTitle;
-
-            else if (MainContent == null)
-                WindowTitle = NVUtility.PlaceToTitle(BookHub.CurrentBook.Place);
-
-            else
-                WindowTitle = CreateWindowTitle(mask);
-        }
-
-        // ウィンドウタイトル用キーワード置換
-        private ReplaceString _windowTitleFormatter = new ReplaceString();
-
-        public const string WindowTitleFormat1Default = "$Book($Page/$PageMax) - $FullName";
-        public const string WindowTitleFormat2Default = "$Book($Page/$PageMax) - $FullNameL | $NameR";
-
-        // ウィンドウタイトルフォーマット
-        private string _windowTitleFormat1;
-        public string WindowTitleFormat1
-        {
-            get { return _windowTitleFormat1; }
-            set { _windowTitleFormat1 = value; _windowTitleFormatter.SetFilter(_windowTitleFormat1 + " " + _windowTitleFormat2); }
-        }
-
-        private string _windowTitleFormat2;
-        public string WindowTitleFormat2
-        {
-            get { return _windowTitleFormat2; }
-            set { _windowTitleFormat2 = value; _windowTitleFormatter.SetFilter(_windowTitleFormat1 + " " + _windowTitleFormat2); }
-        }
-
-        // ウィンドウタイトル作成
-        private string CreateWindowTitle(UpdateWindowTitleMask mask)
-        {
-            string format = Contents[1].IsValid ? WindowTitleFormat2 : WindowTitleFormat1;
-
-            bool isMainContent0 = MainContent == Contents[0];
-
-            if ((mask & UpdateWindowTitleMask.Book) != 0)
-            {
-                string bookName = NVUtility.PlaceToTitle(BookHub.CurrentBook.Place);
-                _windowTitleFormatter.Set("$Book", bookName);
-            }
-
-            if ((mask & UpdateWindowTitleMask.Page) != 0)
-            {
-                string pageNum = (MainContent.Source.PartSize == 2)
-                ? (MainContent.Position.Index + 1).ToString()
-                : (MainContent.Position.Index + 1).ToString() + (MainContent.Position.Part == 1 ? ".5" : ".0");
-                _windowTitleFormatter.Set("$PageMax", (_models.BookOperation.IndexMax + 1).ToString());
-                _windowTitleFormatter.Set("$Page", pageNum);
-
-                string path0 = Contents[0].IsValid ? Contents[0].FullPath.Replace("/", " > ").Replace("\\", " > ") + Contents[0].GetPartString() : "";
-                string path1 = Contents[1].IsValid ? Contents[1].FullPath.Replace("/", " > ").Replace("\\", " > ") + Contents[1].GetPartString() : "";
-                _windowTitleFormatter.Set("$FullName", isMainContent0 ? path0 : path1);
-                _windowTitleFormatter.Set("$FullNameL", path1);
-                _windowTitleFormatter.Set("$FullNameR", path0);
-
-                string name0 = Contents[0].IsValid ? LoosePath.GetFileName(Contents[0].FullPath) + Contents[0].GetPartString() : "";
-                string name1 = Contents[1].IsValid ? LoosePath.GetFileName(Contents[1].FullPath) + Contents[1].GetPartString() : "";
-                _windowTitleFormatter.Set("$Name", isMainContent0 ? name0 : name1);
-                _windowTitleFormatter.Set("$NameL", name1);
-                _windowTitleFormatter.Set("$NameR", name0);
-
-                var bitmapContent0 = Contents[0].Content as BitmapContent;
-                var bitmapContent1 = Contents[1].Content as BitmapContent;
-
-                string size0 = bitmapContent0?.BitmapInfo != null ? $"{bitmapContent0.Size.Width}×{bitmapContent0.Size.Height}" : "";
-                string size1 = bitmapContent1?.BitmapInfo != null ? $"{bitmapContent1.Size.Width}×{bitmapContent1.Size.Height}" : "";
-                _windowTitleFormatter.Set("$Size", isMainContent0 ? size0 : size1);
-                _windowTitleFormatter.Set("$SizeL", size1);
-                _windowTitleFormatter.Set("$SizeR", size0);
-
-                string bpp0 = bitmapContent0?.BitmapInfo != null ? size0 + "×" + bitmapContent0.BitmapInfo.BitsPerPixel.ToString() : "";
-                string bpp1 = bitmapContent1?.BitmapInfo != null ? size1 + "×" + bitmapContent1.BitmapInfo.BitsPerPixel.ToString() : "";
-                _windowTitleFormatter.Set("$SizeEx", isMainContent0 ? bpp0 : bpp1);
-                _windowTitleFormatter.Set("$SizeExL", bpp1);
-                _windowTitleFormatter.Set("$SizeExR", bpp0);
-            }
-
-            if ((mask & UpdateWindowTitleMask.View) != 0)
-            {
-                _windowTitleFormatter.Set("$ViewScale", $"{(int)(_viewScale * 100 + 0.1)}%");
-            }
-
-            if ((mask & (UpdateWindowTitleMask.Page | UpdateWindowTitleMask.View)) != 0)
-            {
-                string scale0 = Contents[0].IsValid ? $"{(int)(_viewScale * Contents[0].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";
-                string scale1 = Contents[1].IsValid ? $"{(int)(_viewScale * Contents[1].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";
-                _windowTitleFormatter.Set("$Scale", isMainContent0 ? scale0 : scale1);
-                _windowTitleFormatter.Set("$ScaleL", scale1);
-                _windowTitleFormatter.Set("$ScaleR", scale0);
-            }
-
-            return _windowTitleFormatter.Replace(format);
-        }
-
-
-        // ロード中パス
-        private string _loadingPath;
-        public string LoadingPath
-        {
-            get { return _loadingPath; }
-            set { _loadingPath = value; UpdateWindowTitle(UpdateWindowTitleMask.All); }
-        }
-
-        #endregion
-#endif
+        // ウィンドタイトル
+        public WindowTitle WindowTitle => _models.WindowTitle;
 
         // 本設定 公開
         public Book.Memento BookSetting => BookHub.BookMemento;
@@ -898,54 +582,6 @@ namespace NeeView
 
         // 最近使ったフォルダーの有効フラグ
         public bool IsEnableLastFiles { get { return LastFiles.Count > 0; } }
-
-        // コンテンツ
-        ////public ObservableCollection<ViewContent> Contents { get; private set; }
-
-        /*
-    // コンテンツマージン
-#region Property: ContentsMargin
-    private Thickness _contentsMargin;
-    public Thickness ContentsMargin
-    {
-        get { return _contentsMargin; }
-        set { _contentsMargin = value; RaisePropertyChanged(); }
-    }
-#endregion
-
-    //
-#region Property: ContentSpace
-    private double _contentSpace = -1.0;
-    public double ContentsSpace
-    {
-        get { return _contentSpace; }
-        set { _contentSpace = value; RaisePropertyChanged(); }
-    }
-#endregion
-        */
-
-        /*
-        // 見開き時のメインとなるコンテンツ
-#region Property: MainContent
-        private ViewContent _mainContent;
-        public ViewContent MainContent
-        {
-            get { return _mainContent; }
-            set
-            {
-                _mainContent = value;
-                RaisePropertyChanged();
-                UpdateFileInfoContent();
-            }
-        }
-#endregion
-
-        //
-        private void UpdateFileInfoContent()
-        {
-            _models.FileInformation.ViewContent = _mainContent;
-        }
-            */
 
 
         // Foregroudh Brush：ファイルページのフォントカラー用
@@ -1190,9 +826,6 @@ namespace NeeView
         // 本管理
         public BookHub BookHub { get; private set; }
 
-
-        // 標準ウィンドウタイトル
-        ////private string _defaultWindowTitle;
 
         // サムネイル有効
         #region Property: IsEnableThumbnailList
@@ -1463,9 +1096,6 @@ namespace NeeView
             BookHub.BookChanged +=
                 OnBookChanged;
 
-            ////BookHub.ViewContentsChanged +=
-            ////    OnViewContentsChanged;
-
             BookHub.SettingChanged +=
                 (s, e) =>
                 {
@@ -1502,27 +1132,8 @@ namespace NeeView
                 (s, e) => _models.InfoMessage.SetMessage(NoticeShowMessageStyle, e);
 
 
-
-
-
             // Contents
-            ////Contents = new ObservableCollection<ViewContent>();
-            ////Contents.Add(new ViewContent());
-            ////Contents.Add(new ViewContent());
-
             _models.ContentCanvas.ContentChanged += ContentCanvas_ContentChanged;
-
-#if false
-            // Window title
-            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
-            _defaultWindowTitle = $"{assembly.GetName().Name} {ver.FileMajorPart}.{ver.FileMinorPart}";
-            if (ver.FileBuildPart > 0) _defaultWindowTitle += $".{ver.FileBuildPart}";
-#if DEBUG
-            _defaultWindowTitle += " [Debug]";
-#endif
-            //UpdateWindowTitle(UpdateWindowTitleMask.All);
-#endif
 
             // messenger
             Messenger.AddReciever("UpdateLastFiles", (s, e) => UpdateLastFiles());
@@ -1539,16 +1150,12 @@ namespace NeeView
         {
             // 背景色更新
             UpdateBackgroundBrush();
-
-            // タイトル更新
-            ////UpdateWindowTitle(UpdateWindowTitleMask.All);
         }
 
 
         // Loading表示状態変更
         public void OnLoading(object sender, string e)
         {
-            ////LoadingPath = e;
             _models.WindowTitle.LoadingPath = e;
             Loading?.Invoke(sender, e);
         }
@@ -1979,437 +1586,6 @@ namespace NeeView
             }
         }
 
-#if false
-        /// <summary>
-        /// 表示コンテンツ更新
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnViewContentsChanged(object sender, ViewSource e)
-        {
-            var contents = new List<ViewContent>();
-
-            // ViewContent作成
-            if (e?.Sources != null)
-            {
-                foreach (var source in e.Sources)
-                {
-                    if (source != null)
-                    {
-                        var old = Contents[contents.Count];
-                        var content = new ViewContent(source, old);
-                        contents.Add(content);
-                    }
-                }
-            }
-
-            // ページが存在しない場合、専用メッセージを表示する
-            IsVisibleEmptyPageMessage = e != null && contents.Count == 0;
-
-            // メインとなるコンテンツを指定
-            MainContent = contents.Count > 0 ? (contents.First().Position < contents.Last().Position ? contents.First() : contents.Last()) : null;
-
-            // ViewModelプロパティに反映
-            for (int index = 0; index < 2; ++index)
-            {
-                Contents[index] = index < contents.Count ? contents[index] : new ViewContent();
-            }
-
-            // 背景色更新
-            UpdateBackgroundBrush();
-
-            // 自動回転...
-            var angle = GetAutoRotateAngle();
-
-            // コンテンツサイズ更新
-            UpdateContentSize(angle);
-
-            // 表示更新を通知
-            var args = new ViewChangeArgs()
-            {
-                PageDirection = e != null ? e.Direction : 0,
-                ViewOrigin = NextViewOrigin,
-                Angle = angle,
-            };
-            ViewChanged?.Invoke(this, args);
-            NextViewOrigin = DragViewOrigin.None;
-
-            UpdateWindowTitle(UpdateWindowTitleMask.All);
-
-            // GC
-            MemoryControl.Current.GarbageCollect();
-        }
-#endif
-        /*
-        /// <summary>
-        /// ContentAngle property.
-        /// </summary>
-        private double _contentAngle;
-        public double ContentAngle
-        {
-            get { return _contentAngle; }
-            set { if (_contentAngle != value) { _contentAngle = value; RaisePropertyChanged(); } }
-        }
-        */
-
-        /*
-    /// <summary>
-    /// ページ開始時の回転
-    /// </summary>
-    /// <returns></returns>
-    public double GetAutoRotateAngle()
-    {
-        var parameter = (AutoRotateCommandParameter)CommandTable.Current[CommandType.ToggleIsAutoRotate].Parameter;
-
-        double angle = this.IsAutoRotateCondition()
-                    ? parameter.AutoRotateType == AutoRotateType.Left ? -90.0 : 90.0
-                    : 0.0;
-
-        return angle;
-    }
-    */
-
-
-        /// <summary>
-        /// 次のページ更新時の表示開始位置
-        /// TODO: ちゃんとBookから情報として上げるようにするべき
-        /// </summary>
-        public DragViewOrigin NextViewOrigin { get; set; }
-
-
-
-
-#if false
-        #region ContentSize
-
-        // ビューエリアサイズ
-        private double _viewWidth;
-        private double _viewHeight;
-
-        // ビューエリアサイズを更新
-        public void SetViewSize(double width, double height)
-        {
-            _viewWidth = width;
-            _viewHeight = height;
-
-            UpdateContentSize();
-        }
-
-
-        //
-        public void UpdateContentSize(double angle)
-        {
-            ////this.ContentAngle = angle;
-            _models.ContentCanvasTransform.ContentAngle = angle;
-            UpdateContentSize();
-        }
-
-        // コンテンツ表示サイズを更新
-        public void UpdateContentSize()
-        {
-            if (!Contents.Any(e => e.IsValid)) return;
-
-            // 2ページ表示時は重なり補正を行う
-            double offsetWidth = 0;
-            if (Contents[0].Size.Width > 0.5 && Contents[1].Size.Width > 0.5)
-            {
-                offsetWidth = ContentsSpace / _Dpi.DpiScaleX;
-                ContentsMargin = new Thickness(offsetWidth, 0, 0, 0);
-            }
-            else
-            {
-                ContentsMargin = new Thickness(0);
-            }
-
-            var sizes = CalcContentSize(_viewWidth * _Dpi.DpiScaleX - offsetWidth, _viewHeight * _Dpi.DpiScaleY, _models.ContentCanvasTransform.ContentAngle);
-
-            for (int i = 0; i < 2; ++i)
-            {
-                Contents[i].Width = sizes[i].Width / _Dpi.DpiScaleX;
-                Contents[i].Height = sizes[i].Height / _Dpi.DpiScaleY;
-            }
-
-            UpdateContentScalingMode();
-        }
-
-        // ビュー回転
-        private double _viewAngle;
-
-
-        // ビュースケール
-        private double _viewScale;
-        private double _finalViewScale;
-
-        // ビュー反転
-        private bool _isViewFlipHorizontal;
-        private bool _isViewFlipVertical;
-
-
-
-        // ビュー変換を更新
-        public void SetViewTransform(TransformEventArgs e)
-        {
-            _viewAngle = e.Angle;
-            _viewScale = e.Scale;
-            _finalViewScale = e.Scale * e.LoupeScale;
-            _isViewFlipHorizontal = e.IsFlipHorizontal;
-            _isViewFlipVertical = e.IsFlipVertical;
-
-            UpdateContentScalingMode();
-
-            // メッセージとして状態表示
-            if (ViewTransformShowMessageStyle != ShowMessageStyle.None)
-            {
-                switch (e.ActionType)
-                {
-                    case TransformActionType.Scale:
-                        string scaleText = IsOriginalScaleShowMessage && MainContent.IsValid
-                            ? $"{(int)(_viewScale * MainContent.Scale * _Dpi.DpiScaleX * 100 + 0.1)}%"
-                            : $"{(int)(_viewScale * 100.0 + 0.1)}%";
-                        _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, scaleText);
-                        break;
-                    case TransformActionType.Angle:
-                        _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, $"{(int)(e.Angle)}°");
-                        break;
-                    case TransformActionType.FlipHorizontal:
-                        _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, "左右反転 " + (_isViewFlipHorizontal ? "ON" : "OFF"));
-                        break;
-                    case TransformActionType.FlipVertical:
-                        _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, "上下反転 " + (_isViewFlipVertical ? "ON" : "OFF"));
-                        break;
-                    case TransformActionType.LoupeScale:
-                        if (e.LoupeScale > 1.5)
-                        {
-                            _models.InfoMessage.SetMessage(ViewTransformShowMessageStyle, $"×{e.LoupeScale:0.0}");
-                        }
-                        break;
-                }
-            }
-
-            // スケール変更時はウィンドウタイトルを更新
-            if (e.ChangeType == TransformChangeType.Scale)
-            {
-                UpdateWindowTitle(UpdateWindowTitleMask.View);
-            }
-        }
-
-        // コンテンツスケーリングモードを更新
-        private void UpdateContentScalingMode()
-        {
-            var dpiScaleX = App.Config.RawDpi.DpiScaleX;
-            foreach (var content in Contents)
-            {
-                if (content.View != null && content.View.Element is Rectangle)
-                {
-                    double diff = Math.Abs(content.Size.Width - content.Width * dpiScaleX);
-                    if (_IsDpiSquare && diff < 0.1 && _viewAngle == 0.0 && Math.Abs(_finalViewScale - 1.0) < 0.001)
-                    {
-                        content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
-                    }
-                    else
-                    {
-                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * dpiScaleX * _finalViewScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
-                    }
-                }
-            }
-        }
-
-        //
-        public bool IsAutoRotateCondition()
-        {
-            if (!IsAutoRotate) return false;
-
-            var margin = 0.1;
-            var viewRatio = GetViewAreaAspectRatio();
-            var contentRatio = GetContentAspectRatio();
-            return viewRatio >= 1.0 ? contentRatio < (1.0 - margin) : contentRatio > (1.0 + margin);
-        }
-
-        //
-        public double GetViewAreaAspectRatio()
-        {
-            return _viewWidth / _viewHeight;
-        }
-
-        //
-        public double GetContentAspectRatio()
-        {
-            var size = GetContentSize();
-            return size.Width / size.Height;
-        }
-
-        //
-        private Size GetContentSize()
-        {
-            var c0 = Contents[0].Size;
-            var c1 = Contents[1].Size;
-
-            double rate0 = 1.0;
-            double rate1 = 1.0;
-
-            // 2ページ合わせたコンテンツサイズを求める
-            if (!Contents[1].IsValid)
-            {
-                return c0;
-            }
-            // オリジナルサイズ
-            else if (this.StretchMode == PageStretchMode.None)
-            {
-                return new Size(c0.Width + c1.Width, Math.Max(c0.Height, c1.Height));
-            }
-            else
-            {
-                // どちらもImageでない
-                if (c0.Width < 0.1 && c1.Width < 0.1)
-                {
-                    return new Size(1.0, 1.0);
-                }
-
-                if (c0.Width == 0) c0 = c1;
-                if (c1.Width == 0) c1 = c0;
-
-                // 高さを 高い方に合わせる
-                if (c0.Height > c1.Height)
-                {
-                    rate1 = c0.Height / c1.Height;
-                }
-                else
-                {
-                    rate0 = c1.Height / c0.Height;
-                }
-
-                // 高さをあわせたときの幅の合計
-                return new Size(c0.Width * rate0 + c1.Width * rate1, c0.Height * rate0);
-            }
-        }
-
-
-        // ストレッチモードに合わせて各コンテンツのスケールを計算する
-        private Size[] CalcContentSize(double width, double height, double angle)
-        {
-            var c0 = Contents[0].Size;
-            var c1 = Contents[1].Size;
-
-            // オリジナルサイズ
-            if (this.StretchMode == PageStretchMode.None)
-            {
-                return new Size[] { c0, c1 };
-            }
-
-            double rate0 = 1.0;
-            double rate1 = 1.0;
-
-            // 2ページ合わせたコンテンツの表示サイズを求める
-            Size content;
-            if (!Contents[1].IsValid)
-            {
-                content = c0;
-            }
-            else
-            {
-                // どちらもImageでない
-                if (c0.Width < 0.1 && c1.Width < 0.1)
-                {
-                    return new Size[] { c0, c1 };
-                }
-
-                if (c0.Width == 0) c0 = c1;
-                if (c1.Width == 0) c1 = c0;
-
-                // 高さを 高い方に合わせる
-                if (c0.Height > c1.Height)
-                {
-                    rate1 = c0.Height / c1.Height;
-                }
-                else
-                {
-                    rate0 = c1.Height / c0.Height;
-                }
-
-                // 高さをあわせたときの幅の合計
-                content = new Size(c0.Width * rate0 + c1.Width * rate1, c0.Height * rate0);
-            }
-
-            // 回転反映
-            {
-                //var angle = 45.0;
-                var rect = new Rect(content);
-                var m = new Matrix();
-                m.Rotate(angle);
-                rect.Transform(m);
-
-                content = new Size(rect.Width, rect.Height);
-            }
-
-
-            // ビューエリアサイズに合わせる場合のスケール
-            double rateW = width / content.Width;
-            double rateH = height / content.Height;
-
-            // 拡大はしない
-            if (this.StretchMode == PageStretchMode.Inside)
-            {
-                if (rateW > 1.0) rateW = 1.0;
-                if (rateH > 1.0) rateH = 1.0;
-            }
-            // 縮小はしない
-            else if (this.StretchMode == PageStretchMode.Outside)
-            {
-                if (rateW < 1.0) rateW = 1.0;
-                if (rateH < 1.0) rateH = 1.0;
-            }
-
-            // 面積をあわせる
-            if (this.StretchMode == PageStretchMode.UniformToSize)
-            {
-                var viewSize = width * height;
-                var contentSize = content.Width * content.Height;
-                var rate = Math.Sqrt(viewSize / contentSize);
-                rate0 *= rate;
-                rate1 *= rate;
-            }
-            // 高さを合わせる
-            else if (this.StretchMode == PageStretchMode.UniformToVertical)
-            {
-                rate0 *= rateH;
-                rate1 *= rateH;
-            }
-            // 枠いっぱいに広げる
-            else if (this.StretchMode == PageStretchMode.UniformToFill)
-            {
-                if (rateW > rateH)
-                {
-                    rate0 *= rateW;
-                    rate1 *= rateW;
-                }
-                else
-                {
-                    rate0 *= rateH;
-                    rate1 *= rateH;
-                }
-            }
-            // 枠に収めるように広げる
-            else
-            {
-                if (rateW < rateH)
-                {
-                    rate0 *= rateW;
-                    rate1 *= rateW;
-                }
-                else
-                {
-                    rate0 *= rateH;
-                    rate1 *= rateH;
-                }
-            }
-
-            var s0 = new Size(c0.Width * rate0, c0.Height * rate0);
-            var s1 = new Size(c1.Width * rate1, c1.Height * rate1);
-            return new Size[] { s0, s1 };
-        }
-
-        #endregion
-#endif
 
         // ジェスチャー表示
         public void ShowGesture(string gesture, string commandName)
@@ -2606,8 +1782,8 @@ namespace NeeView
             [DataMember(EmitDefaultValue = false)]
             public bool IsViewStartPositionCenter { get; set; } // no used (ver.23)
 
-            [DataMember]
-            public PageStretchMode StretchMode { get; set; }
+            [DataMember(EmitDefaultValue = false)]
+            public PageStretchMode StretchMode { get; set; } // no used (ver.23)
 
             [DataMember]
             public BackgroundStyle Background { get; set; }
@@ -2627,8 +1803,8 @@ namespace NeeView
             [DataMember(Order = 4)]
             public ShowMessageStyle NowLoadingShowMessageStyle { get; set; }
 
-            [DataMember(Order = 1)]
-            public bool IsEnabledNearestNeighbor { get; set; }
+            [DataMember(Order = 1, EmitDefaultValue = false)]
+            public bool IsEnabledNearestNeighbor { get; set; } // no used (ver.22)
 
             [DataMember(Order = 2, EmitDefaultValue = false)]
             public bool IsKeepScale { get; set; } // no used(ver.23)
@@ -2684,24 +1860,6 @@ namespace NeeView
             [DataMember(Order = 7, EmitDefaultValue = false)]
             public string WindowTitleFormat2 { get; set; } // no used (ver.23)
 
-            /*
-            private string _windowTitleFormat1;
-            [DataMember(Order = 7)]
-            public string WindowTitleFormat1
-            {
-                get { return _windowTitleFormat1; }
-                set { _windowTitleFormat1 = string.IsNullOrEmpty(value) ? MainWindowVM.WindowTitleFormat1Default : value; }
-            }
-
-            private string _windowTitleFormat2;
-            [DataMember(Order = 7)]
-            public string WindowTitleFormat2
-            {
-                get { return _windowTitleFormat2; }
-                set { _windowTitleFormat2 = string.IsNullOrEmpty(value) ? MainWindowVM.WindowTitleFormat2Default : value; }
-            }
-            */
-
             [DataMember(Order = 8)]
             public bool IsVisibleAddressBar { get; set; }
 
@@ -2735,14 +1893,14 @@ namespace NeeView
             [DataMember(Order = 9)]
             public bool IsVisibleThumbnailPlate { get; set; }
 
-            [DataMember(Order = 10)]
-            public ShowMessageStyle ViewTransformShowMessageStyle { get; set; }
+            [DataMember(Order = 10, EmitDefaultValue = false)]
+            public ShowMessageStyle ViewTransformShowMessageStyle { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 10)]
-            public bool IsOriginalScaleShowMessage { get; set; }
+            [DataMember(Order = 10, EmitDefaultValue = false)]
+            public bool IsOriginalScaleShowMessage { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 12)]
-            public double ContentsSpace { get; set; }
+            [DataMember(Order = 12, EmitDefaultValue = false)]
+            public double ContentsSpace { get; set; } // no used (ver.23)
 
             [DataMember(Order = 12)]
             public LongButtonDownMode LongLeftButtonDownMode { get; set; }
@@ -2753,8 +1911,8 @@ namespace NeeView
             [DataMember(Order = 17)]
             public bool IsHidePageSlider { get; set; }
 
-            [DataMember(Order = 18)]
-            public bool IsAutoRotate { get; set; }
+            [DataMember(Order = 18, EmitDefaultValue = false)]
+            public bool IsAutoRotate { get; set; } // no used (ver.23)
 
             [DataMember(Order = 19)]
             public bool IsVisibleWindowTitle { get; set; }
@@ -2777,16 +1935,17 @@ namespace NeeView
             //
             private void Constructor()
             {
+                _Version = App.Config.ProductVersionNumber;
                 IsLimitMove = true; // no used.
                 NoticeShowMessageStyle = ShowMessageStyle.Normal;
                 CommandShowMessageStyle = ShowMessageStyle.Normal; // no used.
                 GestureShowMessageStyle = ShowMessageStyle.Normal;
                 NowLoadingShowMessageStyle = ShowMessageStyle.Normal;
-                ViewTransformShowMessageStyle = ShowMessageStyle.None;
-                StretchMode = PageStretchMode.Uniform;
+                ////ViewTransformShowMessageStyle = ShowMessageStyle.None;
+                ////StretchMode = PageStretchMode.Uniform;
                 Background = BackgroundStyle.Black;
                 PanelColor = PanelColor.Dark;
-                WindowTitleFormat1 =  WindowTitle.WindowTitleFormat1Default; // no used.
+                WindowTitleFormat1 = WindowTitle.WindowTitleFormat1Default; // no used.
                 WindowTitleFormat2 = WindowTitle.WindowTitleFormat2Default; // no used.
                 IsSaveWindowPlacement = true;
                 IsHidePanelInFullscreen = true;
@@ -2797,7 +1956,7 @@ namespace NeeView
                 IsSliderLinkedThumbnailList = true;
                 IsAutoGC = true;
                 IsVisibleThumbnailPlate = true;
-                ContentsSpace = -1.0;
+                ////ContentsSpace = -1.0;
                 LongLeftButtonDownMode = LongButtonDownMode.Loupe;
                 IsDisableMultiBoot = true;
                 SliderDirection = SliderDirection.RightToLeft;
@@ -2853,19 +2012,20 @@ namespace NeeView
             var memento = new Memento();
 
             memento._Version = App.Config.ProductVersionNumber;
+
             ////memento.IsLimitMove = this.IsLimitMove;
             ////memento.IsControlCenterImage = this.IsControlCenterImage;
             ////memento.AngleFrequency = this.AngleFrequency;
             ////memento.IsViewStartPositionCenter = this.IsViewStartPositionCenter;
-            memento.StretchMode = this.StretchMode;
+            ////memento.StretchMode = this.StretchMode;
             memento.CustomBackground = this.CustomBackground;
             memento.Background = this.Background;
             memento.NoticeShowMessageStyle = this.NoticeShowMessageStyle;
             memento.CommandShowMessageStyle = ShowMessageStyle.None; // no used.
             memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
             memento.NowLoadingShowMessageStyle = this.NowLoadingShowMessageStyle;
-            memento.ViewTransformShowMessageStyle = this.ViewTransformShowMessageStyle;
-            memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
+            ////memento.ViewTransformShowMessageStyle = this.ViewTransformShowMessageStyle;
+            ////memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
             ////memento.IsKeepScale = this.IsKeepScale;
             ////memento.IsKeepAngle = this.IsKeepAngle;
             ////memento.IsKeepFlip = this.IsKeepFlip;
@@ -2891,11 +2051,11 @@ namespace NeeView
             memento.IsVisibleThumbnailNumber = this.IsVisibleThumbnailNumber;
             memento.IsAutoGC = this.IsAutoGC;
             memento.IsVisibleThumbnailPlate = this.IsVisibleThumbnailPlate;
-            memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
-            memento.ContentsSpace = this.ContentsSpace;
+            ////memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
+            ////memento.ContentsSpace = this.ContentsSpace;
             memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
             memento.SliderDirection = this.SliderDirection;
-            memento.IsAutoRotate = this.IsAutoRotate;
+            ////memento.IsAutoRotate = this.IsAutoRotate;
             memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
             memento.IsVisibleLoupeInfo = this.IsVisibleLoupeInfo;
             memento.IsLoupeCenter = this.IsLoupeCenter;
@@ -2911,14 +2071,14 @@ namespace NeeView
             ////this.IsControlCenterImage = memento.IsControlCenterImage;
             ////this.AngleFrequency = memento.AngleFrequency;
             ////this.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
-            this.StretchMode = memento.StretchMode;
+            ////this.StretchMode = memento.StretchMode;
             this.CustomBackground = memento.CustomBackground;
             this.Background = memento.Background;
             this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
             this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
             this.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
-            this.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
-            this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
+            ////this.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
+            ////this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
             ////this.IsKeepScale = memento.IsKeepScale;
             ////this.IsKeepAngle = memento.IsKeepAngle;
             ////this.IsKeepFlip = memento.IsKeepFlip;
@@ -2943,18 +2103,18 @@ namespace NeeView
             this.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
             this.IsAutoGC = memento.IsAutoGC;
             this.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
-            this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-            this.ContentsSpace = memento.ContentsSpace;
+            ////this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
+            ////this.ContentsSpace = memento.ContentsSpace;
             this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
             this.SliderDirection = memento.SliderDirection;
-            this.IsAutoRotate = memento.IsAutoRotate;
+            ////this.IsAutoRotate = memento.IsAutoRotate;
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
             this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
             this.IsLoupeCenter = memento.IsLoupeCenter;
             this.SliderIndexLayout = memento.SliderIndexLayout;
 
-            ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
-            UpdateContentSize();
+            ////ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
+            ////UpdateContentSize();
 
             // compatible before ver.22
             if (memento.FileInfoSetting != null)
@@ -2981,6 +2141,8 @@ namespace NeeView
             // compatible before ver.23
             if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
+                _models.ContentCanvasTransform.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
+                _models.ContentCanvasTransform.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
                 _models.ContentCanvasTransform.IsLimitMove = memento.IsLimitMove;
                 _models.ContentCanvasTransform.AngleFrequency = memento.AngleFrequency;
                 _models.ContentCanvasTransform.IsControlCenterImage = memento.IsControlCenterImage;
@@ -2988,6 +2150,12 @@ namespace NeeView
                 _models.ContentCanvasTransform.IsKeepFlip = memento.IsKeepFlip;
                 _models.ContentCanvasTransform.IsKeepScale = memento.IsKeepScale;
                 _models.ContentCanvasTransform.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
+
+                _models.ContentCanvas.StretchMode = memento.StretchMode;
+                _models.ContentCanvas.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
+                _models.ContentCanvas.ContentsSpace = memento.ContentsSpace;
+                _models.ContentCanvas.IsAutoRotate = memento.IsAutoRotate;
+
                 _models.WindowTitle.WindowTitleFormat1 = memento.WindowTitleFormat1;
                 _models.WindowTitle.WindowTitleFormat2 = memento.WindowTitleFormat2;
             }

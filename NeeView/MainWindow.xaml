@@ -16,7 +16,7 @@
         mc:Ignorable="d"
         x:Name="RootWindow"
         Style="{StaticResource DefaultWindowStyle}"
-        Title="{Binding WindowTitle}" Icon="{Binding WindowIcon}" Height="768" Width="1024" MinHeight="50" MinWidth="150" AllowDrop="True"
+        Title="{Binding WindowTitle.Title}" Icon="{Binding WindowIcon}" Height="768" Width="1024" MinHeight="50" MinWidth="150" AllowDrop="True"
         Loaded="MainWindow_Loaded" Closed="Window_Closed" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized"
         DragOver="MainWindow_DragOver" Drop="MainWindow_Drop" MouseLeave="MainWindow_MouseLeave"
         StateChanged="MainWindow_StateChanged"
@@ -498,7 +498,7 @@
                                         <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffector.Effect}">
 
                                             <!-- メインビュー コンテンツ表示領域 -->
-                                            <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True">
+                                            <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True" DataContext="{Binding ContentCanvas}">
                                                 <!-- Pages -->
                                                 <Canvas x:Name="PageCanvas" Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                                                         IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -534,7 +534,7 @@
                                         </Grid>
 
                                         <!-- empty pages message -->
-                                        <Grid Visibility="{Binding IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">
+                                        <Grid Visibility="{Binding ContentCanvas.IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">
                                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                                 <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
 

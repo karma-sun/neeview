@@ -1,6 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,33 +19,33 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     /// <summary>
-    /// ThumbnailList.xaml の相互作用ロジック
+    /// ThumbnailListView.xaml の相互作用ロジック
     /// </summary>
-    public partial class ThumbnailList : UserControl
+    public partial class ThumbnailListView : UserControl
     {
-        // TODO: これは仮です
-        public MainWindowVM ViewModel
+        public ThumbnailList Source
         {
-            get { return (MainWindowVM)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
+            get { return (ThumbnailList)GetValue(SourceProperty); }
+            set { SetValue(SourceProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(MainWindowVM), typeof(ThumbnailList), new PropertyMetadata(null, ViewMdoel_Changed));
+        // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SourceProperty =
+            DependencyProperty.Register("Source", typeof(ThumbnailList), typeof(ThumbnailListView), new PropertyMetadata(null, Source_Changed));
 
-        private static void ViewMdoel_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void Source_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ThumbnailList control)
+            if (d is ThumbnailListView control)
             {
-                control._VM = control.ViewModel;
-                control.Root.DataContext = control._VM;
+                control.Initialize();
             }
         }
 
 
-        // TODO: これは仮です
-        private MainWindowVM _VM;
+
+
+        //
+        private ThumbnailListViewModel _vm;
 
 
         // サムネイルリストのパネルコントロール
@@ -51,9 +54,17 @@ namespace NeeView
         /// <summary>
         /// 
         /// </summary>
-        public ThumbnailList()
+        public ThumbnailListView()
         {
             InitializeComponent();
+            ////this.Root.DataContext = new ThumbnailListViewModel(null);
+        }
+
+        //
+        private void Initialize()
+        {
+            _vm = new ThumbnailListViewModel(this.Source);
+            this.Root.DataContext = _vm;
         }
 
 
@@ -102,7 +113,7 @@ namespace NeeView
         {
             if (_thumbnailListPanel == null) return;
 
-            if (!_VM.IsEnableThumbnailList) return;
+            if (!_vm.Model.IsEnableThumbnailList) return;
 
             // リストボックス項目と同期がまだ取れていなければ処理しない
             //if (indexMax + 1 != this.ThumbnailListBox.Items.Count) return;
@@ -185,11 +196,11 @@ namespace NeeView
             {
                 if (this.ThumbnailListBox.SelectedIndex <= 0)
                 {
-                    this.ThumbnailListBox.HorizontalAlignment = _VM.IsSliderDirectionReversed ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+                    this.ThumbnailListBox.HorizontalAlignment = PageSlider.Current.IsSliderDirectionReversed ? HorizontalAlignment.Right : HorizontalAlignment.Left;
                 }
                 else if (this.ThumbnailListBox.SelectedIndex >= this.ThumbnailListBox.Items.Count - 1)
                 {
-                    this.ThumbnailListBox.HorizontalAlignment = _VM.IsSliderDirectionReversed ? HorizontalAlignment.Left : HorizontalAlignment.Right;
+                    this.ThumbnailListBox.HorizontalAlignment = PageSlider.Current.IsSliderDirectionReversed ? HorizontalAlignment.Left : HorizontalAlignment.Right;
                 }
                 else
                 {
@@ -222,7 +233,7 @@ namespace NeeView
         {
             // 決定
             if (e.Key == Key.Return)
-                _VM.BookHub.JumpPage(this.ThumbnailListBox.SelectedItem as Page);
+                _vm.Model.BookHub.JumpPage(this.ThumbnailListBox.SelectedItem as Page);
             // 左右スクロールは自前で実装
             else if (e.Key == Key.Right)
                 ThumbnailListBox_MoveSelectedIndex(+1);
@@ -257,7 +268,7 @@ namespace NeeView
             var page = (sender as ListBoxItem)?.Content as Page;
             if (page != null)
             {
-                _VM.BookHub.JumpPage(page);
+                _vm.Model.BookHub.JumpPage(page);
                 e.Handled = true;
             }
         }
@@ -279,7 +290,7 @@ namespace NeeView
 
             if (_thumbnailListPanel != null)
             {
-                _VM.RequestThumbnail((int)_thumbnailListPanel.HorizontalOffset, (int)_thumbnailListPanel.ViewportWidth, 2, direction);
+                _vm.Model.RequestThumbnail((int)_thumbnailListPanel.HorizontalOffset, (int)_thumbnailListPanel.ViewportWidth, 2, direction);
             }
         }
 
@@ -292,7 +303,7 @@ namespace NeeView
         {
             int count = MouseInputHelper.DeltaCount(e);
             int delta = e.Delta < 0 ? +count : -count;
-            if (_VM.IsSliderDirectionReversed) delta = -delta;
+            if (PageSlider.Current.IsSliderDirectionReversed) delta = -delta;
             ThumbnailListBox_MoveSelectedIndex(delta);
             e.Handled = true;
         }

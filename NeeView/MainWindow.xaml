@@ -68,7 +68,7 @@
                 <Style.Triggers>
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding IsVisibleThumbnailPlate}" Value="True" />
+                            <Condition Binding="{Binding Models.ThumbnailList.IsVisibleThumbnailPlate}" Value="True" />
                             <Condition Binding="{Binding Visibility, ElementName=ThumbnailListArea}" Value="Visible" />
                         </MultiDataTrigger.Conditions>
                         <Setter Property="Background" Value="{DynamicResource NVBackground}"/>
@@ -365,12 +365,12 @@
 
                         <!-- スライダー -->
                         <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False">
-                            <local:PageSlider x:Name="SliderArea" ViewModel="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}" FocusTo="{Binding ElementName=MainView}"/>
+                            <local:PageSliderView x:Name="SliderArea"/>
                         </ContentControl>
 
                         <!-- サムネイルリスト -->
                         <ContentControl x:Name="DockThumbnailListSocket" DockPanel.Dock="Bottom" IsTabStop="False">
-                            <local:ThumbnailList x:Name="ThumbnailListArea" ViewModel="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"/>
+                            <local:ThumbnailListView x:Name="ThumbnailListArea"/>
                         </ContentControl>
 
                     </DockPanel>
@@ -564,7 +564,7 @@
                         <Grid.Style>
                             <Style TargetType="Grid">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsVisibleThumbnailPlate}" Value="True">
+                                    <DataTrigger Binding="{Binding Models.ThumbnailList.IsVisibleThumbnailPlate}" Value="True">
                                         <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
                                     </DataTrigger>
                                 </Style.Triggers>

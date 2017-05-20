@@ -135,7 +135,7 @@ namespace NeeView
                 // スライダーと実際のページ番号は分けて管理すべき。
                 // スライダーのIndexはスライダーで管理する
                 // ここのIndexは、なんだろね？役割を定義せよ
-                bool canSliderLinkedThumbnailList = MainWindowVM.Current.CanSliderLinkedThumbnailList;
+                bool canSliderLinkedThumbnailList = PageSlider.Current.IsSliderLinkedThumbnailList;
 
                 _index = NVUtility.Clamp(value, 0, IndexMax);
                 if (!canSliderLinkedThumbnailList)

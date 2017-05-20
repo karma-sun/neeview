@@ -166,83 +166,6 @@ namespace NeeView
         }
 
 
-        // スライダー方向
-        #region Property: IsSliderDirectionReversed
-        private bool _isSliderDirectionReversed;
-        public bool IsSliderDirectionReversed
-        {
-            get { return _isSliderDirectionReversed; }
-            private set
-            {
-                if (_isSliderDirectionReversed != value)
-                {
-                    _isSliderDirectionReversed = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        //
-        private void UpdateIsSliderDirectionReversed()
-        {
-            switch (SliderDirection)
-            {
-                default:
-                case SliderDirection.LeftToRight:
-                    IsSliderDirectionReversed = false;
-                    break;
-                case SliderDirection.RightToLeft:
-                    IsSliderDirectionReversed = true;
-                    break;
-                case SliderDirection.SyncBookReadDirection:
-                    IsSliderDirectionReversed = this.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft;
-                    break;
-            }
-        }
-
-        //
-        private SliderDirection _sliderDirection;
-        public SliderDirection SliderDirection
-        {
-            get { return _sliderDirection; }
-            set
-            {
-                _sliderDirection = value;
-                UpdateIsSliderDirectionReversed();
-            }
-        }
-
-        #endregion
-
-
-        /// <summary>
-        /// SliderIndexType property.
-        /// </summary>
-        private SliderIndexLayout _SliderIndexLayout;
-        public SliderIndexLayout SliderIndexLayout
-        {
-            get { return _SliderIndexLayout; }
-            set
-            {
-                if (_SliderIndexLayout != value)
-                {
-                    _SliderIndexLayout = value;
-                    RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(IsSliderWithIndex));
-                    RaisePropertyChanged(nameof(SliderIndexDock));
-                }
-            }
-        }
-
-        /// <summary>
-        /// IsSliderWithIndex property.
-        /// </summary>
-        public bool IsSliderWithIndex => _SliderIndexLayout != SliderIndexLayout.None;
-
-        /// <summary>
-        /// SliderIndexDock property.
-        /// </summary>
-        public Dock SliderIndexDock => _SliderIndexLayout == SliderIndexLayout.Left ? Dock.Left : Dock.Right;
 
 
         // 左クリック長押しモード
@@ -535,12 +458,6 @@ namespace NeeView
         }
 
 
-        // ページスライダー表示フラグ
-        public Visibility PageSliderVisibility => _models.BookOperation.GetPageCount() > 0 ? Visibility.Visible : Visibility.Hidden;
-
-        // サムネイルリスト表示状態
-        public Visibility ThumbnailListVisibility => _models.BookOperation.GetPageCount() > 0 ? Visibility.Visible : Visibility.Collapsed;
-
 
         #region Window Icon
 
@@ -827,108 +744,6 @@ namespace NeeView
         public BookHub BookHub { get; private set; }
 
 
-        // サムネイル有効
-        #region Property: IsEnableThumbnailList
-        private bool _isEnableThumbnailList;
-        public bool IsEnableThumbnailList
-        {
-            get { return _isEnableThumbnailList; }
-            set
-            {
-                _isEnableThumbnailList = value;
-                RaisePropertyChanged();
-            }
-        }
-        #endregion
-
-        //
-        public bool ToggleVisibleThumbnailList()
-        {
-            IsEnableThumbnailList = !IsEnableThumbnailList;
-            return IsEnableThumbnailList;
-        }
-
-        // サムネイルを自動的に隠す
-        #region Property: IsHideThumbnailList
-        private bool _isHideThumbnailList;
-        public bool IsHideThumbnailList
-        {
-            get { return _isHideThumbnailList; }
-            set
-            {
-                _isHideThumbnailList = value;
-                RaisePropertyChanged();
-            }
-        }
-        #endregion
-
-
-        //
-        public bool ToggleHideThumbnailList()
-        {
-            IsHideThumbnailList = !IsHideThumbnailList;
-            return IsHideThumbnailList;
-        }
-
-        public bool CanHideThumbnailList => IsEnableThumbnailList && IsHideThumbnailList;
-
-        // サムネイルリストとスライダー
-        // ONのときはスライダーに連結
-        // OFFのときはページ番号に連結
-        public bool IsSliderLinkedThumbnailList { get; set; }
-
-        public bool CanSliderLinkedThumbnailList => IsEnableThumbnailList && IsSliderLinkedThumbnailList;
-
-        // サムネイルサイズ
-        #region Property: ThumbnailSize
-        private double _thumbnailSize;
-        public double ThumbnailSize
-        {
-            get { return _thumbnailSize; }
-            set
-            {
-                if (_thumbnailSize != value)
-                {
-                    _thumbnailSize = value;
-                    RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(ThumbnailDispSize));
-                }
-            }
-        }
-        #endregion
-
-        // サムネイルサイズ(表示サイズ)
-        public double ThumbnailDispSize => _thumbnailSize;
-
-
-        // ページ番号の表示
-        #region Property: IsVisibleThumbnailNumber
-        private bool _isVisibleThumbnailNumber;
-        public bool IsVisibleThumbnailNumber
-        {
-            get { return _isVisibleThumbnailNumber; }
-            set { _isVisibleThumbnailNumber = value; RaisePropertyChanged(nameof(ThumbnailNumberVisibility)); }
-        }
-        #endregion
-
-        // ページ番号の表示
-        public Visibility ThumbnailNumberVisibility => IsVisibleThumbnailNumber ? Visibility.Visible : Visibility.Collapsed;
-
-        // サムネイル項目の高さ
-        public double ThumbnailItemHeight => ThumbnailSize + (IsVisibleThumbnailNumber ? 16 : 0) + 16;
-
-        // サムネイル台紙の表示
-        #region Property: IsVisibleThumbnailPlate
-        private bool _isVisibleThumbnailPlate;
-        public bool IsVisibleThumbnailPlate
-        {
-            get { return _isVisibleThumbnailPlate; }
-            set { _isVisibleThumbnailPlate = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-
-
         #region 開発用
 
         // 開発用：JobEndine公開
@@ -1090,16 +905,12 @@ namespace NeeView
             BookHub.Loading +=
                 OnLoading;
 
-            BookHub.BookChanging +=
-                OnBookChanging;
-
             BookHub.BookChanged +=
                 OnBookChanged;
 
             BookHub.SettingChanged +=
                 (s, e) =>
                 {
-                    UpdateIsSliderDirectionReversed();
                     RaisePropertyChanged(nameof(BookSetting));
                     RaisePropertyChanged(nameof(BookHub));
                 };
@@ -1160,24 +971,10 @@ namespace NeeView
             Loading?.Invoke(sender, e);
         }
 
-        //
-        private bool _isBookChanging;
-
-
-        // 本が変更される
-        private void OnBookChanging(object sender, EventArgs e)
-        {
-            _isBookChanging = true;
-
-            // 未処理のサムネイル要求を解除
-            ModelContext.JobEngine.Clear(QueueElementPriority.PageThumbnail);
-        }
 
         // 本が変更された
         private void OnBookChanged(object sender, BookMementoType bookmarkType)
         {
-            _isBookChanging = false;
-
             var title = LoosePath.GetFileName(BookHub.Address);
 
             App.Current?.Dispatcher.Invoke(() => _models.InfoMessage.SetMessage(NoticeShowMessageStyle, title, null, 2.0, bookmarkType));
@@ -1191,9 +988,6 @@ namespace NeeView
             {
                 BookUnloaded?.Invoke(this, null);
             }
-
-            RaisePropertyChanged(nameof(PageSliderVisibility));
-            RaisePropertyChanged(nameof(ThumbnailListVisibility));
 
             //
             CommandManager.InvalidateRequerySuggested();
@@ -1619,36 +1413,6 @@ namespace NeeView
         }
 
 
-        // サムネイル要求
-        public void RequestThumbnail(int start, int count, int margin, int direction)
-        {
-            var pageList = _models.BookOperation.PageList;
-
-            if (pageList == null || ThumbnailSize < 8.0) return;
-
-            // サムネイルリストが無効の場合、処理しない
-            if (!IsEnableThumbnailList) return;
-
-            // 本の切り替え中は処理しない
-            if (_isBookChanging) return;
-
-            // 未処理の要求を解除
-            ModelContext.JobEngine.Clear(QueueElementPriority.PageThumbnail);
-
-            // 要求. 中央値優先
-            int center = start + count / 2;
-            var pages = Enumerable.Range(start - margin, count + margin * 2 - 1)
-                .Where(i => i >= 0 && i < pageList.Count)
-                .Select(e => pageList[e])
-                .OrderBy(e => Math.Abs(e.Index - center));
-
-            foreach (var page in pages)
-            {
-                page.LoadThumbnail(QueueElementPriority.PageThumbnail);
-            }
-        }
-
-
         //
         private BitmapSource CurrentBitmapSource
         {
@@ -1872,26 +1636,26 @@ namespace NeeView
             [DataMember(Order = 8)]
             public ContextMenuSetting ContextMenuSetting { get; set; }
 
-            [DataMember(Order = 8)]
-            public bool IsEnableThumbnailList { get; set; }
+            [DataMember(Order = 8, EmitDefaultValue = false)]
+            public bool IsEnableThumbnailList { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 8)]
-            public bool IsHideThumbnailList { get; set; }
+            [DataMember(Order = 8, EmitDefaultValue = false)]
+            public bool IsHideThumbnailList { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 8)]
-            public double ThumbnailSize { get; set; }
+            [DataMember(Order = 8, EmitDefaultValue = false)]
+            public double ThumbnailSize { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 8)]
-            public bool IsSliderLinkedThumbnailList { get; set; }
+            [DataMember(Order = 8, EmitDefaultValue = false)]
+            public bool IsSliderLinkedThumbnailList { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 8)]
-            public bool IsVisibleThumbnailNumber { get; set; }
+            [DataMember(Order = 8, EmitDefaultValue = false)]
+            public bool IsVisibleThumbnailNumber { get; set; } // no used (ver.23)
 
             [DataMember(Order = 9)]
             public bool IsAutoGC { get; set; }
 
-            [DataMember(Order = 9)]
-            public bool IsVisibleThumbnailPlate { get; set; }
+            [DataMember(Order = 9, EmitDefaultValue = false)]
+            public bool IsVisibleThumbnailPlate { get; set; } // no used (ver.23)
 
             [DataMember(Order = 10, EmitDefaultValue = false)]
             public ShowMessageStyle ViewTransformShowMessageStyle { get; set; } // no used (ver.23)
@@ -1905,8 +1669,8 @@ namespace NeeView
             [DataMember(Order = 12)]
             public LongButtonDownMode LongLeftButtonDownMode { get; set; }
 
-            [DataMember(Order = 16)]
-            public SliderDirection SliderDirection { get; set; }
+            [DataMember(Order = 16, EmitDefaultValue = false)]
+            public SliderDirection SliderDirection { get; set; } // no used (ver.23)
 
             [DataMember(Order = 17)]
             public bool IsHidePageSlider { get; set; }
@@ -1926,8 +1690,8 @@ namespace NeeView
             [DataMember(Order = 20)]
             public bool IsLoupeCenter { get; set; }
 
-            [DataMember(Order = 21)]
-            public SliderIndexLayout SliderIndexLayout { get; set; }
+            [DataMember(Order = 21, EmitDefaultValue = false)]
+            public SliderIndexLayout SliderIndexLayout { get; set; } // no used (ver.23)
 
             [DataMember(Order = 21)]
             public BrushSource CustomBackground { get; set; }
@@ -1951,17 +1715,17 @@ namespace NeeView
                 IsHidePanelInFullscreen = true;
                 ////IsVisibleTitleBar = true; // no used
                 ContextMenuSetting = new ContextMenuSetting();
-                ThumbnailSize = 96;
-                IsSliderLinkedThumbnailList = true;
+                ////ThumbnailSize = 96;
+                ////IsSliderLinkedThumbnailList = true;
                 IsAutoGC = true;
-                IsVisibleThumbnailPlate = true;
+                ////IsVisibleThumbnailPlate = true;
                 ////ContentsSpace = -1.0;
                 LongLeftButtonDownMode = LongButtonDownMode.Loupe;
                 IsDisableMultiBoot = true;
-                SliderDirection = SliderDirection.RightToLeft;
+                ////SliderDirection = SliderDirection.RightToLeft;
                 IsVisibleWindowTitle = true;
                 IsVisibleLoupeInfo = true;
-                SliderIndexLayout = SliderIndexLayout.Right;
+                ////SliderIndexLayout = SliderIndexLayout.Right;
                 CustomBackground = new BrushSource();
             }
 
@@ -2043,22 +1807,22 @@ namespace NeeView
             memento.IsHidePanel = this.IsHidePanel;
             memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
             memento.ContextMenuSetting = this.ContextMenuSetting.Clone();
-            memento.IsEnableThumbnailList = this.IsEnableThumbnailList;
-            memento.IsHideThumbnailList = this.IsHideThumbnailList;
-            memento.ThumbnailSize = this.ThumbnailSize;
-            memento.IsSliderLinkedThumbnailList = this.IsSliderLinkedThumbnailList;
-            memento.IsVisibleThumbnailNumber = this.IsVisibleThumbnailNumber;
+            ////memento.IsEnableThumbnailList = this.IsEnableThumbnailList;
+            ////memento.IsHideThumbnailList = this.IsHideThumbnailList;
+            ////memento.ThumbnailSize = this.ThumbnailSize;
+            ////memento.IsSliderLinkedThumbnailList = this.IsSliderLinkedThumbnailList;
+            ////memento.IsVisibleThumbnailNumber = this.IsVisibleThumbnailNumber;
             memento.IsAutoGC = this.IsAutoGC;
-            memento.IsVisibleThumbnailPlate = this.IsVisibleThumbnailPlate;
+            ////memento.IsVisibleThumbnailPlate = this.IsVisibleThumbnailPlate;
             ////memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
             ////memento.ContentsSpace = this.ContentsSpace;
             memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
-            memento.SliderDirection = this.SliderDirection;
+            ////memento.SliderDirection = this.SliderDirection;
             ////memento.IsAutoRotate = this.IsAutoRotate;
             memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
             memento.IsVisibleLoupeInfo = this.IsVisibleLoupeInfo;
             memento.IsLoupeCenter = this.IsLoupeCenter;
-            memento.SliderIndexLayout = this.SliderIndexLayout;
+            ////memento.SliderIndexLayout = this.SliderIndexLayout;
 
             return memento;
         }
@@ -2095,22 +1859,22 @@ namespace NeeView
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
             this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
             this.ContextMenuSetting = memento.ContextMenuSetting.Clone();
-            this.IsEnableThumbnailList = memento.IsEnableThumbnailList;
-            this.IsHideThumbnailList = memento.IsHideThumbnailList;
-            this.ThumbnailSize = memento.ThumbnailSize;
-            this.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
-            this.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
+            ////this.IsEnableThumbnailList = memento.IsEnableThumbnailList;
+            ////this.IsHideThumbnailList = memento.IsHideThumbnailList;
+            ////this.ThumbnailSize = memento.ThumbnailSize;
+            ////this.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
+            ////this.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
             this.IsAutoGC = memento.IsAutoGC;
-            this.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
+            ////this.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
             ////this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
             ////this.ContentsSpace = memento.ContentsSpace;
             this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
-            this.SliderDirection = memento.SliderDirection;
+            ////this.SliderDirection = memento.SliderDirection;
             ////this.IsAutoRotate = memento.IsAutoRotate;
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
             this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
             this.IsLoupeCenter = memento.IsLoupeCenter;
-            this.SliderIndexLayout = memento.SliderIndexLayout;
+            ////this.SliderIndexLayout = memento.SliderIndexLayout;
 
             ////ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
             ////UpdateContentSize();
@@ -2157,6 +1921,16 @@ namespace NeeView
 
                 _models.WindowTitle.WindowTitleFormat1 = memento.WindowTitleFormat1;
                 _models.WindowTitle.WindowTitleFormat2 = memento.WindowTitleFormat2;
+
+                _models.PageSlider.SliderIndexLayout = memento.SliderIndexLayout;
+                _models.PageSlider.SliderDirection = memento.SliderDirection;
+                _models.PageSlider.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
+
+                _models.ThumbnailList.IsEnableThumbnailList = memento.IsEnableThumbnailList;
+                _models.ThumbnailList.IsHideThumbnailList = memento.IsHideThumbnailList;
+                _models.ThumbnailList.ThumbnailSize = memento.ThumbnailSize;
+                _models.ThumbnailList.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
+                _models.ThumbnailList.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
             }
         }
 

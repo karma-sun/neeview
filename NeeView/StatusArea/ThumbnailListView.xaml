@@ -1,4 +1,10 @@
-﻿<UserControl x:Class="NeeView.ThumbnailList"
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+<UserControl x:Class="NeeView.ThumbnailListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,10 +14,11 @@
              d:DesignHeight="100" d:DesignWidth="300">
     <UserControl.Resources>
         <local:SliderDirectionToFlowDirectionConverter x:Key="SliderDirectionToFlowDirectionConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     
-    <Grid x:Name="Root" Visibility="{Binding ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" UseLayoutRounding="True" >
-        <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Models.BookOperation.PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+    <Grid x:Name="Root" Visibility="{Binding Model.ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" UseLayoutRounding="True" >
+        <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Model.BookOperation.PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
                              KeyDown="ThumbnailListBox_KeyDown"
@@ -31,7 +38,7 @@
                         <Setter.Value>
                             <DataTemplate>
                                 <StackPanel Margin="5">
-                                    <Grid Width="{Binding ElementName=Root, Path=DataContext.ThumbnailDispSize}" Height="{Binding ElementName=Root, Path=DataContext.ThumbnailDispSize}">
+                                    <Grid Width="{Binding ElementName=Root, Path=DataContext.Model.ThumbnailSize}" Height="{Binding ElementName=Root, Path=DataContext.Model.ThumbnailSize}">
                                         <Ellipse Fill="Gray" Width="8" Height="8">
                                             <Ellipse.Style>
                                                 <Style TargetType="Ellipse">
@@ -52,13 +59,13 @@
                                         </Image>
                                     </Grid>
                                     <TextBlock Height="16" FontSize="12" FontFamily="Arial" MinWidth="32" TextAlignment="Center"
-                                                           Visibility="{Binding ElementName=Root, Path=DataContext.ThumbnailNumberVisibility}"
+                                                           Visibility="{Binding ElementName=Root, Path=DataContext.Model.IsVisibleThumbnailNumber, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                            VerticalAlignment="Center"  HorizontalAlignment="Center" Text="{Binding IndexPlusOne}" Padding="5,2">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ElementName=Root, Path=DataContext.IsVisibleThumbnailPlate}" Value="False">
+                                                    <DataTrigger Binding="{Binding ElementName=Root, Path=DataContext.Model.IsVisibleThumbnailPlate}" Value="False">
                                                         <Setter Property="Foreground" Value="White"/>
                                                         <Setter Property="Effect">
                                                             <Setter.Value>
@@ -79,7 +86,7 @@
                         <Setter.Value>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel Orientation="Horizontal" CanHorizontallyScroll="True" CanVerticallyScroll="False" Margin="2,0"
-                                                                    FlowDirection="{Binding IsSliderDirectionReversed, Converter={StaticResource SliderDirectionToFlowDirectionConverter}}"
+                                                                    FlowDirection="{Binding Model.PageSlider.IsSliderDirectionReversed, Converter={StaticResource SliderDirectionToFlowDirectionConverter}}"
                                                                     Loaded="ThumbnailListBoxPanel_Loaded"
                                                                     KeyDown="ThumbnailListBoxPanel_KeyDown"/>
                             </ItemsPanelTemplate>

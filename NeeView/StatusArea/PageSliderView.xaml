@@ -1,4 +1,10 @@
-﻿<UserControl x:Class="NeeView.PageSlider"
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+<UserControl x:Class="NeeView.PageSliderView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -21,7 +27,7 @@
             </local:SliderTextBox>
             <Grid Height="18">
                 <local:PageMarkers x:Name="PageMarkers" IsHitTestVisible="False" Margin="0,-2,0,2"/>
-                <Slider DockPanel.Dock="Bottom" x:Name="Slider" Height="18" Maximum="{Binding Models.BookOperation.IndexMax}" Value="{Binding Models.BookOperation.Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding IsSliderDirectionReversed}" Focusable="False"
+                <Slider DockPanel.Dock="Bottom" x:Name="Slider" Height="18" Maximum="{Binding Model.BookOperation.IndexMax}" Value="{Binding Model.BookOperation.Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding Model.IsSliderDirectionReversed}" Focusable="False"
                                     local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=FocusTo}"
                                     ValueChanged="PageSlider_ValueChanged"
                                     PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"  

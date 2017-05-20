@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,34 +20,28 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
-
-
     /// <summary>
-    /// PageSlider.xaml の相互作用ロジック
+    /// PageSliderView.xaml の相互作用ロジック
     /// </summary>
-    public partial class PageSlider : UserControl
+    public partial class PageSliderView : UserControl
     {
-        // TODO: これは仮です
-        public MainWindowVM ViewModel
+        public PageSlider Source
         {
-            get { return (MainWindowVM)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
+            get { return (PageSlider)GetValue(SourceProperty); }
+            set { SetValue(SourceProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(MainWindowVM), typeof(PageSlider), new PropertyMetadata(null, ViewMdoel_Changed));
+        // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SourceProperty =
+            DependencyProperty.Register("Source", typeof(PageSlider), typeof(PageSliderView), new PropertyMetadata(null, Source_Changed));
 
-        private static void ViewMdoel_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void Source_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is PageSlider control)
+            if (d is PageSliderView control)
             {
                 control.Initialize();
             }
         }
-
-
-
 
         public UIElement FocusTo
         {
@@ -52,32 +51,42 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for FocusTo.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FocusToProperty =
-            DependencyProperty.Register("FocusTo", typeof(UIElement), typeof(PageSlider), new PropertyMetadata(null));
+            DependencyProperty.Register("FocusTo", typeof(UIElement), typeof(PageSliderView), new PropertyMetadata(null));
 
 
 
 
-        // TODO: これは仮です
-        private MainWindowVM _VM;
+        // 
+        private PageSliderViewModel _vm;
 
 
         /// <summary>
         /// constructor
         /// </summary>
-        public PageSlider()
+        public PageSliderView()
         {
             InitializeComponent();
-
         }
 
+        //
+        /*
+        public PageSliderView(PageSlider model, UIElement focusTo) : this()
+        {
+            this.Source = model;
+            this.FocusTo = focusTo;
+        }
+        */
+
+        //
         public void Initialize()
         {
-            // 仮
-            _VM = this.ViewModel;
-            this.Root.DataContext = _VM;
+            if (this.Source == null) return;
+
+            _vm = new PageSliderViewModel(this.Source);
+            this.Root.DataContext = _vm;
 
             // マーカー初期化
-            this.PageMarkers.Initialize(_VM.BookHub);
+            this.PageMarkers.Initialize(_vm.Model.BookHub);
         }
 
         //
@@ -88,7 +97,7 @@ namespace NeeView
             // Force it to rerender
             track.InvalidateVisual();
 
-            this.PageMarkers.IsSliderDirectionReversed = _VM.IsSliderDirectionReversed;
+            this.PageMarkers.IsSliderDirectionReversed = _vm.Model.IsSliderDirectionReversed;
         }
 
 
@@ -106,11 +115,11 @@ namespace NeeView
             {
                 if (e.Delta < 0)
                 {
-                    _VM.BookHub.NextPage();
+                    _vm.Model.BookHub.NextPage();
                 }
                 else
                 {
-                    _VM.BookHub.PrevPage();
+                    _vm.Model.BookHub.PrevPage();
                 }
             }
         }
@@ -128,7 +137,7 @@ namespace NeeView
 
         private void PageSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_VM.CanSliderLinkedThumbnailList)
+            if (_vm.CanSliderLinkedThumbnailList)
             {
                 BookOperation.Current.SetIndex(BookOperation.Current.Index);
             }
@@ -155,3 +164,4 @@ namespace NeeView
 
     }
 }
+

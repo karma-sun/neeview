@@ -809,10 +809,10 @@ namespace NeeView
                 element.MenuText = "サムネイルリスト";
                 element.Note = "サムネイルリスト表示/非表示を切り替えます";
                 element.IsShowMessage = false;
-                element.ExecuteMessage = e => _VM.IsEnableThumbnailList ? "サムネイルリストを消す" : "サムネイルリストを表示する";
-                element.Execute = (s, e) => _VM.ToggleVisibleThumbnailList();
+                element.ExecuteMessage = e => _models.ThumbnailList.IsEnableThumbnailList ? "サムネイルリストを消す" : "サムネイルリストを表示する";
+                element.Execute = (s, e) => _models.ThumbnailList.ToggleVisibleThumbnailList();
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsEnableThumbnailList));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.ThumbnailList.IsEnableThumbnailList)) { Source = _models.ThumbnailList };
                 _elements[CommandType.ToggleVisibleThumbnailList] = element;
             }
             // ToggleHideThumbnailList
@@ -823,10 +823,10 @@ namespace NeeView
                 element.MenuText = "サムネイルリストを自動的に隠す";
                 element.Note = "スライダーを使用している時だけサムネイルリストを表示するようにします";
                 element.IsShowMessage = false;
-                element.ExecuteMessage = e => _VM.IsHideThumbnailList ? "サムネイルリストを表示する" : "サムネイルリストを自動的に隠す";
-                element.Execute = (s, e) => _VM.ToggleHideThumbnailList();
+                element.ExecuteMessage = e => _models.ThumbnailList.IsHideThumbnailList ? "サムネイルリストを表示する" : "サムネイルリストを自動的に隠す";
+                element.Execute = (s, e) => _models.ThumbnailList.ToggleHideThumbnailList();
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHideThumbnailList));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.ThumbnailList.IsHideThumbnailList)) { Source = _models.ThumbnailList };
                 _elements[CommandType.ToggleHideThumbnailList] = element;
             }
 

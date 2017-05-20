@@ -176,6 +176,11 @@ namespace NeeView
             _VM = new MainWindowVM(this);
             this.DataContext = _VM;
 
+            this.SliderArea.Source = PageSlider.Current;
+            this.SliderArea.FocusTo = this.MainView;
+
+            this.ThumbnailListArea.Source = ThumbnailList.Current;
+
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
                 (s, e) => UpdateWindowLayout());
 
@@ -244,8 +249,7 @@ namespace NeeView
 
             // VM NotifyPropertyChanged Hook
 
-
-            _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.IsSliderDirectionReversed),
+            PageSlider.Current.AddPropertyChanged(nameof(PageSlider.IsSliderDirectionReversed),
                 (s, e) =>
                 {
                     this.SliderArea.OnIsSliderDirectionReversedChanged();
@@ -326,6 +330,8 @@ namespace NeeView
         //
         private void InitializeViewModelEvents()
         {
+            var models = Models.Current;
+
             _VM.InputGestureChanged +=
                 (s, e) => InitializeInputGestures();
 
@@ -345,10 +351,10 @@ namespace NeeView
             _VM.AddPropertyChanged(nameof(_VM.IsHidePageSlider),
                 (s, e) => UpdateStatusAreaLayout());
 
-            _VM.AddPropertyChanged(nameof(_VM.IsEnableThumbnailList),
+            models.ThumbnailList.AddPropertyChanged(nameof(ThumbnailList.IsEnableThumbnailList),
                 (s, e) => UpdateThumbnailListLayout());
 
-            _VM.AddPropertyChanged(nameof(_VM.IsHideThumbnailList),
+            models.ThumbnailList.AddPropertyChanged(nameof(ThumbnailList.IsHideThumbnailList),
                 (s, e) => UpdateThumbnailListLayout());
 
 
@@ -922,7 +928,7 @@ namespace NeeView
         private void UpdateThumbnailListLayout()
         {
             bool isPageSliderDock = !_VM.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
-            bool isThimbnailListDock = !_VM.IsHideThumbnailList && isPageSliderDock;
+            bool isThimbnailListDock = !ThumbnailList.Current.IsHideThumbnailList && isPageSliderDock;
 
             if (isThimbnailListDock)
             {
@@ -936,7 +942,7 @@ namespace NeeView
             }
 
             // サムネイルリスト
-            this.ThumbnailListArea.Visibility = _VM.IsEnableThumbnailList ? Visibility.Visible : Visibility.Collapsed;
+            this.ThumbnailListArea.Visibility = ThumbnailList.Current.IsEnableThumbnailList ? Visibility.Visible : Visibility.Collapsed;
             this.ThumbnailListArea.DartyThumbnailList();
         }
 

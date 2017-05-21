@@ -6,6 +6,7 @@
 using NeeView.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NeeView
 {
@@ -36,11 +37,6 @@ namespace NeeView
         /// </summary>
         public Dock SliderIndexDock => _model != null && _model.SliderIndexLayout == SliderIndexLayout.Left ? Dock.Left : Dock.Right;
 
-
-        //
-        public bool CanSliderLinkedThumbnailList => /*IsEnableThumbnailList &&*/ _model.IsSliderLinkedThumbnailList;
-
-
         // ページスライダー表示フラグ
         public Visibility PageSliderVisibility => _model != null && _model.BookOperation.GetPageCount() > 0 ? Visibility.Visible : Visibility.Hidden;
 
@@ -67,6 +63,30 @@ namespace NeeView
                 {
                     RaisePropertyChanged(nameof(PageSliderVisibility));
                 };
+        }
+
+        //
+        public void MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            int turn = MouseInputHelper.DeltaCount(e);
+
+            for (int i = 0; i < turn; ++i)
+            {
+                if (e.Delta < 0)
+                {
+                    _model.BookHub.NextPage();
+                }
+                else
+                {
+                    _model.BookHub.PrevPage();
+                }
+            }
+        }
+
+        // ページ番号を決定し、コンテンツを切り替える
+        public void Decide(bool force)
+        {
+            _model.Decide(force);
         }
     }
 }

@@ -45,6 +45,12 @@ namespace NeeView
         public bool IsMarked { get; set; }
     }
 
+    public class PageChangedEventArgs : EventArgs
+    {
+        public object Sender { get; set; }
+        public int Index { get; set; }
+    }
+
 
 
     /// <summary>
@@ -102,7 +108,7 @@ namespace NeeView
 
         // 現在ページ変更(ページ番号)
         // タイトル、スライダーの更新を要求
-        public event EventHandler<int> PageChanged;
+        public event EventHandler<PageChangedEventArgs> PageChanged;
 
         // 表示コンテンツ変更
         // 表示の更新を要求
@@ -178,7 +184,7 @@ namespace NeeView
                 if (_isSupportedDividePage != value)
                 {
                     _isSupportedDividePage = value;
-                    RequestReflesh(false);
+                    RequestReflesh(this, false);
                 }
             }
         }
@@ -193,7 +199,7 @@ namespace NeeView
                 if (_isSupportedSingleFirstPage != value)
                 {
                     _isSupportedSingleFirstPage = value;
-                    RequestReflesh(false);
+                    RequestReflesh(this, false);
                 }
             }
         }
@@ -208,7 +214,7 @@ namespace NeeView
                 if (_isSupportedSingleLastPage != value)
                 {
                     _isSupportedSingleLastPage = value;
-                    RequestReflesh(false);
+                    RequestReflesh(this, false);
                 }
             }
         }
@@ -223,7 +229,7 @@ namespace NeeView
                 if (_isSupportedWidePage != value)
                 {
                     _isSupportedWidePage = value;
-                    RequestReflesh(false);
+                    RequestReflesh(this, false);
                 }
             }
         }
@@ -239,7 +245,7 @@ namespace NeeView
                 if (_bookReadOrder != value)
                 {
                     _bookReadOrder = value;
-                    RequestReflesh(false);
+                    RequestReflesh(this, false);
                 }
             }
         }
@@ -269,7 +275,7 @@ namespace NeeView
                 if (_pageMode != value)
                 {
                     _pageMode = value;
-                    RequestReflesh(false);
+                    RequestReflesh(this, false);
                 }
             }
         }
@@ -284,7 +290,7 @@ namespace NeeView
                 if (_sortMode != value)
                 {
                     _sortMode = value;
-                    RequestSort();
+                    RequestSort(this);
                 }
             }
         }
@@ -296,7 +302,7 @@ namespace NeeView
             if (_sortMode != mode || mode == PageSortMode.Random)
             {
                 _sortMode = mode;
-                RequestSort();
+                RequestSort(this);
             }
         }
 
@@ -489,7 +495,7 @@ namespace NeeView
             Place = archiver.Path;
 
             // 初期ページ設定
-            RequestSetPosition(position, direction, true);
+            RequestSetPosition(this, position, direction, true);
         }
 
 
@@ -644,13 +650,13 @@ namespace NeeView
             _commandEngine.Initialize();
         }
 
-#endregion
+        #endregion
 
 
         // 廃棄処理
         public async Task DisposeAsync()
         {
-            var command = RequestDispose();
+            var command = RequestDispose(this);
             if (command == null) return;
 
             await command.WaitAsync();
@@ -660,26 +666,26 @@ namespace NeeView
         public void PrevPage(int step = 0)
         {
             var s = (step == 0) ? PageMode.Size() : step;
-            RequestMovePosition(-s);
+            RequestMovePosition(this, -s);
         }
 
         // 次のページへ進む
         public void NextPage(int step = 0)
         {
             var s = (step == 0) ? PageMode.Size() : step;
-            RequestMovePosition(+s);
+            RequestMovePosition(this, +s);
         }
 
         // 最初のページに移動
         public void FirstPage()
         {
-            RequestSetPosition(_firstPosition, 1, true);
+            RequestSetPosition(this, _firstPosition, 1, true);
         }
 
         // 最後のページに移動
         public void LastPage()
         {
-            RequestSetPosition(_lastPosition, -1, true);
+            RequestSetPosition(this, _lastPosition, -1, true);
         }
 
         // 指定ページに移動
@@ -689,14 +695,14 @@ namespace NeeView
             if (index >= 0)
             {
                 var position = new PagePosition(index, 0);
-                RequestSetPosition(position, 1, false);
+                RequestSetPosition(this, position, 1, false);
             }
         }
 
 
 
         // ページ指定移動
-        public void RequestSetPosition(PagePosition position, int direction, bool isPreLoad)
+        public void RequestSetPosition(object sender, PagePosition position, int direction, bool isPreLoad)
         {
             Debug.Assert(direction == 1 || direction == -1);
 
@@ -704,7 +710,7 @@ namespace NeeView
 
             DisplayIndex = position.Index;
 
-            var command = new BookCommandSetPage(this, new BookCommandSetPageArgs()
+            var command = new BookCommandSetPage(sender, this, new BookCommandSetPageArgs()
             {
                 Position = position,
                 Direction = direction,
@@ -715,11 +721,11 @@ namespace NeeView
         }
 
         // ページ相対移動
-        public void RequestMovePosition(int step)
+        public void RequestMovePosition(object sender, int step)
         {
             if (Place == null) return;
 
-            var command = new BookCommandMovePage(this, new BookCommandMovePageArgs()
+            var command = new BookCommandMovePage(sender, this, new BookCommandMovePageArgs()
             {
                 Step = step,
             });
@@ -728,11 +734,11 @@ namespace NeeView
         }
 
         // リフレッシュ
-        public void RequestReflesh(bool isClear)
+        public void RequestReflesh(object sender, bool isClear)
         {
             if (Place == null) return;
 
-            var command = new BookCommandReflesh(this, new BookCommandRefleshArgs()
+            var command = new BookCommandReflesh(sender, this, new BookCommandRefleshArgs()
             {
                 IsClear = isClear,
             });
@@ -740,20 +746,20 @@ namespace NeeView
         }
 
         // ソート
-        public void RequestSort()
+        public void RequestSort(object sender)
         {
             if (Place == null) return;
 
-            var command = new BookCommandSort(this, new BookCommandSortArgs());
+            var command = new BookCommandSort(sender, this, new BookCommandSortArgs());
             _commandEngine.Enqueue(command);
         }
 
         // ページ削除
-        public void RequestRemove(Page page)
+        public void RequestRemove(object sender, Page page)
         {
             if (Place == null) return;
 
-            var command = new BookCommandRemove(this, new BookCommandRemoveArgs()
+            var command = new BookCommandRemove(sender, this, new BookCommandRemoveArgs()
             {
                 Page = page,
             });
@@ -762,11 +768,11 @@ namespace NeeView
 
 
         // 終了処理
-        private BookCommand RequestDispose()
+        private BookCommand RequestDispose(object sender)
         {
             if (Place == null) return null;
 
-            var command = new BookCommandDispose(this, new BookCommandDisposeArgs());
+            var command = new BookCommandDispose(sender, this, new BookCommandDisposeArgs());
             _commandEngine.Enqueue(command);
 
             return command;
@@ -774,7 +780,7 @@ namespace NeeView
 
 
 
-#region Marker
+        #region Marker
 
         /// <summary>
         /// マーカー判定
@@ -822,7 +828,7 @@ namespace NeeView
         /// <param name="direction"></param>
         /// <param name="isLoop"></param>
         /// <returns></returns>
-        public bool RequestJumpToMarker(int direction, bool isLoop, bool isIncludeTerminal)
+        public bool RequestJumpToMarker(object sender, int direction, bool isLoop, bool isIncludeTerminal)
         {
             Debug.Assert(direction == 1 || direction == -1);
 
@@ -854,11 +860,11 @@ namespace NeeView
 
             if (target == null) return false;
 
-            RequestSetPosition(new PagePosition(target.Index, 0), direction, false);
+            RequestSetPosition(sender, new PagePosition(target.Index, 0), direction, false);
             return true;
         }
 
-#endregion
+        #endregion
 
 
 
@@ -893,6 +899,9 @@ namespace NeeView
         // 表示ページコンテキストのソース
         public class ViewPageContextSource
         {
+            // コマンド送信者
+            public object Sender { get; set; }
+
             public PagePosition Position { get; set; }
             public int Direction { get; set; } = 1;
             public int Size { get; set; }
@@ -944,7 +953,7 @@ namespace NeeView
         internal async Task Sort_Executed(BookCommandSortArgs param, CancellationToken token)
         {
             Sort();
-            RequestSetPosition(_firstPosition, 1, true);
+            RequestSetPosition(this, _firstPosition, 1, true);
             await Task.Yield();
         }
 
@@ -954,10 +963,11 @@ namespace NeeView
             await Task.Yield();
         }
 
-        internal async Task SetPage_Executed(BookCommandSetPageArgs param, CancellationToken token)
+        internal async Task SetPage_Executed(object sender, BookCommandSetPageArgs param, CancellationToken token)
         {
             var source = new ViewPageContextSource()
             {
+                Sender = sender,
                 Position = param.Position,
                 Direction = param.Direction,
                 Size = param.Size,
@@ -1149,6 +1159,9 @@ namespace NeeView
         {
             if (_isDisposed) return;
 
+            // command sender
+            var sender = _viewContextSource.Sender;
+
             // update contents
             var viewContent = CreateViewPageContext(_viewContextSource);
             if (viewContent == null) return;
@@ -1167,7 +1180,8 @@ namespace NeeView
             DisplayIndex = viewContent.Position.Index;
 
             // notice PropertyChanged
-            PageChanged?.Invoke(this, viewContent.Position.Index);
+            var args = new PageChangedEventArgs() { Index = viewContent.Position.Index, Sender = sender };
+            PageChanged?.Invoke(this, args);
 
             // コンテンツ準備完了
             ContentLoaded.Set();
@@ -1477,7 +1491,7 @@ namespace NeeView
             PageRemoved?.Invoke(this, page);
 
             index = ClampPageNumber(index);
-            RequestSetPosition(new PagePosition(index, 0), 1, true);
+            RequestSetPosition(this, new PagePosition(index, 0), 1, true);
         }
 
 
@@ -1491,12 +1505,12 @@ namespace NeeView
                 _keepPages.ForEach(e => e?.Unload());
             }
 
-            RequestSetPosition(_viewContext.Position, 1, true);
+            RequestSetPosition(this, _viewContext.Position, 1, true);
         }
 
 
 
-#region Memento
+        #region Memento
 
         /// <summary>
         /// 保存設定
@@ -1712,7 +1726,7 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 
 
     /// <summary>

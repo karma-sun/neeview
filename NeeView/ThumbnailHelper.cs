@@ -87,6 +87,7 @@ namespace NeeView
             else if (scrollUnit == ScrollUnit.Pixel)
             {
                 var itemHeight = (_listPanel.Children[0] as ListBoxItem).ActualHeight;
+                if (itemHeight <= 0.0) return; // 項目の準備ができていない？
                 start = (int)(_listPanel.VerticalOffset / itemHeight);
                 count = (int)(_listPanel.ViewportHeight / itemHeight) + 1;
             }

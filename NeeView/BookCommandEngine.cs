@@ -29,9 +29,15 @@ namespace NeeView
         /// <summary>
         /// construcotr
         /// </summary>
+        /// <param name="sender"></param>
         /// <param name="book"></param>
         /// <param name="priority"></param>
-        public BookCommand(Book book, int priority) { _book = book; Priority = priority; }
+        public BookCommand(object sender, Book book, int priority) { _sender = sender; _book = book; Priority = priority; }
+
+        /// <summary>
+        /// 送信者
+        /// </summary>
+        protected object _sender;
 
         /// <summary>
         /// コマンド優先度
@@ -41,8 +47,7 @@ namespace NeeView
         /// <summary>
         /// ターゲット
         /// </summary>
-        protected Book _book { get; private set; }
-
+        protected Book _book;
 
         //
         protected sealed override async Task ExecuteAsync(CancellationToken token)
@@ -84,7 +89,7 @@ namespace NeeView
     {
         private BookCommandDisposeArgs _param;
 
-        public BookCommandDispose(Book book, BookCommandDisposeArgs param) : base(book, 4)
+        public BookCommandDispose(object sender, Book book, BookCommandDisposeArgs param) : base(sender, book, 4)
         {
             _param = param;
         }
@@ -111,7 +116,7 @@ namespace NeeView
     {
         private BookCommandRemoveArgs _param;
 
-        public BookCommandRemove(Book book, BookCommandRemoveArgs param) : base(book, 3)
+        public BookCommandRemove(object sender, Book book, BookCommandRemoveArgs param) : base(sender, book, 3)
         {
             _param = param;
         }
@@ -137,7 +142,7 @@ namespace NeeView
     {
         private BookCommandSortArgs _param;
 
-        public BookCommandSort(Book book, BookCommandSortArgs param) : base(book, 2)
+        public BookCommandSort(object sender, Book book, BookCommandSortArgs param) : base(sender, book, 2)
         {
             _param = param;
         }
@@ -165,7 +170,7 @@ namespace NeeView
     {
         private BookCommandRefleshArgs _param;
 
-        public BookCommandReflesh(Book book, BookCommandRefleshArgs param) : base(book, 1)
+        public BookCommandReflesh(object sender, Book book, BookCommandRefleshArgs param) : base(sender, book, 1)
         {
             _param = param;
         }
@@ -195,14 +200,14 @@ namespace NeeView
     {
         private BookCommandSetPageArgs _param;
 
-        public BookCommandSetPage(Book book, BookCommandSetPageArgs param) : base(book, 0)
+        public BookCommandSetPage(object sender, Book book, BookCommandSetPageArgs param) : base(sender, book, 0)
         {
             _param = param;
         }
 
         protected override async Task OnExecuteAsync(CancellationToken token)
         {
-            await _book.SetPage_Executed(_param, token);
+            await _book.SetPage_Executed(_sender, _param, token);
         }
     }
 
@@ -230,7 +235,7 @@ namespace NeeView
     {
         private BookCommandMovePageArgs _param;
 
-        public BookCommandMovePage(Book book, BookCommandMovePageArgs param) : base(book, 0)
+        public BookCommandMovePage(object sender, Book book, BookCommandMovePageArgs param) : base(sender, book, 0)
         {
             _param = param;
         }

@@ -87,7 +87,46 @@ namespace NeeView
         // サムネイルリスト表示状態
         public Visibility ThumbnailListVisibility => this.BookOperation.GetPageCount() > 0 ? Visibility.Visible : Visibility.Collapsed;
 
-        public PageSlider PageSlider { get; private set; }
+
+        /// <summary>
+        /// IsSliderDirectionReversed property.
+        /// </summary>
+        public bool IsSliderDirectionReversed
+        {
+            get { return _isSliderDirectionReversed; }
+            set { if (_isSliderDirectionReversed != value) { _isSliderDirectionReversed = value; RaisePropertyChanged(); } }
+        }
+
+        private bool _isSliderDirectionReversed;
+
+
+        //
+        public event EventHandler PageNumberChanged;
+
+        /// <summary>
+        /// PageNumber property.
+        /// </summary>
+        public int PageNumber
+        {
+            get { return _PageNumber; }
+            set { if (_PageNumber != value) { _PageNumber = value; RaisePropertyChanged(); PageNumberChanged?.Invoke(this, null); } }
+        }
+
+        private int _PageNumber;
+
+
+        /// <summary>
+        /// MaxPageNumber property.
+        /// </summary>
+        public int MaxPageNumber
+        {
+            get { return _MaxPageNumber; }
+            set { if (_MaxPageNumber != value) { _MaxPageNumber = value; RaisePropertyChanged(); PageNumberChanged?.Invoke(this, null); } }
+        }
+
+        private int _MaxPageNumber;
+
+
         public BookOperation BookOperation { get; private set; }
         public BookHub BookHub { get; private set; }
 
@@ -96,11 +135,10 @@ namespace NeeView
         /// </summary>
         /// <param name="pageSlider"></param>
         /// <param name="bookHub"></param>
-        public ThumbnailList(PageSlider pageSlider, BookOperation bookOperation, BookHub bookHub)
+        public ThumbnailList(BookOperation bookOperation, BookHub bookHub)
         {
             Current = this;
 
-            this.PageSlider = pageSlider;
             this.BookOperation = bookOperation;
             this.BookHub = bookHub;
 

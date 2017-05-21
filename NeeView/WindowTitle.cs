@@ -124,7 +124,7 @@ namespace NeeView
                 string pageNum = (MainContent.Source.PartSize == 2)
                 ? (MainContent.Position.Index + 1).ToString()
                 : (MainContent.Position.Index + 1).ToString() + (MainContent.Position.Part == 1 ? ".5" : ".0");
-                _windowTitleFormatter.Set("$PageMax", (BookOperation.Current.IndexMax + 1).ToString());
+                _windowTitleFormatter.Set("$PageMax", (BookOperation.Current.GetMaxPageIndex() + 1).ToString());
                 _windowTitleFormatter.Set("$Page", pageNum);
 
                 string path0 = Contents[0].IsValid ? Contents[0].FullPath.Replace("/", " > ").Replace("\\", " > ") + Contents[0].GetPartString() : "";

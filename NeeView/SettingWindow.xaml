@@ -305,12 +305,12 @@
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="スライダーの方向"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding SliderDirectionList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewMemento.SliderDirection}" />
+                                  SelectedValue="{Binding Setting.Memento.PageSlider.SliderDirection}" />
                             </StackPanel>
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="ページ数表示位置"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding SliderIndexLayoutList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewMemento.SliderIndexLayout}" />
+                                  SelectedValue="{Binding Setting.Memento.PageSlider.SliderIndexLayout}" />
                             </StackPanel>
                             <!--
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転ツール表示"
@@ -325,18 +325,18 @@
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="スライダーでのリアルタイム変化はサムネイルリストにのみ適用"
                                       ToolTip="スライダーでサムネイルを選択し、決定した時に画像が切り替わります"
-                                      IsChecked="{Binding Setting.ViewMemento.IsSliderLinkedThumbnailList}"/>
+                                      IsChecked="{Binding Setting.Memento.PageSlider.IsSliderLinkedThumbnailList}"/>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ番号を表示する"
                                       ToolTip="サムネイルにページ番号を表示します"
-                                      IsChecked="{Binding Setting.ViewMemento.IsVisibleThumbnailNumber}"/>
+                                      IsChecked="{Binding Setting.Memento.ThumbnailList.IsVisibleThumbnailNumber}"/>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="背景を表示する"
                                       ToolTip="自動的に隠される設定の場合にサムネイルリストの背景を表示します"
-                                      IsChecked="{Binding Setting.ViewMemento.IsVisibleThumbnailPlate}"/>
+                                      IsChecked="{Binding Setting.Memento.ThumbnailList.IsVisibleThumbnailPlate}"/>
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="サムネイルサイズ"/>
-                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.ThumbnailSize}"
+                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.Memento.ThumbnailList.ThumbnailSize}"
                                     Minimum="64" Maximum="256" TickFrequency="16"/>
-                                <TextBlock Text="{Binding Setting.ViewMemento.ThumbnailSize, StringFormat={}{0}x{0}}"/>
+                                <TextBlock Text="{Binding Setting.Memento.ThumbnailList.ThumbnailSize, StringFormat={}{0}x{0}}"/>
                             </StackPanel>
                         </StackPanel>
 

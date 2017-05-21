@@ -982,7 +982,7 @@ namespace NeeView
             _models.BookOperation.UpdatePageList();
             UpdateLastFiles();
 
-            _models.BookOperation.UpdateIndex();
+            ////_models.BookOperation.UpdateIndex();
 
             if (BookHub.Current == null)
             {

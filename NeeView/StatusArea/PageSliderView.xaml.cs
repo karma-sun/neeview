@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,8 +55,6 @@ namespace NeeView
             DependencyProperty.Register("FocusTo", typeof(UIElement), typeof(PageSliderView), new PropertyMetadata(null));
 
 
-
-
         // 
         private PageSliderViewModel _vm;
 
@@ -68,14 +67,6 @@ namespace NeeView
             InitializeComponent();
         }
 
-        //
-        /*
-        public PageSliderView(PageSlider model, UIElement focusTo) : this()
-        {
-            this.Source = model;
-            this.FocusTo = focusTo;
-        }
-        */
 
         //
         public void Initialize()
@@ -87,20 +78,24 @@ namespace NeeView
 
             // マーカー初期化
             this.PageMarkers.Initialize(_vm.Model.BookHub);
+
+            // 
+            _vm.Model.AddPropertyChanged(nameof(PageSlider.IsSliderDirectionReversed), Model_IsSliderDirectionReversedChanged);
         }
 
-        //
-        public void OnIsSliderDirectionReversedChanged()
+
+        // スライダーの方向切替反映
+        public void Model_IsSliderDirectionReversedChanged(object sender, PropertyChangedEventArgs e)
         {
             // Retrieve the Track from the Slider control
             var track = this.Slider.Template.FindName("PART_Track", this.Slider) as System.Windows.Controls.Primitives.Track;
             // Force it to rerender
             track.InvalidateVisual();
 
+            // TODO: マーカーへの伝達方法
             this.PageMarkers.IsSliderDirectionReversed = _vm.Model.IsSliderDirectionReversed;
         }
-
-
+        
 
         /// <summary>
         /// スライダーエリアでのマウスホイール操作
@@ -109,48 +104,19 @@ namespace NeeView
         /// <param name="e"></param>
         private void SliderArea_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            int turn = MouseInputHelper.DeltaCount(e);
-
-            for (int i = 0; i < turn; ++i)
-            {
-                if (e.Delta < 0)
-                {
-                    _vm.Model.BookHub.NextPage();
-                }
-                else
-                {
-                    _vm.Model.BookHub.PrevPage();
-                }
-            }
+            _vm.MouseWheel(sender, e);
         }
 
-        // スライダーに乗ったら表示開始
-        private void PageSlider_MouseEnter(object sender, MouseEventArgs e)
-        {
-            // nop.
-        }
         //
-        private void PageSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            // nop.
-        }
-
         private void PageSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_vm.CanSliderLinkedThumbnailList)
-            {
-                BookOperation.Current.SetIndex(BookOperation.Current.Index);
-            }
+            _vm.Decide(false);
         }
 
-        private void PageSlider_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            // nop.
-        }
-
+        //
         private void PageSliderTextBox_ValueChanged(object sender, EventArgs e)
         {
-            BookOperation.Current.SetIndex(BookOperation.Current.Index);
+            _vm.Decide(true);
         }
 
 

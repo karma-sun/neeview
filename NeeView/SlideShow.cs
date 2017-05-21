@@ -73,9 +73,8 @@ namespace NeeView
             _timer.Interval = TimeSpan.FromSeconds(_maxTimerTick);
             _timer.Tick += new EventHandler(DispatcherTimer_Tick);
 
-            // 
-            bookOperation.AddPropertyChanged(nameof(bookOperation.Index),
-                (s, e) => ResetTimer());
+            bookOperation.PageChanged +=
+                (s, e) => ResetTimer();
 
             //
             mouseInput.MouseMoved +=

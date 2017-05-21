@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -64,6 +65,8 @@ namespace NeeView
         private void Initialize()
         {
             _vm = new ThumbnailListViewModel(this.Source);
+            _vm.Model.AddPropertyChanged(nameof(ThumbnailList.PageNumber), (s, e) => DartyThumbnailList());
+
             this.Root.DataContext = _vm;
         }
 
@@ -104,7 +107,7 @@ namespace NeeView
         //
         public void UpdateThumbnailList()
         {
-            UpdateThumbnailList(BookOperation.Current.Index, BookOperation.Current.IndexMax);
+            App.Current?.Dispatcher.Invoke(() => UpdateThumbnailList(_vm.Model.PageNumber, _vm.Model.MaxPageNumber));
         }
 
 
@@ -182,7 +185,7 @@ namespace NeeView
         {
             if (e.AddedItems.Count <= 0)
             {
-                this.ThumbnailListBox.SelectedIndex = BookOperation.Current.Index;
+                this.ThumbnailListBox.SelectedIndex = _vm.Model.PageNumber;
                 return;
             }
 

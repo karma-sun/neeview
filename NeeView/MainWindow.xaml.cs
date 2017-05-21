@@ -249,12 +249,6 @@ namespace NeeView
 
             // VM NotifyPropertyChanged Hook
 
-            PageSlider.Current.AddPropertyChanged(nameof(PageSlider.IsSliderDirectionReversed),
-                (s, e) =>
-                {
-                    this.SliderArea.OnIsSliderDirectionReversedChanged();
-                });
-
             _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.IsLoupeCenter),
                 (s, e) =>
                 {
@@ -366,9 +360,11 @@ namespace NeeView
 
             //
             BookOperation.Current.AddPropertyChanged(nameof(BookOperation.PageList), OnPageListChanged);
-            BookOperation.Current.AddPropertyChanged(nameof(BookOperation.Index), OnIndexChanged);
+            ////BookOperation.Current.AddPropertyChanged(nameof(BookOperation.Index), OnIndexChanged);
         }
 
+
+        /*
         // TODO: 直接のThumbnailListArea操作はよくない。モデル経由で。
         private void OnIndexChanged(object sender, EventArgs e)
         {
@@ -377,8 +373,9 @@ namespace NeeView
                 this.ThumbnailListArea.DartyThumbnailList();
             });
         }
+        */
 
-        //
+        // TODO: 直接のThumbnailListArea操作はよくない。モデル経由で。
         private void OnPageListChanged(object sender, EventArgs e)
         {
             App.Current?.Dispatcher.Invoke(() =>

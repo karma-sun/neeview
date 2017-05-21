@@ -163,7 +163,7 @@ namespace NeeView
         public event EventHandler<BookMementoType> BookChanged;
 
         // ページ番号の変更通知
-        public event EventHandler<int> PageChanged;
+        public event EventHandler<PageChangedEventArgs> PageChanged;
 
         // 設定の変更通知
         public event EventHandler<string> SettingChanged;
@@ -234,7 +234,7 @@ namespace NeeView
                 if (Page.IsEnableAnimatedGif != value)
                 {
                     Page.IsEnableAnimatedGif = value;
-                    CurrentBook?.RequestReflesh(true); // 表示更新
+                    CurrentBook?.RequestReflesh(this, true); // 表示更新
                 }
             }
         }
@@ -250,7 +250,7 @@ namespace NeeView
                 if (BitmapContent.IsEnableExif != value)
                 {
                     BitmapContent.IsEnableExif = value;
-                    CurrentBook?.RequestReflesh(true); // 表示更新
+                    CurrentBook?.RequestReflesh(this, true); // 表示更新
                 }
             }
         }
@@ -1567,7 +1567,7 @@ namespace NeeView
             // ページを本から削除
             if (isRemoved == true && CurrentBook != null)
             {
-                CurrentBook.RequestRemove(page);
+                CurrentBook.RequestRemove(this, page);
             }
         }
 

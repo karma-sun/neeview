@@ -84,8 +84,8 @@ namespace NeeView
             this.SlideShow = new SlideShow(this.BookHub, this.BookOperation, this.MouseInput);
             this.WindowTitle = new WindowTitle(this.ContentCanvas, this.ContentCanvasTransform);
 
-            this.PageSlider = new PageSlider(this.BookOperation, this.BookHub);
-            this.ThumbnailList = new ThumbnailList(this.PageSlider, this.BookOperation, this.BookHub);
+            this.ThumbnailList = new ThumbnailList(this.BookOperation, this.BookHub);
+            this.PageSlider = new PageSlider(this.BookOperation, this.BookHub, this.ThumbnailList);
 
             this.FolderPanelModel = new FolderPanelModel();
             this.FolderList = new FolderList(this.BookHub, this.FolderPanelModel);

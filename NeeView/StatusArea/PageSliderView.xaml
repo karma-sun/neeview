@@ -27,10 +27,8 @@
             </local:SliderTextBox>
             <Grid Height="18">
                 <local:PageMarkers x:Name="PageMarkers" IsHitTestVisible="False" Margin="0,-2,0,2"/>
-                <Slider DockPanel.Dock="Bottom" x:Name="Slider" Height="18" Maximum="{Binding Model.BookOperation.IndexMax}" Value="{Binding Model.BookOperation.Index}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding Model.IsSliderDirectionReversed}" Focusable="False"
+                <Slider DockPanel.Dock="Bottom" x:Name="Slider" Height="18" Maximum="{Binding Model.MaxPageNumber}" Value="{Binding Model.PageNumber}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding Model.IsSliderDirectionReversed}" Focusable="False"
                                     local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=FocusTo}"
-                                    ValueChanged="PageSlider_ValueChanged"
-                                    PreviewMouseLeftButtonDown="PageSlider_PreviewMouseLeftButtonDown"  
                                     PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp">
                 </Slider>
             </Grid>

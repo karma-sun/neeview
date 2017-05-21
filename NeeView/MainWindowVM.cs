@@ -1700,32 +1700,19 @@ namespace NeeView
             private void Constructor()
             {
                 _Version = App.Config.ProductVersionNumber;
-                ////IsLimitMove = true; // no used.
                 NoticeShowMessageStyle = ShowMessageStyle.Normal;
-                ////CommandShowMessageStyle = ShowMessageStyle.Normal; // no used.
                 GestureShowMessageStyle = ShowMessageStyle.Normal;
                 NowLoadingShowMessageStyle = ShowMessageStyle.Normal;
-                ////ViewTransformShowMessageStyle = ShowMessageStyle.None;
-                ////StretchMode = PageStretchMode.Uniform;
                 Background = BackgroundStyle.Black;
                 PanelColor = PanelColor.Dark;
-                ////WindowTitleFormat1 = WindowTitle.WindowTitleFormat1Default; // no used.
-                ////WindowTitleFormat2 = WindowTitle.WindowTitleFormat2Default; // no used.
                 IsSaveWindowPlacement = true;
                 IsHidePanelInFullscreen = true;
-                ////IsVisibleTitleBar = true; // no used
                 ContextMenuSetting = new ContextMenuSetting();
-                ////ThumbnailSize = 96;
-                ////IsSliderLinkedThumbnailList = true;
                 IsAutoGC = true;
-                ////IsVisibleThumbnailPlate = true;
-                ////ContentsSpace = -1.0;
                 LongLeftButtonDownMode = LongButtonDownMode.Loupe;
                 IsDisableMultiBoot = true;
-                ////SliderDirection = SliderDirection.RightToLeft;
                 IsVisibleWindowTitle = true;
                 IsVisibleLoupeInfo = true;
-                ////SliderIndexLayout = SliderIndexLayout.Right;
                 CustomBackground = new BrushSource();
             }
 
@@ -1776,53 +1763,28 @@ namespace NeeView
 
             memento._Version = App.Config.ProductVersionNumber;
 
-            ////memento.IsLimitMove = this.IsLimitMove;
-            ////memento.IsControlCenterImage = this.IsControlCenterImage;
-            ////memento.AngleFrequency = this.AngleFrequency;
-            ////memento.IsViewStartPositionCenter = this.IsViewStartPositionCenter;
-            ////memento.StretchMode = this.StretchMode;
             memento.CustomBackground = this.CustomBackground;
             memento.Background = this.Background;
             memento.NoticeShowMessageStyle = this.NoticeShowMessageStyle;
-            ////memento.CommandShowMessageStyle = ShowMessageStyle.None; // no used.
             memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
             memento.NowLoadingShowMessageStyle = this.NowLoadingShowMessageStyle;
-            ////memento.ViewTransformShowMessageStyle = this.ViewTransformShowMessageStyle;
-            ////memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
-            ////memento.IsKeepScale = this.IsKeepScale;
-            ////memento.IsKeepAngle = this.IsKeepAngle;
-            ////memento.IsKeepFlip = this.IsKeepFlip;
             memento.IsDisableMultiBoot = this.IsDisableMultiBoot;
             memento.IsAutoPlaySlideShow = this.IsAutoPlaySlideShow;
             memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
             memento.IsHideMenu = this.IsHideMenu;
             memento.IsHidePageSlider = this.IsHidePageSlider;
-            ////memento.IsVisibleTitleBar = false; // no used.
             memento.IsSaveFullScreen = this.IsSaveFullScreen;
             memento.UserDownloadPath = this.UserDownloadPath;
             memento.PanelColor = this.PanelColor;
-            ////memento.WindowTitleFormat1 = this.WindowTitleFormat1;
-            ////memento.WindowTitleFormat2 = this.WindowTitleFormat2;
             memento.IsVisibleAddressBar = this.IsVisibleAddressBar;
             memento.IsHidePanel = this.IsHidePanel;
             memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
             memento.ContextMenuSetting = this.ContextMenuSetting.Clone();
-            ////memento.IsEnableThumbnailList = this.IsEnableThumbnailList;
-            ////memento.IsHideThumbnailList = this.IsHideThumbnailList;
-            ////memento.ThumbnailSize = this.ThumbnailSize;
-            ////memento.IsSliderLinkedThumbnailList = this.IsSliderLinkedThumbnailList;
-            ////memento.IsVisibleThumbnailNumber = this.IsVisibleThumbnailNumber;
             memento.IsAutoGC = this.IsAutoGC;
-            ////memento.IsVisibleThumbnailPlate = this.IsVisibleThumbnailPlate;
-            ////memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
-            ////memento.ContentsSpace = this.ContentsSpace;
             memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
-            ////memento.SliderDirection = this.SliderDirection;
-            ////memento.IsAutoRotate = this.IsAutoRotate;
             memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
             memento.IsVisibleLoupeInfo = this.IsVisibleLoupeInfo;
             memento.IsLoupeCenter = this.IsLoupeCenter;
-            ////memento.SliderIndexLayout = this.SliderIndexLayout;
 
             return memento;
         }
@@ -1830,21 +1792,11 @@ namespace NeeView
         //
         public void Restore(Memento memento)
         {
-            ////this.IsLimitMove = memento.IsLimitMove;
-            ////this.IsControlCenterImage = memento.IsControlCenterImage;
-            ////this.AngleFrequency = memento.AngleFrequency;
-            ////this.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
-            ////this.StretchMode = memento.StretchMode;
             this.CustomBackground = memento.CustomBackground;
             this.Background = memento.Background;
             this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
             this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
             this.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
-            ////this.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
-            ////this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
-            ////this.IsKeepScale = memento.IsKeepScale;
-            ////this.IsKeepAngle = memento.IsKeepAngle;
-            ////this.IsKeepFlip = memento.IsKeepFlip;
             this.IsDisableMultiBoot = memento.IsDisableMultiBoot;
             this.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
             this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
@@ -1854,30 +1806,14 @@ namespace NeeView
             this.UserDownloadPath = memento.UserDownloadPath;
             this.PanelColor = memento.PanelColor;
             this.IsHidePanel = memento.IsHidePanel;
-            ////this.WindowTitleFormat1 = memento.WindowTitleFormat1;
-            ////this.WindowTitleFormat2 = memento.WindowTitleFormat2;
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
             this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
             this.ContextMenuSetting = memento.ContextMenuSetting.Clone();
-            ////this.IsEnableThumbnailList = memento.IsEnableThumbnailList;
-            ////this.IsHideThumbnailList = memento.IsHideThumbnailList;
-            ////this.ThumbnailSize = memento.ThumbnailSize;
-            ////this.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
-            ////this.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
             this.IsAutoGC = memento.IsAutoGC;
-            ////this.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
-            ////this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-            ////this.ContentsSpace = memento.ContentsSpace;
             this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
-            ////this.SliderDirection = memento.SliderDirection;
-            ////this.IsAutoRotate = memento.IsAutoRotate;
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
             this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
             this.IsLoupeCenter = memento.IsLoupeCenter;
-            ////this.SliderIndexLayout = memento.SliderIndexLayout;
-
-            ////ViewChanged?.Invoke(this, new ViewChangeArgs() { ResetViewTransform = true });
-            ////UpdateContentSize();
 
             // compatible before ver.22
             if (memento.FileInfoSetting != null)

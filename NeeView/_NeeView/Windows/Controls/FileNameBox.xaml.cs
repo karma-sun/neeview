@@ -233,25 +233,4 @@ namespace NeeView.Windows.Controls
         }
     }
 
-    //
-    [System.Windows.Data.ValueConversion(typeof(bool), typeof(Visibility))]
-    public class NotBoolToVisiblityConverter : System.Windows.Data.IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if ((bool)value)
-            {
-                return Visibility.Hidden;
-            }
-            else
-            {
-                return Visibility.Visible;
-            }
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

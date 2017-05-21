@@ -119,6 +119,33 @@
     <Compile Include="BookHubCommandEngine.cs" />
     <Compile Include="ContentCanvas.cs" />
     <Compile Include="ContentCanvasTransform.cs" />
+    <Compile Include="Converters\ApiVersionToApiTextConverter.cs" />
+    <Compile Include="Converters\BackgroundStyleToBooleanConverter.cs" />
+    <Compile Include="Converters\BannerSizeConverter.cs" />
+    <Compile Include="Converters\BookMementoToTooltipConverter.cs" />
+    <Compile Include="Converters\BookReadOrderToBooleanConverter.cs" />
+    <Compile Include="Converters\BooleanReverseConverter.cs" />
+    <Compile Include="Converters\DpiScaleXInverseConverter.cs" />
+    <Compile Include="Converters\DpiScaleYInverseConverter.cs" />
+    <Compile Include="Converters\DragActionTypeToTipsConverter.cs" />
+    <Compile Include="Converters\EnumToBooleanConverter.cs" />
+    <Compile Include="Converters\FileSizeToStringConverter.cs" />
+    <Compile Include="Converters\FolderOrderToBooleanConverter.cs" />
+    <Compile Include="Converters\FullPathToFileNameConverter.cs" />
+    <Compile Include="Converters\IsGreaterThanConverter.cs" />
+    <Compile Include="Converters\IsLessThanConverter.cs" />
+    <Compile Include="Converters\IsNearZeroConverter.cs" />
+    <Compile Include="Converters\IsNullConverter.cs" />
+    <Compile Include="Converters\LongButtonDownModeToTipsConverter.cs" />
+    <Compile Include="Converters\MouseGestureToDispTextConverter.cs" />
+    <Compile Include="Converters\NullableToVisibilityConverter.cs" />
+    <Compile Include="Converters\PageModeToBooleanConverter.cs" />
+    <Compile Include="Converters\SliderDirectionToFlowDirectionConverter.cs" />
+    <Compile Include="Converters\SortModeToBooleanConverter.cs" />
+    <Compile Include="Converters\SortModeToStringConverter.cs" />
+    <Compile Include="Converters\SortModeToVisibilityConverter.cs" />
+    <Compile Include="Converters\StretchModeToBooleanConverter.cs" />
+    <Compile Include="Converters\_Converters.cs" />
     <Compile Include="StatusArea\PageSlider.cs" />
     <Compile Include="StatusArea\PageSliderView.xaml.cs">
       <DependentUpon>PageSliderView.xaml</DependentUpon>
@@ -128,7 +155,6 @@
       <DependentUpon>BookmarkListBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="BookOperation.cs" />
-    <Compile Include="Converters.cs" />
     <Compile Include="DelayVisibility.cs" />
     <Compile Include="SidePanels\FolderList\PageListBox.xaml.cs">
       <DependentUpon>PageListBox.xaml</DependentUpon>

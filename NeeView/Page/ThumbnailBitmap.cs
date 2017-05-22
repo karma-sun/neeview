@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,18 +12,8 @@ namespace NeeView
     /// <summary>
     /// Thumbnail の BitmapSource化
     /// </summary>
-    public class ThumbnailBitmap : INotifyPropertyChanged, IDisposable
+    public class ThumbnailBitmap : BindableBase, IDisposable
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
         /// <summary>
         /// BitmapSource property.
         /// </summary>

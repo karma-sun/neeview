@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System.ComponentModel;
 using System.Windows.Media;
 
@@ -11,18 +12,8 @@ namespace NeeView
     /// <summary>
     /// BackgroundSettingWindow ViewModel
     /// </summary>
-    public class BackgroundSettingWindowViewModel : INotifyPropertyChanged
+    public class BackgroundSettingWindowViewModel : BindableBase
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
         /// <summary>
         /// BackBrush property.
         /// </summary>

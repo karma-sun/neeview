@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,18 +18,8 @@ namespace NeeView
     /// テーブル値 基底
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    abstract public class IndexValue<T> : INotifyPropertyChanged
+    abstract public class IndexValue<T> : BindableBase
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
         //
         public event EventHandler<ValueChangedEventArgs<T>> ValueChanged;
 

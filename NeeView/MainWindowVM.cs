@@ -956,7 +956,7 @@ namespace NeeView
 
             App.Current?.Dispatcher.Invoke(() => _models.InfoMessage.SetMessage(NoticeShowMessageStyle, title, null, 2.0, bookmarkType));
 
-            _models.BookOperation.UpdatePageList();
+            ////_models.BookOperation.UpdatePageList();
             UpdateLastFiles();
 
             ////_models.BookOperation.UpdateIndex();

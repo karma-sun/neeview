@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using NeeView.Effects;
 using NeeView.Windows.Controls;
 using System;
@@ -19,20 +20,8 @@ namespace NeeView
     /// <summary>
     /// ImageEffect : Panel
     /// </summary>
-    public class ImageEffectPanel : IPanel, INotifyPropertyChanged
+    public class ImageEffectPanel : BindableBase, IPanel
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        //
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-
         public string TypeCode => nameof(ImageEffectPanel);
 
         public ImageSource Icon { get; private set; }

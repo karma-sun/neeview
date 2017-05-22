@@ -40,18 +40,8 @@ namespace NeeView
     /// <summary>
     /// マウスジェスチャー
     /// </summary>
-    public class MouseInputGesture : MouseInputBase, INotifyPropertyChanged
+    public class MouseInputGesture : MouseInputBase
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
         /// <summary>
         /// ジェスチャー進捗通知
         /// </summary>

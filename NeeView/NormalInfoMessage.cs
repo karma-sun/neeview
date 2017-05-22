@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System.ComponentModel;
 
 namespace NeeView
@@ -10,22 +11,8 @@ namespace NeeView
     /// <summary>
     /// 画面に表示する通知：通常
     /// </summary>
-    public class NormalInfoMessage : INotifyPropertyChanged
+    public class NormalInfoMessage : BindableBase
     {
-        #region PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
-        {
-            PropertyChanged += (s, e) => { if (e.PropertyName == propertyName) handler?.Invoke(s, e); };
-        }
-        #endregion
-
         /// <summary>
         /// BookMementoIcon property.
         /// </summary>

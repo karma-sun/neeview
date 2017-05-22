@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,18 +31,8 @@ namespace NeeView
     /// 単色ブラシ、画像タイルブラシ対応
     /// </summary>
     [DataContract]
-    public class BrushSource : INotifyPropertyChanged
+    public class BrushSource : BindableBase
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
         /// <summary>
         /// BackgroundBrushType property.
         /// </summary>
@@ -197,7 +188,7 @@ namespace NeeView
         public BrushSource Clone()
         {
             var clone = (BrushSource)MemberwiseClone();
-            clone.PropertyChanged = null;
+            clone.ResetPropertyChanged();
             return clone;
         }
     }

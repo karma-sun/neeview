@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -105,17 +106,8 @@ namespace NeeView
     /// <summary>
     /// PageMakers ViewModel
     /// </summary>
-    public class PageMarkersVM : INotifyPropertyChanged
+    public class PageMarkersVM : BindableBase
     {
-        #region NotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-        #endregion
-
         private Canvas _canvas;
 
         #region Property: BookHub

@@ -5,6 +5,7 @@
 
 using NeeView.ComponentModel;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
@@ -70,10 +71,6 @@ namespace NeeView
         // ページ番号の表示
         // TODO: Converterで
         public Visibility ThumbnailNumberVisibility => IsVisibleThumbnailNumber ? Visibility.Visible : Visibility.Collapsed;
-
-        // サムネイル項目の高さ
-        // TODO: 使ってる？
-        ////public double ThumbnailItemHeight => ThumbnailSize + (IsVisibleThumbnailNumber ? 16 : 0) + 16;
 
         // サムネイル台紙の表示
         private bool _isVisibleThumbnailPlate = true;
@@ -149,13 +146,9 @@ namespace NeeView
                 OnBookChanged;
         }
 
-        private bool _isBookChanging;
-
         // 本が変更される
         private void OnBookChanging(object sender, EventArgs e)
         {
-            _isBookChanging = true;
-
             // 未処理のサムネイル要求を解除
             ModelContext.JobEngine.Clear(QueueElementPriority.PageThumbnail);
         }
@@ -163,8 +156,6 @@ namespace NeeView
         // 本が変更された
         private void OnBookChanged(object sender, BookMementoType bookmarkType)
         {
-            _isBookChanging = false;
-
             RaisePropertyChanged(nameof(ThumbnailListVisibility));
         }
 
@@ -180,7 +171,9 @@ namespace NeeView
             if (!IsEnableThumbnailList) return;
 
             // 本の切り替え中は処理しない
-            if (_isBookChanging) return;
+            if (!this.BookOperation.IsEnabled) return;
+
+            Debug.WriteLine("> RequestThumbnail");
 
             // 未処理の要求を解除
             ModelContext.JobEngine.Clear(QueueElementPriority.PageThumbnail);
@@ -197,9 +190,7 @@ namespace NeeView
                 page.LoadThumbnail(QueueElementPriority.PageThumbnail);
             }
         }
-
-
-
+        
 
         #region Memento
         [DataContract]

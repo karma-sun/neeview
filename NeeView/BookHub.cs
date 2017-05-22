@@ -693,12 +693,14 @@ namespace NeeView
                 // Load本体
                 await LoadAsyncCore(place, startEntry ?? setting.Page, args.Option, setting, unit, token);
 
+                // Now Loading OFF
+                NotifyLoading(null);
+
                 // ビュー初期化
                 App.Current?.Dispatcher.Invoke(() => CommandTable.Current[CommandType.ViewReset].Execute(this, null));
 
                 // 本の設定を退避
                 App.Current?.Dispatcher.Invoke(() => SettingChanged?.Invoke(this, null));
-
 
                 // 本の変更通知
                 App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookUnit.BookMementoType));

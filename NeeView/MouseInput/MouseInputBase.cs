@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -132,7 +133,7 @@ namespace NeeView
     /// <summary>
     /// マウス入力処理既定クラス
     /// </summary>
-    public abstract class MouseInputBase
+    public abstract class MouseInputBase : BindableBase
     {
         /// <summary>
         /// 状態遷移通知

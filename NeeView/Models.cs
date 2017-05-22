@@ -1,4 +1,5 @@
-﻿using NeeView.Effects;
+﻿using NeeView.ComponentModel;
+using NeeView.Effects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,14 +15,10 @@ namespace NeeView
     /// NeeView全体のモデル。
     /// 各Modelのインスタンスを管理する。
     /// </summary>
-    public class Models : INotifyPropertyChanged, IEngine
+    public class Models : BindableBase, IEngine
     {
         // System Object
         public static Models Current { get; private set; }
-
-        // PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         //
         public CommandTable CommandTable { get; private set; }

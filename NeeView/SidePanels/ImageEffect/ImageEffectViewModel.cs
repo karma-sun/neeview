@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using NeeView.Effects;
 using System.ComponentModel;
 
@@ -11,12 +12,8 @@ namespace NeeView
     /// <summary>
     /// ImageEffect : ViewModel
     /// </summary>
-    public class ImageEffectViewModel : INotifyPropertyChanged
+    public class ImageEffectViewModel : BindableBase
     {
-        // PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
         /// <summary>
         /// Model property.
         /// </summary>

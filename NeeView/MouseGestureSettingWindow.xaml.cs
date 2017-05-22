@@ -1,4 +1,5 @@
-﻿using NeeView.Windows.Input;
+﻿using NeeView.ComponentModel;
+using NeeView.Windows.Input;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -55,17 +56,8 @@ namespace NeeView
     /// <summary>
     /// MouseGestureSetting ViewModel
     /// </summary>
-    public class MouseGestureSettingViewModel : INotifyPropertyChanged
+    public class MouseGestureSettingViewModel : BindableBase
     {
-        #region NotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-        #endregion
-
         //
         private MouseGestureSettingContext _context;
 

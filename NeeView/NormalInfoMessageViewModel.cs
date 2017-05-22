@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -12,24 +13,8 @@ namespace NeeView
     /// <summary>
     /// NormalInfoMessage : ViewModel
     /// </summary>
-    public class NormalInfoMessageViewModel : INotifyPropertyChanged
+    public class NormalInfoMessageViewModel : BindableBase
     {
-        #region PropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
-        {
-            PropertyChanged += (s, e) => { if (e.PropertyName == propertyName) handler?.Invoke(s, e); };
-        }
-
-        #endregion
-
         /// <summary>
         /// ChangeCount property.
         /// 表示の更新通知に利用される。

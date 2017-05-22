@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using NeeView.Windows.Controls;
 using System;
 using System.Collections.Generic;
@@ -16,20 +17,8 @@ using System.Windows.Media;
 
 namespace NeeView
 {
-    public class PagemarkPanel : IPanel, INotifyPropertyChanged
+    public class PagemarkPanel : BindableBase, IPanel
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        //
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-
         public string TypeCode => nameof(PagemarkPanel);
 
         public ImageSource Icon { get; private set; }

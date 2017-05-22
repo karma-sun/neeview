@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,19 +16,8 @@ namespace NeeView
     /// SidePanelFrame Model
     /// 左右のパネルを管理
     /// </summary>
-    public class SidePanelFrameModel : INotifyPropertyChanged
+    public class SidePanelFrameModel : BindableBase
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-
         /// <summary>
         /// IsSideBarVisible property.
         /// </summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -28,17 +29,8 @@ namespace NeeView
     /// <summary>
     /// 
     /// </summary>
-    public class InputGestureSettingWindowVM : INotifyPropertyChanged
+    public class InputGestureSettingWindowVM : BindableBase
     {
-        #region NotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-        #endregion
-
         // すべてのコマンドのショートカット
         private Dictionary<CommandType, string> _sources;
 

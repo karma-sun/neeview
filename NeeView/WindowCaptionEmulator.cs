@@ -5,6 +5,7 @@
 
 // from http://stackoverflow.com/questions/11703833/dragmove-and-maximize
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,23 +20,8 @@ namespace NeeView
     /// <summary>
     /// ウィンドウキャプションのマウス操作エミュレート
     /// </summary>
-    public class WindowCaptionEmulator : INotifyPropertyChanged
+    public class WindowCaptionEmulator : BindableBase
     {
-        #region PropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
-        {
-            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
-        }
-
-        #endregion
-
         /// <summary>
         /// 対象ウィンドウ
         /// </summary>

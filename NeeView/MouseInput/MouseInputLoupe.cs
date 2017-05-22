@@ -16,19 +16,8 @@ namespace NeeView
     /// <summary>
     /// マウスルーペ
     /// </summary>
-    public class MouseInputLoupe : MouseInputBase, INotifyPropertyChanged
+    public class MouseInputLoupe : MouseInputBase 
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-
         /// <summary>
         /// 角度、スケール変更イベント
         /// </summary>

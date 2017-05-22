@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,18 +21,8 @@ namespace NeeView
     /// サムネイル.
     /// Jpegで保持し、必要に応じてBitmapSourceを生成
     /// </summary>
-    public class Thumbnail : INotifyPropertyChanged, IDisposable
+    public class Thumbnail : BindableBase, IDisposable
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
         /// <summary>
         /// 画像サイズ
         /// </summary>
@@ -250,7 +241,7 @@ namespace NeeView
             _image = null;
             Changed = null;
             Touched = null;
-            PropertyChanged = null;
+            ResetPropertyChanged();
         }
 
 

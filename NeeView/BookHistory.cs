@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,20 +21,8 @@ namespace NeeView
     /// <summary>
     /// 履歴
     /// </summary>
-    public class BookHistory : INotifyPropertyChanged
+    public class BookHistory : BindableBase
     {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
         // 履歴変更イベント
         public event EventHandler<BookMementoCollectionChangedArgs> HistoryChanged;
 
@@ -359,17 +348,8 @@ namespace NeeView
         /// 履歴Memento
         /// </summary>
         [DataContract]
-        public class Memento : INotifyPropertyChanged
+        public class Memento : BindableBase
         {
-            #region NotifyPropertyChanged
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
-            #endregion
-
             [DataMember]
             public int _Version { get; set; }
 

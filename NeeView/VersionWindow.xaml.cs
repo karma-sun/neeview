@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using NeeView.ComponentModel;
 
 namespace NeeView
 {
@@ -80,20 +81,8 @@ namespace NeeView
     /// <summary>
     /// VersionWindow の ViewModel
     /// </summary>
-    public class VersionWindowVM : INotifyPropertyChanged
+    public class VersionWindowVM : BindableBase
     {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
         public string LicenseUri { get; private set; }
         public string ProjectUri => "https://bitbucket.org/neelabo/neeview/";
         public string ChangeLogUri => "https://bitbucket.org/neelabo/neeview/wiki/ChangeLog";
@@ -115,20 +104,8 @@ namespace NeeView
     /// <summary>
     /// バージョンチェッカー
     /// </summary>
-    public class VersionChecker : INotifyPropertyChanged
+    public class VersionChecker : BindableBase
     {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
 #if DEBUG
         public string DownloadUri => "https://neelabo.bitbucket.io/NeeViewUpdateCheck.html";
 #else

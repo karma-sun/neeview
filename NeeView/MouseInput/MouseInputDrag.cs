@@ -79,24 +79,11 @@ namespace NeeView
     /// <summary>
     /// ドラッグ操作
     /// </summary>
-    public class MouseInputDrag : MouseInputBase, INotifyPropertyChanged
+    public class MouseInputDrag : MouseInputBase 
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-
         // 角度、スケール変更イベント
         public event EventHandler<TransformEventArgs> TransformChanged;
-
-
-
+        
         // 移動アニメーション有効フラグ(内部管理)
         private bool _isEnableTranslateAnimation;
 

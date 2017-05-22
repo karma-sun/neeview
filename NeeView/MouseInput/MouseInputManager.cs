@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -64,22 +65,12 @@ namespace NeeView
     /// <summary>
     /// MouseInputManager
     /// </summary>
-    public class MouseInputManager : INotifyPropertyChanged
+    public class MouseInputManager : BindableBase
     {
         /// <summary>
         /// システムオブジェクト
         /// </summary>
         public static MouseInputManager Current { get; set; }
-
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
 
 
         private FrameworkElement _sender;

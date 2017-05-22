@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,12 +24,8 @@ namespace NeeView
 
 
     //
-    public class FolderList : INotifyPropertyChanged
+    public class FolderList : BindableBase
     {
-        // PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
         /// <summary>
         /// PanelListItemStyle property.
         /// </summary>

@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,17 +49,8 @@ namespace NeeView
     /// フォルダー情報
     /// フォルダーリストの１項目の情報 
     /// </summary>
-    public class FolderItem : INotifyPropertyChanged, IHasPage
+    public class FolderItem : BindableBase, IHasPage
     {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-        }
-        #endregion
-
         public FolderItemAttribute Attributes { get; set; }
 
         /// <summary>

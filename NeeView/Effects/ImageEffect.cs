@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using Microsoft.Expression.Media.Effects;
+using NeeView.ComponentModel;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -18,17 +19,8 @@ using System.Windows.Media.Effects;
 namespace NeeView.Effects
 {
     //
-    public class ImageEffect : INotifyPropertyChanged
+    public class ImageEffect : BindableBase
     {
-        #region NotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-        #endregion
-
         //
         public Dictionary<EffectType, EffectUnit> Effects { get; private set; }
 

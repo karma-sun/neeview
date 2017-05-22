@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,7 +39,7 @@ namespace NeeView
     /// <summary>
     /// スライドショー管理
     /// </summary>
-    public class SlideShow : INotifyPropertyChanged, IEngine
+    public class SlideShow : BindableBase, IEngine
     {
         // System object
         public static SlideShow Current { get; private set; }
@@ -82,11 +83,6 @@ namespace NeeView
             mouseInput.MouseMoved +=
                 (s, e) => { if (this.IsCancelSlideByMouseMove) ResetTimer(); };
         }
-
-
-        // PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
 
         /// <summary>

@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using NeeView.Windows.Controls;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -12,19 +13,8 @@ using System.Windows.Media;
 
 namespace NeeView
 {
-    public class FolderPanel : IPanel, INotifyPropertyChanged
+    public class FolderPanel : BindableBase, IPanel
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        //
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
         public string TypeCode => nameof(FolderPanel);
 
         public ImageSource Icon { get; private set; }

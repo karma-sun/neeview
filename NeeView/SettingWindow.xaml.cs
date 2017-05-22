@@ -23,6 +23,7 @@ using System.Diagnostics;
 using NeeView.Windows.Property;
 using NeeView.Windows.Input;
 using NeeView.Windows;
+using NeeView.ComponentModel;
 
 namespace NeeView
 {
@@ -80,18 +81,8 @@ namespace NeeView
 
 
         // ドラッグ一覧専用パラメータ
-        public class DragActionParam : INotifyPropertyChanged
+        public class DragActionParam : BindableBase
         {
-            /// <summary>
-            /// PropertyChanged event. 
-            /// </summary>
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
-
             public DragActionType Key { get; set; }
             public string Header { get; set; }
             public bool IsLocked { get; set; }
@@ -115,17 +106,8 @@ namespace NeeView
 
 
         // コマンド一覧用パラメータ
-        public class CommandParam : INotifyPropertyChanged
+        public class CommandParam : BindableBase
         {
-            #region NotifyPropertyChanged
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
-            #endregion
-
             public CommandType Key { get; set; }
             public string Group { get; set; }
             public string Header { get; set; }

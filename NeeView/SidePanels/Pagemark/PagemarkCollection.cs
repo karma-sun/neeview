@@ -14,23 +14,12 @@ using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.ComponentModel;
 using System.Diagnostics;
+using NeeView.ComponentModel;
 
 namespace NeeView
 {
-    public class PagemarkCollection : INotifyPropertyChanged
+    public class PagemarkCollection : BindableBase
     {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
         // ページマークされているブック情報
         private ObservableCollection<BookMementoUnitNode> _items;
         public ObservableCollection<BookMementoUnitNode> Items

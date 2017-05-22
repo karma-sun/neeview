@@ -55,14 +55,16 @@ namespace NeeView
             Current = this;
         }
 
-        //
+        /// <summary>
+        /// 本の更新
+        /// </summary>
+        /// <param name="bookUnit"></param>
         public void SetBook(BookUnit bookUnit)
         {
             this.BookUnit = bookUnit;
 
             if (this.BookUnit != null)
             {
-
                 this.Book.PageChanged += Book_PageChanged;
                 this.Book.PagesSorted += Book_PagesSorted;
                 this.Book.PageTerminated += Book_PageTerminated;
@@ -72,6 +74,9 @@ namespace NeeView
             // マーカー復元
             // TODO: PageMarkersのしごと？
             UpdatePagemark();
+
+            // ページリスト更新
+            UpdatePageList();
 
             BookChanged?.Invoke(this, null);
         }
@@ -98,6 +103,7 @@ namespace NeeView
 
         /// <summary>
         /// IsEnabled property.
+        /// ロード中は機能を無効にするため
         /// </summary>
         public bool IsEnabled
         {
@@ -115,7 +121,7 @@ namespace NeeView
         public BookUnit BookUnit
         {
             get { return _bookUnit; }
-            set { if (_bookUnit != value) { _bookUnit = value; RaisePropertyChanged(null); /*BookChanged?.Invoke(this, null);*/ } }
+            set { if (_bookUnit != value) { _bookUnit = value; RaisePropertyChanged(); /*BookChanged?.Invoke(this, null);*/ } }
         }
 
         private BookUnit _bookUnit;

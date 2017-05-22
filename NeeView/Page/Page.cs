@@ -16,6 +16,7 @@ using System.Threading;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows;
+using NeeView.ComponentModel;
 
 namespace NeeView
 {
@@ -23,23 +24,15 @@ namespace NeeView
     /// <summary>
     /// ページ
     /// </summary>
-    public abstract class Page : INotifyPropertyChanged, IDisposable, IHasPage
+    public abstract class Page : BindableBase, IDisposable, IHasPage
     {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-        }
-        #endregion
-
         #region 開発用
 
         [Conditional("DEBUG")]
         protected void RaisePropertyChangedDebug([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
-            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+            ////PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+            RaisePropertyChanged(name);
         }
 
         // 開発用メッセージ

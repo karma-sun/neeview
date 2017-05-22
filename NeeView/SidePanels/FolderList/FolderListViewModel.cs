@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using NeeView.Windows.Input;
 using System;
 using System.Collections;
@@ -49,17 +50,8 @@ namespace NeeView
     /// <summary>
     /// FolderListControl ViewModel
     /// </summary>
-    public class FolderListViewModel : INotifyPropertyChanged
+    public class FolderListViewModel : BindableBase
     {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-        }
-        #endregion
-
         /// <summary>
         /// コンボボックス用リスト
         /// </summary>

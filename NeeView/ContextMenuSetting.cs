@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,20 +17,8 @@ namespace NeeView
 {
     //
     [DataContract]
-    public class ContextMenuSetting : INotifyPropertyChanged
+    public class ContextMenuSetting : BindableBase
     {
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-        #endregion
-
         //
         #region Property: ContextMenu
         private ContextMenu _contextMenu;

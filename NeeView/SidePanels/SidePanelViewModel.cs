@@ -14,6 +14,7 @@ using System.Windows.Threading;
 using NeeView.Windows;
 using NeeView.Windows.Data;
 using NeeView.Windows.Input;
+using NeeView.ComponentModel;
 
 namespace NeeView
 {
@@ -21,20 +22,8 @@ namespace NeeView
     /// SidePanel ViewModel.
     /// パネル単位のVM. SidePanelFrameViewModelの子
     /// </summary>
-    public class SidePanelViewModel : INotifyPropertyChanged
+    public class SidePanelViewModel : BindableBase
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        //
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-
         /// <summary>
         /// Width property.
         /// </summary>

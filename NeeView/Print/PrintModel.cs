@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,20 +35,8 @@ namespace NeeView
     /// Print Model
     /// </summary>
     [DataContract]
-    public class PrintModel : INotifyPropertyChanged
+    public class PrintModel : BindableBase
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-
-
         /// <summary>
         /// PageOrientation property.
         /// </summary>
@@ -715,18 +704,8 @@ namespace NeeView
     /// 余白
     /// </summary>
     [DataContract]
-    public class Margin : INotifyPropertyChanged
+    public class Margin : BindableBase
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
         /// <summary>
         /// Top property.
         /// </summary>

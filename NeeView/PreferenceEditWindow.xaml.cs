@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -79,17 +80,8 @@ namespace NeeView
     /// <summary>
     /// PreferenceEditWindow ViewModel
     /// </summary>
-    public class PreferenceEditWindowVM : INotifyPropertyChanged
+    public class PreferenceEditWindowVM : BindableBase
     {
-        #region NotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-        #endregion
-
         public PropertyMemberElement Element { get; set; }
 
         public string Title => this.Element.GetValueTypeString() + "を入力してください";

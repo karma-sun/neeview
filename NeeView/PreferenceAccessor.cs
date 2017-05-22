@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +16,7 @@ namespace NeeView
     /// <summary>
     /// Preference accessor
     /// </summary>
-    public class PreferenceAccessor : INotifyPropertyChanged
+    public class PreferenceAccessor : BindableBase
     {
         /// <summary>
         /// system object
@@ -29,18 +30,7 @@ namespace NeeView
                 return _current;
             }
         }
-
-
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
+        
 
         /// <summary>
         /// Reflesh

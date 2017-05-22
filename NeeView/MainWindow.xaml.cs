@@ -205,8 +205,6 @@ namespace NeeView
             this.RootDockPanel.Children.Insert(1, new DevInfo());
 
             this.PreviewKeyDown += Debug_PreviewKeyDown;
-#else
-            this.MenuItemDev.Visibility = Visibility.Collapsed;
 #endif
 
 

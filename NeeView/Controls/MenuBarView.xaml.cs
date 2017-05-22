@@ -43,6 +43,10 @@ namespace NeeView
         public MenuBarView()
         {
             InitializeComponent();
+
+#if DEBUG
+            this.MenuItemDev.Visibility = Visibility.Visible;
+#endif
         }
 
         private MenuBarViewModel _vm;

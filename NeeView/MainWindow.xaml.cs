@@ -181,6 +181,9 @@ namespace NeeView
 
             this.ThumbnailListArea.Source = ThumbnailList.Current;
 
+            this.AddressBar.Source = Models.Current.AddressBar;
+
+
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
                 (s, e) => UpdateWindowLayout());
 
@@ -300,9 +303,9 @@ namespace NeeView
             var dpd = DependencyPropertyDescriptor.FromProperty(UIElement.IsMouseOverProperty, typeof(Grid));
             dpd.AddValueChanged(this.MenuArea, MenuArea_IsMouseOverChanged);
 
+
             // IsFocusedの変更イベントをハンドルする。
-            var dpd2 = DependencyPropertyDescriptor.FromProperty(UIElement.IsFocusedProperty, typeof(Grid));
-            dpd2.AddValueChanged(this.AddressTextBox, MenuArea_IsMouseOverChanged);
+            this.AddressBar.IsAddressTextBoxFocusedChanged += (s, e) => UpdateMenuLayerVisibility();
         }
 
         // Preference適用
@@ -360,20 +363,8 @@ namespace NeeView
 
             //
             BookOperation.Current.AddPropertyChanged(nameof(BookOperation.PageList), OnPageListChanged);
-            ////BookOperation.Current.AddPropertyChanged(nameof(BookOperation.Index), OnIndexChanged);
         }
 
-
-        /*
-        // TODO: 直接のThumbnailListArea操作はよくない。モデル経由で。
-        private void OnIndexChanged(object sender, EventArgs e)
-        {
-            App.Current?.Dispatcher.Invoke(() =>
-            {
-                this.ThumbnailListArea.DartyThumbnailList();
-            });
-        }
-        */
 
         // TODO: 直接のThumbnailListArea操作はよくない。モデル経由で。
         private void OnPageListChanged(object sender, EventArgs e)
@@ -470,33 +461,6 @@ namespace NeeView
         private void OnMouseGestureUpdate(object sender, MouseGestureEventArgs e)
         {
             _VM.ShowGesture(e.Sequence.ToDispString(), _mouseGestureCommandCollection?.GetCommand(e.Sequence)?.Text);
-        }
-
-
-        // ドラッグでビュー操作設定の更新
-        // TODO:イベントの流れを変更。ここを経由せずに直接MouseDragのモデルに通知する
-        private void UpdateMouseDragSetting(int direction, DragViewOrigin origin)
-        {
-            _mouse.Drag.IsLimitMove = ContentCanvasTransform.Current.IsLimitMove;
-            _mouse.Drag.DragControlCenter = ContentCanvasTransform.Current.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
-            _mouse.Drag.AngleFrequency = ContentCanvasTransform.Current.AngleFrequency;
-
-            if (origin == DragViewOrigin.None)
-            {
-                origin = ContentCanvasTransform.Current.IsViewStartPositionCenter
-                    ? DragViewOrigin.Center
-                    : _VM.BookSetting.BookReadOrder == PageReadOrder.LeftToRight
-                        ? DragViewOrigin.LeftTop
-                        : DragViewOrigin.RightTop;
-
-                _mouse.Drag.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
-                _mouse.Drag.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
-            }
-            else
-            {
-                _mouse.Drag.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
-                _mouse.Drag.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop || origin == DragViewOrigin.LeftBottom) ? 1.0 : -1.0;
-            }
         }
 
 
@@ -1215,19 +1179,6 @@ namespace NeeView
             System.Diagnostics.Process.Start("https://bitbucket.org/neelabo/neeview/wiki/");
         }
 
-        // アドレスバー入力
-        private void AddressTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Return)
-            {
-                _VM.Address = this.AddressTextBox.Text;
-            }
-
-            // 単キーのショートカット無効
-            KeyExGesture.AllowSingleKey = false;
-            //e.Handled = true;
-        }
-
 
         // 単キーのショートカット無効
         private void Control_KeyDown_IgnoreSingleKeyGesture(object sender, KeyEventArgs e)
@@ -1301,7 +1252,7 @@ namespace NeeView
             if (_VM.CanHideMenu)
             {
                 var point = Mouse.GetPosition(this.Root);
-                bool isVisible = this.AddressTextBox.IsFocused || this.LayerMenuSocket.IsMouseOver || point.Y < (MenuLayerVisibility.Visibility == Visibility.Visible ? this.LayerMenuSocket.ActualHeight : 0) + visibleMargin && this.IsMouseOver;
+                bool isVisible = this.AddressBar.AddressTextBox.IsFocused || this.LayerMenuSocket.IsMouseOver || point.Y < (MenuLayerVisibility.Visibility == Visibility.Visible ? this.LayerMenuSocket.ActualHeight : 0) + visibleMargin && this.IsMouseOver;
                 MenuLayerVisibility.Set(isVisible ? Visibility.Visible : Visibility.Collapsed);
             }
             else
@@ -1440,31 +1391,6 @@ namespace NeeView
         private void MenuArea_MouseLeave(object sender, MouseEventArgs e)
         {
             // nop.
-        }
-
-
-        /// <summary>
-        /// 履歴戻るボタンコンテキストメニュー開始前イベント処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PrevHistoryButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-            var menu = (sender as FrameworkElement)?.ContextMenu;
-            if (menu == null) return;
-            menu.ItemsSource = _VM.GetHistory(-1, 10);
-        }
-
-        /// <summary>
-        /// 履歴進むボタンコンテキストメニュー開始前イベント処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void NextHistoryButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-            var menu = (sender as FrameworkElement)?.ContextMenu;
-            if (menu == null) return;
-            menu.ItemsSource = _VM.GetHistory(+1, 10);
         }
 
 

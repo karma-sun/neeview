@@ -1,0 +1,188 @@
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+<UserControl x:Class="NeeView.AddressBarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:SortModeToStringConverter x:Key="SortModeToStringConverter"/>
+        <local:SortModeToVisibilityConverter x:Key="SortModeToVisibilityConverter"/>
+        <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
+
+        <Style x:Key="HistoryContextMenuItemContainerStyle" TargetType="MenuItem">
+            <Setter Property="Header" Value="{Binding Converter={StaticResource FullPathToFileNameConverter}}"/>
+            <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
+            <Setter Property="CommandParameter" Value="{Binding}" />
+        </Style>
+        
+    </UserControl.Resources>
+    
+    <Grid x:Name="Root" Height="36">
+        <Grid.Resources>
+            <Style x:Key="AddressIconButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
+                <Setter Property="Width" Value="26"/>
+                <Setter Property="Height" Value="26"/>
+                <Setter Property="Padding" Value="4"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="IsTabStop" Value="False"/>
+            </Style>
+        </Grid.Resources>
+
+        <Grid.Background>
+            <SolidColorBrush Color="White"/>
+        </Grid.Background>
+
+        <DockPanel VerticalAlignment="Center" Margin="2,0">
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" UseLayoutRounding="True">
+
+                <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[TogglePageMode]}">
+                    <Image Width="18" Height="18">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Setter Property="Source" Value="{StaticResource ic_looks_one_24px}"/>
+                                <Setter Property="ToolTip" Value="1ページ表示"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding BookSetting.PageMode}"  Value="WidePage">
+                                        <Setter Property="Source" Value="{StaticResource ic_looks_two_24px}"/>
+                                        <Setter Property="ToolTip" Value="2ページ表示"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </Button>
+
+                <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleBookReadOrder]}" >
+                    <Grid Width="22" Height="22" Background="#0000">
+                        <Image Width="18" Height="18">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Setter Property="Source" Value="{StaticResource ic_left_to_right_24px}"/>
+                                    <Setter Property="ToolTip" Value="左開き"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding BookSetting.BookReadOrder}"  Value="RightToLeft">
+                                            <Setter Property="Source" Value="{StaticResource ic_right_to_left_24px}"/>
+                                            <Setter Property="ToolTip" Value="右開き"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </Grid>
+                </Button>
+
+
+                <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleSortMode]}" 
+                                        ToolTip="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToStringConverter}}">
+
+                    <Grid Width="20" Height="20">
+                        <Grid.Resources>
+                            <Style TargetType="Grid">
+                                <Setter Property="Width" Value="16"/>
+                                <Setter Property="Height" Value="16"/>
+                            </Style>
+                            <Style TargetType="Image" x:Key="MainImage">
+                                <Setter Property="Width" Value="12"/>
+                                <Setter Property="Height" Value="12"/>
+                                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+                            <Style TargetType="Image" x:Key="SubImage">
+                                <Setter Property="Width" Value="8"/>
+                                <Setter Property="Height" Value="8"/>
+                                <Setter Property="VerticalAlignment" Value="Top"/>
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                            </Style>
+
+                        </Grid.Resources>
+
+                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=Random}">
+                            <Image Width="16" Height="16" Source="{StaticResource ic_shuffle_24px}"/>
+                        </Grid>
+
+                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=FileName}">
+                            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}"/>
+                            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
+                        </Grid>
+
+                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=FileNameDescending}">
+                            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}"/>
+                            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
+                        </Grid>
+
+                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=TimeStamp}">
+                            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2"/>
+                            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
+                        </Grid>
+
+                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=TimeStampDescending}">
+                            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2"/>
+                            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
+                        </Grid>
+
+                    </Grid>
+                </Button>
+
+            </StackPanel>
+
+            <Button x:Name="PrevHistoryButton" Command="{Binding BookCommands[PrevHistory]}" Style="{StaticResource AddressIconButton}"
+                                    ContextMenuService.Placement="Bottom"
+                                    ContextMenuOpening="PrevHistoryButton_ContextMenuOpening"
+                                    ToolTip="戻る">
+                <Image Source="{StaticResource ic_arrow_back_24px}" Width="16" Height="16" />
+                <Button.ContextMenu>
+                    <ContextMenu ItemContainerStyle="{StaticResource HistoryContextMenuItemContainerStyle}" />
+                </Button.ContextMenu>
+            </Button>
+            <Button x:Name="NextHistoryButton" Command="{Binding BookCommands[NextHistory]}"  Style="{StaticResource AddressIconButton}"
+                                    ContextMenuService.Placement="Bottom"
+                                    ContextMenuOpening="NextHistoryButton_ContextMenuOpening"
+                                    ToolTip="進む">
+                <Image Source="{StaticResource ic_arrow_forward_24px}" Width="16" Height="16" />
+                <Button.ContextMenu>
+                    <ContextMenu ItemContainerStyle="{StaticResource HistoryContextMenuItemContainerStyle}" />
+                </Button.ContextMenu>
+            </Button>
+            <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}"
+                                    ToolTip="再読込">
+                <Image Source="{StaticResource ic_reflesh_24px}" Width="16" Height="16" />
+            </Button>
+
+            <Border x:Name="AddressTextBoxBase" BorderThickness="1" BorderBrush="LightGray" Background="White" Height="26" Margin="2,0">
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleBookmark]}">
+                        <TextBlock FontSize="20" FontFamily="Meyrio">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="☆"/>
+                                    <Setter Property="Foreground" Value="LightGray"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Model.IsBookmark}" Value="True">
+                                            <Setter Property="Text" Value="★"/>
+                                            <Setter Property="Foreground" Value="{StaticResource NVStarMarkBrush}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Button>
+
+                    <TextBox x:Name="AddressTextBox" Text="{Binding Model.Address}" BorderThickness="0" VerticalAlignment="Center" Margin="5,0"
+                                             KeyDown="AddressTextBox_KeyDown"/>
+                </DockPanel>
+            </Border>
+
+        </DockPanel>
+    </Grid>
+
+</UserControl>

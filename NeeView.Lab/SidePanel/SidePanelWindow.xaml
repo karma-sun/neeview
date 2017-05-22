@@ -37,8 +37,6 @@
                             Width="{Binding CanvasWidth}"
                             Height="{Binding CanvasHeight}">
 
-                        <Image Source="C:\Users\pasta\OneDrive\画像\NekoNeko\20160509175505.jpg" />
-
                     </Border>
                 </Canvas>
 
@@ -50,16 +48,6 @@
                                       CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}"
                               MouseTarget="{Binding ElementName=MainCanvas}">
                 </nvc:SidePanelFrameView>
-
-                <!--
-                    <local:SidePanelFrame.ViewContent>
-                        <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DataContext}"  Background="{Binding BgBrush}">
-                            <Image Source="C:\Users\pasta\OneDrive\画像\NekoNeko\20160509175505.jpg" />
-                        </Grid>
-                    </local:SidePanelFrame.ViewContent>
-                    -->
-
-
 
 
             </Grid>

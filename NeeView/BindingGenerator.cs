@@ -57,8 +57,9 @@ namespace NeeView
         //
         public static Binding BindingBookSetting(string path)
         {
-            return new Binding(nameof(MainWindowVM.BookSetting) + "." + path);
+            return new Binding(nameof(BookHub.BookMemento) + "." + path) { Source = BookHub.Current };
         }
+
 
 
         //
@@ -107,42 +108,30 @@ namespace NeeView
         //
         public static Binding PageMode(PageMode mode)
         {
-            return new Binding("BookSetting.PageMode")
-            {
-                Converter = s_pageModeToBooleanConverter,
-                ConverterParameter = mode.ToString(),
-            };
+            var binding = BindingBookSetting(nameof(Book.Memento.PageMode));
+            binding.Converter = s_pageModeToBooleanConverter;
+            binding.ConverterParameter = mode.ToString();
+            return binding;
         }
 
         //
         public static Binding BookReadOrder(PageReadOrder mode)
         {
-            return new Binding("BookSetting.BookReadOrder")
-            {
-                Converter = s_bookReadOrderToBooleanConverter,
-                ConverterParameter = mode.ToString(),
-            };
+            var binding = BindingBookSetting(nameof(Book.Memento.BookReadOrder));
+            binding.Converter = s_bookReadOrderToBooleanConverter;
+            binding.ConverterParameter = mode.ToString();
+            return binding;
         }
 
         //
         public static Binding SortMode(PageSortMode mode)
         {
-            return new Binding("BookSetting.SortMode")
-            {
-                Converter = s_sortModeToBooleanConverter,
-                ConverterParameter = mode.ToString(),
-            };
+            var binding = BindingBookSetting(nameof(Book.Memento.SortMode));
+            binding.Converter = s_sortModeToBooleanConverter;
+            binding.ConverterParameter = mode.ToString();
+            return binding;
         }
 
-
-        //
-        public static Binding IsBookmark()
-        {
-            return new Binding("IsBookmark")
-            {
-                Mode = BindingMode.OneWay
-            };
-        }
 
         //
         public static Binding IsFlipHorizontal()

@@ -1529,9 +1529,9 @@ namespace NeeView
                 element.Note = "現在開いているブックのブックマークの登録/解除を切り替えます";
                 element.Execute = (s, e) => _book.ToggleBookmark();
                 element.CanExecute = () => _book.CanBookmark();
-                element.ExecuteMessage = e => _book.IsBookmark(null) ? "ブックマーク解除" : "ブックマークに登録";
+                element.ExecuteMessage = e => _book.IsBookmark ? "ブックマーク解除" : "ブックマークに登録";
                 element.IsShowMessage = true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.IsBookmark();
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_book.IsBookmark)) { Source = _book, Mode = BindingMode.OneWay };
                 element.ShortCutKey = "Ctrl+D";
                 _elements[CommandType.ToggleBookmark] = element;
             }

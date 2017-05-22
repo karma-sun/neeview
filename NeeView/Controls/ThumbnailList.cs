@@ -173,7 +173,7 @@ namespace NeeView
             // 本の切り替え中は処理しない
             if (!this.BookOperation.IsEnabled) return;
 
-            Debug.WriteLine("> RequestThumbnail");
+            ////Debug.WriteLine("> RequestThumbnail");
 
             // 未処理の要求を解除
             ModelContext.JobEngine.Clear(QueueElementPriority.PageThumbnail);

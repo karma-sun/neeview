@@ -115,6 +115,8 @@ namespace NeeView
     /// </summary>
     public class BookHub : BindableBase
     {
+        public static BookHub Current { get; private set; }
+
         #region NormalizePathname
 
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
@@ -418,10 +420,15 @@ namespace NeeView
         // コンストラクタ
         public BookHub(BookOperation bookOperation)
         {
+            Current = this;
+
             _bookOperation = bookOperation;
 
             this.BookChanged +=
                 (s, e) => _bookOperation.SetBook(this.BookUnit);
+
+            this.SettingChanged +=
+                (s, e) => RaisePropertyChanged(nameof(BookMemento));
 
             ModelContext.BookHistory.HistoryChanged += (s, e) => HistoryChanged?.Invoke(s, e);
             ModelContext.Bookmarks.BookmarkChanged += (s, e) => BookmarkChanged?.Invoke(s, e);
@@ -1224,17 +1231,22 @@ namespace NeeView
         }
 
         // ブックマーク判定
-        public bool IsBookmark(string place)
+        public bool IsBookmark
         {
-            if (BookUnit?.BookMementoUnit != null && BookUnit.BookMementoUnit.Memento.Place == (place ?? Book.Place))
+            get
             {
-                return BookUnit.BookMementoUnit.BookmarkNode != null;
-            }
-            else
-            {
-                return false;
+                if (BookUnit?.BookMementoUnit != null && BookUnit.BookMementoUnit.Memento.Place == Book.Place)
+                {
+                    return BookUnit.BookMementoUnit.BookmarkNode != null;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
+
+
 
         // ブックマークを戻る
         public void PrevBookmark()

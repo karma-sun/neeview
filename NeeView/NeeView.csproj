@@ -103,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\AddressBar.cs" />
+    <Compile Include="Controls\AddressBarView.xaml.cs">
+      <DependentUpon>AddressBarView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Archiver\ArchiveEntry.cs" />
     <Compile Include="Archiver\ArchiveEntryExtractor.cs" />
     <Compile Include="Archiver\ArchivenEntryExtractorService.cs" />
@@ -119,6 +123,7 @@
     <Compile Include="BookHubCommandEngine.cs" />
     <Compile Include="ContentCanvas.cs" />
     <Compile Include="ContentCanvasTransform.cs" />
+    <Compile Include="Controls\AddressBarViewModel.cs" />
     <Compile Include="Converters\ApiVersionToApiTextConverter.cs" />
     <Compile Include="Converters\BackgroundStyleToBooleanConverter.cs" />
     <Compile Include="Converters\BannerSizeConverter.cs" />
@@ -146,11 +151,11 @@
     <Compile Include="Converters\SortModeToVisibilityConverter.cs" />
     <Compile Include="Converters\StretchModeToBooleanConverter.cs" />
     <Compile Include="Converters\_Converters.cs" />
-    <Compile Include="StatusArea\PageSlider.cs" />
-    <Compile Include="StatusArea\PageSliderView.xaml.cs">
+    <Compile Include="Controls\PageSlider.cs" />
+    <Compile Include="Controls\PageSliderView.xaml.cs">
       <DependentUpon>PageSliderView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StatusArea\PageSliderViewModel.cs" />
+    <Compile Include="Controls\PageSliderViewModel.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListBox.xaml.cs">
       <DependentUpon>BookmarkListBox.xaml</DependentUpon>
     </Compile>
@@ -224,11 +229,11 @@
     <Compile Include="SidePanels\SidePanelGroup.cs" />
     <Compile Include="SidePanels\SidePanel.cs" />
     <Compile Include="SlideShow.cs" />
-    <Compile Include="StatusArea\ThumbnailList.cs" />
-    <Compile Include="StatusArea\ThumbnailListView.xaml.cs">
+    <Compile Include="Controls\ThumbnailList.cs" />
+    <Compile Include="Controls\ThumbnailListView.xaml.cs">
       <DependentUpon>ThumbnailListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StatusArea\ThumbnailListViewModel.cs" />
+    <Compile Include="Controls\ThumbnailListViewModel.cs" />
     <Compile Include="TinyInfoMessage.cs" />
     <Compile Include="TinyInfoMessageView.xaml.cs">
       <DependentUpon>TinyInfoMessageView.xaml</DependentUpon>
@@ -517,11 +522,15 @@
     <Compile Include="_NeeView\Windows\Property\PropertyMemberAttribute.cs" />
     <Compile Include="_NeeView\Windows\Property\PropertyValue.cs" />
     <Compile Include="_NeeView\Windows\StyleInteraction.cs" />
+    <Page Include="Controls\AddressBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BackgroundSettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StatusArea\PageSliderView.xaml">
+    <Page Include="Controls\PageSliderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -581,7 +590,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="StatusArea\ThumbnailListView.xaml">
+    <Page Include="Controls\ThumbnailListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -453,9 +453,6 @@ namespace NeeView
         // ウィンドタイトル
         public WindowTitle WindowTitle => _models.WindowTitle;
 
-        // 本設定 公開
-        public Book.Memento BookSetting => BookHub.BookMemento;
-
         // 最近使ったフォルダー
         #region Property: LastFiles
         private List<Book.Memento> _lastFiles = new List<Book.Memento>();
@@ -554,36 +551,6 @@ namespace NeeView
         }
         #endregion
 
-
-        #region Property: Address
-        private string _address;
-        public string Address
-        {
-            get { return _address; }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value)) return;
-
-                if (_address != value)
-                {
-                    _address = value;
-                    RaisePropertyChanged();
-                    if (_address != BookHub.Address)
-                    {
-                        Load(value);
-                    }
-                }
-                RaisePropertyChanged(nameof(IsBookmark));
-            }
-        }
-        #endregion
-
-        #region Property: IsBookmark
-        public bool IsBookmark
-        {
-            get { return ModelContext.BookMementoCollection.Find(BookHub.Address)?.BookmarkNode != null; }
-        }
-        #endregion
 
         #region Property: ContextMenuSetting
         private ContextMenuSetting _contextMenuSetting;
@@ -885,7 +852,6 @@ namespace NeeView
             BookHub.SettingChanged +=
                 (s, e) =>
                 {
-                    RaisePropertyChanged(nameof(BookSetting));
                     RaisePropertyChanged(nameof(BookHub));
                 };
 
@@ -898,16 +864,6 @@ namespace NeeView
             BookHub.EmptyMessage +=
                 (s, e) => EmptyPageMessage = e;
 
-            BookHub.BookmarkChanged +=
-                (s, e) => RaisePropertyChanged(nameof(IsBookmark));
-
-            BookHub.AddressChanged +=
-                (s, e) =>
-                {
-                    _address = BookHub.Address;
-                    RaisePropertyChanged(nameof(Address));
-                    RaisePropertyChanged(nameof(IsBookmark));
-                };
 
             // BookOperation
             BookOperation = _models.BookOperation;
@@ -981,32 +937,6 @@ namespace NeeView
         {
             ModelContext.BookHistory.Clear();
             UpdateLastFiles();
-        }
-
-        /// <summary>
-        /// 履歴取得
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        internal List<string> GetHistory(int direction, int size)
-        {
-            return ModelContext.BookHistory.ListUp(this.BookHub.BookUnit?.Address, direction, size);
-        }
-
-        /// <summary>
-        /// MoveToHistory command.
-        /// </summary>
-        private RelayCommand<string> _MoveToHistory;
-        public RelayCommand<string> MoveToHistory
-        {
-            get { return _MoveToHistory = _MoveToHistory ?? new RelayCommand<string>(MoveToHistory_Executed); }
-        }
-
-        private void MoveToHistory_Executed(string item)
-        {
-            if (item == null) return;
-            this.BookHub.RequestLoad(item, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, true);
         }
 
 

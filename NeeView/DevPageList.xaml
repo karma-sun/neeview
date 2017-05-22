@@ -13,7 +13,7 @@
     </UserControl.Resources>
     
     <ScrollViewer x:Name="Root" Width="300" Panel.ZIndex="100" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
-            Visibility="{Binding IsVisibleDevPageList, Converter={StaticResource BooleanToVisibilityConverter}}">
+            Visibility="{Binding Development.IsVisibleDevPageList, Converter={StaticResource BooleanToVisibilityConverter}}">
         <ListView ItemsSource="{Binding Models.BookOperation.PageList}" >
             <ListView.View>
                 <GridView>

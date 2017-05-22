@@ -316,8 +316,8 @@ namespace NeeView
                     {
                         var item = new MenuItem();
                         item.Header = this.Label;
-                        item.SetBinding(MenuItem.ItemsSourceProperty, new Binding("LastFiles"));
-                        item.SetBinding(MenuItem.IsEnabledProperty, new Binding("IsEnableLastFiles"));
+                        item.SetBinding(MenuItem.ItemsSourceProperty, new Binding(nameof(MenuBar.LastFiles)) { Source = MenuBar.Current });
+                        item.SetBinding(MenuItem.IsEnabledProperty, new Binding(nameof(MenuBar.IsEnableLastFiles)) { Source = MenuBar.Current });
                         item.ItemContainerStyle = App.Current.MainWindow.Resources["HistoryMenuItemContainerStyle"] as Style;
                         return item;
                     }

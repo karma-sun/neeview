@@ -124,6 +124,8 @@
     <Compile Include="ContentCanvas.cs" />
     <Compile Include="ContentCanvasTransform.cs" />
     <Compile Include="Controls\AddressBarViewModel.cs" />
+    <Compile Include="Controls\MenuBar.cs" />
+    <Compile Include="Controls\MenuBarViewModel.cs" />
     <Compile Include="Converters\ApiVersionToApiTextConverter.cs" />
     <Compile Include="Converters\BackgroundStyleToBooleanConverter.cs" />
     <Compile Include="Converters\BannerSizeConverter.cs" />
@@ -156,6 +158,9 @@
       <DependentUpon>PageSliderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PageSliderViewModel.cs" />
+    <Compile Include="Controls\MenuBarView.xaml.cs">
+      <DependentUpon>MenuBarView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SidePanels\Bookamrk\BookmarkListBox.xaml.cs">
       <DependentUpon>BookmarkListBox.xaml</DependentUpon>
     </Compile>
@@ -239,6 +244,7 @@
       <DependentUpon>TinyInfoMessageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TinyInfoMessageViewModel.cs" />
+    <Compile Include="Development.cs" />
     <Compile Include="WindowCaptionButtons.xaml.cs">
       <DependentUpon>WindowCaptionButtons.xaml</DependentUpon>
     </Compile>
@@ -531,6 +537,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\PageSliderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MenuBarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

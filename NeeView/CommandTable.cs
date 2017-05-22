@@ -1773,7 +1773,7 @@ namespace NeeView
                 element.MenuText = "メインメニューヘルプ";
                 element.Note = "メインメニューのヘルプをブラウザで表示します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.OpenMainMenuHelp();
+                element.Execute = (s, e) => _models.MenuBar.OpenMainMenuHelp();
                 element.CanExecute = () => true;
                 _elements[CommandType.HelpMainMenu] = element;
             }

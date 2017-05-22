@@ -26,13 +26,13 @@ namespace NeeView
         //
         public static Binding Binding(string path)
         {
-            return new Binding(path);
+            return new Binding(path) { Source = MainWindowVM.Current };
         }
 
         //
         public static Binding Binding(string path, BindingMode mode)
         {
-            return new Binding(path) { Mode = mode };
+            return new Binding(path) { Source = MainWindowVM.Current, Mode = mode };
         }
 
         //
@@ -79,7 +79,8 @@ namespace NeeView
             return new Binding(nameof(MainWindowVM.Background))
             {
                 Converter = s_backgroundStyleToBooleanConverter,
-                ConverterParameter = mode.ToString()
+                ConverterParameter = mode.ToString(),
+                Source = MainWindowVM.Current
             };
         }
 

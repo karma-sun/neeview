@@ -176,12 +176,16 @@ namespace NeeView
             _VM = new MainWindowVM(this);
             this.DataContext = _VM;
 
-            this.SliderArea.Source = PageSlider.Current;
+            var models = Models.Current;
+
+            this.SliderArea.Source = models.PageSlider;
             this.SliderArea.FocusTo = this.MainView;
 
-            this.ThumbnailListArea.Source = ThumbnailList.Current;
+            this.ThumbnailListArea.Source = models.ThumbnailList;
 
-            this.AddressBar.Source = Models.Current.AddressBar;
+            this.AddressBar.Source = models.AddressBar;
+
+            this.MenuBar.Source = models.MenuBar;
 
 
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
@@ -246,9 +250,6 @@ namespace NeeView
             // initialize routed commands
             //InitializeCommandBindings();
             InitializeInputGestures();
-
-            // MainMenu Initialize
-            _VM.MainMenuInitialize();
 
             // VM NotifyPropertyChanged Hook
 
@@ -666,7 +667,7 @@ namespace NeeView
             }
 
             // Update Menu GestureText
-            _VM.MainMenu?.UpdateInputGestureText();
+            NeeView.MenuBar.Current.Reflesh();
             _VM.ContextMenu?.UpdateInputGestureText();
         }
 
@@ -1092,25 +1093,6 @@ namespace NeeView
         }
 
 
-        // 開発用コマンド：テンポラリフォルダーを開く
-        private void MenuItemDevTempFolder_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(Temporary.TempDirectory);
-        }
-
-        // 開発用コマンド：アプリケーションフォルダーを開く
-        private void MenuItemDevApplicationFolder_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
-        }
-
-        // 開発用コマンド：アプリケーションデータフォルダーを開く
-        private void MenuItemDevApplicationDataFolder_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(App.Config.LocalApplicationDataPath);
-        }
-
-
         // メッセージ処理：ファイル出力
         private void CallExport(object sender, MessageEventArgs e)
         {
@@ -1202,20 +1184,6 @@ namespace NeeView
             {
                 Debug_CheckFocus();
             }
-        }
-
-
-        // [開発用] テストボタン
-        private async void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
-        {
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
-            await Task.Delay(1000);
-            Debug.WriteLine("TEST");
-            Debugger.Break();
-            //ModelContext.CommandTable.OpenCommandListHelp();
-            //App.Config.RemoveApplicationData();
         }
 
         // [開発用] 現在のフォーカスを取得
@@ -1405,7 +1373,7 @@ namespace NeeView
             if (!isChanged) return;
 
             //
-            this.WindowCaptionButtons.UpdateStrokeThickness(e.NewDpi);
+            this.MenuBar.WindowCaptionButtons.UpdateStrokeThickness(e.NewDpi);
 
             // 背景更新
             _VM?.UpdateBackgroundBrush();

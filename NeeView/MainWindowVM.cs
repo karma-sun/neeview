@@ -289,16 +289,6 @@ namespace NeeView
 
         #endregion
 
-        /// <summary>
-        /// WindowCaptionEmulator property.
-        /// </summary>
-        public WindowCaptionEmulator WindowCaptionEmulator
-        {
-            get { return _windowCaptionEmulator; }
-            set { if (_windowCaptionEmulator != value) { _windowCaptionEmulator = value; RaisePropertyChanged(); } }
-        }
-
-        private WindowCaptionEmulator _windowCaptionEmulator;
 
         /// <summary>
         /// IsVisibleWindowTitle property.
@@ -453,18 +443,6 @@ namespace NeeView
         // ウィンドタイトル
         public WindowTitle WindowTitle => _models.WindowTitle;
 
-        // 最近使ったフォルダー
-        #region Property: LastFiles
-        private List<Book.Memento> _lastFiles = new List<Book.Memento>();
-        public List<Book.Memento> LastFiles
-        {
-            get { return _lastFiles; }
-            set { _lastFiles = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsEnableLastFiles)); }
-        }
-        #endregion
-
-        // 最近使ったフォルダーの有効フラグ
-        public bool IsEnableLastFiles { get { return LastFiles.Count > 0; } }
 
 
         // Foregroudh Brush：ファイルページのフォントカラー用
@@ -602,72 +580,6 @@ namespace NeeView
         }
 
 
-        #region Property: MainMenu
-        private Menu _mainMenu;
-        public Menu MainMenu
-        {
-            get { return _mainMenu; }
-            set { _mainMenu = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-        public MenuTree MainMenuSource { get; set; }
-
-        public void MainMenuInitialize()
-        {
-            MainMenuSource = MenuTree.CreateDefault();
-            MainMenu = MainMenuSource.CreateMenu();
-            BindingOperations.SetBinding(MainMenu, Menu.BackgroundProperty, new Binding("Background") { ElementName = "MainMenuJoint" });
-            BindingOperations.SetBinding(MainMenu, Menu.ForegroundProperty, new Binding("Foreground") { ElementName = "MainMenuJoint" });
-        }
-
-        //
-        public void OpenMainMenuHelp()
-        {
-            var groups = new Dictionary<string, List<MenuTree.TableData>>();
-
-            //
-            foreach (var group in MainMenuSource.Children)
-            {
-                groups.Add(group.Label, group.GetTable(0));
-            }
-
-            // 
-            System.IO.Directory.CreateDirectory(Temporary.TempSystemDirectory);
-            string fileName = System.IO.Path.Combine(Temporary.TempSystemDirectory, "MainMenuList.html");
-
-
-            //
-            using (var writer = new System.IO.StreamWriter(fileName, false))
-            {
-                var regex = new Regex(@"\(_(\w)\)");
-                var regexReplace = @"($1)";
-
-                writer.WriteLine(NVUtility.HtmlHelpHeader("NeeView MainMenu List"));
-
-                writer.WriteLine("<body><h1>NeeView メインメニュー</h1>");
-
-                foreach (var pair in groups)
-                {
-                    writer.WriteLine($"<h3>{regex.Replace(pair.Key, regexReplace)}</h3>");
-                    writer.WriteLine("<table>");
-                    writer.WriteLine($"<th>項目<th>説明<tr>");
-                    foreach (var item in pair.Value)
-                    {
-                        string name = new string('　', item.Depth * 2) + regex.Replace(item.Element.Label, regexReplace);
-
-                        writer.WriteLine($"<td>{name}<td>{item.Element.Note}<tr>");
-                    }
-                    writer.WriteLine("</table>");
-                }
-                writer.WriteLine("</body>");
-
-                writer.WriteLine(NVUtility.HtmlHelpFooter());
-            }
-
-            System.Diagnostics.Process.Start(fileName);
-        }
-
 
         // オンラインヘルプ
         public void OpenOnlineHelp()
@@ -704,25 +616,9 @@ namespace NeeView
             ContentPosition = ContentCanvas.MainContent.View.PointToScreen(new Point(0, 0));
         }
 
-        /// <summary>
-        /// IsVisibleDevPageList property.
-        /// </summary>
-        private bool _IsVisibleDevPageList;
-        public bool IsVisibleDevPageList
-        {
-            get { return _IsVisibleDevPageList; }
-            set { if (_IsVisibleDevPageList != value) { _IsVisibleDevPageList = value; RaisePropertyChanged(); } }
-        }
 
-        /// <summary>
-        /// IsVisibleDevInfo property.
-        /// </summary>
-        private bool _IsVisibleDevInfo;
-        public bool IsVisibleDevInfo
-        {
-            get { return _IsVisibleDevInfo; }
-            set { if (_IsVisibleDevInfo != value) { _IsVisibleDevInfo = value; RaisePropertyChanged(); } }
-        }
+        // 開発用：
+        public Development Development { get; private set; } = new Development();
 
         /// <summary>
         /// DevUpdateContentPosition command.
@@ -792,15 +688,7 @@ namespace NeeView
         /// <param name="window"></param>
         public MainWindowVM(MainWindow window)
         {
-            MainWindowVM.Current = this;
-
-            // window caption emulatr
-            this.WindowCaptionEmulator = new WindowCaptionEmulator(window, window.MenuBar);
-            this.WindowCaptionEmulator.IsEnabled = !WindowShape.Current.IsCaptionVisible || WindowShape.Current.IsFullScreen;
-
-            // IsCaptionVisible か IsFullScreen の変更を監視すべきだが、処理が軽いためプロパティ名の判定をしない
-            WindowShape.Current.PropertyChanged +=
-                (s, e) => this.WindowCaptionEmulator.IsEnabled = !WindowShape.Current.IsCaptionVisible || WindowShape.Current.IsFullScreen;
+            Current = this;
 
             // Window Shape
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen), WindowShape_IsFullScreenPropertyChanged);
@@ -879,9 +767,6 @@ namespace NeeView
             // Contents
             _models.ContentCanvas.ContentChanged += ContentCanvas_ContentChanged;
 
-            // messenger
-            Messenger.AddReciever("UpdateLastFiles", (s, e) => UpdateLastFiles());
-
             // ダウンロードフォルダー生成
             if (!System.IO.Directory.Exists(Temporary.TempDownloadDirectory))
             {
@@ -912,10 +797,7 @@ namespace NeeView
 
             App.Current?.Dispatcher.Invoke(() => _models.InfoMessage.SetMessage(NoticeShowMessageStyle, title, null, 2.0, bookmarkType));
 
-            ////_models.BookOperation.UpdatePageList();
-            UpdateLastFiles();
-
-            ////_models.BookOperation.UpdateIndex();
+            _models.MenuBar.UpdateLastFiles();
 
             if (BookHub.BookUnit == null)
             {
@@ -926,17 +808,12 @@ namespace NeeView
             CommandManager.InvalidateRequerySuggested();
         }
 
-        // 最近使ったファイル 更新
-        private void UpdateLastFiles()
-        {
-            LastFiles = ModelContext.BookHistory.ListUp(10);
-        }
 
         // 履歴削除
         public void ClearHistor()
         {
             ModelContext.BookHistory.Clear();
-            UpdateLastFiles();
+            _models.MenuBar.UpdateLastFiles();
         }
 
 
@@ -1108,7 +985,7 @@ namespace NeeView
 
             // 履歴反映
             ModelContext.BookHistory.Restore(memento, true);
-            UpdateLastFiles();
+            _models.MenuBar.UpdateLastFiles();
 
             // フォルダーリストの場所に反映
             _models.FolderList.ResetPlace(ModelContext.BookHistory.LastFolder);

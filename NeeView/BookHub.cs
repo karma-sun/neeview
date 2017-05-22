@@ -920,7 +920,7 @@ namespace NeeView
 
                 // 履歴から消去
                 ModelContext.BookHistory.Remove(path);
-                Messenger.Send(this, "UpdateLastFiles");
+                MenuBar.Current.UpdateLastFiles();
 
                 throw new ApplicationException($"{path} の読み込みに失敗しました。\n{e.Message}", e);
             }

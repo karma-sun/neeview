@@ -1,0 +1,54 @@
+﻿<!--
+    Copyright (c) 2016 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+<UserControl x:Class="NeeView.MenuBarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="White">
+        <DockPanel LastChildFill="False">
+            <local:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right">
+                <local:WindowCaptionButtons.Style>
+                    <Style TargetType="local:WindowCaptionButtons">
+                        <Setter Property="Height" Value="28"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding WindowCaptionEmulator.IsEnabled}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Window.WindowState}" Value="Maximized">
+                                <Setter Property="Height" Value="24"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </local:WindowCaptionButtons.Style>
+            </local:WindowCaptionButtons>
+
+            <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Bottom"
+                                          Background="White"
+                                          Foreground="#222"/>
+
+            <Menu VerticalAlignment="Bottom"
+                                          Background="White"
+                                          Foreground="#222">
+                <MenuItem x:Name="MenuItemDev" Header="開発(_D)">
+                    <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" IsChecked="{Binding Development.IsVisibleDevPageList}" />
+                    <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" IsChecked="{Binding Development.IsVisibleDevInfo}" />
+                    <MenuItem x:Name="MenuItemDevApplicationFolder" Header="アプリのフォルダーを開く" Click="MenuItemDevApplicationFolder_Click" />
+                    <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="アプリデータフォルダーを開く" Click="MenuItemDevApplicationDataFolder_Click" />
+                    <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダーを開く" Click="MenuItemDevTempFolder_Click" />
+                    <MenuItem x:Name="MenuItemDevButton" Header="テスト実行" Click="MenuItemDevButton_Click" />
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+
+    </Grid>
+
+</UserControl>

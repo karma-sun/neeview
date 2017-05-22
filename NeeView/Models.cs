@@ -42,6 +42,7 @@ namespace NeeView
         public PageSlider PageSlider { get; private set; }
         public ThumbnailList ThumbnailList { get; private set; }
         public AddressBar AddressBar { get; private set; }
+        public MenuBar MenuBar { get; private set; }
 
         //
         public FolderPanelModel FolderPanelModel { get; private set; }
@@ -85,6 +86,7 @@ namespace NeeView
             this.ThumbnailList = new ThumbnailList(this.BookOperation, this.BookHub);
             this.PageSlider = new PageSlider(this.BookOperation, this.BookHub, this.ThumbnailList);
             this.AddressBar = new AddressBar();
+            this.MenuBar = new MenuBar();
 
             this.FolderPanelModel = new FolderPanelModel();
             this.FolderList = new FolderList(this.BookHub, this.FolderPanelModel);

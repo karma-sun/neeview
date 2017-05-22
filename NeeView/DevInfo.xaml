@@ -13,7 +13,7 @@
     </UserControl.Resources>
     
     <DockPanel Panel.ZIndex="100" Background="White"
-                  Visibility="{Binding IsVisibleDevInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
+                  Visibility="{Binding Development.IsVisibleDevInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <Button Content="Update" Width="100" Command="{Binding DevUpdateContentPosition}"/>
             <TextBlock Text="{Binding ContentPosition}" Margin="5"/>

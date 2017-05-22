@@ -157,45 +157,8 @@
                     <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" IsTabStop="False">
                         <Grid x:Name="MenuArea" MouseEnter="MenuArea_MouseEnter" MouseLeave="MenuArea_MouseLeave" >
                             <StackPanel>
-                                <Grid x:Name="MenuBar" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="White">
-                                    <DockPanel LastChildFill="False">
-                                        <local:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right">
-                                            <local:WindowCaptionButtons.Style>
-                                                <Style TargetType="local:WindowCaptionButtons">
-                                                    <Setter Property="Height" Value="28"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding WindowCaptionEmulator.IsEnabled}" Value="False">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding ElementName=RootWindow, Path=WindowState}" Value="Maximized">
-                                                            <Setter Property="Height" Value="24"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </local:WindowCaptionButtons.Style>
-                                        </local:WindowCaptionButtons>
-
-                                        <!-- メインメニュー -->
-                                        <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Bottom"
-                                          Background="White"
-                                          Foreground="#222"/>
-
-                                        <!-- 開発用メニュー -->
-                                        <Menu VerticalAlignment="Bottom"
-                                          Background="White"
-                                          Foreground="#222">
-                                            <MenuItem x:Name="MenuItemDev" Header="開発(_D)">
-                                                <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" IsChecked="{Binding IsVisibleDevPageList}" />
-                                                <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" IsChecked="{Binding IsVisibleDevInfo}" />
-                                                <MenuItem x:Name="MenuItemDevApplicationFolder" Header="アプリのフォルダーを開く" Click="MenuItemDevApplicationFolder_Click" />
-                                                <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="アプリデータフォルダーを開く" Click="MenuItemDevApplicationDataFolder_Click" />
-                                                <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダーを開く" Click="MenuItemDevTempFolder_Click" />
-                                                <MenuItem x:Name="MenuItemDevButton" Header="テスト実行" Click="MenuItemDevButton_Click" />
-                                            </MenuItem>
-                                        </Menu>
-                                    </DockPanel>
-
-                                </Grid>
+                                <!-- メニューバー-->
+                                <local:MenuBarView x:Name="MenuBar" />
 
                                 <!-- アドレスバー -->
                                 <local:AddressBarView x:Name="AddressBar" VerticalAlignment="Top" Visibility="{Binding IsVisibleAddressBar, Converter={StaticResource BooleanToVisibilityConverter}}"/>

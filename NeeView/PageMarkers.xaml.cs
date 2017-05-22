@@ -177,10 +177,13 @@ namespace NeeView
         /// </summary>
         private void BookHubChanged()
         {
-            _bookHub.BookChanged += (s, e) => BookChanged();
+            // TODO: これはModel化されるまでの仮処理です
+            var bookOperation = BookOperation.Current;
+
+            bookOperation.BookChanged += (s, e) => BookChanged();
             ////_bookHub.PagemarkChanged += (s, e) => UpdateInvoke();
-            _bookHub.PagesSorted += (s, e) => UpdateInvoke();
-            _bookHub.PageRemoved += (s, e) => UpdateInvoke();
+            bookOperation.PagesSorted += (s, e) => UpdateInvoke();
+            bookOperation.PageRemoved += (s, e) => UpdateInvoke();
 
             BookOperation.Current.PagemarkChanged +=
                 (s, e) => UpdateInvoke();
@@ -203,7 +206,7 @@ namespace NeeView
             _canvas.Children.Clear();
             _markers.Clear();
 
-            if (_bookHub.CurrentBook == null) return;
+            if (_bookHub.Book == null) return;
 
             // update first
             Update();
@@ -214,17 +217,24 @@ namespace NeeView
         /// </summary>
         private void Update()
         {
+            if (_bookHub.Book == null)
+            {
+                _canvas.Children.Clear();
+                _markers.Clear();
+                return;
+            }
+
             // remove markers
-            foreach (var marker in _markers.Where(e => !_bookHub.CurrentBook.Markers.Contains(e.Page)).ToList())
+            foreach (var marker in _markers.Where(e => !_bookHub.Book.Markers.Contains(e.Page)).ToList())
             {
                 _canvas.Children.Remove(marker.Control);
                 _markers.Remove(marker);
             }
 
             // add markers
-            foreach (var key in _bookHub.CurrentBook.Markers.Where(e => _markers.All(m => m.Page != e)).ToList())
+            foreach (var key in _bookHub.Book.Markers.Where(e => _markers.All(m => m.Page != e)).ToList())
             {
-                var marker = new PageMarker(_bookHub.CurrentBook, key);
+                var marker = new PageMarker(_bookHub.Book, key);
                 _canvas.Children.Add(marker.Control);
                 _markers.Add(marker);
             }

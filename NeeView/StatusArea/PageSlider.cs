@@ -11,6 +11,23 @@ using System.Diagnostics;
 
 namespace NeeView
 {
+    // スライダーの方向
+    public enum SliderDirection
+    {
+        LeftToRight, // 左から右
+        RightToLeft, // 右から左
+        SyncBookReadDirection, // 本を開く方向にあわせる
+    }
+
+    // スライダー数値表示の配置
+    public enum SliderIndexLayout
+    {
+        None, // 表示なし
+        Left, // 左
+        Right, // 右
+    }
+
+
     /// <summary>
     /// PageSlider : Model
     /// </summary>

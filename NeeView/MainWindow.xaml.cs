@@ -763,7 +763,7 @@ namespace NeeView
             if (!isScrolled)
             {
                 ContentCanvas.Current.NextViewOrigin = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
-                _VM.BookHub.PrevPage();
+                _VM.BookOperation.PrevPage();
             }
         }
 
@@ -778,7 +778,7 @@ namespace NeeView
             if (!isScrolled)
             {
                 ContentCanvas.Current.NextViewOrigin = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
-                _VM.BookHub.NextPage();
+                _VM.BookOperation.NextPage();
             }
         }
 
@@ -790,11 +790,11 @@ namespace NeeView
 
             if (point.X < this.MainView.ActualWidth * 0.5)
             {
-                _VM.BookHub.NextPage();
+                _VM.BookOperation.NextPage();
             }
             else
             {
-                _VM.BookHub.PrevPage();
+                _VM.BookOperation.PrevPage();
             }
         }
 

@@ -74,11 +74,11 @@ namespace NeeView
             {
                 if (e.Delta < 0)
                 {
-                    _model.BookHub.NextPage();
+                    _model.BookOperation.NextPage();
                 }
                 else
                 {
-                    _model.BookHub.PrevPage();
+                    _model.BookOperation.PrevPage();
                 }
             }
         }

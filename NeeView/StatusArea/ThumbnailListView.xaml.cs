@@ -236,7 +236,7 @@ namespace NeeView
         {
             // 決定
             if (e.Key == Key.Return)
-                _vm.Model.BookHub.JumpPage(this.ThumbnailListBox.SelectedItem as Page);
+                _vm.Model.BookOperation.JumpPage(this.ThumbnailListBox.SelectedItem as Page);
             // 左右スクロールは自前で実装
             else if (e.Key == Key.Right)
                 ThumbnailListBox_MoveSelectedIndex(+1);
@@ -271,7 +271,7 @@ namespace NeeView
             var page = (sender as ListBoxItem)?.Content as Page;
             if (page != null)
             {
-                _vm.Model.BookHub.JumpPage(page);
+                _vm.Model.BookOperation.JumpPage(page);
                 e.Handled = true;
             }
         }

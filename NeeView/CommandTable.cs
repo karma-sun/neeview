@@ -1066,7 +1066,7 @@ namespace NeeView
                 element.ShortCutKey = "Right,RightClick";
                 element.MouseGesture = "R";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _book.PrevPage();
+                element.Execute = (s, e) => _models.BookOperation.PrevPage();
                 _elements[CommandType.PrevPage] = element;
             }
             // NextPage
@@ -1078,7 +1078,7 @@ namespace NeeView
                 element.ShortCutKey = "Left,LeftClick";
                 element.MouseGesture = "L";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _book.NextPage();
+                element.Execute = (s, e) => _models.BookOperation.NextPage();
                 _elements[CommandType.NextPage] = element;
             }
             // PrevOnePage
@@ -1089,7 +1089,7 @@ namespace NeeView
                 element.Note = "1ページだけ前方向に移動します";
                 element.MouseGesture = "LR";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _book.PrevOnePage();
+                element.Execute = (s, e) => _models.BookOperation.PrevOnePage();
                 _elements[CommandType.PrevOnePage] = element;
             }
             // NextOnePage
@@ -1100,7 +1100,7 @@ namespace NeeView
                 element.Note = "1ページだけ次方向に移動します";
                 element.MouseGesture = "RL";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _book.NextOnePage();
+                element.Execute = (s, e) => _models.BookOperation.NextOnePage();
                 _elements[CommandType.NextOnePage] = element;
             }
 
@@ -1144,7 +1144,7 @@ namespace NeeView
                 element.Text = "設定ページ数戻る";
                 element.Note = "設定されたページ数だけ前方向に移動します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _book.PrevSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
+                element.Execute = (s, e) => _models.BookOperation.PrevSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
                 element.DefaultParameter = new MoveSizePageCommandParameter() { Size = 10 };
                 _elements[CommandType.PrevSizePage] = element;
             }
@@ -1156,7 +1156,7 @@ namespace NeeView
                 element.Text = "設定ページ数進む";
                 element.Note = "設定されたページ数だけ次方向に移動します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _book.NextSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
+                element.Execute = (s, e) => _models.BookOperation.NextSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevSizePage };
                 _elements[CommandType.NextSizePage] = element;
             }
@@ -1169,7 +1169,7 @@ namespace NeeView
                 element.Note = "先頭ページに移動します";
                 element.ShortCutKey = "Ctrl+Right";
                 element.MouseGesture = "UR";
-                element.Execute = (s, e) => _book.FirstPage();
+                element.Execute = (s, e) => _models.BookOperation.FirstPage();
                 element.IsShowMessage = true;
                 _elements[CommandType.FirstPage] = element;
             }
@@ -1181,7 +1181,7 @@ namespace NeeView
                 element.Note = "終端ページに移動します";
                 element.ShortCutKey = "Ctrl+Left";
                 element.MouseGesture = "UL";
-                element.Execute = (s, e) => _book.LastPage();
+                element.Execute = (s, e) => _models.BookOperation.LastPage();
                 element.IsShowMessage = true;
                 _elements[CommandType.LastPage] = element;
             }

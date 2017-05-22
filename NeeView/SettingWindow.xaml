@@ -173,7 +173,7 @@
                                         ToolTip="ページの終端を超えて移動しようとした時の挙動です">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="ページが終わったら"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PageEndActionList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.BookHubMemento.PageEndAction}" />
+                                  SelectedValue="{Binding Setting.Memento.BookOperation.PageEndAction}" />
                             </StackPanel>
                             <!--
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="「開く」を現在開いているフォルダーの場所から始める"

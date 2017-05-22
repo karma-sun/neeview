@@ -12,6 +12,16 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
+
+    // 自動回転タイプ
+    public enum AutoRotateType
+    {
+        Right,
+        Left,
+    }
+
+
+    //
     public class ContentCanvas : BindableBase
     {
         public static ContentCanvas Current { get; private set; }

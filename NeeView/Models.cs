@@ -72,8 +72,8 @@ namespace NeeView
 
             this.InfoMessage = new InfoMessage();
 
-            this.BookHub = new BookHub();
-            this.BookOperation = new BookOperation(this.BookHub);
+            this.BookOperation = new BookOperation();
+            this.BookHub = new BookHub(this.BookOperation);
 
             // TODO: MainWindowVMをモデル分離してModelとして参照させる？
             this.CommandTable.SetTarget(this, MainWindowVM.Current);
@@ -89,7 +89,7 @@ namespace NeeView
 
             this.FolderPanelModel = new FolderPanelModel();
             this.FolderList = new FolderList(this.BookHub, this.FolderPanelModel);
-            this.PageList = new PageList(this.BookHub);
+            this.PageList = new PageList(this.BookHub, this.BookOperation);
             this.HistoryList = new HistoryList(this.BookHub);
             this.BookmarkList = new BookmarkList(this.BookHub);
             this.PagemarkList = new PagemarkList(this.BookHub, this.BookOperation);
@@ -117,6 +117,8 @@ namespace NeeView
         {
             [DataMember]
             public RoutedCommandTable.Memento RoutedCommandTable { get; set; }
+            [DataMember]
+            public BookOperation.Memento BookOperation { get; set; }
             [DataMember]
             public ContentCanvasTransform.Memento ContentCanvasTransform { get; set; }
             [DataMember]
@@ -154,6 +156,7 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.RoutedCommandTable = this.RoutedCommandTable.CreateMemento();
+            memento.BookOperation = this.BookOperation.CreateMemento();
             memento.ContentCanvasTransform = this.ContentCanvasTransform.CreateMemento();
             memento.ContentCanvas = this.ContentCanvas.CreateMemento();
             memento.SlideShow = this.SlideShow.CreateMemento();
@@ -177,6 +180,7 @@ namespace NeeView
         {
             if (memento == null) return;
             this.RoutedCommandTable.Restore(memento.RoutedCommandTable);
+            this.BookOperation.Restore(memento.BookOperation);
             this.ContentCanvasTransform.Restore(memento.ContentCanvasTransform);
             this.ContentCanvas.Restore(memento.ContentCanvas);
             this.SlideShow.Restore(memento.SlideShow);

@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -112,7 +113,7 @@ namespace NeeView
     /// 本の管理
     /// ロード、本の操作はここを通す
     /// </summary>
-    public class BookHub : INotifyPropertyChanged
+    public class BookHub : BindableBase
     {
         #region NormalizePathname
 
@@ -141,29 +142,12 @@ namespace NeeView
 
         #endregion
 
-        #region NotifyPropertyChanged
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-        }
-
-        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
-        {
-            PropertyChanged += (s, e) => { if (e.PropertyName == propertyName) handler?.Invoke(s, e); };
-        }
-
-        #endregion
 
         #region Events
 
         // 本の変更通知
         public event EventHandler BookChanging;
         public event EventHandler<BookMementoType> BookChanged;
-
-        // ページ番号の変更通知
-        public event EventHandler<PageChangedEventArgs> PageChanged;
 
         // 設定の変更通知
         public event EventHandler<string> SettingChanged;
@@ -192,23 +176,8 @@ namespace NeeView
         // ブックマークにに追加、削除された
         public event EventHandler<BookMementoCollectionChangedArgs> BookmarkChanged;
 
-        // ページマークにに追加、削除された
-        ////public event EventHandler<PagemarkChangedEventArgs> PagemarkChanged;
-
         // アドレスが変更された
         public event EventHandler AddressChanged;
-
-        // ページがソートされた
-        public event EventHandler PagesSorted;
-
-        // サムネイル変更
-        public event EventHandler<Page> ThumbnailChanged;
-
-        // ページが削除された
-        public event EventHandler<Page> PageRemoved;
-
-        // マーカーが変更された
-        //public event EventHandler<PagemarkChangedEventArgs> PagemarkChanged;
 
         #endregion
 
@@ -218,10 +187,26 @@ namespace NeeView
             InfoMessage?.Invoke(this, message);
         }
 
+        /// <summary>
+        /// ロード中フラグ
+        /// </summary>
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set
+            {
+                if (_isLoading != value)
+                {
+                    _isLoading = value;
+                    RaisePropertyChanged();
+                    _bookOperation.IsEnabled = !_isLoading;
+                }
+            }
+        }
 
-        // ロード中フラグ
         private bool _isLoading;
-        public bool IsLoading => _isLoading;
+
+
 
 
         // アニメGIF 有効/無効
@@ -234,7 +219,7 @@ namespace NeeView
                 if (Page.IsEnableAnimatedGif != value)
                 {
                     Page.IsEnableAnimatedGif = value;
-                    CurrentBook?.RequestReflesh(this, true); // 表示更新
+                    Book?.RequestReflesh(this, true); // 表示更新
                 }
             }
         }
@@ -250,7 +235,7 @@ namespace NeeView
                 if (BitmapContent.IsEnableExif != value)
                 {
                     BitmapContent.IsEnableExif = value;
-                    CurrentBook?.RequestReflesh(this, true); // 表示更新
+                    Book?.RequestReflesh(this, true); // 表示更新
                 }
             }
         }
@@ -271,9 +256,6 @@ namespace NeeView
                 }
             }
         }
-
-        // ページ終端でのアクション
-        public PageEndAction PageEndAction { get; set; }
 
         // 再帰を確認する
         public bool IsConfirmRecursive { get; set; }
@@ -330,25 +312,25 @@ namespace NeeView
 
 
         // 現在の本
-        public Book CurrentBook => Current?.Book;
+        public Book Book => BookUnit?.Book;
 
         /// <summary>
-        /// Current property.
+        /// 現在の本
         /// </summary>
-        public BookUnit Current
+        public BookUnit BookUnit
         {
-            get { return _current; }
+            get { return _bookUnit; }
             private set
             {
-                if (_current != value)
+                if (_bookUnit != value)
                 {
-                    _current = value;
+                    _bookUnit = value;
                     RaisePropertyChanged();
                 }
             }
         }
 
-        private BookUnit _current;
+        private BookUnit _bookUnit;
 
 
 
@@ -356,10 +338,10 @@ namespace NeeView
         //
         private async Task ReleaseCurrentAsync()
         {
-            if (Current != null)
+            if (BookUnit != null)
             {
-                var current = Current;
-                Current = null;
+                var current = BookUnit;
+                BookUnit = null;
                 await current.Book?.DisposeAsync();
             }
         }
@@ -430,14 +412,19 @@ namespace NeeView
         // command engine
         private BookHubCommandEngine _commandEngine;
 
-
+        //
+        private BookOperation _bookOperation;
 
         // コンストラクタ
-        public BookHub()
+        public BookHub(BookOperation bookOperation)
         {
+            _bookOperation = bookOperation;
+
+            this.BookChanged +=
+                (s, e) => _bookOperation.SetBook(this.BookUnit);
+
             ModelContext.BookHistory.HistoryChanged += (s, e) => HistoryChanged?.Invoke(s, e);
             ModelContext.Bookmarks.BookmarkChanged += (s, e) => BookmarkChanged?.Invoke(s, e);
-            //ModelContext.Pagemarks.PagemarkChanged += (s, e) => PagemarkChanged?.Invoke(s, e);
 
             // command engine
             _commandEngine = new BookHubCommandEngine();
@@ -460,14 +447,9 @@ namespace NeeView
             this.HistoryListSync = null;
             this.InfoMessage = null;
             this.Loading = null;
-            this.PageChanged = null;
-            ////this.PagemarkChanged = null;
-            this.PageRemoved = null;
-            this.PagesSorted = null;
-            this.PropertyChanged = null;
             this.SettingChanged = null;
-            this.ThumbnailChanged = null;
-            this.ViewContentsChanged = null;
+
+            ResetPropertyChanged();
 
             Debug.WriteLine("BokHub Disposing...");
 
@@ -484,7 +466,7 @@ namespace NeeView
         //現在開いているブックの設定作成
         private Book.Memento CreateBookMemento()
         {
-            return (Current != null && Current.Book.Pages.Count > 0) ? Current.Book.CreateMemento() : null;
+            return (BookUnit != null && BookUnit.Book.Pages.Count > 0) ? BookUnit.Book.CreateMemento() : null;
         }
 
         // 設定の読込
@@ -500,7 +482,7 @@ namespace NeeView
             var memento = CreateBookMemento();
             if (memento == null) return;
 
-            SaveBookMemento(Current.BookMementoUnit, memento, Current.IsKeepHistoryOrder);
+            SaveBookMemento(BookUnit.BookMementoUnit, memento, BookUnit.IsKeepHistoryOrder);
         }
 
         private void SaveBookMemento(BookMementoUnit unit, Book.Memento memento, bool isKeepHistoryOrder)
@@ -575,8 +557,6 @@ namespace NeeView
             //throw new FileNotFoundException($"\"{path}\" が見つかりません", path);
             return path;
         }
-
-
 
         // パスから対応するアーカイバーを取得する
         private string GetPlace(string path, BookLoadOption option)
@@ -659,7 +639,7 @@ namespace NeeView
         // ロード中状態更新
         private void NotifyLoading(string path)
         {
-            _isLoading = (path != null);
+            this.IsLoading = (path != null);
             App.Current?.Dispatcher.Invoke(() => Loading?.Invoke(this, path));
         }
 
@@ -721,14 +701,14 @@ namespace NeeView
 
 
                 // 本の変更通知
-                App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, Current.BookMementoType));
+                App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookUnit.BookMementoType));
 
                 // ページがなかった時の処理
-                if (CurrentBook.Pages.Count <= 0)
+                if (Book.Pages.Count <= 0)
                 {
-                    App.Current?.Dispatcher.Invoke(() => EmptyMessage?.Invoke(this, $"\"{CurrentBook.Place}\" には読み込めるファイルがありません"));
+                    App.Current?.Dispatcher.Invoke(() => EmptyMessage?.Invoke(this, $"\"{Book.Place}\" には読み込めるファイルがありません"));
 
-                    if (IsConfirmRecursive && (args.Option & BookLoadOption.ReLoad) == 0 && !CurrentBook.IsRecursiveFolder && CurrentBook.SubFolderCount > 0)
+                    if (IsConfirmRecursive && (args.Option & BookLoadOption.ReLoad) == 0 && !Book.IsRecursiveFolder && Book.SubFolderCount > 0)
                     {
                         App.Current?.Dispatcher.Invoke(() => ConfirmRecursive());
                     }
@@ -782,7 +762,7 @@ namespace NeeView
             if (path == null) return null;
             path = GetNormalizePathName(path);
 
-            if (CurrentBook?.Place == path && option.HasFlag(BookLoadOption.SkipSamePlace)) return null;
+            if (Book?.Place == path && option.HasFlag(BookLoadOption.SkipSamePlace)) return null;
 
             Address = path;
 
@@ -822,23 +802,21 @@ namespace NeeView
         // アンロード可能?
         public bool CanUnload()
         {
-            return Current != null || _commandEngine.Count > 0;
+            return BookUnit != null || _commandEngine.Count > 0;
         }
 
 
-
-
         // 再帰読み込み確認
-        public void ConfirmRecursive()
+        private void ConfirmRecursive()
         {
-            var dialog = new MessageDialog($"\"{CurrentBook.Place}\" には読み込めるファイルがありません。サブフォルダーまたは圧縮ファイルも読み込みますか？", "サブフォルダーも読み込みますか？");
+            var dialog = new MessageDialog($"\"{Book.Place}\" には読み込めるファイルがありません。サブフォルダーまたは圧縮ファイルも読み込みますか？", "サブフォルダーも読み込みますか？");
             dialog.Commands.Add(UICommands.Yes);
             dialog.Commands.Add(UICommands.No);
             var result = dialog.ShowDialog();
 
             if (result == UICommands.Yes)
             {
-                RequestLoad(CurrentBook.Place, CurrentBook.StartEntry, BookLoadOption.Recursive | BookLoadOption.ReLoad, true);
+                RequestLoad(Book.Place, Book.StartEntry, BookLoadOption.Recursive | BookLoadOption.ReLoad, true);
             }
         }
 
@@ -899,24 +877,16 @@ namespace NeeView
                 await book.LoadAsync(path, startEntry, option, token);
 
                 // カレントを設定し、開始する
-                Current = new BookUnit(book);
-                Current.LoadOptions = option;
-                Current.BookMementoUnit = unit;
+                BookUnit = new BookUnit(book);
+                BookUnit.LoadOptions = option;
+                BookUnit.BookMementoUnit = unit;
 
                 // イベント設定
-                book.PageChanged += (s, e) => PageChanged?.Invoke(s, e);
-                book.ViewContentsChanged += (s, e) => { if (Current != null) ViewContentsChanged?.Invoke(s, e); };
-                book.PageTerminated += OnPageTerminated;
+                book.ViewContentsChanged += (s, e) => { if (BookUnit != null) ViewContentsChanged?.Invoke(s, e); };
                 book.DartyBook += (s, e) => RequestLoad(Address, null, BookLoadOption.ReLoad, false);
-                book.PagesSorted += (s, e) => PagesSorted?.Invoke(s, e);
-                book.ThumbnailChanged += (s, e) => ThumbnailChanged?.Invoke(s, e);
-                book.PageRemoved += OnPageRemoved;
 
                 // 開始
-                Current.Book.Start();
-
-                // マーカー復元
-                BookOperation.Current.UpdatePagemark();
+                BookUnit.Book.Start();
 
                 // 最初のコンテンツ表示待ち
                 if (book.Pages.Count > 0)
@@ -928,16 +898,16 @@ namespace NeeView
             catch (OperationCanceledException)
             {
                 // 後始末
-                Current?.Book?.Dispose();
-                Current = null;
+                BookUnit?.Book?.Dispose();
+                BookUnit = null;
 
                 throw;
             }
             catch (Exception e)
             {
                 // 後始末
-                Current?.Book?.Dispose();
-                Current = null;
+                BookUnit?.Book?.Dispose();
+                BookUnit = null;
 
                 // 履歴から消去
                 ModelContext.BookHistory.Remove(path);
@@ -947,16 +917,16 @@ namespace NeeView
             }
 
             // 本の設定を退避
-            BookMemento = CurrentBook.CreateMemento();
+            BookMemento = Book.CreateMemento();
             BookMemento.ValidateForDefault();
 
             // 新規履歴
-            if (Current.BookMementoUnit?.HistoryNode == null && CurrentBook.Pages.Count > 0 && !Current.IsKeepHistoryOrder)
+            if (BookUnit.BookMementoUnit?.HistoryNode == null && Book.Pages.Count > 0 && !BookUnit.IsKeepHistoryOrder)
             {
-                Current.BookMementoUnit = ModelContext.BookHistory.Add(Current.BookMementoUnit, CurrentBook?.CreateMemento(), Current.IsKeepHistoryOrder);
+                BookUnit.BookMementoUnit = ModelContext.BookHistory.Add(BookUnit.BookMementoUnit, Book?.CreateMemento(), BookUnit.IsKeepHistoryOrder);
             }
 
-            Address = Current.Book.Place;
+            Address = BookUnit.Book.Place;
         }
 
 
@@ -970,69 +940,12 @@ namespace NeeView
         {
             if (_isLoading || Address == null) return;
 
-            var options = Current != null ? (Current.LoadOptions & BookLoadOption.KeepHistoryOrder) | BookLoadOption.Resume : BookLoadOption.None;
+            var options = BookUnit != null ? (BookUnit.LoadOptions & BookLoadOption.KeepHistoryOrder) | BookLoadOption.Resume : BookLoadOption.None;
             RequestLoad(Address, null, options, true);
         }
 
-        // ページ終端を超えて移動しようとするときの処理
-        private void OnPageTerminated(object sender, int e)
-        {
-            // TODO ここでSlideShowを参照しているが、引数で渡すべきでは？
-            if (SlideShow.Current.IsPlayingSlideShow && SlideShow.Current.IsSlideShowByLoop)
-            {
-                FirstPage();
-            }
 
-            else if (PageEndAction == PageEndAction.Loop)
-            {
-                if (e < 0)
-                {
-                    LastPage();
-                }
-                else
-                {
-                    FirstPage();
-                }
-            }
-            else if (PageEndAction == PageEndAction.NextFolder)
-            {
-                if (e < 0)
-                {
-                    PrevFolder(BookLoadOption.LastPage);
-                }
-                else
-                {
-                    NextFolder(BookLoadOption.FirstPage);
-                }
-            }
-            else
-            {
-                if (SlideShow.Current.IsPlayingSlideShow)
-                {
-                    // スライドショー解除
-                    SlideShow.Current.IsPlayingSlideShow = false;
-                }
-
-                else if (e < 0)
-                {
-                    InfoMessage?.Invoke(this, "最初のページです");
-                }
-                else
-                {
-                    InfoMessage?.Invoke(this, "最後のページです");
-                }
-            }
-        }
-
-        private void OnPageRemoved(object sender, Page e)
-        {
-            PageRemoved?.Invoke(sender, e);
-
-            // ページマーカーから削除
-            BookOperation.Current.RemovePagemark(new Pagemark(CurrentBook.Place, e.FullPath));
-        }
-
-
+        #region HistoryCommand
 
         // 履歴を戻ることができる？
         public bool CanPrevHistory()
@@ -1086,66 +999,10 @@ namespace NeeView
             }
         }
 
-        // 前のページに移動
-        public void PrevPage()
-        {
-            CurrentBook?.PrevPage();
-        }
-
-        // 次のページに移動
-        public void NextPage()
-        {
-            CurrentBook?.NextPage();
-        }
-
-        // 1ページ前に移動
-        public void PrevOnePage()
-        {
-            CurrentBook?.PrevPage(1);
-        }
-
-        // 1ページ後に移動
-        public void NextOnePage()
-        {
-            CurrentBook?.NextPage(1);
-        }
-
-        // 指定ページ数前に移動
-        public void PrevSizePage(int size)
-        {
-            CurrentBook?.PrevPage(size);
-        }
-
-        // 指定ページ数後に移動
-        public void NextSizePage(int size)
-        {
-            CurrentBook?.NextPage(size);
-        }
+        #endregion
 
 
-        // 最初のページに移動
-        public void FirstPage()
-        {
-            CurrentBook?.FirstPage();
-        }
-
-        // 最後のページに移動
-        public void LastPage()
-        {
-            CurrentBook?.LastPage();
-        }
-
-        // 指定ページに移動
-        public void JumpPage(Page page)
-        {
-            if (!_isLoading && page != null) CurrentBook?.JumpPage(page);
-        }
-
-        // スライドショー用：次のページへ移動
-        public void NextSlide()
-        {
-            if (SlideShow.Current.IsPlayingSlideShow) NextPage();
-        }
+        #region FolderListCommand
 
         // ー
         public void NextFolder(BookLoadOption option = BookLoadOption.None)
@@ -1169,9 +1026,11 @@ namespace NeeView
             }
         }
 
+        #endregion
+
 
         // 本来ここで実装すべきてはない
-        #region FolderOrder
+        #region FolderOrderCommand
 
         // フォルダーの並びの変更
         public void ToggleFolderOrder()
@@ -1199,7 +1058,7 @@ namespace NeeView
         // 本の設定を更新
         private void RefleshBookSetting()
         {
-            CurrentBook?.Restore(BookMemento);
+            Book?.Restore(BookMemento);
             SettingChanged?.Invoke(this, null);
         }
 
@@ -1285,7 +1144,7 @@ namespace NeeView
         {
             if (_isLoading) return;
             var mode = BookMemento.SortMode.GetToggle();
-            CurrentBook?.SetSortMode(mode);
+            Book?.SetSortMode(mode);
             BookMemento.SortMode = mode;
             RefleshBookSetting();
         }
@@ -1293,7 +1152,7 @@ namespace NeeView
         // ページ並び設定
         public void SetSortMode(PageSortMode mode)
         {
-            CurrentBook?.SetSortMode(mode);
+            Book?.SetSortMode(mode);
             BookMemento.SortMode = mode;
             RefleshBookSetting();
         }
@@ -1312,7 +1171,7 @@ namespace NeeView
             {
                 try
                 {
-                    ExternalApllication.Call(CurrentBook?.GetViewPages());
+                    ExternalApllication.Call(Book?.GetViewPages());
                 }
                 catch (Exception e)
                 {
@@ -1329,7 +1188,7 @@ namespace NeeView
             {
                 try
                 {
-                    ClipboardUtility.Copy(CurrentBook?.GetViewPages());
+                    ClipboardUtility.Copy(Book?.GetViewPages());
                 }
                 catch (Exception e)
                 {
@@ -1342,7 +1201,7 @@ namespace NeeView
         // ブックマーク登録可能？
         public bool CanBookmark()
         {
-            return (CurrentBook != null);
+            return (Book != null);
         }
 
 
@@ -1351,13 +1210,13 @@ namespace NeeView
         {
             if (CanBookmark())
             {
-                if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
+                if (BookUnit.Book.Place.StartsWith(Temporary.TempDirectory))
                 {
                     new MessageDialog($"原因: 一時フォルダーはブックマークできません", "ブックマークできません").ShowDialog();
                 }
                 else
                 {
-                    Current.BookMementoUnit = ModelContext.Bookmarks.Toggle(Current.BookMementoUnit, CurrentBook.CreateMemento());
+                    BookUnit.BookMementoUnit = ModelContext.Bookmarks.Toggle(BookUnit.BookMementoUnit, Book.CreateMemento());
                 }
             }
         }
@@ -1365,9 +1224,9 @@ namespace NeeView
         // ブックマーク判定
         public bool IsBookmark(string place)
         {
-            if (Current?.BookMementoUnit != null && Current.BookMementoUnit.Memento.Place == (place ?? CurrentBook.Place))
+            if (BookUnit?.BookMementoUnit != null && BookUnit.BookMementoUnit.Memento.Place == (place ?? Book.Place))
             {
-                return Current.BookMementoUnit.BookmarkNode != null;
+                return BookUnit.BookMementoUnit.BookmarkNode != null;
             }
             else
             {
@@ -1415,7 +1274,7 @@ namespace NeeView
         // ファイルの場所を開くことが可能？
         public bool CanOpenFilePlace()
         {
-            return CurrentBook?.GetViewPage() != null;
+            return Book?.GetViewPage() != null;
         }
 
         // ファイルの場所を開く
@@ -1423,7 +1282,7 @@ namespace NeeView
         {
             if (CanOpenFilePlace())
             {
-                string place = CurrentBook.GetViewPage()?.GetFilePlace();
+                string place = Book.GetViewPage()?.GetFilePlace();
                 if (place != null)
                 {
                     System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + place + "\"");
@@ -1435,9 +1294,9 @@ namespace NeeView
         public string GetDefaultFolder()
         {
             // 既に開いている場合、その場所を起点とする
-            if (Preference.Current.openbook_begin_current && CurrentBook != null)
+            if (Preference.Current.openbook_begin_current && Book != null)
             {
-                return Path.GetDirectoryName(CurrentBook.Place);
+                return Path.GetDirectoryName(Book.Place);
             }
             else
             {
@@ -1452,7 +1311,7 @@ namespace NeeView
         /// <returns></returns>
         public bool CanExport()
         {
-            var pages = CurrentBook?.GetViewPages();
+            var pages = Book?.GetViewPages();
             if (pages == null || pages.Count == 0) return false;
 
             var bitmapSource = (pages[0].Content as BitmapContent)?.BitmapSource;
@@ -1469,11 +1328,11 @@ namespace NeeView
             {
                 try
                 {
-                    var pages = CurrentBook.GetViewPages();
-                    int index = CurrentBook.GetViewPageindex() + 1;
-                    string name = $"{Path.GetFileNameWithoutExtension(CurrentBook.Place)}_{index:000}-{index + pages.Count - 1:000}.png";
+                    var pages = Book.GetViewPages();
+                    int index = Book.GetViewPageindex() + 1;
+                    string name = $"{Path.GetFileNameWithoutExtension(Book.Place)}_{index:000}-{index + pages.Count - 1:000}.png";
                     var exporter = new Exporter();
-                    exporter.Initialize(pages, CurrentBook.BookReadOrder, name);
+                    exporter.Initialize(pages, Book.BookReadOrder, name);
                     if (Messenger.Send(this, new MessageEventArgs("Export") { Parameter = exporter }) == true)
                     {
                         try
@@ -1498,7 +1357,7 @@ namespace NeeView
         // ファイル削除可能？
         public bool CanDeleteFile()
         {
-            return Preference.Current.file_permit_command && CanRemoveFile(CurrentBook?.GetViewPage());
+            return Preference.Current.file_permit_command && CanRemoveFile(Book?.GetViewPage());
         }
 
         // ファイルを削除する
@@ -1506,7 +1365,7 @@ namespace NeeView
         {
             if (CanDeleteFile())
             {
-                await RemoveFile(CurrentBook?.GetViewPage());
+                await RemoveFile(Book?.GetViewPage());
             }
         }
 
@@ -1565,9 +1424,9 @@ namespace NeeView
             bool isRemoved = await RemoveFileAsync(path);
 
             // ページを本から削除
-            if (isRemoved == true && CurrentBook != null)
+            if (isRemoved == true && Book != null)
             {
-                CurrentBook.RequestRemove(this, page);
+                Book.RequestRemove(this, page);
             }
         }
 
@@ -1705,17 +1564,8 @@ namespace NeeView
         /// BookHub Memento
         /// </summary>
         [DataContract]
-        public class Memento : INotifyPropertyChanged
+        public class Memento : BindableBase
         {
-            #region NotifyPropertyChanged
-            public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-            protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-            {
-                PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-            #endregion
-
             [DataMember]
             public int _Version { get; set; }
 
@@ -1731,8 +1581,8 @@ namespace NeeView
             [DataMember(EmitDefaultValue = false)]
             public bool IsEnabledAutoNextFolder { get; set; } // no used
 
-            [DataMember(Order = 19)]
-            public PageEndAction PageEndAction { get; set; }
+            [DataMember(Order = 19, EmitDefaultValue = false)]
+            public PageEndAction PageEndAction { get; set; } // no used (ver.23)
 
             [DataMember(EmitDefaultValue = false)]
             public bool IsSlideShowByLoop { get; set; } // no used (ver.22)
@@ -1793,9 +1643,6 @@ namespace NeeView
                 _Version = App.Config.ProductVersionNumber;
 
                 IsEnableNoSupportFile = false;
-                ////IsSlideShowByLoop = true; // no used.
-                ////SlideShowInterval = 5.0; // no used.
-                ////IsCancelSlideByMouseMove = true; // no used.
                 IsSupportArchiveFile = true;
                 BookMemento = new Book.Memento();
                 ExternalApplication = new ExternalApplication();
@@ -1840,13 +1687,10 @@ namespace NeeView
             var memento = new Memento();
 
             memento._Version = App.Config.ProductVersionNumber;
+
             memento.IsEnableAnimatedGif = IsEnableAnimatedGif;
             memento.IsEnableExif = IsEnableExif;
             memento.IsEnableNoSupportFile = IsEnableNoSupportFile;
-            memento.PageEndAction = PageEndAction;
-            ////memento.IsSlideShowByLoop = false; // no used
-            ////memento.SlideShowInterval = 0; // no used
-            ////memento.IsCancelSlideByMouseMove = false; // no used
             memento.BookMemento = BookMemento.Clone();
             memento.BookMemento.ValidateForDefault(); // 念のため
             memento.IsSupportArchiveFile = IsSupportArchiveFile;
@@ -1871,10 +1715,6 @@ namespace NeeView
             IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
             IsEnableExif = memento.IsEnableExif;
             IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
-            PageEndAction = memento.PageEndAction;
-            ////IsSlideShowByLoop = memento.IsSlideShowByLoop;
-            ////SlideShowInterval = memento.SlideShowInterval;
-            ////IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;
             BookMemento = memento.BookMemento.Clone();
             IsSupportArchiveFile = memento.IsSupportArchiveFile;
             ExternalApllication = memento.ExternalApplication.Clone();
@@ -1894,6 +1734,12 @@ namespace NeeView
                 SlideShow.Current.IsSlideShowByLoop = memento.IsSlideShowByLoop;
                 SlideShow.Current.SlideShowInterval = memento.SlideShowInterval;
                 SlideShow.Current.IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;
+            }
+
+            // compatible before ver.23
+            if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
+            {
+                BookOperation.Current.PageEndAction = memento.PageEndAction;
             }
         }
 

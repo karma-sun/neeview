@@ -46,6 +46,7 @@ namespace NeeView
 
         //
         private BookHub _bookHub;
+        private BookOperation _bookOperation;
 
         // タイマーディスパッチ
         private DispatcherTimer _timer;
@@ -67,6 +68,7 @@ namespace NeeView
             Current = this;
 
             _bookHub = bookHub;
+            _bookOperation = bookOperation;
 
             // timer for slideshow
             _timer = new DispatcherTimer();
@@ -180,7 +182,7 @@ namespace NeeView
         /// </summary>
         public void NextSlide()
         {
-            _bookHub.NextSlide();
+            _bookOperation.NextSlide();
         }
 
         /// <summary>

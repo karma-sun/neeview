@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace NeeView.ComponentModel
     /// <summary>
     /// モデルを簡略化するための <see cref="INotifyPropertyChanged"/> の実装。
     /// </summary>
+    [DataContract]
     public abstract class BindableBase : INotifyPropertyChanged
     {
         /// <summary>
@@ -60,6 +62,14 @@ namespace NeeView.ComponentModel
         public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
         {
             PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
+        }
+
+        /// <summary>
+        /// プロパティ変更イベントクリア
+        /// </summary>
+        protected void ResetPropertyChanged()
+        {
+            this.PropertyChanged = null;
         }
     }
 }

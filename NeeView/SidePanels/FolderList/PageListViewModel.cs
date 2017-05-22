@@ -184,7 +184,7 @@ namespace NeeView
         //
         private void Reflesh()
         {
-            Title = System.IO.Path.GetFileName(_bookHub.CurrentBook?.Place);
+            Title = System.IO.Path.GetFileName(_bookHub.Book?.Place);
 
             _pageSortMode = _bookHub.BookMemento.SortMode;
             RaisePropertyChanged(nameof(PageSortMode));
@@ -196,7 +196,7 @@ namespace NeeView
         //
         public void Jump(Page page)
         {
-            _bookHub.JumpPage(page);
+            _model.BookOperation.JumpPage(page);
         }
 
 

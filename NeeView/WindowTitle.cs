@@ -9,6 +9,18 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    // ウィンドウタイトル更新項目
+    [Flags]
+    public enum UpdateWindowTitleMask
+    {
+        None = 0,
+        Book = (1 << 0),
+        Page = (1 << 1),
+        View = (1 << 2),
+        All = 0xFFFF
+    }
+
+    //
     public class WindowTitle : BindableBase
     {
         // 標準ウィンドウタイトル

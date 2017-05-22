@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,43 +25,69 @@ namespace NeeView
 
         #region events
 
-        //
+        // ブックが変更された
         public event EventHandler BookChanged;
 
-        //
+        // ページ表示内容の更新
+        //public event EventHandler<ViewSource> ViewContentsChanged;
+
+        // ページが変更された
         public event EventHandler<PageChangedEventArgs> PageChanged;
+
+        // ページがソートされた
+        public event EventHandler PagesSorted;
+
+        // ページが削除された
+        // TODO: EventArgs
+        public event EventHandler<Page> PageRemoved;
+
 
         #endregion
 
 
-        //
-        BookHub _bookHub;
+        // ページ終端でのアクション
+        public PageEndAction PageEndAction { get; set; }
+
 
         //
-        public BookOperation(BookHub bookHub)
+        public BookOperation()
         {
             Current = this;
+        }
 
-            _bookHub = bookHub;
+        //
+        public void SetBook(BookUnit bookUnit)
+        {
+            this.BookUnit = bookUnit;
 
-            _bookHub.AddressChanged +=
-                (s, e) => RaisePropertyChanged(nameof(IsPagemark));
+            if (this.BookUnit != null)
+            {
 
-            _bookHub.PageChanged +=
-                (s, e) =>
-                {
-                    RaisePropertyChanged(nameof(IsPagemark));
-                    PageChanged?.Invoke(this, e);
-                };
+                this.Book.PageChanged += Book_PageChanged;
+                this.Book.PagesSorted += Book_PagesSorted;
+                this.Book.PageTerminated += Book_PageTerminated;
+                this.Book.PageRemoved += Book_PageRemoved;
+            }
 
-            _bookHub.PagesSorted +=
-                (s, e) => UpdatePageList();
+            // マーカー復元
+            // TODO: PageMarkersのしごと？
+            UpdatePagemark();
 
-            _bookHub.PageRemoved +=
-                (s, e) => UpdatePageList();
+            BookChanged?.Invoke(this, null);
+        }
 
-            _bookHub.AddPropertyChanged(nameof(_bookHub.Current),
-                (s, e) => { this.BookUnit = _bookHub.Current; });
+        //
+        private void Book_PagesSorted(object sender, EventArgs e)
+        {
+            UpdatePageList();
+            PagesSorted?.Invoke(this, e);
+        }
+
+        //
+        private void Book_PageChanged(object sender, PageChangedEventArgs e)
+        {
+            RaisePropertyChanged(nameof(IsPagemark));
+            PageChanged?.Invoke(this, e);
         }
 
 
@@ -70,12 +97,25 @@ namespace NeeView
 
 
         /// <summary>
+        /// IsEnabled property.
+        /// </summary>
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
+        }
+
+        private bool _isEnabled;
+
+
+
+        /// <summary>
         /// Book property.
         /// </summary>
         public BookUnit BookUnit
         {
             get { return _bookUnit; }
-            set { if (_bookUnit != value) { _bookUnit = value; RaisePropertyChanged(null); BookChanged?.Invoke(this, null); } }
+            set { if (_bookUnit != value) { _bookUnit = value; RaisePropertyChanged(null); /*BookChanged?.Invoke(this, null);*/ } }
         }
 
         private BookUnit _bookUnit;
@@ -152,6 +192,136 @@ namespace NeeView
 
 
 
+        #region BookCommand
+
+        // ページ終端を超えて移動しようとするときの処理
+        private void Book_PageTerminated(object sender, int e)
+        {
+            // TODO ここでSlideShowを参照しているが、引数で渡すべきでは？
+            if (SlideShow.Current.IsPlayingSlideShow && SlideShow.Current.IsSlideShowByLoop)
+            {
+                FirstPage();
+            }
+
+            else if (this.PageEndAction == PageEndAction.Loop)
+            {
+                if (e < 0)
+                {
+                    LastPage();
+                }
+                else
+                {
+                    FirstPage();
+                }
+            }
+            else if (this.PageEndAction == PageEndAction.NextFolder)
+            {
+                if (e < 0)
+                {
+                    Models.Current.BookHub.PrevFolder(BookLoadOption.LastPage);
+                }
+                else
+                {
+                    Models.Current.BookHub.NextFolder(BookLoadOption.FirstPage);
+                }
+            }
+            else
+            {
+                if (SlideShow.Current.IsPlayingSlideShow)
+                {
+                    // スライドショー解除
+                    SlideShow.Current.IsPlayingSlideShow = false;
+                }
+
+                else if (e < 0)
+                {
+                    InfoMessage?.Invoke(this, "最初のページです");
+                }
+                else
+                {
+                    InfoMessage?.Invoke(this, "最後のページです");
+                }
+            }
+        }
+
+
+        // ページ削除時の処理
+        private void Book_PageRemoved(object sender, Page e)
+        {
+            // ページマーカーから削除
+            RemovePagemark(new Pagemark(this.Book.Place, e.FullPath));
+
+            UpdatePageList();
+            PageRemoved?.Invoke(sender, e);
+        }
+
+
+        // 前のページに移動
+        public void PrevPage()
+        {
+            this.Book?.PrevPage();
+        }
+
+        // 次のページに移動
+        public void NextPage()
+        {
+            this.Book?.NextPage();
+        }
+
+        // 1ページ前に移動
+        public void PrevOnePage()
+        {
+            this.Book?.PrevPage(1);
+        }
+
+        // 1ページ後に移動
+        public void NextOnePage()
+        {
+            this.Book?.NextPage(1);
+        }
+
+        // 指定ページ数前に移動
+        public void PrevSizePage(int size)
+        {
+            this.Book?.PrevPage(size);
+        }
+
+        // 指定ページ数後に移動
+        public void NextSizePage(int size)
+        {
+            this.Book?.NextPage(size);
+        }
+
+
+        // 最初のページに移動
+        public void FirstPage()
+        {
+            this.Book?.FirstPage();
+        }
+
+        // 最後のページに移動
+        public void LastPage()
+        {
+            this.Book?.LastPage();
+        }
+
+        // 指定ページに移動
+        public void JumpPage(Page page)
+        {
+            if (_isEnabled && page != null) this.Book?.JumpPage(page);
+        }
+
+        // スライドショー用：次のページへ移動
+        public void NextSlide()
+        {
+            if (SlideShow.Current.IsPlayingSlideShow) NextPage();
+        }
+
+        #endregion
+
+
+
+
         #region Pagemark
 
         // ページマークにに追加、削除された
@@ -178,7 +348,7 @@ namespace NeeView
         // マーカー切り替え
         public void TogglePagemark()
         {
-            if (_bookHub.IsLoading || this.Book == null) return;
+            if (!_isEnabled || this.Book == null) return;
 
             if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
             {
@@ -218,6 +388,7 @@ namespace NeeView
         public void UpdatePagemark()
         {
             // 本にマーカを設定
+            // TODO: これはPagemarkerの仕事？
             this.Book?.SetMarkers(ModelContext.Pagemarks.Collect(this.Book.Place).Select(e => e.EntryName));
 
             // 表示更新
@@ -238,7 +409,7 @@ namespace NeeView
         // ページマークに移動
         public void PrevPagemarkInPlace(MovePagemarkCommandParameter param)
         {
-            if (_bookHub.IsLoading || this.Book == null) return;
+            if (!_isEnabled || this.Book == null) return;
             var result = this.Book.RequestJumpToMarker(this, -1, param.IsLoop, param.IsIncludeTerminal);
             if (!result)
             {
@@ -248,7 +419,7 @@ namespace NeeView
 
         public void NextPagemarkInPlace(MovePagemarkCommandParameter param)
         {
-            if (_bookHub.IsLoading || this.Book == null) return;
+            if (!_isEnabled || this.Book == null) return;
             var result = this.Book.RequestJumpToMarker(this, +1, param.IsLoop, param.IsIncludeTerminal);
             if (!result)
             {
@@ -266,7 +437,7 @@ namespace NeeView
                 Page page = this.Book.GetPage(mark.EntryName);
                 if (page != null)
                 {
-                    _bookHub.JumpPage(page);
+                    JumpPage(page);
                     return true;
                 }
             }
@@ -275,5 +446,30 @@ namespace NeeView
         }
 
         #endregion
+
+        #region Memento
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public PageEndAction PageEndAction { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.PageEndAction = this.PageEndAction;
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            this.PageEndAction = memento.PageEndAction;
+        }
+        #endregion
+
     }
 }

@@ -53,29 +53,13 @@ namespace NeeView
         Right,
     }
 
-    // ウィンドウタイトル更新項目
-    [Flags]
-    public enum UpdateWindowTitleMask
-    {
-        None = 0,
-        Book = (1 << 0),
-        Page = (1 << 1),
-        View = (1 << 2),
-        All = 0xFFFF
-    }
+
 
     // 長押しモード
     public enum LongButtonDownMode
     {
         None,
         Loupe
-    }
-
-    // 自動回転タイプ
-    public enum AutoRotateType
-    {
-        Right,
-        Left,
     }
 
     //
@@ -93,21 +77,6 @@ namespace NeeView
         }
     }
 
-    // スライダーの方向
-    public enum SliderDirection
-    {
-        LeftToRight, // 左から右
-        RightToLeft, // 右から左
-        SyncBookReadDirection, // 本を開く方向にあわせる
-    }
-
-    // スライダー数値表示の配置
-    public enum SliderIndexLayout
-    {
-        None, // 表示なし
-        Left, // 左
-        Right, // 右
-    }
 
 
     /// <summary>
@@ -743,6 +712,9 @@ namespace NeeView
         // 本管理
         public BookHub BookHub { get; private set; }
 
+        //
+        public BookOperation BookOperation { get; private set; }
+
 
         #region 開発用
 
@@ -899,6 +871,8 @@ namespace NeeView
             ModelContext.JobEngine.IsBusyChanged +=
                 (s, e) => IsBusyJobEngine = ModelContext.JobEngine.IsBusy && !SlideShow.Current.IsPlayingSlideShow;
 
+
+
             // BookHub
             BookHub = _models.BookHub;
 
@@ -935,10 +909,13 @@ namespace NeeView
                     RaisePropertyChanged(nameof(IsBookmark));
                 };
 
+            // BookOperation
+            BookOperation = _models.BookOperation;
 
-            _models.BookOperation.InfoMessage +=
+            BookOperation.InfoMessage +=
                 (s, e) => _models.InfoMessage.SetMessage(NoticeShowMessageStyle, e);
 
+            //
             _models.PagemarkList.InfoMessage +=
                 (s, e) => _models.InfoMessage.SetMessage(NoticeShowMessageStyle, e);
 
@@ -984,7 +961,7 @@ namespace NeeView
 
             ////_models.BookOperation.UpdateIndex();
 
-            if (BookHub.Current == null)
+            if (BookHub.BookUnit == null)
             {
                 BookUnloaded?.Invoke(this, null);
             }
@@ -1014,7 +991,7 @@ namespace NeeView
         /// <returns></returns>
         internal List<string> GetHistory(int direction, int size)
         {
-            return ModelContext.BookHistory.ListUp(this.BookHub.Current?.Address, direction, size);
+            return ModelContext.BookHistory.ListUp(this.BookHub.BookUnit?.Address, direction, size);
         }
 
         /// <summary>

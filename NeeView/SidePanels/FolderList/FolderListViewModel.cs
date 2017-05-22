@@ -577,7 +577,7 @@ namespace NeeView
 
         private void Sync_Executed()
         {
-            string place = BookHub?.CurrentBook?.Place;
+            string place = BookHub?.Book?.Place;
 
             if (place != null)
             {

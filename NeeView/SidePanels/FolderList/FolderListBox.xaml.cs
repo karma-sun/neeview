@@ -293,9 +293,6 @@ namespace NeeView
 
         private void FolderList_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            // 自動非表示時間リセット
-            Messenger.Send(this, new MessageEventArgs("ResetHideDelay") { Parameter = new ResetHideDelayParam() { PanelSide = PanelSide.Left } });
-
             if (e.Key == Key.Home)
             {
                 _vm.MovedHome();
@@ -371,9 +368,6 @@ namespace NeeView
         //
         private void FolderListItem_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            // 自動非表示時間リセット
-            Messenger.Send(this, new MessageEventArgs("ResetHideDelay") { Parameter = new ResetHideDelayParam() { PanelSide = PanelSide.Left } });
-
             var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
             {
                 if (e.Key == Key.Return)

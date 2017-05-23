@@ -46,36 +46,6 @@ namespace NeeView
         Light,
     }
 
-    // パネル
-    public enum PanelSide
-    {
-        Left,
-        Right,
-    }
-
-
-
-    // 長押しモード
-    public enum LongButtonDownMode
-    {
-        None,
-        Loupe
-    }
-
-    //
-    public static class LongButtonDownModeExtensions
-    {
-        public static string ToTips(this LongButtonDownMode element)
-        {
-            switch (element)
-            {
-                default:
-                    return null;
-                case LongButtonDownMode.Loupe:
-                    return "一時的に画像を拡大表示します\nルーペ表示中にホイール操作で拡大率を変更できます";
-            }
-        }
-    }
 
 
 

@@ -375,5 +375,17 @@ namespace NeeView
                 CanvasHeight = rect.Height;
             }
         }
+
+        //
+        private void LeftPanel_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            _vm.Left.ResetDelayHide();
+        }
+
+        //
+        private void RightPanel_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            _vm.Right.ResetDelayHide();
+        }
     }
 }

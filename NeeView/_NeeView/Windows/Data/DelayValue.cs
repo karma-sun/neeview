@@ -38,9 +38,9 @@ namespace NeeView.Windows.Data
         }
 
         //
-        public void SetValue(T value, double ms = 0.0)
+        public void SetValue(T value, double ms = 0.0, bool isForce = false)
         {
-            if (_delayValue.Equals(value)) return;
+            if (!isForce && _delayValue.Equals(value)) return;
 
             _delayValue = value;
 

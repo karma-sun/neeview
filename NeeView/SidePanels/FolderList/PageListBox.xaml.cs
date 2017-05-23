@@ -117,9 +117,6 @@ namespace NeeView
         // 履歴項目決定(キー)
         private void PageListItem_KeyDown(object sender, KeyEventArgs e)
         {
-            // 自動非表示時間リセット
-            Messenger.Send(this, new MessageEventArgs("ResetHideDelay") { Parameter = new ResetHideDelayParam() { PanelSide = PanelSide.Left } });
-
             var page = (sender as ListBoxItem)?.Content as Page;
             {
                 if (e.Key == Key.Return)
@@ -133,9 +130,6 @@ namespace NeeView
         // リストのキ入力
         private void PageList_KeyDown(object sender, KeyEventArgs e)
         {
-            // 自動非表示時間リセット
-            Messenger.Send(this, new MessageEventArgs("ResetHideDelay") { Parameter = new ResetHideDelayParam() { PanelSide = PanelSide.Left } });
-
             // このパネルで使用するキーのイベントを止める
             if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return || e.Key == Key.Delete)
             {

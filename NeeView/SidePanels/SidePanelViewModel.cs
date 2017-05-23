@@ -57,7 +57,7 @@ namespace NeeView
         public bool IsDragged
         {
             get { return _isDragged; }
-            set { if (_isDragged != value) { _isDragged = value; RaisePropertyChanged(); UpdateVisibillity(); } }
+            set { if (_isDragged != value) { _isDragged = value; RaisePropertyChanged(); UpdateVisibility(); } }
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace NeeView
         public bool IsNearCursor
         {
             get { return _isNearCursor; }
-            set { if (_isNearCursor != value) { _isNearCursor = value; RaisePropertyChanged(); UpdateVisibillity(); } }
+            set { if (_isNearCursor != value) { _isNearCursor = value; RaisePropertyChanged(); UpdateVisibility(); } }
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace NeeView
         public bool IsAutoHide
         {
             get { return _isAutoHide; }
-            set { if (_isAutoHide != value) { _isAutoHide = value; RaisePropertyChanged(); UpdateVisibillity(true); } }
+            set { if (_isAutoHide != value) { _isAutoHide = value; RaisePropertyChanged(); UpdateVisibility(true); } }
         }
 
         //
@@ -89,7 +89,7 @@ namespace NeeView
         public bool IsVisibleLocked
         {
             get { return _isVisibleLocked; }
-            set { if (_isVisibleLocked != value) { _isVisibleLocked = value; RaisePropertyChanged(); UpdateVisibillity(); } }
+            set { if (_isVisibleLocked != value) { _isVisibleLocked = value; RaisePropertyChanged(); UpdateVisibility(); } }
         }
 
         //
@@ -118,16 +118,37 @@ namespace NeeView
         /// <summary>
         /// Visibility更新
         /// </summary>
-        public void UpdateVisibillity(bool now = false)
+        public void UpdateVisibility(bool now = false)
         {
-            if (_isVisibleLocked || _isDragged || (Panel.Panels.Any() ? _isAutoHide ? _isNearCursor : true : false))
+            SetVisibility(CanVisible(), now, false);
+        }
+
+        //
+        private bool CanVisible()
+        {
+            return _isVisibleLocked || _isDragged || (Panel.Panels.Any() ? _isAutoHide ? _isNearCursor : true : false);
+        }
+
+        //
+        private void SetVisibility(bool isVisible, bool now, bool isForce)
+        {
+            if (isVisible)
             {
-                _visibility.SetValue(Visibility.Visible, 0.0);
+                _visibility.SetValue(Visibility.Visible, 0.0, isForce);
             }
             else
             {
-                _visibility.SetValue(Visibility.Collapsed, now ? 0.0 : Preference.Current.panel_autohide_delaytime * 1000.0);
+                _visibility.SetValue(Visibility.Collapsed, now ? 0.0 : Preference.Current.panel_autohide_delaytime * 1000.0, isForce);
             }
+        }
+
+        /// <summary>
+        /// 遅延非表示の場合に遅延時間をリセットする。
+        /// キー入力等での表示更新遅延時間のリセットに使用
+        /// </summary>
+        public void ResetDelayHide()
+        {
+            if (!CanVisible()) SetVisibility(false, false, true);
         }
 
 
@@ -157,7 +178,7 @@ namespace NeeView
             Panel.SelectedPanelChanged += (s, e) =>
             {
                 _visibility.SetValue(Visibility.Visible, 0.0);
-                UpdateVisibillity();
+                UpdateVisibility();
             };
 
             _visibility = new DelayValue<Visibility>(Visibility.Collapsed);
@@ -168,7 +189,7 @@ namespace NeeView
                 Panel.IsVisible = Visibility == Visibility.Visible;
             };
 
-            UpdateVisibillity();
+            UpdateVisibility();
         }
 
         /// <summary>

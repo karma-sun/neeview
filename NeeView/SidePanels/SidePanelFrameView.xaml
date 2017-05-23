@@ -174,7 +174,7 @@
 
             <DockPanel x:Name="Screen">
 
-                <Grid DockPanel.Dock="Left" Style="{StaticResource PanelGridStyle}" Visibility="{Binding VM.Left.PanelVisibility}" Width="{Binding VM.Left.Width, Mode=TwoWay}" UseLayoutRounding="True">
+                <Grid x:Name="LeftPanel" DockPanel.Dock="Left" Style="{StaticResource PanelGridStyle}" Visibility="{Binding VM.Left.PanelVisibility}" Width="{Binding VM.Left.Width, Mode=TwoWay}" UseLayoutRounding="True" PreviewKeyDown="LeftPanel_PreviewKeyDown">
                     <ContentControl Content="{Binding VM.Left.Panel.SelectedPanel.View}" Margin="{Binding PanelMargin}" IsTabStop="False"/>
                 </Grid>
 
@@ -182,7 +182,7 @@
                                        Visibility="{Binding VM.Left.PanelVisibility}" IsTabStop="False"/>
 
 
-                <Grid DockPanel.Dock="Right" Style="{StaticResource PanelGridStyle}" Visibility="{Binding VM.Right.PanelVisibility}" Width="{Binding VM.Right.Width, Mode=TwoWay}" UseLayoutRounding="True">
+                <Grid x:Name="RightPanel" DockPanel.Dock="Right" Style="{StaticResource PanelGridStyle}" Visibility="{Binding VM.Right.PanelVisibility}" Width="{Binding VM.Right.Width, Mode=TwoWay}" UseLayoutRounding="True" PreviewKeyDown="RightPanel_PreviewKeyDown">
                     <ContentControl Content="{Binding VM.Right.Panel.SelectedPanel.View}" Margin="{Binding PanelMargin}" IsTabStop="False"/>
                 </Grid>
 

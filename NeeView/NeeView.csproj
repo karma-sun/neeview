@@ -163,6 +163,7 @@
       <DependentUpon>MenuBarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="FileIO.cs" />
+    <Compile Include="LongButtonDownMode.cs" />
     <Compile Include="MainWindowModel.cs" />
     <Compile Include="AppMemento.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListBox.xaml.cs">

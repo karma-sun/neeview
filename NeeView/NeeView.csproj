@@ -103,6 +103,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="App.Memento.cs" />
     <Compile Include="ContentCanvasBrush.cs" />
     <Compile Include="Controls\AddressBar.cs" />
     <Compile Include="Controls\AddressBarView.xaml.cs">
@@ -165,7 +166,7 @@
     <Compile Include="FileIO.cs" />
     <Compile Include="LongButtonDownMode.cs" />
     <Compile Include="MainWindowModel.cs" />
-    <Compile Include="AppMemento.cs" />
+    <Compile Include="SaveData.cs" />
     <Compile Include="MouseInput\MouseInput.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListBox.xaml.cs">
       <DependentUpon>BookmarkListBox.xaml</DependentUpon>
@@ -453,7 +454,6 @@
     <Compile Include="InputGesture\KeyExGesture.cs" />
     <Compile Include="MenuExtensions.cs" />
     <Compile Include="Messenger.cs" />
-    <Compile Include="ModelContext.cs" />
     <Compile Include="CommonExtensions.cs" />
     <Compile Include="JobEngine.cs" />
     <Compile Include="InputGesture\MouseExGesture.cs" />

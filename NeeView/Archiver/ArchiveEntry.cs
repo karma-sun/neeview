@@ -177,7 +177,7 @@ namespace NeeView
         /// <returns></returns>
         public bool IsArchive()
         {
-            return ModelContext.ArchiverManager.IsSupported(EntryName);
+            return ArchiverManager.Current.IsSupported(EntryName);
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace NeeView
         /// <returns></returns>
         public bool IsImage()
         {
-            return ModelContext.BitmapLoaderManager.IsSupported(EntryName);
+            return BitmapLoaderManager.Current.IsSupported(EntryName);
         }
 
 

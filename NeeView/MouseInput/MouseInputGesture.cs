@@ -204,7 +204,7 @@ namespace NeeView
             // ジェスチャー認識前に他のドラッグに切り替わったら処理を切り替える
             if (_gesture.Count > 0) return;
 
-            var action = ModelContext.DragActionTable.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
+            var action = DragActionTable.Current.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
             if (action == DragActionType.Gesture)
             {
             }

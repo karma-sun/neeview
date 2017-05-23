@@ -295,7 +295,7 @@ namespace NeeView
             InitializeComponent();
 
             // Susieが機能しない場合はSusieタブを使用禁止にする
-            if (!ModelContext.IsSupportedSusie)
+            if (!SusieContext.Current.IsSupportedSusie)
             {
                 this.SusieSettingTab.IsEnabled = false;
                 this.SusieSettingTab.Visibility = Visibility.Collapsed;
@@ -360,7 +360,7 @@ namespace NeeView
         private void UpdateDragActionList()
         {
             DragActionCollection.Clear();
-            foreach (var element in ModelContext.DragActionTable)
+            foreach (var element in DragActionTable.Current)
             {
                 var memento = Setting.DragActionMemento[element.Key];
 
@@ -565,33 +565,33 @@ namespace NeeView
         // Susie環境 更新
         private void UpdateSusiePluginSetting(string path)
         {
-            if (!ModelContext.IsSupportedSusie) return;
+            if (!SusieContext.Current.IsSupportedSusie) return;
 
             // プラグインリスト書き戻し
-            if (ModelContext.Susie != null)
+            if (SusieContext.Current.Susie != null)
             {
-                ModelContext.Susie.AMPlgunList = AMPluginList.ToList();
-                ModelContext.Susie.INPlgunList = INPluginList.ToList();
+                SusieContext.Current.Susie.AMPlgunList = AMPluginList.ToList();
+                SusieContext.Current.Susie.INPlgunList = INPluginList.ToList();
             }
 
             // 現在のSusieプラグイン情報保存
             Setting.SusieMemento.SusiePluginPath = path;
-            Setting.SusieMemento.SpiFiles = SusieContext.Memento.CreateSpiFiles(ModelContext.Susie);
+            Setting.SusieMemento.SpiFiles = SusieContext.Memento.CreateSpiFiles(SusieContext.Current.Susie);
 
-            ModelContext.SusieContext.Restore(Setting.SusieMemento);
+            SusieContext.Current.Restore(Setting.SusieMemento);
             UpdateSusiePluginList();
         }
 
         // Susieプラグイン一覧 更新
         public void UpdateSusiePluginList()
         {
-            if (!ModelContext.IsSupportedSusie) return;
+            if (!SusieContext.Current.IsSupportedSusie) return;
 
-            INPluginList = new ObservableCollection<Susie.SusiePlugin>(ModelContext.Susie?.INPlgunList);
+            INPluginList = new ObservableCollection<Susie.SusiePlugin>(SusieContext.Current.Susie?.INPlgunList);
             RaisePropertyChanged(nameof(INPluginList));
             this.INPluginListView.Items.Refresh();
 
-            AMPluginList = new ObservableCollection<Susie.SusiePlugin>(ModelContext.Susie?.AMPlgunList);
+            AMPluginList = new ObservableCollection<Susie.SusiePlugin>(SusieContext.Current.Susie?.AMPlgunList);
             RaisePropertyChanged(nameof(AMPluginList));
             this.AMPluginListView.Items.Refresh();
         }
@@ -753,14 +753,14 @@ namespace NeeView
                 Setting.PreferenceMemento = _preference.CreateMemento();
 
                 // プラグインリスト書き戻し
-                if (ModelContext.Susie != null)
+                if (SusieContext.Current.Susie != null)
                 {
-                    ModelContext.Susie.AMPlgunList = AMPluginList.ToList();
-                    ModelContext.Susie.INPlgunList = INPluginList.ToList();
+                    SusieContext.Current.Susie.AMPlgunList = AMPluginList.ToList();
+                    SusieContext.Current.Susie.INPlgunList = INPluginList.ToList();
                 }
 
                 // Susie プラグインリスト保存
-                Setting.SusieMemento.SpiFiles = SusieContext.Memento.CreateSpiFiles(ModelContext.Susie);
+                Setting.SusieMemento.SpiFiles = SusieContext.Memento.CreateSpiFiles(SusieContext.Current.Susie);
             }
             else
             {
@@ -768,7 +768,7 @@ namespace NeeView
                 if (_isDartySusieSetting)
                 {
                     Setting.SusieMemento = OldSusieSetting;
-                    ModelContext.SusieContext.Restore(Setting.SusieMemento);
+                    SusieContext.Current.Restore(Setting.SusieMemento);
                 }
             }
         }

@@ -70,13 +70,13 @@ namespace NeeView
         {
             if (_bookHub.IsLoading) return;
 
-            if (!ModelContext.Pagemarks.CanMoveSelected(-1))
+            if (!PagemarkCollection.Current.CanMoveSelected(-1))
             {
                 InfoMessage?.Invoke(this, "前のページマークはありません");
                 return;
             }
 
-            Pagemark mark = ModelContext.Pagemarks.MoveSelected(-1);
+            Pagemark mark = PagemarkCollection.Current.MoveSelected(-1);
             RequestLoad(mark);
         }
 
@@ -85,13 +85,13 @@ namespace NeeView
         {
             if (_bookHub.IsLoading) return;
 
-            if (!ModelContext.Pagemarks.CanMoveSelected(+1))
+            if (!PagemarkCollection.Current.CanMoveSelected(+1))
             {
                 InfoMessage?.Invoke(this, "次のページマークはありません");
                 return;
             }
 
-            Pagemark mark = ModelContext.Pagemarks.MoveSelected(+1);
+            Pagemark mark = PagemarkCollection.Current.MoveSelected(+1);
             RequestLoad(mark);
         }
 

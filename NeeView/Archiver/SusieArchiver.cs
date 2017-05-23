@@ -58,7 +58,7 @@ namespace NeeView
         {
             if (_susiePlugin == null)
             {
-                _susiePlugin = ModelContext.Susie?.GetArchivePlugin(Path, true);
+                _susiePlugin = SusieContext.Current.Susie?.GetArchivePlugin(Path, true);
             }
             return _susiePlugin;
         }

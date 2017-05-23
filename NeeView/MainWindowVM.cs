@@ -299,7 +299,6 @@ namespace NeeView
         }
 
 
-
         #region Window Icon
 
         // ウィンドウアイコン：標準
@@ -429,7 +428,7 @@ namespace NeeView
         #region 開発用
 
         // 開発用：JobEndine公開
-        public JobEngine JobEngine => ModelContext.JobEngine;
+        ////public JobEngine JobEngine => JobEngine.Current;
 
         // 開発用：コンテンツ座標
         #region Property: ContentPosition
@@ -548,11 +547,13 @@ namespace NeeView
             };
 
             // ModelContext
-            ModelContext.JobEngine.StatusChanged +=
+            /*
+            JobEngine.Current.StatusChanged +=
                 (s, e) => RaisePropertyChanged(nameof(JobEngine));
+            */
 
-            ModelContext.JobEngine.IsBusyChanged +=
-                (s, e) => IsBusyJobEngine = ModelContext.JobEngine.IsBusy && !SlideShow.Current.IsPlayingSlideShow;
+            JobEngine.Current.IsBusyChanged +=
+                (s, e) => IsBusyJobEngine = JobEngine.Current.IsBusy && !SlideShow.Current.IsPlayingSlideShow;
 
 
 
@@ -624,7 +625,7 @@ namespace NeeView
         // 履歴削除
         public void ClearHistor()
         {
-            ModelContext.BookHistory.Clear();
+            BookHistory.Current.Clear();
             _models.MenuBar.UpdateLastFiles();
         }
 
@@ -634,7 +635,7 @@ namespace NeeView
         {
             if (!Preference.Current.bootup_lastfolder) return;
 
-            string place = ModelContext.BookHistory.LastAddress;
+            string place = BookHistory.Current.LastAddress;
             if (place != null || System.IO.Directory.Exists(place) || System.IO.File.Exists(place))
             {
                 Load(place, BookLoadOption.Resume);
@@ -783,9 +784,10 @@ namespace NeeView
         // 廃棄処理
         public void Dispose()
         {
+            // TODO: Bookのコマンド系もエンジン扱いせよ
             BookHub.Dispose();
 
-            ModelContext.Terminate();
+            ////ModelContext.Terminate();
 
             Debug.WriteLine("MainWindowVM: Disposed.");
         }

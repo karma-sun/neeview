@@ -20,6 +20,8 @@ namespace NeeView
 {
     public class BookmarkCollection : BindableBase
     {
+        public static BookmarkCollection Current { get; private set; }
+
         //
         public event EventHandler<BookMementoCollectionChangedArgs> BookmarkChanged;
 
@@ -49,6 +51,7 @@ namespace NeeView
         //
         public BookmarkCollection()
         {
+            Current = this;
             Items = new ObservableCollection<BookMementoUnitNode>();
         }
 
@@ -74,7 +77,7 @@ namespace NeeView
             //
             foreach (var item in items)
             {
-                var unit = ModelContext.BookMementoCollection.Find(item.Place);
+                var unit = BookMementoCollection.Current.Find(item.Place);
 
                 if (unit == null)
                 {
@@ -84,7 +87,7 @@ namespace NeeView
                     unit.BookmarkNode = new BookMementoUnitNode(unit);
                     Items.Add(unit.BookmarkNode);
 
-                    ModelContext.BookMementoCollection.Add(unit);
+                    BookMementoCollection.Current.Add(unit);
                 }
                 else
                 {
@@ -114,7 +117,7 @@ namespace NeeView
                     unit.BookmarkNode = new BookMementoUnitNode(unit);
                     Items.Add(unit.BookmarkNode);
 
-                    ModelContext.BookMementoCollection.Add(unit);
+                    BookMementoCollection.Current.Add(unit);
                     BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
                 }
                 else if (unit.BookmarkNode != null)
@@ -157,7 +160,7 @@ namespace NeeView
         // 削除
         public BookMementoUnit Remove(string place)
         {
-            var unit = ModelContext.BookMementoCollection.Find(place);
+            var unit = BookMementoCollection.Current.Find(place);
             if (unit != null && unit.BookmarkNode != null)
             {
                 Items.Remove(unit.BookmarkNode);
@@ -194,7 +197,7 @@ namespace NeeView
             if (book?.Place == null) return;
             if (book.Pages.Count <= 0) return;
 
-            Update(ModelContext.BookMementoCollection.Find(book.Place), book.CreateMemento());
+            Update(BookMementoCollection.Current.Find(book.Place), book.CreateMemento());
         }
 
         // 更新
@@ -214,7 +217,7 @@ namespace NeeView
         public BookMementoUnit Find(string place)
         {
             if (place == null) return null;
-            var unit = ModelContext.BookMementoCollection.Find(place);
+            var unit = BookMementoCollection.Current.Find(place);
             return unit?.BookmarkNode != null ? unit : null;
         }
 

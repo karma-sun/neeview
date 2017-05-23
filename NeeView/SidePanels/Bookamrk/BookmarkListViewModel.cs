@@ -22,7 +22,7 @@ namespace NeeView
     {
         public BookHub BookHub { get; private set; }
 
-        public BookmarkCollection Bookmark => ModelContext.Bookmarks;
+        public BookmarkCollection Bookmark => BookmarkCollection.Current;
 
 
         #region MoreMenu
@@ -160,7 +160,7 @@ namespace NeeView
             Bookmark.SelectedItem = Bookmark.GetNeighbor(item);
             this.ListBoxContent.RestoreFocus();
 
-            ModelContext.Bookmarks.Remove(item.Value.Memento.Place);
+            BookmarkCollection.Current.Remove(item.Value.Memento.Place);
         }
 
         // サムネイル要求
@@ -188,7 +188,7 @@ namespace NeeView
         //
         private void RemoveUnlinkedCommand_Executed()
         {
-            ModelContext.Bookmarks.RemoveUnlinked();
+            BookmarkCollection.Current.RemoveUnlinked();
         }
 
         /// <summary>

@@ -295,8 +295,8 @@ namespace NeeView
         #region Property: IsSupportArchiveFile
         public bool IsSupportArchiveFile
         {
-            get { return ModelContext.ArchiverManager.IsEnabled; }
-            set { ModelContext.ArchiverManager.IsEnabled = value; }
+            get { return ArchiverManager.Current.IsEnabled; }
+            set { ArchiverManager.Current.IsEnabled = value; }
         }
         #endregion
 
@@ -360,7 +360,7 @@ namespace NeeView
             {
                 _address = value;
                 AddressChanged?.Invoke(this, null);
-                ModelContext.BookHistory.LastAddress = _address;
+                BookHistory.Current.LastAddress = _address;
             }
         }
         #endregion
@@ -430,8 +430,8 @@ namespace NeeView
             this.SettingChanged +=
                 (s, e) => RaisePropertyChanged(nameof(BookMemento));
 
-            ModelContext.BookHistory.HistoryChanged += (s, e) => HistoryChanged?.Invoke(s, e);
-            ModelContext.Bookmarks.BookmarkChanged += (s, e) => BookmarkChanged?.Invoke(s, e);
+            BookHistory.Current.HistoryChanged += (s, e) => HistoryChanged?.Invoke(s, e);
+            BookmarkCollection.Current.BookmarkChanged += (s, e) => BookmarkChanged?.Invoke(s, e);
 
             // command engine
             _commandEngine = new BookHubCommandEngine();
@@ -479,7 +479,7 @@ namespace NeeView
         // 設定の読込
         public Book.Memento LoadBookMemento(string place)
         {
-            var unit = ModelContext.BookMementoCollection.Find(place);
+            var unit = BookMementoCollection.Current.Find(place);
             return unit?.Memento;
         }
 
@@ -495,16 +495,16 @@ namespace NeeView
         private void SaveBookMemento(BookMementoUnit unit, Book.Memento memento, bool isKeepHistoryOrder)
         {
             if (memento == null) return;
-            unit = unit ?? ModelContext.BookMementoCollection.Find(memento.Place);
+            unit = unit ?? BookMementoCollection.Current.Find(memento.Place);
 
             // 履歴の保存
-            ModelContext.BookHistory.Add(unit, memento, isKeepHistoryOrder);
+            BookHistory.Current.Add(unit, memento, isKeepHistoryOrder);
 
             // ブックマーク更新
-            ModelContext.Bookmarks.Update(unit, memento);
+            BookmarkCollection.Current.Update(unit, memento);
 
             // ページマーク更新
-            ModelContext.Pagemarks.Update(unit, memento);
+            PagemarkCollection.Current.Update(unit, memento);
         }
 
         /// <summary>
@@ -541,16 +541,16 @@ namespace NeeView
 
             if (File.Exists(path))
             {
-                if (ModelContext.ArchiverManager.IsSupported(path))
+                if (ArchiverManager.Current.IsSupported(path))
                 {
-                    Archiver archiver = ModelContext.ArchiverManager.CreateArchiver(path, null);
+                    Archiver archiver = ArchiverManager.Current.CreateArchiver(path, null);
                     if (archiver.IsSupported())
                     {
                         return path;
                     }
                 }
 
-                if (ModelContext.BitmapLoaderManager.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
+                if (BitmapLoaderManager.Current.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
                 {
                     return Path.GetDirectoryName(path);
                 }
@@ -575,16 +575,16 @@ namespace NeeView
 
             if (File.Exists(path))
             {
-                if (ModelContext.ArchiverManager.IsSupported(path))
+                if (ArchiverManager.Current.IsSupported(path))
                 {
-                    Archiver archiver = ModelContext.ArchiverManager.CreateArchiver(path, null);
+                    Archiver archiver = ArchiverManager.Current.CreateArchiver(path, null);
                     if (archiver.IsSupported())
                     {
                         return path;
                     }
                 }
 
-                if (ModelContext.BitmapLoaderManager.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
+                if (BitmapLoaderManager.Current.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
                 {
                     return Path.GetDirectoryName(path);
                 }
@@ -693,7 +693,7 @@ namespace NeeView
                 }
 
                 // 本の設定
-                var unit = ModelContext.BookMementoCollection.Find(place);
+                var unit = BookMementoCollection.Current.Find(place);
                 var setting = GetSetting(unit, place, args.Option);
 
 
@@ -841,7 +841,7 @@ namespace NeeView
             // 履歴に登録済の場合は履歴先頭に移動させる
             if (unit?.HistoryNode != null && (option & BookLoadOption.KeepHistoryOrder) == 0)
             {
-                ModelContext.BookHistory.Add(unit, unit.Memento, false);
+                BookHistory.Current.Add(unit, unit.Memento, false);
             }
 
             // 新しい本を作成
@@ -919,7 +919,7 @@ namespace NeeView
                 BookUnit = null;
 
                 // 履歴から消去
-                ModelContext.BookHistory.Remove(path);
+                BookHistory.Current.Remove(path);
                 MenuBar.Current.UpdateLastFiles();
 
                 throw new ApplicationException($"{path} の読み込みに失敗しました。\n{e.Message}", e);
@@ -932,7 +932,7 @@ namespace NeeView
             // 新規履歴
             if (BookUnit.BookMementoUnit?.HistoryNode == null && Book.Pages.Count > 0 && !BookUnit.IsKeepHistoryOrder)
             {
-                BookUnit.BookMementoUnit = ModelContext.BookHistory.Add(BookUnit.BookMementoUnit, Book?.CreateMemento(), BookUnit.IsKeepHistoryOrder);
+                BookUnit.BookMementoUnit = BookHistory.Current.Add(BookUnit.BookMementoUnit, Book?.CreateMemento(), BookUnit.IsKeepHistoryOrder);
             }
 
             Address = BookUnit.Book.Place;
@@ -959,9 +959,9 @@ namespace NeeView
         // 履歴を戻ることができる？
         public bool CanPrevHistory()
         {
-            var unit = ModelContext.BookHistory.Find(Address);
+            var unit = BookHistory.Current.Find(Address);
             // 履歴が存在するなら真
-            if (unit == null && ModelContext.BookHistory.Count > 0) return true;
+            if (unit == null && BookHistory.Current.Count > 0) return true;
             // 現在の履歴位置より古いものがあれば真。リストと履歴の方向は逆
             return unit?.HistoryNode != null && unit.HistoryNode.Next != null;
         }
@@ -969,10 +969,10 @@ namespace NeeView
         // 履歴を戻る
         public void PrevHistory()
         {
-            if (_isLoading || ModelContext.BookHistory.Count <= 0) return;
+            if (_isLoading || BookHistory.Current.Count <= 0) return;
 
-            var unit = ModelContext.BookHistory.Find(Address);
-            var previous = unit == null ? ModelContext.BookHistory.First : unit.HistoryNode?.Next.Value; // リストと履歴の方向は逆
+            var unit = BookHistory.Current.Find(Address);
+            var previous = unit == null ? BookHistory.Current.First : unit.HistoryNode?.Next.Value; // リストと履歴の方向は逆
 
             if (previous != null)
             {
@@ -987,7 +987,7 @@ namespace NeeView
         // 履歴を進めることができる？
         public bool CanNextHistory()
         {
-            var unit = ModelContext.BookHistory.Find(Address);
+            var unit = BookHistory.Current.Find(Address);
             return (unit?.HistoryNode != null && unit.HistoryNode.Previous != null); // リストと履歴の方向は逆
         }
 
@@ -996,7 +996,7 @@ namespace NeeView
         {
             if (_isLoading) return;
 
-            var unit = ModelContext.BookHistory.Find(Address);
+            var unit = BookHistory.Current.Find(Address);
             var next = unit?.HistoryNode?.Previous; // リストと履歴の方向は逆
             if (next != null)
             {
@@ -1225,7 +1225,7 @@ namespace NeeView
                 }
                 else
                 {
-                    BookUnit.BookMementoUnit = ModelContext.Bookmarks.Toggle(BookUnit.BookMementoUnit, Book.CreateMemento());
+                    BookUnit.BookMementoUnit = BookmarkCollection.Current.Toggle(BookUnit.BookMementoUnit, Book.CreateMemento());
                 }
             }
         }
@@ -1253,13 +1253,13 @@ namespace NeeView
         {
             if (_isLoading) return;
 
-            if (!ModelContext.Bookmarks.CanMoveSelected(-1))
+            if (!BookmarkCollection.Current.CanMoveSelected(-1))
             {
                 InfoMessage?.Invoke(this, "前のブックマークはありません");
                 return;
             }
 
-            var unit = ModelContext.Bookmarks.MoveSelected(-1);
+            var unit = BookmarkCollection.Current.MoveSelected(-1);
             if (unit != null)
             {
                 RequestLoad(unit.Value.Memento.Place, null, BookLoadOption.SkipSamePlace, false);
@@ -1272,13 +1272,13 @@ namespace NeeView
         {
             if (_isLoading) return;
 
-            if (!ModelContext.Bookmarks.CanMoveSelected(+1))
+            if (!BookmarkCollection.Current.CanMoveSelected(+1))
             {
                 InfoMessage?.Invoke(this, "次のブックマークはありません");
                 return;
             }
 
-            var unit = ModelContext.Bookmarks.MoveSelected(+1);
+            var unit = BookmarkCollection.Current.MoveSelected(+1);
             if (unit != null)
             {
                 RequestLoad(unit.Value.Memento.Place, null, BookLoadOption.SkipSamePlace, false);
@@ -1567,8 +1567,8 @@ namespace NeeView
         // 履歴上のファイル名変更
         private void RenameHistory(string src, string dst)
         {
-            ModelContext.BookMementoCollection.Rename(src, dst);
-            ModelContext.Pagemarks.Rename(src, dst);
+            BookMementoCollection.Current.Rename(src, dst);
+            PagemarkCollection.Current.Rename(src, dst);
         }
 
 

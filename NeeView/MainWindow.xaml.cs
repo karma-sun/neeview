@@ -211,7 +211,7 @@ namespace NeeView
             App.Config.LocalApplicationDataRemoved +=
                 (s, e) =>
                 {
-                    AppMemento.Current.IsEnableSave = false; // 保存禁止
+                    SaveData.Current.IsEnableSave = false; // 保存禁止
                     this.Close();
                 };
 
@@ -228,7 +228,7 @@ namespace NeeView
             _mouse.Gesture.MouseGestureProgressed += OnMouseGestureUpdate;
 
             // mouse drag
-            ModelContext.DragActionTable.SetTarget(_mouse.Drag);
+            DragActionTable.Current.SetTarget(_mouse.Drag);
 
 
             // render transform
@@ -773,8 +773,8 @@ namespace NeeView
         // 設定ウィンドウを開く
         private void OpenSettingWindow()
         {
-            var setting = AppMemento.Current.CreateSetting();
-            var history = ModelContext.BookHistory.CreateMemento(false);
+            var setting = SaveData.Current.CreateSetting();
+            var history = BookHistory.Current.CreateMemento(false);
 
             // スライドショー停止
             SlideShow.Current.PauseSlideShow();
@@ -786,10 +786,10 @@ namespace NeeView
 
             if (result == true)
             {
-                AppMemento.Current.RestoreSetting(setting, false);
+                SaveData.Current.RestoreSetting(setting, false);
                 WindowShape.Current.CreateSnapMemento();
-                AppMemento.Current.SaveSetting();
-                ModelContext.BookHistory.Restore(history, false);
+                SaveData.Current.SaveSetting();
+                BookHistory.Current.Restore(history, false);
 
                 // 現在ページ再読込
                 _VM.BookHub.ReLoad();
@@ -912,19 +912,19 @@ namespace NeeView
             InitializeViewModelEvents();
 
             // 設定反映
-            AppMemento.Current.RestoreSetting(App.Setting, true);
+            SaveData.Current.RestoreSetting(App.Setting, true);
 
             // PanelColor
             _VM.FlushPanelColor();
 
             // 履歴読み込み
-            AppMemento.Current.LoadHistory(App.Setting);
+            SaveData.Current.LoadHistory(App.Setting);
 
             // ブックマーク読み込み
-            AppMemento.Current.LoadBookmark(App.Setting);
+            SaveData.Current.LoadBookmark(App.Setting);
 
             // ページマーク読込
-            AppMemento.Current.LoadPagemark(App.Setting);
+            SaveData.Current.LoadPagemark(App.Setting);
 
             App.Setting = null; // ロード設定破棄
 
@@ -1062,7 +1062,7 @@ namespace NeeView
             _timer.Stop();
 
             // 設定保存
-            AppMemento.Current.SaveSetting();
+            SaveData.Current.SaveSetting();
 
             // スレッド終了処理 
             // 主にコマンドのキャンセル処理。 特にApp.Current にアクセスするものはキャンセルさせる

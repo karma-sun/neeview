@@ -19,10 +19,21 @@ namespace NeeView
     /// </summary>
     public class SusieContext
     {
+        public static SusieContext Current { get; private set; }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        public SusieContext()
+        {
+            Current = this;
+        }
+
         /// <summary>
         /// 機能サポート判定
         /// </summary>
-        public static bool IsSupportedSusie => !App.Config.IsX64;
+        public static bool _IsSupportedSusie => !App.Config.IsX64;
+        public bool IsSupportedSusie => _IsSupportedSusie;
 
         public Susie.Susie Susie { get; private set; }
 
@@ -55,7 +66,7 @@ namespace NeeView
             set
             {
                 _IsFirstOrderSusieImage = value;
-                ModelContext.BitmapLoaderManager.OrderType = _IsFirstOrderSusieImage ? BitmapLoaderType.Susie : BitmapLoaderType.Default;
+                BitmapLoaderManager.Current.OrderType = _IsFirstOrderSusieImage ? BitmapLoaderType.Susie : BitmapLoaderType.Default;
             }
         }
 
@@ -67,7 +78,7 @@ namespace NeeView
             set
             {
                 _IsFirstOrderSusieArchive = value;
-                ModelContext.ArchiverManager.OrderType = _IsFirstOrderSusieArchive ? ArchiverType.SusieArchiver : ArchiverType.DefaultArchiver;
+                ArchiverManager.Current.OrderType = _IsFirstOrderSusieArchive ? ArchiverType.SusieArchiver : ArchiverType.DefaultArchiver;
             }
         }
 
@@ -103,8 +114,8 @@ namespace NeeView
             SpiFiles = Memento.CreateSpiFiles(Susie);
 
             // Susie対応拡張子更新
-            ModelContext.ArchiverManager.UpdateSusieSupprtedFileTypes(Susie);
-            ModelContext.BitmapLoaderManager.UpdateSusieSupprtedFileTypes(Susie);
+            ArchiverManager.Current.UpdateSusieSupprtedFileTypes(Susie);
+            BitmapLoaderManager.Current.UpdateSusieSupprtedFileTypes(Susie);
         }
 
 

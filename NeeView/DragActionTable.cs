@@ -16,6 +16,8 @@ namespace NeeView
 {
     public class DragActionTable : IEnumerable<KeyValuePair<DragActionType, DragAction>>
     {
+        public static DragActionTable Current { get; private set; }
+
         // インテグザ
         public DragAction this[DragActionType key]
         {
@@ -67,6 +69,8 @@ namespace NeeView
         // コンストラクタ
         public DragActionTable()
         {
+            Current = this;
+
             _elements = new Dictionary<DragActionType, DragAction>()
             {
                 [DragActionType.Gesture] = new DragAction

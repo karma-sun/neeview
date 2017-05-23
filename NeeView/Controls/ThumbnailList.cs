@@ -150,7 +150,7 @@ namespace NeeView
         private void OnBookChanging(object sender, EventArgs e)
         {
             // 未処理のサムネイル要求を解除
-            ModelContext.JobEngine.Clear(QueueElementPriority.PageThumbnail);
+            JobEngine.Current.Clear(QueueElementPriority.PageThumbnail);
         }
 
         // 本が変更された
@@ -176,7 +176,7 @@ namespace NeeView
             ////Debug.WriteLine("> RequestThumbnail");
 
             // 未処理の要求を解除
-            ModelContext.JobEngine.Clear(QueueElementPriority.PageThumbnail);
+            JobEngine.Current.Clear(QueueElementPriority.PageThumbnail);
 
             // 要求. 中央値優先
             int center = start + count / 2;

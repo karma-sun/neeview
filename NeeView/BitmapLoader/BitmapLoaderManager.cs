@@ -36,6 +36,8 @@ namespace NeeView
     /// </summary>
     public class BitmapLoaderManager
     {
+        public static BitmapLoaderManager Current { get; private set; }
+
         // サポート拡張子
         private Dictionary<BitmapLoaderType, string[]> _supprtedFileTypes = new Dictionary<BitmapLoaderType, string[]>()
         {
@@ -67,10 +69,15 @@ namespace NeeView
             get { return _orderList[OrderType]; }
         }
 
+        // 除外パス
+        // TODO: 定義位置
+        public List<string> Excludes { get; set; } = new List<string>();
+
 
         // コンストラクタ
         public BitmapLoaderManager()
         {
+            Current = this;
             UpdateDefaultSupprtedFileTypes();
         }
 
@@ -84,7 +91,7 @@ namespace NeeView
         // 除外パス判定
         public bool IsExcludedPath(string path)
         {
-            return path.Split('/', '\\').Any(e => ModelContext.Excludes.Contains(e));
+            return path.Split('/', '\\').Any(e => this.Excludes.Contains(e));
         }
 
         // サポートしているローダーの種類を取得

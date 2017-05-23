@@ -778,7 +778,7 @@ namespace NeeView
             // update action
             if (_action == null || _action.DragKey != dragKey)
             {
-                var action = ModelContext.DragActionTable.GetAction(dragKey);
+                var action = DragActionTable.Current.GetAction(dragKey);
 
                 if (action != _action && action?.Exec != null)
                 {

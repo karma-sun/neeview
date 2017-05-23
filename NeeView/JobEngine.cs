@@ -184,6 +184,8 @@ namespace NeeView
     /// </summary>
     public class JobEngine : IDisposable
     {
+        public static JobEngine Current { get; private set; }
+
         #region 開発用
 
         // 状態変化通知
@@ -241,6 +243,8 @@ namespace NeeView
         // コンストラクタ
         public JobEngine()
         {
+            Current = this;
+
             _context = new JobContext();
             Workers = new JobWorker[_MaxWorkerSize];
         }

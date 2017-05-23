@@ -40,7 +40,7 @@ namespace NeeView
             ////Debug.WriteLine($"RequestThumbnail: {priority} ({start} - {start + count}) {collection.GetType().Name}");
 
             // 未処理の要求を解除
-            ModelContext.JobEngine.Clear(priority);
+            JobEngine.Current.Clear(priority);
 
             // 要求
             int center = start + count / 2;

@@ -21,7 +21,7 @@ namespace NeeView
         /// <summary>
         /// 標準インスタンス
         /// </summary>
-        public static MemoryControl Current { get; set; }
+        public static MemoryControl Current { get; private set; }
 
         /// <summary>
         /// 自動GCフラグ
@@ -39,6 +39,7 @@ namespace NeeView
         /// <param name="dispatcher"></param>
         public MemoryControl(Dispatcher dispatcher)
         {
+            Current = this;
             _delayAction = new DelayAction(dispatcher, TimeSpan.FromSeconds(0.2), GarbageCollectCore, TimeSpan.FromMilliseconds(100));
         }
 

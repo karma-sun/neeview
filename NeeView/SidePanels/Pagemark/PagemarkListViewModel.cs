@@ -20,7 +20,7 @@ namespace NeeView
     /// </summary>
     public class PagemarkListViewModel : BindableBase
     {
-        public PagemarkCollection Pagemarks => ModelContext.Pagemarks;
+        public PagemarkCollection Pagemarks => PagemarkCollection.Current;
 
         #region MoreMenu
 
@@ -157,7 +157,7 @@ namespace NeeView
             Pagemarks.SelectedItem = Pagemarks.GetNeighbor(mark);
             this.ListBoxContent.RestoreFocus();
 
-            ModelContext.Pagemarks.Remove(mark);
+            PagemarkCollection.Current.Remove(mark);
 
             _model.UpdatePagemark(mark);
         }
@@ -187,7 +187,7 @@ namespace NeeView
         //
         private void RemoveUnlinkedCommand_Executed()
         {
-            ModelContext.Pagemarks.RemoveUnlinked();
+            PagemarkCollection.Current.RemoveUnlinked();
         }
 
         /// <summary>

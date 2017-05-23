@@ -56,7 +56,7 @@ namespace NeeView
         // 最近使ったファイル 更新
         public void UpdateLastFiles()
         {
-            LastFiles = ModelContext.BookHistory.ListUp(10);
+            LastFiles = BookHistory.Current.ListUp(10);
         }
 
         #endregion

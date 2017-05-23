@@ -18,6 +18,16 @@ namespace NeeView
     /// </summary>
     public class ArchiverManager
     {
+        public static ArchiverManager Current { get; private set; }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        public ArchiverManager()
+        {
+            Current = this;
+        }
+
         // サポート拡張子
         private Dictionary<ArchiverType, string[]> _supprtedFileTypes = new Dictionary<ArchiverType, string[]>()
         {
@@ -92,7 +102,7 @@ namespace NeeView
         /// <returns></returns>
         public bool IsExcludedFolder(string path)
         {
-            return ModelContext.Excludes.Contains(LoosePath.GetFileName(path));
+            return BitmapLoaderManager.Current.Excludes.Contains(LoosePath.GetFileName(path));
         }
 
         // SevenZipアーカイバーのサポート拡張子を更新

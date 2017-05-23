@@ -178,12 +178,12 @@ namespace NeeView
                         .ToList();
 
                     var archives = fileInfos
-                        .Where(e => e.Exists && ModelContext.ArchiverManager.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
+                        .Where(e => e.Exists && ArchiverManager.Current.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
                         .Select(e => CreateFolderItem(e))
                         .ToList();
 
                     var archiveShortcuts = shortcuts
-                        .Where(e => e.FileInfo.Exists && ModelContext.ArchiverManager.IsSupported(e.TargetPath))
+                        .Where(e => e.FileInfo.Exists && ArchiverManager.Current.IsSupported(e.TargetPath))
                         .Select(e => CreateFolderItem(e))
                         .ToList();
 
@@ -577,7 +577,7 @@ namespace NeeView
         /// <returns></returns>
         private FolderItem CreateFolderItem(FileInfo e)
         {
-            if (e != null && e.Exists && ModelContext.ArchiverManager.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
+            if (e != null && e.Exists && ArchiverManager.Current.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
             {
                 return new FolderItem()
                 {

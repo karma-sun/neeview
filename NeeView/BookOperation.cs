@@ -363,7 +363,7 @@ namespace NeeView
 
             // マーク登録/解除
             // TODO: 登録時にサムネイルキャッシュにも登録
-            ModelContext.Pagemarks.Toggle(new Pagemark(this.Book.Place, this.Book.GetViewPage().FullPath));
+            PagemarkCollection.Current.Toggle(new Pagemark(this.Book.Place, this.Book.GetViewPage().FullPath));
 
             // 更新
             UpdatePagemark();
@@ -373,7 +373,7 @@ namespace NeeView
         // マーカー削除
         public void RemovePagemark(Pagemark mark)
         {
-            ModelContext.Pagemarks.Remove(mark);
+            PagemarkCollection.Current.Remove(mark);
             UpdatePagemark(mark);
         }
 
@@ -395,7 +395,7 @@ namespace NeeView
         {
             // 本にマーカを設定
             // TODO: これはPagemarkerの仕事？
-            this.Book?.SetMarkers(ModelContext.Pagemarks.Collect(this.Book.Place).Select(e => e.EntryName));
+            this.Book?.SetMarkers(PagemarkCollection.Current.Collect(this.Book.Place).Select(e => e.EntryName));
 
             // 表示更新
             PagemarkChanged?.Invoke(this, null);

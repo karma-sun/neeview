@@ -119,6 +119,14 @@ namespace NeeView
     /// </summary>
     public class BookMementoCollection
     {
+        public static BookMementoCollection Current { get; private set; }
+
+        //
+        public BookMementoCollection()
+        {
+            Current = this;
+        }
+
         public Dictionary<string, BookMementoUnit> Items { get; set; } = new Dictionary<string, BookMementoUnit>();
 
         private BookMementoUnit _lastFindUnit;

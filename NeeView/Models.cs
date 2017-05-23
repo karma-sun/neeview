@@ -20,6 +20,20 @@ namespace NeeView
         // System Object
         public static Models Current { get; private set; }
 
+
+        //
+        public MemoryControl MemoryControl { get; private set; }
+        public JobEngine JobEngine { get; private set; }
+        public SusieContext SusieContext { get; private set; }
+        public BookMementoCollection BookMementoCollection { get; private set; }
+        public BookHistory BookHistory { get; private set; }
+        public BookmarkCollection BookmarkCollection { get; private set; }
+        public PagemarkCollection PagemarkCollection { get; private set; }
+        public ArchiverManager ArchiverManager { get; private set; }
+        public BitmapLoaderManager BitmapLoaderManager { get; private set; }
+        public DragActionTable DragActionTable { get; private set; }
+        public ThumbnailCache ThumbnailCache { get; private set; }
+
         //
         public CommandTable CommandTable { get; private set; }
         public RoutedCommandTable RoutedCommandTable { get; private set; }
@@ -67,6 +81,20 @@ namespace NeeView
         {
             Current = this;
 
+            MemoryControl =  new MemoryControl(App.Current.Dispatcher);
+            JobEngine = new JobEngine();
+            BookMementoCollection = new BookMementoCollection();
+            BookHistory = new BookHistory();
+            BookmarkCollection = new BookmarkCollection();
+            PagemarkCollection = new PagemarkCollection();
+            ArchiverManager = new ArchiverManager();
+            BitmapLoaderManager = new BitmapLoaderManager();
+            DragActionTable = new DragActionTable();
+            SusieContext = new SusieContext();
+            ThumbnailCache = new ThumbnailCache();
+
+
+            //
             this.CommandTable = new CommandTable();
             this.RoutedCommandTable = new RoutedCommandTable(this.CommandTable);
 
@@ -105,6 +133,7 @@ namespace NeeView
         //
         public void StartEngine()
         {
+            // TODO: this.JobEngine.StartEngine();
             this.SlideShow.StartEngine();
         }
 
@@ -112,6 +141,50 @@ namespace NeeView
         public void StopEngine()
         {
             this.SlideShow.StopEngine();
+
+            this.JobEngine.Dispose();
+            // TODO: this.JobEngine.StopEngine();
+
+        }
+        
+        /// <summary>
+        /// Preference反映
+        /// TODO: 各モデルで処理
+        /// </summary>
+        public void ApplyPreference()
+        {
+            var preference = Preference.Current;
+
+            // banner size
+            int bannerWidth = Math.Min(preference.banner_width, 512);
+            int bannerHeight = bannerWidth / 4;
+            App.Current.Resources["BannerWidth"] = (double)bannerWidth;
+            App.Current.Resources["BannerHeight"] = (double)bannerHeight;
+
+            // Jobワーカーサイズ
+            JobEngine.Start(preference.loader_thread_size);
+
+            // ワイドページ判定用比率
+            Page.WideRatio = preference.view_image_wideratio;
+
+            // SevenZip対応拡張子設定
+            ArchiverManager.UpdateSevenZipSupprtedFileTypes(preference.loader_archiver_7z_supprtfiletypes);
+
+            // 7z.dll の場所
+            SevenZipArchiver.DllPath = App.Config.IsX64 ? preference.loader_archiver_7z_dllpath_x64 : preference.loader_archiver_7z_dllpath;
+
+            // SevenZip Lock時間
+            SevenZipSource.LockTime = preference.loader_archiver_7z_locktime;
+
+            // MainWindow Preference適用
+            ((MainWindow)App.Current.MainWindow).ApplyPreference(preference);
+
+            // 除外パス更新
+            BitmapLoaderManager.Excludes = preference.loader_archiver_exclude.Split(';').Select(e => e.Trim()).ToList();
+
+            // 自動先読み判定サイズ
+            //var sizeString = new SizeString(preference.book_preload_limitsize);
+            //Book.PreLoadLimitSize = sizeString.ToInteger();
         }
 
         #region Memento

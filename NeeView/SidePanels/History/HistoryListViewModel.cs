@@ -194,7 +194,7 @@ namespace NeeView
         private void BookHub_HistoryListSync(object sender, string e)
         {
             this.ListBoxContent.StoreFocus();
-            SelectedItem = ModelContext.BookHistory.Find(e);
+            SelectedItem = BookHistory.Current.Find(e);
             this.ListBoxContent.RestoreFocus();
         }
 
@@ -218,7 +218,7 @@ namespace NeeView
                 App.Current.Dispatcher.Invoke(() => this.ListBoxContent.StoreFocus());
 
                 var item = SelectedItem;
-                Items = new ObservableCollection<BookMementoUnit>(ModelContext.BookHistory.Items);
+                Items = new ObservableCollection<BookMementoUnit>(BookHistory.Current.Items);
                 SelectedItem = Items.Count > 0 ? item : null;
 
                 App.Current.Dispatcher.Invoke(() => this.ListBoxContent.RestoreFocus());
@@ -266,7 +266,7 @@ namespace NeeView
             this.ListBoxContent.RestoreFocus();
 
             // 削除
-            ModelContext.BookHistory.Remove(item.Memento.Place);
+            BookHistory.Current.Remove(item.Memento.Place);
         }
 
         // サムネイル要求
@@ -290,7 +290,7 @@ namespace NeeView
 
         private void RemoveAll_Executed()
         {
-            if (ModelContext.BookHistory.Items.Any())
+            if (BookHistory.Current.Items.Any())
             {
                 var dialog = new MessageDialog($"すべての履歴を削除します。よろしいですか？", "履歴を削除します");
                 dialog.Commands.Add(UICommands.Remove);
@@ -299,7 +299,7 @@ namespace NeeView
                 if (answer != UICommands.Remove) return;
             }
 
-            ModelContext.BookHistory.RemoveAll();
+            BookHistory.Current.RemoveAll();
         }
 
 
@@ -317,7 +317,7 @@ namespace NeeView
         //
         private void RemoveUnlinkedCommand_Executed()
         {
-            ModelContext.BookHistory.RemoveUnlinked();
+            BookHistory.Current.RemoveUnlinked();
         }
 
 

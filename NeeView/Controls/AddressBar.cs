@@ -58,7 +58,7 @@ namespace NeeView
         //
         public bool IsBookmark
         {
-            get { return ModelContext.BookMementoCollection.Find(Address)?.BookmarkNode != null; }
+            get { return BookMementoCollection.Current.Find(Address)?.BookmarkNode != null; }
         }
 
 

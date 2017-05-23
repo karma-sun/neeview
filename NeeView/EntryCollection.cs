@@ -149,7 +149,7 @@ namespace NeeView
             else
             {
                 var entries = archiver.GetEntries()
-                    .Where(e => !ModelContext.BitmapLoaderManager.IsExcludedPath(e.EntryName))
+                    .Where(e => !BitmapLoaderManager.Current.IsExcludedPath(e.EntryName))
                     .ToList();
 
                 // 対象ファイル以外を除外
@@ -203,7 +203,7 @@ namespace NeeView
             var collection = new List<ArchiveEntry>();
 
             var entries = (await archiver.GetEntriesAsync(token))
-                .Where(e => !ModelContext.BitmapLoaderManager.IsExcludedPath(e.EntryName))
+                .Where(e => !BitmapLoaderManager.Current.IsExcludedPath(e.EntryName))
                 .ToList();
 
             foreach (var entry in entries)
@@ -238,7 +238,7 @@ namespace NeeView
             var collection = new List<ArchiveEntry>();
 
             var entries = (await archiver.GetEntriesAsync(token))
-                .Where(e => !ModelContext.BitmapLoaderManager.IsExcludedPath(e.EntryName))
+                .Where(e => !BitmapLoaderManager.Current.IsExcludedPath(e.EntryName))
                 .ToList();
 
             // sort
@@ -306,13 +306,13 @@ namespace NeeView
             Archiver archiver;
             if (entry.IsFileSystem)
             {
-                archiver = ModelContext.ArchiverManager.CreateArchiver(entry.GetFileSystemPath(), entry);
+                archiver = ArchiverManager.Current.CreateArchiver(entry.GetFileSystemPath(), entry);
             }
             else
             {
                 string tempFileName = await ArchivenEntryExtractorService.Current.ExtractAsync(entry, token);
                 _trashBox.Add(new TempFile(tempFileName));
-                archiver = ModelContext.ArchiverManager.CreateArchiver(tempFileName, entry);
+                archiver = ArchiverManager.Current.CreateArchiver(tempFileName, entry);
             }
 
             _trashBox.Add(archiver);

@@ -307,7 +307,7 @@ namespace NeeView
                 FocusSelectedItem(options.HasFlag(FolderSetPlaceOption.IsFocus));
 
                 // 最終フォルダー更新
-                ModelContext.BookHistory.LastFolder = _place;
+                BookHistory.Current.LastFolder = _place;
 
                 // 履歴追加
                 if (options.HasFlag(FolderSetPlaceOption.IsUpdateHistory))

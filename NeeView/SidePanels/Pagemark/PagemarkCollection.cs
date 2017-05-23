@@ -20,6 +20,8 @@ namespace NeeView
 {
     public class PagemarkCollection : BindableBase
     {
+        public static PagemarkCollection Current { get; private set; }
+
         // ページマークされているブック情報
         private ObservableCollection<BookMementoUnitNode> _items;
         public ObservableCollection<BookMementoUnitNode> Items
@@ -36,6 +38,8 @@ namespace NeeView
         //
         public PagemarkCollection()
         {
+            Current = this;
+
             Items = new ObservableCollection<BookMementoUnitNode>();
             Marks = new ObservableCollection<Pagemark>();
         }
@@ -60,7 +64,7 @@ namespace NeeView
             //
             foreach (var item in items)
             {
-                var unit = ModelContext.BookMementoCollection.Find(item.Place);
+                var unit = BookMementoCollection.Current.Find(item.Place);
 
                 if (unit == null)
                 {
@@ -70,7 +74,7 @@ namespace NeeView
                     unit.PagemarkNode = new BookMementoUnitNode(unit);
                     Items.Add(unit.PagemarkNode);
 
-                    ModelContext.BookMementoCollection.Add(unit);
+                    BookMementoCollection.Current.Add(unit);
                 }
                 else
                 {
@@ -98,7 +102,7 @@ namespace NeeView
                     unit.PagemarkNode = new BookMementoUnitNode(unit);
                     Items.Add(unit.PagemarkNode);
 
-                    ModelContext.BookMementoCollection.Add(unit);
+                    BookMementoCollection.Current.Add(unit);
                 }
                 else if (unit.PagemarkNode != null)
                 {
@@ -125,7 +129,7 @@ namespace NeeView
         // 削除
         private BookMementoUnit Remove(string place)
         {
-            return Remove(ModelContext.BookMementoCollection.Find(place));
+            return Remove(BookMementoCollection.Current.Find(place));
         }
 
         // 削除
@@ -175,7 +179,7 @@ namespace NeeView
             if (book?.Place == null) return;
             if (book.Pages.Count <= 0) return;
 
-            Update(ModelContext.BookMementoCollection.Find(book.Place), book.CreateMemento());
+            Update(BookMementoCollection.Current.Find(book.Place), book.CreateMemento());
         }
 
         // 更新
@@ -205,7 +209,7 @@ namespace NeeView
         public BookMementoUnit Find(string place)
         {
             if (place == null) return null;
-            var unit = ModelContext.BookMementoCollection.Find(place);
+            var unit = BookMementoCollection.Current.Find(place);
             return unit?.PagemarkNode != null ? unit : null;
         }
 

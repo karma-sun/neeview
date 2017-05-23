@@ -104,7 +104,7 @@ namespace NeeView
         {
             var exceptions = new List<Exception>();
 
-            foreach (var loaderType in ModelContext.BitmapLoaderManager.OrderList)
+            foreach (var loaderType in BitmapLoaderManager.Current.OrderList)
             {
                 try
                 {

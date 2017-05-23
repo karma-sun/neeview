@@ -127,7 +127,7 @@ namespace NeeView
 
         private void UpdateOverlay()
         {
-            var unit = ModelContext.BookMementoCollection.Find(TargetPath);
+            var unit = BookMementoCollection.Current.Find(TargetPath);
 
             if (IsVisibleBookmarkMark && unit?.BookmarkNode != null)
                 _iconOverlay = FolderItemIconOverlay.Star;

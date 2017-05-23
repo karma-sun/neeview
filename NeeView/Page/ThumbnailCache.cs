@@ -70,7 +70,15 @@ namespace NeeView
         /// <summary>
         /// 現在のシステムオブジェクト
         /// </summary>
-        public static ThumbnailCache Current { get; set; }
+        public static ThumbnailCache Current { get; private set; }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        public ThumbnailCache()
+        {
+            Current = this;
+        }
 
         // Connection
         private SQLiteConnection _connection;

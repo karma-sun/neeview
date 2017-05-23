@@ -23,6 +23,8 @@ namespace NeeView
     /// </summary>
     public class BookHistory : BindableBase
     {
+        public static BookHistory Current { get; private set; }
+
         // 履歴変更イベント
         public event EventHandler<BookMementoCollectionChangedArgs> HistoryChanged;
 
@@ -82,6 +84,7 @@ namespace NeeView
         /// </summary>
         public BookHistory()
         {
+            Current = this;
             Items = new LinkedList<BookMementoUnit>();
         }
 
@@ -113,7 +116,7 @@ namespace NeeView
             //
             foreach (var item in items)
             {
-                var unit = ModelContext.BookMementoCollection.Find(item.Place);
+                var unit = BookMementoCollection.Current.Find(item.Place);
 
                 if (unit == null)
                 {
@@ -123,7 +126,7 @@ namespace NeeView
                     unit.HistoryNode = new LinkedListNode<BookMementoUnit>(unit);
                     Items.AddLast(unit.HistoryNode);
 
-                    ModelContext.BookMementoCollection.Add(unit);
+                    BookMementoCollection.Current.Add(unit);
                 }
                 else
                 {
@@ -167,7 +170,7 @@ namespace NeeView
                     Items.AddFirst(unit.HistoryNode);
                     LimitNow();
 
-                    ModelContext.BookMementoCollection.Add(unit);
+                    BookMementoCollection.Current.Add(unit);
                     HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
                 }
                 else if (unit.HistoryNode != null)
@@ -214,7 +217,7 @@ namespace NeeView
             if (book.Pages.Count <= 0) return;
 
             var memento = book.CreateMemento();
-            var unit = ModelContext.BookMementoCollection.Find(memento.Place);
+            var unit = BookMementoCollection.Current.Find(memento.Place);
 
             Add(unit, memento, isKeepOrder);
         }
@@ -223,7 +226,7 @@ namespace NeeView
         // 履歴削除
         public void Remove(string place)
         {
-            var unit = ModelContext.BookMementoCollection.Find(place);
+            var unit = BookMementoCollection.Current.Find(place);
             if (unit != null && unit.HistoryNode != null)
             {
                 Items.Remove(unit.HistoryNode);
@@ -306,7 +309,7 @@ namespace NeeView
         public BookMementoUnit Find(string place)
         {
             if (place == null) return null;
-            var unit = ModelContext.BookMementoCollection.Find(place);
+            var unit = BookMementoCollection.Current.Find(place);
             return unit?.HistoryNode != null ? unit : null;
         }
 

@@ -435,7 +435,7 @@ namespace NeeView
             }
 
             // アーカイバーの選択
-            Archiver archiver = ModelContext.ArchiverManager.CreateArchiver(path, null);
+            Archiver archiver = ArchiverManager.Current.CreateArchiver(path, null);
             if (archiver.IsFileSystem)
             {
                 // 入力ファイルを最初のページにする
@@ -561,7 +561,7 @@ namespace NeeView
             }
             else
             {
-                var type = ModelContext.ArchiverManager.GetSupportedType(entry.EntryName);
+                var type = ArchiverManager.Current.GetSupportedType(entry.EntryName);
                 switch (type)
                 {
                     case ArchiverType.None:

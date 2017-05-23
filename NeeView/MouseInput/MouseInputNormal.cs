@@ -168,7 +168,7 @@ namespace NeeView
             if (deltaX > SystemParameters.MinimumHorizontalDragDistance || deltaY > SystemParameters.MinimumVerticalDragDistance)
             {
                 // ドラッグ開始。処理をドラッグ系に移行
-                var action = ModelContext.DragActionTable.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
+                var action = DragActionTable.Current.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
                 if (action == DragActionType.Gesture)
                 {
                     SetState(MouseInputState.Gesture);

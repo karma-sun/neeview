@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-    public class AppMemento
+    public class SaveData
     {
-        public static AppMemento Current { get; } = new AppMemento();
+        public static SaveData Current { get; } = new SaveData();
 
         public bool IsEnableSave { get; set; } = true;
 
@@ -24,7 +24,7 @@ namespace NeeView
 
         private string _oldPagemarkFileName { get; set; }
 
-        public AppMemento()
+        public SaveData()
         {
             _historyFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "History.xml");
             _bookmarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Bookmark.xml");
@@ -39,10 +39,10 @@ namespace NeeView
             var setting = new Setting();
 
             setting.ViewMemento = MainWindowVM.Current.CreateMemento();
-            setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
+            setting.SusieMemento = SusieContext.Current.CreateMemento();
             setting.BookHubMemento = BookHub.Current.CreateMemento();
             setting.CommandMememto = CommandTable.Current.CreateMemento();
-            setting.DragActionMemento = ModelContext.DragActionTable.CreateMemento();
+            setting.DragActionMemento = DragActionTable.Current.CreateMemento();
             setting.ExporterMemento = Exporter.CreateMemento();
             setting.PreferenceMemento = Preference.Current.CreateMemento();
 
@@ -56,17 +56,17 @@ namespace NeeView
         public void RestoreSetting(Setting setting, bool fromLoad)
         {
             Preference.Current.Restore(setting.PreferenceMemento);
-            ModelContext.ApplyPreference();
+            Models.Current.ApplyPreference();
             WindowShape.Current.WindowChromeFrame = Preference.Current.window_chrome_frame;
             PreferenceAccessor.Current.Reflesh();
 
             MainWindowVM.Current.Restore(setting.ViewMemento);
 
-            ModelContext.SusieContext.Restore(setting.SusieMemento);
+            SusieContext.Current.Restore(setting.SusieMemento);
             BookHub.Current.Restore(setting.BookHubMemento);
 
             CommandTable.Current.Restore(setting.CommandMememto);
-            ModelContext.DragActionTable.Restore(setting.DragActionMemento);
+            DragActionTable.Current.Restore(setting.DragActionMemento);
 
             // メニューのショートカット表示更新
             ////InputGestureChanged?.Invoke(this, null);
@@ -114,11 +114,11 @@ namespace NeeView
             }
 
             // 履歴反映
-            ModelContext.BookHistory.Restore(memento, true);
+            BookHistory.Current.Restore(memento, true);
             MenuBar.Current.UpdateLastFiles();
 
             // フォルダーリストの場所に反映
-            Models.Current.FolderList.ResetPlace(ModelContext.BookHistory.LastFolder);
+            Models.Current.FolderList.ResetPlace(BookHistory.Current.LastFolder);
         }
 
         // ブックマーク読み込み
@@ -146,7 +146,7 @@ namespace NeeView
             }
 
             // ブックマーク反映
-            ModelContext.Bookmarks.Restore(memento);
+            BookmarkCollection.Current.Restore(memento);
         }
 
         // ページマーク読み込み
@@ -191,7 +191,7 @@ namespace NeeView
             }
 
             // ページマーク反映
-            ModelContext.Pagemarks.Restore(memento);
+            PagemarkCollection.Current.Restore(memento);
         }
 
 
@@ -230,7 +230,7 @@ namespace NeeView
                 else
                 {
                     // 履歴をファイルに保存
-                    var bookHistoryMemento = ModelContext.BookHistory.CreateMemento(true);
+                    var bookHistoryMemento = BookHistory.Current.CreateMemento(true);
                     bookHistoryMemento.Save(_historyFileName);
                 }
             }
@@ -246,7 +246,7 @@ namespace NeeView
                 else
                 {
                     // ブックマークをファイルに保存
-                    var bookmarkMemento = ModelContext.Bookmarks.CreateMemento(true);
+                    var bookmarkMemento = BookmarkCollection.Current.CreateMemento(true);
                     bookmarkMemento.Save(_bookmarkFileName);
                 }
             }
@@ -262,7 +262,7 @@ namespace NeeView
                 else
                 {
                     // ページマークをファイルに保存
-                    var pagemarkMemento = ModelContext.Pagemarks.CreateMemento(true);
+                    var pagemarkMemento = PagemarkCollection.Current.CreateMemento(true);
                     pagemarkMemento.Save(_pagemarkFileName);
                 }
             }

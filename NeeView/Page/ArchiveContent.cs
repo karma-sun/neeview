@@ -114,7 +114,7 @@ namespace NeeView
         /// <returns></returns>
         private async Task<BitmapSource> LoadArchiveBitmapAsync(ArchiveEntry entry, string entryName, CancellationToken token)
         {
-            using (var archiver = ModelContext.ArchiverManager.CreateArchiver(entry.EntryName, null))
+            using (var archiver = ArchiverManager.Current.CreateArchiver(entry.EntryName, null))
             {
                 using (var collector = new EntryCollection(archiver, false, false))
                 {

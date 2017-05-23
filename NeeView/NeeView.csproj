@@ -103,6 +103,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ContentCanvasBrush.cs" />
     <Compile Include="Controls\AddressBar.cs" />
     <Compile Include="Controls\AddressBarView.xaml.cs">
       <DependentUpon>AddressBarView.xaml</DependentUpon>
@@ -161,6 +162,9 @@
     <Compile Include="Controls\MenuBarView.xaml.cs">
       <DependentUpon>MenuBarView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FileIO.cs" />
+    <Compile Include="MainWindowModel.cs" />
+    <Compile Include="AppMemento.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListBox.xaml.cs">
       <DependentUpon>BookmarkListBox.xaml</DependentUpon>
     </Compile>

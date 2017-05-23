@@ -34,6 +34,7 @@ namespace NeeView
         //
         public ContentCanvasTransform ContentCanvasTransform { get; private set; }
         public ContentCanvas ContentCanvas { get; private set; }
+        public ContentCanvasBrush ContentCanvasBrush { get; private set; }
         public MouseInput MouseInput { get; private set; }
         public SlideShow SlideShow { get; private set; }
         public WindowTitle WindowTitle { get; private set; }
@@ -52,7 +53,7 @@ namespace NeeView
         public BookmarkList BookmarkList { get; private set; }
         public PagemarkList PagemarkList { get; private set; }
         public FileInformation FileInformation { get; private set; }
-        public ImageEffect ImageEffecct { get; private set; }
+        public ImageEffect ImageEffect { get; private set; }
 
         //
         public SidePanel SidePanel { get; set; }
@@ -79,6 +80,7 @@ namespace NeeView
 
             this.ContentCanvasTransform = new ContentCanvasTransform();
             this.ContentCanvas = new ContentCanvas(this.ContentCanvasTransform, this.BookHub);
+            this.ContentCanvasBrush = new ContentCanvasBrush(this.ContentCanvas);
             this.MouseInput = new MouseInput();
             this.SlideShow = new SlideShow(this.BookHub, this.BookOperation, this.MouseInput);
             this.WindowTitle = new WindowTitle(this.ContentCanvas, this.ContentCanvasTransform);
@@ -95,7 +97,7 @@ namespace NeeView
             this.BookmarkList = new BookmarkList(this.BookHub);
             this.PagemarkList = new PagemarkList(this.BookHub, this.BookOperation);
             this.FileInformation = new FileInformation(this.ContentCanvas);
-            this.ImageEffecct = new ImageEffect();
+            this.ImageEffect = new ImageEffect();
 
             this.SidePanel = new SidePanel(this);
         }
@@ -124,6 +126,8 @@ namespace NeeView
             public ContentCanvasTransform.Memento ContentCanvasTransform { get; set; }
             [DataMember]
             public ContentCanvas.Memento ContentCanvas { get; set; }
+            [DataMember]
+            public ContentCanvasBrush.Memento ContentCanvasBrush { get; set; }
             [DataMember]
             public SlideShow.Memento SlideShow { get; set; }
             [DataMember]
@@ -160,6 +164,7 @@ namespace NeeView
             memento.BookOperation = this.BookOperation.CreateMemento();
             memento.ContentCanvasTransform = this.ContentCanvasTransform.CreateMemento();
             memento.ContentCanvas = this.ContentCanvas.CreateMemento();
+            memento.ContentCanvasBrush = this.ContentCanvasBrush.CreateMemento();
             memento.SlideShow = this.SlideShow.CreateMemento();
             memento.WindowTitle = this.WindowTitle.CreateMemento();
             memento.PageSlider = this.PageSlider.CreateMemento();
@@ -171,7 +176,7 @@ namespace NeeView
             memento.BookmarkList = this.BookmarkList.CreateMemento();
             memento.PagemarkList = this.PagemarkList.CreateMemento();
             memento.FileInformation = this.FileInformation.CreateMemento();
-            memento.ImageEffect = this.ImageEffecct.CreateMemento();
+            memento.ImageEffect = this.ImageEffect.CreateMemento();
             memento.SidePanel = this.SidePanel.CreateMemento();
             return memento;
         }
@@ -184,6 +189,7 @@ namespace NeeView
             this.BookOperation.Restore(memento.BookOperation);
             this.ContentCanvasTransform.Restore(memento.ContentCanvasTransform);
             this.ContentCanvas.Restore(memento.ContentCanvas);
+            this.ContentCanvasBrush.Restore(memento.ContentCanvasBrush);
             this.SlideShow.Restore(memento.SlideShow);
             this.WindowTitle.Restore(memento.WindowTitle);
             this.PageSlider.Restore(memento.PageSlider);
@@ -195,7 +201,7 @@ namespace NeeView
             this.BookmarkList.Restore(memento.BookmarkList);
             this.PagemarkList.Restore(memento.PagemarkList);
             this.FileInformation.Restore(memento.FileInformation);
-            this.ImageEffecct.Restore(memento.ImageEffect, fromLoad); // TODO: formLoadフラグの扱いを検討
+            this.ImageEffect.Restore(memento.ImageEffect, fromLoad); // TODO: formLoadフラグの扱いを検討
             this.SidePanel.Restore(memento.SidePanel);
         }
         #endregion

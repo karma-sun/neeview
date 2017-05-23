@@ -17,11 +17,11 @@
         x:Name="RootWindow"
         Style="{StaticResource DefaultWindowStyle}"
         Title="{Binding WindowTitle.Title}" Icon="{Binding WindowIcon}" Height="768" Width="1024" MinHeight="50" MinWidth="150" AllowDrop="True"
-        Loaded="MainWindow_Loaded" Closed="Window_Closed" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized"
+        Loaded="MainWindow_Loaded" Closed="MainWindow_Closed" Closing="MainWindow_Closing"
         DragOver="MainWindow_DragOver" Drop="MainWindow_Drop" MouseLeave="MainWindow_MouseLeave"
         StateChanged="MainWindow_StateChanged"
         DpiChanged="MainWindow_DpiChanged"
-        PreviewKeyDown="Window_PreviewKeyDown">
+        PreviewKeyDown="MainWindow_PreviewKeyDown">
 
 
     <Window.Resources>
@@ -196,10 +196,10 @@
                                 <Grid x:Name="MainViewPanelRect" Canvas.Left="{Binding CanvasLeft, ElementName=SidePanelFrame}" Canvas.Top="{Binding CanvasTop, ElementName=SidePanelFrame}" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}" UseLayoutRounding="True">
 
                                     <!-- メインビュー パネル -->
-                                    <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding BackgroundBrush}" Margin="0">
-                                        <Rectangle x:Name="FrontBackground" Fill="{Binding BackgroundFrontBrush}" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" Visibility="{Binding BackgroundFrontBrush, Converter={StaticResource NullableToVisibilityConverter}}"/>
+                                    <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding Models.ContentCanvasBrush.BackgroundBrush}" Margin="0">
+                                        <Rectangle x:Name="FrontBackground" Fill="{Binding Models.ContentCanvasBrush.BackgroundFrontBrush}" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" Visibility="{Binding Models.ContentCanvasBrush.BackgroundFrontBrush, Converter={StaticResource NullableToVisibilityConverter}}"/>
 
-                                        <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffector.Effect}">
+                                        <Grid x:Name="MainViewCanvas" Effect="{Binding Models.ImageEffect.Effect}">
 
                                             <!-- メインビュー コンテンツ表示領域 -->
                                             <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True" DataContext="{Binding ContentCanvas}">
@@ -240,9 +240,9 @@
                                         <!-- empty pages message -->
                                         <Grid Visibility="{Binding ContentCanvas.IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">
                                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ForegroundBrush}"/>
+                                                <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding Models.ContentCanvasBrush.ForegroundBrush}"/>
 
-                                                <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
+                                                <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding Models.ContentCanvasBrush.ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
                                                     <TextBlock.Style>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="Visibility" Value="Visible"/>

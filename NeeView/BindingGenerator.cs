@@ -76,11 +76,11 @@ namespace NeeView
         //
         public static Binding Background(BackgroundStyle mode)
         {
-            return new Binding(nameof(MainWindowVM.Background))
+            return new Binding(nameof(ContentCanvasBrush.Background))
             {
                 Converter = s_backgroundStyleToBooleanConverter,
                 ConverterParameter = mode.ToString(),
-                Source = MainWindowVM.Current
+                Source = ContentCanvasBrush.Current
             };
         }
 

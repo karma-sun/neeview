@@ -92,12 +92,6 @@ namespace NeeView
         // ロード中通知
         public event EventHandler<string> Loading;
 
-        // ショートカット変更を通知
-        public event EventHandler InputGestureChanged;
-
-        // 本を閉じた
-        public event EventHandler BookUnloaded;
-
         // フォーカス初期化要求
         public event EventHandler ResetFocus;
 
@@ -135,8 +129,6 @@ namespace NeeView
         }
 
 
-
-
         // 左クリック長押しモード
         #region Property: LongLeftButtonDownMode
         private LongButtonDownMode _longLeftButtonDownMode;
@@ -148,52 +140,6 @@ namespace NeeView
         #endregion
 
 
-        // 背景スタイル
-        #region Property: Background
-        private BackgroundStyle _background;
-        public BackgroundStyle Background
-        {
-            get { return _background; }
-            set { _background = value; UpdateBackgroundBrush(); RaisePropertyChanged(); }
-        }
-        #endregion
-
-        /// <summary>
-        /// CustomBackground property.
-        /// </summary>
-        private BrushSource _CustomBackground;
-        public BrushSource CustomBackground
-        {
-            get { return _CustomBackground; }
-            set
-            {
-                if (_CustomBackground != value)
-                {
-                    _CustomBackground = value;
-                    CustomBackgroundBrush = _CustomBackground.CreateBackBrush();
-                    CustomBackgroundFrontBrush = _CustomBackground.CreateFrontBrush();
-                }
-            }
-        }
-
-        /// <summary>
-        /// カスタム背景
-        /// </summary>
-        public Brush CustomBackgroundBrush { get; set; }
-
-        /// <summary>
-        /// カスタム背景
-        /// </summary>
-        public Brush CustomBackgroundFrontBrush { get; set; }
-
-        /// <summary>
-        /// チェック模様
-        /// </summary>
-        public Brush CheckBackgroundBrush { get; } = (DrawingBrush)App.Current.Resources["CheckerBrush"];
-
-
-        // イメージエフェクト
-        public ImageEffect ImageEffector => _models.ImageEffecct;
 
 
         // メニューを自動的に隠す
@@ -338,9 +284,11 @@ namespace NeeView
             SidePanelMargin = new Thickness(0, CanHideMenu ? 20 : 0, 0, CanHidePageSlider ? 20 : 0);
         }
 
+        #region Canvas Size
 
         /// <summary>
         /// CanvasWidth property.
+        /// キャンバスサイズ。SidePanelから引き渡される
         /// </summary>
         public double CanvasWidth
         {
@@ -363,6 +311,8 @@ namespace NeeView
 
         //
         private double _CanvasHeight;
+
+        #endregion
 
         #endregion
 
@@ -391,10 +341,6 @@ namespace NeeView
 
         // ウィンドウ座標を復元する
         public bool IsSaveWindowPlacement { get; set; }
-
-        // コマンドバインド用
-        // TODO: メニュー系コントロールが分離したら不要になる？
-        public Dictionary<CommandType, RoutedUICommand> BookCommands => RoutedCommandTable.Current.Commands;
 
 
         // 空フォルダー通知表示の詳細テキスト
@@ -445,43 +391,13 @@ namespace NeeView
 
 
 
-        // Foregroudh Brush：ファイルページのフォントカラー用
-        #region Property: ForegroundBrush
-        private Brush _foregroundBrush = Brushes.White;
-        public Brush ForegroundBrush
-        {
-            get { return _foregroundBrush; }
-            set { if (_foregroundBrush != value) { _foregroundBrush = value; RaisePropertyChanged(); } }
-        }
-        #endregion
 
-        // Backgroud Brush
-        #region Property: BackgroundBrush
-        private Brush _backgroundBrush = Brushes.Black;
-        public Brush BackgroundBrush
-        {
-            get { return _backgroundBrush; }
-            set { if (_backgroundBrush != value) { _backgroundBrush = value; RaisePropertyChanged(); UpdateForegroundBrush(); } }
-        }
-        #endregion
-
-        /// <summary>
-        /// BackgroundFrontBrush property.
-        /// </summary>
-        private Brush _BackgroundFrontBrush;
-        public Brush BackgroundFrontBrush
-        {
-            get { return _BackgroundFrontBrush; }
-            set { if (_BackgroundFrontBrush != value) { _BackgroundFrontBrush = value; RaisePropertyChanged(); } }
-        }
-
-
-        #region Property: MenuColor
-        private PanelColor _menuColor;
+        #region Property: PanelColor
+        private PanelColor _panelColor;
         public PanelColor PanelColor
         {
-            get { return _menuColor; }
-            set { if (_menuColor != value) { _menuColor = value; FlushPanelColor(); RaisePropertyChanged(); } }
+            get { return _panelColor; }
+            set { if (_panelColor != value) { _panelColor = value; FlushPanelColor(); RaisePropertyChanged(); } }
         }
         public void FlushPanelColor()
         {
@@ -490,7 +406,7 @@ namespace NeeView
             int alpha = _panelOpacity * 0xFF / 100;
             if (alpha > 0xff) alpha = 0xff;
             if (alpha < 0x00) alpha = 0x00;
-            if (_menuColor == PanelColor.Dark)
+            if (_panelColor == PanelColor.Dark)
             {
                 App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0x11, 0x11, 0x11));
                 App.Current.Resources["NVForeground"] = new SolidColorBrush(Color.FromRgb(0xFF, 0xFF, 0xFF));
@@ -530,7 +446,8 @@ namespace NeeView
         #endregion
 
 
-        #region Property: ContextMenuSetting
+        #region ContextMenu
+
         private ContextMenuSetting _contextMenuSetting;
         public ContextMenuSetting ContextMenuSetting
         {
@@ -542,43 +459,21 @@ namespace NeeView
                 UpdateContextMenu();
             }
         }
-        #endregion
-
 
         //
-        #region Property: ContextMenu
         private ContextMenu _contextMenu;
         public ContextMenu ContextMenu
         {
             get { return _contextMenu; }
             set { _contextMenu = value; RaisePropertyChanged(); }
         }
-        #endregion
 
         public void UpdateContextMenu()
         {
             ContextMenu = ContextMenuSetting.ContextMenu;
         }
 
-        /// <summary>
-        /// コンテキストメニューを開く
-        /// ＃正常に機能しない
-        /// </summary>
-        public void OpenContextMenu()
-        {
-            if (ContextMenu != null)
-            {
-                ContextMenu.DataContext = this;
-                ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
-                ContextMenu.IsOpen = true;
-            }
-        }
-
-        public bool CanOpenContextMenu()
-        {
-            return ContextMenu != null && ContextMenu.IsOpen == false;
-        }
-
+        #endregion
 
 
         // オンラインヘルプ
@@ -638,6 +533,7 @@ namespace NeeView
 
         /// <summary>
         /// IsBusyJobEngine property.
+        /// アクセス中マーク表示用
         /// </summary>
         private bool _isBusyJobEngine;
         public bool IsBusyJobEngine
@@ -647,27 +543,11 @@ namespace NeeView
         }
 
 
-
-        // DPI倍率
-        private DpiScale _Dpi => App.Config.Dpi;
-
-        // DPIのXY比率が等しい？
-        private bool _IsDpiSquare => App.Config.IsDpiSquare;
-
-
         // ダウンロード画像の保存場所
         public string UserDownloadPath { get; set; }
 
         public string DownloadPath => string.IsNullOrWhiteSpace(UserDownloadPath) ? Temporary.TempDownloadDirectory : UserDownloadPath;
 
-        public string HistoryFileName { get; set; }
-        public string BookmarkFileName { get; set; }
-        public string PagemarkFileName { get; set; }
-
-        private string _oldPagemarkFileName { get; set; }
-
-        // 保存可否
-        public bool IsEnableSave { get; set; } = true;
 
         // WindowShape
         public WindowShape WindowShape => WindowShape.Current;
@@ -683,6 +563,18 @@ namespace NeeView
 
 
         /// <summary>
+        /// Model property.
+        /// </summary>
+        public MainWindowModel Model
+        {
+            get { return _model; }
+            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
+        }
+
+        private MainWindowModel _model;
+
+
+        /// <summary>
         /// コンストラクター
         /// </summary>
         /// <param name="window"></param>
@@ -690,22 +582,22 @@ namespace NeeView
         {
             Current = this;
 
+            //
+            _model = new MainWindowModel();
+
             // Window Shape
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen), WindowShape_IsFullScreenPropertyChanged);
 
 
             // Models
-            _models = new Models();
+            ////_models = new Models();
+            _models = _model.Models;
 
 
             // Side Panel
             _models.SidePanel.ResetFocus += (s, e) => ResetFocus?.Invoke(this, null);
 
-            HistoryFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "History.xml");
-            BookmarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Bookmark.xml");
-            PagemarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Pagemark.xml");
 
-            _oldPagemarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Pagekmark.xml");
 
             InitializeWindowIcons();
 
@@ -763,22 +655,11 @@ namespace NeeView
             _models.PagemarkList.InfoMessage +=
                 (s, e) => _models.InfoMessage.SetMessage(NoticeShowMessageStyle, e);
 
-
-            // Contents
-            _models.ContentCanvas.ContentChanged += ContentCanvas_ContentChanged;
-
             // ダウンロードフォルダー生成
             if (!System.IO.Directory.Exists(Temporary.TempDownloadDirectory))
             {
                 System.IO.Directory.CreateDirectory(Temporary.TempDownloadDirectory);
             }
-        }
-
-        // コンテンツ変更イベント処理
-        private void ContentCanvas_ContentChanged(object sender, EventArgs e)
-        {
-            // 背景色更新
-            UpdateBackgroundBrush();
         }
 
 
@@ -799,11 +680,6 @@ namespace NeeView
 
             _models.MenuBar.UpdateLastFiles();
 
-            if (BookHub.BookUnit == null)
-            {
-                BookUnloaded?.Invoke(this, null);
-            }
-
             //
             CommandManager.InvalidateRequerySuggested();
         }
@@ -815,341 +691,6 @@ namespace NeeView
             ModelContext.BookHistory.Clear();
             _models.MenuBar.UpdateLastFiles();
         }
-
-
-        // Foregroud Brush 更新
-        private void UpdateForegroundBrush()
-        {
-            var solidColorBrush = BackgroundBrush as SolidColorBrush;
-            if (solidColorBrush != null)
-            {
-                double y =
-                    (double)solidColorBrush.Color.R * 0.299 +
-                    (double)solidColorBrush.Color.G * 0.587 +
-                    (double)solidColorBrush.Color.B * 0.114;
-
-                ForegroundBrush = (y < 128.0) ? Brushes.White : Brushes.Black;
-            }
-            else
-            {
-                ForegroundBrush = Brushes.Black;
-            }
-        }
-
-        // Background Brush 更新
-        public void UpdateBackgroundBrush()
-        {
-            BackgroundBrush = CreateBackgroundBrush();
-            BackgroundFrontBrush = CreateBackgroundFrontBrush(App.Config.Dpi);
-        }
-
-
-        /// <summary>
-        /// 背景ブラシ作成
-        /// </summary>
-        /// <returns></returns>
-        public Brush CreateBackgroundBrush()
-        {
-            switch (this.Background)
-            {
-                default:
-                case BackgroundStyle.Black:
-                    return Brushes.Black;
-                case BackgroundStyle.White:
-                    return Brushes.White;
-                case BackgroundStyle.Auto:
-                    return new SolidColorBrush(_models.ContentCanvas.GetContentColor());
-                case BackgroundStyle.Check:
-                    return null;
-                case BackgroundStyle.Custom:
-                    return CustomBackgroundBrush;
-            }
-        }
-
-        /// <summary>
-        /// 背景ブラシ(画像)作成
-        /// </summary>
-        /// <param name="dpi">適用するDPI</param>
-        /// <returns></returns>
-        public Brush CreateBackgroundFrontBrush(DpiScale dpi)
-        {
-            switch (this.Background)
-            {
-                default:
-                case BackgroundStyle.Black:
-                case BackgroundStyle.White:
-                case BackgroundStyle.Auto:
-                    return null;
-                case BackgroundStyle.Check:
-                    {
-                        var brush = CheckBackgroundBrush.Clone();
-                        brush.Transform = new ScaleTransform(1.0 / dpi.DpiScaleX, 1.0 / dpi.DpiScaleY);
-                        return brush;
-                    }
-                case BackgroundStyle.Custom:
-                    {
-                        var brush = CustomBackgroundFrontBrush?.Clone();
-                        // 画像タイルの場合はDPI考慮
-                        if (brush is ImageBrush imageBrush && imageBrush.TileMode == TileMode.Tile)
-                        {
-                            brush.Transform = new ScaleTransform(1.0 / dpi.DpiScaleX, 1.0 / dpi.DpiScaleY);
-                        }
-                        return brush;
-                    }
-            }
-        }
-
-
-
-        #region アプリ設定
-
-        // アプリ設定作成
-        public Setting CreateSetting()
-        {
-            var setting = new Setting();
-
-            setting.ViewMemento = this.CreateMemento();
-            setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
-            setting.BookHubMemento = BookHub.CreateMemento();
-            setting.CommandMememto = CommandTable.Current.CreateMemento();
-            setting.DragActionMemento = ModelContext.DragActionTable.CreateMemento();
-            setting.ExporterMemento = Exporter.CreateMemento();
-            setting.PreferenceMemento = Preference.Current.CreateMemento();
-            ////setting.ImageEffectMemento = this.ImageEffector.CreateMemento();
-
-            // new memento
-            setting.Memento = Models.Current.CreateMemento();
-
-            return setting;
-        }
-
-        // アプリ設定反映
-        public void RestoreSetting(Setting setting, bool fromLoad)
-        {
-            Preference.Current.Restore(setting.PreferenceMemento);
-            ModelContext.ApplyPreference();
-            WindowShape.Current.WindowChromeFrame = Preference.Current.window_chrome_frame;
-            PreferenceAccessor.Current.Reflesh();
-
-            this.Restore(setting.ViewMemento);
-            ////this.ImageEffector.Restore(setting.ImageEffectMemento, fromLoad);
-
-            ModelContext.SusieContext.Restore(setting.SusieMemento);
-            BookHub.Restore(setting.BookHubMemento);
-
-            CommandTable.Current.Restore(setting.CommandMememto);
-            ModelContext.DragActionTable.Restore(setting.DragActionMemento);
-            InputGestureChanged?.Invoke(this, null);
-
-            Exporter.Restore(setting.ExporterMemento);
-
-            // new memento
-            Models.Current.Resore(setting.Memento, fromLoad);
-
-            // compatible before ver.22
-            if (setting.ImageEffectMemento != null)
-            {
-                Debug.WriteLine($"[[Compatible]]: Restore ImageEffect");
-                Models.Current.ImageEffecct.Restore(setting.ImageEffectMemento, fromLoad);
-            }
-        }
-
-        // 履歴読み込み
-        public void LoadHistory(Setting setting)
-        {
-            BookHistory.Memento memento;
-
-            if (System.IO.File.Exists(HistoryFileName))
-            {
-                try
-                {
-                    memento = BookHistory.Memento.Load(HistoryFileName);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                    new MessageDialog($"原因: {e.Message}", "履歴の読み込みに失敗しました").ShowDialog();
-                    memento = new BookHistory.Memento();
-                }
-            }
-            else
-            {
-                memento = new BookHistory.Memento();
-            }
-
-            // 設定ファイルに残っている履歴をマージ
-            if (setting.BookHistoryMemento != null)
-            {
-                memento.Merge(setting.BookHistoryMemento);
-            }
-
-            // 履歴反映
-            ModelContext.BookHistory.Restore(memento, true);
-            _models.MenuBar.UpdateLastFiles();
-
-            // フォルダーリストの場所に反映
-            _models.FolderList.ResetPlace(ModelContext.BookHistory.LastFolder);
-        }
-
-        // ブックマーク読み込み
-        public void LoadBookmark(Setting setting)
-        {
-            BookmarkCollection.Memento memento;
-
-            // ブックマーク読み込み
-            if (System.IO.File.Exists(BookmarkFileName))
-            {
-                try
-                {
-                    memento = BookmarkCollection.Memento.Load(BookmarkFileName);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                    new MessageDialog($"原因: {e.Message}", "ブックマークの読み込みに失敗しました").ShowDialog();
-                    memento = new BookmarkCollection.Memento();
-                }
-            }
-            else
-            {
-                memento = new BookmarkCollection.Memento();
-            }
-
-            // ブックマーク反映
-            ModelContext.Bookmarks.Restore(memento);
-        }
-
-
-        // ページマーク読み込み
-        public void LoadPagemark(Setting setting)
-        {
-            PagemarkCollection.Memento memento;
-
-            // 読込ファイル名確定
-            string filename = null;
-            if (System.IO.File.Exists(PagemarkFileName))
-            {
-                filename = PagemarkFileName;
-            }
-            else if (System.IO.File.Exists(_oldPagemarkFileName))
-            {
-                filename = _oldPagemarkFileName;
-            }
-
-            // ページマーク読み込み
-            if (filename != null)
-            {
-                try
-                {
-                    memento = PagemarkCollection.Memento.Load(filename);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                    new MessageDialog($"原因: {e.Message}", "ページマークの読み込みに失敗しました").ShowDialog();
-                    memento = new PagemarkCollection.Memento();
-                }
-
-                // 旧ファイル名の変更
-                if (filename == _oldPagemarkFileName)
-                {
-                    System.IO.File.Move(filename, PagemarkFileName);
-                }
-            }
-            else
-            {
-                memento = new PagemarkCollection.Memento();
-            }
-
-            // ページマーク反映
-            ModelContext.Pagemarks.Restore(memento);
-        }
-
-
-
-        // アプリ設定保存
-        public void SaveSetting()
-        {
-            if (!IsEnableSave) return;
-
-            // 現在の本を履歴に登録
-            BookHub.SaveBookMemento(); // TODO: タイミングに問題有り？
-
-            // 設定
-            var setting = CreateSetting();
-
-            // ウィンドウ座標保存
-            setting.WindowShape = WindowShape.Current.SnapMemento;
-
-            try
-            {
-                // 設定をファイルに保存
-                setting.Save(App.UserSettingFileName);
-            }
-            catch { }
-
-            // 保存しないフラグ
-            bool disableSave = Preference.Current.userdata_save_disable;
-
-            try
-            {
-                if (disableSave)
-                {
-                    // 履歴ファイルを削除
-                    RemoveFile(HistoryFileName);
-                }
-                else
-                {
-                    // 履歴をファイルに保存
-                    var bookHistoryMemento = ModelContext.BookHistory.CreateMemento(true);
-                    bookHistoryMemento.Save(HistoryFileName);
-                }
-            }
-            catch { }
-
-            try
-            {
-                if (disableSave)
-                {
-                    // ブックマークファイルを削除
-                    RemoveFile(BookmarkFileName);
-                }
-                else
-                {
-                    // ブックマークをファイルに保存
-                    var bookmarkMemento = ModelContext.Bookmarks.CreateMemento(true);
-                    bookmarkMemento.Save(BookmarkFileName);
-                }
-            }
-            catch { }
-
-            try
-            {
-                if (disableSave)
-                {
-                    // ページマークファイルを削除
-                    RemoveFile(PagemarkFileName);
-                }
-                else
-                {
-                    // ページマークをファイルに保存
-                    var pagemarkMemento = ModelContext.Pagemarks.CreateMemento(true);
-                    pagemarkMemento.Save(PagemarkFileName);
-                }
-            }
-            catch { }
-        }
-
-        // ファイル削除
-        private void RemoveFile(string filename)
-        {
-            if (System.IO.File.Exists(filename))
-            {
-                System.IO.File.Delete(filename);
-            }
-        }
-
-        #endregion
 
 
         // 最後に開いたフォルダーを開く
@@ -1197,6 +738,8 @@ namespace NeeView
         }
 
 
+        #region クリップボード関連
+
         //
         private BitmapSource CurrentBitmapSource
         {
@@ -1226,6 +769,10 @@ namespace NeeView
             }
         }
 
+        #endregion
+
+
+        #region 印刷
 
         /// <summary>
         /// 印刷可能判定
@@ -1271,9 +818,9 @@ namespace NeeView
                 context.ViewTransform = transform;
                 context.ViewWidth = width;
                 context.ViewHeight = height;
-                context.ViewEffect = _models.ImageEffecct.Effect;
-                context.Background = CreateBackgroundBrush();
-                context.BackgroundFront = CreateBackgroundFrontBrush(new DpiScale(1, 1));
+                context.ViewEffect = _models.ImageEffect.Effect;
+                context.Background = _models.ContentCanvasBrush.CreateBackgroundBrush();
+                context.BackgroundFront = _models.ContentCanvasBrush.CreateBackgroundFrontBrush(new DpiScale(1, 1));
 
                 var dialog = new PrintWindow(context);
                 dialog.Owner = owner;
@@ -1295,6 +842,7 @@ namespace NeeView
             }
         }
 
+        #endregion
 
         // 廃棄処理
         public void Dispose()
@@ -1333,8 +881,8 @@ namespace NeeView
             [DataMember(EmitDefaultValue = false)]
             public PageStretchMode StretchMode { get; set; } // no used (ver.23)
 
-            [DataMember]
-            public BackgroundStyle Background { get; set; }
+            [DataMember(EmitDefaultValue = false)]
+            public BackgroundStyle Background { get; set; } // no used (ver.23)
 
             [DataMember(EmitDefaultValue = false)]
             public bool IsSliderDirectionReversed { get; set; } // no used
@@ -1477,8 +1025,8 @@ namespace NeeView
             [DataMember(Order = 21, EmitDefaultValue = false)]
             public SliderIndexLayout SliderIndexLayout { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 21)]
-            public BrushSource CustomBackground { get; set; }
+            [DataMember(Order = 21, EmitDefaultValue = false)]
+            public BrushSource CustomBackground { get; set; } // no used (ver.23)
 
             //
             private void Constructor()
@@ -1487,7 +1035,6 @@ namespace NeeView
                 NoticeShowMessageStyle = ShowMessageStyle.Normal;
                 GestureShowMessageStyle = ShowMessageStyle.Normal;
                 NowLoadingShowMessageStyle = ShowMessageStyle.Normal;
-                Background = BackgroundStyle.Black;
                 PanelColor = PanelColor.Dark;
                 IsSaveWindowPlacement = true;
                 IsHidePanelInFullscreen = true;
@@ -1497,7 +1044,6 @@ namespace NeeView
                 IsDisableMultiBoot = true;
                 IsVisibleWindowTitle = true;
                 IsVisibleLoupeInfo = true;
-                CustomBackground = new BrushSource();
             }
 
             public Memento()
@@ -1547,8 +1093,6 @@ namespace NeeView
 
             memento._Version = App.Config.ProductVersionNumber;
 
-            memento.CustomBackground = this.CustomBackground;
-            memento.Background = this.Background;
             memento.NoticeShowMessageStyle = this.NoticeShowMessageStyle;
             memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
             memento.NowLoadingShowMessageStyle = this.NowLoadingShowMessageStyle;
@@ -1576,8 +1120,6 @@ namespace NeeView
         //
         public void Restore(Memento memento)
         {
-            this.CustomBackground = memento.CustomBackground;
-            this.Background = memento.Background;
             this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
             this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
             this.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
@@ -1600,21 +1142,20 @@ namespace NeeView
             this.IsLoupeCenter = memento.IsLoupeCenter;
 
             // compatible before ver.22
-            if (memento.FileInfoSetting != null)
-            {
-                Debug.WriteLine($"[[Compatible]]: Restore FileInfoSetting");
-                _models.FileInformation.IsUseExifDateTime = memento.FileInfoSetting.IsUseExifDateTime;
-                _models.FileInformation.IsVisibleBitsPerPixel = memento.FileInfoSetting.IsVisibleBitsPerPixel;
-                _models.FileInformation.IsVisibleLoader = memento.FileInfoSetting.IsVisibleLoader;
-            }
-            if (memento.FolderListSetting != null)
-            {
-                Debug.WriteLine($"[[Compatible]]: Restore FolderListSetting");
-                _models.FolderList.IsVisibleBookmarkMark = memento.FolderListSetting.IsVisibleBookmarkMark;
-                _models.FolderList.IsVisibleHistoryMark = memento.FolderListSetting.IsVisibleHistoryMark;
-            }
             if (memento._Version < Config.GenerateProductVersionNumber(1, 22, 0))
             {
+                if (memento.FileInfoSetting != null)
+                {
+                    _models.FileInformation.IsUseExifDateTime = memento.FileInfoSetting.IsUseExifDateTime;
+                    _models.FileInformation.IsVisibleBitsPerPixel = memento.FileInfoSetting.IsVisibleBitsPerPixel;
+                    _models.FileInformation.IsVisibleLoader = memento.FileInfoSetting.IsVisibleLoader;
+                }
+                if (memento.FolderListSetting != null)
+                {
+                    _models.FolderList.IsVisibleBookmarkMark = memento.FolderListSetting.IsVisibleBookmarkMark;
+                    _models.FolderList.IsVisibleHistoryMark = memento.FolderListSetting.IsVisibleHistoryMark;
+                }
+
                 _models.RoutedCommandTable.CommandShowMessageStyle = memento.CommandShowMessageStyle;
                 WindowShape.Current.IsTopmost = memento.IsTopmost;
                 WindowShape.Current.IsCaptionVisible = memento.IsVisibleTitleBar;
@@ -1638,6 +1179,9 @@ namespace NeeView
                 _models.ContentCanvas.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
                 _models.ContentCanvas.ContentsSpace = memento.ContentsSpace;
                 _models.ContentCanvas.IsAutoRotate = memento.IsAutoRotate;
+
+                _models.ContentCanvasBrush.CustomBackground = memento.CustomBackground;
+                _models.ContentCanvasBrush.Background = memento.Background;
 
                 _models.WindowTitle.WindowTitleFormat1 = memento.WindowTitleFormat1;
                 _models.WindowTitle.WindowTitleFormat2 = memento.WindowTitleFormat2;

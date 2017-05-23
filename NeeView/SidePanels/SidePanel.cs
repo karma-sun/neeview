@@ -59,7 +59,7 @@ namespace NeeView
             rightPanels.Add(this.FileInfoPanel);
 
             // エフェクト
-            this.ImageEffectPanel = new ImageEffectPanel(models.ImageEffecct);
+            this.ImageEffectPanel = new ImageEffectPanel(models.ImageEffect);
             rightPanels.Add(this.ImageEffectPanel);
 
             // ブックマーク

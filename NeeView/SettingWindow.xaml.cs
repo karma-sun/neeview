@@ -939,13 +939,13 @@ namespace NeeView
         /// <param name="e"></param>
         private void EditCustomBackgroundButton_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new BackgroundSettingWindow(Setting.ViewMemento.CustomBackground.Clone());
+            var dialog = new BackgroundSettingWindow(Setting.Memento.ContentCanvasBrush.CustomBackground.Clone());
             dialog.Owner = this;
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = dialog.ShowDialog();
             if (result == true)
             {
-                Setting.ViewMemento.CustomBackground = dialog.Result;
+                Setting.Memento.ContentCanvasBrush.CustomBackground = dialog.Result;
             }
         }
     }

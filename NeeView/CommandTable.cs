@@ -61,6 +61,10 @@ namespace NeeView
         }
 
 
+        //
+        public event EventHandler Changed;
+
+
         // コマンドリスト
         private Dictionary<CommandType, CommandElement> _elements;
 
@@ -204,6 +208,14 @@ namespace NeeView
             if (Current != null) throw new InvalidOperationException();
             Current = this;
 
+            InitializeCommandTable();
+        }
+
+        /// <summary>
+        /// コマンドテーブル初期化
+        /// </summary>
+        private void InitializeCommandTable()
+        {
             // コマンドの設定定義
             _elements = new Dictionary<CommandType, CommandElement>();
 
@@ -502,8 +514,8 @@ namespace NeeView
                 element.Group = "背景";
                 element.Text = "背景を切り替える";
                 element.Note = "背景を順番に切り替えます";
-                element.Execute = (s, e) => _VM.Background = _VM.Background.GetToggle();
-                element.ExecuteMessage = e => _VM.Background.GetToggle().ToDispString();
+                element.Execute = (s, e) => _models.ContentCanvasBrush.Background = _models.ContentCanvasBrush.Background.GetToggle();
+                element.ExecuteMessage = e => _models.ContentCanvasBrush.Background.GetToggle().ToDispString();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleBackground] = element;
             }
@@ -514,7 +526,7 @@ namespace NeeView
                 element.Group = "背景";
                 element.Text = "背景を黒色にする";
                 element.Note = "背景を黒色にします";
-                element.Execute = (s, e) => _VM.Background = BackgroundStyle.Black;
+                element.Execute = (s, e) => _models.ContentCanvasBrush.Background = BackgroundStyle.Black;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Black);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBackgroundBlack] = element;
@@ -526,7 +538,7 @@ namespace NeeView
                 element.Group = "背景";
                 element.Text = "背景を白色にする";
                 element.Note = "背景を白色にします";
-                element.Execute = (s, e) => _VM.Background = BackgroundStyle.White;
+                element.Execute = (s, e) => _models.ContentCanvasBrush.Background = BackgroundStyle.White;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.White);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBackgroundWhite] = element;
@@ -538,7 +550,7 @@ namespace NeeView
                 element.Group = "背景";
                 element.Text = "背景を画像に合わせた色にする";
                 element.Note = "背景色を画像から設定します。具体的には画像の左上ピクセルの色が使用されます";
-                element.Execute = (s, e) => _VM.Background = BackgroundStyle.Auto;
+                element.Execute = (s, e) => _models.ContentCanvasBrush.Background = BackgroundStyle.Auto;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Auto);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBackgroundAuto] = element;
@@ -550,7 +562,7 @@ namespace NeeView
                 element.Group = "背景";
                 element.Text = "背景をチェック模様にする";
                 element.Note = "背景をチェック模様にします";
-                element.Execute = (s, e) => _VM.Background = BackgroundStyle.Check;
+                element.Execute = (s, e) => _models.ContentCanvasBrush.Background = BackgroundStyle.Check;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Check);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBackgroundCheck] = element;
@@ -562,7 +574,7 @@ namespace NeeView
                 element.Group = "背景";
                 element.Text = "背景をカスタム背景にする";
                 element.Note = "背景をカスタム背景にします";
-                element.Execute = (s, e) => _VM.Background = BackgroundStyle.Custom;
+                element.Execute = (s, e) => _models.ContentCanvasBrush.Background = BackgroundStyle.Custom;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Custom);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBackgroundCustom] = element;
@@ -1892,6 +1904,9 @@ namespace NeeView
                     flags[item.Key] = _elements[item.Value].IsToggled;
                 }
             }
+
+            //
+            Changed?.Invoke(this, null);
         }
 
         #endregion

@@ -1,0 +1,276 @@
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NeeView
+{
+    public class AppMemento
+    {
+        public static AppMemento Current { get; } = new AppMemento();
+
+        public bool IsEnableSave { get; set; } = true;
+
+        private string _historyFileName { get; set; }
+        private string _bookmarkFileName { get; set; }
+        private string _pagemarkFileName { get; set; }
+
+        private string _oldPagemarkFileName { get; set; }
+
+        public AppMemento()
+        {
+            _historyFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "History.xml");
+            _bookmarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Bookmark.xml");
+            _pagemarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Pagemark.xml");
+
+            _oldPagemarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Pagekmark.xml");
+        }
+
+        // アプリ設定作成
+        public Setting CreateSetting()
+        {
+            var setting = new Setting();
+
+            setting.ViewMemento = MainWindowVM.Current.CreateMemento();
+            setting.SusieMemento = ModelContext.SusieContext.CreateMemento();
+            setting.BookHubMemento = BookHub.Current.CreateMemento();
+            setting.CommandMememto = CommandTable.Current.CreateMemento();
+            setting.DragActionMemento = ModelContext.DragActionTable.CreateMemento();
+            setting.ExporterMemento = Exporter.CreateMemento();
+            setting.PreferenceMemento = Preference.Current.CreateMemento();
+
+            // new memento
+            setting.Memento = Models.Current.CreateMemento();
+
+            return setting;
+        }
+
+        // アプリ設定反映
+        public void RestoreSetting(Setting setting, bool fromLoad)
+        {
+            Preference.Current.Restore(setting.PreferenceMemento);
+            ModelContext.ApplyPreference();
+            WindowShape.Current.WindowChromeFrame = Preference.Current.window_chrome_frame;
+            PreferenceAccessor.Current.Reflesh();
+
+            MainWindowVM.Current.Restore(setting.ViewMemento);
+
+            ModelContext.SusieContext.Restore(setting.SusieMemento);
+            BookHub.Current.Restore(setting.BookHubMemento);
+
+            CommandTable.Current.Restore(setting.CommandMememto);
+            ModelContext.DragActionTable.Restore(setting.DragActionMemento);
+
+            // メニューのショートカット表示更新
+            ////InputGestureChanged?.Invoke(this, null);
+
+            Exporter.Restore(setting.ExporterMemento);
+
+            // new memento
+            Models.Current.Resore(setting.Memento, fromLoad);
+
+            // compatible before ver.22
+            if (setting.ImageEffectMemento != null)
+            {
+                Debug.WriteLine($"[[Compatible]]: Restore ImageEffect");
+                Models.Current.ImageEffect.Restore(setting.ImageEffectMemento, fromLoad);
+            }
+        }
+
+        // 履歴読み込み
+        public void LoadHistory(Setting setting)
+        {
+            BookHistory.Memento memento;
+
+            if (System.IO.File.Exists(_historyFileName))
+            {
+                try
+                {
+                    memento = BookHistory.Memento.Load(_historyFileName);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    new MessageDialog($"原因: {e.Message}", "履歴の読み込みに失敗しました").ShowDialog();
+                    memento = new BookHistory.Memento();
+                }
+            }
+            else
+            {
+                memento = new BookHistory.Memento();
+            }
+
+            // combatible: 設定ファイルに残っている履歴をマージ
+            if (setting.BookHistoryMemento != null)
+            {
+                memento.Merge(setting.BookHistoryMemento);
+            }
+
+            // 履歴反映
+            ModelContext.BookHistory.Restore(memento, true);
+            MenuBar.Current.UpdateLastFiles();
+
+            // フォルダーリストの場所に反映
+            Models.Current.FolderList.ResetPlace(ModelContext.BookHistory.LastFolder);
+        }
+
+        // ブックマーク読み込み
+        public void LoadBookmark(Setting setting)
+        {
+            BookmarkCollection.Memento memento;
+
+            // ブックマーク読み込み
+            if (System.IO.File.Exists(_bookmarkFileName))
+            {
+                try
+                {
+                    memento = BookmarkCollection.Memento.Load(_bookmarkFileName);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    new MessageDialog($"原因: {e.Message}", "ブックマークの読み込みに失敗しました").ShowDialog();
+                    memento = new BookmarkCollection.Memento();
+                }
+            }
+            else
+            {
+                memento = new BookmarkCollection.Memento();
+            }
+
+            // ブックマーク反映
+            ModelContext.Bookmarks.Restore(memento);
+        }
+
+        // ページマーク読み込み
+        public void LoadPagemark(Setting setting)
+        {
+            PagemarkCollection.Memento memento;
+
+            // 読込ファイル名確定
+            string filename = null;
+            if (System.IO.File.Exists(_pagemarkFileName))
+            {
+                filename = _pagemarkFileName;
+            }
+            else if (System.IO.File.Exists(_oldPagemarkFileName))
+            {
+                filename = _oldPagemarkFileName;
+            }
+
+            // ページマーク読み込み
+            if (filename != null)
+            {
+                try
+                {
+                    memento = PagemarkCollection.Memento.Load(filename);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    new MessageDialog($"原因: {e.Message}", "ページマークの読み込みに失敗しました").ShowDialog();
+                    memento = new PagemarkCollection.Memento();
+                }
+
+                // 旧ファイル名の変更
+                if (filename == _oldPagemarkFileName)
+                {
+                    System.IO.File.Move(filename, _pagemarkFileName);
+                }
+            }
+            else
+            {
+                memento = new PagemarkCollection.Memento();
+            }
+
+            // ページマーク反映
+            ModelContext.Pagemarks.Restore(memento);
+        }
+
+
+
+        // アプリ設定保存
+        public void SaveSetting()
+        {
+            if (!IsEnableSave) return;
+
+            // 現在の本を履歴に登録
+            BookHub.Current.SaveBookMemento(); // TODO: タイミングに問題有り？
+
+            // 設定
+            var setting = CreateSetting();
+
+            // ウィンドウ座標保存
+            setting.WindowShape = WindowShape.Current.SnapMemento;
+
+            try
+            {
+                // 設定をファイルに保存
+                setting.Save(App.UserSettingFileName);
+            }
+            catch { }
+
+            // 保存しないフラグ
+            bool disableSave = Preference.Current.userdata_save_disable;
+
+            try
+            {
+                if (disableSave)
+                {
+                    // 履歴ファイルを削除
+                    FileIO.Current.RemoveFile(_historyFileName);
+                }
+                else
+                {
+                    // 履歴をファイルに保存
+                    var bookHistoryMemento = ModelContext.BookHistory.CreateMemento(true);
+                    bookHistoryMemento.Save(_historyFileName);
+                }
+            }
+            catch { }
+
+            try
+            {
+                if (disableSave)
+                {
+                    // ブックマークファイルを削除
+                    FileIO.Current.RemoveFile(_bookmarkFileName);
+                }
+                else
+                {
+                    // ブックマークをファイルに保存
+                    var bookmarkMemento = ModelContext.Bookmarks.CreateMemento(true);
+                    bookmarkMemento.Save(_bookmarkFileName);
+                }
+            }
+            catch { }
+
+            try
+            {
+                if (disableSave)
+                {
+                    // ページマークファイルを削除
+                    FileIO.Current.RemoveFile(_pagemarkFileName);
+                }
+                else
+                {
+                    // ページマークをファイルに保存
+                    var pagemarkMemento = ModelContext.Pagemarks.CreateMemento(true);
+                    pagemarkMemento.Save(_pagemarkFileName);
+                }
+            }
+            catch { }
+        }
+
+        // アプリ設定読み込み
+        // TODO:
+    }
+
+}

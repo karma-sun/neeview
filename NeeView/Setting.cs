@@ -65,7 +65,6 @@ namespace NeeView
         private void Constructor()
         {
             _Version = App.Config.ProductVersionNumber;
-            ////WindowPlacement = new WindowPlacement.Memento();
             ViewMemento = new MainWindowVM.Memento();
             SusieMemento = new SusieContext.Memento();
             BookHubMemento = new BookHub.Memento();
@@ -73,7 +72,6 @@ namespace NeeView
             DragActionMemento = new DragActionTable.Memento();
             ExporterMemento = new Exporter.Memento();
             PreferenceMemento = new Preference.Memento();
-            ////ImageEffectMemento = new ImageEffect.Memento();
         }
 
         //

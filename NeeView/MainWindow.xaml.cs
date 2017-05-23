@@ -211,7 +211,7 @@ namespace NeeView
             App.Config.LocalApplicationDataRemoved +=
                 (s, e) =>
                 {
-                    _VM.IsEnableSave = false; // 保存禁止
+                    AppMemento.Current.IsEnableSave = false; // 保存禁止
                     this.Close();
                 };
 
@@ -328,8 +328,11 @@ namespace NeeView
         {
             var models = Models.Current;
 
-            _VM.InputGestureChanged +=
+            ////_VM.InputGestureChanged +=
+            ////    (s, e) => InitializeInputGestures();
+            models.CommandTable.Changed +=
                 (s, e) => InitializeInputGestures();
+
 
             _VM.PropertyChanged +=
                 (s, e) => _notifyPropertyChangedDelivery.Send(s, e);
@@ -780,7 +783,7 @@ namespace NeeView
         // 設定ウィンドウを開く
         private void OpenSettingWindow()
         {
-            var setting = _VM.CreateSetting();
+            var setting = AppMemento.Current.CreateSetting();
             var history = ModelContext.BookHistory.CreateMemento(false);
 
             // スライドショー停止
@@ -793,9 +796,9 @@ namespace NeeView
 
             if (result == true)
             {
-                _VM.RestoreSetting(setting, false);
+                AppMemento.Current.RestoreSetting(setting, false);
                 WindowShape.Current.CreateSnapMemento();
-                _VM.SaveSetting();
+                AppMemento.Current.SaveSetting();
                 ModelContext.BookHistory.Restore(history, false);
 
                 // 現在ページ再読込
@@ -910,11 +913,6 @@ namespace NeeView
 
 
         //
-        private void Window_SourceInitialized(object sender, EventArgs e)
-        {
-        }
-
-        //
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Chrome反映
@@ -924,19 +922,19 @@ namespace NeeView
             InitializeViewModelEvents();
 
             // 設定反映
-            _VM.RestoreSetting(App.Setting, true);
+            AppMemento.Current.RestoreSetting(App.Setting, true);
 
             // PanelColor
             _VM.FlushPanelColor();
 
             // 履歴読み込み
-            _VM.LoadHistory(App.Setting);
+            AppMemento.Current.LoadHistory(App.Setting);
 
             // ブックマーク読み込み
-            _VM.LoadBookmark(App.Setting);
+            AppMemento.Current.LoadBookmark(App.Setting);
 
             // ページマーク読込
-            _VM.LoadPagemark(App.Setting);
+            AppMemento.Current.LoadPagemark(App.Setting);
 
             App.Setting = null; // ロード設定破棄
 
@@ -1058,14 +1056,14 @@ namespace NeeView
         }
 
         //
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // 閉じる前にウィンドウサイズ保存
             WindowShape.Current.CreateSnapMemento();
         }
 
         //
-        private void Window_Closed(object sender, EventArgs e)
+        private void MainWindow_Closed(object sender, EventArgs e)
         {
             //
             Models.Current.StopEngine();
@@ -1074,7 +1072,7 @@ namespace NeeView
             _timer.Stop();
 
             // 設定保存
-            _VM.SaveSetting();
+            AppMemento.Current.SaveSetting();
 
             // スレッド終了処理 
             // 主にコマンドのキャンセル処理。 特にApp.Current にアクセスするものはキャンセルさせる
@@ -1095,7 +1093,7 @@ namespace NeeView
         private void CallExport(object sender, MessageEventArgs e)
         {
             var exporter = (Exporter)e.Parameter;
-            exporter.BackgroundBrush = _VM.BackgroundBrush;
+            exporter.BackgroundBrush = ContentCanvasBrush.Current.BackgroundBrush;
 
             var dialog = new SaveWindow(exporter);
             dialog.Owner = this;
@@ -1167,7 +1165,7 @@ namespace NeeView
         }
 
         // 全てのルーテッドイベントの開始
-        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // 単キーのショートカット有効
             KeyExGesture.AllowSingleKey = true;
@@ -1374,7 +1372,7 @@ namespace NeeView
             this.MenuBar.WindowCaptionButtons.UpdateStrokeThickness(e.NewDpi);
 
             // 背景更新
-            _VM?.UpdateBackgroundBrush();
+            ContentCanvasBrush.Current.UpdateBackgroundBrush();
 
             // Window Border
             WindowShape.Current?.UpdateWindowBorderThickness();

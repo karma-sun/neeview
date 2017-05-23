@@ -78,40 +78,6 @@ namespace NeeView
         public ShowMessageStyle NowLoadingShowMessageStyle { get; set; }
 
 
-        /// <summary>
-        /// IsVisibleLoupeInfo property.
-        /// </summary>
-        private bool _IsVisibleLoupeInfo;
-        public bool IsVisibleLoupeInfo
-        {
-            get { return _IsVisibleLoupeInfo; }
-            set { if (_IsVisibleLoupeInfo != value) { _IsVisibleLoupeInfo = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// IsLoupeCenter property.
-        /// </summary>
-        private bool _IsLoupeCenter;
-        public bool IsLoupeCenter
-        {
-            get { return _IsLoupeCenter; }
-            set { if (_IsLoupeCenter != value) { _IsLoupeCenter = value; RaisePropertyChanged(); } }
-        }
-
-
-        // 左クリック長押しモード
-        #region Property: LongLeftButtonDownMode
-        private LongButtonDownMode _longLeftButtonDownMode;
-        public LongButtonDownMode LongLeftButtonDownMode
-        {
-            get { return _longLeftButtonDownMode; }
-            set { _longLeftButtonDownMode = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-
-
-
         // メニューを自動的に隠す
         #region Property: IsHideMenu
         private bool _isHideMenu;
@@ -968,8 +934,8 @@ namespace NeeView
             [DataMember(Order = 12, EmitDefaultValue = false)]
             public double ContentsSpace { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 12)]
-            public LongButtonDownMode LongLeftButtonDownMode { get; set; }
+            [DataMember(Order = 12, EmitDefaultValue = false)]
+            public LongButtonDownMode LongLeftButtonDownMode { get; set; } // no used (ver.23)
 
             [DataMember(Order = 16, EmitDefaultValue = false)]
             public SliderDirection SliderDirection { get; set; } // no used (ver.23)
@@ -983,14 +949,14 @@ namespace NeeView
             [DataMember(Order = 19)]
             public bool IsVisibleWindowTitle { get; set; }
 
-            [DataMember(Order = 19)]
-            public bool IsVisibleLoupeInfo { get; set; }
+            [DataMember(Order = 19, EmitDefaultValue = false)]
+            public bool IsVisibleLoupeInfo { get; set; } // no used (ver.23)
 
             [DataMember(Order = 20, EmitDefaultValue = false)]
             public bool IsSliderWithIndex { get; set; } // no used
 
-            [DataMember(Order = 20)]
-            public bool IsLoupeCenter { get; set; }
+            [DataMember(Order = 20, EmitDefaultValue = false)]
+            public bool IsLoupeCenter { get; set; } // no used (ver.23)
 
             [DataMember(Order = 21, EmitDefaultValue = false)]
             public SliderIndexLayout SliderIndexLayout { get; set; } // no used (ver.23)
@@ -1010,10 +976,8 @@ namespace NeeView
                 IsHidePanelInFullscreen = true;
                 ContextMenuSetting = new ContextMenuSetting();
                 IsAutoGC = true;
-                LongLeftButtonDownMode = LongButtonDownMode.Loupe;
                 IsDisableMultiBoot = true;
                 IsVisibleWindowTitle = true;
-                IsVisibleLoupeInfo = true;
             }
 
             public Memento()
@@ -1079,10 +1043,7 @@ namespace NeeView
             memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
             memento.ContextMenuSetting = this.ContextMenuSetting.Clone();
             memento.IsAutoGC = this.IsAutoGC;
-            memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
             memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
-            memento.IsVisibleLoupeInfo = this.IsVisibleLoupeInfo;
-            memento.IsLoupeCenter = this.IsLoupeCenter;
 
             return memento;
         }
@@ -1106,10 +1067,7 @@ namespace NeeView
             this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
             this.ContextMenuSetting = memento.ContextMenuSetting.Clone();
             this.IsAutoGC = memento.IsAutoGC;
-            this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
-            this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
-            this.IsLoupeCenter = memento.IsLoupeCenter;
 
             // compatible before ver.22
             if (memento._Version < Config.GenerateProductVersionNumber(1, 22, 0))
@@ -1165,6 +1123,10 @@ namespace NeeView
                 _models.ThumbnailList.ThumbnailSize = memento.ThumbnailSize;
                 _models.ThumbnailList.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
                 _models.ThumbnailList.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
+
+                _models.MouseInput.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
+                _models.MouseInput.IsLoupeCenter = memento.IsLoupeCenter;
+                _models.MouseInput.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
             }
         }
 

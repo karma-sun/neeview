@@ -129,6 +129,8 @@ namespace NeeView
             [DataMember]
             public ContentCanvasBrush.Memento ContentCanvasBrush { get; set; }
             [DataMember]
+            public MouseInput.Memento MouseInput { get; set; }
+            [DataMember]
             public SlideShow.Memento SlideShow { get; set; }
             [DataMember]
             public WindowTitle.Memento WindowTitle { get; set; }
@@ -165,6 +167,7 @@ namespace NeeView
             memento.ContentCanvasTransform = this.ContentCanvasTransform.CreateMemento();
             memento.ContentCanvas = this.ContentCanvas.CreateMemento();
             memento.ContentCanvasBrush = this.ContentCanvasBrush.CreateMemento();
+            memento.MouseInput = this.MouseInput.CreateMemento();
             memento.SlideShow = this.SlideShow.CreateMemento();
             memento.WindowTitle = this.WindowTitle.CreateMemento();
             memento.PageSlider = this.PageSlider.CreateMemento();
@@ -190,6 +193,7 @@ namespace NeeView
             this.ContentCanvasTransform.Restore(memento.ContentCanvasTransform);
             this.ContentCanvas.Restore(memento.ContentCanvas);
             this.ContentCanvasBrush.Restore(memento.ContentCanvasBrush);
+            this.MouseInput.Restore(memento.MouseInput);
             this.SlideShow.Restore(memento.SlideShow);
             this.WindowTitle.Restore(memento.WindowTitle);
             this.PageSlider.Restore(memento.PageSlider);

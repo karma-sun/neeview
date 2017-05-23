@@ -29,40 +29,6 @@ namespace NeeView
     }
 
     /// <summary>
-    /// 状態コンテキスト
-    /// </summary>
-    public class MouseInputContext
-    {
-        /// <summary>
-        /// 所属ウィンドウ
-        /// </summary>
-        public Window Window { get; set; }
-
-        /// <summary>
-        /// イベント受取エレメント
-        /// </summary>
-        public FrameworkElement Sender { get; set; }
-
-        /// <summary>
-        /// 操作対象エレメント
-        /// アニメーション対応
-        /// </summary>
-        public FrameworkElement TargetView { get; set; }
-
-        /// <summary>
-        /// 操作対象エレメント計算用
-        /// アニメーション非対応。非表示の矩形のみ。
-        /// 表示領域計算にはこちらを利用する
-        /// </summary>
-        public FrameworkElement TargetShadow { get; set; }
-
-        /// <summary>
-        /// ドラッグ開始座標
-        /// </summary>
-        public Point StartPoint { get; set; }
-    }
-
-    /// <summary>
     /// MouseInputManager
     /// </summary>
     public class MouseInputManager : BindableBase
@@ -70,7 +36,7 @@ namespace NeeView
         /// <summary>
         /// システムオブジェクト
         /// </summary>
-        public static MouseInputManager Current { get; set; }
+        public static MouseInputManager Current { get; private set; }
 
 
         private FrameworkElement _sender;
@@ -144,7 +110,7 @@ namespace NeeView
         /// <summary>
         /// 状態コンテキスト
         /// </summary>
-        private MouseInputContext _context;
+        private MouseInput _context;
 
 
         /// <summary>
@@ -154,37 +120,35 @@ namespace NeeView
         /// <param name="sender"></param>
         /// <param name="targetView"></param>
         /// <param name="targetShadow"></param>
-        public MouseInputManager(Window window, FrameworkElement sender, FrameworkElement targetView, FrameworkElement targetShadow)
+        public MouseInputManager(MouseInput context)
         {
-            _context = new MouseInputContext() { Sender = sender };
-            _context.Window = window;
-            _context.TargetView = targetView;
-            _context.TargetShadow = targetShadow;
+            Current = this;
 
-            _sender = sender;
+            _context = context;
+            _sender = context.Sender;
 
             this.Normal = new MouseInputNormal(_context);
             this.Normal.StateChanged += StateChanged;
-            this.Normal.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(sender, e);
-            this.Normal.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(sender, e);
+            this.Normal.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
+            this.Normal.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
 
             this.Loupe = new MouseInputLoupe(_context);
             this.Loupe.StateChanged += StateChanged;
-            this.Loupe.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(sender, e);
-            this.Loupe.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(sender, e);
+            this.Loupe.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
+            this.Loupe.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
             this.Loupe.TransformChanged += OnTransformChanged;
 
             this.Drag = new MouseInputDrag(_context);
             this.Drag.StateChanged += StateChanged;
-            this.Drag.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(sender, e);
-            this.Drag.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(sender, e);
+            this.Drag.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
+            this.Drag.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
             this.Drag.TransformChanged += OnTransformChanged;
 
             this.Gesture = new MouseInputGesture(_context);
             this.Gesture.StateChanged += StateChanged;
-            this.Gesture.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(sender, e);
-            this.Gesture.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(sender, e);
-            this.Gesture.MouseGestureChanged += (s, e) => MouseGestureChanged?.Invoke(sender, e);
+            this.Gesture.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
+            this.Gesture.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
+            this.Gesture.MouseGestureChanged += (s, e) => MouseGestureChanged?.Invoke(_sender, e);
 
             // initialize state
             _mouseInputCollection = new Dictionary<MouseInputState, MouseInputBase>();
@@ -308,7 +272,7 @@ namespace NeeView
             if (Math.Abs(nowPoint.X - _lastActionPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(nowPoint.Y - _lastActionPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
                 // TODO: このモデルの受け渡し
-                Models.Current?.MouseInput.RaiseMouseMoved();
+                MouseInput.Current.RaiseMouseMoved();
                 _lastActionPoint = nowPoint;
             }
         }

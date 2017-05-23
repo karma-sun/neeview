@@ -52,7 +52,7 @@ namespace NeeView
         /// <summary>
         /// 状態コンテキスト
         /// </summary>
-        private MouseInputContext _context;
+        private MouseInput _context;
 
         /// <summary>
         /// コンストラクター
@@ -60,7 +60,7 @@ namespace NeeView
         /// <param name="sender"></param>
         public MouseInputManagerForGestureEditor(FrameworkElement sender)
         {
-            _context = new MouseInputContext() { Sender = sender };
+            _context = new MouseInput() { Sender = sender };
 
             _sender = sender;
 

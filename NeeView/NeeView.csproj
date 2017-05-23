@@ -166,6 +166,7 @@
     <Compile Include="LongButtonDownMode.cs" />
     <Compile Include="MainWindowModel.cs" />
     <Compile Include="AppMemento.cs" />
+    <Compile Include="MouseInput\MouseInput.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListBox.xaml.cs">
       <DependentUpon>BookmarkListBox.xaml</DependentUpon>
     </Compile>
@@ -185,7 +186,6 @@
       <DependentUpon>MessageDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models.cs" />
-    <Compile Include="MouseInput\MouseInput.cs" />
     <Compile Include="NormalInfoMessage.cs" />
     <Compile Include="NormalInfoMessageView.xaml.cs">
       <DependentUpon>NormalInfoMessageView.xaml</DependentUpon>

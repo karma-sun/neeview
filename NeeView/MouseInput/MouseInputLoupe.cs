@@ -38,7 +38,7 @@ namespace NeeView
         /// カーソル位置を画面中心にしてルーペ開始するフラグ
         /// TODO: 設定方法
         /// </summary>
-        public bool IsCenterMode { get; set; }
+        //public bool IsCenterMode { get; set; }
 
         /// <summary>
         /// IsEnabled property.
@@ -152,7 +152,7 @@ namespace NeeView
         /// コンストラクター
         /// </summary>
         /// <param name="context"></param>
-        public MouseInputLoupe(MouseInputContext context) : base(context)
+        public MouseInputLoupe(MouseInput context) : base(context)
         {
             this.TransformView = CreateTransformGroup();
             this.TransformCalc = CreateTransformGroup();
@@ -215,7 +215,7 @@ namespace NeeView
             _context.StartPoint = Mouse.GetPosition(sender);
             var center = new Point(sender.ActualWidth * 0.5, sender.ActualHeight * 0.5);
             Vector v = _context.StartPoint - center;
-            _loupeBasePosition = (Point)(IsCenterMode ? -v : -v + v / LoupeScale);
+            _loupeBasePosition = (Point)(_context.IsLoupeCenter ? -v : -v + v / LoupeScale);
             LoupePosition = _loupeBasePosition;
 
             this.IsEnabled = true;

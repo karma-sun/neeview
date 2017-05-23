@@ -282,7 +282,7 @@
                                         </TextBlock>
 
                                         <!-- loupe info -->
-                                        <Grid Visibility="{Binding IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Grid Visibility="{Binding Models.MouseInput.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <Grid x:Name="LoupeInfo" VerticalAlignment="Top" HorizontalAlignment="Right"
                                       Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
                                       Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"

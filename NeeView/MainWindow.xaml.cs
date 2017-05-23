@@ -218,7 +218,8 @@ namespace NeeView
             InitializeVisualTree();
 
             // mouse input
-            _mouse = MouseInputManager.Current = new MouseInputManager(this, this.MainView, this.MainContent, this.MainContentShadow);
+            models.MouseInput.Initialize(this, this.MainView, this.MainContent, this.MainContentShadow);
+            _mouse = new MouseInputManager(models.MouseInput);
             ContentCanvasTransform.Current.SetMouseInputDrag(_mouse.Drag); // TODO: 応急処置
 
             this.LoupeInfo.DataContext = _mouse.Loupe;
@@ -251,17 +252,6 @@ namespace NeeView
 
             // VM NotifyPropertyChanged Hook
 
-            _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.IsLoupeCenter),
-                (s, e) =>
-                {
-                    _mouse.Loupe.IsCenterMode = _VM.IsLoupeCenter; // ##
-                });
-
-            _notifyPropertyChangedDelivery.AddReciever(nameof(_VM.LongLeftButtonDownMode),
-                (s, e) =>
-                {
-                    _mouse.Normal.LongLeftButtonDownMode = _VM.LongLeftButtonDownMode; // ##
-                });
 
 
             // messenger

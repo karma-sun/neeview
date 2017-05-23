@@ -28,13 +28,13 @@ namespace NeeView
         /// <summary>
         /// 長押し有効？
         /// </summary>
-        public LongButtonDownMode LongLeftButtonDownMode { get; internal set; }
+        ////public LongButtonDownMode LongLeftButtonDownMode { get; internal set; }
 
         /// <summary>
         /// コンストラクター
         /// </summary>
         /// <param name="context"></param>
-        public MouseInputNormal(MouseInputContext context) : base(context)
+        public MouseInputNormal(MouseInput context) : base(context)
         {
             _timer.Interval = TimeSpan.FromMilliseconds(1000);
             _timer.Tick += OnTimeout;
@@ -52,7 +52,7 @@ namespace NeeView
             if (CreateMouseButtonBits() == MouseButtonBits.LeftButton && Keyboard.Modifiers == ModifierKeys.None)
             {
                 // 左ボタン単体長押しならルーペモードへ
-                if (LongLeftButtonDownMode == LongButtonDownMode.Loupe)
+                if (_context.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
                 {
                     SetState(MouseInputState.Loupe, true);
                 }
@@ -179,5 +179,8 @@ namespace NeeView
                 }
             }
         }
+
+
+
     }
 }

@@ -252,7 +252,7 @@ namespace NeeView
         public TransformGroup TransformCalc { get; private set; }
 
         //
-        public MouseInputDrag(MouseInputContext context) : base(context)
+        public MouseInputDrag(MouseInput context) : base(context)
         {
             this.TransformView = CreateTransformGroup();
             this.TransformCalc = CreateTransformGroup();

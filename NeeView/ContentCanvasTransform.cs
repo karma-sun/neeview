@@ -17,7 +17,7 @@ namespace NeeView
 
 
         // View変換情報表示スタイル
-        public ShowMessageStyle ViewTransformShowMessageStyle { get; set; }
+        ////public ShowMessageStyle ViewTransformShowMessageStyle { get; set; }
 
         // View変換情報表示のスケール表示をオリジナルサイズ基準にする
         public bool IsOriginalScaleShowMessage { get; set; }
@@ -146,9 +146,8 @@ namespace NeeView
         // メッセージとして状態表示
         public void ShowMessage(TransformActionType ActionType, ViewContent mainContent)
         {
-            if (ViewTransformShowMessageStyle == ShowMessageStyle.None) return;
-
             var infoMessage = InfoMessage.Current;
+            if (infoMessage.ViewTransformShowMessageStyle == ShowMessageStyle.None) return;
 
             switch (ActionType)
             {
@@ -156,21 +155,21 @@ namespace NeeView
                     string scaleText = IsOriginalScaleShowMessage && mainContent.IsValid
                         ? $"{(int)(ViewScale * mainContent.Scale * App.Config.Dpi.DpiScaleX * 100 + 0.1)}%"
                         : $"{(int)(ViewScale * 100.0 + 0.1)}%";
-                    infoMessage.SetMessage(ViewTransformShowMessageStyle, scaleText);
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, scaleText);
                     break;
                 case TransformActionType.Angle:
-                    infoMessage.SetMessage(ViewTransformShowMessageStyle, $"{(int)(Angle)}°");
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, $"{(int)(Angle)}°");
                     break;
                 case TransformActionType.FlipHorizontal:
-                    infoMessage.SetMessage(ViewTransformShowMessageStyle, "左右反転 " + (IsFlipHorizontal ? "ON" : "OFF"));
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, "左右反転 " + (IsFlipHorizontal ? "ON" : "OFF"));
                     break;
                 case TransformActionType.FlipVertical:
-                    infoMessage.SetMessage(ViewTransformShowMessageStyle, "上下反転 " + (IsFlipVertical ? "ON" : "OFF"));
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, "上下反転 " + (IsFlipVertical ? "ON" : "OFF"));
                     break;
                 case TransformActionType.LoupeScale:
                     if (LoupeScale != 1.0)
                     {
-                        infoMessage.SetMessage(ViewTransformShowMessageStyle, $"×{LoupeScale:0.0}");
+                        infoMessage.SetMessage(InfoMessageType.ViewTransform, $"×{LoupeScale:0.0}");
                     }
                     break;
             }
@@ -183,8 +182,8 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember]
-            public ShowMessageStyle ViewTransformShowMessageStyle { get; set; }
+            ////[DataMember]
+            ////public ShowMessageStyle ViewTransformShowMessageStyle { get; set; }
             [DataMember]
             public bool IsOriginalScaleShowMessage { get; set; }
             [DataMember]
@@ -209,7 +208,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.ViewTransformShowMessageStyle = this.ViewTransformShowMessageStyle;
+            ////memento.ViewTransformShowMessageStyle = this.ViewTransformShowMessageStyle;
             memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
             memento.IsLimitMove = this.IsLimitMove;
             memento.AngleFrequency = this.AngleFrequency;
@@ -227,7 +226,7 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            this.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
+            ////this.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
             this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
             this.IsLimitMove = memento.IsLimitMove;
             this.AngleFrequency = memento.AngleFrequency;

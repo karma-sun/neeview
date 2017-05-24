@@ -52,7 +52,7 @@
         <DataTemplate x:Key="NormalBookmark">
             <TextBlock Style="{StaticResource FolderName}" TextAlignment="Left">
             <i:Interaction.Behaviors>
-                <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="BookmarkItem" DragDropData="{Binding}" />
+                <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" />
             </i:Interaction.Behaviors>
             </TextBlock>
         </DataTemplate>
@@ -61,7 +61,7 @@
         <DataTemplate x:Key="PictureBookmark">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1" Background="Transparent">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="BookmarkItem" DragDropData="{Binding}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" />
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="2">
                     <DockPanel>
@@ -79,7 +79,7 @@
         <DataTemplate x:Key="BannerBookmark">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="BookmarkItem" DragDropData="{Binding}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" />
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
                     <DockPanel DockPanel.Dock="Bottom" Margin="2" >

@@ -51,7 +51,7 @@ namespace NeeView
         //
         public static Binding BindingBookHub(string path)
         {
-            return new Binding(nameof(MainWindowVM.BookHub) + "." + path);
+            return new Binding(path) { Source = BookHub.Current }; //  nameof(MainWindowVM.BookHub) + "." + path);
         }
 
         //

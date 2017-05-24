@@ -56,7 +56,7 @@ namespace NeeView.Windows
             var listBox = sender as ListBox;
 
             // ドラッグオブジェクト
-            var item = e.Data.GetData(format) as T;
+            var item = GetData<T>(e, format);
             if (item == null) return;
 
             // ドラッグオブジェクトが所属しているリスト判定
@@ -79,6 +79,21 @@ namespace NeeView.Windows
             }
 
             items.Move(oldIndex, newIndex);
+        }
+
+        //
+        private static T GetData<T>(DragEventArgs e, string format)
+            where T : class
+        {
+            try
+            {
+                return e.Data.GetData(format) as T;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Drop failed: {ex.Message}");
+                return null;
+            }
         }
     }
 }

@@ -172,11 +172,14 @@ namespace NeeView
 
             this.PreviewMouseMove += MainWindow_PreviewMouseMove;
 
+
             // ViewModel
             _VM = new MainWindowVM(this);
             this.DataContext = _VM;
 
+            // Models
             var models = Models.Current;
+
 
             this.SliderArea.Source = models.PageSlider;
             this.SliderArea.FocusTo = this.MainView;
@@ -186,6 +189,8 @@ namespace NeeView
             this.AddressBar.Source = models.AddressBar;
 
             this.MenuBar.Source = models.MenuBar;
+
+            this.NowLoading.Source = models.NowLoading;
 
 
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
@@ -318,21 +323,11 @@ namespace NeeView
         {
             var models = Models.Current;
 
-            ////_VM.InputGestureChanged +=
-            ////    (s, e) => InitializeInputGestures();
             models.CommandTable.Changed +=
                 (s, e) => InitializeInputGestures();
 
-
             _VM.PropertyChanged +=
                 (s, e) => _notifyPropertyChangedDelivery.Send(s, e);
-
-            _VM.Loading +=
-                (s, e) =>
-                {
-                    _nowLoading = e != null;
-                    DispNowLoading(_nowLoading);
-                };
 
             _VM.AddPropertyChanged(nameof(_VM.IsHideMenu),
                 (s, e) => UpdateMenuAreaLayout());
@@ -692,7 +687,7 @@ namespace NeeView
             if (path == null)
             {
                 var dialog = new OpenFileDialog();
-                dialog.InitialDirectory = _VM.BookHub.GetDefaultFolder();
+                dialog.InitialDirectory = BookHub.Current.GetDefaultFolder();
 
                 if (dialog.ShowDialog(this) == true)
                 {
@@ -704,7 +699,7 @@ namespace NeeView
                 }
             }
 
-            _VM.Load(path);
+            BookHub.Current.Load(path);
         }
 
 
@@ -713,13 +708,13 @@ namespace NeeView
         {
             var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.PrevScrollPage].Parameter;
 
-            int bookReadDirection = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
+            int bookReadDirection = (BookHub.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isScrolled = _mouse.Drag.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
 
             if (!isScrolled)
             {
-                ContentCanvas.Current.NextViewOrigin = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
-                _VM.BookOperation.PrevPage();
+                ContentCanvas.Current.NextViewOrigin = (BookHub.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
+                BookOperation.Current.PrevPage();
             }
         }
 
@@ -728,13 +723,13 @@ namespace NeeView
         {
             var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.NextScrollPage].Parameter;
 
-            int bookReadDirection = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
+            int bookReadDirection = (BookHub.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isScrolled = _mouse.Drag.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
 
             if (!isScrolled)
             {
-                ContentCanvas.Current.NextViewOrigin = (_VM.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
-                _VM.BookOperation.NextPage();
+                ContentCanvas.Current.NextViewOrigin = (BookHub.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
+                BookOperation.Current.NextPage();
             }
         }
 
@@ -746,11 +741,11 @@ namespace NeeView
 
             if (point.X < this.MainView.ActualWidth * 0.5)
             {
-                _VM.BookOperation.NextPage();
+                BookOperation.Current.NextPage();
             }
             else
             {
-                _VM.BookOperation.PrevPage();
+                BookOperation.Current.PrevPage();
             }
         }
 
@@ -792,7 +787,7 @@ namespace NeeView
                 BookHistory.Current.Restore(history, false);
 
                 // 現在ページ再読込
-                _VM.BookHub.ReLoad();
+                BookHub.Current.ReLoad();
             }
 
             // スライドショー再開
@@ -914,9 +909,6 @@ namespace NeeView
             // 設定反映
             SaveData.Current.RestoreSetting(App.Setting, true);
 
-            // PanelColor
-            _VM.FlushPanelColor();
-
             // 履歴読み込み
             SaveData.Current.LoadHistory(App.Setting);
 
@@ -945,7 +937,7 @@ namespace NeeView
             }
 
             // スライドショーの自動再生
-            if (App.Options["--slideshow"].IsValid ? App.Options["--slideshow"].Bool : _VM.IsAutoPlaySlideShow)
+            if (App.Options["--slideshow"].IsValid ? App.Options["--slideshow"].Bool : SlideShow.Current.IsAutoPlaySlideShow)
             {
                 SlideShow.Current.IsPlayingSlideShow = true;
             }
@@ -1025,13 +1017,14 @@ namespace NeeView
 
             try
             {
-                string path = await _contentDrop.DropAsync(this, data, _VM.DownloadPath, (string message) => _VM.OnLoading(this, message));
-                _VM.Load(path);
+                string path = await _contentDrop.DropAsync(this, data, _VM.DownloadPath, (string message) => NeeView.NowLoading.Current.SetLoading(message));
+                BookHub.Current.Load(path);
             }
             catch (Exception ex)
             {
-                _VM.OnLoading(this, null);
-                _VM.LoadError(ex.Message);
+                NeeView.NowLoading.Current.ResetLoading();
+                BookHub.Current.SetEmptyMessage(ex.Message ?? "コンテンツの読み込みに失敗しました");
+                BookHub.Current.RequestUnload(true);
             }
         }
 
@@ -1092,54 +1085,6 @@ namespace NeeView
             e.Result = (result == true);
         }
 
-
-
-        // 現在のNowLoading表示状態
-        private bool _isDispNowLoading = false;
-
-        /// <summary>
-        /// NowLoadinの表示/非表示
-        /// </summary>
-        /// <param name="isDisp"></param>
-        private void DispNowLoading(bool isDisp)
-        {
-            if (_isDispNowLoading == isDisp) return;
-            _isDispNowLoading = isDisp;
-
-            if (isDisp && _VM.NowLoadingShowMessageStyle != ShowMessageStyle.None)
-            {
-                if (_VM.NowLoadingShowMessageStyle == ShowMessageStyle.Normal)
-                {
-                    this.NowLoadingNormal.Visibility = Visibility.Visible;
-                    this.NowLoadingTiny.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    this.NowLoadingNormal.Visibility = Visibility.Collapsed;
-                    this.NowLoadingTiny.Visibility = Visibility.Visible;
-                }
-
-                var ani = new DoubleAnimation(1, TimeSpan.FromSeconds(0.5));
-                ani.BeginTime = TimeSpan.FromSeconds(1.0);
-                this.NowLoading.BeginAnimation(UIElement.OpacityProperty, ani, HandoffBehavior.SnapshotAndReplace);
-
-                var aniRotate = new DoubleAnimation();
-                aniRotate.By = 360;
-                aniRotate.Duration = TimeSpan.FromSeconds(2.0);
-                aniRotate.RepeatBehavior = RepeatBehavior.Forever;
-                this.NowLoadingMarkAngle.BeginAnimation(RotateTransform.AngleProperty, aniRotate);
-            }
-            else
-            {
-                var ani = new DoubleAnimation(0, TimeSpan.FromSeconds(0.25));
-                this.NowLoading.BeginAnimation(UIElement.OpacityProperty, ani, HandoffBehavior.SnapshotAndReplace);
-
-                var aniRotate = new DoubleAnimation();
-                aniRotate.By = 45;
-                aniRotate.Duration = TimeSpan.FromSeconds(0.25);
-                this.NowLoadingMarkAngle.BeginAnimation(RotateTransform.AngleProperty, aniRotate);
-            }
-        }
 
         // オンラインヘルプ
         private void HelpButton_Click(object sender, RoutedEventArgs e)

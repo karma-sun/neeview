@@ -43,9 +43,6 @@ namespace NeeView
         }
 
 
-        // コマンド表示スタイル
-        public ShowMessageStyle CommandShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
-
         // コマンド実行 
         // CommandTableを純粋なコマンド定義のみにするため、コマンド実行に伴う処理はここで定義している
         public void Execute(CommandType type, object sender, object param)
@@ -54,14 +51,16 @@ namespace NeeView
             if (_commandTable[type].IsShowMessage)
             {
                 string message = _commandTable[type].ExecuteMessage(param);
-                InfoMessage.Current.SetMessage(CommandShowMessageStyle, message);
+                InfoMessage.Current.SetMessage(InfoMessageType.Command, message);
             }
 
             // 実行
             _commandTable[type].Execute(sender, param);
         }
 
+
         #region Memento
+        // compatible before ver.23
         [DataContract]
         public class Memento
         {
@@ -72,16 +71,14 @@ namespace NeeView
         //
         public Memento CreateMemento()
         {
-            var memento = new Memento();
-            memento.CommandShowMessageStyle = this.CommandShowMessageStyle;
-            return memento;
+            return null;
         }
 
         //
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
+            InfoMessage.Current.CommandShowMessageStyle = memento.CommandShowMessageStyle;
         }
 
         #endregion

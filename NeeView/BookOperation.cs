@@ -53,6 +53,9 @@ namespace NeeView
         public BookOperation()
         {
             Current = this;
+
+            ////this.InfoMessage +=
+            ////    (s, e) => NeeView.InfoMessage.Current.SetMessage(NoticeShowMessageStyle, e);
         }
 
         /// <summary>
@@ -98,7 +101,7 @@ namespace NeeView
 
         // メッセージ通知
         // TODO: メッセージ系はグローバルなので専用モデルにして直接コール？
-        public event EventHandler<string> InfoMessage;
+        //public event EventHandler<string> InfoMessage;
 
 
         /// <summary>
@@ -241,11 +244,11 @@ namespace NeeView
 
                 else if (e < 0)
                 {
-                    InfoMessage?.Invoke(this, "最初のページです");
+                    InfoMessage.Current.SetMessage(InfoMessageType.Notify, "最初のページです");
                 }
                 else
                 {
-                    InfoMessage?.Invoke(this, "最後のページです");
+                    InfoMessage.Current.SetMessage(InfoMessageType.Notify, "最後のページです");
                 }
             }
         }
@@ -419,7 +422,7 @@ namespace NeeView
             var result = this.Book.RequestJumpToMarker(this, -1, param.IsLoop, param.IsIncludeTerminal);
             if (!result)
             {
-                InfoMessage?.Invoke(this, "現在ページより前のページマークはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "現在ページより前のページマークはありません");
             }
         }
 
@@ -429,7 +432,7 @@ namespace NeeView
             var result = this.Book.RequestJumpToMarker(this, +1, param.IsLoop, param.IsIncludeTerminal);
             if (!result)
             {
-                InfoMessage?.Invoke(this, "現在ページより後のページマークはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "現在ページより後のページマークはありません");
             }
         }
 

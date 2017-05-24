@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -182,19 +183,20 @@ namespace NeeView
     /// <summary>
     /// JobEngine
     /// </summary>
-    public class JobEngine : IDisposable
+    public class JobEngine : BindableBase, IDisposable
     {
         public static JobEngine Current { get; private set; }
 
         #region 開発用
 
         // 状態変化通知
-        public event EventHandler StatusChanged;
+        ////public event EventHandler StatusChanged;
 
         [Conditional("DEBUG")]
-        public void NotifyStatusChanged()
+        private void NotifyStatusChanged()
         {
-            StatusChanged?.Invoke(this, null);
+            ////StatusChanged?.Invoke(this, null);
+            RaisePropertyChanged(null);
         }
 
         // 状態メッセージ
@@ -217,15 +219,24 @@ namespace NeeView
         /// <summary>
         /// IsBusyChanged event
         /// </summary>
-        public event EventHandler IsBusyChanged;
+        ////public event EventHandler IsBusyChanged;
 
         /// <summary>
         /// IsBusy property.
         /// </summary>
         public bool IsBusy
         {
-            get { return Workers.Any(e => e != null && e.IsBusy); }
+            get { return _IsBusy; }
+            set { if (_IsBusy != value) { _IsBusy = value; RaisePropertyChanged(); } }
         }
+
+        private bool _IsBusy;
+        
+        private void UpdateIsBusy()
+        {
+            this.IsBusy = this.Workers.Any(e => e != null && e.IsBusy);
+        }
+
 
         // ジョブの製造番号用カウンタ
         private int _serialNumber;
@@ -273,8 +284,8 @@ namespace NeeView
                     if (Workers[i] == null)
                     {
                         Workers[i] = new JobWorker(_context);
-                        Workers[i].StatusChanged += (s, e) => StatusChanged?.Invoke(s, e);
-                        Workers[i].IsBusyChanged += (s, e) => IsBusyChanged?.Invoke(s, e);
+                        Workers[i].StatusChanged += (s, e) => NotifyStatusChanged(); //// StatusChanged?.Invoke(s, e);
+                        Workers[i].IsBusyChanged += (s, e) => UpdateIsBusy(); ////  IsBusyChanged?.Invoke(s, e);
                         Workers[i].Run();
                         Message = $"Create Worker[{i}]";
                     }

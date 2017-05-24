@@ -29,6 +29,9 @@ namespace NeeView
     {
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PagemarkListBox));
 
+        public static string DragDropFormat = $"{App.Config.ProcessId}.PagemarkItem";
+
+
         private PagemarkListViewModel _vm;
 
         private ThumbnailHelper _thumbnailHelper;
@@ -132,7 +135,7 @@ namespace NeeView
 
         private void PagemarkListBox_PreviewDragOver(object sender, DragEventArgs e)
         {
-            ListBoxDragSortExtension.PreviewDragOver(sender, e, "PagemarkItem");
+            ListBoxDragSortExtension.PreviewDragOver(sender, e, DragDropFormat);
         }
 
         private void PagemarkListBox_Drop(object sender, DragEventArgs e)
@@ -140,7 +143,7 @@ namespace NeeView
             var list = (sender as ListBox).Tag as ObservableCollection<Pagemark>;
             if (list != null)
             {
-                ListBoxDragSortExtension.Drop<Pagemark>(sender, e, "PagemarkItem", list);
+                ListBoxDragSortExtension.Drop<Pagemark>(sender, e, DragDropFormat, list);
                 e.Handled = true;
             }
         }

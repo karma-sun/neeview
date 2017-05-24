@@ -61,10 +61,15 @@ namespace NeeView
         [DataMember]
         public WindowShape.Memento WindowShape { get; set; }
 
+        // ver.23
+        [DataMember]
+        public App.Memento App { get; set; }
+
         //
         private void Constructor()
         {
-            _Version = App.Config.ProductVersionNumber;
+            _Version = NeeView.App.Config.ProductVersionNumber;
+
             ViewMemento = new MainWindowVM.Memento();
             SusieMemento = new SusieContext.Memento();
             BookHubMemento = new BookHub.Memento();

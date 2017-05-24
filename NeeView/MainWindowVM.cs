@@ -30,25 +30,6 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
-    // 通知表示の種類
-    public enum ShowMessageStyle
-    {
-        None,
-        Normal,
-        Tiny,
-    }
-
-
-    // パネルカラー
-    public enum PanelColor
-    {
-        Dark,
-        Light,
-    }
-
-
-
-
     /// <summary>
     /// MainWindow : ViewModel
     /// TODO : モデルの分離
@@ -57,25 +38,9 @@ namespace NeeView
     {
         public static MainWindowVM Current { get; private set; }
 
-        #region Events
-
-        // ロード中通知
-        public event EventHandler<string> Loading;
-
         // フォーカス初期化要求
         public event EventHandler ResetFocus;
 
-        #endregion
-
-
-        // 通知表示スタイル
-        public ShowMessageStyle NoticeShowMessageStyle { get; set; }
-
-        // ジェスチャー表示スタイル
-        public ShowMessageStyle GestureShowMessageStyle { get; set; }
-
-        // NowLoading表示スタイル
-        public ShowMessageStyle NowLoadingShowMessageStyle { get; set; }
 
 
         // メニューを自動的に隠す
@@ -268,35 +233,8 @@ namespace NeeView
         // フルスクリーン状態を復元するフラグ
         public bool IsSaveFullScreen { get; set; }
 
-
-        // マルチブートを禁止する
-        public bool IsDisableMultiBoot { get; set; }
-
-        // スライドショーの自動開始
-        public bool IsAutoPlaySlideShow { get; set; }
-
         // ウィンドウ座標を復元する
         public bool IsSaveWindowPlacement { get; set; }
-
-
-        // 空フォルダー通知表示の詳細テキスト
-        // TODO: ContentCanvasじゃね？
-        #region Property: EmptyPageMessage
-        private string _emptyPageMessage;
-        public string EmptyPageMessage
-        {
-            get { return _emptyPageMessage; }
-            set { _emptyPageMessage = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-
-        // オートGC
-        public bool IsAutoGC
-        {
-            get { return MemoryControl.Current.IsAutoGC; }
-            set { MemoryControl.Current.IsAutoGC = value; }
-        }
 
 
         #region Window Icon
@@ -326,38 +264,35 @@ namespace NeeView
 
 
 
+        #region テーマカラー
 
-        #region Property: PanelColor
-        private PanelColor _panelColor;
-        public PanelColor PanelColor
-        {
-            get { return _panelColor; }
-            set { if (_panelColor != value) { _panelColor = value; FlushPanelColor(); RaisePropertyChanged(); } }
-        }
-        public void FlushPanelColor()
+        //
+        public void UpdatePanelColor()
         {
             if (App.Current == null) return;
 
             int alpha = _panelOpacity * 0xFF / 100;
             if (alpha > 0xff) alpha = 0xff;
             if (alpha < 0x00) alpha = 0x00;
-            if (_panelColor == PanelColor.Dark)
+            if (_model.PanelColor == PanelColor.Dark)
             {
+                App.Current.Resources["NVBackgroundFade"] = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
                 App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0x11, 0x11, 0x11));
-                App.Current.Resources["NVForeground"] = new SolidColorBrush(Color.FromRgb(0xFF, 0xFF, 0xFF));
+                App.Current.Resources["NVForeground"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
                 App.Current.Resources["NVBaseBrush"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0x22, 0x22, 0x22));
                 App.Current.Resources["NVDefaultBrush"] = new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55));
                 App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
                 App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
                 App.Current.Resources["NVCheckMarkBrush"] = new SolidColorBrush(Color.FromRgb(0x90, 0xEE, 0x90));
                 App.Current.Resources["NVPanelIconBackground"] = new SolidColorBrush(Color.FromRgb(0x33, 0x33, 0x33));
-                App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0xFF, 0xFF, 0xFF));
+                App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
                 App.Current.Resources["NVFolderPen"] = null;
             }
             else
             {
+                App.Current.Resources["NVBackgroundFade"] = new SolidColorBrush(Color.FromRgb(0xFF, 0xFF, 0xFF));
                 App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0xF8, 0xF8, 0xF8));
-                App.Current.Resources["NVForeground"] = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
+                App.Current.Resources["NVForeground"] = new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22));
                 App.Current.Resources["NVBaseBrush"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0xEE, 0xEE, 0xEE));
                 App.Current.Resources["NVDefaultBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
                 App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88));
@@ -368,32 +303,19 @@ namespace NeeView
                 App.Current.Resources["NVFolderPen"] = new Pen(new SolidColorBrush(Color.FromRgb(0xDE, 0xB9, 0x82)), 1);
             }
         }
-        #endregion
 
-
-        #region Property: PanelOpacity
+        // パネルの透明度(未使用)
         private int _panelOpacity = 100;
         public int PanelOpacity
         {
             get { return _panelOpacity; }
-            set { _panelOpacity = value; FlushPanelColor(); RaisePropertyChanged(); }
+            set { _panelOpacity = value; UpdatePanelColor(); RaisePropertyChanged(); }
         }
+
         #endregion
 
 
-        #region ContextMenu
-
-        private ContextMenuSetting _contextMenuSetting;
-        public ContextMenuSetting ContextMenuSetting
-        {
-            get { return _contextMenuSetting; }
-            set
-            {
-                _contextMenuSetting = value;
-                _contextMenuSetting.Validate();
-                UpdateContextMenu();
-            }
-        }
+        #region コンテキストメニュー
 
         //
         private ContextMenu _contextMenu;
@@ -405,7 +327,7 @@ namespace NeeView
 
         public void UpdateContextMenu()
         {
-            ContextMenu = ContextMenuSetting.ContextMenu;
+            ContextMenu = _model.ContextMenuSetting.ContextMenu;
         }
 
         #endregion
@@ -418,27 +340,18 @@ namespace NeeView
         }
 
 
-        // 本管理
-        public BookHub BookHub { get; private set; }
-
-        //
-        public BookOperation BookOperation { get; private set; }
 
 
         #region 開発用
 
-        // 開発用：JobEndine公開
-        ////public JobEngine JobEngine => JobEngine.Current;
 
         // 開発用：コンテンツ座標
-        #region Property: ContentPosition
         private Point _contentPosition;
         public Point ContentPosition
         {
             get { return _contentPosition; }
             set { _contentPosition = value; RaisePropertyChanged(); }
         }
-        #endregion
 
         // 開発用：コンテンツ座標情報更新
         public void UpdateContentPosition()
@@ -466,16 +379,21 @@ namespace NeeView
 
         #endregion
 
+
+
+
         /// <summary>
-        /// IsBusyJobEngine property.
+        /// BusyVisibility property.
         /// アクセス中マーク表示用
         /// </summary>
-        private bool _isBusyJobEngine;
-        public bool IsBusyJobEngine
+        public Visibility BusyVisibility
         {
-            get { return _isBusyJobEngine; }
-            set { if (_isBusyJobEngine != value) { _isBusyJobEngine = value; RaisePropertyChanged(); } }
+            get { return _busyVisibility; }
+            set { if (_busyVisibility != value) { _busyVisibility = value; RaisePropertyChanged(); } }
         }
+
+        private Visibility _busyVisibility;
+
 
 
         // ダウンロード画像の保存場所
@@ -492,6 +410,7 @@ namespace NeeView
 
         /// <summary>
         /// Model群。ひとまず。
+        /// TODO: Modelと混同する。まずい。
         /// </summary>
         private Models _models;
         public Models Models => _models;
@@ -511,22 +430,33 @@ namespace NeeView
 
         /// <summary>
         /// コンストラクター
+        /// TODO: 引数はMainWindowModelであるべきでは？
         /// </summary>
         /// <param name="window"></param>
         public MainWindowVM(MainWindow window)
         {
             Current = this;
 
-            //
-            _model = new MainWindowModel();
-
             // Window Shape
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen), WindowShape_IsFullScreenPropertyChanged);
 
 
             // Models
-            ////_models = new Models();
-            _models = _model.Models;
+            _models = new Models();
+
+
+            // mainwindow model
+            _model = _models.MainWindowModel;
+
+            _model.AddPropertyChanged(nameof(_model.PanelColor),
+                (s, e) => UpdatePanelColor());
+
+            _model.AddPropertyChanged(nameof(_model.ContextMenuSetting),
+                (s, e) => UpdateContextMenu());
+
+            // 初期化
+            UpdatePanelColor();
+            UpdateContextMenu();
 
 
             // Side Panel
@@ -536,89 +466,26 @@ namespace NeeView
 
             InitializeWindowIcons();
 
-            SlideShow.Current.PropertyChanged += (s, e) =>
-            {
-                switch (e.PropertyName)
-                {
-                    case nameof(SlideShow.IsPlayingSlideShow):
-                        RaisePropertyChanged(nameof(WindowIcon));
-                        break;
-                }
-            };
 
-            // ModelContext
-            /*
-            JobEngine.Current.StatusChanged +=
-                (s, e) => RaisePropertyChanged(nameof(JobEngine));
-            */
-
-            JobEngine.Current.IsBusyChanged +=
-                (s, e) => IsBusyJobEngine = JobEngine.Current.IsBusy && !SlideShow.Current.IsPlayingSlideShow;
+            // SlideShow link to WindowIcon
+            SlideShow.Current.AddPropertyChanged(nameof(SlideShow.IsPlayingSlideShow),
+                (s, e) => RaisePropertyChanged(nameof(WindowIcon)));
 
 
-
-            // BookHub
-            BookHub = _models.BookHub;
-
-            BookHub.Loading +=
-                OnLoading;
-
-            BookHub.BookChanged +=
-                OnBookChanged;
-
-            BookHub.SettingChanged +=
-                (s, e) =>
-                {
-                    RaisePropertyChanged(nameof(BookHub));
-                };
-
-            BookHub.InfoMessage +=
-                (s, e) =>
-                {
-                    _models.InfoMessage.SetMessage(NoticeShowMessageStyle, e);
-                };
-
-            BookHub.EmptyMessage +=
-                (s, e) => EmptyPageMessage = e;
+            // JobEngine Busy
+            JobEngine.Current.AddPropertyChanged(nameof(JobEngine.IsBusy),
+                (s, e) => this.BusyVisibility = JobEngine.Current.IsBusy && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed);
 
 
-            // BookOperation
-            BookOperation = _models.BookOperation;
+            BookHub.Current.BookChanged +=
+                (s, e) => CommandManager.InvalidateRequerySuggested();
 
-            BookOperation.InfoMessage +=
-                (s, e) => _models.InfoMessage.SetMessage(NoticeShowMessageStyle, e);
-
-            //
-            _models.PagemarkList.InfoMessage +=
-                (s, e) => _models.InfoMessage.SetMessage(NoticeShowMessageStyle, e);
 
             // ダウンロードフォルダー生成
             if (!System.IO.Directory.Exists(Temporary.TempDownloadDirectory))
             {
                 System.IO.Directory.CreateDirectory(Temporary.TempDownloadDirectory);
             }
-        }
-
-
-        // Loading表示状態変更
-        public void OnLoading(object sender, string e)
-        {
-            _models.WindowTitle.LoadingPath = e;
-            Loading?.Invoke(sender, e);
-        }
-
-
-        // 本が変更された
-        private void OnBookChanged(object sender, BookMementoType bookmarkType)
-        {
-            var title = LoosePath.GetFileName(BookHub.Address);
-
-            App.Current?.Dispatcher.Invoke(() => _models.InfoMessage.SetMessage(NoticeShowMessageStyle, title, null, 2.0, bookmarkType));
-
-            _models.MenuBar.UpdateLastFiles();
-
-            //
-            CommandManager.InvalidateRequerySuggested();
         }
 
 
@@ -631,6 +498,7 @@ namespace NeeView
 
 
         // 最後に開いたフォルダーを開く
+        // TODO: ここではない。Model?
         public void LoadLastFolder()
         {
             if (!Preference.Current.bootup_lastfolder) return;
@@ -638,7 +506,7 @@ namespace NeeView
             string place = BookHistory.Current.LastAddress;
             if (place != null || System.IO.Directory.Exists(place) || System.IO.File.Exists(place))
             {
-                Load(place, BookLoadOption.Resume);
+                BookHub.Current.Load(place, BookLoadOption.Resume);
             }
         }
 
@@ -648,31 +516,14 @@ namespace NeeView
         {
             if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
 
-            _models.InfoMessage.SetMessage(
-                GestureShowMessageStyle,
+            InfoMessage.Current.SetMessage(
+                InfoMessageType.Gesture,
                 ((commandName != null) ? commandName + "\n" : "") + gesture,
                 gesture + ((commandName != null) ? " " + commandName : ""));
         }
 
 
-        // フォルダー読み込み
-        public void Load(string path, BookLoadOption option = BookLoadOption.None)
-        {
-            if (Utility.FileShortcut.IsShortcut(path) && (System.IO.File.Exists(path) || System.IO.Directory.Exists(path)))
-            {
-                var shortcut = new Utility.FileShortcut(path);
-                path = shortcut.TargetPath;
-            }
 
-            BookHub.RequestLoad(path, null, option, true);
-        }
-
-        // ドラッグ＆ドロップ取り込み失敗
-        public void LoadError(string message)
-        {
-            EmptyPageMessage = message ?? "コンテンツの読み込みに失敗しました";
-            BookHub?.RequestUnload(true);
-        }
 
 
         #region クリップボード関連
@@ -785,7 +636,7 @@ namespace NeeView
         public void Dispose()
         {
             // TODO: Bookのコマンド系もエンジン扱いせよ
-            BookHub.Dispose();
+            BookHub.Current.Dispose();
 
             ////ModelContext.Terminate();
 
@@ -825,17 +676,17 @@ namespace NeeView
             [DataMember(EmitDefaultValue = false)]
             public bool IsSliderDirectionReversed { get; set; } // no used
 
-            [DataMember(Order = 4)]
-            public ShowMessageStyle NoticeShowMessageStyle { get; set; }
+            [DataMember(Order = 4, EmitDefaultValue = false)]
+            public ShowMessageStyle NoticeShowMessageStyle { get; set; } // no used (ver.23)
 
             [DataMember(EmitDefaultValue = false)]
             public ShowMessageStyle CommandShowMessageStyle { get; set; } // no used (ver.22)
 
-            [DataMember]
-            public ShowMessageStyle GestureShowMessageStyle { get; set; }
+            [DataMember(EmitDefaultValue = false)]
+            public ShowMessageStyle GestureShowMessageStyle { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 4)]
-            public ShowMessageStyle NowLoadingShowMessageStyle { get; set; }
+            [DataMember(Order = 4, EmitDefaultValue = false)]
+            public ShowMessageStyle NowLoadingShowMessageStyle { get; set; } // no used (ver.23)
 
             [DataMember(Order = 1, EmitDefaultValue = false)]
             public bool IsEnabledNearestNeighbor { get; set; } // no used (ver.22)
@@ -852,11 +703,11 @@ namespace NeeView
             [DataMember(Order = 2, EmitDefaultValue = false)]
             public bool IsLoadLastFolder { get; set; } // no used (ver.22)
 
-            [DataMember(Order = 2)]
-            public bool IsDisableMultiBoot { get; set; }
+            [DataMember(Order = 2, EmitDefaultValue = false)]
+            public bool IsDisableMultiBoot { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 4)]
-            public bool IsAutoPlaySlideShow { get; set; }
+            [DataMember(Order = 4, EmitDefaultValue = false)]
+            public bool IsAutoPlaySlideShow { get; set; } // no used (ver.23)
 
             [DataMember(Order = 7)]
             public bool IsSaveWindowPlacement { get; set; }
@@ -885,8 +736,8 @@ namespace NeeView
             [DataMember(Order = 6, EmitDefaultValue = false)]
             public FolderListSetting FolderListSetting { get; set; } // no used
 
-            [DataMember(Order = 6)]
-            public PanelColor PanelColor { get; set; }
+            [DataMember(Order = 6, EmitDefaultValue = false)]
+            public PanelColor PanelColor { get; set; } // no used (ver.23)
 
             [DataMember(Order = 7, EmitDefaultValue = false)]
             public string WindowTitleFormat1 { get; set; } // no used (ver.23)
@@ -903,8 +754,8 @@ namespace NeeView
             [DataMember(Order = 8)]
             public bool IsHidePanelInFullscreen { get; set; }
 
-            [DataMember(Order = 8)]
-            public ContextMenuSetting ContextMenuSetting { get; set; }
+            [DataMember(Order = 8, EmitDefaultValue = false)]
+            public ContextMenuSetting ContextMenuSetting { get; set; } // no used (ver.23)
 
             [DataMember(Order = 8, EmitDefaultValue = false)]
             public bool IsEnableThumbnailList { get; set; } // no used (ver.23)
@@ -921,8 +772,8 @@ namespace NeeView
             [DataMember(Order = 8, EmitDefaultValue = false)]
             public bool IsVisibleThumbnailNumber { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 9)]
-            public bool IsAutoGC { get; set; }
+            [DataMember(Order = 9, EmitDefaultValue = false)]
+            public bool IsAutoGC { get; set; } // no used (ver.23)
 
             [DataMember(Order = 9, EmitDefaultValue = false)]
             public bool IsVisibleThumbnailPlate { get; set; } // no used (ver.23)
@@ -970,15 +821,8 @@ namespace NeeView
             private void Constructor()
             {
                 _Version = App.Config.ProductVersionNumber;
-                NoticeShowMessageStyle = ShowMessageStyle.Normal;
-                GestureShowMessageStyle = ShowMessageStyle.Normal;
-                NowLoadingShowMessageStyle = ShowMessageStyle.Normal;
-                PanelColor = PanelColor.Dark;
                 IsSaveWindowPlacement = true;
                 IsHidePanelInFullscreen = true;
-                ContextMenuSetting = new ContextMenuSetting();
-                IsAutoGC = true;
-                IsDisableMultiBoot = true;
                 IsVisibleWindowTitle = true;
             }
 
@@ -1029,22 +873,14 @@ namespace NeeView
 
             memento._Version = App.Config.ProductVersionNumber;
 
-            memento.NoticeShowMessageStyle = this.NoticeShowMessageStyle;
-            memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
-            memento.NowLoadingShowMessageStyle = this.NowLoadingShowMessageStyle;
-            memento.IsDisableMultiBoot = this.IsDisableMultiBoot;
-            memento.IsAutoPlaySlideShow = this.IsAutoPlaySlideShow;
             memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
             memento.IsHideMenu = this.IsHideMenu;
             memento.IsHidePageSlider = this.IsHidePageSlider;
             memento.IsSaveFullScreen = this.IsSaveFullScreen;
             memento.UserDownloadPath = this.UserDownloadPath;
-            memento.PanelColor = this.PanelColor;
             memento.IsVisibleAddressBar = this.IsVisibleAddressBar;
             memento.IsHidePanel = this.IsHidePanel;
             memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
-            memento.ContextMenuSetting = this.ContextMenuSetting.Clone();
-            memento.IsAutoGC = this.IsAutoGC;
             memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
 
             return memento;
@@ -1053,22 +889,14 @@ namespace NeeView
         //
         public void Restore(Memento memento)
         {
-            this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
-            this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
-            this.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
-            this.IsDisableMultiBoot = memento.IsDisableMultiBoot;
-            this.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
             this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
             this.IsHideMenu = memento.IsHideMenu;
             this.IsHidePageSlider = memento.IsHidePageSlider;
             this.IsSaveFullScreen = memento.IsSaveFullScreen;
             this.UserDownloadPath = memento.UserDownloadPath;
-            this.PanelColor = memento.PanelColor;
             this.IsHidePanel = memento.IsHidePanel;
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
             this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
-            this.ContextMenuSetting = memento.ContextMenuSetting.Clone();
-            this.IsAutoGC = memento.IsAutoGC;
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
 
             // compatible before ver.22
@@ -1086,7 +914,8 @@ namespace NeeView
                     _models.FolderList.IsVisibleHistoryMark = memento.FolderListSetting.IsVisibleHistoryMark;
                 }
 
-                _models.RoutedCommandTable.CommandShowMessageStyle = memento.CommandShowMessageStyle;
+                _models.InfoMessage.CommandShowMessageStyle = memento.CommandShowMessageStyle;
+
                 WindowShape.Current.IsTopmost = memento.IsTopmost;
                 WindowShape.Current.IsCaptionVisible = memento.IsVisibleTitleBar;
                 Preference.Current.bootup_lastfolder = memento.IsLoadLastFolder;
@@ -1095,7 +924,18 @@ namespace NeeView
             // compatible before ver.23
             if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
-                _models.ContentCanvasTransform.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
+                _model.PanelColor = memento.PanelColor;
+                _model.ContextMenuSetting = memento.ContextMenuSetting;
+
+                _models.MemoryControl.IsAutoGC = memento.IsAutoGC;
+
+                _models.InfoMessage.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
+                _models.InfoMessage.GestureShowMessageStyle = memento.GestureShowMessageStyle;
+                _models.InfoMessage.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
+                _models.InfoMessage.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
+
+                _models.SlideShow.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
+
                 _models.ContentCanvasTransform.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
                 _models.ContentCanvasTransform.IsLimitMove = memento.IsLimitMove;
                 _models.ContentCanvasTransform.AngleFrequency = memento.AngleFrequency;

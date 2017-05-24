@@ -23,6 +23,8 @@ namespace NeeView
     /// </summary>
     public partial class App : Application
     {
+        public static new App Current => (App)Application.Current; 
+
         // 例外発生数
         private int _exceptionCount = 0;
 
@@ -137,7 +139,7 @@ namespace NeeView
             Process currentProcess = Process.GetCurrentProcess();
 
             bool isNewWindow = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift
-                || Options["--new-window"].IsValid ? Options["--new-window"].Bool : !Setting.ViewMemento.IsDisableMultiBoot;
+                || Options["--new-window"].IsValid ? Options["--new-window"].Bool : IsMultiBootEnabled; //// !Setting.ViewMemento.IsDisableMultiBoot;
 
             if (!isNewWindow)
             {
@@ -189,7 +191,7 @@ namespace NeeView
 
 
         // 設定ファイル読み込み
-        public static void LoadSetting()
+        public void LoadSetting()
         {
             // 設定の読み込み
             if (System.IO.File.Exists(UserSettingFileName))
@@ -209,6 +211,15 @@ namespace NeeView
             {
                 Setting = new Setting();
             }
+
+            // compatible before ver.23
+            if (Setting._Version < Config.GenerateProductVersionNumber(1, 23, 0))
+            {
+                this.IsMultiBootEnabled = !Setting.ViewMemento.IsDisableMultiBoot;
+            }
+
+            // restore
+            Restore(Setting.App);
         }
 
 

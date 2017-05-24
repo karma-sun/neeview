@@ -131,7 +131,7 @@
         <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}"
                         Executed="MinimizeWindowCommand_Execute"/>
     </Window.CommandBindings>
-    
+
     <Border BorderThickness="{Binding WindowShape.WindowBorderThickness}">
         <Border.Style>
             <Style TargetType="Border">
@@ -143,7 +143,7 @@
                 </Style.Triggers>
             </Style>
         </Border.Style>
-        
+
         <DockPanel x:Name="RootDockPanel" UseLayoutRounding="True">
 
             <!-- 製品表示領域 -->
@@ -242,7 +242,7 @@
                                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                                 <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding Models.ContentCanvasBrush.ForegroundBrush}"/>
 
-                                                <TextBlock Text="{Binding EmptyPageMessage}" Foreground="{Binding Models.ContentCanvasBrush.ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
+                                                <TextBlock Text="{Binding ContentCanvas.EmptyPageMessage}" Foreground="{Binding Models.ContentCanvasBrush.ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
                                                     <TextBlock.Style>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="Visibility" Value="Visible"/>
@@ -293,6 +293,8 @@
                                         </Grid>
 
                                         <!-- Now Loading -->
+                                        <local:NowLoadingView x:Name="NowLoading"/>
+                                        <!--
                                         <Grid x:Name="NowLoading" Opacity="0" IsHitTestVisible="False">
                                             <Grid.Style>
                                                 <Style TargetType="Grid">
@@ -324,13 +326,14 @@
 
                                             <TextBlock x:Name="NowLoadingTiny" Text="Now Loading ..." VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False"/>
                                         </Grid>
+                                        -->
 
                                         <!-- Message Tiny -->
                                         <local:TinyInfoMessageView Source="{Binding Models.InfoMessage.TinyInfoMessage}"/>
 
                                         <!-- IsBusy -->
                                         <Grid Margin="{Binding ElementName=MainViewCanvas, Path=Margin}">
-                                            <Rectangle Fill="SteelBlue" Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Visibility="{Binding IsBusyJobEngine, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                            <Rectangle Fill="SteelBlue" Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Visibility="{Binding BusyVisibility}"/>
                                         </Grid>
 
                                     </Grid>

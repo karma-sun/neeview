@@ -20,7 +20,6 @@ namespace NeeView
         // System Object
         public static Models Current { get; private set; }
 
-
         //
         public MemoryControl MemoryControl { get; private set; }
         public JobEngine JobEngine { get; private set; }
@@ -46,6 +45,9 @@ namespace NeeView
         public BookOperation BookOperation { get; private set; }
 
         //
+        public MainWindowModel MainWindowModel { get; private set; }
+
+        //
         public ContentCanvasTransform ContentCanvasTransform { get; private set; }
         public ContentCanvas ContentCanvas { get; private set; }
         public ContentCanvasBrush ContentCanvasBrush { get; private set; }
@@ -58,6 +60,7 @@ namespace NeeView
         public ThumbnailList ThumbnailList { get; private set; }
         public AddressBar AddressBar { get; private set; }
         public MenuBar MenuBar { get; private set; }
+        public NowLoading NowLoading { get; private set; }
 
         //
         public FolderPanelModel FolderPanelModel { get; private set; }
@@ -106,6 +109,8 @@ namespace NeeView
             // TODO: MainWindowVMをモデル分離してModelとして参照させる？
             this.CommandTable.SetTarget(this, MainWindowVM.Current);
 
+            this.MainWindowModel = new MainWindowModel();
+
             this.ContentCanvasTransform = new ContentCanvasTransform();
             this.ContentCanvas = new ContentCanvas(this.ContentCanvasTransform, this.BookHub);
             this.ContentCanvasBrush = new ContentCanvasBrush(this.ContentCanvas);
@@ -117,6 +122,7 @@ namespace NeeView
             this.PageSlider = new PageSlider(this.BookOperation, this.BookHub, this.ThumbnailList);
             this.AddressBar = new AddressBar();
             this.MenuBar = new MenuBar();
+            this.NowLoading = new NowLoading();
 
             this.FolderPanelModel = new FolderPanelModel();
             this.FolderList = new FolderList(this.BookHub, this.FolderPanelModel);
@@ -191,10 +197,18 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
+            ////[DataMember]
+            ////public int _Version { get; set; }
             [DataMember]
-            public RoutedCommandTable.Memento RoutedCommandTable { get; set; }
+            public MemoryControl.Memento MemoryControl { get; set; }
+            [DataMember(EmitDefaultValue = false)]
+            public RoutedCommandTable.Memento RoutedCommandTable { get; set; } // no used
+            [DataMember]
+            public InfoMessage.Memento InfoMessage { get; set; }
             [DataMember]
             public BookOperation.Memento BookOperation { get; set; }
+            [DataMember]
+            public MainWindowModel.Memento MainWindowModel { get; set; }
             [DataMember]
             public ContentCanvasTransform.Memento ContentCanvasTransform { get; set; }
             [DataMember]
@@ -235,9 +249,15 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.RoutedCommandTable = this.RoutedCommandTable.CreateMemento();
+
+            ////memento._Version = App.Config.ProductVersionNumber;
+
+            memento.MemoryControl = this.MemoryControl.CreateMemento();
+            ////memento.RoutedCommandTable = this.RoutedCommandTable.CreateMemento();
+            memento.InfoMessage = this.InfoMessage.CreateMemento();
             memento.BookOperation = this.BookOperation.CreateMemento();
             memento.ContentCanvasTransform = this.ContentCanvasTransform.CreateMemento();
+            memento.MainWindowModel = this.MainWindowModel.CreateMemento();
             memento.ContentCanvas = this.ContentCanvas.CreateMemento();
             memento.ContentCanvasBrush = this.ContentCanvasBrush.CreateMemento();
             memento.MouseInput = this.MouseInput.CreateMemento();
@@ -261,8 +281,11 @@ namespace NeeView
         public void Resore(Memento memento, bool fromLoad)
         {
             if (memento == null) return;
-            this.RoutedCommandTable.Restore(memento.RoutedCommandTable);
+            this.MemoryControl.Restore(memento.MemoryControl);
+            this.RoutedCommandTable.Restore(memento.RoutedCommandTable); // compatible before ver.23
+            this.InfoMessage.Restore(memento.InfoMessage);
             this.BookOperation.Restore(memento.BookOperation);
+            this.MainWindowModel.Restore(memento.MainWindowModel);
             this.ContentCanvasTransform.Restore(memento.ContentCanvasTransform);
             this.ContentCanvas.Restore(memento.ContentCanvas);
             this.ContentCanvasBrush.Restore(memento.ContentCanvasBrush);

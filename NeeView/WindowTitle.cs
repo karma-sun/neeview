@@ -23,6 +23,8 @@ namespace NeeView
     //
     public class WindowTitle : BindableBase
     {
+        public static WindowTitle Current { get; private set; }
+
         // 標準ウィンドウタイトル
         private string _defaultWindowTitle;
 
@@ -39,6 +41,8 @@ namespace NeeView
 
         public WindowTitle(ContentCanvas contentCanvas, ContentCanvasTransform contentCanvasTransform)
         {
+            Current = this;
+
             _contentCanvas = contentCanvas;
             _contentCanvas.ContentChanged += ContentCanvas_ContentChanged;
 
@@ -54,6 +58,8 @@ namespace NeeView
             _defaultWindowTitle += " [Debug]";
 #endif
 
+            BookHub.Current.Loading +=
+                (s, e) => this.LoadingPath = e;
 
             //
             UpdateWindowTitle(UpdateWindowTitleMask.All);

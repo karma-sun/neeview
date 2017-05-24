@@ -30,7 +30,7 @@ namespace NeeView
 
 
         // メッセージ通知
-        public event EventHandler<string> InfoMessage;
+        ////public event EventHandler<string> InfoMessage;
 
 
         //
@@ -72,7 +72,7 @@ namespace NeeView
 
             if (!PagemarkCollection.Current.CanMoveSelected(-1))
             {
-                InfoMessage?.Invoke(this, "前のページマークはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "前のページマークはありません");
                 return;
             }
 
@@ -87,7 +87,7 @@ namespace NeeView
 
             if (!PagemarkCollection.Current.CanMoveSelected(+1))
             {
-                InfoMessage?.Invoke(this, "次のページマークはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "次のページマークはありません");
                 return;
             }
 

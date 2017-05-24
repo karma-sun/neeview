@@ -37,7 +37,7 @@ namespace NeeView
 
 
 
-
+#if false
         public MainWindowVM.Memento ViewMemento
         {
             get { return (MainWindowVM.Memento)GetValue(ViewMementoProperty); }
@@ -56,7 +56,26 @@ namespace NeeView
                 control.Initialize();
             }
         }
+#endif
 
+
+        public ContextMenuSetting ContextMenuSetting
+        {
+            get { return (ContextMenuSetting)GetValue(ContextMenuSettingProperty); }
+            set { SetValue(ContextMenuSettingProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ContextMenuSetting.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ContextMenuSettingProperty =
+            DependencyProperty.Register("ContextMenuSetting", typeof(ContextMenuSetting), typeof(ContextMenuSettingControl), new PropertyMetadata(null, ContextMenuSettingPropertyChanged));
+
+        private static void ContextMenuSettingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as ContextMenuSettingControl)?.Initialize();
+        }
+
+
+        //
         private ContextMenuSettingControlVM _VM;
 
         public ContextMenuSettingControl()
@@ -76,9 +95,9 @@ namespace NeeView
 
         private void Initialize()
         {
-            if (this.ViewMemento != null)
+            if (this.ContextMenuSetting != null)
             {
-                _VM.Initialize(this.ViewMemento);
+                _VM.Initialize(ContextMenuSetting);
                 this.SourceComboBox.SelectedIndex = 0;
             }
         }
@@ -183,19 +202,19 @@ namespace NeeView
 
 
 
-        private MainWindowVM.Memento _viewMemento;
+        private ContextMenuSetting _contextMenuSetting;
 
         public ContextMenuSettingControlVM()
         {
             if (CommandTable.Current == null) return;
 
-             var list = Enum.GetValues(typeof(CommandType))
-                .OfType<CommandType>()
-                .Where(e => !e.IsDisable())
-                .GroupBy(e => CommandTable.Current[e].Group)
-                .SelectMany(g => g)
-                .Select(e => new MenuTree() { MenuElementType = MenuElementType.Command, Command = e })
-                .ToList();
+            var list = Enum.GetValues(typeof(CommandType))
+               .OfType<CommandType>()
+               .Where(e => !e.IsDisable())
+               .GroupBy(e => CommandTable.Current[e].Group)
+               .SelectMany(g => g)
+               .Select(e => new MenuTree() { MenuElementType = MenuElementType.Command, Command = e })
+               .ToList();
 
             list.Insert(0, new MenuTree() { MenuElementType = MenuElementType.Group });
             list.Insert(1, new MenuTree() { MenuElementType = MenuElementType.Separator });
@@ -205,11 +224,11 @@ namespace NeeView
         }
 
         //
-        public void Initialize(MainWindowVM.Memento vmemento)
+        public void Initialize(ContextMenuSetting contextMenuSetting)
         {
-            _viewMemento = vmemento;
+            _contextMenuSetting = contextMenuSetting;
 
-            Root = _viewMemento.ContextMenuSetting.SourceTree.Clone();
+            Root = _contextMenuSetting.SourceTree.Clone();
 
             // validate
             Root.MenuElementType = MenuElementType.Group;
@@ -219,7 +238,7 @@ namespace NeeView
         //
         public void Decide()
         {
-            _viewMemento.ContextMenuSetting.SourceTree = Root.IsEqual(MenuTree.CreateDefault()) ? null : Root;
+            _contextMenuSetting.SourceTree = Root.IsEqual(MenuTree.CreateDefault()) ? null : Root;
         }
 
         //

@@ -40,7 +40,7 @@
         <DataTemplate x:Key="NormalPagemark">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1" Background="Transparent">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="PagemarkItem" DragDropData="{Binding}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}" />
                 </i:Interaction.Behaviors>
                 <StackPanel Margin="0,2">
                     <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PlaceShort}" FontSize="12" Foreground="Gray" />
@@ -53,7 +53,7 @@
         <DataTemplate x:Key="PicturePagemark">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1" Background="Transparent">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="PagemarkItem" DragDropData="{Binding}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}" />
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="2">
                     <DockPanel>
@@ -71,7 +71,7 @@
         <DataTemplate x:Key="BannerPagemark">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="BookmarkItem" DragDropData="{Binding}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}" />
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
                     <DockPanel DockPanel.Dock="Bottom" Margin="2" >

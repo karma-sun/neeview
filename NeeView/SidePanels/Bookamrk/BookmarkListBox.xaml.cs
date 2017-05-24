@@ -29,6 +29,9 @@ namespace NeeView
     {
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkListBox));
 
+        public static string DragDropFormat = $"{App.Config.ProcessId}.BookmarkItem";
+
+
         private BookmarkListViewModel _vm;
 
         private ThumbnailHelper _thumbnailHelper;
@@ -132,7 +135,7 @@ namespace NeeView
 
         private void BookmarkListBox_PreviewDragOver(object sender, DragEventArgs e)
         {
-            ListBoxDragSortExtension.PreviewDragOver(sender, e, "BookmarkItem");
+            ListBoxDragSortExtension.PreviewDragOver(sender, e, DragDropFormat);
         }
 
         private void BookmarkListBox_Drop(object sender, DragEventArgs e)
@@ -140,7 +143,7 @@ namespace NeeView
             var list = (sender as ListBox).Tag as ObservableCollection<BookMementoUnitNode>;
             if (list != null)
             {
-                ListBoxDragSortExtension.Drop<BookMementoUnitNode>(sender, e, "BookmarkItem", list);
+                ListBoxDragSortExtension.Drop<BookMementoUnitNode>(sender, e, DragDropFormat, list);
                 e.Handled = true;
             }
         }

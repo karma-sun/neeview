@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -26,7 +27,7 @@ namespace NeeView
         /// <summary>
         /// 自動GCフラグ
         /// </summary>
-        public bool IsAutoGC { get; set; }
+        public bool IsAutoGC { get; set; } = true;
 
         /// <summary>
         /// 遅延実行系
@@ -65,5 +66,31 @@ namespace NeeView
 
             _delayAction.Request();
         }
+
+
+        #region Memento
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public bool IsAutoGC { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.IsAutoGC = this.IsAutoGC;
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            this.IsAutoGC = memento.IsAutoGC;
+        }
+        #endregion
+
     }
 }

@@ -66,6 +66,10 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// プロセスID
+        /// </summary>
+        public int ProcessId { get; private set; }
 
         /// <summary>
         /// 
@@ -103,6 +107,8 @@ namespace NeeView
         /// </summary>
         public void Initialize()
         {
+            this.ProcessId = Process.GetCurrentProcess().Id;
+
             var assembly = Assembly.GetEntryAssembly();
             ValidateProductInfo(assembly);
         }

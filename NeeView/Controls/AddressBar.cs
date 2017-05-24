@@ -24,6 +24,9 @@ namespace NeeView
             BookHub.Current.AddressChanged +=
                 (s, e) => SetAddress(BookHub.Current.Address);
 
+            BookHub.Current.BookChanged +=
+                (s, e) => RaisePropertyChanged(nameof(IsBookmark));
+
             BookHub.Current.BookmarkChanged +=
                 (s, e) => RaisePropertyChanged(nameof(IsBookmark));
         }

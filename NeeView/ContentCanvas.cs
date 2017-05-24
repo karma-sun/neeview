@@ -34,6 +34,14 @@ namespace NeeView
             set { if (_isVisibleEmptyPageMessage != value) { _isVisibleEmptyPageMessage = value; RaisePropertyChanged(); } }
         }
 
+        // 空フォルダー通知表示の詳細テキスト
+        private string _emptyPageMessage;
+        public string EmptyPageMessage
+        {
+            get { return _emptyPageMessage; }
+            set { _emptyPageMessage = value; RaisePropertyChanged(); }
+        }
+
         /// <summary>
         /// IsAutoRotate property.
         /// </summary>
@@ -180,6 +188,9 @@ namespace NeeView
             // TODO: BookOperationから？
             _bookHub.ViewContentsChanged +=
                 OnViewContentsChanged;
+
+            _bookHub.EmptyMessage +=
+                (s, e) => EmptyPageMessage = e;
         }
 
         //

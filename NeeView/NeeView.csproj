@@ -128,6 +128,8 @@
     <Compile Include="Controls\AddressBarViewModel.cs" />
     <Compile Include="Controls\MenuBar.cs" />
     <Compile Include="Controls\MenuBarViewModel.cs" />
+    <Compile Include="Controls\NowLoading.cs" />
+    <Compile Include="Controls\NowLoadingViewModel.cs" />
     <Compile Include="Converters\ApiVersionToApiTextConverter.cs" />
     <Compile Include="Converters\BackgroundStyleToBooleanConverter.cs" />
     <Compile Include="Converters\BannerSizeConverter.cs" />
@@ -166,6 +168,9 @@
     <Compile Include="FileIO.cs" />
     <Compile Include="LongButtonDownMode.cs" />
     <Compile Include="MainWindowModel.cs" />
+    <Compile Include="Controls\NowLoadingView.xaml.cs">
+      <DependentUpon>NowLoadingView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SaveData.cs" />
     <Compile Include="MouseInput\MouseInput.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListBox.xaml.cs">
@@ -546,6 +551,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MenuBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\NowLoadingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

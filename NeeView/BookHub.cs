@@ -158,7 +158,7 @@ namespace NeeView
         public event EventHandler<string> Loading;
 
         // メッセージ通知
-        public event EventHandler<string> InfoMessage;
+        ////public event EventHandler<string> InfoMessage;
 
         // ViewContentsの変更通知
         public event EventHandler<ViewSource> ViewContentsChanged;
@@ -183,10 +183,15 @@ namespace NeeView
 
         #endregion
 
+        public void SetEmptyMessage(string message)
+        {
+            EmptyMessage?.Invoke(this, message);
+        }
 
         public void SetInfoMessage(string message)
         {
-            InfoMessage?.Invoke(this, message);
+            ////InfoMessage?.Invoke(this, message);
+            InfoMessage.Current.SetMessage(InfoMessageType.Notify, message);
         }
 
         /// <summary>
@@ -425,7 +430,12 @@ namespace NeeView
             _bookOperation = bookOperation;
 
             this.BookChanged +=
-                (s, e) => _bookOperation.SetBook(this.BookUnit);
+                (s, e) =>
+                {
+                    RaisePropertyChanged(nameof(IsBookmark));
+                    App.Current?.Dispatcher.Invoke(() => InfoMessage.Current.SetMessage(InfoMessageType.Notify, LoosePath.GetFileName(Address), null, 2.0, e));
+                    _bookOperation.SetBook(this.BookUnit);
+                };
 
             this.SettingChanged +=
                 (s, e) => RaisePropertyChanged(nameof(BookMemento));
@@ -452,7 +462,7 @@ namespace NeeView
             this.FolderListSync = null;
             this.HistoryChanged = null;
             this.HistoryListSync = null;
-            this.InfoMessage = null;
+            ////this.InfoMessage = null;
             this.Loading = null;
             this.SettingChanged = null;
 
@@ -752,6 +762,23 @@ namespace NeeView
         }
 
 
+
+        /// <summary>
+        /// ブック読み込み
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="option"></param>
+        public void Load(string path, BookLoadOption option = BookLoadOption.None)
+        {
+            if (Utility.FileShortcut.IsShortcut(path) && (System.IO.File.Exists(path) || System.IO.Directory.Exists(path)))
+            {
+                var shortcut = new Utility.FileShortcut(path);
+                path = shortcut.TargetPath;
+            }
+
+            RequestLoad(path, null, option, true);
+        }
+
         /// <summary>
         /// ロードリクエストカウント.
         /// 名前変更時の再読込判定に使用される
@@ -980,7 +1007,7 @@ namespace NeeView
             }
             else
             {
-                InfoMessage?.Invoke(this, "これより古い履歴はありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "これより古い履歴はありません");
             }
         }
 
@@ -1004,7 +1031,7 @@ namespace NeeView
             }
             else
             {
-                InfoMessage?.Invoke(this, "最新の履歴です");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "最新の履歴です");
             }
         }
 
@@ -1020,7 +1047,7 @@ namespace NeeView
             var result = Messenger.Send(this, new MessageEventArgs("MoveFolder") { Parameter = new MoveFolderParams() { Distance = +1, BookLoadOption = option } });
             if (result != true)
             {
-                InfoMessage?.Invoke(this, "次のブックはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "次のブックはありません");
             }
         }
 
@@ -1031,7 +1058,7 @@ namespace NeeView
             var result = Messenger.Send(this, new MessageEventArgs("MoveFolder") { Parameter = new MoveFolderParams() { Distance = -1, BookLoadOption = option } });
             if (result != true)
             {
-                InfoMessage?.Invoke(this, "前のブックはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "前のブックはありません");
             }
         }
 
@@ -1226,6 +1253,7 @@ namespace NeeView
                 else
                 {
                     BookUnit.BookMementoUnit = BookmarkCollection.Current.Toggle(BookUnit.BookMementoUnit, Book.CreateMemento());
+                    RaisePropertyChanged(nameof(IsBookmark));
                 }
             }
         }
@@ -1255,7 +1283,7 @@ namespace NeeView
 
             if (!BookmarkCollection.Current.CanMoveSelected(-1))
             {
-                InfoMessage?.Invoke(this, "前のブックマークはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "前のブックマークはありません");
                 return;
             }
 
@@ -1274,7 +1302,7 @@ namespace NeeView
 
             if (!BookmarkCollection.Current.CanMoveSelected(+1))
             {
-                InfoMessage?.Invoke(this, "次のブックマークはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "次のブックマークはありません");
                 return;
             }
 

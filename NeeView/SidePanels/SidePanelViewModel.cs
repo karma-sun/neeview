@@ -24,6 +24,8 @@ namespace NeeView
     /// </summary>
     public class SidePanelViewModel : BindableBase
     {
+        public static string DragDropFormat = $"{App.Config.ProcessId}.PanelContent";
+
         /// <summary>
         /// Width property.
         /// </summary>
@@ -276,11 +278,18 @@ namespace NeeView
         /// <param name="args"></param>
         private void Description_DragDrop(System.Windows.DragEventArgs args)
         {
-            var panel = args.Data.GetData("PanelContent") as IPanel;
-            if (panel == null) return;
+            try
+            {
+                var panel = args.Data.GetData(DragDropFormat) as IPanel;
+                if (panel == null) return;
 
-            var index = GetItemInsertIndex(args);
-            PanelDroped?.Invoke(this, new PanelDropedEventArgs(panel, index));
+                var index = GetItemInsertIndex(args);
+                PanelDroped?.Invoke(this, new PanelDropedEventArgs(panel, index));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Drop failed: {ex.Message}");
+            }
         }
 
 
@@ -320,7 +329,7 @@ namespace NeeView
         {
             if (args.AllowedEffects.HasFlag(DragDropEffects.Move))
             {
-                if (args.Data.GetDataPresent("PanelContent"))
+                if (args.Data.GetDataPresent(DragDropFormat))
                 {
                     args.Effects = DragDropEffects.Move;
                     return;

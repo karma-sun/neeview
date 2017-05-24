@@ -116,8 +116,8 @@
                         <TextBlock Text="起動設定" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="多重起動を禁止する"
-                              IsChecked="{Binding Setting.ViewMemento.IsDisableMultiBoot}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="多重起動を許可する"
+                              IsChecked="{Binding Setting.App.IsMultiBootEnabled}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ウィンドウ座標を復元する"
                               IsChecked="{Binding Setting.ViewMemento.IsSaveWindowPlacement}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーン状態を復元する"
@@ -125,35 +125,20 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回開いていたブックを開く"
                               IsChecked="{Binding Preference.bootup_lastfolder}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="スライドショーの再生を開始する"
-                              IsChecked="{Binding Setting.ViewMemento.IsAutoPlaySlideShow}" />
+                              IsChecked="{Binding Setting.Memento.SlideShow.IsAutoPlaySlideShow}" />
                         </StackPanel>
 
                         <TextBlock Text="メモリ関連" Style="{StaticResource Header}" />
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="メモリ開放をシステムに任せる"
                                       ToolTip="OFFの時は画像非表示単位でメモリ開放を行います"
-                                      IsChecked="{Binding Setting.ViewMemento.IsAutoGC}" />
+                                      IsChecked="{Binding Setting.Memento.MemoryControl.IsAutoGC}" />
                             <StackPanel Style="{StaticResource ItemStackPanel}"
                                         ToolTip="先読みは前後のページを保持するためメモリを消費します&#xa;「自動」にすると画像サイズに応じで先読み有効無効を切り替えます&#xa;「先読みする(開放なし)」は読み込んだ画像を開放しない最もメモリを消費するモードです">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="先読み"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PreLoadModeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.BookHubMemento. PreLoadMode}" />
                             </StackPanel>
-                            <!--
-                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="サムネイル画像に使用される最大容量">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="サムネイル用メモリ"/>
-                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.ThumbnailMemorySize}"
-                                    Minimum="8" Maximum="256" TickFrequency="8" />
-                                <TextBlock Text="{Binding Setting.ViewMemento.ThumbnailMemorySize, StringFormat={}{0}MB}" />
-                            </StackPanel>
-                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="フォルダーリストでのバナー画像に使用される最大容量">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="バナー用メモリ"/>
-                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.BannerMemorySize}"
-                                    Minimum="8" Maximum="256" TickFrequency="8" />
-                                <TextBlock Text="{Binding Setting.ViewMemento.BannerMemorySize, StringFormat={}{0}MB}" />
-                            </StackPanel>
-                            -->
-
                         </StackPanel>
 
                         <TextBlock Text="ページ送り" Style="{StaticResource Header}"/>
@@ -217,7 +202,7 @@
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="パネル等のテーマカラーを指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="テーマカラー"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PanelColorList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewMemento.PanelColor}" />
+                                  SelectedValue="{Binding Setting.Memento.MainWindowModel.PanelColor}" />
                             </StackPanel>
                         </StackPanel>
 
@@ -234,27 +219,27 @@
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="開いたブック名の表示等の通知の表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="通知を"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewMemento.NoticeShowMessageStyle}" />
+                                  SelectedValue="{Binding Setting.Memento.InfoMessage.NoticeShowMessageStyle}" />
                             </StackPanel>
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="コマンド実行メッセージの表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="コマンド実行を"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.Memento.RoutedCommandTable.CommandShowMessageStyle}" />
+                                  SelectedValue="{Binding Setting.Memento.InfoMessage.CommandShowMessageStyle}" />
                             </StackPanel>
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="マウスジェスチャーの状態の表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="マウスジェスチャーを"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewMemento.GestureShowMessageStyle}" />
+                                  SelectedValue="{Binding Setting.Memento.InfoMessage.GestureShowMessageStyle}" />
                             </StackPanel>
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="Now Loading の表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="Now Loading を"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewMemento.NowLoadingShowMessageStyle}" />
+                                  SelectedValue="{Binding Setting.Memento.InfoMessage.NowLoadingShowMessageStyle}" />
                             </StackPanel>
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="ドラッグ操作によるスケール変更等の情報表示方法を指定します">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="ビュー操作を"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.Memento.ContentCanvasTransform.ViewTransformShowMessageStyle}" />
+                                  SelectedValue="{Binding Setting.Memento.InfoMessage.ViewTransformShowMessageStyle}" />
                             </StackPanel>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ビュー操作のスケール表示をオリジナルサイズ基準にする"
                                       ToolTip="スケール表示を元画像サイズに対する表示倍率にします&#xa;２ページ表示の場合は若い番号のページを基準にします"
@@ -1058,7 +1043,7 @@
                             </TextBlock>
                         </Border>
                     </Popup>
-                    <local:ContextMenuSettingControl x:Name="ContextMenuSettingControl" ViewMemento="{Binding Setting.ViewMemento}" />
+                    <local:ContextMenuSettingControl x:Name="ContextMenuSettingControl" ContextMenuSetting="{Binding Setting.Memento.MainWindowModel.ContextMenuSetting}" />
                 </DockPanel>
             </TabItem>
 

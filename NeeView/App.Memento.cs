@@ -10,25 +10,22 @@ namespace NeeView
 {
     public partial class App : Application
     {
-        // オートGC
-        public bool IsAutoGC
-        {
-            get { return MemoryControl.Current.IsAutoGC; }
-            set { MemoryControl.Current.IsAutoGC = value; }
-        }
-
+        // マルチブートを許可する
+        public bool IsMultiBootEnabled { get; set; }
 
         #region Memento
         [DataContract]
         public class Memento
         {
-
+            [DataMember]
+            public bool IsMultiBootEnabled { get; set; }
         }
 
         //
         public Memento CreateMemento()
         {
             var memento = new Memento();
+            memento.IsMultiBootEnabled = this.IsMultiBootEnabled;
             return memento;
         }
 
@@ -36,6 +33,7 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
+            this.IsMultiBootEnabled = memento.IsMultiBootEnabled;
         }
         #endregion
 

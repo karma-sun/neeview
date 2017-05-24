@@ -25,6 +25,8 @@ namespace NeeView
             Current = this;
             MainMenuSource = MenuTree.CreateDefault();
 
+            BookHub.Current.BookChanged +=
+                (s, e) => UpdateLastFiles();
         }
 
 

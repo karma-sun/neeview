@@ -47,6 +47,7 @@ namespace NeeView
             setting.PreferenceMemento = Preference.Current.CreateMemento();
 
             // new memento
+            setting.App = App.Current.CreateMemento();
             setting.Memento = Models.Current.CreateMemento();
 
             return setting;
@@ -55,6 +56,8 @@ namespace NeeView
         // アプリ設定反映
         public void RestoreSetting(Setting setting, bool fromLoad)
         {
+            App.Current.Restore(setting.App);
+
             Preference.Current.Restore(setting.PreferenceMemento);
             Models.Current.ApplyPreference();
             WindowShape.Current.WindowChromeFrame = Preference.Current.window_chrome_frame;

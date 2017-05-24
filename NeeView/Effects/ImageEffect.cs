@@ -21,6 +21,8 @@ namespace NeeView.Effects
     //
     public class ImageEffect : BindableBase
     {
+        public static ImageEffect Current { get; private set; }
+
         //
         public Dictionary<EffectType, EffectUnit> Effects { get; private set; }
 
@@ -80,6 +82,8 @@ namespace NeeView.Effects
         //
         public ImageEffect()
         {
+            Current = this;
+
             Effects = new Dictionary<EffectType, EffectUnit>();
 
             Effects[EffectType.None] = null;

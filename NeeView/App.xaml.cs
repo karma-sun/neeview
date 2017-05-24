@@ -216,6 +216,8 @@ namespace NeeView
             if (Setting._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
                 this.IsMultiBootEnabled = !Setting.ViewMemento.IsDisableMultiBoot;
+                this.IsSaveFullScreen = Setting.ViewMemento.IsSaveFullScreen;
+                this.IsSaveWindowPlacement = Setting.ViewMemento.IsSaveWindowPlacement;
             }
 
             // restore

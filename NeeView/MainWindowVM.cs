@@ -34,12 +34,12 @@ namespace NeeView
     /// MainWindow : ViewModel
     /// TODO : モデルの分離
     /// </summary>
-    public class MainWindowVM : BindableBase, IDisposable
+    public class MainWindowVM : BindableBase //, IDisposable
     {
         public static MainWindowVM Current { get; private set; }
 
         // フォーカス初期化要求
-        public event EventHandler ResetFocus;
+        ////public event EventHandler ResetFocus;
 
 
 
@@ -66,7 +66,7 @@ namespace NeeView
         }
 
         //
-        public bool CanHideMenu => IsHideMenu || IsFullScreen;
+        public bool CanHideMenu => IsHideMenu || WindowShape.Current.IsFullScreen;
 
         #endregion
 
@@ -93,7 +93,7 @@ namespace NeeView
         }
 
         //
-        public bool CanHidePageSlider => IsHidePageSlider || IsFullScreen;
+        public bool CanHidePageSlider => IsHidePageSlider || WindowShape.Current.IsFullScreen;
 
         #endregion
 
@@ -132,7 +132,7 @@ namespace NeeView
 
 
         // パネルを自動的に隠せるか
-        public bool CanHidePanel => IsHidePanel || (IsHidePanelInFullscreen && IsFullScreen);
+        public bool CanHidePanel => IsHidePanel || (IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
 
         #endregion
 
@@ -169,6 +169,7 @@ namespace NeeView
 
         /// <summary>
         /// SidePanelMargin property.
+        /// メニュの自動非表示ON/OFFによるサイドパネル上部の余白
         /// </summary>
         public Thickness SidePanelMargin
         {
@@ -185,7 +186,6 @@ namespace NeeView
             SidePanelMargin = new Thickness(0, CanHideMenu ? 20 : 0, 0, CanHidePageSlider ? 20 : 0);
         }
 
-        #region Canvas Size
 
         /// <summary>
         /// CanvasWidth property.
@@ -215,27 +215,6 @@ namespace NeeView
 
         #endregion
 
-        #endregion
-
-
-        //
-        private bool IsFullScreen => WindowShape.Current.IsFullScreen;
-
-        //
-        private void WindowShape_IsFullScreenPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            RaisePropertyChanged(nameof(CanHidePanel));
-            UpdateSidePanelMargin();
-        }
-
-
-
-        // フルスクリーン状態を復元するフラグ
-        public bool IsSaveFullScreen { get; set; }
-
-        // ウィンドウ座標を復元する
-        public bool IsSaveWindowPlacement { get; set; }
-
 
         #region Window Icon
 
@@ -258,9 +237,6 @@ namespace NeeView
 
         #endregion
 
-
-        // ウィンドタイトル
-        public WindowTitle WindowTitle => _models.WindowTitle;
 
 
 
@@ -342,46 +318,6 @@ namespace NeeView
 
 
 
-        #region 開発用
-
-
-        // 開発用：コンテンツ座標
-        private Point _contentPosition;
-        public Point ContentPosition
-        {
-            get { return _contentPosition; }
-            set { _contentPosition = value; RaisePropertyChanged(); }
-        }
-
-        // 開発用：コンテンツ座標情報更新
-        public void UpdateContentPosition()
-        {
-            ContentPosition = ContentCanvas.MainContent.View.PointToScreen(new Point(0, 0));
-        }
-
-
-        // 開発用：
-        public Development Development { get; private set; } = new Development();
-
-        /// <summary>
-        /// DevUpdateContentPosition command.
-        /// </summary>
-        private RelayCommand _DevUpdateContentPosition;
-        public RelayCommand DevUpdateContentPosition
-        {
-            get { return _DevUpdateContentPosition = _DevUpdateContentPosition ?? new RelayCommand(DevUpdateContentPosition_Executed); }
-        }
-
-        private void DevUpdateContentPosition_Executed()
-        {
-            UpdateContentPosition();
-        }
-
-        #endregion
-
-
-
-
         /// <summary>
         /// BusyVisibility property.
         /// アクセス中マーク表示用
@@ -396,24 +332,17 @@ namespace NeeView
 
 
 
-        // ダウンロード画像の保存場所
-        public string UserDownloadPath { get; set; }
-
-        public string DownloadPath => string.IsNullOrWhiteSpace(UserDownloadPath) ? Temporary.TempDownloadDirectory : UserDownloadPath;
-
-
-        // WindowShape
+        // for Binding
         public WindowShape WindowShape => WindowShape.Current;
+        public WindowTitle WindowTitle => WindowTitle.Current;
+        public ThumbnailList ThumbnailList => ThumbnailList.Current;
+        public ContentCanvasBrush ContentCanvasBrush => ContentCanvasBrush.Current;
+        public ImageEffect ImageEffect => ImageEffect.Current;
+        public MouseInput MouseInput => MouseInput.Current;
+        public InfoMessage InfoMessage => InfoMessage.Current;
+        public SidePanel SidePanel => SidePanel.Current;
+        public ContentCanvas ContentCanvas => ContentCanvas.Current;
 
-        //
-        public ContentCanvas ContentCanvas => _models.ContentCanvas;
-
-        /// <summary>
-        /// Model群。ひとまず。
-        /// TODO: Modelと混同する。まずい。
-        /// </summary>
-        private Models _models;
-        public Models Models => _models;
 
 
         /// <summary>
@@ -437,16 +366,15 @@ namespace NeeView
         {
             Current = this;
 
-            // Window Shape
-            WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen), WindowShape_IsFullScreenPropertyChanged);
+            // icon
+            InitializeWindowIcons();
 
 
-            // Models
-            _models = new Models();
-
+            // create Models
+            Models.Instantiate();
 
             // mainwindow model
-            _model = _models.MainWindowModel;
+            _model = MainWindowModel.Current;
 
             _model.AddPropertyChanged(nameof(_model.PanelColor),
                 (s, e) => UpdatePanelColor());
@@ -459,12 +387,16 @@ namespace NeeView
             UpdateContextMenu();
 
 
+            // Window Shape
+            WindowShape.Current.AddPropertyChanged(nameof(WindowShape.Current.IsFullScreen),
+                (s, e) =>
+                {
+                    RaisePropertyChanged(nameof(CanHidePanel));
+                    UpdateSidePanelMargin();
+                });
+
             // Side Panel
-            _models.SidePanel.ResetFocus += (s, e) => ResetFocus?.Invoke(this, null);
-
-
-
-            InitializeWindowIcons();
+            ////SidePanel.Current.ResetFocus += (s, e) => ResetFocus?.Invoke(this, null);
 
 
             // SlideShow link to WindowIcon
@@ -481,6 +413,7 @@ namespace NeeView
                 (s, e) => CommandManager.InvalidateRequerySuggested();
 
 
+            // TODO: アプリの初期化処理で行うべき
             // ダウンロードフォルダー生成
             if (!System.IO.Directory.Exists(Temporary.TempDownloadDirectory))
             {
@@ -490,14 +423,16 @@ namespace NeeView
 
 
         // 履歴削除
-        public void ClearHistor()
+        // TODO: 直接変更し、最近使ったファイルはイベントで更新すべき
+        public void ClearHistory()
         {
             BookHistory.Current.Clear();
-            _models.MenuBar.UpdateLastFiles();
+            MenuBar.Current.UpdateLastFiles();
         }
 
 
         // 最後に開いたフォルダーを開く
+        // 起動フローでの処理
         // TODO: ここではない。Model?
         public void LoadLastFolder()
         {
@@ -512,6 +447,7 @@ namespace NeeView
 
 
         // ジェスチャー表示
+        // TODO: InfoMessageで面倒を見る？マウスからのイベントで。
         public void ShowGesture(string gesture, string commandName)
         {
             if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
@@ -524,14 +460,13 @@ namespace NeeView
 
 
 
-
-
         #region クリップボード関連
+        // TODO: ContentCanvas ?
 
         //
         private BitmapSource CurrentBitmapSource
         {
-            get { return (ContentCanvas.MainContent?.Content as BitmapContent)?.BitmapSource; }
+            get { return (ContentCanvas.Current.MainContent?.Content as BitmapContent)?.BitmapSource; }
         }
 
         //
@@ -561,6 +496,7 @@ namespace NeeView
 
 
         #region 印刷
+        // TODO: ContentCanvas ? 
 
         /// <summary>
         /// 印刷可能判定
@@ -568,7 +504,7 @@ namespace NeeView
         /// <returns></returns>
         public bool CanPrint()
         {
-            return ContentCanvas.MainContent != null && ContentCanvas.MainContent.IsValid;
+            return ContentCanvas.Current.MainContent != null && ContentCanvas.Current.MainContent.IsValid;
         }
 
         /// <summary>
@@ -581,8 +517,8 @@ namespace NeeView
             // 掃除しておく
             GC.Collect();
 
-            var contents = ContentCanvas.Contents;
-            var mainContent = ContentCanvas.MainContent;
+            var contents = ContentCanvas.Current.Contents;
+            var mainContent = ContentCanvas.Current.MainContent;
 
             // スケールモード退避
             var scaleModeMemory = contents.ToDictionary(e => e, e => e.BitmapScalingMode);
@@ -606,9 +542,9 @@ namespace NeeView
                 context.ViewTransform = transform;
                 context.ViewWidth = width;
                 context.ViewHeight = height;
-                context.ViewEffect = _models.ImageEffect.Effect;
-                context.Background = _models.ContentCanvasBrush.CreateBackgroundBrush();
-                context.BackgroundFront = _models.ContentCanvasBrush.CreateBackgroundFrontBrush(new DpiScale(1, 1));
+                context.ViewEffect = ImageEffect.Current.Effect;
+                context.Background = ContentCanvasBrush.Current.CreateBackgroundBrush();
+                context.BackgroundFront = ContentCanvasBrush.Current.CreateBackgroundFrontBrush(new DpiScale(1, 1));
 
                 var dialog = new PrintWindow(context);
                 dialog.Owner = owner;
@@ -632,16 +568,7 @@ namespace NeeView
 
         #endregion
 
-        // 廃棄処理
-        public void Dispose()
-        {
-            // TODO: Bookのコマンド系もエンジン扱いせよ
-            BookHub.Current.Dispose();
 
-            ////ModelContext.Terminate();
-
-            Debug.WriteLine("MainWindowVM: Disposed.");
-        }
 
 
         #region Memento
@@ -709,8 +636,8 @@ namespace NeeView
             [DataMember(Order = 4, EmitDefaultValue = false)]
             public bool IsAutoPlaySlideShow { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 7)]
-            public bool IsSaveWindowPlacement { get; set; }
+            [DataMember(Order = 7, EmitDefaultValue = false)]
+            public bool IsSaveWindowPlacement { get; set; } // no used (ver.23)
 
             [DataMember(Order = 2)]
             public bool IsHideMenu { get; set; }
@@ -721,8 +648,8 @@ namespace NeeView
             [DataMember(Order = 8, EmitDefaultValue = false)]
             public bool IsVisibleTitleBar { get; set; } // no used (ver.22)
 
-            [DataMember(Order = 4)]
-            public bool IsSaveFullScreen { get; set; }
+            [DataMember(Order = 4, EmitDefaultValue = false)]
+            public bool IsSaveFullScreen { get; set; } // no used (ver.23)
 
             [DataMember(Order = 4, EmitDefaultValue = false)]
             public bool IsTopmost { get; set; } // no used (ver.22)
@@ -730,8 +657,8 @@ namespace NeeView
             [DataMember(Order = 5, EmitDefaultValue = false)]
             public FileInfoSetting FileInfoSetting { get; set; } // no used
 
-            [DataMember(Order = 5)]
-            public string UserDownloadPath { get; set; }
+            [DataMember(Order = 5, EmitDefaultValue = false)]
+            public string UserDownloadPath { get; set; } // no used (ver.23)
 
             [DataMember(Order = 6, EmitDefaultValue = false)]
             public FolderListSetting FolderListSetting { get; set; } // no used
@@ -821,7 +748,7 @@ namespace NeeView
             private void Constructor()
             {
                 _Version = App.Config.ProductVersionNumber;
-                IsSaveWindowPlacement = true;
+                ////IsSaveWindowPlacement = true;
                 IsHidePanelInFullscreen = true;
                 IsVisibleWindowTitle = true;
             }
@@ -873,11 +800,8 @@ namespace NeeView
 
             memento._Version = App.Config.ProductVersionNumber;
 
-            memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
             memento.IsHideMenu = this.IsHideMenu;
             memento.IsHidePageSlider = this.IsHidePageSlider;
-            memento.IsSaveFullScreen = this.IsSaveFullScreen;
-            memento.UserDownloadPath = this.UserDownloadPath;
             memento.IsVisibleAddressBar = this.IsVisibleAddressBar;
             memento.IsHidePanel = this.IsHidePanel;
             memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
@@ -889,32 +813,31 @@ namespace NeeView
         //
         public void Restore(Memento memento)
         {
-            this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
             this.IsHideMenu = memento.IsHideMenu;
             this.IsHidePageSlider = memento.IsHidePageSlider;
-            this.IsSaveFullScreen = memento.IsSaveFullScreen;
-            this.UserDownloadPath = memento.UserDownloadPath;
             this.IsHidePanel = memento.IsHidePanel;
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
             this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
+
+            var models = Models.Current;
 
             // compatible before ver.22
             if (memento._Version < Config.GenerateProductVersionNumber(1, 22, 0))
             {
                 if (memento.FileInfoSetting != null)
                 {
-                    _models.FileInformation.IsUseExifDateTime = memento.FileInfoSetting.IsUseExifDateTime;
-                    _models.FileInformation.IsVisibleBitsPerPixel = memento.FileInfoSetting.IsVisibleBitsPerPixel;
-                    _models.FileInformation.IsVisibleLoader = memento.FileInfoSetting.IsVisibleLoader;
+                    models.FileInformation.IsUseExifDateTime = memento.FileInfoSetting.IsUseExifDateTime;
+                    models.FileInformation.IsVisibleBitsPerPixel = memento.FileInfoSetting.IsVisibleBitsPerPixel;
+                    models.FileInformation.IsVisibleLoader = memento.FileInfoSetting.IsVisibleLoader;
                 }
                 if (memento.FolderListSetting != null)
                 {
-                    _models.FolderList.IsVisibleBookmarkMark = memento.FolderListSetting.IsVisibleBookmarkMark;
-                    _models.FolderList.IsVisibleHistoryMark = memento.FolderListSetting.IsVisibleHistoryMark;
+                    models.FolderList.IsVisibleBookmarkMark = memento.FolderListSetting.IsVisibleBookmarkMark;
+                    models.FolderList.IsVisibleHistoryMark = memento.FolderListSetting.IsVisibleHistoryMark;
                 }
 
-                _models.InfoMessage.CommandShowMessageStyle = memento.CommandShowMessageStyle;
+                models.InfoMessage.CommandShowMessageStyle = memento.CommandShowMessageStyle;
 
                 WindowShape.Current.IsTopmost = memento.IsTopmost;
                 WindowShape.Current.IsCaptionVisible = memento.IsVisibleTitleBar;
@@ -924,51 +847,53 @@ namespace NeeView
             // compatible before ver.23
             if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
+                Preference.Current.download_path = memento.UserDownloadPath;
+
                 _model.PanelColor = memento.PanelColor;
                 _model.ContextMenuSetting = memento.ContextMenuSetting;
 
-                _models.MemoryControl.IsAutoGC = memento.IsAutoGC;
+                models.MemoryControl.IsAutoGC = memento.IsAutoGC;
 
-                _models.InfoMessage.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
-                _models.InfoMessage.GestureShowMessageStyle = memento.GestureShowMessageStyle;
-                _models.InfoMessage.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
-                _models.InfoMessage.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
+                models.InfoMessage.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
+                models.InfoMessage.GestureShowMessageStyle = memento.GestureShowMessageStyle;
+                models.InfoMessage.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
+                models.InfoMessage.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
 
-                _models.SlideShow.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
+                models.SlideShow.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
 
-                _models.ContentCanvasTransform.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-                _models.ContentCanvasTransform.IsLimitMove = memento.IsLimitMove;
-                _models.ContentCanvasTransform.AngleFrequency = memento.AngleFrequency;
-                _models.ContentCanvasTransform.IsControlCenterImage = memento.IsControlCenterImage;
-                _models.ContentCanvasTransform.IsKeepAngle = memento.IsKeepAngle;
-                _models.ContentCanvasTransform.IsKeepFlip = memento.IsKeepFlip;
-                _models.ContentCanvasTransform.IsKeepScale = memento.IsKeepScale;
-                _models.ContentCanvasTransform.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
+                models.ContentCanvasTransform.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
+                models.ContentCanvasTransform.IsLimitMove = memento.IsLimitMove;
+                models.ContentCanvasTransform.AngleFrequency = memento.AngleFrequency;
+                models.ContentCanvasTransform.IsControlCenterImage = memento.IsControlCenterImage;
+                models.ContentCanvasTransform.IsKeepAngle = memento.IsKeepAngle;
+                models.ContentCanvasTransform.IsKeepFlip = memento.IsKeepFlip;
+                models.ContentCanvasTransform.IsKeepScale = memento.IsKeepScale;
+                models.ContentCanvasTransform.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
 
-                _models.ContentCanvas.StretchMode = memento.StretchMode;
-                _models.ContentCanvas.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
-                _models.ContentCanvas.ContentsSpace = memento.ContentsSpace;
-                _models.ContentCanvas.IsAutoRotate = memento.IsAutoRotate;
+                models.ContentCanvas.StretchMode = memento.StretchMode;
+                models.ContentCanvas.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
+                models.ContentCanvas.ContentsSpace = memento.ContentsSpace;
+                models.ContentCanvas.IsAutoRotate = memento.IsAutoRotate;
 
-                _models.ContentCanvasBrush.CustomBackground = memento.CustomBackground;
-                _models.ContentCanvasBrush.Background = memento.Background;
+                models.ContentCanvasBrush.CustomBackground = memento.CustomBackground;
+                models.ContentCanvasBrush.Background = memento.Background;
 
-                _models.WindowTitle.WindowTitleFormat1 = memento.WindowTitleFormat1;
-                _models.WindowTitle.WindowTitleFormat2 = memento.WindowTitleFormat2;
+                models.WindowTitle.WindowTitleFormat1 = memento.WindowTitleFormat1;
+                models.WindowTitle.WindowTitleFormat2 = memento.WindowTitleFormat2;
 
-                _models.PageSlider.SliderIndexLayout = memento.SliderIndexLayout;
-                _models.PageSlider.SliderDirection = memento.SliderDirection;
-                _models.PageSlider.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
+                models.PageSlider.SliderIndexLayout = memento.SliderIndexLayout;
+                models.PageSlider.SliderDirection = memento.SliderDirection;
+                models.PageSlider.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
 
-                _models.ThumbnailList.IsEnableThumbnailList = memento.IsEnableThumbnailList;
-                _models.ThumbnailList.IsHideThumbnailList = memento.IsHideThumbnailList;
-                _models.ThumbnailList.ThumbnailSize = memento.ThumbnailSize;
-                _models.ThumbnailList.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
-                _models.ThumbnailList.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
+                models.ThumbnailList.IsEnableThumbnailList = memento.IsEnableThumbnailList;
+                models.ThumbnailList.IsHideThumbnailList = memento.IsHideThumbnailList;
+                models.ThumbnailList.ThumbnailSize = memento.ThumbnailSize;
+                models.ThumbnailList.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
+                models.ThumbnailList.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
 
-                _models.MouseInput.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
-                _models.MouseInput.IsLoupeCenter = memento.IsLoupeCenter;
-                _models.MouseInput.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
+                models.MouseInput.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
+                models.MouseInput.IsLoupeCenter = memento.IsLoupeCenter;
+                models.MouseInput.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
             }
         }
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NeeView.ComponentModel;
+using NeeView.Windows.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,46 @@ namespace NeeView
         public DevInfo()
         {
             InitializeComponent();
+            this.Root.DataContext = new DevInfoViewModel();
+        }
+    }
+
+    public class DevInfoViewModel : BindableBase
+    {
+        public Development Development => Development.Current;
+        public JobEngine JobEngine => JobEngine.Current;
+
+
+        // 開発用：コンテンツ座標
+        private Point _contentPosition;
+        public Point ContentPosition
+        {
+            get { return _contentPosition; }
+            set { _contentPosition = value; RaisePropertyChanged(); }
+        }
+
+        // 開発用：コンテンツ座標情報更新
+        public void UpdateContentPosition()
+        {
+            ContentPosition = ContentCanvas.Current.MainContent.View.PointToScreen(new Point(0, 0));
+        }
+
+
+        // 開発用：
+        ////public Development Development { get; private set; } = new Development();
+
+        /// <summary>
+        /// DevUpdateContentPosition command.
+        /// </summary>
+        private RelayCommand _DevUpdateContentPosition;
+        public RelayCommand DevUpdateContentPosition
+        {
+            get { return _DevUpdateContentPosition = _DevUpdateContentPosition ?? new RelayCommand(DevUpdateContentPosition_Executed); }
+        }
+
+        private void DevUpdateContentPosition_Executed()
+        {
+            UpdateContentPosition();
         }
     }
 }

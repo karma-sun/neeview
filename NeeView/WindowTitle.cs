@@ -84,7 +84,8 @@ namespace NeeView
         // ウィンドウタイトル更新
         public void UpdateWindowTitle(UpdateWindowTitleMask mask)
         {
-            var place = BookOperation.Current.Book?.Place;
+            ////var place = BookOperation.Current.Book?.Place;
+            var place = BookHub.Current.Book?.Place;
 
             if (LoadingPath != null)
                 Title = LoosePath.GetFileName(LoadingPath) + " (読込中)";

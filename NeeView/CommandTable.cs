@@ -373,7 +373,7 @@ namespace NeeView
                 element.Group = "ファイル";
                 element.Text = "履歴を消去";
                 element.Note = "履歴を全て削除します";
-                element.Execute = (s, e) => _VM.ClearHistor();
+                element.Execute = (s, e) => _VM.ClearHistory();
                 element.IsShowMessage = true;
                 _elements[CommandType.ClearHistory] = element;
             }

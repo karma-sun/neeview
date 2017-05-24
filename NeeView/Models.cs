@@ -19,6 +19,7 @@ namespace NeeView
     {
         // System Object
         public static Models Current { get; private set; }
+        public static void Instantiate() => Current = new Models();
 
         //
         public MemoryControl MemoryControl { get; private set; }
@@ -75,6 +76,8 @@ namespace NeeView
         //
         public SidePanel SidePanel { get; set; }
 
+        //
+        public Development Development { get; set; }
 
 
         /// <summary>
@@ -134,6 +137,8 @@ namespace NeeView
             this.ImageEffect = new ImageEffect();
 
             this.SidePanel = new SidePanel(this);
+
+            this.Development = new Development();
         }
 
         //
@@ -146,6 +151,9 @@ namespace NeeView
         //
         public void StopEngine()
         {
+            // TODO: Bookのコマンド系もエンジン扱いせよ
+            this.BookHub.Dispose();
+
             this.SlideShow.StopEngine();
 
             this.JobEngine.Dispose();

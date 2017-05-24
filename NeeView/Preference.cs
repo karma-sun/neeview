@@ -192,6 +192,10 @@ namespace NeeView
         [PropertyMember("前回開いていたブックを開く", Tips = "起動時に前回開いていたブックを開きます", Flags = PropertyMemberFlag.None)]
         public bool bootup_lastfolder { get; set; }
 
+        [DataMember, DefaultValue("")]
+        [PropertyPath(Name = "ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。\n既定では一時フォルダを使用します。", Flags = PropertyMemberFlag.None)]
+        public string download_path { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

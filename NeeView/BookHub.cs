@@ -538,6 +538,13 @@ namespace NeeView
                 // 本の変更通知
                 App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookMementoType.None));
             }
+
+            if (param.Message != null)
+            {
+                // TODO: 参照方向がおかしい
+                ContentCanvas.Current.EmptyPageMessage = param.Message;
+                ContentCanvas.Current.IsVisibleEmptyPageMessage = true;
+            }
         }
 
 
@@ -823,11 +830,12 @@ namespace NeeView
         /// </summary>
         /// <param name="isClearViewContent"></param>
         /// <returns></returns>
-        public BookHubCommandUnload RequestUnload(bool isClearViewContent)
+        public BookHubCommandUnload RequestUnload(bool isClearViewContent, string message = null)
         {
             var command = new BookHubCommandUnload(this, new BookHubCommandUnloadArgs()
             {
-                IsClearViewContent = isClearViewContent
+                IsClearViewContent = isClearViewContent,
+                Message = message
             });
 
             _commandEngine.Enqueue(command);

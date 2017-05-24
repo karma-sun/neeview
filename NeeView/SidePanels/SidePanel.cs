@@ -19,6 +19,8 @@ namespace NeeView
     /// </summary>
     public class SidePanel : SidePanelFrameModel
     {
+        public static SidePanel Current { get; private set; }
+
         // フォーカス初期化要求
         // TODO: イベント名は原因であって期待する結果ではよくない
         public event EventHandler ResetFocus;
@@ -41,6 +43,8 @@ namespace NeeView
         /// <param name="control"></param>
         public SidePanel(Models models)
         {
+            Current = this;
+
             _models = models;
 
             var leftPanels = new List<IPanel>();

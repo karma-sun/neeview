@@ -12,17 +12,17 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     
-    <DockPanel Panel.ZIndex="100" Background="White"
+    <DockPanel x:Name="Root" Panel.ZIndex="100" Background="White"
                   Visibility="{Binding Development.IsVisibleDevInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <Button Content="Update" Width="100" Command="{Binding DevUpdateContentPosition}"/>
             <TextBlock Text="{Binding ContentPosition}" Margin="5"/>
         </StackPanel>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding Models.JobEngine.JobCount}"/>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding Models.JobEngine.Message}"/>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding Models.JobEngine.Workers[0].Message}"/>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding Models.JobEngine.Workers[1].Message}"/>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding Models.JobEngine.Workers[2].Message}"/>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding Models.JobEngine.Workers[3].Message}"/>
+        <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.JobCount}"/>
+        <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Message}"/>
+        <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[0].Message}"/>
+        <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[1].Message}"/>
+        <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[2].Message}"/>
+        <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[3].Message}"/>
     </DockPanel>
 </UserControl>

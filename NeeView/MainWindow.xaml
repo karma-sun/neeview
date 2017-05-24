@@ -68,7 +68,7 @@
                 <Style.Triggers>
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding Models.ThumbnailList.IsVisibleThumbnailPlate}" Value="True" />
+                            <Condition Binding="{Binding ThumbnailList.IsVisibleThumbnailPlate}" Value="True" />
                             <Condition Binding="{Binding Visibility, ElementName=ThumbnailListArea}" Value="Visible" />
                         </MultiDataTrigger.Conditions>
                         <Setter Property="Background" Value="{DynamicResource NVBackground}"/>
@@ -196,10 +196,10 @@
                                 <Grid x:Name="MainViewPanelRect" Canvas.Left="{Binding CanvasLeft, ElementName=SidePanelFrame}" Canvas.Top="{Binding CanvasTop, ElementName=SidePanelFrame}" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}" UseLayoutRounding="True">
 
                                     <!-- メインビュー パネル -->
-                                    <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding Models.ContentCanvasBrush.BackgroundBrush}" Margin="0">
-                                        <Rectangle x:Name="FrontBackground" Fill="{Binding Models.ContentCanvasBrush.BackgroundFrontBrush}" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" Visibility="{Binding Models.ContentCanvasBrush.BackgroundFrontBrush, Converter={StaticResource NullableToVisibilityConverter}}"/>
+                                    <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding ContentCanvasBrush.BackgroundBrush}" Margin="0">
+                                        <Rectangle x:Name="FrontBackground" Fill="{Binding ContentCanvasBrush.BackgroundFrontBrush}" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" Visibility="{Binding ContentCanvasBrush.BackgroundFrontBrush, Converter={StaticResource NullableToVisibilityConverter}}"/>
 
-                                        <Grid x:Name="MainViewCanvas" Effect="{Binding Models.ImageEffect.Effect}">
+                                        <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffect.Effect}">
 
                                             <!-- メインビュー コンテンツ表示領域 -->
                                             <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True" DataContext="{Binding ContentCanvas}">
@@ -240,9 +240,9 @@
                                         <!-- empty pages message -->
                                         <Grid Visibility="{Binding ContentCanvas.IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">
                                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding Models.ContentCanvasBrush.ForegroundBrush}"/>
+                                                <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ContentCanvasBrush.ForegroundBrush}"/>
 
-                                                <TextBlock Text="{Binding ContentCanvas.EmptyPageMessage}" Foreground="{Binding Models.ContentCanvasBrush.ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
+                                                <TextBlock Text="{Binding ContentCanvas.EmptyPageMessage}" Foreground="{Binding ContentCanvasBrush.ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
                                                     <TextBlock.Style>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="Visibility" Value="Visible"/>
@@ -261,7 +261,7 @@
                                         <!-- caption -->
                                         <TextBlock x:Name="PageCaption" VerticalAlignment="Top" HorizontalAlignment="Left"
                                        Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
-                                       Text="{Binding WindowTitle}" FontSize="16" Foreground="White"
+                                       Text="{Binding WindowTitle.Title}" FontSize="16" Foreground="White"
                                        Padding="20,5"
                                        Background="#88000000">
                                             <TextBlock.Style>
@@ -282,7 +282,7 @@
                                         </TextBlock>
 
                                         <!-- loupe info -->
-                                        <Grid Visibility="{Binding Models.MouseInput.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Grid Visibility="{Binding MouseInput.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <Grid x:Name="LoupeInfo" VerticalAlignment="Top" HorizontalAlignment="Right"
                                       Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
                                       Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
@@ -329,7 +329,7 @@
                                         -->
 
                                         <!-- Message Tiny -->
-                                        <local:TinyInfoMessageView Source="{Binding Models.InfoMessage.TinyInfoMessage}"/>
+                                        <local:TinyInfoMessageView Source="{Binding InfoMessage.TinyInfoMessage}"/>
 
                                         <!-- IsBusy -->
                                         <Grid Margin="{Binding ElementName=MainViewCanvas, Path=Margin}">
@@ -347,7 +347,7 @@
 
                             <!-- サイドパネル -->
                             <local:SidePanelFrameView x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible"
-                                      Source="{Binding Models.SidePanel}"
+                                      Source="{Binding SidePanel}"
                                       IsAutoHide="{Binding CanHidePanel}"
                                       PanelBackground="{DynamicResource NVBackground}"
                                       IconBackground="{DynamicResource NVPanelIconBackground}"
@@ -374,7 +374,7 @@
                         <Grid.Style>
                             <Style TargetType="Grid">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Models.ThumbnailList.IsVisibleThumbnailPlate}" Value="True">
+                                    <DataTrigger Binding="{Binding ThumbnailList.IsVisibleThumbnailPlate}" Value="True">
                                         <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -387,7 +387,7 @@
                 <!-- Message Layer -->
                 <DockPanel d:IsHidden="True" >
                     <Grid DockPanel.Dock="Bottom" Height="{Binding ElementName=DockStatusArea, Path=ActualHeight}"/>
-                    <local:NormalInfoMessageView Source="{Binding Models.InfoMessage.NormalInfoMessage}"/>
+                    <local:NormalInfoMessageView Source="{Binding InfoMessage.NormalInfoMessage}"/>
                 </DockPanel>
 
                 <!-- Rename manager -->

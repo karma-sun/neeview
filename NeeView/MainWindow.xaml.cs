@@ -130,13 +130,13 @@ namespace NeeView
 
             memento = memento.Clone();
 
-            if (App.Options["--reset-placement"].IsValid || !App.Setting.ViewMemento.IsSaveWindowPlacement)
+            if (App.Options["--reset-placement"].IsValid || !App.Current.IsSaveWindowPlacement)
             {
                 memento.State = WindowStateEx.Normal;
                 memento.WindowRect = Rect.Empty;
             }
 
-            if (memento.State == WindowStateEx.FullScreen && !App.Setting.ViewMemento.IsSaveFullScreen)
+            if (memento.State == WindowStateEx.FullScreen && !App.Current.IsSaveFullScreen)
             {
                 memento.State = WindowStateEx.Normal;
             }
@@ -342,11 +342,8 @@ namespace NeeView
                 (s, e) => UpdateThumbnailListLayout());
 
 
-            _VM.ResetFocus +=
-                (s, e) =>
-                {
-                    this.MainView.Focus();
-                };
+            SidePanel.Current.ResetFocus +=
+                (s, e) => this.MainView.Focus();
 
             //
             BookOperation.Current.AddPropertyChanged(nameof(BookOperation.PageList), OnPageListChanged);
@@ -1017,14 +1014,14 @@ namespace NeeView
 
             try
             {
-                string path = await _contentDrop.DropAsync(this, data, _VM.DownloadPath, (string message) => NeeView.NowLoading.Current.SetLoading(message));
+                var downloadPath = string.IsNullOrWhiteSpace(Preference.Current.download_path) ? Temporary.TempDownloadDirectory : Preference.Current.download_path;
+                string path = await _contentDrop.DropAsync(this, data, downloadPath, (string message) => NeeView.NowLoading.Current.SetLoading(message));
                 BookHub.Current.Load(path);
             }
             catch (Exception ex)
             {
+                BookHub.Current.RequestUnload(true, ex.Message ?? "コンテンツの読み込みに失敗しました");
                 NeeView.NowLoading.Current.ResetLoading();
-                BookHub.Current.SetEmptyMessage(ex.Message ?? "コンテンツの読み込みに失敗しました");
-                BookHub.Current.RequestUnload(true);
             }
         }
 
@@ -1059,7 +1056,7 @@ namespace NeeView
 
             // スレッド終了処理 
             // 主にコマンドのキャンセル処理。 特にApp.Current にアクセスするものはキャンセルさせる
-            _VM.Dispose();
+            ////_VM.Dispose();
 
             // テンポラリファイル破棄
             Temporary.RemoveTempFolder();

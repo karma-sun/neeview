@@ -76,6 +76,7 @@ namespace NeeView
     public class BookHubCommandUnloadArgs : BookHubCommandArgs
     {
         public bool IsClearViewContent { get; set; }
+        public string Message { get; set; }
     }
 
     /// <summary>

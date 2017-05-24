@@ -23,6 +23,13 @@ namespace NeeView
         public DevPageList()
         {
             InitializeComponent();
+            this.Root.DataContext = new DevPageListViewModel();
         }
+    }
+
+    public class DevPageListViewModel
+    {
+        public Development Development => Development.Current;
+        public BookOperation BookOperation => BookOperation.Current;
     }
 }

@@ -47,6 +47,7 @@ namespace NeeView
         public void ResetLoading()
         {
             IsDispNowLoading = false;
+            WindowTitle.Current.LoadingPath = null;
         }
     }
 

@@ -119,9 +119,9 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="多重起動を許可する"
                               IsChecked="{Binding Setting.App.IsMultiBootEnabled}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ウィンドウ座標を復元する"
-                              IsChecked="{Binding Setting.ViewMemento.IsSaveWindowPlacement}" />
+                              IsChecked="{Binding Setting.App.IsSaveWindowPlacement}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーン状態を復元する"
-                              IsChecked="{Binding Setting.ViewMemento.IsSaveFullScreen}" />
+                              IsChecked="{Binding Setting.App.IsSaveFullScreen}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回開いていたブックを開く"
                               IsChecked="{Binding Preference.bootup_lastfolder}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="スライドショーの再生を開始する"
@@ -590,7 +590,7 @@
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="画像保存フォルダー"/>
                                 <nlc:FileNameBox x:Name="DownloadPath" Margin="2,0" SelectDirectory="True" Title="保存先フォルダーの選択" 
                             Note="指定がない場合は一時フォルダーが使用されます"
-                            Text="{Binding Setting.ViewMemento.UserDownloadPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            Text="{Binding Preference.download_path, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             </DockPanel>
                         </StackPanel>
 

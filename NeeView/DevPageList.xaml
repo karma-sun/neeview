@@ -14,7 +14,7 @@
     
     <ScrollViewer x:Name="Root" Width="300" Panel.ZIndex="100" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
             Visibility="{Binding Development.IsVisibleDevPageList, Converter={StaticResource BooleanToVisibilityConverter}}">
-        <ListView ItemsSource="{Binding Models.BookOperation.PageList}" >
+        <ListView ItemsSource="{Binding BookOperation.PageList}" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="名前"  DisplayMemberBinding="{Binding LastName}" Width="80"/>

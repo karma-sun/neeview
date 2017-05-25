@@ -127,7 +127,8 @@ namespace NeeView
         public BookOperation BookOperation { get; private set; }
         public BookHub BookHub { get; private set; }
 
-        public event EventHandler PageListChanged;
+        ////public event EventHandler PageListChanged;
+        public event EventHandler Refleshed;
 
         /// <summary>
         /// constructor
@@ -147,8 +148,8 @@ namespace NeeView
             this.BookHub.BookChanged +=
                 OnBookChanged;
 
-            this.BookOperation.AddPropertyChanged(nameof(BookOperation.PageList),
-                (s, e) => PageListChanged?.Invoke(this, null));
+            ////this.BookOperation.AddPropertyChanged(nameof(BookOperation.PageList),
+            ////    (s, e) => PageListChanged?.Invoke(this, null));
         }
 
         // 本が変更される
@@ -162,6 +163,7 @@ namespace NeeView
         private void OnBookChanged(object sender, BookMementoType bookmarkType)
         {
             RaisePropertyChanged(nameof(ThumbnailListVisibility));
+            Refleshed?.Invoke(this, null);
         }
 
 
@@ -178,7 +180,7 @@ namespace NeeView
             // 本の切り替え中は処理しない
             if (!this.BookOperation.IsEnabled) return;
 
-            ////Debug.WriteLine("> RequestThumbnail");
+            //Debug.WriteLine($"> RequestThumbnail: {start} - {start + count - 1}");
 
             // 未処理の要求を解除
             JobEngine.Current.Clear(QueueElementPriority.PageThumbnail);

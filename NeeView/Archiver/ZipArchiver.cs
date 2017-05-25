@@ -81,7 +81,7 @@ namespace NeeView
                 // ヘッダチェック
                 if (!CheckSignature(stream))
                 {
-                    throw new FormatException("ZIPファイルではありません");
+                    throw new FormatException($"{Path} はZIPファイルではありません");
                 }
 
                 // エントリー取得

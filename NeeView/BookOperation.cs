@@ -81,6 +81,9 @@ namespace NeeView
             // ページリスト更新
             UpdatePageList();
 
+            // ブック操作有効
+            IsEnabled = true;
+
             BookChanged?.Invoke(this, null);
         }
 

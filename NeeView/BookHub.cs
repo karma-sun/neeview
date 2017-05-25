@@ -16,6 +16,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
@@ -206,7 +207,6 @@ namespace NeeView
                 {
                     _isLoading = value;
                     RaisePropertyChanged();
-                    _bookOperation.IsEnabled = !_isLoading;
                 }
             }
         }
@@ -693,6 +693,9 @@ namespace NeeView
                 // Now Loading ON
                 NotifyLoading(args.Path);
 
+                // 本操作無効
+                _bookOperation.IsEnabled = false;
+
                 // フォルダーリスト更新
                 if (args.IsRefleshFolderList)
                 {
@@ -713,12 +716,11 @@ namespace NeeView
                 var unit = BookMementoCollection.Current.Find(place);
                 var setting = GetSetting(unit, place, args.Option);
 
-
                 // Load本体
                 await LoadAsyncCore(place, startEntry ?? setting.Page, args.Option, setting, unit, token);
 
                 // Now Loading OFF
-                NotifyLoading(null);
+                ////NotifyLoading(null);
 
                 // ビュー初期化
                 App.Current?.Dispatcher.Invoke(() => CommandTable.Current[CommandType.ViewReset].Execute(this, null));
@@ -1384,7 +1386,8 @@ namespace NeeView
                     string name = $"{Path.GetFileNameWithoutExtension(Book.Place)}_{index:000}-{index + pages.Count - 1:000}.png";
                     var exporter = new Exporter();
                     exporter.Initialize(pages, Book.BookReadOrder, name);
-                    exporter.BackgroundBrush = ContentCanvasBrush.Current.BackgroundBrush;
+                    exporter.Background = ContentCanvasBrush.Current.CreateBackgroundBrush();
+                    exporter.BackgroundFront = ContentCanvasBrush.Current.CreateBackgroundFrontBrush(new DpiScale(1, 1));
                     if (exporter.ShowDialog() == true)
                     {
                         try

@@ -16,6 +16,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace NeeView
 {
@@ -48,8 +49,8 @@ namespace NeeView
         public PageVisual(Page page)
         {
             Page = page;
-            Name = Path.GetFileName(page.FileName);
-            DefaultExtension = Path.GetExtension(page.FileName).ToLower();
+            Name = System.IO.Path.GetFileName(page.FileName);
+            DefaultExtension = System.IO.Path.GetExtension(page.FileName).ToLower();
         }
 
         // コンテンツが読まれていなければ読み込んでからサムネイルを作成する
@@ -146,7 +147,8 @@ namespace NeeView
         public bool IsHintClone { get; set; } = IsHintCloneDefault;
 
         // 背景ブラシ
-        public Brush BackgroundBrush { get; set; }
+        public Brush Background { get; set; }
+        public Brush BackgroundFront { get; set; }
 
         // 背景の出力フラグ
         public bool IsHintBackground { get; set; } = false;
@@ -241,10 +243,20 @@ namespace NeeView
             var content = CurrentImage.VisualContent;
             canvas.Children.Add(content);
 
+            if (IsHintBackground)
+            {
+                canvas.Background = this.Background;
+
+                var rectangle = new Rectangle();
+                rectangle.Width = content.Width;
+                rectangle.Height = content.Height;
+                rectangle.Fill = this.BackgroundFront;
+                RenderOptions.SetBitmapScalingMode(rectangle, BitmapScalingMode.HighQuality);
+                canvas.Children.Insert(0, rectangle);
+            }
+
             canvas.Width = content.Width;
             canvas.Height = content.Height;
-
-            if (IsHintBackground) canvas.Background = BackgroundBrush;
 
             // ビューツリー外でも正常にレンダリングするようにする処理
             canvas.Measure(new Size(canvas.Width, canvas.Height));

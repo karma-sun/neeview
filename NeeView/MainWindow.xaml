@@ -32,14 +32,6 @@
                 <ResourceDictionary Source="SidePanels/PanelIconDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-
-            <!-- コンテキストメニューカウント用 -->
-            <Style TargetType="ContextMenu">
-                <EventSetter Event="Opened" Handler="ContextMenu_Opened"/>
-                <EventSetter Event="Closed" Handler="ContextMenu_Closed"/>
-            </Style>
-
-
             <!-- Styling the DockPanelSplitter -->
             <Style x:Key="NVHorizontalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
                 <Setter Property="Thickness" Value="6"/>
@@ -98,7 +90,6 @@
 
             <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
                 <Setter Property="Header" Value="{Binding Path=Place, Converter={StaticResource FullPathToFileNameConverter}}"/>
-                <!--<Setter Property="Command" Value="{Binding DataContext.Load, RelativeSource={RelativeSource FindAncestor, AncestorType=MenuItem}}" />-->
                 <Setter Property="Command" Value="{x:Static local:LoadCommand.Command}"/>
                 <Setter Property="CommandParameter" Value="{Binding Path=Place}" />
                 <Setter Property="InputGestureText" Value=""/>
@@ -148,7 +139,7 @@
         <DockPanel x:Name="RootDockPanel" UseLayoutRounding="True">
 
             <!-- 製品表示領域 -->
-            <Grid x:Name="Root" MouseMove="ViewArea_MouseMove" UseLayoutRounding="True">
+            <Grid x:Name="Root" UseLayoutRounding="True">
                 <Grid x:Name="RootBottom" VerticalAlignment="Bottom" />
 
                 <!-- Main Layer -->

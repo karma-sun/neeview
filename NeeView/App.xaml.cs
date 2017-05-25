@@ -23,7 +23,9 @@ namespace NeeView
     /// </summary>
     public partial class App : Application
     {
-        public static new App Current => (App)Application.Current; 
+        public static new App Current => (App)Application.Current;
+
+        public new MainWindow MainWindow => (MainWindow)base.MainWindow;
 
         // 例外発生数
         private int _exceptionCount = 0;

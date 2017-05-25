@@ -89,7 +89,7 @@ namespace NeeView
         {
             Current = this;
 
-            MemoryControl =  new MemoryControl(App.Current.Dispatcher);
+            MemoryControl = new MemoryControl(App.Current.Dispatcher);
             JobEngine = new JobEngine();
             BookMementoCollection = new BookMementoCollection();
             BookHistory = new BookHistory();
@@ -167,7 +167,7 @@ namespace NeeView
             // TODO: this.JobEngine.StopEngine();
 
         }
-        
+
         /// <summary>
         /// Preference反映
         /// TODO: 各モデルで処理
@@ -197,15 +197,13 @@ namespace NeeView
             // SevenZip Lock時間
             SevenZipSource.LockTime = preference.loader_archiver_7z_locktime;
 
-            // MainWindow Preference適用
-            ((MainWindow)App.Current.MainWindow).ApplyPreference(preference);
+            // マウスジェスチャーの最小移動距離
+            MouseInputManager.Current.Gesture.SetGestureMinimumDistance(
+                preference.input_gesture_minimumdistance_x,
+                preference.input_gesture_minimumdistance_y);
 
             // 除外パス更新
             BitmapLoaderManager.Excludes = preference.loader_archiver_exclude.Split(';').Select(e => e.Trim()).ToList();
-
-            // 自動先読み判定サイズ
-            //var sizeString = new SizeString(preference.book_preload_limitsize);
-            //Book.PreLoadLimitSize = sizeString.ToInteger();
         }
 
         #region Memento

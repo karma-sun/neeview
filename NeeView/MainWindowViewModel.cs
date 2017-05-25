@@ -266,17 +266,33 @@ namespace NeeView
         }
 
 
-        // 最後に開いたフォルダーを開く
-        // 起動フローでの処理
-        // TODO: ここではない。Model?
-        public void LoadLastFolder()
+        // マウスの位置でページを送る
+        public void MovePageWithCursor(FrameworkElement target)
         {
-            if (!Preference.Current.bootup_lastfolder) return;
+            var point = Mouse.GetPosition(target);
 
-            string place = BookHistory.Current.LastAddress;
-            if (place != null || System.IO.Directory.Exists(place) || System.IO.File.Exists(place))
+            if (point.X < target.ActualWidth * 0.5)
             {
-                BookHub.Current.Load(place, BookLoadOption.Resume);
+                BookOperation.Current.NextPage();
+            }
+            else
+            {
+                BookOperation.Current.PrevPage();
+            }
+        }
+
+        // マウスの位置でページを送る(メッセージ)
+        public string MovePageWithCursorMessage(FrameworkElement target)
+        {
+            var point = Mouse.GetPosition(target);
+
+            if (point.X < target.ActualWidth * 0.5)
+            {
+                return "次のページ";
+            }
+            else
+            {
+                return "前のページ";
             }
         }
 

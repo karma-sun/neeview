@@ -19,7 +19,6 @@ namespace NeeView
     {
         // System Object
         public static Models Current { get; private set; }
-        public static void Instantiate() => Current = new Models();
 
         //
         public MemoryControl MemoryControl { get; private set; }
@@ -38,6 +37,10 @@ namespace NeeView
         public CommandTable CommandTable { get; private set; }
         public RoutedCommandTable RoutedCommandTable { get; private set; }
 
+        public MouseInput MouseInput { get; private set; }
+        public MouseInputManager MouseInputManager { get; private set; }
+        public ContentDropManager ContentDropManager { get; private set; }
+
         //
         public InfoMessage InfoMessage { get; private set; }
 
@@ -52,7 +55,6 @@ namespace NeeView
         public ContentCanvasTransform ContentCanvasTransform { get; private set; }
         public ContentCanvas ContentCanvas { get; private set; }
         public ContentCanvasBrush ContentCanvasBrush { get; private set; }
-        public MouseInput MouseInput { get; private set; }
         public SlideShow SlideShow { get; private set; }
         public WindowTitle WindowTitle { get; private set; }
 
@@ -83,7 +85,7 @@ namespace NeeView
         /// <summary>
         /// Construcotr
         /// </summary>
-        public Models()
+        public Models(MainWindow window)
         {
             Current = this;
 
@@ -104,6 +106,11 @@ namespace NeeView
             this.CommandTable = new CommandTable();
             this.RoutedCommandTable = new RoutedCommandTable(this.CommandTable);
 
+            this.MouseInput = new MouseInput();
+            this.MouseInput.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow);
+            this.MouseInputManager = new MouseInputManager(this.MouseInput);
+            this.ContentDropManager = new ContentDropManager(window);
+
             this.InfoMessage = new InfoMessage();
 
             this.BookOperation = new BookOperation();
@@ -117,7 +124,7 @@ namespace NeeView
             this.ContentCanvasTransform = new ContentCanvasTransform();
             this.ContentCanvas = new ContentCanvas(this.ContentCanvasTransform, this.BookHub);
             this.ContentCanvasBrush = new ContentCanvasBrush(this.ContentCanvas);
-            this.MouseInput = new MouseInput();
+
             this.SlideShow = new SlideShow(this.BookHub, this.BookOperation, this.MouseInput);
             this.WindowTitle = new WindowTitle(this.ContentCanvas, this.ContentCanvasTransform);
 

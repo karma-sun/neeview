@@ -257,6 +257,15 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// 起動時処理
+        /// </summary>
+        public void Loaded()
+        {
+            _model.Loaded();
+        }
+
+
         // 最後に開いたフォルダーを開く
         // 起動フローでの処理
         // TODO: ここではない。Model?
@@ -271,17 +280,5 @@ namespace NeeView
             }
         }
 
-
-        // ジェスチャー表示
-        // TODO: InfoMessageで面倒を見る？マウスからのイベントで。
-        public void ShowGesture(string gesture, string commandName)
-        {
-            if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
-
-            InfoMessage.Current.SetMessage(
-                InfoMessageType.Gesture,
-                ((commandName != null) ? commandName + "\n" : "") + gesture,
-                gesture + ((commandName != null) ? " " + commandName : ""));
-        }
     }
 }

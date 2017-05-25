@@ -3,7 +3,9 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using Microsoft.Win32;
 using NeeView.ComponentModel;
+using NeeView.Windows.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,6 +13,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace NeeView
 {
@@ -22,6 +26,38 @@ namespace NeeView
     }
 
 
+    /// <summary>
+    /// Load command.
+    /// </summary>
+    public class LoadCommand : ICommand
+    {
+        public static LoadCommand Command { get; } = new LoadCommand();
+
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return !BookHub.Current.IsLoading;
+        }
+
+        public void Execute(object parameter)
+        {
+            var path = parameter as string;
+            if (parameter == null) return;
+            BookHub.Current.Load(path);
+        }
+
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+
+
+    /// <summary>
+    /// MainWindow : Model
+    /// </summary>
     public class MainWindowModel : BindableBase
     {
         public static MainWindowModel Current { get; private set; }
@@ -180,6 +216,173 @@ namespace NeeView
 
 
 
+        // 起動時処理
+        public void Loaded()
+        {
+            // Chrome反映
+            WindowShape.Current.WindowChromeFrame = Preference.Current.window_chrome_frame;
+
+            // VMイベント設定
+            ////InitializeViewModelEvents();
+
+            // 設定反映
+            SaveData.Current.RestoreSetting(App.Setting, true);
+
+            // 履歴読み込み
+            SaveData.Current.LoadHistory(App.Setting);
+
+            // ブックマーク読み込み
+            SaveData.Current.LoadBookmark(App.Setting);
+
+            // ページマーク読込
+            SaveData.Current.LoadPagemark(App.Setting);
+
+            App.Setting = null; // ロード設定破棄
+
+
+            // フォルダーを開く
+            if (!App.Options["--blank"].IsValid)
+            {
+                if (App.StartupPlace != null)
+                {
+                    // 起動引数の場所で開く
+                    BookHub.Current.Load(App.StartupPlace);
+                }
+                else
+                {
+                    // 最後に開いたフォルダーを復元する
+                    LoadLastFolder();
+                }
+            }
+
+            // スライドショーの自動再生
+            if (App.Options["--slideshow"].IsValid ? App.Options["--slideshow"].Bool : SlideShow.Current.IsAutoPlaySlideShow)
+            {
+                SlideShow.Current.IsPlayingSlideShow = true;
+            }
+        }
+
+        // 最後に開いたフォルダーを開く
+        private void LoadLastFolder()
+        {
+            if (!Preference.Current.bootup_lastfolder) return;
+
+            string place = BookHistory.Current.LastAddress;
+            if (place != null || System.IO.Directory.Exists(place) || System.IO.File.Exists(place))
+            {
+                BookHub.Current.Load(place, BookLoadOption.Resume);
+            }
+        }
+
+
+        #region Commands
+
+
+
+
+        // ダイアログでファイル選択して画像を読み込む
+        public void LoadAs()
+        {
+            var dialog = new OpenFileDialog();
+            dialog.InitialDirectory = BookHub.Current.GetDefaultFolder();
+
+            if (dialog.ShowDialog(App.Current.MainWindow) == true)
+            {
+                BookHub.Current.Load(dialog.FileName);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+
+        // スクロール＋前のページに戻る
+        public void PrevScrollPage()
+        {
+            var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.PrevScrollPage].Parameter;
+
+            int bookReadDirection = (BookHub.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
+            bool isScrolled = MouseInputManager.Current.Drag.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
+
+            if (!isScrolled)
+            {
+                ContentCanvas.Current.NextViewOrigin = (BookHub.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
+                BookOperation.Current.PrevPage();
+            }
+        }
+
+        // スクロール＋次のページに進む
+        public void NextScrollPage()
+        {
+            var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.NextScrollPage].Parameter;
+
+            int bookReadDirection = (BookHub.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
+            bool isScrolled = MouseInputManager.Current.Drag.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
+
+            if (!isScrolled)
+            {
+                ContentCanvas.Current.NextViewOrigin = (BookHub.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
+                BookOperation.Current.NextPage();
+            }
+        }
+
+
+        // 設定ウィンドウを開く
+        public void OpenSettingWindow()
+        {
+            var setting = SaveData.Current.CreateSetting();
+            var history = BookHistory.Current.CreateMemento(false);
+
+            // スライドショー停止
+            SlideShow.Current.PauseSlideShow();
+
+            var dialog = new SettingWindow(setting, history);
+            dialog.Owner = App.Current.MainWindow;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            var result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                SaveData.Current.RestoreSetting(setting, false);
+                WindowShape.Current.CreateSnapMemento();
+                SaveData.Current.SaveSetting();
+                BookHistory.Current.Restore(history, false);
+
+                // 現在ページ再読込
+                BookHub.Current.ReLoad();
+            }
+
+            // スライドショー再開
+            SlideShow.Current.ResumeSlideShow();
+        }
+
+
+        // バージョン情報を表示する
+        public void OpenVersionWindow()
+        {
+            var dialog = new VersionWindow();
+            dialog.Owner = App.Current.MainWindow;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            dialog.ShowDialog();
+        }
+
+
+        // 設定ファイルの場所を開く
+        public void OpenSettingFilesFolder()
+        {
+            Process.Start("explorer.exe", $"\"{App.Config.LocalApplicationDataPath}\"");
+        }
+
+        // オンラインヘルプ
+        public void OpenOnlineHelp()
+        {
+            System.Diagnostics.Process.Start("https://bitbucket.org/neelabo/neeview/wiki/");
+        }
+
+        #endregion
+
+
 
         // 履歴削除
         // TODO: 直接変更し、最近使ったファイルはイベントで更新すべき
@@ -189,12 +392,6 @@ namespace NeeView
             MenuBar.Current.UpdateLastFiles();
         }
 
-        // オンラインヘルプ
-        // TODO: どこで定義すべき？
-        public void OpenOnlineHelp()
-        {
-            System.Diagnostics.Process.Start("https://bitbucket.org/neelabo/neeview/wiki/");
-        }
 
 
 

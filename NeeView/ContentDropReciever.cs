@@ -38,13 +38,75 @@ namespace NeeView
         }
     }
 
+
+
     /// <summary>
     /// Drop Manager
     /// </summary>
     public class ContentDropManager
     {
+        public ContentDropManager(FrameworkElement sender)
+        {
+            sender.DragOver += MainWindow_DragOver;
+            sender.Drop += MainWindow_Drop;
+        }
+
+
+        // ドラッグ＆ドロップ前処理
+        private void MainWindow_DragOver(object sender, DragEventArgs e)
+        {
+            if (!NowLoading.Current.IsDispNowLoading && CheckDragContent(sender, e.Data))
+            {
+                e.Effects = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effects = DragDropEffects.None;
+            }
+            e.Handled = true;
+        }
+
+        // ドラッグ＆ドロップで処理を開始する
+        private async void MainWindow_Drop(object sender, DragEventArgs e)
+        {
+            await LoadDataObjectAsync(sender, e.Data);
+        }
+
+
+        // コピー＆ペーストできる？
+        public bool CanLoadFromClipboard()
+        {
+            var data = Clipboard.GetDataObject();
+            return data != null ? !NowLoading.Current.IsDispNowLoading && CheckDragContent(this, data) : false;
+        }
+
+        // コピー＆ペーストで処理を開始する
+        public async void LoadFromClipboard()
+        {
+            await LoadDataObjectAsync(this, Clipboard.GetDataObject());
+        }
+
+        // データオブジェクトからのロード処理
+        private async Task LoadDataObjectAsync(object sender, IDataObject data)
+        {
+            if (NowLoading.Current.IsDispNowLoading || data == null) return;
+
+            try
+            {
+                var downloadPath = string.IsNullOrWhiteSpace(Preference.Current.download_path) ? Temporary.TempDownloadDirectory : Preference.Current.download_path;
+                string path = await DropAsync(this, data, downloadPath, (string message) => NeeView.NowLoading.Current.SetLoading(message));
+                BookHub.Current.Load(path);
+            }
+            catch (Exception ex)
+            {
+                BookHub.Current.RequestUnload(true, ex.Message ?? "コンテンツの読み込みに失敗しました");
+                NeeView.NowLoading.Current.ResetLoading();
+            }
+        }
+
+
         // ドロップ受付判定
-        public bool CheckDragContent(object sender, IDataObject data)
+        private bool CheckDragContent(object sender, IDataObject data)
         {
             return (data.GetDataPresent(DataFormats.FileDrop, true) || (data.GetDataPresent("FileContents") && data.GetDataPresent("FileGroupDescriptorW")) || data.GetDataPresent(DataFormats.Bitmap));
         }
@@ -70,7 +132,7 @@ namespace NeeView
 
 
         // ファイルのドラッグ＆ドロップで処理を開始する
-        public async Task<string> DropAsync(object sender, IDataObject data, string downloadPath, Action<string> nowloading)
+        private async Task<string> DropAsync(object sender, IDataObject data, string downloadPath, Action<string> nowloading)
         {
             var recievers = (data.GetDataPresent("UniformResourceLocator") || data.GetDataPresent("UniformResourceLocatorW"))
                 ? _browserDropRecievers : _fileDropRecievers;

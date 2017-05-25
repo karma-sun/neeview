@@ -118,6 +118,18 @@ namespace NeeView
         #endregion
 
 
+        // メッセージ処理：ファイル出力
+        public bool ShowDialog()
+        {
+            var dialog = new SaveWindow(this);
+            dialog.Owner = App.Current.MainWindow;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            var result = dialog.ShowDialog();
+            return (result == true);
+        }
+
+
+
         // 単ページ
         public PageVisual SingleImage { get; set; }
 

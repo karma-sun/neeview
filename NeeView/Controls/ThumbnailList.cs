@@ -127,6 +127,8 @@ namespace NeeView
         public BookOperation BookOperation { get; private set; }
         public BookHub BookHub { get; private set; }
 
+        public event EventHandler PageListChanged;
+
         /// <summary>
         /// constructor
         /// </summary>
@@ -144,6 +146,9 @@ namespace NeeView
 
             this.BookHub.BookChanged +=
                 OnBookChanged;
+
+            this.BookOperation.AddPropertyChanged(nameof(BookOperation.PageList),
+                (s, e) => PageListChanged?.Invoke(this, null));
         }
 
         // 本が変更される

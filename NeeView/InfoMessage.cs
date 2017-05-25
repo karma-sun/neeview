@@ -39,7 +39,9 @@ namespace NeeView
         // System Object
         public static InfoMessage Current { get; private set; }
 
-        //
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public InfoMessage()
         {
             Current = this;
@@ -104,6 +106,7 @@ namespace NeeView
         {
             SetMessage(GetShowMessageStyle(type), message, tinyMessage, dispTime, bookmarkType);
         }
+
 
 
         #region Memento

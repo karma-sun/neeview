@@ -18,7 +18,7 @@
         Style="{StaticResource DefaultWindowStyle}"
         Title="{Binding WindowTitle.Title}" Icon="{Binding WindowIcon}" Height="768" Width="1024" MinHeight="50" MinWidth="150" AllowDrop="True"
         Loaded="MainWindow_Loaded" Closed="MainWindow_Closed" Closing="MainWindow_Closing"
-        DragOver="MainWindow_DragOver" Drop="MainWindow_Drop" MouseLeave="MainWindow_MouseLeave"
+        MouseLeave="MainWindow_MouseLeave"
         StateChanged="MainWindow_StateChanged"
         DpiChanged="MainWindow_DpiChanged"
         PreviewKeyDown="MainWindow_PreviewKeyDown">
@@ -98,7 +98,8 @@
 
             <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
                 <Setter Property="Header" Value="{Binding Path=Place, Converter={StaticResource FullPathToFileNameConverter}}"/>
-                <Setter Property="Command" Value="{Binding DataContext.BookCommands[LoadAs], RelativeSource={RelativeSource FindAncestor, AncestorType=MenuItem}}" />
+                <!--<Setter Property="Command" Value="{Binding DataContext.Load, RelativeSource={RelativeSource FindAncestor, AncestorType=MenuItem}}" />-->
+                <Setter Property="Command" Value="{x:Static local:LoadCommand.Command}"/>
                 <Setter Property="CommandParameter" Value="{Binding Path=Place}" />
                 <Setter Property="InputGestureText" Value=""/>
             </Style>
@@ -155,7 +156,7 @@
 
                     <!-- メニューエリア-->
                     <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" IsTabStop="False">
-                        <Grid x:Name="MenuArea" MouseEnter="MenuArea_MouseEnter" MouseLeave="MenuArea_MouseLeave" >
+                        <Grid x:Name="MenuArea">
                             <StackPanel>
                                 <!-- メニューバー-->
                                 <local:MenuBarView x:Name="MenuBar" />
@@ -293,7 +294,7 @@
                                         </Grid>
 
                                         <!-- Now Loading -->
-                                        <local:NowLoadingView x:Name="NowLoading"/>
+                                        <local:NowLoadingView x:Name="NowLoadingView"/>
                                         <!--
                                         <Grid x:Name="NowLoading" Opacity="0" IsHitTestVisible="False">
                                             <Grid.Style>

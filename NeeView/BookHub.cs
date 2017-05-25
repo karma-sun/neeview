@@ -1371,6 +1371,7 @@ namespace NeeView
         }
 
         // ファイルに保存する
+        // TODO: ここじゃない
         // TODO: OutOfMemory対策
         public void Export()
         {
@@ -1383,7 +1384,8 @@ namespace NeeView
                     string name = $"{Path.GetFileNameWithoutExtension(Book.Place)}_{index:000}-{index + pages.Count - 1:000}.png";
                     var exporter = new Exporter();
                     exporter.Initialize(pages, Book.BookReadOrder, name);
-                    if (Messenger.Send(this, new MessageEventArgs("Export") { Parameter = exporter }) == true)
+                    exporter.BackgroundBrush = ContentCanvasBrush.Current.BackgroundBrush;
+                    if (exporter.ShowDialog() == true)
                     {
                         try
                         {

@@ -238,6 +238,7 @@ namespace NeeView
                 element.Note = "圧縮ファイルか画像ファイルを選択して開きます";
                 element.ShortCutKey = "Ctrl+O";
                 element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.MainWindowModel.LoadAs();
                 _elements[CommandType.LoadAs] = element;
             }
 
@@ -363,6 +364,8 @@ namespace NeeView
                 element.Note = "クリップボードのファイルや画像を貼り付けます";
                 element.ShortCutKey = "Ctrl+V";
                 element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.ContentDropManager.LoadFromClipboard();
+                element.CanExecute = () => _models.ContentDropManager.CanLoadFromClipboard();
                 _elements[CommandType.Paste] = element;
             }
 
@@ -1126,6 +1129,7 @@ namespace NeeView
                 element.ShortCutKey = "WheelUp";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ScrollPageCommandParameter() { IsNScroll = true, IsAnimation = true, Margin = 50 };
+                element.Execute = (s, e) => _models.MainWindowModel.PrevScrollPage();
                 _elements[CommandType.PrevScrollPage] = element;
             }
             // NextScrollPage
@@ -1137,6 +1141,7 @@ namespace NeeView
                 element.ShortCutKey = "WheelDown";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevScrollPage };
+                element.Execute = (s, e) => _models.MainWindowModel.NextScrollPage();
                 _elements[CommandType.NextScrollPage] = element;
             }
             // MovePageWithCursor
@@ -1700,6 +1705,7 @@ namespace NeeView
                 element.MenuText = "設定(_O)...";
                 element.Note = "設定ウィンドウを開きます";
                 element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.MainWindowModel.OpenSettingWindow();
                 _elements[CommandType.OpenSettingWindow] = element;
             }
             // OpenSettingFilesFolder
@@ -1709,6 +1715,7 @@ namespace NeeView
                 element.Text = "設定ファイルの場所を開く";
                 element.Note = "設定ファイルが保存されているフォルダーを開きます";
                 element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.MainWindowModel.OpenSettingFilesFolder();
                 _elements[CommandType.OpenSettingFilesFolder] = element;
             }
 
@@ -1720,6 +1727,7 @@ namespace NeeView
                 element.MenuText = "NeeView について(_A)...";
                 element.Note = "バージョン情報を表示します";
                 element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.MainWindowModel.OpenVersionWindow();
                 _elements[CommandType.OpenVersionWindow] = element;
             }
             // CloseApplication

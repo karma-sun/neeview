@@ -66,6 +66,7 @@ namespace NeeView
         {
             _vm = new ThumbnailListViewModel(this.Source);
             _vm.Model.AddPropertyChanged(nameof(ThumbnailList.PageNumber), (s, e) => DartyThumbnailList());
+            _vm.Model.PageListChanged += (s, e) => OnPageListChanged();
 
             this.Root.DataContext = _vm;
         }
@@ -79,8 +80,10 @@ namespace NeeView
             DartyThumbnailList();
         }
 
-        // ??
-        public void OnPageListChanged()
+        /// <summary>
+        /// リスト刷新
+        /// </summary>
+        private void OnPageListChanged()
         {
             ////var sw = new Stopwatch();
             ////sw.Start();

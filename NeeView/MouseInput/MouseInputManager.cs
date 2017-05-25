@@ -38,7 +38,12 @@ namespace NeeView
         /// </summary>
         public static MouseInputManager Current { get; private set; }
 
+        /// <summary>
+        /// マウスジェスチャーコマンド
+        /// </summary>
+        public MouseGestureCommandCollection Commands { get; private set; } = new MouseGestureCommandCollection();
 
+        //
         private FrameworkElement _sender;
 
         /// <summary>
@@ -149,6 +154,7 @@ namespace NeeView
             this.Gesture.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
             this.Gesture.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
             this.Gesture.MouseGestureChanged += (s, e) => MouseGestureChanged?.Invoke(_sender, e);
+            this.Gesture.MouseGestureProgressed += Gesture_MouseGestureProgressed;
 
             // initialize state
             _mouseInputCollection = new Dictionary<MouseInputState, MouseInputBase>();
@@ -164,6 +170,24 @@ namespace NeeView
             _sender.PreviewMouseWheel += OnMouseWheel;
             _sender.PreviewMouseMove += OnMouseMove;
             _sender.PreviewKeyDown += OnKeyDown;
+        }
+
+        /// <summary>
+        /// マウスジェスチャー通知
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Gesture_MouseGestureProgressed(object sender, MouseGestureEventArgs e)
+        {
+            var gesture = e.Sequence.ToDispString();
+            var commandName = this.Commands?.GetCommand(e.Sequence)?.Text;
+
+            if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
+
+            InfoMessage.Current.SetMessage(
+                InfoMessageType.Gesture,
+                ((commandName != null) ? commandName + "\n" : "") + gesture,
+                gesture + ((commandName != null) ? " " + commandName : ""));
         }
 
         /// <summary>

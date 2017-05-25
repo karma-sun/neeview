@@ -22,7 +22,7 @@ namespace NeeView
         private static BackgroundStyleToBooleanConverter s_backgroundStyleToBooleanConverter = new BackgroundStyleToBooleanConverter();
         private static FolderOrderToBooleanConverter s_folderOrderToBooleanConverter = new FolderOrderToBooleanConverter();
         private static SortModeToBooleanConverter s_sortModeToBooleanConverter = new SortModeToBooleanConverter();
-
+        private static AnytToFalseConverter _anyToFalseConverter = new AnytToFalseConverter();
 
 
         //
@@ -71,21 +71,15 @@ namespace NeeView
         //
         public static Binding FolderOrder(FolderOrder mode)
         {
-            // TODO: 強引すぎー
-            return new Binding("FolderListPanel.FolderList.DockPanel.DataContext.FolderCollection.Folder.FolderOrder")
+            // TODO: 現状機能していない。FolderListから取得できるようにする
+            return new Binding(nameof(FolderList.FolderOrder))
             {
-                Converter = s_folderOrderToBooleanConverter,
-                ConverterParameter = mode.ToString()
+                ////Converter = s_folderOrderToBooleanConverter,
+                Converter = _anyToFalseConverter,
+                ConverterParameter = mode.ToString(),
+                Mode = BindingMode.OneWay,
+                Source = Models.Current.FolderList
             };
-
-#if false
-            return new Binding("FolderCollection.Folder.FolderOrder")
-            {
-                Source = (App.Current.MainWindow as MainWindow).FolderList.DockPanel.DataContext, // 強引だな..
-                Converter = s_folderOrderToBooleanConverter,
-                ConverterParameter = mode.ToString()
-            };
-#endif
         }
 
 

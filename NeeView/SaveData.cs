@@ -86,7 +86,7 @@ namespace NeeView
             // compatible before ver.23
             if (setting._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
-                MainWindowVM.Current.Restore(setting.ViewMemento);
+                MainWindowVM.Restore(setting.ViewMemento);
             }
         }
 

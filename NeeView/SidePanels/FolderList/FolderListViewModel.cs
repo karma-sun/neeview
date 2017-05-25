@@ -48,7 +48,8 @@ namespace NeeView
     }
 
     /// <summary>
-    /// FolderListControl ViewModel
+    /// FolderList : ViewModel
+    /// TODO: ロジックをモデル部に移動
     /// </summary>
     public class FolderListViewModel : BindableBase
     {

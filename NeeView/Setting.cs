@@ -24,9 +24,6 @@ namespace NeeView
         [DataMember]
         public int _Version { get; set; }
 
-        ////[DataMember(Order = 1)]
-        ////public WindowPlacement.Memento WindowPlacement { set; get; }
-
         [DataMember(Order = 1, EmitDefaultValue = false)]
         public MainWindowVM.Memento ViewMemento { set; get; } // no used (ver.23)
 

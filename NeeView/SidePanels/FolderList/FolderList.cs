@@ -74,6 +74,13 @@ namespace NeeView
 
         private bool _isVisibleBookmarkMark = true;
 
+        // 現在の場所のフォルダーの並び順
+        // TODO: 実装
+        public FolderOrder FolderOrder
+        {
+            get { return default(FolderOrder); }
+        }
+
 
         //
         public BookHub BookHub { get; private set; }

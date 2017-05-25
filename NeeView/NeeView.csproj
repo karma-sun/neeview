@@ -130,6 +130,7 @@
     <Compile Include="Controls\MenuBarViewModel.cs" />
     <Compile Include="Controls\NowLoading.cs" />
     <Compile Include="Controls\NowLoadingViewModel.cs" />
+    <Compile Include="Converters\AnytToFalseConverter.cs" />
     <Compile Include="Converters\ApiVersionToApiTextConverter.cs" />
     <Compile Include="Converters\BackgroundStyleToBooleanConverter.cs" />
     <Compile Include="Converters\BannerSizeConverter.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Controls\NowLoadingView.xaml.cs">
       <DependentUpon>NowLoadingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="SaveData.cs" />
     <Compile Include="MouseInput\MouseInput.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListBox.xaml.cs">

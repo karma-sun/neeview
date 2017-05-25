@@ -37,7 +37,7 @@ namespace NeeView
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainWindowVM _VM;
+        private MainWindowViewModel _vm;
 
         private MouseInputManager _mouse;
 
@@ -142,13 +142,14 @@ namespace NeeView
             this.PreviewMouseMove += MainWindow_PreviewMouseMove;
 
 
-            // ViewModel
-            _VM = new MainWindowVM(this);
-            this.DataContext = _VM;
+            // System Models
+            Models.Instantiate();
 
-            // Models
             var models = Models.Current;
 
+            // ViewModel
+            _vm = new MainWindowViewModel(models.MainWindowModel);
+            this.DataContext = _vm;
 
             this.SliderArea.Source = models.PageSlider;
             this.SliderArea.FocusTo = this.MainView;
@@ -326,7 +327,7 @@ namespace NeeView
         }
 
 
-#region NonActiveTimer
+        #region NonActiveTimer
 
         // タイマーディスパッチ
         private DispatcherTimer _timer;
@@ -404,13 +405,13 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
 
         // マウスジェスチャー更新時の処理
         private void OnMouseGestureUpdate(object sender, MouseGestureEventArgs e)
         {
-            _VM.ShowGesture(e.Sequence.ToDispString(), _mouseGestureCommandCollection?.GetCommand(e.Sequence)?.Text);
+            _vm.ShowGesture(e.Sequence.ToDispString(), _mouseGestureCommandCollection?.GetCommand(e.Sequence)?.Text);
         }
 
 
@@ -531,7 +532,7 @@ namespace NeeView
                 {
                     if (this.MainViewPanel.ContextMenu != null)
                     {
-                        this.MainViewPanel.ContextMenu.DataContext = _VM;
+                        this.MainViewPanel.ContextMenu.DataContext = _vm;
                         this.MainViewPanel.ContextMenu.PlacementTarget = this.MainViewPanel;
                         this.MainViewPanel.ContextMenu.Placement = PlacementMode.MousePoint;
                         this.MainViewPanel.ContextMenu.IsOpen = true;
@@ -617,7 +618,7 @@ namespace NeeView
 
             // Update Menu GestureText
             NeeView.MenuBar.Current.Reflesh();
-            _VM.ContextMenu?.UpdateInputGestureText();
+            _vm.ContextMenu?.UpdateInputGestureText();
         }
 
 
@@ -895,7 +896,7 @@ namespace NeeView
                 else
                 {
                     // 最後に開いたフォルダーを復元する
-                    _VM.LoadLastFolder();
+                    _vm.LoadLastFolder();
                 }
             }
 
@@ -1070,7 +1071,7 @@ namespace NeeView
         }
 
 
-#region DEBUG
+        #region DEBUG
         // [開発用] 開発操作
         private void Debug_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -1087,7 +1088,7 @@ namespace NeeView
             var fwelement = element as FrameworkElement;
             Debug.WriteLine($"FOCUS: {element}({element?.GetType()})({fwelement?.Name})");
         }
-#endregion
+        #endregion
 
 
 
@@ -1165,7 +1166,7 @@ namespace NeeView
 
 
 
-#region Panel Visibility
+        #region Panel Visibility
 
         // ViewAreaでのマウス移動
         private void ViewArea_MouseMove(object sender, MouseEventArgs e)
@@ -1180,7 +1181,7 @@ namespace NeeView
             UpdateStatusLayerVisibility();
         }
 
-#endregion
+        #endregion
 
 
 
@@ -1204,7 +1205,7 @@ namespace NeeView
 
 
 
-#region ContextMenu Counter
+        #region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -1242,7 +1243,7 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-#endregion
+        #endregion
 
 
         private void MenuArea_MouseEnter(object sender, MouseEventArgs e)

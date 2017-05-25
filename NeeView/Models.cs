@@ -110,7 +110,7 @@ namespace NeeView
             this.BookHub = new BookHub(this.BookOperation);
 
             // TODO: MainWindowVMをモデル分離してModelとして参照させる？
-            this.CommandTable.SetTarget(this, MainWindowVM.Current);
+            this.CommandTable.SetTarget(this);
 
             this.MainWindowModel = new MainWindowModel();
 

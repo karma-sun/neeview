@@ -38,7 +38,7 @@ namespace NeeView
         {
             var setting = new Setting();
 
-            setting.ViewMemento = MainWindowVM.Current.CreateMemento();
+            ////setting.ViewMemento = MainWindowVM.Current.CreateMemento();
             setting.SusieMemento = SusieContext.Current.CreateMemento();
             setting.BookHubMemento = BookHub.Current.CreateMemento();
             setting.CommandMememto = CommandTable.Current.CreateMemento();
@@ -63,8 +63,6 @@ namespace NeeView
             WindowShape.Current.WindowChromeFrame = Preference.Current.window_chrome_frame;
             PreferenceAccessor.Current.Reflesh();
 
-            MainWindowVM.Current.Restore(setting.ViewMemento);
-
             SusieContext.Current.Restore(setting.SusieMemento);
             BookHub.Current.Restore(setting.BookHubMemento);
 
@@ -80,10 +78,15 @@ namespace NeeView
             Models.Current.Resore(setting.Memento, fromLoad);
 
             // compatible before ver.22
-            if (setting.ImageEffectMemento != null)
+            if (setting._Version < Config.GenerateProductVersionNumber(1, 22, 0))
             {
-                Debug.WriteLine($"[[Compatible]]: Restore ImageEffect");
                 Models.Current.ImageEffect.Restore(setting.ImageEffectMemento, fromLoad);
+            }
+
+            // compatible before ver.23
+            if (setting._Version < Config.GenerateProductVersionNumber(1, 23, 0))
+            {
+                MainWindowVM.Current.Restore(setting.ViewMemento);
             }
         }
 

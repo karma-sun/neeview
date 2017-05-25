@@ -161,7 +161,7 @@
                                 <local:MenuBarView x:Name="MenuBar" />
 
                                 <!-- アドレスバー -->
-                                <local:AddressBarView x:Name="AddressBar" VerticalAlignment="Top" Visibility="{Binding IsVisibleAddressBar, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <local:AddressBarView x:Name="AddressBar" VerticalAlignment="Top" Visibility="{Binding Model.IsVisibleAddressBar, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                             </StackPanel>
                         </Grid>
@@ -270,7 +270,7 @@
                                                     <Style.Triggers>
                                                         <MultiDataTrigger>
                                                             <MultiDataTrigger.Conditions>
-                                                                <Condition Binding="{Binding IsVisibleWindowTitle}" Value="True"/>
+                                                                <Condition Binding="{Binding Model.IsVisibleWindowTitle}" Value="True"/>
                                                                 <Condition Binding="{Binding ElementName=LayerStatusArea, Path=Visibility}" Value="Visible"/>
                                                                 <Condition Binding="{Binding ElementName=RootWindow, Path=WindowStyle}" Value="None"/>
                                                             </MultiDataTrigger.Conditions>
@@ -348,7 +348,7 @@
                             <!-- サイドパネル -->
                             <local:SidePanelFrameView x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible"
                                       Source="{Binding SidePanel}"
-                                      IsAutoHide="{Binding CanHidePanel}"
+                                      IsAutoHide="{Binding Model.CanHidePanel}"
                                       PanelBackground="{DynamicResource NVBackground}"
                                       IconBackground="{DynamicResource NVPanelIconBackground}"
                                       CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}"

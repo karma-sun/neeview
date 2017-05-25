@@ -1,4 +1,5 @@
 ﻿using NeeView.ComponentModel;
+using NeeView.Effects;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace NeeView
@@ -617,6 +619,118 @@ namespace NeeView
         }
 
         #endregion
+
+
+
+        #region クリップボード関連
+        // TODO: ContentCanvas ?
+
+        //
+        private BitmapSource CurrentBitmapSource
+        {
+            get { return (this.MainContent?.Content as BitmapContent)?.BitmapSource; }
+        }
+
+        //
+        public bool CanCopyImageToClipboard()
+        {
+            return CurrentBitmapSource != null;
+        }
+
+
+        // クリップボードに画像をコピー
+        public void CopyImageToClipboard()
+        {
+            try
+            {
+                if (CanCopyImageToClipboard())
+                {
+                    ClipboardUtility.CopyImage(CurrentBitmapSource);
+                }
+            }
+            catch (Exception e)
+            {
+                new MessageDialog($"原因: {e.Message}", "コピーに失敗しました").ShowDialog();
+            }
+        }
+
+        #endregion
+
+
+        #region 印刷
+        // TODO: ContentCanvas ? 
+
+        /// <summary>
+        /// 印刷可能判定
+        /// </summary>
+        /// <returns></returns>
+        public bool CanPrint()
+        {
+            return this.MainContent != null && this.MainContent.IsValid;
+        }
+
+        /// <summary>
+        /// 印刷
+        /// </summary>
+        public void Print(Window owner, FrameworkElement element, Transform transform, double width, double height)
+        {
+            if (!CanPrint()) return;
+
+            // 掃除しておく
+            GC.Collect();
+
+            var contents = this.Contents;
+            var mainContent = this.MainContent;
+
+            // スケールモード退避
+            var scaleModeMemory = contents.ToDictionary(e => e, e => e.BitmapScalingMode);
+
+            // アニメーション停止
+            foreach (var content in contents)
+            {
+                content.AnimationImageVisibility = Visibility.Visible;
+                content.AnimationPlayerVisibility = Visibility.Collapsed;
+            }
+
+            // スライドショー停止
+            SlideShow.Current.PauseSlideShow();
+
+            try
+            {
+                var context = new PrintContext();
+                context.MainContent = mainContent;
+                context.Contents = contents;
+                context.View = element;
+                context.ViewTransform = transform;
+                context.ViewWidth = width;
+                context.ViewHeight = height;
+                context.ViewEffect = ImageEffect.Current.Effect;
+                context.Background = ContentCanvasBrush.Current.CreateBackgroundBrush();
+                context.BackgroundFront = ContentCanvasBrush.Current.CreateBackgroundFrontBrush(new DpiScale(1, 1));
+
+                var dialog = new PrintWindow(context);
+                dialog.Owner = owner;
+                dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                dialog.ShowDialog();
+            }
+            finally
+            {
+                // スケールモード、アニメーション復元
+                foreach (var content in contents)
+                {
+                    content.BitmapScalingMode = scaleModeMemory[content];
+                    content.AnimationImageVisibility = Visibility.Collapsed;
+                    content.AnimationPlayerVisibility = Visibility.Visible;
+                }
+
+                // スライドショー再開
+                SlideShow.Current.ResumeSlideShow();
+            }
+        }
+
+        #endregion
+
+
 
         #region Memento
         [DataContract]

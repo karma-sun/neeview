@@ -32,35 +32,6 @@ using NeeView.Windows.Data;
 namespace NeeView
 {
     /// <summary>
-    /// NotifyPropertyChanged 配達
-    /// </summary>
-    public class NotifyPropertyChangedDelivery
-    {
-        public delegate void Reciever(object sender, PropertyChangedEventArgs e);
-
-        private Dictionary<string, Reciever> _recieverCollection = new Dictionary<string, Reciever>();
-
-        public void AddReciever(string propertyName, Reciever reciever)
-        {
-            _recieverCollection.Add(propertyName, reciever);
-        }
-
-        public bool Send(object sender, PropertyChangedEventArgs e)
-        {
-            Reciever reciever;
-            if (_recieverCollection.TryGetValue(e.PropertyName, out reciever))
-            {
-                reciever(sender, e);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
-
-    /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// TODO: 機能の細分化 (UserControl?)
     /// </summary>
@@ -73,8 +44,6 @@ namespace NeeView
         private ContentDropManager _contentDrop = new ContentDropManager();
 
         private bool _nowLoading = false;
-
-        private NotifyPropertyChangedDelivery _notifyPropertyChangedDelivery = new NotifyPropertyChangedDelivery();
 
 
         /// <summary>
@@ -326,14 +295,11 @@ namespace NeeView
             models.CommandTable.Changed +=
                 (s, e) => InitializeInputGestures();
 
-            _VM.PropertyChanged +=
-                (s, e) => _notifyPropertyChangedDelivery.Send(s, e);
-
-            _VM.AddPropertyChanged(nameof(_VM.IsHideMenu),
+            models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsHideMenu),
                 (s, e) => UpdateMenuAreaLayout());
 
-            _VM.AddPropertyChanged(nameof(_VM.IsHidePageSlider),
-                (s, e) => UpdateStatusAreaLayout());
+            models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsHidePageSlider),
+                (s, e) => UpdateMenuAreaLayout());
 
             models.ThumbnailList.AddPropertyChanged(nameof(ThumbnailList.IsEnableThumbnailList),
                 (s, e) => UpdateThumbnailListLayout());
@@ -360,7 +326,7 @@ namespace NeeView
         }
 
 
-        #region NonActiveTimer
+#region NonActiveTimer
 
         // タイマーディスパッチ
         private DispatcherTimer _timer;
@@ -438,7 +404,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
 
         // マウスジェスチャー更新時の処理
@@ -556,7 +522,7 @@ namespace NeeView
             commandTable[CommandType.Print].Execute =
                 (s, e) =>
                 {
-                    _VM.Print(this, this.PageContents, this.MainContent.RenderTransform, this.MainView.ActualWidth, this.MainView.ActualHeight);
+                    ContentCanvas.Current.Print(this, this.PageContents, this.MainContent.RenderTransform, this.MainView.ActualWidth, this.MainView.ActualHeight);
                 };
 
             // context menu
@@ -820,7 +786,7 @@ namespace NeeView
         private void UpdateMenuAreaLayout()
         {
             // menu hide
-            bool isMenuDock = !_VM.IsHideMenu && !WindowShape.Current.IsFullScreen;
+            bool isMenuDock = !MainWindowModel.Current.IsHideMenu && !WindowShape.Current.IsFullScreen;
 
             if (isMenuDock)
             {
@@ -851,7 +817,7 @@ namespace NeeView
         private void UpdatePageSliderLayout()
         {
             // menu hide
-            bool isPageSliderDock = !_VM.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
+            bool isPageSliderDock = !MainWindowModel.Current.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
 
             if (isPageSliderDock)
             {
@@ -872,7 +838,7 @@ namespace NeeView
         //
         private void UpdateThumbnailListLayout()
         {
-            bool isPageSliderDock = !_VM.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
+            bool isPageSliderDock = !MainWindowModel.Current.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
             bool isThimbnailListDock = !ThumbnailList.Current.IsHideThumbnailList && isPageSliderDock;
 
             if (isThimbnailListDock)
@@ -1104,7 +1070,7 @@ namespace NeeView
         }
 
 
-        #region DEBUG
+#region DEBUG
         // [開発用] 開発操作
         private void Debug_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -1121,7 +1087,7 @@ namespace NeeView
             var fwelement = element as FrameworkElement;
             Debug.WriteLine($"FOCUS: {element}({element?.GetType()})({fwelement?.Name})");
         }
-        #endregion
+#endregion
 
 
 
@@ -1145,7 +1111,7 @@ namespace NeeView
         {
             const double visibleMargin = 16;
 
-            if (_VM.CanHideMenu)
+            if (MainWindowModel.Current.CanHideMenu)
             {
                 var point = Mouse.GetPosition(this.Root);
                 bool isVisible = this.AddressBar.AddressTextBox.IsFocused || this.LayerMenuSocket.IsMouseOver || point.Y < (MenuLayerVisibility.Visibility == Visibility.Visible ? this.LayerMenuSocket.ActualHeight : 0) + visibleMargin && this.IsMouseOver;
@@ -1199,7 +1165,7 @@ namespace NeeView
 
 
 
-        #region Panel Visibility
+#region Panel Visibility
 
         // ViewAreaでのマウス移動
         private void ViewArea_MouseMove(object sender, MouseEventArgs e)
@@ -1214,7 +1180,7 @@ namespace NeeView
             UpdateStatusLayerVisibility();
         }
 
-        #endregion
+#endregion
 
 
 
@@ -1238,7 +1204,7 @@ namespace NeeView
 
 
 
-        #region ContextMenu Counter
+#region ContextMenu Counter
         // コンテキストメニューが開かれているかを判定するためのあまりよろしくない実装
         // ContextMenuスタイル既定で Opened,Closed イベントをハンドルし、開かれている状態を監視する
 
@@ -1276,7 +1242,7 @@ namespace NeeView
             UpdateControlsVisibility();
         }
 
-        #endregion
+#endregion
 
 
         private void MenuArea_MouseEnter(object sender, MouseEventArgs e)

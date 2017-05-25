@@ -282,7 +282,7 @@
                             </DockPanel>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーン時、スライダー表示にあわせてウィンドウタイトルを表示する"
                                       ToolTip="フルスクリーン等、タイトルバーが表示されない時に表示エリアに代わりにウィンドウタイトルを表示します"
-                                      IsChecked="{Binding Setting.ViewMemento.IsVisibleWindowTitle}"/>
+                                      IsChecked="{Binding Setting.Memento.MainWindowModel.IsVisibleWindowTitle}"/>
                         </StackPanel>
 
                         <TextBlock Text="スライダー" Style="{StaticResource Header}"/>
@@ -297,12 +297,6 @@
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding SliderIndexLayoutList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.Memento.PageSlider.SliderIndexLayout}" />
                             </StackPanel>
-                            <!--
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転ツール表示"
-                                      IsChecked="{Binding Setting.ViewMemento.SliderPalettePage}"/>
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="拡縮ツール表示"
-                                      IsChecked="{Binding Setting.ViewMemento.SliderPalettePage}"/>
-                            -->
                         </StackPanel>
 
 
@@ -327,21 +321,8 @@
 
                         <TextBlock Text="パネル" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
-                            <!--
-                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="フォルダーリスト、履歴リスト、ブックマークリストの項目の表示方法を指定します">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="フォルダーの表示方法"/>
-                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding FolderListItemStyleList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.ViewMemento.FolderListItemStyle}" />
-                            </StackPanel>
-                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="フォルダーの表示方法をバナー表示にした時のバナーサイズです">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="バナーサイズ"/>
-                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.ViewMemento.BannerSize}"
-                                    Minimum="64" Maximum="512" TickFrequency="32"/>
-                                <TextBlock Text="{Binding Setting.ViewMemento.BannerSize, Converter={StaticResource BannerSizeConverter}}"/>
-                            </StackPanel>
-                            -->
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーンのときにパネルを自動的に隠す"
-                              IsChecked="{Binding Setting.ViewMemento.IsHidePanelInFullscreen}" />
+                              IsChecked="{Binding Setting.Memento.MainWindowModel.IsHidePanelInFullscreen}" />
                         </StackPanel>
 
                         <TextBlock Text="フォルダーリスト" Style="{StaticResource Header}"/>

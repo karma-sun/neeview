@@ -27,8 +27,8 @@ namespace NeeView
         ////[DataMember(Order = 1)]
         ////public WindowPlacement.Memento WindowPlacement { set; get; }
 
-        [DataMember(Order = 1)]
-        public MainWindowVM.Memento ViewMemento { set; get; }
+        [DataMember(Order = 1, EmitDefaultValue = false)]
+        public MainWindowVM.Memento ViewMemento { set; get; } // no used (ver.23)
 
         [DataMember(Order = 1)]
         public SusieContext.Memento SusieMemento { get; set; }
@@ -70,7 +70,7 @@ namespace NeeView
         {
             _Version = NeeView.App.Config.ProductVersionNumber;
 
-            ViewMemento = new MainWindowVM.Memento();
+            ////ViewMemento = new MainWindowVM.Memento();
             SusieMemento = new SusieContext.Memento();
             BookHubMemento = new BookHub.Memento();
             CommandMememto = new CommandTable.Memento();

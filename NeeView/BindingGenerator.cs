@@ -23,23 +23,6 @@ namespace NeeView
         private static FolderOrderToBooleanConverter s_folderOrderToBooleanConverter = new FolderOrderToBooleanConverter();
         private static SortModeToBooleanConverter s_sortModeToBooleanConverter = new SortModeToBooleanConverter();
 
-        //
-        public static Binding Binding(string path)
-        {
-            return new Binding(path) { Source = MainWindowVM.Current };
-        }
-
-        //
-        public static Binding Binding(string path, BindingMode mode)
-        {
-            return new Binding(path) { Source = MainWindowVM.Current, Mode = mode };
-        }
-
-        //
-        public static Binding BindingWithSource(string path, object source)
-        {
-            return new Binding(path) { Source = source };
-        }
 
 
         //

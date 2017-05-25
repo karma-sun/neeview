@@ -70,7 +70,7 @@ namespace NeeView
 
         // コマンドターゲット
         private Models _models;
-        private MainWindowVM _VM;
+        ////private MainWindowVM _VM;
         private BookHub _book;
 
         // 初期設定
@@ -115,10 +115,10 @@ namespace NeeView
 
 
         // コマンドターゲット設定
-        public void SetTarget(Models models, MainWindowVM vm)
+        public void SetTarget(Models models)
         {
             _models = models;
-            _VM = vm;
+            ////_VM = vm;
             _book = _models.BookHub;
         }
 
@@ -311,7 +311,7 @@ namespace NeeView
                 element.Note = "画像を印刷します";
                 element.ShortCutKey = "Ctrl+P";
                 //element.Execute = (s, e) => _VM.Print();
-                element.CanExecute = () => _VM.CanPrint();
+                element.CanExecute = () => _models.ContentCanvas.CanPrint();
                 element.IsShowMessage = false;
                 _elements[CommandType.Print] = element;
             }
@@ -349,8 +349,8 @@ namespace NeeView
                 element.MenuText = "画像コピー";
                 element.Note = "画像をクリップボードにコピーします。2ページ表示の場合はメインとなるページのみコピーします";
                 element.ShortCutKey = "Ctrl+Shift+C";
-                element.Execute = (s, e) => _VM.CopyImageToClipboard();
-                element.CanExecute = () => _VM.CanCopyImageToClipboard();
+                element.Execute = (s, e) => _models.ContentCanvas.CopyImageToClipboard();
+                element.CanExecute = () => _models.ContentCanvas.CanCopyImageToClipboard();
                 element.IsShowMessage = true;
                 _elements[CommandType.CopyImage] = element;
             }
@@ -373,7 +373,7 @@ namespace NeeView
                 element.Group = "ファイル";
                 element.Text = "履歴を消去";
                 element.Note = "履歴を全て削除します";
-                element.Execute = (s, e) => _VM.ClearHistory();
+                element.Execute = (s, e) => _models.MainWindowModel.ClearHistory();
                 element.IsShowMessage = true;
                 _elements[CommandType.ClearHistory] = element;
             }
@@ -602,10 +602,10 @@ namespace NeeView
                 element.MenuText = "メニューを自動的に隠す";
                 element.Note = "メニューを非表示にします。カーソルをウィンドウ上端に合わせることで表示されます";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.ToggleHideMenu();
-                element.ExecuteMessage = e => _VM.IsHideMenu ? "メニューを表示する" : "メニューを自動的に隠す";
+                element.Execute = (s, e) => _models.MainWindowModel.ToggleHideMenu();
+                element.ExecuteMessage = e => _models.MainWindowModel.IsHideMenu ? "メニューを表示する" : "メニューを自動的に隠す";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHideMenu));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.MainWindowModel.IsHideMenu)) { Source = _models.MainWindowModel };
                 _elements[CommandType.ToggleHideMenu] = element;
             }
             // ToggleHidePageSlider
@@ -616,10 +616,10 @@ namespace NeeView
                 element.MenuText = "スライダーを自動的に隠す";
                 element.Note = "スライダーを非表示にします。カーソルをウィンドウ下端に合わせることで表示されます";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.ToggleHidePageSlider();
-                element.ExecuteMessage = e => _VM.IsHidePageSlider ? "スライダーを表示する" : "スライダーを自動的に隠す";
+                element.Execute = (s, e) => _models.MainWindowModel.ToggleHidePageSlider();
+                element.ExecuteMessage = e => _models.MainWindowModel.IsHidePageSlider ? "スライダーを表示する" : "スライダーを自動的に隠す";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHidePageSlider));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.MainWindowModel.IsHidePageSlider)) { Source = _models.MainWindowModel };
                 _elements[CommandType.ToggleHidePageSlider] = element;
             }
             // ToggleHidePanel
@@ -630,10 +630,10 @@ namespace NeeView
                 element.MenuText = "パネルを自動的に隠す";
                 element.Note = "左右のパネルを自動的に隠します。カーソルをウィンドウ左端、右端に合わせることで表示されます";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.ToggleHidePanel();
-                element.ExecuteMessage = e => _VM.IsHidePanel ? "パネルを表示する" : "パネルを自動的に隠す";
+                element.Execute = (s, e) => _models.MainWindowModel.ToggleHidePanel();
+                element.ExecuteMessage = e => _models.MainWindowModel.IsHidePanel ? "パネルを表示する" : "パネルを自動的に隠す";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsHidePanel));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.MainWindowModel.IsHidePanel)) { Source = _models.MainWindowModel };
                 _elements[CommandType.ToggleHidePanel] = element;
             }
 
@@ -669,10 +669,10 @@ namespace NeeView
                 element.MenuText = "アドレスバー";
                 element.Note = "アドレスバーの表示/非表示を切り替えます";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.ToggleVisibleAddressBar();
-                element.ExecuteMessage = e => _VM.IsVisibleAddressBar ? "アドレスバーを消す" : "アドレスバーを表示する";
+                element.Execute = (s, e) => _models.MainWindowModel.ToggleVisibleAddressBar();
+                element.ExecuteMessage = e => _models.MainWindowModel.IsVisibleAddressBar ? "アドレスバーを消す" : "アドレスバーを表示する";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.Binding(nameof(_VM.IsVisibleAddressBar));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.MainWindowModel.IsVisibleAddressBar)) { Source = _models.MainWindowModel };
                 _elements[CommandType.ToggleVisibleAddressBar] = element;
             }
             // ToggleVisibleSideBar
@@ -686,7 +686,7 @@ namespace NeeView
                 element.Execute = (s, e) => _models.SidePanel.IsSideBarVisible = !_models.SidePanel.IsSideBarVisible;
                 element.ExecuteMessage = e => _models.SidePanel.IsSideBarVisible ? "サイドバーを消す" : "サイドバーを表示する";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingWithSource(nameof(SidePanel.IsSideBarVisible), _models.SidePanel);
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsSideBarVisible)) { Source = _models.SidePanel };
                 _elements[CommandType.ToggleVisibleSideBar] = element;
             }
             // ToggleVisibleFileInfo
@@ -917,7 +917,7 @@ namespace NeeView
                 element.ShortCutKey = "F5";
                 element.Execute = (s, e) => _models.SlideShow.ToggleSlideShow();
                 element.ExecuteMessage = e => _models.SlideShow.IsPlayingSlideShow ? "スライドショー停止" : "スライドショー再生";
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingWithSource(nameof(SlideShow.IsPlayingSlideShow), _models.SlideShow);
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SlideShow.IsPlayingSlideShow)) { Source = _models.SlideShow };
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleSlideShow] = element;
             }
@@ -1759,7 +1759,7 @@ namespace NeeView
                 element.MenuText = "オンラインヘルプ";
                 element.Note = "オンラインヘルプを表示します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _VM.OpenOnlineHelp();
+                element.Execute = (s, e) => _models.MainWindowModel.OpenOnlineHelp();
                 element.CanExecute = () => Preference.Current.network_enabled;
                 _elements[CommandType.HelpOnline] = element;
             }

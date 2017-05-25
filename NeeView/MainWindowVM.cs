@@ -34,135 +34,9 @@ namespace NeeView
     /// MainWindow : ViewModel
     /// TODO : モデルの分離
     /// </summary>
-    public class MainWindowVM : BindableBase //, IDisposable
+    public class MainWindowVM : BindableBase
     {
         public static MainWindowVM Current { get; private set; }
-
-        // フォーカス初期化要求
-        ////public event EventHandler ResetFocus;
-
-
-
-        // メニューを自動的に隠す
-        #region Property: IsHideMenu
-        private bool _isHideMenu;
-        public bool IsHideMenu
-        {
-            get { return _isHideMenu; }
-            set
-            {
-                _isHideMenu = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(CanHideMenu));
-                UpdateSidePanelMargin();
-            }
-        }
-
-        //
-        public bool ToggleHideMenu()
-        {
-            IsHideMenu = !IsHideMenu;
-            return IsHideMenu;
-        }
-
-        //
-        public bool CanHideMenu => IsHideMenu || WindowShape.Current.IsFullScreen;
-
-        #endregion
-
-        // スライダーを自動的に隠す
-        #region Property: IsHidePageSlider
-        private bool _isIsHidePageSlider;
-        public bool IsHidePageSlider
-        {
-            get { return _isIsHidePageSlider; }
-            set
-            {
-                _isIsHidePageSlider = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(CanHidePageSlider));
-                UpdateSidePanelMargin();
-            }
-        }
-
-        //
-        public bool ToggleHidePageSlider()
-        {
-            IsHidePageSlider = !IsHidePageSlider;
-            return IsHidePageSlider;
-        }
-
-        //
-        public bool CanHidePageSlider => IsHidePageSlider || WindowShape.Current.IsFullScreen;
-
-        #endregion
-
-        // パネルを自動的に隠す
-        #region Property: IsHidePanel
-        private bool _isHidePanel; // = true;
-        public bool IsHidePanel
-        {
-            get { return _isHidePanel; }
-            set
-            {
-                _isHidePanel = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(CanHidePanel));
-            }
-        }
-
-        public bool ToggleHidePanel()
-        {
-            IsHidePanel = !IsHidePanel;
-            return IsHidePanel;
-        }
-
-        /// <summary>
-        /// フルスクリーン時にパネルを隠す
-        /// </summary>
-        public bool IsHidePanelInFullscreen
-        {
-            get { return _IsHidePanelInFullscreen; }
-            set { if (_IsHidePanelInFullscreen != value) { _IsHidePanelInFullscreen = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(CanHidePanel)); } }
-        }
-
-        //
-        private bool _IsHidePanelInFullscreen;
-
-
-
-        // パネルを自動的に隠せるか
-        public bool CanHidePanel => IsHidePanel || (IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
-
-        #endregion
-
-
-        /// <summary>
-        /// IsVisibleWindowTitle property.
-        /// タイトルバーが表示されておらず、スライダーにフォーカスがある場合等にキャンバスにタイトルを表示する
-        /// </summary>
-        private bool _IsVisibleWindowTitle;
-        public bool IsVisibleWindowTitle
-        {
-            get { return _IsVisibleWindowTitle; }
-            set { if (_IsVisibleWindowTitle != value) { _IsVisibleWindowTitle = value; RaisePropertyChanged(); } }
-        }
-
-
-        // アドレスバーON/OFF
-        #region Property: IsVisibleAddressBar
-        private bool _isVisibleAddressBar;
-        public bool IsVisibleAddressBar
-        {
-            get { return _isVisibleAddressBar; }
-            set { _isVisibleAddressBar = value; RaisePropertyChanged(); }
-        }
-        public bool ToggleVisibleAddressBar()
-        {
-            IsVisibleAddressBar = !IsVisibleAddressBar;
-            return IsVisibleAddressBar;
-        }
-        #endregion
 
 
         #region SidePanels
@@ -183,7 +57,7 @@ namespace NeeView
         //
         private void UpdateSidePanelMargin()
         {
-            SidePanelMargin = new Thickness(0, CanHideMenu ? 20 : 0, 0, CanHidePageSlider ? 20 : 0);
+            SidePanelMargin = new Thickness(0, _model.CanHideMenu ? 20 : 0, 0, _model.CanHidePageSlider ? 20 : 0);
         }
 
 
@@ -309,13 +183,6 @@ namespace NeeView
         #endregion
 
 
-        // オンラインヘルプ
-        public void OpenOnlineHelp()
-        {
-            System.Diagnostics.Process.Start("https://bitbucket.org/neelabo/neeview/wiki/");
-        }
-
-
 
 
         /// <summary>
@@ -382,21 +249,18 @@ namespace NeeView
             _model.AddPropertyChanged(nameof(_model.ContextMenuSetting),
                 (s, e) => UpdateContextMenu());
 
+            _model.AddPropertyChanged(nameof(_model.IsHideMenu),
+                (s, e) => UpdateSidePanelMargin());
+
+            _model.AddPropertyChanged(nameof(_model.IsHidePageSlider),
+                (s, e) => UpdateSidePanelMargin());
+
+            _model.AddPropertyChanged(nameof(_model.CanHidePanel),
+                (s, e) => UpdateSidePanelMargin());
+
             // 初期化
             UpdatePanelColor();
             UpdateContextMenu();
-
-
-            // Window Shape
-            WindowShape.Current.AddPropertyChanged(nameof(WindowShape.Current.IsFullScreen),
-                (s, e) =>
-                {
-                    RaisePropertyChanged(nameof(CanHidePanel));
-                    UpdateSidePanelMargin();
-                });
-
-            // Side Panel
-            ////SidePanel.Current.ResetFocus += (s, e) => ResetFocus?.Invoke(this, null);
 
 
             // SlideShow link to WindowIcon
@@ -419,15 +283,6 @@ namespace NeeView
             {
                 System.IO.Directory.CreateDirectory(Temporary.TempDownloadDirectory);
             }
-        }
-
-
-        // 履歴削除
-        // TODO: 直接変更し、最近使ったファイルはイベントで更新すべき
-        public void ClearHistory()
-        {
-            BookHistory.Current.Clear();
-            MenuBar.Current.UpdateLastFiles();
         }
 
 
@@ -459,114 +314,6 @@ namespace NeeView
         }
 
 
-
-        #region クリップボード関連
-        // TODO: ContentCanvas ?
-
-        //
-        private BitmapSource CurrentBitmapSource
-        {
-            get { return (ContentCanvas.Current.MainContent?.Content as BitmapContent)?.BitmapSource; }
-        }
-
-        //
-        public bool CanCopyImageToClipboard()
-        {
-            return CurrentBitmapSource != null;
-        }
-
-
-        // クリップボードに画像をコピー
-        public void CopyImageToClipboard()
-        {
-            try
-            {
-                if (CanCopyImageToClipboard())
-                {
-                    ClipboardUtility.CopyImage(CurrentBitmapSource);
-                }
-            }
-            catch (Exception e)
-            {
-                new MessageDialog($"原因: {e.Message}", "コピーに失敗しました").ShowDialog();
-            }
-        }
-
-        #endregion
-
-
-        #region 印刷
-        // TODO: ContentCanvas ? 
-
-        /// <summary>
-        /// 印刷可能判定
-        /// </summary>
-        /// <returns></returns>
-        public bool CanPrint()
-        {
-            return ContentCanvas.Current.MainContent != null && ContentCanvas.Current.MainContent.IsValid;
-        }
-
-        /// <summary>
-        /// 印刷
-        /// </summary>
-        public void Print(Window owner, FrameworkElement element, Transform transform, double width, double height)
-        {
-            if (!CanPrint()) return;
-
-            // 掃除しておく
-            GC.Collect();
-
-            var contents = ContentCanvas.Current.Contents;
-            var mainContent = ContentCanvas.Current.MainContent;
-
-            // スケールモード退避
-            var scaleModeMemory = contents.ToDictionary(e => e, e => e.BitmapScalingMode);
-
-            // アニメーション停止
-            foreach (var content in contents)
-            {
-                content.AnimationImageVisibility = Visibility.Visible;
-                content.AnimationPlayerVisibility = Visibility.Collapsed;
-            }
-
-            // スライドショー停止
-            SlideShow.Current.PauseSlideShow();
-
-            try
-            {
-                var context = new PrintContext();
-                context.MainContent = mainContent;
-                context.Contents = contents;
-                context.View = element;
-                context.ViewTransform = transform;
-                context.ViewWidth = width;
-                context.ViewHeight = height;
-                context.ViewEffect = ImageEffect.Current.Effect;
-                context.Background = ContentCanvasBrush.Current.CreateBackgroundBrush();
-                context.BackgroundFront = ContentCanvasBrush.Current.CreateBackgroundFrontBrush(new DpiScale(1, 1));
-
-                var dialog = new PrintWindow(context);
-                dialog.Owner = owner;
-                dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                dialog.ShowDialog();
-            }
-            finally
-            {
-                // スケールモード、アニメーション復元
-                foreach (var content in contents)
-                {
-                    content.BitmapScalingMode = scaleModeMemory[content];
-                    content.AnimationImageVisibility = Visibility.Collapsed;
-                    content.AnimationPlayerVisibility = Visibility.Visible;
-                }
-
-                // スライドショー再開
-                SlideShow.Current.ResumeSlideShow();
-            }
-        }
-
-        #endregion
 
 
 
@@ -748,7 +495,6 @@ namespace NeeView
             private void Constructor()
             {
                 _Version = App.Config.ProductVersionNumber;
-                ////IsSaveWindowPlacement = true;
                 IsHidePanelInFullscreen = true;
                 IsVisibleWindowTitle = true;
             }
@@ -796,29 +542,13 @@ namespace NeeView
         //
         public Memento CreateMemento()
         {
-            var memento = new Memento();
-
-            memento._Version = App.Config.ProductVersionNumber;
-
-            memento.IsHideMenu = this.IsHideMenu;
-            memento.IsHidePageSlider = this.IsHidePageSlider;
-            memento.IsVisibleAddressBar = this.IsVisibleAddressBar;
-            memento.IsHidePanel = this.IsHidePanel;
-            memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
-            memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
-
-            return memento;
+            return null;
         }
 
         //
         public void Restore(Memento memento)
         {
-            this.IsHideMenu = memento.IsHideMenu;
-            this.IsHidePageSlider = memento.IsHidePageSlider;
-            this.IsHidePanel = memento.IsHidePanel;
-            this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
-            this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
-            this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
+            if (memento == null) return;
 
             var models = Models.Current;
 
@@ -849,8 +579,14 @@ namespace NeeView
             {
                 Preference.Current.download_path = memento.UserDownloadPath;
 
-                _model.PanelColor = memento.PanelColor;
-                _model.ContextMenuSetting = memento.ContextMenuSetting;
+                models.MainWindowModel.PanelColor = memento.PanelColor;
+                models.MainWindowModel.ContextMenuSetting = memento.ContextMenuSetting;
+                models.MainWindowModel.IsHideMenu = memento.IsHideMenu;
+                models.MainWindowModel.IsHidePageSlider = memento.IsHidePageSlider;
+                models.MainWindowModel.IsHidePanel = memento.IsHidePanel;
+                models.MainWindowModel.IsVisibleAddressBar = memento.IsVisibleAddressBar;
+                models.MainWindowModel.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
+                models.MainWindowModel.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
 
                 models.MemoryControl.IsAutoGC = memento.IsAutoGC;
 

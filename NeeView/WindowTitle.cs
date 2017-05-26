@@ -52,7 +52,7 @@ namespace NeeView
             // Window title
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
-            _defaultWindowTitle = $"{assembly.GetName().Name} {ver.FileMajorPart}.{ver.FileMinorPart}";
+            _defaultWindowTitle = $"{App.Config.ApplicationName} {ver.FileMajorPart}.{ver.FileMinorPart}";
             if (ver.FileBuildPart > 0) _defaultWindowTitle += $".{ver.FileBuildPart}";
 #if DEBUG
             _defaultWindowTitle += " [Debug]";

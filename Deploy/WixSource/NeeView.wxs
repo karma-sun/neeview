@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?if $(var.Platform) = x64 ?>
-  <?define ProductName = "NeeView $(var.ProductVersion) (64 bit)" ?>
-  <?define ShortcutName = "NeeView (64 bit)" ?>
-  <?define Win64 = "yes" ?>
-  <?define Bits = "64bit" ?>
-  <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
-  <?define UpgradeCode = "7F34322B-8DED-42BC-AA14-A57C4BD77457" ?>
+<?if $(var.Platform) = x86 ?>
+  <?define ProductName = "NeeViewS $(var.ProductVersion)" ?>
+  <?define ExeName = "NeeViewS" ?>
+  <?define Bits = "32bit" ?>
+  <?define UpgradeCode = "1615bc9c-ddfd-4d61-9ac1-3ebc5c8787a8" ?>
 <?else ?>
   <?define ProductName = "NeeView $(var.ProductVersion)" ?>
-  <?define ShortcutName = "NeeView" ?>
-  <?define Win64 = "no" ?>
-  <?define Bits = "32bit" ?>
-  <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
-  <?define UpgradeCode = "1615bc9c-ddfd-4d61-9ac1-3ebc5c8787a8" ?>
+  <?define ExeName = "NeeView" ?>
+  <?define Bits = "all" ?>
+  <?define UpgradeCode = "7F34322B-8DED-42BC-AA14-A57C4BD77457" ?>
 <?endif ?>
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
          xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <Product Id="*" Name="$(var.ProductName)" Version="$(var.BuildVersion)" Language="1041" Codepage="932" Manufacturer="NeeLaboratory" UpgradeCode="$(var.UpgradeCode)">
-    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" SummaryCodepage="932" Comments="NeeView is picture viewer."/>
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" SummaryCodepage="932" Comments="$(var.ExeName) is picture viewer."/>
 
-    <MajorUpgrade DowngradeErrorMessage="新しいバージョンの NeeView が既にインストール済です。" />
+    <MajorUpgrade DowngradeErrorMessage="新しいバージョンの $(var.ExeName) が既にインストール済です。" />
     <MediaTemplate EmbedCab="yes" CompressionLevel="high"/>
 
-    <Feature Id="ProductFeature" Title="NeeView" Level="1">
+    <Feature Id="ProductFeature" Title="$(var.ExeName)" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
       <ComponentGroupRef Id="DllComponents"/>
     </Feature>
@@ -32,7 +29,8 @@
     <WixVariable Id="WixUIBannerBmp" Value="Resources\bannrbmp.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="Resources\dlgbmp.bmp" />
     -->
-    <UIRef Id="WixUI_InstallDirEx" />
+
+    <UIRef Id="WixUI_InstallDirEx"/>
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
 
     <!-- アドバタイズショートカットを無効にする -->
@@ -53,9 +51,9 @@
 
   <Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="$(var.PlatformProgramFilesFolder)">
+      <Directory Id="ProgramFilesFolder">
         <Directory Id="PFCompanyFolder" Name="NeeLaboratory">
-          <Directory Id="INSTALLFOLDER" Name="NeeView" />
+          <Directory Id="INSTALLFOLDER" Name="$(var.ExeName)" />
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder">
@@ -66,25 +64,22 @@
   <Fragment>
 
     <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-
       <Component Guid="*">
-        <File Source="$(var.ContentDir)NeeView.exe" KeyPath="yes" Checksum="yes" >
-          <netfx:NativeImage Id="ngen_NeeView.exe" Platform="$(var.Bits)" Priority="0"/>
-          <Shortcut Id="MyMenuShortcut" Directory="ProgramMenuFolder" Name="$(var.ShortcutName)" WorkingDirectory="INSTALLDIR" Icon="MyIcon.exe" Advertise="yes"/>
+        <File Source="$(var.ContentDir)$(var.ExeName).exe" KeyPath="yes" Checksum="yes" >
+          <netfx:NativeImage Id="ngen_$(var.ExeName).exe" Platform="$(var.Bits)" Priority="0"/>
+          <Shortcut Id="MyMenuShortcut" Directory="ProgramMenuFolder" Name="$(var.ExeName)" WorkingDirectory="INSTALLDIR" Icon="MyIcon.exe" Advertise="yes"/>
         </File>
       </Component>
-
       <Component>
-        <File Source="$(var.AppendDir)NeeView.exe.config" KeyPath="yes" />
+        <File Source="$(var.AppendDir)$(var.ExeName).exe.config" KeyPath="yes" />
       </Component>
       <Component>
         <File Source="$(var.ContentDir)README.html" KeyPath="yes"/>
       </Component>
-
     </ComponentGroup>
 
     <!-- アイコン -->
-    <Icon Id="MyIcon.exe" SourceFile="$(var.ContentDir)NeeView.exe" />
+    <Icon Id="MyIcon.exe" SourceFile="$(var.ContentDir)$(var.ExeName).exe" />
 
   </Fragment>
 </Wix>

@@ -32,8 +32,11 @@ namespace NeeView
         /// <summary>
         /// 機能サポート判定
         /// </summary>
-        public static bool _IsSupportedSusie => !App.Config.IsX64;
-        public bool IsSupportedSusie => _IsSupportedSusie;
+#if SUSIE
+        public bool IsSupportedSusie => true;
+#else
+        public bool IsSupportedSusie => false;
+#endif
 
         public Susie.Susie Susie { get; private set; }
 
@@ -152,7 +155,7 @@ namespace NeeView
 
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento
@@ -254,6 +257,6 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 }

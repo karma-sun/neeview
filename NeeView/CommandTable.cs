@@ -1724,7 +1724,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "その他";
                 element.Text = "バージョン情報を表示する";
-                element.MenuText = "NeeView について(_A)...";
+                element.MenuText = "このアプリについて(_A)...";
                 element.Note = "バージョン情報を表示します";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.MainWindowModel.OpenVersionWindow();

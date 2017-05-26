@@ -83,6 +83,7 @@ namespace NeeView
     /// </summary>
     public class VersionWindowVM : BindableBase
     {
+        public string ApplicationName => App.Config.ApplicationName;
         public string LicenseUri { get; private set; }
         public string ProjectUri => "https://bitbucket.org/neelabo/neeview/";
         public string ChangeLogUri => "https://bitbucket.org/neelabo/neeview/wiki/ChangeLog";

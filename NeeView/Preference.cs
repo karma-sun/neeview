@@ -330,7 +330,7 @@ namespace NeeView
                 if (item.HasCustomValue)
                 {
                     var key = item.Path.Replace('_', '.');
-                    var value = item.GetValue().ToString();
+                    var value = item.GetValue()?.ToString();
                     memento.Items.Add(key, value);
                 }
             }

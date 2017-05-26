@@ -81,8 +81,8 @@ function Replace-Content
 $solutionDir = ".."
 $solution = "$solutionDir\$product.sln"
 $projectDir = "$solutionDir\$product"
-$productX86Dir = "$projectDir\bin\$config"
-$productX64Dir = "$projectDir\bin\x64\$config"
+$productx86Dir = "$projectDir\bin\x86\$config"
+$productX64Dir = "$projectDir\bin\$config"
 
 
 
@@ -90,9 +90,9 @@ $productX64Dir = "$projectDir\bin\x64\$config"
 # build
 function Build-Project($arch)
 {
-	if ($arch -eq "x64")
+	if ($arch -eq "x86")
 	{
-		$platform = "x64"
+		$platform = "x86"
 	}
 	else
 	{
@@ -160,11 +160,60 @@ function New-Package($productDir, $packageDir)
 # archive to ZIP
 function New-Zip
 {
-	Copy-Item $packageX86Dir $packageDir -Recurse
-	Copy-Item "$packageX64Dir\$product.exe" "$packageDir\${product}64.exe"
-	Copy-Item "$packageX64Dir\$product.exe.config" "$packageDir\${product}64.exe.config"
+	Copy-Item $packageX64Dir $packageDir -Recurse
+	Copy-Item "$packageX86Dir\$product.exe" "$packageDir\${product}S.exe"
+	Copy-Item "$packageX86Dir\$product.exe.config" "$packageDir\${product}S.exe.config"
 
 	Compress-Archive $packageDir -DestinationPath $packageZip
+}
+
+
+#--------------------------
+#
+function New-ConfigForMsi($inputDir, $config, $outputDir)
+{
+	# make config for installer
+	[xml]$xml = Get-Content "$inputDir\$config"
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'PackageType' } | Select -First 1
+	$add.value = '.msi'
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'UseLocalApplicationData' } | Select -First 1
+	$add.value = 'True'
+
+	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
+	$sw = New-Object System.IO.StreamWriter("$outputDir\$config", $false, $utf8WithoutBom)
+	$xml.Save( $sw )
+	$sw.Close()
+}
+
+
+#---------------------------
+#
+function New-EmptyFolder($dir)
+{
+	# remove folder
+	if (Test-Path $dir)
+	{
+		Remove-Item $dir -Recurse
+		Start-Sleep -m 100
+	}
+
+	# make folder
+	$temp = New-Item $dir -ItemType Directory
+}
+
+#---------------------------
+#
+function New-PackageAppend($packageDir)
+{
+	#$config = "$product.exe.config"
+	$packageAppendDir = $packageDir + ".append"
+	New-EmptyFolder $packageAppendDir
+
+	# configure customize
+	New-ConfigForMsi $packageDir "${product}.exe.config" $packageAppendDir
+	New-ConfigForMsi $packageDir "${product}S.exe.config" $packageAppendDir
 }
 
 
@@ -176,34 +225,9 @@ function New-Msi($arch, $packageDir, $packageMsi)
 	$light = 'C:\Program Files (x86)\WiX Toolset v3.11\bin\light.exe'
 	$heat = 'C:\Program Files (x86)\WiX Toolset v3.11\bin\heat.exe'
 
-
-
-	$config = "$product.exe.config"
-	$packageAppendDir = $packageDir + ".append"
-
-	# remove append folder
-	if (Test-Path $packageAppendDir)
-	{
-		Remove-Item $packageAppendDir -Recurse
-		Start-Sleep -m 100
-	}
-
-	# make append folder
-	$temp = New-Item $packageAppendDir -ItemType Directory
-
-	# make config for installer
-	[xml]$xml = Get-Content "$packageDir\$config"
-
-	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'PackageType' } | Select -First 1
-	$add.value = '.msi'
-
-	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'UseLocalApplicationData' } | Select -First 1
-	$add.value = 'True'
-
-	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
-	$sw = New-Object System.IO.StreamWriter("$packageAppendDir\$config", $false, $utf8WithoutBom)
-	$xml.Save( $sw )
-	$sw.Close()
+	# wix object folder
+	$objDir = $packageDir + ".append\" + $arch
+	New-EmptyFolder $objDir
 
 
 	# make DllComponents.wxs
@@ -219,18 +243,19 @@ function New-Msi($arch, $packageDir, $packageMsi)
 
 	$ErrorActionPreference = "stop"
 
-	& $candle -arch $arch -d"Platform=$arch" -d"BuildVersion=$buildVersion" -d"ProductVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries" -ext WixNetFxExtension -out "$packageDir.append\\"  WixSource\*.wxs
+	& $candle  -d"Platform=$arch" -d"BuildVersion=$buildVersion" -d"ProductVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries" -ext WixNetFxExtension -out "$objDir\\"  WixSource\*.wxs
 	if ($? -ne $true)
 	{
 		throw "candle error"
 	}
 
-	& $light -out "$packageMsi" -ext WixUIExtension -ext WixNetFxExtension -cultures:ja-JP "$packageDir.append\*.wixobj"
+	& $light -out "$packageMsi" -ext WixUIExtension -ext WixNetFxExtension -cultures:ja-JP "$objDir\*.wixobj"
 	if ($? -ne $true)
 	{
 		throw "light error" 
 	}
 }
+
 
 #--------------------------
 # remove build objects
@@ -277,11 +302,12 @@ $buildVersion = "$version.$buildCount"
 
 
 $packageDir = "$product$version"
-$packageX86Dir = "$product$version-32bit"
-$packageX64Dir = "$product$version-64bit"
+$packageX86Dir = "$product${version}-x86"
+$packageX64Dir = "$product${version}-x64"
 $packageZip = "$product$version.zip"
-$packageX86Msi = "$product$version-32bit.msi"
-$packageX64Msi = "$product$version-64bit.msi"
+#$packageMsi = "$product$version.msi"
+$packageX86Msi = "${product}S${version}.msi"
+$packageX64Msi = "${product}${version}.msi"
 
 
 # clear
@@ -309,10 +335,12 @@ if (($Target -eq "All") -or ($Target -eq "Zip"))
 if (($Target -eq "All") -or ($Target -eq "Installer"))
 {
 	Write-Host "`[Installer] ...`n" -fore Cyan
-	New-Msi "x86" $packageX86Dir $packageX86Msi
-	Write-Host "`nExport $packageX86Msi successed.`n" -fore Green
-	New-Msi "x64" $packageX64Dir $packageX64Msi
+
+	New-PackageAppend $packageDir
+	New-Msi "x64" $packageDir $packageX64Msi
 	Write-Host "`nExport $packageX64Msi successed.`n" -fore Green
+	New-Msi "x86" $packageDir $packageX86Msi
+	Write-Host "`nExport $packageX86Msi successed.`n" -fore Green
 }
 
 # current

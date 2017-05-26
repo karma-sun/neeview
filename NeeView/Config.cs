@@ -87,6 +87,20 @@ namespace NeeView
         public string ProductName { get; private set; }
 
         /// <summary>
+        /// プロダクトタイプ
+        /// </summary>
+#if SUSIE
+        public string ProductType => "S";
+#else
+        public string ProductType => "";
+#endif
+
+        /// <summary>
+        /// アプリ名
+        /// </summary>
+        public string ApplicationName => ProductName + ProductType;
+
+        /// <summary>
         /// プロダクトバージョン
         /// </summary>
         public string ProductVersion { get; private set; }

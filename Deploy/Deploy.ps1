@@ -142,8 +142,9 @@ function New-Package($productDir, $packageDir)
 	$readmeDir = $packageDir + "\readme"
 	$temp = New-Item $readmeDir -ItemType Directory 
 
-	Copy-Item "$solutionDir\*.md" $readmeDir
-	#Copy-Item "$solutionDir\Style.html" $readmeDir
+	Copy-Item "ReadmeTemplate.md" "$readmeDir/README.md"
+	Copy-Item "$solutionDir\LICENSE.md" $readmeDir
+	Copy-Item "$solutionDir\THIRDPARTY_LICENSES.md" $readmeDir
 
 	# edit README.md
 	Replace-Content "$readmeDir\README.md" "<VERSION/>" "$version"

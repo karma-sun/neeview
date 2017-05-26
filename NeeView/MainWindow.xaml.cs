@@ -535,6 +535,9 @@ namespace NeeView
         // ウィンドウ表示開始
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // レイアウト更新
+            UpdateWindowLayout();
+
             _vm.Loaded();
         }
 

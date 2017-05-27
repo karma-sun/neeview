@@ -1211,7 +1211,7 @@ namespace NeeView
                 element.ShortCutKey = "Up";
                 element.MouseGesture = "LU";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _book.PrevFolder();
+                element.Execute = (s, e) => _models.FolderList.PrevFolder();
                 _elements[CommandType.PrevFolder] = element;
             }
             // NextFolder
@@ -1223,7 +1223,7 @@ namespace NeeView
                 element.ShortCutKey = "Down";
                 element.MouseGesture = "LD";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _book.NextFolder();
+                element.Execute = (s, e) => _models.FolderList.NextFolder();
                 _elements[CommandType.NextFolder] = element;
             }
             // PrevHistory
@@ -1234,8 +1234,8 @@ namespace NeeView
                 element.Note = "前の古い履歴のブックを読み込みます";
                 element.ShortCutKey = "Back";
                 element.IsShowMessage = false;
-                element.CanExecute = () => _book.CanPrevHistory();
-                element.Execute = (s, e) => _book.PrevHistory();
+                element.CanExecute = () => _models.BookHistoryCommand.CanPrevHistory();
+                element.Execute = (s, e) => _models.BookHistoryCommand.PrevHistory();
                 _elements[CommandType.PrevHistory] = element;
             }
             // NextHistory
@@ -1246,8 +1246,8 @@ namespace NeeView
                 element.Note = "次の新しい履歴のブックを読み込みます";
                 element.ShortCutKey = "Shift+Back";
                 element.IsShowMessage = false;
-                element.CanExecute = () => _book.CanNextHistory();
-                element.Execute = (s, e) => _book.NextHistory();
+                element.CanExecute = () => _models.BookHistoryCommand.CanNextHistory();
+                element.Execute = (s, e) => _models.BookHistoryCommand.NextHistory();
                 _elements[CommandType.NextHistory] = element;
             }
 
@@ -1258,8 +1258,8 @@ namespace NeeView
                 element.Group = "ブック列";
                 element.Text = "ブックの並び順を切り替える";
                 element.Note = "ブックの並び順を順番に切り替えます";
-                element.Execute = (s, e) => _book.ToggleFolderOrder();
-                element.ExecuteMessage = e => _book.GetFolderOrder().GetToggle().ToDispString();
+                element.Execute = (s, e) => _models.FolderList.ToggleFolderOrder();
+                element.ExecuteMessage = e => _models.FolderList.GetFolderOrder().GetToggle().ToDispString();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleFolderOrder] = element;
             }
@@ -1269,7 +1269,7 @@ namespace NeeView
                 element.Group = "ブック列";
                 element.Text = "ブック列はファイル名順";
                 element.Note = "ブックの並びを名前順(昇順)にします";
-                element.Execute = (s, e) => _book.SetFolderOrder(FolderOrder.FileName);
+                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.FileName);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileName);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByFileName] = element;
@@ -1280,7 +1280,7 @@ namespace NeeView
                 element.Group = "ブック列";
                 element.Text = "ブック列は日付順";
                 element.Note = "ブックの並びを日付順(降順)にします";
-                element.Execute = (s, e) => _book.SetFolderOrder(FolderOrder.TimeStamp);
+                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.TimeStamp);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStamp);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByTimeStamp] = element;
@@ -1291,7 +1291,7 @@ namespace NeeView
                 element.Group = "ブック列";
                 element.Text = "ブック列はサイズ順";
                 element.Note = "ブックの並びをサイズ順(降順)にします";
-                element.Execute = (s, e) => _book.SetFolderOrder(FolderOrder.Size);
+                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.Size);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Size);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderBySize] = element;
@@ -1302,7 +1302,7 @@ namespace NeeView
                 element.Group = "ブック列";
                 element.Text = "ブック列はシャッフル";
                 element.Note = "ブックの並びをシャッフルします";
-                element.Execute = (s, e) => _book.SetFolderOrder(FolderOrder.Random);
+                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.Random);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Random);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByRandom] = element;

@@ -57,7 +57,7 @@ namespace NeeView
             this.ListBox.CommandBindings.Add(new CommandBinding(RenameCommand, Rename_Executed, FileCommand_CanExecute));
 
             this.ListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
-            _thumbnailHelper = new ThumbnailHelper(this.ListBox, _vm.RequestThumbnail);
+            _thumbnailHelper = new ThumbnailHelper(this.ListBox, _vm.Model.RequestThumbnail);
         }
         
 
@@ -93,7 +93,7 @@ namespace NeeView
         private void LoadWithRecursive_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            _vm.Decided(item.TargetPath, BookLoadOption.Recursive);
+            _vm.Model.LoadBook(item.TargetPath, BookLoadOption.Recursive);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null)
             {
-                _vm.Copy(item);
+                FileIO.Current.CopyToClipboard(item);
             }
         }
 
@@ -142,7 +142,7 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null)
             {
-                await _vm.RemoveAsync(item);
+                await FileIO.Current.RemoveAsync(item);
             }
         }
 
@@ -173,7 +173,7 @@ namespace NeeView
                         {
                             var newName = item.IsShortcut ? ev.NewValue + ".lnk" : ev.NewValue;
                             //Debug.WriteLine($"{ev.OldValue} => {newName}");
-                            await _vm.RenameAsync(item, newName);
+                            await FileIO.Current.RenameAsync(item, newName);
                         }
                     };
                     rename.Closed += (s, ev) =>
@@ -212,7 +212,7 @@ namespace NeeView
             var item = this.ListBox.SelectedItem as FolderItem;
             if (item != null)
             {
-                _vm.Decided(item.TargetPath);
+                _vm.Model.LoadBook(item.TargetPath);
             }
 
             // リネーム発動
@@ -295,7 +295,7 @@ namespace NeeView
         {
             if (e.Key == Key.Home)
             {
-                _vm.MovedHome();
+                _vm.MoveToHome.Execute(null);
                 e.Handled = true;
             }
             else if (Keyboard.Modifiers == ModifierKeys.Alt)
@@ -304,17 +304,17 @@ namespace NeeView
 
                 if (key == Key.Up)
                 {
-                    _vm.MovedParent();
+                    _vm.MoveToUp.Execute(null);
                     e.Handled = true;
                 }
                 else if (key == Key.Left)
                 {
-                    _vm.MovedPrevious();
+                    _vm.MoveToPrevious.Execute(null);
                     e.Handled = true;
                 }
                 else if (key == Key.Right)
                 {
-                    _vm.MovedNext();
+                    _vm.MoveToNext.Execute(null);
                     e.Handled = true;
                 }
             }
@@ -324,7 +324,7 @@ namespace NeeView
         {
             if (e.Key == Key.Left || e.Key == Key.Back) // Backspace
             {
-                _vm.MovedParent();
+                _vm.MoveToUp.Execute(null);
                 e.Handled = true;
             }
             else if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return)
@@ -349,7 +349,7 @@ namespace NeeView
             var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
             if (folderInfo != null && !folderInfo.IsEmpty)
             {
-                _vm.Decided(folderInfo.TargetPath);
+                _vm.Model.LoadBook(folderInfo.TargetPath);
                 e.Handled = true;
             }
         }
@@ -360,7 +360,7 @@ namespace NeeView
             var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
             if (folderInfo != null && folderInfo.IsDirectory && folderInfo.IsReady)
             {
-                _vm.Moved(folderInfo.TargetPath);
+                _vm.MoveTo.Execute(folderInfo.TargetPath);
             }
             e.Handled = true;
         }
@@ -372,14 +372,14 @@ namespace NeeView
             {
                 if (e.Key == Key.Return)
                 {
-                    _vm.Decided(folderInfo.TargetPath);
+                    _vm.Model.LoadBook(folderInfo.TargetPath);
                     e.Handled = true;
                 }
                 else if (e.Key == Key.Right) // →
                 {
                     if (folderInfo != null && folderInfo.IsDirectory && folderInfo.IsReady)
                     {
-                        _vm.Moved(folderInfo.TargetPath);
+                        _vm.MoveTo.Execute(folderInfo.TargetPath);
                     }
                     e.Handled = true;
                 }
@@ -387,7 +387,7 @@ namespace NeeView
                 {
                     if (folderInfo != null)
                     {
-                        _vm.MovedParent();
+                        _vm.MoveToUp.Execute(null);
                     }
                     e.Handled = true;
                 }

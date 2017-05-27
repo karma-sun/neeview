@@ -230,11 +230,11 @@ namespace NeeView
             {
                 if (e < 0)
                 {
-                    Models.Current.BookHub.PrevFolder(BookLoadOption.LastPage);
+                    FolderList.Current.PrevFolder(BookLoadOption.LastPage);
                 }
                 else
                 {
-                    Models.Current.BookHub.NextFolder(BookLoadOption.FirstPage);
+                    FolderList.Current.NextFolder(BookLoadOption.FirstPage);
                 }
             }
             else

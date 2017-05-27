@@ -107,6 +107,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App.Memento.cs" />
+    <Compile Include="BookHistoryCommand.cs" />
     <Compile Include="ContentCanvasBrush.cs" />
     <Compile Include="Controls\AddressBar.cs" />
     <Compile Include="Controls\AddressBarView.xaml.cs">
@@ -462,7 +463,6 @@
     </Compile>
     <Compile Include="InputGesture\KeyExGesture.cs" />
     <Compile Include="MenuExtensions.cs" />
-    <Compile Include="Messenger.cs" />
     <Compile Include="CommonExtensions.cs" />
     <Compile Include="JobEngine.cs" />
     <Compile Include="InputGesture\MouseExGesture.cs" />

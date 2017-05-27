@@ -49,6 +49,9 @@ namespace NeeView
         public BookOperation BookOperation { get; private set; }
 
         //
+        public BookHistoryCommand BookHistoryCommand { get; private set; }
+
+        //
         public MainWindowModel MainWindowModel { get; private set; }
 
         //
@@ -115,6 +118,8 @@ namespace NeeView
             this.BookOperation = new BookOperation();
             this.BookHub = new BookHub(this.BookOperation);
 
+
+
             // TODO: MainWindowVMをモデル分離してModelとして参照させる？
             this.CommandTable.SetTarget(this);
 
@@ -140,6 +145,8 @@ namespace NeeView
             this.PagemarkList = new PagemarkList(this.BookHub, this.BookOperation);
             this.FileInformation = new FileInformation(this.ContentCanvas);
             this.ImageEffect = new ImageEffect();
+
+            this.BookHistoryCommand = new BookHistoryCommand(this.BookHistory, this.BookHub);
 
             this.SidePanel = new SidePanel(this);
 

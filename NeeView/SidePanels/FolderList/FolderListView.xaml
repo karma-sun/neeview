@@ -67,8 +67,8 @@
                 <DockPanel>
                     <Image DockPanel.Dock="Right" Source="{StaticResource fic_recursive_folder_24px}" Width="12" Height="12" VerticalAlignment="Bottom" Margin="0,0,0,4"
                            ToolTip="サブフォルダーを読み込む"
-                           Visibility="{Binding FolderCollection.FolderParameter.IsFolderRecursive, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                    <TextBlock Text="{Binding FolderCollection.PlaceDispString}" FontSize="15" ToolTip="{Binding FolderCollection.PlaceDispString}" Margin="5,0"/>
+                           Visibility="{Binding Model.FolderCollection.FolderParameter.IsFolderRecursive, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding Model.FolderCollection.PlaceDispString}" FontSize="15" ToolTip="{Binding Model.FolderCollection.PlaceDispString}" Margin="5,0"/>
                 </DockPanel>
             </StackPanel>
 
@@ -116,7 +116,7 @@
                         <Image Source="{StaticResource ic_sync_24px_b}" Width="20" Height="20"/>
                     </Button>
                     <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" FontSize="15"
-                          ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderCollection.FolderParameter.FolderOrder, Delay=1}"
+                          ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding Model.FolderCollection.FolderParameter.FolderOrder, Delay=1}"
                           VerticalAlignment="Center">
                     </ComboBox>
                 </WrapPanel>

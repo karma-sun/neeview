@@ -393,6 +393,7 @@ namespace NeeView
         /// <summary>
         /// Home property.
         /// フォルダーリストのHOME
+        /// TODO: FolderListで保持すべき
         /// </summary>
         private string _home;
         public string Home
@@ -418,6 +419,10 @@ namespace NeeView
 
         // command engine
         private BookHubCommandEngine _commandEngine;
+
+        //
+        public bool IsBusy() => _commandEngine.Count > 0;
+
 
         //
         private BookOperation _bookOperation;
@@ -989,116 +994,6 @@ namespace NeeView
             var options = BookUnit != null ? (BookUnit.LoadOptions & BookLoadOption.KeepHistoryOrder) | BookLoadOption.Resume : BookLoadOption.None;
             RequestLoad(Address, null, options, true);
         }
-
-
-        #region HistoryCommand
-
-        // 履歴を戻ることができる？
-        public bool CanPrevHistory()
-        {
-            var unit = BookHistory.Current.Find(Address);
-            // 履歴が存在するなら真
-            if (unit == null && BookHistory.Current.Count > 0) return true;
-            // 現在の履歴位置より古いものがあれば真。リストと履歴の方向は逆
-            return unit?.HistoryNode != null && unit.HistoryNode.Next != null;
-        }
-
-        // 履歴を戻る
-        public void PrevHistory()
-        {
-            if (_isLoading || BookHistory.Current.Count <= 0) return;
-
-            var unit = BookHistory.Current.Find(Address);
-            var previous = unit == null ? BookHistory.Current.First : unit.HistoryNode?.Next.Value; // リストと履歴の方向は逆
-
-            if (previous != null)
-            {
-                RequestLoad(previous.Memento.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, true);
-            }
-            else
-            {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "これより古い履歴はありません");
-            }
-        }
-
-        // 履歴を進めることができる？
-        public bool CanNextHistory()
-        {
-            var unit = BookHistory.Current.Find(Address);
-            return (unit?.HistoryNode != null && unit.HistoryNode.Previous != null); // リストと履歴の方向は逆
-        }
-
-        // 履歴を進める
-        public void NextHistory()
-        {
-            if (_isLoading) return;
-
-            var unit = BookHistory.Current.Find(Address);
-            var next = unit?.HistoryNode?.Previous; // リストと履歴の方向は逆
-            if (next != null)
-            {
-                RequestLoad(next.Value.Memento.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, true);
-            }
-            else
-            {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "最新の履歴です");
-            }
-        }
-
-        #endregion
-
-
-        #region FolderListCommand
-
-        // ー
-        public void NextFolder(BookLoadOption option = BookLoadOption.None)
-        {
-            if (_commandEngine.Count > 0) return; // 相対移動の場合はキャンセルしない
-            var result = Messenger.Send(this, new MessageEventArgs("MoveFolder") { Parameter = new MoveFolderParams() { Distance = +1, BookLoadOption = option } });
-            if (result != true)
-            {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "次のブックはありません");
-            }
-        }
-
-        // 前のフォルダーに移動
-        public void PrevFolder(BookLoadOption option = BookLoadOption.None)
-        {
-            if (_commandEngine.Count > 0) return; // 相対移動の場合はキャンセルしない
-            var result = Messenger.Send(this, new MessageEventArgs("MoveFolder") { Parameter = new MoveFolderParams() { Distance = -1, BookLoadOption = option } });
-            if (result != true)
-            {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "前のブックはありません");
-            }
-        }
-
-        #endregion
-
-
-        // 本来ここで実装すべきてはない
-        #region FolderOrderCommand
-
-        // フォルダーの並びの変更
-        public void ToggleFolderOrder()
-        {
-            Messenger.Send(this, new MessageEventArgs("ToggleFolderOrder"));
-        }
-
-        // フォルダーの並びの設定
-        public void SetFolderOrder(FolderOrder order)
-        {
-            Messenger.Send(this, new MessageEventArgs("SetFolderOrder") { Parameter = new FolderOrderParams() { FolderOrder = order } });
-        }
-
-        // フォルダーの並びの取得
-        public FolderOrder GetFolderOrder()
-        {
-            var param = new FolderOrderParams();
-            Messenger.Send(this, new MessageEventArgs("GetFolderOrder") { Parameter = param });
-            return param.FolderOrder;
-        }
-
-        #endregion
 
 
         // 本の設定を更新

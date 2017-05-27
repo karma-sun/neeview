@@ -6,6 +6,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -16,13 +17,33 @@ namespace NeeView
     /// <summary>
     /// マウスルーペ
     /// </summary>
-    public class MouseInputLoupe : MouseInputBase 
+    public class MouseInputLoupe : MouseInputBase
     {
         /// <summary>
         /// 角度、スケール変更イベント
         /// </summary>
         public event EventHandler<TransformEventArgs> TransformChanged;
 
+
+        /// <summary>
+        /// IsVisibleLoupeInfo property.
+        /// </summary>
+        private bool _IsVisibleLoupeInfo = true;
+        public bool IsVisibleLoupeInfo
+        {
+            get { return _IsVisibleLoupeInfo; }
+            set { if (_IsVisibleLoupeInfo != value) { _IsVisibleLoupeInfo = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// IsLoupeCenter property.
+        /// </summary>
+        private bool _IsLoupeCenter;
+        public bool IsLoupeCenter
+        {
+            get { return _IsLoupeCenter; }
+            set { if (_IsLoupeCenter != value) { _IsLoupeCenter = value; RaisePropertyChanged(); } }
+        }
 
         /// <summary>
         /// 表示コンテンツ用トランスフォーム
@@ -152,7 +173,7 @@ namespace NeeView
         /// コンストラクター
         /// </summary>
         /// <param name="context"></param>
-        public MouseInputLoupe(MouseInput context) : base(context)
+        public MouseInputLoupe(MouseInputContext context) : base(context)
         {
             this.TransformView = CreateTransformGroup();
             this.TransformCalc = CreateTransformGroup();
@@ -215,7 +236,7 @@ namespace NeeView
             _context.StartPoint = Mouse.GetPosition(sender);
             var center = new Point(sender.ActualWidth * 0.5, sender.ActualHeight * 0.5);
             Vector v = _context.StartPoint - center;
-            _loupeBasePosition = (Point)(_context.IsLoupeCenter ? -v : -v + v / LoupeScale);
+            _loupeBasePosition = (Point)(this.IsLoupeCenter ? -v : -v + v / LoupeScale);
             LoupePosition = _loupeBasePosition;
 
             this.IsEnabled = true;
@@ -360,5 +381,35 @@ namespace NeeView
                 e.Handled = true;
             }
         }
+        
+
+        #region Memento
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public bool IsLoupeCenter { get; set; }
+            [DataMember]
+            public bool IsVisibleLoupeInfo { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.IsLoupeCenter = this.IsLoupeCenter;
+            memento.IsVisibleLoupeInfo = this.IsVisibleLoupeInfo;
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            this.IsLoupeCenter = memento.IsLoupeCenter;
+            this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
+        }
+        #endregion
+
     }
 }

@@ -153,13 +153,13 @@ namespace NeeView
         /// <summary>
         /// 状態コンテキスト
         /// </summary>
-        protected MouseInput _context;
+        protected MouseInputContext _context;
 
         /// <summary>
         /// コンストラクター
         /// </summary>
         /// <param name="context"></param>
-        public MouseInputBase(MouseInput context)
+        public MouseInputBase(MouseInputContext context)
         {
             _context = context;
         }

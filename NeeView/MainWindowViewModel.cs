@@ -184,7 +184,7 @@ namespace NeeView
         public ThumbnailList ThumbnailList => ThumbnailList.Current;
         public ContentCanvasBrush ContentCanvasBrush => ContentCanvasBrush.Current;
         public ImageEffect ImageEffect => ImageEffect.Current;
-        public MouseInput MouseInput => MouseInput.Current;
+        public MouseInput MouseInput => NeeView.MouseInput.Current;
         public InfoMessage InfoMessage => InfoMessage.Current;
         public SidePanel SidePanel => SidePanel.Current;
         public ContentCanvas ContentCanvas => ContentCanvas.Current;

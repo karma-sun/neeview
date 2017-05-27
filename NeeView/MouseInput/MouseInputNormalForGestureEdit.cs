@@ -23,7 +23,7 @@ namespace NeeView
         /// コンストラクター
         /// </summary>
         /// <param name="context"></param>
-        public MouseInputNormalForGestureEdit(MouseInput context) : base(context)
+        public MouseInputNormalForGestureEdit(MouseInputContext context) : base(context)
         {
         }
 

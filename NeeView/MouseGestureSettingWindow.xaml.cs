@@ -62,7 +62,7 @@ namespace NeeView
         private MouseGestureSettingContext _context;
 
         //
-        private MouseInputManagerForGestureEditor _mouseGesture;
+        private MouseInputForGestureEditor _mouseGesture;
 
         /// <summary>
         /// Property: GestureToken
@@ -104,7 +104,7 @@ namespace NeeView
         {
             _context = context;
 
-            _mouseGesture = new MouseInputManagerForGestureEditor(gestureSender);
+            _mouseGesture = new MouseInputForGestureEditor(gestureSender);
             _mouseGesture.Gesture.MouseGestureProgressed += Gesture_MouseGestureProgressed;
 
             OriginalGesture = _context.Gesture;

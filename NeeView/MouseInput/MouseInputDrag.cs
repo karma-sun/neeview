@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -81,9 +82,32 @@ namespace NeeView
     /// </summary>
     public class MouseInputDrag : MouseInputBase 
     {
+        #region events
+
         // 角度、スケール変更イベント
         public event EventHandler<TransformEventArgs> TransformChanged;
-        
+
+        #endregion
+
+        // View変換情報表示のスケール表示をオリジナルサイズ基準にする
+        public bool IsOriginalScaleShowMessage { get; set; }
+
+        // 回転、拡縮をコンテンツの中心基準にする
+        public bool IsControlCenterImage { get; set; }
+
+        // 拡大率キープ
+        public bool IsKeepScale { get; set; }
+
+        // 回転キープ
+        public bool IsKeepAngle { get; set; }
+
+        // 反転キープ
+        public bool IsKeepFlip { get; set; }
+
+        // 表示開始時の基準
+        public bool IsViewStartPositionCenter { get; set; }
+
+
         // 移動アニメーション有効フラグ(内部管理)
         private bool _isEnableTranslateAnimation;
 
@@ -252,7 +276,7 @@ namespace NeeView
         public TransformGroup TransformCalc { get; private set; }
 
         //
-        public MouseInputDrag(MouseInput context) : base(context)
+        public MouseInputDrag(MouseInputContext context) : base(context)
         {
             this.TransformView = CreateTransformGroup();
             this.TransformCalc = CreateTransformGroup();
@@ -288,7 +312,7 @@ namespace NeeView
         public DragViewOrigin ViewOrigin { get; set; }
 
         // ウィンドウ枠内の移動に制限するフラグ
-        private bool _isLimitMove;
+        private bool _isLimitMove = true;
         public bool IsLimitMove
         {
             get { return _isLimitMove; }
@@ -312,6 +336,45 @@ namespace NeeView
         public double ViewHorizontalDirection { get; set; } = 1.0;
 
 
+
+
+
+        // ドラッグでビュー操作設定の更新
+        public void SetMouseDragSetting(int direction, DragViewOrigin origin, PageReadOrder order)
+        {
+            this.DragControlCenter = this.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
+
+            if (origin == DragViewOrigin.None)
+            {
+                origin = this.IsViewStartPositionCenter
+                    ? DragViewOrigin.Center
+                    : order == PageReadOrder.LeftToRight
+                        ? DragViewOrigin.LeftTop
+                        : DragViewOrigin.RightTop;
+
+                this.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
+                this.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop) ? 1.0 : -1.0;
+            }
+            else
+            {
+                this.ViewOrigin = direction < 0 ? origin.Reverse() : origin;
+                this.ViewHorizontalDirection = (origin == DragViewOrigin.LeftTop || origin == DragViewOrigin.LeftBottom) ? 1.0 : -1.0;
+            }
+        }
+
+        /// <summary>
+        /// トランスフォーム初期化
+        /// </summary>
+        /// <param name="forceReset">すべての項目を初期化</param>
+        /// <param name="angle">Nanでない場合はこの角度で初期化する</param>
+        public void Reset(bool forceReset, double angle)
+        {
+            bool isResetScale = forceReset || !this.IsKeepScale;
+            bool isResetAngle = forceReset || !this.IsKeepAngle || !double.IsNaN(angle);
+            bool isResetFlip = forceReset || !this.IsKeepFlip;
+
+            Reset(isResetScale, isResetAngle, isResetFlip, double.IsNaN(angle) ? 0.0 : angle); // DefaultViewAngle(isResetAngle));
+        }
 
 
 
@@ -1128,6 +1191,66 @@ namespace NeeView
             pos.X = pos.X / dpi.DpiScaleX;
             pos.Y = pos.Y / dpi.DpiScaleY;
             return pos;
+        }
+
+        #endregion
+
+
+
+        #region Memento
+
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public bool IsOriginalScaleShowMessage { get; set; }
+            [DataMember]
+            public bool IsLimitMove { get; set; }
+            [DataMember]
+            public double AngleFrequency { get; set; }
+            [DataMember]
+            public bool IsControlCenterImage { get; set; }
+            [DataMember]
+            public bool IsKeepScale { get; set; }
+            [DataMember]
+            public bool IsKeepAngle { get; set; }
+            [DataMember]
+            public bool IsKeepFlip { get; set; }
+            [DataMember]
+            public bool IsViewStartPositionCenter { get; set; }
+        }
+
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+
+            memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
+            memento.IsLimitMove = this.IsLimitMove;
+            memento.AngleFrequency = this.AngleFrequency;
+            memento.IsControlCenterImage = this.IsControlCenterImage;
+            memento.IsKeepScale = this.IsKeepScale;
+            memento.IsKeepAngle = this.IsKeepAngle;
+            memento.IsKeepFlip = this.IsKeepFlip;
+            memento.IsViewStartPositionCenter = this.IsViewStartPositionCenter;
+
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+
+            this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
+            this.IsLimitMove = memento.IsLimitMove;
+            this.AngleFrequency = memento.AngleFrequency;
+            this.IsControlCenterImage = memento.IsControlCenterImage;
+            this.IsKeepScale = memento.IsKeepScale;
+            this.IsKeepAngle = memento.IsKeepAngle;
+            this.IsKeepFlip = memento.IsKeepFlip;
+            this.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
         }
 
         #endregion

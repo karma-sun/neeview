@@ -102,7 +102,7 @@ namespace NeeView
         /// コンストラクタ
         /// </summary>
         /// <param name="context"></param>
-        public MouseInputGesture(MouseInput context) : base(context)
+        public MouseInputGesture(MouseInputContext context) : base(context)
         {
             _gesture = new MouseGestureSequence();
             _gesture.CollectionChanged += (s, e) => MouseGestureProgressed.Invoke(this, new MouseGestureEventArgs(_gesture));

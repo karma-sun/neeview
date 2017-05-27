@@ -15,9 +15,9 @@ using System.Windows.Input;
 namespace NeeView
 {
     /// <summary>
-    /// MouseInputManager for GestureEditor
+    /// MouseInputForGestureEditor for GestureEditor
     /// </summary>
-    public class MouseInputManagerForGestureEditor
+    public class MouseInputForGestureEditor
     {
         /// <summary>
         /// 状態：既定
@@ -52,15 +52,15 @@ namespace NeeView
         /// <summary>
         /// 状態コンテキスト
         /// </summary>
-        private MouseInput _context;
+        private MouseInputContext _context;
 
         /// <summary>
         /// コンストラクター
         /// </summary>
         /// <param name="sender"></param>
-        public MouseInputManagerForGestureEditor(FrameworkElement sender)
+        public MouseInputForGestureEditor(FrameworkElement sender)
         {
-            _context = new MouseInput() { Sender = sender };
+            _context = new MouseInputContext() { Sender = sender };
 
             _sender = sender;
 

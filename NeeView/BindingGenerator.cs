@@ -116,7 +116,7 @@ namespace NeeView
         {
             return new Binding("IsFlipHorizontal")
             {
-                Source = MouseInputManager.Current.Drag,
+                Source = MouseInput.Current.Drag,
                 Mode = BindingMode.OneWay
             };
         }
@@ -126,7 +126,7 @@ namespace NeeView
         {
             return new Binding("IsFlipVertical")
             {
-                Source = MouseInputManager.Current.Drag,
+                Source = MouseInput.Current.Drag,
                 Mode = BindingMode.OneWay
             };
         }

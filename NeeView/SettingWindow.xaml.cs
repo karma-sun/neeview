@@ -341,8 +341,8 @@ namespace NeeView
             this.PluginPathTextBox.DefaultDirectory = Susie.Susie.GetSusiePluginInstallPath();
 
             // View AngleFrequency
-            AngleFrequency = new AngleFrequency(Setting.Memento.ContentCanvasTransform.AngleFrequency);
-            AngleFrequency.ValueChanged += (s, e) => Setting.Memento.ContentCanvasTransform.AngleFrequency = e.NewValue;
+            AngleFrequency = new AngleFrequency(Setting.Memento.MouseInput.Drag.AngleFrequency);
+            AngleFrequency.ValueChanged += (s, e) => Setting.Memento.MouseInput.Drag.AngleFrequency = e.NewValue;
 
             // History Limit
             HistoryLimitSize = new HistoryLimitSize(History.LimitSize);

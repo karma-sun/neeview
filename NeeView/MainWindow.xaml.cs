@@ -30,44 +30,119 @@ namespace NeeView
 
 
         /// <summary>
-        /// ウィンドウ最小化コマンド
+        /// コンストラクター
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MinimizeWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        public MainWindow()
         {
-            SystemCommands.MinimizeWindow(this);
+            InitializeComponent();
+            
+            // Preferenceの復元は最優先
+            Preference.Current.Restore(App.Setting.PreferenceMemento);
+
+            // Window状態初期化、復元
+            InitializeWindowShape();
+
+            // Models初期化
+            var models = new Models(this);
+
+            // MainWindow : ViewModel
+            _vm = new MainWindowViewModel(models.MainWindowModel);
+            this.DataContext = _vm;
+
+            // 各コントロールとモデルを関連付け
+            this.SliderArea.Source = models.PageSlider;
+            this.SliderArea.FocusTo = this.MainView;
+            this.ThumbnailListArea.Source = models.ThumbnailList;
+            this.AddressBar.Source = models.AddressBar;
+            this.MenuBar.Source = models.MenuBar;
+            this.NowLoadingView.Source = models.NowLoading;
+
+
+            // コマンド初期化
+            InitializeCommandBindings();
+
+            // レイヤー表示管理初期化
+            InitializeLayerVisibility();
+
+
+            // TODO: 定義場所の変更を検討
+            App.Config.LocalApplicationDataRemoved +=
+                (s, e) =>
+                {
+                    SaveData.Current.IsEnableSave = false; // 保存禁止
+                    this.Close();
+                };
+
+            // コマンド変更でショートカット変更
+            models.CommandTable.Changed +=
+                (s, e) => InitializeInputGestures();
+
+            //
+            models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsHideMenu),
+                (s, e) => UpdateMenuAreaLayout());
+
+            models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsHidePageSlider),
+                (s, e) => UpdateMenuAreaLayout());
+
+            models.ThumbnailList.AddPropertyChanged(nameof(ThumbnailList.IsEnableThumbnailList),
+                (s, e) => UpdateThumbnailListLayout());
+
+            models.ThumbnailList.AddPropertyChanged(nameof(ThumbnailList.IsHideThumbnailList),
+                (s, e) => UpdateThumbnailListLayout());
+
+            models.SidePanel.ResetFocus +=
+                (s, e) => this.MainView.Focus();
+
+            this.AddressBar.IsAddressTextBoxFocusedChanged +=
+                (s, e) => UpdateMenuLayerVisibility();
+
+
+            // mouse input
+            var mouse = MouseInput.Current;
+
+            // mouse drag
+            DragActionTable.Current.SetTarget(mouse.Drag);
+
+
+            // render transform
+            var transformView = new TransformGroup();
+            transformView.Children.Add(mouse.Drag.TransformView);
+            transformView.Children.Add(mouse.Loupe.TransformView);
+            this.MainContent.RenderTransform = transformView;
+            this.MainContent.RenderTransformOrigin = new Point(0.5, 0.5);
+
+            var transformCalc = new TransformGroup();
+            transformCalc.Children.Add(mouse.Drag.TransformCalc);
+            transformCalc.Children.Add(mouse.Loupe.TransformCalc);
+            this.MainContentShadow.RenderTransform = transformCalc;
+            this.MainContentShadow.RenderTransformOrigin = new Point(0.5, 0.5);
+
+
+            // initialize routed commands
+            InitializeInputGestures();
+
+            // mouse event capture for active check
+            this.MainView.PreviewMouseMove += MainView_PreviewMouseMove;
+            this.MainView.PreviewMouseDown += MainView_PreviewMouseAction;
+            this.MainView.PreviewMouseUp += MainView_PreviewMouseAction;
+            this.MainView.PreviewMouseWheel += MainView_PreviewMouseAction;
+
+            // timer 
+            InitializeNonActiveTimer();
+
+
+            // moue event for window shape
+            this.PreviewMouseMove += MainWindow_PreviewMouseMove;
+
+            // cancel rename triggers
+            this.MouseLeftButtonDown += (s, e) => this.RenameManager.Stop();
+            this.MouseRightButtonDown += (s, e) => this.RenameManager.Stop();
+            this.Deactivated += (s, e) => this.RenameManager.Stop();
+
+            // 開発用初期化
+            Debug_Initialize();
         }
 
-        /// <summary>
-        /// 通常ウィンドウ化コマンド
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void RestoreWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.RestoreWindow(this);
-        }
-
-        /// <summary>
-        /// ウィンドウ最大化コマンド
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MaximizeWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.MaximizeWindow(this);
-        }
-
-        /// <summary>
-        /// ウィンドウ終了コマンド
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CloseWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.CloseWindow(this);
-        }
 
         /// <summary>
         /// Window状態初期化
@@ -106,132 +181,9 @@ namespace NeeView
 
             windowShape.Restore(memento);
 
-        }
-
-
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
-        public MainWindow()
-        {
-            InitializeComponent();
-
-            // Preferenceの復元は最優先
-            Preference.Current.Restore(App.Setting.PreferenceMemento);
-
-            // Window状態初期化、復元
-            InitializeWindowShape();
-
-            this.PreviewMouseMove += MainWindow_PreviewMouseMove;
-
-
-            // System Models
-            var models = new Models(this);
-
-            // ViewModel
-            _vm = new MainWindowViewModel(models.MainWindowModel);
-            this.DataContext = _vm;
-
-            this.SliderArea.Source = models.PageSlider;
-            this.SliderArea.FocusTo = this.MainView;
-
-            this.ThumbnailListArea.Source = models.ThumbnailList;
-
-            this.AddressBar.Source = models.AddressBar;
-
-            this.MenuBar.Source = models.MenuBar;
-
-            this.NowLoadingView.Source = models.NowLoading;
-
-
-            WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
+            //
+            windowShape.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
                 (s, e) => UpdateWindowLayout());
-
-
-
-            // コマンド初期化
-            InitializeCommandBindings();
-
-            // レイヤー表示管理初期化
-            InitializeLayerVisibility();
-
-
-            // TODO: 定義場所の変更を検討
-            App.Config.LocalApplicationDataRemoved +=
-                (s, e) =>
-                {
-                    SaveData.Current.IsEnableSave = false; // 保存禁止
-                    this.Close();
-                };
-
-
-            models.CommandTable.Changed +=
-                (s, e) => InitializeInputGestures();
-
-            models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsHideMenu),
-                (s, e) => UpdateMenuAreaLayout());
-
-            models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsHidePageSlider),
-                (s, e) => UpdateMenuAreaLayout());
-
-            models.ThumbnailList.AddPropertyChanged(nameof(ThumbnailList.IsEnableThumbnailList),
-                (s, e) => UpdateThumbnailListLayout());
-
-            models.ThumbnailList.AddPropertyChanged(nameof(ThumbnailList.IsHideThumbnailList),
-                (s, e) => UpdateThumbnailListLayout());
-
-            models.SidePanel.ResetFocus +=
-                (s, e) => this.MainView.Focus();
-
-
-            // IsFocusedの変更イベントをハンドルする。
-            this.AddressBar.IsAddressTextBoxFocusedChanged +=
-                (s, e) => UpdateMenuLayerVisibility();
-
-            // mouse input
-            var mouse = MouseInputManager.Current;
-
-            ContentCanvasTransform.Current.SetMouseInputDrag(mouse.Drag); // TODO: 応急処置
-
-            this.LoupeInfo.DataContext = mouse.Loupe;
-
-            // mouse drag
-            DragActionTable.Current.SetTarget(mouse.Drag);
-
-
-            // render transform
-            var transformView = new TransformGroup();
-            transformView.Children.Add(mouse.Drag.TransformView);
-            transformView.Children.Add(mouse.Loupe.TransformView);
-            this.MainContent.RenderTransform = transformView;
-            this.MainContent.RenderTransformOrigin = new Point(0.5, 0.5);
-
-            var transformCalc = new TransformGroup();
-            transformCalc.Children.Add(mouse.Drag.TransformCalc);
-            transformCalc.Children.Add(mouse.Loupe.TransformCalc);
-            this.MainContentShadow.RenderTransform = transformCalc;
-            this.MainContentShadow.RenderTransformOrigin = new Point(0.5, 0.5);
-
-
-            // initialize routed commands
-            InitializeInputGestures();
-
-            // mouse event capture for active check
-            this.MainView.PreviewMouseMove += MainView_PreviewMouseMove;
-            this.MainView.PreviewMouseDown += MainView_PreviewMouseAction;
-            this.MainView.PreviewMouseUp += MainView_PreviewMouseAction;
-            this.MainView.PreviewMouseWheel += MainView_PreviewMouseAction;
-
-            // timer 
-            InitializeNonActiveTimer();
-
-            // cancel rename triggers
-            this.MouseLeftButtonDown += (s, e) => this.RenameManager.Stop();
-            this.MouseRightButtonDown += (s, e) => this.RenameManager.Stop();
-            this.Deactivated += (s, e) => this.RenameManager.Stop();
-
-            // 開発用初期化
-            Debug_Initialize();
         }
 
 
@@ -240,7 +192,7 @@ namespace NeeView
         // RoutedCommand バインディング
         public void InitializeCommandBindings()
         {
-            var mouse = MouseInputManager.Current;
+            var mouse = MouseInput.Current;
             var commandTable = CommandTable.Current;
 
             // View系コマンド登録
@@ -250,6 +202,10 @@ namespace NeeView
                 (s, e) => MainWindow_Minimize();
             commandTable[CommandType.ToggleWindowMaximize].Execute =
                 (s, e) => MainWindow_Maximize();
+
+
+            // mouse系
+            // TODO : Mouse系はMouseInputManagerで処理できないか？
             commandTable[CommandType.ViewScrollUp].Execute =
                 (s, e) =>
                 {
@@ -314,6 +270,7 @@ namespace NeeView
             commandTable[CommandType.MovePageWithCursor].ExecuteMessage =
                 (e) => _vm.MovePageWithCursorMessage(this.MainView);
 
+            // loupe
             commandTable[CommandType.ToggleIsLoupe].Execute =
                 (s, e) => mouse.IsLoupeMode = !mouse.IsLoupeMode;
             commandTable[CommandType.ToggleIsLoupe].ExecuteMessage =
@@ -325,11 +282,9 @@ namespace NeeView
             commandTable[CommandType.LoupeOff].Execute =
                 (s, e) => mouse.IsLoupeMode = false;
 
+            // print
             commandTable[CommandType.Print].Execute =
-                (s, e) =>
-                {
-                    ContentCanvas.Current.Print(this, this.PageContents, this.MainContent.RenderTransform, this.MainView.ActualWidth, this.MainView.ActualHeight);
-                };
+                (s, e) => ContentCanvas.Current.Print(this, this.PageContents, this.MainContent.RenderTransform, this.MainView.ActualWidth, this.MainView.ActualHeight);
 
             // context menu
             commandTable[CommandType.OpenContextMenu].Execute =
@@ -369,9 +324,10 @@ namespace NeeView
         }
 
         // InputGesture設定
+        // TODO: MouseInputManagerで処理する？
         public void InitializeInputGestures()
         {
-            var mouse = MouseInputManager.Current;
+            var mouse = MouseInput.Current;
 
             mouse.ClearMouseEventHandler();
 
@@ -420,6 +376,7 @@ namespace NeeView
             }
 
             // Update Menu GestureText
+            // TODO: このあたりイベントで処理できないか？
             NeeView.MenuBar.Current.Reflesh();
             _vm.ContextMenu?.UpdateInputGestureText();
         }
@@ -511,7 +468,7 @@ namespace NeeView
         {
             if (isVisible)
             {
-                if (this.MainView.Cursor == Cursors.None && !MouseInputManager.Current.IsLoupeMode)
+                if (this.MainView.Cursor == Cursors.None && !MouseInput.Current.IsLoupeMode)
                 {
                     this.MainView.Cursor = null;
                 }
@@ -528,6 +485,49 @@ namespace NeeView
         #endregion
 
 
+        #region WindowStateCommand
+
+        /// <summary>
+        /// ウィンドウ最小化コマンド
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MinimizeWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.MinimizeWindow(this);
+        }
+
+        /// <summary>
+        /// 通常ウィンドウ化コマンド
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RestoreWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.RestoreWindow(this);
+        }
+
+        /// <summary>
+        /// ウィンドウ最大化コマンド
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MaximizeWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.MaximizeWindow(this);
+        }
+
+        /// <summary>
+        /// ウィンドウ終了コマンド
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CloseWindowCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.CloseWindow(this);
+        }
+
+        #endregion
 
         #region ウィンドウイベント処理
 
@@ -570,7 +570,7 @@ namespace NeeView
         private void MainWindow_StateChanged(object sender, EventArgs e)
         {
             // ルーペ解除
-            MouseInputManager.Current.IsLoupeMode = false;
+            MouseInput.Current.IsLoupeMode = false;
         }
 
 
@@ -580,7 +580,7 @@ namespace NeeView
             ContentCanvas.Current.SetViewSize(this.MainView.ActualWidth, this.MainView.ActualHeight);
 
             // スナップ
-            MouseInputManager.Current.Drag.SnapView();
+            MouseInput.Current.Drag.SnapView();
         }
 
 

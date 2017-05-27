@@ -306,14 +306,17 @@ namespace NeeView
 
                 models.SlideShow.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
 
-                models.ContentCanvasTransform.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-                models.ContentCanvasTransform.IsLimitMove = memento.IsLimitMove;
-                models.ContentCanvasTransform.AngleFrequency = memento.AngleFrequency;
-                models.ContentCanvasTransform.IsControlCenterImage = memento.IsControlCenterImage;
-                models.ContentCanvasTransform.IsKeepAngle = memento.IsKeepAngle;
-                models.ContentCanvasTransform.IsKeepFlip = memento.IsKeepFlip;
-                models.ContentCanvasTransform.IsKeepScale = memento.IsKeepScale;
-                models.ContentCanvasTransform.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
+                models.MouseInput.Normal.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
+                models.MouseInput.Loupe.IsLoupeCenter = memento.IsLoupeCenter;
+                models.MouseInput.Loupe.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
+                models.MouseInput.Drag.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
+                models.MouseInput.Drag.IsLimitMove = memento.IsLimitMove;
+                models.MouseInput.Drag.AngleFrequency = memento.AngleFrequency;
+                models.MouseInput.Drag.IsControlCenterImage = memento.IsControlCenterImage;
+                models.MouseInput.Drag.IsKeepAngle = memento.IsKeepAngle;
+                models.MouseInput.Drag.IsKeepFlip = memento.IsKeepFlip;
+                models.MouseInput.Drag.IsKeepScale = memento.IsKeepScale;
+                models.MouseInput.Drag.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
 
                 models.ContentCanvas.StretchMode = memento.StretchMode;
                 models.ContentCanvas.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
@@ -335,10 +338,6 @@ namespace NeeView
                 models.ThumbnailList.ThumbnailSize = memento.ThumbnailSize;
                 models.ThumbnailList.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
                 models.ThumbnailList.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
-
-                models.MouseInput.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
-                models.MouseInput.IsLoupeCenter = memento.IsLoupeCenter;
-                models.MouseInput.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
             }
         }
 

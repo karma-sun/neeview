@@ -164,7 +164,7 @@
 
                         <!-- スライダー -->
                         <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False">
-                            <local:PageSliderView x:Name="SliderArea"/>
+                            <local:PageSliderView x:Name="SliderArea" />
                         </ContentControl>
 
                         <!-- サムネイルリスト -->
@@ -252,10 +252,10 @@
 
                                         <!-- caption -->
                                         <TextBlock x:Name="PageCaption" VerticalAlignment="Top" HorizontalAlignment="Left"
-                                       Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
-                                       Text="{Binding WindowTitle.Title}" FontSize="16" Foreground="White"
-                                       Padding="20,5"
-                                       Background="#88000000">
+                                                   Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
+                                                   Text="{Binding WindowTitle.Title}" FontSize="16" Foreground="White"
+                                                   Padding="20,5"
+                                                   Background="#88000000">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -274,51 +274,17 @@
                                         </TextBlock>
 
                                         <!-- loupe info -->
-                                        <Grid Visibility="{Binding MouseInput.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                            <Grid x:Name="LoupeInfo" VerticalAlignment="Top" HorizontalAlignment="Right"
-                                      Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                      Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
-                                      Background="#88000000">
-                                                <TextBlock Padding="20,5"  FontSize="16" Foreground="White"
-                                           Text="{Binding LoupeScaleX, StringFormat={}×{0:.0}}"/>
+                                        <Grid Visibility="{Binding MouseInput.Loupe.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <Grid x:Name="LoupeInfo" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding MouseInput.Loupe}"
+                                                Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
+                                                Background="#88000000">
+                                                <TextBlock Padding="20,5"  FontSize="16" Foreground="White" Text="{Binding LoupeScaleX, StringFormat={}×{0:.0}}"/>
                                             </Grid>
                                         </Grid>
 
                                         <!-- Now Loading -->
                                         <local:NowLoadingView x:Name="NowLoadingView"/>
-                                        <!--
-                                        <Grid x:Name="NowLoading" Opacity="0" IsHitTestVisible="False">
-                                            <Grid.Style>
-                                                <Style TargetType="Grid">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding ElementName=NowLoading, Path=Opacity, Converter={StaticResource IsNearZeroConverter}}" Value="True">
-                                                            <Setter Property="Visibility" Value="Hidden"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Grid.Style>
-                                            <Grid x:Name="NowLoadingNormal" Background="Black">
-                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
-                                                    <TextBlock x:Name="NowLoadingText" Text="Now Loading"  TextAlignment="Center" VerticalAlignment="Center"
-                                                   Foreground="White" FontFamily="Meiryo" FontSize="{StaticResource InfoTextFontSize}" Margin="8" TextTrimming="CharacterEllipsis"/>
-                                                    <Grid Width="50" Height="50">
-                                                        <Rectangle Width="5" Height="25" Fill="#FF00B5FF" RenderTransformOrigin="0.5,0.5">
-                                                            <Rectangle.RenderTransform>
-                                                                <TransformGroup>
-                                                                    <ScaleTransform/>
-                                                                    <SkewTransform/>
-                                                                    <RotateTransform x:Name="NowLoadingMarkAngle" Angle="45"/>
-                                                                    <TranslateTransform/>
-                                                                </TransformGroup>
-                                                            </Rectangle.RenderTransform>
-                                                        </Rectangle>
-                                                    </Grid>
-                                                </StackPanel>
-                                            </Grid>
-
-                                            <TextBlock x:Name="NowLoadingTiny" Text="Now Loading ..." VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False"/>
-                                        </Grid>
-                                        -->
 
                                         <!-- Message Tiny -->
                                         <local:TinyInfoMessageView Source="{Binding InfoMessage.TinyInfoMessage}"/>

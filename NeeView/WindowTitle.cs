@@ -37,17 +37,17 @@ namespace NeeView
         }
 
         private ContentCanvas _contentCanvas;
-        private ContentCanvasTransform _contentCanvasTransform;
+        private MouseInputDrag _drag;
 
-        public WindowTitle(ContentCanvas contentCanvas, ContentCanvasTransform contentCanvasTransform)
+        public WindowTitle(ContentCanvas contentCanvas, MouseInputDrag drag)
         {
             Current = this;
 
             _contentCanvas = contentCanvas;
             _contentCanvas.ContentChanged += ContentCanvas_ContentChanged;
 
-            _contentCanvasTransform = contentCanvasTransform;
-            _contentCanvasTransform.TransformChanged += ContentCanvasTransform_TransformChanged;
+            _drag = drag;
+            _drag.TransformChanged += ContentCanvasTransform_TransformChanged;
 
             // Window title
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
@@ -126,7 +126,7 @@ namespace NeeView
         {
             var MainContent = _contentCanvas.MainContent;
             var Contents = _contentCanvas.Contents;
-            var _viewScale = _contentCanvasTransform.ViewScale;
+            var _viewScale = _drag.Scale;
 
             string format = Contents[1].IsValid ? WindowTitleFormat2 : WindowTitleFormat1;
 

@@ -127,7 +127,6 @@
     <Compile Include="BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
     <Compile Include="ContentCanvas.cs" />
-    <Compile Include="ContentCanvasTransform.cs" />
     <Compile Include="Controls\AddressBarViewModel.cs" />
     <Compile Include="Controls\MenuBar.cs" />
     <Compile Include="Controls\MenuBarViewModel.cs" />
@@ -177,7 +176,7 @@
     </Compile>
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="SaveData.cs" />
-    <Compile Include="MouseInput\MouseInput.cs" />
+    <Compile Include="MouseInput\MouseInputContext.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListBox.xaml.cs">
       <DependentUpon>BookmarkListBox.xaml</DependentUpon>
     </Compile>
@@ -327,11 +326,11 @@
       <DependentUpon>MouseDragSettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MouseInput\MouseInputHelper.cs" />
-    <Compile Include="MouseInput\MouseInputManagerForGestureEditor.cs" />
+    <Compile Include="MouseInput\MouseInputForGestureEditor.cs" />
     <Compile Include="MouseInput\MouseInputDrag.cs" />
     <Compile Include="MouseInput\MouseInputGesture.cs" />
     <Compile Include="MouseInput\MouseInputLoupe.cs" />
-    <Compile Include="MouseInput\MouseInputManager.cs" />
+    <Compile Include="MouseInput\MouseInput.cs" />
     <Compile Include="MouseInput\MouseInputNormal.cs" />
     <Compile Include="MouseInput\MouseInputBase.cs" />
     <Compile Include="MouseInput\MouseInputNormalForGestureEdit.cs" />

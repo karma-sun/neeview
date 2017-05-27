@@ -37,8 +37,8 @@ namespace NeeView
         public CommandTable CommandTable { get; private set; }
         public RoutedCommandTable RoutedCommandTable { get; private set; }
 
+        public MouseInputContext MouseInputContext { get; private set; }
         public MouseInput MouseInput { get; private set; }
-        public MouseInputManager MouseInputManager { get; private set; }
         public ContentDropManager ContentDropManager { get; private set; }
 
         //
@@ -52,7 +52,6 @@ namespace NeeView
         public MainWindowModel MainWindowModel { get; private set; }
 
         //
-        public ContentCanvasTransform ContentCanvasTransform { get; private set; }
         public ContentCanvas ContentCanvas { get; private set; }
         public ContentCanvasBrush ContentCanvasBrush { get; private set; }
         public SlideShow SlideShow { get; private set; }
@@ -106,9 +105,9 @@ namespace NeeView
             this.CommandTable = new CommandTable();
             this.RoutedCommandTable = new RoutedCommandTable(this.CommandTable);
 
-            this.MouseInput = new MouseInput();
-            this.MouseInput.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow);
-            this.MouseInputManager = new MouseInputManager(this.MouseInput);
+            this.MouseInputContext = new MouseInputContext();
+            this.MouseInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow);
+            this.MouseInput = new MouseInput(this.MouseInputContext);
             this.ContentDropManager = new ContentDropManager(window);
 
             this.InfoMessage = new InfoMessage();
@@ -121,12 +120,11 @@ namespace NeeView
 
             this.MainWindowModel = new MainWindowModel();
 
-            this.ContentCanvasTransform = new ContentCanvasTransform();
-            this.ContentCanvas = new ContentCanvas(this.ContentCanvasTransform, this.BookHub);
+            this.ContentCanvas = new ContentCanvas(this.MouseInput, this.BookHub);
             this.ContentCanvasBrush = new ContentCanvasBrush(this.ContentCanvas);
 
             this.SlideShow = new SlideShow(this.BookHub, this.BookOperation, this.MouseInput);
-            this.WindowTitle = new WindowTitle(this.ContentCanvas, this.ContentCanvasTransform);
+            this.WindowTitle = new WindowTitle(this.ContentCanvas, this.MouseInput.Drag);
 
             this.ThumbnailList = new ThumbnailList(this.BookOperation, this.BookHub);
             this.PageSlider = new PageSlider(this.BookOperation, this.BookHub, this.ThumbnailList);
@@ -198,7 +196,7 @@ namespace NeeView
             SevenZipSource.LockTime = preference.loader_archiver_7z_locktime;
 
             // マウスジェスチャーの最小移動距離
-            MouseInputManager.Current.Gesture.SetGestureMinimumDistance(
+            NeeView.MouseInput.Current.Gesture.SetGestureMinimumDistance(
                 preference.input_gesture_minimumdistance_x,
                 preference.input_gesture_minimumdistance_y);
 
@@ -222,8 +220,6 @@ namespace NeeView
             public BookOperation.Memento BookOperation { get; set; }
             [DataMember]
             public MainWindowModel.Memento MainWindowModel { get; set; }
-            [DataMember]
-            public ContentCanvasTransform.Memento ContentCanvasTransform { get; set; }
             [DataMember]
             public ContentCanvas.Memento ContentCanvas { get; set; }
             [DataMember]
@@ -269,7 +265,6 @@ namespace NeeView
             ////memento.RoutedCommandTable = this.RoutedCommandTable.CreateMemento();
             memento.InfoMessage = this.InfoMessage.CreateMemento();
             memento.BookOperation = this.BookOperation.CreateMemento();
-            memento.ContentCanvasTransform = this.ContentCanvasTransform.CreateMemento();
             memento.MainWindowModel = this.MainWindowModel.CreateMemento();
             memento.ContentCanvas = this.ContentCanvas.CreateMemento();
             memento.ContentCanvasBrush = this.ContentCanvasBrush.CreateMemento();
@@ -299,7 +294,6 @@ namespace NeeView
             this.InfoMessage.Restore(memento.InfoMessage);
             this.BookOperation.Restore(memento.BookOperation);
             this.MainWindowModel.Restore(memento.MainWindowModel);
-            this.ContentCanvasTransform.Restore(memento.ContentCanvasTransform);
             this.ContentCanvas.Restore(memento.ContentCanvas);
             this.ContentCanvasBrush.Restore(memento.ContentCanvasBrush);
             this.MouseInput.Restore(memento.MouseInput);

@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using System;
+using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -15,6 +16,14 @@ namespace NeeView
     /// </summary>
     public class MouseInputNormal : MouseInputBase
     {
+        // 左クリック長押しモード
+        private LongButtonDownMode _longLeftButtonDownMode = LongButtonDownMode.Loupe;
+        public LongButtonDownMode LongLeftButtonDownMode
+        {
+            get { return _longLeftButtonDownMode; }
+            set { _longLeftButtonDownMode = value; RaisePropertyChanged(); }
+        }
+
         /// <summary>
         /// ボタン押されている？
         /// </summary>
@@ -34,7 +43,7 @@ namespace NeeView
         /// コンストラクター
         /// </summary>
         /// <param name="context"></param>
-        public MouseInputNormal(MouseInput context) : base(context)
+        public MouseInputNormal(MouseInputContext context) : base(context)
         {
             _timer.Interval = TimeSpan.FromMilliseconds(1000);
             _timer.Tick += OnTimeout;
@@ -52,7 +61,7 @@ namespace NeeView
             if (CreateMouseButtonBits() == MouseButtonBits.LeftButton && Keyboard.Modifiers == ModifierKeys.None)
             {
                 // 左ボタン単体長押しならルーペモードへ
-                if (_context.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
+                if (this.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
                 {
                     SetState(MouseInputState.Loupe, true);
                 }
@@ -180,6 +189,31 @@ namespace NeeView
             }
         }
 
+
+        #region Memento
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public LongButtonDownMode LongLeftButtonDownMode { get; set; }
+            public bool IsVisibleLoupeInfo { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
+        }
+        #endregion
 
 
     }

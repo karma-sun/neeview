@@ -168,15 +168,17 @@ namespace NeeView
         #endregion
 
 
-        private ContentCanvasTransform _transform;
+        ////private ContentCanvasTransform _transform;
+        private MouseInput _mouse;
+
         private BookHub _bookHub; // TODO: BookOperation?
 
-        public ContentCanvas(ContentCanvasTransform transform, BookHub bookHub)
+        public ContentCanvas(MouseInput mouse, BookHub bookHub)
         {
             Current = this;
 
-            _transform = transform;
-            _transform.TransformChanged += Transform_TransformChanged;
+            _mouse = mouse;
+            _mouse.TransformChanged += Transform_TransformChanged;
 
             _bookHub = bookHub;
 
@@ -200,8 +202,12 @@ namespace NeeView
         {
             UpdateContentScalingMode();
 
-            _transform.ShowMessage(e.ActionType, MainContent);
+            MouseInput.Current.ShowMessage(e.ActionType, MainContent);
         }
+
+
+
+
 
         //
         public event EventHandler ContentChanged;
@@ -315,18 +321,18 @@ namespace NeeView
             // ルーペ解除。ここ？
             if (Preference.Current.loupe_pagechange_reset)
             {
-                MouseInputManager.Current.IsLoupeMode = false;
+                MouseInput.Current.IsLoupeMode = false;
             }
 
             // ルーペでない場合は初期化
-            if (!MouseInputManager.Current.IsLoupeMode)
+            if (!MouseInput.Current.IsLoupeMode)
             {
                 // 
-                _transform.SetMouseDragSetting(pageDirection, viewOrigin, _bookHub.BookMemento.BookReadOrder);
+                _mouse.Drag.SetMouseDragSetting(pageDirection, viewOrigin, _bookHub.BookMemento.BookReadOrder);
 
                 // リセット
                 var angle = _isAutoRotate ? GetAutoRotateAngle() : double.NaN;
-                _transform.Reset(isForce, angle);
+                _mouse.Drag.Reset(isForce, angle);
             }
         }
 
@@ -365,10 +371,20 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// ContentAngle property.
+        /// </summary>
+        private double _contentAngle;
+        public double ContentAngle
+        {
+            get { return _contentAngle; }
+            set { if (_contentAngle != value) { _contentAngle = value; RaisePropertyChanged(); } }
+        }
+
         //
         public void UpdateContentSize(double angle)
         {
-            _transform.ContentAngle = angle;
+            this.ContentAngle = angle;
             UpdateContentSize();
         }
 
@@ -391,7 +407,7 @@ namespace NeeView
                 ContentsMargin = new Thickness(0);
             }
 
-            var sizes = CalcContentSize(_viewWidth * dpi.DpiScaleX - offsetWidth, _viewHeight * dpi.DpiScaleY, _transform.ContentAngle);
+            var sizes = CalcContentSize(_viewWidth * dpi.DpiScaleX - offsetWidth, _viewHeight * dpi.DpiScaleY, this.ContentAngle);
 
             for (int i = 0; i < 2; ++i)
             {
@@ -407,18 +423,21 @@ namespace NeeView
         private void UpdateContentScalingMode()
         {
             var dpiScaleX = App.Config.RawDpi.DpiScaleX;
+
+            double finalScale = _mouse.Drag.Scale * MouseInput.Current.Loupe.LoupeScale;
+
             foreach (var content in Contents)
             {
                 if (content.View != null && content.View.Element is Rectangle)
                 {
                     double diff = Math.Abs(content.Size.Width - content.Width * dpiScaleX);
-                    if (App.Config.IsDpiSquare && diff < 0.1 && _transform.Angle == 0.0 && Math.Abs(_transform.FinalScale - 1.0) < 0.001)
+                    if (App.Config.IsDpiSquare && diff < 0.1 && _mouse.Drag.Angle == 0.0 && Math.Abs(finalScale - 1.0) < 0.001)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                     }
                     else
                     {
-                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * dpiScaleX * _transform.FinalScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * dpiScaleX * finalScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
                     }
                 }
             }

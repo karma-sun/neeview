@@ -44,7 +44,7 @@ namespace NeeView
         {
             var path = parameter as string;
             if (parameter == null) return;
-            BookHub.Current.Load(path);
+            BookHub.Current.RequestLoad(path, null, BookLoadOption.None, true);
         }
 
         public void RaiseCanExecuteChanged()
@@ -246,7 +246,7 @@ namespace NeeView
                 if (App.StartupPlace != null)
                 {
                     // 起動引数の場所で開く
-                    BookHub.Current.Load(App.StartupPlace);
+                    BookHub.Current.RequestLoad(App.StartupPlace, null, BookLoadOption.None, true);
                 }
                 else
                 {
@@ -270,7 +270,7 @@ namespace NeeView
             string place = BookHistory.Current.LastAddress;
             if (place != null || System.IO.Directory.Exists(place) || System.IO.File.Exists(place))
             {
-                BookHub.Current.Load(place, BookLoadOption.Resume);
+                BookHub.Current.RequestLoad(place, null, BookLoadOption.Resume, true);
             }
         }
 
@@ -284,15 +284,30 @@ namespace NeeView
         public void LoadAs()
         {
             var dialog = new OpenFileDialog();
-            dialog.InitialDirectory = BookHub.Current.GetDefaultFolder();
+            dialog.InitialDirectory = GetDefaultFolder();
 
             if (dialog.ShowDialog(App.Current.MainWindow) == true)
             {
-                BookHub.Current.Load(dialog.FileName);
+                BookHub.Current.RequestLoad(dialog.FileName, null, BookLoadOption.None, true);
             }
             else
             {
                 return;
+            }
+        }
+
+
+        // ファイルを開く基準となるフォルダーを取得
+        private string GetDefaultFolder()
+        {
+            // 既に開いている場合、その場所を起点とする
+            if (Preference.Current.openbook_begin_current && BookHub.Current.Book != null)
+            {
+                return System.IO.Path.GetDirectoryName(BookHub.Current.Book.Place);
+            }
+            else
+            {
+                return "";
             }
         }
 

@@ -12,11 +12,9 @@ namespace NeeView
     {
         public static BookSetting Current { get; private set; }
 
-        public BookSetting(BookOperation bookOperation)
+        public BookSetting()
         {
             Current = this;
-
-            _bookOperation = bookOperation;
 
             this.SettingChanged +=
                 (s, e) => RaisePropertyChanged(nameof(BookMemento));
@@ -31,9 +29,6 @@ namespace NeeView
         {
             SettingChanged?.Invoke(this, null);
         }
-
-
-        private BookOperation _bookOperation;
 
 
         /// <summary>
@@ -122,9 +117,10 @@ namespace NeeView
 
 
         // 本の設定を更新
+        // TODO: BookHubアクセスは逆参照になっている。イベントで処理すべき？
         private void RefleshBookSetting()
         {
-            _bookOperation.Book?.Restore(BookMemento);
+            BookHub.Current.Book?.Restore(BookMemento);
             SettingChanged?.Invoke(this, null);
         }
 
@@ -219,7 +215,7 @@ namespace NeeView
         {
             if (IsLoading()) return;
             var mode = BookMemento.SortMode.GetToggle();
-            _bookOperation.Book?.SetSortMode(mode);
+            ////_bookHub.Book?.SetSortMode(mode);
             BookMemento.SortMode = mode;
             RefleshBookSetting();
         }
@@ -228,7 +224,7 @@ namespace NeeView
         public void SetSortMode(PageSortMode mode)
         {
             if (IsLoading()) return;
-            _bookOperation.Book?.SetSortMode(mode);
+            ////_bookHub.Book?.SetSortMode(mode);
             BookMemento.SortMode = mode;
             RefleshBookSetting();
         }

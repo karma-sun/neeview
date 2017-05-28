@@ -99,7 +99,7 @@
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="圧縮ファイルをサポートする"
                               ToolTip="圧縮ファイル内のファイルを表示できるようにします"
-                              IsChecked="{Binding Setting.BookHubMemento.IsSupportArchiveFile}" />
+                              IsChecked="{Binding Setting.Memento.ArchiverManager.IsEnabled}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="アニメーションGIFを再生する"
                               ToolTip="アニメーションGIF再生を行います。長時間のGIFで問題が発生する可能性があります"
                               IsChecked="{Binding Setting.BookHubMemento.IsEnableAnimatedGif}" />
@@ -333,7 +333,7 @@
                                       IsChecked="{Binding Setting.Memento.FolderList.FolderIconLayout, Converter={StaticResource FolderIconLayoutToBooleanConverter}}" />
                             <DockPanel Style="{StaticResource ItemDockPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="ホームの場所"/>
-                                <nlc:FileNameBox x:Name="HomePathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding Setting.BookHubMemento.Home, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectDirectory="True" Note="フォルダーを指定してください"/>
+                                <nlc:FileNameBox x:Name="HomePathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding Setting.Memento.FolderList.Home, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectDirectory="True" Note="フォルダーを指定してください"/>
                             </DockPanel>
                         </StackPanel>
 
@@ -516,7 +516,7 @@
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="プログラム" />
                                 <nlc:FileNameBox x:Name="ExAppPath" Margin="2,0" SelectDirectory="False" Title="プログラムの選択" Filter="EXE|*.exe|すべてのファイル|*.*"
                             Note="指定がない場合は拡張子に関連付けられたアプリを起動します"
-                            Text="{Binding Setting.BookHubMemento.ExternalApplication.Command, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            Text="{Binding Setting.Memento.BookOperation.ExternalApplication.Command, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             </DockPanel>
                             <DockPanel>
                                 <DockPanel.Style>
@@ -534,12 +534,12 @@
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="2ページの場合"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding MultiPageOptionTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.BookHubMemento.ExternalApplication.MultiPageOption}" />
+                                  SelectedValue="{Binding Setting.Memento.BookOperation.ExternalApplication.MultiPageOption}" />
                             </StackPanel>
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="圧縮ファイルの場合" />
                                 <ComboBox Style="{StaticResource ItemComboBox}" x:Name="ExAppArchiveProcess" ItemsSource="{Binding ArchiveOptionTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.BookHubMemento.ExternalApplication.ArchiveOption}" />
+                                  SelectedValue="{Binding Setting.Memento.BookOperation.ExternalApplication.ArchiveOption}" />
                             </StackPanel>
                         </StackPanel>
 
@@ -549,12 +549,12 @@
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="2ページの場合"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding MultiPageOptionTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.BookHubMemento.ClipboardUtility.MultiPageOption}" />
+                                  SelectedValue="{Binding Setting.Memento.BookOperation.ClipboardUtility.MultiPageOption}" />
                             </StackPanel>
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="圧縮ファイルの場合" />
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ArchiveOptionTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.BookHubMemento.ClipboardUtility.ArchiveOption}" />
+                                  SelectedValue="{Binding Setting.Memento.BookOperation.ClipboardUtility.ArchiveOption}" />
                             </StackPanel>
                         </StackPanel>
 

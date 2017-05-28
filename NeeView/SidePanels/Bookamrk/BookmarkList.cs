@@ -27,8 +27,7 @@ namespace NeeView
 
         //
         private PanelListItemStyle _panelListItemStyle;
-
-
+        
 
         //
         public BookHub BookHub { get; private set; }
@@ -38,6 +37,51 @@ namespace NeeView
         {
             this.BookHub = bookHub;
         }
+
+
+
+        #region Command
+
+        // ブックマークを戻る
+        public void PrevBookmark()
+        {
+            if (BookHub.IsLoading) return;
+
+            if (!BookmarkCollection.Current.CanMoveSelected(-1))
+            {
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "前のブックマークはありません");
+                return;
+            }
+
+            var unit = BookmarkCollection.Current.MoveSelected(-1);
+            if (unit != null)
+            {
+                BookHub.RequestLoad(unit.Value.Memento.Place, null, BookLoadOption.SkipSamePlace, false);
+            }
+        }
+
+
+        // ブックマークを進む
+        public void NextBookmark()
+        {
+            if (BookHub.IsLoading) return;
+
+            if (!BookmarkCollection.Current.CanMoveSelected(+1))
+            {
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "次のブックマークはありません");
+                return;
+            }
+
+            var unit = BookmarkCollection.Current.MoveSelected(+1);
+            if (unit != null)
+            {
+                BookHub.RequestLoad(unit.Value.Memento.Place, null, BookLoadOption.SkipSamePlace, false);
+            }
+        }
+
+        #endregion
+
+
 
         #region Memento
         [DataContract]

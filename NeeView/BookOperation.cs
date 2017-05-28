@@ -8,10 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace NeeView
 {
@@ -50,13 +53,24 @@ namespace NeeView
 
 
         //
-        public BookOperation()
+        public BookOperation(BookHub bookHub)
         {
             Current = this;
 
-            ////this.InfoMessage +=
-            ////    (s, e) => NeeView.InfoMessage.Current.SetMessage(NoticeShowMessageStyle, e);
+            _bookHub = bookHub;
+
+            _bookHub.BookChanged +=
+                (s, e) => SetBook(_bookHub.BookUnit);
+
+            _bookHub.Loading +=
+                (s, e) =>
+                {
+                    if (_bookHub.IsLoading) IsEnabled = false;
+                };
         }
+
+        //
+        private BookHub _bookHub;
 
         /// <summary>
         /// 本の更新
@@ -73,6 +87,9 @@ namespace NeeView
                 this.Book.PageTerminated += Book_PageTerminated;
                 this.Book.PageRemoved += Book_PageRemoved;
             }
+
+            //
+            RaisePropertyChanged(nameof(IsBookmark));
 
             // マーカー復元
             // TODO: PageMarkersのしごと？
@@ -102,11 +119,6 @@ namespace NeeView
         }
 
 
-        // メッセージ通知
-        // TODO: メッセージ系はグローバルなので専用モデルにして直接コール？
-        //public event EventHandler<string> InfoMessage;
-
-
         /// <summary>
         /// IsEnabled property.
         /// ロード中は機能を無効にするため
@@ -127,7 +139,7 @@ namespace NeeView
         public BookUnit BookUnit
         {
             get { return _bookUnit; }
-            set { if (_bookUnit != value) { _bookUnit = value; RaisePropertyChanged(); /*BookChanged?.Invoke(this, null);*/ } }
+            set { if (_bookUnit != value) { _bookUnit = value; RaisePropertyChanged(); } }
         }
 
         private BookUnit _bookUnit;
@@ -204,7 +216,163 @@ namespace NeeView
 
 
 
-        #region BookCommand
+        /// <summary>
+        /// 外部アプリ設定
+        /// </summary>
+        public ExternalApplication ExternalApplication
+        {
+            get { return _ExternalApplication; }
+            set { if (_ExternalApplication != value) { _ExternalApplication = value ?? new ExternalApplication(); RaisePropertyChanged(); } }
+        }
+
+        private ExternalApplication _ExternalApplication = new ExternalApplication();
+
+
+        /// <summary>
+        /// クリップボード
+        /// </summary>
+        public ClipboardUtility ClipboardUtility
+        {
+            get { return _ClipboardUtility; }
+            set { if (_ClipboardUtility != value) { _ClipboardUtility = value ?? new ClipboardUtility(); RaisePropertyChanged(); } }
+        }
+
+        private ClipboardUtility _ClipboardUtility = new ClipboardUtility();
+
+
+
+
+        #region BookCommand : ページ削除
+
+        // 現在表示しているページのファイル削除可能？
+        public bool CanDeleteFile()
+        {
+            return Preference.Current.file_permit_command && FileIO.Current.CanRemoveFile(Book?.GetViewPage());
+        }
+
+        // 現在表示しているページのファイルを削除する
+        public async void DeleteFile()
+        {
+            if (CanDeleteFile())
+            {
+                await FileIO.Current.RemoveFile(Book?.GetViewPage());
+            }
+        }
+
+        #endregion
+
+        #region BookCommand : ページ出力
+
+        // ファイルの場所を開くことが可能？
+        public bool CanOpenFilePlace()
+        {
+            return Book?.GetViewPage() != null;
+        }
+
+        // ファイルの場所を開く
+        public void OpenFilePlace()
+        {
+            if (CanOpenFilePlace())
+            {
+                string place = Book.GetViewPage()?.GetFilePlace();
+                if (place != null)
+                {
+                    System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + place + "\"");
+                }
+            }
+        }
+
+
+
+
+        // 外部アプリで開く
+        public void OpenApplication()
+        {
+            if (CanOpenFilePlace())
+            {
+                try
+                {
+                    this.ExternalApplication.Call(Book?.GetViewPages());
+                }
+                catch (Exception e)
+                {
+                    new MessageDialog($"原因: {e.Message}", "外部アプリ実行に失敗しました").ShowDialog();
+                }
+            }
+        }
+
+
+        // クリップボードにコピー
+        public void CopyToClipboard()
+        {
+            if (CanOpenFilePlace())
+            {
+                try
+                {
+                    this.ClipboardUtility.Copy(Book?.GetViewPages());
+                }
+                catch (Exception e)
+                {
+                    new MessageDialog($"原因: {e.Message}", "コピーに失敗しました").ShowDialog();
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// ファイル保存可否
+        /// </summary>
+        /// <returns></returns>
+        public bool CanExport()
+        {
+            var pages = Book?.GetViewPages();
+            if (pages == null || pages.Count == 0) return false;
+
+            var bitmapSource = (pages[0].Content as BitmapContent)?.BitmapSource;
+            if (bitmapSource == null) return false;
+
+            return true;
+        }
+
+        // ファイルに保存する
+        // TODO: OutOfMemory対策
+        public void Export()
+        {
+            if (CanExport())
+            {
+                try
+                {
+                    var pages = Book.GetViewPages();
+                    int index = Book.GetViewPageindex() + 1;
+                    string name = $"{Path.GetFileNameWithoutExtension(Book.Place)}_{index:000}-{index + pages.Count - 1:000}.png";
+                    var exporter = new Exporter();
+                    exporter.Initialize(pages, Book.BookReadOrder, name);
+                    exporter.Background = ContentCanvasBrush.Current.CreateBackgroundBrush();
+                    exporter.BackgroundFront = ContentCanvasBrush.Current.CreateBackgroundFrontBrush(new DpiScale(1, 1));
+                    if (exporter.ShowDialog() == true)
+                    {
+                        try
+                        {
+                            exporter.Export();
+                        }
+                        catch (Exception e)
+                        {
+                            new MessageDialog($"原因: {e.Message}", "ファイル保存に失敗しました").ShowDialog();
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    new MessageDialog($"この画像は出力できません。\n原因: {e.Message}", "ファイル保存に失敗しました").ShowDialog();
+                    return;
+                }
+            }
+        }
+
+
+        #endregion
+
+        #region BookCommand : ページ操作
 
         // ページ終端を超えて移動しようとするときの処理
         private void Book_PageTerminated(object sender, int e)
@@ -331,10 +499,51 @@ namespace NeeView
 
         #endregion
 
+        #region BookCommand : ブックマーク
+
+        // ブックマーク登録可能？
+        public bool CanBookmark()
+        {
+            return (Book != null);
+        }
+
+        // ブックマーク切り替え
+        public void ToggleBookmark()
+        {
+            if (CanBookmark())
+            {
+                if (BookUnit.Book.Place.StartsWith(Temporary.TempDirectory))
+                {
+                    new MessageDialog($"原因: 一時フォルダーはブックマークできません", "ブックマークできません").ShowDialog();
+                }
+                else
+                {
+                    BookUnit.BookMementoUnit = BookmarkCollection.Current.Toggle(BookUnit.BookMementoUnit, Book.CreateMemento());
+                    RaisePropertyChanged(nameof(IsBookmark));
+                }
+            }
+        }
+
+        // ブックマーク判定
+        public bool IsBookmark
+        {
+            get
+            {
+                if (BookUnit?.BookMementoUnit != null && BookUnit.BookMementoUnit.Memento.Place == Book.Place)
+                {
+                    return BookUnit.BookMementoUnit.BookmarkNode != null;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        #endregion
 
 
-
-        #region Pagemark
+        #region BookCommand : ページマーク
 
         // ページマークにに追加、削除された
         public event EventHandler<PagemarkChangedEventArgs> PagemarkChanged;
@@ -465,6 +674,10 @@ namespace NeeView
         {
             [DataMember]
             public PageEndAction PageEndAction { get; set; }
+            [DataMember]
+            public ExternalApplication ExternalApplication { get; set; }
+            [DataMember]
+            public ClipboardUtility ClipboardUtility { get; set; }
         }
 
         //
@@ -472,6 +685,8 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.PageEndAction = this.PageEndAction;
+            memento.ExternalApplication = ExternalApplication.Clone();
+            memento.ClipboardUtility = ClipboardUtility.Clone();
             return memento;
         }
 
@@ -480,6 +695,8 @@ namespace NeeView
         {
             if (memento == null) return;
             this.PageEndAction = memento.PageEndAction;
+            this.ExternalApplication = memento.ExternalApplication?.Clone();
+            this.ClipboardUtility = memento.ClipboardUtility?.Clone();
         }
         #endregion
 

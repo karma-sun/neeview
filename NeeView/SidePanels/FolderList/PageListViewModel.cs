@@ -203,13 +203,13 @@ namespace NeeView
         //
         public bool CanRemove(Page page)
         {
-            return _bookHub.CanRemoveFile(page);
+            return FileIO.Current.CanRemoveFile(page);
         }
 
         //
         public async Task Remove(Page page)
         {
-            await _bookHub.RemoveFile(page);
+            await FileIO.Current.RemoveFile(page);
         }
 
         // サムネイル要求

@@ -274,8 +274,8 @@ namespace NeeView
                 element.Group = "ファイル";
                 element.Text = "外部アプリで開く";
                 element.Note = "表示されている画像を外部アプリで開きます。設定ウィンドウの<code>外部連携</code>でアプリを設定します";
-                element.Execute = (s, e) => _book.OpenApplication();
-                element.CanExecute = () => _book.CanOpenFilePlace();
+                element.Execute = (s, e) => _models.BookOperation.OpenApplication();
+                element.CanExecute = () => _models.BookOperation.CanOpenFilePlace();
                 element.IsShowMessage = false;
                 _elements[CommandType.OpenApplication] = element;
             }
@@ -285,8 +285,8 @@ namespace NeeView
                 element.Group = "ファイル";
                 element.Text = "エクスプローラーで開く";
                 element.Note = "表示しているページのファイルをエクスプローラーで開きます";
-                element.Execute = (s, e) => _book.OpenFilePlace();
-                element.CanExecute = () => _book.CanOpenFilePlace();
+                element.Execute = (s, e) => _models.BookOperation.OpenFilePlace();
+                element.CanExecute = () => _models.BookOperation.CanOpenFilePlace();
                 element.IsShowMessage = false;
                 _elements[CommandType.OpenFilePlace] = element;
             }
@@ -298,8 +298,8 @@ namespace NeeView
                 element.MenuText = "保存(_S)...";
                 element.Note = "画像をファイルに保存します";
                 element.ShortCutKey = "Ctrl+S";
-                element.Execute = (s, e) => _book.Export();
-                element.CanExecute = () => _book.CanExport();
+                element.Execute = (s, e) => _models.BookOperation.Export();
+                element.CanExecute = () => _models.BookOperation.CanExport();
                 element.IsShowMessage = false;
                 _elements[CommandType.Export] = element;
             }
@@ -324,8 +324,8 @@ namespace NeeView
                 element.MenuText = "削除(_D)...";
                 element.Note = "ファイルを削除します。圧縮ファイルの場合は削除できません ";
                 element.ShortCutKey = "Delete";
-                element.Execute = (s, e) => _book.DeleteFile();
-                element.CanExecute = () => _book.CanDeleteFile();
+                element.Execute = (s, e) => _models.BookOperation.DeleteFile();
+                element.CanExecute = () => _models.BookOperation.CanDeleteFile();
                 element.IsShowMessage = false;
                 _elements[CommandType.DeleteFile] = element;
             }
@@ -337,8 +337,8 @@ namespace NeeView
                 element.MenuText = "コピー(_C)";
                 element.Note = "ファイルをクリップボードにコピーします";
                 element.ShortCutKey = "Ctrl+C";
-                element.Execute = (s, e) => _book.CopyToClipboard();
-                element.CanExecute = () => _book.CanOpenFilePlace();
+                element.Execute = (s, e) => _models.BookOperation.CopyToClipboard();
+                element.CanExecute = () => _models.BookOperation.CanOpenFilePlace();
                 element.IsShowMessage = true;
                 _elements[CommandType.CopyFile] = element;
             }
@@ -1544,11 +1544,11 @@ namespace NeeView
                 element.Text = "ブックマーク登録/解除";
                 element.MenuText = "ブックマーク";
                 element.Note = "現在開いているブックのブックマークの登録/解除を切り替えます";
-                element.Execute = (s, e) => _book.ToggleBookmark();
-                element.CanExecute = () => _book.CanBookmark();
-                element.ExecuteMessage = e => _book.IsBookmark ? "ブックマーク解除" : "ブックマークに登録";
+                element.Execute = (s, e) => _models.BookOperation.ToggleBookmark();
+                element.CanExecute = () => _models.BookOperation.CanBookmark();
+                element.ExecuteMessage = e => _models.BookOperation.IsBookmark ? "ブックマーク解除" : "ブックマークに登録";
                 element.IsShowMessage = true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_book.IsBookmark)) { Source = _book, Mode = BindingMode.OneWay };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.BookOperation.IsBookmark)) { Source = _models.BookOperation, Mode = BindingMode.OneWay };
                 element.ShortCutKey = "Ctrl+D";
                 _elements[CommandType.ToggleBookmark] = element;
             }
@@ -1560,7 +1560,7 @@ namespace NeeView
                 element.Text = "前のブックマークに移動";
                 element.Note = "ブックマークリスト順で前のブックに移動します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _book.PrevBookmark();
+                element.Execute = (s, e) => _models.BookmarkList.PrevBookmark();
                 _elements[CommandType.PrevBookmark] = element;
             }
             // NextBookmark
@@ -1570,7 +1570,7 @@ namespace NeeView
                 element.Text = "次のブックマークへ移動";
                 element.Note = "ブックマークリスト順で次のブックに移動します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _book.NextBookmark();
+                element.Execute = (s, e) => _models.BookmarkList.NextBookmark();
                 _elements[CommandType.NextBookmark] = element;
             }
 

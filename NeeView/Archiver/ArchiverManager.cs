@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -175,5 +176,30 @@ namespace NeeView
 
             return CreateArchiver(GetSupportedType(path), path, null, source);
         }
+
+        #region Memento
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public bool IsEnabled { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.IsEnabled = this.IsEnabled;
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            this.IsEnabled = memento.IsEnabled;
+        }
+        #endregion
+
     }
 }

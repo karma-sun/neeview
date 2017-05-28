@@ -121,7 +121,6 @@ namespace NeeView
         }
 
 
-
         // インスタンスのクローン
         public ClipboardUtility Clone()
         {

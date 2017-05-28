@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -111,6 +112,27 @@ namespace NeeView
         private bool _isVisibleBookmarkMark = true;
 
 
+        /// </summary>
+        private string _home;
+        public string Home
+        {
+            get { return _home; }
+            set { if (_home != value) { _home = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// 補正されたHOME取得
+        /// </summary>
+        /// <returns></returns>
+        public string GetFixedHome()
+        {
+            if (Directory.Exists(_home)) return _home;
+
+            var myPicture = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures);
+            if (Directory.Exists(myPicture)) return myPicture;
+
+            return Environment.CurrentDirectory;
+        }
 
 
 
@@ -215,7 +237,7 @@ namespace NeeView
         /// <param name="place"></param>
         public void ResetPlace(string place)
         {
-            SetPlace(place ?? _bookHub.GetFixedHome(), null, false);
+            SetPlace(place ?? GetFixedHome(), null, false);
         }
 
         //
@@ -512,7 +534,7 @@ namespace NeeView
         public void SetHome_Executed()
         {
             if (_bookHub == null) return;
-            _bookHub.Home = _place;
+            this.Home = _place;
         }
 
         //
@@ -520,7 +542,7 @@ namespace NeeView
         {
             if (_bookHub == null) return;
 
-            var place = _bookHub.GetFixedHome();
+            var place = GetFixedHome();
             SetPlace(place, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.IsTopSelect);
         }
 
@@ -631,6 +653,10 @@ namespace NeeView
 
             [DataMember]
             public bool IsVisibleBookmarkMark { get; set; }
+
+            [DataMember]
+            public string Home { get; set; }
+
         }
 
         //
@@ -641,6 +667,7 @@ namespace NeeView
             memento.FolderIconLayout = this.FolderIconLayout;
             memento.IsVisibleHistoryMark = this.IsVisibleHistoryMark;
             memento.IsVisibleBookmarkMark = this.IsVisibleBookmarkMark;
+            memento.Home = this.Home;
             return memento;
         }
 
@@ -653,6 +680,7 @@ namespace NeeView
             this.FolderIconLayout = memento.FolderIconLayout;
             this.IsVisibleHistoryMark = memento.IsVisibleHistoryMark;
             this.IsVisibleBookmarkMark = memento.IsVisibleBookmarkMark;
+            this.Home = memento.Home;
 
             // Preference反映
             ///RaisePropertyChanged(nameof(FolderIconLayout));

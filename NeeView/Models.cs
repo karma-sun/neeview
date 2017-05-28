@@ -116,9 +116,9 @@ namespace NeeView
 
             this.InfoMessage = new InfoMessage();
 
-            this.BookOperation = new BookOperation();
-            this.BookSetting = new BookSetting(this.BookOperation);
-            this.BookHub = new BookHub(this.BookSetting, this.BookOperation);
+            this.BookSetting = new BookSetting();
+            this.BookHub = new BookHub(this.BookSetting);
+            this.BookOperation = new BookOperation(this.BookHub);
 
 
 
@@ -217,11 +217,14 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            ////[DataMember]
-            ////public int _Version { get; set; }
+            [DataMember]
+            public int _Version { get; set; }
+
             [DataMember]
             public MemoryControl.Memento MemoryControl { get; set; }
-            [DataMember(EmitDefaultValue = false)]
+            [DataMember]
+            public ArchiverManager.Memento ArchiverManager { get; set; }
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public RoutedCommandTable.Memento RoutedCommandTable { get; set; } // no used
             [DataMember]
             public InfoMessage.Memento InfoMessage { get; set; }
@@ -270,10 +273,10 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            ////memento._Version = App.Config.ProductVersionNumber;
+            memento._Version = App.Config.ProductVersionNumber;
 
             memento.MemoryControl = this.MemoryControl.CreateMemento();
-            ////memento.RoutedCommandTable = this.RoutedCommandTable.CreateMemento();
+            memento.ArchiverManager = this.ArchiverManager.CreateMemento();
             memento.InfoMessage = this.InfoMessage.CreateMemento();
             memento.BookOperation = this.BookOperation.CreateMemento();
             memento.BookSetting = this.BookSetting.CreateMemento();
@@ -302,7 +305,7 @@ namespace NeeView
         {
             if (memento == null) return;
             this.MemoryControl.Restore(memento.MemoryControl);
-            this.RoutedCommandTable.Restore(memento.RoutedCommandTable); // compatible before ver.23
+            this.ArchiverManager.Restore(memento.ArchiverManager);
             this.InfoMessage.Restore(memento.InfoMessage);
             this.BookOperation.Restore(memento.BookOperation);
             this.BookSetting.Restore(memento.BookSetting);
@@ -323,7 +326,19 @@ namespace NeeView
             this.FileInformation.Restore(memento.FileInformation);
             this.ImageEffect.Restore(memento.ImageEffect, fromLoad); // TODO: formLoadフラグの扱いを検討
             this.SidePanel.Restore(memento.SidePanel);
+
+#pragma warning disable CS0612
+
+            // compatible before ver.23
+            if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
+            {
+                this.RoutedCommandTable.Restore(memento.RoutedCommandTable);
+            }
+
+#pragma warning restore CS0612
+
         }
+
         #endregion
     }
 }

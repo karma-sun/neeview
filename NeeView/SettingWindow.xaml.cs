@@ -225,11 +225,11 @@ namespace NeeView
         #region Property: ExternalApplicationParam
         public string ExternalApplicationParam
         {
-            get { return Setting.BookHubMemento.ExternalApplication.Parameter; }
+            get { return Setting.Memento.BookOperation.ExternalApplication.Parameter; }
             set
             {
                 var validValue = ExternalApplication.ValidateApplicationParam(value);
-                Setting.BookHubMemento.ExternalApplication.Parameter = validValue;
+                Setting.Memento.BookOperation.ExternalApplication.Parameter = validValue;
                 RaisePropertyChanged();
             }
         }

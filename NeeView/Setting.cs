@@ -97,8 +97,8 @@ namespace NeeView
             if (_Version < Config.GenerateProductVersionNumber(1, 20, 0))
             {
                 PreferenceMemento.Add("openbook_begin_current", BookHubMemento.IsEnarbleCurrentDirectory.ToString());
+                BookHubMemento.IsEnarbleCurrentDirectory = false;
             }
-            BookHubMemento.IsEnarbleCurrentDirectory = false;
         }
 
 #pragma warning restore CS0612

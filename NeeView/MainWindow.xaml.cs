@@ -35,7 +35,7 @@ namespace NeeView
         public MainWindow()
         {
             InitializeComponent();
-            
+
             // Preferenceの復元は最優先
             Preference.Current.Restore(App.Setting.PreferenceMemento);
 
@@ -60,6 +60,7 @@ namespace NeeView
 
 
             // コマンド初期化
+            InitializeCommand();
             InitializeCommandBindings();
 
             // レイヤー表示管理初期化
@@ -73,10 +74,6 @@ namespace NeeView
                     SaveData.Current.IsEnableSave = false; // 保存禁止
                     this.Close();
                 };
-
-            // コマンド変更でショートカット変更
-            models.CommandTable.Changed +=
-                (s, e) => InitializeInputGestures();
 
             //
             models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsHideMenu),
@@ -120,7 +117,7 @@ namespace NeeView
 
 
             // initialize routed commands
-            InitializeInputGestures();
+            RoutedCommandTable.Current.InitializeInputGestures();
 
             // mouse event capture for active check
             this.MainView.PreviewMouseMove += MainView_PreviewMouseMove;
@@ -190,13 +187,12 @@ namespace NeeView
 
         #region コマンドバインディング
 
-        // RoutedCommand バインディング
-        public void InitializeCommandBindings()
+        // MainWindow依存コマンド登録
+        public void InitializeCommand()
         {
-            var mouse = MouseInput.Current;
             var commandTable = CommandTable.Current;
 
-            // View系コマンド登録
+            // MainWindow:View依存コマンド登録
             commandTable[CommandType.CloseApplication].Execute =
                 (s, e) => this.Close();
             commandTable[CommandType.ToggleWindowMinimize].Execute =
@@ -204,66 +200,7 @@ namespace NeeView
             commandTable[CommandType.ToggleWindowMaximize].Execute =
                 (s, e) => MainWindow_Maximize();
 
-
-            // mouse系
-            // TODO : Mouse系はMouseInputManagerで処理できないか？
-            commandTable[CommandType.ViewScrollUp].Execute =
-                (s, e) =>
-                {
-                    var parameter = (ViewScrollCommandParameter)commandTable[CommandType.ViewScrollUp].Parameter;
-                    mouse.Drag.ScrollUp(parameter.Scroll / 100.0);
-                };
-            commandTable[CommandType.ViewScrollDown].Execute =
-                (s, e) =>
-                {
-                    var parameter = (ViewScrollCommandParameter)commandTable[CommandType.ViewScrollDown].Parameter;
-                    mouse.Drag.ScrollDown(parameter.Scroll / 100.0);
-                };
-            commandTable[CommandType.ViewScaleUp].Execute =
-                (s, e) =>
-                {
-                    var parameter = (ViewScaleCommandParameter)commandTable[CommandType.ViewScaleUp].Parameter;
-                    mouse.Drag.ScaleUp(parameter.Scale / 100.0);
-                };
-            commandTable[CommandType.ViewScaleDown].Execute =
-                (s, e) =>
-                {
-                    var parameter = (ViewScaleCommandParameter)commandTable[CommandType.ViewScaleDown].Parameter;
-                    mouse.Drag.ScaleDown(parameter.Scale / 100.0);
-                };
-            commandTable[CommandType.ViewRotateLeft].Execute =
-                (s, e) =>
-                {
-                    var parameter = (ViewRotateCommandParameter)commandTable[CommandType.ViewRotateLeft].Parameter;
-                    if (parameter.IsStretch) mouse.Drag.ResetDefault();
-                    mouse.Drag.Rotate(-parameter.Angle);
-                    if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(mouse.Drag.Angle);
-                };
-            commandTable[CommandType.ViewRotateRight].Execute =
-                (s, e) =>
-                {
-                    var parameter = (ViewRotateCommandParameter)commandTable[CommandType.ViewRotateRight].Parameter;
-                    if (parameter.IsStretch) mouse.Drag.ResetDefault();
-                    mouse.Drag.Rotate(+parameter.Angle);
-                    if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(mouse.Drag.Angle);
-                };
-            commandTable[CommandType.ToggleViewFlipHorizontal].Execute =
-                (s, e) => mouse.Drag.ToggleFlipHorizontal();
-            commandTable[CommandType.ViewFlipHorizontalOn].Execute =
-                (s, e) => mouse.Drag.FlipHorizontal(true);
-            commandTable[CommandType.ViewFlipHorizontalOff].Execute =
-                (s, e) => mouse.Drag.FlipHorizontal(false);
-
-            commandTable[CommandType.ToggleViewFlipVertical].Execute =
-                (s, e) => mouse.Drag.ToggleFlipVertical();
-            commandTable[CommandType.ViewFlipVerticalOn].Execute =
-                (s, e) => mouse.Drag.FlipVertical(true);
-            commandTable[CommandType.ViewFlipVerticalOff].Execute =
-                (s, e) => mouse.Drag.FlipVertical(false);
-
-            commandTable[CommandType.ViewReset].Execute =
-                (s, e) => ContentCanvas.Current.ResetTransform(true);
-
+            // move page with cursor position
             commandTable[CommandType.MovePageWithCursor].CanExecute =
                 () => BookOperation.Current.IsValid;
             commandTable[CommandType.MovePageWithCursor].Execute =
@@ -271,35 +208,31 @@ namespace NeeView
             commandTable[CommandType.MovePageWithCursor].ExecuteMessage =
                 (e) => _vm.MovePageWithCursorMessage(this.MainView);
 
-            // loupe
-            commandTable[CommandType.ToggleIsLoupe].Execute =
-                (s, e) => mouse.IsLoupeMode = !mouse.IsLoupeMode;
-            commandTable[CommandType.ToggleIsLoupe].ExecuteMessage =
-                e => mouse.IsLoupeMode ? "ルーペOFF" : "ルーペON";
-            commandTable[CommandType.ToggleIsLoupe].CreateIsCheckedBinding =
-                () => new Binding(nameof(mouse.IsLoupeMode)) { Mode = BindingMode.OneWay, Source = mouse };
-            commandTable[CommandType.LoupeOn].Execute =
-                (s, e) => mouse.IsLoupeMode = true;
-            commandTable[CommandType.LoupeOff].Execute =
-                (s, e) => mouse.IsLoupeMode = false;
-
             // print
             commandTable[CommandType.Print].Execute =
                 (s, e) => ContentCanvas.Current.Print(this, this.PageContents, this.MainContent.RenderTransform, this.MainView.ActualWidth, this.MainView.ActualHeight);
 
             // context menu
             commandTable[CommandType.OpenContextMenu].Execute =
-                (s, e) =>
-                {
-                    if (this.MainViewPanel.ContextMenu != null)
-                    {
-                        this.MainViewPanel.ContextMenu.DataContext = _vm;
-                        this.MainViewPanel.ContextMenu.PlacementTarget = this.MainViewPanel;
-                        this.MainViewPanel.ContextMenu.Placement = PlacementMode.MousePoint;
-                        this.MainViewPanel.ContextMenu.IsOpen = true;
-                    }
-                };
+                (s, e) => OpenContextMenu();
+        }
 
+        // コマンド：コンテキストメニューを開く
+        private void OpenContextMenu()
+        {
+            if (this.MainViewPanel.ContextMenu != null)
+            {
+                this.MainViewPanel.ContextMenu.DataContext = _vm;
+                this.MainViewPanel.ContextMenu.PlacementTarget = this.MainViewPanel;
+                this.MainViewPanel.ContextMenu.Placement = PlacementMode.MousePoint;
+                this.MainViewPanel.ContextMenu.IsOpen = true;
+            }
+        }
+
+        // RoutedCommand バインディング
+        public void InitializeCommandBindings()
+        {
+            var commandTable = CommandTable.Current;
             var commands = RoutedCommandTable.Current.Commands;
 
             // コマンドバインド作成
@@ -323,85 +256,7 @@ namespace NeeView
         {
             e.CanExecute = !NowLoading.Current.IsDispNowLoading;
         }
-
-        // InputGesture設定
-        // TODO: MouseInputManagerで処理する？
-        public void InitializeInputGestures()
-        {
-            var mouse = MouseInput.Current;
-
-            mouse.ClearMouseEventHandler();
-
-            mouse.Commands.Clear();
-            mouse.MouseGestureChanged += (s, x) => mouse.Commands.Execute(x.Sequence);
-
-            var mouseNormalHandlers = new List<EventHandler<MouseButtonEventArgs>>();
-            var mouseExtraHndlers = new List<EventHandler<MouseButtonEventArgs>>();
-
-            foreach (var e in RoutedCommandTable.Current.Commands)
-            {
-                e.Value.InputGestures.Clear();
-                var inputGestures = CommandTable.Current[e.Key].GetInputGestureCollection();
-                foreach (var gesture in inputGestures)
-                {
-                    if (gesture is MouseGesture mouseClick)
-                    {
-                        mouseNormalHandlers.Add((s, x) => { if (!x.Handled && gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } });
-                    }
-                    else if (gesture is MouseExGesture)
-                    {
-                        mouseExtraHndlers.Add((s, x) => { if (!x.Handled && gesture.Matches(this, x)) { e.Value.Execute(null, this); x.Handled = true; } });
-                    }
-                    else if (gesture is MouseWheelGesture)
-                    {
-                        mouse.MouseWheelChanged += (s, x) => { if (!x.Handled && gesture.Matches(this, x)) { WheelCommandExecute(e.Value, x); } };
-                    }
-                    else
-                    {
-                        e.Value.InputGestures.Add(gesture);
-                    }
-                }
-
-                // mouse gesture
-                var mouseGesture = CommandTable.Current[e.Key].MouseGesture;
-                if (mouseGesture != null)
-                {
-                    mouse.Commands.Add(mouseGesture, e.Value);
-                }
-            }
-
-            // 拡張マウス入力から先に処理を行う
-            foreach (var lambda in mouseExtraHndlers.Concat(mouseNormalHandlers))
-            {
-                mouse.MouseButtonChanged += lambda;
-            }
-
-            // Update Menu GestureText
-            // TODO: このあたりイベントで処理できないか？
-            NeeView.MenuBar.Current.Reflesh();
-            _vm.ContextMenu?.UpdateInputGestureText();
-        }
-
-
-        /// <summary>
-        /// wheel command
-        /// </summary>
-        /// <param name="command"></param>
-        /// <param name="parameter"></param>
-        /// <param name="target"></param>
-        /// <param name="arg"></param>
-        private void WheelCommandExecute(RoutedUICommand command, MouseWheelEventArgs arg)
-        {
-            int turn = MouseInputHelper.DeltaCount(arg);
-
-            // Debug.WriteLine($"WheelCommand: {turn}({arg.Delta})");
-
-            for (int i = 0; i < turn; i++)
-            {
-                command.Execute(null, this);
-            }
-        }
-
+        
         #endregion
 
 
@@ -486,7 +341,7 @@ namespace NeeView
         #endregion
 
 
-        #region WindowStateCommand
+        #region ウィンドウ状態コマンド
 
         /// <summary>
         /// ウィンドウ最小化コマンド
@@ -529,6 +384,7 @@ namespace NeeView
         }
 
         #endregion
+
 
         #region ウィンドウイベント処理
 
@@ -680,7 +536,6 @@ namespace NeeView
         #endregion
 
 
-
         #region レイアウト管理
 
         /// <summary>
@@ -770,7 +625,6 @@ namespace NeeView
         }
 
         #endregion
-
 
 
         #region レイヤー表示状態

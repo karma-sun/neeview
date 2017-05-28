@@ -27,6 +27,9 @@ namespace NeeView
 
             BookHub.Current.BookChanged +=
                 (s, e) => UpdateLastFiles();
+
+            RoutedCommandTable.Current.Changed +=
+                (s, e) => Reflesh();
         }
 
 

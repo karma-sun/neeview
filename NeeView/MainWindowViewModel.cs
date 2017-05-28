@@ -6,6 +6,7 @@
 using NeeView.ComponentModel;
 using NeeView.Effects;
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -157,6 +158,7 @@ namespace NeeView
         public void UpdateContextMenu()
         {
             ContextMenu = _model.ContextMenuSetting.ContextMenu;
+            ContextMenu?.UpdateInputGestureText();
         }
 
         #endregion
@@ -238,11 +240,9 @@ namespace NeeView
             SlideShow.Current.AddPropertyChanged(nameof(SlideShow.IsPlayingSlideShow),
                 (s, e) => RaisePropertyChanged(nameof(WindowIcon)));
 
-
             // JobEngine Busy
             JobEngine.Current.AddPropertyChanged(nameof(JobEngine.IsBusy),
                 (s, e) => this.BusyVisibility = JobEngine.Current.IsBusy && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed);
-
 
             BookHub.Current.BookChanged +=
                 (s, e) => CommandManager.InvalidateRequerySuggested();

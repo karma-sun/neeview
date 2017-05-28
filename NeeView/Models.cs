@@ -107,7 +107,7 @@ namespace NeeView
 
             //
             this.CommandTable = new CommandTable();
-            this.RoutedCommandTable = new RoutedCommandTable(this.CommandTable);
+            this.RoutedCommandTable = new RoutedCommandTable(window, this.CommandTable);
 
             this.MouseInputContext = new MouseInputContext();
             this.MouseInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow);
@@ -343,7 +343,7 @@ namespace NeeView
             // compatible before ver.23
             if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
-                this.RoutedCommandTable.Restore(memento.RoutedCommandTable);
+                this.RoutedCommandTable.RestoreCompatible(memento.RoutedCommandTable);
             }
         }
 

@@ -15,6 +15,8 @@ namespace NeeView
     {
         public static RoutedCommandTable Current { get; private set; }
 
+        public event EventHandler Changed;
+
         //
         public Dictionary<CommandType, RoutedUICommand> Commands { get; set; } = new Dictionary<CommandType, RoutedUICommand>();
 
@@ -26,19 +28,95 @@ namespace NeeView
         }
 
         //
+        private MainWindow _window;
         private CommandTable _commandTable;
 
         //
-        public RoutedCommandTable(CommandTable commandTable)
+        public RoutedCommandTable(MainWindow window, CommandTable commandTable)
         {
             Current = this;
 
+            _window = window;
             _commandTable = commandTable;
 
             // RoutedCommand作成
             foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
             {
                 Commands.Add(type, new RoutedUICommand(commandTable[type].Text, type.ToString(), typeof(MainWindow)));
+            }
+
+            // コマンド変更でショートカット変更
+            _commandTable.Changed +=
+                (s, e) => InitializeInputGestures();
+        }
+
+        // InputGesture設定
+        public void InitializeInputGestures()
+        {
+            var mouse = MouseInput.Current;
+
+            mouse.ClearMouseEventHandler();
+
+            mouse.CommandCollection.Clear();
+            mouse.MouseGestureChanged += (s, x) => mouse.CommandCollection.Execute(x.Sequence);
+
+            var mouseNormalHandlers = new List<EventHandler<MouseButtonEventArgs>>();
+            var mouseExtraHndlers = new List<EventHandler<MouseButtonEventArgs>>();
+
+            foreach (var command in this.Commands)
+            {
+                command.Value.InputGestures.Clear();
+                var inputGestures = CommandTable.Current[command.Key].GetInputGestureCollection();
+                foreach (var gesture in inputGestures)
+                {
+                    if (gesture is MouseGesture mouseClick)
+                    {
+                        mouseNormalHandlers.Add((s, x) => { if (!x.Handled && gesture.Matches(this, x)) { command.Value.Execute(null, _window); x.Handled = true; } });
+                    }
+                    else if (gesture is MouseExGesture)
+                    {
+                        mouseExtraHndlers.Add((s, x) => { if (!x.Handled && gesture.Matches(this, x)) { command.Value.Execute(null, _window); x.Handled = true; } });
+                    }
+                    else if (gesture is MouseWheelGesture)
+                    {
+                        mouse.MouseWheelChanged += (s, x) => { if (!x.Handled && gesture.Matches(this, x)) { WheelCommandExecute(command.Value, x); } };
+                    }
+                    else
+                    {
+                        command.Value.InputGestures.Add(gesture);
+                    }
+                }
+
+                // mouse gesture
+                var mouseGesture = CommandTable.Current[command.Key].MouseGesture;
+                if (mouseGesture != null)
+                {
+                    mouse.CommandCollection.Add(mouseGesture, command.Value);
+                }
+            }
+
+            // 拡張マウス入力から先に処理を行う
+            foreach (var lambda in mouseExtraHndlers.Concat(mouseNormalHandlers))
+            {
+                mouse.MouseButtonChanged += lambda;
+            }
+
+            //
+            Changed?.Invoke(this, null);
+        }
+        
+        /// <summary>
+        /// wheel command
+        /// </summary>
+        private void WheelCommandExecute(RoutedUICommand command, MouseWheelEventArgs arg)
+        {
+            int turn = MouseInputHelper.DeltaCount(arg);
+
+            // Debug.WriteLine($"WheelCommand: {turn}({arg.Delta})");
+
+            for (int i = 0; i < turn; i++)
+            {
+                command.Execute(null, _window);
             }
         }
 
@@ -61,25 +139,23 @@ namespace NeeView
 
         #region Memento
         // compatible before ver.23
-        [DataContract]
+        [Obsolete, DataContract]
         public class Memento
         {
-            [DataMember]
+            [Obsolete, DataMember]
             public ShowMessageStyle CommandShowMessageStyle { get; set; }
         }
 
-        //
-        public Memento CreateMemento()
-        {
-            return null;
-        }
+#pragma warning disable CS0612
 
-        //
-        public void Restore(Memento memento)
+        public void RestoreCompatible(Memento memento)
         {
             if (memento == null) return;
             InfoMessage.Current.CommandShowMessageStyle = memento.CommandShowMessageStyle;
         }
+
+#pragma warning restore CS0612
+
 
         #endregion
     }

@@ -42,7 +42,7 @@ namespace NeeView
         /// <summary>
         /// マウスジェスチャーコマンド
         /// </summary>
-        public MouseGestureCommandCollection Commands { get; private set; } = new MouseGestureCommandCollection();
+        public MouseGestureCommandCollection CommandCollection { get; private set; } = new MouseGestureCommandCollection();
 
         //
         private FrameworkElement _sender;
@@ -179,6 +179,8 @@ namespace NeeView
             _sender.PreviewKeyDown += OnKeyDown;
         }
 
+
+
         /// <summary>
         /// マウスジェスチャー通知
         /// </summary>
@@ -187,7 +189,7 @@ namespace NeeView
         private void Gesture_MouseGestureProgressed(object sender, MouseGestureEventArgs e)
         {
             var gesture = e.Sequence.ToDispString();
-            var commandName = this.Commands?.GetCommand(e.Sequence)?.Text;
+            var commandName = this.CommandCollection?.GetCommand(e.Sequence)?.Text;
 
             if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
 

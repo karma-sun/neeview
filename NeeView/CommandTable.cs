@@ -932,6 +932,7 @@ namespace NeeView
                 element.Note = "画像を上方向にするロールさせます。縦スクロールできないときは横スクロールになります";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ViewScrollCommandParameter() { Scroll = 25 };
+                element.Execute = (s, e) => _models.MouseInput.Drag.ScrollUp(((ViewScrollCommandParameter)element.Parameter).Scroll / 100.0);
                 _elements[CommandType.ViewScrollUp] = element;
             }
             // ViewScrollDown
@@ -942,6 +943,7 @@ namespace NeeView
                 element.Note = "画像を下方向にするロールさせます。縦スクロールできないときは横スクロールになります";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScrollUp };
+                element.Execute = (s, e) => _models.MouseInput.Drag.ScrollDown(((ViewScrollCommandParameter)element.Parameter).Scroll / 100.0);
                 _elements[CommandType.ViewScrollDown] = element;
             }
             // ViewScaleUp
@@ -953,6 +955,7 @@ namespace NeeView
                 element.ShortCutKey = "RightButton+WheelUp";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ViewScaleCommandParameter() { Scale = 20 };
+                element.Execute = (s, e) => _models.MouseInput.Drag.ScaleUp(((ViewScaleCommandParameter)element.Parameter).Scale / 100.0);
                 _elements[CommandType.ViewScaleUp] = element;
             }
             // ViewScaleDown
@@ -964,6 +967,7 @@ namespace NeeView
                 element.ShortCutKey = "RightButton+WheelDown";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScaleUp };
+                element.Execute = (s, e) => _models.MouseInput.Drag.ScaleDown(((ViewScaleCommandParameter)element.Parameter).Scale / 100.0);
                 _elements[CommandType.ViewScaleDown] = element;
             }
             // ViewRotateLeft
@@ -974,6 +978,7 @@ namespace NeeView
                 element.Note = "画像を左回転させます";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ViewRotateCommandParameter() { Angle = 45 };
+                element.Execute = (s, e) => _models.ContentCanvas.ViewRotateLeft((ViewRotateCommandParameter)element.Parameter);
                 _elements[CommandType.ViewRotateLeft] = element;
             }
             // ViewRotateRight
@@ -984,6 +989,7 @@ namespace NeeView
                 element.Note = "画像を右回転させます";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewRotateLeft };
+                element.Execute = (s, e) => _models.ContentCanvas.ViewRotateRight((ViewRotateCommandParameter)element.Parameter);
                 _elements[CommandType.ViewRotateRight] = element;
             }
 
@@ -1011,6 +1017,7 @@ namespace NeeView
                 element.Note = "画像を左右反転させます";
                 element.IsShowMessage = false;
                 element.CreateIsCheckedBinding = () => BindingGenerator.IsFlipHorizontal();
+                element.Execute = (s, e) => _models.MouseInput.Drag.ToggleFlipHorizontal();
                 _elements[CommandType.ToggleViewFlipHorizontal] = element;
             }
             // ViewFlipHorizontalOn
@@ -1020,6 +1027,7 @@ namespace NeeView
                 element.Text = "左右反転ON";
                 element.Note = "左右反転状態にします";
                 element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.MouseInput.Drag.FlipHorizontal(true);
                 _elements[CommandType.ViewFlipHorizontalOn] = element;
             }
             // ViewFlipHorizontalOff
@@ -1029,6 +1037,7 @@ namespace NeeView
                 element.Text = "左右反転OFF";
                 element.Note = "左右反転状態を解除します";
                 element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.MouseInput.Drag.FlipHorizontal(false);
                 _elements[CommandType.ViewFlipHorizontalOff] = element;
             }
 
@@ -1041,6 +1050,7 @@ namespace NeeView
                 element.Note = "画像を上下反転させます";
                 element.IsShowMessage = false;
                 element.CreateIsCheckedBinding = () => BindingGenerator.IsFlipVertical();
+                element.Execute = (s, e) => _models.MouseInput.Drag.ToggleFlipVertical();
                 _elements[CommandType.ToggleViewFlipVertical] = element;
             }
             // ViewFlipVerticalOn
@@ -1050,6 +1060,7 @@ namespace NeeView
                 element.Text = "上下反転ON";
                 element.Note = "上下反転状態にします";
                 element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.MouseInput.Drag.FlipVertical(true);
                 _elements[CommandType.ViewFlipVerticalOn] = element;
             }
             // ViewFlipVerticalOff
@@ -1059,6 +1070,7 @@ namespace NeeView
                 element.Text = "上下反転OFF";
                 element.Note = "上下反転状態を解除します";
                 element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.MouseInput.Drag.FlipVertical(false);
                 _elements[CommandType.ViewFlipVerticalOff] = element;
             }
 
@@ -1069,6 +1081,7 @@ namespace NeeView
                 element.Text = "ビューリセット";
                 element.Note = "ビュー操作での回転、拡縮、移動、反転を初期化します";
                 element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.ContentCanvas.ResetTransform(true);
                 _elements[CommandType.ViewReset] = element;
             }
 
@@ -1659,10 +1672,13 @@ namespace NeeView
                 element.Note = "ルーペの有効/無効を切り替えます";
                 element.CanExecute = () => true;
                 element.IsShowMessage = false;
+                element.ExecuteMessage = e => _models.MouseInput.IsLoupeMode ? "ルーペOFF" : "ルーペON";
+                element.Execute = (s, e) => _models.MouseInput.IsLoupeMode = !_models.MouseInput.IsLoupeMode;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.MouseInput.IsLoupeMode)) { Mode = BindingMode.OneWay, Source = _models.MouseInput };
                 _elements[CommandType.ToggleIsLoupe] = element;
             }
 
-            // ToggleIsLoupe
+            // LoupeOn
             {
                 var element = new CommandElement();
                 element.Group = "ビュー操作";
@@ -1671,10 +1687,11 @@ namespace NeeView
                 element.Note = "ルーペモードにする";
                 element.CanExecute = () => true;
                 element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.MouseInput.IsLoupeMode = true;
                 _elements[CommandType.LoupeOn] = element;
             }
 
-            // ToggleIsLoupe
+            // LoupeOff
             {
                 var element = new CommandElement();
                 element.Group = "ビュー操作";
@@ -1683,6 +1700,7 @@ namespace NeeView
                 element.Note = "ルーペモードを解除する";
                 element.CanExecute = () => true;
                 element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.MouseInput.IsLoupeMode = false;
                 _elements[CommandType.LoupeOff] = element;
             }
 

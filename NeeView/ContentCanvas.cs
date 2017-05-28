@@ -641,6 +641,26 @@ namespace NeeView
 
 
 
+        #region 回転コマンド
+
+        //
+        public void ViewRotateLeft(ViewRotateCommandParameter parameter)
+        {
+            if (parameter.IsStretch) _mouse.Drag.ResetDefault();
+            _mouse.Drag.Rotate(-parameter.Angle);
+            if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_mouse.Drag.Angle);
+        }
+
+        //
+        public void ViewRotateRight(ViewRotateCommandParameter parameter)
+        {
+            if (parameter.IsStretch) _mouse.Drag.ResetDefault();
+            _mouse.Drag.Rotate(+parameter.Angle);
+            if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_mouse.Drag.Angle);
+        }
+
+        #endregion
+
         #region クリップボード関連
         // TODO: ContentCanvas ?
 

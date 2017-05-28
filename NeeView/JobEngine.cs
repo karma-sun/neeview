@@ -183,19 +183,16 @@ namespace NeeView
     /// <summary>
     /// JobEngine
     /// </summary>
-    public class JobEngine : BindableBase, IDisposable
+    public class JobEngine : BindableBase, IEngine
     {
         public static JobEngine Current { get; private set; }
 
         #region 開発用
 
-        // 状態変化通知
-        ////public event EventHandler StatusChanged;
 
         [Conditional("DEBUG")]
         private void NotifyStatusChanged()
         {
-            ////StatusChanged?.Invoke(this, null);
             RaisePropertyChanged(null);
         }
 
@@ -216,10 +213,6 @@ namespace NeeView
 
         #endregion
 
-        /// <summary>
-        /// IsBusyChanged event
-        /// </summary>
-        ////public event EventHandler IsBusyChanged;
 
         /// <summary>
         /// IsBusy property.
@@ -247,8 +240,31 @@ namespace NeeView
         // 最大ワーカー数
         public readonly int _MaxWorkerSize = 4;
 
+
+        /// <summary>
+        /// WorkerSize property.
+        /// </summary>
+        public int WorkerSize
+        {
+            get { return _workerSize; }
+            set
+            {
+                var size = NVUtility.Clamp(value, 1, _MaxWorkerSize);
+                if (_workerSize != size)
+                {
+                    _workerSize = size;
+                    if (_isActive) ChangeWorkerSize(_workerSize);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private int _workerSize = 2;
+
         // ワーカー
         public JobWorker[] Workers { get; set; }
+
+
 
 
         // コンストラクタ
@@ -260,13 +276,24 @@ namespace NeeView
             Workers = new JobWorker[_MaxWorkerSize];
         }
 
-        // 開始
-        public void Start(int workerSize)
-        {
-            if (workerSize < 1) workerSize = 1;
-            if (workerSize > _MaxWorkerSize) workerSize = _MaxWorkerSize;
+        private bool _isActive;
 
-            ChangeWorkerSize(workerSize);
+        // 開始
+        public void StartEngine()
+        {
+            if (_isActive) return;
+
+            _isActive = true;
+            ChangeWorkerSize(_workerSize);
+        }
+
+
+        // 廃棄処理
+        public void StopEngine()
+        {
+            ChangeWorkerSize(0);
+            _isActive = false;
+            Debug.WriteLine("JobEngine: Disposed.");
         }
 
         // 稼働ワーカー数変更
@@ -396,13 +423,6 @@ namespace NeeView
             Thread.Sleep(ms);
         }
 
-        // 廃棄処理
-        public void Dispose()
-        {
-            ChangeWorkerSize(0);
-
-            Debug.WriteLine("JobEngine: Disposed.");
-        }
     }
 
 

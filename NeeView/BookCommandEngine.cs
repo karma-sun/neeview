@@ -255,7 +255,7 @@ namespace NeeView
     /// <summary>
     /// Bookコマンドエンジン
     /// </summary>
-    internal class BookCommandEngine : Utility.CommandEngine, IDisposable
+    internal class BookCommandEngine : Utility.CommandEngine
     {
         /// <summary>
         /// Book挙動設定
@@ -317,10 +317,10 @@ namespace NeeView
         /// <summary>
         /// 
         /// </summary>
-        public override void Dispose()
+        public override void StopEngine()
         {
             Book.Log.Flush();
-            base.Dispose();
+            base.StopEngine();
         }
     }
 }

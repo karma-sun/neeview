@@ -158,21 +158,17 @@ namespace NeeView
         //
         public void StartEngine()
         {
-            // TODO: this.JobEngine.StartEngine();
+           this.JobEngine.StartEngine();
             this.SlideShow.StartEngine();
+            this.BookHub.StartEngine();
         }
 
         //
         public void StopEngine()
         {
-            // TODO: Bookのコマンド系もエンジン扱いせよ
-            this.BookHub.Dispose();
-
+            this.BookHub.StopEngine();
             this.SlideShow.StopEngine();
-
-            this.JobEngine.Dispose();
-            // TODO: this.JobEngine.StopEngine();
-
+            this.JobEngine.StopEngine();
         }
 
         /// <summary>
@@ -190,7 +186,7 @@ namespace NeeView
             App.Current.Resources["BannerHeight"] = (double)bannerHeight;
 
             // Jobワーカーサイズ
-            JobEngine.Start(preference.loader_thread_size);
+            JobEngine.WorkerSize = preference.loader_thread_size;
 
             // ワイドページ判定用比率
             Page.WideRatio = preference.view_image_wideratio;

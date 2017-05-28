@@ -647,7 +647,7 @@ namespace NeeView
             Debug.Assert(Place != null);
 
             _commandEngine.BookEnvironment = _environment;
-            _commandEngine.Initialize();
+            _commandEngine.StartEngine();
         }
 
         #endregion
@@ -937,7 +937,7 @@ namespace NeeView
             _archivers?.ForEach(e => e.Dispose());
             _trashBox?.CleanUp();
 
-            _commandEngine.Dispose();
+            _commandEngine.StopEngine();
 
             MemoryControl.Current.GarbageCollect();
 

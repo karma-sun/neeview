@@ -114,7 +114,7 @@ namespace NeeView
     /// 本の管理
     /// ロード、本の操作はここを通す
     /// </summary>
-    public class BookHub : BindableBase
+    public class BookHub : BindableBase, IEngine
     {
         public static BookHub Current { get; private set; }
 
@@ -381,13 +381,16 @@ namespace NeeView
 
             // command engine
             _commandEngine = new BookHubCommandEngine();
-            _commandEngine.Initialize();
         }
 
-        /// <summary>
-        /// 終了処理
-        /// </summary>
-        public void Dispose()
+        //
+        public void StartEngine()
+        {
+            _commandEngine.StartEngine();
+        }
+
+        //
+        public void StopEngine()
         {
             // いろんなイベントをクリア
             this.AddressChanged = null;
@@ -408,7 +411,7 @@ namespace NeeView
             Task.Run(async () => await RequestUnload(false).WaitAsync()).Wait(5000);
 
             // コマンドエンジン停止
-            _commandEngine.Dispose();
+            _commandEngine.StopEngine();
 
             Debug.WriteLine("BookHub Disposed.");
         }
@@ -1047,6 +1050,7 @@ namespace NeeView
 
 #pragma warning restore CS0612
         }
+
 
         #endregion
     }

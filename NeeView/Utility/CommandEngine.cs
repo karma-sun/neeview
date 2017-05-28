@@ -149,7 +149,7 @@ namespace NeeView.Utility
     /// <summary>
     /// コマンドエンジン
     /// </summary>
-    public class CommandEngine : IDisposable
+    public class CommandEngine : IEngine
     {
         // ワーカータスクのキャンセルトークン
         private CancellationTokenSource _cancellationTokenSource;
@@ -208,13 +208,16 @@ namespace NeeView.Utility
             get { return _queue.Count + (_command != null ? 1 : 0); }
         }
 
+        //
+        private bool _isActive;
 
         /// <summary>
         /// 初期化
         /// ワーカータスク起動
         /// </summary>
-        public void Initialize()
+        private void Initialize()
         {
+            if (_isActive) return;
             _cancellationTokenSource = new CancellationTokenSource();
             Task.Run(async () => await WorkerAsync(_cancellationTokenSource.Token));
         }
@@ -222,12 +225,15 @@ namespace NeeView.Utility
         /// <summary>
         /// ワーカータスク終了
         /// </summary>
-        public virtual void Dispose()
+        private void Dispose()
         {
+            if (!_isActive) return;
+
             lock (_lock)
             {
                 _cancellationTokenSource?.Cancel();
                 _command?.Cancel();
+                _isActive = false;
             }
         }
 
@@ -275,6 +281,16 @@ namespace NeeView.Utility
             {
                 _command = null;
             }
+        }
+
+        public virtual void StartEngine()
+        {
+            Initialize();
+        }
+
+        public virtual void StopEngine()
+        {
+            Dispose();
         }
     }
 

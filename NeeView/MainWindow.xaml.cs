@@ -44,6 +44,7 @@ namespace NeeView
 
             // Models初期化
             var models = new Models(this);
+            models.StartEngine();
 
             // MainWindow : ViewModel
             _vm = new MainWindowViewModel(models.MainWindowModel);

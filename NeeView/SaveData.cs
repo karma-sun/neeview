@@ -40,7 +40,7 @@ namespace NeeView
 
             ////setting.ViewMemento = MainWindowVM.Current.CreateMemento();
             setting.SusieMemento = SusieContext.Current.CreateMemento();
-            setting.BookHubMemento = BookHub.Current.CreateMemento();
+            ////setting.BookHubMemento = BookHub.Current.CreateMemento();
             setting.CommandMememto = CommandTable.Current.CreateMemento();
             setting.DragActionMemento = DragActionTable.Current.CreateMemento();
             setting.ExporterMemento = Exporter.CreateMemento();
@@ -64,7 +64,7 @@ namespace NeeView
             PreferenceAccessor.Current.Reflesh();
 
             SusieContext.Current.Restore(setting.SusieMemento);
-            BookHub.Current.Restore(setting.BookHubMemento);
+            ////BookHub.Current.Restore(setting.BookHubMemento);
 
             CommandTable.Current.Restore(setting.CommandMememto);
             DragActionTable.Current.Restore(setting.DragActionMemento);
@@ -76,19 +76,37 @@ namespace NeeView
 
             // new memento
             Models.Current.Resore(setting.Memento, fromLoad);
+        }
 
-            // compatible before ver.22
-            if (setting._Version < Config.GenerateProductVersionNumber(1, 22, 0))
+#pragma warning disable CS0612
+
+        //
+        public void RestoreSettingCompatible(Setting setting, bool fromLoad)
+        {
+            if (setting == null) return;
+
+            if (setting.ViewMemento != null)
+            {
+                MainWindowVM.RestoreCompatible(setting.ViewMemento);
+            }
+
+            if (setting.BookHubMemento != null)
+            {
+                BookHub.Current.Restore(setting.BookHubMemento);
+                BookHub.Current.RestoreCompatible(setting.BookHubMemento);
+            }
+
+            if (setting.ImageEffectMemento != null)
             {
                 Models.Current.ImageEffect.Restore(setting.ImageEffectMemento, fromLoad);
             }
 
-            // compatible before ver.23
-            if (setting._Version < Config.GenerateProductVersionNumber(1, 23, 0))
-            {
-                MainWindowVM.Restore(setting.ViewMemento);
-            }
+            // Model.Compatible
+            Models.Current.ResoreCompatible(setting.Memento);
         }
+
+#pragma warning restore CS0612
+
 
         // 履歴読み込み
         public void LoadHistory(Setting setting)
@@ -113,11 +131,15 @@ namespace NeeView
                 memento = new BookHistory.Memento();
             }
 
+#pragma warning disable CS0612
+
             // combatible: 設定ファイルに残っている履歴をマージ
             if (setting.BookHistoryMemento != null)
             {
                 memento.Merge(setting.BookHistoryMemento);
             }
+
+#pragma warning restore CS0612
 
             // 履歴反映
             BookHistory.Current.Restore(memento, true);

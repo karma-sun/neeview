@@ -166,7 +166,5 @@ namespace NeeView.Effects
                 }
             }
         }
-
-        //
     }
 }

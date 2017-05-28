@@ -292,7 +292,7 @@ namespace NeeView
         /// <summary>
         /// PreLoadMode property.
         /// </summary>
-        private PreLoadMode _preLoadMode;
+        private PreLoadMode _preLoadMode = PreLoadMode.AutoPreLoad;
         public PreLoadMode PreLoadMode
         {
             get { return _preLoadMode; }
@@ -884,7 +884,7 @@ namespace NeeView
         public class Memento : BindableBase
         {
             [DataMember]
-            public int _Version { get; set; }
+            public int _Version { get; set; } = App.Config.ProductVersionNumber;
 
             [DataMember]
             public bool IsEnableAnimatedGif { get; set; }
@@ -895,47 +895,8 @@ namespace NeeView
             [DataMember]
             public bool IsEnableNoSupportFile { get; set; }
 
-            [DataMember(EmitDefaultValue = false)]
-            public bool IsEnabledAutoNextFolder { get; set; } // no used
-
-            [DataMember(Order = 19, EmitDefaultValue = false)]
-            public PageEndAction PageEndAction { get; set; } // no used (ver.23)
-
-            [DataMember(EmitDefaultValue = false)]
-            public bool IsSlideShowByLoop { get; set; } // no used (ver.22)
-
-            [DataMember(EmitDefaultValue = false)]
-            public double SlideShowInterval { get; set; } // no used (ver.22)
-
-            [DataMember(Order = 7, EmitDefaultValue = false)]
-            public bool IsCancelSlideByMouseMove { get; set; } // no used (ver.22)
-
-            [DataMember(EmitDefaultValue = false)]
-            public Book.Memento BookMemento { get; set; } // no used (v.23)
-
-            [DataMember(Order = 2, EmitDefaultValue = false)]
-            public bool IsEnarbleCurrentDirectory { get; set; } // no used
-
-            [Obsolete, DataMember(Order = 4, EmitDefaultValue = false)]
-            public bool IsSupportArchiveFile { get; set; } // no used (v.23)
-
-            [DataMember(Order = 4, EmitDefaultValue = false)]
-            public ExternalApplication ExternalApplication { get; set; } // no used (ver.23)
-
-            [DataMember(Order = 5, EmitDefaultValue = false)]
-            public bool AllowPagePreLoad { get; set; } // no used
-
             [DataMember(Order = 6)]
             public bool IsConfirmRecursive { get; set; }
-
-            [DataMember(Order = 6, EmitDefaultValue = false)]
-            public Book.Memento BookMementoDefault { get; set; } // no used (v.23)
-
-            [DataMember(Order = 6, EmitDefaultValue = false)]
-            public bool IsUseBookMementoDefault { get; set; } // no used (v.23)
-
-            [DataMember(Order = 10, EmitDefaultValue = false)]
-            public ClipboardUtility ClipboardUtility { get; set; } // no used (ver.23)
 
             [DataMember(Order = 10)]
             public bool IsAutoRecursive { get; set; }
@@ -943,30 +904,70 @@ namespace NeeView
             [DataMember(Order = 22)]
             public bool IsAutoRecursiveWithAllFiles { get; set; }
 
-            [DataMember(Order = 19, EmitDefaultValue = false)]
-            public BookMementoFilter HistoryMementoFilter { get; set; } // no used (v.23)
-
             [DataMember(Order = 19)]
             public PreLoadMode PreLoadMode { get; set; }
 
-            [DataMember(Order = 20, EmitDefaultValue = false)]
+
+            //
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public bool IsEnabledAutoNextFolder { get; set; } // no used
+
+            [Obsolete, DataMember(Order = 19, EmitDefaultValue = false)]
+            public PageEndAction PageEndAction { get; set; } // no used (ver.23)
+
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public bool IsSlideShowByLoop { get; set; } // no used (ver.22)
+
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public double SlideShowInterval { get; set; } // no used (ver.22)
+
+            [Obsolete, DataMember(Order = 7, EmitDefaultValue = false)]
+            public bool IsCancelSlideByMouseMove { get; set; } // no used (ver.22)
+
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public Book.Memento BookMemento { get; set; } // no used (v.23)
+
+            [Obsolete, DataMember(Order = 2, EmitDefaultValue = false)]
+            public bool IsEnarbleCurrentDirectory { get; set; } // no used
+
+            [Obsolete, DataMember(Order = 4, EmitDefaultValue = false)]
+            public bool IsSupportArchiveFile { get; set; } // no used (v.23)
+
+            [Obsolete, DataMember(Order = 4, EmitDefaultValue = false)]
+            public ExternalApplication ExternalApplication { get; set; } // no used (ver.23)
+
+            [Obsolete, DataMember(Order = 5, EmitDefaultValue = false)]
+            public bool AllowPagePreLoad { get; set; } // no used
+
+            [Obsolete, DataMember(Order = 6, EmitDefaultValue = false)]
+            public Book.Memento BookMementoDefault { get; set; } // no used (v.23)
+
+            [Obsolete, DataMember(Order = 6, EmitDefaultValue = false)]
+            public bool IsUseBookMementoDefault { get; set; } // no used (v.23)
+
+            [Obsolete, DataMember(Order = 10, EmitDefaultValue = false)]
+            public ClipboardUtility ClipboardUtility { get; set; } // no used (ver.23)
+
+            [Obsolete, DataMember(Order = 19, EmitDefaultValue = false)]
+            public BookMementoFilter HistoryMementoFilter { get; set; } // no used (v.23)
+
+            [Obsolete, DataMember(Order = 20, EmitDefaultValue = false)]
             public string Home { get; set; } // no used (ver.23)
 
 
-
+#if false
             //
             private void Constructor()
             {
-                _Version = App.Config.ProductVersionNumber;
-
-                IsEnableNoSupportFile = false;
-                IsAutoRecursive = true;
-                IsAutoRecursiveWithAllFiles = true;
-                PreLoadMode = PreLoadMode.AutoPreLoad;
+                //IsEnableNoSupportFile = false;
+                //IsAutoRecursive = true;
+                //IsAutoRecursiveWithAllFiles = true;
+                //PreLoadMode = PreLoadMode.AutoPreLoad;
             }
 
             public Memento()
             {
+                _Version = App.Config.ProductVersionNumber;
                 Constructor();
             }
 
@@ -975,7 +976,9 @@ namespace NeeView
             {
                 Constructor();
             }
+#endif
 
+#pragma warning disable CS0612
 
             [OnDeserialized]
             private void Deserialized(StreamingContext c)
@@ -989,6 +992,9 @@ namespace NeeView
                 IsEnabledAutoNextFolder = false;
                 AllowPagePreLoad = false;
             }
+
+#pragma warning restore CS0612
+
         }
 
         // memento作成
@@ -1012,6 +1018,8 @@ namespace NeeView
         // memento反映
         public void Restore(Memento memento)
         {
+            if (memento == null) return;
+
             IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
             IsEnableExif = memento.IsEnableExif;
             IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
@@ -1019,9 +1027,14 @@ namespace NeeView
             IsAutoRecursive = memento.IsAutoRecursive;
             IsAutoRecursiveWithAllFiles = memento.IsAutoRecursiveWithAllFiles;
             PreLoadMode = memento.PreLoadMode;
+        }
 
 
 #pragma warning disable CS0612
+
+        public void RestoreCompatible(Memento memento)
+        {
+            if (memento == null) return;
 
             // compatible before ver.22
             if (memento._Version < Config.GenerateProductVersionNumber(1, 22, 0))
@@ -1047,12 +1060,12 @@ namespace NeeView
 
                 FolderList.Current.Home = memento.Home;
             }
-
-#pragma warning restore CS0612
         }
 
+#pragma warning restore CS0612
 
-        #endregion
+
+#endregion
     }
 }
 

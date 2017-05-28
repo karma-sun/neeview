@@ -56,6 +56,7 @@ namespace NeeView
 
 
         // トグル候補
+        [Obsolete]
         public bool IsToggled { get; set; }
 
         // コマンド説明
@@ -156,17 +157,18 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember(EmitDefaultValue = false)]
+            [DataMember]
             public string ShortCutKey { get; set; }
-            [DataMember(EmitDefaultValue = false)]
+            [DataMember]
             public string MouseGesture { get; set; }
-            [DataMember(EmitDefaultValue = false)]
+            [DataMember]
             public bool IsShowMessage { get; set; }
-            [DataMember(Order = 2, EmitDefaultValue = false)] // 廃止
-            public bool IsToggled { get; set; }
-            [DataMember(Order = 15, EmitDefaultValue = false)]
+            [DataMember(Order = 15)]
             public string Parameter { get; set; }
 
+            // no used
+            [Obsolete, DataMember(Order = 2, EmitDefaultValue = false)]
+            public bool IsToggled { get; set; }
 
             //
             private void Constructor()
@@ -220,7 +222,10 @@ namespace NeeView
             ShortCutKey = memento.ShortCutKey;
             MouseGesture = memento.MouseGesture;
             IsShowMessage = memento.IsShowMessage;
+
+#pragma warning disable CS0612
             IsToggled = memento.IsToggled;
+#pragma warning restore CS0612
 
             if (HasParameter && memento.Parameter != null)
             {

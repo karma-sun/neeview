@@ -214,6 +214,8 @@ namespace NeeView
                 Setting = new Setting();
             }
 
+#pragma warning disable CS0612
+
             // compatible before ver.23
             if (Setting._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
@@ -221,6 +223,8 @@ namespace NeeView
                 this.IsSaveFullScreen = Setting.ViewMemento.IsSaveFullScreen;
                 this.IsSaveWindowPlacement = Setting.ViewMemento.IsSaveWindowPlacement;
             }
+
+#pragma warning restore CS0612
 
             // restore
             Restore(Setting.App);

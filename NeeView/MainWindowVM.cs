@@ -6,6 +6,7 @@
 using NeeView.Utility;
 using NeeView.Windows.Controls;
 using NeeView.Windows.Input;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -29,187 +30,187 @@ namespace NeeView
     { 
         #region Memento
 
-        [DataContract]
+        [Obsolete, DataContract]
         public class Memento
         {
-            [DataMember]
+            [Obsolete, DataMember]
             public int _Version { get; set; }
 
-            [DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsLimitMove { get; set; } // no used (ver.23)
 
-            [DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsControlCenterImage { get; set; } // no used (ver.23)
 
-            [DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsAngleSnap { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 19, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 19, EmitDefaultValue = false)]
             public double AngleFrequency { get; set; } // no used (ver.23)
 
-            [DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsViewStartPositionCenter { get; set; } // no used (ver.23)
 
-            [DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public PageStretchMode StretchMode { get; set; } // no used (ver.23)
 
-            [DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public BackgroundStyle Background { get; set; } // no used (ver.23)
 
-            [DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsSliderDirectionReversed { get; set; } // no used
 
-            [DataMember(Order = 4, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 4, EmitDefaultValue = false)]
             public ShowMessageStyle NoticeShowMessageStyle { get; set; } // no used (ver.23)
 
-            [DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public ShowMessageStyle CommandShowMessageStyle { get; set; } // no used (ver.22)
 
-            [DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public ShowMessageStyle GestureShowMessageStyle { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 4, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 4, EmitDefaultValue = false)]
             public ShowMessageStyle NowLoadingShowMessageStyle { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 1, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 1, EmitDefaultValue = false)]
             public bool IsEnabledNearestNeighbor { get; set; } // no used (ver.22)
 
-            [DataMember(Order = 2, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 2, EmitDefaultValue = false)]
             public bool IsKeepScale { get; set; } // no used(ver.23)
 
-            [DataMember(Order = 2, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 2, EmitDefaultValue = false)]
             public bool IsKeepAngle { get; set; }  // no used(ver.23)
 
-            [DataMember(Order = 4, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 4, EmitDefaultValue = false)]
             public bool IsKeepFlip { get; set; } // no used(ver.23)
 
-            [DataMember(Order = 2, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 2, EmitDefaultValue = false)]
             public bool IsLoadLastFolder { get; set; } // no used (ver.22)
 
-            [DataMember(Order = 2, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 2, EmitDefaultValue = false)]
             public bool IsDisableMultiBoot { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 4, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 4, EmitDefaultValue = false)]
             public bool IsAutoPlaySlideShow { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 7, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 7, EmitDefaultValue = false)]
             public bool IsSaveWindowPlacement { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 2)]
+            [Obsolete, DataMember(Order = 2)]
             public bool IsHideMenu { get; set; }
 
-            [DataMember(Order = 4, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 4, EmitDefaultValue = false)]
             public bool IsHideTitleBar { get; set; } // no used
 
-            [DataMember(Order = 8, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
             public bool IsVisibleTitleBar { get; set; } // no used (ver.22)
 
-            [DataMember(Order = 4, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 4, EmitDefaultValue = false)]
             public bool IsSaveFullScreen { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 4, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 4, EmitDefaultValue = false)]
             public bool IsTopmost { get; set; } // no used (ver.22)
 
-            [DataMember(Order = 5, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 5, EmitDefaultValue = false)]
             public FileInfoSetting FileInfoSetting { get; set; } // no used
 
-            [DataMember(Order = 5, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 5, EmitDefaultValue = false)]
             public string UserDownloadPath { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 6, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 6, EmitDefaultValue = false)]
             public FolderListSetting FolderListSetting { get; set; } // no used
 
-            [DataMember(Order = 6, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 6, EmitDefaultValue = false)]
             public PanelColor PanelColor { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 7, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 7, EmitDefaultValue = false)]
             public string WindowTitleFormat1 { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 7, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 7, EmitDefaultValue = false)]
             public string WindowTitleFormat2 { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 8)]
+            [Obsolete, DataMember(Order = 8)]
             public bool IsVisibleAddressBar { get; set; }
 
-            [DataMember(Order = 8)]
+            [Obsolete, DataMember(Order = 8)]
             public bool IsHidePanel { get; set; }
 
-            [DataMember(Order = 8)]
+            [Obsolete, DataMember(Order = 8)]
             public bool IsHidePanelInFullscreen { get; set; }
 
-            [DataMember(Order = 8, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
             public ContextMenuSetting ContextMenuSetting { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 8, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
             public bool IsEnableThumbnailList { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 8, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
             public bool IsHideThumbnailList { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 8, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
             public double ThumbnailSize { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 8, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
             public bool IsSliderLinkedThumbnailList { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 8, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
             public bool IsVisibleThumbnailNumber { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 9, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 9, EmitDefaultValue = false)]
             public bool IsAutoGC { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 9, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 9, EmitDefaultValue = false)]
             public bool IsVisibleThumbnailPlate { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 10, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 10, EmitDefaultValue = false)]
             public ShowMessageStyle ViewTransformShowMessageStyle { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 10, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 10, EmitDefaultValue = false)]
             public bool IsOriginalScaleShowMessage { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 12, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 12, EmitDefaultValue = false)]
             public double ContentsSpace { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 12, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 12, EmitDefaultValue = false)]
             public LongButtonDownMode LongLeftButtonDownMode { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 16, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 16, EmitDefaultValue = false)]
             public SliderDirection SliderDirection { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 17)]
+            [Obsolete, DataMember(Order = 17)]
             public bool IsHidePageSlider { get; set; }
 
-            [DataMember(Order = 18, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 18, EmitDefaultValue = false)]
             public bool IsAutoRotate { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 19)]
+            [Obsolete, DataMember(Order = 19)]
             public bool IsVisibleWindowTitle { get; set; }
 
-            [DataMember(Order = 19, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 19, EmitDefaultValue = false)]
             public bool IsVisibleLoupeInfo { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 20, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 20, EmitDefaultValue = false)]
             public bool IsSliderWithIndex { get; set; } // no used
 
-            [DataMember(Order = 20, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 20, EmitDefaultValue = false)]
             public bool IsLoupeCenter { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 21, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 21, EmitDefaultValue = false)]
             public SliderIndexLayout SliderIndexLayout { get; set; } // no used (ver.23)
 
-            [DataMember(Order = 21, EmitDefaultValue = false)]
+            [Obsolete, DataMember(Order = 21, EmitDefaultValue = false)]
             public BrushSource CustomBackground { get; set; } // no used (ver.23)
 
             //
             private void Constructor()
             {
-                _Version = App.Config.ProductVersionNumber;
                 IsHidePanelInFullscreen = true;
                 IsVisibleWindowTitle = true;
             }
 
             public Memento()
             {
+                _Version = App.Config.ProductVersionNumber;
                 Constructor();
             }
 
@@ -248,14 +249,10 @@ namespace NeeView
             }
         }
 
-        //
-        public static Memento CreateMemento()
-        {
-            return null;
-        }
+#pragma warning disable CS0612
 
         //
-        public static void Restore(Memento memento)
+        public static void RestoreCompatible(Memento memento)
         {
             if (memento == null) return;
 
@@ -340,6 +337,8 @@ namespace NeeView
                 models.ThumbnailList.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
             }
         }
+
+#pragma warning restore CS0612
 
         #endregion
     }

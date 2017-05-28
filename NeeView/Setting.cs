@@ -22,16 +22,12 @@ namespace NeeView
     public class Setting
     {
         [DataMember]
-        public int _Version { get; set; }
+        public int _Version { get; set; } = NeeView.App.Config.ProductVersionNumber;
 
-        [DataMember(Order = 1, EmitDefaultValue = false)]
-        public MainWindowVM.Memento ViewMemento { set; get; } // no used (ver.23)
 
         [DataMember(Order = 1)]
         public SusieContext.Memento SusieMemento { get; set; }
 
-        [DataMember(Order = 1)]
-        public BookHub.Memento BookHubMemento { set; get; }
 
         [DataMember(Order = 9998)]
         public CommandTable.Memento CommandMememto { set; get; }
@@ -39,37 +35,39 @@ namespace NeeView
         [DataMember(Order = 9998)]
         public DragActionTable.Memento DragActionMemento { set; get; }
 
-        [DataMember(Order = 9999, EmitDefaultValue = false)]
-        public BookHistory.Memento BookHistoryMemento { set; get; } // no used
-
         [DataMember(Order = 4)]
         public Exporter.Memento ExporterMemento { set; get; }
 
         [DataMember(Order = 14)]
         public Preference.Memento PreferenceMemento { set; get; }
 
-        [DataMember(Order = 17, EmitDefaultValue = false)]
-        public ImageEffect.Memento ImageEffectMemento { get; set; } // no used (ver.22)
-
-        // ver.22
         [DataMember]
         public Models.Memento Memento { get; set; }
 
         [DataMember]
         public WindowShape.Memento WindowShape { get; set; }
 
-        // ver.23
         [DataMember]
         public App.Memento App { get; set; }
+
+
+        // no used
+        [Obsolete, DataMember(Order = 1, EmitDefaultValue = false)]
+        public BookHub.Memento BookHubMemento { set; get; }
+
+        [Obsolete, DataMember(Order = 1, EmitDefaultValue = false)]
+        public MainWindowVM.Memento ViewMemento { set; get; } // no used (ver.23)
+
+        [Obsolete, DataMember(Order = 9999, EmitDefaultValue = false)]
+        public BookHistory.Memento BookHistoryMemento { set; get; } // no used
+
+        [Obsolete, DataMember(Order = 17, EmitDefaultValue = false)]
+        public ImageEffect.Memento ImageEffectMemento { get; set; } // no used (ver.22)
 
         //
         private void Constructor()
         {
-            _Version = NeeView.App.Config.ProductVersionNumber;
-
-            ////ViewMemento = new MainWindowVM.Memento();
             SusieMemento = new SusieContext.Memento();
-            BookHubMemento = new BookHub.Memento();
             CommandMememto = new CommandTable.Memento();
             DragActionMemento = new DragActionTable.Memento();
             ExporterMemento = new Exporter.Memento();
@@ -89,6 +87,8 @@ namespace NeeView
             Constructor();
         }
 
+#pragma warning disable CS0612
+
         //
         [OnDeserialized]
         private void Deserialized(StreamingContext c)
@@ -100,6 +100,8 @@ namespace NeeView
             }
             BookHubMemento.IsEnarbleCurrentDirectory = false;
         }
+
+#pragma warning restore CS0612
 
 
         // ファイルに保存

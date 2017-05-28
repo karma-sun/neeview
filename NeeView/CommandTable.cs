@@ -1891,6 +1891,8 @@ namespace NeeView
                 }
             }
 
+#pragma warning disable CS0612
+
             // ToggleStrechModeの復元(1.14互換用)
             if (_elements[CommandType.ToggleStretchMode].IsToggled)
             {
@@ -1912,6 +1914,9 @@ namespace NeeView
                     flags[item.Key] = _elements[item.Value].IsToggled;
                 }
             }
+
+#pragma warning restore CS0612
+
 
             //
             Changed?.Invoke(this, null);

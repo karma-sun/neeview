@@ -360,11 +360,8 @@ namespace NeeView
             [DataMember(Name = "History")]
             public List<Book.Memento> Items { get; set; }
 
-            [DataMember(Order = 8, EmitDefaultValue = false)]
+            [DataMember(Order = 8)]
             public string LastFolder { get; set; }
-
-            [DataMember(Order = 8, EmitDefaultValue = false)]
-            public Dictionary<string, FolderOrder> FolderOrders { get; set; } // no used (ver.22)
 
             [DataMember(Order = 12)]
             public int LimitSize { get; set; }
@@ -380,6 +377,11 @@ namespace NeeView
 
             [DataMember]
             public string LastAddress { get; set; }
+
+
+            // no used
+            [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
+            public Dictionary<string, FolderOrder> FolderOrders { get; set; } // no used (ver.22)
 
 
             //
@@ -448,6 +450,7 @@ namespace NeeView
             var memento = new Memento();
 
             memento._Version = App.Config.ProductVersionNumber;
+
             memento.Items = this.Items.Select(e => e.Memento).ToList();
             memento.Folders = _folders;
             memento.LastFolder = this.LastFolder;
@@ -485,12 +488,15 @@ namespace NeeView
 
             this.Load(fromLoad ? Limit(memento.Items) : memento.Items);
 
+#pragma warning disable CS0612
             // ver.22
             if (memento.FolderOrders != null)
             {
                 Debug.WriteLine("[[Compatible]]: FolderOrders");
                 _folders = memento.FolderOrders.ToDictionary(e => e.Key, e => new FolderParameter.Memento() { FolderOrder = e.Value });
             }
+#pragma warning restore CS0612
+
         }
 
 

@@ -220,7 +220,7 @@ namespace NeeView
         }
 
         // 横長ページは２ページとみなす
-        private bool _isSupportedWidePage;
+        private bool _isSupportedWidePage = true;
         public bool IsSupportedWidePage
         {
             get { return _isSupportedWidePage; }
@@ -1525,10 +1525,6 @@ namespace NeeView
             // 名前
             public string Name => Place.EndsWith(@":\") ? Place : System.IO.Path.GetFileName(Place);
 
-            // 現在ページ(旧)
-            [DataMember(EmitDefaultValue = false)]
-            public string BookMark { get; set; } // no used
-
             // 現在ページ
             [DataMember(EmitDefaultValue = false)]
             public string Page { get; set; }
@@ -1555,7 +1551,7 @@ namespace NeeView
 
             // 横長ページを2ページ分とみなす(2ページモード)
             [DataMember]
-            public bool IsSupportedWidePage { get; set; }
+            public bool IsSupportedWidePage { get; set; } = true;
 
             // フォルダーの再帰
             [DataMember]
@@ -1569,13 +1565,15 @@ namespace NeeView
             [DataMember(Order = 12, EmitDefaultValue = false)]
             public DateTime LastAccessTime { get; set; }
 
+
+#if false
             /// <summary>
             /// construcgtor
             /// </summary>
             private void Constructor()
             {
-                PageMode = PageMode.SinglePage;
-                IsSupportedWidePage = true;
+                //PageMode = PageMode.SinglePage;
+                //IsSupportedWidePage = true;
             }
 
             //
@@ -1594,9 +1592,8 @@ namespace NeeView
             [OnDeserialized]
             private void Deserialized(StreamingContext c)
             {
-                Page = Page ?? BookMark;
-                BookMark = null;
             }
+#endif
 
             //
             public Memento Clone()
@@ -1663,11 +1660,12 @@ namespace NeeView
 
 
             // 保存用バリデート
-            // このmementoは履歴とデフォルト設定の２つに使われるが、デフォルト設定には本の場所やページは不要
+            // このmementoは履歴とデフォルト設定の２つに使われるが、デフォルト設定には本の場所やページ等は不要
             public void ValidateForDefault()
             {
                 Place = null;
                 Page = null;
+                LastAccessTime = default(DateTime);
             }
 
             // バリデートされたクローン
@@ -1725,6 +1723,8 @@ namespace NeeView
         // bookに設定を反映させる
         public void Restore(Memento memento)
         {
+            if (memento == null) return;
+
             PageMode = memento.PageMode;
             BookReadOrder = memento.BookReadOrder;
             IsSupportedDividePage = memento.IsSupportedDividePage;
@@ -1736,7 +1736,7 @@ namespace NeeView
         }
     }
 
-    #endregion
+#endregion
 
 
     /// <summary>

@@ -227,6 +227,7 @@ namespace NeeView
 
             // 設定反映
             SaveData.Current.RestoreSetting(App.Setting, true);
+            SaveData.Current.RestoreSettingCompatible(App.Setting, true);
 
             // 履歴読み込み
             SaveData.Current.LoadHistory(App.Setting);

@@ -81,7 +81,7 @@ namespace NeeView
                     IsSliderDirectionReversed = true;
                     break;
                 case SliderDirection.SyncBookReadDirection:
-                    IsSliderDirectionReversed = this.BookHub.BookMemento.BookReadOrder == PageReadOrder.RightToLeft;
+                    IsSliderDirectionReversed = _bookSetting.BookMemento.BookReadOrder == PageReadOrder.RightToLeft;
                     break;
             }
         }
@@ -170,19 +170,23 @@ namespace NeeView
         public BookHub BookHub { get; private set; }
 
         //
+        private BookSetting _bookSetting;
+
+        //
         private ThumbnailList _thumbnailList;
 
         /// <summary>
         /// constructor
         /// </summary>
-        public PageSlider(BookOperation bookOperation, BookHub bookHub, ThumbnailList thumbnailList)
+        public PageSlider(BookOperation bookOperation, BookSetting bookSetting, BookHub bookHub, ThumbnailList thumbnailList)
         {
             Current = this;
 
             this.BookOperation = bookOperation;
             this.BookHub = bookHub;
+            _bookSetting = bookSetting;
 
-            this.BookHub.SettingChanged +=
+            _bookSetting.SettingChanged +=
                 (s, e) => UpdateIsSliderDirectionReversed();
 
             this.BookOperation.BookChanged += BookOperation_BookChanged;

@@ -23,7 +23,7 @@ namespace NeeView
         {
             _model = model;
 
-            BookHub.Current.SettingChanged +=
+            NeeView.BookSetting.Current.SettingChanged +=
                (s, e) => RaisePropertyChanged(nameof(BookSetting));
         }
 
@@ -50,7 +50,7 @@ namespace NeeView
         // 本設定 公開
         public Book.Memento BookSetting
         {
-            get { return BookHub.Current.BookMemento; }
+            get { return NeeView.BookSetting.Current.BookMemento; }
         }
 
 

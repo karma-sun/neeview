@@ -46,6 +46,7 @@ namespace NeeView
 
         //
         public BookHub BookHub { get; private set; }
+        public BookSetting BookSetting { get; private set; }
         public BookOperation BookOperation { get; private set; }
 
         //
@@ -116,7 +117,8 @@ namespace NeeView
             this.InfoMessage = new InfoMessage();
 
             this.BookOperation = new BookOperation();
-            this.BookHub = new BookHub(this.BookOperation);
+            this.BookSetting = new BookSetting(this.BookOperation);
+            this.BookHub = new BookHub(this.BookSetting, this.BookOperation);
 
 
 
@@ -132,7 +134,7 @@ namespace NeeView
             this.WindowTitle = new WindowTitle(this.ContentCanvas, this.MouseInput.Drag);
 
             this.ThumbnailList = new ThumbnailList(this.BookOperation, this.BookHub);
-            this.PageSlider = new PageSlider(this.BookOperation, this.BookHub, this.ThumbnailList);
+            this.PageSlider = new PageSlider(this.BookOperation, this.BookSetting, this.BookHub, this.ThumbnailList);
             this.AddressBar = new AddressBar();
             this.MenuBar = new MenuBar();
             this.NowLoading = new NowLoading();
@@ -226,6 +228,8 @@ namespace NeeView
             [DataMember]
             public BookOperation.Memento BookOperation { get; set; }
             [DataMember]
+            public BookSetting.Memento BookSetting { get; set; }
+            [DataMember]
             public MainWindowModel.Memento MainWindowModel { get; set; }
             [DataMember]
             public ContentCanvas.Memento ContentCanvas { get; set; }
@@ -272,6 +276,7 @@ namespace NeeView
             ////memento.RoutedCommandTable = this.RoutedCommandTable.CreateMemento();
             memento.InfoMessage = this.InfoMessage.CreateMemento();
             memento.BookOperation = this.BookOperation.CreateMemento();
+            memento.BookSetting = this.BookSetting.CreateMemento();
             memento.MainWindowModel = this.MainWindowModel.CreateMemento();
             memento.ContentCanvas = this.ContentCanvas.CreateMemento();
             memento.ContentCanvasBrush = this.ContentCanvasBrush.CreateMemento();
@@ -300,6 +305,7 @@ namespace NeeView
             this.RoutedCommandTable.Restore(memento.RoutedCommandTable); // compatible before ver.23
             this.InfoMessage.Restore(memento.InfoMessage);
             this.BookOperation.Restore(memento.BookOperation);
+            this.BookSetting.Restore(memento.BookSetting);
             this.MainWindowModel.Restore(memento.MainWindowModel);
             this.ContentCanvas.Restore(memento.ContentCanvas);
             this.ContentCanvasBrush.Restore(memento.ContentCanvasBrush);

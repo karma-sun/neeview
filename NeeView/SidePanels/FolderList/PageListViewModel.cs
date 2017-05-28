@@ -71,7 +71,7 @@ namespace NeeView
         public PageSortMode PageSortMode
         {
             get { return _pageSortMode; }
-            set { _pageSortMode = value; _bookHub.SetSortMode(value); }
+            set { _pageSortMode = value; BookSetting.Current.SetSortMode(value); }
         }
         #endregion
 
@@ -186,7 +186,7 @@ namespace NeeView
         {
             Title = System.IO.Path.GetFileName(_bookHub.Book?.Place);
 
-            _pageSortMode = _bookHub.BookMemento.SortMode;
+            _pageSortMode = BookSetting.Current.BookMemento.SortMode;
             RaisePropertyChanged(nameof(PageSortMode));
 
             App.Current?.Dispatcher.Invoke(() => this.ListBoxContent.FocusSelectedItem());

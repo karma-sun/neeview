@@ -1315,8 +1315,8 @@ namespace NeeView
                 element.Text = "ページ表示モードを切り替える";
                 element.Note = "1ページ表示/2ページ表示を切り替えます";
                 element.CanExecute = () => true;
-                element.Execute = (s, e) => _book.TogglePageMode();
-                element.ExecuteMessage = e => _book.BookMemento.PageMode.GetToggle().ToDispString();
+                element.Execute = (s, e) => _models.BookSetting.TogglePageMode();
+                element.ExecuteMessage = e => _models.BookSetting.BookMemento.PageMode.GetToggle().ToDispString();
                 element.IsShowMessage = true;
                 _elements[CommandType.TogglePageMode] = element;
             }
@@ -1328,7 +1328,7 @@ namespace NeeView
                 element.Note = "1ページ表示にします";
                 element.ShortCutKey = "Ctrl+1";
                 element.MouseGesture = "RU";
-                element.Execute = (s, e) => _book.SetPageMode(PageMode.SinglePage);
+                element.Execute = (s, e) => _models.BookSetting.SetPageMode(PageMode.SinglePage);
                 element.CreateIsCheckedBinding = () => BindingGenerator.PageMode(PageMode.SinglePage);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetPageMode1] = element;
@@ -1341,7 +1341,7 @@ namespace NeeView
                 element.Note = "2ページ表示にします";
                 element.ShortCutKey = "Ctrl+2";
                 element.MouseGesture = "RD";
-                element.Execute = (s, e) => _book.SetPageMode(PageMode.WidePage);
+                element.Execute = (s, e) => _models.BookSetting.SetPageMode(PageMode.WidePage);
                 element.CreateIsCheckedBinding = () => BindingGenerator.PageMode(PageMode.WidePage);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetPageMode2] = element;
@@ -1353,8 +1353,8 @@ namespace NeeView
                 element.Text = "右開き、左開きを切り替える";
                 element.Note = "右開き、左開きを切り替えます";
                 element.CanExecute = () => true;
-                element.Execute = (s, e) => _book.ToggleBookReadOrder();
-                element.ExecuteMessage = e => _book.BookMemento.BookReadOrder.GetToggle().ToDispString();
+                element.Execute = (s, e) => _models.BookSetting.ToggleBookReadOrder();
+                element.ExecuteMessage = e => _models.BookSetting.BookMemento.BookReadOrder.GetToggle().ToDispString();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleBookReadOrder] = element;
             }
@@ -1364,7 +1364,7 @@ namespace NeeView
                 element.Group = "ページ表示";
                 element.Text = "右開き";
                 element.Note = "読み進む方向を右開きにします。2ページ表示のときに若いページが右になります";
-                element.Execute = (s, e) => _book.SetBookReadOrder(PageReadOrder.RightToLeft);
+                element.Execute = (s, e) => _models.BookSetting.SetBookReadOrder(PageReadOrder.RightToLeft);
                 element.CreateIsCheckedBinding = () => BindingGenerator.BookReadOrder(PageReadOrder.RightToLeft);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBookReadOrderRight] = element;
@@ -1375,7 +1375,7 @@ namespace NeeView
                 element.Group = "ページ表示";
                 element.Text = "左開き";
                 element.Note = "読み進む方向を左開きにします。2ページ表示のときに若いページが左になります";
-                element.Execute = (s, e) => _book.SetBookReadOrder(PageReadOrder.LeftToRight);
+                element.Execute = (s, e) => _models.BookSetting.SetBookReadOrder(PageReadOrder.LeftToRight);
                 element.CreateIsCheckedBinding = () => BindingGenerator.BookReadOrder(PageReadOrder.LeftToRight);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBookReadOrderLeft] = element;
@@ -1387,10 +1387,10 @@ namespace NeeView
                 element.Group = "ページ表示";
                 element.Text = "横長ページを分割する";
                 element.Note = "1ページ表示時、横長ページを分割してページにします";
-                element.Execute = (s, e) => _book.ToggleIsSupportedDividePage();
-                element.ExecuteMessage = e => _book.BookMemento.IsSupportedDividePage ? "横長ページの区別をしない" : "横長ページを分割する";
-                element.CanExecute = () => _book.CanPageModeSubSetting(PageMode.SinglePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_book.BookMemento.IsSupportedDividePage));
+                element.Execute = (s, e) => _models.BookSetting.ToggleIsSupportedDividePage();
+                element.ExecuteMessage = e => _models.BookSetting.BookMemento.IsSupportedDividePage ? "横長ページの区別をしない" : "横長ページを分割する";
+                element.CanExecute = () => _models.BookSetting.CanPageModeSubSetting(PageMode.SinglePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_models.BookSetting.BookMemento.IsSupportedDividePage));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsSupportedDividePage] = element;
             }
@@ -1401,10 +1401,10 @@ namespace NeeView
                 element.Group = "ページ表示";
                 element.Text = "横長ページを2ページとみなす";
                 element.Note = " 2ページ表示時、横長の画像を2ページ分とみなして単独表示します";
-                element.Execute = (s, e) => _book.ToggleIsSupportedWidePage();
-                element.ExecuteMessage = e => _book.BookMemento.IsSupportedWidePage ? "横長ページの区別をしない" : "横長ページを2ページとみなす";
-                element.CanExecute = () => _book.CanPageModeSubSetting(PageMode.WidePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_book.BookMemento.IsSupportedWidePage));
+                element.Execute = (s, e) => _models.BookSetting.ToggleIsSupportedWidePage();
+                element.ExecuteMessage = e => _models.BookSetting.BookMemento.IsSupportedWidePage ? "横長ページの区別をしない" : "横長ページを2ページとみなす";
+                element.CanExecute = () => _models.BookSetting.CanPageModeSubSetting(PageMode.WidePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_models.BookSetting.BookMemento.IsSupportedWidePage));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsSupportedWidePage] = element;
             }
@@ -1414,10 +1414,10 @@ namespace NeeView
                 element.Group = "ページ表示";
                 element.Text = "最初のページを単独表示";
                 element.Note = "2ページ表示でも最初のページは1ページ表示にします";
-                element.Execute = (s, e) => _book.ToggleIsSupportedSingleFirstPage();
-                element.ExecuteMessage = e => _book.BookMemento.IsSupportedSingleFirstPage ? "最初のページを区別しない" : "最初のページを単独表示";
-                element.CanExecute = () => _book.CanPageModeSubSetting(PageMode.WidePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_book.BookMemento.IsSupportedSingleFirstPage));
+                element.Execute = (s, e) => _models.BookSetting.ToggleIsSupportedSingleFirstPage();
+                element.ExecuteMessage = e => _models.BookSetting.BookMemento.IsSupportedSingleFirstPage ? "最初のページを区別しない" : "最初のページを単独表示";
+                element.CanExecute = () => _models.BookSetting.CanPageModeSubSetting(PageMode.WidePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_models.BookSetting.BookMemento.IsSupportedSingleFirstPage));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsSupportedSingleFirstPage] = element;
             }
@@ -1427,10 +1427,10 @@ namespace NeeView
                 element.Group = "ページ表示";
                 element.Text = "最後のページを単独表示";
                 element.Note = "2ページ表示でも最後のページは1ページ表示にします";
-                element.Execute = (s, e) => _book.ToggleIsSupportedSingleLastPage();
-                element.ExecuteMessage = e => _book.BookMemento.IsSupportedSingleLastPage ? "最後のページを区別しない" : "最後のページを単独表示";
-                element.CanExecute = () => _book.CanPageModeSubSetting(PageMode.WidePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_book.BookMemento.IsSupportedSingleLastPage));
+                element.Execute = (s, e) => _models.BookSetting.ToggleIsSupportedSingleLastPage();
+                element.ExecuteMessage = e => _models.BookSetting.BookMemento.IsSupportedSingleLastPage ? "最後のページを区別しない" : "最後のページを単独表示";
+                element.CanExecute = () => _models.BookSetting.CanPageModeSubSetting(PageMode.WidePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_models.BookSetting.BookMemento.IsSupportedSingleLastPage));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsSupportedSingleLastPage] = element;
             }
@@ -1441,9 +1441,9 @@ namespace NeeView
                 element.Group = "ページ表示";
                 element.Text = "サブフォルダーを読み込む";
                 element.Note = "フォルダーから画像を読み込むときにサブフォルダーまたは圧縮ファイルも同時に読み込みます";
-                element.Execute = (s, e) => _book.ToggleIsRecursiveFolder();
-                element.ExecuteMessage = e => _book.BookMemento.IsRecursiveFolder ? "サブフォルダーは読み込まない" : "サブフォルダーも読み込む";
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_book.BookMemento.IsRecursiveFolder));
+                element.Execute = (s, e) => _models.BookSetting.ToggleIsRecursiveFolder();
+                element.ExecuteMessage = e => _models.BookSetting.BookMemento.IsRecursiveFolder ? "サブフォルダーは読み込まない" : "サブフォルダーも読み込む";
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_models.BookSetting.BookMemento.IsRecursiveFolder));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsRecursiveFolder] = element;
             }
@@ -1455,8 +1455,8 @@ namespace NeeView
                 element.Text = "ページの並び順を切り替える";
                 element.Note = "ページの並び順を順番に切り替えます";
                 element.CanExecute = () => true;
-                element.Execute = (s, e) => _book.ToggleSortMode();
-                element.ExecuteMessage = e => _book.BookMemento.SortMode.GetToggle().ToDispString();
+                element.Execute = (s, e) => _models.BookSetting.ToggleSortMode();
+                element.ExecuteMessage = e => _models.BookSetting.BookMemento.SortMode.GetToggle().ToDispString();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleSortMode] = element;
             }
@@ -1466,7 +1466,7 @@ namespace NeeView
                 element.Group = "ページ列";
                 element.Text = "ファイル名昇順";
                 element.Note = "ページの並び順をファイル名昇順にします";
-                element.Execute = (s, e) => _book.SetSortMode(PageSortMode.FileName);
+                element.Execute = (s, e) => _models.BookSetting.SetSortMode(PageSortMode.FileName);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.FileName);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeFileName] = element;
@@ -1477,7 +1477,7 @@ namespace NeeView
                 element.Group = "ページ列";
                 element.Text = "ファイル名降順";
                 element.Note = "ページの並び順をファイル名降順にします";
-                element.Execute = (s, e) => _book.SetSortMode(PageSortMode.FileNameDescending);
+                element.Execute = (s, e) => _models.BookSetting.SetSortMode(PageSortMode.FileNameDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.FileNameDescending);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeFileNameDescending] = element;
@@ -1488,7 +1488,7 @@ namespace NeeView
                 element.Group = "ページ列";
                 element.Text = "ファイル日付昇順";
                 element.Note = "ページの並び順をファイル日付昇順にします";
-                element.Execute = (s, e) => _book.SetSortMode(PageSortMode.TimeStamp);
+                element.Execute = (s, e) => _models.BookSetting.SetSortMode(PageSortMode.TimeStamp);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.TimeStamp);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeTimeStamp] = element;
@@ -1499,7 +1499,7 @@ namespace NeeView
                 element.Group = "ページ列";
                 element.Text = "ファイル日付降順";
                 element.Note = "ページの並び順をファイル日付降順にします";
-                element.Execute = (s, e) => _book.SetSortMode(PageSortMode.TimeStampDescending);
+                element.Execute = (s, e) => _models.BookSetting.SetSortMode(PageSortMode.TimeStampDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.TimeStampDescending);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeTimeStampDescending] = element;
@@ -1510,7 +1510,7 @@ namespace NeeView
                 element.Group = "ページ列";
                 element.Text = "シャッフル";
                 element.Note = "ページの並び順をシャッフルます";
-                element.Execute = (s, e) => _book.SetSortMode(PageSortMode.Random);
+                element.Execute = (s, e) => _models.BookSetting.SetSortMode(PageSortMode.Random);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.Random);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeRandom] = element;
@@ -1522,7 +1522,7 @@ namespace NeeView
                 element.Group = "ページ表示";
                 element.Text = "ページ設定の初期化";
                 element.Note = "既定のページ設定に戻します";
-                element.Execute = (s, e) => _book.SetDefaultPageSetting();
+                element.Execute = (s, e) => _models.BookSetting.SetDefaultPageSetting();
                 element.IsShowMessage = true;
                 _elements[CommandType.SetDefaultPageSetting] = element;
             }

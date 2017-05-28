@@ -328,7 +328,7 @@ namespace NeeView
             if (!MouseInput.Current.IsLoupeMode)
             {
                 // 
-                _mouse.Drag.SetMouseDragSetting(pageDirection, viewOrigin, _bookHub.BookMemento.BookReadOrder);
+                _mouse.Drag.SetMouseDragSetting(pageDirection, viewOrigin, BookSetting.Current.BookMemento.BookReadOrder);
 
                 // リセット
                 var angle = _isAutoRotate ? GetAutoRotateAngle() : double.NaN;

@@ -1605,6 +1605,8 @@ namespace NeeView
             }
 
 
+
+
             /// <summary>
             /// 項目のフィルタリング。フラグの立っている項目を上書き
             /// </summary>
@@ -1666,6 +1668,14 @@ namespace NeeView
             {
                 Place = null;
                 Page = null;
+            }
+
+            // バリデートされたクローン
+            public Memento ValidatedClone()
+            {
+                var clone = this.Clone();
+                clone.ValidateForDefault();
+                return clone;
             }
         }
 

@@ -302,12 +302,12 @@ namespace NeeView
         {
             var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.PrevScrollPage].Parameter;
 
-            int bookReadDirection = (BookHub.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
+            int bookReadDirection = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isScrolled = MouseInput.Current.Drag.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
 
             if (!isScrolled)
             {
-                ContentCanvas.Current.NextViewOrigin = (BookHub.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
+                ContentCanvas.Current.NextViewOrigin = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
                 BookOperation.Current.PrevPage();
             }
         }
@@ -317,12 +317,12 @@ namespace NeeView
         {
             var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.NextScrollPage].Parameter;
 
-            int bookReadDirection = (BookHub.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
+            int bookReadDirection = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isScrolled = MouseInput.Current.Drag.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
 
             if (!isScrolled)
             {
-                ContentCanvas.Current.NextViewOrigin = (BookHub.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
+                ContentCanvas.Current.NextViewOrigin = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
                 BookOperation.Current.NextPage();
             }
         }

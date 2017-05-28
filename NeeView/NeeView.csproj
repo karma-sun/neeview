@@ -108,6 +108,7 @@
     </ApplicationDefinition>
     <Compile Include="App.Memento.cs" />
     <Compile Include="BookHistoryCommand.cs" />
+    <Compile Include="BookSetting.cs" />
     <Compile Include="ContentCanvasBrush.cs" />
     <Compile Include="Controls\AddressBar.cs" />
     <Compile Include="Controls\AddressBarView.xaml.cs">

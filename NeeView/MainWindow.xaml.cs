@@ -37,7 +37,7 @@ namespace NeeView
             InitializeComponent();
 
             // Preferenceの復元は最優先
-            Preference.Current.Restore(App.Setting.PreferenceMemento);
+            Preference.Current.Restore(SaveData.Current.Setting.PreferenceMemento);
 
             // Window状態初期化、復元
             InitializeWindowShape();
@@ -68,7 +68,7 @@ namespace NeeView
 
 
             // TODO: 定義場所の変更を検討
-            App.Config.LocalApplicationDataRemoved +=
+            Config.Current .LocalApplicationDataRemoved +=
                 (s, e) =>
                 {
                     SaveData.Current.IsEnableSave = false; // 保存禁止
@@ -150,7 +150,7 @@ namespace NeeView
             // window
             var windowShape = new WindowShape(this);
 
-            var memento = App.Setting.WindowShape;
+            var memento = SaveData.Current.Setting.WindowShape;
             if (memento == null) return;
 
             memento = memento.Clone();
@@ -477,7 +477,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void MainWindow_DpiChanged(object sender, DpiChangedEventArgs e)
         {
-            var isChanged = App.Config.SetDip(e.NewDpi);
+            var isChanged = Config.Current .SetDip(e.NewDpi);
             if (!isChanged) return;
 
             //

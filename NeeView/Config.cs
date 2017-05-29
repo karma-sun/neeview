@@ -22,11 +22,17 @@ namespace NeeView
     /// </summary>
     public class Config
     {
+        public static Config Current { get; } = new Config();
+
         /// <summary>
-        /// コンストラクタ
+        /// 初期化
         /// </summary>
-        public Config()
+        public void Initiallize()
         {
+            this.ProcessId = Process.GetCurrentProcess().Id;
+
+            var assembly = Assembly.GetEntryAssembly();
+            ValidateProductInfo(assembly);
         }
 
         /// <summary>
@@ -116,16 +122,7 @@ namespace NeeView
             return major << 16 | minor << 8 | build;
         }
 
-        /// <summary>
-        /// いろいろ初期化
-        /// </summary>
-        public void Initialize()
-        {
-            this.ProcessId = Process.GetCurrentProcess().Id;
 
-            var assembly = Assembly.GetEntryAssembly();
-            ValidateProductInfo(assembly);
-        }
 
 
         /// <summary>

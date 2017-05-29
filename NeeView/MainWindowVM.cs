@@ -210,7 +210,7 @@ namespace NeeView
 
             public Memento()
             {
-                _Version = App.Config.ProductVersionNumber;
+                _Version = Config.Current .ProductVersionNumber;
                 Constructor();
             }
 

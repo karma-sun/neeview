@@ -96,7 +96,7 @@ namespace NeeView
                         // パスの指定があれば開く
                         if (path != null)
                         {
-                            CommandTable.Current[CommandType.LoadAs].Execute(this, path);
+                            BookHub.Current.RequestLoad(path, null, BookLoadOption.None, true);
                         }
 
                         // ウィンドウをアクティブにする (実行)

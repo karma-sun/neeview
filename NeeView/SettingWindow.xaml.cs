@@ -302,7 +302,7 @@ namespace NeeView
             }
 
             //
-            this.RemoveAllDataButton.Visibility = App.Config.IsUseLocalApplicationDataFolder ? Visibility.Visible : Visibility.Collapsed;
+            this.RemoveAllDataButton.Visibility = Config.Current .IsUseLocalApplicationDataFolder ? Visibility.Visible : Visibility.Collapsed;
 
             Setting = setting;
             History = history;
@@ -824,7 +824,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void RemoveAllData_Click(object sender, RoutedEventArgs e)
         {
-            App.Config.RemoveApplicationData();
+            Config.Current .RemoveApplicationData();
         }
 
         //

@@ -41,10 +41,10 @@ namespace NeeView
         public static string UserSettingFileName { get; set; }
 
         // ユーザ設定
-        public static Setting Setting { get; set; }
+        ////public static Setting Setting { get; set; }
 
         // アプリの環境設定
-        public static Config Config { get; set; }
+        ////public static Config Config { get; set; }
 
 
         // コマンドラインヘルプ(未使用)
@@ -81,8 +81,8 @@ namespace NeeView
 #endif
 
             // 環境初期化
-            Config = new Config();
-            Config.Initialize();
+            ////Config = new Config();
+            Config.Current.Initiallize();
 
             //
             ShutdownMode = ShutdownMode.OnMainWindowClose;
@@ -111,7 +111,7 @@ namespace NeeView
 
 
             // カレントフォルダー設定
-            System.Environment.CurrentDirectory = Config.LocalApplicationDataPath;
+            System.Environment.CurrentDirectory = Config.Current.LocalApplicationDataPath;
 
             // 設定ファイル名
             if (Options["--setting"].IsValid)
@@ -196,6 +196,11 @@ namespace NeeView
         public void LoadSetting()
         {
             // 設定の読み込み
+            SaveData.Current.LoadSetting(UserSettingFileName);
+            var setting = SaveData.Current.Setting;
+
+#if false
+            // 設定の読み込み
             if (System.IO.File.Exists(UserSettingFileName))
             {
                 try
@@ -213,21 +218,26 @@ namespace NeeView
             {
                 Setting = new Setting();
             }
+#endif
 
+            // restore
+            Restore(setting.App);
+            RestoreCompatible(setting);
+
+#if false
 #pragma warning disable CS0612
 
             // compatible before ver.23
-            if (Setting._Version < Config.GenerateProductVersionNumber(1, 23, 0))
+            if (setting._Version < setting.GenerateProductVersionNumber(1, 23, 0))
             {
-                this.IsMultiBootEnabled = !Setting.ViewMemento.IsDisableMultiBoot;
-                this.IsSaveFullScreen = Setting.ViewMemento.IsSaveFullScreen;
-                this.IsSaveWindowPlacement = Setting.ViewMemento.IsSaveWindowPlacement;
+                this.IsMultiBootEnabled = !setting.ViewMemento.IsDisableMultiBoot;
+                this.IsSaveFullScreen = setting.ViewMemento.IsSaveFullScreen;
+                this.IsSaveWindowPlacement = setting.ViewMemento.IsSaveWindowPlacement;
             }
 
 #pragma warning restore CS0612
+#endif
 
-            // restore
-            Restore(Setting.App);
         }
 
 

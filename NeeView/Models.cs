@@ -195,7 +195,7 @@ namespace NeeView
             ArchiverManager.UpdateSevenZipSupprtedFileTypes(preference.loader_archiver_7z_supprtfiletypes);
 
             // 7z.dll の場所
-            SevenZipArchiver.DllPath = App.Config.IsX64 ? preference.loader_archiver_7z_dllpath_x64 : preference.loader_archiver_7z_dllpath;
+            SevenZipArchiver.DllPath = Config.Current .IsX64 ? preference.loader_archiver_7z_dllpath_x64 : preference.loader_archiver_7z_dllpath;
 
             // SevenZip Lock時間
             SevenZipSource.LockTime = preference.loader_archiver_7z_locktime;
@@ -273,7 +273,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento._Version = App.Config.ProductVersionNumber;
+            memento._Version = Config.Current .ProductVersionNumber;
 
             memento.MemoryControl = this.MemoryControl.CreateMemento();
             memento.ArchiverManager = this.ArchiverManager.CreateMemento();

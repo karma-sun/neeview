@@ -49,6 +49,22 @@ namespace NeeView
             this.IsSaveFullScreen = memento.IsSaveFullScreen;
             this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
         }
+        
+#pragma warning disable CS0612
+
+        public void RestoreCompatible(Setting setting)
+        {
+            // compatible before ver.23
+            if (setting._Version < Config.GenerateProductVersionNumber(1, 23, 0))
+            {
+                this.IsMultiBootEnabled = !setting.ViewMemento.IsDisableMultiBoot;
+                this.IsSaveFullScreen = setting.ViewMemento.IsSaveFullScreen;
+                this.IsSaveWindowPlacement = setting.ViewMemento.IsSaveWindowPlacement;
+            }
+        }
+
+#pragma warning restore CS0612
+
         #endregion
 
     }

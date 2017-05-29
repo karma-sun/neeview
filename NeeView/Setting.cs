@@ -22,7 +22,7 @@ namespace NeeView
     public class Setting
     {
         [DataMember]
-        public int _Version { get; set; } = NeeView.App.Config.ProductVersionNumber;
+        public int _Version { get; set; } = NeeView.Config.Current .ProductVersionNumber;
 
 
         [DataMember(Order = 1)]

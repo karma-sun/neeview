@@ -65,7 +65,7 @@ namespace NeeView
                 int version = (int)value;
                 int minor = version / 100;
                 int build = version % 100;
-                var process = App.Config.IsX64 ? "64bit" : "32bit";
+                var process = Config.Current .IsX64 ? "64bit" : "32bit";
 
                 return $"1.{minor}" + ((build > 0) ? $".{build}" : "") + $" ({process})";
             }
@@ -83,7 +83,7 @@ namespace NeeView
     /// </summary>
     public class VersionWindowVM : BindableBase
     {
-        public string ApplicationName => App.Config.ApplicationName;
+        public string ApplicationName => Config.Current .ApplicationName;
         public string LicenseUri { get; private set; }
         public string ProjectUri => "https://bitbucket.org/neelabo/neeview/";
         public string ChangeLogUri => "https://bitbucket.org/neelabo/neeview/wiki/ChangeLog";
@@ -95,7 +95,7 @@ namespace NeeView
         //
         public VersionWindowVM()
         {
-            LicenseUri = "file://" + App.Config.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + "/README.html#license";
+            LicenseUri = "file://" + Config.Current .AssemblyLocation.Replace('\\', '/').TrimEnd('/') + "/README.html#license";
 
             // チェック開始
             Checker.CheckStart();
@@ -154,7 +154,7 @@ namespace NeeView
                 // チェック開始
                 LastVersion = 0; // CurrentVersion;
                 Message = "最新バージョンをチェック中...";
-                Task.Run(() => CheckVersion(App.Config.PackageType));
+                Task.Run(() => CheckVersion(Config.Current .PackageType));
             }
         }
 

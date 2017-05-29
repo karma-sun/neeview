@@ -225,20 +225,22 @@ namespace NeeView
             // VMイベント設定
             ////InitializeViewModelEvents();
 
+            var setting = SaveData.Current.Setting;
+
             // 設定反映
-            SaveData.Current.RestoreSetting(App.Setting, true);
-            SaveData.Current.RestoreSettingCompatible(App.Setting, true);
+            SaveData.Current.RestoreSetting(setting, true);
+            SaveData.Current.RestoreSettingCompatible(setting, true);
 
             // 履歴読み込み
-            SaveData.Current.LoadHistory(App.Setting);
+            SaveData.Current.LoadHistory(setting);
 
             // ブックマーク読み込み
-            SaveData.Current.LoadBookmark(App.Setting);
+            SaveData.Current.LoadBookmark(setting);
 
             // ページマーク読込
-            SaveData.Current.LoadPagemark(App.Setting);
+            SaveData.Current.LoadPagemark(setting);
 
-            App.Setting = null; // ロード設定破棄
+            SaveData.Current.Setting = null; // ロード設定破棄
 
 
             // フォルダーを開く
@@ -387,7 +389,7 @@ namespace NeeView
         // 設定ファイルの場所を開く
         public void OpenSettingFilesFolder()
         {
-            Process.Start("explorer.exe", $"\"{App.Config.LocalApplicationDataPath}\"");
+            Process.Start("explorer.exe", $"\"{Config.Current .LocalApplicationDataPath}\"");
         }
 
         // オンラインヘルプ

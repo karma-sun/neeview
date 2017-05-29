@@ -1187,7 +1187,7 @@ namespace NeeView
         {
            var pos = visual.PointToScreen(point); // デバイス座標
 
-            var dpi = App.Config.Dpi;
+            var dpi = Config.Current .Dpi;
             pos.X = pos.X / dpi.DpiScaleX;
             pos.Y = pos.Y / dpi.DpiScaleY;
             return pos;

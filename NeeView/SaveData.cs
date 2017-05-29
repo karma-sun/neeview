@@ -9,12 +9,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NeeView
 {
     public class SaveData
     {
         public static SaveData Current { get; } = new SaveData();
+
+        public Setting Setting { get; set; }
 
         public bool IsEnableSave { get; set; } = true;
 
@@ -298,7 +301,27 @@ namespace NeeView
         }
 
         // アプリ設定読み込み
-        // TODO:
+        public void LoadSetting(string filename)
+        {
+            // 設定の読み込み
+            if (System.IO.File.Exists(filename))
+            {
+                try
+                {
+                    this.Setting = Setting.Load(filename);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    MessageBox.Show("設定の読み込みに失敗しました。初期設定で起動します。", "エラー", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    this.Setting = new Setting();
+                }
+            }
+            else
+            {
+                this.Setting = new Setting();
+            }
+        }
     }
 
 }

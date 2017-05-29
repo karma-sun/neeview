@@ -884,7 +884,7 @@ namespace NeeView
         public class Memento : BindableBase
         {
             [DataMember]
-            public int _Version { get; set; } = App.Config.ProductVersionNumber;
+            public int _Version { get; set; } = Config.Current .ProductVersionNumber;
 
             [DataMember]
             public bool IsEnableAnimatedGif { get; set; }
@@ -967,7 +967,7 @@ namespace NeeView
 
             public Memento()
             {
-                _Version = App.Config.ProductVersionNumber;
+                _Version = Config.Current .ProductVersionNumber;
                 Constructor();
             }
 
@@ -1002,7 +1002,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento._Version = App.Config.ProductVersionNumber;
+            memento._Version = Config.Current .ProductVersionNumber;
 
             memento.IsEnableAnimatedGif = IsEnableAnimatedGif;
             memento.IsEnableExif = IsEnableExif;

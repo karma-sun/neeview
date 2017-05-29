@@ -172,7 +172,7 @@ namespace NeeView
         {
             if (s_isLibraryInitialized) return;
 
-            var dllPath = string.IsNullOrWhiteSpace(DllPath) ? System.IO.Path.Combine(App.Config.LibrariesPlatformPath, "7z.dll") : DllPath;
+            var dllPath = string.IsNullOrWhiteSpace(DllPath) ? System.IO.Path.Combine(Config.Current .LibrariesPlatformPath, "7z.dll") : DllPath;
 
             SevenZipExtractor.SetLibraryPath(dllPath);
 

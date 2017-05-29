@@ -89,8 +89,8 @@ namespace NeeView
         {
             if (this.WindowChromeFrame == WindowChromeFrame.Line && this.WindowChrome != null)
             {
-                var x = 1.0 / App.Config.RawDpi.DpiScaleX;
-                var y = 1.0 / App.Config.RawDpi.DpiScaleY;
+                var x = 1.0 / Config.Current .RawDpi.DpiScaleX;
+                var y = 1.0 / Config.Current .RawDpi.DpiScaleY;
                 this.WindowBorderThickness = new Thickness(x, y, x, y);
             }
             else

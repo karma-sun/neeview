@@ -48,7 +48,7 @@
   <!-- アプリケーションが DPI 対応であり、それ以上の DPI で Windows によって自動的にスケーリングされないことを
        示します。Windows Presentation Foundation (WPF) アプリケーションは自動的に DPI に対応し、オプトインする必要は
        ありません。さらに、この設定にオプトインする .NET Framework 4.6 を対象とする Windows Forms アプリケーションは、
-       app.config ファイルで 'EnableWindowsFormsHighDpiAutoResizing' 設定を 'true' に設定する必要があります。-->
+       Config.Current  ファイルで 'EnableWindowsFormsHighDpiAutoResizing' 設定を 'true' に設定する必要があります。-->
   <!--
   <application xmlns="urn:schemas-microsoft-com:asm.v3">
     <windowsSettings>

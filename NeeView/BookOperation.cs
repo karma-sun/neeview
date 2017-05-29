@@ -617,11 +617,13 @@ namespace NeeView
             RaisePropertyChanged(nameof(IsPagemark));
         }
 
+        //
         public bool CanPrevPagemarkInPlace(MovePagemarkCommandParameter param)
         {
             return (this.Book?.Markers != null && Current.Book.Markers.Count > 0) || param.IsIncludeTerminal;
         }
 
+        //
         public bool CanNextPagemarkInPlace(MovePagemarkCommandParameter param)
         {
             return (this.Book?.Markers != null && Current.Book.Markers.Count > 0) || param.IsIncludeTerminal;
@@ -667,6 +669,7 @@ namespace NeeView
         }
 
         #endregion
+
 
         #region Memento
         [DataContract]

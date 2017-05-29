@@ -36,6 +36,12 @@ namespace NeeView
         public static PageSlider Current { get; private set; }
 
         /// <summary>
+        /// ページマーカー表示のモデル
+        /// </summary>
+        public PageMarkers PageMarkers { get; private set; }
+
+
+        /// <summary>
         /// SliderIndexType property.
         /// </summary>
         public SliderIndexLayout SliderIndexLayout
@@ -65,7 +71,17 @@ namespace NeeView
         public bool IsSliderDirectionReversed
         {
             get { return _isSliderDirectionReversed; }
-            private set { if (_isSliderDirectionReversed != value) { _isSliderDirectionReversed = value; RaisePropertyChanged(); _thumbnailList.IsSliderDirectionReversed = _isSliderDirectionReversed; } }
+            private set
+            {
+                if (_isSliderDirectionReversed != value)
+                {
+                    _isSliderDirectionReversed = value;
+                    RaisePropertyChanged();
+                    _thumbnailList.IsSliderDirectionReversed = _isSliderDirectionReversed;
+                    this.PageMarkers.IsSliderDirectionReversed = _isSliderDirectionReversed;
+                }
+
+            }
         }
 
         //
@@ -181,6 +197,8 @@ namespace NeeView
         public PageSlider(BookOperation bookOperation, BookSetting bookSetting, BookHub bookHub, ThumbnailList thumbnailList)
         {
             Current = this;
+
+            this.PageMarkers = new PageMarkers(bookOperation);
 
             this.BookOperation = bookOperation;
             this.BookHub = bookHub;

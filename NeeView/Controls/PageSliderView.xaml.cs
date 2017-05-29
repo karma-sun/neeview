@@ -77,7 +77,7 @@ namespace NeeView
             this.Root.DataContext = _vm;
 
             // マーカー初期化
-            this.PageMarkers.Initialize(_vm.Model.BookHub);
+            this.PageMarkersView.Source = this.Source.PageMarkers;
 
             // 
             _vm.Model.AddPropertyChanged(nameof(PageSlider.IsSliderDirectionReversed), Model_IsSliderDirectionReversedChanged);
@@ -91,9 +91,6 @@ namespace NeeView
             var track = this.Slider.Template.FindName("PART_Track", this.Slider) as System.Windows.Controls.Primitives.Track;
             // Force it to rerender
             track.InvalidateVisual();
-
-            // TODO: マーカーへの伝達方法
-            this.PageMarkers.IsSliderDirectionReversed = _vm.Model.IsSliderDirectionReversed;
         }
         
 

@@ -134,6 +134,8 @@
     <Compile Include="Controls\MenuBarViewModel.cs" />
     <Compile Include="Controls\NowLoading.cs" />
     <Compile Include="Controls\NowLoadingViewModel.cs" />
+    <Compile Include="Controls\PageMarkers.cs" />
+    <Compile Include="Controls\PageMarkersViewModel.cs" />
     <Compile Include="Converters\AnytToFalseConverter.cs" />
     <Compile Include="Converters\ApiVersionToApiTextConverter.cs" />
     <Compile Include="Converters\BackgroundStyleToBooleanConverter.cs" />
@@ -400,8 +402,8 @@
     <Compile Include="BindingGenerator.cs" />
     <Compile Include="MenuTree.cs" />
     <Compile Include="OptionParser.cs" />
-    <Compile Include="PageMarkers.xaml.cs">
-      <DependentUpon>PageMarkers.xaml</DependentUpon>
+    <Compile Include="Controls\PageMarkersView.xaml.cs">
+      <DependentUpon>PageMarkersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Page\ArchivePage.cs" />
     <Compile Include="Preference.cs" />
@@ -735,7 +737,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PageMarkers.xaml">
+    <Page Include="Controls\PageMarkersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

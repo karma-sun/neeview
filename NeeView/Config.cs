@@ -296,7 +296,10 @@ namespace NeeView
         private bool RemoveApplicationDataCore()
         {
             // LocalApplicationDataフォルダーを使用している場合のみ
-            if (!IsUseLocalApplicationDataFolder) return false;
+            if (!IsUseLocalApplicationDataFolder)
+            {
+                throw new ApplicationException("AppDataフォルダではないため、削除を行いません。");
+            }
 
             Debug.WriteLine("RemoveAllApplicationData ...");
 
@@ -320,16 +323,14 @@ namespace NeeView
         //
         public void RemoveApplicationData()
         {
-            if (!this.IsUseLocalApplicationDataFolder)
-            {
-                MessageBox.Show("--removeオプションはインストーラー版でのみ機能します", "起動オプションエラー", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
             var text = "ユーザデータを削除します。よろしいですか？\n\n以下のデータが削除されます\n- 設定ファイル\n- 履歴ファイル\n- ブックマークファイル\n- ページマークファイル\n- キャッシュファイル";
-            var result = MessageBox.Show(text, "NeeView - データ削除確認", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
 
-            if (result == MessageBoxResult.OK)
+            var dialog = new MessageDialog(text, "ユーザデータを削除します。");
+            dialog.Commands.Add(UICommands.Remove);
+            dialog.Commands.Add(UICommands.Cancel);
+            var result = dialog.ShowDialog();
+
+            if (result == UICommands.Remove)
             {
                 // キャッシュDBを閉じる
                 ThumbnailCache.Current.Close();
@@ -341,12 +342,13 @@ namespace NeeView
                 try
                 {
                     this.RemoveApplicationDataCore();
-                    MessageBox.Show("ユーザデータを削除しました。NeeViewを終了します。", "NeeView - 完了");
+                    new MessageDialog("ユーザデータを削除しました。NeeViewを終了します。", "削除しました。").ShowDialog();
+
                     LocalApplicationDataRemoved?.Invoke(this, null);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "NeeView - エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                    new MessageDialog(ex.Message, "削除できません。").ShowDialog();
 
                     // カレントフォルダー復帰
                     System.Environment.CurrentDirectory = currentFolder;

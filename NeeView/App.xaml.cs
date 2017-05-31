@@ -28,9 +28,7 @@ namespace NeeView
     /// </summary>
     public partial class App : Application
     {
-        //
         public static new App Current => (App)Application.Current;
-        public new MainWindow MainWindow => (MainWindow)base.MainWindow;
 
         // オプション設定
         public CommandLineOption Option { get; private set; }
@@ -43,32 +41,37 @@ namespace NeeView
         /// <param name="e"></param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            try
+            {
+                // 初期化
+                Initialize(e);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("InitializeException: " + ex.Message);
+                return;
+            }
+
+            // メインウィンドウ起動
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
+        }
+
+
+        // 初期化
+        private void Initialize(StartupEventArgs e)
+        {
             this.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
             // 環境初期化
             Config.Current.Initiallize();
 
             // カレントフォルダー設定
-            System.Environment.CurrentDirectory = Config.Current.LocalApplicationDataPath;
+            Environment.CurrentDirectory = Config.Current.LocalApplicationDataPath;
 
             // コマンドライン引数処理
-            try
-            {
-                this.Option = ParseArguments(e.Args);
-                this.Option.Validate();
-            }
-            catch (CommandLineHelpException)
-            {
-                this.Shutdown(0);
-                return;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "起動オプションエラー", MessageBoxButton.OK, MessageBoxImage.Error);
-                this.Shutdown(1);
-                return;
-            }
-
+            this.Option = ParseArguments(e.Args);
+            this.Option.Validate();
 
             // 設定ファイルの読み込み
             SaveData.Current.LoadSetting(Option.SettingFilename);
@@ -77,6 +80,17 @@ namespace NeeView
             // restore
             Restore(setting.App);
             RestoreCompatible(setting);
+
+            // Preferenceの復元は最優先
+            Preference.Current.Restore(SaveData.Current.Setting.PreferenceMemento);
+
+            // バージョン表示
+            if (this.Option.IsVersion)
+            {
+                var dialog = new VersionWindow() { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+                dialog.ShowDialog();
+                throw new ApplicationException("Disp Version Dialog");
+            }
 
 
             // 多重起動チェック
@@ -112,8 +126,7 @@ namespace NeeView
                         IpcRemote.LoadAs(serverProcess.Id, Option.StartupPlace);
 
                         // 起動を中止してプログラムを終了
-                        this.Shutdown();
-                        return;
+                        throw new ApplicationException("Because, already exist.");
                     }
                     catch (Exception ex)
                     {
@@ -124,10 +137,6 @@ namespace NeeView
 
             // IPCサーバ起動
             IpcRemote.BootServer(currentProcess.Id);
-
-            // メインウィンドウ起動
-            var mainWindow = new MainWindow();
-            mainWindow.Show();
         }
 
 

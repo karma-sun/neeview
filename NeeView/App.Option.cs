@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NeeView
 {
@@ -24,26 +25,31 @@ namespace NeeView
     //
     public class CommandLineOption
     {
+        [OptionMember("h", "help", Default = "true", HelpText = "このヘルプを表示します")]
+        public bool IsHelp { get; set; }
+
+        [OptionMember("v", "version", Default = "true", HelpText = "バージョン情報を表示します")]
+        public bool IsVersion { get; set; }
+
         [OptionMember("x", "setting", HasParameter = true, HelpText = "設定ファイル(UserSetting.xml)のパスを指定します")]
         public string SettingFilename { get; set; }
-
-        [OptionMember("r", "reset-placement", Default = "on", HelpText = "ウィンドウ座標を初期化します")]
-        public SwitchOption IsResetPlacement { get; set; }
-
-        [OptionMember("b", "blank", Default = "on", HelpText = "画像ファイルを開かずに起動します")]
-        public SwitchOption IsBlank { get; set; }
-
-        [OptionMember("n", "new-window", Default = "on", HasParameter = true, HelpText = "新しいウィンドウで起動するかを指定します")]
-        public SwitchOption? IsNewWindow { get; set; }
 
         [OptionMember("f", "fullscrreen", Default = "on", HelpText = "フルスクリーンで起動するかを指定します")]
         public SwitchOption? IsFullScreen { get; set; }
 
+        [OptionMember("b", "blank", Default = "on", HelpText = "画像ファイルを開かずに起動します")]
+        public SwitchOption IsBlank { get; set; }
+
+        [OptionMember("r", "reset-placement", Default = "on", HelpText = "ウィンドウ座標を初期化します")]
+        public SwitchOption IsResetPlacement { get; set; }
+
+        [OptionMember("n", "new-window", Default = "on", HasParameter = true, HelpText = "新しいウィンドウで起動するかを指定します")]
+        public SwitchOption? IsNewWindow { get; set; }
+
         [OptionMember("s", "slideshow", Default = "on", HasParameter = true, HelpText = "スライドショウを開始するかを指定します")]
         public SwitchOption? IsSlideShow { get; set; }
 
-        [OptionMember("h", "help", Default = "true", HelpText = "このヘルプを表示します")]
-        public bool IsHelp { get; set; }
+
 
         [OptionValues]
         public List<string> Values { get; set; }
@@ -87,65 +93,40 @@ namespace NeeView
     public partial class App
     {
         //
-        public class CommandLineHelpException : Exception
-        {
-        }
-
-        //
         public CommandLineOption ParseArguments(string[] args)
         {
             var optionMap = new OptionMap<CommandLineOption>();
+            CommandLineOption option;
 
             try
             {
                 //
-                var option = optionMap.ParseArguments(args);
-
-                if (option.IsHelp)
-                {
-                    throw new CommandLineHelpException();
-                }
-
-                return option;
+                option = optionMap.ParseArguments(args);
             }
             catch (Exception ex)
             {
-                var message = ex is CommandLineHelpException ? null : "エラー： " + ex.Message;
-                ShowCommandLineHelp(message, GetCommandLineHelp(optionMap));
+                new MessageDialog(ex.Message, "NeeView 起動エラー").ShowDialog();
                 throw;
             }
-        }
 
-        [System.Runtime.InteropServices.DllImport("Kernel32.dll")]
-        internal static extern bool AttachConsole(int processId);
-
-        [System.Runtime.InteropServices.DllImport("Kernel32.dll")]
-        internal static extern bool FreeConsole();
-
-        //
-        private void ShowCommandLineHelp(string message, string optionHelp)
-        {
-            if (AttachConsole(-1) != true) return;
-
-            Console.WriteLine("\n");
-
-            if (message != null)
+            if (option.IsHelp)
             {
-                Console.WriteLine(message + "\n\n");
+                new MessageDialog(GetCommandLineHelp(optionMap), "NeeView 起動オプション").ShowDialog();
+                throw new ApplicationException("Disp CommandLine Help");
             }
 
-            Console.WriteLine(optionHelp);
-
-            // プロンプトを表示する
-            //System.Windows.Forms.SendKeys.SendWait("{ENTER}");
-
-            FreeConsole();
+            return option;
         }
 
         //
         public string GetCommandLineHelp(OptionMap<CommandLineOption> optionMap)
         {
-            return "Usage: NeeView.exe [options] [file or folder]\n\n" + optionMap.GetHelpText();
+            return "Usage: NeeView.exe [options] [file or folder]\n\n"
+                + optionMap.GetHelpText() + "\n"
+                + "Example:\n"
+                + "                NeeView.exe -f\n"
+                + "                NeeView.exe --slideshow E:\\Pictures\n"
+                + "                NeeView.exe --setting=\"C:\\Sample\\CustomUserSetting.xml\" --new-window=off";
         }
 
         //

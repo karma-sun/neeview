@@ -313,7 +313,8 @@ namespace NeeView
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
-                    MessageBox.Show("設定の読み込みに失敗しました。初期設定で起動します。", "エラー", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    new MessageDialog("設定の読み込みに失敗しました。初期設定で起動します。", "設定の読み込みに失敗しました。").ShowDialog();
+
                     this.Setting = new Setting();
                 }
             }

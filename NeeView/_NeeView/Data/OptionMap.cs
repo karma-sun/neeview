@@ -82,7 +82,7 @@ namespace NeeView.Data
         public string GetHelpText()
         {
             string text = "";
-            foreach (var element in this._elements.OrderBy(e => e.LongName))
+            foreach (var element in _elements)
             {
                 // key
                 var keys = new List<string> { element.ShortName != null ? "-" + element.ShortName : null, element.LongName != null ? "--" + element.LongName : null };

@@ -26,18 +26,18 @@ namespace NeeView
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainWindowViewModel _vm;
+        public static MainWindow Current { get; private set; }
 
+        private MainWindowViewModel _vm;
 
         /// <summary>
         /// コンストラクター
         /// </summary>
         public MainWindow()
         {
-            InitializeComponent();
+            Current = this;
 
-            // Preferenceの復元は最優先
-            Preference.Current.Restore(SaveData.Current.Setting.PreferenceMemento);
+            InitializeComponent();
 
             // Window状態初期化、復元
             InitializeWindowShape();
@@ -68,7 +68,7 @@ namespace NeeView
 
 
             // TODO: 定義場所の変更を検討
-            Config.Current .LocalApplicationDataRemoved +=
+            Config.Current.LocalApplicationDataRemoved +=
                 (s, e) =>
                 {
                     SaveData.Current.IsEnableSave = false; // 保存禁止
@@ -256,7 +256,7 @@ namespace NeeView
         {
             e.CanExecute = !NowLoading.Current.IsDispNowLoading;
         }
-        
+
         #endregion
 
 
@@ -477,7 +477,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void MainWindow_DpiChanged(object sender, DpiChangedEventArgs e)
         {
-            var isChanged = Config.Current .SetDip(e.NewDpi);
+            var isChanged = Config.Current.SetDip(e.NewDpi);
             if (!isChanged) return;
 
             //

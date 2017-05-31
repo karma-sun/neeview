@@ -81,7 +81,7 @@ namespace NeeView
             InitializeComponent();
             this.DataContext = this;
 
-            this.Owner = App.Current?.MainWindow;
+            this.Owner = MainWindow.Current;
             this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
         }
 

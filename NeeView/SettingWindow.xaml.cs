@@ -301,8 +301,10 @@ namespace NeeView
                 this.SusieSettingTab.Visibility = Visibility.Collapsed;
             }
 
-            //
+#if DEBUG
+#else
             this.RemoveAllDataButton.Visibility = Config.Current .IsUseLocalApplicationDataFolder ? Visibility.Visible : Visibility.Collapsed;
+#endif
 
             Setting = setting;
             History = history;
@@ -661,7 +663,7 @@ namespace NeeView
         }
 
 
-        #region ParameterSettingCommand
+#region ParameterSettingCommand
         private RelayCommand _parameterSettingCommand;
         public RelayCommand ParameterSettingCommand
         {
@@ -679,7 +681,7 @@ namespace NeeView
             var command = (CommandParam)this.CommandListView.SelectedValue;
             EditCommandParameter(command);
         }
-        #endregion
+#endregion
 
 
 

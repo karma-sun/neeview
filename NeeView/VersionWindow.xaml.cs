@@ -48,7 +48,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                new MessageDialog(ex.Message, "リンクが取得できませんでした。").ShowDialog();
             }
         }
     }

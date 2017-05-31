@@ -155,7 +155,7 @@ namespace NeeView
 
             memento = memento.Clone();
 
-            if (App.Options["--reset-placement"].IsValid || !App.Current.IsSaveWindowPlacement)
+            if (App.Current.Option.IsResetPlacement == SwitchOption.on || !App.Current.IsSaveWindowPlacement)
             {
                 memento.State = WindowStateEx.Normal;
                 memento.WindowRect = Rect.Empty;
@@ -166,7 +166,7 @@ namespace NeeView
                 memento.State = WindowStateEx.Normal;
             }
 
-            if (App.Options["--fullscreen"].IsValid)
+            if (App.Current.Option.IsFullScreen == SwitchOption.on)
             {
                 memento.State = WindowStateEx.FullScreen;
             }

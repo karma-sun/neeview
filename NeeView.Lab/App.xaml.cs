@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.CommandLine;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,16 @@ namespace NeeView.Lab
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            //
+            var option = new SampleOptionTest();
+            option.Exec(e.Args);
+
+
+            // メインウィンドウ起動
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
+        }
     }
 }

@@ -244,12 +244,12 @@ namespace NeeView
 
 
             // フォルダーを開く
-            if (!App.Options["--blank"].IsValid)
+            if (App.Current.Option.IsBlank != SwitchOption.on )
             {
-                if (App.StartupPlace != null)
+                if (App.Current.Option.StartupPlace != null)
                 {
                     // 起動引数の場所で開く
-                    BookHub.Current.RequestLoad(App.StartupPlace, null, BookLoadOption.None, true);
+                    BookHub.Current.RequestLoad(App.Current.Option.StartupPlace, null, BookLoadOption.None, true);
                 }
                 else
                 {
@@ -259,7 +259,7 @@ namespace NeeView
             }
 
             // スライドショーの自動再生
-            if (App.Options["--slideshow"].IsValid ? App.Options["--slideshow"].Bool : SlideShow.Current.IsAutoPlaySlideShow)
+            if (App.Current.Option.IsSlideShow != null ? App.Current.Option.IsSlideShow == SwitchOption.on : SlideShow.Current.IsAutoPlaySlideShow)
             {
                 SlideShow.Current.IsPlayingSlideShow = true;
             }

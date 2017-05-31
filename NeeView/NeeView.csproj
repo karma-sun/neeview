@@ -106,7 +106,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="App.Exception.cs" />
     <Compile Include="App.Memento.cs" />
+    <Compile Include="App.Option.cs" />
     <Compile Include="BookHistoryCommand.cs" />
     <Compile Include="BookSetting.cs" />
     <Compile Include="ContentCanvasBrush.cs" />
@@ -270,6 +272,9 @@
     <Compile Include="WindowCaptionEmulator.cs" />
     <Compile Include="WindowShape.cs" />
     <Compile Include="WindowTitle.cs" />
+    <Compile Include="_NeeView\Data\OptionMap.cs" />
+    <Compile Include="_NeeView\Data\OptionMemberAttribute.cs" />
+    <Compile Include="_NeeView\Data\OptionValuesAttribute.cs" />
     <Compile Include="_NeeView\Input\RelayCommand.cs" />
     <Compile Include="OpenSourceControls\DockPanelSplitter.cs" />
     <Compile Include="Utility\ComboColorPicker.xaml.cs">
@@ -401,7 +406,6 @@
     </Compile>
     <Compile Include="BindingGenerator.cs" />
     <Compile Include="MenuTree.cs" />
-    <Compile Include="OptionParser.cs" />
     <Compile Include="Controls\PageMarkersView.xaml.cs">
       <DependentUpon>PageMarkersView.xaml</DependentUpon>
     </Compile>

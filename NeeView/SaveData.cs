@@ -244,7 +244,7 @@ namespace NeeView
             try
             {
                 // 設定をファイルに保存
-                setting.Save(App.UserSettingFileName);
+                setting.Save(App.Current.Option.SettingFilename);
             }
             catch { }
 

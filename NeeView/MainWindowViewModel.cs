@@ -176,7 +176,7 @@ namespace NeeView
             set { if (_busyVisibility != value) { _busyVisibility = value; RaisePropertyChanged(); } }
         }
 
-        private Visibility _busyVisibility;
+        private Visibility _busyVisibility = Visibility.Collapsed;
 
 
 

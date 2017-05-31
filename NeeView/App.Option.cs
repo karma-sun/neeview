@@ -1,0 +1,158 @@
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using NeeView.Data;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NeeView
+{
+    //
+    public enum SwitchOption
+    {
+        off,
+        on,
+    }
+
+    //
+    public class CommandLineOption
+    {
+        [OptionMember("x", "setting", HasParameter = true, HelpText = "設定ファイル(UserSetting.xml)のパスを指定します")]
+        public string SettingFilename { get; set; }
+
+        [OptionMember("r", "reset-placement", Default = "on", HelpText = "ウィンドウ座標を初期化します")]
+        public SwitchOption IsResetPlacement { get; set; }
+
+        [OptionMember("b", "blank", Default = "on", HelpText = "画像ファイルを開かずに起動します")]
+        public SwitchOption IsBlank { get; set; }
+
+        [OptionMember("n", "new-window", Default = "on", HasParameter = true, HelpText = "新しいウィンドウで起動するかを指定します")]
+        public SwitchOption? IsNewWindow { get; set; }
+
+        [OptionMember("f", "fullscrreen", Default = "on", HelpText = "フルスクリーンで起動するかを指定します")]
+        public SwitchOption? IsFullScreen { get; set; }
+
+        [OptionMember("s", "slideshow", Default = "on", HasParameter = true, HelpText = "スライドショウを開始するかを指定します")]
+        public SwitchOption? IsSlideShow { get; set; }
+
+        [OptionMember("h", "help", Default = "true", HelpText = "このヘルプを表示します")]
+        public bool IsHelp { get; set; }
+
+        [OptionValues]
+        public List<string> Values { get; set; }
+
+
+        //
+        public string StartupPlace { get; set; }
+
+        //
+        public void Validate()
+        {
+            // SettingFilename
+            if (this.SettingFilename != null)
+            {
+                var filename = this.SettingFilename;
+                if (File.Exists(filename))
+                {
+                    // 念のためフルパス変換
+                    this.SettingFilename = Path.GetFullPath(filename);
+                }
+                else
+                {
+                    throw new ArgumentException($"指定された設定ファイルが存在しません : {this.SettingFilename}");
+                }
+            }
+            else
+            {
+                this.SettingFilename = Path.Combine(System.Environment.CurrentDirectory, "UserSetting.xml");
+            }
+
+            // StartupPlage
+            this.StartupPlace = Values?.LastOrDefault();
+            if (this.StartupPlace != null && (File.Exists(this.StartupPlace) || Directory.Exists(this.StartupPlace)))
+            {
+                this.StartupPlace = Path.GetFullPath(this.StartupPlace);
+            }
+        }
+    }
+
+
+    public partial class App
+    {
+        //
+        public class CommandLineHelpException : Exception
+        {
+        }
+
+        //
+        public CommandLineOption ParseArguments(string[] args)
+        {
+            var optionMap = new OptionMap<CommandLineOption>();
+
+            try
+            {
+                //
+                var option = optionMap.ParseArguments(args);
+
+                if (option.IsHelp)
+                {
+                    throw new CommandLineHelpException();
+                }
+
+                return option;
+            }
+            catch (Exception ex)
+            {
+                var message = ex is CommandLineHelpException ? null : "エラー： " + ex.Message;
+                ShowCommandLineHelp(message, GetCommandLineHelp(optionMap));
+                throw;
+            }
+        }
+
+        [System.Runtime.InteropServices.DllImport("Kernel32.dll")]
+        internal static extern bool AttachConsole(int processId);
+
+        [System.Runtime.InteropServices.DllImport("Kernel32.dll")]
+        internal static extern bool FreeConsole();
+
+        //
+        private void ShowCommandLineHelp(string message, string optionHelp)
+        {
+            if (AttachConsole(-1) != true) return;
+
+            Console.WriteLine("\n");
+
+            if (message != null)
+            {
+                Console.WriteLine(message + "\n\n");
+            }
+
+            Console.WriteLine(optionHelp);
+
+            // プロンプトを表示する
+            //System.Windows.Forms.SendKeys.SendWait("{ENTER}");
+
+            FreeConsole();
+        }
+
+        //
+        public string GetCommandLineHelp(OptionMap<CommandLineOption> optionMap)
+        {
+            return "Usage: NeeView.exe [options] [file or folder]\n\n" + optionMap.GetHelpText();
+        }
+
+        //
+        public string GetCommandLineHelp()
+        {
+            return GetCommandLineHelp(new OptionMap<CommandLineOption>());
+        }
+
+    }
+}

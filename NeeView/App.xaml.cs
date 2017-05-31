@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -23,50 +28,12 @@ namespace NeeView
     /// </summary>
     public partial class App : Application
     {
+        //
         public static new App Current => (App)Application.Current;
-
         public new MainWindow MainWindow => (MainWindow)base.MainWindow;
 
-        // 例外発生数
-        private int _exceptionCount = 0;
-
-        // コマンドラインオプション
-        private static OptionParser _OptionParser { get; set; } = new OptionParser();
-        public static Dictionary<string, OptionUnit> Options => _OptionParser.Options;
-
-        // 起動持の引数として渡されたパス
-        public static string StartupPlace { get; set; }
-
-        // ユーザー設定ファイル名
-        public static string UserSettingFileName { get; set; }
-
-        // ユーザ設定
-        ////public static Setting Setting { get; set; }
-
-        // アプリの環境設定
-        ////public static Config Config { get; set; }
-
-
-        // コマンドラインヘルプ(未使用)
-        private string HelpText
-        {
-            get
-            {
-                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
-
-                string exe = System.IO.Path.GetFileName(assembly.Location);
-                string text = "\n";
-                text += $"{ assembly.GetName().Name} { ver.FileMajorPart}.{ ver.FileMinorPart}\n";
-                text += $"\nUsage: {exe} [options...] [ImageFile]\n\n";
-                text += _OptionParser.HelpText + "\n";
-                text += $"例:\n  {exe} --setting=\"C:\\Hoge\\CustomUserSetting.xml\" --new-window=off\n";
-                text += $"例:\n  {exe} --fullscreen --slideshow\n";
-                text += "\n";
-
-                return text;
-            }
-        }
+        // オプション設定
+        public CommandLineOption Option { get; private set; }
 
 
         /// <summary>
@@ -76,26 +43,24 @@ namespace NeeView
         /// <param name="e"></param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-#if DEBUG
-            ////InitializeException();
-#endif
+            this.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
             // 環境初期化
-            ////Config = new Config();
             Config.Current.Initiallize();
 
-            //
-            ShutdownMode = ShutdownMode.OnMainWindowClose;
+            // カレントフォルダー設定
+            System.Environment.CurrentDirectory = Config.Current.LocalApplicationDataPath;
 
+            // コマンドライン引数処理
             try
             {
-                _OptionParser.AddOption("--setting", OptionType.FileName, "設定ファイル(UserSetting.xml)のパスを指定します");
-                _OptionParser.AddOption("--reset-placement", OptionType.None, "ウィンドウ座標を初期化します");
-                _OptionParser.AddOption("--blank", OptionType.None, "画像ファイルを開かずに起動します");
-                _OptionParser.AddOption("--new-window", OptionType.Bool, "新しいウィンドウで起動するかを指定します");
-                _OptionParser.AddOption("--fullscreen", OptionType.Bool, "フルスクリーンで起動するかを指定します");
-                _OptionParser.AddOption("--slideshow", OptionType.Bool, "スライドショウを開始するかを指定します");
-                _OptionParser.Parse(e.Args);
+                this.Option = ParseArguments(e.Args);
+                this.Option.Validate();
+            }
+            catch (CommandLineHelpException)
+            {
+                this.Shutdown(0);
+                return;
             }
             catch (Exception ex)
             {
@@ -104,56 +69,33 @@ namespace NeeView
                 return;
             }
 
-            foreach (string arg in _OptionParser.Args)
-            {
-                StartupPlace = arg.Trim();
-            }
 
+            // 設定ファイルの読み込み
+            SaveData.Current.LoadSetting(Option.SettingFilename);
+            var setting = SaveData.Current.Setting;
 
-            // カレントフォルダー設定
-            System.Environment.CurrentDirectory = Config.Current.LocalApplicationDataPath;
+            // restore
+            Restore(setting.App);
+            RestoreCompatible(setting);
 
-            // 設定ファイル名
-            if (Options["--setting"].IsValid)
-            {
-                var filename = _OptionParser.Options["--setting"].Value;
-                if (File.Exists(filename))
-                {
-                    UserSettingFileName = Path.GetFullPath(filename);
-                }
-                else
-                {
-                    MessageBox.Show("指定された設定ファイルが存在しません\n\n" + filename, "起動オプションエラー", MessageBoxButton.OK, MessageBoxImage.Error);
-                    this.Shutdown(1);
-                    return;
-                }
-            }
-            else
-            {
-                UserSettingFileName = Path.Combine(System.Environment.CurrentDirectory, "UserSetting.xml");
-            }
-
-
-            // 設定読み込み
-            LoadSetting();
 
             // 多重起動チェック
             Process currentProcess = Process.GetCurrentProcess();
 
             bool isNewWindow = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift
-                || Options["--new-window"].IsValid ? Options["--new-window"].Bool : IsMultiBootEnabled; //// !Setting.ViewMemento.IsDisableMultiBoot;
+                || Option.IsNewWindow != null ? Option.IsNewWindow == SwitchOption.on : IsMultiBootEnabled;
 
             if (!isNewWindow)
             {
                 // 自身と異なるプロセスを見つけ、サーバとする
-
-                // x64版は NeeView64 という名前の可能性がある
-                var processName = currentProcess.ProcessName.Replace("64", "");
-                var processes = Process.GetProcessesByName(processName)
-                    .Concat(Process.GetProcessesByName(processName + "64"));
+                var processName = currentProcess.ProcessName;
 #if DEBUG
-                processes = processes
-                    .Concat(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(currentProcess.ProcessName)));
+                var processes = Process.GetProcessesByName(processName)
+                    .Concat(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(currentProcess.ProcessName)))
+                    .ToList();
+#else
+                var processes = Process.GetProcessesByName(processName)
+                    .ToList();
 #endif
 
                 // 最も古いプロセスを残す
@@ -167,7 +109,7 @@ namespace NeeView
                     {
                         Win32Api.AllowSetForegroundWindow(serverProcess.Id);
                         // IPCクライアント送信
-                        IpcRemote.LoadAs(serverProcess.Id, StartupPlace);
+                        IpcRemote.LoadAs(serverProcess.Id, Option.StartupPlace);
 
                         // 起動を中止してプログラムを終了
                         this.Shutdown();
@@ -183,61 +125,9 @@ namespace NeeView
             // IPCサーバ起動
             IpcRemote.BootServer(currentProcess.Id);
 
-            // アプリ共通資源初期化
-            ////ModelContext.Initialize();
-
             // メインウィンドウ起動
             var mainWindow = new MainWindow();
             mainWindow.Show();
-        }
-
-
-        // 設定ファイル読み込み
-        public void LoadSetting()
-        {
-            // 設定の読み込み
-            SaveData.Current.LoadSetting(UserSettingFileName);
-            var setting = SaveData.Current.Setting;
-
-#if false
-            // 設定の読み込み
-            if (System.IO.File.Exists(UserSettingFileName))
-            {
-                try
-                {
-                    Setting = Setting.Load(UserSettingFileName);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                    MessageBox.Show("設定の読み込みに失敗しました。初期設定で起動します。", "エラー", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    Setting = new Setting();
-                }
-            }
-            else
-            {
-                Setting = new Setting();
-            }
-#endif
-
-            // restore
-            Restore(setting.App);
-            RestoreCompatible(setting);
-
-#if false
-#pragma warning disable CS0612
-
-            // compatible before ver.23
-            if (setting._Version < setting.GenerateProductVersionNumber(1, 23, 0))
-            {
-                this.IsMultiBootEnabled = !setting.ViewMemento.IsDisableMultiBoot;
-                this.IsSaveFullScreen = setting.ViewMemento.IsSaveFullScreen;
-                this.IsSaveWindowPlacement = setting.ViewMemento.IsSaveWindowPlacement;
-            }
-
-#pragma warning restore CS0612
-#endif
-
         }
 
 
@@ -264,87 +154,5 @@ namespace NeeView
             Debug.WriteLine("Application_Exit");
         }
 
-
-        /// <summary>
-        /// クリティカルなエラーの処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
-        {
-            if (++_exceptionCount >= 2)
-            {
-                Debug.WriteLine($"AfterException({_exceptionCount}): {e.Exception.Message}");
-                e.Handled = true;
-                return;
-            }
-
-            using (var stream = new FileStream("ErrorLog.txt", FileMode.Create, FileAccess.Write))
-            using (var writer = new StreamWriter(stream))
-            {
-                writer.WriteLine($"{DateTime.Now}\n");
-
-                Action<Exception, StreamWriter> WriteException = (exception, sw) =>
-                {
-                    sw.WriteLine($"ExceptionType:\n  {exception.GetType()}");
-                    sw.WriteLine($"ExceptionMessage:\n  {exception.Message}");
-                    sw.WriteLine($"ExceptionStackTrace:\n{exception.StackTrace}");
-                };
-
-                WriteException(e.Exception, writer);
-
-                Exception ex = e.Exception.InnerException;
-                while (ex != null)
-                {
-                    writer.WriteLine("\n\n-------- InnerException --------\n");
-                    WriteException(ex, writer);
-                    ex = ex.InnerException;
-                }
-            }
-
-            string exceptionMessage = e.Exception is System.Reflection.TargetInvocationException ? e.Exception.InnerException?.Message : e.Exception.Message;
-            string message = $"エラーが発生しました。アプリを終了します。\n\n理由 : {exceptionMessage}\n\nErrorLog.txtにエラーの詳細が出力されています。この内容を開発者に報告してください。";
-            MessageBox.Show(message, "強制終了", MessageBoxButton.OK, MessageBoxImage.Error);
-
-#if DEBUG
-#else
-            e.Handled = true;
-
-            this.Shutdown();
-#endif
-        }
-
-
-
-#if DEBUG
-        /// <summary>
-        /// 全ての最終例外をキャッチ
-        /// </summary>
-        private void InitializeException()
-        {
-            // 全ての最終例外をキャッチ
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-        }
-
-        /// <summary>
-        /// 例外取得
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            var exception = e.ExceptionObject as Exception;
-            if (exception == null)
-            {
-                MessageBox.Show("System.Exceptionとして扱えない例外");
-                return;
-            }
-            else
-            {
-                Debug.WriteLine($"*** {exception.Message}");
-            }
-
-        }
-#endif
     }
 }

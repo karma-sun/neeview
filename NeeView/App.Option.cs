@@ -125,7 +125,7 @@ namespace NeeView
                 + optionMap.GetHelpText() + "\n"
                 + "Example:\n"
                 + "                NeeView.exe -f\n"
-                + "                NeeView.exe --slideshow E:\\Pictures\n"
+                + "                NeeView.exe -fs E:\\Pictures\n"
                 + "                NeeView.exe --setting=\"C:\\Sample\\CustomUserSetting.xml\" --new-window=off";
         }
 

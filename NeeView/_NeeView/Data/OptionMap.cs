@@ -143,7 +143,7 @@ namespace NeeView.Data
                 if (token.StartsWith("-"))
                 {
                     var element = GetElement(token);
-                    if (element == null) throw new ArgumentException($"{token} というオプションは存在しません。");
+                    if (element == null) throw new ArgumentException($"{token} は未知のオプションです。");
 
                     if (next == null || next.StartsWith("-") || !element.HasParameter)
                     {

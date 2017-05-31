@@ -119,7 +119,7 @@ namespace NeeView.Data
                     _info.SetValue(_source, double.Parse(value));
                     break;
                 default:
-                    throw new NotSupportedException($"{_info.PropertyType.Name} はサポート外の型です。");
+                    throw new NotSupportedException($"{_info.PropertyType.Name} はサポート外の引数型です。");
             }
         }
     }

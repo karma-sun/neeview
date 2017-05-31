@@ -49,6 +49,7 @@ namespace NeeView
             catch (Exception ex)
             {
                 Debug.WriteLine("InitializeException: " + ex.Message);
+                Shutdown();
                 return;
             }
 
@@ -124,14 +125,18 @@ namespace NeeView
                         Win32Api.AllowSetForegroundWindow(serverProcess.Id);
                         // IPCクライアント送信
                         IpcRemote.LoadAs(serverProcess.Id, Option.StartupPlace);
-
-                        // 起動を中止してプログラムを終了
-                        throw new ApplicationException("Because, already exist.");
                     }
                     catch (Exception ex)
                     {
                         Debug.WriteLine("起動を継続します。\n 理由：" + ex.Message);
+                        serverProcess = null;
                     }
+                }
+
+                if (serverProcess != null)
+                { 
+                    // 起動を中止してプログラムを終了
+                    throw new ApplicationException("Because, already exist.");
                 }
             }
 

@@ -24,13 +24,6 @@ namespace NeeView
         private static SortModeToBooleanConverter s_sortModeToBooleanConverter = new SortModeToBooleanConverter();
         private static AnytToFalseConverter _anyToFalseConverter = new AnytToFalseConverter();
 
-
-        //
-        public static Binding BindingPreference(string path)
-        {
-            return new Binding(path) { Source = PreferenceAccessor.Current };
-        }
-
         //
         public static Binding BindingBookHub(string path)
         {

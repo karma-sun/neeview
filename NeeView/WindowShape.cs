@@ -72,7 +72,7 @@ namespace NeeView
             }
         }
 
-        private WindowChromeFrame _WindowChromeFrame = WindowChromeFrame.Line;
+        private WindowChromeFrame _WindowChromeFrame;
 
 
         /// <summary>

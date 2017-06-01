@@ -12,17 +12,6 @@ using System.Threading.Tasks;
 
 namespace NeeView.Windows.Property
 {
-    [Flags]
-    public enum PropertyMemberFlag
-    {
-        None,
-        
-        /// <summary>
-        /// 詳細設定で表示される
-        /// </summary>
-        Details,
-    }
-
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyMemberAttribute : Attribute
     {
@@ -32,7 +21,7 @@ namespace NeeView.Windows.Property
 
         public string Tips { get; set; }
 
-        public PropertyMemberFlag Flags { get; set; } = PropertyMemberFlag.Details;
+        public bool IsVisible { get; set; } = true;
 
         public PropertyMemberAttribute() { }
         public PropertyMemberAttribute(string name) { Name = name; }

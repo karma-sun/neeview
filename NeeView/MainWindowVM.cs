@@ -277,14 +277,12 @@ namespace NeeView
 
                 WindowShape.Current.IsTopmost = memento.IsTopmost;
                 WindowShape.Current.IsCaptionVisible = memento.IsVisibleTitleBar;
-                Preference.Current.bootup_lastfolder = memento.IsLoadLastFolder;
+                App.Current.IsOpenLastBook = memento.IsLoadLastFolder;
             }
 
             // compatible before ver.23
             if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
-                Preference.Current.download_path = memento.UserDownloadPath ?? "";
-
                 models.MainWindowModel.PanelColor = memento.PanelColor;
                 models.MainWindowModel.ContextMenuSetting = memento.ContextMenuSetting;
                 models.MainWindowModel.IsHideMenu = memento.IsHideMenu;

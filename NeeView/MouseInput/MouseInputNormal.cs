@@ -3,7 +3,9 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Windows.Property;
 using System;
+using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Input;
@@ -24,6 +26,9 @@ namespace NeeView
             set { _longLeftButtonDownMode = value; RaisePropertyChanged(); }
         }
 
+        // 長押し判定時間(秒)
+        public double LongLeftButtonDownTime { get; set; } = 1.0;
+
         /// <summary>
         /// ボタン押されている？
         /// </summary>
@@ -33,11 +38,6 @@ namespace NeeView
         /// 長押し判定用タイマー
         /// </summary>
         private DispatcherTimer _timer = new DispatcherTimer();
-
-        /// <summary>
-        /// 長押し有効？
-        /// </summary>
-        ////public LongButtonDownMode LongLeftButtonDownMode { get; internal set; }
 
         /// <summary>
         /// コンストラクター
@@ -118,7 +118,7 @@ namespace NeeView
             }
 
             // 長押し判定開始
-            _timer.Interval = TimeSpan.FromSeconds(Preference.Current.input_longbuttondown_time);
+            _timer.Interval = TimeSpan.FromSeconds(this.LongLeftButtonDownTime);
             _timer.Start();
         }
         
@@ -196,7 +196,10 @@ namespace NeeView
         {
             [DataMember]
             public LongButtonDownMode LongLeftButtonDownMode { get; set; }
-            public bool IsVisibleLoupeInfo { get; set; }
+
+            [DataMember, DefaultValue(1.0)]
+            [PropertyMember("長押し判定時間(秒)", Tips = "長押しの判定時間です", IsVisible=false)]
+            public double LongLeftButtonDownTime { get; set; }
         }
 
         //
@@ -204,6 +207,7 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
+            memento.LongLeftButtonDownTime = this.LongLeftButtonDownTime;
             return memento;
         }
 
@@ -212,6 +216,7 @@ namespace NeeView
         {
             if (memento == null) return;
             this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
+            this.LongLeftButtonDownTime = memento.LongLeftButtonDownTime;
         }
         #endregion
 

@@ -42,7 +42,7 @@ namespace NeeView.Windows.Property
         public string Path => _info.Name;
         public string Name { get; set; }
         public string Tips { get; set; }
-        public PropertyMemberFlag Flags { get; set; }
+        public bool IsVisible { get; set; }
         public object Default { get; set; }
         public bool IsObsolete { get; set; }
 
@@ -53,7 +53,7 @@ namespace NeeView.Windows.Property
             Source = source;
             Name = attribute.Name ?? info.Name;
             Tips = attribute.Tips;
-            Flags = attribute.Flags;
+            IsVisible = attribute.IsVisible;
 
             this.Default = GetDefaultValue(source, info);
             this.IsObsolete = GetObsoleteAttribute(info) != null;

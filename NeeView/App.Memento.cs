@@ -44,6 +44,11 @@ namespace NeeView
         // ウィンドウクローム枠
         public WindowChromeFrame WindowChromeFrame { get; set; } = WindowChromeFrame.Line;
 
+        // 前回開いていたブックを開く
+        public bool IsOpenLastBook { get; set; }
+
+        // ダウンロードファイル置き場
+        public string DownloadPath { get; set; }
 
         #region Memento
         [DataContract]
@@ -79,6 +84,14 @@ namespace NeeView
             [DataMember, DefaultValue(1.0)]
             [PropertyMember("パネルやメニューが自動的に消えるまでの時間(秒)")]
             public double AutoHideDelayTime { get; set; }
+
+            [DataMember, DefaultValue(false)]
+            [PropertyMember("前回開いていたブックを開く", Tips = "起動時に前回開いていたブックを開きます", IsVisible = false)]
+            public bool IsOpenLastBook { get; set; }
+
+            [DataMember, DefaultValue("")]
+            [PropertyPath(Name = "ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。\n既定では一時フォルダを使用します。", IsVisible = false)]
+            public string DownloadPath { get; set; }
         }
 
         //
@@ -94,6 +107,8 @@ namespace NeeView
             memento.IsDisableSave = this.IsDisableSave;
             memento.AutoHideDelayTime = this.AutoHideDelayTime;
             memento.WindowChromeFrame = this.WindowChromeFrame;
+            memento.IsOpenLastBook = this.IsOpenLastBook;
+            memento.DownloadPath = this.DownloadPath;
             return memento;
         }
 
@@ -110,6 +125,8 @@ namespace NeeView
             this.IsDisableSave = memento.IsDisableSave;
             this.AutoHideDelayTime = memento.AutoHideDelayTime;
             this.WindowChromeFrame = memento.WindowChromeFrame;
+            this.IsOpenLastBook = memento.IsOpenLastBook;
+            this.DownloadPath = memento.DownloadPath;
         }
 
 #pragma warning disable CS0612
@@ -122,6 +139,14 @@ namespace NeeView
                 this.IsMultiBootEnabled = !setting.ViewMemento.IsDisableMultiBoot;
                 this.IsSaveFullScreen = setting.ViewMemento.IsSaveFullScreen;
                 this.IsSaveWindowPlacement = setting.ViewMemento.IsSaveWindowPlacement;
+            }
+
+            // Preferenceの復元 (APP)
+            if (setting.PreferenceMemento != null)
+            {
+                var preference = new Preference();
+                preference.Restore(setting.PreferenceMemento);
+                preference.RestoreCompatibleApp();
             }
         }
 

@@ -34,6 +34,19 @@ namespace NeeView
         public int PageCapacity { get; set; } = 1000;
         public int BookCapacity { get; set; } = 200;
 
+        public int BannerWidth
+        {
+            get { return _bannerWidth; }
+            set
+            {
+                _bannerWidth = NVUtility.Clamp(value, 32, 512);
+                int bannerWidth = _bannerWidth;
+                int bannerHeight = _bannerWidth / 4;
+                App.Current.Resources["BannerWidth"] = (double)bannerWidth;
+                App.Current.Resources["BannerHeight"] = (double)bannerHeight;
+            }
+        }
+        private int _bannerWidth = 200;
 
         #region Memento
         [DataContract]
@@ -54,6 +67,10 @@ namespace NeeView
             [DataMember, DefaultValue(200)]
             [PropertyMember("ブックサムネイル容量", Tips = "フォルダーリスト等でのサムネイル保持枚数です")]
             public int BookCapacity { get; set; }
+
+            [DataMember, DefaultValue(200)]
+            [PropertyMember("バナーサイズ", Tips = "バナーの横幅です。縦幅は横幅の1/4になります。\nサムネイル画像を流用しているため、大きいサイズほど画像が荒くなります")]
+            public int BannerWidth { get; set; }
         }
 
         //
@@ -64,6 +81,7 @@ namespace NeeView
             memento.IsCacheEnabled = this.IsCacheEnabled;
             memento.PageCapacity = this.PageCapacity;
             memento.BookCapacity = this.BookCapacity;
+            memento.BannerWidth = this.BannerWidth;
             return memento;
         }
 
@@ -75,6 +93,7 @@ namespace NeeView
             this.IsCacheEnabled = memento.IsCacheEnabled;
             this.PageCapacity = memento.PageCapacity;
             this.BookCapacity = memento.BookCapacity;
+            this.BannerWidth = memento.BannerWidth;
         }
         #endregion
 

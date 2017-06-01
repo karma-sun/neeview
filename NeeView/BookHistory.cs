@@ -457,7 +457,7 @@ namespace NeeView
             memento.LimitSize = _limitSize;
             memento.LimitSpan = _limitSpan;
             memento.IsKeepFolderStatus = IsKeepFolderStatus;
-            memento.LastAddress = Preference.Current.bootup_lastfolder ? this.LastAddress : null;
+            memento.LastAddress = App.Current.IsOpenLastBook ? this.LastAddress : null;
 
             if (forSave)
             {

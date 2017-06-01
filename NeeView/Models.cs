@@ -122,6 +122,7 @@ namespace NeeView
             this.MouseInput = new MouseInput(this.MouseInputContext);
             this.ContentDropManager = new ContentDropManager(window);
 
+
             this.InfoMessage = new InfoMessage();
 
             this.BookProfile = new BookProfile();
@@ -179,45 +180,6 @@ namespace NeeView
             this.JobEngine.StopEngine();
         }
 
-        /// <summary>
-        /// Preference反映
-        /// TODO: 各モデルで処理
-        /// </summary>
-        public void ApplyPreference()
-        {
-            var preference = Preference.Current;
-
-            // banner size
-            int bannerWidth = Math.Min(preference.banner_width, 512);
-            int bannerHeight = bannerWidth / 4;
-            App.Current.Resources["BannerWidth"] = (double)bannerWidth;
-            App.Current.Resources["BannerHeight"] = (double)bannerHeight;
-
-            // Jobワーカーサイズ
-            ////JobEngine.WorkerSize = preference.loader_thread_size;
-
-            // ワイドページ判定用比率
-            ////Page.WideRatio = preference.view_image_wideratio;
-
-            // SevenZip対応拡張子設定
-            ////ArchiverManager.UpdateSevenZipSupprtedFileTypes(preference.loader_archiver_7z_supprtfiletypes);
-
-            // 7z.dll の場所
-            ////SevenZipArchiver.DllPath = Config.Current.IsX64 ? preference.loader_archiver_7z_dllpath_x64 : preference.loader_archiver_7z_dllpath;
-
-            // SevenZip Lock時間
-            ////SevenZipSource.LockTime = preference.loader_archiver_7z_locktime;
-
-#if false
-            // マウスジェスチャーの最小移動距離
-            NeeView.MouseInput.Current.Gesture.SetGestureMinimumDistance(
-                preference.input_gesture_minimumdistance_x,
-                preference.input_gesture_minimumdistance_y);
-#endif
-
-            // 除外パス更新
-            ////BitmapLoaderManager.Excludes = preference.loader_archiver_exclude.Split(';').Select(e => e.Trim()).ToList();
-        }
 
         #region Memento
         [DataContract]
@@ -264,6 +226,8 @@ namespace NeeView
             public PageSlider.Memento PageSlider { get; set; }
             [DataMember]
             public ThumbnailList.Memento ThumbnailList { get; set; }
+            [DataMember]
+            public MenuBar.Memento MenuBar { get; set; }
             [DataMember]
             public FolderPanelModel.Memento FolderPanel { get; set; }
             [DataMember]
@@ -314,6 +278,7 @@ namespace NeeView
             memento.WindowTitle = this.WindowTitle.CreateMemento();
             memento.PageSlider = this.PageSlider.CreateMemento();
             memento.ThumbnailList = this.ThumbnailList.CreateMemento();
+            memento.MenuBar = this.MenuBar.CreateMemento();
             memento.FolderPanel = this.FolderPanelModel.CreateMemento();
             memento.FolderList = this.FolderList.CreateMemento();
             memento.PageList = this.PageList.CreateMemento();
@@ -349,6 +314,7 @@ namespace NeeView
             this.WindowTitle.Restore(memento.WindowTitle);
             this.PageSlider.Restore(memento.PageSlider);
             this.ThumbnailList.Restore(memento.ThumbnailList);
+            this.MenuBar.Restore(memento.MenuBar);
             this.FolderPanelModel.Restore(memento.FolderPanel);
             this.FolderList.Restore(memento.FolderList);
             this.PageList.Restore(memento.PageList);

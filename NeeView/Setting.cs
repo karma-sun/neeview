@@ -38,9 +38,6 @@ namespace NeeView
         [DataMember(Order = 4)]
         public Exporter.Memento ExporterMemento { set; get; }
 
-        [DataMember(Order = 14)]
-        public Preference.Memento PreferenceMemento { set; get; }
-
         [DataMember]
         public Models.Memento Memento { get; set; }
 
@@ -64,6 +61,11 @@ namespace NeeView
         [Obsolete, DataMember(Order = 17, EmitDefaultValue = false)]
         public ImageEffect.Memento ImageEffectMemento { get; set; } // no used (ver.22)
 
+        [Obsolete, DataMember(Order = 14)]
+        public Preference.Memento PreferenceMemento { set; get; }
+
+
+
         //
         private void Constructor()
         {
@@ -71,7 +73,6 @@ namespace NeeView
             CommandMememto = new CommandTable.Memento();
             DragActionMemento = new DragActionTable.Memento();
             ExporterMemento = new Exporter.Memento();
-            PreferenceMemento = new Preference.Memento();
         }
 
         //
@@ -87,21 +88,6 @@ namespace NeeView
             Constructor();
         }
 
-#pragma warning disable CS0612
-
-        //
-        [OnDeserialized]
-        private void Deserialized(StreamingContext c)
-        {
-            // before 1.20
-            if (_Version < Config.GenerateProductVersionNumber(1, 20, 0))
-            {
-                PreferenceMemento.Add("openbook_begin_current", BookHubMemento.IsEnarbleCurrentDirectory.ToString());
-                BookHubMemento.IsEnarbleCurrentDirectory = false;
-            }
-        }
-
-#pragma warning restore CS0612
 
 
         // ファイルに保存

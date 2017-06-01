@@ -82,9 +82,6 @@ namespace NeeView
             Restore(setting.App);
             RestoreCompatible(setting);
 
-            // Preferenceの復元
-            Preference.Current.Restore(SaveData.Current.Setting.PreferenceMemento);
-            Preference.Current.RestoreCompatibleApp();
 
             // バージョン表示
             if (this.Option.IsVersion)

@@ -4,8 +4,11 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeView.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 
 namespace NeeView
@@ -38,6 +41,10 @@ namespace NeeView
         public event EventHandler CommandGestureChanged;
 
         #endregion
+
+
+        //
+        public bool IsCaptionEmulateInFullScreen { get; set; }
 
 
         //
@@ -119,6 +126,33 @@ namespace NeeView
 
             System.Diagnostics.Process.Start(fileName);
         }
+
+
+        #region Memento
+        [DataContract]
+        public class Memento
+        {
+            [DataMember, DefaultValue(false)]
+            [PropertyMember("フルスクリーン時のタイトルバー操作", Tips = "フルスクリーン時のメニュー上でのタイトルバー操作(ダブルクリックやドラッグ)を有効にします")]
+            public bool CaptionEmulateInFullScreen { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.CaptionEmulateInFullScreen = this.IsCaptionEmulateInFullScreen;
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            this.IsCaptionEmulateInFullScreen = memento.CaptionEmulateInFullScreen;
+        }
+        #endregion
+
     }
 
 

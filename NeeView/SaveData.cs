@@ -47,7 +47,7 @@ namespace NeeView
             setting.CommandMememto = CommandTable.Current.CreateMemento();
             setting.DragActionMemento = DragActionTable.Current.CreateMemento();
             setting.ExporterMemento = Exporter.CreateMemento();
-            setting.PreferenceMemento = Preference.Current.CreateMemento();
+            ////setting.PreferenceMemento = Preference.Current.CreateMemento();
 
             // new memento
             setting.App = App.Current.CreateMemento();
@@ -62,9 +62,9 @@ namespace NeeView
             App.Current.Restore(setting.App);
             WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 
-            Preference.Current.Restore(setting.PreferenceMemento);
-            Models.Current.ApplyPreference();
-            PreferenceAccessor.Current.Reflesh();
+            ////Preference.Current.Restore(setting.PreferenceMemento);
+            ////Models.Current.ApplyPreference();
+            ////PreferenceAccessor.Current.Reflesh();
 
             SusieContext.Current.Restore(setting.SusieMemento);
             ////BookHub.Current.Restore(setting.BookHubMemento);
@@ -104,11 +104,16 @@ namespace NeeView
                 Models.Current.ImageEffect.Restore(setting.ImageEffectMemento, fromLoad);
             }
 
+            // Preference.Compatible
+            if (setting.PreferenceMemento != null)
+            {
+                var preference = new Preference();
+                preference.Restore(setting.PreferenceMemento);
+                preference.RestoreCompatible();
+            }
+
             // Model.Compatible
             Models.Current.ResoreCompatible(setting.Memento);
-
-            // Preference.Compatible
-            Preference.Current.RestoreCompatible();
         }
 
 #pragma warning restore CS0612

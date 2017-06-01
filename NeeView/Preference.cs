@@ -16,25 +16,12 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// 保存される静的設定情報。
-    /// アプリの動的内部情報は<see cref="AppContext"/>で。 
+    /// (旧)保存される静的設定情報。
+    /// 互換性のために残されています。
     /// </summary>
+    [Obsolete]
     public class Preference
     {
-        /// <summary>
-        /// 現在のシステムオブジェクト
-        /// </summary>
-        public static Preference _current;
-        public static Preference Current
-        {
-            get
-            {
-                _current = _current ?? new Preference();
-                return _current;
-            }
-        }
-
-
         /// <summary>
         /// Properties
         /// </summary>
@@ -47,8 +34,7 @@ namespace NeeView
 
         [Obsolete]
         [DataMember, DefaultValue(false)]
-        [PropertyMember("「開く」を現在開いているブックの場所から始める"
-            , Tips = "[ファイル] >[開く]で開くフォルダーです\nドラッグ＆ドロップや履歴から開いた場所も基準になります")]
+        [PropertyMember("「開く」を現在開いているブックの場所から始める", Tips = "[ファイル] >[開く]で開くフォルダーです\nドラッグ＆ドロップや履歴から開いた場所も基準になります")]
         public bool openbook_begin_current { get; set; }
 
         [Obsolete]
@@ -93,14 +79,12 @@ namespace NeeView
 
         [Obsolete]
         [DataMember, DefaultValue(true)]
-        [PropertyMember("ページ送り優先", Tips = "ページの表示を待たずにページ送りを実行します"
-            , Flags = PropertyMemberFlag.None)]
+        [PropertyMember("ページ送り優先", Tips = "ページの表示を待たずにページ送りを実行します")]
         public bool book_is_prioritize_pagemove { get; set; }
 
         [Obsolete]
         [DataMember, DefaultValue(true)]
-        [PropertyMember("ページ送りコマンドの重複許可", Tips = "発行されたページ移動コマンドを全て実行します。\nFalseの場合は重複したページ送りコマンドはキャンセルされます"
-            , Flags = PropertyMemberFlag.None)]
+        [PropertyMember("ページ送りコマンドの重複許可", Tips = "発行されたページ移動コマンドを全て実行します。\nFalseの場合は重複したページ送りコマンドはキャンセルされます")]
         public bool book_allow_multiple_pagemove { get; set; }
 
         [Obsolete]
@@ -158,8 +142,6 @@ namespace NeeView
         [PropertyMember("フォルダーリスト追加ファイルは挿入", Tips = "フォルダーリストで追加されたファイルを現在のソート順で挿入します。\nFalseのときはリストの終端に追加します。")]
         public bool folderlist_addfile_insert { get; set; }
 
-
-
         [Obsolete]
         [DataMember, DefaultValue(2.0)]
         [PropertyMember("ルーペ標準倍率", Tips = "ルーペの初期倍率です")]
@@ -198,8 +180,7 @@ namespace NeeView
 
         [Obsolete]
         [DataMember, DefaultValue(true)]
-        [PropertyMember("ファイル操作許可", Tips = "削除や名前変更等のファイル操作コマンドを使用可能にします"
-            , Flags = PropertyMemberFlag.None)]
+        [PropertyMember("ファイル操作許可", Tips = "削除や名前変更等のファイル操作コマンドを使用可能にします")]
         public bool file_permit_command { get; set; }
 
         [Obsolete]
@@ -212,31 +193,26 @@ namespace NeeView
         [PropertyEnum("タイトルバー非表示でのウィンドウ枠", Tips = "タイトルバー非表示時のウィンドウ枠表示方法です")]
         public WindowChromeFrame window_chrome_frame { get; set; }
 
-
+        [Obsolete]
         [DataMember, DefaultValue(false)]
         [PropertyMember("フルスクリーン時のタイトルバー操作", Tips = "フルスクリーン時のメニュー上でのタイトルバー操作(ダブルクリックやドラッグ)を有効にします")]
         public bool window_captionemunate_fullscreen { get; set; }
 
+        [Obsolete]
         [DataMember, DefaultValue(1.0)]
-        [PropertyMember("長押し判定時間(秒)", Tips = "長押しの判定時間です", Flags = PropertyMemberFlag.None)]
+        [PropertyMember("長押し判定時間(秒)", Tips = "長押しの判定時間です")]
         public double input_longbuttondown_time { get; set; }
 
+        [Obsolete]
         [DataMember, DefaultValue(200)]
         [PropertyMember("バナーサイズ", Tips = "バナーの横幅です。縦幅は横幅の1/4になります。\nサムネイル画像を流用しているため、大きいサイズほど画像が荒くなります")]
         public int banner_width { get; set; }
 
+        [Obsolete]
         [DataMember, DefaultValue(false)]
-        [PropertyMember("前回開いていたブックを開く", Tips = "起動時に前回開いていたブックを開きます", Flags = PropertyMemberFlag.None)]
+        [PropertyMember("前回開いていたブックを開く", Tips = "起動時に前回開いていたブックを開きます")]
         public bool bootup_lastfolder { get; set; }
 
-        [DataMember, DefaultValue("")]
-        [PropertyPath(Name = "ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。\n既定では一時フォルダを使用します。", Flags = PropertyMemberFlag.None)]
-        public string download_path { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public PropertyDocument Document { get; private set; }
 
 
         /// <summary>
@@ -244,69 +220,11 @@ namespace NeeView
         /// </summary>
         public Preference()
         {
-            Document = new PropertyDocument(this);
+            _document = new PropertyDocument(this);
         }
 
+        private PropertyDocument _document;
 
-        /// <summary>
-        /// 正規化
-        /// </summary>
-        public void Validate()
-        {
-            // loader_preload_limitsize
-            /*
-            var sizeString = new SizeString(book_preload_limitsize);
-            if (!sizeString.IsValid())
-            {
-                var element = Document.GetPropertyMember(nameof(book_preload_limitsize));
-                element.ResetValue();
-            }
-            */
-
-            // thumbnail_quality
-            ////thumbnail_quality = NVUtility.Clamp(thumbnail_quality, 1, 100);
-
-            // loupe_scale_max
-            ////loupe_scale_max = Math.Max(loupe_scale_max, loupe_scale_min);
-
-            // loupe_scale
-            //// loupe_scale_default = NVUtility.Clamp(loupe_scale_default, loupe_scale_min, loupe_scale_max);
-        }
-
-
-
-        /// <summary>
-        /// 旧設定(Configurationファイル)のパラメータとの対応表
-        /// </summary>
-        private Dictionary<string, string> _configurationAppSettingTable = new Dictionary<string, string>()
-        {
-            ["GestureMinimumDistanceX"] = "input_gesture_minimumdistance_x",
-            ["GestureMinimumDistanceY"] = "input_gesture_minimumdistance_y",
-            ["PanelHideDelayTime"] = "panel_autohide_delaytime",
-            ["SevenZipSupportFileType"] = "loader_archiver_7z_supprtfiletypes",
-            ["ThreadSize"] = "loader_thread_size",
-            ["WideRatio"] = "view_image_wideratio",
-        };
-
-        /// <summary>
-        /// 旧設定(Configureファイル)からの読込。互換用
-        /// </summary>
-        public void LoadFromConfiguration()
-        {
-            // Configureファイルからの読込は最初の１度だけ
-            if (!_configure_enabled) return;
-            _configure_enabled = false;
-
-            // configureファイルから読込
-            foreach (var pair in _configurationAppSettingTable)
-            {
-                string value = System.Configuration.ConfigurationManager.AppSettings.Get(pair.Key);
-                if (value != null)
-                {
-                    Document.GetPropertyMember(pair.Value)?.SetValue(value);
-                }
-            }
-        }
 
 
         #region Memento
@@ -320,50 +238,12 @@ namespace NeeView
             [DataMember]
             public Dictionary<string, string> Items { get; set; } = new Dictionary<string, string>();
 
-#if false
-            private void Constructor()
-            {
-                Items = new Dictionary<string, string>();
-            }
-
-            public Memento()
-            {
-                Constructor();
-            }
-
-            [OnDeserializing]
-            private void Deserializing(StreamingContext c)
-            {
-                Constructor();
-            }
-#endif
-
             public void Add(string key, string value)
             {
                 Items[key] = value;
             }
         }
 
-        /// <summary>
-        /// Memento作成
-        /// </summary>
-        /// <returns></returns>
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-
-            foreach (var item in Document.Elements.OfType<PropertyMemberElement>())
-            {
-                if (item.HasCustomValue && !item.IsObsolete)
-                {
-                    var key = item.Path.Replace('_', '.');
-                    var value = item.GetValue()?.ToString();
-                    memento.Items.Add(key, value);
-                }
-            }
-
-            return memento;
-        }
 
         /// <summary>
         /// Memento適用
@@ -373,7 +253,7 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            this.Document.Reset(true);
+            this._document.Reset();
 
             this._Version = memento._Version;
 
@@ -384,7 +264,7 @@ namespace NeeView
                     try
                     {
                         var path = item.Key.Replace('.', '_');
-                        var element = Document.GetPropertyMember(path);
+                        var element = _document.GetPropertyMember(path);
                         if (element != null)
                         {
                             element.SetValueFromString(item.Value);
@@ -396,11 +276,7 @@ namespace NeeView
                     }
                 }
             }
-
-            LoadFromConfiguration();
         }
-
-#pragma warning disable CS0612
 
         // Appへの適用のみ
         public void RestoreCompatibleApp()
@@ -413,6 +289,7 @@ namespace NeeView
                 App.Current.IsDisableSave = this.userdata_save_disable;
                 App.Current.AutoHideDelayTime = this.panel_autohide_delaytime;
                 App.Current.WindowChromeFrame = this.window_chrome_frame;
+                App.Current.IsOpenLastBook = this.bootup_lastfolder;
             }
         }
 
@@ -436,15 +313,17 @@ namespace NeeView
                 ThumbnailProfile.Current.IsCacheEnabled = this.thumbnail_cache;
                 ThumbnailProfile.Current.PageCapacity = this.thumbnail_book_capacity;
                 ThumbnailProfile.Current.BookCapacity = this.thumbnail_folder_capacity;
+                ThumbnailProfile.Current.BannerWidth = this.banner_width;
 
                 MainWindowModel.Current.IsOpenbookAtCurrentPlace = this.openbook_begin_current;
-
 
                 BookProfile.Current.IsPrioritizePageMove = this.book_is_prioritize_pagemove;
                 BookProfile.Current.IsMultiplePageMove = this.book_allow_multiple_pagemove;
                 BookProfile.Current.PreloadLimitSize = new SizeString(this.book_preload_limitsize ?? "4096x4096").ToSize();
                 BookProfile.Current.WideRatio = this.view_image_wideratio;
                 BookProfile.Current.Excludes.FromString(this.loader_archiver_exclude);
+
+                MouseInput.Current.Normal.LongLeftButtonDownTime = this.input_longbuttondown_time;
 
                 MouseInput.Current.Gesture.GestureMinimumDistanceX = this.input_gesture_minimumdistance_x;
                 MouseInput.Current.Gesture.GestureMinimumDistanceY = this.input_gesture_minimumdistance_y;
@@ -456,11 +335,11 @@ namespace NeeView
                 MouseInput.Current.Loupe.IsResetByRestart = this.loupe_scale_reset;
                 MouseInput.Current.Loupe.IsResetByPageChanged = this.loupe_pagechange_reset;
 
+                MenuBar.Current.IsCaptionEmulateInFullScreen = this.window_captionemunate_fullscreen;
+
                 FolderList.Current.IsInsertItem = this.folderlist_addfile_insert;
             }
         }
-
-#pragma warning restore CS0612
 
         #endregion
     }

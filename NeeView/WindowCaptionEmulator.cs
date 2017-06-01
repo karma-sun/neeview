@@ -54,13 +54,6 @@ namespace NeeView
         private bool _isEnabled;
 
 
-        /// <summary>
-        /// リサイズ不可時の有効フラグ.
-        /// (フルスクリーン)
-        /// </summary>
-        public bool IsEnabeldWhenNoResized => Preference.Current.window_captionemunate_fullscreen;
-
-        //
         //private bool _isWindows7;
 
         /// <summary>
@@ -107,7 +100,7 @@ namespace NeeView
         private void Target_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!IsEnabled) return;
-            if (!IsEnabeldWhenNoResized && _window.ResizeMode == ResizeMode.NoResize) return;
+            if (!MenuBar.Current.IsCaptionEmulateInFullScreen && _window.ResizeMode == ResizeMode.NoResize) return;
 
             if (e.ClickCount == 2)
             {

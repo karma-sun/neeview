@@ -60,14 +60,11 @@ namespace NeeView.Windows.Property
         /// <summary>
         /// 全ての設定値を初期化
         /// </summary>
-        public void Reset(bool isAll)
+        public void Reset()
         {
             foreach (var item in this.Elements.OfType<PropertyMemberElement>())
             {
-                if (isAll || item.Flags.HasFlag(PropertyMemberFlag.Details))
-                {
-                    item.ResetValue();
-                }
+                item.ResetValue();
             }
         }
 
@@ -113,7 +110,15 @@ namespace NeeView.Windows.Property
                         list.Add(new PropertyTitleElement(attribute.Title));
                     }
 
-                    list.Add(attribute.CreateContent(source, info));
+                    var element = attribute.CreateContent(source, info);
+                    if (element.IsVisible)
+                    {
+                        list.Add(element);
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"PropertyDocument: {element.Name} is Hide.");
+                    }
                 }
             }
             return list;

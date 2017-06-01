@@ -79,16 +79,8 @@ namespace NeeView
         }
 
 
-        /// <summary>
-        /// IsOpenbookAtCurrentPlace property.
-        /// </summary>
-        public bool IsOpenbookAtCurrentPlace
-        {
-            get { return _IsOpenbookAtCurrentPlace; }
-            set { if (_IsOpenbookAtCurrentPlace != value) { _IsOpenbookAtCurrentPlace = value; RaisePropertyChanged(); } }
-        }
-
-        private bool _IsOpenbookAtCurrentPlace;
+        // 「ブックを開く」ダイアログを現在の場所を基準にして開く
+        public bool IsOpenbookAtCurrentPlace { get; set; }
 
 
         //
@@ -283,7 +275,7 @@ namespace NeeView
         // 最後に開いたフォルダーを開く
         private void LoadLastFolder()
         {
-            if (!Preference.Current.bootup_lastfolder) return;
+            if (!App.Current.IsOpenLastBook) return;
 
             string place = BookHistory.Current.LastAddress;
             if (place != null || System.IO.Directory.Exists(place) || System.IO.File.Exists(place))
@@ -319,7 +311,7 @@ namespace NeeView
         private string GetDefaultFolder()
         {
             // 既に開いている場合、その場所を起点とする
-            if (_IsOpenbookAtCurrentPlace && BookHub.Current.Book != null)
+            if (this.IsOpenbookAtCurrentPlace && BookHub.Current.Book != null)
             {
                 return System.IO.Path.GetDirectoryName(BookHub.Current.Book.Place);
             }
@@ -463,7 +455,6 @@ namespace NeeView
             [DataMember, DefaultValue(false)]
             [PropertyMember("「開く」を現在開いているブックの場所から始める", Tips = "[ファイル] >[開く]で開くフォルダーです\nドラッグ＆ドロップや履歴から開いた場所も基準になります")]
             public bool IsOpenbookAtCurrentPlace { get; set; }
-
         }
 
         //

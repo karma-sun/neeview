@@ -135,13 +135,9 @@ namespace NeeView
         //
         private PropertyDocument _propertyDocument;
 
-        //
-        private Preference _preference;
-        public Preference Preference => _preference;
-
 
         // 詳細設定一覧用パラメータ
-        public class PreferenceParam
+        public class PropertyParam
         {
             public PropertyMemberElement Source { get; set; }
 
@@ -154,7 +150,7 @@ namespace NeeView
         }
 
         // 詳細設定一覧
-        public ObservableCollection<PreferenceParam> PreferenceCollection { get; set; }
+        public ObservableCollection<PropertyParam> PropertyCollection { get; set; }
 
 
         // Susieプラグイン コンフィグコマンド
@@ -322,8 +318,6 @@ namespace NeeView
             UpdateCommandList();
 
             // 詳細設定一覧作成
-            _preference = new Preference();
-            _preference.Restore(Setting.PreferenceMemento);
             _propertyDocument = new PropertyDocument(new object[]
                 {
                     Setting.App,
@@ -332,13 +326,14 @@ namespace NeeView
                     Setting.Memento.SevenZipArchiverProfile,
                     Setting.Memento.ThumbnailProfile,
                     Setting.Memento.MainWindowModel,
+                    Setting.Memento.MenuBar,
                     Setting.Memento.BookProfile,
+                    Setting.Memento.MouseInput.Normal,
                     Setting.Memento.MouseInput.Gesture,
                     Setting.Memento.MouseInput.Loupe,
-                    _preference,
                 });
-            PreferenceCollection = new ObservableCollection<PreferenceParam>();
-            UpdatePreferenceList();
+            PropertyCollection = new ObservableCollection<PropertyParam>();
+            UpdatePropertyList();
 
             // プラグイン一覧作成
             _susiePluginPath = Setting.SusieMemento.SusiePluginPath ?? "";
@@ -514,52 +509,51 @@ namespace NeeView
         }
 
         // 詳細一覧 更新
-        private void UpdatePreferenceList()
+        private void UpdatePropertyList()
         {
-            PreferenceCollection.Clear();
+            PropertyCollection.Clear();
 
-            foreach (var element in _propertyDocument.PropertyMembers.Where(e => e.Flags.HasFlag(PropertyMemberFlag.Details) && !e.IsObsolete))
+            foreach (var element in _propertyDocument.PropertyMembers.Where(e => !e.IsObsolete))
             {
                 if (element.Path.StartsWith("_")) continue;
 
-                var item = new PreferenceParam()
+                var item = new PropertyParam()
                 {
                     Source = element,
                 };
-                PreferenceCollection.Add(item);
+                PropertyCollection.Add(item);
             }
         }
 
         //
-        private void PreferenceListView_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void PropertyListView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             // sender がダブルクリックされた項目
             ListViewItem targetItem = (ListViewItem)sender;
 
             // データバインディングを使っているなら、
             // DataContext からデータを取得できる
-            PreferenceParam p = (PreferenceParam)targetItem.DataContext;
-            EditPreference(p.Source, true);
+            PropertyParam p = (PropertyParam)targetItem.DataContext;
+            EnditProperty(p.Source, true);
         }
 
         //
-        private void EditPreference(PropertyMemberElement param, bool isSimple)
+        private void EnditProperty(PropertyMemberElement param, bool isSimple)
         {
             if (isSimple && param.GetValueType() == typeof(bool))
             {
                 param.SetValue(!(bool)param.GetValue());
-                this.PreferenceListView.Items.Refresh();
+                this.PropertyListView.Items.Refresh();
             }
             else
             {
-                var dialog = new PreferenceEditWindow(param);
+                var dialog = new PropertyEditWindow(param);
                 dialog.Owner = this;
                 dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 var result = dialog.ShowDialog();
                 if (result == true)
                 {
-                    _preference.Validate();
-                    this.PreferenceListView.Items.Refresh();
+                    this.PropertyListView.Items.Refresh();
                 }
             }
         }
@@ -766,9 +760,6 @@ namespace NeeView
                     Setting.CommandMememto[command.Key].Parameter = command.ParameterJson;
                 }
 
-                // Preference反映
-                Setting.PreferenceMemento = _preference.CreateMemento();
-
                 // プラグインリスト書き戻し
                 if (SusieContext.Current.Susie != null)
                 {
@@ -802,10 +793,10 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void PreferenceEditButton_Click(object sender, RoutedEventArgs e)
+        private void PropertyEditButton_Click(object sender, RoutedEventArgs e)
         {
-            var value = (PreferenceParam)this.PreferenceListView.SelectedValue;
-            EditPreference(value.Source, false);
+            var value = (PropertyParam)this.PropertyListView.SelectedValue;
+            EnditProperty(value.Source, false);
         }
 
         /// <summary>
@@ -813,10 +804,10 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ResetAllPreferenceButton_Click(object sender, RoutedEventArgs e)
+        private void ResetAllPropertyButton_Click(object sender, RoutedEventArgs e)
         {
-            _propertyDocument.Reset(false);
-            this.PreferenceListView.Items.Refresh();
+            _propertyDocument.Reset();
+            this.PropertyListView.Items.Refresh();
         }
 
         /// <summary>

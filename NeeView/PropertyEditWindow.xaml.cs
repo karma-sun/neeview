@@ -25,7 +25,7 @@ namespace NeeView
     /// <summary>
     /// PreferenceEditWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class PreferenceEditWindow : Window
+    public partial class PropertyEditWindow : Window
     {
         private PreferenceEditWindowVM _VM;
 
@@ -33,7 +33,7 @@ namespace NeeView
         /// constructor
         /// </summary>
         /// <param name="pref"></param>
-        public PreferenceEditWindow(PropertyMemberElement pref)
+        public PropertyEditWindow(PropertyMemberElement pref)
         {
             InitializeComponent();
 

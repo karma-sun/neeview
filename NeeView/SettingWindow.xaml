@@ -123,7 +123,7 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="フルスクリーン状態を復元する"
                               IsChecked="{Binding Setting.App.IsSaveFullScreen}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回開いていたブックを開く"
-                              IsChecked="{Binding Preference.bootup_lastfolder}" />
+                              IsChecked="{Binding Setting.App.IsOpenLastBook}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="スライドショーの再生を開始する"
                               IsChecked="{Binding Setting.Memento.SlideShow.IsAutoPlaySlideShow}" />
                         </StackPanel>
@@ -147,11 +147,11 @@
 
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ送り優先"
                                       ToolTip="ページの表示を待たずにページ送りを実行します"
-                                      IsChecked="{Binding Setting.Memento.BookEnvironment.IsPrioritizePageMove}" />
+                                      IsChecked="{Binding Setting.Memento.BookProfile.IsPrioritizePageMove}" />
 
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ送りコマンドの重複許可"
                                       ToolTip="実行したコマンドの回数分ページを進めます。OFFの場合はキャンセルされます"
-                                      IsChecked="{Binding Setting.Memento.BookEnvironment.IsMultiplePageMove}" />
+                                      IsChecked="{Binding Setting.Memento.BookProfile.IsMultiplePageMove}" />
 
 
                             <StackPanel Style="{StaticResource ItemStackPanel}"
@@ -494,9 +494,9 @@
 
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="長押しと判定されるまでの押し続ける時間の設定です">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="長押し判定時間"/>
-                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Preference.input_longbuttondown_time}"
+                                <Slider Style="{StaticResource ItemSlider}" Value="{Binding Setting.Memento.MouseInput.Normal.LongLeftButtonDownTime}"
                                     Minimum="0.1" Maximum="2.0" TickFrequency="0.1" />
-                                <TextBlock Text="{Binding Preference.input_longbuttondown_time, StringFormat={}{0:0.0}秒}" />
+                                <TextBlock Text="{Binding Setting.Memento.MouseInput.Normal.LongLeftButtonDownTime, StringFormat={}{0:0.0}秒}" />
                             </StackPanel>
 
                         </StackPanel>
@@ -566,7 +566,7 @@
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="画像保存フォルダー"/>
                                 <nlc:FileNameBox x:Name="DownloadPath" Margin="2,0" SelectDirectory="True" Title="保存先フォルダーの選択" 
                             Note="指定がない場合は一時フォルダーが使用されます"
-                            Text="{Binding Preference.download_path, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                            Text="{Binding Setting.App.DownloadPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             </DockPanel>
                         </StackPanel>
 
@@ -1026,7 +1026,7 @@
 
             <TabItem Header="詳細設定">
                 <TabItem.Resources>
-                    <CollectionViewSource x:Key="PreferenceSource" Source="{Binding PreferenceCollection}">
+                    <CollectionViewSource x:Key="PropertySource" Source="{Binding PropertyCollection}">
                     </CollectionViewSource>
                 </TabItem.Resources>
                 <DockPanel>
@@ -1036,22 +1036,22 @@
                                 <DockPanel.Style>
                                     <Style TargetType="DockPanel">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=PreferenceListView, Path=SelectedValue}" Value="{x:Null}">
+                                            <DataTrigger Binding="{Binding ElementName=PropertyListView, Path=SelectedValue}" Value="{x:Null}">
                                                 <Setter Property="IsEnabled" Value="False"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </DockPanel.Style>
-                                <Button x:Name="PreferenceEditButton" Content="パラメータ編集" MinWidth="120" Height="30" Margin="8" Click="PreferenceEditButton_Click"/>
+                                <Button x:Name="PropertyEditButton" Content="パラメータ編集" MinWidth="120" Height="30" Margin="8" Click="PropertyEditButton_Click"/>
                             </DockPanel>
-                            <Button x:Name="ResetAllPreferenceButton" Content="全パラメータ初期化" MinWidth="120" Height="30" Margin="8" HorizontalAlignment="Right" Click="ResetAllPreferenceButton_Click"/>
+                            <Button x:Name="ResetAllPropertyButton" Content="全パラメータ初期化" MinWidth="120" Height="30" Margin="8" HorizontalAlignment="Right" Click="ResetAllPropertyButton_Click"/>
                         </Grid>
                     </DockPanel>
-                    <ListView x:Name="PreferenceListView" ItemsSource="{Binding Source={StaticResource PreferenceSource}}" Foreground="Black">
+                    <ListView x:Name="PropertyListView" ItemsSource="{Binding Source={StaticResource PropertySource}}" Foreground="Black">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <EventSetter Event="MouseDoubleClick" Handler="PreferenceListView_MouseDoubleClick"/>
+                                <EventSetter Event="MouseDoubleClick" Handler="PropertyListView_MouseDoubleClick"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Source.HasCustomValue}" Value="True">
                                         <Setter Property="FontWeight" Value="Bold"/>

@@ -64,7 +64,7 @@ namespace NeeView
         {
             if (info.IsEmpty) return;
 
-            if (Preference.Current.file_remove_confirm)
+            if (FileIOProfile.Current.IsRemoveConfirmed)
             {
                 bool isDirectory = System.IO.Directory.Exists(info.Path);
                 string itemType = isDirectory ? "フォルダー" : "ファイル";
@@ -118,7 +118,7 @@ namespace NeeView
 
             var path = page.GetFilePlace();
 
-            if (Preference.Current.file_remove_confirm)
+            if (FileIOProfile.Current.IsRemoveConfirmed)
             {
                 bool isDirectory = System.IO.Directory.Exists(path);
                 string itemType = isDirectory ? "フォルダー" : "ファイル";

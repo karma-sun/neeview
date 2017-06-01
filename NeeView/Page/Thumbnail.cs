@@ -29,12 +29,6 @@ namespace NeeView
         public static double Size { get; set; } = 256;
 
         /// <summary>
-        /// 品質
-        /// </summary>
-        public static int Quality => Preference.Current.thumbnail_quality;
-
-
-        /// <summary>
         /// 有効判定
         /// </summary>
         internal bool IsValid => (_image != null);
@@ -208,7 +202,7 @@ namespace NeeView
             using (var stream = new MemoryStream())
             {
                 JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-                encoder.QualityLevel = Quality;
+                encoder.QualityLevel = ThumbnailProfile.Current.Quality;
                 encoder.Frames.Add(BitmapFrame.Create(source));
                 encoder.Save(stream);
 

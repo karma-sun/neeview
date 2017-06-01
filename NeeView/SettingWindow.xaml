@@ -147,11 +147,11 @@
 
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ送り優先"
                                       ToolTip="ページの表示を待たずにページ送りを実行します"
-                                      IsChecked="{Binding Preference.book_is_prioritize_pagemove}" />
+                                      IsChecked="{Binding Setting.Memento.BookEnvironment.IsPrioritizePageMove}" />
 
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ送りコマンドの重複許可"
                                       ToolTip="実行したコマンドの回数分ページを進めます。OFFの場合はキャンセルされます"
-                                      IsChecked="{Binding Preference.book_allow_multiple_pagemove}" />
+                                      IsChecked="{Binding Setting.Memento.BookEnvironment.IsMultiplePageMove}" />
 
 
                             <StackPanel Style="{StaticResource ItemStackPanel}"

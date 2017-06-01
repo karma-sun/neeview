@@ -60,10 +60,10 @@ namespace NeeView
         public void RestoreSetting(Setting setting, bool fromLoad)
         {
             App.Current.Restore(setting.App);
+            WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 
             Preference.Current.Restore(setting.PreferenceMemento);
             Models.Current.ApplyPreference();
-            WindowShape.Current.WindowChromeFrame = Preference.Current.window_chrome_frame;
             PreferenceAccessor.Current.Reflesh();
 
             SusieContext.Current.Restore(setting.SusieMemento);
@@ -106,6 +106,9 @@ namespace NeeView
 
             // Model.Compatible
             Models.Current.ResoreCompatible(setting.Memento);
+
+            // Preference.Compatible
+            Preference.Current.RestoreCompatible();
         }
 
 #pragma warning restore CS0612
@@ -249,7 +252,7 @@ namespace NeeView
             catch { }
 
             // 保存しないフラグ
-            bool disableSave = Preference.Current.userdata_save_disable;
+            bool disableSave = App.Current.IsDisableSave;
 
             try
             {

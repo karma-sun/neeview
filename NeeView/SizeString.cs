@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NeeView
 {
@@ -21,7 +22,29 @@ namespace NeeView
         /// <summary>
         /// "数値x数値"
         /// </summary>
-        public string Value { get; set; }
+        public string Value
+        {
+            get { return _value; }
+            private set
+            {
+                if (_value != value)
+                {
+                    _value = value;
+
+                    var match = _regex.Match(this.Value);
+                    if (!match.Success) throw new ArgumentException();
+                    this.Width = int.Parse(match.Groups[1].Value);
+                    this.Height = int.Parse(match.Groups[2].Value);
+                }
+            }
+        }
+
+        private string _value;
+
+        //
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+
 
         /// <summary>
         /// フォーマット正規表現
@@ -72,18 +95,12 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 数値化
+        /// 
         /// </summary>
         /// <returns></returns>
-        public int ToInteger()
+        public Size ToSize()
         {
-            var match = _regex.Match(this.Value);
-            if (!match.Success) throw new InvalidOperationException();
-
-            var width = int.Parse(match.Groups[1].Value);
-            var height = int.Parse(match.Groups[2].Value);
-            return width * height;
+            return new Size(Width, Height);
         }
-
     }
 }

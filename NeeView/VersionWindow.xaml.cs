@@ -87,7 +87,7 @@ namespace NeeView
         public string LicenseUri { get; private set; }
         public string ProjectUri => "https://bitbucket.org/neelabo/neeview/";
         public string ChangeLogUri => "https://bitbucket.org/neelabo/neeview/wiki/ChangeLog";
-        public bool IsNetworkEnabled => Preference.Current.network_enabled;
+        public bool IsNetworkEnabled => App.Current.IsNetworkEnabled;
 
         // バージョンチェッカーは何度もチェックしないようにstaticで確保する
         public static VersionChecker Checker { get; set; } = new VersionChecker();
@@ -149,7 +149,7 @@ namespace NeeView
         {
             if (_isChecked || _isCheching) return;
 
-            if (Preference.Current.network_enabled)
+            if (App.Current.IsNetworkEnabled)
             {
                 // チェック開始
                 LastVersion = 0; // CurrentVersion;

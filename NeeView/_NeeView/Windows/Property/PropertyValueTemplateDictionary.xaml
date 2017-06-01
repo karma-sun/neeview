@@ -55,6 +55,10 @@
         <nlc:PointInspector Point="{Binding Value, Mode=TwoWay}"/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type local:PropertyValue_Size}">
+        <nlc:SizeInspector Size="{Binding Value, Mode=TwoWay}"/>
+    </DataTemplate>
+
     <!-- TODO: IsHsvModeの参照の一般化 -->
     <DataTemplate DataType="{x:Type local:PropertyValue_Color}">
         <nlc:ColorPicker Color="{Binding Value, Mode=TwoWay}"

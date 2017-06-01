@@ -132,6 +132,8 @@ namespace NeeView
         // コマンド一覧
         public ObservableCollection<CommandParam> CommandCollection { get; set; }
 
+        //
+        private PropertyDocument _propertyDocument;
 
         //
         private Preference _preference;
@@ -147,7 +149,7 @@ namespace NeeView
             public string Name => Source.Name;
             public string State => Source.HasCustomValue ? "ユーザ設定" : "初期設定値";
             public string TypeString => Source.GetValueTypeString();
-            public string Value => Source.GetValue().ToString();
+            public string Value => Source.GetValueString();
             public string Tips => Source.Tips;
         }
 
@@ -322,6 +324,19 @@ namespace NeeView
             // 詳細設定一覧作成
             _preference = new Preference();
             _preference.Restore(Setting.PreferenceMemento);
+            _propertyDocument = new PropertyDocument(new object[]
+                {
+                    Setting.App,
+                    Setting.Memento.JobEngine,
+                    Setting.Memento.FileIOProfile,
+                    Setting.Memento.SevenZipArchiverProfile,
+                    Setting.Memento.ThumbnailProfile,
+                    Setting.Memento.MainWindowModel,
+                    Setting.Memento.BookProfile,
+                    Setting.Memento.MouseInput.Gesture,
+                    Setting.Memento.MouseInput.Loupe,
+                    _preference,
+                });
             PreferenceCollection = new ObservableCollection<PreferenceParam>();
             UpdatePreferenceList();
 
@@ -503,7 +518,7 @@ namespace NeeView
         {
             PreferenceCollection.Clear();
 
-            foreach (var element in _preference.Document.PropertyMembers.Where(e => e.Flags.HasFlag(PropertyMemberFlag.Details)).OrderBy(e => e.Path))
+            foreach (var element in _propertyDocument.PropertyMembers.Where(e => e.Flags.HasFlag(PropertyMemberFlag.Details) && !e.IsObsolete))
             {
                 if (element.Path.StartsWith("_")) continue;
 
@@ -663,7 +678,7 @@ namespace NeeView
         }
 
 
-#region ParameterSettingCommand
+        #region ParameterSettingCommand
         private RelayCommand _parameterSettingCommand;
         public RelayCommand ParameterSettingCommand
         {
@@ -681,7 +696,7 @@ namespace NeeView
             var command = (CommandParam)this.CommandListView.SelectedValue;
             EditCommandParameter(command);
         }
-#endregion
+        #endregion
 
 
 
@@ -800,7 +815,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void ResetAllPreferenceButton_Click(object sender, RoutedEventArgs e)
         {
-            _preference.Reset(false);
+            _propertyDocument.Reset(false);
             this.PreferenceListView.Items.Refresh();
         }
 
@@ -826,7 +841,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void RemoveAllData_Click(object sender, RoutedEventArgs e)
         {
-            Config.Current .RemoveApplicationData();
+            Config.Current.RemoveApplicationData();
         }
 
         //
@@ -847,7 +862,7 @@ namespace NeeView
                     ? (CommandParameter)Utility.Json.Deserialize(command.ParameterJson, source.DefaultParameter.GetType())
                     : parameterDfault.Clone();
 
-                var context = PropertyDocument.Create(parameter);
+                var context = new PropertyDocument(parameter);
                 context.Name = command.Header;
 
                 var dialog = new CommandParameterWindow(context, parameterDfault);
@@ -889,7 +904,7 @@ namespace NeeView
 
         //
         private void OpenDragActionSettingDialog(DragActionParam value)
-        { 
+        {
             if (value.IsLocked)
             {
                 var dlg = new MessageDialog("", "この操作は変更できません");

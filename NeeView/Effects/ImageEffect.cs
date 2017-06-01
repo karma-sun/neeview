@@ -75,7 +75,7 @@ namespace NeeView.Effects
             }
             else
             {
-                EffectParameters = PropertyDocument.Create(Effects[_effectType]);
+                EffectParameters = new PropertyDocument(Effects[_effectType]);
             }
         }
 

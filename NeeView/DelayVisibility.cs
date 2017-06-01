@@ -36,6 +36,9 @@ namespace NeeView
         private DelayValue<Visibility> _visibility;
 
         //
+        public double DefaultDelayTime { get; set; } = 1.0;
+
+        //
         public DelayVisibility()
         {
             _visibility = new DelayValue<Visibility>(Visibility.Collapsed);
@@ -55,7 +58,7 @@ namespace NeeView
         //
         public void Set(Visibility visibility)
         {
-            var delay = Preference.Current.panel_autohide_delaytime * 1000;
+            var delay = this.DefaultDelayTime * 1000;
             _visibility.SetValue(visibility, visibility == Visibility.Visible ? 0 : delay);
         }
 

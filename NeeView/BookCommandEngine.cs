@@ -258,11 +258,6 @@ namespace NeeView
     internal class BookCommandEngine : Utility.CommandEngine
     {
         /// <summary>
-        /// Book挙動設定
-        /// </summary>
-        public BookEnvironment BookEnvironment { get; set; }
-
-        /// <summary>
         /// コマンド登録前処理
         /// </summary>
         /// <param name="command"></param>
@@ -272,7 +267,7 @@ namespace NeeView
             if (_queue.Count == 0) return true;
 
             // ページ移動コマンドはまとめる
-            if (BookEnvironment.AllowMultiplePageMove)
+            if (BookProfile.Current.CanMultiplePageMove())
             {
                 var mc0 = command as BookCommandMovePage;
                 var mc1 = _queue.Peek() as BookCommandMovePage;

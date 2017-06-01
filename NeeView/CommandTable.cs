@@ -1769,10 +1769,10 @@ namespace NeeView
                 element.MenuText = "ファイル操作許可(_P)";
                 element.Note = "ファイル操作系コマンドの有効/無効を切り替えます";
                 element.IsShowMessage = true;
-                element.Execute = (s, e) => PreferenceAccessor.Current.FilePermitCommand = !PreferenceAccessor.Current.FilePermitCommand;
-                element.ExecuteMessage = e => PreferenceAccessor.Current.FilePermitCommand ? "ファイル操作無効" : "ファイル操作有効";
+                element.Execute = (s, e) => _models.FileIOProfile.IsEnabled = !_models.FileIOProfile.IsEnabled;
+                element.ExecuteMessage = e => _models.FileIOProfile.IsEnabled ? "ファイル操作無効" : "ファイル操作有効";
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingPreference(nameof(PreferenceAccessor.Current.FilePermitCommand));
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FileIOProfile.IsEnabled)) { Source = _models.FileIOProfile, Mode = BindingMode.OneWay };
                 _elements[CommandType.TogglePermitFileCommand] = element;
             }
 
@@ -1786,7 +1786,7 @@ namespace NeeView
                 element.Note = "オンラインヘルプを表示します";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.MainWindowModel.OpenOnlineHelp();
-                element.CanExecute = () => Preference.Current.network_enabled;
+                element.CanExecute = () => App.Current.IsNetworkEnabled;
                 _elements[CommandType.HelpOnline] = element;
             }
 

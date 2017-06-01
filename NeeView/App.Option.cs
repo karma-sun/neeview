@@ -121,7 +121,7 @@ namespace NeeView
         //
         public string GetCommandLineHelp(OptionMap<CommandLineOption> optionMap)
         {
-            return "Usage: NeeView.exe [options] [file or folder]\n\n"
+            return "Usage: NeeView.exe NeeView.exe [Options...] [File or Folder]\n\n"
                 + optionMap.GetHelpText() + "\n"
                 + "Example:\n"
                 + "                NeeView.exe -f\n"

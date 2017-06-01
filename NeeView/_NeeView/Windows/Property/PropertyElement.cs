@@ -44,6 +44,7 @@ namespace NeeView.Windows.Property
         public string Tips { get; set; }
         public PropertyMemberFlag Flags { get; set; }
         public object Default { get; set; }
+        public bool IsObsolete { get; set; }
 
         private PropertyInfo _info;
 
@@ -53,7 +54,10 @@ namespace NeeView.Windows.Property
             Name = attribute.Name ?? info.Name;
             Tips = attribute.Tips;
             Flags = attribute.Flags;
-            Default = GetDefaultValue(source, info);
+
+            this.Default = GetDefaultValue(source, info);
+            this.IsObsolete = GetObsoleteAttribute(info) != null;
+
 
             _info = info;
         }
@@ -86,6 +90,10 @@ namespace NeeView.Windows.Property
                     else if (_info.PropertyType == typeof(Color))
                     {
                         this.TypeValue = new PropertyValue_Color(this);
+                    }
+                    else if (_info.PropertyType == typeof(Size))
+                    {
+                        this.TypeValue = new PropertyValue_Size(this);
                     }
                     else
                     {
@@ -160,6 +168,13 @@ namespace NeeView.Windows.Property
         }
 
         //
+        private ObsoleteAttribute GetObsoleteAttribute(PropertyInfo info)
+        {
+            return (ObsoleteAttribute)(Attribute.GetCustomAttribute(info, typeof(ObsoleteAttribute)));
+        }
+
+
+        //
         public Type GetValueType()
         {
             return _info.PropertyType;
@@ -169,6 +184,11 @@ namespace NeeView.Windows.Property
         public string GetValueTypeString()
         {
             return TypeValue.GetTypeString();
+        }
+
+        public string GetValueString()
+        {
+            return TypeValue.GetValueString();
         }
 
 

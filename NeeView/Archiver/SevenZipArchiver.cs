@@ -18,8 +18,6 @@ namespace NeeView
 {
     public class SevenZipSource : IDisposable
     {
-        public static double LockTime { get; set; } = -1.0;
-
         private SevenZipExtractor _extractor;
 
         private string _fileName;
@@ -50,9 +48,9 @@ namespace NeeView
         //
         private void Initialize()
         {
-            if (LockTime > 0)
+            if (SevenZipArchiverProfile.Current.LockTime > 0)
             {
-                _delayClose = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.5), DelayClose, TimeSpan.FromSeconds(LockTime));
+                _delayClose = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.5), DelayClose, TimeSpan.FromSeconds(SevenZipArchiverProfile.Current.LockTime));
             }
         }
 
@@ -84,7 +82,7 @@ namespace NeeView
         {
             if (_extractor != null)
             {
-                if (isForce || LockTime == 0)
+                if (isForce || SevenZipArchiverProfile.Current.LockTime == 0)
                 {
                     _extractor.Dispose();
                     _extractor = null;
@@ -162,9 +160,6 @@ namespace NeeView
         }
 
 
-
-        public static string DllPath { get; set; }
-
         private static bool s_isLibraryInitialized;
 
         //
@@ -172,7 +167,11 @@ namespace NeeView
         {
             if (s_isLibraryInitialized) return;
 
-            var dllPath = string.IsNullOrWhiteSpace(DllPath) ? System.IO.Path.Combine(Config.Current .LibrariesPlatformPath, "7z.dll") : DllPath;
+            string dllPath = Config.Current.IsX64 ? SevenZipArchiverProfile.Current.X64DllPath : SevenZipArchiverProfile.Current.X86DllPath;
+            if (string.IsNullOrWhiteSpace(dllPath))
+            {
+                dllPath = System.IO.Path.Combine(Config.Current.LibrariesPlatformPath, "7z.dll");
+            }
 
             SevenZipExtractor.SetLibraryPath(dllPath);
 

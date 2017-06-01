@@ -1,5 +1,6 @@
 ﻿using NeeView.ComponentModel;
 using NeeView.Effects;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,15 +23,18 @@ namespace NeeView
 
         //
         public MemoryControl MemoryControl { get; private set; }
+        public FileIOProfile FileIOProfile { get; private set; }
         public JobEngine JobEngine { get; private set; }
         public SusieContext SusieContext { get; private set; }
         public BookMementoCollection BookMementoCollection { get; private set; }
         public BookHistory BookHistory { get; private set; }
         public BookmarkCollection BookmarkCollection { get; private set; }
         public PagemarkCollection PagemarkCollection { get; private set; }
+        public SevenZipArchiverProfile SevenZipArchiverProfile { get; private set; }
         public ArchiverManager ArchiverManager { get; private set; }
         public BitmapLoaderManager BitmapLoaderManager { get; private set; }
         public DragActionTable DragActionTable { get; private set; }
+        public ThumbnailProfile ThumbnailProfile { get; private set; }
         public ThumbnailCache ThumbnailCache { get; private set; }
 
         //
@@ -45,6 +49,7 @@ namespace NeeView
         public InfoMessage InfoMessage { get; private set; }
 
         //
+        public BookProfile BookProfile { get; private set; }
         public BookHub BookHub { get; private set; }
         public BookSetting BookSetting { get; private set; }
         public BookOperation BookOperation { get; private set; }
@@ -93,15 +98,18 @@ namespace NeeView
             Current = this;
 
             MemoryControl = new MemoryControl(App.Current.Dispatcher);
+            FileIOProfile = new FileIOProfile();
             JobEngine = new JobEngine();
             BookMementoCollection = new BookMementoCollection();
             BookHistory = new BookHistory();
             BookmarkCollection = new BookmarkCollection();
             PagemarkCollection = new PagemarkCollection();
+            SevenZipArchiverProfile = new SevenZipArchiverProfile();
             ArchiverManager = new ArchiverManager();
             BitmapLoaderManager = new BitmapLoaderManager();
             DragActionTable = new DragActionTable();
             SusieContext = new SusieContext();
+            ThumbnailProfile = new ThumbnailProfile();
             ThumbnailCache = new ThumbnailCache();
 
 
@@ -116,10 +124,10 @@ namespace NeeView
 
             this.InfoMessage = new InfoMessage();
 
+            this.BookProfile = new BookProfile();
             this.BookSetting = new BookSetting();
             this.BookHub = new BookHub(this.BookSetting);
             this.BookOperation = new BookOperation(this.BookHub);
-
 
 
             // TODO: MainWindowVMをモデル分離してModelとして参照させる？
@@ -158,7 +166,7 @@ namespace NeeView
         //
         public void StartEngine()
         {
-           this.JobEngine.StartEngine();
+            this.JobEngine.StartEngine();
             this.SlideShow.StartEngine();
             this.BookHub.StartEngine();
         }
@@ -186,27 +194,29 @@ namespace NeeView
             App.Current.Resources["BannerHeight"] = (double)bannerHeight;
 
             // Jobワーカーサイズ
-            JobEngine.WorkerSize = preference.loader_thread_size;
+            ////JobEngine.WorkerSize = preference.loader_thread_size;
 
             // ワイドページ判定用比率
-            Page.WideRatio = preference.view_image_wideratio;
+            ////Page.WideRatio = preference.view_image_wideratio;
 
             // SevenZip対応拡張子設定
-            ArchiverManager.UpdateSevenZipSupprtedFileTypes(preference.loader_archiver_7z_supprtfiletypes);
+            ////ArchiverManager.UpdateSevenZipSupprtedFileTypes(preference.loader_archiver_7z_supprtfiletypes);
 
             // 7z.dll の場所
-            SevenZipArchiver.DllPath = Config.Current .IsX64 ? preference.loader_archiver_7z_dllpath_x64 : preference.loader_archiver_7z_dllpath;
+            ////SevenZipArchiver.DllPath = Config.Current.IsX64 ? preference.loader_archiver_7z_dllpath_x64 : preference.loader_archiver_7z_dllpath;
 
             // SevenZip Lock時間
-            SevenZipSource.LockTime = preference.loader_archiver_7z_locktime;
+            ////SevenZipSource.LockTime = preference.loader_archiver_7z_locktime;
 
+#if false
             // マウスジェスチャーの最小移動距離
             NeeView.MouseInput.Current.Gesture.SetGestureMinimumDistance(
                 preference.input_gesture_minimumdistance_x,
                 preference.input_gesture_minimumdistance_y);
+#endif
 
             // 除外パス更新
-            BitmapLoaderManager.Excludes = preference.loader_archiver_exclude.Split(';').Select(e => e.Trim()).ToList();
+            ////BitmapLoaderManager.Excludes = preference.loader_archiver_exclude.Split(';').Select(e => e.Trim()).ToList();
         }
 
         #region Memento
@@ -219,9 +229,19 @@ namespace NeeView
             [DataMember]
             public MemoryControl.Memento MemoryControl { get; set; }
             [DataMember]
+            public FileIOProfile.Memento FileIOProfile { get; set; }
+            [DataMember]
+            public JobEngine.Memento JobEngine { get; set; }
+            [DataMember]
+            public SevenZipArchiverProfile.Memento SevenZipArchiverProfile { get; set; }
+            [DataMember]
             public ArchiverManager.Memento ArchiverManager { get; set; }
             [DataMember]
+            public ThumbnailProfile.Memento ThumbnailProfile { get; set; }
+            [DataMember]
             public InfoMessage.Memento InfoMessage { get; set; }
+            [DataMember]
+            public BookProfile.Memento BookProfile { get; set; }
             [DataMember]
             public BookHub.Memento BookHub { get; set; }
             [DataMember]
@@ -273,11 +293,16 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento._Version = Config.Current .ProductVersionNumber;
+            memento._Version = Config.Current.ProductVersionNumber;
 
             memento.MemoryControl = this.MemoryControl.CreateMemento();
+            memento.FileIOProfile = this.FileIOProfile.CreateMemento();
+            memento.JobEngine = this.JobEngine.CreateMemento();
+            memento.SevenZipArchiverProfile = this.SevenZipArchiverProfile.CreateMemento();
             memento.ArchiverManager = this.ArchiverManager.CreateMemento();
+            memento.ThumbnailProfile = this.ThumbnailProfile.CreateMemento();
             memento.InfoMessage = this.InfoMessage.CreateMemento();
+            memento.BookProfile = this.BookProfile.CreateMemento();
             memento.BookHub = this.BookHub.CreateMemento();
             memento.BookOperation = this.BookOperation.CreateMemento();
             memento.BookSetting = this.BookSetting.CreateMemento();
@@ -306,8 +331,13 @@ namespace NeeView
         {
             if (memento == null) return;
             this.MemoryControl.Restore(memento.MemoryControl);
+            this.FileIOProfile.Restore(memento.FileIOProfile);
+            this.JobEngine.Restore(memento.JobEngine);
+            this.SevenZipArchiverProfile.Restore(memento.SevenZipArchiverProfile);
             this.ArchiverManager.Restore(memento.ArchiverManager);
+            this.ThumbnailProfile.Restore(memento.ThumbnailProfile);
             this.InfoMessage.Restore(memento.InfoMessage);
+            this.BookProfile.Restore(memento.BookProfile);
             this.BookHub.Restore(memento.BookHub);
             this.BookOperation.Restore(memento.BookOperation);
             this.BookSetting.Restore(memento.BookSetting);

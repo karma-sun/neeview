@@ -363,6 +363,8 @@ namespace NeeView
             public MouseInputLoupe.Memento Loupe { get; set; }
             [DataMember]
             public MouseInputDrag.Memento Drag { get; set; }
+            [DataMember]
+            public MouseInputGesture.Memento Gesture { get; set; }
         }
 
         //
@@ -372,6 +374,7 @@ namespace NeeView
             memento.Normal = this.Normal.CreateMemento();
             memento.Loupe = this.Loupe.CreateMemento();
             memento.Drag = this.Drag.CreateMemento();
+            memento.Gesture = this.Gesture.CreateMemento();
             return memento;
         }
 
@@ -382,6 +385,7 @@ namespace NeeView
             this.Normal.Restore(memento.Normal);
             this.Loupe.Restore(memento.Loupe);
             this.Drag.Restore(memento.Drag);
+            this.Gesture.Restore(memento.Gesture);
         }
         #endregion
 

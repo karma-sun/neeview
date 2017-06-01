@@ -54,14 +54,5 @@ namespace NeeView
         {
             _preference = preference;
         }
-
-        /// <summary>
-        /// FilePermitCommand property.
-        /// </summary>
-        public bool FilePermitCommand
-        {
-            get { return _preference.file_permit_command; }
-            set { if (_preference.file_permit_command != value) { _preference.file_permit_command = value; RaisePropertyChanged(); } }
-        }
     }
 }

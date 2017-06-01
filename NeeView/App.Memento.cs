@@ -3,8 +3,10 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -24,6 +26,25 @@ namespace NeeView
         // ウィンドウ座標を復元する
         public bool IsSaveWindowPlacement { get; set; }
 
+        // ネットワークアクセス許可
+        public bool IsNetworkEnabled { get; set; } = true;
+
+        // 画像のDPI非対応
+        public bool IsIgnoreImageDpi { get; set; } = true;
+
+        // ウィンドウサイズのDPI非対応
+        public bool IsIgnoreWindowDpi { get; set; }
+
+        // 履歴、ブックマーク、ページマークを保存しない
+        public bool IsDisableSave { get; set; }
+
+        // パネルやメニューが自動的に消えるまでの時間(秒)
+        public double AutoHideDelayTime { get; set; } = 1.0;
+
+        // ウィンドウクローム枠
+        public WindowChromeFrame WindowChromeFrame { get; set; } = WindowChromeFrame.Line;
+
+
         #region Memento
         [DataContract]
         public class Memento
@@ -34,6 +55,30 @@ namespace NeeView
             public bool IsSaveFullScreen { get; set; }
             [DataMember]
             public bool IsSaveWindowPlacement { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            [PropertyMember("ネットワークアスセス許可", Tips = "ネットワークアクセスを許可します。\n(バージョンウィンドウからのバージョン更新確認、各種WEBリンク)")]
+            public bool IsNetworkEnabled { get; set; }
+
+            [DataMember, DefaultValue(false)]
+            [PropertyMember("履歴、ブックマーク、ページマークを保存しない", Tips = "履歴、ブックマーク、ページマークの情報がファイルに一切保存されなくなります")]
+            public bool IsDisableSave { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            [PropertyMember("画像のDPI非対応", Tips = "画像をオリジナルサイズで表示する場合にディスプレイのピクセルと一致させます")]
+            public bool IsIgnoreImageDpi { get; set; }
+
+            [DataMember, DefaultValue(false)]
+            [PropertyMember("ウィンドウサイズのDPI非対応", Tips = "DPI変更にウィンドウサイズを追従させません")]
+            public bool IsIgnoreWindowDpi { get; set; }
+
+            [DataMember, DefaultValue(WindowChromeFrame.Line)]
+            [PropertyEnum("タイトルバー非表示でのウィンドウ枠", Tips = "タイトルバー非表示時のウィンドウ枠表示方法です")]
+            public WindowChromeFrame WindowChromeFrame { get; set; }
+
+            [DataMember, DefaultValue(1.0)]
+            [PropertyMember("パネルやメニューが自動的に消えるまでの時間(秒)")]
+            public double AutoHideDelayTime { get; set; }
         }
 
         //
@@ -43,6 +88,12 @@ namespace NeeView
             memento.IsMultiBootEnabled = this.IsMultiBootEnabled;
             memento.IsSaveFullScreen = this.IsSaveFullScreen;
             memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
+            memento.IsNetworkEnabled = this.IsNetworkEnabled;
+            memento.IsIgnoreImageDpi = this.IsIgnoreImageDpi;
+            memento.IsIgnoreWindowDpi = this.IsIgnoreWindowDpi;
+            memento.IsDisableSave = this.IsDisableSave;
+            memento.AutoHideDelayTime = this.AutoHideDelayTime;
+            memento.WindowChromeFrame = this.WindowChromeFrame;
             return memento;
         }
 
@@ -53,8 +104,14 @@ namespace NeeView
             this.IsMultiBootEnabled = memento.IsMultiBootEnabled;
             this.IsSaveFullScreen = memento.IsSaveFullScreen;
             this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
+            this.IsNetworkEnabled = memento.IsNetworkEnabled;
+            this.IsIgnoreImageDpi = memento.IsIgnoreImageDpi;
+            this.IsIgnoreWindowDpi = memento.IsIgnoreWindowDpi;
+            this.IsDisableSave = memento.IsDisableSave;
+            this.AutoHideDelayTime = memento.AutoHideDelayTime;
+            this.WindowChromeFrame = memento.WindowChromeFrame;
         }
-        
+
 #pragma warning disable CS0612
 
         public void RestoreCompatible(Setting setting)

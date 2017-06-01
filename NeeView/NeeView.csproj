@@ -109,6 +109,9 @@
     <Compile Include="App.Exception.cs" />
     <Compile Include="App.Memento.cs" />
     <Compile Include="App.Option.cs" />
+    <Compile Include="Archiver\FileTypeCollection.cs" />
+    <Compile Include="Archiver\SevenZipArchiverProfile.cs" />
+    <Compile Include="BookProfile.cs" />
     <Compile Include="BookHistoryCommand.cs" />
     <Compile Include="BookSetting.cs" />
     <Compile Include="ContentCanvasBrush.cs" />
@@ -175,12 +178,14 @@
       <DependentUpon>MenuBarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="FileIO.cs" />
+    <Compile Include="FileIOProfile.cs" />
     <Compile Include="LongButtonDownMode.cs" />
     <Compile Include="MainWindowModel.cs" />
     <Compile Include="Controls\NowLoadingView.xaml.cs">
       <DependentUpon>NowLoadingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="Page\ThumbnailProfile.cs" />
     <Compile Include="SaveData.cs" />
     <Compile Include="MouseInput\MouseInputContext.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListBox.xaml.cs">
@@ -260,6 +265,7 @@
       <DependentUpon>ThumbnailListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ThumbnailListViewModel.cs" />
+    <Compile Include="StringCollection.cs" />
     <Compile Include="TinyInfoMessage.cs" />
     <Compile Include="TinyInfoMessageView.xaml.cs">
       <DependentUpon>TinyInfoMessageView.xaml</DependentUpon>
@@ -516,6 +522,9 @@
     <Compile Include="_NeeView\Windows\Controls\DropDownMenuBehavior.cs" />
     <Compile Include="_NeeView\Windows\Controls\FileNameBox.xaml.cs">
       <DependentUpon>FileNameBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="_NeeView\Windows\Controls\SizeInspector.xaml.cs">
+      <DependentUpon>SizeInspector.xaml</DependentUpon>
     </Compile>
     <Compile Include="_NeeView\Windows\Controls\PointInspector.xaml.cs">
       <DependentUpon>PointInspector.xaml</DependentUpon>
@@ -778,6 +787,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="_NeeView\Windows\Controls\FileNameBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="_NeeView\Windows\Controls\SizeInspector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

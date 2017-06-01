@@ -99,14 +99,6 @@ namespace NeeView
         public double Height => Content.Size.Height;
 
 
-        // ワイド判定用縦横比
-        public static double WideRatio { get; set; }
-
-        // ワイド判定
-        public bool IsWide => Width > Height * WideRatio;
-
-
-
         /// <summary>
         /// Content有効判定
         /// </summary>

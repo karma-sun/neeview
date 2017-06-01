@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -44,6 +45,79 @@ namespace NeeView
             get { return _IsLoupeCenter; }
             set { if (_IsLoupeCenter != value) { _IsLoupeCenter = value; RaisePropertyChanged(); } }
         }
+
+
+
+        /// <summary>
+        /// MinimumScale property.
+        /// </summary>
+        public double MinimumScale
+        {
+            get { return _minimumScale; }
+            set { if (_minimumScale != value) { _minimumScale = value; RaisePropertyChanged(); } }
+        }
+
+        private double _minimumScale = 2.0;
+
+        /// <summary>
+        /// MaximumScale property.
+        /// </summary>
+        public double MaximumScale
+        {
+            get { return _maximumScale; }
+            set { if (_maximumScale != value) { _maximumScale = Math.Max(value, _minimumScale); RaisePropertyChanged(); } }
+        }
+
+        private double _maximumScale = 10.0;
+
+
+        /// <summary>
+        /// DefaultScale property.
+        /// </summary>
+        public double DefaultScale
+        {
+            get { return _defaultScale; }
+            set { if (_defaultScale != value) { _defaultScale = NVUtility.Clamp(value, _minimumScale, MaximumScale); RaisePropertyChanged(); } }
+        }
+
+        private double _defaultScale = 2.0;
+
+
+        /// <summary>
+        /// ScaleStep property.
+        /// </summary>
+        public double ScaleStep
+        {
+            get { return _scaleStep; }
+            set { if (_scaleStep != value) { _scaleStep = value; RaisePropertyChanged(); } }
+        }
+
+        private double _scaleStep = 1.0;
+
+        /// <summary>
+        /// IsResetByRestart property.
+        /// </summary>
+        public bool IsResetByRestart
+        {
+            get { return _isResetByRestart; }
+            set { if (_isResetByRestart != value) { _isResetByRestart = value; RaisePropertyChanged(); } }
+        }
+
+        private bool _isResetByRestart = false;
+
+        /// <summary>
+        /// IsResetByPageChanged property.
+        /// </summary>
+        public bool IsResetByPageChanged
+        {
+            get { return _isResetByPageChanged; }
+            set { if (_isResetByPageChanged != value) { _isResetByPageChanged = value; RaisePropertyChanged(); } }
+        }
+
+        private bool _isResetByPageChanged = true;
+
+
+
 
         /// <summary>
         /// 表示コンテンツ用トランスフォーム
@@ -118,7 +192,7 @@ namespace NeeView
             {
                 if (double.IsNaN(_loupeScale))
                 {
-                    _loupeScale = Preference.Current.loupe_scale_default;
+                    _loupeScale = _defaultScale;
                 }
                 return _loupeScale;
             }
@@ -242,9 +316,9 @@ namespace NeeView
             this.IsEnabled = true;
             _isButtonDown = false;
 
-            if (Preference.Current.loupe_scale_reset)
+            if (_isResetByRestart)
             {
-                LoupeScale = Preference.Current.loupe_scale_default;
+                LoupeScale = _defaultScale;
             }
         }
 
@@ -354,7 +428,7 @@ namespace NeeView
         /// </summary>
         public void LoupeZoomIn()
         {
-            LoupeScale = Math.Min(LoupeScale + Preference.Current.loupe_scale_step, Preference.Current.loupe_scale_max);
+            LoupeScale = Math.Min(LoupeScale + _scaleStep, _maximumScale);
         }
 
         /// <summary>
@@ -362,7 +436,7 @@ namespace NeeView
         /// </summary>
         public void LoupeZoomOut()
         {
-            LoupeScale = Math.Max(LoupeScale - Preference.Current.loupe_scale_step, Preference.Current.loupe_scale_min);
+            LoupeScale = Math.Max(LoupeScale - _scaleStep, _minimumScale);
         }
 
         /// <summary>
@@ -381,7 +455,7 @@ namespace NeeView
                 e.Handled = true;
             }
         }
-        
+
 
         #region Memento
         [DataContract]
@@ -391,6 +465,30 @@ namespace NeeView
             public bool IsLoupeCenter { get; set; }
             [DataMember]
             public bool IsVisibleLoupeInfo { get; set; }
+
+            [DataMember, DefaultValue(2.0)]
+            [PropertyMember("ルーペ標準倍率", Tips = "ルーペの初期倍率です")]
+            public double DefaultScale { get; set; }
+
+            [DataMember, DefaultValue(2.0)]
+            [PropertyMember("ルーペ最小倍率", Tips = "ルーペの最小倍率です")]
+            public double MinimumScale { get; set; }
+
+            [DataMember, DefaultValue(10.0)]
+            [PropertyMember("ルーペ最大倍率", Tips = "ルーペの最大倍率です")]
+            public double MaximumScale { get; set; }
+
+            [DataMember, DefaultValue(1.0)]
+            [PropertyMember("ルーペ倍率変化単位", Tips = "ルーペ倍率をこの値で変化させます")]
+            public double ScaleStep { get; set; }
+
+            [DataMember, DefaultValue(false)]
+            [PropertyMember("ルーペ倍率リセット", Tips = "ルーペを開始するたびに標準倍率に戻します")]
+            public bool IsResetByRestart { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            [PropertyMember("ルーペページ切り替え解除", Tips = "ページを切り替えるとルーペを解除します")]
+            public bool IsResetByPageChanged { get; set; }
         }
 
         //
@@ -399,6 +497,13 @@ namespace NeeView
             var memento = new Memento();
             memento.IsLoupeCenter = this.IsLoupeCenter;
             memento.IsVisibleLoupeInfo = this.IsVisibleLoupeInfo;
+            memento.DefaultScale = this.DefaultScale;
+            memento.MinimumScale = this.MinimumScale;
+            memento.MaximumScale = this.MaximumScale;
+            memento.ScaleStep = this.ScaleStep;
+            memento.IsResetByRestart = this.IsResetByRestart;
+            memento.IsResetByPageChanged = this.IsResetByPageChanged;
+
             return memento;
         }
 
@@ -408,6 +513,12 @@ namespace NeeView
             if (memento == null) return;
             this.IsLoupeCenter = memento.IsLoupeCenter;
             this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
+            this.MinimumScale = memento.MinimumScale;
+            this.MaximumScale = memento.MaximumScale;
+            this.DefaultScale = memento.DefaultScale;
+            this.ScaleStep = memento.ScaleStep;
+            this.IsResetByRestart = memento.IsResetByRestart;
+            this.IsResetByPageChanged = memento.IsResetByPageChanged;
         }
         #endregion
 

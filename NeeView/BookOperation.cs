@@ -247,7 +247,7 @@ namespace NeeView
         // 現在表示しているページのファイル削除可能？
         public bool CanDeleteFile()
         {
-            return Preference.Current.file_permit_command && FileIO.Current.CanRemoveFile(Book?.GetViewPage());
+            return FileIOProfile.Current.IsEnabled && FileIO.Current.CanRemoveFile(Book?.GetViewPage());
         }
 
         // 現在表示しているページのファイルを削除する

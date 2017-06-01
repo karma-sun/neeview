@@ -104,7 +104,7 @@ namespace NeeView
         private void FileCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            e.CanExecute = (item != null && !item.IsEmpty && !item.IsDrive && Preference.Current.file_permit_command);
+            e.CanExecute = (item != null && !item.IsEmpty && !item.IsDrive && FileIOProfile.Current.IsEnabled);
         }
 
         /// <summary>

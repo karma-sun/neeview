@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeView.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,6 +30,8 @@ namespace NeeView
 
         //
         private bool _IsSideBarVisible;
+
+
 
 
         /// <summary>
@@ -164,7 +167,7 @@ namespace NeeView
             _right.Panels.Clear();
 
             // memento反映
-            IsSideBarVisible = memento.IsSideBarVisible;
+            this.IsSideBarVisible = memento.IsSideBarVisible;
             _left.Restore(memento.Left, panels);
             _right.Restore(memento.Right, panels);
 

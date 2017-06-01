@@ -86,7 +86,7 @@ namespace NeeView
         /// <summary>
         /// キャッシュ有効フラグ
         /// </summary>
-        public bool IsEnabled => Preference.Current.thumbnail_cache;
+        public bool IsEnabled => ThumbnailProfile.Current.IsCacheEnabled;
 
         /// <summary>
         /// データベースファイル名

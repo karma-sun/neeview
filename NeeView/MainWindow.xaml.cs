@@ -174,7 +174,7 @@ namespace NeeView
             // このタイミングでのChrome適用はMaximizedの場合にフルスクリーンになってしまうので保留する
             if (memento.State != WindowStateEx.Maximized)
             {
-                windowShape.WindowChromeFrame = Preference.Current.window_chrome_frame;
+                windowShape.WindowChromeFrame = App.Current.WindowChromeFrame;
             }
 
             windowShape.Restore(memento);
@@ -490,7 +490,7 @@ namespace NeeView
             WindowShape.Current?.UpdateWindowBorderThickness();
 
             // ウィンドウサイズのDPI非追従
-            if (Preference.Current.dpi_window_ignore && this.WindowState == WindowState.Normal)
+            if (App.Current.IsIgnoreWindowDpi && this.WindowState == WindowState.Normal)
             {
                 var newWidth = Math.Floor(this.Width * e.OldDpi.DpiScaleX / e.NewDpi.DpiScaleX);
                 var newHeight = Math.Floor(this.Height * e.OldDpi.DpiScaleY / e.NewDpi.DpiScaleY);
@@ -664,7 +664,7 @@ namespace NeeView
         /// </summary>
         private void InitializeMenuLayerVisibility()
         {
-            this.MenuLayerVisibility = new DelayVisibility();
+            this.MenuLayerVisibility = new DelayVisibility() { DefaultDelayTime = App.Current.AutoHideDelayTime };
             this.MenuLayerVisibility.Changed += (s, e) =>
             {
                 this.LayerMenuSocket.Visibility = MenuLayerVisibility.Visibility;
@@ -702,7 +702,7 @@ namespace NeeView
         /// </summary>
         private void InitializeStatusLayerVisibility()
         {
-            this.StatusLayerVisibility = new DelayVisibility();
+            this.StatusLayerVisibility = new DelayVisibility() { DefaultDelayTime = App.Current.AutoHideDelayTime };
             this.StatusLayerVisibility.Changed += (s, e) =>
             {
                 this.LayerStatusArea.Visibility = StatusLayerVisibility.Visibility;

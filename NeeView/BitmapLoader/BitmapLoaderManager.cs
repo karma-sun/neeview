@@ -69,10 +69,6 @@ namespace NeeView
             get { return _orderList[OrderType]; }
         }
 
-        // 除外パス
-        // TODO: 定義位置
-        public List<string> Excludes { get; set; } = new List<string>();
-
 
         // コンストラクタ
         public BitmapLoaderManager()
@@ -91,7 +87,7 @@ namespace NeeView
         // 除外パス判定
         public bool IsExcludedPath(string path)
         {
-            return path.Split('/', '\\').Any(e => this.Excludes.Contains(e));
+            return path.Split('/', '\\').Any(e => BookProfile.Current.Excludes.Contains(e));
         }
 
         // サポートしているローダーの種類を取得

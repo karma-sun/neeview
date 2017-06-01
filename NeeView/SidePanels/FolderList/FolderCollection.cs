@@ -27,11 +27,6 @@ namespace NeeView
         public event EventHandler ParameterChanged;
 
         /// <summary>
-        /// 追加されたファイルの挿入方法
-        /// </summary>
-        public static bool IsInsertAddFile => Preference.Current.folderlist_addfile_insert;
-
-        /// <summary>
         /// Folder Parameter
         /// </summary>
         public FolderParameter FolderParameter { get; private set; }
@@ -405,7 +400,7 @@ namespace NeeView
             {
                 this.Items.Add(item);
             }
-            else if (IsInsertAddFile)
+            else if (FolderList.Current.IsInsertItem)
             {
                 // 別にリストを作ってソートを実行し、それで挿入位置を決める
                 var list = Sort(this.Items.Concat(new List<FolderItem>() { item })).ToList();

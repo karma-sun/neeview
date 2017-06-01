@@ -52,41 +52,6 @@ namespace NeeView
     }
 
 
-
-    /// <summary>
-    /// 本：設定
-    /// </summary>
-    public class BookEnvironment
-    {
-        /// <summary>
-        /// ページ移動優先設定
-        /// </summary>
-        public bool IsPrioritizePageMove
-            => Preference.Current.book_is_prioritize_pagemove && !SlideShow.Current.IsPlayingSlideShow;
-
-        /// <summary>
-        /// ページ移動命令重複許可
-        /// </summary>
-        public bool AllowMultiplePageMove
-            => Preference.Current.book_allow_multiple_pagemove && !SlideShow.Current.IsPlayingSlideShow;
-
-        /// <summary>
-        /// 先読み自動判定許サイズ
-        /// </summary>
-        public int PreLoadLimitSize { get; private set; }
-
-
-        /// <summary>
-        /// constructor
-        /// </summary>
-        public BookEnvironment()
-        {
-            var sizeString = new SizeString(Preference.Current.book_preload_limitsize);
-            PreLoadLimitSize = sizeString.ToInteger();
-        }
-    }
-
-
     /// <summary>
     /// 本
     /// </summary>
@@ -100,7 +65,7 @@ namespace NeeView
         public int Serial { get; private set; }
 
         // 環境
-        private BookEnvironment _environment { get; } = new BookEnvironment();
+        ////private BookProfile _environment { get; } = BookProfile.Current;
 
         // テンポラリコンテンツ用ゴミ箱
         public TrashBox _trashBox { get; private set; } = new TrashBox();
@@ -373,7 +338,7 @@ namespace NeeView
         // ページサムネイル寿命管理
         private class PageThumbnailPool : ThumbnailPool
         {
-            public override int Limit => Preference.Current.thumbnail_book_capacity;
+            public override int Limit => ThumbnailProfile.Current.PageCapacity;
         }
 
         // サムネイル寿命管理
@@ -645,8 +610,6 @@ namespace NeeView
         public void Start()
         {
             Debug.Assert(Place != null);
-
-            _commandEngine.BookEnvironment = _environment;
             _commandEngine.StartEngine();
         }
 
@@ -1106,7 +1069,7 @@ namespace NeeView
             if (isPreLoad) PreLoad(source);
 
             // wait load
-            if (_environment.IsPrioritizePageMove)
+            if (BookProfile.Current.CanPrioritizePageMove())
             {
                 await Task.Run(() => Task.WaitAll(tlist.ToArray(), 100, token));
             }
@@ -1135,7 +1098,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void Page_Loaded(object sender, EventArgs e)
         {
-            if (!_environment.IsPrioritizePageMove) return;
+            if (!BookProfile.Current.CanPrioritizePageMove()) return;
 
             // 非同期なので一旦退避
             var now = _viewContext;
@@ -1187,11 +1150,17 @@ namespace NeeView
             ContentLoaded.Set();
         }
 
+        //
+        private bool IsWide(Page page)
+        {
+           return page.Width > page.Height * BookProfile.Current.WideRatio;
+        }
+
 
         // 見開きモードでも単独表示するべきか判定
         private bool IsSoloPage(int index)
         {
-            if (IsSupportedWidePage && Pages[index].IsWide) return true;
+            if (IsSupportedWidePage && IsWide(Pages[index])) return true;
             if (IsSupportedSingleFirstPage && index == 0) return true;
             if (IsSupportedSingleLastPage && index == Pages.Count - 1) return true;
             return false;
@@ -1200,7 +1169,7 @@ namespace NeeView
         // 分割モード有効判定
         private bool IsEnableDividePage(int index)
         {
-            return (PageMode == PageMode.SinglePage && IsSupportedDividePage && Pages[index].IsWide);
+            return (PageMode == PageMode.SinglePage && IsSupportedDividePage && IsWide(Pages[index]));
         }
 
         // 表示コンテンツソースと、それに対応したコンテキスト作成
@@ -1310,7 +1279,7 @@ namespace NeeView
             }
 
             // 判定
-            if (size > _environment.PreLoadLimitSize)
+            if (size > BookProfile.Current.PreLoadLimitSize)
             {
                 //Debug.WriteLine("PreLoad: Disabled");
                 _canPreLoadCount = 0;

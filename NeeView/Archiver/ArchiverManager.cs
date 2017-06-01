@@ -30,11 +30,11 @@ namespace NeeView
         }
 
         // サポート拡張子
-        private Dictionary<ArchiverType, string[]> _supprtedFileTypes = new Dictionary<ArchiverType, string[]>()
+        private Dictionary<ArchiverType, FileTypeCollection> _supprtedFileTypes = new Dictionary<ArchiverType, FileTypeCollection>()
         {
-            [ArchiverType.SevenZipArchiver] = new string[] { ".7z", ".rar", ".lzh" },
-            [ArchiverType.ZipArchiver] = new string[] { ".zip" },
-            [ArchiverType.SusieArchiver] = new string[] { }
+            [ArchiverType.SevenZipArchiver] = SevenZipArchiverProfile.Current.SupportFileTypes,
+            [ArchiverType.ZipArchiver] = new FileTypeCollection(".zip"),
+            [ArchiverType.SusieArchiver] = new FileTypeCollection()
         };
 
         // アーカイバー優先度リスト
@@ -103,23 +103,9 @@ namespace NeeView
         /// <returns></returns>
         public bool IsExcludedFolder(string path)
         {
-            return BitmapLoaderManager.Current.Excludes.Contains(LoosePath.GetFileName(path));
+            return BookProfile.Current.Excludes.Contains(LoosePath.GetFileName(path));
         }
 
-        // SevenZipアーカイバーのサポート拡張子を更新
-        public void UpdateSevenZipSupprtedFileTypes(string exts)
-        {
-            if (exts == null) return;
-
-            var list = new List<string>();
-            foreach (var token in exts.Split(';'))
-            {
-                var ext = token.Trim().TrimStart('.').ToLower();
-                if (!string.IsNullOrWhiteSpace(ext)) list.Add("." + ext);
-            }
-            _supprtedFileTypes[ArchiverType.SevenZipArchiver] = list.ToArray();
-            Debug.WriteLine("7z.dll Support: " + string.Join(" ", _supprtedFileTypes[ArchiverType.SevenZipArchiver]));
-        }
 
         // Susieアーカイバーのサポート拡張子を更新
         public void UpdateSusieSupprtedFileTypes(Susie.Susie susie)
@@ -132,7 +118,7 @@ namespace NeeView
                     list.AddRange(plugin.Extensions);
                 }
             }
-            _supprtedFileTypes[ArchiverType.SusieArchiver] = list.Distinct().ToArray();
+            _supprtedFileTypes[ArchiverType.SusieArchiver].FromCollection(list.Distinct());
             Debug.WriteLine("SusieAM Support: " + string.Join(" ", _supprtedFileTypes[ArchiverType.SusieArchiver]));
         }
 

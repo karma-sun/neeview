@@ -22,6 +22,12 @@ namespace NeeView.Windows.Property
             return "???";
         }
 
+        public virtual string GetValueString()
+        {
+            throw new NotSupportedException();
+        }
+
+
         public virtual void SetValueFromString(string value)
         {
             throw new NotSupportedException();
@@ -43,6 +49,11 @@ namespace NeeView.Windows.Property
         {
             get { return (T)Setter.GetValue(); }
             set { Setter.SetValue(value); }
+        }
+
+        public override string GetValueString()
+        {
+            return Value.ToString();
         }
     }
 
@@ -192,6 +203,29 @@ namespace NeeView.Windows.Property
         public override void SetValueFromString(string value)
         {
             Value = (Color)ColorConverter.ConvertFromString(value);
+        }
+    }
+
+    //
+    public class PropertyValue_Size : PropertyValue<Size, PropertyMemberElement>
+    {
+        public PropertyValue_Size(PropertyMemberElement setter) : base(setter)
+        {
+        }
+
+        public override string GetTypeString()
+        {
+            return "サイズ";
+        }
+
+        public override void SetValueFromString(string value)
+        {
+            Value = Size.Parse(value);
+        }
+
+        public override string GetValueString()
+        {
+            return $"{Value.Width}x{Value.Height}";
         }
     }
 

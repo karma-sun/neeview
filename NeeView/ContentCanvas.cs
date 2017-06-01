@@ -319,7 +319,7 @@ namespace NeeView
         public void ResetTransform(bool isForce, int pageDirection, DragViewOrigin viewOrigin)
         {
             // ルーペ解除。ここ？
-            if (Preference.Current.loupe_pagechange_reset)
+            if (MouseInput.Current.Loupe.IsResetByPageChanged)
             {
                 MouseInput.Current.IsLoupeMode = false;
             }

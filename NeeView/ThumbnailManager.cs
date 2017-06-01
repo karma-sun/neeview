@@ -73,6 +73,6 @@ namespace NeeView
             }
         }
 
-        public override int Limit => Preference.Current.thumbnail_folder_capacity;
+        public override int Limit => ThumbnailProfile.Current.BookCapacity;
     }
 }

@@ -63,7 +63,7 @@ namespace NeeView
         private void Remove_CanExec(object sender, CanExecuteRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as Page;
-            e.CanExecute = item != null && _vm.CanRemove(item) && Preference.Current.file_permit_command;
+            e.CanExecute = item != null && _vm.CanRemove(item) && FileIOProfile.Current.IsEnabled;
         }
 
         //

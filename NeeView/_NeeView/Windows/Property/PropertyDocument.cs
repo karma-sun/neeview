@@ -57,34 +57,47 @@ namespace NeeView.Windows.Property
             }
         }
 
-
-
-        // instance factory
-        #region factory
-
         /// <summary>
-        /// 
+        /// 全ての設定値を初期化
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public static PropertyDocument Create(object source)
+        public void Reset(bool isAll)
         {
-            var type = source.GetType();
-
-            var package = new PropertyDocument();
-            package.Source = source;
-            package.Elements = CreateProperyContentList(source);
-
-            return package;
+            foreach (var item in this.Elements.OfType<PropertyMemberElement>())
+            {
+                if (isAll || item.Flags.HasFlag(PropertyMemberFlag.Details))
+                {
+                    item.ResetValue();
+                }
+            }
         }
 
+        //
+        public PropertyDocument()
+        {
+        }
+
+        //
+        public PropertyDocument(object source)
+        {
+            this.Source = source;
+            this.Elements = CreateProperyContentList(source);
+        }
+
+        //
+        public PropertyDocument(IEnumerable<object> sources)
+        {
+            ////this.Source = source;
+            this.Elements = sources.Select(e => CreateProperyContentList(e)).SelectMany(e => e).ToList();
+        }
+
+
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        private static List<PropertyDrawElement> CreateProperyContentList(object source)
+        private List<PropertyDrawElement> CreateProperyContentList(object source)
         {
             var type = source.GetType();
 
@@ -112,7 +125,7 @@ namespace NeeView.Windows.Property
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        private static PropertyMemberAttribute GetPropertyMemberAttribute(MemberInfo info)
+        private PropertyMemberAttribute GetPropertyMemberAttribute(MemberInfo info)
         {
             return (PropertyMemberAttribute)Attribute.GetCustomAttributes(info, typeof(PropertyMemberAttribute)).FirstOrDefault();
         }
@@ -123,11 +136,20 @@ namespace NeeView.Windows.Property
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        private static DefaultValueAttribute GetDefaultValueAttribute(MemberInfo info)
+        private DefaultValueAttribute GetDefaultValueAttribute(MemberInfo info)
         {
             return (DefaultValueAttribute)Attribute.GetCustomAttributes(info, typeof(DefaultValueAttribute)).FirstOrDefault();
         }
 
-        #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        private ObsoleteAttribute GetObsoleteValueAttribute(MemberInfo info)
+        {
+            return (ObsoleteAttribute)Attribute.GetCustomAttributes(info, typeof(ObsoleteAttribute)).FirstOrDefault();
+        }
     }
 }

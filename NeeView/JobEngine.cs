@@ -4,11 +4,13 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeView.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -422,6 +424,33 @@ namespace NeeView
         {
             Thread.Sleep(ms);
         }
+
+
+        #region Memento
+        [DataContract]
+        public class Memento
+        {
+            [DataMember, DefaultValue(2)]
+            [PropertyMember("画像読み込みに使用するスレッド数", Tips = "有効値は1～4です")]
+            public int WorkerSize { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.WorkerSize = this.WorkerSize;
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            this.WorkerSize = memento.WorkerSize;
+        }
+        #endregion
+
 
     }
 

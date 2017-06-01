@@ -6,8 +6,10 @@
 using Microsoft.Win32;
 using NeeView.ComponentModel;
 using NeeView.Windows.Input;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -75,6 +77,19 @@ namespace NeeView
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.Current.IsFullScreen),
                 (s, e) => RaisePropertyChanged(nameof(CanHidePanel)));
         }
+
+
+        /// <summary>
+        /// IsOpenbookAtCurrentPlace property.
+        /// </summary>
+        public bool IsOpenbookAtCurrentPlace
+        {
+            get { return _IsOpenbookAtCurrentPlace; }
+            set { if (_IsOpenbookAtCurrentPlace != value) { _IsOpenbookAtCurrentPlace = value; RaisePropertyChanged(); } }
+        }
+
+        private bool _IsOpenbookAtCurrentPlace;
+
 
         //
         private PanelColor _panelColor = PanelColor.Dark;
@@ -220,7 +235,7 @@ namespace NeeView
         public void Loaded()
         {
             // Chrome反映
-            WindowShape.Current.WindowChromeFrame = Preference.Current.window_chrome_frame;
+            WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 
             // VMイベント設定
             ////InitializeViewModelEvents();
@@ -304,7 +319,7 @@ namespace NeeView
         private string GetDefaultFolder()
         {
             // 既に開いている場合、その場所を起点とする
-            if (Preference.Current.openbook_begin_current && BookHub.Current.Book != null)
+            if (_IsOpenbookAtCurrentPlace && BookHub.Current.Book != null)
             {
                 return System.IO.Path.GetDirectoryName(BookHub.Current.Book.Place);
             }
@@ -444,6 +459,11 @@ namespace NeeView
 
             [DataMember]
             public bool IsVisibleWindowTitle { get; set; }
+
+            [DataMember, DefaultValue(false)]
+            [PropertyMember("「開く」を現在開いているブックの場所から始める", Tips = "[ファイル] >[開く]で開くフォルダーです\nドラッグ＆ドロップや履歴から開いた場所も基準になります")]
+            public bool IsOpenbookAtCurrentPlace { get; set; }
+
         }
 
         //
@@ -460,7 +480,7 @@ namespace NeeView
             memento.IsHidePanel = this.IsHidePanel;
             memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
             memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
-
+            memento.IsOpenbookAtCurrentPlace = this.IsOpenbookAtCurrentPlace;
 
             return memento;
         }
@@ -479,6 +499,7 @@ namespace NeeView
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
             this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
+            this.IsOpenbookAtCurrentPlace = memento.IsOpenbookAtCurrentPlace;
         }
 
         #endregion

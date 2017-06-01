@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeView.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-   //
+    //
     public class SelectedChangedEventArgs : EventArgs
     {
         public bool IsFocus { get; set; }
@@ -134,6 +135,11 @@ namespace NeeView
             return Environment.CurrentDirectory;
         }
 
+        /// <summary>
+        /// 追加されたファイルを挿入する？
+        /// OFFの場合はリスト末尾に追加する
+        /// </summary>
+        public bool IsInsertItem { get; set; } = true;
 
 
         /// <summary>
@@ -657,6 +663,9 @@ namespace NeeView
             [DataMember]
             public string Home { get; set; }
 
+            [DataMember, DefaultValue(true)]
+            [PropertyMember("フォルダーリスト追加ファイルは挿入", Tips = "フォルダーリストで追加されたファイルを現在のソート順で挿入します。\nFalseのときはリストの終端に追加します。")]
+            public bool IsInsertItem { get; set; }
         }
 
         //
@@ -668,6 +677,7 @@ namespace NeeView
             memento.IsVisibleHistoryMark = this.IsVisibleHistoryMark;
             memento.IsVisibleBookmarkMark = this.IsVisibleBookmarkMark;
             memento.Home = this.Home;
+            memento.IsInsertItem = this.IsInsertItem;
             return memento;
         }
 
@@ -681,6 +691,7 @@ namespace NeeView
             this.IsVisibleHistoryMark = memento.IsVisibleHistoryMark;
             this.IsVisibleBookmarkMark = memento.IsVisibleBookmarkMark;
             this.Home = memento.Home;
+            this.IsInsertItem = memento.IsInsertItem;
 
             // Preference反映
             ///RaisePropertyChanged(nameof(FolderIconLayout));

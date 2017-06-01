@@ -140,7 +140,7 @@ namespace NeeView
             }
             else
             {
-                _visibility.SetValue(Visibility.Collapsed, now ? 0.0 : Preference.Current.panel_autohide_delaytime * 1000.0, isForce);
+                _visibility.SetValue(Visibility.Collapsed, now ? 0.0 : App.Current.AutoHideDelayTime * 1000.0, isForce);
             }
         }
 

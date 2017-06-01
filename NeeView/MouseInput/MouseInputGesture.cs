@@ -3,10 +3,12 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Input;
 
@@ -60,24 +62,43 @@ namespace NeeView
 
 
         // ジェスチャー判定用最低ドラッグ距離
-        public static double GestureMinimumDistanceX = 30.0;
-        public static double GestureMinimumDistanceY = 30.0;
 
         /// <summary>
-        /// 判定用最低ドラッグ距離設定
-        /// TODO: 設定方法
+        /// GestureMinimumDistanceX property.
         /// </summary>
-        /// <param name="deltaX"></param>
-        /// <param name="deltaY"></param>
-        public void SetGestureMinimumDistance(double deltaX, double deltaY)
+        public double GestureMinimumDistanceX
         {
-            GestureMinimumDistanceX = deltaX;
-            GestureMinimumDistanceY = deltaY;
-            if (GestureMinimumDistanceX < SystemParameters.MinimumHorizontalDragDistance)
-                GestureMinimumDistanceX = SystemParameters.MinimumHorizontalDragDistance;
-            if (GestureMinimumDistanceY < SystemParameters.MinimumVerticalDragDistance)
-                GestureMinimumDistanceY = SystemParameters.MinimumVerticalDragDistance;
+            get { return _gestureMinimumDistanceX; }
+            set
+            {
+                if (_gestureMinimumDistanceX != value)
+                {
+                    _gestureMinimumDistanceX = Math.Max(value, SystemParameters.MinimumHorizontalDragDistance);
+                    RaisePropertyChanged();
+                }
+            }
         }
+
+        private double _gestureMinimumDistanceX = 30.0;
+
+
+        /// <summary>
+        /// GestureMinimumDistanceY property.
+        /// </summary>
+        public double GestureMinimumDistanceY
+        {
+            get { return _gestureMinimumDistanceY; }
+            set
+            {
+                if (_gestureMinimumDistanceY != value)
+                {
+                    _gestureMinimumDistanceY = Math.Max(value, SystemParameters.MinimumVerticalDragDistance);
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private double _gestureMinimumDistanceY = 30.0;
 
 
         /// <summary>
@@ -256,7 +277,38 @@ namespace NeeView
             // 開始点の更新
             _context.StartPoint = point;
         }
+
+        #region Memento
+        [DataContract]
+        public class Memento
+        {
+
+            [DataMember, DefaultValue(30.0)]
+            [PropertyMember("マウスジェスチャー判定の最小移動距離(X)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます")]
+            public double GestureMinimumDistanceX { get; set; }
+
+            [DataMember, DefaultValue(30.0)]
+            [PropertyMember("マウスジェスチャー判定の最小移動距離(Y)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます")]
+            public double GestureMinimumDistanceY { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.GestureMinimumDistanceX = this.GestureMinimumDistanceX;
+            memento.GestureMinimumDistanceY = this.GestureMinimumDistanceY;
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            this.GestureMinimumDistanceX = memento.GestureMinimumDistanceX;
+            this.GestureMinimumDistanceY = memento.GestureMinimumDistanceY;
+        }
+        #endregion
+
     }
-
-
 }

@@ -36,6 +36,7 @@ namespace NeeView
         public DragActionTable DragActionTable { get; private set; }
         public ThumbnailProfile ThumbnailProfile { get; private set; }
         public ThumbnailCache ThumbnailCache { get; private set; }
+        public ExporterProfile ExporterProfile { get; private set; }
 
         //
         public CommandTable CommandTable { get; private set; }
@@ -111,7 +112,7 @@ namespace NeeView
             SusieContext = new SusieContext();
             ThumbnailProfile = new ThumbnailProfile();
             ThumbnailCache = new ThumbnailCache();
-
+            ExporterProfile = new ExporterProfile();
 
             //
             this.CommandTable = new CommandTable();
@@ -201,6 +202,8 @@ namespace NeeView
             [DataMember]
             public ThumbnailProfile.Memento ThumbnailProfile { get; set; }
             [DataMember]
+            public ExporterProfile.Memento ExporterProfile { get; set; }
+            [DataMember]
             public InfoMessage.Memento InfoMessage { get; set; }
             [DataMember]
             public BookProfile.Memento BookProfile { get; set; }
@@ -265,6 +268,7 @@ namespace NeeView
             memento.SevenZipArchiverProfile = this.SevenZipArchiverProfile.CreateMemento();
             memento.ArchiverManager = this.ArchiverManager.CreateMemento();
             memento.ThumbnailProfile = this.ThumbnailProfile.CreateMemento();
+            memento.ExporterProfile = this.ExporterProfile.CreateMemento();
             memento.InfoMessage = this.InfoMessage.CreateMemento();
             memento.BookProfile = this.BookProfile.CreateMemento();
             memento.BookHub = this.BookHub.CreateMemento();
@@ -301,6 +305,7 @@ namespace NeeView
             this.SevenZipArchiverProfile.Restore(memento.SevenZipArchiverProfile);
             this.ArchiverManager.Restore(memento.ArchiverManager);
             this.ThumbnailProfile.Restore(memento.ThumbnailProfile);
+            this.ExporterProfile.Restore(memento.ExporterProfile);
             this.InfoMessage.Restore(memento.InfoMessage);
             this.BookProfile.Restore(memento.BookProfile);
             this.BookHub.Restore(memento.BookHub);

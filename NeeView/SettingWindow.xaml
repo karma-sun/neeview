@@ -575,12 +575,12 @@
 
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回保存したフォルダーを記憶する"
-                              IsChecked="{Binding Setting.ExporterMemento.IsEnableExportFolder}" />
+                              IsChecked="{Binding Setting.Memento.ExporterProfile.IsEnableExportFolder}" />
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="JPEG品質" ToolTip="変換が必要な場合にのみ使用されます"/>
-                                <Slider Style="{StaticResource ItemSlider}" x:Name="QualityLevelSlider" Value="{Binding Setting.ExporterMemento.QualityLevel}"
+                                <Slider Style="{StaticResource ItemSlider}" x:Name="QualityLevelSlider" Value="{Binding Setting.Memento.ExporterProfile.QualityLevel}"
                                     Minimum="5" Maximum="100" TickFrequency="5" />
-                                <TextBlock Text="{Binding Setting.ExporterMemento.QualityLevel}"/>
+                                <TextBlock Text="{Binding Setting.Memento.ExporterProfile.QualityLevel}"/>
                             </StackPanel>
                         </StackPanel>
 

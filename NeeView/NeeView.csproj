@@ -177,6 +177,7 @@
     <Compile Include="Controls\MenuBarView.xaml.cs">
       <DependentUpon>MenuBarView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExporterProfile.cs" />
     <Compile Include="FileIO.cs" />
     <Compile Include="FileIOProfile.cs" />
     <Compile Include="LongButtonDownMode.cs" />
@@ -415,7 +416,7 @@
       <DependentUpon>PageMarkersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Page\ArchivePage.cs" />
-    <Compile Include="Preference.cs" />
+    <Compile Include="Obsolete\Preference.cs" />
     <Compile Include="PropertyEditWindow.xaml.cs">
       <DependentUpon>PropertyEditWindow.xaml</DependentUpon>
     </Compile>
@@ -815,7 +816,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainWindowVM.cs" />
+    <Compile Include="Obsolete\MainWindowVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

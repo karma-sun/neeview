@@ -54,7 +54,7 @@ namespace NeeView
         }
 
         // Susie プラグインパス
-        public string _SusiePluginPath;
+        public string _SusiePluginPath = "";
         public string SusiePluginPath
         {
             get { return _SusiePluginPath; }
@@ -89,22 +89,37 @@ namespace NeeView
         /// <summary>
         /// Spi Files
         /// </summary>
-        public Dictionary<string, bool> SpiFiles { get; private set; } = new Dictionary<string, bool>();
+        public Dictionary<string, bool> SpiFiles
+        {
+            get { return _spiFiles; }
+            set
+            {
+                if (_spiFiles != value)
+                {
+                    _spiFiles = value ?? new Dictionary<string, bool>();
+                    Initialize();
+                }
+            }
+        }
+
+        private Dictionary<string, bool> _spiFiles = new Dictionary<string, bool>();
+
 
 
         // Susie 初期化
-        public void Initialize()
+        private void Initialize()
         {
-            Debug.Assert(IsSupportedSusie);
+            if (!IsSupportedSusie) return;
+            //Debug.Assert(IsSupportedSusie);
 
-            var list = ListUpSpiFiles(SpiFiles.Keys.ToList());
+            var list = ListUpSpiFiles(_spiFiles.Keys.ToList());
 
             // 新規
             Susie = new Susie.Susie();
             Susie.Load(list);
 
             // プラグイン有効/無効反映
-            foreach (var pair in SpiFiles)
+            foreach (var pair in _spiFiles)
             {
                 var plugin = Susie.GetPlugin(pair.Key);
                 if (plugin != null)
@@ -114,7 +129,7 @@ namespace NeeView
             }
 
             // 有効なプラグインリストに更新
-            SpiFiles = Memento.CreateSpiFiles(Susie);
+            _spiFiles = Memento.CreateSpiFiles(Susie);
 
             // Susie対応拡張子更新
             ArchiverManager.Current.UpdateSusieSupprtedFileTypes(Susie);
@@ -155,7 +170,7 @@ namespace NeeView
 
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -228,23 +243,26 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsEnableSusie = IsEnableSusie;
-            memento.SusiePluginPath = SusiePluginPath;
-            memento.IsFirstOrderSusieImage = IsFirstOrderSusieImage;
-            memento.IsFirstOrderSusieArchive = IsFirstOrderSusieArchive;
-            memento.SpiFiles = SpiFiles;
+            memento.IsEnableSusie = this.IsEnableSusie;
+            memento.SusiePluginPath = this.SusiePluginPath;
+            memento.IsFirstOrderSusieImage = this.IsFirstOrderSusieImage;
+            memento.IsFirstOrderSusieArchive = this.IsFirstOrderSusieArchive;
+            memento.SpiFiles = this.SpiFiles;
             return memento;
         }
 
         //
         public void Restore(Memento memento)
         {
-            IsEnableSusie = memento.IsEnableSusie;
-            SusiePluginPath = memento.SusiePluginPath;
-            IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
-            IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
-            SpiFiles = memento.SpiFiles;
+            if (memento == null) return;
 
+            this.IsEnableSusie = memento.IsEnableSusie;
+            this.SusiePluginPath = memento.SusiePluginPath;
+            this.IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
+            this.IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
+            this.SpiFiles = memento.SpiFiles;
+
+#if false
             if (IsSupportedSusie)
             {
                 // Susie使用可能な場合のみ初期化
@@ -255,8 +273,9 @@ namespace NeeView
                 Debug.WriteLine("Not support Susie (x86 only).");
                 return;
             }
+#endif
         }
 
-#endregion
+        #endregion
     }
 }

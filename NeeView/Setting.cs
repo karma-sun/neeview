@@ -22,21 +22,16 @@ namespace NeeView
     public class Setting
     {
         [DataMember]
-        public int _Version { get; set; } = NeeView.Config.Current .ProductVersionNumber;
-
+        public int _Version { get; set; } = Config.Current.ProductVersionNumber;
 
         [DataMember(Order = 1)]
         public SusieContext.Memento SusieMemento { get; set; }
-
 
         [DataMember(Order = 9998)]
         public CommandTable.Memento CommandMememto { set; get; }
 
         [DataMember(Order = 9998)]
         public DragActionTable.Memento DragActionMemento { set; get; }
-
-        [DataMember(Order = 4)]
-        public Exporter.Memento ExporterMemento { set; get; }
 
         [DataMember]
         public Models.Memento Memento { get; set; }
@@ -48,21 +43,27 @@ namespace NeeView
         public App.Memento App { get; set; }
 
 
-        // no used
+        #region Obsolete
+
         [Obsolete, DataMember(Order = 1, EmitDefaultValue = false)]
         public BookHub.Memento BookHubMemento { set; get; }
 
         [Obsolete, DataMember(Order = 1, EmitDefaultValue = false)]
         public MainWindowVM.Memento ViewMemento { set; get; } // no used (ver.23)
 
-        [Obsolete, DataMember(Order = 9999, EmitDefaultValue = false)]
-        public BookHistory.Memento BookHistoryMemento { set; get; } // no used
+        [Obsolete, DataMember(Order = 4)]
+        public Exporter.Memento ExporterMemento { set; get; }
+
+        [Obsolete, DataMember(Order = 14)]
+        public Preference.Memento PreferenceMemento { set; get; }
 
         [Obsolete, DataMember(Order = 17, EmitDefaultValue = false)]
         public ImageEffect.Memento ImageEffectMemento { get; set; } // no used (ver.22)
 
-        [Obsolete, DataMember(Order = 14)]
-        public Preference.Memento PreferenceMemento { set; get; }
+        [Obsolete, DataMember(Order = 9999, EmitDefaultValue = false)]
+        public BookHistory.Memento BookHistoryMemento { set; get; } // no used
+
+        #endregion
 
 
 
@@ -72,7 +73,6 @@ namespace NeeView
             SusieMemento = new SusieContext.Memento();
             CommandMememto = new CommandTable.Memento();
             DragActionMemento = new DragActionTable.Memento();
-            ExporterMemento = new Exporter.Memento();
         }
 
         //
@@ -87,7 +87,6 @@ namespace NeeView
         {
             Constructor();
         }
-
 
 
         // ファイルに保存

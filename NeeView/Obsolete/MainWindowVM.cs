@@ -26,6 +26,7 @@ namespace NeeView
     /// <summary>
     /// データ互換用
     /// </summary>
+    [Obsolete]
     public class MainWindowVM
     { 
         #region Memento

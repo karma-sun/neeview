@@ -137,7 +137,7 @@ namespace NeeView
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new SaveFileDialog();
-            dialog.InitialDirectory = Exporter.IsEnableExportFolder ? Exporter.ExportFolder : null;
+            dialog.InitialDirectory = ExporterProfile.Current.IsEnableExportFolder ? ExporterProfile.Current.ExportFolder : null;
             dialog.OverwritePrompt = true;
 
             dialog.AddExtension = true;

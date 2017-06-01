@@ -41,16 +41,12 @@ namespace NeeView
         {
             var setting = new Setting();
 
-            ////setting.ViewMemento = MainWindowVM.Current.CreateMemento();
+            setting.App = App.Current.CreateMemento();
+
             setting.SusieMemento = SusieContext.Current.CreateMemento();
-            ////setting.BookHubMemento = BookHub.Current.CreateMemento();
             setting.CommandMememto = CommandTable.Current.CreateMemento();
             setting.DragActionMemento = DragActionTable.Current.CreateMemento();
-            setting.ExporterMemento = Exporter.CreateMemento();
-            ////setting.PreferenceMemento = Preference.Current.CreateMemento();
 
-            // new memento
-            setting.App = App.Current.CreateMemento();
             setting.Memento = Models.Current.CreateMemento();
 
             return setting;
@@ -62,22 +58,10 @@ namespace NeeView
             App.Current.Restore(setting.App);
             WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 
-            ////Preference.Current.Restore(setting.PreferenceMemento);
-            ////Models.Current.ApplyPreference();
-            ////PreferenceAccessor.Current.Reflesh();
-
             SusieContext.Current.Restore(setting.SusieMemento);
-            ////BookHub.Current.Restore(setting.BookHubMemento);
-
             CommandTable.Current.Restore(setting.CommandMememto);
             DragActionTable.Current.Restore(setting.DragActionMemento);
 
-            // メニューのショートカット表示更新
-            ////InputGestureChanged?.Invoke(this, null);
-
-            Exporter.Restore(setting.ExporterMemento);
-
-            // new memento
             Models.Current.Resore(setting.Memento, fromLoad);
         }
 
@@ -104,6 +88,11 @@ namespace NeeView
                 Models.Current.ImageEffect.Restore(setting.ImageEffectMemento, fromLoad);
             }
 
+            if (setting.ExporterMemento != null)
+            {
+                Exporter.RestoreCompatible(setting.ExporterMemento);
+            }
+
             // Preference.Compatible
             if (setting.PreferenceMemento != null)
             {
@@ -111,6 +100,8 @@ namespace NeeView
                 preference.Restore(setting.PreferenceMemento);
                 preference.RestoreCompatible();
             }
+
+
 
             // Model.Compatible
             Models.Current.ResoreCompatible(setting.Memento);

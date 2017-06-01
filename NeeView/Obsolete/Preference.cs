@@ -16,8 +16,7 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// (旧)保存される静的設定情報。
-    /// 互換性のために残されています。
+    /// データ互換用
     /// </summary>
     [Obsolete]
     public class Preference

@@ -102,23 +102,6 @@ namespace NeeView
     /// </summary>
     public class Exporter
     {
-        #region Global Parameter
-
-        // そのまま出力
-        public static bool IsHintCloneDefault { get; set; } = true;
-
-        // JPG品質(1-100)
-        public static int QualityLevel { get; set; } = 80;
-
-        // 保存フォルダー
-        public static string ExportFolder { get; set; }
-
-        // 保存フォルダーのパスを保存する
-        public static bool IsEnableExportFolder { get; set; } = true;
-
-        #endregion
-
-
         // メッセージ処理：ファイル出力
         public bool ShowDialog()
         {
@@ -144,7 +127,7 @@ namespace NeeView
         public BitmapSource BitmapSource { get; set; }
 
         // そのまま出力するかのフラグ
-        public bool IsHintClone { get; set; } = IsHintCloneDefault;
+        public bool IsHintClone { get; set; } = ExporterProfile.Current.IsHintCloneDefault;
 
         // 背景ブラシ
         public Brush Background { get; set; }
@@ -295,8 +278,8 @@ namespace NeeView
         public void Export()
         {
             // デフォルト設定上書き
-            IsHintCloneDefault = IsHintClone;
-            ExportFolder = System.IO.Path.GetDirectoryName(Path);
+            ExporterProfile.Current.IsHintCloneDefault = IsHintClone;
+            ExporterProfile.Current.ExportFolder = System.IO.Path.GetDirectoryName(Path);
 
             // ファイルのクローン
             if (CanClone(true))
@@ -322,7 +305,7 @@ namespace NeeView
                     else
                     {
                         JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-                        encoder.QualityLevel = QualityLevel;
+                        encoder.QualityLevel = ExporterProfile.Current.QualityLevel;
                         encoder.Frames.Add(BitmapFrame.Create(BitmapSource));
                         encoder.Save(stream);
                     }
@@ -330,10 +313,10 @@ namespace NeeView
             }
         }
 
-        #region Memento
+        #region Memento (Obsolete)
 
         //
-        [DataContract]
+        [Obsolete, DataContract]
         public class Memento
         {
             [DataMember]
@@ -371,25 +354,18 @@ namespace NeeView
             }
         }
 
-        //
-        public static Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.IsHintCloneDefault = Exporter.IsHintCloneDefault;
-            memento.QualityLevel = Exporter.QualityLevel;
-            memento.ExportFolder = Exporter.ExportFolder;
-            memento.IsEnableExportFolder = Exporter.IsEnableExportFolder;
-            return memento;
-        }
+#pragma warning disable CS0612
 
         //
-        public static void Restore(Memento memento)
+        public static void RestoreCompatible(Memento memento)
         {
-            Exporter.IsHintCloneDefault = memento.IsHintCloneDefault;
-            Exporter.QualityLevel = memento.QualityLevel;
-            Exporter.ExportFolder = memento.ExportFolder;
-            Exporter.IsEnableExportFolder = memento.IsEnableExportFolder;
+            ExporterProfile.Current.IsHintCloneDefault = memento.IsHintCloneDefault;
+            ExporterProfile.Current.QualityLevel = memento.QualityLevel;
+            ExporterProfile.Current.ExportFolder = memento.ExportFolder;
+            ExporterProfile.Current.IsEnableExportFolder = memento.IsEnableExportFolder;
         }
+
+#pragma warning restore CS0612
 
         #endregion
     }

@@ -17,6 +17,8 @@ namespace NeeView
 {
     public partial class App : Application
     {
+        // ここでのパラメータは値の保持のみを行う。機能は提供しない。
+
         // マルチブートを許可する
         public bool IsMultiBootEnabled { get; set; }
 

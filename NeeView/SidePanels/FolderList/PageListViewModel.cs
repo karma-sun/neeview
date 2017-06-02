@@ -22,21 +22,6 @@ namespace NeeView
     /// </summary>
     public class PageListViewModel : BindableBase
     {
-        //
-        private BookHub _bookHub;
-
-        //
-        private void BookHub_ViewContentsChanged(object sender, ViewSource e)
-        {
-            var contents = e?.Sources;
-            if (contents == null) return;
-
-            var mainContent = contents.Count > 0 ? (contents.First().Position < contents.Last().Position ? contents.First() : contents.Last()) : null;
-            if (mainContent != null)
-            {
-                SelectedItem = mainContent.Page;
-            }
-        }
 
         public Dictionary<PageNameFormat, string> FormatList { get; } = new Dictionary<PageNameFormat, string>
         {
@@ -170,9 +155,8 @@ namespace NeeView
         {
             _model = model;
             _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
-
-            _bookHub = _model.BookHub;
-            _bookHub.ViewContentsChanged += BookHub_ViewContentsChanged;
+            _model.BookHub.ViewContentsChanged += BookHub_ViewContentsChanged;
+            _model.BookOperation.BookChanged += (s, e) => Reflesh();
 
             InitializeMoreMenu();
             UpdateListBoxContent();
@@ -180,11 +164,23 @@ namespace NeeView
             Reflesh();
         }
 
+        //
+        private void BookHub_ViewContentsChanged(object sender, ViewSource e)
+        {
+            var contents = e?.Sources;
+            if (contents == null) return;
+
+            var mainContent = contents.Count > 0 ? (contents.First().Position < contents.Last().Position ? contents.First() : contents.Last()) : null;
+            if (mainContent != null)
+            {
+                SelectedItem = mainContent.Page;
+            }
+        }
 
         //
         private void Reflesh()
         {
-            Title = System.IO.Path.GetFileName(_bookHub.Book?.Place);
+            Title = System.IO.Path.GetFileName(_model.BookOperation.Book?.Place);
 
             _pageSortMode = BookSetting.Current.BookMemento.SortMode;
             RaisePropertyChanged(nameof(PageSortMode));

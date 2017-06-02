@@ -760,15 +760,18 @@ namespace NeeView
                     Setting.CommandMememto[command.Key].Parameter = command.ParameterJson;
                 }
 
-                // プラグインリスト書き戻し
-                if (SusieContext.Current.Susie != null)
+                if (SusieContext.Current.IsSupportedSusie)
                 {
-                    SusieContext.Current.Susie.AMPlgunList = AMPluginList.ToList();
-                    SusieContext.Current.Susie.INPlgunList = INPluginList.ToList();
-                }
+                    // プラグインリスト書き戻し
+                    if (SusieContext.Current.Susie != null)
+                    {
+                        SusieContext.Current.Susie.AMPlgunList = AMPluginList.ToList();
+                        SusieContext.Current.Susie.INPlgunList = INPluginList.ToList();
+                    }
 
-                // Susie プラグインリスト保存
-                Setting.SusieMemento.SpiFiles = SusieContext.Memento.CreateSpiFiles(SusieContext.Current.Susie);
+                    // Susie プラグインリスト保存
+                    Setting.SusieMemento.SpiFiles = SusieContext.Memento.CreateSpiFiles(SusieContext.Current.Susie);
+                }
             }
             else
             {

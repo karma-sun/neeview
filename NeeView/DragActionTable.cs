@@ -163,31 +163,12 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public Dictionary<DragActionType, DragAction.Memento> Elements { get; set; }
+            public Dictionary<DragActionType, DragAction.Memento> Elements { get; set; } = new Dictionary<DragActionType, DragAction.Memento>();
 
             public DragAction.Memento this[DragActionType type]
             {
                 get { return Elements[type]; }
                 set { Elements[type] = value; }
-            }
-
-            //
-            private void Constructor()
-            {
-                Elements = new Dictionary<DragActionType, DragAction.Memento>();
-            }
-
-            //
-            public Memento()
-            {
-                Constructor();
-            }
-
-            //
-            [OnDeserializing]
-            private void Deserializing(StreamingContext c)
-            {
-                Constructor();
             }
 
             //
@@ -229,6 +210,8 @@ namespace NeeView
         //
         public void Restore(Memento memento)
         {
+            if (memento == null) return;
+
             foreach (var pair in memento.Elements)
             {
                 if (_elements.ContainsKey(pair.Key))
@@ -238,6 +221,6 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 }

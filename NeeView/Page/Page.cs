@@ -109,13 +109,6 @@ namespace NeeView
         /// </summary>
         public bool IsContentInfoAlive => IsContentAlived || Width != 0 || Height != 0;
 
-
-
-        // アニメーションGIF有効/無効フラグ
-        // TODO: ここじゃない
-        public static bool IsEnableAnimatedGif { get; set; }
-
-
         /// <summary>
         /// コンテンツ
         /// </summary>

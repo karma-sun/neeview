@@ -103,7 +103,7 @@ namespace NeeView
         {
             get
             {
-                switch (PreLoadMode)
+                switch (BookProfile.Current.PreLoadMode)
                 {
                     default:
                     case PreLoadMode.None:
@@ -121,12 +121,8 @@ namespace NeeView
         // 開放許可フラグ
         private bool AllowUnload
         {
-            get { return PreLoadMode != PreLoadMode.PreLoadNoUnload; }
+            get { return BookProfile.Current.PreLoadMode != PreLoadMode.PreLoadNoUnload; }
         }
-
-        // 先読みモード
-        // TODO: 環境設定
-        public PreLoadMode PreLoadMode { get; set; }
 
         // 先読み可能フラグ
         private bool _canPreLoad = true;
@@ -515,7 +511,7 @@ namespace NeeView
 
             if (entry.IsImage())
             {
-                if (Page.IsEnableAnimatedGif && LoosePath.GetExtension(entry.EntryName) == ".gif")
+                if (BookProfile.Current.IsEnableAnimatedGif && LoosePath.GetExtension(entry.EntryName) == ".gif")
                 {
                     page = new AnimatedPage(entry);
                 }
@@ -1257,7 +1253,7 @@ namespace NeeView
         // 先読み判定更新
         private void UpdatePreLoadStatus(List<ViewContentSource> contentsSource)
         {
-            if (PreLoadMode != PreLoadMode.AutoPreLoad) return;
+            if (BookProfile.Current.PreLoadMode != PreLoadMode.AutoPreLoad) return;
 
             UpdatePreLoadStatus(contentsSource.Select(e => e.Page));
         }
@@ -1268,7 +1264,7 @@ namespace NeeView
         /// <param name="page"></param>
         private void UpdatePreLoadStatus(IEnumerable<Page> pages)
         {
-            if (PreLoadMode != PreLoadMode.AutoPreLoad) return;
+            if (BookProfile.Current.PreLoadMode != PreLoadMode.AutoPreLoad) return;
 
             // 集計
             double size = 0;

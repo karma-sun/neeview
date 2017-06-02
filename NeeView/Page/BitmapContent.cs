@@ -20,9 +20,6 @@ namespace NeeView
     /// </summary>
     public class BitmapContent : PageContent
     {
-        // property.
-        public static bool IsEnableExif { get; set; } = true;
-
         // bitmap source
         public BitmapSource BitmapSource { get; protected set; }
 
@@ -52,7 +49,7 @@ namespace NeeView
         {
             try
             {
-                var bitmapLoader = new BitmapLoader(entry, IsEnableExif);
+                var bitmapLoader = new BitmapLoader(entry, BookProfile.Current.IsEnableExif);
                 var bitmap = await bitmapLoader.LoadAsync(token);
                 if (bitmap == null) throw new ApplicationException("画像の読み込みに失敗しました。");
 

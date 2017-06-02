@@ -102,13 +102,13 @@
                               IsChecked="{Binding Setting.Memento.ArchiverManager.IsEnabled}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="アニメーションGIFを再生する"
                               ToolTip="アニメーションGIF再生を行います。長時間のGIFで問題が発生する可能性があります"
-                              IsChecked="{Binding Setting.BookHubMemento.IsEnableAnimatedGif}" />
+                              IsChecked="{Binding Setting.Memento.BookProfile.IsEnableAnimatedGif}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="EXIFの回転情報を反映させる"
                               ToolTip="画像に含まれる拡張情報(EXIF)に回転情報がある場合に反映させます"
-                              IsChecked="{Binding Setting.BookHubMemento.IsEnableExif}" />
+                              IsChecked="{Binding Setting.Memento.BookProfile.IsEnableExif}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="サポート外ファイルもページに含める"
                               ToolTip="画像として表示できないファイルもページとして表示します"
-                              IsChecked="{Binding Setting.BookHubMemento.IsEnableNoSupportFile}" />
+                              IsChecked="{Binding Setting.Memento.BookProfile.IsEnableNoSupportFile}" />
 
                         </StackPanel>
 
@@ -137,7 +137,7 @@
                                         ToolTip="先読みは前後のページを保持するためメモリを消費します&#xa;「自動」にすると画像サイズに応じで先読み有効無効を切り替えます&#xa;「先読みする(開放なし)」は読み込んだ画像を開放しない最もメモリを消費するモードです">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="先読み"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PreLoadModeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.BookHubMemento. PreLoadMode}" />
+                                  SelectedValue="{Binding Setting.Memento.BookProfile.PreLoadMode}" />
                             </StackPanel>
                         </StackPanel>
 

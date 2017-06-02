@@ -207,61 +207,11 @@ namespace NeeView
         private bool _isLoading;
 
 
-
-
-        // アニメGIF 有効/無効
-        #region Property: IsEnableAnimatedGif
-        public bool IsEnableAnimatedGif
-        {
-            get { return Page.IsEnableAnimatedGif; }
-            set
-            {
-                if (Page.IsEnableAnimatedGif != value)
-                {
-                    Page.IsEnableAnimatedGif = value;
-                    Book?.RequestReflesh(this, true); // 表示更新
-                }
-            }
-        }
-        #endregion
-
-
-        #region Property: IsEnableExif
-        public bool IsEnableExif
-        {
-            get { return BitmapContent.IsEnableExif; }
-            set
-            {
-                if (BitmapContent.IsEnableExif != value)
-                {
-                    BitmapContent.IsEnableExif = value;
-                    Book?.RequestReflesh(this, true); // 表示更新
-                }
-            }
-        }
-        #endregion
-
-
-        // 非対応拡張子ファイルを読み込む
-        private bool _isEnableNoSupportFile;
-        public bool IsEnableNoSupportFile
-        {
-            get { return _isEnableNoSupportFile; }
-            set
-            {
-                if (_isEnableNoSupportFile != value)
-                {
-                    _isEnableNoSupportFile = value;
-                    ReLoad();
-                }
-            }
-        }
-
         // 再帰を確認する
         public bool IsConfirmRecursive { get; set; }
 
+
         // 自動再帰
-        #region Property: IsAutoRecursive
         private bool _isAutoRecursive = true;
         public bool IsAutoRecursive
         {
@@ -272,7 +222,6 @@ namespace NeeView
                 EntryCollection.IsAutoRecursive = _isAutoRecursive;
             }
         }
-        #endregion
 
         /// <summary>
         /// IsAutoRecursiveWithAllFiles property.
@@ -286,17 +235,6 @@ namespace NeeView
                 _isAutoRecursiveWithAllFiles = value;
                 EntryCollection.IsAutoRecursiveWithAllFiles = _isAutoRecursiveWithAllFiles;
             }
-        }
-
-
-        /// <summary>
-        /// PreLoadMode property.
-        /// </summary>
-        private PreLoadMode _preLoadMode = PreLoadMode.AutoPreLoad;
-        public PreLoadMode PreLoadMode
-        {
-            get { return _preLoadMode; }
-            set { if (_preLoadMode != value) { _preLoadMode = value; RaisePropertyChanged(); } }
         }
 
 
@@ -334,11 +272,8 @@ namespace NeeView
                 await current.Book?.DisposeAsync();
             }
         }
-
-
-
+        
         // アドレス
-        #region Property: Address
         private string _address;
         public string Address
         {
@@ -350,10 +285,8 @@ namespace NeeView
                 BookHistory.Current.LastAddress = _address;
             }
         }
-        #endregion
 
-
-
+        
         // command engine
         private BookHubCommandEngine _commandEngine;
 
@@ -362,6 +295,7 @@ namespace NeeView
 
         //
         private BookSetting _bookSetting;
+
 
         // コンストラクタ
         public BookHub(BookSetting bookSetting)
@@ -703,11 +637,8 @@ namespace NeeView
                 book.Restore(setting);
             }
 
-            // 先読み設定
-            book.PreLoadMode = this.PreLoadMode;
-
             // 全種類ファイルサポート設定
-            if (IsEnableNoSupportFile)
+            if (BookProfile.Current.IsEnableNoSupportFile)
             {
                 option |= BookLoadOption.SupportAllFile;
             }
@@ -884,16 +815,7 @@ namespace NeeView
         public class Memento : BindableBase
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current .ProductVersionNumber;
-
-            [DataMember]
-            public bool IsEnableAnimatedGif { get; set; }
-
-            [DataMember(Order = 1)]
-            public bool IsEnableExif { get; set; }
-
-            [DataMember]
-            public bool IsEnableNoSupportFile { get; set; }
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
 
             [DataMember(Order = 6)]
             public bool IsConfirmRecursive { get; set; }
@@ -904,11 +826,21 @@ namespace NeeView
             [DataMember(Order = 22)]
             public bool IsAutoRecursiveWithAllFiles { get; set; }
 
-            [DataMember(Order = 19)]
+
+            #region Obslete
+
+            [Obsolete, DataMember]
+            public bool IsEnableAnimatedGif { get; set; }
+
+            [Obsolete, DataMember(Order = 1)]
+            public bool IsEnableExif { get; set; }
+
+            [Obsolete, DataMember]
+            public bool IsEnableNoSupportFile { get; set; }
+
+            [Obsolete, DataMember(Order = 19)]
             public PreLoadMode PreLoadMode { get; set; }
 
-
-            //
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsEnabledAutoNextFolder { get; set; } // no used
 
@@ -954,29 +886,9 @@ namespace NeeView
             [Obsolete, DataMember(Order = 20, EmitDefaultValue = false)]
             public string Home { get; set; } // no used (ver.23)
 
+            #endregion
 
-#if false
-            //
-            private void Constructor()
-            {
-                //IsEnableNoSupportFile = false;
-                //IsAutoRecursive = true;
-                //IsAutoRecursiveWithAllFiles = true;
-                //PreLoadMode = PreLoadMode.AutoPreLoad;
-            }
 
-            public Memento()
-            {
-                _Version = Config.Current .ProductVersionNumber;
-                Constructor();
-            }
-
-            [OnDeserializing]
-            private void Deserializing(StreamingContext c)
-            {
-                Constructor();
-            }
-#endif
 
 #pragma warning disable CS0612
 
@@ -1002,15 +914,11 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento._Version = Config.Current .ProductVersionNumber;
+            memento._Version = Config.Current.ProductVersionNumber;
 
-            memento.IsEnableAnimatedGif = IsEnableAnimatedGif;
-            memento.IsEnableExif = IsEnableExif;
-            memento.IsEnableNoSupportFile = IsEnableNoSupportFile;
             memento.IsConfirmRecursive = IsConfirmRecursive;
             memento.IsAutoRecursive = IsAutoRecursive;
             memento.IsAutoRecursiveWithAllFiles = IsAutoRecursiveWithAllFiles;
-            memento.PreLoadMode = PreLoadMode;
 
             return memento;
         }
@@ -1020,13 +928,9 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
-            IsEnableExif = memento.IsEnableExif;
-            IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
             IsConfirmRecursive = memento.IsConfirmRecursive;
             IsAutoRecursive = memento.IsAutoRecursive;
             IsAutoRecursiveWithAllFiles = memento.IsAutoRecursiveWithAllFiles;
-            PreLoadMode = memento.PreLoadMode;
         }
 
 
@@ -1049,6 +953,11 @@ namespace NeeView
             {
                 ArchiverManager.Current.IsEnabled = memento.IsSupportArchiveFile;
 
+                BookProfile.Current.PreLoadMode = memento.PreLoadMode;
+                BookProfile.Current.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
+                BookProfile.Current.IsEnableExif = memento.IsEnableExif;
+                BookProfile.Current.IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
+
                 BookOperation.Current.PageEndAction = memento.PageEndAction;
                 BookOperation.Current.ExternalApplication = memento.ExternalApplication.Clone();
                 BookOperation.Current.ClipboardUtility = memento.ClipboardUtility.Clone();
@@ -1065,7 +974,7 @@ namespace NeeView
 #pragma warning restore CS0612
 
 
-#endregion
+        #endregion
     }
 }
 

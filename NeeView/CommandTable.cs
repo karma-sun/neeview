@@ -1842,7 +1842,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public Dictionary<CommandType, CommandElement.Memento> Elements { get; set; }
+            public Dictionary<CommandType, CommandElement.Memento> Elements { get; set; } = new Dictionary<CommandType, CommandElement.Memento>();
 
             //
             public CommandElement.Memento this[CommandType type]
@@ -1851,24 +1851,6 @@ namespace NeeView
                 set { Elements[type] = value; }
             }
 
-            //
-            private void Constructor()
-            {
-                Elements = new Dictionary<CommandType, CommandElement.Memento>();
-            }
-
-            //
-            public Memento()
-            {
-                Constructor();
-            }
-
-            //
-            [OnDeserializing]
-            private void Deserializing(StreamingContext c)
-            {
-                Constructor();
-            }
 
             //
             public Memento Clone()
@@ -1940,6 +1922,6 @@ namespace NeeView
             Changed?.Invoke(this, null);
         }
 
-        #endregion
+#endregion
     }
 }

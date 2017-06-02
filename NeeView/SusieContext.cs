@@ -27,6 +27,8 @@ namespace NeeView
         public SusieContext()
         {
             Current = this;
+
+            this.Susie = new Susie.Susie();
         }
 
         /// <summary>
@@ -97,7 +99,7 @@ namespace NeeView
                 if (_spiFiles != value)
                 {
                     _spiFiles = value ?? new Dictionary<string, bool>();
-                    Initialize();
+                    SetupSusie();
                 }
             }
         }
@@ -107,10 +109,10 @@ namespace NeeView
 
 
         // Susie 初期化
-        private void Initialize()
+        private void SetupSusie()
         {
             if (!IsSupportedSusie) return;
-            //Debug.Assert(IsSupportedSusie);
+
 
             var list = ListUpSpiFiles(_spiFiles.Keys.ToList());
 
@@ -190,24 +192,6 @@ namespace NeeView
             [DataMember]
             public Dictionary<string, bool> SpiFiles { get; set; }
 
-
-            private void Constructor()
-            {
-                SusiePluginPath = "";
-                SpiFiles = new Dictionary<string, bool>();
-            }
-
-            public Memento()
-            {
-                Constructor();
-            }
-
-            [OnDeserializing]
-            private void Deserializing(StreamingContext c)
-            {
-                Constructor();
-            }
-
             // Susieインスタンスから SpiFiles を生成する
             public static Dictionary<string, bool> CreateSpiFiles(global::Susie.Susie susie)
             {
@@ -261,21 +245,8 @@ namespace NeeView
             this.IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
             this.IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
             this.SpiFiles = memento.SpiFiles;
-
-#if false
-            if (IsSupportedSusie)
-            {
-                // Susie使用可能な場合のみ初期化
-                Initialize();
-            }
-            else
-            {
-                Debug.WriteLine("Not support Susie (x86 only).");
-                return;
-            }
-#endif
         }
 
-        #endregion
+#endregion
     }
 }

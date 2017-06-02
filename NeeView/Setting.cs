@@ -66,29 +66,6 @@ namespace NeeView
         #endregion
 
 
-
-        //
-        private void Constructor()
-        {
-            SusieMemento = new SusieContext.Memento();
-            CommandMememto = new CommandTable.Memento();
-            DragActionMemento = new DragActionTable.Memento();
-        }
-
-        //
-        public Setting()
-        {
-            Constructor();
-        }
-
-        //
-        [OnDeserializing]
-        private void Deserializing(StreamingContext c)
-        {
-            Constructor();
-        }
-
-
         // ファイルに保存
         public void Save(string path)
         {

@@ -66,15 +66,6 @@ namespace NeeView
             // レイヤー表示管理初期化
             InitializeLayerVisibility();
 
-
-            // TODO: 定義場所の変更を検討
-            Config.Current.LocalApplicationDataRemoved +=
-                (s, e) =>
-                {
-                    SaveData.Current.IsEnableSave = false; // 保存禁止
-                    this.Close();
-                };
-
             //
             models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsHideMenu),
                 (s, e) => UpdateMenuAreaLayout());
@@ -132,6 +123,10 @@ namespace NeeView
             // moue event for window shape
             this.PreviewMouseMove += MainWindow_PreviewMouseMove;
 
+            // ダブルクリック後のクリックを無効にする
+            this.PreviewMouseDoubleClick += MainWindow_PreviewMouseDoubleClick;
+            this.PreviewMouseLeftButtonUp += MainWindow_PreviewMouseLetButtonUp;
+
             // cancel rename triggers
             this.MouseLeftButtonDown += (s, e) => this.RenameManager.Stop();
             this.MouseRightButtonDown += (s, e) => this.RenameManager.Stop();
@@ -140,6 +135,7 @@ namespace NeeView
             // 開発用初期化
             Debug_Initialize();
         }
+
 
 
         /// <summary>
@@ -467,6 +463,27 @@ namespace NeeView
         {
             // パネル表示状態更新
             UpdateControlsVisibility();
+        }
+
+
+
+        //
+        private bool _skipMouseClick;
+
+        //
+        private void MainWindow_PreviewMouseLetButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (_skipMouseClick)
+            {
+                _skipMouseClick = false;
+                e.Handled = true;
+            }
+        }
+
+        //
+        private void MainWindow_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            _skipMouseClick = true;
         }
 
 

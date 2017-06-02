@@ -247,6 +247,14 @@ namespace NeeView
             BookHub.Current.BookChanged +=
                 (s, e) => CommandManager.InvalidateRequerySuggested();
 
+            //
+            Config.Current.LocalApplicationDataRemoved +=
+                (s, e) =>
+                {
+                    SaveData.Current.IsEnableSave = false; // 保存禁止
+                    App.Current.MainWindow.Close();
+                };
+
 
             // TODO: アプリの初期化処理で行うべき
             // ダウンロードフォルダー生成

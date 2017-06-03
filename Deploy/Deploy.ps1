@@ -244,7 +244,7 @@ function New-Msi($arch, $packageDir, $packageMsi)
 
 	$ErrorActionPreference = "stop"
 
-	& $candle  -d"Platform=$arch" -d"BuildVersion=$buildVersion" -d"ProductVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries" -ext WixNetFxExtension -out "$objDir\\"  WixSource\*.wxs
+	& $candle -d"Platform=$arch" -d"BuildVersion=$buildVersion" -d"ProductVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries" -ext WixNetFxExtension -out "$objDir\\"  WixSource\*.wxs
 	if ($? -ne $true)
 	{
 		throw "candle error"
@@ -340,8 +340,8 @@ if (($Target -eq "All") -or ($Target -eq "Installer"))
 	New-PackageAppend $packageDir
 	New-Msi "x64" $packageDir $packageX64Msi
 	Write-Host "`nExport $packageX64Msi successed.`n" -fore Green
-	New-Msi "x86" $packageDir $packageX86Msi
-	Write-Host "`nExport $packageX86Msi successed.`n" -fore Green
+	#New-Msi "x86" $packageDir $packageX86Msi
+	#Write-Host "`nExport $packageX86Msi successed.`n" -fore Green
 }
 
 # current

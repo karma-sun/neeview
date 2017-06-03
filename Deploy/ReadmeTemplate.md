@@ -16,7 +16,7 @@
   * スライドショー機能
   * マルチスレッド、先読み対応
   * Webブラウザからの画像ドロップ
-  * Susieプラグイン対応(UNICODEファイル名可)(※NeeViewS版のみ)
+  * Susieプラグイン対応(UNICODEファイル名可)(※NeeViewSのみ)
 
   詳細は以下のページを参照してください。
   
@@ -29,16 +29,16 @@
   * .Net 4.6.2 以降が必要です。起動しない場合は [Microsoft ダウンロードセンター](https://www.microsoft.com/ja-jp/download/details.aspx?id=53345) から入手してインストールしてください。
 
 
-## NeeView.exe と NeeViewS.exe
+## NeeView と NeeViewS
 
-  NeeView.exe と NeeViewS.exe の２種類の実行ファイルがあります。  
+  NeeView と NeeViewS の２種類の実行ファイルがあります。  
   NeeView は通常版です。  
   NeeViewS はSusieプラグインに対応していますが、32bit動作になります。
 
   |    |64bitOS|32bitOS|Susie|
   |----|----|----|----|----
-  |NeeView.exe|○|○|✕|
-  |NeeViewS.exe|○※|○|○|※32bitで動作
+  |NeeView|○|○|✕|
+  |NeeViewS|○※|○|○|※32bitで動作
 
 
 ## インストール・アンインストール方法
@@ -47,7 +47,7 @@
 
   * NeeView<VERSION/>.zip
 
-  NeeView.exe と NeeViewS.exe 両方の実行ファイルが含まれています。
+  NeeView と NeeViewS 両方の実行ファイルが含まれています。
   設定ファイルは共通です。
 
   インストール不要です。Zipを展開後、そのまま `NeeView.exe` もしくは `NeeViewS.exe` を実行してください。  
@@ -58,20 +58,17 @@
 ### インストーラー版
 
   * NeeView<VERSION/>.msi
-  * NeeViewS<VERSION/>.msi
 
-  NeeView版とNeeViewS版でインストーラーが別れています。  
-  同時にインストールすることは可能ですが、設定ファイルが共有されることにご注意ください。  
+  NeeView と NeeViewS 両方の実行ファイルが含まれています。
+  設定ファイルは共通です。
 
   実行するとインストールが開始されます。インストーラーの指示に従ってください。  
   設定ファイル等ユーザーデータは各ユーザのアプリデータフォルダーに保存されます。  
   このフォルダーは NeeView のメニューの「その他」＞「設定ファイルの場所を開く」で確認できます。  
   
   アンインストールはOSのアプリ管理機能からアンイントールします。  
-  ただし、設定データ等のユーザデータはアンインストールだけでは消えませんのでご注意ください。
+  ただし、設定データ等のユーザデータはアンインストールだけでは消えません。
   手動で消すか、アンインストール前に NeeView の設定の「全般設定」の一番下にある「全データを削除する」(インストール版のみの機能)を実行してください。
-
-
 
 ## 連絡先
 

@@ -194,6 +194,7 @@
     </Compile>
     <Compile Include="BookOperation.cs" />
     <Compile Include="DelayVisibility.cs" />
+    <Compile Include="DragStart.cs" />
     <Compile Include="SidePanels\FolderList\PageListBox.xaml.cs">
       <DependentUpon>PageListBox.xaml</DependentUpon>
     </Compile>

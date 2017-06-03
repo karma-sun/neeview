@@ -459,6 +459,18 @@ namespace NeeView
             RequestSetPosition(this, position, direction, true);
         }
 
+        /// <summary>
+        /// アーカイブファイルロック解除
+        /// </summary>
+        /// <returns></returns>
+        public void Unlock()
+        {
+            var archivers = this.Pages.Select(e => e.Entry.Archiver).Distinct().Where(e => e != null);
+            foreach(var archiver in archivers)
+            {
+                archiver.Unlock();
+            }
+        }
 
         /// <summary>
         /// サムネイル参照イベント処理
@@ -1531,43 +1543,12 @@ namespace NeeView
             public DateTime LastAccessTime { get; set; }
 
 
-#if false
-            /// <summary>
-            /// construcgtor
-            /// </summary>
-            private void Constructor()
-            {
-                //PageMode = PageMode.SinglePage;
-                //IsSupportedWidePage = true;
-            }
-
-            //
-            public Memento()
-            {
-                Constructor();
-            }
-
-            //
-            [OnDeserializing]
-            private void Deserializing(StreamingContext c)
-            {
-                Constructor();
-            }
-
-            [OnDeserialized]
-            private void Deserialized(StreamingContext c)
-            {
-            }
-#endif
-
             //
             public Memento Clone()
             {
                 return (Memento)this.MemberwiseClone();
             }
-
-
-
+            
 
             /// <summary>
             /// 項目のフィルタリング。フラグの立っている項目を上書き

@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace NeeView
 {
@@ -72,6 +73,7 @@ namespace NeeView
                 (s, e) => this.ListContent?.FocusSelectedItem(true); // TODO: 引数つかってないよ？
 
             InitializeMoreMenu(_model.FolderPanel);
+            InitializeDragStart();
 
             UpdateListContent();
         }
@@ -213,6 +215,50 @@ namespace NeeView
 
         #endregion
 
+        #region DragStart
+
+        private DragStart _dragStart;
+        private FolderItem _dragFolderItem;
+
+        //
+        private void InitializeDragStart()
+        {
+            _dragStart = new DragStart();
+
+            // ドラッグ中のファイルロック禁止
+            _dragStart.Dragging +=
+                (s, e) =>
+                {
+                    SevenZipArchiverProfile.Current.IsUnlockMode = true;
+                    if (_dragFolderItem?.Path == BookOperation.Current.Place) BookOperation.Current.Unlock();
+                };
+
+            _dragStart.Dragged +=
+                (s, e) => SevenZipArchiverProfile.Current.IsUnlockMode = false;
+        }
+
+        //
+        public void Drag_MouseDown(object sender, MouseButtonEventArgs e, FolderItem folderItem)
+        {
+            if (!FileIOProfile.Current.IsEnabled) return;
+            _dragFolderItem = folderItem;
+            _dragStart.Drag_MouseDown(sender, e, folderItem.GetFileDragData(), DragDropEffects.All);
+        }
+
+        //
+        public void Drag_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _dragStart.Drag_MouseUp(sender, e);
+        }
+
+        //
+        public void Drag_MouseMove(object sender, MouseEventArgs e)
+        {
+            _dragStart.Drag_MouseMove(sender, e);
+        }
+
+        #endregion
+
 
 
         /// <summary>
@@ -289,7 +335,7 @@ namespace NeeView
             return _model.History.GetHistory(direction, size);
         }
 
-        
+
         /// <summary>
         /// MoveToHistory command.
         /// </summary>
@@ -342,7 +388,7 @@ namespace NeeView
             set { if (_isRenaming != value) { _isRenaming = value; RaisePropertyChanged(); } }
         }
 
-        
+
         /// <summary>
         /// ListContent property.
         /// </summary>

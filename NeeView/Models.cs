@@ -121,7 +121,7 @@ namespace NeeView
             this.MouseInputContext = new MouseInputContext();
             this.MouseInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow);
             this.MouseInput = new MouseInput(this.MouseInputContext);
-            this.ContentDropManager = new ContentDropManager(window);
+            this.ContentDropManager = new ContentDropManager(window.MainView);
 
 
             this.InfoMessage = new InfoMessage();

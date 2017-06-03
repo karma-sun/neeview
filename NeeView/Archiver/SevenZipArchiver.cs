@@ -82,7 +82,7 @@ namespace NeeView
         {
             if (_extractor != null)
             {
-                if (isForce || SevenZipArchiverProfile.Current.LockTime == 0)
+                if (isForce || SevenZipArchiverProfile.Current.LockTime == 0 || SevenZipArchiverProfile.Current.IsUnlockMode)
                 {
                     _extractor.Dispose();
                     _extractor = null;
@@ -199,6 +199,11 @@ namespace NeeView
             _source = new SevenZipSource(Path, s_lock);
         }
 
+        //
+        public override void Unlock()
+        {
+            _source?.Close(true);
+        }
 
         //
         public override bool IsDisposed => _isDisposed;

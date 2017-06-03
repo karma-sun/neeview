@@ -224,6 +224,9 @@
                 <EventSetter Event="PreviewMouseLeftButtonUp" Handler="FolderListItem_MouseSingleClick"/>
                 <EventSetter Event="PreviewMouseDoubleClick" Handler="FolderListItem_MouseDoubleClick"/>
                 <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown"/>
+                <EventSetter Event="PreviewMouseDown" Handler="FolderListItem_MouseDown"/>
+                <EventSetter Event="PreviewMouseUp" Handler="FolderListItem_MouseUp"/>
+                <EventSetter Event="PreviewMouseMove" Handler="FolderListItem_MouseMove"/>
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
                 <Setter Property="Tag" Value="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
                 <Setter Property="ContextMenu">

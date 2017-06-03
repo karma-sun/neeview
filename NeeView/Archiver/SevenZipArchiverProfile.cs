@@ -24,8 +24,8 @@ namespace NeeView
         public double LockTime { get; set; } = -1.0;
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".7z;.rar;.lzh");
 
-
-
+        // 強制アンロックモード
+        public bool IsUnlockMode { get; set; }
 
         #region Memento
         [DataContract]

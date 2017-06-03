@@ -148,6 +148,9 @@ namespace NeeView
         public Book Book => _bookUnit?.Book;
 
         //
+        public string Place => _bookUnit?.Book.Place;
+
+        //
         public bool IsValid => _bookUnit != null;
 
 
@@ -212,6 +215,15 @@ namespace NeeView
         public int GetPageCount()
         {
             return this.Book == null ? 0 : this.Book.Pages.Count;
+        }
+
+
+        /// <summary>
+        /// ファイルロック解除
+        /// </summary>
+        public void Unlock()
+        {
+            this.Book?.Unlock();
         }
 
 

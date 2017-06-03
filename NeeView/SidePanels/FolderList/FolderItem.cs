@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -104,6 +105,12 @@ namespace NeeView
 
         public static bool IsVisibleHistoryMark { get; set; } = true;
         public static bool IsVisibleBookmarkMark { get; set; } = true;
+
+        // エクスプローラーへのドラッグオブジェクト
+        public DataObject GetFileDragData()
+        {
+            return new DataObject(DataFormats.FileDrop, new string[] { this.Path });
+        }
 
         // パスの存在チェック
         public bool IsExist()

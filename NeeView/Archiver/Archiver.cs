@@ -141,6 +141,13 @@ namespace NeeView
 
 
         /// <summary>
+        /// ファイルロック解除
+        /// </summary>
+        public virtual void Unlock()
+        {
+        }
+
+        /// <summary>
         /// エントリリストを取得
         /// </summary>
         /// <param name="token"></param>

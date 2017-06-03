@@ -3,8 +3,8 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
-using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,7 +59,7 @@ namespace NeeView
             this.ListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
             _thumbnailHelper = new ThumbnailHelper(this.ListBox, _vm.Model.RequestThumbnail);
         }
-        
+
 
         //
         private FolderListViewModel _vm;
@@ -68,7 +68,7 @@ namespace NeeView
         // TODO: Behaviour化できないかな？
         private ThumbnailHelper _thumbnailHelper;
 
-        
+
 
         #region RoutedCommand
 
@@ -392,6 +392,28 @@ namespace NeeView
                     e.Handled = true;
                 }
             }
+        }
+
+
+        //
+        private void FolderListItem_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
+            if (folderInfo == null) return;
+
+            _vm.Drag_MouseDown(sender, e, folderInfo);
+        }
+
+        //
+        private void FolderListItem_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _vm.Drag_MouseUp(sender, e);
+        }
+
+        //
+        private void FolderListItem_MouseMove(object sender, MouseEventArgs e)
+        {
+            _vm.Drag_MouseMove(sender, e);
         }
 
         #endregion

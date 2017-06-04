@@ -208,16 +208,12 @@ namespace NeeView.Utility
             get { return _queue.Count + (_command != null ? 1 : 0); }
         }
 
-        //
-        private bool _isActive;
-
         /// <summary>
         /// 初期化
         /// ワーカータスク起動
         /// </summary>
         private void Initialize()
         {
-            if (_isActive) return;
             _cancellationTokenSource = new CancellationTokenSource();
             Task.Run(async () => await WorkerAsync(_cancellationTokenSource.Token));
         }
@@ -227,13 +223,10 @@ namespace NeeView.Utility
         /// </summary>
         private void Dispose()
         {
-            if (!_isActive) return;
-
             lock (_lock)
             {
                 _cancellationTokenSource?.Cancel();
                 _command?.Cancel();
-                _isActive = false;
             }
         }
 

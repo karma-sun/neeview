@@ -37,7 +37,7 @@ namespace NeeView
             if (collection == null) return;
 
             ////bool isCollection = collection is System.Collections.ICollection;
-            ////Debug.WriteLine($"RequestThumbnail: {priority} ({start} - {start + count}) {collection.GetType().Name}");
+            ////Debug.WriteLine($"RequestThumbnail: {priority}, ({start}, {count}, {margin}) {collection.GetType().Name}");
 
             // 未処理の要求を解除
             JobEngine.Current.Clear(priority);
@@ -45,7 +45,13 @@ namespace NeeView
             // 要求
             int center = start + count / 2;
             int collectionCount = collection.Count();
-            var pages = Enumerable.Range(start - margin, count + margin * 2)
+            int rangeStart = Math.Max(0, start - margin);
+            int rangeCount = Math.Min(count + margin * 2, collectionCount - rangeStart);
+
+            // 更新数０以下ならば何もしない
+            if (rangeCount <= 0) return;
+
+            var pages = Enumerable.Range(rangeStart, rangeCount)
                 .Where(i => i >= 0 && i < collectionCount)
                 .Select(e => collection.ElementAt(e));
 

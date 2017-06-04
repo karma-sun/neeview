@@ -69,6 +69,12 @@ namespace NeeView
         private ThumbnailHelper _thumbnailHelper;
 
 
+        // サムネイルの更新要求 (テスト用)
+        public void UpdateThumbnail()
+        {
+            _thumbnailHelper.UpdateThumbnails(1);
+        }
+
 
         #region RoutedCommand
 
@@ -238,21 +244,6 @@ namespace NeeView
 
 
         /// <summary>
-        /// 表示更新イベント処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FolderList_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if ((bool)e.NewValue)
-            {
-                ////await Task.Yield();
-                FocusSelectedItem(true);
-                ////_vm.FocusSelectedItem(true);
-            }
-        }
-
-        /// <summary>
         /// スクロール変更イベント処理
         /// </summary>
         /// <param name="sender"></param>
@@ -266,12 +257,18 @@ namespace NeeView
 
         #region list event process
 
+        // 最後のフォーカスフラグ
+        // ロード前のフォーカス設定を反映させるため
+        private bool _lastFocusRequest;
+
         /// <summary>
         /// フォーカス取得
         /// </summary>
         /// <param name="isFocus"></param>
         public void FocusSelectedItem(bool isFocus)
         {
+            _lastFocusRequest = isFocus;
+
             if (this.ListBox.SelectedIndex < 0) return;
 
             // 選択項目が表示されるようにスクロール
@@ -287,8 +284,7 @@ namespace NeeView
         //
         private void FolderList_Loaded(object sender, RoutedEventArgs e)
         {
-            // FolderListChangedイベント処理するようにしたため、不要
-            // nop.
+            FocusSelectedItem(_lastFocusRequest);
         }
 
         private void FolderList_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)

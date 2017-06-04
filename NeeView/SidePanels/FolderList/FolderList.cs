@@ -54,6 +54,9 @@ namespace NeeView
         // 項目のフォーカス制御に使用する
         public event EventHandler<SelectedChangedEventArgs> SelectedChanged;
 
+        // FolderCollection総入れ替え
+        public event EventHandler CollectionChanged;
+
         #endregion
 
 
@@ -154,7 +157,7 @@ namespace NeeView
                 {
                     _folderCollection?.Dispose();
                     _folderCollection = value;
-                    RaisePropertyChanged();
+                    CollectionChanged?.Invoke(this, null);
                     RaisePropertyChanged(nameof(FolderOrder));
                 }
             }
@@ -243,14 +246,7 @@ namespace NeeView
         /// <param name="place"></param>
         public void ResetPlace(string place)
         {
-            SetPlace(place ?? GetFixedHome(), null, false);
-        }
-
-        //
-        public void SetPlace(string place, string select, bool isFocus)
-        {
-            var oprions = (isFocus ? FolderSetPlaceOption.IsFocus : FolderSetPlaceOption.None) | FolderSetPlaceOption.IsUpdateHistory;
-            SetPlace(place, select, oprions);
+            SetPlace(place ?? GetFixedHome(), null, FolderSetPlaceOption.IsUpdateHistory);
         }
 
         /// <summary>
@@ -274,18 +270,18 @@ namespace NeeView
                 select = null;
             }
 
-            // 更新が必要であれば、新しいFolderListViewを作成する
+            // 更新が必要であれば、新しいFolderListBoxを作成する
             if (CheckFolderListUpdateneNcessary(place))
             {
                 _isDarty = false;
 
                 // FolderCollection 更新
                 var collection = CreateFolderCollection(place);
-                collection.ParameterChanged += (s, e) => App.Current?.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true, false); }));
+                collection.ParameterChanged += (s, e) => App.Current?.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true); }));
                 collection.Deleting += FolderCollection_Deleting;
                 this.FolderCollection = collection;
                 this.SelectedIndex = FixedIndexOfPath(select);
-
+                
                 FocusSelectedItem(options.HasFlag(FolderSetPlaceOption.IsFocus));
 
                 // 最終フォルダー更新
@@ -372,15 +368,13 @@ namespace NeeView
         /// フォルダーリスト更新
         /// </summary>
         /// <param name="force">必要が無い場合も更新する</param>
-        /// <param name="isFocus">フォーカスを取得する</param>
-        public void Reflesh(bool force, bool isFocus)
+        public void Reflesh(bool force)
         {
             if (this.FolderCollection == null) return;
 
             _isDarty = force || this.FolderCollection.IsDarty();
 
-            var options = (isFocus ? FolderSetPlaceOption.IsFocus : FolderSetPlaceOption.None) | FolderSetPlaceOption.IsUpdateHistory;
-            SetPlace(_place, null, options);
+            SetPlace(_place, null, FolderSetPlaceOption.IsUpdateHistory);
         }
 
 
@@ -419,7 +413,7 @@ namespace NeeView
                 if (this.FolderCollection == null || this.FolderCollection.Contains(e.Path)) return;
             }
 
-            var options = (e.IsFocus ? FolderSetPlaceOption.IsFocus : FolderSetPlaceOption.None) | FolderSetPlaceOption.IsUpdateHistory;
+            var options = FolderSetPlaceOption.IsUpdateHistory;
             SetPlace(System.IO.Path.GetDirectoryName(e.Path), e.Path, options);
         }
 

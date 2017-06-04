@@ -80,7 +80,7 @@ namespace NeeView
             int count;
 
             if (scrollUnit == ScrollUnit.Item)
-            { 
+            {
                 start = (int)_listPanel.VerticalOffset;
                 count = (int)_listPanel.ViewportHeight;
             }
@@ -93,6 +93,14 @@ namespace NeeView
             }
             else
             {
+                return;
+            }
+
+            // タイミングにより計算値が不正になることがある対策
+            // 再現性が低い
+            if (count < 0)
+            {
+                Debug.WriteLine($"Error Value!: {count}");
                 return;
             }
 

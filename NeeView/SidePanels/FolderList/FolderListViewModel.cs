@@ -8,6 +8,7 @@ using NeeView.Windows.Input;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -70,12 +71,24 @@ namespace NeeView
                 (s, e) => MoveToUp.RaiseCanExecuteChanged();
 
             _model.SelectedChanged +=
-                (s, e) => this.ListContent?.FocusSelectedItem(true); // TODO: 引数つかってないよ？
+                (s, e) => this.ListContent?.FocusSelectedItem(e.IsFocus);
+
+            _model.CollectionChanged +=
+                Model_CollectionChanged;
 
             InitializeMoreMenu(_model.FolderPanel);
             InitializeDragStart();
 
             UpdateListContent();
+        }
+
+        //
+        internal void IsVisibleChanged(bool isVisibled)
+        {
+            if (isVisibled)
+            {
+                this.ListContent?.FocusSelectedItem(true);
+            }
         }
 
 
@@ -97,7 +110,17 @@ namespace NeeView
             }
         }
 
+        //
+        private void Model_CollectionChanged(object sender, EventArgs e)
+        {
+            UpdateListContent();
+            RaisePropertyChanged(nameof(IsFolderRecursive));
+            RaisePropertyChanged(nameof(Place));
+        }
 
+        //
+        public bool IsFolderRecursive => _model.FolderCollection != null ? _model.FolderCollection.FolderParameter.IsFolderRecursive : false;
+        public string Place => _model.FolderCollection?.PlaceDispString;
 
 
         /// <summary>

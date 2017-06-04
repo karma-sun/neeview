@@ -46,7 +46,6 @@ namespace NeeView
     {
         public string Path { get; set; }
         public bool isKeepPlace { get; set; }
-        public bool IsFocus { get; set; }
     }
 
     public enum BookMementoType

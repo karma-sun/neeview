@@ -69,5 +69,11 @@ namespace NeeView
             if (menu == null) return;
             menu.ItemsSource = _vm.GetHistory(+1, 10);
         }
+
+        //
+        private void FolderListView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            _vm.IsVisibleChanged((bool)e.NewValue);
+        }
     }
 }

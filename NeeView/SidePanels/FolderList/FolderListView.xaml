@@ -58,8 +58,7 @@
     </UserControl.Resources>
 
 
-    <DockPanel x:Name="DockPanel" Margin="0,5,0,0">
-        <!--IsVisibleChanged="FolderList_IsVisibleChanged">-->
+    <DockPanel x:Name="DockPanel" Margin="0,5,0,0" IsVisibleChanged="FolderListView_IsVisibleChanged">
 
         <StackPanel DockPanel.Dock="Top" Margin="5">
             <StackPanel Margin="5" HorizontalAlignment="Left">
@@ -67,8 +66,8 @@
                 <DockPanel>
                     <Image DockPanel.Dock="Right" Source="{StaticResource fic_recursive_folder_24px}" Width="12" Height="12" VerticalAlignment="Bottom" Margin="0,0,0,4"
                            ToolTip="サブフォルダーを読み込む"
-                           Visibility="{Binding Model.FolderCollection.FolderParameter.IsFolderRecursive, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                    <TextBlock Text="{Binding Model.FolderCollection.PlaceDispString}" FontSize="15" ToolTip="{Binding Model.FolderCollection.PlaceDispString}" Margin="5,0"/>
+                           Visibility="{Binding IsFolderRecursive, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding Place}" FontSize="15" ToolTip="{Binding Place}" Margin="5,0"/>
                 </DockPanel>
             </StackPanel>
 

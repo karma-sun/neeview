@@ -114,11 +114,13 @@ namespace NeeView
         private void Model_CollectionChanged(object sender, EventArgs e)
         {
             UpdateListContent();
+            RaisePropertyChanged(nameof(FolderCollection));
             RaisePropertyChanged(nameof(IsFolderRecursive));
             RaisePropertyChanged(nameof(Place));
         }
 
         //
+        public FolderCollection FolderCollection => _model.FolderCollection;
         public bool IsFolderRecursive => _model.FolderCollection != null ? _model.FolderCollection.FolderParameter.IsFolderRecursive : false;
         public string Place => _model.FolderCollection?.PlaceDispString;
 

@@ -53,6 +53,29 @@ namespace NeeView
         // InputGesture設定
         public void InitializeInputGestures()
         {
+            // Touch
+            var touch = TouchInput.Current;
+
+            touch.ClearTouchEventHandler();
+
+            foreach (var command in this.Commands)
+            {
+                var touchGestures = CommandTable.Current[command.Key].GetTouchGestureCollection();
+                foreach (var gesture in touchGestures)
+                {
+                    touch.TouchGestureChanged += (s, x) =>
+                    {
+                        if (!x.TouchEventArgs.Handled && x.Gesture == gesture)
+                        {
+                            command.Value.Execute(null, _window);
+                            x.TouchEventArgs.Handled = true;
+                        }
+                    };
+                }
+            }
+
+
+            // Mouse / Keyboard
             var mouse = MouseInput.Current;
 
             mouse.ClearMouseEventHandler();
@@ -71,7 +94,7 @@ namespace NeeView
                 {
                     if (gesture is MouseGesture mouseClick)
                     {
-                        mouseNormalHandlers.Add((s, x) => { if (!x.Handled && gesture.Matches(this, x)) { command.Value.Execute(null, _window); x.Handled = true; } });
+                        mouseNormalHandlers.Add((s, x) => { if (!x.Handled && x.StylusDevice == null && gesture.Matches(this, x)) { command.Value.Execute(null, _window); x.Handled = true; } });
                     }
                     else if (gesture is MouseExGesture)
                     {

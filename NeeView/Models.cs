@@ -44,6 +44,8 @@ namespace NeeView
 
         public MouseInputContext MouseInputContext { get; private set; }
         public MouseInput MouseInput { get; private set; }
+        public TouchInputContext TouchInputContext { get; private set; }
+        public TouchInput TouchInput { get; private set; }
         public ContentDropManager ContentDropManager { get; private set; }
 
         //
@@ -121,6 +123,9 @@ namespace NeeView
             this.MouseInputContext = new MouseInputContext();
             this.MouseInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow);
             this.MouseInput = new MouseInput(this.MouseInputContext);
+            this.TouchInputContext = new TouchInputContext();
+            this.TouchInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow);
+            this.TouchInput = new TouchInput(this.TouchInputContext);
             this.ContentDropManager = new ContentDropManager(window.MainView);
 
 

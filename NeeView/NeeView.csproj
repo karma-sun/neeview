@@ -274,6 +274,7 @@
     </Compile>
     <Compile Include="TinyInfoMessageViewModel.cs" />
     <Compile Include="Development.cs" />
+    <Compile Include="TouchInput\TouchInput.cs" />
     <Compile Include="WindowCaptionButtons.xaml.cs">
       <DependentUpon>WindowCaptionButtons.xaml</DependentUpon>
     </Compile>

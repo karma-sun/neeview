@@ -36,6 +36,9 @@ namespace NeeView
         // ショートカットキー
         public string ShortCutKey { get; set; }
 
+        // タッチ
+        public string TouchGesture { get; set; }
+
         // マウスジェスチャー
         public string MouseGesture { get; set; }
 
@@ -136,7 +139,7 @@ namespace NeeView
         public List<InputGesture> GetInputGestureCollection()
         {
             var list = new List<InputGesture>();
-            if (ShortCutKey != null)
+            if (!string.IsNullOrWhiteSpace(ShortCutKey))
             {
                 foreach (var key in ShortCutKey.Split(','))
                 {
@@ -144,6 +147,24 @@ namespace NeeView
                     if (inputGesture != null)
                     {
                         list.Add(inputGesture);
+                    }
+                }
+            }
+
+            return list;
+        }
+
+        // タッチコレクション取得
+        public List<TouchGesture> GetTouchGestureCollection()
+        {
+            var list = new List<TouchGesture>();
+            if (!string.IsNullOrWhiteSpace(this.TouchGesture))
+            {
+                foreach (var key in this.TouchGesture.Split(','))
+                {
+                    if (Enum.TryParse(key, out TouchGesture gesture))
+                    {
+                        list.Add(gesture);
                     }
                 }
             }
@@ -159,6 +180,8 @@ namespace NeeView
         {
             [DataMember]
             public string ShortCutKey { get; set; }
+            [DataMember]
+            public string TouchGesture { get; set; }
             [DataMember]
             public string MouseGesture { get; set; }
             [DataMember]
@@ -200,6 +223,7 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.ShortCutKey = ShortCutKey;
+            memento.TouchGesture = TouchGesture;
             memento.MouseGesture = MouseGesture;
             memento.IsShowMessage = IsShowMessage;
 
@@ -219,7 +243,10 @@ namespace NeeView
         //
         public void Restore(Memento memento)
         {
+            if (memento == null) return;
+
             ShortCutKey = memento.ShortCutKey;
+            TouchGesture = memento.TouchGesture;
             MouseGesture = memento.MouseGesture;
             IsShowMessage = memento.IsShowMessage;
 

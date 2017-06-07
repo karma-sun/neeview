@@ -3,18 +3,14 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
-using NeeView.ComponentModel;
-using System;
-using System.Runtime.Serialization;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
 namespace NeeView
 {
-    /// <summary>
-    /// MouseInputContext
-    /// </summary>
-    public class MouseInputContext : BindableBase
+    //
+    public class TouchInputContext
     {
         /// <summary>
         /// コントロール初期化
@@ -54,15 +50,18 @@ namespace NeeView
         /// </summary>
         public FrameworkElement TargetShadow { get; set; }
 
+        /*
         /// <summary>
         /// ドラッグ開始座標
         /// </summary>
-        public Point StartPoint { get; set; }
+        public TouchPoint StartPoint { get; set; }
 
         /// <summary>
-        /// 入力スタイラスデバイス
+        /// ドラッグ開始時間
         /// </summary>
-        public StylusDevice StylusDevice { get; set; }
-    }
+        public int StartTimestamp { get; set; }
+        */
 
+        public Dictionary<InputDevice, TouchContext> TouchMap = new Dictionary<InputDevice, TouchContext>();
+    }
 }

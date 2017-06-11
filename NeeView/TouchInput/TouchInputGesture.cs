@@ -14,20 +14,26 @@ using System.Windows.Input;
 namespace NeeView
 {
     /// <summary>
-    /// マウスジェスチャー
+    /// タッチジェスチャー
     /// </summary>
-    public class MouseInputGesture : MouseInputBase
+    public class TouchInputGesture : TouchInputBase
     {
         /// <summary>
-        /// 入力トラッカー
+        /// ジェスチャー入力
         /// </summary>
         private MouseGestureSequenceTracker _gesture;
+
+        /// <summary>
+        /// 監視するデバイス
+        /// </summary>
+        private TouchContext _touch;
+
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="context"></param>
-        public MouseInputGesture(MouseInputContext context) : base(context)
+        public TouchInputGesture(TouchInputContext context) : base(context)
         {
             _gesture = new MouseGestureSequenceTracker();
             _gesture.GestureProgressed += (s, e) => GestureProgressed.Invoke(this, new MouseGestureEventArgs(_gesture.Sequence));
@@ -62,8 +68,10 @@ namespace NeeView
         //
         public void Reset()
         {
-            _gesture.Reset(_context.StartPoint);
+            if (_touch == null) return;
+            _gesture.Reset(_touch.StartPoint.Position);
         }
+
 
 
         /// <summary>
@@ -73,11 +81,13 @@ namespace NeeView
         /// <param name="parameter"></param>
         public override void OnOpened(FrameworkElement sender, object parameter)
         {
+            Debug.WriteLine("TouchState: Gesture");
+
+            _touch = (TouchContext)parameter;
+
             sender.CaptureMouse();
             sender.Cursor = null;
-            ////Reset();
-
-            _gesture.Reset(_context.StartPoint);
+            Reset();
         }
 
         /// <summary>
@@ -94,21 +104,12 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
+        public override void OnTouchDown(object sender, TouchEventArgs e)
         {
-            UpdateState(sender, e);
             if (e.Handled) return;
 
-            // 右ボタンのみジェスチャー終端として認識
-            if (e.ChangedButton == MouseButton.Left && _gesture.Sequence.Count > 0)
-            {
-                // ジェスチャーコマンド実行
-                _gesture.Sequence.Add(MouseGestureDirection.Click);
-                var args = new MouseGestureEventArgs(_gesture.Sequence);
-                GestureChanged?.Invoke(sender, args);
-            }
-
             // ジェスチャー解除
+            // TODO: Drag操作へ？
             ResetState();
         }
 
@@ -117,7 +118,7 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
+        public override void OnTouchUp(object sender, TouchEventArgs e)
         {
             // ジェスチャーコマンド実行
             if (_gesture.Sequence.Count > 0)
@@ -131,50 +132,18 @@ namespace NeeView
             ResetState();
         }
 
+
         /// <summary>
-        /// ホイール処理
+        /// タッチ移動処理
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void OnMouseWheel(object sender, MouseWheelEventArgs e)
+        public override void OnTouchMove(object sender, TouchEventArgs e)
         {
-            // ホイール入力確定
-            MouseWheelChanged?.Invoke(sender, e);
-
-            // ジェスチャー解除
-            if (e.Handled)
-            {
-                ResetState();
-            }
-        }
-
-        private void UpdateState(object sender, MouseEventArgs e)
-        {
-            // ジェスチャー認識前に他のドラッグに切り替わったら処理を切り替える
-            if (_gesture.Sequence.Count > 0) return;
-
-            var action = DragActionTable.Current.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
-            if (action == DragActionType.Gesture)
-            {
-            }
-            else
-            {
-                SetState(MouseInputState.Drag);
-                e.Handled = true;
-            }
-        }
-
-        /// <summary>
-        /// マウス移動処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public override void OnMouseMove(object sender, MouseEventArgs e)
-        {
-            UpdateState(sender, e);
             if (e.Handled) return;
+            if (e.TouchDevice != _touch?.TouchDevice) return;
 
-            var point = e.GetPosition(_context.Sender);
+            var point = e.GetTouchPoint(_context.Sender).Position;
 
             _gesture.Move(point);
         }
@@ -185,11 +154,11 @@ namespace NeeView
         {
 
             [DataMember, DefaultValue(30.0)]
-            [PropertyMember("マウスジェスチャー判定の最小移動距離(X)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます")]
+            [PropertyMember("タッチジェスチャー判定の最小移動距離(X)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます")]
             public double GestureMinimumDistanceX { get; set; }
 
             [DataMember, DefaultValue(30.0)]
-            [PropertyMember("マウスジェスチャー判定の最小移動距離(Y)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます")]
+            [PropertyMember("タッチジェスチャー判定の最小移動距離(Y)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます")]
             public double GestureMinimumDistanceY { get; set; }
         }
 

@@ -1092,7 +1092,7 @@ namespace NeeView
                 element.Text = "前のページに戻る";
                 element.Note = "ページ前方向に移動します。2ページ表示の場合は2ページ分移動します";
                 element.ShortCutKey = "Right,RightClick";
-                element.TouchGesture = "TouchRight,FlickLeft";
+                element.TouchGesture = "TouchRight";
                 element.MouseGesture = "R";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.BookOperation.PrevPage();
@@ -1105,7 +1105,7 @@ namespace NeeView
                 element.Text = "次のページへ進む";
                 element.Note = "ページ次方向に移動します。2ページ表示の場合は2ページ分移動します";
                 element.ShortCutKey = "Left,LeftClick";
-                element.TouchGesture = "TouchLeft,FlickRight";
+                element.TouchGesture = "TouchLeft";
                 element.MouseGesture = "L";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.BookOperation.NextPage();

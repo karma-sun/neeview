@@ -80,8 +80,7 @@ namespace NeeView
 
             mouse.ClearMouseEventHandler();
 
-            mouse.CommandCollection.Clear();
-            mouse.MouseGestureChanged += (s, x) => mouse.CommandCollection.Execute(x.Sequence);
+            MouseGestureCommandCollection.Current.Clear();
 
             var mouseNormalHandlers = new List<EventHandler<MouseButtonEventArgs>>();
             var mouseExtraHndlers = new List<EventHandler<MouseButtonEventArgs>>();
@@ -114,7 +113,7 @@ namespace NeeView
                 var mouseGesture = CommandTable.Current[command.Key].MouseGesture;
                 if (mouseGesture != null)
                 {
-                    mouse.CommandCollection.Add(mouseGesture, command.Value);
+                    MouseGestureCommandCollection.Current.Add(mouseGesture, command.Value);
                 }
             }
 

@@ -44,9 +44,15 @@ namespace NeeView
             this.Normal.StateChanged += StateChanged;
             this.Normal.TouchGestureChanged += (s, e) => TouchGestureChanged?.Invoke(_sender, e);
 
+            this.Gesture = new TouchInputGesture(_context);
+            this.Gesture.StateChanged += StateChanged;
+            this.Gesture.GestureChanged += (s, e) => _context.GestureCommandCollection.Execute(e.Sequence);
+            this.Gesture.GestureProgressed += (s, e) => _context.GestureCommandCollection.ShowProgressed(e.Sequence); ;
+
             // initialize state
             _touchInputCollection = new Dictionary<TouchInputState, TouchInputBase>();
             _touchInputCollection.Add(TouchInputState.Normal, this.Normal);
+            _touchInputCollection.Add(TouchInputState.Gesture, this.Gesture);
             SetState(TouchInputState.Normal, null);
 
             // initialize event
@@ -87,6 +93,12 @@ namespace NeeView
         /// 状態：既定
         /// </summary>
         public TouchInputNormal Normal { get; private set; }
+
+
+        /// <summary>
+        /// 状態：ジェスチャー
+        /// </summary>
+        public TouchInputGesture Gesture { get; private set; }
 
         /// <summary>
         /// 遷移テーブル

@@ -39,11 +39,6 @@ namespace NeeView
         /// </summary>
         public static MouseInput Current { get; private set; }
 
-        /// <summary>
-        /// マウスジェスチャーコマンド
-        /// </summary>
-        public MouseGestureCommandCollection CommandCollection { get; private set; } = new MouseGestureCommandCollection();
-
         //
         private FrameworkElement _sender;
 
@@ -94,11 +89,6 @@ namespace NeeView
         public event EventHandler<MouseWheelEventArgs> MouseWheelChanged;
 
         /// <summary>
-        /// ジェスチャー入力イベント
-        /// </summary>
-        public event EventHandler<MouseGestureEventArgs> MouseGestureChanged;
-
-        /// <summary>
         /// 表示コンテンツのトランスフォーム変更イベント
         /// </summary>
         public event EventHandler<TransformEventArgs> TransformChanged;
@@ -116,7 +106,6 @@ namespace NeeView
         {
             MouseButtonChanged = null;
             MouseWheelChanged = null;
-            MouseGestureChanged = null;
         }
 
         /// <summary>
@@ -160,8 +149,8 @@ namespace NeeView
             this.Gesture.StateChanged += StateChanged;
             this.Gesture.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
             this.Gesture.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
-            this.Gesture.MouseGestureChanged += (s, e) => MouseGestureChanged?.Invoke(_sender, e);
-            this.Gesture.MouseGestureProgressed += Gesture_MouseGestureProgressed;
+            this.Gesture.GestureChanged += (s, e) => _context.GestureCommandCollection.Execute(e.Sequence);
+            this.Gesture.GestureProgressed += (s, e) => _context.GestureCommandCollection.ShowProgressed(e.Sequence);
 
             // initialize state
             _mouseInputCollection = new Dictionary<MouseInputState, MouseInputBase>();
@@ -179,25 +168,6 @@ namespace NeeView
             _sender.PreviewKeyDown += OnKeyDown;
         }
 
-
-
-        /// <summary>
-        /// マウスジェスチャー通知
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Gesture_MouseGestureProgressed(object sender, MouseGestureEventArgs e)
-        {
-            var gesture = e.Sequence.ToDispString();
-            var commandName = this.CommandCollection?.GetCommand(e.Sequence)?.Text;
-
-            if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
-
-            InfoMessage.Current.SetMessage(
-                InfoMessageType.Gesture,
-                ((commandName != null) ? commandName + "\n" : "") + gesture,
-                gesture + ((commandName != null) ? " " + commandName : ""));
-        }
 
         /// <summary>
         /// コンテンツのトランフォーム変更通知
@@ -357,7 +327,7 @@ namespace NeeView
             }
         }
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento
         {
@@ -391,7 +361,7 @@ namespace NeeView
             this.Drag.Restore(memento.Drag);
             this.Gesture.Restore(memento.Gesture);
         }
-        #endregion
+#endregion
 
     }
 

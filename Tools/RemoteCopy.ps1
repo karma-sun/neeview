@@ -4,10 +4,12 @@
 
 Param
 (
-    [parameter(Mandatory)][string]$targetDir
+    [parameter(Mandatory)][string]$targetDir 
 )
+
+$ErrorActionPreference = "Stop"
 
 $sourceDir = $targetDir.TrimEnd("\")
 $remoteDir = $sourceDir.Replace("C:", "\\CHLOE");
 
-robocopy $sourceDir $remoteDir /mir
+robocopy $sourceDir $remoteDir /e /xo

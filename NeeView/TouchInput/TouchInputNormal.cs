@@ -16,9 +16,19 @@ namespace NeeView
     public class TouchInputNormal : TouchInputBase
     {
         /// <summary>
-        /// ボタン押されている？
+        /// ジェスチャー判定移行用距離
+        /// </summary>
+        const double _touchLimitDistance = 30.0;
+
+        /// <summary>
+        /// 押されている？
         /// </summary>
         private bool _isTouchDown;
+
+        /// <summary>
+        /// 現在のタッチデバイス
+        /// </summary>
+        private TouchContext _touch;
 
         /// <summary>
         /// コンストラクター
@@ -35,6 +45,8 @@ namespace NeeView
         /// <param name="parameter"></param>
         public override void OnOpened(FrameworkElement sender, object parameter)
         {
+            Debug.WriteLine("TouchState: Normal");
+
             _isTouchDown = false;
         }
 
@@ -47,8 +59,6 @@ namespace NeeView
         }
 
 
-        private TouchContext _touchContext;
-
         /// <summary>
         /// マウスボタンが押されたときの処理
         /// </summary>
@@ -57,21 +67,18 @@ namespace NeeView
         public override void OnTouchDown(object sender, TouchEventArgs e)
         {
             // シングルタッチのみ対応
+            // TODO: マルチタッチでドラッグへ
             if (_context.TouchMap.Count != 1)
             {
                 _isTouchDown = false;
                 return;
             }
 
-            _context.TouchMap.TryGetValue(e.Device, out _touchContext);
-            if (_touchContext == null) return;
+            _context.TouchMap.TryGetValue(e.TouchDevice, out _touch);
+            if (_touch == null) return;
 
             _isTouchDown = true;
             _context.Sender.Focus();
-
-            _prevPoint = _touchContext.StartPoint;
-            _prevTimestamp = _touchContext.StartTimestamp;
-            _speed = default(Vector);
         }
 
         /// <summary>
@@ -82,42 +89,20 @@ namespace NeeView
         public override void OnTouchUp(object sender, TouchEventArgs e)
         {
             if (!_isTouchDown) return;
-            if (e.TouchDevice != _touchContext.TouchDevice) return;
+            if (e.TouchDevice != _touch.TouchDevice) return;
 
             // タッチジェスチャー判定
             TouchGesture gesture = TouchGesture.None;
             var touchPoint = e.GetTouchPoint(_context.Sender);
 
-            // トータル移動距離
-            var move = touchPoint.Position - _touchContext.StartPoint.Position;
-            Debug.WriteLine($"Distance: {(int)move.Length}");
-
-
-            // フリック判定 (1秒以内)
-            if (e.Timestamp - _touchContext.StartTimestamp < 1000 && _speed.Length > 250.0 && move.Length > 32.0)
+            // タッチエリア 左右判定
+            if (touchPoint.Position.X < _context.Sender.ActualWidth * 0.5)
             {
-                // 最終速度
-                if (Math.Abs(_speed.X) < Math.Abs(_speed.Y))
-                {
-                    gesture = _speed.Y < 0.0 ? TouchGesture.FlickUp : TouchGesture.FlickDown;
-                }
-                else
-                {
-                    gesture = _speed.X < 0.0 ? TouchGesture.FlickLeft : TouchGesture.FlickRight;
-                }
+                gesture = TouchGesture.TouchLeft;
             }
-            // タッチ判定
-            else if (move.Length <= 8.0)
+            else
             {
-                // タッチエリア 左右判定
-                if (touchPoint.Position.X < _context.Sender.ActualWidth * 0.5)
-                {
-                    gesture = TouchGesture.TouchLeft;
-                }
-                else
-                {
-                    gesture = TouchGesture.TouchRight;
-                }
+                gesture = TouchGesture.TouchRight;
             }
 
             // コマンド決定
@@ -131,57 +116,6 @@ namespace NeeView
         }
 
 
-        // タッチジェスチャー判定
-        private TouchGesture GetTouchGesture(object sender, TouchEventArgs e)
-        {
-            TouchGesture gesture = TouchGesture.None;
-
-            var touchPoint = e.GetTouchPoint(_context.Sender);
-
-            // トータル移動距離
-            var move = touchPoint.Position - _touchContext.StartPoint.Position;
-            Debug.WriteLine($"Distance: {(int)move.Length}");
-
-            const double _touchLimitDistance = 16.0;
-            const double _flickLimitSpeed = 250.0;
-            const double _flickLimitDistance = 32.0;
-            const int _flickLimitTime = 1000;
-
-            // フリック判定 (1秒以内)
-            if (e.Timestamp - _touchContext.StartTimestamp < _flickLimitTime && _speed.Length > _flickLimitSpeed && move.Length > _flickLimitDistance)
-            {
-                // 最終速度
-                if (Math.Abs(_speed.X) < Math.Abs(_speed.Y))
-                {
-                    gesture = _speed.Y < 0.0 ? TouchGesture.FlickUp : TouchGesture.FlickDown;
-                }
-                else
-                {
-                    gesture = _speed.X < 0.0 ? TouchGesture.FlickLeft : TouchGesture.FlickRight;
-                }
-            }
-            // タッチ判定
-            else if (move.Length < _touchLimitDistance)
-            {
-                // タッチエリア 左右判定
-                if (touchPoint.Position.X < _context.Sender.ActualWidth * 0.5)
-                {
-                    gesture = TouchGesture.TouchLeft;
-                }
-                else
-                {
-                    gesture = TouchGesture.TouchRight;
-                }
-            }
-
-            return gesture;
-        }
-
-
-        private TouchPoint _prevPoint;
-        private int _prevTimestamp;
-        private Vector _speed;
-
         /// <summary>
         /// マウス移動処理
         /// </summary>
@@ -190,27 +124,20 @@ namespace NeeView
         public override void OnTouchMove(object sender, TouchEventArgs e)
         {
             if (!_isTouchDown) return;
-            if (e.TouchDevice != _touchContext.TouchDevice) return;
+            if (e.TouchDevice != _touch.TouchDevice) return;
 
-            var touchPoint = e.GetTouchPoint(_context.Sender);
-            var timestamp = e.Timestamp;
+            var point = e.GetTouchPoint(_context.Sender);
 
-            // 経過時間が計測できない場合は計算しない
-            if (timestamp <= _prevTimestamp) return;
+            var touchStart = _context.TouchMap[e.TouchDevice].StartPoint;
+            var deltaX = Math.Abs(point.Position.X - touchStart.Position.X);
+            var deltaY = Math.Abs(point.Position.Y - touchStart.Position.Y);
 
-            // 速度計算 (dot/sec)
-            var speed = (touchPoint.Position - _prevPoint.Position) * 1000.0 / (timestamp - _prevTimestamp);
-
-            // 速度は平均していく
-            _speed = (_speed + speed) * 0.5;
-
-            ////Debug.WriteLine($"TouchSpeed({timestamp - _prevTimestamp}): {(int)_speed.X}, {(int)_speed.Y}");
-
-            _prevPoint = touchPoint;
-            _prevTimestamp = timestamp;
+            // drag check
+            if (deltaX > _touchLimitDistance || deltaY > _touchLimitDistance)
+            {
+                SetState(TouchInputState.Gesture, _touch);
+            }
         }
-
-
 
     }
 }

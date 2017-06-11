@@ -206,6 +206,7 @@
       <DependentUpon>NowLoadingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="MouseInput\MouseGestureSequenceTracker.cs" />
     <Compile Include="Page\ThumbnailProfile.cs" />
     <Compile Include="SaveData.cs" />
     <Compile Include="MouseInput\MouseInputContext.cs" />
@@ -300,6 +301,7 @@
     <Compile Include="TouchInput\TouchInput.cs" />
     <Compile Include="TouchInput\TouchInputBase.cs" />
     <Compile Include="TouchInput\TouchInputContext.cs" />
+    <Compile Include="TouchInput\TouchInputGesture.cs" />
     <Compile Include="TouchInput\TouchInputNormal.cs" />
     <Compile Include="TouchInput\TouchInputStateEventArgs.cs" />
     <Compile Include="WindowCaptionButtons.xaml.cs">

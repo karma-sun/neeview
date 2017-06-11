@@ -17,6 +17,8 @@ namespace NeeView
     /// </summary>
     public class MouseGestureCommandCollection
     {
+        public static MouseGestureCommandCollection Current { get; } = new MouseGestureCommandCollection();
+
         /// <summary>
         /// シーケンスとコマンドの対応辞書
         /// </summary>
@@ -92,5 +94,23 @@ namespace NeeView
                 }
             }
         }
+
+
+        /// <summary>
+        /// マウスジェスチャー通知
+        /// </summary>
+        public void ShowProgressed(MouseGestureSequence sequence)
+        {
+            var gesture = sequence.ToDispString();
+            var commandName = this.GetCommand(sequence)?.Text;
+
+            if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
+
+            InfoMessage.Current.SetMessage(
+                InfoMessageType.Gesture,
+                ((commandName != null) ? commandName + "\n" : "") + gesture,
+                gesture + ((commandName != null) ? " " + commandName : ""));
+        }
+
     }
 }

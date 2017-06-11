@@ -105,7 +105,7 @@ namespace NeeView
             _context = context;
 
             _mouseGesture = new MouseInputForGestureEditor(gestureSender);
-            _mouseGesture.Gesture.MouseGestureProgressed += Gesture_MouseGestureProgressed;
+            _mouseGesture.Gesture.GestureProgressed += Gesture_MouseGestureProgressed;
 
             OriginalGesture = _context.Gesture;
         }

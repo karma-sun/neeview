@@ -121,10 +121,10 @@ namespace NeeView
             this.RoutedCommandTable = new RoutedCommandTable(window, this.CommandTable);
 
             this.MouseInputContext = new MouseInputContext();
-            this.MouseInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow);
+            this.MouseInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, MouseGestureCommandCollection.Current);
             this.MouseInput = new MouseInput(this.MouseInputContext);
             this.TouchInputContext = new TouchInputContext();
-            this.TouchInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow);
+            this.TouchInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, MouseGestureCommandCollection.Current);
             this.TouchInput = new TouchInput(this.TouchInputContext);
             this.ContentDropManager = new ContentDropManager(window.MainView);
 

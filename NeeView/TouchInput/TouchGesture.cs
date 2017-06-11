@@ -11,13 +11,11 @@ namespace NeeView
         None,
         TouchLeft,
         TouchRight,
+        /*
         TouchTop1,
         TouchTop2,
         TouchTop3,
         TouchTop4,
-        FlickLeft,
-        FlickRight,
-        FlickUp,
-        FlickDown,
+        */
     }
 }

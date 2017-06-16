@@ -126,7 +126,7 @@ namespace NeeView
         {
             var MainContent = _contentCanvas.MainContent;
             var Contents = _contentCanvas.Contents;
-            var _viewScale = _drag.Scale;
+            var _viewScale = DragTransform.Current.Scale;
 
             string format = Contents[1].IsValid ? WindowTitleFormat2 : WindowTitleFormat1;
 

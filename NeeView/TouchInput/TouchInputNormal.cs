@@ -38,6 +38,12 @@ namespace NeeView
         {
         }
 
+
+        /// <summary>
+        /// タッチ入力通知
+        /// </summary>
+        public EventHandler<TouchGestureEventArgs> TouchGestureChanged;
+
         /// <summary>
         /// 状態開始
         /// </summary>
@@ -66,11 +72,10 @@ namespace NeeView
         /// <param name="e"></param>
         public override void OnTouchDown(object sender, TouchEventArgs e)
         {
-            // シングルタッチのみ対応
-            // TODO: マルチタッチでドラッグへ
-            if (_context.TouchMap.Count != 1)
+            // マルチタッチでドラッグへ
+            if (_context.TouchMap.Count >= 2)
             {
-                _isTouchDown = false;
+                SetState(TouchInputState.Drag, _touch);
                 return;
             }
 

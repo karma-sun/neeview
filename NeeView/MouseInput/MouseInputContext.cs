@@ -23,12 +23,13 @@ namespace NeeView
         /// <param name="sender"></param>
         /// <param name="targetView"></param>
         /// <param name="targetShadow"></param>
-        public void Initialize(Window window, FrameworkElement sender, FrameworkElement targetView, FrameworkElement targetShadow, MouseGestureCommandCollection gestureCommandCollection)
+        public void Initialize(Window window, FrameworkElement sender, FrameworkElement targetView, FrameworkElement targetShadow, DragTransform dragTransform, MouseGestureCommandCollection gestureCommandCollection)
         {
             this.Window = window;
             this.Sender = sender;
             this.TargetView = targetView;
             this.TargetShadow = targetShadow;
+            this.DragTransform = dragTransform;
             this.GestureCommandCollection = gestureCommandCollection;
         }
 
@@ -55,6 +56,11 @@ namespace NeeView
         /// </summary>
         public FrameworkElement TargetShadow { get; set; }
 
+
+        //
+        public DragTransform DragTransform { get; set; }
+        
+        
         /// <summary>
         /// ジェスチャーコマンドテーブル
         /// </summary>

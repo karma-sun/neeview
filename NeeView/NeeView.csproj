@@ -301,6 +301,7 @@
     <Compile Include="TouchInput\TouchInput.cs" />
     <Compile Include="TouchInput\TouchInputBase.cs" />
     <Compile Include="TouchInput\TouchInputContext.cs" />
+    <Compile Include="TouchInput\TouchInputDrag.cs" />
     <Compile Include="TouchInput\TouchInputGesture.cs" />
     <Compile Include="TouchInput\TouchInputNormal.cs" />
     <Compile Include="TouchInput\TouchInputStateEventArgs.cs" />

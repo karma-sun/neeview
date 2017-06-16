@@ -42,6 +42,7 @@ namespace NeeView
         public CommandTable CommandTable { get; private set; }
         public RoutedCommandTable RoutedCommandTable { get; private set; }
 
+        public DragTransform DragTransform { get; private set; }
         public MouseInputContext MouseInputContext { get; private set; }
         public MouseInput MouseInput { get; private set; }
         public TouchInputContext TouchInputContext { get; private set; }
@@ -120,8 +121,9 @@ namespace NeeView
             this.CommandTable = new CommandTable();
             this.RoutedCommandTable = new RoutedCommandTable(window, this.CommandTable);
 
+            this.DragTransform = new DragTransform();
             this.MouseInputContext = new MouseInputContext();
-            this.MouseInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, MouseGestureCommandCollection.Current);
+            this.MouseInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, this.DragTransform, MouseGestureCommandCollection.Current);
             this.MouseInput = new MouseInput(this.MouseInputContext);
             this.TouchInputContext = new TouchInputContext();
             this.TouchInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, MouseGestureCommandCollection.Current);

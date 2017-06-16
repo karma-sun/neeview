@@ -95,13 +95,13 @@ namespace NeeView
 
             // render transform
             var transformView = new TransformGroup();
-            transformView.Children.Add(mouse.Drag.TransformView);
+            transformView.Children.Add(DragTransform.Current.TransformView);
             transformView.Children.Add(mouse.Loupe.TransformView);
             this.MainContent.RenderTransform = transformView;
             this.MainContent.RenderTransformOrigin = new Point(0.5, 0.5);
 
             var transformCalc = new TransformGroup();
-            transformCalc.Children.Add(mouse.Drag.TransformCalc);
+            transformCalc.Children.Add(DragTransform.Current.TransformCalc);
             transformCalc.Children.Add(mouse.Loupe.TransformCalc);
             this.MainContentShadow.RenderTransform = transformCalc;
             this.MainContentShadow.RenderTransformOrigin = new Point(0.5, 0.5);
@@ -311,6 +311,8 @@ namespace NeeView
         // マウスアクションで非アクティブ時間リセット
         private void MainView_PreviewMouseAction(object sender, MouseEventArgs e)
         {
+            Debug.WriteLine($"MainWindow:ButtonAction: {e.LeftButton}");
+
             _lastActionTime = DateTime.Now;
             SetMouseVisible(true);
         }

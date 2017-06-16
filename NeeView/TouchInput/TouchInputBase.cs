@@ -20,11 +20,6 @@ namespace NeeView
         /// </summary>
         public EventHandler<TouchInputStateEventArgs> StateChanged;
 
-        /// <summary>
-        /// タッチ入力通知
-        /// </summary>
-        public EventHandler<TouchGestureEventArgs> TouchGestureChanged;
-
 
         /// <summary>
         /// 状態コンテキスト

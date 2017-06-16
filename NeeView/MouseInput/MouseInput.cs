@@ -176,11 +176,13 @@ namespace NeeView
         /// <param name="e"></param>
         private void OnTransformChanged(object sender, TransformEventArgs e)
         {
+            var transform = DragTransform.Current;
+
             var args = new TransformEventArgs(e.ChangeType, e.ActionType);
-            args.Scale = Drag.Scale;
-            args.Angle = Drag.Angle;
-            args.IsFlipHorizontal = Drag.IsFlipHorizontal;
-            args.IsFlipVertical = Drag.IsFlipVertical;
+            args.Scale = transform.Scale;
+            args.Angle = transform.Angle;
+            args.IsFlipHorizontal = transform.IsFlipHorizontal;
+            args.IsFlipVertical = transform.IsFlipVertical;
             args.LoupeScale = Loupe.FixedLoupeScale;
 
             TransformChanged?.Invoke(sender, args);
@@ -208,6 +210,9 @@ namespace NeeView
             _current?.OnClosed(_sender);
             _state = state;
             _current = _mouseInputCollection[_state];
+
+            Debug.WriteLine($"MouseInputState: {_state}");
+
             _current.OnOpened(_sender, parameter);
         }
 
@@ -228,6 +233,9 @@ namespace NeeView
         private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (sender != _sender) return;
+
+            Debug.WriteLine($"MouseButtonDown:");
+
             _context.StylusDevice = e.StylusDevice;
             _current.OnMouseButtonDown(_sender, e);
         }
@@ -239,7 +247,10 @@ namespace NeeView
         /// <param name="e"></param>
         private void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
         {
+            Debug.WriteLine($"MouseButtonUp:");
+
             if (sender != _sender) return;
+
             _context.StylusDevice = e.StylusDevice;
             _current.OnMouseButtonUp(_sender, e);
 
@@ -301,22 +312,24 @@ namespace NeeView
             var infoMessage = InfoMessage.Current;
             if (infoMessage.ViewTransformShowMessageStyle == ShowMessageStyle.None) return;
 
+            var transform = DragTransform.Current;
+
             switch (ActionType)
             {
                 case TransformActionType.Scale:
                     string scaleText = this.Drag.IsOriginalScaleShowMessage && mainContent.IsValid
-                        ? $"{(int)(this.Drag.Scale * mainContent.Scale * Config.Current .Dpi.DpiScaleX * 100 + 0.1)}%"
-                        : $"{(int)(this.Drag.Scale * 100.0 + 0.1)}%";
+                        ? $"{(int)(transform.Scale * mainContent.Scale * Config.Current.Dpi.DpiScaleX * 100 + 0.1)}%"
+                        : $"{(int)(transform.Scale * 100.0 + 0.1)}%";
                     infoMessage.SetMessage(InfoMessageType.ViewTransform, scaleText);
                     break;
                 case TransformActionType.Angle:
-                    infoMessage.SetMessage(InfoMessageType.ViewTransform, $"{(int)(this.Drag.Angle)}°");
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, $"{(int)(transform.Angle)}°");
                     break;
                 case TransformActionType.FlipHorizontal:
-                    infoMessage.SetMessage(InfoMessageType.ViewTransform, "左右反転 " + (this.Drag.IsFlipHorizontal ? "ON" : "OFF"));
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, "左右反転 " + (transform.IsFlipHorizontal ? "ON" : "OFF"));
                     break;
                 case TransformActionType.FlipVertical:
-                    infoMessage.SetMessage(InfoMessageType.ViewTransform, "上下反転 " + (this.Drag.IsFlipVertical ? "ON" : "OFF"));
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, "上下反転 " + (transform.IsFlipVertical ? "ON" : "OFF"));
                     break;
                 case TransformActionType.LoupeScale:
                     if (this.Loupe.LoupeScale != 1.0)
@@ -327,7 +340,7 @@ namespace NeeView
             }
         }
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento
         {
@@ -361,7 +374,7 @@ namespace NeeView
             this.Drag.Restore(memento.Drag);
             this.Gesture.Restore(memento.Gesture);
         }
-#endregion
+        #endregion
 
     }
 

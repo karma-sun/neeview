@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -76,11 +77,221 @@ namespace NeeView
         }
     }
 
+    /// <summary>
+    /// ドラッグ操作による変換
+    /// </summary>
+    public class DragTransform : BindableBase
+    {
+        public static DragTransform Current { get; private set; }
+
+
+        // コンテンツの平行移動行列。アニメーション用。
+        private TranslateTransform _translateTransform;
+
+
+        //
+        public DragTransform()
+        {
+            Current = this;
+
+            this.TransformView = CreateTransformGroup();
+            this.TransformCalc = CreateTransformGroup();
+
+            _translateTransform = this.TransformView.Children.OfType<TranslateTransform>().First();
+        }
+
+
+
+        public TransformGroup TransformView { get; private set; }
+        public TransformGroup TransformCalc { get; private set; }
+
+
+
+        // 移動アニメーション有効フラグ(内部管理)
+        private bool _isEnableTranslateAnimation;
+
+        // 移動アニメーション中フラグ(内部管理)
+        private bool _isTranslateAnimated;
+
+        //
+        public bool IsEnableTranslateAnimation
+        {
+            get { return _isEnableTranslateAnimation; }
+            set { _isEnableTranslateAnimation = value; }
+        }
+
+
+        // コンテンツの座標 (アニメーション対応)
+        private Point _position;
+        public Point Position
+        {
+            get { return _position; }
+            set
+            {
+                if (_isEnableTranslateAnimation)
+                {
+                    Duration duration = TimeSpan.FromMilliseconds(100); // 100msアニメ
+
+                    if (!_isTranslateAnimated)
+                    {
+                        // 開始
+                        _isTranslateAnimated = true;
+                        _translateTransform.BeginAnimation(TranslateTransform.XProperty,
+                            new DoubleAnimation(_position.X, value.X, duration), HandoffBehavior.SnapshotAndReplace);
+                        _translateTransform.BeginAnimation(TranslateTransform.YProperty,
+                            new DoubleAnimation(_position.Y, value.Y, duration), HandoffBehavior.SnapshotAndReplace);
+                    }
+                    else
+                    {
+                        // 継続
+                        _translateTransform.BeginAnimation(TranslateTransform.XProperty,
+                            new DoubleAnimation(value.X, duration), HandoffBehavior.Compose);
+                        _translateTransform.BeginAnimation(TranslateTransform.YProperty,
+                            new DoubleAnimation(value.Y, duration), HandoffBehavior.Compose);
+                    }
+                }
+                else
+                {
+                    if (_isTranslateAnimated)
+                    {
+                        // 解除
+                        _translateTransform.ApplyAnimationClock(TranslateTransform.XProperty, null);
+                        _translateTransform.ApplyAnimationClock(TranslateTransform.YProperty, null);
+                        _isTranslateAnimated = false;
+                    }
+                }
+
+                _position = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        // コンテンツの角度
+        private double _angle;
+        public double Angle
+        {
+            get { return _angle; }
+            set
+            {
+                _angle = value;
+                RaisePropertyChanged();
+
+                /*
+                var args = new TransformEventArgs(TransformChangeType.Angle, _actionType)
+                {
+                    Scale = Scale,
+                    Angle = Angle,
+                    IsFlipHorizontal = IsFlipHorizontal,
+                    IsFlipVertical = IsFlipVertical
+                };
+                TransformChanged?.Invoke(this, args);
+                */
+            }
+        }
+
+
+
+        // コンテンツの拡大率
+        private double _scale = 1.0;
+        public double Scale
+        {
+            get { return _scale; }
+            set
+            {
+                _scale = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(ScaleX));
+                RaisePropertyChanged(nameof(ScaleY));
+
+                /*
+                var args = new TransformEventArgs(TransformChangeType.Scale, _actionType)
+                {
+                    Scale = Scale,
+                    Angle = Angle,
+                    IsFlipHorizontal = IsFlipHorizontal,
+                    IsFlipVertical = IsFlipVertical
+                };
+                TransformChanged?.Invoke(this, args);
+                */
+            }
+        }
+
+
+        // コンテンツのScaleX
+        public double ScaleX
+        {
+            get { return _isFlipHorizontal ? -_scale : _scale; }
+        }
+
+        // コンテンツのScaleY
+        public double ScaleY
+        {
+            get { return _isFlipVertical ? -_scale : _scale; }
+        }
+
+        // 左右反転
+        private bool _isFlipHorizontal;
+        public bool IsFlipHorizontal
+        {
+            get { return _isFlipHorizontal; }
+            set
+            {
+                if (_isFlipHorizontal != value)
+                {
+                    _isFlipHorizontal = value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(ScaleX));
+                }
+            }
+        }
+
+        // 上下反転
+        private bool _isFlipVertical;
+        public bool IsFlipVertical
+        {
+            get { return _isFlipVertical; }
+            set
+            {
+                if (_isFlipVertical != value)
+                {
+                    _isFlipVertical = value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(ScaleY));
+                }
+            }
+        }
+
+
+
+        // パラメータとトランスフォームを対応させる
+        private TransformGroup CreateTransformGroup()
+        {
+            var scaleTransform = new ScaleTransform();
+            BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleXProperty, new Binding(nameof(ScaleX)) { Source = this });
+            BindingOperations.SetBinding(scaleTransform, ScaleTransform.ScaleYProperty, new Binding(nameof(ScaleY)) { Source = this });
+
+            var rotateTransform = new RotateTransform();
+            BindingOperations.SetBinding(rotateTransform, RotateTransform.AngleProperty, new Binding(nameof(Angle)) { Source = this });
+
+            var translateTransform = new TranslateTransform();
+            BindingOperations.SetBinding(translateTransform, TranslateTransform.XProperty, new Binding("Position.X") { Source = this });
+            BindingOperations.SetBinding(translateTransform, TranslateTransform.YProperty, new Binding("Position.Y") { Source = this });
+
+            var transformGroup = new TransformGroup();
+            transformGroup.Children.Add(scaleTransform);
+            transformGroup.Children.Add(rotateTransform);
+            transformGroup.Children.Add(translateTransform);
+
+            return transformGroup;
+        }
+
+    }
+
 
     /// <summary>
     /// ドラッグ操作
     /// </summary>
-    public class MouseInputDrag : MouseInputBase 
+    public class MouseInputDrag : MouseInputBase
     {
         #region events
 
@@ -107,20 +318,21 @@ namespace NeeView
         // 表示開始時の基準
         public bool IsViewStartPositionCenter { get; set; }
 
-
+#if false
         // 移動アニメーション有効フラグ(内部管理)
         private bool _isEnableTranslateAnimation;
 
         // 移動アニメーション中フラグ(内部管理)
         private bool _isTranslateAnimated;
+#endif
 
         // コンテンツの平行移動行列。アニメーション用。
-        private TranslateTransform _translateTransform;
+        ////private TranslateTransform _translateTransform;
 
         // 変化要因
-        private TransformActionType _actionType;
+        ////private TransformActionType _actionType;
 
-
+#if false
         // コンテンツの座標 (アニメーション対応)
         #region Property: Position
         private Point _position;
@@ -167,9 +379,11 @@ namespace NeeView
             }
         }
         #endregion
+#endif
 
         private Point _defaultPosition;
 
+#if false
         // コンテンツの角度
         #region Property: Angle
         private double _angle;
@@ -192,9 +406,11 @@ namespace NeeView
             }
         }
         #endregion
+#endif
 
         private double _defaultAngle;
 
+#if false
         // コンテンツの拡大率
         #region Property: Scale
         private double _scale = 1.0;
@@ -219,9 +435,11 @@ namespace NeeView
             }
         }
         #endregion
+#endif
 
         private double _defaultScale;
 
+#if false
         // コンテンツのScaleX
         public double ScaleX
         {
@@ -270,21 +488,27 @@ namespace NeeView
         }
         #endregion
 
+#endif
 
+        ////public TransformGroup TransformView { get; private set; }
+        ////public TransformGroup TransformCalc { get; private set; }
 
-        public TransformGroup TransformView { get; private set; }
-        public TransformGroup TransformCalc { get; private set; }
+        private DragTransform _transform;
 
         //
         public MouseInputDrag(MouseInputContext context) : base(context)
         {
+            _transform = context.DragTransform;
+            /*
             this.TransformView = CreateTransformGroup();
             this.TransformCalc = CreateTransformGroup();
 
             _translateTransform = this.TransformView.Children.OfType<TranslateTransform>().First();
+            */
         }
 
 
+#if false
         // パラメータとトランスフォームを対応させる
         private TransformGroup CreateTransformGroup()
         {
@@ -306,7 +530,7 @@ namespace NeeView
 
             return transformGroup;
         }
-
+#endif
 
         // 開始時の基準
         public DragViewOrigin ViewOrigin { get; set; }
@@ -320,8 +544,8 @@ namespace NeeView
             {
                 if (_isLimitMove == value) return;
                 _isLimitMove = value;
-                _lockMoveX = (_lockMoveX || Position.X == 0) & _isLimitMove;
-                _lockMoveY = (_lockMoveY || Position.Y == 0) & _isLimitMove;
+                _lockMoveX = (_lockMoveX || _transform.Position.X == 0) & _isLimitMove;
+                _lockMoveY = (_lockMoveY || _transform.Position.Y == 0) & _isLimitMove;
             }
         }
 
@@ -336,7 +560,35 @@ namespace NeeView
         public double ViewHorizontalDirection { get; set; } = 1.0;
 
 
+        //
+        private void SetAngle(double angle, TransformActionType actionType)
+        {
+            _transform.Angle = angle;
 
+            var args = new TransformEventArgs(TransformChangeType.Angle, actionType)
+            {
+                Scale = _transform.Scale,
+                Angle = _transform.Angle,
+                IsFlipHorizontal = _transform.IsFlipHorizontal,
+                IsFlipVertical = _transform.IsFlipVertical
+            };
+            TransformChanged?.Invoke(this, args);
+        }
+
+        //
+        private void SetScale(double scale, TransformActionType actionType)
+        {
+            _transform.Scale = scale;
+
+            var args = new TransformEventArgs(TransformChangeType.Scale, actionType)
+            {
+                Scale = _transform.Scale,
+                Angle = _transform.Angle,
+                IsFlipHorizontal = _transform.IsFlipHorizontal,
+                IsFlipVertical = _transform.IsFlipVertical
+            };
+            TransformChanged?.Invoke(this, args);
+        }
 
 
         // ドラッグでビュー操作設定の更新
@@ -382,33 +634,33 @@ namespace NeeView
         // コンテンツ切り替わり時等
         public void Reset(bool isResetScale, bool isResetAngle, bool isResetFlip, double angle)
         {
-            _actionType = TransformActionType.Reset;
+            ////_actionType = TransformActionType.Reset;
 
             _lockMoveX = IsLimitMove;
             _lockMoveY = IsLimitMove;
 
             if (isResetAngle)
             {
-                Angle = angle;
+                SetAngle(angle, TransformActionType.Reset);
             }
             if (isResetScale)
             {
-                Scale = 1.0;
+                SetScale(1.0, TransformActionType.Reset);
             }
             if (isResetFlip)
             {
-                IsFlipHorizontal = false;
-                IsFlipVertical = false;
+                _transform.IsFlipHorizontal = false;
+                _transform.IsFlipVertical = false;
             }
 
             if (ViewOrigin == DragViewOrigin.Center)
             {
-                Position = new Point(0, 0);
+                _transform.Position = new Point(0, 0);
             }
             else
             {
                 // レイアウト更新
-                Position = new Point(0, 0);
+                _transform.Position = new Point(0, 0);
 
                 _context.Sender.UpdateLayout();
                 var area = GetArea();
@@ -428,13 +680,13 @@ namespace NeeView
                 if (move.X != 0 || move.Y != 0)
                 {
                     var limitedPos = pos + GetLimitMove(area, move);
-                    Position = limitedPos;
+                    _transform.Position = limitedPos;
                 }
             }
 
-            _defaultPosition = Position;
-            _defaultScale = Scale;
-            _defaultAngle = Angle;
+            _defaultPosition = _transform.Position;
+            _defaultScale = _transform.Scale;
+            _defaultAngle = _transform.Angle;
         }
 
         // 移動量限界計算
@@ -471,8 +723,8 @@ namespace NeeView
         // 最後にリセットした値に戻す(角度以外)
         public void ResetDefault()
         {
-            Scale = _defaultScale;
-            Position = _defaultPosition;
+            SetScale(_defaultScale, TransformActionType.Reset);
+            _transform.Position = _defaultPosition;
             //_lockMoveX = IsLimitMove;
             //_lockMoveY = IsLimitMove;
         }
@@ -496,7 +748,7 @@ namespace NeeView
 
             double margin = 1.0;
             var area = GetArea();
-            var pos = Position;
+            var pos = _transform.Position;
 
             // ウィンドウサイズ変更直後はrectのスクリーン座標がおかしい可能性があるのでPositionから計算しなおす
             var rect = new Rect()
@@ -539,7 +791,7 @@ namespace NeeView
                 }
             }
 
-            Position = pos;
+            _transform.Position = pos;
         }
 
 
@@ -549,7 +801,7 @@ namespace NeeView
         // 縦方向にスクロールできない場合、横方向にスクロールする
         public void ScrollUp(double rate)
         {
-            _isEnableTranslateAnimation = true;
+            _transform.IsEnableTranslateAnimation = true;
 
             UpdateLock();
             if (!_lockMoveY)
@@ -561,14 +813,14 @@ namespace NeeView
                 DoMove(new Vector(_context.Sender.ActualWidth * rate * ViewHorizontalDirection, 0));
             }
 
-            _isEnableTranslateAnimation = false;
+            _transform.IsEnableTranslateAnimation = false;
         }
 
         // スクロール↓コマンド
         // 縦方向にスクロールできない場合、横方向にスクロールする
         public void ScrollDown(double rate)
         {
-            _isEnableTranslateAnimation = true;
+            _transform.IsEnableTranslateAnimation = true;
 
             UpdateLock();
             if (!_lockMoveY)
@@ -580,7 +832,7 @@ namespace NeeView
                 DoMove(new Vector(_context.Sender.ActualWidth * -rate * ViewHorizontalDirection, 0));
             }
 
-            _isEnableTranslateAnimation = false;
+            _transform.IsEnableTranslateAnimation = false;
         }
 
         /// <summary>
@@ -601,9 +853,9 @@ namespace NeeView
                 ////Debug.WriteLine(delta);
                 UpdateLock();
 
-                if (isAnimate) _isEnableTranslateAnimation = true;
+                if (isAnimate) _transform.IsEnableTranslateAnimation = true;
                 DoMove(new Vector(delta.X, delta.Y));
-                if (isAnimate) _isEnableTranslateAnimation = false;
+                if (isAnimate) _transform.IsEnableTranslateAnimation = false;
 
                 return true;
             }
@@ -737,16 +989,16 @@ namespace NeeView
         // 拡大コマンド
         public void ScaleUp(double scaleDelta)
         {
-            _baseScale = Scale;
-            _basePosition = Position;
+            _baseScale = _transform.Scale;
+            _basePosition = _transform.Position;
             DoScale(_baseScale * (1.0 + scaleDelta));
         }
 
         // 縮小コマンド
         public void ScaleDown(double scaleDelta)
         {
-            _baseScale = Scale;
-            _basePosition = Position;
+            _baseScale = _transform.Scale;
+            _basePosition = _transform.Position;
             DoScale(_baseScale / (1.0 + scaleDelta));
         }
         #endregion
@@ -755,8 +1007,8 @@ namespace NeeView
         // 回転コマンド
         public void Rotate(double angle)
         {
-            _baseAngle = Angle;
-            _basePosition = Position;
+            _baseAngle = _transform.Angle;
+            _basePosition = _transform.Position;
             DoRotate(NormalizeLoopRange(_baseAngle + angle, -180, 180));
         }
         #endregion
@@ -765,7 +1017,7 @@ namespace NeeView
         // 反転コマンド
         public void ToggleFlipHorizontal()
         {
-            DoFlipHorizontal(!IsFlipHorizontal);
+            DoFlipHorizontal(!_transform.IsFlipHorizontal);
         }
 
         // 反転コマンド
@@ -777,7 +1029,7 @@ namespace NeeView
         // 反転コマンド
         public void ToggleFlipVertical()
         {
-            DoFlipVertical(!IsFlipVertical);
+            DoFlipVertical(!_transform.IsFlipVertical);
         }
 
         // 反転コマンド
@@ -867,7 +1119,7 @@ namespace NeeView
         {
             _context.StartPoint = pos;
             _baseFlipPoint = _context.StartPoint;
-            var windowDiff = PointToLogicalScreen(_context.Window, new Point(0, 0) ) - new Point(_context.Window.Left, _context.Window.Top);
+            var windowDiff = PointToLogicalScreen(_context.Window, new Point(0, 0)) - new Point(_context.Window.Left, _context.Window.Top);
             _startPointFromWindow = _context.Sender.TranslatePoint(_context.StartPoint, _context.Window) + windowDiff;
 
             if (DragControlCenter == DragControlCenter.View)
@@ -879,9 +1131,9 @@ namespace NeeView
                 _center = _context.TargetShadow.TranslatePoint(new Point(_context.TargetShadow.ActualWidth * _context.TargetShadow.RenderTransformOrigin.X, _context.TargetShadow.ActualHeight * _context.TargetShadow.RenderTransformOrigin.Y), _context.Sender);
             }
 
-            _basePosition = Position;
-            _baseAngle = Angle;
-            _baseScale = Scale;
+            _basePosition = _transform.Position;
+            _baseAngle = _transform.Angle;
+            _baseScale = _transform.Scale;
         }
 
         /// <summary>
@@ -943,7 +1195,7 @@ namespace NeeView
 
         private void DragMoveEx(Point start, Point end, double scale)
         {
-            var pos0 = Position;
+            var pos0 = _transform.Position;
             var pos1 = (end - _context.StartPoint) * scale + _basePosition;
             var move = pos1 - pos0;
 
@@ -955,7 +1207,7 @@ namespace NeeView
         private void DoMove(Vector move)
         {
             var area = GetArea();
-            var pos0 = Position;
+            var pos0 = _transform.Position;
             UpdateLock();
 
             if (_lockMoveX)
@@ -972,7 +1224,7 @@ namespace NeeView
                 move = GetLimitMove(area, move);
             }
 
-            Position = pos0 + move;
+            _transform.Position = pos0 + move;
         }
 
         #endregion
@@ -1006,13 +1258,14 @@ namespace NeeView
                 angle = Math.Floor((angle + AngleFrequency * 0.5) / AngleFrequency) * AngleFrequency;
             }
 
-            _actionType = TransformActionType.Angle;
-            Angle = angle;
+            //_actionType = TransformActionType.Angle;
+            //Angle = angle;
+            SetAngle(angle, TransformActionType.Angle);
 
             if (DragControlCenter == DragControlCenter.View)
             {
-                RotateTransform m = new RotateTransform(Angle - _baseAngle);
-                Position = m.Transform(_basePosition);
+                RotateTransform m = new RotateTransform(_transform.Angle - _baseAngle);
+                _transform.Position = m.Transform(_basePosition);
             }
         }
 
@@ -1074,13 +1327,14 @@ namespace NeeView
                 scale = Math.Floor((scale + SnapScale * 0.5) / SnapScale) * SnapScale;
             }
 
-            _actionType = TransformActionType.Scale;
-            Scale = scale;
+            //_actionType = TransformActionType.Scale;
+            //Scale = scale;
+            SetScale(scale, TransformActionType.Scale);
 
             if (DragControlCenter == DragControlCenter.View)
             {
-                var rate = Scale / _baseScale;
-                Position = new Point(_basePosition.X * rate, _basePosition.Y * rate);
+                var rate = _transform.Scale / _baseScale;
+                _transform.Position = new Point(_basePosition.X * rate, _basePosition.Y * rate);
             }
         }
 
@@ -1111,19 +1365,21 @@ namespace NeeView
         // 反転実行
         private void DoFlipHorizontal(bool isFlip)
         {
-            if (IsFlipHorizontal != isFlip)
+            if (_transform.IsFlipHorizontal != isFlip)
             {
-                IsFlipHorizontal = isFlip;
+                _transform.IsFlipHorizontal = isFlip;
 
-                _actionType = TransformActionType.FlipHorizontal;
+                ////_actionType = TransformActionType.FlipHorizontal;
 
                 // 角度を反転
-                Angle = -NormalizeLoopRange(Angle, -180, 180);
+                var angle = -NormalizeLoopRange(_transform.Angle, -180, 180);
+
+                SetAngle(angle, TransformActionType.FlipHorizontal);
 
                 // 座標を反転
                 if (DragControlCenter == DragControlCenter.View)
                 {
-                    Position = new Point(-Position.X, Position.Y);
+                    _transform.Position = new Point(-_transform.Position.X, _transform.Position.Y);
                 }
             }
         }
@@ -1149,19 +1405,20 @@ namespace NeeView
         // 反転実行
         private void DoFlipVertical(bool isFlip)
         {
-            if (IsFlipVertical != isFlip)
+            if (_transform.IsFlipVertical != isFlip)
             {
-                IsFlipVertical = isFlip;
+                _transform.IsFlipVertical = isFlip;
 
-                _actionType = TransformActionType.FlipVertical;
+                ////_actionType = TransformActionType.FlipVertical;
 
                 // 角度を反転
-                Angle = 90 - NormalizeLoopRange(Angle + 90, -180, 180);
+                var angle = 90 - NormalizeLoopRange(_transform.Angle + 90, -180, 180);
+                SetAngle(angle, TransformActionType.FlipVertical);
 
                 // 座標を反転
                 if (DragControlCenter == DragControlCenter.View)
                 {
-                    Position = new Point(Position.X, -Position.Y);
+                    _transform.Position = new Point(_transform.Position.X, -_transform.Position.Y);
                 }
             }
         }
@@ -1188,9 +1445,9 @@ namespace NeeView
         /// </summary>
         private Point PointToLogicalScreen(Visual visual, Point point)
         {
-           var pos = visual.PointToScreen(point); // デバイス座標
+            var pos = visual.PointToScreen(point); // デバイス座標
 
-            var dpi = Config.Current .Dpi;
+            var dpi = Config.Current.Dpi;
             pos.X = pos.X / dpi.DpiScaleX;
             pos.Y = pos.Y / dpi.DpiScaleY;
             return pos;

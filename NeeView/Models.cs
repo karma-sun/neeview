@@ -126,7 +126,7 @@ namespace NeeView
             this.MouseInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, this.DragTransform, MouseGestureCommandCollection.Current);
             this.MouseInput = new MouseInput(this.MouseInputContext);
             this.TouchInputContext = new TouchInputContext();
-            this.TouchInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, MouseGestureCommandCollection.Current);
+            this.TouchInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, this.DragTransform, MouseGestureCommandCollection.Current);
             this.TouchInput = new TouchInput(this.TouchInputContext);
             this.ContentDropManager = new ContentDropManager(window.MainView);
 

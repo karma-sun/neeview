@@ -59,5 +59,6 @@ namespace NeeView
 
             return new Rect(min, max);
         }
+
     }
 }

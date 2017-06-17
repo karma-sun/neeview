@@ -18,7 +18,7 @@ namespace NeeView
         /// <summary>
         /// ジェスチャー判定移行用距離
         /// </summary>
-        const double _touchLimitDistance = 30.0;
+        ////const double _touchLimitDistance = 8.0;
 
         /// <summary>
         /// 押されている？
@@ -138,7 +138,7 @@ namespace NeeView
             var deltaY = Math.Abs(point.Position.Y - touchStart.Position.Y);
 
             // drag check
-            if (deltaX > _touchLimitDistance || deltaY > _touchLimitDistance)
+            if (deltaX > TouchInputGesture.GestureMinimumDistance || deltaY > TouchInputGesture.GestureMinimumDistance)
             {
                 SetState(TouchInputState.Gesture, _touch);
             }

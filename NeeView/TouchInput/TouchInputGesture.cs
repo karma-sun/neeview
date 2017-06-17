@@ -19,6 +19,13 @@ namespace NeeView
     public class TouchInputGesture : TouchInputBase
     {
         /// <summary>
+        /// ジェスチャー判定移行用距離
+        /// </summary>
+        public const double GestureMinimumDistance = 16.0;
+
+
+
+        /// <summary>
         /// ジェスチャー入力
         /// </summary>
         private MouseGestureSequenceTracker _gesture;
@@ -36,6 +43,8 @@ namespace NeeView
         public TouchInputGesture(TouchInputContext context) : base(context)
         {
             _gesture = new MouseGestureSequenceTracker();
+            _gesture.GestureMinimumDistanceX = GestureMinimumDistance;
+            _gesture.GestureMinimumDistanceY = GestureMinimumDistance;
             _gesture.GestureProgressed += (s, e) => GestureProgressed.Invoke(this, new MouseGestureEventArgs(_gesture.Sequence));
         }
 

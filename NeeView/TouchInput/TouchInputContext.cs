@@ -19,12 +19,13 @@ namespace NeeView
         /// <param name="sender"></param>
         /// <param name="targetView"></param>
         /// <param name="targetShadow"></param>
-        public void Initialize(Window window, FrameworkElement sender, FrameworkElement targetView, FrameworkElement targetShadow, MouseGestureCommandCollection gestureCommandCollection)
+        public void Initialize(Window window, FrameworkElement sender, FrameworkElement targetView, FrameworkElement targetShadow, DragTransform dragTransfrorm, MouseGestureCommandCollection gestureCommandCollection)
         {
             this.Window = window;
             this.Sender = sender;
             this.TargetView = targetView;
             this.TargetShadow = targetShadow;
+            this.DragTransform = dragTransfrorm;
             this.GestureCommandCollection = gestureCommandCollection;
         }
 
@@ -51,6 +52,9 @@ namespace NeeView
         /// </summary>
         public FrameworkElement TargetShadow { get; set; }
 
+        //
+        public DragTransform DragTransform { get; set; }
+
         /// <summary>
         /// ジェスチャーコマンドテーブル
         /// </summary>
@@ -61,5 +65,16 @@ namespace NeeView
         /// 有効なタッチデバイス情報
         /// </summary>
         public Dictionary<TouchDevice, TouchContext> TouchMap { get; set; } = new Dictionary<TouchDevice, TouchContext>();
+
+
+
+        /// <summary>
+        /// 表示コンテンツのエリア情報取得
+        /// </summary>
+        /// <returns></returns>
+        public DragArea GetArea()
+        {
+            return new DragArea(this.Sender, this.TargetShadow);
+        }
     }
 }

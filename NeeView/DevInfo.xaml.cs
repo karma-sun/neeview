@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Globalization;
 
 namespace NeeView
 {
@@ -33,7 +34,7 @@ namespace NeeView
     {
         public Development Development => Development.Current;
         public JobEngine JobEngine => JobEngine.Current;
-
+        public DragTransform DragTransform => DragTransform.Current;
 
         // 開発用：コンテンツ座標
         private Point _contentPosition;
@@ -65,6 +66,27 @@ namespace NeeView
         private void DevUpdateContentPosition_Executed()
         {
             UpdateContentPosition();
+        }
+    }
+
+
+    public class PointToDispStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is Point point)
+            {
+                return $"{(int)point.X,4},{(int)point.Y,4}";
+            }
+            else
+            {
+                return value;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

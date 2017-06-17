@@ -183,11 +183,11 @@ namespace NeeView
         {
             if (sender != _sender) return;
 
-            _current.OnTouchUp(_sender, e);
-
             _context.TouchMap.Remove(e.TouchDevice);
 
             _sender.ReleaseTouchCapture(e.TouchDevice);
+
+            _current.OnTouchUp(_sender, e);
 
             Debug.WriteLine($"TouchUp: {e.TouchDevice.Id}");
 

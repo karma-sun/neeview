@@ -64,9 +64,15 @@ namespace NeeView
             _sender.PreviewTouchUp += OnTouchUp;
             _sender.PreviewTouchMove += OnTouchMove;
 
+            _sender.PreviewStylusDown += OnStylusDown;
+            _sender.PreviewStylusUp += OnStylusUp;
+            _sender.PreviewStylusSystemGesture += OnStylusSystemGesture;
+
             //
             ClearTouchEventHandler();
         }
+
+
 
         //
         public event EventHandler<TouchGestureEventArgs> TouchGestureChanged;
@@ -127,6 +133,11 @@ namespace NeeView
         /// </summary>
         private TouchInputBase _current;
 
+        //
+        public bool IsCaptured()
+        {
+            return _context.TouchMap.Any();
+        }
 
         /// <summary>
         /// 状態変更イベント処理
@@ -175,7 +186,7 @@ namespace NeeView
             };
 
             _sender.CaptureTouch(e.TouchDevice);
-                        
+
             _current.OnTouchDown(_sender, e);
         }
 
@@ -199,5 +210,28 @@ namespace NeeView
             if (sender != _sender) return;
             _current.OnTouchMove(_sender, e);
         }
+
+
+        private void OnStylusDown(object sender, StylusDownEventArgs e)
+        {
+            Debug.WriteLine($"StylusDown: {e.StylusDevice.Id}");
+        }
+
+        private void OnStylusUp(object sender, StylusEventArgs e)
+        {
+            Debug.WriteLine($"StylusUp: {e.StylusDevice.Id}");
+        }
+
+        private void OnStylusSystemGesture(object sender, StylusSystemGestureEventArgs e)
+        {
+            Debug.WriteLine($"StylusGesture: {e.StylusDevice.Id}: {e.SystemGesture}");
+
+            if (e.SystemGesture == SystemGesture.Flick)
+            {
+                e.Handled = true;
+            }
+        }
+
+
     }
 }

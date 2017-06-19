@@ -307,7 +307,7 @@ namespace NeeView
         // マウスアクションで非アクティブ時間リセット
         private void MainView_PreviewMouseAction(object sender, MouseEventArgs e)
         {
-            Debug.WriteLine($"MainWindow:ButtonAction: {e.LeftButton}");
+            ////Debug.WriteLine($"MainWindow:ButtonAction: {e.LeftButton}");
 
             _lastActionTime = DateTime.Now;
             SetMouseVisible(true);

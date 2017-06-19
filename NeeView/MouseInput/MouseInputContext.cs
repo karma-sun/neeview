@@ -71,11 +71,6 @@ namespace NeeView
         /// ドラッグ開始座標
         /// </summary>
         public Point StartPoint { get; set; }
-
-        /// <summary>
-        /// 入力スタイラスデバイス
-        /// </summary>
-        public StylusDevice StylusDevice { get; set; }
     }
 
 }

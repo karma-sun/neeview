@@ -188,6 +188,14 @@ namespace NeeView
             TransformChanged?.Invoke(sender, args);
         }
 
+
+        //
+        public bool IsCaptured()
+        {
+            return _current.IsCaptured();
+        }
+
+
         /// <summary>
         /// 状態変更イベント処理
         /// </summary>
@@ -233,11 +241,9 @@ namespace NeeView
         private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (sender != _sender) return;
+            if (e.StylusDevice != null) return;
 
             Debug.WriteLine($"MouseButtonDown:");
-
-            _context.StylusDevice = e.StylusDevice;
-            if (e.StylusDevice != null) return;
 
             _current.OnMouseButtonDown(_sender, e);
         }
@@ -249,18 +255,16 @@ namespace NeeView
         /// <param name="e"></param>
         private void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Debug.WriteLine($"MouseButtonUp:");
-
             if (sender != _sender) return;
 
-            _context.StylusDevice = e.StylusDevice;
-            if (e.StylusDevice != null) return;
+            // 右クリックでのコンテキストメニュー無効
+            e.Handled = true;
+
+            if (e.StylusDevice != null && e.ChangedButton == MouseButton.Left) return;
+
+            Debug.WriteLine($"MouseButtonUp:");
 
             _current.OnMouseButtonUp(_sender, e);
-
-            // 右クリックでのコンテキストメニュー無効
-            // TODO: コンテキストメニュー自体をViewTreeに登録しておく必要はない？
-            e.Handled = true;
         }
 
         /// <summary>
@@ -271,8 +275,6 @@ namespace NeeView
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (sender != _sender) return;
-
-            _context.StylusDevice = e.StylusDevice;
             if (e.StylusDevice != null) return;
 
             _current.OnMouseWheel(_sender, e);
@@ -289,8 +291,6 @@ namespace NeeView
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (sender != _sender) return;
-
-            _context.StylusDevice = e.StylusDevice;
             if (e.StylusDevice != null) return;
 
             _current.OnMouseMove(_sender, e);

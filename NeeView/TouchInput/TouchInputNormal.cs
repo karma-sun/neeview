@@ -84,6 +84,8 @@ namespace NeeView
 
             _isTouchDown = true;
             _context.Sender.Focus();
+
+            e.Handled = true;
         }
 
         /// <summary>

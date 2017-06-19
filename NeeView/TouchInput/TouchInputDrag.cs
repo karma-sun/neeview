@@ -83,8 +83,8 @@ namespace NeeView
         /// <param name="e"></param>
         public override void OnTouchUp(object sender, TouchEventArgs e)
         {
-            // マルチタッチでなくなったら解除
-            if (_context.TouchMap.Count < 2)
+            // タッチされなくなったら解除
+            if (_context.TouchMap.Count < 1)
             {
                 ResetState();
             }
@@ -105,95 +105,16 @@ namespace NeeView
         public override void OnTouchMove(object sender, TouchEventArgs e)
         {
             _manipulation.Darty();
-#if false
-            var current = new TouchDragContext(_context.Sender, _context.TouchMap.Keys);
-            var area = _context.GetArea();
-
-
-            // transform
-            var move = current.GetMove(_origin);
-            //Debug.WriteLine($"Drag: move: {move} : {_context.TouchMap.Count}");
-
-            var pos = e.GetTouchPoint(_context.Sender).Position;
-            //Debug.WriteLine($"({e.TouchDevice.Id}): {(int)pos.X}, {(int)pos.Y}:  {move}"); 
-
-            var position = _basePosition + move;
-            //_transform.Position = _basePosition + move;
-
-
-            // ターゲット座標系での操作系中心
-            var center = current.Center - new Point(area.View.Width * 0.5, area.View.Height * 0.5); // - (Vector)position;
-            Debug.WriteLine($"center: {(int)center.X,3}, {(int)center.Y,3}: {move}");
-
-
-            // TODO: rotate
-            var angle = current.GetAngle(_origin);
-            _transform.Angle = _baseAngle + angle;
-
-
-            // TODO: scale
-            //var scale = current.Radius > 50 ?  current.GetScale(_origin) : 1.0;
-            var scale = current.GetScale(_origin);
-            //Debug.WriteLine($"Drag: scale: {scale}");
-
-            _transform.Scale = _baseScale * scale;
-
-
-            var p = _basePosition;
-
-            // move
-            p = p + move;
-
-            // rotate
-            var m = new RotateTransform(angle);
-            var v = (Point)(p - (Point)center);
-            p = center + m.Transform(v);
-            
-            // scale
-            var rate = _transform.Scale / _baseScale;
-            //p = p - (center - (Vector)(_basePosition + move)) * (rate - 1.0);
-            p = p - (center - (Vector)p) * (rate - 1.0);
-
-
-            _transform.Position = p;
-#endif
         }
 
-#if false
-        //
-        private Point _basePosition;
-        private double _baseScale;
-        private double _baseAngle;
 
-        //
-        //private TouchDragContext _now;
-
-        //
-        private void InitializeTouchMap()
-        {
-            Debug.WriteLine($"Drag: reset");
-
-            // clone touch map
-            _touchMap = new Dictionary<TouchDevice, TouchContext>(_context.TouchMap);
-
-            // get origin
-            //_origin = new TouchDragContext(_context.TouchMap, _context.Sender);
-
-            _origin = new TouchDragContext(_context.Sender, _context.TouchMap.Keys);
-
-            //
-            _basePosition = _transform.Position;
-            _baseScale = _transform.Scale;
-            _baseAngle = _transform.Angle;
-        }
-#endif
 
     }
 
     //
     public class TouchDragTransform
     {
-        public Point Position { get; set; }
+        public Vector Trans { get; set; }
         public double Angle { get; set; }
         public double Scale { get; set; }
 
@@ -202,17 +123,52 @@ namespace NeeView
             return (TouchDragTransform)this.MemberwiseClone();
         }
 
+
+        internal void Add(TouchDragTransform m)
+        {
+            this.Trans += m.Trans;
+            this.Angle += m.Angle;
+            this.Scale += m.Scale;
+        }
+
+        internal void Sub(TouchDragTransform m)
+        {
+            this.Trans -= m.Trans;
+            this.Angle -= m.Angle;
+            this.Scale -= m.Scale;
+        }
+
+        internal void Multiply(double v)
+        {
+            this.Trans *= v; // (Point)(v * (Vector)this.Trans);
+            this.Angle *= v;
+            this.Scale *= v;
+        }
+
+        public bool IsNearZero()
+        {
+            return ((Vector)this.Trans).LengthSquared < 1.0 && this.Angle < 1.0 && this.Scale < 0.01;
+        }
+
+        public static TouchDragTransform Sub(TouchDragTransform m0, TouchDragTransform m1)
+        {
+            var m = m0.Clone();
+            m.Sub(m1);
+            return m;
+        }
+
         public static TouchDragTransform Lerp(TouchDragTransform m0, TouchDragTransform m1, double t)
         {
             t = NVUtility.Clamp(t, 0.0, 1.0);
 
             return new TouchDragTransform()
             {
-                Position = m0.Position + (m1.Position - m0.Position) * t,
+                Trans = m0.Trans + (m1.Trans - m0.Trans) * t,
                 Angle = m0.Angle + (m1.Angle - m0.Angle) * t,
                 Scale = m0.Scale + (m1.Scale - m0.Scale) * t,
             };
         }
+
     }
 
     //
@@ -258,17 +214,21 @@ namespace NeeView
             // 
             _start = new TouchDragTransform()
             {
-                Position = _transform.Position,
+                Trans = (Vector)_transform.Position,
                 Angle = _transform.Angle,
                 Scale = _transform.Scale,
             };
 
-            _now = _start.Clone();
+            _prev = _start.Clone();
+            _goal = _start.Clone();
+            _now = _ticking ? _now : _start.Clone();
 
             _darty = true;
 
             _allowAngle = false;
             _allowScale = false;
+
+            _controled = true;
 
             //
             StartTicking();
@@ -277,7 +237,12 @@ namespace NeeView
         //
         public void Stop()
         {
-            StopTicking();
+            //StopTicking();
+
+            //_delta = TouchDragTransform.Sub(_goal, _prev);
+            _controled = false;
+
+            Debug.WriteLine($"{_speed}");
         }
 
         //
@@ -311,21 +276,58 @@ namespace NeeView
 
         private void ReportFrame()
         {
-            // TODO: TIME SHARE
+            if (_controled)
+            {
+                ControlFrame();
+            }
+            else
+            {
+                IntertiaFrame();
+            }
+        }
 
+        private bool _controled;
+        private TouchDragTransform _prev;
+        //private TouchDragTransform _delta;
+
+        private Vector _speed;
+
+        private void ControlFrame()
+        {
             if (_darty)
             {
                 _darty = false;
+
+                _prev = _goal.Clone();
                 _goal = GetTransform();
             }
 
+            var old = _now;
+
             _now = TouchDragTransform.Lerp(_now, _goal, 0.5);
 
-            _transform.Position = _now.Position;
+            _transform.Position = (Point)_now.Trans;
             _transform.Angle = _now.Angle;
             _transform.Scale = _now.Scale;
 
+            var speed = _now.Trans - old.Trans;
+            _speed = (_speed + speed) * 0.5;
+
         }
+
+        private void IntertiaFrame()
+        {
+            _speed *= 0.9;
+            _now.Trans += _speed;
+
+            _transform.Position = (Point)_now.Trans;
+
+            if (_speed.LengthSquared < 1.0)
+            {
+                StopTicking();
+            }
+        }
+
 
         private TouchDragTransform GetTransform()
         {
@@ -335,60 +337,46 @@ namespace NeeView
 
             // transform
             var move = current.GetMove(_origin);
-            //Debug.WriteLine($"Drag: move: {move} : {_context.TouchMap.Count}");
-
-            //var pos = e.GetTouchPoint(_context.Sender).Position;
-            //Debug.WriteLine($"({e.TouchDevice.Id}): {(int)pos.X}, {(int)pos.Y}:  {move}"); 
-
-            // var position = _basePosition + move;
-            //_transform.Position = _basePosition + move;
-
 
             // ターゲット座標系での操作系中心
             var center = current.Center - new Point(area.View.Width * 0.5, area.View.Height * 0.5); // - (Vector)position;
             //Debug.WriteLine($"center: {(int)center.X,3}, {(int)center.Y,3}: {move}");
 
 
-            // TODO: rotate
+            // rotate
             var angle = current.GetAngle(_origin);
-            //_transform.Angle = _baseAngle + angle;
 
-            _allowAngle = _allowAngle || (current.Radius > 50.0 &&  Math.Abs(current.Radius * Math.Sin(angle * 0.5 * Math.PI / 180)) > 15.0);
+            _allowAngle = _allowAngle || (current.Radius > 100.0 &&  Math.Abs(current.Radius * Math.Sin(angle * 0.5 * Math.PI / 180)) > 15.0);
             angle = _allowAngle ? angle : 0.0;
+            
 
-
-
-            // TODO: scale
-            _allowScale = _allowScale || current.Radius > 50.0;
-
-            //var scale = current.Radius > 50 ?  current.GetScale(_origin) : 1.0;
+            //  scale
             var scale = current.GetScale(_origin);
+
+            _allowScale = _allowScale || (current.Radius > 100.0 && Math.Abs(current.Radius - _origin.Radius) > 15.0);
             scale = _allowScale ? scale : 1.0;
-            //Debug.WriteLine($"Drag: scale: {scale}");
-
-            //_transform.Scale = _baseScale * scale;
 
 
-            var p = _start.Position;
+            var p = _start.Trans;
 
             // move
             p = p + move;
 
             // rotate
             var m = new RotateTransform(angle);
-            var v = (Point)(p - (Point)center);
-            p = center + m.Transform(v);
+            var v = (Point)(p - center);
+            p = center + (Vector)m.Transform(v);
 
             // scale
             var rate = scale; // _transform.Scale / _baseScale;
-            p = p - (center - (Vector)p) * (rate - 1.0);
+            p = p - (center - p) * (rate - 1.0);
 
 
             // _transform.Position = p;
 
             return new TouchDragTransform
             {
-                Position = p,
+                Trans = p,
                 Angle = _start.Angle + angle,
                 Scale = _start.Scale * scale
             };
@@ -443,12 +431,15 @@ namespace NeeView
         //
         public double GetScale(TouchDragContext source)
         {
+            if (_touches.Count < 2) return 1.0;
             return _touches.Select(e => e.Value.Length / source._touches[e.Key].Length).Average();
         }
 
         //
         public double GetAngle(TouchDragContext source)
         {
+            if (_touches.Count < 2) return 0.0;
+
             var v1 = source.GetVector();
             var v2 = this.GetVector();
             return Vector.AngleBetween(v1, v2);

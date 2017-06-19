@@ -93,7 +93,7 @@ namespace NeeView
                 {
                     if (gesture is MouseGesture mouseClick)
                     {
-                        mouseNormalHandlers.Add((s, x) => { if (!x.Handled && x.StylusDevice == null && gesture.Matches(this, x)) { command.Value.Execute(null, _window); x.Handled = true; } });
+                        mouseNormalHandlers.Add((s, x) => { if (!x.Handled && gesture.Matches(this, x)) { command.Value.Execute(null, _window); x.Handled = true; } });
                     }
                     else if (gesture is MouseExGesture)
                     {

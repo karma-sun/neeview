@@ -89,6 +89,14 @@ namespace NeeView
         }
 
 
+        //
+        public override bool IsCaptured()
+        {
+            return _isButtonDown;
+        }
+
+
+
         /// <summary>
         /// マウスボタンが押されたときの処理
         /// </summary>

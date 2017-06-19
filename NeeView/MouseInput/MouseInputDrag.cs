@@ -852,10 +852,7 @@ namespace NeeView
         public override void OnOpened(FrameworkElement sender, object parameter)
         {
             sender.CaptureMouse();
-            if (_context.StylusDevice == null)
-            {
-                sender.Cursor = Cursors.Hand;
-            }
+            sender.Cursor = Cursors.Hand;
             _action = null;
 
             InitializeDragParameter(_context.StartPoint);

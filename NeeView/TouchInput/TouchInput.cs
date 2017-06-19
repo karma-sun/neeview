@@ -60,13 +60,9 @@ namespace NeeView
             SetState(TouchInputState.Normal, null);
 
             // initialize event
-            _sender.PreviewTouchDown += OnTouchDown;
-            _sender.PreviewTouchUp += OnTouchUp;
-            _sender.PreviewTouchMove += OnTouchMove;
-
             _sender.PreviewStylusDown += OnStylusDown;
             _sender.PreviewStylusUp += OnStylusUp;
-            _sender.PreviewStylusSystemGesture += OnStylusSystemGesture;
+            _sender.PreviewStylusMove += OnStylusMove;
 
             //
             ClearTouchEventHandler();
@@ -164,72 +160,63 @@ namespace NeeView
             _current.OnOpened(_sender, parameter);
         }
 
+        // 非アクティブなデバイスを削除
+        private void CleanupTouchMap()
+        {
+#if DEBUG
+            foreach (var item in _context.TouchMap.Where(item => item.Key.InAir).Select(item => item.Value))
+            {
+                Debug.WriteLine($"NonActiveDevice: {item.StylusDevice.Id}");
+            }
+#endif
+            _context.TouchMap = _context.TouchMap.Where(item => !item.Key.InAir).ToDictionary(item => item.Key, item => item.Value);
+        }
+
         //
-        private void OnTouchDown(object sender, TouchEventArgs e)
+        private void OnStylusDown(object sender, StylusDownEventArgs e)
         {
             if (sender != _sender) return;
 
-            Debug.WriteLine($"TouchDown: {e.TouchDevice.Id}");
+            Debug.WriteLine($"TouchDown: {e.StylusDevice.Id}");
 
-            // 非アクティブなデバイスを削除
-            foreach (var item in _context.TouchMap.Where(item => !item.Value.TouchDevice.IsActive).Select(item => item.Value))
-            {
-                Debug.WriteLine($"NonActiveDevice: {item.TouchDevice.Id}");
-            }
-            _context.TouchMap = _context.TouchMap.Where(item => item.Value.TouchDevice.IsActive).ToDictionary(item => item.Key, item => item.Value);
+            CleanupTouchMap();
 
-            _context.TouchMap[e.TouchDevice] = new TouchContext()
+            _context.TouchMap[e.StylusDevice] = new TouchContext()
             {
-                TouchDevice = e.TouchDevice,
-                StartPoint = e.GetTouchPoint(_sender),
+                StylusDevice = e.StylusDevice,
+                StartPoint = e.GetPosition(_sender),
                 StartTimestamp = e.Timestamp
             };
 
-            _sender.CaptureTouch(e.TouchDevice);
+            _sender.CaptureStylus();
 
-            _current.OnTouchDown(_sender, e);
-        }
-
-        private void OnTouchUp(object sender, TouchEventArgs e)
-        {
-            if (sender != _sender) return;
-
-            _context.TouchMap.Remove(e.TouchDevice);
-
-            _sender.ReleaseTouchCapture(e.TouchDevice);
-
-            _current.OnTouchUp(_sender, e);
-
-            Debug.WriteLine($"TouchUp: {e.TouchDevice.Id}");
-
-            ///e.Handled = true;
-        }
-
-        private void OnTouchMove(object sender, TouchEventArgs e)
-        {
-            if (sender != _sender) return;
-            _current.OnTouchMove(_sender, e);
-        }
-
-
-        private void OnStylusDown(object sender, StylusDownEventArgs e)
-        {
-            Debug.WriteLine($"StylusDown: {e.StylusDevice.Id}");
+            _current.OnStylusDown(_sender, e);
         }
 
         private void OnStylusUp(object sender, StylusEventArgs e)
         {
-            Debug.WriteLine($"StylusUp: {e.StylusDevice.Id}");
+            if (sender != _sender) return;
+
+            _context.TouchMap.Remove(e.StylusDevice);
+
+            CleanupTouchMap();
+
+            if (!_context.TouchMap.Any())
+            {
+                _sender.ReleaseStylusCapture();
+            }
+
+            _current.OnStylusUp(_sender, e);
+
+            Debug.WriteLine($"TouchUp: {e.StylusDevice.Id}");
+
+            ///e.Handled = true;
         }
 
-        private void OnStylusSystemGesture(object sender, StylusSystemGestureEventArgs e)
+        private void OnStylusMove(object sender, StylusEventArgs e)
         {
-            Debug.WriteLine($"StylusGesture: {e.StylusDevice.Id}: {e.SystemGesture}");
-
-            if (e.SystemGesture == SystemGesture.Flick)
-            {
-                e.Handled = true;
-            }
+            if (sender != _sender) return;
+            _current.OnStylusMove(_sender, e);
         }
 
 

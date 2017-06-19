@@ -69,7 +69,7 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void OnTouchDown(object sender, TouchEventArgs e)
+        public override void OnStylusDown(object sender, StylusDownEventArgs e)
         {
             _manipulation.Start();
             //InitializeTouchMap();
@@ -81,7 +81,7 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void OnTouchUp(object sender, TouchEventArgs e)
+        public override void OnStylusUp(object sender, StylusEventArgs e)
         {
             // タッチされなくなったら解除
             if (_context.TouchMap.Count < 1)
@@ -102,7 +102,7 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void OnTouchMove(object sender, TouchEventArgs e)
+        public override void OnStylusMove(object sender, StylusEventArgs e)
         {
             _manipulation.Darty();
         }
@@ -174,7 +174,7 @@ namespace NeeView
     //
     public class TouchDragManipulation
     {
-        private Dictionary<TouchDevice, TouchContext> _touchMap;
+        private Dictionary<StylusDevice, TouchContext> _touchMap;
         private DragTransform _transform;
         private TouchDragContext _origin;
 
@@ -206,7 +206,7 @@ namespace NeeView
             Debug.WriteLine($"Drag: reset");
 
             // clone touch map
-            _touchMap = new Dictionary<TouchDevice, TouchContext>(_context.TouchMap);
+            _touchMap = new Dictionary<StylusDevice, TouchContext>(_context.TouchMap);
 
             // get origin
             _origin = new TouchDragContext(_context.Sender, _context.TouchMap.Keys);
@@ -397,7 +397,7 @@ namespace NeeView
     {
         private FrameworkElement _sender;
 
-        private Dictionary<TouchDevice, TouchDragUnit> _touches;
+        private Dictionary<StylusDevice, TouchDragUnit> _touches;
 
         public Point Center { get; private set; }
 
@@ -405,11 +405,11 @@ namespace NeeView
 
 
         //
-        public TouchDragContext(FrameworkElement sender, IEnumerable<TouchDevice> touchDevices)
+        public TouchDragContext(FrameworkElement sender, IEnumerable<StylusDevice> touchDevices)
         {
             _sender = sender;
 
-            _touches = touchDevices.ToDictionary(e => e, e => new TouchDragUnit() { Position = e.GetTouchPoint(sender).Position });
+            _touches = touchDevices.ToDictionary(e => e, e => new TouchDragUnit() { Position = e.GetPosition(sender) });
 
             var positions = _touches.Values.Select(e => e.Position);
             this.Center = new Point(positions.Average(e => e.X), positions.Average(e => e.Y));

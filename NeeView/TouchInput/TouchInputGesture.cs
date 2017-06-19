@@ -78,7 +78,7 @@ namespace NeeView
         public void Reset()
         {
             if (_touch == null) return;
-            _gesture.Reset(_touch.StartPoint.Position);
+            _gesture.Reset(_touch.StartPoint);
         }
 
 
@@ -113,7 +113,7 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void OnTouchDown(object sender, TouchEventArgs e)
+        public override void OnStylusDown(object sender, StylusDownEventArgs e)
         {
             if (e.Handled) return;
 
@@ -127,7 +127,7 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void OnTouchUp(object sender, TouchEventArgs e)
+        public override void OnStylusUp(object sender, StylusEventArgs e)
         {
             // ジェスチャーコマンド実行
             if (_gesture.Sequence.Count > 0)
@@ -147,12 +147,12 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void OnTouchMove(object sender, TouchEventArgs e)
+        public override void OnStylusMove(object sender, StylusEventArgs e)
         {
             if (e.Handled) return;
-            if (e.TouchDevice != _touch?.TouchDevice) return;
+            if (e.StylusDevice != _touch?.StylusDevice) return;
 
-            var point = e.GetTouchPoint(_context.Sender).Position;
+            var point = e.GetPosition(_context.Sender);
 
             _gesture.Move(point);
         }

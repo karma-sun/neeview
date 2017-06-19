@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using System.Windows;
 using System.Windows.Input;
 
 namespace NeeView
@@ -13,19 +14,16 @@ namespace NeeView
         /// <summary>
         /// ドラッグ開始座標
         /// </summary>
-        public TouchPoint StartPoint { get; set; }
+        public Point StartPoint { get; set; }
 
         /// <summary>
         /// ドラッグ開始時間
         /// </summary>
         public int StartTimestamp { get; set; }
 
-        public TouchDevice TouchDevice { get; set; }
-
-        //
-        public TouchContext()
-        {
-        }
-
+        /// <summary>
+        /// デバイス
+        /// </summary>
+        public StylusDevice StylusDevice { get; set; }
     }
 }

@@ -53,9 +53,9 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public abstract void OnTouchDown(object sender, TouchEventArgs e);
-        public abstract void OnTouchUp(object sender, TouchEventArgs e);
-        public abstract void OnTouchMove(object sender, TouchEventArgs e);
+        public abstract void OnStylusDown(object sender, StylusDownEventArgs e);
+        public abstract void OnStylusUp(object sender, StylusEventArgs e);
+        public abstract void OnStylusMove(object sender, StylusEventArgs e);
 
         /// <summary>
         /// 状態遷移：既定状態に移動

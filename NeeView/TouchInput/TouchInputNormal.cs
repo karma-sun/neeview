@@ -70,7 +70,7 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void OnTouchDown(object sender, TouchEventArgs e)
+        public override void OnStylusDown(object sender, StylusDownEventArgs e)
         {
             // マルチタッチでドラッグへ
             if (_context.TouchMap.Count >= 2)
@@ -79,7 +79,7 @@ namespace NeeView
                 return;
             }
 
-            _context.TouchMap.TryGetValue(e.TouchDevice, out _touch);
+            _context.TouchMap.TryGetValue(e.StylusDevice, out _touch);
             if (_touch == null) return;
 
             _isTouchDown = true;
@@ -93,17 +93,17 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void OnTouchUp(object sender, TouchEventArgs e)
+        public override void OnStylusUp(object sender, StylusEventArgs e)
         {
             if (!_isTouchDown) return;
-            if (e.TouchDevice != _touch.TouchDevice) return;
+            if (e.StylusDevice != _touch.StylusDevice) return;
 
             // タッチジェスチャー判定
             TouchGesture gesture = TouchGesture.None;
-            var touchPoint = e.GetTouchPoint(_context.Sender);
+            var touchPoint = e.GetPosition(_context.Sender);
 
             // タッチエリア 左右判定
-            if (touchPoint.Position.X < _context.Sender.ActualWidth * 0.5)
+            if (touchPoint.X < _context.Sender.ActualWidth * 0.5)
             {
                 gesture = TouchGesture.TouchLeft;
             }
@@ -128,16 +128,16 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public override void OnTouchMove(object sender, TouchEventArgs e)
+        public override void OnStylusMove(object sender, StylusEventArgs e)
         {
             if (!_isTouchDown) return;
-            if (e.TouchDevice != _touch.TouchDevice) return;
+            if (e.StylusDevice != _touch.StylusDevice) return;
 
-            var point = e.GetTouchPoint(_context.Sender);
+            var point = e.GetPosition(_context.Sender);
 
-            var touchStart = _context.TouchMap[e.TouchDevice].StartPoint;
-            var deltaX = Math.Abs(point.Position.X - touchStart.Position.X);
-            var deltaY = Math.Abs(point.Position.Y - touchStart.Position.Y);
+            var touchStart = _context.TouchMap[e.StylusDevice].StartPoint;
+            var deltaX = Math.Abs(point.X - touchStart.X);
+            var deltaY = Math.Abs(point.Y - touchStart.Y);
 
             // drag check
             if (deltaX > TouchInputGesture.GestureMinimumDistance || deltaY > TouchInputGesture.GestureMinimumDistance)

@@ -11,14 +11,14 @@ namespace NeeView
     //
     public class TouchGestureEventArgs : EventArgs
     {
-        public TouchEventArgs TouchEventArgs { get; set; }
+        public StylusEventArgs TouchEventArgs { get; set; }
         public TouchGesture Gesture { get; set; }
 
         public TouchGestureEventArgs()
         {
         }
 
-        public TouchGestureEventArgs(TouchEventArgs e, TouchGesture gesture)
+        public TouchGestureEventArgs(StylusEventArgs e, TouchGesture gesture)
         {
             this.TouchEventArgs = e;
             this.Gesture = gesture;

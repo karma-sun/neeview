@@ -64,7 +64,7 @@ namespace NeeView
         /// <summary>
         /// 有効なタッチデバイス情報
         /// </summary>
-        public Dictionary<TouchDevice, TouchContext> TouchMap { get; set; } = new Dictionary<TouchDevice, TouchContext>();
+        public Dictionary<StylusDevice, TouchContext> TouchMap { get; set; } = new Dictionary<StylusDevice, TouchContext>();
 
 
 

@@ -117,9 +117,8 @@ namespace NeeView
         {
             if (e.Handled) return;
 
-            // ジェスチャー解除
-            // TODO: Drag操作へ？
-            ResetState();
+            // マルチタッチはドラッグへ
+            SetState(TouchInputState.Drag, _touch);
         }
 
         /// <summary>

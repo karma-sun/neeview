@@ -13,6 +13,48 @@ using System.Windows.Media;
 
 namespace NeeView
 {
+
+    /// <summary>
+    /// Simple StateMahchine
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class StateMachine<T>
+    {
+        public interface IState
+        {
+            void Initialize(T context);
+            void Execute(T context);
+        }
+
+        //
+        public T _context;
+
+        //
+        private IState _state;
+
+        //
+        public StateMachine(T context)
+        {
+            _context = context;
+        }
+
+        //
+        public void SetState(IState state)
+        {
+            if (_state == state) return;
+
+            _state = state;
+            _state?.Initialize(_context);
+        }
+
+        //
+        public void Execute()
+        {
+            _state?.Execute(_context);
+        }
+    }
+
+
     /// <summary>
     /// タッチ通常ドラッグ状態
     /// </summary>
@@ -192,11 +234,16 @@ namespace NeeView
 
         private TouchInputContext _context;
 
+        private StateMachine<TouchDragManipulation> _stateMachine;
+
+
         //
         public TouchDragManipulation(TouchInputContext context)
         {
             _context = context;
             _transform = context.DragTransform;
+
+            _stateMachine = new StateMachine<TouchDragManipulation>(this);
         }
 
 
@@ -228,7 +275,9 @@ namespace NeeView
             _allowAngle = false;
             _allowScale = false;
 
-            _controled = true;
+            //_controled = true;
+
+            _stateMachine.SetState(new StateNormal());
 
             //
             StartTicking();
@@ -240,7 +289,8 @@ namespace NeeView
             //StopTicking();
 
             //_delta = TouchDragTransform.Sub(_goal, _prev);
-            _controled = false;
+            //_controled = false;
+            _stateMachine.SetState(new StateIntertia());
 
             Debug.WriteLine($"{_speed}");
         }
@@ -257,6 +307,9 @@ namespace NeeView
             {
                 _ticking = true;
                 CompositionTarget.Rendering += new EventHandler(OnRendering);
+
+                _snapAngle = _transform.Angle;
+                _snapCenter = default(Vector);
             }
         }
 
@@ -269,6 +322,9 @@ namespace NeeView
             }
         }
 
+
+
+
         private void OnRendering(object sender, EventArgs e)
         {
             ReportFrame();
@@ -276,21 +332,27 @@ namespace NeeView
 
         private void ReportFrame()
         {
-            if (_controled)
-            {
-                ControlFrame();
-            }
-            else
-            {
-                IntertiaFrame();
-            }
+            _stateMachine.Execute();
+            /*
+                        if (_controled)
+                        {
+                            ControlFrame();
+                        }
+                        else
+                        {
+                            IntertiaFrame();
+                        }
+                */
         }
 
-        private bool _controled;
+        //private bool _controled;
         private TouchDragTransform _prev;
         //private TouchDragTransform _delta;
 
         private Vector _speed;
+        private double _snapAngle;
+        private Vector _snapCenter;
+
 
         private void ControlFrame()
         {
@@ -300,6 +362,7 @@ namespace NeeView
 
                 _prev = _goal.Clone();
                 _goal = GetTransform();
+                _snapCenter = _controlCenter;
             }
 
             var old = _now;
@@ -310,23 +373,115 @@ namespace NeeView
             _transform.Angle = _now.Angle;
             _transform.Scale = _now.Scale;
 
+            // ready 慣性
             var speed = _now.Trans - old.Trans;
-            _speed = (_speed + speed) * 0.5;
+            _speed = NVUtility.Lerp(_speed, speed, 0.25);
 
+
+            if (_transform.AngleFrequency > 0.0)
+            {
+                var delta = _now.Angle - _start.Angle;
+                var direction = delta > 0.0 ? 1.0 : -1.0;
+
+                if (Math.Abs(delta) > 1.0)
+                {
+                    _snapAngle = Math.Floor((_goal.Angle + _transform.AngleFrequency * (0.5 + direction * 0.25)) / _transform.AngleFrequency) * _transform.AngleFrequency;
+                }
+            }
+            else
+            {
+                _snapAngle = _goal.Angle;
+            }
         }
 
+        //
         private void IntertiaFrame()
         {
+            // trans
             _speed *= 0.9;
             _now.Trans += _speed;
 
-            _transform.Position = (Point)_now.Trans;
 
-            if (_speed.LengthSquared < 1.0)
+            // angle
+            if (_now.Angle != _snapAngle)
             {
+                var oldAngle = _now.Angle;
+                _now.Angle = NVUtility.Lerp(_now.Angle, _snapAngle, 0.5);
+
+                var m = new RotateTransform(_now.Angle - oldAngle);
+                var v = _snapCenter - _now.Trans;
+               _now.Trans += v - (Vector)m.Transform((Point)v);
+            }
+
+
+            // snap
+            if (_transform.IsLimitMove)
+            {
+                // レイアウト更新
+                _context.Sender.UpdateLayout();
+                var area = _context.GetArea();
+
+                _now.Trans = (_now.Trans + area.SnapView(_now.Trans)) * 0.5;
+            }
+
+
+
+
+            //
+            _transform.Position = (Point)_now.Trans;
+            _transform.Angle = _now.Angle;
+
+
+
+            if (_speed.LengthSquared < 4.0 && Math.Abs(_now.Angle - _snapAngle) < 1.0)
+            {
+                _transform.Angle = _snapAngle;
+
+                if (_transform.IsLimitMove)
+                {
+                    var area = _context.GetArea();
+                    _transform.Position = (Point)area.SnapView(_now.Trans);
+                }
+
                 StopTicking();
+                _stateMachine.SetState(null);
             }
         }
+
+
+        //
+        private class StateNormal : StateMachine<TouchDragManipulation>.IState
+        {
+            public void Execute(TouchDragManipulation context)
+            {
+                context.ControlFrame();
+            }
+
+            public void Initialize(TouchDragManipulation context)
+            {
+            }
+        }
+
+
+        //
+        private class StateIntertia : StateMachine<TouchDragManipulation>.IState
+        {
+            public void Execute(TouchDragManipulation context)
+            {
+                context.IntertiaFrame();
+            }
+
+            public void Initialize(TouchDragManipulation context)
+            {
+                Debug.WriteLine($"Speed: {context._speed}");
+            }
+        }
+
+
+
+
+        // TODO: この変数の使い方はおかしい
+        private Vector _controlCenter;
 
 
         private TouchDragTransform GetTransform()
@@ -340,24 +495,31 @@ namespace NeeView
 
             // ターゲット座標系での操作系中心
             var center = current.Center - new Point(area.View.Width * 0.5, area.View.Height * 0.5); // - (Vector)position;
-            //Debug.WriteLine($"center: {(int)center.X,3}, {(int)center.Y,3}: {move}");
+                                                                                                    //Debug.WriteLine($"center: {(int)center.X,3}, {(int)center.Y,3}: {move}");
+
+
 
 
             // rotate
             var angle = current.GetAngle(_origin);
 
-            _allowAngle = _allowAngle || (current.Radius > 100.0 &&  Math.Abs(current.Radius * Math.Sin(angle * 0.5 * Math.PI / 180)) > 15.0);
+            _allowAngle = _allowAngle || (current.Radius > 80.0 && Math.Abs(current.Radius * 2.0 * Math.Sin(angle * 0.5 * Math.PI / 180)) > 30.0);
             angle = _allowAngle ? angle : 0.0;
-            
+
 
             //  scale
             var scale = current.GetScale(_origin);
 
-            _allowScale = _allowScale || (current.Radius > 100.0 && Math.Abs(current.Radius - _origin.Radius) > 15.0);
+            _allowScale = _allowScale || (current.Radius > 80.0 && Math.Abs(current.Radius - _origin.Radius) > 30.0);
             scale = _allowScale ? scale : 1.0;
 
 
             var p = _start.Trans;
+
+
+            // TODO: この変数の使い方はおかしい
+            _controlCenter = center; // - p;
+
 
             // move
             p = p + move;
@@ -370,6 +532,8 @@ namespace NeeView
             // scale
             var rate = scale; // _transform.Scale / _baseScale;
             p = p - (center - p) * (rate - 1.0);
+
+
 
 
             // _transform.Position = p;

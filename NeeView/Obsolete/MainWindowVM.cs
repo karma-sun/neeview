@@ -28,7 +28,7 @@ namespace NeeView
     /// </summary>
     [Obsolete]
     public class MainWindowVM
-    { 
+    {
         #region Memento
 
         [Obsolete, DataContract]
@@ -211,7 +211,7 @@ namespace NeeView
 
             public Memento()
             {
-                _Version = Config.Current .ProductVersionNumber;
+                _Version = Config.Current.ProductVersionNumber;
                 Constructor();
             }
 
@@ -302,12 +302,13 @@ namespace NeeView
 
                 models.SlideShow.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
 
+                models.DragTransform.IsLimitMove = memento.IsLimitMove;
+                models.DragTransform.AngleFrequency = memento.AngleFrequency;
+
                 models.MouseInput.Normal.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
                 models.MouseInput.Loupe.IsLoupeCenter = memento.IsLoupeCenter;
                 models.MouseInput.Loupe.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
                 models.MouseInput.Drag.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-                models.MouseInput.Drag.IsLimitMove = memento.IsLimitMove;
-                models.MouseInput.Drag.AngleFrequency = memento.AngleFrequency;
                 models.MouseInput.Drag.IsControlCenterImage = memento.IsControlCenterImage;
                 models.MouseInput.Drag.IsKeepAngle = memento.IsKeepAngle;
                 models.MouseInput.Drag.IsKeepFlip = memento.IsKeepFlip;

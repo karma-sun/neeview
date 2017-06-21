@@ -17,7 +17,7 @@ namespace NeeView
 {
 
     /// <summary>
-    /// タッチ力状態
+    /// タッチ状態
     /// </summary>
     public enum TouchInputState
     {

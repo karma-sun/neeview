@@ -206,6 +206,7 @@
       <DependentUpon>NowLoadingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="MouseInput\DragTransform.cs" />
     <Compile Include="MouseInput\MouseGestureSequenceTracker.cs" />
     <Compile Include="Page\ThumbnailProfile.cs" />
     <Compile Include="SaveData.cs" />

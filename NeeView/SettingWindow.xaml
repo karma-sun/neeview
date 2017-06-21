@@ -384,7 +384,7 @@
 
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="移動をウィンドウ内に制限する"
                                   ToolTip="マウスドラッグによる移動を制限します"
-                                  IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsLimitMove}" />
+                                  IsChecked="{Binding Setting.Memento.DragTransform.IsLimitMove}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="表示開始位置を画像の中心基準にする"
                                   ToolTip="OFFの時は、見開きモードによって右上基準、左上基準になります。"
                                   IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsViewStartPositionCenter}" />

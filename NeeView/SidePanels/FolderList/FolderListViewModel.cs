@@ -430,6 +430,8 @@ namespace NeeView
         {
             Debug.WriteLine("*** Update ListContent ***");
             ListContent = new FolderListBox(this);
+
+            SidePanel.Current.RaiseContentChanged();
         }
     }
 

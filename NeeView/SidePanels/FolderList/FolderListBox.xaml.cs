@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -277,7 +278,15 @@ namespace NeeView
             if (isFocus)
             {
                 ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
-                lbi?.Focus();
+                if (lbi == null) return;
+
+                var isFocused =  lbi.Focus();
+
+                // フォーカスできない場合にはディスパッチャーで再実行
+                if (!isFocused)
+                {
+                    this.Dispatcher.BeginInvoke((Action)(() =>lbi.Focus()));
+                }
             }
         }
 

@@ -147,6 +147,7 @@ namespace NeeView
 
             _model = model;
             _model.PropertyChanged += Model_PropertyChanged;
+            _model.ContentChanged  += (s, e) => ResetDelayHide();
 
             Left = new LeftPanelViewModel(_model.Left, leftItemsControl);
             Left.PropertyChanged += Left_PropertyChanged;
@@ -277,5 +278,16 @@ namespace NeeView
             Left?.UpdateVisibility(point, left);
             Right?.UpdateVisibility(point, right);
         }
+
+
+        /// <summary>
+        /// 自動非表示時間リセット
+        /// </summary>
+        private void ResetDelayHide()
+        {
+            this.Left?.ResetDelayHide();
+            this.Right?.ResetDelayHide();
+        }
+
     }
 }

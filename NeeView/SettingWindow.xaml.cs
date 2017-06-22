@@ -328,9 +328,14 @@ namespace NeeView
                     Setting.Memento.MainWindowModel,
                     Setting.Memento.MenuBar,
                     Setting.Memento.BookProfile,
+
                     Setting.Memento.MouseInput.Normal,
                     Setting.Memento.MouseInput.Gesture,
                     Setting.Memento.MouseInput.Loupe,
+
+                    Setting.Memento.TouchInput.Gesture,
+                    Setting.Memento.TouchInput.Drag,
+                    Setting.Memento.TouchInput.Drag.Manipulation,
                 });
             PropertyCollection = new ObservableCollection<PropertyParam>();
             UpdatePropertyList();

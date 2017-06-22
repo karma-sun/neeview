@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -40,10 +41,6 @@ namespace NeeView
             _context = context;
             _sender = context.Sender;
 
-            this.Normal = new TouchInputNormal(_context);
-            this.Normal.StateChanged += StateChanged;
-            this.Normal.TouchGestureChanged += (s, e) => TouchGestureChanged?.Invoke(_sender, e);
-
             this.Drag = new TouchInputDrag(_context);
             this.Drag.StateChanged += StateChanged;
 
@@ -51,6 +48,11 @@ namespace NeeView
             this.Gesture.StateChanged += StateChanged;
             this.Gesture.GestureChanged += (s, e) => _context.GestureCommandCollection.Execute(e.Sequence);
             this.Gesture.GestureProgressed += (s, e) => _context.GestureCommandCollection.ShowProgressed(e.Sequence); ;
+
+            this.Normal = new TouchInputNormal(_context, this.Gesture);
+            this.Normal.StateChanged += StateChanged;
+            this.Normal.TouchGestureChanged += (s, e) => TouchGestureChanged?.Invoke(_sender, e);
+
 
             // initialize state
             _touchInputCollection = new Dictionary<TouchInputState, TouchInputBase>();
@@ -80,14 +82,6 @@ namespace NeeView
         public void ClearTouchEventHandler()
         {
             TouchGestureChanged = null;
-
-#if DEBUG
-            this.TouchGestureChanged +=
-                (s, e) =>
-                {
-                    Debug.WriteLine($"TOUCH: {e.Gesture}");
-                };
-#endif
         }
 
 
@@ -163,12 +157,6 @@ namespace NeeView
         // 非アクティブなデバイスを削除
         private void CleanupTouchMap()
         {
-#if DEBUG
-            foreach (var item in _context.TouchMap.Where(item => item.Key.InAir).Select(item => item.Value))
-            {
-                Debug.WriteLine($"NonActiveDevice: {item.StylusDevice.Id}");
-            }
-#endif
             _context.TouchMap = _context.TouchMap.Where(item => !item.Key.InAir).ToDictionary(item => item.Key, item => item.Value);
         }
 
@@ -177,7 +165,7 @@ namespace NeeView
         {
             if (sender != _sender) return;
 
-            Debug.WriteLine($"TouchDown: {e.StylusDevice.Id}");
+            ////Debug.WriteLine($"TouchDown: {e.StylusDevice.Id}");
 
             CleanupTouchMap();
 
@@ -208,7 +196,7 @@ namespace NeeView
 
             _current.OnStylusUp(_sender, e);
 
-            Debug.WriteLine($"TouchUp: {e.StylusDevice.Id}");
+            ////Debug.WriteLine($"TouchUp: {e.StylusDevice.Id}");
 
             ///e.Handled = true;
         }
@@ -218,6 +206,35 @@ namespace NeeView
             if (sender != _sender) return;
             _current.OnStylusMove(_sender, e);
         }
+
+
+        #region Memento
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public TouchInputGesture.Memento Gesture { get; set; }
+            [DataMember]
+            public TouchInputDrag.Memento Drag { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.Gesture = this.Gesture.CreateMemento();
+            memento.Drag = this.Drag.CreateMemento();
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            this.Gesture.Restore(memento.Gesture);
+            this.Drag.Restore(memento.Drag);
+        }
+        #endregion
 
 
     }

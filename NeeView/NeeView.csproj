@@ -297,6 +297,9 @@
     <Compile Include="TinyInfoMessageViewModel.cs" />
     <Compile Include="Development.cs" />
     <Compile Include="TouchInput\TouchContext.cs" />
+    <Compile Include="TouchInput\TouchDragContext.cs" />
+    <Compile Include="TouchInput\TouchDragManipulation.cs" />
+    <Compile Include="TouchInput\TouchDragTransform.cs" />
     <Compile Include="TouchInput\TouchGesture.cs" />
     <Compile Include="TouchInput\TouchGestureEventArgs.cs" />
     <Compile Include="TouchInput\TouchInput.cs" />

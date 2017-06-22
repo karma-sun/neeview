@@ -16,11 +16,6 @@ namespace NeeView
     public class TouchInputNormal : TouchInputBase
     {
         /// <summary>
-        /// ジェスチャー判定移行用距離
-        /// </summary>
-        ////const double _touchLimitDistance = 8.0;
-
-        /// <summary>
         /// 押されている？
         /// </summary>
         private bool _isTouchDown;
@@ -30,12 +25,17 @@ namespace NeeView
         /// </summary>
         private TouchContext _touch;
 
+        //
+        private TouchInputGesture _gesture;
+
+
         /// <summary>
         /// コンストラクター
         /// </summary>
         /// <param name="context"></param>
-        public TouchInputNormal(TouchInputContext context) : base(context)
+        public TouchInputNormal(TouchInputContext context, TouchInputGesture gesture) : base(context)
         {
+            _gesture = gesture;
         }
 
 
@@ -51,8 +51,7 @@ namespace NeeView
         /// <param name="parameter"></param>
         public override void OnOpened(FrameworkElement sender, object parameter)
         {
-            Debug.WriteLine("TouchState: Normal");
-
+            ////Debug.WriteLine("TouchState: Normal");
             _isTouchDown = false;
         }
 
@@ -140,7 +139,7 @@ namespace NeeView
             var deltaY = Math.Abs(point.Y - touchStart.Y);
 
             // drag check
-            if (deltaX > TouchInputGesture.GestureMinimumDistance || deltaY > TouchInputGesture.GestureMinimumDistance)
+            if (deltaX > _gesture.GestureMinimumDistanceX || deltaY > _gesture.GestureMinimumDistanceY)
             {
                 SetState(TouchInputState.Gesture, _touch);
             }

@@ -388,7 +388,7 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="表示開始位置を画像の中心基準にする"
                                   ToolTip="OFFの時は、見開きモードによって右上基準、左上基準になります。"
                                   IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsViewStartPositionCenter}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転、拡縮、反転の基準を画像の中心にする"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転、拡大縮小、反転の基準を画像の中心にする"
                                   ToolTip="OFFの時は、ウィンドウの中心をそのまま中心とします"
                                   IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsControlCenterImage}" />
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="回転の単位">
@@ -406,6 +406,16 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページを変更しても反転をキープする"
                                   ToolTip="OFFの時は、ページを切り替える度にリセットされます"
                                   IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsKeepFlip}" />
+                        </StackPanel>
+
+                        <TextBlock Text="タッチ操作" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転操作を有効にする"
+                                  ToolTip="マルチタッチでの回転操作を有効にします"
+                                  IsChecked="{Binding Setting.Memento.TouchInput.Drag.Manipulation.IsAngleEnabled}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="拡大縮小操作を有効にする"
+                                  ToolTip="ピンチイン・ピンチアウトでのサイズ変更操作操作を有効にします"
+                                  IsChecked="{Binding Setting.Memento.TouchInput.Drag.Manipulation.IsScaleEnabled}" />
                         </StackPanel>
 
                         <TextBlock Text="ドラッグ操作" Style="{StaticResource Header}"/>

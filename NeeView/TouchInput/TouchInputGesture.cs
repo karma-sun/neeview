@@ -18,12 +18,7 @@ namespace NeeView
     /// </summary>
     public class TouchInputGesture : TouchInputBase
     {
-        /// <summary>
-        /// ジェスチャー判定移行用距離
-        /// </summary>
-        public const double GestureMinimumDistance = 16.0;
-
-
+        #region Fields
 
         /// <summary>
         /// ジェスチャー入力
@@ -35,6 +30,9 @@ namespace NeeView
         /// </summary>
         private TouchContext _touch;
 
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// コンストラクタ
@@ -43,11 +41,14 @@ namespace NeeView
         public TouchInputGesture(TouchInputContext context) : base(context)
         {
             _gesture = new MouseGestureSequenceTracker();
-            _gesture.GestureMinimumDistanceX = GestureMinimumDistance;
-            _gesture.GestureMinimumDistanceY = GestureMinimumDistance;
+            _gesture.GestureMinimumDistanceX = 16.0;
+            _gesture.GestureMinimumDistanceY = 16.0;
             _gesture.GestureProgressed += (s, e) => GestureProgressed.Invoke(this, new MouseGestureEventArgs(_gesture.Sequence));
         }
 
+        #endregion
+
+        #region Events
 
         /// <summary>
         /// ジェスチャー進捗通知
@@ -59,6 +60,9 @@ namespace NeeView
         /// </summary>
         public event EventHandler<MouseGestureEventArgs> GestureChanged;
 
+        #endregion
+        
+        #region Properties
 
         //
         public double GestureMinimumDistanceX
@@ -74,14 +78,18 @@ namespace NeeView
             set { _gesture.GestureMinimumDistanceY = value; }
         }
 
+
+        #endregion
+
+        #region Methods
+
         //
         public void Reset()
         {
             if (_touch == null) return;
             _gesture.Reset(_touch.StartPoint);
         }
-
-
+        
 
         /// <summary>
         /// 状態開始
@@ -90,7 +98,7 @@ namespace NeeView
         /// <param name="parameter"></param>
         public override void OnOpened(FrameworkElement sender, object parameter)
         {
-            Debug.WriteLine("TouchState: Gesture");
+            ////Debug.WriteLine("TouchState: Gesture");
 
             _touch = (TouchContext)parameter;
 
@@ -156,17 +164,19 @@ namespace NeeView
             _gesture.Move(point);
         }
 
+        #endregion
+
         #region Memento
         [DataContract]
         public class Memento
         {
 
-            [DataMember, DefaultValue(30.0)]
-            [PropertyMember("タッチジェスチャー判定の最小移動距離(X)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます")]
+            [DataMember, DefaultValue(16.0)]
+            [PropertyMember("タッチジェスチャー判定の最小移動距離(X)", Tips = "この距離を移動して初めてジェスチャー開始と判定されます")]
             public double GestureMinimumDistanceX { get; set; }
 
-            [DataMember, DefaultValue(30.0)]
-            [PropertyMember("タッチジェスチャー判定の最小移動距離(Y)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます")]
+            [DataMember, DefaultValue(16.0)]
+            [PropertyMember("タッチジェスチャー判定の最小移動距離(Y)", Tips = "この距離を移動して初めてジェスチャー開始と判定されます")]
             public double GestureMinimumDistanceY { get; set; }
         }
 
@@ -187,6 +197,5 @@ namespace NeeView
             this.GestureMinimumDistanceY = memento.GestureMinimumDistanceY;
         }
         #endregion
-
     }
 }

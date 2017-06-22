@@ -219,8 +219,6 @@ namespace NeeView
             _state = state;
             _current = _mouseInputCollection[_state];
 
-            Debug.WriteLine($"MouseInputState: {_state}");
-
             _current.OnOpened(_sender, parameter);
         }
 
@@ -243,8 +241,6 @@ namespace NeeView
             if (sender != _sender) return;
             if (e.StylusDevice != null) return;
 
-            Debug.WriteLine($"MouseButtonDown:");
-
             _current.OnMouseButtonDown(_sender, e);
         }
 
@@ -257,14 +253,13 @@ namespace NeeView
         {
             if (sender != _sender) return;
 
+            if (e.StylusDevice == null)
+            {
+                _current.OnMouseButtonUp(_sender, e);
+            }
+
             // 右クリックでのコンテキストメニュー無効
             e.Handled = true;
-
-            if (e.StylusDevice != null && e.ChangedButton == MouseButton.Left) return;
-
-            Debug.WriteLine($"MouseButtonUp:");
-
-            _current.OnMouseButtonUp(_sender, e);
         }
 
         /// <summary>

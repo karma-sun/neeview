@@ -731,6 +731,9 @@ namespace NeeView
                 content.AnimationPlayerVisibility = Visibility.Collapsed;
             }
 
+            // 読み込み停止
+            BookHub.Current.IsEnabled = false;
+
             // スライドショー停止
             SlideShow.Current.PauseSlideShow();
 
@@ -761,6 +764,9 @@ namespace NeeView
                     content.AnimationImageVisibility = Visibility.Collapsed;
                     content.AnimationPlayerVisibility = Visibility.Visible;
                 }
+
+                // 読み込み再会
+                BookHub.Current.IsEnabled = true;
 
                 // スライドショー再開
                 SlideShow.Current.ResumeSlideShow();

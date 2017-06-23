@@ -280,15 +280,52 @@ namespace NeeView
                 ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
                 if (lbi == null) return;
 
-                var isFocused =  lbi.Focus();
+                var isFocused = lbi.Focus();
 
                 // フォーカスできない場合にはディスパッチャーで再実行
                 if (!isFocused)
                 {
-                    this.Dispatcher.BeginInvoke((Action)(() =>lbi.Focus()));
+                    this.Dispatcher.BeginInvoke((Action)(() => lbi.Focus()));
                 }
             }
         }
+
+        //
+        private bool _storeFocus;
+
+        /// <summary>
+        /// 選択項目フォーカス状態を取得
+        /// リスト項目変更前処理。
+        /// </summary>
+        /// <returns></returns>
+        public void StoreFocus()
+        {
+            var index = this.ListBox.SelectedIndex;
+
+            ListBoxItem lbi = index >= 0 ? (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
+            _storeFocus = lbi != null ? lbi.IsFocused : false;
+        }
+
+        /// <summary>
+        /// 選択項目フォーカス反映
+        /// リスト変更後処理。
+        /// </summary>
+        /// <param name="isFocused"></param>
+        public void RestoreFocus()
+        {
+            if (_storeFocus)
+            {
+                this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
+
+                var index = this.ListBox.SelectedIndex;
+                var lbi = index >= 0 ? (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
+                var isSuccess = lbi?.Focus();
+            }
+
+            _thumbnailHelper.UpdateThumbnails(1);
+        }
+
+
 
         //
         private void FolderList_Loaded(object sender, RoutedEventArgs e)
@@ -406,19 +443,22 @@ namespace NeeView
             var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
             if (folderInfo == null) return;
 
-            _vm.Drag_MouseDown(sender, e, folderInfo);
+            // 一時的にドラッグ禁止
+            ////_vm.Drag_MouseDown(sender, e, folderInfo);
         }
 
         //
         private void FolderListItem_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            _vm.Drag_MouseUp(sender, e);
+            // 一時的にドラッグ禁止
+            ////_vm.Drag_MouseUp(sender, e);
         }
 
         //
         private void FolderListItem_MouseMove(object sender, MouseEventArgs e)
         {
-            _vm.Drag_MouseMove(sender, e);
+            // 一時的にドラッグ禁止
+            ////_vm.Drag_MouseMove(sender, e);
         }
 
         #endregion

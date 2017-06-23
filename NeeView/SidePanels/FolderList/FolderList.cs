@@ -51,7 +51,8 @@ namespace NeeView
 
         public event EventHandler PlaceChanged;
 
-        // 項目のフォーカス制御に使用する
+        //
+        public event EventHandler SelectedChanging;
         public event EventHandler<SelectedChangedEventArgs> SelectedChanged;
 
         // FolderCollection総入れ替え
@@ -168,18 +169,18 @@ namespace NeeView
 
 
         /// <summary>
-        /// SelectIndex property.
+        /// SelectedItem property.
         /// </summary>
-        private int _selectedIndex;
-        public int SelectedIndex
+        public FolderItem SelectedItem
         {
-            get { return _selectedIndex; }
-            set
-            {
-                _selectedIndex = NVUtility.Clamp(value, 0, this.FolderCollection.Items.Count - 1);
-                RaisePropertyChanged();
-            }
+            get { return _selectedItem; }
+            set { if (_selectedItem != value) { _selectedItem = value; RaisePropertyChanged(); } }
         }
+
+        private FolderItem _selectedItem;
+
+
+
 
         /// <summary>
         /// ふさわしい選択項目インデックスを取得
@@ -190,6 +191,12 @@ namespace NeeView
         {
             var index = this.FolderCollection.IndexOfPath(path);
             return index < 0 ? 0 : index;
+        }
+
+
+        internal FolderItem FixedItem(string path)
+        {
+            return this.FolderCollection.FirstOrDefault(path) ?? this.FolderCollection.FirstOrDefault();
         }
 
 
@@ -226,14 +233,19 @@ namespace NeeView
             _lastPlaceDictionary[folder.ParentPath] = folder.Path;
         }
 
-
+        /// <summary>
+        /// 項目変更前通知
+        /// </summary>
+        public void RaiseSelectedItemChanging()
+        {
+            SelectedChanging?.Invoke(this, null);
+        }
 
         /// <summary>
-        /// 選択項目にフォーカス取得
-        /// イベントでViewへ通知
+        /// 項目変更後通知
         /// </summary>
         /// <param name="isFocus"></param>
-        public void FocusSelectedItem(bool isFocus)
+        public void RaiseSelectedItemChanged(bool isFocus = false)
         {
             SelectedChanged?.Invoke(this, new SelectedChangedEventArgs() { IsFocus = isFocus });
         }
@@ -280,9 +292,9 @@ namespace NeeView
                 collection.ParameterChanged += (s, e) => App.Current?.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true); }));
                 collection.Deleting += FolderCollection_Deleting;
                 this.FolderCollection = collection;
-                this.SelectedIndex = FixedIndexOfPath(select);
-                
-                FocusSelectedItem(options.HasFlag(FolderSetPlaceOption.IsFocus));
+                this.SelectedItem = FixedItem(select);
+
+                RaiseSelectedItemChanged(options.HasFlag(FolderSetPlaceOption.IsFocus));
 
                 // 最終フォルダー更新
                 BookHistory.Current.LastFolder = _place;
@@ -299,7 +311,7 @@ namespace NeeView
             else
             {
                 // 選択項目のみ変更
-                this.SelectedIndex = FixedIndexOfPath(select);
+                this.SelectedItem = FixedItem(select);
             }
 
             // 変更通知
@@ -350,18 +362,37 @@ namespace NeeView
         {
             if (e.ChangeType != System.IO.WatcherChangeTypes.Deleted) return;
 
-            var index = this.FolderCollection.IndexOfPath(e.FullPath);
-            if (SelectedIndex != index) return;
+            var item = this.FolderCollection.FirstOrDefault(e.FullPath);
+            if (item != this.SelectedItem) return;
 
-            if (SelectedIndex < this.FolderCollection.Items.Count - 1)
+            RaiseSelectedItemChanging();
+            this.SelectedItem = GetNeighbor(item);
+            RaiseSelectedItemChanged();
+        }
+
+        // となりを取得
+        public FolderItem GetNeighbor(FolderItem item)
+        {
+            var items = this.FolderCollection?.Items;
+            if (items == null || items.Count <= 0) return null;
+
+            int index = items.IndexOf(item);
+            if (index < 0) return items[0];
+
+            if (index + 1 < items.Count)
             {
-                SelectedIndex++;
+                return items[index + 1];
             }
-            else if (SelectedIndex > 0)
+            else if (index > 0)
             {
-                SelectedIndex--;
+                return items[index - 1];
+            }
+            else
+            {
+                return item;
             }
         }
+
 
 
         /// <summary>
@@ -388,7 +419,7 @@ namespace NeeView
         {
             if (this.FolderCollection?.Items == null) return null;
 
-            int index = this.SelectedIndex;
+            int index = this.FolderCollection.Items.IndexOf(this.SelectedItem);
             if (index < 0) return null;
 
             int next = (this.FolderCollection.FolderParameter.FolderOrder == FolderOrder.Random)
@@ -617,14 +648,14 @@ namespace NeeView
                 _isDarty = true; // 強制更新
                 SetPlace(System.IO.Path.GetDirectoryName(place), place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
 
-                FocusSelectedItem(true);
+                RaiseSelectedItemChanged(true);
             }
             else if (_place != null)
             {
                 _isDarty = true; // 強制更新
                 SetPlace(_place, null, FolderSetPlaceOption.IsFocus);
 
-                FocusSelectedItem(true);
+                RaiseSelectedItemChanged(true);
             }
         }
 

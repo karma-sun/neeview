@@ -155,7 +155,7 @@
                 FocusVisualStyle="{StaticResource NVFocusVisual}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 ItemsSource="{Binding Model.FolderCollection.Items}"
-                SelectedIndex="{Binding Model.SelectedIndex}"
+                SelectedItem="{Binding Model.SelectedItem}"
                 SelectionChanged="FolderList_SelectionChanged"
                 Loaded="FolderList_Loaded"
                 PreviewKeyDown="FolderList_PreviewKeyDown"

@@ -70,8 +70,21 @@ namespace NeeView
             _model.PlaceChanged +=
                 (s, e) => MoveToUp.RaiseCanExecuteChanged();
 
+            _model.SelectedChanging +=
+                (s, e) => this.ListContent.StoreFocus();
+
             _model.SelectedChanged +=
-                (s, e) => this.ListContent?.FocusSelectedItem(e.IsFocus);
+                (s, e) =>
+                {
+                    if (e.IsFocus)
+                    {
+                        this.ListContent.FocusSelectedItem(true);
+                    }
+                    else
+                    {
+                        this.ListContent.RestoreFocus();
+                    }
+                };
 
             _model.CollectionChanged +=
                 Model_CollectionChanged;

@@ -105,6 +105,25 @@ namespace NeeView
         }
 
         /// <summary>
+        /// パスから項目取得
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public FolderItem FirstOrDefault(string path)
+        {
+            return Items.FirstOrDefault(e => e.Path == path);
+        }
+
+        /// <summary>
+        /// 先頭項目を取得
+        /// </summary>
+        /// <returns></returns>
+        public FolderItem FirstOrDefault()
+        {
+            return Items.FirstOrDefault();
+        }
+
+        /// <summary>
         /// パスがリストに含まれるか判定
         /// </summary>
         /// <param name="path"></param>
@@ -432,8 +451,11 @@ namespace NeeView
             var item = this.Items.FirstOrDefault(i => i.Path == e.FullPath);
             if (item != null)
             {
-                Deleting?.Invoke(sender, e);
-                Watcher_Deleted(item);
+                App.Current.Dispatcher.BeginInvoke((Action)(() =>
+                {
+                    Deleting?.Invoke(sender, e);
+                    Watcher_Deleted(item);
+                }));
             }
         }
 

@@ -34,7 +34,7 @@ namespace NeeView
         [OptionMember("x", "setting", HasParameter = true, HelpText = "設定ファイル(UserSetting.xml)のパスを指定します")]
         public string SettingFilename { get; set; }
 
-        [OptionMember("f", "fullscrreen", Default = "on", HelpText = "フルスクリーンで起動するかを指定します")]
+        [OptionMember("f", "fullscreen", Default = "on", HasParameter = true, HelpText = "フルスクリーンで起動するかを指定します")]
         public SwitchOption? IsFullScreen { get; set; }
 
         [OptionMember("b", "blank", Default = "on", HelpText = "画像ファイルを開かずに起動します")]

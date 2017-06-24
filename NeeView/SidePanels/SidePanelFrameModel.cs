@@ -68,6 +68,12 @@ namespace NeeView
 
 
         /// <summary>
+        /// パネル内容更新イベント.
+        /// 自動非表示時間のリセットに使用される.
+        /// </summary>
+        public event EventHandler ContentChanged;
+
+        /// <summary>
         /// コンストラクター
         /// </summary>
         public SidePanelFrameModel()
@@ -90,6 +96,13 @@ namespace NeeView
             rightPanels.ForEach(e => _right.Panels.Add(e));
         }
 
+        /// <summary>
+        /// コンテンツ変更通知
+        /// </summary>
+        public void RaiseContentChanged()
+        {
+            ContentChanged?.Invoke(this, null);
+        }
 
 
         /// <summary>

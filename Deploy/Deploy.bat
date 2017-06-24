@@ -1,2 +1,2 @@
-powershell .\Deploy.ps1
+powershell -ExecutionPolicy RemoteSigned -File .\Deploy.ps1
 pause

@@ -99,7 +99,8 @@ function Build-Project($arch)
 		$platform = "Any CPU"
 	}
 
-	$msbuild = 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe'
+    $vspath = .\vswhere.exe -property installationPath
+    $msbuild = "$vspath\MSBuild\15.0\Bin\MSBuild.exe"
 	& $msbuild $solution /p:Configuration=$config /p:Platform=$platform /t:Clean,Build
 	if ($? -ne $true)
 	{

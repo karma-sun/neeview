@@ -187,6 +187,12 @@ namespace NeeView
             InfoMessage.Current.SetMessage(InfoMessageType.Notify, message);
         }
 
+
+        /// <summary>
+        /// ロード可能フラグ
+        /// </summary>
+        public bool IsEnabled { get; set; } = true;
+
         /// <summary>
         /// ロード中フラグ
         /// </summary>
@@ -271,7 +277,7 @@ namespace NeeView
                 await current.Book?.DisposeAsync();
             }
         }
-        
+
         // アドレス
         private string _address;
         public string Address
@@ -285,7 +291,7 @@ namespace NeeView
             }
         }
 
-        
+
         // command engine
         private BookHubCommandEngine _commandEngine;
 
@@ -732,6 +738,8 @@ namespace NeeView
         /// <returns></returns>
         public BookHubCommandLoad RequestLoad(string path, string start, BookLoadOption option, bool isRefleshFolderList)
         {
+            if (!this.IsEnabled) return null;
+
             if (path == null) return null;
 
             if (Utility.FileShortcut.IsShortcut(path) && (System.IO.File.Exists(path) || System.IO.Directory.Exists(path)))

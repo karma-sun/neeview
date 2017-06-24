@@ -326,6 +326,7 @@ namespace NeeView
                     Setting.Memento.SevenZipArchiverProfile,
                     Setting.Memento.ThumbnailProfile,
                     Setting.Memento.MainWindowModel,
+                    Setting.Memento.FolderList,
                     Setting.Memento.MenuBar,
                     Setting.Memento.BookProfile,
 

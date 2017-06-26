@@ -27,11 +27,11 @@
                              Loaded="ThumbnailListBox_Loaded"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Bottom"
-                             ScrollViewer.CanContentScroll="True"
+                             VirtualizingPanel.ScrollUnit="Pixel"
                              PreviewMouseWheel="ThumbnailListBox_MouseWheel"
                              Background="Transparent" BorderThickness="0">
             <ListBox.Resources>
-
+                
                 <Style TargetType="{x:Type ListBox}">
                     <Setter Property="Padding" Value="5,0" />
                     <Setter Property="ItemTemplate">
@@ -44,7 +44,7 @@
                                                 <Style TargetType="Ellipse">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Thumbnail}" Value="{x:Null}">
+                                                        <DataTrigger Binding="{Binding Thumbnail.BitmapSource}" Value="{x:Null}">
                                                             <Setter Property="Visibility" Value="Visible"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>

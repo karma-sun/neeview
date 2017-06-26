@@ -91,7 +91,7 @@ namespace NeeView
         public bool IsSliderDirectionReversed
         {
             get { return _isSliderDirectionReversed; }
-            set { if (_isSliderDirectionReversed != value) { _isSliderDirectionReversed = value; RaisePropertyChanged(); } }
+            set { if (_isSliderDirectionReversed != value) { _isSliderDirectionReversed = value; RaisePropertyChanged(); Refleshed?.Invoke(this, null); } }
         }
 
         private bool _isSliderDirectionReversed;

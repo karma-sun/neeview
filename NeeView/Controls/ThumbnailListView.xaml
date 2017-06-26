@@ -18,7 +18,7 @@
     </UserControl.Resources>
     
     <Grid x:Name="Root" Visibility="{Binding Model.ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" UseLayoutRounding="True" >
-        <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Model.BookOperation.PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+        <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Items}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
                              KeyDown="ThumbnailListBox_KeyDown"
@@ -86,7 +86,6 @@
                         <Setter.Value>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel Orientation="Horizontal" CanHorizontallyScroll="True" CanVerticallyScroll="False" Margin="2,0"
-                                                                    FlowDirection="{Binding Model.IsSliderDirectionReversed, Converter={StaticResource SliderDirectionToFlowDirectionConverter}}"
                                                                     Loaded="ThumbnailListBoxPanel_Loaded"
                                                                     KeyDown="ThumbnailListBoxPanel_KeyDown"/>
                             </ItemsPanelTemplate>

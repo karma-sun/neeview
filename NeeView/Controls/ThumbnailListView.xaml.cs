@@ -58,7 +58,6 @@ namespace NeeView
         public ThumbnailListView()
         {
             InitializeComponent();
-            ////this.Root.DataContext = new ThumbnailListViewModel(null);
         }
 
         //
@@ -66,8 +65,7 @@ namespace NeeView
         {
             _vm = new ThumbnailListViewModel(this.Source);
             _vm.Model.Refleshed += (s, e) => OnPageListChanged();
-            _vm.Model.AddPropertyChanged(nameof(ThumbnailList.PageNumber), (s, e) => DartyThumbnailList());
-            ////_vm.Model.PageListChanged += (s, e) => OnPageListChanged();
+            _vm.AddPropertyChanged(nameof(_vm.PageNumber), (s, e) => DartyThumbnailList());
 
             this.Root.DataContext = _vm;
         }
@@ -86,12 +84,8 @@ namespace NeeView
         /// </summary>
         private void OnPageListChanged()
         {
-            ////var sw = new Stopwatch();
-            ////sw.Start();
             this.ThumbnailListBox.Items.Refresh();
             this.ThumbnailListBox.UpdateLayout();
-            ////sw.Stop();
-            ////Debug.WriteLine($"ThumbnailListBox: {sw.ElapsedMilliseconds}ms");
             DartyThumbnailList();
             LoadThumbnailList(+1);
         }
@@ -111,7 +105,7 @@ namespace NeeView
         //
         public void UpdateThumbnailList()
         {
-            App.Current?.Dispatcher.Invoke(() => UpdateThumbnailList(_vm.Model.PageNumber, _vm.Model.MaxPageNumber));
+            App.Current?.Dispatcher.Invoke(() => UpdateThumbnailList(_vm.PageNumber, _vm.MaxPageNumber));
         }
 
 
@@ -189,7 +183,7 @@ namespace NeeView
         {
             if (e.AddedItems.Count <= 0)
             {
-                this.ThumbnailListBox.SelectedIndex = _vm.Model.PageNumber;
+                this.ThumbnailListBox.SelectedIndex = _vm.PageNumber;
                 return;
             }
 
@@ -203,11 +197,11 @@ namespace NeeView
             {
                 if (this.ThumbnailListBox.SelectedIndex <= 0)
                 {
-                    this.ThumbnailListBox.HorizontalAlignment = PageSlider.Current.IsSliderDirectionReversed ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+                    this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Left;
                 }
                 else if (this.ThumbnailListBox.SelectedIndex >= this.ThumbnailListBox.Items.Count - 1)
                 {
-                    this.ThumbnailListBox.HorizontalAlignment = PageSlider.Current.IsSliderDirectionReversed ? HorizontalAlignment.Left : HorizontalAlignment.Right;
+                    this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Right;
                 }
                 else
                 {
@@ -297,7 +291,7 @@ namespace NeeView
 
             if (_thumbnailListPanel != null)
             {
-                _vm.Model.RequestThumbnail((int)_thumbnailListPanel.HorizontalOffset, (int)_thumbnailListPanel.ViewportWidth, 2, direction);
+                _vm.RequestThumbnail((int)_thumbnailListPanel.HorizontalOffset, (int)_thumbnailListPanel.ViewportWidth, 2, direction);
             }
         }
 

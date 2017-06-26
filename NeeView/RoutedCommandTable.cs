@@ -164,7 +164,7 @@ namespace NeeView
         [Obsolete, DataContract]
         public class Memento
         {
-            [Obsolete, DataMember]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public ShowMessageStyle CommandShowMessageStyle { get; set; }
         }
 

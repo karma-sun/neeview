@@ -119,6 +119,9 @@ namespace NeeView
             public string MouseGesture { get; set; }
             public GestureElement MouseGestureElement { get; set; }
 
+            public string TouchGesture { get; set; }
+            public GestureElement TouchGestureElement { get; set; }
+
             public bool IsShowMessage { get; set; }
             public string Tips { get; set; }
 
@@ -414,6 +417,7 @@ namespace NeeView
                     Header = element.Value.Text,
                     ShortCut = memento.ShortCutKey,
                     MouseGesture = memento.MouseGesture,
+                    TouchGesture = memento.TouchGesture,
                     IsShowMessage = memento.IsShowMessage,
                     Tips = element.Value.NoteToTips(),
                 };
@@ -435,6 +439,7 @@ namespace NeeView
 
             UpdateCommandListShortCut();
             UpdateCommandListMouseGesture();
+            UpdateCommandListTouchGesture();
 
             this.CommandListView.Items.Refresh();
         }
@@ -510,6 +515,36 @@ namespace NeeView
                 else
                 {
                     item.MouseGestureElement = new GestureElement();
+                }
+            }
+        }
+
+
+        // コマンド一覧 タッチ更新
+        private void UpdateCommandListTouchGesture()
+        {
+            foreach (var item in CommandCollection)
+            {
+                if (!string.IsNullOrEmpty(item.TouchGesture))
+                {
+                    var overlaps = CommandCollection
+                        .Where(e => e.Key != item.Key && e.TouchGesture == item.TouchGesture)
+                        .Select(e => $"「{e.Key.ToDispString()}」")
+                        .ToList();
+
+                    var element = new GestureElement();
+                    element.Gesture = item.TouchGesture;
+                    element.IsConflict = overlaps.Count > 0;
+                    if (overlaps.Count > 0)
+                    {
+                        element.Note = $"{string.Join("", overlaps)} と競合しています";
+                    }
+
+                    item.TouchGestureElement = element;
+                }
+                else
+                {
+                    item.TouchGestureElement = new GestureElement();
                 }
             }
         }
@@ -678,6 +713,36 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// タッチ設定
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TouchGestureSettingButton_Click(object sender, RoutedEventArgs e)
+        {
+            var value = (CommandParam)this.CommandListView.SelectedValue;
+
+            var context = new InputTouchSettingContext();
+            context.Command = value.Key;
+            context.Gestures = CommandCollection.ToDictionary(i => i.Key, i => i.TouchGesture);
+
+            var dialog = new InputTouchSettingWindow(context);
+            dialog.Owner = this;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            var result = dialog.ShowDialog();
+            if (result == true)
+            {
+                foreach (var item in CommandCollection)
+                {
+                    item.TouchGesture = context.Gestures[item.Key];
+                }
+
+                UpdateCommandListTouchGesture();
+                this.CommandListView.Items.Refresh();
+            }
+        }
+
+
         #region ParameterSettingCommand
         private RelayCommand _parameterSettingCommand;
         public RelayCommand ParameterSettingCommand
@@ -762,6 +827,7 @@ namespace NeeView
                 {
                     Setting.CommandMememto[command.Key].ShortCutKey = command.ShortCut;
                     Setting.CommandMememto[command.Key].MouseGesture = command.MouseGesture;
+                    Setting.CommandMememto[command.Key].TouchGesture = command.TouchGesture;
                     Setting.CommandMememto[command.Key].IsShowMessage = command.IsShowMessage;
                     Setting.CommandMememto[command.Key].Parameter = command.ParameterJson;
                 }

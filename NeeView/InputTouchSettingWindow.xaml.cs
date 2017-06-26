@@ -1,9 +1,10 @@
-﻿using NeeView.ComponentModel;
-using NeeView.Windows.Input;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,25 +17,41 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using NeeView.Windows.Input;
+using NeeView.ComponentModel;
+
 namespace NeeView
 {
     /// <summary>
-    /// MouseGestureSettingWindow.xaml の相互作用ロジック
+    ///  InputToucheSettingWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MouseGestureSettingWindow : Window
+    public partial class InputTouchSettingWindow : Window
     {
-        private MouseGestureSettingViewModel _vm;
+        private InputTouchSettingViewModel _vm;
 
         //
-        public MouseGestureSettingWindow(MouseGestureSettingContext context)
+        public InputTouchSettingWindow(InputTouchSettingContext context)
         {
             InitializeComponent();
 
-            _vm = new MouseGestureSettingViewModel(context, this.GestureBox);
+            this.GestureBox.PreviewMouseLeftButtonUp += GestureBox_PreviewMouseLeftButtonUp;
+
+            _vm = new InputTouchSettingViewModel(context, this.GestureBox);
             DataContext = _vm;
 
             // ESCでウィンドウを閉じる
             this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
+        }
+
+        //
+        private void GestureBox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var width = this.GestureBox.ActualWidth;
+            var pos = e.GetPosition(this.GestureBox);
+
+            _vm.SetTouchGesture(pos, this.GestureBox.ActualWidth, this.GestureBox.ActualHeight);
         }
 
         //
@@ -56,13 +73,10 @@ namespace NeeView
     /// <summary>
     /// MouseGestureSetting ViewModel
     /// </summary>
-    public class MouseGestureSettingViewModel : BindableBase
+    public class InputTouchSettingViewModel : BindableBase
     {
         //
-        private MouseGestureSettingContext _context;
-
-        //
-        private MouseInputForGestureEditor _mouseGesture;
+        private InputTouchSettingContext _context;
 
         /// <summary>
         /// Property: GestureToken
@@ -100,24 +114,18 @@ namespace NeeView
         /// </summary>
         /// <param name="context"></param>
         /// <param name="gestureSender"></param>
-        public MouseGestureSettingViewModel(MouseGestureSettingContext context, FrameworkElement gestureSender)
+        public InputTouchSettingViewModel(InputTouchSettingContext context, FrameworkElement gestureSender)
         {
             _context = context;
-
-            _mouseGesture = new MouseInputForGestureEditor(gestureSender);
-            _mouseGesture.Gesture.GestureProgressed += Gesture_MouseGestureProgressed;
-
             OriginalGesture = _context.Gesture;
         }
 
-        /// <summary>
-        /// Gesture Changed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Gesture_MouseGestureProgressed(object sender, MouseGestureEventArgs e)
+        //
+        internal void SetTouchGesture(Point pos, double width, double heigth)
         {
-            NewGesture = e.Sequence.ToString();
+            var gesture = pos.X < width * 0.5 ? TouchGesture.TouchLeft : TouchGesture.TouchRight;
+
+            this.NewGesture = gesture.ToString();
             UpdateGestureToken(NewGesture);
         }
 
@@ -169,8 +177,8 @@ namespace NeeView
 
         private void ClearCommand_Executed()
         {
-            _context.Gesture = null;
-            _mouseGesture.Gesture.Reset();
+            this.NewGesture = "";
+            UpdateGestureToken(NewGesture);
         }
     }
 
@@ -178,7 +186,7 @@ namespace NeeView
     /// <summary>
     /// MouseGestureSetting Model
     /// </summary>
-    public class MouseGestureSettingContext
+    public class InputTouchSettingContext
     {
         /// <summary>
         /// 表示名。nullの場合はCommand名を使用する
@@ -205,4 +213,6 @@ namespace NeeView
             set { if (Gestures[Command] != value) { Gestures[Command] = value; } }
         }
     }
+
+
 }

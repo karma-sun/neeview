@@ -186,7 +186,7 @@ namespace NeeView
             public string MouseGesture { get; set; }
             [DataMember]
             public bool IsShowMessage { get; set; }
-            [DataMember(Order = 15)]
+            [DataMember(Order = 15, EmitDefaultValue = false)]
             public string Parameter { get; set; }
 
             // no used
@@ -222,9 +222,9 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.ShortCutKey = ShortCutKey;
-            memento.TouchGesture = TouchGesture;
-            memento.MouseGesture = MouseGesture;
+            memento.ShortCutKey = ShortCutKey ?? "";
+            memento.TouchGesture = TouchGesture ?? "";
+            memento.MouseGesture = MouseGesture ?? "";
             memento.IsShowMessage = IsShowMessage;
 
             if (HasParameter && !DefaultParameter.IsReadOnly())
@@ -245,8 +245,9 @@ namespace NeeView
         {
             if (memento == null) return;
 
+            //
             ShortCutKey = memento.ShortCutKey;
-            TouchGesture = memento.TouchGesture;
+            TouchGesture = memento.TouchGesture ?? this.TouchGesture; // compatible before ver.24
             MouseGesture = memento.MouseGesture;
             IsShowMessage = memento.IsShowMessage;
 

@@ -200,6 +200,9 @@
     <Compile Include="ExporterProfile.cs" />
     <Compile Include="FileIO.cs" />
     <Compile Include="FileIOProfile.cs" />
+    <Compile Include="InputTouchSettingWindow.xaml.cs">
+      <DependentUpon>InputTouchSettingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LongButtonDownMode.cs" />
     <Compile Include="MainWindowModel.cs" />
     <Compile Include="Controls\NowLoadingView.xaml.cs">
@@ -613,6 +616,10 @@
     <Page Include="Controls\NowLoadingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InputTouchSettingWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SidePanels\Bookamrk\BookmarkListBox.xaml">
       <SubType>Designer</SubType>

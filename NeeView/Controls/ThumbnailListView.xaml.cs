@@ -67,6 +67,8 @@ namespace NeeView
             _vm.Model.Refleshed += (s, e) => OnPageListChanged();
             _vm.AddPropertyChanged(nameof(_vm.PageNumber), (s, e) => DartyThumbnailList());
 
+            this.ThumbnailListBox.ManipulationBoundaryFeedback += _vm.Model.ScrollViewer_ManipulationBoundaryFeedback;
+
             this.Root.DataContext = _vm;
         }
 

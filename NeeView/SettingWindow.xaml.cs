@@ -330,6 +330,8 @@ namespace NeeView
                     Setting.Memento.ThumbnailProfile,
                     Setting.Memento.MainWindowModel,
                     Setting.Memento.FolderList,
+                    Setting.Memento.SidePanel,
+                    Setting.Memento.ThumbnailList,
                     Setting.Memento.MenuBar,
                     Setting.Memento.BookProfile,
 

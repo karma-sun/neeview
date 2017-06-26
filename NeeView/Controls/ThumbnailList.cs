@@ -4,11 +4,14 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeView.ComponentModel;
+using NeeView.Windows.Property;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
+using System.Windows.Input;
 
 namespace NeeView
 {
@@ -123,6 +126,8 @@ namespace NeeView
 
         private int _MaxPageNumber;
 
+        // スクロールビュータッチ操作の終端挙動
+        public bool IsManipulationBoundaryFeedbackEnabled { get; set; } = true;
 
         public BookOperation BookOperation { get; private set; }
         public BookHub BookHub { get; private set; }
@@ -197,7 +202,20 @@ namespace NeeView
                 page.LoadThumbnail(QueueElementPriority.PageThumbnail);
             }
         }
-        
+
+        /// <summary>
+        ///  タッチスクロール終端挙動汎用
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ScrollViewer_ManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
+        {
+            if (!this.IsManipulationBoundaryFeedbackEnabled)
+            {
+                e.Handled = true;
+            }
+        }
+
 
         #region Memento
         [DataContract]
@@ -213,6 +231,15 @@ namespace NeeView
             public bool IsVisibleThumbnailNumber { get; set; }
             [DataMember]
             public bool IsVisibleThumbnailPlate { get; set; }
+            [DataMember, DefaultValue(true)]
+            [PropertyMember("サムネイルリストタッチスクロールの終端バウンド", Tips = "サムネイルリストのタッチスクロール操作での終端跳ね返り挙動の有効/無効を設定します")]
+            public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
+
+            [OnDeserializing]
+            private void OnDeserializing(StreamingContext c)
+            {
+                this.IsManipulationBoundaryFeedbackEnabled = true;
+            }
         }
 
         //
@@ -224,6 +251,7 @@ namespace NeeView
             memento.ThumbnailSize = this.ThumbnailSize;
             memento.IsVisibleThumbnailNumber = this.IsVisibleThumbnailNumber;
             memento.IsVisibleThumbnailPlate = this.IsVisibleThumbnailPlate;
+            memento.IsManipulationBoundaryFeedbackEnabled = this.IsManipulationBoundaryFeedbackEnabled;
             return memento;
         }
 
@@ -236,6 +264,7 @@ namespace NeeView
             this.ThumbnailSize = memento.ThumbnailSize;
             this.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
             this.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
+            this.IsManipulationBoundaryFeedbackEnabled = memento.IsManipulationBoundaryFeedbackEnabled;
         }
         #endregion
 

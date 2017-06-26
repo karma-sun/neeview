@@ -62,6 +62,9 @@ namespace NeeView
         private MouseGestureSettingContext _context;
 
         //
+        private TouchInputForGestureEditor _touchGesture;
+
+        //
         private MouseInputForGestureEditor _mouseGesture;
 
         /// <summary>
@@ -103,6 +106,9 @@ namespace NeeView
         public MouseGestureSettingViewModel(MouseGestureSettingContext context, FrameworkElement gestureSender)
         {
             _context = context;
+
+            _touchGesture = new TouchInputForGestureEditor(gestureSender);
+            _touchGesture.Gesture.GestureProgressed += Gesture_MouseGestureProgressed;
 
             _mouseGesture = new MouseInputForGestureEditor(gestureSender);
             _mouseGesture.Gesture.GestureProgressed += Gesture_MouseGestureProgressed;

@@ -96,7 +96,7 @@ namespace NeeView
         /// <summary>
         /// NewGesture property.
         /// </summary>
-        private string _NewGesture;
+        private string _NewGesture = "";
         public string NewGesture
         {
             get { return _NewGesture; }

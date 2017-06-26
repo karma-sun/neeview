@@ -221,8 +221,8 @@
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.Memento.InfoMessage.CommandShowMessageStyle}" />
                             </StackPanel>
-                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="マウスジェスチャーの状態の表示方法を指定します">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="マウスジェスチャーを"/>
+                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="ジェスチャーの状態の表示方法を指定します">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="ジェスチャーを"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.Memento.InfoMessage.GestureShowMessageStyle}" />
                             </StackPanel>

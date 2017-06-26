@@ -35,7 +35,7 @@ namespace NeeView
         public static Dictionary<DragActionType, string> LabelList { get; } = new Dictionary<DragActionType, string>
         {
             [DragActionType.None] = "なし",
-            [DragActionType.Gesture] = "マウスジェスチャー",
+            [DragActionType.Gesture] = "ジェスチャー",
             [DragActionType.Move] = "移動",
             [DragActionType.MoveScale] = "移動(スケール依存)",
             [DragActionType.Angle] = "回転",

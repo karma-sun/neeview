@@ -25,12 +25,13 @@
                                        KeyDown="TextBox_KeyDown"
                                        Foreground="{DynamicResource NVForeground}">
             </local:SliderTextBox>
-            <Grid Height="18">
-                <local:PageMarkersView x:Name="PageMarkersView" IsHitTestVisible="False" Margin="0,-2,0,2"/>
-                <Slider DockPanel.Dock="Bottom" x:Name="Slider" Height="18" Maximum="{Binding Model.MaxPageNumber}" Value="{Binding Model.PageNumber}" IsMoveToPointEnabled="True" SmallChange="1" IsDirectionReversed="{Binding Model.IsSliderDirectionReversed}" Focusable="False"
-                                    local:SliderTools.MoveToPointOnDrag="True" local:SliderTools.FocusTo="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=FocusTo}"
-                                    PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp">
-                </Slider>
+            
+            <Grid Height="30">
+                <local:VideoSlider x:Name="Slider"
+                                   Maximum="{Binding Model.MaxPageNumber}" Value="{Binding Model.PageNumber}"
+                                   IsDirectionReversed="{Binding Model.IsSliderDirectionReversed}" Focusable="False"
+                                   PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp"/>
+                <local:PageMarkersView x:Name="PageMarkersView" IsHitTestVisible="False" />
             </Grid>
         </DockPanel>
     </Grid>

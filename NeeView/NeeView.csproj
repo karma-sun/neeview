@@ -161,6 +161,9 @@
     <Compile Include="Controls\NowLoadingViewModel.cs" />
     <Compile Include="Controls\PageMarkers.cs" />
     <Compile Include="Controls\PageMarkersViewModel.cs" />
+    <Compile Include="Controls\VideoSlider.xaml.cs">
+      <DependentUpon>VideoSlider.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\AnytToFalseConverter.cs" />
     <Compile Include="Converters\ApiVersionToApiTextConverter.cs" />
     <Compile Include="Converters\BackgroundStyleToBooleanConverter.cs" />
@@ -617,6 +620,10 @@
     <Page Include="Controls\NowLoadingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\VideoSlider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="InputTouchSettingWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

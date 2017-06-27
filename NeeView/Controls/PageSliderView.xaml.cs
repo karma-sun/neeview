@@ -87,10 +87,7 @@ namespace NeeView
         // スライダーの方向切替反映
         public void Model_IsSliderDirectionReversedChanged(object sender, PropertyChangedEventArgs e)
         {
-            // Retrieve the Track from the Slider control
-            var track = this.Slider.Template.FindName("PART_Track", this.Slider) as System.Windows.Controls.Primitives.Track;
-            // Force it to rerender
-            track.InvalidateVisual();
+            // nop.
         }
         
 

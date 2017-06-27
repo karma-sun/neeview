@@ -42,15 +42,15 @@ namespace NeeView
         public event EventHandler ValueChanged;
 
         //
-        public Slider Target
+        public VideoSlider Target
         {
-            get { return (Slider)GetValue(TargetProperty); }
+            get { return (VideoSlider)GetValue(TargetProperty); }
             set { SetValue(TargetProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for TargetSlider.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TargetProperty =
-            DependencyProperty.Register("Target", typeof(Slider), typeof(SliderTextBox), new PropertyMetadata(null, TargetPropertyChanged));
+            DependencyProperty.Register("Target", typeof(VideoSlider), typeof(SliderTextBox), new PropertyMetadata(null, TargetPropertyChanged));
 
         private static void TargetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -80,9 +80,9 @@ namespace NeeView
             if (Target == null) return;
 
             // 注意：リークします
-            DependencyPropertyDescriptor.FromProperty(Slider.MaximumProperty, typeof(Slider))
+            DependencyPropertyDescriptor.FromProperty(VideoSlider.MaximumProperty, typeof(VideoSlider))
                 .AddValueChanged(this.Target, (s, e) => Update());
-            DependencyPropertyDescriptor.FromProperty(Slider.ValueProperty, typeof(Slider))
+            DependencyPropertyDescriptor.FromProperty(VideoSlider.ValueProperty, typeof(VideoSlider))
                 .AddValueChanged(Target, (s, e) => UpdateDispText());
 
             Update();

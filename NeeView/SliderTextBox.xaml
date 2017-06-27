@@ -33,7 +33,7 @@
             <TextBlock x:Name="TextBlock" TextAlignment="Center" VerticalAlignment="Center"
                    Text="{Binding DispText}">
             </TextBlock>
-            <TextBox x:Name="TextBox"  TextAlignment="Center" 
+            <TextBox x:Name="TextBox"  TextAlignment="Center" VerticalAlignment="Center"
                  Text="{Binding Target.Value, UpdateSourceTrigger=Explicit, Converter={StaticResource SliderValueConverter}}"
                  Visibility="Hidden"
                  MouseWheel="TextBox_MouseWheel"

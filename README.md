@@ -15,7 +15,7 @@
 
 ## Gitリポジトリからのプロジェクト取得
 
-% git clone --recursive https://neelabo@bitbucket.org/neelabo/neeview.git NeeView
+% git clone --recursive https://bitbucket.org/neelabo/neeview.git NeeView
 
 ## 配布パッケージ作成
 

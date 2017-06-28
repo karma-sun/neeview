@@ -75,6 +75,7 @@ namespace NeeView
             this.Option.Validate();
 
             // 設定ファイルの読み込み
+            new SaveData();
             SaveData.Current.LoadSetting(Option.SettingFilename);
             var setting = SaveData.Current.Setting;
 

@@ -174,6 +174,10 @@ namespace NeeView
                 case nameof(Model.IsSideBarVisible):
                     RaisePropertyChanged(nameof(IsSideBarVisible));
                     break;
+                case nameof(Model.IsVisibleLocked):
+                    this.Left.IsVisibleLocked = Model.IsVisibleLocked;
+                    this.Right.IsVisibleLocked = Model.IsVisibleLocked;
+                    break;
             }
         }
 

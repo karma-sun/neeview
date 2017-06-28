@@ -64,7 +64,29 @@ namespace NeeView
     {
         public static MainWindowModel Current { get; private set; }
 
-        public Models Models { get; private set; }
+        #region Fields
+
+        // パネル表示ロック
+        private bool _isPanelVisibleLocked;
+
+        // 古いパネル表示ロック。コマンドでロックのトグルをできるようにするため
+        private bool _isPanelVisibleLockedOld;
+
+
+        private PanelColor _panelColor = PanelColor.Dark;
+        private ContextMenuSetting _contextMenuSetting = new ContextMenuSetting();
+        private bool _isHideMenu;
+        private bool _isIsHidePageSlider;
+        private bool _isHidePanel; // = true;
+
+        //
+        private bool _IsHidePanelInFullscreen = true;
+        private bool _IsVisibleWindowTitle = true;
+        private bool _isVisibleAddressBar;
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// constructor
@@ -78,22 +100,21 @@ namespace NeeView
                 (s, e) => RaisePropertyChanged(nameof(CanHidePanel)));
         }
 
+        #endregion
+
+        #region Properties
 
         // 「ブックを開く」ダイアログを現在の場所を基準にして開く
         public bool IsOpenbookAtCurrentPlace { get; set; }
 
-
         //
-        private PanelColor _panelColor = PanelColor.Dark;
         public PanelColor PanelColor
         {
             get { return _panelColor; }
             set { if (_panelColor != value) { _panelColor = value; RaisePropertyChanged(); } }
         }
 
-
         //
-        private ContextMenuSetting _contextMenuSetting = new ContextMenuSetting();
         public ContextMenuSetting ContextMenuSetting
         {
             get { return _contextMenuSetting; }
@@ -105,9 +126,7 @@ namespace NeeView
             }
         }
 
-
         // メニューを自動的に隠す
-        private bool _isHideMenu;
         public bool IsHideMenu
         {
             get { return _isHideMenu; }
@@ -116,24 +135,13 @@ namespace NeeView
                 _isHideMenu = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(CanHideMenu));
-                ////UpdateSidePanelMargin();
             }
         }
 
         //
-        public bool ToggleHideMenu()
-        {
-            IsHideMenu = !IsHideMenu;
-            return IsHideMenu;
-        }
-
-        //
         public bool CanHideMenu => IsHideMenu || WindowShape.Current.IsFullScreen;
-
-
-
+        
         // スライダーを自動的に隠す
-        private bool _isIsHidePageSlider;
         public bool IsHidePageSlider
         {
             get { return _isIsHidePageSlider; }
@@ -142,24 +150,13 @@ namespace NeeView
                 _isIsHidePageSlider = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(CanHidePageSlider));
-                ////UpdateSidePanelMargin();
             }
         }
 
         //
-        public bool ToggleHidePageSlider()
-        {
-            IsHidePageSlider = !IsHidePageSlider;
-            return IsHidePageSlider;
-        }
-
-        //
         public bool CanHidePageSlider => IsHidePageSlider || WindowShape.Current.IsFullScreen;
-
-
-
+        
         // パネルを自動的に隠す
-        private bool _isHidePanel; // = true;
         public bool IsHidePanel
         {
             get { return _isHidePanel; }
@@ -171,12 +168,6 @@ namespace NeeView
             }
         }
 
-        public bool ToggleHidePanel()
-        {
-            IsHidePanel = !IsHidePanel;
-            return IsHidePanel;
-        }
-
         /// <summary>
         /// フルスクリーン時にパネルを隠す
         /// </summary>
@@ -186,33 +177,65 @@ namespace NeeView
             set { if (_IsHidePanelInFullscreen != value) { _IsHidePanelInFullscreen = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(CanHidePanel)); } }
         }
 
-        //
-        private bool _IsHidePanelInFullscreen = true;
-
-
-
-        // パネルを自動的に隠せるか
+         // パネルを自動的に隠せるか
         public bool CanHidePanel => IsHidePanel || (IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
 
-
-        /// <summary>
+         /// <summary>
         /// IsVisibleWindowTitle property.
         /// タイトルバーが表示されておらず、スライダーにフォーカスがある場合等にキャンバスにタイトルを表示する
         /// </summary>
-        private bool _IsVisibleWindowTitle = true;
         public bool IsVisibleWindowTitle
         {
             get { return _IsVisibleWindowTitle; }
             set { if (_IsVisibleWindowTitle != value) { _IsVisibleWindowTitle = value; RaisePropertyChanged(); } }
         }
 
-
         // アドレスバーON/OFF
-        private bool _isVisibleAddressBar;
         public bool IsVisibleAddressBar
         {
             get { return _isVisibleAddressBar; }
             set { _isVisibleAddressBar = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// パネル表示状態をロックする
+        /// </summary>
+        public bool IsPanelVisibleLocked
+        {
+            get { return _isPanelVisibleLocked; }
+            set
+            {
+                if (_isPanelVisibleLocked != value)
+                {
+                    _isPanelVisibleLocked = value;
+                    RaisePropertyChanged();
+                    SidePanel.Current.IsVisibleLocked = _isPanelVisibleLocked;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        //
+        public bool ToggleHideMenu()
+        {
+            IsHideMenu = !IsHideMenu;
+            return IsHideMenu;
+        }
+
+        //
+        public bool ToggleHidePageSlider()
+        {
+            IsHidePageSlider = !IsHidePageSlider;
+            return IsHidePageSlider;
+        }
+
+        public bool ToggleHidePanel()
+        {
+            IsHidePanel = !IsHidePanel;
+            return IsHidePanel;
         }
 
         public bool ToggleVisibleAddressBar()
@@ -221,16 +244,11 @@ namespace NeeView
             return IsVisibleAddressBar;
         }
 
-
-
         // 起動時処理
         public void Loaded()
         {
             // Chrome反映
             WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
-
-            // VMイベント設定
-            ////InitializeViewModelEvents();
 
             var setting = SaveData.Current.Setting;
 
@@ -251,7 +269,7 @@ namespace NeeView
 
 
             // フォルダーを開く
-            if (App.Current.Option.IsBlank != SwitchOption.on )
+            if (App.Current.Option.IsBlank != SwitchOption.on)
             {
                 if (App.Current.Option.StartupPlace != null)
                 {
@@ -283,11 +301,6 @@ namespace NeeView
                 BookHub.Current.RequestLoad(place, null, BookLoadOption.Resume, true);
             }
         }
-
-
-        #region Commands
-
-
 
 
         // ダイアログでファイル選択して画像を読み込む
@@ -396,7 +409,7 @@ namespace NeeView
         // 設定ファイルの場所を開く
         public void OpenSettingFilesFolder()
         {
-            Process.Start("explorer.exe", $"\"{Config.Current .LocalApplicationDataPath}\"");
+            Process.Start("explorer.exe", $"\"{Config.Current.LocalApplicationDataPath}\"");
         }
 
         // オンラインヘルプ
@@ -404,9 +417,6 @@ namespace NeeView
         {
             System.Diagnostics.Process.Start("https://bitbucket.org/neelabo/neeview/wiki/");
         }
-
-        #endregion
-
 
 
         // 履歴削除
@@ -417,9 +427,34 @@ namespace NeeView
             MenuBar.Current.UpdateLastFiles();
         }
 
+        /// <summary>
+        /// パネル表示ロック開始
+        /// コマンドから呼ばれる
+        /// </summary>
+        public void EnterVisibleLocked()
+        {
+            this.IsPanelVisibleLocked = !_isPanelVisibleLockedOld;
+            _isPanelVisibleLockedOld = _isPanelVisibleLocked;
+        }
 
+        /// <summary>
+        /// パネル表示ロック解除
+        /// 他の操作をした場所から呼ばれる
+        /// </summary>
+        public void LeaveVisibleLocked()
+        {
+            if (_isPanelVisibleLocked)
+            {
+                _isPanelVisibleLockedOld = true;
+                this.IsPanelVisibleLocked = false;
+            }
+            else
+            {
+                _isPanelVisibleLockedOld = false;
+            }
+        }
 
-
+        #endregion
 
         #region Memento
 
@@ -494,6 +529,5 @@ namespace NeeView
         }
 
         #endregion
-
     }
 }

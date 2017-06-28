@@ -98,27 +98,30 @@ namespace NeeView
             if (e.StylusDevice != _touch.StylusDevice) return;
 
             // タッチジェスチャー判定
-            TouchGesture gesture = TouchGesture.None;
-            var touchPoint = e.GetPosition(_context.Sender);
-
-            // タッチエリア 左右判定
-            if (touchPoint.X < _context.Sender.ActualWidth * 0.5)
-            {
-                gesture = TouchGesture.TouchLeft;
-            }
-            else
-            {
-                gesture = TouchGesture.TouchRight;
-            }
-
-            // コマンド決定
-            if (gesture != TouchGesture.None)
-            {
-                TouchGestureChanged?.Invoke(sender, new TouchGestureEventArgs(e, gesture));
-            }
+            ExecuteTouchGesture(sender, e);
 
             // その後の操作は全て無効
             _isTouchDown = false;
+        }
+
+        //
+        private void ExecuteTouchGesture(object sender, StylusEventArgs e)
+        {
+            // タッチジェスチャー判定
+            var point = e.GetPosition(_context.Sender);
+            var xRate = point.X / _context.Sender.ActualWidth;
+            var yRate = point.Y / _context.Sender.ActualHeight;
+
+            // TouchCenter を優先的に判定
+            if (TouchGesture.TouchCenter.IsTouched(xRate, yRate))
+            {
+                TouchGestureChanged?.Invoke(this, new TouchGestureEventArgs(e, TouchGesture.TouchCenter));
+                if (e.Handled) return;
+            }
+
+            // TouchLeft / Right
+            var gesture = xRate < 0.5 ? TouchGesture.TouchLeft : TouchGesture.TouchRight;
+            TouchGestureChanged?.Invoke(this, new TouchGestureEventArgs(e, gesture));
         }
 
 

@@ -908,6 +908,20 @@ namespace NeeView
                 element.CanExecute = () => true;
                 _elements[CommandType.ToggleWindowMaximize] = element;
             }
+            
+            // ShowHiddenPanels
+            {
+                var element = new CommandElement();
+                element.Group = "ウィンドウ";
+                element.Text = "パネルを一時的に表示する";
+                element.MenuText = "パネル一時表示";
+                element.Note = "自動非表示になっているパネルを一時的に表示します。なんらかの操作をすると解除されます";
+                element.TouchGesture = "TouchCenter";
+                element.CanExecute = () => true;
+                element.Execute = (s, e) => _models.MainWindowModel.EnterVisibleLocked();
+                element.IsShowMessage = false;
+                _elements[CommandType.ShowHiddenPanels] = element;
+            }
 
 
             // ToggleSlideShow

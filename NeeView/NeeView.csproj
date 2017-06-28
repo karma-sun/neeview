@@ -540,7 +540,6 @@
     <Compile Include="SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SliderTools.cs" />
     <Compile Include="Archiver\SusieArchiver.cs" />
     <Compile Include="BitmapLoader\SusieBitmapLoader.cs" />
     <Compile Include="SusieContext.cs" />

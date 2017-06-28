@@ -88,6 +88,8 @@ namespace NeeView
         ToggleWindowMinimize,
         ToggleWindowMaximize,
 
+        ShowHiddenPanels,
+
         ToggleSlideShow,
 
         ToggleStretchMode,

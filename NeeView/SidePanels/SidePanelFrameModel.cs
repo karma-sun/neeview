@@ -89,6 +89,19 @@ namespace NeeView
             _right.PropertyChanged += Right_PropertyChanged;
         }
 
+
+        /// <summary>
+        /// IsVisibleLocked property.
+        /// </summary>
+        public bool IsVisibleLocked
+        {
+            get { return _isVisibleLocked; }
+            set { if (_isVisibleLocked != value) { _isVisibleLocked = value; RaisePropertyChanged(); } }
+        }
+
+        private bool _isVisibleLocked;
+
+
         /// <summary>
         /// パネル登録
         /// </summary>

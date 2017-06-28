@@ -80,8 +80,23 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Line Grid.Column="1" X1="0" X2="0" Y1="0" Y2="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}" Stroke="LightSteelBlue" StrokeThickness="1" StrokeDashArray="2,2" UseLayoutRounding="True"/>
-                    <TextBlock Text="L" Grid.Column="0" Margin="2" Foreground="LightSteelBlue"/>
-                    <TextBlock Text="R" Grid.Column="1" Margin="2" Foreground="LightSteelBlue"/>
+                    <TextBlock Text="Left" Grid.Column="0" Margin="2" Foreground="LightSteelBlue"/>
+                    <TextBlock Text="Right" Grid.Column="1" Margin="2" Foreground="LightSteelBlue" HorizontalAlignment="Right"/>
+                </Grid>
+                <Grid IsHitTestVisible="False">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Column="1" Grid.Row="0">
+                        <Rectangle Stroke="LightSteelBlue" StrokeThickness="1" StrokeDashArray="2,2"  Fill="AliceBlue"/>
+                        <TextBlock Text="Center" Grid.Column="0" Margin="2" Foreground="LightSteelBlue"/>
+                    </Grid>
                 </Grid>
                 <TextBlock Text="ここでタッチ入力" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
             </Grid>

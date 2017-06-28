@@ -71,7 +71,10 @@ namespace NeeView
                 (s, e) => UpdateMenuAreaLayout());
 
             models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsHidePageSlider),
-                (s, e) => UpdateMenuAreaLayout());
+                (s, e) => UpdateStatusAreaLayout());
+
+            models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsPanelVisibleLocked),
+                (s, e) => UpdateControlsVisibility());
 
             models.ThumbnailList.AddPropertyChanged(nameof(ThumbnailList.IsEnableThumbnailList),
                 (s, e) => UpdateThumbnailListLayout());
@@ -120,8 +123,11 @@ namespace NeeView
             InitializeNonActiveTimer();
 
 
-            // moue event for window shape
+            // moue event for window
             this.PreviewMouseMove += MainWindow_PreviewMouseMove;
+            this.PreviewMouseDown += MainWindow_PreviewMouseDown;
+            this.PreviewMouseWheel += MainWindow_PreviewMouseWheel;
+            this.PreviewStylusDown += MainWindow_PreviewStylusDown;
 
             // cancel rename triggers
             this.MouseLeftButtonDown += (s, e) => this.RenameManager.Stop();
@@ -441,6 +447,30 @@ namespace NeeView
             // 単キーのショートカットを有効にする。
             // TextBoxなどのイベント処理でこのフラグをfalseにすることで短キーのショートカットを無効にして入力を優先させる
             KeyExGesture.AllowSingleKey = true;
+
+            // 自動非表示ロック解除
+            _vm.Model.LeaveVisibleLocked();
+        }
+
+        //
+        private void MainWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // 自動非表示ロック解除
+            _vm.Model.LeaveVisibleLocked();
+        }
+
+        //
+        private void MainWindow_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            // 自動非表示ロック解除
+            _vm.Model.LeaveVisibleLocked();
+        }
+
+
+        private void MainWindow_PreviewStylusDown(object sender, StylusDownEventArgs e)
+        {
+            // 自動非表示ロック解除
+            _vm.Model.LeaveVisibleLocked();
         }
 
 
@@ -672,7 +702,7 @@ namespace NeeView
         {
             const double visibleMargin = 16;
 
-            if (MainWindowModel.Current.CanHideMenu)
+            if (MainWindowModel.Current.CanHideMenu && !_vm.Model.IsPanelVisibleLocked)
             {
                 var point = Mouse.GetPosition(this.Root);
                 bool isVisible = this.AddressBar.AddressTextBox.IsFocused || this.LayerMenuSocket.IsMouseOver || point.Y < (MenuLayerVisibility.Visibility == Visibility.Visible ? this.LayerMenuSocket.ActualHeight : 0) + visibleMargin && this.IsMouseOver;
@@ -714,7 +744,11 @@ namespace NeeView
         {
             const double visibleMargin = 16;
 
-            if (this.LayerStatusArea.Visibility == Visibility.Visible)
+            if (_vm.Model.IsPanelVisibleLocked)
+            {
+                StatusLayerVisibility.Set(Visibility.Visible);
+            }
+            else if (this.LayerStatusArea.Visibility == Visibility.Visible)
             {
                 var point = Mouse.GetPosition(this.LayerStatusArea);
                 bool isVisible = this.LayerStatusArea.IsFocused || this.LayerStatusArea.IsMouseOver || point.Y > -visibleMargin && this.IsMouseOver;

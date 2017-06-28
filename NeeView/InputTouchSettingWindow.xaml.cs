@@ -121,9 +121,9 @@ namespace NeeView
         }
 
         //
-        internal void SetTouchGesture(Point pos, double width, double heigth)
+        internal void SetTouchGesture(Point pos, double width, double height)
         {
-            var gesture = pos.X < width * 0.5 ? TouchGesture.TouchLeft : TouchGesture.TouchRight;
+            var gesture = TouchGestureExtensions.GetTouchGesture(pos.X / width, pos.Y / height);
 
             this.NewGesture = gesture.ToString();
             UpdateGestureToken(NewGesture);

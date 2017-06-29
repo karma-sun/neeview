@@ -34,5 +34,17 @@ namespace NeeView
 
             _items = list;
         }
+
+        // 追加
+        public void AddString(string ext)
+        {
+            if (ext == null) return;
+
+            ext = "." + ext.Trim().TrimStart('.').ToLower();
+            if (!_items.Contains(ext))
+            {
+                _items.Add(ext);
+            }
+        }
     }
 }

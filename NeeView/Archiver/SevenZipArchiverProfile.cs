@@ -22,7 +22,7 @@ namespace NeeView
         public string X86DllPath { get; set; } = "";
         public string X64DllPath { get; set; } = "";
         public double LockTime { get; set; } = -1.0;
-        public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".7z;.rar;.lzh");
+        public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".7z;.rar;.lzh;.cbr;.cbz");
 
         // 強制アンロックモード
         public bool IsUnlockMode { get; set; }
@@ -31,6 +31,9 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
+            [DataMember]
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+
             [DataMember, DefaultValue("")]
             [PropertyPath(Name = "7z.dll(32bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
             public string X86DllPath { get; set; }
@@ -39,7 +42,7 @@ namespace NeeView
             [PropertyPath(Name = "7z.dll(64bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
             public string X64DllPath { get; set; }
 
-            [DataMember, DefaultValue(".7z;.rar;.lzh")]
+            [DataMember, DefaultValue(".7z;.rar;.lzh;.cbr;.cbz")]
             [PropertyMember("7z.dllで展開する圧縮ファイルの拡張子", Tips = ";(セミコロン)区切りでサポートする拡張子を羅列します。\n拡張子は .zip のように指定します")]
             public string SupportFileTypes { get; set; }
 
@@ -67,6 +70,13 @@ namespace NeeView
             this.X64DllPath = memento.X64DllPath;
             this.LockTime = memento.LockTime;
             this.SupportFileTypes.FromString(memento.SupportFileTypes);
+
+            // compatible before ver.25
+            if (memento._Version < Config.GenerateProductVersionNumber(1, 25, 0))
+            {
+                this.SupportFileTypes.AddString(".cbr");
+                this.SupportFileTypes.AddString(".cbz");
+            }
         }
         #endregion
 

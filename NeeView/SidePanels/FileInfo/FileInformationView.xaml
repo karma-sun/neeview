@@ -18,6 +18,9 @@
              >
 
     <UserControl.Resources>
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="15"/>
         </Style>
@@ -55,6 +58,7 @@
 
                 <!-- Parameters -->
                 <local:FileInfoItem x:Name="ItemFileName" Header="ファイル名" Text="{Binding Model.ViewContent.FileName}"/>
+                <local:FileInfoItem x:Name="ItemFilePath" Header="ファイルパス" Text="{Binding Model.ViewContent.FullPath}" Visibility="{Binding Model.IsVisibleFilePath, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <local:FileInfoItem x:Name="ItemLastWriteTime" Header="日付" Text="{Binding LastWriteTime}"/>
                 <local:FileInfoItem x:Name="ItemFileSize" Header="サイズ" Text="{Binding FileSize}"/>
                 <local:FileInfoItem x:Name="ItemSize" Header="サイズ" Text="{Binding ImageSize}"/>

@@ -54,6 +54,18 @@ namespace NeeView
 
         private bool _IsVisibleLoader;
 
+        /// <summary>
+        /// IsVisibleFilePath property.
+        /// </summary>
+        public bool IsVisibleFilePath
+        {
+            get { return _IsVisibleFilePath; }
+            set { if (_IsVisibleFilePath != value) { _IsVisibleFilePath = value; RaisePropertyChanged(); } }
+        }
+
+        private bool _IsVisibleFilePath;
+
+
 
 
         /// <summary>
@@ -88,6 +100,8 @@ namespace NeeView
             public bool IsVisibleBitsPerPixel { get; set; }
             [DataMember]
             public bool IsVisibleLoader { get; set; }
+            [DataMember]
+            public bool IsVisibleFilePath { get; set; }
         }
 
         //
@@ -97,6 +111,7 @@ namespace NeeView
             memento.IsUseExifDateTime = this.IsUseExifDateTime;
             memento.IsVisibleBitsPerPixel = this.IsVisibleBitsPerPixel;
             memento.IsVisibleLoader = this.IsVisibleLoader;
+            memento.IsVisibleFilePath = this.IsVisibleFilePath;
             return memento;
         }
 
@@ -107,6 +122,7 @@ namespace NeeView
             IsUseExifDateTime = memento.IsUseExifDateTime;
             IsVisibleBitsPerPixel = memento.IsVisibleBitsPerPixel;
             IsVisibleLoader = memento.IsVisibleLoader;
+            IsVisibleFilePath = memento.IsVisibleFilePath;
         }
     }
 

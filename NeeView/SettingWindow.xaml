@@ -339,6 +339,9 @@
 
                         <TextBlock Text="ファイル情報" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ファイルパスを表示する"
+                                      ToolTip="アーカイブ内のファイルパスを表示します"
+                                      IsChecked="{Binding Setting.Memento.FileInformation.IsVisibleFilePath}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="EXIFの日時を使用する"
                                       ToolTip="ファイル情報パネルでの表示に限ります&#xa;日付順のソートには影響しません"
                                       IsChecked="{Binding Setting.Memento.FileInformation.IsUseExifDateTime}" />
@@ -347,7 +350,7 @@
                                       IsChecked="{Binding Setting.Memento.FileInformation.IsVisibleBitsPerPixel}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ローダー情報を表示する"
                                       ToolTip="使用されたアーカイバー、画像デコーダー名を表示します"
-                              IsChecked="{Binding Setting.Memento.FileInformation.IsVisibleLoader}" />
+                                      IsChecked="{Binding Setting.Memento.FileInformation.IsVisibleLoader}" />
                         </StackPanel>
 
                         <TextBlock Text="エフェクト" Style="{StaticResource Header}"/>

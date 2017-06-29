@@ -13,22 +13,32 @@
     <MajorUpgrade DowngradeErrorMessage="新しいバージョンの $(var.ExeName) が既にインストール済です。" />
     <MediaTemplate EmbedCab="yes" CompressionLevel="high"/>
 
-    <Feature Id="ProductFeature" Title="$(var.ExeName)" Level="1">
-      <ComponentGroupRef Id="ProductComponents" />
-      <ComponentGroupRef Id="NeeViewComponents" />
-      <ComponentGroupRef Id="NeeViewSComponents" />
-      <ComponentGroupRef Id="DllComponents"/>
-      <ComponentRef Id="EssentialShortcuts" />
+    <!-- Features -->
+    <Feature Id="ProductFeature" Title="$(var.ExeName)" Level="1" AllowAdvertise="no" Absent="disallow" Display="expand" ConfigurableDirectory="INSTALLFOLDER" >
+      
+      <Feature Id="CoreFeature" Title="Core" Level="1" AllowAdvertise="no" Absent="disallow" Display="hidden" >
+        <ComponentGroupRef Id="ProductComponents" />
+        <ComponentGroupRef Id="DllComponents"/>
+        <ComponentRef Id="AppStartMenuDirComponent" />
+      </Feature>
+
+      <Feature Id="NeeViewFeature" Title="NeeView" Description="標準版のNeeView実行ファイルです。Susieプラグインは使用できません。64bitOSでは64bitで動作します"
+          Level="1" AllowAdvertise="no">
+        <ComponentGroupRef Id="NeeViewComponents" />
+      </Feature>
+
+      <Feature Id="NeeViewSFeature" Title="NeeViewS" Description="Susieプラグイン対応版のNeeView実行ファイルです。32bitで動作します"
+          Level="1000" AllowAdvertise="no" >
+        <ComponentGroupRef Id="NeeViewSComponents" />
+      </Feature>
     </Feature>
 
     <!-- インストーラーUI設定 -->
-    <!--
-    <WixVariable Id="WixUIBannerBmp" Value="Resources\bannrbmp.bmp" />
-    <WixVariable Id="WixUIDialogBmp" Value="Resources\dlgbmp.bmp" />
-    -->
+    <UIRef Id="WixUI_Mondo" />
+    <UIRef Id="WixUI_ErrorProgressText" />
 
-    <UIRef Id="WixUI_InstallDirEx"/>
-    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <WixVariable Id="WixUILicenseRtf" Value="WixSource\License.rtf"/>
+
 
     <!-- アドバタイズショートカットを無効にする -->
     <Property Id="DISABLEADVTSHORTCUTS" Value="1" />
@@ -72,6 +82,7 @@
       <Component Guid="*">
         <File Source="$(var.ContentDir)NeeView.exe" KeyPath="yes" Checksum="yes" >
           <netfx:NativeImage Id="ngen_NeeView.exe" Platform="all" Priority="0"/>
+          <Shortcut Id="MyMenuShortcut" Directory="AppStartMenuDir" Name="NeeView" WorkingDirectory="INSTALLFOLDER" Icon="Icon_NeeView.exe" Advertise="yes"/>
         </File>
       </Component>
       <Component>
@@ -83,6 +94,7 @@
       <Component Guid="*">
         <File Source="$(var.ContentDir)NeeViewS.exe" KeyPath="yes" Checksum="yes" >
           <netfx:NativeImage Id="ngen_NeeViewS.exe" Platform="32bit" Priority="0"/>
+          <Shortcut Id="MyMenuShortcutS" Directory="AppStartMenuDir" Name="NeeViewS" WorkingDirectory="INSTALLFOLDER" Icon="Icon_NeeViewS.exe" Advertise="yes"/>
         </File>
       </Component>
       <Component>
@@ -95,13 +107,11 @@
     <Icon Id="Icon_NeeViewS.exe" SourceFile="$(var.ContentDir)NeeViewS.exe" />
 
 
-    <!-- shortcut -->
+    <!-- startmenu dir -->
     <DirectoryRef Id="AppStartMenuDir">
-      <Component Id="EssentialShortcuts" Guid="*">
+      <Component Id="AppStartMenuDirComponent" Guid="*">
         <RegistryValue Root="HKCU" Key="Software\NeeLaboratory\NeeView" Name="InstalledStartMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
         <RemoveFolder Id="AppStartMenuDir" On="uninstall" />
-        <Shortcut Id="Shortcut_NeeView" Name="NeeView" Target="[INSTALLFOLDER]NeeView.exe" WorkingDirectory="INSTALLFOLDER" Icon="Icon_NeeView.exe"/>
-        <Shortcut Id="Shortcut_NeeViewS" Name="NeeViewS" Target="[INSTALLFOLDER]NeeViewS.exe" WorkingDirectory="INSTALLFOLDER" Icon="Icon_NeeViewS.exe"/>
       </Component>
     </DirectoryRef>
 

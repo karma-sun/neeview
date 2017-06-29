@@ -6,7 +6,7 @@ NeeView is released under the MIT License.
 
 ------------------------------------------------------------------------------------------------
 
-Copyright (c) 2016 Mitsuhiro Ito (nee)
+Copyright (c) Mitsuhiro Ito (nee)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,6 @@ THE SOFTWARE.
 ------------------------------------------------------------------------------------------------
 
 (参考：MITライセンス日本語訳)
-
-Copyright (c) 2016 Mitsuhiro Ito (nee)
 
 以下に定める条件に従い、本ソフトウェアおよび関連文書のファイル（以下「ソフトウェア」）の
 複製を取得するすべての人に対し、ソフトウェアを無制限に扱うことを無償で許可します。

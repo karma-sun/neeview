@@ -31,7 +31,7 @@ namespace NeeView
         [OptionMember("v", "version", Default = "true", HelpText = "バージョン情報を表示します")]
         public bool IsVersion { get; set; }
 
-        [OptionMember("x", "setting", HasParameter = true, HelpText = "設定ファイル(UserSetting.xml)のパスを指定します")]
+        [OptionMember("x", "setting", HasParameter = true, RequireParameter = true, HelpText = "設定ファイル(UserSetting.xml)のパスを指定します")]
         public string SettingFilename { get; set; }
 
         [OptionMember("f", "fullscreen", Default = "on", HasParameter = true, HelpText = "フルスクリーンで起動するかを指定します")]
@@ -61,31 +61,40 @@ namespace NeeView
         //
         public void Validate()
         {
-            // SettingFilename
-            if (this.SettingFilename != null)
+            try
             {
-                var filename = this.SettingFilename;
-                if (File.Exists(filename))
+                // SettingFilename
+                if (this.SettingFilename != null)
                 {
-                    // 念のためフルパス変換
-                    this.SettingFilename = Path.GetFullPath(filename);
+                    var filename = this.SettingFilename;
+                    if (File.Exists(filename))
+                    {
+                        // 念のためフルパス変換
+                        this.SettingFilename = Path.GetFullPath(filename);
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"指定された設定ファイルが存在しません : {this.SettingFilename}");
+                    }
                 }
                 else
                 {
-                    throw new ArgumentException($"指定された設定ファイルが存在しません : {this.SettingFilename}");
+                    this.SettingFilename = Path.Combine(Config.Current.LocalApplicationDataPath, "UserSetting.xml");
+                }
+
+                // StartupPlage
+                this.StartupPlace = Values?.LastOrDefault();
+                if (this.StartupPlace != null && (File.Exists(this.StartupPlace) || Directory.Exists(this.StartupPlace)))
+                {
+                    this.StartupPlace = Path.GetFullPath(this.StartupPlace);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                this.SettingFilename = Path.Combine(System.Environment.CurrentDirectory, "UserSetting.xml");
+                new MessageDialog(ex.Message, "NeeView 起動エラー").ShowDialog();
+                throw;
             }
 
-            // StartupPlage
-            this.StartupPlace = Values?.LastOrDefault();
-            if (this.StartupPlace != null && (File.Exists(this.StartupPlace) || Directory.Exists(this.StartupPlace)))
-            {
-                this.StartupPlace = Path.GetFullPath(this.StartupPlace);
-            }
         }
     }
 
@@ -100,7 +109,6 @@ namespace NeeView
 
             try
             {
-                //
                 option = optionMap.ParseArguments(args);
             }
             catch (Exception ex)

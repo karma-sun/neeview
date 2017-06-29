@@ -32,11 +32,11 @@ namespace NeeView
         {
             Current = this;
 
-            _historyFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "History.xml");
-            _bookmarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Bookmark.xml");
-            _pagemarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Pagemark.xml");
+            _historyFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "History.xml");
+            _bookmarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "Bookmark.xml");
+            _pagemarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "Pagemark.xml");
 
-            _oldPagemarkFileName = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Pagekmark.xml");
+            _oldPagemarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "Pagekmark.xml");
         }
 
         // アプリ設定作成

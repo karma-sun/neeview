@@ -23,6 +23,8 @@ namespace NeeView.Data
 
         public bool HasParameter { get; set; }
 
+        public bool RequireParameter { get; set; }
+
         public OptionMemberAttribute() { }
         public OptionMemberAttribute(string shortName, string longName)
         {
@@ -39,6 +41,7 @@ namespace NeeView.Data
         public string ShortName => _attribute.ShortName;
         public string Default => _attribute.Default;
         public bool HasParameter => _attribute.HasParameter;
+        public bool RequireParameter => _attribute.RequireParameter;
         public string HelpText => _attribute.HelpText;
 
         public string PropertyName => _info.Name;

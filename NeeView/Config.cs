@@ -335,10 +335,6 @@ namespace NeeView
                 // キャッシュDBを閉じる
                 ThumbnailCache.Current.Close();
 
-                // 削除できないのでカレントフォルダー移動
-                var currentFolder = System.Environment.CurrentDirectory;
-                System.Environment.CurrentDirectory = this.AssemblyLocation;
-
                 try
                 {
                     this.RemoveApplicationDataCore();
@@ -349,9 +345,6 @@ namespace NeeView
                 catch (Exception ex)
                 {
                     new MessageDialog(ex.Message, "削除できません。").ShowDialog();
-
-                    // カレントフォルダー復帰
-                    System.Environment.CurrentDirectory = currentFolder;
                 }
             }
         }

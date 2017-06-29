@@ -136,6 +136,7 @@ namespace NeeView
             var myPicture = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures);
             if (Directory.Exists(myPicture)) return myPicture;
 
+            // 救済措置。
             return Environment.CurrentDirectory;
         }
 

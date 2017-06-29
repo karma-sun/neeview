@@ -106,6 +106,8 @@ namespace NeeView.Data
                 text += $"{key} {keyValue}\n                {element.HelpText}\n";
             }
 
+            text += "--\n                オプションリストの終りを示す。これ以後の引数はファイル名とみなされます";
+
             return text;
         }
 
@@ -113,51 +115,59 @@ namespace NeeView.Data
         //
         public T ParseArguments(string[] args)
         {
-            // 字句解析
-            var tokens = new List<string>();
-            var regex = new Regex(@"^([^=]+)=(.+)$");
+            bool isOptionTerminated = false;
 
-            foreach (var arg in args)
-            {
-                var match = regex.Match(arg);
-                if (match.Success)
-                {
-                    tokens.AddRange(GetKeys(match.Groups[1].Value));
-                    tokens.Add(match.Groups[2].Value);
-                }
-                else
-                {
-                    tokens.AddRange(GetKeys(arg));
-                }
-            }
-
-            // 構文解析
             var options = new Dictionary<string, string>();
             var values = new List<string>();
 
-            for (int i = 0; i < tokens.Count; ++i)
+            for (int i = 0; i < args.Length; ++i)
             {
-                var token = tokens[i];
-                var next = i + 1 < tokens.Count ? tokens[i + 1] : null;
+                var arg = args[i];
+                var next = i + 1 < args.Length ? args[i + 1] : null;
 
-                if (token.StartsWith("-"))
+                // option terminator
+                if (arg == "--")
                 {
-                    var element = GetElement(token);
-                    if (element == null) throw new ArgumentException($"{token} は未知のオプションです。");
+                    isOptionTerminated = true;
+                }
+                // option
+                else if (!isOptionTerminated && arg.StartsWith("-"))
+                {
+                    var tokens = arg.Split(new char[] { '=' }, 2);
+                    var value = tokens.Length >= 2 ? tokens[1] : null;
 
-                    if (next == null || next.StartsWith("-") || !element.HasParameter)
+                    var keys = GetKeys(tokens[0]);
+
+                    foreach (var key in keys)
                     {
-                        options.Add(token, null);
-                    }
-                    else
-                    {
-                        options.Add(token, next);
-                        i++;
+                        bool isLast = keys.Last() == key;
+
+                        var element = GetElement(key);
+                        if (element == null) throw new ArgumentException($"{key} は未知のオプションです。");
+
+                        if (!isLast)
+                        {
+                            options.Add(key, null);
+                        }
+                        else if (value != null)
+                        {
+                            options.Add(key, value);
+                        }
+                        else if (next == null || next.StartsWith("-") || !element.RequireParameter)
+                        {
+                            options.Add(key, null);
+                        }
+                        else
+                        {
+                            options.Add(key, next);
+                            i++;
+                        }
                     }
                 }
+                // value
                 else
                 {
-                    values.Add(token);
+                    values.Add(arg);
                 }
             }
 
@@ -190,6 +200,8 @@ namespace NeeView.Data
         {
             foreach (var item in options)
             {
+                Debug.WriteLine($"Option: {item.Key} = {item.Value}");
+
                 var element = GetElement(item.Key);
                 if (element == null) throw new ArgumentException($"{item.Key} は未知のオプションです。");
 
@@ -205,6 +217,11 @@ namespace NeeView.Data
                     Debug.WriteLine(ex.Message);
                     throw new ArgumentException($"{item.Key} の引数として {value} は使用できません。");
                 }
+            }
+
+            foreach(var value in values)
+            {
+                Debug.WriteLine($"Value: {value}");
             }
 
             _values?.SetValues(source, values);

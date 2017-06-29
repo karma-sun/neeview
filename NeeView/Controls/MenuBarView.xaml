@@ -43,6 +43,7 @@
                     <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" IsChecked="{Binding Development.IsVisibleDevInfo}" />
                     <MenuItem x:Name="MenuItemDevApplicationFolder" Header="アプリのフォルダーを開く" Click="MenuItemDevApplicationFolder_Click" />
                     <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="アプリデータフォルダーを開く" Click="MenuItemDevApplicationDataFolder_Click" />
+                    <MenuItem x:Name="MenuItemDevCurrentFolder" Header="カレントフォルダーを開く" Click="MenuItemDevCurrentFolder_Click" />
                     <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダーを開く" Click="MenuItemDevTempFolder_Click" />
                     <MenuItem x:Name="MenuItemDevButton" Header="テスト実行" Click="MenuItemDevButton_Click" />
                 </MenuItem>

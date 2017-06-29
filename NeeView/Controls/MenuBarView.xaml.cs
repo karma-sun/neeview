@@ -84,19 +84,32 @@ namespace NeeView
         // 開発用コマンド：テンポラリフォルダーを開く
         private void MenuItemDevTempFolder_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(Temporary.TempDirectory);
+            OpenFolder(Temporary.TempDirectory);
         }
 
         // 開発用コマンド：アプリケーションフォルダーを開く
         private void MenuItemDevApplicationFolder_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
+            OpenFolder(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location));
         }
 
         // 開発用コマンド：アプリケーションデータフォルダーを開く
         private void MenuItemDevApplicationDataFolder_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(Config.Current .LocalApplicationDataPath);
+            OpenFolder(Config.Current .LocalApplicationDataPath);
+        }
+
+        // 開発用コマンド：カレントフォルダーを開く
+        private void MenuItemDevCurrentFolder_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFolder(Environment.CurrentDirectory);
+        }
+
+        //
+        private void OpenFolder(string path)
+        {
+            Debug.WriteLine($"OpenFolder: {path}");
+            System.Diagnostics.Process.Start("explorer.exe", path);
         }
 
         #endregion

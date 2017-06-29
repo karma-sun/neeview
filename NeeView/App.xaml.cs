@@ -67,9 +67,6 @@ namespace NeeView
             // 環境初期化
             Config.Current.Initiallize();
 
-            // カレントフォルダー設定
-            Environment.CurrentDirectory = Config.Current.LocalApplicationDataPath;
-
             // コマンドライン引数処理
             this.Option = ParseArguments(e.Args);
             this.Option.Validate();

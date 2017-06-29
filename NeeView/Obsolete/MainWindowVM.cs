@@ -28,13 +28,13 @@ namespace NeeView
     /// </summary>
     [Obsolete]
     public class MainWindowVM
-    { 
+    {
         #region Memento
 
         [Obsolete, DataContract]
         public class Memento
         {
-            [Obsolete, DataMember]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public int _Version { get; set; }
 
             [Obsolete, DataMember(EmitDefaultValue = false)]
@@ -97,7 +97,7 @@ namespace NeeView
             [Obsolete, DataMember(Order = 7, EmitDefaultValue = false)]
             public bool IsSaveWindowPlacement { get; set; } // no used (ver.23)
 
-            [Obsolete, DataMember(Order = 2)]
+            [Obsolete, DataMember(Order = 2, EmitDefaultValue =false)]
             public bool IsHideMenu { get; set; }
 
             [Obsolete, DataMember(Order = 4, EmitDefaultValue = false)]
@@ -130,13 +130,13 @@ namespace NeeView
             [Obsolete, DataMember(Order = 7, EmitDefaultValue = false)]
             public string WindowTitleFormat2 { get; set; } // no used (ver.23)
 
-            [Obsolete, DataMember(Order = 8)]
+            [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
             public bool IsVisibleAddressBar { get; set; }
 
-            [Obsolete, DataMember(Order = 8)]
+            [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
             public bool IsHidePanel { get; set; }
 
-            [Obsolete, DataMember(Order = 8)]
+            [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
             public bool IsHidePanelInFullscreen { get; set; }
 
             [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
@@ -178,13 +178,13 @@ namespace NeeView
             [Obsolete, DataMember(Order = 16, EmitDefaultValue = false)]
             public SliderDirection SliderDirection { get; set; } // no used (ver.23)
 
-            [Obsolete, DataMember(Order = 17)]
+            [Obsolete, DataMember(Order = 17, EmitDefaultValue = false)]
             public bool IsHidePageSlider { get; set; }
 
             [Obsolete, DataMember(Order = 18, EmitDefaultValue = false)]
             public bool IsAutoRotate { get; set; } // no used (ver.23)
 
-            [Obsolete, DataMember(Order = 19)]
+            [Obsolete, DataMember(Order = 19, EmitDefaultValue = false)]
             public bool IsVisibleWindowTitle { get; set; }
 
             [Obsolete, DataMember(Order = 19, EmitDefaultValue = false)]
@@ -211,7 +211,7 @@ namespace NeeView
 
             public Memento()
             {
-                _Version = Config.Current .ProductVersionNumber;
+                _Version = Config.Current.ProductVersionNumber;
                 Constructor();
             }
 
@@ -302,12 +302,13 @@ namespace NeeView
 
                 models.SlideShow.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
 
+                models.DragTransform.IsLimitMove = memento.IsLimitMove;
+                models.DragTransform.AngleFrequency = memento.AngleFrequency;
+
                 models.MouseInput.Normal.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
                 models.MouseInput.Loupe.IsLoupeCenter = memento.IsLoupeCenter;
                 models.MouseInput.Loupe.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
                 models.MouseInput.Drag.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-                models.MouseInput.Drag.IsLimitMove = memento.IsLimitMove;
-                models.MouseInput.Drag.AngleFrequency = memento.AngleFrequency;
                 models.MouseInput.Drag.IsControlCenterImage = memento.IsControlCenterImage;
                 models.MouseInput.Drag.IsKeepAngle = memento.IsKeepAngle;
                 models.MouseInput.Drag.IsKeepFlip = memento.IsKeepFlip;

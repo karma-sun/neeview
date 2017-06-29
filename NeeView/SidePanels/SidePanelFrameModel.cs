@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Windows.Input;
 
 namespace NeeView
 {
@@ -31,6 +32,9 @@ namespace NeeView
         //
         private bool _IsSideBarVisible;
 
+
+        // スクロールビュータッチ操作の終端挙動
+        public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
 
 
 
@@ -85,6 +89,19 @@ namespace NeeView
             _right.PropertyChanged += Right_PropertyChanged;
         }
 
+
+        /// <summary>
+        /// IsVisibleLocked property.
+        /// </summary>
+        public bool IsVisibleLocked
+        {
+            get { return _isVisibleLocked; }
+            set { if (_isVisibleLocked != value) { _isVisibleLocked = value; RaisePropertyChanged(); } }
+        }
+
+        private bool _isVisibleLocked;
+
+
         /// <summary>
         /// パネル登録
         /// </summary>
@@ -135,6 +152,20 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        ///  タッチスクロール終端挙動汎用
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ScrollViewer_ManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
+        {
+            if (!this.IsManipulationBoundaryFeedbackEnabled)
+            {
+                e.Handled = true;
+            }
+        }
+
+
         #region Memento
 
         [DataContract]
@@ -142,6 +173,10 @@ namespace NeeView
         {
             [DataMember]
             public bool IsSideBarVisible { get; set; }
+
+            [DataMember, DefaultValue(false)]
+            [PropertyMember("パネルタッチスクロールの終端バウンド", Tips = "パネルのタッチスクロール操作での終端跳ね返り挙動の有効/無効を設定します")]
+            public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
 
             [DataMember]
             public SidePanelGroup.Memento Left { get; set; }
@@ -161,6 +196,7 @@ namespace NeeView
             memento.IsSideBarVisible = this.IsSideBarVisible;
             memento.Left = Left.CreateMemento();
             memento.Right = Right.CreateMemento();
+            memento.IsManipulationBoundaryFeedbackEnabled = this.IsManipulationBoundaryFeedbackEnabled;
 
             return memento;
         }
@@ -181,6 +217,7 @@ namespace NeeView
 
             // memento反映
             this.IsSideBarVisible = memento.IsSideBarVisible;
+            this.IsManipulationBoundaryFeedbackEnabled = memento.IsManipulationBoundaryFeedbackEnabled;
             _left.Restore(memento.Left, panels);
             _right.Restore(memento.Right, panels);
 

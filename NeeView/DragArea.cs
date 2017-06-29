@@ -59,5 +59,66 @@ namespace NeeView
 
             return new Rect(min, max);
         }
+
+
+        // エリアサイズ内に座標を収める
+        public Point SnapView(Point pos)
+        {
+            return (Point)SnapView((Vector)pos);
+        }
+
+        /// <summary>
+        ///  エリアサイズ内に座標を収める
+        /// </summary>
+        /// <param name="pos">コンテンツ中心座標</param>
+        /// <returns>補正された中心座標</returns>
+        public Vector SnapView(Vector pos)
+        {
+            double margin = 1.0;
+
+            // ウィンドウサイズ変更直後はrectのスクリーン座標がおかしい可能性があるのでPositionから計算しなおす
+            var rect = new Rect()
+            {
+                X = pos.X - this.Target.Width * 0.5 + this.View.Width * 0.5,
+                Y = pos.Y - this.Target.Height * 0.5 + this.View.Height * 0.5,
+                Width = this.Target.Width,
+                Height = this.Target.Height,
+            };
+
+            if (rect.Width <= this.View.Width + margin)
+            {
+                pos.X = 0;
+            }
+            else
+            {
+                if (rect.Left > 0)
+                {
+                    pos.X -= rect.Left;
+                }
+                else if (rect.Right < this.View.Width)
+                {
+                    pos.X += this.View.Width - rect.Right;
+                }
+            }
+
+            if (rect.Height <= this.View.Height + margin)
+            {
+                pos.Y = 0;
+            }
+            else
+            {
+                if (rect.Top > 0)
+                {
+                    pos.Y -= rect.Top;
+                }
+                else if (rect.Bottom < this.View.Height)
+                {
+                    pos.Y += this.View.Height - rect.Bottom;
+                }
+            }
+
+            return pos;
+        }
+
     }
 }

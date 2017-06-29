@@ -250,6 +250,19 @@ namespace NeeView
         }
 
 
+        //
+        public static double Lerp(double v0, double v1, double rate)
+        {
+            return v0 + (v1 - v0) * rate;
+        }
+
+        //
+        public static Vector Lerp(Vector v0, Vector v1, double rate)
+        {
+            return v0 + (v1 - v0) * rate;
+        }
+
+
         /// <summary>
         /// 子のビジュアル要素を見つける
         /// ... どこかからのコピペ。どこだったかな...

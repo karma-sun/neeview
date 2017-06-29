@@ -189,6 +189,15 @@ namespace NeeView
         public virtual void OnKeyDown(object sender, KeyEventArgs e) { }
 
         /// <summary>
+        /// 専有判定
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool IsCaptured()
+        {
+            return true;
+        }
+
+        /// <summary>
         /// 状態遷移：既定状態に移動
         /// </summary>
         protected void ResetState()

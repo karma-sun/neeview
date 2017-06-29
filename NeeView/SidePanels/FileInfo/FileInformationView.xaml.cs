@@ -35,9 +35,12 @@ namespace NeeView
 
         //
         public FileInformationView(FileInformation model) : this()
-        { 
+        {
             _vm = new FileInformationViewModel(model);
             this.DataContext = _vm;
+
+            // タッチスクロール操作の終端挙動抑制
+            this.ScrollView.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
         }
 
         //

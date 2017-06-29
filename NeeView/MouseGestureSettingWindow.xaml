@@ -70,7 +70,7 @@
 
 
             <Grid x:Name="GestureBox" Margin="2" Background="AliceBlue">
-                <TextBlock Text="ここでマウスジェスチャー入力&#10;(右ボタンを押しながらドラッグ)" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
+                <TextBlock Text="ここでジェスチャー入力&#10;(右ボタンを押しながらドラッグ)" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
             </Grid>
         </DockPanel>
         <Button x:Name="OkButton" Content="OK" Width="80" Height="28" Margin="0,0,95,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="OkButton_Click"/>

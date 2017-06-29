@@ -76,7 +76,7 @@ namespace NeeView
                 [DragActionType.Gesture] = new DragAction
                 {
                     IsLocked = true,
-                    Name = "マウスジェスチャー",
+                    Name = "ジェスチャー",
                     DragKey = new DragKey("RightButton"),
                 },
 

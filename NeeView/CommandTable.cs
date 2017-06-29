@@ -45,6 +45,12 @@ namespace NeeView
             set { _elements[key] = value; }
         }
 
+        //
+        public bool TryGetValue(CommandType key, out CommandElement command)
+        {
+            return _elements.TryGetValue(key, out command);
+        }
+
         // Enumerator
         public IEnumerator<KeyValuePair<CommandType, CommandElement>> GetEnumerator()
         {
@@ -70,11 +76,15 @@ namespace NeeView
 
         // コマンドターゲット
         private Models _models;
-        ////private MainWindowVM _VM;
         private BookHub _book;
 
         // 初期設定
         private static Memento s_defaultMemento;
+
+        /// <summary>
+        /// 本を開く方向でページ送りコマンドを反転
+        /// </summary>
+        public bool IsReversePageMoveGesture { get; set; }
 
 
         /// <summary>
@@ -186,10 +196,10 @@ namespace NeeView
                 {
                     writer.WriteLine($"<h3>{pair.Key}</h3>");
                     writer.WriteLine("<table>");
-                    writer.WriteLine($"<th>コマンド<th>ショートカットキー<th>マウスジェスチャー<th>説明<tr>");
+                    writer.WriteLine($"<th>コマンド<th>ショートカット<th>ジェスチャー<th>タッチ<th>説明<tr>");
                     foreach (var command in pair.Value)
                     {
-                        writer.WriteLine($"<td>{command.Text}<td>{command.ShortCutKey}<td>{new MouseGestureSequence(command.MouseGesture).ToDispString()}<td>{command.Note}<tr>");
+                        writer.WriteLine($"<td>{command.Text}<td>{command.ShortCutKey}<td>{new MouseGestureSequence(command.MouseGesture).ToDispString()}<td>{command.TouchGesture}<td>{command.Note}<tr>");
                     }
                     writer.WriteLine("</table>");
                 }
@@ -908,6 +918,20 @@ namespace NeeView
                 element.CanExecute = () => true;
                 _elements[CommandType.ToggleWindowMaximize] = element;
             }
+            
+            // ShowHiddenPanels
+            {
+                var element = new CommandElement();
+                element.Group = "ウィンドウ";
+                element.Text = "パネルを一時的に表示する";
+                element.MenuText = "パネル一時表示";
+                element.Note = "自動非表示になっているパネルを一時的に表示します。なんらかの操作をすると解除されます";
+                element.TouchGesture = "TouchCenter";
+                element.CanExecute = () => true;
+                element.Execute = (s, e) => _models.MainWindowModel.EnterVisibleLocked();
+                element.IsShowMessage = false;
+                _elements[CommandType.ShowHiddenPanels] = element;
+            }
 
 
             // ToggleSlideShow
@@ -1092,9 +1116,11 @@ namespace NeeView
                 element.Text = "前のページに戻る";
                 element.Note = "ページ前方向に移動します。2ページ表示の場合は2ページ分移動します";
                 element.ShortCutKey = "Right,RightClick";
+                element.TouchGesture = "TouchRight";
                 element.MouseGesture = "R";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.BookOperation.PrevPage();
+                element.PairPartner = CommandType.NextPage;
                 _elements[CommandType.PrevPage] = element;
             }
             // NextPage
@@ -1104,9 +1130,11 @@ namespace NeeView
                 element.Text = "次のページへ進む";
                 element.Note = "ページ次方向に移動します。2ページ表示の場合は2ページ分移動します";
                 element.ShortCutKey = "Left,LeftClick";
+                element.TouchGesture = "TouchLeft";
                 element.MouseGesture = "L";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.BookOperation.NextPage();
+                element.PairPartner = CommandType.PrevPage;
                 _elements[CommandType.NextPage] = element;
             }
             // PrevOnePage
@@ -1118,6 +1146,7 @@ namespace NeeView
                 element.MouseGesture = "LR";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.BookOperation.PrevOnePage();
+                element.PairPartner = CommandType.NextOnePage;
                 _elements[CommandType.PrevOnePage] = element;
             }
             // NextOnePage
@@ -1129,6 +1158,7 @@ namespace NeeView
                 element.MouseGesture = "RL";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.BookOperation.NextOnePage();
+                element.PairPartner = CommandType.PrevOnePage;
                 _elements[CommandType.NextOnePage] = element;
             }
 
@@ -1143,6 +1173,7 @@ namespace NeeView
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ScrollPageCommandParameter() { IsNScroll = true, IsAnimation = true, Margin = 50 };
                 element.Execute = (s, e) => _models.MainWindowModel.PrevScrollPage();
+                element.PairPartner = CommandType.NextScrollPage;
                 _elements[CommandType.PrevScrollPage] = element;
             }
             // NextScrollPage
@@ -1155,6 +1186,7 @@ namespace NeeView
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevScrollPage };
                 element.Execute = (s, e) => _models.MainWindowModel.NextScrollPage();
+                element.PairPartner = CommandType.PrevScrollPage;
                 _elements[CommandType.NextScrollPage] = element;
             }
             // MovePageWithCursor
@@ -1176,6 +1208,7 @@ namespace NeeView
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.BookOperation.PrevSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
                 element.DefaultParameter = new MoveSizePageCommandParameter() { Size = 10 };
+                element.PairPartner = CommandType.NextSizePage;
                 _elements[CommandType.PrevSizePage] = element;
             }
 
@@ -1188,6 +1221,7 @@ namespace NeeView
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.BookOperation.NextSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevSizePage };
+                element.PairPartner = CommandType.PrevSizePage;
                 _elements[CommandType.NextSizePage] = element;
             }
 
@@ -1201,6 +1235,7 @@ namespace NeeView
                 element.MouseGesture = "UR";
                 element.Execute = (s, e) => _models.BookOperation.FirstPage();
                 element.IsShowMessage = true;
+                element.PairPartner = CommandType.LastPage;
                 _elements[CommandType.FirstPage] = element;
             }
             // LastPage
@@ -1213,6 +1248,7 @@ namespace NeeView
                 element.MouseGesture = "UL";
                 element.Execute = (s, e) => _models.BookOperation.LastPage();
                 element.IsShowMessage = true;
+                element.PairPartner = CommandType.FirstPage;
                 _elements[CommandType.LastPage] = element;
             }
             // PrevFolder
@@ -1844,6 +1880,9 @@ namespace NeeView
             [DataMember]
             public Dictionary<CommandType, CommandElement.Memento> Elements { get; set; } = new Dictionary<CommandType, CommandElement.Memento>();
 
+            [DataMember]
+            public bool IsReversePageMoveGesture { get; set; }
+
             //
             public CommandElement.Memento this[CommandType type]
             {
@@ -1851,15 +1890,11 @@ namespace NeeView
                 set { Elements[type] = value; }
             }
 
-
             //
             public Memento Clone()
             {
-                var memento = new Memento();
-                foreach (var pair in Elements)
-                {
-                    memento.Elements.Add(pair.Key, pair.Value.Clone());
-                }
+                var memento = (Memento)this.MemberwiseClone();
+                memento.Elements = this.Elements.ToDictionary(e => e.Key, e => e.Value.Clone());
                 return memento;
             }
         }
@@ -1874,6 +1909,8 @@ namespace NeeView
                 if (pair.Key.IsDisable()) continue;
                 memento.Elements.Add(pair.Key, pair.Value.CreateMemento());
             }
+
+            memento.IsReversePageMoveGesture = this.IsReversePageMoveGesture;
 
             return memento;
         }
@@ -1890,6 +1927,9 @@ namespace NeeView
                     _elements[pair.Key].Restore(pair.Value);
                 }
             }
+
+            this.IsReversePageMoveGesture = memento.IsReversePageMoveGesture;
+
 
 #pragma warning disable CS0612
 

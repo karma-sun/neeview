@@ -10,10 +10,12 @@
     
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:PointToDispStringConverter x:Key="PointToDispStringConverter"/>
     </UserControl.Resources>
     
     <DockPanel x:Name="Root" Panel.ZIndex="100" Background="White"
                   Visibility="{Binding Development.IsVisibleDevInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <TextBlock DockPanel.Dock="Top" Text="{Binding DragTransform.Position, Converter={StaticResource PointToDispStringConverter}}"/>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <Button Content="Update" Width="100" Command="{Binding DevUpdateContentPosition}"/>
             <TextBlock Text="{Binding ContentPosition}" Margin="5"/>

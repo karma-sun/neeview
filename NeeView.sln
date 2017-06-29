@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeeView", "NeeView\NeeView.csproj", "{4F680598-E096-4474-99A7-1747AFD771B2}"
 EndProject
@@ -16,8 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SevenZip", "SevenZipSharp\SevenZip\SevenZip.csproj", "{4960DD14-3431-47EC-B9D9-9D2730A98DC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeeView.Lab", "NeeView.Lab\NeeView.Lab.csproj", "{531A415C-8F8E-4D2A-A18E-D0CCB4A995D0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +24,8 @@ Global
 		Deploy|x86 = Deploy|x86
 		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
+		Remote|Any CPU = Remote|Any CPU
+		Remote|x86 = Remote|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4F680598-E096-4474-99A7-1747AFD771B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -38,6 +38,10 @@ Global
 		{4F680598-E096-4474-99A7-1747AFD771B2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4F680598-E096-4474-99A7-1747AFD771B2}.Release|x86.ActiveCfg = Release|x86
 		{4F680598-E096-4474-99A7-1747AFD771B2}.Release|x86.Build.0 = Release|x86
+		{4F680598-E096-4474-99A7-1747AFD771B2}.Remote|Any CPU.ActiveCfg = Remote|Any CPU
+		{4F680598-E096-4474-99A7-1747AFD771B2}.Remote|Any CPU.Build.0 = Remote|Any CPU
+		{4F680598-E096-4474-99A7-1747AFD771B2}.Remote|x86.ActiveCfg = Debug|x86
+		{4F680598-E096-4474-99A7-1747AFD771B2}.Remote|x86.Build.0 = Debug|x86
 		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -50,14 +54,10 @@ Global
 		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Release|x86.ActiveCfg = Release|Any CPU
 		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Release|x86.Build.0 = Release|Any CPU
-		{531A415C-8F8E-4D2A-A18E-D0CCB4A995D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{531A415C-8F8E-4D2A-A18E-D0CCB4A995D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{531A415C-8F8E-4D2A-A18E-D0CCB4A995D0}.Debug|x86.ActiveCfg = Debug|x86
-		{531A415C-8F8E-4D2A-A18E-D0CCB4A995D0}.Debug|x86.Build.0 = Debug|x86
-		{531A415C-8F8E-4D2A-A18E-D0CCB4A995D0}.Deploy|Any CPU.ActiveCfg = Debug|Any CPU
-		{531A415C-8F8E-4D2A-A18E-D0CCB4A995D0}.Deploy|x86.ActiveCfg = Debug|Any CPU
-		{531A415C-8F8E-4D2A-A18E-D0CCB4A995D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{531A415C-8F8E-4D2A-A18E-D0CCB4A995D0}.Release|x86.ActiveCfg = Release|x86
+		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Remote|Any CPU.ActiveCfg = Debug|Any CPU
+		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Remote|Any CPU.Build.0 = Debug|Any CPU
+		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Remote|x86.ActiveCfg = Debug|Any CPU
+		{4960DD14-3431-47EC-B9D9-9D2730A98DC3}.Remote|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

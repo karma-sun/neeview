@@ -42,8 +42,11 @@ namespace NeeView
         public CommandTable CommandTable { get; private set; }
         public RoutedCommandTable RoutedCommandTable { get; private set; }
 
+        public DragTransform DragTransform { get; private set; }
         public MouseInputContext MouseInputContext { get; private set; }
         public MouseInput MouseInput { get; private set; }
+        public TouchInputContext TouchInputContext { get; private set; }
+        public TouchInput TouchInput { get; private set; }
         public ContentDropManager ContentDropManager { get; private set; }
 
         //
@@ -118,9 +121,13 @@ namespace NeeView
             this.CommandTable = new CommandTable();
             this.RoutedCommandTable = new RoutedCommandTable(window, this.CommandTable);
 
+            this.DragTransform = new DragTransform();
             this.MouseInputContext = new MouseInputContext();
-            this.MouseInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow);
+            this.MouseInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, this.DragTransform, MouseGestureCommandCollection.Current);
             this.MouseInput = new MouseInput(this.MouseInputContext);
+            this.TouchInputContext = new TouchInputContext();
+            this.TouchInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, this.DragTransform, MouseGestureCommandCollection.Current);
+            this.TouchInput = new TouchInput(this.TouchInputContext);
             this.ContentDropManager = new ContentDropManager(window.MainView);
 
 
@@ -141,7 +148,7 @@ namespace NeeView
             this.ContentCanvasBrush = new ContentCanvasBrush(this.ContentCanvas);
 
             this.SlideShow = new SlideShow(this.BookHub, this.BookOperation, this.MouseInput);
-            this.WindowTitle = new WindowTitle(this.ContentCanvas, this.MouseInput.Drag);
+            this.WindowTitle = new WindowTitle(this.ContentCanvas);
 
             this.ThumbnailList = new ThumbnailList(this.BookOperation, this.BookHub);
             this.PageSlider = new PageSlider(this.BookOperation, this.BookSetting, this.BookHub, this.ThumbnailList);
@@ -220,7 +227,11 @@ namespace NeeView
             [DataMember]
             public ContentCanvasBrush.Memento ContentCanvasBrush { get; set; }
             [DataMember]
+            public DragTransform.Memento DragTransform { get; set; }
+            [DataMember]
             public MouseInput.Memento MouseInput { get; set; }
+            [DataMember]
+            public TouchInput.Memento TouchInput { get; set; }
             [DataMember]
             public SlideShow.Memento SlideShow { get; set; }
             [DataMember]
@@ -277,7 +288,9 @@ namespace NeeView
             memento.MainWindowModel = this.MainWindowModel.CreateMemento();
             memento.ContentCanvas = this.ContentCanvas.CreateMemento();
             memento.ContentCanvasBrush = this.ContentCanvasBrush.CreateMemento();
+            memento.DragTransform = this.DragTransform.CreateMemento();
             memento.MouseInput = this.MouseInput.CreateMemento();
+            memento.TouchInput = this.TouchInput.CreateMemento();
             memento.SlideShow = this.SlideShow.CreateMemento();
             memento.WindowTitle = this.WindowTitle.CreateMemento();
             memento.PageSlider = this.PageSlider.CreateMemento();
@@ -314,7 +327,9 @@ namespace NeeView
             this.MainWindowModel.Restore(memento.MainWindowModel);
             this.ContentCanvas.Restore(memento.ContentCanvas);
             this.ContentCanvasBrush.Restore(memento.ContentCanvasBrush);
+            this.DragTransform.Restore(memento.DragTransform);
             this.MouseInput.Restore(memento.MouseInput);
+            this.TouchInput.Restore(memento.TouchInput);
             this.SlideShow.Restore(memento.SlideShow);
             this.WindowTitle.Restore(memento.WindowTitle);
             this.PageSlider.Restore(memento.PageSlider);

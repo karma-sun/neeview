@@ -55,6 +55,9 @@ namespace NeeView
 
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, Remove_CanExec));
 
+            // タッチスクロール操作の終端挙動抑制
+            this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
+
             _thumbnailHelper = new ThumbnailHelper(this.ListBox, _vm.RequestThumbnail);
         }
 

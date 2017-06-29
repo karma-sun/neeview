@@ -167,6 +167,7 @@ namespace NeeView
 
         #endregion
 
+        private DragTransform _transform;
 
         ////private ContentCanvasTransform _transform;
         private MouseInput _mouse;
@@ -179,6 +180,8 @@ namespace NeeView
 
             _mouse = mouse;
             _mouse.TransformChanged += Transform_TransformChanged;
+
+            _transform = DragTransform.Current;
 
             _bookHub = bookHub;
 
@@ -424,14 +427,14 @@ namespace NeeView
         {
             var dpiScaleX = Config.Current .RawDpi.DpiScaleX;
 
-            double finalScale = _mouse.Drag.Scale * MouseInput.Current.Loupe.LoupeScale;
+            double finalScale = _transform.Scale * MouseInput.Current.Loupe.LoupeScale;
 
             foreach (var content in Contents)
             {
                 if (content.View != null && content.View.Element is Rectangle)
                 {
                     double diff = Math.Abs(content.Size.Width - content.Width * dpiScaleX);
-                    if (Config.Current .IsDpiSquare && diff < 0.1 && _mouse.Drag.Angle == 0.0 && Math.Abs(finalScale - 1.0) < 0.001)
+                    if (Config.Current .IsDpiSquare && diff < 0.1 && _transform.Angle == 0.0 && Math.Abs(finalScale - 1.0) < 0.001)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                     }
@@ -648,7 +651,7 @@ namespace NeeView
         {
             if (parameter.IsStretch) _mouse.Drag.ResetDefault();
             _mouse.Drag.Rotate(-parameter.Angle);
-            if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_mouse.Drag.Angle);
+            if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_transform.Angle);
         }
 
         //
@@ -656,7 +659,7 @@ namespace NeeView
         {
             if (parameter.IsStretch) _mouse.Drag.ResetDefault();
             _mouse.Drag.Rotate(+parameter.Angle);
-            if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_mouse.Drag.Angle);
+            if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_transform.Angle);
         }
 
         #endregion

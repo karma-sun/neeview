@@ -66,6 +66,26 @@
     <Prefer32Bit>true</Prefer32Bit>
     <DefineConstants>SUSIE</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Remote|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Remote\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Remote|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Remote\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SUSIE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Expression.Effects, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -141,6 +161,9 @@
     <Compile Include="Controls\NowLoadingViewModel.cs" />
     <Compile Include="Controls\PageMarkers.cs" />
     <Compile Include="Controls\PageMarkersViewModel.cs" />
+    <Compile Include="Controls\VideoSlider.xaml.cs">
+      <DependentUpon>VideoSlider.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\AnytToFalseConverter.cs" />
     <Compile Include="Converters\ApiVersionToApiTextConverter.cs" />
     <Compile Include="Converters\BackgroundStyleToBooleanConverter.cs" />
@@ -180,12 +203,17 @@
     <Compile Include="ExporterProfile.cs" />
     <Compile Include="FileIO.cs" />
     <Compile Include="FileIOProfile.cs" />
+    <Compile Include="InputTouchSettingWindow.xaml.cs">
+      <DependentUpon>InputTouchSettingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LongButtonDownMode.cs" />
     <Compile Include="MainWindowModel.cs" />
     <Compile Include="Controls\NowLoadingView.xaml.cs">
       <DependentUpon>NowLoadingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="MouseInput\DragTransform.cs" />
+    <Compile Include="MouseInput\MouseGestureSequenceTracker.cs" />
     <Compile Include="Page\ThumbnailProfile.cs" />
     <Compile Include="SaveData.cs" />
     <Compile Include="MouseInput\MouseInputContext.cs" />
@@ -274,6 +302,20 @@
     </Compile>
     <Compile Include="TinyInfoMessageViewModel.cs" />
     <Compile Include="Development.cs" />
+    <Compile Include="TouchInput\TouchContext.cs" />
+    <Compile Include="TouchInput\TouchDragContext.cs" />
+    <Compile Include="TouchInput\TouchDragManipulation.cs" />
+    <Compile Include="TouchInput\TouchDragTransform.cs" />
+    <Compile Include="TouchInput\TouchGesture.cs" />
+    <Compile Include="TouchInput\TouchGestureEventArgs.cs" />
+    <Compile Include="TouchInput\TouchInput ForGestureEditor.cs" />
+    <Compile Include="TouchInput\TouchInput.cs" />
+    <Compile Include="TouchInput\TouchInputBase.cs" />
+    <Compile Include="TouchInput\TouchInputContext.cs" />
+    <Compile Include="TouchInput\TouchInputDrag.cs" />
+    <Compile Include="TouchInput\TouchInputGesture.cs" />
+    <Compile Include="TouchInput\TouchInputNormal.cs" />
+    <Compile Include="TouchInput\TouchInputStateEventArgs.cs" />
     <Compile Include="WindowCaptionButtons.xaml.cs">
       <DependentUpon>WindowCaptionButtons.xaml</DependentUpon>
     </Compile>
@@ -498,7 +540,6 @@
     <Compile Include="SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SliderTools.cs" />
     <Compile Include="Archiver\SusieArchiver.cs" />
     <Compile Include="BitmapLoader\SusieBitmapLoader.cs" />
     <Compile Include="SusieContext.cs" />
@@ -578,6 +619,14 @@
     <Page Include="Controls\NowLoadingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\VideoSlider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="InputTouchSettingWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SidePanels\Bookamrk\BookmarkListBox.xaml">
       <SubType>Designer</SubType>
@@ -905,6 +954,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.104.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.104.0\build\net46\System.Data.SQLite.Core.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>if "$(ConfigurationName)" == "Remote" (
+    powershell -ExecutionPolicy RemoteSigned -File "$(SolutionDir)Tools\RemoteCopy.ps1" "$(ProjectDir)bin\$(ConfigurationName)"
+)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

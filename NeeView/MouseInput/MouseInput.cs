@@ -39,11 +39,6 @@ namespace NeeView
         /// </summary>
         public static MouseInput Current { get; private set; }
 
-        /// <summary>
-        /// マウスジェスチャーコマンド
-        /// </summary>
-        public MouseGestureCommandCollection CommandCollection { get; private set; } = new MouseGestureCommandCollection();
-
         //
         private FrameworkElement _sender;
 
@@ -94,11 +89,6 @@ namespace NeeView
         public event EventHandler<MouseWheelEventArgs> MouseWheelChanged;
 
         /// <summary>
-        /// ジェスチャー入力イベント
-        /// </summary>
-        public event EventHandler<MouseGestureEventArgs> MouseGestureChanged;
-
-        /// <summary>
         /// 表示コンテンツのトランスフォーム変更イベント
         /// </summary>
         public event EventHandler<TransformEventArgs> TransformChanged;
@@ -116,7 +106,6 @@ namespace NeeView
         {
             MouseButtonChanged = null;
             MouseWheelChanged = null;
-            MouseGestureChanged = null;
         }
 
         /// <summary>
@@ -160,8 +149,8 @@ namespace NeeView
             this.Gesture.StateChanged += StateChanged;
             this.Gesture.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
             this.Gesture.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
-            this.Gesture.MouseGestureChanged += (s, e) => MouseGestureChanged?.Invoke(_sender, e);
-            this.Gesture.MouseGestureProgressed += Gesture_MouseGestureProgressed;
+            this.Gesture.GestureChanged += (s, e) => _context.GestureCommandCollection.Execute(e.Sequence);
+            this.Gesture.GestureProgressed += (s, e) => _context.GestureCommandCollection.ShowProgressed(e.Sequence);
 
             // initialize state
             _mouseInputCollection = new Dictionary<MouseInputState, MouseInputBase>();
@@ -180,25 +169,6 @@ namespace NeeView
         }
 
 
-
-        /// <summary>
-        /// マウスジェスチャー通知
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Gesture_MouseGestureProgressed(object sender, MouseGestureEventArgs e)
-        {
-            var gesture = e.Sequence.ToDispString();
-            var commandName = this.CommandCollection?.GetCommand(e.Sequence)?.Text;
-
-            if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
-
-            InfoMessage.Current.SetMessage(
-                InfoMessageType.Gesture,
-                ((commandName != null) ? commandName + "\n" : "") + gesture,
-                gesture + ((commandName != null) ? " " + commandName : ""));
-        }
-
         /// <summary>
         /// コンテンツのトランフォーム変更通知
         /// </summary>
@@ -206,15 +176,25 @@ namespace NeeView
         /// <param name="e"></param>
         private void OnTransformChanged(object sender, TransformEventArgs e)
         {
+            var transform = DragTransform.Current;
+
             var args = new TransformEventArgs(e.ChangeType, e.ActionType);
-            args.Scale = Drag.Scale;
-            args.Angle = Drag.Angle;
-            args.IsFlipHorizontal = Drag.IsFlipHorizontal;
-            args.IsFlipVertical = Drag.IsFlipVertical;
+            args.Scale = transform.Scale;
+            args.Angle = transform.Angle;
+            args.IsFlipHorizontal = transform.IsFlipHorizontal;
+            args.IsFlipVertical = transform.IsFlipVertical;
             args.LoupeScale = Loupe.FixedLoupeScale;
 
             TransformChanged?.Invoke(sender, args);
         }
+
+
+        //
+        public bool IsCaptured()
+        {
+            return _current.IsCaptured();
+        }
+
 
         /// <summary>
         /// 状態変更イベント処理
@@ -238,6 +218,7 @@ namespace NeeView
             _current?.OnClosed(_sender);
             _state = state;
             _current = _mouseInputCollection[_state];
+
             _current.OnOpened(_sender, parameter);
         }
 
@@ -258,6 +239,8 @@ namespace NeeView
         private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (sender != _sender) return;
+            if (e.StylusDevice != null) return;
+
             _current.OnMouseButtonDown(_sender, e);
         }
 
@@ -269,10 +252,13 @@ namespace NeeView
         private void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (sender != _sender) return;
-            _current.OnMouseButtonUp(_sender, e);
+
+            if (e.StylusDevice == null)
+            {
+                _current.OnMouseButtonUp(_sender, e);
+            }
 
             // 右クリックでのコンテキストメニュー無効
-            // TODO: コンテキストメニュー自体をViewTreeに登録しておく必要はない？
             e.Handled = true;
         }
 
@@ -284,6 +270,8 @@ namespace NeeView
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (sender != _sender) return;
+            if (e.StylusDevice != null) return;
+
             _current.OnMouseWheel(_sender, e);
         }
 
@@ -298,6 +286,8 @@ namespace NeeView
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (sender != _sender) return;
+            if (e.StylusDevice != null) return;
+
             _current.OnMouseMove(_sender, e);
 
             // マウス移動を通知
@@ -327,22 +317,24 @@ namespace NeeView
             var infoMessage = InfoMessage.Current;
             if (infoMessage.ViewTransformShowMessageStyle == ShowMessageStyle.None) return;
 
+            var transform = DragTransform.Current;
+
             switch (ActionType)
             {
                 case TransformActionType.Scale:
                     string scaleText = this.Drag.IsOriginalScaleShowMessage && mainContent.IsValid
-                        ? $"{(int)(this.Drag.Scale * mainContent.Scale * Config.Current .Dpi.DpiScaleX * 100 + 0.1)}%"
-                        : $"{(int)(this.Drag.Scale * 100.0 + 0.1)}%";
+                        ? $"{(int)(transform.Scale * mainContent.Scale * Config.Current.Dpi.DpiScaleX * 100 + 0.1)}%"
+                        : $"{(int)(transform.Scale * 100.0 + 0.1)}%";
                     infoMessage.SetMessage(InfoMessageType.ViewTransform, scaleText);
                     break;
                 case TransformActionType.Angle:
-                    infoMessage.SetMessage(InfoMessageType.ViewTransform, $"{(int)(this.Drag.Angle)}°");
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, $"{(int)(transform.Angle)}°");
                     break;
                 case TransformActionType.FlipHorizontal:
-                    infoMessage.SetMessage(InfoMessageType.ViewTransform, "左右反転 " + (this.Drag.IsFlipHorizontal ? "ON" : "OFF"));
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, "左右反転 " + (transform.IsFlipHorizontal ? "ON" : "OFF"));
                     break;
                 case TransformActionType.FlipVertical:
-                    infoMessage.SetMessage(InfoMessageType.ViewTransform, "上下反転 " + (this.Drag.IsFlipVertical ? "ON" : "OFF"));
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, "上下反転 " + (transform.IsFlipVertical ? "ON" : "OFF"));
                     break;
                 case TransformActionType.LoupeScale:
                     if (this.Loupe.LoupeScale != 1.0)

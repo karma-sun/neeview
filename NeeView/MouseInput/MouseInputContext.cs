@@ -7,6 +7,7 @@ using NeeView.ComponentModel;
 using System;
 using System.Runtime.Serialization;
 using System.Windows;
+using System.Windows.Input;
 
 namespace NeeView
 {
@@ -22,12 +23,14 @@ namespace NeeView
         /// <param name="sender"></param>
         /// <param name="targetView"></param>
         /// <param name="targetShadow"></param>
-        public void Initialize(Window window, FrameworkElement sender, FrameworkElement targetView, FrameworkElement targetShadow)
+        public void Initialize(Window window, FrameworkElement sender, FrameworkElement targetView, FrameworkElement targetShadow, DragTransform dragTransform, MouseGestureCommandCollection gestureCommandCollection)
         {
             this.Window = window;
             this.Sender = sender;
             this.TargetView = targetView;
             this.TargetShadow = targetShadow;
+            this.DragTransform = dragTransform;
+            this.GestureCommandCollection = gestureCommandCollection;
         }
 
         /// <summary>
@@ -52,6 +55,17 @@ namespace NeeView
         /// 表示領域計算にはこちらを利用する
         /// </summary>
         public FrameworkElement TargetShadow { get; set; }
+
+
+        //
+        public DragTransform DragTransform { get; set; }
+        
+        
+        /// <summary>
+        /// ジェスチャーコマンドテーブル
+        /// </summary>
+        public MouseGestureCommandCollection GestureCommandCollection { get; set; }
+
 
         /// <summary>
         /// ドラッグ開始座標

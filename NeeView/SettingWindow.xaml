@@ -221,8 +221,8 @@
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.Memento.InfoMessage.CommandShowMessageStyle}" />
                             </StackPanel>
-                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="マウスジェスチャーの状態の表示方法を指定します">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="マウスジェスチャーを"/>
+                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="ジェスチャーの状態の表示方法を指定します">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="ジェスチャーを"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding ShowMessageTypeList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.Memento.InfoMessage.GestureShowMessageStyle}" />
                             </StackPanel>
@@ -384,11 +384,11 @@
 
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="移動をウィンドウ内に制限する"
                                   ToolTip="マウスドラッグによる移動を制限します"
-                                  IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsLimitMove}" />
+                                  IsChecked="{Binding Setting.Memento.DragTransform.IsLimitMove}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="表示開始位置を画像の中心基準にする"
                                   ToolTip="OFFの時は、見開きモードによって右上基準、左上基準になります。"
                                   IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsViewStartPositionCenter}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転、拡縮、反転の基準を画像の中心にする"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転、拡大縮小、反転の基準を画像の中心にする"
                                   ToolTip="OFFの時は、ウィンドウの中心をそのまま中心とします"
                                   IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsControlCenterImage}" />
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="回転の単位">
@@ -406,6 +406,16 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページを変更しても反転をキープする"
                                   ToolTip="OFFの時は、ページを切り替える度にリセットされます"
                                   IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsKeepFlip}" />
+                        </StackPanel>
+
+                        <TextBlock Text="タッチ操作" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転操作を有効にする"
+                                  ToolTip="マルチタッチでの回転操作を有効にします"
+                                  IsChecked="{Binding Setting.Memento.TouchInput.Drag.Manipulation.IsAngleEnabled}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="拡大縮小操作を有効にする"
+                                  ToolTip="ピンチイン・ピンチアウトでのサイズ変更操作操作を有効にします"
+                                  IsChecked="{Binding Setting.Memento.TouchInput.Drag.Manipulation.IsScaleEnabled}" />
                         </StackPanel>
 
                         <TextBlock Text="ドラッグ操作" Style="{StaticResource Header}"/>
@@ -436,7 +446,7 @@
                                     <i:Interaction.Behaviors>
                                         <local:IgnoreMouseWheelBehavior />
                                     </i:Interaction.Behaviors>
-                                    
+
                                     <ListView.ItemContainerStyle>
                                         <Style TargetType="ListViewItem">
                                             <EventSetter Event="MouseDoubleClick" Handler="DragActionListViewItem_MouseDoubleClick"/>
@@ -614,7 +624,7 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページの並び順"
                                   IsChecked="{Binding Path=Setting.Memento.BookSetting.HistoryMementoFilter.Flags[(local:BookMementoBit)SortMode]}" />
                         </StackPanel>
-                        
+
                         <TextBlock Text="既定のページ設定の使用" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ブックを開くときに復元されない項目には既定のページ設定を適用する"
@@ -631,7 +641,7 @@
                                   SelectedValue="{Binding Setting.Memento.BookSetting.BookMementoDefault.PageMode}" />
                             </StackPanel>
                             <StackPanel Style="{StaticResource ItemStackPanel}">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="開く方向"/>
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="本を開く方向"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PageReadOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.Memento.BookSetting.BookMementoDefault.BookReadOrder}" />
                             </StackPanel>
@@ -863,24 +873,35 @@
                     </CollectionViewSource>
                 </TabItem.Resources>
                 <DockPanel>
+
+                    <!--
+                    <StackPanel DockPanel.Dock="Bottom" Style="{StaticResource BaseStackPanel}">
+                        <TextBlock Text="設定" Style="{StaticResource Header}" ToolTip=""/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="本を開く方向で対応するページ送コマンドの操作を入れ替える"
+                                  ToolTip="{Binding CommandSwapTooltip}"
+                                  IsChecked="{Binding Setting.CommandMememto.IsReversePageMoveGesture}" />
+                        </StackPanel>
+                    </StackPanel>
+                    -->
+
                     <DockPanel DockPanel.Dock="Bottom">
-                        <Grid DockPanel.Dock="Top">
-                            <DockPanel LastChildFill="False" HorizontalAlignment="Left">
-                                <DockPanel.Style>
-                                    <Style TargetType="DockPanel">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=CommandListView, Path=SelectedValue}" Value="{x:Null}">
-                                                <Setter Property="IsEnabled" Value="False"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </DockPanel.Style>
-                                <Button x:Name="ShortCutSettingButton" Content="ショートカット設定" MinWidth="120" Height="30" Margin="8" Padding="5,0" Click="ShortCutSettingButton_Click"/>
-                                <Button x:Name="MouseGestureSettingButton" Content="マウスジェスチャー設定" MinWidth="120" Height="30" Margin="8" Padding="5,0" Click="MouseGestureSettingButton_Click"/>
-                                <Button x:Name="CommandParameterSettingButton" Content="パラメーター設定" MinWidth="120" Height="30" Margin="8" Padding="5,0" Command="{Binding ParameterSettingCommand}"/>
-                            </DockPanel>
-                            <Button x:Name="ResetGestureSettingButton" Content="すべて初期化..." MinWidth="120" Height="30" Margin="8" Padding="5,0" HorizontalAlignment="Right" Click="ResetGestureSettingButton_Click" ToolTip="すべてのコマンド設定を初期化します"/>
-                        </Grid>
+                        <Button x:Name="ResetGestureSettingButton" DockPanel.Dock="Right" Content="すべて初期化..." MinWidth="110" Height="30" Margin="8" Padding="5,0" VerticalAlignment="Bottom" Click="ResetGestureSettingButton_Click" ToolTip="すべてのコマンド設定を初期化します"/>
+                        <WrapPanel>
+                            <WrapPanel.Style>
+                                <Style TargetType="WrapPanel">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=CommandListView, Path=SelectedValue}" Value="{x:Null}">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </WrapPanel.Style>
+                            <Button x:Name="ShortCutSettingButton" Content="ショートカット設定" MinWidth="110" Height="30" Margin="8" Padding="5,0" Click="ShortCutSettingButton_Click"/>
+                            <Button x:Name="MouseGestureSettingButton" Content="ジェスチャー設定" MinWidth="110" Height="30" Margin="8" Padding="5,0" Click="MouseGestureSettingButton_Click"/>
+                            <Button x:Name="TouchGestureSettingButton" Content="タッチ設定" MinWidth="110" Height="30" Margin="8" Padding="5,0" Click="TouchGestureSettingButton_Click"/>
+                            <Button x:Name="CommandParameterSettingButton" Content="パラメーター設定" MinWidth="110" Height="30" Margin="8" Padding="5,0" Command="{Binding ParameterSettingCommand}"/>
+                        </WrapPanel>
                     </DockPanel>
 
                     <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}" Foreground="Black" SelectionChanged="CommandListView_SelectionChanged"
@@ -937,7 +958,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn Header="ショートカットキー" Width="180">
+                                <GridViewColumn Header="ショートカット" Width="180">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <ItemsControl ItemsSource="{Binding ShortCuts}"  ToolTip="{Binding ShortCutNote}">
@@ -972,7 +993,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn Header="マウスジェスチャー" Width="150">
+                                <GridViewColumn Header="ジェスチャー" Width="100">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" ToolTip="{Binding MouseGestureElement.Note}">
@@ -997,10 +1018,32 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
+                                <GridViewColumn Header="タッチ" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" ToolTip="{Binding TouchGestureElement.Note}">
+                                                <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,2" VerticalAlignment="Center">
+                                                    <Image.Style>
+                                                        <Style TargetType="Image">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Path=TouchGestureElement.IsConflict}" Value="False">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Image.Style>
+                                                </Image>
+                                                <TextBlock Text="{Binding TouchGestureElement.Gesture}" TextTrimming="CharacterEllipsis" Margin="0,0,2,0" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
                             </GridView>
                         </ListView.View>
                     </ListView>
                 </DockPanel>
+
             </TabItem>
 
             <TabItem Header="メニュー">

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace NeeView
 {
@@ -37,17 +38,15 @@ namespace NeeView
         }
 
         private ContentCanvas _contentCanvas;
-        private MouseInputDrag _drag;
 
-        public WindowTitle(ContentCanvas contentCanvas, MouseInputDrag drag)
+        public WindowTitle(ContentCanvas contentCanvas)
         {
             Current = this;
 
             _contentCanvas = contentCanvas;
             _contentCanvas.ContentChanged += ContentCanvas_ContentChanged;
 
-            _drag = drag;
-            _drag.TransformChanged += ContentCanvasTransform_TransformChanged;
+            DragTransform.Current.AddPropertyChanged(nameof(DragTransform.Scale), DragTransform_ScaleChanged);
 
             // Window title
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
@@ -65,12 +64,10 @@ namespace NeeView
             UpdateWindowTitle(UpdateWindowTitleMask.All);
         }
 
-        private void ContentCanvasTransform_TransformChanged(object sender, TransformEventArgs e)
+        //
+        private void DragTransform_ScaleChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.ChangeType == TransformChangeType.Scale)
-            {
-                UpdateWindowTitle(UpdateWindowTitleMask.View);
-            }
+            UpdateWindowTitle(UpdateWindowTitleMask.View);
         }
 
         //
@@ -126,7 +123,7 @@ namespace NeeView
         {
             var MainContent = _contentCanvas.MainContent;
             var Contents = _contentCanvas.Contents;
-            var _viewScale = _drag.Scale;
+            var _viewScale = DragTransform.Current.Scale;
 
             string format = Contents[1].IsValid ? WindowTitleFormat2 : WindowTitleFormat1;
 

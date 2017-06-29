@@ -5,7 +5,6 @@
 
 using NeeView.Windows.Property;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.Serialization;
@@ -15,109 +14,14 @@ using System.Windows.Input;
 namespace NeeView
 {
     /// <summary>
-    /// ジェスチャーイベントデータ
-    /// </summary>
-    public class MouseGestureEventArgs
-    {
-        /// <summary>
-        /// ジェスチャー
-        /// </summary>
-        public MouseGestureSequence Sequence { get; set; }
-
-        /// <summary>
-        /// 処理済フラグ
-        /// </summary>
-        public bool Handled { get; set; }
-
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
-        /// <param name="sequence"></param>
-        public MouseGestureEventArgs(MouseGestureSequence sequence)
-        {
-            Sequence = sequence;
-        }
-    }
-
-    /// <summary>
     /// マウスジェスチャー
     /// </summary>
     public class MouseInputGesture : MouseInputBase
     {
         /// <summary>
-        /// ジェスチャー進捗通知
+        /// 入力トラッカー
         /// </summary>
-        public event EventHandler<MouseGestureEventArgs> MouseGestureProgressed;
-
-        /// <summary>
-        /// ジェスチャー確定通知
-        /// </summary>
-        public event EventHandler<MouseGestureEventArgs> MouseGestureChanged;
-
-
-        /// <summary>
-        /// 現在のジェスチャーシーケンス
-        /// </summary>
-        private MouseGestureSequence _gesture;
-
-
-        // ジェスチャー判定用最低ドラッグ距離
-
-        /// <summary>
-        /// GestureMinimumDistanceX property.
-        /// </summary>
-        public double GestureMinimumDistanceX
-        {
-            get { return _gestureMinimumDistanceX; }
-            set
-            {
-                if (_gestureMinimumDistanceX != value)
-                {
-                    _gestureMinimumDistanceX = Math.Max(value, SystemParameters.MinimumHorizontalDragDistance);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        private double _gestureMinimumDistanceX = 30.0;
-
-
-        /// <summary>
-        /// GestureMinimumDistanceY property.
-        /// </summary>
-        public double GestureMinimumDistanceY
-        {
-            get { return _gestureMinimumDistanceY; }
-            set
-            {
-                if (_gestureMinimumDistanceY != value)
-                {
-                    _gestureMinimumDistanceY = Math.Max(value, SystemParameters.MinimumVerticalDragDistance);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        private double _gestureMinimumDistanceY = 30.0;
-
-
-        /// <summary>
-        /// 現在のジェスチャー方向
-        /// </summary>
-        private MouseGestureDirection _direction;
-
-        /// <summary>
-        /// ジェスチャー方向ベクトル
-        /// </summary>
-        private static Dictionary<MouseGestureDirection, Vector> s_gestureDirectionVector = new Dictionary<MouseGestureDirection, Vector>
-        {
-            [MouseGestureDirection.None] = new Vector(0, 0),
-            [MouseGestureDirection.Up] = new Vector(0, -1),
-            [MouseGestureDirection.Right] = new Vector(1, 0),
-            [MouseGestureDirection.Down] = new Vector(0, 1),
-            [MouseGestureDirection.Left] = new Vector(-1, 0)
-        };
-
+        private MouseGestureSequenceTracker _gesture;
 
         /// <summary>
         /// コンストラクタ
@@ -125,18 +29,40 @@ namespace NeeView
         /// <param name="context"></param>
         public MouseInputGesture(MouseInputContext context) : base(context)
         {
-            _gesture = new MouseGestureSequence();
-            _gesture.CollectionChanged += (s, e) => MouseGestureProgressed.Invoke(this, new MouseGestureEventArgs(_gesture));
+            _gesture = new MouseGestureSequenceTracker();
+            _gesture.GestureProgressed += (s, e) => GestureProgressed.Invoke(this, new MouseGestureEventArgs(_gesture.Sequence));
         }
 
 
         /// <summary>
-        /// 初期化
+        /// ジェスチャー進捗通知
         /// </summary>
+        public event EventHandler<MouseGestureEventArgs> GestureProgressed;
+
+        /// <summary>
+        /// ジェスチャー確定通知
+        /// </summary>
+        public event EventHandler<MouseGestureEventArgs> GestureChanged;
+
+
+        //
+        public double GestureMinimumDistanceX
+        {
+            get { return _gesture.GestureMinimumDistanceX; }
+            set { _gesture.GestureMinimumDistanceX = value; }
+        }
+
+        //
+        public double GestureMinimumDistanceY
+        {
+            get { return _gesture.GestureMinimumDistanceY; }
+            set { _gesture.GestureMinimumDistanceY = value; }
+        }
+
+        //
         public void Reset()
         {
-            _direction = MouseGestureDirection.None;
-            _gesture.Clear();
+            _gesture.Reset(_context.StartPoint);
         }
 
 
@@ -149,7 +75,9 @@ namespace NeeView
         {
             sender.CaptureMouse();
             sender.Cursor = null;
-            Reset();
+            ////Reset();
+
+            _gesture.Reset(_context.StartPoint);
         }
 
         /// <summary>
@@ -172,12 +100,12 @@ namespace NeeView
             if (e.Handled) return;
 
             // 右ボタンのみジェスチャー終端として認識
-            if (e.ChangedButton == MouseButton.Left && _gesture.Count > 0)
+            if (e.ChangedButton == MouseButton.Left && _gesture.Sequence.Count > 0)
             {
                 // ジェスチャーコマンド実行
-                _gesture.Add(MouseGestureDirection.Click);
-                var args = new MouseGestureEventArgs(_gesture);
-                MouseGestureChanged?.Invoke(sender, args);
+                _gesture.Sequence.Add(MouseGestureDirection.Click);
+                var args = new MouseGestureEventArgs(_gesture.Sequence);
+                GestureChanged?.Invoke(sender, args);
             }
 
             // ジェスチャー解除
@@ -192,10 +120,10 @@ namespace NeeView
         public override void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
         {
             // ジェスチャーコマンド実行
-            if (_gesture.Count > 0)
+            if (_gesture.Sequence.Count > 0)
             {
-                var args = new MouseGestureEventArgs(_gesture);
-                MouseGestureChanged?.Invoke(sender, args);
+                var args = new MouseGestureEventArgs(_gesture.Sequence);
+                GestureChanged?.Invoke(sender, args);
                 e.Handled = args.Handled;
             }
 
@@ -223,7 +151,7 @@ namespace NeeView
         private void UpdateState(object sender, MouseEventArgs e)
         {
             // ジェスチャー認識前に他のドラッグに切り替わったら処理を切り替える
-            if (_gesture.Count > 0) return;
+            if (_gesture.Sequence.Count > 0) return;
 
             var action = DragActionTable.Current.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
             if (action == DragActionType.Gesture)
@@ -248,34 +176,7 @@ namespace NeeView
 
             var point = e.GetPosition(_context.Sender);
 
-            var v1 = point - _context.StartPoint;
-
-            // 一定距離未満は判定しない
-            if (Math.Abs(v1.X) < GestureMinimumDistanceX && Math.Abs(v1.Y) < GestureMinimumDistanceY) return;
-
-            // 方向を決める
-            // 斜め方向は以前の方向とする
-            if (_direction != MouseGestureDirection.None && Math.Abs(Vector.AngleBetween(s_gestureDirectionVector[_direction], v1)) < 60)
-            {
-                // そのまま
-            }
-            else
-            {
-                foreach (MouseGestureDirection direction in s_gestureDirectionVector.Keys)
-                {
-                    var v0 = s_gestureDirectionVector[direction];
-                    var angle = Vector.AngleBetween(s_gestureDirectionVector[direction], v1);
-                    if (direction != MouseGestureDirection.None && Math.Abs(Vector.AngleBetween(s_gestureDirectionVector[direction], v1)) < 30)
-                    {
-                        _direction = direction;
-                        _gesture.Add(_direction);
-                        break;
-                    }
-                }
-            }
-
-            // 開始点の更新
-            _context.StartPoint = point;
+            _gesture.Move(point);
         }
 
         #region Memento

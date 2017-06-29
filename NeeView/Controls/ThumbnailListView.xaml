@@ -18,7 +18,7 @@
     </UserControl.Resources>
     
     <Grid x:Name="Root" Visibility="{Binding Model.ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" IsVisibleChanged="ThumbnailListArea_IsVisibleChanged" UseLayoutRounding="True" >
-        <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Model.BookOperation.PageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+        <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Items}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
                              KeyDown="ThumbnailListBox_KeyDown"
@@ -27,11 +27,11 @@
                              Loaded="ThumbnailListBox_Loaded"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Bottom"
-                             ScrollViewer.CanContentScroll="True"
+                             VirtualizingPanel.ScrollUnit="Pixel"
                              PreviewMouseWheel="ThumbnailListBox_MouseWheel"
                              Background="Transparent" BorderThickness="0">
             <ListBox.Resources>
-
+                
                 <Style TargetType="{x:Type ListBox}">
                     <Setter Property="Padding" Value="5,0" />
                     <Setter Property="ItemTemplate">
@@ -44,7 +44,7 @@
                                                 <Style TargetType="Ellipse">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Thumbnail}" Value="{x:Null}">
+                                                        <DataTrigger Binding="{Binding Thumbnail.BitmapSource}" Value="{x:Null}">
                                                             <Setter Property="Visibility" Value="Visible"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -86,7 +86,6 @@
                         <Setter.Value>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel Orientation="Horizontal" CanHorizontallyScroll="True" CanVerticallyScroll="False" Margin="2,0"
-                                                                    FlowDirection="{Binding Model.IsSliderDirectionReversed, Converter={StaticResource SliderDirectionToFlowDirectionConverter}}"
                                                                     Loaded="ThumbnailListBoxPanel_Loaded"
                                                                     KeyDown="ThumbnailListBoxPanel_KeyDown"/>
                             </ItemsPanelTemplate>

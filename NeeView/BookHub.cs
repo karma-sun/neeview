@@ -836,16 +836,16 @@ namespace NeeView
 
             #region Obslete
 
-            [Obsolete, DataMember]
+            [Obsolete, DataMember(EmitDefaultValue =false)]
             public bool IsEnableAnimatedGif { get; set; }
 
-            [Obsolete, DataMember(Order = 1)]
+            [Obsolete, DataMember(Order = 1, EmitDefaultValue = false)]
             public bool IsEnableExif { get; set; }
 
-            [Obsolete, DataMember]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsEnableNoSupportFile { get; set; }
 
-            [Obsolete, DataMember(Order = 19)]
+            [Obsolete, DataMember(Order = 19, EmitDefaultValue = false)]
             public PreLoadMode PreLoadMode { get; set; }
 
             [Obsolete, DataMember(EmitDefaultValue = false)]
@@ -894,8 +894,6 @@ namespace NeeView
             public string Home { get; set; } // no used (ver.23)
 
             #endregion
-
-
 
 #pragma warning disable CS0612
 

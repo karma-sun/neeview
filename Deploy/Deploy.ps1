@@ -223,9 +223,9 @@ function New-PackageAppend($packageDir)
 # WiX
 function New-Msi($arch, $packageDir, $packageMsi)
 {
-	$candle = 'C:\Program Files (x86)\WiX Toolset v3.11\bin\candle.exe'
-	$light = 'C:\Program Files (x86)\WiX Toolset v3.11\bin\light.exe'
-	$heat = 'C:\Program Files (x86)\WiX Toolset v3.11\bin\heat.exe'
+	$candle = $env:WIX + 'bin\candle.exe'
+	$light = $env:WIX + 'bin\light.exe'
+	$heat = $env:WIX +  'bin\heat.exe'
 
 	# wix object folder
 	$objDir = $packageDir + ".append\" + $arch

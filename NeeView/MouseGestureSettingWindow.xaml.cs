@@ -23,15 +23,15 @@ namespace NeeView
     /// </summary>
     public partial class MouseGestureSettingWindow : Window
     {
-        private MouseGestureSettingViewModel _VM;
+        private MouseGestureSettingViewModel _vm;
 
         //
         public MouseGestureSettingWindow(MouseGestureSettingContext context)
         {
             InitializeComponent();
 
-            _VM = new MouseGestureSettingViewModel(context, this.GestureBox);
-            DataContext = _VM;
+            _vm = new MouseGestureSettingViewModel(context, this.GestureBox);
+            DataContext = _vm;
 
             // ESCでウィンドウを閉じる
             this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
@@ -40,7 +40,7 @@ namespace NeeView
         //
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            _VM.Decide();
+            _vm.Decide();
 
             this.DialogResult = true;
             this.Close();
@@ -60,6 +60,9 @@ namespace NeeView
     {
         //
         private MouseGestureSettingContext _context;
+
+        //
+        private TouchInputForGestureEditor _touchGesture;
 
         //
         private MouseInputForGestureEditor _mouseGesture;
@@ -104,8 +107,11 @@ namespace NeeView
         {
             _context = context;
 
+            _touchGesture = new TouchInputForGestureEditor(gestureSender);
+            _touchGesture.Gesture.GestureProgressed += Gesture_MouseGestureProgressed;
+
             _mouseGesture = new MouseInputForGestureEditor(gestureSender);
-            _mouseGesture.Gesture.MouseGestureProgressed += Gesture_MouseGestureProgressed;
+            _mouseGesture.Gesture.GestureProgressed += Gesture_MouseGestureProgressed;
 
             OriginalGesture = _context.Gesture;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -53,12 +54,34 @@ namespace NeeView
         // InputGesture設定
         public void InitializeInputGestures()
         {
+            // Touch
+            var touch = TouchInput.Current;
+
+            touch.ClearTouchEventHandler();
+
+            foreach (var command in this.Commands)
+            {
+                var touchGestures = CommandTable.Current[command.Key].GetTouchGestureCollection();
+                foreach (var gesture in touchGestures)
+                {
+                    touch.TouchGestureChanged += (s, x) =>
+                    {
+                        if (!x.TouchEventArgs.Handled && x.Gesture == gesture)
+                        {
+                            command.Value.Execute(null, _window);
+                            x.TouchEventArgs.Handled = true;
+                        }
+                    };
+                }
+            }
+
+
+            // Mouse / Keyboard
             var mouse = MouseInput.Current;
 
             mouse.ClearMouseEventHandler();
 
-            mouse.CommandCollection.Clear();
-            mouse.MouseGestureChanged += (s, x) => mouse.CommandCollection.Execute(x.Sequence);
+            MouseGestureCommandCollection.Current.Clear();
 
             var mouseNormalHandlers = new List<EventHandler<MouseButtonEventArgs>>();
             var mouseExtraHndlers = new List<EventHandler<MouseButtonEventArgs>>();
@@ -91,7 +114,7 @@ namespace NeeView
                 var mouseGesture = CommandTable.Current[command.Key].MouseGesture;
                 if (mouseGesture != null)
                 {
-                    mouse.CommandCollection.Add(mouseGesture, command.Value);
+                    MouseGestureCommandCollection.Current.Add(mouseGesture, command.Key);
                 }
             }
 
@@ -104,7 +127,7 @@ namespace NeeView
             //
             Changed?.Invoke(this, null);
         }
-        
+
         /// <summary>
         /// wheel command
         /// </summary>
@@ -125,15 +148,58 @@ namespace NeeView
         // CommandTableを純粋なコマンド定義のみにするため、コマンド実行に伴う処理はここで定義している
         public void Execute(CommandType type, object sender, object param)
         {
+            var command = _commandTable[GetFixedCommandType(type)];
+
             // 通知
-            if (_commandTable[type].IsShowMessage)
+            if (command.IsShowMessage)
             {
-                string message = _commandTable[type].ExecuteMessage(param);
+                string message = command.ExecuteMessage(param);
                 InfoMessage.Current.SetMessage(InfoMessageType.Command, message);
             }
 
             // 実行
-            _commandTable[type].Execute(sender, param);
+            command.Execute(sender, param);
+        }
+
+        // ペアコマンドとの交換
+        public CommandType GetFixedCommandType(CommandType commandType)
+        {
+            // TODO: ホイール操作も逆転してしまい、使用に問題があるため保留
+#if false
+            if (CommandTable.Current.IsReversePageMoveGesture && BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.LeftToRight)
+            {
+                var command = _commandTable[commandType];
+                if (command.PairPartner != CommandType.None)
+                {
+                    Debug.WriteLine($"SwapCommand: {commandType} to {command.PairPartner}");
+                    return command.PairPartner;
+                }
+                else
+                {
+                    return commandType;
+                }
+            }
+            else
+            {
+                return commandType;
+            }
+#else
+            return commandType;
+#endif
+        }
+
+        //
+        public CommandElement GetFixedCommandElement(CommandType commandType)
+        {
+            _commandTable.TryGetValue(GetFixedCommandType(commandType), out CommandElement command);
+            return command;
+        }
+
+        //
+        public RoutedUICommand GetFixedRoutedCommand(CommandType commandType)
+        {
+            this.Commands.TryGetValue(GetFixedCommandType(commandType), out RoutedUICommand command);
+            return command;
         }
 
 
@@ -142,7 +208,7 @@ namespace NeeView
         [Obsolete, DataContract]
         public class Memento
         {
-            [Obsolete, DataMember]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public ShowMessageStyle CommandShowMessageStyle { get; set; }
         }
 

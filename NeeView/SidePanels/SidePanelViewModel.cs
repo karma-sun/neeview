@@ -91,17 +91,23 @@ namespace NeeView
         public bool IsVisibleLocked
         {
             get { return _isVisibleLocked; }
-            set { if (_isVisibleLocked != value) { _isVisibleLocked = value; RaisePropertyChanged(); UpdateVisibility(); } }
+            set { if (_isVisibleLocked != value) { _isVisibleLocked = value; RaisePropertyChanged(); UpdateForceVisibled(); } }
         }
 
         //
         private bool _isVisibleLocked;
 
         //
-        public void UpdateVisibleLocked()
+        private bool _isForceVisibled;
+
+        //
+        public void UpdateForceVisibled()
         {
-            IsVisibleLocked = this.Panel.SelectedPanel != null && this.Panel.SelectedPanel.IsVisibleLock;
+            _isForceVisibled = _isVisibleLocked || (this.Panel.SelectedPanel != null && this.Panel.SelectedPanel.IsVisibleLock);
+            UpdateVisibility();
         }
+
+
 
 
         /// <summary>
@@ -128,7 +134,7 @@ namespace NeeView
         //
         private bool CanVisible()
         {
-            return _isVisibleLocked || _isDragged || (Panel.Panels.Any() ? _isAutoHide ? _isNearCursor : true : false);
+            return _isForceVisibled || _isDragged || (Panel.Panels.Any() ? _isAutoHide ? _isNearCursor : true : false);
         }
 
         //
@@ -382,7 +388,7 @@ namespace NeeView
         internal void UpdateVisibility(Point point, Point limit)
         {
             this.IsNearCursor = point.X < limit.X + _margin;
-            UpdateVisibleLocked();
+            UpdateForceVisibled();
         }
     }
 
@@ -403,7 +409,7 @@ namespace NeeView
         internal void UpdateVisibility(Point point, Point limit)
         {
             this.IsNearCursor = point.X > limit.X - _margin;
-            UpdateVisibleLocked();
+            UpdateForceVisibled();
         }
     }
 }

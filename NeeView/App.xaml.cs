@@ -56,13 +56,16 @@ namespace NeeView
             // メインウィンドウ起動
             var mainWindow = new MainWindow();
             mainWindow.Show();
+
+            MessageDialog.IsShowInTaskBar = false;
+            this.ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
 
 
         // 初期化
         private void Initialize(StartupEventArgs e)
         {
-            this.ShutdownMode = ShutdownMode.OnMainWindowClose;
+            this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
             // 環境初期化
             Config.Current.Initiallize();

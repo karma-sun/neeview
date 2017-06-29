@@ -74,6 +74,8 @@ namespace NeeView
         //
         private UICommand _resultCommand;
 
+        //
+        public static bool IsShowInTaskBar { get; set; } = true;
 
         //
         public MessageDialog()
@@ -83,6 +85,8 @@ namespace NeeView
 
             this.Owner = MainWindow.Current;
             this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+            this.ShowInTaskbar = IsShowInTaskBar;
         }
 
         //

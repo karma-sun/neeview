@@ -242,7 +242,7 @@ namespace NeeView
 
             // JobEngine Busy
             JobEngine.Current.AddPropertyChanged(nameof(JobEngine.IsBusy),
-                (s, e) => this.BusyVisibility = JobEngine.Current.IsBusy && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed);
+                (s, e) => this.BusyVisibility = _model.IsVisibleBusy && JobEngine.Current.IsBusy && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed);
 
             BookHub.Current.BookChanged +=
                 (s, e) => CommandManager.InvalidateRequerySuggested();

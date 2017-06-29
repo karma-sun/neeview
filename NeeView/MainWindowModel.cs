@@ -83,6 +83,8 @@ namespace NeeView
         private bool _IsHidePanelInFullscreen = true;
         private bool _IsVisibleWindowTitle = true;
         private bool _isVisibleAddressBar;
+        private bool _isVisibleBusy = true;
+
 
         #endregion
 
@@ -213,6 +215,16 @@ namespace NeeView
                 }
             }
         }
+
+        /// <summary>
+        /// IsVisibleBusy property.
+        /// </summary>
+        public bool IsVisibleBusy
+        {
+            get { return _isVisibleBusy; }
+            set { if (_isVisibleBusy != value) { _isVisibleBusy = value; RaisePropertyChanged(); } }
+        }
+
 
         #endregion
 
@@ -463,33 +475,34 @@ namespace NeeView
         {
             [DataMember]
             public PanelColor PanelColor { get; set; }
-
             [DataMember]
             public ContextMenuSetting ContextMenuSetting { get; set; }
-
-
-            //
             [DataMember]
             public bool IsHideMenu { get; set; }
-
             [DataMember]
             public bool IsVisibleAddressBar { get; set; }
-
             [DataMember]
             public bool IsHidePanel { get; set; }
-
             [DataMember]
             public bool IsHidePanelInFullscreen { get; set; }
-
             [DataMember]
             public bool IsHidePageSlider { get; set; }
-
             [DataMember]
             public bool IsVisibleWindowTitle { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            [PropertyMember("処理中マークの表示", Tips = "画像読み込み処理中マークを画面左上に表示する")]
+            public bool IsVisibleBusy { get; set; }
 
             [DataMember, DefaultValue(false)]
             [PropertyMember("「開く」を現在開いているブックの場所から始める", Tips = "[ファイル] >[開く]で開くフォルダーです\nドラッグ＆ドロップや履歴から開いた場所も基準になります")]
             public bool IsOpenbookAtCurrentPlace { get; set; }
+
+            [OnDeserializing]
+            private void OnDeserializing(StreamingContext c)
+            {
+                IsVisibleBusy = true;
+            }
         }
 
         //
@@ -506,6 +519,7 @@ namespace NeeView
             memento.IsHidePanel = this.IsHidePanel;
             memento.IsHidePanelInFullscreen = this.IsHidePanelInFullscreen;
             memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
+            memento.IsVisibleBusy = this.IsVisibleBusy;
             memento.IsOpenbookAtCurrentPlace = this.IsOpenbookAtCurrentPlace;
 
             return memento;
@@ -525,6 +539,7 @@ namespace NeeView
             this.IsVisibleAddressBar = memento.IsVisibleAddressBar;
             this.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
+            this.IsVisibleBusy = memento.IsVisibleBusy;
             this.IsOpenbookAtCurrentPlace = memento.IsOpenbookAtCurrentPlace;
         }
 

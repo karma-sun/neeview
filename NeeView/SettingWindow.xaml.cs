@@ -333,6 +333,7 @@ namespace NeeView
                     Setting.Memento.JobEngine,
                     Setting.Memento.FileIOProfile,
                     Setting.Memento.SevenZipArchiverProfile,
+                    Setting.Memento.PdfArchiverProfile,
                     Setting.Memento.ThumbnailProfile,
                     Setting.Memento.MainWindowModel,
                     Setting.Memento.FolderList,

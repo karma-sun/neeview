@@ -34,6 +34,7 @@ namespace NeeView
         {
             [ArchiverType.SevenZipArchiver] = SevenZipArchiverProfile.Current.SupportFileTypes,
             [ArchiverType.ZipArchiver] = new FileTypeCollection(".zip"),
+            [ArchiverType.PdfArchiver] = new FileTypeCollection(".pdf"),
             [ArchiverType.SusieArchiver] = new FileTypeCollection()
         };
 
@@ -44,6 +45,7 @@ namespace NeeView
             {
                 ArchiverType.SevenZipArchiver,
                 ArchiverType.ZipArchiver,
+                ArchiverType.PdfArchiver,
                 ArchiverType.SusieArchiver
             },
             [ArchiverType.SusieArchiver] = new List<ArchiverType>()
@@ -51,6 +53,7 @@ namespace NeeView
                 ArchiverType.SusieArchiver,
                 ArchiverType.SevenZipArchiver,
                 ArchiverType.ZipArchiver,
+                ArchiverType.PdfArchiver,
             },
         };
 
@@ -145,6 +148,8 @@ namespace NeeView
                     return new ZipArchiver(path, source);
                 case ArchiverType.SevenZipArchiver:
                     return new SevenZipArchiver(path, source);
+                case ArchiverType.PdfArchiver:
+                    return new PdfArchiver(path, source);
                 case ArchiverType.SusieArchiver:
                     return new SusieArchiver(path, source);
                 default:

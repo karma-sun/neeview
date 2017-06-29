@@ -90,6 +90,9 @@
     <Reference Include="Microsoft.Expression.Effects, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="PdfiumViewer, Version=2.12.0.0, Culture=neutral, PublicKeyToken=91e4789cfb0609e0, processorArchitecture=MSIL">
+      <HintPath>..\packages\PdfiumViewer.2.12.0.0\lib\net20\PdfiumViewer.dll</HintPath>
+    </Reference>
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -130,7 +133,9 @@
     <Compile Include="App.Memento.cs" />
     <Compile Include="App.Option.cs" />
     <Compile Include="Archiver\FileTypeCollection.cs" />
+    <Compile Include="Archiver\PdfArchiverProfile.cs" />
     <Compile Include="Archiver\SevenZipArchiverProfile.cs" />
+    <Compile Include="Archiver\PdfArchiver.cs" />
     <Compile Include="BookProfile.cs" />
     <Compile Include="BookHistoryCommand.cs" />
     <Compile Include="BookSetting.cs" />
@@ -923,6 +928,12 @@
     <Content Include="Effects\Shaders\ColorSelectEffect.fx" />
     <Content Include="Effects\Shaders\HsvEffect.fx" />
     <Content Include="Effects\Shaders\LevelEffect.fx" />
+    <Content Include="x64\pdfium.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\pdfium.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Empty.png" />
   </ItemGroup>
   <ItemGroup>

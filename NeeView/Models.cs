@@ -31,6 +31,7 @@ namespace NeeView
         public BookmarkCollection BookmarkCollection { get; private set; }
         public PagemarkCollection PagemarkCollection { get; private set; }
         public SevenZipArchiverProfile SevenZipArchiverProfile { get; private set; }
+        public PdfArchiverProfile PdfArchiverProfile { get; private set; }
         public ArchiverManager ArchiverManager { get; private set; }
         public BitmapLoaderManager BitmapLoaderManager { get; private set; }
         public DragActionTable DragActionTable { get; private set; }
@@ -109,6 +110,7 @@ namespace NeeView
             BookmarkCollection = new BookmarkCollection();
             PagemarkCollection = new PagemarkCollection();
             SevenZipArchiverProfile = new SevenZipArchiverProfile();
+            PdfArchiverProfile = new PdfArchiverProfile();
             ArchiverManager = new ArchiverManager();
             BitmapLoaderManager = new BitmapLoaderManager();
             DragActionTable = new DragActionTable();
@@ -205,6 +207,8 @@ namespace NeeView
             [DataMember]
             public SevenZipArchiverProfile.Memento SevenZipArchiverProfile { get; set; }
             [DataMember]
+            public PdfArchiverProfile.Memento PdfArchiverProfile { get; set; }
+            [DataMember]
             public ArchiverManager.Memento ArchiverManager { get; set; }
             [DataMember]
             public ThumbnailProfile.Memento ThumbnailProfile { get; set; }
@@ -277,6 +281,7 @@ namespace NeeView
             memento.FileIOProfile = this.FileIOProfile.CreateMemento();
             memento.JobEngine = this.JobEngine.CreateMemento();
             memento.SevenZipArchiverProfile = this.SevenZipArchiverProfile.CreateMemento();
+            memento.PdfArchiverProfile = this.PdfArchiverProfile.CreateMemento();
             memento.ArchiverManager = this.ArchiverManager.CreateMemento();
             memento.ThumbnailProfile = this.ThumbnailProfile.CreateMemento();
             memento.ExporterProfile = this.ExporterProfile.CreateMemento();
@@ -316,6 +321,7 @@ namespace NeeView
             this.FileIOProfile.Restore(memento.FileIOProfile);
             this.JobEngine.Restore(memento.JobEngine);
             this.SevenZipArchiverProfile.Restore(memento.SevenZipArchiverProfile);
+            this.PdfArchiverProfile.Restore(memento.PdfArchiverProfile);
             this.ArchiverManager.Restore(memento.ArchiverManager);
             this.ThumbnailProfile.Restore(memento.ThumbnailProfile);
             this.ExporterProfile.Restore(memento.ExporterProfile);

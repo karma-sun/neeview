@@ -1171,7 +1171,7 @@ namespace NeeView
                 element.Note = "ページ前方向に画像をスクロールさせます。スクロールできない場合は前ページに移動します";
                 element.ShortCutKey = "WheelUp";
                 element.IsShowMessage = false;
-                element.DefaultParameter = new ScrollPageCommandParameter() { IsNScroll = true, IsAnimation = true, Margin = 50 };
+                element.DefaultParameter = new ScrollPageCommandParameter() { IsNScroll = true, IsAnimation = true, Margin = 50, Scroll = 100 };
                 element.Execute = (s, e) => _models.MainWindowModel.PrevScrollPage();
                 element.PairPartner = CommandType.NextScrollPage;
                 _elements[CommandType.PrevScrollPage] = element;

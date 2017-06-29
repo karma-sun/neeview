@@ -377,9 +377,9 @@ namespace NeeView
         /// <param name="margin">最小移動距離</param>
         /// <param name="isAnimate">スクロールアニメ</param>
         /// <returns>スクロールしたか</returns>
-        public bool ScrollN(int direction, int bookReadDirection, bool allowVerticalScroll, double margin, bool isAnimate)
+        public bool ScrollN(int direction, int bookReadDirection, bool allowVerticalScroll, double margin, bool isAnimate, double rate)
         {
-            var delta = GetNScrollDelta(direction, bookReadDirection, allowVerticalScroll, margin);
+            var delta = GetNScrollDelta(direction, bookReadDirection, allowVerticalScroll, margin, rate);
 
             if (delta.X != 0.0 || delta.Y != 0.0)
             {
@@ -399,7 +399,7 @@ namespace NeeView
         }
 
         // N字スクロール：スクロール距離を計算
-        private Point GetNScrollDelta(int direction, int bookReadDirection, bool allowVerticalScroll, double margin)
+        private Point GetNScrollDelta(int direction, int bookReadDirection, bool allowVerticalScroll, double margin, double rate)
         {
             Point delta = new Point();
 
@@ -409,11 +409,11 @@ namespace NeeView
             {
                 if (direction > 0)
                 {
-                    delta.Y = GetNScrollVerticalToBottom(area, margin);
+                    delta.Y = GetNScrollVerticalToBottom(area, margin, rate);
                 }
                 else
                 {
-                    delta.Y = GetNScrollVerticalToTop(area, margin);
+                    delta.Y = GetNScrollVerticalToTop(area, margin, rate);
                 }
             }
 
@@ -445,12 +445,12 @@ namespace NeeView
         }
 
         // N字スクロール：上方向スクロール距離取得
-        private double GetNScrollVerticalToTop(DragArea area, double margin)
+        private double GetNScrollVerticalToTop(DragArea area, double margin, double rate)
         {
             if (area.Over.Top < -margin)
             {
                 double dy = Math.Abs(area.Over.Top);
-                if (dy > area.View.Height) dy = area.View.Height;
+                if (dy > area.View.Height * rate) dy = area.View.Height * rate;
                 return dy;
             }
             else
@@ -460,12 +460,12 @@ namespace NeeView
         }
 
         // N字スクロール：下方向スクロール距離取得
-        private double GetNScrollVerticalToBottom(DragArea area, double margin)
+        private double GetNScrollVerticalToBottom(DragArea area, double margin, double  rate)
         {
             if (area.Over.Bottom > margin)
             {
                 double dy = Math.Abs(area.Over.Bottom);
-                if (dy > area.View.Height) dy = area.View.Height;
+                if (dy > area.View.Height * rate) dy = area.View.Height * rate;
                 return -dy;
             }
             else

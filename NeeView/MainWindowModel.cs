@@ -341,7 +341,7 @@ namespace NeeView
             var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.PrevScrollPage].Parameter;
 
             int bookReadDirection = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = MouseInput.Current.Drag.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
+            bool isScrolled = MouseInput.Current.Drag.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation, parameter.Scroll / 100.0);
 
             if (!isScrolled)
             {
@@ -356,7 +356,7 @@ namespace NeeView
             var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.NextScrollPage].Parameter;
 
             int bookReadDirection = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = MouseInput.Current.Drag.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation);
+            bool isScrolled = MouseInput.Current.Drag.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation, parameter.Scroll / 100.0);
 
             if (!isScrolled)
             {

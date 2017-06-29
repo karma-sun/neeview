@@ -243,16 +243,35 @@ namespace NeeView
     /// <summary>
     /// スクロール＋ページ移動用パラメータ
     /// </summary>
+    [DataContract]
     public class ScrollPageCommandParameter : CommandParameter
     {
+        [DataMember]
         [PropertyMember("N字スクロール", Tips = "縦スクロール可能な場合、縦方向にもスクロールします。\n縦横スクロールが可能な場合、N字を描くようにスクロールします")]
         public bool IsNScroll { get; set; }
 
+        [DataMember]
         [PropertyMember("滑らかスクロール")]
         public bool IsAnimation { get; set; }
 
+        [DataMember]
         [PropertyMember("最小スクロール距離", Tips = "このピクセル幅以上スクロールできる場合のみスクロールします")]
         public double Margin { get; set; }
+
+        [DataMember]
+        [PropertyRange(0, 100, Name = "移動量(%)", Tips = "一度の操作でスクロールするする画面に対する割合(0-100)")]
+        public int Scroll
+        {
+            get { return _scroll; }
+            set { _scroll = NVUtility.Clamp(value, 0, 100); }
+        }
+        private int _scroll;
+
+        [OnDeserializing]
+        private void OnDeserializing(StreamingContext context)
+        {
+            _scroll = 100;
+        }
     }
 
     /// <summary>

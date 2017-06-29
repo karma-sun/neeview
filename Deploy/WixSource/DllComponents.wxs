@@ -2,12 +2,15 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="INSTALLFOLDER">
-            <Directory Id="PFLibrariesFolder" Name="Libraries">
+            <Directory Id="dir20FF26C963FCD8D5721868ED67B27FFF" Name="Libraries">
                 <Component Id="cmpB5253615D3A409D93E9B0F5C0792727C" Guid="*">
                     <File Id="fil070F313B4772A6FE929C82891BF65F14" KeyPath="yes" Source="$(var.LibrariesDir)\Microsoft.Expression.Effects.dll" />
                 </Component>
                 <Component Id="cmpE88A5217E6CBA6AA7D4C8E2EF756AA30" Guid="*">
                     <File Id="filFEA99228133615CB13248AB49E72DBE6" KeyPath="yes" Source="$(var.LibrariesDir)\Microsoft.Expression.Interactions.dll" />
+                </Component>
+                <Component Id="cmpF4ED074744A7D85B596FAD97C2A1E278" Guid="*">
+                    <File Id="fil2CEC097441F2CB33524309037DC5BB13" KeyPath="yes" Source="$(var.LibrariesDir)\PdfiumViewer.dll" />
                 </Component>
                 <Component Id="cmp22E98BAC13DC44B2B85FDBE34D094DB9" Guid="*">
                     <File Id="filCA34950CA2B657862525DB2E7CFF70F5" KeyPath="yes" Source="$(var.LibrariesDir)\SevenZipSharpNE.dll" />
@@ -107,6 +110,9 @@
                     <Component Id="cmp9D4AE8C031DF1FC733C87DF95334A165" Guid="*">
                         <File Id="fil50D8656DA153D2BEE13D829A7DFF7A29" KeyPath="yes" Source="$(var.LibrariesDir)\x64\7z.dll" />
                     </Component>
+                    <Component Id="cmp60F5CE1CFAD8CEB5380872C62BECCD6A" Guid="*">
+                        <File Id="fil8DFAB1DF89975F8A14E16D7D66FA5F9F" KeyPath="yes" Source="$(var.LibrariesDir)\x64\pdfium.dll" />
+                    </Component>
                     <Component Id="cmp29CF596D1E10B90F6FC97B0A349FEF8A" Guid="*">
                         <File Id="fil579CF3BBC5A49AACD044C07B6847215B" KeyPath="yes" Source="$(var.LibrariesDir)\x64\SQLite.Interop.dll" />
                     </Component>
@@ -114,6 +120,9 @@
                 <Directory Id="dir49BA1F33E4D4B9114E93FB415B9F85A5" Name="x86">
                     <Component Id="cmpB5C9C3C36D6C8C2303EEC99AEE09D10D" Guid="*">
                         <File Id="filE39F6DFACC5CA6C447FAF11DD120BFD8" KeyPath="yes" Source="$(var.LibrariesDir)\x86\7z.dll" />
+                    </Component>
+                    <Component Id="cmpAFD9B88727EF2AE79E3F8AFBC5A376BB" Guid="*">
+                        <File Id="fil4F26D046010EC66BB9B7C7D589AB8C51" KeyPath="yes" Source="$(var.LibrariesDir)\x86\pdfium.dll" />
                     </Component>
                     <Component Id="cmp3AE14885B4F257F53834F4FFB0C5D35F" Guid="*">
                         <File Id="fil11ADBC8FCB3B631BAFACEAF9EF53EBD7" KeyPath="yes" Source="$(var.LibrariesDir)\x86\SQLite.Interop.dll" />
@@ -148,6 +157,7 @@
         <ComponentGroup Id="DllComponents">
             <ComponentRef Id="cmpB5253615D3A409D93E9B0F5C0792727C" />
             <ComponentRef Id="cmpE88A5217E6CBA6AA7D4C8E2EF756AA30" />
+            <ComponentRef Id="cmpF4ED074744A7D85B596FAD97C2A1E278" />
             <ComponentRef Id="cmp22E98BAC13DC44B2B85FDBE34D094DB9" />
             <ComponentRef Id="cmp3DCCEA2975E18FD4C2DA5E81BF1C60B0" />
             <ComponentRef Id="cmp497DB98CF2661AD5E3F644E55989373D" />
@@ -175,8 +185,10 @@
             <ComponentRef Id="cmp7D356F36D5074CED26B1436DA5378AA3" />
             <ComponentRef Id="cmpE8A1F1AA4EC32A7044262A7704021817" />
             <ComponentRef Id="cmp9D4AE8C031DF1FC733C87DF95334A165" />
+            <ComponentRef Id="cmp60F5CE1CFAD8CEB5380872C62BECCD6A" />
             <ComponentRef Id="cmp29CF596D1E10B90F6FC97B0A349FEF8A" />
             <ComponentRef Id="cmpB5C9C3C36D6C8C2303EEC99AEE09D10D" />
+            <ComponentRef Id="cmpAFD9B88727EF2AE79E3F8AFBC5A376BB" />
             <ComponentRef Id="cmp3AE14885B4F257F53834F4FFB0C5D35F" />
             <ComponentRef Id="cmp0CDF87FD15068BCF9CCE3770E843F37B" />
             <ComponentRef Id="cmp4AA808D058D4224C2008669742FDC059" />

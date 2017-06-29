@@ -641,7 +641,7 @@
                                   SelectedValue="{Binding Setting.Memento.BookSetting.BookMementoDefault.PageMode}" />
                             </StackPanel>
                             <StackPanel Style="{StaticResource ItemStackPanel}">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="開く方向"/>
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="本を開く方向"/>
                                 <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding PageReadOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value"
                                   SelectedValue="{Binding Setting.Memento.BookSetting.BookMementoDefault.BookReadOrder}" />
                             </StackPanel>
@@ -873,6 +873,18 @@
                     </CollectionViewSource>
                 </TabItem.Resources>
                 <DockPanel>
+
+                    <!--
+                    <StackPanel DockPanel.Dock="Bottom" Style="{StaticResource BaseStackPanel}">
+                        <TextBlock Text="設定" Style="{StaticResource Header}" ToolTip=""/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="本を開く方向で対応するページ送コマンドの操作を入れ替える"
+                                  ToolTip="{Binding CommandSwapTooltip}"
+                                  IsChecked="{Binding Setting.CommandMememto.IsReversePageMoveGesture}" />
+                        </StackPanel>
+                    </StackPanel>
+                    -->
+
                     <DockPanel DockPanel.Dock="Bottom">
                         <Button x:Name="ResetGestureSettingButton" DockPanel.Dock="Right" Content="すべて初期化..." MinWidth="110" Height="30" Margin="8" Padding="5,0" VerticalAlignment="Bottom" Click="ResetGestureSettingButton_Click" ToolTip="すべてのコマンド設定を初期化します"/>
                         <WrapPanel>
@@ -1031,6 +1043,7 @@
                         </ListView.View>
                     </ListView>
                 </DockPanel>
+
             </TabItem>
 
             <TabItem Header="メニュー">

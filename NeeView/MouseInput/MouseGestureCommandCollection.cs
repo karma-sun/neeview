@@ -22,14 +22,14 @@ namespace NeeView
         /// <summary>
         /// シーケンスとコマンドの対応辞書
         /// </summary>
-        private Dictionary<string, RoutedUICommand> _commands;
+        private Dictionary<string, CommandType> _commands;
 
         /// <summary>
         /// コンストラクター
         /// </summary>
         public MouseGestureCommandCollection()
         {
-            _commands = new Dictionary<string, RoutedUICommand>();
+            _commands = new Dictionary<string, CommandType>();
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace NeeView
         /// </summary>
         /// <param name="gestureText"></param>
         /// <param name="command"></param>
-        public void Add(string gestureText, RoutedUICommand command)
+        public void Add(string gestureText, CommandType command)
         {
             _commands[gestureText] = command;
         }
@@ -55,9 +55,9 @@ namespace NeeView
         /// </summary>
         /// <param name="gesture"></param>
         /// <returns></returns>
-        public RoutedUICommand GetCommand(MouseGestureSequence gesture)
+        public CommandType GetCommand(MouseGestureSequence gesture)
         {
-            if (gesture == null) return null;
+            if (gesture == null || gesture.Count == 0) return CommandType.None;
 
             string key = gesture.ToString();
 
@@ -67,7 +67,7 @@ namespace NeeView
             }
             else
             {
-                return null;
+                return CommandType.None;
             }
         }
 
@@ -88,9 +88,10 @@ namespace NeeView
         {
             if (_commands.ContainsKey(gestureText))
             {
-                if (_commands[gestureText].CanExecute(null, null))
+                var routedCommand = RoutedCommandTable.Current.GetFixedRoutedCommand(_commands[gestureText]);
+                if (routedCommand != null && routedCommand.CanExecute(null, null))
                 {
-                    _commands[gestureText].Execute(null, null);
+                    routedCommand.Execute(null, null);
                 }
             }
         }
@@ -102,7 +103,9 @@ namespace NeeView
         public void ShowProgressed(MouseGestureSequence sequence)
         {
             var gesture = sequence.ToDispString();
-            var commandName = this.GetCommand(sequence)?.Text;
+
+            var commandType = GetCommand(sequence);
+            var commandName = commandType.IsDisable() ? null : RoutedCommandTable.Current.GetFixedRoutedCommand(commandType)?.Text;
 
             if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
 

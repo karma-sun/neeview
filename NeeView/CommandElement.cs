@@ -57,6 +57,9 @@ namespace NeeView
         // フラグバインディング
         public Func<System.Windows.Data.Binding> CreateIsCheckedBinding { get; set; }
 
+        // ペアコマンド
+        public CommandType PairPartner { get; set; }
+
 
         // トグル候補
         [Obsolete]

@@ -287,6 +287,9 @@ namespace NeeView
         // スライドショー間隔
         public SlideShowInterval SlideShowInterval { get; set; }
 
+        //
+        public string CommandSwapTooltip { get; set; }
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -319,6 +322,9 @@ namespace NeeView
             // コマンド一覧作成
             CommandCollection = new ObservableCollection<CommandParam>();
             UpdateCommandList();
+
+            // コマンド入れ替え説明文生成
+            UpdateCommandSwapTooltip();
 
             // 詳細設定一覧作成
             _propertyDocument = new PropertyDocument(new object[]
@@ -377,6 +383,29 @@ namespace NeeView
             // SlideShow Interval
             SlideShowInterval = new SlideShowInterval(Setting.Memento.SlideShow.SlideShowInterval);
             SlideShowInterval.ValueChanged += (s, e) => Setting.Memento.SlideShow.SlideShowInterval = e.NewValue;
+        }
+
+        //
+        private void UpdateCommandSwapTooltip()
+        {
+            var commandTable = CommandTable.Current;
+
+            // ペア収集
+            var pairs = commandTable
+                .Where(e => e.Value.PairPartner != CommandType.None)
+                .ToDictionary(e => e.Key, e => e.Value.PairPartner);
+
+            while (true)
+            {
+                var element = pairs.Last();
+                if (!pairs.ContainsKey(element.Value)) break;
+                pairs.Remove(element.Key);
+            }
+
+            var text = "本を開く方向「左開き」の場合に以下のコマンド操作を入れ替えます。\n\n"
+                + string.Join("\n", pairs.Select(e => $"- {commandTable[e.Key].Text} / {commandTable[e.Value].Text}"));
+
+            this.CommandSwapTooltip = text;
         }
 
         //

@@ -29,7 +29,9 @@ namespace NeeView
                 return;
             }
 
-            using (var stream = new FileStream("ErrorLog.txt", FileMode.Create, FileAccess.Write))
+            var errorLogFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath + "ErrorLog.txt");
+
+            using (var stream = new FileStream(errorLogFileName, FileMode.Create, FileAccess.Write))
             using (var writer = new StreamWriter(stream))
             {
                 writer.WriteLine($"{DateTime.Now}\n");
@@ -53,7 +55,7 @@ namespace NeeView
             }
 
             string exceptionMessage = e.Exception is System.Reflection.TargetInvocationException ? e.Exception.InnerException?.Message : e.Exception.Message;
-            string message = $"エラーが発生しました。アプリを終了します。\n\n理由 : {exceptionMessage}\n\nErrorLog.txtにエラーの詳細が出力されています。この内容を開発者に報告してください。";
+            string message = $"エラーが発生しました。アプリを終了します。\n\n理由 : {exceptionMessage}\n\n次のファイルにエラーの詳細が出力されています。\n{errorLogFileName}";
             MessageBox.Show(message, "強制終了", MessageBoxButton.OK, MessageBoxImage.Error);
 
 #if DEBUG

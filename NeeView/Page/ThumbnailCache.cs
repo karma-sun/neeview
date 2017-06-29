@@ -91,7 +91,7 @@ namespace NeeView
         /// <summary>
         /// データベースファイル名
         /// </summary>
-        private string _filename { get; } = System.IO.Path.Combine(Config.Current .LocalApplicationDataPath, "Cache.db");
+        private string _filename { get; } = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "Cache.db");
 
 
         //

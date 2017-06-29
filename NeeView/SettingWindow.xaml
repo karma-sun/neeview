@@ -91,7 +91,7 @@
     <Grid>
         <TabControl x:Name="tabControl" Margin="10,10,10,43">
             <TabItem Header="全般" >
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly">
                     <StackPanel Style="{StaticResource BaseStackPanel}">
 
                         <TextBlock Text="基本" Style="{StaticResource Header}"/>
@@ -189,7 +189,7 @@
             </TabItem>
 
             <TabItem Header="表示設定">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly">
                     <StackPanel Style="{StaticResource BaseStackPanel}">
 
                         <TextBlock Text="テーマ" Style="{StaticResource Header}"/>
@@ -377,7 +377,7 @@
 
 
             <TabItem Header="画像操作">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly">
                     <StackPanel Style="{StaticResource BaseStackPanel}">
                         <TextBlock Text="ビュー操作" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
@@ -516,7 +516,7 @@
             </TabItem>
 
             <TabItem Header="外部連携">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly">
                     <StackPanel Style="{StaticResource BaseStackPanel}">
 
                         <TextBlock Text="外部アプリ設定" Style="{StaticResource Header}"  ToolTip="「外部アプリで起動」コマンドで使用するアプリを指定します"/>
@@ -599,7 +599,7 @@
             </TabItem>
 
             <TabItem Header="ページ設定">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly">
                     <StackPanel  Style="{StaticResource BaseStackPanel}">
 
                         <TextBlock Text="履歴、ブックマークから復元するページ設定項目" Style="{StaticResource Header}"
@@ -707,7 +707,7 @@
             </TabItem>
 
             <TabItem Header="履歴設定">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly">
                     <StackPanel  Style="{StaticResource BaseStackPanel}">
 
                         <TextBlock Text="履歴保存数制限" Style="{StaticResource Header}"/>
@@ -758,7 +758,7 @@
             </TabItem>
 
             <TabItem Header="スライドショー">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly">
                     <StackPanel Style="{StaticResource BaseStackPanel}">
                         <TextBlock Text="設定" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
@@ -1065,7 +1065,6 @@
                     <local:ContextMenuSettingControl x:Name="ContextMenuSettingControl" ContextMenuSetting="{Binding Setting.Memento.MainWindowModel.ContextMenuSetting}" />
                 </DockPanel>
             </TabItem>
-
 
             <TabItem Header="詳細設定">
                 <TabItem.Resources>

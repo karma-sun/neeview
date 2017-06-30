@@ -165,14 +165,15 @@ namespace NeeView
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            try
+            if (double.TryParse((string)value, out double result))
             {
-                return double.Parse((string)value) - 1;
+                return result - 1;
             }
-            catch
+            else
             {
-                return value;
+                return DependencyProperty.UnsetValue;
             }
+
         }
     }
 

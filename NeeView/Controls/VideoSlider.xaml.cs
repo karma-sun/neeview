@@ -280,15 +280,14 @@ namespace NeeView
             double min = 0.0;
             double max = this.Root.ActualWidth - 25.0;
 
-            if (Maximum > Minimum)
-            {
-                var x = GetReversedValue(value) * (max - min) / (Maximum - Minimum) + min;
-                Canvas.SetLeft(this.Thumb, x);
-            }
-            else
-            {
-                Canvas.SetLeft(this.Thumb, min);
-            }
+            var x = Maximum > Minimum
+                ? GetReversedValue(value) * (max - min) / (Maximum - Minimum) + min
+                : min;
+
+            x = Math.Max(x, 0);
+
+            Canvas.SetLeft(this.Thumb, x);
+            this.LeftTracColumn.Width = new GridLength(x);
         }
 
         // 座標から値を計算

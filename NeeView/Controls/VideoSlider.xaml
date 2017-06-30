@@ -21,7 +21,7 @@
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="{Binding ElementName=Thumb,Path=(Canvas.Left)}"/>
+                <ColumnDefinition x:Name="LeftTracColumn" Width="50"/>
                 <ColumnDefinition Width="25"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
@@ -31,6 +31,7 @@
         </Grid>
         
         <Canvas x:Name="RootCanvas" VerticalAlignment="Center" Height="25">
+
             <Thumb Canvas.Left="50" Canvas.Top="0" Height="25" Name="Thumb"  Width="25" Background="Transparent"
                DragCompleted="Thumb_DragCompleted"
                DragStarted="Thumb_DragStarted"

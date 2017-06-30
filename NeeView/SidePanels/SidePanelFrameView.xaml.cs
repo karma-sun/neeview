@@ -52,7 +52,7 @@ namespace NeeView
         /// <summary>
         /// スプリッターの幅
         /// </summary>
-        public double SplitterWidth => 6.0;
+        public double SplitterWidth => 8.0;
 
 
         /// <summary>

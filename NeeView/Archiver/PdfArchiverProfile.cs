@@ -32,7 +32,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember, DefaultValue(typeof(Size), "1920,1080")]
-            [PropertyMember(Name = "PDF画像最大サイズ", Tips = "PDFのページはこの大きさに収まるサイズで画像化されます")]
+            [PropertyMember(Name = "PDF画像最大サイズ", Tips = "PDFのページはこの大きさに収まるサイズで画像化されます", IsVisible = false)]
             public Size RenderMaxSize { get; set; }
         }
 

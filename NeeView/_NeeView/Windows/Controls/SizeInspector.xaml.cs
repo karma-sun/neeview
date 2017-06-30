@@ -43,7 +43,12 @@ namespace NeeView.Windows.Controls
 
         // Using a DependencyProperty as the backing store for Point.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SizeProperty =
-            DependencyProperty.Register("Size", typeof(Size), typeof(SizeInspector), new PropertyMetadata(new Size()));
+            DependencyProperty.Register("Size", typeof(Size), typeof(SizeInspector), new PropertyMetadata(new Size(), SizePropertyChanged));
+
+        private static void SizePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as SizeInspector)?.RaisePropertyChanged(null);
+        }
 
         /// <summary>
         /// Size: Width

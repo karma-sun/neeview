@@ -705,6 +705,14 @@
                             </Grid>
                         </StackPanel>
 
+                        <TextBlock Text="PDF設定" Style="{StaticResource Header}" />
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="PDFのページを画像化するときの最大サイズです">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="PDFページサイズ"/>
+                                <nlc:SizeInspector Margin="2,0" MinWidth="200" Size="{Binding Setting.Memento.PdfArchiverProfile.RenderMaxSize, Mode=TwoWay}"/>
+                            </StackPanel>
+                        </StackPanel>
+
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

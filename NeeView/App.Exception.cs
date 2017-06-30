@@ -29,7 +29,7 @@ namespace NeeView
                 return;
             }
 
-            var errorLogFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath + "ErrorLog.txt");
+            var errorLogFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "ErrorLog.txt");
 
             using (var stream = new FileStream(errorLogFileName, FileMode.Create, FileAccess.Write))
             using (var writer = new StreamWriter(stream))

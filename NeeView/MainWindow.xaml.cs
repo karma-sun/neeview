@@ -83,10 +83,13 @@ namespace NeeView
                 (s, e) => UpdateThumbnailListLayout());
 
             models.SidePanel.ResetFocus +=
-                (s, e) => this.MainView.Focus();
+                (s, e) => ResetFocus();
 
             this.AddressBar.IsAddressTextBoxFocusedChanged +=
                 (s, e) => UpdateMenuLayerVisibility();
+
+            WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
+                (s, e) => FullScreenChanged());
 
 
             // mouse input
@@ -176,10 +179,6 @@ namespace NeeView
             }
 
             windowShape.Restore(memento);
-
-            //
-            windowShape.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
-                (s, e) => UpdateWindowLayout());
         }
 
 
@@ -561,6 +560,28 @@ namespace NeeView
 
 
         #region レイアウト管理
+
+        /// <summary>
+        /// フルスクリーン状態が変更されたときの処理
+        /// </summary>
+        private void FullScreenChanged()
+        {
+            UpdateWindowLayout();
+
+            // フルスクリーン解除でフォーカスが表示されたパネルに移動してしまう現象を回避
+            if (!WindowShape.Current.IsFullScreen && MainWindowModel.Current.IsHidePanelInFullscreen)
+            {
+                ResetFocus();
+            }
+        }
+
+        /// <summary>
+        /// MainViewにフォーカスを移動する
+        /// </summary>
+        private void ResetFocus()
+        {
+            this.Dispatcher.BeginInvoke((Action)(() => this.MainView.Focus()));
+        }
 
         /// <summary>
         /// レイアウト更新

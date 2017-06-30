@@ -742,7 +742,7 @@ namespace NeeView
         /// </summary>
         private void UpdateStatusLayerVisibility()
         {
-            const double visibleMargin = 16;
+            const double visibleMargin = 15;
 
             if (_vm.Model.IsPanelVisibleLocked)
             {
@@ -757,7 +757,7 @@ namespace NeeView
             else
             {
                 var point = Mouse.GetPosition(this.RootBottom);
-                bool isVisible = point.Y > -visibleMargin && this.IsMouseOver;
+                bool isVisible = point.Y > -30.0 && this.IsMouseOver;
                 StatusLayerVisibility.Set(isVisible ? Visibility.Visible : Visibility.Collapsed);
             }
         }

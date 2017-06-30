@@ -14,13 +14,10 @@
     <MediaTemplate EmbedCab="yes" CompressionLevel="high"/>
 
     <!-- Features -->
-    <Feature Id="ProductFeature" Title="$(var.ExeName)" Level="1" AllowAdvertise="no" Absent="disallow" Display="expand" ConfigurableDirectory="INSTALLFOLDER" >
-      
-      <Feature Id="CoreFeature" Title="Core" Level="1" AllowAdvertise="no" Absent="disallow" Display="hidden" >
-        <ComponentGroupRef Id="ProductComponents" />
-        <ComponentGroupRef Id="DllComponents"/>
-        <ComponentRef Id="AppStartMenuDirComponent" />
-      </Feature>
+    <Feature Id="ProductFeature" Title="NeeView System" Level="1" AllowAdvertise="no" Absent="disallow" Display="expand" ConfigurableDirectory="INSTALLFOLDER">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="DllComponents"/>
+      <ComponentRef Id="AppStartMenuDirComponent" />
 
       <Feature Id="NeeViewFeature" Title="NeeView" Description="標準版のNeeView実行ファイルです。Susieプラグインは使用できません。64bitOSでは64bitで動作します"
           Level="1" AllowAdvertise="no">
@@ -34,11 +31,8 @@
     </Feature>
 
     <!-- インストーラーUI設定 -->
-    <UIRef Id="WixUI_Mondo" />
+    <UIRef Id="WixUI_MondoEx" />
     <UIRef Id="WixUI_ErrorProgressText" />
-
-    <WixVariable Id="WixUILicenseRtf" Value="WixSource\License.rtf"/>
-
 
     <!-- アドバタイズショートカットを無効にする -->
     <Property Id="DISABLEADVTSHORTCUTS" Value="1" />

@@ -219,5 +219,6 @@ Deploy/NeeView*/
 Deploy/*.zip
 Deploy/*.xml
 Deploy/*.msi
-
 /Deploy/_*
+!/NeeView/x64/
+!/NeeView/x86/

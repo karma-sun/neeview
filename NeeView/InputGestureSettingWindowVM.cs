@@ -69,10 +69,11 @@ namespace NeeView
         public void UpdateGestures()
         {
             var items = new ObservableCollection<GestureToken>();
-            if (_sources[Command] != null)
+            if (!string.IsNullOrEmpty(_sources[Command]))
             {
                 foreach (var gesture in _sources[Command].Split(','))
                 {
+                    if (gesture == "") continue;
                     var element = CreateShortCutElement(gesture);
                     items.Add(element);
                 }

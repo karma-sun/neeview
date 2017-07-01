@@ -131,6 +131,7 @@ namespace NeeView
 
             // moue event for window
             this.PreviewMouseMove += MainWindow_PreviewMouseMove;
+            this.PreviewMouseUp += MainWindow_PreviewMouseUp;
             this.PreviewMouseDown += MainWindow_PreviewMouseDown;
             this.PreviewMouseWheel += MainWindow_PreviewMouseWheel;
             this.PreviewStylusDown += MainWindow_PreviewStylusDown;
@@ -217,6 +218,40 @@ namespace NeeView
             // context menu
             commandTable[CommandType.OpenContextMenu].Execute =
                 (s, e) => OpenContextMenu();
+
+            //  コマンド実行後処理
+            RoutedCommandTable.Current.CommandExecuted += RoutedCommand_CommandExecuted;
+        }
+
+
+        // コマンド実行後処理
+        private void RoutedCommand_CommandExecuted(object sender, CommandExecutedEventArgs e)
+        {
+            // ダブルクリックでコマンド実行後のMouseButtonUpイベントをキャンセルする
+            if (e.Gesture is MouseGesture mouse)
+            {
+                switch (mouse.MouseAction)
+                {
+                    case MouseAction.LeftDoubleClick:
+                    case MouseAction.RightDoubleClick:
+                    case MouseAction.MiddleDoubleClick:
+                        _skipMouseButtonUp = true;
+                        break;
+                }
+            }
+            else if (e.Gesture is MouseExGesture mouseEx)
+            {
+                switch (mouseEx.MouseExAction)
+                {
+                    case MouseExAction.LeftDoubleClick:
+                    case MouseExAction.RightDoubleClick:
+                    case MouseExAction.MiddleDoubleClick:
+                    case MouseExAction.XButton1DoubleClick:
+                    case MouseExAction.XButton2DoubleClick:
+                        _skipMouseButtonUp = true;
+                        break;
+                }
+            }
         }
 
         // コマンド：コンテキストメニューを開く
@@ -392,6 +427,12 @@ namespace NeeView
 
         #region ウィンドウイベント処理
 
+
+        /// <summary>
+        /// マウスボタンUPイベントキャンセル
+        /// </summary>
+        private bool _skipMouseButtonUp;
+
         /// <summary>
         /// フレーム処理
         /// </summary>
@@ -463,6 +504,20 @@ namespace NeeView
             // 自動非表示ロック解除
             _vm.Model.LeaveVisibleLocked();
         }
+
+
+        //
+        private void MainWindow_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            // ダブルクリック後のイベントキャンセル
+            if (_skipMouseButtonUp)
+            {
+                ///Debug.WriteLine("Skip MuseUpEvent");
+                _skipMouseButtonUp = false;
+                e.Handled = true;
+            }
+        }
+
 
         //
         private void MainWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)

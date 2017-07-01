@@ -249,7 +249,7 @@ namespace NeeView
             if (memento == null) return;
 
             //
-            ShortCutKey = memento.ShortCutKey;
+            ShortCutKey = memento.ShortCutKey?.TrimStart(',');
             TouchGesture = memento.TouchGesture ?? this.TouchGesture; // compatible before ver.24
             MouseGesture = memento.MouseGesture;
             IsShowMessage = memento.IsShowMessage;

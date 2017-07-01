@@ -9,6 +9,11 @@ using System.Windows.Input;
 
 namespace NeeView
 {
+    public class CommandExecutedEventArgs : EventArgs
+    {
+        public InputGesture Gesture { get; set; }
+    }
+
     /// <summary>
     /// コマンド集 ： RoutedCommand
     /// </summary>
@@ -17,6 +22,8 @@ namespace NeeView
         public static RoutedCommandTable Current { get; private set; }
 
         public event EventHandler Changed;
+
+        public event EventHandler<CommandExecutedEventArgs> CommandExecuted;
 
         //
         public Dictionary<CommandType, RoutedUICommand> Commands { get; set; } = new Dictionary<CommandType, RoutedUICommand>();
@@ -94,11 +101,12 @@ namespace NeeView
                 {
                     if (gesture is MouseGesture mouseClick)
                     {
-                        mouseNormalHandlers.Add((s, x) => { if (!x.Handled && gesture.Matches(this, x)) { command.Value.Execute(null, _window); x.Handled = true; } });
+                        mouseNormalHandlers.Add((s, x) => MouseButtonCommandExecute(s, x, gesture, command.Value));
                     }
                     else if (gesture is MouseExGesture)
                     {
-                        mouseExtraHndlers.Add((s, x) => { if (!x.Handled && gesture.Matches(this, x)) { command.Value.Execute(null, _window); x.Handled = true; } });
+                        mouseExtraHndlers.Add((s, x) => MouseButtonCommandExecute(s, x, gesture, command.Value));
+                        //mouseExtraHndlers.Add((s, x) => { if (!x.Handled && gesture.Matches(this, x)) { command.Value.Execute(null, _window); x.Handled = true; } });
                     }
                     else if (gesture is MouseWheelGesture)
                     {
@@ -126,6 +134,29 @@ namespace NeeView
 
             //
             Changed?.Invoke(this, null);
+        }
+
+
+        //
+        private void MouseButtonCommandExecute(object sender, MouseButtonEventArgs x, InputGesture gesture, RoutedUICommand command)
+        {
+            if (!x.Handled && gesture.Matches(this, x))
+            {
+                command.Execute(null, _window);
+                CommandExecuted?.Invoke(this, new CommandExecutedEventArgs() { Gesture = gesture });
+                x.Handled = true;
+
+                /*
+                if (gesture is MouseGesture mouse)
+                {
+                    Debug.WriteLine($"{command.Text}: {mouse.MouseAction}");
+                }
+                else if (gesture is MouseExGesture mouseEx)
+                {
+                    Debug.WriteLine($"{command.Text}: EX.{mouseEx.MouseExAction}");
+                }
+                */
+            }
         }
 
         /// <summary>

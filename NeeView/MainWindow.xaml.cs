@@ -27,8 +27,11 @@ namespace NeeView
     public partial class MainWindow : Window
     {
         public static MainWindow Current { get; private set; }
-
+        
         private MainWindowViewModel _vm;
+        
+
+        #region コンストラクターと初期化処理
 
         /// <summary>
         /// コンストラクター
@@ -68,19 +71,19 @@ namespace NeeView
 
             //
             models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsHideMenu),
-                (s, e) => UpdateMenuAreaLayout());
+                (s, e) => DartyMenuAreaLayout());
 
             models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsHidePageSlider),
-                (s, e) => UpdateStatusAreaLayout());
+                (s, e) => DartyPageSliderLayout());
 
             models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsPanelVisibleLocked),
                 (s, e) => UpdateControlsVisibility());
 
             models.ThumbnailList.AddPropertyChanged(nameof(ThumbnailList.IsEnableThumbnailList),
-                (s, e) => UpdateThumbnailListLayout());
+                (s, e) => DartyThumbnailListLayout());
 
             models.ThumbnailList.AddPropertyChanged(nameof(ThumbnailList.IsHideThumbnailList),
-                (s, e) => UpdateThumbnailListLayout());
+                (s, e) => DartyThumbnailListLayout());
 
             models.SidePanel.ResetFocus +=
                 (s, e) => ResetFocus();
@@ -137,11 +140,12 @@ namespace NeeView
             this.MouseRightButtonDown += (s, e) => this.RenameManager.Stop();
             this.Deactivated += (s, e) => this.RenameManager.Stop();
 
+            // frame event
+            CompositionTarget.Rendering += new EventHandler(OnRendering);
+
             // 開発用初期化
             Debug_Initialize();
         }
-
-
 
         /// <summary>
         /// Window状態初期化
@@ -181,6 +185,7 @@ namespace NeeView
             windowShape.Restore(memento);
         }
 
+        #endregion
 
         #region コマンドバインディング
 
@@ -387,12 +392,20 @@ namespace NeeView
 
         #region ウィンドウイベント処理
 
+        /// <summary>
+        /// フレーム処理
+        /// </summary>
+        private void OnRendering(object sender, EventArgs e)
+        {
+            LayoutFrame();
+        }
+
 
         // ウィンドウ表示開始
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // レイアウト更新
-            UpdateWindowLayout();
+            DartyWindowLayout();
 
             _vm.Loaded();
         }
@@ -561,12 +574,16 @@ namespace NeeView
 
         #region レイアウト管理
 
+        private bool _isDartyMenuAreaLayout;
+        private bool _isDartyPageSliderLayout;
+        private bool _isDartyThumbnailListLayout;
+
         /// <summary>
         /// フルスクリーン状態が変更されたときの処理
         /// </summary>
         private void FullScreenChanged()
         {
-            UpdateWindowLayout();
+            DartyWindowLayout();
 
             // フルスクリーン解除でフォーカスが表示されたパネルに移動してしまう現象を回避
             if (!WindowShape.Current.IsFullScreen && MainWindowModel.Current.IsHidePanelInFullscreen)
@@ -583,18 +600,61 @@ namespace NeeView
             this.Dispatcher.BeginInvoke((Action)(() => this.MainView.Focus()));
         }
 
+
         /// <summary>
-        /// レイアウト更新
+        /// レイアウト更新要求
         /// </summary>
-        private void UpdateWindowLayout()
+        private void DartyWindowLayout()
         {
-            UpdateMenuAreaLayout();
-            UpdateStatusAreaLayout();
+            _isDartyMenuAreaLayout = true;
+            _isDartyPageSliderLayout = true;
+            _isDartyThumbnailListLayout = true;
         }
 
-        //
+        /// <summary>
+        /// メニューエリアレイアウト更新要求
+        /// </summary>
+        private void DartyMenuAreaLayout()
+        {
+            _isDartyMenuAreaLayout = true;
+        }
+
+        /// <summary>
+        /// スライダーレイアウト更新要求
+        /// </summary>
+        private void DartyPageSliderLayout()
+        {
+            _isDartyPageSliderLayout = true;
+            _isDartyThumbnailListLayout = true; // サムネイルリストも更新
+        }
+
+        /// <summary>
+        /// サムネイルリスト更新要求
+        /// </summary>
+        private void DartyThumbnailListLayout()
+        {
+            _isDartyThumbnailListLayout = true;
+        }
+        
+
+        /// <summary>
+        /// レイアウト更新フレーム処理
+        /// </summary>
+        private void LayoutFrame()
+        {
+            UpdateMenuAreaLayout();
+            UpdatePageSliderLayout();
+            UpdateThumbnailListLayout();
+        }
+
+        /// <summary>
+        /// メニューエリアレイアウト苦心
+        /// </summary>
         private void UpdateMenuAreaLayout()
         {
+            if (!_isDartyMenuAreaLayout) return;
+            _isDartyMenuAreaLayout = false;
+
             // menu hide
             bool isMenuDock = !MainWindowModel.Current.IsHideMenu && !WindowShape.Current.IsFullScreen;
 
@@ -613,21 +673,15 @@ namespace NeeView
             MenuLayerVisibility.SetDelayVisibility(Visibility.Collapsed, 0);
         }
 
-        /// <summary>
-        /// ステータスエリアレイアウト更新
-        /// </summary>
-        private void UpdateStatusAreaLayout()
-        {
-            UpdatePageSliderLayout();
-            UpdateThumbnailListLayout();
-        }
 
         /// <summary>
         /// ページスライダーレイアウト更新。
-        /// ここの状態が変化する場合、サムネイルリストも更新の必要あり。
         /// </summary>
         private void UpdatePageSliderLayout()
         {
+            if (!_isDartyPageSliderLayout) return;
+            _isDartyPageSliderLayout = false;
+
             // menu hide
             bool isPageSliderDock = !MainWindowModel.Current.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
 
@@ -647,9 +701,14 @@ namespace NeeView
             StatusLayerVisibility.SetDelayVisibility(Visibility.Collapsed, 0);
         }
 
-        //
+        /// <summary>
+        /// サムネイルリストレイアウト更新
+        /// </summary>
         private void UpdateThumbnailListLayout()
         {
+            if (!_isDartyThumbnailListLayout) return;
+            _isDartyThumbnailListLayout = false;
+
             bool isPageSliderDock = !MainWindowModel.Current.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
             bool isThimbnailListDock = !ThumbnailList.Current.IsHideThumbnailList && isPageSliderDock;
 

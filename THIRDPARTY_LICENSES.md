@@ -35,18 +35,18 @@ Code-in:
 * URL: [WPFDragAndDropSample](https://github.com/takanemu/WPFDragAndDropSample)
 * License: [MIT License](https://github.com/takanemu/WPFDragAndDropSample/blob/master/LICENSE)
 
-### PdfiumViewer
-
-DLL: PdfiumViewer.dll
-
-* Copyright (c) Pieter van Ginkel
-* URL: [WPFDragAndDropSample](https://github.com/takanemu/WPFDragAndDropSample)
-* License: [Apache License 2.0](https://github.com/pvginkel/PdfiumViewer/blob/master/LICENSE)
-
 ### PDFium
 
 DLL: pdfium.dll
 
 * Copyright 2014 PDFium Authors. All rights reserved.
-* URL: [pdfium](https://pdfium.googlesource.com/pdfium/)
-* License: [pdfium LICENSE](https://pdfium.googlesource.com/pdfium/+/master/LICENSE)
+* URL: [PDFium](https://pdfium.googlesource.com/pdfium/)
+* License: [PDFium LICENSE](https://pdfium.googlesource.com/pdfium/+/master/LICENSE)
+
+### PdfiumViewer
+
+DLL: PdfiumViewer.dll
+
+* Copyright (c) Pieter van Ginkel
+* URL: [PdfiumViewer](https://github.com/pvginkel/PdfiumViewer)
+* License: [Apache License 2.0](https://github.com/pvginkel/PdfiumViewer/blob/master/LICENSE)

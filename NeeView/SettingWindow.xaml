@@ -1029,23 +1029,37 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn Header="タッチ" Width="100">
+                                <GridViewColumn Header="タッチ" Width="120">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" ToolTip="{Binding TouchGestureElement.Note}">
-                                                <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,2" VerticalAlignment="Center">
-                                                    <Image.Style>
-                                                        <Style TargetType="Image">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Path=TouchGestureElement.IsConflict}" Value="False">
-                                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Image.Style>
-                                                </Image>
-                                                <TextBlock Text="{Binding TouchGestureElement.Gesture}" TextTrimming="CharacterEllipsis" Margin="0,0,2,0" VerticalAlignment="Center"/>
-                                            </StackPanel>
+                                            <ItemsControl ItemsSource="{Binding TouchGestures}"  ToolTip="{Binding TouchGestureNote}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,0" VerticalAlignment="Center">
+                                                                <Image.Style>
+                                                                    <Style TargetType="Image">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Path=IsConflict}" Value="False">
+                                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Image.Style>
+                                                            </Image>
+                                                            <StackPanel Orientation="Horizontal" Margin="0,0,2,0" VerticalAlignment="Center">
+                                                                <TextBlock Text="{Binding Gesture}"/>
+                                                                <TextBlock Text="{Binding Splitter}"/>
+                                                            </StackPanel>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

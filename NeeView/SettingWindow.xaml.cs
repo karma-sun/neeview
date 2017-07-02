@@ -120,7 +120,8 @@ namespace NeeView
             public GestureElement MouseGestureElement { get; set; }
 
             public string TouchGesture { get; set; }
-            public GestureElement TouchGestureElement { get; set; }
+            public string TouchGestureNote { get; set; }
+            public ObservableCollection<GestureElement> TouchGestures { get; set; } = new ObservableCollection<GestureElement>();
 
             public bool IsShowMessage { get; set; }
             public string Tips { get; set; }
@@ -557,26 +558,42 @@ namespace NeeView
         {
             foreach (var item in CommandCollection)
             {
+                item.TouchGestureNote = null;
+
                 if (!string.IsNullOrEmpty(item.TouchGesture))
                 {
-                    var overlaps = CommandCollection
-                        .Where(e => e.Key != item.Key && e.TouchGesture == item.TouchGesture)
-                        .Select(e => $"「{e.Key.ToDispString()}」")
-                        .ToList();
-
-                    var element = new GestureElement();
-                    element.Gesture = item.TouchGesture;
-                    element.IsConflict = overlaps.Count > 0;
-                    if (overlaps.Count > 0)
+                    var elements = new ObservableCollection<GestureElement>();
+                    foreach (var key in item.TouchGesture.Split(','))
                     {
-                        element.Note = $"{string.Join("", overlaps)} と競合しています";
+                        var overlaps = CommandCollection
+                            .Where(e => !string.IsNullOrEmpty(e.TouchGesture) && e.Key != item.Key && e.TouchGesture.Split(',').Contains(key))
+                            .Select(e => $"「{e.Key.ToDispString()}」")
+                            .ToList();
+
+                        if (overlaps.Count > 0)
+                        {
+                            if (item.TouchGestureNote != null) item.TouchGestureNote += "\n";
+                            item.TouchGestureNote += $"{key} は {string.Join("", overlaps)} と競合しています";
+                        }
+
+                        var element = new GestureElement();
+                        element.Gesture = key;
+                        element.IsConflict = overlaps.Count > 0;
+                        element.Splitter = ",";
+
+                        elements.Add(element);
                     }
 
-                    item.TouchGestureElement = element;
+                    if (elements.Count > 0)
+                    {
+                        elements.Last().Splitter = null;
+                    }
+
+                    item.TouchGestures = elements;
                 }
                 else
                 {
-                    item.TouchGestureElement = new GestureElement();
+                    item.TouchGestures = new ObservableCollection<GestureElement>();
                 }
             }
         }
@@ -775,7 +792,7 @@ namespace NeeView
         }
 
 
-        #region ParameterSettingCommand
+#region ParameterSettingCommand
         private RelayCommand _parameterSettingCommand;
         public RelayCommand ParameterSettingCommand
         {
@@ -793,7 +810,7 @@ namespace NeeView
             var command = (CommandParam)this.CommandListView.SelectedValue;
             EditCommandParameter(command);
         }
-        #endregion
+#endregion
 
 
 

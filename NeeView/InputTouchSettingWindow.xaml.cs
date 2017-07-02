@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using NeeView.Windows.Input;
 using NeeView.ComponentModel;
+using System.Globalization;
 
 namespace NeeView
 {
@@ -79,30 +80,32 @@ namespace NeeView
         private InputTouchSettingContext _context;
 
         /// <summary>
-        /// Property: GestureToken
+        /// GestureElements property.
         /// </summary>
-        private GestureToken _gestureToken = new GestureToken();
-        public GestureToken GestureToken
+        public ObservableCollection<GestureElement> GestureToken
         {
             get { return _gestureToken; }
             set { if (_gestureToken != value) { _gestureToken = value; RaisePropertyChanged(); } }
         }
 
-        /// <summary>
-        /// Property: Original Gesture
-        /// </summary>
-        public string OriginalGesture { get; set; }
+        private ObservableCollection<GestureElement> _gestureToken = new ObservableCollection<GestureElement>();
 
+        //
         /// <summary>
-        /// NewGesture property.
+        /// GestoreTokenNote property.
         /// </summary>
-        private string _NewGesture = "";
-        public string NewGesture
+        public string GestureTokenNote
         {
-            get { return _NewGesture; }
-            set { if (_NewGesture != value) { _NewGesture = value; RaisePropertyChanged(); } }
+            get { return _gestureTokenNote; }
+            set { if (_gestureTokenNote != value) { _gestureTokenNote = value; RaisePropertyChanged(); } }
         }
 
+        private string _gestureTokenNote;
+
+
+        //
+        public TouchAreaMap TouchAreaMap { get; set; }
+        
 
         /// <summary>
         /// Window Title
@@ -117,7 +120,9 @@ namespace NeeView
         public InputTouchSettingViewModel(InputTouchSettingContext context, FrameworkElement gestureSender)
         {
             _context = context;
-            OriginalGesture = _context.Gesture;
+
+            this.TouchAreaMap = new TouchAreaMap(_context.Gesture);
+            UpdateGestureToken(this.TouchAreaMap);
         }
 
         //
@@ -125,35 +130,57 @@ namespace NeeView
         {
             var gesture = TouchGestureExtensions.GetTouchGesture(pos.X / width, pos.Y / height);
 
-            this.NewGesture = gesture.ToString();
-            UpdateGestureToken(NewGesture);
+            this.TouchAreaMap.Toggle(gesture);
+            RaisePropertyChanged(nameof(TouchAreaMap));
+
+            UpdateGestureToken(this.TouchAreaMap);
         }
 
 
         /// <summary>
         /// Update Gesture Information
         /// </summary>
-        /// <param name="gesture"></param>
-        public void UpdateGestureToken(string gesture)
+        /// <param name="map"></param>
+        public void UpdateGestureToken(TouchAreaMap map)
         {
-            // Check Conflict
-            var token = new GestureToken();
-            token.Gesture = gesture;
+            string gestures = map.ToString();
+            this.GestureTokenNote = null;
 
-            if (!string.IsNullOrEmpty(token.Gesture))
+            if (!string.IsNullOrEmpty(gestures))
             {
-                token.Conflicts = _context.Gestures
-                    .Where(i => i.Key != _context.Command && i.Value == token.Gesture)
-                    .Select(i => i.Key)
-                    .ToList();
-
-                if (token.Conflicts.Count > 0)
+                var shortcuts = new ObservableCollection<GestureElement>();
+                foreach (var key in gestures.Split(','))
                 {
-                    token.OverlapsText = string.Join("", token.Conflicts.Select(i => $"「{i.ToDispString()}」")) + "と競合しています";
-                }
-            }
+                    var overlaps = _context.Gestures
+                        .Where(i => i.Key != _context.Command && i.Value.Split(',').Contains(key))
+                        .Select(e => $"「{e.Key.ToDispString()}」")
+                        .ToList();
 
-            GestureToken = token;
+                    if (overlaps.Count > 0)
+                    {
+                        if (this.GestureTokenNote != null) this.GestureTokenNote += "\n";
+                        this.GestureTokenNote += $"{key} は {string.Join("", overlaps)} と競合しています";
+                    }
+
+                    var element = new GestureElement();
+                    element.Gesture = key;
+                    element.IsConflict = overlaps.Count > 0;
+                    element.Splitter = ",";
+
+                    shortcuts.Add(element);
+                }
+
+                if (shortcuts.Count > 0)
+                {
+                    shortcuts.Last().Splitter = null;
+                }
+
+                this.GestureToken = shortcuts;
+            }
+            else
+            {
+                this.GestureToken = new ObservableCollection<GestureElement>();
+            }
         }
 
 
@@ -162,23 +189,7 @@ namespace NeeView
         /// </summary>
         public void Decide()
         {
-            _context.Gesture = NewGesture;
-        }
-
-
-        /// <summary>
-        /// Command: ClearCommand
-        /// </summary>
-        private RelayCommand _clearCommand;
-        public RelayCommand ClearCommand
-        {
-            get { return _clearCommand = _clearCommand ?? new RelayCommand(ClearCommand_Executed); }
-        }
-
-        private void ClearCommand_Executed()
-        {
-            this.NewGesture = "";
-            UpdateGestureToken(NewGesture);
+            _context.Gesture = this.TouchAreaMap.ToString();
         }
     }
 
@@ -213,6 +224,79 @@ namespace NeeView
             set { if (Gestures[Command] != value) { Gestures[Command] = value; } }
         }
     }
+    
+
+    /// <summary>
+    /// タッチエリア管理用
+    /// </summary>
+    public class TouchAreaMap
+    {
+        //
+        private Dictionary<TouchGesture, bool> _map;
+
+        //
+        public TouchAreaMap(string gestureString)
+        {
+            _map = Enum.GetValues(typeof(TouchGesture)).Cast<TouchGesture>().ToDictionary(e => e, e => false);
+
+            if (gestureString != null)
+            {
+                foreach (var token in gestureString.Split(','))
+                {
+                    if (Enum.TryParse(token, out TouchGesture key))
+                    {
+                        _map[key] = true;
+                    }
+                }
+            }
+        }
+
+        //
+        public bool this[TouchGesture gesture]
+        {
+            get { return _map[gesture]; }
+            set { _map[gesture] = value; }
+        }
+
+        //
+        public void Toggle(TouchGesture gesture)
+        {
+            _map[gesture] = !_map[gesture];
+        }
+
+        //
+        public void Clear()
+        {
+            foreach (var key in _map.Keys)
+            {
+                _map[key] = false;
+            }
+        }
+
+        //
+        public override string ToString()
+        {
+            return string.Join(",", _map.Where(e => e.Key != TouchGesture.None && e.Value == true).Select(e => e.Key.ToString()));
+        }
+    }
 
 
+    /// <summary>
+    /// タッチエリアを背景色に変換
+    /// </summary>
+    public class TouchAreaToBrush : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var map = (TouchAreaMap)value;
+            var gesture = (TouchGesture)parameter;
+
+            return map[gesture] ? Brushes.SteelBlue : Brushes.AliceBlue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

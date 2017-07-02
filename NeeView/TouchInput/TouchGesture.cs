@@ -11,8 +11,10 @@ namespace NeeView
     public enum TouchGesture
     {
         None,
-        TouchLeft,
-        TouchRight,
+        TouchL1,
+        TouchL2,
+        TouchR1,
+        TouchR2,
         TouchCenter,
     }
 
@@ -24,7 +26,15 @@ namespace NeeView
         {
             return TouchGesture.TouchCenter.IsTouched(xRate, yRate)
                 ? TouchGesture.TouchCenter
-                : xRate < 0.5 ? TouchGesture.TouchLeft : TouchGesture.TouchRight;
+                : GetTouchGestureLast(xRate, yRate);
+        }
+
+        //
+        public static TouchGesture GetTouchGestureLast(double xRate, double yRate)
+        {
+            return xRate < 0.5
+                ? yRate < 0.5 ? TouchGesture.TouchL1 : TouchGesture.TouchL2
+                : yRate < 0.5 ? TouchGesture.TouchR1 : TouchGesture.TouchR2;
         }
 
         //
@@ -34,10 +44,14 @@ namespace NeeView
             {
                 case TouchGesture.TouchCenter:
                     return 0.33 < xRate && xRate < 0.66 && yRate < 0.75;
-                case TouchGesture.TouchLeft:
-                    return xRate < 0.5;
-                case TouchGesture.TouchRight:
-                    return !(xRate < 0.5);
+                case TouchGesture.TouchL1:
+                    return xRate < 0.5 && yRate < 0.5;
+                case TouchGesture.TouchL2:
+                    return xRate < 0.5 && !(yRate < 0.5);
+                case TouchGesture.TouchR1:
+                    return !(xRate < 0.5) && yRate < 0.5;
+                case TouchGesture.TouchR2:
+                    return !(xRate < 0.5) && !(yRate < 0.5);
                 default:
                     return false;
             }

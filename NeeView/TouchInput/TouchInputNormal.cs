@@ -120,7 +120,7 @@ namespace NeeView
             }
 
             // TouchLeft / Right
-            var gesture = xRate < 0.5 ? TouchGesture.TouchLeft : TouchGesture.TouchRight;
+            var gesture = TouchGestureExtensions.GetTouchGestureLast(xRate, yRate);
             TouchGestureChanged?.Invoke(this, new TouchGestureEventArgs(e, gesture));
         }
 

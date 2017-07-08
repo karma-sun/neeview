@@ -49,9 +49,7 @@ namespace NeeView
             DragTransform.Current.AddPropertyChanged(nameof(DragTransform.Scale), DragTransform_ScaleChanged);
 
             // Window title
-            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
-            _defaultWindowTitle = $"{Config.Current.ApplicationName} {ver.FileMajorPart}.{ver.FileMinorPart}";
+            _defaultWindowTitle = Config.Current.ProductVersion;
 #if DEBUG
             _defaultWindowTitle += " [Debug]";
 #endif

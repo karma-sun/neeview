@@ -177,6 +177,9 @@ namespace NeeView
         HelpOnline,
         HelpCommandList,
         HelpMainMenu,
+
+        ExportBackup,
+        ImportBackup
     }
 
     public static class CommandTypeExtensions

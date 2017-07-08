@@ -79,7 +79,7 @@ namespace NeeView
                 }
                 else
                 {
-                    this.SettingFilename = Path.Combine(Config.Current.LocalApplicationDataPath, "UserSetting.xml");
+                    this.SettingFilename = Path.Combine(Config.Current.LocalApplicationDataPath, SaveData.UserSettingFileName);
                 }
 
                 // StartupPlage

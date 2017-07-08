@@ -3,9 +3,12 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,14 +30,19 @@ namespace NeeView
 
         private string _oldPagemarkFileName { get; set; }
 
+        public const string UserSettingFileName = "UserSetting.xml";
+        public const string HistoryFileName = "History.xml";
+        public const string BookmarkFileName = "Bookmark.xml";
+        public const string PagemarkFileName = "Pagemark.xml";
+
         //
         public SaveData()
         {
             Current = this;
 
-            _historyFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "History.xml");
-            _bookmarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "Bookmark.xml");
-            _pagemarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "Pagemark.xml");
+            _historyFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, HistoryFileName);
+            _bookmarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, BookmarkFileName);
+            _pagemarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, PagemarkFileName);
 
             _oldPagemarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "Pagekmark.xml");
         }
@@ -323,6 +331,54 @@ namespace NeeView
             else
             {
                 this.Setting = new Setting();
+            }
+        }
+
+
+        // バックアップファイル作成
+        public void SaveBackupFile(string filename)
+        {
+            // 保存
+            SaveSetting();
+
+            // 保存されたファイルをzipにまとめて出力
+            using (FileStream zipToOpen = new FileStream(filename, FileMode.Create, FileAccess.ReadWrite))
+            {
+                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update))
+                {
+                    archive.CreateEntryFromFile(App.Current.Option.SettingFilename, UserSettingFileName);
+                    archive.CreateEntryFromFile(_historyFileName, HistoryFileName);
+                    archive.CreateEntryFromFile(_bookmarkFileName, BookmarkFileName);
+                    archive.CreateEntryFromFile(_pagemarkFileName, PagemarkFileName);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// バックアップファイルの出力
+        /// </summary>
+        public void ExportBackup()
+        {
+            var dialog = new SaveFileDialog();
+            dialog.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            dialog.OverwritePrompt = true;
+            dialog.AddExtension = true;
+            dialog.FileName = $"NeeView{Config.Current.ProductVersion}-{DateTime.Now.ToString("yyyyMMdd")}";
+            dialog.DefaultExt = ".nvbk";
+            dialog.Filter = "NeeView Backup (.nvbk)|*.nvbk";
+            dialog.Tag = "全設定をファイルにバックアップ";
+
+            if (dialog.ShowDialog(MainWindow.Current) == true)
+            {
+                try
+                {
+                    SaveBackupFile(dialog.FileName);
+                }
+                catch(Exception ex)
+                {
+                    new MessageDialog($"原因: {ex.Message}", "バックアップファイルの作成に失敗しました").ShowDialog();
+                }
             }
         }
     }

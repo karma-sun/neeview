@@ -1863,6 +1863,30 @@ namespace NeeView
                 _elements[CommandType.OpenContextMenu] = element;
             }
 
+
+            // ExportBackup
+            {
+                var element = new CommandElement();
+                element.Group = "その他";
+                element.Text = "全設定をファイルにバックアップ";
+                element.MenuText = "全設定をバックアップ";
+                element.Note = "設定やブックマークをバックアップファイルを作成します。サムネイルキャッシュはバックアップされません";
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => SaveData.Current.ExportBackup();
+                _elements[CommandType.ExportBackup] = element;
+            }
+
+            // ImportBackup
+            {
+                var element = new CommandElement();
+                element.Group = "その他";
+                element.Text = "全設定をファイルから復元";
+                element.MenuText = "全設定を復元";
+                element.Note = "バックアップファイルから設定を復元します。";
+                element.IsShowMessage = false;
+                _elements[CommandType.ImportBackup] = element;
+            }
+
             // 並び替え
             //_Elements = _Elements.OrderBy(e => e.Key).ToDictionary(e => e.Key, e => e.Value);
 

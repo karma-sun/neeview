@@ -112,10 +112,10 @@ namespace NeeView
         /// </summary>
         public int ProductVersionNumber { get; private set; }
 
-        //
+        // ※ build は未使用
         public static int GenerateProductVersionNumber(int major, int minor, int build)
         {
-            return major << 16 | minor << 8 | build;
+            return major << 16 | minor << 8;
         }
 
 
@@ -145,16 +145,8 @@ namespace NeeView
 
             // バージョンの取得
             var version = asm.GetName().Version;
-            if (version.Build == 0)
-            {
-                ProductVersion = $"{version.Major}.{version.Minor}";
-                ProductVersionNumber = GenerateProductVersionNumber(version.Major, version.Minor, 0);
-            }
-            else
-            {
-                ProductVersion = $"{version.Major}.{version.Minor}.{version.Build}";
-                ProductVersionNumber = GenerateProductVersionNumber(version.Major, version.Minor, version.Build);
-            }
+            ProductVersion = $"{version.Major}.{version.Minor}";
+            ProductVersionNumber = GenerateProductVersionNumber(version.Major, version.Minor, 0);
         }
 
 

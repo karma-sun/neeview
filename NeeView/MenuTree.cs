@@ -554,7 +554,43 @@ namespace NeeView
                     }},
                 }
             };
+
+            // Appxは設定ファイル閲覧が無意味
+            if (Config.Current.IsAppxPackage)
+            {
+                tree.RemoveCommand(CommandType.OpenSettingFilesFolder);
+            }
+
             return tree;
+        }
+
+        //
+        private void RemoveCommand(CommandType commandType)
+        {
+            if (this.Children == null) return;
+
+            var removes = new List<MenuTree>();
+
+            foreach (var item in this.Children)
+            {
+                switch (item.MenuElementType)
+                {
+                    case MenuElementType.Group:
+                        item.RemoveCommand(commandType);
+                        break;
+                    case MenuElementType.Command:
+                        if (item.Command == commandType)
+                        {
+                            removes.Add(item);
+                        }
+                        break;
+                }
+            }
+
+            foreach (var item in removes)
+            {
+                this.Children.Remove(item);
+            }
         }
     }
 }

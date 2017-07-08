@@ -421,6 +421,12 @@ namespace NeeView
         // 設定ファイルの場所を開く
         public void OpenSettingFilesFolder()
         {
+            if (Config.Current.IsAppxPackage)
+            {
+                new MessageDialog($"ストアアプリでは設定ファイルの場所を開くことができません", "このコマンドは使用できません").ShowDialog();
+                return;
+            }
+
             Process.Start("explorer.exe", $"\"{Config.Current.LocalApplicationDataPath}\"");
         }
 

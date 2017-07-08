@@ -305,10 +305,7 @@ namespace NeeView
                 this.SusieSettingTab.Visibility = Visibility.Collapsed;
             }
 
-#if DEBUG
-#else
-            this.RemoveAllDataButton.Visibility = Config.Current .IsUseLocalApplicationDataFolder ? Visibility.Visible : Visibility.Collapsed;
-#endif
+            this.RemoveAllDataButton.Visibility = (Config.Current.IsUseLocalApplicationDataFolder && !Config.Current.IsAppxPackage) ? Visibility.Visible : Visibility.Collapsed;
 
             Setting = setting;
             History = history;

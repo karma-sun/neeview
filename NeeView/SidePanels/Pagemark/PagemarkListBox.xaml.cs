@@ -29,7 +29,7 @@ namespace NeeView
     {
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PagemarkListBox));
 
-        public static string DragDropFormat = $"{Config.Current .ProcessId}.PagemarkItem";
+        public static string DragDropFormat = $"{Config.Current.ProcessId}.PagemarkItem";
 
 
         private PagemarkListViewModel _vm;

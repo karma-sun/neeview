@@ -55,7 +55,7 @@
 
         <DockPanel VerticalAlignment="Center" UseLayoutRounding="True">
 
-            <Image DockPanel.Dock="Left" Margin="40,15"  Width="64" Source="{local:Icon /Resources/App.ico, 256}" UseLayoutRounding="True"/>
+            <Image DockPanel.Dock="Left" Margin="40,15"  Width="64" Source="{Binding Icon}" UseLayoutRounding="True"/>
 
             <StackPanel DockPanel.Dock="Top" Margin="0,0,10,0">
                 <TextBlock Text="{Binding ApplicationName}" FontSize="32" FontFamily="Trebuchet MS"/>

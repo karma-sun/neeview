@@ -66,7 +66,7 @@ namespace NeeView
                 int version = (int)value;
                 int minor = version / 100;
                 int build = version % 100;
-                var process = Config.Current .IsX64 ? "64bit" : "32bit";
+                var process = Config.Current.IsX64 ? "64bit" : "32bit";
 
                 return $"1.{minor}" + ((build > 0) ? $".{build}" : "") + $" ({process})";
             }
@@ -84,11 +84,13 @@ namespace NeeView
     /// </summary>
     public class VersionWindowVM : BindableBase
     {
-        public string ApplicationName => Config.Current .ApplicationName;
+        public string ApplicationName => Config.Current.ApplicationName;
         public string LicenseUri { get; private set; }
         public string ProjectUri => "https://bitbucket.org/neelabo/neeview/";
         public string ChangeLogUri => "https://bitbucket.org/neelabo/neeview/wiki/ChangeLog";
         public bool IsNetworkEnabled => App.Current.IsNetworkEnabled;
+
+        public BitmapFrame Icon { get; set; }
 
         // バージョンチェッカーは何度もチェックしないようにstaticで確保する
         public static VersionChecker Checker { get; set; } = new VersionChecker();
@@ -96,10 +98,37 @@ namespace NeeView
         //
         public VersionWindowVM()
         {
-            LicenseUri = "file://" + Config.Current .AssemblyLocation.Replace('\\', '/').TrimEnd('/') + "/README.html#license";
+            LicenseUri = "file://" + Config.Current.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + "/README.html#license";
+
+#if SUSIE
+            this.Icon = GetIconBitmapFrame("/Resources/AppS.ico", 256);
+#else
+            this.Icon = GetIconBitmapFrame("/Resources/App.ico", 256);
+#endif
 
             // チェック開始
             Checker.CheckStart();
+        }
+
+
+        /// <summary>
+        /// アイコンから画像を取得
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        private BitmapFrame GetIconBitmapFrame(string path, int size)
+        {
+            var uri = new Uri("pack://application:,,," + path);
+            var decoder = BitmapDecoder.Create(uri, BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
+
+            var frame = decoder.Frames.SingleOrDefault(f => f.Width == size);
+            if (frame == default(BitmapFrame))
+            {
+                frame = decoder.Frames.OrderBy(f => f.Width).First();
+            }
+
+            return frame;
         }
     }
 
@@ -155,7 +184,7 @@ namespace NeeView
                 // チェック開始
                 LastVersion = 0; // CurrentVersion;
                 Message = "最新バージョンをチェック中...";
-                Task.Run(() => CheckVersion(Config.Current .PackageType));
+                Task.Run(() => CheckVersion(Config.Current.PackageType));
             }
         }
 
@@ -214,57 +243,5 @@ namespace NeeView
 
             _isCheching = false;
         }
-    }
-
-
-    // from https://stackoverflow.com/questions/952080/how-do-you-select-the-right-size-icon-from-a-multi-resolution-ico-file-in-wpf
-    /// <summary>
-    /// Simple extension for icon, to let you choose icon with specific size.
-    /// Usage sample:
-    /// Image Stretch="None" Source="{common:Icon /Controls;component/icons/custom.ico, 16}"
-    /// Or:
-    /// Image Source="{common:Icon Source={Binding IconResource}, Size=16}"
-    /// </summary> 
-    public class IconExtension : MarkupExtension
-    {
-        private string _source;
-
-        public string Source
-        {
-            get
-            {
-                return _source;
-            }
-            set
-            {
-                // Have to make full pack URI from short form, so System.Uri recognizes it.
-                _source = "pack://application:,,," + value;
-            }
-        }
-
-        public int Size { get; set; }
-
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            var decoder = BitmapDecoder.Create(new Uri(Source),
-                                               BitmapCreateOptions.DelayCreation,
-                                               BitmapCacheOption.OnDemand);
-
-            var result = decoder.Frames.SingleOrDefault(f => f.Width == Size);
-            if (result == default(BitmapFrame))
-            {
-                result = decoder.Frames.OrderBy(f => f.Width).First();
-            }
-
-            return result;
-        }
-
-        public IconExtension(string source, int size)
-        {
-            Source = source;
-            Size = size;
-        }
-
-        public IconExtension() { }
     }
 }

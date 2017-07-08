@@ -396,7 +396,7 @@ namespace NeeView
         {
             if (!Contents.Any(e => e.IsValid)) return;
 
-            var dpi = Config.Current .Dpi;
+            var dpi = Config.Current.Dpi;
 
             // 2ページ表示時は重なり補正を行う
             double offsetWidth = 0;
@@ -425,7 +425,7 @@ namespace NeeView
         // コンテンツスケーリングモードを更新
         private void UpdateContentScalingMode()
         {
-            var dpiScaleX = Config.Current .RawDpi.DpiScaleX;
+            var dpiScaleX = Config.Current.RawDpi.DpiScaleX;
 
             double finalScale = _transform.Scale * MouseInput.Current.Loupe.LoupeScale;
 
@@ -434,7 +434,7 @@ namespace NeeView
                 if (content.View != null && content.View.Element is Rectangle)
                 {
                     double diff = Math.Abs(content.Size.Width - content.Width * dpiScaleX);
-                    if (Config.Current .IsDpiSquare && diff < 0.1 && _transform.Angle == 0.0 && Math.Abs(finalScale - 1.0) < 0.001)
+                    if (Config.Current.IsDpiSquare && diff < 0.1 && _transform.Angle == 0.0 && Math.Abs(finalScale - 1.0) < 0.001)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                     }

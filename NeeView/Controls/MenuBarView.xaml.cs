@@ -78,7 +78,7 @@ namespace NeeView
             Debug.WriteLine("TEST");
             Debugger.Break();
             //ModelContext.CommandTable.OpenCommandListHelp();
-            //Config.Current .RemoveApplicationData();
+            //Config.Current.RemoveApplicationData();
         }
 
         // 開発用コマンド：テンポラリフォルダーを開く
@@ -96,7 +96,7 @@ namespace NeeView
         // 開発用コマンド：アプリケーションデータフォルダーを開く
         private void MenuItemDevApplicationDataFolder_Click(object sender, RoutedEventArgs e)
         {
-            OpenFolder(Config.Current .LocalApplicationDataPath);
+            OpenFolder(Config.Current.LocalApplicationDataPath);
         }
 
         // 開発用コマンド：カレントフォルダーを開く

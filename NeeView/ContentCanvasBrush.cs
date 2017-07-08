@@ -135,7 +135,7 @@ namespace NeeView
         public void UpdateBackgroundBrush()
         {
             BackgroundBrush = CreateBackgroundBrush();
-            BackgroundFrontBrush = CreateBackgroundFrontBrush(Config.Current .Dpi);
+            BackgroundFrontBrush = CreateBackgroundFrontBrush(Config.Current.Dpi);
         }
 
 

@@ -161,15 +161,17 @@ namespace NeeView
 
             memento = memento.Clone();
 
+            bool isFullScreened = memento.State == WindowStateEx.FullScreen;
+
             if (App.Current.Option.IsResetPlacement == SwitchOption.on || !App.Current.IsSaveWindowPlacement)
             {
                 memento.State = WindowStateEx.Normal;
                 memento.WindowRect = Rect.Empty;
             }
 
-            if (memento.State == WindowStateEx.FullScreen && !App.Current.IsSaveFullScreen)
+            if (isFullScreened)
             {
-                memento.State = WindowStateEx.Normal;
+                memento.State = App.Current.IsSaveFullScreen ? WindowStateEx.FullScreen : WindowStateEx.Normal;
             }
 
             if (App.Current.Option.IsFullScreen == SwitchOption.on)

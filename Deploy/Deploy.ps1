@@ -5,8 +5,9 @@ Param(
 # error to break
 trap { break }
 
-$product = 'NeeView'
 
+#
+$product = 'NeeView'
 $config = 'Release'
 
 
@@ -23,19 +24,13 @@ function Get-FileVersion($fileName)
 }
 
 
+
 #---------------------
-# get version from AssemblyInfo.cs
-function Get-AssemblyVersion($assemblyInfo)
+# get base vsersion
+function Get-Version()
 {
-    $line = Get-Content $assemblyInfo | Select-String -Pattern "AssemblyFileVersion"
-    if ($line -match "(\d+\.\d+)\.\d+\.\d+")
-    {
-        return $matches[1]
-    }
-    else
-    {
-        throw "Cannot get version"
-    }
+	$xml = [xml](Get-Content "Version.xml")
+	return $xml.version
 }
 
 
@@ -73,6 +68,25 @@ function Replace-Content
 	$file_contents | Out-File -Encoding UTF8 $filepath
 }
 
+#--------------------
+# set AssemblyInfo.cs
+function Set-AssemblyVersion($assemblyInfoFile, $title, $version)
+{
+    $content = Get-Content $assemblyInfoFile
+   
+    $content = $content -replace "AssemblyTitle\(.+\)", "AssemblyTitle(`"$title`")"
+    $content = $content -replace "AssemblyVersion\(.+\)", "AssemblyVersion(`"$version`")"
+    $content = $content -replace "AssemblyFileVersion\(.+\)", "AssemblyFileVersion(`"$version`")"
+
+	$content > $assemblyInfoFile
+}
+
+#--------------------
+# reset AssemblyInfo.cs
+function Reset-AssemblyInfo($assemblyInfoFile)
+{
+	& git checkout $assemblyInfoFile 
+}
 
 
 
@@ -83,20 +97,22 @@ $solution = "$solutionDir\$product.sln"
 $projectDir = "$solutionDir\$product"
 $productx86Dir = "$projectDir\bin\x86\$config"
 $productX64Dir = "$projectDir\bin\$config"
-
+$assemblyInfoFile = "$projectDir\Properties\AssemblyInfo.cs"
 
 
 #----------------------
 # build
-function Build-Project($arch)
+function Build-Project($arch, $assemblyVersion)
 {
 	if ($arch -eq "x86")
 	{
 		$platform = "x86"
+		Set-AssemblyVersion $assemblyInfoFile "NeeViewS" $assemblyVersion
 	}
 	else
 	{
 		$platform = "Any CPU"
+		Set-AssemblyVersion $assemblyInfoFile "NeeView" $assemblyVersion
 	}
 
     $vspath = .\vswhere.exe -property installationPath
@@ -298,10 +314,10 @@ function Remove-BuildObjects
 #======================
 
 # versions
-$version = Get-AssemblyVersion "$projectDir\Properties\AssemblyInfo.cs"
+$version = Get-Version
 $buildCount = Get-BuildCount
 $buildVersion = "$version.$buildCount"
-
+$assemblyVersion = "$version.$buildCount.0"
 
 $packageDir = "$product$version"
 $packageX86Dir = "$product${version}-x86"
@@ -318,8 +334,9 @@ Remove-BuildObjects
 	
 # build
 Write-Host "`n[Build] ...`n" -fore Cyan
-Build-Project "x86"
-Build-Project "x64"
+Build-Project "x86" $assemblyVersion
+Build-Project "x64" $assemblyVersion
+Reset-AssemblyInfo $assemblyInfoFile
 
 #
 Write-Host "`n[Package] ...`n" -fore Cyan

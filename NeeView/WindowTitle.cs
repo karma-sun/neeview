@@ -51,8 +51,7 @@ namespace NeeView
             // Window title
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
-            _defaultWindowTitle = $"{Config.Current .ApplicationName} {ver.FileMajorPart}.{ver.FileMinorPart}";
-            if (ver.FileBuildPart > 0) _defaultWindowTitle += $".{ver.FileBuildPart}";
+            _defaultWindowTitle = $"{Config.Current.ApplicationName} {ver.FileMajorPart}.{ver.FileMinorPart}";
 #if DEBUG
             _defaultWindowTitle += " [Debug]";
 #endif
@@ -178,7 +177,7 @@ namespace NeeView
 
             if ((mask & (UpdateWindowTitleMask.Page | UpdateWindowTitleMask.View)) != 0)
             {
-                var _Dpi = Config.Current .Dpi;
+                var _Dpi = Config.Current.Dpi;
 
                 string scale0 = Contents[0].IsValid ? $"{(int)(_viewScale * Contents[0].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";
                 string scale1 = Contents[1].IsValid ? $"{(int)(_viewScale * Contents[1].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";

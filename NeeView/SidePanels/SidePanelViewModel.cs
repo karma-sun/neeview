@@ -24,7 +24,7 @@ namespace NeeView
     /// </summary>
     public class SidePanelViewModel : BindableBase
     {
-        public static string DragDropFormat = $"{Config.Current .ProcessId}.PanelContent";
+        public static string DragDropFormat = $"{Config.Current.ProcessId}.PanelContent";
 
         /// <summary>
         /// Width property.

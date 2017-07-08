@@ -220,5 +220,7 @@ Deploy/*.zip
 Deploy/*.xml
 Deploy/*.msi
 /Deploy/_*
+/Deploy/UWP/
 !/NeeView/x64/
 !/NeeView/x86/
+Thumbs.db

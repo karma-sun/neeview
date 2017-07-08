@@ -29,7 +29,7 @@ namespace NeeView
     {
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkListBox));
 
-        public static string DragDropFormat = $"{Config.Current .ProcessId}.BookmarkItem";
+        public static string DragDropFormat = $"{Config.Current.ProcessId}.BookmarkItem";
 
 
         private BookmarkListViewModel _vm;

@@ -308,7 +308,7 @@ namespace NeeView
 
 #if DEBUG
 #else
-            this.RemoveAllDataButton.Visibility = Config.Current .IsUseLocalApplicationDataFolder ? Visibility.Visible : Visibility.Collapsed;
+            this.RemoveAllDataButton.Visibility = Config.Current.IsUseLocalApplicationDataFolder ? Visibility.Visible : Visibility.Collapsed;
 #endif
 
             Setting = setting;

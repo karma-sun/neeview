@@ -13,7 +13,7 @@
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
         Style="{StaticResource ToolDialogStyle}"
-        Title="このアプリについて" Height="230" Width="360" ResizeMode="NoResize">
+        Title="このアプリについて" Height="230" Width="400" ResizeMode="NoResize">
     <Window.Resources>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -53,9 +53,9 @@
             </TextBlock>
         </Grid>
 
-        <DockPanel VerticalAlignment="Center">
+        <DockPanel VerticalAlignment="Center" UseLayoutRounding="True">
 
-            <Image DockPanel.Dock="Left" Width="32" VerticalAlignment="Top" Source="Resources/App.ico" Margin="40,15"/>
+            <Image DockPanel.Dock="Left" Margin="40,15"  Width="64" Source="{Binding Icon}" UseLayoutRounding="True"/>
 
             <StackPanel DockPanel.Dock="Top" Margin="0,0,10,0">
                 <TextBlock Text="{Binding ApplicationName}" FontSize="32" FontFamily="Trebuchet MS"/>

@@ -88,23 +88,19 @@ namespace NeeView
         public string CompanyName { get; private set; }
 
         /// <summary>
-        /// プロダクト名
+        /// タイトル名
         /// </summary>
-        public string ProductName { get; private set; }
+        public string AssemblyTitle { get; private set; }
 
         /// <summary>
-        /// プロダクトタイプ
+        /// プロダクト名
         /// </summary>
-#if SUSIE
-        public string ProductType => "S";
-#else
-        public string ProductType => "";
-#endif
+        public string AssemblyProduct { get; private set; }
 
         /// <summary>
         /// アプリ名
         /// </summary>
-        public string ApplicationName => ProductName;
+        public string ApplicationName => AssemblyTitle;
 
         /// <summary>
         /// プロダクトバージョン
@@ -140,7 +136,12 @@ namespace NeeView
 
             // タイトル
             AssemblyTitleAttribute titleAttribute = Attribute.GetCustomAttribute(asm, typeof(AssemblyTitleAttribute)) as AssemblyTitleAttribute;
-            ProductName = titleAttribute.Title;
+            AssemblyTitle = titleAttribute.Title;
+
+            // プロダクト
+            AssemblyProductAttribute productAttribute = Attribute.GetCustomAttribute(asm, typeof(AssemblyProductAttribute)) as AssemblyProductAttribute;
+            AssemblyProduct = productAttribute.Product;
+
 
             // バージョンの取得
             var version = asm.GetName().Version;

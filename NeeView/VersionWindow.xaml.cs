@@ -179,7 +179,7 @@ namespace NeeView
         {
             if (_isChecked || _isCheching) return;
 
-            if (App.Current.IsNetworkEnabled)
+            if (App.Current.IsNetworkEnabled && !Config.Current.IsAppxPackage)
             {
                 // チェック開始
                 LastVersion = 0; // CurrentVersion;

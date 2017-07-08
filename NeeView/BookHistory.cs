@@ -449,7 +449,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento._Version = Config.Current .ProductVersionNumber;
+            memento._Version = Config.Current.ProductVersionNumber;
 
             memento.Items = this.Items.Select(e => e.Memento).ToList();
             memento.Folders = _folders;

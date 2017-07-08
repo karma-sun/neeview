@@ -104,7 +104,7 @@ namespace NeeView
         /// <summary>
         /// アプリ名
         /// </summary>
-        public string ApplicationName => ProductName + ProductType;
+        public string ApplicationName => ProductName;
 
         /// <summary>
         /// プロダクトバージョン

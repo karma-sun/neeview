@@ -236,6 +236,13 @@ namespace NeeView
         }
         #endregion
 
+
+        public static Dictionary<ExternalProgramType, string> ExternalProgramTypeList { get; } = new Dictionary<ExternalProgramType, string>
+        {
+            [ExternalProgramType.Normal] = "外部プログラム",
+            [ExternalProgramType.Protocol] = "プロトコル起動",
+        };
+
         //
         public static Dictionary<MultiPageOptionType, string> MultiPageOptionTypeList { get; } = new Dictionary<MultiPageOptionType, string>
         {

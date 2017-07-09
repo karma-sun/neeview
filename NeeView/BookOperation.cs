@@ -296,7 +296,6 @@ namespace NeeView
 
 
 
-
         // 外部アプリで開く
         public void OpenApplication()
         {
@@ -308,7 +307,14 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
-                    new MessageDialog($"原因: {e.Message}", "外部アプリ実行に失敗しました").ShowDialog();
+                    var message = "";
+                    if (this.ExternalApplication.LastCall != null)
+                    {
+                        message += $"コマンド: {this.ExternalApplication.LastCall}\n";
+                    }
+                    message += $"原因: {e.Message}";
+
+                    new MessageDialog(message, "外部アプリ実行に失敗しました").ShowDialog();
                 }
             }
         }

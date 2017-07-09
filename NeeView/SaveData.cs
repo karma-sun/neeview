@@ -454,7 +454,7 @@ namespace NeeView
             PagemarkCollection.Memento pagemark = null;
 
             var selector = new BackupSelectControl();
-            selector.FileNameTextBlock.Text = $"インポート：{Path.GetFileName(filename)}";
+            selector.FileNameTextBlock.Text = $"インポート: {Path.GetFileName(filename)}";
 
             using (var archiver = ZipFile.OpenRead(filename))
             {

@@ -8,10 +8,13 @@
              d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
         <StackPanel>
-            <CheckBox x:Name="UserSettingCheckBox" Content="設定" IsEnabled="False"/>
-            <CheckBox x:Name="HistoryCheckBox" Content="履歴" IsEnabled="False"/>
-            <CheckBox x:Name="BookmarkCheckBox" Content="ブックマーク" IsEnabled="False"/>
-            <CheckBox x:Name="PagemarkCheckBox" Content="ページマーク" IsEnabled="False"/>
+            <TextBlock x:Name="FileNameTextBlock" Text="インポート：hogehoge.nvzip" Margin="0"/>
+            <StackPanel Margin="10">
+                <CheckBox x:Name="UserSettingCheckBox" Content="設定" IsEnabled="False"/>
+                <CheckBox x:Name="HistoryCheckBox" Content="履歴" IsEnabled="False"/>
+                <CheckBox x:Name="BookmarkCheckBox" Content="ブックマーク" IsEnabled="False"/>
+                <CheckBox x:Name="PagemarkCheckBox" Content="ページマーク" IsEnabled="False"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

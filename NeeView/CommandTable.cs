@@ -331,7 +331,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ファイル";
                 element.Text = "ファイルを削除";
-                element.MenuText = "削除(_D)...";
+                element.MenuText = "削除(_D)";
                 element.Note = "ファイルを削除します。圧縮ファイルの場合は削除できません ";
                 element.ShortCutKey = "Delete";
                 element.Execute = (s, e) => _models.BookOperation.DeleteFile();
@@ -1868,9 +1868,9 @@ namespace NeeView
             {
                 var element = new CommandElement();
                 element.Group = "その他";
-                element.Text = "全設定をファイルにバックアップ";
-                element.MenuText = "全設定をバックアップ";
-                element.Note = "設定やブックマークをバックアップファイルを作成します。サムネイルキャッシュはバックアップされません";
+                element.Text = "全設定をエクスポート";
+                element.MenuText = "全設定をエクスポート...";
+                element.Note = "設定、履歴、ブックマーク、ページマークのバックアップを作成します。サムネイルキャッシュはバックアップされません";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => SaveData.Current.ExportBackup();
                 _elements[CommandType.ExportBackup] = element;
@@ -1880,10 +1880,11 @@ namespace NeeView
             {
                 var element = new CommandElement();
                 element.Group = "その他";
-                element.Text = "全設定をファイルから復元";
-                element.MenuText = "全設定を復元";
-                element.Note = "バックアップファイルから設定を復元します。";
+                element.Text = "全設定をインポート";
+                element.MenuText = "全設定をインポート...";
+                element.Note = "バックアップファイルから復元項目を選んで復元します。";
                 element.IsShowMessage = false;
+                element.Execute = (s, e) => SaveData.Current.ImportBackup();
                 _elements[CommandType.ImportBackup] = element;
             }
 

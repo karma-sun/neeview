@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -435,7 +436,16 @@ namespace NeeView
             // ファイルから読み込み
             public static Memento Load(string path)
             {
-                using (XmlReader xr = XmlReader.Create(path))
+                using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    return Load(stream);
+                }
+            }
+
+            // ストリームから読み込み
+            public static Memento Load(Stream stream)
+            {
+                using (XmlReader xr = XmlReader.Create(stream))
                 {
                     DataContractSerializer serializer = new DataContractSerializer(typeof(Memento));
                     Memento memento = (Memento)serializer.ReadObject(xr);

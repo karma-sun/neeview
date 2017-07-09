@@ -542,6 +542,12 @@ namespace NeeView
                     new MenuTree(MenuElementType.Group) { Name="その他(_O)", Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingWindow },
+                        new MenuTree(MenuElementType.Separator),
+                        //new MenuTree(MenuElementType.Group) { Name="バックアップ(_O)", Children = new ObservableCollection<MenuTree>()
+                        //{
+                            new MenuTree(MenuElementType.Command) { Command = CommandType.ExportBackup},
+                            new MenuTree(MenuElementType.Command) { Command = CommandType.ImportBackup},
+                       // }},
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingFilesFolder },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.TogglePermitFileCommand},

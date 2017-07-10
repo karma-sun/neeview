@@ -575,7 +575,7 @@
                                     </Style>
                                 </DockPanel.Style>
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="プロトコル" />
-                                <TextBox Text="{Binding Setting.Memento.BookOperation.ExternalApplication.Protocol}" Margin="2,0" ToolTip="$File はファイルパスに置換されます。&#xa;$Uri は区切り記号以外の記号をURIエスケープしたファイルパスに置換されます。&#xa;$UriData は全ての記号をURIエスケープしたファイルパスに置換されます。"/>
+                                <TextBox Text="{Binding Setting.Memento.BookOperation.ExternalApplication.Protocol}" Margin="2,0" ToolTip="$File はファイルパスに置換されます。&#xa;$Uri はURIエスケープされたファイルパスに置換されます。"/>
                             </DockPanel>
 
 

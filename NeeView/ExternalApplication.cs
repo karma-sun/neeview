@@ -176,7 +176,6 @@ namespace NeeView
         // コマンドパラメータで使用されるキーワード
         private const string _keyFile = "$File";
         private const string _keyUri = "$Uri";
-        private const string _keyUriData = "UriData";
 
         // 最後に実行したコマンド
         public string LastCall { get; set; }
@@ -281,13 +280,8 @@ namespace NeeView
         private string ReplaceKeyword(string s, string filenName )
         {
             var uriData = Uri.EscapeDataString(filenName);
-            var uri = uriData.Replace("%5C", "/").Replace("%3A", ":");
 
-            //Debug.WriteLine($"UriData:{uriData}");
-            //Debug.WriteLine($"Uri:{uri}");
-
-            s = s.Replace(_keyUriData, uriData);
-            s = s.Replace(_keyUri, uri);
+            s = s.Replace(_keyUri, uriData);
             s = s.Replace(_keyFile, filenName);
             return s;
         }

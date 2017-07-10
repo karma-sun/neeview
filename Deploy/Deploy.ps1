@@ -307,16 +307,31 @@ function New-Msi($arch, $packageDir, $packageMsi)
 function New-Appx
 {
 	# update assembly
-	Copy-Item $packageX64Dir $packageAppxDir -Recurse -Force
-	New-ConfigForAppx $packageX64Dir "${product}.exe.config" $packageAppxDir
+	Copy-Item $packageX64Dir $packageAppxProduct -Recurse -Force
+	New-ConfigForAppx $packageX64Dir "${product}.exe.config" $packageAppxProduct
+
+	. Appx/_Parameter.ps1
+	$param = Get-AppxParameter
+	$appxName = $param.name
+	$appxPublisher = $param.publisher
 
 	# generate AppManifest
 	$content = Get-Content "Appx\Resources\AppxManifest.xml"
+	$content = $content -replace "%NAME%","$appxName"
+	$content = $content -replace "%PUBLISHER%","$appxPublisher"
 	$content = $content -replace "%VERSION%","$assemblyVersion"
-	$content | Out-File -Encoding UTF8 "$packageFiles\AppxManifest.xml"
+	$content | Out-File -Encoding UTF8 "$packageAppxFiles\AppxManifest.xml"
 
 	# copy icons
-	Copy-Item "Appx\Resources\Assets\*.png" "$packageFiles\Assets\" 
+	Copy-Item "Appx\Resources\Assets\*.png" "$packageAppxFiles\Assets\" 
+
+	## re-package
+	$Win10SDK = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.15063.0\x86"
+	& "$Win10SDK\makeappx.exe" pack /l /d "$packageAppxFiles" /p "$packageAppx"
+	if ($? -ne $true)
+	{
+		throw "makeappx.exe error"
+	}
 }
 
 
@@ -348,9 +363,13 @@ function Remove-BuildObjects
 	{
 		Remove-Item $packageX64Msi
 	}
-	if (Test-Path $packageAppxDir)
+	if (Test-Path $packageAppxProduct)
 	{
-		Remove-Item $packageAppxDir -Recurse -Force
+		Remove-Item $packageAppxProduct -Recurse -Force
+	}
+	if (Test-Path $packageAppx)
+	{
+		Remove-Item $packageAppx
 	}
 
 	Start-Sleep -m 100
@@ -375,9 +394,10 @@ $packageZip = "$product$version.zip"
 #$packageMsi = "$product$version.msi"
 $packageX86Msi = "${product}S${version}.msi"
 $packageX64Msi = "${product}${version}.msi"
-$packageFiles = "Appx\$product\PackageFiles"
-$packageAppxDir = "$packageFiles\$product"
-
+$packageAppxRoot = "Appx\$product"
+$packageAppxFiles = "$packageAppxRoot\PackageFiles"
+$packageAppxProduct = "$packageAppxRoot\PackageFiles\$product"
+$packageAppx = "${product}${version}.appx"
 
 
 # clear
@@ -418,8 +438,16 @@ if (($Target -eq "All") -or ($Target -eq "Installer"))
 if (($Target -eq "All") -or ($Target -eq "Appx"))
 {
 	Write-Host "`[Appx] ...`n" -fore Cyan
-	New-Appx
-	Write-Host "`nExport $packageAppxDir successed.`n" -fore Green
+
+	if (Test-Path $packageAppxRoot)
+	{
+		New-Appx
+		Write-Host "`nExport $packageAppx successed.`n" -fore Green
+	}
+	else
+	{
+		Write-Host "`nWarning: not exist $packageAppxRoot. skip!`n" -fore Yellow
+	}
 }
 
 # current

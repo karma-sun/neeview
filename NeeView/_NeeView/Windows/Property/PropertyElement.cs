@@ -55,6 +55,12 @@ namespace NeeView.Windows.Property
             Tips = attribute.Tips;
             IsVisible = attribute.IsVisible;
 
+            // Appxでは非表示
+            if (!attribute.IsAppxVisible && Config.Current.IsAppxPackage)
+            {
+                this.IsVisible = false;
+            }
+
             this.Default = GetDefaultValue(source, info);
             this.IsObsolete = GetObsoleteAttribute(info) != null;
 

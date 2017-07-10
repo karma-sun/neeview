@@ -137,6 +137,9 @@
     <Compile Include="Archiver\PdfArchiverProfile.cs" />
     <Compile Include="Archiver\SevenZipArchiverProfile.cs" />
     <Compile Include="Archiver\PdfArchiver.cs" />
+    <Compile Include="BackupSelectControl.xaml.cs">
+      <DependentUpon>BackupSelectControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BookProfile.cs" />
     <Compile Include="BookHistoryCommand.cs" />
     <Compile Include="BookSetting.cs" />
@@ -606,6 +609,10 @@
     <Compile Include="_NeeView\Windows\Property\PropertyMemberAttribute.cs" />
     <Compile Include="_NeeView\Windows\Property\PropertyValue.cs" />
     <Compile Include="_NeeView\Windows\StyleInteraction.cs" />
+    <Page Include="BackupSelectControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\AddressBarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

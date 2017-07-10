@@ -182,6 +182,12 @@ namespace NeeView
         private string GetFileSystemPath(Environment.SpecialFolder folder, bool createFolder)
         {
             string path = System.IO.Path.Combine(Environment.GetFolderPath(folder), CompanyName, AssemblyProduct);
+
+            if (this.IsAppxPackage)
+            {
+                path += ".a"; // 既存の設定を一切引き継がない
+            }
+
             if (createFolder && !Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -278,11 +284,15 @@ namespace NeeView
                 if (_packageType == null)
                 {
                     _packageType = ConfigurationManager.AppSettings["PackageType"];
-                    if (_packageType != ".msi") _packageType = ".zip";
+                    ////if (_packageType != ".msi") _packageType = ".zip";
                 }
                 return _packageType;
             }
         }
+
+        public bool IsZipPackage => this.PackageType == ".zip";
+        public bool IsMsiPackage => this.PackageType == ".msi";
+        public bool IsAppxPackage => this.PackageType == ".appx";
 
 
         // 全ユーザデータ削除

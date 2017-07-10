@@ -14,6 +14,13 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    // プログラムの種類
+    public enum ExternalProgramType
+    {
+        Normal,
+        Protocol,
+    }
+
     // 複数ページのときの動作
     public enum MultiPageOptionType
     {
@@ -129,10 +136,18 @@ namespace NeeView
     }
 
 
+
     // 外部アプリ起動
     [DataContract]
     public class ExternalApplication
     {
+        /// <summary>
+        /// ProgramType property.
+        /// </summary>
+        [DataMember]
+        public ExternalProgramType ProgramType { get; set; }
+
+
         // コマンド
         [DataMember]
         public string Command { get; set; }
@@ -141,6 +156,11 @@ namespace NeeView
         // $FILE = 渡されるファイルパス
         [DataMember]
         public string Parameter { get; set; }
+
+        // プロトコル
+        [DataMember]
+        public string Protocol { get; set; }
+
 
         // 複数ページのときの動作
         [DataMember]
@@ -154,20 +174,25 @@ namespace NeeView
         public bool IsDefaultApplication => string.IsNullOrWhiteSpace(Command);
 
         // コマンドパラメータで使用されるキーワード
-        private const string _Keyword = "$File";
+        private const string _keyFile = "$File";
+        private const string _keyUri = "$Uri";
+
+        // 最後に実行したコマンド
+        public string LastCall { get; set; }
+
 
         // コマンドパラメータ文字列のバリデート
         public static string ValidateApplicationParam(string source)
         {
             if (source == null) source = "";
             source = source.Trim();
-            return source.Contains(_Keyword) ? source : (source + $" \"{_Keyword}\"").Trim();
+            return source.Contains(_keyFile) ? source : (source + $" \"{_keyFile}\"").Trim();
         }
 
         // コンストラクタ
         private void Constructor()
         {
-            Parameter = "\"" + _Keyword + "\"";
+            Parameter = "\"" + _keyFile + "\"";
             MultiPageOption = MultiPageOptionType.Once;
             ArchiveOption = ArchiveOptionType.SendExtractFile;
         }
@@ -188,15 +213,13 @@ namespace NeeView
         [OnDeserialized]
         private void Deserialized(StreamingContext c)
         {
-            if (Parameter != null)
-            {
-                Parameter = Parameter.Replace("$FILE", "$File");
-            }
         }
 
         // 外部アプリの実行
         public void Call(List<Page> pages)
         {
+            this.LastCall = null;
+
             foreach (var page in pages)
             {
                 // file
@@ -226,16 +249,43 @@ namespace NeeView
         // 外部アプリの実行(コア)
         private void CallProcess(string fileName)
         {
-            if (IsDefaultApplication)
+            switch (this.ProgramType)
             {
-                System.Diagnostics.Process.Start(fileName);
-            }
-            else
-            {
-                string param = Parameter.Replace(_Keyword, fileName);
-                System.Diagnostics.Process.Start(Command, param);
+                case ExternalProgramType.Normal:
+                    if (IsDefaultApplication)
+                    {
+                        this.LastCall = $"\"{fileName}\"";
+                        System.Diagnostics.Process.Start(fileName);
+                    }
+                    else
+                    {
+                        string param = ReplaceKeyword(this.Parameter, fileName);
+                        this.LastCall= $"\"{Command}\" {param}";
+                        System.Diagnostics.Process.Start(Command, param);
+                    }
+                    return;
+
+                case ExternalProgramType.Protocol:
+                    if (!string.IsNullOrWhiteSpace(this.Protocol))
+                    {
+                        string protocol = ReplaceKeyword(this.Protocol, fileName);
+                        this.LastCall = protocol;
+                        System.Diagnostics.Process.Start(protocol);
+                    }
+                    return;
             }
         }
+
+        //
+        private string ReplaceKeyword(string s, string filenName )
+        {
+            var uriData = Uri.EscapeDataString(filenName);
+
+            s = s.Replace(_keyUri, uriData);
+            s = s.Replace(_keyFile, filenName);
+            return s;
+        }
+
 
         // インスタンスのクローン
         public ExternalApplication Clone()

@@ -29,7 +29,12 @@ namespace NeeView
         public bool IsSaveWindowPlacement { get; set; }
 
         // ネットワークアクセス許可
-        public bool IsNetworkEnabled { get; set; } = true;
+        private bool _isNetworkEnalbe = true;
+        public bool IsNetworkEnabled
+        {
+            get { return _isNetworkEnalbe; }
+            set { _isNetworkEnalbe = Config.Current.IsAppxPackage ? true : value; } // Appxは強制ON
+        }
 
         // 画像のDPI非対応
         public bool IsIgnoreImageDpi { get; set; } = true;
@@ -64,7 +69,7 @@ namespace NeeView
             public bool IsSaveWindowPlacement { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("ネットワークアスセス許可", Tips = "ネットワークアクセスを許可します。\n(バージョンウィンドウからのバージョン更新確認、各種WEBリンク)")]
+            [PropertyMember("ネットワークアスセス許可", Tips = "ネットワークアクセスを許可します。\n(バージョンウィンドウからのバージョン更新確認、各種WEBリンク)", IsAppxVisible =false)]
             public bool IsNetworkEnabled { get; set; }
 
             [DataMember, DefaultValue(false)]

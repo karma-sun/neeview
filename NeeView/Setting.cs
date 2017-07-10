@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Xml;
 using NeeView.Effects;
+using System.IO;
 
 namespace NeeView
 {
@@ -82,7 +83,16 @@ namespace NeeView
         // ファイルから読み込み
         public static Setting Load(string path)
         {
-            using (XmlReader xr = XmlReader.Create(path))
+            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                return Load(stream);
+            }
+        }
+
+        // ストリームから読み込み
+        public static Setting Load(Stream stream)
+        {
+            using (XmlReader xr = XmlReader.Create(stream))
             {
                 DataContractSerializer serializer = new DataContractSerializer(typeof(Setting));
                 Setting setting = (Setting)serializer.ReadObject(xr);

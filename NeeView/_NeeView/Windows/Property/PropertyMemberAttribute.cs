@@ -23,6 +23,8 @@ namespace NeeView.Windows.Property
 
         public bool IsVisible { get; set; } = true;
 
+        public bool IsAppxVisible { get; set; } = true;
+
         public PropertyMemberAttribute() { }
         public PropertyMemberAttribute(string name) { Name = name; }
 

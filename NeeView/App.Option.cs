@@ -79,7 +79,7 @@ namespace NeeView
                 }
                 else
                 {
-                    this.SettingFilename = Path.Combine(Config.Current.LocalApplicationDataPath, "UserSetting.xml");
+                    this.SettingFilename = Path.Combine(Config.Current.LocalApplicationDataPath, SaveData.UserSettingFileName);
                 }
 
                 // StartupPlage
@@ -107,9 +107,23 @@ namespace NeeView
             var optionMap = new OptionMap<CommandLineOption>();
             CommandLineOption option;
 
+
             try
             {
-                option = optionMap.ParseArguments(args);
+                var items = new List<string>(args);
+
+                // プロトコル起動を吸収
+                const string scheme = "neeview-open:";
+                if (items.Any() && items[0].StartsWith(scheme))
+                {
+                    items[0] = items[0].Replace(scheme, "");
+                    if (string.IsNullOrWhiteSpace(items[0]))
+                    {
+                        items.RemoveAt(0);
+                    }
+                }
+
+                option = optionMap.ParseArguments(items.ToArray());
             }
             catch (Exception ex)
             {

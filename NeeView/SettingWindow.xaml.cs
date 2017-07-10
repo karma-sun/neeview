@@ -237,6 +237,13 @@ namespace NeeView
         }
         #endregion
 
+
+        public static Dictionary<ExternalProgramType, string> ExternalProgramTypeList { get; } = new Dictionary<ExternalProgramType, string>
+        {
+            [ExternalProgramType.Normal] = "外部プログラム",
+            [ExternalProgramType.Protocol] = "プロトコル起動",
+        };
+
         //
         public static Dictionary<MultiPageOptionType, string> MultiPageOptionTypeList { get; } = new Dictionary<MultiPageOptionType, string>
         {
@@ -306,10 +313,7 @@ namespace NeeView
                 this.SusieSettingTab.Visibility = Visibility.Collapsed;
             }
 
-#if DEBUG
-#else
-            this.RemoveAllDataButton.Visibility = Config.Current.IsUseLocalApplicationDataFolder ? Visibility.Visible : Visibility.Collapsed;
-#endif
+            this.RemoveAllDataButton.Visibility = (Config.Current.IsUseLocalApplicationDataFolder && !Config.Current.IsAppxPackage) ? Visibility.Visible : Visibility.Collapsed;
 
             Setting = setting;
             History = history;

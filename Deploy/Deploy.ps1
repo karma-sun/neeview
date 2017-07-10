@@ -1,9 +1,11 @@
 Param(
-	[ValidateSet("All", "Zip", "Installer")]$Target = "All"
+	[ValidateSet("All", "Zip", "Installer", "Appx")]$Target = "All"
 )
 
 # error to break
 trap { break }
+
+$ErrorActionPreference = "stop"
 
 
 #
@@ -78,7 +80,7 @@ function Set-AssemblyVersion($assemblyInfoFile, $title, $version)
     $content = $content -replace "AssemblyVersion\(.+\)", "AssemblyVersion(`"$version`")"
     $content = $content -replace "AssemblyFileVersion\(.+\)", "AssemblyFileVersion(`"$version`")"
 
-	$content > $assemblyInfoFile
+	$content | Out-File -Encoding UTF8 $assemblyInfoFile
 }
 
 #--------------------
@@ -200,10 +202,34 @@ function New-ConfigForMsi($inputDir, $config, $outputDir)
 	$add.value = 'True'
 
 	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
-	$sw = New-Object System.IO.StreamWriter("$outputDir\$config", $false, $utf8WithoutBom)
+	$outputFile = "$outputDir\$config"
+	$sw = New-Object System.IO.StreamWriter($outputFile, $false, $utf8WithoutBom)
 	$xml.Save( $sw )
 	$sw.Close()
 }
+
+
+#--------------------------
+#
+function New-ConfigForAppx($inputDir, $config, $outputDir)
+{
+	# make config for installer
+	[xml]$xml = Get-Content "$inputDir\$config"
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'PackageType' } | Select -First 1
+	$add.value = '.appx'
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'UseLocalApplicationData' } | Select -First 1
+	$add.value = 'True'
+
+	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
+	$outputFile = Convert-Path "$outputDir\$config"
+
+	$sw = New-Object System.IO.StreamWriter($outputFile, $false, $utf8WithoutBom)
+	$xml.Save( $sw )
+	$sw.Close()
+}
+
 
 
 #---------------------------
@@ -275,6 +301,40 @@ function New-Msi($arch, $packageDir, $packageMsi)
 }
 
 
+
+#--------------------------
+# Appx
+function New-Appx
+{
+	# update assembly
+	Copy-Item $packageX64Dir $packageAppxProduct -Recurse -Force
+	New-ConfigForAppx $packageX64Dir "${product}.exe.config" $packageAppxProduct
+
+	. Appx/_Parameter.ps1
+	$param = Get-AppxParameter
+	$appxName = $param.name
+	$appxPublisher = $param.publisher
+
+	# generate AppManifest
+	$content = Get-Content "Appx\Resources\AppxManifest.xml"
+	$content = $content -replace "%NAME%","$appxName"
+	$content = $content -replace "%PUBLISHER%","$appxPublisher"
+	$content = $content -replace "%VERSION%","$assemblyVersion"
+	$content | Out-File -Encoding UTF8 "$packageAppxFiles\AppxManifest.xml"
+
+	# copy icons
+	Copy-Item "Appx\Resources\Assets\*.png" "$packageAppxFiles\Assets\" 
+
+	## re-package
+	$Win10SDK = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.15063.0\x86"
+	& "$Win10SDK\makeappx.exe" pack /l /d "$packageAppxFiles" /p "$packageAppx"
+	if ($? -ne $true)
+	{
+		throw "makeappx.exe error"
+	}
+}
+
+
 #--------------------------
 # remove build objects
 function Remove-BuildObjects
@@ -303,6 +363,14 @@ function Remove-BuildObjects
 	{
 		Remove-Item $packageX64Msi
 	}
+	if (Test-Path $packageAppxProduct)
+	{
+		Remove-Item $packageAppxProduct -Recurse -Force
+	}
+	if (Test-Path $packageAppx)
+	{
+		Remove-Item $packageAppx
+	}
 
 	Start-Sleep -m 100
 }
@@ -326,6 +394,10 @@ $packageZip = "$product$version.zip"
 #$packageMsi = "$product$version.msi"
 $packageX86Msi = "${product}S${version}.msi"
 $packageX64Msi = "${product}${version}.msi"
+$packageAppxRoot = "Appx\$product"
+$packageAppxFiles = "$packageAppxRoot\PackageFiles"
+$packageAppxProduct = "$packageAppxRoot\PackageFiles\$product"
+$packageAppx = "${product}${version}.appx"
 
 
 # clear
@@ -360,6 +432,22 @@ if (($Target -eq "All") -or ($Target -eq "Installer"))
 	Write-Host "`nExport $packageX64Msi successed.`n" -fore Green
 	#New-Msi "x86" $packageDir $packageX86Msi
 	#Write-Host "`nExport $packageX86Msi successed.`n" -fore Green
+}
+
+
+if (($Target -eq "All") -or ($Target -eq "Appx"))
+{
+	Write-Host "`[Appx] ...`n" -fore Cyan
+
+	if (Test-Path $packageAppxRoot)
+	{
+		New-Appx
+		Write-Host "`nExport $packageAppx successed.`n" -fore Green
+	}
+	else
+	{
+		Write-Host "`nWarning: not exist $packageAppxRoot. skip!`n" -fore Yellow
+	}
 }
 
 # current

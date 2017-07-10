@@ -219,8 +219,10 @@ Deploy/NeeView*/
 Deploy/*.zip
 Deploy/*.xml
 Deploy/*.msi
+Deploy/*.appx
 /Deploy/_*
-/Deploy/UWP/
+/Deploy/Appx/_*
+/Deploy/Appx/NeeView/
 !/NeeView/x64/
 !/NeeView/x86/
 Thumbs.db

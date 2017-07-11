@@ -725,18 +725,18 @@
 
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがない場合、サブフォルダーも読み込むか問い合わせる"
                               ToolTip="フォルダー形式のブックを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合に&#xa;サブフォルダーも読み込むかを問い合わせるダイアログを表示します。"
-                              IsChecked="{Binding Setting.BookHubMemento.IsConfirmRecursive}" />
+                              IsChecked="{Binding Setting.Memento.BookHub.IsConfirmRecursive}" />
                         </StackPanel>
 
                         <TextBlock Text="サブフォルダー読み込み自動判定" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを読み込む"
                               ToolTip="フォルダー形式のブックで機能します"
-                              IsChecked="{Binding Setting.BookHubMemento.IsAutoRecursive}" />
+                              IsChecked="{Binding Setting.Memento.BookHub.IsAutoRecursive}" />
                             <Grid Margin="20,0,0,0">
                                 <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ外ファイルも含めて判定する"
                                   ToolTip="画像ファイル以外が存在する場合はサブフォルダーを読み込みません"
-                                  IsChecked="{Binding Setting.BookHubMemento.IsAutoRecursiveWithAllFiles}" />
+                                  IsChecked="{Binding Setting.Memento.BookHub.IsAutoRecursiveWithAllFiles}" />
                             </Grid>
                         </StackPanel>
 

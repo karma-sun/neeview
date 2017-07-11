@@ -2,10 +2,9 @@
 # ビルド後にリモートPCにコピーする。ビルドイベントから呼ばれる。
 # 環境依存大
 
-Param
-(
-    [parameter(Mandatory)][string]$targetDir 
-)
+Param( [parameter(Mandatory)][string]$targetDir )
+
+Write-Host "### REMOTE COPY ###"
 
 $ErrorActionPreference = "Stop"
 

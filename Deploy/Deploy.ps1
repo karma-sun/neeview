@@ -94,6 +94,7 @@ function Reset-AssemblyInfo($assemblyInfoFile)
 
 #-----------------------
 # variables
+$scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
 $solutionDir = ".."
 $solution = "$solutionDir\$product.sln"
 $projectDir = "$solutionDir\$product"
@@ -117,7 +118,9 @@ function Build-Project($arch, $assemblyVersion)
 		Set-AssemblyVersion $assemblyInfoFile "NeeView" $assemblyVersion
 	}
 
-    $vspath = .\vswhere.exe -property installationPath
+	$vswhere = "$solutionDir\Tools\vswhere.exe"
+
+    $vspath = & $vswhere -property installationPath
     $msbuild = "$vspath\MSBuild\15.0\Bin\MSBuild.exe"
 	& $msbuild $solution /p:Configuration=$config /p:Platform=$platform /t:Clean,Build
 	if ($? -ne $true)

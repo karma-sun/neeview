@@ -466,7 +466,7 @@ namespace NeeView
         public void Unlock()
         {
             var archivers = this.Pages.Select(e => e.Entry.Archiver).Distinct().Where(e => e != null);
-            foreach(var archiver in archivers)
+            foreach (var archiver in archivers)
             {
                 archiver.Unlock();
             }
@@ -946,7 +946,7 @@ namespace NeeView
             await UpdateViewPageAsync(source, param.IsPreLoad, token);
         }
 
-
+        //
         private ViewPageContextSource GetViewPageContextSource(int step)
         {
             int delta = 0;
@@ -971,6 +971,8 @@ namespace NeeView
                 delta = step;
             }
 
+            ////Debug.WriteLine($"Step: {step}, {_viewContext.Position}, {delta}");
+
             return new ViewPageContextSource()
             {
                 Position = _viewContext.Position + delta,
@@ -979,6 +981,7 @@ namespace NeeView
             };
         }
 
+        //
         private ViewPageContextSource GetViewPageContextSourceSimple(int step)
         {
             int index = _viewContext.Position.Index;
@@ -986,12 +989,19 @@ namespace NeeView
 
             int direction = step < 0 ? -1 : 1;
 
+            if (direction < 0 && _viewContext.Size == 2)
+            {
+                newIndex++;
+            }
+
             if (index == newIndex)
             {
                 newIndex += direction;
             }
 
             var position = new PagePosition(newIndex, 0);
+
+            ////Debug.WriteLine($"Step: {step}, {_viewContext.Position}, {position}");
 
             return new ViewPageContextSource()
             {
@@ -1161,7 +1171,7 @@ namespace NeeView
         //
         private bool IsWide(Page page)
         {
-           return page.Width > page.Height * BookProfile.Current.WideRatio;
+            return page.Width > page.Height * BookProfile.Current.WideRatio;
         }
 
 
@@ -1548,7 +1558,7 @@ namespace NeeView
             {
                 return (Memento)this.MemberwiseClone();
             }
-            
+
 
             /// <summary>
             /// 項目のフィルタリング。フラグの立っている項目を上書き
@@ -1682,7 +1692,7 @@ namespace NeeView
         }
     }
 
-#endregion
+    #endregion
 
 
     /// <summary>

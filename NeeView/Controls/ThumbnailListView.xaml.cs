@@ -297,17 +297,6 @@ namespace NeeView
             }
         }
 
-        // サムネ更新。表示されているページのサムネの読み込み要求
-        public void LoadThumbnailList_(int direction)
-        {
-            if (!this.Root.IsVisible) return;
-
-            if (_listPanel != null)
-            {
-                _vm.RequestThumbnail((int)_listPanel.HorizontalOffset, (int)_listPanel.ViewportWidth, 2, direction);
-            }
-        }
-
 
         // サムネ更新。表示されているページのサムネの読み込み要求
         public void LoadThumbnailList(int direction)
@@ -350,10 +339,13 @@ namespace NeeView
 
 
         //
-        private void ThumbnailListArea_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void ThumbnailListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if (!(bool)e.NewValue) return;
             LoadThumbnailList(1);
         }
+
+
 
         private void ThumbnailListBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {

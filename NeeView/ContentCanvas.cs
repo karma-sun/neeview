@@ -4,10 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -270,7 +273,7 @@ namespace NeeView
                     if (source != null)
                     {
                         var old = Contents[contents.Count];
-                        var content = new ViewContent(source, old);
+                        var content = ViewContentFactory.Create(source, old);
                         contents.Add(content);
                     }
                 }
@@ -358,6 +361,7 @@ namespace NeeView
         }
 
 
+
         #region ContentSize
 
         // ビューエリアサイズ
@@ -371,6 +375,8 @@ namespace NeeView
             _viewHeight = height;
 
             UpdateContentSize();
+
+            ContentRebuild.Current.Request();
         }
 
 
@@ -431,7 +437,7 @@ namespace NeeView
 
             foreach (var content in Contents)
             {
-                if (content.View != null && content.View.Element is Rectangle)
+                if (content.View != null && content.IsBitmapScalingModeSupported())
                 {
                     double diff = Math.Abs(content.Size.Width - content.Width * dpiScaleX);
                     if (Config.Current.IsDpiSquare && diff < 0.1 && _transform.Angle == 0.0 && Math.Abs(finalScale - 1.0) < 0.001)
@@ -643,7 +649,6 @@ namespace NeeView
         #endregion
 
 
-
         #region 回転コマンド
 
         //
@@ -779,7 +784,6 @@ namespace NeeView
         #endregion
 
 
-
         #region Memento
         [DataContract]
         public class Memento
@@ -819,5 +823,120 @@ namespace NeeView
         }
 
         #endregion
+    }
+
+
+    //
+    public class ContentRebuild
+    {
+        // ウィンドウメッセージ
+        const int WM_SIZE = 0x0005;
+        const int WM_ENTERSIZEMOVE = 0x0231;
+        const int WM_EXITSIZEMOVE = 0x0232;
+
+
+        // Win32API の PostMessage 関数のインポート
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        public static extern bool PostMessage(IntPtr hWnd, Int32 Msg, IntPtr wParam, IntPtr lParam);
+
+
+        //
+        public static ContentRebuild Current { get; private set; }
+
+        // リサイズ中かどうか
+        bool _isResizingWindow;
+
+        private bool _isRequested;
+
+        public ContentRebuild()
+        {
+            Current = this;
+            CompositionTarget.Rendering += new EventHandler(OnRendering);
+
+            // スケール変化に追従
+            DragTransform.Current.AddPropertyChanged(nameof(DragTransform.Scale), (s, e) => Request());
+        }
+
+
+        public void InitinalizeWinProc(Window window)
+        { 
+            // ウィンドウプロシージャ監視
+            var hsrc = HwndSource.FromVisual(window) as HwndSource;
+            hsrc.AddHook(WndProc);
+
+            //HwndSource source = HwndSource.FromHwnd(new WindowInteropHelper(window).Handle);
+            //source.AddHook(new HwndSourceHook(WndProc));
+        }
+
+        /// <summary>
+        /// IsEnabled property.
+        /// </summary>
+        public bool IsEnabled
+        {
+            get { return _IsEnabled; }
+            set { if (_IsEnabled != value) { _IsEnabled = value; } }
+        }
+
+        private bool _IsEnabled = true;
+
+
+        // ウィンドウプロシージャ
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case WM_ENTERSIZEMOVE:
+                    _isResizingWindow = true;
+                    break;
+                case WM_EXITSIZEMOVE:
+                    _isResizingWindow = false;
+                    //PostMessage(hwnd, WM_SIZE, lastWParam, lastLParam);
+                    break;
+#if false
+                case WM_SIZE:
+                    // サイズ変更中なら、ハンドルして WPF に WM_SIZE を渡さない
+                    if (IsSizing)
+                    {
+                        handled = true;
+
+                        // サイズ変更終了後に再度ポストするように、パラメータを保持
+                        lastLParam = lParam;
+                        lastWParam = wParam;
+                    }
+                    break;
+#endif
+            }
+            return IntPtr.Zero;
+        }
+
+
+        /// <summary>
+        /// フレーム処理
+        /// 必要ならば現在の表示サイズでコンテンツを再作成する
+        /// </summary>
+        private void OnRendering(object sender, EventArgs e)
+        {
+            RrebuildFrame();
+        }
+
+        private void RrebuildFrame()
+        { 
+            if (!_isRequested ||  !IsEnabled || _isResizingWindow) return;
+            if (MouseButtonBitsExtensions.Create() != MouseButtonBits.None) return;
+
+            _isRequested = false;
+
+            var scale = DragTransform.Current.Scale;
+            foreach (var viewConent in ContentCanvas.Current.Contents.Where(e => e.IsValid))
+            {
+                viewConent.Rebuild(scale);
+            }
+        }
+
+        // リサイズ要求
+        public void Request()
+        {
+            _isRequested = true;
+        }
     }
 }

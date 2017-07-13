@@ -450,6 +450,9 @@ namespace NeeView
             // レイアウト更新
             DartyWindowLayout();
 
+            // WinProc登録
+            ContentRebuild.Current.InitinalizeWinProc(this);
+
             _vm.Loaded();
         }
 

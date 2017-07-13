@@ -68,6 +68,7 @@ namespace NeeView
         //
         public ContentCanvas ContentCanvas { get; private set; }
         public ContentCanvasBrush ContentCanvasBrush { get; private set; }
+        public ContentRebuild ContentRebuild { get; private set; }
         public SlideShow SlideShow { get; private set; }
         public WindowTitle WindowTitle { get; private set; }
 
@@ -148,6 +149,7 @@ namespace NeeView
 
             this.ContentCanvas = new ContentCanvas(this.MouseInput, this.BookHub);
             this.ContentCanvasBrush = new ContentCanvasBrush(this.ContentCanvas);
+            this.ContentRebuild = new ContentRebuild();
 
             this.SlideShow = new SlideShow(this.BookHub, this.BookOperation, this.MouseInput);
             this.WindowTitle = new WindowTitle(this.ContentCanvas);

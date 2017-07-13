@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -179,20 +180,16 @@ namespace NeeView
         {
         }
 
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="oldViewContent"></param>
-        public ViewContent(ViewContentSource source, ViewContent oldViewContent)
-        { 
-            var contentType = source.GetContentType();
-
+        public ViewContent(ViewContentSource source)
+        {
             this.Source = source;
             this.Size = source.Size;
             this.Color = Colors.Black;
+        }
 
-            //
+        //
+        protected ViewContentParameters CreateBindingParameter()
+        {
             var parameter = new ViewContentParameters()
             {
                 ForegroundBrush = new Binding(nameof(ContentCanvasBrush.ForegroundBrush)) { Source = ContentCanvasBrush.Current },
@@ -201,47 +198,114 @@ namespace NeeView
                 AnimationPlayerVisibility = new Binding(nameof(AnimationPlayerVisibility)) { Source = this },
             };
 
-            switch (contentType)
-            {
-                case ViewContentType.Message:
-                    InitializeMessageContent(source, parameter);
-                    break;
-                case ViewContentType.Thumbnail:
-                    InitializeThumbnailContent(source, parameter, oldViewContent);
-                    break;
-                case ViewContentType.Anime:
-                    InitializeAnimatedContent(source, parameter);
-                    break;
-                case ViewContentType.Bitmap:
-                    InitializeBitmapContent(source, parameter);
-                    break;
-            }
+            return parameter;
         }
 
-        /// <summary>
-        /// メッセージコンテンツ生成
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="parameter"></param>
-        private void InitializeMessageContent(ViewContentSource source, ViewContentParameters parameter)
-        {
-            InitializeView(CreateMessageView(source, parameter), source);
+        //
+        public virtual bool IsBitmapScalingModeSupported() => false;
 
+        //
+        public virtual void Rebuild(double scale)
+        {
+            Debug.WriteLine($"UpdateContent: {Width}x{Height} x{scale}");
+        }
+    }
+
+
+    /// <summary>
+    /// View生成用パラメータ
+    /// </summary>
+    public class ViewContentParameters
+    {
+        public Binding ForegroundBrush { get; set; }
+        public Binding BitmapScalingMode { get; set; }
+        public Binding AnimationImageVisibility { get; set; }
+        public Binding AnimationPlayerVisibility { get; set; }
+        public ViewContentReserver Reserver { get; set; } // 未使用
+    }
+
+
+    /// <summary>
+    /// Message ViewContent
+    /// </summary>
+    public class MessageViewContent : ViewContent
+    {
+        public static MessageViewContent Create(ViewContentSource source, ViewContent oldViewContent)
+        {
+            var viewContent = new MessageViewContent(source);
+            viewContent.Initialize(oldViewContent);
+            return viewContent;
+        }
+
+        public MessageViewContent(ViewContentSource source) : base(source)
+        {
+        }
+
+        public void Initialize(ViewContent oldViewContent)
+        {
+            Debug.Assert(this.Source.GetContentType() == ViewContentType.Message);
+
+            // binding parameter
+            var parameter = CreateBindingParameter();
+
+            // create view
+            var view = new PageContentView(LoosePath.GetFileName(this.Source.Page.FullPath));
+            view.Content = CreateView(this.Source, parameter);
+            this.View = view;
+
+            // content setting
             this.Size = new Size(480, 480);
         }
 
-        /// <summary>
-        /// サムネイルコンテンツ生成
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="parameter"></param>
-        /// <param name="oldViewContent"></param>
-        private void InitializeThumbnailContent(ViewContentSource source, ViewContentParameters parameter, ViewContent oldViewContent)
+        //
+        private FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
-            InitializeView(CreateThumbnailView(source, parameter), source);
+            var filepage = new FilePageContent()
+            {
+                Icon = Content.PageMessage.Icon,
+                FileName = Content.Entry.EntryName,
+                Message = Content.PageMessage.Message,
+            };
 
-            this.View.SetText(LoosePath.GetFileName(source.Page.FullPath));
+            var control = new FilePageControl(filepage);
+            control.SetBinding(FilePageControl.DefaultBrushProperty, parameter.ForegroundBrush);
+            return control;
+        }
 
+        //
+        public override bool IsBitmapScalingModeSupported() => false;
+    }
+
+    /// <summary>
+    /// Thumbnail ViewContent
+    /// </summary>
+    public class ThumbnailViewContent : ViewContent
+    {
+        public static ThumbnailViewContent Create(ViewContentSource source, ViewContent oldViewContent)
+        {
+            var viewContent = new ThumbnailViewContent(source);
+            viewContent.Initialize(oldViewContent);
+            return viewContent;
+        }
+
+        public ThumbnailViewContent(ViewContentSource source) : base(source)
+        {
+        }
+
+        public void Initialize(ViewContent oldViewContent)
+        {
+            Debug.Assert(this.Source.GetContentType() == ViewContentType.Thumbnail);
+
+            // binding parameter
+            var parameter = CreateBindingParameter();
+
+            // create view
+            var view = new PageContentView(LoosePath.GetFileName(this.Source.Page.FullPath));
+            view.Content = CreateView(this.Source, parameter);
+            view.Text = LoosePath.GetFileName(this.Source.Page.FullPath);
+            this.View = view;
+
+            // content setting
             if (this.Size.Width == 0 && this.Size.Height == 0)
             {
                 if (oldViewContent != null && oldViewContent.IsValid)
@@ -263,70 +327,12 @@ namespace NeeView
         }
 
         /// <summary>
-        /// アニメーションコンテンツ生成
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="patameter"></param>
-        private void InitializeAnimatedContent(ViewContentSource source, ViewContentParameters patameter)
-        {
-            InitializeView(CreateAnimatedView(source, patameter), source);
-
-            var animatedContent = source.Content as AnimatedContent;
-            this.Color = animatedContent.BitmapInfo.Color;
-            this.FileProxy = animatedContent.FileProxy;
-        }
-
-        /// <summary>
-        /// 画像コンテンツ生成
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="parameter"></param>
-        private void InitializeBitmapContent(ViewContentSource source, ViewContentParameters parameter)
-        {
-            InitializeView(CreateBitmapView(source, parameter), source);
-
-            var bitmapContent = source.Content as BitmapContent;
-            this.Color = bitmapContent.BitmapInfo.Color;
-        }
-
-        /// <summary>
-        /// ページビュー生成
-        /// </summary>
-        /// <param name="element">コンテンツビュー</param>
-        /// <param name="source"></param>
-        private void InitializeView(FrameworkElement element, ViewContentSource source)
-        {
-            this.View = new PageContentView(element, LoosePath.GetFileName(source.Page.FullPath));
-        }
-
-
-        /// <summary>
-        /// メッセージビュー生成
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
-        public FrameworkElement CreateMessageView(ViewContentSource source, ViewContentParameters parameter)
-        {
-            var filepage = new FilePageContent()
-            {
-                Icon = Content.PageMessage.Icon,
-                FileName = Content.Entry.EntryName,
-                Message = Content.PageMessage.Message,
-            };
-
-            var control = new FilePageControl(filepage);
-            control.SetBinding(FilePageControl.DefaultBrushProperty, parameter.ForegroundBrush);
-            return control;
-        }
-
-        /// <summary>
         /// サムネイルビュー生成
         /// </summary>
         /// <param name="source"></param>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public FrameworkElement CreateThumbnailView(ViewContentSource source, ViewContentParameters parameter)
+        private FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
             var rectangle = new Rectangle();
             rectangle.Fill = source.CreateThumbnailBrush(parameter.Reserver);
@@ -334,16 +340,106 @@ namespace NeeView
             return rectangle;
         }
 
+        //
+        public override bool IsBitmapScalingModeSupported() => false;
+    }
+
+    /// <summary>
+    /// Bitmap ViewContent
+    /// </summary>
+    public class BitmapViewContent : ViewContent
+    {
+        public static BitmapViewContent Create(ViewContentSource source, ViewContent oldViewContent)
+        {
+            var viewContent = new BitmapViewContent(source);
+            viewContent.Initialize(oldViewContent);
+            return viewContent;
+        }
+
+        public BitmapViewContent(ViewContentSource source) : base(source)
+        {
+        }
+
+        public void Initialize(ViewContent oldViewContent)
+        {
+            Debug.Assert(this.Source.GetContentType() == ViewContentType.Bitmap);
+
+            // binding parameter
+            var parameter = CreateBindingParameter();
+
+            // create view
+            var view = new PageContentView(LoosePath.GetFileName(this.Source.Page.FullPath));
+            view.Content = CreateView(this.Source, parameter);
+            this.View = view;
+
+            // content setting
+            var bitmapContent = this.Content as BitmapContent;
+            this.Color = bitmapContent.BitmapInfo.Color;
+        }
+
+        //
+        protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
+        {
+            var rectangle = new Rectangle();
+            rectangle.Fill = source.CreatePageImageBrush(((BitmapContent)this.Content).BitmapSource);
+            rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, parameter.BitmapScalingMode);
+            rectangle.UseLayoutRounding = true;
+            rectangle.SnapsToDevicePixels = true;
+
+            return rectangle;
+        }
+
+        //
+        public override bool IsBitmapScalingModeSupported() => true;
+    }
+
+    /// <summary>
+    /// Animated ViewContent
+    /// </summary>
+    public class AnimatedViewContent : BitmapViewContent
+    {
+        public new static AnimatedViewContent Create(ViewContentSource source, ViewContent oldViewContent)
+        {
+            var viewContent = new AnimatedViewContent(source);
+            viewContent.Initialize(oldViewContent);
+            return viewContent;
+        }
+
+
+        public AnimatedViewContent(ViewContentSource source) : base(source)
+        {
+        }
+
+        //
+        public new void Initialize(ViewContent oldViewContent)
+        {
+            Debug.Assert(this.Source.GetContentType() == ViewContentType.Anime);
+
+            // binding parameter
+            var parameter = CreateBindingParameter();
+
+            // create view
+            var view = new PageContentView(LoosePath.GetFileName(this.Source.Page.FullPath));
+            view.Content = CreateView(this.Source, parameter);
+            this.View = view;
+
+            // content setting
+            var animatedContent = this.Content as AnimatedContent;
+            this.Color = animatedContent.BitmapInfo.Color;
+            this.FileProxy = animatedContent.FileProxy;
+        }
+
+
         /// <summary>
         /// アニメーションビュー生成
         /// </summary>
         /// <param name="source"></param>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public FrameworkElement CreateAnimatedView(ViewContentSource source, ViewContentParameters parameter)
+        private new FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
             //
-            var image = CreateBitmapView(source, parameter);
+            var image = base.CreateView(source, parameter);
             image.SetBinding(Rectangle.VisibilityProperty, parameter.AnimationImageVisibility);
 
             //
@@ -369,35 +465,28 @@ namespace NeeView
 
             return grid;
         }
-
-        /// <summary>
-        /// 画像ビュー生成
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
-        public FrameworkElement CreateBitmapView(ViewContentSource source, ViewContentParameters parameter)
-        {
-            var rectangle = new Rectangle();
-            rectangle.Fill = source.CreatePageImageBrush(((BitmapContent)Content).BitmapSource);
-            rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, parameter.BitmapScalingMode);
-            rectangle.UseLayoutRounding = true;
-            rectangle.SnapsToDevicePixels = true;
-            return rectangle;
-        }
     }
-
 
     /// <summary>
-    /// View生成用パラメータ
+    /// 
     /// </summary>
-    public class ViewContentParameters
+    public class ViewContentFactory
     {
-        public Binding ForegroundBrush { get; set; }
-        public Binding BitmapScalingMode { get; set; }
-        public Binding AnimationImageVisibility { get; set; }
-        public Binding AnimationPlayerVisibility { get; set; }
-        public ViewContentReserver Reserver { get; set; } // 未使用
+        public static ViewContent Create(ViewContentSource source, ViewContent oldViewContent)
+        {
+            switch (source.GetContentType())
+            {
+                case ViewContentType.Message:
+                    return MessageViewContent.Create(source, oldViewContent);
+                case ViewContentType.Thumbnail:
+                    return ThumbnailViewContent.Create(source, oldViewContent);
+                case ViewContentType.Bitmap:
+                    return BitmapViewContent.Create(source, oldViewContent);
+                case ViewContentType.Anime:
+                    return AnimatedViewContent.Create(source, oldViewContent);
+                default:
+                    return new ViewContent();
+            }
+        }
     }
-
 }

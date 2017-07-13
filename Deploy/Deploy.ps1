@@ -310,15 +310,22 @@ function New-Msi($arch, $packageDir, $packageMsi)
 }
 
 
-
 #--------------------------
-# Appx
-function New-Appx
+# Appx ready
+function New-AppxReady
 {
 	# update assembly
 	Copy-Item $packageX64Dir $packageAppxProduct -Recurse -Force
 	New-ConfigForAppx $packageX64Dir "${product}.exe.config" $packageAppxProduct
 
+	# copy icons
+	Copy-Item "Appx\Resources\Assets\*.png" "$packageAppxFiles\Assets\" 
+}
+
+#--------------------------
+# Appx
+function New-Appx($arch, $appx)
+{
 	. Appx/_Parameter.ps1
 	$param = Get-AppxParameter
 	$appxName = $param.name
@@ -329,14 +336,13 @@ function New-Appx
 	$content = $content -replace "%NAME%","$appxName"
 	$content = $content -replace "%PUBLISHER%","$appxPublisher"
 	$content = $content -replace "%VERSION%","$assemblyVersion"
+	$content = $content -replace "%ARCH%", "$arch"
 	$content | Out-File -Encoding UTF8 "$packageAppxFiles\AppxManifest.xml"
 
-	# copy icons
-	Copy-Item "Appx\Resources\Assets\*.png" "$packageAppxFiles\Assets\" 
 
 	## re-package
 	$Win10SDK = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.15063.0\x86"
-	& "$Win10SDK\makeappx.exe" pack /l /d "$packageAppxFiles" /p "$packageAppx"
+	& "$Win10SDK\makeappx.exe" pack /l /d "$packageAppxFiles" /p "$appx"
 	if ($? -ne $true)
 	{
 		throw "makeappx.exe error"
@@ -376,9 +382,13 @@ function Remove-BuildObjects
 	{
 		Remove-Item $packageAppxProduct -Recurse -Force
 	}
-	if (Test-Path $packageAppx)
+	if (Test-Path $packageX86Appx)
 	{
-		Remove-Item $packageAppx
+		Remove-Item $packageX86Appx
+	}
+	if (Test-Path $packageX64Appx)
+	{
+		Remove-Item $packageX64Appx
 	}
 
 	Start-Sleep -m 100
@@ -406,8 +416,8 @@ $packageX64Msi = "${product}${version}.msi"
 $packageAppxRoot = "Appx\$product"
 $packageAppxFiles = "$packageAppxRoot\PackageFiles"
 $packageAppxProduct = "$packageAppxRoot\PackageFiles\$product"
-$packageAppx = "${product}${version}.appx"
-
+$packageX86Appx = "${product}${version}-x86.appx"
+$packageX64Appx = "${product}${version}-x64.appx"
 
 # clear
 Write-Host "`n[Clear] ...`n" -fore Cyan
@@ -450,8 +460,11 @@ if (($Target -eq "All") -or ($Target -eq "Appx"))
 
 	if (Test-Path $packageAppxRoot)
 	{
-		New-Appx
-		Write-Host "`nExport $packageAppx successed.`n" -fore Green
+		New-AppxReady
+		New-Appx "x64" $packageX64Appx
+		Write-Host "`nExport $packageX64Appx successed.`n" -fore Green
+		New-Appx "x86" $packageX86Appx
+		Write-Host "`nExport $packageX86Appx successed.`n" -fore Green
 	}
 	else
 	{

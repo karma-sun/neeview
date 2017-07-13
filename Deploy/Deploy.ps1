@@ -1,3 +1,9 @@
+# パッケージ生成スクリプト
+#
+# 使用ツール：
+#   - Wix Toolset
+#   - pandoc
+
 Param(
 	[ValidateSet("All", "Zip", "Installer", "Appx")]$Target = "All"
 )
@@ -95,7 +101,7 @@ function Reset-AssemblyInfo($assemblyInfoFile)
 #-----------------------
 # variables
 $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
-$solutionDir = ".."
+$solutionDir = Convert-Path "$scriptPath\.."
 $solution = "$solutionDir\$product.sln"
 $projectDir = "$solutionDir\$product"
 $productx86Dir = "$projectDir\bin\x86\$config"
@@ -205,7 +211,7 @@ function New-ConfigForMsi($inputDir, $config, $outputDir)
 	$add.value = 'True'
 
 	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
-	$outputFile = "$outputDir\$config"
+	$outputFile = Join-Path (Convert-Path $outputDir) $config
 	$sw = New-Object System.IO.StreamWriter($outputFile, $false, $utf8WithoutBom)
 	$xml.Save( $sw )
 	$sw.Close()
@@ -226,7 +232,7 @@ function New-ConfigForAppx($inputDir, $config, $outputDir)
 	$add.value = 'True'
 
 	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
-	$outputFile = Convert-Path "$outputDir\$config"
+	$outputFile = Join-Path (Convert-Path $outputDir) $config
 
 	$sw = New-Object System.IO.StreamWriter($outputFile, $false, $utf8WithoutBom)
 	$xml.Save( $sw )

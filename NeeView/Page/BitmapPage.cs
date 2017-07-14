@@ -43,6 +43,20 @@ namespace NeeView
             Content.Loaded += (s, e) => Loaded?.Invoke(this, null);
         }
     }
+
+    /// <summary>
+    /// PDFページ
+    /// </summary>
+    public class PdfPage : Page
+    {
+        public PdfPage(ArchiveEntry entry)
+        {
+            Entry = entry;
+
+            Content = new PdfContetnt(entry);
+            Content.Loaded += (s, e) => Loaded?.Invoke(this, null);
+        }
+    }
     
 
 }

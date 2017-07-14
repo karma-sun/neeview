@@ -144,6 +144,14 @@
     <Compile Include="BookHistoryCommand.cs" />
     <Compile Include="BookSetting.cs" />
     <Compile Include="ContentCanvasBrush.cs" />
+    <Compile Include="Page\PdfContetnt.cs" />
+    <Compile Include="ViewContent\AnimatedViewContent.cs" />
+    <Compile Include="ViewContent\BitmapViewContent.cs" />
+    <Compile Include="ContentRebuild.cs" />
+    <Compile Include="ViewContent\MessageViewContent.cs" />
+    <Compile Include="ViewContent\PdfViewContent.cs" />
+    <Compile Include="ViewContent\ThumbnailViewContent.cs" />
+    <Compile Include="ViewContent\ViewContentFactory.cs" />
     <Compile Include="Controls\AddressBar.cs" />
     <Compile Include="Controls\AddressBarView.xaml.cs">
       <DependentUpon>AddressBarView.xaml</DependentUpon>
@@ -402,7 +410,7 @@
     <Compile Include="MouseInput\MouseInputNormal.cs" />
     <Compile Include="MouseInput\MouseInputBase.cs" />
     <Compile Include="MouseInput\MouseInputNormalForGestureEdit.cs" />
-    <Compile Include="PageContentView.cs" />
+    <Compile Include="ViewContent\PageContentView.cs" />
     <Compile Include="Page\AnimatedContent.cs" />
     <Compile Include="Page\ArchiveContent.cs" />
     <Compile Include="Page\FileContent.cs" />
@@ -562,8 +570,8 @@
     <Compile Include="VersionWindow.xaml.cs">
       <DependentUpon>VersionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewContent.cs" />
-    <Compile Include="ViewContentSource.cs" />
+    <Compile Include="ViewContent\ViewContent.cs" />
+    <Compile Include="ViewContent\ViewContentSource.cs" />
     <Compile Include="Win32Api.cs" />
     <Compile Include="WIndowHelper.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />

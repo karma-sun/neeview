@@ -742,8 +742,12 @@
 
                         <TextBlock Text="PDF設定" Style="{StaticResource Header}" />
                         <StackPanel Style="{StaticResource Phrase}">
-                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="PDFのページを画像化するときの最大サイズです">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="PDFページサイズ"/>
+                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="PDFのページを画像化するときのサイズです">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="PDFページ標準サイズ"/>
+                                <nlc:SizeInspector Margin="2,0" MinWidth="200" Size="{Binding Setting.Memento.PdfArchiverProfile.RenderSize, Mode=TwoWay}"/>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="PDFのページを拡大したときの最大画像サイズです">
+                                <TextBlock Style="{StaticResource ItemHeader}" Text="PDFページ最大サイズ"/>
                                 <nlc:SizeInspector Margin="2,0" MinWidth="200" Size="{Binding Setting.Memento.PdfArchiverProfile.RenderMaxSize, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>

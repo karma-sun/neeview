@@ -523,7 +523,11 @@ namespace NeeView
 
             if (entry.IsImage())
             {
-                if (BookProfile.Current.IsEnableAnimatedGif && LoosePath.GetExtension(entry.EntryName) == ".gif")
+                if (entry.Archiver is PdfArchiver)
+                {
+                    page = new PdfPage(entry);
+                }
+                else if (BookProfile.Current.IsEnableAnimatedGif && LoosePath.GetExtension(entry.EntryName) == ".gif")
                 {
                     page = new AnimatedPage(entry);
                 }

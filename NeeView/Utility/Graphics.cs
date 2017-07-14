@@ -147,21 +147,33 @@ namespace NeeView.Utility
             return bmp;
         }
 
-        // ViewBox取得
-        /*
-        private static Rect GetViewBox()
+
+
+        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
+        public static extern bool DeleteObject(IntPtr hObject);
+
+        // Drawing.Image を BitmapSource に変換
+        public static BitmapSource ToBitmapSource(System.Drawing.Image image)
         {
-            return new Rect(0, -0.00001, 0, 0.99999);
-
-            if (PartSize == 0) return new Rect(0, -0.00001, 0, 0.99999);
-            if (PartSize == 2) return new Rect(-0.00001, -0.00001, 0.99999, 0.99999);
-
-            bool isRightPart = Position.Part == 0;
-            if (ReadOrder == PageReadOrder.LeftToRight) isRightPart = !isRightPart;
-
-            double half = Width / SourceSize.Width;
-            return isRightPart ? new Rect(0.99999 - half, -0.00001, half - 0.00001, 0.99999) : new Rect(-0.00001, -0.00001, half - 0.00001, 0.99999);
+            return ToBitmapSource(image as System.Drawing.Bitmap);
         }
-        */
+
+        // Drawing.Bitmap を BitmapSource に変換
+        public static BitmapSource ToBitmapSource(System.Drawing.Bitmap bitmap)
+        {
+            if (bitmap == null) return null;
+
+            var hBitmap = bitmap.GetHbitmap();
+            try
+            {
+                var bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                bitmapSource.Freeze();
+                return bitmapSource;
+            }
+            finally
+            {
+                DeleteObject(hBitmap);
+            }
+        }
     }
 }

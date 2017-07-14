@@ -80,6 +80,11 @@ namespace NeeView
             {
                 return ViewContentType.Thumbnail;
             }
+            // PDF
+            else if (Content is PdfContetnt)
+            {
+                return ViewContentType.Pdf;
+            }
             // アニメーション
             else if (Content is AnimatedContent)
             {
@@ -165,6 +170,7 @@ namespace NeeView
         Message,
         Bitmap,
         Anime,
+        Pdf,
         Thumbnail,
     }
 

@@ -1,13 +1,20 @@
-﻿using NeeView.ComponentModel;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using NeeView.ComponentModel;
 using NeeView.Effects;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -270,7 +277,7 @@ namespace NeeView
                     if (source != null)
                     {
                         var old = Contents[contents.Count];
-                        var content = new ViewContent(source, old);
+                        var content = ViewContentFactory.Create(source, old);
                         contents.Add(content);
                     }
                 }
@@ -358,6 +365,7 @@ namespace NeeView
         }
 
 
+
         #region ContentSize
 
         // ビューエリアサイズ
@@ -371,6 +379,8 @@ namespace NeeView
             _viewHeight = height;
 
             UpdateContentSize();
+
+            ContentRebuild.Current.Request();
         }
 
 
@@ -431,7 +441,7 @@ namespace NeeView
 
             foreach (var content in Contents)
             {
-                if (content.View != null && content.View.Element is Rectangle)
+                if (content.View != null && content.IsBitmapScalingModeSupported())
                 {
                     double diff = Math.Abs(content.Size.Width - content.Width * dpiScaleX);
                     if (Config.Current.IsDpiSquare && diff < 0.1 && _transform.Angle == 0.0 && Math.Abs(finalScale - 1.0) < 0.001)
@@ -643,7 +653,6 @@ namespace NeeView
         #endregion
 
 
-
         #region 回転コマンド
 
         //
@@ -777,7 +786,6 @@ namespace NeeView
         }
 
         #endregion
-
 
 
         #region Memento

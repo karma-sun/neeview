@@ -17,7 +17,7 @@ using System.Windows;
 using System.Runtime.Serialization;
 using NeeView.Windows.Property;
 using System.ComponentModel;
-
+using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
@@ -116,20 +116,25 @@ namespace NeeView
             }
         }
 
-        //
+        // 規定内に収まるサイズ取得
         private Size GetRenderSize(PdfDocument pdfDocument, int page)
         {
-            var documentSize = pdfDocument.PageSizes[page];
-            //Debug.WriteLine($"PageSize: {documentSize}");
+            return GetRenderSize(pdfDocument, page, new Size(PdfArchiverProfile.Current.RenderSize.Width, PdfArchiverProfile.Current.RenderSize.Height));
+        }
 
-            var rateX = PdfArchiverProfile.Current.RenderMaxSize.Width / documentSize.Width;
-            var rateY = PdfArchiverProfile.Current.RenderMaxSize.Height / documentSize.Height;
+        // 指定サイズ内に収まるサイズ取得
+        private Size GetRenderSize(PdfDocument pdfDocument, int page, Size size)
+        {
+            var documentSize = pdfDocument.PageSizes[page];
+
+            var rateX = size.Width / documentSize.Width;
+            var rateY = size.Height / documentSize.Height;
             var rate = Math.Min(rateX, rateY);
 
             return new Size(documentSize.Width * rate, documentSize.Height * rate);
         }
 
-        //
+        // ファイルとして出力
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
@@ -140,6 +145,19 @@ namespace NeeView
                 var image = pdfDocument.Render(entry.Id, (int)size.Width, (int)size.Height, 96, 96, false);
 
                 image.Save(exportFileName, System.Drawing.Imaging.ImageFormat.Png);
+            }
+        }
+        
+        // サイズを指定して画像を取得する
+        public BitmapSource CraeteBitmapSource(ArchiveEntry entry, Size maxSize)
+        {
+            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+
+            using (var pdfDocument = PdfDocument.Load(Path))
+            {
+                var size = GetRenderSize(pdfDocument, entry.Id, maxSize);
+                var image = pdfDocument.Render(entry.Id, (int)size.Width, (int)size.Height, 96, 96, false);
+                return Utility.NVGraphics.ToBitmapSource(image);
             }
         }
 

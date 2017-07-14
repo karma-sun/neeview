@@ -14,41 +14,30 @@ using System.Windows.Media;
 
 namespace NeeView
 {
-
     /// <summary>
     /// PageControl FrameworkElement
+    /// ページ名レイヤーを備えたもの
     /// </summary>
     public class PageContentView : Grid
     {
         /// <summary>
-        /// メイン要素
+        /// コンテンツ
         /// </summary>
-        public FrameworkElement Element { get; private set; }
+        private ContentControl _contentControl;
 
         /// <summary>
         /// テキスト要素
         /// </summary>
         private TextBlock _textBlock;
 
-        /// <summary>
-        /// コンストラクタ
-        /// 初期状態ではテキストは非表示
-        /// TODO: 後でelementの種類を判別できるように
-        /// </summary>
-        /// <param name="element"></param>
-        /// <param name="textBlock"></param>
-        public PageContentView(FrameworkElement element, TextBlock textBlock)
-        {
-            Initialize(element, textBlock);
-        }
 
         /// <summary>
         /// コンストラクター
+        /// 初期状態ではテキストは非表示って何！
         /// </summary>
-        /// <param name="element"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public PageContentView(FrameworkElement element, string text)
+        public PageContentView(string text)
         {
             var textBlock = new TextBlock();
             textBlock.Text = text;
@@ -58,39 +47,38 @@ namespace NeeView
             textBlock.HorizontalAlignment = HorizontalAlignment.Center;
             textBlock.VerticalAlignment = VerticalAlignment.Center;
 
-            Initialize(element, textBlock);
-        }
+            _contentControl = new ContentControl();
 
-        //
-        private void Initialize(FrameworkElement element, TextBlock textBlock)
-        {
-            this.Element = element;
             _textBlock = textBlock;
             _textBlock.Visibility = Visibility.Collapsed;
 
-            this.Children.Add(element);
-            this.Children.Add(textBlock);
+            this.Children.Add(_contentControl);
+            this.Children.Add(_textBlock);
+        }
+
+
+        /// <summary>
+        /// Content property.
+        /// </summary>
+        public FrameworkElement Content
+        {
+            get { return (FrameworkElement)_contentControl.Content; }
+            set { if (_contentControl.Content != value) { _contentControl.Content = value; } }
         }
 
         /// <summary>
-        /// テキスト変更
-        /// 文字列が設定されると表示される
-        /// TODO: ↑しっくりこない
+        /// Text property.
+        /// TODO: サムネイルしか使ってないじゃん！
         /// </summary>
-        /// <param name="text"></param>
-        public void SetText(string text)
+        public string Text
         {
-            if (text != null)
+            get { return _textBlock.Text; }
+            set
             {
-                _textBlock.Text = text;
-                _textBlock.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                _textBlock.Visibility = Visibility.Collapsed;
+                _textBlock.Text = value;
+                _textBlock.Visibility = string.IsNullOrWhiteSpace(value) ? Visibility.Collapsed : Visibility.Visible;
             }
         }
+
     }
-
-
 }

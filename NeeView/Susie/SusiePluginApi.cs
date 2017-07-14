@@ -448,7 +448,7 @@ namespace Susie
 
             var bi = Marshal.PtrToStructure<BitmapInfoHeader>(pBInfo);
             var bf = CreateBitmapFileHeader(bi);
-            byte[] mem = new byte[bf.bfSize + 4]; // 4 is margin
+            byte[] mem = new byte[bf.bfSize];
             GCHandle gch = GCHandle.Alloc(mem, GCHandleType.Pinned);
             try { Marshal.StructureToPtr<BitmapFileHeader>(bf, gch.AddrOfPinnedObject(), false); }
             finally { gch.Free(); }

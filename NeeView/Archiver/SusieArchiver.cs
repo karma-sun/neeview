@@ -71,7 +71,7 @@ namespace NeeView
             token.ThrowIfCancellationRequested();
 
             var plugin = GetPlugin();
-            if (plugin == null) throw new NotSupportedException();
+            if (plugin == null) throw new NotSupportedException($"not archive: {Path}");
 
             var infoCollection = plugin.GetArchiveInfo(Path);
             if (infoCollection == null) throw new NotSupportedException();

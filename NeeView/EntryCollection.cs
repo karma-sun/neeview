@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -160,12 +161,14 @@ namespace NeeView
 
                 if (IsAutoRecursive && entries.Count == 1 && entries.First().IsArchive())
                 {
-                    return await CollectAsync(await CreateArchiverAsync(entries.First(), token), param, token);
+                    var subArchiver = await CreateArchiverAsync(entries.First(), token);
+                    if (subArchiver != null)
+                    {
+                        return await CollectAsync(subArchiver, param, token);
+                    }
                 }
-                else
-                {
-                    return await CollectRecursiveAsync(archiver, false, param, token);
-                }
+
+                return await CollectRecursiveAsync(archiver, false, param, token);
             }
         }
 
@@ -210,9 +213,15 @@ namespace NeeView
             {
                 if (entry.IsArchive() && isRecursive)
                 {
-                    collection.AddRange(await CollectRecursiveAsync(await CreateArchiverAsync(entry, token), isRecursive, token));
+                    var subArchiver = await CreateArchiverAsync(entry, token);
+                    if (subArchiver != null)
+                    {
+                        collection.AddRange(await CollectRecursiveAsync(subArchiver, isRecursive, token));
+                        continue;
+                    }
                 }
-                else if (_isSupportAllFile || entry.IsImage())
+
+                if (_isSupportAllFile || entry.IsImage())
                 {
                     collection.Add(entry);
                 }
@@ -251,8 +260,12 @@ namespace NeeView
             {
                 foreach (var entry in entries.Where(e => e.IsArchive()))
                 {
-                    var collect = await FirstRecursiveAsync(await CreateArchiverAsync(entry, token), isRecursive, token);
-                    if (collect.Any()) return collect;
+                    var subArchiver = await CreateArchiverAsync(entry, token);
+                    if (subArchiver != null)
+                    {
+                        var collect = await FirstRecursiveAsync(subArchiver, isRecursive, token);
+                        if (collect.Any()) return collect;
+                    }
                 }
             }
 
@@ -286,7 +299,11 @@ namespace NeeView
 
                 if (folder == null) return new List<ArchiveEntry>();
 
-                return await SelectRecursiveAsync(await CreateArchiverAsync(folder, token), isRecursive, entryName, token);
+                var subArchiver = await CreateArchiverAsync(folder, token);
+                if (subArchiver != null)
+                {
+                    return await SelectRecursiveAsync(subArchiver, isRecursive, entryName, token);
+                }
             }
 
             return new List<ArchiveEntry>();
@@ -316,6 +333,13 @@ namespace NeeView
             }
 
             _trashBox.Add(archiver);
+
+            if (!archiver.IsSupported())
+            {
+                Debug.WriteLine($"Not Archive: {archiver.FullName}");
+                return null;
+            }
+
             return archiver;
         }
 

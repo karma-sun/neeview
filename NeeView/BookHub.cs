@@ -470,11 +470,7 @@ namespace NeeView
             {
                 if (ArchiverManager.Current.IsSupported(path))
                 {
-                    Archiver archiver = ArchiverManager.Current.CreateArchiver(path, null);
-                    if (archiver.IsSupported())
-                    {
-                        return path;
-                    }
+                    return path;
                 }
 
                 if (BitmapLoaderManager.Current.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
@@ -836,7 +832,7 @@ namespace NeeView
 
             #region Obslete
 
-            [Obsolete, DataMember(EmitDefaultValue =false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsEnableAnimatedGif { get; set; }
 
             [Obsolete, DataMember(Order = 1, EmitDefaultValue = false)]

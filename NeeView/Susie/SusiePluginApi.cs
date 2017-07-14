@@ -324,8 +324,16 @@ namespace Susie
                 if (ret == 0)
                 {
                     IntPtr pBuff = Win32Api.LocalLock(hBuff);
-                    byte[] buf = new byte[entry.filesize];
-                    Marshal.Copy(pBuff, buf, (int)0, (int)entry.filesize);
+                    var buffSize = (int)Win32Api.LocalSize(hBuff);
+                    if (buffSize ==0) throw new ApplicationException("Memory error.");
+                    var fileSize = (int)entry.filesize;
+                    if (buffSize < fileSize)
+                    {
+                        Debug.WriteLine($"SusieWarning: illigal ArchiveFile size: request={fileSize}, real={buffSize}");
+                        fileSize = buffSize;
+                    }
+                    byte[] buf = new byte[fileSize];
+                    Marshal.Copy(pBuff, buf, (int)0, (int)fileSize);
                     return buf;
                 }
                 return null;
@@ -379,8 +387,10 @@ namespace Susie
                 if (ret == 0)
                 {
                     IntPtr pBInfo = Win32Api.LocalLock(pHBInfo);
+                    int pBInfoSize = (int)Win32Api.LocalSize(pHBInfo);
                     IntPtr pBm = Win32Api.LocalLock(pHBm);
-                    return CraeteBitmapImage(pBInfo, pBm);
+                    int pBmSize = (int)Win32Api.LocalSize(pHBm);
+                    return CraeteBitmapImage(pBInfo, pBInfoSize, pBm, pBmSize);
                 }
                 return null;
             }
@@ -412,8 +422,10 @@ namespace Susie
                 if (ret == 0)
                 {
                     IntPtr pBInfo = Win32Api.LocalLock(pHBInfo);
+                    int pBInfoSize = (int)Win32Api.LocalSize(pHBInfo);
                     IntPtr pBm = Win32Api.LocalLock(pHBm);
-                    return CraeteBitmapImage(pBInfo, pBm);
+                    int pBmSize = (int)Win32Api.LocalSize(pHBm);
+                    return CraeteBitmapImage(pBInfo, pBInfoSize, pBm, pBmSize);
                 }
                 return null;
             }
@@ -427,17 +439,39 @@ namespace Susie
         }
 
         // BitmapImage 作成
-        private BitmapSource CraeteBitmapImage(IntPtr pBInfo, IntPtr pBm)
+        private BitmapSource CraeteBitmapImage(IntPtr pBInfo, int pBInfoSize, IntPtr pBm, int pBmSize)
         {
+            if (pBInfoSize == 0 || pBmSize == 0)
+            {
+                throw new ApplicationException("Memory error."); 
+            }
+
             var bi = Marshal.PtrToStructure<BitmapInfoHeader>(pBInfo);
             var bf = CreateBitmapFileHeader(bi);
-
-            byte[] mem = new byte[bf.bfSize];
+            byte[] mem = new byte[bf.bfSize + 4]; // 4 is margin
             GCHandle gch = GCHandle.Alloc(mem, GCHandleType.Pinned);
             try { Marshal.StructureToPtr<BitmapFileHeader>(bf, gch.AddrOfPinnedObject(), false); }
             finally { gch.Free(); }
-            Marshal.Copy(pBInfo, mem, Marshal.SizeOf(bf), (int)bf.bfOffBits - Marshal.SizeOf(bf));
-            Marshal.Copy(pBm, mem, (int)bf.bfOffBits, (int)(bf.bfSize - bf.bfOffBits));
+
+            int infoSize = (int)bf.bfOffBits - Marshal.SizeOf(bf);
+            int infoSizeReal = pBInfoSize;
+            if (infoSizeReal < infoSize)
+            {
+                Debug.WriteLine($"SusieWarning: illigal pBInfo size: request={infoSize}, real={infoSizeReal}");
+                infoSize = infoSizeReal;
+                if (infoSize <= 0) throw new ApplicationException("Memory error.");
+            }
+            Marshal.Copy(pBInfo, mem, Marshal.SizeOf(bf), infoSize);
+
+            int dataSize = (int)(bf.bfSize - bf.bfOffBits);
+            int dataSizeReal = pBmSize;
+            if (dataSizeReal < dataSize)
+            {
+                Debug.WriteLine($"SusieWarning: illigal pBm size: request={dataSize}, real={dataSizeReal}");
+                dataSize = dataSizeReal;
+                if (dataSize <= 0) throw new ApplicationException("Memory error.");
+            }
+            Marshal.Copy(pBm, mem, (int)bf.bfOffBits, dataSize);
 
             using (MemoryStream ms = new MemoryStream(mem))
             {

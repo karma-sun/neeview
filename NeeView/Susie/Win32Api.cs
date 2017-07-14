@@ -34,6 +34,9 @@ namespace Susie
         [DllImport(KERNEL32)]
         public extern static IntPtr LocalFree(IntPtr hMem);
 
+        [DllImport(KERNEL32)]
+        public extern static uint LocalSize(IntPtr hMem);
+
         [DllImport(KERNEL32, CharSet = CharSet.Auto)]
         public extern static int GetShortPathName(string longPath, StringBuilder shortPathBuffer, int bufferSize);
 

@@ -29,7 +29,7 @@ namespace NeeView
         /// <summary>
         /// BitmapSourceがあればコンテンツ有効
         /// </summary>
-        public override bool IsLoaded => BitmapSource != null;
+        public override bool IsLoaded => BitmapSource != null || PageMessage != null;
 
         /// <summary>
         /// コンストラクタ

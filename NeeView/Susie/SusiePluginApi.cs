@@ -326,14 +326,12 @@ namespace Susie
                     IntPtr pBuff = Win32Api.LocalLock(hBuff);
                     var buffSize = (int)Win32Api.LocalSize(hBuff);
                     if (buffSize ==0) throw new ApplicationException("Memory error.");
-                    var fileSize = (int)entry.filesize;
-                    if (buffSize < fileSize)
+                    if (buffSize != (int)entry.filesize)
                     {
-                        Debug.WriteLine($"SusieWarning: illigal ArchiveFile size: request={fileSize}, real={buffSize}");
-                        fileSize = buffSize;
+                        Debug.WriteLine($"SusieWarning: illigal ArchiveFile size: request={entry.filesize}, real={buffSize}");
                     }
-                    byte[] buf = new byte[fileSize];
-                    Marshal.Copy(pBuff, buf, (int)0, (int)fileSize);
+                    byte[] buf = new byte[buffSize];
+                    Marshal.Copy(pBuff, buf, (int)0, (int)buffSize);
                     return buf;
                 }
                 return null;

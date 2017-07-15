@@ -18,7 +18,7 @@ namespace NeeView
     {
         #region Constructors
 
-        public BitmapViewContent(ViewContentSource source) : base(source)
+        public BitmapViewContent(ViewContentSource source, ViewContent old) : base(source, old)
         {
         }
 
@@ -26,17 +26,13 @@ namespace NeeView
 
         #region Medhots
 
-        public void Initialize(ViewContent oldViewContent)
+        public void Initialize()
         {
-            Debug.Assert(this.Source.GetContentType() == ViewContentType.Bitmap);
-
             // binding parameter
             var parameter = CreateBindingParameter();
 
             // create view
-            var view = new PageContentView(LoosePath.GetFileName(this.Source.Page.FullPath));
-            view.Content = CreateView(this.Source, parameter);
-            this.View = view;
+            this.View = CreateView(this.Source, parameter);
 
             // content setting
             var bitmapContent = this.Content as BitmapContent;
@@ -64,14 +60,20 @@ namespace NeeView
         //
         public override bool IsBitmapScalingModeSupported() => true;
 
+        //
+        public override Brush GetViewBrush()
+        {
+            return (this.View as Rectangle)?.Fill;
+        }
+
         #endregion
 
         #region Static Methods
 
         public static BitmapViewContent Create(ViewContentSource source, ViewContent oldViewContent)
         {
-            var viewContent = new BitmapViewContent(source);
-            viewContent.Initialize(oldViewContent);
+            var viewContent = new BitmapViewContent(source, oldViewContent);
+            viewContent.Initialize();
             return viewContent;
         }
 

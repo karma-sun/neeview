@@ -19,7 +19,7 @@ namespace NeeView
     {
         #region Constructors
 
-        public AnimatedViewContent(ViewContentSource source) : base(source)
+        public AnimatedViewContent(ViewContentSource source, ViewContent old) : base(source, old)
         {
         }
 
@@ -28,17 +28,13 @@ namespace NeeView
         #region Methods
 
         //
-        public new void Initialize(ViewContent oldViewContent)
+        public new void Initialize()
         {
-            Debug.Assert(this.Source.GetContentType() == ViewContentType.Anime);
-
             // binding parameter
             var parameter = CreateBindingParameter();
 
             // create view
-            var view = new PageContentView(LoosePath.GetFileName(this.Source.Page.FullPath));
-            view.Content = CreateView(this.Source, parameter);
-            this.View = view;
+            this.View = CreateView(this.Source, parameter);
 
             // content setting
             var animatedContent = this.Content as AnimatedContent;
@@ -89,8 +85,8 @@ namespace NeeView
 
         public new static AnimatedViewContent Create(ViewContentSource source, ViewContent oldViewContent)
         {
-            var viewContent = new AnimatedViewContent(source);
-            viewContent.Initialize(oldViewContent);
+            var viewContent = new AnimatedViewContent(source, oldViewContent);
+            viewContent.Initialize();
             return viewContent;
         }
 

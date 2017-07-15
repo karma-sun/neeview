@@ -30,7 +30,7 @@ namespace NeeView
 
         #region Constructors
 
-        public PdfViewContent(ViewContentSource source) : base(source)
+        public PdfViewContent(ViewContentSource source, ViewContent old) : base(source, old)
         {
         }
 
@@ -38,17 +38,13 @@ namespace NeeView
 
         #region Medhots
 
-        public new void Initialize(ViewContent oldViewContent)
+        public new void Initialize()
         {
-            Debug.Assert(this.Source.GetContentType() == ViewContentType.Pdf);
-
             // binding parameter
             var parameter = CreateBindingParameter();
 
             // create view
-            var view = new PageContentView(LoosePath.GetFileName(this.Source.Page.FullPath));
-            view.Content = CreateView(this.Source, parameter);
-            this.View = view;
+            this.View = CreateView(this.Source, parameter);
 
             // content setting
             var bitmapContent = this.Content as BitmapContent;
@@ -71,14 +67,14 @@ namespace NeeView
                         Debug.WriteLine($"PDF: Default");
                         _isScaled = false;
                         _size = new Size();
-                        this.View.Content = CreateView(this.Source, CreateBindingParameter());
+                        this.View = CreateView(this.Source, CreateBindingParameter());
                     }
                 }
                 else
                 {
                     if (!_isScaled || _size != maxSize)
                     {
-                        Debug.WriteLine($"PDF: Scaled: {maxSize}");
+                        Debug.WriteLine($"PDF: Scaled: {(int)maxSize.Width}x{(int)maxSize.Height}");
                         _isScaled = true;
                         _size = maxSize;
                         _rebuilding = true;
@@ -87,7 +83,7 @@ namespace NeeView
                         {
                             var pdfArchiver = this.Page.Entry.Archiver as PdfArchiver;
                             var bitmapSource = pdfArchiver.CraeteBitmapSource(this.Page.Entry, maxSize);
-                            App.Current.Dispatcher.BeginInvoke((Action)(() => this.View.Content = CreateView(this.Source, CreateBindingParameter(), bitmapSource)));
+                            App.Current.Dispatcher.BeginInvoke((Action)(() => this.View = CreateView(this.Source, CreateBindingParameter(), bitmapSource)));
                             _rebuilding = false;
                         });
                     }
@@ -107,8 +103,8 @@ namespace NeeView
 
         public new static PdfViewContent Create(ViewContentSource source, ViewContent oldViewContent)
         {
-            var viewContent = new PdfViewContent(source);
-            viewContent.Initialize(oldViewContent);
+            var viewContent = new PdfViewContent(source, oldViewContent);
+            viewContent.Initialize();
             return viewContent;
         }
 

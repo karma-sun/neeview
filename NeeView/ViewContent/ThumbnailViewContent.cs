@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -16,7 +17,7 @@ namespace NeeView
     {
         #region Constructors
 
-        public ThumbnailViewContent(ViewContentSource source) : base(source)
+        public ThumbnailViewContent(ViewContentSource source, ViewContent old) : base(source, old)
         {
         }
 
@@ -25,28 +26,21 @@ namespace NeeView
         #region Methods
 
         //
-        public void Initialize(ViewContent oldViewContent)
+        public void Initialize()
         {
-            //// Thumnbnailは変化する可能性があるのでチェックしない？
-            //// TODO: 永遠と切り替わらない仮画像バグはこのあたりに原因の緒が？
-            ////Debug.Assert(this.Source.GetContentType() == ViewContentType.Thumbnail);
-
             // binding parameter
             var parameter = CreateBindingParameter();
 
             // create view
-            var view = new PageContentView(LoosePath.GetFileName(this.Source.Page.FullPath));
-            view.Content = CreateView(this.Source, parameter);
-            view.Text = LoosePath.GetFileName(this.Source.Page.FullPath);
-            this.View = view;
+            this.View = CreateView(this.Source, parameter);
 
             // content setting
             if (this.Size.Width == 0 && this.Size.Height == 0)
             {
-                if (oldViewContent != null && oldViewContent.IsValid)
+                if (this.Reserver != null)
                 {
-                    this.Size = oldViewContent.Size;
-                    this.Color = oldViewContent.Color;
+                    this.Size = this.Reserver.Size;
+                    this.Color = this.Reserver.Color;
                 }
                 else
                 {
@@ -69,14 +63,34 @@ namespace NeeView
         /// <returns></returns>
         private FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
+            var grid = new Grid();
+
             var rectangle = new Rectangle();
-            rectangle.Fill = source.CreateThumbnailBrush(parameter.Reserver);
+            rectangle.Fill = source.CreateThumbnailBrush(this.Reserver);
             RenderOptions.SetBitmapScalingMode(rectangle, BitmapScalingMode.HighQuality);
-            return rectangle;
+            grid.Children.Add(rectangle);
+
+            var textBlock = new TextBlock();
+            textBlock.Text = LoosePath.GetFileName(source.Page.FullPath);
+            textBlock.Foreground = new SolidColorBrush(Color.FromRgb(0xCC, 0xCC, 0xCC));
+            textBlock.FontSize = 20;
+            textBlock.Margin = new Thickness(10);
+            textBlock.HorizontalAlignment = HorizontalAlignment.Center;
+            textBlock.VerticalAlignment = VerticalAlignment.Center;
+            
+            grid.Children.Add(textBlock);
+
+            return grid;
         }
 
         //
         public override bool IsBitmapScalingModeSupported() => false;
+
+        //
+        public override Brush GetViewBrush()
+        {
+            return (this.View as Rectangle)?.Fill;
+        }
 
         #endregion
 
@@ -84,8 +98,8 @@ namespace NeeView
 
         public static ThumbnailViewContent Create(ViewContentSource source, ViewContent oldViewContent)
         {
-            var viewContent = new ThumbnailViewContent(source);
-            viewContent.Initialize(oldViewContent);
+            var viewContent = new ThumbnailViewContent(source, oldViewContent);
+            viewContent.Initialize();
             return viewContent;
         }
 

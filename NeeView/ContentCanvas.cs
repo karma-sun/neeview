@@ -199,6 +199,9 @@ namespace NeeView
 
             MainContent = Contents[0];
 
+            _bookHub.BookChanging +=
+                (s, e) => IgnoreViewContentsReservers();
+
             // TODO: BookOperationから？
             _bookHub.ViewContentsChanged +=
                 OnViewContentsChanged;
@@ -206,6 +209,7 @@ namespace NeeView
             _bookHub.EmptyMessage +=
                 (s, e) => EmptyPageMessage = e;
         }
+
 
         //
         private void Transform_TransformChanged(object sender, TransformEventArgs e)
@@ -257,6 +261,15 @@ namespace NeeView
         public Color GetContentColor()
         {
             return Contents[Contents[1].IsValid ? 1 : 0].Color;
+        }
+
+        // 現在のビューコンテンツのリザーバーを無効化
+        private void IgnoreViewContentsReservers()
+        {
+            foreach(var content in this.Contents)
+            {
+                content.IgnoreReserver = true;
+            }
         }
 
 

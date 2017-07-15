@@ -4,6 +4,8 @@
 // http://opensource.org/licenses/mit-license.php
 
 
+using System.Diagnostics;
+
 namespace NeeView
 {
     /// <summary>
@@ -13,21 +15,32 @@ namespace NeeView
     {
         public static ViewContent Create(ViewContentSource source, ViewContent oldViewContent)
         {
+            ViewContent viewContent = null;
+
             switch (source.GetContentType())
             {
                 case ViewContentType.Message:
-                    return MessageViewContent.Create(source, oldViewContent);
+                    viewContent = MessageViewContent.Create(source, oldViewContent);
+                    break;
                 case ViewContentType.Thumbnail:
-                    return ThumbnailViewContent.Create(source, oldViewContent);
+                    viewContent =  ThumbnailViewContent.Create(source, oldViewContent);
+                    break;
                 case ViewContentType.Bitmap:
-                    return BitmapViewContent.Create(source, oldViewContent);
+                    viewContent = BitmapViewContent.Create(source, oldViewContent);
+                    break;
                 case ViewContentType.Anime:
-                    return AnimatedViewContent.Create(source, oldViewContent);
+                    viewContent = AnimatedViewContent.Create(source, oldViewContent);
+                    break;
                 case ViewContentType.Pdf:
-                    return PdfViewContent.Create(source, oldViewContent);
+                    viewContent = PdfViewContent.Create(source, oldViewContent);
+                    break;
                 default:
-                    return new ViewContent();
+                    viewContent = new ViewContent();
+                    break;
             }
+
+            viewContent.Reserver = viewContent.CreateReserver();
+            return viewContent;
         }
     }
 }

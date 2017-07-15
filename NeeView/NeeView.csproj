@@ -410,7 +410,6 @@
     <Compile Include="MouseInput\MouseInputNormal.cs" />
     <Compile Include="MouseInput\MouseInputBase.cs" />
     <Compile Include="MouseInput\MouseInputNormalForGestureEdit.cs" />
-    <Compile Include="ViewContent\PageContentView.cs" />
     <Compile Include="Page\AnimatedContent.cs" />
     <Compile Include="Page\ArchiveContent.cs" />
     <Compile Include="Page\FileContent.cs" />

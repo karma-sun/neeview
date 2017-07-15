@@ -27,7 +27,7 @@ namespace NeeView
         /// TODO: 他のパラメータとあわせて整備
         /// </summary>
         public ViewContentSource Source { get; set; }
-        
+
         /// <summary>
         /// ページ
         /// </summary>
@@ -41,8 +41,8 @@ namespace NeeView
         /// <summary>
         /// Property: View.
         /// </summary>
-        private PageContentView _view;
-        public PageContentView View
+        private FrameworkElement _view;
+        public FrameworkElement View
         {
             get { return _view; }
             set { _view = value; RaisePropertyChanged(); }
@@ -131,6 +131,9 @@ namespace NeeView
         //
         public ViewContentReserver Reserver { get; set; }
 
+        //
+        public bool IgnoreReserver { get; set; }
+
         #endregion
 
         #region Constructors
@@ -142,16 +145,20 @@ namespace NeeView
         {
         }
 
-        public ViewContent(ViewContentSource source)
+        public ViewContent(ViewContentSource source, ViewContent old)
         {
             this.Source = source;
             this.Size = source.Size;
             this.Color = Colors.Black;
+
+            this.Reserver = old.CreateReserver();
         }
 
         #endregion
 
         #region Medhods
+
+
 
         // ページパーツ文字
         public string GetPartString()
@@ -185,6 +192,49 @@ namespace NeeView
         //
         public virtual bool IsBitmapScalingModeSupported() => false;
 
+        //
+        public virtual Brush GetViewBrush()
+        {
+            return null;
+        }
+        
+        //
+        public ViewContentReserver CreateReserver()
+        {
+            if (BookProfile.Current.LoadingPageView == LoadingPageView.None || this.IgnoreReserver)
+            {
+                return null;
+            }
+
+            ImageBrush brush = this.GetViewBrush() as ImageBrush;
+            if (brush != null)
+            {
+                if (BookProfile.Current.LoadingPageView == LoadingPageView.PreThumbnail)
+                {
+                    var thumbnail = this.Page?.Thumbnail?.BitmapSource;
+                    if (thumbnail != null)
+                    {
+                        return new ViewContentReserver()
+                        {
+                            Brush = this.Source.ClonePageImageBrush(brush, thumbnail),
+                            Size = this.Size,
+                            Color = this.Color
+                        };
+                    }
+                }
+                else
+                {
+                    return new ViewContentReserver()
+                    {
+                        Brush = brush,
+                        Size = this.Size,
+                        Color = this.Color
+                    };
+                }
+            }
+
+            return this.Reserver;
+        }
 
         //
         public virtual bool Rebuild(double scale)
@@ -195,17 +245,18 @@ namespace NeeView
 
         #endregion
     }
-    
+
+
     /// <summary>
     /// Reserver
     /// </summary>
     public class ViewContentReserver
     {
-        public Thumbnail Thumbnail { get; set; }
+        public ImageBrush Brush { get; set; }
         public Size Size { get; set; }
         public Color Color { get; set; }
     }
-    
+
     /// <summary>
     /// View生成用パラメータ
     /// </summary>
@@ -215,6 +266,6 @@ namespace NeeView
         public Binding BitmapScalingMode { get; set; }
         public Binding AnimationImageVisibility { get; set; }
         public Binding AnimationPlayerVisibility { get; set; }
-        public ViewContentReserver Reserver { get; set; } // 未使用
+        ////public ViewContentReserver Reserver { get; set; } // 未使用
     }
 }

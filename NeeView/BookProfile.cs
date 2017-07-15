@@ -13,6 +13,15 @@ using System.Windows;
 
 namespace NeeView
 {
+    /// <summary>
+    /// ページの準備中に表示するもの
+    /// </summary>
+    public enum LoadingPageView
+    {
+        None,
+        PreThumbnail,
+        PreImage,
+    }
 
     /// <summary>
     /// 本：設定
@@ -84,6 +93,9 @@ namespace NeeView
         // サポート外ファイル有効
         public bool IsEnableNoSupportFile { get; set; }
 
+        // ページ読み込み中表示
+        public LoadingPageView LoadingPageView { get; set; } = LoadingPageView.PreThumbnail;
+
 
         /// <summary>
         /// constructor
@@ -129,6 +141,17 @@ namespace NeeView
 
             [DataMember]
             public bool IsEnableNoSupportFile { get; set; }
+
+            [DataMember, DefaultValue(LoadingPageView.PreThumbnail)]
+            [PropertyEnum("読み込み中ページの表示方法", Tips  = "ページの読み込みが完了するまでに表示しておくものを指定します。\n- None ... なし(灰色)\n- PreThumbnail ... 直前のサムネイル\n- PreImage ... 直前の画像。一番メモリを消費します")]
+            public LoadingPageView LoadingPageView { get; set; }
+
+
+            [OnDeserializing]
+            private void OnDeserializing(StreamingContext c)
+            {
+                LoadingPageView = LoadingPageView.PreThumbnail;
+            }
         }
 
         //
@@ -144,6 +167,7 @@ namespace NeeView
             memento.IsEnableAnimatedGif = this.IsEnableAnimatedGif;
             memento.IsEnableExif = this.IsEnableExif;
             memento.IsEnableNoSupportFile = this.IsEnableNoSupportFile;
+            memento.LoadingPageView = this.LoadingPageView;
             return memento;
         }
 
@@ -160,6 +184,7 @@ namespace NeeView
             this.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
             this.IsEnableExif = memento.IsEnableExif;
             this.IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
+            this.LoadingPageView = memento.LoadingPageView;
         }
         #endregion
 

@@ -138,7 +138,21 @@ namespace NeeView
 
             return brush;
         }
-        
+
+        /// <summary>
+        /// ページ用画像ブラシの画像を差し替えて複製
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
+        public ImageBrush ClonePageImageBrush(ImageBrush source, BitmapSource bitmap)
+        {
+            var brush = source.Clone();
+            brush.ImageSource = bitmap;
+            brush.Freeze();
+
+            return brush;
+        }
 
         /// <summary>
         /// サムネイル作成
@@ -150,9 +164,9 @@ namespace NeeView
             {
                 return CreatePageImageBrush(Page.Thumbnail.BitmapSource);
             }
-            else if (reserver?.Thumbnail != null && reserver.Thumbnail.IsValid)
+            else if (reserver != null)
             {
-                return CreatePageImageBrush(reserver.Thumbnail.BitmapSource);
+                return reserver.Brush;
             }
             else
             {

@@ -62,7 +62,7 @@
                         <TextBlock Text="{Binding Checker.CurrentVersion, Converter={StaticResource VersionToStringConverter}}" FontSize="15" />
                     </StackPanel>
                 </DockPanel>
-                <StackPanel HorizontalAlignment="Center" Visibility="{Binding IsNetworkEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,5,0,0" >
+                <StackPanel HorizontalAlignment="Center" Visibility="{Binding IsCheckerEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,5,0,0" >
                     <TextBlock Text="{Binding Checker.Message}">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">

@@ -167,10 +167,17 @@ function New-Package($productDir, $packageDir)
 	#------------------------
 	# generate README.html
 
+	New-Readme $packageDir "ReadmeTemplate.md"
+}
+
+#----------------------
+# generate README.html
+function New-Readme($packageDir, $template)
+{
 	$readmeDir = $packageDir + "\readme"
 	$temp = New-Item $readmeDir -ItemType Directory 
 
-	Copy-Item "ReadmeTemplate.md" "$readmeDir/README.md"
+	Copy-Item $template "$readmeDir/README.md"
 	Copy-Item "$solutionDir\LICENSE.md" $readmeDir
 	Copy-Item "$solutionDir\THIRDPARTY_LICENSES.md" $readmeDir
 
@@ -181,8 +188,6 @@ function New-Package($productDir, $packageDir)
 	pandoc -s -t html5 -o "$packageDir\README.html" -H Style.html "$readmeDir\README.md" "$readmeDir\LICENSE.md" "$readmeDir\THIRDPARTY_LICENSES.md"
 
 	Remove-Item $readmeDir -Recurse
-
-	return $temp
 }
 
 #--------------------------
@@ -317,6 +322,9 @@ function New-AppxReady
 	# update assembly
 	Copy-Item $packageX64Dir $packageAppxProduct -Recurse -Force
 	New-ConfigForAppx $packageX64Dir "${product}.exe.config" $packageAppxProduct
+
+	# generate README.html
+	New-Readme $packageAppxProduct "ReadmeAppxTemplate.md"
 
 	# copy icons
 	Copy-Item "Appx\Resources\Assets\*.png" "$packageAppxFiles\Assets\" 

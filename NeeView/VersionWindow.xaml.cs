@@ -89,6 +89,7 @@ namespace NeeView
         public string ProjectUri => "https://bitbucket.org/neelabo/neeview/";
         public string ChangeLogUri => "https://bitbucket.org/neelabo/neeview/wiki/ChangeLog";
         public bool IsNetworkEnabled => App.Current.IsNetworkEnabled;
+        public bool IsCheckerEnabled => Checker.IsEnabled;
 
         public BitmapFrame Icon { get; set; }
 
@@ -143,6 +144,8 @@ namespace NeeView
         public string DownloadUri => "https://bitbucket.org/neelabo/neeview/downloads";
 #endif
 
+        public bool IsEnabled => App.Current.IsNetworkEnabled && !Config.Current.IsAppxPackage;
+
         public int CurrentVersion { get; set; }
         public int LastVersion { get; set; }
 
@@ -179,7 +182,7 @@ namespace NeeView
         {
             if (_isChecked || _isCheching) return;
 
-            if (App.Current.IsNetworkEnabled && !Config.Current.IsAppxPackage)
+            if (IsEnabled)
             {
                 // チェック開始
                 LastVersion = 0; // CurrentVersion;

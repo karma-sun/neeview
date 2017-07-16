@@ -3,7 +3,7 @@
 ## ソフトの概要
 
   フォルダー内の画像を本のように閲覧できる画像ビューアーです。  
-
+  
   * 標準対応画像フォーマット (bmp, jpg, gif, tiff, png, ico, WIC対応画像)
   * 圧縮ファイル対応 (zip, rar, 7z, lzh, cbr, cbz, ...)
   * PDF対応
@@ -18,11 +18,15 @@
   * スライドショー機能
   * マルチスレッド、先読み対応
   * Webブラウザからの画像ドロップ
-  * Susieプラグイン対応(UNICODEファイル名可)(※NeeViewSのみ)
+
+  実行ファイルは NeeView,NeeViewS の2種類あり、NeeViewS は Susieプラグイン に対応しています。
+
+  * Susieプラグイン対応(UNICODEファイル名可) ※NeeViewSのみ
 
   詳細は以下のページを参照してください。
   
   * [NeeViewプロジェクト Wiki](https://bitbucket.org/neelabo/neeview/wiki/)
+
 
 
 ## 動作環境
@@ -35,7 +39,7 @@
 
   NeeView と NeeViewS の２種類の実行ファイルがあります。  
   NeeView は通常版です。  
-  NeeViewS はSusieプラグインに対応していますが、32bit動作になります。
+  NeeViewS は Susieプラグイン に対応していますが、32bit動作になります。
 
   |    |64bitOS|32bitOS|Susie|
   |----|----|----|----|----

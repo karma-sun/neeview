@@ -1,5 +1,4 @@
-# 開発用の証明書作成
-# いらない？
+# 開発用オレオレ証明書作成
 
 # error to break
 trap { break }

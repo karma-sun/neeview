@@ -107,9 +107,8 @@
                               ToolTip="画像に含まれる拡張情報(EXIF)に回転情報がある場合に反映させます"
                               IsChecked="{Binding Setting.Memento.BookProfile.IsEnableExif}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="サポート外ファイルもページに含める"
-                              ToolTip="画像として表示できないファイルもページとして表示します"
+                              ToolTip="画像として表示できないファイルやフォルダーもページとして表示します"
                               IsChecked="{Binding Setting.Memento.BookProfile.IsEnableNoSupportFile}" />
-
                         </StackPanel>
 
 
@@ -730,10 +729,10 @@
 
                         <TextBlock Text="サブフォルダー読み込み自動判定" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを読み込む"
+                            <CheckBox x:Name="IsAutoRecursiveCheckBox" Style="{StaticResource ItemCheckBox}" Content="ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを読み込む"
                               ToolTip="フォルダー形式のブックで機能します"
                               IsChecked="{Binding Setting.Memento.BookHub.IsAutoRecursive}" />
-                            <Grid Margin="20,0,0,0">
+                            <Grid Margin="20,0,0,0" IsEnabled="{Binding ElementName=IsAutoRecursiveCheckBox, Path=IsChecked}">
                                 <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページ外ファイルも含めて判定する"
                                   ToolTip="画像ファイル以外が存在する場合はサブフォルダーを読み込みません"
                                   IsChecked="{Binding Setting.Memento.BookHub.IsAutoRecursiveWithAllFiles}" />

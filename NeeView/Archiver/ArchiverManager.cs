@@ -64,16 +64,16 @@ namespace NeeView
         public ArchiverType OrderType { set; get; } = ArchiverType.DefaultArchiver;
 
         // サポートしているアーカイバーがあるか判定
-        public bool IsSupported(string fileName)
+        public bool IsSupported(string fileName, bool isAllowFileSystem = true)
         {
-            return GetSupportedType(fileName) != ArchiverType.None;
+            return GetSupportedType(fileName, isAllowFileSystem) != ArchiverType.None;
         }
 
 
         // サポートしているアーカイバーを取得
         public ArchiverType GetSupportedType(string fileName, bool isArrowFileSystem = true)
         {
-            if (isArrowFileSystem && fileName.Last() == '\\')
+            if (isArrowFileSystem && (fileName.Last() == '\\' || fileName.Last() == '/'))
             {
                 return ArchiverType.FolderArchive;
             }

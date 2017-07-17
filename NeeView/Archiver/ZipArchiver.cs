@@ -75,6 +75,7 @@ namespace NeeView
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
             var list = new List<ArchiveEntry>();
+            var directoryEntries = new List<ArchiveEntry>();
 
             using (var stream = new FileStream(Path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
@@ -92,18 +93,32 @@ namespace NeeView
                         token.ThrowIfCancellationRequested();
 
                         var entry = archiver.Entries[id];
-                        if (entry.Length > 0)
+
+                        var archiveEntry = new ArchiveEntry()
                         {
-                            list.Add(new ArchiveEntry()
-                            {
-                                Archiver = this,
-                                Id = id,
-                                Instance = null,
-                                EntryName = entry.FullName,
-                                Length = entry.Length,
-                                LastWriteTime = entry.LastWriteTime.DateTime,
-                            });
+                            Archiver = this,
+                            Id = id,
+                            Instance = null,
+                            EntryName = entry.FullName,
+                            Length = entry.Length,
+                            LastWriteTime = entry.LastWriteTime.DateTime,
+                        };
+
+                        if (!entry.IsDirectory())
+                        {
+                            list.Add(archiveEntry);
                         }
+                        else
+                        {
+                            archiveEntry.Length = -1;
+                            directoryEntries.Add(archiveEntry);
+                        }
+                    }
+
+                    // 空ディレクトリー追加
+                    if (BookProfile.Current.IsEnableNoSupportFile)
+                    {
+                        list.AddDirectoryEntries(directoryEntries);
                     }
                 }
             }
@@ -144,6 +159,16 @@ namespace NeeView
                 ZipArchiveEntry archiveEntry = archiver.Entries[entry.Id];
                 archiveEntry.ExtractToFile(exportFileName, isOverwrite);
             }
+        }
+    }
+
+    //
+    public static class ZipArchiveEntryExtension
+    {
+        public static bool IsDirectory(this ZipArchiveEntry self)
+        {
+            var last = self.FullName.Last();
+            return (self.Name == "" && (last == '\\' || last == '/'));
         }
     }
 }

@@ -94,6 +94,11 @@ namespace NeeView
         public long Length { get; set; }
 
         /// <summary>
+        /// ディレクトリ？
+        /// </summary>
+        public bool IsDirectory => Length == -1;
+
+        /// <summary>
         /// ファイル更新日
         /// </summary>
         public DateTime? LastWriteTime { get; set; }
@@ -177,7 +182,8 @@ namespace NeeView
         /// <returns></returns>
         public bool IsArchive()
         {
-            return ArchiverManager.Current.IsSupported(EntryName);
+            bool isAllowFileSystem = this.Archiver == null || this.Archiver.IsFileSystem;
+            return ArchiverManager.Current.IsSupported(EntryName, isAllowFileSystem);
         }
 
         /// <summary>

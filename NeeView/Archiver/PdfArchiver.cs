@@ -90,7 +90,7 @@ namespace NeeView
                         Id = id,
                         Instance = null,
                         EntryName = $"{id + 1:000}.png",
-                        Length = -1,
+                        Length = 0,
                         LastWriteTime = information.ModificationDate,
                     });
                 }

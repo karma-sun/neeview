@@ -40,7 +40,12 @@ namespace Susie
         // エントリ名
         public string FileName => _info.filename;
 
+        // ディレクトリ？
+        // これに当てはまらないサイズ0のエントリの場合はどちらとも解釈できる
+        public bool IsDirectory => string.IsNullOrEmpty(_info.filename) || _info.filename.Last() == '/' || _info.filename.Last() == '\\';
+
         // 展開後ファイルサイズ
+        // 正確でない可能性がある
         public uint FileSize => _info.filesize;
 
         // タイムスタンプ

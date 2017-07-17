@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -71,7 +72,7 @@ namespace NeeView
         /// アーカイブの最終更新日
         /// </summary>
         public DateTime? LastWriteTime { get; private set; }
-        
+
 
         /// <summary>
         /// ルート判定
@@ -93,7 +94,7 @@ namespace NeeView
         /// </summary>
         public string FullName => IsRoot ? EntryName : LoosePath.Combine(Parent.FullName, EntryName);
 
-        
+
         /// <summary>
         /// 識別名
         /// </summary>
@@ -232,6 +233,30 @@ namespace NeeView
         }
     }
 
+    /// <summary>
+    /// 拡張メソッド
+    /// </summary>
+    public static class ArchiverExtensions
+    {
+        /// <summary>
+        /// 空のディレクトリエントリを抽出して追加
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="directoryEntries"></param>
+        public static void AddDirectoryEntries(this List<ArchiveEntry> list, List<ArchiveEntry> directoryEntries)
+        {
+            // 空のディレクトリエントリを抽出
+            var entries = directoryEntries
+                .Where(entry => directoryEntries.All(e => e == entry || !e.EntryName.StartsWith(entry.EntryName)))
+                .Where(entry => list.All(e => !e.EntryName.StartsWith(entry.EntryName)))
+                .ToList();
+
+            //foreach (var entry in entries) Debug.WriteLine($"DirectoryEntry!: {entry.EntryName}");
+
+            list.AddRange(entries);
+        }
+
+    }
 
 
 

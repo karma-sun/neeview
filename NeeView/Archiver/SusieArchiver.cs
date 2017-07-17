@@ -77,24 +77,42 @@ namespace NeeView
             if (infoCollection == null) throw new NotSupportedException();
 
             var list = new List<ArchiveEntry>();
+            var directoryEntries = new List<ArchiveEntry>();
+
             for (int id = 0; id < infoCollection.Count; ++id)
             {
                 token.ThrowIfCancellationRequested();
 
                 var entry = infoCollection[id];
-                if (entry.FileSize > 0)
+
+                var archiveEntry = new ArchiveEntry()
                 {
-                    string name = (entry.Path.TrimEnd('\\', '/') + "\\" + entry.FileName).TrimStart('\\', '/');
-                    list.Add(new ArchiveEntry()
-                    {
-                        Archiver = this,
-                        Id = id,
-                        EntryName = name,
-                        Length = entry.FileSize,
-                        LastWriteTime = entry.TimeStamp,
-                        Instance = entry,
-                    });
+                    Archiver = this,
+                    Id = id,
+                    EntryName = (entry.Path.TrimEnd('\\', '/') + "\\" + entry.FileName).TrimStart('\\', '/'),
+                    Length = entry.FileSize,
+                    LastWriteTime = entry.TimeStamp,
+                    Instance = entry,
+                };
+
+                if (!entry.IsDirectory)
+                {
+                    list.Add(archiveEntry);
                 }
+                else
+                {
+                    archiveEntry.Length = -1;
+                    directoryEntries.Add(archiveEntry);
+                }
+            }
+
+            // 0サイズエントリのディレクトリ判定
+            list = list.Where(entry => entry.Length > 0 || list.All(e => e == entry || !e.EntryName.StartsWith(entry.EntryName))).ToList();
+
+            if (BookProfile.Current.IsEnableNoSupportFile)
+            {
+                // 空ディレクトリー追加
+                list.AddDirectoryEntries(directoryEntries);
             }
 
             return list;

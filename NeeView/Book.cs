@@ -538,7 +538,7 @@ namespace NeeView
             }
             else
             {
-                var type = ArchiverManager.Current.GetSupportedType(entry.EntryName);
+                var type = entry.IsDirectory ? ArchiverType.FolderArchive :  ArchiverManager.Current.GetSupportedType(entry.EntryName);
                 switch (type)
                 {
                     case ArchiverType.None:
@@ -574,6 +574,12 @@ namespace NeeView
             {
                 s = GetStartsWith(s, page.FullPath);
                 if (string.IsNullOrEmpty(s)) break;
+            }
+
+            // １ディレクトリだけの場合に表示が消えないようにする
+            if (Pages.Count == 1)
+            {
+                s = s.TrimEnd('\\', '/');
             }
 
             // 最初の区切り記号

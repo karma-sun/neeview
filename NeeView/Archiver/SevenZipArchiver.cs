@@ -239,6 +239,7 @@ namespace NeeView
             token.ThrowIfCancellationRequested();
 
             var list = new List<ArchiveEntry>();
+            var directoryEntries = new List<ArchiveEntry>();
 
             lock (s_lock)
             {
@@ -251,17 +252,31 @@ namespace NeeView
                         token.ThrowIfCancellationRequested();
 
                         var entry = extractor.ArchiveFileData[id];
+
+                        var archiveEntry = new ArchiveEntry()
+                        {
+                            Archiver = this,
+                            Id = id,
+                            EntryName = entry.FileName,
+                            Length = (long)entry.Size,
+                            LastWriteTime = entry.LastWriteTime,
+                        };
+
                         if (!entry.IsDirectory)
                         {
-                            list.Add(new ArchiveEntry()
-                            {
-                                Archiver = this,
-                                Id = id,
-                                EntryName = entry.FileName,
-                                Length = (long)entry.Size,
-                                LastWriteTime = entry.LastWriteTime,
-                            });
+                            list.Add(archiveEntry);
                         }
+                        else
+                        {
+                            archiveEntry.Length = -1;
+                            directoryEntries.Add(archiveEntry);
+                        }
+                    }
+
+                    // 空ディレクトリー追加
+                    if (BookProfile.Current.IsEnableNoSupportFile)
+                    {
+                        list.AddDirectoryEntries(directoryEntries);
                     }
                 }
             }

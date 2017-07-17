@@ -281,10 +281,7 @@ namespace Susie
                     {
                         ArchiveFileInfoRaw fileInfo = Marshal.PtrToStructure<ArchiveFileInfoRaw>(p);
                         if (String.IsNullOrEmpty(fileInfo.method)) break;
-                        if (fileInfo.filesize > 0)
-                        {
-                            list.Add(fileInfo);
-                        }
+                        list.Add(fileInfo);
                         p += Marshal.SizeOf<ArchiveFileInfoRaw>();
                     }
 

@@ -197,7 +197,7 @@ namespace NeeView
                 ImageSize = $"{bitmapContent.Size.Width} x {bitmapContent.Size.Height}" + (_model.IsVisibleBitsPerPixel ? $" ({bitmapContent.BitmapInfo.BitsPerPixel}bit)" : "");
 
                 // ファイルサイズ表示
-                FileSize = bitmapContent.BitmapInfo.Length >= 0 ? string.Format("{0:#,0} KB", bitmapContent.BitmapInfo.Length > 0 ? (bitmapContent.BitmapInfo.Length + 1023) / 1024 : 0) : null;
+                FileSize = bitmapContent.BitmapInfo.Length > 0 ? string.Format("{0:#,0} KB", bitmapContent.BitmapInfo.Length > 0 ? (bitmapContent.BitmapInfo.Length + 1023) / 1024 : 0) : null;
 
                 // EXIF
                 var exif = bitmapContent.BitmapInfo.Exif;

@@ -93,30 +93,40 @@ namespace NeeView
             }
 
 
+            // シフトキー起動は新しいウィンドウで
+            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+            {
+                Option.IsNewWindow = SwitchOption.on;
+            }
+
+            bool isNewWindow = Option.IsNewWindow != null ? Option.IsNewWindow == SwitchOption.on : IsMultiBootEnabled;
+
+
             // 多重起動チェック
             Process currentProcess = Process.GetCurrentProcess();
 
-            bool isNewWindow = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift
-                || Option.IsNewWindow != null ? Option.IsNewWindow == SwitchOption.on : IsMultiBootEnabled;
-
-            if (!isNewWindow)
-            {
-                // 自身と異なるプロセスを見つけ、サーバとする
-                var processName = currentProcess.ProcessName;
+            // 自身と異なるプロセスを見つけ、サーバとする
+            var processName = currentProcess.ProcessName;
 #if DEBUG
-                var processes = Process.GetProcessesByName(processName)
-                    .Concat(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(currentProcess.ProcessName)))
-                    .ToList();
+            var processes = Process.GetProcessesByName(processName)
+                .Concat(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(currentProcess.ProcessName)))
+                .ToList();
 #else
                 var processes = Process.GetProcessesByName(processName)
                     .ToList();
 #endif
 
-                // 最も古いプロセスを残す
-                var serverProcess = processes
-                    .OrderByDescending((p) => p.StartTime)
-                    .FirstOrDefault((p) => p.Id != currentProcess.Id);
+            // 最も古いプロセスを残す
+            var serverProcess = processes
+                .OrderByDescending((p) => p.StartTime)
+                .FirstOrDefault((p) => p.Id != currentProcess.Id);
 
+            // セカンドプロセス判定
+            Config.Current.IsSecondProcess = serverProcess != null;
+
+            // Single起動
+            if (!isNewWindow)
+            {
                 if (serverProcess != null)
                 {
                     try
@@ -133,7 +143,7 @@ namespace NeeView
                 }
 
                 if (serverProcess != null)
-                { 
+                {
                     // 起動を中止してプログラムを終了
                     throw new ApplicationException("Because, already exist.");
                 }

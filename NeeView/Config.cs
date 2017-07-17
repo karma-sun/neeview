@@ -78,6 +78,11 @@ namespace NeeView
         public int ProcessId { get; private set; }
 
         /// <summary>
+        /// マルチ起動での2番目以降のプロセス
+        /// </summary>
+        public bool IsSecondProcess { get; set; }
+
+        /// <summary>
         /// 
         /// </summary>
         public string AssemblyLocation { get; private set; }

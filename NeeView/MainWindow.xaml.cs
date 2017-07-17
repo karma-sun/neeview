@@ -156,6 +156,9 @@ namespace NeeView
             // window
             var windowShape = new WindowShape(this);
 
+            // セカンドプロセスはウィンドウ形状を継承しない
+            if (Config.Current.IsSecondProcess) return;
+
             var memento = SaveData.Current.Setting.WindowShape;
             if (memento == null) return;
 
@@ -447,6 +450,9 @@ namespace NeeView
         // ウィンドウ表示開始
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // 一瞬手前に表示
+            WindowShape.Current.OneTopmost();
+
             // レイアウト更新
             DartyWindowLayout();
 

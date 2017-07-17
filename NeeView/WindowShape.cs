@@ -148,6 +148,14 @@ namespace NeeView
             return IsTopmost;
         }
 
+        //
+        public void OneTopmost()
+        {
+            var temp = _window.Topmost;
+            _window.Topmost = true;
+            _window.Topmost = temp;
+        }
+
 
         /// <summary>
         /// IsFullScreen property.

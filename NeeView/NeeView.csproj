@@ -145,6 +145,8 @@
     <Compile Include="BookSetting.cs" />
     <Compile Include="ContentCanvasBrush.cs" />
     <Compile Include="Page\PdfContetnt.cs" />
+    <Compile Include="TouchInput\TouchAction.cs" />
+    <Compile Include="TouchInput\TouchInputMouse.cs" />
     <Compile Include="ViewContent\AnimatedViewContent.cs" />
     <Compile Include="ViewContent\BitmapViewContent.cs" />
     <Compile Include="ContentRebuild.cs" />

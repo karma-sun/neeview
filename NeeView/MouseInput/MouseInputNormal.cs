@@ -6,6 +6,7 @@
 using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Input;
@@ -125,9 +126,12 @@ namespace NeeView
                 }
             }
 
-            // 長押し判定開始
-            _timer.Interval = TimeSpan.FromSeconds(this.LongLeftButtonDownTime);
-            _timer.Start();
+            if (e.StylusDevice == null)
+            {
+                // 長押し判定開始
+                _timer.Interval = TimeSpan.FromSeconds(this.LongLeftButtonDownTime);
+                _timer.Start();
+            }
         }
         
         /// <summary>
@@ -192,7 +196,7 @@ namespace NeeView
                 }
                 else
                 {
-                    SetState(MouseInputState.Drag);
+                    SetState(MouseInputState.Drag, e);
                 }
             }
         }

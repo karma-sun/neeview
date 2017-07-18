@@ -4,7 +4,9 @@
 // http://opensource.org/licenses/mit-license.php
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Input;
 
@@ -39,10 +41,12 @@ namespace NeeView
         }
 
 
-        /// <summary>
-        /// タッチ入力通知
-        /// </summary>
-        public EventHandler<TouchGestureEventArgs> TouchGestureChanged;
+        /// ドラッグアクション
+        public TouchAction DragAction { get; set; } = TouchAction.Gesture;
+
+        /// 長押しドラッグアクション
+        public TouchAction HoldAction { get; set; } = TouchAction.Drag;
+
 
         /// <summary>
         /// 状態開始
@@ -104,26 +108,6 @@ namespace NeeView
             _isTouchDown = false;
         }
 
-        //
-        private void ExecuteTouchGesture(object sender, StylusEventArgs e)
-        {
-            // タッチジェスチャー判定
-            var point = e.GetPosition(_context.Sender);
-            var xRate = point.X / _context.Sender.ActualWidth;
-            var yRate = point.Y / _context.Sender.ActualHeight;
-
-            // TouchCenter を優先的に判定
-            if (TouchGesture.TouchCenter.IsTouched(xRate, yRate))
-            {
-                TouchGestureChanged?.Invoke(this, new TouchGestureEventArgs(e, TouchGesture.TouchCenter));
-                if (e.Handled) return;
-            }
-
-            // TouchLeft / Right
-            var gesture = TouchGestureExtensions.GetTouchGestureLast(xRate, yRate);
-            TouchGestureChanged?.Invoke(this, new TouchGestureEventArgs(e, gesture));
-        }
-
 
         /// <summary>
         /// マウス移動処理
@@ -144,9 +128,69 @@ namespace NeeView
             // drag check
             if (deltaX > _gesture.GestureMinimumDistanceX || deltaY > _gesture.GestureMinimumDistanceY)
             {
-                SetState(TouchInputState.Gesture, _touch);
+                SetState(this.DragAction);
             }
         }
 
+        //
+        public override void OnStylusSystemGesture(object sender, StylusSystemGestureEventArgs e)
+        {
+            if (!_isTouchDown) return;
+            if (e.StylusDevice != _touch.StylusDevice) return;
+
+            if (e.SystemGesture == SystemGesture.HoldEnter)
+            {
+                SetState(this.HoldAction);
+            }
+        }
+
+        //
+        private void SetState(TouchAction action)
+        {
+            switch (action)
+            {
+                case TouchAction.Drag:
+                    SetState(TouchInputState.Drag, _touch);
+                    break;
+                case TouchAction.Gesture:
+                    SetState(TouchInputState.Gesture, _touch);
+                    break;
+            }
+        }
+
+
+#if false
+        // 現状ドラッグ操作の編集の必要が無いので無効にしてます
+        #region Memento
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public TouchAction DragAction { get; set; }
+            [DataMember]
+            public TouchAction HoldAction { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.DragAction = this.DragAction;
+            memento.HoldAction = this.HoldAction;
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            this.DragAction = memento.DragAction;
+            this.HoldAction = memento.HoldAction;
+        }
+        #endregion
+#endif
+
     }
+
+
 }

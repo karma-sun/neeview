@@ -159,7 +159,7 @@ namespace NeeView
             }
             else
             {
-                SetState(MouseInputState.Drag);
+                SetState(MouseInputState.Drag, e);
                 e.Handled = true;
             }
         }

@@ -172,11 +172,11 @@ namespace NeeView
         {
 
             [DataMember, DefaultValue(16.0)]
-            [PropertyMember("タッチジェスチャー判定の最小移動距離(X)", Tips = "この距離を移動して初めてジェスチャー開始と判定されます")]
+            [PropertyMember("タッチドラッグ判定の最小移動距離(X)", Tips = "この距離を移動して初めてドラッグ開始と判定されます")]
             public double GestureMinimumDistanceX { get; set; }
 
             [DataMember, DefaultValue(16.0)]
-            [PropertyMember("タッチジェスチャー判定の最小移動距離(Y)", Tips = "この距離を移動して初めてジェスチャー開始と判定されます")]
+            [PropertyMember("タッチドラッグ判定の最小移動距離(Y)", Tips = "この距離を移動して初めてドラッグ開始と判定されます")]
             public double GestureMinimumDistanceY { get; set; }
         }
 

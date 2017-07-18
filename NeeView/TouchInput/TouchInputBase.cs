@@ -36,6 +36,12 @@ namespace NeeView
         }
 
         /// <summary>
+        /// タッチによるコマンド発動
+        /// </summary>
+        public EventHandler<TouchGestureEventArgs> TouchGestureChanged;
+
+
+        /// <summary>
         /// 状態開始時処理
         /// </summary>
         /// <param name="sender"></param>
@@ -56,6 +62,7 @@ namespace NeeView
         public abstract void OnStylusDown(object sender, StylusDownEventArgs e);
         public abstract void OnStylusUp(object sender, StylusEventArgs e);
         public abstract void OnStylusMove(object sender, StylusEventArgs e);
+        public virtual void OnStylusSystemGesture(object sender, StylusSystemGestureEventArgs e) { }
 
         /// <summary>
         /// 状態遷移：既定状態に移動
@@ -124,5 +131,31 @@ namespace NeeView
 
             return null;
         }
+
+
+        /// <summary>
+        /// タッチ座標からコマンド発行
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void ExecuteTouchGesture(object sender, StylusEventArgs e)
+        {
+            // タッチジェスチャー判定
+            var point = e.GetPosition(_context.Sender);
+            var xRate = point.X / _context.Sender.ActualWidth;
+            var yRate = point.Y / _context.Sender.ActualHeight;
+
+            // TouchCenter を優先的に判定
+            if (TouchGesture.TouchCenter.IsTouched(xRate, yRate))
+            {
+                TouchGestureChanged?.Invoke(this, new TouchGestureEventArgs(e, TouchGesture.TouchCenter));
+                if (e.Handled) return;
+            }
+
+            // TouchLeft / Right
+            var gesture = TouchGestureExtensions.GetTouchGestureLast(xRate, yRate);
+            TouchGestureChanged?.Invoke(this, new TouchGestureEventArgs(e, gesture));
+        }
+
     }
 }

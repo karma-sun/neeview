@@ -211,9 +211,11 @@ namespace NeeView
         /// </summary>
         /// <param name="state"></param>
         /// <param name="parameter"></param>
-        public void SetState(MouseInputState state, object parameter)
+        public void SetState(MouseInputState state, object parameter, bool force = false)
         {
-            if (state == _state) return;
+            if (!force && state == _state) return;
+
+            ////Debug.WriteLine($"#MouseState: {state}");
 
             _current?.OnClosed(_sender);
             _state = state;
@@ -221,6 +223,17 @@ namespace NeeView
 
             _current.OnOpened(_sender, parameter);
         }
+
+
+        /// <summary>
+        /// 状態初期化
+        /// </summary>
+        public void ResetState()
+        {
+            SetState(MouseInputState.Normal, null, true);
+        }
+
+
 
         /// <summary>
         /// IsLoupeMode property.
@@ -231,6 +244,13 @@ namespace NeeView
             set { SetState(value ? MouseInputState.Loupe : MouseInputState.Normal, false); }
         }
 
+        //
+        public bool IsNormalMode => _state == MouseInputState.Normal;
+
+        //
+        private bool IsStylusDevice(MouseEventArgs e) => e.StylusDevice != null;
+        private bool IsStylusProcessed(MouseEventArgs e) => e.StylusDevice != null && !TouchInput.Current.IsMouseMode();
+
         /// <summary>
         /// OnMouseButtonDown
         /// </summary>
@@ -239,7 +259,7 @@ namespace NeeView
         private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (sender != _sender) return;
-            if (e.StylusDevice != null) return;
+            if (IsStylusProcessed(e)) return;
 
             _current.OnMouseButtonDown(_sender, e);
         }
@@ -253,7 +273,7 @@ namespace NeeView
         {
             if (sender != _sender) return;
 
-            if (e.StylusDevice == null)
+            if (!IsStylusProcessed(e))
             {
                 _current.OnMouseButtonUp(_sender, e);
             }
@@ -270,7 +290,7 @@ namespace NeeView
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (sender != _sender) return;
-            if (e.StylusDevice != null) return;
+            if (IsStylusProcessed(e)) return;
 
             _current.OnMouseWheel(_sender, e);
         }
@@ -286,7 +306,7 @@ namespace NeeView
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (sender != _sender) return;
-            if (e.StylusDevice != null) return;
+            if (IsStylusProcessed(e)) return;
 
             _current.OnMouseMove(_sender, e);
 

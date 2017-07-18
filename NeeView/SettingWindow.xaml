@@ -410,17 +410,7 @@
                                   IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsKeepFlip}" />
                         </StackPanel>
 
-                        <TextBlock Text="タッチ操作" Style="{StaticResource Header}"/>
-                        <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転操作を有効にする"
-                                  ToolTip="マルチタッチでの回転操作を有効にします"
-                                  IsChecked="{Binding Setting.Memento.TouchInput.Drag.Manipulation.IsAngleEnabled}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="拡大縮小操作を有効にする"
-                                  ToolTip="ピンチイン・ピンチアウトでのサイズ変更操作操作を有効にします"
-                                  IsChecked="{Binding Setting.Memento.TouchInput.Drag.Manipulation.IsScaleEnabled}" />
-                        </StackPanel>
-
-                        <TextBlock Text="ドラッグ操作" Style="{StaticResource Header}"/>
+                        <TextBlock Text="マウスドラッグ操作" Style="{StaticResource Header}"/>
 
                         <Border BorderBrush="LightGray" BorderThickness="1" Margin="5">
                             <DockPanel Margin="2">
@@ -486,16 +476,7 @@
                             </DockPanel>
                         </Border>
 
-                        <TextBlock Text="ルーペ" Style="{StaticResource Header}"/>
-                        <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ルーペ倍率を表示する"
-                                      ToolTip="ルーペ時に右上に倍率が表示されます。倍率はマウスホイール操作で変更できます"
-                                      IsChecked="{Binding Setting.Memento.MouseInput.Loupe.IsVisibleLoupeInfo}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="開始時カーソル位置を画面中心にする"
-                                  IsChecked="{Binding Setting.Memento.MouseInput.Loupe.IsLoupeCenter}" />
-                        </StackPanel>
-
-                        <TextBlock Text="長押し操作" Style="{StaticResource Header}"/>
+                        <TextBlock Text="マウス長押し操作" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Text="LeftButton" Style="{StaticResource ItemHeader}"/>
@@ -513,6 +494,30 @@
 
                         </StackPanel>
 
+                        <TextBlock Text="ルーペ" Style="{StaticResource Header}"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ルーペ倍率を表示する"
+                                      ToolTip="ルーペ時に右上に倍率が表示されます。倍率はマウスホイール操作で変更できます"
+                                      IsChecked="{Binding Setting.Memento.MouseInput.Loupe.IsVisibleLoupeInfo}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="開始時カーソル位置を画面中心にする"
+                                  IsChecked="{Binding Setting.Memento.MouseInput.Loupe.IsLoupeCenter}" />
+                        </StackPanel>
+
+                        <TextBlock Text="タッチ操作" Style="{StaticResource Header}" ToolTip="マルチタッチはビュー操作になります"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="シングルドラッグをマウスボタンと同じ操作にする"
+                                  IsChecked="{Binding Setting.Memento.TouchInput.IsMouseDragMode}" />
+                        </StackPanel>
+
+                        <TextBlock Text="タッチビュー操作" Style="{StaticResource Header}" ToolTip="マルチタッチはビュー操作になります"/>
+                        <StackPanel Style="{StaticResource Phrase}">
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転操作を有効にする"
+                                  ToolTip="マルチタッチでの回転操作を有効にします"
+                                  IsChecked="{Binding Setting.Memento.TouchInput.Drag.Manipulation.IsAngleEnabled}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="拡大縮小操作を有効にする"
+                                  ToolTip="ピンチイン・ピンチアウトでのサイズ変更操作操作を有効にします"
+                                  IsChecked="{Binding Setting.Memento.TouchInput.Drag.Manipulation.IsScaleEnabled}" />
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

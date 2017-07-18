@@ -24,6 +24,7 @@ namespace NeeView
     {
         None,
         Normal,
+        Mouse,
         Drag,
         Gesture,
     }
@@ -47,7 +48,11 @@ namespace NeeView
             this.Gesture = new TouchInputGesture(_context);
             this.Gesture.StateChanged += StateChanged;
             this.Gesture.GestureChanged += (s, e) => _context.GestureCommandCollection.Execute(e.Sequence);
-            this.Gesture.GestureProgressed += (s, e) => _context.GestureCommandCollection.ShowProgressed(e.Sequence); ;
+            this.Gesture.GestureProgressed += (s, e) => _context.GestureCommandCollection.ShowProgressed(e.Sequence);
+
+            this.Mouse = new TouchInputMouse(_context);
+            this.Mouse.StateChanged += StateChanged;
+            this.Mouse.TouchGestureChanged += (s, e) => TouchGestureChanged?.Invoke(_sender, e);
 
             this.Normal = new TouchInputNormal(_context, this.Gesture);
             this.Normal.StateChanged += StateChanged;
@@ -57,6 +62,7 @@ namespace NeeView
             // initialize state
             _touchInputCollection = new Dictionary<TouchInputState, TouchInputBase>();
             _touchInputCollection.Add(TouchInputState.Normal, this.Normal);
+            _touchInputCollection.Add(TouchInputState.Mouse, this.Mouse);
             _touchInputCollection.Add(TouchInputState.Drag, this.Drag);
             _touchInputCollection.Add(TouchInputState.Gesture, this.Gesture);
             SetState(TouchInputState.Normal, null);
@@ -65,6 +71,7 @@ namespace NeeView
             _sender.PreviewStylusDown += OnStylusDown;
             _sender.PreviewStylusUp += OnStylusUp;
             _sender.PreviewStylusMove += OnStylusMove;
+            _sender.PreviewStylusSystemGesture += OnStylusSystemGesture;
 
             //
             ClearTouchEventHandler();
@@ -89,11 +96,26 @@ namespace NeeView
         private TouchInputContext _context;
         private FrameworkElement _sender;
 
+
+        /// <summary>
+        /// ドラッグ操作をマウス操作として処理するモードのフラグ
+        /// </summary>
+        private bool _isMouseDragMode;
+        public bool IsMouseDragMode
+        {
+            get { return _isMouseDragMode; }
+            set { if (_isMouseDragMode != value) { _isMouseDragMode = value; SetState(TouchInputState.Normal, null); } }
+        }
+
         /// <summary>
         /// 状態：既定
         /// </summary>
         public TouchInputNormal Normal { get; private set; }
 
+        /// <summary>
+        /// 状態：マウス操作
+        /// </summary>
+        public TouchInputMouse Mouse { get; private set; }
 
         /// <summary>
         /// 状態：ドラッグ
@@ -123,6 +145,16 @@ namespace NeeView
         /// </summary>
         private TouchInputBase _current;
 
+
+        /// <summary>
+        /// マウス操作モード？
+        /// </summary>
+        /// <returns></returns>
+        public bool IsMouseMode()
+        {
+            return _state == TouchInputState.Mouse;
+        }
+
         //
         public bool IsCaptured()
         {
@@ -146,7 +178,14 @@ namespace NeeView
         /// <param name="parameter"></param>
         public void SetState(TouchInputState state, object parameter)
         {
+            if (_isMouseDragMode && state == TouchInputState.Normal)
+            {
+                state = TouchInputState.Mouse;
+            }
+
             if (state == _state) return;
+
+            ////Debug.WriteLine($"#TouchState: {state}");
 
             _current?.OnClosed(_sender);
             _state = state;
@@ -181,6 +220,7 @@ namespace NeeView
             _current.OnStylusDown(_sender, e);
         }
 
+        //
         private void OnStylusUp(object sender, StylusEventArgs e)
         {
             if (sender != _sender) return;
@@ -195,23 +235,34 @@ namespace NeeView
             }
 
             _current.OnStylusUp(_sender, e);
-
-            ////Debug.WriteLine($"TouchUp: {e.StylusDevice.Id}");
-
-            ///e.Handled = true;
         }
 
+        //
         private void OnStylusMove(object sender, StylusEventArgs e)
         {
             if (sender != _sender) return;
+
             _current.OnStylusMove(_sender, e);
         }
+
+        //
+        private void OnStylusSystemGesture(object sender, StylusSystemGestureEventArgs e)
+        {
+            if (sender != _sender) return;
+
+            ////Debug.WriteLine($"Gesture: {e.SystemGesture}");
+
+            _current.OnStylusSystemGesture(_sender, e);
+        }
+
 
 
         #region Memento
         [DataContract]
         public class Memento
         {
+            [DataMember]
+            public bool IsMouseDragMode { get; set; } 
             [DataMember]
             public TouchInputGesture.Memento Gesture { get; set; }
             [DataMember]
@@ -222,6 +273,7 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
+            memento.IsMouseDragMode = this.IsMouseDragMode;
             memento.Gesture = this.Gesture.CreateMemento();
             memento.Drag = this.Drag.CreateMemento();
             return memento;
@@ -231,6 +283,7 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
+            this.IsMouseDragMode = memento.IsMouseDragMode;
             this.Gesture.Restore(memento.Gesture);
             this.Drag.Restore(memento.Drag);
         }

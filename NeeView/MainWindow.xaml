@@ -146,7 +146,7 @@
                 <DockPanel>
 
                     <!-- メニューエリア-->
-                    <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" IsTabStop="False">
+                    <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" IsTabStop="False" MouseEnter="DockMenuSocket_MouseEnter" MouseLeave="DockMenuSocket_MouseLeave">
                         <Grid x:Name="MenuArea">
                             <StackPanel>
                                 <!-- メニューバー-->
@@ -160,7 +160,7 @@
                     </ContentControl>
 
                     <!-- ステータスエリア -->
-                    <DockPanel x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource NVBaseBrush}">
+                    <DockPanel x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource NVBaseBrush}" MouseEnter="DockStatusArea_MouseEnter" MouseLeave="DockStatusArea_MouseLeave">
 
                         <!-- スライダー -->
                         <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False">
@@ -322,10 +322,10 @@
 
 
                 <!-- Menu Layer -->
-                <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed" IsTabStop="False"/>
+                <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed" IsTabStop="False" MouseEnter="LayerMenuSocket_MouseEnter" MouseLeave="LayerMenuSocket_MouseLeave"/>
 
                 <!-- Status Layer -->
-                <DockPanel x:Name="LayerStatusArea" VerticalAlignment="Bottom" Visibility="Collapsed">
+                <DockPanel x:Name="LayerStatusArea" VerticalAlignment="Bottom" Visibility="Collapsed" MouseEnter="LayerStatusArea_MouseEnter" MouseLeave="LayerStatusArea_MouseLeave">
                     <Grid DockPanel.Dock="Bottom" Height="{Binding ElementName=DockStatusArea, Path=ActualHeight}"/>
                     <ContentControl x:Name="LayerPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False"/>
                     <Grid DockPanel.Dock="Bottom">

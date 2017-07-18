@@ -300,8 +300,7 @@ namespace NeeView
         }
 
         #endregion
-
-
+        
         #region タイマーによる非アクティブ監視
 
         // タイマーディスパッチ
@@ -383,8 +382,7 @@ namespace NeeView
         }
 
         #endregion
-
-
+        
         #region ウィンドウ状態コマンド
 
         /// <summary>
@@ -428,8 +426,7 @@ namespace NeeView
         }
 
         #endregion
-
-
+        
         #region ウィンドウイベント処理
 
 
@@ -637,6 +634,73 @@ namespace NeeView
 
         #endregion
 
+        #region メニューエリア、ステータスエリアマウスオーバー監視
+
+        public bool _isDockMenuMouseOver;
+        public bool _isLayerMenuMuseOver;
+
+        private void UpdateMenuAreaMouseOver()
+        {
+            _vm.Model.IsMenuAreaMouseOver = _isDockMenuMouseOver || _isLayerMenuMuseOver;
+        }
+
+        private void DockMenuSocket_MouseEnter(object sender, MouseEventArgs e)
+        {
+            _isDockMenuMouseOver = true;
+            UpdateMenuAreaMouseOver();
+        }
+
+        private void DockMenuSocket_MouseLeave(object sender, MouseEventArgs e)
+        {
+            _isDockMenuMouseOver = false;
+            UpdateMenuAreaMouseOver();
+        }
+
+        private void LayerMenuSocket_MouseEnter(object sender, MouseEventArgs e)
+        {
+            _isLayerMenuMuseOver = true;
+            UpdateMenuAreaMouseOver();
+        }
+
+        private void LayerMenuSocket_MouseLeave(object sender, MouseEventArgs e)
+        {
+            _isLayerMenuMuseOver = false;
+            UpdateMenuAreaMouseOver();
+        }
+
+        public bool _isDockStatusMouseOver;
+        public bool _isLayeStatusMuseOver;
+
+        private void UpdateStatusAreaMouseOver()
+        {
+            _vm.Model.IsStatusAreaMouseOver = _isDockStatusMouseOver || _isLayeStatusMuseOver;
+        }
+
+        private void DockStatusArea_MouseEnter(object sender, MouseEventArgs e)
+        {
+            _isDockStatusMouseOver = true;
+            UpdateStatusAreaMouseOver();
+        }
+
+        private void DockStatusArea_MouseLeave(object sender, MouseEventArgs e)
+        {
+            _isDockStatusMouseOver = false;
+            UpdateStatusAreaMouseOver();
+        }
+
+        private void LayerStatusArea_MouseEnter(object sender, MouseEventArgs e)
+        {
+            _isLayeStatusMuseOver = true;
+            UpdateStatusAreaMouseOver();
+        }
+
+        private void LayerStatusArea_MouseLeave(object sender, MouseEventArgs e)
+        {
+            _isLayeStatusMuseOver = false;
+            UpdateStatusAreaMouseOver();
+        }
+
+        #endregion
 
         #region レイアウト管理
 
@@ -796,7 +860,6 @@ namespace NeeView
 
         #endregion
 
-
         #region レイヤー表示状態
 
         // 初期化
@@ -910,7 +973,6 @@ namespace NeeView
 
 
         #endregion
-
 
         #region [開発用]
 

@@ -225,6 +225,20 @@ namespace NeeView
             set { if (_isVisibleBusy != value) { _isVisibleBusy = value; RaisePropertyChanged(); } }
         }
 
+        /// <summary>
+        /// メニューエリアマウスオーバー
+        /// Viewから更新される
+        /// </summary>
+        public bool IsMenuAreaMouseOver { get; set; }
+
+        /// <summary>
+        /// ステータスエリアマウスオーバー
+        /// Viewから更新される
+        /// </summary>
+        public bool IsStatusAreaMouseOver { get; set; }
+
+        // メニューエリア、ステータスエリアどちらかの上にマウスがある
+        public bool IsFontAreaMouseOver => IsMenuAreaMouseOver || IsStatusAreaMouseOver;
 
         #endregion
 

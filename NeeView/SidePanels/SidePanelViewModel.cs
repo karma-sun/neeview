@@ -387,7 +387,7 @@ namespace NeeView
         /// <param name="limit"></param>
         internal void UpdateVisibility(Point point, Point limit)
         {
-            this.IsNearCursor = point.X < limit.X + _margin;
+            this.IsNearCursor = point.X < limit.X + _margin && !MainWindowModel.Current.IsFontAreaMouseOver;
             UpdateForceVisibled();
         }
     }
@@ -408,7 +408,7 @@ namespace NeeView
         /// <param name="limit"></param>
         internal void UpdateVisibility(Point point, Point limit)
         {
-            this.IsNearCursor = point.X > limit.X - _margin;
+            this.IsNearCursor = point.X > limit.X - _margin && !MainWindowModel.Current.IsFontAreaMouseOver;
             UpdateForceVisibled();
         }
     }

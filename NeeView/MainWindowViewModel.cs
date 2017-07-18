@@ -39,7 +39,7 @@ namespace NeeView
         //
         private void UpdateSidePanelMargin()
         {
-            SidePanelMargin = new Thickness(0, _model.CanHideMenu ? 20 : 0, 0, _model.CanHidePageSlider ? 20 : 0);
+            SidePanelMargin = new Thickness(0, _model.CanHideMenu ? 26 : 0, 0, _model.CanHidePageSlider ? 20 : 0);
         }
 
 

@@ -918,7 +918,7 @@ namespace NeeView
                 element.CanExecute = () => true;
                 _elements[CommandType.ToggleWindowMaximize] = element;
             }
-            
+
             // ShowHiddenPanels
             {
                 var element = new CommandElement();
@@ -955,8 +955,8 @@ namespace NeeView
                 element.Text = "スクロール↑";
                 element.Note = "画像を上方向にするロールさせます。縦スクロールできないときは横スクロールになります";
                 element.IsShowMessage = false;
-                element.DefaultParameter = new ViewScrollCommandParameter() { Scroll = 25 };
-                element.Execute = (s, e) => _models.MouseInput.Drag.ScrollUp(((ViewScrollCommandParameter)element.Parameter).Scroll / 100.0);
+                element.DefaultParameter = new ViewScrollCommandParameter() { Scroll = 25, AllowCrossScroll = true };
+                element.Execute = (s, e) => _models.MouseInput.Drag.ScrollUp((ViewScrollCommandParameter)element.Parameter);
                 _elements[CommandType.ViewScrollUp] = element;
             }
             // ViewScrollDown
@@ -967,8 +967,30 @@ namespace NeeView
                 element.Note = "画像を下方向にするロールさせます。縦スクロールできないときは横スクロールになります";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScrollUp };
-                element.Execute = (s, e) => _models.MouseInput.Drag.ScrollDown(((ViewScrollCommandParameter)element.Parameter).Scroll / 100.0);
+                element.Execute = (s, e) => _models.MouseInput.Drag.ScrollDown((ViewScrollCommandParameter)element.Parameter);
                 _elements[CommandType.ViewScrollDown] = element;
+            }
+            // ViewScrollLeft
+            {
+                var element = new CommandElement();
+                element.Group = "ビュー操作";
+                element.Text = "スクロール←";
+                element.Note = "画像を左方向にするロールさせます。横スクロールできないときは縦スクロールになります";
+                element.IsShowMessage = false;
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScrollUp };
+                element.Execute = (s, e) => _models.MouseInput.Drag.ScrollLeft((ViewScrollCommandParameter)element.Parameter);
+                _elements[CommandType.ViewScrollLeft] = element;
+            }
+            // ViewScrollRight
+            {
+                var element = new CommandElement();
+                element.Group = "ビュー操作";
+                element.Text = "スクロール→";
+                element.Note = "画像を右方向にするロールさせます。横スクロールできないときは縦スクロールになります";
+                element.IsShowMessage = false;
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScrollUp };
+                element.Execute = (s, e) => _models.MouseInput.Drag.ScrollRight((ViewScrollCommandParameter)element.Parameter);
+                _elements[CommandType.ViewScrollRight] = element;
             }
             // ViewScaleUp
             {
@@ -1987,6 +2009,6 @@ namespace NeeView
             Changed?.Invoke(this, null);
         }
 
-#endregion
+        #endregion
     }
 }

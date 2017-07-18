@@ -150,6 +150,8 @@ namespace NeeView
 
         ViewScrollUp,
         ViewScrollDown,
+        ViewScrollLeft,
+        ViewScrollRight,
         ViewScaleUp,
         ViewScaleDown,
         ViewRotateLeft,

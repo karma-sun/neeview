@@ -181,9 +181,11 @@ namespace NeeView
     /// <summary>
     /// ビュースクロールコマンド用パラメータ
     /// </summary>
+    [DataContract]
     public class ViewScrollCommandParameter : CommandParameter
     {
         // 属性に説明文
+        [DataMember]
         [PropertyRange(0, 100, Name = "移動量(%)", Tips = "一度の操作でスクロールするする画面に対する割合(0-100)")]
         public int Scroll
         {
@@ -191,7 +193,18 @@ namespace NeeView
             set { _scroll = NVUtility.Clamp(value, 0, 100); }
         }
         private int _scroll;
+
+        [DataMember]
+        [PropertyMember(Name = "垂直方向へのスクロール許可", Tips = "軸方向にスクロールできない場合は軸に垂直な方向へスクロースを行う")]
+        public bool AllowCrossScroll { get; set; } = true;
+
+        [OnDeserializing]
+        private void OnDeserializing(StreamingContext context)
+        {
+            this.AllowCrossScroll = true;
+        }
     }
+
 
     /// <summary>
     /// ビュー拡大コマンド用パラメータ

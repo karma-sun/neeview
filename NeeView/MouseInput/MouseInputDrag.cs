@@ -332,8 +332,10 @@ namespace NeeView
 
         // スクロール↑コマンド
         // 縦方向にスクロールできない場合、横方向にスクロールする
-        public void ScrollUp(double rate)
+        public void ScrollUp(ViewScrollCommandParameter parameter)
         {
+            var rate = parameter.Scroll / 100.0;
+
             _transform.IsEnableTranslateAnimation = true;
 
             UpdateLock();
@@ -341,7 +343,7 @@ namespace NeeView
             {
                 DoMove(new Vector(0, _context.Sender.ActualHeight * rate));
             }
-            else
+            else if (parameter.AllowCrossScroll)
             {
                 DoMove(new Vector(_context.Sender.ActualWidth * rate * ViewHorizontalDirection, 0));
             }
@@ -351,8 +353,10 @@ namespace NeeView
 
         // スクロール↓コマンド
         // 縦方向にスクロールできない場合、横方向にスクロールする
-        public void ScrollDown(double rate)
+        public void ScrollDown(ViewScrollCommandParameter parameter)
         {
+            var rate = parameter.Scroll / 100.0;
+
             _transform.IsEnableTranslateAnimation = true;
 
             UpdateLock();
@@ -360,13 +364,58 @@ namespace NeeView
             {
                 DoMove(new Vector(0, _context.Sender.ActualHeight * -rate));
             }
-            else
+            else if (parameter.AllowCrossScroll)
             {
                 DoMove(new Vector(_context.Sender.ActualWidth * -rate * ViewHorizontalDirection, 0));
             }
 
             _transform.IsEnableTranslateAnimation = false;
         }
+
+        // スクロール←コマンド
+        // 横方向にスクロールできない場合、縦方向にスクロールする
+        public void ScrollLeft(ViewScrollCommandParameter parameter)
+        {
+            var rate = parameter.Scroll / 100.0;
+
+            _transform.IsEnableTranslateAnimation = true;
+
+            UpdateLock();
+
+            if (!_lockMoveX)
+            {
+                DoMove(new Vector(_context.Sender.ActualWidth * rate, 0));
+            }
+            else if (parameter.AllowCrossScroll)
+            {
+                DoMove(new Vector(0, _context.Sender.ActualHeight * rate * ViewHorizontalDirection));
+            }
+
+            _transform.IsEnableTranslateAnimation = false;
+        }
+
+        // スクロール→コマンド
+        // 横方向にスクロールできない場合、縦方向にスクロールする
+        public void ScrollRight(ViewScrollCommandParameter parameter)
+        {
+            var rate = parameter.Scroll / 100.0;
+
+            _transform.IsEnableTranslateAnimation = true;
+
+            UpdateLock();
+
+            if (!_lockMoveX)
+            {
+                DoMove(new Vector(_context.Sender.ActualWidth * -rate, 0));
+            }
+            else if (parameter.AllowCrossScroll)
+            {
+                DoMove(new Vector(0, _context.Sender.ActualHeight * -rate * ViewHorizontalDirection));
+            }
+
+            _transform.IsEnableTranslateAnimation = false;
+        }
+
 
         /// <summary>
         /// N字スクロール
@@ -460,7 +509,7 @@ namespace NeeView
         }
 
         // N字スクロール：下方向スクロール距離取得
-        private double GetNScrollVerticalToBottom(DragArea area, double margin, double  rate)
+        private double GetNScrollVerticalToBottom(DragArea area, double margin, double rate)
         {
             if (area.Over.Bottom > margin)
             {

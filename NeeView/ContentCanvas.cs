@@ -101,14 +101,11 @@ namespace NeeView
             get { return _stretchMode; }
             set
             {
-                if (_stretchMode != value)
-                {
-                    _stretchModePrev = _stretchMode;
-                    _stretchMode = value;
-                    RaisePropertyChanged();
-                    UpdateContentSize();
-                    ResetTransform(true);
-                }
+                _stretchModePrev = _stretchMode;
+                _stretchMode = value;
+                RaisePropertyChanged();
+                UpdateContentSize();
+                ResetTransform(true);
             }
         }
 
@@ -266,7 +263,7 @@ namespace NeeView
         // 現在のビューコンテンツのリザーバーを無効化
         private void IgnoreViewContentsReservers()
         {
-            foreach(var content in this.Contents)
+            foreach (var content in this.Contents)
             {
                 content.IgnoreReserver = true;
             }

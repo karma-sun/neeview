@@ -222,7 +222,7 @@ namespace NeeView
         public bool IsNormalMode => _state == MouseInputState.Normal;
 
         //
-        private bool IsStylusDevice(MouseEventArgs e) => e.StylusDevice != null;
+        private bool IsStylusDevice(MouseEventArgs e) => e.StylusDevice != null && TouchInput.Current.IsEnabled;
 
         /// <summary>
         /// OnMouseButtonDown

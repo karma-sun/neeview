@@ -504,34 +504,57 @@
                                   IsChecked="{Binding Setting.Memento.MouseInput.Loupe.IsLoupeCenter}" />
                         </StackPanel>
 
-                        <TextBlock Text="タッチ操作" Style="{StaticResource Header}" ToolTip="マルチタッチはタッチビュー操作になります"/>
-                                                
+                        <TextBlock Text="タッチ操作" Style="{StaticResource Header}"/>
+
                         <StackPanel Style="{StaticResource Phrase}">
 
-                            <StackPanel Style="{StaticResource ItemStackPanel}">
-                                <TextBlock Text="ドラッグ操作" Style="{StaticResource ItemHeader}" ToolTip="シングルタッチのドラッグ操作"/>
-                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding TouchActionLimitedList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.Memento.TouchInput.Normal.DragAction}"
-                                  ToolTip="{Binding Path=SelectedValue, RelativeSource={RelativeSource Self}, Converter={StaticResource TouchActionToTipsConverter}}"/>
-                            </StackPanel>
-
-                            <StackPanel Style="{StaticResource ItemStackPanel}">
-                                <TextBlock Text="ホールド操作" Style="{StaticResource ItemHeader}" ToolTip="長押しタッチのドラッグ操作"/>
-                                <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding TouchActionList}" SelectedValuePath="Key" DisplayMemberPath="Value"
-                                  SelectedValue="{Binding Setting.Memento.TouchInput.Normal.HoldAction}"
-                                  ToolTip="{Binding Path=SelectedValue, RelativeSource={RelativeSource Self}, Converter={StaticResource TouchActionToTipsConverter}}"/>
-                            </StackPanel>
+                            <CheckBox x:Name="TouchInputCheckBox" Style="{StaticResource ItemCheckBox}" Content="タッチ操作を有効にする" ToolTip="OFFのときは標準のマウス操作として機能します"
+                                  IsChecked="{Binding Setting.Memento.TouchInput.IsEnabled}" />
 
                         </StackPanel>
 
-                        <TextBlock Text="タッチビュー操作" Style="{StaticResource Header}" ToolTip="マルチタッチはビュー操作になります"/>
-                        <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転操作を有効にする"
+                        <StackPanel IsEnabled="{Binding ElementName=TouchInputCheckBox, Path=IsChecked}">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="0.5"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            
+                            <!--
+                            <TextBlock Text="タッチ操作設定" Style="{StaticResource Header}" ToolTip="マルチタッチはタッチビュー操作になります"/>
+                            -->
+
+                            <StackPanel Style="{StaticResource Phrase}">
+
+                                <StackPanel Style="{StaticResource ItemStackPanel}">
+                                    <TextBlock Text="ドラッグ操作" Style="{StaticResource ItemHeader}" ToolTip="シングルタッチのドラッグ操作"/>
+                                    <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding TouchActionLimitedList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.Memento.TouchInput.Normal.DragAction}"
+                                  ToolTip="{Binding Path=SelectedValue, RelativeSource={RelativeSource Self}, Converter={StaticResource TouchActionToTipsConverter}}"/>
+                                </StackPanel>
+
+                                <StackPanel Style="{StaticResource ItemStackPanel}">
+                                    <TextBlock Text="ホールド操作" Style="{StaticResource ItemHeader}" ToolTip="長押しタッチのドラッグ操作"/>
+                                    <ComboBox Style="{StaticResource ItemComboBox}" ItemsSource="{Binding TouchActionList}" SelectedValuePath="Key" DisplayMemberPath="Value"
+                                  SelectedValue="{Binding Setting.Memento.TouchInput.Normal.HoldAction}"
+                                  ToolTip="{Binding Path=SelectedValue, RelativeSource={RelativeSource Self}, Converter={StaticResource TouchActionToTipsConverter}}"/>
+                                </StackPanel>
+
+                            </StackPanel>
+
+                            <TextBlock Text="タッチビュー操作" Style="{StaticResource Header}" ToolTip="マルチタッチはビュー操作になります" />
+                            <StackPanel Style="{StaticResource Phrase}">
+                                <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転操作を有効にする"
                                   ToolTip="マルチタッチでの回転操作を有効にします"
                                   IsChecked="{Binding Setting.Memento.TouchInput.Drag.Manipulation.IsAngleEnabled}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="拡大縮小操作を有効にする"
+                                <CheckBox Style="{StaticResource ItemCheckBox}" Content="拡大縮小操作を有効にする"
                                   ToolTip="ピンチイン・ピンチアウトでのサイズ変更操作操作を有効にします"
                                   IsChecked="{Binding Setting.Memento.TouchInput.Drag.Manipulation.IsScaleEnabled}" />
+                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>

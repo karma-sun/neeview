@@ -134,6 +134,16 @@ namespace NeeView
         /// </summary>
         private TouchInputBase _current;
 
+        /// <summary>
+        /// IsEnabled property.
+        /// </summary>
+        private bool _isEnabled = true;
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
+        }
+
 
         //
         public bool IsCaptured()
@@ -177,6 +187,7 @@ namespace NeeView
         //
         private void OnStylusDown(object sender, StylusDownEventArgs e)
         {
+            if (!_isEnabled) return;
             if (sender != _sender) return;
 
             ////Debug.WriteLine($"TouchDown: {e.StylusDevice.Id}");
@@ -198,6 +209,7 @@ namespace NeeView
         //
         private void OnStylusUp(object sender, StylusEventArgs e)
         {
+            if (!_isEnabled) return;
             if (sender != _sender) return;
 
             _context.TouchMap.Remove(e.StylusDevice);
@@ -215,6 +227,7 @@ namespace NeeView
         //
         private void OnStylusMove(object sender, StylusEventArgs e)
         {
+            if (!_isEnabled) return;
             if (sender != _sender) return;
 
             _current.OnStylusMove(_sender, e);
@@ -223,6 +236,7 @@ namespace NeeView
         //
         private void OnStylusSystemGesture(object sender, StylusSystemGestureEventArgs e)
         {
+            if (!_isEnabled) return;
             if (sender != _sender) return;
 
             ////Debug.WriteLine($"Gesture: {e.SystemGesture}");
@@ -237,17 +251,26 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
+            public bool IsEnabled { get; set; }
+            [DataMember]
             public TouchInputNormal.Memento Normal { get; set; }
             [DataMember]
             public TouchInputGesture.Memento Gesture { get; set; }
             [DataMember]
             public TouchInputDrag.Memento Drag { get; set; }
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                this.IsEnabled = true;
+            }
         }
 
         //
         public Memento CreateMemento()
         {
             var memento = new Memento();
+            memento.IsEnabled = this.IsEnabled;
             memento.Normal = this.Normal.CreateMemento();
             memento.Gesture = this.Gesture.CreateMemento();
             memento.Drag = this.Drag.CreateMemento();
@@ -258,6 +281,7 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
+            this.IsEnabled = memento.IsEnabled;
             this.Normal.Restore(memento.Normal);
             this.Gesture.Restore(memento.Gesture);
             this.Drag.Restore(memento.Drag);

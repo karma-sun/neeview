@@ -20,6 +20,7 @@
                 <Setter Property="Margin" Value="1,0,0,0"/>
                 <Setter Property="UseLayoutRounding" Value="True"/>
                 <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="Foreground" Value="#222" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
@@ -66,7 +67,7 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Foreground" Value="#222"/>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Foreground" Value="White"/>
@@ -80,7 +81,7 @@
         </Button>
 
         <Button x:Name="CaptionMaximizeButton" DockPanel.Dock="Right" Style="{StaticResource WindowCaptionButtonStyle}" Command="{x:Static SystemCommands.MaximizeWindowCommand}">
-            <Rectangle UseLayoutRounding="True" Width="10" Height="10" StrokeThickness="{Binding StrokeThickness}"   Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
+            <Rectangle UseLayoutRounding="True" Width="10" Height="10" StrokeThickness="{Binding StrokeThickness}" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
         </Button>
 
         <Button x:Name="CaptionRestoreButton" DockPanel.Dock="Right" Style="{StaticResource WindowCaptionButtonStyle}" Command="{x:Static SystemCommands.RestoreWindowCommand}" >

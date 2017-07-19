@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NeeView
 {
@@ -56,11 +57,26 @@ namespace NeeView
 
         private Menu _mainMenu;
 
+        //
         public void MainMenuInitialize()
         {
-            MainMenu = _model.MainMenuSource.CreateMenu();
+            this.MainMenu = CreateMainMenu(new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22)));
+
             BindingOperations.SetBinding(MainMenu, Menu.BackgroundProperty, new Binding("Background") { ElementName = "MainMenuJoint" });
             BindingOperations.SetBinding(MainMenu, Menu.ForegroundProperty, new Binding("Foreground") { ElementName = "MainMenuJoint" });
+        }
+
+        //
+        private Menu CreateMainMenu(Brush foreground)
+        {
+            var menu = _model.MainMenuSource.CreateMenu();
+
+            foreach(MenuItem item in menu.Items)
+            {
+                item.Foreground = foreground;
+            }
+
+            return menu;
         }
 
 

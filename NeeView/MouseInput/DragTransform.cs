@@ -24,10 +24,14 @@ namespace NeeView
     {
         public static DragTransform Current { get; private set; }
 
+        #region Fields
 
         // コンテンツの平行移動行列。アニメーション用。
         private TranslateTransform _translateTransform;
 
+        #endregion
+
+        #region Constructors
 
         //
         public DragTransform()
@@ -40,7 +44,18 @@ namespace NeeView
             _translateTransform = this.TransformView.Children.OfType<TranslateTransform>().First();
         }
 
+        #endregion
 
+        #region Events
+
+        /// <summary>
+        /// 表示コンテンツのトランスフォーム変更イベント
+        /// </summary>
+        public event EventHandler<TransformEventArgs> TransformChanged;
+
+        #endregion
+
+        #region Properties
 
         public TransformGroup TransformView { get; private set; }
         public TransformGroup TransformCalc { get; private set; }
@@ -133,7 +148,6 @@ namespace NeeView
         }
 
 
-
         // コンテンツの拡大率
         private double _scale = 1.0;
         public double Scale
@@ -193,7 +207,9 @@ namespace NeeView
             }
         }
 
+        #endregion
 
+        #region Methods
 
         // パラメータとトランスフォームを対応させる
         private TransformGroup CreateTransformGroup()
@@ -217,6 +233,21 @@ namespace NeeView
             return transformGroup;
         }
 
+        //
+        public void SetAngle(double angle, TransformActionType actionType)
+        {
+            this.Angle = angle;
+            TransformChanged?.Invoke(this, new TransformEventArgs(actionType));
+        }
+
+        //
+        public void SetScale(double scale, TransformActionType actionType)
+        {
+            this.Scale = scale;
+            TransformChanged?.Invoke(this, new TransformEventArgs(actionType));
+        }
+
+        #endregion
 
         #region Memento
 

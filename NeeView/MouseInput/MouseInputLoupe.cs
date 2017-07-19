@@ -9,9 +9,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NeeView
 {
@@ -20,21 +18,14 @@ namespace NeeView
     /// </summary>
     public class MouseInputLoupe : MouseInputBase
     {
-        /// <summary>
-        /// 角度、スケール変更イベント
-        /// </summary>
-        public event EventHandler<TransformEventArgs> TransformChanged;
-
+        private LoupeTransform _loupe;
 
         /// <summary>
-        /// IsVisibleLoupeInfo property.
+        /// ルーペ開始座標
         /// </summary>
-        private bool _IsVisibleLoupeInfo = true;
-        public bool IsVisibleLoupeInfo
-        {
-            get { return _IsVisibleLoupeInfo; }
-            set { if (_IsVisibleLoupeInfo != value) { _IsVisibleLoupeInfo = value; RaisePropertyChanged(); } }
-        }
+        private Point _loupeBasePosition;
+
+
 
         /// <summary>
         /// IsLoupeCenter property.
@@ -45,7 +36,6 @@ namespace NeeView
             get { return _IsLoupeCenter; }
             set { if (_IsLoupeCenter != value) { _IsLoupeCenter = value; RaisePropertyChanged(); } }
         }
-
 
 
         /// <summary>
@@ -76,11 +66,16 @@ namespace NeeView
         /// </summary>
         public double DefaultScale
         {
-            get { return _defaultScale; }
-            set { if (_defaultScale != value) { _defaultScale = NVUtility.Clamp(value, _minimumScale, MaximumScale); RaisePropertyChanged(); } }
+            get { return _loupe.DefaultScale; }
+            set
+            {
+                if (_loupe.DefaultScale != value)
+                {
+                    _loupe.DefaultScale = NVUtility.Clamp(value, _minimumScale, MaximumScale);
+                    RaisePropertyChanged();
+                }
+            }
         }
-
-        private double _defaultScale = 2.0;
 
 
         /// <summary>
@@ -120,161 +115,14 @@ namespace NeeView
 
 
         /// <summary>
-        /// 表示コンテンツ用トランスフォーム
-        /// </summary>
-        public TransformGroup TransformView { get; private set; }
-
-        /// <summary>
-        /// 表示コンテンツ用トランスフォーム（計算用）
-        /// </summary>
-        public TransformGroup TransformCalc { get; private set; }
-
-        /// <summary>
-        /// カーソル位置を画面中心にしてルーペ開始するフラグ
-        /// TODO: 設定方法
-        /// </summary>
-        //public bool IsCenterMode { get; set; }
-
-        /// <summary>
-        /// IsEnabled property.
-        /// 表示通知用にプロパティ化
-        /// TODO: 直接そうさしていないので、しっくりこない
-        /// </summary>
-        private bool _isEnabled;
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            private set
-            {
-                if (_isEnabled != value)
-                {
-                    _isEnabled = value;
-                    FlushFixedLoupeScale();
-                    RaisePropertyChanged(null);
-                }
-            }
-        }
-
-        #region Property: LoupePosition
-        /// <summary>
-        /// ルーペ座標
-        /// </summary>
-        private Point _loupePosition;
-        public Point LoupePosition
-        {
-            get { return _loupePosition; }
-            set
-            {
-                _loupePosition = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(LoupePositionX));
-                RaisePropertyChanged(nameof(LoupePositionY));
-            }
-        }
-        public double LoupePositionX => _isEnabled ? LoupePosition.X : 0.0;
-        public double LoupePositionY => _isEnabled ? LoupePosition.Y : 0.0;
-
-        /// <summary>
-        /// ルーペ開始座標
-        /// </summary>
-        private Point _loupeBasePosition;
-        #endregion
-
-
-        #region Property: LoupeScale
-        /// <summary>
-        /// ルーペ倍率
-        /// </summary>
-        private double _loupeScale = double.NaN;
-        public double LoupeScale
-        {
-            get
-            {
-                if (double.IsNaN(_loupeScale))
-                {
-                    _loupeScale = _defaultScale;
-                }
-                return _loupeScale;
-            }
-            set
-            {
-                _loupeScale = value;
-                RaisePropertyChanged();
-                FlushFixedLoupeScale();
-            }
-        }
-
-        /// <summary>
-        /// update FixedLoupeScale
-        /// </summary>
-        private void FlushFixedLoupeScale()
-        {
-            FixedLoupeScale = _isEnabled ? LoupeScale : 1.0;
-        }
-
-        /// <summary>
-        /// FixedLoupeScale property.
-        /// </summary>
-        private double _FixedLoupeScale;
-        public double FixedLoupeScale
-        {
-            get { return _FixedLoupeScale; }
-            set
-            {
-                if (_FixedLoupeScale != value)
-                {
-                    _FixedLoupeScale = value;
-                    RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(LoupeScaleX));
-                    RaisePropertyChanged(nameof(LoupeScaleY));
-
-                    var args = new TransformEventArgs(TransformChangeType.LoupeScale, TransformActionType.LoupeScale)
-                    {
-                        LoupeScale = FixedLoupeScale
-                    };
-                    TransformChanged?.Invoke(this, args);
-                }
-            }
-        }
-
-
-        public double LoupeScaleX => FixedLoupeScale;
-        public double LoupeScaleY => FixedLoupeScale;
-        #endregion
-
-
-        /// <summary>
         /// コンストラクター
         /// </summary>
         /// <param name="context"></param>
         public MouseInputLoupe(MouseInputContext context) : base(context)
         {
-            this.TransformView = CreateTransformGroup();
-            this.TransformCalc = CreateTransformGroup();
-
-            FlushFixedLoupeScale();
+            _loupe = LoupeTransform.Current;
         }
 
-        /// <summary>
-        /// パラメータとトランスフォームを関連付ける
-        /// </summary>
-        /// <returns></returns>
-        private TransformGroup CreateTransformGroup()
-        {
-            var loupeTransraleTransform = new TranslateTransform();
-            BindingOperations.SetBinding(loupeTransraleTransform, TranslateTransform.XProperty, new Binding(nameof(LoupePositionX)) { Source = this });
-            BindingOperations.SetBinding(loupeTransraleTransform, TranslateTransform.YProperty, new Binding(nameof(LoupePositionY)) { Source = this });
-
-            var loupeScaleTransform = new ScaleTransform();
-            BindingOperations.SetBinding(loupeScaleTransform, ScaleTransform.ScaleXProperty, new Binding(nameof(LoupeScaleX)) { Source = this });
-            BindingOperations.SetBinding(loupeScaleTransform, ScaleTransform.ScaleYProperty, new Binding(nameof(LoupeScaleY)) { Source = this });
-
-            var transformGroup = new TransformGroup();
-            transformGroup.Children.Add(loupeTransraleTransform);
-            transformGroup.Children.Add(loupeScaleTransform);
-
-            return transformGroup;
-        }
 
         /// <summary>
         /// 長押しモード？
@@ -310,15 +158,15 @@ namespace NeeView
             _context.StartPoint = Mouse.GetPosition(sender);
             var center = new Point(sender.ActualWidth * 0.5, sender.ActualHeight * 0.5);
             Vector v = _context.StartPoint - center;
-            _loupeBasePosition = (Point)(this.IsLoupeCenter ? -v : -v + v / LoupeScale);
-            LoupePosition = _loupeBasePosition;
+            _loupeBasePosition = (Point)(this.IsLoupeCenter ? -v : -v + v / _loupe.Scale);
+            _loupe.Position = _loupeBasePosition;
 
-            this.IsEnabled = true;
+            _loupe.IsEnabled = true;
             _isButtonDown = false;
 
             if (_isResetByRestart)
             {
-                LoupeScale = _defaultScale;
+                _loupe.Scale = _loupe.DefaultScale;
             }
         }
 
@@ -331,7 +179,7 @@ namespace NeeView
             sender.Cursor = null;
             sender.ReleaseMouseCapture();
 
-            this.IsEnabled = false;
+            _loupe.IsEnabled = false;
         }
 
         /// <summary>
@@ -398,7 +246,7 @@ namespace NeeView
         public override void OnMouseMove(object sender, MouseEventArgs e)
         {
             var point = e.GetPosition(_context.Sender);
-            LoupePosition = _loupeBasePosition - (point - _context.StartPoint);
+            _loupe.Position = _loupeBasePosition - (point - _context.StartPoint);
 
             e.Handled = true;
         }
@@ -428,7 +276,7 @@ namespace NeeView
         /// </summary>
         public void LoupeZoomIn()
         {
-            LoupeScale = Math.Min(LoupeScale + _scaleStep, _maximumScale);
+            _loupe.Scale = Math.Min(_loupe.Scale + _scaleStep, _maximumScale);
         }
 
         /// <summary>
@@ -436,7 +284,7 @@ namespace NeeView
         /// </summary>
         public void LoupeZoomOut()
         {
-            LoupeScale = Math.Max(LoupeScale - _scaleStep, _minimumScale);
+            _loupe.Scale = Math.Max(_loupe.Scale - _scaleStep, _minimumScale);
         }
 
         /// <summary>
@@ -462,8 +310,11 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public bool IsLoupeCenter { get; set; }
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+
             [DataMember]
+            public bool IsLoupeCenter { get; set; }
+            [Obsolete, DataMember]
             public bool IsVisibleLoupeInfo { get; set; }
 
             [DataMember, DefaultValue(2.0)]
@@ -496,7 +347,6 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.IsLoupeCenter = this.IsLoupeCenter;
-            memento.IsVisibleLoupeInfo = this.IsVisibleLoupeInfo;
             memento.DefaultScale = this.DefaultScale;
             memento.MinimumScale = this.MinimumScale;
             memento.MaximumScale = this.MaximumScale;
@@ -512,13 +362,23 @@ namespace NeeView
         {
             if (memento == null) return;
             this.IsLoupeCenter = memento.IsLoupeCenter;
-            this.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
             this.MinimumScale = memento.MinimumScale;
             this.MaximumScale = memento.MaximumScale;
             this.DefaultScale = memento.DefaultScale;
             this.ScaleStep = memento.ScaleStep;
             this.IsResetByRestart = memento.IsResetByRestart;
             this.IsResetByPageChanged = memento.IsResetByPageChanged;
+
+#pragma warning disable CS0612
+
+            // compatible before ver.26
+            if (memento._Version < Config.GenerateProductVersionNumber(1, 26, 0))
+            {
+                _loupe.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
+            }
+
+#pragma warning restore CS0612
+
         }
         #endregion
 

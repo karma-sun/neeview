@@ -105,13 +105,13 @@ namespace NeeView
             // render transform
             var transformView = new TransformGroup();
             transformView.Children.Add(DragTransform.Current.TransformView);
-            transformView.Children.Add(mouse.Loupe.TransformView);
+            transformView.Children.Add(LoupeTransform.Current.TransformView);
             this.MainContent.RenderTransform = transformView;
             this.MainContent.RenderTransformOrigin = new Point(0.5, 0.5);
 
             var transformCalc = new TransformGroup();
             transformCalc.Children.Add(DragTransform.Current.TransformCalc);
-            transformCalc.Children.Add(mouse.Loupe.TransformCalc);
+            transformCalc.Children.Add(LoupeTransform.Current.TransformCalc);
             this.MainContentShadow.RenderTransform = transformCalc;
             this.MainContentShadow.RenderTransformOrigin = new Point(0.5, 0.5);
 

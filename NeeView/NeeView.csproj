@@ -146,6 +146,7 @@
     <Compile Include="ContentCanvasBrush.cs" />
     <Compile Include="Converters\TouchActionToTipsConverter.cs" />
     <Compile Include="MouseInput\DragTransformControl.cs" />
+    <Compile Include="MouseInput\LoupeTransform.cs" />
     <Compile Include="Page\PdfContetnt.cs" />
     <Compile Include="TouchInput\TouchAction.cs" />
     <Compile Include="TouchInput\TouchInputMouseDrag.cs" />

@@ -190,7 +190,7 @@ namespace NeeView
         public InfoMessage InfoMessage => InfoMessage.Current;
         public SidePanel SidePanel => SidePanel.Current;
         public ContentCanvas ContentCanvas => ContentCanvas.Current;
-
+        public LoupeTransform LoupeTransform => LoupeTransform.Current;
 
 
         /// <summary>

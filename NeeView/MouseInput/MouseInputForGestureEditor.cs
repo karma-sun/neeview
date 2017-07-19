@@ -60,7 +60,7 @@ namespace NeeView
         /// <param name="sender"></param>
         public MouseInputForGestureEditor(FrameworkElement sender)
         {
-            _context = new MouseInputContext() { Sender = sender };
+            _context = new MouseInputContext(sender, null);
 
             _sender = sender;
 

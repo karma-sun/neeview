@@ -238,7 +238,7 @@
                             </StackPanel>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ビュー操作のスケール表示をオリジナルサイズ基準にする"
                                       ToolTip="スケール表示を元画像サイズに対する表示倍率にします&#xa;２ページ表示の場合は若い番号のページを基準にします"
-                                      IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsOriginalScaleShowMessage}"/>
+                                      IsChecked="{Binding Setting.Memento.DragTransformControl.IsOriginalScaleShowMessage}"/>
                         </StackPanel>
 
                         <DockPanel LastChildFill="False">
@@ -390,10 +390,10 @@
                                   IsChecked="{Binding Setting.Memento.DragTransform.IsLimitMove}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="表示開始位置を画像の中心基準にする"
                                   ToolTip="OFFの時は、見開きモードによって右上基準、左上基準になります。"
-                                  IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsViewStartPositionCenter}" />
+                                  IsChecked="{Binding Setting.Memento.DragTransformControl.IsViewStartPositionCenter}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="回転、拡大縮小、反転の基準を画像の中心にする"
                                   ToolTip="OFFの時は、ウィンドウの中心をそのまま中心とします"
-                                  IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsControlCenterImage}" />
+                                  IsChecked="{Binding Setting.Memento.DragTransformControl.IsControlCenterImage}" />
                             <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="回転の単位">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="回転スナップ"/>
                                 <Slider Style="{StaticResource ItemSlider}" Value="{Binding AngleFrequency.Index}"
@@ -402,13 +402,13 @@
                             </StackPanel>
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページを変更しても拡縮をキープする"
                                   ToolTip="OFFの時は、ページを切り替える度にリセットされます"
-                                  IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsKeepScale}" />
+                                  IsChecked="{Binding Setting.Memento.DragTransformControl.IsKeepScale}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページを変更しても回転をキープする"
                                   ToolTip="OFFの時は、ページを切り替える度にリセットされます&#xa;自動回転有効時は機能しません"
-                                  IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsKeepAngle}" />
+                                  IsChecked="{Binding Setting.Memento.DragTransformControl.IsKeepAngle}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページを変更しても反転をキープする"
                                   ToolTip="OFFの時は、ページを切り替える度にリセットされます"
-                                  IsChecked="{Binding Setting.Memento.MouseInput.Drag.IsKeepFlip}" />
+                                  IsChecked="{Binding Setting.Memento.DragTransformControl.IsKeepFlip}" />
                         </StackPanel>
 
                         <TextBlock Text="マウスドラッグ操作" Style="{StaticResource Header}"/>
@@ -499,7 +499,7 @@
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ルーペ倍率を表示する"
                                       ToolTip="ルーペ時に右上に倍率が表示されます。倍率はマウスホイール操作で変更できます"
-                                      IsChecked="{Binding Setting.Memento.MouseInput.Loupe.IsVisibleLoupeInfo}" />
+                                      IsChecked="{Binding Setting.Memento.LoupeTransform.IsVisibleLoupeInfo}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="開始時カーソル位置を画面中心にする"
                                   IsChecked="{Binding Setting.Memento.MouseInput.Loupe.IsLoupeCenter}" />
                         </StackPanel>

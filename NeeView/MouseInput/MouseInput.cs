@@ -89,11 +89,6 @@ namespace NeeView
         public event EventHandler<MouseWheelEventArgs> MouseWheelChanged;
 
         /// <summary>
-        /// 表示コンテンツのトランスフォーム変更イベント
-        /// </summary>
-        public event EventHandler<TransformEventArgs> TransformChanged;
-
-        /// <summary>
         /// 一定距離カーソルが移動したイベント
         /// </summary>
         public event EventHandler MouseMoved;
@@ -137,14 +132,11 @@ namespace NeeView
             this.Loupe.StateChanged += StateChanged;
             this.Loupe.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
             this.Loupe.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
-            this.Loupe.TransformChanged += OnTransformChanged;
 
             this.Drag = new MouseInputDrag(_context);
             this.Drag.StateChanged += StateChanged;
             this.Drag.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
             this.Drag.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
-
-            DragTransformControl.Current.TransformChanged += OnTransformChanged;
 
             this.Gesture = new MouseInputGesture(_context);
             this.Gesture.StateChanged += StateChanged;
@@ -169,25 +161,6 @@ namespace NeeView
             _sender.PreviewKeyDown += OnKeyDown;
         }
 
-
-        /// <summary>
-        /// コンテンツのトランフォーム変更通知
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnTransformChanged(object sender, TransformEventArgs e)
-        {
-            var transform = DragTransform.Current;
-
-            var args = new TransformEventArgs(e.ChangeType, e.ActionType);
-            args.Scale = transform.Scale;
-            args.Angle = transform.Angle;
-            args.IsFlipHorizontal = transform.IsFlipHorizontal;
-            args.IsFlipVertical = transform.IsFlipVertical;
-            args.LoupeScale = Loupe.FixedLoupeScale;
-
-            TransformChanged?.Invoke(sender, args);
-        }
 
 
         //
@@ -357,9 +330,9 @@ namespace NeeView
                     infoMessage.SetMessage(InfoMessageType.ViewTransform, "上下反転 " + (transform.IsFlipVertical ? "ON" : "OFF"));
                     break;
                 case TransformActionType.LoupeScale:
-                    if (this.Loupe.LoupeScale != 1.0)
+                    if (LoupeTransform.Current.Scale != 1.0)
                     {
-                        infoMessage.SetMessage(InfoMessageType.ViewTransform, $"×{this.Loupe.LoupeScale:0.0}");
+                        infoMessage.SetMessage(InfoMessageType.ViewTransform, $"×{LoupeTransform.Current.Scale:0.0}");
                     }
                     break;
             }

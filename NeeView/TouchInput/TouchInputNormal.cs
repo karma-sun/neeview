@@ -138,7 +138,7 @@ namespace NeeView
             if (!_isTouchDown) return;
             if (e.StylusDevice != _touch.StylusDevice) return;
 
-            if (e.SystemGesture == SystemGesture.HoldEnter)
+            if (e.SystemGesture == SystemGesture.HoldEnter || e.SystemGesture == SystemGesture.RightDrag)
             {
                 SetState(this.HoldAction);
             }

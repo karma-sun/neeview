@@ -274,12 +274,12 @@
                                         </TextBlock>
 
                                         <!-- loupe info -->
-                                        <Grid Visibility="{Binding MouseInput.Loupe.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                            <Grid x:Name="LoupeInfo" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding MouseInput.Loupe}"
+                                        <Grid Visibility="{Binding LoupeTransform.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <Grid x:Name="LoupeInfo" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding LoupeTransform}"
                                                 Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                 Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
                                                 Background="#88000000">
-                                                <TextBlock Padding="20,5"  FontSize="16" Foreground="White" Text="{Binding LoupeScaleX, StringFormat={}×{0:.0}}"/>
+                                                <TextBlock Padding="20,5"  FontSize="16" Foreground="White" Text="{Binding ScaleX, StringFormat={}×{0:.0}}"/>
                                             </Grid>
                                         </Grid>
 

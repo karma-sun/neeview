@@ -45,9 +45,8 @@ namespace NeeView
 
         public DragTransform DragTransform { get; private set; }
         public DragTransformControl DragTransformControl { get; private set; }
-        public MouseInputContext MouseInputContext { get; private set; }
+        public LoupeTransform LoupeTransform { get; private set; }
         public MouseInput MouseInput { get; private set; }
-        public TouchInputContext TouchInputContext { get; private set; }
         public TouchInput TouchInput { get; private set; }
         public ContentDropManager ContentDropManager { get; private set; }
 
@@ -126,16 +125,12 @@ namespace NeeView
             this.RoutedCommandTable = new RoutedCommandTable(window, this.CommandTable);
 
             this.DragTransform = new DragTransform();
-            var dragTransformContext = new DragTransformContext();
-            dragTransformContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, this.DragTransform);
-            this.DragTransformControl = new DragTransformControl(dragTransformContext);
+            this.DragTransformControl = new DragTransformControl(window.MainView, window.MainContentShadow, this.DragTransform);
 
-            this.MouseInputContext = new MouseInputContext();
-            this.MouseInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, this.DragTransform, MouseGestureCommandCollection.Current);
-            this.MouseInput = new MouseInput(this.MouseInputContext);
-            this.TouchInputContext = new TouchInputContext();
-            this.TouchInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, this.DragTransform, MouseGestureCommandCollection.Current);
-            this.TouchInput = new TouchInput(this.TouchInputContext);
+            this.LoupeTransform = new LoupeTransform();
+
+            this.MouseInput = new MouseInput(new MouseInputContext(window.MainView, MouseGestureCommandCollection.Current));
+            this.TouchInput = new TouchInput(new TouchInputContext(window.MainView, window.MainContentShadow, MouseGestureCommandCollection.Current));
             this.ContentDropManager = new ContentDropManager(window.MainView);
 
 
@@ -242,6 +237,8 @@ namespace NeeView
             [DataMember]
             public DragTransformControl.Memento DragTransformControl { get; set; }
             [DataMember]
+            public LoupeTransform.Memento LoupeTransform { get; set; }
+            [DataMember]
             public MouseInput.Memento MouseInput { get; set; }
             [DataMember]
             public TouchInput.Memento TouchInput { get; set; }
@@ -304,6 +301,7 @@ namespace NeeView
             memento.ContentCanvasBrush = this.ContentCanvasBrush.CreateMemento();
             memento.DragTransform = this.DragTransform.CreateMemento();
             memento.DragTransformControl = this.DragTransformControl.CreateMemento();
+            memento.LoupeTransform = this.LoupeTransform.CreateMemento();
             memento.MouseInput = this.MouseInput.CreateMemento();
             memento.TouchInput = this.TouchInput.CreateMemento();
             memento.SlideShow = this.SlideShow.CreateMemento();
@@ -345,6 +343,7 @@ namespace NeeView
             this.ContentCanvasBrush.Restore(memento.ContentCanvasBrush);
             this.DragTransform.Restore(memento.DragTransform);
             this.DragTransformControl.Restore(memento.DragTransformControl);
+            this.LoupeTransform.Restore(memento.LoupeTransform);
             this.MouseInput.Restore(memento.MouseInput);
             this.TouchInput.Restore(memento.TouchInput);
             this.SlideShow.Restore(memento.SlideShow);

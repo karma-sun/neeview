@@ -307,7 +307,7 @@ namespace NeeView
 
                 models.MouseInput.Normal.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
                 models.MouseInput.Loupe.IsLoupeCenter = memento.IsLoupeCenter;
-                models.MouseInput.Loupe.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
+                models.LoupeTransform.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
                 models.DragTransformControl.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
                 models.DragTransformControl.IsControlCenterImage = memento.IsControlCenterImage;
                 models.DragTransformControl.IsKeepAngle = memento.IsKeepAngle;

@@ -171,10 +171,8 @@ namespace NeeView
 
         #endregion
 
-        private DragTransform _transform;
-        private DragTransformControl _drag;
-
-        private MouseInput _mouse;
+        private DragTransform _dragTransform;
+        private DragTransformControl _dragTransformControl;
 
         private BookHub _bookHub; // TODO: BookOperation?
 
@@ -182,11 +180,11 @@ namespace NeeView
         {
             Current = this;
 
-            _mouse = mouse;
-            _mouse.TransformChanged += Transform_TransformChanged;
+            _dragTransform = DragTransform.Current;
+            _dragTransformControl = DragTransformControl.Current;
 
-            _transform = DragTransform.Current;
-            _drag = DragTransformControl.Current;
+            DragTransform.Current.TransformChanged += Transform_TransformChanged;
+            LoupeTransform.Current.TransformChanged += Transform_TransformChanged;
 
             _bookHub = bookHub;
 
@@ -216,8 +214,6 @@ namespace NeeView
 
             MouseInput.Current.ShowMessage(e.ActionType, MainContent);
         }
-
-
 
 
 
@@ -349,11 +345,11 @@ namespace NeeView
             if (!MouseInput.Current.IsLoupeMode)
             {
                 // 
-                _drag.SetMouseDragSetting(pageDirection, viewOrigin, BookSetting.Current.BookMemento.BookReadOrder);
+                _dragTransformControl.SetMouseDragSetting(pageDirection, viewOrigin, BookSetting.Current.BookMemento.BookReadOrder);
 
                 // リセット
                 var angle = _isAutoRotate ? GetAutoRotateAngle() : double.NaN;
-                _drag.Reset(isForce, angle);
+                _dragTransformControl.Reset(isForce, angle);
             }
         }
 
@@ -448,14 +444,14 @@ namespace NeeView
         {
             var dpiScaleX = Config.Current.RawDpi.DpiScaleX;
 
-            double finalScale = _transform.Scale * MouseInput.Current.Loupe.LoupeScale;
+            double finalScale = _dragTransform.Scale * LoupeTransform.Current.Scale;
 
             foreach (var content in Contents)
             {
                 if (content.View != null && content.IsBitmapScalingModeSupported())
                 {
                     double diff = Math.Abs(content.Size.Width - content.Width * dpiScaleX);
-                    if (Config.Current.IsDpiSquare && diff < 0.1 && _transform.Angle == 0.0 && Math.Abs(finalScale - 1.0) < 0.001)
+                    if (Config.Current.IsDpiSquare && diff < 0.1 && _dragTransform.Angle == 0.0 && Math.Abs(finalScale - 1.0) < 0.001)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                     }
@@ -669,17 +665,17 @@ namespace NeeView
         //
         public void ViewRotateLeft(ViewRotateCommandParameter parameter)
         {
-            if (parameter.IsStretch) _drag.ResetDefault();
-            _drag.Rotate(-parameter.Angle);
-            if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_transform.Angle);
+            if (parameter.IsStretch) _dragTransformControl.ResetDefault();
+            _dragTransformControl.Rotate(-parameter.Angle);
+            if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_dragTransform.Angle);
         }
 
         //
         public void ViewRotateRight(ViewRotateCommandParameter parameter)
         {
-            if (parameter.IsStretch) _drag.ResetDefault();
-            _drag.Rotate(+parameter.Angle);
-            if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_transform.Angle);
+            if (parameter.IsStretch) _dragTransformControl.ResetDefault();
+            _dragTransformControl.Rotate(+parameter.Angle);
+            if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_dragTransform.Angle);
         }
 
         #endregion

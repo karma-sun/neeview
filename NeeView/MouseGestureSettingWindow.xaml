@@ -59,7 +59,7 @@
                 </ToggleButton>
             </Grid>
             <Popup IsOpen="{Binding ElementName=WindowHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowHelp}" Placement="Top" HorizontalAlignment="Right">
-                <Border BorderBrush="Gray" BorderThickness="1" Background="LightYellow">
+                <Border BorderBrush="Gray" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
                     <TextBlock Margin="10">
                                 水色の枠内でマウスジェスチャーを入力します<LineBreak/>
                                 マウスジェスチャーはマウス右ボタンを押しながらのドラッグ操作です<LineBreak/>

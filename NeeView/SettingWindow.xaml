@@ -248,7 +248,7 @@
                             </ToggleButton>
                         </DockPanel>
                         <Popup IsOpen="{Binding ElementName=WindowTitleFormatHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowTitleFormatHelp}" Placement="Top" HorizontalAlignment="Right">
-                            <Border BorderBrush="Gray" BorderThickness="1" Background="LightYellow">
+                            <Border BorderBrush="Gray" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" >
                                 <TextBlock Margin="10">
                                     $Book -- 開いているブック名<LineBreak/>
                                     $Page -- 現在ページ番号<LineBreak/>
@@ -435,7 +435,7 @@
 
                                 </DockPanel>
 
-                                <ListView x:Name="DragActionListView" ItemsSource="{Binding DragActionCollection}" Foreground="Black" SelectionChanged="DragActionListView_SelectionChanged">
+                                <ListView x:Name="DragActionListView" ItemsSource="{Binding DragActionCollection}" SelectionChanged="DragActionListView_SelectionChanged">
                                     <i:Interaction.Behaviors>
                                         <local:IgnoreMouseWheelBehavior />
                                     </i:Interaction.Behaviors>
@@ -741,7 +741,7 @@
                                 </ToggleButton>
                             </DockPanel>
                             <Popup IsOpen="{Binding ElementName=RecursiveFolderHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=RecursiveFolderHelp}" Placement="Top" HorizontalAlignment="Right">
-                                <Border BorderBrush="Gray" BorderThickness="1" Background="LightYellow">
+                                <Border BorderBrush="Gray" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
                                     <TextBlock Margin="10" MaxWidth="480" TextWrapping="Wrap">
                                         新しくブックを開くときはサブフォルダー読み込みが無効となりますが、以下の方法で簡易に開くことが可能です。<LineBreak/>
                                         <LineBreak/>
@@ -996,7 +996,7 @@
                         </WrapPanel>
                     </DockPanel>
 
-                    <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}" Foreground="Black" SelectionChanged="CommandListView_SelectionChanged"
+                    <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}" SelectionChanged="CommandListView_SelectionChanged"
                               VirtualizingStackPanel.IsVirtualizing="True"
                               VirtualizingStackPanel.ScrollUnit="Pixel"
                               VirtualizingStackPanel.VirtualizationMode="Recycling">
@@ -1161,7 +1161,7 @@
                         </ToggleButton>
                     </DockPanel>
                     <Popup IsOpen="{Binding ElementName=ContextMenuHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=ContextMenuHelp}" Placement="Top" HorizontalAlignment="Right">
-                        <Border BorderBrush="Gray" BorderThickness="1" Background="LightYellow">
+                        <Border BorderBrush="Gray" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
                             <TextBlock Margin="10">
                                 コンテキストメニュー呼び出しはコマンド「コンテキストメニューを開く」で行うため、コマンド設定でのキー指定が必要です<LineBreak/>
                                 未設定の場合でもアプリケーションキーで開くことができます
@@ -1195,7 +1195,7 @@
                             <Button x:Name="ResetAllPropertyButton" Content="全パラメータ初期化" MinWidth="120" Height="30" Margin="8" HorizontalAlignment="Right" Click="ResetAllPropertyButton_Click"/>
                         </Grid>
                     </DockPanel>
-                    <ListView x:Name="PropertyListView" ItemsSource="{Binding Source={StaticResource PropertySource}}" Foreground="Black">
+                    <ListView x:Name="PropertyListView" ItemsSource="{Binding Source={StaticResource PropertySource}}">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

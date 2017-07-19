@@ -92,7 +92,7 @@
                         <Grid Height="40" VerticalAlignment="Top" Margin="10,0" >
                             <TextBox x:Name="KeyGestureBox" Style="{StaticResource InputBox}" PreviewKeyDown="KeyGestureBox_PreviewKeyDown" >
                             </TextBox>
-                            <TextBlock x:Name="KeyGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False"/>
+                            <TextBlock x:Name="KeyGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False" Foreground="#222"/>
                             <TextBlock Text="ここでキー入力" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
@@ -136,7 +136,7 @@
                                 </Style>
                             </Border.Style>
                             <Grid>
-                                <TextBlock x:Name="MouseGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False"/>
+                                <TextBlock x:Name="MouseGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False" Foreground="#222"/>
                                 <TextBlock Text="ここでマウス入力" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">

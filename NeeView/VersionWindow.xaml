@@ -12,6 +12,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
+        Foreground="#222"
         Style="{StaticResource ToolDialogStyle}"
         Title="このアプリについて" Height="260" Width="400" ResizeMode="NoResize">
     <Window.Resources>
@@ -27,7 +28,7 @@
 
     <DockPanel Background="#F8F8F8">
 
-        <Grid DockPanel.Dock="Bottom" Background="#F0F0F0">
+        <Grid DockPanel.Dock="Bottom" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
             <Grid.Resources>
                 <Style x:Key="LinkedTextBlock" TargetType="TextBlock">
                     <Setter Property="Margin" Value="30,20"/>

@@ -26,7 +26,7 @@
         <DockPanel Margin="5">
 
             <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal">
-                <TextBlock Text="{Binding Gesture}" Background="#EEE" Padding="10,2" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Gesture}" Background="#EEE" Foreground="#222" Padding="10,2" VerticalAlignment="Center"/>
                 <TextBlock Text="で実行するコマンドを１つだけ選択してください" Margin="5,0" VerticalAlignment="Center"/>
             </StackPanel>
 

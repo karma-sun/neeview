@@ -956,7 +956,7 @@ namespace NeeView
                 element.Note = "画像を上方向にするロールさせます。縦スクロールできないときは横スクロールになります";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ViewScrollCommandParameter() { Scroll = 25, AllowCrossScroll = true };
-                element.Execute = (s, e) => _models.MouseInput.Drag.ScrollUp((ViewScrollCommandParameter)element.Parameter);
+                element.Execute = (s, e) => _models.DragTransformControl.ScrollUp((ViewScrollCommandParameter)element.Parameter);
                 _elements[CommandType.ViewScrollUp] = element;
             }
             // ViewScrollDown
@@ -967,7 +967,7 @@ namespace NeeView
                 element.Note = "画像を下方向にするロールさせます。縦スクロールできないときは横スクロールになります";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScrollUp };
-                element.Execute = (s, e) => _models.MouseInput.Drag.ScrollDown((ViewScrollCommandParameter)element.Parameter);
+                element.Execute = (s, e) => _models.DragTransformControl.ScrollDown((ViewScrollCommandParameter)element.Parameter);
                 _elements[CommandType.ViewScrollDown] = element;
             }
             // ViewScrollLeft
@@ -978,7 +978,7 @@ namespace NeeView
                 element.Note = "画像を左方向にするロールさせます。横スクロールできないときは縦スクロールになります";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScrollUp };
-                element.Execute = (s, e) => _models.MouseInput.Drag.ScrollLeft((ViewScrollCommandParameter)element.Parameter);
+                element.Execute = (s, e) => _models.DragTransformControl.ScrollLeft((ViewScrollCommandParameter)element.Parameter);
                 _elements[CommandType.ViewScrollLeft] = element;
             }
             // ViewScrollRight
@@ -989,7 +989,7 @@ namespace NeeView
                 element.Note = "画像を右方向にするロールさせます。横スクロールできないときは縦スクロールになります";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScrollUp };
-                element.Execute = (s, e) => _models.MouseInput.Drag.ScrollRight((ViewScrollCommandParameter)element.Parameter);
+                element.Execute = (s, e) => _models.DragTransformControl.ScrollRight((ViewScrollCommandParameter)element.Parameter);
                 _elements[CommandType.ViewScrollRight] = element;
             }
             // ViewScaleUp
@@ -1001,7 +1001,7 @@ namespace NeeView
                 element.ShortCutKey = "RightButton+WheelUp";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ViewScaleCommandParameter() { Scale = 20 };
-                element.Execute = (s, e) => _models.MouseInput.Drag.ScaleUp(((ViewScaleCommandParameter)element.Parameter).Scale / 100.0);
+                element.Execute = (s, e) => _models.DragTransformControl.ScaleUp(((ViewScaleCommandParameter)element.Parameter).Scale / 100.0);
                 _elements[CommandType.ViewScaleUp] = element;
             }
             // ViewScaleDown
@@ -1013,7 +1013,7 @@ namespace NeeView
                 element.ShortCutKey = "RightButton+WheelDown";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScaleUp };
-                element.Execute = (s, e) => _models.MouseInput.Drag.ScaleDown(((ViewScaleCommandParameter)element.Parameter).Scale / 100.0);
+                element.Execute = (s, e) => _models.DragTransformControl.ScaleDown(((ViewScaleCommandParameter)element.Parameter).Scale / 100.0);
                 _elements[CommandType.ViewScaleDown] = element;
             }
             // ViewRotateLeft
@@ -1063,7 +1063,7 @@ namespace NeeView
                 element.Note = "画像を左右反転させます";
                 element.IsShowMessage = false;
                 element.CreateIsCheckedBinding = () => BindingGenerator.IsFlipHorizontal();
-                element.Execute = (s, e) => _models.MouseInput.Drag.ToggleFlipHorizontal();
+                element.Execute = (s, e) => _models.DragTransformControl.ToggleFlipHorizontal();
                 _elements[CommandType.ToggleViewFlipHorizontal] = element;
             }
             // ViewFlipHorizontalOn
@@ -1073,7 +1073,7 @@ namespace NeeView
                 element.Text = "左右反転ON";
                 element.Note = "左右反転状態にします";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MouseInput.Drag.FlipHorizontal(true);
+                element.Execute = (s, e) => _models.DragTransformControl.FlipHorizontal(true);
                 _elements[CommandType.ViewFlipHorizontalOn] = element;
             }
             // ViewFlipHorizontalOff
@@ -1083,7 +1083,7 @@ namespace NeeView
                 element.Text = "左右反転OFF";
                 element.Note = "左右反転状態を解除します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MouseInput.Drag.FlipHorizontal(false);
+                element.Execute = (s, e) => _models.DragTransformControl.FlipHorizontal(false);
                 _elements[CommandType.ViewFlipHorizontalOff] = element;
             }
 
@@ -1096,7 +1096,7 @@ namespace NeeView
                 element.Note = "画像を上下反転させます";
                 element.IsShowMessage = false;
                 element.CreateIsCheckedBinding = () => BindingGenerator.IsFlipVertical();
-                element.Execute = (s, e) => _models.MouseInput.Drag.ToggleFlipVertical();
+                element.Execute = (s, e) => _models.DragTransformControl.ToggleFlipVertical();
                 _elements[CommandType.ToggleViewFlipVertical] = element;
             }
             // ViewFlipVerticalOn
@@ -1106,7 +1106,7 @@ namespace NeeView
                 element.Text = "上下反転ON";
                 element.Note = "上下反転状態にします";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MouseInput.Drag.FlipVertical(true);
+                element.Execute = (s, e) => _models.DragTransformControl.FlipVertical(true);
                 _elements[CommandType.ViewFlipVerticalOn] = element;
             }
             // ViewFlipVerticalOff
@@ -1116,7 +1116,7 @@ namespace NeeView
                 element.Text = "上下反転OFF";
                 element.Note = "上下反転状態を解除します";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MouseInput.Drag.FlipVertical(false);
+                element.Execute = (s, e) => _models.DragTransformControl.FlipVertical(false);
                 _elements[CommandType.ViewFlipVerticalOff] = element;
             }
 

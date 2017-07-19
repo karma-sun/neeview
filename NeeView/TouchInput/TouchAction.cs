@@ -13,6 +13,7 @@ namespace NeeView
     {
         None,
         Drag,
+        MouseDrag,
         Gesture,
     }
 
@@ -22,8 +23,24 @@ namespace NeeView
         public static Dictionary<TouchAction, string> TouchActionList = new Dictionary<TouchAction, string>
         {
             [TouchAction.None] = "なし",
-            [TouchAction.Drag] = "ビュー操作",
+            [TouchAction.Drag] = "タッチビュー操作",
+            [TouchAction.MouseDrag] = "マウスドラッグ操作",
             [TouchAction.Gesture] = "ジェスチャー"
+        };
+
+        public static Dictionary<TouchAction, string> TouchActionLimitedList = new Dictionary<TouchAction, string>
+        {
+            [TouchAction.Drag] = TouchActionList[TouchAction.Drag],
+            [TouchAction.MouseDrag] = TouchActionList[TouchAction.MouseDrag],
+            [TouchAction.Gesture] = TouchActionList[TouchAction.Gesture],
+        };
+
+        public static Dictionary<TouchAction, string> TouchActionTips = new Dictionary<TouchAction, string>
+        {
+            [TouchAction.None] = null,
+            [TouchAction.Drag] = "タッチによるビュー操作です",
+            [TouchAction.MouseDrag] = "マウスの左ボタンドラッグと同じビュー操作です",
+            [TouchAction.Gesture] = "ジェスチャー入力です"
         };
 
         public static string ToDispString(this TouchAction element)

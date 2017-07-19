@@ -24,7 +24,7 @@ namespace NeeView
     {
         None,
         Normal,
-        Mouse,
+        MouseDrag,
         Drag,
         Gesture,
     }
@@ -50,9 +50,8 @@ namespace NeeView
             this.Gesture.GestureChanged += (s, e) => _context.GestureCommandCollection.Execute(e.Sequence);
             this.Gesture.GestureProgressed += (s, e) => _context.GestureCommandCollection.ShowProgressed(e.Sequence);
 
-            this.Mouse = new TouchInputMouse(_context);
-            this.Mouse.StateChanged += StateChanged;
-            this.Mouse.TouchGestureChanged += (s, e) => TouchGestureChanged?.Invoke(_sender, e);
+            this.MouseDrag = new TouchInputMouseDrag(_context);
+            this.MouseDrag.StateChanged += StateChanged;
 
             this.Normal = new TouchInputNormal(_context, this.Gesture);
             this.Normal.StateChanged += StateChanged;
@@ -62,7 +61,7 @@ namespace NeeView
             // initialize state
             _touchInputCollection = new Dictionary<TouchInputState, TouchInputBase>();
             _touchInputCollection.Add(TouchInputState.Normal, this.Normal);
-            _touchInputCollection.Add(TouchInputState.Mouse, this.Mouse);
+            _touchInputCollection.Add(TouchInputState.MouseDrag, this.MouseDrag);
             _touchInputCollection.Add(TouchInputState.Drag, this.Drag);
             _touchInputCollection.Add(TouchInputState.Gesture, this.Gesture);
             SetState(TouchInputState.Normal, null);
@@ -98,24 +97,14 @@ namespace NeeView
 
 
         /// <summary>
-        /// ドラッグ操作をマウス操作として処理するモードのフラグ
-        /// </summary>
-        private bool _isMouseDragMode;
-        public bool IsMouseDragMode
-        {
-            get { return _isMouseDragMode; }
-            set { if (_isMouseDragMode != value) { _isMouseDragMode = value; SetState(TouchInputState.Normal, null); } }
-        }
-
-        /// <summary>
         /// 状態：既定
         /// </summary>
         public TouchInputNormal Normal { get; private set; }
 
         /// <summary>
-        /// 状態：マウス操作
+        /// 状態：マウスドラッグ
         /// </summary>
-        public TouchInputMouse Mouse { get; private set; }
+        public TouchInputMouseDrag MouseDrag { get; private set; }
 
         /// <summary>
         /// 状態：ドラッグ
@@ -146,15 +135,6 @@ namespace NeeView
         private TouchInputBase _current;
 
 
-        /// <summary>
-        /// マウス操作モード？
-        /// </summary>
-        /// <returns></returns>
-        public bool IsMouseMode()
-        {
-            return _state == TouchInputState.Mouse;
-        }
-
         //
         public bool IsCaptured()
         {
@@ -178,11 +158,6 @@ namespace NeeView
         /// <param name="parameter"></param>
         public void SetState(TouchInputState state, object parameter)
         {
-            if (_isMouseDragMode && state == TouchInputState.Normal)
-            {
-                state = TouchInputState.Mouse;
-            }
-
             if (state == _state) return;
 
             ////Debug.WriteLine($"#TouchState: {state}");
@@ -262,7 +237,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public bool IsMouseDragMode { get; set; } 
+            public TouchInputNormal.Memento Normal { get; set; }
             [DataMember]
             public TouchInputGesture.Memento Gesture { get; set; }
             [DataMember]
@@ -273,7 +248,7 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsMouseDragMode = this.IsMouseDragMode;
+            memento.Normal = this.Normal.CreateMemento();
             memento.Gesture = this.Gesture.CreateMemento();
             memento.Drag = this.Drag.CreateMemento();
             return memento;
@@ -283,7 +258,7 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.IsMouseDragMode = memento.IsMouseDragMode;
+            this.Normal.Restore(memento.Normal);
             this.Gesture.Restore(memento.Gesture);
             this.Drag.Restore(memento.Drag);
         }

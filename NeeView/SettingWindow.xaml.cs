@@ -285,6 +285,13 @@ namespace NeeView
         //
         public static Dictionary<PageSortMode, string> PageSortModeList => PageSortModeExtension.PageSortModeList;
 
+        //
+        public static Dictionary<TouchAction, string> TouchActionList => TouchActionExtensions.TouchActionList;
+
+        //
+        public static Dictionary<TouchAction, string> TouchActionLimitedList => TouchActionExtensions.TouchActionLimitedList;
+
+
         // ビュー回転のスナップ値
         public AngleFrequency AngleFrequency { get; set; }
 

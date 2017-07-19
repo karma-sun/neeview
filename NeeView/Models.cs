@@ -44,6 +44,7 @@ namespace NeeView
         public RoutedCommandTable RoutedCommandTable { get; private set; }
 
         public DragTransform DragTransform { get; private set; }
+        public DragTransformControl DragTransformControl { get; private set; }
         public MouseInputContext MouseInputContext { get; private set; }
         public MouseInput MouseInput { get; private set; }
         public TouchInputContext TouchInputContext { get; private set; }
@@ -125,6 +126,10 @@ namespace NeeView
             this.RoutedCommandTable = new RoutedCommandTable(window, this.CommandTable);
 
             this.DragTransform = new DragTransform();
+            var dragTransformContext = new DragTransformContext();
+            dragTransformContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, this.DragTransform);
+            this.DragTransformControl = new DragTransformControl(dragTransformContext);
+
             this.MouseInputContext = new MouseInputContext();
             this.MouseInputContext.Initialize(window, window.MainView, window.MainContent, window.MainContentShadow, this.DragTransform, MouseGestureCommandCollection.Current);
             this.MouseInput = new MouseInput(this.MouseInputContext);
@@ -235,6 +240,8 @@ namespace NeeView
             [DataMember]
             public DragTransform.Memento DragTransform { get; set; }
             [DataMember]
+            public DragTransformControl.Memento DragTransformControl { get; set; }
+            [DataMember]
             public MouseInput.Memento MouseInput { get; set; }
             [DataMember]
             public TouchInput.Memento TouchInput { get; set; }
@@ -296,6 +303,7 @@ namespace NeeView
             memento.ContentCanvas = this.ContentCanvas.CreateMemento();
             memento.ContentCanvasBrush = this.ContentCanvasBrush.CreateMemento();
             memento.DragTransform = this.DragTransform.CreateMemento();
+            memento.DragTransformControl = this.DragTransformControl.CreateMemento();
             memento.MouseInput = this.MouseInput.CreateMemento();
             memento.TouchInput = this.TouchInput.CreateMemento();
             memento.SlideShow = this.SlideShow.CreateMemento();
@@ -336,6 +344,7 @@ namespace NeeView
             this.ContentCanvas.Restore(memento.ContentCanvas);
             this.ContentCanvasBrush.Restore(memento.ContentCanvasBrush);
             this.DragTransform.Restore(memento.DragTransform);
+            this.DragTransformControl.Restore(memento.DragTransformControl);
             this.MouseInput.Restore(memento.MouseInput);
             this.TouchInput.Restore(memento.TouchInput);
             this.SlideShow.Restore(memento.SlideShow);

@@ -144,9 +144,11 @@
     <Compile Include="BookHistoryCommand.cs" />
     <Compile Include="BookSetting.cs" />
     <Compile Include="ContentCanvasBrush.cs" />
+    <Compile Include="Converters\TouchActionToTipsConverter.cs" />
+    <Compile Include="MouseInput\DragTransformControl.cs" />
     <Compile Include="Page\PdfContetnt.cs" />
     <Compile Include="TouchInput\TouchAction.cs" />
-    <Compile Include="TouchInput\TouchInputMouse.cs" />
+    <Compile Include="TouchInput\TouchInputMouseDrag.cs" />
     <Compile Include="ViewContent\AnimatedViewContent.cs" />
     <Compile Include="ViewContent\BitmapViewContent.cs" />
     <Compile Include="ContentRebuild.cs" />

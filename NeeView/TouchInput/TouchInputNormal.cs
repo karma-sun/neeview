@@ -152,15 +152,15 @@ namespace NeeView
                 case TouchAction.Drag:
                     SetState(TouchInputState.Drag, _touch);
                     break;
+                case TouchAction.MouseDrag:
+                    SetState(TouchInputState.MouseDrag, _touch);
+                    break;
                 case TouchAction.Gesture:
                     SetState(TouchInputState.Gesture, _touch);
                     break;
             }
         }
 
-
-#if false
-        // 現状ドラッグ操作の編集の必要が無いので無効にしてます
         #region Memento
         [DataContract]
         public class Memento
@@ -188,7 +188,6 @@ namespace NeeView
             this.HoldAction = memento.HoldAction;
         }
         #endregion
-#endif
 
     }
 

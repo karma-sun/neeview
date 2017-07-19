@@ -13,27 +13,23 @@ using System.Windows.Input;
 namespace NeeView
 {
     /// <summary>
-    /// マウス操作状態
-    /// シングルドラッグの場合、信号をそのままMouseInputで処理させる
+    /// マウスドラッグ互換
     /// </summary>
-    public class TouchInputMouse : TouchInputBase
+    public class TouchInputMouseDrag : TouchInputBase
     {
-        /// <summary>
-        /// 押されている？
-        /// </summary>
-        private bool _isTouchDown;
+        DragTransformControl _drag;
 
-        /// <summary>
-        /// 現在のタッチデバイス
-        /// </summary>
-        private TouchContext _touch;
+        //
+        TouchContext _touch;
+
 
         /// <summary>
         /// コンストラクター
         /// </summary>
         /// <param name="context"></param>
-        public TouchInputMouse(TouchInputContext context) : base(context)
+        public TouchInputMouseDrag(TouchInputContext context) : base(context)
         {
+            _drag = DragTransformControl.Current; // ##
         }
 
 
@@ -44,8 +40,10 @@ namespace NeeView
         /// <param name="parameter"></param>
         public override void OnOpened(FrameworkElement sender, object parameter)
         {
-            MouseInput.Current.ResetState();
-            _isTouchDown = false;
+            _touch = (TouchContext)parameter;
+
+            _drag.ResetState();
+            _drag.UpdateState(MouseButtonBits.LeftButton, Keyboard.Modifiers, _touch.StartPoint);
         }
 
         /// <summary>
@@ -69,12 +67,6 @@ namespace NeeView
             {
                 SetState(TouchInputState.Drag, null);
             }
-
-            _context.TouchMap.TryGetValue(e.StylusDevice, out _touch);
-            if (_touch == null) return;
-
-            _isTouchDown = true;
-            _context.Sender.Focus();
         }
 
         /// <summary>
@@ -84,22 +76,9 @@ namespace NeeView
         /// <param name="e"></param>
         public override void OnStylusUp(object sender, StylusEventArgs e)
         {
-            if (!_isTouchDown) return;
-            if (e.StylusDevice != _touch.StylusDevice) return;
-
-            if (MouseInput.Current.IsNormalMode)
-            {
-                // タッチジェスチャー判定
-                ExecuteTouchGesture(sender, e);
-                e.Handled = false; // マウスイベントを正常に動作させるためイベントを継続させる
-
-                MouseInput.Current.ResetState();
-            }
-
-            // その後の操作は全て無効
-            _isTouchDown = false;
+            SetState(TouchInputState.Normal, null);
         }
-        
+
         /// <summary>
         /// マウス移動処理
         /// </summary>
@@ -107,9 +86,10 @@ namespace NeeView
         /// <param name="e"></param>
         public override void OnStylusMove(object sender, StylusEventArgs e)
         {
-            // nop.
+            if (e.StylusDevice != _touch?.StylusDevice) return;
+
+            _drag.UpdateState(MouseButtonBits.LeftButton, Keyboard.Modifiers, e.GetPosition(_context.Sender));
         }
     }
-
 
 }

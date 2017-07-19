@@ -172,8 +172,8 @@ namespace NeeView
         #endregion
 
         private DragTransform _transform;
+        private DragTransformControl _drag;
 
-        ////private ContentCanvasTransform _transform;
         private MouseInput _mouse;
 
         private BookHub _bookHub; // TODO: BookOperation?
@@ -186,6 +186,7 @@ namespace NeeView
             _mouse.TransformChanged += Transform_TransformChanged;
 
             _transform = DragTransform.Current;
+            _drag = DragTransformControl.Current;
 
             _bookHub = bookHub;
 
@@ -348,11 +349,11 @@ namespace NeeView
             if (!MouseInput.Current.IsLoupeMode)
             {
                 // 
-                _mouse.Drag.SetMouseDragSetting(pageDirection, viewOrigin, BookSetting.Current.BookMemento.BookReadOrder);
+                _drag.SetMouseDragSetting(pageDirection, viewOrigin, BookSetting.Current.BookMemento.BookReadOrder);
 
                 // リセット
                 var angle = _isAutoRotate ? GetAutoRotateAngle() : double.NaN;
-                _mouse.Drag.Reset(isForce, angle);
+                _drag.Reset(isForce, angle);
             }
         }
 
@@ -668,16 +669,16 @@ namespace NeeView
         //
         public void ViewRotateLeft(ViewRotateCommandParameter parameter)
         {
-            if (parameter.IsStretch) _mouse.Drag.ResetDefault();
-            _mouse.Drag.Rotate(-parameter.Angle);
+            if (parameter.IsStretch) _drag.ResetDefault();
+            _drag.Rotate(-parameter.Angle);
             if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_transform.Angle);
         }
 
         //
         public void ViewRotateRight(ViewRotateCommandParameter parameter)
         {
-            if (parameter.IsStretch) _mouse.Drag.ResetDefault();
-            _mouse.Drag.Rotate(+parameter.Angle);
+            if (parameter.IsStretch) _drag.ResetDefault();
+            _drag.Rotate(+parameter.Angle);
             if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_transform.Angle);
         }
 

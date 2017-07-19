@@ -99,7 +99,7 @@ namespace NeeView
             var mouse = MouseInput.Current;
 
             // mouse drag
-            DragActionTable.Current.SetTarget(mouse.Drag);
+            DragActionTable.Current.SetTarget(DragTransformControl.Current);
 
 
             // render transform
@@ -498,7 +498,7 @@ namespace NeeView
             ContentCanvas.Current.SetViewSize(this.MainView.ActualWidth, this.MainView.ActualHeight);
 
             // スナップ
-            MouseInput.Current.Drag.SnapView();
+            DragTransformControl.Current.SnapView();
         }
 
 

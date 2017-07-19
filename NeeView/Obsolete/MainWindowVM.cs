@@ -308,12 +308,12 @@ namespace NeeView
                 models.MouseInput.Normal.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
                 models.MouseInput.Loupe.IsLoupeCenter = memento.IsLoupeCenter;
                 models.MouseInput.Loupe.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
-                models.MouseInput.Drag.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-                models.MouseInput.Drag.IsControlCenterImage = memento.IsControlCenterImage;
-                models.MouseInput.Drag.IsKeepAngle = memento.IsKeepAngle;
-                models.MouseInput.Drag.IsKeepFlip = memento.IsKeepFlip;
-                models.MouseInput.Drag.IsKeepScale = memento.IsKeepScale;
-                models.MouseInput.Drag.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
+                models.DragTransformControl.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
+                models.DragTransformControl.IsControlCenterImage = memento.IsControlCenterImage;
+                models.DragTransformControl.IsKeepAngle = memento.IsKeepAngle;
+                models.DragTransformControl.IsKeepFlip = memento.IsKeepFlip;
+                models.DragTransformControl.IsKeepScale = memento.IsKeepScale;
+                models.DragTransformControl.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
 
                 models.ContentCanvas.StretchMode = memento.StretchMode;
                 models.ContentCanvas.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;

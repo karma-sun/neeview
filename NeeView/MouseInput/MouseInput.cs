@@ -143,7 +143,8 @@ namespace NeeView
             this.Drag.StateChanged += StateChanged;
             this.Drag.MouseButtonChanged += (s, e) => MouseButtonChanged?.Invoke(_sender, e);
             this.Drag.MouseWheelChanged += (s, e) => MouseWheelChanged?.Invoke(_sender, e);
-            this.Drag.TransformChanged += OnTransformChanged;
+
+            DragTransformControl.Current.TransformChanged += OnTransformChanged;
 
             this.Gesture = new MouseInputGesture(_context);
             this.Gesture.StateChanged += StateChanged;
@@ -249,7 +250,6 @@ namespace NeeView
 
         //
         private bool IsStylusDevice(MouseEventArgs e) => e.StylusDevice != null;
-        private bool IsStylusProcessed(MouseEventArgs e) => e.StylusDevice != null && !TouchInput.Current.IsMouseMode();
 
         /// <summary>
         /// OnMouseButtonDown
@@ -259,7 +259,7 @@ namespace NeeView
         private void OnMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (sender != _sender) return;
-            if (IsStylusProcessed(e)) return;
+            if (IsStylusDevice(e)) return;
 
             _current.OnMouseButtonDown(_sender, e);
         }
@@ -273,7 +273,7 @@ namespace NeeView
         {
             if (sender != _sender) return;
 
-            if (!IsStylusProcessed(e))
+            if (!IsStylusDevice(e))
             {
                 _current.OnMouseButtonUp(_sender, e);
             }
@@ -290,7 +290,7 @@ namespace NeeView
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (sender != _sender) return;
-            if (IsStylusProcessed(e)) return;
+            if (IsStylusDevice(e)) return;
 
             _current.OnMouseWheel(_sender, e);
         }
@@ -306,7 +306,7 @@ namespace NeeView
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (sender != _sender) return;
-            if (IsStylusProcessed(e)) return;
+            if (IsStylusDevice(e)) return;
 
             _current.OnMouseMove(_sender, e);
 
@@ -342,7 +342,7 @@ namespace NeeView
             switch (ActionType)
             {
                 case TransformActionType.Scale:
-                    string scaleText = this.Drag.IsOriginalScaleShowMessage && mainContent.IsValid
+                    string scaleText = DragTransformControl.Current.IsOriginalScaleShowMessage && mainContent.IsValid
                         ? $"{(int)(transform.Scale * mainContent.Scale * Config.Current.Dpi.DpiScaleX * 100 + 0.1)}%"
                         : $"{(int)(transform.Scale * 100.0 + 0.1)}%";
                     infoMessage.SetMessage(InfoMessageType.ViewTransform, scaleText);

@@ -108,6 +108,7 @@
     <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
@@ -989,7 +990,7 @@
 )
 
 if "$(ConfigurationName)" == "Remote" (
-    powershell -ExecutionPolicy RemoteSigned -File "$(SolutionDir)Tools\RemoteCopy.ps1" "$(ProjectDir)bin\$(ConfigurationName)"
+    powershell -ExecutionPolicy RemoteSigned -File "$(SolutionDir)Tools\RemoteCopy.ps1" "$(ProjectDir)$(OutDir)\"
 )
 </PostBuildEvent>
   </PropertyGroup>

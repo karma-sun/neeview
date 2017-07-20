@@ -125,39 +125,48 @@ namespace NeeView
             if (!_isDartyThumbnailList) return;
             _isDartyThumbnailList = false;
 
-            var scrollUnit = VirtualizingStackPanel.GetScrollUnit(this.ThumbnailListBox);
-
-            // 項目の幅 取得
-            double itemWidth = GetItemWidth();
-            if (itemWidth <= 0.0) return;
-
-            // 表示領域の幅
-            double panelWidth = this.Root.ActualWidth;
-
-            // 表示項目数を計算 (なるべく奇数)
-            int itemsCount = (int)(panelWidth / itemWidth) / 2 * 2 + 1;
-            if (itemsCount < 1) itemsCount = 1;
-
-            // 表示先頭項目
-            int topIndex = index - itemsCount / 2;
-            if (topIndex < 0) topIndex = 0;
-
-            // 少項目数補正
-            if (indexMax + 1 < itemsCount)
-            {
-                itemsCount = indexMax + 1;
-                topIndex = 0;
-            }
-
-            // ListBoxの幅を表示項目数にあわせる
-            this.ThumbnailListBox.Width = itemWidth * itemsCount + 18; // TODO: 余裕が必要？
-
-            // 表示項目先頭指定
-            var horizontalOffset = scrollUnit == ScrollUnit.Item ? topIndex : topIndex * itemWidth;
-            _listPanel.SetHorizontalOffset(horizontalOffset);
-
             // 選択
             this.ThumbnailListBox.SelectedIndex = index;
+
+
+            if (_vm.Model.IsSelectedCenter)
+            {
+                var scrollUnit = VirtualizingStackPanel.GetScrollUnit(this.ThumbnailListBox);
+
+                // 項目の幅 取得
+                double itemWidth = GetItemWidth();
+                if (itemWidth <= 0.0) return;
+
+                // 表示領域の幅
+                double panelWidth = this.Root.ActualWidth;
+
+                // 表示項目数を計算 (なるべく奇数)
+                int itemsCount = (int)(panelWidth / itemWidth) / 2 * 2 + 1;
+                if (itemsCount < 1) itemsCount = 1;
+
+                // 表示先頭項目
+                int topIndex = index - itemsCount / 2;
+                if (topIndex < 0) topIndex = 0;
+
+                // 少項目数補正
+                if (indexMax + 1 < itemsCount)
+                {
+                    itemsCount = indexMax + 1;
+                    topIndex = 0;
+                }
+
+                // ListBoxの幅を表示項目数にあわせる
+                this.ThumbnailListBox.Width = itemWidth * itemsCount + 18; // TODO: 余裕が必要？
+
+                // 表示項目先頭指定
+                var horizontalOffset = scrollUnit == ScrollUnit.Item ? topIndex : topIndex * itemWidth;
+                _listPanel.SetHorizontalOffset(horizontalOffset);
+            }
+            else
+            {
+                this.ThumbnailListBox.Width = double.NaN;
+                this.ThumbnailListBox.ScrollIntoView(this.ThumbnailListBox.SelectedItem);
+            }
 
             // ##
             ////Debug.WriteLine(topIndex + " / " + this.ThumbnailListBox.Items.Count);

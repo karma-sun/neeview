@@ -129,10 +129,20 @@ namespace NeeView
         // スクロールビュータッチ操作の終端挙動
         public bool IsManipulationBoundaryFeedbackEnabled { get; set; } = true;
 
+        /// <summary>
+        /// IsSelectedCenter property.
+        /// </summary>
+        private bool _isSelectedCenter;
+        public bool IsSelectedCenter
+        {
+            get { return _isSelectedCenter; }
+            set { if (_isSelectedCenter != value) { _isSelectedCenter = value; RaisePropertyChanged(); } }
+        }
+
+
         public BookOperation BookOperation { get; private set; }
         public BookHub BookHub { get; private set; }
 
-        ////public event EventHandler PageListChanged;
         public event EventHandler Refleshed;
 
         /// <summary>
@@ -153,8 +163,8 @@ namespace NeeView
             this.BookHub.BookChanged +=
                 OnBookChanged;
 
-            ////this.BookOperation.AddPropertyChanged(nameof(BookOperation.PageList),
-            ////    (s, e) => PageListChanged?.Invoke(this, null));
+            this.BookOperation.PagesSorted +=
+                OnPageListChanged;
         }
 
         // 本が変更される
@@ -169,6 +179,18 @@ namespace NeeView
         {
             RaisePropertyChanged(nameof(ThumbnailListVisibility));
             Refleshed?.Invoke(this, null);
+        }
+
+        // ページの並び順が変更された
+        private void OnPageListChanged(object sender, EventArgs e)
+        {
+            JobEngine.Current.Clear(QueueElementPriority.PageThumbnail);
+
+            App.Current.Dispatcher.BeginInvoke((Action)(() =>
+                {
+                    RaisePropertyChanged(nameof(ThumbnailListVisibility));
+                    Refleshed?.Invoke(this, null);
+                }));
         }
 
 
@@ -234,9 +256,11 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             [PropertyMember("サムネイルリストタッチスクロールの終端バウンド", Tips = "サムネイルリストのタッチスクロール操作での終端跳ね返り挙動の有効/無効を設定します")]
             public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
+            [DataMember]
+            public bool IsSelectedCenter { get; set; }
 
             [OnDeserializing]
-            private void OnDeserializing(StreamingContext c)
+            private void Deserializing(StreamingContext c)
             {
                 this.IsManipulationBoundaryFeedbackEnabled = true;
             }
@@ -252,6 +276,7 @@ namespace NeeView
             memento.IsVisibleThumbnailNumber = this.IsVisibleThumbnailNumber;
             memento.IsVisibleThumbnailPlate = this.IsVisibleThumbnailPlate;
             memento.IsManipulationBoundaryFeedbackEnabled = this.IsManipulationBoundaryFeedbackEnabled;
+            memento.IsSelectedCenter = this.IsSelectedCenter;
             return memento;
         }
 
@@ -265,6 +290,7 @@ namespace NeeView
             this.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
             this.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
             this.IsManipulationBoundaryFeedbackEnabled = memento.IsManipulationBoundaryFeedbackEnabled;
+            this.IsSelectedCenter = memento.IsSelectedCenter;
         }
         #endregion
 

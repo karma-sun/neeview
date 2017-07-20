@@ -366,6 +366,10 @@ function Remove-BuildObjects
 	{
 		Remove-Item $packageDir -Recurse -Force
 	}
+	if (Test-Path $packageAppendDir)
+	{
+		Remove-Item $packageAppendDir -Recurse -Force
+	}
 	if (Test-Path $packageX86Dir)
 	{
 		Remove-Item $packageX86Dir -Recurse -Force
@@ -415,6 +419,7 @@ $buildVersion = "$version.$buildCount"
 $assemblyVersion = "$version.$buildCount.0"
 
 $packageDir = "$product$version"
+$packageAppendDir = $packageDir + ".append"
 $packageX86Dir = "$product${version}-x86"
 $packageX64Dir = "$product${version}-x64"
 $packageZip = "$product$version.zip"

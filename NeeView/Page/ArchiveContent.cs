@@ -131,7 +131,7 @@ namespace NeeView
 
                     if (select != null)
                     {
-                        return await LoadBitmapAsync(select, token);
+                        return (await LoadPictureAsync(select, token))?.BitmapSource;
                     }
                     else
                     {

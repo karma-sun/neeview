@@ -141,6 +141,7 @@
     <Compile Include="BackupSelectControl.xaml.cs">
       <DependentUpon>BackupSelectControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BitmapLoader\PictureLoaderManager.cs" />
     <Compile Include="BookProfile.cs" />
     <Compile Include="BookHistoryCommand.cs" />
     <Compile Include="BookSetting.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="MouseInput\DragTransformControl.cs" />
     <Compile Include="MouseInput\LoupeTransform.cs" />
     <Compile Include="Page\PdfContetnt.cs" />
+    <Compile Include="Page\PictureSource.cs" />
     <Compile Include="TouchInput\TouchAction.cs" />
     <Compile Include="TouchInput\TouchInputMouseDrag.cs" />
     <Compile Include="ViewContent\AnimatedViewContent.cs" />

@@ -38,7 +38,7 @@ namespace NeeView
 
             // content setting
             var animatedContent = this.Content as AnimatedContent;
-            this.Color = animatedContent.BitmapInfo.Color;
+            this.Color = animatedContent.Color;
             this.FileProxy = animatedContent.FileProxy;
         }
 

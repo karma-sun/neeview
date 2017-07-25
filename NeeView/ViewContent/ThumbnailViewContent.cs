@@ -50,8 +50,7 @@ namespace NeeView
             }
             else
             {
-                var bitmapinfo = (this.Content as BitmapContent)?.BitmapInfo;
-                this.Color = bitmapinfo != null ? bitmapinfo.Color : Colors.Black;
+                this.Color = this.Content is BitmapContent bitmapContent ? bitmapContent.Color : Colors.Black;
             }
         }
 

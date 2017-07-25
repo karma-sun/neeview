@@ -72,6 +72,8 @@ namespace NeeView
             {
                 _IsFirstOrderSusieImage = value;
                 BitmapLoaderManager.Current.OrderType = _IsFirstOrderSusieImage ? BitmapLoaderType.Susie : BitmapLoaderType.Default;
+                PictureLoaderManager.Current.OrderType = _IsFirstOrderSusieImage ? BitmapLoaderType.Susie : BitmapLoaderType.Default;
+
             }
         }
 

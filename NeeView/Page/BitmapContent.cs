@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -20,11 +21,14 @@ namespace NeeView
     /// </summary>
     public class BitmapContent : PageContent
     {
-        // bitmap source
-        public BitmapSource BitmapSource { get; protected set; }
+        // picture
+        public Picture Picture { get; protected set; }
 
-        // bitmap info
-        public BitmapInfo BitmapInfo { get; protected set; }
+        // bitmap source
+        public BitmapSource BitmapSource => Picture?.BitmapSource;
+
+        // bitmap color
+        public Color Color => Picture != null ? Picture.PictureInfo.Color : Colors.Black;
 
         /// <summary>
         /// BitmapSourceがあればコンテンツ有効
@@ -45,32 +49,44 @@ namespace NeeView
         /// <param name="entry"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        protected async Task<BitmapSource> LoadBitmapAsync(ArchiveEntry entry, CancellationToken token)
+        protected async Task<Picture> LoadPictureAsync(ArchiveEntry entry, CancellationToken token)
         {
             try
             {
-                var bitmapLoader = new BitmapLoader(entry, BookProfile.Current.IsEnableExif);
-                var bitmap = await bitmapLoader.LoadAsync(token);
-                if (bitmap == null) throw new ApplicationException("画像の読み込みに失敗しました。");
+                var picture = new Picture(entry);
+                await picture.LoadAsync();
 
-                Size = new Size(bitmap.Source.PixelWidth, bitmap.Source.PixelHeight);
-                BitmapInfo = bitmap.Info;
+                this.Size = picture.PictureInfo.Size;
+                ////this.BitmapInfo = new BitmapInfo(); // ##
 
+                await picture.CreateBitmapAsync(Size.Empty);
+
+                //
+                ////var bitmapLoader = new BitmapLoader(entry, BookProfile.Current.IsEnableExif);
+                ////var bitmap = await bitmapLoader.LoadAsync(token);
+                ////if (bitmap == null) throw new ApplicationException("画像の読み込みに失敗しました。");
+
+                ////Size = new Size(bitmap.Source.PixelWidth, bitmap.Source.PixelHeight);
+                ////BitmapInfo = bitmap.Info;
+
+                /*
                 try
                 {
                     // 基本色
-                    BitmapInfo.Color = bitmap.Source.GetOneColor();
+                    BitmapInfo.Color = bitmap.GetOneColor();
 
                     // ピクセル深度
-                    BitmapInfo.BitsPerPixel = bitmap.Source.GetSourceBitsPerPixel();
+                    BitmapInfo.BitsPerPixel = bitmap.GetSourceBitsPerPixel();
                 }
                 catch (Exception e)
                 {
                     // ここの例外はスルー
                     Debug.WriteLine(e.Message);
                 }
+                */
 
-                return bitmap.Source;
+
+                return picture;
             }
             catch (OperationCanceledException)
             {
@@ -97,17 +113,17 @@ namespace NeeView
         {
             if (IsLoaded) return;
 
-            var bitmap = await LoadBitmapAsync(Entry, token);
+            var picture = await LoadPictureAsync(Entry, token);
 
             if (!token.IsCancellationRequested)
             {
-                BitmapSource = bitmap;
+                this.Picture = picture;
                 RaiseLoaded();
                 RaiseChanged();
             }
 
             if (Thumbnail.IsValid) return;
-            Thumbnail.Initialize(bitmap);
+            Thumbnail.Initialize(picture.BitmapSource);
         }
 
         /// <summary>
@@ -115,8 +131,8 @@ namespace NeeView
         /// </summary>
         public override void Unload()
         {
-            PageMessage = null;
-            BitmapSource = null;
+            this.PageMessage = null;
+            this.Picture = null;
             RaiseChanged();
 
             MemoryControl.Current.GarbageCollect();
@@ -133,7 +149,7 @@ namespace NeeView
 
             // TODO: コンテンツ読み込み要求が有効な場合の処理
 
-            var bitmapSource = BitmapSource ?? await LoadBitmapAsync(Entry, token);
+            var bitmapSource = BitmapSource ?? (await LoadPictureAsync(Entry, token))?.BitmapSource;
             Thumbnail.Initialize(bitmapSource);
         }
     }

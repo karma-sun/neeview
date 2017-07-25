@@ -120,6 +120,10 @@ namespace NeeView
             ThumbnailCache = new ThumbnailCache();
             ExporterProfile = new ExporterProfile();
 
+            //  ##
+            new PictureLoaderManager();
+            new PictureProfile();
+
             //
             this.CommandTable = new CommandTable();
             this.RoutedCommandTable = new RoutedCommandTable(window, this.CommandTable);

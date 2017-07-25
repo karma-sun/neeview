@@ -155,14 +155,14 @@ namespace NeeView
                 var bitmapContent0 = Contents[0].Content as BitmapContent;
                 var bitmapContent1 = Contents[1].Content as BitmapContent;
 
-                string size0 = bitmapContent0?.BitmapInfo != null ? $"{bitmapContent0.Size.Width}×{bitmapContent0.Size.Height}" : "";
-                string size1 = bitmapContent1?.BitmapInfo != null ? $"{bitmapContent1.Size.Width}×{bitmapContent1.Size.Height}" : "";
+                string size0 = bitmapContent0?.Picture != null ? $"{bitmapContent0.Size.Width}×{bitmapContent0.Size.Height}" : "";
+                string size1 = bitmapContent1?.Picture != null ? $"{bitmapContent1.Size.Width}×{bitmapContent1.Size.Height}" : "";
                 _windowTitleFormatter.Set("$Size", isMainContent0 ? size0 : size1);
                 _windowTitleFormatter.Set("$SizeL", size1);
                 _windowTitleFormatter.Set("$SizeR", size0);
 
-                string bpp0 = bitmapContent0?.BitmapInfo != null ? size0 + "×" + bitmapContent0.BitmapInfo.BitsPerPixel.ToString() : "";
-                string bpp1 = bitmapContent1?.BitmapInfo != null ? size1 + "×" + bitmapContent1.BitmapInfo.BitsPerPixel.ToString() : "";
+                string bpp0 = bitmapContent0?.Picture != null ? size0 + "×" + bitmapContent0.Picture.PictureInfo.BitsPerPixel.ToString() : "";
+                string bpp1 = bitmapContent1?.Picture != null ? size1 + "×" + bitmapContent1.Picture.PictureInfo.BitsPerPixel.ToString() : "";
                 _windowTitleFormatter.Set("$SizeEx", isMainContent0 ? bpp0 : bpp1);
                 _windowTitleFormatter.Set("$SizeExL", bpp1);
                 _windowTitleFormatter.Set("$SizeExR", bpp0);

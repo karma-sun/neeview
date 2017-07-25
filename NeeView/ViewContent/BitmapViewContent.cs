@@ -3,6 +3,8 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
@@ -36,7 +38,17 @@ namespace NeeView
 
             // content setting
             var bitmapContent = this.Content as BitmapContent;
-            this.Color = bitmapContent.BitmapInfo.Color;
+            this.Color = bitmapContent.Color;
+
+            //
+            bitmapContent.Picture?.AddPropertyChanged(nameof(Picture.BitmapSource), PictureBitmapSourceChanged);
+        }
+
+
+        private void PictureBitmapSourceChanged(object semder, PropertyChangedEventArgs arg)
+        {
+            var parameter = CreateBindingParameter();
+            App.Current.Dispatcher.BeginInvoke((Action)(() => this.View = CreateView(this.Source, parameter)));
         }
 
         //
@@ -46,10 +58,10 @@ namespace NeeView
         }
 
         //
-        protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter, BitmapSource bitmapSource)
+        protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter, BitmapSource bitmap)
         {
             var rectangle = new Rectangle();
-            rectangle.Fill = source.CreatePageImageBrush(bitmapSource);
+            rectangle.Fill = source.CreatePageImageBrush(bitmap);
             rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, parameter.BitmapScalingMode);
             rectangle.UseLayoutRounding = true;
             rectangle.SnapsToDevicePixels = true;
@@ -66,9 +78,24 @@ namespace NeeView
             return (this.View as Rectangle)?.Fill;
         }
 
-        #endregion
 
-        #region Static Methods
+#if false
+        //
+        public override bool Rebuild(double scale)
+        {
+            var picture = ((BitmapContent)this.Content).Picture;
+            if (picture == null) return true;
+            //
+            var size = new Size(this.Width * scale, this.Height * scale);
+            picture.RequestCreateBitmap(size);
+
+            return true;
+        }
+#endif
+
+#endregion
+
+#region Static Methods
 
         public static BitmapViewContent Create(ViewContentSource source, ViewContent oldViewContent)
         {
@@ -77,6 +104,6 @@ namespace NeeView
             return viewContent;
         }
 
-        #endregion
+#endregion
     }
 }

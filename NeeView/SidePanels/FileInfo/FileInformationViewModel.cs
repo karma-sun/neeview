@@ -184,7 +184,8 @@ namespace NeeView
 
             var bitmapContent = IsVisible ? _model.ViewContent?.Content as BitmapContent : null;
 
-            if (bitmapContent?.BitmapInfo != null)
+            var info = bitmapContent?.Picture?.PictureInfo;
+            if (info != null)
             {
                 //Debug.WriteLine($"FileInfo: {_model.ViewContent?.FileName}");
 
@@ -194,13 +195,13 @@ namespace NeeView
                 ThumbnailBitmap.Set(bitmapContent.Thumbnail);
 
                 // 画像サイズ表示
-                ImageSize = $"{bitmapContent.Size.Width} x {bitmapContent.Size.Height}" + (_model.IsVisibleBitsPerPixel ? $" ({bitmapContent.BitmapInfo.BitsPerPixel}bit)" : "");
+                ImageSize = $"{bitmapContent.Size.Width} x {bitmapContent.Size.Height}" + (_model.IsVisibleBitsPerPixel ? $" ({info.BitsPerPixel}bit)" : "");
 
                 // ファイルサイズ表示
-                FileSize = bitmapContent.BitmapInfo.Length > 0 ? string.Format("{0:#,0} KB", bitmapContent.BitmapInfo.Length > 0 ? (bitmapContent.BitmapInfo.Length + 1023) / 1024 : 0) : null;
+                FileSize = info.Length > 0 ? string.Format("{0:#,0} KB", info.Length > 0 ? (info.Length + 1023) / 1024 : 0) : null;
 
                 // EXIF
-                var exif = bitmapContent.BitmapInfo.Exif;
+                var exif = info.Exif;
 
                 // EXIF: ShotInfo
                 ShotInfo = exif?.ShotInfo;
@@ -214,14 +215,14 @@ namespace NeeView
                 // 更新日
                 DateTime? lastWriteTime = (_model.IsUseExifDateTime && exif?.LastWriteTime != null)
                     ? exif.LastWriteTime
-                    : bitmapContent.BitmapInfo.LastWriteTime;
+                    : info.LastWriteTime;
                 LastWriteTime = lastWriteTime?.ToString("yyyy年M月d日 dddd H:mm");
 
                 // アーカイバー
-                Archiver = bitmapContent.BitmapInfo.Archiver;
+                Archiver = info.Archiver;
 
                 // デコーダ
-                Decoder = (bitmapContent is AnimatedContent) ? "MediaPlayer" : bitmapContent.BitmapInfo.Decoder;
+                Decoder = (bitmapContent is AnimatedContent) ? "MediaPlayer" : info.Decoder;
             }
             else
             {

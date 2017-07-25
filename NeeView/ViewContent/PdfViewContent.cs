@@ -7,6 +7,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace NeeView
 {
@@ -48,7 +49,7 @@ namespace NeeView
 
             // content setting
             var bitmapContent = this.Content as BitmapContent;
-            this.Color = bitmapContent.BitmapInfo.Color;
+            this.Color = bitmapContent.Color;
         }
 
         //

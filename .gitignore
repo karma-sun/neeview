@@ -215,6 +215,7 @@ ModelManifest.xml
 *.improj
 *.wixpdb
 !*.wxs
+/_*
 Deploy/NeeView*/
 Deploy/*.zip
 Deploy/*.xml

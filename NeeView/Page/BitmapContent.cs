@@ -43,6 +43,9 @@ namespace NeeView
         {
         }
 
+        private static long _totalSw1;
+        private static long _totalSw2;
+
         /// <summary>
         /// 画像読込
         /// </summary>
@@ -51,39 +54,54 @@ namespace NeeView
         /// <returns></returns>
         protected async Task<Picture> LoadPictureAsync(ArchiveEntry entry, CancellationToken token)
         {
+            await Task.Yield();
+
             try
             {
-                var picture = new Picture(entry);
-                await picture.LoadAsync();
+                Picture picture = null;
 
-                this.Size = picture.PictureInfo.Size;
-                ////this.BitmapInfo = new BitmapInfo(); // ##
-
-                await picture.CreateBitmapAsync(Size.Empty);
-
-                //
-                ////var bitmapLoader = new BitmapLoader(entry, BookProfile.Current.IsEnableExif);
-                ////var bitmap = await bitmapLoader.LoadAsync(token);
-                ////if (bitmap == null) throw new ApplicationException("画像の読み込みに失敗しました。");
-
-                ////Size = new Size(bitmap.Source.PixelWidth, bitmap.Source.PixelHeight);
-                ////BitmapInfo = bitmap.Info;
-
-                /*
-                try
+#if false
+                var sw2 = Stopwatch.StartNew();
                 {
-                    // 基本色
-                    BitmapInfo.Color = bitmap.GetOneColor();
+                    var bitmapLoader = new BitmapLoader(entry, BookProfile.Current.IsEnableExif);
+                    var bitmap = await bitmapLoader.LoadAsync(token);
+                    if (bitmap == null) throw new ApplicationException("画像の読み込みに失敗しました。");
 
-                    // ピクセル深度
-                    BitmapInfo.BitsPerPixel = bitmap.GetSourceBitsPerPixel();
+                    ////Size = new Size(bitmap.Source.PixelWidth, bitmap.Source.PixelHeight);
+                    ////BitmapInfo = bitmap.Info;
+
+                    try
+                    {
+                        // 基本色
+                        bitmap.Info.Color = bitmap.Source.GetOneColor();
+
+                        // ピクセル深度
+                        bitmap.Info.BitsPerPixel = bitmap.Source.GetSourceBitsPerPixel();
+                    }
+                    catch (Exception e)
+                    {
+                        // ここの例外はスルー
+                        Debug.WriteLine(e.Message);
+                    }
                 }
-                catch (Exception e)
+                sw2.Stop();
+#endif
+
+                var sw1 = Stopwatch.StartNew();
                 {
-                    // ここの例外はスルー
-                    Debug.WriteLine(e.Message);
+                    picture = new Picture(entry);
+                    picture.Load();
+                    this.Size = picture.PictureInfo.Size;
+                    //await picture.CreateBitmapAsync(Size.Empty);
                 }
-                */
+                sw1.Stop();
+
+
+
+
+                //_totalSw1 += sw1.ElapsedMilliseconds;
+                //_totalSw2 += sw2.ElapsedMilliseconds;
+                //Debug.WriteLine($"{sw1.ElapsedMilliseconds}ms vs {sw2.ElapsedMilliseconds}ms / Total: {(double)_totalSw1/(double)_totalSw2:0.00}");
 
 
                 return picture;

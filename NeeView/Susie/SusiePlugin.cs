@@ -267,8 +267,8 @@ namespace Susie
         /// <param name="fileName">画像ファイル名(サポート判定用)</param>
         /// <param name="buff">画像データ</param>
         /// <param name="isCheckExtension">拡張子をチェックする</param>
-        /// <returns>BitmapSource。失敗した場合はnull</returns>
-        public BitmapSource GetPicture(string fileName, byte[] buff, bool isCheckExtension)
+        /// <returns>Bitmap。失敗した場合はnull</returns>
+        public byte[] GetPicture(string fileName, byte[] buff, bool isCheckExtension)
         {
             if (FileName == null) throw new InvalidOperationException();
             if (!IsEnable) return null;
@@ -293,8 +293,8 @@ namespace Susie
         /// <param name="fileName">画像ファイルパス</param>
         /// <param name="fileName">ファイルヘッダ2KB</param>
         /// <param name="isCheckExtension">拡張子をチェックする</param>
-        /// <returns>BitmapSource。失敗した場合はnull</returns>
-        public BitmapSource GetPictureFromFile(string fileName, byte[] head, bool isCheckExtension)
+        /// <returns>Bitmap。失敗した場合はnull</returns>
+        public byte[] GetPictureFromFile(string fileName, byte[] head, bool isCheckExtension)
         {
             if (FileName == null) throw new InvalidOperationException();
             if (!IsEnable) return null;

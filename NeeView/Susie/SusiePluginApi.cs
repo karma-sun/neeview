@@ -368,8 +368,8 @@ namespace Susie
         /// 画像取得(メモリ版)
         /// </summary>
         /// <param name="buff">入力画像データ</param>
-        /// <returns>BitmapSource。失敗した場合はnull</returns>
-        public BitmapSource GetPicture(byte[] buff)
+        /// <returns>Bitmap。失敗した場合はnull</returns>
+        public byte[] GetPicture(byte[] buff)
         {
             if (hModule == null) throw new InvalidOperationException();
             var getPicture = GetApiDelegate<GetPictureFromMemoryDelegate>("GetPicture");
@@ -403,8 +403,8 @@ namespace Susie
         /// 画像取得(ファイル版)
         /// </summary>
         /// <param name="filename">入力ファイル名</param>
-        /// <returns>BitmapSource。失敗した場合はnull</returns>
-        public BitmapSource GetPicture(string filename)
+        /// <returns>Bitmap。失敗した場合はnull</returns>
+        public byte[] GetPicture(string filename)
         {
             if (hModule == null) throw new InvalidOperationException();
             var getPicture = GetApiDelegate<GetPictureFromFileDelegate>("GetPicture");
@@ -433,12 +433,13 @@ namespace Susie
             }
         }
 
-        // BitmapImage 作成
-        private BitmapSource CraeteBitmapImage(IntPtr pBInfo, int pBInfoSize, IntPtr pBm, int pBmSize)
+
+        // Bitmap 作成
+        private byte[] CraeteBitmapImage(IntPtr pBInfo, int pBInfoSize, IntPtr pBm, int pBmSize)
         {
             if (pBInfoSize == 0 || pBmSize == 0)
             {
-                throw new ApplicationException("Memory error."); 
+                throw new ApplicationException("Memory error.");
             }
 
             var bi = Marshal.PtrToStructure<BitmapInfoHeader>(pBInfo);
@@ -468,25 +469,9 @@ namespace Susie
             }
             Marshal.Copy(pBm, mem, (int)bf.bfOffBits, dataSize);
 
-            using (MemoryStream ms = new MemoryStream(mem))
-            {
-                BitmapImage bmpImage = new BitmapImage();
-                bmpImage.BeginInit();
-                bmpImage.CacheOption = BitmapCacheOption.OnLoad;
-                bmpImage.StreamSource = ms;
-                bmpImage.EndInit();
-                bmpImage.Freeze();
-
-                // out of memory?
-                if (ms.Length > 100 * 1024 && bmpImage.PixelHeight == 1 && bmpImage.PixelWidth == 1)
-                {
-                    Debug.WriteLine("1x1!?");
-                    throw new OutOfMemoryException();
-                }
-
-                return bmpImage;
-            }
+            return mem;
         }
+
 
         // BitmaiFileHeader作成
         private BitmapFileHeader CreateBitmapFileHeader(BitmapInfoHeader bi)

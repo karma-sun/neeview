@@ -91,23 +91,6 @@ namespace NeeView
     }
 
     //
-    public class PictureProfile
-    {
-        public static PictureProfile Current { get; set; }
-
-        // メモリ節約用
-        public Size Maximum { get; set; } = new Size(4096, 4096);
-
-        // リサイズがあればこれは不要か。
-        public Size Minimum { get; set; } = new Size(1, 1);
-
-        public PictureProfile()
-        {
-            Current = this;
-        }
-    }
-
-    //
     public class Picture : BindableBase
     {
         private PictureSourceBase _source;
@@ -125,6 +108,9 @@ namespace NeeView
 
             _source.RawData = pictureFile.Raw;
             _source.PictureInfo = pictureFile.PictureInfo;
+
+            // ##
+            this.BitmapSource = pictureFile.BitmapSource;
 
             RaisePropertyChanged(nameof(PictureInfo));
         }
@@ -404,7 +390,7 @@ namespace NeeView
             }
             else
             {
-                size = UniformedSize(new Size(size.Width.Clamp(_profile.Minimum.Width, _profile.Maximum.Width), size.Height.Clamp(_profile.Minimum.Height, _profile.Maximum.Height)));
+                size = UniformedSize(new Size(Math.Min(size.Width, _profile.Maximum.Width), Math.Min(size.Height, _profile.Maximum.Height)));
                 if (Math.Abs(size.Width - this.PictureInfo.Size.Width) < 1.0 && Math.Abs(size.Height - this.PictureInfo.Size.Height) < 1.0)
                 {
                     Debug.WriteLine($"NearEqual !!");
@@ -434,11 +420,11 @@ namespace NeeView
 
 
 
-            var factory = new DefaultBitmapFactory();
+            //var factory = new DefaultBitmapFactory();
             using (var stream = CreateStream())
             {
                 var sw = Stopwatch.StartNew();
-                var bitmap = factory.Create(stream, size);
+                var bitmap = DefaultBitmapFactory.Create(stream, size);
                 Debug.WriteLine($"{ArchiveEntry.EntryLastName}: {size.ToInteger()}: {sw.ElapsedMilliseconds}ms");
                 return bitmap;
             }
@@ -501,10 +487,20 @@ namespace NeeView
     /// <summary>
     /// 標準の画像生成処理
     /// </summary>
-    public class DefaultBitmapFactory
+    public static class DefaultBitmapFactory
     {
+        public static BitmapImage Create(byte[] raw)
+        {
+            if (raw == null) return null;
+
+            using (var ms = new MemoryStream(raw))
+            {
+                return Create(ms, Size.Empty);
+            }
+        }
+
         //
-        public BitmapImage Create(Stream stream, Size size)
+        public static BitmapImage Create(Stream stream, Size size)
         {
             try
             {
@@ -519,7 +515,7 @@ namespace NeeView
         }
 
         //
-        private BitmapImage Create(Stream stream, BitmapCreateOptions createOption, BitmapCacheOption cacheOption, Size size)
+        private static BitmapImage Create(Stream stream, BitmapCreateOptions createOption, BitmapCacheOption cacheOption, Size size)
         {
             var bmpImage = new BitmapImage();
             bmpImage.BeginInit();

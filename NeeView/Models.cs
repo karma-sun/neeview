@@ -122,7 +122,7 @@ namespace NeeView
 
             //  ##
             new PictureLoaderManager();
-            new PictureProfile();
+            //new PictureProfile();
 
             //
             this.CommandTable = new CommandTable();

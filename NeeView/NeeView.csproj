@@ -142,6 +142,9 @@
       <DependentUpon>BackupSelectControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="BitmapLoader\PictureLoaderManager.cs" />
+    <Compile Include="Picture\PictureFileExtensions.cs" />
+    <Compile Include="Picture\PictureProfile.cs" />
+    <Compile Include="Picture\PictureStream.cs" />
     <Compile Include="BookProfile.cs" />
     <Compile Include="BookHistoryCommand.cs" />
     <Compile Include="BookSetting.cs" />

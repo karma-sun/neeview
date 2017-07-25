@@ -19,6 +19,8 @@ namespace NeeView
     {
         public byte[] Raw { get; set; }
         public PictureInfo PictureInfo { get; set; }
+
+        public BitmapSource BitmapSource { get; set; }
     }
 
     /// <summary>
@@ -33,6 +35,8 @@ namespace NeeView
         ////BitmapContentSource Load(Stream stream, ArchiveEntry entry);
         ////BitmapContentSource LoadFromFile(string fileName, ArchiveEntry entry);
     }
+
+
 
 
     /// <summary>
@@ -210,22 +214,36 @@ namespace NeeView
             {
                 using (var stream = entry.OpenEntry())
                 {
-                    stream.CopyTo(memoryStream);
+                    // TODO: rawData switch
+                    ////stream.CopyTo(memoryStream);
+                    ////memoryStream.Seek(0, SeekOrigin.Begin);
+
+                    // メタ情報取得
+                    var bitmapFrame = BitmapFrame.Create(stream, BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.None);
+                    var pictureInfo = PictureInfo.Create(entry, new Size(bitmapFrame.PixelWidth, bitmapFrame.PixelHeight), (BitmapMetadata)bitmapFrame.Metadata);
+                    pictureInfo.Decoder = ".Net BitmapImage";
+
+                    var pictureFile = new PictureFile();
+                    pictureFile.PictureInfo = pictureInfo;
+
+                    // raw data
+                    ////pictureFile.Raw = memoryStream.ToArray();
+
+                    // bitmap
+                    stream.Seek(0, SeekOrigin.Begin);
+                    // TODO: bitmap LoadFlag
+                    // TODO: LimitedSize
+                    pictureFile.BitmapSource = DefaultBitmapFactory.Create(stream, Size.Empty);
+
+                    // TODO: thumbnail
+                    // TODO: thumbnail LoadFlag
+
+                    return pictureFile;
                 }
-
-                // メタ情報取得
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                var bitmapFrame = BitmapFrame.Create(memoryStream, BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.None);
-                var pictureInfo = PictureInfo.Create(entry, new Size(bitmapFrame.PixelWidth, bitmapFrame.PixelHeight), (BitmapMetadata)bitmapFrame.Metadata);
-                pictureInfo.Decoder = ".Net BitmapImage";
-
-                var pictureFile = new PictureFile();
-                pictureFile.PictureInfo = pictureInfo;
-                ////pictureFile.Raw = memoryStream.ToArray();
-
-                return pictureFile;
             }
         }
+
+
     }
 
 
@@ -277,7 +295,8 @@ namespace NeeView
             }
 
             // TODO: PNGで取得できるように
-            var bmpSource = SusieContext.Current.Susie?.GetPicture(entry.EntryName, buff, true, out _susiePlugin); // ファイル名は識別用
+            var bmp = SusieContext.Current.Susie?.GetPicture(entry.EntryName, buff, true, out _susiePlugin);
+            var bmpSource = DefaultBitmapFactory.Create(bmp); // ファイル名は識別用
             if (bmpSource == null)
             {
                 throw new SusieIOException();
@@ -287,14 +306,25 @@ namespace NeeView
             file.PictureInfo = PictureInfo.Create(entry, new Size(bmpSource.PixelWidth, bmpSource.PixelHeight), null);
             file.PictureInfo.Decoder = _susiePlugin?.ToString();
 
-            // TODO: Susieから直接PNGで取得できるように
+            file.BitmapSource = bmpSource;
+
+#if false
+            // TODO: Susieから直接PNGで取得できるように ... 重いだけ？不要かもしれん
             using (var ms = new MemoryStream())
             {
                 var encoder = new PngBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(bmpSource));
                 encoder.Save(ms);
+
+                using (var input = new MemoryStream(bmp))
+                {
+                    var bitmap = new System.Drawing.Bitmap(input);
+                    bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                }
+
                 file.Raw = ms.ToArray();
             }
+#endif
 
             return file;
         }
@@ -305,7 +335,7 @@ namespace NeeView
         {
             if (!IsEnable) return null;
 
-            var bmpSource = SusieContext.Current.Susie?.GetPictureFromFile(fileName, true, out _susiePlugin);
+            var bmpSource = DefaultBitmapFactory.Create(SusieContext.Current.Susie?.GetPictureFromFile(fileName, true, out _susiePlugin));
             if (bmpSource == null)
             {
                 throw new SusieIOException();

@@ -93,9 +93,9 @@ namespace NeeView
         }
 #endif
 
-#endregion
+        #endregion
 
-#region Static Methods
+        #region Static Methods
 
         public static BitmapViewContent Create(ViewContentSource source, ViewContent oldViewContent)
         {
@@ -104,6 +104,6 @@ namespace NeeView
             return viewContent;
         }
 
-#endregion
+        #endregion
     }
 }

@@ -142,7 +142,10 @@
       <DependentUpon>BackupSelectControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="BitmapLoader\PictureLoaderManager.cs" />
+    <Compile Include="Picture\BitmapSourceFactory.cs" />
+    <Compile Include="Picture\Picture.cs" />
     <Compile Include="Picture\PictureFileExtensions.cs" />
+    <Compile Include="Picture\PictureInfo.cs" />
     <Compile Include="Picture\PictureProfile.cs" />
     <Compile Include="Picture\PictureStream.cs" />
     <Compile Include="BookProfile.cs" />
@@ -153,7 +156,9 @@
     <Compile Include="MouseInput\DragTransformControl.cs" />
     <Compile Include="MouseInput\LoupeTransform.cs" />
     <Compile Include="Page\PdfContetnt.cs" />
-    <Compile Include="Page\PictureSource.cs" />
+    <Compile Include="Picture\PictureSource.cs" />
+    <Compile Include="Picture\PicturFactory.cs" />
+    <Compile Include="Picture\SizeExtensions.cs" />
     <Compile Include="TouchInput\TouchAction.cs" />
     <Compile Include="TouchInput\TouchInputMouseDrag.cs" />
     <Compile Include="ViewContent\AnimatedViewContent.cs" />

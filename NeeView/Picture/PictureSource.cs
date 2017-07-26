@@ -1,238 +1,19 @@
-﻿using NeeView.ComponentModel;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
-    /// <summary>
-    /// 画像情報
-    /// </summary>
-    public class PictureInfo
-    {
-        /// <summary>
-        /// 画像サイズ
-        /// </summary>
-        public Size Size { get; set; }
-
-        /// <summary>
-        /// ファイルサイズ
-        /// </summary>
-        public long Length { get; set; } = -1;
-
-        /// <summary>
-        /// 最終更新日
-        /// </summary>
-        public DateTime? LastWriteTime { get; set; }
-
-        /// <summary>
-        /// EXIF
-        /// </summary>
-        public BitmapExif Exif { get; set; }
-
-
-        /// <summary>
-        /// Archiver
-        /// </summary>
-        public string Archiver { get; set; }
-
-        /// <summary>
-        /// Decoder
-        /// </summary>
-        public string Decoder { get; set; }
-
-
-        // 実際に読み込まないとわからないもの
-
-        /// <summary>
-        /// 基本色
-        /// </summary>
-        public Color Color { get; set; } = Colors.Black;
-
-        /// <summary>
-        /// ピクセル深度
-        /// </summary>
-        public int BitsPerPixel { get; set; }
-
-
-        //
-        public bool IsPixelInfoEnabled => BitsPerPixel > 0;
-
-        //
-        public void SetPixelInfo(BitmapSource bitmap)
-        {
-            // 基本色
-            this.Color = bitmap.GetOneColor();
-
-            // ピクセル深度
-            this.BitsPerPixel = bitmap.GetSourceBitsPerPixel();
-        }
-
-
-        //
-        public static PictureInfo Create(ArchiveEntry entry, Size size, BitmapMetadata metadata)
-        {
-            var info = new PictureInfo();
-            info.Size = size;
-            info.Length = entry.Length;
-            info.LastWriteTime = entry.LastWriteTime;
-            info.Exif = metadata != null ? new BitmapExif(metadata) : null;
-            info.Archiver = entry.Archiver.ToString();
-
-            return info;
-        }
-    }
-
-    //
-    public class Picture : BindableBase
-    {
-        private PictureSourceBase _source;
-
-        //
-        public Picture(ArchiveEntry entry)
-        {
-            _source = PictureSourceFactory.Create(entry);
-        }
-
-        //
-        public void Load()
-        {
-            var pictureFile = PictureLoaderManager.Current.Load(_source.ArchiveEntry);
-
-            _source.RawData = pictureFile.Raw;
-            _source.PictureInfo = pictureFile.PictureInfo;
-
-            // ##
-            this.BitmapSource = pictureFile.BitmapSource;
-
-            RaisePropertyChanged(nameof(PictureInfo));
-        }
-
-        //
-        public async Task LoadAsync()
-        {
-            await Task.Run(() => Load());
-        }
-
-        //
-        public PictureInfo PictureInfo => _source.PictureInfo;
-
-
-        /// <summary>
-        /// BitmapSource property.
-        /// </summary>
-        private BitmapSource _bitmapSource;
-        public BitmapSource BitmapSource
-        {
-            get { return _bitmapSource; }
-            set { if (_bitmapSource != value) { _bitmapSource = value; RaisePropertyChanged(); } }
-        }
-
-
-        private Size _size = Size.Empty;
-
-
-        // TODO: OutOfMemory時のリトライ
-        public BitmapSource CreateBitmap(Size size)
-        {
-            if (_source.PictureInfo == null)
-            {
-                Load();
-            }
-
-            if (_bitmapSource != null && size == _size) return _bitmapSource;
-
-            size = _source.CreateFixedSize(size);
-            if (_bitmapSource != null && size == _size) return _bitmapSource;
-
-            this.BitmapSource = _source.CreateBitmap(size);
-            _size = size;
-
-            if (!_source.PictureInfo.IsPixelInfoEnabled)
-            {
-                try
-                {
-                    _source.PictureInfo.SetPixelInfo(_bitmapSource);
-                    RaisePropertyChanged(nameof(PictureInfo));
-                }
-                catch (Exception)
-                {
-                    // この例外では停止させない
-                }
-            }
-
-            return _bitmapSource;
-        }
-
-        //
-        public async Task<BitmapSource> CreateBitmapAsync(Size size)
-        {
-            return await Task.Run(() => CreateBitmap(size));
-        }
-
-
-        //
-        public void ClearBitmap()
-        {
-            this.BitmapSource = null;
-            _size = Size.Empty;
-        }
-
-
-        private Size? _request;
-        private bool _isBusy;
-        private object _lock = new object();
-
-        //
-        public void RequestCreateBitmap(Size size)
-        {
-            lock (_lock)
-            {
-                _request = size;
-            }
-
-            if (!_isBusy)
-            {
-                _isBusy = true;
-                Task.Run(() => CreateBitmapTask());
-            }
-        }
-
-        //
-        public void CreateBitmapTask()
-        {
-            try
-            {
-                while (_request != null)
-                {
-                    var size = (Size)_request;
-                    lock (_lock)
-                    {
-                        _request = null;
-                    }
-                    CreateBitmap(size);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.Write(ex.Message);
-            }
-            finally
-            {
-                _isBusy = false;
-            }
-        }
-
-    }
-
-
     /// <summary>
     /// 画像
     /// </summary>
@@ -418,13 +199,14 @@ namespace NeeView
                 }
             }
 
-
+            // んー
+            var bitmapFactory = new BitmapSourceFactory();
 
             //var factory = new DefaultBitmapFactory();
             using (var stream = CreateStream())
             {
                 var sw = Stopwatch.StartNew();
-                var bitmap = DefaultBitmapFactory.Create(stream, size);
+                var bitmap = bitmapFactory.Create(stream, size);
                 Debug.WriteLine($"{ArchiveEntry.EntryLastName}: {size.ToInteger()}: {sw.ElapsedMilliseconds}ms");
                 return bitmap;
             }
@@ -481,67 +263,6 @@ namespace NeeView
             {
                 return new PictureSource(entry);
             }
-        }
-    }
-
-    /// <summary>
-    /// 標準の画像生成処理
-    /// </summary>
-    public static class DefaultBitmapFactory
-    {
-        public static BitmapImage Create(byte[] raw)
-        {
-            if (raw == null) return null;
-
-            using (var ms = new MemoryStream(raw))
-            {
-                return Create(ms, Size.Empty);
-            }
-        }
-
-        //
-        public static BitmapImage Create(Stream stream, Size size)
-        {
-            try
-            {
-                return Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad, size);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"DefaultBitmap: {e.Message}");
-                stream.Seek(0, SeekOrigin.Begin);
-                return Create(stream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad, size);
-            }
-        }
-
-        //
-        private static BitmapImage Create(Stream stream, BitmapCreateOptions createOption, BitmapCacheOption cacheOption, Size size)
-        {
-            var bmpImage = new BitmapImage();
-            bmpImage.BeginInit();
-            bmpImage.CreateOptions = createOption;
-            bmpImage.CacheOption = cacheOption;
-            bmpImage.StreamSource = stream;
-            if (size != Size.Empty)
-            {
-                bmpImage.DecodePixelHeight = (int)size.Height;
-                bmpImage.DecodePixelWidth = (int)size.Width;
-            }
-            bmpImage.EndInit();
-            bmpImage.Freeze();
-
-            return bmpImage;
-        }
-
-    }
-
-
-
-    public static class SizeExtensions
-    {
-        public static Size ToInteger(this Size self)
-        {
-            return self.IsEmpty ? self : new Size((int)self.Width, (int)self.Height);
         }
     }
 

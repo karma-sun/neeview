@@ -233,7 +233,7 @@ namespace NeeView
                     stream.Seek(0, SeekOrigin.Begin);
                     // TODO: bitmap LoadFlag
                     // TODO: LimitedSize
-                    pictureFile.BitmapSource = DefaultBitmapFactory.Create(stream, Size.Empty);
+                    pictureFile.BitmapSource = BitmapSourceFactory.Current.Create(stream, Size.Empty);
 
                     // TODO: thumbnail
                     // TODO: thumbnail LoadFlag
@@ -296,7 +296,7 @@ namespace NeeView
 
             // TODO: PNGで取得できるように
             var bmp = SusieContext.Current.Susie?.GetPicture(entry.EntryName, buff, true, out _susiePlugin);
-            var bmpSource = DefaultBitmapFactory.Create(bmp); // ファイル名は識別用
+            var bmpSource = BitmapSourceFactory.Current.Create(bmp); // ファイル名は識別用
             if (bmpSource == null)
             {
                 throw new SusieIOException();
@@ -335,7 +335,7 @@ namespace NeeView
         {
             if (!IsEnable) return null;
 
-            var bmpSource = DefaultBitmapFactory.Create(SusieContext.Current.Susie?.GetPictureFromFile(fileName, true, out _susiePlugin));
+            var bmpSource = BitmapSourceFactory.Current.Create(SusieContext.Current.Susie?.GetPictureFromFile(fileName, true, out _susiePlugin));
             if (bmpSource == null)
             {
                 throw new SusieIOException();

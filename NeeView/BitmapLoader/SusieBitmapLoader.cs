@@ -60,7 +60,7 @@ namespace NeeView
                 }
             }
 
-            var bmpSource = DefaultBitmapFactory.Create(SusieContext.Current.Susie?.GetPicture(entry.EntryName, buff, true, out _susiePlugin)); // ファイル名は識別用
+            var bmpSource = BitmapSourceFactory.Current.Create(SusieContext.Current.Susie?.GetPicture(entry.EntryName, buff, true, out _susiePlugin)); // ファイル名は識別用
             if (bmpSource == null)
             {
                 throw new SusieIOException();
@@ -83,7 +83,7 @@ namespace NeeView
         {
             if (!IsEnable) return null;
 
-            var bmpSource = DefaultBitmapFactory.Create(SusieContext.Current.Susie?.GetPictureFromFile(fileName, true, out _susiePlugin));
+            var bmpSource = BitmapSourceFactory.Current.Create(SusieContext.Current.Susie?.GetPictureFromFile(fileName, true, out _susiePlugin));
             if (bmpSource == null)
             {
                 throw new SusieIOException();

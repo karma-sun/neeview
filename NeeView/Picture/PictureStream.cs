@@ -1,4 +1,9 @@
-﻿using NeeView.ComponentModel;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using NeeView.ComponentModel;
 using Susie;
 using System;
 using System.Collections.Generic;
@@ -15,7 +20,7 @@ namespace NeeView
     /// <summary>
     /// 名前とセットのストリーム
     /// </summary>
-    public class NamedStream
+    public class NamedStream : IDisposable
     {
         public Stream Stream { get; set; }
         public string Name { get; set; }
@@ -24,6 +29,11 @@ namespace NeeView
         {
             this.Stream = stream;
             this.Name = name;
+        }
+
+        public void Dispose()
+        {
+            this.Stream?.Dispose();
         }
     }
 

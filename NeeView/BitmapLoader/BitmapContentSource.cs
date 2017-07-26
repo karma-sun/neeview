@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
+#if false
     // TODO: 不要なものが多い。見直し。
     // TODO: ファイルサイズ、更新日は別情報
     /// <summary>
@@ -62,6 +63,7 @@ namespace NeeView
         public BitmapSource Source { get; set; }
         public BitmapInfo Info { get; set; }
     }
+#endif
 
     /// <summary>
     /// EXIF

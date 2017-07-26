@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeView.ComponentModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
 
@@ -12,43 +13,44 @@ namespace NeeView
     //
     public class PictureProfile : BindableBase
     {
-        // singleton
+        // 
         private static PictureProfile _current;
         public static PictureProfile Current => _current = _current ?? new PictureProfile();
 
-
-        /// <summary>
-        /// IsSusieEnabled property.
-        /// </summary>
-        private bool _isSusieEnabled;
-        public bool IsSusieEnabled
-        {
-            get { return _isSusieEnabled; }
-            set { if (_isSusieEnabled != value) { _isSusieEnabled = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// IsSusieFirst property.
-        /// </summary>
-        private bool _IsSusieFirst;
-        public bool IsSusieFirst
-        {
-            get { return _IsSusieFirst; }
-            set { if (_IsSusieFirst != value) { _IsSusieFirst = value; RaisePropertyChanged(); } }
-        }
+        // 有効ファイル拡張子
+        private PictureFileExtension _fileExtension = new PictureFileExtension();
 
         // 画像最大サイズ
-        public Size Maximum { get; set; } = new Size(4096, 4096);
+        public Size Maximum { get; set; } = new Size(8192, 8192);
+
+
+        //
+        public bool IsSupported(string fileName)
+        {
+            return _fileExtension.IsSupported(fileName);
+        }
+
+        // 除外パス判定
+        // TODO: これ、BookProfileじゃね？
+        public bool IsExcludedPath(string path)
+        {
+            return path.Split('/', '\\').Any(e => BookProfile.Current.Excludes.Contains(e));
+        }
+
+
+        //
+        public Size CreateFixedSize(Size size)
+        {
+            if (size.IsEmpty) return size;
+
+            return size.Limit(this.Maximum);
+        }
 
 
         #region Memento
         [DataContract]
         public class Memento
         {
-            [DataMember]
-            public bool IsSusieEnabled { get; set; }
-            [DataMember]
-            public bool IsSusieFirst { get; set; }
             [DataMember]
             public Size Maximum { get; set; }
         }
@@ -57,8 +59,6 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsSusieEnabled = this.IsSusieEnabled;
-            memento.IsSusieFirst = this.IsSusieFirst;
             memento.Maximum = this.Maximum;
             return memento;
         }
@@ -67,9 +67,7 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.IsSusieEnabled = memento.IsSusieEnabled;
-            this.IsSusieFirst = memento.IsSusieFirst;
-            this.Maximum = memento.Maximum;
+            //this.Maximum = memento.Maximum;
         }
         #endregion
 

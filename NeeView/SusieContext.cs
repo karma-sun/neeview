@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,7 +18,7 @@ namespace NeeView
     /// <summary>
     /// Susie Context
     /// </summary>
-    public class SusieContext
+    public class SusieContext : BindableBase
     {
         public static SusieContext Current { get; private set; }
 
@@ -43,6 +44,11 @@ namespace NeeView
         public Susie.Susie Susie { get; private set; }
 
         // Susie 有効/無効フラグ
+        public bool IsEnabled => IsSupportedSusie && _IsEnableSusie;
+
+
+        // Susie 有効/無効設定フラグ
+        // 設定のみ。実際に有効かどうかは IsEnabled で判定する
         public bool _IsEnableSusie;
         public bool IsEnableSusie
         {
@@ -51,7 +57,8 @@ namespace NeeView
             {
                 _IsEnableSusie = value;
                 SusieArchiver.IsEnable = _IsEnableSusie;
-                SusieBitmapLoader.IsEnable = _IsEnableSusie && IsSupportedSusie;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(IsEnabled));
             }
         }
 
@@ -71,9 +78,7 @@ namespace NeeView
             set
             {
                 _IsFirstOrderSusieImage = value;
-                BitmapLoaderManager.Current.OrderType = _IsFirstOrderSusieImage ? BitmapLoaderType.Susie : BitmapLoaderType.Default;
-                PictureLoaderManager.Current.OrderType = _IsFirstOrderSusieImage ? BitmapLoaderType.Susie : BitmapLoaderType.Default;
-
+                RaisePropertyChanged();
             }
         }
 
@@ -86,8 +91,21 @@ namespace NeeView
             {
                 _IsFirstOrderSusieArchive = value;
                 ArchiverManager.Current.OrderType = _IsFirstOrderSusieArchive ? ArchiverType.SusieArchiver : ArchiverType.DefaultArchiver;
+                RaisePropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Extensions property.
+        /// </summary>
+        private List<string> _extensions;
+        public List<string> Extensions
+        {
+            get { return _extensions; }
+            set { if (_extensions != value) { _extensions = value; RaisePropertyChanged(); } }
+        }
+
+
 
 
         /// <summary>
@@ -137,7 +155,22 @@ namespace NeeView
 
             // Susie対応拡張子更新
             ArchiverManager.Current.UpdateSusieSupprtedFileTypes(Susie);
-            BitmapLoaderManager.Current.UpdateSusieSupprtedFileTypes(Susie);
+            UpdateSusieSupprtedFileTypes(Susie);
+        }
+
+
+        // Susieローダーのサポート拡張子を更新
+        private void UpdateSusieSupprtedFileTypes(Susie.Susie susie)
+        {
+            var list = new List<string>();
+            foreach (var plugin in susie.INPlgunList)
+            {
+                if (plugin.IsEnable)
+                {
+                    list.AddRange(plugin.Extensions);
+                }
+            }
+            this.Extensions = list.Distinct().ToList();
         }
 
 
@@ -249,6 +282,6 @@ namespace NeeView
             this.SpiFiles = memento.SpiFiles;
         }
 
-#endregion
+        #endregion
     }
 }

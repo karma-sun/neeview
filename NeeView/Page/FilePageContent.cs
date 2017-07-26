@@ -29,7 +29,5 @@ namespace NeeView
         public FilePageIcon Icon { get; set; }
         public string FileName { get; set; }
         public string Message { get; set; }
-
-        public BitmapInfo Info { get; set; }
     }
 }

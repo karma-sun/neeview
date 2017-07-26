@@ -52,6 +52,13 @@ namespace NeeView
         }
 
         //
+        protected void Resize(Size size)
+        {
+            var picture = ((BitmapContent)this.Content)?.Picture;
+            picture?.Resize(size);
+        }
+
+        //
         protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
             return CreateView(source, parameter, ((BitmapContent)this.Content).BitmapSource);

@@ -73,7 +73,6 @@ namespace NeeView
         {
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            GC.Collect();
             await Task.Delay(1000);
             Debug.WriteLine("TEST");
             Debugger.Break();

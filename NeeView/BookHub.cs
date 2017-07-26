@@ -443,7 +443,7 @@ namespace NeeView
                     }
                 }
 
-                if (BitmapLoaderManager.Current.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
+                if (PictureProfile.Current.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
                 {
                     return Path.GetDirectoryName(path);
                 }
@@ -473,7 +473,7 @@ namespace NeeView
                     return path;
                 }
 
-                if (BitmapLoaderManager.Current.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
+                if (PictureProfile.Current.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
                 {
                     return Path.GetDirectoryName(path);
                 }

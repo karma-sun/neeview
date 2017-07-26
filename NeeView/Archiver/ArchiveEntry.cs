@@ -192,7 +192,7 @@ namespace NeeView
         /// <returns></returns>
         public bool IsImage()
         {
-            return BitmapLoaderManager.Current.IsSupported(EntryName);
+            return PictureProfile.Current.IsSupported(this.EntryName); 
         }
 
 

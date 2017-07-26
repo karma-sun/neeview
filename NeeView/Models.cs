@@ -25,7 +25,9 @@ namespace NeeView
         public MemoryControl MemoryControl { get; private set; }
         public FileIOProfile FileIOProfile { get; private set; }
         public JobEngine JobEngine { get; private set; }
+
         public SusieContext SusieContext { get; private set; }
+        public PictureProfile PictureProfile { get; private set; }
         public BookMementoCollection BookMementoCollection { get; private set; }
         public BookHistory BookHistory { get; private set; }
         public BookmarkCollection BookmarkCollection { get; private set; }
@@ -33,7 +35,7 @@ namespace NeeView
         public SevenZipArchiverProfile SevenZipArchiverProfile { get; private set; }
         public PdfArchiverProfile PdfArchiverProfile { get; private set; }
         public ArchiverManager ArchiverManager { get; private set; }
-        public BitmapLoaderManager BitmapLoaderManager { get; private set; }
+        ////public BitmapLoaderManager BitmapLoaderManager { get; private set; }
         public DragActionTable DragActionTable { get; private set; }
         public ThumbnailProfile ThumbnailProfile { get; private set; }
         public ThumbnailCache ThumbnailCache { get; private set; }
@@ -106,6 +108,7 @@ namespace NeeView
             MemoryControl = new MemoryControl(App.Current.Dispatcher);
             FileIOProfile = new FileIOProfile();
             JobEngine = new JobEngine();
+            PictureProfile = PictureProfile.Current;
             BookMementoCollection = new BookMementoCollection();
             BookHistory = new BookHistory();
             BookmarkCollection = new BookmarkCollection();
@@ -113,7 +116,7 @@ namespace NeeView
             SevenZipArchiverProfile = new SevenZipArchiverProfile();
             PdfArchiverProfile = new PdfArchiverProfile();
             ArchiverManager = new ArchiverManager();
-            BitmapLoaderManager = new BitmapLoaderManager();
+            ////BitmapLoaderManager = new BitmapLoaderManager();
             DragActionTable = new DragActionTable();
             SusieContext = new SusieContext();
             ThumbnailProfile = new ThumbnailProfile();
@@ -121,7 +124,7 @@ namespace NeeView
             ExporterProfile = new ExporterProfile();
 
             //  ##
-            new PictureLoaderManager();
+            ////new PictureLoaderManager();
             //new PictureProfile();
 
             //
@@ -211,6 +214,8 @@ namespace NeeView
             [DataMember]
             public JobEngine.Memento JobEngine { get; set; }
             [DataMember]
+            public PictureProfile.Memento PictureProfile { get; set; }
+            [DataMember]
             public SevenZipArchiverProfile.Memento SevenZipArchiverProfile { get; set; }
             [DataMember]
             public PdfArchiverProfile.Memento PdfArchiverProfile { get; set; }
@@ -290,6 +295,7 @@ namespace NeeView
             memento.MemoryControl = this.MemoryControl.CreateMemento();
             memento.FileIOProfile = this.FileIOProfile.CreateMemento();
             memento.JobEngine = this.JobEngine.CreateMemento();
+            memento.PictureProfile = this.PictureProfile.CreateMemento();
             memento.SevenZipArchiverProfile = this.SevenZipArchiverProfile.CreateMemento();
             memento.PdfArchiverProfile = this.PdfArchiverProfile.CreateMemento();
             memento.ArchiverManager = this.ArchiverManager.CreateMemento();
@@ -332,6 +338,7 @@ namespace NeeView
             this.MemoryControl.Restore(memento.MemoryControl);
             this.FileIOProfile.Restore(memento.FileIOProfile);
             this.JobEngine.Restore(memento.JobEngine);
+            this.PictureProfile.Restore(memento.PictureProfile);
             this.SevenZipArchiverProfile.Restore(memento.SevenZipArchiverProfile);
             this.PdfArchiverProfile.Restore(memento.PdfArchiverProfile);
             this.ArchiverManager.Restore(memento.ArchiverManager);

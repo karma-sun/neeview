@@ -15,40 +15,21 @@ namespace NeeView
     //
     public class Picture : BindableBase
     {
-        private PictureSourceBase _source;
+        private ArchiveEntry _archiveEntry;
 
         //
         public Picture(ArchiveEntry entry)
         {
-            _source = PictureSourceFactory.Create(entry);
+            _archiveEntry = entry;
+
+            this.PictureInfo = new PictureInfo(entry);
         }
 
         //
-        public void Load()
-        {
-            var pictureFile = PictureLoaderManager.Current.Load(_source.ArchiveEntry);
+        public PictureInfo PictureInfo { get; set; }
 
-            _source.RawData = pictureFile.Raw;
-            _source.PictureInfo = pictureFile.PictureInfo;
-
-            // ##
-            this.BitmapSource = pictureFile.BitmapSource;
-
-            RaisePropertyChanged(nameof(PictureInfo));
-        }
-
-        //
-        public async Task LoadAsync()
-        {
-            await Task.Run(() => Load());
-        }
-
-        [Obsolete]
-        public PictureInfo PictureInfo => _source.PictureInfo;
-
-        // こちらを使う
-        public PictureInfo PictureInfo2 { get; set; }
-
+        // 未使用
+        //private byte[] RawData { get; set; }
 
         /// <summary>
         /// BitmapSource property.
@@ -61,54 +42,42 @@ namespace NeeView
         }
 
 
-        private Size _size = Size.Empty;
+        #region Resize
+        // TODO: PDFと通常画像のちがいをどのように吸収しようか？
 
-
-        // TODO: OutOfMemory時のリトライ
-        public BitmapSource CreateBitmap(Size size)
+        // Bitmapが同じサイズであるか判定
+        private bool IsEqualBitmapSizeMaybe(Size size)
         {
-            if (_source.PictureInfo == null)
-            {
-                Load();
-            }
+            if (this.BitmapSource == null) return false;
 
-            if (_bitmapSource != null && size == _size) return _bitmapSource;
+            size = size.IsEmpty ? this.PictureInfo.Size : size;
 
-            size = _source.CreateFixedSize(size);
-            if (_bitmapSource != null && size == _size) return _bitmapSource;
-
-            this.BitmapSource = _source.CreateBitmap(size);
-            _size = size;
-
-            if (!_source.PictureInfo.IsPixelInfoEnabled)
-            {
-                try
-                {
-                    _source.PictureInfo.SetPixelInfo(_bitmapSource);
-                    RaisePropertyChanged(nameof(PictureInfo));
-                }
-                catch (Exception)
-                {
-                    // この例外では停止させない
-                }
-            }
-
-            return _bitmapSource;
-        }
-
-        //
-        public async Task<BitmapSource> CreateBitmapAsync(Size size)
-        {
-            return await Task.Run(() => CreateBitmap(size));
+            const double margin = 1.0;
+            return Math.Abs(size.Width - this.BitmapSource.PixelWidth) < margin && Math.Abs(size.Height - this.BitmapSource.PixelHeight) < margin;
         }
 
 
         //
-        public void ClearBitmap()
+        public void Resize(Size size)
         {
-            this.BitmapSource = null;
-            _size = Size.Empty;
+            size = PictureFactory.Current.CreateFixedSize(_archiveEntry, size.IsEmpty ? this.PictureInfo.Size : size);
+            if (IsEqualBitmapSizeMaybe(size)) return;
+
+            // 規定サイズ判定
+            if (size.IsEqualMaybe(this.PictureInfo.Size))
+            {
+                size = Size.Empty;
+            }
+
+            this.BitmapSource = PictureFactory.Current.CreateBitmapSource(_archiveEntry, size);
         }
+
+        //
+        public async Task ResizeAsync(Size size)
+        {
+            await Task.Run(() => Resize(size));
+        }
+
 
 
         private Size? _request;
@@ -116,7 +85,7 @@ namespace NeeView
         private object _lock = new object();
 
         //
-        public void RequestCreateBitmap(Size size)
+        public void RequestResize(Size size)
         {
             lock (_lock)
             {
@@ -126,12 +95,12 @@ namespace NeeView
             if (!_isBusy)
             {
                 _isBusy = true;
-                Task.Run(() => CreateBitmapTask());
+                Task.Run(() => ResizeTask());
             }
         }
 
         //
-        public void CreateBitmapTask()
+        public void ResizeTask()
         {
             try
             {
@@ -142,7 +111,7 @@ namespace NeeView
                     {
                         _request = null;
                     }
-                    CreateBitmap(size);
+                    Resize(size);
                 }
             }
             catch (Exception ex)
@@ -155,6 +124,7 @@ namespace NeeView
             }
         }
 
+        #endregion
     }
 
 }

@@ -89,8 +89,8 @@ namespace NeeView
 
                 var sw1 = Stopwatch.StartNew();
                 {
-                    picture = new Picture(entry);
-                    picture.Load();
+                    picture = PictureFactory.Current.Create(entry); // new Picture(entry);
+                    //picture.Load();
                     this.Size = picture.PictureInfo.Size;
                     //await picture.CreateBitmapAsync(Size.Empty);
                 }
@@ -141,7 +141,7 @@ namespace NeeView
             }
 
             if (Thumbnail.IsValid) return;
-            Thumbnail.Initialize(picture.BitmapSource);
+            Thumbnail.Initialize(picture?.BitmapSource);
         }
 
         /// <summary>

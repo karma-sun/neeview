@@ -39,6 +39,29 @@ namespace NeeView
             this.RenderMaxSize = new Size(Math.Max(this.RenderSize.Width, this.RenderMaxSize.Width), Math.Max(this.RenderSize.Height, this.RenderMaxSize.Height));
         }
 
+       /// <summary>
+       /// 適切な描写サイズを生成する
+       /// </summary>
+       /// <param name="size">希望するサイズ</param>
+       /// <returns></returns>
+        public Size CreateFixedSize(Size size)
+        {
+            if (size.IsEmpty)
+            {
+                size = this.RenderSize;
+            }
+            else if (this.RenderSize.IsContains(size))
+            {
+                size = size.Uniformed(this.RenderSize);
+            }
+            else if (!this.RenderMaxSize.IsContains(size))
+            {
+                size = size.Uniformed(this.RenderMaxSize);
+            }
+
+            return size;
+        }
+
 
         #region Memento
         [DataContract]

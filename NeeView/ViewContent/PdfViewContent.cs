@@ -57,43 +57,26 @@ namespace NeeView
         {
             if (_rebuilding) return false;
 
-            try
-            {
-                var maxSize = new Size(Math.Min(this.Width * scale, PdfArchiverProfile.Current.RenderMaxSize.Width), Math.Min(this.Height * scale, PdfArchiverProfile.Current.RenderMaxSize.Height));
+            var size = new Size(this.Width * scale, this.Height * scale);
 
-                if (this.Page.Width >= maxSize.Width || this.Page.Height >= maxSize.Height)
-                {
-                    if (_isScaled)
-                    {
-                        Debug.WriteLine($"PDF: Default");
-                        _isScaled = false;
-                        _size = new Size();
-                        this.View = CreateView(this.Source, CreateBindingParameter());
-                    }
-                }
-                else
-                {
-                    if (!_isScaled || _size != maxSize)
-                    {
-                        Debug.WriteLine($"PDF: Scaled: {(int)maxSize.Width}x{(int)maxSize.Height}");
-                        _isScaled = true;
-                        _size = maxSize;
-                        _rebuilding = true;
+            _rebuilding = true;
 
-                        Task.Run(() =>
-                        {
-                            var pdfArchiver = this.Page.Entry.Archiver as PdfArchiver;
-                            var bitmapSource = pdfArchiver.CraeteBitmapSource(this.Page.Entry, maxSize);
-                            App.Current.Dispatcher.BeginInvoke((Action)(() => this.View = CreateView(this.Source, CreateBindingParameter(), bitmapSource)));
-                            _rebuilding = false;
-                        });
-                    }
-                }
-            }
-            catch(Exception ex)
+            Task.Run(() =>
             {
-                Debug.WriteLine(ex.Message);
-            }
+                try
+                {
+                    Resize(size);
+                    App.Current.Dispatcher.Invoke((Action)(() => this.View = CreateView(this.Source, CreateBindingParameter())));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    _rebuilding = false;
+                }
+            });
 
             return true;
         }

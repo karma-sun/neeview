@@ -69,12 +69,10 @@ namespace NeeView
         }
 
         //
-        public PictureInfo (ArchiveEntry entry, Size size, BitmapMetadata metadata)
+        public PictureInfo(ArchiveEntry entry)
         {
-            this.Size = size;
             this.Length = entry.Length;
             this.LastWriteTime = entry.LastWriteTime;
-            this.Exif = metadata != null ? new BitmapExif(metadata) : null;
             this.Archiver = entry.Archiver.ToString();
         }
 
@@ -82,11 +80,17 @@ namespace NeeView
         //
         public void SetPixelInfo(BitmapSource bitmap)
         {
-            // 基本色
-            this.Color = bitmap.GetOneColor();
+            this.Size = new Size(bitmap.PixelWidth, bitmap.PixelHeight);
 
-            // ピクセル深度
-            this.BitsPerPixel = bitmap.GetSourceBitsPerPixel();
+            // 以下、補助情報なので重要度は低い
+            try
+            {
+                this.Color = bitmap.GetOneColor();
+                this.BitsPerPixel = bitmap.GetSourceBitsPerPixel();
+            }
+            catch
+            {
+            }
         }
 
 

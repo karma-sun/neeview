@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+#if false
+
 // TODO: BitmapImageに一本化
 // TODO: EXIF取得方法を別に考える？
 
@@ -24,7 +26,7 @@ namespace NeeView
     /// </summary>
     public class DefaultBitmapLoader : IBitmapLoader
     {
-        #region 開発用
+#region 開発用
         [Conditional("DEBUG")]
         private void DumpMetaData(string prefix, BitmapMetadata metadata)
         {
@@ -61,7 +63,7 @@ namespace NeeView
                 }
             }
         }
-        #endregion
+#endregion
 
         // 有効判定
         public bool IsEnabled => true;
@@ -225,3 +227,5 @@ namespace NeeView
         }
     }
 }
+
+#endif

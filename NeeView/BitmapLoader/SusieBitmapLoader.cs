@@ -3,6 +3,8 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+#if false
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -102,3 +104,5 @@ namespace NeeView
         }
     }
 }
+
+#endif

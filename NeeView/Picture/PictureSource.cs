@@ -207,7 +207,7 @@ namespace NeeView
             {
                 var sw = Stopwatch.StartNew();
                 var bitmap = bitmapFactory.Create(stream, size);
-                Debug.WriteLine($"{ArchiveEntry.EntryLastName}: {size.ToInteger()}: {sw.ElapsedMilliseconds}ms");
+                Debug.WriteLine($"{ArchiveEntry.EntryLastName}: {size.Truncate()}: {sw.ElapsedMilliseconds}ms");
                 return bitmap;
             }
 

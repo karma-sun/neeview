@@ -42,9 +42,6 @@ namespace NeeView
         }
 
 
-        #region Resize
-        // TODO: PDFと通常画像のちがいをどのように吸収しようか？
-
         // Bitmapが同じサイズであるか判定
         private bool IsEqualBitmapSizeMaybe(Size size)
         {
@@ -57,7 +54,7 @@ namespace NeeView
         }
 
 
-        //
+        // リサイズ
         public void Resize(Size size)
         {
             size = PictureFactory.Current.CreateFixedSize(_archiveEntry, size.IsEmpty ? this.PictureInfo.Size : size);
@@ -71,60 +68,6 @@ namespace NeeView
 
             this.BitmapSource = PictureFactory.Current.CreateBitmapSource(_archiveEntry, size);
         }
-
-        //
-        public async Task ResizeAsync(Size size)
-        {
-            await Task.Run(() => Resize(size));
-        }
-
-
-
-        private Size? _request;
-        private bool _isBusy;
-        private object _lock = new object();
-
-        //
-        public void RequestResize(Size size)
-        {
-            lock (_lock)
-            {
-                _request = size;
-            }
-
-            if (!_isBusy)
-            {
-                _isBusy = true;
-                Task.Run(() => ResizeTask());
-            }
-        }
-
-        //
-        public void ResizeTask()
-        {
-            try
-            {
-                while (_request != null)
-                {
-                    var size = (Size)_request;
-                    lock (_lock)
-                    {
-                        _request = null;
-                    }
-                    Resize(size);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.Write(ex.Message);
-            }
-            finally
-            {
-                _isBusy = false;
-            }
-        }
-
-        #endregion
     }
 
 }

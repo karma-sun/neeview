@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.ComponentModel;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -15,7 +16,7 @@ namespace NeeView
     /// <summary>
     /// リサイズによるコンテンツの再作成管理
     /// </summary>
-    public class ContentRebuild
+    public class ContentRebuild : BindableBase
     {
         // system object
         public static ContentRebuild Current { get; private set; }
@@ -38,8 +39,6 @@ namespace NeeView
         // ウィンドウリサイズ中かどうか
         bool _isResizingWindow;
 
-        // リサイズ要求
-        private bool _isRequested;
 
         #endregion
         
@@ -53,7 +52,29 @@ namespace NeeView
 
             // スケール変化に追従
             DragTransform.Current.AddPropertyChanged(nameof(DragTransform.Scale), (s, e) => Request());
+
+            // ルーペ状態に追従
+            LoupeTransform.Current.AddPropertyChanged(nameof(LoupeTransform.FixedScale), (s, e) => Request());
+
+            // リサイズフィルター状態監視
+            PictureProfile.Current.AddPropertyChanged(nameof(PictureProfile.IsResizeFilterEnabled), (s, e) => Request());
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// IsRequested property.
+        /// </summary>
+        private bool _isRequested;
+        public bool IsRequested
+        {
+            get { return _isRequested; }
+            set { if (_isRequested != value) { _isRequested = value; RaisePropertyChanged(); } }
+        }
+
+
 
         #endregion
 
@@ -62,7 +83,7 @@ namespace NeeView
         // ウィンドウプロシージャ初期化
         // ウィンドウリサイズ中を監視
         public void InitinalizeWinProc(Window window)
-        { 
+        {
             // ウィンドウプロシージャ監視
             var hsrc = HwndSource.FromVisual(window) as HwndSource;
             hsrc.AddHook(WndProc);
@@ -95,25 +116,31 @@ namespace NeeView
 
         //
         private void RebuildFrame()
-        { 
+        {
             if (!_isRequested || _isResizingWindow) return;
-            if (MouseButtonBitsExtensions.Create() != MouseButtonBits.None) return;
+
+            var mouseButtonBits = MouseButtonBitsExtensions.Create();
+            if (MouseInput.Current.IsLoupeMode && MouseInput.Current.Normal.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
+            {
+                mouseButtonBits = mouseButtonBits & ~MouseButtonBits.LeftButton; 
+            }
+            if (mouseButtonBits != MouseButtonBits.None) return;
 
             bool isSuccessed = true;
-            var scale = DragTransform.Current.Scale;
+            var scale = DragTransform.Current.Scale * LoupeTransform.Current.FixedScale;
             foreach (var viewConent in ContentCanvas.Current.Contents.Where(e => e.IsValid))
             {
                 isSuccessed = viewConent.Rebuild(scale) && isSuccessed;
             }
 
-            _isRequested = !isSuccessed;
+            this.IsRequested = !isSuccessed;
         }
 
 
         // リサイズ要求
         public void Request()
         {
-            _isRequested = true;
+            this.IsRequested = true;
         }
 
         #endregion

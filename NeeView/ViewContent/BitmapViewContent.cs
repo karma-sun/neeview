@@ -6,6 +6,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -86,19 +87,38 @@ namespace NeeView
         }
 
 
-#if false
+
+        // スケールされたリソースを作成中
+        private volatile bool _rebuilding;
+
         //
         public override bool Rebuild(double scale)
         {
-            var picture = ((BitmapContent)this.Content).Picture;
-            if (picture == null) return true;
-            //
-            var size = new Size(this.Width * scale, this.Height * scale);
-            picture.RequestCreateBitmap(size);
+            if (_rebuilding) return false;
+
+            var size = PictureProfile.Current.IsResizeFilterEnabled ? new Size(this.Width * scale, this.Height * scale) : Size.Empty;
+
+            _rebuilding = true;
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    Resize(size);
+                    App.Current.Dispatcher.Invoke((Action)(() => this.View = CreateView(this.Source, CreateBindingParameter())));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    _rebuilding = false;
+                }
+            });
 
             return true;
         }
-#endif
 
         #endregion
 

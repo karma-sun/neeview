@@ -167,6 +167,8 @@ namespace NeeView
 
         ToggleEffectGrayscale, // 欠番
 
+        ToggleResizeFilter,
+
         ToggleIsLoupe,
         LoupeOn,
         LoupeOff,

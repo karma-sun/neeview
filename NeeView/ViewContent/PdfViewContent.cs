@@ -18,12 +18,6 @@ namespace NeeView
     {
         #region Fields
 
-        // 現在使用中のコンテンツがスケールされたリソースか
-        private bool _isScaled;
-
-        // スケールされたリソースのサイズ
-        private Size _size;
-
         // スケールされたリソースを作成中
         private volatile bool _rebuilding;
 

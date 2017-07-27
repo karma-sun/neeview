@@ -242,7 +242,10 @@ namespace NeeView
 
             // JobEngine Busy
             JobEngine.Current.AddPropertyChanged(nameof(JobEngine.IsBusy),
-                (s, e) => this.BusyVisibility = _model.IsVisibleBusy && JobEngine.Current.IsBusy && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed);
+                (s, e) => UpdateBusyVisibility());
+
+            ContentRebuild.Current.AddPropertyChanged(nameof(ContentRebuild.IsRequested),
+                (s, e) => UpdateBusyVisibility());
 
             BookHub.Current.BookChanged +=
                 (s, e) => CommandManager.InvalidateRequerySuggested();
@@ -264,6 +267,11 @@ namespace NeeView
             }
         }
 
+        //
+        private void UpdateBusyVisibility()
+        {
+            this.BusyVisibility = _model.IsVisibleBusy && (JobEngine.Current.IsBusy || ContentRebuild.Current.IsRequested) && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed;
+        }
 
         /// <summary>
         /// 起動時処理

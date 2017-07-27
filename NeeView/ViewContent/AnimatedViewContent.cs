@@ -24,7 +24,7 @@ namespace NeeView
         }
 
         #endregion
-        
+
         #region Methods
 
         //
@@ -77,6 +77,12 @@ namespace NeeView
             grid.Children.Add(canvas);
 
             return grid;
+        }
+
+        //
+        public override bool Rebuild(double scale)
+        {
+            return true;
         }
 
         #endregion

@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using PhotoSauce.MagicScaler;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -57,19 +58,26 @@ namespace NeeView
         /// <returns></returns>
         public BitmapImage Create(Stream stream, Size size, BitmapInfo info)
         {
-            try
+            if (!size.IsEmpty && PictureProfile.Current.IsResizeFilterEnabled)
             {
-                return Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad, size, info);
+                return CreateWithMagicScaler(stream, size);
             }
-            catch (OutOfMemoryException)
+            else
             {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                // カラープロファイルを無効にして再生成
-                Debug.WriteLine(ex.Message);
-                return Create(stream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad, size, info);
+                try
+                {
+                    return Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad, size, info);
+                }
+                catch (OutOfMemoryException)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    // カラープロファイルを無効にして再生成
+                    Debug.WriteLine(ex.Message);
+                    return Create(stream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad, size, info);
+                }
             }
         }
         
@@ -116,6 +124,56 @@ namespace NeeView
             }
 
             return bitmap;
+        }
+
+
+        /// <summary>
+        /// MagicScalerで指定サイズの画像を生成
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        private BitmapImage CreateWithMagicScaler(Stream stream, Size size)
+        {
+            Debug.WriteLine($"MagicScaler: {size.Truncate()}");
+
+            stream.Seek(0, SeekOrigin.Begin);
+
+            using (var ms = new MemoryStream())
+            {
+                var setting = new ProcessImageSettings();
+                setting.Width = (int)size.Width;
+                setting.Height = (int)size.Height;
+                setting.SaveFormat = FileFormat.Bmp; // 速度優先のため出力はBMP
+
+                // シャープネスON/OFF
+                //setting.Sharpen = false;
+
+                // ハイブリッドモード (速度 or 品質)
+                //setting.HybridMode = HybridScaleMode.Off;
+
+                // 補完アルゴリズム
+                //var interporatoin = new InterpolationSettings(new PhotoSauce.MagicScaler.Interpolators.LanczosInterpolator());
+                //setting.Interpolation = interporatoin;
+
+                //MagicImageProcessor.EnableSimd = true;
+                //MagicImageProcessor.EnablePlanarPipeline = true;
+
+                // GO!
+                MagicImageProcessor.ProcessImage(stream, ms, setting);
+
+                // ビットマップ化
+                ms.Seek(0, SeekOrigin.Begin);
+
+                var bi = new BitmapImage();
+                bi.BeginInit();
+                bi.CacheOption = BitmapCacheOption.OnLoad; // ;
+                bi.StreamSource = ms;
+                bi.EndInit();
+                bi.Freeze();
+
+                return bi;
+            }
         }
     }
 

@@ -22,8 +22,8 @@ namespace NeeView
 
             var picture = new Picture(entry);
 
-            picture.PictureInfo.Size = new Size(bitmapSource.PixelWidth, bitmapSource.PixelHeight);
             picture.PictureInfo.Decoder = "PDFium";
+            picture.PictureInfo.SetPixelInfo(bitmapSource);
 
             picture.BitmapSource = bitmapSource;
 

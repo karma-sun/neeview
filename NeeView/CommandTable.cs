@@ -1721,6 +1721,23 @@ namespace NeeView
             }
 
 
+            // ToggleResizeFilter
+            {
+                var element = new CommandElement();
+                element.Group = "フィルター";
+                element.Text = "リサイズフィルターON /OFF";
+                element.MenuText = "リサイズフィルター";
+                element.Note = "リサイズフィルターの有効/無効を切り替えます";
+                element.CanExecute = () => true;
+                element.IsShowMessage = true;
+                element.ExecuteMessage = e => _models.PictureProfile.IsResizeFilterEnabled ? "リサイズフィルターOFF" : "リサイズフィルターON";
+                element.Execute = (s, e) => _models.PictureProfile.IsResizeFilterEnabled = !_models.PictureProfile.IsResizeFilterEnabled;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.PictureProfile.IsResizeFilterEnabled)) { Mode = BindingMode.OneWay, Source = _models.PictureProfile };
+                _elements[CommandType.ToggleResizeFilter] = element;
+            }
+
+
+
             // ToggleIsLoupe
             {
                 var element = new CommandElement();

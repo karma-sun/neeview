@@ -10,6 +10,22 @@ using System.Windows;
 
 namespace NeeView
 {
+    public enum ResizeInterpolation
+    {
+        Lanczos, // デフォルト
+
+        NearestNeighbor,
+        Average,
+        Linear,
+        Quadratic,
+        Hermite,
+        Mitchell,
+        CatmullRom,
+        Cubic,
+        CubicSmoother,
+        Spline36,
+    }
+
     //
     public class PictureProfile : BindableBase
     {
@@ -27,6 +43,52 @@ namespace NeeView
 
         // 画像最大サイズ
         public Size Maximum { get; set; } = new Size(4096, 4096);
+
+
+        /// <summary>
+        /// IsResizeEnabled property.
+        /// </summary>
+        private bool _isResizeFilterEnabled;
+        public bool IsResizeFilterEnabled
+        {
+            get { return _isResizeFilterEnabled; }
+            set { if (_isResizeFilterEnabled != value) { _isResizeFilterEnabled = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// ResizeInterpolation property.
+        /// </summary>
+        private ResizeInterpolation _resizeInterpolation;
+        public ResizeInterpolation ResizeInterpolation
+        {
+            get { return _resizeInterpolation; }
+            set { if (_resizeInterpolation != value) { _resizeInterpolation = value; RaisePropertyChanged(); } }
+        }
+
+
+        /// <summary>
+        /// IsResizeSharp property.
+        /// </summary>
+        private bool _IsResizeSharp;
+        public bool IsResizeSharp
+        {
+            get { return _IsResizeSharp; }
+            set { if (_IsResizeSharp != value) { _IsResizeSharp = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// Clop property.
+        /// </summary>
+        private Thickness _Clop;
+        public Thickness Clop
+        {
+            get { return _Clop; }
+            set { if (_Clop != value) { _Clop = value; RaisePropertyChanged(); } }
+        }
+
+
+
+
 
         #endregion
 
@@ -65,6 +127,8 @@ namespace NeeView
         {
             [DataMember]
             public Size Maximum { get; set; }
+            [DataMember]
+            public bool IsResizeFilterEnabled { get; set; }
         }
 
         //
@@ -72,6 +136,7 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.Maximum = this.Maximum;
+            memento.IsResizeFilterEnabled = this.IsResizeFilterEnabled;
             return memento;
         }
 
@@ -80,6 +145,7 @@ namespace NeeView
         {
             if (memento == null) return;
             this.Maximum = memento.Maximum;
+            this.IsResizeFilterEnabled = memento.IsResizeFilterEnabled;
         }
         #endregion
 

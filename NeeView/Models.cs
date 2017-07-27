@@ -108,7 +108,9 @@ namespace NeeView
             MemoryControl = new MemoryControl(App.Current.Dispatcher);
             FileIOProfile = new FileIOProfile();
             JobEngine = new JobEngine();
-            PictureProfile = PictureProfile.Current;
+
+            SusieContext = new SusieContext();
+            PictureProfile = new PictureProfile();
             BookMementoCollection = new BookMementoCollection();
             BookHistory = new BookHistory();
             BookmarkCollection = new BookmarkCollection();
@@ -116,16 +118,11 @@ namespace NeeView
             SevenZipArchiverProfile = new SevenZipArchiverProfile();
             PdfArchiverProfile = new PdfArchiverProfile();
             ArchiverManager = new ArchiverManager();
-            ////BitmapLoaderManager = new BitmapLoaderManager();
             DragActionTable = new DragActionTable();
-            SusieContext = new SusieContext();
             ThumbnailProfile = new ThumbnailProfile();
             ThumbnailCache = new ThumbnailCache();
             ExporterProfile = new ExporterProfile();
 
-            //  ##
-            ////new PictureLoaderManager();
-            //new PictureProfile();
 
             //
             this.CommandTable = new CommandTable();

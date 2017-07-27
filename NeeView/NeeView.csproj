@@ -161,7 +161,6 @@
     <Compile Include="MouseInput\DragTransformControl.cs" />
     <Compile Include="MouseInput\LoupeTransform.cs" />
     <Compile Include="Page\PdfContetnt.cs" />
-    <Compile Include="Picture\PictureSource.cs" />
     <Compile Include="Picture\PictureFactory.cs" />
     <Compile Include="Picture\SizeExtensions.cs" />
     <Compile Include="Picture\SusiePictureStream.cs" />

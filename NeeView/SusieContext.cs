@@ -47,7 +47,7 @@ namespace NeeView
         public bool IsEnabled => IsSupportedSusie && _IsEnableSusie;
 
 
-        // Susie 有効/無効設定フラグ
+        // Susie 有効/無効設定
         // 設定のみ。実際に有効かどうかは IsEnabled で判定する
         public bool _IsEnableSusie;
         public bool IsEnableSusie
@@ -55,10 +55,12 @@ namespace NeeView
             get { return _IsEnableSusie; }
             set
             {
-                _IsEnableSusie = value;
-                SusieArchiver.IsEnable = _IsEnableSusie;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(IsEnabled));
+                if (_IsEnableSusie != value)
+                {
+                    _IsEnableSusie = value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(IsEnabled));
+                }
             }
         }
 
@@ -75,11 +77,7 @@ namespace NeeView
         public bool IsFirstOrderSusieImage
         {
             get { return _IsFirstOrderSusieImage; }
-            set
-            {
-                _IsFirstOrderSusieImage = value;
-                RaisePropertyChanged();
-            }
+            set { if (_IsFirstOrderSusieImage != value) { _IsFirstOrderSusieImage = value; RaisePropertyChanged(); } }
         }
 
         // Susie 書庫プラグイン 優先フラグ
@@ -87,25 +85,18 @@ namespace NeeView
         public bool IsFirstOrderSusieArchive
         {
             get { return _IsFirstOrderSusieArchive; }
-            set
-            {
-                _IsFirstOrderSusieArchive = value;
-                ArchiverManager.Current.OrderType = _IsFirstOrderSusieArchive ? ArchiverType.SusieArchiver : ArchiverType.DefaultArchiver;
-                RaisePropertyChanged();
-            }
+            set { if (_IsFirstOrderSusieArchive != value) { _IsFirstOrderSusieArchive = value; RaisePropertyChanged(); } }
         }
 
         /// <summary>
-        /// Extensions property.
+        /// Image Extensions property.
         /// </summary>
-        private List<string> _extensions;
-        public List<string> Extensions
-        {
-            get { return _extensions; }
-            set { if (_extensions != value) { _extensions = value; RaisePropertyChanged(); } }
-        }
+        public FileTypeCollection ImageExtensions = new FileTypeCollection();
 
-
+        /// <summary>
+        /// Archive Extensions property.
+        /// </summary>
+        public FileTypeCollection ArchiveExtensions = new FileTypeCollection();
 
 
         /// <summary>
@@ -133,7 +124,6 @@ namespace NeeView
         {
             if (!IsSupportedSusie) return;
 
-
             var list = ListUpSpiFiles(_spiFiles.Keys.ToList());
 
             // 新規
@@ -154,23 +144,43 @@ namespace NeeView
             _spiFiles = Memento.CreateSpiFiles(Susie);
 
             // Susie対応拡張子更新
-            ArchiverManager.Current.UpdateSusieSupprtedFileTypes(Susie);
-            UpdateSusieSupprtedFileTypes(Susie);
+            UpdateImageExtensions();
+            UpdateSusieExtensions();
         }
 
 
         // Susieローダーのサポート拡張子を更新
-        private void UpdateSusieSupprtedFileTypes(Susie.Susie susie)
+        private void UpdateImageExtensions()
         {
             var list = new List<string>();
-            foreach (var plugin in susie.INPlgunList)
+            foreach (var plugin in this.Susie.INPlgunList)
             {
                 if (plugin.IsEnable)
                 {
                     list.AddRange(plugin.Extensions);
                 }
             }
-            this.Extensions = list.Distinct().ToList();
+            this.ImageExtensions.FromCollection(list.Distinct());
+
+            Debug.WriteLine("SusieIN Support: " + string.Join(" ", this.ImageExtensions));
+
+        }
+
+        // Susieアーカイバーのサポート拡張子を更新
+        public void UpdateSusieExtensions()
+        {
+            var list = new List<string>();
+            foreach (var plugin in this.Susie.AMPlgunList)
+            {
+                if (plugin.IsEnable)
+                {
+                    list.AddRange(plugin.Extensions);
+                }
+            }
+
+            this.ArchiveExtensions.FromCollection(list.Distinct());
+
+            Debug.WriteLine("SusieAM Support: " + string.Join(" ", this.ArchiveExtensions));
         }
 
 

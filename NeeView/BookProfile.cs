@@ -8,6 +8,7 @@ using NeeView.ComponentModel;
 using NeeView.Windows.Property;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
 
@@ -103,6 +104,13 @@ namespace NeeView
         public BookProfile()
         {
             Current = this;
+        }
+
+
+        // 除外パス判定
+        public bool IsExcludedPath(string path)
+        {
+            return path.Split('/', '\\').Any(e => this.Excludes.Contains(e));
         }
 
 

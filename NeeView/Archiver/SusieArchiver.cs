@@ -24,8 +24,6 @@ namespace NeeView
             return _susiePlugin.Name ?? "(none)";
         }
 
-        public static bool IsEnable { get; set; }
-
         private Susie.SusiePlugin _susiePlugin;
 
         private object _lock = new object();

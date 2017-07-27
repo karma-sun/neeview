@@ -8,20 +8,28 @@ using System.Linq;
 
 namespace NeeView
 {
-    //
+    /// <summary>
+    /// 画像ファイル拡張子
+    /// </summary>
     public class PictureFileExtension
     {
-        //
-        public List<string> DefaultExtensoins { get; set; }
+        #region Fields
 
-        //
-        public List<string> SusieExtensions => SusieContext.Current.Extensions;
+        private FileTypeCollection _defaultExtensoins = new FileTypeCollection();
+        private FileTypeCollection _susieExtensions = SusieContext.Current.ImageExtensions;
 
+        #endregion
+
+        #region Constructors
 
         public PictureFileExtension()
         {
             UpdateDefaultSupprtedFileTypes();
         }
+
+        #endregion
+
+        #region Methods
 
         // デフォルトローダーのサポート拡張子を更新
         private void UpdateDefaultSupprtedFileTypes()
@@ -33,11 +41,10 @@ namespace NeeView
                 list.AddRange(pair.Value.Split(','));
             }
 
-            DefaultExtensoins = list;
+            _defaultExtensoins.FromCollection(list);
         }
 
-
-        // 対応拡張子取得
+        // 標準対応拡張子取得
         private Dictionary<string, string> GetDefaultExtensions()
         {
             var dictionary = new Dictionary<string, string>();
@@ -63,20 +70,21 @@ namespace NeeView
             return dictionary;
         }
 
-
         // サポートしている拡張子か
         public bool IsSupported(string fileName)
         {
             string ext = LoosePath.GetExtension(fileName);
 
-            if (this.DefaultExtensoins.Contains(ext)) return true;
+            if (_defaultExtensoins.Contains(ext)) return true;
 
             if (SusieContext.Current.IsEnabled)
             {
-                if (this.SusieExtensions.Contains(ext)) return true;
+                if (_susieExtensions.Contains(ext)) return true;
             }
 
             return false;
         }
+
+        #endregion
     }
 }

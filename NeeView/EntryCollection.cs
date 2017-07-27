@@ -150,7 +150,7 @@ namespace NeeView
             else
             {
                 var entries = archiver.GetEntries()
-                    .Where(e => !PictureProfile.Current.IsExcludedPath(e.EntryName))
+                    .Where(e => !BookProfile.Current.IsExcludedPath(e.EntryName))
                     .ToList();
 
                 // 対象ファイル以外を除外
@@ -206,7 +206,7 @@ namespace NeeView
             var collection = new List<ArchiveEntry>();
 
             var entries = (await archiver.GetEntriesAsync(token))
-                .Where(e => !PictureProfile.Current.IsExcludedPath(e.EntryName))
+                .Where(e => !BookProfile.Current.IsExcludedPath(e.EntryName))
                 .ToList();
 
             foreach (var entry in entries)
@@ -247,7 +247,7 @@ namespace NeeView
             var collection = new List<ArchiveEntry>();
 
             var entries = (await archiver.GetEntriesAsync(token))
-                .Where(e => !PictureProfile.Current.IsExcludedPath(e.EntryName))
+                .Where(e => !BookProfile.Current.IsExcludedPath(e.EntryName))
                 .ToList();
 
             // sort

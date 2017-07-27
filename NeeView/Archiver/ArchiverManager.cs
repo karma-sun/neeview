@@ -27,6 +27,13 @@ namespace NeeView
         public ArchiverManager()
         {
             Current = this;
+
+            SusieContext.Current.AddPropertyChanged(nameof(SusieContext.IsEnabled),
+                (s, e) => UpdateOrderList());
+            SusieContext.Current.AddPropertyChanged(nameof(SusieContext.IsFirstOrderSusieArchive),
+                (s, e) => UpdateOrderList());
+
+            UpdateOrderList();
         }
 
         // サポート拡張子
@@ -35,33 +42,41 @@ namespace NeeView
             [ArchiverType.SevenZipArchiver] = SevenZipArchiverProfile.Current.SupportFileTypes,
             [ArchiverType.ZipArchiver] = new FileTypeCollection(".zip"),
             [ArchiverType.PdfArchiver] = new FileTypeCollection(".pdf"),
-            [ArchiverType.SusieArchiver] = new FileTypeCollection()
+            [ArchiverType.SusieArchiver] = SusieContext.Current.ArchiveExtensions,
         };
 
-        // アーカイバー優先度リスト
-        private Dictionary<ArchiverType, List<ArchiverType>> _orderList = new Dictionary<ArchiverType, List<ArchiverType>>()
-        {
-            [ArchiverType.DefaultArchiver] = new List<ArchiverType>()
-            {
-                ArchiverType.SevenZipArchiver,
-                ArchiverType.ZipArchiver,
-                ArchiverType.PdfArchiver,
-                ArchiverType.SusieArchiver
-            },
-            [ArchiverType.SusieArchiver] = new List<ArchiverType>()
-            {
-                ArchiverType.SusieArchiver,
-                ArchiverType.SevenZipArchiver,
-                ArchiverType.ZipArchiver,
-                ArchiverType.PdfArchiver,
-            },
-        };
+
+        private List<ArchiverType> _orderList;
 
         // アーカイバー有効/無効
         public bool IsEnabled { get; set; } = true;
 
-        // アーカイバー優先度リストの種類
-        public ArchiverType OrderType { set; get; } = ArchiverType.DefaultArchiver;
+
+        // 検索順を更新
+        private void UpdateOrderList()
+        {
+            var order = new List<ArchiverType>()
+            {
+                ArchiverType.SevenZipArchiver,
+                ArchiverType.ZipArchiver,
+                ArchiverType.PdfArchiver,
+            };
+
+            if (SusieContext.Current.IsEnabled)
+            {
+                if (SusieContext.Current.IsFirstOrderSusieArchive)
+                {
+                    order.Insert(0, ArchiverType.SusieArchiver);
+                }
+                else
+                {
+                    order.Add(ArchiverType.SusieArchiver);
+                }
+            }
+
+            _orderList = order;
+        }
+
 
         // サポートしているアーカイバーがあるか判定
         public bool IsSupported(string fileName, bool isAllowFileSystem = true)
@@ -82,13 +97,8 @@ namespace NeeView
             {
                 string ext = LoosePath.GetExtension(fileName);
 
-                foreach (var type in _orderList[OrderType])
+                foreach (var type in _orderList)
                 {
-                    if (type == ArchiverType.SusieArchiver && !SusieArchiver.IsEnable)
-                    {
-                        continue;
-                    }
-
                     if (_supprtedFileTypes[type].Contains(ext))
                     {
                         return type;
@@ -109,21 +119,6 @@ namespace NeeView
             return BookProfile.Current.Excludes.Contains(LoosePath.GetFileName(path));
         }
 
-
-        // Susieアーカイバーのサポート拡張子を更新
-        public void UpdateSusieSupprtedFileTypes(Susie.Susie susie)
-        {
-            var list = new List<string>();
-            foreach (var plugin in susie.AMPlgunList)
-            {
-                if (plugin.IsEnable)
-                {
-                    list.AddRange(plugin.Extensions);
-                }
-            }
-            _supprtedFileTypes[ArchiverType.SusieArchiver].FromCollection(list.Distinct());
-            Debug.WriteLine("SusieAM Support: " + string.Join(" ", _supprtedFileTypes[ArchiverType.SusieArchiver]));
-        }
 
         /// <summary>
         /// アーカイバー作成

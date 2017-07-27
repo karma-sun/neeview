@@ -14,31 +14,41 @@ namespace NeeView
     public class PictureProfile : BindableBase
     {
         // 
-        private static PictureProfile _current;
-        public static PictureProfile Current => _current = _current ?? new PictureProfile();
+        public static PictureProfile Current { get; private set; }
+
+        #region Fields
 
         // 有効ファイル拡張子
         private PictureFileExtension _fileExtension = new PictureFileExtension();
 
-        // 画像最大サイズ
-        public Size Maximum { get; set; } = new Size(8192, 8192);
+        #endregion
 
+        #region Properties
+
+        // 画像最大サイズ
+        public Size Maximum { get; set; } = new Size(4096, 4096);
+
+        #endregion
+
+        #region Constructors
 
         //
+        public PictureProfile()
+        {
+            Current = this;
+        }
+
+        #endregion
+
+        #region Methods
+
+        // 対応拡張子判定
         public bool IsSupported(string fileName)
         {
             return _fileExtension.IsSupported(fileName);
         }
 
-        // 除外パス判定
-        // TODO: これ、BookProfileじゃね？
-        public bool IsExcludedPath(string path)
-        {
-            return path.Split('/', '\\').Any(e => BookProfile.Current.Excludes.Contains(e));
-        }
-
-
-        //
+        // 最大サイズ内におさまるサイズを返す
         public Size CreateFixedSize(Size size)
         {
             if (size.IsEmpty) return size;
@@ -46,8 +56,10 @@ namespace NeeView
             return size.Limit(this.Maximum);
         }
 
+        #endregion
 
         #region Memento
+
         [DataContract]
         public class Memento
         {
@@ -67,7 +79,7 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            //this.Maximum = memento.Maximum;
+            this.Maximum = memento.Maximum;
         }
         #endregion
 

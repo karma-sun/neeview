@@ -141,8 +141,10 @@
     <Compile Include="BackupSelectControl.xaml.cs">
       <DependentUpon>BackupSelectControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BitmapLoader\PictureLoaderManager.cs" />
-    <Compile Include="Picture\BitmapSourceFactory.cs" />
+    <Compile Include="BitmapLoader\BitmapExif.cs" />
+    <Compile Include="BitmapLoader\Fraction.cs" />
+    <Compile Include="Picture\BitmapFactory.cs" />
+    <Compile Include="Picture\BitmapInfo.cs" />
     <Compile Include="Picture\Picture.cs" />
     <Compile Include="Picture\PictureFileExtension.cs" />
     <Compile Include="Picture\PictureInfo.cs" />
@@ -183,7 +185,6 @@
       <DependentUpon>BackgroundSettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="BackgroundSettingWindowViewModel.cs" />
-    <Compile Include="BitmapLoader\BitmapLoader.cs" />
     <Compile Include="BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
     <Compile Include="ContentCanvas.cs" />
@@ -510,9 +511,6 @@
     <Compile Include="Utility\FileContents.cs" />
     <Compile Include="Utility\NVUtilities.cs" />
     <Compile Include="BackgroundStyle.cs" />
-    <Compile Include="BitmapLoader\BitmapContentSource.cs" />
-    <Compile Include="BitmapLoader\BitmapLoaderManager.cs" />
-    <Compile Include="BitmapLoader\DefaultBitmapLoader.cs" />
     <Compile Include="DragAction.cs" />
     <Compile Include="BitmapLoader\ExifAccessor.cs" />
     <Compile Include="Exporter.cs" />
@@ -573,7 +571,6 @@
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Archiver\SusieArchiver.cs" />
-    <Compile Include="BitmapLoader\SusieBitmapLoader.cs" />
     <Compile Include="SusieContext.cs" />
     <Compile Include="Susie\Susie.cs" />
     <Compile Include="Susie\SusieArchiveEntry.cs" />

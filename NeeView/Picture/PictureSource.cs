@@ -200,7 +200,7 @@ namespace NeeView
             }
 
             // んー
-            var bitmapFactory = new BitmapSourceFactory();
+            var bitmapFactory = new BitmapFactory();
 
             //var factory = new DefaultBitmapFactory();
             using (var stream = CreateStream())

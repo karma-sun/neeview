@@ -124,7 +124,7 @@ namespace NeeView
         private PictureStream _pictureStream = new PictureStream();
 
         //
-        private BitmapSourceFactory _bitmapFactory = new BitmapSourceFactory();
+        private BitmapFactory _bitmapFactory = new BitmapFactory();
 
         //
         public Picture Create(ArchiveEntry entry)
@@ -135,10 +135,10 @@ namespace NeeView
             {
                 // info
                 var info = _bitmapFactory.CreateInfo(stream.Stream);
-                var size = new Size(info.PixelWidth, info.PixelHeight);
+                var size = info.GetPixelSize();
 
                 // bitmap
-                size = PictureProfile.Current.Maximum.IsContains(size) ? Size.Empty : size.Uniformed(PictureProfile.Current.Maximum);
+                size = (size.IsEmpty || PictureProfile.Current.Maximum.IsContains(size)) ? Size.Empty : size.Uniformed(PictureProfile.Current.Maximum);
                 var bitmapSource = _bitmapFactory.Create(stream.Stream, size, info);
 
                 //

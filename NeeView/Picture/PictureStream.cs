@@ -186,6 +186,10 @@ namespace NeeView
             SusiePlugin susiePlugin = null;
 
             var bytes = SusieContext.Current.Susie?.GetPicture(entry.EntryName, buff, true, out susiePlugin);
+            if (bytes == null)
+            {
+                throw new SusieIOException();
+            }
 
             return new NamedStream(new MemoryStream(bytes), susiePlugin?.ToString());
         }
@@ -197,9 +201,28 @@ namespace NeeView
             SusiePlugin susiePlugin = null;
 
             var bytes = SusieContext.Current.Susie?.GetPictureFromFile(fileName, true, out susiePlugin);
+            if (bytes == null)
+            {
+                throw new SusieIOException();
+            }
 
             return new NamedStream(new MemoryStream(bytes), susiePlugin?.ToString());
         }
+    }
 
+    //
+    public class SusieIOException : Exception
+    {
+        public SusieIOException() : base("Susieでの画像取得に失敗しました。")
+        {
+        }
+
+        public SusieIOException(string message) : base(message)
+        {
+        }
+
+        public SusieIOException(string message, Exception inner) : base(message, inner)
+        {
+        }
     }
 }

@@ -43,8 +43,6 @@ namespace NeeView
         {
         }
 
-        private static long _totalSw1;
-        private static long _totalSw2;
 
         /// <summary>
         /// 画像読込
@@ -54,56 +52,10 @@ namespace NeeView
         /// <returns></returns>
         protected async Task<Picture> LoadPictureAsync(ArchiveEntry entry, CancellationToken token)
         {
-            await Task.Yield();
-
             try
             {
-                Picture picture = null;
-
-#if false
-                var sw2 = Stopwatch.StartNew();
-                {
-                    var bitmapLoader = new BitmapLoader(entry, BookProfile.Current.IsEnableExif);
-                    var bitmap = await bitmapLoader.LoadAsync(token);
-                    if (bitmap == null) throw new ApplicationException("画像の読み込みに失敗しました。");
-
-                    ////Size = new Size(bitmap.Source.PixelWidth, bitmap.Source.PixelHeight);
-                    ////BitmapInfo = bitmap.Info;
-
-                    try
-                    {
-                        // 基本色
-                        bitmap.Info.Color = bitmap.Source.GetOneColor();
-
-                        // ピクセル深度
-                        bitmap.Info.BitsPerPixel = bitmap.Source.GetSourceBitsPerPixel();
-                    }
-                    catch (Exception e)
-                    {
-                        // ここの例外はスルー
-                        Debug.WriteLine(e.Message);
-                    }
-                }
-                sw2.Stop();
-#endif
-
-                var sw1 = Stopwatch.StartNew();
-                {
-                    picture = PictureFactory.Current.Create(entry); // new Picture(entry);
-                    //picture.Load();
-                    this.Size = picture.PictureInfo.Size;
-                    //await picture.CreateBitmapAsync(Size.Empty);
-                }
-                sw1.Stop();
-
-
-
-
-                //_totalSw1 += sw1.ElapsedMilliseconds;
-                //_totalSw2 += sw2.ElapsedMilliseconds;
-                //Debug.WriteLine($"{sw1.ElapsedMilliseconds}ms vs {sw2.ElapsedMilliseconds}ms / Total: {(double)_totalSw1/(double)_totalSw2:0.00}");
-
-
+                var picture = await Task.Run(() => PictureFactory.Current.Create(entry));
+                this.Size = picture.PictureInfo.Size;
                 return picture;
             }
             catch (OperationCanceledException)

@@ -13,58 +13,6 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
-#if false
-    // TODO: 不要なものが多い。見直し。
-    // TODO: ファイルサイズ、更新日は別情報
-    /// <summary>
-    /// 画像情報
-    /// </summary>
-    public class BitmapInfo
-    {
-        /// <summary>
-        /// ファイルサイズ
-        /// </summary>
-        public long Length { get; set; } = -1;
-
-        /// <summary>
-        /// 最終更新日
-        /// </summary>
-        public DateTime? LastWriteTime { get; set; }
-
-        /// <summary>
-        /// Archiver
-        /// </summary>
-        public string Archiver { get; set; }
-
-        /// <summary>
-        /// Decoder
-        /// </summary>
-        public string Decoder { get; set; }
-
-        /// <summary>
-        /// EXIF
-        /// </summary>
-        public BitmapExif Exif { get; set; }
-
-        /// <summary>
-        /// 基本色
-        /// </summary>
-        public Color Color { get; set; } = Colors.Black;
-
-        /// <summary>
-        /// ピクセル深度
-        /// </summary>
-        public int BitsPerPixel { get; set; }
-    }
-
-    // 画像情報
-    public class BitmapContentSource
-    {
-        public BitmapSource Source { get; set; }
-        public BitmapInfo Info { get; set; }
-    }
-#endif
-
     /// <summary>
     /// EXIF
     /// </summary>

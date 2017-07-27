@@ -41,7 +41,7 @@ DLL: pdfium.dll
 
 * Copyright 2014 PDFium Authors. All rights reserved.
 * URL: [PDFium](https://pdfium.googlesource.com/pdfium/)
-* License: [New BSD License](https://pdfium.googlesource.com/pdfium/+/master/LICENSE)
+* License: [3-Clause BSD License](https://pdfium.googlesource.com/pdfium/+/master/LICENSE)
 
 ### PdfiumViewer
 
@@ -50,3 +50,12 @@ DLL: PdfiumViewer.dll
 * Copyright (c) Pieter van Ginkel
 * URL: [PdfiumViewer](https://github.com/pvginkel/PdfiumViewer)
 * License: [Apache License 2.0](https://github.com/pvginkel/PdfiumViewer/blob/master/LICENSE)
+
+### MagicScaler
+
+PhotoSauce.MagicScaler.dll
+
+* Copyright (c) 2015-2017 Clinton Ingram
+* URL: [PhotoSauce](http://photosauce.net/)
+* License: [Apache License 2.0](https://github.com/saucecontrol/PhotoSauce/blob/master/license)
+

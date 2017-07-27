@@ -24,9 +24,7 @@ namespace NeeView
         Size CreateFixedSize(ArchiveEntry entry, Size size);
 
     }
-
-
-
+    
     /// <summary>
     /// Picture Factory
     /// </summary>
@@ -112,93 +110,6 @@ namespace NeeView
             {
                 return _defaultFactory.CreateFixedSize(entry, size);
             }
-        }
-    }
-
-    /// <summary>
-    /// Default Picture Factory
-    /// </summary>
-    public class DefaultPictureFactory : IPictureFactory
-    {
-        //
-        private PictureStream _pictureStream = new PictureStream();
-
-        //
-        private BitmapFactory _bitmapFactory = new BitmapFactory();
-
-        //
-        public Picture Create(ArchiveEntry entry)
-        {
-            var picture = new Picture(entry);
-
-            using (var stream = _pictureStream.Create(entry))
-            {
-                // info
-                var info = _bitmapFactory.CreateInfo(stream.Stream);
-                var size = info.GetPixelSize();
-
-                // bitmap
-                size = (size.IsEmpty || PictureProfile.Current.Maximum.IsContains(size)) ? Size.Empty : size.Uniformed(PictureProfile.Current.Maximum);
-                var bitmapSource = _bitmapFactory.Create(stream.Stream, size, info);
-
-                //
-                picture.PictureInfo.Exif = info.Metadata != null ? new BitmapExif(info.Metadata) : null;
-                picture.PictureInfo.Decoder = stream.Name ?? ".Net BitmapImage";
-                picture.PictureInfo.SetPixelInfo(bitmapSource);
-
-                picture.BitmapSource = bitmapSource;
-            }
-
-            return picture;
-        }
-
-        //
-        public BitmapSource CreateBitmapSource(ArchiveEntry entry, Size size)
-        {
-            using (var stream = _pictureStream.Create(entry))
-            {
-                return _bitmapFactory.Create(stream.Stream, size);
-            }
-        }
-
-        public Size CreateFixedSize(ArchiveEntry entry, Size size)
-        {
-            return PictureProfile.Current.CreateFixedSize(size);
-        }
-    }
-
-    /// <summary>
-    /// PDF Picture Factory
-    /// </summary>
-    public class PdfPictureFactory : IPictureFactory
-    {
-        public Picture Create(ArchiveEntry entry)
-        {
-            var pdfArchiver = (PdfArchiver)entry.Archiver;
-            var profile = PdfArchiverProfile.Current;
-
-            var bitmapSource = pdfArchiver.CraeteBitmapSource(entry, profile.RenderSize);
-
-            var picture = new Picture(entry);
-
-            picture.PictureInfo.Size = new Size(bitmapSource.PixelWidth, bitmapSource.PixelHeight);
-            picture.PictureInfo.Decoder = "PDFium";
-
-            picture.BitmapSource = bitmapSource;
-
-            return picture;
-        }
-
-        public BitmapSource CreateBitmapSource(ArchiveEntry entry, Size size)
-        {
-            var pdfArchiver = (PdfArchiver)entry.Archiver;
-            size = size.IsEmpty ? PdfArchiverProfile.Current.RenderSize : size;
-            return pdfArchiver.CraeteBitmapSource(entry, size);
-        }
-
-        public Size CreateFixedSize(ArchiveEntry entry, Size size)
-        {
-            return PdfArchiverProfile.Current.CreateFixedSize(size);
         }
     }
 }

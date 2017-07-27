@@ -141,10 +141,13 @@
     <Compile Include="BackupSelectControl.xaml.cs">
       <DependentUpon>BackupSelectControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BitmapLoader\BitmapExif.cs" />
-    <Compile Include="BitmapLoader\Fraction.cs" />
-    <Compile Include="Picture\BitmapFactory.cs" />
-    <Compile Include="Picture\BitmapInfo.cs" />
+    <Compile Include="Bitmap\BitmapExif.cs" />
+    <Compile Include="Bitmap\Fraction.cs" />
+    <Compile Include="Bitmap\BitmapFactory.cs" />
+    <Compile Include="Bitmap\BitmapInfo.cs" />
+    <Compile Include="Picture\DefaultPictureFactory.cs" />
+    <Compile Include="Picture\DefaultPictureStream.cs" />
+    <Compile Include="Picture\PdfPictureFactory.cs" />
     <Compile Include="Picture\Picture.cs" />
     <Compile Include="Picture\PictureFileExtension.cs" />
     <Compile Include="Picture\PictureInfo.cs" />
@@ -161,6 +164,7 @@
     <Compile Include="Picture\PictureSource.cs" />
     <Compile Include="Picture\PictureFactory.cs" />
     <Compile Include="Picture\SizeExtensions.cs" />
+    <Compile Include="Picture\SusiePictureStream.cs" />
     <Compile Include="TouchInput\TouchAction.cs" />
     <Compile Include="TouchInput\TouchInputMouseDrag.cs" />
     <Compile Include="ViewContent\AnimatedViewContent.cs" />
@@ -512,7 +516,7 @@
     <Compile Include="Utility\NVUtilities.cs" />
     <Compile Include="BackgroundStyle.cs" />
     <Compile Include="DragAction.cs" />
-    <Compile Include="BitmapLoader\ExifAccessor.cs" />
+    <Compile Include="Bitmap\ExifAccessor.cs" />
     <Compile Include="Exporter.cs" />
     <Compile Include="ExternalApplication.cs" />
     <Compile Include="DragActionTable.cs" />
@@ -529,7 +533,7 @@
     <Compile Include="MouseInput\MouseGestureSequence.cs" />
     <Compile Include="PagePosition.cs" />
     <Compile Include="Page\BitmapPage.cs" />
-    <Compile Include="BitmapLoader\BitmapSourceExtension.cs" />
+    <Compile Include="Bitmap\BitmapSourceExtension.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="BookHistory.cs" />
     <Compile Include="BookHub.cs" />

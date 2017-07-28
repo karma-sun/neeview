@@ -16,13 +16,6 @@ namespace NeeView
     /// </summary>
     public class PdfViewContent : BitmapViewContent
     {
-        #region Fields
-
-        // スケールされたリソースを作成中
-        private volatile bool _rebuilding;
-
-        #endregion
-
         #region Constructors
 
         public PdfViewContent(ViewContentSource source, ViewContent old) : base(source, old)
@@ -49,30 +42,8 @@ namespace NeeView
         //
         public override bool Rebuild(double scale)
         {
-            if (_rebuilding) return false;
-
             var size = new Size(this.Width * scale, this.Height * scale);
-
-            _rebuilding = true;
-
-            Task.Run(() =>
-            {
-                try
-                {
-                    Resize(size);
-                    App.Current.Dispatcher.Invoke((Action)(() => this.View = CreateView(this.Source, CreateBindingParameter())));
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
-                finally
-                {
-                    _rebuilding = false;
-                }
-            });
-
-            return true;
+            return Rebuild(size);
         }
 
         #endregion

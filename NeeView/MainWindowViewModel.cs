@@ -244,7 +244,7 @@ namespace NeeView
             JobEngine.Current.AddPropertyChanged(nameof(JobEngine.IsBusy),
                 (s, e) => UpdateBusyVisibility());
 
-            ContentRebuild.Current.AddPropertyChanged(nameof(ContentRebuild.IsRequested),
+            ContentRebuild.Current.AddPropertyChanged(nameof(ContentRebuild.IsBusy),
                 (s, e) => UpdateBusyVisibility());
 
             BookHub.Current.BookChanged +=
@@ -270,7 +270,7 @@ namespace NeeView
         //
         private void UpdateBusyVisibility()
         {
-            this.BusyVisibility = _model.IsVisibleBusy && (JobEngine.Current.IsBusy || ContentRebuild.Current.IsRequested) && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed;
+            this.BusyVisibility = _model.IsVisibleBusy && (JobEngine.Current.IsBusy || ContentRebuild.Current.IsBusy) && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>

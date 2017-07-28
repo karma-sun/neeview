@@ -88,17 +88,19 @@ namespace NeeView
 
 
 
-        // スケールされたリソースを作成中
-        private volatile bool _rebuilding;
-
         //
         public override bool Rebuild(double scale)
         {
-            if (_rebuilding) return false;
-
             var size = PictureProfile.Current.IsResizeFilterEnabled ? new Size(this.Width * scale, this.Height * scale) : Size.Empty;
+            return Rebuild(size);
+        }
 
-            _rebuilding = true;
+        //
+        protected bool Rebuild(Size size)
+        {
+            if (this.IsResizing) return false;
+
+            this.IsResizing = true;
 
             Task.Run(() =>
             {
@@ -113,7 +115,8 @@ namespace NeeView
                 }
                 finally
                 {
-                    _rebuilding = false;
+                    this.IsResizing = false;
+                    ContentRebuild.Current.UpdateStatus();
                 }
             });
 

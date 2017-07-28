@@ -94,8 +94,8 @@
     <Reference Include="PdfiumViewer, Version=2.12.0.0, Culture=neutral, PublicKeyToken=91e4789cfb0609e0, processorArchitecture=MSIL">
       <HintPath>..\packages\PdfiumViewer.2.12.0.0\lib\net20\PdfiumViewer.dll</HintPath>
     </Reference>
-    <Reference Include="PhotoSauce.MagicScaler, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PhotoSauce.MagicScaler.0.7.1\lib\net46\PhotoSauce.MagicScaler.dll</HintPath>
+    <Reference Include="PhotoSauce.MagicScaler, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PhotoSauce.MagicScaler.0.8.0-beta3\lib\net46\PhotoSauce.MagicScaler.dll</HintPath>
     </Reference>
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
@@ -144,6 +144,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AnyKey.cs" />
     <Compile Include="App.Exception.cs" />
     <Compile Include="App.Memento.cs" />
     <Compile Include="App.Option.cs" />

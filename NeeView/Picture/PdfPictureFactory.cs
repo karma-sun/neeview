@@ -18,7 +18,8 @@ namespace NeeView
             var pdfArchiver = (PdfArchiver)entry.Archiver;
             var profile = PdfArchiverProfile.Current;
 
-            var bitmapSource = pdfArchiver.CraeteBitmapSource(entry, profile.RenderSize);
+            var size = pdfArchiver.GetRenderSize(entry);
+            var bitmapSource = pdfArchiver.CraeteBitmapSource(entry, size);
 
             var picture = new Picture(entry);
 
@@ -33,7 +34,7 @@ namespace NeeView
         public BitmapSource CreateBitmapSource(ArchiveEntry entry, Size size)
         {
             var pdfArchiver = (PdfArchiver)entry.Archiver;
-            size = size.IsEmpty ? PdfArchiverProfile.Current.RenderSize : size;
+            size = size.IsEmpty ? pdfArchiver.GetRenderSize(entry) : size;
             return pdfArchiver.CraeteBitmapSource(entry, size);
         }
 

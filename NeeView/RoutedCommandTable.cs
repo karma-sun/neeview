@@ -39,6 +39,8 @@ namespace NeeView
         private MainWindow _window;
         private CommandTable _commandTable;
 
+        private Dictionary<Key, bool> _usedKeyMap;
+
         //
         public RoutedCommandTable(MainWindow window, CommandTable commandTable)
         {
@@ -133,9 +135,51 @@ namespace NeeView
             }
 
             //
+            InitialzeUsedKeyMap();
+
+            //
             Changed?.Invoke(this, null);
         }
 
+        // コマンドで使用されているキーマップ生成
+        private void InitialzeUsedKeyMap()
+        {
+            var map = Enum.GetValues(typeof(Key)).Cast<Key>().Distinct().ToDictionary(e => e, e => false);
+
+            foreach (var command in this.Commands)
+            {
+                var inputGestures = CommandTable.Current[command.Key].GetInputGestureCollection();
+                foreach (var gesture in inputGestures)
+                {
+                    switch (gesture)
+                    {
+                        case KeyGesture keyGesture:
+                            map[keyGesture.Key] = true;
+                            break;
+                        case KeyExGesture keyExGesture:
+                            map[keyExGesture.Key] = true;
+                            break;
+                    }
+                }
+            }
+
+            // modifiers
+            map[Key.LeftShift] = true;
+            map[Key.RightShift] = true;
+            map[Key.LeftCtrl] = true;
+            map[Key.RightCtrl] = true;
+            map[Key.LeftAlt] = true;
+            map[Key.LWin] = true;
+            map[Key.RWin] = true;
+
+            _usedKeyMap = map;
+        }
+
+        // コマンドで使用されているキー？
+        public bool IsUsedKey(Key key)
+        {
+            return _usedKeyMap != null ? _usedKeyMap[key] : false;
+        }
 
         //
         private void MouseButtonCommandExecute(object sender, MouseButtonEventArgs x, InputGesture gesture, RoutedUICommand command)

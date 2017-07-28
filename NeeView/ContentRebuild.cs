@@ -5,6 +5,7 @@
 
 using NeeView.ComponentModel;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -32,6 +33,7 @@ namespace NeeView
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern bool PostMessage(IntPtr hWnd, Int32 Msg, IntPtr wParam, IntPtr lParam);
 
+
         #endregion
 
         #region Fields
@@ -41,7 +43,7 @@ namespace NeeView
 
 
         #endregion
-        
+
         #region Constructors
 
         //
@@ -74,7 +76,15 @@ namespace NeeView
             set { if (_isRequested != value) { _isRequested = value; RaisePropertyChanged(); } }
         }
 
-
+        /// <summary>
+        /// IsBusy property.
+        /// </summary>
+        private bool _IsBusy;
+        public bool IsBusy
+        {
+            get { return _IsBusy; }
+            set { if (_IsBusy != value) { _IsBusy = value; RaisePropertyChanged(); } }
+        }
 
         #endregion
 
@@ -122,9 +132,11 @@ namespace NeeView
             var mouseButtonBits = MouseButtonBitsExtensions.Create();
             if (MouseInput.Current.IsLoupeMode && MouseInput.Current.Normal.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
             {
-                mouseButtonBits = mouseButtonBits & ~MouseButtonBits.LeftButton; 
+                mouseButtonBits = mouseButtonBits & ~MouseButtonBits.LeftButton;
             }
             if (mouseButtonBits != MouseButtonBits.None) return;
+
+            if (MainWindowModel.Current.AnyKey.IsPressed) return;
 
             bool isSuccessed = true;
             var scale = DragTransform.Current.Scale * LoupeTransform.Current.FixedScale;
@@ -134,6 +146,8 @@ namespace NeeView
             }
 
             this.IsRequested = !isSuccessed;
+
+            UpdateStatus();
         }
 
 
@@ -141,6 +155,12 @@ namespace NeeView
         public void Request()
         {
             this.IsRequested = true;
+        }
+
+        //
+        public void UpdateStatus()
+        {
+            this.IsBusy = ContentCanvas.Current.Contents.Where(e => e.IsValid).Any(e => e.IsResizing);
         }
 
         #endregion

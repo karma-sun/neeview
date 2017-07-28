@@ -53,7 +53,7 @@ DLL: PdfiumViewer.dll
 
 ### MagicScaler
 
-PhotoSauce.MagicScaler.dll
+DLL: PhotoSauce.MagicScaler.dll
 
 * Copyright (c) 2015-2017 Clinton Ingram
 * URL: [PhotoSauce](http://photosauce.net/)

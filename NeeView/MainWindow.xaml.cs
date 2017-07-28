@@ -136,6 +136,10 @@ namespace NeeView
             this.PreviewMouseWheel += MainWindow_PreviewMouseWheel;
             this.PreviewStylusDown += MainWindow_PreviewStylusDown;
 
+            // key event for window
+            this.PreviewKeyDown += MainWindow_PreviewKeyDown;
+            this.PreviewKeyUp += MainWindow_PreviewKeyUp;
+
             // cancel rename triggers
             this.MouseLeftButtonDown += (s, e) => this.RenameManager.Stop();
             this.MouseRightButtonDown += (s, e) => this.RenameManager.Stop();
@@ -511,6 +515,16 @@ namespace NeeView
 
             // 自動非表示ロック解除
             _vm.Model.LeaveVisibleLocked();
+
+            // AnyKey
+            _vm.Model.AnyKey.KeyDown(e.Key);
+        }
+
+        // 
+        private void MainWindow_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            // AnyKey
+            _vm.Model.AnyKey.KeyUp(e.Key);
         }
 
 

@@ -100,6 +100,7 @@ namespace NeeView
         }
 
         // エントリーのストリームを得る
+        // PDFは画像化したものをストリームにして返す
         public override Stream OpenStream(ArchiveEntry entry)
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
@@ -110,29 +111,30 @@ namespace NeeView
                 var image = pdfDocument.Render(entry.Id, (int)size.Width, (int)size.Height, 96, 96, false);
 
                 var ms = new MemoryStream();
-                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                image.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
                 ms.Seek(0, SeekOrigin.Begin);
                 return ms;
             }
         }
 
-        // 規定内に収まるサイズ取得
+        // 標準サイズで取得
+        public Size GetRenderSize(ArchiveEntry entry)
+        {
+            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+
+            using (var pdfDocument = PdfDocument.Load(Path))
+            {
+                return GetRenderSize(pdfDocument, entry.Id);
+            }
+        }
+
+        // 標準サイズで取得
         private Size GetRenderSize(PdfDocument pdfDocument, int page)
         {
-            return GetRenderSize(pdfDocument, page, new Size(PdfArchiverProfile.Current.RenderSize.Width, PdfArchiverProfile.Current.RenderSize.Height));
+            var size = SizeExtensions.FromDrawingSize(pdfDocument.PageSizes[page]);
+            return size.Limit(PdfArchiverProfile.Current.RenderSize);
         }
 
-        // 指定サイズ内に収まるサイズ取得
-        private Size GetRenderSize(PdfDocument pdfDocument, int page, Size size)
-        {
-            var documentSize = pdfDocument.PageSizes[page];
-
-            var rateX = size.Width / documentSize.Width;
-            var rateY = size.Height / documentSize.Height;
-            var rate = Math.Min(rateX, rateY);
-
-            return new Size(documentSize.Width * rate, documentSize.Height * rate);
-        }
 
         // ファイルとして出力
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
@@ -147,15 +149,14 @@ namespace NeeView
                 image.Save(exportFileName, System.Drawing.Imaging.ImageFormat.Png);
             }
         }
-        
+
         // サイズを指定して画像を取得する
-        public BitmapSource CraeteBitmapSource(ArchiveEntry entry, Size maxSize)
+        public BitmapSource CraeteBitmapSource(ArchiveEntry entry, Size size)
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
             using (var pdfDocument = PdfDocument.Load(Path))
             {
-                var size = GetRenderSize(pdfDocument, entry.Id, maxSize);
                 var image = pdfDocument.Render(entry.Id, (int)size.Width, (int)size.Height, 96, 96, false);
                 return Utility.NVGraphics.ToBitmapSource(image);
             }

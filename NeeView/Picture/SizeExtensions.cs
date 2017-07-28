@@ -56,6 +56,29 @@ namespace NeeView
             return Math.Abs(self.Width - target.Width) < margin && Math.Abs(self.Height - target.Height) < margin;
         }
 
+        // Suze -> Drawing.Size
+        public static System.Drawing.Size ToDrawingSize(this Size self)
+        {
+            if (self.IsEmpty) return System.Drawing.Size.Empty;
+
+            return new System.Drawing.Size((int)self.Width, (int)self.Height);
+        }
+
+        // Drawing.Size -> Size
+        public static Size FromDrawingSize(System.Drawing.Size size)
+        {
+            if (size.IsEmpty) return Size.Empty;
+
+            return new Size(size.Width, size.Height);
+        }
+
+        // Drawing.SizeF -> Size
+        public static Size FromDrawingSize(System.Drawing.SizeF size)
+        { 
+            if (size.IsEmpty) return Size.Empty;
+
+            return new Size(size.Width, size.Height);
     }
+}
 
 }

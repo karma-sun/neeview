@@ -58,15 +58,12 @@ namespace NeeView
         /// <returns></returns>
         public BitmapImage Create(Stream stream, Size size, BitmapInfo info)
         {
+            // by MagicScaler
             if (!size.IsEmpty && PictureProfile.Current.IsResizeFilterEnabled)
-            {
-                return CreateWithMagicScaler(stream, size);
-            }
-            else
             {
                 try
                 {
-                    return Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad, size, info);
+                    return CreateByMagicScaler(stream, size);
                 }
                 catch (OutOfMemoryException)
                 {
@@ -74,10 +71,37 @@ namespace NeeView
                 }
                 catch (Exception ex)
                 {
-                    // カラープロファイルを無効にして再生成
-                    Debug.WriteLine(ex.Message);
-                    return Create(stream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad, size, info);
+                    Debug.WriteLine("MagicScaler Failed:" + ex.Message);
                 }
+            }
+
+            // by Default
+            return CreateByBitmapImage(stream, size, info);
+        }
+
+
+        /// <summary>
+        /// Bitmap生成
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public BitmapImage CreateByBitmapImage(Stream stream, Size size, BitmapInfo info)
+        {
+            try
+            {
+                return CreateByBitmapImage(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad, size, info);
+            }
+            catch (OutOfMemoryException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                // カラープロファイルを無効にして再生成
+                Debug.WriteLine($"BitmapImage Failed: {ex.Message}\nTry IgnoreColorProfile ...");
+                return CreateByBitmapImage(stream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad, size, info);
             }
         }
         
@@ -90,7 +114,7 @@ namespace NeeView
         /// <param name="size"></param>
         /// <param name="info"></param>
         /// <returns></returns>
-        private BitmapImage Create(Stream stream, BitmapCreateOptions createOption, BitmapCacheOption cacheOption, Size size, BitmapInfo info)
+        private BitmapImage CreateByBitmapImage(Stream stream, BitmapCreateOptions createOption, BitmapCacheOption cacheOption, Size size, BitmapInfo info)
         {
             stream.Seek(0, SeekOrigin.Begin);
 
@@ -133,7 +157,7 @@ namespace NeeView
         /// <param name="stream"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        private BitmapImage CreateWithMagicScaler(Stream stream, Size size)
+        private BitmapImage CreateByMagicScaler(Stream stream, Size size)
         {
             Debug.WriteLine($"MagicScaler: {size.Truncate()}");
 

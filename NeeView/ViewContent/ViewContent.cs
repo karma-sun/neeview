@@ -134,6 +134,11 @@ namespace NeeView
         //
         public bool IgnoreReserver { get; set; }
 
+        /// <summary>
+        /// IsResizing property.
+        /// </summary>
+        public bool IsResizing { get; protected set; }
+
         #endregion
 
         #region Constructors
@@ -266,6 +271,5 @@ namespace NeeView
         public Binding BitmapScalingMode { get; set; }
         public Binding AnimationImageVisibility { get; set; }
         public Binding AnimationPlayerVisibility { get; set; }
-        ////public ViewContentReserver Reserver { get; set; } // 未使用
     }
 }

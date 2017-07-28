@@ -8,7 +8,6 @@ using NeeView.ComponentModel;
 using NeeView.Windows.Input;
 using NeeView.Windows.Property;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -26,7 +25,6 @@ namespace NeeView
         Dark,
         Light,
     }
-
 
     /// <summary>
     /// Load command.
@@ -54,8 +52,6 @@ namespace NeeView
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
-
-
 
     /// <summary>
     /// MainWindow : Model
@@ -142,7 +138,7 @@ namespace NeeView
 
         //
         public bool CanHideMenu => IsHideMenu || WindowShape.Current.IsFullScreen;
-        
+
         // スライダーを自動的に隠す
         public bool IsHidePageSlider
         {
@@ -157,7 +153,7 @@ namespace NeeView
 
         //
         public bool CanHidePageSlider => IsHidePageSlider || WindowShape.Current.IsFullScreen;
-        
+
         // パネルを自動的に隠す
         public bool IsHidePanel
         {
@@ -179,10 +175,10 @@ namespace NeeView
             set { if (_IsHidePanelInFullscreen != value) { _IsHidePanelInFullscreen = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(CanHidePanel)); } }
         }
 
-         // パネルを自動的に隠せるか
+        // パネルを自動的に隠せるか
         public bool CanHidePanel => IsHidePanel || (IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
 
-         /// <summary>
+        /// <summary>
         /// IsVisibleWindowTitle property.
         /// タイトルバーが表示されておらず、スライダーにフォーカスがある場合等にキャンバスにタイトルを表示する
         /// </summary>
@@ -239,6 +235,9 @@ namespace NeeView
 
         // メニューエリア、ステータスエリアどちらかの上にマウスがある
         public bool IsFontAreaMouseOver => IsMenuAreaMouseOver || IsStatusAreaMouseOver;
+
+        // 何かキーが押されているか
+        public AnyKey AnyKey { get; } = new AnyKey();
 
         #endregion
 

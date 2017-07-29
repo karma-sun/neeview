@@ -53,7 +53,7 @@ namespace NeeView
         {
             //
             var image = base.CreateView(source, parameter);
-            image.SetBinding(Rectangle.VisibilityProperty, parameter.AnimationImageVisibility);
+            image?.SetBinding(Rectangle.VisibilityProperty, parameter.AnimationImageVisibility);
 
             //
             var media = new MediaElement();
@@ -73,7 +73,7 @@ namespace NeeView
 
             //
             var grid = new Grid();
-            grid.Children.Add(image);
+            if (image != null) grid.Children.Add(image);
             grid.Children.Add(canvas);
 
             return grid;

@@ -40,16 +40,6 @@ namespace NeeView
             // content setting
             var bitmapContent = this.Content as BitmapContent;
             this.Color = bitmapContent.Color;
-
-            //
-            bitmapContent.Picture?.AddPropertyChanged(nameof(Picture.BitmapSource), PictureBitmapSourceChanged);
-        }
-
-
-        private void PictureBitmapSourceChanged(object semder, PropertyChangedEventArgs arg)
-        {
-            var parameter = CreateBindingParameter();
-            App.Current.Dispatcher.BeginInvoke((Action)(() => this.View = CreateView(this.Source, parameter)));
         }
 
         //
@@ -68,6 +58,8 @@ namespace NeeView
         //
         protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter, BitmapSource bitmap)
         {
+            if (bitmap == null) return null;
+
             var rectangle = new Rectangle();
             rectangle.Fill = source.CreatePageImageBrush(bitmap);
             rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, parameter.BitmapScalingMode);
@@ -107,7 +99,7 @@ namespace NeeView
                 try
                 {
                     Resize(size);
-                    App.Current.Dispatcher.Invoke((Action)(() => this.View = CreateView(this.Source, CreateBindingParameter())));
+                    App.Current.Dispatcher.Invoke((Action)(() => this.View = CreateView(this.Source, CreateBindingParameter()) ?? this.View));
                 }
                 catch (Exception ex)
                 {

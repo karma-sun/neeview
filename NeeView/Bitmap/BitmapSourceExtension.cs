@@ -59,19 +59,7 @@ namespace NeeView
         public static int GetSourceBitsPerPixel(this BitmapSource bmp)
         {
             if (bmp == null) return 0;
-
-            int bitCount = 0;
-
-            // ビットマスクを適用して要素の値を取得する
-            foreach (PixelFormatChannelMask channelMask in bmp.Format.Masks)
-            {
-                foreach (byte myByte in channelMask.Mask)
-                {
-                    bitCount += BitCount(myByte);
-                }
-            }
-
-            return bitCount;
+            return bmp.Format.BitsPerPixel;
         }
 
 

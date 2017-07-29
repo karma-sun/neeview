@@ -32,9 +32,7 @@ namespace NeeView
                 }
                 else
                 {
-#if DEBUG
-                    if (_keys.Any()) Debug.WriteLine("AnyKey: " + string.Join(",", _keys));
-#endif
+                    ////if (_keys.Any()) Debug.WriteLine("AnyKey: " + string.Join(",", _keys));
                     return _keys.Any();
                 }
             }

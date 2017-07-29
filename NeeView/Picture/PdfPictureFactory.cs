@@ -44,7 +44,7 @@ namespace NeeView
                 using (var ms = new MemoryStream())
                 {
                     var thumbnailSize = ThumbnailProfile.Current.GetThumbnailSize(picture.PictureInfo.Size);
-                    pdfArchiver.CraeteBitmapSource(entry, thumbnailSize).SaveWithQuality(ms, System.Drawing.Imaging.ImageFormat.Jpeg, ThumbnailProfile.Current.Quality);
+                    pdfArchiver.CraeteBitmapSource(entry, thumbnailSize).SaveWithQuality(ms, CreateFormat(ThumbnailProfile.Current.Format), ThumbnailProfile.Current.Quality);
                     picture.Thumbnail = ms.ToArray();
                 }
             }
@@ -65,14 +65,28 @@ namespace NeeView
         }
 
         //
-        public byte[] CreateImage(ArchiveEntry entry, Size size, int quality)
+        public byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateMode mode)
         {
             using (var ms = new MemoryStream())
             {
                 var pdfArchiver = (PdfArchiver)entry.Archiver;
                 size = size.IsEmpty ? pdfArchiver.GetRenderSize(entry) : size;
-                pdfArchiver.CraeteBitmapSource(entry, size).SaveWithQuality(ms, System.Drawing.Imaging.ImageFormat.Jpeg, quality);
+                pdfArchiver.CraeteBitmapSource(entry, size).SaveWithQuality(ms, CreateFormat(format), quality);
                 return ms.ToArray();
+            }
+        }
+
+
+        //
+        private System.Drawing.Imaging.ImageFormat CreateFormat(BitmapImageFormat format)
+        {
+            switch (format)
+            {
+                default:
+                case BitmapImageFormat.Jpeg:
+                    return System.Drawing.Imaging.ImageFormat.Jpeg;
+                case BitmapImageFormat.Png:
+                    return System.Drawing.Imaging.ImageFormat.Png;
             }
         }
     }

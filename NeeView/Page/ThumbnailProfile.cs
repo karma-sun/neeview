@@ -30,6 +30,16 @@ namespace NeeView
         public double Size { get; } = 256;
 
         /// <summary>
+        /// BitmapFactoryでの画像生成モード
+        /// </summary>
+        public BitmapCreateMode CreateMode { get; } = BitmapCreateMode.HighQuality;
+
+        /// <summary>
+        /// 画像フォーマット
+        /// </summary>
+        public BitmapImageFormat Format { get; set; } = BitmapImageFormat.Jpeg;
+
+        /// <summary>
         /// 画像品質
         /// </summary>
         private int _quality = 80;
@@ -84,8 +94,12 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
+            [DataMember, DefaultValue(BitmapImageFormat.Jpeg)]
+            [PropertyEnum("サムネイルフォーマット", Tips = "サムネイル画像のフォーマットです。Pngは劣化がなく最高品質ですが、Jpegより多くのメモリを消費します")]
+            public BitmapImageFormat Format { get; set; } = BitmapImageFormat.Jpeg;
+
             [DataMember, DefaultValue(80)]
-            [PropertyMember("サムネイル品質", Tips = "サムネイルのJpeg品質です。1-100で指定します")]
+            [PropertyMember("サムネイル品質", Tips = "サムネイルフォーマットがJpegの場合の品質です。1-100で指定します")]
             public int Quality { get; set; }
 
             [DataMember, DefaultValue(true)]
@@ -109,6 +123,7 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
+            memento.Format = this.Format;
             memento.Quality = this.Quality;
             memento.IsCacheEnabled = this.IsCacheEnabled;
             memento.PageCapacity = this.PageCapacity;
@@ -121,6 +136,7 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
+            this.Format = memento.Format;
             this.Quality = memento.Quality;
             this.IsCacheEnabled = memento.IsCacheEnabled;
             this.PageCapacity = memento.PageCapacity;

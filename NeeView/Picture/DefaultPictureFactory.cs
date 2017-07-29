@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -28,7 +29,7 @@ namespace NeeView
             using (var stream = _pictureStream.Create(entry))
             {
                 // info
-                var info = _bitmapFactory.CreateInfo(stream.Stream);
+                var info = BitmapInfo.Create(stream.Stream);
                 var size = info.GetPixelSize();
                 picture.PictureInfo.Size = info.IsTranspose ? info.GetPixelSize().Transpose() : info.GetPixelSize();
 
@@ -37,7 +38,7 @@ namespace NeeView
                 {
                     var maxSize = info.IsTranspose ? PictureProfile.Current.Maximum.Transpose() : PictureProfile.Current.Maximum;
                     size = (size.IsEmpty || maxSize.IsContains(size)) ? Size.Empty : size.Uniformed(maxSize);
-                    var bitmapSource = _bitmapFactory.Create(stream.Stream, size, info);
+                    var bitmapSource = _bitmapFactory.Create(stream.Stream, info, size, BitmapCreateMode.Default);
 
                     //
                     picture.PictureInfo.Exif = info.Metadata != null ? new BitmapExif(info.Metadata) : null;
@@ -50,8 +51,14 @@ namespace NeeView
                 // thumbnail
                 if (options.HasFlag(PictureCreateOptions.CreateThumbnail))
                 {
-                    var thumbnailSize = ThumbnailProfile.Current.GetThumbnailSize(picture.PictureInfo.Size);
-                    picture.Thumbnail = _bitmapFactory.CreateImage(stream.Stream, thumbnailSize, ThumbnailProfile.Current.Quality);
+                    using (var ms = new MemoryStream())
+                    {
+                        var thumbnailSize = ThumbnailProfile.Current.GetThumbnailSize(picture.PictureInfo.Size);
+                        _bitmapFactory.CreateImage(stream.Stream, info, ms, thumbnailSize, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, ThumbnailProfile.Current.CreateMode);
+                        picture.Thumbnail = ms.ToArray();
+
+                        Debug.WriteLine($"Thumbnail: {picture.Thumbnail.Length / 1024}KB");
+                    }
                 }
             }
 
@@ -63,16 +70,19 @@ namespace NeeView
         {
             using (var stream = _pictureStream.Create(entry))
             {
-                return _bitmapFactory.Create(stream.Stream, size);
+                var mode = PictureProfile.Current.IsResizeFilterEnabled ? BitmapCreateMode.HighQuality : BitmapCreateMode.Default;
+                return _bitmapFactory.Create(stream.Stream, null, size, mode);
             }
         }
 
         //
-        public byte[] CreateImage(ArchiveEntry entry, Size size, int quality)
+        public byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateMode mode)
         {
             using (var stream = _pictureStream.Create(entry))
+            using (var ms = new MemoryStream())
             {
-                return _bitmapFactory.CreateImage(stream.Stream, size, quality);
+                _bitmapFactory.CreateImage(stream.Stream, null, ms, size, format, quality, mode);
+                return ms.ToArray();
             }
         }
 

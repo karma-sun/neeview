@@ -147,7 +147,7 @@ namespace NeeView
                 }
                 else
                 {
-                    return DecodeFromJpeg(_image);
+                    return DecodeFromImageData(_image);
                 }
             }
             else
@@ -158,34 +158,22 @@ namespace NeeView
 
 
         /// <summary>
-        /// BitmapSource to Jpeg
-        /// </summary>
-        private byte[] EncodeToJpeg(BitmapSource source)
-        {
-            using (var stream = new MemoryStream())
-            {
-                JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-                encoder.QualityLevel = ThumbnailProfile.Current.Quality;
-                encoder.Frames.Add(BitmapFrame.Create(source));
-                encoder.Save(stream);
-
-                stream.Flush();
-                return stream.ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Jpeg to BitmapSource
+        /// ImageData to BitmapSource
         /// </summary>
         /// <param name="image"></param>
         /// <returns></returns>
-        private BitmapSource DecodeFromJpeg(byte[] image)
+        private BitmapSource DecodeFromImageData(byte[] image)
         {
             using (var stream = new MemoryStream(image, false))
             {
-                JpegBitmapDecoder decoder = new JpegBitmapDecoder(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
-                var bitmap = decoder.Frames[0];
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.StreamSource = stream;
+                bitmap.CreateOptions = BitmapCreateOptions.None;
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
                 bitmap.Freeze();
+
                 return bitmap;
             }
         }

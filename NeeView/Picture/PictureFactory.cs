@@ -29,9 +29,10 @@ namespace NeeView
     public interface IPictureFactory
     {
         Picture Create(ArchiveEntry entry, PictureCreateOptions options);
+
         BitmapSource CreateBitmapSource(ArchiveEntry entry, Size size);
         Size CreateFixedSize(ArchiveEntry entry, Size size);
-        byte[] CreateImage(ArchiveEntry entry, Size size, int quality);
+        byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateMode mode);
     }
 
 
@@ -68,7 +69,7 @@ namespace NeeView
                 GC.WaitForPendingFinalizers();
                 goto RETRY;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -124,7 +125,7 @@ namespace NeeView
         }
 
         //
-        public byte[] CreateImage(ArchiveEntry entry, Size size, int quality)
+        public byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateMode mode)
         {
             ////Debug.WriteLine($"CreateThumnbnail: {entry.EntryLastName} ({size.Truncate()})");
 
@@ -133,13 +134,19 @@ namespace NeeView
                 {
                     if (entry.Archiver is PdfArchiver)
                     {
-                        return _pdfFactory.CreateImage(entry, size, quality);
+                        return _pdfFactory.CreateImage(entry, size, format, quality, mode);
                     }
                     else
                     {
-                        return _defaultFactory.CreateImage(entry, size, quality);
+                        return _defaultFactory.CreateImage(entry, size, format, quality, mode);
                     }
                 });
+        }
+
+        //
+        public byte[] CreateThumbnail(ArchiveEntry entry, Size size)
+        {
+            return CreateImage(entry, size, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, ThumbnailProfile.Current.CreateMode);
         }
     }
 }

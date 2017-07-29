@@ -156,9 +156,11 @@
       <DependentUpon>BackupSelectControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bitmap\BitmapExif.cs" />
+    <Compile Include="Bitmap\DefaultBitmapFactory.cs" />
     <Compile Include="Bitmap\Fraction.cs" />
     <Compile Include="Bitmap\BitmapFactory.cs" />
     <Compile Include="Bitmap\BitmapInfo.cs" />
+    <Compile Include="Bitmap\MagicScalerBitmapFactory.cs" />
     <Compile Include="Picture\DefaultPictureFactory.cs" />
     <Compile Include="Picture\DefaultPictureStream.cs" />
     <Compile Include="Picture\PdfPictureFactory.cs" />

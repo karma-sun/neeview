@@ -3,7 +3,9 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -80,13 +82,34 @@ namespace NeeView
         }
 
         #endregion
-        
+
         #region Methods
 
         //
         public Size GetPixelSize()
         {
             return (this.PixelWidth == 0.0 || this.PixelHeight == 0.0) ? Size.Empty : new Size(this.PixelWidth, this.PixelHeight);
+        }
+
+        #endregion
+
+        #region Static Methods
+
+        //
+        public static BitmapInfo Create(Stream stream)
+        {
+            stream.Seek(0, SeekOrigin.Begin);
+
+            try
+            {
+                var bitmapFrame = BitmapFrame.Create(stream, BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.None);
+                return new BitmapInfo(bitmapFrame.PixelWidth, bitmapFrame.PixelHeight, (BitmapMetadata)bitmapFrame.Metadata);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return new BitmapInfo();
+            }
         }
 
         #endregion
@@ -131,6 +154,6 @@ namespace NeeView
         }
 
         #endregion
-    }
 
+    }
 }

@@ -204,6 +204,7 @@ namespace NeeView
         /// <summary>
         /// 画像データ生成
         /// リサイズには MagicScaler を使用する
+        /// TODO: リサイザー使用しない速度重視オプションがほしい(サムネイル用)
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="size"></param>

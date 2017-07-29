@@ -80,6 +80,7 @@ namespace NeeView
         }
 
         // サムネイル生成
+        // TODO: BitmapSourceが存在する場合はそれを元に生成する
         public byte[] CreateThumbnail()
         {
             if (this.Thumbnail != null) return this.Thumbnail;

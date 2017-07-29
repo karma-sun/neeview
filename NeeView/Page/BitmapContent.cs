@@ -119,8 +119,15 @@ namespace NeeView
 
             // TODO: コンテンツ読み込み要求が有効な場合の処理
 
-            var picture = await LoadPictureAsync(Entry, PictureCreateOptions.None, token);
-            Thumbnail.Initialize(picture?.CreateThumbnail());
+            if (this.Picture != null)
+            {
+                Thumbnail.Initialize(this.Picture.CreateThumbnail());
+            }
+            else
+            {
+                var picture = await LoadPictureAsync(Entry, PictureCreateOptions.CreateThumbnail, token);
+                Thumbnail.Initialize(picture?.CreateThumbnail());
+            }
         }
     }
 }

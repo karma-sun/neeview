@@ -33,7 +33,7 @@ namespace NeeView
                 picture.PictureInfo.Size = info.IsTranspose ? info.GetPixelSize().Transpose() : info.GetPixelSize();
 
                 // bitmap
-                if (options.HasFlag(PictureCreateOptions.CreateBitmap))
+                if (options.HasFlag(PictureCreateOptions.CreateBitmap) || picture.PictureInfo.Size.IsEmpty)
                 {
                     var maxSize = info.IsTranspose ? PictureProfile.Current.Maximum.Transpose() : PictureProfile.Current.Maximum;
                     size = (size.IsEmpty || maxSize.IsContains(size)) ? Size.Empty : size.Uniformed(maxSize);

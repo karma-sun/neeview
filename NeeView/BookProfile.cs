@@ -88,9 +88,6 @@ namespace NeeView
         // GIFアニメ有効
         public bool IsEnableAnimatedGif { get; set; }
 
-        // EXIF回転有効
-        public bool IsEnableExif { get; set; }
-
         // サポート外ファイル有効
         public bool IsEnableNoSupportFile { get; set; }
 
@@ -145,9 +142,6 @@ namespace NeeView
             public bool IsEnableAnimatedGif { get; set; }
 
             [DataMember]
-            public bool IsEnableExif { get; set; }
-
-            [DataMember]
             public bool IsEnableNoSupportFile { get; set; }
 
             [DataMember, DefaultValue(LoadingPageView.PreThumbnail)]
@@ -173,7 +167,6 @@ namespace NeeView
             memento.WideRatio = this.WideRatio;
             memento.ExcludePath = this.Excludes.ToString();
             memento.IsEnableAnimatedGif = this.IsEnableAnimatedGif;
-            memento.IsEnableExif = this.IsEnableExif;
             memento.IsEnableNoSupportFile = this.IsEnableNoSupportFile;
             memento.LoadingPageView = this.LoadingPageView;
             return memento;
@@ -190,7 +183,6 @@ namespace NeeView
             this.WideRatio = memento.WideRatio;
             this.Excludes.FromString(memento.ExcludePath);
             this.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
-            this.IsEnableExif = memento.IsEnableExif;
             this.IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
             this.LoadingPageView = memento.LoadingPageView;
         }

@@ -956,7 +956,6 @@ namespace NeeView
 
                 BookProfile.Current.PreLoadMode = memento.PreLoadMode;
                 BookProfile.Current.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
-                BookProfile.Current.IsEnableExif = memento.IsEnableExif;
                 BookProfile.Current.IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
 
                 BookOperation.Current.PageEndAction = memento.PageEndAction;

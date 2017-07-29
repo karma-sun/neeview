@@ -24,6 +24,9 @@ namespace NeeView
         public Rotation Rotation { get; set; }
         public BitmapMetadata Metadata { get; set; }
 
+        // 転置？
+        public bool IsTranspose => (this.Rotation == Rotation.Rotate90 || this.Rotation == Rotation.Rotate270);
+
         #endregion
 
         #region Constructors

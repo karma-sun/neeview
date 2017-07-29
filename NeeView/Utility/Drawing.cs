@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView.Utility
 {
-    internal class NVDrawing
+    public static class NVDrawing
     {
         // サムネイル作成(System.Drawing)
         public static BitmapSource CreateThumbnail(BitmapSource source, System.Windows.Size maxSize)
@@ -104,5 +105,21 @@ namespace NeeView.Utility
 
             return bitmapSource;
         }
+
+
+        //ストリームにJPEG保存
+        public static void SaveWithQuality(this Image image, Stream stream, ImageFormat format, int quality)
+        {
+            var encoder = ImageCodecInfo.GetImageEncoders().FirstOrDefault(e => e.FormatID == format.Guid);
+            if (encoder == null) return;
+
+            using (EncoderParameters encoderParams = new EncoderParameters(1))
+            using (EncoderParameter encoderParam = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality))
+            {
+                encoderParams.Param[0] = encoderParam;
+                image.Save(stream, encoder, encoderParams);
+            }
+        }
+
     }
 }

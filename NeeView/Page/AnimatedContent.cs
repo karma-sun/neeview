@@ -38,7 +38,7 @@ namespace NeeView
             if (IsLoaded) return;
 
             // 画像情報の取得
-            var picture = await LoadPictureAsync(Entry, token);
+            var picture = await LoadPictureAsync(Entry, PictureCreateOptions.CreateBitmap, token);
 
             if (!token.IsCancellationRequested)
             {
@@ -52,8 +52,8 @@ namespace NeeView
             }
 
             // サムネイル作成
-            if (Thumbnail.IsValid) return;
-            Thumbnail.Initialize(picture?.BitmapSource);
+            if (Thumbnail.IsValid || picture == null) return;
+            Thumbnail.Initialize(picture.CreateThumbnail());
         }
     }
 }

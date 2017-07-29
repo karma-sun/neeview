@@ -56,6 +56,14 @@ namespace NeeView
             return Math.Abs(self.Width - target.Width) < margin && Math.Abs(self.Height - target.Height) < margin;
         }
 
+        // 転置
+        public static Size Transpose(this Size self)
+        {
+            if (self.IsEmpty) return self;
+            
+            return new Size(self.Height, self.Width);
+        }
+
         // Suze -> Drawing.Size
         public static System.Drawing.Size ToDrawingSize(this Size self)
         {

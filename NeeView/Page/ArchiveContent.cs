@@ -88,8 +88,8 @@ namespace NeeView
 
             try
             {
-                var bitmapSource = await LoadArchiveBitmapAsync(Entry, _entryName, token);
-                Thumbnail.Initialize(bitmapSource);
+                var picture = await LoadArchivePictureAsync(Entry, _entryName, token);
+                Thumbnail.Initialize(picture?.CreateThumbnail());
             }
             catch (OperationCanceledException)
             {
@@ -112,7 +112,7 @@ namespace NeeView
         /// <param name="entryName"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        private async Task<BitmapSource> LoadArchiveBitmapAsync(ArchiveEntry entry, string entryName, CancellationToken token)
+        private async Task<Picture> LoadArchivePictureAsync(ArchiveEntry entry, string entryName, CancellationToken token)
         {
             using (var archiver = ArchiverManager.Current.CreateArchiver(entry.EntryName, null))
             {
@@ -131,7 +131,7 @@ namespace NeeView
 
                     if (select != null)
                     {
-                        return (await LoadPictureAsync(select, token))?.BitmapSource;
+                        return await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail, token);
                     }
                     else
                     {

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NeeView
 {
@@ -23,17 +24,26 @@ namespace NeeView
             Current = this;
         }
 
+        /// <summary>
+        /// 画像サイズ
+        /// </summary>
+        public double Size { get; } = 256;
+
+        /// <summary>
+        /// 画像品質
+        /// </summary>
+        private int _quality = 80;
         public int Quality
         {
             get { return _quality; }
             set { _quality = NVUtility.Clamp(value, 1, 100); }
         }
-        private int _quality = 80;
 
         public bool IsCacheEnabled { get; set; } = true;
         public int PageCapacity { get; set; } = 1000;
         public int BookCapacity { get; set; } = 200;
 
+        private int _bannerWidth = 200;
         public int BannerWidth
         {
             get { return _bannerWidth; }
@@ -46,7 +56,29 @@ namespace NeeView
                 App.Current.Resources["BannerHeight"] = (double)bannerHeight;
             }
         }
-        private int _bannerWidth = 200;
+        
+        /// <summary>
+        /// サムネイル画像サイズ取得
+        /// </summary>
+        /// <param name="size">元画像サイズ</param>
+        /// <returns></returns>
+        public Size GetThumbnailSize(Size size)
+        {
+            if (size.IsEmpty) return new Size(Size, Size);
+
+            var pixels = Size * Size;
+
+            var scale = Math.Sqrt(pixels / (size.Width * size.Height));
+
+            var max = Size * 2;
+            if (size.Width * scale > max) scale = max / size.Width;
+            if (size.Height * scale > max) scale = max / size.Height;
+            if (scale > 1.0) scale = 1.0;
+
+            var thumbnailSize = new Size(size.Width * scale, size.Height * scale);
+
+            return thumbnailSize;
+        }
 
         #region Memento
         [DataContract]

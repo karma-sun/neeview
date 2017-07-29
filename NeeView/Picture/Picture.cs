@@ -41,6 +41,16 @@ namespace NeeView
             set { if (_bitmapSource != value) { _bitmapSource = value; RaisePropertyChanged(); } }
         }
 
+        /// <summary>
+        /// Thumbnail property.
+        /// </summary>
+        private byte[] _thumbnail;
+        public byte[] Thumbnail
+        {
+            get { return _thumbnail; }
+            set { if (_thumbnail != value) { _thumbnail = value; RaisePropertyChanged(); } }
+        }
+        
 
         // Bitmapが同じサイズであるか判定
         private bool IsEqualBitmapSizeMaybe(Size size)
@@ -67,6 +77,17 @@ namespace NeeView
             }
 
             this.BitmapSource = PictureFactory.Current.CreateBitmapSource(_archiveEntry, size);
+        }
+
+        // サムネイル生成
+        public byte[] CreateThumbnail()
+        {
+            if (this.Thumbnail != null) return this.Thumbnail;
+
+            var thumbnailSize = ThumbnailProfile.Current.GetThumbnailSize(this.PictureInfo.Size);
+            this.Thumbnail = PictureFactory.Current.CreateImage(_archiveEntry, thumbnailSize, ThumbnailProfile.Current.Quality);
+
+            return this.Thumbnail;
         }
     }
 

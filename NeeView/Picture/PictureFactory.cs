@@ -14,17 +14,27 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
+    [Flags]
+    public enum PictureCreateOptions
+    {
+        None,
+        CreateBitmap,
+        CreateThumbnail,
+    }
+
+
     /// <summary>
     /// Picture Factory interface.
     /// </summary>
     public interface IPictureFactory
     {
-        Picture Create(ArchiveEntry entry);
+        Picture Create(ArchiveEntry entry, PictureCreateOptions options);
         BitmapSource CreateBitmapSource(ArchiveEntry entry, Size size);
         Size CreateFixedSize(ArchiveEntry entry, Size size);
-
+        byte[] CreateImage(ArchiveEntry entry, Size size, int quality);
     }
-    
+
+
     /// <summary>
     /// Picture Factory
     /// </summary>
@@ -65,18 +75,18 @@ namespace NeeView
         }
 
         //
-        public Picture Create(ArchiveEntry entry)
+        public Picture Create(ArchiveEntry entry, PictureCreateOptions options)
         {
             return RetryWhenOutOfMemory(
                 () =>
                 {
                     if (entry.Archiver is PdfArchiver)
                     {
-                        return _pdfFactory.Create(entry);
+                        return _pdfFactory.Create(entry, options);
                     }
                     else
                     {
-                        return _defaultFactory.Create(entry);
+                        return _defaultFactory.Create(entry, options);
                     }
                 });
         }
@@ -100,6 +110,7 @@ namespace NeeView
                 });
         }
 
+        //
         public Size CreateFixedSize(ArchiveEntry entry, Size size)
         {
             if (entry.Archiver is PdfArchiver)
@@ -110,6 +121,25 @@ namespace NeeView
             {
                 return _defaultFactory.CreateFixedSize(entry, size);
             }
+        }
+
+        //
+        public byte[] CreateImage(ArchiveEntry entry, Size size, int quality)
+        {
+            ////Debug.WriteLine($"CreateThumnbnail: {entry.EntryLastName} ({size.Truncate()})");
+
+            return RetryWhenOutOfMemory(
+                () =>
+                {
+                    if (entry.Archiver is PdfArchiver)
+                    {
+                        return _pdfFactory.CreateImage(entry, size, quality);
+                    }
+                    else
+                    {
+                        return _defaultFactory.CreateImage(entry, size, quality);
+                    }
+                });
         }
     }
 }

@@ -151,16 +151,16 @@ namespace NeeView
         }
 
         // サイズを指定して画像を取得する
-        public BitmapSource CraeteBitmapSource(ArchiveEntry entry, Size size)
+        public System.Drawing.Image CraeteBitmapSource(ArchiveEntry entry, Size size)
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
             using (var pdfDocument = PdfDocument.Load(Path))
             {
-                var image = pdfDocument.Render(entry.Id, (int)size.Width, (int)size.Height, 96, 96, false);
-                return Utility.NVGraphics.ToBitmapSource(image);
+                return pdfDocument.Render(entry.Id, (int)size.Width, (int)size.Height, 96, 96, false);
             }
         }
+
 
         #endregion
     }

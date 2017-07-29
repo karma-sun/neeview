@@ -24,11 +24,6 @@ namespace NeeView
     public class Thumbnail : BindableBase, IDisposable
     {
         /// <summary>
-        /// 画像サイズ
-        /// </summary>
-        public static double Size { get; set; } = 256;
-
-        /// <summary>
         /// 有効判定
         /// </summary>
         internal bool IsValid => (_image != null);
@@ -101,55 +96,23 @@ namespace NeeView
         {
             if (IsValid || !IsSupprtedCache) return;
 
-            var sw = new Stopwatch();
-            sw.Start();
             _header = new ThumbnailCacheHeader(entry.FullName, entry.Length, entry.LastWriteTime, appendix);
             var image = ThumbnailCache.Current.Load(_header);
-            sw.Stop();
-            ////Debug.WriteLine($"Cache Load: {IsValid}: {sw.ElapsedMilliseconds}ms");
 
             Image = image;
         }
 
-
         /// <summary>
-        /// 初期化
+        /// 画像データから初期化
         /// </summary>
         /// <param name="source"></param>
-        internal void Initialize(BitmapSource source)
+        internal void Initialize(byte[] image)
         {
             if (IsValid) return;
 
-            if (source == null)
-            {
-                Image = _emptyImage;
-                return;
-            }
-
-            var pixels = Size * Size;
-            var ratio = (double)source.PixelWidth / source.PixelHeight;
-            var height = Math.Floor(Math.Sqrt(pixels / ratio));
-            var width = Math.Floor(pixels / height);
-            if (height > Size * 2) height = Size * 2;
-            if (width > Size * 2) width = Size * 2;
-
-            var thumbnailSize = new Size(width, height);
-            //Debug.WriteLine($"Thumbnail: {thumbnailSize.Width}x{thumbnailSize.Height}");
-
-            var bitmapSource = Utility.NVGraphics.CreateThumbnail(source, thumbnailSize);
-            var image = EncodeToJpeg(bitmapSource);
-
-            Image = image;
-
-            if (IsSupprtedCache && _header != null)
-            {
-                var sw = new Stopwatch();
-                sw.Start();
-                ThumbnailCache.Current.Save(_header, _image);
-                sw.Stop();
-                ////Debug.WriteLine($"Cache Save: {sw.ElapsedMilliseconds}ms");
-            }
+            Image = image ?? _emptyImage;
         }
+
 
         /// <summary>
         /// image無効

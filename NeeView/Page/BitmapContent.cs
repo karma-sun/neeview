@@ -50,11 +50,11 @@ namespace NeeView
         /// <param name="entry"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        protected async Task<Picture> LoadPictureAsync(ArchiveEntry entry, CancellationToken token)
+        protected async Task<Picture> LoadPictureAsync(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token)
         {
             try
             {
-                var picture = await Task.Run(() => PictureFactory.Current.Create(entry));
+                var picture = await Task.Run(() => PictureFactory.Current.Create(entry, options));
                 this.Size = picture.PictureInfo.Size;
                 return picture;
             }
@@ -83,7 +83,7 @@ namespace NeeView
         {
             if (IsLoaded) return;
 
-            var picture = await LoadPictureAsync(Entry, token);
+            var picture = await LoadPictureAsync(Entry, PictureCreateOptions.CreateBitmap, token);
 
             if (!token.IsCancellationRequested)
             {
@@ -92,8 +92,8 @@ namespace NeeView
                 RaiseChanged();
             }
 
-            if (Thumbnail.IsValid) return;
-            Thumbnail.Initialize(picture?.BitmapSource);
+            if (Thumbnail.IsValid || picture == null) return;
+            Thumbnail.Initialize(picture.CreateThumbnail());
         }
 
         /// <summary>
@@ -119,8 +119,8 @@ namespace NeeView
 
             // TODO: コンテンツ読み込み要求が有効な場合の処理
 
-            var bitmapSource = BitmapSource ?? (await LoadPictureAsync(Entry, token))?.BitmapSource;
-            Thumbnail.Initialize(bitmapSource);
+            var picture = await LoadPictureAsync(Entry, PictureCreateOptions.None, token);
+            Thumbnail.Initialize(picture?.CreateThumbnail());
         }
     }
 }

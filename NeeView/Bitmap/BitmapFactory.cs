@@ -104,7 +104,7 @@ namespace NeeView
                 return CreateByBitmapImage(stream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad, size, info);
             }
         }
-        
+
         /// <summary>
         /// Bitmap生成
         /// </summary>
@@ -126,8 +126,8 @@ namespace NeeView
 
             if (size != Size.Empty)
             {
-                bitmap.DecodePixelHeight = (int)size.Height;
-                bitmap.DecodePixelWidth = (int)size.Width;
+                bitmap.DecodePixelHeight = info.IsTranspose ? (int)size.Width : (int)size.Height;
+                bitmap.DecodePixelWidth = info.IsTranspose ? (int)size.Height : (int)size.Width;
             }
 
             if (info.IsMirrorHorizontal || info.IsMirrorVertical || info.Rotation != Rotation.Rotate0)
@@ -197,6 +197,32 @@ namespace NeeView
                 bi.Freeze();
 
                 return bi;
+            }
+        }
+
+
+        /// <summary>
+        /// 画像データ生成
+        /// リサイズには MagicScaler を使用する
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="size"></param>
+        /// <param name="quality"></param>
+        /// <returns></returns>
+        public byte[] CreateImage(Stream stream, Size size, int quality)
+        {
+            stream.Seek(0, SeekOrigin.Begin);
+
+            var setting = new ProcessImageSettings();
+            setting.Width = (int)size.Width;
+            setting.Height = (int)size.Height;
+            setting.SaveFormat = FileFormat.Jpeg;
+            setting.JpegQuality = quality;
+
+            using (var ms = new MemoryStream())
+            {
+                MagicImageProcessor.ProcessImage(stream, ms, setting);
+                return ms.ToArray();
             }
         }
     }

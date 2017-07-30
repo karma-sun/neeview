@@ -306,7 +306,7 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="背景を表示する"
                                       ToolTip="自動的に隠される設定の場合にサムネイルリストの背景を表示します"
                                       IsChecked="{Binding Setting.Memento.ThumbnailList.IsVisibleThumbnailPlate}"/>
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="選択した項目が中央に表示されるようにするクロールする"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="選択した項目が中央に表示されるようにスクロールする"
                                       IsChecked="{Binding Setting.Memento.ThumbnailList.IsSelectedCenter}"/>
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="サムネイルサイズ"/>

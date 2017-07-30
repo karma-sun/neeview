@@ -218,7 +218,7 @@ ModelManifest.xml
 /_*
 Deploy/NeeView*/
 Deploy/*.zip
-Deploy/*.xml
+Deploy/BuildCount.xml
 Deploy/*.msi
 Deploy/*.appx
 /Deploy/_*

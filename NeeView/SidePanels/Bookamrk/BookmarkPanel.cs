@@ -31,6 +31,8 @@ namespace NeeView
 
         public bool IsVisibleLock => false;
 
+        public PanelPlace DefaultPlace => PanelPlace.Left;
+
         //
         public BookmarkPanel(BookmarkList model)
         {

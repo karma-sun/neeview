@@ -221,10 +221,10 @@ namespace NeeView
             _left.Restore(memento.Left, panels);
             _right.Restore(memento.Right, panels);
 
-            // 未登録パネルを左パネルに登録
+            // 未登録パネルを既定パネルに登録
             foreach (var panel in panels.Where(e => !_left.Panels.Contains(e) && !_right.Panels.Contains(e)))
             {
-                _left.Panels.Add(panel);
+                (panel.DefaultPlace == PanelPlace.Right ? _right : _left).Panels.Add(panel);
             }
 
             // 情報更新

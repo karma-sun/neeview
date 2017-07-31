@@ -708,7 +708,7 @@ namespace NeeView
                 element.Group = "パネル";
                 element.Text = "ファイル情報の表示ON/OFF";
                 element.MenuText = "ファイル情報";
-                element.Note = "ファイル情報パネルの表示/非表示を切り替えます。ファイル情報パネルは右側に表示されます";
+                element.Note = "ファイル情報パネルの表示/非表示を切り替えます。";
                 element.ShortCutKey = "I";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFileInfo(e is MenuCommandTag);
@@ -717,17 +717,32 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFileInfo)) { Source = _models.SidePanel };
                 _elements[CommandType.ToggleVisibleFileInfo] = element;
             }
+            // ToggleVisibleFilterInfo
+            {
+                var element = new CommandElement();
+                element.Group = "パネル";
+                element.Text = "フィルターパネルの表示ON/OFF";
+                element.MenuText = "フィルターパネル";
+                element.Note = "フィルターパネルの表示/非表示を切り替えます。";
+                element.ShortCutKey = "R";
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFilterInfo(e is MenuCommandTag);
+                element.ExecuteMessage = e => _models.SidePanel.IsVisibleFilterInfo ? "フィルターパネルを消す" : "フィルターパネルを表示する";
+                element.CanExecute = () => true;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFilterInfo)) { Source = _models.SidePanel };
+                _elements[CommandType.ToggleVisibleFilterInfo] = element;
+            }
             // ToggleVisibleEffectInfo
             {
                 var element = new CommandElement();
                 element.Group = "パネル";
                 element.Text = "エフェクトパネルの表示ON/OFF";
                 element.MenuText = "エフェクトパネル";
-                element.Note = "エフェクトパネルの表示/非表示を切り替えます。エフェクトパネルは右側に表示されます";
+                element.Note = "エフェクトパネルの表示/非表示を切り替えます。";
                 element.ShortCutKey = "E";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.SidePanel.ToggleVisibleEffectInfo(e is MenuCommandTag);
-                element.ExecuteMessage = e => _models.SidePanel.IsVisibleEffectInfo ? "エフェクトパネルを消す" : "エフェクト設パネルを表示する";
+                element.ExecuteMessage = e => _models.SidePanel.IsVisibleEffectInfo ? "エフェクトパネルを消す" : "エフェクトパネルを表示する";
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleEffectInfo)) { Source = _models.SidePanel };
                 _elements[CommandType.ToggleVisibleEffectInfo] = element;
@@ -1729,6 +1744,7 @@ namespace NeeView
                 element.MenuText = "リサイズフィルター";
                 element.Note = "リサイズフィルターの有効/無効を切り替えます";
                 element.CanExecute = () => true;
+                element.ShortCutKey = "Ctrl+R";
                 element.IsShowMessage = true;
                 element.ExecuteMessage = e => _models.PictureProfile.IsResizeFilterEnabled ? "リサイズフィルターOFF" : "リサイズフィルターON";
                 element.Execute = (s, e) => _models.PictureProfile.IsResizeFilterEnabled = !_models.PictureProfile.IsResizeFilterEnabled;

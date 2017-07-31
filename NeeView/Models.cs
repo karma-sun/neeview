@@ -89,6 +89,7 @@ namespace NeeView
         public BookmarkList BookmarkList { get; private set; }
         public PagemarkList PagemarkList { get; private set; }
         public FileInformation FileInformation { get; private set; }
+        public ImageFilter ImageFilter { get; private set; }
         public ImageEffect ImageEffect { get; private set; }
 
         //
@@ -171,6 +172,7 @@ namespace NeeView
             this.BookmarkList = new BookmarkList(this.BookHub);
             this.PagemarkList = new PagemarkList(this.BookHub, this.BookOperation);
             this.FileInformation = new FileInformation(this.ContentCanvas);
+            this.ImageFilter = new ImageFilter();
             this.ImageEffect = new ImageEffect();
 
             this.BookHistoryCommand = new BookHistoryCommand(this.BookHistory, this.BookHub);

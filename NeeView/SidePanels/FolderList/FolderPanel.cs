@@ -28,6 +28,9 @@ namespace NeeView
 
         public bool IsVisibleLock => _view.IsVisibleLock;
 
+        public PanelPlace DefaultPlace => PanelPlace.Left;
+
+
         //
         public FolderPanel(FolderPanelModel folderPanel, FolderList folderList, PageList pageList)
         {

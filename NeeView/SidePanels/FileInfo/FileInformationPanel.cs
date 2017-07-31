@@ -30,6 +30,7 @@ namespace NeeView
 
         public bool IsVisibleLock => false;
 
+        public PanelPlace DefaultPlace => PanelPlace.Right;
 
         //
         public FileInformationPanel(FileInformation model)

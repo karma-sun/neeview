@@ -70,6 +70,7 @@ namespace NeeView
         ToggleVisibleAddressBar,
         ToggleVisibleSideBar,
         ToggleVisibleFileInfo,
+        ToggleVisibleFilterInfo,
         ToggleVisibleEffectInfo,
         ToggleVisibleFolderList,
         ToggleVisibleBookmarkList,

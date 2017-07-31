@@ -180,6 +180,12 @@
     <Compile Include="Picture\PictureFactory.cs" />
     <Compile Include="Picture\SizeExtensions.cs" />
     <Compile Include="Picture\SusiePictureStream.cs" />
+    <Compile Include="SidePanels\ImageFilter\ImageFilter.cs" />
+    <Compile Include="SidePanels\ImageFilter\ImageFiltertViewModel.cs" />
+    <Compile Include="SidePanels\ImageFilter\ImageFilterView.xaml.cs">
+      <DependentUpon>ImageFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidePanels\ImageFilter\ImageFilterPanel.cs" />
     <Compile Include="TouchInput\TouchAction.cs" />
     <Compile Include="TouchInput\TouchInputMouseDrag.cs" />
     <Compile Include="ViewContent\AnimatedViewContent.cs" />
@@ -683,6 +689,10 @@
     <Page Include="SidePanels\Bookamrk\BookmarkListBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\ImageFilter\ImageFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SidePanels\FolderList\PageListBox.xaml">
       <SubType>Designer</SubType>

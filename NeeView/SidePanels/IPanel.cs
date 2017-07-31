@@ -8,6 +8,13 @@ using System.Windows.Media;
 
 namespace NeeView
 {
+    //
+    public enum PanelPlace
+    {
+        Left,
+        Right,
+    }
+
     /// <summary>
     /// パネル定義
     /// </summary>
@@ -42,5 +49,10 @@ namespace NeeView
         /// 表示固定フラグ
         /// </summary>
         bool IsVisibleLock { get; }
+
+        /// <summary>
+        /// 標準パネル位置
+        /// </summary>
+        PanelPlace DefaultPlace { get; }
     }
 }

@@ -117,4 +117,17 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
+    <DrawingImage x:Key="ic_filter_24px">
+        <DrawingImage.Drawing>
+            <DrawingGroup Opacity="1">
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry FillRule="Nonzero" Figures="M15.96,10.29L13.21,13.83 11.25,11.47 8.5,15 19.5,15 15.96,10.29z M3,5L1,5 1,21C1,22.1,1.9,23,3,23L19,23 19,21 3,21 3,5z M21,1L7,1C5.9,1,5,1.9,5,3L5,17C5,18.1,5.9,19,7,19L21,19C22.1,19,23,18.1,23,17L23,3C23,1.9,22.1,1,21,1z M21,17L7,17 7,3 21,3 21,17z" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
 </ResourceDictionary>

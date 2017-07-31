@@ -36,6 +36,8 @@ namespace NeeView
 
         public bool IsVisibleLock => false;
 
+        public PanelPlace DefaultPlace => PanelPlace.Left;
+
 
         //
         public HistoryPanel(HistoryList model)

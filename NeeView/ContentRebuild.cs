@@ -5,6 +5,7 @@
 
 using NeeView.ComponentModel;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -14,6 +15,47 @@ using System.Windows.Media;
 
 namespace NeeView
 {
+    public class Locker
+    {
+        public class Key : IDisposable
+        {
+            public Locker Locker { get; set; }
+
+            public Key(Locker locker)
+            {
+                this.Locker = locker;
+            }
+
+            public void Dispose()
+            {
+                this.Locker?.Unlock(this);
+            }
+        }
+
+        private List<Key> _keys = new List<Key>();
+
+        public bool IsLocked => _keys.Any();
+
+        //
+        public Key Lock()
+        {
+            var key = new Key(this);
+            _keys.Add(key);
+            return key;
+        }
+
+        //
+        public void Unlock(Key key)
+        {
+            if (key.Locker == this)
+            {
+                _keys.Remove(key);
+                key.Locker = null;
+            }
+        }
+    }
+
+
     /// <summary>
     /// リサイズによるコンテンツの再作成管理
     /// </summary>
@@ -60,11 +102,18 @@ namespace NeeView
 
             // リサイズフィルター状態監視
             PictureProfile.Current.AddPropertyChanged(nameof(PictureProfile.IsResizeFilterEnabled), (s, e) => Request());
+            ImageFilter.Current.PropertyChanged += (s, e) => Request(true);
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Locker property.
+        /// 更新を停止させるために使用する
+        /// </summary>
+        public Locker Locker { get; } = new Locker();
 
         /// <summary>
         /// IsRequested property.
@@ -127,7 +176,7 @@ namespace NeeView
         //
         private void RebuildFrame()
         {
-            if (!_isRequested || _isResizingWindow) return;
+            if (!_isRequested || _isResizingWindow || Locker.IsLocked) return;
 
             var mouseButtonBits = MouseButtonBitsExtensions.Create();
             if (MouseInput.Current.IsLoupeMode && MouseInput.Current.Normal.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
@@ -152,8 +201,16 @@ namespace NeeView
 
 
         // リサイズ要求
-        public void Request()
+        public void Request(bool isForce = false)
         {
+            if (isForce)
+            {
+                foreach (var viewConent in ContentCanvas.Current.Contents.Where(e => e.IsValid))
+                {
+                    viewConent.IsDarty = true;
+                }
+            }
+
             this.IsRequested = true;
         }
 

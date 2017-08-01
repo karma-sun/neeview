@@ -43,13 +43,6 @@ namespace NeeView
         }
 
         //
-        protected void Resize(Size size)
-        {
-            var picture = ((BitmapContent)this.Content)?.Picture;
-            picture?.Resize(size);
-        }
-
-        //
         protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
             return CreateView(source, parameter, ((BitmapContent)this.Content).BitmapSource);
@@ -98,7 +91,12 @@ namespace NeeView
             {
                 try
                 {
-                    Resize(size);
+                    bool isForce = this.IsDarty;
+                    this.IsDarty = false;
+
+                    var picture = ((BitmapContent)this.Content)?.Picture;
+                    picture?.Resize(size, isForce);
+
                     App.Current.Dispatcher.Invoke((Action)(() => this.View = CreateView(this.Source, CreateBindingParameter()) ?? this.View));
                 }
                 catch (Exception ex)

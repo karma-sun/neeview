@@ -5,6 +5,10 @@
 
 using NeeView.ComponentModel;
 using NeeView.Effects;
+using NeeView.Windows.Input;
+using NeeView.Windows.Property;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace NeeView
@@ -27,12 +31,27 @@ namespace NeeView
         // PictureProfile
         public PictureProfile PictureProfile => PictureProfile.Current;
 
+        //
+        public PropertyDocument UnsharpMaskProfile { get; set; }
 
         //
         public ImageFilterViewModel(ImageFilter model)
         {
             _model = model;
+
+            this.UnsharpMaskProfile = new PropertyDocument(_model.UnsharpMaskProfile);
+        }
+
+
+        // TODO: これモデルじゃね？
+        public void ResetValue()
+        {
+            using (var lockerKey = ContentRebuild.Current.Locker.Lock())
+            {
+                _model.ResizeInterpolation = ResizeInterpolation.Lanczos;
+                _model.Sharpen = true;
+                this.UnsharpMaskProfile.Reset();
+            }
         }
     }
-
 }

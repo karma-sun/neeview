@@ -65,10 +65,10 @@ namespace NeeView
 
 
         // リサイズ
-        public void Resize(Size size)
+        public void Resize(Size size, bool isForce)
         {
             size = PictureFactory.Current.CreateFixedSize(_archiveEntry, size.IsEmpty ? this.PictureInfo.Size : size);
-            if (IsEqualBitmapSizeMaybe(size)) return;
+            if (!isForce && IsEqualBitmapSizeMaybe(size)) return;
 
             // 規定サイズ判定
             if (size.IsEqualMaybe(this.PictureInfo.Size))

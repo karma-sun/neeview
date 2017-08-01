@@ -49,14 +49,17 @@ namespace NeeView
         private MagicScalerBitmapFactory _magicScaler = new MagicScalerBitmapFactory();
 
         //
-        public BitmapImage Create(Stream stream, BitmapInfo info, Size size, BitmapCreateMode mode)
+        public MagicScalerBitmapFactory MagicScaler => _magicScaler;
+
+        //
+        public BitmapImage Create(Stream stream, BitmapInfo info, Size size, BitmapCreateSetting setting)
         {
             // by MagicScaler
-            if (!size.IsEmpty && mode == BitmapCreateMode.HighQuality)
+            if (!size.IsEmpty && setting.Mode == BitmapCreateMode.HighQuality)
             {
                 try
                 {
-                    return _magicScaler.Create(stream, info, size);
+                    return _magicScaler.Create(stream, info, size, setting.ProcessImageSettings);
                 }
                 catch (OutOfMemoryException)
                 {
@@ -74,14 +77,14 @@ namespace NeeView
 
 
         //
-        public void CreateImage(Stream stream, BitmapInfo info, Stream outStream, Size size, BitmapImageFormat format, int quality, BitmapCreateMode mode)
+        public void CreateImage(Stream stream, BitmapInfo info, Stream outStream, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
         {
             // by MagicScaler
-            if (!size.IsEmpty && mode == BitmapCreateMode.HighQuality)
+            if (!size.IsEmpty && setting.Mode == BitmapCreateMode.HighQuality)
             {
                 try
                 {
-                    _magicScaler.CreateImage(stream, info, outStream, size, format, quality);
+                    _magicScaler.CreateImage(stream, info, outStream, size, format, quality, setting.ProcessImageSettings);
                     return;
                 }
                 catch (OutOfMemoryException)

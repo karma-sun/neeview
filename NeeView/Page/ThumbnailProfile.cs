@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeView.Windows.Property;
+using PhotoSauce.MagicScaler;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -66,7 +67,7 @@ namespace NeeView
                 App.Current.Resources["BannerHeight"] = (double)bannerHeight;
             }
         }
-        
+
         /// <summary>
         /// サムネイル画像サイズ取得
         /// </summary>
@@ -89,6 +90,16 @@ namespace NeeView
 
             return thumbnailSize;
         }
+
+        //
+        public BitmapCreateSetting CreateBitmapCreateSetting()
+        {
+            var setting = new BitmapCreateSetting();
+            setting.Mode = this.CreateMode;
+            setting.ProcessImageSettings = new ProcessImageSettings() { HybridMode = HybridScaleMode.Turbo };
+            return setting;
+        }
+
 
         #region Memento
         [DataContract]

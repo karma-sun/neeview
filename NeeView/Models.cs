@@ -152,6 +152,8 @@ namespace NeeView
 
             this.MainWindowModel = new MainWindowModel();
 
+            this.ImageFilter = new ImageFilter();
+
             this.ContentCanvas = new ContentCanvas(this.MouseInput, this.BookHub);
             this.ContentCanvasBrush = new ContentCanvasBrush(this.ContentCanvas);
             this.ContentRebuild = new ContentRebuild();
@@ -172,7 +174,6 @@ namespace NeeView
             this.BookmarkList = new BookmarkList(this.BookHub);
             this.PagemarkList = new PagemarkList(this.BookHub, this.BookOperation);
             this.FileInformation = new FileInformation(this.ContentCanvas);
-            this.ImageFilter = new ImageFilter();
             this.ImageEffect = new ImageEffect();
 
             this.BookHistoryCommand = new BookHistoryCommand(this.BookHistory, this.BookHub);

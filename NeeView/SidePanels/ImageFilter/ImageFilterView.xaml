@@ -22,16 +22,29 @@
 
     <UserControl.Resources>
 
-        <Style x:Key="BlackStyle" TargetType="UserControl">
-            <Setter Property="Background" Value="#FF101010"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-        <Style x:Key="WhiteStyle" TargetType="UserControl">
-            <Setter Property="Background" Value="#FFF8F8F8"/>
-            <Setter Property="Foreground" Value="Black"/>
-        </Style>
+        <ResourceDictionary>
 
-        
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/_NeeView/Windows/Property/PropertyValueTemplateDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type nlp:PropertyValue_Boolean}">
+                <CheckBox IsChecked="{Binding Value}" Content="{Binding Value}" />
+            </DataTemplate>
+
+            <Style x:Key="BlackStyle" TargetType="UserControl">
+                <Setter Property="Background" Value="#FF101010"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Style>
+            <Style x:Key="WhiteStyle" TargetType="UserControl">
+                <Setter Property="Background" Value="#FFF8F8F8"/>
+                <Setter Property="Foreground" Value="Black"/>
+            </Style>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        </ResourceDictionary>
+
     </UserControl.Resources>
 
     <Grid Margin="5,10">
@@ -41,44 +54,78 @@
                 <TextBlock FontSize="15" Text="フィルター" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
             </StackPanel>
 
-
             <DockPanel Margin="5">
-                <CheckBox DockPanel.Dock="Right" IsChecked="{Binding PictureProfile.IsResizeFilterEnabled}" />
-                <TextBlock Text="リサイズ" />
+                <CheckBox DockPanel.Dock="Right" IsChecked="{Binding PictureProfile.IsResizeFilterEnabled}" VerticalAlignment="Center" />
+                <TextBlock Text="フィルター有効/無効" VerticalAlignment="Center" />
             </DockPanel>
 
-            <!--
-            <ComboBox Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}"  Background="{DynamicResource NVBackground}"
-                      FontSize="15"
-                       HorizontalAlignment="Left"
-                      ItemsSource="{x:Static le:EffectTypeExtensions.EffectTypeNames}" DisplayMemberPath="Value" SelectedValuePath="Key"
-                          SelectedValue="{Binding Model.EffectType}"/>
-            <Grid Margin="0,10">
-                <Grid.Resources>
-                    <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+            <StackPanel IsEnabled="{Binding PictureProfile.IsResizeFilterEnabled}">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
-                    <Style TargetType="TextBox">
-                        <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
-                        <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
-                        <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
-                        <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
-                    </Style>
-                </Grid.Resources>
-                <nlp:PropertyInspector x:Name="inspector" Document="{Binding Model.EffectParameters}" FontSize="15"
-                                       IsResetButtonVisible="True"
-                                       IsHsvMode="{Binding Model.IsHsvMode}">
-                    <nlp:PropertyInspector.Style>
-                        <Style TargetType="nlp:PropertyInspector">
+                </StackPanel.Style>
+
+                <DockPanel Margin="5">
+                    <ComboBox  DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}"  Background="{DynamicResource NVBackground}"
+                      ItemsSource="{x:Static local:ResizeInterpolationExtensions.ResizeInterpolationList}" SelectedValue="{Binding Model.ResizeInterpolation}"/>
+                    <TextBlock Text="補間法" VerticalAlignment="Center" />
+                </DockPanel>
+
+
+                <DockPanel Margin="5">
+                    <CheckBox DockPanel.Dock="Right" IsChecked="{Binding Model.Sharpen}" VerticalAlignment="Center"/>
+                    <TextBlock Text="アンシャープマスク" VerticalAlignment="Center"/>
+                </DockPanel>
+
+                <Grid Margin="10,0,0,10" Visibility="{Binding Model.Sharpen, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid.Resources>
+                        <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+                        </Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
+                            <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
+                            <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
+                        </Style>
+                    </Grid.Resources>
+                    
+                    <!--
+                    <Grid.Style>
+                        <Style TargetType="Grid">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Model.EffectParameters}" Value="{x:Null}">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </Trigger>
                             </Style.Triggers>
                         </Style>
-                    </nlp:PropertyInspector.Style>
-                </nlp:PropertyInspector>
-            </Grid>
-             -->
+                    </Grid.Style>
+                    -->
+
+                    <nlp:PropertyInspector x:Name="inspector" Document="{Binding UnsharpMaskProfile}" FontSize="15" IsResetButtonVisible="False" >
+                        <nlp:PropertyInspector.Style>
+                            <Style TargetType="nlp:PropertyInspector">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding UnsharpMaskProfile}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </nlp:PropertyInspector.Style>
+                    </nlp:PropertyInspector>
+                </Grid>
+
+                <Button x:Name="ResetButton" Style="{StaticResource IconButton}" HorizontalAlignment="Right" Margin="5" Click="Reset">
+                    <TextBlock Margin="5" Text="初期値に戻す" Foreground="{StaticResource NVButtonForeground}"/>
+                </Button>
+
+            </StackPanel>
+
+
         </StackPanel>
 
     </Grid>

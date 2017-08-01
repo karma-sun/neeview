@@ -38,7 +38,7 @@ namespace NeeView
                 {
                     var maxSize = info.IsTranspose ? PictureProfile.Current.Maximum.Transpose() : PictureProfile.Current.Maximum;
                     size = (size.IsEmpty || maxSize.IsContains(size)) ? Size.Empty : size.Uniformed(maxSize);
-                    var bitmapSource = _bitmapFactory.Create(stream.Stream, info, size, BitmapCreateMode.Default);
+                    var bitmapSource = _bitmapFactory.Create(stream.Stream, info, size, new BitmapCreateSetting());
 
                     //
                     picture.PictureInfo.Exif = info.Metadata != null ? new BitmapExif(info.Metadata) : null;
@@ -54,7 +54,8 @@ namespace NeeView
                     using (var ms = new MemoryStream())
                     {
                         var thumbnailSize = ThumbnailProfile.Current.GetThumbnailSize(picture.PictureInfo.Size);
-                        _bitmapFactory.CreateImage(stream.Stream, info, ms, thumbnailSize, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, ThumbnailProfile.Current.CreateMode);
+                        var setting = new BitmapCreateSetting();
+                        _bitmapFactory.CreateImage(stream.Stream, info, ms, thumbnailSize, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, ThumbnailProfile.Current.CreateBitmapCreateSetting());
                         picture.Thumbnail = ms.ToArray();
 
                         Debug.WriteLine($"Thumbnail: {picture.Thumbnail.Length / 1024}KB");
@@ -70,18 +71,25 @@ namespace NeeView
         {
             using (var stream = _pictureStream.Create(entry))
             {
-                var mode = PictureProfile.Current.IsResizeFilterEnabled ? BitmapCreateMode.HighQuality : BitmapCreateMode.Default;
-                return _bitmapFactory.Create(stream.Stream, null, size, mode);
+                var setting = new BitmapCreateSetting();
+
+                if (PictureProfile.Current.IsResizeFilterEnabled)
+                {
+                    setting.Mode = BitmapCreateMode.HighQuality;
+                    setting.ProcessImageSettings = ImageFilter.Current.CreateProcessImageSetting();
+                }
+
+                return _bitmapFactory.Create(stream.Stream, null, size, setting);
             }
         }
 
         //
-        public byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateMode mode)
+        public byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
         {
             using (var stream = _pictureStream.Create(entry))
             using (var ms = new MemoryStream())
             {
-                _bitmapFactory.CreateImage(stream.Stream, null, ms, size, format, quality, mode);
+                _bitmapFactory.CreateImage(stream.Stream, null, ms, size, format, quality, setting);
                 return ms.ToArray();
             }
         }

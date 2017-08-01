@@ -65,7 +65,7 @@ namespace NeeView
         }
 
         //
-        public byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateMode mode)
+        public byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
         {
             using (var ms = new MemoryStream())
             {

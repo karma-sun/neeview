@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using PhotoSauce.MagicScaler;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,6 +23,11 @@ namespace NeeView
         CreateThumbnail,
     }
 
+    public class BitmapCreateSetting
+    {
+        public BitmapCreateMode Mode { get; set; }
+        public ProcessImageSettings ProcessImageSettings { get; set; }
+    }
 
     /// <summary>
     /// Picture Factory interface.
@@ -32,7 +38,7 @@ namespace NeeView
 
         BitmapSource CreateBitmapSource(ArchiveEntry entry, Size size);
         Size CreateFixedSize(ArchiveEntry entry, Size size);
-        byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateMode mode);
+        byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting);
     }
 
 
@@ -125,7 +131,7 @@ namespace NeeView
         }
 
         //
-        public byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateMode mode)
+        public byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
         {
             ////Debug.WriteLine($"CreateThumnbnail: {entry.EntryLastName} ({size.Truncate()})");
 
@@ -134,11 +140,11 @@ namespace NeeView
                 {
                     if (entry.Archiver is PdfArchiver)
                     {
-                        return _pdfFactory.CreateImage(entry, size, format, quality, mode);
+                        return _pdfFactory.CreateImage(entry, size, format, quality, setting);
                     }
                     else
                     {
-                        return _defaultFactory.CreateImage(entry, size, format, quality, mode);
+                        return _defaultFactory.CreateImage(entry, size, format, quality, setting);
                     }
                 });
         }
@@ -146,7 +152,7 @@ namespace NeeView
         //
         public byte[] CreateThumbnail(ArchiveEntry entry, Size size)
         {
-            return CreateImage(entry, size, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, ThumbnailProfile.Current.CreateMode);
+            return CreateImage(entry, size, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, ThumbnailProfile.Current.CreateBitmapCreateSetting());
         }
     }
 }

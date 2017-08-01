@@ -51,5 +51,13 @@ namespace NeeView
         {
             KeyExGesture.AllowSingleKey = false;
         }
+
+        // パラメータリセット
+        private void Reset(object sender, RoutedEventArgs e)
+        {
+            _vm.ResetValue();
+
+            this.inspector.Reflesh();
+        }
     }
 }

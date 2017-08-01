@@ -4,8 +4,11 @@
 // http://opensource.org/licenses/mit-license.php
 
 using PhotoSauce.MagicScaler;
+using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -16,17 +19,26 @@ namespace NeeView
     /// </summary>
     public class MagicScalerBitmapFactory : IBitmapFactory
     {
-        // MagicScaler設定.
-        // 内部で変更されます。
-        public ProcessImageSettings Setting { get; set; }
-
-        //
-        private ProcessImageSettings CreateSetting(Size size, FileFormat format)
+        // 注意: sourceは上書きされます
+        private ProcessImageSettings CreateSetting(Size size, FileFormat format, ProcessImageSettings source)
         {
-            var setting = this.Setting ?? new ProcessImageSettings();
+            var setting = source ?? new ProcessImageSettings();
             setting.Width = size.IsEmpty ? 0 : (int)size.Width;
             setting.Height = size.IsEmpty ? 0 : (int)size.Height;
             setting.SaveFormat = format;
+
+#if false
+            // https://github.com/saucecontrol/PhotoSauce/issues/7
+            // グローバル変数なので、同時に使用されると問題ある。
+            if (setting.Interpolation.Equals(InterpolationSettings.NearestNeighbor))
+            {
+                MagicImageProcessor.EnablePlanarPipeline = false;
+            }
+            else
+            {
+                MagicImageProcessor.EnablePlanarPipeline = true;
+            }
+#endif
 
             return setting;
         }
@@ -34,11 +46,17 @@ namespace NeeView
         //
         public BitmapImage Create(Stream stream, BitmapInfo info, Size size)
         {
+            return Create(stream, info, size, null);
+        }
+
+        //
+        public BitmapImage Create(Stream stream, BitmapInfo info, Size size, ProcessImageSettings setting)
+        {
             stream.Seek(0, SeekOrigin.Begin);
 
             using (var ms = new MemoryStream())
             {
-                var setting = CreateSetting(size, FileFormat.Bmp);
+                setting = CreateSetting(size, FileFormat.Bmp, setting);
                 MagicImageProcessor.ProcessImage(stream, ms, setting);
 
                 ms.Seek(0, SeekOrigin.Begin);
@@ -56,11 +74,17 @@ namespace NeeView
         //
         public void CreateImage(Stream stream, BitmapInfo info, Stream outStream, Size size, BitmapImageFormat format, int quality)
         {
+            CreateImage(stream, info, outStream, size, format, quality, null);
+        }
+
+        //
+        public void CreateImage(Stream stream, BitmapInfo info, Stream outStream, Size size, BitmapImageFormat format, int quality, ProcessImageSettings setting)
+        {
             Debug.WriteLine($"MagicScalerImage: {size.Truncate()}");
 
             stream.Seek(0, SeekOrigin.Begin);
 
-            var setting = CreateSetting(size, CreateFormat(format));
+            setting = CreateSetting(size, CreateFormat(format), setting);
             setting.JpegQuality = quality;
 
             MagicImageProcessor.ProcessImage(stream, outStream, setting);

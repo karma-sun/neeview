@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace NeeView
 {
@@ -23,10 +24,23 @@ namespace NeeView
     /// </summary>
     public partial class DevInfo : UserControl
     {
+        public static DevInfo Current { get; private set; }
+
+        private DevInfoViewModel _vm;
+
         public DevInfo()
         {
+            Current = this;
+
             InitializeComponent();
-            this.Root.DataContext = new DevInfoViewModel();
+            this.Root.DataContext = _vm = new DevInfoViewModel();
+        }
+
+        //
+        [Conditional("DEBUG")]
+        public void SetMessage(string message)
+        {
+            _vm.Message = message;
         }
     }
 
@@ -48,6 +62,16 @@ namespace NeeView
         public void UpdateContentPosition()
         {
             ContentPosition = ContentCanvas.Current.MainContent.View.PointToScreen(new Point(0, 0));
+        }
+
+        /// <summary>
+        /// Message property.
+        /// </summary>
+        private string _Message;
+        public string Message
+        {
+            get { return _Message; }
+            set { if (_Message != value) { _Message = value; RaisePropertyChanged(); } }
         }
 
 

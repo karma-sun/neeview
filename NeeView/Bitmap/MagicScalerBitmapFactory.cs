@@ -24,7 +24,7 @@ namespace NeeView
         {
             var setting = source ?? new ProcessImageSettings();
             setting.Width = size.IsEmpty ? 0 : (int)size.Width;
-            setting.Height = size.IsEmpty ? 0 : (int)size.Height;
+            ////setting.Height = size.IsEmpty ? 0 : (int)size.Height; // 縦横比維持のため、片側のみ設定
             setting.SaveFormat = format;
 
 #if false

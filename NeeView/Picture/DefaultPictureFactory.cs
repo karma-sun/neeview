@@ -73,7 +73,7 @@ namespace NeeView
             {
                 var setting = new BitmapCreateSetting();
 
-                if (PictureProfile.Current.IsResizeFilterEnabled)
+                if (PictureProfile.Current.IsResizeFilterEnabled && !size.IsEmpty)
                 {
                     setting.Mode = BitmapCreateMode.HighQuality;
                     setting.ProcessImageSettings = ImageFilter.Current.CreateProcessImageSetting();

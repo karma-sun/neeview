@@ -94,6 +94,9 @@ namespace NeeView
             Current = this;
             CompositionTarget.Rendering += new EventHandler(OnRendering);
 
+            // コンテンツ変更監視
+            ContentCanvas.Current.ContentChanged += (s, e) => Request();
+
             // スケール変化に追従
             DragTransform.Current.AddPropertyChanged(nameof(DragTransform.Scale), (s, e) => Request());
 
@@ -101,8 +104,11 @@ namespace NeeView
             LoupeTransform.Current.AddPropertyChanged(nameof(LoupeTransform.FixedScale), (s, e) => Request());
 
             // リサイズフィルター状態監視
-            PictureProfile.Current.AddPropertyChanged(nameof(PictureProfile.IsResizeFilterEnabled), (s, e) => Request());
+            PictureProfile.Current.AddPropertyChanged(nameof(PictureProfile.IsResizeFilterEnabled), (s, e) => Request(true));
             ImageFilter.Current.PropertyChanged += (s, e) => Request(true);
+
+            // ドット表示監視
+            ContentCanvas.Current.AddPropertyChanged(nameof(ContentCanvas.IsEnabledNearestNeighbor), (s, e) => Request(true));
         }
 
         #endregion
@@ -188,7 +194,8 @@ namespace NeeView
             if (MainWindowModel.Current.AnyKey.IsPressed) return;
 
             bool isSuccessed = true;
-            var scale = DragTransform.Current.Scale * LoupeTransform.Current.FixedScale;
+            var dpiScaleX = Config.Current.RawDpi.DpiScaleX;
+            var scale = DragTransform.Current.Scale * LoupeTransform.Current.FixedScale * dpiScaleX;
             foreach (var viewConent in ContentCanvas.Current.Contents.Where(e => e.IsValid))
             {
                 isSuccessed = viewConent.Rebuild(scale) && isSuccessed;

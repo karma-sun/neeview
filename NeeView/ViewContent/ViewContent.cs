@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeView.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -48,7 +49,10 @@ namespace NeeView
             set { _view = value; RaisePropertyChanged(); }
         }
 
-        // コンテンツの幅 (with DPI)
+        /// <summary>
+        /// コンテンツの幅 (with DPI).
+        /// 表示の基準となるコンテンツサイズ。表示スケール(マウスやルーペ)を除外した値？
+        /// </summary>
         private double _width;
         public double Width
         {
@@ -207,7 +211,7 @@ namespace NeeView
         {
             return null;
         }
-        
+
         //
         public ViewContentReserver CreateReserver()
         {
@@ -253,9 +257,38 @@ namespace NeeView
             return true;
         }
 
+        /// <summary>
+        /// コンテンツピクチャー
+        /// </summary>
+        /// <returns></returns>
+        public virtual Picture GetPicture() => null;
+
+        /// <summary>
+        /// ビューモードの設定
+        /// ドットバイドット表示用
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="viewScale"></param>
+        public virtual void SetViewMode(ContentViewMode mode, double viewScale) { }
+
         #endregion
     }
 
+    /// <summary>
+    /// ContentViewMode
+    /// </summary>
+    public enum ContentViewMode
+    {
+        /// <summary>
+        /// 標準
+        /// </summary>
+        Scale,
+
+        /// <summary>
+        /// ドットバイドット表示
+        /// </summary>
+        Pixeled,
+    }
 
     /// <summary>
     /// Reserver

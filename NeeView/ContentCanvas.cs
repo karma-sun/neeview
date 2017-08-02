@@ -439,26 +439,37 @@ namespace NeeView
         }
 
 
-        // コンテンツスケーリングモードを更新
-        private void UpdateContentScalingMode()
-        {
-            var dpiScaleX = Config.Current.RawDpi.DpiScaleX;
 
-            double finalScale = _dragTransform.Scale * LoupeTransform.Current.Scale;
+        // コンテンツスケーリングモードを更新
+        public void UpdateContentScalingMode()
+        {
+            double finalScale = _dragTransform.Scale * LoupeTransform.Current.FixedScale * Config.Current.RawDpi.DpiScaleX;
 
             foreach (var content in Contents)
             {
                 if (content.View != null && content.IsBitmapScalingModeSupported())
                 {
-                    double diff = Math.Abs(content.Size.Width - content.Width * dpiScaleX);
-                    if (Config.Current.IsDpiSquare && diff < 0.1 && _dragTransform.Angle == 0.0 && Math.Abs(finalScale - 1.0) < 0.001)
+                    var picture = content.GetPicture();
+                    if (picture?.BitmapSource == null) continue;
+
+                    var pixelWidth = picture.BitmapSource.PixelWidth;
+                    var viewWidth = content.Width * finalScale;
+
+                    var diff = Math.Abs(pixelWidth - viewWidth);
+                    var diffAngle = Math.Abs(_dragTransform.Angle % 90.0);
+                    if (Config.Current.IsDpiSquare && diff < 1.1 && diffAngle < 0.1)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
+                        content.SetViewMode(ContentViewMode.Pixeled , finalScale);
                     }
                     else
                     {
-                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && content.Size.Width < content.Width * dpiScaleX * finalScale) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && pixelWidth < viewWidth) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                        content.SetViewMode(ContentViewMode.Scale, finalScale);
                     }
+
+                    // ##
+                    DevInfo.Current?.SetMessage($"{content.BitmapScalingMode}: s={pixelWidth}: v={viewWidth:0.00}: a={_dragTransform.Angle:0.00}");
                 }
             }
         }

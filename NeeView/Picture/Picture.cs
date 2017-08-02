@@ -59,7 +59,7 @@ namespace NeeView
 
             size = size.IsEmpty ? this.PictureInfo.Size : size;
 
-            const double margin = 1.0;
+            const double margin = 1.1;
             return Math.Abs(size.Width - this.BitmapSource.PixelWidth) < margin && Math.Abs(size.Height - this.BitmapSource.PixelHeight) < margin;
         }
 

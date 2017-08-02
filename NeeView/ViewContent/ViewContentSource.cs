@@ -125,13 +125,13 @@ namespace NeeView
         /// </summary>
         /// <param name="bitmap"></param>
         /// <returns></returns>
-        public ImageBrush CreatePageImageBrush(BitmapSource bitmap)
+        public ImageBrush CreatePageImageBrush(BitmapSource bitmap, bool isStretch)
         {
             var brush = new ImageBrush();
             brush.ImageSource = bitmap;
             brush.AlignmentX = AlignmentX.Left;
             brush.AlignmentY = AlignmentY.Top;
-            brush.Stretch = Stretch.Fill;
+            brush.Stretch = isStretch ? Stretch.Fill : Stretch.None;
             brush.TileMode = TileMode.None;
             brush.Viewbox = GetViewBox();
             brush.Freeze();
@@ -162,7 +162,7 @@ namespace NeeView
         {
             if (Page.Thumbnail.IsValid)
             {
-                return CreatePageImageBrush(Page.Thumbnail.BitmapSource);
+                return CreatePageImageBrush(Page.Thumbnail.BitmapSource, true);
             }
             else if (reserver != null)
             {

@@ -163,15 +163,6 @@ namespace NeeView
                 }
             }
 
-            // modifiers
-            map[Key.LeftShift] = true;
-            map[Key.RightShift] = true;
-            map[Key.LeftCtrl] = true;
-            map[Key.RightCtrl] = true;
-            map[Key.LeftAlt] = true;
-            map[Key.LWin] = true;
-            map[Key.RWin] = true;
-
             _usedKeyMap = map;
         }
 

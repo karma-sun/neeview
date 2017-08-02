@@ -31,6 +31,9 @@ namespace NeeView
         // PictureProfile
         public PictureProfile PictureProfile => PictureProfile.Current;
 
+        // ContentCanvs
+        public ContentCanvas ContentCanvas => ContentCanvas.Current;
+
         //
         public PropertyDocument UnsharpMaskProfile { get; set; }
 

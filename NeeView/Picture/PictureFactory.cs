@@ -25,8 +25,21 @@ namespace NeeView
 
     public class BitmapCreateSetting
     {
+        /// <summary>
+        /// Bitmap生成モード
+        /// </summary>
         public BitmapCreateMode Mode { get; set; }
+
+        /// <summary>
+        /// リサイズパラメータ
+        /// </summary>
         public ProcessImageSettings ProcessImageSettings { get; set; }
+
+        /// <summary>
+        /// 生成元として使用可能なBitmap。
+        /// 指定されない場合もある
+        /// </summary>
+        public BitmapSource Source { get; set; }
     }
 
     /// <summary>
@@ -37,7 +50,6 @@ namespace NeeView
         Picture Create(ArchiveEntry entry, PictureCreateOptions options);
 
         BitmapSource CreateBitmapSource(ArchiveEntry entry, Size size);
-        Size CreateFixedSize(ArchiveEntry entry, Size size);
         byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting);
     }
 
@@ -117,18 +129,6 @@ namespace NeeView
                 });
         }
 
-        //
-        public Size CreateFixedSize(ArchiveEntry entry, Size size)
-        {
-            if (entry.Archiver is PdfArchiver)
-            {
-                return _pdfFactory.CreateFixedSize(entry, size);
-            }
-            else
-            {
-                return _defaultFactory.CreateFixedSize(entry, size);
-            }
-        }
 
         //
         public byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
@@ -150,9 +150,12 @@ namespace NeeView
         }
 
         //
-        public byte[] CreateThumbnail(ArchiveEntry entry, Size size)
+        public byte[] CreateThumbnail(ArchiveEntry entry, Size size, BitmapSource source)
         {
-            return CreateImage(entry, size, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, ThumbnailProfile.Current.CreateBitmapCreateSetting());
+            var createSetting = ThumbnailProfile.Current.CreateBitmapCreateSetting();
+            createSetting.Source = source;
+
+            return CreateImage(entry, size, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, createSetting);
         }
     }
 }

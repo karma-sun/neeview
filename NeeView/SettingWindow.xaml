@@ -787,10 +787,6 @@
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="PDFページ標準サイズ"/>
                                 <nlc:SizeInspector Margin="2,0" MinWidth="200" Size="{Binding Setting.Memento.PdfArchiverProfile.RenderSize, Mode=TwoWay}"/>
                             </StackPanel>
-                            <StackPanel Style="{StaticResource ItemStackPanel}" ToolTip="PDFのページを拡大したときの最大画像サイズです">
-                                <TextBlock Style="{StaticResource ItemHeader}" Text="PDFページ最大サイズ"/>
-                                <nlc:SizeInspector Margin="2,0" MinWidth="200" Size="{Binding Setting.Memento.PdfArchiverProfile.RenderMaxSize, Mode=TwoWay}"/>
-                            </StackPanel>
                         </StackPanel>
 
                     </StackPanel>

@@ -344,6 +344,10 @@ namespace NeeView
                     Setting.App,
                     Setting.Memento.JobEngine,
                     Setting.Memento.FileIOProfile,
+
+                    Setting.Memento.PictureProfile,
+                    Setting.Memento.ImageFilter,
+
                     Setting.Memento.SevenZipArchiverProfile,
                     Setting.Memento.PdfArchiverProfile,
                     Setting.Memento.ThumbnailProfile,

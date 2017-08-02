@@ -25,18 +25,14 @@ namespace NeeView
         /// <summary>
         /// RendeSize property.
         /// </summary>
-        public Size RenderSize { get; set; } = new Size(1920, 1080);
-
-        /// <summary>
-        /// RenderMaxSize property.
-        /// </summary>
-        public Size RenderMaxSize { get; set; } = new Size(4096, 4096);
+        public Size RenderSize { get; set; } = new Size(1024, 1024);
 
         //
         public void Validate()
         {
-            this.RenderSize = new Size(Math.Max(this.RenderSize.Width, 256), Math.Max(this.RenderSize.Height, 256));
-            this.RenderMaxSize = new Size(Math.Max(this.RenderSize.Width, this.RenderMaxSize.Width), Math.Max(this.RenderSize.Height, this.RenderMaxSize.Height));
+            this.RenderSize = new Size(
+                NVUtility.Clamp(this.RenderSize.Width, 256, PictureProfile.Current.MaximumSize.Width),
+                NVUtility.Clamp(this.RenderSize.Height, 256, PictureProfile.Current.MaximumSize.Height));
         }
 
        /// <summary>
@@ -54,9 +50,9 @@ namespace NeeView
             {
                 size = size.Uniformed(this.RenderSize);
             }
-            else if (!this.RenderMaxSize.IsContains(size))
+            else if (!PictureProfile.Current.MaximumSize.IsContains(size))
             {
-                size = size.Uniformed(this.RenderMaxSize);
+                size = size.Uniformed(PictureProfile.Current.MaximumSize);
             }
 
             return size;
@@ -71,9 +67,10 @@ namespace NeeView
             [PropertyMember(Name = "PDF画像標準サイズ", Tips = "PDFのページはこの大きさに収まるサイズで画像化されます", IsVisible = false)]
             public Size RenderSize { get; set; }
 
-            [DataMember, DefaultValue(typeof(Size), "4096,4096")]
-            [PropertyMember(Name = "PDF画像最大サイズ", Tips = "拡大表示によるPDFレンダリング画像の最大サイズです", IsVisible = false)]
+            [Obsolete, DataMember]
             public Size RenderMaxSize { get; set; }
+
+#pragma warning disable CS0612
 
             [OnDeserialized]
             public void OnDeserialized(StreamingContext c)
@@ -81,9 +78,11 @@ namespace NeeView
                 if (this.RenderSize == default(Size))
                 {
                     this.RenderSize = this.RenderMaxSize;
-                    this.RenderMaxSize = new Size(4096, 4096);
                 }
             }
+
+#pragma warning restore CS0612
+
         }
 
         //
@@ -91,7 +90,6 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.RenderSize = this.RenderSize;
-            memento.RenderMaxSize = this.RenderMaxSize;
             return memento;
         }
 
@@ -100,7 +98,6 @@ namespace NeeView
         {
             if (memento == null) return;
             this.RenderSize = memento.RenderSize;
-            this.RenderMaxSize = memento.RenderMaxSize;
 
             Validate();
         }

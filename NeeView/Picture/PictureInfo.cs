@@ -21,6 +21,17 @@ namespace NeeView
         public Size Size { get; set; }
 
         /// <summary>
+        /// 本来の画像サイズ
+        /// </summary>
+        public Size OriginalSize { get; set; }
+
+        /// <summary>
+        /// 画像サイズが制限された本来の画像サイズと異なる値である
+        /// </summary>
+        public bool IsLimited { get; set; }
+
+
+        /// <summary>
         /// ファイルサイズ
         /// </summary>
         public long Length { get; set; } = -1;
@@ -78,9 +89,15 @@ namespace NeeView
 
 
         //
-        public void SetPixelInfo(BitmapSource bitmap)
+        public void SetPixelInfo(BitmapSource bitmap, Size size)
         {
             this.Size = new Size(bitmap.PixelWidth, bitmap.PixelHeight);
+
+            if (!size.IsEmpty && size != this.Size)
+            {
+                this.IsLimited = true;
+                this.OriginalSize = size;
+            }
 
             // 以下、補助情報なので重要度は低い
             try
@@ -91,20 +108,6 @@ namespace NeeView
             catch
             {
             }
-        }
-
-
-        //
-        public static PictureInfo Create(ArchiveEntry entry, Size size, BitmapMetadata metadata)
-        {
-            var info = new PictureInfo();
-            info.Size = size;
-            info.Length = entry.Length;
-            info.LastWriteTime = entry.LastWriteTime;
-            info.Exif = metadata != null ? new BitmapExif(metadata) : null;
-            info.Archiver = entry.Archiver.ToString();
-
-            return info;
         }
 
 

@@ -30,20 +30,23 @@ namespace NeeView
             {
                 // info
                 var info = BitmapInfo.Create(stream.Stream);
-                var size = info.GetPixelSize();
-                picture.PictureInfo.Size = info.IsTranspose ? info.GetPixelSize().Transpose() : info.GetPixelSize();
+                var originalSize = info.IsTranspose ? info.GetPixelSize().Transpose() : info.GetPixelSize();
+                picture.PictureInfo.OriginalSize = originalSize;
+
+                var maxSize = info.IsTranspose ? PictureProfile.Current.MaximumSize.Transpose() : PictureProfile.Current.MaximumSize;
+                var size = (PictureProfile.Current.IsLimitSourceSize && !maxSize.IsContains(originalSize)) ? originalSize.Uniformed(maxSize) : Size.Empty;
+                picture.PictureInfo.Size = size.IsEmpty ? originalSize : size;
+
 
                 // bitmap
                 if (options.HasFlag(PictureCreateOptions.CreateBitmap) || picture.PictureInfo.Size.IsEmpty)
                 {
-                    var maxSize = info.IsTranspose ? PictureProfile.Current.Maximum.Transpose() : PictureProfile.Current.Maximum;
-                    size = (size.IsEmpty || maxSize.IsContains(size)) ? Size.Empty : size.Uniformed(maxSize);
                     var bitmapSource = _bitmapFactory.Create(stream.Stream, info, size, new BitmapCreateSetting());
 
                     //
                     picture.PictureInfo.Exif = info.Metadata != null ? new BitmapExif(info.Metadata) : null;
                     picture.PictureInfo.Decoder = stream.Name ?? ".Net BitmapImage";
-                    picture.PictureInfo.SetPixelInfo(bitmapSource);
+                    picture.PictureInfo.SetPixelInfo(bitmapSource, size.IsEmpty ? size : originalSize);
 
                     picture.BitmapSource = bitmapSource;
                 }
@@ -92,12 +95,6 @@ namespace NeeView
                 _bitmapFactory.CreateImage(stream.Stream, null, ms, size, format, quality, setting);
                 return ms.ToArray();
             }
-        }
-
-        //
-        public Size CreateFixedSize(ArchiveEntry entry, Size size)
-        {
-            return PictureProfile.Current.CreateFixedSize(size);
         }
     }
 }

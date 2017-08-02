@@ -276,6 +276,8 @@ namespace NeeView
             [DataMember]
             public FileInformation.Memento FileInformation { get; set; }
             [DataMember]
+            public ImageFilter.Memento ImageFilter { get; set; }
+            [DataMember]
             public ImageEffect.Memento ImageEffect { get; set; }
             [DataMember]
             public SidePanelFrameModel.Memento SidePanel { get; set; }
@@ -296,6 +298,7 @@ namespace NeeView
             memento.FileIOProfile = this.FileIOProfile.CreateMemento();
             memento.JobEngine = this.JobEngine.CreateMemento();
             memento.PictureProfile = this.PictureProfile.CreateMemento();
+            memento.ImageFilter = this.ImageFilter.CreateMemento();
             memento.SevenZipArchiverProfile = this.SevenZipArchiverProfile.CreateMemento();
             memento.PdfArchiverProfile = this.PdfArchiverProfile.CreateMemento();
             memento.ArchiverManager = this.ArchiverManager.CreateMemento();
@@ -339,6 +342,7 @@ namespace NeeView
             this.FileIOProfile.Restore(memento.FileIOProfile);
             this.JobEngine.Restore(memento.JobEngine);
             this.PictureProfile.Restore(memento.PictureProfile);
+            this.ImageFilter.Restore(memento.ImageFilter);
             this.SevenZipArchiverProfile.Restore(memento.SevenZipArchiverProfile);
             this.PdfArchiverProfile.Restore(memento.PdfArchiverProfile);
             this.ArchiverManager.Restore(memento.ArchiverManager);

@@ -67,11 +67,24 @@ namespace NeeView
         // リサイズ
         public void Resize(Size size, bool isForce)
         {
-            size = PictureFactory.Current.CreateFixedSize(_archiveEntry, size.IsEmpty ? this.PictureInfo.Size : size);
+            size = size.IsEmpty ? this.PictureInfo.Size : size;
+
+            if (_archiveEntry.Archiver is PdfArchiver)
+            {
+                size = PdfArchiverProfile.Current.CreateFixedSize(size);
+            }
+            else
+            {
+                var maxWixth = Math.Max(this.PictureInfo.Size.Width, PictureProfile.Current.MaximumSize.Width);
+                var maxHeight = Math.Max(this.PictureInfo.Size.Height, PictureProfile.Current.MaximumSize.Height);
+                var maxSize = new Size(maxWixth, maxHeight);
+                size = size.Limit(maxSize);
+            }
+
             if (!isForce && IsEqualBitmapSizeMaybe(size)) return;
 
             // 規定サイズ判定
-            if (size.IsEqualMaybe(this.PictureInfo.Size))
+            if (!this.PictureInfo.IsLimited && size.IsEqualMaybe(this.PictureInfo.Size))
             {
                 size = Size.Empty;
             }
@@ -80,7 +93,6 @@ namespace NeeView
         }
 
         // サムネイル生成
-        // TODO: BitmapSourceが存在する場合はそれを元に生成する
         public byte[] CreateThumbnail()
         {
             if (this.Thumbnail != null) return this.Thumbnail;
@@ -88,7 +100,7 @@ namespace NeeView
             var sw = Stopwatch.StartNew();
            
             var thumbnailSize = ThumbnailProfile.Current.GetThumbnailSize(this.PictureInfo.Size);
-            this.Thumbnail = PictureFactory.Current.CreateThumbnail(_archiveEntry, thumbnailSize);
+            this.Thumbnail = PictureFactory.Current.CreateThumbnail(_archiveEntry, thumbnailSize, this.BitmapSource);
 
             sw.Stop();
             Debug.WriteLine($"Thumbnail: {sw.ElapsedMilliseconds}ms, {this.Thumbnail.Length / 1024}KB");

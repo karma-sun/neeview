@@ -8,6 +8,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -17,6 +18,9 @@ namespace NeeView
     /// </summary>
     public class PdfPictureFactory : IPictureFactory
     {
+        private MagicScalerBitmapFactory _magicScaler = new MagicScalerBitmapFactory();
+
+        //
         public Picture Create(ArchiveEntry entry, PictureCreateOptions options)
         {
             var pdfArchiver = (PdfArchiver)entry.Archiver;
@@ -28,12 +32,12 @@ namespace NeeView
             picture.PictureInfo.Size = size;
 
             // bitmap
-            if (options.HasFlag(PictureCreateOptions.CreateBitmap))
+            if (options.HasFlag(PictureCreateOptions.CreateBitmap) || options.HasFlag(PictureCreateOptions.CreateThumbnail))
             {
                 var bitmapSource = Utility.NVGraphics.ToBitmapSource(pdfArchiver.CraeteBitmapSource(entry, size));
 
                 picture.PictureInfo.Decoder = "PDFium";
-                picture.PictureInfo.SetPixelInfo(bitmapSource);
+                picture.PictureInfo.SetPixelInfo(bitmapSource, Size.Empty);
 
                 picture.BitmapSource = bitmapSource;
             }
@@ -42,9 +46,15 @@ namespace NeeView
             if (options.HasFlag(PictureCreateOptions.CreateThumbnail))
             {
                 using (var ms = new MemoryStream())
+                using (var intermediate = new MemoryStream())
                 {
+                    var encoder = new BmpBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(picture.BitmapSource));
+                    encoder.Save(intermediate);
+                    intermediate.Seek(0, SeekOrigin.Begin);
+
                     var thumbnailSize = ThumbnailProfile.Current.GetThumbnailSize(picture.PictureInfo.Size);
-                    pdfArchiver.CraeteBitmapSource(entry, thumbnailSize).SaveWithQuality(ms, CreateFormat(ThumbnailProfile.Current.Format), ThumbnailProfile.Current.Quality);
+                    _magicScaler.CreateImage(intermediate, null, ms, thumbnailSize, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality);
                     picture.Thumbnail = ms.ToArray();
                 }
             }
@@ -59,10 +69,6 @@ namespace NeeView
             return Utility.NVGraphics.ToBitmapSource(pdfArchiver.CraeteBitmapSource(entry, size));
         }
 
-        public Size CreateFixedSize(ArchiveEntry entry, Size size)
-        {
-            return PdfArchiverProfile.Current.CreateFixedSize(size);
-        }
 
         //
         public byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
@@ -70,8 +76,33 @@ namespace NeeView
             using (var ms = new MemoryStream())
             {
                 var pdfArchiver = (PdfArchiver)entry.Archiver;
-                size = size.IsEmpty ? pdfArchiver.GetRenderSize(entry) : size;
-                pdfArchiver.CraeteBitmapSource(entry, size).SaveWithQuality(ms, CreateFormat(format), quality);
+                var defaultSize = pdfArchiver.GetRenderSize(entry);
+                size = size.IsEmpty ? defaultSize : size;
+                var renderSize = defaultSize.IsContains(size) ? defaultSize : size;
+
+                if (renderSize != size || setting.Source != null)
+                {
+                    using (var intermediate = new MemoryStream())
+                    {
+                        if (setting.Source != null)
+                        {
+                            var encoder = new BmpBitmapEncoder();
+                            encoder.Frames.Add(BitmapFrame.Create(setting.Source));
+                            encoder.Save(intermediate);
+                        }
+                        else
+                        {
+                            pdfArchiver.CraeteBitmapSource(entry, renderSize).Save(intermediate, System.Drawing.Imaging.ImageFormat.Bmp);
+                        }
+                        intermediate.Seek(0, SeekOrigin.Begin);
+                        _magicScaler.CreateImage(intermediate, null, ms, size, format, quality, setting.ProcessImageSettings);
+                    }
+                }
+                else
+                {
+                    pdfArchiver.CraeteBitmapSource(entry, renderSize).SaveWithQuality(ms, CreateFormat(format), quality);
+                }
+
                 return ms.ToArray();
             }
         }

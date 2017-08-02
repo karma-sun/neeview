@@ -10,8 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NeeView
 {
@@ -34,7 +36,7 @@ namespace NeeView
     {
         public static List<ResizeInterpolation> ResizeInterpolationList { get; } =
             Enum.GetValues(typeof(ResizeInterpolation)).Cast<ResizeInterpolation>().Where(e => e != ResizeInterpolation.NearestNeighbor).ToList();
-            //Enum.GetValues(typeof(ResizeInterpolation)).Cast<ResizeInterpolation>().ToList();
+        //Enum.GetValues(typeof(ResizeInterpolation)).Cast<ResizeInterpolation>().ToList();
     }
 
 
@@ -88,6 +90,28 @@ namespace NeeView
         {
             return new UnsharpMaskSettings(_amount, _radius, (byte)_threshold);
         }
+
+        #region Memento
+        // インスタンスごと差し替えると問題があるため、Memento形式にする
+
+        //
+        public UnsharpMaskProfile CreateMemento()
+        {
+            var memento = (UnsharpMaskProfile)this.MemberwiseClone();
+            return memento;
+        }
+
+        //
+        public void Restore(UnsharpMaskProfile memento)
+        {
+            if (memento == null) return;
+
+            this.Amount = memento.Amount;
+            this.Radius = memento.Radius;
+            this.Threshold = memento.Threshold;
+        }
+
+        #endregion
     }
 
 
@@ -193,5 +217,40 @@ namespace NeeView
 
             return setting;
         }
+
+        #region Memento
+
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public ResizeInterpolation ResizeInterpolation { get; set; }
+            [DataMember]
+            public bool Sharpen { get; set; }
+            [DataMember]
+            public UnsharpMaskProfile UnsharpMaskProfile { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.ResizeInterpolation = this.ResizeInterpolation;
+            memento.Sharpen = this.Sharpen;
+            memento.UnsharpMaskProfile = this.UnsharpMaskProfile.CreateMemento();
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+
+            this.ResizeInterpolation = memento.ResizeInterpolation;
+            this.Sharpen = memento.Sharpen;
+            this.UnsharpMaskProfile.Restore(memento.UnsharpMaskProfile);
+        }
+
+        #endregion
     }
 }

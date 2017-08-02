@@ -143,7 +143,7 @@ namespace NeeView
         //
         public override Brush GetViewBrush()
         {
-            return (this.View as Rectangle)?.Fill;
+            return _scaleRectangle?.Fill;
         }
 
 

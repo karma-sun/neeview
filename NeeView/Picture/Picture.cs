@@ -28,8 +28,8 @@ namespace NeeView
         //
         public PictureInfo PictureInfo { get; set; }
 
-        // 未使用
-        //private byte[] RawData { get; set; }
+        //
+        public byte[] RawData { get; set; }
 
         /// <summary>
         /// BitmapSource property.
@@ -89,7 +89,7 @@ namespace NeeView
                 size = Size.Empty;
             }
 
-            this.BitmapSource = PictureFactory.Current.CreateBitmapSource(_archiveEntry, size);
+            this.BitmapSource = PictureFactory.Current.CreateBitmapSource(_archiveEntry, this.RawData, size);
         }
 
         // サムネイル生成
@@ -97,13 +97,13 @@ namespace NeeView
         {
             if (this.Thumbnail != null) return this.Thumbnail;
 
-            var sw = Stopwatch.StartNew();
+            ////var sw = Stopwatch.StartNew();
            
             var thumbnailSize = ThumbnailProfile.Current.GetThumbnailSize(this.PictureInfo.Size);
-            this.Thumbnail = PictureFactory.Current.CreateThumbnail(_archiveEntry, thumbnailSize, this.BitmapSource);
+            this.Thumbnail = PictureFactory.Current.CreateThumbnail(_archiveEntry, this.RawData, thumbnailSize, this.BitmapSource);
 
-            sw.Stop();
-            Debug.WriteLine($"Thumbnail: {sw.ElapsedMilliseconds}ms, {this.Thumbnail.Length / 1024}KB");
+            ////sw.Stop();
+            ////Debug.WriteLine($"Thumbnail: {sw.ElapsedMilliseconds}ms, {this.Thumbnail.Length / 1024}KB");
 
             return this.Thumbnail;
         }

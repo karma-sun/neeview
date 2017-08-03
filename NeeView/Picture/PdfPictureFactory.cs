@@ -62,7 +62,8 @@ namespace NeeView
             return picture;
         }
 
-        public BitmapSource CreateBitmapSource(ArchiveEntry entry, Size size)
+        //
+        public BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size)
         {
             var pdfArchiver = (PdfArchiver)entry.Archiver;
             size = size.IsEmpty ? pdfArchiver.GetRenderSize(entry) : size;
@@ -71,7 +72,7 @@ namespace NeeView
 
 
         //
-        public byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
+        public byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
         {
             using (var ms = new MemoryStream())
             {

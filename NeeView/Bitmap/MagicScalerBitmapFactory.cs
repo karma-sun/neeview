@@ -80,7 +80,7 @@ namespace NeeView
         //
         public void CreateImage(Stream stream, BitmapInfo info, Stream outStream, Size size, BitmapImageFormat format, int quality, ProcessImageSettings setting)
         {
-            Debug.WriteLine($"MagicScalerImage: {size.Truncate()}");
+            ////Debug.WriteLine($"MagicScalerImage: {size.Truncate()}");
 
             stream.Seek(0, SeekOrigin.Begin);
 

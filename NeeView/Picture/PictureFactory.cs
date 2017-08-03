@@ -49,8 +49,8 @@ namespace NeeView
     {
         Picture Create(ArchiveEntry entry, PictureCreateOptions options);
 
-        BitmapSource CreateBitmapSource(ArchiveEntry entry, Size size);
-        byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting);
+        BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size);
+        byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting);
     }
 
 
@@ -111,27 +111,27 @@ namespace NeeView
         }
 
         //
-        public BitmapSource CreateBitmapSource(ArchiveEntry entry, Size size)
+        public BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size)
         {
-            Debug.WriteLine($"Create: {entry.EntryLastName} ({size.Truncate()})");
+            ////Debug.WriteLine($"Create: {entry.EntryLastName} ({size.Truncate()})");
 
             return RetryWhenOutOfMemory(
                 () =>
                 {
                     if (entry.Archiver is PdfArchiver)
                     {
-                        return _pdfFactory.CreateBitmapSource(entry, size);
+                        return _pdfFactory.CreateBitmapSource(entry, raw, size);
                     }
                     else
                     {
-                        return _defaultFactory.CreateBitmapSource(entry, size);
+                        return _defaultFactory.CreateBitmapSource(entry, raw, size);
                     }
                 });
         }
 
 
         //
-        public byte[] CreateImage(ArchiveEntry entry, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
+        public byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
         {
             ////Debug.WriteLine($"CreateThumnbnail: {entry.EntryLastName} ({size.Truncate()})");
 
@@ -140,22 +140,22 @@ namespace NeeView
                 {
                     if (entry.Archiver is PdfArchiver)
                     {
-                        return _pdfFactory.CreateImage(entry, size, format, quality, setting);
+                        return _pdfFactory.CreateImage(entry, raw, size, format, quality, setting);
                     }
                     else
                     {
-                        return _defaultFactory.CreateImage(entry, size, format, quality, setting);
+                        return _defaultFactory.CreateImage(entry, raw, size, format, quality, setting);
                     }
                 });
         }
 
         //
-        public byte[] CreateThumbnail(ArchiveEntry entry, Size size, BitmapSource source)
+        public byte[] CreateThumbnail(ArchiveEntry entry, byte[] raw, Size size, BitmapSource source)
         {
             var createSetting = ThumbnailProfile.Current.CreateBitmapCreateSetting();
             createSetting.Source = source;
 
-            return CreateImage(entry, size, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, createSetting);
+            return CreateImage(entry, raw, size, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, createSetting);
         }
     }
 }

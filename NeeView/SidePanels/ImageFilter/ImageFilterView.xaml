@@ -55,17 +55,17 @@
             </StackPanel>
 
 
-            <Separator Background="#4888"/>
+            <Separator Background="#4888" Margin="0,10"/>
 
             <DockPanel Margin="5">
-                <CheckBox DockPanel.Dock="Right" IsChecked="{Binding ContentCanvas.IsEnabledNearestNeighbor}" VerticalAlignment="Center" />
+                <ToggleButton DockPanel.Dock="Right" Style="{StaticResource NVAnimatedSwitch}" IsChecked="{Binding ContentCanvas.IsEnabledNearestNeighbor}" Height="20" VerticalAlignment="Center" />
                 <TextBlock Text="ドットのまま拡大" VerticalAlignment="Center" />
             </DockPanel>
 
-            <Separator Background="#4888"/>
+            <Separator Background="#4888" Margin="0,10"/>
 
             <DockPanel Margin="5">
-                <CheckBox DockPanel.Dock="Right" IsChecked="{Binding PictureProfile.IsResizeFilterEnabled}" VerticalAlignment="Center" />
+                <ToggleButton DockPanel.Dock="Right" Style="{StaticResource NVAnimatedSwitch}" IsChecked="{Binding PictureProfile.IsResizeFilterEnabled}" Height="20" VerticalAlignment="Center" />
                 <TextBlock Text="リサイズフィルター" VerticalAlignment="Center" />
             </DockPanel>
 
@@ -88,7 +88,7 @@
 
 
                 <DockPanel Margin="5">
-                    <CheckBox DockPanel.Dock="Right" IsChecked="{Binding Model.Sharpen}" VerticalAlignment="Center"/>
+                    <ToggleButton DockPanel.Dock="Right" Style="{StaticResource NVAnimatedSwitch}" IsChecked="{Binding Model.Sharpen}" Height="20" VerticalAlignment="Center" />
                     <TextBlock Text="アンシャープマスク" VerticalAlignment="Center"/>
                 </DockPanel>
 
@@ -103,18 +103,6 @@
                             <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
                         </Style>
                     </Grid.Resources>
-                    
-                    <!--
-                    <Grid.Style>
-                        <Style TargetType="Grid">
-                            <Style.Triggers>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Opacity" Value="0.5"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Style>
-                    -->
 
                     <nlp:PropertyInspector x:Name="inspector" Document="{Binding UnsharpMaskProfile}" FontSize="15" IsResetButtonVisible="False" >
                         <nlp:PropertyInspector.Style>
@@ -129,11 +117,12 @@
                     </nlp:PropertyInspector>
                 </Grid>
 
-                <Button x:Name="ResetButton" Style="{StaticResource IconButton}" HorizontalAlignment="Right" Margin="5" Click="Reset">
-                    <TextBlock Margin="5" Text="初期値に戻す" Foreground="{StaticResource NVButtonForeground}"/>
-                </Button>
-
             </StackPanel>
+
+            <Button x:Name="ResetButton" Style="{StaticResource IconButton}" HorizontalAlignment="Right" Margin="5" Click="Reset" IsEnabled="{Binding PictureProfile.IsResizeFilterEnabled}">
+                <TextBlock Margin="5" Text="初期値に戻す" Foreground="{StaticResource NVButtonForeground}"/>
+            </Button>
+
 
 
         </StackPanel>

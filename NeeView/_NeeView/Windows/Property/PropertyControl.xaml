@@ -24,7 +24,7 @@
                    Text="{Binding Header, RelativeSource={RelativeSource AncestorType=UserControl}}"
                    ToolTip="{Binding Tips, RelativeSource={RelativeSource AncestorType=UserControl}}"
                    TextTrimming="CharacterEllipsis"/>
-        <ContentControl  UseLayoutRounding="True" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"
+        <ContentControl  UseLayoutRounding="True" Grid.Column="1" VerticalAlignment="Center" Margin="5,0" IsTabStop="False"
                         Content="{Binding Value, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
     </Grid>
     

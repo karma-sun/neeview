@@ -96,7 +96,11 @@ namespace NeeView
         {
             var setting = new BitmapCreateSetting();
             setting.Mode = this.CreateMode;
-            setting.ProcessImageSettings = new ProcessImageSettings() { HybridMode = HybridScaleMode.Turbo };
+            setting.ProcessImageSettings = new ProcessImageSettings()
+            {
+                HybridMode = HybridScaleMode.Turbo,
+                MatteColor = System.Drawing.Color.White,
+            };
             return setting;
         }
 

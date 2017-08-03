@@ -39,7 +39,7 @@
         </Grid.Resources>
 
         <StackPanel>
-            <ItemsControl x:Name="properties" ItemsSource="{Binding Document.Elements}" />
+            <ItemsControl x:Name="properties" ItemsSource="{Binding Document.Elements}" IsTabStop="False" />
             <Button x:Name="ResetButton"  HorizontalAlignment="Right" Margin="5" Click="Reset">
                 <TextBlock Margin="5" Text="初期値に戻す" Foreground="{StaticResource NVButtonForeground}"/>
             </Button>

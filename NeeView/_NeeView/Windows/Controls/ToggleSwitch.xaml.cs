@@ -35,7 +35,7 @@ namespace NeeView.Windows.Controls
         private bool _pressed;
         private Point _startPos;
         private double _startX;
-        private const double _max = 26.0;
+        private const double _max = 20;
 
         #endregion
 

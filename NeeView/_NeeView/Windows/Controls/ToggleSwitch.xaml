@@ -13,14 +13,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Viewbox Stretch="Uniform">
-        <Grid x:Name="Root" Width="56" Height="30" Background="Transparent"
+        <Grid x:Name="Root" Width="50" Height="30" Background="Transparent"
               MouseLeftButtonDown="BaseGrid_MouseLeftButtonDown"
               MouseLeftButtonUp="BaseGrid_MouseLeftButtonUp"
               MouseMove="BaseGrid_MouseMove">
             <Grid.Resources>
                 <Storyboard x:Key="OnAnimation">
                     <DoubleAnimationUsingKeyFrames  Storyboard.TargetName="thumbTranslate" Storyboard.TargetProperty="X" FillBehavior="Stop" Completed="OnAnimation_Completed">
-                        <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="26" KeySpline="0, 0.5, 0.5, 1"/>
+                        <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="20" KeySpline="0, 0.5, 0.5, 1"/>
                     </DoubleAnimationUsingKeyFrames>
                 </Storyboard>
                 <Storyboard x:Key="OffAnimation">
@@ -29,8 +29,8 @@
                     </DoubleAnimationUsingKeyFrames>
                 </Storyboard>
             </Grid.Resources>
-            <Canvas x:Name="canvas" Width="46" Height="20">
-                <Rectangle x:Name="rectangle" Width="46" Height="20" RadiusX="9" RadiusY="9" Fill="White" Stroke="Black"  StrokeThickness="2.0" />
+            <Canvas x:Name="canvas" Width="40" Height="20">
+                <Rectangle x:Name="rectangle" Width="40" Height="20" RadiusX="9" RadiusY="9" Fill="White" Stroke="Black"  StrokeThickness="2" />
                 <Ellipse x:Name="ellipse" Canvas.Left="5" Canvas.Top="5" Width="10" Height="10" Fill="Black" >
                     <Ellipse.RenderTransform>
                         <TranslateTransform x:Name="thumbTranslate" X="0" Y="0" />

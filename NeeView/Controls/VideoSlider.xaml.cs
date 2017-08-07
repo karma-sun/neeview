@@ -27,6 +27,12 @@ namespace NeeView
     /// </summary>
     public partial class VideoSlider : UserControl
     {
+        #region Fields
+
+        private Brush _grayTruchBrush = new SolidColorBrush(Color.FromArgb(0x80, 0x80, 0x80, 0x80));
+
+        #endregion
+
         #region DependencyProperties
 
         //
@@ -307,8 +313,8 @@ namespace NeeView
         // 表示の更新
         private void UpdateSliderLayout()
         {
-            this.LeftTrac.Fill = this.IsDirectionReversed ? Brushes.Gray : Brushes.SteelBlue;
-            this.RightTrack.Fill = this.IsDirectionReversed ? Brushes.SteelBlue : Brushes.Gray;
+            this.LeftTrac.Fill = this.IsDirectionReversed ? _grayTruchBrush : Brushes.SteelBlue;
+            this.RightTrack.Fill = this.IsDirectionReversed ? Brushes.SteelBlue : _grayTruchBrush;
             UpdateThumbPosition();
         }
 

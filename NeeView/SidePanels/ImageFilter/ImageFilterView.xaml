@@ -13,6 +13,7 @@
              xmlns:local="clr-namespace:NeeView"
              xmlns:le="clr-namespace:NeeView.Effects"
              xmlns:nlp="clr-namespace:NeeView.Windows.Property"
+             xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300" MinWidth="100" 
              Background="{DynamicResource NVBackground}"
@@ -41,6 +42,12 @@
                 <Setter Property="Foreground" Value="Black"/>
             </Style>
 
+            <Style x:Key="ToggleSwitchStyle" TargetType="nvc:ToggleSwitch">
+                <Setter Property="Fill" Value="{DynamicResource NVBackground}"/>
+                <Setter Property="Stroke" Value="{DynamicResource NVForeground}"/>
+                <Setter Property="CheckedBrush" Value="{DynamicResource NVButtonForeground}"/>
+            </Style>
+
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
         </ResourceDictionary>
@@ -58,14 +65,14 @@
             <Separator Background="#4888" Margin="0,10"/>
 
             <DockPanel Margin="5">
-                <ToggleButton DockPanel.Dock="Right" Style="{StaticResource NVAnimatedSwitch}" IsChecked="{Binding ContentCanvas.IsEnabledNearestNeighbor}" Height="20" VerticalAlignment="Center" />
+                <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding ContentCanvas.IsEnabledNearestNeighbor}" Height="30" VerticalAlignment="Center"/>
                 <TextBlock Text="ドットのまま拡大" VerticalAlignment="Center" />
             </DockPanel>
 
             <Separator Background="#4888" Margin="0,10"/>
 
             <DockPanel Margin="5">
-                <ToggleButton DockPanel.Dock="Right" Style="{StaticResource NVAnimatedSwitch}" IsChecked="{Binding PictureProfile.IsResizeFilterEnabled}" Height="20" VerticalAlignment="Center" />
+                <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding PictureProfile.IsResizeFilterEnabled}" Height="30" VerticalAlignment="Center" />
                 <TextBlock Text="リサイズフィルター" VerticalAlignment="Center" />
             </DockPanel>
 
@@ -88,7 +95,7 @@
 
 
                 <DockPanel Margin="5">
-                    <ToggleButton DockPanel.Dock="Right" Style="{StaticResource NVAnimatedSwitch}" IsChecked="{Binding Model.Sharpen}" Height="20" VerticalAlignment="Center" />
+                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Model.Sharpen}" Height="30" VerticalAlignment="Center" />
                     <TextBlock Text="アンシャープマスク" VerticalAlignment="Center"/>
                 </DockPanel>
 

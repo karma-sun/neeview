@@ -632,6 +632,9 @@
     <Compile Include="SidePanels\SidePanelFrameModel.cs" />
     <Compile Include="SidePanels\SidePanelFrameViewModel.cs" />
     <Compile Include="SidePanels\SidePanelViewModel.cs" />
+    <Compile Include="_NeeView\Windows\Controls\ToggleSwitch.xaml.cs">
+      <DependentUpon>ToggleSwitch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="_NeeView\Windows\CursorInfo.cs" />
     <Compile Include="_NeeView\ComponentModel\BindableBase.cs" />
     <Compile Include="_NeeView\Windows\Data\Converters.cs" />
@@ -913,6 +916,10 @@
     <Page Include="SidePanels\SidePanelFrameView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="_NeeView\Windows\Controls\ToggleSwitch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="_NeeView\Windows\Property\PropertyControl.xaml">
       <Generator>MSBuild:Compile</Generator>

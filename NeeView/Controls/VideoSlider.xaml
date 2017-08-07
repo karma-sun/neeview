@@ -27,7 +27,7 @@
             </Grid.ColumnDefinitions>
 
             <Rectangle x:Name="LeftTrac" Grid.Column="0" Height="3" Fill="SteelBlue" Margin="12.5,0,-1,0" SnapsToDevicePixels="True"/>
-            <Rectangle x:Name="RightTrack" Grid.Column="2" Height="3" Fill="Gray" Margin="-1,0,12.5,0" SnapsToDevicePixels="True" />
+            <Rectangle x:Name="RightTrack" Grid.Column="2" Height="3" Fill="#8888" Margin="-1,0,12.5,0" SnapsToDevicePixels="True" />
         </Grid>
         
         <Canvas x:Name="RootCanvas" VerticalAlignment="Center" Height="25">

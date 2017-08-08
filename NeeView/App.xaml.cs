@@ -28,6 +28,10 @@ namespace NeeView
     /// </summary>
     public partial class App : Application
     {
+        [DllImport("kernel32", SetLastError = true)]
+        private static extern bool SetDllDirectory(string lpPathName);
+
+
         public static new App Current => (App)Application.Current;
 
         // オプション設定
@@ -66,6 +70,9 @@ namespace NeeView
         private void Initialize(StartupEventArgs e)
         {
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
+            // DLL 検索パスから現在の作業ディレクトリ (CWD) を削除
+            SetDllDirectory("");
 
             // 環境初期化
             Config.Current.Initiallize();

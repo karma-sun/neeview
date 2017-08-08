@@ -1,4 +1,9 @@
-﻿using NeeView.ComponentModel;
+﻿// Copyright (c) 2016 Mitsuhiro Ito (nee)
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+
+using NeeView.ComponentModel;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -43,138 +48,17 @@ namespace NeeView
     {
         public static WindowShape Current { get; private set; }
 
+        #region NativeApi
+
         [DllImport("user32.dll")]
         private static extern IntPtr FindWindow(string className, string windowTitle);
 
         [DllImport("user32.dll")]
         private static extern int SetForegroundWindow(IntPtr hwnd);
 
+        #endregion
 
-        /// <summary>
-        /// 状態変更イベント
-        /// </summary>
-        public event EventHandler StateChanged;
-
-
-        /// <summary>
-        /// WindowChromeFrame property.
-        /// </summary>
-        public WindowChromeFrame WindowChromeFrame
-        {
-            get { return _WindowChromeFrame; }
-            set
-            {
-                if (_WindowChromeFrame != value)
-                {
-                    _WindowChromeFrame = value;
-                    Reflesh();
-                }
-            }
-        }
-
-        private WindowChromeFrame _WindowChromeFrame;
-
-
-        /// <summary>
-        /// WindowBorderThickness property.
-        /// </summary>
-        public Thickness WindowBorderThickness
-        {
-            get { return _windowBorderThickness; }
-            set { if (_windowBorderThickness != value) { _windowBorderThickness = value; RaisePropertyChanged(); } }
-        }
-
-        private Thickness _windowBorderThickness;
-
-        public void UpdateWindowBorderThickness()
-        {
-            if (this.WindowChromeFrame == WindowChromeFrame.Line && this.WindowChrome != null)
-            {
-                var x = 1.0 / Config.Current.RawDpi.DpiScaleX;
-                var y = 1.0 / Config.Current.RawDpi.DpiScaleY;
-                this.WindowBorderThickness = new Thickness(x, y, x, y);
-            }
-            else
-            {
-                this.WindowBorderThickness = default(Thickness);
-            }
-        }
-
-
-
-
-        /// <summary>
-        /// IsCaptionVisible property.
-        /// </summary>
-        public bool IsCaptionVisible
-        {
-            get { return _isCaptionVisible; }
-            set { if (_isCaptionVisible != value) { _isCaptionVisible = value; Reflesh(); } }
-        }
-
-        //
-        private bool _isCaptionVisible = true;
-
-        public void ToggleCaptionVisible()
-        {
-            IsCaptionVisible = !IsCaptionVisible;
-        }
-
-
-        /// <summary>
-        /// IsTopmost property.
-        /// </summary>
-        public bool IsTopmost
-        {
-            get { return _isTopmost; }
-            set
-            {
-                if (_isTopmost != value)
-                {
-                    _isTopmost = value;
-                    _window.Topmost = _isTopmost;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        //
-        private bool _isTopmost;
-
-        //
-        public bool ToggleTopmost()
-        {
-            IsTopmost = !IsTopmost;
-            return IsTopmost;
-        }
-
-        //
-        public void OneTopmost()
-        {
-            var temp = _window.Topmost;
-            _window.Topmost = true;
-            _window.Topmost = temp;
-        }
-
-
-        /// <summary>
-        /// IsFullScreen property.
-        /// </summary>
-        public bool IsFullScreen
-        {
-            get { return _isFullScreen; }
-            private set { if (_isFullScreen != value) { _isFullScreen = value; RaisePropertyChanged(); } }
-        }
-
-        private bool _isFullScreen;
-
-        //
-        public void ToggleFullScreen()
-        {
-            SetFullScreen(!IsFullScreen);
-        }
-
-
+        #region Fields
 
         /// <summary>
         /// 管理するWindow
@@ -187,48 +71,7 @@ namespace NeeView
         private WindowChrome _chrome;
 
 
-        /// <summary>
-        /// 現在のWindowChrome
-        /// </summary>
-        public WindowChrome WindowChrome
-        {
-            get { return _windowChrome; }
-            private set
-            {
-                if (_windowChrome != value)
-                {
-                    _windowChrome = value;
-                    WindowChrome.SetWindowChrome(_window, _windowChrome);
-                    UpdateWindowBorderThickness();
-                    RaisePropertyChanged();
-                }
-            }
-        }
 
-        private WindowChrome _windowChrome;
-
-
-
-        /// <summary>
-        /// State property.
-        /// 現在の状態
-        /// </summary>
-        public WindowStateEx State
-        {
-            get { return _state; }
-            private set
-            {
-                if (_state != value)
-                {
-                    _state = value;
-                    this.IsFullScreen = _state == WindowStateEx.FullScreen;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        //
-        private WindowStateEx _state;
 
 
         /// <summary>
@@ -246,11 +89,9 @@ namespace NeeView
         /// </summary>
         private bool _isWindows7;
 
-        /// <summary>
-        /// Window座標
-        /// </summary>
-        public WindowPlacement WindowPlacement { get; private set; }
+        #endregion
 
+        #region Constructors
 
         /// <summary>
         /// コンストラクター
@@ -261,12 +102,6 @@ namespace NeeView
             Current = this;
 
             _window = window;
-
-            this.WindowPlacement = new WindowPlacement(window);
-
-             _window.SourceInitialized += Window_SourceInitialized;
-            //_window.Loaded += Window_SourceInitialized;
-            ////_window.SourceInitialized += (s, e) => Reflesh();
 
             // キャプション非表示時に適用するChrome
             _chrome = new WindowChrome();
@@ -299,14 +134,153 @@ namespace NeeView
             _window.StateChanged += Window_StateChanged;
         }
 
-        //
-        private void Window_SourceInitialized(object sender, EventArgs e)
+        #endregion
+        
+        #region Events
+
+        /// <summary>
+        /// 状態変更イベント
+        /// </summary>
+        public event EventHandler StateChanged;
+
+        #endregion
+        
+        #region Properties
+
+        /// <summary>
+        /// WindowChromeFrame property.
+        /// </summary>
+        private WindowChromeFrame _WindowChromeFrame;
+        public WindowChromeFrame WindowChromeFrame
         {
-            this.IsEnabled = true;
-            Reflesh();
+            get { return _WindowChromeFrame; }
+            set
+            {
+                if (_WindowChromeFrame != value)
+                {
+                    _WindowChromeFrame = value;
+                    Reflesh();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// WindowBorderThickness property.
+        /// </summary>
+        private Thickness _windowBorderThickness;
+        public Thickness WindowBorderThickness
+        {
+            get { return _windowBorderThickness; }
+            set { if (_windowBorderThickness != value) { _windowBorderThickness = value; RaisePropertyChanged(); } }
         }
 
 
+        /// <summary>
+        /// IsCaptionVisible property.
+        /// </summary>
+        private bool _isCaptionVisible = true;
+        public bool IsCaptionVisible
+        {
+            get { return _isCaptionVisible; }
+            set { if (_isCaptionVisible != value) { _isCaptionVisible = value; Reflesh(); } }
+        }
+
+
+        /// <summary>
+        /// IsTopmost property.
+        /// </summary>
+        private bool _isTopmost;
+        public bool IsTopmost
+        {
+            get { return _isTopmost; }
+            set
+            {
+                if (_isTopmost != value)
+                {
+                    _isTopmost = value;
+                    _window.Topmost = _isTopmost;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// IsFullScreen property.
+        /// </summary>
+        private bool _isFullScreen;
+        public bool IsFullScreen
+        {
+            get { return _isFullScreen; }
+            private set { if (_isFullScreen != value) { _isFullScreen = value; RaisePropertyChanged(); } }
+        }
+
+
+        /// <summary>
+        /// 現在のWindowChrome
+        /// </summary>
+        private WindowChrome _windowChrome;
+        public WindowChrome WindowChrome
+        {
+            get { return _windowChrome; }
+            private set
+            {
+                if (_windowChrome != value)
+                {
+                    _windowChrome = value;
+                    WindowChrome.SetWindowChrome(_window, _windowChrome);
+                    UpdateWindowBorderThickness();
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// State property.
+        /// 現在の状態
+        /// </summary>
+        private WindowStateEx _state;
+        public WindowStateEx State
+        {
+            get { return _state; }
+            private set
+            {
+                if (_state != value)
+                {
+                    _state = value;
+                    this.IsFullScreen = _state == WindowStateEx.FullScreen;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 処理中
+        /// </summary>
+        public bool IsProcessing { get; private set; }
+
+
+        /// <summary>
+        /// IsEnabled property.
+        /// </summary>
+        private bool _IsEnabled;
+        public bool IsEnabled
+        {
+            get { return _IsEnabled; }
+            set
+            {
+                if (_IsEnabled != value)
+                {
+                    _IsEnabled = value;
+                    if (_IsEnabled) Reflesh();
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// ウィンドウ状態イベント処理
@@ -335,6 +309,50 @@ namespace NeeView
                     ToMaximizedMaybe();
                     break;
             }
+        }
+
+        //
+        public void UpdateWindowBorderThickness()
+        {
+            if (this.WindowChromeFrame == WindowChromeFrame.Line && this.WindowChrome != null)
+            {
+                var x = 1.0 / Config.Current.RawDpi.DpiScaleX;
+                var y = 1.0 / Config.Current.RawDpi.DpiScaleY;
+                this.WindowBorderThickness = new Thickness(x, y, x, y);
+            }
+            else
+            {
+                this.WindowBorderThickness = default(Thickness);
+            }
+        }
+
+        //
+        public void ToggleCaptionVisible()
+        {
+            IsCaptionVisible = !IsCaptionVisible;
+        }
+
+        //
+        public bool ToggleTopmost()
+        {
+            IsTopmost = !IsTopmost;
+            return IsTopmost;
+        }
+
+        //
+        public void ToggleFullScreen()
+        {
+            SetFullScreen(!IsFullScreen);
+        }
+
+        /// <summary>
+        /// ウィンドウを最前列に移動
+        /// </summary>
+        public void OneTopmost()
+        {
+            var temp = _window.Topmost;
+            _window.Topmost = true;
+            _window.Topmost = temp;
         }
 
         /// <summary>
@@ -379,10 +397,6 @@ namespace NeeView
             if (isChanged) StateChanged?.Invoke(this, null);
         }
 
-        /// <summary>
-        /// 処理中
-        /// </summary>
-        public bool IsProcessing { get; private set; }
 
         /// <summary>
         /// 処理開始
@@ -421,7 +435,7 @@ namespace NeeView
         /// <summary>
         /// 通常ウィンドウにする
         /// </summary>
-        public void ToNormal()
+        private void ToNormal()
         {
             //Debug.WriteLine("ToNormal");
             BeginEdit();
@@ -440,7 +454,7 @@ namespace NeeView
         /// <summary>
         /// 最小化する
         /// </summary>
-        public void ToMinimized()
+        private void ToMinimized()
         {
             //Debug.WriteLine("ToMinimimzed");
             BeginEdit();
@@ -455,7 +469,7 @@ namespace NeeView
         /// 最大化、もしくはフルスクリーンにする。
         /// 最小化からの復帰用
         /// </summary>
-        public void ToMaximizedMaybe()
+        private void ToMaximizedMaybe()
         {
             //Debug.WriteLine("ToMaximizedMaybe");
             if (_state == WindowStateEx.Minimized && _oldState == WindowStateEx.FullScreen)
@@ -471,7 +485,7 @@ namespace NeeView
         /// <summary>
         /// 最大化する
         /// </summary>
-        public void ToMaximized()
+        private void ToMaximized()
         {
             //Debug.WriteLine("ToMaximized");
             BeginEdit();
@@ -500,14 +514,14 @@ namespace NeeView
         /// <summary>
         /// フルスクリーンにする
         /// </summary>
-        public void ToFullScreen()
+        private void ToFullScreen()
         {
             //Debug.WriteLine("ToFullScreen");
             BeginEdit();
 
             this.WindowChrome = null;
             _window.ResizeMode = ResizeMode.NoResize;
-            if (_state == WindowStateEx.Maximized) _window.WindowState = WindowState.Normal;
+            if (_window.WindowState == WindowState.Maximized) _window.WindowState = WindowState.Normal;
             _window.WindowStyle = WindowStyle.None;
             _window.WindowState = WindowState.Maximized;
 
@@ -539,17 +553,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// IsEnabled property.
-        /// </summary>
-        private bool _IsEnabled;
-        public bool IsEnabled
-        {
-            get { return _IsEnabled; }
-            set { if (_IsEnabled != value) { _IsEnabled = value; RaisePropertyChanged(); } }
-        }
-
-
-        /// <summary>
         /// 状態を最新にする
         /// </summary>
         public void Reflesh()
@@ -563,58 +566,7 @@ namespace NeeView
             RaisePropertyChanged(null);
         }
 
-
-#if false
-        /// <summary>
-        /// WindowRect property.
-        /// </summary>
-        public Rect WindowRect
-        {
-            get { return _window.RestoreBounds; }
-            set
-            {
-                if (value.IsEmpty) return;
-                _window.Left = value.Left;
-                _window.Top = value.Top;
-                _window.Width = value.Width;
-                _window.Height = value.Height;
-            }
-        }
-#endif
-
-#if false
-        //
-        public Rect WindowRect { get; set; }
-
-        //
-        private Rect GetWindowRectNow()
-        {
-            var rect = _window.RestoreBounds;
-
-            // 大きさはDPI=1で計算
-            //rect.Width = rect.Width * Config.Current.Dpi.DpiScaleX;
-            //rect.Height = rect.Height * Config.Current.Dpi.DpiScaleY;
-
-            Debug.WriteLine($"<<<< Restore: {rect}");
-
-
-            return rect;
-        }
-
-        //
-        private void Window_SourceInitialized(object sender, EventArgs e)
-        {
-            Debug.WriteLine($">>>> Sotre: {this.WindowRect}");
-
-            if (this.WindowRect.IsEmpty) return;
-            _window.Left = this.WindowRect.Left;
-            _window.Top = this.WindowRect.Top;
-            _window.Width = this.WindowRect.Width;
-            _window.Height = this.WindowRect.Height;
-
-            //Reflesh();
-        }
-#endif
+        #endregion
 
         #region Memento
         [DataContract]
@@ -629,17 +581,22 @@ namespace NeeView
             [DataMember]
             public bool IsTopMost { get; set; }
 
-            [DataMember]
-            public Rect WindowRect { get; set; }
-
-            [DataMember]
-            public WindowPlacement.Memento WindowPlacement { get; set; }
-
-            // TODO: WindowPlacementはCloneされていない！注意！
+            //
             public Memento Clone()
             {
                 return (Memento)this.MemberwiseClone();
             }
+        }
+
+        // Memento一時保存
+        public Memento SnapMemento { get; set; }
+
+        /// <summary>
+        /// 現在のMementoを記憶。Window.Closed()ではWindow情報が取得できないため。
+        /// </summary>
+        public void CreateSnapMemento()
+        {
+            this.SnapMemento = CreateMemento();
         }
 
         //
@@ -650,8 +607,6 @@ namespace NeeView
             memento.State = this.State;
             memento.IsCaptionVisible = this.IsCaptionVisible;
             memento.IsTopMost = this.IsTopmost;
-            ////memento.WindowRect = GetWindowRectNow();
-            memento.WindowPlacement = this.WindowPlacement.CreateMemento();
 
             return memento;
         }
@@ -661,24 +616,9 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            ////this.WindowRect = memento.WindowRect;
-            this.WindowPlacement.Restore(memento.WindowPlacement);
-
-            // Window状態をまとめて更新
             _isTopmost = memento.IsTopMost;
             _isCaptionVisible = memento.IsCaptionVisible;
             _state = memento.State;
-        }
-
-        //
-        public Memento SnapMemento { get; private set; }
-
-        /// <summary>
-        /// 現在のMementoを記憶。Window.Closed()ではWindow情報が取得できないため。
-        /// </summary>
-        public void CreateSnapMemento()
-        {
-            this.SnapMemento = CreateMemento();
         }
 
         #endregion

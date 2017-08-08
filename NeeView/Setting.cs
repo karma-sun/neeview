@@ -41,6 +41,9 @@ namespace NeeView
         public WindowShape.Memento WindowShape { get; set; }
 
         [DataMember]
+        public WindowPlacement.Memento WindowPlacement { get; set; }
+
+        [DataMember]
         public App.Memento App { get; set; }
 
 

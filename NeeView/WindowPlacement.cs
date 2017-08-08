@@ -14,6 +14,8 @@ using System.Windows.Interop;
 
 namespace NeeView
 {
+    #region Native
+
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     public struct WINDOWPLACEMENT
@@ -73,36 +75,58 @@ namespace NeeView
         SHOWDEFAULT = 10,
     }
 
+    #endregion
+
     /// <summary>
     /// Window Placement
     /// </summary>
     public class WindowPlacement
     {
+        public static WindowPlacement Current { get; private set; }
+
+        #region NativeApi
+
         [DllImport("user32.dll")]
         public static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);
 
         [DllImport("user32.dll")]
         public static extern bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl);
 
+        #endregion
+
+        #region Fields
+
         private Window _window;
+
+        #endregion
+
+        #region Constructors
+
+        //
+        public WindowPlacement(Window window)
+        {
+            Current = this;
+
+            _window = window;
+            _window.SourceInitialized += Window_SourceInitialized;
+            _window.Closing += Window_Closing;
+        }
+
+        #endregion
+
+        #region Properties
 
         public WINDOWPLACEMENT? Placement { get; set; }
 
         public double Width { get; set; } = 640.0;
         public double Height { get; set; } = 480.0;
 
+        #endregion
 
-
-        //
-        public WindowPlacement(Window window)
-        {
-            _window = window;
-            _window.SourceInitialized += OnSourceInitialized;
-        }
-
+        #region Methods
 
         //
-        private void OnSourceInitialized(object sender, EventArgs e)
+        private void Window_SourceInitialized(object sender, EventArgs e)
         {
             if (this.Placement.HasValue)
             {
@@ -114,35 +138,34 @@ namespace NeeView
 
                 placement.normalPosition.Right = placement.normalPosition.Left + (int)(this.Width * Config.Current.Dpi.DpiScaleX + 0.5);
                 placement.normalPosition.Bottom = placement.normalPosition.Top + (int)(this.Height * Config.Current.Dpi.DpiScaleY + 0.5);
-                /*
-                var width = (placement.normalPosition.Right - placement.normalPosition.Left) * Config.Current.Dpi.DpiScaleX;
-                placement.normalPosition.Right = placement.normalPosition.Left + (int)width;
-                var height = (placement.normalPosition.Bottom - placement.normalPosition.Top) * Config.Current.Dpi.DpiScaleY;
-                placement.normalPosition.Bottom = placement.normalPosition.Top + (int)height;
-                */
-
-                Debug.WriteLine($">>>> Restore.WIDTH: {placement.normalPosition.Right - placement.normalPosition.Left}, DPI: {Config.Current.Dpi.DpiScaleX}");
+                //Debug.WriteLine($">>>> Restore.WIDTH: {placement.normalPosition.Right - placement.normalPosition.Left}, DPI: {Config.Current.Dpi.DpiScaleX}");
 
                 SetWindowPlacement(hwnd, ref placement);
             }
         }
 
         //
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            StorePlacement();
+        }
+
+        //
         public void StorePlacement()
         {
-            WINDOWPLACEMENT placement;
             var hwnd = new WindowInteropHelper(_window).Handle;
-            GetWindowPlacement(hwnd, out placement);
+            if (hwnd == IntPtr.Zero) return;
+
+            GetWindowPlacement(hwnd, out WINDOWPLACEMENT placement);
 
             this.Width = (placement.normalPosition.Right - placement.normalPosition.Left) / Config.Current.Dpi.DpiScaleX;
-            //placement.normalPosition.Right = placement.normalPosition.Left + (int)width;
             this.Height = (placement.normalPosition.Bottom - placement.normalPosition.Top) / Config.Current.Dpi.DpiScaleY;
-            //placement.normalPosition.Bottom = placement.normalPosition.Top + (int)height;
-
-            Debug.WriteLine($">>>> Store.WIDTH: {placement.normalPosition.Right - placement.normalPosition.Left}, DPI: {Config.Current.Dpi.DpiScaleX}");
+            //Debug.WriteLine($">>>> Store.WIDTH: {placement.normalPosition.Right - placement.normalPosition.Left}, DPI: {Config.Current.Dpi.DpiScaleX}");
 
             this.Placement = placement;
         }
+
+        #endregion
 
         #region Memento
 

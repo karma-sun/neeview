@@ -247,6 +247,12 @@ namespace NeeView
         private bool _isWindows7;
 
         /// <summary>
+        /// Window座標
+        /// </summary>
+        public WindowPlacement WindowPlacement { get; private set; }
+
+
+        /// <summary>
         /// コンストラクター
         /// </summary>
         /// <param name="window"></param>
@@ -255,6 +261,12 @@ namespace NeeView
             Current = this;
 
             _window = window;
+
+            this.WindowPlacement = new WindowPlacement(window);
+
+             _window.SourceInitialized += Window_SourceInitialized;
+            //_window.Loaded += Window_SourceInitialized;
+            ////_window.SourceInitialized += (s, e) => Reflesh();
 
             // キャプション非表示時に適用するChrome
             _chrome = new WindowChrome();
@@ -287,6 +299,14 @@ namespace NeeView
             _window.StateChanged += Window_StateChanged;
         }
 
+        //
+        private void Window_SourceInitialized(object sender, EventArgs e)
+        {
+            this.IsEnabled = true;
+            Reflesh();
+        }
+
+
 
         /// <summary>
         /// ウィンドウ状態イベント処理
@@ -295,6 +315,8 @@ namespace NeeView
         /// <param name="e"></param>
         private void Window_StateChanged(object sender, EventArgs e)
         {
+            if (!this.IsEnabled) return;
+
             if (this.IsProcessing)
             {
                 //Debug.WriteLine($"Skip: {_window.WindowState}");
@@ -319,7 +341,7 @@ namespace NeeView
         /// 状態変更
         /// </summary>
         /// <param name="state"></param>
-        public void SetWindowState(WindowStateEx state)
+        private void SetWindowState(WindowStateEx state)
         {
             switch (state)
             {
@@ -517,10 +539,23 @@ namespace NeeView
         }
 
         /// <summary>
+        /// IsEnabled property.
+        /// </summary>
+        private bool _IsEnabled;
+        public bool IsEnabled
+        {
+            get { return _IsEnabled; }
+            set { if (_IsEnabled != value) { _IsEnabled = value; RaisePropertyChanged(); } }
+        }
+
+
+        /// <summary>
         /// 状態を最新にする
         /// </summary>
         public void Reflesh()
         {
+            if (!this.IsEnabled) return;
+
             _window.Topmost = IsTopmost;
             _isFullScreen = _state == WindowStateEx.FullScreen;
             SetWindowState(_state);
@@ -529,6 +564,7 @@ namespace NeeView
         }
 
 
+#if false
         /// <summary>
         /// WindowRect property.
         /// </summary>
@@ -544,7 +580,41 @@ namespace NeeView
                 _window.Height = value.Height;
             }
         }
+#endif
 
+#if false
+        //
+        public Rect WindowRect { get; set; }
+
+        //
+        private Rect GetWindowRectNow()
+        {
+            var rect = _window.RestoreBounds;
+
+            // 大きさはDPI=1で計算
+            //rect.Width = rect.Width * Config.Current.Dpi.DpiScaleX;
+            //rect.Height = rect.Height * Config.Current.Dpi.DpiScaleY;
+
+            Debug.WriteLine($"<<<< Restore: {rect}");
+
+
+            return rect;
+        }
+
+        //
+        private void Window_SourceInitialized(object sender, EventArgs e)
+        {
+            Debug.WriteLine($">>>> Sotre: {this.WindowRect}");
+
+            if (this.WindowRect.IsEmpty) return;
+            _window.Left = this.WindowRect.Left;
+            _window.Top = this.WindowRect.Top;
+            _window.Width = this.WindowRect.Width;
+            _window.Height = this.WindowRect.Height;
+
+            //Reflesh();
+        }
+#endif
 
         #region Memento
         [DataContract]
@@ -562,7 +632,10 @@ namespace NeeView
             [DataMember]
             public Rect WindowRect { get; set; }
 
-            //
+            [DataMember]
+            public WindowPlacement.Memento WindowPlacement { get; set; }
+
+            // TODO: WindowPlacementはCloneされていない！注意！
             public Memento Clone()
             {
                 return (Memento)this.MemberwiseClone();
@@ -577,7 +650,8 @@ namespace NeeView
             memento.State = this.State;
             memento.IsCaptionVisible = this.IsCaptionVisible;
             memento.IsTopMost = this.IsTopmost;
-            memento.WindowRect = this.WindowRect;
+            ////memento.WindowRect = GetWindowRectNow();
+            memento.WindowPlacement = this.WindowPlacement.CreateMemento();
 
             return memento;
         }
@@ -587,13 +661,13 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            this.WindowRect = memento.WindowRect;
+            ////this.WindowRect = memento.WindowRect;
+            this.WindowPlacement.Restore(memento.WindowPlacement);
 
             // Window状態をまとめて更新
             _isTopmost = memento.IsTopMost;
             _isCaptionVisible = memento.IsCaptionVisible;
             _state = memento.State;
-            Reflesh();
         }
 
         //

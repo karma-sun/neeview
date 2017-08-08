@@ -173,7 +173,8 @@ namespace NeeView
             if (App.Current.Option.IsResetPlacement == SwitchOption.on || !App.Current.IsSaveWindowPlacement)
             {
                 memento.State = WindowStateEx.Normal;
-                memento.WindowRect = Rect.Empty;
+                ////memento.WindowRect = Rect.Empty;
+                memento.WindowPlacement = null;
             }
 
             if (isFullScreened)

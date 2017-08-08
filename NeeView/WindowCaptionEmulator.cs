@@ -9,6 +9,7 @@ using NeeView.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -163,21 +164,7 @@ namespace NeeView
 
                 var cursor = Windows.CursorInfo.GetNowScreenPosition();
                 _window.Left = cursor.X - targetHorizontal;
-                _window.Top = 0;
-
-#if false
-                // マルチモニタ検証ができていないので。
-                var x = cursor.X - _window.RestoreBounds.Width * 0.5;
-                if (x + _window.RestoreBounds.Width > SystemParameters.WorkArea.Width)
-                {
-                    x = SystemParameters.WorkArea.Width - _window.RestoreBounds.Width;
-                }
-                if (x < 0)
-                {
-                    x = 0;
-                }
-                _window.Left = x;
-#endif
+                _window.Top = cursor.Y - 8;
 
                 _window.WindowStyle = WindowStyle.None; // ※瞬時に切り替わるようにするため一時的に変更。WindowShapeSelectorで修正される
                 _window.WindowState = WindowState.Normal;

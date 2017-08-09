@@ -256,8 +256,11 @@ namespace NeeView
             // 設定
             var setting = CreateSetting();
 
-            // ウィンドウ座標保存
+            // ウィンドウ状態保存
             setting.WindowShape = WindowShape.Current.SnapMemento;
+
+            // ウィンドウ座標保存
+            setting.WindowPlacement = WindowPlacement.Current.CreateMemento();
 
             try
             {

@@ -41,8 +41,8 @@ namespace NeeView.Windows
         /// </summary>
         private struct POINT
         {
-            public UInt32 X;
-            public UInt32 Y;
+            public Int32 X;
+            public Int32 Y;
         }
 
         /// <summary>

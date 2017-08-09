@@ -43,7 +43,11 @@ namespace NeeView
             InitializeComponent();
 
             // Window状態初期化、復元
-            InitializeWindowShape();
+            new WindowPlacement(this);
+            InitializeWindowPlacement();
+
+            new WindowShape(this);
+            WindowShape.Current.SnapMemento = SaveData.Current.Setting.WindowShape;
 
             // Models初期化
             var models = new Models(this);
@@ -153,17 +157,30 @@ namespace NeeView
         }
 
         /// <summary>
+        /// Window座標初期化
+        /// </summary>
+        private void InitializeWindowPlacement()
+        {
+            if (App.Current.Option.IsResetPlacement == SwitchOption.on || !App.Current.IsSaveWindowPlacement) return;
+
+            // セカンドプロセスはウィンドウ形状を継承しない
+            if (Config.Current.IsSecondProcess && !App.Current.IsRestoreSecondWindow) return;
+
+            WindowPlacement.Current.Restore(SaveData.Current.Setting.WindowPlacement);
+        }
+
+        /// <summary>
         /// Window状態初期化
         /// </summary>
         private void InitializeWindowShape()
         {
             // window
-            var windowShape = new WindowShape(this);
+            var windowShape = WindowShape.Current;
 
             // セカンドプロセスはウィンドウ形状を継承しない
-            if (Config.Current.IsSecondProcess) return;
+            if (Config.Current.IsSecondProcess && !App.Current.IsRestoreSecondWindow) return;
 
-            var memento = SaveData.Current.Setting.WindowShape;
+            var memento = windowShape.SnapMemento;
             if (memento == null) return;
 
             memento = memento.Clone();
@@ -173,7 +190,6 @@ namespace NeeView
             if (App.Current.Option.IsResetPlacement == SwitchOption.on || !App.Current.IsSaveWindowPlacement)
             {
                 memento.State = WindowStateEx.Normal;
-                memento.WindowRect = Rect.Empty;
             }
 
             if (isFullScreened)
@@ -187,12 +203,14 @@ namespace NeeView
             }
 
             // このタイミングでのChrome適用はMaximizedの場合にフルスクリーンになってしまうので保留する
+            // TODO: ???
             if (memento.State != WindowStateEx.Maximized)
             {
                 windowShape.WindowChromeFrame = App.Current.WindowChromeFrame;
             }
 
             windowShape.Restore(memento);
+            windowShape.IsEnabled = true;
         }
 
         #endregion
@@ -461,6 +479,14 @@ namespace NeeView
             ContentRebuild.Current.InitinalizeWinProc(this);
 
             _vm.Loaded();
+        }
+
+
+        // ウィンドウコンテンツ表示開始
+        private void MainWindow_ContentRendered(object sender, EventArgs e)
+        {
+            // ウィンドウ状態復元
+            InitializeWindowShape();
         }
 
 
@@ -1018,7 +1044,6 @@ namespace NeeView
         }
 
         #endregion
-
     }
 
 }

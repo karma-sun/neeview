@@ -379,6 +379,7 @@
       <DependentUpon>WindowCaptionButtons.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowCaptionEmulator.cs" />
+    <Compile Include="WindowPlacement.cs" />
     <Compile Include="WindowShape.cs" />
     <Compile Include="WindowTitle.cs" />
     <Compile Include="_NeeView\Data\OptionMap.cs" />

@@ -42,6 +42,9 @@ namespace NeeView
         // ウィンドウサイズのDPI非対応
         public bool IsIgnoreWindowDpi { get; set; }
 
+        // 複数ウィンドウの座標復元
+        public bool IsRestoreSecondWindow { get; set; } = true;
+
         // 履歴、ブックマーク、ページマークを保存しない
         public bool IsDisableSave { get; set; }
 
@@ -77,12 +80,16 @@ namespace NeeView
             public bool IsDisableSave { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("画像のDPI非対応", Tips = "画像をオリジナルサイズで表示する場合にディスプレイのピクセルと一致させます")]
+            [PropertyMember("画像のドットバイドット表示", Tips = "画像をオリジナルサイズで表示する場合にDPIに依存せずにディスプレイのピクセルと一致させます")]
             public bool IsIgnoreImageDpi { get; set; }
 
             [DataMember, DefaultValue(false)]
             [PropertyMember("ウィンドウサイズのDPI非対応", Tips = "DPI変更にウィンドウサイズを追従させません")]
             public bool IsIgnoreWindowDpi { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            [PropertyMember("２つめのウィンドウ座標の復元", Tips = "重複起動される場合にウィンドウ座標の復元を適用する。falseにすると2つめのウィンドウは初期座標で表示されます")]
+            public bool IsRestoreSecondWindow { get; set; }
 
             [DataMember, DefaultValue(WindowChromeFrame.Line)]
             [PropertyEnum("タイトルバー非表示でのウィンドウ枠", Tips = "タイトルバー非表示時のウィンドウ枠表示方法です")]
@@ -99,6 +106,12 @@ namespace NeeView
             [DataMember, DefaultValue("")]
             [PropertyPath(Name = "ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。\n既定では一時フォルダを使用します。", IsVisible = false)]
             public string DownloadPath { get; set; }
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                this.IsRestoreSecondWindow = true;
+            }
         }
 
         //
@@ -116,6 +129,7 @@ namespace NeeView
             memento.WindowChromeFrame = this.WindowChromeFrame;
             memento.IsOpenLastBook = this.IsOpenLastBook;
             memento.DownloadPath = this.DownloadPath;
+            memento.IsRestoreSecondWindow = this.IsRestoreSecondWindow;
             return memento;
         }
 
@@ -134,6 +148,7 @@ namespace NeeView
             this.WindowChromeFrame = memento.WindowChromeFrame;
             this.IsOpenLastBook = memento.IsOpenLastBook;
             this.DownloadPath = memento.DownloadPath;
+            this.IsRestoreSecondWindow = memento.IsRestoreSecondWindow;
         }
 
 #pragma warning disable CS0612

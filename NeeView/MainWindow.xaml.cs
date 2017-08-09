@@ -163,6 +163,9 @@ namespace NeeView
         {
             if (App.Current.Option.IsResetPlacement == SwitchOption.on || !App.Current.IsSaveWindowPlacement) return;
 
+            // セカンドプロセスはウィンドウ形状を継承しない
+            if (Config.Current.IsSecondProcess && !App.Current.IsRestoreSecondWindow) return;
+
             WindowPlacement.Current.Restore(SaveData.Current.Setting.WindowPlacement);
         }
 
@@ -175,7 +178,7 @@ namespace NeeView
             var windowShape = WindowShape.Current;
 
             // セカンドプロセスはウィンドウ形状を継承しない
-            if (Config.Current.IsSecondProcess) return;
+            if (Config.Current.IsSecondProcess && !App.Current.IsRestoreSecondWindow) return;
 
             var memento = windowShape.SnapMemento;
             if (memento == null) return;

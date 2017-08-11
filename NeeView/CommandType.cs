@@ -70,7 +70,6 @@ namespace NeeView
         ToggleVisibleAddressBar,
         ToggleVisibleSideBar,
         ToggleVisibleFileInfo,
-        ToggleVisibleFilterInfo,
         ToggleVisibleEffectInfo,
         ToggleVisibleFolderList,
         ToggleVisibleBookmarkList,
@@ -169,6 +168,7 @@ namespace NeeView
         ToggleEffectGrayscale, // 欠番
 
         ToggleResizeFilter,
+        ToggleEffect,
 
         ToggleIsLoupe,
         LoupeOn,

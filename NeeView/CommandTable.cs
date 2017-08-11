@@ -510,7 +510,7 @@ namespace NeeView
             // ToggleIsEnabledNearestNeighbor
             {
                 var element = new CommandElement();
-                element.Group = "拡大モード";
+                element.Group = "エフェクト";
                 element.Text = "ドットのまま拡大ON/OFF";
                 element.MenuText = "ドットのまま拡大";
                 element.Note = "ONにすると拡大するときにドットのまま拡大します。OFFの時にはスケール変換処理(Fant)が行われます";
@@ -716,21 +716,6 @@ namespace NeeView
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFileInfo)) { Source = _models.SidePanel };
                 _elements[CommandType.ToggleVisibleFileInfo] = element;
-            }
-            // ToggleVisibleFilterInfo
-            {
-                var element = new CommandElement();
-                element.Group = "パネル";
-                element.Text = "フィルターパネルの表示ON/OFF";
-                element.MenuText = "フィルターパネル";
-                element.Note = "フィルターパネルの表示/非表示を切り替えます。";
-                element.ShortCutKey = "R";
-                element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFilterInfo(e is MenuCommandTag);
-                element.ExecuteMessage = e => _models.SidePanel.IsVisibleFilterInfo ? "フィルターパネルを消す" : "フィルターパネルを表示する";
-                element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFilterInfo)) { Source = _models.SidePanel };
-                _elements[CommandType.ToggleVisibleFilterInfo] = element;
             }
             // ToggleVisibleEffectInfo
             {
@@ -1739,7 +1724,7 @@ namespace NeeView
             // ToggleResizeFilter
             {
                 var element = new CommandElement();
-                element.Group = "フィルター";
+                element.Group = "エフェクト";
                 element.Text = "リサイズフィルターON /OFF";
                 element.MenuText = "リサイズフィルター";
                 element.Note = "リサイズフィルターの有効/無効を切り替えます";
@@ -1752,6 +1737,21 @@ namespace NeeView
                 _elements[CommandType.ToggleResizeFilter] = element;
             }
 
+            // ToggleEffect
+            {
+                var element = new CommandElement();
+                element.Group = "エフェクト";
+                element.Text = "エフェクトON /OFF";
+                element.MenuText = "エフェクト";
+                element.Note = "エフェクトの有効/無効を切り替えます";
+                element.CanExecute = () => true;
+                element.ShortCutKey = "Ctrl+E";
+                element.IsShowMessage = true;
+                element.ExecuteMessage = e => _models.ImageEffect.IsEnabled ? "エフェクトOFF" : "エフェクトON";
+                element.Execute = (s, e) => _models.ImageEffect.IsEnabled = !_models.ImageEffect.IsEnabled;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.ImageEffect.IsEnabled)) { Mode = BindingMode.OneWay, Source = _models.ImageEffect };
+                _elements[CommandType.ToggleEffect] = element;
+            }
 
 
             // ToggleIsLoupe

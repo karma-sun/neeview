@@ -38,9 +38,10 @@ namespace NeeView.Effects
 
     public static class EffectTypeExtensions
     {
+        // 有効なエフェクトタイプ
         public static Dictionary<EffectType, string> EffectTypeNames { get; private set; } = new Dictionary<EffectType, string>
         {
-            [EffectType.None] = "なし (標準)",
+            ////[EffectType.None] = "なし (標準)",
             [EffectType.Level] = "レベル補正",
             [EffectType.Hsv] = "色相、彩度、明度",
             [EffectType.ColorSelect] = "色選択",
@@ -56,11 +57,11 @@ namespace NeeView.Effects
             [EffectType.Swirl] = "渦巻き",
         };
 
-        public static string ToDispString(this EffectType my)
+
+        public static string ToDispString(this EffectType self)
         {
-            string name;
-            EffectTypeNames.TryGetValue(my, out name);
-            return name ?? my.ToString();
+            EffectTypeNames.TryGetValue(self, out string name);
+            return name ?? self.ToString();
         }
     }
 }

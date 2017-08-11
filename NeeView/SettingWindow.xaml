@@ -354,9 +354,6 @@
 
                         <TextBlock Text="エフェクト" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回使用していたエフェクトを復元する"
-                                      ToolTip="起動時に前回使用していたエフェクトを復元します"
-                                      IsChecked="{Binding Setting.Memento.ImageEffect.IsRecoveryEffectType}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="色設定をHSVで行う"
                                       ToolTip="色パラメータの設定をHSV(色相、彩度、輝度)で設定します"
                                       IsChecked="{Binding Setting.Memento.ImageEffect.IsHsvMode}" />

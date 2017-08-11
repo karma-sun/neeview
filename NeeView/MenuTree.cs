@@ -452,7 +452,6 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisiblePagemarkList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleHistoryList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFileInfo },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFilterInfo },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleEffectInfo },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleHidePanel },
                         new MenuTree(MenuElementType.Separator),

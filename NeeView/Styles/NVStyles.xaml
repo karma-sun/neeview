@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:NeeView">
 
+    <SolidColorBrush x:Key="NVTransparent" Color="Transparent" />
     <SolidColorBrush x:Key="NVBackgroundFade" Color="#000" />
     <SolidColorBrush x:Key="NVBackground" Color="#111" />
     <SolidColorBrush x:Key="NVForeground" Color="#FFF" />
@@ -72,10 +73,10 @@
                                 <VisualState x:Name="Disabled">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{DynamicResource NVBaseBrush}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource NVTransparent}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Fill" Storyboard.TargetName="Arrow">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{DynamicResource NVBaseBrush}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource NVTransparent}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -150,7 +151,7 @@
                 <RowDefinition Height="0.00001*" />
                 <RowDefinition MaxHeight="12" />
             </Grid.RowDefinitions>
-            <Border Grid.RowSpan="3" CornerRadius="0" Background="{DynamicResource NVBaseBrush}" />
+            <Border Grid.RowSpan="3" CornerRadius="0" />
             <RepeatButton Grid.Row="0" Style="{StaticResource ScrollBarLineButton}" Height="12" Command="ScrollBar.LineUpCommand" Content="M 0 4 L 8 4 L 4 0 Z" />
             <Track x:Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
                 <Track.DecreaseRepeatButton>

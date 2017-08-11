@@ -23,21 +23,47 @@ namespace NeeView.Effects
     {
         public static ImageEffect Current { get; private set; }
 
+        #region Constructors
+
+        //
+        public ImageEffect()
+        {
+            Current = this;
+
+            Effects = new Dictionary<EffectType, EffectUnit>();
+
+            Effects[EffectType.None] = null;
+            Effects[EffectType.Level] = new LevelEffectUnit();
+            Effects[EffectType.Hsv] = new HsvEffectUnit();
+            Effects[EffectType.ColorSelect] = new ColorSelectEffectUnit();
+            Effects[EffectType.Blur] = new BlurEffectUnit();
+            Effects[EffectType.Bloom] = new BloomEffectUnit();
+            Effects[EffectType.Monochrome] = new MonochromeEffectUnit();
+            Effects[EffectType.ColorTone] = new ColorToneEffectUnit();
+            Effects[EffectType.Sharpen] = new SharpenEffectUnit();
+            Effects[EffectType.Embossed] = new EmbossedEffectUnit();
+            Effects[EffectType.Pixelate] = new PixelateEffectUnit();
+            Effects[EffectType.Magnify] = new MagnifyEffectUnit();
+            Effects[EffectType.Ripple] = new RippleEffectUnit();
+            Effects[EffectType.Swirl] = new SwirlEffectUnit();
+        }
+
+        #endregion
+
+        #region Properties
+
         //
         public Dictionary<EffectType, EffectUnit> Effects { get; private set; }
 
         /// <summary>
         /// Property: Effect
         /// </summary>
-        public Effect Effect => Effects[_effectType]?.Effect;
-
-        ///
-        public bool IsRecoveryEffectType { get; set; }
+        public Effect Effect => this.IsEnabled ? Effects[_effectType]?.Effect : null;
 
         /// <summary>
         /// Property: EffectType
         /// </summary>
-        private EffectType _effectType;
+        private EffectType _effectType = EffectType.Level;
         public EffectType EffectType
         {
             get { return _effectType; }
@@ -64,7 +90,19 @@ namespace NeeView.Effects
             set { if (_isHsvMode != value) { _isHsvMode = value; RaisePropertyChanged(); } }
         }
 
+        /// <summary>
+        /// IsEnabled property.
+        /// </summary>
+        private bool _isEnabled;
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Effect)); } }
+        }
 
+        #endregion
+
+        #region Methods
 
         //
         private void UpdateEffectParameters()
@@ -79,31 +117,9 @@ namespace NeeView.Effects
             }
         }
 
-        //
-        public ImageEffect()
-        {
-            Current = this;
+        #endregion
 
-            Effects = new Dictionary<EffectType, EffectUnit>();
-
-            Effects[EffectType.None] = null;
-            Effects[EffectType.Level] = new LevelEffectUnit();
-            Effects[EffectType.Hsv] = new HsvEffectUnit();
-            Effects[EffectType.ColorSelect] = new ColorSelectEffectUnit();
-            Effects[EffectType.Blur] = new BlurEffectUnit();
-            Effects[EffectType.Bloom] = new BloomEffectUnit();
-            Effects[EffectType.Monochrome] = new MonochromeEffectUnit();
-            Effects[EffectType.ColorTone] = new ColorToneEffectUnit();
-            Effects[EffectType.Sharpen] = new SharpenEffectUnit();
-            Effects[EffectType.Embossed] = new EmbossedEffectUnit();
-            Effects[EffectType.Pixelate] = new PixelateEffectUnit();
-            Effects[EffectType.Magnify] = new MagnifyEffectUnit();
-            Effects[EffectType.Ripple] = new RippleEffectUnit();
-            Effects[EffectType.Swirl] = new SwirlEffectUnit();
-
-        }
-
-        //
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -111,7 +127,7 @@ namespace NeeView.Effects
             [DataMember]
             public EffectType EffectType { get; set; }
 
-            [DataMember]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsRecoveryEffectType { get; set; }
 
             [DataMember]
@@ -119,6 +135,9 @@ namespace NeeView.Effects
 
             [DataMember]
             public bool IsHsvMode { get; set; }
+
+            [DataMember]
+            public bool IsEnabled { get; set; }
         }
 
         //
@@ -127,8 +146,8 @@ namespace NeeView.Effects
             var memento = new Memento();
 
             memento.EffectType = this.EffectType;
-            memento.IsRecoveryEffectType = this.IsRecoveryEffectType;
             memento.IsHsvMode = this.IsHsvMode;
+            memento.IsEnabled = this.IsEnabled;
 
             memento.Effects = new Dictionary<EffectType, string>();
             foreach (var effect in Effects)
@@ -143,7 +162,6 @@ namespace NeeView.Effects
         }
 
         /// <summary>
-        /// TODO: fromLoad、IsRecovertyEffectType は このレベルでなく、さらに上位の設定のはず
         /// </summary>
         /// <param name="memento"></param>
         /// <param name="fromLoad"></param>
@@ -151,9 +169,9 @@ namespace NeeView.Effects
         {
             if (memento == null) return;
 
-            this.EffectType = (fromLoad && !memento.IsRecoveryEffectType) ? EffectType.None : memento.EffectType;
-            this.IsRecoveryEffectType = memento.IsRecoveryEffectType;
+            this.EffectType = memento.EffectType;
             this.IsHsvMode = memento.IsHsvMode;
+            this.IsEnabled = memento.IsEnabled;
 
             if (memento.Effects != null)
             {
@@ -165,6 +183,23 @@ namespace NeeView.Effects
                     }
                 }
             }
+
+#pragma warning disable CS0612
+
+            // 互換性
+            if (memento.IsRecoveryEffectType && memento.EffectType != EffectType.None)
+            {
+                this.IsEnabled = true;
+            }
+
+            // 補正
+            if (this.EffectType == EffectType.None)
+            {
+                this.EffectType = EffectType.Level;
+            }
+
+#pragma warning restore CS0612
         }
+        #endregion
     }
 }

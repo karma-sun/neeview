@@ -38,9 +38,9 @@ namespace NeeView
 
 
         //
-        public ImageEffectPanel(ImageEffect model)
+        public ImageEffectPanel(ImageEffect model, ImageFilter imageFilter)
         {
-            View = new ImageEffectView(model);
+            View = new ImageEffectView(model, imageFilter);
 
             Icon = App.Current.MainWindow.Resources["pic_toy_24px"] as ImageSource;
             IconMargin = new Thickness(8);

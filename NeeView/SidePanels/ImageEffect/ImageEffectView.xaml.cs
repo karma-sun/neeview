@@ -38,11 +38,11 @@ namespace NeeView
         }
 
         //
-        public ImageEffectView(ImageEffect model) : this()
+        public ImageEffectView(ImageEffect model, ImageFilter imageFilter) : this()
         {
             InitializeComponent();
 
-            _vm = new ImageEffectViewModel(model);
+            _vm = new ImageEffectViewModel(model, imageFilter);
             this.DataContext = _vm;
         }
 
@@ -50,6 +50,15 @@ namespace NeeView
         private void Control_KeyDown_IgnoreSingleKeyGesture(object sender, KeyEventArgs e)
         {
             KeyExGesture.AllowSingleKey = false;
+        }
+
+
+        // フィルターパラメータリセット
+        private void Reset(object sender, RoutedEventArgs e)
+        {
+            _vm.ResetValue();
+
+            this.inspectorF.Reflesh();
         }
     }
 }

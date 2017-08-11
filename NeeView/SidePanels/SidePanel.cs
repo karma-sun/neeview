@@ -29,7 +29,6 @@ namespace NeeView
         public FolderPanel FolderListPanel { get; private set; }
         public HistoryPanel HistoryPanel { get; private set; }
         public FileInformationPanel FileInfoPanel { get; private set; }
-        public ImageFilterPanel ImageFilterPanel { get; private set; }
         public ImageEffectPanel ImageEffectPanel { get; private set; }
         public BookmarkPanel BookmarkPanel { get; private set; }
         public PagemarkPanel PagemarkPanel { get; private set; }
@@ -63,12 +62,8 @@ namespace NeeView
             this.FileInfoPanel = new FileInformationPanel(models.FileInformation);
             rightPanels.Add(this.FileInfoPanel);
 
-            // フィルター
-            this.ImageFilterPanel = new ImageFilterPanel(models.ImageFilter);
-            rightPanels.Add(this.ImageFilterPanel);
-
             // エフェクト
-            this.ImageEffectPanel = new ImageEffectPanel(models.ImageEffect);
+            this.ImageEffectPanel = new ImageEffectPanel(models.ImageEffect, models.ImageFilter);
             rightPanels.Add(this.ImageEffectPanel);
 
             // ブックマーク
@@ -164,7 +159,6 @@ namespace NeeView
             RaisePropertyChanged(nameof(IsVisiblePagemarkList));
             RaisePropertyChanged(nameof(IsVisiblePageListMenu));
             RaisePropertyChanged(nameof(IsVisibleFileInfo));
-            RaisePropertyChanged(nameof(IsVisibleFilterInfo));
             RaisePropertyChanged(nameof(IsVisibleEffectInfo));
         }
 
@@ -183,22 +177,6 @@ namespace NeeView
             return IsVisibleFileInfo;
         }
 
-
-        // フィルター情報表示ON/OFF
-        public bool IsVisibleFilterInfo
-        {
-            get { return IsSelectedPanel(ImageFilterPanel); }
-            set { SetSelectedPanel(ImageFilterPanel, value); RaisePanelPropertyChanged(); }
-        }
-
-        public bool ToggleVisibleFilterInfo(bool byMenu)
-        {
-            ToggleSelectedPanel(ImageFilterPanel, byMenu);
-            RaisePanelPropertyChanged();
-            ResetFocus?.Invoke(this, null);
-            return IsVisibleFilterInfo;
-        }
-        
 
         // エフェクト情報表示ON/OFF
         public bool IsVisibleEffectInfo

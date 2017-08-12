@@ -60,13 +60,32 @@ namespace NeeView
             get { return _bannerWidth; }
             set
             {
-                _bannerWidth = NVUtility.Clamp(value, 32, 512);
+                _bannerWidth = NVUtility.Clamp(value, 0, 512);
                 int bannerWidth = _bannerWidth;
                 int bannerHeight = _bannerWidth / 4;
                 App.Current.Resources["BannerWidth"] = (double)bannerWidth;
                 App.Current.Resources["BannerHeight"] = (double)bannerHeight;
             }
         }
+
+        /// <summary>
+        /// ThumbnailWidth property.
+        /// </summary>
+        private int _thumbnailWidth = 50;
+        public int ThumbnailWidth
+        {
+            get { return _thumbnailWidth; }
+            set
+            {
+                _thumbnailWidth = NVUtility.Clamp(value, 0, 256);
+                int width = _thumbnailWidth;
+                int height = _thumbnailWidth + 10;
+                App.Current.Resources["ThumbnailWidth"] = (double)width;
+                App.Current.Resources["ThumbnailHeight"] = (double)height;
+            }
+        }
+
+
 
         /// <summary>
         /// サムネイル画像サイズ取得
@@ -129,8 +148,12 @@ namespace NeeView
             [PropertyMember("ブックサムネイル容量", Tips = "フォルダーリスト等でのサムネイル保持枚数です")]
             public int BookCapacity { get; set; }
 
+            [DataMember, DefaultValue(50)]
+            [PropertyMember("コンテンツサムネイルサイズ", Tips = "パネルのコンテンツ表示でのサムネイルサイズです。")]
+            public int ThumbnailWidth { get; set; }
+
             [DataMember, DefaultValue(200)]
-            [PropertyMember("バナーサイズ", Tips = "バナーの横幅です。縦幅は横幅の1/4になります。\nサムネイル画像を流用しているため、大きいサイズほど画像が荒くなります")]
+            [PropertyMember("バナーサイズ", Tips = "パネルのバナー表示での画像の横幅です。縦幅は横幅の1/4になります。\nサムネイル画像を流用しているため、大きいサイズほど画像が荒くなります")]
             public int BannerWidth { get; set; }
         }
 
@@ -143,6 +166,7 @@ namespace NeeView
             memento.IsCacheEnabled = this.IsCacheEnabled;
             memento.PageCapacity = this.PageCapacity;
             memento.BookCapacity = this.BookCapacity;
+            memento.ThumbnailWidth = this.ThumbnailWidth;
             memento.BannerWidth = this.BannerWidth;
             return memento;
         }
@@ -156,6 +180,7 @@ namespace NeeView
             this.IsCacheEnabled = memento.IsCacheEnabled;
             this.PageCapacity = memento.PageCapacity;
             this.BookCapacity = memento.BookCapacity;
+            this.ThumbnailWidth = memento.ThumbnailWidth;
             this.BannerWidth = memento.BannerWidth;
         }
         #endregion

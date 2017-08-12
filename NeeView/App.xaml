@@ -26,6 +26,9 @@
                     <system:Double x:Key="BannerWidth">200.0</system:Double>
                     <system:Double x:Key="BannerHeight">50.0</system:Double>
 
+                    <system:Double x:Key="ThumbnailWidth">50</system:Double>
+                    <system:Double x:Key="ThumbnailHeight">60</system:Double>
+
                     <!-- Panel ListBox ScrollUnit -->
                     <ScrollUnit x:Key="PanelScrollUnit">Pixel</ScrollUnit>
 

@@ -328,12 +328,25 @@ namespace NeeView
             return Entry.GetFileSystemPath() ?? Entry.Archiver.GetPlace();
         }
 
+        // フォルダーを開く、で取得するパス
+        public string GetFolderOpenPlace()
+        {
+            Debug.Assert(Entry?.Archiver != null);
+            if (Entry.Archiver is FolderArchive)
+            {
+                return GetFilePlace();
+            }
+            else
+            {
+                return GetFolderPlace();
+            }
+        }
+
         // フォルダーの場所を取得
         public string GetFolderPlace()
         {
             Debug.Assert(Entry?.Archiver != null);
-            string path = Entry.GetFileSystemPath();
-            return path != null ? System.IO.Path.GetDirectoryName(path) : Entry.Archiver.GetPlace();
+            return Entry.Archiver.GetSourceFileSystemPath();
         }
 
 

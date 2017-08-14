@@ -142,7 +142,7 @@ namespace NeeView
                 case ArchiverType.ZipArchiver:
                     return new ZipArchiver(path, source);
                 case ArchiverType.SevenZipArchiver:
-                    return new SevenZipArchiver(path, source);
+                    return new SevenZipArchiverProxy(path, source);
                 case ArchiverType.PdfArchiver:
                     return new PdfArchiver(path, source);
                 case ArchiverType.SusieArchiver:

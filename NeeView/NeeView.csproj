@@ -152,6 +152,8 @@
     <Compile Include="Archiver\PdfArchiverProfile.cs" />
     <Compile Include="Archiver\SevenZipArchiverProfile.cs" />
     <Compile Include="Archiver\PdfArchiver.cs" />
+    <Compile Include="Archiver\SevenZipArchiverProxy.cs" />
+    <Compile Include="Archiver\SevenZipExtractArchiver.cs" />
     <Compile Include="BackupSelectControl.xaml.cs">
       <DependentUpon>BackupSelectControl.xaml</DependentUpon>
     </Compile>

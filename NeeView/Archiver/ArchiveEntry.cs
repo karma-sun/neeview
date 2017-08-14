@@ -120,8 +120,20 @@ namespace NeeView
                 : EntryName;
         }
 
+        /// <summary>
+        /// 本来のファイルシステムでのパスを返す
+        /// </summary>
+        /// <returns></returns>
+        public string GetSourceFileSystemPath()
+        {
+            if (this.Archiver == null)
+            {
+                return this.EntryName;
+            }
 
-
+            // 最初のアーカイブパスを取得
+            return this.Archiver.GetSourceFileSystemPath();
+        }
 
         /// <summary>
         /// ストリームを開く

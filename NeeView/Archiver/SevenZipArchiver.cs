@@ -163,7 +163,7 @@ namespace NeeView
         private static bool s_isLibraryInitialized;
 
         //
-        private static void InitializeLibrary()
+        public static void InitializeLibrary()
         {
             if (s_isLibraryInitialized) return;
 

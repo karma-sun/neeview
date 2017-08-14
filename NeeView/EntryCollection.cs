@@ -143,7 +143,7 @@ namespace NeeView
         {
             SkippedArchiveCount = 0;
 
-            if (_isRecursived || !archiver.IsFileSystem)
+            if (_isRecursived || !(archiver is FolderArchive))
             {
                 return await CollectRecursiveAsync(archiver, true, param, token);
             }

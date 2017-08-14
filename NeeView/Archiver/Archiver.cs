@@ -44,6 +44,40 @@ namespace NeeView
         // ファイルシステムでのパスを取得
         public virtual string GetFileSystemPath(ArchiveEntry entry) { return null; }
 
+        // 本来のファイルシスでのパスを取得
+        public string GetSourceFileSystemPath()
+        {
+            if (IsCompressedChild())
+            {
+                return this.Parent.GetSourceFileSystemPath();
+            }
+            else
+            {
+                return this.Path;
+            }
+        }
+
+        // 圧縮ファイルの一部？
+        public bool IsCompressedChild()
+        {
+            if (this.Parent != null)
+            {
+                if (this.Parent is FolderArchive)
+                {
+                    return this.Parent.IsCompressedChild();
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
         // 対応判定
         public abstract bool IsSupported();
 

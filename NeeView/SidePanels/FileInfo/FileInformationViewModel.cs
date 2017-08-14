@@ -253,7 +253,7 @@ namespace NeeView
         {
             if (_model.ViewContent != null)
             {
-                var place = _model.ViewContent.Page?.GetFilePlace();
+                var place = _model.ViewContent.Page?.GetFolderOpenPlace();
                 if (!string.IsNullOrWhiteSpace(place))
                 {
                     System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + place + "\"");

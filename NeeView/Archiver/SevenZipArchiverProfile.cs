@@ -27,7 +27,10 @@ namespace NeeView
         // 強制アンロックモード
         public bool IsUnlockMode { get; set; }
 
-        // Solid圧縮ファイル事前展開サイズ上限
+        // 事前展開
+        public bool IsPreExtract { get; set; }
+
+        // 事前展開サイズ上限
         public int PreExtractSolidSize { get; set; } = 1000;
 
         #region Memento
@@ -53,8 +56,12 @@ namespace NeeView
             [PropertyMember("7z.dllがファイルをロックする時間(秒)", Tips = "この時間アクセスがなければロック解除さます。\n-1でロック保持したままになります")]
             public double LockTime { get; set; }
 
+            [DataMember, DefaultValue(false)]
+            [PropertyMember("7z.dllでは全て事前展開する", Tips = "7z.dllでブックを閲覧する時に一時フォルダーに事前展開してページ送りを改善します。\nfalseの場合、ソリッド圧縮ファイルの場合のみ事前展開を行います。")]
+            public bool IsPreExtract { get; set; }
+
             [DataMember, DefaultValue(1000)]
-            [PropertyMember("7z.dllがソリッド圧縮ファイルを事前展開する最大ファイルサイズ(MB)", Tips = "このサイズ以下のソリッド圧縮ファイルはテンポラリフォルダーに事前展開してページ送り速度を改善します。\n事前展開を禁止する場合には0を設定します。")]
+            [PropertyMember("7z.dllで事前展開する最大ファイルサイズ(MB)", Tips = "このサイズ以を超える圧縮ファイルは事前展開を行いません。\n事前展開を禁止する場合には0を設定します。")]
             public int PreExtractSolidSize { get; set; }
 
             [OnDeserializing]
@@ -72,6 +79,7 @@ namespace NeeView
             memento.X64DllPath = this.X64DllPath;
             memento.LockTime = this.LockTime;
             memento.SupportFileTypes = this.SupportFileTypes.ToString(); ;
+            memento.IsPreExtract = this.IsPreExtract;
             memento.PreExtractSolidSize = this.PreExtractSolidSize;
             return memento;
         }
@@ -84,6 +92,7 @@ namespace NeeView
             this.X64DllPath = memento.X64DllPath;
             this.LockTime = memento.LockTime;
             this.SupportFileTypes.FromString(memento.SupportFileTypes);
+            this.IsPreExtract = memento.IsPreExtract;
             this.PreExtractSolidSize = memento.PreExtractSolidSize;
 
             // compatible before ver.25

@@ -46,6 +46,8 @@ namespace NeeView.Effects
             Effects[EffectType.Magnify] = new MagnifyEffectUnit();
             Effects[EffectType.Ripple] = new RippleEffectUnit();
             Effects[EffectType.Swirl] = new SwirlEffectUnit();
+
+            UpdateEffectParameters();
         }
 
         #endregion

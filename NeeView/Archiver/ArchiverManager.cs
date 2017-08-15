@@ -129,8 +129,9 @@ namespace NeeView
         /// <param name="path">アーカイブファイルのパス</param>
         /// <param name="stream">アーカイブストリーム。ファイルから開く場合はnull</param>
         /// <param name="source">元となったアーカイブエントリ</param>
+        /// <param name="isAll">全て展開を前提とする</param>
         /// <returns>作成されたアーカイバー</returns>
-        public Archiver CreateArchiver(ArchiverType type, string path, Stream stream, ArchiveEntry source)
+        public Archiver CreateArchiver(ArchiverType type, string path, Stream stream, ArchiveEntry source, bool isAll)
         {
             // streamは未使用
             Debug.Assert(stream == null);
@@ -142,7 +143,7 @@ namespace NeeView
                 case ArchiverType.ZipArchiver:
                     return new ZipArchiver(path, source);
                 case ArchiverType.SevenZipArchiver:
-                    return new SevenZipArchiverProxy(path, source);
+                    return new SevenZipArchiverProxy(path, source, isAll);
                 case ArchiverType.PdfArchiver:
                     return new PdfArchiver(path, source);
                 case ArchiverType.SusieArchiver:
@@ -153,14 +154,16 @@ namespace NeeView
         }
 
         // アーカイバー作成
-        public Archiver CreateArchiver(string path, ArchiveEntry source)
+        public Archiver CreateArchiver(string path, ArchiveEntry source, bool isAll)
         {
             if (Directory.Exists(path))
             {
-                return CreateArchiver(ArchiverType.FolderArchive, path, null, source);
+                return CreateArchiver(ArchiverType.FolderArchive, path, null, source, isAll);
             }
-
-            return CreateArchiver(GetSupportedType(path), path, null, source);
+            else
+            {
+                return CreateArchiver(GetSupportedType(path), path, null, source, isAll);
+            }
         }
 
         #region Memento

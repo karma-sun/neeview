@@ -396,7 +396,7 @@ namespace NeeView
             }
 
             // アーカイバーの選択
-            Archiver archiver = ArchiverManager.Current.CreateArchiver(path, null);
+            Archiver archiver = ArchiverManager.Current.CreateArchiver(path, null, true);
             if (archiver.IsFileSystem)
             {
                 // 入力ファイルを最初のページにする

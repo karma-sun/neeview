@@ -20,8 +20,8 @@ namespace NeeView
         #region Fields
 
         private ArchiveEntry _source;
-
         private Archiver _archiver;
+        private bool _isAll;
 
         private bool _isDisposed;
 
@@ -29,10 +29,11 @@ namespace NeeView
 
         #region Constructors
 
-        public SevenZipArchiverProxy(string path, ArchiveEntry source) : base(path, source)
+        public SevenZipArchiverProxy(string path, ArchiveEntry source, bool isAll) : base(path, source)
         {
             SevenZipArchiver.InitializeLibrary();
             _source = source;
+            _isAll = isAll;
         }
 
         #endregion
@@ -51,7 +52,7 @@ namespace NeeView
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
             var fileInfo = new FileInfo(this.Path);
-            bool isExtract = fileInfo.Length / (1024 * 1024) < SevenZipArchiverProfile.Current.PreExtractSolidSize && IsSolid();
+            bool isExtract = _isAll && fileInfo.Length / (1024 * 1024) < SevenZipArchiverProfile.Current.PreExtractSolidSize && IsSolid();
 
             if (isExtract)
             {

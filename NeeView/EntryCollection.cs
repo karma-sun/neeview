@@ -59,6 +59,11 @@ namespace NeeView
         private bool _isSupportAllFile;
 
         /// <summary>
+        /// 全て展開することを前提にする
+        /// </summary>
+        private bool _isAll;
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="root">基準アーカイブ</param>
@@ -77,6 +82,8 @@ namespace NeeView
         /// <returns></returns>
         public async Task CollectAsync(CancellationToken token)
         {
+            _isAll = true;
+
             // collect
             var param = new CollectParams(CollectType.All);
             var collection = await CollectAsync(_root, param, token);
@@ -91,6 +98,8 @@ namespace NeeView
         /// <returns></returns>
         public async Task FirstOneAsync(CancellationToken token)
         {
+            _isAll = false;
+
             // first
             var param = new CollectParams(CollectType.FirstOne);
             var collection = await CollectAsync(_root, param, token);
@@ -106,6 +115,8 @@ namespace NeeView
         /// <returns></returns>
         public async Task SelectAsync(string entryName, CancellationToken token)
         {
+            _isAll = false;
+
             // select
             var param = new CollectParams(CollectType.Select) { SelectEntryName = entryName };
             var collection = await CollectAsync(_root, param, token);
@@ -323,13 +334,13 @@ namespace NeeView
             Archiver archiver;
             if (entry.IsFileSystem)
             {
-                archiver = ArchiverManager.Current.CreateArchiver(entry.GetFileSystemPath(), entry);
+                archiver = ArchiverManager.Current.CreateArchiver(entry.GetFileSystemPath(), entry, _isAll);
             }
             else
             {
                 string tempFileName = await ArchivenEntryExtractorService.Current.ExtractAsync(entry, token);
                 _trashBox.Add(new TempFile(tempFileName));
-                archiver = ArchiverManager.Current.CreateArchiver(tempFileName, entry);
+                archiver = ArchiverManager.Current.CreateArchiver(tempFileName, entry, _isAll);
             }
 
             _trashBox.Add(archiver);

@@ -436,7 +436,7 @@ namespace NeeView
             {
                 if (ArchiverManager.Current.IsSupported(path))
                 {
-                    Archiver archiver = ArchiverManager.Current.CreateArchiver(path, null);
+                    Archiver archiver = ArchiverManager.Current.CreateArchiver(path, null, false);
                     if (archiver.IsSupported())
                     {
                         return path;

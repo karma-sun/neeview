@@ -286,14 +286,13 @@ namespace NeeView
         {
             if (CanOpenFilePlace())
             {
-                string place = Book.GetViewPage()?.GetFilePlace();
+                string place = Book.GetViewPage()?.GetFolderOpenPlace();
                 if (place != null)
                 {
                     System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + place + "\"");
                 }
             }
         }
-
 
 
         // 外部アプリで開く

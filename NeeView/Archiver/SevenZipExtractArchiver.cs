@@ -49,14 +49,6 @@ namespace NeeView
 
         #region Methods
 
-        //
-        public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
-        {
-            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
-
-            File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
-        }
-
         // リスト取得
         public override List<ArchiveEntry> GetEntries(CancellationToken token)
         {
@@ -66,34 +58,42 @@ namespace NeeView
 
             token.ThrowIfCancellationRequested();
 
-            return GetEntries(_temp.Length, _temp, token);
-        }
-
-        // 再帰取得
-        private List<ArchiveEntry> GetEntries(int prefixLen, string path, CancellationToken token)
-        {
             var list = new List<ArchiveEntry>();
+            var directoryEntries = new List<ArchiveEntry>();
 
-            var directory = new DirectoryInfo(path);
-            foreach (var info in directory.EnumerateFiles())
+            using (var extractor = new SevenZipExtractor(this.Path))
             {
-                token.ThrowIfCancellationRequested();
-
-                var name = info.FullName.Substring(prefixLen).TrimStart('\\', '/');
-                list.Add(new ArchiveEntry()
+                foreach (var entry in extractor.ArchiveFileData)
                 {
-                    Archiver = this,
-                    Id = list.Count,
-                    EntryName = name,
-                    Length = info.Length,
-                    LastWriteTime = info.LastWriteTime,
-                });
-            }
+                    token.ThrowIfCancellationRequested();
 
-            foreach (var info in directory.EnumerateDirectories())
-            {
-                token.ThrowIfCancellationRequested();
-                list.AddRange(GetEntries(prefixLen, info.FullName, token));
+                    var archiveEntry = new ArchiveEntry()
+                    {
+                        Archiver = this,
+                        Id = entry.Index,
+                        EntryName = entry.FileName,
+                        Length = (long)entry.Size,
+                        LastWriteTime = entry.LastWriteTime,
+                        Instance = System.IO.Path.Combine(_temp, entry.GetTempFileName())
+                    };
+
+                    if (!entry.IsDirectory)
+                    {
+                        list.Add(archiveEntry);
+                    }
+                    else
+                    {
+                        archiveEntry.Length = -1;
+                        archiveEntry.Instance = null;
+                        directoryEntries.Add(archiveEntry);
+                    }
+                }
+
+                // 空ディレクトリー追加
+                if (BookProfile.Current.IsEnableNoSupportFile)
+                {
+                    list.AddDirectoryEntries(directoryEntries);
+                }
             }
 
             return list;
@@ -108,7 +108,7 @@ namespace NeeView
         // ファイルパス取得
         public override string GetFileSystemPath(ArchiveEntry entry)
         {
-            return System.IO.Path.Combine(_temp, entry.EntryName);
+            return (string)entry.Instance;
         }
 
         //
@@ -120,6 +120,14 @@ namespace NeeView
         }
 
         //
+        public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
+        {
+            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+
+            File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
+        }
+
+        //
         private void Open(CancellationToken token)
         {
             if (IsDisposed || _temp != null) return;
@@ -127,30 +135,15 @@ namespace NeeView
             // make temp folder
             var directory = Temporary.CreateCountedTempFileName("arc", "");
 
-            var sw = Stopwatch.StartNew();
+            ////var sw = Stopwatch.StartNew();
 
             using (var extractor = new SevenZipExtractor(this.Path))
             {
-                extractor.FileExtractionStarted += (s, e) =>
-                {
-                    if (token.IsCancellationRequested || (!e.FileInfo.IsDirectory && e.FileInfo.Size <= 0))
-                    {
-                        e.Cancel = true;
-                        Debug.WriteLine("Cancelled");
-                    }
-                };
-                extractor.FileExists += (o, e) =>
-                {
-                    Debug.WriteLine("Warning: file \"" + e.FileName + "\" already exists.");
-                    //e.Overwrite = false;
-                };
-
-                //
-                extractor.ExtractArchive(directory);
+                extractor.ExtractArchiveTemp(directory);
             }
 
-            sw.Stop();
-            Debug.WriteLine($"Extract: {sw.ElapsedMilliseconds}ms");
+            ////sw.Stop();
+            ////Debug.WriteLine($"Extract: {sw.ElapsedMilliseconds}ms");
 
             _temp = directory;
         }
@@ -176,7 +169,7 @@ namespace NeeView
         }
 
         #endregion
-        
+
         #region IDisposable Support
 
         private bool _isDisposed = false; // 重複する呼び出しを検出するには

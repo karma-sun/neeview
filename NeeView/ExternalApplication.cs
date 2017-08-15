@@ -223,7 +223,7 @@ namespace NeeView
             foreach (var page in pages)
             {
                 // file
-                if (page.Entry.IsFileSystem)
+                if (page.Entry.Archiver is FolderArchive)
                 {
                     CallProcess(page.GetFilePlace());
                 }
@@ -235,10 +235,17 @@ namespace NeeView
                         case ArchiveOptionType.None:
                             break;
                         case ArchiveOptionType.SendArchiveFile:
-                            CallProcess(page.GetFilePlace());
+                            CallProcess(page.GetFolderOpenPlace());
                             break;
                         case ArchiveOptionType.SendExtractFile:
-                            CallProcess(page.Content.CreateTempFile(true).Path);
+                            if (page.Entry.IsDirectory)
+                            {
+                                throw new ApplicationException($"圧縮ファイルのフォルダーは非対応です");
+                            }
+                            else
+                            {
+                                CallProcess(page.Content.CreateTempFile(true).Path);
+                            }
                             break;
                     }
                 }
@@ -260,7 +267,7 @@ namespace NeeView
                     else
                     {
                         string param = ReplaceKeyword(this.Parameter, fileName);
-                        this.LastCall= $"\"{Command}\" {param}";
+                        this.LastCall = $"\"{Command}\" {param}";
                         System.Diagnostics.Process.Start(Command, param);
                     }
                     return;
@@ -277,7 +284,7 @@ namespace NeeView
         }
 
         //
-        private string ReplaceKeyword(string s, string filenName )
+        private string ReplaceKeyword(string s, string filenName)
         {
             var uriData = Uri.EscapeDataString(filenName);
 

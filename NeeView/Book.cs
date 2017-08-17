@@ -538,7 +538,7 @@ namespace NeeView
             }
             else
             {
-                var type = entry.IsDirectory ? ArchiverType.FolderArchive :  ArchiverManager.Current.GetSupportedType(entry.EntryName);
+                var type = entry.IsDirectory ? ArchiverType.FolderArchive : ArchiverManager.Current.GetSupportedType(entry.EntryName);
                 switch (type)
                 {
                     case ArchiverType.None:

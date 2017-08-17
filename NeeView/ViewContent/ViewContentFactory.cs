@@ -4,7 +4,9 @@
 // http://opensource.org/licenses/mit-license.php
 
 
+using System;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 
 namespace NeeView
 {
@@ -27,6 +29,12 @@ namespace NeeView
                     break;
                 case ViewContentType.Bitmap:
                     viewContent = BitmapViewContent.Create(source, oldViewContent);
+                    // ここでBitmapのないviewContentになってしまう場合、ここまでの処理中に非同期でPageがUnloadされた可能性がある(高速ページ送り等)。
+                    // TODO: わたされたsourceはPageUnloadにかかわらず不変であるものが望ましい
+                    if (viewContent.GetViewBrush() == null)
+                    {
+                        throw new ViewContentFactoryException("このページはすでにアンロードされています。たぶん。");
+                    }
                     break;
                 case ViewContentType.Anime:
                     viewContent = AnimatedViewContent.Create(source, oldViewContent);
@@ -41,6 +49,28 @@ namespace NeeView
 
             viewContent.Reserver = viewContent.CreateReserver();
             return viewContent;
+        }
+    }
+
+    /// <summary>
+    /// ViewContentが生成できなかったときの例外
+    /// </summary>
+    public class ViewContentFactoryException : Exception
+    {
+        public ViewContentFactoryException()
+        {
+        }
+
+        public ViewContentFactoryException(string message) : base(message)
+        {
+        }
+
+        public ViewContentFactoryException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected ViewContentFactoryException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

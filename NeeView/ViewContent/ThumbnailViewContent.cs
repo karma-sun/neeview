@@ -15,6 +15,12 @@ namespace NeeView
     /// </summary>
     public class ThumbnailViewContent : ViewContent
     {
+        #region Fields
+
+        private Rectangle _thumbnailRectangle;
+
+        #endregion
+
         #region Constructors
 
         public ThumbnailViewContent(ViewContentSource source, ViewContent old) : base(source, old)
@@ -69,6 +75,8 @@ namespace NeeView
             RenderOptions.SetBitmapScalingMode(rectangle, BitmapScalingMode.HighQuality);
             grid.Children.Add(rectangle);
 
+            _thumbnailRectangle = rectangle;
+
             var textBlock = new TextBlock();
             textBlock.Text = LoosePath.GetFileName(source.Page.FullPath);
             textBlock.Foreground = new SolidColorBrush(Color.FromRgb(0xCC, 0xCC, 0xCC));
@@ -88,7 +96,7 @@ namespace NeeView
         //
         public override Brush GetViewBrush()
         {
-            return (this.View as Rectangle)?.Fill;
+            return _thumbnailRectangle?.Fill;
         }
 
         #endregion

@@ -236,15 +236,13 @@ namespace NeeView
                         };
                     }
                 }
-                else
+
+                return new ViewContentReserver()
                 {
-                    return new ViewContentReserver()
-                    {
-                        Brush = brush,
-                        Size = this.Size,
-                        Color = this.Color
-                    };
-                }
+                    Brush = brush,
+                    Size = this.Size,
+                    Color = this.Color
+                };
             }
 
             return this.Reserver;

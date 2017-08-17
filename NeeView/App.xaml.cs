@@ -28,15 +28,34 @@ namespace NeeView
     /// </summary>
     public partial class App : Application
     {
+        #region Native
+
         [DllImport("kernel32", SetLastError = true)]
         private static extern bool SetDllDirectory(string lpPathName);
 
+        #endregion
 
         public static new App Current => (App)Application.Current;
+
+        #region Properties
 
         // オプション設定
         public CommandLineOption Option { get; private set; }
 
+        #endregion
+
+        #region TickCount
+
+        private int _tickBase = System.Environment.TickCount;
+
+        /// <summary>
+        /// アプリの起動時間(ms)取得
+        /// </summary>
+        public int TickCount => System.Environment.TickCount - _tickBase;
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Startup
@@ -184,5 +203,6 @@ namespace NeeView
             Debug.WriteLine("Application_Exit");
         }
 
+        #endregion
     }
 }

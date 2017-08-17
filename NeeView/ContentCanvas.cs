@@ -441,12 +441,14 @@ namespace NeeView
 
 
         // コンテンツスケーリングモードを更新
-        public void UpdateContentScalingMode()
+        public void UpdateContentScalingMode(ViewContent target = null)
         {
             double finalScale = _dragTransform.Scale * LoupeTransform.Current.FixedScale * Config.Current.RawDpi.DpiScaleX;
 
             foreach (var content in Contents)
             {
+                if (target != null && target != content) continue;
+
                 if (content.View != null && content.IsBitmapScalingModeSupported())
                 {
                     var picture = content.GetPicture();
@@ -460,7 +462,7 @@ namespace NeeView
                     if (Config.Current.IsDpiSquare && diff < 1.1 && diffAngle < 0.1)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
-                        content.SetViewMode(ContentViewMode.Pixeled , finalScale);
+                        content.SetViewMode(ContentViewMode.Pixeled, finalScale);
                     }
                     else
                     {

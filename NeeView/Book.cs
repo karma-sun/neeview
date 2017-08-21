@@ -288,6 +288,9 @@ namespace NeeView
         // 表示ページコンテキスト
         private volatile ViewPageCollection _viewPageCollection = new ViewPageCollection();
 
+        // 先読みページコンテキスト
+        private volatile ViewPageCollection _nextPageCollection = new ViewPageCollection();
+
         // 表示ページ番号
         public int GetViewPageindex() => _viewPageCollection.Range.Position.Index;
 
@@ -920,7 +923,9 @@ namespace NeeView
 
             var range = new PageDirectionalRange(pos, direction, PageMode.Size());
 
-            await UpdateViewPageAsync(range, false, token);
+            var isPreLoad = Math.Abs(param.Step) <= PageMode.Size();
+
+            await UpdateViewPageAsync(range, isPreLoad, token);
         }
 
 
@@ -959,6 +964,9 @@ namespace NeeView
                 App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
                 return;
             }
+
+            // 先読みページコンテンツ無効
+            _nextPageCollection = new ViewPageCollection();
 
             // view pages
             var viewPages = new List<Page>();
@@ -1000,7 +1008,7 @@ namespace NeeView
             // update contents
             _viewPageRange = source;
             UpdateViewContents();
-
+            UpdateNextContents();
 
             // ページ破棄
             if (!AllowPreLoad) ClearAllPages(viewPages);
@@ -1022,6 +1030,7 @@ namespace NeeView
 
             // 非同期なので一旦退避
             var now = _viewPageCollection;
+            var next = _nextPageCollection;
 
             if (now?.Collection == null) return;
 
@@ -1033,6 +1042,8 @@ namespace NeeView
                 // 再更新
                 UpdateViewContents();
             }
+
+            UpdateNextContents();
         }
 
         /// <summary>
@@ -1047,6 +1058,7 @@ namespace NeeView
             if (viewContent == null) return;
 
             _viewPageCollection = viewContent;
+            ////Debug.WriteLine($"now: {_viewPageCollection.Range}");
 
             // notice ViewContentsChanged
             App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, _viewPageCollection));
@@ -1060,6 +1072,34 @@ namespace NeeView
 
             // コンテンツ準備完了
             ContentLoaded.Set();
+        }
+
+
+        /// <summary>
+        /// 先読みコンテンツ更新
+        /// </summary>
+        public void UpdateNextContents()
+        {
+            if (_isDisposed) return;
+
+            // 表示コンテンツ確定？
+            if (!_viewPageCollection.IsValid) return;
+
+            // 既に先読みコンテンツは確定している？
+            if (_nextPageCollection.IsValid) return;
+
+            // 先読みコンテンツ領域計算
+            var position = _viewPageCollection.Range.Next();
+            var direction = _viewPageCollection.Range.Direction;
+            var range = new PageDirectionalRange(position, direction, PageMode.Size());
+
+            // create contents
+            _nextPageCollection = CreateViewPageContext(range);
+            if (_nextPageCollection == null) return;
+            if (!_nextPageCollection.IsValid) return;
+
+            Debug.WriteLine($"next: {_nextPageCollection.Range}");
+            // TODO: フィルター有効であれば表示サイズを計算してビットマップのリサイズを行う
         }
 
         //

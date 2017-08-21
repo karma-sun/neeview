@@ -3,7 +3,9 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NeeView
 {
@@ -30,6 +32,8 @@ namespace NeeView
 
         public PageDirectionalRange Range { get; }
         public List<ViewPage> Collection { get; }
+
+        internal bool IsValid => Collection.Count > 0 && Collection.All(e => e.IsValid);
 
         #endregion
     }

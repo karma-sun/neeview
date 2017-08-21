@@ -30,7 +30,7 @@ namespace NeeView
 
         #region Constructors
 
-        public BitmapViewContent(ViewContentSource source, ViewContent old) : base(source, old)
+        public BitmapViewContent(ViewPage source, ViewContent old) : base(source, old)
         {
             // フィルター適用時は強制更新
             if (PictureProfile.Current.IsResizeFilterEnabled)
@@ -58,13 +58,13 @@ namespace NeeView
         }
 
         //
-        protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
+        protected FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter)
         {
             return CreateView(source, parameter, ((BitmapContent)this.Content).BitmapSource);
         }
 
         //
-        protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter, BitmapSource bitmap)
+        protected FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter, BitmapSource bitmap)
         {
             if (bitmap == null) return null;
 
@@ -206,7 +206,7 @@ namespace NeeView
 
         #region Static Methods
 
-        public static BitmapViewContent Create(ViewContentSource source, ViewContent oldViewContent)
+        public static BitmapViewContent Create(ViewPage source, ViewContent oldViewContent)
         {
             var viewContent = new BitmapViewContent(source, oldViewContent);
             viewContent.Initialize();

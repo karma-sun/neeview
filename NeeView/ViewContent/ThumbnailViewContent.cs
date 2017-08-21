@@ -23,7 +23,7 @@ namespace NeeView
 
         #region Constructors
 
-        public ThumbnailViewContent(ViewContentSource source, ViewContent old) : base(source, old)
+        public ThumbnailViewContent(ViewPage source, ViewContent old) : base(source, old)
         {
         }
 
@@ -66,7 +66,7 @@ namespace NeeView
         /// <param name="source"></param>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        private FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
+        private FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter)
         {
             var grid = new Grid();
 
@@ -103,7 +103,7 @@ namespace NeeView
 
         #region Static Methods
 
-        public static ThumbnailViewContent Create(ViewContentSource source, ViewContent oldViewContent)
+        public static ThumbnailViewContent Create(ViewPage source, ViewContent oldViewContent)
         {
             var viewContent = new ThumbnailViewContent(source, oldViewContent);
             viewContent.Initialize();

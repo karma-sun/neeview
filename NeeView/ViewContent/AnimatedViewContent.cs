@@ -19,7 +19,7 @@ namespace NeeView
     {
         #region Constructors
 
-        public AnimatedViewContent(ViewContentSource source, ViewContent old) : base(source, old)
+        public AnimatedViewContent(ViewPage source, ViewContent old) : base(source, old)
         {
         }
 
@@ -49,7 +49,7 @@ namespace NeeView
         /// <param name="source"></param>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        private new FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
+        private new FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter)
         {
             //
             var image = base.CreateView(source, parameter);
@@ -89,7 +89,7 @@ namespace NeeView
 
         #region Static Methods
 
-        public new static AnimatedViewContent Create(ViewContentSource source, ViewContent oldViewContent)
+        public new static AnimatedViewContent Create(ViewPage source, ViewContent oldViewContent)
         {
             var viewContent = new AnimatedViewContent(source, oldViewContent);
             viewContent.Initialize();

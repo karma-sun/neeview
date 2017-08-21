@@ -77,7 +77,7 @@ namespace NeeView
 
         // 表示コンテンツ変更
         // 表示の更新を要求
-        public event EventHandler<ViewSource> ViewContentsChanged;
+        public event EventHandler<ViewPageCollection> ViewContentsChanged;
 
         // ページ終端を超えて移動しようとした
         // 次の本への移動を要求
@@ -286,24 +286,16 @@ namespace NeeView
         public int DisplayIndex { get; set; }
 
         // 表示ページコンテキスト
-        private volatile ViewPageContext _viewContext = new ViewPageContext();
+        private volatile ViewPageCollection _viewPageCollection = new ViewPageCollection();
 
         // 表示ページ番号
-        public int GetViewPageindex() => _viewContext.Position.Index;
+        public int GetViewPageindex() => _viewPageCollection.Range.Position.Index;
 
         // 表示ページ
-        public Page GetViewPage() => GetPage(_viewContext.Position.Index);
+        public Page GetViewPage() => GetPage(_viewPageCollection.Range.Position.Index);
 
         // 表示ページ群
-        public List<Page> GetViewPages()
-        {
-            var pages = new List<Page>();
-            for (int i = 0; i < _viewContext.Size; ++i)
-            {
-                pages.Add(GetPage(_viewContext.Position.Index + i));
-            }
-            return pages;
-        }
+        public List<Page> GetViewPages() => _viewPageCollection.Collection.Select(e => e.Page).ToList();
 
         // ページ
         public Page GetPage(int index) => Pages.Count > 0 ? Pages[ClampPageNumber(index)] : null;
@@ -848,47 +840,6 @@ namespace NeeView
         #endregion
 
 
-
-
-
-        // 表示ページ情報
-        public class PageInfo
-        {
-            public PagePosition Position;
-            public int Size;
-        }
-
-        // 表示ページコンテキスト
-        public class ViewPageContext
-        {
-            // 基準となるページの場所
-            public PagePosition Position { get; set; }
-
-            // 進行方向
-            public int Direction { get; set; } = 1;
-
-            // 表示ページ数
-            public int Size { get; set; }
-
-            // 表示ページ情報
-            public List<PageInfo> Infos { get; set; }
-
-            // 表示ページコンテンツソース
-            public List<ViewContentSource> ViewContentsSource { get; set; }
-        }
-
-        // 表示ページコンテキストのソース
-        public class ViewPageContextSource
-        {
-            // コマンド送信者
-            public object Sender { get; set; }
-
-            public PagePosition Position { get; set; }
-            public int Direction { get; set; } = 1;
-            public int Size { get; set; }
-        }
-
-
         // コマンド処理
         internal async Task Dispose_Executed(BookCommandDisposeArgs param, CancellationToken token)
         {
@@ -912,7 +863,7 @@ namespace NeeView
             this.ThumbnailChanged = null;
             this.ViewContentsChanged = null;
 
-            _viewContext = new ViewPageContext();
+            _viewPageCollection = new ViewPageCollection();
 
             Pages?.ForEach(e => e?.Dispose());
             _archivers?.ForEach(e => e.Dispose());
@@ -946,92 +897,30 @@ namespace NeeView
 
         internal async Task SetPage_Executed(object sender, BookCommandSetPageArgs param, CancellationToken token)
         {
-            var source = new ViewPageContextSource()
-            {
-                Sender = sender,
-                Position = param.Position,
-                Direction = param.Direction,
-                Size = param.Size,
-            };
+            var source = new PageDirectionalRange(param.Position, param.Direction, param.Size);
             await UpdateViewPageAsync(source, param.IsPreLoad, token);
-        }
-
-        //
-        private ViewPageContextSource GetViewPageContextSource(int step)
-        {
-            int delta = 0;
-
-            if (Pages.Count == 0)
-            {
-                delta = step < 0 ? -1 : 1;
-            }
-            else if (step > 0)
-            {
-                for (int i = 0; i < step && i < _viewContext.Infos.Count; ++i)
-                {
-                    delta += _viewContext.Infos[i].Size;
-                }
-            }
-            else if (_viewContext.Size == 2)
-            {
-                delta = step + 1;
-            }
-            else
-            {
-                delta = step;
-            }
-
-            ////Debug.WriteLine($"Step: {step}, {_viewContext.Position}, {delta}");
-
-            return new ViewPageContextSource()
-            {
-                Position = _viewContext.Position + delta,
-                Direction = step < 0 ? -1 : 1,
-                Size = PageMode.Size(),
-            };
-        }
-
-        //
-        private ViewPageContextSource GetViewPageContextSourceSimple(int step)
-        {
-            int index = _viewContext.Position.Index;
-            int newIndex = ClampPageNumber(index + step);
-
-            int direction = step < 0 ? -1 : 1;
-
-            if (direction < 0 && _viewContext.Size == 2)
-            {
-                newIndex++;
-            }
-
-            if (index == newIndex)
-            {
-                newIndex += direction;
-            }
-
-            var position = new PagePosition(newIndex, 0);
-
-            ////Debug.WriteLine($"Step: {step}, {_viewContext.Position}, {position}");
-
-            return new ViewPageContextSource()
-            {
-                Position = position,
-                Direction = direction,
-                Size = PageMode.Size(),
-            };
         }
 
 
         internal async Task MovePage_Executed(BookCommandMovePageArgs param, CancellationToken token)
         {
-            if (param.Step < -2 || param.Step > 2)
+            var viewRange = _viewPageCollection.Range;
+
+            var direction = param.Step < 0 ? -1 : 1;
+
+            var pos = Math.Abs(param.Step) == PageMode.Size() ? viewRange.Next(direction) : viewRange.Move(param.Step);
+            if (pos < _firstPosition && !viewRange.IsContains(_firstPosition))
             {
-                await UpdateViewPageAsync(GetViewPageContextSourceSimple(param.Step), false, token);
+                pos = new PagePosition(0, direction < 0 ? 1 : 0);
             }
-            else
+            else if (pos > _lastPosition && !viewRange.IsContains(_lastPosition))
             {
-                await UpdateViewPageAsync(GetViewPageContextSource(param.Step), true, token);
+                pos = new PagePosition(Pages.Count - 1, direction < 0 ? 1 : 0);
             }
+
+            var range = new PageDirectionalRange(pos, direction, PageMode.Size());
+
+            await UpdateViewPageAsync(range, false, token);
         }
 
 
@@ -1050,7 +939,7 @@ namespace NeeView
         }
 
         // 表示ページ更新
-        private async Task UpdateViewPageAsync(ViewPageContextSource source, bool isPreLoad, CancellationToken token)
+        private async Task UpdateViewPageAsync(PageDirectionalRange source, bool isPreLoad, CancellationToken token)
         {
             // ページ終端を越えたか判定
             if (source.Position < _firstPosition)
@@ -1067,13 +956,13 @@ namespace NeeView
             // ページ数０の場合は表示コンテンツなし
             if (Pages.Count == 0)
             {
-                App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()));
+                App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
                 return;
             }
 
             // view pages
             var viewPages = new List<Page>();
-            for (int i = 0; i < source.Size; ++i)
+            for (int i = 0; i < PageMode.Size(); ++i)
             {
                 var page = Pages[ClampPageNumber(source.Position.Index + source.Direction * i)];
                 if (!viewPages.Contains(page))
@@ -1109,7 +998,7 @@ namespace NeeView
             token.ThrowIfCancellationRequested();
 
             // update contents
-            _viewContextSource = source;
+            _viewPageRange = source;
             UpdateViewContents();
 
 
@@ -1117,7 +1006,10 @@ namespace NeeView
             if (!AllowPreLoad) ClearAllPages(viewPages);
         }
 
-        volatile ViewPageContextSource _viewContextSource;
+        /// <summary>
+        /// 要求中の表示範囲
+        /// </summary>
+        volatile PageDirectionalRange _viewPageRange;
 
         /// <summary>
         /// ページロード完了イベント処理
@@ -1129,14 +1021,14 @@ namespace NeeView
             if (!BookProfile.Current.CanPrioritizePageMove()) return;
 
             // 非同期なので一旦退避
-            var now = _viewContext;
+            var now = _viewPageCollection;
 
-            if (now?.ViewContentsSource == null) return;
+            if (now?.Collection == null) return;
 
             var page = (Page)sender;
 
             // 現在表示に含まれているページ？
-            if (page.IsContentAlived && now.ViewContentsSource.Any(i => !i.IsValid && i.Page == page))
+            if (page.IsContentAlived && now.Collection.Any(item => !item.IsValid && item.Page == page))
             {
                 // 再更新
                 UpdateViewContents();
@@ -1150,28 +1042,20 @@ namespace NeeView
         {
             if (_isDisposed) return;
 
-            // command sender
-            var sender = _viewContextSource.Sender;
-
             // update contents
-            var viewContent = CreateViewPageContext(_viewContextSource);
+            var viewContent = CreateViewPageContext(_viewPageRange);
             if (viewContent == null) return;
 
-            _viewContext = viewContent;
+            _viewPageCollection = viewContent;
 
             // notice ViewContentsChanged
-            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()
-            {
-                Type = ViewSourceType.Content,
-                Sources = viewContent.ViewContentsSource,
-                Direction = viewContent.Direction
-            }));
+            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, _viewPageCollection));
 
             // change page
-            DisplayIndex = viewContent.Position.Index;
+            DisplayIndex = viewContent.Range.Position.Index;
 
             // notice PropertyChanged
-            var args = new PageChangedEventArgs() { Index = viewContent.Position.Index, Sender = sender };
+            var args = new PageChangedEventArgs() { Index = viewContent.Range.Position.Index };
             PageChanged?.Invoke(this, args);
 
             // コンテンツ準備完了
@@ -1201,14 +1085,14 @@ namespace NeeView
         }
 
         // 表示コンテンツソースと、それに対応したコンテキスト作成
-        private ViewPageContext CreateViewPageContext(ViewPageContextSource source)
+        private ViewPageCollection CreateViewPageContext(PageDirectionalRange source)
         {
-            var infos = new List<PageInfo>();
+            var infos = new List<PagePart>();
 
             {
                 PagePosition position = source.Position;
 
-                for (int id = 0; id < source.Size; ++id)
+                for (int id = 0; id < PageMode.Size(); ++id)
                 {
                     if (!IsValidPosition(position) || Pages[position.Index] == null) break;
 
@@ -1222,7 +1106,7 @@ namespace NeeView
                         position.Part = 0;
                     }
 
-                    infos.Add(new PageInfo() { Position = position, Size = size });
+                    infos.Add(new PagePart(position, size, this.BookReadOrder));
 
                     position = position + ((source.Direction > 0) ? size : -1);
                 }
@@ -1238,11 +1122,11 @@ namespace NeeView
             }
 
             // コンテンツソース作成
-            var contentsSource = new List<ViewContentSource>();
+            var contentsSource = new List<ViewPage>();
             foreach (var v in infos)
             {
                 var page = Pages[v.Position.Index];
-                contentsSource.Add(new ViewContentSource(page, v.Position, v.Size, BookReadOrder));
+                contentsSource.Add(new ViewPage(page, v));
             }
 
 
@@ -1265,25 +1149,19 @@ namespace NeeView
             {
                 var position = new PagePosition(infos[0].Position.Index, 0);
                 contentsSource.Clear();
-                contentsSource.Add(new ViewContentSource(Pages[position.Index], position, 2, BookReadOrder));
+                contentsSource.Add(new ViewPage(Pages[position.Index], new PagePart(position, 2, BookReadOrder)));
             }
 
             // 先読み可能判定
             UpdatePreLoadStatus(contentsSource);
 
             // 新しいコンテキスト
-            var context = new ViewPageContext();
-            context.Position = infos[0].Position;
-            context.Size = infos.Count;
-            context.Direction = source.Direction;
-            context.Infos = infos;
-            context.ViewContentsSource = contentsSource;
-
+            var context = new ViewPageCollection(new PageDirectionalRange(infos, source.Direction), contentsSource);
             return context;
         }
 
         // 先読み判定更新
-        private void UpdatePreLoadStatus(List<ViewContentSource> contentsSource)
+        private void UpdatePreLoadStatus(List<ViewPage> contentsSource)
         {
             if (BookProfile.Current.PreLoadMode != PreLoadMode.AutoPreLoad) return;
 
@@ -1326,7 +1204,7 @@ namespace NeeView
 
 
         // 不要ページコンテンツの削除を行う
-        private void CleanupPages(ViewPageContextSource source)
+        private void CleanupPages(PageDirectionalRange source)
         {
             // コンテンツを保持するページ収集
             var keepPages = new List<Page>();
@@ -1364,7 +1242,7 @@ namespace NeeView
 
 
         // 先読み
-        private void PreLoad(ViewPageContextSource source)
+        private void PreLoad(PageDirectionalRange source)
         {
             if (!AllowPreLoad) return;
 
@@ -1502,7 +1380,7 @@ namespace NeeView
                 _keepPages.ForEach(e => e?.Unload());
             }
 
-            RequestSetPosition(this, _viewContext.Position, 1, true);
+            RequestSetPosition(this, _viewPageCollection.Range.Position, 1, true);
         }
 
 

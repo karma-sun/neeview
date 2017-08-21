@@ -165,12 +165,12 @@ namespace NeeView
         }
 
         //
-        private void BookHub_ViewContentsChanged(object sender, ViewSource e)
+        private void BookHub_ViewContentsChanged(object sender, ViewPageCollection e)
         {
-            var contents = e?.Sources;
+            var contents = e?.Collection;
             if (contents == null) return;
 
-            var mainContent = contents.Count > 0 ? (contents.First().Position < contents.Last().Position ? contents.First() : contents.Last()) : null;
+            var mainContent = contents.Count > 0 ? (contents.First().PagePart.Position < contents.Last().PagePart.Position ? contents.First() : contents.Last()) : null;
             if (mainContent != null)
             {
                 SelectedItem = mainContent.Page;

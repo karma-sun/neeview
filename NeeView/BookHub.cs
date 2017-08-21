@@ -155,7 +155,7 @@ namespace NeeView
         public event EventHandler<string> Loading;
 
         // ViewContentsの変更通知
-        public event EventHandler<ViewSource> ViewContentsChanged;
+        public event EventHandler<ViewPageCollection> ViewContentsChanged;
 
         // 空ページメッセージ
         public event EventHandler<string> EmptyMessage;
@@ -573,10 +573,10 @@ namespace NeeView
             catch (Exception e)
             {
                 // 現在表示されているコンテンツを無効
-                App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewSource()));
+                App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
 
                 // 本の変更通知
-                App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookMementoType.None)); //  Current.BookMementoType));
+                App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookMementoType.None));
 
                 // ファイル読み込み失敗通知
                 EmptyMessage?.Invoke(this, e.Message);

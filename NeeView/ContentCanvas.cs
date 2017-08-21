@@ -272,16 +272,16 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnViewContentsChanged(object sender, ViewSource e)
+        private void OnViewContentsChanged(object sender, ViewPageCollection e)
         {
             var contents = new List<ViewContent>();
 
             // ViewContent作成
-            if (e?.Sources != null)
+            if (e?.Collection != null)
             {
                 try
                 {
-                    foreach (var source in e.Sources)
+                    foreach (var source in e.Collection)
                     {
                         if (source != null)
                         {
@@ -317,7 +317,7 @@ namespace NeeView
             UpdateContentSize(angle);
 
             // 座標初期化
-            ResetTransform(false, e != null ? e.Direction : 0, NextViewOrigin);
+            ResetTransform(false, e != null ? e.Range.Direction : 0, NextViewOrigin);
             NextViewOrigin = DragViewOrigin.None;
 
             ContentChanged?.Invoke(this, null);

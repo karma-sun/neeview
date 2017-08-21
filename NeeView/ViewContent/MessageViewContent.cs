@@ -15,7 +15,7 @@ namespace NeeView
     {
         #region Constructors
 
-        public MessageViewContent(ViewContentSource source, ViewContent old) : base(source, old)
+        public MessageViewContent(ViewPage source, ViewContent old) : base(source, old)
         {
         }
 
@@ -36,7 +36,7 @@ namespace NeeView
         }
 
         //
-        private FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
+        private FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter)
         {
             var filepage = new FilePageContent()
             {
@@ -57,7 +57,7 @@ namespace NeeView
     
         #region Static Methods
 
-        public static MessageViewContent Create(ViewContentSource source, ViewContent oldViewContent)
+        public static MessageViewContent Create(ViewPage source, ViewContent oldViewContent)
         {
             var viewContent = new MessageViewContent(source, oldViewContent);
             viewContent.Initialize();

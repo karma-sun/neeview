@@ -27,7 +27,7 @@ namespace NeeView
         /// ViewContentSource
         /// TODO: 他のパラメータとあわせて整備
         /// </summary>
-        public ViewContentSource Source { get; set; }
+        public ViewPage Source { get; set; }
 
         /// <summary>
         /// ページ
@@ -94,7 +94,7 @@ namespace NeeView
         public FileProxy FileProxy { get; set; }
 
         // ページの場所
-        public PagePosition Position => Source.Position;
+        public PagePosition Position => Source.PagePart.Position;
 
 
         // スケールモード
@@ -159,7 +159,7 @@ namespace NeeView
         {
         }
 
-        public ViewContent(ViewContentSource source, ViewContent old)
+        public ViewContent(ViewPage source, ViewContent old)
         {
             this.Source = source;
             this.Size = source.Size;
@@ -177,9 +177,9 @@ namespace NeeView
         // ページパーツ文字
         public string GetPartString()
         {
-            if (Source.PartSize == 1)
+            if (Source.PagePart.PartSize == 1)
             {
-                int part = Source.ReadOrder == PageReadOrder.LeftToRight ? 1 - Source.Position.Part : Source.Position.Part;
+                int part = Source.PagePart.PartOrder == PageReadOrder.LeftToRight ? 1 - Source.PagePart.Position.Part : Source.PagePart.Position.Part;
                 return part == 0 ? "(R)" : "(L)";
             }
             else

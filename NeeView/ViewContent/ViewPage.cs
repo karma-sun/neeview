@@ -20,49 +20,47 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     // 表示コンテンツソース 1ページ分
-    public class ViewContentSource
+    public class ViewPage
     {
-        // ページ
-        // TODO: 不要にしたいが。難しいか。
-        public Page Page { get; set; }
-
-
-        // ソースコンテンツ
-        public PageContent Content { get; set; }
-
-
-        // コンテンツサイズ 
-        public Size Size { get; set; }
-
-
-        // ページの場所
-        public PagePosition Position { get; set; }
-
-        // ページサイズ
-        public int PartSize { get; set; }
-
-        // 方向
-        public PageReadOrder ReadOrder { get; set; }
-
-        // 有効
-        public bool IsValid { get; set; }
+        #region Constructors
 
         // コンストラクタ
         // Pageから作成
-        public ViewContentSource(Page page, PagePosition position, int size, PageReadOrder readOrder)
+        public ViewPage(Page page, PagePart pagePart)
         {
             Page = page;
             Content = page.Content;
 
             IsValid = Content.IsLoaded;
 
-            Size = new Size(size == 2 ? Content.Size.Width : Math.Floor(Content.Size.Width * 0.5 + 0.4), Content.Size.Height);
+            Size = new Size(pagePart.PartSize == 2 ? Content.Size.Width : Math.Floor(Content.Size.Width * 0.5 + 0.4), Content.Size.Height);
 
-            Position = position;
-            PartSize = size;
-            ReadOrder = readOrder;
+            this.PagePart = pagePart;
         }
 
+        #endregion
+
+        #region Properties
+
+        // ページ
+        // TODO: 不要にしたいが。難しいか。
+        public Page Page { get; }
+
+        // ソースコンテンツ
+        public PageContent Content { get; }
+        
+        // コンテンツサイズ 
+        public Size Size { get; }
+
+        // ページパーツ
+        public PagePart PagePart { get; }
+
+        // 生成時点での有効判定
+        public bool IsValid { get; }
+
+        #endregion
+        
+        #region Methods
 
         /// <summary>
         /// TODO: PageContentで実装すべきか
@@ -109,11 +107,11 @@ namespace NeeView
         /// <returns></returns>
         public Rect GetViewBox()
         {
-            if (PartSize == 0) return new Rect(0, -0.00001, 0, 0.99999);
-            if (PartSize == 2) return new Rect(-0.00001, -0.00001, 0.99999, 0.99999);
+            if (PagePart.PartSize == 0) return new Rect(0, -0.00001, 0, 0.99999);
+            if (PagePart.PartSize == 2) return new Rect(-0.00001, -0.00001, 0.99999, 0.99999);
 
-            bool isRightPart = Position.Part == 0;
-            if (ReadOrder == PageReadOrder.LeftToRight) isRightPart = !isRightPart;
+            bool isRightPart = PagePart.Position.Part == 0;
+            if (PagePart.PartOrder == PageReadOrder.LeftToRight) isRightPart = !isRightPart;
 
             double half = Size.Width / Content.Size.Width;
             return isRightPart ? new Rect(0.99999 - half, -0.00001, half - 0.00001, 0.99999) : new Rect(-0.00001, -0.00001, half - 0.00001, 0.99999);
@@ -173,6 +171,8 @@ namespace NeeView
                 return new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
             }
         }
+
+        #endregion
     }
 
     /// <summary>
@@ -186,24 +186,5 @@ namespace NeeView
         Anime,
         Pdf,
         Thumbnail,
-    }
-
-    /// <summary>
-    /// 表示コンテンツソースの種類
-    /// </summary>
-    public enum ViewSourceType
-    {
-        None, // 無し
-        Content, // コンテンツ
-    }
-
-    /// <summary>
-    /// 表示コンテンツソース
-    /// </summary>
-    public class ViewSource
-    {
-        public ViewSourceType Type { get; set; }
-        public List<ViewContentSource> Sources { get; set; }
-        public int Direction { get; set; }
     }
 }

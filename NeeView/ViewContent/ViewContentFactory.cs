@@ -15,7 +15,7 @@ namespace NeeView
     /// </summary>
     public class ViewContentFactory
     {
-        public static ViewContent Create(ViewContentSource source, ViewContent oldViewContent)
+        public static ViewContent Create(ViewPage source, ViewContent oldViewContent)
         {
             ViewContent viewContent = null;
 

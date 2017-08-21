@@ -134,7 +134,7 @@ namespace NeeView
 
             if ((mask & UpdateWindowTitleMask.Page) != 0)
             {
-                string pageNum = (MainContent.Source.PartSize == 2)
+                string pageNum = (MainContent.Source.PagePart.PartSize == 2)
                 ? (MainContent.Position.Index + 1).ToString()
                 : (MainContent.Position.Index + 1).ToString() + (MainContent.Position.Part == 1 ? ".5" : ".0");
                 _windowTitleFormatter.Set("$PageMax", (BookOperation.Current.GetMaxPageIndex() + 1).ToString());

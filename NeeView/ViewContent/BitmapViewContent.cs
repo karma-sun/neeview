@@ -32,11 +32,6 @@ namespace NeeView
 
         public BitmapViewContent(ViewPage source, ViewContent old) : base(source, old)
         {
-            // フィルター適用時は強制更新
-            if (PictureProfile.Current.IsResizeFilterEnabled)
-            {
-                this.IsDarty = true;
-            }
         }
 
         #endregion
@@ -175,11 +170,11 @@ namespace NeeView
             {
                 try
                 {
-                    bool isForce = this.IsDarty;
-                    this.IsDarty = false;
-
                     var picture = ((BitmapContent)this.Content)?.Picture;
-                    picture?.Resize(size, isForce);
+                    if (picture == null) return;
+
+                    bool isResized = picture.Resize(size);
+                    if (!isResized) return;
 
                     App.Current.Dispatcher.Invoke((Action)(() =>
                     {

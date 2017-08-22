@@ -157,6 +157,9 @@ namespace NeeView
         // ViewContentsの変更通知
         public event EventHandler<ViewPageCollection> ViewContentsChanged;
 
+        // NextContentsの変更通知
+        public event EventHandler<ViewPageCollection> NextContentsChanged;
+
         // 空ページメッセージ
         public event EventHandler<string> EmptyMessage;
 
@@ -669,6 +672,7 @@ namespace NeeView
 
                 // イベント設定
                 book.ViewContentsChanged += (s, e) => { if (BookUnit != null) ViewContentsChanged?.Invoke(s, e); };
+                book.NextContentsChanged += (s, e) => { if (BookUnit != null) NextContentsChanged?.Invoke(s, e); };
                 book.DartyBook += (s, e) => RequestLoad(Address, null, BookLoadOption.ReLoad, false);
 
                 // 開始

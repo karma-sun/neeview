@@ -10,6 +10,20 @@ namespace NeeView
 {
     public static class SizeExtensions
     {
+        public static Size Zero = new Size(0, 0);
+
+        // ゼロスケール判定
+        public static bool IsZero(this Size self)
+        {
+            return self.Width == 0 || self.Height == 0;
+        }
+
+        // スケール
+        public static Size Multi(this Size self, double scale)
+        {
+            return new Size(self.Width * scale, self.Height * scale);
+        }
+
         // 少数切り捨てサイズを返す(おおよそ)
         public static Size Truncate(this Size self)
         {
@@ -52,15 +66,16 @@ namespace NeeView
         {
             if (self.IsEmpty || target.IsEmpty) return false;
 
-            const double margin = 1.0;
-            return Math.Abs(self.Width - target.Width) < margin && Math.Abs(self.Height - target.Height) < margin;
+            // アスペクト比固定のため、Heightでのみ判定
+            const double margin = 1.1;
+            return Math.Abs(self.Height - target.Height) < margin;
         }
 
         // 転置
         public static Size Transpose(this Size self)
         {
             if (self.IsEmpty) return self;
-            
+
             return new Size(self.Height, self.Width);
         }
 
@@ -82,11 +97,11 @@ namespace NeeView
 
         // Drawing.SizeF -> Size
         public static Size FromDrawingSize(System.Drawing.SizeF size)
-        { 
+        {
             if (size.IsEmpty) return Size.Empty;
 
             return new Size(size.Width, size.Height);
+        }
     }
-}
 
 }

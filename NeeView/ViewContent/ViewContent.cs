@@ -143,11 +143,6 @@ namespace NeeView
         /// </summary>
         public bool IsResizing { get; protected set; }
 
-        /// <summary>
-        /// 同じサイズでも再作成する
-        /// </summary>
-        public bool IsDarty { get; set; }
-
         #endregion
 
         #region Constructors
@@ -171,8 +166,6 @@ namespace NeeView
         #endregion
 
         #region Methods
-
-
 
         // ページパーツ文字
         public string GetPartString()

@@ -29,11 +29,71 @@ namespace NeeView
         Left,
     }
 
-
     //
     public class ContentCanvas : BindableBase
     {
         public static ContentCanvas Current { get; private set; }
+
+        #region Fields
+
+        // コンテンツサイズ計算機
+        private ContentSizeCalcurator _contentSizeCalcurator;
+
+        private DragTransform _dragTransform;
+        private DragTransformControl _dragTransformControl;
+
+        private BookHub _bookHub; // TODO: BookOperation?
+
+        private PageStretchMode _stretchModePrev = PageStretchMode.Uniform;
+
+        #endregion
+
+        #region Constructors
+
+        public ContentCanvas(MouseInput mouse, BookHub bookHub)
+        {
+            Current = this;
+
+            _contentSizeCalcurator = new ContentSizeCalcurator(this);
+
+            _dragTransform = DragTransform.Current;
+            _dragTransformControl = DragTransformControl.Current;
+
+            DragTransform.Current.TransformChanged += Transform_TransformChanged;
+            LoupeTransform.Current.TransformChanged += Transform_TransformChanged;
+
+            _bookHub = bookHub;
+
+            // Contents
+            Contents = new ObservableCollection<ViewContent>();
+            Contents.Add(new ViewContent());
+            Contents.Add(new ViewContent());
+
+            MainContent = Contents[0];
+
+            _bookHub.BookChanging +=
+                (s, e) => IgnoreViewContentsReservers();
+
+            // TODO: BookOperationから？
+            _bookHub.ViewContentsChanged +=
+                OnViewContentsChanged;
+            _bookHub.NextContentsChanged +=
+                OnNextContentsChanged;
+
+            _bookHub.EmptyMessage +=
+                (s, e) => EmptyPageMessage = e;
+        }
+
+        #endregion
+
+        #region Events
+
+        //
+        public event EventHandler ContentChanged;
+
+        #endregion
+
+        #region Properties
 
         // 空フォルダー通知表示のON/OFF
         private bool _isVisibleEmptyPageMessage = false;
@@ -70,11 +130,6 @@ namespace NeeView
             }
         }
 
-        public bool ToggleAutoRotate()
-        {
-            return IsAutoRotate = !IsAutoRotate;
-        }
-
         // ドットのまま拡大
         private bool _isEnabledNearestNeighbor;
         public bool IsEnabledNearestNeighbor
@@ -91,10 +146,7 @@ namespace NeeView
             }
         }
 
-
         // スケールモード
-        #region Property: StretchMode
-        private PageStretchMode _stretchModePrev = PageStretchMode.Uniform;
         private PageStretchMode _stretchMode = PageStretchMode.Uniform;
         public PageStretchMode StretchMode
         {
@@ -108,6 +160,287 @@ namespace NeeView
                 ResetTransform(true);
             }
         }
+        
+        // ビューエリアサイズ
+        public Size ViewSize { get; private set; }
+        
+        // コンテンツ
+        public ObservableCollection<ViewContent> Contents { get; private set; }
+
+        // 見開き時のメインとなるコンテンツ
+        private ViewContent _mainContent;
+        public ViewContent MainContent
+        {
+            get { return _mainContent; }
+            set { if (_mainContent != value) { _mainContent = value; RaisePropertyChanged(); } }
+        }
+        
+        // コンテンツマージン
+        private Thickness _contentsMargin;
+        public Thickness ContentsMargin
+        {
+            get { return _contentsMargin; }
+            set { _contentsMargin = value; RaisePropertyChanged(); }
+        }
+
+        // 2ページコンテンツの隙間
+        private double _contentSpace = -1.0;
+        public double ContentsSpace
+        {
+            get { return _contentSpace; }
+            set { _contentSpace = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 次のページ更新時の表示開始位置
+        /// TODO: ちゃんとBookから情報として上げるようにするべき
+        /// </summary>
+        public DragViewOrigin NextViewOrigin { get; set; }
+
+        /// <summary>
+        /// ContentAngle property.
+        /// </summary>
+        private double _contentAngle;
+        public double ContentAngle
+        {
+            get { return _contentAngle; }
+            set { if (_contentAngle != value) { _contentAngle = value; RaisePropertyChanged(); } }
+        }
+
+        #endregion
+
+        #region Methods
+
+        // トランスフォーム変更イベント処理
+        private void Transform_TransformChanged(object sender, TransformEventArgs e)
+        {
+            UpdateContentScalingMode();
+            MouseInput.Current.ShowMessage(e.ActionType, MainContent);
+        }
+
+        // コンテンツカラー
+        public Color GetContentColor()
+        {
+            return Contents[Contents[1].IsValid ? 1 : 0].Color;
+        }
+
+        // 現在のビューコンテンツのリザーバーを無効化
+        private void IgnoreViewContentsReservers()
+        {
+            foreach (var content in this.Contents)
+            {
+                content.IgnoreReserver = true;
+            }
+        }
+
+        /// <summary>
+        /// 表示コンテンツ更新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnViewContentsChanged(object sender, ViewPageCollection e)
+        {
+            var contents = new List<ViewContent>();
+
+            // ViewContent作成
+            if (e?.Collection != null)
+            {
+                try
+                {
+                    foreach (var source in e.Collection)
+                    {
+                        if (source != null)
+                        {
+                            var old = Contents[contents.Count];
+                            var content = ViewContentFactory.Create(source, old);
+                            contents.Add(content);
+                        }
+                    }
+                }
+                catch (ViewContentFactoryException ex)
+                {
+                    Debug.WriteLine(ex);
+                    return;
+                }
+            }
+
+            // ページが存在しない場合、専用メッセージを表示する
+            IsVisibleEmptyPageMessage = e != null && contents.Count == 0;
+
+            // メインとなるコンテンツを指定
+            MainContent = contents.Count > 0 ? (contents.First().Position < contents.Last().Position ? contents.First() : contents.Last()) : null;
+
+            // ViewModelプロパティに反映
+            for (int index = 0; index < 2; ++index)
+            {
+                Contents[index] = index < contents.Count ? contents[index] : new ViewContent();
+            }
+
+            // 自動回転...
+            var angle = GetAutoRotateAngle();
+
+            // コンテンツサイズ更新
+            UpdateContentSize(angle);
+
+            // 座標初期化
+            ResetTransform(false, e != null ? e.Range.Direction : 0, NextViewOrigin);
+            NextViewOrigin = DragViewOrigin.None;
+
+            ContentChanged?.Invoke(this, null);
+
+            // GC
+            MemoryControl.Current.GarbageCollect();
+        }
+
+        // 先読みコンテンツ更新
+        // 表示サイズを確定し、フィルター適用時にリサイズ処理を行う
+        private void OnNextContentsChanged(object sender, ViewPageCollection source)
+        {
+            if (source?.Collection == null) return;
+
+            // フィルターを適用しないのであればリサイズ不要
+            if (!PictureProfile.Current.IsResizeFilterEnabled) return;
+
+            // ルーペモードでかつ継続される設定の場合、先読みではリサイズしない
+            if (LoupeTransform.Current.IsEnabled && MouseInput.Current.Loupe.IsResetByPageChanged) return;
+
+            var sizes = source.Collection.Select(e => e.Size).ToList();
+            while (sizes.Count() < 2)
+            {
+                sizes.Add(SizeExtensions.Zero);
+            }
+
+            // 表示サイズ計算
+            var result = _contentSizeCalcurator.GetFixedContentSize(sizes);
+
+            // スケール維持？
+            var scale = _dragTransformControl.IsKeepScale ? _dragTransform.Scale : 1.0;
+
+            // リサイズ
+            for (int i=0; i<2; ++i)
+            {
+                var size0 = sizes[i];
+                var size1 = result.ContentSizeList[i].Multi(scale);
+                if (size0.IsZero()) continue;
+                Debug.WriteLine($"{i}: {size0} => {size1.Truncate()}");
+                if (source.Collection[i].Content is BitmapContent bitmapContent)
+                {
+                    bitmapContent.Picture?.Resize(size1);
+                }
+            }
+        }
+        
+        //
+        public void ResetTransform(bool isForce)
+        {
+            ResetTransform(isForce, 0, DragViewOrigin.None);
+        }
+
+        // 座標系初期化
+        // TODO: ルーペ操作との関係
+        public void ResetTransform(bool isForce, int pageDirection, DragViewOrigin viewOrigin)
+        {
+            // ルーペ解除。ここ？
+            if (MouseInput.Current.Loupe.IsResetByPageChanged)
+            {
+                MouseInput.Current.IsLoupeMode = false;
+            }
+
+            // ルーペでない場合は初期化
+            if (!MouseInput.Current.IsLoupeMode)
+            {
+                // 
+                _dragTransformControl.SetMouseDragSetting(pageDirection, viewOrigin, BookSetting.Current.BookMemento.BookReadOrder);
+
+                // リセット
+                var angle = _isAutoRotate ? GetAutoRotateAngle() : double.NaN;
+                _dragTransformControl.Reset(isForce, angle);
+            }
+        }
+
+        /// <summary>
+        /// ページ開始時の回転
+        /// </summary>
+        /// <returns></returns>
+        public double GetAutoRotateAngle()
+        {
+            return _contentSizeCalcurator.GetAutoRotateAngle(Contents.Select(e => e.Size).ToList());
+        }
+
+        // ビューエリアサイズを更新
+        public void SetViewSize(double width, double height)
+        {
+            this.ViewSize = new Size(width, height);
+
+            UpdateContentSize();
+
+            ContentRebuild.Current.Request();
+        }
+
+
+        //
+        public void UpdateContentSize(double angle)
+        {
+            this.ContentAngle = angle;
+            UpdateContentSize();
+        }
+
+        // コンテンツ表示サイズを更新
+        public void UpdateContentSize()
+        {
+            if (!Contents.Any(e => e.IsValid)) return;
+
+            var result = _contentSizeCalcurator.GetFixedContentSize(Contents.Select(e => e.Size).ToList(), this.ContentAngle);
+
+            this.ContentsMargin = result.ContentsMargin;
+
+            for (int i = 0; i < 2; ++i)
+            {
+                Contents[i].Width = result.ContentSizeList[i].Width;
+                Contents[i].Height = result.ContentSizeList[i].Height;
+            }
+
+            UpdateContentScalingMode();
+        }
+        
+        // コンテンツスケーリングモードを更新
+        public void UpdateContentScalingMode(ViewContent target = null)
+        {
+            double finalScale = _dragTransform.Scale * LoupeTransform.Current.FixedScale * Config.Current.RawDpi.DpiScaleX;
+
+            foreach (var content in Contents)
+            {
+                if (target != null && target != content) continue;
+
+                if (content.View != null && content.IsBitmapScalingModeSupported())
+                {
+                    var picture = content.GetPicture();
+                    if (picture?.BitmapSource == null) continue;
+
+                    var pixelHeight = picture.BitmapSource.PixelHeight;
+                    var viewHeight = content.Height * finalScale;
+
+                    var diff = Math.Abs(pixelHeight - viewHeight);
+                    var diffAngle = Math.Abs(_dragTransform.Angle % 90.0);
+                    if (Config.Current.IsDpiSquare && diff < 1.1 && diffAngle < 0.1)
+                    {
+                        content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
+                        content.SetViewMode(ContentViewMode.Pixeled, finalScale);
+                    }
+                    else
+                    {
+                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && pixelHeight < viewHeight) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                        content.SetViewMode(ContentViewMode.Scale, finalScale);
+                    }
+
+                    // ##
+                    DevInfo.Current?.SetMessage($"{content.BitmapScalingMode}: s={pixelHeight}: v={viewHeight:0.00}: a={_dragTransform.Angle:0.00}");
+                }
+            }
+        }
+
+
+        #region スケールモード
 
         // トグル
         public PageStretchMode GetToggleStretchMode(ToggleStretchModeCommandParameter param)
@@ -171,517 +504,13 @@ namespace NeeView
 
         #endregion
 
-        private DragTransform _dragTransform;
-        private DragTransformControl _dragTransformControl;
-
-        private BookHub _bookHub; // TODO: BookOperation?
-
-        public ContentCanvas(MouseInput mouse, BookHub bookHub)
-        {
-            Current = this;
-
-            _dragTransform = DragTransform.Current;
-            _dragTransformControl = DragTransformControl.Current;
-
-            DragTransform.Current.TransformChanged += Transform_TransformChanged;
-            LoupeTransform.Current.TransformChanged += Transform_TransformChanged;
-
-            _bookHub = bookHub;
-
-            // Contents
-            Contents = new ObservableCollection<ViewContent>();
-            Contents.Add(new ViewContent());
-            Contents.Add(new ViewContent());
-
-            MainContent = Contents[0];
-
-            _bookHub.BookChanging +=
-                (s, e) => IgnoreViewContentsReservers();
-
-            // TODO: BookOperationから？
-            _bookHub.ViewContentsChanged +=
-                OnViewContentsChanged;
-
-            _bookHub.EmptyMessage +=
-                (s, e) => EmptyPageMessage = e;
-        }
-
-
-        //
-        private void Transform_TransformChanged(object sender, TransformEventArgs e)
-        {
-            UpdateContentScalingMode();
-
-            MouseInput.Current.ShowMessage(e.ActionType, MainContent);
-        }
-
-
-
-        //
-        public event EventHandler ContentChanged;
-
-
-        // コンテンツ
-        public ObservableCollection<ViewContent> Contents { get; private set; }
-
-        // 見開き時のメインとなるコンテンツ
-        private ViewContent _mainContent;
-        public ViewContent MainContent
-        {
-            get { return _mainContent; }
-            set { if (_mainContent != value) { _mainContent = value; RaisePropertyChanged(); } }
-        }
-
-
-        // コンテンツマージン
-        private Thickness _contentsMargin;
-        public Thickness ContentsMargin
-        {
-            get { return _contentsMargin; }
-            set { _contentsMargin = value; RaisePropertyChanged(); }
-        }
-
-        // 2ページコンテンツの隙間
-        private double _contentSpace = -1.0;
-        public double ContentsSpace
-        {
-            get { return _contentSpace; }
-            set { _contentSpace = value; RaisePropertyChanged(); }
-        }
-
-
-
-        // コンテンツカラー
-        public Color GetContentColor()
-        {
-            return Contents[Contents[1].IsValid ? 1 : 0].Color;
-        }
-
-        // 現在のビューコンテンツのリザーバーを無効化
-        private void IgnoreViewContentsReservers()
-        {
-            foreach (var content in this.Contents)
-            {
-                content.IgnoreReserver = true;
-            }
-        }
-
-
-        /// <summary>
-        /// 表示コンテンツ更新
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnViewContentsChanged(object sender, ViewPageCollection e)
-        {
-            var contents = new List<ViewContent>();
-
-            // ViewContent作成
-            if (e?.Collection != null)
-            {
-                try
-                {
-                    foreach (var source in e.Collection)
-                    {
-                        if (source != null)
-                        {
-                            var old = Contents[contents.Count];
-                            var content = ViewContentFactory.Create(source, old);
-                            contents.Add(content);
-                        }
-                    }
-                }
-                catch(ViewContentFactoryException ex)
-                {
-                    Debug.WriteLine(ex);
-                    return;
-                }
-            }
-
-            // ページが存在しない場合、専用メッセージを表示する
-            IsVisibleEmptyPageMessage = e != null && contents.Count == 0;
-
-            // メインとなるコンテンツを指定
-            MainContent = contents.Count > 0 ? (contents.First().Position < contents.Last().Position ? contents.First() : contents.Last()) : null;
-
-            // ViewModelプロパティに反映
-            for (int index = 0; index < 2; ++index)
-            {
-                Contents[index] = index < contents.Count ? contents[index] : new ViewContent();
-            }
-
-            // 自動回転...
-            var angle = GetAutoRotateAngle();
-
-            // コンテンツサイズ更新
-            UpdateContentSize(angle);
-
-            // 座標初期化
-            ResetTransform(false, e != null ? e.Range.Direction : 0, NextViewOrigin);
-            NextViewOrigin = DragViewOrigin.None;
-
-            ContentChanged?.Invoke(this, null);
-
-            // GC
-            MemoryControl.Current.GarbageCollect();
-        }
-
-
-        /// <summary>
-        /// 次のページ更新時の表示開始位置
-        /// TODO: ちゃんとBookから情報として上げるようにするべき
-        /// </summary>
-        public DragViewOrigin NextViewOrigin { get; set; }
-
-        //
-        public void ResetTransform(bool isForce)
-        {
-            ResetTransform(isForce, 0, DragViewOrigin.None);
-        }
-
-        // 座標系初期化
-        // TODO: ルーペ操作との関係
-        public void ResetTransform(bool isForce, int pageDirection, DragViewOrigin viewOrigin)
-        {
-            // ルーペ解除。ここ？
-            if (MouseInput.Current.Loupe.IsResetByPageChanged)
-            {
-                MouseInput.Current.IsLoupeMode = false;
-            }
-
-            // ルーペでない場合は初期化
-            if (!MouseInput.Current.IsLoupeMode)
-            {
-                // 
-                _dragTransformControl.SetMouseDragSetting(pageDirection, viewOrigin, BookSetting.Current.BookMemento.BookReadOrder);
-
-                // リセット
-                var angle = _isAutoRotate ? GetAutoRotateAngle() : double.NaN;
-                _dragTransformControl.Reset(isForce, angle);
-            }
-        }
-
-
-
-
-        /// <summary>
-        /// ページ開始時の回転
-        /// </summary>
-        /// <returns></returns>
-        public double GetAutoRotateAngle()
-        {
-            var parameter = (AutoRotateCommandParameter)CommandTable.Current[CommandType.ToggleIsAutoRotate].Parameter;
-
-            double angle = this.IsAutoRotateCondition()
-                        ? parameter.AutoRotateType == AutoRotateType.Left ? -90.0 : 90.0
-                        : 0.0;
-
-            return angle;
-        }
-
-
-
-        #region ContentSize
-
-        // ビューエリアサイズ
-        private double _viewWidth;
-        private double _viewHeight;
-
-        // ビューエリアサイズを更新
-        public void SetViewSize(double width, double height)
-        {
-            _viewWidth = width;
-            _viewHeight = height;
-
-            UpdateContentSize();
-
-            ContentRebuild.Current.Request();
-        }
-
-
-        /// <summary>
-        /// ContentAngle property.
-        /// </summary>
-        private double _contentAngle;
-        public double ContentAngle
-        {
-            get { return _contentAngle; }
-            set { if (_contentAngle != value) { _contentAngle = value; RaisePropertyChanged(); } }
-        }
-
-        //
-        public void UpdateContentSize(double angle)
-        {
-            this.ContentAngle = angle;
-            UpdateContentSize();
-        }
-
-        // コンテンツ表示サイズを更新
-        public void UpdateContentSize()
-        {
-            if (!Contents.Any(e => e.IsValid)) return;
-
-            var dpi = Config.Current.Dpi;
-
-            // 2ページ表示時は重なり補正を行う
-            double offsetWidth = 0;
-            if (Contents[0].Size.Width > 0.5 && Contents[1].Size.Width > 0.5)
-            {
-                offsetWidth = ContentsSpace / dpi.DpiScaleX;
-                ContentsMargin = new Thickness(offsetWidth, 0, 0, 0);
-            }
-            else
-            {
-                ContentsMargin = new Thickness(0);
-            }
-
-            var sizes = CalcContentSize(_viewWidth * dpi.DpiScaleX - offsetWidth, _viewHeight * dpi.DpiScaleY, this.ContentAngle);
-
-            for (int i = 0; i < 2; ++i)
-            {
-                Contents[i].Width = sizes[i].Width / dpi.DpiScaleX;
-                Contents[i].Height = sizes[i].Height / dpi.DpiScaleY;
-            }
-
-            UpdateContentScalingMode();
-        }
-
-
-
-        // コンテンツスケーリングモードを更新
-        public void UpdateContentScalingMode(ViewContent target = null)
-        {
-            double finalScale = _dragTransform.Scale * LoupeTransform.Current.FixedScale * Config.Current.RawDpi.DpiScaleX;
-
-            foreach (var content in Contents)
-            {
-                if (target != null && target != content) continue;
-
-                if (content.View != null && content.IsBitmapScalingModeSupported())
-                {
-                    var picture = content.GetPicture();
-                    if (picture?.BitmapSource == null) continue;
-
-                    var pixelHeight = picture.BitmapSource.PixelHeight;
-                    var viewHeight = content.Height * finalScale;
-
-                    var diff = Math.Abs(pixelHeight - viewHeight);
-                    var diffAngle = Math.Abs(_dragTransform.Angle % 90.0);
-                    if (Config.Current.IsDpiSquare && diff < 1.1 && diffAngle < 0.1)
-                    {
-                        content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
-                        content.SetViewMode(ContentViewMode.Pixeled, finalScale);
-                    }
-                    else
-                    {
-                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && pixelHeight < viewHeight) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
-                        content.SetViewMode(ContentViewMode.Scale, finalScale);
-                    }
-
-                    // ##
-                    DevInfo.Current?.SetMessage($"{content.BitmapScalingMode}: s={pixelHeight}: v={viewHeight:0.00}: a={_dragTransform.Angle:0.00}");
-                }
-            }
-        }
-
-        //
-        public bool IsAutoRotateCondition()
-        {
-            if (!IsAutoRotate) return false;
-
-            var margin = 0.1;
-            var viewRatio = GetViewAreaAspectRatio();
-            var contentRatio = GetContentAspectRatio();
-            return viewRatio >= 1.0 ? contentRatio < (1.0 - margin) : contentRatio > (1.0 + margin);
-        }
-
-        //
-        public double GetViewAreaAspectRatio()
-        {
-            return _viewWidth / _viewHeight;
-        }
-
-        //
-        public double GetContentAspectRatio()
-        {
-            var size = GetContentSize();
-            return size.Width / size.Height;
-        }
-
-        //
-        private Size GetContentSize()
-        {
-            var c0 = Contents[0].Size;
-            var c1 = Contents[1].Size;
-
-            double rate0 = 1.0;
-            double rate1 = 1.0;
-
-            // 2ページ合わせたコンテンツサイズを求める
-            if (!Contents[1].IsValid)
-            {
-                return c0;
-            }
-            // オリジナルサイズ
-            else if (this.StretchMode == PageStretchMode.None)
-            {
-                return new Size(c0.Width + c1.Width, Math.Max(c0.Height, c1.Height));
-            }
-            else
-            {
-                // どちらもImageでない
-                if (c0.Width < 0.1 && c1.Width < 0.1)
-                {
-                    return new Size(1.0, 1.0);
-                }
-
-                if (c0.Width == 0) c0 = c1;
-                if (c1.Width == 0) c1 = c0;
-
-                // 高さを 高い方に合わせる
-                if (c0.Height > c1.Height)
-                {
-                    rate1 = c0.Height / c1.Height;
-                }
-                else
-                {
-                    rate0 = c1.Height / c0.Height;
-                }
-
-                // 高さをあわせたときの幅の合計
-                return new Size(c0.Width * rate0 + c1.Width * rate1, c0.Height * rate0);
-            }
-        }
-
-
-        // ストレッチモードに合わせて各コンテンツのスケールを計算する
-        private Size[] CalcContentSize(double width, double height, double angle)
-        {
-            var c0 = Contents[0].Size;
-            var c1 = Contents[1].Size;
-
-            // オリジナルサイズ
-            if (this.StretchMode == PageStretchMode.None)
-            {
-                return new Size[] { c0, c1 };
-            }
-
-            double rate0 = 1.0;
-            double rate1 = 1.0;
-
-            // 2ページ合わせたコンテンツの表示サイズを求める
-            Size content;
-            if (!Contents[1].IsValid)
-            {
-                content = c0;
-            }
-            else
-            {
-                // どちらもImageでない
-                if (c0.Width < 0.1 && c1.Width < 0.1)
-                {
-                    return new Size[] { c0, c1 };
-                }
-
-                if (c0.Width == 0) c0 = c1;
-                if (c1.Width == 0) c1 = c0;
-
-                // 高さを 高い方に合わせる
-                if (c0.Height > c1.Height)
-                {
-                    rate1 = c0.Height / c1.Height;
-                }
-                else
-                {
-                    rate0 = c1.Height / c0.Height;
-                }
-
-                // 高さをあわせたときの幅の合計
-                content = new Size(c0.Width * rate0 + c1.Width * rate1, c0.Height * rate0);
-            }
-
-            // 回転反映
-            {
-                //var angle = 45.0;
-                var rect = new Rect(content);
-                var m = new Matrix();
-                m.Rotate(angle);
-                rect.Transform(m);
-
-                content = new Size(rect.Width, rect.Height);
-            }
-
-
-            // ビューエリアサイズに合わせる場合のスケール
-            double rateW = width / content.Width;
-            double rateH = height / content.Height;
-
-            // 拡大はしない
-            if (this.StretchMode == PageStretchMode.Inside)
-            {
-                if (rateW > 1.0) rateW = 1.0;
-                if (rateH > 1.0) rateH = 1.0;
-            }
-            // 縮小はしない
-            else if (this.StretchMode == PageStretchMode.Outside)
-            {
-                if (rateW < 1.0) rateW = 1.0;
-                if (rateH < 1.0) rateH = 1.0;
-            }
-
-            // 面積をあわせる
-            if (this.StretchMode == PageStretchMode.UniformToSize)
-            {
-                var viewSize = width * height;
-                var contentSize = content.Width * content.Height;
-                var rate = Math.Sqrt(viewSize / contentSize);
-                rate0 *= rate;
-                rate1 *= rate;
-            }
-            // 高さを合わせる
-            else if (this.StretchMode == PageStretchMode.UniformToVertical)
-            {
-                rate0 *= rateH;
-                rate1 *= rateH;
-            }
-            // 枠いっぱいに広げる
-            else if (this.StretchMode == PageStretchMode.UniformToFill)
-            {
-                if (rateW > rateH)
-                {
-                    rate0 *= rateW;
-                    rate1 *= rateW;
-                }
-                else
-                {
-                    rate0 *= rateH;
-                    rate1 *= rateH;
-                }
-            }
-            // 枠に収めるように広げる
-            else
-            {
-                if (rateW < rateH)
-                {
-                    rate0 *= rateW;
-                    rate1 *= rateW;
-                }
-                else
-                {
-                    rate0 *= rateH;
-                    rate1 *= rateH;
-                }
-            }
-
-            var s0 = new Size(c0.Width * rate0, c0.Height * rate0);
-            var s1 = new Size(c1.Width * rate1, c1.Height * rate1);
-            return new Size[] { s0, s1 };
-        }
-
-        #endregion
-
-
         #region 回転コマンド
+
+        //
+        public bool ToggleAutoRotate()
+        {
+            return IsAutoRotate = !IsAutoRotate;
+        }
 
         //
         public void ViewRotateLeft(ViewRotateCommandParameter parameter)
@@ -702,8 +531,7 @@ namespace NeeView
         #endregion
 
         #region クリップボード関連
-        // TODO: ContentCanvas ?
-
+        
         //
         private BitmapSource CurrentBitmapSource
         {
@@ -715,7 +543,6 @@ namespace NeeView
         {
             return CurrentBitmapSource != null;
         }
-
 
         // クリップボードに画像をコピー
         public void CopyImageToClipboard()
@@ -735,10 +562,8 @@ namespace NeeView
 
         #endregion
 
-
         #region 印刷
-        // TODO: ContentCanvas ? 
-
+        
         /// <summary>
         /// 印刷可能判定
         /// </summary>
@@ -815,6 +640,7 @@ namespace NeeView
 
         #endregion
 
+        #endregion
 
         #region Memento
         [DataContract]

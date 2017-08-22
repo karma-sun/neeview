@@ -79,6 +79,9 @@ namespace NeeView
         // 表示の更新を要求
         public event EventHandler<ViewPageCollection> ViewContentsChanged;
 
+        // 先読みコンテンツ変更
+        public event EventHandler<ViewPageCollection> NextContentsChanged;
+
         // ページ終端を超えて移動しようとした
         // 次の本への移動を要求
         public event EventHandler<int> PageTerminated;
@@ -1094,12 +1097,13 @@ namespace NeeView
             var range = new PageDirectionalRange(position, direction, PageMode.Size());
 
             // create contents
-            _nextPageCollection = CreateViewPageContext(range);
-            if (_nextPageCollection == null) return;
-            if (!_nextPageCollection.IsValid) return;
+            var next = CreateViewPageContext(range);
+            _nextPageCollection = next;
+            if (next == null) return;
+            if (!next.IsValid) return;
 
-            Debug.WriteLine($"next: {_nextPageCollection.Range}");
-            // TODO: フィルター有効であれば表示サイズを計算してビットマップのリサイズを行う
+            Debug.WriteLine($"next: {next.Range}");
+            NextContentsChanged?.Invoke(this, next);
         }
 
         //

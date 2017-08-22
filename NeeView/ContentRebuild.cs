@@ -104,11 +104,11 @@ namespace NeeView
             LoupeTransform.Current.AddPropertyChanged(nameof(LoupeTransform.FixedScale), (s, e) => Request());
 
             // リサイズフィルター状態監視
-            PictureProfile.Current.AddPropertyChanged(nameof(PictureProfile.IsResizeFilterEnabled), (s, e) => Request(true));
-            ImageFilter.Current.PropertyChanged += (s, e) => Request(true);
+            PictureProfile.Current.AddPropertyChanged(nameof(PictureProfile.IsResizeFilterEnabled), (s, e) => Request());
+            ImageFilter.Current.PropertyChanged += (s, e) => Request();
 
             // ドット表示監視
-            ContentCanvas.Current.AddPropertyChanged(nameof(ContentCanvas.IsEnabledNearestNeighbor), (s, e) => Request(true));
+            ContentCanvas.Current.AddPropertyChanged(nameof(ContentCanvas.IsEnabledNearestNeighbor), (s, e) => Request());
         }
 
         #endregion
@@ -208,16 +208,8 @@ namespace NeeView
 
 
         // リサイズ要求
-        public void Request(bool isForce = false)
+        public void Request()
         {
-            if (isForce)
-            {
-                foreach (var viewConent in ContentCanvas.Current.Contents.Where(e => e.IsValid))
-                {
-                    viewConent.IsDarty = true;
-                }
-            }
-
             this.IsRequested = true;
         }
 

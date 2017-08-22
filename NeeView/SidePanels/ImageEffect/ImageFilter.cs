@@ -91,6 +91,12 @@ namespace NeeView
             return new UnsharpMaskSettings(_amount, _radius, (byte)_threshold);
         }
 
+        //
+        public override int GetHashCode()
+        {
+            return Amount.GetHashCode() ^ Radius.GetHashCode() ^ Threshold.GetHashCode();
+        }
+
         #region Memento
         // インスタンスごと差し替えると問題があるため、Memento形式にする
 
@@ -121,7 +127,8 @@ namespace NeeView
     public class ImageFilter : BindableBase
     {
         public static ImageFilter Current { get; private set; }
-
+        
+        #region Properties
 
         /// <summary>
         /// ResizeInterpolation property.
@@ -149,6 +156,9 @@ namespace NeeView
         /// </summary>
         public UnsharpMaskProfile UnsharpMaskProfile { get; set; }
 
+        #endregion
+
+        #region Constructor
 
         //
         public ImageFilter()
@@ -166,6 +176,15 @@ namespace NeeView
             this.UnsharpMaskProfile.PropertyChanged += (s, e) => RaisePropertyChanged(nameof(UnsharpMaskProfile));
         }
 
+        #endregion
+
+        #region Methods
+
+        //
+        public override int GetHashCode()
+        {
+            return _resizeInterpolation.GetHashCode() ^ _sharpen.GetHashCode() ^ UnsharpMaskProfile.GetHashCode();
+        }
 
         //
         public ProcessImageSettings CreateProcessImageSetting()
@@ -217,6 +236,8 @@ namespace NeeView
 
             return setting;
         }
+
+        #endregion
 
         #region Memento
 

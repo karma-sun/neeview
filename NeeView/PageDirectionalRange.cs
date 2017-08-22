@@ -9,32 +9,44 @@ using System.Collections.Generic;
 
 namespace NeeView
 {
+    /// <summary>
+    /// 指向性ページ範囲
+    /// </summary>
     public class PageDirectionalRange
     {
         #region Constructors
 
         public PageDirectionalRange()
         {
-            Position = new PagePosition();
-            Last = new PagePosition();
+            this.Position = new PagePosition();
+            this.Direction = 1;
+            this.PartSize = 1;
         }
 
         public PageDirectionalRange(PagePosition position, int direction, int pageSize)
         {
             if (pageSize < 1) throw new ArgumentOutOfRangeException(nameof(pageSize));
+            if (direction != 1 && direction != -1) throw new ArgumentOutOfRangeException(nameof(direction));
 
-            Position = position;
-            Last = new PagePosition(position.Index + direction * (pageSize - 1), direction > 0 ? 1 : 0);
+            this.Position = position;
+            this.Direction = direction;
+
+            var last = new PagePosition(position.Index + direction * (pageSize - 1), direction > 0 ? 1 : 0);
+            this.PartSize = Math.Abs(last.Value - position.Value) + 1; 
         }
 
         public PageDirectionalRange(PagePosition p0, PagePosition p1)
         {
-            Position = p0;
-            Last = p1;
+            this.Position = p0;
+            this.Direction = p1 < p0 ? -1 : 1;
+            this.PartSize = Math.Abs(p1.Value - p0.Value) + 1;
         }
 
         public PageDirectionalRange(IEnumerable<PagePart> parts, int direction)
         {
+            if (parts == null) throw new ArgumentNullException(nameof(parts));
+            if (direction != 1 && direction != -1) throw new ArgumentOutOfRangeException(nameof(direction));
+
             int count = 0;
 
             PagePosition p0 = new PagePosition();
@@ -62,9 +74,9 @@ namespace NeeView
             }
 
             this.Position = direction > 0 ? p0 : p1;
-            this.Last = direction > 0 ? p1 : p0;
+            this.Direction = direction;
+            this.PartSize = Math.Abs(p1.Value - p0.Value) + 1;
         }
-
 
         #endregion
 
@@ -78,11 +90,22 @@ namespace NeeView
         /// <summary>
         /// 範囲終了
         /// </summary>
-        public PagePosition Last { get; }
+        public PagePosition Last => Position + Direction * (PartSize - 1);
 
-        public int Direction => Position.Value < Last.Value ? 1 : -1;
+        /// <summary>
+        /// 方向
+        /// </summary>
+        public int Direction { get; }
+
+        /// <summary>
+        /// パーツサイズ
+        /// </summary>
+        public int PartSize { get; }
+
+        /// <summary>
+        /// ページサイズ
+        /// </summary>
         public int PageSize => Position.Index - Last.Index + 1; // 未使用？
-        public int PartSize => Position.Value - Last.Value + 1; // 未使用？
 
         #endregion
 

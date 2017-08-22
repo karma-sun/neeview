@@ -15,15 +15,30 @@ namespace NeeView
     //
     public class Picture : BindableBase
     {
+        #region Fields
+
         private ArchiveEntry _archiveEntry;
+
+        private int _resizeHashCode;
+
+        private object _lock = new object();
+
+        #endregion
+
+        #region Constructors
 
         //
         public Picture(ArchiveEntry entry)
         {
             _archiveEntry = entry;
+            _resizeHashCode = ImageFilter.Current.GetHashCode();
 
             this.PictureInfo = new PictureInfo(entry);
         }
+
+        #endregion
+
+        #region Properties
 
         //
         public PictureInfo PictureInfo { get; set; }
@@ -50,7 +65,10 @@ namespace NeeView
             get { return _thumbnail; }
             set { if (_thumbnail != value) { _thumbnail = value; RaisePropertyChanged(); } }
         }
-        
+
+        #endregion
+
+        #region Methods
 
         // Bitmapが同じサイズであるか判定
         private bool IsEqualBitmapSizeMaybe(Size size)
@@ -59,13 +77,13 @@ namespace NeeView
 
             size = size.IsEmpty ? this.PictureInfo.Size : size;
 
+            // アスペクト比固定のため、PixelHeightのみで判定
             const double margin = 1.1;
-            return Math.Abs(size.Width - this.BitmapSource.PixelWidth) < margin && Math.Abs(size.Height - this.BitmapSource.PixelHeight) < margin;
+            return Math.Abs(size.Height - this.BitmapSource.PixelHeight) < margin;
         }
 
-
         // リサイズ
-        public void Resize(Size size, bool isForce)
+        public bool Resize(Size size)
         {
             size = size.IsEmpty ? this.PictureInfo.Size : size;
 
@@ -81,7 +99,9 @@ namespace NeeView
                 size = size.Limit(maxSize);
             }
 
-            if (!isForce && IsEqualBitmapSizeMaybe(size)) return;
+            int filterHashCode = ImageFilter.Current.GetHashCode();
+            bool isDartyResizeParameter = _resizeHashCode != filterHashCode;
+            if (!isDartyResizeParameter && IsEqualBitmapSizeMaybe(size)) return false;
 
             // 規定サイズ判定
             if (!this.PictureInfo.IsLimited && size.IsEqualMaybe(this.PictureInfo.Size))
@@ -89,7 +109,18 @@ namespace NeeView
                 size = Size.Empty;
             }
 
-            this.BitmapSource = PictureFactory.Current.CreateBitmapSource(_archiveEntry, this.RawData, size);
+            var nowSize = new Size(this.BitmapSource.PixelWidth, this.BitmapSource.PixelHeight);
+            Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
+
+            var bitmap = PictureFactory.Current.CreateBitmapSource(_archiveEntry, this.RawData, size);
+
+            lock (_lock)
+            {
+                _resizeHashCode = filterHashCode;
+                this.BitmapSource = bitmap;
+            }
+
+            return true;
         }
 
         // サムネイル生成
@@ -98,7 +129,7 @@ namespace NeeView
             if (this.Thumbnail != null) return this.Thumbnail;
 
             ////var sw = Stopwatch.StartNew();
-           
+
             var thumbnailSize = ThumbnailProfile.Current.GetThumbnailSize(this.PictureInfo.Size);
             this.Thumbnail = PictureFactory.Current.CreateThumbnail(_archiveEntry, this.RawData, thumbnailSize, this.BitmapSource);
 
@@ -107,6 +138,8 @@ namespace NeeView
 
             return this.Thumbnail;
         }
+
+        #endregion
     }
 
 }

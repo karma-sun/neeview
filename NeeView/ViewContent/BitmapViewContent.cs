@@ -94,8 +94,11 @@ namespace NeeView
                 RenderOptions.SetBitmapScalingMode(rectangle, BitmapScalingMode.NearestNeighbor);
                 rectangle.UseLayoutRounding = true;
                 rectangle.SnapsToDevicePixels = true;
-                rectangle.Width = bitmap.PixelWidth;
-                rectangle.Height = bitmap.PixelHeight;
+
+                var viewSize = source.GetViewBitmapSize(bitmap);
+                rectangle.Width = viewSize.Width;
+                rectangle.Height = viewSize.Height;
+
                 rectangle.RenderTransformOrigin = new Point(0, 0);
 
                 _pixeledRectangle = rectangle;

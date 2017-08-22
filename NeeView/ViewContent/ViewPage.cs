@@ -48,7 +48,7 @@ namespace NeeView
 
         // ソースコンテンツ
         public PageContent Content { get; }
-        
+
         // コンテンツサイズ 
         public Size Size { get; }
 
@@ -59,7 +59,7 @@ namespace NeeView
         public bool IsValid { get; }
 
         #endregion
-        
+
         #region Methods
 
         /// <summary>
@@ -115,6 +115,16 @@ namespace NeeView
 
             double half = Size.Width / Content.Size.Width;
             return isRightPart ? new Rect(0.99999 - half, -0.00001, half - 0.00001, 0.99999) : new Rect(-0.00001, -0.00001, half - 0.00001, 0.99999);
+        }
+
+        /// <summary>
+        /// ViewBoxを適用したBitmapのサイズを取得.
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
+        public Size GetViewBitmapSize(BitmapSource bitmap)
+        {
+            return new Size(Math.Truncate(bitmap.PixelWidth * GetViewBox().Width + 0.1), bitmap.PixelHeight);
         }
 
 

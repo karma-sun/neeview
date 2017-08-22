@@ -1102,7 +1102,7 @@ namespace NeeView
             if (next == null) return;
             if (!next.IsValid) return;
 
-            Debug.WriteLine($"next: {next.Range}");
+            ////Debug.WriteLine($"next: {next.Range}");
             NextContentsChanged?.Invoke(this, next);
         }
 

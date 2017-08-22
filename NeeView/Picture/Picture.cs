@@ -109,8 +109,8 @@ namespace NeeView
                 size = Size.Empty;
             }
 
-            var nowSize = new Size(this.BitmapSource.PixelWidth, this.BitmapSource.PixelHeight);
-            Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
+            ////var nowSize = new Size(this.BitmapSource.PixelWidth, this.BitmapSource.PixelHeight);
+            ////Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
 
             var bitmap = PictureFactory.Current.CreateBitmapSource(_archiveEntry, this.RawData, size);
 

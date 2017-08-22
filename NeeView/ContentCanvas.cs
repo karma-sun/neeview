@@ -302,7 +302,7 @@ namespace NeeView
             if (!PictureProfile.Current.IsResizeFilterEnabled) return;
 
             // ルーペモードでかつ継続される設定の場合、先読みではリサイズしない
-            if (LoupeTransform.Current.IsEnabled && MouseInput.Current.Loupe.IsResetByPageChanged) return;
+            if (LoupeTransform.Current.IsEnabled && !MouseInput.Current.Loupe.IsResetByPageChanged) return;
 
             var sizes = source.Collection.Select(e => e.Size).ToList();
             while (sizes.Count() < 2)
@@ -322,7 +322,7 @@ namespace NeeView
                 var size0 = sizes[i];
                 var size1 = result.ContentSizeList[i].Multi(scale);
                 if (size0.IsZero()) continue;
-                Debug.WriteLine($"{i}: {size0} => {size1.Truncate()}");
+                ////Debug.WriteLine($"{i}: {size0} => {size1.Truncate()}");
                 if (source.Collection[i].Content is BitmapContent bitmapContent)
                 {
                     bitmapContent.Picture?.Resize(size1);

@@ -353,10 +353,12 @@ namespace NeeView
                     Setting.Memento.ThumbnailProfile,
                     Setting.Memento.MainWindowModel,
                     Setting.Memento.FolderList,
+                    Setting.Memento.SidePanelProfile,
                     Setting.Memento.SidePanel,
                     Setting.Memento.ThumbnailList,
                     Setting.Memento.MenuBar,
                     Setting.Memento.BookProfile,
+                    Setting.Memento.BookHub,
 
                     Setting.Memento.MouseInput.Normal,
                     Setting.Memento.MouseInput.Gesture,

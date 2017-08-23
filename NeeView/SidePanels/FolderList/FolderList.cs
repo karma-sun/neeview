@@ -138,11 +138,6 @@ namespace NeeView
         public bool IsInsertItem { get; set; } = true;
 
         /// <summary>
-        /// 左右キー入力有効
-        /// </summary>
-        public bool IsLeftRightKeyEnabled { get; set; } = true;
-
-        /// <summary>
         /// フォルダーコレクション
         /// </summary>
         private FolderCollection _folderCollection;
@@ -685,15 +680,10 @@ namespace NeeView
             [PropertyMember("フォルダーリスト追加ファイルは挿入", Tips = "フォルダーリストで追加されたファイルを現在のソート順で挿入します。\nFalseのときはリストの終端に追加します。")]
             public bool IsInsertItem { get; set; }
 
-            [DataMember, DefaultValue(true)]
-            [PropertyMember("フォルダーリスト左右キーでフォルダー移動", Tips = "フォルダーリストで左右キー入力をすると上位のフォルダーもしくはサブフォルダーに移動します。")]
-            public bool IsLeftRightKeyEnabled { get; set; }
-
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
-                this.IsLeftRightKeyEnabled = true;
             }
         }
 
@@ -707,7 +697,6 @@ namespace NeeView
             memento.IsVisibleBookmarkMark = this.IsVisibleBookmarkMark;
             memento.Home = this.Home;
             memento.IsInsertItem = this.IsInsertItem;
-            memento.IsLeftRightKeyEnabled = this.IsLeftRightKeyEnabled;
             return memento;
         }
 
@@ -722,7 +711,6 @@ namespace NeeView
             this.IsVisibleBookmarkMark = memento.IsVisibleBookmarkMark;
             this.Home = memento.Home;
             this.IsInsertItem = memento.IsInsertItem;
-            this.IsLeftRightKeyEnabled = memento.IsLeftRightKeyEnabled;
 
             // Preference反映
             ///RaisePropertyChanged(nameof(FolderIconLayout));

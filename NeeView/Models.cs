@@ -82,6 +82,7 @@ namespace NeeView
         public NowLoading NowLoading { get; private set; }
 
         //
+        public SidePanelProfile SidePanelProfile { get; private set; }
         public FolderPanelModel FolderPanelModel { get; private set; }
         public FolderList FolderList { get; private set; }
         public PageList PageList { get; private set; }
@@ -167,6 +168,7 @@ namespace NeeView
             this.MenuBar = new MenuBar();
             this.NowLoading = new NowLoading();
 
+            this.SidePanelProfile = new SidePanelProfile();
             this.FolderPanelModel = new FolderPanelModel();
             this.FolderList = new FolderList(this.BookHub, this.FolderPanelModel);
             this.PageList = new PageList(this.BookHub, this.BookOperation);
@@ -264,6 +266,8 @@ namespace NeeView
             [DataMember]
             public MenuBar.Memento MenuBar { get; set; }
             [DataMember]
+            public SidePanelProfile.Memento SidePanelProfile { get; set; }
+            [DataMember]
             public FolderPanelModel.Memento FolderPanel { get; set; }
             [DataMember]
             public FolderList.Memento FolderList { get; set; }
@@ -324,6 +328,7 @@ namespace NeeView
             memento.PageSlider = this.PageSlider.CreateMemento();
             memento.ThumbnailList = this.ThumbnailList.CreateMemento();
             memento.MenuBar = this.MenuBar.CreateMemento();
+            memento.SidePanelProfile = this.SidePanelProfile.CreateMemento();
             memento.FolderPanel = this.FolderPanelModel.CreateMemento();
             memento.FolderList = this.FolderList.CreateMemento();
             memento.PageList = this.PageList.CreateMemento();
@@ -368,6 +373,7 @@ namespace NeeView
             this.PageSlider.Restore(memento.PageSlider);
             this.ThumbnailList.Restore(memento.ThumbnailList);
             this.MenuBar.Restore(memento.MenuBar);
+            this.SidePanelProfile.Restore(memento.SidePanelProfile);
             this.FolderPanelModel.Restore(memento.FolderPanel);
             this.FolderList.Restore(memento.FolderList);
             this.PageList.Restore(memento.PageList);

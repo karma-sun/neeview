@@ -70,6 +70,7 @@ namespace NeeView
         // サムネイル寿命管理
         private PageThumbnailPool _thumbnaulPool = new PageThumbnailPool();
 
+
         #endregion
 
         #region Constructors
@@ -262,6 +263,13 @@ namespace NeeView
 
         // マーカー
         public List<Page> Markers { get; private set; } = new List<Page>();
+
+
+        // 表示ページ変更回数
+        public int PageChangeCount { get; private set; }
+
+        // 終端ページ表示
+        public bool IsPageTerminated { get; private set; }
 
         #endregion
 
@@ -880,6 +888,8 @@ namespace NeeView
             token.ThrowIfCancellationRequested();
 
             // update contents
+            this.PageChangeCount++;
+            this.IsPageTerminated = source.Max >= LastPosition();
             _viewPageSender = sender;
             _viewPageRange = source;
             UpdateViewContents();

@@ -126,8 +126,10 @@ namespace NeeView
         // リストのキ入力
         private void HistoryListBox_KeyDown(object sender, KeyEventArgs e)
         {
+            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled;
+
             // このパネルで使用するキーのイベントを止める
-            if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return || e.Key == Key.Delete)
+            if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
             {
                 e.Handled = true;
             }

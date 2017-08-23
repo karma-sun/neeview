@@ -367,14 +367,14 @@ namespace NeeView
 
         private void FolderList_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            bool isLRKeyEnabled = _vm.Model.IsLeftRightKeyEnabled;
+            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled;
 
             if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // Backspace
             {
                 _vm.MoveToUp.Execute(null);
                 e.Handled = true;
             }
-            else if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return)
+            else if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
             {
                 e.Handled = true;
             }
@@ -415,7 +415,7 @@ namespace NeeView
         //
         private void FolderListItem_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            bool isLRKeyEnabled = _vm.Model.IsLeftRightKeyEnabled;
+            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled;
             var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
 
             if (e.Key == Key.Return)

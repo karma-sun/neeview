@@ -92,6 +92,9 @@ namespace NeeView
         /// </summary>
         public PagePosition Last => Position + Direction * (PartSize - 1);
 
+        public PagePosition Min => Direction > 0 ? Position : Last;
+        public PagePosition Max => Direction > 0 ? Last : Position;
+
         /// <summary>
         /// 方向
         /// </summary>

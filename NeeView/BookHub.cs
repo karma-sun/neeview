@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeView.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -387,7 +388,10 @@ namespace NeeView
             unit = unit ?? BookMementoCollection.Current.Find(memento.Place);
 
             // 履歴の保存
-            BookHistory.Current.Add(unit, memento, isKeepHistoryOrder);
+            if (CanHistory())
+            {
+                BookHistory.Current.Add(unit, memento, isKeepHistoryOrder);
+            }
 
             // ブックマーク更新
             BookmarkCollection.Current.Update(unit, memento);
@@ -665,14 +669,16 @@ namespace NeeView
                 // ロード。非同期で行う
                 await book.LoadAsync(path, startEntry, option, token);
 
+                _historyEntry = false;
+
                 // カレントを設定し、開始する
                 BookUnit = new BookUnit(book);
                 BookUnit.LoadOptions = option;
                 BookUnit.BookMementoUnit = unit;
 
                 // イベント設定
-                book.ViewContentsChanged += (s, e) => { if (BookUnit != null) ViewContentsChanged?.Invoke(s, e); };
-                book.NextContentsChanged += (s, e) => { if (BookUnit != null) NextContentsChanged?.Invoke(s, e); };
+                book.ViewContentsChanged += OnViewContentsChanged;
+                book.NextContentsChanged += OnNextContentsChanged;
                 book.DartyBook += (s, e) => RequestLoad(Address, null, BookLoadOption.ReLoad, false);
 
                 // 開始
@@ -706,18 +712,49 @@ namespace NeeView
                 throw new ApplicationException($"{path} の読み込みに失敗しました。\n{e.Message}", e);
             }
 
+            await Task.Delay(1000);
+
             // 本の設定を退避
             _bookSetting.BookMemento = this.Book.CreateMemento();
-
-            // 新規履歴
-            if (BookUnit.BookMementoUnit?.HistoryNode == null && Book.Pages.Count > 0 && !BookUnit.IsKeepHistoryOrder)
-            {
-                BookUnit.BookMementoUnit = BookHistory.Current.Add(BookUnit.BookMementoUnit, Book?.CreateMemento(), BookUnit.IsKeepHistoryOrder);
-            }
 
             Address = BookUnit.Book.Place;
         }
 
+
+        //
+        private bool _historyEntry;
+        private int HistoryEntryPageCount { get; set; } = 0;
+
+        // 履歴登録可
+        private bool CanHistory()
+        {
+            return (Book != null && Book.Pages.Count > 0 && (_historyEntry || Book.PageChangeCount > this.HistoryEntryPageCount || Book.IsPageTerminated));
+        }
+
+        // 
+        private void OnViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        {
+            if (BookUnit == null) return;
+
+            // 新規履歴
+            if (!BookUnit.IsKeepHistoryOrder)
+            {
+                if (!_historyEntry && CanHistory())
+                {
+                    _historyEntry = true;
+                    BookUnit.BookMementoUnit = BookHistory.Current.Add(BookUnit.BookMementoUnit, Book?.CreateMemento(), BookUnit.IsKeepHistoryOrder);
+                }
+            }
+
+            ViewContentsChanged?.Invoke(sender, e);
+        }
+
+        // 
+        private void OnNextContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        {
+            if (BookUnit == null) return;
+            NextContentsChanged?.Invoke(sender, e);
+        }
 
 
         /// <summary>
@@ -833,6 +870,9 @@ namespace NeeView
             [DataMember(Order = 22)]
             public bool IsAutoRecursiveWithAllFiles { get; set; }
 
+            [DataMember, DefaultValue(1)]
+            [PropertyMember("履歴登録開始ページ操作回数", Tips ="この回数のページ移動操作をしたら履歴に登録するようにする。")]
+            public int HistoryEntryPageCount { get; set; }
 
             #region Obslete
 
@@ -895,6 +935,12 @@ namespace NeeView
 
             #endregion
 
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                HistoryEntryPageCount = 1;
+            }
+
 #pragma warning disable CS0612
 
             [OnDeserialized]
@@ -924,6 +970,7 @@ namespace NeeView
             memento.IsConfirmRecursive = IsConfirmRecursive;
             memento.IsAutoRecursive = IsAutoRecursive;
             memento.IsAutoRecursiveWithAllFiles = IsAutoRecursiveWithAllFiles;
+            memento.HistoryEntryPageCount = HistoryEntryPageCount;
 
             return memento;
         }
@@ -936,6 +983,7 @@ namespace NeeView
             IsConfirmRecursive = memento.IsConfirmRecursive;
             IsAutoRecursive = memento.IsAutoRecursive;
             IsAutoRecursiveWithAllFiles = memento.IsAutoRecursiveWithAllFiles;
+            HistoryEntryPageCount = memento.HistoryEntryPageCount;
         }
 
 

@@ -16,60 +16,75 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// ロードオプションフラグ
-    /// </summary>
-    [Flags]
-    public enum BookLoadOption
-    {
-        None = 0,
-        Recursive = (1 << 0), // 再帰
-        SupportAllFile = (1 << 1), // すべてのファイルをページとみなす
-        FirstPage = (1 << 2), // 初期ページを先頭ページにする
-        LastPage = (1 << 3), // 初期ページを最終ページにする
-        ReLoad = (1 << 4), // 再読み込みフラグ(BookHubで使用)
-        KeepHistoryOrder = (1 << 5), // 履歴の順番を変更しない
-        SelectFoderListMaybe = (1 << 6), // 可能ならばフォルダーリストで選択する
-        SelectHistoryMaybe = (1 << 7), // 可能ならば履歴リストで選択する
-        SkipSamePlace = (1 << 8), // 同じフォルダーならば読み込まない
-        AutoRecursive = (1 << 9), // 自動再帰
-        Resume = (1 << 10), // 履歴情報から全て復元
-        DefaultRecursive = (1 << 11), // 再帰、ただし履歴が優先
-    };
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class PagemarkChangedEventArgs : EventArgs
-    {
-        public Page Page { get; set; }
-        public bool IsMarked { get; set; }
-    }
-
-    public class PageChangedEventArgs : EventArgs
-    {
-        public object Sender { get; set; }
-        public int Index { get; set; }
-    }
-
-
-    /// <summary>
     /// 本
     /// </summary>
     public class Book : IDisposable
     {
-        // Log用
+        #region 開発用
+
         public static TraceSource Log = Logger.CreateLogger(nameof(Book));
+
+        #endregion
+
+        #region Fields
+
+        // シリアル
         public static int _serial = 0;
 
-        // Log用 シリアル番号
-        public int Serial { get; private set; }
-
-        // 環境
-        ////private BookProfile _environment { get; } = BookProfile.Current;
-
         // テンポラリコンテンツ用ゴミ箱
-        public TrashBox _trashBox { get; private set; } = new TrashBox();
+        public TrashBox _trashBox = new TrashBox();
 
+        // Disposed
+        private volatile bool _isDisposed;
+
+        // 先読み可能フラグ
+        private bool _canPreLoad = true;
+
+        // 先読み解除フラグ
+        private int _canPreLoadCount;
+
+        // アーカイバーコレクション
+        // Dispose処理のために保持
+        private List<Archiver> _archivers = new List<Archiver>();
+
+        /// <summary>
+        /// 要求中の表示範囲
+        /// </summary>
+        volatile PageDirectionalRange _viewPageRange;
+
+        /// <summary>
+        /// ページ要求発行者.
+        /// スライダーの挙動制御用
+        /// </summary>
+        volatile object _viewPageSender;
+
+        // 表示ページコンテキスト
+        private volatile ViewPageCollection _viewPageCollection = new ViewPageCollection();
+
+        // 先読みページコンテキスト
+        private volatile ViewPageCollection _nextPageCollection = new ViewPageCollection();
+
+        // リソースを保持しておくページ
+        private List<Page> _keepPages = new List<Page>();
+
+        // サムネイル寿命管理
+        private PageThumbnailPool _thumbnaulPool = new PageThumbnailPool();
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        public Book()
+        {
+            Serial = ++_serial;
+        }
+
+        #endregion
+
+        #region Events
 
         // 現在ページ変更(ページ番号)
         // タイトル、スライダーの更新を要求
@@ -77,14 +92,14 @@ namespace NeeView
 
         // 表示コンテンツ変更
         // 表示の更新を要求
-        public event EventHandler<ViewPageCollection> ViewContentsChanged;
+        public event EventHandler<ViewPageCollectionChangedEventArgs> ViewContentsChanged;
 
         // 先読みコンテンツ変更
-        public event EventHandler<ViewPageCollection> NextContentsChanged;
+        public event EventHandler<ViewPageCollectionChangedEventArgs> NextContentsChanged;
 
         // ページ終端を超えて移動しようとした
         // 次の本への移動を要求
-        public event EventHandler<int> PageTerminated;
+        public event EventHandler<PageTerminatedEventArgs> PageTerminated;
 
         // 再読み込みを要求
         public event EventHandler DartyBook;
@@ -93,50 +108,21 @@ namespace NeeView
         public event EventHandler PagesSorted;
 
         // サムネイル更新
-        public event EventHandler<Page> ThumbnailChanged;
-
-        // 最初のコンテンツ表示フラグ
-        public ManualResetEventSlim ContentLoaded = new ManualResetEventSlim();
-
-        // Disposed
-        private volatile bool _isDisposed;
-
-        // 先読み許可フラグ
-        private bool AllowPreLoad
-        {
-            get
-            {
-                switch (BookProfile.Current.PreLoadMode)
-                {
-                    default:
-                    case PreLoadMode.None:
-                        return false;
-                    case PreLoadMode.AutoPreLoad:
-                        return _canPreLoad;
-                    case PreLoadMode.PreLoad:
-                        return true;
-                    case PreLoadMode.PreLoadNoUnload:
-                        return true;
-                }
-            }
-        }
-
-        // 開放許可フラグ
-        private bool AllowUnload
-        {
-            get { return BookProfile.Current.PreLoadMode != PreLoadMode.PreLoadNoUnload; }
-        }
-
-        // 先読み可能フラグ
-        private bool _canPreLoad = true;
-
-        // 先読み解除フラグ
-        private int _canPreLoadCount;
-
+        public event EventHandler<PageChangedEventArgs> ThumbnailChanged;
 
         // ファイル削除された
-        public event EventHandler<Page> PageRemoved;
+        public event EventHandler<PageChangedEventArgs> PageRemoved;
 
+
+        #endregion
+
+        #region Properties
+
+        // Log用 シリアル番号
+        public int Serial { get; private set; }
+
+        // 最初のコンテンツ表示フラグ
+        public ManualResetEventSlim ContentLoaded { get; } = new ManualResetEventSlim();
 
         // 横長ページを分割する
         private bool _isSupportedDividePage;
@@ -198,7 +184,6 @@ namespace NeeView
             }
         }
 
-
         // 右開き、左開き
         private PageReadOrder _bookReadOrder = PageReadOrder.RightToLeft;
         public PageReadOrder BookReadOrder
@@ -259,18 +244,6 @@ namespace NeeView
             }
         }
 
-        // ページ列を設定
-        // プロパティと異なり、ランダムソートの場合はソートを再実行する
-        public void SetSortMode(PageSortMode mode)
-        {
-            if (_sortMode != mode || mode == PageSortMode.Random)
-            {
-                _sortMode = mode;
-                RequestSort(this);
-            }
-        }
-
-
         // この本の場所
         // nullの場合、この本は無効
         public string Place { get; private set; }
@@ -278,82 +251,23 @@ namespace NeeView
         // 開始ページ
         public string StartEntry { get; private set; }
 
-        // アーカイバーコレクション
-        // Dispose処理のために保持
-        private List<Archiver> _archivers = new List<Archiver>();
-
         // ページ コレクション
         public List<Page> Pages { get; private set; } = new List<Page>();
 
         // 表示されるページ番号(スライダー用)
         public int DisplayIndex { get; set; }
 
-        // 表示ページコンテキスト
-        private volatile ViewPageCollection _viewPageCollection = new ViewPageCollection();
-
-        // 先読みページコンテキスト
-        private volatile ViewPageCollection _nextPageCollection = new ViewPageCollection();
-
-        // 表示ページ番号
-        public int GetViewPageindex() => _viewPageCollection.Range.Position.Index;
-
-        // 表示ページ
-        public Page GetViewPage() => GetPage(_viewPageCollection.Range.Position.Index);
-
-        // 表示ページ群
-        public List<Page> GetViewPages() => _viewPageCollection.Collection.Select(e => e.Page).ToList();
-
-        // ページ
-        public Page GetPage(int index) => Pages.Count > 0 ? Pages[ClampPageNumber(index)] : null;
-
-        //
-        public Page GetPage(string name) => Pages.FirstOrDefault(e => e.FullPath == name);
-
-        // ページ番号
-        public int GetIndex(Page page) => Pages.IndexOf(page);
-
-        // 先頭ページの場所
-        private PagePosition _firstPosition => new PagePosition(0, 0);
-
-        // 最終ページの場所
-        private PagePosition _lastPosition => Pages.Count > 0 ? new PagePosition(Pages.Count - 1, 1) : _firstPosition;
-
-        // リソースを保持しておくページ
-        private List<Page> _keepPages = new List<Page>();
-
-        //
-        private int _keepPageNextSize => PageMode == PageMode.SinglePage ? 1 : 3;
-        private int _keepPagePrevSize => PageMode == PageMode.SinglePage ? 1 : 2;
-
-        // マーカー
-        public List<Page> Markers = new List<Page>();
-
-
-        // ページサムネイル寿命管理
-        private class PageThumbnailPool : ThumbnailPool
-        {
-            public override int Limit => ThumbnailProfile.Current.PageCapacity;
-        }
-
-        // サムネイル寿命管理
-        private PageThumbnailPool _thumbnaulPool = new PageThumbnailPool();
-
-
-        // 本の読み込み
-        #region LoadBook
-
         // 読み込み対象外サブフォルダー数。リカーシブ確認に使用します。
         public int SubFolderCount { get; private set; }
 
+        // マーカー
+        public List<Page> Markers { get; private set; } = new List<Page>();
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        public Book()
-        {
-            Serial = ++_serial;
-        }
+        #endregion
 
+        #region Medhots
+
+        #region 本の初期化
 
         /// <summary>
         /// フォルダーの読込
@@ -409,7 +323,7 @@ namespace NeeView
                 option |= BookLoadOption.Recursive;
             }
 
-            PagePosition position = _firstPosition;
+            PagePosition position = FirstPosition();
             int direction = 1;
 
             _trashBox.Add(archiver);
@@ -432,18 +346,18 @@ namespace NeeView
             // スタートページ取得
             if ((option & BookLoadOption.FirstPage) == BookLoadOption.FirstPage)
             {
-                position = _firstPosition;
+                position = FirstPosition();
                 direction = 1;
             }
             else if ((option & BookLoadOption.LastPage) == BookLoadOption.LastPage)
             {
-                position = _lastPosition;
+                position = LastPosition();
                 direction = -1;
             }
             else
             {
                 int index = (start != null) ? Pages.FindIndex(e => e.FullPath == start) : 0;
-                position = index >= 0 ? new PagePosition(index, 0) : _firstPosition;
+                position = index >= 0 ? new PagePosition(index, 0) : FirstPosition();
                 direction = 1;
             }
 
@@ -509,7 +423,6 @@ namespace NeeView
             }
         }
 
-
         /// <summary>
         /// ページ作成
         /// </summary>
@@ -554,13 +467,11 @@ namespace NeeView
             //
             page.Thumbnail.Changed += (s, e) =>
             {
-                ThumbnailChanged?.Invoke(this, page);
+                ThumbnailChanged?.Invoke(this, new PageChangedEventArgs(page));
             };
 
             return page;
         }
-
-
 
         // 名前の最長一致文字列取得
         private string GetPagesPrefix()
@@ -631,6 +542,7 @@ namespace NeeView
 
         #endregion
 
+        #region コマンド発行
 
         // 廃棄処理
         public async Task DisposeAsync()
@@ -639,6 +551,17 @@ namespace NeeView
             if (command == null) return;
 
             await command.WaitAsync();
+        }
+
+        // ページ列を設定
+        // プロパティと異なり、ランダムソートの場合はソートを再実行する
+        public void SetSortMode(PageSortMode mode)
+        {
+            if (_sortMode != mode || mode == PageSortMode.Random)
+            {
+                _sortMode = mode;
+                RequestSort(this);
+            }
         }
 
         // 前のページに戻る
@@ -658,13 +581,13 @@ namespace NeeView
         // 最初のページに移動
         public void FirstPage()
         {
-            RequestSetPosition(this, _firstPosition, 1, true);
+            RequestSetPosition(this, FirstPosition(), 1, true);
         }
 
         // 最後のページに移動
         public void LastPage()
         {
-            RequestSetPosition(this, _lastPosition, -1, true);
+            RequestSetPosition(this, LastPosition(), -1, true);
         }
 
         // 指定ページに移動
@@ -677,7 +600,6 @@ namespace NeeView
                 RequestSetPosition(this, position, 1, false);
             }
         }
-
 
 
         // ページ指定移動
@@ -745,6 +667,18 @@ namespace NeeView
             _commandEngine.Enqueue(command);
         }
 
+        // 表示の再構築
+        private void Reflesh(bool clear)
+        {
+            if (Place == null) return;
+
+            if (clear)
+            {
+                _keepPages.ForEach(e => e?.Unload());
+            }
+
+            RequestSetPosition(this, _viewPageCollection.Range.Position, 1, true);
+        }
 
         // 終了処理
         private BookCommand RequestDispose(object sender)
@@ -757,129 +691,15 @@ namespace NeeView
             return command;
         }
 
-
-
-        #region Marker
-
-        /// <summary>
-        /// マーカー判定
-        /// </summary>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        public bool IsMarked(Page page)
-        {
-            return Markers.Contains(page);
-        }
-
-        /// <summary>
-        /// マーカー群設定
-        /// </summary>
-        /// <param name="pageNames"></param>
-        public void SetMarkers(IEnumerable<string> pageNames)
-        {
-            this.Markers = pageNames.Select(e => Pages.FirstOrDefault(page => page.FullPath == e)).Where(e => e != null).ToList();
-        }
-
-        /// <summary>
-        /// マーカー移動可能判定
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <param name="isLoop"></param>
-        /// <returns></returns>
-        public bool CanJumpToMarker(int direction, bool isLoop)
-        {
-            if (Place == null) return false;
-            if (Markers == null || Markers.Count == 0) return false;
-
-            if (isLoop) return true;
-
-            var list = Markers.OrderBy(e => e.Index).ToList();
-            var index = GetViewPageindex();
-
-            return direction > 0
-                ? list.Last().Index > index
-                : list.First().Index < index;
-        }
-
-        /// <summary>
-        /// マーカーに移動
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <param name="isLoop"></param>
-        /// <returns></returns>
-        public bool RequestJumpToMarker(object sender, int direction, bool isLoop, bool isIncludeTerminal)
-        {
-            Debug.Assert(direction == 1 || direction == -1);
-
-            if (Place == null) return false;
-            if (Pages == null || Pages.Count < 2) return false;
-
-            var list = Markers != null ? Markers.OrderBy(e => e.Index).ToList() : new List<Page>();
-
-            if (isIncludeTerminal)
-            {
-                if (list.FirstOrDefault() != Pages.First())
-                {
-                    list.Insert(0, Pages.First());
-                }
-                if (list.LastOrDefault() != Pages.Last())
-                {
-                    list.Add(Pages.Last());
-                }
-            }
-
-            if (list.Count == 0) return false;
-
-            var index = GetViewPageindex();
-
-            var target =
-                direction > 0
-                ? list.FirstOrDefault(e => e.Index > index) ?? (isLoop ? list.First() : null)
-                : list.LastOrDefault(e => e.Index < index) ?? (isLoop ? list.Last() : null);
-
-            if (target == null) return false;
-
-            RequestSetPosition(sender, new PagePosition(target.Index, 0), direction, false);
-            return true;
-        }
-
         #endregion
 
+        #region コマンド実行
 
         // コマンド処理
         internal async Task Dispose_Executed(BookCommandDisposeArgs param, CancellationToken token)
         {
             Dispose();
             await Task.Yield();
-        }
-
-        /// <summary>
-        /// 終了処理
-        /// </summary>
-        public void Dispose()
-        {
-            _isDisposed = true;
-
-            // さまざまなイベント停止
-            this.DartyBook = null;
-            this.PageChanged = null;
-            this.PageRemoved = null;
-            this.PagesSorted = null;
-            this.PageTerminated = null;
-            this.ThumbnailChanged = null;
-            this.ViewContentsChanged = null;
-
-            _viewPageCollection = new ViewPageCollection();
-
-            Pages?.ForEach(e => e?.Dispose());
-            _archivers?.ForEach(e => e.Dispose());
-            _trashBox?.CleanUp();
-
-            _commandEngine.StopEngine();
-
-            MemoryControl.Current.GarbageCollect();
-
-            ////Debug.WriteLine("Book: Disposed.");
         }
 
         internal async Task Remove_Executed(BookCommandRemoveArgs param, CancellationToken token)
@@ -891,7 +711,7 @@ namespace NeeView
         internal async Task Sort_Executed(BookCommandSortArgs param, CancellationToken token)
         {
             Sort();
-            RequestSetPosition(this, _firstPosition, 1, true);
+            RequestSetPosition(this, FirstPosition(), 1, true);
             await Task.Yield();
         }
 
@@ -904,7 +724,7 @@ namespace NeeView
         internal async Task SetPage_Executed(object sender, BookCommandSetPageArgs param, CancellationToken token)
         {
             var source = new PageDirectionalRange(param.Position, param.Direction, param.Size);
-            await UpdateViewPageAsync(source, param.IsPreLoad, token);
+            await UpdateViewPageAsync(source, param.IsPreLoad, sender, token);
         }
 
 
@@ -915,11 +735,11 @@ namespace NeeView
             var direction = param.Step < 0 ? -1 : 1;
 
             var pos = Math.Abs(param.Step) == PageMode.Size() ? viewRange.Next(direction) : viewRange.Move(param.Step);
-            if (pos < _firstPosition && !viewRange.IsContains(_firstPosition))
+            if (pos < FirstPosition() && !viewRange.IsContains(FirstPosition()))
             {
                 pos = new PagePosition(0, direction < 0 ? 1 : 0);
             }
-            else if (pos > _lastPosition && !viewRange.IsContains(_lastPosition))
+            else if (pos > LastPosition() && !viewRange.IsContains(LastPosition()))
             {
                 pos = new PagePosition(Pages.Count - 1, direction < 0 ? 1 : 0);
             }
@@ -928,9 +748,60 @@ namespace NeeView
 
             var isPreLoad = Math.Abs(param.Step) <= PageMode.Size();
 
-            await UpdateViewPageAsync(range, isPreLoad, token);
+            await UpdateViewPageAsync(range, isPreLoad, null, token);
         }
 
+        #endregion
+        
+        #region 表示ページ処理
+
+        // 表示ページ番号
+        public int GetViewPageindex() => _viewPageCollection.Range.Position.Index;
+
+        // 表示ページ
+        public Page GetViewPage() => GetPage(_viewPageCollection.Range.Position.Index);
+
+        // 表示ページ群
+        public List<Page> GetViewPages() => _viewPageCollection.Collection.Select(e => e.Page).ToList();
+
+        // ページ
+        public Page GetPage(int index) => Pages.Count > 0 ? Pages[ClampPageNumber(index)] : null;
+
+        //
+        public Page GetPage(string name) => Pages.FirstOrDefault(e => e.FullPath == name);
+
+        // ページ番号
+        public int GetIndex(Page page) => Pages.IndexOf(page);
+
+        // 先頭ページの場所
+        private PagePosition FirstPosition() => new PagePosition(0, 0);
+
+        // 最終ページの場所
+        private PagePosition LastPosition() => Pages.Count > 0 ? new PagePosition(Pages.Count - 1, 1) : FirstPosition();
+
+        //
+        private int KeepPageNextSize() => PageMode == PageMode.SinglePage ? 1 : 3;
+        private int KeepPagePrevSize() => PageMode == PageMode.SinglePage ? 1 : 2;
+
+        // 先読み許可フラグ
+        private bool AllowPreLoad()
+        {
+            switch (BookProfile.Current.PreLoadMode)
+            {
+                default:
+                case PreLoadMode.None:
+                    return false;
+                case PreLoadMode.AutoPreLoad:
+                    return _canPreLoad;
+                case PreLoadMode.PreLoad:
+                    return true;
+                case PreLoadMode.PreLoadNoUnload:
+                    return true;
+            }
+        }
+
+        // 開放許可フラグ
+        private bool AllowUnload() => BookProfile.Current.PreLoadMode != PreLoadMode.PreLoadNoUnload;
 
         // ページ番号のクランプ
         private int ClampPageNumber(int index)
@@ -943,21 +814,21 @@ namespace NeeView
         // ページ場所の有効判定
         private bool IsValidPosition(PagePosition position)
         {
-            return (_firstPosition <= position && position <= _lastPosition);
+            return (FirstPosition() <= position && position <= LastPosition());
         }
 
         // 表示ページ更新
-        private async Task UpdateViewPageAsync(PageDirectionalRange source, bool isPreLoad, CancellationToken token)
+        private async Task UpdateViewPageAsync(PageDirectionalRange source, bool isPreLoad, object sender, CancellationToken token)
         {
             // ページ終端を越えたか判定
-            if (source.Position < _firstPosition)
+            if (source.Position < FirstPosition())
             {
-                App.Current?.Dispatcher.Invoke(() => PageTerminated?.Invoke(this, -1));
+                App.Current?.Dispatcher.Invoke(() => PageTerminated?.Invoke(this, new PageTerminatedEventArgs(-1)));
                 return;
             }
-            else if (source.Position > _lastPosition)
+            else if (source.Position > LastPosition())
             {
-                App.Current?.Dispatcher.Invoke(() => PageTerminated?.Invoke(this, +1));
+                App.Current?.Dispatcher.Invoke(() => PageTerminated?.Invoke(this, new PageTerminatedEventArgs(+1)));
                 return;
             }
 
@@ -1009,18 +880,14 @@ namespace NeeView
             token.ThrowIfCancellationRequested();
 
             // update contents
+            _viewPageSender = sender;
             _viewPageRange = source;
             UpdateViewContents();
             UpdateNextContents();
 
             // ページ破棄
-            if (!AllowPreLoad) ClearAllPages(viewPages);
+            if (!AllowPreLoad()) ClearAllPages(viewPages);
         }
-
-        /// <summary>
-        /// 要求中の表示範囲
-        /// </summary>
-        volatile PageDirectionalRange _viewPageRange;
 
         /// <summary>
         /// ページロード完了イベント処理
@@ -1057,6 +924,7 @@ namespace NeeView
             if (_isDisposed) return;
 
             // update contents
+            var sender = _viewPageSender;
             var viewContent = CreateViewPageContext(_viewPageRange);
             if (viewContent == null) return;
 
@@ -1064,19 +932,18 @@ namespace NeeView
             ////Debug.WriteLine($"now: {_viewPageCollection.Range}");
 
             // notice ViewContentsChanged
-            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, _viewPageCollection));
+            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(_viewPageCollection)));
 
             // change page
             DisplayIndex = viewContent.Range.Position.Index;
 
             // notice PropertyChanged
-            var args = new PageChangedEventArgs() { Index = viewContent.Range.Position.Index };
-            PageChanged?.Invoke(this, args);
+            // sender を命令発行者にする
+            PageChanged?.Invoke(sender, new PageChangedEventArgs(GetPage(viewContent.Range.Position.Index)));
 
             // コンテンツ準備完了
             ContentLoaded.Set();
         }
-
 
         /// <summary>
         /// 先読みコンテンツ更新
@@ -1103,15 +970,14 @@ namespace NeeView
             if (!next.IsValid) return;
 
             ////Debug.WriteLine($"next: {next.Range}");
-            NextContentsChanged?.Invoke(this, next);
+            NextContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(next));
         }
 
-        //
+        // ページのワイド判定
         private bool IsWide(Page page)
         {
             return page.Width > page.Height * BookProfile.Current.WideRatio;
         }
-
 
         // 見開きモードでも単独表示するべきか判定
         private bool IsSoloPage(int index)
@@ -1246,14 +1112,13 @@ namespace NeeView
             }
         }
 
-
         // 不要ページコンテンツの削除を行う
         private void CleanupPages(PageDirectionalRange source)
         {
             // コンテンツを保持するページ収集
             var keepPages = new List<Page>();
-            int prevSize = source.Direction < 0 ? _keepPageNextSize : _keepPagePrevSize;
-            int nextSize = source.Direction < 0 ? _keepPagePrevSize : _keepPageNextSize;
+            int prevSize = source.Direction < 0 ? KeepPageNextSize() : KeepPagePrevSize();
+            int nextSize = source.Direction < 0 ? KeepPagePrevSize() : KeepPageNextSize();
             for (int offset = -prevSize; offset <= nextSize; ++offset)
             {
                 int index = source.Position.Index + offset;
@@ -1267,12 +1132,10 @@ namespace NeeView
             ClearAllPages(keepPages);
         }
 
-
-
         // 全ページコンテンツの削除を行う
         private void ClearAllPages(List<Page> keeps)
         {
-            if (AllowUnload)
+            if (AllowUnload())
             {
                 foreach (var page in _keepPages.Where(e => !keeps.Contains(e)))
                 {
@@ -1284,15 +1147,14 @@ namespace NeeView
             _keepPages = keeps;
         }
 
-
         // 先読み
         private void PreLoad(PageDirectionalRange source)
         {
-            if (!AllowPreLoad) return;
+            if (!AllowPreLoad()) return;
 
             var preLoadPages = new List<Page>();
 
-            for (int offset = 0; offset <= _keepPageNextSize; offset++)
+            for (int offset = 0; offset <= KeepPageNextSize(); offset++)
             {
                 int index = source.Position.Index + (source.Direction < 0 ? -offset : offset);
                 if (0 <= index && index < Pages.Count)
@@ -1307,6 +1169,10 @@ namespace NeeView
                 }
             }
         }
+
+        #endregion
+
+        #region ページの並び替え
 
         // ページの並び替え
         private void Sort()
@@ -1341,7 +1207,6 @@ namespace NeeView
             PagesSorted?.Invoke(this, null);
         }
 
-
         /// <summary>
         /// ページ番号設定
         /// </summary>
@@ -1349,7 +1214,6 @@ namespace NeeView
         {
             for (int i = 0; i < Pages.Count; ++i) Pages[i].Index = i;
         }
-
 
         // ファイル名, 日付, ID の順で比較
         private static int CompareFileNameOrder(Page p1, Page p2, Func<string, string, int> compare)
@@ -1393,7 +1257,9 @@ namespace NeeView
             return (t1.Ticks - t2.Ticks < 0) ? -1 : 1;
         }
 
+        #endregion
 
+        #region ページの削除
 
         // ページの削除
         private void Remove(Page page)
@@ -1407,27 +1273,134 @@ namespace NeeView
 
             PagesNumbering();
 
-            PageRemoved?.Invoke(this, page);
+            PageRemoved?.Invoke(this, new PageChangedEventArgs(page));
 
             index = ClampPageNumber(index);
             RequestSetPosition(this, new PagePosition(index, 0), 1, true);
         }
 
+        #endregion
 
-        // 表示の再構築
-        private void Reflesh(bool clear)
+        #region マーカー処理
+
+        /// <summary>
+        /// マーカー判定
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public bool IsMarked(Page page)
         {
-            if (Place == null) return;
-
-            if (clear)
-            {
-                _keepPages.ForEach(e => e?.Unload());
-            }
-
-            RequestSetPosition(this, _viewPageCollection.Range.Position, 1, true);
+            return Markers.Contains(page);
         }
 
+        /// <summary>
+        /// マーカー群設定
+        /// </summary>
+        /// <param name="pageNames"></param>
+        public void SetMarkers(IEnumerable<string> pageNames)
+        {
+            this.Markers = pageNames.Select(e => Pages.FirstOrDefault(page => page.FullPath == e)).Where(e => e != null).ToList();
+        }
 
+        /// <summary>
+        /// マーカー移動可能判定
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="isLoop"></param>
+        /// <returns></returns>
+        public bool CanJumpToMarker(int direction, bool isLoop)
+        {
+            if (Place == null) return false;
+            if (Markers == null || Markers.Count == 0) return false;
+
+            if (isLoop) return true;
+
+            var list = Markers.OrderBy(e => e.Index).ToList();
+            var index = GetViewPageindex();
+
+            return direction > 0
+                ? list.Last().Index > index
+                : list.First().Index < index;
+        }
+
+        /// <summary>
+        /// マーカーに移動
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="isLoop"></param>
+        /// <returns></returns>
+        public bool RequestJumpToMarker(object sender, int direction, bool isLoop, bool isIncludeTerminal)
+        {
+            Debug.Assert(direction == 1 || direction == -1);
+
+            if (Place == null) return false;
+            if (Pages == null || Pages.Count < 2) return false;
+
+            var list = Markers != null ? Markers.OrderBy(e => e.Index).ToList() : new List<Page>();
+
+            if (isIncludeTerminal)
+            {
+                if (list.FirstOrDefault() != Pages.First())
+                {
+                    list.Insert(0, Pages.First());
+                }
+                if (list.LastOrDefault() != Pages.Last())
+                {
+                    list.Add(Pages.Last());
+                }
+            }
+
+            if (list.Count == 0) return false;
+
+            var index = GetViewPageindex();
+
+            var target =
+                direction > 0
+                ? list.FirstOrDefault(e => e.Index > index) ?? (isLoop ? list.First() : null)
+                : list.LastOrDefault(e => e.Index < index) ?? (isLoop ? list.Last() : null);
+
+            if (target == null) return false;
+
+            RequestSetPosition(sender, new PagePosition(target.Index, 0), direction, false);
+            return true;
+        }
+
+        #endregion
+
+        #region 終了処理
+
+        /// <summary>
+        /// 終了処理
+        /// </summary>
+        public void Dispose()
+        {
+            _isDisposed = true;
+
+            // さまざまなイベント停止
+            this.DartyBook = null;
+            this.PageChanged = null;
+            this.PageRemoved = null;
+            this.PagesSorted = null;
+            this.PageTerminated = null;
+            this.ThumbnailChanged = null;
+            this.ViewContentsChanged = null;
+
+            _viewPageCollection = new ViewPageCollection();
+
+            Pages?.ForEach(e => e?.Dispose());
+            _archivers?.ForEach(e => e.Dispose());
+            _trashBox?.CleanUp();
+
+            _commandEngine.StopEngine();
+
+            MemoryControl.Current.GarbageCollect();
+
+            ////Debug.WriteLine("Book: Disposed.");
+        }
+
+        #endregion
+
+        #endregion
 
         #region Memento
 
@@ -1622,74 +1595,48 @@ namespace NeeView
             IsRecursiveFolder = memento.IsRecursiveFolder;
             SortMode = memento.SortMode;
         }
+
+        #endregion
     }
 
-    #endregion
-
-
-    /// <summary>
-    /// Book設定項目番号
-    /// </summary>
-    public enum BookMementoBit
+    // ページ関係のイベントパラメータ
+    public class PageChangedEventArgs : EventArgs
     {
-        // 現在ページ
-        Page,
-
-        // 1ページ表示 or 2ページ表示
-        PageMode,
-
-        // 右開き or 左開き
-        BookReadOrder,
-
-        // 横長ページ分割 (1ページモード)
-        IsSupportedDividePage,
-
-        // 最初のページを単独表示 
-        IsSupportedSingleFirstPage,
-
-        // 最後のページを単独表示
-        IsSupportedSingleLastPage,
-
-        // 横長ページを2ページ分とみなす(2ページモード)
-        IsSupportedWidePage,
-
-        // フォルダーの再帰
-        IsRecursiveFolder,
-
-        // ページ並び順
-        SortMode,
-    };
-
-
-
-    /// <summary>
-    /// Book設定フィルタ
-    /// </summary>
-    [DataContract]
-    public class BookMementoFilter
-    {
-        [DataMember]
-        public Dictionary<BookMementoBit, bool> Flags { get; set; }
-
-        //
-        public BookMementoFilter(bool def = false)
+        public PageChangedEventArgs(Page page)
         {
-            Flags = Enum.GetValues(typeof(BookMementoBit)).OfType<BookMementoBit>().ToDictionary(e => e, e => def);
+            Page = page;
         }
 
-        /// <summary>
-        /// デシリアライズ終端処理
-        /// </summary>
-        /// <param name="c"></param>
-        [OnDeserialized]
-        private void Deserialized(StreamingContext c)
-        {
-            // 項目数の保証
-            foreach (BookMementoBit key in Enum.GetValues(typeof(BookMementoBit)))
-            {
-                if (!Flags.ContainsKey(key)) Flags.Add(key, true);
-            }
-        }
+        public Page Page { get; set; }
     }
+
+    // 表示コンテンツ変更イベント
+    public class ViewPageCollectionChangedEventArgs : EventArgs
+    {
+        public ViewPageCollectionChangedEventArgs(ViewPageCollection viewPageCollection)
+        {
+            ViewPageCollection = viewPageCollection;
+        }
+
+        public ViewPageCollection ViewPageCollection { get; set; }
+    }
+
+    // ページ終端イベント
+    public class PageTerminatedEventArgs : EventArgs
+    {
+        public PageTerminatedEventArgs(int direction)
+        {
+            Direction = direction;
+        }
+
+        public int Direction { get; set; }
+    }
+
+    // ページサムネイル寿命管理
+    public class PageThumbnailPool : ThumbnailPool
+    {
+        public override int Limit => ThumbnailProfile.Current.PageCapacity;
+    }
+
 
 }

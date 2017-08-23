@@ -562,7 +562,7 @@ namespace NeeView
         private void Thumbnail_Touched(object sender, EventArgs e)
         {
             var thumbnail = (Thumbnail)sender;
-            PanelThumbnailPool.Current.Add(thumbnail);
+            BookThumbnailPool.Current.Add(thumbnail);
         }
         #endregion
 

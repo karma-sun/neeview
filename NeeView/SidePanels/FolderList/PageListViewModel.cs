@@ -165,9 +165,9 @@ namespace NeeView
         }
 
         //
-        private void BookHub_ViewContentsChanged(object sender, ViewPageCollection e)
+        private void BookHub_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
         {
-            var contents = e?.Collection;
+            var contents = e?.ViewPageCollection?.Collection;
             if (contents == null) return;
 
             var mainContent = contents.Count > 0 ? (contents.First().PagePart.Position < contents.Last().PagePart.Position ? contents.First() : contents.Last()) : null;

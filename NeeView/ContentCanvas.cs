@@ -238,16 +238,16 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnViewContentsChanged(object sender, ViewPageCollection e)
+        private void OnViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
         {
             var contents = new List<ViewContent>();
 
             // ViewContent作成
-            if (e?.Collection != null)
+            if (e?.ViewPageCollection?.Collection != null)
             {
                 try
                 {
-                    foreach (var source in e.Collection)
+                    foreach (var source in e.ViewPageCollection.Collection)
                     {
                         if (source != null)
                         {
@@ -283,7 +283,7 @@ namespace NeeView
             UpdateContentSize(angle);
 
             // 座標初期化
-            ResetTransform(false, e != null ? e.Range.Direction : 0, NextViewOrigin);
+            ResetTransform(false, e != null ? e.ViewPageCollection.Range.Direction : 0, NextViewOrigin);
             NextViewOrigin = DragViewOrigin.None;
 
             ContentChanged?.Invoke(this, null);
@@ -294,9 +294,9 @@ namespace NeeView
 
         // 先読みコンテンツ更新
         // 表示サイズを確定し、フィルター適用時にリサイズ処理を行う
-        private void OnNextContentsChanged(object sender, ViewPageCollection source)
+        private void OnNextContentsChanged(object sender, ViewPageCollectionChangedEventArgs source)
         {
-            if (source?.Collection == null) return;
+            if (source?.ViewPageCollection?.Collection == null) return;
 
             // フィルターを適用しないのであればリサイズ不要
             if (!PictureProfile.Current.IsResizeFilterEnabled) return;
@@ -304,7 +304,7 @@ namespace NeeView
             // ルーペモードでかつ継続される設定の場合、先読みではリサイズしない
             if (LoupeTransform.Current.IsEnabled && !MouseInput.Current.Loupe.IsResetByPageChanged) return;
 
-            var sizes = source.Collection.Select(e => e.Size).ToList();
+            var sizes = source.ViewPageCollection.Collection.Select(e => e.Size).ToList();
             while (sizes.Count() < 2)
             {
                 sizes.Add(SizeExtensions.Zero);
@@ -323,7 +323,7 @@ namespace NeeView
                 var size1 = result.ContentSizeList[i].Multi(scale);
                 if (size0.IsZero()) continue;
                 ////Debug.WriteLine($"{i}: {size0} => {size1.Truncate()}");
-                if (source.Collection[i].Content is BitmapContent bitmapContent)
+                if (source.ViewPageCollection.Collection[i].Content is BitmapContent bitmapContent)
                 {
                     bitmapContent.Picture?.Resize(size1);
                 }

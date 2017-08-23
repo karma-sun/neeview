@@ -67,14 +67,14 @@ namespace NeeView
     /// <summary>
     /// ThumbnaulPool for Panel
     /// </summary>
-    public class PanelThumbnailPool : ThumbnailPool
+    public class BookThumbnailPool : ThumbnailPool
     {
-        public static PanelThumbnailPool _current;
-        public static PanelThumbnailPool Current
+        public static BookThumbnailPool _current;
+        public static BookThumbnailPool Current
         {
             get
             {
-                _current = _current ?? new PanelThumbnailPool();
+                _current = _current ?? new BookThumbnailPool();
                 return _current;
             }
         }

@@ -41,8 +41,7 @@ namespace NeeView
         public event EventHandler PagesSorted;
 
         // ページが削除された
-        // TODO: EventArgs
-        public event EventHandler<Page> PageRemoved;
+        public event EventHandler<PageChangedEventArgs> PageRemoved;
 
 
         #endregion
@@ -115,7 +114,7 @@ namespace NeeView
         private void Book_PageChanged(object sender, PageChangedEventArgs e)
         {
             RaisePropertyChanged(nameof(IsPagemark));
-            PageChanged?.Invoke(this, e);
+            PageChanged?.Invoke(sender, e);
         }
 
 
@@ -392,7 +391,7 @@ namespace NeeView
         #region BookCommand : ページ操作
 
         // ページ終端を超えて移動しようとするときの処理
-        private void Book_PageTerminated(object sender, int e)
+        private void Book_PageTerminated(object sender, PageTerminatedEventArgs e)
         {
             // TODO ここでSlideShowを参照しているが、引数で渡すべきでは？
             if (SlideShow.Current.IsPlayingSlideShow && SlideShow.Current.IsSlideShowByLoop)
@@ -402,7 +401,7 @@ namespace NeeView
 
             else if (this.PageEndAction == PageEndAction.Loop)
             {
-                if (e < 0)
+                if (e.Direction < 0)
                 {
                     LastPage();
                 }
@@ -413,7 +412,7 @@ namespace NeeView
             }
             else if (this.PageEndAction == PageEndAction.NextFolder)
             {
-                if (e < 0)
+                if (e.Direction < 0)
                 {
                     FolderList.Current.PrevFolder(BookLoadOption.LastPage);
                 }
@@ -430,7 +429,7 @@ namespace NeeView
                     SlideShow.Current.IsPlayingSlideShow = false;
                 }
 
-                else if (e < 0)
+                else if (e.Direction < 0)
                 {
                     InfoMessage.Current.SetMessage(InfoMessageType.Notify, "最初のページです");
                 }
@@ -443,10 +442,10 @@ namespace NeeView
 
 
         // ページ削除時の処理
-        private void Book_PageRemoved(object sender, Page e)
+        private void Book_PageRemoved(object sender, PageChangedEventArgs e)
         {
             // ページマーカーから削除
-            RemovePagemark(new Pagemark(this.Book.Place, e.FullPath));
+            RemovePagemark(new Pagemark(this.Book.Place, e.Page.FullPath));
 
             UpdatePageList();
             PageRemoved?.Invoke(sender, e);
@@ -563,7 +562,7 @@ namespace NeeView
         #region BookCommand : ページマーク
 
         // ページマークにに追加、削除された
-        public event EventHandler<PagemarkChangedEventArgs> PagemarkChanged;
+        public event EventHandler PagemarkChanged;
 
         //
         public bool IsPagemark
@@ -721,4 +720,5 @@ namespace NeeView
         #endregion
 
     }
+
 }

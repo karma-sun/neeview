@@ -217,7 +217,7 @@ namespace NeeView
         private void BookOperation_PageChanged(object sender, PageChangedEventArgs e)
         {
             // スライダーによる変化の場合は更新しないようにする
-            if (e.Sender == this) return;
+            if (sender == this) return;
 
             this.SetPageNumber(this.BookOperation.GetPageIndex());
         }

@@ -155,10 +155,10 @@ namespace NeeView
         public event EventHandler<string> Loading;
 
         // ViewContentsの変更通知
-        public event EventHandler<ViewPageCollection> ViewContentsChanged;
+        public event EventHandler<ViewPageCollectionChangedEventArgs> ViewContentsChanged;
 
         // NextContentsの変更通知
-        public event EventHandler<ViewPageCollection> NextContentsChanged;
+        public event EventHandler<ViewPageCollectionChangedEventArgs> NextContentsChanged;
 
         // 空ページメッセージ
         public event EventHandler<string> EmptyMessage;

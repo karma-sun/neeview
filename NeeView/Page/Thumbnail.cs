@@ -81,7 +81,7 @@ namespace NeeView
         /// <summary>
         /// キャッシュ使用
         /// </summary>
-        public bool IsSupprtedCache { get; set; }
+        public bool IsCacheEnabled { get; set; }
 
         /// <summary>
         /// キャシュ用ヘッダ
@@ -94,7 +94,7 @@ namespace NeeView
         /// </summary>
         internal void Initialize(ArchiveEntry entry, string appendix)
         {
-            if (IsValid || !IsSupprtedCache) return;
+            if (IsValid || !IsCacheEnabled) return;
 
             _header = new ThumbnailCacheHeader(entry.FullName, entry.Length, entry.LastWriteTime, appendix);
             var image = ThumbnailCache.Current.Load(_header);
@@ -111,8 +111,26 @@ namespace NeeView
             if (IsValid) return;
 
             Image = image ?? _emptyImage;
+
+            SaveCacheAsync();
         }
 
+        /// <summary>
+        /// キャッシュに保存
+        /// </summary>
+        internal void SaveCacheAsync()
+        {
+            if (!IsCacheEnabled || _header == null) return;
+            if (_image == null || _image == _emptyImage) return;
+
+            Task.Run(() =>
+            {
+                ////var sw = Stopwatch.StartNew();
+                ThumbnailCache.Current.Save(_header, _image);
+                ////sw.Stop();
+                ////Debug.WriteLine($"Cache Save: {sw.ElapsedMilliseconds}ms");
+            });
+        }
 
         /// <summary>
         /// image無効

@@ -550,7 +550,7 @@ namespace NeeView
                 if (_archivePage == null)
                 {
                     _archivePage = new ArchivePage(Place, EntryName);
-                    _archivePage.Thumbnail.IsSupprtedCache = true;
+                    _archivePage.Thumbnail.IsCacheEnabled = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }
                 return _archivePage;

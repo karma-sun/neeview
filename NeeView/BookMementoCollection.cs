@@ -81,7 +81,7 @@ namespace NeeView
 
         /// <summary>
         /// ArchivePage Property.
-        /// サムネイル用。保存しません
+        /// サムネイル用
         /// </summary>
         private ArchivePage _archivePage;
         public ArchivePage ArchivePage
@@ -91,7 +91,7 @@ namespace NeeView
                 if (_archivePage == null && Memento != null)
                 {
                     _archivePage = new ArchivePage(Memento.Place);
-                    _archivePage.Thumbnail.IsSupprtedCache = true;
+                    _archivePage.Thumbnail.IsCacheEnabled = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }
                 return _archivePage;

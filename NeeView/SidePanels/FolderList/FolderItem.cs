@@ -215,7 +215,7 @@ namespace NeeView
                         LastWriteTime = this.LastWriteTime,
                     };
                     _archivePage = new ArchivePage(entry);
-                    _archivePage.Thumbnail.IsSupprtedCache = true;
+                    _archivePage.Thumbnail.IsCacheEnabled = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }
                 return _archivePage;

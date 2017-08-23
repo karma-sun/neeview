@@ -712,8 +712,6 @@ namespace NeeView
                 throw new ApplicationException($"{path} の読み込みに失敗しました。\n{e.Message}", e);
             }
 
-            await Task.Delay(1000);
-
             // 本の設定を退避
             _bookSetting.BookMemento = this.Book.CreateMemento();
 

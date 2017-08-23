@@ -17,27 +17,45 @@ namespace NeeView
     /// </summary>
     public struct PagePosition
     {
-        public int Value { get; set; }
+        #region Fields
+
+        private readonly int _value;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// ページの場所(0,0)
+        /// </summary>
+        public static PagePosition Zero { get; } = new PagePosition(0);
+
+        //
+        public int Value => _value;
 
         // ページ番号
-        public int Index
-        {
-            get { return Value / 2; }
-            set { Value = value * 2; }
-        }
+        public int Index => _value / 2;
 
         // パーツ番号
-        public int Part
+        public int Part => _value % 2;
+
+        #endregion
+
+        #region Constructors
+
+        public PagePosition(int value)
         {
-            get { return Value % 2; }
-            set { Value = Index * 2 + value; }
+            _value = value;
         }
 
-        // constructor
         public PagePosition(int index, int part)
         {
-            Value = index * 2 + part;
+            _value = index * 2 + part;
         }
+
+        #endregion
+
+        #region Methods
 
         //
         public override string ToString()
@@ -45,27 +63,38 @@ namespace NeeView
             return Index.ToString() + (Part == 1 ? ".5" : "");
         }
 
-        #region operators
+        // clamp
+        public PagePosition Clamp(PagePosition min, PagePosition max)
+        {
+            if (min._value > max._value) throw new ArgumentOutOfRangeException();
+
+            int value = _value;
+            if (value < min._value) value = min._value;
+            if (value > max._value) value = max._value;
+
+            return new PagePosition(value);
+        }
+
 
         // add
         public static PagePosition operator +(PagePosition a, PagePosition b)
         {
-            return new PagePosition() { Value = a.Value + b.Value };
+            return new PagePosition(a._value + b._value);
         }
 
         public static PagePosition operator +(PagePosition a, int b)
         {
-            return new PagePosition() { Value = a.Value + b };
+            return new PagePosition(a._value + b);
         }
 
         public static PagePosition operator -(PagePosition a, PagePosition b)
         {
-            return new PagePosition() { Value = a.Value - b.Value };
+            return new PagePosition(a._value - b._value);
         }
 
         public static PagePosition operator -(PagePosition a, int b)
         {
-            return new PagePosition() { Value = a.Value - b };
+            return new PagePosition(a._value - b);
         }
 
         // compare
@@ -73,56 +102,44 @@ namespace NeeView
         {
             if (obj == null) return false;
             if (!(obj is PagePosition)) return false;
-            return Value == ((PagePosition)obj).Value;
+            return _value == ((PagePosition)obj)._value;
         }
 
         public override int GetHashCode()
         {
-            return Value;
+            return _value;
         }
 
         public static bool operator ==(PagePosition a, PagePosition b)
         {
-            return a.Value == b.Value;
+            return a._value == b._value;
         }
 
         public static bool operator !=(PagePosition a, PagePosition b)
         {
-            return a.Value != b.Value;
+            return a._value != b._value;
         }
 
         public static bool operator <(PagePosition a, PagePosition b)
         {
-            return a.Value < b.Value;
+            return a._value < b._value;
         }
 
         public static bool operator >(PagePosition a, PagePosition b)
         {
-            return a.Value > b.Value;
+            return a._value > b._value;
         }
 
         public static bool operator <=(PagePosition a, PagePosition b)
         {
-            return a.Value <= b.Value;
+            return a._value <= b._value;
         }
 
         public static bool operator >=(PagePosition a, PagePosition b)
         {
-            return a.Value >= b.Value;
+            return a._value >= b._value;
         }
 
         #endregion
-
-        // clamp
-        public PagePosition Clamp(PagePosition min, PagePosition max)
-        {
-            if (min.Value > max.Value) throw new ArgumentOutOfRangeException();
-
-            int value = Value;
-            if (value < min.Value) value = min.Value;
-            if (value > max.Value) value = max.Value;
-
-            return new PagePosition() { Value = value };
-        }
     }
 }

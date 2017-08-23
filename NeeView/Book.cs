@@ -774,7 +774,7 @@ namespace NeeView
         public int GetIndex(Page page) => Pages.IndexOf(page);
 
         // 先頭ページの場所
-        private PagePosition FirstPosition() => new PagePosition(0, 0);
+        private PagePosition FirstPosition() => PagePosition.Zero;
 
         // 最終ページの場所
         private PagePosition LastPosition() => Pages.Count > 0 ? new PagePosition(Pages.Count - 1, 1) : FirstPosition();
@@ -1013,7 +1013,7 @@ namespace NeeView
                     }
                     else
                     {
-                        position.Part = 0;
+                        position = new PagePosition(position.Index, 0);
                     }
 
                     infos.Add(new PagePart(position, size, this.BookReadOrder));

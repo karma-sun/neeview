@@ -26,6 +26,8 @@ namespace NeeView
         private Rectangle _scaleRectangle;
         private Rectangle _pixeledRectangle;
 
+        private BitmapSource _viewBitmap;
+
         #endregion
 
         #region Constructors
@@ -55,16 +57,24 @@ namespace NeeView
         //
         protected FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter)
         {
-            return CreateView(source, parameter, ((BitmapContent)this.Content).BitmapSource);
+            return CreateView(source, parameter, GetPicture()?.BitmapSource);
         }
 
         //
         protected FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter, BitmapSource bitmap)
         {
-            if (bitmap == null) return null;
+            if (bitmap == null)
+            {
+                _viewBitmap = null;
+                _scaleRectangle = null;
+                _pixeledRectangle = null;
+                return null;
+            }
 
             var grid = new Grid();
             grid.UseLayoutRounding = true;
+
+            _viewBitmap = bitmap;
 
             // scale bitmap
             {
@@ -102,6 +112,7 @@ namespace NeeView
                 canvas.Children.Add(rectangle);
                 grid.Children.Add(canvas);
             }
+
             return grid;
         }
 
@@ -132,9 +143,22 @@ namespace NeeView
 
 
         //
-        public override Picture GetPicture()
+        public Picture GetPicture()
         {
             return ((BitmapContent)this.Content)?.Picture;
+        }
+
+        //
+        public BitmapSource GetViewBitmap()
+        {
+            return _viewBitmap;
+        }
+
+        //
+        public bool IsDarty()
+        {
+            var pictureBitmap = GetPicture()?.BitmapSource;
+            return _viewBitmap != pictureBitmap;
         }
 
 
@@ -171,10 +195,7 @@ namespace NeeView
                 try
                 {
                     var picture = ((BitmapContent)this.Content)?.Picture;
-                    if (picture == null) return;
-
-                    bool isResized = picture.Resize(size);
-                    if (!isResized) return;
+                    picture?.Resize(size);
 
                     App.Current?.Dispatcher.Invoke((Action)(() =>
                     {

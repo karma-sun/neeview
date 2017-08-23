@@ -414,10 +414,13 @@ namespace NeeView
 
                 if (content.View != null && content.IsBitmapScalingModeSupported())
                 {
-                    var picture = content.GetPicture();
-                    if (picture?.BitmapSource == null) continue;
+                    var bitmapContent = content as BitmapViewContent;
+                    if (bitmapContent == null) continue;
 
-                    var pixelHeight = picture.BitmapSource.PixelHeight;
+                    var bitmap = bitmapContent.GetViewBitmap();
+                    if (bitmap == null) continue;
+
+                    var pixelHeight = bitmap.PixelHeight;
                     var viewHeight = content.Height * finalScale;
 
                     var diff = Math.Abs(pixelHeight - viewHeight);
@@ -435,6 +438,11 @@ namespace NeeView
 
                     // ##
                     DevInfo.Current?.SetMessage($"{content.BitmapScalingMode}: s={pixelHeight}: v={viewHeight:0.00}: a={_dragTransform.Angle:0.00}");
+
+                    if (bitmapContent.IsDarty())
+                    {
+                        ContentRebuild.Current.Request();
+                    }
                 }
             }
         }

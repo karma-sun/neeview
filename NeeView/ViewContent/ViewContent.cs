@@ -249,12 +249,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// コンテンツピクチャー
-        /// </summary>
-        /// <returns></returns>
-        public virtual Picture GetPicture() => null;
-
-        /// <summary>
         /// ビューモードの設定
         /// ドットバイドット表示用
         /// </summary>

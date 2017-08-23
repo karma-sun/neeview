@@ -85,6 +85,16 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// IsThumbnailPopup property.
+        /// </summary>
+        private bool _IsThumbnailPopup = true;
+        public bool IsThumbnailPopup
+        {
+            get { return _IsThumbnailPopup; }
+            set { if (_IsThumbnailPopup != value) { _IsThumbnailPopup = value;  } }
+        }
+
 
 
         /// <summary>
@@ -149,12 +159,24 @@ namespace NeeView
             public int BookCapacity { get; set; }
 
             [DataMember, DefaultValue(50)]
-            [PropertyMember("コンテンツサムネイルサイズ", Tips = "パネルのコンテンツ表示でのサムネイルサイズです。")]
+            [PropertyMember("ブックサムネイルサイズ", Tips = "パネルのコンテンツ表示でのサムネイルサイズです。")]
             public int ThumbnailWidth { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            [PropertyMember("ブックサムネイルのポップアップ", Tips = "サムネイルにカーソルを合わせるとポップアップで大きめのサムネイル画像が表示されます。")]
+            public bool IsThumbnailPopup { get; set; }
 
             [DataMember, DefaultValue(200)]
             [PropertyMember("バナーサイズ", Tips = "パネルのバナー表示での画像の横幅です。縦幅は横幅の1/4になります。\nサムネイル画像を流用しているため、大きいサイズほど画像が荒くなります")]
             public int BannerWidth { get; set; }
+
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext context)
+            {
+                ThumbnailWidth = 50;
+                IsThumbnailPopup = true;
+            }
         }
 
         //
@@ -168,6 +190,7 @@ namespace NeeView
             memento.BookCapacity = this.BookCapacity;
             memento.ThumbnailWidth = this.ThumbnailWidth;
             memento.BannerWidth = this.BannerWidth;
+            memento.IsThumbnailPopup = this.IsThumbnailPopup;
             return memento;
         }
 
@@ -182,6 +205,7 @@ namespace NeeView
             this.BookCapacity = memento.BookCapacity;
             this.ThumbnailWidth = memento.ThumbnailWidth;
             this.BannerWidth = memento.BannerWidth;
+            this.IsThumbnailPopup = memento.IsThumbnailPopup;
         }
         #endregion
 

@@ -30,6 +30,11 @@ namespace NeeView
         {
             InitializeComponent();
         }
+
+        private void Image_ToolTipOpening(object sender, ToolTipEventArgs e)
+        {
+            e.Handled = !ThumbnailProfile.Current.IsThumbnailPopup;
+        }
     }
 
 }

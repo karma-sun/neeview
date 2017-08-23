@@ -23,6 +23,7 @@
            Stretch="Uniform"
            UseLayoutRounding="True"
            Source="{Binding BitmapSource}"
+           ToolTipOpening="Image_ToolTipOpening"
            ToolTipService.IsEnabled="{Binding IsUniqueImage}">
             <Image.ToolTip>
                 <Image Source="{Binding BitmapSource}" Width="{Binding BitmapSource.PixelWidth}" />

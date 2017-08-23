@@ -28,6 +28,23 @@ namespace NeeView
     {
         public static FolderList Current { get; private set; }
 
+        #region Fields
+
+        private BookHub _bookHub;
+
+        /// <summary>
+        /// そのフォルダーで最後に選択されていた項目の記憶
+        /// </summary>
+        private Dictionary<string, string> _lastPlaceDictionary = new Dictionary<string, string>();
+
+        /// <summary>
+        /// 更新フラグ
+        /// </summary>
+        private bool _isDarty;
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Constructor
@@ -46,8 +63,9 @@ namespace NeeView
             _bookHub.BookmarkChanged += (s, e) => RefleshIcon(e.Key);
         }
 
+        #endregion
 
-        #region events
+        #region Events
 
         public event EventHandler PlaceChanged;
 
@@ -60,62 +78,50 @@ namespace NeeView
 
         #endregion
 
-
-        //
-        private BookHub _bookHub;
+        #region Properties
 
         //
         public FolderPanelModel FolderPanel { get; private set; }
 
-
         /// <summary>
         /// PanelListItemStyle property.
         /// </summary>
+        private PanelListItemStyle _panelListItemStyle;
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
             set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
         }
 
-        //
-        private PanelListItemStyle _panelListItemStyle;
-
-
         /// <summary>
         /// フォルダーアイコン表示位置
         /// </summary>
+        private FolderIconLayout _folderIconLayout = FolderIconLayout.Default;
         public FolderIconLayout FolderIconLayout
         {
             get { return _folderIconLayout; }
             set { if (_folderIconLayout != value) { _folderIconLayout = value; RaisePropertyChanged(); } }
         }
 
-        private FolderIconLayout _folderIconLayout = FolderIconLayout.Default;
-
-
         /// <summary>
         /// IsVisibleHistoryMark property.
         /// </summary>
+        private bool _isVisibleHistoryMark = true;
         public bool IsVisibleHistoryMark
         {
             get { return _isVisibleHistoryMark; }
             set { if (_isVisibleHistoryMark != value) { _isVisibleHistoryMark = value; RaisePropertyChanged(); } }
         }
 
-        private bool _isVisibleHistoryMark = true;
-
-
         /// <summary>
         /// IsVisibleBookmarkMark property.
         /// </summary>
+        private bool _isVisibleBookmarkMark = true;
         public bool IsVisibleBookmarkMark
         {
             get { return _isVisibleBookmarkMark; }
             set { if (_isVisibleBookmarkMark != value) { _isVisibleBookmarkMark = value; RaisePropertyChanged(); } }
         }
-
-        private bool _isVisibleBookmarkMark = true;
-
 
         /// </summary>
         private string _home;
@@ -124,6 +130,60 @@ namespace NeeView
             get { return _home; }
             set { if (_home != value) { _home = value; RaisePropertyChanged(); } }
         }
+
+        /// <summary>
+        /// 追加されたファイルを挿入する？
+        /// OFFの場合はリスト末尾に追加する
+        /// </summary>
+        public bool IsInsertItem { get; set; } = true;
+
+        /// <summary>
+        /// 左右キー入力有効
+        /// </summary>
+        public bool IsLeftRightKeyEnabled { get; set; } = true;
+
+        /// <summary>
+        /// フォルダーコレクション
+        /// </summary>
+        private FolderCollection _folderCollection;
+        public FolderCollection FolderCollection
+        {
+            get { return _folderCollection; }
+            set
+            {
+                if (_folderCollection != value)
+                {
+                    _folderCollection?.Dispose();
+                    _folderCollection = value;
+                    CollectionChanged?.Invoke(this, null);
+                    RaisePropertyChanged(nameof(FolderOrder));
+                }
+            }
+        }
+
+        /// <summary>
+        /// SelectedItem property.
+        /// </summary>
+        private FolderItem _selectedItem;
+        public FolderItem SelectedItem
+        {
+            get { return _selectedItem; }
+            set { if (_selectedItem != value) { _selectedItem = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// 現在のフォルダー
+        /// </summary>
+        private string Place => FolderCollection?.Place;
+
+        /// <summary>
+        /// フォルダー履歴
+        /// </summary>
+        public History<string> History { get; private set; } = new History<string>();
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// 補正されたHOME取得
@@ -141,49 +201,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 追加されたファイルを挿入する？
-        /// OFFの場合はリスト末尾に追加する
-        /// </summary>
-        public bool IsInsertItem { get; set; } = true;
-
-
-        /// <summary>
-        /// フォルダーコレクション
-        /// </summary>
-        public FolderCollection FolderCollection
-        {
-            get { return _folderCollection; }
-            set
-            {
-                if (_folderCollection != value)
-                {
-                    _folderCollection?.Dispose();
-                    _folderCollection = value;
-                    CollectionChanged?.Invoke(this, null);
-                    RaisePropertyChanged(nameof(FolderOrder));
-                }
-            }
-        }
-
-        //
-        private FolderCollection _folderCollection;
-
-
-        /// <summary>
-        /// SelectedItem property.
-        /// </summary>
-        public FolderItem SelectedItem
-        {
-            get { return _selectedItem; }
-            set { if (_selectedItem != value) { _selectedItem = value; RaisePropertyChanged(); } }
-        }
-
-        private FolderItem _selectedItem;
-
-
-
-
-        /// <summary>
         /// ふさわしい選択項目インデックスを取得
         /// </summary>
         /// <param name="path">選択したいパス</param>
@@ -194,35 +211,11 @@ namespace NeeView
             return index < 0 ? 0 : index;
         }
 
-
+        //
         internal FolderItem FixedItem(string path)
         {
             return this.FolderCollection.FirstOrDefault(path) ?? this.FolderCollection.FirstOrDefault();
         }
-
-
-        /// <summary>
-        /// 現在のフォルダー
-        /// </summary>
-        private string _place => FolderCollection?.Place;
-
-        /// <summary>
-        /// そのフォルダーで最後に選択されていた項目の記憶
-        /// </summary>
-        private Dictionary<string, string> _lastPlaceDictionary = new Dictionary<string, string>();
-
-        /// <summary>
-        /// フォルダー履歴
-        /// </summary>
-        private History<string> _history = new History<string>();
-        public History<string> History => _history;
-
-        /// <summary>
-        /// 更新フラグ
-        /// </summary>
-        private bool _isDarty;
-
-
 
         /// <summary>
         /// フォルダー状態保存
@@ -298,14 +291,14 @@ namespace NeeView
                 RaiseSelectedItemChanged(options.HasFlag(FolderSetPlaceOption.IsFocus));
 
                 // 最終フォルダー更新
-                BookHistory.Current.LastFolder = _place;
+                BookHistory.Current.LastFolder = Place;
 
                 // 履歴追加
                 if (options.HasFlag(FolderSetPlaceOption.IsUpdateHistory))
                 {
-                    if (place != _history.GetCurrent())
+                    if (place != this.History.GetCurrent())
                     {
-                        _history.Add(place);
+                        this.History.Add(place);
                     }
                 }
             }
@@ -406,7 +399,7 @@ namespace NeeView
 
             _isDarty = force || this.FolderCollection.IsDarty();
 
-            SetPlace(_place, null, FolderSetPlaceOption.IsUpdateHistory);
+            SetPlace(Place, null, FolderSetPlaceOption.IsUpdateHistory);
         }
 
 
@@ -550,7 +543,7 @@ namespace NeeView
             var item = this.GetFolderItem(direction);
             if (item != null)
             {
-                SetPlace(_place, item.Path, FolderSetPlaceOption.IsUpdateHistory);
+                SetPlace(Place, item.Path, FolderSetPlaceOption.IsUpdateHistory);
                 _bookHub.RequestLoad(item.TargetPath, null, options, false);
                 return true;
             }
@@ -558,7 +551,7 @@ namespace NeeView
             return false;
         }
 
-
+        #endregion
 
         #region Commands
 
@@ -566,7 +559,7 @@ namespace NeeView
         public void SetHome_Executed()
         {
             if (_bookHub == null) return;
-            this.Home = _place;
+            this.Home = Place;
         }
 
         //
@@ -588,55 +581,55 @@ namespace NeeView
         //
         public bool MoveToPrevious_CanExecutre()
         {
-            return _history.CanPrevious();
+            return this.History.CanPrevious();
         }
 
         //
         public void MoveToPrevious_Executed()
         {
-            if (!_history.CanPrevious()) return;
+            if (!this.History.CanPrevious()) return;
 
-            var place = _history.GetPrevious();
+            var place = this.History.GetPrevious();
             SetPlace(place, null, FolderSetPlaceOption.IsFocus);
-            _history.Move(-1);
+            this.History.Move(-1);
         }
 
         //
         public bool MoveToNext_CanExecute()
         {
-            return _history.CanNext();
+            return this.History.CanNext();
         }
 
         //
         public void MoveToNext_Executed()
         {
-            if (!_history.CanNext()) return;
+            if (!this.History.CanNext()) return;
 
-            var place = _history.GetNext();
+            var place = this.History.GetNext();
             SetPlace(place, null, FolderSetPlaceOption.IsFocus);
-            _history.Move(+1);
+            this.History.Move(+1);
         }
 
         //
         public void MoveToHistory_Executed(KeyValuePair<int, string> item)
         {
-            var place = _history.GetHistory(item.Key);
+            var place = this.History.GetHistory(item.Key);
             SetPlace(place, null, FolderSetPlaceOption.IsFocus);
-            _history.SetCurrent(item.Key + 1);
+            this.History.SetCurrent(item.Key + 1);
         }
 
         //
         public bool MoveToParent_CanExecute()
         {
-            return (_place != null);
+            return (Place != null);
         }
 
         //
         public void MoveToParent_Execute()
         {
-            if (_place == null) return;
-            var parent = System.IO.Path.GetDirectoryName(_place);
-            SetPlace(parent, _place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
+            if (Place == null) return;
+            var parent = System.IO.Path.GetDirectoryName(Place);
+            SetPlace(parent, Place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
         }
 
         //
@@ -651,10 +644,10 @@ namespace NeeView
 
                 RaiseSelectedItemChanged(true);
             }
-            else if (_place != null)
+            else if (Place != null)
             {
                 _isDarty = true; // 強制更新
-                SetPlace(_place, null, FolderSetPlaceOption.IsFocus);
+                SetPlace(Place, null, FolderSetPlaceOption.IsFocus);
 
                 RaiseSelectedItemChanged(true);
             }
@@ -668,9 +661,8 @@ namespace NeeView
 
         #endregion
 
-
-
         #region Memento
+
         [DataContract]
         public class Memento
         {
@@ -692,6 +684,17 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             [PropertyMember("フォルダーリスト追加ファイルは挿入", Tips = "フォルダーリストで追加されたファイルを現在のソート順で挿入します。\nFalseのときはリストの終端に追加します。")]
             public bool IsInsertItem { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            [PropertyMember("フォルダーリスト左右キーでフォルダー移動", Tips = "フォルダーリストで左右キー入力をすると上位のフォルダーもしくはサブフォルダーに移動します。")]
+            public bool IsLeftRightKeyEnabled { get; set; }
+
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                this.IsLeftRightKeyEnabled = true;
+            }
         }
 
         //
@@ -704,6 +707,7 @@ namespace NeeView
             memento.IsVisibleBookmarkMark = this.IsVisibleBookmarkMark;
             memento.Home = this.Home;
             memento.IsInsertItem = this.IsInsertItem;
+            memento.IsLeftRightKeyEnabled = this.IsLeftRightKeyEnabled;
             return memento;
         }
 
@@ -718,6 +722,7 @@ namespace NeeView
             this.IsVisibleBookmarkMark = memento.IsVisibleBookmarkMark;
             this.Home = memento.Home;
             this.IsInsertItem = memento.IsInsertItem;
+            this.IsLeftRightKeyEnabled = memento.IsLeftRightKeyEnabled;
 
             // Preference反映
             ///RaisePropertyChanged(nameof(FolderIconLayout));

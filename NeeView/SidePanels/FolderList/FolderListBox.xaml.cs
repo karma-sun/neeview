@@ -367,12 +367,14 @@ namespace NeeView
 
         private void FolderList_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.Left || e.Key == Key.Back) // Backspace
+            bool isLRKeyEnabled = _vm.Model.IsLeftRightKeyEnabled;
+
+            if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // Backspace
             {
                 _vm.MoveToUp.Execute(null);
                 e.Handled = true;
             }
-            else if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return)
+            else if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return)
             {
                 e.Handled = true;
             }
@@ -413,29 +415,29 @@ namespace NeeView
         //
         private void FolderListItem_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            bool isLRKeyEnabled = _vm.Model.IsLeftRightKeyEnabled;
             var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
+
+            if (e.Key == Key.Return)
             {
-                if (e.Key == Key.Return)
+                _vm.Model.LoadBook(folderInfo.TargetPath);
+                e.Handled = true;
+            }
+            else if (isLRKeyEnabled && e.Key == Key.Right) // →
+            {
+                if (folderInfo != null && folderInfo.IsDirectory && folderInfo.IsReady)
                 {
-                    _vm.Model.LoadBook(folderInfo.TargetPath);
-                    e.Handled = true;
+                    _vm.MoveTo.Execute(folderInfo.TargetPath);
                 }
-                else if (e.Key == Key.Right) // →
+                e.Handled = true;
+            }
+            else if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // ← Backspace
+            {
+                if (folderInfo != null)
                 {
-                    if (folderInfo != null && folderInfo.IsDirectory && folderInfo.IsReady)
-                    {
-                        _vm.MoveTo.Execute(folderInfo.TargetPath);
-                    }
-                    e.Handled = true;
+                    _vm.MoveToUp.Execute(null);
                 }
-                else if (e.Key == Key.Left || e.Key == Key.Back) // ← Backspace
-                {
-                    if (folderInfo != null)
-                    {
-                        _vm.MoveToUp.Execute(null);
-                    }
-                    e.Handled = true;
-                }
+                e.Handled = true;
             }
         }
 

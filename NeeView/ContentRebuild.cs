@@ -59,7 +59,7 @@ namespace NeeView
     /// <summary>
     /// リサイズによるコンテンツの再作成管理
     /// </summary>
-    public class ContentRebuild : BindableBase
+    public class ContentRebuild : BindableBase, IEngine
     {
         // system object
         public static ContentRebuild Current { get; private set; }
@@ -92,7 +92,6 @@ namespace NeeView
         public ContentRebuild()
         {
             Current = this;
-            CompositionTarget.Rendering += new EventHandler(OnRendering);
 
             // コンテンツ変更監視
             ContentCanvas.Current.ContentChanged += (s, e) => Request();
@@ -217,6 +216,16 @@ namespace NeeView
         public void UpdateStatus()
         {
             this.IsBusy = ContentCanvas.Current.Contents.Where(e => e.IsValid).Any(e => e.IsResizing);
+        }
+
+        public void StartEngine()
+        {
+            CompositionTarget.Rendering += OnRendering;
+        }
+
+        public void StopEngine()
+        {
+            CompositionTarget.Rendering -= OnRendering;
         }
 
         #endregion

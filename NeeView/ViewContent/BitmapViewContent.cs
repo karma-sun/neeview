@@ -176,7 +176,7 @@ namespace NeeView
                     bool isResized = picture.Resize(size);
                     if (!isResized) return;
 
-                    App.Current.Dispatcher.Invoke((Action)(() =>
+                    App.Current?.Dispatcher.Invoke((Action)(() =>
                     {
                         var view = CreateView(this.Source, CreateBindingParameter());
                         if (view != null)

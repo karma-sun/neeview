@@ -189,6 +189,7 @@ namespace NeeView
             this.JobEngine.StartEngine();
             this.SlideShow.StartEngine();
             this.BookHub.StartEngine();
+            this.ContentRebuild.StartEngine();
         }
 
         //
@@ -197,6 +198,7 @@ namespace NeeView
             this.BookHub.StopEngine();
             this.SlideShow.StopEngine();
             this.JobEngine.StopEngine();
+            this.ContentRebuild.StopEngine();
         }
 
 

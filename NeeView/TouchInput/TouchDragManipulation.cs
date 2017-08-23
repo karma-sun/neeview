@@ -164,7 +164,7 @@ namespace NeeView
             if (!_ticking)
             {
                 _ticking = true;
-                CompositionTarget.Rendering += new EventHandler(OnRendering);
+                CompositionTarget.Rendering += OnRendering;
             }
         }
 
@@ -173,7 +173,7 @@ namespace NeeView
         {
             if (_ticking)
             {
-                CompositionTarget.Rendering -= new EventHandler(OnRendering);
+                CompositionTarget.Rendering -= OnRendering;
                 _ticking = false;
             }
         }

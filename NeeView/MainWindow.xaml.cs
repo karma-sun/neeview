@@ -150,7 +150,7 @@ namespace NeeView
             this.Deactivated += (s, e) => this.RenameManager.Stop();
 
             // frame event
-            CompositionTarget.Rendering += new EventHandler(OnRendering);
+            CompositionTarget.Rendering += OnRendering;
 
             // 開発用初期化
             Debug_Initialize();
@@ -655,6 +655,9 @@ namespace NeeView
         {
             //
             Models.Current.StopEngine();
+
+            //
+            CompositionTarget.Rendering -= OnRendering;
 
             // タイマー停止
             _timer.Stop();

@@ -2,7 +2,7 @@
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
-// Copyright (c) 2016 Mitsuhiro Ito (nee)
+// Copyright (c) 2016-2017 Mitsuhiro Ito (nee)
 //
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php

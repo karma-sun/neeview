@@ -298,9 +298,6 @@ namespace NeeView
         {
             if (source?.ViewPageCollection?.Collection == null) return;
 
-            // フィルターを適用しないのであればリサイズ不要
-            if (!PictureProfile.Current.IsResizeFilterEnabled) return;
-
             // ルーペモードでかつ継続される設定の場合、先読みではリサイズしない
             if (LoupeTransform.Current.IsEnabled && !MouseInput.Current.Loupe.IsResetByPageChanged) return;
 
@@ -323,7 +320,13 @@ namespace NeeView
                 var size1 = result.ContentSizeList[i].Multi(scale);
                 if (size0.IsZero()) continue;
                 ////Debug.WriteLine($"{i}: {size0} => {size1.Truncate()}");
-                if (source.ViewPageCollection.Collection[i].Content is BitmapContent bitmapContent)
+
+                var content = source.ViewPageCollection.Collection[i].Content;
+                if (content is PdfContetnt pdfContent)
+                {
+                    pdfContent.Picture?.Resize(size1);
+                }
+                else if (content is BitmapContent bitmapContent && PictureProfile.Current.IsResizeFilterEnabled)
                 {
                     bitmapContent.Picture?.Resize(size1);
                 }

@@ -685,7 +685,7 @@ namespace NeeView
                 _keepPages.ForEach(e => e?.Unload());
             }
 
-            RequestSetPosition(this, _viewPageCollection.Range.Position, 1, true);
+            RequestSetPosition(this, _viewPageCollection.Range.Min, 1, true);
         }
 
         // 終了処理
@@ -764,10 +764,10 @@ namespace NeeView
         #region 表示ページ処理
 
         // 表示ページ番号
-        public int GetViewPageindex() => _viewPageCollection.Range.Position.Index;
+        public int GetViewPageindex() => _viewPageCollection.Range.Min.Index;
 
         // 表示ページ
-        public Page GetViewPage() => GetPage(_viewPageCollection.Range.Position.Index);
+        public Page GetViewPage() => GetPage(_viewPageCollection.Range.Min.Index);
 
         // 表示ページ群
         public List<Page> GetViewPages() => _viewPageCollection.Collection.Select(e => e.Page).ToList();
@@ -945,11 +945,11 @@ namespace NeeView
             App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(_viewPageCollection)));
 
             // change page
-            DisplayIndex = viewContent.Range.Position.Index;
+            this.DisplayIndex = viewContent.Range.Min.Index;
 
             // notice PropertyChanged
             // sender を命令発行者にする
-            PageChanged?.Invoke(sender, new PageChangedEventArgs(GetPage(viewContent.Range.Position.Index)));
+            PageChanged?.Invoke(sender, new PageChangedEventArgs(GetPage(this.DisplayIndex)));
 
             // コンテンツ準備完了
             ContentLoaded.Set();

@@ -30,6 +30,9 @@ namespace NeeView
         // 長押し判定時間(秒)
         public double LongLeftButtonDownTime { get; set; } = 1.0;
 
+        // マウスジェスチャー有効
+        public bool IsGestureEnabled { get; set; } = true;
+
         /// <summary>
         /// ボタン押されている？
         /// </summary>
@@ -190,7 +193,7 @@ namespace NeeView
             {
                 // ドラッグ開始。処理をドラッグ系に移行
                 var action = DragActionTable.Current.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
-                if (action == DragActionType.Gesture)
+                if (this.IsGestureEnabled && action == DragActionType.Gesture)
                 {
                     SetState(MouseInputState.Gesture);
                 }
@@ -212,6 +215,16 @@ namespace NeeView
             [DataMember, DefaultValue(1.0)]
             [PropertyMember("長押し判定時間(秒)", Tips = "長押しの判定時間です", IsVisible=false)]
             public double LongLeftButtonDownTime { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            [PropertyMember("マウスジェスチャー有効", Tips = "マウスジェスチャー入力を有効にします")]
+            public bool IsGestureEnabled { get; set; }
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                this.IsGestureEnabled = true;
+            }
         }
 
         //
@@ -220,6 +233,7 @@ namespace NeeView
             var memento = new Memento();
             memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
             memento.LongLeftButtonDownTime = this.LongLeftButtonDownTime;
+            memento.IsGestureEnabled = this.IsGestureEnabled;
             return memento;
         }
 
@@ -229,6 +243,7 @@ namespace NeeView
             if (memento == null) return;
             this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
             this.LongLeftButtonDownTime = memento.LongLeftButtonDownTime;
+            this.IsGestureEnabled = memento.IsGestureEnabled;
         }
         #endregion
 

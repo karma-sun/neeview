@@ -22,6 +22,8 @@ namespace NeeView
     /// </summary>
     public class FolderCollection : IDisposable
     {
+        private object _lock = new object();
+
         public event EventHandler<FileSystemEventArgs> Deleting;
 
         public event EventHandler ParameterChanged;
@@ -410,33 +412,36 @@ namespace NeeView
         //
         private void Watcher_Creaded(FolderItem item)
         {
-            if (this.Items.Count == 1 && this.Items.First().Type == FolderItemType.Empty)
+            lock (_lock)
             {
-                this.Items.RemoveAt(0);
-                this.Items.Add(item);
-            }
-            else if (FolderOrder == FolderOrder.Random)
-            {
-                this.Items.Add(item);
-            }
-            else if (FolderList.Current.IsInsertItem)
-            {
-                // 別にリストを作ってソートを実行し、それで挿入位置を決める
-                var list = Sort(this.Items.Concat(new List<FolderItem>() { item })).ToList();
-                var index = list.IndexOf(item);
-
-                if (index >= 0)
+                if (this.Items.Count == 1 && this.Items.First().Type == FolderItemType.Empty)
                 {
-                    this.Items.Insert(index, item);
+                    this.Items.RemoveAt(0);
+                    this.Items.Add(item);
+                }
+                else if (FolderOrder == FolderOrder.Random)
+                {
+                    this.Items.Add(item);
+                }
+                else if (FolderList.Current.IsInsertItem)
+                {
+                    // 別にリストを作ってソートを実行し、それで挿入位置を決める
+                    var list = Sort(this.Items.Concat(new List<FolderItem>() { item })).ToList();
+                    var index = list.IndexOf(item);
+
+                    if (index >= 0)
+                    {
+                        this.Items.Insert(index, item);
+                    }
+                    else
+                    {
+                        this.Items.Add(item);
+                    }
                 }
                 else
                 {
                     this.Items.Add(item);
                 }
-            }
-            else
-            {
-                this.Items.Add(item);
             }
         }
 
@@ -447,8 +452,14 @@ namespace NeeView
         /// <param name="e"></param>
         private void Watcher_Deleted(object sender, FileSystemEventArgs e)
         {
-            // 対象を検索し、削除する
-            var item = this.Items.FirstOrDefault(i => i.Path == e.FullPath);
+            FolderItem item;
+
+            lock (_lock)
+            {
+                // 対象を検索し、削除する
+                item = this.Items.FirstOrDefault(i => i.Path == e.FullPath);
+            }
+
             if (item != null)
             {
                 App.Current.Dispatcher.BeginInvoke((Action)(() =>
@@ -461,11 +472,14 @@ namespace NeeView
 
         private void Watcher_Deleted(FolderItem item)
         {
-            Items.Remove(item);
-
-            if (this.Items.Count == 0)
+            lock (_lock)
             {
-                this.Items.Add(CreateFolderItemEmpty());
+                this.Items.Remove(item);
+
+                if (this.Items.Count == 0)
+                {
+                    this.Items.Add(CreateFolderItemEmpty());
+                }
             }
         }
 
@@ -477,7 +491,11 @@ namespace NeeView
         /// <param name="e"></param>
         private void Watcher_Renamed(object sender, RenamedEventArgs e)
         {
-            var item = this.Items.FirstOrDefault(i => i.Path == e.OldFullPath);
+            FolderItem item;
+            lock (_lock)
+            {
+                item = this.Items.FirstOrDefault(i => i.Path == e.OldFullPath);
+            }
             if (item != null)
             {
                 item.Path = e.FullPath;

@@ -843,7 +843,7 @@ namespace NeeView
             // ページ数０の場合は表示コンテンツなし
             if (Pages.Count == 0)
             {
-                App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
+                App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(new ViewPageCollection())));
                 return;
             }
 

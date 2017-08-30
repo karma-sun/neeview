@@ -265,7 +265,7 @@ namespace NeeView
             }
 
             // ページが存在しない場合、専用メッセージを表示する
-            IsVisibleEmptyPageMessage = e != null && contents.Count == 0;
+            IsVisibleEmptyPageMessage = e?.ViewPageCollection != null && contents.Count == 0;
 
             // メインとなるコンテンツを指定
             MainContent = contents.Count > 0 ? (contents.First().Position < contents.Last().Position ? contents.First() : contents.Last()) : null;

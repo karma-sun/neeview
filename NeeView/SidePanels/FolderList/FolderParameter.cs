@@ -33,7 +33,7 @@ namespace NeeView
             set
             {
                 _randomSeed = new Random().Next();
-                if (_folderOrder != value)
+                if (_folderOrder != value || value == FolderOrder.Random)
                 {
                     _folderOrder = value;
                     RaisePropertyChanged();

@@ -12,11 +12,23 @@
                 <Component Id="cmpF4ED074744A7D85B596FAD97C2A1E278" Guid="*">
                     <File Id="fil2CEC097441F2CB33524309037DC5BB13" KeyPath="yes" Source="$(var.LibrariesDir)\PdfiumViewer.dll" />
                 </Component>
+                <Component Id="cmp82078E57D47AAEC0771A6750ECCC33BC" Guid="*">
+                    <File Id="fil19971E69789E2D9316CA941379B4103A" KeyPath="yes" Source="$(var.LibrariesDir)\PhotoSauce.MagicScaler.dll" />
+                </Component>
                 <Component Id="cmp22E98BAC13DC44B2B85FDBE34D094DB9" Guid="*">
                     <File Id="filCA34950CA2B657862525DB2E7CFF70F5" KeyPath="yes" Source="$(var.LibrariesDir)\SevenZipSharpNE.dll" />
                 </Component>
+                <Component Id="cmpB71736D52F6C6C28DC09A1D54BF9C7BA" Guid="*">
+                    <File Id="fil5614F01B74C840F8D8A0B4AD0D0533AD" KeyPath="yes" Source="$(var.LibrariesDir)\System.Buffers.dll" />
+                </Component>
                 <Component Id="cmp3DCCEA2975E18FD4C2DA5E81BF1C60B0" Guid="*">
                     <File Id="fil1F8EF309A2151F48D57716B34F4C5562" KeyPath="yes" Source="$(var.LibrariesDir)\System.Data.SQLite.dll" />
+                </Component>
+                <Component Id="cmpE8FAEF65B0E2CD298FD9F28330592354" Guid="*">
+                    <File Id="fil4B989BFB99CD36794FF2FA700FC1ABC5" KeyPath="yes" Source="$(var.LibrariesDir)\System.Numerics.Vectors.dll" />
+                </Component>
+                <Component Id="cmp469E88A102148B8BD5667462EE59FECD" Guid="*">
+                    <File Id="fil501514B310BCDCAE4E40EE64F78E4500" KeyPath="yes" Source="$(var.LibrariesDir)\System.Runtime.CompilerServices.Unsafe.dll" />
                 </Component>
                 <Component Id="cmp497DB98CF2661AD5E3F644E55989373D" Guid="*">
                     <File Id="filF73C8B9A095B60D8A23CB5231D88364D" KeyPath="yes" Source="$(var.LibrariesDir)\System.Windows.Interactivity.dll" />
@@ -158,8 +170,12 @@
             <ComponentRef Id="cmpB5253615D3A409D93E9B0F5C0792727C" />
             <ComponentRef Id="cmpE88A5217E6CBA6AA7D4C8E2EF756AA30" />
             <ComponentRef Id="cmpF4ED074744A7D85B596FAD97C2A1E278" />
+            <ComponentRef Id="cmp82078E57D47AAEC0771A6750ECCC33BC" />
             <ComponentRef Id="cmp22E98BAC13DC44B2B85FDBE34D094DB9" />
+            <ComponentRef Id="cmpB71736D52F6C6C28DC09A1D54BF9C7BA" />
             <ComponentRef Id="cmp3DCCEA2975E18FD4C2DA5E81BF1C60B0" />
+            <ComponentRef Id="cmpE8FAEF65B0E2CD298FD9F28330592354" />
+            <ComponentRef Id="cmp469E88A102148B8BD5667462EE59FECD" />
             <ComponentRef Id="cmp497DB98CF2661AD5E3F644E55989373D" />
             <ComponentRef Id="cmpDBD3B4EFAAC3567503FEE3F4E5B4AB51" />
             <ComponentRef Id="cmp3117185246EC1BBA75CD3939E062572C" />

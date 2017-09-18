@@ -25,6 +25,9 @@ namespace NeeView
         // 約分
         public void Reduction()
         {
+            // 0除算例外発生を回避
+            if (this.Numerator == 0 || this.Denominator == 0) return;
+
             int gcd = GreatestCommonDivisor(Numerator, Denominator);
             Numerator /= gcd;
             Denominator /= gcd;

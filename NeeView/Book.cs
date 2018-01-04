@@ -1339,12 +1339,12 @@ namespace NeeView
         /// <param name="direction"></param>
         /// <param name="isLoop"></param>
         /// <returns></returns>
-        public bool RequestJumpToMarker(object sender, int direction, bool isLoop, bool isIncludeTerminal)
+        public Page RequestJumpToMarker(object sender, int direction, bool isLoop, bool isIncludeTerminal)
         {
             Debug.Assert(direction == 1 || direction == -1);
 
-            if (Place == null) return false;
-            if (Pages == null || Pages.Count < 2) return false;
+            if (Place == null) return null;
+            if (Pages == null || Pages.Count < 2) return null;
 
             var list = Markers != null ? Markers.OrderBy(e => e.Index).ToList() : new List<Page>();
 
@@ -1360,7 +1360,7 @@ namespace NeeView
                 }
             }
 
-            if (list.Count == 0) return false;
+            if (list.Count == 0) return null;
 
             var index = GetViewPageindex();
 
@@ -1369,10 +1369,10 @@ namespace NeeView
                 ? list.FirstOrDefault(e => e.Index > index) ?? (isLoop ? list.First() : null)
                 : list.LastOrDefault(e => e.Index < index) ?? (isLoop ? list.Last() : null);
 
-            if (target == null) return false;
+            if (target == null) return null;
 
             RequestSetPosition(sender, new PagePosition(target.Index, 0), direction, false);
-            return true;
+            return target;
         }
 
         #endregion

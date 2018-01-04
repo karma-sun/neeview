@@ -650,17 +650,28 @@ namespace NeeView
         {
             if (!_isEnabled || this.Book == null) return;
             var result = this.Book.RequestJumpToMarker(this, -1, param.IsLoop, param.IsIncludeTerminal);
-            if (!result)
+            if (result != null)
+            {
+                // ページマーク更新
+                PagemarkCollection.Current.Move(this.Book.Place, result.FileName);
+            }
+            else
             {
                 InfoMessage.Current.SetMessage(InfoMessageType.Notify, "現在ページより前のページマークはありません");
             }
         }
 
+        // ページマークに移動
         public void NextPagemarkInPlace(MovePagemarkCommandParameter param)
         {
             if (!_isEnabled || this.Book == null) return;
             var result = this.Book.RequestJumpToMarker(this, +1, param.IsLoop, param.IsIncludeTerminal);
-            if (!result)
+            if (result != null)
+            {
+                // ページマーク更新
+                PagemarkCollection.Current.Move(this.Book.Place, result.FileName);
+            }
+            else
             {
                 InfoMessage.Current.SetMessage(InfoMessageType.Notify, "現在ページより後のページマークはありません");
             }

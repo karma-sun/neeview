@@ -240,7 +240,6 @@ namespace NeeView
         }
 
 
-        #region Property: SelectedItem
         private Pagemark _selectedItem;
         public Pagemark SelectedItem
         {
@@ -254,7 +253,6 @@ namespace NeeView
                 }
             }
         }
-        #endregion
 
 
         // となりを取得
@@ -321,6 +319,22 @@ namespace NeeView
             return SelectedItem;
         }
 
+        /// <summary>
+        /// 指定のマーカーに移動。存在しなければ移動しない
+        /// </summary>
+        /// <param name="place"></param>
+        /// <param name="entryName"></param>
+        /// <returns></returns>
+        public Pagemark Move(string place, string entryName)
+        {
+            var mark = Search(place, entryName);
+            if (mark != null)
+            {
+                SelectedItem = mark;
+            }
+
+            return SelectedItem;
+        }
 
 
         /// <summary>
@@ -373,6 +387,17 @@ namespace NeeView
         public List<Pagemark> Collect(string place)
         {
             return Marks.Where(e => e.Place == place).ToList();
+        }
+
+        /// <summary>
+        /// マーカーの検索
+        /// </summary>
+        /// <param name="place"></param>
+        /// <param name="entryName"></param>
+        /// <returns></returns>
+        public Pagemark Search(string place, string entryName)
+        {
+            return Marks.FirstOrDefault(e => e.Place == place && e.EntryName == entryName);
         }
 
 

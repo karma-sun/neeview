@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NeeLaboratory")]
 [assembly: AssemblyProduct("NeeView")]
-[assembly: AssemblyCopyright("Copyright © 2016-2017 Mitsuhiro Ito (nee)")]
+[assembly: AssemblyCopyright("Copyright © 2016-2018 Mitsuhiro Ito (nee)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Windows;
 // すべての値を指定するか、下のように '*' を使ってビルドおよびリビジョン番号を 
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.27.0.0")]
-[assembly: AssemblyFileVersion("1.27.0.0")]
+[assembly: AssemblyVersion("1.28.0.0")]
+[assembly: AssemblyFileVersion("1.28.0.0")]

@@ -610,7 +610,13 @@ namespace NeeView
         }
 
 
-        // ページ指定移動
+        /// <summary>
+        /// ページ指定移動
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="position">ページ位置</param>
+        /// <param name="direction">読む方向(+1 or -1)</param>
+        /// <param name="isPreLoad">この移動で先読みを行う</param>
         public void RequestSetPosition(object sender, PagePosition position, int direction, bool isPreLoad)
         {
             Debug.Assert(direction == 1 || direction == -1);
@@ -1334,10 +1340,10 @@ namespace NeeView
         }
 
         /// <summary>
-        /// マーカーに移動
+        /// ブック内のマーカーを移動
         /// </summary>
-        /// <param name="direction"></param>
-        /// <param name="isLoop"></param>
+        /// <param name="direction">移動方向(+1 or -1)</param>
+        /// <param name="isLoop">ループ移動</param>
         /// <returns></returns>
         public Page RequestJumpToMarker(object sender, int direction, bool isLoop, bool isIncludeTerminal)
         {
@@ -1371,7 +1377,7 @@ namespace NeeView
 
             if (target == null) return null;
 
-            RequestSetPosition(sender, new PagePosition(target.Index, 0), direction, false);
+            RequestSetPosition(sender, new PagePosition(target.Index, 0), +1, false);
             return target;
         }
 

@@ -33,7 +33,7 @@ namespace NeeView
 
             IsValid = Content.IsLoaded;
 
-            Size = new Size(pagePart.PartSize == 2 ? Content.Size.Width : Math.Floor(Content.Size.Width * 0.5 + 0.4), Content.Size.Height);
+            Size = new Size(pagePart.PartSize == 2 ? Page.Width : Math.Floor(Page.Width * 0.5 + 0.4), Page.Height);
 
             this.PagePart = pagePart;
         }
@@ -113,7 +113,7 @@ namespace NeeView
             bool isRightPart = PagePart.Position.Part == 0;
             if (PagePart.PartOrder == PageReadOrder.LeftToRight) isRightPart = !isRightPart;
 
-            double half = Size.Width / Content.Size.Width;
+            double half = Size.Width / Page.Width;
             return isRightPart ? new Rect(0.99999 - half, -0.00001, half - 0.00001, 0.99999) : new Rect(-0.00001, -0.00001, half - 0.00001, 0.99999);
         }
 

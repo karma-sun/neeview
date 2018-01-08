@@ -93,10 +93,27 @@ namespace NeeView
         public long Length => Entry.Length;
 
         // コンテンツ幅
-        public double Width => Content.Size.Width;
+        public double Width => CustomContentSize.Width;
 
         // コンテンツ高
-        public double Height => Content.Size.Height;
+        public double Height => CustomContentSize.Height;
+
+        //
+        private Size CustomContentSize
+        {
+            get
+            {
+                var customSize = BookProfile.Current.PageCustomSize;
+                if (customSize.IsEnabled)
+                {
+                    return customSize.IsUniformed ? Content.Size.Uniformed(customSize.Size) : customSize.Size;
+                }
+                else
+                {
+                    return Content.Size;
+                }
+            }
+        }
 
 
         /// <summary>

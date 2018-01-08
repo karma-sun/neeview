@@ -24,6 +24,28 @@ namespace NeeView
         PreImage,
     }
 
+
+    /// <summary>
+    /// ページのカスタムサイズ
+    /// </summary>
+    public class PageCustomSize
+    {
+        /// <summary>
+        /// カスタムサイズ有効
+        /// </summary>
+        public bool IsEnabled { get; set; }
+
+        /// <summary>
+        /// 縦横比を固定する
+        /// </summary>
+        public bool IsUniformed { get; set; }
+
+        /// <summary>
+        /// カスタムサイズ
+        /// </summary>
+        public Size Size { get; set; }
+    }
+
     /// <summary>
     /// 本：設定
     /// </summary>
@@ -74,7 +96,7 @@ namespace NeeView
         {
             get { return (int)(PreloadLimitSize.Width * PreloadLimitSize.Height); }
         }
-        
+
         /// <summary>
         /// WideRatio property.
         /// </summary>
@@ -93,6 +115,14 @@ namespace NeeView
 
         // ページ読み込み中表示
         public LoadingPageView LoadingPageView { get; set; } = LoadingPageView.PreThumbnail;
+
+        // カスタムページサイズ
+        public PageCustomSize PageCustomSize { get; set; } = new PageCustomSize()
+        {
+            IsEnabled = false,
+            IsUniformed = false,
+            Size = new Size(256, 256)
+        };
 
 
         /// <summary>
@@ -145,7 +175,7 @@ namespace NeeView
             public bool IsEnableNoSupportFile { get; set; }
 
             [DataMember, DefaultValue(LoadingPageView.PreThumbnail)]
-            [PropertyEnum("読み込み中ページの表示方法", Tips  = "ページの読み込みが完了するまでに表示しておくものを指定します。\n- None ... なし(灰色)\n- PreThumbnail ... 直前のサムネイル\n- PreImage ... 直前の画像。一番メモリを消費します")]
+            [PropertyEnum("読み込み中ページの表示方法", Tips = "ページの読み込みが完了するまでに表示しておくものを指定します。\n- None ... なし(灰色)\n- PreThumbnail ... 直前のサムネイル\n- PreImage ... 直前の画像。一番メモリを消費します")]
             public LoadingPageView LoadingPageView { get; set; }
 
 

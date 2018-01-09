@@ -49,7 +49,7 @@ namespace NeeView
     {
         Picture Create(ArchiveEntry entry, PictureCreateOptions options);
 
-        BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size);
+        BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size, bool keepAspectRatio);
         byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting);
     }
 
@@ -111,7 +111,7 @@ namespace NeeView
         }
 
         //
-        public BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size)
+        public BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size, bool keepAspectRatio)
         {
             ////Debug.WriteLine($"Create: {entry.EntryLastName} ({size.Truncate()})");
 
@@ -120,11 +120,11 @@ namespace NeeView
                 {
                     if (entry.Archiver is PdfArchiver)
                     {
-                        return _pdfFactory.CreateBitmapSource(entry, raw, size);
+                        return _pdfFactory.CreateBitmapSource(entry, raw, size, keepAspectRatio);
                     }
                     else
                     {
-                        return _defaultFactory.CreateBitmapSource(entry, raw, size);
+                        return _defaultFactory.CreateBitmapSource(entry, raw, size, keepAspectRatio);
                     }
                 });
         }

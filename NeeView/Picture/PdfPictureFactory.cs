@@ -63,7 +63,7 @@ namespace NeeView
         }
 
         //
-        public BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size)
+        public BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size, bool keepAspectRatio)
         {
             var pdfArchiver = (PdfArchiver)entry.Archiver;
             size = size.IsEmpty ? pdfArchiver.GetRenderSize(entry) : size;

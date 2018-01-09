@@ -118,14 +118,11 @@ namespace NeeView
             ////var nowSize = new Size(this.BitmapSource.PixelWidth, this.BitmapSource.PixelHeight);
             ////Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
 
-            // アスペクト比固定の場合、width=0にする
+            // アスペクト比固定?
             var cutomSize = PictureProfile.Current.CustomSize;
-            if (size != Size.Empty && (!cutomSize.IsEnabled || cutomSize.IsUniformed))
-            {
-                size.Width = 0;
-            }
+            var keepAspectRatio = size != Size.Empty && (!cutomSize.IsEnabled || cutomSize.IsUniformed);
 
-            var bitmap = PictureFactory.Current.CreateBitmapSource(_archiveEntry, this.RawData, size);
+            var bitmap = PictureFactory.Current.CreateBitmapSource(_archiveEntry, this.RawData, size, keepAspectRatio);
 
             lock (_lock)
             {

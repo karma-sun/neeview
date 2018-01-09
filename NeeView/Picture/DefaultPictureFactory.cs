@@ -116,8 +116,13 @@ namespace NeeView
         }
 
         //
-        public BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size)
+        public BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size, bool keepAspectRatio)
         {
+            if (keepAspectRatio)
+            {
+                size = new Size(0, size.Height);
+            }
+
             using (var stream = CreateStream(entry, raw))
             {
                 var setting = new BitmapCreateSetting();

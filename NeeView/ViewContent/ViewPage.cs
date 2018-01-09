@@ -53,6 +53,9 @@ namespace NeeView
         // ページパーツ
         public PagePart PagePart { get; }
 
+        // 分割？
+        public bool IsHalf => this.PagePart.PartSize == 1;
+
         // 生成時点での有効判定
         public bool IsValid { get; }
 

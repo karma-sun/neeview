@@ -68,6 +68,9 @@ namespace NeeView
             set { _height = value; RaisePropertyChanged(); }
         }
 
+        // 分割？
+        public bool IsHalf => this.Source != null && this.Source.PagePart.PartSize == 1;
+
         // コンテンツのオリジナルサイズ
         private Size _size;
         public Size Size

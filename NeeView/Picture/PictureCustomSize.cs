@@ -77,6 +77,21 @@ namespace NeeView
 
         #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// ハッシュ値取得
+        /// </summary>
+        /// <returns></returns>
+        public int GetHashCodde()
+        {
+            var hash = (_IsEnabled.GetHashCode() << 30) ^ (_IsUniformed.GetHashCode() << 29) ^ _Size.Width.GetHashCode();
+            ////System.Diagnostics.Debug.WriteLine($"hash={hash}");
+            return hash;
+        }
+
+        #endregion
+
         #region Memento
 
         [DataContract]

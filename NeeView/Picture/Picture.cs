@@ -31,7 +31,7 @@ namespace NeeView
         public Picture(ArchiveEntry entry)
         {
             _archiveEntry = entry;
-            _resizeHashCode = ImageFilter.Current.GetHashCode();
+            _resizeHashCode = GetEnvironmentoHashCode();
 
             this.PictureInfo = new PictureInfo(entry);
         }
@@ -70,6 +70,12 @@ namespace NeeView
 
         #region Methods
 
+        // 画像生成に影響する設定のハッシュ値取得
+        private int GetEnvironmentoHashCode()
+        {
+            return ImageFilter.Current.GetHashCode() ^ PictureProfile.Current.CustomSize.GetHashCodde();
+        }
+
         // Bitmapが同じサイズであるか判定
         private bool IsEqualBitmapSizeMaybe(Size size)
         {
@@ -99,7 +105,7 @@ namespace NeeView
                 size = size.Limit(maxSize);
             }
 
-            int filterHashCode = ImageFilter.Current.GetHashCode();
+            int filterHashCode = GetEnvironmentoHashCode();
             bool isDartyResizeParameter = _resizeHashCode != filterHashCode;
             if (!isDartyResizeParameter && IsEqualBitmapSizeMaybe(size)) return false;
 

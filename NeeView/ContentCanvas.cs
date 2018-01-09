@@ -317,8 +317,13 @@ namespace NeeView
             for (int i=0; i<2; ++i)
             {
                 var size0 = sizes[i];
-                var size1 = result.ContentSizeList[i].Multi(scale);
                 if (size0.IsZero()) continue;
+
+                var size1 = result.ContentSizeList[i].Multi(scale);
+                if (i < source.ViewPageCollection.Collection.Count && source.ViewPageCollection.Collection[i].IsHalf) // 分割前サイズでリサイズ
+                {
+                    size1 = new Size(size1.Width * 2.0, size1.Height);
+                }
                 ////Debug.WriteLine($"{i}: {size0} => {size1.Truncate()}");
 
                 var content = source.ViewPageCollection.Collection[i].Content;

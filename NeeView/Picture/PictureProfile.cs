@@ -16,7 +16,6 @@ namespace NeeView
     /// <summary>
     /// 画像指定サイズ
     /// </summary>
-    [DataContract]
     public class PictureCustomSize : BindableBase
     {
         #region Fields
@@ -32,7 +31,6 @@ namespace NeeView
         /// <summary>
         /// 指定サイズ有効
         /// </summary>
-        [DataMember]
         public bool IsEnabled
         {
             get { return _IsEnabled; }
@@ -42,7 +40,6 @@ namespace NeeView
         /// <summary>
         /// 縦横比を固定する
         /// </summary>
-        [DataMember]
         public bool IsUniformed
         {
             get { return _IsUniformed; }
@@ -52,7 +49,6 @@ namespace NeeView
         /// <summary>
         /// カスタムサイズ
         /// </summary>
-        [DataMember]
         public Size Size
         {
             get { return _Size; }
@@ -79,6 +75,43 @@ namespace NeeView
         {
             get { return (int)_Size.Height; }
             set { if (value != _Size.Height) { Size = new Size(_Size.Width, value); } }
+        }
+
+        #endregion
+
+        #region Memento
+
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public bool IsEnabled { get; set; }
+            [DataMember]
+            public bool IsUniformed { get; set; }
+            [DataMember]
+            public Size Size { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+
+            memento.IsEnabled = this.IsEnabled;
+            memento.IsUniformed = this.IsUniformed;
+            memento.Size = this.Size;
+
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+
+            this.IsEnabled = memento.IsEnabled;
+            this.IsUniformed = memento.IsUniformed;
+            this.Size = memento.Size;
         }
 
         #endregion
@@ -193,7 +226,7 @@ namespace NeeView
             public bool IsResizeFilterEnabled { get; set; }
 
             [DataMember]
-            public PictureCustomSize CustomSize { get; set; }
+            public PictureCustomSize.Memento CustomSize { get; set; }
         }
 
         //
@@ -203,7 +236,7 @@ namespace NeeView
             memento.IsLimitSourceSize = this.IsLimitSourceSize;
             memento.Maximum = this.MaximumSize;
             memento.IsResizeFilterEnabled = this.IsResizeFilterEnabled;
-            memento.CustomSize = this.CustomSize;
+            memento.CustomSize = this.CustomSize.CreateMemento();
             return memento;
         }
 
@@ -214,7 +247,7 @@ namespace NeeView
             this.IsLimitSourceSize = memento.IsLimitSourceSize;
             this.MaximumSize = memento.Maximum;
             this.IsResizeFilterEnabled = memento.IsResizeFilterEnabled;
-            this.CustomSize = memento.CustomSize ?? this.CustomSize;
+            this.CustomSize.Restore(memento.CustomSize);
         }
         #endregion
 

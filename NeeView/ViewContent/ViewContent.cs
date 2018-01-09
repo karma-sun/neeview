@@ -72,7 +72,7 @@ namespace NeeView
         private Size _size;
         public Size Size
         {
-            get { return IsValid ? _size : new Size(0, 0); }
+            get { return IsValid ? _size : SizeExtensions.Zero; }
             set { _size = value; }
         }
 

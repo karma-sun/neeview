@@ -77,15 +77,22 @@ namespace NeeView
         }
 
         // Bitmapが同じサイズであるか判定
-        private bool IsEqualBitmapSizeMaybe(Size size)
+        private bool IsEqualBitmapSizeMaybe(Size size, bool keepAspectRatio)
         {
             if (this.BitmapSource == null) return false;
 
             size = size.IsEmpty ? this.PictureInfo.Size : size;
 
-            // アスペクト比固定のため、PixelHeightのみで判定
             const double margin = 1.1;
-            return Math.Abs(size.Height - this.BitmapSource.PixelHeight) < margin;
+            if (keepAspectRatio)
+            {
+                // アスペクト比固定のため、PixelHeightのみで判定
+                return Math.Abs(size.Height - this.BitmapSource.PixelHeight) < margin;
+            }
+            else
+            {
+                return Math.Abs(size.Height - this.BitmapSource.PixelHeight) < margin && Math.Abs(size.Width - this.BitmapSource.PixelWidth) < margin;
+            }
         }
 
         // リサイズ
@@ -105,22 +112,22 @@ namespace NeeView
                 size = size.Limit(maxSize);
             }
 
-            int filterHashCode = GetEnvironmentoHashCode();
-            bool isDartyResizeParameter = _resizeHashCode != filterHashCode;
-            if (!isDartyResizeParameter && IsEqualBitmapSizeMaybe(size)) return false;
-
             // 規定サイズ判定
             if (!this.PictureInfo.IsLimited && size.IsEqualMaybe(this.PictureInfo.Size))
             {
                 size = Size.Empty;
             }
 
-            ////var nowSize = new Size(this.BitmapSource.PixelWidth, this.BitmapSource.PixelHeight);
-            ////Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
-
             // アスペクト比固定?
             var cutomSize = PictureProfile.Current.CustomSize;
-            var keepAspectRatio = size != Size.Empty && (!cutomSize.IsEnabled || cutomSize.IsUniformed);
+            var keepAspectRatio = size.IsEmpty || !cutomSize.IsEnabled || cutomSize.IsUniformed;
+
+            int filterHashCode = GetEnvironmentoHashCode();
+            bool isDartyResizeParameter = _resizeHashCode != filterHashCode;
+            if (!isDartyResizeParameter && IsEqualBitmapSizeMaybe(size, keepAspectRatio)) return false;
+
+            ////var nowSize = new Size(this.BitmapSource.PixelWidth, this.BitmapSource.PixelHeight);
+            ////Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
 
             var bitmap = PictureFactory.Current.CreateBitmapSource(_archiveEntry, this.RawData, size, keepAspectRatio);
 

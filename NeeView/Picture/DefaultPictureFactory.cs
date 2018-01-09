@@ -118,7 +118,7 @@ namespace NeeView
         //
         public BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size, bool keepAspectRatio)
         {
-            if (keepAspectRatio)
+            if (keepAspectRatio && !size.IsEmpty)
             {
                 size = new Size(0, size.Height);
             }

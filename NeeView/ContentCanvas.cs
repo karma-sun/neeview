@@ -439,9 +439,11 @@ namespace NeeView
                     if (bitmap == null) continue;
 
                     var pixelHeight = bitmap.PixelHeight;
+                    var pixelWidth = bitmap.PixelWidth;
                     var viewHeight = content.Height * finalScale;
+                    var viewWidth = content.Width * finalScale;
 
-                    var diff = Math.Abs(pixelHeight - viewHeight);
+                    var diff = Math.Abs(pixelHeight - viewHeight) + Math.Abs(pixelWidth - viewWidth);
                     var diffAngle = Math.Abs(_dragTransform.Angle % 90.0);
                     if (Config.Current.IsDpiSquare && diff < 1.1 && diffAngle < 0.1)
                     {
@@ -450,7 +452,7 @@ namespace NeeView
                     }
                     else
                     {
-                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && pixelHeight < viewHeight) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
+                        content.BitmapScalingMode = (IsEnabledNearestNeighbor && pixelHeight < viewHeight && pixelWidth < viewWidth) ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality;
                         content.SetViewMode(ContentViewMode.Scale, finalScale);
                     }
 

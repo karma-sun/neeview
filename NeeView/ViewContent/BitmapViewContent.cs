@@ -173,7 +173,7 @@ namespace NeeView
         //
         public override bool Rebuild(double scale)
         {
-            var size = PictureProfile.Current.IsResizeFilterEnabled ? new Size(this.Width * scale * (this.IsHalf ? 2 : 1), this.Height * scale) : Size.Empty;
+            var size = PictureProfile.Current.IsResizeFilterEnabled ? GetScaledSize(scale) : Size.Empty;
 
             if (ContentCanvas.Current.IsEnabledNearestNeighbor && size.Width >= this.Size.Width)
             {
@@ -181,6 +181,12 @@ namespace NeeView
             }
 
             return Rebuild(size);
+        }
+
+        //
+        protected Size GetScaledSize(double scale)
+        {
+            return new Size(this.Width * scale * (this.IsHalf ? 2 : 1), this.Height * scale);
         }
 
         //

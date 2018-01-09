@@ -42,7 +42,7 @@ namespace NeeView
         //
         public override bool Rebuild(double scale)
         {
-            var size = new Size(this.Width * scale, this.Height * scale);
+            var size = GetScaledSize(scale);
             return Rebuild(size);
         }
 

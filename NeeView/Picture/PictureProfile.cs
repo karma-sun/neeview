@@ -16,6 +16,7 @@ namespace NeeView
     /// <summary>
     /// 画像指定サイズ
     /// </summary>
+    [DataContract]
     public class PictureCustomSize : BindableBase
     {
         #region Fields
@@ -30,6 +31,8 @@ namespace NeeView
 
         /// <summary>
         /// 指定サイズ有効
+        /// </summary>
+        [DataMember]
         public bool IsEnabled
         {
             get { return _IsEnabled; }
@@ -39,6 +42,7 @@ namespace NeeView
         /// <summary>
         /// 縦横比を固定する
         /// </summary>
+        [DataMember]
         public bool IsUniformed
         {
             get { return _IsUniformed; }
@@ -48,6 +52,7 @@ namespace NeeView
         /// <summary>
         /// カスタムサイズ
         /// </summary>
+        [DataMember]
         public Size Size
         {
             get { return _Size; }
@@ -136,7 +141,9 @@ namespace NeeView
 
         #region Constructors
 
-        //
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public PictureProfile()
         {
             Current = this;
@@ -181,8 +188,12 @@ namespace NeeView
             [DataMember, DefaultValue(typeof(Size), "4096,4096")]
             [PropertyMember("最大画像サイズ", Tips = "フィルターで拡大される最大画像サイズです。「読み込み画像サイズ制限」フラグがONの場合にはこのサイズに読み込み画像自体を縮小します")]
             public Size Maximum { get; set; }
+
             [DataMember]
             public bool IsResizeFilterEnabled { get; set; }
+
+            [DataMember]
+            public PictureCustomSize CustomSize { get; set; }
         }
 
         //
@@ -192,6 +203,7 @@ namespace NeeView
             memento.IsLimitSourceSize = this.IsLimitSourceSize;
             memento.Maximum = this.MaximumSize;
             memento.IsResizeFilterEnabled = this.IsResizeFilterEnabled;
+            memento.CustomSize = this.CustomSize;
             return memento;
         }
 
@@ -202,6 +214,7 @@ namespace NeeView
             this.IsLimitSourceSize = memento.IsLimitSourceSize;
             this.MaximumSize = memento.Maximum;
             this.IsResizeFilterEnabled = memento.IsResizeFilterEnabled;
+            this.CustomSize = memento.CustomSize ?? this.CustomSize;
         }
         #endregion
 

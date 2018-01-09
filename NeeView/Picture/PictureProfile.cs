@@ -13,6 +13,71 @@ using System.Windows;
 
 namespace NeeView
 {
+    /// <summary>
+    /// 画像指定サイズ
+    /// </summary>
+    public class PictureCustomSize : BindableBase
+    {
+        #region Fields
+
+        private bool _IsEnabled;
+        private bool _IsUniformed;
+        private Size _Size;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// 指定サイズ有効
+        public bool IsEnabled
+        {
+            get { return _IsEnabled; }
+            set { if (_IsEnabled != value) { _IsEnabled = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// 縦横比を固定する
+        /// </summary>
+        public bool IsUniformed
+        {
+            get { return _IsUniformed; }
+            set { if (_IsUniformed != value) { _IsUniformed = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// カスタムサイズ
+        /// </summary>
+        public Size Size
+        {
+            get { return _Size; }
+            set { if (_Size != value) { _Size = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Width)); RaisePropertyChanged(nameof(Height)); } }
+        }
+
+        /// <summary>
+        /// カスタムサイズ：横幅
+        /// </summary>
+        [PropertyRange(16, 4096, Name = "横幅")]
+        [DefaultValue(256)]
+        public int Width
+        {
+            get { return (int)_Size.Width; }
+            set { if (value != _Size.Width) { Size = new Size(value, _Size.Height); } }
+        }
+
+        /// <summary>
+        /// カスタムサイズ：縦幅
+        /// </summary>
+        [PropertyRange(16, 4096, Name = "縦幅")]
+        [DefaultValue(256)]
+        public int Height
+        {
+            get { return (int)_Size.Height; }
+            set { if (value != _Size.Height) { Size = new Size(_Size.Width, value); } }
+        }
+
+        #endregion
+    }
 
     //
     public class PictureProfile : BindableBase
@@ -46,8 +111,6 @@ namespace NeeView
             }
         }
 
-
-
         /// <summary>
         /// IsResizeEnabled property.
         /// </summary>
@@ -58,6 +121,17 @@ namespace NeeView
             set { if (_isResizeFilterEnabled != value) { _isResizeFilterEnabled = value; RaisePropertyChanged(); } }
         }
 
+
+        /// <summary>
+        /// CustomSize property.
+        /// </summary>
+        private PictureCustomSize _CustomSize;
+        public PictureCustomSize CustomSize
+        {
+            get { return _CustomSize; }
+            set { if (_CustomSize != value) { _CustomSize = value; RaisePropertyChanged(); } }
+        }
+
         #endregion
 
         #region Constructors
@@ -66,6 +140,13 @@ namespace NeeView
         public PictureProfile()
         {
             Current = this;
+
+            _CustomSize = new PictureCustomSize()
+            {
+                IsEnabled = false,
+                IsUniformed = false,
+                Size = new Size(256, 256)
+            };
         }
 
         #endregion

@@ -33,8 +33,6 @@ namespace NeeView
 
             IsValid = Content.IsLoaded;
 
-            Size = new Size(pagePart.PartSize == 2 ? Page.Width : Math.Floor(Page.Width * 0.5 + 0.4), Page.Height);
-
             this.PagePart = pagePart;
         }
 
@@ -50,7 +48,7 @@ namespace NeeView
         public PageContent Content { get; }
 
         // コンテンツサイズ 
-        public Size Size { get; }
+        public Size Size => PagePart.PartSize == 2 ? Page.Size : new Size(Math.Floor(Page.Width * 0.5 + 0.4), Page.Height);
 
         // ページパーツ
         public PagePart PagePart { get; }

@@ -83,6 +83,8 @@ namespace NeeView
         // ウィンドウリサイズ中かどうか
         bool _isResizingWindow;
 
+        // コンテンツサイズ更新要求
+        bool _isUpdateContentSize;
 
         #endregion
 
@@ -108,6 +110,9 @@ namespace NeeView
 
             // ドット表示監視
             ContentCanvas.Current.AddPropertyChanged(nameof(ContentCanvas.IsEnabledNearestNeighbor), (s, e) => Request());
+
+            // サイズ指定状態監視
+            PictureProfile.Current.CustomSize.PropertyChanged += (s, e) => RequestWithResize();
         }
 
         #endregion
@@ -183,6 +188,14 @@ namespace NeeView
         {
             if (!_isRequested || _isResizingWindow || Locker.IsLocked) return;
 
+            // サイズ指定による更新
+            if (_isUpdateContentSize)
+            {
+                _isUpdateContentSize = false;
+                ContentCanvas.Current.UpdateContentSize();
+                DragTransformControl.Current.SnapView();
+            }
+
             var mouseButtonBits = MouseButtonBitsExtensions.Create();
             if (MouseInput.Current.IsLoupeMode && MouseInput.Current.Normal.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
             {
@@ -206,9 +219,16 @@ namespace NeeView
         }
 
 
-        // リサイズ要求
+        // 更新要求
         public void Request()
         {
+            this.IsRequested = true;
+        }
+
+        // リサイズ更新要求
+        public void RequestWithResize()
+        {
+            _isUpdateContentSize = true;
             this.IsRequested = true;
         }
 

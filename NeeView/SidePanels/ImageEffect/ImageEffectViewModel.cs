@@ -22,6 +22,7 @@ namespace NeeView
             _imageFilter = imageFilter;
 
             this.UnsharpMaskProfile = new PropertyDocument(_imageFilter.UnsharpMaskProfile);
+            this.CustomSizeProfile = new PropertyDocument(PictureProfile.Current.CustomSize);
         }
 
 
@@ -54,6 +55,8 @@ namespace NeeView
         //
         public PropertyDocument UnsharpMaskProfile { get; set; }
 
+        //
+        public PropertyDocument CustomSizeProfile { get; set; }
 
 
         // TODO: これモデルじゃね？

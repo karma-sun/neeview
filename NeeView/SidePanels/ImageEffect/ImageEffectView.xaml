@@ -66,6 +66,48 @@
                 <Separator Background="#4888" Margin="0,10"/>
 
                 <DockPanel Margin="0,5">
+                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding PictureProfile.CustomSize.IsEnabled}" Height="30" VerticalAlignment="Center"/>
+                    <TextBlock Text="オリジナルサイズ指定" VerticalAlignment="Center" />
+                </DockPanel>
+
+                <StackPanel Visibility="{Binding PictureProfile.CustomSize.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                    <Grid Margin="10,0,0,5">
+                        <Grid.Resources>
+                            <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+                            </Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
+                                <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
+                                <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
+                            </Style>
+                        </Grid.Resources>
+
+                        <nlp:PropertyInspector Document="{Binding CustomSizeProfile}" FontSize="15" IsResetButtonVisible="False" >
+                            <nlp:PropertyInspector.Style>
+                                <Style TargetType="nlp:PropertyInspector">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CustomSizeProfile}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </nlp:PropertyInspector.Style>
+                        </nlp:PropertyInspector>
+                    </Grid>
+                    
+                    <DockPanel Margin="15,0,0,5">
+                        <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding PictureProfile.CustomSize.IsUniformed}" Height="30" VerticalAlignment="Center" />
+                        <TextBlock Text="縦横比を維持" VerticalAlignment="Center"/>
+                    </DockPanel>
+
+                </StackPanel>
+
+                <Separator Background="#4888" Margin="0,10"/>
+
+
+                <DockPanel Margin="0,5">
                     <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding ContentCanvas.IsEnabledNearestNeighbor}" Height="30" VerticalAlignment="Center"/>
                     <TextBlock Text="ドットのまま拡大" VerticalAlignment="Center" />
                 </DockPanel>

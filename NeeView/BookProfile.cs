@@ -26,27 +26,6 @@ namespace NeeView
 
 
     /// <summary>
-    /// ページのカスタムサイズ
-    /// </summary>
-    public class PageCustomSize
-    {
-        /// <summary>
-        /// カスタムサイズ有効
-        /// </summary>
-        public bool IsEnabled { get; set; }
-
-        /// <summary>
-        /// 縦横比を固定する
-        /// </summary>
-        public bool IsUniformed { get; set; }
-
-        /// <summary>
-        /// カスタムサイズ
-        /// </summary>
-        public Size Size { get; set; }
-    }
-
-    /// <summary>
     /// 本：設定
     /// </summary>
     public class BookProfile
@@ -115,14 +94,6 @@ namespace NeeView
 
         // ページ読み込み中表示
         public LoadingPageView LoadingPageView { get; set; } = LoadingPageView.PreThumbnail;
-
-        // カスタムページサイズ
-        public PageCustomSize PageCustomSize { get; set; } = new PageCustomSize()
-        {
-            IsEnabled = false,
-            IsUniformed = false,
-            Size = new Size(256, 256)
-        };
 
 
         /// <summary>

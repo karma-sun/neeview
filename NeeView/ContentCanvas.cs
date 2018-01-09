@@ -332,7 +332,7 @@ namespace NeeView
                 }
             }
         }
-        
+
         //
         public void ResetTransform(bool isForce)
         {
@@ -367,7 +367,16 @@ namespace NeeView
         /// <returns></returns>
         public double GetAutoRotateAngle()
         {
-            return _contentSizeCalcurator.GetAutoRotateAngle(Contents.Select(e => e.Size).ToList());
+            return _contentSizeCalcurator.GetAutoRotateAngle(GetContentSizeList());
+        }
+
+        /// <summary>
+        /// 有効な表示コンテンツサイズのリストを取得
+        /// </summary>
+        /// <returns></returns>
+        private List<Size> GetContentSizeList()
+        {
+            return Contents.Select(e => (e.Source?.Size ?? SizeExtensions.Zero).EmptyOrZeroCoalesce(e.Size)).ToList();
         }
 
         // ビューエリアサイズを更新
@@ -393,7 +402,7 @@ namespace NeeView
         {
             if (!Contents.Any(e => e.IsValid)) return;
 
-            var result = _contentSizeCalcurator.GetFixedContentSize(Contents.Select(e => e.Size).ToList(), this.ContentAngle);
+            var result = _contentSizeCalcurator.GetFixedContentSize(GetContentSizeList(), this.ContentAngle);
 
             this.ContentsMargin = result.ContentsMargin;
 
@@ -405,7 +414,8 @@ namespace NeeView
 
             UpdateContentScalingMode();
         }
-        
+
+
         // コンテンツスケーリングモードを更新
         public void UpdateContentScalingMode(ViewContent target = null)
         {

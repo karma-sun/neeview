@@ -29,8 +29,11 @@ namespace NeeView
         private ProcessImageSettings CreateSetting(Size size, FileFormat format, ProcessImageSettings source)
         {
             var setting = source ?? new ProcessImageSettings();
-            ////setting.Width = size.IsEmpty ? 0 : (int)size.Width; // 縦横比維持のため、片側のみ設定
+
+            // widthを0にすると、heightを基準にwidthを決定する
+            setting.Width = size.IsEmpty ? 0 : (int)size.Width;
             setting.Height = size.IsEmpty ? 0 : (int)size.Height;
+            setting.ResizeMode = setting.Width == 0 ? CropScaleMode.Crop : CropScaleMode.Stretch;
             setting.SaveFormat = format;
 
 #if false

@@ -18,6 +18,12 @@ namespace NeeView
             return self.Width == 0 || self.Height == 0;
         }
 
+        // Empty,ゼロスケール判定
+        public static bool IsEmptyOrZero(this Size self)
+        {
+            return self.IsEmpty || self.IsZero();
+        }
+
         // スケール
         public static Size Multi(this Size self, double scale)
         {
@@ -101,6 +107,18 @@ namespace NeeView
             if (size.IsEmpty) return Size.Empty;
 
             return new Size(size.Width, size.Height);
+        }
+
+        // 大きいサイズを返す
+        public static Size Max(Size size0, Size size1)
+        {
+            return size0.Width * size0.Height < size1.Width * size1.Height ? size1 : size0;
+        }
+
+        // サイズがない場合の置き換え
+        public static Size EmptyOrZeroCoalesce(this Size self, Size target)
+        {
+            return self.IsEmptyOrZero() ? target : self;
         }
     }
 

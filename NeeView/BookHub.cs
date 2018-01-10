@@ -721,7 +721,7 @@ namespace NeeView
 
         //
         private bool _historyEntry;
-        private int HistoryEntryPageCount { get; set; } = 0;
+        private int HistoryEntryPageCount { get; set; } = 1;
 
         // 履歴登録可
         private bool CanHistory()

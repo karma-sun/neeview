@@ -520,6 +520,16 @@ namespace NeeView
             var limitTime = DateTime.Now - _limitSpan;
             collection = _limitSpan == default(TimeSpan) ? collection : collection.TakeWhile(e => e.LastAccessTime > limitTime);
 
+
+#if DEBUG
+            //// 履歴削除バグチェック用
+            if (source.Count != collection.Count())
+            {
+                Debugger.Break();
+            }
+#endif
+
+
             return collection.ToList();
         }
 

@@ -76,6 +76,9 @@ namespace NeeView
         // FolderCollection総入れ替え
         public event EventHandler CollectionChanged;
 
+        // 検索ボックスにフォーカスを
+        public event EventHandler SearchBoxFocus;
+
         #endregion
 
         #region Properties
@@ -175,6 +178,18 @@ namespace NeeView
         /// フォルダー履歴
         /// </summary>
         public History<string> History { get; private set; } = new History<string>();
+
+
+        /// <summary>
+        /// IsFolderSearchVisible property.
+        /// </summary>
+        private bool _IsFolderSearchVisible;
+        public bool IsFolderSearchBoxVisible
+        {
+            get { return _IsFolderSearchVisible; }
+            set { if (_IsFolderSearchVisible != value) { _IsFolderSearchVisible = value; RaisePropertyChanged(); } }
+        }
+
 
         #endregion
 
@@ -546,6 +561,16 @@ namespace NeeView
             return false;
         }
 
+        /// <summary>
+        /// 検索ボックスにフォーカス要求
+        /// </summary>
+        public void RaiseSearchBoxFocus()
+        {
+            Debug.WriteLine($"Focus!");
+
+            SearchBoxFocus?.Invoke(this, null);
+        }
+
         #endregion
 
         #region Commands
@@ -680,6 +705,8 @@ namespace NeeView
             [PropertyMember("フォルダーリスト追加ファイルは挿入", Tips = "フォルダーリストで追加されたファイルを現在のソート順で挿入します。\nFalseのときはリストの終端に追加します。")]
             public bool IsInsertItem { get; set; }
 
+            [DataMember]
+            public bool IsFolderSearchBoxVisible { get; set; }
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
@@ -697,6 +724,7 @@ namespace NeeView
             memento.IsVisibleBookmarkMark = this.IsVisibleBookmarkMark;
             memento.Home = this.Home;
             memento.IsInsertItem = this.IsInsertItem;
+            memento.IsFolderSearchBoxVisible = this.IsFolderSearchBoxVisible;
             return memento;
         }
 
@@ -711,6 +739,7 @@ namespace NeeView
             this.IsVisibleBookmarkMark = memento.IsVisibleBookmarkMark;
             this.Home = memento.Home;
             this.IsInsertItem = memento.IsInsertItem;
+            this.IsFolderSearchBoxVisible = memento.IsFolderSearchBoxVisible;
 
             // Preference反映
             ///RaisePropertyChanged(nameof(FolderIconLayout));

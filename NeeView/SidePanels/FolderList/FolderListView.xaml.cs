@@ -21,6 +21,11 @@ namespace NeeView
     public partial class FolderListView : UserControl
     {
         /// <summary>
+        /// requested focus serch box
+        /// </summary>
+        private volatile bool _requestSearchBoxFocus;
+
+        /// <summary>
         /// is renaming ?
         /// </summary>
         public bool IsRenaming => _vm.IsRenaming;
@@ -43,9 +48,53 @@ namespace NeeView
         {
             _vm = new FolderListViewModel(model);
             this.DockPanel.DataContext = _vm;
+
+            model.SearchBoxFocus += FolderList_SearchBoxFocus;
+        }
+
+        /// <summary>
+        /// 検索ボックスのフォーカス要求処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FolderList_SearchBoxFocus(object sender, EventArgs e)
+        {
+            if (!_vm.Model.IsFolderSearchBoxVisible) return;
+
+            if (!_requestSearchBoxFocus)
+            {
+                _requestSearchBoxFocus = true;
+                var task = FocustSearchBoxAsync(); // 非同期
+            }
+        }
+
+        /// <summary>
+        /// 検索ボックスにフォーカスをあわせる。
+        /// </summary>
+        /// <returns></returns>
+        private async Task FocustSearchBoxAsync()
+        {
+            // 表示が間に合わない場合があるので繰り返しトライする
+            while (_requestSearchBoxFocus && _vm.Model.IsFolderSearchBoxVisible)
+            {
+                var textBox = (this.SearchBox.Template.FindName("PART_EditableTextBox", this.SearchBox) as TextBox);
+                if (textBox != null && textBox.IsLoaded && textBox.IsVisible)
+                {
+                    var focused = textBox.Focus();
+                    ////Debug.WriteLine($"Focus: {focused}");
+                    if (focused) break;
+                }
+
+                ////Debug.WriteLine($"Focus: ready...");
+                await Task.Delay(100);
+            }
+
+            _requestSearchBoxFocus = false;
+            ////Debug.WriteLine($"Focus: done.");
         }
 
 
+        
         /// <summary>
         /// 履歴戻るボタンコンテキストメニュー開く 前処理
         /// </summary>
@@ -75,5 +124,31 @@ namespace NeeView
         {
             _vm.IsVisibleChanged((bool)e.NewValue);
         }
+
+        /// <summary>
+        /// 単キーのショートカット無効
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Control_KeyDown_IgnoreSingleKeyGesture(object sender, KeyEventArgs e)
+        {
+            KeyExGesture.AllowSingleKey = false;
+        }
+
+        /// <summary>
+        /// 検索ボックスでのキー入力
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void SearchBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            KeyExGesture.AllowSingleKey = false;
+
+            if (e.Key == Key.Enter)
+            {
+                await _vm.SearchAsync();
+            }
+        }
+
     }
 }

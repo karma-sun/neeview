@@ -111,6 +111,33 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
+                    <DrawingImage x:Key="ic_search_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="{StaticResource NVIconBrush}" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M9.5,5C7.01000022888184,5 5,7.01000022888184 5,9.5 5,11.9899997711182 7.01000022888184,14 9.5,14 11.9899997711182,14 14,11.9899997711182 14,9.5 14,7.01000022888184 11.9899997711182,5 9.5,5z M9.5,2.99999976158142C13.0900001525879,3 16,5.90999984741211 16,9.5 16,11.1099996566772 15.4099998474121,12.5900001525879 14.4300003051758,13.7299995422363L14.710000038147,14 15.5,14 20.4899997711182,19 19,20.4899997711182 14,15.5 14,14.710000038147 13.7299995422363,14.4300003051758C12.5900001525879,15.4099998474121 11.1099996566772,16 9.5,16 5.90999984741211,16 3,13.0900001525879 2.99999976158142,9.5 3,5.90999984741211 5.90999984741211,3 9.5,2.99999976158142z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_search_24px_b">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M9.5,5C7.01000022888184,5 5,7.01000022888184 5,9.5 5,11.9899997711182 7.01000022888184,14 9.5,14 11.9899997711182,14 14,11.9899997711182 14,9.5 14,7.01000022888184 11.9899997711182,5 9.5,5z M9.5,2.99999976158142C13.0900001525879,3 16,5.90999984741211 16,9.5 16,11.1099996566772 15.4099998474121,12.5900001525879 14.4300003051758,13.7299995422363L14.710000038147,14 15.5,14 20.4899997711182,19 19,20.4899997711182 14,15.5 14,14.710000038147 13.7299995422363,14.4300003051758C12.5900001525879,15.4099998474121 11.1099996566772,16 9.5,16 5.90999984741211,16 3,13.0900001525879 2.99999976158142,9.5 3,5.90999984741211 5.90999984741211,3 9.5,2.99999976158142z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
 
                     <DrawingImage x:Key="ic_setting_24px">
                         <DrawingImage.Drawing>
@@ -689,7 +716,7 @@
                                             <Setter Property="Fill" TargetName="baseRectangle" Value="#44BBDDFF"/>
                                         </Trigger>
                                         <Trigger Property="IsChecked" Value="True">
-                                            <Setter Property="Fill" TargetName="baseRectangle" Value="#EEBBDDFF"/>
+                                            <Setter Property="Fill" TargetName="baseRectangle" Value="#44BBDDFF"/>
                                         </Trigger>
                                         <Trigger Property="IsPressed" Value="True">
                                             <Setter Property="Fill" TargetName="baseRectangle" Value="#FFBBDDFF"/>

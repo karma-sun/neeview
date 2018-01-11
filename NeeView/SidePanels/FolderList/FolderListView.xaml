@@ -54,30 +54,31 @@
         </Style>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        
+
     </UserControl.Resources>
 
 
     <DockPanel x:Name="DockPanel" Margin="0,5,0,0" IsVisibleChanged="FolderListView_IsVisibleChanged">
 
         <StackPanel DockPanel.Dock="Top" Margin="5">
-            <StackPanel Margin="5" HorizontalAlignment="Left">
+
+            <StackPanel Margin="5" HorizontalAlignment="Stretch">
                 <TextBlock Text="場所" FontSize="15" Foreground="Gray" Margin="5,0"/>
                 <DockPanel>
-                    <Image DockPanel.Dock="Right" Source="{StaticResource fic_recursive_folder_24px}" Width="12" Height="12" VerticalAlignment="Bottom" Margin="0,0,0,4"
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Place}" FontSize="15" ToolTip="{Binding Place}" Margin="5,0"/>
+                        <Image Source="{StaticResource fic_recursive_folder_24px}" Width="12" Height="12" VerticalAlignment="Bottom" Margin="0,0,0,4"
                            ToolTip="サブフォルダーを読み込む"
                            Visibility="{Binding IsFolderRecursive, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                    <TextBlock Text="{Binding Place}" FontSize="15" ToolTip="{Binding Place}" Margin="5,0"/>
+                    </StackPanel>
                 </DockPanel>
             </StackPanel>
 
             <DockPanel>
-
                 <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Top" 
                               nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </ToggleButton>
-
                 <WrapPanel Orientation="Horizontal" MinWidth="90">
                     <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}"
                         ToolTip="ホームに移動">
@@ -119,8 +120,42 @@
                           VerticalAlignment="Center">
                     </ComboBox>
                 </WrapPanel>
-
             </DockPanel>
+
+            <Border Margin="0,0,0,5" Visibility="{Binding Model.IsFolderSearchBoxVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    BorderThickness="1" BorderBrush="{DynamicResource NVDefaultBrush}" Background="{DynamicResource NVBaseBrush}">
+                <Border.Resources>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
+                        <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
+                        <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
+                    </Style>
+                </Border.Resources>
+                <DockPanel >
+                    <Button x:Name="SearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}">
+                        <Image Source="{StaticResource ic_search_24px_b}" Width="16" Height="16"/>
+                    </Button>
+                    <ComboBox x:Name="SearchBox" Text="{Binding SearchKeyword, Delay=200, UpdateSourceTrigger=PropertyChanged}" 
+                              Style="{StaticResource NVComboBoxEditable}"
+                              Foreground="{DynamicResource NVForeground}" Background="{DynamicResource NVBaseBrush}" FontSize="15"
+                              VerticalAlignment="Center" KeyDown="SearchBox_KeyDown" ItemsSource="{Binding History.Collection}" IsTextSearchCaseSensitive="True"
+                              IsEditable="True" BorderThickness="0" BorderBrush="red">
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" MaxWidth="{Binding ElementName=SearchBox,Path=ActualWidth}" MinWidth="200"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </DockPanel>
+            </Border>
+
         </StackPanel>
 
         <ContentControl Content="{Binding ListContent}"/>

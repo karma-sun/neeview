@@ -154,6 +154,15 @@ namespace NeeView
         /// </summary>
         public Dictionary<FolderOrder, string> FolderOrderList => FolderOrderExtension.FolderOrderList;
 
+        /// <summary>
+        /// SearchKeyword property.
+        /// </summary>
+        private string _searchKeyword;
+        public string SearchKeyword
+        {
+            get { return _searchKeyword; }
+            set { if (_searchKeyword != value) { _searchKeyword = value; RaisePropertyChanged(); var task = SearchAsync(); } }
+        }
 
         #region MoreMenu
 
@@ -174,6 +183,7 @@ namespace NeeView
         private void InitializeMoreMenu(FolderPanelModel source)
         {
             var menu = new ContextMenu();
+            menu.Items.Add(CreateCommandMenuItem("検索ボックス", CommandType.ToggleVisibleFolderSearchBox, source));
             menu.Items.Add(CreateCommandMenuItem("ページリスト", CommandType.ToggleVisiblePageList, source));
             menu.Items.Add(new Separator());
             menu.Items.Add(CreateListItemStyleMenuItem("一覧表示", PanelListItemStyle.Normal));
@@ -445,6 +455,18 @@ namespace NeeView
             ListContent = new FolderListBox(this);
 
             SidePanel.Current.RaiseContentChanged();
+        }
+
+        /// <summary>
+        /// 検索タスク
+        /// </summary>
+        /// <returns></returns>
+        public async Task SearchAsync()
+        {
+            await Task.Yield();
+
+            // TODO:
+            Debug.WriteLine($"Search: {SearchKeyword}");
         }
     }
 

@@ -807,6 +807,20 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FolderPanelModel.IsPageListVisible)) { Source = _models.FolderPanelModel, Mode = BindingMode.OneWay };
                 _elements[CommandType.ToggleVisiblePageList] = element;
             }
+            // ToggleVisibleFolderSearchBox
+            {
+                var element = new CommandElement();
+                element.Group = "パネル";
+                element.Text = "検索ボックスの表示ON/OFF";
+                element.MenuText = "検索ボックス";
+                element.Note = "検索ボックス表示/非表示を切り替えます。フォルダーリストは表示状態になります";
+                element.IsShowMessage = false;
+                element.ExecuteMessage = e => _models.SidePanel.IsVisibleFolderSearchBox ? "検索ボックスを消す" : "検索ボックスを表示する";
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFolderSearchBox(e is MenuCommandTag);
+                element.CanExecute = () => true;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FolderList.IsFolderSearchBoxVisible)) { Source = _models.FolderList, Mode = BindingMode.OneWay };
+                _elements[CommandType.ToggleVisibleFolderSearchBox] = element;
+            }
             //
             // TogglePanelStyle (欠番)
             {

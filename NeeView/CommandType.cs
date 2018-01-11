@@ -76,6 +76,7 @@ namespace NeeView
         ToggleVisiblePagemarkList,
         ToggleVisibleHistoryList,
         ToggleVisiblePageList,
+        ToggleVisibleFolderSearchBox,
         TogglePanelStyle, // 欠番
         TogglePageListStyle, // 欠番
 

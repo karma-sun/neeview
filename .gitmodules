@@ -1,3 +1,6 @@
 [submodule "SevenZipSharp"]
 	path = SevenZipSharp
 	url = https://github.com/neelabo/SevenZipSharp.git
+[submodule "NeeLaboratory.IO.Search"]
+	path = NeeLaboratory.IO.Search
+	url = https://bitbucket.org/neelabo/neelaboratory.io.search.git

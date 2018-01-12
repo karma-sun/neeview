@@ -154,15 +154,6 @@ namespace NeeView
         /// </summary>
         public Dictionary<FolderOrder, string> FolderOrderList => FolderOrderExtension.FolderOrderList;
 
-        /// <summary>
-        /// SearchKeyword property.
-        /// </summary>
-        private string _searchKeyword;
-        public string SearchKeyword
-        {
-            get { return _searchKeyword; }
-            set { if (_searchKeyword != value) { _searchKeyword = value; RaisePropertyChanged(); var task = SearchAsync(); } }
-        }
 
         #region MoreMenu
 
@@ -457,16 +448,26 @@ namespace NeeView
             SidePanel.Current.RaiseContentChanged();
         }
 
+
+        /// <summary>
+        /// リスト項目へのフォーカス許可
+        /// </summary>
+        /// <param name="isEnabled"></param>
+        public void SetListFocusEnabled(bool isEnabled)
+        {
+            if (_listContent != null)
+            {
+                _listContent.IsFocusEnabled = isEnabled;
+            }
+        }
+
         /// <summary>
         /// 検索タスク
         /// </summary>
         /// <returns></returns>
         public async Task SearchAsync()
         {
-            await Task.Yield();
-
-            // TODO:
-            Debug.WriteLine($"Search: {SearchKeyword}");
+            await _model.SearchAsync();
         }
     }
 

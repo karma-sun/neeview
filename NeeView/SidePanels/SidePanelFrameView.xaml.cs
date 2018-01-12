@@ -25,6 +25,8 @@ namespace NeeView
     /// </summary>
     public partial class SidePanelFrameView : UserControl, INotifyPropertyChanged
     {
+        public static SidePanelFrameView Current { get; private set; }
+
         /// <summary>
         /// PropertyChanged event. 
         /// </summary>
@@ -221,13 +223,13 @@ namespace NeeView
         /// </summary>
         public SidePanelFrameView()
         {
+            Current = this;
+
             InitializeComponent();
             InitializeViewModel(this.Source);
 
             this.Root.DataContext = this;
         }
-
-
 
         /// <summary>
         /// マウスカーソル移動イベント処理
@@ -236,16 +238,30 @@ namespace NeeView
         /// <param name="e"></param>
         private void Target_MouseMove(object sender, MouseEventArgs e)
         {
+            UpdateVisibility(e.GetPosition(this.Root));
+        }
+
+        /// <summary>
+        /// パネル表示更新
+        /// </summary>
+        public void UpdateVisibility()
+        {
+            UpdateVisibility(Mouse.GetPosition(this.Root));
+        }
+
+        /// <summary>
+        /// パネル表示更新
+        /// </summary>
+        /// <param name="point">マウス座標</param>
+        private void UpdateVisibility(Point point)
+        {
             if (_vm == null) return;
 
-            var point = e.GetPosition(this.Root);
             var left = this.Viewport.TranslatePoint(new Point(0, 0), this.Root);
             var right = this.Viewport.TranslatePoint(new Point(this.Viewport.ActualWidth, 0), this.Root);
 
             _vm.UpdateVisibility(point, left, right);
         }
-
-
 
         /// <summary>
         /// 表示コンテンツ (未使用)

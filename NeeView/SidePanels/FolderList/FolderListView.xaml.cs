@@ -31,6 +31,11 @@ namespace NeeView
         public bool IsRenaming => _vm.IsRenaming;
 
         /// <summary>
+        /// is SearchBox focused ?
+        /// </summary>
+        public bool IsSearchBoxFocused => this.SearchBox.IsKeyboardFocusWithin;
+
+        /// <summary>
         /// view model
         /// </summary>
         private FolderListViewModel _vm;
@@ -77,20 +82,21 @@ namespace NeeView
             // 表示が間に合わない場合があるので繰り返しトライする
             while (_requestSearchBoxFocus && _vm.Model.IsFolderSearchBoxVisible)
             {
-                var textBox = (this.SearchBox.Template.FindName("PART_EditableTextBox", this.SearchBox) as TextBox);
-                if (textBox != null && textBox.IsLoaded && textBox.IsVisible)
+                var searchBox = this.SearchBox;
+                if (searchBox != null && searchBox.IsLoaded && searchBox.IsVisible && this.IsVisible)
                 {
-                    var focused = textBox.Focus();
-                    ////Debug.WriteLine($"Focus: {focused}");
-                    if (focused) break;
+                    searchBox.Focus();
+                    var isFocused = searchBox.IsKeyboardFocusWithin;
+                    //Debug.WriteLine($"Focus: {isFocused}");
+                    if (isFocused) break;
                 }
 
-                ////Debug.WriteLine($"Focus: ready...");
+                //Debug.WriteLine($"Focus: ready...");
                 await Task.Delay(100);
             }
 
             _requestSearchBoxFocus = false;
-            ////Debug.WriteLine($"Focus: done.");
+            //Debug.WriteLine($"Focus: done.");
         }
 
 
@@ -150,5 +156,21 @@ namespace NeeView
             }
         }
 
+
+        /// <summary>
+        /// SearchBox: キーボードフォーカス変更イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchBox_IsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            //Debug.WriteLine($"SBF.K: {this.SearchBox.IsKeyboardFocusWithin}");
+
+            // リストのフォーカス更新を停止
+            _vm.SetListFocusEnabled(!this.SearchBox.IsKeyboardFocusWithin);
+
+            // パネル表示状態を更新
+            SidePanelFrameView.Current?.UpdateVisibility();
+        }
     }
 }

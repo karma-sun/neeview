@@ -266,6 +266,17 @@ namespace NeeView
         private bool _lastFocusRequest;
 
         /// <summary>
+        /// IsFocusEnabled property.
+        /// </summary>
+        private bool _IsFocusEnabled = true;
+        public bool IsFocusEnabled
+        {
+            get { return _IsFocusEnabled; }
+            set { if (_IsFocusEnabled != value) { _IsFocusEnabled = value; } }
+        }
+
+
+        /// <summary>
         /// フォーカス取得
         /// </summary>
         /// <param name="isFocus"></param>
@@ -278,7 +289,7 @@ namespace NeeView
             // 選択項目が表示されるようにスクロール
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
 
-            if (isFocus)
+            if (isFocus && this.IsFocusEnabled)
             {
                 ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
                 if (lbi == null) return;
@@ -288,7 +299,7 @@ namespace NeeView
                 // フォーカスできない場合にはディスパッチャーで再実行
                 if (!isFocused)
                 {
-                    this.Dispatcher.BeginInvoke((Action)(() => lbi.Focus()));
+                    this.Dispatcher.BeginInvoke((Action)(() => { if (this.IsFocusEnabled) lbi.Focus(); }));
                 }
             }
         }

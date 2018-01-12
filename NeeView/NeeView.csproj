@@ -190,6 +190,7 @@
     <Compile Include="Picture\PictureFactory.cs" />
     <Compile Include="Picture\SizeExtensions.cs" />
     <Compile Include="Picture\SusiePictureStream.cs" />
+    <Compile Include="SearchEnginecs.cs" />
     <Compile Include="SidePanels\ImageEffect\ImageFilter.cs" />
     <Compile Include="SidePanels\SidePanelProfile.cs" />
     <Compile Include="TouchInput\TouchAction.cs" />
@@ -984,6 +985,10 @@
     <Resource Include="Resources\Play.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NeeLaboratory.IO.Search\NeeLaboratory.IO.Search\NeeLaboratory.IO.Search.csproj">
+      <Project>{f8053574-48a7-4d8d-a55e-63c26d01e519}</Project>
+      <Name>NeeLaboratory.IO.Search</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SevenZipSharp\SevenZip\SevenZip.csproj">
       <Project>{4960dd14-3431-47ec-b9d9-9d2730a98dc3}</Project>
       <Name>SevenZip</Name>

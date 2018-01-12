@@ -136,8 +136,9 @@
                     <Button x:Name="SearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}">
                         <Image Source="{StaticResource ic_search_24px_b}" Width="16" Height="16"/>
                     </Button>
-                    <ComboBox x:Name="SearchBox" Text="{Binding SearchKeyword, Delay=200, UpdateSourceTrigger=PropertyChanged}" 
+                    <ComboBox x:Name="SearchBox" Text="{Binding Model.SearchKeyword, Delay=200, UpdateSourceTrigger=PropertyChanged}" 
                               Style="{StaticResource NVComboBoxEditable}"
+                              IsKeyboardFocusWithinChanged="SearchBox_IsKeyboardFocusWithinChanged"
                               Foreground="{DynamicResource NVForeground}" Background="{DynamicResource NVBaseBrush}" FontSize="15"
                               VerticalAlignment="Center" KeyDown="SearchBox_KeyDown" ItemsSource="{Binding History.Collection}" IsTextSearchCaseSensitive="True"
                               IsEditable="True" BorderThickness="0" BorderBrush="red">

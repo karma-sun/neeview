@@ -42,6 +42,11 @@ namespace NeeView
         /// </summary>
         private bool _isDarty;
 
+        /// <summary>
+        /// 検索エンジン
+        /// </summary>
+        private SearchEngine _searchEngine;
+
         #endregion
 
         #region Constructors
@@ -179,7 +184,6 @@ namespace NeeView
         /// </summary>
         public History<string> History { get; private set; } = new History<string>();
 
-
         /// <summary>
         /// IsFolderSearchVisible property.
         /// </summary>
@@ -188,6 +192,16 @@ namespace NeeView
         {
             get { return _IsFolderSearchVisible; }
             set { if (_IsFolderSearchVisible != value) { _IsFolderSearchVisible = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// SearchKeyword property.
+        /// </summary>
+        private string _searchKeyword;
+        public string SearchKeyword
+        {
+            get { return _searchKeyword; }
+            set { if (_searchKeyword != value) { _searchKeyword = value; RaisePropertyChanged(); var task = SearchAsync(); } }
         }
 
 
@@ -290,6 +304,11 @@ namespace NeeView
             if (CheckFolderListUpdateneNcessary(place))
             {
                 _isDarty = false;
+
+                // 検索エンジン停止
+                _searchEngine?.Dispose();
+                _searchEngine = null;
+                this.SearchKeyword = null;
 
                 // FolderCollection 更新
                 var collection = CreateFolderCollection(place);
@@ -566,10 +585,25 @@ namespace NeeView
         /// </summary>
         public void RaiseSearchBoxFocus()
         {
-            Debug.WriteLine($"Focus!");
-
             SearchBoxFocus?.Invoke(this, null);
         }
+
+        /// <summary>
+        /// 検索
+        /// </summary>
+        /// <returns></returns>
+        public async Task SearchAsync()
+        {
+            if (string.IsNullOrWhiteSpace(_searchKeyword)) return;
+
+            var keyword = _searchKeyword.Trim();
+            Debug.WriteLine($"Search: {keyword}");
+            _searchEngine = _searchEngine ?? new SearchEngine(this.Place);
+            var result = await _searchEngine.SearchAsync(keyword);
+            Debug.WriteLine($"SearchResult: {result.Items.Count}");
+        }
+
+
 
         #endregion
 

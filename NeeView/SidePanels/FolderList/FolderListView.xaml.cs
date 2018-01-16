@@ -172,14 +172,11 @@ namespace NeeView
             // パネル表示状態を更新
             SidePanelFrameView.Current?.UpdateVisibility();
 
-            // TODO: 履歴登録で入力が消えてしまうバグあり
-#if false
             // フォーカス解除で履歴登録
             if (!this.SearchBox.IsKeyboardFocusWithin)
             {
                 _vm.UpdateSearchHistory();
             }
-#endif
         }
     }
 }

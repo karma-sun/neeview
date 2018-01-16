@@ -697,11 +697,31 @@ namespace NeeView
         public void UpdateSearchHistory()
         {
             var keyword = GetFixedSearchKeyword();
-            if (string.IsNullOrEmpty(keyword)) return;
-            this.SearchHistory.Remove(keyword);
-            this.SearchHistory.Insert(0, keyword);
-            while (this.SearchHistory.Count > 5) this.SearchHistory.RemoveAt(5);
+            if (string.IsNullOrWhiteSpace(keyword)) return;
+
+            if (this.SearchHistory.Count <= 0)
+            {
+                this.SearchHistory.Add(keyword);
+            }
+            else if (this.SearchHistory.First() != keyword)
+            {
+                int index = this.SearchHistory.IndexOf(keyword);
+                if (index > 0)
+                {
+                    this.SearchHistory.Move(index, 0);
+                }
+                else
+                {
+                    this.SearchHistory.Insert(0, keyword);
+                }
+            }
+
+            while (this.SearchHistory.Count > 6)
+            {
+                this.SearchHistory.RemoveAt(this.SearchHistory.Count - 1);
+            }
         }
+
 
 
 

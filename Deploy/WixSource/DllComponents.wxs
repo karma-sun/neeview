@@ -9,6 +9,9 @@
                 <Component Id="cmpE88A5217E6CBA6AA7D4C8E2EF756AA30" Guid="*">
                     <File Id="filFEA99228133615CB13248AB49E72DBE6" KeyPath="yes" Source="$(var.LibrariesDir)\Microsoft.Expression.Interactions.dll" />
                 </Component>
+                <Component Id="cmp87D07992B45DF95EF217072DE38194C1" Guid="*">
+                    <File Id="fil4E8BF4475BC058DBDCBE1C3E7894F656" KeyPath="yes" Source="$(var.LibrariesDir)\NeeLaboratory.IO.Search.dll" />
+                </Component>
                 <Component Id="cmpF4ED074744A7D85B596FAD97C2A1E278" Guid="*">
                     <File Id="fil2CEC097441F2CB33524309037DC5BB13" KeyPath="yes" Source="$(var.LibrariesDir)\PdfiumViewer.dll" />
                 </Component>
@@ -169,6 +172,7 @@
         <ComponentGroup Id="DllComponents">
             <ComponentRef Id="cmpB5253615D3A409D93E9B0F5C0792727C" />
             <ComponentRef Id="cmpE88A5217E6CBA6AA7D4C8E2EF756AA30" />
+            <ComponentRef Id="cmp87D07992B45DF95EF217072DE38194C1" />
             <ComponentRef Id="cmpF4ED074744A7D85B596FAD97C2A1E278" />
             <ComponentRef Id="cmp82078E57D47AAEC0771A6750ECCC33BC" />
             <ComponentRef Id="cmp22E98BAC13DC44B2B85FDBE34D094DB9" />

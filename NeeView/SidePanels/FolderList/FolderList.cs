@@ -180,7 +180,7 @@ namespace NeeView
         /// <summary>
         /// 現在のフォルダー
         /// </summary>
-        private string Place => FolderCollection?.Place;
+        private string _place;
 
         /// <summary>
         /// フォルダー履歴
@@ -296,7 +296,7 @@ namespace NeeView
         /// </summary>
         /// <param name="place">フォルダーパス</param>
         /// <param name="select">初期選択項目</param>
-        public void SetPlace(string place, string select, FolderSetPlaceOption options)
+        public async void SetPlace(string place, string select, FolderSetPlaceOption options)
         {
             // 現在フォルダーの情報を記憶
             SavePlace(GetFolderItem(0));
@@ -320,16 +320,26 @@ namespace NeeView
                 // 検索エンジン停止
                 _searchEngine?.Dispose();
                 _searchEngine = null;
-                this.SearchKeyword = null;
+
+                // 検索キーワードクリア
+                if (this.FolderCollection == null || place != _place || options.HasFlag(FolderSetPlaceOption.ClearSearchKeyword))
+                {
+                    _searchKeyword = "";
+                    RaisePropertyChanged(nameof(SearchKeyword));
+                }
+
+                // 場所変更
+                _place = place;
 
                 // FolderCollection 更新
-                this.FolderCollection = CreateFolderCollection(place, null);
+                await UpdateFolderCollectionAsync(true);
+
                 this.SelectedItem = FixedItem(select);
 
                 RaiseSelectedItemChanged(options.HasFlag(FolderSetPlaceOption.IsFocus));
 
                 // 最終フォルダー更新
-                BookHistory.Current.LastFolder = Place;
+                BookHistory.Current.LastFolder = _place;
 
                 // 履歴追加
                 if (options.HasFlag(FolderSetPlaceOption.IsUpdateHistory))
@@ -475,7 +485,7 @@ namespace NeeView
 
             _isDarty = force || this.FolderCollection.IsDarty();
 
-            SetPlace(Place, null, FolderSetPlaceOption.IsUpdateHistory);
+            SetPlace(_place, null, FolderSetPlaceOption.IsUpdateHistory);
         }
 
 
@@ -619,7 +629,7 @@ namespace NeeView
             var item = this.GetFolderItem(direction);
             if (item != null)
             {
-                SetPlace(Place, item.Path, FolderSetPlaceOption.IsUpdateHistory);
+                SetPlace(_place, item.Path, FolderSetPlaceOption.IsUpdateHistory);
                 _bookHub.RequestLoad(item.TargetPath, null, options, false);
                 return true;
             }
@@ -666,9 +676,9 @@ namespace NeeView
             await Task.Yield();
 
             // 同じリストは作らない
-            if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == this.Place && this.FolderCollection.Mode == FolderCollectionMode.Entry) return;
+            if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == _place && this.FolderCollection.Mode == FolderCollectionMode.Entry) return;
 
-            this.FolderCollection = CreateFolderCollection(this.Place, null);
+            this.FolderCollection = CreateFolderCollection(_place, null);
         }
 
         /// <summary>
@@ -682,12 +692,12 @@ namespace NeeView
             // 同じリストは作らない
             if (!isForce && this.FolderCollection != null && this.FolderCollection.Mode == FolderCollectionMode.Search && this.FolderCollection.SearchKeyword == keyword) return;
 
-            _searchEngine = _searchEngine ?? new SearchEngine(this.Place);
+            _searchEngine = _searchEngine ?? new SearchEngine(_place);
 
             var option = new NeeLaboratory.IO.Search.SearchOption() { AllowFolder = true, IsOptionEnabled = true };
             var result = await _searchEngine.SearchAsync(keyword, option);
 
-            this.FolderCollection = CreateFolderCollection(this.Place, result);
+            this.FolderCollection = CreateFolderCollection(_place, result);
         }
 
 
@@ -733,7 +743,7 @@ namespace NeeView
         public void SetHome_Executed()
         {
             if (_bookHub == null) return;
-            this.Home = Place;
+            this.Home = _place;
         }
 
         //
@@ -795,15 +805,15 @@ namespace NeeView
         //
         public bool MoveToParent_CanExecute()
         {
-            return (Place != null);
+            return (_place != null);
         }
 
         //
         public void MoveToParent_Execute()
         {
-            if (Place == null) return;
-            var parent = System.IO.Path.GetDirectoryName(Place);
-            SetPlace(parent, Place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
+            if (_place == null) return;
+            var parent = System.IO.Path.GetDirectoryName(_place);
+            SetPlace(parent, _place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
         }
 
         //
@@ -818,10 +828,10 @@ namespace NeeView
 
                 RaiseSelectedItemChanged(true);
             }
-            else if (Place != null)
+            else if (_place != null)
             {
                 _isDarty = true; // 強制更新
-                SetPlace(Place, null, FolderSetPlaceOption.IsFocus);
+                SetPlace(_place, null, FolderSetPlaceOption.IsFocus);
 
                 RaiseSelectedItemChanged(true);
             }

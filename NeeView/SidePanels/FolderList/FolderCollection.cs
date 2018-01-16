@@ -14,9 +14,26 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
+using System.Collections.Specialized;
 
 namespace NeeView
 {
+    /// <summary>
+    /// FolderItemコレクションの種類
+    /// </summary>
+    public enum FolderCollectionMode
+    {
+        /// <summary>
+        /// ファイルリスト
+        /// </summary>
+        Entry,
+
+        /// <summary>
+        /// 検索結果
+        /// </summary>
+        Search,
+    }
+
     /// <summary>
     /// FolderItemコレクション
     /// </summary>
@@ -43,12 +60,26 @@ namespace NeeView
         /// <summary>
         /// Collection本体
         /// </summary>
-        private ObservableCollection<FolderItem> _Items;
+        private ObservableCollection<FolderItem> _items;
         public ObservableCollection<FolderItem> Items
         {
-            get { return _Items; }
-            private set { _Items = value; }
+            get { return _items; }
+            private set { _items = value; }
         }
+
+
+        /// <summary>
+        /// 検索結果
+        /// </summary>
+        private NeeLaboratory.IO.Search.SearchResultWatcher _searchResult;
+
+
+        /// <summary>
+        /// 検索キーワード
+        /// </summary>
+        public string SearchKeyword => _searchResult?.Keyword;
+
+
 
         /// <summary>
         /// フォルダーの場所
@@ -74,6 +105,12 @@ namespace NeeView
         /// 有効判定
         /// </summary>
         public bool IsValid => Items != null;
+
+        /// <summary>
+        /// Mode property.
+        /// </summary>
+        public FolderCollectionMode Mode { get; private set; }
+
 
         /// <summary>
         /// 更新が必要？
@@ -142,25 +179,42 @@ namespace NeeView
         /// <param name="place"></param>
         public FolderCollection(string place)
         {
+            Initialize(place);
+            InitializeFolder();
+        }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="place"></param>
+        public FolderCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult)
+        {
+            Initialize(place);
+            InitializeSearch(searchResult);
+        }
+
+        //
+        private void Initialize(string place)
+        {
             this.Place = place;
 
             this.FolderParameter = new FolderParameter(place);
             this.FolderParameter.PropertyChanged += (s, e) => ParameterChanged?.Invoke(s, null);
         }
 
+
+
         /// <summary>
         /// リスト生成
         /// </summary>
-        public void Initialize()
+        private void InitializeFolder()
         {
-            if (Items != null)
-            {
-                BindingOperations.DisableCollectionSynchronization(this.Items);
-            }
+            this.Mode = FolderCollectionMode.Entry;
 
             if (string.IsNullOrWhiteSpace(Place))
             {
-                Items = new ObservableCollection<FolderItem>(DriveInfo.GetDrives().Select(e => CreateFolderItem(e)));
+                this.Items = new ObservableCollection<FolderItem>(DriveInfo.GetDrives().Select(e => CreateFolderItem(e)));
+                return;
             }
             else
             {
@@ -170,7 +224,7 @@ namespace NeeView
                 {
                     var items = new ObservableCollection<FolderItem>();
                     items.Add(new FolderItem() { Path = Place + "\\.", Attributes = FolderItemAttribute.Empty | FolderItemAttribute.DirectoryNoFound });
-                    Items = items;
+                    this.Items = items;
                 }
                 else
                 {
@@ -218,16 +272,95 @@ namespace NeeView
                         list.Add(CreateFolderItemEmpty());
                     }
 
-                    Items = new ObservableCollection<FolderItem>(list);
+                    this.Items = new ObservableCollection<FolderItem>(list);
                 }
             }
 
             BindingOperations.EnableCollectionSynchronization(this.Items, new object());
 
-            if (Place != null)
+            InitializeWatcher(Place);
+            StartWatch();
+        }
+
+
+        /// <summary>
+        /// 検索結果からリスト生成
+        /// </summary>
+        private void InitializeSearch(NeeLaboratory.IO.Search.SearchResultWatcher searchResult)
+        {
+            this.Mode = FolderCollectionMode.Search;
+
+            var items = searchResult.Items
+                .Where(e => (e.FileInfo.IsDirectory || ArchiverManager.Current.IsSupported(e.Path)))
+                .Select(e => CreateFolderItem(e))
+                .ToList();
+
+            var list = Sort(items).ToList();
+
+            if (!list.Any())
             {
-                InitializeWatcher(Place);
-                StartWatch();
+                list.Add(CreateFolderItemEmpty());
+            }
+
+            this.Items = new ObservableCollection<FolderItem>(list);
+            BindingOperations.EnableCollectionSynchronization(this.Items, new object());
+
+            _searchResult = searchResult;
+            _searchResult.SearchResultChanged += SearchResult_NodeChanged;
+        }
+
+
+        /// <summary>
+        /// 検索結果変更
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchResult_NodeChanged(object sender, NeeLaboratory.IO.Search.SearchResultChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NeeLaboratory.IO.Search.NodeChangedAction.Add:
+                    {
+                        var item = CreateFolderItem(e.Content);
+                        if (item != null)
+                        {
+                            Watcher_Creaded(item);
+                        }
+                    }
+                    break;
+                case NeeLaboratory.IO.Search.NodeChangedAction.Remove:
+                    {
+                        var item = this.Items.FirstOrDefault(i => i.Path == e.Content.Path);
+                        if (item != null)
+                        {
+                            App.Current.Dispatcher.BeginInvoke((Action)(() =>
+                            {
+                                Deleting?.Invoke(sender, new FileSystemEventArgs(WatcherChangeTypes.Deleted, Path.GetDirectoryName(e.Content.Path), Path.GetFileName(e.Content.Path)));
+                                Watcher_Deleted(item);
+                            }));
+                        }
+                    }
+                    break;
+                case NeeLaboratory.IO.Search.NodeChangedAction.Rename:
+                    {
+                        FolderItem item;
+                        lock (_lock)
+                        {
+                            item = this.Items.FirstOrDefault(i => i.Path == e.OldPath);
+                        }
+                        if (item != null)
+                        {
+                            item.Path = e.Content.Path;
+                        }
+                        else
+                        {
+                            // リストにない項目は追加を試みる
+                            Watcher_Creaded(CreateFolderItem(e.Content));
+                        }
+                    }
+                    break;
+                default:
+                    throw new NotSupportedException();
             }
         }
 
@@ -327,6 +460,12 @@ namespace NeeView
         public void Dispose()
         {
             TerminateWatcher();
+
+            if (_searchResult != null)
+            {
+                _searchResult.Dispose();
+                _searchResult = null;
+            }
 
             if (Items != null)
             {
@@ -470,8 +609,10 @@ namespace NeeView
             }
         }
 
+        //
         private void Watcher_Deleted(FolderItem item)
         {
+            if (item == null) return;
             lock (_lock)
             {
                 this.Items.Remove(item);
@@ -663,6 +804,40 @@ namespace NeeView
             }
 
             return info;
+        }
+
+        /// <summary>
+        /// 検索結果からFolderItem作成
+        /// </summary>
+        /// <param name="nodeContent"></param>
+        /// <returns></returns>
+        public FolderItem CreateFolderItem(NeeLaboratory.IO.Search.NodeContent nodeContent)
+        {
+            // TODO: ショートカット対応
+
+            if (nodeContent.FileInfo.IsDirectory)
+            {
+                return new FolderItem()
+                {
+                    Type = FolderItemType.Directory, // TODO
+                    Path = nodeContent.Path,
+                    LastWriteTime = nodeContent.FileInfo.LastWriteTime,
+                    Length = -1,
+                    Attributes = FolderItemAttribute.Directory,
+                    IsReady = true
+                };
+            }
+            else
+            {
+                return new FolderItem()
+                {
+                    Type = FolderItemType.File,
+                    Path = nodeContent.Path,
+                    LastWriteTime = nodeContent.FileInfo.LastWriteTime,
+                    Length = nodeContent.FileInfo.Size,
+                    IsReady = true
+                };
+            }
         }
     }
 

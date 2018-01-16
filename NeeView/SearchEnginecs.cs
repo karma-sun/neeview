@@ -56,12 +56,19 @@ namespace NeeView
         }
 
         //
-        public async Task<SearchResult> SearchAsync(string keyword, SearchOption option = null)
+        public async Task<SearchResultWatcher> SearchAsync(string keyword, SearchOption option = null)
         {
             if (_engine == null) throw new InvalidOperationException();
 
+            // 検索
             option = option ?? new SearchOption();
-            return await _engine.SearchAsync(keyword.Trim(), option);
+            var result = await _engine.SearchAsync(keyword.Trim(), option);
+
+            // 監視開始
+            var watcher = new SearchResultWatcher(_engine, result);
+            watcher.Start();
+
+            return watcher;
         }
 
         //

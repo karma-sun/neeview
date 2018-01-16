@@ -7,6 +7,7 @@ using NeeView.ComponentModel;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -22,6 +23,8 @@ namespace NeeView
     {
         public bool IsFocus { get; set; }
     }
+
+
 
     //
     public class FolderList : BindableBase
@@ -191,7 +194,7 @@ namespace NeeView
         public bool IsFolderSearchBoxVisible
         {
             get { return _IsFolderSearchVisible; }
-            set { if (_IsFolderSearchVisible != value) { _IsFolderSearchVisible = value; RaisePropertyChanged(); } }
+            set { if (_IsFolderSearchVisible != value) { _IsFolderSearchVisible = value; RaisePropertyChanged(); if (!_IsFolderSearchVisible) this.SearchKeyword = ""; } }
         }
 
         /// <summary>
@@ -201,9 +204,18 @@ namespace NeeView
         public string SearchKeyword
         {
             get { return _searchKeyword; }
-            set { if (_searchKeyword != value) { _searchKeyword = value; RaisePropertyChanged(); var task = SearchAsync(); } }
+            set { if (_searchKeyword != value) { _searchKeyword = value; RaisePropertyChanged(); var task = UpdateFolderCollectionAsync(false); } }
         }
 
+        /// <summary>
+        /// SearchHistory property.
+        /// </summary>
+        private ObservableCollection<string> _searchHistory = new ObservableCollection<string>();
+        public ObservableCollection<string> SearchHistory
+        {
+            get { return _searchHistory; }
+            set { if (_searchHistory != value) { _searchHistory = value; RaisePropertyChanged(); } }
+        }
 
         #endregion
 
@@ -311,10 +323,7 @@ namespace NeeView
                 this.SearchKeyword = null;
 
                 // FolderCollection 更新
-                var collection = CreateFolderCollection(place);
-                collection.ParameterChanged += (s, e) => App.Current?.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true); }));
-                collection.Deleting += FolderCollection_Deleting;
-                this.FolderCollection = collection;
+                this.FolderCollection = CreateFolderCollection(place, null);
                 this.SelectedItem = FixedItem(select);
 
                 RaiseSelectedItemChanged(options.HasFlag(FolderSetPlaceOption.IsFocus));
@@ -351,28 +360,65 @@ namespace NeeView
             return (_isDarty || this.FolderCollection == null || place != this.FolderCollection.Place);
         }
 
+
+        /// <summary>
+        /// FolderCollection 作成
+        /// </summary>
+        /// <param name="place"></param>
+        /// <param name="searchResult"></param>
+        /// <returns></returns>
+        private FolderCollection CreateFolderCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult)
+        {
+            if (searchResult == null)
+            {
+                return CreateEntryCollection(place);
+            }
+            else
+            {
+                return CreateSearchCollection(place, searchResult);
+            }
+        }
+
         /// <summary>
         /// FolderCollection 作成
         /// </summary>
         /// <param name="place"></param>
         /// <returns></returns>
-        private FolderCollection CreateFolderCollection(string place)
+        private FolderCollection CreateEntryCollection(string place)
         {
+            FolderCollection collection;
+
             try
             {
-                var collection = new FolderCollection(place);
-                collection.Initialize();
-                return collection;
+                collection = new FolderCollection(place);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
 
                 // 救済措置。取得に失敗した時はカレントディレクトリに移動
-                var collection = new FolderCollection(Environment.CurrentDirectory);
-                collection.Initialize();
-                return collection;
+                collection = new FolderCollection(Environment.CurrentDirectory);
             }
+
+            collection.ParameterChanged += (s, e) => App.Current?.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true); }));
+            collection.Deleting += FolderCollection_Deleting;
+            return collection;
+        }
+
+        /// <summary>
+        /// FolderCollection作成(検索結果)
+        /// </summary>
+        /// <param name="searchResult"></param>
+        /// <returns></returns>
+        private FolderCollection CreateSearchCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult)
+        {
+            var collection = new FolderCollection(place, searchResult);
+
+            // TODO: 検索結果に対しては処理はちがうだろ？
+            collection.ParameterChanged += (s, e) => App.Current?.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true); }));
+            collection.Deleting += FolderCollection_Deleting;
+
+            return collection;
         }
 
         /// <summary>
@@ -589,18 +635,71 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 検索
+        /// 検索キーワードの正規化
         /// </summary>
         /// <returns></returns>
-        public async Task SearchAsync()
-        {
-            if (string.IsNullOrWhiteSpace(_searchKeyword)) return;
+        private string GetFixedSearchKeyword() => _searchKeyword?.Trim();
 
-            var keyword = _searchKeyword.Trim();
-            Debug.WriteLine($"Search: {keyword}");
+
+        /// <summary>
+        /// 検索
+        /// </summary>
+        /// <param name="isForce">強制更新</param>
+        /// <returns></returns>
+        public async Task UpdateFolderCollectionAsync(bool isForce)
+        {
+            var keyword = GetFixedSearchKeyword();
+
+            if (string.IsNullOrEmpty(keyword))
+            {
+                await UpdateEntryFolderCollectionAsync(isForce);
+            }
+            else
+            {
+                await UpdateSearchFolderCollectionAsync(keyword, isForce);
+            }
+        }
+
+        public async Task UpdateEntryFolderCollectionAsync(bool isForce)
+        {
+            await Task.Yield();
+
+            // 同じリストは作らない
+            if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == this.Place && this.FolderCollection.Mode == FolderCollectionMode.Entry) return;
+
+            this.FolderCollection = CreateFolderCollection(this.Place, null);
+        }
+
+        /// <summary>
+        /// 検索結果リストとしてFolderListを更新
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <param name="isForce"></param>
+        /// <returns></returns>
+        public async Task UpdateSearchFolderCollectionAsync(string keyword, bool isForce)
+        {
+            // 同じリストは作らない
+            if (!isForce && this.FolderCollection != null && this.FolderCollection.Mode == FolderCollectionMode.Search && this.FolderCollection.SearchKeyword == keyword) return;
+
             _searchEngine = _searchEngine ?? new SearchEngine(this.Place);
-            var result = await _searchEngine.SearchAsync(keyword);
-            Debug.WriteLine($"SearchResult: {result.Items.Count}");
+
+            var option = new NeeLaboratory.IO.Search.SearchOption() { AllowFolder = true, IsOptionEnabled = true };
+            var result = await _searchEngine.SearchAsync(keyword, option);
+
+            this.FolderCollection = CreateFolderCollection(this.Place, result);
+        }
+
+
+        /// <summary>
+        /// 検索履歴更新
+        /// </summary>
+        public void UpdateSearchHistory()
+        {
+            var keyword = GetFixedSearchKeyword();
+            if (string.IsNullOrEmpty(keyword)) return;
+            this.SearchHistory.Remove(keyword);
+            this.SearchHistory.Insert(0, keyword);
+            while (this.SearchHistory.Count > 5) this.SearchHistory.RemoveAt(5);
         }
 
 

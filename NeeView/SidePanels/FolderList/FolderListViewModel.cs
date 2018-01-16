@@ -54,6 +54,24 @@ namespace NeeView
     /// </summary>
     public class FolderListViewModel : BindableBase
     {
+        #region Fields
+
+        //
+        private FolderListBox _listContent;
+
+        //
+        private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
+
+        //
+        private DragStart _dragStart;
+
+        //
+        private FolderItem _dragFolderItem;
+
+        #endregion
+
+        #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -95,6 +113,186 @@ namespace NeeView
             UpdateListContent();
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// IsRenaming property.
+        /// </summary>
+        private bool _isRenaming;
+        public bool IsRenaming
+        {
+            get { return _isRenaming; }
+            set { if (_isRenaming != value) { _isRenaming = value; RaisePropertyChanged(); } }
+        }
+
+
+        /// <summary>
+        /// ListContent property.
+        /// </summary>
+        public FolderListBox ListContent
+        {
+            get { return _listContent; }
+            private set { if (_listContent != value) { _listContent = value; RaisePropertyChanged(); } }
+        }
+
+        //
+        public FolderCollection FolderCollection => _model.FolderCollection;
+        public bool IsFolderRecursive => _model.FolderCollection != null ? _model.FolderCollection.FolderParameter.IsFolderRecursive : false;
+        public string Place => _model.FolderCollection?.PlaceDispString;
+
+        /// <summary>
+        /// Model property.
+        /// </summary>
+        private FolderList _model;
+        public FolderList Model
+        {
+            get { return _model; }
+            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// コンボボックス用リスト
+        /// </summary>
+        public Dictionary<FolderOrder, string> FolderOrderList => FolderOrderExtension.FolderOrderList;
+
+        /// <summary>
+        /// MoreMenu property.
+        /// </summary>
+        private ContextMenu _MoreMenu;
+        public ContextMenu MoreMenu
+        {
+            get { return _MoreMenu; }
+            set { if (_MoreMenu != value) { _MoreMenu = value; RaisePropertyChanged(); } }
+        }
+
+        #endregion
+
+        #region Commands
+
+        /// <summary>
+        /// コマンド実行可能状態を更新
+        /// </summary>
+        private void UpdateCommandCanExecute()
+        {
+            this.MoveToPrevious.RaiseCanExecuteChanged();
+            this.MoveToNext.RaiseCanExecuteChanged();
+        }
+
+        /// <summary>
+        /// 履歴取得
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        internal List<KeyValuePair<int, string>> GetHistory(int direction, int size)
+        {
+            return _model.History.GetHistory(direction, size);
+        }
+
+        /// <summary>
+        /// SetHome command.
+        /// </summary>
+        private RelayCommand _SetHome;
+        public RelayCommand SetHome
+        {
+            get { return _SetHome = _SetHome ?? new RelayCommand(_model.SetHome_Executed); }
+        }
+
+        /// <summary>
+        /// MoveToHome command.
+        /// </summary>
+        private RelayCommand _MoveToHome;
+        public RelayCommand MoveToHome
+        {
+            get { return _MoveToHome = _MoveToHome ?? new RelayCommand(_model.MoveToHome_Executed); }
+        }
+
+        /// <summary>
+        /// MoveTo command.
+        /// </summary>
+        private RelayCommand<string> _MoveTo;
+        public RelayCommand<string> MoveTo
+        {
+            get { return _MoveTo = _MoveTo ?? new RelayCommand<string>(_model.MoveTo_Executed); }
+        }
+
+        /// <summary>
+        /// MoveToPrevious command.
+        /// </summary>
+        private RelayCommand _MoveToPrevious;
+        public RelayCommand MoveToPrevious
+        {
+            get { return _MoveToPrevious = _MoveToPrevious ?? new RelayCommand(_model.MoveToPrevious_Executed, _model.MoveToPrevious_CanExecutre); }
+        }
+
+        /// <summary>
+        /// MoveToNext command.
+        /// </summary>
+        private RelayCommand _MoveToNext;
+        public RelayCommand MoveToNext
+        {
+            get { return _MoveToNext = _MoveToNext ?? new RelayCommand(_model.MoveToNext_Executed, _model.MoveToNext_CanExecute); }
+        }
+
+        /// <summary>
+        /// MoveToHistory command.
+        /// </summary>
+        private RelayCommand<KeyValuePair<int, string>> _MoveToHistory;
+        public RelayCommand<KeyValuePair<int, string>> MoveToHistory
+        {
+            get { return _MoveToHistory = _MoveToHistory ?? new RelayCommand<KeyValuePair<int, string>>(_model.MoveToHistory_Executed); }
+        }
+
+        /// <summary>
+        /// MoveToUp command.
+        /// </summary>
+        private RelayCommand _MoveToUp;
+        public RelayCommand MoveToUp
+        {
+            get { return _MoveToUp = _MoveToUp ?? new RelayCommand(_model.MoveToParent_Execute, _model.MoveToParent_CanExecute); }
+        }
+
+        /// <summary>
+        /// Sync command.
+        /// 現在開いているフォルダーで更新
+        /// </summary>
+        private RelayCommand _Sync;
+        public RelayCommand Sync
+        {
+            get { return _Sync = _Sync ?? new RelayCommand(_model.Sync_Executed); }
+        }
+
+        /// <summary>
+        /// ToggleFolderRecursive command.
+        /// </summary>
+        private RelayCommand _ToggleFolderRecursive;
+        public RelayCommand ToggleFolderRecursive
+        {
+            get { return _ToggleFolderRecursive = _ToggleFolderRecursive ?? new RelayCommand(_model.ToggleFolderRecursive_Executed); }
+        }
+
+
+        /// <summary>
+        /// Search command.
+        /// </summary>
+        private RelayCommand _Search;
+        public RelayCommand Search
+        {
+            get { return _Search = _Search ?? new RelayCommand(Search_Executed); }
+        }
+
+        //
+        private async void Search_Executed()
+        {
+            await _model.UpdateFolderCollectionAsync(true);
+        }
+
+        #endregion
+
+        #region Methods
+
         //
         internal void IsVisibleChanged(bool isVisibled)
         {
@@ -132,43 +330,7 @@ namespace NeeView
             RaisePropertyChanged(nameof(Place));
         }
 
-        //
-        public FolderCollection FolderCollection => _model.FolderCollection;
-        public bool IsFolderRecursive => _model.FolderCollection != null ? _model.FolderCollection.FolderParameter.IsFolderRecursive : false;
-        public string Place => _model.FolderCollection?.PlaceDispString;
-
-        /// <summary>
-        /// Model property.
-        /// </summary>
-        public FolderList Model
-        {
-            get { return _model; }
-            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
-        }
-
-        //
-        private FolderList _model;
-
-        /// <summary>
-        /// コンボボックス用リスト
-        /// </summary>
-        public Dictionary<FolderOrder, string> FolderOrderList => FolderOrderExtension.FolderOrderList;
-
-
         #region MoreMenu
-
-        /// <summary>
-        /// MoreMenu property.
-        /// </summary>
-        public ContextMenu MoreMenu
-        {
-            get { return _MoreMenu; }
-            set { if (_MoreMenu != value) { _MoreMenu = value; RaisePropertyChanged(); } }
-        }
-
-        //
-        private ContextMenu _MoreMenu;
-
 
         //
         private void InitializeMoreMenu(FolderPanelModel source)
@@ -221,7 +383,7 @@ namespace NeeView
             item.CommandParameter = style;
             var binding = new Binding(nameof(_model.PanelListItemStyle))
             {
-                Converter = _PanelListItemStyleToBooleanConverter,
+                Converter = _panelListItemStyleToBooleanConverter,
                 ConverterParameter = style,
                 Source = _model,
             };
@@ -231,19 +393,14 @@ namespace NeeView
         }
 
 
-        private PanelListItemStyleToBooleanConverter _PanelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
-
-
         /// <summary>
         /// SetListItemStyle command.
         /// </summary>
+        private RelayCommand<PanelListItemStyle> _SetListItemStyle;
         public RelayCommand<PanelListItemStyle> SetListItemStyle
         {
             get { return _SetListItemStyle = _SetListItemStyle ?? new RelayCommand<PanelListItemStyle>(SetListItemStyle_Executed); }
         }
-
-        //
-        private RelayCommand<PanelListItemStyle> _SetListItemStyle;
 
         //
         private void SetListItemStyle_Executed(PanelListItemStyle style)
@@ -254,9 +411,6 @@ namespace NeeView
         #endregion
 
         #region DragStart
-
-        private DragStart _dragStart;
-        private FolderItem _dragFolderItem;
 
         //
         private void InitializeDragStart()
@@ -298,147 +452,6 @@ namespace NeeView
         #endregion
 
 
-
-        /// <summary>
-        /// コマンド実行可能状態を更新
-        /// </summary>
-        private void UpdateCommandCanExecute()
-        {
-            this.MoveToPrevious.RaiseCanExecuteChanged();
-            this.MoveToNext.RaiseCanExecuteChanged();
-        }
-
-
-        /// <summary>
-        /// SetHome command.
-        /// </summary>
-        private RelayCommand _SetHome;
-        public RelayCommand SetHome
-        {
-            get { return _SetHome = _SetHome ?? new RelayCommand(_model.SetHome_Executed); }
-        }
-
-
-        /// <summary>
-        /// MoveToHome command.
-        /// </summary>
-        private RelayCommand _MoveToHome;
-        public RelayCommand MoveToHome
-        {
-            get { return _MoveToHome = _MoveToHome ?? new RelayCommand(_model.MoveToHome_Executed); }
-        }
-
-
-        /// <summary>
-        /// MoveTo command.
-        /// </summary>
-        public RelayCommand<string> MoveTo
-        {
-            get { return _MoveTo = _MoveTo ?? new RelayCommand<string>(_model.MoveTo_Executed); }
-        }
-
-        //
-        private RelayCommand<string> _MoveTo;
-
-
-
-        /// <summary>
-        /// MoveToPrevious command.
-        /// </summary>
-        private RelayCommand _MoveToPrevious;
-        public RelayCommand MoveToPrevious
-        {
-            get { return _MoveToPrevious = _MoveToPrevious ?? new RelayCommand(_model.MoveToPrevious_Executed, _model.MoveToPrevious_CanExecutre); }
-        }
-
-
-        /// <summary>
-        /// MoveToNext command.
-        /// </summary>
-        private RelayCommand _MoveToNext;
-        public RelayCommand MoveToNext
-        {
-            get { return _MoveToNext = _MoveToNext ?? new RelayCommand(_model.MoveToNext_Executed, _model.MoveToNext_CanExecute); }
-        }
-
-
-        /// <summary>
-        /// 履歴取得
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        internal List<KeyValuePair<int, string>> GetHistory(int direction, int size)
-        {
-            return _model.History.GetHistory(direction, size);
-        }
-
-
-        /// <summary>
-        /// MoveToHistory command.
-        /// </summary>
-        private RelayCommand<KeyValuePair<int, string>> _MoveToHistory;
-        public RelayCommand<KeyValuePair<int, string>> MoveToHistory
-        {
-            get { return _MoveToHistory = _MoveToHistory ?? new RelayCommand<KeyValuePair<int, string>>(_model.MoveToHistory_Executed); }
-        }
-
-
-        /// <summary>
-        /// MoveToUp command.
-        /// </summary>
-        private RelayCommand _MoveToUp;
-        public RelayCommand MoveToUp
-        {
-            get { return _MoveToUp = _MoveToUp ?? new RelayCommand(_model.MoveToParent_Execute, _model.MoveToParent_CanExecute); }
-        }
-
-        /// <summary>
-        /// Sync command.
-        /// 現在開いているフォルダーで更新
-        /// </summary>
-        private RelayCommand _Sync;
-        public RelayCommand Sync
-        {
-            get { return _Sync = _Sync ?? new RelayCommand(_model.Sync_Executed); }
-        }
-
-        /// <summary>
-        /// ToggleFolderRecursive command.
-        /// </summary>
-        public RelayCommand ToggleFolderRecursive
-        {
-            get { return _ToggleFolderRecursive = _ToggleFolderRecursive ?? new RelayCommand(_model.ToggleFolderRecursive_Executed); }
-        }
-
-        //
-        private RelayCommand _ToggleFolderRecursive;
-
-
-
-        /// <summary>
-        /// IsRenaming property.
-        /// </summary>
-        private bool _isRenaming;
-        public bool IsRenaming
-        {
-            get { return _isRenaming; }
-            set { if (_isRenaming != value) { _isRenaming = value; RaisePropertyChanged(); } }
-        }
-
-
-        /// <summary>
-        /// ListContent property.
-        /// </summary>
-        public FolderListBox ListContent
-        {
-            get { return _listContent; }
-            private set { if (_listContent != value) { _listContent = value; RaisePropertyChanged(); } }
-        }
-
-        //
-        private FolderListBox _listContent;
-
         //
         public void UpdateListContent()
         {
@@ -467,8 +480,18 @@ namespace NeeView
         /// <returns></returns>
         public async Task SearchAsync()
         {
-            await _model.SearchAsync();
+            await _model.UpdateFolderCollectionAsync(false);
         }
+
+        /// <summary>
+        /// 検索履歴更新
+        /// </summary>
+        public void UpdateSearchHistory()
+        {
+            _model.UpdateSearchHistory();
+        }
+
+        #endregion
     }
 
 }

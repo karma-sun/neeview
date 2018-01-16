@@ -525,6 +525,13 @@ namespace NeeView
             //// 履歴削除バグチェック用
             if (source.Count != collection.Count())
             {
+                Debug.WriteLine("--");
+                var deletes = source.Where(e => !collection.Contains(e));
+                foreach(var delete in deletes)
+                {
+                    Debug.WriteLine($"rm {delete.Name}, {delete.LastAccessTime}");
+                }
+
                 Debugger.Break();
             }
 #endif

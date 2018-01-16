@@ -313,7 +313,7 @@ namespace NeeView
             }
 
             // 更新が必要であれば、新しいFolderListBoxを作成する
-            if (CheckFolderListUpdateneNcessary(place))
+            if (CheckFolderListUpdateneNcessary(place, options.HasFlag(FolderSetPlaceOption.ClearSearchKeyword)))
             {
                 _isDarty = false;
 
@@ -354,10 +354,11 @@ namespace NeeView
         /// リストの更新必要性チェック
         /// </summary>
         /// <param name="place"></param>
+        /// <param name="releaseSearchMode">検索モード解除</param>
         /// <returns></returns>
-        private bool CheckFolderListUpdateneNcessary(string place)
+        private bool CheckFolderListUpdateneNcessary(string place, bool releaseSearchMode)
         {
-            return (_isDarty || this.FolderCollection == null || place != this.FolderCollection.Place);
+            return (_isDarty || this.FolderCollection == null || place != this.FolderCollection.Place || (releaseSearchMode && this.FolderCollection.Mode == FolderCollectionMode.Search));
         }
 
 
@@ -721,7 +722,7 @@ namespace NeeView
             if (_bookHub == null) return;
 
             var place = GetFixedHome();
-            SetPlace(place, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.IsTopSelect);
+            SetPlace(place, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.IsTopSelect | FolderSetPlaceOption.ClearSearchKeyword);
         }
 
 

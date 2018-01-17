@@ -24,6 +24,16 @@ namespace NeeView
         public bool IsFocus { get; set; }
     }
 
+    //
+    public class BusyChangedEventArgs : EventArgs
+    {
+        public bool IsBusy { get; set; }
+
+        public BusyChangedEventArgs(bool isBusy)
+        {
+            this.IsBusy = isBusy;
+        }
+    }
 
 
     //
@@ -86,6 +96,11 @@ namespace NeeView
 
         // 検索ボックスにフォーカスを
         public event EventHandler SearchBoxFocus;
+
+        /// <summary>
+        /// リスト更新処理中イベント
+        /// </summary>
+        public event EventHandler<BusyChangedEventArgs> BusyChanged;
 
         #endregion
 
@@ -643,15 +658,24 @@ namespace NeeView
         /// <returns></returns>
         public async Task UpdateFolderCollectionAsync(bool isForce)
         {
-            var keyword = GetFixedSearchKeyword();
+            try
+            {
+                BusyChanged?.Invoke(this, new BusyChangedEventArgs(true));
 
-            if (string.IsNullOrEmpty(keyword))
-            {
-                await UpdateEntryFolderCollectionAsync(isForce);
+                var keyword = GetFixedSearchKeyword();
+
+                if (string.IsNullOrEmpty(keyword))
+                {
+                    await UpdateEntryFolderCollectionAsync(isForce);
+                }
+                else
+                {
+                    await UpdateSearchFolderCollectionAsync(keyword, isForce);
+                }
             }
-            else
+            finally
             {
-                await UpdateSearchFolderCollectionAsync(keyword, isForce);
+                BusyChanged?.Invoke(this, new BusyChangedEventArgs(false));
             }
         }
 
@@ -774,7 +798,7 @@ namespace NeeView
             if (!this.History.CanNext()) return;
 
             var place = this.History.GetNext();
-           await  SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus);
+            await SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus);
             this.History.Move(+1);
         }
 

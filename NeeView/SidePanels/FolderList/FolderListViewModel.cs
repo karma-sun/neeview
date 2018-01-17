@@ -108,6 +108,9 @@ namespace NeeView
             _model.CollectionChanged +=
                 Model_CollectionChanged;
 
+            _model.BusyChanged +=
+                Model_BusyChanged;
+
             InitializeMoreMenu(_model.FolderPanel);
             InitializeDragStart();
 
@@ -330,6 +333,20 @@ namespace NeeView
             RaisePropertyChanged(nameof(IsFolderRecursive));
             RaisePropertyChanged(nameof(Place));
         }
+
+        /// <summary>
+        /// リスト更新中
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Model_BusyChanged(object sender, BusyChangedEventArgs e)
+        {
+            if (this.ListContent != null)
+            {
+                this.ListContent.BusyFadeContent.Content = e.IsBusy ? new BusyFadeView() : null;
+            }
+        }
+
 
         #region MoreMenu
 

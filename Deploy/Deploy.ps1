@@ -180,12 +180,13 @@ function New-Readme($packageDir, $template)
 	Copy-Item $template "$readmeDir/README.md"
 	Copy-Item "$solutionDir\LICENSE.md" $readmeDir
 	Copy-Item "$solutionDir\THIRDPARTY_LICENSES.md" $readmeDir
+	Copy-Item "$solutionDir\NeeLaboratory.IO.Search\THIRDPARTY_LICENSES.md" "$readmeDir\NeeLaboratory.IO.Search_THIRDPARTY_LICENSES.md"
 
 	# edit README.md
 	Replace-Content "$readmeDir\README.md" "<VERSION/>" "$version"
 
 	# markdown to html by pandoc
-	pandoc -s -t html5 -o "$packageDir\README.html" -H Style.html "$readmeDir\README.md" "$readmeDir\LICENSE.md" "$readmeDir\THIRDPARTY_LICENSES.md"
+	pandoc -s -t html5 -o "$packageDir\README.html" -H Style.html "$readmeDir\README.md" "$readmeDir\LICENSE.md" "$readmeDir\THIRDPARTY_LICENSES.md" "$readmeDir\NeeLaboratory.IO.Search_THIRDPARTY_LICENSES.md"
 
 	Remove-Item $readmeDir -Recurse
 }

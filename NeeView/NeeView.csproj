@@ -168,6 +168,12 @@
     <Compile Include="BookLoadOption.cs" />
     <Compile Include="BookMementoFilter.cs" />
     <Compile Include="ContentSizeCalcurator.cs" />
+    <Compile Include="Controls\BusyFadeView.xaml.cs">
+      <DependentUpon>BusyFadeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BusyView.xaml.cs">
+      <DependentUpon>BusyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PageDirectionalRange.cs" />
     <Compile Include="PagePart.cs" />
     <Compile Include="Picture\DefaultPictureFactory.cs" />
@@ -675,6 +681,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BackgroundSettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\BusyFadeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\BusyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -148,8 +148,8 @@
 
     </UserControl.Resources>
 
-
-    <ListBox x:Name="ListBox" Focusable="True" 
+    <Grid>
+        <ListBox x:Name="ListBox" Focusable="True"
                 Background="Transparent"
                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 FocusVisualStyle="{StaticResource NVFocusVisual}"
@@ -166,86 +166,89 @@
                 VirtualizingStackPanel.VirtualizationMode="Recycling"
              >
 
-        <ListBox.Style>
-            <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
-                <Style.Triggers>
-                    <MultiDataTrigger>
-                        <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Normal"/>
-                            <Condition Binding="{Binding Model.FolderIconLayout}" Value="Default"/>
-                        </MultiDataTrigger.Conditions>
-                        <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder}"/>
-                    </MultiDataTrigger>
-                    <MultiDataTrigger>
-                        <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Normal"/>
-                            <Condition Binding="{Binding Model.FolderIconLayout}" Value="Explorer"/>
-                        </MultiDataTrigger.Conditions>
-                        <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder2}"/>
-                    </MultiDataTrigger>
+            <ListBox.Style>
+                <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Normal"/>
+                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Default"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder}"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Normal"/>
+                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Explorer"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder2}"/>
+                        </MultiDataTrigger>
 
-                    <MultiDataTrigger>
-                        <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Content"/>
-                            <Condition Binding="{Binding Model.FolderIconLayout}" Value="Default"/>
-                        </MultiDataTrigger.Conditions>
-                        <Setter Property="ItemTemplate" Value="{StaticResource PictureFolder}"/>
-                    </MultiDataTrigger>
-                    <MultiDataTrigger>
-                        <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Content"/>
-                            <Condition Binding="{Binding Model.FolderIconLayout}" Value="Explorer"/>
-                        </MultiDataTrigger.Conditions>
-                        <Setter Property="ItemTemplate" Value="{StaticResource PictureFolder2}"/>
-                    </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Content"/>
+                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Default"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="ItemTemplate" Value="{StaticResource PictureFolder}"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Content"/>
+                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Explorer"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="ItemTemplate" Value="{StaticResource PictureFolder2}"/>
+                        </MultiDataTrigger>
 
-                    <MultiDataTrigger>
-                        <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Banner"/>
-                            <Condition Binding="{Binding Model.FolderIconLayout}" Value="Default"/>
-                        </MultiDataTrigger.Conditions>
-                        <Setter Property="ItemTemplate" Value="{StaticResource BannerFolder}"/>
-                    </MultiDataTrigger>
-                    <MultiDataTrigger>
-                        <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Banner"/>
-                            <Condition Binding="{Binding Model.FolderIconLayout}" Value="Explorer"/>
-                        </MultiDataTrigger.Conditions>
-                        <Setter Property="ItemTemplate" Value="{StaticResource BannerFolder2}"/>
-                    </MultiDataTrigger>
-                </Style.Triggers>
-            </Style>
-        </ListBox.Style>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Banner"/>
+                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Default"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="ItemTemplate" Value="{StaticResource BannerFolder}"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Banner"/>
+                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Explorer"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="ItemTemplate" Value="{StaticResource BannerFolder2}"/>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Style>
 
-        <ListBox.ItemContainerStyle>
-            <Style TargetType="{x:Type ListBoxItem}">
-                <EventSetter Event="PreviewMouseLeftButtonUp" Handler="FolderListItem_MouseSingleClick"/>
-                <EventSetter Event="PreviewMouseDoubleClick" Handler="FolderListItem_MouseDoubleClick"/>
-                <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown"/>
-                <EventSetter Event="PreviewMouseDown" Handler="FolderListItem_MouseDown"/>
-                <EventSetter Event="PreviewMouseUp" Handler="FolderListItem_MouseUp"/>
-                <EventSetter Event="PreviewMouseMove" Handler="FolderListItem_MouseMove"/>
-                <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
-                <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="ContextMenu">
-                    <Setter.Value>
-                        <ContextMenu>
-                            <MenuItem Header="サブフォルダーを読み込む" Command="{x:Static local:FolderListBox.LoadWithRecursiveCommand}"/>
-                            <Separator/>
-                            <MenuItem Header="エクスプローラーで開く" Command="{x:Static local:FolderListBox.OpenExplorerCommand}"/>
-                            <MenuItem Header="コピー(C)" Command="{x:Static local:FolderListBox.CopyCommand}"/>
-                            <Separator/>
-                            <MenuItem Header="削除(D)" Command="{x:Static local:FolderListBox.RemoveCommand}"/>
-                            <MenuItem Header="名前の変更(M)" Command="{x:Static local:FolderListBox.RenameCommand}"/>
-                        </ContextMenu>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </ListBox.ItemContainerStyle>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="FolderListItem_MouseSingleClick"/>
+                    <EventSetter Event="PreviewMouseDoubleClick" Handler="FolderListItem_MouseDoubleClick"/>
+                    <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown"/>
+                    <EventSetter Event="PreviewMouseDown" Handler="FolderListItem_MouseDown"/>
+                    <EventSetter Event="PreviewMouseUp" Handler="FolderListItem_MouseUp"/>
+                    <EventSetter Event="PreviewMouseMove" Handler="FolderListItem_MouseMove"/>
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="サブフォルダーを読み込む" Command="{x:Static local:FolderListBox.LoadWithRecursiveCommand}"/>
+                                <Separator/>
+                                <MenuItem Header="エクスプローラーで開く" Command="{x:Static local:FolderListBox.OpenExplorerCommand}"/>
+                                <MenuItem Header="コピー(C)" Command="{x:Static local:FolderListBox.CopyCommand}"/>
+                                <Separator/>
+                                <MenuItem Header="削除(D)" Command="{x:Static local:FolderListBox.RemoveCommand}"/>
+                                <MenuItem Header="名前の変更(M)" Command="{x:Static local:FolderListBox.RenameCommand}"/>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
 
-    </ListBox>
+        </ListBox>
+        
+        <ContentControl x:Name="BusyFadeContent"/>
+    </Grid>
 
 </UserControl>

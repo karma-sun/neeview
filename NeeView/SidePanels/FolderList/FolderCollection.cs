@@ -291,8 +291,8 @@ namespace NeeView
             this.Mode = FolderCollectionMode.Search;
 
             var items = searchResult.Items
-                .Where(e => (e.FileInfo.IsDirectory || ArchiverManager.Current.IsSupported(e.Path)))
                 .Select(e => CreateFolderItem(e))
+                .Where(e => e != null)
                 .ToList();
 
             var list = Sort(items).ToList();
@@ -321,11 +321,7 @@ namespace NeeView
             {
                 case NeeLaboratory.IO.Search.NodeChangedAction.Add:
                     {
-                        var item = CreateFolderItem(e.Content);
-                        if (item != null)
-                        {
-                            Watcher_Creaded(item);
-                        }
+                        Watcher_Creaded(CreateFolderItem(e.Content));
                     }
                     break;
                 case NeeLaboratory.IO.Search.NodeChangedAction.Remove:
@@ -551,6 +547,8 @@ namespace NeeView
         //
         private void Watcher_Creaded(FolderItem item)
         {
+            if (item == null) return;
+
             lock (_lock)
             {
                 if (this.Items.Count == 1 && this.Items.First().Type == FolderItemType.Empty)
@@ -613,6 +611,7 @@ namespace NeeView
         private void Watcher_Deleted(FolderItem item)
         {
             if (item == null) return;
+
             lock (_lock)
             {
                 this.Items.Remove(item);
@@ -829,14 +828,33 @@ namespace NeeView
             }
             else
             {
-                return new FolderItem()
+                if (Utility.FileShortcut.IsShortcut(nodeContent.Path))
                 {
-                    Type = FolderItemType.File,
-                    Path = nodeContent.Path,
-                    LastWriteTime = nodeContent.FileInfo.LastWriteTime,
-                    Length = nodeContent.FileInfo.Size,
-                    IsReady = true
-                };
+                    var shortcut = new Utility.FileShortcut(nodeContent.Path);
+                    if (shortcut.DirectoryInfo.Exists || (shortcut.FileInfo.Exists && ArchiverManager.Current.IsSupported(shortcut.TargetPath)))
+                    {
+                        return CreateFolderItem(shortcut);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else if (ArchiverManager.Current.IsSupported(nodeContent.Path))
+                {
+                    return new FolderItem()
+                    {
+                        Type = FolderItemType.File,
+                        Path = nodeContent.Path,
+                        LastWriteTime = nodeContent.FileInfo.LastWriteTime,
+                        Length = nodeContent.FileInfo.Size,
+                        IsReady = true
+                    };
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
     }

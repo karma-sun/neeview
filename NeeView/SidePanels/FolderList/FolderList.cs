@@ -66,7 +66,7 @@ namespace NeeView
             this.FolderPanel = folderPanel;
             _bookHub = bookHub;
 
-            _bookHub.FolderListSync += (s, e) => SyncWeak(e);
+            _bookHub.FolderListSync += async (s, e) => await SyncWeak(e);
             _bookHub.HistoryChanged += (s, e) => RefleshIcon(e.Key);
             _bookHub.BookmarkChanged += (s, e) => RefleshIcon(e.Key);
         }
@@ -288,7 +288,7 @@ namespace NeeView
         /// <param name="place"></param>
         public void ResetPlace(string place)
         {
-            SetPlace(place ?? GetFixedHome(), null, FolderSetPlaceOption.IsUpdateHistory);
+            var task = SetPlaceAsync(place ?? GetFixedHome(), null, FolderSetPlaceOption.IsUpdateHistory);
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace NeeView
         /// </summary>
         /// <param name="place">フォルダーパス</param>
         /// <param name="select">初期選択項目</param>
-        public async void SetPlace(string place, string select, FolderSetPlaceOption options)
+        public async Task SetPlaceAsync(string place, string select, FolderSetPlaceOption options)
         {
             // 現在フォルダーの情報を記憶
             SavePlace(GetFolderItem(0));
@@ -380,14 +380,10 @@ namespace NeeView
         /// <returns></returns>
         private FolderCollection CreateFolderCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult)
         {
-            if (searchResult == null)
-            {
-                return CreateEntryCollection(place);
-            }
-            else
-            {
-                return CreateSearchCollection(place, searchResult);
-            }
+            FolderCollection collection = searchResult == null ? CreateEntryCollection(place) : CreateSearchCollection(place, searchResult);
+            collection.ParameterChanged += async (s, e) => await RefleshAsync(true);
+            collection.Deleting += FolderCollection_Deleting;
+            return collection;
         }
 
         /// <summary>
@@ -397,23 +393,17 @@ namespace NeeView
         /// <returns></returns>
         private FolderCollection CreateEntryCollection(string place)
         {
-            FolderCollection collection;
-
             try
             {
-                collection = new FolderCollection(place);
+                return new FolderCollection(place);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
 
                 // 救済措置。取得に失敗した時はカレントディレクトリに移動
-                collection = new FolderCollection(Environment.CurrentDirectory);
+                return new FolderCollection(Environment.CurrentDirectory);
             }
-
-            collection.ParameterChanged += (s, e) => App.Current?.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true); }));
-            collection.Deleting += FolderCollection_Deleting;
-            return collection;
         }
 
         /// <summary>
@@ -423,13 +413,7 @@ namespace NeeView
         /// <returns></returns>
         private FolderCollection CreateSearchCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult)
         {
-            var collection = new FolderCollection(place, searchResult);
-
-            // TODO: 検索結果に対しては処理はちがうだろ？
-            collection.ParameterChanged += (s, e) => App.Current?.Dispatcher.BeginInvoke((Action)(delegate () { Reflesh(true); }));
-            collection.Deleting += FolderCollection_Deleting;
-
-            return collection;
+            return new FolderCollection(place, searchResult);
         }
 
         /// <summary>
@@ -479,13 +463,13 @@ namespace NeeView
         /// フォルダーリスト更新
         /// </summary>
         /// <param name="force">必要が無い場合も更新する</param>
-        public void Reflesh(bool force)
+        public async Task RefleshAsync(bool force)
         {
             if (this.FolderCollection == null) return;
 
             _isDarty = force || this.FolderCollection.IsDarty();
 
-            SetPlace(_place, null, FolderSetPlaceOption.IsUpdateHistory);
+            await SetPlaceAsync(_place, null, FolderSetPlaceOption.IsUpdateHistory);
         }
 
 
@@ -517,7 +501,7 @@ namespace NeeView
         /// e.isKeepPlaceが有効の場合、フォルダーは移動せず現在選択項目のみの移動を試みる
         /// </summary>
         /// <param name="e"></param>
-        public void SyncWeak(FolderListSyncArguments e)
+        public async Task SyncWeak(FolderListSyncArguments e)
         {
             if (e != null && e.isKeepPlace)
             {
@@ -525,7 +509,7 @@ namespace NeeView
             }
 
             var options = FolderSetPlaceOption.IsUpdateHistory;
-            SetPlace(System.IO.Path.GetDirectoryName(e.Path), e.Path, options);
+            await SetPlaceAsync(System.IO.Path.GetDirectoryName(e.Path), e.Path, options);
         }
 
         /// <summary>
@@ -599,10 +583,10 @@ namespace NeeView
         }
 
         // 次のフォルダーに移動
-        public void NextFolder(BookLoadOption option = BookLoadOption.None)
+        public async Task NextFolder(BookLoadOption option = BookLoadOption.None)
         {
             if (_bookHub.IsBusy()) return; // 相対移動の場合はキャンセルしない
-            var result = MoveFolder(+1, option);
+            var result = await MoveFolder(+1, option);
             if (result != true)
             {
                 InfoMessage.Current.SetMessage(InfoMessageType.Notify, "次のブックはありません");
@@ -610,10 +594,10 @@ namespace NeeView
         }
 
         // 前のフォルダーに移動
-        public void PrevFolder(BookLoadOption option = BookLoadOption.None)
+        public async Task PrevFolder(BookLoadOption option = BookLoadOption.None)
         {
             if (_bookHub.IsBusy()) return; // 相対移動の場合はキャンセルしない
-            var result = MoveFolder(-1, option);
+            var result = await MoveFolder(-1, option);
             if (result != true)
             {
                 InfoMessage.Current.SetMessage(InfoMessageType.Notify, "前のブックはありません");
@@ -624,12 +608,12 @@ namespace NeeView
         /// <summary>
         /// コマンドの「前のフォルダーに移動」「次のフォルダーへ移動」に対応
         /// </summary>
-        public bool MoveFolder(int direction, BookLoadOption options)
+        public async Task<bool> MoveFolder(int direction, BookLoadOption options)
         {
             var item = this.GetFolderItem(direction);
             if (item != null)
             {
-                SetPlace(_place, item.Path, FolderSetPlaceOption.IsUpdateHistory);
+                await SetPlaceAsync(_place, item.Path, FolderSetPlaceOption.IsUpdateHistory);
                 _bookHub.RequestLoad(item.TargetPath, null, options, false);
                 return true;
             }
@@ -747,19 +731,19 @@ namespace NeeView
         }
 
         //
-        public void MoveToHome_Executed()
+        public async void MoveToHome_Executed()
         {
             if (_bookHub == null) return;
 
             var place = GetFixedHome();
-            SetPlace(place, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.IsTopSelect | FolderSetPlaceOption.ClearSearchKeyword);
+            await SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.IsTopSelect | FolderSetPlaceOption.ClearSearchKeyword);
         }
 
 
         //
-        public void MoveTo_Executed(string path)
+        public async void MoveTo_Executed(string path)
         {
-            this.SetPlace(path, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
+            await this.SetPlaceAsync(path, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
         }
 
         //
@@ -769,12 +753,12 @@ namespace NeeView
         }
 
         //
-        public void MoveToPrevious_Executed()
+        public async void MoveToPrevious_Executed()
         {
             if (!this.History.CanPrevious()) return;
 
             var place = this.History.GetPrevious();
-            SetPlace(place, null, FolderSetPlaceOption.IsFocus);
+            await SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus);
             this.History.Move(-1);
         }
 
@@ -785,20 +769,20 @@ namespace NeeView
         }
 
         //
-        public void MoveToNext_Executed()
+        public async void MoveToNext_Executed()
         {
             if (!this.History.CanNext()) return;
 
             var place = this.History.GetNext();
-            SetPlace(place, null, FolderSetPlaceOption.IsFocus);
+           await  SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus);
             this.History.Move(+1);
         }
 
         //
-        public void MoveToHistory_Executed(KeyValuePair<int, string> item)
+        public async void MoveToHistory_Executed(KeyValuePair<int, string> item)
         {
             var place = this.History.GetHistory(item.Key);
-            SetPlace(place, null, FolderSetPlaceOption.IsFocus);
+            await SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus);
             this.History.SetCurrent(item.Key + 1);
         }
 
@@ -809,29 +793,29 @@ namespace NeeView
         }
 
         //
-        public void MoveToParent_Execute()
+        public async void MoveToParent_Execute()
         {
             if (_place == null) return;
             var parent = System.IO.Path.GetDirectoryName(_place);
-            SetPlace(parent, _place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
+            await SetPlaceAsync(parent, _place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
         }
 
         //
-        public void Sync_Executed()
+        public async void Sync_Executed()
         {
             string place = _bookHub?.Book?.Place;
 
             if (place != null)
             {
                 _isDarty = true; // 強制更新
-                SetPlace(System.IO.Path.GetDirectoryName(place), place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
+                await SetPlaceAsync(System.IO.Path.GetDirectoryName(place), place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
 
                 RaiseSelectedItemChanged(true);
             }
             else if (_place != null)
             {
                 _isDarty = true; // 強制更新
-                SetPlace(_place, null, FolderSetPlaceOption.IsFocus);
+                await SetPlaceAsync(_place, null, FolderSetPlaceOption.IsFocus);
 
                 RaiseSelectedItemChanged(true);
             }

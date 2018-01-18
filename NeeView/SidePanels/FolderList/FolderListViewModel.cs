@@ -294,6 +294,22 @@ namespace NeeView
             await _model.UpdateFolderCollectionAsync(true);
         }
 
+        /// <summary>
+        /// ClearSearch command.
+        /// </summary>
+        private RelayCommand _ClearSearch;
+        public RelayCommand ClearSearch
+        {
+            get { return _ClearSearch = _ClearSearch ?? new RelayCommand(ClearSearch_Executed); }
+        }
+
+        //
+        private void ClearSearch_Executed()
+        {
+            _model.SearchKeyword = "";
+        }
+
+
         #endregion
 
         #region Methods

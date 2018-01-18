@@ -637,6 +637,20 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
+                    <DrawingImage x:Key="ic_clear_24px_b">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M6.40999984741211,5L12,10.5900001525879 17.5900001525879,5 19,6.40999984741211 13.4099998474121,12 19,17.5900001525879 17.5900001525879,19 12,13.4099998474121 6.40999984741211,19 5,17.5900001525879 10.5900001525879,12 5,6.40999984741211 6.40999984741211,5z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
                     <DrawingImage x:Key="ic_link_24px">
                         <DrawingImage.Drawing>
                             <DrawingGroup Opacity="1">

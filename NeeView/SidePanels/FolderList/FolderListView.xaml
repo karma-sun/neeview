@@ -161,7 +161,10 @@
                     </Style>
                 </Border.Style>
                 <DockPanel >
-                    <Button x:Name="SearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Command="{Binding Search}">
+                    <Button x:Name="ClearSearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding ClearSearch}">
+                        <Image Source="{StaticResource ic_clear_24px_b}" Width="16" Height="16"/>
+                    </Button>
+                    <Button x:Name="SearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding Search}">
                         <Image Source="{StaticResource ic_search_24px_b}" Width="16" Height="16"/>
                     </Button>
                     <ComboBox x:Name="SearchBox" Text="{Binding Model.SearchKeyword, Delay=500, UpdateSourceTrigger=PropertyChanged}" 

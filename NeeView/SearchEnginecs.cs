@@ -27,7 +27,7 @@ namespace NeeView
         }
 
         //
-        public bool IsBusy => _engine != null &&  _engine.State != SearchEngineState.Idle;
+        public bool IsBusy => _engine != null &&  _engine.State != SearchCommandEngineState.Idle;
 
         //
         public void Stop()
@@ -41,11 +41,11 @@ namespace NeeView
         {
             if (_engine == null) return "停止";
 
-            if (_engine.State == SearchEngineState.Idle)
+            if (_engine.State == SearchCommandEngineState.Idle)
             {
                 return "待機中";
             }
-            else if (_engine.State == SearchEngineState.Collect)
+            else if (_engine.State == SearchCommandEngineState.Collect)
             {
                 return $"{_engine.NodeCountMaybe:#,0} 個のインデックス作成中...";
             }

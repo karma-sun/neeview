@@ -1296,7 +1296,7 @@ namespace NeeView
                 element.ShortCutKey = "Up";
                 element.MouseGesture = "LU";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.FolderList.PrevFolder();
+                element.Execute = async (s, e) => await _models.FolderList.PrevFolder();
                 _elements[CommandType.PrevFolder] = element;
             }
             // NextFolder
@@ -1308,7 +1308,7 @@ namespace NeeView
                 element.ShortCutKey = "Down";
                 element.MouseGesture = "LD";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.FolderList.NextFolder();
+                element.Execute = async (s, e) => await _models.FolderList.NextFolder();
                 _elements[CommandType.NextFolder] = element;
             }
             // PrevHistory

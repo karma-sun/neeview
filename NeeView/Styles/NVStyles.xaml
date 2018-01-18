@@ -459,6 +459,9 @@
                     </VisualState>
                     <VisualState x:Name="Pressed" />
                     <VisualState x:Name="Disabled">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Arrow" To="0.5" Duration="0:0:0"/>
+                        </Storyboard>
                     </VisualState>
                 </VisualStateGroup>
                 <VisualStateGroup x:Name="CheckStates">

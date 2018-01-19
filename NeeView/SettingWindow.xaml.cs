@@ -348,6 +348,7 @@ namespace NeeView
                     Setting.Memento.PictureProfile,
                     Setting.Memento.ImageFilter,
 
+                    Setting.Memento.ArchiverManager,
                     Setting.Memento.SevenZipArchiverProfile,
                     Setting.Memento.PdfArchiverProfile,
                     Setting.Memento.ThumbnailProfile,

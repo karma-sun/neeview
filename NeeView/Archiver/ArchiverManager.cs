@@ -3,13 +3,16 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NeeView
@@ -21,12 +24,46 @@ namespace NeeView
     {
         public static ArchiverManager Current { get; private set; }
 
+        #region Fields
+
+        /// <summary>
+        /// アーカイバのサポート拡張子
+        /// </summary>
+        private Dictionary<ArchiverType, FileTypeCollection> _supprtedFileTypes = new Dictionary<ArchiverType, FileTypeCollection>()
+        {
+            [ArchiverType.SevenZipArchiver] = SevenZipArchiverProfile.Current.SupportFileTypes,
+            [ArchiverType.ZipArchiver] = new FileTypeCollection(".zip"),
+            [ArchiverType.PdfArchiver] = new FileTypeCollection(".pdf"),
+            [ArchiverType.SusieArchiver] = SusieContext.Current.ArchiveExtensions,
+        };
+
+        /// <summary>
+        /// アーカイバの適用順
+        /// </summary>
+        private List<ArchiverType> _orderList;
+
+        /// <summary>
+        /// デフォルト除外パターン
+        /// </summary>
+        private const string _defaultExcludePattern = @"\.part([2-9]|\d\d+)\.rar$";
+
+        /// <summary>
+        /// 除外パターンの正規表現
+        /// </summary>
+        private Regex _excludeRegex;
+
+        #endregion
+
+        #region Constructors
+
         /// <summary>
         /// constructor
         /// </summary>
         public ArchiverManager()
         {
             Current = this;
+
+            this.ExcludePattern = _defaultExcludePattern;
 
             SusieContext.Current.AddPropertyChanged(nameof(SusieContext.IsEnabled),
                 (s, e) => UpdateOrderList());
@@ -36,20 +73,40 @@ namespace NeeView
             UpdateOrderList();
         }
 
-        // サポート拡張子
-        private Dictionary<ArchiverType, FileTypeCollection> _supprtedFileTypes = new Dictionary<ArchiverType, FileTypeCollection>()
-        {
-            [ArchiverType.SevenZipArchiver] = SevenZipArchiverProfile.Current.SupportFileTypes,
-            [ArchiverType.ZipArchiver] = new FileTypeCollection(".zip"),
-            [ArchiverType.PdfArchiver] = new FileTypeCollection(".pdf"),
-            [ArchiverType.SusieArchiver] = SusieContext.Current.ArchiveExtensions,
-        };
+        #endregion
 
-
-        private List<ArchiverType> _orderList;
+        #region Properties
 
         // アーカイバー有効/無効
         public bool IsEnabled { get; set; } = true;
+
+        /// <summary>
+        /// ExcludePattern property.
+        /// </summary>
+        private string _excludePattern;
+        public string ExcludePattern
+        {
+            get { return _excludePattern; }
+            set { if (_excludePattern != value) { _excludePattern = value; UpdateExcludeRegex(); } }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// 除外パターンを更新
+        /// </summary>
+        private void UpdateExcludeRegex()
+        {
+            try
+            {
+                _excludeRegex = new Regex(_excludePattern, RegexOptions.IgnoreCase);
+            }
+            catch
+            {
+            }
+        }
 
 
         // 検索順を更新
@@ -95,6 +152,12 @@ namespace NeeView
 
             if (IsEnabled)
             {
+                // 除外判定
+                if (_excludeRegex != null && _excludeRegex.IsMatch(fileName))
+                {
+                    return ArchiverType.None;
+                }
+
                 string ext = LoosePath.GetExtension(fileName);
 
                 foreach (var type in _orderList)
@@ -166,12 +229,18 @@ namespace NeeView
             }
         }
 
+        #endregion
+
         #region Memento
         [DataContract]
         public class Memento
         {
             [DataMember]
             public bool IsEnabled { get; set; }
+
+            [DataMember, DefaultValue(_defaultExcludePattern)]
+            [PropertyMember("除外する圧縮ファイルのパターン", Tips = ".NETの正規表現で指定します")]
+            public string ExcludePattern { get; set; }
         }
 
         //
@@ -179,6 +248,7 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.IsEnabled = this.IsEnabled;
+            memento.ExcludePattern = this.ExcludePattern;
             return memento;
         }
 
@@ -187,6 +257,7 @@ namespace NeeView
         {
             if (memento == null) return;
             this.IsEnabled = memento.IsEnabled;
+            this.ExcludePattern = memento.ExcludePattern ?? _defaultExcludePattern;
         }
         #endregion
 

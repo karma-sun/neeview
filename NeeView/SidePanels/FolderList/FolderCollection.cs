@@ -19,41 +19,50 @@ using System.Threading;
 namespace NeeView
 {
     /// <summary>
-    /// FolderItemコレクションの種類
-    /// TODO: フォルダーリストと検索リストのクラス派生
-    /// </summary>
-    public enum FolderCollectionMode
-    {
-        /// <summary>
-        /// ファイルリスト
-        /// </summary>
-        Entry,
-
-        /// <summary>
-        /// 検索結果
-        /// </summary>
-        Search,
-    }
-
-    /// <summary>
     /// FolderItemコレクション
     /// </summary>
-    public class FolderCollection : IDisposable
+    public abstract class FolderCollection : IDisposable
     {
+        #region Fields
+
         private object _lock = new object();
 
+        /// <summary>
+        /// コマンド処理エンジン
+        /// </summary>
+        protected FolderCollectionJobEngine _engine;
 
-        private FolderCollectionJobEngine _engine;
+        /// <summary>
+        /// Collection
+        /// </summary>
+        private ObservableCollection<FolderItem> _items;
 
+        #endregion
+
+        #region Constructors
+
+        protected FolderCollection(string place)
+        {
+            this.Place = place;
+
+            this.FolderParameter = new FolderParameter(place);
+            this.FolderParameter.PropertyChanged += (s, e) => ParameterChanged?.Invoke(s, null);
+
+            _engine = new FolderCollectionJobEngine(this);
+            _engine.StartEngine();
+        }
+
+        #endregion
+
+        #region Events
 
         public event EventHandler<FileSystemEventArgs> Deleting;
 
         public event EventHandler ParameterChanged;
 
-        /// <summary>
-        /// Folder Parameter
-        /// </summary>
-        public FolderParameter FolderParameter { get; private set; }
+        #endregion
+
+        #region Properties
 
         // indexer
         public FolderItem this[int index]
@@ -63,28 +72,18 @@ namespace NeeView
         }
 
         /// <summary>
+        /// Folder Parameter
+        /// </summary>
+        public FolderParameter FolderParameter { get; private set; }
+
+        /// <summary>
         /// Collection本体
         /// </summary>
-        private ObservableCollection<FolderItem> _items;
         public ObservableCollection<FolderItem> Items
         {
             get { return _items; }
-            private set { _items = value; }
+            protected set { _items = value; }
         }
-
-
-        /// <summary>
-        /// 検索結果
-        /// </summary>
-        private NeeLaboratory.IO.Search.SearchResultWatcher _searchResult;
-
-
-        /// <summary>
-        /// 検索キーワード
-        /// </summary>
-        public string SearchKeyword => _searchResult?.Keyword;
-
-
 
         /// <summary>
         /// フォルダーの場所
@@ -111,11 +110,9 @@ namespace NeeView
         /// </summary>
         public bool IsValid => Items != null;
 
-        /// <summary>
-        /// Mode property.
-        /// </summary>
-        public FolderCollectionMode Mode { get; private set; }
+        #endregion
 
+        #region Methods
 
         /// <summary>
         /// 更新が必要？
@@ -177,180 +174,12 @@ namespace NeeView
             return Items.Any(e => e.Path == path);
         }
 
-
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="place"></param>
-        public FolderCollection(string place)
-        {
-            Initialize(place);
-            InitializeFolder();
-
-            _engine = new FolderCollectionJobEngine(this);
-            _engine.StartEngine();
-        }
-
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="place"></param>
-        public FolderCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult)
-        {
-            Initialize(place);
-            InitializeSearch(searchResult);
-
-            _engine = new FolderCollectionJobEngine(this);
-            _engine.StartEngine();
-        }
-
-        //
-        private void Initialize(string place)
-        {
-            this.Place = place;
-
-            this.FolderParameter = new FolderParameter(place);
-            this.FolderParameter.PropertyChanged += (s, e) => ParameterChanged?.Invoke(s, null);
-        }
-
-
-
-        /// <summary>
-        /// リスト生成
-        /// </summary>
-        private void InitializeFolder()
-        {
-            this.Mode = FolderCollectionMode.Entry;
-
-            if (string.IsNullOrWhiteSpace(Place))
-            {
-                this.Items = new ObservableCollection<FolderItem>(DriveInfo.GetDrives().Select(e => CreateFolderItem(e)));
-                return;
-            }
-            else
-            {
-                var directory = new DirectoryInfo(Place);
-
-                if (!directory.Exists)
-                {
-                    var items = new ObservableCollection<FolderItem>();
-                    items.Add(new FolderItem() { Path = Place + "\\.", Attributes = FolderItemAttribute.Empty | FolderItemAttribute.DirectoryNoFound });
-                    this.Items = items;
-                }
-                else
-                {
-                    var fileInfos = directory.GetFiles();
-
-                    var shortcuts = fileInfos
-                        .Where(e => e.Exists && Utility.FileShortcut.IsShortcut(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
-                        .Select(e => new Utility.FileShortcut(e))
-                        .ToList();
-
-                    var directoryInfos = directory.GetDirectories();
-
-                    var directories = directoryInfos
-                        .Where(e => e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
-                        .Select(e => CreateFolderItem(e))
-                        .ToList();
-
-                    var directoryShortcuts = shortcuts
-                        .Where(e => e.DirectoryInfo.Exists)
-                        .Select(e => CreateFolderItem(e))
-                        .ToList();
-
-                    var archives = fileInfos
-                        .Where(e => e.Exists && ArchiverManager.Current.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
-                        .Select(e => CreateFolderItem(e))
-                        .ToList();
-
-                    var archiveShortcuts = shortcuts
-                        .Where(e => e.FileInfo.Exists && ArchiverManager.Current.IsSupported(e.TargetPath))
-                        .Select(e => CreateFolderItem(e))
-                        .ToList();
-
-
-                    var items = directories
-                        .Concat(directoryShortcuts)
-                        .Concat(archives)
-                        .Concat(archiveShortcuts)
-                        .Where(e => e != null);
-
-
-                    var list = Sort(items).ToList();
-
-                    if (!list.Any())
-                    {
-                        list.Add(CreateFolderItemEmpty());
-                    }
-
-                    this.Items = new ObservableCollection<FolderItem>(list);
-                }
-            }
-
-            BindingOperations.EnableCollectionSynchronization(this.Items, new object());
-
-            InitializeWatcher(Place);
-            StartWatch();
-        }
-
-
-        /// <summary>
-        /// 検索結果からリスト生成
-        /// </summary>
-        private void InitializeSearch(NeeLaboratory.IO.Search.SearchResultWatcher searchResult)
-        {
-            this.Mode = FolderCollectionMode.Search;
-
-            var items = searchResult.Items
-                .Select(e => CreateFolderItem(e))
-                .Where(e => e != null)
-                .ToList();
-
-            var list = Sort(items).ToList();
-
-            if (!list.Any())
-            {
-                list.Add(CreateFolderItemEmpty());
-            }
-
-            this.Items = new ObservableCollection<FolderItem>(list);
-            BindingOperations.EnableCollectionSynchronization(this.Items, new object());
-
-            _searchResult = searchResult;
-            _searchResult.SearchResultChanged += SearchResult_NodeChanged;
-        }
-
-
-        /// <summary>
-        /// 検索結果変更
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SearchResult_NodeChanged(object sender, NeeLaboratory.IO.Search.SearchResultChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NeeLaboratory.IO.Search.NodeChangedAction.Add:
-                    _engine.RequestCreate(e.Content.Path);
-                    break;
-                case NeeLaboratory.IO.Search.NodeChangedAction.Remove:
-                    _engine.RequestDelete(e.Content.Path);
-                    break;
-                case NeeLaboratory.IO.Search.NodeChangedAction.Rename:
-                    _engine.RequestRename(e.OldPath, e.Content.Path);
-                    break;
-                default:
-                    throw new NotSupportedException();
-            }
-        }
-
-
         /// <summary>
         /// 並び替え
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        private IEnumerable<FolderItem> Sort(IEnumerable<FolderItem> source)
+        protected IEnumerable<FolderItem> Sort(IEnumerable<FolderItem> source)
         {
             switch (FolderOrder)
             {
@@ -367,6 +196,7 @@ namespace NeeView
             }
         }
 
+        #region Comparer for Sort
 
         /// <summary>
         /// ソート用：名前で比較
@@ -409,7 +239,7 @@ namespace NeeView
             }
         }
 
-
+        #endregion
 
 
         /// <summary>
@@ -435,135 +265,34 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 廃棄処理
-        /// </summary>
-        public void Dispose()
-        {
-            TerminateWatcher();
-
-            if (_engine != null)
-            {
-                _engine.Dispose();
-                _engine = null;
-            }
-
-            if (_searchResult != null)
-            {
-                _searchResult.Dispose();
-                _searchResult = null;
-            }
-
-            if (Items != null)
-            {
-                BindingOperations.DisableCollectionSynchronization(Items);
-                Items = null;
-            }
-        }
-
-
-        #region FileSystemWatcher
-
-        // ファイルシステム監視
-        private FileSystemWatcher _fileSystemWatcher;
-
-        /// <summary>
-        /// ファイルシステム監視初期化
+        /// 項目追加
         /// </summary>
         /// <param name="path"></param>
-        private void InitializeWatcher(string path)
+        public void RequestCreate(string path)
         {
-            _fileSystemWatcher = new FileSystemWatcher();
-
-            try
-            {
-                _fileSystemWatcher.Path = path;
-                _fileSystemWatcher.IncludeSubdirectories = false;
-                _fileSystemWatcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName;
-                _fileSystemWatcher.Created += Watcher_Creaded;
-                _fileSystemWatcher.Deleted += Watcher_Deleted;
-                _fileSystemWatcher.Renamed += Watcher_Renamed;
-                _fileSystemWatcher.Error += Watcher_Error;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                _fileSystemWatcher.Dispose();
-                _fileSystemWatcher = null;
-            }
-        }
-
-        private void Watcher_Error(object sender, ErrorEventArgs e)
-        {
-            var ex = e.GetException();
-
-            Debug.WriteLine($"** ERROR! ** : {ex.ToString()} : {ex.Message}");
-
-            var path = _fileSystemWatcher.Path;
-            TerminateWatcher();
-            InitializeWatcher(path);
+            _engine.RequestCreate(path);
         }
 
         /// <summary>
-        /// ファイルシステム監視終了
+        /// 項目削除
         /// </summary>
-        private void TerminateWatcher()
+        /// <param name="path"></param>
+        public void RequestDelete(string path)
         {
-            if (_fileSystemWatcher != null)
-            {
-                _fileSystemWatcher.EnableRaisingEvents = false;
-                _fileSystemWatcher.Error -= Watcher_Error;
-                _fileSystemWatcher.Created -= Watcher_Creaded;
-                _fileSystemWatcher.Deleted -= Watcher_Deleted;
-                _fileSystemWatcher.Renamed -= Watcher_Renamed;
-                _fileSystemWatcher.Dispose();
-                _fileSystemWatcher = null;
-            }
+            _engine.RequestDelete(path);
         }
 
         /// <summary>
-        /// ファイルシステム監視開始
+        /// 項目名変更
         /// </summary>
-        private void StartWatch()
+        /// <param name="oldPath"></param>
+        /// <param name="path"></param>
+        public void RequestRename(string oldPath, string path)
         {
-            if (_fileSystemWatcher != null)
-            {
-                _fileSystemWatcher.EnableRaisingEvents = true;
-            }
+            _engine.RequestRename(oldPath, path);
         }
 
 
-        /// <summary>
-        /// ファイル生成イベント処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Watcher_Creaded(object sender, FileSystemEventArgs e)
-        {
-            _engine.RequestCreate(e.FullPath);
-        }
-
-        /// <summary>
-        /// ファイル削除イベント処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Watcher_Deleted(object sender, FileSystemEventArgs e)
-        {
-            _engine.RequestDelete(e.FullPath);
-        }
-
-
-        /// <summary>
-        /// ファイル名変更イベント処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Watcher_Renamed(object sender, RenamedEventArgs e)
-        {
-            _engine.RequestRename(e.OldFullPath, e.FullPath);
-        }
-
-        #endregion
 
         //
         public void CreateItem(string path)
@@ -661,6 +390,8 @@ namespace NeeView
         //
         public void RenameItem(string oldPath, string path)
         {
+            if (oldPath == path) return;
+
             FolderItem item;
             lock (_lock)
             {
@@ -677,12 +408,13 @@ namespace NeeView
         }
 
 
+        #region Methods.CreateFilderItems
 
         /// <summary>
         /// 空のFolderItemを作成
         /// </summary>
         /// <returns></returns>
-        private FolderItem CreateFolderItemEmpty()
+        protected FolderItem CreateFolderItemEmpty()
         {
             return new FolderItem()
             {
@@ -697,7 +429,7 @@ namespace NeeView
         /// </summary>
         /// <param name="path">パス</param>
         /// <returns>FolderItem。生成できなかった場合はnull</returns>
-        private FolderItem CreateFolderItem(string path)
+        protected FolderItem CreateFolderItem(string path)
         {
             // directory
             var directory = new DirectoryInfo(path);
@@ -725,13 +457,12 @@ namespace NeeView
             return null;
         }
 
-
         /// <summary>
         /// DriveInfoからFodlerItem作成
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private FolderItem CreateFolderItem(DriveInfo e)
+        protected FolderItem CreateFolderItem(DriveInfo e)
         {
             if (e != null)
             {
@@ -753,7 +484,7 @@ namespace NeeView
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private FolderItem CreateFolderItem(DirectoryInfo e)
+        protected FolderItem CreateFolderItem(DirectoryInfo e)
         {
             if (e != null && e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
             {
@@ -778,7 +509,7 @@ namespace NeeView
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private FolderItem CreateFolderItem(FileInfo e)
+        protected FolderItem CreateFolderItem(FileInfo e)
         {
             if (e != null && e.Exists && ArchiverManager.Current.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
             {
@@ -802,7 +533,7 @@ namespace NeeView
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private FolderItem CreateFolderItem(Utility.FileShortcut e)
+        protected FolderItem CreateFolderItem(Utility.FileShortcut e)
         {
             FolderItem info = null;
             FolderItemType type = FolderItemType.FileShortcut;
@@ -818,7 +549,6 @@ namespace NeeView
                 {
                     info = CreateFolderItem(e.FileInfo);
                     type = FolderItemType.FileShortcut;
-
                 }
             }
 
@@ -833,60 +563,42 @@ namespace NeeView
             return info;
         }
 
-        /// <summary>
-        /// 検索結果からFolderItem作成
-        /// </summary>
-        /// <param name="nodeContent"></param>
-        /// <returns></returns>
-        public FolderItem CreateFolderItem(NeeLaboratory.IO.Search.NodeContent nodeContent)
-        {
-            // TODO: ショートカット対応
+        #endregion CreateFolderItems
 
-            if (nodeContent.FileInfo.IsDirectory)
+        #endregion Methods
+
+        #region IDisposable Support
+        private bool _disposedValue = false; // 重複する呼び出しを検出するには
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
             {
-                return new FolderItem()
+                if (disposing)
                 {
-                    Type = FolderItemType.Directory, // TODO
-                    Path = nodeContent.Path,
-                    LastWriteTime = nodeContent.FileInfo.LastWriteTime,
-                    Length = -1,
-                    Attributes = FolderItemAttribute.Directory,
-                    IsReady = true
-                };
-            }
-            else
-            {
-                if (Utility.FileShortcut.IsShortcut(nodeContent.Path))
-                {
-                    var shortcut = new Utility.FileShortcut(nodeContent.Path);
-                    if (shortcut.DirectoryInfo.Exists || (shortcut.FileInfo.Exists && ArchiverManager.Current.IsSupported(shortcut.TargetPath)))
+                    if (_engine != null)
                     {
-                        return CreateFolderItem(shortcut);
+                        _engine.Dispose();
+                        _engine = null;
                     }
-                    else
+
+                    if (Items != null)
                     {
-                        return null;
+                        BindingOperations.DisableCollectionSynchronization(Items);
+                        Items = null;
                     }
                 }
-                else if (ArchiverManager.Current.IsSupported(nodeContent.Path))
-                {
-                    return new FolderItem()
-                    {
-                        Type = FolderItemType.File,
-                        Path = nodeContent.Path,
-                        LastWriteTime = nodeContent.FileInfo.LastWriteTime,
-                        Length = nodeContent.FileInfo.Size,
-                        IsReady = true
-                    };
-                }
-                else
-                {
-                    return null;
-                }
+
+                _disposedValue = true;
             }
         }
+
+        // このコードは、破棄可能なパターンを正しく実装できるように追加されました。
+        public void Dispose()
+        {
+            // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
+            Dispose(true);
+        }
+        #endregion
     }
-
-
-
 }

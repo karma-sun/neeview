@@ -70,7 +70,7 @@
                             <Style TargetType="TextBlock">
                                 <Setter Property="Text" Value="場所"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding FolderCollection.Mode}" Value="Search">
+                                    <DataTrigger Binding="{Binding Model.IsFolderSearchCollection}" Value="True">
                                         <Setter Property="Text" Value="検索"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -150,7 +150,7 @@
                     <Style TargetType="Border">
                         <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding FolderCollection.Mode}" Value="Search">
+                            <DataTrigger Binding="{Binding Model.IsFolderSearchCollection}" Value="True">
                                 <Setter Property="BorderBrush" Value="{StaticResource NVButtonForeground}"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding PlaceRaw}" Value="{x:Null}">
@@ -162,7 +162,7 @@
                 </Border.Style>
                 <DockPanel >
                     <Button x:Name="ClearSearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding ClearSearch}">
-                        <Image Source="{StaticResource ic_clear_24px_b}" Width="16" Height="16"/>
+                        <Image Source="{StaticResource ic_clear_24px_b}" Width="12" Height="12"/>
                     </Button>
                     <Button x:Name="SearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding Search}">
                         <Image Source="{StaticResource ic_search_24px_b}" Width="16" Height="16"/>

@@ -198,6 +198,8 @@
     <Compile Include="Picture\SusiePictureStream.cs" />
     <Compile Include="SearchEnginecs.cs" />
     <Compile Include="SidePanels\FolderList\FolderCollectionJobEngine.cs" />
+    <Compile Include="SidePanels\FolderList\FolderEntryCollection.cs" />
+    <Compile Include="SidePanels\FolderList\FolderSearchCollection.cs" />
     <Compile Include="_NeeLaboratory\Threading\Jobs\IJob.cs" />
     <Compile Include="_NeeLaboratory\Threading\Jobs\JobEngine.cs" />
     <Compile Include="_NeeLaboratory\Threading\Jobs\JobBase.cs" />

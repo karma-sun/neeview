@@ -178,9 +178,15 @@ namespace NeeView
                     _folderCollection = value;
                     CollectionChanged?.Invoke(this, null);
                     RaisePropertyChanged(nameof(FolderOrder));
+                    RaisePropertyChanged(nameof(IsFolderSearchCollection));
                 }
             }
         }
+
+        /// <summary>
+        /// 検索リスト？
+        /// </summary>
+        public bool IsFolderSearchCollection => FolderCollection is FolderSearchCollection;
 
         /// <summary>
         /// SelectedItem property.
@@ -383,7 +389,7 @@ namespace NeeView
         /// <returns></returns>
         private bool CheckFolderListUpdateneNcessary(string place, bool releaseSearchMode)
         {
-            return (_isDarty || this.FolderCollection == null || place != this.FolderCollection.Place || (releaseSearchMode && this.FolderCollection.Mode == FolderCollectionMode.Search));
+            return (_isDarty || this.FolderCollection == null || place != this.FolderCollection.Place || (releaseSearchMode && this.FolderCollection is FolderSearchCollection));
         }
 
 
@@ -410,14 +416,14 @@ namespace NeeView
         {
             try
             {
-                return new FolderCollection(place);
+                return new FolderEntryCollection(place);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
 
                 // 救済措置。取得に失敗した時はカレントディレクトリに移動
-                return new FolderCollection(Environment.CurrentDirectory);
+                return new FolderEntryCollection(Environment.CurrentDirectory);
             }
         }
 
@@ -428,7 +434,7 @@ namespace NeeView
         /// <returns></returns>
         private FolderCollection CreateSearchCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult)
         {
-            return new FolderCollection(place, searchResult);
+            return new FolderSearchCollection(place, searchResult);
         }
 
         /// <summary>
@@ -684,7 +690,7 @@ namespace NeeView
             await Task.Yield();
 
             // 同じリストは作らない
-            if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == _place && this.FolderCollection.Mode == FolderCollectionMode.Entry) return;
+            if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == _place && this.FolderCollection is FolderEntryCollection) return;
 
             this.FolderCollection = CreateFolderCollection(_place, null);
         }
@@ -698,7 +704,7 @@ namespace NeeView
         public async Task UpdateSearchFolderCollectionAsync(string keyword, bool isForce)
         {
             // 同じリストは作らない
-            if (!isForce && this.FolderCollection != null && this.FolderCollection.Mode == FolderCollectionMode.Search && this.FolderCollection.SearchKeyword == keyword) return;
+            if (!isForce && this.FolderCollection != null && (this.FolderCollection is FolderSearchCollection collection && collection.SearchKeyword == keyword)) return;
 
             _searchEngine = _searchEngine ?? new SearchEngine(_place);
 

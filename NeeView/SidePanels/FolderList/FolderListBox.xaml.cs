@@ -152,7 +152,11 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null)
             {
-                await FileIO.Current.RemoveAsync(item);
+                var removed = await FileIO.Current.RemoveAsync(item);
+                if (removed)
+                {
+                    _vm.FolderCollection?.RequestDelete(item.Path);
+                }
             }
         }
 
@@ -183,7 +187,13 @@ namespace NeeView
                         {
                             var newName = item.IsShortcut ? ev.NewValue + ".lnk" : ev.NewValue;
                             //Debug.WriteLine($"{ev.OldValue} => {newName}");
-                            await FileIO.Current.RenameAsync(item, newName);
+                            var renamed = await FileIO.Current.RenameAsync(item, newName);
+                            if (renamed)
+                            {
+                                var src = item.Path;
+                                var dst = FileIO.FixedRenamePath(item, newName);
+                                _vm.FolderCollection?.RequestRename(src, dst);
+                            }
                         }
                     };
                     rename.Closed += (s, ev) =>

@@ -60,9 +60,9 @@ namespace NeeView
         /// ファイルを削除
         /// </summary>
         /// <param name="info"></param>
-        public async Task RemoveAsync(FolderItem info)
+        public async Task<bool> RemoveAsync(FolderItem info)
         {
-            if (info.IsEmpty) return;
+            if (info.IsEmpty) return false;
 
             if (FileIOProfile.Current.IsRemoveConfirmed)
             {
@@ -97,10 +97,10 @@ namespace NeeView
                 dialog.Commands.Add(UICommands.Cancel);
                 var answer = dialog.ShowDialog();
 
-                if (answer != UICommands.Remove) return;
+                if (answer != UICommands.Remove) return false;
             }
 
-            await RemoveFileAsync(info.Path);
+            return await RemoveFileAsync(info.Path);
         }
 
         // ファイル削除可能？
@@ -230,6 +230,27 @@ namespace NeeView
         #region Rename
 
         /// <summary>
+        /// リネーム用にトリミングされたファイル名生成
+        /// </summary>
+        /// <param name="newName"></param>
+        /// <returns></returns>
+        public static string FixedRenameFileName(string newName)
+        {
+            return newName?.Trim().TrimEnd(' ', '.');
+        }
+
+        /// <summary>
+        /// リネーム用パス生成
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="newName"></param>
+        /// <returns></returns>
+        public static string FixedRenamePath(FolderItem file, string newName)
+        {
+            return System.IO.Path.Combine(System.IO.Path.GetDirectoryName(file.Path), newName);
+        }
+
+        /// <summary>
         /// ファイル名前変更
         /// </summary>
         /// <param name="file"></param>
@@ -237,7 +258,7 @@ namespace NeeView
         /// <returns></returns>
         public async Task<bool> RenameAsync(FolderItem file, string newName)
         {
-            newName = newName?.Trim().TrimEnd(' ', '.');
+            newName = FixedRenameFileName(newName);
 
             // ファイル名に使用できない
             if (string.IsNullOrWhiteSpace(newName))
@@ -273,7 +294,7 @@ namespace NeeView
             string dst = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(src), newName);
 
             // 全く同じ名前なら処理不要
-            if (src == dst) return true;
+            if (src == dst) return false;
 
             // 拡張子変更確認
             if (!file.IsDirectory)

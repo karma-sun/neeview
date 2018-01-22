@@ -197,6 +197,10 @@
     <Compile Include="Picture\SizeExtensions.cs" />
     <Compile Include="Picture\SusiePictureStream.cs" />
     <Compile Include="SearchEnginecs.cs" />
+    <Compile Include="SidePanels\FolderList\FolderCollectionJobEngine.cs" />
+    <Compile Include="_NeeLaboratory\Threading\Jobs\IJob.cs" />
+    <Compile Include="_NeeLaboratory\Threading\Jobs\JobEngine.cs" />
+    <Compile Include="_NeeLaboratory\Threading\Jobs\JobBase.cs" />
     <Compile Include="SidePanels\ImageEffect\ImageFilter.cs" />
     <Compile Include="SidePanels\SidePanelProfile.cs" />
     <Compile Include="TouchInput\TouchAction.cs" />

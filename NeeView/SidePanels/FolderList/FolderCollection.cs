@@ -8,18 +8,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Collections.Specialized;
+using System.Threading;
 
 namespace NeeView
 {
     /// <summary>
     /// FolderItemコレクションの種類
+    /// TODO: フォルダーリストと検索リストのクラス派生
     /// </summary>
     public enum FolderCollectionMode
     {
@@ -40,6 +41,10 @@ namespace NeeView
     public class FolderCollection : IDisposable
     {
         private object _lock = new object();
+
+
+        private FolderCollectionJobEngine _engine;
+
 
         public event EventHandler<FileSystemEventArgs> Deleting;
 
@@ -181,6 +186,9 @@ namespace NeeView
         {
             Initialize(place);
             InitializeFolder();
+
+            _engine = new FolderCollectionJobEngine(this);
+            _engine.StartEngine();
         }
 
         /// <summary>
@@ -191,6 +199,9 @@ namespace NeeView
         {
             Initialize(place);
             InitializeSearch(searchResult);
+
+            _engine = new FolderCollectionJobEngine(this);
+            _engine.StartEngine();
         }
 
         //
@@ -320,40 +331,13 @@ namespace NeeView
             switch (e.Action)
             {
                 case NeeLaboratory.IO.Search.NodeChangedAction.Add:
-                    {
-                        Watcher_Creaded(CreateFolderItem(e.Content));
-                    }
+                    _engine.RequestCreate(e.Content.Path);
                     break;
                 case NeeLaboratory.IO.Search.NodeChangedAction.Remove:
-                    {
-                        var item = this.Items.FirstOrDefault(i => i.Path == e.Content.Path);
-                        if (item != null)
-                        {
-                            App.Current.Dispatcher.BeginInvoke((Action)(() =>
-                            {
-                                Deleting?.Invoke(sender, new FileSystemEventArgs(WatcherChangeTypes.Deleted, Path.GetDirectoryName(e.Content.Path), Path.GetFileName(e.Content.Path)));
-                                Watcher_Deleted(item);
-                            }));
-                        }
-                    }
+                    _engine.RequestDelete(e.Content.Path);
                     break;
                 case NeeLaboratory.IO.Search.NodeChangedAction.Rename:
-                    {
-                        FolderItem item;
-                        lock (_lock)
-                        {
-                            item = this.Items.FirstOrDefault(i => i.Path == e.OldPath);
-                        }
-                        if (item != null)
-                        {
-                            item.Path = e.Content.Path;
-                        }
-                        else
-                        {
-                            // リストにない項目は追加を試みる
-                            Watcher_Creaded(CreateFolderItem(e.Content));
-                        }
-                    }
+                    _engine.RequestRename(e.OldPath, e.Content.Path);
                     break;
                 default:
                     throw new NotSupportedException();
@@ -457,6 +441,12 @@ namespace NeeView
         {
             TerminateWatcher();
 
+            if (_engine != null)
+            {
+                _engine.Dispose();
+                _engine = null;
+            }
+
             if (_searchResult != null)
             {
                 _searchResult.Dispose();
@@ -492,6 +482,7 @@ namespace NeeView
                 _fileSystemWatcher.Created += Watcher_Creaded;
                 _fileSystemWatcher.Deleted += Watcher_Deleted;
                 _fileSystemWatcher.Renamed += Watcher_Renamed;
+                _fileSystemWatcher.Error += Watcher_Error;
             }
             catch (Exception e)
             {
@@ -499,6 +490,17 @@ namespace NeeView
                 _fileSystemWatcher.Dispose();
                 _fileSystemWatcher = null;
             }
+        }
+
+        private void Watcher_Error(object sender, ErrorEventArgs e)
+        {
+            var ex = e.GetException();
+
+            Debug.WriteLine($"** ERROR! ** : {ex.ToString()} : {ex.Message}");
+
+            var path = _fileSystemWatcher.Path;
+            TerminateWatcher();
+            InitializeWatcher(path);
         }
 
         /// <summary>
@@ -509,6 +511,7 @@ namespace NeeView
             if (_fileSystemWatcher != null)
             {
                 _fileSystemWatcher.EnableRaisingEvents = false;
+                _fileSystemWatcher.Error -= Watcher_Error;
                 _fileSystemWatcher.Created -= Watcher_Creaded;
                 _fileSystemWatcher.Deleted -= Watcher_Deleted;
                 _fileSystemWatcher.Renamed -= Watcher_Renamed;
@@ -536,16 +539,53 @@ namespace NeeView
         /// <param name="e"></param>
         private void Watcher_Creaded(object sender, FileSystemEventArgs e)
         {
+            _engine.RequestCreate(e.FullPath);
+        }
+
+        /// <summary>
+        /// ファイル削除イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Watcher_Deleted(object sender, FileSystemEventArgs e)
+        {
+            _engine.RequestDelete(e.FullPath);
+        }
+
+
+        /// <summary>
+        /// ファイル名変更イベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Watcher_Renamed(object sender, RenamedEventArgs e)
+        {
+            _engine.RequestRename(e.OldFullPath, e.FullPath);
+        }
+
+        #endregion
+
+        //
+        public void CreateItem(string path)
+        {
+            FolderItem item;
+
             // FolderInfoを作成し、追加
-            var item = CreateFolderItem(e.FullPath);
-            if (item != null)
+            lock (_lock)
             {
-                Watcher_Creaded(item);
+                // 対象を検索
+                item = this.Items.FirstOrDefault(i => i.Path == path);
             }
+
+            // 既に登録済みの場合は処理しない
+            if (item != null) return;
+
+            item = CreateFolderItem(path);
+            CreateItem(item);
         }
 
         //
-        private void Watcher_Creaded(FolderItem item)
+        private void CreateItem(FolderItem item)
         {
             if (item == null) return;
 
@@ -582,33 +622,28 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// ファイル削除イベント処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Watcher_Deleted(object sender, FileSystemEventArgs e)
+        // 対象を検索し、削除する
+        public void DeleteItem(string path)
         {
             FolderItem item;
 
             lock (_lock)
             {
-                // 対象を検索し、削除する
-                item = this.Items.FirstOrDefault(i => i.Path == e.FullPath);
+                item = this.Items.FirstOrDefault(i => i.Path == path);
             }
 
-            if (item != null)
+            // 既に存在しない場合は処理しない
+            if (item == null) return;
+
+            App.Current.Dispatcher.BeginInvoke((Action)(() =>
             {
-                App.Current.Dispatcher.BeginInvoke((Action)(() =>
-                {
-                    Deleting?.Invoke(sender, e);
-                    Watcher_Deleted(item);
-                }));
-            }
+                Deleting?.Invoke(this, new FileSystemEventArgs(WatcherChangeTypes.Deleted, Path.GetDirectoryName(path), Path.GetFileName(path)));
+                DeleteItem(item);
+            }));
         }
 
         //
-        private void Watcher_Deleted(FolderItem item)
+        private void DeleteItem(FolderItem item)
         {
             if (item == null) return;
 
@@ -623,31 +658,24 @@ namespace NeeView
             }
         }
 
-
-        /// <summary>
-        /// ファイル名変更イベント処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Watcher_Renamed(object sender, RenamedEventArgs e)
+        //
+        public void RenameItem(string oldPath, string path)
         {
             FolderItem item;
             lock (_lock)
             {
-                item = this.Items.FirstOrDefault(i => i.Path == e.OldFullPath);
+                item = this.Items.FirstOrDefault(i => i.Path == oldPath);
             }
-            if (item != null)
-            {
-                item.Path = e.FullPath;
-            }
-            else
+            if (item == null)
             {
                 // リストにない項目は追加を試みる
-                Watcher_Creaded(sender, e);
+                CreateItem(path);
+                return;
             }
+
+            item.Path = path;
         }
 
-        #endregion
 
 
         /// <summary>
@@ -858,5 +886,7 @@ namespace NeeView
             }
         }
     }
+
+
 
 }

@@ -72,13 +72,13 @@ namespace NeeView
             switch (e.Action)
             {
                 case NeeLaboratory.IO.Search.NodeChangedAction.Add:
-                    _engine.RequestCreate(e.Content.Path);
+                    RequestCreate(e.Content.Path);
                     break;
                 case NeeLaboratory.IO.Search.NodeChangedAction.Remove:
-                    _engine.RequestDelete(e.Content.Path);
+                    RequestDelete(e.Content.Path);
                     break;
                 case NeeLaboratory.IO.Search.NodeChangedAction.Rename:
-                    _engine.RequestRename(e.OldPath, e.Content.Path);
+                    RequestRename(e.OldPath, e.Content.Path);
                     break;
                 default:
                     throw new NotSupportedException();

@@ -15,6 +15,9 @@ using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Collections.Specialized;
 using System.Threading;
+using System.Threading.Tasks;
+
+using Jobs = NeeLaboratory.Threading.Jobs;
 
 namespace NeeView
 {
@@ -25,17 +28,20 @@ namespace NeeView
     {
         #region Fields
 
-        private object _lock = new object();
-
-        /// <summary>
-        /// コマンド処理エンジン
-        /// </summary>
-        protected FolderCollectionJobEngine _engine;
-
         /// <summary>
         /// Collection
         /// </summary>
         private ObservableCollection<FolderItem> _items;
+
+        /// <summary>
+        /// コマンド処理エンジン
+        /// </summary>
+        private Jobs.JobEngine _engine;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private object _lock = new object();
 
         #endregion
 
@@ -48,8 +54,9 @@ namespace NeeView
             this.FolderParameter = new FolderParameter(place);
             this.FolderParameter.PropertyChanged += (s, e) => ParameterChanged?.Invoke(s, null);
 
-            _engine = new FolderCollectionJobEngine(this);
-            _engine.StartEngine();
+            _engine = new Jobs.JobEngine();
+            _engine.Error += JobEngine_Error;
+            _engine.IsEnabled = true;
         }
 
         #endregion
@@ -241,7 +248,6 @@ namespace NeeView
 
         #endregion
 
-
         /// <summary>
         /// アイコンの表示更新
         /// </summary>
@@ -264,13 +270,25 @@ namespace NeeView
             }
         }
 
+
+        /// <summary>
+        /// JobEngineで例外発生
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void JobEngine_Error(object sender, ErrorEventArgs e)
+        {
+            Debug.WriteLine($"JobEngine Exception!: {e.GetException().Message}");
+            throw e.GetException();
+        }
+
         /// <summary>
         /// 項目追加
         /// </summary>
         /// <param name="path"></param>
         public void RequestCreate(string path)
         {
-            _engine.RequestCreate(path);
+            _engine.Enqueue(new CreateJob(this, path, false));
         }
 
         /// <summary>
@@ -279,7 +297,8 @@ namespace NeeView
         /// <param name="path"></param>
         public void RequestDelete(string path)
         {
-            _engine.RequestDelete(path);
+            _engine.Enqueue(new DeleteJob(this, path, false));
+
         }
 
         /// <summary>
@@ -289,13 +308,35 @@ namespace NeeView
         /// <param name="path"></param>
         public void RequestRename(string oldPath, string path)
         {
-            _engine.RequestRename(oldPath, path);
+            _engine.Enqueue(new RenameJob(this, oldPath, path, false));
         }
 
+        #region Job.Create
 
+        public class CreateJob : Jobs.IJob
+        {
+            private FolderCollection _target;
+            private string _path;
+            private bool _verify;
+
+            public CreateJob(FolderCollection target, string path, bool verify)
+            {
+                _target = target;
+                _path = path;
+                _verify = verify;
+            }
+
+#pragma warning disable 1998
+            public async Task ExecuteAsync()
+            {
+                Debug.WriteLine($"Create: {_path}");
+                _target.CreateItem(_path);
+            }
+#pragma warning restore 1998
+        }
 
         //
-        public void CreateItem(string path)
+        private void CreateItem(string path)
         {
             FolderItem item;
 
@@ -351,8 +392,34 @@ namespace NeeView
             }
         }
 
+        #endregion
+
+        #region Job.Delete
+
+        public class DeleteJob : Jobs.IJob
+        {
+            private FolderCollection _target;
+            private string _path;
+            private bool _verify;
+
+            public DeleteJob(FolderCollection target, string path, bool verify)
+            {
+                _target = target;
+                _path = path;
+                _verify = verify;
+            }
+
+#pragma warning disable 1998
+            public async Task ExecuteAsync()
+            {
+                Debug.WriteLine($"Delete: {_path}");
+                _target.DeleteItem(_path);
+            }
+#pragma warning restore 1998
+        }
+
         // 対象を検索し、削除する
-        public void DeleteItem(string path)
+        private void DeleteItem(string path)
         {
             FolderItem item;
 
@@ -387,8 +454,36 @@ namespace NeeView
             }
         }
 
+        #endregion
+
+        #region Job.Rename
+
+        public class RenameJob : Jobs.IJob
+        {
+            private FolderCollection _target;
+            private string _oldPath;
+            private string _path;
+            private bool _verify;
+
+            public RenameJob(FolderCollection target, string oldPath, string path, bool verify)
+            {
+                _target = target;
+                _oldPath = oldPath;
+                _path = path;
+                _verify = verify;
+            }
+
+#pragma warning disable 1998
+            public async Task ExecuteAsync()
+            {
+                Debug.WriteLine($"Rename: {_oldPath} => {_path}");
+                _target.RenameItem(_oldPath, _path);
+            }
+#pragma warning restore 1998
+        }
+
         //
-        public void RenameItem(string oldPath, string path)
+        private void RenameItem(string oldPath, string path)
         {
             if (oldPath == path) return;
 
@@ -407,6 +502,7 @@ namespace NeeView
             item.Path = path;
         }
 
+        #endregion
 
         #region Methods.CreateFilderItems
 

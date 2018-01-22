@@ -181,7 +181,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void Watcher_Creaded(object sender, FileSystemEventArgs e)
         {
-            _engine.RequestCreate(e.FullPath);
+            RequestCreate(e.FullPath);
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void Watcher_Deleted(object sender, FileSystemEventArgs e)
         {
-            _engine.RequestDelete(e.FullPath);
+            RequestDelete(e.FullPath);
         }
         
         /// <summary>
@@ -201,7 +201,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void Watcher_Renamed(object sender, RenamedEventArgs e)
         {
-            _engine.RequestRename(e.OldFullPath, e.FullPath);
+            RequestRename(e.OldFullPath, e.FullPath);
         }
 
         #endregion

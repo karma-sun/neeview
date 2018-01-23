@@ -387,6 +387,9 @@ namespace NeeView
             if (memento == null) return;
             unit = unit ?? BookMementoCollection.Current.Find(memento.Place);
 
+            // 設定保存時間を保障
+            memento.LastAccessTime = DateTime.Now;
+
             // 履歴の保存
             if (CanHistory())
             {

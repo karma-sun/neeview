@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeeView
@@ -145,7 +146,7 @@ namespace NeeView
         // サポートしているアーカイバーを取得
         public ArchiverType GetSupportedType(string fileName, bool isArrowFileSystem = true)
         {
-            if (isArrowFileSystem && (fileName.Last() == '\\' || fileName.Last() == '/'))
+            if (isArrowFileSystem && Directory.Exists(fileName))
             {
                 return ArchiverType.FolderArchive;
             }
@@ -228,6 +229,99 @@ namespace NeeView
                 return CreateArchiver(GetSupportedType(path), path, null, source, isAll);
             }
         }
+
+        /// <summary>
+        /// アーカイバ作成
+        /// </summary>
+        /// <param name="path">パス</param>
+        /// <param name="isAll"></param>
+        /// <returns></returns>
+        public Archiver CreateArchiver(string path, bool isAll)
+        {
+            return CreateArchiver(path, null, isAll);
+        }
+
+        /// <summary>
+        /// アーカイバ作成。
+        /// テンポラリファイルへの展開が必要になることもあるので非同期
+        /// </summary>
+        /// <param name="source">ArchiveEntry</param>
+        /// <param name="isAll"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task<Archiver> CreateArchiverAsync(ArchiveEntry source, bool isAll, CancellationToken token)
+        {
+            if (source.IsFileSystem)
+            {
+                return CreateArchiver(source.FullPath, null, isAll);
+            }
+            else
+            {
+                // TODO: テンポラリファイルの指定方法をスマートに。
+                var tempFile = await ArchivenEntryExtractorService.Current.ExtractAsync(source, token);
+                var archiver = CreateArchiver(tempFile.Path, source, isAll);
+                archiver.TempFile = tempFile;
+                return archiver;
+            }
+        }
+
+
+        /// <summary>
+        /// パスが実在するアーカイブであるかを判定
+        /// </summary>
+        /// 
+        public bool Exists(string path, bool isAllowFileSystem)
+        {
+            if (isAllowFileSystem)
+            {
+                return Directory.Exists(path) || (File.Exists(path) && IsSupported(path, true));
+            }
+            else
+            {
+                return File.Exists(path) && IsSupported(path, false);
+            }
+        }
+
+        /// <summary>
+        /// アーカイブパスからファイルシステムに実在するアーカイブファイルのパスを取得
+        /// ex: C:\hoge.zip\sub\test.txt -> C:\hoge.zip
+        /// </summary>
+        /// <param name="path">アーカイブパス</param>
+        /// <returns>実在するアーカイブファイルのパス。見つからなかった場合はnull</returns>
+        public string GetExistPathName(string path)
+        {
+            if (Exists(path, true))
+            {
+                return path;
+            }
+
+            while (true)
+            {
+                path = LoosePath.GetDirectoryName(path);
+                if (string.IsNullOrEmpty(path) || Directory.Exists(path))
+                {
+                    break;
+                }
+
+                if (Exists(path, false))
+                {
+                    return path;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// アーカイブパス表現を解析
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public void AnalyzeInnerArchivePath(string path)
+        {
+
+        }
+
 
         #endregion
 

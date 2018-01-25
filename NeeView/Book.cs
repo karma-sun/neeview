@@ -285,14 +285,14 @@ namespace NeeView
         /// <param name="option"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task LoadAsync(string path, string start, BookLoadOption option, CancellationToken token)
+        public async Task LoadAsync(BookAddress address, BookLoadOption option, CancellationToken token)
         {
             try
             {
-                Log.TraceEvent(TraceEventType.Information, Serial, $"Load: {path}");
+                Log.TraceEvent(TraceEventType.Information, Serial, $"Load: {address.Place}");
                 Log.Flush();
 
-                await LoadCoreAsync(path, start, option, token);
+                await LoadCoreAsync(address, option, token);
             }
             catch (Exception e)
             {
@@ -305,9 +305,13 @@ namespace NeeView
         }
 
         // 本読み込み
-        public async Task LoadCoreAsync(string path, string start, BookLoadOption option, CancellationToken token)
+        public async Task LoadCoreAsync(BookAddress address, BookLoadOption option, CancellationToken token)
         {
             Debug.Assert(Place == null);
+            Debug.WriteLine($"OPEN: {address.Place}, {address.EntryName}");
+
+            var archiver = address.Archiver;
+            var start = address.EntryName;
 
             // リカーシブフラグ
             if (IsRecursiveFolder)
@@ -315,19 +319,9 @@ namespace NeeView
                 option |= BookLoadOption.Recursive;
             }
 
-            // アーカイバーの選択
-            Archiver archiver = ArchiverManager.Current.CreateArchiver(path, null, true);
-            if (archiver.IsFileSystem)
+            // 圧縮ファイル再帰
+            if (!address.Archiver.IsFileSystem && option.HasFlag(BookLoadOption.ArchiveRecursive))
             {
-                // 入力ファイルを最初のページにする
-                if (path != archiver.GetPlace())
-                {
-                    start = Path.GetFileName(path);
-                }
-            }
-            else
-            {
-                // 圧縮ファイルは再帰させる
                 option |= BookLoadOption.Recursive;
             }
 
@@ -373,7 +367,7 @@ namespace NeeView
             StartEntry = Pages.Count > 0 ? Pages[position.Index].FullPath : null;
 
             // 有効化
-            Place = archiver.Path;
+            Place = archiver.FullPath;
 
             // 初期ページ設定
             RequestSetPosition(this, position, direction, true);
@@ -766,7 +760,7 @@ namespace NeeView
         }
 
         #endregion
-        
+
         #region 表示ページ処理
 
         // 表示ページ番号

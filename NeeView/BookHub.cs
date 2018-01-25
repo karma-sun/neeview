@@ -246,6 +246,18 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// IsArchiveRecursive property.
+        /// TODO: パラメータの定義位置はあとで調整
+        /// </summary>
+        private bool _isArchiveRecursive;
+        public bool IsArchiveRecursive
+        {
+            get { return _isArchiveRecursive; }
+            set { if (_isArchiveRecursive != value) { _isArchiveRecursive = value; RaisePropertyChanged(); } }
+        }
+
+
 
         /// <summary>
         /// 現在の本
@@ -294,6 +306,8 @@ namespace NeeView
                 BookHistory.Current.LastAddress = _address;
             }
         }
+
+
 
 
         // command engine
@@ -468,34 +482,6 @@ namespace NeeView
             return path;
         }
 
-        // パスから対応するアーカイバーを取得する
-        private string GetPlace(string path, BookLoadOption option)
-        {
-            if (Directory.Exists(path))
-            {
-                return path;
-            }
-
-            if (File.Exists(path))
-            {
-                if (ArchiverManager.Current.IsSupported(path))
-                {
-                    return path;
-                }
-
-                if (PictureProfile.Current.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
-                {
-                    return Path.GetDirectoryName(path);
-                }
-                else
-                {
-                    throw new FileFormatException($"\"{path}\" はサポート外ファイルです");
-                }
-            }
-
-            throw new FileNotFoundException($"\"{path}\" が見つかりません", path);
-        }
-
 
         // ロード中状態更新
         private void NotifyLoading(string path)
@@ -521,11 +507,9 @@ namespace NeeView
 
             try
             {
-                // place
-                string place = GetPlace(args.Path, args.Option);
-
-                // start
-                string startEntry = args.Path == place ? args.StartEntry : Path.GetFileName(args.Path);
+                // address
+                var address = new BookAddress();
+                await address.InitializeAsync(args.Path, token);
 
                 // Now Loading ON
                 NotifyLoading(args.Path);
@@ -533,25 +517,27 @@ namespace NeeView
                 // フォルダーリスト更新
                 if (args.IsRefleshFolderList)
                 {
-                    App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = place, isKeepPlace = false }));
+                    App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = address.Place, isKeepPlace = false }));
                 }
                 else if ((args.Option & BookLoadOption.SelectFoderListMaybe) != 0)
                 {
-                    App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = place, isKeepPlace = true }));
+                    App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = address.Place, isKeepPlace = true }));
                 }
 
                 // 履歴リスト更新
                 if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
                 {
-                    App.Current?.Dispatcher.Invoke(() => HistoryListSync?.Invoke(this, place));
+                    App.Current?.Dispatcher.Invoke(() => HistoryListSync?.Invoke(this, address.Place));
                 }
 
                 // 本の設定
-                var unit = BookMementoCollection.Current.Find(place);
-                var setting = _bookSetting.GetSetting(unit, place, args.Option);
+                var unit = BookMementoCollection.Current.Find(address.Place);
+                var setting = _bookSetting.GetSetting(unit, address.Place, args.Option);
+
+                address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
 
                 // Load本体
-                await LoadAsyncCore(place, startEntry ?? setting.Page, args.Option, setting, unit, token);
+                await LoadAsyncCore(address, args.Option, setting, unit, token);
 
                 // Now Loading OFF
                 ////NotifyLoading(null);
@@ -582,14 +568,14 @@ namespace NeeView
             }
             catch (Exception e)
             {
+                // ファイル読み込み失敗通知
+                EmptyMessage?.Invoke(this, e.Message);
+
                 // 現在表示されているコンテンツを無効
-                App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
+                App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(new ViewPageCollection())));
 
                 // 本の変更通知
                 App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookMementoType.None));
-
-                // ファイル読み込み失敗通知
-                EmptyMessage?.Invoke(this, e.Message);
 
                 // 履歴リスト更新
                 if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
@@ -626,7 +612,7 @@ namespace NeeView
         /// <param name="path">本のパス</param>
         /// <param name="startEntry">開始エントリ</param>
         /// <param name="option">読み込みオプション</param>
-        private async Task LoadAsyncCore(string path, string startEntry, BookLoadOption option, Book.Memento setting, BookMementoUnit unit, CancellationToken token)
+        private async Task LoadAsyncCore(BookAddress address, BookLoadOption option, Book.Memento setting, BookMementoUnit unit, CancellationToken token)
         {
             // 履歴に登録済の場合は履歴先頭に移動させる
             if (unit?.HistoryNode != null && (option & BookLoadOption.KeepHistoryOrder) == 0)
@@ -666,11 +652,17 @@ namespace NeeView
                 option |= BookLoadOption.AutoRecursive;
             }
 
+            // 圧縮ファイル内圧縮ファイルを再帰
+            if (IsArchiveRecursive)
+            {
+                option |= BookLoadOption.ArchiveRecursive;
+            }
+
             //
             try
             {
                 // ロード。非同期で行う
-                await book.LoadAsync(path, startEntry, option, token);
+                await book.LoadAsync(address, option, token);
 
                 _historyEntry = false;
 
@@ -709,10 +701,10 @@ namespace NeeView
                 BookUnit = null;
 
                 // 履歴から消去
-                BookHistory.Current.Remove(path);
+                BookHistory.Current.Remove(address.Place);
                 MenuBar.Current.UpdateLastFiles();
 
-                throw new ApplicationException($"{path} の読み込みに失敗しました。\n{e.Message}", e);
+                throw new ApplicationException($"{address.Place} の読み込みに失敗しました。\n{e.Message}", e);
             }
 
             // 本の設定を退避
@@ -872,8 +864,11 @@ namespace NeeView
             public bool IsAutoRecursiveWithAllFiles { get; set; }
 
             [DataMember, DefaultValue(1)]
-            [PropertyMember("履歴登録開始ページ操作回数", Tips ="この回数のページ移動操作をしたら履歴に登録するようにする。")]
+            [PropertyMember("履歴登録開始ページ操作回数", Tips = "この回数のページ移動操作をしたら履歴に登録するようにする。")]
             public int HistoryEntryPageCount { get; set; }
+
+            [DataMember]
+            public bool IsArchiveRecursive { get; set; }
 
             #region Obslete
 
@@ -940,6 +935,7 @@ namespace NeeView
             private void Deserializing(StreamingContext c)
             {
                 HistoryEntryPageCount = 1;
+                IsArchiveRecursive = true;
             }
 
 #pragma warning disable CS0612
@@ -972,6 +968,7 @@ namespace NeeView
             memento.IsAutoRecursive = IsAutoRecursive;
             memento.IsAutoRecursiveWithAllFiles = IsAutoRecursiveWithAllFiles;
             memento.HistoryEntryPageCount = HistoryEntryPageCount;
+            memento.IsArchiveRecursive = IsArchiveRecursive;
 
             return memento;
         }
@@ -985,6 +982,7 @@ namespace NeeView
             IsAutoRecursive = memento.IsAutoRecursive;
             IsAutoRecursiveWithAllFiles = memento.IsAutoRecursiveWithAllFiles;
             HistoryEntryPageCount = memento.HistoryEntryPageCount;
+            IsArchiveRecursive = memento.IsArchiveRecursive;
         }
 
 

@@ -154,14 +154,14 @@ namespace NeeView
         {
             SkippedArchiveCount = 0;
 
-            if (_isRecursived || !(archiver is FolderArchive))
+            if (_isRecursived)
             {
                 return await CollectRecursiveAsync(archiver, true, param, token);
             }
             else
             {
                 var entries = archiver.GetEntries()
-                    .Where(e => !BookProfile.Current.IsExcludedPath(e.EntryName))
+                    .Where(e => !BookProfile.Current.IsExcludedPath(e.RawEntryName))
                     .ToList();
 
                 // 対象ファイル以外を除外
@@ -321,7 +321,6 @@ namespace NeeView
         }
 
 
-
         /// <summary>
         /// サブアーカイブ作成
         /// 作られたアーカイブはTrashBoxで寿命管理される
@@ -338,7 +337,7 @@ namespace NeeView
             }
             else
             {
-                string tempFileName = await ArchivenEntryExtractorService.Current.ExtractAsync(entry, token);
+                string tempFileName = await ArchivenEntryExtractorService.Current.ExtractRawAsync(entry, token);
                 _trashBox.Add(new TempFile(tempFileName));
                 archiver = ArchiverManager.Current.CreateArchiver(tempFileName, entry, _isAll);
             }

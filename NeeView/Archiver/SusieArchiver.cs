@@ -87,7 +87,7 @@ namespace NeeView
                 {
                     Archiver = this,
                     Id = id,
-                    EntryName = (entry.Path.TrimEnd('\\', '/') + "\\" + entry.FileName).TrimStart('\\', '/'),
+                    RawEntryName = (entry.Path.TrimEnd('\\', '/') + "\\" + entry.FileName).TrimStart('\\', '/'),
                     Length = entry.FileSize,
                     LastWriteTime = entry.TimeStamp,
                     Instance = entry,

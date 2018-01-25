@@ -98,9 +98,12 @@
                         <TextBlock Text="基本" Style="{StaticResource Header}"/>
 
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="圧縮ファイルをサポートする"
+                            <CheckBox x:Name="ArchiveSupportedCheckBox" Style="{StaticResource ItemCheckBox}" Content="圧縮ファイルをサポートする"
                               ToolTip="圧縮ファイル内のファイルを表示できるようにします"
                               IsChecked="{Binding Setting.Memento.ArchiverManager.IsEnabled}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="圧縮ファイルの圧縮ファイルをすべて展開する"
+                              IsEnabled="{Binding ElementName=ArchiveSupportedCheckBox, Path=IsChecked}"
+                              IsChecked="{Binding Setting.Memento.BookHub.IsArchiveRecursive}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="アニメーションGIFを再生する"
                               ToolTip="アニメーションGIF再生を行います。長時間のGIFで問題が発生する可能性があります"
                               IsChecked="{Binding Setting.Memento.BookProfile.IsEnableAnimatedGif}" />

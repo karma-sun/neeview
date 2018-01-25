@@ -26,6 +26,7 @@ namespace NeeView
         AutoRecursive = (1 << 9), // 自動再帰
         Resume = (1 << 10), // 履歴情報から全て復元
         DefaultRecursive = (1 << 11), // 再帰、ただし履歴が優先
+        ArchiveRecursive = (1 << 12), // 圧縮ファイル内の圧縮ファイルを再帰
     };
 
 }

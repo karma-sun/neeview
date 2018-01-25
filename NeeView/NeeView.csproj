@@ -150,12 +150,14 @@
     <Compile Include="App.Exception.cs" />
     <Compile Include="App.Memento.cs" />
     <Compile Include="App.Option.cs" />
+    <Compile Include="ArchiveFileSystem.cs" />
     <Compile Include="Archiver\FileTypeCollection.cs" />
     <Compile Include="Archiver\PdfArchiverProfile.cs" />
     <Compile Include="Archiver\SevenZipArchiverProfile.cs" />
     <Compile Include="Archiver\PdfArchiver.cs" />
     <Compile Include="Archiver\SevenZipArchiverProxy.cs" />
     <Compile Include="Archiver\SevenZipExtractArchiver.cs" />
+    <Compile Include="Archiver\TempFile.cs" />
     <Compile Include="BackupSelectControl.xaml.cs">
       <DependentUpon>BackupSelectControl.xaml</DependentUpon>
     </Compile>
@@ -165,6 +167,7 @@
     <Compile Include="Bitmap\BitmapFactory.cs" />
     <Compile Include="Bitmap\BitmapInfo.cs" />
     <Compile Include="Bitmap\MagicScalerBitmapFactory.cs" />
+    <Compile Include="BookAddress.cs" />
     <Compile Include="BookLoadOption.cs" />
     <Compile Include="BookMementoFilter.cs" />
     <Compile Include="ContentSizeCalcurator.cs" />
@@ -198,7 +201,9 @@
     <Compile Include="Picture\SusiePictureStream.cs" />
     <Compile Include="SearchEnginecs.cs" />
     <Compile Include="SidePanels\FolderList\FolderEntryCollection.cs" />
+    <Compile Include="SidePanels\FolderList\FolderArchiveCollection.cs" />
     <Compile Include="SidePanels\FolderList\FolderSearchCollection.cs" />
+    <Compile Include="Archiver\TempFileCache.cs" />
     <Compile Include="_NeeLaboratory\Threading\Jobs\IJob.cs" />
     <Compile Include="_NeeLaboratory\Threading\Jobs\JobEngine.cs" />
     <Compile Include="_NeeLaboratory\Threading\Jobs\JobBase.cs" />

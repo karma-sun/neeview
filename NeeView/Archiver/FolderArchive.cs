@@ -72,7 +72,7 @@ namespace NeeView
                 {
                     Archiver = this,
                     Id = list.Count,
-                    EntryName = name,
+                    RawEntryName = name,
                     Length = info.Length,
                     LastWriteTime = info.LastWriteTime,
                 });
@@ -86,7 +86,7 @@ namespace NeeView
                 {
                     Archiver = this,
                     Id = list.Count,
-                    EntryName = name,
+                    RawEntryName = name,
                     Length = -1,
                     LastWriteTime = info.LastWriteTime,
                 });

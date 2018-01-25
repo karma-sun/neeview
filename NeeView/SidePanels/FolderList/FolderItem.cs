@@ -26,6 +26,7 @@ namespace NeeView
         Empty = (1 << 3),
         DirectoryNoFound = (1 << 4),
         Shortcut = (1 << 5),
+        ArchiveEntry = (1<<6),
     }
 
     public enum FolderItemIconOverlay
@@ -44,6 +45,7 @@ namespace NeeView
         DirectoryShortcut,
         File,
         FileShortcut,
+        ArchiveEntry,
     }
 
     /// <summary>
@@ -80,6 +82,18 @@ namespace NeeView
             get { return _targetPath ?? Path; }
             set { if (_targetPath != value) { _targetPath = value; RaisePropertyChanged(); } }
         }
+
+
+        /// <summary>
+        /// ArchiveEntry property.
+        /// </summary>
+        private ArchiveEntry _archiveEntry;
+        public ArchiveEntry ArchiveEntry
+        {
+            get { return _archiveEntry; }
+            set { if (_archiveEntry != value) { _archiveEntry = value; RaisePropertyChanged(); } }
+        }
+
 
         /// <summary>
         /// 最終更新日
@@ -210,7 +224,7 @@ namespace NeeView
                 {
                     var entry = new ArchiveEntry()
                     {
-                        EntryName = TargetPath,
+                        RawEntryName = TargetPath,
                         Length = this.Length,
                         LastWriteTime = this.LastWriteTime,
                     };

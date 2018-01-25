@@ -99,7 +99,7 @@ namespace NeeView
                             Archiver = this,
                             Id = id,
                             Instance = null,
-                            EntryName = entry.FullName,
+                            RawEntryName = entry.FullName,
                             Length = entry.Length,
                             LastWriteTime = entry.LastWriteTime.DateTime,
                         };
@@ -134,7 +134,7 @@ namespace NeeView
             using (var archiver = ZipFile.OpenRead(Path))
             {
                 ZipArchiveEntry archiveEntry = archiver.Entries[entry.Id];
-                if (archiveEntry.FullName != entry.EntryName)
+                if (archiveEntry.FullName != entry.RawEntryName)
                 {
                     throw new ApplicationException("ページデータの不整合");
                 }

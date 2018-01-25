@@ -71,7 +71,7 @@ namespace NeeView
                     {
                         Archiver = this,
                         Id = entry.Index,
-                        EntryName = entry.FileName,
+                        RawEntryName = entry.FileName,
                         Length = (long)entry.Size,
                         LastWriteTime = entry.LastWriteTime,
                         Instance = System.IO.Path.Combine(_temp, entry.GetTempFileName())

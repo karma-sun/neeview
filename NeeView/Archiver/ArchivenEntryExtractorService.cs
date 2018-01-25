@@ -88,6 +88,24 @@ namespace NeeView
             }
         }
 
+
+        /// <summary>
+        /// 展開
+        /// テンポラリファイルはキャッシュを活用する
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task<TempFile> ExtractAsync(ArchiveEntry entry, CancellationToken token)
+        {
+            var tempFile = TempFileCache.Current.Get(entry.Ident);
+            if (tempFile != null) return tempFile;
+            
+            tempFile = new TempFile(await ExtractRawAsync(entry, token));
+            TempFileCache.Current.Add(entry.Ident, tempFile);
+            return tempFile;
+        }
+
         /// <summary>
         /// 展開
         /// ファイルはテンポラリに生成される
@@ -95,7 +113,7 @@ namespace NeeView
         /// <param name="entry"></param>
         /// <param name="token"></param>
         /// <returns>展開後されたファイル名</returns>
-        public async Task<string> ExtractAsync(ArchiveEntry entry, CancellationToken token)
+        public async Task<string> ExtractRawAsync(ArchiveEntry entry, CancellationToken token)
         {
             //Debug.WriteLine($"EXT: Collection = {_collection.Count}");
             Debug.WriteLine($"EXT: {entry.Ident}");

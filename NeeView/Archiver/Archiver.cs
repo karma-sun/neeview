@@ -38,6 +38,11 @@ namespace NeeView
         // アーカイブ実体のパス
         public string Path { get; protected set; }
 
+        /// <summary>
+        /// 内部アーカイブのテンポラリファイル。インスタンス保持用
+        /// </summary>
+        public TempFile TempFile { get; set; }
+
         // ファイルシステムの場合はtrue
         public virtual bool IsFileSystem { get; } = false;
 
@@ -127,6 +132,11 @@ namespace NeeView
         /// ルートアーカイバー名を含んだエントリ名
         /// </summary>
         public string FullName => IsRoot ? EntryName : LoosePath.Combine(Parent.FullName, EntryName);
+
+        /// <summary>
+        /// エクスプローラーで指定可能な絶対パス
+        /// </summary>
+        public string FullPath => IsRoot ? Path : LoosePath.Combine(Parent.FullPath, EntryName);
 
 
         /// <summary>
@@ -232,6 +242,43 @@ namespace NeeView
         {
             return GetEntries(token);
         }
+        
+        /// <summary>
+        /// アーカイブエントリのみ取得(同期)
+        /// </summary>
+        /// <returns></returns>
+        public List<ArchiveEntry> GetArchives()
+        {
+            // エントリ取得
+            var entries = GetEntries();
+
+            // アーカイブ群収集
+            var archives = entries
+                .Where(e => e.IsArchive())
+                .ToList();
+
+            return archives;
+        }
+
+        /// <summary>
+        /// アーカイブエントリのみ取得(非同期)
+        /// </summary>
+        /// <param name="archiver"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        private async Task<List<ArchiveEntry>> GetArchivesAsync(CancellationToken token)
+        {
+            // エントリ取得
+            var entries = await GetEntriesAsync(token);
+
+            // アーカイブ群収集
+            var archives = entries
+                .Where(e => e.IsArchive())
+                .ToList();
+
+            return archives;
+        }
+
 
         /// <summary>
         /// エントリのストリームを取得

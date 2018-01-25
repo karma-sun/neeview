@@ -89,7 +89,7 @@ namespace NeeView
                         Archiver = this,
                         Id = id,
                         Instance = null,
-                        EntryName = $"{id + 1:000}.png",
+                        RawEntryName = $"{id + 1:000}.png",
                         Length = 0,
                         LastWriteTime = information.ModificationDate,
                     });

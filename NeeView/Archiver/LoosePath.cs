@@ -17,28 +17,28 @@ namespace NeeView
     /// </summary>
     public static class LoosePath
     {
-        private static char[] s_sepalator = new char[] { '\\', '/' };
+        private static char[] s_separator = new char[] { '\\', '/' };
 
 
         //
         public static string TrimEnd(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";
-            return s.TrimEnd(s_sepalator);
+            return s.TrimEnd(s_separator);
         }
 
         //
         public static string GetFileName(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";
-            return s.Split(s_sepalator, StringSplitOptions.RemoveEmptyEntries).Last();
+            return s.Split(s_separator, StringSplitOptions.RemoveEmptyEntries).Last();
         }
 
         //
         public static string GetPathRoot(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";
-            var parts = s.Split(s_sepalator, 2);
+            var parts = s.Split(s_separator, 2);
             return parts.First();
         }
 
@@ -46,7 +46,7 @@ namespace NeeView
         public static string GetDirectoryName(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";
-            var parts = s.Split(s_sepalator, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var parts = s.Split(s_separator, StringSplitOptions.RemoveEmptyEntries).ToList();
             parts.RemoveAt(parts.Count - 1);
             return string.Join("\\", parts);
         }
@@ -69,7 +69,7 @@ namespace NeeView
             else if (string.IsNullOrEmpty(s2))
                 return s1;
             else
-                return s1.TrimEnd(s_sepalator) + "\\" + s2.TrimStart(s_sepalator);
+                return s1.TrimEnd(s_separator) + "\\" + s2.TrimStart(s_separator);
         }
 
         // ファイル名として使えない文字を置換
@@ -83,6 +83,12 @@ namespace NeeView
                 valid = valid.Replace(c, '_');
             }
             return valid;
+        }
+
+        // セパレータ標準化
+        public static string NormalizeSeparator(string s)
+        {
+            return s?.Replace('/', '\\');
         }
     }
 }

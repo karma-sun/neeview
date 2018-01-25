@@ -426,10 +426,19 @@ namespace NeeView
         private void FolderListItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
-            if (folderInfo != null && folderInfo.IsDirectory && folderInfo.IsReady)
+            if (folderInfo != null && folderInfo.IsReady)
             {
-                _vm.MoveTo.Execute(folderInfo.TargetPath);
+                if (folderInfo.IsDirectory)
+                {
+                    _vm.MoveTo.Execute(folderInfo.TargetPath);
+                }
+                else if (!BookHub.Current.IsArchiveRecursive)
+                {
+                    Debug.WriteLine($"Open sub archviers");
+                    _vm.MoveTo.Execute(folderInfo.TargetPath);
+                }
             }
+
             e.Handled = true;
         }
 

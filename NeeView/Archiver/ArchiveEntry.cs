@@ -48,7 +48,25 @@ namespace NeeView
         /// エントリ名(重複有)
         /// </summary>
         /// c\001.jpg
-        public string EntryName { get; set; }
+        private string _rawEntryName;
+        public string RawEntryName
+        {
+            get { return _rawEntryName; }
+            set
+            {
+                if (_rawEntryName != value)
+                {
+                    _rawEntryName = value;
+                    this.EntryName = LoosePath.NormalizeSeparator(_rawEntryName);
+                }
+            }
+        }
+
+        /// <summary>
+        /// エントリ名(重複有、正規化)
+        /// </summary>
+        /// c/001.jpg => c\001.jpg
+        public string EntryName { get; private set; }
 
         /// <summary>
         /// エントリ名のファイル名
@@ -80,6 +98,10 @@ namespace NeeView
         /// a.zip\b.zip\c\001.jpg
         public string FullName => LoosePath.Combine(RootArchiver?.FullName, EntryFullName);
 
+        /// <summary>
+        /// エクスプローラーから指定可能なパス
+        /// </summary>
+        public string FullPath => LoosePath.Combine(RootArchiver?.FullPath, EntryFullName);
 
         /// <summary>
         /// 識別名
@@ -189,7 +211,8 @@ namespace NeeView
 
 
         /// <summary>
-        /// このエントリがアーカイブであるかを拡張子から判定
+        /// このエントリがアーカイブであるかを拡張子から判定。
+        /// ファイルシステムを含む
         /// </summary>
         /// <returns></returns>
         public bool IsArchive()
@@ -199,12 +222,23 @@ namespace NeeView
         }
 
         /// <summary>
+        /// このエントリがアーカイブであるかを拡張子から判定
+        /// ファイルシステムは除外
+        /// </summary>
+        /// <returns></returns>
+        public bool IsArchiveFile()
+        {
+            bool isAllowFileSystem = this.Archiver == null;
+            return ArchiverManager.Current.IsSupported(EntryName, isAllowFileSystem);
+        }
+
+        /// <summary>
         /// このエントリが画像であるか拡張子から判定
         /// </summary>
         /// <returns></returns>
         public bool IsImage()
         {
-            return PictureProfile.Current.IsSupported(this.EntryName); 
+            return PictureProfile.Current.IsSupported(this.EntryName);
         }
 
 
@@ -217,7 +251,7 @@ namespace NeeView
         {
             var entry = new ArchiveEntry();
 
-            entry.EntryName = path;
+            entry.RawEntryName = path;
 
             var directoryInfo = new DirectoryInfo(path);
             if (directoryInfo.Exists)
@@ -239,5 +273,25 @@ namespace NeeView
             return entry;
         }
     }
+
+
+    /// <summary>
+    /// ArchiveEntryコレクション拡張
+    /// </summary>
+    public static class ArchiveEntryCollectionExtensions
+    {
+        /// <summary>
+        /// ArchiveEntryコレクションから指定のArchiveEntryを取得する
+        /// </summary>
+        /// <param name="entries"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static ArchiveEntry GetEntry(this IEnumerable<ArchiveEntry> entries, string path)
+        {
+            path = LoosePath.NormalizeSeparator(path);
+            return entries.FirstOrDefault(e => e.EntryName == path);
+        }
+    }
+
 }
 

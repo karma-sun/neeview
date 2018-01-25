@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeeView
@@ -397,20 +398,6 @@ namespace NeeView
         /// FolderCollection 作成
         /// </summary>
         /// <param name="place"></param>
-        /// <param name="searchResult"></param>
-        /// <returns></returns>
-        private FolderCollection CreateFolderCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult)
-        {
-            FolderCollection collection = searchResult == null ? CreateEntryCollection(place) : CreateSearchCollection(place, searchResult);
-            collection.ParameterChanged += async (s, e) => await RefleshAsync(true);
-            collection.Deleting += FolderCollection_Deleting;
-            return collection;
-        }
-
-        /// <summary>
-        /// FolderCollection 作成
-        /// </summary>
-        /// <param name="place"></param>
         /// <returns></returns>
         private FolderCollection CreateEntryCollection(string place)
         {
@@ -436,6 +423,19 @@ namespace NeeView
         {
             return new FolderSearchCollection(place, searchResult);
         }
+
+
+        /// <summary>
+        /// FolderCollection作成(書庫内アーカイブリスト)
+        /// </summary>
+        /// <param name="place"></param>
+        /// <param name="archiver"></param>
+        /// <returns></returns>
+        private FolderCollection CreateArchiveCollection(string place, Archiver archiver)
+        {
+            return new FolderArchiveCollection(place, archiver);
+        }
+
 
         /// <summary>
         /// フォルダーリスト項目変更前処理
@@ -670,13 +670,17 @@ namespace NeeView
 
                 var keyword = GetFixedSearchKeyword();
 
-                if (string.IsNullOrEmpty(keyword))
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    await UpdateSearchFolderCollectionAsync(keyword, isForce);
+                }
+                else if (_place == null || Directory.Exists(_place))
                 {
                     await UpdateEntryFolderCollectionAsync(isForce);
                 }
                 else
                 {
-                    await UpdateSearchFolderCollectionAsync(keyword, isForce);
+                    await UpdateArchiveFolderCollectionAsync(isForce);
                 }
             }
             finally
@@ -685,6 +689,11 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="isForce"></param>
+        /// <returns></returns>
         public async Task UpdateEntryFolderCollectionAsync(bool isForce)
         {
             await Task.Yield();
@@ -692,7 +701,10 @@ namespace NeeView
             // 同じリストは作らない
             if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == _place && this.FolderCollection is FolderEntryCollection) return;
 
-            this.FolderCollection = CreateFolderCollection(_place, null);
+            var collection = CreateEntryCollection(_place);
+            InitializeCollectionEvent(collection);
+
+            this.FolderCollection = collection;
         }
 
         /// <summary>
@@ -704,16 +716,56 @@ namespace NeeView
         public async Task UpdateSearchFolderCollectionAsync(string keyword, bool isForce)
         {
             // 同じリストは作らない
-            if (!isForce && this.FolderCollection != null && (this.FolderCollection is FolderSearchCollection collection && collection.SearchKeyword == keyword)) return;
+            if (!isForce && this.FolderCollection != null && (this.FolderCollection is FolderSearchCollection e && e.SearchKeyword == keyword)) return;
 
             _searchEngine = _searchEngine ?? new SearchEngine(_place);
 
             var option = new NeeLaboratory.IO.Search.SearchOption() { AllowFolder = true, IsOptionEnabled = true };
             var result = await _searchEngine.SearchAsync(keyword, option);
 
-            this.FolderCollection = CreateFolderCollection(_place, result);
+            var collection = CreateSearchCollection(_place, result);
+            InitializeCollectionEvent(collection);
+
+            this.FolderCollection = collection;
         }
 
+        /// <summary>
+        /// アーカイブフォルダー
+        /// </summary>
+        /// <param name="isForce"></param>
+        /// <returns></returns>
+        public async Task UpdateArchiveFolderCollectionAsync(bool isForce)
+        {
+            // 同じリストは作らない
+            if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == _place && this.FolderCollection is FolderArchiveCollection) return;
+
+            FolderCollection collection;
+
+            try
+            {
+                var entry = await ArchiveFileSystem.CreateArchiveEntry(_place, CancellationToken.None);
+                collection = CreateArchiveCollection(_place, await ArchiverManager.Current.CreateArchiverAsync(entry, false, CancellationToken.None));
+            }
+            catch (FileNotFoundException)
+            {
+                collection = CreateArchiveCollection(_place, null);
+            }
+
+            InitializeCollectionEvent(collection);
+
+            this.FolderCollection = collection;
+        }
+
+
+        /// <summary>
+        /// フォルダーコレクションのイベント設定
+        /// </summary>
+        /// <param name="collection"></param>
+        private void InitializeCollectionEvent(FolderCollection collection)
+        {
+            collection.ParameterChanged += async (s, e) => await RefleshAsync(true);
+            collection.Deleting += FolderCollection_Deleting;
+        }
 
         /// <summary>
         /// 検索履歴更新
@@ -826,7 +878,11 @@ namespace NeeView
         public async void MoveToParent_Execute()
         {
             if (_place == null) return;
-            var parent = System.IO.Path.GetDirectoryName(_place);
+
+            var parent = this.FolderCollection is FolderArchiveCollection collection
+                ? collection.GetParentPlace()
+                : Path.GetDirectoryName(_place);
+
             await SetPlaceAsync(parent, _place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
         }
 

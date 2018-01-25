@@ -257,7 +257,7 @@ namespace NeeView
                         {
                             Archiver = this,
                             Id = id,
-                            EntryName = entry.FileName,
+                            RawEntryName = entry.FileName,
                             Length = (long)entry.Size,
                             LastWriteTime = entry.LastWriteTime,
                         };
@@ -297,7 +297,7 @@ namespace NeeView
                 using (var extractor = new SevenZipDescriptor(_source))
                 {
                     var archiveEntry = extractor.ArchiveFileData[entry.Id];
-                    if (archiveEntry.FileName != entry.EntryName)
+                    if (archiveEntry.FileName != entry.RawEntryName)
                     {
                         throw new ApplicationException("ページデータの不整合");
                     }

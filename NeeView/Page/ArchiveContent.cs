@@ -116,7 +116,8 @@ namespace NeeView
         {
             using (var archiver = ArchiverManager.Current.CreateArchiver(entry.EntryName, null, false))
             {
-                using (var collector = new EntryCollection(archiver, false, false))
+                bool isRecursive = !archiver.IsFileSystem && BookHub.Current.IsArchiveRecursive;
+                using (var collector = new EntryCollection(archiver, isRecursive, false))
                 {
                     if (entryName != null)
                     {

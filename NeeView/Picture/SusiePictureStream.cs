@@ -50,7 +50,7 @@ namespace NeeView
 
             SusiePlugin susiePlugin = null;
 
-            var bytes = SusieContext.Current.Susie?.GetPicture(entry.EntryName, buff, true, out susiePlugin);
+            var bytes = SusieContext.Current.Susie?.GetPicture(entry.RawEntryName, buff, true, out susiePlugin);
             if (bytes == null)
             {
                 throw new SusieIOException();

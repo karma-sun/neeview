@@ -180,6 +180,7 @@ namespace NeeView
                     CollectionChanged?.Invoke(this, null);
                     RaisePropertyChanged(nameof(FolderOrder));
                     RaisePropertyChanged(nameof(IsFolderSearchCollection));
+                    RaisePropertyChanged(nameof(IsFolderSearchEnabled));
                 }
             }
         }
@@ -188,6 +189,11 @@ namespace NeeView
         /// 検索リスト？
         /// </summary>
         public bool IsFolderSearchCollection => FolderCollection is FolderSearchCollection;
+
+        /// <summary>
+        /// 検索許可？
+        /// </summary>
+        public bool IsFolderSearchEnabled => _place != null && !(FolderCollection is FolderArchiveCollection);
 
         /// <summary>
         /// SelectedItem property.

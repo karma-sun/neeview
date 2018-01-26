@@ -153,7 +153,7 @@
                             <DataTrigger Binding="{Binding Model.IsFolderSearchCollection}" Value="True">
                                 <Setter Property="BorderBrush" Value="{StaticResource NVButtonForeground}"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding PlaceRaw}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding Model.IsFolderSearchEnabled}" Value="False">
                                 <Setter Property="IsEnabled" Value="False"/>
                                 <Setter Property="BorderBrush" Value="{DynamicResource NVBackground}"/>
                             </DataTrigger> 

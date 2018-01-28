@@ -67,7 +67,7 @@ namespace NeeView
         {
             if (_archvier == null)
             {
-                return null;
+                return ArchiverManager.Current.GetExistPathName(this.Place);
             }
             else if (_archvier.Parent != null)
             {

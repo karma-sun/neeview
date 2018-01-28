@@ -372,9 +372,9 @@ namespace NeeView
                 // 履歴追加
                 if (options.HasFlag(FolderSetPlaceOption.IsUpdateHistory))
                 {
-                    if (place != this.History.GetCurrent())
+                    if (_place != this.History.GetCurrent())
                     {
-                        this.History.Add(place);
+                        this.History.Add(_place);
                     }
                 }
             }
@@ -664,7 +664,7 @@ namespace NeeView
 
 
         /// <summary>
-        /// 検索
+        /// コレクション更新
         /// </summary>
         /// <param name="isForce">強制更新</param>
         /// <returns></returns>
@@ -673,25 +673,34 @@ namespace NeeView
             try
             {
                 BusyChanged?.Invoke(this, new BusyChangedEventArgs(true));
-
-                var keyword = GetFixedSearchKeyword();
-
-                if (!string.IsNullOrEmpty(keyword))
-                {
-                    await UpdateSearchFolderCollectionAsync(keyword, isForce);
-                }
-                else if (_place == null || Directory.Exists(_place))
-                {
-                    await UpdateEntryFolderCollectionAsync(isForce);
-                }
-                else
-                {
-                    await UpdateArchiveFolderCollectionAsync(isForce);
-                }
+                await UpdateFolderCollectionAsyncInner(isForce);
             }
             finally
             {
                 BusyChanged?.Invoke(this, new BusyChangedEventArgs(false));
+            }
+        }
+
+        /// <summary>
+        /// コレクション更新
+        /// </summary>
+        /// <param name="isForce"></param>
+        /// <returns></returns>
+        private async Task UpdateFolderCollectionAsyncInner(bool isForce)
+        {
+            var keyword = GetFixedSearchKeyword();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                await UpdateSearchFolderCollectionAsync(keyword, isForce);
+            }
+            else if (_place == null || Directory.Exists(_place))
+            {
+                await UpdateEntryFolderCollectionAsync(isForce);
+            }
+            else
+            {
+                await UpdateArchiveFolderCollectionAsync(isForce);
             }
         }
 
@@ -745,21 +754,19 @@ namespace NeeView
             // 同じリストは作らない
             if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == _place && this.FolderCollection is FolderArchiveCollection) return;
 
-            FolderCollection collection;
-
             try
             {
                 var entry = await ArchiveFileSystem.CreateArchiveEntry(_place, CancellationToken.None);
-                collection = CreateArchiveCollection(_place, await ArchiverManager.Current.CreateArchiverAsync(entry, false, CancellationToken.None));
+                var collection = CreateArchiveCollection(_place, await ArchiverManager.Current.CreateArchiverAsync(entry, false, CancellationToken.None));
+                InitializeCollectionEvent(collection);
+                this.FolderCollection = collection;
             }
+            // アーカイブパスが展開できない場合、実在パスでの展開を行う
             catch (FileNotFoundException)
             {
-                collection = CreateArchiveCollection(_place, null);
+                _place = ArchiverManager.Current.GetExistPathName(_place);
+                await UpdateFolderCollectionAsyncInner(isForce);
             }
-
-            InitializeCollectionEvent(collection);
-
-            this.FolderCollection = collection;
         }
 
 

@@ -310,7 +310,8 @@ namespace NeeView
             Debug.Assert(Place == null);
             Debug.WriteLine($"OPEN: {address.Place}, {address.EntryName}");
 
-            var archiver = address.Archiver;
+            // ソリッド書庫の事前展開を許可してアーカイバ再生性
+            var archiver = ArchiverManager.Current.CreateArchiver(address.Archiver.Path, address.Archiver.ParentEntry, true);
             var start = address.EntryName;
 
             // リカーシブフラグ

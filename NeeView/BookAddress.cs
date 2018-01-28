@@ -14,7 +14,7 @@ namespace NeeView
     /// <summary>
     /// アーカイブパスに対応したブックアドレス
     /// </summary>
-    public class BookAddress
+    public class BookAddress : IDisposable
     {
         #region Properties
 
@@ -64,6 +64,45 @@ namespace NeeView
                 this.EntryName = entry.EntryName;
             }
         }
+
+        /// <summary>
+        /// 使用しているアーカイバを破棄
+        /// </summary>
+        private void Terminate()
+        {
+            var archiver = this.Archiver;
+            while(archiver != null)
+            {
+                var parent = archiver.Parent;
+                archiver.Dispose();
+                archiver = parent;
+            }
+        }
+
+        #region IDisposable Support
+        private bool _disposedValue = false; // 重複する呼び出しを検出するには
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    // マネージ状態を破棄します (マネージ オブジェクト)。
+                    Terminate();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        // このコードは、破棄可能なパターンを正しく実装できるように追加されました。
+        public void Dispose()
+        {
+            // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
+            Dispose(true);
+        }
+        #endregion
 
         #endregion
     }

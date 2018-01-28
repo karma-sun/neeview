@@ -91,6 +91,11 @@ namespace NeeView
         /// </summary>
         public Archiver Parent { get; private set; }
 
+        /// <summary>
+        /// 親アーカイブのエントリ表記
+        /// </summary>
+        public ArchiveEntry ParentEntry { get; private set; }
+
 
         /// <summary>
         /// エントリでの名前
@@ -161,6 +166,8 @@ namespace NeeView
                 Id = source.Id;
                 LastWriteTime = source.LastWriteTime;
                 Length = source.Length;
+
+                this.ParentEntry = source;
             }
 
             else

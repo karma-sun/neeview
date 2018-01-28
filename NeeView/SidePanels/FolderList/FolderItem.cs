@@ -241,7 +241,7 @@ namespace NeeView
             {
                 if (_archivePage == null && !IsDrive && !IsEmpty)
                 {
-                    var entry = new ArchiveEntry()
+                    var entry = this.ArchiveEntry ?? new ArchiveEntry()
                     {
                         RawEntryName = TargetPath,
                         Length = this.Length,

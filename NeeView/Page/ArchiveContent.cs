@@ -114,7 +114,7 @@ namespace NeeView
         /// <returns></returns>
         private async Task<Picture> LoadArchivePictureAsync(ArchiveEntry entry, string entryName, CancellationToken token)
         {
-            using (var archiver = ArchiverManager.Current.CreateArchiver(entry.EntryName, null, false))
+            using (var archiver = await ArchiverManager.Current.CreateArchiverAsync(entry, false, token))
             {
                 bool isRecursive = !archiver.IsFileSystem && BookHub.Current.IsArchiveRecursive;
                 using (var collector = new EntryCollection(archiver, isRecursive, false))

@@ -43,9 +43,25 @@ namespace NeeView
         public System.Windows.FrameworkElement Visual { get; set; }
     }
 
+    /// <summary>
+    /// フォルダーリスト更新イベントパラメーター
+    /// </summary>
     public class FolderListSyncArguments
     {
+        /// <summary>
+        /// フォルダーリストで選択されて欲しい項目のパス
+        /// </summary>
         public string Path { get; set; }
+
+        /// <summary>
+        /// フォルダーリストの場所。アーカイブパス用。
+        /// nullの場合Pathから求められる。
+        /// </summary>
+        public string Parent { get; set; }
+
+        /// <summary>
+        /// なるべくリストの選択項目を変更しないようにする
+        /// </summary>
         public bool isKeepPlace { get; set; }
     }
 
@@ -517,11 +533,12 @@ namespace NeeView
                 // フォルダーリスト更新
                 if (args.IsRefleshFolderList)
                 {
-                    App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = address.Place, isKeepPlace = false }));
+                    var parent = address.Archiver.GetParentPlace();
+                    App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = address.Place, Parent = address.Archiver.GetParentPlace(), isKeepPlace = false }));
                 }
                 else if ((args.Option & BookLoadOption.SelectFoderListMaybe) != 0)
                 {
-                    App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = address.Place, isKeepPlace = true }));
+                    App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = address.Place, Parent = address.Archiver.GetParentPlace(), isKeepPlace = true }));
                 }
 
                 // 履歴リスト更新

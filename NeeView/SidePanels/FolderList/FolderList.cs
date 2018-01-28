@@ -536,7 +536,7 @@ namespace NeeView
             }
 
             var options = FolderSetPlaceOption.IsUpdateHistory;
-            await SetPlaceAsync(System.IO.Path.GetDirectoryName(e.Path), e.Path, options);
+            await SetPlaceAsync(e.Parent, e.Path, options);
         }
 
         /// <summary>

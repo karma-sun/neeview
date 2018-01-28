@@ -318,6 +318,25 @@ namespace NeeView
             return (Parent == null || Parent is FolderArchive) ? Path : Parent.GetPlace();
         }
 
+
+        /// <summary>
+        /// フォルダーリスト上での親フォルダーを取得
+        /// </summary>
+        /// <returns></returns>
+        public string GetParentPlace()
+        {
+            if (this.Parent != null)
+            {
+                return this.Parent.FullPath;
+            }
+            else
+            {
+                return LoosePath.GetDirectoryName(this.FullPath);
+            }
+        }
+
+
+
         public virtual bool IsDisposed => true;
 
         // 廃棄処理

@@ -63,6 +63,9 @@ namespace NeeView
                 this.Archiver = entry.Archiver ?? new FolderArchive(Path.GetDirectoryName(entry.FullPath), null);
                 this.EntryName = entry.EntryName;
             }
+
+            // このアーカイブをROOTとする
+            this.Archiver.RootFlag = true;
         }
 
         /// <summary>

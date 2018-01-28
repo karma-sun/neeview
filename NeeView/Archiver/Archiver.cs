@@ -94,7 +94,7 @@ namespace NeeView
         /// <summary>
         /// 親アーカイブのエントリ表記
         /// </summary>
-        public ArchiveEntry ParentEntry { get; private set; }
+        public ArchiveEntry Source { get; private set; }
 
 
         /// <summary>
@@ -117,11 +117,16 @@ namespace NeeView
         /// </summary>
         public DateTime? LastWriteTime { get; private set; }
 
+        /// <summary>
+        /// ルートフラグ
+        /// このフラグを立てたアーカイブがあればこれをルートとする
+        /// </summary>
+        public bool RootFlag { get; set; }
 
         /// <summary>
         /// ルート判定
         /// </summary>
-        public bool IsRoot => Parent == null;
+        public bool IsRoot => Parent == null || RootFlag;
 
         /// <summary>
         /// ルートアーカイバー取得
@@ -141,7 +146,7 @@ namespace NeeView
         /// <summary>
         /// エクスプローラーで指定可能な絶対パス
         /// </summary>
-        public string FullPath => IsRoot ? Path : LoosePath.Combine(Parent.FullPath, EntryName);
+        public string FullPath => Parent == null ? Path : LoosePath.Combine(Parent.FullPath, EntryName);
 
 
         /// <summary>
@@ -167,7 +172,7 @@ namespace NeeView
                 LastWriteTime = source.LastWriteTime;
                 Length = source.Length;
 
-                this.ParentEntry = source;
+                this.Source = source;
             }
 
             else

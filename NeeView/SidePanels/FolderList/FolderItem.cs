@@ -24,9 +24,8 @@ namespace NeeView
         Drive = (1 << 1),
         DriveNotReady = (1 << 2),
         Empty = (1 << 3),
-        DirectoryNoFound = (1 << 4),
-        Shortcut = (1 << 5),
-        ArchiveEntry = (1<<6),
+        Shortcut = (1 << 4),
+        ArchiveEntry = (1<<5),
     }
 
     public enum FolderItemIconOverlay
@@ -111,9 +110,13 @@ namespace NeeView
         public bool IsDirectory => (Attributes & FolderItemAttribute.Directory) == FolderItemAttribute.Directory;
         public bool IsFile => !IsDirectory && !IsEmpty;
         public bool IsEmpty => (Attributes & FolderItemAttribute.Empty) == FolderItemAttribute.Empty;
-        public bool IsDirectoryNotFound => (Attributes & FolderItemAttribute.DirectoryNoFound) == FolderItemAttribute.DirectoryNoFound;
         public bool IsShortcut => (Attributes & FolderItemAttribute.Shortcut) == FolderItemAttribute.Shortcut;
         public bool IsDisable => IsDirectory && !IsReady;
+
+        /// <summary>
+        /// 編集可能
+        /// </summary>
+        public bool IsEditable => (this.Attributes & (FolderItemAttribute.Empty | FolderItemAttribute.Drive | FolderItemAttribute.ArchiveEntry)) == 0;
 
         public bool IsReady { get; set; }
 
@@ -204,11 +207,11 @@ namespace NeeView
                 }
                 else if (IsEmpty)
                 {
-                    return IsDirectoryNotFound ? "フォルダーが存在しません" : "表示できるファイルはありません";
+                    return "表示できるファイルはありません"; //// IsDirectoryNotFound ? "フォルダーが存在しません" : "表示できるファイルはありません";
                 }
                 else
                 {
-                    return IsShortcut ? System.IO.Path.GetFileNameWithoutExtension(Path) : System.IO.Path.GetFileName(Path);
+                    return IsShortcut ? System.IO.Path.GetFileNameWithoutExtension(Path) : LoosePath.GetFileName(Path);
                 }
             }
         }

@@ -45,7 +45,7 @@ namespace NeeView
                 if (!directory.Exists)
                 {
                     var items = new ObservableCollection<FolderItem>();
-                    items.Add(new FolderItem() { Path = Place + "\\.", Attributes = FolderItemAttribute.Empty | FolderItemAttribute.DirectoryNoFound });
+                    items.Add(new FolderItem() { Path = Place + "\\.", Attributes = FolderItemAttribute.Empty });
                     this.Items = items;
                 }
                 else

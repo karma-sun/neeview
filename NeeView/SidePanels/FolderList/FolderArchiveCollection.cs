@@ -90,8 +90,7 @@ namespace NeeView
             {
                 Type = FolderItemType.ArchiveEntry,
                 ArchiveEntry = entry,
-                Path = entry.EntryFullName,
-                TargetPath = entry.FullPath,
+                Path = entry.FullPath,
                 LastWriteTime = entry.LastWriteTime ?? default(DateTime),
                 Length = entry.Length,
                 Attributes = FolderItemAttribute.ArchiveEntry,

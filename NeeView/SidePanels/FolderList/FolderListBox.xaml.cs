@@ -114,7 +114,7 @@ namespace NeeView
         private void FileCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            e.CanExecute = (item != null && !item.IsEmpty && !item.IsDrive && FileIOProfile.Current.IsEnabled);
+            e.CanExecute = (item != null && item.IsEditable && FileIOProfile.Current.IsEnabled);
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace NeeView
         private void Copy_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            e.CanExecute = (item != null && !item.IsEmpty);
+            e.CanExecute = (item != null && item.IsEditable);
         }
 
         /// <summary>
@@ -249,7 +249,8 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null)
             {
-                System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + item.Path + "\"");
+                var path = (item.Attributes & (FolderItemAttribute.ArchiveEntry | FolderItemAttribute.Empty)) != 0 ? ArchiverManager.Current.GetExistPathName(item.Path) : item.Path;
+                System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + path + "\"");
             }
         }
 

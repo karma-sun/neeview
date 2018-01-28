@@ -91,7 +91,12 @@ namespace NeeView
         private void LoadWithRecursive_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            e.CanExecute = (item != null && item.IsDirectory);
+
+            e.CanExecute = item == null
+                ? false
+                : BookHub.Current.IsArchiveRecursive
+                    ? item.Attributes.HasFlag(FolderItemAttribute.Directory)
+                    : !item.Attributes.AnyFlag(FolderItemAttribute.Drive | FolderItemAttribute.Empty);
         }
 
 
@@ -499,4 +504,6 @@ namespace NeeView
 
         #endregion
     }
+
+
 }

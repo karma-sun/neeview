@@ -22,10 +22,26 @@ namespace NeeView
         None = 0,
         Directory = (1 << 0),
         Drive = (1 << 1),
-        DriveNotReady = (1 << 2),
-        Empty = (1 << 3),
-        Shortcut = (1 << 4),
-        ArchiveEntry = (1<<5),
+        Empty = (1 << 2),
+        Shortcut = (1 << 3),
+        ArchiveEntry = (1<<4),
+    }
+
+    /// <summary>
+    /// FolderItemAttribute メソッド拡張
+    /// </summary>
+    public static class FolderItemAttributeExtensions
+    {
+        /// <summary>
+        /// いずれかのフラグのONをチェック
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool AnyFlag(this FolderItemAttribute self, FolderItemAttribute value)
+        {
+            return (self & value) != 0;
+        }
     }
 
     public enum FolderItemIconOverlay

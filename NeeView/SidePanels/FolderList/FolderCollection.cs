@@ -254,6 +254,8 @@ namespace NeeView
         /// <param name="path">指定パスの項目を更新。nullの場合全ての項目を更新</param>
         public void RefleshIcon(string path)
         {
+            if (Items == null) return;
+
             if (path == null)
             {
                 foreach (var item in Items)

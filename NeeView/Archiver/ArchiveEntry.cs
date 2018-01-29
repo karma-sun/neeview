@@ -35,9 +35,15 @@ namespace NeeView
         public object Instance { get; set; }
 
         /// <summary>
-        /// 有効判定
+        /// パスが有効であるか
+        /// 無効である場合はアーカイブパスである可能性あり
         /// </summary>
-        public bool IsValid { get; set; } = true;
+        public bool IsValid { get; private set; } = true;
+
+        /// <summary>
+        /// アーカイブパスであるか
+        /// </summary>
+        public bool IsArchivePath { get; private set; }
 
         // 例：
         // a.zip 
@@ -107,7 +113,7 @@ namespace NeeView
         /// 識別名
         /// アーカイブ内では重複名があるので登録番号を含めたユニークな名前にする
         /// </summary>
-        public string Ident => LoosePath.Combine(Archiver.Ident, $"{Id}.{EntryName}");
+        public string Ident => LoosePath.Combine(Archiver?.Ident, $"{Id}.{EntryName}");
 
         /// <summary>
         /// ファイルサイズ。
@@ -253,23 +259,43 @@ namespace NeeView
 
             entry.RawEntryName = path;
 
-            var directoryInfo = new DirectoryInfo(path);
-            if (directoryInfo.Exists)
+            try
             {
-                entry.Length = -1;
-                entry.LastWriteTime = directoryInfo.LastWriteTime;
-                return entry;
+                var directoryInfo = new DirectoryInfo(path);
+                if (directoryInfo.Exists)
+                {
+                    entry.Length = -1;
+                    entry.LastWriteTime = directoryInfo.LastWriteTime;
+                    return entry;
+                }
+
+                var fileInfo = new FileInfo(path);
+                if (fileInfo.Exists)
+                {
+                    entry.Length = fileInfo.Length;
+                    entry.LastWriteTime = fileInfo.LastWriteTime;
+                    return entry;
+                }
+            }
+            catch
+            {
+                // 不正なパスが含まれていると通常のファイルシステムでは対応できない。
+                // アーカイブパスの可能性がある。
             }
 
-            var fileInfo = new FileInfo(path);
-            if (fileInfo.Exists)
-            {
-                entry.Length = fileInfo.Length;
-                entry.LastWriteTime = fileInfo.LastWriteTime;
-                return entry;
-            }
-
+            // 実在するパスではない
             entry.IsValid = false;
+
+            // アーカイブパスの場合、ファイル情報は親アーカイブのものにする
+            var parent = ArchiverManager.Current.GetExistPathName(path);
+            if (parent != null)
+            {
+                var parentFileInfo = new FileInfo(parent);
+                entry.Length = parentFileInfo.Length;
+                entry.LastWriteTime = parentFileInfo.LastWriteTime;
+                entry.IsArchivePath = true;
+            }
+
             return entry;
         }
     }

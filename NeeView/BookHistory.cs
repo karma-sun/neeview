@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Xml;
@@ -248,20 +249,24 @@ namespace NeeView
         }
 
         // 無効な履歴削除
-        public void RemoveUnlinked()
+        public async Task RemoveUnlinkedAsync(CancellationToken token)
         {
-            var node = Items.First;
-            while (node != null)
+            // 削除項目収集
+            var unlinked = new List<LinkedListNode<BookMementoUnit>>();
+            for (var node = this.Items.First; node != null; node = node.Next)
             {
-                var next = node.Next;
-                var place = node.Value.Memento.Place;
-                if (!System.IO.File.Exists(place) && !System.IO.Directory.Exists(place))
+                if (!(await ArchiveFileSystem.ExistsAsync(node.Value.Memento.Place, token)))
                 {
-                    Debug.WriteLine($"HistoryRemove: {place}");
-                    Items.Remove(node);
-                    node.Value.HistoryNode = null;
+                    unlinked.Add(node);
                 }
-                node = next;
+            }
+
+            // 削除実行
+            foreach (var node in unlinked)
+            {
+                Debug.WriteLine($"HistoryRemove: {node.Value.Memento.Place}");
+                Items.Remove(node);
+                node.Value.HistoryNode = null;
             }
 
             HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
@@ -527,7 +532,7 @@ namespace NeeView
             {
                 Debug.WriteLine("--");
                 var deletes = source.Where(e => !collection.Contains(e));
-                foreach(var delete in deletes)
+                foreach (var delete in deletes)
                 {
                     Debug.WriteLine($"rm {delete.Name}, {delete.LastAccessTime}");
                 }

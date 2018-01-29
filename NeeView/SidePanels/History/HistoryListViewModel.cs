@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Linq;
 using System.Diagnostics;
 using NeeView.ComponentModel;
+using System.Threading;
 
 namespace NeeView
 {
@@ -315,9 +316,9 @@ namespace NeeView
         private RelayCommand _removeUnlinkedCommand;
 
         //
-        private void RemoveUnlinkedCommand_Executed()
+        private async void RemoveUnlinkedCommand_Executed()
         {
-            BookHistory.Current.RemoveUnlinked();
+            await BookHistory.Current.RemoveUnlinkedAsync(CancellationToken.None);
         }
 
 

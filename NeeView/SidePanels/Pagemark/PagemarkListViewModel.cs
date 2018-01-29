@@ -9,6 +9,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.Serialization;
+using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -185,9 +186,9 @@ namespace NeeView
         private RelayCommand _removeUnlinkedCommand;
 
         //
-        private void RemoveUnlinkedCommand_Executed()
+        private async void RemoveUnlinkedCommand_Executed()
         {
-            PagemarkCollection.Current.RemoveUnlinked();
+            await PagemarkCollection.Current.RemoveUnlinkedAsync(CancellationToken.None);
         }
 
         /// <summary>

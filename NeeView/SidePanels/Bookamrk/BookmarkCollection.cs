@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using NeeView.ComponentModel;
 using System.IO;
+using System.Threading;
 
 namespace NeeView
 {
@@ -172,18 +173,20 @@ namespace NeeView
         }
 
         // 無効なブックマークを削除
-        public void RemoveUnlinked()
+        public async Task RemoveUnlinkedAsync(CancellationToken token)
         {
             // 削除項目収集
-            var unlinked = Items.Where(e =>
+            var unlinked = new List<BookMementoUnitNode>();
+            foreach (var item in this.Items)
             {
-                var place = e.Value.Memento.Place;
-                return (!System.IO.File.Exists(place) && !System.IO.Directory.Exists(place));
-            })
-            .ToList();
+                if (!(await ArchiveFileSystem.ExistsAsync(item.Value.Memento.Place, token)))
+                {
+                    unlinked.Add(item);
+                }
+            }
 
             // 削除実行
-            foreach(var node in unlinked)
+            foreach (var node in unlinked)
             {
                 Debug.WriteLine($"BookmarkRemove: {node.Value.Memento.Place}");
                 Items.Remove(node);
@@ -346,7 +349,7 @@ namespace NeeView
 
             // ストリームから読み込み
             public static Memento Load(Stream stream)
-            { 
+            {
                 using (XmlReader xr = XmlReader.Create(stream))
                 {
                     DataContractSerializer serializer = new DataContractSerializer(typeof(Memento));

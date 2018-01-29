@@ -264,11 +264,18 @@ namespace NeeView
         }
         #endregion
 
-        //
+        #region IHasPage Supprt
+
+        /// <summary>
+        /// ページ取得
+        /// </summary>
+        /// <returns></returns>
         public Page GetPage()
         {
             return ArchivePage;
         }
+
+        #endregion
 
         //
         public override string ToString()

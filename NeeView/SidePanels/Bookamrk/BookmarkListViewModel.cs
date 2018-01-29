@@ -9,6 +9,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.Serialization;
+using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -20,25 +21,67 @@ namespace NeeView
     /// </summary>
     public class BookmarkListViewModel : BindableBase
     {
+        #region Fields
+
+        //
+        private BookmarkList _model;
+
+        //
+        private CancellationTokenSource _removeUnlinkedCommandCancellationToken;
+
+        //
+        private BookmarkListBox _listBoxContent;
+
+        #endregion
+
+        #region Constructors
+
+        //
+        public BookmarkListViewModel(BookmarkList model)
+        {
+            _model = model;
+            _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
+
+            BookHub = _model.BookHub;
+
+            InitializeMoreMenu();
+
+            UpdateListBoxContent();
+        }
+
+        #endregion
+
+        #region Properties
+
         public BookHub BookHub { get; private set; }
 
         public BookmarkCollection Bookmark => BookmarkCollection.Current;
 
+        /// <summary>
+        /// Model property.
+        /// </summary>
+        public BookmarkList Model
+        {
+            get { return _model; }
+            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
+        }
+
+        #endregion
 
         #region MoreMenu
+        // TODO: これだけでオブジェクト化できそう
+
+        private PanelListItemStyleToBooleanConverter _PanelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
 
         /// <summary>
         /// MoreMenu property.
         /// </summary>
+        private ContextMenu _MoreMenu;
         public ContextMenu MoreMenu
         {
             get { return _MoreMenu; }
             set { if (_MoreMenu != value) { _MoreMenu = value; RaisePropertyChanged(); } }
         }
-
-        //
-        private ContextMenu _MoreMenu;
-
 
         //
         private void InitializeMoreMenu()
@@ -96,20 +139,18 @@ namespace NeeView
             return item;
         }
 
+        #endregion
 
-        private PanelListItemStyleToBooleanConverter _PanelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
-
+        #region Commands
 
         /// <summary>
         /// SetListItemStyle command.
         /// </summary>
+        private RelayCommand<PanelListItemStyle> _SetListItemStyle;
         public RelayCommand<PanelListItemStyle> SetListItemStyle
         {
             get { return _SetListItemStyle = _SetListItemStyle ?? new RelayCommand<PanelListItemStyle>(SetListItemStyle_Executed); }
         }
-
-        //
-        private RelayCommand<PanelListItemStyle> _SetListItemStyle;
 
         //
         private void SetListItemStyle_Executed(PanelListItemStyle style)
@@ -117,33 +158,28 @@ namespace NeeView
             _model.PanelListItemStyle = style;
         }
 
-        #endregion
 
         /// <summary>
-        /// Model property.
+        /// 無効なブックマークを削除するコマンド
         /// </summary>
-        public BookmarkList Model
+        private RelayCommand _removeUnlinkedCommand;
+        public RelayCommand RemoveUnlinkedCommand
         {
-            get { return _model; }
-            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
+            get { return _removeUnlinkedCommand = _removeUnlinkedCommand ?? new RelayCommand(RemoveUnlinkedCommand_Executed); }
         }
 
         //
-        private BookmarkList _model;
-
-
-        //
-        public BookmarkListViewModel(BookmarkList model)
+        private async void RemoveUnlinkedCommand_Executed()
         {
-            _model = model;
-            _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
-
-            BookHub = _model.BookHub;
-
-            InitializeMoreMenu();
-
-            UpdateListBoxContent();
+            // 直前の命令はキャンセル
+            _removeUnlinkedCommandCancellationToken?.Cancel();
+            _removeUnlinkedCommandCancellationToken = new CancellationTokenSource();
+            await BookmarkCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationToken.Token);
         }
+
+        #endregion
+
+        #region Methods
 
         //
         public void Load(string path)
@@ -173,24 +209,6 @@ namespace NeeView
             }
         }
 
-
-        /// <summary>
-        /// 無効なブックマークを削除するコマンド
-        /// </summary>
-        public RelayCommand RemoveUnlinkedCommand
-        {
-            get { return _removeUnlinkedCommand = _removeUnlinkedCommand ?? new RelayCommand(RemoveUnlinkedCommand_Executed); }
-        }
-
-        //
-        private RelayCommand _removeUnlinkedCommand;
-
-        //
-        private void RemoveUnlinkedCommand_Executed()
-        {
-            BookmarkCollection.Current.RemoveUnlinked();
-        }
-
         /// <summary>
         /// ListBoxContent property.
         /// </summary>
@@ -200,12 +218,12 @@ namespace NeeView
             set { if (_listBoxContent != value) { _listBoxContent = value; RaisePropertyChanged(); } }
         }
 
-        private BookmarkListBox _listBoxContent;
-
         private void UpdateListBoxContent()
         {
             Debug.WriteLine("*** Bookmark Update ***");
             this.ListBoxContent = new BookmarkListBox(this);
         }
+
+        #endregion
     }
 }

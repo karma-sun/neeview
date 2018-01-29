@@ -87,7 +87,7 @@ namespace NeeView
             else if (place == null)
                 Title = _defaultWindowTitle;
 
-            else if (_contentCanvas.MainContent == null)
+            else if (_contentCanvas.MainContent?.Source == null)
                 Title = NVUtility.PlaceToTitle(place);
 
             else

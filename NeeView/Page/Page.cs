@@ -409,6 +409,7 @@ namespace NeeView
 
         #endregion
 
+        #region IHasPage Support
 
         /// <summary>
         /// IHasPage interface
@@ -418,6 +419,8 @@ namespace NeeView
         {
             return this;
         }
+
+        #endregion
     }
 
 }

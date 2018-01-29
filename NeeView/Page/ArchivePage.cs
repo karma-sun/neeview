@@ -25,23 +25,12 @@ namespace NeeView
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="place"></param>
-        /// <param name="entryName"></param>
-        public ArchivePage(string place, string entryName = null)
-        {
-            Entry = ArchiveEntry.Create(place);
-            Content = new ArchiveContent(Entry, entryName);
-        }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
         /// <param name="entry"></param>
         /// <param name="entryName"></param>
-        public ArchivePage(ArchiveEntry entry, string entryName = null)
+        public ArchivePage(ArchiveEntry entry)
         {
             Entry = entry;
-            Content = new ArchiveContent(Entry, entryName);
+            Content = new ArchiveContent(Entry);
         }
     }
 

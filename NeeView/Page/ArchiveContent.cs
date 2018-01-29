@@ -26,19 +26,11 @@ namespace NeeView
         public override bool IsLoaded => false;
 
         /// <summary>
-        /// サムネイルにするエントリ名
-        /// </summary>
-        private string _entryName;
-
-        /// <summary>
         /// コンスラクタ
         /// </summary>
-        /// <param name="entry">対象アーカイブのエントリ</param>
-        /// <param name="entryName">サムネイル指定ページ</param>
-        public ArchiveContent(ArchiveEntry entry, string entryName) : base(entry)
+        /// <param name="entry">対象アーカイブもしくはファイルのエントリ</param>
+        public ArchiveContent(ArchiveEntry entry) : base(entry)
         {
-            _entryName = entryName;
-
             PageMessage = new PageMessage()
             {
                 Icon = FilePageIcon.Alart,
@@ -46,7 +38,7 @@ namespace NeeView
             };
 
             // エントリが有効でない場合の処理
-            if (!entry.IsValid)
+            if (!entry.IsValid && !entry.IsArchivePath)
             {
                 Thumbnail.Initialize(null);
             }
@@ -68,7 +60,7 @@ namespace NeeView
         /// </summary>
         public override void InitializeThumbnail()
         {
-            Thumbnail.Initialize(Entry, _entryName);
+            Thumbnail.Initialize(Entry, null);
         }
 
         /// <summary>
@@ -80,7 +72,7 @@ namespace NeeView
         {
             if (Thumbnail.IsValid) return;
 
-            if (!Entry.IsValid)
+            if (!Entry.IsValid && !Entry.IsArchivePath)
             {
                 Thumbnail.Initialize(null);
                 return;
@@ -88,7 +80,7 @@ namespace NeeView
 
             try
             {
-                var picture = await LoadArchivePictureAsync(Entry, _entryName, token);
+                var picture = await LoadPictureAsync(token);
                 Thumbnail.Initialize(picture?.CreateThumbnail());
             }
             catch (OperationCanceledException)
@@ -103,31 +95,50 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// エントリに対応するサムネイル画像生成
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        private async Task<Picture> LoadPictureAsync(CancellationToken token)
+        {
+            if (this.Entry.IsArchivePath)
+            {
+                // TODO: このアーカイブの開放処理
+                var entry = await ArchiveFileSystem.CreateArchiveEntry(this.Entry.FullPath, token);
+                if (entry.IsArchive())
+                {
+                    return await LoadArchivePictureAsync(entry, token);
+                }
+                else
+                {
+                    return await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail, token);
+                }
+            }
+            else
+            {
+                return await LoadArchivePictureAsync(this.Entry, token);
+            }
+        }
+
 
         /// <summary>
-        /// サムネイル読込
-        /// ページ指定がない場合は名前順で先頭のページ
+        /// アーカイブサムネイル読込
+        /// 名前順で先頭のページ
         /// </summary>
         /// <param name="entry"></param>
         /// <param name="entryName"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        private async Task<Picture> LoadArchivePictureAsync(ArchiveEntry entry, string entryName, CancellationToken token)
+        private async Task<Picture> LoadArchivePictureAsync(ArchiveEntry entry, CancellationToken token)
         {
             using (var archiver = await ArchiverManager.Current.CreateArchiverAsync(entry, false, token))
             {
+                archiver.RootFlag = true;
                 bool isRecursive = !archiver.IsFileSystem && BookHub.Current.IsArchiveRecursive;
                 using (var collector = new EntryCollection(archiver, isRecursive, false))
                 {
-                    if (entryName != null)
-                    {
-                        await collector.SelectAsync(entryName, token);
-                    }
-                    else
-                    {
-                        await collector.FirstOneAsync(token);
-                    }
-
+                    await collector.FirstOneAsync(token);
                     var select = collector.Collection.FirstOrDefault();
 
                     if (select != null)

@@ -764,7 +764,7 @@ namespace NeeView
             // アーカイブパスが展開できない場合、実在パスでの展開を行う
             catch (FileNotFoundException)
             {
-                _place = ArchiverManager.Current.GetExistPathName(_place);
+                _place = ArchiveFileSystem.GetExistDirectoryName(_place);
                 await UpdateFolderCollectionAsyncInner(isForce);
             }
         }

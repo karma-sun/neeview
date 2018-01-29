@@ -5,9 +5,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeeView
@@ -48,10 +50,14 @@ namespace NeeView
             Value = value;
         }
 
+        #region IHasPage Support
+
         public Page GetPage()
         {
             return Value?.ArchivePage;
         }
+
+        #endregion
     }
 
     /// <summary>
@@ -79,24 +85,25 @@ namespace NeeView
             return Memento?.Place ?? base.ToString();
         }
 
+        #region for Thumbnail
+
         /// <summary>
         /// ArchivePage Property.
         /// サムネイル用
         /// </summary>
-        private ArchivePage _archivePage;
+        private volatile ArchivePage _archivePage;
         public ArchivePage ArchivePage
         {
             get
             {
-                if (_archivePage == null && Memento != null)
+                if (_archivePage == null)
                 {
-                    _archivePage = new ArchivePage(Memento.Place);
+                    _archivePage = new ArchivePage(ArchiveEntry.Create(Memento.Place));
                     _archivePage.Thumbnail.IsCacheEnabled = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }
                 return _archivePage;
             }
-            set { _archivePage = value; }
         }
 
         //
@@ -106,11 +113,16 @@ namespace NeeView
             BookThumbnailPool.Current.Add(thumbnail);
         }
 
-        //
+        #endregion
+
+        #region IHasPage Support
+
         public Page GetPage()
         {
             return ArchivePage;
         }
+
+        #endregion
     }
 
 

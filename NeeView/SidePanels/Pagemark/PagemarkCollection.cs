@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using NeeView.ComponentModel;
 using System.IO;
+using System.Threading;
 
 namespace NeeView
 {
@@ -146,15 +147,17 @@ namespace NeeView
 
 
         // 無効なページマークを削除
-        public void RemoveUnlinked()
+        public async Task RemoveUnlinkedAsync(CancellationToken token)
         {
             // 削除項目収集
-            var unlinked = Items.Where(e =>
+            var unlinked = new List<BookMementoUnitNode>();
+            foreach (var item in this.Items)
             {
-                var place = e.Value.Memento.Place;
-                return (!System.IO.File.Exists(place) && !System.IO.Directory.Exists(place));
-            })
-            .ToList();
+                if (!(await ArchiveFileSystem.ExistsAsync(item.Value.Memento.Place, token)))
+                {
+                    unlinked.Add(item);
+                }
+            }
 
             // 削除実行
             foreach (var node in unlinked)
@@ -219,7 +222,7 @@ namespace NeeView
         {
             if (src == null || dst == null) return;
 
-            foreach(var mark in Marks.Where(e => e.Place == src))
+            foreach (var mark in Marks.Where(e => e.Place == src))
             {
                 mark.Place = dst;
             }
@@ -509,8 +512,9 @@ namespace NeeView
     {
         [DataMember]
         public string Place { get; set; }
+
         [DataMember]
-        public string EntryName { get; set; }
+        public string EntryName { get; private set; }
 
         //
         public string PlaceShort => LoosePath.GetFileName(Place);
@@ -520,6 +524,13 @@ namespace NeeView
         // for ToolTops
         public string Detail => Place + "\n" + EntryName;
 
+        [OnDeserialized]
+        private void Deserialized(StreamingContext c)
+        {
+            this.EntryName = LoosePath.NormalizeSeparator(this.EntryName);
+        }
+
+        #region Constructroes
 
         public Pagemark()
         { }
@@ -530,6 +541,9 @@ namespace NeeView
             EntryName = page;
         }
 
+        #endregion
+
+        #region IEqualable Support
 
         //otherと自分自身が等価のときはtrueを返す
         public bool Equals(Pagemark other)
@@ -562,26 +576,27 @@ namespace NeeView
             return this.Place.GetHashCode() ^ this.EntryName.GetHashCode();
         }
 
+        #endregion
 
         #region for Thumbnail
 
         // サムネイル用。保存しません
         #region Property: ArchivePage
-        private ArchivePage _archivePage;
+        private volatile ArchivePage _archivePage;
         public ArchivePage ArchivePage
         {
             get
             {
                 if (_archivePage == null)
                 {
-                    _archivePage = new ArchivePage(Place, EntryName);
+                    _archivePage = new ArchivePage(ArchiveEntry.Create(LoosePath.Combine(Place, EntryName)));
                     _archivePage.Thumbnail.IsCacheEnabled = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }
                 return _archivePage;
             }
-            set { _archivePage = value; }
         }
+        #endregion
 
         //
         private void Thumbnail_Touched(object sender, EventArgs e)
@@ -589,12 +604,20 @@ namespace NeeView
             var thumbnail = (Thumbnail)sender;
             BookThumbnailPool.Current.Add(thumbnail);
         }
-        #endregion
 
+        #region IHasPage Support
+
+        /// <summary>
+        /// ページ取得
+        /// </summary>
+        /// <returns></returns>
         public Page GetPage()
         {
             return ArchivePage;
         }
+
+        #endregion
+
         #endregion
     }
 }

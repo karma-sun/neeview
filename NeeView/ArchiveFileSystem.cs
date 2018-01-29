@@ -79,6 +79,51 @@ namespace NeeView
                 }
             }
         }
+
+        /// <summary>
+        /// アーカイブパスの存在チェック
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static async Task<bool> ExistsAsync(string path, CancellationToken token)
+        {
+            try
+            {
+                var entry = await CreateArchiveEntry(path, token);
+                return entry != null;
+            }
+            catch(FileNotFoundException)
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// 実在するディレクトリまで遡る
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string GetExistDirectoryName(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                return path;
+            }
+
+            while (path != null)
+            {
+                path = LoosePath.GetDirectoryName(path);
+                if (Directory.Exists(path))
+                {
+                    return path;
+                }
+            }
+
+            return null;
+        }
+
     }
 
 }

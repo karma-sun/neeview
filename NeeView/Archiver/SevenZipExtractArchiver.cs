@@ -33,7 +33,7 @@ namespace NeeView
         public SevenZipExtractArchiver(string path, ArchiveEntry source) : base(path, source)
         {
             SevenZipArchiver.InitializeLibrary();
-            _source = source ?? ArchiveEntry.Create(path);
+            _source = source ?? new ArchiveEntry(path);
         }
 
         #endregion

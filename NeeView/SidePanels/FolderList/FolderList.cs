@@ -756,10 +756,12 @@ namespace NeeView
 
             try
             {
-                var entry = await ArchiveFileSystem.CreateArchiveEntry(_place, CancellationToken.None);
-                var collection = CreateArchiveCollection(_place, await ArchiverManager.Current.CreateArchiverAsync(entry, false, CancellationToken.None));
-                InitializeCollectionEvent(collection);
-                this.FolderCollection = collection;
+                using (var entry = await ArchiveFileSystem.CreateArchiveEntry(_place, CancellationToken.None))
+                {
+                    var collection = CreateArchiveCollection(_place, await ArchiverManager.Current.CreateArchiverAsync(entry, false, CancellationToken.None));
+                    InitializeCollectionEvent(collection);
+                    this.FolderCollection = collection;
+                }
             }
             // アーカイブパスが展開できない場合、実在パスでの展開を行う
             catch (FileNotFoundException)
@@ -906,8 +908,10 @@ namespace NeeView
 
             if (place != null)
             {
+                var parent = _bookHub?.Book?.Archiver?.Parent?.FullPath ?? LoosePath.GetDirectoryName(place);
+
                 _isDarty = true; // 強制更新
-                await SetPlaceAsync(System.IO.Path.GetDirectoryName(place), place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
+                await SetPlaceAsync(parent, place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
 
                 RaiseSelectedItemChanged(true);
             }

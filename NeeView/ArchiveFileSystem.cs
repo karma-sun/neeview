@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -26,7 +27,7 @@ namespace NeeView
             // システムパスはそのまま
             if (File.Exists(path) || Directory.Exists(path))
             {
-                return ArchiveEntry.Create(path);
+                return new ArchiveEntry(path);
             }
             // アーカイブパスはそのエントリーを返す
             else
@@ -36,7 +37,7 @@ namespace NeeView
                     var archivePath = ArchiverManager.Current.GetExistPathName(path) ?? throw new FileNotFoundException();
                     var entryName = path.Substring(archivePath.Length + 1);
                     var archiver = ArchiverManager.Current.CreateArchiver(archivePath, false);
-                    Debug.WriteLine($"Create Archiver: {archiver.FullPath}");
+                    ////Debug.WriteLine($"Create Archiver: {archiver.FullPath}");
                     return await CreateInnerArchiveEntry(archiver, entryName, token);
                 }
                 catch (FileNotFoundException)
@@ -73,7 +74,7 @@ namespace NeeView
                 if (entry != null)
                 {
                     var subArchiver = await ArchiverManager.Current.CreateArchiverAsync(entry, false, token);
-                    Debug.WriteLine($"Create Archiver: {subArchiver.FullPath}");
+                    ////Debug.WriteLine($"Create Archiver: {subArchiver.FullPath}");
                     var subEntryName = entryName.Substring(entry.RawEntryName.Length + 1);
                     return await CreateInnerArchiveEntry(subArchiver, subEntryName, token);
                 }
@@ -90,8 +91,10 @@ namespace NeeView
         {
             try
             {
-                var entry = await CreateArchiveEntry(path, token);
-                return entry != null;
+                using (var entry = await CreateArchiveEntry(path, token))
+                {
+                    return entry != null;
+                }
             }
             catch(FileNotFoundException)
             {

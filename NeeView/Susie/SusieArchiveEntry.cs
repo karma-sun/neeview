@@ -97,6 +97,7 @@ namespace Susie
             {
                 ms.WriteTo(stream);
             }
+            GC.Collect();
         }
 
         // UNIX時間をDateTimeに変換

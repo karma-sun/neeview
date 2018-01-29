@@ -146,7 +146,12 @@ namespace NeeView
         }
 
 
-        // 無効なページマークを削除
+        /// <summary>
+        /// 無効なページマークを削除.
+        /// 現在の実装ではブックの有無のみ判定
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task RemoveUnlinkedAsync(CancellationToken token)
         {
             // 削除項目収集
@@ -589,7 +594,7 @@ namespace NeeView
             {
                 if (_archivePage == null)
                 {
-                    _archivePage = new ArchivePage(ArchiveEntry.Create(LoosePath.Combine(Place, EntryName)));
+                    _archivePage = new ArchivePage(new ArchiveEntry(LoosePath.Combine(Place, EntryName)));
                     _archivePage.Thumbnail.IsCacheEnabled = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }

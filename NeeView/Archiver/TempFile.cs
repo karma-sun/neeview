@@ -73,8 +73,6 @@ namespace NeeView
                 {
                     if (Path != null && Path.StartsWith(Temporary.TempDirectory)) // 念入りチェック
                     {
-                        Debug.Assert(!TempFileCache.Current.ContainsValue(this));
-
                         if (File.Exists(Path)) File.Delete(Path);
                         Path = null;
                     }

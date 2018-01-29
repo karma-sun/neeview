@@ -15,8 +15,67 @@ namespace NeeView
     /// <summary>
     /// アーカイブエントリ
     /// </summary>
-    public class ArchiveEntry
+    public class ArchiveEntry : IDisposable
     {
+        #region Constructors
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        public ArchiveEntry()
+        {
+        }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="path">初期パス</param>
+        public ArchiveEntry(string path)
+        {
+            this.RawEntryName = path;
+
+            try
+            {
+                var directoryInfo = new DirectoryInfo(path);
+                if (directoryInfo.Exists)
+                {
+                    this.Length = -1;
+                    this.LastWriteTime = directoryInfo.LastWriteTime;
+                    return;
+                }
+
+                var fileInfo = new FileInfo(path);
+                if (fileInfo.Exists)
+                {
+                    this.Length = fileInfo.Length;
+                    this.LastWriteTime = fileInfo.LastWriteTime;
+                    return;
+                }
+            }
+            catch
+            {
+                // 不正なパスが含まれていると通常のファイルシステムでは対応できない。
+                // アーカイブパスの可能性がある。
+            }
+
+            // 実在するパスではない
+            this.IsValid = false;
+
+            // アーカイブパスの場合、ファイル情報は親アーカイブのものにする
+            var parent = ArchiverManager.Current.GetExistPathName(path);
+            if (parent != null)
+            {
+                var parentFileInfo = new FileInfo(parent);
+                this.Length = parentFileInfo.Length;
+                this.LastWriteTime = parentFileInfo.LastWriteTime;
+                this.IsArchivePath = true;
+            }
+        }
+
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// 所属アーカイバー.
         /// nullの場合、このエントリはファイルパスを示す
@@ -130,12 +189,16 @@ namespace NeeView
         /// ファイル更新日
         /// </summary>
         public DateTime? LastWriteTime { get; set; }
-
-
+        
         /// <summary>
         /// ファイルシステム所属判定
         /// </summary>
         public bool IsFileSystem => Archiver == null || Archiver.IsFileSystem;
+
+
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// ファイルシステムでのパスを返す
@@ -247,57 +310,55 @@ namespace NeeView
             return PictureProfile.Current.IsSupported(this.EntryName);
         }
 
-
         /// <summary>
-        /// パスからエントリ作成
+        /// 関連するArchiverをDisposeする
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static ArchiveEntry Create(string path)
+        private void DisporeArchivers()
         {
-            var entry = new ArchiveEntry();
-
-            entry.RawEntryName = path;
-
-            try
+            for (var archiver = this.Archiver; archiver != null; archiver = archiver.Parent)
             {
-                var directoryInfo = new DirectoryInfo(path);
-                if (directoryInfo.Exists)
-                {
-                    entry.Length = -1;
-                    entry.LastWriteTime = directoryInfo.LastWriteTime;
-                    return entry;
-                }
-
-                var fileInfo = new FileInfo(path);
-                if (fileInfo.Exists)
-                {
-                    entry.Length = fileInfo.Length;
-                    entry.LastWriteTime = fileInfo.LastWriteTime;
-                    return entry;
-                }
+                archiver.Dispose();
             }
-            catch
-            {
-                // 不正なパスが含まれていると通常のファイルシステムでは対応できない。
-                // アーカイブパスの可能性がある。
-            }
-
-            // 実在するパスではない
-            entry.IsValid = false;
-
-            // アーカイブパスの場合、ファイル情報は親アーカイブのものにする
-            var parent = ArchiverManager.Current.GetExistPathName(path);
-            if (parent != null)
-            {
-                var parentFileInfo = new FileInfo(parent);
-                entry.Length = parentFileInfo.Length;
-                entry.LastWriteTime = parentFileInfo.LastWriteTime;
-                entry.IsArchivePath = true;
-            }
-
-            return entry;
         }
+
+        #endregion
+
+        #region IDisposable Support
+        private bool disposedValue = false; // 重複する呼び出しを検出するには
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // マネージ状態を破棄します (マネージ オブジェクト)。
+                    DisporeArchivers();
+                }
+
+                // TODO: アンマネージ リソース (アンマネージ オブジェクト) を解放し、下のファイナライザーをオーバーライドします。
+                // TODO: 大きなフィールドを null に設定します。
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: 上の Dispose(bool disposing) にアンマネージ リソースを解放するコードが含まれる場合にのみ、ファイナライザーをオーバーライドします。
+        // ~ArchiveEntry() {
+        //   // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
+        //   Dispose(false);
+        // }
+
+        // このコードは、破棄可能なパターンを正しく実装できるように追加されました。
+        public void Dispose()
+        {
+            // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
+            Dispose(true);
+            // TODO: 上のファイナライザーがオーバーライドされる場合は、次の行のコメントを解除してください。
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+
     }
 
 

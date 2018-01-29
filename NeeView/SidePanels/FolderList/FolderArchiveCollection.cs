@@ -19,7 +19,7 @@ namespace NeeView
     {
         #region Fields
 
-        private Archiver _archvier;
+        private Archiver _archiver;
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace NeeView
         /// <param name="place"></param>
         public FolderArchiveCollection(string place, Archiver archiver) : base(place)
         {
-            _archvier = archiver;
+            _archiver = archiver;
 
             if (archiver == null)
             {
@@ -65,13 +65,13 @@ namespace NeeView
         /// <returns></returns>
         public string GetParentPlace()
         {
-            if (_archvier == null)
+            if (_archiver == null)
             {
                 return ArchiverManager.Current.GetExistPathName(this.Place);
             }
-            else if (_archvier.Parent != null)
+            else if (_archiver.Parent != null)
             {
-                return _archvier.Parent.FullPath;
+                return _archiver.Parent.FullPath;
             }
             else 
             {
@@ -110,7 +110,7 @@ namespace NeeView
             {
                 if (disposing)
                 {
-                    // nop.
+                    _archiver?.Dispose();
                 }
 
                 _disposedValue = true;

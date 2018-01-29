@@ -249,6 +249,9 @@ namespace NeeView
         // nullの場合、この本は無効
         public string Place { get; private set; }
 
+        // この本のアーカイバ
+        public Archiver Archiver { get; private set; }
+
         // 開始ページ
         public string StartEntry { get; private set; }
 
@@ -308,10 +311,11 @@ namespace NeeView
         public async Task LoadCoreAsync(BookAddress address, BookLoadOption option, CancellationToken token)
         {
             Debug.Assert(Place == null);
-            Debug.WriteLine($"OPEN: {address.Place}, {address.EntryName}");
+            Debug.WriteLine($"OPEN: {address.Place}, {address.EntryName}, {address.Archiver.Path}");
 
             // ソリッド書庫の事前展開を許可してアーカイバ再生性
             var archiver = ArchiverManager.Current.CreateArchiver(address.Archiver.Path, address.Archiver.Source, true);
+            archiver.TempFile = archiver.TempFile ?? address.Archiver.TempFile; // TEMPファイル引き継ぎ
             archiver.RootFlag = true;
 
             var start = address.EntryName;
@@ -331,6 +335,7 @@ namespace NeeView
             PagePosition position = FirstPosition();
             int direction = 1;
 
+            this.Archiver = archiver;
             _trashBox.Add(archiver);
 
             this.Pages = await ReadArchiveAsync2(archiver, option, token);

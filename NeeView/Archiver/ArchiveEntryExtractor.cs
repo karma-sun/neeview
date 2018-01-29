@@ -70,32 +70,26 @@ namespace NeeView
         /// <returns></returns>
         public async Task<string> ExtractAsync(string path, CancellationToken token)
         {
-            if (path == null) throw new ArgumentNullException(nameof(path));
-
-            ExtractFileName = path;
-
-            //_action = new Utility.AsynchronousAction();
+            ExtractFileName = path ?? throw new ArgumentNullException(nameof(path));
+            Exception innerException = null;
 
             _action = Utility.Process.ActionAsync((t) =>
             {
-                Entry.ExtractToFile(ExtractFileName, false);
-                //Debug.WriteLine("EXT: Extract done.");
-                Completed?.Invoke(this, new ArchiveEntryExtractorEventArgs() { CancellationToken = t });
+                try
+                {
+                    Entry.ExtractToFile(ExtractFileName, false);
+                    //Debug.WriteLine("EXT: Extract done.");
+                    Completed?.Invoke(this, new ArchiveEntryExtractorEventArgs() { CancellationToken = t });
+                }
+                catch (Exception e)
+                {
+                    innerException = e;
+                }
             },
             token);
 
             await Utility.Process.WaitAsync(_action, token);
-
-#if false
-            //await _action.ExecuteAsync((t) =>
-            await _action.Run((t)=>
-            {
-                Entry.ExtractToFile(ExtractFileName, false);
-                //Debug.WriteLine("EXT: Extract done.");
-                Completed?.Invoke(this, new ArchiveEntryExtractorEventArgs() { CancellationToken = t });
-            },
-            token);
-#endif
+            if (innerException != null) throw innerException;
 
             return ExtractFileName;
         }

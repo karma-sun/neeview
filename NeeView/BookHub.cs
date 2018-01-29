@@ -524,37 +524,39 @@ namespace NeeView
             try
             {
                 // address
-                var address = new BookAddress();
-                await address.InitializeAsync(args.Path, token);
-
-                // Now Loading ON
-                NotifyLoading(args.Path);
-
-                // フォルダーリスト更新
-                if (args.IsRefleshFolderList)
+                using (var address = new BookAddress())
                 {
-                    var parent = address.Archiver.GetParentPlace();
-                    App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = address.Place, Parent = address.Archiver.GetParentPlace(), isKeepPlace = false }));
+                    await address.InitializeAsync(args.Path, token);
+
+                    // Now Loading ON
+                    NotifyLoading(args.Path);
+
+                    // フォルダーリスト更新
+                    if (args.IsRefleshFolderList)
+                    {
+                        var parent = address.Archiver.GetParentPlace();
+                        App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = address.Place, Parent = address.Archiver.GetParentPlace(), isKeepPlace = false }));
+                    }
+                    else if ((args.Option & BookLoadOption.SelectFoderListMaybe) != 0)
+                    {
+                        App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = address.Place, Parent = address.Archiver.GetParentPlace(), isKeepPlace = true }));
+                    }
+
+                    // 履歴リスト更新
+                    if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
+                    {
+                        App.Current?.Dispatcher.Invoke(() => HistoryListSync?.Invoke(this, address.Place));
+                    }
+
+                    // 本の設定
+                    var unit = BookMementoCollection.Current.Find(address.Place);
+                    var setting = _bookSetting.GetSetting(unit, address.Place, args.Option);
+
+                    address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
+
+                    // Load本体
+                    await LoadAsyncCore(address, args.Option, setting, unit, token);
                 }
-                else if ((args.Option & BookLoadOption.SelectFoderListMaybe) != 0)
-                {
-                    App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = address.Place, Parent = address.Archiver.GetParentPlace(), isKeepPlace = true }));
-                }
-
-                // 履歴リスト更新
-                if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
-                {
-                    App.Current?.Dispatcher.Invoke(() => HistoryListSync?.Invoke(this, address.Place));
-                }
-
-                // 本の設定
-                var unit = BookMementoCollection.Current.Find(address.Place);
-                var setting = _bookSetting.GetSetting(unit, address.Place, args.Option);
-
-                address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
-
-                // Load本体
-                await LoadAsyncCore(address, args.Option, setting, unit, token);
 
                 // Now Loading OFF
                 ////NotifyLoading(null);

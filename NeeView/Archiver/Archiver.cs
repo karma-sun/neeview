@@ -342,6 +342,7 @@ namespace NeeView
         // 廃棄処理
         public virtual void Dispose()
         {
+            this.TempFile = null;
         }
     }
 

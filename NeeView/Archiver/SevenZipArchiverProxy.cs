@@ -51,6 +51,11 @@ namespace NeeView
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
+            if (_archiver != null)
+            {
+                return _archiver.GetEntries(token);
+            }
+
             var profile = SevenZipArchiverProfile.Current;
             var fileInfo = new FileInfo(this.Path);
             bool isExtract = _isAll && fileInfo.Length / (1024 * 1024) < profile.PreExtractSolidSize && (profile.IsPreExtract || IsSolid());

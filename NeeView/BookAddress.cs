@@ -16,6 +16,12 @@ namespace NeeView
     /// </summary>
     public class BookAddress : IDisposable
     {
+        #region Fields
+
+        private ArchiveEntry _archiveEntry;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -52,16 +58,17 @@ namespace NeeView
         /// <returns></returns>
         public async Task InitializeAsync(string path, CancellationToken token)
         {
-            var entry = await ArchiveFileSystem.CreateArchiveEntry(path, token);
-            if (ArchiverManager.Current.IsSupported(entry.FullPath))
+            _archiveEntry = await ArchiveFileSystem.CreateArchiveEntry(path, token);
+
+            if (ArchiverManager.Current.IsSupported(_archiveEntry.FullPath))
             {
-                this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(entry, false, token);
+                this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, false, token);
                 this.EntryName = null;
             }
             else
             {
-                this.Archiver = entry.Archiver ?? new FolderArchive(Path.GetDirectoryName(entry.FullPath), null);
-                this.EntryName = entry.EntryName;
+                this.Archiver = _archiveEntry.Archiver ?? new FolderArchive(Path.GetDirectoryName(_archiveEntry.FullPath), null);
+                this.EntryName = _archiveEntry.EntryName;
             }
 
             // このアーカイブをROOTとする
@@ -73,13 +80,8 @@ namespace NeeView
         /// </summary>
         private void Terminate()
         {
-            var archiver = this.Archiver;
-            while(archiver != null)
-            {
-                var parent = archiver.Parent;
-                archiver.Dispose();
-                archiver = parent;
-            }
+            this.Archiver?.Dispose();
+            _archiveEntry?.Dispose();
         }
 
         #region IDisposable Support

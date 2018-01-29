@@ -37,7 +37,7 @@ namespace NeeView
             {
                 var tempFile = _caches.ContainsKey(key) ? _caches[key] : null;
                 tempFile?.UpdateLastAccessTime();
-                if (tempFile != null) Debug.WriteLine($"Cache Get: {key}");
+                ////if (tempFile != null) Debug.WriteLine($"Cache Get: {key}");
                 return tempFile;
             }
         }
@@ -55,7 +55,7 @@ namespace NeeView
 
             lock (_lock)
             {
-                Debug.WriteLine($"Cache Add: {key}");
+                ////Debug.WriteLine($"Cache Add: {key}");
                 tempFile.UpdateLastAccessTime();
                 _caches[key] = tempFile;
 
@@ -63,7 +63,7 @@ namespace NeeView
                 {
                     var old = _caches.OrderBy(e => e.Value.LastAccessTime).First();
 
-                    Debug.WriteLine($"Cache Remove: {old.Key}");
+                    ////Debug.WriteLine($"Cache Remove: {old.Key}");
                     _caches.Remove(old.Key);
                 }
             }

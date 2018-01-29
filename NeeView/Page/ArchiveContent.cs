@@ -93,6 +93,7 @@ namespace NeeView
                 Debug.WriteLine($"LoadThumbnail: {e.Message}");
                 Thumbnail.Initialize(null);
             }
+
         }
 
         /// <summary>
@@ -104,15 +105,16 @@ namespace NeeView
         {
             if (this.Entry.IsArchivePath)
             {
-                // TODO: このアーカイブの開放処理
-                var entry = await ArchiveFileSystem.CreateArchiveEntry(this.Entry.FullPath, token);
-                if (entry.IsArchive())
+                using (var entry = await ArchiveFileSystem.CreateArchiveEntry(this.Entry.FullPath, token))
                 {
-                    return await LoadArchivePictureAsync(entry, token);
-                }
-                else
-                {
-                    return await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail, token);
+                    if (entry.IsArchive())
+                    {
+                        return await LoadArchivePictureAsync(entry, token);
+                    }
+                    else
+                    {
+                        return await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail, token);
+                    }
                 }
             }
             else

@@ -70,10 +70,15 @@ namespace NeeView
                 this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, false, token);
                 this.EntryName = null;
             }
+            else if (_archiveEntry.Archiver != null)
+            {
+                this.Archiver = _archiveEntry.Archiver;
+                this.EntryName = _archiveEntry.EntryName;
+            }
             else
             {
-                this.Archiver = _archiveEntry.Archiver ?? new FolderArchive(Path.GetDirectoryName(_archiveEntry.FullPath), null);
-                this.EntryName = _archiveEntry.EntryName;
+                this.Archiver = new FolderArchive(Path.GetDirectoryName(_archiveEntry.FullPath), null);
+                this.EntryName = Path.GetFileName(_archiveEntry.EntryName);
             }
 
             // このアーカイブをROOTとする

@@ -25,11 +25,31 @@ namespace NeeView
         }
 
         //
-        private static Dictionary<ConverterType, Func<string, InputGesture>> s_converter = new Dictionary<ConverterType, Func<string, InputGesture>>
+        private static readonly Dictionary<ConverterType, Func<string, InputGesture>> _converter = new Dictionary<ConverterType, Func<string, InputGesture>>
         {
             [ConverterType.Key] = ConvertFromKeyGestureString,
             [ConverterType.Mouse] = ConvertFromMouseGestureString,
             [ConverterType.MouseWheel] = ConvertFromMouseWheelGestureString,
+        };
+
+        //
+        private static readonly List<string> _extraKeys = new List<string>
+        {
+            Key.NumPad0.ToString(),
+            Key.NumPad1.ToString(),
+            Key.NumPad2.ToString(),
+            Key.NumPad3.ToString(),
+            Key.NumPad4.ToString(),
+            Key.NumPad5.ToString(),
+            Key.NumPad6.ToString(),
+            Key.NumPad7.ToString(),
+            Key.NumPad8.ToString(),
+            Key.NumPad9.ToString(),
+            Key.Divide.ToString(),
+            Key.Multiply.ToString(),
+            Key.Subtract.ToString(),
+            Key.Add.ToString(),
+            Key.Decimal.ToString(),
         };
 
         //
@@ -52,7 +72,7 @@ namespace NeeView
 
             foreach (var t in order)
             {
-                var gesture = s_converter[t](source);
+                var gesture = _converter[t](source);
                 if (gesture != null) return gesture;
             }
 
@@ -90,14 +110,17 @@ namespace NeeView
         /// <returns>InputGesture。変換出来なかった場合はnull</returns>
         public static InputGesture ConvertFromKeyGestureString(string source)
         {
-            try
+            if (!_extraKeys.Contains(source))
             {
-                KeyGestureConverter converter = new KeyGestureConverter();
-                return (KeyGesture)converter.ConvertFromString(source);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("(この例外は無視): " + e.Message);
+                try
+                {
+                    KeyGestureConverter converter = new KeyGestureConverter();
+                    return (KeyGesture)converter.ConvertFromString(source);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("(この例外は無視): " + e.Message);
+                }
             }
 
             try

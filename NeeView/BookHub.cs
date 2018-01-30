@@ -346,7 +346,17 @@ namespace NeeView
             this.BookChanged +=
                 (s, e) =>
                 {
-                    App.Current?.Dispatcher.Invoke(() => InfoMessage.Current.SetMessage(InfoMessageType.Notify, LoosePath.GetFileName(Address), null, 2.0, e));
+                    App.Current?.Dispatcher.Invoke(() =>
+                    {
+                        if (this.Book?.NotFoundStartPage != null)
+                        {
+                            InfoMessage.Current.SetMessage(InfoMessageType.Notify, $"{LoosePath.GetFileName(this.Book.NotFoundStartPage)} が見つかりません", null, 2.0);
+                        }
+                        else
+                        {
+                            InfoMessage.Current.SetMessage(InfoMessageType.Notify, LoosePath.GetFileName(Address), null, 2.0, e);
+                        }
+                    });
                 };
 
             BookHistory.Current.HistoryChanged += (s, e) => HistoryChanged?.Invoke(s, e);
@@ -526,7 +536,7 @@ namespace NeeView
                 // address
                 using (var address = new BookAddress())
                 {
-                    await address.InitializeAsync(args.Path, token);
+                    await address.InitializeAsync(args.Path, args.StartEntry, token);
 
                     // Now Loading ON
                     NotifyLoading(args.Path);

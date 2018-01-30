@@ -125,6 +125,9 @@ namespace NeeView
         // 最初のコンテンツ表示フラグ
         public ManualResetEventSlim ContentLoaded { get; } = new ManualResetEventSlim();
 
+        // 見つからなかった開始ページ名。通知用。
+        public string NotFoundStartPage { get; private set; }
+
         // 横長ページを分割する
         private bool _isSupportedDividePage;
         public bool IsSupportedDividePage
@@ -367,6 +370,10 @@ namespace NeeView
             else
             {
                 int index = (start != null) ? Pages.FindIndex(e => e.FullPath == start) : 0;
+                if (index < 0)
+                {
+                    this.NotFoundStartPage = start;
+                }
                 position = index >= 0 ? new PagePosition(index, 0) : FirstPosition();
                 direction = 1;
             }

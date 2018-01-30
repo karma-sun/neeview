@@ -56,11 +56,16 @@ namespace NeeView
         /// <param name="path"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task InitializeAsync(string path, CancellationToken token)
+        public async Task InitializeAsync(string path, string entryName, CancellationToken token)
         {
             _archiveEntry = await ArchiveFileSystem.CreateArchiveEntry(path, token);
 
-            if (ArchiverManager.Current.IsSupported(_archiveEntry.FullPath))
+            if (entryName != null)
+            {
+                this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, false, token);
+                this.EntryName = entryName;
+            }
+            else if (ArchiverManager.Current.IsSupported(_archiveEntry.FullPath))
             {
                 this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, false, token);
                 this.EntryName = null;

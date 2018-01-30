@@ -273,6 +273,10 @@ namespace NeeView
             set { if (_isArchiveRecursive != value) { _isArchiveRecursive = value; RaisePropertyChanged(); } }
         }
 
+        /// <summary>
+        /// アーカイブ内アーカイブの履歴保存
+        /// </summary>
+        public bool IsInnerArchiveHistoryEnabled { get; set; }
 
 
         /// <summary>
@@ -750,7 +754,10 @@ namespace NeeView
         // 履歴登録可
         private bool CanHistory()
         {
-            return (Book != null && Book.Pages.Count > 0 && (_historyEntry || Book.PageChangeCount > this.HistoryEntryPageCount || Book.IsPageTerminated));
+            return Book != null
+                && Book.Pages.Count > 0
+                && (_historyEntry || Book.PageChangeCount > this.HistoryEntryPageCount || Book.IsPageTerminated)
+                && (IsInnerArchiveHistoryEnabled || Book.Archiver?.Parent == null);
         }
 
         // 
@@ -899,6 +906,9 @@ namespace NeeView
             [DataMember]
             public bool IsArchiveRecursive { get; set; }
 
+            [DataMember]
+            public bool IsInnerArchiveHistoryEnabled { get; set; }
+
             #region Obslete
 
             [Obsolete, DataMember(EmitDefaultValue = false)]
@@ -998,6 +1008,7 @@ namespace NeeView
             memento.IsAutoRecursiveWithAllFiles = IsAutoRecursiveWithAllFiles;
             memento.HistoryEntryPageCount = HistoryEntryPageCount;
             memento.IsArchiveRecursive = IsArchiveRecursive;
+            memento.IsInnerArchiveHistoryEnabled = IsInnerArchiveHistoryEnabled;
 
             return memento;
         }
@@ -1012,6 +1023,7 @@ namespace NeeView
             IsAutoRecursiveWithAllFiles = memento.IsAutoRecursiveWithAllFiles;
             HistoryEntryPageCount = memento.HistoryEntryPageCount;
             IsArchiveRecursive = memento.IsArchiveRecursive;
+            IsInnerArchiveHistoryEnabled = memento.IsInnerArchiveHistoryEnabled;
         }
 
 

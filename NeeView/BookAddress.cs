@@ -51,12 +51,13 @@ namespace NeeView
         /// <summary>
         /// 初期化(必須)。
         /// アーカイブ展開等を含むため、非同期処理。
-        /// TODO: 自動再帰の場合のEntryName
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="token"></param>
+        /// <param name="path">入力パス</param>
+        /// <param name="entryName">開始ページ名</param>
+        /// <param name="isArchiveRecursive">アーカイブ自動展開</param>
+        /// <param name="token">キャンセルトークン</param>
         /// <returns></returns>
-        public async Task InitializeAsync(string path, string entryName, CancellationToken token)
+        public async Task InitializeAsync(string path, string entryName, bool isArchiveRecursive, CancellationToken token)
         {
             _archiveEntry = await ArchiveFileSystem.CreateArchiveEntry(path, token);
 
@@ -72,8 +73,16 @@ namespace NeeView
             }
             else if (_archiveEntry.Archiver != null)
             {
-                this.Archiver = _archiveEntry.Archiver;
-                this.EntryName = _archiveEntry.EntryName;
+                if (isArchiveRecursive)
+                {
+                    this.Archiver = _archiveEntry.RootArchiver;
+                    this.EntryName = _archiveEntry.EntryFullName;
+                }
+                else
+                {
+                    this.Archiver = _archiveEntry.Archiver;
+                    this.EntryName = _archiveEntry.EntryName;
+                }
             }
             else
             {

@@ -540,7 +540,7 @@ namespace NeeView
                 // address
                 using (var address = new BookAddress())
                 {
-                    await address.InitializeAsync(args.Path, args.StartEntry, token);
+                    await address.InitializeAsync(args.Path, args.StartEntry, this.IsArchiveRecursive, token);
 
                     // Now Loading ON
                     NotifyLoading(args.Path);

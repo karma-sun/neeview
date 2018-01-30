@@ -594,7 +594,7 @@ namespace NeeView
             {
                 if (_archivePage == null)
                 {
-                    _archivePage = new ArchivePage(new ArchiveEntry(LoosePath.Combine(Place, EntryName)));
+                    _archivePage = new ArchivePage(new ArchiveEntry(LoosePath.Combine(Place, EntryName))); // TODO: 重くて固まる！
                     _archivePage.Thumbnail.IsCacheEnabled = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }

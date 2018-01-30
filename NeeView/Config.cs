@@ -93,6 +93,11 @@ namespace NeeView
         public string CompanyName { get; private set; }
 
         /// <summary>
+        /// ソリューション名
+        /// </summary>
+        public string SolutionName => "NeeView";
+
+        /// <summary>
         /// タイトル名
         /// </summary>
         public string AssemblyTitle { get; private set; }
@@ -186,7 +191,7 @@ namespace NeeView
         /// <returns></returns>
         private string GetFileSystemPath(Environment.SpecialFolder folder, bool createFolder)
         {
-            string path = System.IO.Path.Combine(Environment.GetFolderPath(folder), CompanyName, AssemblyProduct);
+            string path = System.IO.Path.Combine(Environment.GetFolderPath(folder), CompanyName, SolutionName);
 
             if (this.IsAppxPackage)
             {

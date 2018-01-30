@@ -78,23 +78,29 @@ function Replace-Content
 
 #--------------------
 # set AssemblyInfo.cs
-function Set-AssemblyVersion($assemblyInfoFile, $title, $version)
+function Set-AssemblyVersion($projectFile, $assemblyInfoFile, $title, $version)
 {
+	$content = Get-Content $projectFile
+	$content = $content -replace "<AssemblyName>.+</AssemblyName>", "<AssemblyName>$title</AssemblyName>"
+	$content | Out-File -Encoding UTF8 $projectFile
+
     $content = Get-Content $assemblyInfoFile
-   
     $content = $content -replace "AssemblyTitle\(.+\)", "AssemblyTitle(`"$title`")"
+    $content = $content -replace "AssemblyProduct\(.+\)", "AssemblyProduct(`"$title`")"
     $content = $content -replace "AssemblyVersion\(.+\)", "AssemblyVersion(`"$version`")"
     $content = $content -replace "AssemblyFileVersion\(.+\)", "AssemblyFileVersion(`"$version`")"
-
 	$content | Out-File -Encoding UTF8 $assemblyInfoFile
 }
 
 #--------------------
 # reset AssemblyInfo.cs
-function Reset-AssemblyInfo($assemblyInfoFile)
+function Reset-AssemblyInfo($projectFile, $assemblyInfoFile)
 {
+	& git checkout $projectFile 
 	& git checkout $assemblyInfoFile 
 }
+
+
 
 
 
@@ -104,6 +110,7 @@ $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
 $solutionDir = Convert-Path "$scriptPath\.."
 $solution = "$solutionDir\$product.sln"
 $projectDir = "$solutionDir\$product"
+$projectFile = "$projectDir\$product.csproj"
 $productx86Dir = "$projectDir\bin\x86\$config"
 $productX64Dir = "$projectDir\bin\$config"
 $assemblyInfoFile = "$projectDir\Properties\AssemblyInfo.cs"
@@ -116,12 +123,12 @@ function Build-Project($arch, $assemblyVersion)
 	if ($arch -eq "x86")
 	{
 		$platform = "x86"
-		Set-AssemblyVersion $assemblyInfoFile "NeeViewS" $assemblyVersion
+		Set-AssemblyVersion $projectFile $assemblyInfoFile "${product}S" $assemblyVersion
 	}
 	else
 	{
 		$platform = "Any CPU"
-		Set-AssemblyVersion $assemblyInfoFile "NeeView" $assemblyVersion
+		Set-AssemblyVersion $projectFile $assemblyInfoFile "${product}" $assemblyVersion
 	}
 
 	$vswhere = "$solutionDir\Tools\vswhere.exe"
@@ -149,8 +156,8 @@ function New-Package($productDir, $packageDir)
 	$temp = New-Item $packageLibraryDir -ItemType Directory
 
 	# copy
-	Copy-Item "$productDir\$product.exe" $packageDir
-	Copy-Item "$productDir\$product.exe.config" $packageDir
+	Copy-Item "$productDir\*.exe" $packageDir
+	Copy-Item "$productDir\*.exe.config" $packageDir
 	Copy-Item "$productDir\*.dll" $packageLibraryDir
 
 	#Copy-Item "$productX64Dir\$product.exe" "$packageDir\${product}64.exe"
@@ -196,8 +203,8 @@ function New-Readme($packageDir, $template)
 function New-Zip
 {
 	Copy-Item $packageX64Dir $packageDir -Recurse
-	Copy-Item "$packageX86Dir\$product.exe" "$packageDir\${product}S.exe"
-	Copy-Item "$packageX86Dir\$product.exe.config" "$packageDir\${product}S.exe.config"
+	Copy-Item "$packageX86Dir\*.exe" $packageDir
+	Copy-Item "$packageX86Dir\*.exe.config" $packageDir
 
 	Compress-Archive $packageDir -DestinationPath $packageZip
 }
@@ -441,7 +448,7 @@ Remove-BuildObjects
 Write-Host "`n[Build] ...`n" -fore Cyan
 Build-Project "x86" $assemblyVersion
 Build-Project "x64" $assemblyVersion
-Reset-AssemblyInfo $assemblyInfoFile
+Reset-AssemblyInfo  $projectFile $assemblyInfoFile
 
 #
 Write-Host "`n[Package] ...`n" -fore Cyan

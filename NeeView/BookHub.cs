@@ -532,6 +532,9 @@ namespace NeeView
             // 本の変更開始通知
             App.Current?.Dispatcher.Invoke(() => BookChanging?.Invoke(this, null));
 
+            // 現在の設定を記憶
+            var lastBookMemento = this.Book?.Place != null ? this.Book.CreateMemento() : null;
+
             // 現在の本を開放
             await UnloadAsync(new BookHubCommandUnloadArgs() { IsClearViewContent = false });
 
@@ -564,7 +567,8 @@ namespace NeeView
 
                     // 本の設定
                     var unit = BookMementoCollection.Current.Find(address.Place);
-                    var setting = _bookSetting.GetSetting(unit, address.Place, args.Option);
+                    var memory = _bookSetting.CreateLastestBookMemento(address.Place, lastBookMemento, unit);
+                    var setting = _bookSetting.GetSetting(address.Place, memory, args.Option);
 
                     address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
 
@@ -674,10 +678,10 @@ namespace NeeView
             }
 
             // リカーシブ設定
-            if ((option & BookLoadOption.Recursive) == BookLoadOption.Recursive)
-            {
-                book.IsRecursiveFolder = true;
-            }
+            ////if (option.HasFlag(BookLoadOption.Recursive) && !option.HasFlag(BookLoadOption.NotRecursive))
+            ////{
+            ////    book.IsRecursiveFolder = true;
+            ////}
 
             // 最初の自動再帰設定
             if (IsAutoRecursive)
@@ -878,6 +882,27 @@ namespace NeeView
             RequestLoad(Address, null, options, true);
         }
 
+
+        /// <summary>
+        /// 最新の本の設定を取得
+        /// </summary>
+        /// <param name="place">場所</param>
+        /// <param name="option"></param>
+        /// <returns></returns>
+        public Book.Memento GetLastestBookMemento(string place, BookLoadOption option)
+        {
+            if (place != null)
+            {
+                var bookMemento = this.Book?.Place == place ? this.Book.CreateMemento() : null;
+                var unit = BookMementoCollection.Current.Find(place);
+                var memory = _bookSetting.CreateLastestBookMemento(place, bookMemento, unit);
+                return _bookSetting.GetSetting(place, memory, option);
+            }
+            else
+            {
+                return _bookSetting.GetSetting(null, null, option);
+            }
+        }
 
         #region Memento
 

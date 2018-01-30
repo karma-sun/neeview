@@ -68,43 +68,65 @@ namespace NeeView
         private Book.Memento GetBookMementoDefault() => IsUseBookMementoDefault ? BookMementoDefault : BookMemento;
 
 
+        /// <summary>
+        /// 最新の設定を取得
+        /// </summary>
+        /// <param name="place">場所</param>
+        /// <param name="lastest">現在の情報</param>
+        /// <param name="unit">過去の情報</param>
+        /// <returns></returns>
+        public Book.Memento CreateLastestBookMemento(string place, Book.Memento lastest, BookMementoUnit unit)
+        {
+            Book.Memento memento = null;
+
+            // 現在開いているブック
+            if (lastest?.Place == place)
+            {
+                memento = lastest.Clone();
+            }
+            else
+            {
+                // 過去の情報
+                unit = unit ?? BookMementoCollection.Current.Find(place);
+                if (unit != null && unit.Memento.Place == place)
+                {
+                    // ブックマーク
+                    if (unit.BookmarkNode != null)
+                    {
+                        memento = unit.Memento.Clone();
+                    }
+                    // 履歴
+                    else if (unit.HistoryNode != null)
+                    {
+                        memento = unit.Memento.Clone();
+                    }
+                }
+            }
+
+            return memento;
+        }
 
         // 設定をブックマーク、履歴から取得する
-        public Book.Memento GetSetting(BookMementoUnit unit, string place, BookLoadOption option)
+        public Book.Memento GetSetting(string place, Book.Memento memory, BookLoadOption option)
         {
             // 既定の設定
             var memento = GetBookMementoDefault().Clone();
             memento.IsRecursiveFolder = option.HasFlag(BookLoadOption.DefaultRecursive);
             memento.Page = null;
 
-            if (unit != null)
+            // 過去の情報の反映
+            if (memory != null && memory.Place == place)
             {
-                Book.Memento memory = null;
-
-                // ブックマーク
-                if (unit.BookmarkNode != null)
+                if ((option & BookLoadOption.Resume) == BookLoadOption.Resume)
                 {
-                    memory = unit.Memento.Clone();
+                    memento = memory.Clone();
                 }
-                // 履歴
-                else if (unit.HistoryNode != null)
+                else
                 {
-                    memory = unit.Memento.Clone();
+                    memento.Write(HistoryMementoFilter, memory);
                 }
 
-                if (memory != null)
-                {
-                    if ((option & BookLoadOption.Resume) == BookLoadOption.Resume)
-                    {
-                        memento = memory;
-                    }
-                    else
-                    {
-                        memento.Write(HistoryMementoFilter, memory);
-                    }
-
-                    return memento;
-                }
+                return memento;
             }
 
             // 履歴なし

@@ -225,6 +225,7 @@
                     <EventSetter Event="PreviewMouseDown" Handler="FolderListItem_MouseDown"/>
                     <EventSetter Event="PreviewMouseUp" Handler="FolderListItem_MouseUp"/>
                     <EventSetter Event="PreviewMouseMove" Handler="FolderListItem_MouseMove"/>
+                    <EventSetter Event="ContextMenuOpening" Handler="FolderListItem_ContextMenuOpening"/>
                     <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -233,7 +234,7 @@
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu>
-                                <MenuItem Header="サブフォルダーを読み込む" Command="{x:Static local:FolderListBox.LoadWithRecursiveCommand}"/>
+                                <MenuItem Header="サブフォルダーを読み込む" Command="{x:Static local:FolderListBox.LoadWithRecursiveCommand}" IsChecked="{Binding IsRecursived}"/>
                                 <Separator/>
                                 <MenuItem Header="エクスプローラーで開く" Command="{x:Static local:FolderListBox.OpenExplorerCommand}"/>
                                 <MenuItem Header="コピー(C)" Command="{x:Static local:FolderListBox.CopyCommand}"/>

@@ -136,6 +136,31 @@ namespace NeeView
 
         public bool IsReady { get; set; }
 
+
+        /// <summary>
+        /// IsRecursived property.
+        /// フォルダーリストのコンテキストメニュー用
+        /// </summary>
+        private bool _isRecursived;
+        public bool IsRecursived
+        {
+            get { return _isRecursived; }
+            set { if (_isRecursived != value) { _isRecursived = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// IsRecursived 更新
+        /// </summary>
+        /// <param name="isDefaultRecursive"></param>
+        public void UpdateIsRecursived(bool isDefaultRecursive)
+        {
+            var option = isDefaultRecursive ? BookLoadOption.DefaultRecursive : BookLoadOption.None;
+            var memento = BookHub.Current.GetLastestBookMemento(this.TargetPath, option);
+            this.IsRecursived = memento.IsRecursiveFolder;
+        }
+
+
+
         public static bool IsVisibleHistoryMark { get; set; } = true;
         public static bool IsVisibleBookmarkMark { get; set; } = true;
 

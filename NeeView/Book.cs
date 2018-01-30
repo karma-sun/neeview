@@ -323,6 +323,17 @@ namespace NeeView
 
             var start = address.EntryName;
 
+            // リカーシブオプションフラグ
+            if (option.HasFlag(BookLoadOption.NotRecursive))
+            {
+                IsRecursiveFolder = false;
+                option &= ~BookLoadOption.Recursive;
+            }
+            else if (option.HasFlag(BookLoadOption.Recursive))
+            {
+                IsRecursiveFolder = true;
+            }
+
             // リカーシブフラグ
             if (IsRecursiveFolder)
             {

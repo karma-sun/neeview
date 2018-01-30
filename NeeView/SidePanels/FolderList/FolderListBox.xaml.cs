@@ -108,7 +108,10 @@ namespace NeeView
         private void LoadWithRecursive_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            _vm.Model.LoadBook(item.TargetPath, BookLoadOption.Recursive);
+
+            // サブフォルダー読み込み状態を反転する
+            var option = item.IsRecursived ? BookLoadOption.NotRecursive : BookLoadOption.Recursive;
+            _vm.Model.LoadBook(item.TargetPath, option);
         }
 
         /// <summary>
@@ -500,6 +503,23 @@ namespace NeeView
         {
             // 一時的にドラッグ禁止
             ////_vm.Drag_MouseMove(sender, e);
+        }
+
+
+        /// <summary>
+        /// コンテキストメニュー開始前イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FolderListItem_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var item = (sender as ListBoxItem)?.Content as FolderItem;
+            if (item != null)
+            {
+                // サブフォルダー読み込みの状態を更新
+                var isDefaultRecursive = _vm.FolderCollection != null ? _vm.FolderCollection.FolderParameter.IsFolderRecursive : false;
+                item.UpdateIsRecursived(isDefaultRecursive);
+            }
         }
 
         #endregion

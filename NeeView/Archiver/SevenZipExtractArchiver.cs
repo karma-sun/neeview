@@ -40,10 +40,10 @@ namespace NeeView
 
         #region Properties
 
-        public override string ToString() => "7zip.dll extractor";
+        public override string ToString() => "7z.dll extractor";
 
         //
-        public override bool IsFileSystem { get; } = true;
+        public override bool IsFileSystem { get; } = false;
 
         #endregion
 

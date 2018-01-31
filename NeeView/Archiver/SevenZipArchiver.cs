@@ -156,7 +156,7 @@ namespace NeeView
     {
         public override string ToString()
         {
-            return "7zip.dll";
+            return "7z.dll";
         }
 
 

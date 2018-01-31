@@ -36,7 +36,7 @@ namespace NeeView
                 {
                     var archivePath = ArchiverManager.Current.GetExistPathName(path) ?? throw new FileNotFoundException();
                     var entryName = path.Substring(archivePath.Length + 1);
-                    var archiver = ArchiverManager.Current.CreateArchiver(archivePath, false);
+                    var archiver = ArchiverManager.Current.CreateArchiver(archivePath, false, false);
                     ////Debug.WriteLine($"Create Archiver: {archiver.FullPath}");
                     return await CreateInnerArchiveEntry(archiver, entryName, token);
                 }
@@ -73,7 +73,7 @@ namespace NeeView
                 entry = entries.GetEntry(path);
                 if (entry != null)
                 {
-                    var subArchiver = await ArchiverManager.Current.CreateArchiverAsync(entry, false, token);
+                    var subArchiver = await ArchiverManager.Current.CreateArchiverAsync(entry, false, false, token);
                     ////Debug.WriteLine($"Create Archiver: {subArchiver.FullPath}");
                     var subEntryName = entryName.Substring(entry.RawEntryName.Length + 1);
                     return await CreateInnerArchiveEntry(subArchiver, subEntryName, token);

@@ -98,7 +98,7 @@ namespace NeeView
             {
                 if (_archivePage == null)
                 {
-                    _archivePage = new ArchivePage(new ArchiveEntry(Memento.Place));
+                    _archivePage = new ArchivePage(Memento.Place);
                     _archivePage.Thumbnail.IsCacheEnabled = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }

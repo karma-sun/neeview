@@ -29,7 +29,7 @@ namespace NeeView
 
         #region Constructors
 
-        public SevenZipArchiverProxy(string path, ArchiveEntry source, bool isAll) : base(path, source)
+        public SevenZipArchiverProxy(string path, ArchiveEntry source, bool isRoot, bool isAll) : base(path, source, isRoot)
         {
             SevenZipArchiver.InitializeLibrary();
             _source = source;
@@ -65,7 +65,7 @@ namespace NeeView
                 Debug.WriteLine($"Pre extract: {this.Path}");
                 try
                 {
-                    _archiver = new SevenZipExtractArchiver(this.Path, _source);
+                    _archiver = new SevenZipExtractArchiver(this.Path, _source, this.RootFlag);
                     return _archiver.GetEntries(token);
                 }
                 catch (OperationCanceledException)
@@ -84,7 +84,7 @@ namespace NeeView
                 }
             }
 
-            _archiver = new SevenZipArchiver(this.Path, _source);
+            _archiver = new SevenZipArchiver(this.Path, _source, this.RootFlag);
             return _archiver.GetEntries(token);
         }
 
@@ -118,6 +118,16 @@ namespace NeeView
             if (_archiver == null) throw new ApplicationException("Not initialized.");
 
             _archiver.ExtractToFile(entry, exportFileName, isOverwrite);
+        }
+
+        //
+        public override void SetRootFlag(bool flag)
+        {
+            base.SetRootFlag(flag);
+            if (_archiver != null)
+            {
+                _archiver.SetRootFlag(flag);
+            }
         }
 
         //

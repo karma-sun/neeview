@@ -31,7 +31,7 @@ namespace NeeView
         private bool _isDisposed;
 
         // コンストラクタ
-        public SusieArchiver(string path, ArchiveEntry source) : base(path, source)
+        public SusieArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
         {
         }
 

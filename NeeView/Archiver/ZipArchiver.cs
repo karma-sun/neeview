@@ -30,7 +30,7 @@ namespace NeeView
         }
 
         // コンストラクタ
-        public ZipArchiver(string path, ArchiveEntry source) : base(path, source)
+        public ZipArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
         {
         }
 

@@ -758,7 +758,7 @@ namespace NeeView
             {
                 using (var entry = await ArchiveFileSystem.CreateArchiveEntry(_place, CancellationToken.None))
                 {
-                    var collection = CreateArchiveCollection(_place, await ArchiverManager.Current.CreateArchiverAsync(entry, false, CancellationToken.None));
+                    var collection = CreateArchiveCollection(_place, await ArchiverManager.Current.CreateArchiverAsync(entry, false, false, CancellationToken.None));
                     InitializeCollectionEvent(collection);
                     this.FolderCollection = collection;
                 }

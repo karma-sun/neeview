@@ -317,9 +317,8 @@ namespace NeeView
             Debug.WriteLine($"OPEN: {address.Place}, {address.EntryName}, {address.Archiver.Path}");
 
             // ソリッド書庫の事前展開を許可してアーカイバ再生性
-            var archiver = ArchiverManager.Current.CreateArchiver(address.Archiver.Path, address.Archiver.Source, true);
+            var archiver = ArchiverManager.Current.CreateArchiver(address.Archiver.Path, address.Archiver.Source, true, true);
             archiver.TempFile = archiver.TempFile ?? address.Archiver.TempFile; // TEMPファイル引き継ぎ
-            archiver.RootFlag = true;
 
             var start = address.EntryName;
 

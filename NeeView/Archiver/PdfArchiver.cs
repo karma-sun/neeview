@@ -36,7 +36,7 @@ namespace NeeView
         #region Constructors
 
         // コンストラクタ
-        public PdfArchiver(string path, ArchiveEntry source) : base(path, source)
+        public PdfArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
         {
         }
 

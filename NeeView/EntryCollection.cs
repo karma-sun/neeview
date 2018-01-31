@@ -333,13 +333,13 @@ namespace NeeView
             Archiver archiver;
             if (entry.IsFileSystem)
             {
-                archiver = ArchiverManager.Current.CreateArchiver(entry.GetFileSystemPath(), entry, _isAll);
+                archiver = ArchiverManager.Current.CreateArchiver(entry.GetFileSystemPath(), entry, false, _isAll);
             }
             else
             {
                 string tempFileName = await ArchivenEntryExtractorService.Current.ExtractRawAsync(entry, token);
                 _trashBox.Add(new TempFile(tempFileName));
-                archiver = ArchiverManager.Current.CreateArchiver(tempFileName, entry, _isAll);
+                archiver = ArchiverManager.Current.CreateArchiver(tempFileName, entry, false, _isAll);
             }
 
             _trashBox.Add(archiver);

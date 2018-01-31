@@ -90,7 +90,7 @@ namespace NeeView
         /// <summary>
         /// アーカイブエントリー
         /// </summary>
-        public ArchiveEntry Entry { get; private set; }
+        public ArchiveEntry Entry { get; protected set; }
 
         /// <summary>
         /// コンテンツサイズ

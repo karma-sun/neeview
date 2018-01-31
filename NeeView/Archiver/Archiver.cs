@@ -121,7 +121,7 @@ namespace NeeView
         /// ルートフラグ
         /// このフラグを立てたアーカイブがあればこれをルートとする
         /// </summary>
-        public bool RootFlag { get; set; }
+        public bool RootFlag { get; private set; }
 
         /// <summary>
         /// ルート判定
@@ -160,9 +160,11 @@ namespace NeeView
         /// </summary>
         /// <param name="path">アーカイブ実体へのパス</param>
         /// <param name="source">基となるエントリ</param>
-        public Archiver(string path, ArchiveEntry source)
+        /// <param name="isRoot">ルートアーカイバとする</param>
+        public Archiver(string path, ArchiveEntry source, bool isRoot)
         {
             Path = path;
+            RootFlag = isRoot;
 
             if (source != null)
             {
@@ -333,6 +335,16 @@ namespace NeeView
             {
                 return LoosePath.GetDirectoryName(this.FullPath);
             }
+        }
+
+
+        /// <summary>
+        /// ルートフラグ設定
+        /// </summary>
+        /// <param name="flag"></param>
+        public virtual void SetRootFlag(bool flag)
+        {
+            this.RootFlag = flag;
         }
 
 

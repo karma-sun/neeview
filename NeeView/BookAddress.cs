@@ -63,12 +63,12 @@ namespace NeeView
 
             if (entryName != null)
             {
-                this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, false, token);
+                this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, true, false, token);
                 this.EntryName = entryName;
             }
             else if (ArchiverManager.Current.IsSupported(_archiveEntry.FullPath))
             {
-                this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, false, token);
+                this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, true, false, token);
                 this.EntryName = null;
             }
             else if (_archiveEntry.Archiver != null)
@@ -82,16 +82,16 @@ namespace NeeView
                 {
                     this.Archiver = _archiveEntry.Archiver;
                     this.EntryName = _archiveEntry.EntryName;
+
+                    // このアーカイブをROOTとする
+                    this.Archiver.SetRootFlag(true);
                 }
             }
             else
             {
-                this.Archiver = new FolderArchive(Path.GetDirectoryName(_archiveEntry.FullPath), null);
+                this.Archiver = new FolderArchive(Path.GetDirectoryName(_archiveEntry.FullPath), null, true);
                 this.EntryName = Path.GetFileName(_archiveEntry.EntryName);
             }
-
-            // このアーカイブをROOTとする
-            this.Archiver.RootFlag = true;
         }
 
         /// <summary>

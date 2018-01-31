@@ -20,6 +20,8 @@ namespace NeeView
     /// </summary>
     public class ArchiveContent : BitmapContent
     {
+        private string _path;
+
         /// <summary>
         /// コンテンツ有効フラグは常にfalse
         /// </summary>
@@ -31,6 +33,8 @@ namespace NeeView
         /// <param name="entry">対象アーカイブもしくはファイルのエントリ</param>
         public ArchiveContent(ArchiveEntry entry) : base(entry)
         {
+            _path = entry?.FullPath;
+
             PageMessage = new PageMessage()
             {
                 Icon = FilePageIcon.Alart,
@@ -42,6 +46,21 @@ namespace NeeView
             {
                 Thumbnail.Initialize(null);
             }
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="path"></param>
+        public ArchiveContent(string path) : base(null)
+        {
+            _path = path;
+
+            PageMessage = new PageMessage()
+            {
+                Icon = FilePageIcon.Alart,
+                Message = "このページはサムネイル作成専用です",
+            };
         }
 
         /// <summary>
@@ -60,7 +79,19 @@ namespace NeeView
         /// </summary>
         public override void InitializeThumbnail()
         {
+            InitializeArchiveEntry();
             Thumbnail.Initialize(Entry, null);
+        }
+
+        /// <summary>
+        /// エントリー初期化
+        /// </summary>
+        private void InitializeArchiveEntry()
+        {
+            if (this.Entry == null)
+            {
+                this.Entry = new ArchiveEntry(_path);
+            }
         }
 
         /// <summary>
@@ -70,6 +101,8 @@ namespace NeeView
         /// <returns></returns>
         public override async Task LoadThumbnailAsync(CancellationToken token)
         {
+            InitializeArchiveEntry();
+
             if (Thumbnail.IsValid) return;
 
             if (!Entry.IsValid && !Entry.IsArchivePath)
@@ -134,24 +167,30 @@ namespace NeeView
         /// <returns></returns>
         private async Task<Picture> LoadArchivePictureAsync(ArchiveEntry entry, CancellationToken token)
         {
-            using (var archiver = await ArchiverManager.Current.CreateArchiverAsync(entry, false, token))
+            if (ArchiverManager.Current.IsSupported(entry.FullPath))
             {
-                archiver.RootFlag = true;
-                bool isRecursive = !archiver.IsFileSystem && BookHub.Current.IsArchiveRecursive;
-                using (var collector = new EntryCollection(archiver, isRecursive, false))
+                using (var archiver = await ArchiverManager.Current.CreateArchiverAsync(entry, true, false, token))
                 {
-                    await collector.FirstOneAsync(token);
-                    var select = collector.Collection.FirstOrDefault();
+                    bool isRecursive = !archiver.IsFileSystem && BookHub.Current.IsArchiveRecursive;
+                    using (var collector = new EntryCollection(archiver, isRecursive, false))
+                    {
+                        await collector.FirstOneAsync(token);
+                        var select = collector.Collection.FirstOrDefault();
 
-                    if (select != null)
-                    {
-                        return await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail, token);
-                    }
-                    else
-                    {
-                        return null;
+                        if (select != null)
+                        {
+                            return await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail, token);
+                        }
+                        else
+                        {
+                            return null;
+                        }
                     }
                 }
+            }
+            else
+            {
+                return await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail, token);
             }
         }
     }

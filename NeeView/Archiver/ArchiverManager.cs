@@ -192,37 +192,38 @@ namespace NeeView
         /// <param name="type">アーカイブの種類</param>
         /// <param name="path">アーカイブファイルのパス</param>
         /// <param name="source">元となったアーカイブエントリ</param>
+        /// <param name="isRoot">ルートアーカイブとする</param>
         /// <param name="isAll">全て展開を前提とする</param>
         /// <returns>作成されたアーカイバー</returns>
-        public Archiver CreateArchiver(ArchiverType type, string path, ArchiveEntry source, bool isAll)
+        public Archiver CreateArchiver(ArchiverType type, string path, ArchiveEntry source, bool isRoot, bool isAll)
         {
             switch (type)
             {
                 case ArchiverType.FolderArchive:
-                    return new FolderArchive(path, source);
+                    return new FolderArchive(path, source, isRoot);
                 case ArchiverType.ZipArchiver:
-                    return new ZipArchiver(path, source);
+                    return new ZipArchiver(path, source, isRoot);
                 case ArchiverType.SevenZipArchiver:
-                    return new SevenZipArchiverProxy(path, source, isAll);
+                    return new SevenZipArchiverProxy(path, source, isRoot, isAll);
                 case ArchiverType.PdfArchiver:
-                    return new PdfArchiver(path, source);
+                    return new PdfArchiver(path, source, isRoot);
                 case ArchiverType.SusieArchiver:
-                    return new SusieArchiver(path, source);
+                    return new SusieArchiver(path, source, isRoot);
                 default:
                     throw new ArgumentException("no support ArchvierType.", nameof(type));
             }
         }
 
         // アーカイバー作成
-        public Archiver CreateArchiver(string path, ArchiveEntry source, bool isAll)
+        public Archiver CreateArchiver(string path, ArchiveEntry source, bool isRoot, bool isAll)
         {
             if (Directory.Exists(path))
             {
-                return CreateArchiver(ArchiverType.FolderArchive, path, source, isAll);
+                return CreateArchiver(ArchiverType.FolderArchive, path, source, isRoot, isAll);
             }
             else
             {
-                return CreateArchiver(GetSupportedType(path), path, source, isAll);
+                return CreateArchiver(GetSupportedType(path), path, source, isRoot, isAll);
             }
         }
 
@@ -232,9 +233,9 @@ namespace NeeView
         /// <param name="path">パス</param>
         /// <param name="isAll"></param>
         /// <returns></returns>
-        public Archiver CreateArchiver(string path, bool isAll)
+        public Archiver CreateArchiver(string path, bool isRoot, bool isAll)
         {
-            return CreateArchiver(path, null, isAll);
+            return CreateArchiver(path, null, isRoot, isAll);
         }
 
         /// <summary>
@@ -245,17 +246,17 @@ namespace NeeView
         /// <param name="isAll"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<Archiver> CreateArchiverAsync(ArchiveEntry source, bool isAll, CancellationToken token)
+        public async Task<Archiver> CreateArchiverAsync(ArchiveEntry source, bool isRoot, bool isAll, CancellationToken token)
         {
             if (source.IsFileSystem)
             {
-                return CreateArchiver(source.FullPath, null, isAll);
+                return CreateArchiver(source.FullPath, null, isRoot, isAll);
             }
             else
             {
                 // TODO: テンポラリファイルの指定方法をスマートに。
                 var tempFile = await ArchivenEntryExtractorService.Current.ExtractAsync(source, token);
-                var archiver = CreateArchiver(tempFile.Path, source, isAll);
+                var archiver = CreateArchiver(tempFile.Path, source, isRoot, isAll);
                 archiver.TempFile = tempFile;
                 return archiver;
             }

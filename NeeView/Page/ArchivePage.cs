@@ -32,6 +32,16 @@ namespace NeeView
             Entry = entry;
             Content = new ArchiveContent(Entry);
         }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="path"></param>
+        public ArchivePage(string path)
+        {
+            /// ArchiveEntryは遅延生成する
+            Content = new ArchiveContent(path);
+        }
     }
 
 }

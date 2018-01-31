@@ -192,7 +192,7 @@ namespace NeeView
         private bool _isDisposed;
 
 
-        public SevenZipArchiver(string path, ArchiveEntry source) : base(path, source)
+        public SevenZipArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
         {
             InitializeLibrary();
 

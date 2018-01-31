@@ -84,7 +84,7 @@ namespace NeeView
         {
             this.Length = entry.Length;
             this.LastWriteTime = entry.LastWriteTime;
-            this.Archiver = entry.Archiver.ToString();
+            this.Archiver = entry.Archiver?.ToString();
         }
 
 

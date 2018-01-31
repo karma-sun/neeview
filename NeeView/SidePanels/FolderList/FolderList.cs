@@ -711,12 +711,10 @@ namespace NeeView
         /// <returns></returns>
         public async Task UpdateEntryFolderCollectionAsync(bool isForce)
         {
-            await Task.Yield();
-
             // 同じリストは作らない
             if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == _place && this.FolderCollection is FolderEntryCollection) return;
 
-            var collection = CreateEntryCollection(_place);
+            var collection = await Task.Run(() => CreateEntryCollection(_place));
             InitializeCollectionEvent(collection);
 
             this.FolderCollection = collection;

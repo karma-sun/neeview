@@ -36,8 +36,8 @@ namespace NeeView
                 if (_folderOrder != value || value == FolderOrder.Random)
                 {
                     _folderOrder = value;
-                    RaisePropertyChanged();
                     Save();
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -66,8 +66,8 @@ namespace NeeView
                 if (_isFolderRecursive != value)
                 {
                     _isFolderRecursive = value;
-                    RaisePropertyChanged();
                     Save();
+                    RaisePropertyChanged();
                 }
 
             }

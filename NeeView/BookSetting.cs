@@ -64,8 +64,22 @@ namespace NeeView
         public bool IsUseBookMementoDefault { get; set; }
 
 
-        //
-        private Book.Memento GetBookMementoDefault() => IsUseBookMementoDefault ? BookMementoDefault : BookMemento;
+        // 新しい本を開くときの設定取得
+        private Book.Memento GetBookMementoDefault()
+        {
+            if (IsUseBookMementoDefault)
+            {
+                // 既定の設定
+                return BookMementoDefault;
+            }
+            else
+            {
+                // 現在の設定の引き継ぎ。フォルダー再帰フラグはクリア
+                var memento =  BookMemento.Clone();
+                memento.IsRecursiveFolder = false;
+                return memento;
+            }
+        }
 
 
         /// <summary>
@@ -111,7 +125,10 @@ namespace NeeView
         {
             // 既定の設定
             var memento = GetBookMementoDefault().Clone();
-            memento.IsRecursiveFolder = option.HasFlag(BookLoadOption.DefaultRecursive);
+            if (option.HasFlag(BookLoadOption.DefaultRecursive))
+            {
+                memento.IsRecursiveFolder = true;
+            }
             memento.Page = null;
 
             // 過去の情報の反映

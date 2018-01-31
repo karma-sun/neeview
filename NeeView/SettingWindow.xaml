@@ -734,26 +734,20 @@
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="最後のページを単独表示"
                                   IsChecked="{Binding Path=Setting.Memento.BookSetting.BookMementoDefault.IsSupportedSingleLastPage}" />
                             <DockPanel LastChildFill="False">
-                                <CheckBox Style="{StaticResource ItemCheckBox}" Content="サブフォルダーを読み込む (設定不可)" IsEnabled="False"
+                                <CheckBox Style="{StaticResource ItemCheckBox}" Content="サブフォルダーを読み込む" IsEnabled="True"
                                   IsChecked="{Binding Path=Setting.Memento.BookSetting.BookMementoDefault.IsRecursiveFolder}" />
-                                <ToggleButton DockPanel.Dock="Left" x:Name="RecursiveFolderHelp" Margin="5,0" Width="20" Height="20" Style="{StaticResource IconToggleButton}">
+                                <ToggleButton DockPanel.Dock="Left" x:Name="RecursiveFolderHelp" Width="20" Height="20" Style="{StaticResource IconToggleButton}">
                                     <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
                                 </ToggleButton>
                             </DockPanel>
                             <Popup IsOpen="{Binding ElementName=RecursiveFolderHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=RecursiveFolderHelp}" Placement="Top" HorizontalAlignment="Right">
                                 <Border BorderBrush="Gray" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
                                     <TextBlock Margin="10" MaxWidth="480" TextWrapping="Wrap">
-                                        新しくブックを開くときはサブフォルダー読み込みが無効となりますが、以下の方法で簡易に開くことが可能です。<LineBreak/>
-                                        <LineBreak/>
-                                        フォルダーリストかコンテキストメニューで「サブフォルダーを読み込む」を選択することでサブフォルダー読み込みを有効にした状態でブックを開くことができます。<LineBreak/>
-                                        <LineBreak/>
-                                        特定の場所でのみサブフォルダー読み込みを既定で有効にすることが可能です。
-                                        フォルダーリスト上の設定メニューから「この場所ではサブフォルダーを読み込む」を有効にすると、その場所でブックを開くときにはサブフォルダーを読み込む設定が既定になります。
-                                        この設定は場所単位で保存されます。
+                                        開くフォルダー以下の全ての画像ファイルをまとめて表示することになりますので、フォルダーの場所によってはとても処理が重くなります。
+                                        ご利用にはご注意ください。
                                     </TextBlock>
                                 </Border>
                             </Popup>
-
 
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="ページの並び順"/>

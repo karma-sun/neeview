@@ -36,7 +36,6 @@ namespace NeeView
     {
         public static List<ResizeInterpolation> ResizeInterpolationList { get; } =
             Enum.GetValues(typeof(ResizeInterpolation)).Cast<ResizeInterpolation>().Where(e => e != ResizeInterpolation.NearestNeighbor).ToList();
-        //Enum.GetValues(typeof(ResizeInterpolation)).Cast<ResizeInterpolation>().ToList();
     }
 
 

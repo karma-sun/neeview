@@ -36,19 +36,6 @@ namespace NeeView
             setting.ResizeMode = setting.Width == 0 ? CropScaleMode.Crop : CropScaleMode.Stretch;
             setting.SaveFormat = format;
 
-#if false
-            // https://github.com/saucecontrol/PhotoSauce/issues/7
-            // グローバル変数なので、同時に使用されると問題ある。
-            if (setting.Interpolation.Equals(InterpolationSettings.NearestNeighbor))
-            {
-                MagicImageProcessor.EnablePlanarPipeline = false;
-            }
-            else
-            {
-                MagicImageProcessor.EnablePlanarPipeline = true;
-            }
-#endif
-
             return setting;
         }
 

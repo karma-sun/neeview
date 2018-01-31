@@ -115,7 +115,7 @@ namespace NeeView
                 return path;
             }
 
-            while (path != null)
+            while (!string.IsNullOrEmpty(path))
             {
                 path = LoosePath.GetDirectoryName(path);
                 if (Directory.Exists(path))

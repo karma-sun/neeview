@@ -82,6 +82,17 @@ namespace NeeView
         public bool IsEnabled { get; set; } = true;
 
         /// <summary>
+        /// IsPdfEnabled property.
+        /// </summary>
+        private bool _isPdfEnabled = true;
+        public bool IsPdfEnabled
+        {
+            get { return _isPdfEnabled; }
+            set { if (_isPdfEnabled != value) { _isPdfEnabled = value; UpdateOrderList(); } }
+        }
+
+
+        /// <summary>
         /// ExcludePattern property.
         /// </summary>
         private string _excludePattern;
@@ -117,8 +128,12 @@ namespace NeeView
             {
                 ArchiverType.SevenZipArchiver,
                 ArchiverType.ZipArchiver,
-                ArchiverType.PdfArchiver,
             };
+
+            if (this.IsPdfEnabled)
+            {
+                order.Add(ArchiverType.PdfArchiver);
+            }
 
             if (SusieContext.Current.IsEnabled)
             {
@@ -329,9 +344,35 @@ namespace NeeView
             [DataMember]
             public bool IsEnabled { get; set; }
 
+            [DataMember, DefaultValue(true)]
+            [PropertyMember("PDF対応")]
+            public bool IsPdfEnabled { get; set; }
+
             [DataMember, DefaultValue(_defaultExcludePattern)]
             [PropertyMember("除外する圧縮ファイルのパターン", Tips = ".NETの正規表現で指定します")]
             public string ExcludePattern { get; set; }
+
+            #region Constructors
+
+            public Memento()
+            {
+                Constructor();
+            }
+
+            [OnDeserializing]
+            private void OnDeserializing(StreamingContext context)
+            {
+                Constructor();
+            }
+
+            private void Constructor()
+            {
+                this.IsEnabled = true;
+                this.IsPdfEnabled = true;
+                this.ExcludePattern = _defaultExcludePattern;
+            }
+
+            #endregion
         }
 
         //
@@ -339,6 +380,7 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.IsEnabled = this.IsEnabled;
+            memento.IsPdfEnabled = this.IsPdfEnabled;
             memento.ExcludePattern = this.ExcludePattern;
             return memento;
         }
@@ -348,6 +390,7 @@ namespace NeeView
         {
             if (memento == null) return;
             this.IsEnabled = memento.IsEnabled;
+            this.IsPdfEnabled = memento.IsPdfEnabled;
             this.ExcludePattern = memento.ExcludePattern ?? _defaultExcludePattern;
         }
         #endregion

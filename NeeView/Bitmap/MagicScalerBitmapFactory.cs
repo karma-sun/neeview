@@ -19,10 +19,13 @@ namespace NeeView
     /// </summary>
     public class MagicScalerBitmapFactory : IBitmapFactory
     {
-        static MagicScalerBitmapFactory()
+        /// <summary>
+        /// SIMD設定
+        /// </summary>
+        public static bool EnabmeSimd
         {
-            // 処理が終わらなくなる場合があるため、SIMDを無効にしておく
-            MagicImageProcessor.EnableSimd = false;
+            get { return MagicImageProcessor.EnableSimd; }
+            set { MagicImageProcessor.EnableSimd = value; }
         }
 
         // 注意: sourceは上書きされます

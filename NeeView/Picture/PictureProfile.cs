@@ -48,13 +48,12 @@ namespace NeeView
         /// <summary>
         /// IsResizeEnabled property.
         /// </summary>
-        private bool _isResizeFilterEnabled;
+        private bool _isResizeFilterEnabled = false;
         public bool IsResizeFilterEnabled
         {
             get { return _isResizeFilterEnabled; }
             set { if (_isResizeFilterEnabled != value) { _isResizeFilterEnabled = value; RaisePropertyChanged(); } }
         }
-
 
         /// <summary>
         /// CustomSize property.
@@ -65,6 +64,25 @@ namespace NeeView
             get { return _CustomSize; }
             set { if (_CustomSize != value) { _CustomSize = value; RaisePropertyChanged(); } }
         }
+
+        /// <summary>
+        /// IsMagicScaleSimdEnabled property.
+        /// </summary>
+        private bool _IsMagicScaleSimdEnabled = true;
+        public bool IsMagicScaleSimdEnabled
+        {
+            get { return _IsMagicScaleSimdEnabled; }
+            set
+            {
+                if (_IsMagicScaleSimdEnabled != value)
+                {
+                    _IsMagicScaleSimdEnabled = value;
+                    MagicScalerBitmapFactory.EnabmeSimd = _IsMagicScaleSimdEnabled;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
 
         #endregion
 
@@ -123,6 +141,30 @@ namespace NeeView
 
             [DataMember]
             public PictureCustomSize.Memento CustomSize { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            [PropertyMember("リサイズフィルター処理にSIMDを使用する", Tips = "リサイズフィルター処理にSIMDを使用します")]
+            public bool IsMagicScaleSimdEnabled { get; set; }
+
+            #region Constructors
+
+            public Memento()
+            {
+                Constructor();
+            }
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                Constructor();
+            }
+
+            private void Constructor()
+            {
+                IsMagicScaleSimdEnabled = true;
+            }
+
+            #endregion
         }
 
         //
@@ -133,6 +175,7 @@ namespace NeeView
             memento.Maximum = this.MaximumSize;
             memento.IsResizeFilterEnabled = this.IsResizeFilterEnabled;
             memento.CustomSize = this.CustomSize.CreateMemento();
+            memento.IsMagicScaleSimdEnabled = this.IsMagicScaleSimdEnabled;
             return memento;
         }
 
@@ -144,6 +187,7 @@ namespace NeeView
             this.MaximumSize = memento.Maximum;
             this.IsResizeFilterEnabled = memento.IsResizeFilterEnabled;
             this.CustomSize.Restore(memento.CustomSize);
+            this.IsMagicScaleSimdEnabled = memento.IsMagicScaleSimdEnabled;
         }
         #endregion
 

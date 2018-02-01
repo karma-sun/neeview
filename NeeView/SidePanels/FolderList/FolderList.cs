@@ -731,15 +731,28 @@ namespace NeeView
             // 同じリストは作らない
             if (!isForce && this.FolderCollection != null && (this.FolderCollection is FolderSearchCollection e && e.SearchKeyword == keyword)) return;
 
-            _searchEngine = _searchEngine ?? new SearchEngine(_place);
+            try
+            {
+                _searchEngine = _searchEngine ?? new SearchEngine(_place);
 
-            var option = new NeeLaboratory.IO.Search.SearchOption() { AllowFolder = true, IsOptionEnabled = true };
-            var result = await _searchEngine.SearchAsync(keyword, option);
+                var option = new NeeLaboratory.IO.Search.SearchOption() { AllowFolder = true, IsOptionEnabled = true };
+                var result = await _searchEngine.SearchAsync(keyword, option);
 
-            var collection = CreateSearchCollection(_place, result);
-            InitializeCollectionEvent(collection);
+                var collection = CreateSearchCollection(_place, result);
+                InitializeCollectionEvent(collection);
 
-            this.FolderCollection = collection;
+                this.FolderCollection = collection;
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.WriteLine($"Search: Canceled.");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Search: Exception: {ex.Message}");
+                _searchEngine?.Dispose();
+                _searchEngine = null;
+            }
         }
 
         /// <summary>

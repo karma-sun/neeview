@@ -482,41 +482,6 @@ namespace NeeView
         }
 
 
-        // 入力パスから場所を取得
-        private string GetPlaceEx(string path, BookLoadOption option)
-        {
-            if (Directory.Exists(path))
-            {
-                return path;
-            }
-
-            if (File.Exists(path))
-            {
-                if (ArchiverManager.Current.IsSupported(path))
-                {
-                    Archiver archiver = ArchiverManager.Current.CreateArchiver(path, null, false, false);
-                    if (archiver.IsSupported())
-                    {
-                        return path;
-                    }
-                }
-
-                if (PictureProfile.Current.IsSupported(path) || (option & BookLoadOption.SupportAllFile) == BookLoadOption.SupportAllFile)
-                {
-                    return Path.GetDirectoryName(path);
-                }
-                else
-                {
-                    //throw new FileFormatException($"\"{path}\" はサポート外ファイルです");
-                    return path;
-                }
-            }
-
-            //throw new FileNotFoundException($"\"{path}\" が見つかりません", path);
-            return path;
-        }
-
-
         // ロード中状態更新
         private void NotifyLoading(string path)
         {

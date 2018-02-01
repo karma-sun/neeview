@@ -69,6 +69,9 @@ namespace NeeView
         //
         private FolderItem _dragFolderItem;
 
+        //
+        private static int _busyCounter;
+
         #endregion
 
         #region Constructor
@@ -359,9 +362,15 @@ namespace NeeView
         /// <param name="e"></param>
         private void Model_BusyChanged(object sender, BusyChangedEventArgs e)
         {
-            if (this.ListContent != null)
+            _busyCounter += e.IsBusy ? +1 : -1;
+            if (_busyCounter <= 0)
             {
-                this.ListContent.BusyFadeContent.Content = e.IsBusy ? new BusyFadeView() : null;
+                this.ListContent.BusyFadeContent.Content = null;
+                _busyCounter = 0;
+            }
+            else if (_busyCounter > 0 && this.ListContent.BusyFadeContent.Content == null)
+            {
+                this.ListContent.BusyFadeContent.Content = new BusyFadeView();
             }
         }
 

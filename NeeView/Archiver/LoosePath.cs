@@ -48,8 +48,9 @@ namespace NeeView
             if (string.IsNullOrEmpty(s)) return "";
 
             var parts = s.Split(s_separator, StringSplitOptions.RemoveEmptyEntries).ToList();
+            if (parts.Count <= 1) return "";
+            
             parts.RemoveAt(parts.Count - 1);
-
             return GetHeadSepaarators(s) + string.Join("\\", parts);
         }
 

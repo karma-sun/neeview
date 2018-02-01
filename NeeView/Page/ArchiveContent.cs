@@ -167,7 +167,7 @@ namespace NeeView
         /// <returns></returns>
         private async Task<Picture> LoadArchivePictureAsync(ArchiveEntry entry, CancellationToken token)
         {
-            if (ArchiverManager.Current.IsSupported(entry.FullPath))
+            if (System.IO.Directory.Exists(entry.FullPath) || ArchiverManager.Current.IsSupported(entry.FullPath))
             {
                 using (var archiver = await ArchiverManager.Current.CreateArchiverAsync(entry, true, false, token))
                 {

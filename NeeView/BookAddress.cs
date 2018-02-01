@@ -66,7 +66,7 @@ namespace NeeView
                 this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, true, false, token);
                 this.EntryName = entryName;
             }
-            else if (ArchiverManager.Current.IsSupported(_archiveEntry.FullPath))
+            else if (Directory.Exists(path) || ArchiverManager.Current.IsSupported(_archiveEntry.FullPath))
             {
                 this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, true, false, token);
                 this.EntryName = null;

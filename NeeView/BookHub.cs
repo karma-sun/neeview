@@ -278,6 +278,10 @@ namespace NeeView
         /// </summary>
         public bool IsInnerArchiveHistoryEnabled { get; set; }
 
+        /// <summary>
+        /// UNCパスの履歴保存
+        /// </summary>
+        public bool IsUncHistoryEnabled { get; set; }
 
         /// <summary>
         /// 現在の本
@@ -761,7 +765,8 @@ namespace NeeView
             return Book != null
                 && Book.Pages.Count > 0
                 && (_historyEntry || Book.PageChangeCount > this.HistoryEntryPageCount || Book.IsPageTerminated)
-                && (IsInnerArchiveHistoryEnabled || Book.Archiver?.Parent == null);
+                && (IsInnerArchiveHistoryEnabled || Book.Archiver?.Parent == null)
+                && (IsUncHistoryEnabled || !LoosePath.IsUnc(Book.Place));
         }
 
         // 
@@ -934,6 +939,9 @@ namespace NeeView
             [DataMember]
             public bool IsInnerArchiveHistoryEnabled { get; set; }
 
+            [DataMember]
+            public bool IsUncHistoryEnabled { get; set; }
+
             #region Obslete
 
             [Obsolete, DataMember(EmitDefaultValue = false)]
@@ -1034,6 +1042,7 @@ namespace NeeView
             memento.HistoryEntryPageCount = HistoryEntryPageCount;
             memento.IsArchiveRecursive = IsArchiveRecursive;
             memento.IsInnerArchiveHistoryEnabled = IsInnerArchiveHistoryEnabled;
+            memento.IsUncHistoryEnabled = IsUncHistoryEnabled;
 
             return memento;
         }
@@ -1049,6 +1058,7 @@ namespace NeeView
             HistoryEntryPageCount = memento.HistoryEntryPageCount;
             IsArchiveRecursive = memento.IsArchiveRecursive;
             IsInnerArchiveHistoryEnabled = memento.IsInnerArchiveHistoryEnabled;
+            IsUncHistoryEnabled = memento.IsUncHistoryEnabled;
         }
 
 

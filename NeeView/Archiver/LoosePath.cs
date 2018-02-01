@@ -47,26 +47,10 @@ namespace NeeView
         {
             if (string.IsNullOrEmpty(s)) return "";
 
-            var slashCount = 0;
-            foreach (var c in s)
-            {
-                if (c == '\\' || c == '/')
-                {
-                    slashCount++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
             var parts = s.Split(s_separator, StringSplitOptions.RemoveEmptyEntries).ToList();
             parts.RemoveAt(parts.Count - 1);
 
-            var head = slashCount > 0 ? new string('\\', slashCount) : "";
-            var body = string.Join("\\", parts);
-
-            return head + body;
+            return GetHeadSepaarators(s) + string.Join("\\", parts);
         }
 
         //
@@ -107,6 +91,32 @@ namespace NeeView
         public static string NormalizeSeparator(string s)
         {
             return s?.Replace('/', '\\');
+        }
+
+        // UNC判定
+        public static bool IsUnc(string s)
+        {
+            var head = GetHeadSepaarators(s);
+            return head.Length == 2;
+        }
+
+        // パス先頭にあるセパレータ部を取得
+        private static string GetHeadSepaarators(string s)
+        {
+            var slashCount = 0;
+            foreach (var c in s)
+            {
+                if (c == '\\' || c == '/')
+                {
+                    slashCount++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return slashCount > 0 ? new string('\\', slashCount) : "";
         }
     }
 }

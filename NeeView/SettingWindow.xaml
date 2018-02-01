@@ -828,10 +828,12 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <TextBlock Text="圧縮ファイルに含まれる圧縮ファイル" Style="{StaticResource Header}" />
+                        <TextBlock Text="保存設定" Style="{StaticResource Header}" />
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="圧縮ファイルに含まれる圧縮ファイルを履歴に保存する"
                                       IsChecked="{Binding Setting.Memento.BookHub.IsInnerArchiveHistoryEnabled}" />
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ネットワークパスを履歴に保存する"
+                                      IsChecked="{Binding Setting.Memento.BookHub.IsUncHistoryEnabled}" />
                         </StackPanel>
 
                         <TextBlock Text="フォルダーリスト" Style="{StaticResource Header}" />

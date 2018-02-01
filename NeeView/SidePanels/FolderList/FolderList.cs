@@ -218,7 +218,7 @@ namespace NeeView
         /// <summary>
         /// IsFolderSearchVisible property.
         /// </summary>
-        private bool _IsFolderSearchVisible;
+        private bool _IsFolderSearchVisible = true;
         public bool IsFolderSearchBoxVisible
         {
             get { return _IsFolderSearchVisible; }
@@ -955,11 +955,12 @@ namespace NeeView
             public bool IsInsertItem { get; set; }
 
             [DataMember]
-            public bool IsFolderSearchBoxVisible { get; set; }
+            public bool IsFolderSearchBoxVisible { get; set; } = true;
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
+                IsFolderSearchBoxVisible = true;
             }
         }
 

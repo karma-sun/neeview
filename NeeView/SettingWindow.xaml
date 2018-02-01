@@ -832,7 +832,8 @@
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="圧縮ファイルに含まれる圧縮ファイルを履歴に保存する"
                                       IsChecked="{Binding Setting.Memento.BookHub.IsInnerArchiveHistoryEnabled}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="ネットワークパスを履歴に保存する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="UNCパスを履歴に保存する"
+                                      ToolTip="\\コンピュータ名\~ のようなネットワーク上のパスです"
                                       IsChecked="{Binding Setting.Memento.BookHub.IsUncHistoryEnabled}" />
                         </StackPanel>
 

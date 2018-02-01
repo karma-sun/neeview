@@ -688,6 +688,9 @@ namespace NeeView
         /// <returns></returns>
         private async Task UpdateFolderCollectionAsyncInner(bool isForce)
         {
+            // 検索処理は停止
+            _searchEngine?.CancelSearch();
+
             var keyword = GetFixedSearchKeyword();
 
             if (!string.IsNullOrEmpty(keyword))

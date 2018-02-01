@@ -50,51 +50,60 @@ namespace NeeView
                 }
                 else
                 {
-                    var fileInfos = directory.GetFiles();
-
-                    var shortcuts = fileInfos
-                        .Where(e => e.Exists && Utility.FileShortcut.IsShortcut(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
-                        .Select(e => new Utility.FileShortcut(e))
-                        .ToList();
-
-                    var directoryInfos = directory.GetDirectories();
-
-                    var directories = directoryInfos
-                        .Where(e => e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
-                        .Select(e => CreateFolderItem(e))
-                        .ToList();
-
-                    var directoryShortcuts = shortcuts
-                        .Where(e => e.DirectoryInfo.Exists)
-                        .Select(e => CreateFolderItem(e))
-                        .ToList();
-
-                    var archives = fileInfos
-                        .Where(e => e.Exists && ArchiverManager.Current.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
-                        .Select(e => CreateFolderItem(e))
-                        .ToList();
-
-                    var archiveShortcuts = shortcuts
-                        .Where(e => e.FileInfo.Exists && ArchiverManager.Current.IsSupported(e.TargetPath))
-                        .Select(e => CreateFolderItem(e))
-                        .ToList();
-
-
-                    var items = directories
-                        .Concat(directoryShortcuts)
-                        .Concat(archives)
-                        .Concat(archiveShortcuts)
-                        .Where(e => e != null);
-
-
-                    var list = Sort(items).ToList();
-
-                    if (!list.Any())
+                    try
                     {
-                        list.Add(CreateFolderItemEmpty());
-                    }
+                        var fileInfos = directory.GetFiles();
 
-                    this.Items = new ObservableCollection<FolderItem>(list);
+                        var shortcuts = fileInfos
+                            .Where(e => e.Exists && Utility.FileShortcut.IsShortcut(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
+                            .Select(e => new Utility.FileShortcut(e))
+                            .ToList();
+
+                        var directoryInfos = directory.GetDirectories();
+
+                        var directories = directoryInfos
+                            .Where(e => e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
+                            .Select(e => CreateFolderItem(e))
+                            .ToList();
+
+                        var directoryShortcuts = shortcuts
+                            .Where(e => e.DirectoryInfo.Exists)
+                            .Select(e => CreateFolderItem(e))
+                            .ToList();
+
+                        var archives = fileInfos
+                            .Where(e => e.Exists && ArchiverManager.Current.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
+                            .Select(e => CreateFolderItem(e))
+                            .ToList();
+
+                        var archiveShortcuts = shortcuts
+                            .Where(e => e.FileInfo.Exists && ArchiverManager.Current.IsSupported(e.TargetPath))
+                            .Select(e => CreateFolderItem(e))
+                            .ToList();
+
+
+                        var items = directories
+                            .Concat(directoryShortcuts)
+                            .Concat(archives)
+                            .Concat(archiveShortcuts)
+                            .Where(e => e != null);
+
+
+                        var list = Sort(items).ToList();
+
+                        if (!list.Any())
+                        {
+                            list.Add(CreateFolderItemEmpty());
+                        }
+
+                        this.Items = new ObservableCollection<FolderItem>(list);
+                    }
+                    catch(Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                        this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty() };
+                        return;
+                    }
                 }
             }
 

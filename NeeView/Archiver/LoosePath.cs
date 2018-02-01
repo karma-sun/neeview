@@ -51,7 +51,10 @@ namespace NeeView
             if (parts.Count <= 1) return "";
             
             parts.RemoveAt(parts.Count - 1);
-            return GetHeadSepaarators(s) + string.Join("\\", parts);
+            var path = GetHeadSeparators(s) + string.Join("\\", parts);
+            if (parts.Count == 1 && path.Last() == ':') path += "\\";
+
+            return path;
         }
 
         //
@@ -97,12 +100,12 @@ namespace NeeView
         // UNC判定
         public static bool IsUnc(string s)
         {
-            var head = GetHeadSepaarators(s);
+            var head = GetHeadSeparators(s);
             return head.Length == 2;
         }
 
         // パス先頭にあるセパレータ部を取得
-        private static string GetHeadSepaarators(string s)
+        private static string GetHeadSeparators(string s)
         {
             var slashCount = 0;
             foreach (var c in s)

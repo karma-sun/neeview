@@ -310,6 +310,11 @@ namespace NeeView
         /// <param name="path"></param>
         public void RequestRename(string oldPath, string path)
         {
+            if (oldPath == path || path == null)
+            {
+                return;
+            }
+
             _engine.Enqueue(new RenameJob(this, oldPath, path, false));
         }
 

@@ -240,23 +240,12 @@ namespace NeeView
         }
 
         /// <summary>
-        /// リネーム用パス生成
-        /// </summary>
-        /// <param name="file"></param>
-        /// <param name="newName"></param>
-        /// <returns></returns>
-        public static string FixedRenamePath(FolderItem file, string newName)
-        {
-            return System.IO.Path.Combine(System.IO.Path.GetDirectoryName(file.Path), newName);
-        }
-
-        /// <summary>
         /// ファイル名前変更
         /// </summary>
         /// <param name="file"></param>
         /// <param name="newName"></param>
         /// <returns></returns>
-        public async Task<bool> RenameAsync(FolderItem file, string newName)
+        public async Task<string> RenameAsync(FolderItem file, string newName)
         {
             newName = FixedRenameFileName(newName);
 
@@ -265,7 +254,7 @@ namespace NeeView
             {
                 var dialog = new MessageDialog($"指定されたファイル名は無効です。", "名前を変更できません");
                 dialog.ShowDialog();
-                return false;
+                return null;
             }
 
             //ファイル名に使用できない文字
@@ -278,7 +267,7 @@ namespace NeeView
                 var dialog = new MessageDialog($"ファイル名に使用できない文字が含まれています。\n\n{invalids}", "名前を変更できません");
                 dialog.ShowDialog();
 
-                return false;
+                return null;
             }
 
             // ファイル名に使用できない
@@ -287,14 +276,14 @@ namespace NeeView
             {
                 var dialog = new MessageDialog($"指定されたデバイス名は無効です。\n\n{match.Groups[1].Value.ToUpper()}", "名前を変更できません");
                 dialog.ShowDialog();
-                return false;
+                return null;
             }
 
             string src = file.Path;
             string dst = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(src), newName);
 
             // 全く同じ名前なら処理不要
-            if (src == dst) return false;
+            if (src == dst) return null;
 
             // 拡張子変更確認
             if (!file.IsDirectory)
@@ -309,7 +298,7 @@ namespace NeeView
                     var answer = dialog.ShowDialog();
                     if (answer != UICommands.Yes)
                     {
-                        return false;
+                        return null;
                     }
                 }
             }
@@ -342,13 +331,14 @@ namespace NeeView
                 var answer = dialog.ShowDialog();
                 if (answer != dialog.Commands[0])
                 {
-                    return false;
+                    return null;
                 }
             }
 
             // 名前変更実行
             var result = await RenameFileAsync(src, dst);
-            return result;
+
+            return result ? dst : null;
         }
 
 

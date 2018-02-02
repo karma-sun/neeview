@@ -195,11 +195,10 @@ namespace NeeView
                         {
                             var newName = item.IsShortcut ? ev.NewValue + ".lnk" : ev.NewValue;
                             //Debug.WriteLine($"{ev.OldValue} => {newName}");
-                            var renamed = await FileIO.Current.RenameAsync(item, newName);
-                            if (renamed)
+                            var src = item.Path;
+                            var dst = await FileIO.Current.RenameAsync(item, newName);
+                            if (dst != null)
                             {
-                                var src = item.Path;
-                                var dst = FileIO.FixedRenamePath(item, newName);
                                 _vm.FolderCollection?.RequestRename(src, dst);
                             }
                         }

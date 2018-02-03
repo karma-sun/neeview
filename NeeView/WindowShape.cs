@@ -423,7 +423,7 @@ namespace NeeView
         {
             if (!_isWindows7 || _state != WindowStateEx.FullScreen) return;
 
-            Debug.WriteLine("Recovery TaskBar");
+            ////Debug.WriteLine("Recovery TaskBar");
 
             //_window.Visibility = Visibility.Hidden;
             //_window.Visibility = Visibility.Visible;

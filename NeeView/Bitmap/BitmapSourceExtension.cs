@@ -105,7 +105,7 @@ namespace NeeView
             }
             else
             {
-                Debug.WriteLine("No supprot format: " + bmp.Format.ToString());
+                Debug.WriteLine("GetOneColor: No supprot format: " + bmp.Format.ToString());
                 color = Colors.Black;
             }
 

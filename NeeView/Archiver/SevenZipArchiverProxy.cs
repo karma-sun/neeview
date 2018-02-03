@@ -62,7 +62,7 @@ namespace NeeView
 
             if (isExtract)
             {
-                Debug.WriteLine($"Pre extract: {this.Path}");
+                ////Debug.WriteLine($"Pre extract: {this.Path}");
                 try
                 {
                     _archiver = new SevenZipExtractArchiver(this.Path, _source, this.RootFlag);
@@ -74,7 +74,7 @@ namespace NeeView
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"{ex.Message}\nChange to SevenZipArchiver.");
+                    Debug.WriteLine($"{ex.Message}\n-> Change to SevenZipArchiver.");
 
                     if (_archiver != null)
                     {

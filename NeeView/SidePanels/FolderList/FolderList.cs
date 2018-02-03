@@ -748,11 +748,11 @@ namespace NeeView
             }
             catch (OperationCanceledException)
             {
-                Debug.WriteLine($"Search: Canceled.");
+                ////Debug.WriteLine($"Search: Canceled.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Search: Exception: {ex.Message}");
+                Debug.WriteLine($"Search Exception: {ex.Message}");
                 _searchEngine?.Dispose();
                 _searchEngine = null;
             }

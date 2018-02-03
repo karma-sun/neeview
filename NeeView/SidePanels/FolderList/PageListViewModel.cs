@@ -231,7 +231,6 @@ namespace NeeView
 
         private void UpdateListBoxContent()
         {
-            Debug.WriteLine("*** PageList ***");
             this.ListBoxContent = new PageListBox(this);
         }
 

@@ -74,7 +74,6 @@ namespace NeeView
             GC.Collect();
             GC.WaitForPendingFinalizers();
             await Task.Delay(1000);
-            Debug.WriteLine("TEST");
             Debugger.Break();
             //ModelContext.CommandTable.OpenCommandListHelp();
             //Config.Current.RemoveApplicationData();

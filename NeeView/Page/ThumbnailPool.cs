@@ -118,7 +118,7 @@ namespace NeeView
                 .Where(e => e.IsValid)
                 .ToList();
 
-            Debug.WriteLine($"TP Clean: 1st: {count} -> {_collection.Count}: No.{_serial}");
+            Debug.WriteLine($"ThumbnailPool Clean: Level.1: {count} -> {_collection.Count}: No.{_serial}");
 
             // 2nd path.
             if (_collection.Count < _tolerance2) return false;
@@ -133,7 +133,7 @@ namespace NeeView
                 .Skip(erase)
                 .ToList();
 
-            Debug.WriteLine($"TP Clean: 2nd -> {_collection.Count}");
+            Debug.WriteLine($"ThumbnailPool Clean: Level.2: {_collection.Count}");
 
             return true;
         }

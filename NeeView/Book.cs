@@ -314,7 +314,7 @@ namespace NeeView
         public async Task LoadCoreAsync(BookAddress address, BookLoadOption option, CancellationToken token)
         {
             Debug.Assert(Place == null);
-            Debug.WriteLine($"OPEN: {address.Place}, {address.EntryName}, {address.Archiver.Path}");
+            ////Debug.WriteLine($"OPEN: {address.Place}, {address.EntryName}, {address.Archiver.Path}");
 
             // ソリッド書庫の事前展開を許可してアーカイバ再生性
             var archiver = ArchiverManager.Current.CreateArchiver(address.Archiver.Path, address.Archiver.Source, true, true);

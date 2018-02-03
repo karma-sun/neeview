@@ -220,7 +220,6 @@ namespace NeeView
 
         private void UpdateListBoxContent()
         {
-            Debug.WriteLine("*** Bookmark Update ***");
             this.ListBoxContent = new BookmarkListBox(this);
         }
 

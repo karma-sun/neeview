@@ -204,7 +204,6 @@ namespace NeeView
 
         private void UpdateListBoxContent()
         {
-            Debug.WriteLine("*** Pagemark Update ***");
             this.ListBoxContent = new PagemarkListBox(this);
         }
     }

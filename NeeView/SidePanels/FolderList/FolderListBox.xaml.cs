@@ -436,13 +436,8 @@ namespace NeeView
             var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
             if (folderInfo != null && folderInfo.IsReady)
             {
-                if (folderInfo.IsDirectory)
+                if (folderInfo.IsDirectory || !BookHub.Current.IsArchiveRecursive)
                 {
-                    _vm.MoveTo.Execute(folderInfo.TargetPath);
-                }
-                else if (!BookHub.Current.IsArchiveRecursive)
-                {
-                    Debug.WriteLine($"Open sub archviers");
                     _vm.MoveTo.Execute(folderInfo.TargetPath);
                 }
             }

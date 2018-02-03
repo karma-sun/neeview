@@ -115,8 +115,7 @@ namespace NeeView
         /// <returns>展開後されたファイル名</returns>
         public async Task<string> ExtractRawAsync(ArchiveEntry entry, CancellationToken token)
         {
-            //Debug.WriteLine($"EXT: Collection = {_collection.Count}");
-            Debug.WriteLine($"EXT: {entry.Ident}");
+            ////Debug.WriteLine($"EXT: {entry.Ident}");
 
             ArchiveEntryExtractor extractor = null;
 

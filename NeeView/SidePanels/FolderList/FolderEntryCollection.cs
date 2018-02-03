@@ -147,7 +147,7 @@ namespace NeeView
         private void Watcher_Error(object sender, ErrorEventArgs e)
         {
             var ex = e.GetException();
-            Debug.WriteLine($"** FileSystemWatcher Error!! ** : {ex.ToString()} : {ex.Message}");
+            Debug.WriteLine($"FileSystemWatcher Error!! : {ex.ToString()} : {ex.Message}");
 
             // recoverty...
             ////var path = _fileSystemWatcher.Path;

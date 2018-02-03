@@ -49,7 +49,7 @@ namespace NeeView
         //
         public SearchEngine(string path)
         {
-            Debug.WriteLine($"SearchEngine: {path}");
+            ////Debug.WriteLine($"SearchEngine: {path}");
             _engine = new NeeLaboratory.IO.Search.SearchEngine();
             _engine.Context.NodeFilter = NodeFilter;
             _engine.SetSearchAreas(new List<string> { path });

@@ -346,7 +346,7 @@ namespace NeeView
 
             if (!archiver.IsSupported())
             {
-                Debug.WriteLine($"Not Archive: {archiver.FullName}");
+                Debug.WriteLine($"CreateArchiver: Not Archive: {archiver.FullName}");
                 return null;
             }
 

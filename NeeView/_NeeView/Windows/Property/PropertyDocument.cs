@@ -117,7 +117,7 @@ namespace NeeView.Windows.Property
                     }
                     else
                     {
-                        Debug.WriteLine($"PropertyDocument: {element.Name} is Hide.");
+                        ////Debug.WriteLine($"PropertyDocument: {element.Name} is Hide.");
                     }
                 }
             }

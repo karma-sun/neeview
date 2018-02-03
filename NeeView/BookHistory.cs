@@ -507,7 +507,6 @@ namespace NeeView
             // ver.22
             if (memento.FolderOrders != null)
             {
-                Debug.WriteLine("[[Compatible]]: FolderOrders");
                 _folders = memento.FolderOrders.ToDictionary(e => e.Key, e => new FolderParameter.Memento() { FolderOrder = e.Value });
             }
 #pragma warning restore CS0612

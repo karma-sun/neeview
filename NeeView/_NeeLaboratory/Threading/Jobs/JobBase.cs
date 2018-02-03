@@ -110,12 +110,12 @@ namespace NeeLaboratory.Threading.Jobs
             catch (OperationCanceledException)
             {
                 this.Result = JobResult.Canceled;
-                Debug.WriteLine($"command {this}: canceled.");
+                Debug.WriteLine($"Job {this}: canceled.");
                 OnCanceled();
             }
             catch (Exception e)
             {
-                Debug.WriteLine($"command {this}: excepted!!");
+                Debug.WriteLine($"Job {this}: excepted!!");
                 OnException(e);
                 throw;
             }

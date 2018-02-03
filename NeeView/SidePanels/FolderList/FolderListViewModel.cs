@@ -500,7 +500,6 @@ namespace NeeView
         //
         public void UpdateListContent()
         {
-            Debug.WriteLine("*** Update ListContent ***");
             ListContent = new FolderListBox(this);
 
             SidePanel.Current.RaiseContentChanged();

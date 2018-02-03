@@ -337,7 +337,6 @@ namespace NeeView
         //
         private void UpdateListBoxContent()
         {
-            Debug.WriteLine("*** HistoryListBox ***");
             ListBoxContent = new HistoryListBox(this);
         }
 

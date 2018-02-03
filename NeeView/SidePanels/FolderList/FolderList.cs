@@ -778,8 +778,9 @@ namespace NeeView
                 }
             }
             // アーカイブパスが展開できない場合、実在パスでの展開を行う
-            catch (FileNotFoundException)
+            catch (Exception ex)
             {
+                Debug.WriteLine($"Cannot open: {ex.Message}");
                 _place = ArchiveFileSystem.GetExistDirectoryName(_place);
                 await UpdateFolderCollectionAsyncInner(isForce);
             }

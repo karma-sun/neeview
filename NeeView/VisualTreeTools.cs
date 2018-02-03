@@ -224,6 +224,11 @@ namespace NeeView
         /// <returns>見つかった場合はその要素</returns>
         public static T FindVisualChild<T>(DependencyObject root, string name = null) where T : FrameworkElement
         {
+            if (root == null)
+            {
+                return null;
+            }
+
             var result = root as T;
             if (result != null && (string.IsNullOrEmpty(name) || name.Equals(result.Name)))
             {

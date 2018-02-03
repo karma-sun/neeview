@@ -55,7 +55,7 @@ namespace NeeView
             this.FolderParameter.PropertyChanged += (s, e) => ParameterChanged?.Invoke(s, null);
 
             _engine = new Jobs.JobEngine();
-            _engine.Error += JobEngine_Error;
+            _engine.JobError += JobEngine_Error;
             _engine.IsEnabled = true;
         }
 
@@ -278,10 +278,10 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void JobEngine_Error(object sender, ErrorEventArgs e)
+        private void JobEngine_Error(object sender, Jobs.JobErrorEventArgs e)
         {
-            Debug.WriteLine($"JobEngine Exception!: {e.GetException().Message}");
-            throw e.GetException();
+            Debug.WriteLine($"FolderCollection JOB Exception!: {e.Job}: {e.GetException().Message}");
+            e.Handled = true;
         }
 
         /// <summary>
@@ -300,7 +300,6 @@ namespace NeeView
         public void RequestDelete(string path)
         {
             _engine.Enqueue(new DeleteJob(this, path, false));
-
         }
 
         /// <summary>
@@ -336,7 +335,7 @@ namespace NeeView
 #pragma warning disable 1998
             public async Task ExecuteAsync()
             {
-                Debug.WriteLine($"Create: {_path}");
+                ////Debug.WriteLine($"Create: {_path}");
                 _target.CreateItem(_path);
             }
 #pragma warning restore 1998
@@ -358,7 +357,11 @@ namespace NeeView
             if (item != null) return;
 
             item = CreateFolderItem(path);
-            CreateItem(item);
+
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                CreateItem(item);
+            });
         }
 
         //
@@ -419,7 +422,7 @@ namespace NeeView
 #pragma warning disable 1998
             public async Task ExecuteAsync()
             {
-                Debug.WriteLine($"Delete: {_path}");
+                ////Debug.WriteLine($"Delete: {_path}");
                 _target.DeleteItem(_path);
             }
 #pragma warning restore 1998
@@ -438,11 +441,11 @@ namespace NeeView
             // 既に存在しない場合は処理しない
             if (item == null) return;
 
-            App.Current.Dispatcher.BeginInvoke((Action)(() =>
+            App.Current.Dispatcher.Invoke(() =>
             {
                 Deleting?.Invoke(this, new FileSystemEventArgs(WatcherChangeTypes.Deleted, Path.GetDirectoryName(path), Path.GetFileName(path)));
                 DeleteItem(item);
-            }));
+            });
         }
 
         //
@@ -483,7 +486,7 @@ namespace NeeView
 #pragma warning disable 1998
             public async Task ExecuteAsync()
             {
-                Debug.WriteLine($"Rename: {_oldPath} => {_path}");
+                ////Debug.WriteLine($"Rename: {_oldPath} => {_path}");
                 _target.RenameItem(_oldPath, _path);
             }
 #pragma warning restore 1998

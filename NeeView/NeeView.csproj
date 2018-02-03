@@ -408,6 +408,8 @@
     <Compile Include="WindowPlacement.cs" />
     <Compile Include="WindowShape.cs" />
     <Compile Include="WindowTitle.cs" />
+    <Compile Include="_NeeLaboratory\Threading\Jobs\JobErrorEventArgs.cs" />
+    <Compile Include="_NeeLaboratory\Threading\Jobs\JobException.cs" />
     <Compile Include="_NeeView\Data\OptionMap.cs" />
     <Compile Include="_NeeView\Data\OptionMemberAttribute.cs" />
     <Compile Include="_NeeView\Data\OptionValuesAttribute.cs" />

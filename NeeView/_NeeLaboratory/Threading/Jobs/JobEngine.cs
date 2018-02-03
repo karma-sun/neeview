@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -49,6 +50,11 @@ namespace NeeLaboratory.Threading.Jobs
         /// </summary>
         protected IJob _job;
 
+        /// <summary>
+        /// エンジン動作中
+        /// </summary>
+        private bool _isActive;
+
         #endregion
 
         #region Constructors
@@ -66,9 +72,14 @@ namespace NeeLaboratory.Threading.Jobs
         #region Events
 
         /// <summary>
-        /// エラー発生時のイベント
+        /// JOBエラー発生時のイベント
         /// </summary>
-        public event EventHandler<ErrorEventArgs> Error;
+        public event EventHandler<JobErrorEventArgs> JobError;
+
+        /// <summary>
+        /// 例外によってJobEngineが停止した時に発生するイベント
+        /// </summary>
+        public event EventHandler<ErrorEventArgs> JobEngineError;
 
         #endregion
 
@@ -98,25 +109,46 @@ namespace NeeLaboratory.Threading.Jobs
         /// <summary>
         /// Job登録
         /// </summary>
-        /// <param name="command"></param>
-        public virtual void Enqueue(IJob command)
+        /// <param name="job"></param>
+        public virtual void Enqueue(IJob job)
         {
+            if (!_isActive)
+            {
+                HandleJobException(new InvalidOperationException("JobEngine is not actived"), job);
+                return;
+            }
+
             lock (_lock)
             {
-                if (OnEnqueueing(command))
+                if (OnEnqueueing(job))
                 {
-                    _queue.Enqueue(command);
-                    OnEnqueued(command);
+                    _queue.Enqueue(job);
+                    OnEnqueued(job);
                     _ready.Set();
                 }
             }
         }
 
         /// <summary>
+        /// JOBで発生した例外の処理
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="job"></param>
+        private void HandleJobException(Exception exception, IJob job)
+        {
+            var args = new JobErrorEventArgs(exception, job);
+            JobError?.Invoke(this, args);
+            if (!args.Handled)
+            {
+                throw new JobException($"Job Exception: {job}", exception, job);
+            }
+        }
+
+        /// <summary>
         /// Queue登録前の処理
         /// </summary>
-        /// <param name="command"></param>
-        protected virtual bool OnEnqueueing(IJob command)
+        /// <param name="job"></param>
+        protected virtual bool OnEnqueueing(IJob job)
         {
             return true;
         }
@@ -124,7 +156,8 @@ namespace NeeLaboratory.Threading.Jobs
         /// <summary>
         /// Queue登録後の処理
         /// </summary>
-        protected virtual void OnEnqueued(IJob command)
+        /// <param name="job"></param>
+        protected virtual void OnEnqueued(IJob job)
         {
             // nop.
         }
@@ -136,6 +169,8 @@ namespace NeeLaboratory.Threading.Jobs
         /// </summary>
         private void Initialize()
         {
+            _isActive = true;
+
             _cancellationTokenSource = new CancellationTokenSource();
             Task.Run(async () =>
             {
@@ -143,10 +178,14 @@ namespace NeeLaboratory.Threading.Jobs
                 {
                     await WorkerAsync(_cancellationTokenSource.Token);
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    // 例外停止はイベントで発行
-                    Error?.Invoke(this, new ErrorEventArgs(e));
+                    Debug.WriteLine($"JobEngine stopped: {ex.Message}");
+                    JobEngineError?.Invoke(this, new ErrorEventArgs(ex));
+                }
+                finally
+                {
+                    _isActive = false;
                 }
             });
         }
@@ -187,17 +226,17 @@ namespace NeeLaboratory.Threading.Jobs
                                 _ready.Reset();
                                 break;
                             }
-
                             _job = _queue.Dequeue();
                         }
 
-                        ////Logger.Trace($"{_command}: start... :rest={_queue.Count}");
-                        await _job?.ExecuteAsync();
-                        ////Logger.Trace($"{_command}: done.");
-                        ////if (_command is JobBase cmd)
-                        ////{
-                        ////    Logger.Trace($"{cmd}: result={cmd.Result}");
-                        ////}
+                        try
+                        {
+                            await _job?.ExecuteAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            HandleJobException(ex, _job);
+                        }
 
                         _job = null;
                     }

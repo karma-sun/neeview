@@ -504,7 +504,7 @@
     <Compile Include="Utility\FileShortcut.cs" />
     <Compile Include="Utility\VectorExtensions.cs" />
     <Compile Include="IndexValue.cs" />
-    <Compile Include="VisualTreeTools.cs" />
+    <Compile Include="_NeeLaboratory\Windows\Media\VisualTreeTools.cs" />
     <Compile Include="SliderTextBox.xaml.cs">
       <DependentUpon>SliderTextBox.xaml</DependentUpon>
     </Compile>

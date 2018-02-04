@@ -21,6 +21,8 @@ namespace NeeLaboratory.Windows.Media
     /// </summary>
     public static class VisualTreeTools
     {
+        #region for ListBox
+
         /// <summary>
         /// ListBox とその要素から、名前を指定してのコントロールを取得する 
         /// </summary>
@@ -44,19 +46,6 @@ namespace NeeLaboratory.Windows.Media
             return (ListBoxItem)(listBox.ItemContainerGenerator.ContainerFromItem(item));
         }
 
-
-        /// <summary>
-        /// ListView とその要素から、ListViewItem を取得する
-        /// </summary>
-        /// <param name="listView"></param>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public static ListViewItem GetListViewItemFromItem(ListView listView, object item)
-        {
-            return (ListViewItem)(listView.ItemContainerGenerator.ContainerFromItem(item));
-        }
-
-
         /// <summary>
         /// ListBox と index から、ListBoxItem を取得する
         /// </summary>
@@ -67,7 +56,6 @@ namespace NeeLaboratory.Windows.Media
         {
             return (ListBoxItem)(listBox.ItemContainerGenerator.ContainerFromIndex(index));
         }
-
 
         /// <summary>
         /// ListBoxitem から、名前を指定してコントロールを取得する 
@@ -116,34 +104,22 @@ namespace NeeLaboratory.Windows.Media
             }
         }
 
+        #endregion
+
+        #region for ListView
 
         /// <summary>
-        /// DependencyObject から、型、名前を指定してコントロールを取得する
+        /// ListView とその要素から、ListViewItem を取得する
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <param name="listView"></param>
         /// <param name="item"></param>
-        /// <param name="name"></param>
         /// <returns></returns>
-        public static T GetChildElement<T>(DependencyObject item, string name = null)
-            where T : FrameworkElement
+        public static ListViewItem GetListViewItemFromItem(ListView listView, object item)
         {
-            if (item == null) return null;
-
-            // Getting the ContentPresenter of myListBoxItem
-            ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter>(item);
-
-            // Finding textBlock from the DataTemplate that is set on that ContentPresenter
-            DataTemplate myDataTemplate = myContentPresenter.ContentTemplate ?? (myContentPresenter.Content as ContentPresenter)?.ContentTemplate;
-
-            if (myDataTemplate != null)
-            {
-                return myDataTemplate.FindName(name, myContentPresenter) as T;
-            }
-            else
-            {
-                return FindVisualChild<T>(item, name);
-            }
+            return (ListViewItem)(listView.ItemContainerGenerator.ContainerFromItem(item));
         }
+
+        #endregion
 
         #region for TreeView
 
@@ -214,6 +190,36 @@ namespace NeeLaboratory.Windows.Media
 
         #endregion
 
+        /// <summary>
+        /// DependencyObject から、型、名前を指定してコントロールを取得する
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="item"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static T GetChildElement<T>(DependencyObject item, string name = null)
+            where T : FrameworkElement
+        {
+            if (item == null)
+            {
+                return null;
+            }
+
+            // Getting the ContentPresenter of myListBoxItem
+            ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter>(item);
+
+            // Finding textBlock from the DataTemplate that is set on that ContentPresenter
+            DataTemplate myDataTemplate = myContentPresenter.ContentTemplate ?? (myContentPresenter.Content as ContentPresenter)?.ContentTemplate;
+
+            if (myDataTemplate != null)
+            {
+                return myDataTemplate.FindName(name, myContentPresenter) as T;
+            }
+            else
+            {
+                return FindVisualChild<T>(item, name);
+            }
+        }
 
         /// <summary>
         /// 指定した型の子要素で最初に見つかったビジュアル要素を返す
@@ -244,6 +250,7 @@ namespace NeeLaboratory.Windows.Media
                     return child;
                 }
             }
+
             return null;
         }
     }

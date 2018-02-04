@@ -9,7 +9,9 @@ using System.Windows.Data;
 
 namespace NeeView.Windows.Data
 {
-    //
+    /// <summary>
+    /// オブジェクトがNullの場合はVisiitily.Collapsedを返す
+    /// </summary>
     [ValueConversion(typeof(object), typeof(Visibility))]
     public class NullableToVisibilityConverter : IValueConverter
     {
@@ -24,7 +26,9 @@ namespace NeeView.Windows.Data
         }
     }
 
-    //
+    /// <summary>
+    /// Trueの時にVisibility.Collapsedにする
+    /// </summary>
     [System.Windows.Data.ValueConversion(typeof(bool), typeof(Visibility))]
     public class NotBoolToVisiblityConverter : System.Windows.Data.IValueConverter
     {

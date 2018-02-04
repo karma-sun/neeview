@@ -19,8 +19,8 @@ using System.Windows.Shapes;
 
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using NeeView.Windows.Input;
-using NeeView.ComponentModel;
+using NeeLaboratory.Windows.Input;
+using NeeLaboratory.ComponentModel;
 using System.Globalization;
 
 namespace NeeView

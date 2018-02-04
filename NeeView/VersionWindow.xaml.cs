@@ -19,7 +19,7 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using NeeView.ComponentModel;
+using NeeLaboratory.ComponentModel;
 using System.Windows.Markup;
 
 namespace NeeView

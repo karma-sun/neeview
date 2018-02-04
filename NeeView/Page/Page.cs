@@ -16,7 +16,7 @@ using System.Threading;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows;
-using NeeView.ComponentModel;
+using NeeLaboratory.ComponentModel;
 
 namespace NeeView
 {

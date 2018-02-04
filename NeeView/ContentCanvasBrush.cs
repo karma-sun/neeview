@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
-using NeeView.ComponentModel;
+using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;

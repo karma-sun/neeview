@@ -4,7 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 
-using NeeView.ComponentModel;
+using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System.Collections.Generic;
 using System.ComponentModel;

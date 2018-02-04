@@ -13,8 +13,8 @@ using System.Windows.Threading;
 
 using NeeView.Windows;
 using NeeView.Windows.Data;
-using NeeView.Windows.Input;
-using NeeView.ComponentModel;
+using NeeLaboratory.Windows.Input;
+using NeeLaboratory.ComponentModel;
 
 namespace NeeView
 {

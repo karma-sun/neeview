@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 using System.Windows.Input;
 
-namespace NeeView.Windows.Input
+namespace NeeLaboratory.Windows.Input
 {
     /// <summary>
     /// その機能を中継することのみを目的とするコマンド

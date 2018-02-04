@@ -14,7 +14,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.ComponentModel;
 using System.Diagnostics;
-using NeeView.ComponentModel;
+using NeeLaboratory.ComponentModel;
 using System.IO;
 using System.Threading;
 

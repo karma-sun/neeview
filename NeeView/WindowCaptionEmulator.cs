@@ -5,7 +5,7 @@
 
 // from http://stackoverflow.com/questions/11703833/dragmove-and-maximize
 
-using NeeView.ComponentModel;
+using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

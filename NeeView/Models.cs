@@ -1,4 +1,4 @@
-﻿using NeeView.ComponentModel;
+﻿using NeeLaboratory.ComponentModel;
 using NeeView.Effects;
 using NeeView.Windows.Property;
 using System;

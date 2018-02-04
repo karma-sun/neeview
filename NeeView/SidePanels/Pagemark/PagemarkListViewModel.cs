@@ -3,8 +3,8 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
-using NeeView.ComponentModel;
-using NeeView.Windows.Input;
+using NeeLaboratory.ComponentModel;
+using NeeLaboratory.Windows.Input;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;

@@ -31,7 +31,9 @@ namespace NeeView
         FullScreen,
     }
 
-    //
+    /// <summary>
+    /// WindowChromeFrame Type
+    /// </summary>
     public enum WindowChromeFrame
     {
         WindowFrame, // ウィンドウフレームを使用
@@ -70,10 +72,6 @@ namespace NeeView
         /// </summary>
         private WindowChrome _chrome;
 
-
-
-
-
         /// <summary>
         /// 直前の状態
         /// </summary>
@@ -88,6 +86,16 @@ namespace NeeView
         /// Windows7?
         /// </summary>
         private bool _isWindows7;
+
+        private WindowChromeFrame _WindowChromeFrame;
+        private Thickness _windowBorderThickness;
+        private bool _isCaptionVisible = true;
+        private bool _isTopmost;
+        private bool _isFullScreen;
+        private WindowChrome _windowChrome;
+        private WindowStateEx _state;
+        private bool _IsEnabled;
+        private bool _isProcessing;
 
         #endregion
 
@@ -150,7 +158,6 @@ namespace NeeView
         /// <summary>
         /// WindowChromeFrame property.
         /// </summary>
-        private WindowChromeFrame _WindowChromeFrame;
         public WindowChromeFrame WindowChromeFrame
         {
             get { return _WindowChromeFrame; }
@@ -167,29 +174,24 @@ namespace NeeView
         /// <summary>
         /// WindowBorderThickness property.
         /// </summary>
-        private Thickness _windowBorderThickness;
         public Thickness WindowBorderThickness
         {
             get { return _windowBorderThickness; }
             set { if (_windowBorderThickness != value) { _windowBorderThickness = value; RaisePropertyChanged(); } }
         }
 
-
         /// <summary>
         /// IsCaptionVisible property.
         /// </summary>
-        private bool _isCaptionVisible = true;
         public bool IsCaptionVisible
         {
             get { return _isCaptionVisible; }
             set { if (_isCaptionVisible != value) { _isCaptionVisible = value; Reflesh(); } }
         }
 
-
         /// <summary>
         /// IsTopmost property.
         /// </summary>
-        private bool _isTopmost;
         public bool IsTopmost
         {
             get { return _isTopmost; }
@@ -207,18 +209,15 @@ namespace NeeView
         /// <summary>
         /// IsFullScreen property.
         /// </summary>
-        private bool _isFullScreen;
         public bool IsFullScreen
         {
             get { return _isFullScreen; }
             private set { if (_isFullScreen != value) { _isFullScreen = value; RaisePropertyChanged(); } }
         }
 
-
         /// <summary>
         /// 現在のWindowChrome
         /// </summary>
-        private WindowChrome _windowChrome;
         public WindowChrome WindowChrome
         {
             get { return _windowChrome; }
@@ -237,7 +236,6 @@ namespace NeeView
         /// State property.
         /// 現在の状態
         /// </summary>
-        private WindowStateEx _state;
         public WindowStateEx State
         {
             get { return _state; }
@@ -252,17 +250,17 @@ namespace NeeView
             }
         }
 
-
         /// <summary>
         /// 処理中
         /// </summary>
-        public bool IsProcessing { get; private set; }
-
+        public bool IsProcessing
+        {
+            get { return _isProcessing; }
+        }
 
         /// <summary>
         /// IsEnabled property.
         /// </summary>
-        private bool _IsEnabled;
         public bool IsEnabled
         {
             get { return _IsEnabled; }
@@ -404,8 +402,8 @@ namespace NeeView
         /// </summary>
         private void BeginEdit()
         {
-            Debug.Assert(IsProcessing == false);
-            IsProcessing = true;
+            Debug.Assert(_isProcessing == false);
+            _isProcessing = true;
         }
 
         /// <summary>
@@ -413,7 +411,7 @@ namespace NeeView
         /// </summary>
         private void EndEdit()
         {
-            IsProcessing = false;
+            _isProcessing = false;
         }
 
         /// <summary>

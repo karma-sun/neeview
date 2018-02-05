@@ -40,6 +40,61 @@
         <uap3:Extension Category="windows.protocol">
           <uap3:Protocol Name="neeview-open" Parameters="&quot;%1&quot;" />
         </uap3:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="neeview-archive">
+            <uap:Logo>Assets\Square44x44FileLogo.png</uap:Logo>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.zip</uap:FileType>
+              <uap:FileType>.rar</uap:FileType>
+              <uap:FileType>.lzh</uap:FileType>
+              <uap:FileType>.7z</uap:FileType>
+              <uap:FileType>.cbr</uap:FileType>
+              <uap:FileType>.cbz</uap:FileType>
+              <uap:FileType>.pdf</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="neeview-image">
+            <uap:Logo>Assets\Square44x44FileLogo.png</uap:Logo>
+            <uap:SupportedFileTypes>
+              <uap:FileType ContentType="image/bmp">.bmp</uap:FileType>
+              <uap:FileType ContentType="image/bmp">.dib</uap:FileType>
+              <uap:FileType ContentType="image/bmp">.rle</uap:FileType>
+              <uap:FileType ContentType="image/jpeg">.jpg</uap:FileType>
+              <uap:FileType ContentType="image/jpeg">.jpe</uap:FileType>
+              <uap:FileType ContentType="image/jpeg">.jpeg</uap:FileType>
+              <uap:FileType ContentType="image/jpeg">.jfif</uap:FileType>
+              <uap:FileType ContentType="image/jpeg">.exif</uap:FileType>
+              <uap:FileType ContentType="image/png">.png</uap:FileType>
+              <uap:FileType ContentType="image/gif">.gif</uap:FileType>
+              <uap:FileType ContentType="image/tiff">.tif</uap:FileType>
+              <uap:FileType ContentType="image/tiff">.tiff</uap:FileType>
+              <uap:FileType>.ico</uap:FileType>
+              <uap:FileType>.icon</uap:FileType>
+              <uap:FileType>.wdp</uap:FileType>
+              <uap:FileType>.jxr</uap:FileType>
+              <uap:FileType>.dds</uap:FileType>
+              <uap:FileType>.arw</uap:FileType>
+              <uap:FileType>.cr2</uap:FileType>
+              <uap:FileType>.crw</uap:FileType>
+              <uap:FileType>.erf</uap:FileType>
+              <uap:FileType>.kdc</uap:FileType>
+              <uap:FileType>.mrw</uap:FileType>
+              <uap:FileType>.nef</uap:FileType>
+              <uap:FileType>.nrw</uap:FileType>
+              <uap:FileType>.orf</uap:FileType>
+              <uap:FileType>.pef</uap:FileType>
+              <uap:FileType>.raf</uap:FileType>
+              <uap:FileType>.raw</uap:FileType>
+              <uap:FileType>.rw2</uap:FileType>
+              <uap:FileType>.rwl</uap:FileType>
+              <uap:FileType>.sr2</uap:FileType>
+              <uap:FileType>.srw</uap:FileType>
+              <uap:FileType>.dng</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>

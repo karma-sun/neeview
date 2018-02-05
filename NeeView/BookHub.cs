@@ -782,6 +782,8 @@ namespace NeeView
 
             if (path == null) return null;
 
+            path = LoosePath.NormalizeSeparator(path);
+
             if (Utility.FileShortcut.IsShortcut(path) && (System.IO.File.Exists(path) || System.IO.Directory.Exists(path)))
             {
                 var shortcut = new Utility.FileShortcut(path);

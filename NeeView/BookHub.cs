@@ -266,7 +266,7 @@ namespace NeeView
         /// IsArchiveRecursive property.
         /// TODO: パラメータの定義位置はあとで調整
         /// </summary>
-        private bool _isArchiveRecursive;
+        private bool _isArchiveRecursive = true;
         public bool IsArchiveRecursive
         {
             get { return _isArchiveRecursive; }

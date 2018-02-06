@@ -266,7 +266,7 @@ namespace NeeView
         /// IsArchiveRecursive property.
         /// TODO: パラメータの定義位置はあとで調整
         /// </summary>
-        private bool _isArchiveRecursive;
+        private bool _isArchiveRecursive = true;
         public bool IsArchiveRecursive
         {
             get { return _isArchiveRecursive; }
@@ -781,6 +781,8 @@ namespace NeeView
             if (!this.IsEnabled) return null;
 
             if (path == null) return null;
+
+            path = LoosePath.NormalizeSeparator(path);
 
             if (Utility.FileShortcut.IsShortcut(path) && (System.IO.File.Exists(path) || System.IO.Directory.Exists(path)))
             {

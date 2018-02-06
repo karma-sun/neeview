@@ -1738,9 +1738,9 @@ namespace NeeView
             {
                 var element = new CommandElement();
                 element.Group = "表示サイズ";
-                element.Text = "オリジナルサイズ指定のON /OFF";
+                element.Text = "サイズ指定のON /OFF";
                 element.MenuText = "サイズ指定";
-                element.Note = "オリジナルサイズ指定の有効/無効を切り替えます";
+                element.Note = "オリジナルサイズに適用されるサイズ指定の有効/無効を切り替えます";
                 element.CanExecute = () => true;
                 element.IsShowMessage = true;
                 element.ExecuteMessage = e => _models.PictureProfile.CustomSize.IsEnabled ? "サイズ指定OFF" : "サイズ指定ON";

@@ -3,7 +3,9 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
+using NeeLaboratory.Diagnostics;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -372,6 +374,7 @@ namespace NeeView
 
             // command engine
             _commandEngine = new BookHubCommandEngine();
+            _commandEngine.Log = new Log(nameof(BookHubCommandEngine), 0);
         }
 
         //

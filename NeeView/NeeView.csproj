@@ -205,8 +205,10 @@
     <Compile Include="SidePanels\FolderList\FolderArchiveCollection.cs" />
     <Compile Include="SidePanels\FolderList\FolderSearchCollection.cs" />
     <Compile Include="Archiver\TempFileCache.cs" />
+    <Compile Include="_NeeLaboratory\IEngine.cs" />
+    <Compile Include="_NeeLaboratory\Diagnostics\Log.cs" />
     <Compile Include="_NeeLaboratory\Threading\Jobs\IJob.cs" />
-    <Compile Include="_NeeLaboratory\Threading\Jobs\JobEngine.cs" />
+    <Compile Include="_NeeLaboratory\Threading\Jobs\SingleJobEngine.cs" />
     <Compile Include="_NeeLaboratory\Threading\Jobs\JobBase.cs" />
     <Compile Include="SidePanels\ImageEffect\ImageFilter.cs" />
     <Compile Include="SidePanels\SidePanelProfile.cs" />
@@ -499,7 +501,6 @@
     <Compile Include="Print\PrintWindowViewModel.cs" />
     <Compile Include="SizeString.cs" />
     <Compile Include="Utility\AsyncronousAction.cs" />
-    <Compile Include="Utility\CommandEngine.cs" />
     <Compile Include="Utility\EnumerableExtensions.cs" />
     <Compile Include="Utility\FileShortcut.cs" />
     <Compile Include="Utility\VectorExtensions.cs" />

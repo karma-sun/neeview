@@ -564,6 +564,7 @@ namespace NeeView
         public void Start()
         {
             Debug.Assert(Place != null);
+            _commandEngine.Log = new NeeLaboratory.Diagnostics.Log(nameof(BookCommandEngine), 0, SourceLevels.Verbose);
             _commandEngine.StartEngine();
         }
 

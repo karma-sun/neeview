@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NeeView.Utility;
 using System.Diagnostics;
+using NeeLaboratory.Threading.Jobs;
 
 namespace NeeView
 {
@@ -24,14 +25,11 @@ namespace NeeView
     /// <summary>
     /// Bookコマンド基底
     /// </summary>
-    internal abstract class BookCommand : Utility.CommandBase
+    internal abstract class BookCommand : CancelableJobBase
     {
         /// <summary>
         /// construcotr
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="book"></param>
-        /// <param name="priority"></param>
         public BookCommand(object sender, Book book, int priority) { _sender = sender; _book = book; Priority = priority; }
 
         /// <summary>
@@ -255,15 +253,15 @@ namespace NeeView
     /// <summary>
     /// Bookコマンドエンジン
     /// </summary>
-    internal class BookCommandEngine : Utility.CommandEngine
+    internal class BookCommandEngine : SingleJobEngine
     {
         /// <summary>
         /// コマンド登録前処理
         /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
-        protected override bool OnEnqueueing(ICommand command)
+        protected override bool OnEnqueueing(IJob command)
         {
+            Debug.Assert(command is BookCommand);
+
             if (_queue.Count == 0) return true;
 
             // ページ移動コマンドはまとめる
@@ -288,8 +286,8 @@ namespace NeeView
         /// <summary>
         /// コマンド登録後処理
         /// </summary>
-        /// <param name="cmd"></param>
-        protected override void OnEnqueued(Utility.ICommand cmd)
+        /// <param name="job"></param>
+        protected override void OnEnqueued(IJob job)
         {
             // 優先度の高い、最新のコマンドのみ残す
             if (_queue.Count > 1)
@@ -298,7 +296,7 @@ namespace NeeView
                 var select = _queue.Reverse().Cast<BookCommand>().OrderByDescending(e => e.Priority).First();
 
                 // それ以外のコマンドは廃棄
-                foreach(var command in _queue.Where(e => e != select))
+                foreach(BookCommand command in _queue.Where(e => e != select))
                 {
                     command.Cancel();
                 }

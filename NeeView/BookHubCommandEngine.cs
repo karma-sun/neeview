@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NeeView.Utility;
 using System.Diagnostics;
+using NeeLaboratory.Threading.Jobs;
 
 namespace NeeView
 {
@@ -20,11 +21,11 @@ namespace NeeView
     public class BookHubCommandArgs
     {
     }
-    
+
     /// <summary>
     /// BookHubコマンド基底
     /// </summary>
-    public abstract class BookHubCommand : Utility.CommandBase
+    public abstract class BookHubCommand : CancelableJobBase
     {
         /// <summary>
         /// construcotr
@@ -91,7 +92,7 @@ namespace NeeView
             _param = param;
 
             // キャンセル不可
-            CanBeCanceled = false;
+            this.CanBeCanceled = false;
         }
 
         protected override async Task ExecuteAsync(CancellationToken token)
@@ -103,51 +104,24 @@ namespace NeeView
     /// <summary>
     /// BookHub用コマンドエンジン
     /// </summary>
-    public class BookHubCommandEngine : Utility.CommandEngine
+    public class BookHubCommandEngine : SingleJobEngine
     {
-        /// <summary>
-        /// 最新の場所
-        /// </summary>
-        public string Place { get; private set; }
-
-
         /// <summary>
         /// コマンド登録前処理
         /// </summary>
-        /// <param name="command"></param>
-        protected override bool OnEnqueueing(ICommand command)
+        /// <param name="job"></param>
+        protected override bool OnEnqueueing(IJob job)
         {
-            // 現在コマンドはキャンセル
-            _command?.Cancel();
+            Debug.Assert(job is BookHubCommand);
 
             // 全コマンドキャンセル
             // ※ Unloadはキャンセルできないので残る
-            foreach(var cmd in _queue)
+            foreach (BookHubCommand e in AllJobs())
             {
-                cmd.Cancel();
+                e.Cancel();
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// コマンド登録後処理
-        /// </summary>
-        protected override void OnEnqueued(Utility.ICommand cmd)
-        {
-            // 最新コマンドから場所を取得 .. 使ってない？
-            if (_queue.Any())
-            {
-                var command = _queue.Peek();
-                if (command is BookHubCommandLoad)
-                {
-                    this.Place = ((BookHubCommandLoad)command).Path;
-                }
-                else if (command is BookHubCommandUnload)
-                {
-                    this.Place = null;
-                }
-            }
         }
     }
 }

@@ -36,7 +36,7 @@ namespace NeeView
         /// <summary>
         /// コマンド処理エンジン
         /// </summary>
-        private Jobs.JobEngine _engine;
+        private Jobs.SingleJobEngine _engine;
 
         /// <summary>
         /// 
@@ -54,9 +54,9 @@ namespace NeeView
             this.FolderParameter = new FolderParameter(place);
             this.FolderParameter.PropertyChanged += (s, e) => ParameterChanged?.Invoke(s, null);
 
-            _engine = new Jobs.JobEngine();
+            _engine = new Jobs.SingleJobEngine();
             _engine.JobError += JobEngine_Error;
-            _engine.IsEnabled = true;
+            _engine.StartEngine();
         }
 
         #endregion

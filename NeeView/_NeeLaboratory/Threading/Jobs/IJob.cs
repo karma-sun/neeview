@@ -13,9 +13,8 @@ namespace NeeLaboratory.Threading.Jobs
     public interface IJob
     {
         /// <summary>
-        /// Job実行
+        /// Jobの実行処理
         /// </summary>
-        /// <returns></returns>
         Task ExecuteAsync();
     }
 }

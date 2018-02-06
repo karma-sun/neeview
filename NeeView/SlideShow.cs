@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections.Generic;
@@ -18,24 +19,6 @@ using System.Windows.Threading;
 
 namespace NeeView
 {
-    /// <summary>
-    /// 能動的に動作する機能を持つオブジェクト。スレッドやタイマーで非同期に実行されるもの等。
-    /// </summary>
-    public interface IEngine
-    {
-        /// <summary>
-        /// エンジン始動
-        /// </summary>
-        void StartEngine();
-
-        /// <summary>
-        /// エンジン停止
-        /// </summary>
-        void StopEngine();
-    }
-
-
-
     /// <summary>
     /// スライドショー管理
     /// </summary>

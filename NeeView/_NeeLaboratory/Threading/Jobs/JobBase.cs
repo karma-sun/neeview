@@ -18,7 +18,15 @@ namespace NeeLaboratory.Threading.Jobs
     public enum JobResult
     {
         None,
+
+        /// <summary>
+        /// 完了
+        /// </summary>
         Completed,
+
+        /// <summary>
+        /// キャンセル
+        /// </summary>
         Canceled,
     }
 
@@ -33,7 +41,7 @@ namespace NeeLaboratory.Threading.Jobs
         /// <summary>
         /// キャンセルトークン
         /// </summary>
-        private CancellationToken _cancellationToken;
+        protected CancellationToken _cancellationToken;
 
         /// <summary>
         /// 実行完了待ち用フラグ
@@ -166,5 +174,31 @@ namespace NeeLaboratory.Threading.Jobs
         }
 
         #endregion
+    }
+
+
+    public abstract class CancelableJobBase : JobBase
+    {
+        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private bool _canBeCanceled = true;
+
+        public CancelableJobBase() : base()
+        {
+            _cancellationToken = _tokenSource.Token;
+        }
+
+        /// <summary>
+        /// キャンセル可能プロパティ
+        /// </summary>
+        public new bool CanBeCanceled
+        {
+            get { return _canBeCanceled && base.CanBeCanceled; }
+            set { _canBeCanceled = value; }
+        }
+
+        public void Cancel()
+        {
+            _tokenSource.Cancel();
+        }
     }
 }

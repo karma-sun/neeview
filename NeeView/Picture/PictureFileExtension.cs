@@ -62,7 +62,7 @@ namespace NeeView
             // WIC
             try
             {
-                var wics = Utility.WicDecoders.ListUp();
+                var wics = WicDecoders.ListUp();
                 dictionary = dictionary.Concat(wics).ToDictionary(x => x.Key, x => x.Value);
             }
             catch { } // 失敗しても動くように例外スルー

@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory;
 using NeeView.Windows.Property;
 using PhotoSauce.MagicScaler;
 using System;
@@ -47,7 +48,7 @@ namespace NeeView
         public int Quality
         {
             get { return _quality; }
-            set { _quality = NVUtility.Clamp(value, 1, 100); }
+            set { _quality = MathUtility.Clamp(value, 1, 100); }
         }
 
         public bool IsCacheEnabled { get; set; } = true;
@@ -60,7 +61,7 @@ namespace NeeView
             get { return _bannerWidth; }
             set
             {
-                _bannerWidth = NVUtility.Clamp(value, 0, 512);
+                _bannerWidth = MathUtility.Clamp(value, 0, 512);
                 int bannerWidth = _bannerWidth;
                 int bannerHeight = _bannerWidth / 4;
                 App.Current.Resources["BannerWidth"] = (double)bannerWidth;
@@ -77,7 +78,7 @@ namespace NeeView
             get { return _thumbnailWidth; }
             set
             {
-                _thumbnailWidth = NVUtility.Clamp(value, 0, 256);
+                _thumbnailWidth = MathUtility.Clamp(value, 0, 256);
                 int width = _thumbnailWidth;
                 int height = _thumbnailWidth + 10;
                 App.Current.Resources["ThumbnailWidth"] = (double)width;

@@ -252,7 +252,7 @@ namespace NeeView
             get { return _workerSize; }
             set
             {
-                var size = NVUtility.Clamp(value, 1, _MaxWorkerSize);
+                var size = MathUtility.Clamp(value, 1, _MaxWorkerSize);
                 if (_workerSize != size)
                 {
                     _workerSize = size;

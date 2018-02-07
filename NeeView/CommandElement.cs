@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -260,7 +261,7 @@ namespace NeeView
 
             if (HasParameter && memento.Parameter != null)
             {
-                Parameter = (CommandParameter)Utility.Json.Deserialize(memento.Parameter, DefaultParameter.GetType());
+                Parameter = (CommandParameter)Json.Deserialize(memento.Parameter, DefaultParameter.GetType());
             }
         }
 

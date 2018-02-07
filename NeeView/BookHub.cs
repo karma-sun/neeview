@@ -7,6 +7,7 @@ using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Diagnostics;
 using NeeView.IO;
+using NeeView.Threading.Tasks;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -693,7 +694,7 @@ namespace NeeView
                 if (book.Pages.Count > 0)
                 {
                     //await Task.Run(() => book.ContentLoaded.Wait(token));
-                    await Utility.Process.ActionAsync(() => book.ContentLoaded.Wait(token), token);
+                    await TaskUtils.ActionAsync(() => book.ContentLoaded.Wait(token), token);
                 }
             }
             catch (OperationCanceledException)

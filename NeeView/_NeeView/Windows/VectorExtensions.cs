@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace NeeView.Utility
+namespace NeeView.Windows
 {
     public static class VectorExtensions
     {

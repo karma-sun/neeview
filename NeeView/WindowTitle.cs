@@ -170,7 +170,7 @@ namespace NeeView
                 Title = _defaultWindowTitle;
 
             else if (_contentCanvas.MainContent?.Source == null)
-                Title = NVUtility.PlaceToTitle(place);
+                Title = new PlaceString(place).ToString();
 
             else
                 Title = CreateWindowTitle(mask);
@@ -193,7 +193,7 @@ namespace NeeView
 
             if ((mask & WindowTitleMask.Book) != 0)
             {
-                string bookName = NVUtility.PlaceToTitle(BookOperation.Current.Book?.Place);
+                string bookName = new PlaceString(BookOperation.Current.Book?.Place).ToString();
                 _windowTitleFormatter.Set("$Book", bookName);
             }
 

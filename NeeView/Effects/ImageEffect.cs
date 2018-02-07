@@ -5,6 +5,7 @@
 
 using Microsoft.Expression.Media.Effects;
 using NeeLaboratory.ComponentModel;
+using NeeView.Data;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -156,7 +157,7 @@ namespace NeeView.Effects
             {
                 if (effect.Value != null)
                 {
-                    memento.Effects.Add(effect.Key, Utility.Json.Serialize(effect.Value, this.Effects[effect.Key].GetType()));
+                    memento.Effects.Add(effect.Key, Json.Serialize(effect.Value, this.Effects[effect.Key].GetType()));
                 }
             }
 
@@ -181,7 +182,7 @@ namespace NeeView.Effects
                 {
                     if (this.Effects.ContainsKey(effect.Key))
                     {
-                        this.Effects[effect.Key] = (EffectUnit)Utility.Json.Deserialize(effect.Value, this.Effects[effect.Key].GetType());
+                        this.Effects[effect.Key] = (EffectUnit)Json.Deserialize(effect.Value, this.Effects[effect.Key].GetType());
                     }
                 }
             }

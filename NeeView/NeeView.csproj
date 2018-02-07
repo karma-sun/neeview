@@ -205,6 +205,12 @@
     <Compile Include="SidePanels\FolderList\FolderArchiveCollection.cs" />
     <Compile Include="SidePanels\FolderList\FolderSearchCollection.cs" />
     <Compile Include="Archiver\TempFileCache.cs" />
+    <Compile Include="HtmlHelpUtility.cs" />
+    <Compile Include="HtmlParseUtility.cs" />
+    <Compile Include="_NeeLaboratory\MathUtility.cs" />
+    <Compile Include="Picture\PictureFormat.cs" />
+    <Compile Include="PlaceString.cs" />
+    <Compile Include="_NeeLaboratory\IO\PathUtility.cs" />
     <Compile Include="_NeeLaboratory\IO\FileSystem.cs" />
     <Compile Include="_NeeLaboratory\IEngine.cs" />
     <Compile Include="_NeeLaboratory\Diagnostics\Log.cs" />
@@ -418,7 +424,7 @@
     <Compile Include="_NeeView\Data\OptionValuesAttribute.cs" />
     <Compile Include="_NeeLaboratory\Windows\Input\RelayCommand.cs" />
     <Compile Include="OpenSourceControls\DockPanelSplitter.cs" />
-    <Compile Include="Utility\ComboColorPicker.xaml.cs">
+    <Compile Include="OpenSourceControls\ComboColorPicker.xaml.cs">
       <DependentUpon>ComboColorPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="CommandResetWindow.xaml.cs">
@@ -501,12 +507,12 @@
     </Compile>
     <Compile Include="Print\PrintWindowViewModel.cs" />
     <Compile Include="SizeString.cs" />
-    <Compile Include="Utility\AsyncronousAction.cs" />
-    <Compile Include="Utility\EnumerableExtensions.cs" />
+    <Compile Include="_NeeView\Threading\Tasks\TaskUtils.cs" />
+    <Compile Include="_NeeView\Collections\Generic\EnumerableExtensions.cs" />
     <Compile Include="_NeeView\IO\FileShortcut.cs" />
-    <Compile Include="Utility\VectorExtensions.cs" />
+    <Compile Include="_NeeView\Windows\VectorExtensions.cs" />
     <Compile Include="IndexValue.cs" />
-    <Compile Include="_NeeLaboratory\Windows\Media\VisualTreeTools.cs" />
+    <Compile Include="_NeeLaboratory\Windows\Media\VisualTreeUtility.cs" />
     <Compile Include="SliderTextBox.xaml.cs">
       <DependentUpon>SliderTextBox.xaml</DependentUpon>
     </Compile>
@@ -558,13 +564,12 @@
     <Compile Include="ReplaceString.cs" />
     <Compile Include="ThumbnailHelper.cs" />
     <Compile Include="ThumbnailManager.cs" />
-    <Compile Include="Utility\Drawing.cs" />
-    <Compile Include="Utility\Graphics.cs" />
-    <Compile Include="Utility\Json.cs" />
-    <Compile Include="Utility\WicDecoders.cs" />
+    <Compile Include="_NeeView\Drawing\DrawingExtensions.cs" />
+    <Compile Include="_NeeView\Media\Imaging\BitmapSourceExtensions.cs" />
+    <Compile Include="_NeeView\Data\Json.cs" />
+    <Compile Include="Picture\WicDecoders.cs" />
     <Compile Include="ContentDropReciever.cs" />
     <Compile Include="_NeeView\IO\FileContents.cs" />
-    <Compile Include="Utility\NVUtilities.cs" />
     <Compile Include="BackgroundStyle.cs" />
     <Compile Include="DragAction.cs" />
     <Compile Include="Bitmap\ExifAccessor.cs" />
@@ -791,7 +796,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Utility\ComboColorPicker.xaml">
+    <Page Include="OpenSourceControls\ComboColorPicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

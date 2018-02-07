@@ -13,16 +13,16 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace NeeView.Utility
+namespace NeeView.Media.Imaging
 {
-    public static class NVGraphics
+    public static class BitmapSourceExtensions
     {
         /// <summary>
         /// ビューコントロールをレンダリングしてBitmapにする
         /// </summary>
         /// <param name="visual">Width,Heightが設定されたコントロール</param>
         /// <returns>レンダリングされた画像</returns>
-        public static BitmapSource CreateRenderBitmap(FrameworkElement visual)
+        public static BitmapSource CreateRenderBitmap(this FrameworkElement visual)
         {
             visual.Measure(new Size(visual.Width, visual.Height));
             visual.Arrange(new Rect(new Size(visual.Width, visual.Height)));
@@ -36,9 +36,13 @@ namespace NeeView.Utility
             return bmp;
         }
 
-
-        // サムネイル作成
-        public static BitmapSource CreateThumbnail(BitmapSource source, Size maxSize)
+        /// <summary>
+        /// サムネイル作成
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="maxSize"></param>
+        /// <returns></returns>
+        public static BitmapSource CreateThumbnail(this BitmapSource source, Size maxSize)
         {
             if (source == null) return null;
 
@@ -78,7 +82,7 @@ namespace NeeView.Utility
                 image.Stretch = Stretch.Fill;
 
                 double bannerHeight = (int)(width * 0.25);
-                if (isBanner && bannerHeight < height) // && maxSize.Width * 0.25 < height)
+                if (isBanner && bannerHeight < height)
                 {
                     canvas.Height = bannerHeight;
 
@@ -109,9 +113,14 @@ namespace NeeView.Utility
 
 
 
-        // サムネイル作成(DrawingVisual版)
-        // 完全非同期にできるが、品質が悪い
-        public static BitmapSource CreateThumbnailByDrawingVisual(BitmapSource source, Size maxSize)
+        /// <summary>
+        /// サムネイル作成(DrawingVisual版)
+        /// 完全非同期にできるが、品質が悪い
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="maxSize"></param>
+        /// <returns></returns>
+        public static BitmapSource CreateThumbnailByDrawingVisual(this BitmapSource source, Size maxSize)
         {
             if (source == null) return null;
 
@@ -149,31 +158,5 @@ namespace NeeView.Utility
 
 
 
-        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
-        public static extern bool DeleteObject(IntPtr hObject);
-
-        // Drawing.Image を BitmapSource に変換
-        public static BitmapSource ToBitmapSource(System.Drawing.Image image)
-        {
-            return ToBitmapSource(image as System.Drawing.Bitmap);
-        }
-
-        // Drawing.Bitmap を BitmapSource に変換
-        public static BitmapSource ToBitmapSource(System.Drawing.Bitmap bitmap)
-        {
-            if (bitmap == null) return null;
-
-            var hBitmap = bitmap.GetHbitmap();
-            try
-            {
-                var bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                bitmapSource.Freeze();
-                return bitmapSource;
-            }
-            finally
-            {
-                DeleteObject(hBitmap);
-            }
-        }
     }
 }

@@ -17,9 +17,9 @@ using System.Windows.Media;
 namespace NeeLaboratory.Windows.Media
 {
     /// <summary>
-    /// 
+    /// VisualTreeのユーティリティ
     /// </summary>
-    public static class VisualTreeTools
+    public static class VisualTreeUtility
     {
         #region for ListBox
 

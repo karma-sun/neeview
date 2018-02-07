@@ -9,17 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeeView
+namespace NeeView.Collections.Generic
 {
-    //
     internal static class EnumerableExtensions
     {
         /// <summary>
         /// ForEach
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="self"></param>
-        /// <param name="action"></param>
         public static void ForEach<T>(this IEnumerable<T> self, Action<T> action)
         {
             foreach (var e in self)

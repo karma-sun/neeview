@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory;
 using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
@@ -71,7 +72,7 @@ namespace NeeView
             {
                 if (_loupe.DefaultScale != value)
                 {
-                    _loupe.DefaultScale = NVUtility.Clamp(value, _minimumScale, MaximumScale);
+                    _loupe.DefaultScale = MathUtility.Clamp(value, _minimumScale, MaximumScale);
                     RaisePropertyChanged();
                 }
             }

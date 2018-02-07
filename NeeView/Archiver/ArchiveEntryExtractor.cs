@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -73,7 +74,7 @@ namespace NeeView
             ExtractFileName = path ?? throw new ArgumentNullException(nameof(path));
             Exception innerException = null;
 
-            _action = Utility.Process.ActionAsync((t) =>
+            _action = TaskUtils.ActionAsync((t) =>
             {
                 try
                 {
@@ -88,7 +89,7 @@ namespace NeeView
             },
             token);
 
-            await Utility.Process.WaitAsync(_action, token);
+            await TaskUtils.WaitAsync(_action, token);
             if (innerException != null) throw innerException;
 
             return ExtractFileName;
@@ -104,7 +105,7 @@ namespace NeeView
             Debug.Assert(_action != null);
 
             //await _action.WaitAsync(token);
-            await Utility.Process.WaitAsync(_action, token);
+            await TaskUtils.WaitAsync(_action, token);
 
             return ExtractFileName;
         }

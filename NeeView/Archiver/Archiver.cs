@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -235,7 +236,7 @@ namespace NeeView
 
             try
             {
-                var entry = await Utility.Process.FuncAsync(GetEntriesFunc, token);
+                var entry = await TaskUtils.FuncAsync(GetEntriesFunc, token);
                 ////Debug.WriteLine($"Entry: done.: {this.Path}");
                 return entry;
             }

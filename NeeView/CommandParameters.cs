@@ -10,7 +10,8 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-
+using NeeLaboratory;
+using NeeView.Data;
 using NeeView.Windows.Property;
 
 namespace NeeView
@@ -23,12 +24,12 @@ namespace NeeView
     {
         public CommandParameter Clone()
         {
-            return (CommandParameter)Utility.Json.Clone(this, this.GetType());
+            return (CommandParameter)Json.Clone(this, this.GetType());
         }
 
         public string ToJson()
         {
-            return Utility.Json.Serialize(this, this.GetType());
+            return Json.Serialize(this, this.GetType());
         }
 
         public virtual bool IsReadOnly()
@@ -78,7 +79,7 @@ namespace NeeView
         public int Size
         {
             get { return _size; }
-            set { _size = NVUtility.Clamp(value, 0, 1000); }
+            set { _size = MathUtility.Clamp(value, 0, 1000); }
         }
         private int _size;
     }
@@ -190,7 +191,7 @@ namespace NeeView
         public int Scroll
         {
             get { return _scroll; }
-            set { _scroll = NVUtility.Clamp(value, 0, 100); }
+            set { _scroll = MathUtility.Clamp(value, 0, 100); }
         }
         private int _scroll;
 
@@ -216,7 +217,7 @@ namespace NeeView
         public int Scale
         {
             get { return _scale; }
-            set { _scale = NVUtility.Clamp(value, 0, 100); }
+            set { _scale = MathUtility.Clamp(value, 0, 100); }
         }
         private int _scale;
     }
@@ -231,7 +232,7 @@ namespace NeeView
         public int Angle
         {
             get { return _angle; }
-            set { _angle = NVUtility.Clamp(value, 0, 180); }
+            set { _angle = MathUtility.Clamp(value, 0, 180); }
         }
         private int _angle;
 
@@ -276,7 +277,7 @@ namespace NeeView
         public int Scroll
         {
             get { return _scroll; }
-            set { _scroll = NVUtility.Clamp(value, 0, 100); }
+            set { _scroll = MathUtility.Clamp(value, 0, 100); }
         }
         private int _scroll;
 

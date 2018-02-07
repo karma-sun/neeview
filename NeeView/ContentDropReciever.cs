@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory.IO;
 using NeeView.IO;
 using System;
 using System.Collections.Generic;
@@ -162,10 +163,45 @@ namespace NeeView
             }
 
             // データタンプ
-            NVUtility.DumpDragData(data);
+            DumpDragData(data);
 
             //  読み込めなかったエラー表示
             throw new ApplicationException(errorMessage ?? "コンテンツの読み込みに失敗しました");
+        }
+
+
+        /// <summary>
+        /// ドラッグオブジェクトのダンプ
+        /// </summary>
+        /// <param name="data"></param>
+        [Conditional("DEBUG")]
+        private static void DumpDragData(System.Windows.IDataObject data)
+        {
+            Debug.WriteLine("----");
+            foreach (var name in data.GetFormats(true))
+            {
+                try
+                {
+                    var obj = data.GetData(name);
+                    if (obj is System.IO.MemoryStream)
+                    {
+                        Debug.WriteLine($"<{name}>: {obj} ({(obj as System.IO.MemoryStream).Length})");
+                    }
+                    else if (obj is string)
+                    {
+                        Debug.WriteLine($"<{name}>: string: {obj.ToString()}");
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"<{name}>: {obj}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"<{name}>: [Exception]: {ex.Message}");
+                }
+            }
+            Debug.WriteLine("----");
         }
     }
 
@@ -210,7 +246,7 @@ namespace NeeView
 
             // 画像ファイルチェック
             // 対応拡張子に変更する
-            var exts = NVUtility.GetSupportImageExtensions(buff);
+            var exts = PictureFormat.GetSupportImageExtensions(buff);
             if (exts == null) return null;
             if (!exts.Contains(ext))
             {
@@ -222,7 +258,7 @@ namespace NeeView
             }
 
             // ユニークなパスを作成
-            string fileName = NVUtility.CreateUniquePath(System.IO.Path.Combine(downloadPath, name));
+            string fileName = PathUtility.CreateUniquePath(System.IO.Path.Combine(downloadPath, name));
 
             try
             {
@@ -357,7 +393,7 @@ namespace NeeView
             if (data.GetDataPresent("HTML Format"))
             {
                 var fileNames = new List<string>();
-                foreach (var url in NVUtility.ParseSourceUrl(data.GetData("HTML Format").ToString()))
+                foreach (var url in HtmlParseUtility.CollectImgSrc(data.GetData("HTML Format").ToString()))
                 {
                     //data:[<mediatype>][;base64],<data>
                     if (url.StartsWith("data:image/"))
@@ -399,7 +435,7 @@ namespace NeeView
                 if (data.GetDataPresent("HTML Format"))
                 {
                     var fileNames = new List<string>();
-                    foreach (var url in NVUtility.ParseSourceUrl(data.GetData("HTML Format").ToString()))
+                    foreach (var url in HtmlParseUtility.CollectImgSrc(data.GetData("HTML Format").ToString()))
                     {
                         if (url.StartsWith("http://") || url.StartsWith("https://"))
                         {
@@ -451,7 +487,7 @@ namespace NeeView
                     var name = DateTime.Now.ToString("yyyyMMddHHmmss") + ".png";
 
                     // ユニークなパスを作成
-                    string fileName = NVUtility.CreateUniquePath(System.IO.Path.Combine(downloadPath, name));
+                    string fileName = PathUtility.CreateUniquePath(System.IO.Path.Combine(downloadPath, name));
 
                     // アルファ無効
                     var fixedBitmap = new FormatConvertedBitmap(bitmap, System.Windows.Media.PixelFormats.Bgr32, null, 0);

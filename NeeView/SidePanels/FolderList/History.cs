@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace NeeView
 
         public void Move(int delta)
         {
-            _current = NVUtility.Clamp(_current + delta, 0, _history.Count);
+            _current = MathUtility.Clamp(_current + delta, 0, _history.Count);
             Changed?.Invoke(this, null);
         }
 
@@ -76,14 +77,14 @@ namespace NeeView
         //
         public T GetHistory(int index)
         {
-            index = NVUtility.Clamp(index, 0, _history.Count - 1);
+            index = MathUtility.Clamp(index, 0, _history.Count - 1);
             return _history[index];
         }
 
         //
         public void SetCurrent(int index)
         {
-            _current = NVUtility.Clamp(index, 0, _history.Count);
+            _current = MathUtility.Clamp(index, 0, _history.Count);
             Changed?.Invoke(this, null);
         }
 

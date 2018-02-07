@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections.Generic;
@@ -146,7 +147,7 @@ namespace NeeView
         public int Columns
         {
             get { return _Columns; }
-            set { if (_Columns != value) { _Columns = NVUtility.Clamp(value, 1, 4); RaisePropertyChanged(); } }
+            set { if (_Columns != value) { _Columns = MathUtility.Clamp(value, 1, 4); RaisePropertyChanged(); } }
         }
 
         /// <summary>
@@ -157,7 +158,7 @@ namespace NeeView
         public int Rows
         {
             get { return _Rows; }
-            set { if (_Rows != value) { _Rows = NVUtility.Clamp(value, 1, 4); ; RaisePropertyChanged(); } }
+            set { if (_Rows != value) { _Rows = MathUtility.Clamp(value, 1, 4); ; RaisePropertyChanged(); } }
         }
 
 

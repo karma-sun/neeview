@@ -11,9 +11,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NeeView.Utility
+namespace NeeView.Threading.Tasks
 {
-    public static class Process
+    public static class TaskUtils
     {
         //
         public static Task ActionAsync(Action action, CancellationToken token)

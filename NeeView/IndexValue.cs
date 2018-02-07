@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections.Generic;
@@ -56,7 +57,7 @@ namespace NeeView
             }
             set
             {
-                _index = NVUtility.Clamp<int>(value, 0, IndexMax);
+                _index = MathUtility.Clamp<int>(value, 0, IndexMax);
 
                 SetValue(_values[_index]);
             }

@@ -3,7 +3,6 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
-using NeeView.Utility;
 using NeeView.Windows.Controls;
 using NeeLaboratory.Windows.Input;
 using System;

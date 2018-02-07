@@ -102,7 +102,7 @@ namespace NeeView
                 var regex = new Regex(@"\(_(\w)\)");
                 var regexReplace = @"($1)";
 
-                writer.WriteLine(NVUtility.HtmlHelpHeader("NeeView MainMenu List"));
+                writer.WriteLine(HtmlHelpUtility.CraeteHeader("NeeView MainMenu List"));
 
                 writer.WriteLine("<body><h1>NeeView メインメニュー</h1>");
 
@@ -121,7 +121,7 @@ namespace NeeView
                 }
                 writer.WriteLine("</body>");
 
-                writer.WriteLine(NVUtility.HtmlHelpFooter());
+                writer.WriteLine(HtmlHelpUtility.CreateFooter());
             }
 
             System.Diagnostics.Process.Start(fileName);

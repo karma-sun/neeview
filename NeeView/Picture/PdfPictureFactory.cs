@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
-using NeeView.Utility;
+using NeeView.Drawing;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -34,7 +34,7 @@ namespace NeeView
             // bitmap
             if (options.HasFlag(PictureCreateOptions.CreateBitmap) || options.HasFlag(PictureCreateOptions.CreateThumbnail))
             {
-                var bitmapSource = Utility.NVGraphics.ToBitmapSource(pdfArchiver.CraeteBitmapSource(entry, size));
+                var bitmapSource = pdfArchiver.CraeteBitmapSource(entry, size).ToBitmapSource();
 
                 picture.PictureInfo.Decoder = "PDFium";
                 picture.PictureInfo.SetPixelInfo(bitmapSource, Size.Empty);
@@ -67,7 +67,7 @@ namespace NeeView
         {
             var pdfArchiver = (PdfArchiver)entry.Archiver;
             size = size.IsEmpty ? pdfArchiver.GetRenderSize(entry) : size;
-            return Utility.NVGraphics.ToBitmapSource(pdfArchiver.CraeteBitmapSource(entry, size));
+            return pdfArchiver.CraeteBitmapSource(entry, size).ToBitmapSource();
         }
 
 

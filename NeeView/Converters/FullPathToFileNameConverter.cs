@@ -17,7 +17,7 @@ namespace NeeView
             if (value is string)
             {
                 string path = (string)value;
-                return NVUtility.PlaceToTitle(path);
+                return new PlaceString(path).ToString();
             }
             else
             {

@@ -24,6 +24,7 @@ using NeeView.Windows.Property;
 using NeeLaboratory.Windows.Input;
 using NeeView.Windows;
 using NeeLaboratory.ComponentModel;
+using NeeView.Data;
 
 namespace NeeView
 {
@@ -992,7 +993,7 @@ namespace NeeView
                 var parameterDfault = source.DefaultParameter;
 
                 var parameter = command.ParameterJson != null
-                    ? (CommandParameter)Utility.Json.Deserialize(command.ParameterJson, source.DefaultParameter.GetType())
+                    ? (CommandParameter)Json.Deserialize(command.ParameterJson, source.DefaultParameter.GetType())
                     : parameterDfault.Clone();
 
                 var context = new PropertyDocument(parameter);
@@ -1003,7 +1004,7 @@ namespace NeeView
                 dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 if (dialog.ShowDialog() == true)
                 {
-                    command.ParameterJson = Utility.Json.Serialize(context.Source, context.Source.GetType());
+                    command.ParameterJson = Json.Serialize(context.Source, context.Source.GetType());
                 }
             }
         }

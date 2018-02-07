@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.IO.Compression;
@@ -11,7 +12,7 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeeView.Utility
+namespace NeeView.Data
 {
     /// <summary>
     /// Json

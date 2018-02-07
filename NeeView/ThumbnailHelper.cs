@@ -56,7 +56,7 @@ namespace NeeView
         //
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            _listPanel = NVUtility.FindVisualChild<VirtualizingStackPanel>(_listBox);
+            _listPanel = NeeLaboratory.Windows.Media.VisualTreeUtility.FindVisualChild<VirtualizingStackPanel>(_listBox);
             UpdateThumbnails(1);
         }
 

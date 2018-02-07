@@ -15,17 +15,24 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
-namespace NeeView.Utility
+namespace NeeView.Drawing
 {
-    public static class NVDrawing
+    public static class DrawingExtensions
     {
-        // サムネイル作成(System.Drawing)
-        public static BitmapSource CreateThumbnail(BitmapSource source, System.Windows.Size maxSize)
-        {
-            Bitmap src = GetBitmap(source);
+        #region Win32API
+        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
+        public static extern bool DeleteObject(IntPtr hObject);
+        #endregion
 
-            //int w = src.Width * 10;
-            //int h = src.Height * 10;
+        /// <summary>
+        /// サムネイル作成 (System.Drawing版)
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="maxSize"></param>
+        /// <returns></returns>
+        public static BitmapSource CreateThumbnail(this BitmapSource source, System.Windows.Size maxSize)
+        {
+            Bitmap src = source.ToBitmap();
 
             double srcWidth = src.Width;
             double srcHeight = src.Height;
@@ -39,29 +46,21 @@ namespace NeeView.Utility
             if (destWidth < 2) destWidth = 2;
             if (destHeight < 2) destHeight = 2;
 
-
             Bitmap dest = new Bitmap(destWidth, destHeight);
 
             Graphics g = Graphics.FromImage(dest);
             g.InterpolationMode = InterpolationMode.High;
             g.DrawImage(src, 0, 0, destWidth, destHeight);
 
-            return GetBitmapSource(dest);
-
-            /*
-            foreach (InterpolationMode im in Enum.GetValues(typeof(InterpolationMode)))
-            {
-                if (im == InterpolationMode.Invalid)
-                    continue;
-                g.InterpolationMode = im;
-                g.DrawImage(src, 0, 0, w, h);
-                dest.Save(im.ToString() + ".png", ImageFormat.Png);
-            }
-            */
+            return dest.ToBitmapSource();
         }
 
-
-        public static Bitmap GetBitmap(BitmapSource source)
+        /// <summary>
+        /// BitmapSource to Drawing.Bitmap
+        /// /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static Bitmap ToBitmap(this BitmapSource source)
         {
             Bitmap bmp = new Bitmap
             (
@@ -91,23 +90,47 @@ namespace NeeView.Utility
         }
 
 
-        public static BitmapSource GetBitmapSource(Bitmap bitmap)
+
+        /// <summary>
+        /// Drawing.Image を BitmapSource に変換
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public static BitmapSource ToBitmapSource(this System.Drawing.Image image)
         {
-            BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap
-            (
-                bitmap.GetHbitmap(),
-                IntPtr.Zero,
-                Int32Rect.Empty,
-                BitmapSizeOptions.FromEmptyOptions()
-            );
+            return ToBitmapSource(image as System.Drawing.Bitmap);
+        }
 
-            bitmapSource.Freeze();
+        /// <summary>
+        /// Drawing.Bitmap を BitmapSource に変換
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
+        public static BitmapSource ToBitmapSource(this System.Drawing.Bitmap bitmap)
+        {
+            if (bitmap == null) return null;
 
-            return bitmapSource;
+            var hBitmap = bitmap.GetHbitmap();
+            try
+            {
+                var bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                bitmapSource.Freeze();
+                return bitmapSource;
+            }
+            finally
+            {
+                DeleteObject(hBitmap);
+            }
         }
 
 
-        //ストリームにJPEG保存
+        /// <summary>
+        /// ストリームにJPEG保存 (System.Drawing版)
+        /// </summary>
+        /// <param name="image">Drawing.Image</param>
+        /// <param name="stream"></param>
+        /// <param name="format"></param>
+        /// <param name="quality"></param>
         public static void SaveWithQuality(this Image image, Stream stream, ImageFormat format, int quality)
         {
             var encoder = ImageCodecInfo.GetImageEncoders().FirstOrDefault(e => e.FormatID == format.Guid);

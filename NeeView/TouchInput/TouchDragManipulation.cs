@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory;
 using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
@@ -242,7 +243,7 @@ namespace NeeView
             if (deltaAngle > 1.0) speed = speed * 0.0;
             var deltaScale = Math.Abs(_now.Scale - old.Scale);
             if (deltaScale > 0.1) speed = speed * 0.0;
-            _speed = NVUtility.Lerp(_speed, speed * 1.25, 0.25);
+            _speed = MathUtility.Lerp(_speed, speed * 1.25, 0.25);
         }
 
 
@@ -278,7 +279,7 @@ namespace NeeView
             if (_now.Angle != _snapAngle)
             {
                 var oldAngle = _now.Angle;
-                _now.Angle = NVUtility.Lerp(_now.Angle, _snapAngle, 0.5);
+                _now.Angle = MathUtility.Lerp(_now.Angle, _snapAngle, 0.5);
 
                 var m = new RotateTransform(_now.Angle - oldAngle);
                 var v = _snapCenter - _now.Trans;
@@ -292,7 +293,7 @@ namespace NeeView
                 _context.Sender.UpdateLayout();
                 var area = _context.GetArea();
 
-                _now.Trans = NVUtility.Lerp(_now.Trans, area.SnapView(_now.Trans), 0.5);
+                _now.Trans = MathUtility.Lerp(_now.Trans, area.SnapView(_now.Trans), 0.5);
             }
 
             //

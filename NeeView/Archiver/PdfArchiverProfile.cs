@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory;
 using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
@@ -31,8 +32,8 @@ namespace NeeView
         public void Validate()
         {
             this.RenderSize = new Size(
-                NVUtility.Clamp(this.RenderSize.Width, 256, PictureProfile.Current.MaximumSize.Width),
-                NVUtility.Clamp(this.RenderSize.Height, 256, PictureProfile.Current.MaximumSize.Height));
+                MathUtility.Clamp(this.RenderSize.Width, 256, PictureProfile.Current.MaximumSize.Width),
+                MathUtility.Clamp(this.RenderSize.Height, 256, PictureProfile.Current.MaximumSize.Height));
         }
 
        /// <summary>

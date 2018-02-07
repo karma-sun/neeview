@@ -175,7 +175,7 @@ namespace NeeView
         private void Play()
         {
             // インターバル時間を修正する
-            _timer.Interval = TimeSpan.FromSeconds(NVUtility.Clamp(this.SlideShowInterval * 0.5, _minTimerTick, _maxTimerTick));
+            _timer.Interval = TimeSpan.FromSeconds(MathUtility.Clamp(this.SlideShowInterval * 0.5, _minTimerTick, _maxTimerTick));
             _lastShowTime = DateTime.Now;
             _timer.Start();
         }

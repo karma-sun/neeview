@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory;
 using System.Windows;
 
 namespace NeeView
@@ -57,7 +58,7 @@ namespace NeeView
 
         public static TouchDragTransform Lerp(TouchDragTransform m0, TouchDragTransform m1, double t)
         {
-            t = NVUtility.Clamp(t, 0.0, 1.0);
+            t = MathUtility.Clamp(t, 0.0, 1.0);
 
             return new TouchDragTransform()
             {

@@ -4,8 +4,10 @@
 // http://opensource.org/licenses/mit-license.php
 
 
+using NeeView.IO;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Data;
 
@@ -106,10 +108,10 @@ namespace NeeView
             }
             else
             {
-                if (Utility.FileShortcut.IsShortcut(nodeContent.Path))
+                if (FileShortcut.IsShortcut(nodeContent.Path))
                 {
-                    var shortcut = new Utility.FileShortcut(nodeContent.Path);
-                    if (shortcut.DirectoryInfo.Exists || (shortcut.FileInfo.Exists && ArchiverManager.Current.IsSupported(shortcut.TargetPath)))
+                    var shortcut = new FileShortcut(nodeContent.Path);
+                    if (shortcut.Target.Exists && (shortcut.Target.Attributes.HasFlag(FileAttributes.Directory) || ArchiverManager.Current.IsSupported(shortcut.TargetPath)))
                     {
                         return CreateFolderItem(shortcut);
                     }

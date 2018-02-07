@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -275,7 +276,7 @@ namespace NeeView
             if (data.GetDataPresent("FileContents") && data.GetDataPresent("FileGroupDescriptorW"))
             {
                 var fileNames = new List<string>();
-                foreach (var file in Utility.FileContents.Get(data))
+                foreach (var file in FileContents.Get(data))
                 {
                     if (file.Bytes == null || file.Bytes.Length <= 0) continue;
 

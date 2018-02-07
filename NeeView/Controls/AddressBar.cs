@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeLaboratory.ComponentModel;
+using NeeView.IO;
 
 namespace NeeView
 {
@@ -69,9 +70,9 @@ namespace NeeView
         // TODO: BookHubへ？
         public void Load(string path, BookLoadOption option = BookLoadOption.None)
         {
-            if (Utility.FileShortcut.IsShortcut(path) && (System.IO.File.Exists(path) || System.IO.Directory.Exists(path)))
+            if (FileShortcut.IsShortcut(path) && (System.IO.File.Exists(path) || System.IO.Directory.Exists(path)))
             {
-                var shortcut = new Utility.FileShortcut(path);
+                var shortcut = new FileShortcut(path);
                 path = shortcut.TargetPath;
             }
 

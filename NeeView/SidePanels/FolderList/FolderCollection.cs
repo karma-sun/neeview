@@ -18,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Jobs = NeeLaboratory.Threading.Jobs;
+using NeeView.IO;
 
 namespace NeeView
 {
@@ -549,9 +550,9 @@ namespace NeeView
             if (file.Exists)
             {
                 // .lnk
-                if (Utility.FileShortcut.IsShortcut(path))
+                if (FileShortcut.IsShortcut(path))
                 {
-                    var shortcut = new Utility.FileShortcut(file);
+                    var shortcut = new FileShortcut(file);
                     return CreateFolderItem(shortcut);
                 }
                 else
@@ -639,21 +640,21 @@ namespace NeeView
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        protected FolderItem CreateFolderItem(Utility.FileShortcut e)
+        protected FolderItem CreateFolderItem(FileShortcut e)
         {
             FolderItem info = null;
             FolderItemType type = FolderItemType.FileShortcut;
 
-            if (e != null && e.Source.Exists && (e.Source.Attributes & FileAttributes.Hidden) == 0)
+            if (e != null && e.Source.Exists && (e.Source.Attributes & FileAttributes.Hidden) == 0 && e.Target.Exists)
             {
-                if (e.DirectoryInfo.Exists)
+                if (e.Target.Attributes.HasFlag(FileAttributes.Directory))
                 {
-                    info = CreateFolderItem(e.DirectoryInfo);
+                    info = CreateFolderItem((DirectoryInfo)e.Target);
                     type = FolderItemType.DirectoryShortcut;
                 }
-                else if (e.FileInfo.Exists)
+                else
                 {
-                    info = CreateFolderItem(e.FileInfo);
+                    info = CreateFolderItem((FileInfo)e.Target);
                     type = FolderItemType.FileShortcut;
                 }
             }
@@ -661,7 +662,7 @@ namespace NeeView
             if (info != null)
             {
                 info.Type = type;
-                info.Path = e.Path;
+                info.Path = e.SourcePath;
                 info.TargetPath = e.TargetPath;
                 info.Attributes = info.Attributes | FolderItemAttribute.Shortcut;
             }

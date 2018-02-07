@@ -17,7 +17,7 @@ using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 using IComDataObject = System.Runtime.InteropServices.ComTypes.IDataObject;
 using STATSTG = System.Runtime.InteropServices.ComTypes.STATSTG;
 
-namespace NeeView.Utility
+namespace NeeView.IO
 {
     public class FileContents
     {

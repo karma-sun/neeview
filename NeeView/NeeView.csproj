@@ -205,6 +205,7 @@
     <Compile Include="SidePanels\FolderList\FolderArchiveCollection.cs" />
     <Compile Include="SidePanels\FolderList\FolderSearchCollection.cs" />
     <Compile Include="Archiver\TempFileCache.cs" />
+    <Compile Include="_NeeLaboratory\IO\FileSystem.cs" />
     <Compile Include="_NeeLaboratory\IEngine.cs" />
     <Compile Include="_NeeLaboratory\Diagnostics\Log.cs" />
     <Compile Include="_NeeLaboratory\Threading\Jobs\IJob.cs" />
@@ -502,7 +503,7 @@
     <Compile Include="SizeString.cs" />
     <Compile Include="Utility\AsyncronousAction.cs" />
     <Compile Include="Utility\EnumerableExtensions.cs" />
-    <Compile Include="Utility\FileShortcut.cs" />
+    <Compile Include="_NeeView\IO\FileShortcut.cs" />
     <Compile Include="Utility\VectorExtensions.cs" />
     <Compile Include="IndexValue.cs" />
     <Compile Include="_NeeLaboratory\Windows\Media\VisualTreeTools.cs" />
@@ -558,12 +559,11 @@
     <Compile Include="ThumbnailHelper.cs" />
     <Compile Include="ThumbnailManager.cs" />
     <Compile Include="Utility\Drawing.cs" />
-    <Compile Include="Utility\FileInfo.cs" />
     <Compile Include="Utility\Graphics.cs" />
     <Compile Include="Utility\Json.cs" />
     <Compile Include="Utility\WicDecoders.cs" />
     <Compile Include="ContentDropReciever.cs" />
-    <Compile Include="Utility\FileContents.cs" />
+    <Compile Include="_NeeView\IO\FileContents.cs" />
     <Compile Include="Utility\NVUtilities.cs" />
     <Compile Include="BackgroundStyle.cs" />
     <Compile Include="DragAction.cs" />
@@ -641,6 +641,7 @@
     <Compile Include="Win32Api.cs" />
     <Compile Include="WIndowHelper.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
+    <Compile Include="_NeeView\IO\WshShell.cs" />
     <Compile Include="_NeeView\Windows\Controls\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>

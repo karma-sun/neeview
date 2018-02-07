@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 
+using NeeView.IO;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -52,32 +53,33 @@ namespace NeeView
                 {
                     try
                     {
-                        var fileInfos = directory.GetFiles();
+                        var fileSystemInfos = directory.GetFileSystemInfos();
+
+                        var fileInfos = fileSystemInfos.OfType<FileInfo>();
+                        var directoryInfos = fileSystemInfos.OfType<DirectoryInfo>();
 
                         var shortcuts = fileInfos
-                            .Where(e => e.Exists && Utility.FileShortcut.IsShortcut(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
-                            .Select(e => new Utility.FileShortcut(e))
+                            .Where(e => FileShortcut.IsShortcut(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
+                            .Select(e => new FileShortcut(e))
                             .ToList();
 
-                        var directoryInfos = directory.GetDirectories();
-
                         var directories = directoryInfos
-                            .Where(e => e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
+                            .Where(e => (e.Attributes & FileAttributes.Hidden) == 0)
                             .Select(e => CreateFolderItem(e))
                             .ToList();
 
                         var directoryShortcuts = shortcuts
-                            .Where(e => e.DirectoryInfo.Exists)
+                            .Where(e => e.Target.Exists && (e.Target.Attributes & FileAttributes.Directory) != 0)
                             .Select(e => CreateFolderItem(e))
                             .ToList();
 
                         var archives = fileInfos
-                            .Where(e => e.Exists && ArchiverManager.Current.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
+                            .Where(e => ArchiverManager.Current.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
                             .Select(e => CreateFolderItem(e))
                             .ToList();
 
                         var archiveShortcuts = shortcuts
-                            .Where(e => e.FileInfo.Exists && ArchiverManager.Current.IsSupported(e.TargetPath))
+                            .Where(e => e.Target.Exists && (e.Target.Attributes & FileAttributes.Directory) == 0 && ArchiverManager.Current.IsSupported(e.TargetPath))
                             .Select(e => CreateFolderItem(e))
                             .ToList();
 

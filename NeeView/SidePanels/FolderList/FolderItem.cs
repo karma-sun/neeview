@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeLaboratory.ComponentModel;
+using NeeLaboratory.IO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -219,7 +220,7 @@ namespace NeeView
             {
                 if (_icon == null && !IsEmpty)
                 {
-                    _icon = Utility.FileInfo.GetTypeIconSource(TargetPath, Utility.FileInfo.IconSize.Normal);
+                    _icon = FileSystem.GetTypeIconSource(TargetPath, FileSystem.IconSize.Normal);
                 }
                 return _icon;
             }
@@ -232,7 +233,7 @@ namespace NeeView
             {
                 if (_iconSmall == null && !IsEmpty)
                 {
-                    _iconSmall = Utility.FileInfo.GetTypeIconSource(TargetPath, Utility.FileInfo.IconSize.Small);
+                    _iconSmall = FileSystem.GetTypeIconSource(TargetPath, FileSystem.IconSize.Small);
                 }
                 return _iconSmall;
             }

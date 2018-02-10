@@ -11,9 +11,16 @@ namespace NeeView
     // タッチアクション
     public enum TouchAction
     {
+        [AliasName("なし")]
         None,
+
+        [AliasName("タッチビュー操作")]
         Drag,
+
+        [AliasName("マウスドラッグ操作")]
         MouseDrag,
+
+        [AliasName("ジェスチャー")]
         Gesture,
     }
 

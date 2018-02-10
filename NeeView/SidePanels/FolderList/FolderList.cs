@@ -124,6 +124,7 @@ namespace NeeView
         /// フォルダーアイコン表示位置
         /// </summary>
         private FolderIconLayout _folderIconLayout = FolderIconLayout.Default;
+        [PropertyMember("ファイルアイコンを左に表示する", Tips = "ファイルアイコンをファイル名の左に表示するようにします")]
         public FolderIconLayout FolderIconLayout
         {
             get { return _folderIconLayout; }
@@ -134,6 +135,7 @@ namespace NeeView
         /// IsVisibleHistoryMark property.
         /// </summary>
         private bool _isVisibleHistoryMark = true;
+        [PropertyMember("履歴記号を表示する", Tips = "履歴に残っているブックにチェックマークを表示します")]
         public bool IsVisibleHistoryMark
         {
             get { return _isVisibleHistoryMark; }
@@ -144,6 +146,7 @@ namespace NeeView
         /// IsVisibleBookmarkMark property.
         /// </summary>
         private bool _isVisibleBookmarkMark = true;
+        [PropertyMember("ブックマーク記号を表示する", Tips = "ブックマークされているブックに★マークを表示します")]
         public bool IsVisibleBookmarkMark
         {
             get { return _isVisibleBookmarkMark; }
@@ -152,6 +155,7 @@ namespace NeeView
 
         /// </summary>
         private string _home;
+        [PropertyPath(Name ="ホームの場所")]
         public string Home
         {
             get { return _home; }

@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,8 +27,13 @@ namespace NeeView
     // 通知表示の種類
     public enum ShowMessageStyle
     {
+        [AliasName("表示しない")]
         None,
+
+        [AliasName("表示する")]
         Normal,
+
+        [AliasName("小さく表示する")]
         Tiny,
     }
 
@@ -47,15 +53,19 @@ namespace NeeView
             Current = this;
         }
 
-
+        [PropertyEnum("通知を", Tips = "開いたブック名の表示等の通知の表示方法を指定します")]
         public ShowMessageStyle NoticeShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
+        [PropertyEnum("コマンド実行を", Tips = "コマンド実行メッセージの表示方法を指定します")]
         public ShowMessageStyle CommandShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
+        [PropertyEnum("ジェスチャーを", Tips = "ジェスチャーの状態の表示方法を指定します")]
         public ShowMessageStyle GestureShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
+        [PropertyEnum("Now Loading を", Tips = "Now Loading の表示方法を指定します")]
         public ShowMessageStyle NowLoadingShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
+        [PropertyEnum("ビュー操作を", Tips = "ドラッグ操作によるスケール変更等の情報表示方法を指定します")]
         public ShowMessageStyle ViewTransformShowMessageStyle { get; set; } = ShowMessageStyle.None;
 
 

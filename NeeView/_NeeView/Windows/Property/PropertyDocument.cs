@@ -89,6 +89,7 @@ namespace NeeView.Windows.Property
 
 
 
+
         /// <summary>
         /// 
         /// </summary>
@@ -130,10 +131,11 @@ namespace NeeView.Windows.Property
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        private PropertyMemberAttribute GetPropertyMemberAttribute(MemberInfo info)
+        private static PropertyMemberAttribute GetPropertyMemberAttribute(MemberInfo info)
         {
             return (PropertyMemberAttribute)Attribute.GetCustomAttributes(info, typeof(PropertyMemberAttribute)).FirstOrDefault();
         }
+
 
 
         /// <summary>
@@ -141,7 +143,7 @@ namespace NeeView.Windows.Property
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        private DefaultValueAttribute GetDefaultValueAttribute(MemberInfo info)
+        private static DefaultValueAttribute GetDefaultValueAttribute(MemberInfo info)
         {
             return (DefaultValueAttribute)Attribute.GetCustomAttributes(info, typeof(DefaultValueAttribute)).FirstOrDefault();
         }
@@ -152,7 +154,7 @@ namespace NeeView.Windows.Property
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        private ObsoleteAttribute GetObsoleteValueAttribute(MemberInfo info)
+        private static ObsoleteAttribute GetObsoleteValueAttribute(MemberInfo info)
         {
             return (ObsoleteAttribute)Attribute.GetCustomAttributes(info, typeof(ObsoleteAttribute)).FirstOrDefault();
         }

@@ -5,6 +5,7 @@
 
 using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -46,7 +47,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// Index property.
+        /// 現在のインデックス値
         /// </summary>
         private int _index;
         public int Index
@@ -58,18 +59,18 @@ namespace NeeView
             set
             {
                 _index = MathUtility.Clamp<int>(value, 0, IndexMax);
-
                 SetValue(_values[_index]);
             }
         }
 
         /// <summary>
-        /// Value
+        /// 現在値。
+        /// PropertyValueが設定されているときはラッパーとして動作する
         /// </summary>
         private T _value;
         public T Value
         {
-            get { return _value; }
+            get { return _property != null ? _property.Value : _value; }
 
             set
             {
@@ -77,6 +78,21 @@ namespace NeeView
                 SetValue(IsValueSyncIndex ? _values[_index] : value);
             }
         }
+
+        /// <summary>
+        /// 値に関連させるPropertyValue
+        /// </summary>
+        public PropertyValue<T, PropertyMemberElement> _property;
+        public PropertyValue<T, PropertyMemberElement> Property
+        {
+            get { return _property; }
+            set
+            {
+                _property = value;
+                this.Value = _property.Value;
+            }
+        }
+
 
         //
         virtual public string ValueString => Value.ToString();
@@ -87,18 +103,23 @@ namespace NeeView
             return ValueString;
         }
 
-
         //
         abstract protected int IndexOfNear(T value, IEnumerable<T> values);
 
-
-        //
+        /// <summary>
+        /// 値の設定処理
+        /// </summary>
         private void SetValue(T value)
         {
-            _value = value; // _values[_index];
+            _value = value;
+
+            if (_property != null)
+            {
+                _property.Value = value;
+            }
 
             RaisePropertyChanged(null);
-            ValueChanged?.Invoke(this, new ValueChangedEventArgs<T>() { NewValue = _value });
+            ValueChanged?.Invoke(this, new ValueChangedEventArgs<T>() { NewValue = value });
         }
     }
 

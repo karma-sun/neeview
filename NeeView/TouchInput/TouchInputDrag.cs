@@ -28,6 +28,9 @@ namespace NeeView
             _manipulation = new TouchDragManipulation(context);
         }
 
+        //
+        public TouchDragManipulation Manipulation => _manipulation;
+
         /// <summary>
         /// 状態開始
         /// </summary>

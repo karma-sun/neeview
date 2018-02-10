@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -73,6 +74,12 @@ namespace NeeView.Windows.Property
         {
             Initialize(source, info, attribute);
 
+            if (_info.PropertyType.IsEnum)
+            {
+                this.TypeValue = new PropertyValue_Enum(this, _info.PropertyType);
+                return;
+            }
+
             TypeCode typeCode = Type.GetTypeCode(_info.PropertyType);
             switch (typeCode)
             {
@@ -118,10 +125,10 @@ namespace NeeView.Windows.Property
             switch (typeCode)
             {
                 case TypeCode.Int32:
-                    this.TypeValue = new PropertyValue_IntegerRange(this, (int)attribute.Minimum, (int)attribute.Maximum);
+                    this.TypeValue = new PropertyValue_IntegerRange(this, (int)attribute.Minimum, (int)attribute.Maximum, (int)attribute.TickFrequency);
                     break;
                 case TypeCode.Double:
-                    this.TypeValue = new PropertyValue_DoubleRange(this, attribute.Minimum, attribute.Maximum);
+                    this.TypeValue = new PropertyValue_DoubleRange(this, attribute.Minimum, attribute.Maximum, attribute.TickFrequency);
                     break;
                 default:
                     throw new NotSupportedException();
@@ -236,5 +243,37 @@ namespace NeeView.Windows.Property
 
         //
         public PropertyValue TypeValue { get; set; }
+
+
+        /// <summary>
+        /// オブジェクトとプロパティ名から PropertyMemberElement を作成する
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static PropertyMemberElement Create(object source, string name)
+        {
+            var info = source.GetType().GetProperty(name);
+            if (info != null)
+            {
+                var attribute = GetPropertyMemberAttribute(info);
+                if (attribute != null)
+                {
+                    return attribute.CreateContent(source, info);
+                }
+            }
+            Debugger.Break();
+            return null;
+        }
+
+        /// <summary>
+        /// PropertyMember属性取得
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        private static PropertyMemberAttribute GetPropertyMemberAttribute(MemberInfo info)
+        {
+            return (PropertyMemberAttribute)Attribute.GetCustomAttributes(info, typeof(PropertyMemberAttribute)).FirstOrDefault();
+        }
     }
 }

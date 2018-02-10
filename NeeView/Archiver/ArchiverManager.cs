@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace NeeView
     /// <summary>
     /// アーカイバーマネージャ
     /// </summary>
-    public class ArchiverManager
+    public class ArchiverManager : BindableBase
     {
         public static ArchiverManager Current { get; private set; }
 
@@ -53,6 +54,8 @@ namespace NeeView
         /// </summary>
         private Regex _excludeRegex;
 
+        private bool _isEnabled;
+
         #endregion
 
         #region Constructors
@@ -78,8 +81,15 @@ namespace NeeView
 
         #region Properties
 
+
         // アーカイバー有効/無効
-        public bool IsEnabled { get; set; } = true;
+        [PropertyMember("圧縮ファイルをサポートする", Tips = "圧縮ファイルを閲覧できるようにします")]
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
+        }
+
 
         /// <summary>
         /// IsPdfEnabled property.
@@ -88,7 +98,7 @@ namespace NeeView
         public bool IsPdfEnabled
         {
             get { return _isPdfEnabled; }
-            set { if (_isPdfEnabled != value) { _isPdfEnabled = value; UpdateOrderList(); } }
+            set { if (_isPdfEnabled != value) { _isPdfEnabled = value; UpdateOrderList(); RaisePropertyChanged(); } }
         }
 
 
@@ -99,7 +109,7 @@ namespace NeeView
         public string ExcludePattern
         {
             get { return _excludePattern; }
-            set { if (_excludePattern != value) { _excludePattern = value; UpdateExcludeRegex(); } }
+            set { if (_excludePattern != value) { _excludePattern = value; UpdateExcludeRegex(); RaisePropertyChanged(); } }
         }
 
         #endregion

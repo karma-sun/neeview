@@ -39,8 +39,7 @@ namespace NeeView.Windows.Property
     {
         public double Minimum { get; set; }
         public double Maximum { get; set; }
-
-        public double TickFrequency => (Maximum - Minimum) * 0.01;
+        public double TickFrequency { get; set; }
 
         public PropertyRangeAttribute(double min, double max)
         {
@@ -54,6 +53,7 @@ namespace NeeView.Windows.Property
         }
     }
 
+    // TODO: 廃止予定 (PropertyMemberAttributeで代用可能)
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyEnumAttribute : PropertyMemberAttribute
     {

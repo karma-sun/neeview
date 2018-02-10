@@ -5,9 +5,11 @@
 
 using NeeLaboratory.ComponentModel;
 using NeeView.Effects;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -160,10 +162,10 @@ namespace NeeView
                 ResetTransform(true);
             }
         }
-        
+
         // ビューエリアサイズ
         public Size ViewSize { get; private set; }
-        
+
         // コンテンツ
         public ObservableCollection<ViewContent> Contents { get; private set; }
 
@@ -174,7 +176,7 @@ namespace NeeView
             get { return _mainContent; }
             set { if (_mainContent != value) { _mainContent = value; RaisePropertyChanged(); } }
         }
-        
+
         // コンテンツマージン
         private Thickness _contentsMargin;
         public Thickness ContentsMargin
@@ -185,10 +187,12 @@ namespace NeeView
 
         // 2ページコンテンツの隙間
         private double _contentSpace = -1.0;
+        [DefaultValue(-1.0)]
+        [PropertyRange(-32, 32, TickFrequency = 1, Name = "2ページ間の距離", Tips = "ページとページの隙間の長さを設定します。マイナス値は重なることを意味します。各ページにスケールがかかるため、0でちょうど隙間がなくなることは稀です")]
         public double ContentsSpace
         {
             get { return _contentSpace; }
-            set { _contentSpace = value; RaisePropertyChanged(); }
+            set { _contentSpace = value; RaisePropertyChanged(); UpdateContentSize(); }
         }
 
         /// <summary>
@@ -314,7 +318,7 @@ namespace NeeView
             var scale = _dragTransformControl.IsKeepScale ? _dragTransform.Scale : 1.0;
 
             // リサイズ
-            for (int i=0; i<2; ++i)
+            for (int i = 0; i < 2; ++i)
             {
                 var size0 = sizes[i];
                 if (size0.IsZero()) continue;
@@ -559,7 +563,7 @@ namespace NeeView
         #endregion
 
         #region クリップボード関連
-        
+
         //
         private BitmapSource CurrentBitmapSource
         {
@@ -591,7 +595,7 @@ namespace NeeView
         #endregion
 
         #region 印刷
-        
+
         /// <summary>
         /// 印刷可能判定
         /// </summary>

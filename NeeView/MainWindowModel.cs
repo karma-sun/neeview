@@ -106,6 +106,7 @@ namespace NeeView
         public bool IsOpenbookAtCurrentPlace { get; set; }
 
         //
+        [PropertyEnum("テーマカラー", Tips = "パネル等のテーマカラーを指定します", IsVisible = false)]
         public PanelColor PanelColor
         {
             get { return _panelColor; }
@@ -169,6 +170,7 @@ namespace NeeView
         /// <summary>
         /// フルスクリーン時にパネルを隠す
         /// </summary>
+        [PropertyMember("フルスクリーンのときにパネルを自動的に隠す")]
         public bool IsHidePanelInFullscreen
         {
             get { return _IsHidePanelInFullscreen; }
@@ -182,6 +184,7 @@ namespace NeeView
         /// IsVisibleWindowTitle property.
         /// タイトルバーが表示されておらず、スライダーにフォーカスがある場合等にキャンバスにタイトルを表示する
         /// </summary>
+        [PropertyMember("フルスクリーン時、スライダー表示にあわせてウィンドウタイトルを表示する", Tips = "フルスクリーン等、タイトルバーが表示されない時に表示エリアに代わりにウィンドウタイトルを表示します")]
         public bool IsVisibleWindowTitle
         {
             get { return _IsVisibleWindowTitle; }
@@ -394,30 +397,42 @@ namespace NeeView
         // 設定ウィンドウを開く
         public void OpenSettingWindow()
         {
-            var setting = SaveData.Current.CreateSetting();
-            var history = BookHistory.Current.CreateMemento(false);
+            if (SettingWindowEx.Current != null) return;
 
-            // スライドショー停止
-            SlideShow.Current.PauseSlideShow();
-
-            var dialog = new SettingWindow(setting, history);
-            dialog.Owner = App.Current.MainWindow;
-            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            var result = dialog.ShowDialog();
-
-            if (result == true)
+            if (!Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
             {
-                SaveData.Current.RestoreSetting(setting, false);
-                WindowShape.Current.CreateSnapMemento();
-                SaveData.Current.SaveSetting();
-                BookHistory.Current.Restore(history, false);
-
-                // 現在ページ再読込
-                BookHub.Current.ReLoad();
+                var dialog = new SettingWindowEx(new SettingWindowModel());
+                dialog.Owner = App.Current.MainWindow;
+                dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                dialog.Show();
             }
+            else
+            {
+                var setting = SaveData.Current.CreateSetting();
+                var history = BookHistory.Current.CreateMemento(false);
 
-            // スライドショー再開
-            SlideShow.Current.ResumeSlideShow();
+                // スライドショー停止
+                SlideShow.Current.PauseSlideShow();
+
+                var dialog = new SettingWindow(setting, history);
+                dialog.Owner = App.Current.MainWindow;
+                dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                var result = dialog.ShowDialog();
+
+                if (result == true)
+                {
+                    SaveData.Current.RestoreSetting(setting, false);
+                    WindowShape.Current.CreateSnapMemento();
+                    SaveData.Current.SaveSetting();
+                    BookHistory.Current.Restore(history, false);
+
+                    // 現在ページ再読込
+                    BookHub.Current.ReLoad();
+                }
+
+                // スライドショー再開
+                SlideShow.Current.ResumeSlideShow();
+            }
         }
 
 
@@ -493,6 +508,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
+            [PropertyEnum("テーマカラー", Tips = "パネル等のテーマカラーを指定します", IsVisible = false)]
             public PanelColor PanelColor { get; set; }
             [DataMember]
             public ContextMenuSetting ContextMenuSetting { get; set; }

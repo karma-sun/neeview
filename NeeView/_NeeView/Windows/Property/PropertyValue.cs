@@ -144,18 +144,18 @@ namespace NeeView.Windows.Property
     {
         private Type _type;
 
-        public List<string> Items { get; private set; }
+        public Dictionary<Enum, string> Map { get; private set; }
 
-        public string SelectedItem
+        public Enum SelectedValue
         {
-            get { return Value.ToString(); }
-            set { Value = Enum.Parse(_type, value); }
+            get { return (Enum)Value; }
+            set { Value = value; }
         }
 
         public PropertyValue_Enum(PropertyMemberElement setter, Type enumType) : base(setter)
         {
             _type = enumType;
-            this.Items = new List<string>(Enum.GetNames(_type));
+            this.Map = _type.AliasNameList();
         }
 
         public override string GetTypeString()
@@ -232,6 +232,8 @@ namespace NeeView.Windows.Property
     //
     public class PropertyValue_IntegerRange : PropertyValue_Integer
     {
+        private int _tickFrequency;
+
         public int Minimum { get; set; }
         public int Maximum { get; set; }
         public int SmallChange => (Maximum - Minimum) / 10;
@@ -240,31 +242,51 @@ namespace NeeView.Windows.Property
         {
             get
             {
-                var delta = (Maximum - Minimum) * 0.01;
-                return delta < 2.0 ? 1 : (int)delta;
+                if (_tickFrequency <= 0)
+                {
+                    var delta = (Maximum - Minimum) * 0.01;
+                    return delta < 2.0 ? 1 : (int)delta;
+                }
+                else
+                {
+                    return _tickFrequency;
+                }
+            }
+            set
+            {
+                _tickFrequency = value;
             }
         }
 
-        public PropertyValue_IntegerRange(PropertyMemberElement setter, int min, int max) : base(setter)
+        public PropertyValue_IntegerRange(PropertyMemberElement setter, int min, int max, int tickFrequency) : base(setter)
         {
             Minimum = min;
             Maximum = max;
+            _tickFrequency = tickFrequency;
         }
     }
 
     //
     public class PropertyValue_DoubleRange : PropertyValue_Double
     {
+        private double _tickFrequency;
+
         public double Minimum { get; set; }
         public double Maximum { get; set; }
         public double SmallChange => (Maximum - Minimum) * 0.1;
         public double LargeChange => (Maximum - Minimum) * 0.25;
-        public double TickFrequency => (Maximum - Minimum) * 0.01;
 
-        public PropertyValue_DoubleRange(PropertyMemberElement setter, double min, double max) : base(setter)
+        public double TickFrequency
+        {
+            get { return _tickFrequency <= 0.0 ? (Maximum - Minimum) * 0.01 : _tickFrequency; }
+            set { _tickFrequency = value; }
+        }
+
+        public PropertyValue_DoubleRange(PropertyMemberElement setter, double min, double max, double tickFrequency) : base(setter)
         {
             Minimum = min;
             Maximum = max;
+            _tickFrequency = tickFrequency;
         }
     }
 

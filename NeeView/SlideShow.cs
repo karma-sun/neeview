@@ -5,6 +5,7 @@
 
 using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -107,6 +108,7 @@ namespace NeeView
         /// <summary>
         /// 起動時の自動開始
         /// </summary>
+        [PropertyMember("スライドショーの再生を開始する", IsVisible = false)]
         public bool IsAutoPlaySlideShow { get; set; }
 
 
@@ -245,7 +247,8 @@ namespace NeeView
             [DataMember]
             public bool IsSlideShowByLoop { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(false)]
+            [PropertyMember("スライドショーの再生を開始する", IsVisible = false)]
             public bool IsAutoPlaySlideShow { get; set; }
         }
 

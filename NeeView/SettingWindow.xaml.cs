@@ -1014,6 +1014,9 @@ namespace NeeView
             ParameterSettingCommand.RaiseCanExecuteChanged();
         }
 
+
+        #region DragAction
+
         //
         private void DragActionListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -1083,6 +1086,8 @@ namespace NeeView
             }
         }
 
+        #endregion
+
         /// <summary>
         /// カスタム背景設定
         /// </summary>
@@ -1113,10 +1118,16 @@ namespace NeeView
         };
 
         //
+        public AngleFrequency() : base(_values)
+        {
+        }
+
+        //
         public AngleFrequency(double value) : base(_values)
         {
             Value = value;
         }
+
 
         //
         public override string ValueString => Value == 0 ? "無段階" : $"{Value}度";

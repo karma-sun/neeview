@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,9 +20,12 @@ namespace NeeView
     /// </summary>
     public class FileInformation : BindableBase
     {
+        public static FileInformation Current { get; private set; }
+
         /// <summary>
         /// IsUseExifDateTime property.
         /// </summary>
+        [PropertyMember("EXIFの日時を使用する", Tips = "ファイル情報パネルでの表示に限ります。日付順のソートには影響しません")]
         public bool IsUseExifDateTime
         {
             get { return _IsUseExifDateTime; }
@@ -34,6 +38,7 @@ namespace NeeView
         /// <summary>
         /// IsVisibleBitsPerPixel property.
         /// </summary>
+        [PropertyMember("1ピクセルあたりのビット数を表示する", Tips = "画像サイズにピクセル深度(bit)も表示します")]
         public bool IsVisibleBitsPerPixel
         {
             get { return _IsVisibleBitsPerPixel; }
@@ -46,6 +51,7 @@ namespace NeeView
         /// <summary>
         /// IsVisibleLoader property.
         /// </summary>
+        [PropertyMember("ローダー情報を表示する", Tips = "使用されたアーカイバー、画像デコーダー名を表示します")]
         public bool IsVisibleLoader
         {
             get { return _IsVisibleLoader; }
@@ -57,6 +63,7 @@ namespace NeeView
         /// <summary>
         /// IsVisibleFilePath property.
         /// </summary>
+        [PropertyMember("ファイルパスを表示する", Tips = "アーカイブ内のファイルパスを表示します")]
         public bool IsVisibleFilePath
         {
             get { return _IsVisibleFilePath; }
@@ -85,6 +92,8 @@ namespace NeeView
         /// </summary>
         public FileInformation(ContentCanvas contentCanvas)
         {
+            Current = this;
+
             contentCanvas.AddPropertyChanged(nameof(contentCanvas.MainContent),
                 (s, e) => ViewContent = contentCanvas.MainContent);
         }

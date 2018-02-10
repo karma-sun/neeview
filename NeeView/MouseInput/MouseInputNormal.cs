@@ -21,6 +21,7 @@ namespace NeeView
     {
         // 左クリック長押しモード
         private LongButtonDownMode _longLeftButtonDownMode = LongButtonDownMode.Loupe;
+        [PropertyMember("LeftButton")]
         public LongButtonDownMode LongLeftButtonDownMode
         {
             get { return _longLeftButtonDownMode; }
@@ -28,6 +29,7 @@ namespace NeeView
         }
 
         // 長押し判定時間(秒)
+        [PropertyRange(0.1, 2.0, TickFrequency = 0.1, Name = "長押し判定時間", Tips = "長押しと判定されるまでの押し続ける時間の設定です")]
         public double LongLeftButtonDownTime { get; set; } = 1.0;
 
         // マウスジェスチャー有効
@@ -136,7 +138,7 @@ namespace NeeView
                 _timer.Start();
             }
         }
-        
+
         /// <summary>
         /// マウスボタンが離されたときの処理
         /// </summary>
@@ -213,7 +215,7 @@ namespace NeeView
             public LongButtonDownMode LongLeftButtonDownMode { get; set; }
 
             [DataMember, DefaultValue(1.0)]
-            [PropertyMember("長押し判定時間(秒)", Tips = "長押しの判定時間です", IsVisible=false)]
+            [PropertyMember("長押し判定時間(秒)", Tips = "長押しの判定時間です", IsVisible = false)]
             public double LongLeftButtonDownTime { get; set; }
 
             [DataMember, DefaultValue(true)]

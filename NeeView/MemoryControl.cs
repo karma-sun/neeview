@@ -3,8 +3,10 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -19,30 +21,35 @@ namespace NeeView
     /// </summary>
     public class MemoryControl
     {
-        /// <summary>
-        /// 標準インスタンス
-        /// </summary>
         public static MemoryControl Current { get; private set; }
 
-        /// <summary>
-        /// 自動GCフラグ
-        /// </summary>
-        public bool IsAutoGC { get; set; } = true;
+        #region Fields
 
-        /// <summary>
-        /// 遅延実行系
-        /// </summary>
         private DelayAction _delayAction;
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="dispatcher"></param>
+        #endregion
+
+        #region Constructors
+
         public MemoryControl(Dispatcher dispatcher)
         {
             Current = this;
             _delayAction = new DelayAction(dispatcher, TimeSpan.FromSeconds(0.2), GarbageCollectCore, TimeSpan.FromMilliseconds(100));
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// 自動GCフラグ
+        /// </summary>
+        [PropertyMember("メモリ開放をシステムに任せる", Tips = "OFFの時は画像非表示単位でメモリ開放を行います")]
+        public bool IsAutoGC { get; set; } = true;
+
+        #endregion
+
+        #region Methods
 
         //
         private void GarbageCollectCore()
@@ -67,6 +74,7 @@ namespace NeeView
             _delayAction.Request();
         }
 
+        #endregion
 
         #region Memento
         [DataContract]

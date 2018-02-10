@@ -19,17 +19,28 @@ namespace NeeView
     {
         // ここでのパラメータは値の保持のみを行う。機能は提供しない。
 
+        #region Fields
+
+        private bool _isNetworkEnalbe = true;
+
+        #endregion
+
+        #region Properties
+
         // マルチブートを許可する
+        [PropertyMember("多重起動を許可する", IsVisible = false)]
         public bool IsMultiBootEnabled { get; set; }
 
         // フルスクリーン状態を復元する
+        [PropertyMember("フルスクリーン状態を復元する", IsVisible = false)]
         public bool IsSaveFullScreen { get; set; }
 
         // ウィンドウ座標を復元する
+        [PropertyMember("ウィンドウ座標を復元する", IsVisible = false)]
         public bool IsSaveWindowPlacement { get; set; }
 
         // ネットワークアクセス許可
-        private bool _isNetworkEnalbe = true;
+        [PropertyMember("ネットワークアスセス許可", Tips = "ネットワークアクセスを許可します。\n(バージョンウィンドウからのバージョン更新確認、各種WEBリンク)", IsAppxVisible = false)]
         public bool IsNetworkEnabled
         {
             get { return _isNetworkEnalbe; }
@@ -37,42 +48,58 @@ namespace NeeView
         }
 
         // 画像のDPI非対応
+        [PropertyMember("画像のドットバイドット表示", Tips = "画像をオリジナルサイズで表示する場合にDPIに依存せずにディスプレイのピクセルと一致させます")]
         public bool IsIgnoreImageDpi { get; set; } = true;
 
         // ウィンドウサイズのDPI非対応
+        [PropertyMember("ウィンドウサイズのDPI非対応", Tips = "DPI変更にウィンドウサイズを追従させません")]
         public bool IsIgnoreWindowDpi { get; set; }
 
         // 複数ウィンドウの座標復元
+        [PropertyMember("２つめのウィンドウ座標の復元", Tips = "重複起動される場合にウィンドウ座標の復元を適用する。falseにすると2つめのウィンドウは初期座標で表示されます")]
         public bool IsRestoreSecondWindow { get; set; } = true;
 
         // 履歴、ブックマーク、ページマークを保存しない
+        [PropertyMember("履歴、ブックマーク、ページマークを保存しない", Tips = "履歴、ブックマーク、ページマークの情報がファイルに一切保存されなくなります")]
         public bool IsDisableSave { get; set; }
 
         // パネルやメニューが自動的に消えるまでの時間(秒)
+        [PropertyMember("パネルやメニューが自動的に消えるまでの時間(秒)")]
         public double AutoHideDelayTime { get; set; } = 1.0;
 
         // ウィンドウクローム枠
+        [PropertyEnum("タイトルバー非表示でのウィンドウ枠", Tips = "タイトルバー非表示時のウィンドウ枠表示方法です")]
         public WindowChromeFrame WindowChromeFrame { get; set; } = WindowChromeFrame.Line;
 
         // 前回開いていたブックを開く
+        [PropertyMember("前回開いていたブックを開く", Tips = "起動時に前回開いていたブックを開きます", IsVisible = false)]
         public bool IsOpenLastBook { get; set; }
 
         // ダウンロードファイル置き場
+        [DefaultValue("")]
+        [PropertyPath(Name = "ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。\n既定では一時フォルダを使用します。", IsVisible = false)]
         public string DownloadPath { get; set; }
+
+        #endregion
 
         #region Memento
         [DataContract]
         public class Memento
         {
-            [DataMember]
+            [DataMember, DefaultValue(false)]
+            [PropertyMember("多重起動を許可する", IsVisible = false)]
             public bool IsMultiBootEnabled { get; set; }
-            [DataMember]
+
+            [DataMember, DefaultValue(false)]
+            [PropertyMember("フルスクリーン状態を復元する", IsVisible = false)]
             public bool IsSaveFullScreen { get; set; }
-            [DataMember]
+
+            [DataMember, DefaultValue(false)]
+            [PropertyMember("ウィンドウ座標を復元する", IsVisible = false)]
             public bool IsSaveWindowPlacement { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("ネットワークアスセス許可", Tips = "ネットワークアクセスを許可します。\n(バージョンウィンドウからのバージョン更新確認、各種WEBリンク)", IsAppxVisible =false)]
+            [PropertyMember("ネットワークアスセス許可", Tips = "ネットワークアクセスを許可します。\n(バージョンウィンドウからのバージョン更新確認、各種WEBリンク)", IsAppxVisible = false)]
             public bool IsNetworkEnabled { get; set; }
 
             [DataMember, DefaultValue(false)]

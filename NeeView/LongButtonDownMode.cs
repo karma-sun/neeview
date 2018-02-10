@@ -8,7 +8,10 @@ namespace NeeView
     // 長押しモード
     public enum LongButtonDownMode
     {
+        [AliasName("なし")]
         None,
+
+        [AliasName("ルーペ", Tips = "一時的に画像を拡大表示します\nルーペ表示中にホイール操作で拡大率を変更できます")]
         Loupe
     }
 

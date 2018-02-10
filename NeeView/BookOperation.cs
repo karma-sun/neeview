@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,30 +27,18 @@ namespace NeeView
         // System Object
         public static BookOperation Current;
 
-        #region events
+        #region Fields
 
-        // ブックが変更された
-        public event EventHandler BookChanged;
-
-        // ページ表示内容の更新
-        //public event EventHandler<ViewSource> ViewContentsChanged;
-
-        // ページが変更された
-        public event EventHandler<PageChangedEventArgs> PageChanged;
-
-        // ページがソートされた
-        public event EventHandler PagesSorted;
-
-        // ページが削除された
-        public event EventHandler<PageChangedEventArgs> PageRemoved;
-
+        private BookHub _bookHub;
+        private bool _isEnabled;
+        private BookUnit _bookUnit;
+        private ObservableCollection<Page> _pageList;
+        private ExternalApplication _ExternalApplication = new ExternalApplication();
+        private ClipboardUtility _ClipboardUtility = new ClipboardUtility();
 
         #endregion
 
-
-        // ページ終端でのアクション
-        public PageEndAction PageEndAction { get; set; }
-
+        #region Constructors
 
         //
         public BookOperation(BookHub bookHub)
@@ -68,8 +57,91 @@ namespace NeeView
                 };
         }
 
+        #endregion
+
+        #region Events
+
+        // ブックが変更された
+        public event EventHandler BookChanged;
+
+        // ページが変更された
+        public event EventHandler<PageChangedEventArgs> PageChanged;
+
+        // ページがソートされた
+        public event EventHandler PagesSorted;
+
+        // ページが削除された
+        public event EventHandler<PageChangedEventArgs> PageRemoved;
+
+        #endregion
+
+        #region Properties
+
+        // ページ終端でのアクション
+        [PropertyEnum("ページが終わったら", Tips = "ページの終端を超えて移動しようとした時の挙動です")]
+        public PageEndAction PageEndAction { get; set; }
+
+        /// <summary>
+        /// 操作の有効設定。ロード中は機能を無効にするために使用
+        /// </summary>
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// Book property.
+        /// </summary>
+        public BookUnit BookUnit
+        {
+            get { return _bookUnit; }
+            set { if (_bookUnit != value) { _bookUnit = value; RaisePropertyChanged(); } }
+        }
+
         //
-        private BookHub _bookHub;
+        public Book Book => _bookUnit?.Book;
+
+        //
+        public string Place => _bookUnit?.Book.Place;
+
+        //
+        public bool IsValid => _bookUnit != null;
+
+        /// <summary>
+        /// PaageList
+        /// </summary>
+        public ObservableCollection<Page> PageList
+        {
+            get { return _pageList; }
+            set
+            {
+                _pageList = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 外部アプリ設定
+        /// </summary>
+        public ExternalApplication ExternalApplication
+        {
+            get { return _ExternalApplication; }
+            set { if (_ExternalApplication != value) { _ExternalApplication = value ?? new ExternalApplication(); RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// クリップボード
+        /// </summary>
+        public ClipboardUtility ClipboardUtility
+        {
+            get { return _ClipboardUtility; }
+            set { if (_ClipboardUtility != value) { _ClipboardUtility = value ?? new ClipboardUtility(); RaisePropertyChanged(); } }
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// 本の更新
@@ -118,55 +190,6 @@ namespace NeeView
         }
 
 
-        /// <summary>
-        /// IsEnabled property.
-        /// ロード中は機能を無効にするため
-        /// </summary>
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
-        }
-
-        private bool _isEnabled;
-
-
-
-        /// <summary>
-        /// Book property.
-        /// </summary>
-        public BookUnit BookUnit
-        {
-            get { return _bookUnit; }
-            set { if (_bookUnit != value) { _bookUnit = value; RaisePropertyChanged(); } }
-        }
-
-        private BookUnit _bookUnit;
-
-        //
-        public Book Book => _bookUnit?.Book;
-
-        //
-        public string Place => _bookUnit?.Book.Place;
-
-        //
-        public bool IsValid => _bookUnit != null;
-
-
-        /// <summary>
-        /// PaageList
-        /// </summary>
-        public ObservableCollection<Page> PageList
-        {
-            get { return _pageList; }
-            set
-            {
-                _pageList = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        private ObservableCollection<Page> _pageList;
 
 
         // ページリスト更新
@@ -225,33 +248,7 @@ namespace NeeView
             this.Book?.Unlock();
         }
 
-
-
-        /// <summary>
-        /// 外部アプリ設定
-        /// </summary>
-        public ExternalApplication ExternalApplication
-        {
-            get { return _ExternalApplication; }
-            set { if (_ExternalApplication != value) { _ExternalApplication = value ?? new ExternalApplication(); RaisePropertyChanged(); } }
-        }
-
-        private ExternalApplication _ExternalApplication = new ExternalApplication();
-
-
-        /// <summary>
-        /// クリップボード
-        /// </summary>
-        public ClipboardUtility ClipboardUtility
-        {
-            get { return _ClipboardUtility; }
-            set { if (_ClipboardUtility != value) { _ClipboardUtility = value ?? new ClipboardUtility(); RaisePropertyChanged(); } }
-        }
-
-        private ClipboardUtility _ClipboardUtility = new ClipboardUtility();
-
-
-
+        #endregion
 
         #region BookCommand : ページ削除
 
@@ -558,7 +555,6 @@ namespace NeeView
 
         #endregion
 
-
         #region BookCommand : ページマーク
 
         // ページマークにに追加、削除された
@@ -704,8 +700,10 @@ namespace NeeView
         {
             [DataMember]
             public PageEndAction PageEndAction { get; set; }
+
             [DataMember]
             public ExternalApplication ExternalApplication { get; set; }
+
             [DataMember]
             public ClipboardUtility ClipboardUtility { get; set; }
         }

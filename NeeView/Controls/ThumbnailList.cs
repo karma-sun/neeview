@@ -22,74 +22,89 @@ namespace NeeView
     {
         public static ThumbnailList Current { get; private set; }
 
-        // サムネイル有効
+        #region Fields
+
         private bool _isEnableThumbnailList;
+        private bool _isHideThumbnailList;
+        private double _thumbnailSize = 96.0;
+        private bool _isVisibleThumbnailNumber;
+        private bool _isVisibleThumbnailPlate = true;
+        private bool _isSliderDirectionReversed;
+        private int _PageNumber;
+        private int _MaxPageNumber;
+        private bool _isSelectedCenter;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// サムネイルリスト表示
+        /// </summary>
         public bool IsEnableThumbnailList
         {
             get { return _isEnableThumbnailList; }
             set { if (_isEnableThumbnailList != value) { _isEnableThumbnailList = value; RaisePropertyChanged(); } }
         }
 
-        //
-        public bool ToggleVisibleThumbnailList()
-        {
-            return IsEnableThumbnailList = !IsEnableThumbnailList;
-        }
-
-
-        // サムネイルを自動的に隠す
-        private bool _isHideThumbnailList;
+        /// <summary>
+        /// サムネイルを自動的に隠す
+        /// </summary>
         public bool IsHideThumbnailList
         {
             get { return _isHideThumbnailList; }
             set { if (_isHideThumbnailList != value) { _isHideThumbnailList = value; RaisePropertyChanged(); } }
         }
 
-        //
-        public bool ToggleHideThumbnailList()
-        {
-            return IsHideThumbnailList = !IsHideThumbnailList;
-        }
-
-
+        /// <summary>
+        /// サムネイルを隠すことができる
+        /// </summary>
         public bool CanHideThumbnailList => IsEnableThumbnailList && IsHideThumbnailList;
 
-
-        // サムネイルサイズ
-        private double _thumbnailSize = 96.0;
+        /// <summary>
+        /// サムネイルサイズ
+        /// </summary>
+        [PropertyMember("サムネイルサイズ")]
         public double ThumbnailSize
         {
             get { return _thumbnailSize; }
             set { if (_thumbnailSize != value) { _thumbnailSize = value; RaisePropertyChanged(); } }
         }
 
-        // ページ番号の表示
-        private bool _isVisibleThumbnailNumber;
+        /// <summary>
+        /// ページ番号の表示
+        /// </summary>
+        [PropertyMember("ページ番号を表示する", Tips = "サムネイルにページ番号を表示します")]
         public bool IsVisibleThumbnailNumber
         {
             get { return _isVisibleThumbnailNumber; }
             set { if (_isVisibleThumbnailNumber != value) { _isVisibleThumbnailNumber = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(ThumbnailNumberVisibility)); } }
         }
 
-        // ページ番号の表示
-        // TODO: Converterで
+        /// <summary>
+        /// ページ番号の表示状態
+        /// TODO: Converterで
+        /// </summary>
         public Visibility ThumbnailNumberVisibility => IsVisibleThumbnailNumber ? Visibility.Visible : Visibility.Collapsed;
 
-        // サムネイル台紙の表示
-        private bool _isVisibleThumbnailPlate = true;
+        /// <summary>
+        /// サムネイル台紙の表示
+        /// </summary>
+        [PropertyMember("背景を表示する", Tips = "自動的に隠される設定の場合にサムネイルリストの背景を表示します")]
         public bool IsVisibleThumbnailPlate
         {
             get { return _isVisibleThumbnailPlate; }
             set { if (_isVisibleThumbnailPlate != value) { _isVisibleThumbnailPlate = value; RaisePropertyChanged(); } }
         }
 
-
-        // サムネイルリスト表示状態
+        /// <summary>
+        /// サムネイルリスト表示状態
+        /// </summary>
         public Visibility ThumbnailListVisibility => this.BookOperation.GetPageCount() > 0 ? Visibility.Visible : Visibility.Collapsed;
 
-
         /// <summary>
-        /// IsSliderDirectionReversed property.
+        /// スライダー方向
+        /// スライダーと連動
         /// </summary>
         public bool IsSliderDirectionReversed
         {
@@ -97,14 +112,9 @@ namespace NeeView
             set { if (_isSliderDirectionReversed != value) { _isSliderDirectionReversed = value; RaisePropertyChanged(); Refleshed?.Invoke(this, null); } }
         }
 
-        private bool _isSliderDirectionReversed;
-
-
-        //
-        public event EventHandler PageNumberChanged;
 
         /// <summary>
-        /// PageNumber property.
+        /// ページ番号
         /// </summary>
         public int PageNumber
         {
@@ -112,11 +122,8 @@ namespace NeeView
             set { if (_PageNumber != value) { _PageNumber = value; RaisePropertyChanged(); PageNumberChanged?.Invoke(this, null); } }
         }
 
-        private int _PageNumber;
-
-
         /// <summary>
-        /// MaxPageNumber property.
+        /// 最大ページ番号
         /// </summary>
         public int MaxPageNumber
         {
@@ -124,32 +131,29 @@ namespace NeeView
             set { if (_MaxPageNumber != value) { _MaxPageNumber = value; RaisePropertyChanged(); PageNumberChanged?.Invoke(this, null); } }
         }
 
-        private int _MaxPageNumber;
-
-        // スクロールビュータッチ操作の終端挙動
+        /// <summary>
+        /// スクロールビュータッチ操作の終端挙動
+        /// </summary>
         public bool IsManipulationBoundaryFeedbackEnabled { get; set; } = true;
 
         /// <summary>
-        /// IsSelectedCenter property.
+        /// 選択した項目が中央に表示されるようにスクロールする
         /// </summary>
-        private bool _isSelectedCenter;
+        [PropertyMember("選択した項目が中央に表示されるようにスクロールする")]
         public bool IsSelectedCenter
         {
             get { return _isSelectedCenter; }
             set { if (_isSelectedCenter != value) { _isSelectedCenter = value; RaisePropertyChanged(); } }
         }
 
-
+        //
         public BookOperation BookOperation { get; private set; }
         public BookHub BookHub { get; private set; }
 
-        public event EventHandler Refleshed;
+        #endregion
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="pageSlider"></param>
-        /// <param name="bookHub"></param>
+        #region Constructors 
+
         public ThumbnailList(BookOperation bookOperation, BookHub bookHub)
         {
             Current = this;
@@ -165,6 +169,36 @@ namespace NeeView
 
             this.BookOperation.PagesSorted +=
                 OnPageListChanged;
+        }
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// サムネイルリストの内容が更新された
+        /// </summary>
+        public event EventHandler Refleshed;
+
+        /// <summary>
+        /// ページ番号が更新された
+        /// </summary>
+        public event EventHandler PageNumberChanged;
+
+        #endregion
+
+        #region Methods
+
+        //
+        public bool ToggleVisibleThumbnailList()
+        {
+            return IsEnableThumbnailList = !IsEnableThumbnailList;
+        }
+
+        //
+        public bool ToggleHideThumbnailList()
+        {
+            return IsHideThumbnailList = !IsHideThumbnailList;
         }
 
         // 本が変更される
@@ -192,7 +226,6 @@ namespace NeeView
                     Refleshed?.Invoke(this, null);
                 }));
         }
-
 
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin, int direction)
@@ -238,6 +271,7 @@ namespace NeeView
             }
         }
 
+        #endregion
 
         #region Memento
         [DataContract]

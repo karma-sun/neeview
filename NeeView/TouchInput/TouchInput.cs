@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -138,6 +139,7 @@ namespace NeeView
         /// IsEnabled property.
         /// </summary>
         private bool _isEnabled = true;
+        [PropertyMember("タッチ操作を有効にする", Tips = "OFFのときは標準のマウス操作として機能します")]
         public bool IsEnabled
         {
             get { return _isEnabled; }

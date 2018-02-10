@@ -12,6 +12,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using NeeView.Windows.Property;
 
 namespace NeeView
 {
@@ -105,19 +106,39 @@ namespace NeeView
         /// <summary>
         /// ウィンドウタイトルフォーマット 1P用
         /// </summary>
+        [PropertyMember("1ページ用")]
         public string WindowTitleFormat1
         {
             get { return _windowTitleFormat1; }
-            set { _windowTitleFormat1 = value; _windowTitleFormatter.SetFilter(_windowTitleFormat1 + " " + _windowTitleFormat2); }
+            set
+            {
+                value = string.IsNullOrEmpty(value) ? WindowTitleFormat1Default : value;
+                if (_windowTitleFormat1 != value)
+                {
+                    _windowTitleFormat1 = value;
+                    _windowTitleFormatter.SetFilter(_windowTitleFormat1 + " " + _windowTitleFormat2);
+                    UpdateWindowTitle(WindowTitleMask.None);
+                }
+            }
         }
 
         /// <summary>
         /// ウィンドウタイトルフォーマット 2P用
         /// </summary>
+        [PropertyMember("2ページ用")]
         public string WindowTitleFormat2
         {
             get { return _windowTitleFormat2; }
-            set { _windowTitleFormat2 = value; _windowTitleFormatter.SetFilter(_windowTitleFormat1 + " " + _windowTitleFormat2); }
+            set
+            {
+                value = string.IsNullOrEmpty(value) ? WindowTitleFormat2Default : value;
+                if (_windowTitleFormat2 != value)
+                {
+                    _windowTitleFormat2 = value;
+                    _windowTitleFormatter.SetFilter(_windowTitleFormat1 + " " + _windowTitleFormat2);
+                    UpdateWindowTitle(WindowTitleMask.None);
+                }
+            }
         }
 
         /// <summary>

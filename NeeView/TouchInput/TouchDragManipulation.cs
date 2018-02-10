@@ -106,9 +106,11 @@ namespace NeeView
         public double MinimumManipulationDistance { get; set; } = 30.0;
 
         //
+        [PropertyMember("回転操作を有効にする", Tips = "マルチタッチでの回転操作を有効にします")]
         public bool IsAngleEnabled { get; set; } = true;
 
         //
+        [PropertyMember("拡大縮小操作を有効にする", Tips = "ピンチイン・ピンチアウトでのサイズ変更操作操作を有効にします")]
         public bool IsScaleEnabled { get; set; } = true;
 
 

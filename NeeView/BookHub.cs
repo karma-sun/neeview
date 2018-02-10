@@ -10,12 +10,10 @@ using NeeView.IO;
 using NeeView.Threading.Tasks;
 using NeeView.Windows.Property;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
@@ -76,22 +74,38 @@ namespace NeeView
         History,
     }
 
+    /// <summary>
+    /// ページが終わったときのアクション
+    /// </summary>
     public enum PageEndAction
     {
+        [AliasName("そのまま")]
         None,
+
+        [AliasName("次のブックに移動")]
         NextFolder,
+
+        [AliasName("ループする")]
         Loop,
     }
+
 
     /// <summary>
     /// 先読みモード
     /// </summary>
     public enum PreLoadMode
     {
-        None, // 先読み無し
-        AutoPreLoad, // 自動先読み
-        PreLoad, // 固定先読み
-        PreLoadNoUnload, // 固定先読み開放なし
+        [AliasName("先読み無し")]
+        None,
+
+        [AliasName("自動先読み")]
+        AutoPreLoad,
+
+        [AliasName("先読みする")]
+        PreLoad,
+
+        [AliasName("先読みする(開放なし)")]
+        PreLoadNoUnload, 
     }
 
     //
@@ -267,10 +281,10 @@ namespace NeeView
         }
 
         /// <summary>
-        /// IsArchiveRecursive property.
-        /// TODO: パラメータの定義位置はあとで調整
+        /// アーカイブの自動再帰展開
         /// </summary>
         private bool _isArchiveRecursive = true;
+        [PropertyMember("圧縮ファイルに含まれる圧縮ファイルをすべて展開する", Tips = "FFにした場合、含まれる圧縮ファイルはサブフォルダ扱いになります")]
         public bool IsArchiveRecursive
         {
             get { return _isArchiveRecursive; }
@@ -905,7 +919,8 @@ namespace NeeView
             [PropertyMember("履歴登録開始ページ操作回数", Tips = "この回数のページ移動操作をしたら履歴に登録するようにする。")]
             public int HistoryEntryPageCount { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(true)]
+            [PropertyMember("圧縮ファイルに含まれる圧縮ファイルをすべて展開する", Tips = "FFにした場合、含まれる圧縮ファイルはサブフォルダ扱いになります", IsVisible = false)]
             public bool IsArchiveRecursive { get; set; }
 
             [DataMember]

@@ -32,6 +32,7 @@ namespace NeeView
         /// IsLoupeCenter property.
         /// </summary>
         private bool _IsLoupeCenter;
+        [PropertyMember("開始時カーソル位置を画面中心にする")]
         public bool IsLoupeCenter
         {
             get { return _IsLoupeCenter; }

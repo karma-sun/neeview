@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -63,6 +64,7 @@ namespace NeeView
 
         // ウィンドウ枠内の移動に制限するフラグ
         private bool _isLimitMove = true;
+        [PropertyMember("移動をウィンドウ内に制限する", Tips = "マウスドラッグによる移動を制限します")]
         public bool IsLimitMove
         {
             get { return _isLimitMove; }
@@ -71,6 +73,7 @@ namespace NeeView
 
 
         // 回転スナップ。0で無効
+        [PropertyMember("回転スナップ", Tips = "回転の単位")]
         public double AngleFrequency { get; set; } = 0;
 
 

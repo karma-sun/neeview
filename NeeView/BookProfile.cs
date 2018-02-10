@@ -31,36 +31,34 @@ namespace NeeView
     public class BookProfile
     {
         public static BookProfile Current { get; private set; }
+        
+        #region Constructors
+
+        public BookProfile()
+        {
+            Current = this;
+        }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// ページ移動優先設定
         /// </summary>
+        [PropertyMember("ページ送り優先", Tips = "ページの表示を待たずにページ送りを実行します")]
         public bool IsPrioritizePageMove { get; set; } = true;
 
         /// <summary>
-        /// ページ移動優先設定
-        /// </summary>
-        public bool CanPrioritizePageMove()
-        {
-            return this.IsPrioritizePageMove && !SlideShow.Current.IsPlayingSlideShow;
-        }
-
-        /// <summary>
         /// ページ移動命令重複許可
         /// </summary>
+        [PropertyMember("ページ送りコマンドの重複許可", Tips = "発行されたページ移動コマンドを全て実行します。\nOFFの場合は重複したページ送りコマンドはキャンセルされます")]
         public bool IsMultiplePageMove { get; set; } = true;
-
-        /// <summary>
-        /// ページ移動命令重複許可
-        /// </summary>
-        public bool CanMultiplePageMove()
-        {
-            return this.IsMultiplePageMove && !SlideShow.Current.IsPlayingSlideShow;
-        }
 
         /// <summary>
         /// 先読みモード
         /// </summary>
+        [PropertyEnum("先読み", Tips = "先読みは前後のページを保持するためメモリを消費します&#xa;「自動」にすると画像サイズに応じで先読み有効無効を切り替えます&#xa;「先読みする(開放なし)」は読み込んだ画像を開放しない最もメモリを消費するモードです")]
         public PreLoadMode PreLoadMode { get; set; } = PreLoadMode.AutoPreLoad;
 
         /// <summary>
@@ -87,23 +85,33 @@ namespace NeeView
         public StringCollection Excludes { get; set; } = new StringCollection("__MACOSX;.DS_Store");
 
         // GIFアニメ有効
+        [PropertyMember("アニメーションGIFを再生する", Tips = "アニメーションGIF再生を行います。長時間のGIFで問題が発生する可能性があります")]
         public bool IsEnableAnimatedGif { get; set; }
 
         // サポート外ファイル有効
+        [PropertyMember("サポート外ファイルもページに含める", Tips = "画像として表示できないファイルやフォルダーもページとして表示します")]
         public bool IsEnableNoSupportFile { get; set; }
 
         // ページ読み込み中表示
         public LoadingPageView LoadingPageView { get; set; } = LoadingPageView.PreThumbnail;
 
+        #endregion
 
         /// <summary>
-        /// constructor
+        /// ページ移動優先設定
         /// </summary>
-        public BookProfile()
+        public bool CanPrioritizePageMove()
         {
-            Current = this;
+            return this.IsPrioritizePageMove && !SlideShow.Current.IsPlayingSlideShow;
         }
 
+        /// <summary>
+        /// ページ移動命令重複許可
+        /// </summary>
+        public bool CanMultiplePageMove()
+        {
+            return this.IsMultiplePageMove && !SlideShow.Current.IsPlayingSlideShow;
+        }
 
         // 除外パス判定
         public bool IsExcludedPath(string path)
@@ -121,14 +129,15 @@ namespace NeeView
             public bool IsPrioritizePageMove { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("ページ送りコマンドの重複許可", Tips = "発行されたページ移動コマンドを全て実行します。\nFalseの場合は重複したページ送りコマンドはキャンセルされます", IsVisible = false)]
+            [PropertyMember("ページ送りコマンドの重複許可", Tips = "発行されたページ移動コマンドを全て実行します。\nOFFの場合は重複したページ送りコマンドはキャンセルされます", IsVisible = false)]
             public bool IsMultiplePageMove { get; set; }
 
             [DataMember, DefaultValue("__MACOSX;.DS_Store")]
             [PropertyMember("ページ除外パス", Tips = ";(セミコロン)区切りで除外するパス名を羅列します。「サポート外ファイルもページに含める」設定では無効です")]
             public string ExcludePath { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(1.0)]
+            [PropertyEnum("先読み", Tips = "先読みは前後のページを保持するためメモリを消費します&#xa;「自動」にすると画像サイズに応じで先読み有効無効を切り替えます&#xa;「先読みする(開放なし)」は読み込んだ画像を開放しない最もメモリを消費するモードです", IsVisible = false)]
             public PreLoadMode PreLoadMode { get; set; }
 
             [DataMember, DefaultValue(typeof(Size), "4096,4096")]
@@ -139,10 +148,12 @@ namespace NeeView
             [PropertyMember("横長画像を判定するための縦横比(横 / 縦)", Tips = "「横長ページを分割する」で使用されます")]
             public double WideRatio { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(false)]
+            [PropertyMember("アニメーションGIFを再生する", Tips = "アニメーションGIF再生を行います。長時間のGIFで問題が発生する可能性があります", IsVisible = false)]
             public bool IsEnableAnimatedGif { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(false)]
+            [PropertyMember("サポート外ファイルもページに含める", Tips = "画像として表示できないファイルやフォルダーもページとして表示します", IsVisible = false)]
             public bool IsEnableNoSupportFile { get; set; }
 
             [DataMember, DefaultValue(LoadingPageView.PreThumbnail)]

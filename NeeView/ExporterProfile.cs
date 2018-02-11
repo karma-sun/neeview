@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeView.Windows.Property;
 using System.Runtime.Serialization;
 
 namespace NeeView
@@ -18,8 +19,13 @@ namespace NeeView
         }
 
         public bool IsHintCloneDefault { get; set; } = true;
+
+        [PropertyRange("JPEG品質", 5, 100, TickFrequency =5, Tips = "変換が必要な場合にのみ使用されます")]
         public int QualityLevel { get; set; } = 80;
+
         public string ExportFolder { get; set; } = null;
+
+        [PropertyMember("前回保存したフォルダーを記憶する")]
         public bool IsEnableExportFolder { get; set; } = true;
 
 

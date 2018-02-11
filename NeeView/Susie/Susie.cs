@@ -6,6 +6,8 @@
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -18,20 +20,54 @@ namespace Susie
     /// <summary>
     /// for Susie Plugin
     /// </summary>
-    public class Susie
+    public class Susie : INotifyPropertyChanged
     {
-        // 書庫プラグインリスト
-        public List<SusiePlugin> AMPlgunList { get; set; } = new List<SusiePlugin>();
-        // 画像プラグインリスト
-        public List<SusiePlugin> INPlgunList { get; set; } = new List<SusiePlugin>();
+        #region PropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
+        {
+            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// 書庫プラグインリスト
+        /// </summary>
+        private ObservableCollection<SusiePlugin> _AMPluginList = new ObservableCollection<SusiePlugin>();
+        public ObservableCollection<SusiePlugin> AMPluginList
+        {
+            get { return _AMPluginList; }
+            set { if (_AMPluginList != value) { _AMPluginList = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// 画像プラグインリスト
+        /// </summary>
+        private ObservableCollection<SusiePlugin> _INPluginList = new ObservableCollection<SusiePlugin>();
+        public ObservableCollection<SusiePlugin> INPluginList
+        {
+            get { return _INPluginList; }
+            set { if (_INPluginList != value) { _INPluginList = value; RaisePropertyChanged(); } }
+        }
+
+
 
         // すべてのプラグインのEnumerator
         public IEnumerable<SusiePlugin> PluginCollection
         {
             get
             {
-                foreach (var plugin in AMPlgunList) yield return plugin;
-                foreach (var plugin in INPlgunList) yield return plugin;
+                foreach (var plugin in AMPluginList) yield return plugin;
+                foreach (var plugin in INPluginList) yield return plugin;
             }
         }
 
@@ -63,18 +99,23 @@ namespace Susie
         {
             if (spiFiles == null) return;
 
+            // 既存のプラグインから残すものを抽出
+            var inPluginList = INPluginList.Where(e => spiFiles.Contains(e.FileName)).ToList();
+            var amPluginList = AMPluginList.Where(e => !spiFiles.Contains(e.FileName)).ToList();
+
+            // 新しいプラグイン追加
             foreach (var fileName in spiFiles)
             {
                 var source = SusiePlugin.Create(fileName);
                 if (source != null)
                 {
-                    if (source.ApiVersion == "00IN" && !INPlgunList.Any(e => e.FileName == fileName))
+                    if (source.ApiVersion == "00IN" && !inPluginList.Any(e => e.FileName == fileName))
                     {
-                        INPlgunList.Add(source);
+                        inPluginList.Add(source);
                     }
-                    else if (source.ApiVersion == "00AM" && !AMPlgunList.Any(e => e.FileName == fileName))
+                    else if (source.ApiVersion == "00AM" && !amPluginList.Any(e => e.FileName == fileName))
                     {
-                        AMPlgunList.Add(source);
+                        amPluginList.Add(source);
                     }
                     else
                     {
@@ -86,6 +127,9 @@ namespace Susie
                     Debug.WriteLine("no support SPI (Exception): " + Path.GetFileName(fileName));
                 }
             }
+
+            INPluginList = new ObservableCollection<SusiePlugin>(inPluginList);
+            AMPluginList = new ObservableCollection<SusiePlugin>(amPluginList);
         }
 
 
@@ -113,7 +157,7 @@ namespace Susie
         // 対応アーカイブプラグイン取得(メモリ版)
         public SusiePlugin GetArchivePlugin(string fileName, byte[] buff, bool isCheckExtension)
         {
-            foreach (var plugin in AMPlgunList)
+            foreach (var plugin in AMPluginList)
             {
                 try
                 {
@@ -150,7 +194,7 @@ namespace Susie
         // 対応画像プラグイン取得(メモリ版)
         public SusiePlugin GetImagePlugin(string fileName, byte[] buff, bool isCheckExtension)
         {
-            foreach (var plugin in INPlgunList)
+            foreach (var plugin in INPluginList)
             {
                 try
                 {
@@ -191,7 +235,7 @@ namespace Susie
         /// <returns>Bitmap</returns>
         public byte[] GetPicture(string fileName, byte[] buff, bool isCheckExtension, out SusiePlugin spi)
         {
-            foreach (var plugin in INPlgunList)
+            foreach (var plugin in INPluginList)
             {
                 try
                 {
@@ -238,7 +282,7 @@ namespace Susie
                 fs.Read(head, 0, 2048);
             }
 
-            foreach (var plugin in INPlgunList)
+            foreach (var plugin in INPluginList)
             {
                 try
                 {

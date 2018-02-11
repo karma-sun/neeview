@@ -72,7 +72,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_FilePath}">
-        <nlc:FileNameBox Text="{Binding Value, Mode=TwoWay}"/>
+        <nlc:FileNameBox Text="{Binding Value, Mode=TwoWay}" Filter="{Binding Filter}" IsDirectory="{Binding IsDirectory}"/>
     </DataTemplate>
 
 </ResourceDictionary>

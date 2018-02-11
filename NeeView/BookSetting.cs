@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +62,7 @@ namespace NeeView
         public BookMementoFilter HistoryMementoFilter { get; set; } = new BookMementoFilter(true);
 
         // 新しい本を開くときに標準設定にする？
+        [PropertyMember("ブックを開くときに復元されない項目には既定のページ設定を適用する", Tips ="履歴情報から復元されなかった項目に既定のページ設定を適用します。\nOFFの場合は直前の設定値をそのまま継続します")]
         public bool IsUseBookMementoDefault { get; set; }
 
 

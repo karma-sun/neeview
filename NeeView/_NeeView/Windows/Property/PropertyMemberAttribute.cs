@@ -47,6 +47,12 @@ namespace NeeView.Windows.Property
             Maximum = max;
         }
 
+        public PropertyRangeAttribute(string name, double min, double max) : base(name)
+        {
+            Minimum = min;
+            Maximum = max;
+        }
+
         public override PropertyMemberElement CreateContent(object source, PropertyInfo info)
         {
             return new PropertyMemberElement(source, info, this);
@@ -71,6 +77,13 @@ namespace NeeView.Windows.Property
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyPathAttribute : PropertyMemberAttribute
     {
+        public bool IsDirectory { get; set; }
+        public string Filter { get; set; }
+
+        public PropertyPathAttribute(string name) : base(name)
+        {
+        }
+
         public override PropertyMemberElement CreateContent(object source, PropertyInfo info)
         {
             return new PropertyMemberElement(source, info, this);

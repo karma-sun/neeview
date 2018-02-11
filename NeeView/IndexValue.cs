@@ -17,10 +17,31 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
+    /// テーブル値インターフェイス
+    /// </summary>
+    public interface IIndexValue
+    {
+        /// <summary>
+        /// 現在インデックス
+        /// </summary>
+        int Index { get; set; }
+
+        /// <summary>
+        /// 最大インデックス
+        /// </summary>
+        int IndexMax { get; }
+
+        /// <summary>
+        /// 現在値での表示文字列
+        /// </summary>
+        string ValueString { get; }
+    }
+
+    /// <summary>
     /// テーブル値 基底
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    abstract public class IndexValue<T> : BindableBase
+    abstract public class IndexValue<T> : BindableBase, IIndexValue
     {
         //
         public event EventHandler<ValueChangedEventArgs<T>> ValueChanged;

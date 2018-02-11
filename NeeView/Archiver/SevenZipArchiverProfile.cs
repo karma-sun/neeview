@@ -41,11 +41,11 @@ namespace NeeView
             public int _Version { get; set; } = Config.Current.ProductVersionNumber;
 
             [DataMember, DefaultValue("")]
-            [PropertyPath(Name = "7z.dll(32bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
+            [PropertyPath("7z.dll(32bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
             public string X86DllPath { get; set; }
 
             [DataMember, DefaultValue("")]
-            [PropertyPath(Name = "7z.dll(64bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
+            [PropertyPath("7z.dll(64bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
             public string X64DllPath { get; set; }
 
             [DataMember, DefaultValue(".7z;.rar;.lzh;.cbr;.cbz")]

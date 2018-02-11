@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,14 +23,34 @@ namespace NeeView
     {
         public static SusieContext Current { get; private set; }
 
-        /// <summary>
-        /// constructor
-        /// </summary>
+        #region Fields
+
+        private Susie.Susie _susie;
+        public bool _isEnableSusie;
+        public string _susiePluginPath = "";
+        public bool _isFirstOrderSusieImage;
+        public bool _isFirstOrderSusieArchive;
+
+        #endregion
+
+        #region Constructoes
+
         public SusieContext()
         {
             Current = this;
+            _susie = new Susie.Susie();
+        }
 
-            this.Susie = new Susie.Susie();
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Susieコア
+        /// </summary>
+        public Susie.Susie Susie
+        {
+            get { return _susie; }
         }
 
         /// <summary>
@@ -41,107 +62,110 @@ namespace NeeView
         public bool IsSupportedSusie => false;
 #endif
 
-        public Susie.Susie Susie { get; private set; }
+        /// <summary>
+        /// Susie 有効/無効フラグ
+        /// 実際に有効かどうかはこのフラグを使用する
+        /// </summary>
+        public bool IsEnabled
+        {
+            get { return IsSupportedSusie && _isEnableSusie; }
+        }
 
-        // Susie 有効/無効フラグ
-        public bool IsEnabled => IsSupportedSusie && _IsEnableSusie;
-
-
-        // Susie 有効/無効設定
-        // 設定のみ。実際に有効かどうかは IsEnabled で判定する
-        public bool _IsEnableSusie;
+        /// <summary>
+        /// Susie 有効/無効設定
+        /// 設定のみ。実際に有効かどうかは IsEnabled で判定する
+        /// </summary>
+        [PropertyMember("Susieプラグインを使用する")]
         public bool IsEnableSusie
         {
-            get { return _IsEnableSusie; }
+            get { return _isEnableSusie; }
             set
             {
-                if (_IsEnableSusie != value)
+                if (_isEnableSusie != value)
                 {
-                    _IsEnableSusie = value;
+                    _isEnableSusie = value;
                     RaisePropertyChanged();
                     RaisePropertyChanged(nameof(IsEnabled));
                 }
             }
         }
 
-        // Susie プラグインパス
-        public string _SusiePluginPath = "";
+        // Susie プラグインフォルダー
+        [PropertyPath("プラグインフォルダー", IsDirectory = true)]
         public string SusiePluginPath
         {
-            get { return _SusiePluginPath; }
-            set { _SusiePluginPath = value; }
-        }
-
-        // Susie 画像プラグイン 優先フラグ
-        public bool _IsFirstOrderSusieImage;
-        public bool IsFirstOrderSusieImage
-        {
-            get { return _IsFirstOrderSusieImage; }
-            set { if (_IsFirstOrderSusieImage != value) { _IsFirstOrderSusieImage = value; RaisePropertyChanged(); } }
-        }
-
-        // Susie 書庫プラグイン 優先フラグ
-        public bool _IsFirstOrderSusieArchive;
-        public bool IsFirstOrderSusieArchive
-        {
-            get { return _IsFirstOrderSusieArchive; }
-            set { if (_IsFirstOrderSusieArchive != value) { _IsFirstOrderSusieArchive = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// Image Extensions property.
-        /// </summary>
-        public FileTypeCollection ImageExtensions = new FileTypeCollection();
-
-        /// <summary>
-        /// Archive Extensions property.
-        /// </summary>
-        public FileTypeCollection ArchiveExtensions = new FileTypeCollection();
-
-
-        /// <summary>
-        /// Spi Files
-        /// </summary>
-        public Dictionary<string, bool> SpiFiles
-        {
-            get { return _spiFiles; }
+            get { return _susiePluginPath; }
             set
             {
-                if (_spiFiles != value)
+                if (_susiePluginPath != value)
                 {
-                    _spiFiles = value ?? new Dictionary<string, bool>();
-                    SetupSusie();
+                    _susiePluginPath = value;
+                    SetupSusie(_susiePluginPath, CreateSpiFiles());
                 }
             }
         }
 
-        private Dictionary<string, bool> _spiFiles = new Dictionary<string, bool>();
+        // Susie 画像プラグイン 優先フラグ
+        [PropertyMember("画像表示でSusieプラグインを優先する")]
+        public bool IsFirstOrderSusieImage
+        {
+            get { return _isFirstOrderSusieImage; }
+            set { if (_isFirstOrderSusieImage != value) { _isFirstOrderSusieImage = value; RaisePropertyChanged(); } }
+        }
 
+        // Susie 書庫プラグイン 優先フラグ
+        [PropertyMember("圧縮ファイル展開でSusieプラグインを優先する")]
+        public bool IsFirstOrderSusieArchive
+        {
+            get { return _isFirstOrderSusieArchive; }
+            set { if (_isFirstOrderSusieArchive != value) { _isFirstOrderSusieArchive = value; RaisePropertyChanged(); } }
+        }
 
+        /// <summary>
+        /// 対応画像ファイル拡張子
+        /// </summary>
+        public FileTypeCollection ImageExtensions = new FileTypeCollection();
 
-        // Susie 初期化
-        private void SetupSusie()
+        /// <summary>
+        /// 対応圧縮ファイル拡張子
+        /// </summary>
+        public FileTypeCollection ArchiveExtensions = new FileTypeCollection();
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        /// <param name="spiFolder">プラグインフォルダー</param>
+        /// <param name="spiFiles">プラグインリスト</param>
+        public void Initialize(string spiFolder, Dictionary<string, bool> spiFiles)
+        {
+            _susiePluginPath = spiFolder;
+            SetupSusie(_susiePluginPath, spiFiles);
+        }
+
+        // Susie プラグイン 初期化
+        private void SetupSusie(string spiFolder, Dictionary<string, bool> spiFiles)
         {
             if (!IsSupportedSusie) return;
 
-            var list = ListUpSpiFiles(_spiFiles.Keys.ToList());
+            spiFiles = spiFiles ?? new Dictionary<string, bool>();
 
-            // 新規
-            Susie = new Susie.Susie();
-            Susie.Load(list);
+            var list = ListUpSpiFiles(spiFolder, spiFiles.Keys.ToList());
+
+            _susie.Load(list);
 
             // プラグイン有効/無効反映
-            foreach (var pair in _spiFiles)
+            foreach (var pair in spiFiles)
             {
-                var plugin = Susie.GetPlugin(pair.Key);
+                var plugin = _susie.GetPlugin(pair.Key);
                 if (plugin != null)
                 {
                     plugin.IsEnable = pair.Value;
                 }
             }
-
-            // 有効なプラグインリストに更新
-            _spiFiles = Memento.CreateSpiFiles(Susie);
 
             // Susie対応拡張子更新
             UpdateImageExtensions();
@@ -149,11 +173,28 @@ namespace NeeView
         }
 
 
-        // Susieローダーのサポート拡張子を更新
+        // Susieインスタンスから SpiFiles を生成する
+        public Dictionary<string, bool> CreateSpiFiles()
+        {
+            var spiFiles = new Dictionary<string, bool>();
+
+            if (_susie != null)
+            {
+                foreach (var plugin in _susie.PluginCollection)
+                {
+                    spiFiles.Add(plugin.FileName, plugin.IsEnable);
+                }
+            }
+
+            return spiFiles;
+        }
+
+
+        // Susie画像プラグインのサポート拡張子を更新
         private void UpdateImageExtensions()
         {
             var list = new List<string>();
-            foreach (var plugin in this.Susie.INPlgunList)
+            foreach (var plugin in _susie.INPluginList)
             {
                 if (plugin.IsEnable)
                 {
@@ -163,14 +204,13 @@ namespace NeeView
             this.ImageExtensions.FromCollection(list.Distinct());
 
             Debug.WriteLine("SusieIN Support: " + string.Join(" ", this.ImageExtensions));
-
         }
 
-        // Susieアーカイバーのサポート拡張子を更新
+        // Susies書庫プラグインのサポート拡張子を更新
         public void UpdateSusieExtensions()
         {
             var list = new List<string>();
-            foreach (var plugin in this.Susie.AMPlgunList)
+            foreach (var plugin in _susie.AMPluginList)
             {
                 if (plugin.IsEnable)
                 {
@@ -184,22 +224,27 @@ namespace NeeView
         }
 
 
-        // Susie プラグイン リストアップ
-        private List<string> ListUpSpiFiles(List<string> spiListSource)
+        /// <summary>
+        /// 有効なSusieプラグインをリストアップ
+        /// </summary>
+        /// <param name="spiFolder">プラグインフォルダー</param>
+        /// <param name="spiListSource">期待されるリスト(これまでのリスト)</param>
+        /// <returns></returns>
+        private List<string> ListUpSpiFiles(string spiFolder, List<string> spiListSource)
         {
             // nullや空白は無効
-            if (string.IsNullOrWhiteSpace(SusiePluginPath)) return null;
+            if (string.IsNullOrWhiteSpace(spiFolder)) return null;
 
             // ディテクトリが存在しない場合も無効
-            if (!System.IO.Directory.Exists(SusiePluginPath)) return null;
+            if (!System.IO.Directory.Exists(spiFolder)) return null;
 
             // 現在のパスで有効なものをリストアップ
-            var spiList = spiListSource.Where(e => Path.GetDirectoryName(e) == SusiePluginPath.TrimEnd('\\', '/')).ToList();
+            var spiList = spiListSource.Where(e => Path.GetDirectoryName(e) == spiFolder.TrimEnd('\\', '/')).ToList();
 
             // 新しいSPI追加
             try
             {
-                foreach (string s in Directory.GetFiles(SusiePluginPath))
+                foreach (string s in Directory.GetFiles(spiFolder))
                 {
                     if (Path.GetExtension(s).ToLower() == ".spi" && !spiList.Contains(s))
                     {
@@ -215,7 +260,7 @@ namespace NeeView
             return spiList;
         }
 
-
+        #endregion
 
         #region Memento
 
@@ -237,23 +282,7 @@ namespace NeeView
             [DataMember]
             public Dictionary<string, bool> SpiFiles { get; set; }
 
-            // Susieインスタンスから SpiFiles を生成する
-            public static Dictionary<string, bool> CreateSpiFiles(global::Susie.Susie susie)
-            {
-                var spiFiles = new Dictionary<string, bool>();
 
-                if (susie != null)
-                {
-                    foreach (var plugin in susie.PluginCollection)
-                    {
-                        spiFiles.Add(plugin.FileName, plugin.IsEnable);
-                    }
-                }
-
-                return spiFiles;
-            }
-
-            //
             public Memento Clone()
             {
                 using (var ms = new MemoryStream())
@@ -266,17 +295,15 @@ namespace NeeView
             }
         }
 
-
-
         //
         public Memento CreateMemento()
         {
             var memento = new Memento();
             memento.IsEnableSusie = this.IsEnableSusie;
-            memento.SusiePluginPath = this.SusiePluginPath;
             memento.IsFirstOrderSusieImage = this.IsFirstOrderSusieImage;
             memento.IsFirstOrderSusieArchive = this.IsFirstOrderSusieArchive;
-            memento.SpiFiles = this.SpiFiles;
+            memento.SusiePluginPath = this.SusiePluginPath;
+            memento.SpiFiles = CreateSpiFiles();
             return memento;
         }
 
@@ -286,10 +313,9 @@ namespace NeeView
             if (memento == null) return;
 
             this.IsEnableSusie = memento.IsEnableSusie;
-            this.SusiePluginPath = memento.SusiePluginPath;
             this.IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
             this.IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
-            this.SpiFiles = memento.SpiFiles;
+            Initialize(memento.SusiePluginPath, memento.SpiFiles);
         }
 
         #endregion

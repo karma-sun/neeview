@@ -52,7 +52,7 @@ namespace NeeView
         /// UnsharpAmount property.
         /// 25-200
         /// </summary>
-        [PropertyRange(25, 200, Name = "適応量")]
+        [PropertyRange("適応量", 25, 200)]
         [DefaultValue(40)]
         public int Amount
         {
@@ -64,7 +64,7 @@ namespace NeeView
         /// UnsharpRadius property.
         /// 0.3-3.0
         /// </summary>
-        [PropertyRange(0.3, 3.0, Name = "半径")]
+        [PropertyRange("半径", 0.3, 3.0)]
         [DefaultValue(1.5)]
         public double Radius
         {
@@ -76,7 +76,7 @@ namespace NeeView
         /// UnsharpThrethold property.
         /// 0-10
         /// </summary>
-        [PropertyRange(0, 10, Name = "閾値")]
+        [PropertyRange("閾値", 0, 10)]
         [DefaultValue(0)]
         public int Threshold
         {

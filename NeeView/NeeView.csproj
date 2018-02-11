@@ -158,6 +158,9 @@
     <Compile Include="SettingWindow\SettingItemIndexValueControl.xaml.cs">
       <DependentUpon>SettingItemIndexValueControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SettingWindow\SettingItemSusiePluginControl.xaml.cs">
+      <DependentUpon>SettingItemSusiePluginControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SettingWindow\SettingItemThumbnailSizeControl.xaml.cs">
       <DependentUpon>SettingItemThumbnailSizeControl.xaml</DependentUpon>
     </Compile>
@@ -767,6 +770,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SettingWindow\SettingItemIndexValueControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingWindow\SettingItemSusiePluginControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

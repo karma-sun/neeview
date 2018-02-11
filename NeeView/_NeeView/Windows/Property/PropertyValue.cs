@@ -36,7 +36,8 @@ namespace NeeView.Windows.Property
 
 
     //
-    public class PropertyValue<T, S> : PropertyValue where S : IValueSetter
+    public class PropertyValue<T, S> : PropertyValue
+        where S : IValueSetter
     {
         public S Setter { get; set; }
 
@@ -230,6 +231,24 @@ namespace NeeView.Windows.Property
     }
 
     //
+    public class PropertyValue_TimeSpan : PropertyValue<TimeSpan, PropertyMemberElement>
+    {
+        public PropertyValue_TimeSpan(PropertyMemberElement setter) : base(setter)
+        {
+        }
+
+        public override string GetTypeString()
+        {
+            return "期間";
+        }
+
+        public override void SetValueFromString(string value)
+        {
+            Value = TimeSpan.Parse(value);
+        }
+    }
+
+    //
     public class PropertyValue_IntegerRange : PropertyValue_Integer
     {
         private int _tickFrequency;
@@ -284,8 +303,8 @@ namespace NeeView.Windows.Property
 
         public PropertyValue_DoubleRange(PropertyMemberElement setter, double min, double max, double tickFrequency) : base(setter)
         {
-            Minimum = min;
-            Maximum = max;
+            this.Minimum = min;
+            this.Maximum = max;
             _tickFrequency = tickFrequency;
         }
     }
@@ -293,8 +312,13 @@ namespace NeeView.Windows.Property
     //
     public class PropertyValue_FilePath : PropertyValue_String
     {
-        public PropertyValue_FilePath(PropertyMemberElement setter) : base(setter)
+        public bool IsDirectory { get; set; }
+        public string Filter { get; set; }
+
+        public PropertyValue_FilePath(PropertyMemberElement setter, bool isDirectory, string filter) : base(setter)
         {
+            IsDirectory = isDirectory;
+            Filter = filter;
         }
 
         public override string GetTypeString()

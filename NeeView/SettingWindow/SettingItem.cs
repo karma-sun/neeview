@@ -24,6 +24,13 @@ namespace NeeView
             this.Header = header;
         }
 
+        public SettingItem(string header, string tips)
+        {
+            this.Header = header;
+            this.Tips = tips;
+        }
+
+
         public string Header { get; set; }
         public string Tips { get; set; }
         public IsEnabledPropertyValue IsEnabled { get; set; }
@@ -50,6 +57,31 @@ namespace NeeView
         }
     }
 
+    public class DataTriggerSource
+    {
+        public DataTriggerSource(Binding binding, object value, bool isTrue)
+        {
+            Binging = binding;
+            Value = value;
+            IsTrue = isTrue;
+        }
+
+        public DataTriggerSource(object source, string path, object value, bool isTrue)
+        {
+            Binging = new Binding(path) { Source = source };
+            Value = value;
+            IsTrue = isTrue;
+        }
+
+        public Binding Binging { get; private set; }
+        public object Value { get; private set; }
+
+        /// <summary>
+        /// 条件が成立する時に肯定する結果にする
+        /// </summary>
+        public bool IsTrue { get; private set; }
+    }
+
     /// <summary>
     /// SettingItem を複数まとめたもの
     /// </summary>
@@ -63,16 +95,80 @@ namespace NeeView
         {
         }
 
+        public SettingItemGroup(string header, string tips) : base(header, tips)
+        {
+        }
+
+        public SettingItemGroup(params SettingItem[] children) : base()
+        {
+            this.Children = children.Where(e => e != null).ToList();
+        }
+
         public SettingItemGroup(string header, params SettingItem[] children) : base(header)
+        {
+            this.Children = children.Where(e => e != null).ToList();
+        }
+
+        public SettingItemGroup(string header, string tips, params SettingItem[] children) : base(header, tips)
         {
             this.Children = children.Where(e => e != null).ToList();
         }
 
         public List<SettingItem> Children { get; private set; }
 
+        public DataTriggerSource IsEnabledTrigger { get; set; }
+        public DataTriggerSource VisibleTrigger { get; set; }
+
         protected override UIElement CreateContentInner()
         {
             var stackPanel = new StackPanel();
+
+            if (IsEnabledTrigger != null || VisibleTrigger != null)
+            {
+                var style = new Style(typeof(StackPanel));
+
+                if (IsEnabledTrigger != null)
+                {
+                    style.Setters.Add(new Setter()
+                    {
+                        Property = UIElement.IsEnabledProperty,
+                        Value = !IsEnabledTrigger.IsTrue,
+                    });
+                    var dataTrigger = new DataTrigger()
+                    {
+                        Binding = IsEnabledTrigger.Binging,
+                        Value = IsEnabledTrigger.Value,
+                    };
+                    dataTrigger.Setters.Add(new Setter()
+                    {
+                        Property = UIElement.IsEnabledProperty,
+                        Value = IsEnabledTrigger.IsTrue,
+                    });
+                    style.Triggers.Add(dataTrigger);
+                }
+
+                if (VisibleTrigger != null)
+                {
+                    style.Setters.Add(new Setter()
+                    {
+                        Property = UIElement.VisibilityProperty,
+                        Value = VisibleTrigger.IsTrue ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible,
+                    });
+                    var dataTrigger = new DataTrigger()
+                    {
+                        Binding = VisibleTrigger.Binging,
+                        Value = VisibleTrigger.Value,
+                    };
+                    dataTrigger.Setters.Add(new Setter()
+                    {
+                        Property = UIElement.VisibilityProperty,
+                        Value = VisibleTrigger.IsTrue ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed,
+                    });
+                    style.Triggers.Add(dataTrigger);
+                }
+
+                stackPanel.Style = style;
+            }
 
             foreach (var content in CreateChildContenCollection())
             {
@@ -100,8 +196,18 @@ namespace NeeView
         {
         }
 
+        public SettingItemSection(string header, string tips)
+            : base(header, tips)
+        {
+        }
+
         public SettingItemSection(string header, params SettingItem[] children)
             : base(header, children)
+        {
+        }
+
+        public SettingItemSection(string header, string tips, params SettingItem[] children)
+            : base(header, tips, children)
         {
         }
 
@@ -200,19 +306,19 @@ namespace NeeView
     /// <summary>
     /// IndexValueに対応したプロパティの設定項目
     /// </summary>
-    public class SettingItemIndexValue : SettingItem
+    public class SettingItemIndexValue<T> : SettingItem
     {
         private PropertyMemberElement _element;
-        private IndexDoubleValue _indexValue;
+        private IndexValue<T> _indexValue;
 
-        public SettingItemIndexValue(PropertyMemberElement element, IndexDoubleValue indexValue) : base(element?.ToString())
+        public SettingItemIndexValue(PropertyMemberElement element, IndexValue<T> indexValue) : base(element?.ToString())
         {
             Debug.Assert(element != null);
 
             _element = element;
             _indexValue = indexValue;
 
-            _indexValue.Property = (PropertyValue_Double)_element.TypeValue;
+            _indexValue.Property = (PropertyValue<T, PropertyMemberElement>)_element.TypeValue;
         }
 
         protected override UIElement CreateContentInner()
@@ -264,6 +370,21 @@ namespace NeeView
         protected override UIElement CreateContentInner()
         {
             return new SettingMouseDragControl();
+        }
+    }
+
+    /// <summary>
+    /// Susieプラグイン設定項目
+    /// </summary>
+    public class SettingItemSusiePlugin : SettingItem
+    {
+        public SettingItemSusiePlugin() : base(null)
+        {
+        }
+
+        protected override UIElement CreateContentInner()
+        {
+            return new SettingItemSusiePluginControl();
         }
     }
 }

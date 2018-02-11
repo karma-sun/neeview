@@ -667,6 +667,7 @@ namespace NeeView
             }
         }
 
+        #region Susie
 
         // Susieプラグイン コンフィグ実行
         private void SusiePluginConfigCommand_Executed(object source, ExecutedRoutedEventArgs e)
@@ -690,13 +691,13 @@ namespace NeeView
             // プラグインリスト書き戻し
             if (SusieContext.Current.Susie != null)
             {
-                SusieContext.Current.Susie.AMPlgunList = AMPluginList.ToList();
-                SusieContext.Current.Susie.INPlgunList = INPluginList.ToList();
+                SusieContext.Current.Susie.AMPluginList = AMPluginList; //.ToList();
+                SusieContext.Current.Susie.INPluginList = INPluginList; //.ToList();
             }
 
             // 現在のSusieプラグイン情報保存
             Setting.SusieMemento.SusiePluginPath = path;
-            Setting.SusieMemento.SpiFiles = SusieContext.Memento.CreateSpiFiles(SusieContext.Current.Susie);
+            Setting.SusieMemento.SpiFiles = SusieContext.Current.CreateSpiFiles();
 
             SusieContext.Current.Restore(Setting.SusieMemento);
             UpdateSusiePluginList();
@@ -707,14 +708,16 @@ namespace NeeView
         {
             if (!SusieContext.Current.IsSupportedSusie) return;
 
-            INPluginList = new ObservableCollection<Susie.SusiePlugin>(SusieContext.Current.Susie?.INPlgunList);
+            INPluginList = new ObservableCollection<Susie.SusiePlugin>(SusieContext.Current.Susie?.INPluginList);
             RaisePropertyChanged(nameof(INPluginList));
             this.INPluginListView.Items.Refresh();
 
-            AMPluginList = new ObservableCollection<Susie.SusiePlugin>(SusieContext.Current.Susie?.AMPlgunList);
+            AMPluginList = new ObservableCollection<Susie.SusiePlugin>(SusieContext.Current.Susie?.AMPluginList);
             RaisePropertyChanged(nameof(AMPluginList));
             this.AMPluginListView.Items.Refresh();
         }
+
+        #endregion
 
         // 決定ボタン処理
         private void OkButton_Click(object sender, RoutedEventArgs e)
@@ -905,12 +908,12 @@ namespace NeeView
                     // プラグインリスト書き戻し
                     if (SusieContext.Current.Susie != null)
                     {
-                        SusieContext.Current.Susie.AMPlgunList = AMPluginList.ToList();
-                        SusieContext.Current.Susie.INPlgunList = INPluginList.ToList();
+                        SusieContext.Current.Susie.AMPluginList = AMPluginList; //.ToList();
+                        SusieContext.Current.Susie.INPluginList = INPluginList; //.ToList();
                     }
 
                     // Susie プラグインリスト保存
-                    Setting.SusieMemento.SpiFiles = SusieContext.Memento.CreateSpiFiles(SusieContext.Current.Susie);
+                    Setting.SusieMemento.SpiFiles = SusieContext.Current.CreateSpiFiles();
                 }
             }
             else
@@ -1144,6 +1147,10 @@ namespace NeeView
             0, 1, 10, 20, 50, 100, 200, 500, 1000, -1
         };
 
+        public HistoryLimitSize() : base(_values)
+        {
+        }
+
         //
         public HistoryLimitSize(int value) : base(_values)
         {
@@ -1171,6 +1178,11 @@ namespace NeeView
             };
 
         //
+        public HistoryLimitSpan() : base(_values)
+        {
+        }
+
+        //
         public HistoryLimitSpan(TimeSpan value) : base(_values)
         {
             Value = value;
@@ -1190,6 +1202,12 @@ namespace NeeView
         {
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 300
         };
+
+        //
+        public SlideShowInterval() : base(_values)
+        {
+            IsValueSyncIndex = false;
+        }
 
         //
         public SlideShowInterval(double value) : base(_values)

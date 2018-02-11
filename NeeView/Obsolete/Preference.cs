@@ -93,12 +93,12 @@ namespace NeeView
 
         [Obsolete]
         [DataMember, DefaultValue("")]
-        [PropertyPath(Name = "7z.dll(32bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
+        [PropertyPath("7z.dll(32bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
         public string loader_archiver_7z_dllpath { get; set; }
 
         [Obsolete]
         [DataMember, DefaultValue("")]
-        [PropertyPath(Name = "7z.dll(64bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
+        [PropertyPath("7z.dll(64bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
         public string loader_archiver_7z_dllpath_x64 { get; set; }
 
         [Obsolete]

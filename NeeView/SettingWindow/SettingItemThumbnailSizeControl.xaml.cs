@@ -33,9 +33,9 @@ namespace NeeView
 
         private static void PropertyValue_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is SettingItemIndexValueControl control)
+            if (d is SettingItemThumbnailSizeControl control)
             {
-                control.Root.DataContext = control.IndexValue;
+                control.Root.DataContext = control.PropertyValue;
             }
         }
 

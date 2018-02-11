@@ -77,7 +77,7 @@ namespace NeeView
 
         // ダウンロードファイル置き場
         [DefaultValue("")]
-        [PropertyPath(Name = "ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。\n既定では一時フォルダを使用します。", IsVisible = false)]
+        [PropertyPath("ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。\n指定がない場合は一時フォルダーが使用されます", IsVisible = false, IsDirectory = true)]
         public string DownloadPath { get; set; }
 
         #endregion
@@ -131,7 +131,7 @@ namespace NeeView
             public bool IsOpenLastBook { get; set; }
 
             [DataMember, DefaultValue("")]
-            [PropertyPath(Name = "ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。\n既定では一時フォルダを使用します。", IsVisible = false)]
+            [PropertyPath("ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。\n既定では一時フォルダを使用します。", IsVisible = false, IsDirectory = true)]
             public string DownloadPath { get; set; }
 
             [OnDeserializing]

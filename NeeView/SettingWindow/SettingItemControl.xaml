@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="400">
-    <Border x:Name="Root" BorderBrush="WhiteSmoke" BorderThickness="0,0,0,1">
+    <Border x:Name="Root" BorderBrush="WhiteSmoke" BorderThickness="0,0,0,1" Background="Transparent">
         <DockPanel Margin="5" >
             <ContentControl x:Name="ContentValue" DockPanel.Dock="Right" VerticalAlignment="Center" Focusable="False"/>
             <TextBlock x:Name="Header" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="200" Margin="0,0,20,0">

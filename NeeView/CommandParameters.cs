@@ -187,7 +187,7 @@ namespace NeeView
     {
         // 属性に説明文
         [DataMember]
-        [PropertyRange(0, 100, Name = "移動量(%)", Tips = "一度の操作でスクロールするする画面に対する割合(0-100)")]
+        [PropertyRange("移動量(%)", 0, 100, Tips = "一度の操作でスクロールするする画面に対する割合(0-100)")]
         public int Scroll
         {
             get { return _scroll; }
@@ -213,7 +213,7 @@ namespace NeeView
     public class ViewScaleCommandParameter : CommandParameter
     {
         // 属性に説明文
-        [PropertyRange(0, 100, Name = "拡大率(%)", Tips = "一度の操作で拡大する割合(0-100)")]
+        [PropertyRange("拡大率(%)", 0, 100, Tips = "一度の操作で拡大する割合(0-100)")]
         public int Scale
         {
             get { return _scale; }
@@ -228,7 +228,7 @@ namespace NeeView
     public class ViewRotateCommandParameter : CommandParameter
     {
         // 属性に説明文
-        [PropertyRange(0, 180, Name = "回転角度", Tips = "一度の操作で回転する角度(0-180)")]
+        [PropertyRange("回転角度", 0, 180, Tips = "一度の操作で回転する角度(0-180)")]
         public int Angle
         {
             get { return _angle; }
@@ -273,7 +273,7 @@ namespace NeeView
         public double Margin { get; set; }
 
         [DataMember]
-        [PropertyRange(0, 100, Name = "移動量(%)", Tips = "一度の操作でスクロールするする画面に対する割合(0-100)")]
+        [PropertyRange("移動量(%)", 0, 100, Tips = "一度の操作でスクロールするする画面に対する割合(0-100)")]
         public int Scroll
         {
             get { return _scroll; }

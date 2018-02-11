@@ -49,7 +49,7 @@
                 </DockPanel>
                 <DockPanel Margin="5">
                     <TextBlock Text="画像" MinWidth="50" VerticalAlignment="Center"/>
-                    <nlc:FileNameBox SelectDirectory="False" Title="画像の選択" Filter="すべてのファイル|*.*" MinHeight="24"
+                    <nlc:FileNameBox IsDirectory="False" Title="画像の選択" Filter="すべてのファイル|*.*" MinHeight="24"
                                  Note="画像ファイルを選択してください"
                                  Text="{Binding Source.ImageFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </DockPanel>

@@ -155,7 +155,7 @@ namespace NeeView
 
         /// </summary>
         private string _home;
-        [PropertyPath(Name ="ホームの場所")]
+        [PropertyPath("ホームの場所", IsDirectory = true)]
         public string Home
         {
             get { return _home; }

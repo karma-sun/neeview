@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Windows.Property;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,15 +21,15 @@ namespace NeeView
     /// </summary>
     public partial class SettingItemIndexValueControl : UserControl
     {
-        public IndexDoubleValue IndexValue
+        public IIndexValue IndexValue
         {
-            get { return (IndexDoubleValue)GetValue(IndexValueProperty); }
+            get { return (IIndexValue)GetValue(IndexValueProperty); }
             set { SetValue(IndexValueProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for IndexValue.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IndexValueProperty =
-            DependencyProperty.Register("IndexValue", typeof(IndexDoubleValue), typeof(SettingItemIndexValueControl), new PropertyMetadata(null, IndexValue_Changed));
+            DependencyProperty.Register("IndexValue", typeof(IIndexValue), typeof(SettingItemIndexValueControl), new PropertyMetadata(null, IndexValue_Changed));
 
         private static void IndexValue_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

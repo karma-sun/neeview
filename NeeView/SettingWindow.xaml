@@ -336,7 +336,7 @@
                                       IsChecked="{Binding Setting.Memento.FolderList.FolderIconLayout, Converter={StaticResource FolderIconLayoutToBooleanConverter}}" />
                             <DockPanel Style="{StaticResource ItemDockPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="ホームの場所"/>
-                                <nlc:FileNameBox x:Name="HomePathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding Setting.Memento.FolderList.Home, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectDirectory="True" Note="フォルダーを指定してください"/>
+                                <nlc:FileNameBox x:Name="HomePathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding Setting.Memento.FolderList.Home, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsDirectory="True" Note="フォルダーを指定してください"/>
                             </DockPanel>
                         </StackPanel>
 
@@ -376,8 +376,6 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-
-
 
             <TabItem Header="画像操作">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly">
@@ -565,7 +563,6 @@
                     <StackPanel Style="{StaticResource BaseStackPanel}">
 
                         <TextBlock Text="外部アプリ設定" Style="{StaticResource Header}"  ToolTip="「外部アプリで起動」コマンドで使用するアプリを指定します"/>
-
                         <StackPanel Style="{StaticResource Phrase}">
 
                             <StackPanel Style="{StaticResource ItemStackPanel}">
@@ -587,7 +584,7 @@
                                 </StackPanel.Style>
                                 <DockPanel Style="{StaticResource ItemDockPanel}">
                                     <TextBlock Style="{StaticResource ItemHeader}" Text="プログラム" />
-                                    <nlc:FileNameBox x:Name="ExAppPath" Margin="2,0" SelectDirectory="False" Title="プログラムの選択" Filter="EXE|*.exe|すべてのファイル|*.*"
+                                    <nlc:FileNameBox x:Name="ExAppPath" Margin="2,0" IsDirectory="False" Title="プログラムの選択" Filter="EXE|*.exe|すべてのファイル|*.*"
                             Note="指定がない場合は拡張子に関連付けられたアプリを起動します"
                             Text="{Binding Setting.Memento.BookOperation.ExternalApplication.Command, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                 </DockPanel>
@@ -634,7 +631,6 @@
                         </StackPanel>
 
                         <TextBlock Text="クリップボードへのファイルコピー" Style="{StaticResource Header}"/>
-
                         <StackPanel Style="{StaticResource Phrase}">
                             <StackPanel Style="{StaticResource ItemStackPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="2ページの場合"/>
@@ -648,21 +644,17 @@
                             </StackPanel>
                         </StackPanel>
 
-
                         <TextBlock Text="ブラウザからのドラッグ&amp;ドロップ" Style="{StaticResource Header}" ToolTip="Webブラウザからの画像ドロップに関連する設定です"/>
-
                         <StackPanel Style="{StaticResource Phrase}">
                             <DockPanel Style="{StaticResource ItemDockPanel}">
                                 <TextBlock Style="{StaticResource ItemHeader}" Text="画像保存フォルダー"/>
-                                <nlc:FileNameBox x:Name="DownloadPath" Margin="2,0" SelectDirectory="True" Title="保存先フォルダーの選択" 
+                                <nlc:FileNameBox x:Name="DownloadPath" Margin="2,0" IsDirectory="True" Title="保存先フォルダーの選択" 
                             Note="指定がない場合は一時フォルダーが使用されます"
                             Text="{Binding Setting.App.DownloadPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                             </DockPanel>
                         </StackPanel>
 
-
                         <TextBlock Text="ファイル保存" Style="{StaticResource Header}" ToolTip="画像を保存するコマンドの設定です"/>
-
                         <StackPanel Style="{StaticResource Phrase}">
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="前回保存したフォルダーを記憶する"
                               IsChecked="{Binding Setting.Memento.ExporterProfile.IsEnableExportFolder}" />
@@ -758,7 +750,6 @@
 
                         <TextBlock Text="サブフォルダー読み込み問い合わせ" Style="{StaticResource Header}"/>
                         <StackPanel Style="{StaticResource Phrase}">
-
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="ページがない場合、サブフォルダーも読み込むか問い合わせる"
                               ToolTip="フォルダー形式のブックを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合に&#xa;サブフォルダーも読み込むかを問い合わせるダイアログを表示します。"
                               IsChecked="{Binding Setting.Memento.BookHub.IsConfirmRecursive}" />
@@ -934,7 +925,7 @@
                 <DockPanel x:Name="SusiePanel" Margin="4">
                     <CheckBox DockPanel.Dock="Top" Margin="2" Content="Susieプラグインを使用する" IsChecked="{Binding Setting.SusieMemento.IsEnableSusie}" />
                     <DockPanel IsEnabled="{Binding Setting.SusieMemento.IsEnableSusie}">
-                        <nlc:FileNameBox x:Name="PluginPathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding SusiePluginPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectDirectory="True"  Note="フォルダーを指定してください"/>
+                        <nlc:FileNameBox x:Name="PluginPathTextBox" DockPanel.Dock="Top" Margin="0,2" Height="20" Text ="{Binding SusiePluginPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsDirectory="True"  Note="フォルダーを指定してください"/>
                         <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="画像表示でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieImage}"/>
                         <CheckBox DockPanel.Dock="Bottom" Margin="2" Content="圧縮ファイル展開でSusieプラグインを優先する" IsChecked ="{Binding Setting.SusieMemento.IsFirstOrderSusieArchive}"/>
 

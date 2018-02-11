@@ -14,7 +14,10 @@ namespace NeeView
     // ページ表示モード
     public enum PageMode
     {
+        [AliasName("1ページ表示")]
         SinglePage,
+
+        [AliasName("2ページ表示")]
         WidePage,
     }
 

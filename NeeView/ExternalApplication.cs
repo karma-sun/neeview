@@ -3,6 +3,8 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,23 +19,34 @@ namespace NeeView
     // プログラムの種類
     public enum ExternalProgramType
     {
+        [AliasName("外部プログラム")]
         Normal,
+
+        [AliasName("プロトコル起動")]
         Protocol,
     }
 
     // 複数ページのときの動作
     public enum MultiPageOptionType
     {
-        Once, // 1ページのみ
-        Twice, // 2ページとも
+        [AliasName("1ページのみ実行する")]
+        Once,
+
+        [AliasName("2ページとも実行する")]
+        Twice,
     };
 
     // 圧縮ファイルの時の動作
     public enum ArchiveOptionType
     {
-        None, // 実行しない
-        SendArchiveFile, // 圧縮ファイルを渡す
-        SendExtractFile, // 出力したファイルを渡す(テンポラリ)
+        [AliasName("実行しない")]
+        None,
+
+        [AliasName("圧縮ファイルを渡す")]
+        SendArchiveFile,
+
+        [AliasName("出力したファイルを渡す(一時ファイル)")]
+        SendExtractFile,
     }
 
     // コピー設定
@@ -42,10 +55,12 @@ namespace NeeView
     {
         // 複数ページのときの動作
         [DataMember]
+        [PropertyMember("2ページの場合")]
         public MultiPageOptionType MultiPageOption { get; set; }
 
         // 圧縮ファイルのときの動作
         [DataMember]
+        [PropertyMember("圧縮ファイルの場合")]
         public ArchiveOptionType ArchiveOption { get; set; }
 
 
@@ -139,35 +154,46 @@ namespace NeeView
 
     // 外部アプリ起動
     [DataContract]
-    public class ExternalApplication
+    public class ExternalApplication : BindableBase
     {
+        private ExternalProgramType _programType;
+
         /// <summary>
         /// ProgramType property.
         /// </summary>
         [DataMember]
-        public ExternalProgramType ProgramType { get; set; }
+        [PropertyMember("種類")]
+        public ExternalProgramType ProgramType
+        {
+            get { return _programType; }
+            set { if (_programType != value) { _programType = value; RaisePropertyChanged(); } }
+        }
 
 
         // コマンド
         [DataMember]
+        [PropertyPath( "プログラム", Tips = "指定がない場合は拡張子に関連付けられたアプリを起動します", Filter = "EXE|*.exe|すべてのファイル|*.*")]
         public string Command { get; set; }
 
         // コマンドパラメータ
         // $FILE = 渡されるファイルパス
         [DataMember]
+        [PropertyMember("パラメーター")]
         public string Parameter { get; set; }
 
         // プロトコル
         [DataMember]
+        [PropertyMember("プロトコル", Tips = "$File はファイルパスに置換されます。\n$Uri はURIエスケープされたファイルパスに置換されます。")]
         public string Protocol { get; set; }
-
 
         // 複数ページのときの動作
         [DataMember]
+        [PropertyMember("2ページの場合")]
         public MultiPageOptionType MultiPageOption { get; set; }
 
         // 圧縮ファイルのときの動作
         [DataMember]
+        [PropertyMember("圧縮ファイルの場合")]
         public ArchiveOptionType ArchiveOption { get; set; }
 
         // 拡張子に関連付けられたアプリを起動するかの判定

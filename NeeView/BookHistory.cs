@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -41,14 +42,15 @@ namespace NeeView
         public string LastAddress { get; set; }
 
         // 履歴制限
-        private int _limitSize;
+        [PropertyMember("保存数", Tips = "数による保持制限が履歴ファイルに適用されます\nアプリ動作中の履歴は制限されません")]
+        public int LimitSize { get; set; }
 
         // 履歴制限(時間)
-        private TimeSpan _limitSpan;
+        [PropertyMember("保存期間", Tips = "期間による保持制限が履歴ファイルに適用されます&#xa;アプリ動作中の履歴は制限されません")]
+        public TimeSpan LimitSpan { get; set; }
 
-        /// <summary>
-        /// IsKeepFolderStatus property.
-        /// </summary>
+        // フォルダーリストの情報記憶
+        [PropertyMember("フォルダー状態を保存する", Tips = "最後に開いていた場所、各フォルダーの並び順等の情報を保存します")]
         public bool IsKeepFolderStatus { get; set; } = true;
 
 
@@ -88,6 +90,8 @@ namespace NeeView
         {
             Current = this;
             Items = new LinkedList<BookMementoUnit>();
+
+            HistoryChanged += (s, e) => RaisePropertyChanged(nameof(Count));
         }
 
         // 要素数
@@ -469,8 +473,8 @@ namespace NeeView
             memento.Items = this.Items.Select(e => e.Memento).ToList();
             memento.Folders = _folders;
             memento.LastFolder = this.LastFolder;
-            memento.LimitSize = _limitSize;
-            memento.LimitSpan = _limitSpan;
+            memento.LimitSize = this.LimitSize;
+            memento.LimitSpan = this.LimitSpan;
             memento.IsKeepFolderStatus = IsKeepFolderStatus;
             memento.LastAddress = App.Current.IsOpenLastBook ? this.LastAddress : null;
 
@@ -497,8 +501,8 @@ namespace NeeView
             this.LastFolder = memento.LastFolder;
             this.LastAddress = memento.LastAddress;
             _folders = memento.Folders ?? _folders;
-            _limitSize = memento.LimitSize;
-            _limitSpan = memento.LimitSpan;
+            this.LimitSize = memento.LimitSize;
+            this.LimitSpan = memento.LimitSpan;
             IsKeepFolderStatus = memento.IsKeepFolderStatus;
 
             this.Load(fromLoad ? Limit(memento.Items) : memento.Items);
@@ -518,11 +522,11 @@ namespace NeeView
         private List<Book.Memento> Limit(List<Book.Memento> source)
         {
             // limit size
-            var collection = _limitSize == -1 ? source : source.Take(_limitSize);
+            var collection = LimitSize == -1 ? source : source.Take(LimitSize);
 
             // limit time
-            var limitTime = DateTime.Now - _limitSpan;
-            collection = _limitSpan == default(TimeSpan) ? collection : collection.TakeWhile(e => e.LastAccessTime > limitTime);
+            var limitTime = DateTime.Now - LimitSpan;
+            collection = LimitSpan == default(TimeSpan) ? collection : collection.TakeWhile(e => e.LastAccessTime > limitTime);
 
             return collection.ToList();
         }

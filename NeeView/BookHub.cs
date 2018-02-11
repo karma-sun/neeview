@@ -251,11 +251,13 @@ namespace NeeView
 
 
         // 再帰を確認する
+        [PropertyMember("ページがない場合、サブフォルダーも読み込むか問い合わせる", Tips = "フォルダー形式のブックを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合に\nサブフォルダーも読み込むかを問い合わせるダイアログを表示します。")]
         public bool IsConfirmRecursive { get; set; }
 
 
         // 自動再帰
         private bool _isAutoRecursive = true;
+        [PropertyMember("ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを読み込む", Tips = "フォルダー形式のブックで機能します")]
         public bool IsAutoRecursive
         {
             get { return _isAutoRecursive; }
@@ -263,6 +265,7 @@ namespace NeeView
             {
                 _isAutoRecursive = value;
                 EntryCollection.IsAutoRecursive = _isAutoRecursive;
+                RaisePropertyChanged();
             }
         }
 
@@ -270,6 +273,7 @@ namespace NeeView
         /// IsAutoRecursiveWithAllFiles property.
         /// </summary>
         private bool _isAutoRecursiveWithAllFiles = true;
+        [PropertyMember("ページ外ファイルも含めて判定する", Tips = "画像ファイル以外が存在する場合はサブフォルダーを読み込みません")]
         public bool IsAutoRecursiveWithAllFiles
         {
             get { return _isAutoRecursiveWithAllFiles; }
@@ -294,11 +298,13 @@ namespace NeeView
         /// <summary>
         /// アーカイブ内アーカイブの履歴保存
         /// </summary>
+        [PropertyMember("圧縮ファイルに含まれる圧縮ファイルを履歴に保存する")]
         public bool IsInnerArchiveHistoryEnabled { get; set; }
 
         /// <summary>
         /// UNCパスの履歴保存
         /// </summary>
+        [PropertyMember("UNCパスを履歴に保存する", Tips = "\\\\コンピュータ名\\~ のようなネットワーク上のパスです")]
         public bool IsUncHistoryEnabled { get; set; }
 
         /// <summary>

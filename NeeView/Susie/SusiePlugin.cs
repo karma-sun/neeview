@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory.Windows.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -63,6 +64,33 @@ namespace Susie
         public object Lock = new object();
         public static object GlobalLock = new object();
 
+
+        #region OpenConfigurationDlg command
+
+        //
+        private RelayCommand<Window> _OpenConfigurationDlg;
+
+        /// <summary>
+        /// コンフィグダイアログを表示するコマンド
+        /// </summary>
+        public RelayCommand<Window> OpenConfigurationDlg
+        {
+            get { return _OpenConfigurationDlg = _OpenConfigurationDlg ?? new RelayCommand<Window>(OpenConfigurationDlg_Executed); }
+        }
+
+        //
+        private void OpenConfigurationDlg_Executed(Window owner)
+        {
+            int result = ConfigurationDlg(owner);
+
+            // 設定ウィンドウが呼び出せなかった場合はアバウト画面でお茶を濁す
+            if (result < 0)
+            {
+                AboutDlg(owner);
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// プラグインアクセサ作成
@@ -164,7 +192,7 @@ namespace Susie
             {
                 using (var api = Open())
                 {
-                    IntPtr hwnd = new WindowInteropHelper(parent).Handle;
+                    IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
                     return api.ConfigurationDlg(hwnd, 0);
                 }
             }
@@ -184,7 +212,7 @@ namespace Susie
             {
                 using (var api = Open())
                 {
-                    IntPtr hwnd = new WindowInteropHelper(parent).Handle;
+                    IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
                     return api.ConfigurationDlg(hwnd, 1);
                 }
             }

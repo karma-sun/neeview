@@ -14,10 +14,19 @@ namespace NeeView
     // ページ整列
     public enum PageSortMode
     {
-        FileName, // ファイル名 昇順
-        FileNameDescending, // ファイル名 降順
-        TimeStamp, // 日付 昇順
-        TimeStampDescending, // 日付 降順
+        [AliasName("ファイル名昇順")]
+        FileName,
+
+        [AliasName("ファイル名降順")]
+        FileNameDescending,
+
+        [AliasName("日付昇順")]
+        TimeStamp,
+
+        [AliasName("日付降順")]
+        TimeStampDescending,
+
+        [AliasName("シャッフル")]
         Random,
     }
 

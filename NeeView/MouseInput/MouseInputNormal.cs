@@ -29,7 +29,7 @@ namespace NeeView
         }
 
         // 長押し判定時間(秒)
-        [PropertyRange(0.1, 2.0, TickFrequency = 0.1, Name = "長押し判定時間", Tips = "長押しと判定されるまでの押し続ける時間の設定です")]
+        [PropertyRange("長押し判定時間", 0.1, 2.0, TickFrequency = 0.1, Tips = "長押しと判定されるまでの押し続ける時間の設定です")]
         public double LongLeftButtonDownTime { get; set; } = 1.0;
 
         // マウスジェスチャー有効

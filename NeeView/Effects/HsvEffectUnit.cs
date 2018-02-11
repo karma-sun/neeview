@@ -27,7 +27,7 @@ namespace NeeView.Effects
         /// Property: Hue
         /// </summary>
         [DataMember]
-        [PropertyRange(0.0, 360.0, Name ="色相")]
+        [PropertyRange("色相", 0.0, 360.0)]
         [DefaultValue(0.0)]
         public double Hue
         {
@@ -39,7 +39,7 @@ namespace NeeView.Effects
         /// Property: Saturation
         /// </summary>
         [DataMember]
-        [PropertyRange(-1.0, 1.0, Name ="彩度")]
+        [PropertyRange("彩度", - 1.0, 1.0)]
         [DefaultValue(0.0)]
         public double Saturation
         {
@@ -51,7 +51,7 @@ namespace NeeView.Effects
         /// Property: Value
         /// </summary>
         [DataMember]
-        [PropertyRange(-1.0, 1.0, Name ="明度")]
+        [PropertyRange("明度", - 1.0, 1.0)]
         [DefaultValue(0.0)]
         public double Value
         {

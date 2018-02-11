@@ -108,6 +108,10 @@ namespace NeeView.Windows.Property
                     {
                         this.TypeValue = new PropertyValue_Size(this);
                     }
+                    else if (_info.PropertyType == typeof(TimeSpan))
+                    {
+                        this.TypeValue = new PropertyValue_TimeSpan(this);
+                    }
                     else
                     {
                         this.TypeValue = new PropertyValue_Object(this);
@@ -159,7 +163,7 @@ namespace NeeView.Windows.Property
             switch (typeCode)
             {
                 case TypeCode.String:
-                    this.TypeValue = new PropertyValue_FilePath(this);
+                    this.TypeValue = new PropertyValue_FilePath(this, attribute.IsDirectory, attribute.Filter);
                     break;
                 default:
                     throw new NotSupportedException();

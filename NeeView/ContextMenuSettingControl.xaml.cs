@@ -3,13 +3,8 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
-using NeeLaboratory.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,29 +31,6 @@ namespace NeeView
         public static readonly RoutedCommand MoveDownCommand = new RoutedCommand("MoveDownCommand", typeof(ContextMenuSettingControl));
 
 
-
-#if false
-        public MainWindowVM.Memento ViewMemento
-        {
-            get { return (MainWindowVM.Memento)GetValue(ViewMementoProperty); }
-            set { SetValue(ViewMementoProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ViewMemento.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ViewMementoProperty =
-            DependencyProperty.Register("ViewMemento", typeof(MainWindowVM.Memento), typeof(ContextMenuSettingControl), new PropertyMetadata(null, ViewMementoPropertyChanged));
-
-        private static void ViewMementoPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var control = d as ContextMenuSettingControl;
-            if (control != null)
-            {
-                control.Initialize();
-            }
-        }
-#endif
-
-
         public ContextMenuSetting ContextMenuSetting
         {
             get { return (ContextMenuSetting)GetValue(ContextMenuSettingProperty); }
@@ -76,15 +48,14 @@ namespace NeeView
 
 
         //
-        private ContextMenuSettingControlVM _VM;
+        private ContextMenuSettingControlViewModel _vm;
 
         public ContextMenuSettingControl()
         {
             InitializeComponent();
 
-            _VM = new ContextMenuSettingControlVM();
-            this.Root.DataContext = _VM;
-
+            _vm = new ContextMenuSettingControlViewModel();
+            this.Root.DataContext = _vm;
 
             this.CommandBindings.Add(new CommandBinding(AddCommand, Add_Exec));
             this.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, SelectedItem_CanExec));
@@ -97,7 +68,7 @@ namespace NeeView
         {
             if (this.ContextMenuSetting != null)
             {
-                _VM.Initialize(ContextMenuSetting);
+                _vm.Initialize(ContextMenuSetting);
                 this.SourceComboBox.SelectedIndex = 0;
             }
         }
@@ -110,7 +81,7 @@ namespace NeeView
 
             var node = this.ContextMenuTreeView.SelectedItem as MenuTree;
 
-            _VM.AddNode(MenuTree.Create(element), node);
+            _vm.AddNode(MenuTree.Create(element), node);
         }
 
         //
@@ -126,7 +97,7 @@ namespace NeeView
             var node = this.ContextMenuTreeView.SelectedItem as MenuTree;
             if (node == null) return;
 
-            _VM.RemoveNode(node);
+            _vm.RemoveNode(node);
         }
 
         //
@@ -160,7 +131,7 @@ namespace NeeView
             var node = this.ContextMenuTreeView.SelectedItem as MenuTree;
             if (node == null) return;
 
-            _VM.MoveUp(node);
+            _vm.MoveUp(node);
         }
 
         //
@@ -169,205 +140,17 @@ namespace NeeView
             var node = this.ContextMenuTreeView.SelectedItem as MenuTree;
             if (node == null) return;
 
-            _VM.MoveDown(node);
+            _vm.MoveDown(node);
         }
 
         public void Decide()
         {
-            _VM.Decide();
+            _vm.Decide();
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
-            _VM.Reset();
-        }
-    }
-
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class ContextMenuSettingControlVM : BindableBase
-    {
-        #region Property: Root
-        private MenuTree _root;
-        public MenuTree Root
-        {
-            get { return _root; }
-            set { _root = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-        public List<MenuTree> SourceElementList { get; set; }
-
-
-
-        private ContextMenuSetting _contextMenuSetting;
-
-        public ContextMenuSettingControlVM()
-        {
-            if (CommandTable.Current == null) return;
-
-            var list = Enum.GetValues(typeof(CommandType))
-               .OfType<CommandType>()
-               .Where(e => !e.IsDisable())
-               .GroupBy(e => CommandTable.Current[e].Group)
-               .SelectMany(g => g)
-               .Select(e => new MenuTree() { MenuElementType = MenuElementType.Command, Command = e })
-               .ToList();
-
-            list.Insert(0, new MenuTree() { MenuElementType = MenuElementType.Group });
-            list.Insert(1, new MenuTree() { MenuElementType = MenuElementType.Separator });
-            list.Insert(2, new MenuTree() { MenuElementType = MenuElementType.History });
-
-            SourceElementList = list;
-        }
-
-        //
-        public void Initialize(ContextMenuSetting contextMenuSetting)
-        {
-            _contextMenuSetting = contextMenuSetting;
-
-            Root = _contextMenuSetting.SourceTree.Clone();
-
-            // validate
-            Root.MenuElementType = MenuElementType.Group;
-            Root.Validate();
-        }
-
-        //
-        public void Decide()
-        {
-            _contextMenuSetting.SourceTree = Root.IsEqual(MenuTree.CreateDefault()) ? null : Root;
-        }
-
-        //
-        public void Reset()
-        {
-            Root = MenuTree.CreateDefault();
-        }
-
-        //
-        private ObservableCollection<MenuTree> GetParentCollection(ObservableCollection<MenuTree> collection, MenuTree target)
-        {
-            if (collection.Contains(target)) return collection;
-
-            foreach (var group in collection.Where(e => e.Children != null))
-            {
-                var parent = GetParentCollection(group.Children, target);
-                if (parent != null) return parent;
-            }
-
-            return null;
-        }
-
-        //
-        public void AddNode(MenuTree element, MenuTree target)
-        {
-            if (target == null)
-            {
-                Root.Children.Add(element);
-            }
-            else if (target.Children != null && target.IsExpanded)
-            {
-                target.Children.Insert(0, element);
-            }
-            else
-            {
-                var parent = target.GetParent(Root);
-                if (parent != null)
-                {
-                    int index = parent.Children.IndexOf(target);
-                    parent.Children.Insert(index + 1, element);
-                }
-            }
-
-            element.IsSelected = true;
-            Root.Validate();
-        }
-
-
-        //
-        public void RemoveNode(MenuTree target)
-        {
-            var parent = target.GetParent(Root);
-            if (parent != null)
-            {
-                var next = target.GetNext(Root, false) ?? target.GetPrev(Root);
-
-                parent.Children.Remove(target);
-                parent.Validate();
-
-                if (next != null) next.IsSelected = true;
-            }
-        }
-
-        //
-        public void MoveUp(MenuTree target)
-        {
-            var targetParent = target.GetParent(Root);
-
-            var prev = target.GetPrev(Root);
-            if (prev != null && prev != Root)
-            {
-                var prevParent = prev.GetParent(Root);
-
-                if (targetParent == prevParent)
-                {
-                    int index = targetParent.Children.IndexOf(target);
-                    targetParent.Children.Move(index, index - 1);
-                }
-                else if (targetParent == prev)
-                {
-                    targetParent.Children.Remove(target);
-                    int index = prevParent.Children.IndexOf(prev);
-                    prevParent.Children.Insert(index, target);
-                }
-                else
-                {
-                    targetParent.Children.Remove(target);
-                    int index = prevParent.Children.IndexOf(prev);
-                    prevParent.Children.Insert(index + 1, target);
-                }
-
-                target.IsSelected = true;
-                Root.Validate();
-            }
-        }
-
-
-        public void MoveDown(MenuTree target)
-        {
-            var targetParent = target.GetParent(Root);
-
-            var next = target.GetNext(Root);
-            if (next != null && next != Root)
-            {
-                var nextParent = next.GetParent(Root);
-
-                if (targetParent == nextParent)
-                {
-                    if (next.IsExpanded)
-                    {
-                        targetParent.Children.Remove(target);
-                        next.Children.Insert(0, target);
-                    }
-                    else
-                    {
-                        int index = targetParent.Children.IndexOf(target);
-                        targetParent.Children.Move(index, index + 1);
-                    }
-                }
-                else
-                {
-                    targetParent.Children.Remove(target);
-                    int index = nextParent.Children.IndexOf(next);
-                    nextParent.Children.Insert(index, target);
-                }
-
-                target.IsSelected = true;
-                Root.Validate();
-            }
+            _vm.Reset();
         }
     }
 }

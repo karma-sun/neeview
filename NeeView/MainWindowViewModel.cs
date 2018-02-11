@@ -151,15 +151,26 @@ namespace NeeView
         private ContextMenu _contextMenu;
         public ContextMenu ContextMenu
         {
-            get { return _contextMenu; }
-            set { _contextMenu = value; RaisePropertyChanged(); }
+            get
+            {
+                if (_model.ContextMenuSetting.IsDarty)
+                {
+                    Debug.WriteLine($"new ContextMenu.");
+                    _contextMenu = _model.ContextMenuSetting.ContextMenu;
+                    _contextMenu?.UpdateInputGestureText();
+                }
+                return _contextMenu;
+            }
         }
 
         public void UpdateContextMenu()
         {
-            ContextMenu = _model.ContextMenuSetting.ContextMenu;
-            ContextMenu?.UpdateInputGestureText();
+            if (_model.ContextMenuSetting.IsDarty)
+            {
+                RaisePropertyChanged(nameof(ContextMenu));
+            }
         }
+
 
         #endregion
 
@@ -279,6 +290,14 @@ namespace NeeView
         public void Loaded()
         {
             _model.Loaded();
+        }
+
+        /// <summary>
+        /// ウィンドウがアクティブ化したときの処理
+        /// </summary>
+        public void Activated()
+        {
+            UpdateContextMenu();
         }
 
 

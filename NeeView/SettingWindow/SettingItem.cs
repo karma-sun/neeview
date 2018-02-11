@@ -387,4 +387,55 @@ namespace NeeView
             return new SettingItemSusiePluginControl();
         }
     }
+
+    /// <summary>
+    /// コマンド設定項目
+    /// </summary>
+    public class SettingItemCommand : SettingItem
+    {
+        public SettingItemCommand() : base(null)
+        {
+        }
+
+        protected override UIElement CreateContentInner()
+        {
+            return new SettingItemCommandControl();
+        }
+    }
+
+    /// <summary>
+    /// メニュー設定項目
+    /// </summary>
+    public class SettingItemContextMenu : SettingItem
+    {
+        public SettingItemContextMenu() : base(null)
+        {
+        }
+
+        protected override UIElement CreateContentInner()
+        {
+            var control = new ContextMenuSettingControl()
+            {
+                ContextMenuSetting = MainWindowModel.Current.ContextMenuSetting
+            };
+
+            return control;
+        }
+    }
+
+
+    /// <summary>
+    /// 詳細設定項目
+    /// </summary>
+    public class SettingItemPreference : SettingItem
+    {
+        public SettingItemPreference() : base(null)
+        {
+        }
+
+        protected override UIElement CreateContentInner()
+        {
+            return new SettingItemPreferenceControl();
+        }
+    }
 }

@@ -17,7 +17,11 @@
         x:Name="RootWindow"
         Style="{StaticResource DefaultWindowStyle}"
         Title="{Binding WindowTitle.Title}" Icon="{Binding WindowIcon}" Height="768" Width="1024" MinHeight="50" MinWidth="150"
-        Loaded="MainWindow_Loaded" ContentRendered="MainWindow_ContentRendered" Closed="MainWindow_Closed" Closing="MainWindow_Closing"
+        Loaded="MainWindow_Loaded"
+        ContentRendered="MainWindow_ContentRendered"
+        Closed="MainWindow_Closed"
+        Closing="MainWindow_Closing"
+        Activated="MainWindow_Activated"
         MouseLeave="MainWindow_MouseLeave"
         StateChanged="MainWindow_StateChanged"
         DpiChanged="MainWindow_DpiChanged">

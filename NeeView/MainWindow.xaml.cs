@@ -489,6 +489,11 @@ namespace NeeView
             InitializeWindowShape();
         }
 
+        // ウィンドウアクティブ
+        private void MainWindow_Activated(object sender, EventArgs e)
+        {
+            _vm.Activated();
+        }
 
         // ウィンドウ最大化(Toggle)
         private void MainWindow_Maximize()

@@ -452,6 +452,8 @@ namespace NeeView
             this.DragActionListView.Items.Refresh();
         }
 
+        #region Command
+
         // コマンド一覧 更新
         private void UpdateCommandList()
         {
@@ -617,6 +619,10 @@ namespace NeeView
             }
         }
 
+        #endregion
+
+        #region Preference
+
         // 詳細一覧 更新
         private void UpdatePropertyList()
         {
@@ -666,6 +672,8 @@ namespace NeeView
                 }
             }
         }
+
+        #endregion
 
         #region Susie
 
@@ -731,6 +739,8 @@ namespace NeeView
         {
             this.Close();
         }
+
+        #region Command
 
         // ショートカットキー設定ボタン処理
         private void ShortCutSettingButton_Click(object sender, RoutedEventArgs e)
@@ -814,7 +824,7 @@ namespace NeeView
         }
 
 
-#region ParameterSettingCommand
+        #region ParameterSettingCommand
         private RelayCommand _parameterSettingCommand;
         public RelayCommand ParameterSettingCommand
         {
@@ -832,9 +842,7 @@ namespace NeeView
             var command = (CommandParam)this.CommandListView.SelectedValue;
             EditCommandParameter(command);
         }
-#endregion
-
-
+        #endregion
 
         // 全コマンド初期化ボタン処理
         private void ResetGestureSettingButton_Click(object sender, RoutedEventArgs e)
@@ -851,6 +859,9 @@ namespace NeeView
                 this.CommandListView.Items.Refresh();
             }
         }
+
+        #endregion
+
 
         // 履歴クリアボタン処理
         private void ClearHistoryButton_Click(object sender, RoutedEventArgs e)
@@ -933,6 +944,7 @@ namespace NeeView
             _isDartySusieSetting = true;
         }
 
+        #region Preference
 
         /// <summary>
         /// 
@@ -955,6 +967,9 @@ namespace NeeView
             _propertyDocument.Reset();
             this.PropertyListView.Items.Refresh();
         }
+
+        #endregion
+
 
         /// <summary>
         /// Remove Cahe
@@ -980,6 +995,8 @@ namespace NeeView
         {
             Config.Current.RemoveApplicationData();
         }
+
+        #region Command
 
         //
         private void EditCommandParameterButton_Clock(object sender, RoutedEventArgs e)
@@ -1017,6 +1034,7 @@ namespace NeeView
             ParameterSettingCommand.RaiseCanExecuteChanged();
         }
 
+        #endregion
 
         #region DragAction
 

@@ -147,16 +147,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ContextMenuSettingControlViewModel.cs" />
     <Compile Include="SettingWindow\HelpPopupControl.xaml.cs">
       <DependentUpon>HelpPopupControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingWindow\PropertyValue.cs" />
     <Compile Include="SettingWindow\SettingItem.cs" />
+    <Compile Include="SettingWindow\SettingItemCommandControl.xaml.cs">
+      <DependentUpon>SettingItemCommandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingWindow\SettingItemContextMenuControl.xaml.cs">
+      <DependentUpon>SettingItemContextMenuControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SettingWindow\SettingItemControl.xaml.cs">
       <DependentUpon>SettingItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingWindow\SettingItemIndexValueControl.xaml.cs">
       <DependentUpon>SettingItemIndexValueControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingWindow\SettingItemPreferenceControl.xaml.cs">
+      <DependentUpon>SettingItemPreferenceControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingWindow\SettingItemSusiePluginControl.xaml.cs">
       <DependentUpon>SettingItemSusiePluginControl.xaml</DependentUpon>
@@ -765,11 +775,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SettingWindow\SettingItemCommandControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingWindow\SettingItemContextMenuControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SettingWindow\SettingItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SettingWindow\SettingItemIndexValueControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingWindow\SettingItemPreferenceControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

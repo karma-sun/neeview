@@ -20,19 +20,18 @@ namespace NeeView
     public class ContextMenuSetting : BindableBase
     {
         //
-        #region Property: ContextMenu
         private ContextMenu _contextMenu;
         public ContextMenu ContextMenu
         {
             get
             {
-                _contextMenu = _contextMenu ?? SourceTree.CreateContextMenu();
+                _contextMenu = this.IsDarty ? SourceTree.CreateContextMenu() : _contextMenu;
+                _isDarty = false;
                 return _contextMenu;
             }
         }
-        #endregion
 
-        #region Property: SourceTree
+        //
         [DataMember]
         private MenuTree _sourceTree;
         public MenuTree SourceTree
@@ -42,9 +41,17 @@ namespace NeeView
             {
                 _sourceTree = value;
                 _contextMenu = null;
+                _isDarty = true;
             }
         }
-        #endregion
+
+        //
+        public bool _isDarty;
+        public bool IsDarty
+        {
+            get { return _isDarty || _contextMenu == null; }
+            set { _isDarty = value; }
+        }
 
         //
         public ContextMenuSetting Clone()

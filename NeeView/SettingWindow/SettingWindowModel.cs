@@ -434,25 +434,38 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
 
         #endregion
 
+        #region コマンド
         private List<SettingItem> CreateCommandPage()
         {
             return new List<SettingItem>
             {
+                new SettingItemSection("コマンド",
+                    new SettingItemCommand()),
             };
         }
+        #endregion
 
+        #region コンテキストメニュー
         private List<SettingItem> CreateMenuPage()
         {
             return new List<SettingItem>
             {
+                new SettingItemSection("コンテキストメニュー",
+                    new SettingItemContextMenu()),
             };
         }
+        #endregion
 
+        #region 詳細設定
         private List<SettingItem> CreateDetailPage()
         {
+            // TODO: Memento編集しなくなるので廃止予定
             return new List<SettingItem>
             {
+                new SettingItemSection("詳細設定",
+                    new SettingItemPreference()),
             };
         }
+        #endregion
     }
 }

@@ -43,7 +43,17 @@ namespace NeeView
         public SettingItemSusiePluginControl()
         {
             InitializeComponent();
-            this.Root.DataContext = SusieContext.Current;
+        }
+
+        //
+        public SettingItemSusiePluginControl(Susie.SusiePluginType pluginType)
+        {
+            InitializeComponent();
+            this.Root.DataContext = SusieContext.Current.Susie;
+
+            var binding = new Binding(pluginType == Susie.SusiePluginType.Image ? nameof(Susie.Susie.INPluginList) : nameof(Susie.Susie.AMPluginList));
+            BindingOperations.SetBinding(this.PluginListBox, ListBox.ItemsSourceProperty, binding);
+            BindingOperations.SetBinding(this.PluginListBox, ListBox.TagProperty, binding);
         }
 
         // プラグインリスト：ドロップ受付判定

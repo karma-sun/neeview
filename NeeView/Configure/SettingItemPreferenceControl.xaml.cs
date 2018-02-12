@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,6 +66,11 @@ namespace NeeView
                 });
             PropertyCollection = new ObservableCollection<PropertyParam>();
             UpdatePropertyList();
+
+            foreach(var item in PropertyCollection)
+            {
+                Debug.WriteLine($"    * {item.Name}[{item.TypeString}] : {item.Key}");
+            }
         }
 
         #region Preference

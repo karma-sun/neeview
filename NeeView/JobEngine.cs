@@ -227,7 +227,7 @@ namespace NeeView
         }
 
         private bool _IsBusy;
-        
+
         private void UpdateIsBusy()
         {
             this.IsBusy = this.Workers.Any(e => e != null && e.IsBusy);
@@ -247,6 +247,7 @@ namespace NeeView
         /// <summary>
         /// WorkerSize property.
         /// </summary>
+        [PropertyMember("画像読み込みに使用するスレッド数", Tips = "有効値は1～4です")]
         public int WorkerSize
         {
             get { return _workerSize; }

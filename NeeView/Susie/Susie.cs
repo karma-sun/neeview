@@ -101,21 +101,21 @@ namespace Susie
 
             // 既存のプラグインから残すものを抽出
             var inPluginList = INPluginList.Where(e => spiFiles.Contains(e.FileName)).ToList();
-            var amPluginList = AMPluginList.Where(e => !spiFiles.Contains(e.FileName)).ToList();
+            var amPluginList = AMPluginList.Where(e => spiFiles.Contains(e.FileName)).ToList();
 
             // 新しいプラグイン追加
             foreach (var fileName in spiFiles)
             {
-                var source = SusiePlugin.Create(fileName);
-                if (source != null)
+                var spi = SusiePlugin.Create(fileName);
+                if (spi != null)
                 {
-                    if (source.ApiVersion == "00IN" && !inPluginList.Any(e => e.FileName == fileName))
+                    if (spi.PluginType == SusiePluginType.Image && !inPluginList.Any(e => e.FileName == fileName))
                     {
-                        inPluginList.Add(source);
+                        inPluginList.Add(spi);
                     }
-                    else if (source.ApiVersion == "00AM" && !amPluginList.Any(e => e.FileName == fileName))
+                    else if (spi.PluginType == SusiePluginType.Archive && !amPluginList.Any(e => e.FileName == fileName))
                     {
-                        amPluginList.Add(source);
+                        amPluginList.Add(spi);
                     }
                     else
                     {

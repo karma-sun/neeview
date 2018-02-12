@@ -31,7 +31,7 @@ namespace NeeView
     public class BookProfile
     {
         public static BookProfile Current { get; private set; }
-        
+
         #region Constructors
 
         public BookProfile()
@@ -64,6 +64,7 @@ namespace NeeView
         /// <summary>
         /// 先読み自動判定許サイズ
         /// </summary>
+        [PropertyMember(Name = "自動先読み判定用画像サイズ", Tips = "自動先読みモードで使用します。この面積より大きい画像で先読みが無効になります\n2ページ表示の場合は2ページの合計面積で判定されます")]
         public Size PreloadLimitSize { get; set; } = new Size(4096, 4096);
 
         /// <summary>
@@ -77,11 +78,13 @@ namespace NeeView
         /// <summary>
         /// WideRatio property.
         /// </summary>
+        [PropertyMember("横長画像を判定するための縦横比(横 / 縦)", Tips = "「横長ページを分割する」で使用されます")]
         public double WideRatio { get; set; } = 1.0;
 
         /// <summary>
         /// 除外パス
         /// </summary>
+        [PropertyMember("ページ除外パス", Tips = ";(セミコロン)区切りで除外するパス名を羅列します。「サポート外ファイルもページに含める」設定では無効です")]
         public StringCollection Excludes { get; set; } = new StringCollection("__MACOSX;.DS_Store");
 
         // GIFアニメ有効
@@ -93,6 +96,7 @@ namespace NeeView
         public bool IsEnableNoSupportFile { get; set; }
 
         // ページ読み込み中表示
+        [PropertyEnum("読み込み中ページの表示方法", Tips = "ページの読み込みが完了するまでに表示しておくものを指定します。\n- None ... なし(灰色)\n- PreThumbnail ... 直前のサムネイル\n- PreImage ... 直前の画像。一番メモリを消費します")]
         public LoadingPageView LoadingPageView { get; set; } = LoadingPageView.PreThumbnail;
 
         #endregion

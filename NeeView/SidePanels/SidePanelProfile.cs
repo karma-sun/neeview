@@ -18,6 +18,7 @@ namespace NeeView
             Current = this;
         }
 
+        [PropertyMember("パネルでの左右キー有効", Tips = "パネルでの左右キー操作を有効にします。フォルダーリストではフォルダーの階層移動を行います。")]
         public bool IsLeftRightKeyEnabled { get; set; } = true;
 
         #region Memento

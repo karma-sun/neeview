@@ -57,9 +57,9 @@ namespace NeeView
         /// 機能サポート判定
         /// </summary>
 #if SUSIE
-        public bool IsSupportedSusie => true;
+        public static bool IsSupportedSusie => true;
 #else
-        public bool IsSupportedSusie => false;
+        public static bool IsSupportedSusie => false;
 #endif
 
         /// <summary>

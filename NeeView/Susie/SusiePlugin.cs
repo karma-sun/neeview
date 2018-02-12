@@ -18,6 +18,16 @@ using System.Windows.Media.Imaging;
 namespace Susie
 {
     /// <summary>
+    /// Susieプラグインの種類
+    /// </summary>
+    public enum SusiePluginType
+    {
+        None,
+        Image,
+        Archive,
+    }
+
+    /// <summary>
     /// Susie Plugin Accessor
     /// </summary>
     public class SusiePlugin
@@ -56,6 +66,23 @@ namespace Susie
             public string Note; // ファイルの種類の情報
         }
         public List<SupportFileType> SupportFileTypeList { get; private set; }
+
+        // プラグインの種類
+        public SusiePluginType PluginType
+        {
+            get
+            {
+                switch (this.ApiVersion)
+                {
+                    default:
+                        return SusiePluginType.None;
+                    case "00IN":
+                        return SusiePluginType.Image;
+                    case "00AM":
+                        return SusiePluginType.Archive;
+                }
+            }
+        }
 
         // サポートするファイルの拡張子リスト
         public List<string> Extensions { get; private set; }

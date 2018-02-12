@@ -64,7 +64,7 @@ namespace NeeView
         /// <summary>
         /// サムネイルサイズ
         /// </summary>
-        [PropertyMember("サムネイルサイズ")]
+        [PropertyMember("ページサムネイルサイズ")]
         public double ThumbnailSize
         {
             get { return _thumbnailSize; }
@@ -134,6 +134,7 @@ namespace NeeView
         /// <summary>
         /// スクロールビュータッチ操作の終端挙動
         /// </summary>
+        [PropertyMember("サムネイルリストタッチスクロールの終端バウンド", Tips = "サムネイルリストのタッチスクロール操作での終端跳ね返り挙動の有効/無効を設定します")]
         public bool IsManipulationBoundaryFeedbackEnabled { get; set; } = true;
 
         /// <summary>

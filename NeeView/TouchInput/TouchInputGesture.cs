@@ -61,10 +61,11 @@ namespace NeeView
         public event EventHandler<MouseGestureEventArgs> GestureChanged;
 
         #endregion
-        
+
         #region Properties
 
         //
+        [PropertyMember("タッチドラッグ判定の最小移動距離(X)", Tips = "この距離を移動して初めてドラッグ開始と判定されます")]
         public double GestureMinimumDistanceX
         {
             get { return _gesture.GestureMinimumDistanceX; }
@@ -72,6 +73,7 @@ namespace NeeView
         }
 
         //
+        [PropertyMember("タッチドラッグ判定の最小移動距離(Y)", Tips = "この距離を移動して初めてドラッグ開始と判定されます")]
         public double GestureMinimumDistanceY
         {
             get { return _gesture.GestureMinimumDistanceY; }

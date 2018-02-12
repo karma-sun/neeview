@@ -34,6 +34,7 @@ namespace NeeView
 
 
         // スクロールビュータッチ操作の終端挙動
+        [PropertyMember("パネルタッチスクロールの終端バウンド", Tips = "パネルのタッチスクロール操作での終端跳ね返り挙動の有効/無効を設定します")]
         public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
 
 

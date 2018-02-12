@@ -103,6 +103,7 @@ namespace NeeView
         #region Properties
 
         // 「ブックを開く」ダイアログを現在の場所を基準にして開く
+        [PropertyMember("「開く」を現在開いているブックの場所から始める", Tips = "[ファイル] >[開く]で開くフォルダーです\nドラッグ＆ドロップや履歴から開いた場所も基準になります")]
         public bool IsOpenbookAtCurrentPlace { get; set; }
 
         //
@@ -218,6 +219,7 @@ namespace NeeView
         /// <summary>
         /// IsVisibleBusy property.
         /// </summary>
+        [PropertyMember("処理中マークの表示", Tips = "画像読み込み処理中マークを画面左上に表示する")]
         public bool IsVisibleBusy
         {
             get { return _isVisibleBusy; }

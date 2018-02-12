@@ -62,6 +62,13 @@
     </UserControl.Resources>
     <Grid x:Name="Root">
 
+        <ListBox x:Name="PluginListBox" MinHeight="64" MinWidth="64">
+            <i:Interaction.Behaviors>
+                <local:IgnoreMouseWheelBehavior />
+            </i:Interaction.Behaviors>
+        </ListBox>
+
+        <!--
         <TabControl Margin="0,4">
 
             <TabItem Header="画像プラグイン">
@@ -81,6 +88,7 @@
             </TabItem>
 
         </TabControl>
-        
+        -->
+
     </Grid>
 </UserControl>

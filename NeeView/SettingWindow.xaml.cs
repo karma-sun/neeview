@@ -315,7 +315,7 @@ namespace NeeView
             InitializeComponent();
 
             // Susieが機能しない場合はSusieタブを使用禁止にする
-            if (!SusieContext.Current.IsSupportedSusie)
+            if (!SusieContext.IsSupportedSusie)
             {
                 this.SusieSettingTab.IsEnabled = false;
                 this.SusieSettingTab.Visibility = Visibility.Collapsed;
@@ -694,7 +694,7 @@ namespace NeeView
         // Susie環境 更新
         private void UpdateSusiePluginSetting(string path)
         {
-            if (!SusieContext.Current.IsSupportedSusie) return;
+            if (!SusieContext.IsSupportedSusie) return;
 
             // プラグインリスト書き戻し
             if (SusieContext.Current.Susie != null)
@@ -714,7 +714,7 @@ namespace NeeView
         // Susieプラグイン一覧 更新
         public void UpdateSusiePluginList()
         {
-            if (!SusieContext.Current.IsSupportedSusie) return;
+            if (!SusieContext.IsSupportedSusie) return;
 
             INPluginList = new ObservableCollection<Susie.SusiePlugin>(SusieContext.Current.Susie?.INPluginList);
             RaisePropertyChanged(nameof(INPluginList));
@@ -914,7 +914,7 @@ namespace NeeView
                     Setting.CommandMememto[command.Key].Parameter = command.ParameterJson;
                 }
 
-                if (SusieContext.Current.IsSupportedSusie)
+                if (SusieContext.IsSupportedSusie)
                 {
                     // プラグインリスト書き戻し
                     if (SusieContext.Current.Susie != null)

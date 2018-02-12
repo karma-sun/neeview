@@ -1,6 +1,7 @@
 ﻿//using NeeLaboratory.Windows.Input;
 using NeeView.Windows.Property;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -8,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace NeeView
+namespace NeeView.Configure
 {
     /// <summary>
     /// 設定ウィンドウ項目基底
@@ -378,13 +379,15 @@ namespace NeeView
     /// </summary>
     public class SettingItemSusiePlugin : SettingItem
     {
-        public SettingItemSusiePlugin() : base(null)
+        private Susie.SusiePluginType _pluginType;
+        public SettingItemSusiePlugin(Susie.SusiePluginType pluginType) : base(null)
         {
+            _pluginType = pluginType;
         }
 
         protected override UIElement CreateContentInner()
         {
-            return new SettingItemSusiePluginControl();
+            return new SettingItemSusiePluginControl(_pluginType);
         }
     }
 

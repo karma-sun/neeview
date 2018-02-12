@@ -15,13 +15,30 @@ using System.Windows;
 
 namespace NeeView
 {
-    public partial class App : Application
+    public partial class App : Application, INotifyPropertyChanged
     {
         // ここでのパラメータは値の保持のみを行う。機能は提供しない。
+
+        #region PropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
+        {
+            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
+        }
+
+        #endregion
 
         #region Fields
 
         private bool _isNetworkEnalbe = true;
+        private bool _isSaveWindowPlacement;
 
         #endregion
 
@@ -37,7 +54,11 @@ namespace NeeView
 
         // ウィンドウ座標を復元する
         [PropertyMember("ウィンドウ座標を復元する", IsVisible = false)]
-        public bool IsSaveWindowPlacement { get; set; }
+        public bool IsSaveWindowPlacement
+        {
+            get { return _isSaveWindowPlacement; }
+            set { if (_isSaveWindowPlacement != value) { _isSaveWindowPlacement = value; RaisePropertyChanged(); } }
+        }
 
         // ネットワークアクセス許可
         [PropertyMember("ネットワークアスセス許可", Tips = "ネットワークアクセスを許可します。\n(バージョンウィンドウからのバージョン更新確認、各種WEBリンク)", IsAppxVisible = false)]

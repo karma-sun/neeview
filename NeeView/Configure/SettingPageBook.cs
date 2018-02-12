@@ -1,0 +1,94 @@
+﻿using NeeView.Windows.Property;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NeeView.Configure
+{
+    public class SettingPageBook : SettingPage
+    {
+        public SettingPageBook() : base("ブック")
+        {
+            this.Children = new List<SettingPage>
+            {
+                new SettingPageBookGeneral(),
+                new SettingPageBookSubFolder(),
+                new SettingPageBookVisual(),
+                new SettingPageBookSendPage(),
+            };
+        }
+    }
+
+    public class SettingPageBookGeneral : SettingPage
+    {
+        public SettingPageBookGeneral() : base("全般")
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemSection("全般",
+                    new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.Memento.IsEnableAnimatedGif))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.Memento.IsEnableNoSupportFile))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.PreLoadMode)))),
+
+                new SettingItemSection("詳細設定",
+                    new SettingItemProperty(PropertyMemberElement.Create(JobEngine.Current, nameof(JobEngine.WorkerSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.IsLimitSourceSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.MaximumSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsOpenbookAtCurrentPlace))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.Excludes))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.PreloadLimitSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.WideRatio)))),
+            };
+        }
+    }
+
+    public class SettingPageBookSubFolder : SettingPage
+    {
+        public SettingPageBookSubFolder() : base("サブフォルダー")
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemSection("サブフォルダー読み込み問い合わせ",
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsConfirmRecursive)))),
+
+                new SettingItemSection("サブフォルダー読み込み自動判定",
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsAutoRecursive))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsAutoRecursiveWithAllFiles)))
+                    {
+                        IsEnabled = new IsEnabledPropertyValue(BookHub.Current, nameof(BookHub.IsAutoRecursive))
+                    }),
+            };
+        }
+    }
+
+    public class SettingPageBookVisual : SettingPage
+    {
+        public SettingPageBookVisual() : base("表示")
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemSection("表示",
+                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsVisibleBusy))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsIgnoreImageDpi))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.LoadingPageView))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ContentCanvas.Current, nameof(ContentCanvas.ContentsSpace))) { IsStretch = true }),
+            };
+        }
+    }
+
+    public class SettingPageBookSendPage : SettingPage
+    {
+        public SettingPageBookSendPage() : base("ページ送り")
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemSection("ページ送り",
+                    new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsPrioritizePageMove))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsMultiplePageMove))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current, nameof(BookOperation.PageEndAction)))),
+            };
+        }
+    }
+}

@@ -19,18 +19,28 @@ namespace NeeView
             Current = this;
         }
 
+        [PropertyPath("7z.dll(32bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
         public string X86DllPath { get; set; } = "";
+
+        [PropertyPath("7z.dll(64bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
         public string X64DllPath { get; set; } = "";
-        public double LockTime { get; set; } = -1.0;
+
+        [PropertyMember("7z.dllで展開する圧縮ファイルの拡張子", Tips = ";(セミコロン)区切りでサポートする拡張子を羅列します。\n拡張子は .zip のように指定します")]
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".7z;.rar;.lzh;.cbr;.cbz");
 
+        [PropertyMember("7z.dllがファイルをロックする時間(秒)", Tips = "この時間アクセスがなければロック解除さます。\n-1でロック保持したままになります")]
+        public double LockTime { get; set; } = -1.0;
+
         // 強制アンロックモード
+        [PropertyMember("7z.dllがファイルをロックする時間(秒)", Tips = "この時間アクセスがなければロック解除さます。\n-1でロック保持したままになります")]
         public bool IsUnlockMode { get; set; }
 
         // 事前展開
+        [PropertyMember("7z.dllでは全て事前展開する", Tips = "7z.dllでブックを閲覧する時に一時フォルダーに事前展開してページ送りを改善します。\nfalseの場合、ソリッド圧縮ファイルの場合のみ事前展開を行います。")]
         public bool IsPreExtract { get; set; }
 
         // 事前展開サイズ上限
+        [PropertyMember("7z.dllで事前展開する最大ファイルサイズ(MB)", Tips = "このサイズ以を超える圧縮ファイルは事前展開を行いません。\n事前展開を禁止する場合には0を設定します。")]
         public int PreExtractSolidSize { get; set; } = 1000;
 
         #region Memento
@@ -78,7 +88,7 @@ namespace NeeView
             memento.X86DllPath = this.X86DllPath;
             memento.X64DllPath = this.X64DllPath;
             memento.LockTime = this.LockTime;
-            memento.SupportFileTypes = this.SupportFileTypes.ToString(); ;
+            memento.SupportFileTypes = this.SupportFileTypes.ToString();
             memento.IsPreExtract = this.IsPreExtract;
             memento.PreExtractSolidSize = this.PreExtractSolidSize;
             return memento;

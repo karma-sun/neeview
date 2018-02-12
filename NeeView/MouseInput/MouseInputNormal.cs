@@ -33,6 +33,7 @@ namespace NeeView
         public double LongLeftButtonDownTime { get; set; } = 1.0;
 
         // マウスジェスチャー有効
+        [PropertyMember("マウスジェスチャー有効", Tips = "マウスジェスチャー入力を有効にします")]
         public bool IsGestureEnabled { get; set; } = true;
 
         /// <summary>

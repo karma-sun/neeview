@@ -166,6 +166,7 @@ namespace NeeView
         /// 追加されたファイルを挿入する？
         /// OFFの場合はリスト末尾に追加する
         /// </summary>
+        [PropertyMember("フォルダーリスト追加ファイルは挿入", Tips = "フォルダーリストで追加されたファイルを現在のソート順で挿入します。\nFalseのときはリストの終端に追加します。")]
         public bool IsInsertItem { get; set; } = true;
 
         /// <summary>

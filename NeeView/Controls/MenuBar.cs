@@ -42,8 +42,8 @@ namespace NeeView
 
         #endregion
 
-
         //
+        [PropertyMember("フルスクリーン時のタイトルバー操作", Tips = "フルスクリーン時のメニュー上でのタイトルバー操作(ダブルクリックやドラッグ)を有効にします")]
         public bool IsCaptionEmulateInFullScreen { get; set; }
 
 

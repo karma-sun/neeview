@@ -95,6 +95,7 @@ namespace NeeView
         /// IsPdfEnabled property.
         /// </summary>
         private bool _isPdfEnabled = true;
+        [PropertyMember("PDF対応")]
         public bool IsPdfEnabled
         {
             get { return _isPdfEnabled; }
@@ -106,6 +107,7 @@ namespace NeeView
         /// ExcludePattern property.
         /// </summary>
         private string _excludePattern;
+        [PropertyMember("除外する圧縮ファイルのパターン", Tips = ".NETの正規表現で指定します")]
         public string ExcludePattern
         {
             get { return _excludePattern; }

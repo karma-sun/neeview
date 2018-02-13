@@ -13,7 +13,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Viewbox Stretch="Uniform">
-        <Grid x:Name="Root" Width="50" Height="30" Background="Transparent"
+        <!--
+        Width="50" Height="30"
+        -->
+        <Grid x:Name="Root" Background="Transparent"
               MouseLeftButtonDown="BaseGrid_MouseLeftButtonDown"
               MouseLeftButtonUp="BaseGrid_MouseLeftButtonUp"
               MouseMove="BaseGrid_MouseMove">

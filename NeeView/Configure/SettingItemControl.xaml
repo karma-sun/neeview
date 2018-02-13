@@ -6,8 +6,22 @@
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="400">
-    <Border x:Name="Root" BorderBrush="WhiteSmoke" BorderThickness="0,0,0,1" Background="Transparent">
-        <DockPanel Margin="5" >
+
+    <UserControl.Resources>
+
+        <Style x:Key="EnabledTextBlockStyle" TargetType="TextBlock">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Border x:Name="Root" BorderBrush="WhiteSmoke" BorderThickness="0,0,0,0" Background="Transparent">
+        <DockPanel Margin="0,5,0,10" >
+            <!--
             <ContentControl x:Name="ContentValue" DockPanel.Dock="Right" VerticalAlignment="Center" Focusable="False"/>
             <TextBlock x:Name="Header" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="200" Margin="0,0,20,0">
                 <TextBlock.Style>
@@ -21,6 +35,11 @@
                 </TextBlock.Style>
             </TextBlock>
             <ContentControl x:Name="ContentStretch" VerticalAlignment="Center" Focusable="False"/>
+            -->
+            <TextBlock x:Name="Header"  DockPanel.Dock="Top" TextWrapping="Wrap" VerticalAlignment="Bottom" MinWidth="200" Margin="0,5" Style="{StaticResource EnabledTextBlockStyle}"/>
+            <TextBlock x:Name="Note" DockPanel.Dock="Top" TextWrapping="Wrap" Margin="0,0,0,5" Foreground="Gray" Visibility="Collapsed"/>
+            <ContentControl x:Name="ContentValue" VerticalAlignment="Center" Focusable="False" Margin="0,5"/>
+
         </DockPanel>
     </Border>
 </UserControl>

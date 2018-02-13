@@ -28,15 +28,20 @@ namespace NeeView
         public SettingItemControl(string header, string tips, object content, bool isContentStretch)
         {
             InitializeComponent();
+
             this.Header.Text = header;
-            this.ToolTip = tips;
-            if (isContentStretch)
+            this.ContentValue.Content = content;
+
+            if (!string.IsNullOrWhiteSpace(tips))
             {
-                this.ContentStretch.Content = content;
+                this.Note.Text = tips;
+                this.Note.Visibility = Visibility.Visible;
             }
-            else
+
+            if (!isContentStretch)
             {
-                this.ContentValue.Content = content;
+                this.ContentValue.HorizontalAlignment = HorizontalAlignment.Left;
+                this.ContentValue.Width = 300;
             }
         }
     }

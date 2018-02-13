@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView.Configure"
-        xmlns:nwp="clr-namespace:NeeView.Windows.Property"
+        xmlns:nvp="clr-namespace:NeeView.Windows.Property"
+        xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
-        FontSize="14"
+        FontSize="15"
         Title="SettingWindowEx" Height="704" Width="960">
     <Window.Resources>
         <ResourceDictionary>
@@ -15,12 +16,21 @@
                 <ResourceDictionary Source="/_NeeView/Windows/Property/PropertyValueTemplateDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <DataTemplate DataType="{x:Type nwp:PropertyTitleElement}">
+            <local:BooleanToSwitchStringConverter x:Key="BooleanToSwitchStringConverter"/>
+
+            <DataTemplate DataType="{x:Type nvp:PropertyValue_Boolean}">
+                <StackPanel Orientation="Horizontal">
+                    <nvc:ToggleSwitch IsChecked="{Binding Value}" Height="20" HorizontalAlignment="Left" CheckedBrush="{DynamicResource NVButtonForeground}"/>
+                    <TextBlock Margin="10,0" VerticalAlignment="Center" Text="{Binding Value, Converter={StaticResource BooleanToSwitchStringConverter}}"/>
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type nvp:PropertyTitleElement}">
                 <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontWeight="Bold" Margin="0,10,0,5" />
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type nwp:PropertyMemberElement}">
-                <nwp:PropertyControl Header="{Binding Name}" Value="{Binding TypeValue}" Tips="{Binding Tips}"
+            <DataTemplate DataType="{x:Type nvp:PropertyMemberElement}">
+                <nvp:PropertyControl Header="{Binding Name}" Value="{Binding TypeValue}" Tips="{Binding Tips}"
                                      ColumnRate="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ColumnRate}"/>
             </DataTemplate>
 
@@ -35,8 +45,15 @@
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
             </Style>
 
+            <Style x:Key="ToggleSwitchStyle" TargetType="nvc:ToggleSwitch">
+                <Setter Property="Fill" Value="{DynamicResource NVBackground}"/>
+                <Setter Property="Stroke" Value="{DynamicResource NVForeground}"/>
+                <Setter Property="CheckedBrush" Value="{DynamicResource NVButtonForeground}"/>
+            </Style>
+
         </ResourceDictionary>
     </Window.Resources>
+    
     <DockPanel UseLayoutRounding="True">
 
         <TreeView x:Name="IndexTree" DockPanel.Dock="Left" Width="200" ItemsSource="{Binding Model.Pages}" BorderThickness="0" Margin="20,20,0,20">

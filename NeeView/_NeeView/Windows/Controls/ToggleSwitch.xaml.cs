@@ -146,13 +146,27 @@ namespace NeeView.Windows.Controls
         //
         private void UpdateThumb()
         {
-            if (this.IsChecked)
+            if (this.IsLoaded)
             {
-                this.Root.BeginStoryboard(_onAnimation);
+                if (this.IsChecked)
+                {
+                    this.Root.BeginStoryboard(_onAnimation);
+                }
+                else
+                {
+                    this.Root.BeginStoryboard(_offAnimation);
+                }
             }
             else
             {
-                this.Root.BeginStoryboard(_offAnimation);
+                if (this.IsChecked)
+                {
+                    OnAnimation_Completed(this, null);
+                }
+                else
+                {
+                    OffAnimation_Completed(this, null);
+                }
             }
         }
 

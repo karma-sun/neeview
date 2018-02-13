@@ -16,7 +16,7 @@
 
         <DockPanel Margin="0,0,0,10">
 
-            <DockPanel DockPanel.Dock="Bottom" Height="30">
+            <DockPanel DockPanel.Dock="Bottom" MinHeight="30">
                 <Border BorderBrush="LightGray" BorderThickness="1" Margin="0,5">
                     <ItemsControl ItemsSource="{Binding GestureToken}"  ToolTip="{Binding GestureTokenNote}" Margin="2">
                         <ItemsControl.ItemsPanel>

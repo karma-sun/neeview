@@ -22,7 +22,7 @@
                 <Button x:Name="ResetGestureSettingButton" DockPanel.Dock="Right" Content="すべて初期化..." MinWidth="110" Height="30" Margin="8" Padding="5,0" VerticalAlignment="Bottom" Click="ResetGestureSettingButton_Click" ToolTip="すべてのコマンド設定を初期化します"/>
             </DockPanel>
 
-            <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}" SelectionChanged="CommandListView_SelectionChanged"
+            <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}" 
                               BorderThickness="0"
                               VirtualizingStackPanel.IsVirtualizing="True"
                               VirtualizingStackPanel.ScrollUnit="Pixel"

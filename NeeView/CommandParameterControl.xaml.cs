@@ -47,6 +47,16 @@ namespace NeeView
             this.DataContext = _vm;
 
             this.IsAny = _vm.PropertyDocument != null;
+
+            if (this.IsAny)
+            {
+                this.EmptyText.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                this.MainPanel.Visibility = Visibility.Collapsed;
+            }
+
         }
 
         public void Flush()

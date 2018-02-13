@@ -18,16 +18,12 @@
             </Style>
         </Grid.Resources>
 
-        <DockPanel Margin="5">
+        <DockPanel x:Name="MainPanel" Margin="5">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Style="{StaticResource NormalButtonStyle}" Content="初期化"  Click="ButtonReset_Click"/>
-                <!--
-                <Button Style="{StaticResource NormalButtonStyle}" Content="OK"  Click="ButtonOk_Click"/>
-                <Button Style="{StaticResource NormalButtonStyle}" Content="Cancel" Click="ButtonCancel_Click"/>
-                -->
             </StackPanel>
             
-            <TextBlock DockPanel.Dock="Top" Text="{Binding Note}" Foreground="Red" Margin="0,5">
+            <TextBlock DockPanel.Dock="Top" Text="{Binding Note}" Foreground="Crimson" Margin="0,5">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Style.Triggers>
@@ -45,5 +41,7 @@
             </ScrollViewer>
 
         </DockPanel>
+
+        <TextBlock x:Name="EmptyText" Text="パラメータはありません" Margin="10" Foreground="Gray"/>
     </Grid>
 </UserControl>
